@@ -284,11 +284,7 @@ class AGITelemetrySystem:
 
             # Alert on health issues
             if not health_results["overall"]:
-                unhealthy = [
-                    k
-                    for k, v in health_results.items()
-                    if k != "overall" and not v.get("healthy", True)
-                ]
+                unhealthy = [k for k, v in health_results.items() if k != "overall" and not v.get("healthy", True)]
 
                 self.create_alert(
                     "System Health Degraded",
@@ -366,10 +362,7 @@ class AGITelemetrySystem:
     async def _collect_behavior_data(self) -> dict[str, Any]:
         """Collect data for emergence detection"""
         return {
-            "metrics_snapshot": {
-                name: [m.value for m in list(values)[-100:]]
-                for name, values in self.metrics.items()
-            },
+            "metrics_snapshot": {name: [m.value for m in list(values)[-100:]] for name, values in self.metrics.items()},
             "health_status": self.health_status.copy(),
             "active_alerts": len([a for a in self.alerts if not a.resolved]),
             "timestamp": datetime.utcnow().isoformat(),
@@ -403,9 +396,7 @@ class TraceContext:
         duration = time.time() - self.start_time
 
         # Record duration
-        self.telemetry.record_histogram(
-            f"operation.duration.{self.operation}", duration, self.metadata
-        )
+        self.telemetry.record_histogram(f"operation.duration.{self.operation}", duration, self.metadata)
 
         # Record success/failure
         if exc_type is None:

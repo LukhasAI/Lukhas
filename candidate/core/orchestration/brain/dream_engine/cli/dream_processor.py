@@ -16,9 +16,7 @@ class DreamProcessor:
 
     def __init__(self):
         self.memory_engine = SymbolicMemoryEngine()
-        self.pattern_confidence_threshold = (
-            0.65  # Lower threshold during dreams for creative connections
-        )
+        self.pattern_confidence_threshold = 0.65  # Lower threshold during dreams for creative connections
 
     async def process_dream_state(self, recent_memories: list[dict[str, Any]]) -> dict[str, Any]:
         """Process memories during dream state to find deeper patterns"""
@@ -52,13 +50,9 @@ class DreamProcessor:
 
         return dream_insights
 
-    def _find_memory_relationship(
-        self, memory1: dict[str, Any], memory2: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _find_memory_relationship(self, memory1: dict[str, Any], memory2: dict[str, Any]) -> dict[str, Any]:
         """Find relationships between two memories during dream state"""
-        confidence = self.memory_engine.pattern_engine._calculate_pattern_match(
-            memory1["data"], memory2["data"]
-        )
+        confidence = self.memory_engine.pattern_engine._calculate_pattern_match(memory1["data"], memory2["data"])
 
         if confidence >= self.pattern_confidence_threshold:
             return {

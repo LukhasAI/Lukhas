@@ -11,9 +11,7 @@ def get_audit_logs():
     This script is self-contained and does not depend on the LUKHAS core modules.
     """
     # The script is in lukhas_website/scripts, the db is in data/
-    db_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "..", "..", "data", "audit_trail.db")
-    )
+    db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "audit_trail.db"))
 
     if not os.path.exists(db_path):
         # If the database doesn't exist, create it and add some mock data

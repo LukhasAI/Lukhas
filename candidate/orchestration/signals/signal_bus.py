@@ -140,9 +140,7 @@ class SignalBus:
 
         # Pattern detection support (pattern, handler)
         self._patterns: list[tuple[SignalPattern, Callable[[list[Signal]], None]]] = []
-        self._recent_by_type: dict[SignalType, deque] = {
-            st: deque(maxlen=max_signal_history) for st in SignalType
-        }
+        self._recent_by_type: dict[SignalType, deque] = {st: deque(maxlen=max_signal_history) for st in SignalType}
 
     async def initialize(self):
         """Start the signal bus"""
@@ -318,9 +316,7 @@ class SignalBus:
             return
         now = time.time()
         for pattern, handler in list(self._patterns):
-            types_to_scan = pattern.signals or (
-                [pattern.name_pattern] if pattern.name_pattern else list(SignalType)
-            )
+            types_to_scan = pattern.signals or ([pattern.name_pattern] if pattern.name_pattern else list(SignalType))
             collected: list[Signal] = []
             window_ms = max(0, pattern.time_window_ms)
             for st in types_to_scan:
@@ -390,10 +386,7 @@ class SignalBus:
             **self.stats,
             "active_signals": len([s for s in self.active_signals if not s.is_expired()]),
             "total_history": len(self.signal_history),
-            "subscribers": {
-                signal_type.value: len(handlers)
-                for signal_type, handlers in self.subscribers.items()
-            },
+            "subscribers": {signal_type.value: len(handlers) for signal_type, handlers in self.subscribers.items()},
             "current_levels": {k.value: v for k, v in self.get_current_levels().items()},
         }
 
@@ -414,9 +407,7 @@ class SignalBus:
             signals = [s for s in signals if s.source == source]
         return sorted(signals, key=lambda s: s.timestamp, reverse=True)
 
-    def register_pattern(
-        self, pattern: SignalPattern, handler: Callable[[list[Signal]], None]
-    ) -> None:
+    def register_pattern(self, pattern: SignalPattern, handler: Callable[[list[Signal]], None]) -> None:
         """Register a simple detection pattern with handler callback."""
         self._patterns.append((pattern, handler))
 

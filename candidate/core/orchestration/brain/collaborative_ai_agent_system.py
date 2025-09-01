@@ -115,9 +115,7 @@ class LukhasAIAgentTeam:
                 "Meta-cognitive integration patterns",
             ],
         )
-        self.agents["lambda_bot"] = LukhasAIAgent(
-            "ΛBot", AgentTier.ENTERPRISE, lambda_bot_capabilities
-        )
+        self.agents["lambda_bot"] = LukhasAIAgent("ΛBot", AgentTier.ENTERPRISE, lambda_bot_capabilities)
 
         # 2. ABot - Technical Development Infrastructure (PRO)
         a_bot_capabilities = AgentCapabilities(
@@ -186,9 +184,7 @@ class LukhasAIAgentTeam:
                 "Transcendent process optimization",
             ],
         )
-        self.agents["lambda_agent"] = LukhasAIAgent(
-            "ΛAgent", AgentTier.ENTERPRISE, lambda_agent_capabilities
-        )
+        self.agents["lambda_agent"] = LukhasAIAgent("ΛAgent", AgentTier.ENTERPRISE, lambda_agent_capabilities)
 
         # 5. ΛDoc - Enlightened Documentation (ENTERPRISE)
         lambda_doc_capabilities = AgentCapabilities(
@@ -211,9 +207,7 @@ class LukhasAIAgentTeam:
                 "Enlightened knowledge organization",
             ],
         )
-        self.agents["lambda_doc"] = LukhasAIAgent(
-            "ΛDoc", AgentTier.ENTERPRISE, lambda_doc_capabilities
-        )
+        self.agents["lambda_doc"] = LukhasAIAgent("ΛDoc", AgentTier.ENTERPRISE, lambda_doc_capabilities)
 
         # 6. lukhas_auditor - Compliance & Analytics (PRO)
         auditor_capabilities = AgentCapabilities(
@@ -236,9 +230,7 @@ class LukhasAIAgentTeam:
                 "Continuous compliance monitoring",
             ],
         )
-        self.agents["auditor"] = LukhasAIAgent(
-            "lukhas_auditor", AgentTier.PRO, auditor_capabilities
-        )
+        self.agents["auditor"] = LukhasAIAgent("lukhas_auditor", AgentTier.PRO, auditor_capabilities)
 
         # 7. lukhas_id - Identity & Authentication (PRO)
         id_capabilities = AgentCapabilities(
@@ -261,9 +253,7 @@ class LukhasAIAgentTeam:
                 "Identity-based task distribution",
             ],
         )
-        self.agents["identity_legacy"] = LukhasAIAgent(
-            "identity_legacy", AgentTier.PRO, id_capabilities
-        )
+        self.agents["identity_legacy"] = LukhasAIAgent("identity_legacy", AgentTier.PRO, id_capabilities)
 
     async def execute_phase_1_analysis(self) -> dict[str, Any]:
         """Phase 1: Comprehensive Analysis (Jules + ΛDoc)"""
@@ -545,9 +535,7 @@ async def main():
 
     # Display team status
     team_status = ai_team.get_team_status()
-    print(
-        f"🎯 Team Status: {team_status['agents_active']}/{team_status['total_agents']} agents active"
-    )
+    print(f"🎯 Team Status: {team_status['agents_active']}/{team_status['total_agents']} agents active")
     print()
 
     # Execute the complete consolidation process

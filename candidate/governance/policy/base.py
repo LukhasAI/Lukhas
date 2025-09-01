@@ -346,9 +346,7 @@ class PolicyRegistry:
 
         logger.info(f"Unregistered policy: {policy_name}")
 
-    def evaluate_decision(
-        self, decision: Decision, policy_names: Optional[list[str]] = None
-    ) -> list[EthicsEvaluation]:
+    def evaluate_decision(self, decision: Decision, policy_names: Optional[list[str]] = None) -> list[EthicsEvaluation]:
         """Evaluate decision using specified policies
 
         Args:
@@ -411,9 +409,7 @@ class PolicyRegistry:
         # Average confidence weighted by each policy's confidence
         total_confidence = sum(e.confidence for e in evaluations)
         if total_confidence > 0:
-            weighted_confidence = (
-                sum(e.confidence * e.confidence for e in evaluations) / total_confidence
-            )
+            weighted_confidence = sum(e.confidence * e.confidence for e in evaluations) / total_confidence
         else:
             weighted_confidence = 0.0
 

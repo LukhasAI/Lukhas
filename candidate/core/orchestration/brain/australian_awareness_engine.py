@@ -162,9 +162,7 @@ class AustralianInput(GlobalInstitutionalInput):
 
     # APP compliance fields
     collection_method: str = Field(..., description="How personal information was collected")
-    collection_notice_provided: bool = Field(
-        default=False, description="APP 5 collection notice provided"
-    )
+    collection_notice_provided: bool = Field(default=False, description="APP 5 collection notice provided")
     primary_purpose: str = Field(..., description="Primary purpose for collection")
     secondary_purposes: list[str] = Field(default_factory=list, description="Secondary purposes")
 
@@ -323,14 +321,10 @@ class AustralianPrivacyModule:
             compliance_score=overall_app_score,
             jurisdiction=Jurisdiction.AU,
             legal_basis=(
-                LegalBasis.CONSENT.value
-                if inputs.consent.consent_given
-                else LegalBasis.LEGITIMATE_INTERESTS.value
+                LegalBasis.CONSENT.value if inputs.consent.consent_given else LegalBasis.LEGITIMATE_INTERESTS.value
             ),
             data_category=(
-                DataCategory.HEALTH_DATA.value
-                if inputs.is_health_information
-                else DataCategory.PERSONAL_DATA.value
+                DataCategory.HEALTH_DATA.value if inputs.is_health_information else DataCategory.PERSONAL_DATA.value
             ),
             processing_timestamp=global_timestamp(),
             # Australian-specific fields
@@ -348,10 +342,8 @@ class AustralianPrivacyModule:
             breach_risk_level=breach_assessment["severity"],
             notification_required=breach_assessment["notification_required"],
             oaic_notification_needed=breach_assessment["oaic_notification"],
-            health_records_compliant=not inputs.is_health_information
-            or self.config.health_records_enabled,
-            my_health_records_compliant=not inputs.my_health_record_involved
-            or self.config.my_health_records_compliant,
+            health_records_compliant=not inputs.is_health_information or self.config.health_records_enabled,
+            my_health_records_compliant=not inputs.my_health_record_involved or self.config.my_health_records_compliant,
             state_territory_compliant=state_compliance,
             individual_access_available=self.config.apps_compliance,
             correction_rights_available=self.config.apps_compliance,
@@ -396,18 +388,10 @@ class AustralianPrivacyModule:
         scores["app_6"] = 85.0 if inputs.primary_purpose else 50.0
 
         # APP 7: Direct marketing
-        scores["app_7"] = (
-            90.0
-            if not inputs.direct_marketing_intended or inputs.marketing_opt_out_provided
-            else 30.0
-        )
+        scores["app_7"] = 90.0 if not inputs.direct_marketing_intended or inputs.marketing_opt_out_provided else 30.0
 
         # APP 8: Cross-border disclosure
-        scores["app_8"] = (
-            95.0
-            if not inputs.involves_overseas_disclosure or inputs.cross_border_approval
-            else 40.0
-        )
+        scores["app_8"] = 95.0 if not inputs.involves_overseas_disclosure or inputs.cross_border_approval else 40.0
 
         # APP 9: Adoption, use or disclosure by agencies (government)
         scores["app_9"] = 85.0  # Assume government compliance if applicable
@@ -441,9 +425,7 @@ class AustralianPrivacyModule:
             elif inputs.cross_border_approval == CrossBorderApproval.COMPARABLE_LAWS:
                 # Check if overseas countries have comparable laws
                 comparable_countries = ["EU", "UK", "CA", "NZ", "CH"]
-                approved = all(
-                    country in comparable_countries for country in inputs.overseas_countries
-                )
+                approved = all(country in comparable_countries for country in inputs.overseas_countries)
                 risk_level = "low" if approved else "medium"
             elif inputs.cross_border_approval == CrossBorderApproval.CONTRACTUAL_ARRANGEMENTS:
                 approved = True  # Assume contractual arrangements in place
@@ -457,9 +439,7 @@ class AustralianPrivacyModule:
             "approved": approved,
             "risk_level": risk_level,
             "overseas_countries": inputs.overseas_countries,
-            "approval_mechanism": (
-                inputs.cross_border_approval.value if inputs.cross_border_approval else None
-            ),
+            "approval_mechanism": (inputs.cross_border_approval.value if inputs.cross_border_approval else None),
         }
 
     def _assess_cdr_compliance(self, inputs: AustralianInput) -> dict[str, Any]:

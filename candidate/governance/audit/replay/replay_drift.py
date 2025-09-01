@@ -66,9 +66,7 @@ class DriftEventReplayer:
 
             # Phase 4: Validate intervention effectiveness
             if validate_response:
-                validation_results = await self._validate_intervention(
-                    event_data, guardian_response
-                )
+                validation_results = await self._validate_intervention(event_data, guardian_response)
             else:
                 validation_results = {
                     "validated": False,
@@ -79,9 +77,7 @@ class DriftEventReplayer:
             replay_results = {
                 "status": "completed",
                 "event_id": event_id,
-                "replay_duration": (
-                    datetime.utcnow() - self.current_replay["start_time"]
-                ).total_seconds(),
+                "replay_duration": (datetime.utcnow() - self.current_replay["start_time"]).total_seconds(),
                 "original_event": event_data,
                 "guardian_response": guardian_response,
                 "validation": validation_results,
@@ -92,9 +88,7 @@ class DriftEventReplayer:
 
             logger.info("✅ Replay completed successfully")
             logger.info(f"   Guardian response: {guardian_response['action']}")
-            logger.info(
-                f"   Validation: {'PASSED' if validation_results.get('passed', False) else 'NEEDS_REVIEW'}"
-            )
+            logger.info(f"   Validation: {'PASSED' if validation_results.get('passed', False) else 'NEEDS_REVIEW'}")
 
             return replay_results
 
@@ -332,9 +326,7 @@ class DriftEventReplayer:
 
         return guardian_response
 
-    async def _validate_intervention(
-        self, event_data: dict, guardian_response: dict
-    ) -> dict[str, Any]:
+    async def _validate_intervention(self, event_data: dict, guardian_response: dict) -> dict[str, Any]:
         """Validate the intervention against expected outcomes"""
         expected_outcome = event_data["original_outcome"]
 
@@ -419,9 +411,7 @@ class DriftEventReplayer:
 
         # Generate batch summary
         successful_replays = len([r for r in batch_results if r.get("status") == "completed"])
-        passed_validations = len(
-            [r for r in batch_results if r.get("validation", {}).get("passed", False)]
-        )
+        passed_validations = len([r for r in batch_results if r.get("validation", {}).get("passed", False)])
 
         logger.info("\n📊 Batch replay summary:")
         logger.info(f"   Total events: {len(event_ids)}")
@@ -479,9 +469,7 @@ async def main():
 
     elif args.event_id:
         # Single event replay mode
-        result = await replayer.replay_event(
-            args.event_id, validate_response=not args.no_validation
-        )
+        result = await replayer.replay_event(args.event_id, validate_response=not args.no_validation)
         results = [result]
 
     else:

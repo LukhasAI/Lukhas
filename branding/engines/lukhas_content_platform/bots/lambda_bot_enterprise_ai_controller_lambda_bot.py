@@ -140,9 +140,7 @@ class AGIControllerΛBot:
             await self.compliance_engine.initialize()
 
             # Set consciousness level to AWARE for modularization
-            consciousness_result = await self.agi_controller.set_consciousness_level(
-                ConsciousnessLevel.AWARE
-            )
+            consciousness_result = await self.agi_controller.set_consciousness_level(ConsciousnessLevel.AWARE)
 
             if consciousness_result.success:
                 logger.info("🧠 Consciousness level set to AWARE")
@@ -178,9 +176,7 @@ class AGIControllerΛBot:
 
         # Validate compliance requirements
         if compliance_requirements and self.compliance_engine:
-            compliance_result = await self._validate_compliance_requirements(
-                compliance_requirements
-            )
+            compliance_result = await self._validate_compliance_requirements(compliance_requirements)
             session.compliance_status = "validated" if compliance_result else "failed"
             session.gdpr_validated = "gdpr" in compliance_requirements
             session.ccpa_validated = "ccpa" in compliance_requirements
@@ -235,9 +231,7 @@ class AGIControllerΛBot:
 
             # Update session state
             self.current_session.consciousness_level = ConsciousnessState.CONSCIOUS
-            self.current_session.ethical_checkpoints.append(
-                "Consciousness-guided analysis completed"
-            )
+            self.current_session.ethical_checkpoints.append("Consciousness-guided analysis completed")
 
             logger.info("✅ Consciousness-guided analysis complete")
             return analysis_results
@@ -275,9 +269,7 @@ class AGIControllerΛBot:
             ],
         }
 
-        logger.info(
-            f"🧠 Consciousness analysis: {insights['consciousness_insights']['system_awareness']}"
-        )
+        logger.info(f"🧠 Consciousness analysis: {insights['consciousness_insights']['system_awareness']}")
         return insights
 
     async def _perform_compliance_validation(self, target: str) -> dict[str, Any]:
@@ -335,9 +327,7 @@ class AGIControllerΛBot:
             "assessment_status": "ethical_approved",
         }
 
-        logger.info(
-            f"⚖️ Ethical assessment: {assessment['ethical_score']} - {assessment['assessment_status']}"
-        )
+        logger.info(f"⚖️ Ethical assessment: {assessment['ethical_score']} - {assessment['assessment_status']}")
         return assessment
 
     async def _generate_consciousness_strategy(
@@ -409,9 +399,7 @@ class AGIControllerΛBot:
             ],
         }
 
-        logger.info(
-            f"🎯 Consciousness strategy generated with {len(strategy['implementation_phases'])} phases"
-        )
+        logger.info(f"🎯 Consciousness strategy generated with {len(strategy['implementation_phases'])} phases")
         return strategy
 
     async def _validate_compliance_requirements(self, requirements: list[str]) -> bool:

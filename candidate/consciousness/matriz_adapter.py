@@ -102,9 +102,7 @@ class ConsciousnessMatrizAdapter:
         )
 
     @staticmethod
-    def emit_dream_state(
-        dream_id: str, lucidity: float, coherence: float, emotional_tone: float
-    ) -> dict[str, Any]:
+    def emit_dream_state(dream_id: str, lucidity: float, coherence: float, emotional_tone: float) -> dict[str, Any]:
         """Emit a dream consciousness state node"""
 
         return ConsciousnessMatrizAdapter.create_node(

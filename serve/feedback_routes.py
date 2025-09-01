@@ -29,9 +29,7 @@ class FeedbackRequest(BaseModel):
     rating: int = Field(..., ge=1, le=5, description="Rating from 1-5")
     note: Optional[str] = Field(None, description="Optional text feedback")
     symbols: Optional[list[str]] = Field(default_factory=list, description="User-selected symbols")
-    context: Optional[dict[str, Any]] = Field(
-        default_factory=dict, description="Additional context"
-    )
+    context: Optional[dict[str, Any]] = Field(default_factory=dict, description="Additional context")
     user_id: Optional[str] = Field(None, description="User ID (will be hashed)")
 
 

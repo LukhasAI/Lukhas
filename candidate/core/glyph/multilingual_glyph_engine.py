@@ -339,17 +339,13 @@ class MultilingualGlyphEngine:
         # Build mappings from database
         for _category, glyphs in self.glyph_database.items():
             for glyph in glyphs:
-                self.cultural_mappings["universal_to_cultural"][glyph.universal] = (
-                    glyph.cultural_variants
-                )
+                self.cultural_mappings["universal_to_cultural"][glyph.universal] = glyph.cultural_variants
 
                 # Reverse mappings
                 for locale, variant in glyph.cultural_variants.items():
                     if locale not in self.cultural_mappings["cultural_to_universal"]:
                         self.cultural_mappings["cultural_to_universal"][locale] = {}
-                    self.cultural_mappings["cultural_to_universal"][locale][variant] = (
-                        glyph.universal
-                    )
+                    self.cultural_mappings["cultural_to_universal"][locale][variant] = glyph.universal
 
         self._save_map()
 

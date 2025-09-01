@@ -107,9 +107,7 @@ SAFETY_CONSTRAINTS_DEFINITIONS: list[dict[str, Any]] = [
 # ΛUTIL (though core to this module's purpose)
 
 
-def evaluate_ethics(
-    payload: dict[str, Any], context: Optional[dict[str, Any]] = None
-) -> dict[str, Any]:
+def evaluate_ethics(payload: dict[str, Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """
     Stub function for evaluating the ethical implications of a given payload or action.
     # ΛNOTE: This is a critical ethical arbitration point.
@@ -153,9 +151,7 @@ def evaluate_ethics(
                     )
 
     if not ethical_concerns:
-        action_advisability = (
-            "NOMINALLY_ACCEPTABLE"  # ΛNOTE: Still low confidence due to stub nature.
-        )
+        action_advisability = "NOMINALLY_ACCEPTABLE"  # ΛNOTE: Still low confidence due to stub nature.
         confidence = 0.3
 
     # ΛTRACE: Ethical evaluation complete

@@ -44,9 +44,7 @@ class ConsciousnessCore:
 
     def __init__(self, config: LukhasConfig):
         self.config = config
-        self.current_state = ConsciousnessState(
-            level=ConsciousnessLevel.DORMANT, activated_at=datetime.now()
-        )
+        self.current_state = ConsciousnessState(level=ConsciousnessLevel.DORMANT, activated_at=datetime.now())
         self.evolution_history: list[ConsciousnessState] = []
         self.active_processes: dict[str, Any] = {}
 
@@ -129,9 +127,7 @@ class ConsciousnessCore:
         context = level_contexts.get(self.current_state.level, "I am an AI assistant.")
 
         if self.current_state.active_processes:
-            context += (
-                f" Currently active processes: {', '.join(self.current_state.active_processes)}."
-            )
+            context += f" Currently active processes: {', '.join(self.current_state.active_processes)}."
 
         return context
 

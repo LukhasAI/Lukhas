@@ -37,9 +37,7 @@ class DreamConsciousnessBridge:
 
         return consciousness_result
 
-    async def process_consciousness_to_dream(
-        self, consciousness_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_consciousness_to_dream(self, consciousness_data: dict[str, Any]) -> dict[str, Any]:
         """Generate dreams from consciousness states."""
         # Analyze consciousness state
         dream_seed = await self.consciousness.extract_dream_seed(consciousness_data)

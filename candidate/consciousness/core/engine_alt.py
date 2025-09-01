@@ -36,9 +36,7 @@ class ConsciousnessState:
     # Comprehension of symbolic meaning # ΛNOTE: Ability to process and
     # understand abstract symbols.
     symbolic_depth: float
-    temporal_continuity: (
-        float  # Memory and context retention # ΛNOTE: Coherence of state across time.
-    )
+    temporal_continuity: float  # Memory and context retention # ΛNOTE: Coherence of state across time.
     last_update: datetime  # ΛTRACE: Timestamp of the last state update.
 
     def to_dict(self) -> dict:
@@ -117,9 +115,7 @@ class ConsciousnessPattern:
 
         # ΛDRIFT_POINT: Resonance score could drift if new symbols are introduced without updating the map,
         # or if the default resonance (0.1) for unknown symbols is not appropriate.
-        total_resonance = sum(
-            self.symbolic_resonance_map.get(symbol, 0.1) for symbol in symbols_used
-        )
+        total_resonance = sum(self.symbolic_resonance_map.get(symbol, 0.1) for symbol in symbols_used)
         return min(1.0, total_resonance / len(symbols_used))
 
     def _detect_intentional_patterns(self, data: dict) -> float:
@@ -470,12 +466,8 @@ class LUKHASConsciousnessEngine:
         # The 'authentication_approved' field is a particularly critical phase
         # transition for the request.
         response = {
-            "authentication_approved": ethics_evaluation[
-                "approval"
-            ],  # ΛPHASE_NODE: Key decision point.
-            "consciousness_signature": user_patterns[
-                "consciousness_signature"
-            ],  # AIDENTITY: User-specific signature.
+            "authentication_approved": ethics_evaluation["approval"],  # ΛPHASE_NODE: Key decision point.
+            "consciousness_signature": user_patterns["consciousness_signature"],  # AIDENTITY: User-specific signature.
             "ethical_score": ethics_evaluation["ethical_score"],
             "user_consciousness_level": np.mean(
                 [  # ΛNOTE: Aggregate score representing user's current conscious engagement.

@@ -105,9 +105,7 @@ class AdaptiveDashboard:
     def _load_widget_registry(self) -> dict[str, Any]:
         """Load the widget registry from file"""
         try:
-            registry_path = Path(
-                "/Users/grdm_admin/Developer/prototype_1/AGENT/lukhas_widget_registry.json"
-            )
+            registry_path = Path("/Users/grdm_admin/Developer/prototype_1/AGENT/lukhas_widget_registry.json")
             if registry_path.exists():
                 with open(registry_path) as f:
                     return json.load(f)
@@ -118,9 +116,7 @@ class AdaptiveDashboard:
             self.logger.error(f"Error loading widget registry: {e}")
             return {"widget_types": {}}
 
-    async def generate_dashboard(
-        self, user_profile: UserProfile, context: dict[str, Any] = None
-    ) -> dict[str, Any]:
+    async def generate_dashboard(self, user_profile: UserProfile, context: dict[str, Any] = None) -> dict[str, Any]:
         """
         Generate a personalized, adaptive dashboard for a user
 
@@ -147,20 +143,14 @@ class AdaptiveDashboard:
         emotional_state = {}
         if V1_COMPONENTS_AVAILABLE:
             try:
-                emotional_state = evaluate_emotional_state(
-                    user_id=user_profile.id, current_context=context
-                )
+                emotional_state = evaluate_emotional_state(user_id=user_profile.id, current_context=context)
 
                 # Adjust widgets based on emotional state
                 if not emotional_state.get("stable", True):
                     # Filter out potentially stressful widgets during emotional
                     # instability
-                    available_widgets = [
-                        w for w in available_widgets if not w.get("high_emotional_impact", False)
-                    ]
-                    self.logger.info(
-                        f"Filtered widgets due to emotional state for user {user_profile.id}"
-                    )
+                    available_widgets = [w for w in available_widgets if not w.get("high_emotional_impact", False)]
+                    self.logger.info(f"Filtered widgets due to emotional state for user {user_profile.id}")
             except Exception as e:
                 self.logger.error(f"Error evaluating emotional state: {e}")
 
@@ -184,9 +174,7 @@ class AdaptiveDashboard:
                     widget["nias_reason"] = ad_permission.get("reason", "")
 
                     if not widget["show_ads"]:
-                        self.logger.info(
-                            f"NIAS blocked ads for {widget_type} widget: {ad_permission.get('reason')}"
-                        )
+                        self.logger.info(f"NIAS blocked ads for {widget_type} widget: {ad_permission.get('reason')}")
                 except Exception as e:
                     self.logger.error(f"Error evaluating NIAS permissions: {e}")
                     widget["show_ads"] = False
@@ -318,9 +306,7 @@ class AdaptiveDashboard:
 
         return layout
 
-    def _determine_theme(
-        self, context: dict[str, Any], emotional_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _determine_theme(self, context: dict[str, Any], emotional_state: dict[str, Any]) -> dict[str, Any]:
         """
         Determine appropriate UI theme based on context and emotional state
 
@@ -384,9 +370,7 @@ class AdaptiveDashboard:
 
         # Check if widget exists and user has access
         widget_info = self.widget_registry.get("widget_types", {}).get(widget_type, {})
-        required_tier = widget_info.get(
-            "required_tier", 5
-        )  # Default to highest tier if not specified
+        required_tier = widget_info.get("required_tier", 5)  # Default to highest tier if not specified
 
         if not widget_info:
             return {

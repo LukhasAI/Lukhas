@@ -610,9 +610,7 @@ class IdentityHub:
             return {"status": "failed", "error": "QRG coverage not available"}
 
         try:
-            result = await self.services["qrg_coverage"].run_targeted_tests(
-                test_category, specific_tests
-            )
+            result = await self.services["qrg_coverage"].run_targeted_tests(test_category, specific_tests)
             return result
         except Exception as e:
             logger.error(f"Targeted QRG tests failed: {e}")
@@ -696,33 +694,25 @@ class IdentityHub:
             logger.error(f"Failed to get brain identity metrics: {e}")
             return {"available": False, "error": str(e)}
 
-    async def encrypt_memory_content(
-        self, memory_key: str, content: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def encrypt_memory_content(self, memory_key: str, content: dict[str, Any]) -> dict[str, Any]:
         """Encrypt memory content through brain identity integration"""
         if "brain_identity" not in self.services:
             return content  # Return original content if service not available
 
         try:
-            encrypted_content = await self.services["brain_identity"].encrypt_memory_content(
-                memory_key, content
-            )
+            encrypted_content = await self.services["brain_identity"].encrypt_memory_content(memory_key, content)
             return encrypted_content
         except Exception as e:
             logger.error(f"Memory content encryption failed: {e}")
             return content  # Return original content on error
 
-    async def decrypt_memory_content(
-        self, memory_key: str, content: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def decrypt_memory_content(self, memory_key: str, content: dict[str, Any]) -> dict[str, Any]:
         """Decrypt memory content through brain identity integration"""
         if "brain_identity" not in self.services:
             return content  # Return original content if service not available
 
         try:
-            decrypted_content = await self.services["brain_identity"].decrypt_memory_content(
-                memory_key, content
-            )
+            decrypted_content = await self.services["brain_identity"].decrypt_memory_content(memory_key, content)
             return decrypted_content
         except Exception as e:
             logger.error(f"Memory content decryption failed: {e}")
@@ -910,11 +900,7 @@ class IdentityHub:
                     return {
                         "success": True,
                         "grid_size": result.grid_size,
-                        "pattern": (
-                            result.pattern.value
-                            if hasattr(result.pattern, "value")
-                            else str(result.pattern)
-                        ),
+                        "pattern": (result.pattern.value if hasattr(result.pattern, "value") else str(result.pattern)),
                         "cell_size": result.cell_size,
                         "spacing": result.spacing,
                         "total_width": result.total_width,
@@ -972,9 +958,7 @@ class IdentityHub:
             return {"available": False, "error": str(e)}
 
     # Agent 1 Task 12: Persona engine interface methods
-    async def process_identity_data(
-        self, data: Any, category: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def process_identity_data(self, data: Any, category: Optional[str] = None) -> dict[str, Any]:
         """Process identity data through the persona engine"""
         if not PERSONA_ENGINE_AVAILABLE:
             return {"status": "error", "error": "Persona engine not available"}
@@ -1011,9 +995,7 @@ class IdentityHub:
             logging.error(f"Failed to create identity component: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def create_and_initialize_identity_component(
-        self, config: Optional[dict] = None
-    ) -> dict[str, Any]:
+    async def create_and_initialize_identity_component(self, config: Optional[dict] = None) -> dict[str, Any]:
         """Create and initialize a new identity component instance"""
         if not PERSONA_ENGINE_AVAILABLE:
             return {"status": "error", "error": "Persona engine not available"}

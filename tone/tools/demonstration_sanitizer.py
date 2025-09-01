@@ -45,9 +45,7 @@ def demonstrate_sanitization():
 
     print("✅ Demonstration complete!")
     print()
-    print(
-        "Usage: echo 'Text with Keats references' | python tone/tools/author_reference_sanitizer_minimal.py"
-    )
+    print("Usage: echo 'Text with Keats references' | python tone/tools/author_reference_sanitizer_minimal.py")
 
 
 if __name__ == "__main__":

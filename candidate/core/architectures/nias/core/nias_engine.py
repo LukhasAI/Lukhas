@@ -30,10 +30,7 @@ class PositiveGatingFilter:
             {"content": content, **user_context},
             "NIAS",
         )
-        if (
-            decision.decision_type.value == "allow"
-            and decision.confidence > self.positive_threshold
-        ):
+        if decision.decision_type.value == "allow" and decision.confidence > self.positive_threshold:
             return "APPROVED"
         return "BLOCKED"
 

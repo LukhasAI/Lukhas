@@ -118,9 +118,7 @@ class MemoryNode:
         # Update stats
         self.stats["total_memories"] += 1
 
-        logger.debug(
-            f"Stored new memory: {memory_id} (type: {memory_type}, importance: {importance:.2f})"
-        )
+        logger.debug(f"Stored new memory: {memory_id} (type: {memory_type}, importance: {importance:.2f})")
         return memory_id
 
     def retrieve(self, memory_id: str) -> Optional[dict[str, Any]]:
@@ -286,9 +284,7 @@ class MemoryNode:
             removed = True
 
             # Also remove from embeddings
-            self.memory_embeddings = [
-                e for e in self.memory_embeddings if e["memory_id"] != memory_id
-            ]
+            self.memory_embeddings = [e for e in self.memory_embeddings if e["memory_id"] != memory_id]
 
         if removed:
             logger.info(f"Removed memory: {memory_id}")
@@ -374,9 +370,7 @@ class MemoryNode:
 
         # Update fields
         if data is not None:
-            memory["data"] = (
-                self._encrypt_data(data) if memory["metadata"].get("encrypted", False) else data
-            )
+            memory["data"] = self._encrypt_data(data) if memory["metadata"].get("encrypted", False) else data
 
         if metadata is not None:
             memory["metadata"].update(metadata)
@@ -392,17 +386,13 @@ class MemoryNode:
                 self.long_term_memory.append(memory)
                 # Generate and add embedding
                 embedding = self._generate_embedding(
-                    self._decrypt_data(memory["data"])
-                    if memory["metadata"].get("encrypted", False)
-                    else memory["data"]
+                    self._decrypt_data(memory["data"]) if memory["metadata"].get("encrypted", False) else memory["data"]
                 )
                 self.memory_embeddings.append({"memory_id": memory_id, "embedding": embedding})
             elif importance <= 0.7 and in_long_term:
                 # Remove from long-term memory
                 self.long_term_memory = [m for m in self.long_term_memory if m["id"] != memory_id]
-                self.memory_embeddings = [
-                    e for e in self.memory_embeddings if e["memory_id"] != memory_id
-                ]
+                self.memory_embeddings = [e for e in self.memory_embeddings if e["memory_id"] != memory_id]
 
         # Add update timestamp
         memory["metadata"]["updated_at"] = time.time()

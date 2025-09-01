@@ -144,9 +144,7 @@ class EndocrineAwareModule:
                 # Get hormonal modulation if available
                 speed_modulation = 1.0
                 if self.endocrine_integration:
-                    speed_modulation = self.endocrine_integration.get_modulation_factor(
-                        self.name, "processing_speed"
-                    )
+                    speed_modulation = self.endocrine_integration.get_modulation_factor(self.name, "processing_speed")
 
                 # Calculate actual processing delay
                 base_delay = 1.0  # 1 second base
@@ -175,9 +173,7 @@ class EndocrineAwareModule:
 
                 # Send feedback to endocrine system if stress is high
                 if self.stress_level > 0.7 and self.endocrine_integration:
-                    self.endocrine_integration.inject_system_feedback(
-                        self.name, "overload", self.stress_level
-                    )
+                    self.endocrine_integration.inject_system_feedback(self.name, "overload", self.stress_level)
 
                 await asyncio.sleep(actual_delay)
 

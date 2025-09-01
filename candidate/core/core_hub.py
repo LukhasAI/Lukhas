@@ -360,9 +360,7 @@ class CoreHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(
-                        service_name, self.services[service_name], "core"
-                    )
+                    discovery.register_service_globally(service_name, self.services[service_name], "core")
 
             logger.debug(f"Registered {len(key_services)} core services with global discovery")
         except Exception as e:
@@ -475,9 +473,7 @@ class CoreHub:
 
         return endpoints
 
-    async def handle_ethics_event(
-        self, event_type: str, event_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_ethics_event(self, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
         """Handle ethics-related events from the EthicsService"""
         logger.info(f"Received ethics event: {event_type}")
 
@@ -575,9 +571,7 @@ class CoreHub:
             logger.error("Event store not available for replay")
             return 0
 
-        events = await self.services["event_store"].get_events_for_actor(
-            actor_id, start_time, end_time
-        )
+        events = await self.services["event_store"].get_events_for_actor(actor_id, start_time, end_time)
 
         return await self.services["event_store"].replay_events(events, speed)
 
@@ -605,9 +599,7 @@ class CoreHub:
             return False
 
         try:
-            snapshot = await self.services["snapshot_store"].get_latest_snapshot(
-                actor.actor_id, timestamp
-            )
+            snapshot = await self.services["snapshot_store"].get_latest_snapshot(actor.actor_id, timestamp)
             if snapshot:
                 snapshot.restore_to_actor(actor)
                 logger.info(f"Restored actor {actor.actor_id} from snapshot")

@@ -73,9 +73,7 @@ class QIAGISystem:
         self.qi_memory = QIAssociativeMemoryBank()
 
         # Monitoring and telemetry
-        self.qi_telemetry = QISafeTelemetry(
-            export_endpoint=config.telemetry_endpoint, encryption_level="homomorphic"
-        )
+        self.qi_telemetry = QISafeTelemetry(export_endpoint=config.telemetry_endpoint, encryption_level="homomorphic")
 
         # Regulatory compliance
         self.compliance_engine = MultiJurisdictionComplianceEngine(
@@ -129,9 +127,7 @@ class QIAGISystem:
             # Fallback if voice/bio components not available
             self.voice_enhancer = None
 
-    async def process_user_request(
-        self, request: UserRequest, qi_session: QISecureSession
-    ) -> SecureResponse:
+    async def process_user_request(self, request: UserRequest, qi_session: QISecureSession) -> SecureResponse:
         """
         End-to-end processing with full quantum security
         """
@@ -143,9 +139,7 @@ class QIAGISystem:
                 raise SecurityException("Request validation failed")
 
             # 2. Extract features with privacy preservation
-            private_features = await self.security_mesh.extract_private_features(
-                request, preserve_privacy=True
-            )
+            private_features = await self.security_mesh.extract_private_features(request, preserve_privacy=True)
 
             # 3. Quantum-enhanced processing
             qi_result = await self.qi_neural_core.process_secure_context(
@@ -178,9 +172,7 @@ class QIAGISystem:
             )
 
             # 7. Prepare secure response
-            response = await self.security_mesh.prepare_secure_response(
-                qi_result, qi_session, include_telemetry=True
-            )
+            response = await self.security_mesh.prepare_secure_response(qi_result, qi_session, include_telemetry=True)
 
             return response
 
@@ -248,9 +240,7 @@ class QIAGISystem:
 
     # Quantum Voice Enhancer Interface Methods
 
-    async def enhance_voice_processing(
-        self, audio_data: bytes, context: Optional[dict] = None
-    ) -> dict:
+    async def enhance_voice_processing(self, audio_data: bytes, context: Optional[dict] = None) -> dict:
         """
         Enhance voice processing using quantum coherence techniques.
 
@@ -271,9 +261,7 @@ class QIAGISystem:
         except Exception:
             return {"success": False, "reason": "Processing failed"}
 
-    async def enhance_speech_generation(
-        self, text: str, voice_params: Optional[dict] = None
-    ) -> dict:
+    async def enhance_speech_generation(self, text: str, voice_params: Optional[dict] = None) -> dict:
         """
         Generate speech using quantum-enhanced techniques.
 

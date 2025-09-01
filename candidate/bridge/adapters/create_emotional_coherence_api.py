@@ -51,9 +51,7 @@ class EmotionalVector(BaseModel):
 class CoherenceResponse(BaseModel):
     """Complete emotional coherence analysis"""
 
-    coherence_score: float = Field(
-        ..., ge=0, description="Bio-symbolic coherence (can exceed 100%)"
-    )
+    coherence_score: float = Field(..., ge=0, description="Bio-symbolic coherence (can exceed 100%)")
     emotional_vector: EmotionalVector
     recommended_hormonal_state: HormonalState
     response_modulation: dict[str, float]
@@ -84,14 +82,10 @@ class BioSymbolicEngine:
         emotional_vector = await self._extract_emotions(context.text)
 
         # Calculate optimal hormonal state
-        hormonal_state = self._calculate_hormonal_response(
-            emotional_vector, context.context_type, context.user_state
-        )
+        hormonal_state = self._calculate_hormonal_response(emotional_vector, context.context_type, context.user_state)
 
         # Calculate bio-symbolic coherence
-        coherence, qi_boost = self._calculate_coherence(
-            emotional_vector, hormonal_state, context.target_coherence
-        )
+        coherence, qi_boost = self._calculate_coherence(emotional_vector, hormonal_state, context.target_coherence)
 
         # Generate response modulation recommendations
         modulation = self._generate_modulation(hormonal_state, emotional_vector)
@@ -231,9 +225,7 @@ class BioSymbolicEngine:
 
         return final_coherence, qi_boost
 
-    def _generate_modulation(
-        self, hormones: HormonalState, emotions: EmotionalVector
-    ) -> dict[str, float]:
+    def _generate_modulation(self, hormones: HormonalState, emotions: EmotionalVector) -> dict[str, float]:
         """Generate response modulation recommendations"""
 
         modulation = {
@@ -273,9 +265,7 @@ class BioSymbolicEngine:
                 markers.append(f"acknowledgment: {phrase}")
 
         # Check for validation
-        if emotions.valence < 0 and any(
-            word in text.lower() for word in ["valid", "understandable", "makes sense"]
-        ):
+        if emotions.valence < 0 and any(word in text.lower() for word in ["valid", "understandable", "makes sense"]):
             markers.append("emotional_validation")
 
         # Check for support offering

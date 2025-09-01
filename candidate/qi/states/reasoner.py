@@ -157,9 +157,7 @@ class QICollapseEngine:
 
         try:
             # Determine collapse type based on input conditions
-            collapse_type = self._determine_collapse_type(
-                contradictions, reasoning_branches, context
-            )
+            collapse_type = self._determine_collapse_type(contradictions, reasoning_branches, context)
             method_logger.info("Collapse type determined", collapse_type=collapse_type.value)
 
             # Evaluate all branches for stability and viability
@@ -189,9 +187,7 @@ class QICollapseEngine:
             )
 
             # Calculate final metrics
-            eliminated_chains = [
-                b.chain_id for b in evaluated_branches if b.chain_id != resolved_chain.chain_id
-            ]
+            eliminated_chains = [b.chain_id for b in evaluated_branches if b.chain_id != resolved_chain.chain_id]
             entropy_delta = self._calculate_entropy_delta(reasoning_branches, resolved_chain)
             confidence_score = self._calculate_final_confidence(resolved_chain, context)
 
@@ -210,9 +206,7 @@ class QICollapseEngine:
                     "input_branches_count": len(reasoning_branches),
                     "context_snapshot": context,
                     "evaluation_metrics": {
-                        "branch_stabilities": [
-                            (b.chain_id, b.glyph_stability) for b in evaluated_branches
-                        ]
+                        "branch_stabilities": [(b.chain_id, b.glyph_stability) for b in evaluated_branches]
                     },
                 },
             )
@@ -240,11 +234,7 @@ class QICollapseEngine:
             )
             # Return minimal failure result
             failure_result = CollapseResult(
-                resolved_chain=(
-                    reasoning_branches[0]
-                    if reasoning_branches
-                    else ReasoningChain(chain_id="failure")
-                ),
+                resolved_chain=(reasoning_branches[0] if reasoning_branches else ReasoningChain(chain_id="failure")),
                 collapse_type=CollapseType.MANUAL_TRIGGER,
                 resolution_strategy=ResolutionStrategy.HIGHEST_CONFIDENCE,
                 eliminated_chains=[],
@@ -279,9 +269,7 @@ class QICollapseEngine:
             drift_alignment = max(0.0, 1.0 - branch.drift_score)
 
             # Emotional stability factor
-            emotional_stability = (
-                1.0 - abs(branch.emotional_weight - 0.5) * 2
-            )  # Penalize extreme emotions
+            emotional_stability = 1.0 - abs(branch.emotional_weight - 0.5) * 2  # Penalize extreme emotions
 
             # Ethical coherence bonus
             ethical_component = branch.ethical_score
@@ -530,9 +518,7 @@ class QICollapseEngine:
             # Fallback to highest confidence
             return max(branches, key=lambda b: b.confidence)
 
-    def _calculate_entropy_delta(
-        self, original_branches: list[ReasoningChain], resolved: ReasoningChain
-    ) -> float:
+    def _calculate_entropy_delta(self, original_branches: list[ReasoningChain], resolved: ReasoningChain) -> float:
         """Calculates the entropy change from collapse."""
         if not original_branches:
             return 0.0

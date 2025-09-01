@@ -117,9 +117,7 @@ class DreamOrchestrator:
         try:
             if not self.openai_client:
                 raise Exception("OpenAI client not initialized.")
-            response = self.openai_client.audio.speech.create(
-                model="tts-1", voice="nova", input=narrative
-            )
+            response = self.openai_client.audio.speech.create(model="tts-1", voice="nova", input=narrative)
             audio_filename = f"dream_{int(time.time())}.mp3"
             audio_filepath = os.path.join("lukhas_website", "public", "audio", audio_filename)
             os.makedirs(os.path.dirname(audio_filepath), exist_ok=True)
@@ -145,9 +143,7 @@ class DreamOrchestrator:
         texture_thread = Thread(
             target=self._get_texture_url_from_dalle, args=(manifest_core["narrative"], result_queue)
         )
-        audio_thread = Thread(
-            target=self._get_audio_url_from_tts, args=(manifest_core["narrative"], result_queue)
-        )
+        audio_thread = Thread(target=self._get_audio_url_from_tts, args=(manifest_core["narrative"], result_queue))
 
         texture_thread.start()
         audio_thread.start()
@@ -176,9 +172,7 @@ class DreamOrchestrator:
 
     def store_dream(self, manifest: dict) -> str:
         memory_id = f"mem_{int(time.time())}"
-        print(
-            f"Storing dream {manifest.get('dream_id')} with memory ID {memory_id}", file=sys.stderr
-        )
+        print(f"Storing dream {manifest.get('dream_id')} with memory ID {memory_id}", file=sys.stderr)
         try:
             with open(self.memory_log_path, "a") as f:
                 manifest_to_store = {**manifest, "memory_id": memory_id, "stored_at": time.time()}
@@ -195,9 +189,7 @@ if __name__ == "__main__":
     import sys
 
     parser = argparse.ArgumentParser(description="Dream Weaver Orchestrator")
-    parser.add_argument(
-        "--store", action="store_true", help="Store a dream manifest instead of weaving a new one."
-    )
+    parser.add_argument("--store", action="store_true", help="Store a dream manifest instead of weaving a new one.")
     args = parser.parse_args()
 
     orchestrator = DreamOrchestrator()

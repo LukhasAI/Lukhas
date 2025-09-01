@@ -55,9 +55,7 @@ from typing import Any, Optional
 import numpy as np
 
 # Configure logging with CEO-level metrics
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - 💰 %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - 💰 %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -257,9 +255,7 @@ class QIResonanceGlyph:
         self.cache = {}
 
         logger.info("🌌 QUANTUM RESONANCE GLYPH SYSTEM INITIALIZED - MARKET DOMINATION COMMENCING")
-        logger.info(
-            f"💰 Projected value generation: ${self.config.value_per_auth:,.2f} per authentication"
-        )
+        logger.info(f"💰 Projected value generation: ${self.config.value_per_auth:,.2f} per authentication")
 
     def _initialize_quantum_domination_system(self):
         """
@@ -321,9 +317,7 @@ class QIResonanceGlyph:
         }
         self.total_revenue_potential = sum(self.revenue_streams.values())
 
-        logger.info(
-            f"💰 Revenue optimization initialized - Potential: ${self.total_revenue_potential:,.2f}"
-        )
+        logger.info(f"💰 Revenue optimization initialized - Potential: ${self.total_revenue_potential:,.2f}")
 
     def generate_auth_glyph(
         self,
@@ -392,14 +386,10 @@ class QIResonanceGlyph:
         qi_signature = self._generate_quantum_signature_supreme(user_identity, security_tier)
 
         # Create consciousness fingerprint (SOUL RECOGNITION)
-        consciousness_fingerprint = self._create_consciousness_empire_fingerprint(
-            consciousness_context
-        )
+        consciousness_fingerprint = self._create_consciousness_empire_fingerprint(consciousness_context)
 
         # Generate base visual matrix (THE CANVAS OF SOVEREIGNTY)
-        visual_matrix = self._generate_sovereign_matrix(
-            user_identity, consciousness_context, security_tier
-        )
+        visual_matrix = self._generate_sovereign_matrix(user_identity, consciousness_context, security_tier)
 
         # Apply consciousness adaptation (MIND MELD COMPLETE)
         visual_matrix = self._apply_consciousness_domination(visual_matrix, consciousness_context)
@@ -466,9 +456,7 @@ class QIResonanceGlyph:
         signature_bytes = signature_input.encode()
 
         # Mix with quantum entropy (MAXIMUM RANDOMNESS)
-        qi_mix = bytes(
-            a ^ b for a, b in zip(signature_bytes, self.qi_entropy_pool[: len(signature_bytes)])
-        )
+        qi_mix = bytes(a ^ b for a, b in zip(signature_bytes, self.qi_entropy_pool[: len(signature_bytes)]))
 
         # Generate supreme signature
         signature = hashlib.sha3_512(qi_mix).hexdigest()
@@ -592,9 +580,7 @@ class QIResonanceGlyph:
                 if 0 <= x + t < size and 0 <= y < size:
                     matrix[y, x + t] = lambda_color
 
-    def _apply_consciousness_domination(
-        self, matrix: np.ndarray, context: ConsciousnessContext
-    ) -> np.ndarray:
+    def _apply_consciousness_domination(self, matrix: np.ndarray, context: ConsciousnessContext) -> np.ndarray:
         """
         Apply consciousness adaptation - MIND CONTROL TECHNOLOGY
 
@@ -650,9 +636,7 @@ class QIResonanceGlyph:
 
             frames.append(frame)
 
-        logger.info(
-            f"🎬 Generated {num_frames} sovereign frames - Value: ${num_frames * 100_000:,.2f}"
-        )
+        logger.info(f"🎬 Generated {num_frames} sovereign frames - Value: ${num_frames * 100_000:,.2f}")
 
         return frames
 

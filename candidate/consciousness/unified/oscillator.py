@@ -99,9 +99,7 @@ class AbstractReasoningBrainOscillator:
 
         logger.debug(f"🎼 Coordinated with master frequency: {master_frequency} Hz")
 
-    async def orchestrate_reasoning_phase(
-        self, phase_name: str, target_brains: list[str]
-    ) -> dict[str, Any]:
+    async def orchestrate_reasoning_phase(self, phase_name: str, target_brains: list[str]) -> dict[str, Any]:
         """
         Orchestrate a specific reasoning phase across target brains
 
@@ -146,9 +144,7 @@ class AbstractReasoningBrainOscillator:
 
         return orchestration_result
 
-    async def _generate_phase_coordination(
-        self, phase_name: str, target_brains: list[str]
-    ) -> dict[str, Any]:
+    async def _generate_phase_coordination(self, phase_name: str, target_brains: list[str]) -> dict[str, Any]:
         """Generate coordination pattern for specific reasoning phase"""
 
         # Define phase-specific coordination patterns
@@ -203,9 +199,7 @@ class AbstractReasoningBrainOscillator:
 
         return pattern
 
-    async def _synchronize_brain(
-        self, brain_name: str, coordination_pattern: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _synchronize_brain(self, brain_name: str, coordination_pattern: dict[str, Any]) -> dict[str, Any]:
         """Synchronize a specific brain with the coordination pattern"""
 
         brain_frequency = self.target_brain_frequencies.get(brain_name, 10.0)
@@ -237,9 +231,7 @@ class AbstractReasoningBrainOscillator:
 
         return sync_result
 
-    def _calculate_optimal_phase_offset(
-        self, brain_frequency: float, sync_strength: float
-    ) -> float:
+    def _calculate_optimal_phase_offset(self, brain_frequency: float, sync_strength: float) -> float:
         """Calculate optimal phase offset for brain synchronization"""
 
         # Phase offset based on frequency relationship
@@ -310,8 +302,7 @@ class AbstractReasoningBrainOscillator:
 
         # Check current coherence across all synchronized brains
         current_coherences = [
-            brain_data.get("achieved_coherence", 0.0)
-            for brain_data in self.synchronized_brains.values()
+            brain_data.get("achieved_coherence", 0.0) for brain_data in self.synchronized_brains.values()
         ]
 
         current_average = sum(current_coherences) / len(current_coherences)
@@ -357,9 +348,7 @@ class AbstractReasoningBrainOscillator:
             return {"status": "no_data", "events": 0}
 
         # Calculate average coherence across all events
-        coherence_values = [
-            event.get("master_coherence", 0.0) for event in self.synchronization_events
-        ]
+        coherence_values = [event.get("master_coherence", 0.0) for event in self.synchronization_events]
         avg_coherence = sum(coherence_values) / len(coherence_values)
 
         # Calculate success rate (coherence > 0.7)

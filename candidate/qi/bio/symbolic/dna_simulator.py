@@ -16,9 +16,7 @@ class DNASimulator:
         "T": "transcendence",
     }
 
-    def parse_sequence(
-        self, sequence: str
-    ) -> dict[str, tuple[str, TagScope, TagPermission, Optional[float]]]:
+    def parse_sequence(self, sequence: str) -> dict[str, tuple[str, TagScope, TagPermission, Optional[float]]]:
         tags: dict[str, tuple[str, TagScope, TagPermission, Optional[float]]] = {}
         for idx, char in enumerate(sequence):
             symbol = self.SYMBOL_MAP.get(char.upper())

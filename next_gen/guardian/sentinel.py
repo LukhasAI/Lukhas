@@ -148,9 +148,7 @@ class GuardianSentinel:
             try:
                 # Simulate entropy reading
                 current_entropy = self._read_current_entropy()
-                self.entropy_history.append(
-                    {"value": current_entropy, "timestamp": datetime.utcnow()}
-                )
+                self.entropy_history.append({"value": current_entropy, "timestamp": datetime.utcnow()})
 
                 # Check for surges
                 if len(self.entropy_history) >= 2:
@@ -185,9 +183,7 @@ class GuardianSentinel:
             try:
                 # Simulate pattern coherence reading
                 pattern_coherence = self._read_pattern_coherence()
-                self.pattern_history.append(
-                    {"coherence": pattern_coherence, "timestamp": datetime.utcnow()}
-                )
+                self.pattern_history.append({"coherence": pattern_coherence, "timestamp": datetime.utcnow()})
 
                 # Check for disruption
                 if pattern_coherence < self.THRESHOLDS["pattern_disruption"]:
@@ -217,9 +213,7 @@ class GuardianSentinel:
             try:
                 # Simulate consciousness state reading
                 current_state = self._read_consciousness_state()
-                self.consciousness_history.append(
-                    {"state": current_state, "timestamp": datetime.utcnow()}
-                )
+                self.consciousness_history.append({"state": current_state, "timestamp": datetime.utcnow()})
 
                 # Check for instability (too many state changes)
                 if len(self.consciousness_history) >= 10:
@@ -377,9 +371,7 @@ class GuardianSentinel:
 
     def get_threat_report(self) -> dict:
         """Generate threat analysis report"""
-        active_count = len(
-            [t for t in self.active_threats if (datetime.utcnow() - t.timestamp).seconds < 300]
-        )
+        active_count = len([t for t in self.active_threats if (datetime.utcnow() - t.timestamp).seconds < 300])
 
         severity_dist = {}
         for level, threshold in self.SEVERITY_LEVELS.items():

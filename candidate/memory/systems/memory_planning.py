@@ -169,9 +169,7 @@ class Allocation(AllocationTreeNode):
         node = self.node
         shape = tuple(node.get_size())
         stride = tuple(node.get_stride())
-        return wrapper.codegen_alloc_from_pool(
-            self.pool.name, self.offset, node.get_dtype(), shape, stride
-        )
+        return wrapper.codegen_alloc_from_pool(self.pool.name, self.offset, node.get_dtype(), shape, stride)
 
     def __repr__(self):
         return (
@@ -278,9 +276,7 @@ class TemporalSplit(ClearCacheOnAllocateMixin, AllocationTreeNode):
 
     @cache_on_self
     def get_live_ranges(self) -> LiveRanges:
-        return LiveRanges(
-            itertools.chain.from_iterable(x.get_live_ranges().ranges for x in self.allocations)
-        )
+        return LiveRanges(itertools.chain.from_iterable(x.get_live_ranges().ranges for x in self.allocations))
 
     @cache_on_self
     def get_size_hint(self) -> int:
@@ -326,9 +322,7 @@ class SpatialSplit(ClearCacheOnAllocateMixin, AllocationTreeNode):
 
     @cache_on_self
     def get_live_ranges(self):
-        return LiveRanges(
-            itertools.chain(self.left.get_live_ranges().ranges, self.right.get_live_ranges().ranges)
-        )
+        return LiveRanges(itertools.chain(self.left.get_live_ranges().ranges, self.right.get_live_ranges().ranges))
 
     @cache_on_self
     def get_size_hint(self) -> int:
@@ -431,9 +425,7 @@ class AllocationPools:
     Collection of many AllocationPool objects grouped by device.
     """
 
-    device_to_pools: dict[torch.device, list[AllocationPool]] = dataclasses.field(
-        default_factory=dict
-    )
+    device_to_pools: dict[torch.device, list[AllocationPool]] = dataclasses.field(default_factory=dict)
 
     def get_pools(self, block):
         if block.device not in self.device_to_pools:
@@ -525,10 +517,7 @@ class BufferGroup:
         )
 
     def __repr__(self):
-        return (
-            f"{self.__class__.__name__}({self.names!r}, is_output={self.is_output}, "
-            f"live_range={self.live_range}"
-        )
+        return f"{self.__class__.__name__}({self.names!r}, is_output={self.is_output}, " f"live_range={self.live_range}"
 
 
 @dataclasses.dataclass
@@ -561,9 +550,7 @@ class AllocFromPoolLine(PoolMemoryPlanningLine):
         pool.names_to_del.extend(self.group.names)
         alloc_from_pool = allocation.codegen_alloc_from_pool(self.wrapper)
         if alloc_from_pool in pool.creation_cache:
-            code.writeline(
-                self.wrapper.make_tensor_alias(name, pool.creation_cache[alloc_from_pool], "alloc")
-            )
+            code.writeline(self.wrapper.make_tensor_alias(name, pool.creation_cache[alloc_from_pool], "alloc"))
         else:
             pool.creation_cache[alloc_from_pool] = name
             code.writeline(f"{self.wrapper.declare}{name} = {alloc_from_pool}{self.wrapper.ending}")
@@ -656,9 +643,7 @@ class MemoryPlanner:
             elif isinstance(line, FreeIfNotReusedLine):
                 assert not line.is_reused
                 if line.node.get_name() in name_to_group:
-                    lines[i] = DeallocFromPoolLine(
-                        self.wrapper, name_to_group[line.node.get_name()]
-                    )
+                    lines[i] = DeallocFromPoolLine(self.wrapper, name_to_group[line.node.get_name()])
             elif isinstance(line, ReuseLine) and line.node.get_name() in name_to_group:
                 line.delete_old = False
 

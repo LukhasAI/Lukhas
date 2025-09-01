@@ -355,9 +355,7 @@ class Voicesymbolicvocabulary:
         }
         return provider_map.get(provider, "🎤")
 
-    def create_synthesis_phrase(
-        self, emotion: VoiceEmotion, provider: VoiceProvider, text: str
-    ) -> str:
+    def create_synthesis_phrase(self, emotion: VoiceEmotion, provider: VoiceProvider, text: str) -> str:
         """Create a symbolic phrase for voice synthesis."""
         emotion_symbol = self.get_symbol_for_emotion(emotion)
         provider_symbol = self.get_symbol_for_provider(provider)

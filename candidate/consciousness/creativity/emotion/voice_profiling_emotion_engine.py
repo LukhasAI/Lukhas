@@ -105,9 +105,7 @@ class VoiceProfilingEmotionEngine:
 
         return result
 
-    def get_provider_parameters(
-        self, provider: str, emotion: Optional[str] = None
-    ) -> dict[str, Any]:
+    def get_provider_parameters(self, provider: str, emotion: Optional[str] = None) -> dict[str, Any]:
         """Get provider-specific parameters, adjusted for emotion if needed."""
         if provider not in self.provider_parameters:
             return {}
@@ -156,9 +154,7 @@ class VoiceProfilingEmotionEngine:
         if direction == "auto":
             # Use feedback to determine direction
             recent_feedback = self.feedback_history[-5:] if self.feedback_history else []
-            avg_score = sum(f.get("score", 0) for f in recent_feedback) / max(
-                len(recent_feedback), 1
-            )
+            avg_score = sum(f.get("score", 0) for f in recent_feedback) / max(len(recent_feedback), 1)
 
             if avg_score < 0.4:
                 # Poor feedback, try significant changes
@@ -182,9 +178,7 @@ class VoiceProfilingEmotionEngine:
 
         elif direction == "expressive":
             self.parameters["expressiveness"] = min(1.0, self.parameters["expressiveness"] + 0.1)
-            self.parameters["timbre_brightness"] = min(
-                1.0, self.parameters["timbre_brightness"] + 0.05
-            )
+            self.parameters["timbre_brightness"] = min(1.0, self.parameters["timbre_brightness"] + 0.05)
             changes = {"expressiveness": "+0.1", "timbre_brightness": "+0.05"}
 
         elif direction == "refine":
@@ -193,9 +187,7 @@ class VoiceProfilingEmotionEngine:
             # deeply
             if self.usage_count > 50:
                 # Slightly increase expressiveness for well-used profiles
-                self.parameters["expressiveness"] = min(
-                    1.0, self.parameters["expressiveness"] + 0.02
-                )
+                self.parameters["expressiveness"] = min(1.0, self.parameters["expressiveness"] + 0.02)
                 changes = {"expressiveness": "+0.02"}
 
         # Record evolution
@@ -357,22 +349,17 @@ class VoiceProfilingEmotionEngine:
         # Select based on context type
         if context_type == "notification":
             # Find a clear, articulate voice for notifications
-            candidates = [
-                p for p in self.profiles.values() if p.parameters.get("articulation", 0) > 0.7
-            ]
+            candidates = [p for p in self.profiles.values() if p.parameters.get("articulation", 0) > 0.7]
         elif context_type == "conversation":
             # Find a warm, expressive voice for conversations
             candidates = [
                 p
                 for p in self.profiles.values()
-                if p.parameters.get("warmth", 0) > 0.6
-                and p.parameters.get("expressiveness", 0) > 0.6
+                if p.parameters.get("warmth", 0) > 0.6 and p.parameters.get("expressiveness", 0) > 0.6
             ]
         else:
             # For general purpose, prefer profiles with more usage
-            candidates = sorted(self.profiles.values(), key=lambda p: p.usage_count, reverse=True)[
-                :3
-            ]
+            candidates = sorted(self.profiles.values(), key=lambda p: p.usage_count, reverse=True)[:3]
 
         # If no candidates match our criteria, use all profiles
         if not candidates:
@@ -465,9 +452,7 @@ class VoiceProfilingEmotionEngine:
             self.logger.error(f"Error deleting profile {profile_id}: {e!s}")
             return False
 
-    async def integrate_with_voice_system(
-        self, profile_id: str, voice_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def integrate_with_voice_system(self, profile_id: str, voice_data: dict[str, Any]) -> dict[str, Any]:
         """Integrate profile with voice system data"""
         profile = self.get_profile(profile_id)
         if not profile:

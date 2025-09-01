@@ -406,11 +406,7 @@ class LukhλsTaskManager:
                 "status": agent.status,
                 "capabilities": agent.capabilities,
                 "active_tasks": len(
-                    [
-                        t
-                        for t in self.tasks.values()
-                        if t.agent_id == agent_id and t.status == TaskStatus.RUNNING
-                    ]
+                    [t for t in self.tasks.values() if t.agent_id == agent_id and t.status == TaskStatus.RUNNING]
                 ),
             }
             for agent_id, agent in self.agents.items()

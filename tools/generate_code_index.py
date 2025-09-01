@@ -521,9 +521,7 @@ Generated: {}
         map_content += "- Modules with Most Dependencies: \n"
 
         # Find modules with most imports
-        sorted_imports = sorted(self.import_graph.items(), key=lambda x: len(x[1]), reverse=True)[
-            :10
-        ]
+        sorted_imports = sorted(self.import_graph.items(), key=lambda x: len(x[1]), reverse=True)[:10]
         for module, imports in sorted_imports:
             module_name = Path(module).stem
             map_content += f"  - {module_name}: {len(imports)} imports\n"

@@ -284,9 +284,7 @@ class AdaptiveUXEngine:
             export_options=export_options,
         )
 
-    def _determine_interface_mode(
-        self, cognitive_state: dict[str, float], intent: dict[str, Any]
-    ) -> InterfaceMode:
+    def _determine_interface_mode(self, cognitive_state: dict[str, float], intent: dict[str, Any]) -> InterfaceMode:
         """Determine optimal interface mode"""
 
         # High cognitive load -> simpler interface
@@ -304,9 +302,7 @@ class AdaptiveUXEngine:
         # Default to standard
         return InterfaceMode.STANDARD
 
-    def _generate_layout(
-        self, mode: InterfaceMode, cognitive_state: dict[str, float]
-    ) -> dict[str, Any]:
+    def _generate_layout(self, mode: InterfaceMode, cognitive_state: dict[str, float]) -> dict[str, Any]:
         """Generate adaptive layout"""
 
         template = self.interface_templates[mode]
@@ -330,9 +326,7 @@ class AdaptiveUXEngine:
 
         return layout
 
-    def _generate_suggestions(
-        self, intent: dict[str, Any], cognitive_state: dict[str, float]
-    ) -> list[str]:
+    def _generate_suggestions(self, intent: dict[str, Any], cognitive_state: dict[str, float]) -> list[str]:
         """Generate contextual suggestions"""
 
         suggestions = []

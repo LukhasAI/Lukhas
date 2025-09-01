@@ -167,9 +167,7 @@ class EnterpriseDemo:
             )
 
             # Validate security
-            is_secure, threat = await self.security_system.validate_feedback_security(
-                feedback, security_context
-            )
+            is_secure, threat = await self.security_system.validate_feedback_security(feedback, security_context)
 
             if is_secure:
                 # Process with constitutional validation
@@ -188,19 +186,13 @@ class EnterpriseDemo:
 
                 print("✅ Feedback accepted")
                 if "constitutional" in result:
-                    print(
-                        f"   Constitutional alignment: {result['constitutional']['alignment_score']:.2f}"
-                    )
-                    print(
-                        f"   Principles: {json.dumps(result['constitutional']['principles'], indent=2)}"
-                    )
+                    print(f"   Constitutional alignment: {result['constitutional']['alignment_score']:.2f}")
+                    print(f"   Principles: {json.dumps(result['constitutional']['principles'], indent=2)}")
 
         # Generate research report
         print("\n📊 Generating constitutional alignment report...")
         if self.unified_system.constitutional_system:
-            report = (
-                await self.unified_system.constitutional_system.generate_constitutional_report()
-            )
+            report = await self.unified_system.constitutional_system.generate_constitutional_report()
             print(f"   Total feedback: {report['summary']['total_feedback_processed']}")
             print(f"   Violations: {report['summary']['total_violations']}")
             print(f"   Recommendations: {report['recommendations']}")
@@ -213,9 +205,7 @@ class EnterpriseDemo:
 
         enterprise_user = self.demo_users[1]  # John Smith
 
-        print(
-            f"\nEnterprise User: {enterprise_user['name']} from {enterprise_user['organization']}"
-        )
+        print(f"\nEnterprise User: {enterprise_user['name']} from {enterprise_user['organization']}")
         print(f"Use case: {enterprise_user['use_case']}")
 
         # Create security context
@@ -232,9 +222,7 @@ class EnterpriseDemo:
         channels = [FeedbackChannel.API, FeedbackChannel.WIDGET, FeedbackChannel.VOICE]
 
         for i in range(100):  # Simulate 100 feedback items
-            feedback_type = random.choice(
-                [FeedbackType.RATING, FeedbackType.QUICK, FeedbackType.EMOJI]
-            )
+            feedback_type = random.choice([FeedbackType.RATING, FeedbackType.QUICK, FeedbackType.EMOJI])
 
             content = {}
             if feedback_type == FeedbackType.RATING:
@@ -295,14 +283,10 @@ class EnterpriseDemo:
 
         # Generate commercial insights
         print("\n💼 Generating enterprise analytics...")
-        insights = await self.unified_system.generate_enterprise_insights(
-            enterprise_user["organization"]
-        )
+        insights = await self.unified_system.generate_enterprise_insights(enterprise_user["organization"])
 
         print(f"   Global sentiment: {insights['collective_intelligence']['global_sentiment']}")
-        print(
-            f"   Emerging patterns: {len(insights['collective_intelligence']['emerging_patterns'])}"
-        )
+        print(f"   Emerging patterns: {len(insights['collective_intelligence']['emerging_patterns'])}")
         print(f"   Early warnings: {len(insights['early_warnings'])}")
 
     async def demonstrate_hybrid_features(self):
@@ -350,9 +334,7 @@ class EnterpriseDemo:
                 base_feedback=feedback,
                 constitutional_alignment=FeedbackAlignment(
                     feedback_id=feedback.feedback_id,
-                    principle_scores={
-                        p: 0.85 + random.random() * 0.15 for p in ConstitutionalPrinciple
-                    },
+                    principle_scores={p: 0.85 + random.random() * 0.15 for p in ConstitutionalPrinciple},
                     overall_alignment=0.9 + random.random() * 0.1,
                     violations=[],
                     interpretability_trace=[],
@@ -452,9 +434,7 @@ class EnterpriseDemo:
                 compliance_region=analyst["region"],
             )
 
-            is_secure, threat_info = await self.security_system.validate_feedback_security(
-                feedback, security_context
-            )
+            is_secure, threat_info = await self.security_system.validate_feedback_security(feedback, security_context)
 
             if is_secure:
                 print(f"   ✅ Result: ALLOWED (expected: {test['expected']})")

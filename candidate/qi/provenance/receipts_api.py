@@ -143,9 +143,7 @@ def replay_receipt(
     )
     # weak ETag (receipt mtime + policy fingerprint)
     mtime = os.path.getmtime(p)
-    etag = hashlib.sha256(
-        f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays)}".encode()
-    ).hexdigest()[:16]
+    etag = hashlib.sha256(f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays)}".encode()).hexdigest()[:16]
     return JSONResponse(rep, headers={"ETag": etag})
 
 
@@ -155,12 +153,8 @@ def receipt_trace_svg(
     rid: str,
     policy_root: str = Query(..., description="Path to policy_packs root"),
     overlays: str | None = Query(None, description="Path to overlays dir with overlays.yaml"),
-    link_base: str | None = Query(
-        None, description="Receipts API base (click target for Activity)"
-    ),
-    prov_base: str | None = Query(
-        None, description="Provenance Proxy base (click target for Artifact)"
-    ),
+    link_base: str | None = Query(None, description="Receipts API base (click target for Activity)"),
+    prov_base: str | None = Query(None, description="Provenance Proxy base (click target for Artifact)"),
 ):
     # load receipt + optional provenance, build DOT, render to SVG bytes (in-memory)
     p = _receipt_path(rid)
@@ -186,9 +180,7 @@ def receipt_trace_svg(
         verify_provenance_attestation=False,
     )
 
-    dot = build_dot(
-        receipt=receipt, prov=prov, replay=rep, link_base=link_base, prov_base=prov_base
-    )
+    dot = build_dot(receipt=receipt, prov=prov, replay=rep, link_base=link_base, prov_base=prov_base)
 
     # Render to SVG bytes (no temp file)
     try:
@@ -207,9 +199,7 @@ def receipt_trace_svg(
 
     # ETag for cache (receipt mtime + policy fingerprint)
     mtime = os.path.getmtime(p)
-    etag = hashlib.sha256(
-        f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays)}".encode()
-    ).hexdigest()[:16]
+    etag = hashlib.sha256(f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays)}".encode()).hexdigest()[:16]
     return Response(
         content=svg_bytes,
         media_type="image/svg+xml",
@@ -243,9 +233,7 @@ def _load_all_receipts_meta() -> list[dict]:
 
 
 @app.get("/receipts/{rid}/neighbors")
-def receipt_neighbors(
-    rid: str, task: str | None = Query(None, description="If set, restrict prev/next to this task")
-):
+def receipt_neighbors(rid: str, task: str | None = Query(None, description="If set, restrict prev/next to this task")):
     items = _load_all_receipts_meta()
     if task:
         items = [x for x in items if (x.get("task") == task)]

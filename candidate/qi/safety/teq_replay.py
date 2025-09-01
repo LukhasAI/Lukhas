@@ -81,9 +81,7 @@ def _verify_attestation_pointer(att: dict[str, Any] | None) -> bool | None:
         return False
 
 
-def _build_teq_context(
-    receipt: dict[str, Any], provenance_record: dict[str, Any] | None
-) -> dict[str, Any]:
+def _build_teq_context(receipt: dict[str, Any], provenance_record: dict[str, Any] | None) -> dict[str, Any]:
     """Construct a minimal context consistent with your TEQ checks."""
     user_id = None
     for a in receipt.get("agents", []):
@@ -102,9 +100,7 @@ def _build_teq_context(
             "sources": ["internal"],
         },
         # Let require_provenance_record pass with just the SHA:
-        "provenance_record_sha": (provenance_record or {}).get("artifact_sha256")
-        if provenance_record
-        else None,
+        "provenance_record_sha": (provenance_record or {}).get("artifact_sha256") if provenance_record else None,
     }
     return ctx
 
@@ -133,9 +129,7 @@ def _task_from_receipt(receipt: dict[str, Any]) -> tuple[str, str | None, str | 
     return task, jurisdiction, context, user
 
 
-def _run_teq(
-    policy_root: str, jurisdiction: str | None, task: str, ctx: dict[str, Any]
-) -> dict[str, Any]:
+def _run_teq(policy_root: str, jurisdiction: str | None, task: str, ctx: dict[str, Any]) -> dict[str, Any]:
     from qi.safety.teq_gate import TEQCoupler
 
     teq = TEQCoupler(policy_dir=policy_root, jurisdiction=jurisdiction or "global")
@@ -220,12 +214,8 @@ def main():
     g.add_argument("--receipt", help="Path to a receipt JSON file")
     ap.add_argument("--policy-root", required=True, help="Path to policy_packs root")
     ap.add_argument("--overlays", help="Path to overlays dir (with overlays.yaml)", default=None)
-    ap.add_argument(
-        "--verify-att", action="store_true", help="Verify receipt attestation signature"
-    )
-    ap.add_argument(
-        "--verify-prov-att", action="store_true", help="Verify provenance attestation signature"
-    )
+    ap.add_argument("--verify-att", action="store_true", help="Verify receipt attestation signature")
+    ap.add_argument("--verify-prov-att", action="store_true", help="Verify provenance attestation signature")
     ap.add_argument("--json", action="store_true", help="Output JSON only")
     args = ap.parse_args()
 

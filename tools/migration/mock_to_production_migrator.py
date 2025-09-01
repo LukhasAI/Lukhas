@@ -189,9 +189,7 @@ class MockToProductionMigrator:
                     "mock_type": mock["type"],
                     "line": mock["line"],
                     "current_code": mock["code"],
-                    "suggested_implementation": self._suggest_implementation(
-                        mock["type"], file_path
-                    ),
+                    "suggested_implementation": self._suggest_implementation(mock["type"], file_path),
                     "complexity": self._estimate_complexity(mock["type"]),
                     "dependencies": self._find_dependencies(mock["type"]),
                 }

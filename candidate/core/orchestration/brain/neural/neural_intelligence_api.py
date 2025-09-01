@@ -29,9 +29,7 @@ app = FastAPI(
 )
 
 # Initialize Lukhas system
-lukhas_system = LukhasNeuralIntelligence(
-    {"enable_dreams": True, "enable_healix": True, "api_mode": True}
-)
+lukhas_system = LukhasNeuralIntelligence({"enable_dreams": True, "enable_healix": True, "api_mode": True})
 
 
 class IntelligenceRequest(BaseModel):

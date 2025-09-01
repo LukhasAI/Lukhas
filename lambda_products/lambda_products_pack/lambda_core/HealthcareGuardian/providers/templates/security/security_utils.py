@@ -24,17 +24,13 @@ class EncryptionHandler:
         """Encrypt data using configured algorithm"""
         # Implementation should use strong encryption
         # This is just a placeholder
-        raise NotImplementedError(
-            "Implement strong encryption according to your security requirements"
-        )
+        raise NotImplementedError("Implement strong encryption according to your security requirements")
 
     def decrypt_data(self, encrypted_data: bytes) -> Any:
         """Decrypt data using configured algorithm"""
         # Implementation should use corresponding decryption
         # This is just a placeholder
-        raise NotImplementedError(
-            "Implement secure decryption according to your security requirements"
-        )
+        raise NotImplementedError("Implement secure decryption according to your security requirements")
 
 
 class AuditLogger:
@@ -44,9 +40,7 @@ class AuditLogger:
         self.config = config
         self.log_path = config.get("audit_log_path")
 
-    def log_access(
-        self, user_id: str, action: str, resource_id: str, details: Optional[dict[str, Any]] = None
-    ) -> None:
+    def log_access(self, user_id: str, action: str, resource_id: str, details: Optional[dict[str, Any]] = None) -> None:
         """Log access to protected health information"""
         timestamp = datetime.utcnow().isoformat()
         log_entry = {

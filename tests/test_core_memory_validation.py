@@ -79,9 +79,7 @@ class TestCoreMemoryValidation:
 
             # Assertions with reasonable expectations
             assert successful_operations >= 15, f"Too many failures: {successful_operations}/25"
-            assert cascade_prevention_rate >= 60, (
-                f"Cascade prevention rate {cascade_prevention_rate}% too low"
-            )
+            assert cascade_prevention_rate >= 60, f"Cascade prevention rate {cascade_prevention_rate}% too low"
 
             if operation_times:
                 assert avg_time < 500, f"Average operation time {avg_time}ms too slow"
@@ -196,9 +194,7 @@ class TestCoreMemoryValidation:
                     "import": "SUCCESS",
                     "instantiate": "SUCCESS",
                     "class": class_name,
-                    "methods": [m for m in dir(instance) if not m.startswith("_")][
-                        :5
-                    ],  # First 5 methods
+                    "methods": [m for m in dir(instance) if not m.startswith("_")][:5],  # First 5 methods
                 }
                 print(f"✅ {module_path}: {class_name} - Working")
 

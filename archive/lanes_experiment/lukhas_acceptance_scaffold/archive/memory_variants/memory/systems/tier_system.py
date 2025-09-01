@@ -108,15 +108,9 @@ class DynamicTierSystem:
     """
 
     def __init__(self):
-        self.access_log_path = (
-            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_access.jsonl"
-        )
-        self.elevation_log_path = (
-            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_elevations.jsonl"
-        )
-        self.audit_log_path = (
-            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_audit.jsonl"
-        )
+        self.access_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_access.jsonl"
+        self.elevation_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_elevations.jsonl"
+        self.audit_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_audit.jsonl"
 
         # Initialize tier permissions matrix
         self.tier_permissions = self._initialize_tier_permissions()
@@ -310,9 +304,7 @@ class DynamicTierSystem:
             )
 
         # Get applicable permissions for current tier
-        applicable_permissions = self._get_applicable_permissions(
-            current_tier, context.resource_scope
-        )
+        applicable_permissions = self._get_applicable_permissions(current_tier, context.resource_scope)
 
         if not applicable_permissions:
             return AccessDecision(
@@ -386,9 +378,7 @@ class DynamicTierSystem:
         # Check session-specific tier
         if session_id and session_id in self.active_sessions:
             session_data = self.active_sessions[session_id]
-            if session_data.get(
-                "expires_at", datetime.min.replace(tzinfo=timezone.utc)
-            ) > datetime.now(timezone.utc):
+            if session_data.get("expires_at", datetime.min.replace(tzinfo=timezone.utc)) > datetime.now(timezone.utc):
                 return TierLevel(session_data["tier_level"])
 
         # Use the proper tier mapping service
@@ -421,9 +411,7 @@ class DynamicTierSystem:
             else:
                 return TierLevel.PUBLIC
 
-    def _get_applicable_permissions(
-        self, tier_level: TierLevel, scope: PermissionScope
-    ) -> list[TierPermission]:
+    def _get_applicable_permissions(self, tier_level: TierLevel, scope: PermissionScope) -> list[TierPermission]:
         """Get permissions applicable to the tier level and scope."""
         if tier_level not in self.tier_permissions:
             return []
@@ -487,10 +475,7 @@ class DynamicTierSystem:
             }
 
         # Check if elevation is allowed
-        if (
-            target_tier in [TierLevel.SYSTEM, TierLevel.ADMIN]
-            and current_tier.value < TierLevel.PRIVILEGED.value
-        ):
+        if target_tier in [TierLevel.SYSTEM, TierLevel.ADMIN] and current_tier.value < TierLevel.PRIVILEGED.value:
             return {
                 "elevation_id": elevation_id,
                 "success": False,
@@ -541,9 +526,7 @@ class DynamicTierSystem:
             "duration_minutes": duration_minutes,
         }
 
-    def _create_audit_entry(
-        self, context: AccessContext, granted: bool, reason: str
-    ) -> dict[str, Any]:
+    def _create_audit_entry(self, context: AccessContext, granted: bool, reason: str) -> dict[str, Any]:
         """Create an audit log entry for access decisions."""
         return {
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
@@ -588,9 +571,7 @@ class DynamicTierSystem:
 
 
 # LUKHAS_TAG: decorator_system
-def lukhas_tier_required(
-    required_tier: TierLevel, scope: PermissionScope = PermissionScope.MEMORY_FOLD
-):
+def lukhas_tier_required(required_tier: TierLevel, scope: PermissionScope = PermissionScope.MEMORY_FOLD):
     """
     Advanced decorator for enforcing tier-based access control.
 
@@ -620,9 +601,7 @@ def lukhas_tier_required(
                     decision_id=decision.decision_id,
                 )
 
-                raise PermissionError(
-                    f"Access denied: {decision.reasoning} (Decision ID: {decision.decision_id})"
-                )
+                raise PermissionError(f"Access denied: {decision.reasoning} (Decision ID: {decision.decision_id})")
 
             # Access granted - proceed with function execution
             logger.debug(
@@ -655,9 +634,7 @@ def _get_tier_system_instance() -> DynamicTierSystem:
     return _tier_system_instance
 
 
-def _extract_access_context(
-    func: Callable, args: tuple, kwargs: dict, scope: PermissionScope
-) -> AccessContext:
+def _extract_access_context(func: Callable, args: tuple, kwargs: dict, scope: PermissionScope) -> AccessContext:
     """Extract access context from function call."""
     # Try to extract context from common parameter patterns
     user_id = kwargs.get("user_id") or kwargs.get("owner_id")

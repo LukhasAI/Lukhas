@@ -295,9 +295,7 @@ class PersonaSimilarityEngine:
             glyph_overlap = len(session_glyphs & persona_glyphs)
 
             # Weighted score
-            weighted_score = (similarity * 0.7) + (
-                glyph_overlap * 0.3 / max(len(persona_glyphs), 1)
-            )
+            weighted_score = (similarity * 0.7) + (glyph_overlap * 0.3 / max(len(persona_glyphs), 1))
 
             similarities.append((persona_name, weighted_score, glyph_overlap))
 
@@ -342,9 +340,7 @@ class PersonaSimilarityEngine:
 
         return matches
 
-    def _calculate_trait_alignment(
-        self, symbolic_trace: dict[str, Any], persona: dict[str, Any]
-    ) -> dict[str, float]:
+    def _calculate_trait_alignment(self, symbolic_trace: dict[str, Any], persona: dict[str, Any]) -> dict[str, float]:
         """Calculate alignment between session state and persona traits"""
         alignment = {}
 
@@ -403,9 +399,7 @@ class PersonaSimilarityEngine:
 
         return "; ".join(explanations)
 
-    def evolve_persona(
-        self, drift_history: list[dict[str, Any]], current_persona: str
-    ) -> dict[str, Any]:
+    def evolve_persona(self, drift_history: list[dict[str, Any]], current_persona: str) -> dict[str, Any]:
         """
         Suggest persona evolution based on drift history.
 
@@ -473,9 +467,7 @@ class PersonaSimilarityEngine:
 
             if top_match.persona_name in evolution_paths:
                 evolution_type = "natural_evolution"
-                rationale = (
-                    f"Natural progression from {current_persona} to {top_match.persona_name}"
-                )
+                rationale = f"Natural progression from {current_persona} to {top_match.persona_name}"
             else:
                 evolution_type = "adaptation"
                 rationale = f"Symbolic state shift suggests adaptation to {top_match.persona_name}"
@@ -622,14 +614,10 @@ class PersonaSimilarityEngine:
             "persona_distribution": persona_frequencies,
             "transitions": transitions,
             "transition_rate": len(transitions) / max(len(session_traces) - 1, 1),
-            "recommendations": self._generate_batch_recommendations(
-                stability, transitions, dominant_persona
-            ),
+            "recommendations": self._generate_batch_recommendations(stability, transitions, dominant_persona),
         }
 
-    def _generate_batch_recommendations(
-        self, stability: float, transitions: list[dict], dominant: str
-    ) -> list[str]:
+    def _generate_batch_recommendations(self, stability: float, transitions: list[dict], dominant: str) -> list[str]:
         """Generate recommendations from batch analysis"""
         recommendations = []
 
@@ -643,9 +631,7 @@ class PersonaSimilarityEngine:
 
         # Check if dominant persona is high-risk
         dominant_profile = self.personas.get(dominant, {})
-        thresholds = dominant_profile.get(
-            "thresholds", dominant_profile.get("drift_thresholds", {})
-        )
+        thresholds = dominant_profile.get("thresholds", dominant_profile.get("drift_thresholds", {}))
         if isinstance(thresholds, dict) and thresholds.get("max", 0) > 0.7:
             recommendations.append(
                 f"Dominant persona '{dominant}' has high drift threshold - ensure Guardian oversight"
@@ -679,15 +665,11 @@ class PersonaSimilarityEngine:
                 "top_match": matches[0].__dict__ if matches else None,
                 "all_matches": [m.__dict__ for m in matches],
                 "embedding_features": list(self.feature_map.keys()),
-                "trinity_alignment": any(
-                    g in self.trinity_core for g in symbolic_trace.get("glyphs", [])
-                ),
+                "trinity_alignment": any(g in self.trinity_core for g in symbolic_trace.get("glyphs", [])),
             },
             "recommendations": {
                 "primary": (matches[0].persona_name if matches else self.fallback_persona),
-                "alternatives": (
-                    [m.persona_name for m in matches[1:4]] if len(matches) > 1 else []
-                ),
+                "alternatives": ([m.persona_name for m in matches[1:4]] if len(matches) > 1 else []),
                 "confidence": matches[0].confidence if matches else "low",
             },
         }

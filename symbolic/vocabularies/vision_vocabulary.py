@@ -747,9 +747,7 @@ class Visionsymbolicvocabulary:
         else:
             return "🔘"  # Gray
 
-    def create_analysis_phrase(
-        self, analysis_type: AnalysisType, provider: VisionProvider, confidence: float
-    ) -> str:
+    def create_analysis_phrase(self, analysis_type: AnalysisType, provider: VisionProvider, confidence: float) -> str:
         """Create a symbolic phrase for visual analysis."""
         analysis_symbol = self.get_symbol_for_analysis_type(analysis_type)
         provider_symbol = self.get_symbol_for_provider(provider)
@@ -801,9 +799,7 @@ class Visionsymbolicvocabulary:
 
         return list(set(symbolic_elements))  # Remove duplicates
 
-    def get_quality_indicators(
-        self, success: bool, confidence: float, processing_time: float
-    ) -> str:
+    def get_quality_indicators(self, success: bool, confidence: float, processing_time: float) -> str:
         """Get quality indicator symbols based on analysis results."""
         symbols = []
 

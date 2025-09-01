@@ -122,9 +122,7 @@ class FullyAutonomousAGI:
                 cycle_results["cost"] += additional_cost
 
             # Update totals
-            self.total_issues_processed += (
-                cycle_results["vulnerabilities_processed"] + cycle_results["workflows_fixed"]
-            )
+            self.total_issues_processed += cycle_results["vulnerabilities_processed"] + cycle_results["workflows_fixed"]
             self.total_prs_created += cycle_results["prs_created"]
             self.total_cost += cycle_results["cost"]
 
@@ -208,9 +206,7 @@ class FullyAutonomousAGI:
                     "workflow_name": workflow,
                     "type": "workflow_failure",
                     "severity": (
-                        "high"
-                        if "security" in workflow.lower() or "critical" in workflow.lower()
-                        else "medium"
+                        "high" if "security" in workflow.lower() or "critical" in workflow.lower() else "medium"
                     ),
                     "description": f"{workflow} workflow run failed for master branch",
                     "url": f"https://github.com/{repo}/actions/runs/{1000 + i}",
@@ -219,9 +215,7 @@ class FullyAutonomousAGI:
 
         return notifications
 
-    def _notification_to_batchable_issue(
-        self, notification: dict[str, Any]
-    ) -> Optional[BatchableIssue]:
+    def _notification_to_batchable_issue(self, notification: dict[str, Any]) -> Optional[BatchableIssue]:
         """Convert a GitHub notification to a batchable issue"""
         if notification["type"] == "workflow_failure":
             return BatchableIssue(
@@ -274,9 +268,7 @@ class FullyAutonomousAGI:
 
         return final_report
 
-    def _generate_final_report(
-        self, start_time: datetime, all_cycles: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _generate_final_report(self, start_time: datetime, all_cycles: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate comprehensive final report"""
         end_time = datetime.now()
         total_duration = (end_time - start_time).total_seconds()
@@ -344,15 +336,9 @@ def main():
         print(f"📊 Issues Processed: {results['performance_metrics']['total_issues_processed']}")
         print(f"🔧 PRs Created: {results['performance_metrics']['total_prs_created']}")
         print(f"💰 Total Cost: ${results['performance_metrics']['total_cost']:.4f}")
-        print(
-            f"⚡ Processing Rate: {results['performance_metrics']['issues_per_second']:.2f} issues/sec"
-        )
-        print(
-            f"🔄 Batch Efficiency: ${results['batch_processing']['batch_efficiency']:.4f} per issue"
-        )
-        print(
-            f"⏱️  Total Duration: {results['autonomous_session']['total_duration_seconds']:.1f} seconds"
-        )
+        print(f"⚡ Processing Rate: {results['performance_metrics']['issues_per_second']:.2f} issues/sec")
+        print(f"🔄 Batch Efficiency: ${results['batch_processing']['batch_efficiency']:.4f} per issue")
+        print(f"⏱️  Total Duration: {results['autonomous_session']['total_duration_seconds']:.1f} seconds")
         print("=" * 60)
 
     else:

@@ -129,9 +129,7 @@ class LambdaIDService:
         self.generated_ids = set()  # In-memory collision prevention
         self.rate_limiters = {}  # Rate limiting by user/IP
 
-        logger.info(
-            f"ΛiD Service initialized with {len(self.tier_config['tier_permissions'])} tiers"
-        )
+        logger.info(f"ΛiD Service initialized with {len(self.tier_config['tier_permissions'])} tiers")
 
     def generate_lambda_id(
         self,
@@ -171,16 +169,12 @@ class LambdaIDService:
                 )
 
             # Generate ΛiD components
-            lambda_id = self._generate_id_components(
-                tier_level, user_context, symbolic_preference, custom_options
-            )
+            lambda_id = self._generate_id_components(tier_level, user_context, symbolic_preference, custom_options)
 
             # Collision prevention
             if self._check_collision(lambda_id):
                 logger.warning(f"Collision detected for {lambda_id}, regenerating...")
-                return self._handle_collision(
-                    tier_level, user_context, symbolic_preference, custom_options
-                )
+                return self._handle_collision(tier_level, user_context, symbolic_preference, custom_options)
 
             # Calculate entropy score
             entropy_score = self._calculate_entropy(lambda_id, tier_level)
@@ -279,9 +273,7 @@ class LambdaIDService:
             elif validation_level == ValidationLevel.STANDARD:
                 result.valid = result.format_valid and result.tier_compliant
             else:  # FULL
-                result.valid = (
-                    result.format_valid and result.tier_compliant and result.collision_free
-                )
+                result.valid = result.format_valid and result.tier_compliant and result.collision_free
 
             return result
 
@@ -294,9 +286,7 @@ class LambdaIDService:
                 errors=[f"Validation error: {e!s}"],
             )
 
-    def calculate_entropy_score(
-        self, symbolic_input: list[str], tier: Union[int, TierLevel]
-    ) -> float:
+    def calculate_entropy_score(self, symbolic_input: list[str], tier: Union[int, TierLevel]) -> float:
         """
         Calculate entropy score for symbolic input.
 
@@ -622,22 +612,16 @@ class LambdaIDService:
                 }
             )
 
-    def _log_generation_event(
-        self, lambda_id: str, tier: int, user_context: Optional[UserContext]
-    ) -> None:
+    def _log_generation_event(self, lambda_id: str, tier: int, user_context: Optional[UserContext]) -> None:
         """Log ΛiD generation event"""
         logger.info(f"ΛiD Generated: {lambda_id} (Tier {tier})")
 
-    def _check_automatic_upgrade(
-        self, upgrade_key: str, user_context: Optional[UserContext]
-    ) -> dict[str, Any]:
+    def _check_automatic_upgrade(self, upgrade_key: str, user_context: Optional[UserContext]) -> dict[str, Any]:
         """Check automatic upgrade eligibility"""
         # TODO: Implement automatic upgrade logic
         return {"eligible": False, "reason": "Not implemented"}
 
-    def _check_manual_upgrade(
-        self, upgrade_key: str, user_context: Optional[UserContext]
-    ) -> dict[str, Any]:
+    def _check_manual_upgrade(self, upgrade_key: str, user_context: Optional[UserContext]) -> dict[str, Any]:
         """Check manual upgrade eligibility"""
         # TODO: Implement manual upgrade logic
         return {"eligible": False, "reason": "Not implemented"}
@@ -647,9 +631,7 @@ class LambdaIDService:
 _lambda_id_service = None
 
 
-def get_lambda_id_service(
-    config_path: Optional[str] = None, database_adapter=None
-) -> LambdaIDService:
+def get_lambda_id_service(config_path: Optional[str] = None, database_adapter=None) -> LambdaIDService:
     """Get singleton ΛiD service instance"""
     global _lambda_id_service
     if _lambda_id_service is None:

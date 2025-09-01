@@ -545,9 +545,7 @@ class VoiceEffectsProcessor:
                 ),
                 (
                     VoiceEffectType.PITCH_SHIFT,
-                    EffectParameters(
-                        intensity=EffectIntensity.MODERATE, mix=0.8, custom_params={"semitones": -5}
-                    ),
+                    EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.8, custom_params={"semitones": -5}),
                 ),
             ],
             "ethereal": [
@@ -561,9 +559,7 @@ class VoiceEffectsProcessor:
                 ),
                 (
                     VoiceEffectType.PITCH_SHIFT,
-                    EffectParameters(
-                        intensity=EffectIntensity.SUBTLE, mix=0.3, custom_params={"semitones": 7}
-                    ),
+                    EffectParameters(intensity=EffectIntensity.SUBTLE, mix=0.3, custom_params={"semitones": 7}),
                 ),
             ],
             "vintage": [
@@ -606,9 +602,7 @@ class VoiceEffectsProcessor:
             )
 
             if not validation_result.get("approved", False):
-                self.logger.warning(
-                    f"Guardian rejected effect {effect_type.value}: {validation_result.get('reason')}"
-                )
+                self.logger.warning(f"Guardian rejected effect {effect_type.value}: {validation_result.get('reason')}")
                 return buffer
 
             if effect_type not in self.effects:
@@ -711,9 +705,7 @@ class VoiceEffectsProcessor:
         """Get total latency for effect chain"""
         return sum(self.get_effect_latency(effect_type) for effect_type in effect_chain)
 
-    def add_custom_preset(
-        self, name: str, effect_chain: list[tuple[VoiceEffectType, EffectParameters]]
-    ):
+    def add_custom_preset(self, name: str, effect_chain: list[tuple[VoiceEffectType, EffectParameters]]):
         """Add custom preset"""
         self.presets[name] = effect_chain
         self.logger.info(f"Added custom preset: {name}")
@@ -750,9 +742,7 @@ async def apply_voice_effect(
 
     # Convert bytes to AudioBuffer
     audio_array = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
-    buffer = AudioBuffer(
-        data=audio_array, sample_rate=sample_rate, channels=1, format=AudioFormat.PCM_16
-    )
+    buffer = AudioBuffer(data=audio_array, sample_rate=sample_rate, channels=1, format=AudioFormat.PCM_16)
 
     # Apply effect
     parameters = EffectParameters(intensity=intensity, mix=mix)
@@ -785,9 +775,7 @@ async def apply_voice_preset(
 
     # Convert bytes to AudioBuffer
     audio_array = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
-    buffer = AudioBuffer(
-        data=audio_array, sample_rate=sample_rate, channels=1, format=AudioFormat.PCM_16
-    )
+    buffer = AudioBuffer(data=audio_array, sample_rate=sample_rate, channels=1, format=AudioFormat.PCM_16)
 
     # Apply preset
     result_buffer = await processor.apply_preset(buffer, preset_name, intensity_override)

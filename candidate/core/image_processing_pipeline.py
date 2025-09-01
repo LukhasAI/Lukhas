@@ -158,9 +158,7 @@ class ImageProcessingColony:
         self._running = True
 
         # Create supervisor actor
-        self.supervisor = ColonySupervisor(
-            f"{self.colony_name}_supervisor", self.stage, self.event_bus
-        )
+        self.supervisor = ColonySupervisor(f"{self.colony_name}_supervisor", self.stage, self.event_bus)
 
         # Create worker actors
         for i in range(self.num_workers):
@@ -207,9 +205,7 @@ class ImageProcessingColony:
             self.event_bus.subscribe(EventType.IMAGE_VALIDATED.value, self._handle_event)
 
         # All colonies can respond to call for proposals
-        self.event_bus.subscribe(
-            EventType.CALL_FOR_PROPOSALS.value, self._handle_call_for_proposals
-        )
+        self.event_bus.subscribe(EventType.CALL_FOR_PROPOSALS.value, self._handle_call_for_proposals)
 
     def _handle_event(self, event_type: str, event_data: dict[str, Any]) -> None:
         """Handle incoming events"""
@@ -574,9 +570,7 @@ class FeatureExtractionColony(ImageProcessingColony):
                 features = {
                     "mean_rgb": img_array.mean(axis=(0, 1)).tolist(),
                     "std_rgb": img_array.std(axis=(0, 1)).tolist(),
-                    "histogram": [
-                        np.histogram(img_array[:, :, i], bins=8)[0].tolist() for i in range(3)
-                    ],
+                    "histogram": [np.histogram(img_array[:, :, i], bins=8)[0].tolist() for i in range(3)],
                 }
 
                 # In real implementation, would use CNN features
@@ -842,9 +836,7 @@ class ImageProcessingPipeline:
         self._running = False
         logger.info("Image processing pipeline stopped")
 
-    async def process_image(
-        self, image_path: str, metadata: Optional[dict[str, Any]] = None
-    ) -> str:
+    async def process_image(self, image_path: str, metadata: Optional[dict[str, Any]] = None) -> str:
         """
         Process a new image through the pipeline.
         Returns correlation ID for tracking.
@@ -908,9 +900,7 @@ async def simulate_image_upload(pipeline: ImageProcessingPipeline, num_images: i
             img.save(image_path)
 
         # Process image
-        correlation_id = await pipeline.process_image(
-            image_path, metadata={"source": "test", "batch": i // 2}
-        )
+        correlation_id = await pipeline.process_image(image_path, metadata={"source": "test", "batch": i // 2})
         correlation_ids.append(correlation_id)
 
         # Small delay between uploads

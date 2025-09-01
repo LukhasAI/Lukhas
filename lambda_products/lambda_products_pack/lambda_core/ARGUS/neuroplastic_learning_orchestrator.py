@@ -444,8 +444,7 @@ class NeuroplasticLearningOrchestrator:
             1.0,
             max(
                 0.0,
-                sum(g.progress for g in self.learning_goals.values())
-                / (len(self.learning_goals) or 1),
+                sum(g.progress for g in self.learning_goals.values()) / (len(self.learning_goals) or 1),
             ),
         )
 
@@ -594,9 +593,7 @@ class NeuroplasticLearningOrchestrator:
         rule = AdaptationRule(
             trigger_type=trigger_type,
             priority=getattr(AdaptationPriority, "MEDIUM", AdaptationPriority(3)),
-            strategy=getattr(
-                AdaptationStrategy, "EXPERIMENTAL", AdaptationStrategy("experimental")
-            ),
+            strategy=getattr(AdaptationStrategy, "EXPERIMENTAL", AdaptationStrategy("experimental")),
             conditions={"hypothesis": hypothesis},
         )
         trigger_event = PlasticityEvent(trigger_type=trigger_type, reason=hypothesis)
@@ -621,9 +618,7 @@ class NeuroplasticLearningOrchestrator:
         # Find applicable insights for current situation
         current_context = MetricContext.NORMAL_OPERATION  # Would get from system
         applicable_insights = [
-            insight
-            for insight in self.learning_insights.values()
-            if current_context in insight.applicable_contexts
+            insight for insight in self.learning_insights.values() if current_context in insight.applicable_contexts
         ]
 
         # Apply high-confidence insights
@@ -670,9 +665,7 @@ class NeuroplasticLearningOrchestrator:
     async def _start_queued_experiments(self):
         """Start experiments from the queue"""
 
-        while (
-            len(self.active_experiments) < self.max_concurrent_experiments and self.experiment_queue
-        ):
+        while len(self.active_experiments) < self.max_concurrent_experiments and self.experiment_queue:
             experiment = self.experiment_queue.popleft()
 
             if await self._is_experiment_safe_to_start(experiment):
@@ -743,17 +736,13 @@ class NeuroplasticLearningOrchestrator:
         experiment.actual_outcomes = await self._collect_experiment_outcomes(experiment)
 
         # Calculate statistical significance
-        experiment.statistical_significance = await self._calculate_statistical_significance(
-            experiment
-        )
+        experiment.statistical_significance = await self._calculate_statistical_significance(experiment)
 
         # Generate conclusions
         experiment.conclusions = await self._generate_experiment_conclusions(experiment)
 
         # Assess generalization potential
-        experiment.generalization_potential = await self._assess_generalization_potential(
-            experiment
-        )
+        experiment.generalization_potential = await self._assess_generalization_potential(experiment)
 
         # Store completed experiment
         self.completed_experiments.append(experiment)
@@ -765,19 +754,13 @@ class NeuroplasticLearningOrchestrator:
             conclusions=len(experiment.conclusions),
         )
 
-    async def _collect_experiment_outcomes(
-        self, experiment: "AdaptationExperiment"
-    ) -> dict[str, float]:
+    async def _collect_experiment_outcomes(self, experiment: "AdaptationExperiment") -> dict[str, float]:
         return {"system_performance": 0.6}
 
-    async def _calculate_statistical_significance(
-        self, experiment: "AdaptationExperiment"
-    ) -> float:
+    async def _calculate_statistical_significance(self, experiment: "AdaptationExperiment") -> float:
         return 0.75
 
-    async def _generate_experiment_conclusions(
-        self, experiment: "AdaptationExperiment"
-    ) -> list[str]:
+    async def _generate_experiment_conclusions(self, experiment: "AdaptationExperiment") -> list[str]:
         return ["Adaptation improved performance"]
 
     async def _assess_generalization_potential(self, experiment: "AdaptationExperiment") -> float:
@@ -895,9 +878,7 @@ class NeuroplasticLearningOrchestrator:
         pattern_key = f"{pattern.context}_{pattern.relationship_type}"
         self.adaptation_patterns[pattern_key] = pattern_signature
 
-    async def _extract_insight_from_experiment(
-        self, experiment: AdaptationExperiment
-    ) -> Optional[LearningInsight]:
+    async def _extract_insight_from_experiment(self, experiment: AdaptationExperiment) -> Optional[LearningInsight]:
         """Extract learning insight from completed experiment"""
 
         if experiment.statistical_significance < 0.5:
@@ -1016,9 +997,7 @@ class NeuroplasticLearningOrchestrator:
 
         return None  # Would return actual plan
 
-    async def create_learning_experiment(
-        self, experiment_type: str, context: dict[str, Any]
-    ) -> "AdaptationExperiment":
+    async def create_learning_experiment(self, experiment_type: str, context: dict[str, Any]) -> "AdaptationExperiment":
         """Compatibility: create a simple learning experiment object."""
         # Map experiment_type to a trigger
         etype = experiment_type.lower()
@@ -1032,14 +1011,10 @@ class NeuroplasticLearningOrchestrator:
         rule = AdaptationRule(
             trigger_type=trig,
             priority=getattr(AdaptationPriority, "MEDIUM", AdaptationPriority(3)),
-            strategy=getattr(
-                AdaptationStrategy, "EXPERIMENTAL", AdaptationStrategy("experimental")
-            ),
+            strategy=getattr(AdaptationStrategy, "EXPERIMENTAL", AdaptationStrategy("experimental")),
             conditions={"context_keys": list(context.keys())[:3]},
         )
-        trigger_event = PlasticityEvent(
-            trigger_type=trig, reason=f"experiment_type={experiment_type}"
-        )
+        trigger_event = PlasticityEvent(trigger_type=trig, reason=f"experiment_type={experiment_type}")
         plan = AdaptationPlan(rule=rule, trigger_event=trigger_event)
 
         exp = AdaptationExperiment(
@@ -1072,21 +1047,13 @@ class NeuroplasticLearningOrchestrator:
         """Compatibility: consolidate provided learning data and return summary."""
         experiments = learning_data.get("experiment_results", [])
         items = len(experiments) + len(learning_data.get("pattern_discoveries", []))
-        success_rate = (
-            sum(1 for e in experiments if e.get("success")) / len(experiments)
-            if experiments
-            else 0.0
-        )
+        success_rate = sum(1 for e in experiments if e.get("success")) / len(experiments) if experiments else 0.0
         return {"items_consolidated": items, "success_rate": success_rate}
 
-    async def apply_transfer_learning(
-        self, source_context: str, target_context: str
-    ) -> dict[str, Any]:
+    async def apply_transfer_learning(self, source_context: str, target_context: str) -> dict[str, Any]:
         """Compatibility: simulate transfer learning between contexts."""
         success = source_context != target_context
-        transfers = self.transfer_learner.transfer_knowledge(
-            MetricContext.LEARNING_MODE, MetricContext.PROBLEM_SOLVING
-        )
+        transfers = self.transfer_learner.transfer_knowledge(MetricContext.LEARNING_MODE, MetricContext.PROBLEM_SOLVING)
         return {"success": success or bool(transfers)}
 
     async def optimize_meta_learning(self) -> dict[str, Any]:
@@ -1283,9 +1250,7 @@ class TransferLearner:
     def __init__(self):
         self.context_similarities: dict[tuple[MetricContext, MetricContext], float] = {}
 
-    def calculate_context_similarity(
-        self, context1: MetricContext, context2: MetricContext
-    ) -> float:
+    def calculate_context_similarity(self, context1: MetricContext, context2: MetricContext) -> float:
         """Calculate similarity between contexts"""
 
         # Simple similarity calculation (would be more sophisticated)
@@ -1303,9 +1268,7 @@ class TransferLearner:
 
         return similarity_map.get((context1, context2), 0.1)
 
-    def transfer_knowledge(
-        self, source_context: MetricContext, target_context: MetricContext
-    ) -> list[str]:
+    def transfer_knowledge(self, source_context: MetricContext, target_context: MetricContext) -> list[str]:
         """Transfer knowledge from source to target context"""
 
         similarity = self.calculate_context_similarity(source_context, target_context)

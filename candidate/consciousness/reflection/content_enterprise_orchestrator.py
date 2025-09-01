@@ -208,9 +208,7 @@ class ServiceRegistry:
             except (ImportError, ConnectionError, Exception) as e:
                 logger.warning(f"Failed to initialize etcd client: {e}")
 
-    def register_service(
-        self, name: str, host: str, port: int, metadata: dict[str, Any] = None
-    ) -> bool:
+    def register_service(self, name: str, host: str, port: int, metadata: dict[str, Any] = None) -> bool:
         """Register a service"""
         service_info = {
             "name": name,
@@ -370,8 +368,7 @@ class AutoScaler:
                 action=ScalingAction.SCALE_DOWN,
                 current_instances=current_instances,
                 target_instances=max(current_instances - 1, 1),
-                reason=f"Low resource usage: CPU={metrics.cpu_usage}%, "
-                f"Memory={metrics.memory_usage}%",
+                reason=f"Low resource usage: CPU={metrics.cpu_usage}%, " f"Memory={metrics.memory_usage}%",
                 confidence=0.7,
             )
 
@@ -517,9 +514,7 @@ class TaskQueue:
             return None
 
         # Sort by priority
-        sorted_tasks = sorted(
-            self.tasks, key=lambda t: self._get_priority_value(t.priority), reverse=True
-        )
+        sorted_tasks = sorted(self.tasks, key=lambda t: self._get_priority_value(t.priority), reverse=True)
 
         task = sorted_tasks[0]
         self.tasks.remove(task)
@@ -703,9 +698,7 @@ class ContentEnterpriseOrchestrator:
 
             # Initialize new enterprise modules
             if self.config["services"].get("performance_intelligence", {}).get("enabled", True):
-                self.enterprise_modules["performance_intelligence"] = (
-                    ContentPerformanceIntelligence()
-                )
+                self.enterprise_modules["performance_intelligence"] = ContentPerformanceIntelligence()
                 self.logger.info("✅ Performance Intelligence module initialized")
 
             if self.config["services"].get("communication_hub", {}).get("enabled", True):
@@ -713,16 +706,12 @@ class ContentEnterpriseOrchestrator:
                 self.logger.info("✅ Communication Hub module initialized")
 
             if self.config["services"].get("localization_engine", {}).get("enabled", True):
-                self.enterprise_modules["localization_engine"] = (
-                    lukhasContentGlobalLocalizationEngine()
-                )
+                self.enterprise_modules["localization_engine"] = lukhasContentGlobalLocalizationEngine()
                 self.logger.info("✅ Global Localization Engine initialized")
 
             # Create circuit breakers for each module
             for service_name in self.enterprise_modules:
-                self.circuit_breakers[service_name] = CircuitBreaker(
-                    failure_threshold=5, timeout=60
-                )
+                self.circuit_breakers[service_name] = CircuitBreaker(failure_threshold=5, timeout=60)
 
         except Exception as e:
             self.logger.error(f"❌ Failed to initialize enterprise modules: {e}")
@@ -914,10 +903,7 @@ class ContentEnterpriseOrchestrator:
     async def _execute_scaling_decision(self, decision: ScalingDecision):
         """Execute auto-scaling decision"""
         try:
-            self.logger.info(
-                f"🔄 Executing scaling decision for {decision.service_name}: "
-                f"{decision.action.value}"
-            )
+            self.logger.info(f"🔄 Executing scaling decision for {decision.service_name}: " f"{decision.action.value}")
 
             # Create scaling task
             scaling_task = OrchestrationTask(
@@ -1011,9 +997,7 @@ class ContentEnterpriseOrchestrator:
     def get_orchestration_status(self) -> dict[str, Any]:
         """Get current orchestration status"""
         total_services = len(self.enterprise_modules)
-        healthy_services = sum(
-            1 for health in self.service_health.values() if health.status == ServiceStatus.HEALTHY
-        )
+        healthy_services = sum(1 for health in self.service_health.values() if health.status == ServiceStatus.HEALTHY)
 
         return {
             "orchestrator_status": "running" if self.running else "stopped",
@@ -1034,9 +1018,7 @@ class ContentEnterpriseOrchestrator:
             "metrics_summary": {
                 name: {
                     "cpu_avg": (sum(m.cpu_usage for m in metrics) / len(metrics) if metrics else 0),
-                    "memory_avg": (
-                        sum(m.memory_usage for m in metrics) / len(metrics) if metrics else 0
-                    ),
+                    "memory_avg": (sum(m.memory_usage for m in metrics) / len(metrics) if metrics else 0),
                     "error_rate": metrics[-1].error_rate if metrics else 0,
                 }
                 for name, metrics in self.service_metrics.items()

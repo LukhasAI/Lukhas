@@ -135,9 +135,7 @@ class TemporalDynamicsModel:
         self.causality_graph = {}
         self.time_series_models = {}
 
-    async def model_temporal_dynamics(
-        self, history: list[WorldState], prediction_horizon: timedelta
-    ) -> dict[str, Any]:
+    async def model_temporal_dynamics(self, history: list[WorldState], prediction_horizon: timedelta) -> dict[str, Any]:
         """Model temporal dynamics from historical states"""
         try:
             if len(history) < 2:
@@ -184,9 +182,7 @@ class TemporalDynamicsModel:
 
                     if entity_id not in patterns["trends"]:
                         patterns["trends"][entity_id] = []
-                    patterns["trends"][entity_id].append(
-                        {"time_delta": time_diff, "changes": changes}
-                    )
+                    patterns["trends"][entity_id].append({"time_delta": time_diff, "changes": changes})
 
         return patterns
 
@@ -246,12 +242,8 @@ class TemporalDynamicsModel:
                 and entity_b in next_state.entities
             ):
                 # Check if change in entity_a correlates with change in entity_b
-                changes_a = self._calculate_entity_changes(
-                    prev_state.entities[entity_a], curr_state.entities[entity_a]
-                )
-                changes_b = self._calculate_entity_changes(
-                    curr_state.entities[entity_b], next_state.entities[entity_b]
-                )
+                changes_a = self._calculate_entity_changes(prev_state.entities[entity_a], curr_state.entities[entity_a])
+                changes_b = self._calculate_entity_changes(curr_state.entities[entity_b], next_state.entities[entity_b])
 
                 if changes_a and changes_b:
                     # Simple correlation: if both have significant changes, consider
@@ -267,9 +259,7 @@ class TemporalDynamicsModel:
         except Exception:
             return 0.0
 
-    async def _predict_trends(
-        self, history: list[WorldState], prediction_horizon: timedelta
-    ) -> dict[str, Any]:
+    async def _predict_trends(self, history: list[WorldState], prediction_horizon: timedelta) -> dict[str, Any]:
         """Predict future trends based on historical data"""
         trends = {}
 
@@ -287,15 +277,11 @@ class TemporalDynamicsModel:
 
         return trends
 
-    def _calculate_linear_trend(
-        self, states: list[WorldState], entity_id: str
-    ) -> Optional[dict[str, Any]]:
+    def _calculate_linear_trend(self, states: list[WorldState], entity_id: str) -> Optional[dict[str, Any]]:
         """Calculate linear trend for entity"""
         try:
             entity_data = [state.entities[entity_id] for state in states]
-            time_points = [
-                (state.timestamp - states[0].timestamp).total_seconds() for state in states
-            ]
+            time_points = [(state.timestamp - states[0].timestamp).total_seconds() for state in states]
 
             trends = {}
 
@@ -327,8 +313,7 @@ class TemporalDynamicsModel:
         # Decrease confidence if states are too far apart in time
         if len(history) > 1:
             avg_gap = sum(
-                (history[i].timestamp - history[i - 1].timestamp).total_seconds()
-                for i in range(1, len(history))
+                (history[i].timestamp - history[i - 1].timestamp).total_seconds() for i in range(1, len(history))
             ) / (len(history) - 1)
 
             if avg_gap > 3600:  # More than 1 hour gaps
@@ -463,9 +448,7 @@ class WorldModels:
 
             # Apply physics simulation if enabled
             if self.config["physics_enabled"]:
-                simulated_state = await self.physics_engine.simulate_physics(
-                    simulated_state, duration.total_seconds()
-                )
+                simulated_state = await self.physics_engine.simulate_physics(simulated_state, duration.total_seconds())
 
             # Apply temporal dynamics
             if self.config["temporal_modeling_enabled"] and len(self.world_states) > 1:
@@ -522,11 +505,7 @@ class WorldModels:
                     entity = new_state.entities[entity_id]
 
                     for property_name, trend_data in trends.items():
-                        if (
-                            property_name in entity
-                            and isinstance(trend_data, dict)
-                            and "slope" in trend_data
-                        ):
+                        if property_name in entity and isinstance(trend_data, dict) and "slope" in trend_data:
                             current_value = entity[property_name]
                             if isinstance(current_value, (int, float)):
                                 predicted_change = trend_data["slope"] * duration_seconds
@@ -538,9 +517,7 @@ class WorldModels:
             logger.error(f"Failed to apply temporal predictions: {e}")
             return state
 
-    def _calculate_simulation_confidence(
-        self, accuracy: SimulationAccuracy, duration: timedelta
-    ) -> float:
+    def _calculate_simulation_confidence(self, accuracy: SimulationAccuracy, duration: timedelta) -> float:
         """Calculate confidence for simulation result"""
         base_confidence = accuracy.value
 

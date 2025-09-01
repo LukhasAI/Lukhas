@@ -275,9 +275,7 @@ class CollapseEntropyTracker:
 
         return field
 
-    def calculate_entropy_slope(
-        self, field_id: str, time_window: Optional[timedelta] = None
-    ) -> float:
+    def calculate_entropy_slope(self, field_id: str, time_window: Optional[timedelta] = None) -> float:
         """
         Calculate the rate of entropy change (slope) for a field.
 
@@ -303,8 +301,7 @@ class CollapseEntropyTracker:
 
         # Calculate linear regression slope
         times = [
-            (m["timestamp"] - recent_measurements[0]["timestamp"]).total_seconds() / 60
-            for m in recent_measurements
+            (m["timestamp"] - recent_measurements[0]["timestamp"]).total_seconds() / 60 for m in recent_measurements
         ]
         values = [m["value"] for m in recent_measurements]
 
@@ -394,14 +391,10 @@ class CollapseEntropyTracker:
                 time_to_cascade = timedelta(minutes=minutes_to_cascade)
 
         # Generate recommendations
-        recommendations = self._generate_recommendations(
-            overall_phase, risk_factors, entropy_trend, active_fields
-        )
+        recommendations = self._generate_recommendations(overall_phase, risk_factors, entropy_trend, active_fields)
 
         # Calculate confidence
-        confidence = self._calculate_assessment_confidence(
-            len(active_fields), len(self.entropy_history)
-        )
+        confidence = self._calculate_assessment_confidence(len(active_fields), len(self.entropy_history))
 
         assessment = CollapseRiskAssessment(
             overall_risk=overall_risk,
@@ -722,9 +715,7 @@ class CollapseEntropyTracker:
             "assessments_performed": self.metrics["assessments_performed"],
             "current_state": {
                 "max_entropy": max((f.entropy for f in active_fields), default=0.0),
-                "avg_entropy": (
-                    np.mean([f.entropy for f in active_fields]) if active_fields else 0.0
-                ),
+                "avg_entropy": (np.mean([f.entropy for f in active_fields]) if active_fields else 0.0),
                 "max_collapse_score": max((f.collapse_score for f in active_fields), default=0.0),
                 "phase_distribution": self._get_phase_distribution(active_fields),
             },

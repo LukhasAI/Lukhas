@@ -26,9 +26,7 @@ logger = logging.getLogger(__name__)
 class ThreatIndicator:
     """Enhanced threat indicator with governance and Trinity Framework context"""
 
-    indicator_type: (
-        str  # drift_spike, entropy_surge, pattern_anomaly, governance_drift, trinity_desync
-    )
+    indicator_type: str  # drift_spike, entropy_surge, pattern_anomaly, governance_drift, trinity_desync
     severity: float  # 0.0 to 1.0
     source: str
     timestamp: datetime
@@ -357,9 +355,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                     instability = unique_states / 10.0
 
                     # Factor in coherence and Trinity alignment
-                    adjusted_instability = (
-                        instability * (2.0 - coherence_level) * (2.0 - trinity_alignment)
-                    )
+                    adjusted_instability = instability * (2.0 - coherence_level) * (2.0 - trinity_alignment)
 
                     if adjusted_instability > self.THRESHOLDS["consciousness_instability"]:
                         await self._raise_threat(
@@ -505,9 +501,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 )
 
                 # Update Trinity component status
-                overall_identity_health = (
-                    identity_integrity + auth_system_health + identity_coherence
-                ) / 3
+                overall_identity_health = (identity_integrity + auth_system_health + identity_coherence) / 3
                 self.trinity_components["identity"]["health"] = overall_identity_health
                 self.trinity_components["identity"]["last_check"] = time.time()
 
@@ -557,9 +551,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 )
 
                 # Update Trinity component status
-                overall_guardian_health = (
-                    guardian_effectiveness + protection_coverage + response_capability
-                ) / 3
+                overall_guardian_health = (guardian_effectiveness + protection_coverage + response_capability) / 3
                 self.trinity_components["guardian"]["health"] = overall_guardian_health
                 self.trinity_components["guardian"]["last_check"] = time.time()
 
@@ -628,10 +620,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         # Trigger intervention if critical
         if (
             threat.severity >= self.SEVERITY_LEVELS["critical"]
-            or (
-                threat.severity >= self.SEVERITY_LEVELS["governance_critical"]
-                and threat.governance_escalation
-            )
+            or (threat.severity >= self.SEVERITY_LEVELS["governance_critical"] and threat.governance_escalation)
             or (
                 threat.severity >= self.SEVERITY_LEVELS["trinity_critical"]
                 and max(threat.trinity_impact.values()) > 0.8
@@ -667,9 +656,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
 
     async def _handle_trinity_critical_threat(self, threat: ThreatIndicator):
         """Handle Trinity Framework critical threats"""
-        critical_components = [
-            comp for comp, impact in threat.trinity_impact.items() if impact > 0.8
-        ]
+        critical_components = [comp for comp, impact in threat.trinity_impact.items() if impact > 0.8]
 
         logger.critical(f"⚛️🧠🛡️ TRINITY CRITICAL THREAT: {threat.indicator_type}")
         logger.critical(f"   Critical components: {', '.join(critical_components)}")
@@ -738,9 +725,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
             "parameters": {"dampening_factor": 0.5, "duration_seconds": 60},
             "expected_result": "Drift rate reduction",
             "governance_approved": self.governance_enabled,
-            "trinity_adjustments": {
-                comp: max(0.1, 1.0 - impact) for comp, impact in threat.trinity_impact.items()
-            },
+            "trinity_adjustments": {comp: max(0.1, 1.0 - impact) for comp, impact in threat.trinity_impact.items()},
         }
 
     async def _intervene_entropy_surge(self, threat: ThreatIndicator) -> dict:
@@ -1002,9 +987,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
 
     def get_enhanced_threat_report(self) -> dict:
         """Generate enhanced threat analysis report with governance and Trinity metrics"""
-        active_count = len(
-            [t for t in self.active_threats if (datetime.utcnow() - t.timestamp).seconds < 300]
-        )
+        active_count = len([t for t in self.active_threats if (datetime.utcnow() - t.timestamp).seconds < 300])
 
         # Enhanced severity distribution
         severity_dist = {}

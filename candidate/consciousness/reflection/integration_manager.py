@@ -31,9 +31,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("LukhasAGIIntegration")
 
 
@@ -263,9 +261,7 @@ class LukhasAGIIntegrationManager:
 
         logger.info(" Background orchestration started")
 
-    async def process_unified_request(
-        self, user_input: str, context: Optional[dict] = None
-    ) -> dict[str, Any]:
+    async def process_unified_request(self, user_input: str, context: Optional[dict] = None) -> dict[str, Any]:
         """
         Process a request through the unified AGI system
 
@@ -283,17 +279,15 @@ class LukhasAGIIntegrationManager:
             # Stage 1: AGI Orchestrator processing
             agi_result = None
             if "agi_orchestrator" in self.components:
-                agi_result = await self.components["agi_orchestrator"].process_agi_request(
-                    user_input, context
-                )
+                agi_result = await self.components["agi_orchestrator"].process_agi_request(user_input, context)
                 logger.info(" AGI orchestrator processing complete")
 
             # Stage 2: Cognitive enhancement processing
             cognitive_result = None
             if "cognitive_enhancement" in self.components:
-                cognitive_result = await self.components[
-                    "cognitive_enhancement"
-                ].enhance_cognitive_processing(user_input, context)
+                cognitive_result = await self.components["cognitive_enhancement"].enhance_cognitive_processing(
+                    user_input, context
+                )
                 logger.info(" Cognitive enhancement processing complete")
 
             # Stage 3: Brain orchestration processing
@@ -305,9 +299,7 @@ class LukhasAGIIntegrationManager:
                     "agi_insights": agi_result,
                     "cognitive_insights": cognitive_result,
                 }
-                brain_result = await self.components["brain_orchestrator"].orchestrate_processing(
-                    brain_input
-                )
+                brain_result = await self.components["brain_orchestrator"].orchestrate_processing(brain_input)
                 logger.info(" Brain orchestration processing complete")
 
             # Stage 4: GitHub App AGI processing
@@ -345,9 +337,7 @@ class LukhasAGIIntegrationManager:
                 "integration_status": self.integration_status,
             }
 
-    async def _process_through_github_agi(
-        self, user_input, context, agi_result, cognitive_result, brain_result
-    ):
+    async def _process_through_github_agi(self, user_input, context, agi_result, cognitive_result, brain_result):
         """Process through GitHub App AGI capabilitie"""
 
         github_agi = self.components.get("github_app_agi")
@@ -364,17 +354,11 @@ class LukhasAGIIntegrationManager:
         }
 
         # Process through GitHub AGI engines
-        meta_cognitive_result = (
-            await github_agi.meta_cognitive_engine.process_meta_cognitive_awareness(combined_input)
-        )
+        meta_cognitive_result = await github_agi.meta_cognitive_engine.process_meta_cognitive_awareness(combined_input)
 
-        causal_result = await github_agi.causal_reasoning_engine.analyze_causal_relationships(
-            combined_input
-        )
+        causal_result = await github_agi.causal_reasoning_engine.analyze_causal_relationships(combined_input)
 
-        theory_of_mind_result = await github_agi.theory_of_mind_engine.analyze_user_mental_state(
-            combined_input
-        )
+        theory_of_mind_result = await github_agi.theory_of_mind_engine.analyze_user_mental_state(combined_input)
 
         return {
             "meta_cognitive": meta_cognitive_result,
@@ -410,12 +394,8 @@ class LukhasAGIIntegrationManager:
             },
             "system_state": {
                 "integration_active": self.integration_active,
-                "active_components": [
-                    k for k, v in self.integration_status.items() if v == "active"
-                ],
-                "component_count": len(
-                    [k for k, v in self.integration_status.items() if v == "active"]
-                ),
+                "active_components": [k for k, v in self.integration_status.items() if v == "active"],
+                "component_count": len([k for k, v in self.integration_status.items() if v == "active"]),
                 "total_components": len(self.integration_status),
             },
             "performance": {
@@ -430,9 +410,7 @@ class LukhasAGIIntegrationManager:
             },
         }
 
-    async def _synthesize_cross_component_insights(
-        self, agi_result, cognitive_result, brain_result, github_result
-    ):
+    async def _synthesize_cross_component_insights(self, agi_result, cognitive_result, brain_result, github_result):
         """Synthesize insights across all component"""
 
         synthesis = {
@@ -510,9 +488,7 @@ class LukhasAGIIntegrationManager:
             1.0,
         )
 
-        coherence_score = (
-            (base_coherence * 0.5) + (channel_health * 0.3) + (performance_factor * 0.2)
-        )
+        coherence_score = (base_coherence * 0.5) + (channel_health * 0.3) + (performance_factor * 0.2)
 
         return min(coherence_score, 1.0)
 
@@ -603,9 +579,7 @@ class LukhasAGIIntegrationManager:
                     "integration_status": self.integration_status,
                     "performance_metrics": self.performance_metrics,
                     "system_coherence": await self._calculate_system_coherence(),
-                    "active_components": len(
-                        [k for k, v in self.integration_status.items() if v == "active"]
-                    ),
+                    "active_components": len([k for k, v in self.integration_status.items() if v == "active"]),
                 }
 
                 logger.info(
@@ -656,9 +630,7 @@ class LukhasAGIIntegrationManager:
             "components": self.integration_status,
             "performance_metrics": self.performance_metrics,
             "communication_channels": (
-                list(self.communication_channels.keys())
-                if hasattr(self, "communication_channels")
-                else []
+                list(self.communication_channels.keys()) if hasattr(self, "communication_channels") else []
             ),
             "background_tasks_running": len(getattr(self, "background_tasks", [])),
             "timestamp": datetime.now().isoformat(),
@@ -715,12 +687,8 @@ async def main():
         )
 
         print(f" Test completed: {test_result.get('request_id')}")
-        print(
-            f"Processing time: {test_result.get('performance', {}).get('processing_time', 0):.2f}s"
-        )
-        print(
-            f"System coherence: {test_result.get('integration_insights', {}).get('system_coherence_score', 0):.2%}"
-        )
+        print(f"Processing time: {test_result.get('performance', {}).get('processing_time', 0):.2f}s")
+        print(f"System coherence: {test_result.get('integration_insights', {}).get('system_coherence_score', 0):.2%}")
 
         # Keep running for demonstration
         await asyncio.sleep(60)

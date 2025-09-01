@@ -525,15 +525,11 @@ class LukhosIdentityServer:
                     {"requirement": "verification", "met": True, "value": "completed"},
                 ],
                 "requirements_missing": (
-                    [{"requirement": "referrals", "met": False, "value": "0/2"}]
-                    if target_tier > 2
-                    else []
+                    [{"requirement": "referrals", "met": False, "value": "0/2"}] if target_tier > 2 else []
                 ),
                 "progression_timeline": {
                     "next_eligible_tier": target_tier if target_tier <= 2 else 2,
-                    "estimated_upgrade_time": (
-                        "immediate" if target_tier <= 2 else "pending_requirements"
-                    ),
+                    "estimated_upgrade_time": ("immediate" if target_tier <= 2 else "pending_requirements"),
                 },
                 "recommendations": (
                     ["Complete referral requirements for higher tier access"]
@@ -774,9 +770,7 @@ class LukhosIdentityServer:
 async def main():
     """Main MCP server entry point"""
     project_root = os.environ.get("LUKHAS_PROJECT_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas")
-    identity_module_path = os.environ.get(
-        "IDENTITY_MODULE_PATH", f"{project_root}/governance/identity"
-    )
+    identity_module_path = os.environ.get("IDENTITY_MODULE_PATH", f"{project_root}/governance/identity")
 
     # Initialize the identity server
     identity_server = LukhosIdentityServer(project_root, identity_module_path)

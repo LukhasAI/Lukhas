@@ -16,8 +16,6 @@ for lane in ["candidate", "quarantine", "archive"]:
 # in CI, sys.path must not include lane paths
 if os.getenv("CI"):
     for p in sys.path:
-        assert all(x not in p for x in ("candidate", "quarantine", "archive")), (
-            f"Illegal path in sys.path: {p}"
-        )
+        assert all(x not in p for x in ("candidate", "quarantine", "archive")), f"Illegal path in sys.path: {p}"
 
 print("doctor: OK")

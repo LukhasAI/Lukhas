@@ -95,9 +95,9 @@ class MemoryManager:
 
         # Prune old memories if we exceed the limit
         if len(self.memories[user_id]) > self.max_memories:
-            self.memories[user_id] = sorted(
-                self.memories[user_id], key=lambda x: x["importance"], reverse=True
-            )[: self.max_memories]
+            self.memories[user_id] = sorted(self.memories[user_id], key=lambda x: x["importance"], reverse=True)[
+                : self.max_memories
+            ]
 
     def get_relevant_memories(self, user_id: str, limit: int = 20) -> list[dict[str, Any]]:
         """Get relevant memories for a user, sorted by importance and recency."""
@@ -111,9 +111,7 @@ class MemoryManager:
         )
         return sorted_memories[:limit]
 
-    def store_voice_preference(
-        self, user_id: str, parameters: dict[str, Any], feedback: dict[str, Any]
-    ) -> None:
+    def store_voice_preference(self, user_id: str, parameters: dict[str, Any], feedback: dict[str, Any]) -> None:
         """Store voice preferences for a user based on feedback."""
         if user_id not in self.voice_preferences:
             self.voice_preferences[user_id] = []
@@ -157,9 +155,7 @@ class MemoryManager:
         """Remove interactions older than the cutoff date."""
         for user_id in self.memories:
             original_count = len(self.memories[user_id])
-            self.memories[user_id] = [
-                memory for memory in self.memories[user_id] if memory["timestamp"] > cutoff_date
-            ]
+            self.memories[user_id] = [memory for memory in self.memories[user_id] if memory["timestamp"] > cutoff_date]
             removed_count = original_count - len(self.memories[user_id])
             if removed_count > 0:
                 self.logger.info(f"Removed {removed_count} old interactions for user {user_id}")

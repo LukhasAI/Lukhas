@@ -183,9 +183,7 @@ class MemoryAttentionLayer:
         self.head_dim = hidden_dim // num_heads
 
         if TORCH_AVAILABLE:
-            self.attention = nn.MultiheadAttention(
-                embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1
-            )
+            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)
 
     def compute_attention_scores(
         self,
@@ -361,9 +359,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         """
         # Generate embeddings if not provided
         if embedding is None:
-            embedding = await self._generate_embedding(
-                data, text_content, image_content, audio_content
-            )
+            embedding = await self._generate_embedding(data, text_content, image_content, audio_content)
 
         # Create hybrid memory item
         memory_id = await super().fold_in(data, tags, **kwargs)
@@ -546,9 +542,7 @@ class HybridMemoryFold(MemoryFoldSystem):
 
         return paths
 
-    async def update_memory_importance(
-        self, memory_id: str, feedback: float, context: Optional[dict[str, Any]] = None
-    ):
+    async def update_memory_importance(self, memory_id: str, feedback: float, context: Optional[dict[str, Any]] = None):
         """Update memory importance based on usage feedback"""
         if memory_id not in self.items:
             return
@@ -565,9 +559,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             for tag_id in item_tags:
                 tag_info = self.tag_registry.get(tag_id)
                 if tag_info:
-                    self.learning_engine.update_tag_importance(
-                        tag_info.tag_name, feedback, context or {}
-                    )
+                    self.learning_engine.update_tag_importance(tag_info.tag_name, feedback, context or {})
 
         logger.debug(
             "Updated memory importance",
@@ -665,9 +657,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             base_stats["learning_stats"] = {
                 "total_tag_weights": len(self.learning_engine.tag_weights),
                 "avg_tag_weight": (
-                    np.mean(list(self.learning_engine.tag_weights.values()))
-                    if self.learning_engine.tag_weights
-                    else 0
+                    np.mean(list(self.learning_engine.tag_weights.values())) if self.learning_engine.tag_weights else 0
                 ),
                 "most_important_tags": sorted(
                     self.learning_engine.tag_weights.items(),
@@ -680,10 +670,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         base_stats["causal_stats"] = {
             "memories_with_causes": sum(1 for m in self.causal_graph.values() if m["causes"]),
             "memories_with_effects": sum(1 for m in self.causal_graph.values() if m["effects"]),
-            "total_causal_links": sum(
-                len(m["causes"]) + len(m["effects"]) for m in self.causal_graph.values()
-            )
-            // 2,
+            "total_causal_links": sum(len(m["causes"]) + len(m["effects"]) for m in self.causal_graph.values()) // 2,
         }
 
         return base_stats

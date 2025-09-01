@@ -84,9 +84,7 @@ class BaseMetaLearner(ABC):
     """Abstract base class for meta-learning algorithms"""
 
     @abstractmethod
-    async def adapt(
-        self, support_examples: list[dict[str, Any]], task_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def adapt(self, support_examples: list[dict[str, Any]], task_context: dict[str, Any]) -> dict[str, Any]:
         """Adapt to new task given support examples"""
 
     @abstractmethod
@@ -114,9 +112,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
         self.meta_parameters = {}
         self.adaptation_history = []
 
-    async def adapt(
-        self, support_examples: list[dict[str, Any]], task_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def adapt(self, support_examples: list[dict[str, Any]], task_context: dict[str, Any]) -> dict[str, Any]:
         """Adapt model to new task using support examples"""
         try:
             logger.info(f"🎯 Adapting to new task: {task_context.get('task_id', 'unknown')}")
@@ -193,9 +189,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
 
                     if adaptation_result.get("status") != "failed":
                         # Evaluate on query set
-                        query_loss = await self._compute_loss(
-                            query_set, adaptation_result["adapted_parameters"]
-                        )
+                        query_loss = await self._compute_loss(query_set, adaptation_result["adapted_parameters"])
 
                         # Compute meta-gradients
                         meta_gradients = await self._compute_meta_gradients(
@@ -205,9 +199,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
                         # Update meta-parameters
                         for param_name, meta_gradient in meta_gradients.items():
                             if param_name in self.meta_parameters:
-                                self.meta_parameters[param_name] -= (
-                                    self.meta_learning_rate * meta_gradient
-                                )
+                                self.meta_parameters[param_name] -= self.meta_learning_rate * meta_gradient
 
                         total_meta_loss += query_loss
                         successful_adaptations += 1
@@ -262,9 +254,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
         }
         return params
 
-    async def _compute_gradients(
-        self, examples: list[dict[str, Any]], parameters: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _compute_gradients(self, examples: list[dict[str, Any]], parameters: dict[str, Any]) -> dict[str, Any]:
         """Compute gradients for parameter update"""
         # Simplified gradient computation
         gradients = {}
@@ -279,9 +269,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
 
         return gradients
 
-    async def _compute_loss(
-        self, examples: list[dict[str, Any]], parameters: dict[str, Any]
-    ) -> float:
+    async def _compute_loss(self, examples: list[dict[str, Any]], parameters: dict[str, Any]) -> float:
         """Compute loss on examples given parameters"""
         # Simplified loss computation
         base_loss = 1.0
@@ -295,9 +283,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
         loss = max(0.01, base_loss - data_factor + noise)
         return loss
 
-    async def _evaluate_adaptation(
-        self, examples: list[dict[str, Any]], parameters: dict[str, Any]
-    ) -> float:
+    async def _evaluate_adaptation(self, examples: list[dict[str, Any]], parameters: dict[str, Any]) -> float:
         """Evaluate quality of adaptation"""
         # Quality based on loss and consistency
         loss = await self._compute_loss(examples, parameters)
@@ -380,9 +366,7 @@ class FewShotLearner:
             logger.info(f"📚 Starting {k_shot}-shot learning for task: {task_id}")
 
             if len(examples) < k_shot:
-                logger.warning(
-                    f"Only {len(examples)} examples available for {k_shot}-shot learning"
-                )
+                logger.warning(f"Only {len(examples)} examples available for {k_shot}-shot learning")
 
             # Store support examples
             self.support_examples[task_id] = {
@@ -715,9 +699,7 @@ class ContinualLearner:
         stability = min(1.0, avg_importance)
 
         # Plasticity: ability to learn new tasks
-        recent_tasks = (
-            self.task_sequence[-3:] if len(self.task_sequence) >= 3 else self.task_sequence
-        )
+        recent_tasks = self.task_sequence[-3:] if len(self.task_sequence) >= 3 else self.task_sequence
         plasticity = len(recent_tasks) / 3.0  # Normalize to 3 recent tasks
 
         # Overall performance
@@ -793,9 +775,7 @@ class AdvancedLearningSystem:
     ) -> dict[str, Any]:
         """Learn from a collection of learning episodes"""
         try:
-            logger.info(
-                f"📚 Starting learning from {len(episodes)} episodes (type: {learning_type.value})"
-            )
+            logger.info(f"📚 Starting learning from {len(episodes)} episodes (type: {learning_type.value})")
 
             if learning_type == LearningType.META_LEARNING:
                 result = await self.meta_learner.meta_train(episodes)
@@ -914,9 +894,7 @@ class AdvancedLearningSystem:
                 "task_id": task_id,
                 "adaptation_methods": list(adaptation_results.keys()),
                 "adaptation_results": adaptation_results,
-                "overall_success": all(
-                    result.get("status") != "failed" for result in adaptation_results.values()
-                ),
+                "overall_success": all(result.get("status") != "failed" for result in adaptation_results.values()),
                 "timestamp": datetime.now().isoformat(),
             }
 
@@ -970,9 +948,7 @@ class AdvancedLearningSystem:
 
         # Temporal analysis
         timestamps = [entry["timestamp"] for entry in self.learning_history]
-        learning_frequency = len(timestamps) / max(
-            1, (max(timestamps) - min(timestamps)).total_seconds() / 3600
-        )
+        learning_frequency = len(timestamps) / max(1, (max(timestamps) - min(timestamps)).total_seconds() / 3600)
 
         return {
             "total_learning_sessions": len(self.learning_history),
@@ -1043,8 +1019,7 @@ class AdvancedLearningSystem:
             old_tasks = [
                 task_id
                 for task_id, task_data in self.active_learning_tasks.items()
-                if (current_time - datetime.fromisoformat(task_data["timestamp"])).total_seconds()
-                > 3600
+                if (current_time - datetime.fromisoformat(task_data["timestamp"])).total_seconds() > 3600
             ]
 
             for task_id in old_tasks:

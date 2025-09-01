@@ -249,9 +249,7 @@ class MultiBrainSymphonyΛBot:
             cognitive_state = await self.workspace_symphony.get_cognitive_state()
             self.current_session.cognitive_states["workspace"] = cognitive_state
 
-            logger.info(
-                f"✅ Workspace symphony activated with {len(self.current_session.active_brains)} brain regions"
-            )
+            logger.info(f"✅ Workspace symphony activated with {len(self.current_session.active_brains)} brain regions")
 
     async def _activate_lukhas_orchestra(self):
         """Activate Lukhas AGI Orchestra"""
@@ -317,9 +315,7 @@ class MultiBrainSymphonyΛBot:
 
             self.current_session.cognitive_states["evolution"] = evolution_state
 
-            logger.info(
-                "✅ Consciousness evolution activated - transcendent modularization enabled"
-            )
+            logger.info("✅ Consciousness evolution activated - transcendent modularization enabled")
 
     async def discover_brain_symphony_patterns(self) -> list[BrainSymphonyPattern]:
         """Discover patterns through multi-brain symphony analysis"""
@@ -531,9 +527,7 @@ class MultiBrainSymphonyΛBot:
 
         strategy["implementation_phases"] = implementation_phases
 
-        logger.info(
-            f"🌟 Consciousness-driven strategy generated with {len(implementation_phases)} evolution phases"
-        )
+        logger.info(f"🌟 Consciousness-driven strategy generated with {len(implementation_phases)} evolution phases")
         return strategy
 
     async def get_symphony_insights(self) -> dict[str, Any]:

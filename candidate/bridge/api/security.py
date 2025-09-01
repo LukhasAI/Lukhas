@@ -144,9 +144,7 @@ class RateLimiter:
 
         # Clean old requests (older than 1 minute)
         cutoff_time = current_time - 60
-        self.request_history[key] = [
-            req_time for req_time in self.request_history[key] if req_time > cutoff_time
-        ]
+        self.request_history[key] = [req_time for req_time in self.request_history[key] if req_time > cutoff_time]
 
         # Check burst limit
         if len(self.request_history[key]) >= limits["burst"]:
@@ -169,9 +167,7 @@ class RateLimiter:
             self.suspicious_activity[ip_address] = {"score": 0, "activities": []}
 
         self.suspicious_activity[ip_address]["score"] += 1
-        self.suspicious_activity[ip_address]["activities"].append(
-            {"type": activity_type, "timestamp": time.time()}
-        )
+        self.suspicious_activity[ip_address]["activities"].append({"type": activity_type, "timestamp": time.time()})
 
         # Block IP if score exceeds threshold
         if self.suspicious_activity[ip_address]["score"] >= 5:
@@ -232,9 +228,7 @@ class APIKeyManager:
 
         # Check if key is revoked
         if api_key in self.revoked_keys:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="API key has been revoked"
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="API key has been revoked")
 
         # Check if key exists
         if api_key not in self.api_keys:
@@ -244,9 +238,7 @@ class APIKeyManager:
 
         # Check expiration
         if key_data.get("expires_at", 0) < time.time():
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="API key has expired"
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="API key has expired")
 
         # Check IP restrictions
         allowed_ips = key_data.get("allowed_ips", [])
@@ -527,13 +519,9 @@ class ComprehensiveAPISecurity:
             }
 
         except jwt.ExpiredSignatureError:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired"
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
         except jwt.InvalidTokenError as e:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Invalid token: {e!s}"
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Invalid token: {e!s}")
 
     def _calculate_security_score(self, user_data: dict[str, Any], ip_address: str) -> float:
         """Calculate security score for request (0.0-1.0)"""

@@ -205,9 +205,7 @@ class LukhasToneValidator:
             total_matches += matches
 
         # Check for conversational markers
-        conversational_markers = len(
-            re.findall(r"\byou\b|\bwe\b|\blet\'s\b|\bhere\'s\b", content, re.IGNORECASE)
-        )
+        conversational_markers = len(re.findall(r"\byou\b|\bwe\b|\blet\'s\b|\bhere\'s\b", content, re.IGNORECASE))
 
         words = len(content.split())
         if words == 0:
@@ -247,16 +245,12 @@ class LukhasToneValidator:
 
         if "min_poetic" in requirements:
             if self._calculate_poetic_score(content) < requirements["min_poetic"]:
-                violations.append(
-                    f"❌ Insufficient poetic elements (need {requirements['min_poetic']}%+)"
-                )
+                violations.append(f"❌ Insufficient poetic elements (need {requirements['min_poetic']}%+)")
 
         if "forbidden_terms" in requirements:
             for term in requirements["forbidden_terms"]:
                 if term.lower() in content.lower():
-                    violations.append(
-                        f"❌ Forbidden term detected: '{term}' (use 'LUKHAS AI' instead)"
-                    )
+                    violations.append(f"❌ Forbidden term detected: '{term}' (use 'LUKHAS AI' instead)")
 
         if "required_sections" in requirements:
             for section in requirements["required_sections"]:
@@ -294,9 +288,7 @@ class LukhasToneValidator:
             suggestions.append("✨ Use sacred glyphs: ⚛️🧠🛡️ for Trinity, 🌟💫✨ for transformation")
 
         if "LUKHAS AI" not in content:
-            suggestions.append(
-                "🏷️ Replace generic AI references with 'LUKHAS AI' to honor our identity"
-            )
+            suggestions.append("🏷️ Replace generic AI references with 'LUKHAS AI' to honor our identity")
 
         if not re.search(r"⚛️|🧠|🛡️", content):
             suggestions.append("🛡️ Include Trinity Framework glyphs (⚛️🧠🛡️) where relevant")
@@ -305,9 +297,7 @@ class LukhasToneValidator:
             suggestions.append("📜 Add poetic header with consciousness metaphor in italics")
 
         if doc_type == "readme" and "Trinity Framework" not in content:
-            suggestions.append(
-                "🔗 Add Trinity Framework section explaining ⚛️Identity 🧠Consciousness 🛡️Guardian"
-            )
+            suggestions.append("🔗 Add Trinity Framework section explaining ⚛️Identity 🧠Consciousness 🛡️Guardian")
 
         return suggestions
 
@@ -373,9 +363,7 @@ def main():
         choices=["readme", "api", "task", "general"],
         help="📋 Type of document (affects validation criteria)",
     )
-    parser.add_argument(
-        "--strict", action="store_true", help="🛡️ Fail on any violations (for CI/CD)"
-    )
+    parser.add_argument("--strict", action="store_true", help="🛡️ Fail on any violations (for CI/CD)")
     parser.add_argument("--verbose", action="store_true", help="📝 Show detailed analysis")
     parser.add_argument("--json", action="store_true", help="📊 Output results in JSON format")
 

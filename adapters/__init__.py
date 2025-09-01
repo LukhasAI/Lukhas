@@ -66,9 +66,7 @@ class WatchRequest(BaseModel):
     resource_id: Optional[str] = Field(None, description="Specific resource to watch")
     resource_type: Optional[str] = Field(None, description="Type of resources to watch")
     webhook_url: str = Field(..., description="Webhook URL for notifications")
-    events: list[str] = Field(
-        default=["created", "updated", "deleted"], description="Events to watch"
-    )
+    events: list[str] = Field(default=["created", "updated", "deleted"], description="Events to watch")
 
 
 class OperationResult(BaseModel):
@@ -121,16 +119,12 @@ class ServiceAdapter(ABC):
         pass
 
     @abstractmethod
-    async def get_resource_metadata(
-        self, capability_token: str, resource_id: str
-    ) -> ResourceMetadata:
+    async def get_resource_metadata(self, capability_token: str, resource_id: str) -> ResourceMetadata:
         """Get detailed metadata for specific resource (requires metadata scope)"""
         pass
 
     @abstractmethod
-    async def get_resource_content(
-        self, capability_token: str, resource_id: str
-    ) -> ResourceContent:
+    async def get_resource_content(self, capability_token: str, resource_id: str) -> ResourceContent:
         """Get full resource content (requires content scope)"""
         pass
 
@@ -158,9 +152,7 @@ class ServiceAdapter(ABC):
         pass
 
     @abstractmethod
-    async def search_resources(
-        self, capability_token: str, query: SearchQuery
-    ) -> list[ResourceMetadata]:
+    async def search_resources(self, capability_token: str, query: SearchQuery) -> list[ResourceMetadata]:
         """Search resources (requires appropriate scope based on search depth)"""
         pass
 

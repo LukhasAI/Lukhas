@@ -345,9 +345,7 @@ Apply advanced reasoning with awareness of:
 
 Provide clear, structured, and insightful reasoning."""
 
-    def _enhance_reasoning(
-        self, raw_reasoning: str, original_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _enhance_reasoning(self, raw_reasoning: str, original_data: dict[str, Any]) -> dict[str, Any]:
         """Enhance raw reasoning with structured analysis"""
 
         # Parse reasoning into structured format

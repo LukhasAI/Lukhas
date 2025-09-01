@@ -244,9 +244,7 @@ class EventBus:
         """Get all events with a specific correlation ID."""
         return self._correlation_tracking.get(correlation_id, [])
 
-    async def wait_for_dream_completion(
-        self, dream_id: str, timeout_seconds: float = 300.0
-    ) -> Optional[Event]:
+    async def wait_for_dream_completion(self, dream_id: str, timeout_seconds: float = 300.0) -> Optional[Event]:
         """Wait for a dream processing session to complete."""
         completion_event = None
         start_time = time.time()
@@ -359,9 +357,7 @@ class EventBus:
             "uptime_seconds": uptime,
             "events_processed": self._events_processed,
             "events_failed": self._events_failed,
-            "success_rate": (
-                self._events_processed / max(1, self._events_processed + self._events_failed)
-            ),
+            "success_rate": (self._events_processed / max(1, self._events_processed + self._events_failed)),
             "dream_sessions_active": len(self._dream_session_events),
             "correlation_tracking_active": len(self._correlation_tracking),
             "dream_event_history_size": len(self._dream_event_history),

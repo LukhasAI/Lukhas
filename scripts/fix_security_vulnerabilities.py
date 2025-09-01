@@ -182,9 +182,7 @@ Response must be valid JSON only."""
 
             updated = False
             for i, line in enumerate(lines):
-                if line.strip().startswith(f"{package}==") or line.strip().startswith(
-                    f"{package}>="
-                ):
+                if line.strip().startswith(f"{package}==") or line.strip().startswith(f"{package}>="):
                     lines[i] = f"{package}=={new_version}\n"
                     updated = True
                     break

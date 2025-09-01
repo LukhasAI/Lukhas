@@ -280,9 +280,7 @@ class DreamSeedEmotionEngine:
         dream_phase = context.get("dream_phase")
         safety_override = context.get("safety_override", False)
         # Changed from MD5 for security
-        session_id = context.get(
-            "session_id", f"session_{hashlib.sha256(user_id.encode()).hexdigest()[:8]}"
-        )
+        session_id = context.get("session_id", f"session_{hashlib.sha256(user_id.encode()).hexdigest()[:8]}")
 
         # Base tier calculation from trust score
         if safety_override:
@@ -380,9 +378,7 @@ class DreamSeedEmotionEngine:
             entropy = 0.0
 
         # ΛMOOD tagging based on primary emotion
-        primary_emotion = (
-            max(emotion_vector.items(), key=lambda x: x[1])[0] if emotion_vector else None
-        )
+        primary_emotion = max(emotion_vector.items(), key=lambda x: x[1])[0] if emotion_vector else None
         if primary_emotion:
             symbolic_tags.append(f"{SymbolicEmotionTag.ΛMOOD.value}:{primary_emotion}")
 
@@ -461,9 +457,7 @@ class DreamSeedEmotionEngine:
         return np.clip(harmony_score, 0.0, 1.0)
 
     # LUKHAS_TAG: drift_regulation_engine
-    def regulate_drift_feedback(
-        self, drift_score: float, emotion_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    def regulate_drift_feedback(self, drift_score: float, emotion_state: dict[str, Any]) -> dict[str, Any]:
         """
         Adjusts emotion outputs or memory injections based on symbolic drift level.
         Higher drift = emotional dampening or stabilization.
@@ -500,9 +494,7 @@ class DreamSeedEmotionEngine:
                 baseline_pull = regulation_strength * 0.3
                 neutral_value = 0.2  # Slight positive baseline
                 for emotion_name, value in emotion_vector.items():
-                    emotion_vector[emotion_name] = (
-                        value * (1 - baseline_pull) + neutral_value * baseline_pull
-                    )
+                    emotion_vector[emotion_name] = value * (1 - baseline_pull) + neutral_value * baseline_pull
 
             # Update VAD values
             if "valence" in regulated_emotion:
@@ -564,9 +556,7 @@ class DreamSeedEmotionEngine:
         return regulated_emotion
 
     # LUKHAS_TAG: codreamer_isolation_engine
-    def isolate_codreamer_affect(
-        self, input_emotion: dict[str, Any], codreamer_id: str
-    ) -> dict[str, Any]:
+    def isolate_codreamer_affect(self, input_emotion: dict[str, Any], codreamer_id: str) -> dict[str, Any]:
         """
         Separates user-driven vs. codreamer emotional signatures, preventing
         bleed-through or bias pollution.
@@ -607,9 +597,7 @@ class DreamSeedEmotionEngine:
                 user_emotion_vector = user_emotion.get("dimensions", {})
                 for emotion_name in user_emotion_vector:
                     if emotion_name in codreamer_emotions:
-                        codreamer_contribution = (
-                            codreamer_emotions[emotion_name] * influence_strength
-                        )
+                        codreamer_contribution = codreamer_emotions[emotion_name] * influence_strength
                         user_emotion_vector[emotion_name] = max(
                             user_emotion_vector[emotion_name] - codreamer_contribution,
                             0.0,
@@ -860,13 +848,9 @@ class DreamSeedEmotionEngine:
             return {"error": "Session not found"}
 
         # Filter metrics by session
-        session_regulations = [
-            r for r in self.regulation_history if r.timestamp >= context.timestamp
-        ]
+        session_regulations = [r for r in self.regulation_history if r.timestamp >= context.timestamp]
         session_isolations = [i for i in self.isolation_history if i.timestamp >= context.timestamp]
-        session_safety = [
-            s for s in self.safety_interventions if s["timestamp"] >= context.timestamp
-        ]
+        session_safety = [s for s in self.safety_interventions if s["timestamp"] >= context.timestamp]
 
         return {
             "session_id": session_id,
@@ -877,13 +861,10 @@ class DreamSeedEmotionEngine:
             "isolations_performed": len(session_isolations),
             "safety_interventions": len(session_safety),
             "average_drift_score": (
-                np.mean([r.drift_score for r in session_regulations])
-                if session_regulations
-                else 0.0
+                np.mean([r.drift_score for r in session_regulations]) if session_regulations else 0.0
             ),
             "session_duration": (
-                datetime.now(timezone.utc)
-                - datetime.fromisoformat(context.timestamp.replace("Z", "+00:00"))
+                datetime.now(timezone.utc) - datetime.fromisoformat(context.timestamp.replace("Z", "+00:00"))
             ).total_seconds()
             / 3600,
             "LUKHAS_TAG": "session_metrics",
@@ -896,14 +877,10 @@ class DreamSeedEmotionEngine:
 
         # Recent activity metrics
         recent_regulations = [
-            r
-            for r in self.regulation_history
-            if datetime.fromisoformat(r.timestamp.replace("Z", "+00:00")) >= last_24h
+            r for r in self.regulation_history if datetime.fromisoformat(r.timestamp.replace("Z", "+00:00")) >= last_24h
         ]
         recent_isolations = [
-            i
-            for i in self.isolation_history
-            if datetime.fromisoformat(i.timestamp.replace("Z", "+00:00")) >= last_24h
+            i for i in self.isolation_history if datetime.fromisoformat(i.timestamp.replace("Z", "+00:00")) >= last_24h
         ]
         recent_safety = [
             s
@@ -927,48 +904,28 @@ class DreamSeedEmotionEngine:
             },
             "drift_regulation_stats": {
                 "average_drift_score": (
-                    np.mean([r.drift_score for r in recent_regulations])
-                    if recent_regulations
-                    else 0.0
+                    np.mean([r.drift_score for r in recent_regulations]) if recent_regulations else 0.0
                 ),
-                "max_drift_score": (
-                    max([r.drift_score for r in recent_regulations]) if recent_regulations else 0.0
-                ),
+                "max_drift_score": (max([r.drift_score for r in recent_regulations]) if recent_regulations else 0.0),
                 "regulation_success_rate": (
-                    np.mean([r.regulation_applied for r in recent_regulations])
-                    if recent_regulations
-                    else 0.0
+                    np.mean([r.regulation_applied for r in recent_regulations]) if recent_regulations else 0.0
                 ),
             },
             "isolation_stats": {
                 "average_isolation_strength": (
-                    np.mean([i.isolation_strength for i in recent_isolations])
-                    if recent_isolations
-                    else 0.0
+                    np.mean([i.isolation_strength for i in recent_isolations]) if recent_isolations else 0.0
                 ),
-                "bleed_through_incidents": sum(
-                    1 for i in recent_isolations if i.bleed_through_detected
-                ),
+                "bleed_through_incidents": sum(1 for i in recent_isolations if i.bleed_through_detected),
                 "max_contamination_risk": (
-                    max([i.cross_contamination_risk for i in recent_isolations])
-                    if recent_isolations
-                    else 0.0
+                    max([i.cross_contamination_risk for i in recent_isolations]) if recent_isolations else 0.0
                 ),
             },
             "system_stability": {
                 "safety_score": 1.0 - (interventions_required / max(len(recent_safety), 1)),
                 "drift_stability": 1.0
-                - (
-                    np.mean([r.drift_score for r in recent_regulations])
-                    if recent_regulations
-                    else 0.0
-                ),
+                - (np.mean([r.drift_score for r in recent_regulations]) if recent_regulations else 0.0),
                 "isolation_effectiveness": 1.0
-                - (
-                    np.mean([i.cross_contamination_risk for i in recent_isolations])
-                    if recent_isolations
-                    else 0.0
-                ),
+                - (np.mean([i.cross_contamination_risk for i in recent_isolations]) if recent_isolations else 0.0),
             },
             "LUKHAS_TAG": "system_health_report",
         }

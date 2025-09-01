@@ -127,9 +127,7 @@ class BioAdaptationEngine:
         # Sleep quality analysis
         patterns["sleep"] = {
             "quality_score": sleep_quality,
-            "status": (
-                "excellent" if sleep_quality > 0.8 else "good" if sleep_quality > 0.6 else "poor"
-            ),
+            "status": ("excellent" if sleep_quality > 0.8 else "good" if sleep_quality > 0.6 else "poor"),
             "recommendation": ("sleep_optimization" if sleep_quality < 0.7 else "maintain_routine"),
         }
 
@@ -208,9 +206,7 @@ class BioAdaptationEngine:
 
         return adapted_params
 
-    async def generate_bio_feedback(
-        self, biometric_data: dict[str, Any]
-    ) -> list[AdaptationRecommendation]:
+    async def generate_bio_feedback(self, biometric_data: dict[str, Any]) -> list[AdaptationRecommendation]:
         """Generate biometric feedback recommendations"""
 
         analysis = await self.analyze_biometric_patterns(biometric_data)
@@ -301,9 +297,7 @@ class BioAdaptationEngine:
 
         return recommendations
 
-    async def update_bio_profile(
-        self, user_id: str, biometric_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def update_bio_profile(self, user_id: str, biometric_data: dict[str, Any]) -> dict[str, Any]:
         """Update user biometric profile"""
 
         if user_id not in self.user_profiles:
@@ -330,9 +324,7 @@ class BioAdaptationEngine:
             )
 
             current_stress = biometric_data.get("stress_level", 1.0 - profile.stress_tolerance)
-            profile.stress_tolerance = (
-                alpha * (1.0 - current_stress) + (1 - alpha) * profile.stress_tolerance
-            )
+            profile.stress_tolerance = alpha * (1.0 - current_stress) + (1 - alpha) * profile.stress_tolerance
 
             profile.arousal_sensitivity = (
                 alpha * biometric_data.get("arousal", profile.arousal_sensitivity)
@@ -340,8 +332,7 @@ class BioAdaptationEngine:
             )
 
             profile.attention_span = (
-                alpha * biometric_data.get("attention", profile.attention_span)
-                + (1 - alpha) * profile.attention_span
+                alpha * biometric_data.get("attention", profile.attention_span) + (1 - alpha) * profile.attention_span
             )
 
             profile.temperature_norm = (
@@ -350,9 +341,7 @@ class BioAdaptationEngine:
             )
 
             current_sleep = biometric_data.get("sleep_quality", profile.sleep_pattern["quality"])
-            profile.sleep_pattern["quality"] = (
-                alpha * current_sleep + (1 - alpha) * profile.sleep_pattern["quality"]
-            )
+            profile.sleep_pattern["quality"] = alpha * current_sleep + (1 - alpha) * profile.sleep_pattern["quality"]
 
             profile.updated_at = datetime.now()
 

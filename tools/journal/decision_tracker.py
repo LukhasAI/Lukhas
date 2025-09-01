@@ -205,9 +205,7 @@ How do we prevent this in the future?
 
     def _format_decision(self, decision: Decision, template: str) -> str:
         """Format decision using template"""
-        template_content = self.decision_templates.get(
-            template, self.decision_templates["architecture"]
-        )
+        template_content = self.decision_templates.get(template, self.decision_templates["architecture"])
 
         return template_content.format(
             title=decision.title,
@@ -292,11 +290,7 @@ How do we prevent this in the future?
         return self.track_decision(
             title=title,
             rationale=rationale,
-            template=(
-                "feature"
-                if "add" in title.lower() or "implement" in title.lower()
-                else "refactoring"
-            ),
+            template=("feature" if "add" in title.lower() or "implement" in title.lower() else "refactoring"),
         )
 
     def track_outcome(self, decision_id: str, outcome: str, lessons_learned: Optional[str] = None):
@@ -351,9 +345,7 @@ Was this the right decision? Why or why not?
         outcome_lower = outcome.lower()
 
         # Positive indicators
-        if any(
-            word in outcome_lower for word in ["success", "worked", "great", "perfect", "solved"]
-        ):
+        if any(word in outcome_lower for word in ["success", "worked", "great", "perfect", "solved"]):
             emotions["satisfaction"] += 0.3
 
         # Negative indicators
@@ -362,10 +354,7 @@ Was this the right decision? Why or why not?
             emotions["learning"] += 0.2
 
         # Surprise indicators
-        if any(
-            word in outcome_lower
-            for word in ["unexpected", "surprise", "didn't expect", "turned out"]
-        ):
+        if any(word in outcome_lower for word in ["unexpected", "surprise", "didn't expect", "turned out"]):
             emotions["surprise"] += 0.3
 
         # Normalize
@@ -411,9 +400,7 @@ Was this the right decision? Why or why not?
                     emotion_counts[emotion] = emotion_counts.get(emotion, 0) + 1
 
         # Calculate averages
-        analysis["common_tags"] = dict(
-            sorted(tag_counts.items(), key=lambda x: x[1], reverse=True)[:10]
-        )
+        analysis["common_tags"] = dict(sorted(tag_counts.items(), key=lambda x: x[1], reverse=True)[:10])
 
         for emotion, total in total_emotions.items():
             analysis["emotional_patterns"][emotion] = total / emotion_counts[emotion]
@@ -437,9 +424,7 @@ Was this the right decision? Why or why not?
 
             patterns["by_hour"][hour] = patterns["by_hour"].get(hour, 0) + 1
             patterns["by_day_of_week"][dow] = patterns["by_day_of_week"].get(dow, 0) + 1
-            patterns["by_week_of_month"][f"Week {week}"] = (
-                patterns["by_week_of_month"].get(f"Week {week}", 0) + 1
-            )
+            patterns["by_week_of_month"][f"Week {week}"] = patterns["by_week_of_month"].get(f"Week {week}", 0) + 1
 
         return patterns
 
@@ -476,13 +461,9 @@ Was this the right decision? Why or why not?
 
         # Check decision frequency
         if analysis["decisions_per_day"] < 0.5:
-            suggestions.append(
-                "Consider documenting more decisions - even small ones help track your thinking"
-            )
+            suggestions.append("Consider documenting more decisions - even small ones help track your thinking")
         elif analysis["decisions_per_day"] > 5:
-            suggestions.append(
-                "You're making many decisions - consider batching or delegating some"
-            )
+            suggestions.append("You're making many decisions - consider batching or delegating some")
 
         # Check for rushed decisions
         if analysis["potentially_rushed"]:
@@ -493,20 +474,14 @@ Was this the right decision? Why or why not?
         # Check emotional patterns
         emotions = analysis.get("emotional_patterns", {})
         if emotions.get("confidence", 0.5) < 0.5:
-            suggestions.append(
-                "Your confidence seems low - consider seeking feedback or doing more research"
-            )
+            suggestions.append("Your confidence seems low - consider seeking feedback or doing more research")
         if emotions.get("concern", 0.5) > 0.7:
-            suggestions.append(
-                "High concern levels detected - consider breaking down complex decisions"
-            )
+            suggestions.append("High concern levels detected - consider breaking down complex decisions")
 
         # Check time patterns
         peak_hours = analysis.get("peak_decision_hours", [])
         if peak_hours and all(h >= 22 or h <= 6 for h in peak_hours):
-            suggestions.append(
-                "You make many decisions late at night - consider revisiting important ones when fresh"
-            )
+            suggestions.append("You make many decisions late at night - consider revisiting important ones when fresh")
 
         return suggestions
 

@@ -281,9 +281,7 @@ class QISteganographyEngine:
         logger.info(f"🔐 Embedding sovereign data using {embedding_mode.value}")
 
         # Prepare payload
-        prepared_payload = self._prepare_payload(
-            payload, consciousness_lock, temporal_lock, qi_entangle
-        )
+        prepared_payload = self._prepare_payload(payload, consciousness_lock, temporal_lock, qi_entangle)
 
         # Select embedding strategy
         if embedding_mode == SteganographyMode.LSB_QUANTUM:
@@ -311,9 +309,7 @@ class QISteganographyEngine:
             embedded_matrix = self._embed_quantum_entangled(visual_matrix, prepared_payload)
 
         elif embedding_mode == SteganographyMode.PLAUSIBLE_DENIABILITY:
-            embedded_matrix = self._embed_with_plausible_deniability(
-                visual_matrix, prepared_payload
-            )
+            embedded_matrix = self._embed_with_plausible_deniability(visual_matrix, prepared_payload)
 
         else:  # Classic LSB fallback
             embedded_matrix = self._embed_lsb_classic(visual_matrix, prepared_payload)
@@ -427,9 +423,7 @@ class QISteganographyEngine:
 
         return embedded
 
-    def _embed_frequency_domain(
-        self, matrix: np.ndarray, payload: SteganographicPayload
-    ) -> np.ndarray:
+    def _embed_frequency_domain(self, matrix: np.ndarray, payload: SteganographicPayload) -> np.ndarray:
         """
         Frequency domain embedding using DCT/FFT
 
@@ -512,9 +506,7 @@ class QISteganographyEngine:
 
         return embedded
 
-    def _embed_spread_spectrum(
-        self, matrix: np.ndarray, payload: SteganographicPayload
-    ) -> np.ndarray:
+    def _embed_spread_spectrum(self, matrix: np.ndarray, payload: SteganographicPayload) -> np.ndarray:
         """
         Spread spectrum embedding across entire image
 
@@ -550,9 +542,7 @@ class QISteganographyEngine:
 
         return embedded
 
-    def _embed_consciousness_aligned(
-        self, matrix: np.ndarray, payload: SteganographicPayload
-    ) -> np.ndarray:
+    def _embed_consciousness_aligned(self, matrix: np.ndarray, payload: SteganographicPayload) -> np.ndarray:
         """
         Consciousness-pattern aligned embedding
 
@@ -586,9 +576,7 @@ class QISteganographyEngine:
             if len(matrix.shape) == 3:
                 # Embed in most significant color channel
                 channel = np.argmax(embedded[y, x, :])
-                embedded[y, x, channel] = (embedded[y, x, channel] & 0xFE) | int(
-                    payload_bits[bit_idx]
-                )
+                embedded[y, x, channel] = (embedded[y, x, channel] & 0xFE) | int(payload_bits[bit_idx])
             else:
                 embedded[y, x] = (embedded[y, x] & 0xFE) | int(payload_bits[bit_idx])
 
@@ -645,9 +633,7 @@ class QISteganographyEngine:
 
         return embedded
 
-    def _embed_temporal_phased(
-        self, matrix: np.ndarray, payload: SteganographicPayload
-    ) -> np.ndarray:
+    def _embed_temporal_phased(self, matrix: np.ndarray, payload: SteganographicPayload) -> np.ndarray:
         """
         Time-based phased embedding that reveals over time
 
@@ -685,9 +671,7 @@ class QISteganographyEngine:
         # If no temporal lock or time has passed, embed normally
         return self._embed_lsb_quantum(embedded, payload)
 
-    def _embed_symbolic_resonance(
-        self, matrix: np.ndarray, payload: SteganographicPayload
-    ) -> np.ndarray:
+    def _embed_symbolic_resonance(self, matrix: np.ndarray, payload: SteganographicPayload) -> np.ndarray:
         """
         Embed in Lambda symbolic patterns
 
@@ -726,9 +710,7 @@ class QISteganographyEngine:
 
         return embedded
 
-    def _embed_quantum_entangled(
-        self, matrix: np.ndarray, payload: SteganographicPayload
-    ) -> np.ndarray:
+    def _embed_quantum_entangled(self, matrix: np.ndarray, payload: SteganographicPayload) -> np.ndarray:
         """
         Quantum entangled bit embedding
 
@@ -768,9 +750,7 @@ class QISteganographyEngine:
 
         return embedded
 
-    def _embed_with_plausible_deniability(
-        self, matrix: np.ndarray, payload: SteganographicPayload
-    ) -> np.ndarray:
+    def _embed_with_plausible_deniability(self, matrix: np.ndarray, payload: SteganographicPayload) -> np.ndarray:
         """
         Multiple valid interpretation layers
 
@@ -874,9 +854,7 @@ class QISteganographyEngine:
                 continue
 
         # All methods failed
-        return ExtractionResult(
-            success=False, error_message="No hidden data found or unable to extract"
-        )
+        return ExtractionResult(success=False, error_message="No hidden data found or unable to extract")
 
     def _extract_with_mode(
         self,
@@ -995,9 +973,7 @@ class QISteganographyEngine:
         # Return nonce + ciphertext + tag
         return nonce + ciphertext + encryptor.tag
 
-    def _add_quantum_watermark(
-        self, matrix: np.ndarray, payload: SteganographicPayload
-    ) -> np.ndarray:
+    def _add_quantum_watermark(self, matrix: np.ndarray, payload: SteganographicPayload) -> np.ndarray:
         """Add invisible quantum watermark"""
         # This would add an additional invisible watermark
         # for authentication and tamper detection

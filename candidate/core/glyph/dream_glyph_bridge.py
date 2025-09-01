@@ -229,14 +229,10 @@ class DreamGlyphBridge:
             archetypal_source = self._identify_archetypal_source(dream_content)
 
             # Create consolidated glyph
-            extracted_glyph = self._create_dream_glyph(
-                dream_content, archetypal_source, dream_phase
-            )
+            extracted_glyph = self._create_dream_glyph(dream_content, archetypal_source, dream_phase)
 
             # Calculate consolidation score
-            consolidation_score = self._calculate_consolidation_score(
-                dream_content, extracted_glyph
-            )
+            consolidation_score = self._calculate_consolidation_score(dream_content, extracted_glyph)
 
             # Extract narrative context
             narrative_context = self._extract_narrative_context(dream_content)
@@ -261,9 +257,7 @@ class DreamGlyphBridge:
             logger.error(f"Failed to extract glyph from dream {dream_id}: {e}")
             return None
 
-    def create_memory_consolidation_glyph(
-        self, memory_traces: list[dict[str, Any]], dream_narrative: str
-    ) -> Glyph:
+    def create_memory_consolidation_glyph(self, memory_traces: list[dict[str, Any]], dream_narrative: str) -> Glyph:
         """
         Create a glyph for memory consolidation from dream processing.
 
@@ -304,9 +298,7 @@ class DreamGlyphBridge:
 
         memory_glyph.update_symbolic_hash()
 
-        logger.info(
-            f"Created memory consolidation glyph {memory_glyph.id} from {len(memory_traces)} traces"
-        )
+        logger.info(f"Created memory consolidation glyph {memory_glyph.id} from {len(memory_traces)} traces")
         return memory_glyph
 
     def get_archetypal_dream_seeds(self, archetype: str) -> list[DreamSeed]:
@@ -664,9 +656,7 @@ class DreamGlyphBridge:
 
         return dominant_emotions
 
-    def _extract_symbolic_themes(
-        self, memory_traces: list[dict[str, Any]], dream_narrative: str
-    ) -> list[str]:
+    def _extract_symbolic_themes(self, memory_traces: list[dict[str, Any]], dream_narrative: str) -> list[str]:
         """Extract symbolic themes from memory traces and dream narrative."""
         themes = set()
 
@@ -729,9 +719,7 @@ class DreamGlyphBridge:
         # Set meta-emotional properties
         emotion_vector.intensity = min(1.0, sum(emotion_patterns.values()) / len(emotion_patterns))
         emotion_vector.stability = 1.0 - (
-            max(emotion_patterns.values()) - min(emotion_patterns.values())
-            if emotion_patterns
-            else 0
+            max(emotion_patterns.values()) - min(emotion_patterns.values()) if emotion_patterns else 0
         )
 
         return emotion_vector
@@ -802,13 +790,9 @@ class DreamGlyphBridge:
             "total_dream_glyphs": total_glyphs,
             "dream_phase_distribution": dict(phase_counts),
             "archetypal_distribution": dict(archetype_counts),
-            "average_consolidation_score": sum(
-                g.consolidation_score for g in self.dream_glyphs.values()
-            )
+            "average_consolidation_score": sum(g.consolidation_score for g in self.dream_glyphs.values())
             / max(1, total_glyphs),
-            "average_symbolic_intensity": sum(
-                s.symbolic_intensity for s in self.dream_seeds.values()
-            )
+            "average_symbolic_intensity": sum(s.symbolic_intensity for s in self.dream_seeds.values())
             / max(1, total_seeds),
         }
 

@@ -177,9 +177,7 @@ class IntelligenceEngineRegistry:
         try:
             # Validate access if security is enabled
             if self.config.security_enabled and not self._validate_access(access_token):
-                self.logger.warning(
-                    f"Access denied for engine registration: {engine_info.engine_id}"
-                )
+                self.logger.warning(f"Access denied for engine registration: {engine_info.engine_id}")
                 return False
 
             # Check if engine already exists
@@ -191,9 +189,7 @@ class IntelligenceEngineRegistry:
             type_index = self.engine_types_index.get(engine_info.engine_type, set())
             type_count = len(type_index)
             if type_count >= self.config.max_engines_per_type:
-                self.logger.warning(
-                    f"Maximum engines reached for type {engine_info.engine_type}: {type_count}"
-                )
+                self.logger.warning(f"Maximum engines reached for type {engine_info.engine_type}: {type_count}")
                 return False
 
             # Register the engine
@@ -209,9 +205,7 @@ class IntelligenceEngineRegistry:
                 token = self._generate_access_token(engine_info.engine_id)
                 self.access_tokens[engine_info.engine_id] = token
 
-            self.logger.info(
-                f"Registered engine: {engine_info.engine_id} ({engine_info.engine_type.value})"
-            )
+            self.logger.info(f"Registered engine: {engine_info.engine_id} ({engine_info.engine_type.value})")
 
             # Fire event
             self._fire_event(RegistryEvent.ENGINE_REGISTERED, {"engine_info": engine_info})
@@ -226,9 +220,7 @@ class IntelligenceEngineRegistry:
         """Unregister an intelligence engine"""
         try:
             # Validate access
-            security_check = self.config.security_enabled and not self._validate_engine_access(
-                engine_id, access_token
-            )
+            security_check = self.config.security_enabled and not self._validate_engine_access(engine_id, access_token)
             if security_check:
                 return False
 
@@ -383,9 +375,7 @@ class IntelligenceEngineRegistry:
         return {
             "total_engines": len(self.engines),
             "healthy_engines": healthy_engines,
-            "engine_types": {
-                et.value: len(engines) for et, engines in self.engine_types_index.items()
-            },
+            "engine_types": {et.value: len(engines) for et, engines in self.engine_types_index.items()},
             "capabilities": len(self.capabilities_index),
             "monitoring_active": self.monitoring_active,
             "uptime_seconds": uptime,
@@ -623,9 +613,7 @@ def get_global_registry(
 # Factory functions
 
 
-def create_engine_info(
-    engine_id: str, engine_type: EngineType, name: str, version: str, **kwargs
-) -> EngineInfo:
+def create_engine_info(engine_id: str, engine_type: EngineType, name: str, version: str, **kwargs) -> EngineInfo:
     """Factory function to create EngineInfo"""
     return EngineInfo(
         engine_id=engine_id,

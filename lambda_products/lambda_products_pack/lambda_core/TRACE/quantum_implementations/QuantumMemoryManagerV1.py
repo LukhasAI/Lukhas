@@ -124,9 +124,7 @@ class QIMemoryManager:
         except Exception as e:
             logger.error(f"Error stopping memory operations: {e}")
 
-    async def store_memory(
-        self, memory_data: dict[str, Any], memory_type: str = "general"
-    ) -> dict[str, Any]:
+    async def store_memory(self, memory_data: dict[str, Any], memory_type: str = "general") -> dict[str, Any]:
         """Store memory with quantum enhancement
 
         Args:
@@ -152,9 +150,7 @@ class QIMemoryManager:
             logger.error(f"Error storing memory: {e}")
             return {"success": False, "error": str(e)}
 
-    async def retrieve_memory(
-        self, query: dict[str, Any], memory_type: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def retrieve_memory(self, query: dict[str, Any], memory_type: Optional[str] = None) -> dict[str, Any]:
         """Retrieve memory with quantum enhancement
 
         Args:
@@ -195,14 +191,10 @@ class QIMemoryManager:
             elif action == "stop_operations":
                 await self.stop_memory_operations()
             elif action == "store":
-                result = await self.store_memory(
-                    content.get("memory_data", {}), content.get("memory_type", "general")
-                )
+                result = await self.store_memory(content.get("memory_data", {}), content.get("memory_type", "general"))
                 await self._send_response("store_result", result)
             elif action == "retrieve":
-                result = await self.retrieve_memory(
-                    content.get("query", {}), content.get("memory_type")
-                )
+                result = await self.retrieve_memory(content.get("query", {}), content.get("memory_type"))
                 await self._send_response("retrieve_result", result)
             else:
                 logger.warning(f"Unknown action: {action}")
@@ -246,9 +238,7 @@ class QIMemoryManager:
         except Exception as e:
             logger.error(f"Error consolidating memories: {e}")
 
-    async def _enhance_memory_storage(
-        self, memory_data: dict[str, Any], memory_type: str
-    ) -> dict[str, Any]:
+    async def _enhance_memory_storage(self, memory_data: dict[str, Any], memory_type: str) -> dict[str, Any]:
         """Enhance memory storage with quantum processing"""
         try:
             # Memory enhancement implementation will go here

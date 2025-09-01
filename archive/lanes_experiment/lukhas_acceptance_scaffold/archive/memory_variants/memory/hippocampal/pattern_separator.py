@@ -43,9 +43,7 @@ class PatternSeparator:
         self.use_competitive_learning = use_competitive_learning
 
         # Initialize random projection matrix (input -> expanded representation)
-        self.projection_matrix = np.random.randn(input_dimension, output_dimension) * np.sqrt(
-            2.0 / input_dimension
-        )
+        self.projection_matrix = np.random.randn(input_dimension, output_dimension) * np.sqrt(2.0 / input_dimension)
 
         # Competitive learning weights
         if use_competitive_learning:
@@ -70,9 +68,7 @@ class PatternSeparator:
 
         # Ensure input is correct dimension
         if input_pattern.shape[0] != self.input_dimension:
-            raise ValueError(
-                f"Input dimension mismatch: expected {self.input_dimension}, got {input_pattern.shape[0]}"
-            )
+            raise ValueError(f"Input dimension mismatch: expected {self.input_dimension}, got {input_pattern.shape[0]}")
 
         # Project to high-dimensional space
         expanded = np.dot(input_pattern, self.projection_matrix)
@@ -117,9 +113,7 @@ class PatternSeparator:
         """Separate multiple patterns in batch"""
         return [self.separate(pattern) for pattern in input_patterns]
 
-    def compute_separation_quality(
-        self, pattern1: np.ndarray, pattern2: np.ndarray
-    ) -> dict[str, float]:
+    def compute_separation_quality(self, pattern1: np.ndarray, pattern2: np.ndarray) -> dict[str, float]:
         """
         Compute metrics for pattern separation quality.
         Returns overlap, correlation, and orthogonality measures.
@@ -208,9 +202,7 @@ class PatternSeparator:
             "average_sparsity": self.average_sparsity,
             "target_sparsity": self.sparsity,
             "expansion_factor": self.output_dimension / self.input_dimension,
-            "competitive_weight_variance": (
-                np.var(self.competitive_weights) if self.use_competitive_learning else 0.0
-            ),
+            "competitive_weight_variance": (np.var(self.competitive_weights) if self.use_competitive_learning else 0.0),
         }
 
 

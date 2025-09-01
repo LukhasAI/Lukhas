@@ -116,9 +116,7 @@ class ClassicalEmotionEngine:
             "social_sharing": 0.6,  # Social support
         }
 
-    async def analyze_emotional_coherence(
-        self, context: ClassicalEmotionalContext
-    ) -> ClassicalCoherenceResponse:
+    async def analyze_emotional_coherence(self, context: ClassicalEmotionalContext) -> ClassicalCoherenceResponse:
         """Analyze emotional coherence using classical methods"""
 
         analysis_id = f"classical_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -127,9 +125,7 @@ class ClassicalEmotionEngine:
         emotional_state = await self._extract_emotions(context.text, context.emotion_model)
 
         # Calculate physiological indicators
-        physiological = self._calculate_physiological_state(
-            emotional_state, context.context_type, context.user_state
-        )
+        physiological = self._calculate_physiological_state(emotional_state, context.context_type, context.user_state)
 
         # Calculate coherence (classical, max 1.0)
         coherence, stability = self._calculate_classical_coherence(
@@ -137,17 +133,13 @@ class ClassicalEmotionEngine:
         )
 
         # Generate response guidelines
-        guidelines = self._generate_response_guidelines(
-            emotional_state, physiological, context.context_type
-        )
+        guidelines = self._generate_response_guidelines(emotional_state, physiological, context.context_type)
 
         # Identify empathy markers
         empathy_markers = self._identify_empathy_patterns(context.text, emotional_state)
 
         # Assess stability
-        stability_assessment = self._assess_emotional_stability(
-            emotional_state, physiological, context.user_state
-        )
+        stability_assessment = self._assess_emotional_stability(emotional_state, physiological, context.user_state)
 
         # Calculate confidence
         confidence = self._calculate_confidence(emotional_state, physiological)
@@ -359,9 +351,7 @@ class ClassicalEmotionEngine:
 
         return guidelines
 
-    def _identify_empathy_patterns(
-        self, text: str, emotions: ClassicalEmotionalVector
-    ) -> list[str]:
+    def _identify_empathy_patterns(self, text: str, emotions: ClassicalEmotionalVector) -> list[str]:
         """Identify empathy markers in text"""
 
         markers = []

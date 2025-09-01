@@ -144,9 +144,7 @@ class MemorySafetySystem:
     def _normalize_memory_data(self, data: dict[str, Any]) -> str:
         """Normalize memory data for consistent hashing"""
         # Remove timestamps and volatile fields
-        stable_data = {
-            k: v for k, v in data.items() if k not in ["timestamp", "access_count", "last_accessed"]
-        }
+        stable_data = {k: v for k, v in data.items() if k not in ["timestamp", "access_count", "last_accessed"]}
 
         # Sort and stringify
         import json
@@ -470,9 +468,7 @@ class MemorySafetySystem:
                     if self.verifold_registry
                     else 1.0
                 ),
-                "suspicious_memories": sum(
-                    1 for v in self.verifold_registry.values() if v.suspicious_modifications
-                ),
+                "suspicious_memories": sum(1 for v in self.verifold_registry.values() if v.suspicious_modifications),
             },
             "quarantine_status": {
                 "memories_in_quarantine": len(self.quarantine),
@@ -572,13 +568,9 @@ class SafeMemoryFold:
 
             # Check consensus if requested
             if check_consensus and len(results) >= self.safety.consensus_threshold:
-                similar_memories = [
-                    (m.item_id, m.data, s) for m, s in results if m.item_id != memory_id
-                ]
+                similar_memories = [(m.item_id, m.data, s) for m, s in results if m.item_id != memory_id]
 
-                is_valid, confidence = await self.safety.consensus_validation(
-                    memory_id, memory_data, similar_memories
-                )
+                is_valid, confidence = await self.safety.consensus_validation(memory_id, memory_data, similar_memories)
 
                 if not is_valid:
                     continue

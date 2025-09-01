@@ -549,15 +549,13 @@ class AutoEscalatorPolicy:
                     "score": metrics.engagement_score,
                     "sessions_per_week": metrics.session_frequency,
                     "hours_per_month": metrics.time_on_platform,
-                    "contribution_to_score": self.value_weights["engagement_score"]
-                    * metrics.engagement_score,
+                    "contribution_to_score": self.value_weights["engagement_score"] * metrics.engagement_score,
                 },
                 "data_quality": {
                     "score": metrics.data_quality_score,
                     "consent_breadth": metrics.consent_breadth,
                     "data_freshness": metrics.data_freshness,
-                    "contribution_to_score": self.value_weights["data_quality_score"]
-                    * metrics.data_quality_score,
+                    "contribution_to_score": self.value_weights["data_quality_score"] * metrics.data_quality_score,
                 },
                 "community_contribution": {
                     "feedback_score": metrics.feedback_score,
@@ -565,8 +563,7 @@ class AutoEscalatorPolicy:
                     "platform_advocacy": metrics.platform_advocacy,
                     "total_contribution": (
                         self.value_weights["feedback_score"] * metrics.feedback_score
-                        + self.value_weights["referral_contribution"]
-                        * min(metrics.referral_count / 10, 1.0)
+                        + self.value_weights["referral_contribution"] * min(metrics.referral_count / 10, 1.0)
                         + self.value_weights["platform_advocacy"] * metrics.platform_advocacy
                     ),
                 },
@@ -616,9 +613,7 @@ class AutoEscalatorPolicy:
 
         return None
 
-    async def _calculate_transaction_bonuses(
-        self, metrics: UserValueMetrics, amount: float
-    ) -> dict[str, float]:
+    async def _calculate_transaction_bonuses(self, metrics: UserValueMetrics, amount: float) -> dict[str, float]:
         """Calculate any special bonuses for transaction"""
 
         bonuses = {"user_bonus": 0.0, "platform_bonus": 0.0}
@@ -652,9 +647,7 @@ class AutoEscalatorPolicy:
         # In production, this would update the user profile database
         logger.info(f"User {user_id} escalated to tier {new_tier.value}")
 
-    async def _notify_user_escalation(
-        self, user_id: str, escalation_record: dict[str, Any]
-    ) -> None:
+    async def _notify_user_escalation(self, user_id: str, escalation_record: dict[str, Any]) -> None:
         """Send notification to user about tier escalation"""
         # In production, this would send email/push notification
         logger.info(f"Escalation notification sent to user {user_id}")

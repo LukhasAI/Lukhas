@@ -141,9 +141,7 @@ class HighPerformanceCache:
         """Clear all expired entries"""
         with self.cache_lock:
             current_time = time.time()
-            expired_keys = [
-                key for key, expiry_time in self.ttl_expiry.items() if current_time > expiry_time
-            ]
+            expired_keys = [key for key, expiry_time in self.ttl_expiry.items() if current_time > expiry_time]
 
             for key in expired_keys:
                 self._evict_key(key)
@@ -168,9 +166,7 @@ class AsyncAuthProcessor:
         self.executor = ThreadPoolExecutor(max_workers=max_workers)
         self.semaphore = asyncio.Semaphore(max_workers)
 
-    async def process_parallel_validations(
-        self, validation_tasks: list[tuple[str, Any]]
-    ) -> dict[str, Any]:
+    async def process_parallel_validations(self, validation_tasks: list[tuple[str, Any]]) -> dict[str, Any]:
         """Process multiple validation tasks in parallel"""
 
         async def process_single_validation(task_id: str, validation_func, *args):
@@ -179,10 +175,7 @@ class AsyncAuthProcessor:
                 result = await loop.run_in_executor(self.executor, validation_func, *args)
                 return task_id, result
 
-        tasks = [
-            process_single_validation(task_id, func, *args)
-            for task_id, (func, args) in validation_tasks
-        ]
+        tasks = [process_single_validation(task_id, func, *args) for task_id, (func, args) in validation_tasks]
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
@@ -253,9 +246,7 @@ class AuthenticationOptimizer:
         return decorator
 
     @performance_measure("lambda_id_validation")
-    def optimize_lambda_id_validation(
-        self, lambda_id: str, validation_level: str = "standard"
-    ) -> dict[str, Any]:
+    def optimize_lambda_id_validation(self, lambda_id: str, validation_level: str = "standard") -> dict[str, Any]:
         """Optimized ΛID validation with caching"""
         cache_key = f"lambda_id_validation:{lambda_id}:{validation_level}"
 
@@ -328,9 +319,7 @@ class AuthenticationOptimizer:
         return result
 
     @performance_measure("token_validation")
-    def optimize_token_validation(
-        self, token: str, token_type: str = "access_token"
-    ) -> dict[str, Any]:
+    def optimize_token_validation(self, token: str, token_type: str = "access_token") -> dict[str, Any]:
         """Optimized token validation with smart caching"""
         # Use token hash for cache key to avoid storing sensitive data
         token_hash = hashlib.sha256(token.encode()).hexdigest()[:16]
@@ -367,9 +356,7 @@ class AuthenticationOptimizer:
 
         return result
 
-    async def optimize_parallel_auth_flow(
-        self, auth_operations: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def optimize_parallel_auth_flow(self, auth_operations: list[dict[str, Any]]) -> dict[str, Any]:
         """Optimize authentication flow with parallel processing"""
         if not self.enable_async_operations:
             # Fall back to sequential processing
@@ -547,9 +534,7 @@ class AuthenticationOptimizer:
                 "total_operations": self.metrics.metrics["operations_count"],
                 "total_errors": self.metrics.metrics["error_count"],
             },
-            "recommendations": self._generate_optimization_recommendations(
-                p95_latency, cache_hit_rate
-            ),
+            "recommendations": self._generate_optimization_recommendations(p95_latency, cache_hit_rate),
             "trinity_compliance": {
                 "⚛️_identity": "PERFORMANCE_OPTIMIZED",
                 "🧠_consciousness": "MONITORED",
@@ -557,9 +542,7 @@ class AuthenticationOptimizer:
             },
         }
 
-    def _generate_optimization_recommendations(
-        self, p95_latency: float, cache_hit_rate: float
-    ) -> list[str]:
+    def _generate_optimization_recommendations(self, p95_latency: float, cache_hit_rate: float) -> list[str]:
         """Generate optimization recommendations based on current performance"""
         recommendations = []
 
@@ -574,9 +557,7 @@ class AuthenticationOptimizer:
             )
 
         if not self.enable_async_operations:
-            recommendations.append(
-                "Enable async operations for better parallel processing performance."
-            )
+            recommendations.append("Enable async operations for better parallel processing performance.")
 
         if not self.enable_predictive_caching:
             recommendations.append("Enable predictive caching to improve cache hit rates.")

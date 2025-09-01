@@ -188,18 +188,14 @@ def plan_proposals(signals: dict[str, Any], *, config_targets: list[str]) -> lis
 
     if mean < 0.85 or fails > 0:
         # Example: propose to slightly increase safety threshold or adjust eval weights
-        target = (
-            config_targets[0] if config_targets else "qi/safety/policy_packs/global/mappings.yaml"
-        )
+        target = config_targets[0] if config_targets else "qi/safety/policy_packs/global/mappings.yaml"
         if not _path_allowed(target, allowed, denied):
             _audit("proposal_denied_by_governance", {"target": target})
             return props
 
         cur_sum = _file_checksum(target)
         patch = {"router": {"task_specific": {"risk_bias": min(1.0, 0.1 + max(0, (0.85 - mean)))}}}
-        rationale = (
-            f"Weighted mean {mean:.3f}, failures {fails}; propose biasing safer routes slightly."
-        )
+        rationale = f"Weighted mean {mean:.3f}, failures {fails}; propose biasing safer routes slightly."
         pid = _sha({"target": target, "patch": patch, "t": int(_now())})
         prop = ChangeProposal(
             id=pid,

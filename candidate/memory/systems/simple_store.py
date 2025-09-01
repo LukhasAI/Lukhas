@@ -147,12 +147,8 @@ class UnifiedMemoryManager:
         self.cache_access_times: dict[str, float] = {}
 
         # Memory indices for fast querying
-        self.type_index: dict[MemoryType, dict[str, list[str]]] = {
-            memory_type: {} for memory_type in MemoryType
-        }
-        self.priority_index: dict[MemoryPriority, dict[str, list[str]]] = {
-            priority: {} for priority in MemoryPriority
-        }
+        self.type_index: dict[MemoryType, dict[str, list[str]]] = {memory_type: {} for memory_type in MemoryType}
+        self.priority_index: dict[MemoryPriority, dict[str, list[str]]] = {priority: {} for priority in MemoryPriority}
 
         # Shared memory mapping for performance (if enabled)
         self.mmap_files: dict[str, mmap.mmap] = {}
@@ -250,10 +246,7 @@ class UnifiedMemoryManager:
             )
 
             # Compress if enabled and content is large enough
-            if (
-                self.config.enable_compression
-                and len(json.dumps(content)) > self.config.compression_threshold
-            ):
+            if self.config.enable_compression and len(json.dumps(content)) > self.config.compression_threshold:
                 memory.content = await self._compress_content(content)
                 memory.compressed = True
 
@@ -321,9 +314,7 @@ class UnifiedMemoryManager:
                 user_memories = valid_memories
 
             # Sort by last_accessed (most recent first) and limit
-            sorted_memories = sorted(
-                user_memories.values(), key=lambda m: m.last_accessed, reverse=True
-            )[:limit]
+            sorted_memories = sorted(user_memories.values(), key=lambda m: m.last_accessed, reverse=True)[:limit]
 
             # Update access times
             for memory in sorted_memories:
@@ -347,9 +338,7 @@ class UnifiedMemoryManager:
             logger.error(f"Failed to retrieve memories: {e}")
             return []
 
-    async def delete_user_memories(
-        self, user_id: str, memory_ids: Optional[list[str]] = None
-    ) -> bool:
+    async def delete_user_memories(self, user_id: str, memory_ids: Optional[list[str]] = None) -> bool:
         """
         Delete memories for GDPR compliance.
 
@@ -399,15 +388,11 @@ class UnifiedMemoryManager:
                     "user_id": user_id,
                     "total_memories": len(user_memories),
                     "memory_types": {
-                        mem_type.value: len(
-                            [m for m in user_memories.values() if m.memory_type == mem_type]
-                        )
+                        mem_type.value: len([m for m in user_memories.values() if m.memory_type == mem_type])
                         for mem_type in MemoryType
                     },
                     "memory_priorities": {
-                        priority.value: len(
-                            [m for m in user_memories.values() if m.priority == priority]
-                        )
+                        priority.value: len([m for m in user_memories.values() if m.priority == priority])
                         for priority in MemoryPriority
                     },
                 }

@@ -174,9 +174,7 @@ def inject(service_name: Optional[str] = None, interface: Optional[type] = None)
                 if len(args) < len(param_names) or param_names[-1] not in kwargs:
                     try:
                         service = get_service(service_name)
-                        kwargs[
-                            service_name.replace("_service", "_interface" if interface else "")
-                        ] = service
+                        kwargs[service_name.replace("_service", "_interface" if interface else "")] = service
                     except ValueError:
                         logger.warning(f"Service '{service_name}' not found for injection")
 
@@ -209,9 +207,7 @@ def inject(service_name: Optional[str] = None, interface: Optional[type] = None)
                 if len(args) < len(param_names) or param_names[-1] not in kwargs:
                     try:
                         service = get_service(service_name)
-                        kwargs[
-                            service_name.replace("_service", "_interface" if interface else "")
-                        ] = service
+                        kwargs[service_name.replace("_service", "_interface" if interface else "")] = service
                     except ValueError:
                         logger.warning(f"Service '{service_name}' not found for injection")
 

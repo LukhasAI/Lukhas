@@ -52,9 +52,7 @@ class MedicareAustraliaInterface(EHRInterface):
         # - Set up PBS access
         pass
 
-    async def get_patient_record(
-        self, patient_id: str, record_types: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def get_patient_record(self, patient_id: str, record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from MyHealthRecord
 
@@ -70,9 +68,7 @@ class MedicareAustraliaInterface(EHRInterface):
         # Implement Medicare-specific record retrieval
         pass
 
-    async def verify_medicare_eligibility(
-        self, medicare_number: str, service_type: str
-    ) -> dict[str, Any]:
+    async def verify_medicare_eligibility(self, medicare_number: str, service_type: str) -> dict[str, Any]:
         """
         Verify Medicare eligibility for services
 
@@ -90,9 +86,7 @@ class MedicareAustraliaInterface(EHRInterface):
 
     async def submit_claim(self, patient_id: str, claim_data: dict[str, Any]) -> str:
         """Submit bulk billing claim to Medicare"""
-        self.audit.log_access(
-            user_id=self.config["provider_number"], action="submit_claim", resource_id=patient_id
-        )
+        self.audit.log_access(user_id=self.config["provider_number"], action="submit_claim", resource_id=patient_id)
         # Implement claim submission
         pass
 
@@ -109,15 +103,11 @@ class MedicareAustraliaInterface(EHRInterface):
 
     async def upload_clinical_document(self, patient_id: str, document_data: dict[str, Any]) -> str:
         """Upload clinical document to MyHealthRecord"""
-        self.audit.log_access(
-            user_id=self.config["provider_number"], action="upload_document", resource_id=patient_id
-        )
+        self.audit.log_access(user_id=self.config["provider_number"], action="upload_document", resource_id=patient_id)
         # Implement document upload
         pass
 
     async def handle_error(self, error: Exception) -> None:
         """Handle Medicare-specific errors"""
-        self.audit.log_security_event(
-            event_type="error", severity="error", details={"error": str(error)}
-        )
+        self.audit.log_security_event(event_type="error", severity="error", details={"error": str(error)})
         # Implement Medicare-specific error handling

@@ -214,30 +214,22 @@ class EmotionalRegulator:
             )
 
         # Select optimal regulation strategy
-        strategy = await self._select_regulation_strategy(
-            current_state, triggers, context, user_preferences
-        )
+        strategy = await self._select_regulation_strategy(current_state, triggers, context, user_preferences)
 
         # Apply regulation
         regulated_state = await self._apply_regulation(current_state, strategy, context)
 
         # Calculate effectiveness
-        effectiveness = await self._calculate_effectiveness(
-            current_state, regulated_state, strategy
-        )
+        effectiveness = await self._calculate_effectiveness(current_state, regulated_state, strategy)
 
         # Generate reasoning
-        reasoning = await self._generate_regulation_reasoning(
-            current_state, regulated_state, strategy, triggers
-        )
+        reasoning = await self._generate_regulation_reasoning(current_state, regulated_state, strategy, triggers)
 
         # Generate hormone triggers
         hormone_triggers = await self._generate_hormone_triggers(regulated_state, strategy)
 
         # Generate neuroplastic tags
-        neuroplastic_tags = await self._generate_neuroplastic_tags(
-            current_state, regulated_state, strategy, context
-        )
+        neuroplastic_tags = await self._generate_neuroplastic_tags(current_state, regulated_state, strategy, context)
 
         # Store in emotional memory for learning
         memory = EmotionalMemory(
@@ -264,9 +256,7 @@ class EmotionalRegulator:
             duration_seconds=time.time() - start_time,
         )
 
-    async def _assess_regulation_needs(
-        self, state: VADVector, context: dict[str, Any]
-    ) -> tuple[bool, list[str]]:
+    async def _assess_regulation_needs(self, state: VADVector, context: dict[str, Any]) -> tuple[bool, list[str]]:
         """Assess if emotional regulation is needed"""
         triggers = []
 
@@ -321,9 +311,7 @@ class EmotionalRegulator:
                         score += self.strategy_weights[strategy][trigger]
 
             # User preference bonus
-            if user_preferences and strategy.value in user_preferences.get(
-                "preferred_strategies", []
-            ):
+            if user_preferences and strategy.value in user_preferences.get("preferred_strategies", []):
                 score += 0.3
 
             # Context-based adjustments
@@ -404,9 +392,7 @@ class EmotionalRegulator:
             intensity=state.intensity * 0.8,
         )
 
-    async def _apply_cognitive_reframing(
-        self, state: VADVector, context: dict[str, Any]
-    ) -> VADVector:
+    async def _apply_cognitive_reframing(self, state: VADVector, context: dict[str, Any]) -> VADVector:
         """Apply cognitive reframing regulation"""
         # Cognitive reframing primarily affects valence and dominance
         valence_improvement = 0.3 if state.valence < 0 else 0.1
@@ -621,13 +607,9 @@ class EmotionalRegulator:
 
         return np.mean(distances) if distances else 0.0
 
-    def _get_historical_effectiveness(
-        self, strategy: RegulationStrategy, triggers: list[str]
-    ) -> float:
+    def _get_historical_effectiveness(self, strategy: RegulationStrategy, triggers: list[str]) -> float:
         """Get historical effectiveness of strategy for given triggers"""
-        relevant_memories = [
-            mem for mem in self.emotional_memories if mem.regulation_applied == strategy
-        ]
+        relevant_memories = [mem for mem in self.emotional_memories if mem.regulation_applied == strategy]
 
         if not relevant_memories:
             return 0.5  # Neutral score for unknown strategies
@@ -703,9 +685,7 @@ class EmotionalRegulator:
         valences = [mem.vad_state.valence for mem in memories]
         if valences:
             avg_valence = np.mean(valences)
-            valence_trend = (
-                "positive" if avg_valence > 0.1 else "negative" if avg_valence < -0.1 else "neutral"
-            )
+            valence_trend = "positive" if avg_valence > 0.1 else "negative" if avg_valence < -0.1 else "neutral"
             patterns.append(
                 {
                     "type": "valence_trend",
@@ -718,9 +698,7 @@ class EmotionalRegulator:
         arousals = [mem.vad_state.arousal for mem in memories]
         if arousals:
             avg_arousal = np.mean(arousals)
-            arousal_level = (
-                "high" if avg_arousal > 0.3 else "low" if avg_arousal < -0.3 else "moderate"
-            )
+            arousal_level = "high" if avg_arousal > 0.3 else "low" if avg_arousal < -0.3 else "moderate"
             patterns.append(
                 {
                     "type": "arousal_pattern",
@@ -745,9 +723,7 @@ class EmotionalRegulator:
         # Check for stress patterns
         high_arousal_count = sum(1 for mem in memories if mem.vad_state.arousal > 0.6)
         if high_arousal_count > len(memories) * 0.7:
-            recommendations.append(
-                "High arousal detected frequently - breathing exercises and mindfulness may help"
-            )
+            recommendations.append("High arousal detected frequently - breathing exercises and mindfulness may help")
 
         # Check for negative emotion patterns
         negative_count = sum(1 for mem in memories if mem.vad_state.valence < -0.4)
@@ -808,9 +784,7 @@ class VIVOXEmotionalRegulationNetwork:
         # Apply regulation if needed
         self.regulation_active = True
         try:
-            regulation_response = await self.regulator.regulate_emotion(
-                current_state, context, user_preferences
-            )
+            regulation_response = await self.regulator.regulate_emotion(current_state, context, user_preferences)
 
             # Update performance metrics
             self.total_regulations += 1
@@ -940,13 +914,9 @@ class VIVOXEmotionalRegulationNetwork:
                 hormone_triggers=hormone_triggers,
                 neuroplastic_tags=[],
             )
-            await endocrine_integration.process_emotional_hormones(
-                mock_response, {"hormone_only": True}
-            )
+            await endocrine_integration.process_emotional_hormones(mock_response, {"hormone_only": True})
 
-    async def _update_neuroplastic_patterns(
-        self, response: RegulationResponse, context: dict[str, Any]
-    ):
+    async def _update_neuroplastic_patterns(self, response: RegulationResponse, context: dict[str, Any]):
         """Update neuroplastic learning patterns"""
         neuroplastic_connector = self.integration_interfaces.get("neuroplastic_connector")
         if neuroplastic_connector:
@@ -976,9 +946,7 @@ class VIVOXEmotionalRegulationNetwork:
         """Get emotional insights for user transparency"""
         return await self.regulator.get_emotional_insights(user_id)
 
-    async def record_user_feedback(
-        self, regulation_id: str, satisfaction_score: float, feedback: str = ""
-    ):
+    async def record_user_feedback(self, regulation_id: str, satisfaction_score: float, feedback: str = ""):
         """Record user feedback for learning"""
         self.user_satisfaction_scores.append(satisfaction_score)
 

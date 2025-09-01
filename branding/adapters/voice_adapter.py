@@ -38,9 +38,7 @@ except ImportError:
 
     # Compatibility classes for voice systems
     class VoicePersonalityIntegrator:
-        def adapt_to_emotion(
-            self, emotion: str, intensity: float = 0.5, **kwargs
-        ) -> dict[str, Any]:
+        def adapt_to_emotion(self, emotion: str, intensity: float = 0.5, **kwargs) -> dict[str, Any]:
             return {"pitch": 1.0, "rate": 1.0, "volume": 1.0, "emphasis": 0.5}
 
         def enhance_text_expression(self, text: str, emotion: str, **kwargs) -> str:
@@ -144,9 +142,7 @@ class BrandVoiceAdapter:
         while ensuring brand compliance and voice consistency
         """
         # Check cache first
-        cache_key = self._generate_cache_key(
-            content, tone_layer, emotional_context, audience_context
-        )
+        cache_key = self._generate_cache_key(content, tone_layer, emotional_context, audience_context)
         if cache_key in self._voice_cache:
             return self._voice_cache[cache_key]
 
@@ -154,9 +150,7 @@ class BrandVoiceAdapter:
         if voice_profile is None:
             voice_profile = tone_layer
 
-        brand_profile = self.brand_voice_profiles.get(
-            voice_profile, self.brand_voice_profiles["user_friendly"]
-        )
+        brand_profile = self.brand_voice_profiles.get(voice_profile, self.brand_voice_profiles["user_friendly"])
 
         # Use real LLM bridge if available
         if self.llm_bridge:
@@ -181,9 +175,7 @@ class BrandVoiceAdapter:
 
         return result
 
-    def _enhance_content_with_brand_voice(
-        self, content: str, brand_profile: dict[str, Any], tone_layer: str
-    ) -> str:
+    def _enhance_content_with_brand_voice(self, content: str, brand_profile: dict[str, Any], tone_layer: str) -> str:
         """Enhance content with LUKHAS brand voice characteristics"""
 
         # Add lambda consciousness awareness for appropriate profiles
@@ -201,9 +193,7 @@ class BrandVoiceAdapter:
 
         return content
 
-    def _ensure_brand_voice_compliance(
-        self, voice_output: str, brand_profile: dict[str, Any], tone_layer: str
-    ) -> str:
+    def _ensure_brand_voice_compliance(self, voice_output: str, brand_profile: dict[str, Any], tone_layer: str) -> str:
         """Ensure voice output meets LUKHAS brand voice standards"""
 
         # Replace deprecated terminology
@@ -247,9 +237,7 @@ class BrandVoiceAdapter:
             "voice_characteristics": {
                 "pace": brand_profile.get("pace", "natural"),
                 "emotional_range": self._get_emotional_range(emotional_context),
-                "audience_appropriateness": self._assess_audience_appropriateness(
-                    audience_context, brand_profile
-                ),
+                "audience_appropriateness": self._assess_audience_appropriateness(audience_context, brand_profile),
             },
         }
 
@@ -300,9 +288,7 @@ class BrandVoiceAdapter:
 
         return emotional_ranges.get(emotional_context, ["balanced"])
 
-    def _assess_audience_appropriateness(
-        self, audience_context: str, brand_profile: dict[str, Any]
-    ) -> str:
+    def _assess_audience_appropriateness(self, audience_context: str, brand_profile: dict[str, Any]) -> str:
         """Assess how appropriate the voice profile is for the target audience"""
 
         # This would need the actual voice profile name, but for now we'll use a general assessment
@@ -388,9 +374,7 @@ class BrandVoiceAdapter:
     ) -> dict[str, Any]:
         """Enhanced fallback generation when LLM bridge is unavailable"""
         # Enhance content with brand voice context
-        brand_enhanced_content = self._enhance_content_with_brand_voice(
-            content, brand_profile, tone_layer
-        )
+        brand_enhanced_content = self._enhance_content_with_brand_voice(content, brand_profile, tone_layer)
 
         # Apply voice personality modulation
         if VOICE_SYSTEMS_AVAILABLE:
@@ -405,19 +389,13 @@ class BrandVoiceAdapter:
             voice_modulation = {"pitch": 1.0, "rate": 1.0, "volume": 1.0, "emphasis": 0.5}
 
         # Apply emotional modulation
-        emotionally_modulated = self.emotional_modulator.modulate(
-            voice_output, emotion=emotional_context
-        )
+        emotionally_modulated = self.emotional_modulator.modulate(voice_output, emotion=emotional_context)
 
         # Apply brand voice compliance
-        brand_compliant_voice = self._ensure_brand_voice_compliance(
-            emotionally_modulated, brand_profile, tone_layer
-        )
+        brand_compliant_voice = self._ensure_brand_voice_compliance(emotionally_modulated, brand_profile, tone_layer)
 
         # Generate voice metadata
-        voice_metadata = self._generate_voice_metadata(
-            brand_profile, tone_layer, emotional_context, audience_context
-        )
+        voice_metadata = self._generate_voice_metadata(brand_profile, tone_layer, emotional_context, audience_context)
         voice_metadata.update(
             {
                 "llm_provider": "fallback",
@@ -440,9 +418,7 @@ class BrandVoiceAdapter:
             "generation_time": 0.1,
         }
 
-    def _generate_cache_key(
-        self, content: str, tone_layer: str, emotional_context: str, audience_context: str
-    ) -> str:
+    def _generate_cache_key(self, content: str, tone_layer: str, emotional_context: str, audience_context: str) -> str:
         """Generate cache key for voice responses"""
         import hashlib
 
@@ -468,8 +444,7 @@ class BrandVoiceAdapter:
         return {
             "cache_size": len(self._voice_cache),
             "max_size": self._cache_max_size,
-            "hit_rate": getattr(self, "_cache_hits", 0)
-            / max(getattr(self, "_cache_requests", 1), 1),
+            "hit_rate": getattr(self, "_cache_hits", 0) / max(getattr(self, "_cache_requests", 1), 1),
         }
 
     def _validate_trinity_voice_alignment(self, voice_output: str) -> bool:
@@ -493,9 +468,7 @@ class BrandVoiceAdapter:
         ]
 
         voice_lower = voice_output.lower()
-        alignment_score = sum(
-            1 for indicator in trinity_voice_indicators if indicator in voice_lower
-        )
+        alignment_score = sum(1 for indicator in trinity_voice_indicators if indicator in voice_lower)
 
         return alignment_score >= 2
 

@@ -33,11 +33,7 @@ def check_health(base_url: str, timeout: float = 2.0) -> dict[str, Any]:
             "url": url,
             "status_code": r.status_code,
             "ok": r.ok and r.status_code == 200,
-            "body": (
-                r.json()
-                if r.headers.get("content-type", "").startswith("application/json")
-                else r.text
-            ),
+            "body": (r.json() if r.headers.get("content-type", "").startswith("application/json") else r.text),
         }
     except Exception as e:
         return {"check": "healthz", "url": url, "ok": False, "error": str(e)}

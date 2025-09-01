@@ -62,9 +62,7 @@ class ZeroKnowledgePrivacyEngine:
             else:
                 return await self._create_bulletproof(statement, witness)
 
-    async def _create_zksnark_proof(
-        self, statement: PrivacyStatement, witness: PrivateWitness
-    ) -> ZkSnarkProof:
+    async def _create_zksnark_proof(self, statement: PrivacyStatement, witness: PrivateWitness) -> ZkSnarkProof:
         """
         Create succinct non-interactive proof
         """
@@ -102,9 +100,7 @@ class ZeroKnowledgePrivacyEngine:
         Verify computation was done correctly without seeing private data
         """
         if isinstance(proof, ZkSnarkProof):
-            return await self.zksnark_system.verify(
-                proof.verification_key, proof.public_input, proof.proof_data
-            )
+            return await self.zksnark_system.verify(proof.verification_key, proof.public_input, proof.proof_data)
         elif isinstance(proof, BulletProof):
             return await self.bulletproof_system.verify(proof, expected_computation)
 

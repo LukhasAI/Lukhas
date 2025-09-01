@@ -139,24 +139,16 @@ class StargateIrisLock:
         templates = {}
 
         # Generate template for t5_user_000
-        templates["t5_user_000"] = hashlib.blake2b(
-            b"perfect_iris_match_t5_user_000", digest_size=64
-        ).hexdigest()
+        templates["t5_user_000"] = hashlib.blake2b(b"perfect_iris_match_t5_user_000", digest_size=64).hexdigest()
 
         # Generate template for demo_user (slightly different)
-        templates["demo_user"] = hashlib.blake2b(
-            b"demo_user_iris_pattern", digest_size=64
-        ).hexdigest()
+        templates["demo_user"] = hashlib.blake2b(b"demo_user_iris_pattern", digest_size=64).hexdigest()
 
         # Generate template for qi_master
-        templates["qi_master"] = hashlib.blake2b(
-            b"qi_master_perfect_iris", digest_size=64
-        ).hexdigest()
+        templates["qi_master"] = hashlib.blake2b(b"qi_master_perfect_iris", digest_size=64).hexdigest()
 
         # Additional T5 user
-        templates["t5_user_001"] = hashlib.blake2b(
-            b"t5_user_001_iris_pattern", digest_size=64
-        ).hexdigest()
+        templates["t5_user_001"] = hashlib.blake2b(b"t5_user_001_iris_pattern", digest_size=64).hexdigest()
 
         return templates
 
@@ -182,9 +174,7 @@ class StargateIrisLock:
         cultural_glyph = self._select_cultural_glyph(iris_scan_data.cultural_region)
 
         # Check for symbolic warnings
-        symbolic_warnings = self._check_symbolic_conditions(
-            iris_scan_data, match_score, stability_score
-        )
+        symbolic_warnings = self._check_symbolic_conditions(iris_scan_data, match_score, stability_score)
 
         # Determine if authentication passes
         success = (

@@ -543,9 +543,7 @@ class VisionPromptManager:
 
     def __init__(self, prompts_path: Optional[str] = None):
         """Initialize with configurable prompts path."""
-        self.prompts_path = (
-            Path(prompts_path) if prompts_path else Path("core/vision/lukhas_vision_prompts.json")
-        )
+        self.prompts_path = Path(prompts_path) if prompts_path else Path("core/vision/lukhas_vision_prompts.json")
         self.prompts_cache = None
         self._load_prompts()
 
@@ -687,16 +685,13 @@ class TierManager:
             "full_access": 5,
         }
 
-    def validate_access(
-        self, required_level: int, user_tier: int, operation: str = "unknown"
-    ) -> bool:
+    def validate_access(self, required_level: int, user_tier: int, operation: str = "unknown") -> bool:
         """Validate if user has required tier level."""
         has_access = user_tier >= required_level
 
         if not has_access:
             logger.warning(
-                f"Tier access denied: User tier {user_tier} < Required {required_level} "
-                f"for operation '{operation}'"
+                f"Tier access denied: User tier {user_tier} < Required {required_level} " f"for operation '{operation}'"
             )
         else:
             logger.debug(f"Tier access granted: User tier {user_tier} for operation '{operation}'")
@@ -780,9 +775,7 @@ class MemoryFoldSystem:
 
         logger.info("MemoryFoldSystem initialization complete")
 
-    def log_dream(
-        self, dream_type: str = "reflective", user_id: Optional[str] = None
-    ) -> dict[str, Any]:
+    def log_dream(self, dream_type: str = "reflective", user_id: Optional[str] = None) -> dict[str, Any]:
         """
         Log a dream insight as a memory fold.
 
@@ -897,9 +890,7 @@ class MemoryFoldSystem:
 
             # Calculate temporal relevance
             fold_time = datetime.fromisoformat(fold["timestamp"].replace("Z", "+00:00"))
-            time_diff = (
-                datetime.utcnow().replace(tzinfo=fold_time.tzinfo) - fold_time
-            ).total_seconds()
+            time_diff = (datetime.utcnow().replace(tzinfo=fold_time.tzinfo) - fold_time).total_seconds()
             fold["relevance_score_time"] = max(0.0, 1.0 - (time_diff / (60 * 60 * 24 * 7)))
 
             # Apply tier-based filtering
@@ -935,9 +926,7 @@ class MemoryFoldSystem:
         Returns:
             List of emotionally similar memory folds
         """
-        logger.info(
-            f"Enhanced recall: target_emotion={target_emotion}, threshold={emotion_threshold}"
-        )
+        logger.info(f"Enhanced recall: target_emotion={target_emotion}, threshold={emotion_threshold}")
 
         # Validate tier access for enhanced features
         if not self.tier_manager.validate_access(
@@ -959,9 +948,7 @@ class MemoryFoldSystem:
 
             # Find similar emotions
             if user_tier >= self.tier_manager.thresholds["emotional_mapping"]:
-                neighborhood = self.get_emotional_neighborhood(
-                    target_emotion, threshold=emotion_threshold
-                )
+                neighborhood = self.get_emotional_neighborhood(target_emotion, threshold=emotion_threshold)
                 related_emotions.update(neighborhood.keys())
 
             # Add cluster members if tier allows
@@ -1040,9 +1027,7 @@ class MemoryFoldSystem:
 
         return float(np.clip(distance, 0.0, 2.0))
 
-    def get_emotional_neighborhood(
-        self, target_emotion: str, threshold: float = 0.5
-    ) -> dict[str, float]:
+    def get_emotional_neighborhood(self, target_emotion: str, threshold: float = 0.5) -> dict[str, float]:
         """
         Find emotions within threshold distance of target.
 
@@ -1146,9 +1131,7 @@ class MemoryFoldSystem:
         # Filter by time
         cutoff_time = datetime.utcnow() - timedelta(hours=hours_limit)
         recent_folds = [
-            f
-            for f in recent_folds
-            if datetime.fromisoformat(f["timestamp"].replace("Z", "+00:00")) > cutoff_time
+            f for f in recent_folds if datetime.fromisoformat(f["timestamp"].replace("Z", "+00:00")) > cutoff_time
         ]
 
         if not recent_folds:
@@ -1218,19 +1201,9 @@ class MemoryFoldSystem:
         # Add emotion vector statistics
         stats["emotion_vectors"] = {
             "total": len(self.emotion_vectors),
-            "primary": len(
-                [
-                    e
-                    for e in self.emotion_vectors
-                    if e in self.config["emotion_vectors"].get("primary", {})
-                ]
-            ),
+            "primary": len([e for e in self.emotion_vectors if e in self.config["emotion_vectors"].get("primary", {})]),
             "secondary": len(
-                [
-                    e
-                    for e in self.emotion_vectors
-                    if e in self.config["emotion_vectors"].get("secondary", {})
-                ]
+                [e for e in self.emotion_vectors if e in self.config["emotion_vectors"].get("secondary", {})]
             ),
             "dynamic": len(
                 [
@@ -1426,9 +1399,7 @@ def log_dream(dream_type: str = "reflective", user_id: Optional[str] = None) -> 
     system.log_dream(dream_type, user_id)
 
 
-def create_memory_fold(
-    emotion: str, context_snippet: str, user_id: Optional[str] = None
-) -> dict[str, Any]:
+def create_memory_fold(emotion: str, context_snippet: str, user_id: Optional[str] = None) -> dict[str, Any]:
     """Legacy function for creating memory fold."""
     system = _get_global_system()
     return system.create_memory_fold(emotion, context_snippet, user_id)

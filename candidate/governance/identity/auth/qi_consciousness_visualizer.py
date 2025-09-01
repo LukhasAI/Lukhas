@@ -49,9 +49,7 @@ class QIConsciousnessVisualizer:
             "consciousness_feedback": {},
         }
 
-    def generate_neural_radiance_field(
-        self, seed_phrase: str, consciousness_level: float = 0.5
-    ) -> dict[str, Any]:
+    def generate_neural_radiance_field(self, seed_phrase: str, consciousness_level: float = 0.5) -> dict[str, Any]:
         """
         Generate NeRF-based visualization for seed phrase authentication.
 

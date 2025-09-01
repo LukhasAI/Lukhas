@@ -116,21 +116,15 @@ class EnhancedContentQualitySystem:
         base_score = base_quality.overall_score / 100.0  # Convert to 0-1 scale
 
         # 2. Voice coherence analysis
-        voice_result = await self.voice_engine.analyze_voice_coherence(
-            content, content_id, context, audience
-        )
+        voice_result = await self.voice_engine.analyze_voice_coherence(content, content_id, context, audience)
         voice_score = voice_result.overall_coherence
 
         # 3. Brand compliance validation
-        brand_result = await self.brand_validator.validate_content_real_time(
-            content, content_id, content_type
-        )
+        brand_result = await self.brand_validator.validate_content_real_time(content, content_id, content_type)
         brand_score = 1.0 if brand_result.is_compliant else 0.6  # Binary with partial credit
 
         # 4. Calculate enhancement bonus
-        enhancement_bonus = self._calculate_enhancement_bonus(
-            content, base_quality, voice_result, brand_result
-        )
+        enhancement_bonus = self._calculate_enhancement_bonus(content, base_quality, voice_result, brand_result)
 
         # 5. Calculate weighted overall quality
         overall_quality = (
@@ -213,9 +207,7 @@ class EnhancedContentQualitySystem:
             "enlightened",
             "mindful",
         ]
-        term_density = sum(1 for term in sophisticated_terms if term in content.lower()) / len(
-            content.split()
-        )
+        term_density = sum(1 for term in sophisticated_terms if term in content.lower()) / len(content.split())
         if term_density >= 0.05:  # 5% sophisticated terms
             bonus += 0.2
 
@@ -248,19 +240,13 @@ class EnhancedContentQualitySystem:
         if overall_quality < 0.90:
             # Specific suggestions for reaching A-grade
             if voice_result.overall_coherence < 0.85:
-                suggestions.append(
-                    "🗣️ Enhance voice coherence: Add more authentic LUKHAS personality markers"
-                )
+                suggestions.append("🗣️ Enhance voice coherence: Add more authentic LUKHAS personality markers")
 
             if voice_result.trinity_balance["guardian"] < 0.25:
-                suggestions.append(
-                    "🛡️ Strengthen Guardian elements: Include ethical/safety language"
-                )
+                suggestions.append("🛡️ Strengthen Guardian elements: Include ethical/safety language")
 
             if voice_result.trinity_balance["consciousness"] < 0.25:
-                suggestions.append(
-                    "🧠 Amplify consciousness focus: Add awareness/mindfulness language"
-                )
+                suggestions.append("🧠 Amplify consciousness focus: Add awareness/mindfulness language")
 
             if voice_result.trinity_balance["identity"] < 0.25:
                 suggestions.append("⚛️ Reinforce identity: Include authentic/genuine language")
@@ -276,9 +262,7 @@ class EnhancedContentQualitySystem:
     def _calculate_quality_grade(self, overall_quality: float) -> str:
         """Calculate letter grade based on overall quality score"""
 
-        for grade, threshold in sorted(
-            self.grade_thresholds.items(), key=lambda x: x[1], reverse=True
-        ):
+        for grade, threshold in sorted(self.grade_thresholds.items(), key=lambda x: x[1], reverse=True):
             if overall_quality >= threshold:
                 return grade
 
@@ -307,17 +291,11 @@ class EnhancedContentQualitySystem:
         if not self.analysis_history:
             return {"status": "no_data", "message": "No analyses performed yet"}
 
-        recent_analyses = (
-            self.analysis_history[-10:]
-            if len(self.analysis_history) >= 10
-            else self.analysis_history
-        )
+        recent_analyses = self.analysis_history[-10:] if len(self.analysis_history) >= 10 else self.analysis_history
 
         # Calculate performance metrics
         avg_quality = sum(r.overall_quality for r in recent_analyses) / len(recent_analyses)
-        target_achievement_rate = sum(1 for r in recent_analyses if r.target_achieved) / len(
-            recent_analyses
-        )
+        target_achievement_rate = sum(1 for r in recent_analyses if r.target_achieved) / len(recent_analyses)
         approval_rate = sum(1 for r in recent_analyses if r.approved) / len(recent_analyses)
 
         # Grade distribution
@@ -325,18 +303,12 @@ class EnhancedContentQualitySystem:
         grade_distribution = {grade: grades.count(grade) for grade in ["A", "B", "C", "D", "F"]}
 
         # Component performance
-        avg_voice_coherence = sum(r.voice_coherence_score for r in recent_analyses) / len(
-            recent_analyses
-        )
-        avg_brand_compliance = sum(r.brand_compliance_score for r in recent_analyses) / len(
-            recent_analyses
-        )
+        avg_voice_coherence = sum(r.voice_coherence_score for r in recent_analyses) / len(recent_analyses)
+        avg_brand_compliance = sum(r.brand_compliance_score for r in recent_analyses) / len(recent_analyses)
         avg_base_quality = sum(r.base_quality_score for r in recent_analyses) / len(recent_analyses)
 
         # Common improvement areas
-        top_improvements = sorted(
-            self.improvement_patterns.items(), key=lambda x: x[1], reverse=True
-        )[:5]
+        top_improvements = sorted(self.improvement_patterns.items(), key=lambda x: x[1], reverse=True)[:5]
 
         return {
             "overall_performance": {
@@ -387,9 +359,7 @@ class EnhancedContentQualitySystem:
             )
 
         # Re-analyze improved content
-        final_result = await self.analyze_content_quality(
-            improved_content, f"{content_id}_improved"
-        )
+        final_result = await self.analyze_content_quality(improved_content, f"{content_id}_improved")
 
         return improved_content, final_result
 
@@ -400,15 +370,15 @@ class EnhancedContentQualitySystem:
 
         for suggestion in suggestions:
             if "Trinity Framework" in suggestion and "⚛️🧠🛡️" not in content:
-                improved_content += " The Trinity Framework (⚛️🧠🛡️) ensures authentic, conscious, and ethical AI assistance."
+                improved_content += (
+                    " The Trinity Framework (⚛️🧠🛡️) ensures authentic, conscious, and ethical AI assistance."
+                )
 
             elif "call-to-action" in suggestion and "?" not in content:
                 improved_content += " What are your thoughts on this approach?"
 
             elif "Guardian elements" in suggestion:
-                improved_content = improved_content.replace(
-                    "technology", "ethical and secure technology"
-                )
+                improved_content = improved_content.replace("technology", "ethical and secure technology")
 
             elif "consciousness focus" in suggestion:
                 improved_content = improved_content.replace("AI", "conscious AI")
@@ -454,9 +424,7 @@ async def main():
         result = await system.analyze_content_quality(content, f"test_{i}")
 
         quality_pct = result.overall_quality * 100
-        status_emoji = (
-            "🟢" if result.quality_grade == "A" else "🟡" if result.quality_grade == "B" else "🔴"
-        )
+        status_emoji = "🟢" if result.quality_grade == "A" else "🟡" if result.quality_grade == "B" else "🔴"
 
         print(f"{status_emoji} Grade: {result.quality_grade} ({quality_pct:.1f}%)")
         print(f"Approved: {'✅ YES' if result.approved else '❌ NO'}")
@@ -479,14 +447,10 @@ async def main():
         # Test automatic improvement for low-quality content
         if result.overall_quality < 0.80:
             print("🔧 Testing Automatic Improvement...")
-            improved_content, improved_result = await system.improve_content_automatically(
-                content, f"test_{i}"
-            )
+            improved_content, improved_result = await system.improve_content_automatically(content, f"test_{i}")
 
             improvement = (improved_result.overall_quality - result.overall_quality) * 100
-            print(
-                f"Improvement: +{improvement:.1f}% → {improved_result.overall_quality * 100:.1f}%"
-            )
+            print(f"Improvement: +{improvement:.1f}% → {improved_result.overall_quality * 100:.1f}%")
             print(f"New Grade: {improved_result.quality_grade}")
             print()
 
@@ -498,9 +462,7 @@ async def main():
     print("📊 System Performance Summary")
     print("=" * 40)
     print(f"Average Quality: {summary['overall_performance']['average_quality'] * 100:.1f}%")
-    print(
-        f"Target Achievement Rate: {summary['overall_performance']['target_achievement_rate'] * 100:.1f}%"
-    )
+    print(f"Target Achievement Rate: {summary['overall_performance']['target_achievement_rate'] * 100:.1f}%")
     print(f"Approval Rate: {summary['overall_performance']['approval_rate'] * 100:.1f}%")
     print(f"System Status: {summary['overall_performance']['status']}")
 

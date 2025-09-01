@@ -25,9 +25,7 @@ class ConsciousnessJourneyMapper:
         # self.user_history_db = UserHistoryDB()
         pass
 
-    async def map_consciousness_journey(
-        self, user_id: str, timespan_months: int = 12
-    ) -> dict[str, Any]:
+    async def map_consciousness_journey(self, user_id: str, timespan_months: int = 12) -> dict[str, Any]:
         """
         Maps the user's past and predicted future consciousness journey.
 
@@ -73,12 +71,8 @@ class ConsciousnessJourneyMapper:
             "map_generated_utc": now.isoformat(),
             "current_trajectory": f"Growing towards {random.choice(['creativity', 'leadership', 'mindfulness'])}",
             "past_events": sorted(past_events, key=lambda x: x["event_time_utc"]),
-            "predicted_transitions": sorted(
-                predicted_transitions, key=lambda x: x["predicted_time_utc"]
-            ),
-            "recommended_nias_tier": random.choice(
-                ["T1_Aware", "T2_Enlightened", "T3_Transcendent"]
-            ),
+            "predicted_transitions": sorted(predicted_transitions, key=lambda x: x["predicted_time_utc"]),
+            "recommended_nias_tier": random.choice(["T1_Aware", "T2_Enlightened", "T3_Transcendent"]),
         }
 
         return journey_map

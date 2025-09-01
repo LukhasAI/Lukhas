@@ -139,9 +139,7 @@ class TraumaLockedMemory:
         self.decay_rate = 0.05
         self.locked_memories = {}
 
-    def lock_memory(
-        self, memory_data: Any, emotional_vector: EmotionalMemoryVector, user_id: str
-    ) -> str:
+    def lock_memory(self, memory_data: Any, emotional_vector: EmotionalMemoryVector, user_id: str) -> str:
         """
         Lock memory using emotional state as key component.
         High emotional intensity creates stronger encryption.
@@ -199,9 +197,7 @@ class TraumaLockedMemory:
         required_similarity = memory_record["lock_strength"] * 0.8
 
         if similarity < required_similarity:
-            logger.info(
-                f"Emotional state mismatch for memory unlock: {similarity:.2f} < {required_similarity:.2f}"
-            )
+            logger.info(f"Emotional state mismatch for memory unlock: {similarity:.2f} < {required_similarity:.2f}")
             return None
 
         # Reconstruct decryption key
@@ -219,9 +215,7 @@ class TraumaLockedMemory:
             logger.error(f"Failed to decrypt memory {memory_id}: {e}")
             return None
 
-    def _generate_emotional_key(
-        self, emotional_vector: EmotionalMemoryVector, user_id: str
-    ) -> bytes:
+    def _generate_emotional_key(self, emotional_vector: EmotionalMemoryVector, user_id: str) -> bytes:
         """Generate encryption key based on emotional state"""
         # Combine emotional dimensions with user ID
         key_components = [
@@ -297,9 +291,7 @@ class TraumaLockedMemory:
         data_string = data_bytes.decode()
         return json.loads(data_string)
 
-    def _calculate_emotional_similarity(
-        self, vector1: EmotionalMemoryVector, vector2: EmotionalMemoryVector
-    ) -> float:
+    def _calculate_emotional_similarity(self, vector1: EmotionalMemoryVector, vector2: EmotionalMemoryVector) -> float:
         """Calculate similarity between two emotional vectors"""
         # Euclidean distance in 4D emotional space
         distance = (
@@ -383,9 +375,7 @@ class ComplianceMonitor:
                 violations.append(f"EU AI Act Article 5 violation: Prohibited practice {action}")
 
             if context.get("high_risk_ai") and not context.get("human_oversight"):
-                violations.append(
-                    "EU AI Act Article 9 violation: High-risk AI without human oversight"
-                )
+                violations.append("EU AI Act Article 9 violation: High-risk AI without human oversight")
 
         # Log compliance check
         self.audit_log.append(
@@ -423,9 +413,7 @@ class LukhosIDManager:
 
         logger.info(f"LUKHAS_ID Manager initialized with {compliance_region.value} compliance")
 
-    async def register_user(
-        self, user_data: dict, initial_tier: AccessTier = AccessTier.TIER_1_BASIC
-    ) -> str:
+    async def register_user(self, user_data: dict, initial_tier: AccessTier = AccessTier.TIER_1_BASIC) -> str:
         """
         Register a new user with LUKHAS_ID system
         """
@@ -531,30 +519,22 @@ class LukhosIDManager:
         logger.info(f"User {user_id} authenticated successfully at tier {access_tier.value}")
         return session_data
 
-    async def _verify_tier_credentials(
-        self, user_record: dict, credentials: dict, tier: AccessTier
-    ) -> bool:
+    async def _verify_tier_credentials(self, user_record: dict, credentials: dict, tier: AccessTier) -> bool:
         """Verify credentials based on access tier requirements"""
 
         # Tier 1: Emoji + Seed Phrase Grid
         if tier.value >= 1:
-            if not self._verify_emoji_seed(
-                user_record.get("emoji_seed"), credentials.get("emoji_seed")
-            ):
+            if not self._verify_emoji_seed(user_record.get("emoji_seed"), credentials.get("emoji_seed")):
                 return False
 
         # Tier 2: + Biometrics (Face/Voice ID)
         if tier.value >= 2:
-            if not self._verify_biometrics(
-                user_record.get("biometric_hash"), credentials.get("biometric_data")
-            ):
+            if not self._verify_biometrics(user_record.get("biometric_hash"), credentials.get("biometric_data")):
                 return False
 
         # Tier 3: + SID Puzzle Fill-In
         if tier.value >= 3:
-            if not self._verify_sid_puzzle(
-                user_record.get("sid_puzzle"), credentials.get("sid_solution")
-            ):
+            if not self._verify_sid_puzzle(user_record.get("sid_puzzle"), credentials.get("sid_solution")):
                 return False
 
         # Tier 4: + Emergency Gesture/Fallback
@@ -753,8 +733,7 @@ class LukhosIDManager:
                 entry
                 for entry in self.compliance_monitor.audit_log
                 if not entry["compliant"]
-                and datetime.fromisoformat(entry["timestamp"])
-                > datetime.now() - timedelta(hours=24)
+                and datetime.fromisoformat(entry["timestamp"]) > datetime.now() - timedelta(hours=24)
             ],
         }
 
@@ -809,9 +788,7 @@ if __name__ == "__main__":
                 "outcome": "positive",
             }
 
-            memory_id = await lukhas_id.store_emotional_memory(
-                user_id, memory_data, emotional_state
-            )
+            memory_id = await lukhas_id.store_emotional_memory(user_id, memory_data, emotional_state)
             logger.info(f"Memory stored: {memory_id}")
 
             # Retrieve memory with similar emotional state
@@ -824,9 +801,7 @@ if __name__ == "__main__":
                 context="User in similar emotional state",
             )
 
-            retrieved_memory = await lukhas_id.retrieve_emotional_memory(
-                user_id, memory_id, similar_state
-            )
+            retrieved_memory = await lukhas_id.retrieve_emotional_memory(user_id, memory_id, similar_state)
             if retrieved_memory:
                 logger.info(f"Memory retrieved successfully: {retrieved_memory['type']}")
             else:

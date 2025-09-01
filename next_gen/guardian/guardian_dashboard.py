@@ -172,9 +172,7 @@ class ThreatPredictor:
         avg_severity_change = statistics.mean(severity_trend) if severity_trend else 0
 
         # Most common patterns
-        top_patterns = sorted(self.pattern_frequencies.items(), key=lambda x: x[1], reverse=True)[
-            :5
-        ]
+        top_patterns = sorted(self.pattern_frequencies.items(), key=lambda x: x[1], reverse=True)[:5]
 
         # Recent activity
         recent_activity = len([t for t in threats if time.time() - t.timestamp < 300])  # 5 minutes
@@ -184,9 +182,7 @@ class ThreatPredictor:
             "recent_activity": recent_activity,
             "avg_severity_change": avg_severity_change,
             "top_patterns": top_patterns,
-            "prediction_confidence": min(
-                1.0, len(threats) / 50
-            ),  # Higher confidence with more data
+            "prediction_confidence": min(1.0, len(threats) / 50),  # Higher confidence with more data
         }
 
 
@@ -301,16 +297,10 @@ class GuardianDashboard:
                     self.emergency_manifest = yaml.safe_load(f)
 
                 # Extract trigger conditions and response actions
-                self.emergency_trigger_conditions = self.emergency_manifest.get(
-                    "trigger_conditions", {}
-                )
-                self.emergency_response_actions = self.emergency_manifest.get(
-                    "response_actions", {}
-                )
+                self.emergency_trigger_conditions = self.emergency_manifest.get("trigger_conditions", {})
+                self.emergency_response_actions = self.emergency_manifest.get("response_actions", {})
 
-                print(
-                    f"📋 Emergency manifest loaded: {len(self.emergency_trigger_conditions)} trigger conditions"
-                )
+                print(f"📋 Emergency manifest loaded: {len(self.emergency_trigger_conditions)} trigger conditions")
             else:
                 print(f"⚠️ Emergency manifest not found: {self.emergency_manifest_file}")
 
@@ -415,10 +405,7 @@ class GuardianDashboard:
         while self.running:
             # Randomly generate threats
             if len(self.active_threats) < 5 and time.time() % 10 < 0.5:  # Throttled generation
-                if (
-                    not hasattr(self, "_last_threat_time")
-                    or time.time() - self._last_threat_time > 8
-                ):
+                if not hasattr(self, "_last_threat_time") or time.time() - self._last_threat_time > 8:
                     threat_type = self._generate_realistic_threat()
                     threat_id_counter += 1
 
@@ -459,9 +446,7 @@ class GuardianDashboard:
             "drift_spike": max(0.1, self.current_metrics.drift_velocity * 2),
             "entropy_surge": max(0.1, self.current_metrics.entropy_score * 1.5),
             "pattern_anomaly": 0.3,
-            "consciousness_instability": max(
-                0.1, 1.0 - self.current_metrics.consciousness_stability
-            ),
+            "consciousness_instability": max(0.1, 1.0 - self.current_metrics.consciousness_stability),
             "memory_fragmentation": max(0.1, self.current_metrics.memory_usage / 100),
         }
 
@@ -512,9 +497,7 @@ class GuardianDashboard:
         """Generate metadata for threat"""
         return {
             "detection_method": "guardian.sentinel",
-            "affected_systems": ["consciousness", "memory", "identity"][
-                : (int(time.time()) % 3) + 1
-            ],
+            "affected_systems": ["consciousness", "memory", "identity"][: (int(time.time()) % 3) + 1],
             "recommended_action": "monitor" if time.time() % 2 < 1 else "intervene",
             "escalation_path": "auto" if time.time() % 3 < 2 else "manual",
         }
@@ -597,11 +580,7 @@ class GuardianDashboard:
             print(f"{Console.YELLOW}Duration: {age:.0f}s{Console.RESET}", end="")
         else:
             # Trinity Framework status
-            trinity_color = (
-                Console.GREEN
-                if self.current_metrics.consciousness_stability > 0.8
-                else Console.YELLOW
-            )
+            trinity_color = Console.GREEN if self.current_metrics.consciousness_stability > 0.8 else Console.YELLOW
             print(f"Trinity Framework: ⚛️🧠🛡️ {trinity_color}ACTIVE{Console.RESET}", end="")
 
             # Guardian load
@@ -729,11 +708,7 @@ class GuardianDashboard:
 
             print(Console.move_cursor(9, 5), end="")
             severity_color = (
-                Console.RED
-                if threat.severity > 0.7
-                else Console.YELLOW
-                if threat.severity > 0.4
-                else Console.GREEN
+                Console.RED if threat.severity > 0.7 else Console.YELLOW if threat.severity > 0.4 else Console.GREEN
             )
             print(
                 f"Severity: {severity_color}{threat.severity:.2f}{Console.RESET} ({threat.confidence:.1%} confidence)",
@@ -826,13 +801,7 @@ class GuardianDashboard:
             + (1.0 - self.current_metrics.guardian_load)
         ) / 3
 
-        health_color = (
-            Console.GREEN
-            if health_score > 0.8
-            else Console.YELLOW
-            if health_score > 0.6
-            else Console.RED
-        )
+        health_color = Console.GREEN if health_score > 0.8 else Console.YELLOW if health_score > 0.6 else Console.RED
         health_bar = "█" * int(health_score * 20)
 
         print(Console.move_cursor(7, 5), end="")
@@ -851,11 +820,7 @@ class GuardianDashboard:
         print(Console.move_cursor(11, 5), end="")
         severity_trend = analysis.get("avg_severity_change", 0)
         trend_color = (
-            Console.RED
-            if severity_trend > 0.1
-            else Console.GREEN
-            if severity_trend < -0.1
-            else Console.YELLOW
+            Console.RED if severity_trend > 0.1 else Console.GREEN if severity_trend < -0.1 else Console.YELLOW
         )
         trend_arrow = "↗️" if severity_trend > 0.05 else "↘️" if severity_trend < -0.05 else "→"
         print(
@@ -866,11 +831,7 @@ class GuardianDashboard:
         # Guardian effectiveness
         if self.resolved_threats:
             avg_resolution_time = statistics.mean(
-                [
-                    t.resolution_time - t.timestamp
-                    for t in self.resolved_threats
-                    if t.resolution_time
-                ]
+                [t.resolution_time - t.timestamp for t in self.resolved_threats if t.resolution_time]
             )
 
             print(Console.move_cursor(13, 5), end="")
@@ -987,9 +948,7 @@ class GuardianDashboard:
             print(Console.move_cursor(21, 5), end="")
             print(Console.CLEAR_LINE, end="")
             emergency_status = "ACTIVE" if self.emergency_state.active_emergency_level else "Ready"
-            status_color = (
-                Console.RED if self.emergency_state.active_emergency_level else Console.GREEN
-            )
+            status_color = Console.RED if self.emergency_state.active_emergency_level else Console.GREEN
             print(
                 f"{Console.DIM}Emergency Status: {status_color}{emergency_status}{Console.RESET} | Simulation: {'Enabled' if self.emergency_simulation_enabled else 'Disabled'}",
                 end="",

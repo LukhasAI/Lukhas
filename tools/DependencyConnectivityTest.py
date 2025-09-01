@@ -200,9 +200,7 @@ class LambdaDependencyAnalyzer:
             "isolated_files_count": len(self.isolated_files),
             "summary": {
                 "files_analyzed": len(self.python_files),
-                "connectivity_health": (
-                    "GOOD" if len(self.broken_imports) < 10 else "NEEDS_ATTENTION"
-                ),
+                "connectivity_health": ("GOOD" if len(self.broken_imports) < 10 else "NEEDS_ATTENTION"),
                 "isolation_level": "LOW" if len(self.isolated_files) < 50 else "HIGH",
             },
             "details": {

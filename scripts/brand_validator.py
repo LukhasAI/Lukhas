@@ -87,9 +87,7 @@ class BrandValidator:
                         )
 
                 # Check for incorrect Lambda usage in URLs
-                if "Λ" in line and (
-                    "href=" in line or "url" in line.lower() or "path" in line.lower()
-                ):
+                if "Λ" in line and ("href=" in line or "url" in line.lower() or "path" in line.lower()):
                     if "aria-label" not in line and "display" not in line.lower():
                         violations.append(
                             (

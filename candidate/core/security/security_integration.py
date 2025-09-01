@@ -199,9 +199,7 @@ class SecurityIntegration:
         return hashlib.sha256(data.encode()).hexdigest()
 
     # Public API for modules
-    async def encrypt_module_data(
-        self, module: str, data: Any, data_type: str = "general"
-    ) -> tuple[bytes, str]:
+    async def encrypt_module_data(self, module: str, data: Any, data_type: str = "general") -> tuple[bytes, str]:
         """Encrypt data for a specific module"""
         if module in self.module_hooks:
             hook = self.module_hooks[module]
@@ -215,9 +213,7 @@ class SecurityIntegration:
 
             return await self.crypto.encrypt(data_bytes, purpose="data")
 
-    async def create_secure_session(
-        self, user_id: str, credentials: dict[str, Any]
-    ) -> Optional[dict[str, Any]]:
+    async def create_secure_session(self, user_id: str, credentials: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Create secure session with MFA"""
         # Check rate limiting
         if not await self.auth.check_rate_limit(user_id):
@@ -277,9 +273,7 @@ class SecurityIntegration:
             "mfa_verified": session.mfa_verified,
         }
 
-    async def verify_mfa(
-        self, session_id: str, mfa_method: str, mfa_code: str
-    ) -> Optional[dict[str, Any]]:
+    async def verify_mfa(self, session_id: str, mfa_method: str, mfa_code: str) -> Optional[dict[str, Any]]:
         """Verify MFA for session"""
         session = await self.auth.validate_session(session_id)
         if not session:
@@ -345,9 +339,7 @@ class SecurityIntegration:
             context.permissions = {"*"}
 
             # Validate with AGI security
-            return await self.agi_security.validate_operation(
-                operation, request_data.get("data"), context
-            )
+            return await self.agi_security.validate_operation(operation, request_data.get("data"), context)
 
         # Check API key
         elif auth_header.startswith("ApiKey "):

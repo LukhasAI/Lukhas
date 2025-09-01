@@ -30,9 +30,7 @@ class CrossDeviceHandshake:
         }
         return fingerprint
 
-    def calculate_trust_score(
-        self, device_id, entropy_consistency, sync_integrity, session_stability
-    ):
+    def calculate_trust_score(self, device_id, entropy_consistency, sync_integrity, session_stability):
         """Calculate a dynamic trust score for a device."""
         score = entropy_consistency * 0.4 + sync_integrity * 0.4 + session_stability * 0.2
         self.device_trust_scores[device_id] = score
@@ -97,21 +95,15 @@ class CrossDeviceHandshake:
                 constitutional_tag=True,
             )
             raise ValueError("Invalid conflict device list.")
-        trust_scores = {
-            device: self.device_trust_scores.get(device, 0) for device in conflicting_devices
-        }
+        trust_scores = {device: self.device_trust_scores.get(device, 0) for device in conflicting_devices}
         winner = max(trust_scores, key=trust_scores.get)
         if trust_scores[winner] < 0.5:
-            logger.critical(
-                f"Conflict unresolved for session: {session_token} (all trust scores: {trust_scores})"
-            )
+            logger.critical(f"Conflict unresolved for session: {session_token} (all trust scores: {trust_scores})")
             self.audit_logger.log_event(
                 f"Conflict unresolved for session: {session_token}",
                 constitutional_tag=True,
             )
-            raise ValueError(
-                "Conflict could not be resolved. Escalating to constitutional override."
-            )
+            raise ValueError("Conflict could not be resolved. Escalating to constitutional override.")
         if trust_scores[winner] < 0.6:
             logger.warning(
                 f"Conflict resolved near threshold for session: {session_token} (winner: {winner}, trust: {trust_scores[winner]})"
@@ -137,9 +129,7 @@ class CrossDeviceHandshake:
             verify_key = signing_key.verify_key
             return signing_key, verify_key
         except Exception as e:
-            self.audit_logger.log_event(
-                f"Session key generation failed: {e}", constitutional_tag=True
-            )
+            self.audit_logger.log_event(f"Session key generation failed: {e}", constitutional_tag=True)
             raise
 
     def exchange_public_keys(self, device_a, device_b):
@@ -156,14 +146,10 @@ class CrossDeviceHandshake:
 
     def validate_nonce(self, nonce):
         if not nonce or not isinstance(nonce, str):
-            self.audit_logger.log_event(
-                f"Invalid nonce for validation: {nonce}", constitutional_tag=True
-            )
+            self.audit_logger.log_event(f"Invalid nonce for validation: {nonce}", constitutional_tag=True)
             raise ValueError("Invalid nonce.")
         if not self.replay_protection.add_nonce(nonce):
-            self.audit_logger.log_event(
-                f"Replay attack detected with nonce: {nonce}", constitutional_tag=True
-            )
+            self.audit_logger.log_event(f"Replay attack detected with nonce: {nonce}", constitutional_tag=True)
             raise ValueError("Replay attack detected.")
 
     def apply_delay_penalty(self, device_id):

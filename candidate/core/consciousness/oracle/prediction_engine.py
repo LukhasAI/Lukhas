@@ -30,9 +30,7 @@ class PredictionEngine:
         # self.dast_client = DASTClient()
         pass
 
-    async def forecast_consciousness_state(
-        self, user_id: str, minutes_ahead: int = 30
-    ) -> dict[str, Any]:
+    async def forecast_consciousness_state(self, user_id: str, minutes_ahead: int = 30) -> dict[str, Any]:
         """
         Forecasts a user's consciousness state for a future time.
 
@@ -49,9 +47,7 @@ class PredictionEngine:
         # temporal_patterns = self.dast_client.get_temporal_patterns(user_id)
 
         # Placeholder logic
-        forecast_time = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(
-            minutes=minutes_ahead
-        )
+        forecast_time = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=minutes_ahead)
 
         possible_states = ["focused", "creative", "relaxed", "social", "decision_ready"]
 
@@ -70,9 +66,7 @@ class PredictionEngine:
 
         return forecasted_state
 
-    async def get_receptivity_windows(
-        self, user_id: str, next_hours: int = 1
-    ) -> list[dict[str, Any]]:
+    async def get_receptivity_windows(self, user_id: str, next_hours: int = 1) -> list[dict[str, Any]]:
         """
         Predicts windows of high receptivity for different content types.
 
@@ -95,9 +89,7 @@ class PredictionEngine:
             window = {
                 "start_time_utc": start_time.isoformat(),
                 "end_time_utc": end_time.isoformat(),
-                "predicted_receptivity": random.choice(
-                    ["creative", "decision_ready", "socially_influenced"]
-                ),
+                "predicted_receptivity": random.choice(["creative", "decision_ready", "socially_influenced"]),
                 "confidence": round(random.uniform(0.5, 0.9), 2),
             }
             windows.append(window)

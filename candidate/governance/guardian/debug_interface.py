@@ -414,9 +414,7 @@ class DebugInterface:
                     runtime_stats["health_error"] = str(e)
 
             # Count recent events for this component
-            recent_events = [
-                e for e in list(self.debug_events)[-100:] if e.component == component_name
-            ]
+            recent_events = [e for e in list(self.debug_events)[-100:] if e.component == component_name]
 
             error_count = len([e for e in recent_events if e.level == DebugLevel.ERROR])
             warning_count = len([e for e in recent_events if e.level == DebugLevel.WARNING])
@@ -519,16 +517,12 @@ class DebugInterface:
             },
             "consciousness": {
                 "health": self._get_trinity_component_health("consciousness"),
-                "awareness_state": len(
-                    self.trinity_debug_state["consciousness"]["awareness_state"]
-                ),
+                "awareness_state": len(self.trinity_debug_state["consciousness"]["awareness_state"]),
                 "debug_level": self.trinity_debug_state["consciousness"]["debug_level"].value,
             },
             "guardian": {
                 "health": self._get_trinity_component_health("guardian"),
-                "protection_active": bool(
-                    self.trinity_debug_state["guardian"]["protection_status"]
-                ),
+                "protection_active": bool(self.trinity_debug_state["guardian"]["protection_status"]),
                 "debug_level": self.trinity_debug_state["guardian"]["debug_level"].value,
             },
         }
@@ -593,9 +587,7 @@ class DebugInterface:
             },
         }
 
-    async def start_profiling_session(
-        self, component_name: str, session_name: Optional[str] = None
-    ) -> str:
+    async def start_profiling_session(self, component_name: str, session_name: Optional[str] = None) -> str:
         """
         Start a performance profiling session for a component.
 
@@ -784,9 +776,7 @@ class DebugInterface:
         """Get Trinity Framework component health score."""
 
         # Simulate health calculation based on registered components
-        related_components = [
-            name for name in self.registered_components if framework_component in name.lower()
-        ]
+        related_components = [name for name in self.registered_components if framework_component in name.lower()]
 
         if not related_components:
             return 1.0
@@ -864,9 +854,7 @@ class DebugInterface:
         """Update Trinity Framework debug state."""
 
         # Update identity debug state (⚛️)
-        identity_components = [
-            name for name in self.registered_components if "identity" in name.lower()
-        ]
+        identity_components = [name for name in self.registered_components if "identity" in name.lower()]
         self.trinity_debug_state["identity"]["active_contexts"] = identity_components
 
         # Update consciousness debug state (🧠)
@@ -880,12 +868,8 @@ class DebugInterface:
         }
 
         # Update guardian debug state (🛡️)
-        guardian_components = [
-            name for name in self.registered_components if "guardian" in name.lower()
-        ]
-        self.trinity_debug_state["guardian"]["protection_status"] = {
-            comp: "protected" for comp in guardian_components
-        }
+        guardian_components = [name for name in self.registered_components if "guardian" in name.lower()]
+        self.trinity_debug_state["guardian"]["protection_status"] = {comp: "protected" for comp in guardian_components}
 
 
 # Export main classes

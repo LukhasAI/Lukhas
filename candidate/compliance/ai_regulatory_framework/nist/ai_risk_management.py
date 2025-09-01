@@ -165,14 +165,10 @@ class NISTAIRiskManager:
             risk_level = await self._calculate_risk_level(trustworthy_scores, identified_risks)
 
             # Generate mitigation strategies
-            mitigation_strategies = await self._generate_mitigation_strategies(
-                identified_risks, trustworthy_scores
-            )
+            mitigation_strategies = await self._generate_mitigation_strategies(identified_risks, trustworthy_scores)
 
             # Define monitoring requirements
-            monitoring_requirements = await self._define_monitoring_requirements(
-                risk_level, lifecycle_stage
-            )
+            monitoring_requirements = await self._define_monitoring_requirements(risk_level, lifecycle_stage)
 
             return RiskAssessment(
                 system_id=system_id,
@@ -215,21 +211,15 @@ class NISTAIRiskManager:
         scores[TrustworthyCharacteristic.FAIR_BIAS_MANAGED] = fairness_score
 
         # Explainable and interpretable
-        scores[TrustworthyCharacteristic.EXPLAINABLE_INTERPRETABLE] = (
-            metrics.explainability_score or 0.0
-        )
+        scores[TrustworthyCharacteristic.EXPLAINABLE_INTERPRETABLE] = metrics.explainability_score or 0.0
 
         # Privacy-enhanced
-        scores[TrustworthyCharacteristic.PRIVACY_ENHANCED] = (
-            metrics.privacy_preservation_score or 0.0
-        )
+        scores[TrustworthyCharacteristic.PRIVACY_ENHANCED] = metrics.privacy_preservation_score or 0.0
 
         # Accountable and transparent
         # This would typically be assessed based on documentation and governance
         # For now, using a combination of explainability and security
-        transparency_score = (
-            (metrics.explainability_score or 0.0) + (metrics.security_score or 0.0)
-        ) / 2
+        transparency_score = ((metrics.explainability_score or 0.0) + (metrics.security_score or 0.0)) / 2
         scores[TrustworthyCharacteristic.ACCOUNTABLE_TRANSPARENT] = transparency_score
 
         return scores
@@ -262,9 +252,7 @@ class NISTAIRiskManager:
         for characteristic, score in trustworthy_scores.items():
             threshold = self.trustworthy_thresholds[characteristic]
             if score < threshold:
-                risks.append(
-                    f"Insufficient {characteristic.value.replace('_', ' ')} (score: {score:.2f})"
-                )
+                risks.append(f"Insufficient {characteristic.value.replace('_', ' ')} (score: {score:.2f})")
 
         # Security and robustness risks
         if metrics.robustness_score and metrics.robustness_score < 0.8:
@@ -482,9 +470,7 @@ class NISTAIRiskManager:
     def _determine_compliance_status(self, assessment: RiskAssessment) -> str:
         """Determine overall compliance status"""
         passed_characteristics = sum(
-            1
-            for char, score in assessment.trustworthy_scores.items()
-            if score >= self.trustworthy_thresholds[char]
+            1 for char, score in assessment.trustworthy_scores.items() if score >= self.trustworthy_thresholds[char]
         )
 
         total_characteristics = len(assessment.trustworthy_scores)
@@ -523,9 +509,7 @@ class NISTAIRiskManager:
         # Characteristic-specific recommendations
         for char, score in assessment.trustworthy_scores.items():
             if score < self.trustworthy_thresholds[char]:
-                recommendations.append(
-                    f"Improve {char.value.replace('_', ' ')} through targeted interventions"
-                )
+                recommendations.append(f"Improve {char.value.replace('_', ' ')} through targeted interventions")
 
         recommendations.extend(
             [

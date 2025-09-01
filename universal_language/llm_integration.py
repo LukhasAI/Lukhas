@@ -70,9 +70,7 @@ class PromptOptimizer:
         self.optimization_cache: dict[str, str] = {}
         self.token_budget = 4096  # Default token limit
 
-    def optimize_prompt(
-        self, base_prompt: str, symbols: list[Symbol], token_limit: Optional[int] = None
-    ) -> str:
+    def optimize_prompt(self, base_prompt: str, symbols: list[Symbol], token_limit: Optional[int] = None) -> str:
         """Optimize prompt to fit within token limits"""
         limit = token_limit or self.token_budget
 
@@ -260,9 +258,7 @@ class LLMLanguageBridge:
 
         # Optimize the prompt
         full_context = "\n".join(context_parts)
-        optimized = self.prompt_optimizer.optimize_prompt(
-            base_prompt + "\n" + full_context, symbols
-        )
+        optimized = self.prompt_optimizer.optimize_prompt(base_prompt + "\n" + full_context, symbols)
 
         return optimized
 
@@ -446,14 +442,10 @@ class LLMSymbolAPI:
     def teach_symbol_to_llm(self, symbol: Symbol, examples: list[str]):
         """Teach LLM a new symbol through examples"""
         for example in examples:
-            few_shot = FewShotExample(
-                input_symbols=[symbol], output_text=example, quality_score=0.9
-            )
+            few_shot = FewShotExample(input_symbols=[symbol], output_text=example, quality_score=0.9)
             self.bridge.few_shot_library.add_example(few_shot, symbol.domain)
 
-    def symbolic_conversation(
-        self, conversation_id: str, symbols: list[Symbol], message: str
-    ) -> dict[str, Any]:
+    def symbolic_conversation(self, conversation_id: str, symbols: list[Symbol], message: str) -> dict[str, Any]:
         """
         Maintain conversation with symbolic context.
         """
@@ -473,9 +465,7 @@ class LLMSymbolAPI:
         history.append({"role": "assistant", "symbols": response_symbols, "message": response_text})
 
         # Collect feedback for RLHF
-        self.rlhf.collect_feedback(
-            {"symbols": symbols, "context": message, "response": response_text}
-        )
+        self.rlhf.collect_feedback({"symbols": symbols, "context": message, "response": response_text})
 
         return {
             "response": response_text,

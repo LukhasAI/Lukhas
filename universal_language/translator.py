@@ -182,10 +182,7 @@ class ConceptMapper:
                     # Search for symbol with matching concept in that domain
                     domain_vocab = self.vocabulary.manager.get_vocabulary(domain)
                     for symbol in domain_vocab.symbols:
-                        if (
-                            symbol.name.upper() in name.upper()
-                            or name.upper() in symbol.name.upper()
-                        ):
+                        if symbol.name.upper() in name.upper() or name.upper() in symbol.name.upper():
                             concept = self.symbol_to_concept(symbol)
                             self.concept_cache[concept_id] = concept
                             return concept
@@ -306,9 +303,7 @@ class UniversalTranslator:
         self.translation_cache: dict[str, TranslationResult] = {}
         logger.info("Universal Translator initialized")
 
-    def translate(
-        self, source: Any, target_type: str, context: Optional[dict[str, Any]] = None
-    ) -> TranslationResult:
+    def translate(self, source: Any, target_type: str, context: Optional[dict[str, Any]] = None) -> TranslationResult:
         """
         Translate from any source to target type.
 
@@ -432,9 +427,7 @@ class UniversalTranslator:
 
         return result
 
-    def _translate_cross_domain(
-        self, symbol: Symbol, target_domain: SymbolicDomain
-    ) -> Optional[Symbol]:
+    def _translate_cross_domain(self, symbol: Symbol, target_domain: SymbolicDomain) -> Optional[Symbol]:
         """Translate a symbol to a different domain"""
         # Find equivalent symbol in target domain
         target_vocab = self.vocabulary.manager.get_vocabulary(target_domain)

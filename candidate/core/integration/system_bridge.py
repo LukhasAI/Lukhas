@@ -83,9 +83,7 @@ class SystemBridge:
         await asyncio.sleep(0.1)  # Simulate async operation
         self.logger.debug("Core integration system setup complete (simulated).")
 
-    async def process(
-        self, data: Any, category: Optional[str] = None
-    ) -> dict[str, Any]:  # Added category parameter
+    async def process(self, data: Any, category: Optional[str] = None) -> dict[str, Any]:  # Added category parameter
         """
         Process integration data.
         #ΛNOTE: The 'category' parameter has been added to make `_core_integration_processing` functional.
@@ -141,9 +139,7 @@ class SystemBridge:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
-    async def _core_integration_processing(
-        self, data: Any, category: Optional[str] = None
-    ) -> Any:  # Added category
+    async def _core_integration_processing(self, data: Any, category: Optional[str] = None) -> Any:  # Added category
         """
         Core integration processing logic.
         #ΛNOTE: This method contains placeholder routing based on 'category'.

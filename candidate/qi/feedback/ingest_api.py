@@ -98,9 +98,7 @@ async def list_feedback(
     """List recent feedback cards with optional filters."""
     try:
         store = get_store()
-        feedback = store.read_feedback(
-            limit=limit, task_filter=task, jurisdiction_filter=jurisdiction
-        )
+        feedback = store.read_feedback(limit=limit, task_filter=task, jurisdiction_filter=jurisdiction)
 
         # Compute summary statistics
         if feedback:

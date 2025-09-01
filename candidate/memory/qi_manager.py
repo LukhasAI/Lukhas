@@ -108,9 +108,7 @@ try:
         Quantumoscillator as QIOscillator,
     )
 
-    logger.info(
-        "Successfully imported MemoryManager dependencies from production memory fold system."
-    )
+    logger.info("Successfully imported MemoryManager dependencies from production memory fold system.")
 except ImportError as e:
     logger.error(
         f"Failed to import critical dependencies for EnhancedMemoryManager: {e}",
@@ -204,25 +202,20 @@ class EnhancedMemoryManager:
             )
             self.visualizer = None  # type: ignore
 
-        self.logger.info(
-            "EnhancedMemoryManager initialized.", base_storage_path=str(self.base_path)
-        )
+        self.logger.info("EnhancedMemoryManager initialized.", base_storage_path=str(self.base_path))
 
     async def store_memory(
         self,
         memory_data: dict[str, Any],
         memory_id: Optional[str] = None,
-        context: Optional[
-            dict[str, Any]
-        ] = None,  # Context not used in current store logic but good for API
+        context: Optional[dict[str, Any]] = None,  # Context not used in current store logic but good for API
     ) -> dict[str, Any]:
         """
         Store memory with quantum enhancement using an EnhancedMemoryFold.
         """
         # ΛPHASE_NODE: Store Memory Operation Start
         effective_memory_id = (
-            memory_id
-            or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
+            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
         )  # Ensure filename safe ID
         self.logger.info(
             "Attempting to store memory.",
@@ -234,9 +227,7 @@ class EnhancedMemoryManager:
             # ΛNOTE: Each memory is stored in its own EnhancedMemoryFold.
             memory_fold = EnhancedMemoryFold(effective_memory_id, self.memory_fold_config)
 
-            stored_package = await memory_fold.store(
-                memory_data
-            )  # This now returns a package with metadata
+            stored_package = await memory_fold.store(memory_data)  # This now returns a package with metadata
 
             await self._save_to_disk(effective_memory_id, stored_package)  # Save the whole package
 
@@ -251,9 +242,7 @@ class EnhancedMemoryManager:
             return {
                 "status": "success",
                 "memory_id": effective_memory_id,
-                "qi_like_state_summary": stored_package.get("metadata", {}).get(
-                    "qi_like_state", "N/A"
-                ),
+                "qi_like_state_summary": stored_package.get("metadata", {}).get("qi_like_state", "N/A"),
             }
 
         except Exception as e:
@@ -270,9 +259,7 @@ class EnhancedMemoryManager:
                 "error": str(e),
             }
 
-    async def retrieve_memory(
-        self, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def retrieve_memory(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Retrieve memory with coherence-inspired processing.
         """
@@ -306,9 +293,7 @@ class EnhancedMemoryManager:
                 # minimal state.
 
                 # Attempt to load the classical_state for the fold if it's not active
-                disk_data_package = await self._load_from_disk(
-                    memory_id
-                )  # This is the stored_package
+                disk_data_package = await self._load_from_disk(memory_id)  # This is the stored_package
 
                 memory_fold = EnhancedMemoryFold(memory_id, self.memory_fold_config)
                 # Manually setting the state from what was loaded - this is a patch.
@@ -316,12 +301,8 @@ class EnhancedMemoryManager:
                 # The fold's internal `classical_state` should be
                 # `disk_data_package['data']`.
                 memory_fold.state["classical_state"] = disk_data_package.get("data")
-                memory_fold.state["qi_like_state"] = disk_data_package.get("metadata", {}).get(
-                    "qi_like_state"
-                )
-                memory_fold.state["entanglements"] = set(
-                    disk_data_package.get("metadata", {}).get("entanglements", [])
-                )
+                memory_fold.state["qi_like_state"] = disk_data_package.get("metadata", {}).get("qi_like_state")
+                memory_fold.state["entanglements"] = set(disk_data_package.get("metadata", {}).get("entanglements", []))
                 memory_fold.state["fold_time"] = disk_data_package.get("metadata", {}).get(
                     "created_at", datetime.now(timezone.utc).isoformat()
                 )
@@ -329,13 +310,9 @@ class EnhancedMemoryManager:
                 self.logger.info("Memory fold loaded from disk and activated.", memory_id=memory_id)
 
             if not memory_fold:  # Should not happen if logic above is correct
-                raise FileNotFoundError(
-                    f"Memory fold {memory_id} could not be activated or loaded."
-                )
+                raise FileNotFoundError(f"Memory fold {memory_id} could not be activated or loaded.")
 
-            retrieved_package = await memory_fold.retrieve(
-                context
-            )  # This returns data and retrieval_metadata
+            retrieved_package = await memory_fold.retrieve(context)  # This returns data and retrieval_metadata
 
             self.logger.info("Memory retrieved successfully.", memory_id=memory_id)
             # ΛPHASE_NODE: Retrieve Memory Operation End
@@ -362,9 +339,7 @@ class EnhancedMemoryManager:
             )
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def visualize_memory(
-        self, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def visualize_memory(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Create visualization of memory.
         """
@@ -375,9 +350,7 @@ class EnhancedMemoryManager:
             return {"status": "error", "error": "Visualizer not available."}
 
         try:
-            retrieved_memory_package = await self.retrieve_memory(
-                memory_id, context
-            )  # This returns full package
+            retrieved_memory_package = await self.retrieve_memory(memory_id, context)  # This returns full package
 
             if retrieved_memory_package["status"] == "error":
                 self.logger.warning(

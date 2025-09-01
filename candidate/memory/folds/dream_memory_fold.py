@@ -106,9 +106,7 @@ class DreamMemoryFold:
         except ImportError:
             logger.warning("Drift tracker not available for memory folding")
 
-    async def create_fold(
-        self, fold_id: str, initial_tags: Optional[list[str]] = None
-    ) -> MemoryFoldState:
+    async def create_fold(self, fold_id: str, initial_tags: Optional[list[str]] = None) -> MemoryFoldState:
         """Create a new memory fold."""
         if fold_id in self.active_folds:
             raise ValueError(f"Fold {fold_id} already exists")

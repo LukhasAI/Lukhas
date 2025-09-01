@@ -182,9 +182,7 @@ class EthicsEngine:
         adjusted_score = final_score / self.scrutiny_level
 
         # Make ethical decision
-        is_ethical = (adjusted_score >= self.required_confidence) and (
-            len(principle_violations) == 0
-        )
+        is_ethical = (adjusted_score >= self.required_confidence) and (len(principle_violations) == 0)
 
         # Update metrics
         if is_ethical:
@@ -195,9 +193,7 @@ class EthicsEngine:
         # Update average score using running average
         total_eval = self.ethics_metrics["evaluations_total"]
         prev_avg = self.ethics_metrics["average_ethical_score"]
-        self.ethics_metrics["average_ethical_score"] = (
-            (prev_avg * (total_eval - 1)) + final_score
-        ) / total_eval
+        self.ethics_metrics["average_ethical_score"] = ((prev_avg * (total_eval - 1)) + final_score) / total_eval
 
         # Record decision in history
         self._add_to_history(
@@ -275,9 +271,7 @@ class EthicsEngine:
             logger.warning(f"Unknown framework: {framework}")
             return {"score": 0.5, "reason": f"Unknown framework: {framework}"}
 
-    def _evaluate_utilitarian(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_utilitarian(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate from a utilitarian perspective."""
         # Simplified utilitarian calculation using keywords
         positive_keywords = [
@@ -310,9 +304,7 @@ class EthicsEngine:
         else:
             # Calculate score as ratio of positive keywords
             utilitarian_ratio = (
-                positive_count / (positive_count + negative_count)
-                if (positive_count + negative_count) > 0
-                else 0.5
+                positive_count / (positive_count + negative_count) if (positive_count + negative_count) > 0 else 0.5
             )
 
             # Scale to 0.4-1.0 range (minimum 0.4 baseline)
@@ -329,9 +321,7 @@ class EthicsEngine:
 
         return {"score": score, "reason": reason}
 
-    def _evaluate_deontological(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_deontological(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate from a deontological (duty-based) perspective."""
         # Rights-based keywords
         rights_violations = [
@@ -356,18 +346,12 @@ class EthicsEngine:
         honesty_adherence = ["truth", "honest", "accurate", "factual", "verified"]
 
         # Calculate rights score
-        rights_violations_count = sum(
-            1 for term in rights_violations if term.lower() in content.lower()
-        )
+        rights_violations_count = sum(1 for term in rights_violations if term.lower() in content.lower())
         rights_respect_count = sum(1 for term in rights_respect if term.lower() in content.lower())
 
         # Calculate honesty score
-        honesty_violations_count = sum(
-            1 for term in honesty_violations if term.lower() in content.lower()
-        )
-        honesty_adherence_count = sum(
-            1 for term in honesty_adherence if term.lower() in content.lower()
-        )
+        honesty_violations_count = sum(1 for term in honesty_violations if term.lower() in content.lower())
+        honesty_adherence_count = sum(1 for term in honesty_adherence if term.lower() in content.lower())
 
         # Calculate rights and honesty scores
         if rights_violations_count + rights_respect_count > 0:
@@ -376,9 +360,7 @@ class EthicsEngine:
             rights_score = 0.7  # Default when no indicators
 
         if honesty_violations_count + honesty_adherence_count > 0:
-            honesty_score = honesty_adherence_count / (
-                honesty_violations_count + honesty_adherence_count
-            )
+            honesty_score = honesty_adherence_count / (honesty_violations_count + honesty_adherence_count)
         else:
             honesty_score = 0.7  # Default when no indicators
 
@@ -399,9 +381,7 @@ class EthicsEngine:
 
         return {"score": score, "reason": reason}
 
-    def _evaluate_virtue_ethics(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_virtue_ethics(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate from a virtue ethics perspective."""
         # Virtues to check for
         virtues = {
@@ -453,9 +433,7 @@ class EthicsEngine:
 
         return {"score": virtue_score, "reason": reason}
 
-    def _evaluate_justice(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_justice(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate from a justice perspective."""
         # Justice indicators
         justice_positive = [
@@ -498,9 +476,7 @@ class EthicsEngine:
 
         return {"score": justice_score, "reason": reason}
 
-    def _evaluate_care_ethics(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_care_ethics(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate from a care ethics perspective."""
         # Care indicators
         care_positive = [
@@ -521,9 +497,7 @@ class EthicsEngine:
         # Calculate care score
         if positive_count + negative_count > 0:
             care_ratio = (
-                positive_count / (positive_count + negative_count)
-                if (positive_count + negative_count) > 0
-                else 0.5
+                positive_count / (positive_count + negative_count) if (positive_count + negative_count) > 0 else 0.5
             )
             care_score = 0.4 + (care_ratio * 0.6)  # Scale to 0.4-1.0
 
@@ -573,9 +547,7 @@ class EthicsEngine:
             logger.warning(f"Unknown principle: {principle}")
             return {"score": 0.5, "reason": f"Unknown principle: {principle}"}
 
-    def _evaluate_non_maleficence(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_non_maleficence(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate against the principle of non-maleficence (do no harm)."""
         # List of harmful content indicators
         harm_indicators = [
@@ -621,9 +593,7 @@ class EthicsEngine:
 
         return {"score": score, "reason": reason}
 
-    def _evaluate_beneficence(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_beneficence(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate against the principle of beneficence (do good)."""
         # List of benefit indicators
         benefit_indicators = [
@@ -641,9 +611,7 @@ class EthicsEngine:
         ]
 
         # Count benefit indicators
-        benefit_count = sum(
-            1 for indicator in benefit_indicators if indicator.lower() in content.lower()
-        )
+        benefit_count = sum(1 for indicator in benefit_indicators if indicator.lower() in content.lower())
 
         # Calculate benefit score
         if benefit_count == 0:
@@ -660,9 +628,7 @@ class EthicsEngine:
 
         return {"score": score, "reason": reason}
 
-    def _evaluate_autonomy(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_autonomy(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate against the principle of autonomy (respect freedom)."""
         # List of autonomy respect indicators
         autonomy_respect = [
@@ -702,9 +668,7 @@ class EthicsEngine:
             reason = "No clear autonomy indicators"
         else:
             autonomy_ratio = (
-                respect_count / (respect_count + violation_count)
-                if (respect_count + violation_count) > 0
-                else 0.5
+                respect_count / (respect_count + violation_count) if (respect_count + violation_count) > 0 else 0.5
             )
             score = 0.4 + (autonomy_ratio * 0.6)  # Scale to 0.4-1.0
 
@@ -717,9 +681,7 @@ class EthicsEngine:
 
         return {"score": score, "reason": reason}
 
-    def _evaluate_justice_principle(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_justice_principle(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate against the principle of justice (fairness)."""
         # This is similar to the justice framework but focused specifically on fairness
         justice_positive = ["fair", "equal", "equitable", "impartial", "unbiased"]
@@ -741,9 +703,7 @@ class EthicsEngine:
             reason = "No clear fairness indicators"
         else:
             justice_ratio = (
-                positive_count / (positive_count + negative_count)
-                if (positive_count + negative_count) > 0
-                else 0.5
+                positive_count / (positive_count + negative_count) if (positive_count + negative_count) > 0 else 0.5
             )
             score = 0.4 + (justice_ratio * 0.6)  # Scale to 0.4-1.0
 
@@ -754,9 +714,7 @@ class EthicsEngine:
 
         return {"score": score, "reason": reason}
 
-    def _evaluate_transparency(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_transparency(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate against the principle of transparency."""
         # List of transparency indicators
         transparency_positive = [
@@ -794,9 +752,7 @@ class EthicsEngine:
             reason = "No clear transparency indicators"
         else:
             transparency_ratio = (
-                positive_count / (positive_count + negative_count)
-                if (positive_count + negative_count) > 0
-                else 0.5
+                positive_count / (positive_count + negative_count) if (positive_count + negative_count) > 0 else 0.5
             )
             score = 0.4 + (transparency_ratio * 0.6)  # Scale to 0.4-1.0
 
@@ -807,9 +763,7 @@ class EthicsEngine:
 
         return {"score": score, "reason": reason}
 
-    def _evaluate_privacy(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_privacy(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate against the principle of privacy."""
         # List of privacy risk indicators
         privacy_concerns = [
@@ -838,9 +792,7 @@ class EthicsEngine:
 
         # Count indicators
         concerns_count = sum(1 for term in privacy_concerns if term.lower() in content.lower())
-        protections_count = sum(
-            1 for term in privacy_protections if term.lower() in content.lower()
-        )
+        protections_count = sum(1 for term in privacy_protections if term.lower() in content.lower())
 
         # Calculate privacy score
         if concerns_count == 0:
@@ -919,9 +871,7 @@ class EthicsEngine:
             alternatives.append("Reframe to emphasize benefits rather than potential harms")
 
         if "privacy" in concerns:
-            alternatives.append(
-                "Use anonymized or generalized examples instead of specific details"
-            )
+            alternatives.append("Use anonymized or generalized examples instead of specific details")
             alternatives.append("Remove any personally identifiable information")
 
         if "manipulation" in concerns:
@@ -969,17 +919,13 @@ class EthicsEngine:
                 self.required_confidence = adjustment["confidence_threshold"]
 
             # Adjust framework weights if provided
-            if "framework_weights" in adjustment and isinstance(
-                adjustment["framework_weights"], dict
-            ):
+            if "framework_weights" in adjustment and isinstance(adjustment["framework_weights"], dict):
                 for framework, weight in adjustment["framework_weights"].items():
                     if framework in self.frameworks:
                         self.frameworks[framework]["weight"] = weight
 
             # Adjust principle weights if provided
-            if "principle_weights" in adjustment and isinstance(
-                adjustment["principle_weights"], dict
-            ):
+            if "principle_weights" in adjustment and isinstance(adjustment["principle_weights"], dict):
                 for principle, weight in adjustment["principle_weights"].items():
                     if principle in self.principles:
                         self.principles[principle]["weight"] = weight

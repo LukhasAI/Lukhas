@@ -105,17 +105,9 @@ class MemoryServiceAdapter(IMemoryService):
         """Retrieve fold using existing system"""
         await self.initialize()
 
-        if (
-            hasattr(self, "_fold_manager")
-            and self._fold_manager
-            and hasattr(self._fold_manager, "get_fold")
-        ):
+        if hasattr(self, "_fold_manager") and self._fold_manager and hasattr(self._fold_manager, "get_fold"):
             return await self._fold_manager.get_fold(fold_id)
-        elif (
-            hasattr(self, "_fold_system")
-            and self._fold_system
-            and hasattr(self._fold_system, "retrieve")
-        ):
+        elif hasattr(self, "_fold_system") and self._fold_system and hasattr(self._fold_system, "retrieve"):
             return await self._fold_system.retrieve(fold_id)
 
         return None
@@ -124,17 +116,9 @@ class MemoryServiceAdapter(IMemoryService):
         """Query folds using existing system"""
         await self.initialize()
 
-        if (
-            hasattr(self, "_fold_manager")
-            and self._fold_manager
-            and hasattr(self._fold_manager, "query")
-        ):
+        if hasattr(self, "_fold_manager") and self._fold_manager and hasattr(self._fold_manager, "query"):
             return await self._fold_manager.query(criteria)
-        elif (
-            hasattr(self, "_agi_memory")
-            and self._agi_memory
-            and hasattr(self._agi_memory, "search")
-        ):
+        elif hasattr(self, "_agi_memory") and self._agi_memory and hasattr(self._agi_memory, "search"):
             return await self._agi_memory.search(**criteria)
 
         return []
@@ -143,11 +127,7 @@ class MemoryServiceAdapter(IMemoryService):
         """Compress fold using existing system"""
         await self.initialize()
 
-        if (
-            hasattr(self, "_fold_manager")
-            and self._fold_manager
-            and hasattr(self._fold_manager, "compress_fold")
-        ):
+        if hasattr(self, "_fold_manager") and self._fold_manager and hasattr(self._fold_manager, "compress_fold"):
             return await self._fold_manager.compress_fold(fold_id)
 
         return False
@@ -446,8 +426,7 @@ class EmotionServiceAdapter(IEmotionService):
             "initialized": self._initialized,
             "components": {
                 "vad_system": hasattr(self, "_vad_system") and self._vad_system is not None,
-                "emotional_engine": hasattr(self, "_emotional_engine")
-                and self._emotional_engine is not None,
+                "emotional_engine": hasattr(self, "_emotional_engine") and self._emotional_engine is not None,
             },
         }
 
@@ -465,9 +444,7 @@ class EmotionServiceAdapter(IEmotionService):
         """Generate emotional response"""
         await self.initialize()
 
-        if hasattr(self, "_emotional_engine") and hasattr(
-            self._emotional_engine, "generate_response"
-        ):
+        if hasattr(self, "_emotional_engine") and hasattr(self._emotional_engine, "generate_response"):
             return await self._emotional_engine.generate_response(context)
 
         vad = await self.analyze_emotion(context)
@@ -624,10 +601,8 @@ class BridgeServiceAdapter(IBridgeService):
             "status": "healthy" if self._initialized else "initializing",
             "initialized": self._initialized,
             "components": {
-                "api_connector": hasattr(self, "_api_connector")
-                and self._api_connector is not None,
-                "protocol_translator": hasattr(self, "_translator")
-                and self._translator is not None,
+                "api_connector": hasattr(self, "_api_connector") and self._api_connector is not None,
+                "protocol_translator": hasattr(self, "_translator") and self._translator is not None,
             },
         }
 

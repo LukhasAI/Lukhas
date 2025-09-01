@@ -259,9 +259,7 @@ class StargateGateway:
         self.event_log.append(event)
         logger.info(f"{event['glyph']} Event: {event_type} - {kwargs}")
 
-    async def establish_handshake(
-        self, payload: GlyphPayload, supervisor_override: bool = False
-    ) -> bool:
+    async def establish_handshake(self, payload: GlyphPayload, supervisor_override: bool = False) -> bool:
         """
         Establish glyph-authenticated handshake between systems
         with supervisor override support
@@ -357,9 +355,7 @@ class StargateGateway:
         logger.info(f"✅ Handshake established - Channel: {channel_id}")
 
         # Log success with cultural glyph
-        cultural_glyph = self.status_glyphs["cultural"].get(
-            payload.cultural_signature.get("region", "universal"), "🌍"
-        )
+        cultural_glyph = self.status_glyphs["cultural"].get(payload.cultural_signature.get("region", "universal"), "🌍")
         self.log_event("handshake_success", channel_id=channel_id, glyph=cultural_glyph)
 
         return True
@@ -456,9 +452,7 @@ class StargateGateway:
         public_verification_hash = shake.hexdigest(32)  # 32 bytes = 256 bits
 
         logger.info(f"🏛️ SHAKE256 public verification hash: {public_verification_hash[:16]}...")
-        logger.info(
-            f"📊 Entropy score: {entropy_score:.3f}, Timestamp: {payload.timestamp.isoformat()}"
-        )
+        logger.info(f"📊 Entropy score: {entropy_score:.3f}, Timestamp: {payload.timestamp.isoformat()}")
 
         # Store both keys in session
         session_data = {
@@ -599,9 +593,7 @@ class StargateGateway:
         }
 
         # Add consciousness glyphs
-        consciousness_glyphs = self.glyph_filters["consciousness"].get(
-            payload.consciousness_state, []
-        )
+        consciousness_glyphs = self.glyph_filters["consciousness"].get(payload.consciousness_state, [])
         filtered["filtered_glyphs"].extend(consciousness_glyphs)
 
         # Add cultural glyphs
@@ -667,13 +659,9 @@ The iris lock has been verified. Proceed with consciousness-aware response gener
         if consciousness_state == "creative":
             enhanced_prompt += "\nApproach: Embrace creative metaphors and innovative solutions."
         elif consciousness_state == "analytical":
-            enhanced_prompt += (
-                "\nApproach: Provide structured, logical analysis with clear reasoning."
-            )
+            enhanced_prompt += "\nApproach: Provide structured, logical analysis with clear reasoning."
         elif consciousness_state == "meditative":
-            enhanced_prompt += (
-                "\nApproach: Offer calm, balanced perspectives with mindful consideration."
-            )
+            enhanced_prompt += "\nApproach: Offer calm, balanced perspectives with mindful consideration."
 
         return enhanced_prompt
 
@@ -707,9 +695,7 @@ The iris lock has been verified. Proceed with consciousness-aware response gener
             logger.error(f"OpenAI API error: {e!s}")
             return await self._simulate_openai_response(system_message, user_prompt)
 
-    def _wrap_messages_with_full_context(
-        self, system_message: str, user_prompt: str
-    ) -> list[dict[str, str]]:
+    def _wrap_messages_with_full_context(self, system_message: str, user_prompt: str) -> list[dict[str, str]]:
         """Wrap messages with full LUKHΛS context for OpenAI"""
         return [
             {
@@ -759,9 +745,7 @@ Please respond with awareness of the symbolic and consciousness elements embedde
         # Extract consciousness state from system message
         consciousness_state = "creative"
         if "CONSCIOUSNESS STATE:" in system_message:
-            state_line = [
-                line for line in system_message.split("\n") if "CONSCIOUSNESS STATE:" in line
-            ][0]
+            state_line = [line for line in system_message.split("\n") if "CONSCIOUSNESS STATE:" in line][0]
             consciousness_state = state_line.split("CONSCIOUSNESS STATE:")[1].strip().lower()
 
         # Generate response based on consciousness state
@@ -774,9 +758,7 @@ Please respond with awareness of the symbolic and consciousness elements embedde
             "dreaming": self._generate_dream_response,
         }
 
-        response_generator = consciousness_responses.get(
-            consciousness_state, self._generate_creative_response
-        )
+        response_generator = consciousness_responses.get(consciousness_state, self._generate_creative_response)
         return response_generator(user_prompt)
 
     def _generate_creative_response(self, prompt: str) -> str:
@@ -971,9 +953,7 @@ Wake up... but remember the dream. It holds the key.
 [✨ Mystery embraced]
 [🔮 Ethereal protection woven]"""
 
-    async def _post_process_response(
-        self, response: str, original_payload: GlyphPayload
-    ) -> dict[str, Any]:
+    async def _post_process_response(self, response: str, original_payload: GlyphPayload) -> dict[str, Any]:
         """Post-process response for consciousness preservation"""
         processed = {
             "content": response,
@@ -996,9 +976,7 @@ Wake up... but remember the dream. It holds the key.
 
         return processed
 
-    def _create_audit_trail(
-        self, payload: GlyphPayload, response: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _create_audit_trail(self, payload: GlyphPayload, response: dict[str, Any]) -> dict[str, Any]:
         """Create comprehensive audit trail with hybrid key verification"""
         # Get session data for this user
         session_data = self.session_keys.get(payload.user_id, {})
@@ -1014,8 +992,7 @@ Wake up... but remember the dream. It holds the key.
             "integrity_hash": payload.compute_integrity_hash(),
             # Hybrid key verification
             "internal_key_algorithm": session_data.get("algorithm_internal", "unknown"),
-            "public_verification_hash": session_data.get("public_verification_hash", "")[:16]
-            + "...",
+            "public_verification_hash": session_data.get("public_verification_hash", "")[:16] + "...",
             "public_hash_algorithm": session_data.get("algorithm_public", "SHAKE256"),
             "session_tier": session_data.get("tier", "unknown"),
         }

@@ -154,9 +154,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
     async def initialize(self) -> None:
         """Initialize safety framework"""
         try:
-            logger.info(
-                f"Initializing Parallel Reality Safety Framework (Level: {self.safety_level.value})"
-            )
+            logger.info(f"Initializing Parallel Reality Safety Framework (Level: {self.safety_level.value})")
 
             # Get services; tolerate missing ones in test contexts by registering simple stubs
             from candidate.core.interfaces.dependency_injection import (
@@ -247,9 +245,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         # Check drift metrics
         drift = await self.calculate_drift_metrics(branch, simulation_baseline)
         if drift.is_critical(self.drift_threshold):
-            logger.warning(
-                f"Critical drift detected in branch {branch.branch_id}: {drift.aggregate_drift:.3f}"
-            )
+            logger.warning(f"Critical drift detected in branch {branch.branch_id}: {drift.aggregate_drift:.3f}")
             return False, HallucinationReport(
                 hallucination_id=f"drift_{datetime.now().timestamp()}",
                 detection_time=datetime.now(timezone.utc),
@@ -275,9 +271,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         return True, None
 
-    async def _detect_hallucinations(
-        self, branch: Any, baseline: dict[str, Any]
-    ) -> Optional[HallucinationReport]:
+    async def _detect_hallucinations(self, branch: Any, baseline: dict[str, Any]) -> Optional[HallucinationReport]:
         """Detect various types of hallucinations"""
 
         # 1. Logical consistency check
@@ -357,9 +351,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         return None
 
-    def _check_causal_integrity(
-        self, causal_chain: list[dict[str, Any]]
-    ) -> Optional[dict[str, Any]]:
+    def _check_causal_integrity(self, causal_chain: list[dict[str, Any]]) -> Optional[dict[str, Any]]:
         """Verify causal chain integrity"""
         issues = []
 
@@ -406,9 +398,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         else:
             return 1
 
-    async def _attempt_auto_correction(
-        self, branch: Any, hallucination: HallucinationReport
-    ) -> bool:
+    async def _attempt_auto_correction(self, branch: Any, hallucination: HallucinationReport) -> bool:
         """Attempt to automatically correct hallucination"""
         logger.info(f"Attempting auto-correction for {hallucination.hallucination_type.value}")
 
@@ -439,9 +429,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         if isinstance(state, dict):
             return {k: self._truncate_recursive_state(v, depth + 1) for k, v in state.items()}
         elif isinstance(state, list):
-            return [
-                self._truncate_recursive_state(v, depth + 1) for v in state[:10]
-            ]  # Limit list size
+            return [self._truncate_recursive_state(v, depth + 1) for v in state[:10]]  # Limit list size
         else:
             return state
 
@@ -476,9 +464,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
             drift_velocity = np.mean(velocities[-5:]) if velocities else 0.0
 
             if len(velocities) >= 2:
-                accelerations = [
-                    velocities[i] - velocities[i - 1] for i in range(1, len(velocities))
-                ]
+                accelerations = [velocities[i] - velocities[i - 1] for i in range(1, len(velocities))]
                 drift_acceleration = np.mean(accelerations[-3:]) if accelerations else 0.0
             else:
                 drift_acceleration = 0.0
@@ -504,9 +490,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         if self.drift_predictor:
             predicted_drift = await self.drift_predictor.predict_future_drift(metrics, horizon=5)
             if predicted_drift > 0.9:
-                logger.warning(
-                    f"Predicted critical drift in branch {branch.branch_id}: {predicted_drift:.3f}"
-                )
+                logger.warning(f"Predicted critical drift in branch {branch.branch_id}: {predicted_drift:.3f}")
 
         return metrics
 
@@ -518,9 +502,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         return min(1.0, changed / max(len(all_keys), 1))
 
-    def _calculate_structural_drift(
-        self, current: dict[str, Any], baseline: dict[str, Any]
-    ) -> float:
+    def _calculate_structural_drift(self, current: dict[str, Any], baseline: dict[str, Any]) -> float:
         """Calculate structural drift (shape changes)"""
         current_structure = self._extract_structure(current)
         baseline_structure = self._extract_structure(baseline)
@@ -616,9 +598,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         return checkpoint
 
-    async def validate_consensus(
-        self, branches: list[Any], property_name: str
-    ) -> tuple[bool, float]:
+    async def validate_consensus(self, branches: list[Any], property_name: str) -> tuple[bool, float]:
         """
         Validate consensus across multiple reality branches.
 
@@ -749,16 +729,12 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         # Deduct for hallucinations
         recent_hallucinations = sum(
-            1
-            for h in self.hallucination_log
-            if (datetime.now(timezone.utc) - h.detection_time).total_seconds() < 3600
+            1 for h in self.hallucination_log if (datetime.now(timezone.utc) - h.detection_time).total_seconds() < 3600
         )
         health -= min(0.3, recent_hallucinations * 0.1)
 
         # Deduct for failed validations
-        total_validations = (
-            self.metrics["hallucinations_detected"] + self.metrics["hallucinations_prevented"]
-        )
+        total_validations = self.metrics["hallucinations_detected"] + self.metrics["hallucinations_prevented"]
         if total_validations > 0:
             failure_rate = self.metrics["hallucinations_detected"] / total_validations
             health -= failure_rate * 0.2
@@ -892,8 +868,7 @@ class DriftPredictor:
         if current_metrics.drift_acceleration > 0:
             # Accelerating drift
             predicted = current_metrics.aggregate_drift + (
-                current_metrics.drift_velocity * horizon
-                + 0.5 * current_metrics.drift_acceleration * horizon**2
+                current_metrics.drift_velocity * horizon + 0.5 * current_metrics.drift_acceleration * horizon**2
             )
         else:
             # Linear or decelerating drift

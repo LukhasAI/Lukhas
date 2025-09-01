@@ -131,9 +131,7 @@ class BioPreprocessingColony(BaseColony):
 
         except Exception as e:
             logger.warning(f"Preprocessing failed, activating fallback: {e!s}")
-            return await fallback_manager.handle_component_failure(
-                "preprocessing", e, task_data, task_id
-            )
+            return await fallback_manager.handle_component_failure("preprocessing", e, task_data, task_id)
 
     async def _validate_signals(self, bio_data: dict[str, Any]) -> dict[str, Any]:
         """Validate bio-signals against known ranges."""
@@ -153,8 +151,7 @@ class BioPreprocessingColony(BaseColony):
                     clamped = max(validator["min"], min(value, validator["max"]))
                     validated[signal] = clamped
                     logger.warning(
-                        f"Signal '{signal}' out of range: {value} "
-                        f"(clamped to {clamped} {validator['unit']})"
+                        f"Signal '{signal}' out of range: {value} " f"(clamped to {clamped} {validator['unit']})"
                     )
             else:
                 # Unknown signal - pass through with warning
@@ -257,15 +254,11 @@ class BioPreprocessingColony(BaseColony):
 
         if "cortisol" in data and "energy_level" in data:
             # Stress-energy index
-            enhanced["stress_energy_index"] = (1 - data.get("cortisol", 0.5)) * data.get(
-                "energy_level", 0.5
-            )
+            enhanced["stress_energy_index"] = (1 - data.get("cortisol", 0.5)) * data.get("energy_level", 0.5)
 
         return enhanced
 
-    async def _assess_quality(
-        self, data: dict[str, Any], outlier_scores: dict[str, float]
-    ) -> float:
+    async def _assess_quality(self, data: dict[str, Any], outlier_scores: dict[str, float]) -> float:
         """Assess overall data quality."""
         quality_factors = []
 
@@ -306,9 +299,7 @@ class BioPreprocessingColony(BaseColony):
         else:
             return self.quality_tags["anomalous"]
 
-    def _apply_tag(
-        self, tag_name: str, scope: TagScope, permission: TagPermission, strength: float
-    ):
+    def _apply_tag(self, tag_name: str, scope: TagScope, permission: TagPermission, strength: float):
         """Apply symbolic tag to the colony state."""
         self.symbolic_carryover[tag_name] = (
             tag_name,
@@ -340,10 +331,7 @@ class BioPreprocessingColony(BaseColony):
         self.aggregate.raise_event("bio_preprocessing_complete", event_data)
 
         # Log with ΛTRACE
-        logger.info(
-            f"Preprocessed bio-data: quality={result['quality_score']:.2f}, "
-            f"tag={result['quality_tag']}"
-        )
+        logger.info(f"Preprocessed bio-data: quality={result['quality_score']:.2f}, " f"tag={result['quality_tag']}")
 
 
 # Colony instance factory

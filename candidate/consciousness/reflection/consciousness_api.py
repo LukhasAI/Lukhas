@@ -182,9 +182,7 @@ class ConsciousnessPlatformAPI:
 
         # Add history if requested
         if query.include_history and query.time_window:
-            result["history"] = self._get_awareness_history(
-                query.awareness_types, query.time_window
-            )
+            result["history"] = self._get_awareness_history(query.awareness_types, query.time_window)
 
         # Add predictions if requested
         if query.include_predictions:
@@ -223,10 +221,7 @@ class ConsciousnessPlatformAPI:
             result["memory_connections"] = await self._get_memory_connections(request.topic)
 
         # Use quantum reflection if requested and available
-        if (
-            request.use_quantum_reflection
-            and self.consciousness_level == ConsciousnessLevel.QUANTUM
-        ):
+        if request.use_quantum_reflection and self.consciousness_level == ConsciousnessLevel.QUANTUM:
             result["qi_insights"] = await self._quantum_reflect(request.topic)
 
         return result
@@ -427,9 +422,7 @@ async def example_consciousness_usage():
     print(f"Reflection Insights: {reflection_result['insights']}")
 
     # Process input
-    processing_result = await consciousness_api.process_input(
-        "What does it mean to be conscious?", input_type="text"
-    )
+    processing_result = await consciousness_api.process_input("What does it mean to be conscious?", input_type="text")
     print(f"Understanding Level: {processing_result['understanding_level']}")
 
     # Get metrics

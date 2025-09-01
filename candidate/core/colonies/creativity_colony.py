@@ -33,14 +33,10 @@ class CreativityColony(BaseColony):
         self.update_task_slots()
 
         if self.task_slots <= 0:
-            logger.info(
-                f"CreativityColony {self.colony_id} deferring task {task_id} due to fatigue"
-            )
+            logger.info(f"CreativityColony {self.colony_id} deferring task {task_id} due to fatigue")
             return {"status": "deferred", "task_id": task_id}
 
-        logger.info(
-            f"CreativityColony {self.colony_id} executing task {task_id}; slots: {self.task_slots}"
-        )
+        logger.info(f"CreativityColony {self.colony_id} executing task {task_id}; slots: {self.task_slots}")
 
         # Dummy implementation for now
         result = {"status": "completed", "task_id": task_id}

@@ -86,9 +86,7 @@ class T4LensCodeFixer:
         after_count, stats = self.get_ruff_stats()
 
         # Create verification artifact
-        artifact = self.create_verification_artifact(
-            "safe_fixes", before_count, after_count, ["automated_safe_fixes"]
-        )
+        artifact = self.create_verification_artifact("safe_fixes", before_count, after_count, ["automated_safe_fixes"])
 
         print(f"   ✅ Before: {before_count} issues")
         print(f"   ✅ After:  {after_count} issues")

@@ -59,9 +59,7 @@ print(f'  - Signature Phrase: "{get_setting("persona.signature_phrase")}"')
 print("\n🧠 Context Management:")
 print(f"  - Memory Context Enabled: {get_setting('context.enable_memory_context')}")
 print(f"  - Max Context Window: {get_setting('context.context_window_limit')}")
-print(
-    f"  - Exclude Forgettable from Context: {get_setting('context.exclude_forgettable_memories')}"
-)
+print(f"  - Exclude Forgettable from Context: {get_setting('context.exclude_forgettable_memories')}")
 
 print("\n📊 Symbolic Trace Engine:")
 print(f"  - Ethics Tracking: {get_setting('symbolic_trace.track_ethics')}")

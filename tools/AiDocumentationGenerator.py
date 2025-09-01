@@ -119,9 +119,7 @@ class AIDocumentationGenerator:
             return
 
         if not self.api_key:
-            self.logger.error(
-                "❌ OpenAI API key not found. Set OPENAI_API_KEY environment variable"
-            )
+            self.logger.error("❌ OpenAI API key not found. Set OPENAI_API_KEY environment variable")
             return
 
         try:
@@ -160,18 +158,14 @@ class AIDocumentationGenerator:
             try:
                 loop = asyncio.get_event_loop()
                 analysis = loop.run_until_complete(self.analyze_file(file))
-                doc_sections = loop.run_until_complete(
-                    self.generate_documentation_sections(analysis)
-                )
+                doc_sections = loop.run_until_complete(self.generate_documentation_sections(analysis))
                 # Compose a summary for symbolic memory
                 doc_summary = next(
                     (section for section in doc_sections if section.title == "Overview"),
                     None,
                 )
                 summary_text = doc_summary.content[:512] if doc_summary else ""
-                self.log_symbolic_memory(
-                    str(file), summary_text, tags=["docgen", "symbolic", "GPT"]
-                )
+                self.log_symbolic_memory(str(file), summary_text, tags=["docgen", "symbolic", "GPT"])
                 # Collect for symbolic trail
                 components = {
                     "file": str(file),
@@ -189,9 +183,7 @@ class AIDocumentationGenerator:
         """
         Placeholder for uploading documentation to LUKHlukhasS sync endpoint.
         """
-        self.logger.info(
-            f"Uploading documentation for {target_path} to LUKHlukhasS sync endpoint (not implemented)."
-        )
+        self.logger.info(f"Uploading documentation for {target_path} to LUKHlukhasS sync endpoint (not implemented).")
 
     def _load_templates(self) -> dict[str, str]:
         """Load LUKHlukhasS documentation templates"""
@@ -222,9 +214,7 @@ class AIDocumentationGenerator:
                         {
                             "name": node.name,
                             "docstring": ast.get_docstring(node),
-                            "methods": [
-                                m.name for m in node.body if isinstance(m, ast.FunctionDef)
-                            ],
+                            "methods": [m.name for m in node.body if isinstance(m, ast.FunctionDef)],
                         }
                     )
                 elif isinstance(node, ast.FunctionDef):
@@ -276,9 +266,7 @@ class AIDocumentationGenerator:
             self.logger.error(f"Failed to analyze {file_path}: {e!s}")
             raise
 
-    async def generate_documentation_sections(
-        self, analysis: CodeAnalysis
-    ) -> list[DocumentationSection]:
+    async def generate_documentation_sections(self, analysis: CodeAnalysis) -> list[DocumentationSection]:
         """Generate documentation sections using OpenAI"""
         if not self.client:
             return []
@@ -378,9 +366,7 @@ class AIDocumentationGenerator:
             self.logger.error(f"OpenAI API error: {e!s}")
             return f"Error generating content: {e!s}"
 
-    async def generate_comprehensive_docs(
-        self, source_path: Path, output_dir: Path
-    ) -> dict[str, Any]:
+    async def generate_comprehensive_docs(self, source_path: Path, output_dir: Path) -> dict[str, Any]:
         """Generate comprehensive documentation for all Python files in a directory"""
         self.logger.info("🚀 Starting comprehensive documentation generation...")
 

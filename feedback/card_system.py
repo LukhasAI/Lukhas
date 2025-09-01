@@ -542,9 +542,7 @@ class FeedbackCardSystem:
         if len(ratings) > 1:
             first_half = ratings[: len(ratings) // 2]
             second_half = ratings[len(ratings) // 2 :]
-            improvement_trend = (sum(second_half) / len(second_half)) - (
-                sum(first_half) / len(first_half)
-            )
+            improvement_trend = (sum(second_half) / len(second_half)) - (sum(first_half) / len(first_half))
         else:
             improvement_trend = 0.0
 
@@ -569,9 +567,7 @@ class FeedbackCardSystem:
         for pattern in self.patterns.values():
             # Check if pattern is relevant to user
             pattern_cards = [
-                card
-                for card in user_cards
-                if any(pid == pattern.pattern_id for pid in self.policy_updates)
+                card for card in user_cards if any(pid == pattern.pattern_id for pid in self.policy_updates)
             ]
             if pattern_cards:
                 user_patterns.append(pattern)

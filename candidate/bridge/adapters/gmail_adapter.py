@@ -61,9 +61,7 @@ class GmailAdapter(BaseServiceAdapter):
 
         return {"error": "authentication_required"}
 
-    async def _refresh_oauth_token(
-        self, client_id: str, client_secret: str, refresh_token: str
-    ) -> dict:
+    async def _refresh_oauth_token(self, client_id: str, client_secret: str, refresh_token: str) -> dict:
         """Refresh OAuth2 access token"""
         async with (
             aiohttp.ClientSession() as session,
@@ -102,9 +100,7 @@ class GmailAdapter(BaseServiceAdapter):
 
         # Dry-run mode
         if self.dry_run_mode:
-            plan = self.dry_run_planner.plan_operation(
-                "fetch_emails", {"query": query, "max_results": max_results}
-            )
+            plan = self.dry_run_planner.plan_operation("fetch_emails", {"query": query, "max_results": max_results})
             return {"dry_run": True, "plan": plan}
 
         # Get OAuth token from vault
@@ -122,9 +118,7 @@ class GmailAdapter(BaseServiceAdapter):
         async with aiohttp.ClientSession() as session:
             headers = {"Authorization": f"Bearer {access_token}"}
 
-            async with session.get(
-                f"{self.base_url}/users/me/messages", headers=headers, params=params
-            ) as response:
+            async with session.get(f"{self.base_url}/users/me/messages", headers=headers, params=params) as response:
                 if response.status == 200:
                     data = await response.json()
                     messages = data.get("messages", [])
@@ -143,9 +137,7 @@ class GmailAdapter(BaseServiceAdapter):
                 else:
                     return {"error": f"api_error_{response.status}"}
 
-    async def _fetch_email_details(
-        self, session: aiohttp.ClientSession, message_id: str, headers: dict
-    ) -> dict:
+    async def _fetch_email_details(self, session: aiohttp.ClientSession, message_id: str, headers: dict) -> dict:
         """Fetch individual email details"""
         async with session.get(
             f"{self.base_url}/users/me/messages/{message_id}",
@@ -171,9 +163,7 @@ class GmailAdapter(BaseServiceAdapter):
             return {"id": message_id, "error": "fetch_failed"}
 
     @with_resilience
-    async def list_labels(
-        self, lid: str, capability_token: Optional[CapabilityToken] = None
-    ) -> dict:
+    async def list_labels(self, lid: str, capability_token: Optional[CapabilityToken] = None) -> dict:
         """List Gmail labels/folders"""
 
         # Validate capability token
@@ -278,8 +268,7 @@ class GmailContextIntegration:
             travel_emails = []
             for email in result["emails"]:
                 if any(
-                    keyword in email.get("subject", "").lower()
-                    for keyword in ["flight", "hotel", "travel", "booking"]
+                    keyword in email.get("subject", "").lower() for keyword in ["flight", "hotel", "travel", "booking"]
                 ):
                     travel_emails.append(
                         {
@@ -347,9 +336,7 @@ if __name__ == "__main__":
         print("\n🔄 Testing workflow integration...")
 
         # This would be called by Agent 4's orchestrator
-        await integration.workflow_fetch_travel_emails(
-            lid="USR-123456", context={"stage": "email_analysis"}
-        )
+        await integration.workflow_fetch_travel_emails(lid="USR-123456", context={"stage": "email_analysis"})
 
         print("✅ Workflow step ready for Agent 4 integration")
 

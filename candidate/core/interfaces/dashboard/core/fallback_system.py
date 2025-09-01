@@ -407,9 +407,7 @@ class DashboardFallbackSystem:
             strategies=len(self.recovery_strategies),
         )
 
-    async def evaluate_fallback_need(
-        self, context: dict[str, Any]
-    ) -> Optional[DashboardFallbackLevel]:
+    async def evaluate_fallback_need(self, context: dict[str, Any]) -> Optional[DashboardFallbackLevel]:
         """Evaluate if fallback activation is needed based on current context."""
 
         current_time = datetime.now()
@@ -420,8 +418,7 @@ class DashboardFallbackSystem:
             # Check cooldown period
             if (
                 condition.last_triggered
-                and (current_time - condition.last_triggered).total_seconds()
-                < condition.cooldown_period
+                and (current_time - condition.last_triggered).total_seconds() < condition.cooldown_period
             ):
                 continue
 
@@ -501,8 +498,7 @@ class DashboardFallbackSystem:
                 affected_components=affected_components or set(),
                 available_features=self.level_configurations[target_level]["features"],
                 disabled_features=list(
-                    set(previous_state.available_features)
-                    - set(self.level_configurations[target_level]["features"])
+                    set(previous_state.available_features) - set(self.level_configurations[target_level]["features"])
                 ),
             )
 
@@ -606,9 +602,7 @@ class DashboardFallbackSystem:
                 # Update state
                 previous_level = self.current_state.current_level
                 self.current_state.current_level = target_level
-                self.current_state.available_features = self.level_configurations[target_level][
-                    "features"
-                ]
+                self.current_state.available_features = self.level_configurations[target_level]["features"]
                 self.current_state.recovery_attempts += 1
 
                 # Update metrics
@@ -808,15 +802,11 @@ class DashboardFallbackSystem:
         total_ops = self.metrics["total_fallback_activations"]
         if total_ops > 0:
             current_avg = self.metrics["average_fallback_duration"]
-            self.metrics["average_fallback_duration"] = (
-                current_avg * (total_ops - 1) + duration
-            ) / total_ops
+            self.metrics["average_fallback_duration"] = (current_avg * (total_ops - 1) + duration) / total_ops
 
     def _calculate_recovery_success_rate(self):
         """Calculate recovery success rate."""
-        total_recoveries = sum(
-            1 for event in self.fallback_history if event.event_type == "recovery"
-        )
+        total_recoveries = sum(1 for event in self.fallback_history if event.event_type == "recovery")
         successful_recoveries = sum(
             1 for event in self.fallback_history if event.event_type == "recovery" and event.success
         )
@@ -860,9 +850,7 @@ class DashboardFallbackSystem:
     # Additional utility methods (implementations would be added based on
     # specific requirements)
 
-    async def _evaluate_condition_severity(
-        self, condition: FallbackCondition, context: dict[str, Any]
-    ) -> float:
+    async def _evaluate_condition_severity(self, condition: FallbackCondition, context: dict[str, Any]) -> float:
         """Evaluate severity of a fallback condition."""
         # Implementation would analyze context to determine severity
         return 0.0

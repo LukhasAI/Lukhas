@@ -93,9 +93,7 @@ class UnifiedQuantumSystem:
         self.awareness_system = None
 
         if self.config.enable_dream_processing:
-            self.dream_adapter = QuantumDreamAdapter(
-                orchestrator=self.orchestrator, config=self.config.dream_config
-            )
+            self.dream_adapter = QuantumDreamAdapter(orchestrator=self.orchestrator, config=self.config.dream_config)
 
         if self.config.enable_dast_orchestration:
             self.dast_orchestrator = QuantumDASTOrchestrator(

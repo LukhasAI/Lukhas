@@ -206,9 +206,7 @@ class TestWebScrapingSafety:
 
         # Should enforce rate limiting (at least 1 second between requests)
         expected_min_time = (len(urls) - 1) * 1.0  # 1 second delay between requests
-        assert total_time >= expected_min_time, (
-            f"Rate limiting not enforced: {total_time}s < {expected_min_time}s"
-        )
+        assert total_time >= expected_min_time, f"Rate limiting not enforced: {total_time}s < {expected_min_time}s"
 
         # All requests should succeed with proper rate limiting
         for result in results:
@@ -273,9 +271,7 @@ class TestGuardianToolValidation:
     @pytest.fixture
     def guardian_system(self):
         """Create Guardian System for tool validation"""
-        return GuardianSystem(
-            tool_validation_enabled=True, drift_threshold=0.15, ethical_enforcement=True
-        )
+        return GuardianSystem(tool_validation_enabled=True, drift_threshold=0.15, ethical_enforcement=True)
 
     @pytest.mark.asyncio
     async def test_code_execution_ethical_validation(self, guardian_system):

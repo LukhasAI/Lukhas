@@ -68,9 +68,7 @@ class EnhancedMetaCognitiveOrchestrator:
     """
 
     def __init__(self):
-        self.logger = logger.bind(
-            orchestrator_id=f"meta_cog_orch_{datetime.now().strftime('%H%M%S')}"
-        )
+        self.logger = logger.bind(orchestrator_id=f"meta_cog_orch_{datetime.now().strftime('%H%M%S')}")
         self.logger.info("Initializing EnhancedMetaCognitiveOrchestrator.")
 
         # Initialize key components
@@ -203,9 +201,7 @@ class EnhancedMetaCognitiveOrchestrator:
         self.logger.debug("Checking cognitive coherence.", task_type=task.get("type"))
         base_coherence = self._calculate_base_coherence(task)  # Placeholder
         if not self.qi_oscillator:
-            return (
-                base_coherence > self.safety_thresholds["cognitive_coherence"]
-            )  # Fallback if no quantum
+            return base_coherence > self.safety_thresholds["cognitive_coherence"]  # Fallback if no quantum
 
         qi_modulated = self.qi_oscillator.qi_modulate(base_coherence)
         is_coherent = qi_modulated > self.safety_thresholds["cognitive_coherence"]
@@ -290,19 +286,13 @@ class EnhancedMetaCognitiveOrchestrator:
             # ΛCAUTION: Internal safety validation failed.
             return await self._generate_safe_alternative(task, "internal_safety_validation_failure")
 
-        self.logger.info(
-            "Task processed with safety checks (simulated).", task_type=task.get("type")
-        )
+        self.logger.info("Task processed with safety checks (simulated).", task_type=task.get("type"))
         return processed_task  # Should be the actual result dict
 
-    async def _generate_safe_alternative(
-        self, task: dict[str, Any], reason: str
-    ) -> dict[str, Any]:  # Added reason
+    async def _generate_safe_alternative(self, task: dict[str, Any], reason: str) -> dict[str, Any]:  # Added reason
         """Generate safe alternative when primary processing fails"""
         # ΛNOTE: Placeholder for safe alternative generation.
-        self.logger.warning(
-            "Generating safe alternative.", task_type=task.get("type"), reason=reason
-        )
+        self.logger.warning("Generating safe alternative.", task_type=task.get("type"), reason=reason)
         return {
             "status": "alternative_generated",
             "type": "safe_alternative_response",
@@ -338,9 +328,7 @@ class EnhancedMetaCognitiveOrchestrator:
         # self.safety_thresholds['ethical_confidence']: return False
         return True
 
-    async def _handle_cognitive_error(
-        self, error: Exception, task: dict[str, Any]
-    ) -> None:  # Added task for context
+    async def _handle_cognitive_error(self, error: Exception, task: dict[str, Any]) -> None:  # Added task for context
         """Handle cognitive processing errors (placeholder)."""
         # ΛNOTE: Placeholder for cognitive error handling. Needs robust implementation.
         # ΛCAUTION: Effective error handling is critical for meta-cognitive stability.

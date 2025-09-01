@@ -54,9 +54,7 @@ CreativeOutput = TypeVar("CreativeOutput")
 
 # Metrics collection
 HAIKU_GENERATION_TIME = Histogram("haiku_generation_seconds", "Time spent generating haiku")
-CREATIVE_REQUESTS_TOTAL = Counter(
-    "creative_requests_total", "Total creative requests", ["type", "status"]
-)
+CREATIVE_REQUESTS_TOTAL = Counter("creative_requests_total", "Total creative requests", ["type", "status"])
 ACTIVE_GENERATORS = Gauge("active_generators", "Number of active generators")
 
 # Structured logging
@@ -128,9 +126,7 @@ class CreativeContext:
 class NeuralCreativeModel(Protocol):
     """Protocol defining the interface for neural creative models."""
 
-    async def predict_expansion_strategy(
-        self, text: str, context: CreativeContext
-    ) -> ExpansionStrategy:
+    async def predict_expansion_strategy(self, text: str, context: CreativeContext) -> ExpansionStrategy:
         """Predict optimal expansion strategy for given text and context."""
         ...
 
@@ -326,9 +322,7 @@ class EnterpriseNeuralHaikuGenerator:
         try:
             global_trends = await self.federated_client.get_global_style_trends()
             # Update local style preferences based on global trends
-            self.attention_weights.update(
-                {style.name: weight for style, weight in global_trends.items()}
-            )
+            self.attention_weights.update({style.name: weight for style, weight in global_trends.items()})
         except Exception as e:
             logger.warning("Federated sync failed, continuing with local parameters", error=str(e))
 
@@ -425,18 +419,14 @@ class EnterpriseNeuralHaikuGenerator:
 
         return lines
 
-    async def _apply_neural_expansion(
-        self, base_lines: list[str], context: CreativeContext
-    ) -> list[str]:
+    async def _apply_neural_expansion(self, base_lines: list[str], context: CreativeContext) -> list[str]:
         """Apply neural-guided expansion strategies to enhance creativity."""
         expanded_lines = []
 
         for i, line in enumerate(base_lines):
             expansion_strategy = await self.neural_model.predict_expansion_strategy(line, context)
 
-            expanded_line = await self._apply_expansion_strategy(
-                line, expansion_strategy, context, line_index=i
-            )
+            expanded_line = await self._apply_expansion_strategy(line, expansion_strategy, context, line_index=i)
             expanded_lines.append(expanded_line)
 
         return expanded_lines
@@ -460,9 +450,7 @@ class EnterpriseNeuralHaikuGenerator:
         expansion_method = expansion_methods.get(strategy, self._default_expansion)
         return await expansion_method(line, context, line_index)
 
-    async def _amplify_sensory_details(
-        self, line: str, context: CreativeContext, line_index: int
-    ) -> str:
+    async def _amplify_sensory_details(self, line: str, context: CreativeContext, line_index: int) -> str:
         """Enhance line with neural-selected sensory details."""
         # Get sensory concepts from symbolic knowledge base
         sensory_relations = await self.symbolic_kb.get_concept_relations("sensory")
@@ -476,9 +464,7 @@ class EnterpriseNeuralHaikuGenerator:
 
         return line
 
-    async def _infuse_emotional_resonance(
-        self, line: str, context: CreativeContext, line_index: int
-    ) -> str:
+    async def _infuse_emotional_resonance(self, line: str, context: CreativeContext, line_index: int) -> str:
         """Infuse emotional depth based on context emotional state."""
         if not context.emotional_state:
             return line
@@ -499,16 +485,12 @@ class EnterpriseNeuralHaikuGenerator:
 
         return line
 
-    async def _create_conceptual_bridges(
-        self, line: str, context: CreativeContext, line_index: int
-    ) -> str:
+    async def _create_conceptual_bridges(self, line: str, context: CreativeContext, line_index: int) -> str:
         """Create conceptual bridges between disparate ideas."""
         # Implementation of advanced conceptual bridging
         return line  # Simplified for space
 
-    async def _add_temporal_layers(
-        self, line: str, context: CreativeContext, line_index: int
-    ) -> str:
+    async def _add_temporal_layers(self, line: str, context: CreativeContext, line_index: int) -> str:
         """Add temporal depth and progression."""
         temporal_markers = ["suddenly", "slowly", "eternally", "momentarily"]
         if line_index == 1:  # Middle line gets temporal enhancement
@@ -516,9 +498,7 @@ class EnterpriseNeuralHaikuGenerator:
             return f"{marker} {line}"
         return line
 
-    async def _create_metaphorical_mappings(
-        self, line: str, context: CreativeContext, line_index: int
-    ) -> str:
+    async def _create_metaphorical_mappings(self, line: str, context: CreativeContext, line_index: int) -> str:
         """Create sophisticated metaphorical mappings."""
         # Advanced metaphor generation would go here
         return line
@@ -545,9 +525,7 @@ class EnterpriseNeuralHaikuGenerator:
 
         return base_concepts[:4]  # Return top concepts
 
-    async def _construct_line(
-        self, concepts: list[str], target_syllables: int, context: CreativeContext
-    ) -> str:
+    async def _construct_line(self, concepts: list[str], target_syllables: int, context: CreativeContext) -> str:
         """Construct a haiku line from concepts with syllable constraints."""
         line_words = []
         current_syllables = 0
@@ -564,8 +542,7 @@ class EnterpriseNeuralHaikuGenerator:
             valid_words = [
                 word
                 for word in candidate_words
-                if current_syllables + self.syllable_analyzer.count_syllables(word)
-                <= target_syllables
+                if current_syllables + self.syllable_analyzer.count_syllables(word) <= target_syllables
             ]
 
             if valid_words:
@@ -611,9 +588,7 @@ class EnterpriseNeuralHaikuGenerator:
             similarities = []
             for i in range(len(embeddings)):
                 for j in range(i + 1, len(embeddings)):
-                    sim = F.cosine_similarity(
-                        embeddings[i].unsqueeze(0), embeddings[j].unsqueeze(0)
-                    )
+                    sim = F.cosine_similarity(embeddings[i].unsqueeze(0), embeddings[j].unsqueeze(0))
                     similarities.append(sim.item())
 
             return np.mean(similarities) if similarities else 0.5
@@ -630,18 +605,14 @@ class EnterpriseNeuralHaikuGenerator:
 
         accuracy_scores = []
         for line, target in zip(lines, target_pattern):
-            actual_syllables = sum(
-                self.syllable_analyzer.count_syllables(word) for word in line.split()
-            )
+            actual_syllables = sum(self.syllable_analyzer.count_syllables(word) for word in line.split())
             # Perfect match = 1.0, each syllable off reduces score
             score = max(0.0, 1.0 - abs(actual_syllables - target) * 0.2)
             accuracy_scores.append(score)
 
         return np.mean(accuracy_scores)
 
-    def _generate_cache_key(
-        self, context: CreativeContext, style_override: Optional[CreativeStyle]
-    ) -> str:
+    def _generate_cache_key(self, context: CreativeContext, style_override: Optional[CreativeStyle]) -> str:
         """Generate cache key for haiku generation request."""
         key_components = [
             context.user_id,
@@ -732,12 +703,8 @@ class EnterpriseNeuralHaikuGenerator:
             "avg_semantic_coherence": np.mean([m.semantic_coherence for m in recent_metrics]),
             "avg_syllable_accuracy": np.mean([m.syllable_accuracy for m in recent_metrics]),
             "cache_hit_rate": self._calculate_cache_hit_rate(),
-            "p95_generation_time_ms": np.percentile(
-                [m.generation_time_ms for m in recent_metrics], 95
-            ),
-            "p99_generation_time_ms": np.percentile(
-                [m.generation_time_ms for m in recent_metrics], 99
-            ),
+            "p95_generation_time_ms": np.percentile([m.generation_time_ms for m in recent_metrics], 95),
+            "p99_generation_time_ms": np.percentile([m.generation_time_ms for m in recent_metrics], 99),
         }
 
 
@@ -780,9 +747,7 @@ class CreativeEngineFactory:
 
 # Mock implementations for demonstration (replace with real implementations)
 class MockNeuralModel:
-    async def predict_expansion_strategy(
-        self, text: str, context: CreativeContext
-    ) -> ExpansionStrategy:
+    async def predict_expansion_strategy(self, text: str, context: CreativeContext) -> ExpansionStrategy:
         return ExpansionStrategy.SENSORY_AMPLIFICATION
 
     async def generate_embeddings(self, concepts: list[str]) -> torch.Tensor:

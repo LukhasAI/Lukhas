@@ -59,9 +59,7 @@ class MemoryUtils:
         """Encrypt memory data."""
         # Simple encryption for demonstration
         data_str = json.dumps(data)
-        encrypted = "".join(
-            chr(ord(c) ^ ord(k)) for c, k in zip(data_str, key * (len(data_str) // len(key) + 1))
-        )
+        encrypted = "".join(chr(ord(c) ^ ord(k)) for c, k in zip(data_str, key * (len(data_str) // len(key) + 1)))
         return encrypted
 
     @staticmethod
@@ -69,8 +67,7 @@ class MemoryUtils:
         """Decrypt memory data."""
         # Simple decryption for demonstration
         decrypted = "".join(
-            chr(ord(c) ^ ord(k))
-            for c, k in zip(encrypted_data, key * (len(encrypted_data) // len(key) + 1))
+            chr(ord(c) ^ ord(k)) for c, k in zip(encrypted_data, key * (len(encrypted_data) // len(key) + 1))
         )
         return json.loads(decrypted)
 

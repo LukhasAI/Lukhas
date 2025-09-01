@@ -99,10 +99,7 @@ class ResonanceSignature:
 
         # Combined resonance score
         total_resonance = (
-            0.4 * fundamental_resonance
-            + 0.3 * harmonic_resonance
-            + 0.2 * phase_coherence
-            + 0.1 * amplitude_factor
+            0.4 * fundamental_resonance + 0.3 * harmonic_resonance + 0.2 * phase_coherence + 0.1 * amplitude_factor
         )
 
         return max(0.0, min(1.0, total_resonance))
@@ -329,9 +326,7 @@ class ResonantMemoryAccess:
                         {
                             "resonance_type": "direct",
                             "fundamental_match": abs(query_freq - signature.fundamental_freq) < 2.0,
-                            "harmonic_matches": self._count_harmonic_matches(
-                                query_harmonics, signature.harmonics
-                            ),
+                            "harmonic_matches": self._count_harmonic_matches(query_harmonics, signature.harmonics),
                         },
                     )
                 )
@@ -431,9 +426,7 @@ class ResonantMemoryAccess:
 
         # Continue cascade
         if depth > 1:
-            next_level = await self._cascade_resonance(
-                cascaded, query_signature, depth - 1, visited
-            )
+            next_level = await self._cascade_resonance(cascaded, query_signature, depth - 1, visited)
             cascaded.extend(next_level)
 
         self.cascade_events += 1
@@ -559,11 +552,7 @@ class ResonantMemoryAccess:
                 cluster.update_coherence()
 
             # Remove low-coherence clusters
-            to_remove = [
-                cid
-                for cid, cluster in self.resonant_clusters.items()
-                if cluster.coherence_level < 0.2
-            ]
+            to_remove = [cid for cid, cluster in self.resonant_clusters.items() if cluster.coherence_level < 0.2]
 
             for cid in to_remove:
                 del self.resonant_clusters[cid]
@@ -575,14 +564,10 @@ class ResonantMemoryAccess:
         """Get comprehensive resonance statistics"""
 
         avg_cluster_coherence = (
-            np.mean([c.coherence_level for c in self.resonant_clusters.values()])
-            if self.resonant_clusters
-            else 0.0
+            np.mean([c.coherence_level for c in self.resonant_clusters.values()]) if self.resonant_clusters else 0.0
         )
 
-        network_density = (
-            sum(len(connections) for connections in self.resonance_network.values()) / 2
-        )
+        network_density = sum(len(connections) for connections in self.resonance_network.values()) / 2
         network_density /= max(1, len(self.memory_signatures))
 
         return {
@@ -603,9 +588,7 @@ async def demonstrate_resonant_memory():
     """Demonstrate resonant memory access"""
 
     # Create resonant memory system
-    resonant_memory = ResonantMemoryAccess(
-        base_frequency=40.0, resonance_threshold=0.3, max_harmonics=4
-    )
+    resonant_memory = ResonantMemoryAccess(base_frequency=40.0, resonance_threshold=0.3, max_harmonics=4)
 
     await resonant_memory.start()
 
@@ -658,9 +641,7 @@ async def demonstrate_resonant_memory():
         )
 
         for i, (mem_id, score, metadata) in enumerate(results, 1):
-            print(
-                f"   {i}. {mem_id} (resonance: {score:.3f}) - {metadata.get('resonance_type', 'unknown')}"
-            )
+            print(f"   {i}. {mem_id} (resonance: {score:.3f}) - {metadata.get('resonance_type', 'unknown')}")
 
     # Show statistics
     print("\n3. Resonance Statistics:")

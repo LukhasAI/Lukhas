@@ -39,9 +39,7 @@ try:
     PERSONALITY_REFINER_AVAILABLE = True
 except ImportError:
     PERSONALITY_REFINER_AVAILABLE = False
-    logger.warning(
-        "PersonalityRefiner not available. Adaptive personality features will be disabled."
-    )
+    logger.warning("PersonalityRefiner not available. Adaptive personality features will be disabled.")
 
 try:
     from candidate.orchestration.brain.orchestration.emotional_oscillator import (
@@ -51,9 +49,7 @@ try:
     EMOTIONAL_OSC_AVAILABLE = True
 except ImportError:
     EMOTIONAL_OSC_AVAILABLE = False
-    logger.warning(
-        "EmotionalOscillator not available. Dynamic emotion modulation will be disabled."
-    )
+    logger.warning("EmotionalOscillator not available. Dynamic emotion modulation will be disabled.")
 
 
 class VoicePersonalityCreativityEngine:
@@ -372,6 +368,4 @@ class VoicePersonalityCreativityEngine:
         # Apply small random variations to keep personality dynamic
         for trait in self.personality_traits:
             variation = (random.random() - 0.5) * 0.05  # Small random adjustment
-            self.personality_traits[trait] = max(
-                0.1, min(0.9, self.personality_traits[trait] + variation)
-            )
+            self.personality_traits[trait] = max(0.1, min(0.9, self.personality_traits[trait] + variation))

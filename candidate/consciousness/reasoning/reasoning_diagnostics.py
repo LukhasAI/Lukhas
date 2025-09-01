@@ -118,9 +118,7 @@ class ReasoningDiagnostics:
         }
 
         # Store results
-        self.diagnostic_history.append(
-            {"timestamp": datetime.now(), "results": results, "summary": summary}
-        )
+        self.diagnostic_history.append({"timestamp": datetime.now(), "results": results, "summary": summary})
 
         self.last_check_time = datetime.now()
 
@@ -538,48 +536,31 @@ class ReasoningDiagnostics:
         # Check for critical issues
         critical_issues = [r for r in results if r.level == DiagnosticLevel.CRITICAL]
         if critical_issues:
-            recommendations.append(
-                "URGENT: Address critical issues immediately. System stability at risk."
-            )
+            recommendations.append("URGENT: Address critical issues immediately. System stability at risk.")
 
         # Check for performance issues
         perf_issues = [
             r
             for r in results
-            if "metric_" in r.check_name
-            and r.level in [DiagnosticLevel.WARNING, DiagnosticLevel.ERROR]
+            if "metric_" in r.check_name and r.level in [DiagnosticLevel.WARNING, DiagnosticLevel.ERROR]
         ]
         if perf_issues:
-            recommendations.append(
-                "Review and optimize reasoning strategies. Performance metrics below threshold."
-            )
+            recommendations.append("Review and optimize reasoning strategies. Performance metrics below threshold.")
 
         # Check for logic issues
-        logic_issues = [
-            r
-            for r in results
-            if "logic" in r.check_name.lower() and r.level != DiagnosticLevel.INFO
-        ]
+        logic_issues = [r for r in results if "logic" in r.check_name.lower() and r.level != DiagnosticLevel.INFO]
         if logic_issues:
-            recommendations.append(
-                "Investigate logical consistency issues. Consider adjusting inference parameters."
-            )
+            recommendations.append("Investigate logical consistency issues. Consider adjusting inference parameters.")
 
         # Check for stability issues
         stability_issues = [
-            r
-            for r in results
-            if "stability" in r.check_name.lower() or "drift" in r.check_name.lower()
+            r for r in results if "stability" in r.check_name.lower() or "drift" in r.check_name.lower()
         ]
         if stability_issues:
-            recommendations.append(
-                "System showing signs of instability. Implement drift correction mechanisms."
-            )
+            recommendations.append("System showing signs of instability. Implement drift correction mechanisms.")
 
         if not recommendations:
-            recommendations.append(
-                "System operating within normal parameters. Continue monitoring."
-            )
+            recommendations.append("System operating within normal parameters. Continue monitoring.")
 
         return recommendations
 
@@ -601,13 +582,9 @@ class ReasoningDiagnostics:
             loop = AdaptiveReasoningLoop()
             status = loop.get_status()
             if status:
-                results.append(
-                    DiagnosticResult("quick_check", DiagnosticLevel.INFO, "Components responsive")
-                )
+                results.append(DiagnosticResult("quick_check", DiagnosticLevel.INFO, "Components responsive"))
         except Exception as e:
-            results.append(
-                DiagnosticResult("quick_check", DiagnosticLevel.ERROR, f"Component error: {e!s}")
-            )
+            results.append(DiagnosticResult("quick_check", DiagnosticLevel.ERROR, f"Component error: {e!s}"))
 
         self._update_health_status(results)
 

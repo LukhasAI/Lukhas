@@ -122,9 +122,7 @@ def validate_branding_compliance(text: str) -> list[str]:
     import re
 
     if re.search(r"\bquantum\b(?!\s*[-]?(?:inspired|metaphor))", text_lower):
-        issues.append(
-            "Standalone 'quantum' should be 'quantum-inspired' unless specifically 'quantum metaphor'"
-        )
+        issues.append("Standalone 'quantum' should be 'quantum-inspired' unless specifically 'quantum metaphor'")
 
     return issues
 

@@ -68,9 +68,7 @@ class LukhasFederatedModel:
         self.contribution_count += 1
         self.client_contributions.add(client_id)
 
-        logger.info(
-            f"Model {self.model_id} updated to v{self.version} with contribution from {client_id}"
-        )
+        logger.info(f"Model {self.model_id} updated to v{self.version} with contribution from {client_id}")
         return True
 
     def get_parameters(self, client_id: str = None) -> dict:
@@ -153,9 +151,7 @@ class LukhasFederatedLearningManager:
         Path(self.storage_dir).mkdir(parents=True, exist_ok=True)
         self.load_models()
 
-    def register_model(
-        self, model_id: str, model_type: str, initial_parameters: dict = None
-    ) -> LukhasFederatedModel:
+    def register_model(self, model_id: str, model_type: str, initial_parameters: dict = None) -> LukhasFederatedModel:
         """
         Register a new model for federated learning in LUKHAS
 
@@ -253,9 +249,7 @@ class LukhasFederatedLearningManager:
 
         # Reduce weight for very frequent contributors to prevent domination
         model = self.models[model_id]
-        client_contribution_ratio = model.contribution_count / max(
-            len(model.client_contributions), 1
-        )
+        client_contribution_ratio = model.contribution_count / max(len(model.client_contributions), 1)
 
         # Apply diminishing returns for frequent contributors
         if client_contribution_ratio > 2.0:

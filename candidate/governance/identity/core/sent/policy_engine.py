@@ -331,9 +331,7 @@ class ComprehensiveEthicsPolicyEngine:
             evaluation.overall_ethical_score = overall_score
 
             # Calculate confidence
-            evaluation.confidence = await self._calculate_confidence(
-                framework_scores, principle_scores
-            )
+            evaluation.confidence = await self._calculate_confidence(framework_scores, principle_scores)
 
             # Check policy compliance
             policy_results = await self._check_policy_compliance(evaluation, context)
@@ -341,9 +339,7 @@ class ComprehensiveEthicsPolicyEngine:
             evaluation.required_safeguards = policy_results["safeguards"]
 
             # Constitutional compliance check (needed for action determination)
-            evaluation.constitutional_compliance = await self._check_constitutional_compliance(
-                evaluation
-            )
+            evaluation.constitutional_compliance = await self._check_constitutional_compliance(evaluation)
 
             # Determine recommended action
             evaluation.recommended_action = await self._determine_action(evaluation)
@@ -356,12 +352,8 @@ class ComprehensiveEthicsPolicyEngine:
             evaluation.potential_benefits = await self._identify_potential_benefits(action, context)
 
             # Trinity Framework analysis
-            evaluation.identity_ethical_impact = await self._analyze_identity_ethics_impact(
-                action, context
-            )
-            evaluation.consciousness_ethical_impact = (
-                await self._analyze_consciousness_ethics_impact(action, context)
-            )
+            evaluation.identity_ethical_impact = await self._analyze_identity_ethics_impact(action, context)
+            evaluation.consciousness_ethical_impact = await self._analyze_consciousness_ethics_impact(action, context)
             evaluation.guardian_priority = await self._determine_guardian_priority(evaluation)
 
             # Cache evaluation
@@ -527,9 +519,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         # Check each constitutional principle
         for principle, description in self.constitutional_principles.items():
-            principle_score = await self._evaluate_constitutional_principle(
-                action, context, principle
-            )
+            principle_score = await self._evaluate_constitutional_principle(action, context, principle)
             score = min(score, principle_score)  # Take minimum (most restrictive)
 
         # Additional constitutional checks
@@ -547,9 +537,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         return max(0.0, min(1.0, score))
 
-    async def _evaluate_constitutional_principle(
-        self, action: str, context: dict[str, Any], principle: str
-    ) -> float:
+    async def _evaluate_constitutional_principle(self, action: str, context: dict[str, Any], principle: str) -> float:
         """Evaluate a specific constitutional principle"""
 
         base_score = 0.8
@@ -587,9 +575,7 @@ class ComprehensiveEthicsPolicyEngine:
                 return base_score - 0.4
 
         elif principle == "privacy":
-            if not context.get("privacy_violating", False) and context.get(
-                "respects_privacy", True
-            ):
+            if not context.get("privacy_violating", False) and context.get("respects_privacy", True):
                 return base_score
             else:
                 return base_score - 0.5
@@ -608,9 +594,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         return base_score
 
-    async def _evaluate_principles(
-        self, action: str, context: dict[str, Any]
-    ) -> dict[EthicalPrinciple, float]:
+    async def _evaluate_principles(self, action: str, context: dict[str, Any]) -> dict[EthicalPrinciple, float]:
         """Evaluate against core ethical principles"""
 
         scores = {}
@@ -621,9 +605,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         return scores
 
-    async def _evaluate_principle(
-        self, action: str, context: dict[str, Any], principle: EthicalPrinciple
-    ) -> float:
+    async def _evaluate_principle(self, action: str, context: dict[str, Any], principle: EthicalPrinciple) -> float:
         """Evaluate a specific ethical principle"""
 
         base_score = 0.7
@@ -642,9 +624,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         elif principle == EthicalPrinciple.JUSTICE:
             return base_score + (
-                0.2
-                if context.get("fair", True) and not context.get("discriminatory", False)
-                else -0.4
+                0.2 if context.get("fair", True) and not context.get("discriminatory", False) else -0.4
             )
 
         elif principle == EthicalPrinciple.DIGNITY:
@@ -677,11 +657,7 @@ class ComprehensiveEthicsPolicyEngine:
             return max(0.0, base_score + len(safety_indicators) * 0.1 - risk_level * 0.4)
 
         elif principle == EthicalPrinciple.TRUTHFULNESS:
-            return base_score + (
-                0.2
-                if context.get("truthful", True) and not context.get("deceptive", False)
-                else -0.4
-            )
+            return base_score + (0.2 if context.get("truthful", True) and not context.get("deceptive", False) else -0.4)
 
         return base_score
 
@@ -697,9 +673,7 @@ class ComprehensiveEthicsPolicyEngine:
         principle_weight = 0.4
 
         # Framework score (weighted average)
-        framework_avg = (
-            sum(framework_scores.values()) / len(framework_scores) if framework_scores else 0.5
-        )
+        framework_avg = sum(framework_scores.values()) / len(framework_scores) if framework_scores else 0.5
 
         # Principle score (weighted by importance)
         principle_weights = {
@@ -747,9 +721,7 @@ class ComprehensiveEthicsPolicyEngine:
         if len(all_scores) <= 1:
             return 0.5
 
-        score_variance = sum(
-            (score - sum(all_scores) / len(all_scores)) ** 2 for score in all_scores
-        ) / len(all_scores)
+        score_variance = sum((score - sum(all_scores) / len(all_scores)) ** 2 for score in all_scores) / len(all_scores)
 
         # Lower variance = higher confidence
         confidence = max(0.1, 1.0 - score_variance * 2)
@@ -773,12 +745,8 @@ class ComprehensiveEthicsPolicyEngine:
                 description=policy_data["description"],
                 version=policy_data.get("version", "1.0.0"),
                 applicable_contexts=policy_data.get("applicable_contexts", ["all"]),
-                required_frameworks=[
-                    EthicalFramework(f) for f in policy_data.get("required_frameworks", [])
-                ],
-                minimum_scores={
-                    EthicalPrinciple(k): v for k, v in policy_data.get("minimum_scores", {}).items()
-                },
+                required_frameworks=[EthicalFramework(f) for f in policy_data.get("required_frameworks", [])],
+                minimum_scores={EthicalPrinciple(k): v for k, v in policy_data.get("minimum_scores", {}).items()},
                 rules=policy_data.get("rules", []),
                 exceptions=policy_data.get("exceptions", []),
                 enforcement_level=PolicySeverity(policy_data.get("enforcement_level", "moderate")),
@@ -825,9 +793,7 @@ class ComprehensiveEthicsPolicyEngine:
             logger.error(f"❌ Failed to update policy {policy_id}: {e}")
             return False
 
-    async def check_compliance(
-        self, evaluation: EthicalEvaluation, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def check_compliance(self, evaluation: EthicalEvaluation, context: dict[str, Any]) -> dict[str, Any]:
         """Check compliance against all applicable policies"""
 
         compliance_result = {
@@ -930,9 +896,7 @@ class ComprehensiveEthicsPolicyEngine:
 
             if relevant_evaluations:
                 report["summary"]["total_evaluations"] = len(relevant_evaluations)
-                report["summary"]["policy_violations"] = sum(
-                    1 for e in relevant_evaluations if e.policy_violations
-                )
+                report["summary"]["policy_violations"] = sum(1 for e in relevant_evaluations if e.policy_violations)
                 report["summary"]["constitutional_compliance_rate"] = sum(
                     1 for e in relevant_evaluations if e.constitutional_compliance
                 ) / len(relevant_evaluations)
@@ -942,9 +906,7 @@ class ComprehensiveEthicsPolicyEngine:
 
                 # Generate recommendations based on patterns
                 if report["summary"]["constitutional_compliance_rate"] < 0.9:
-                    report["recommendations"].append(
-                        "Review constitutional AI compliance procedures"
-                    )
+                    report["recommendations"].append("Review constitutional AI compliance procedures")
 
                 if report["summary"]["average_ethical_score"] < 0.7:
                     report["recommendations"].append("Implement additional ethical safeguards")
@@ -952,9 +914,7 @@ class ComprehensiveEthicsPolicyEngine:
                 if report["summary"]["policy_violations"] > len(relevant_evaluations) * 0.1:
                     report["recommendations"].append("Address recurring policy violations")
 
-            logger.info(
-                f"✅ Generated ethics compliance report for {user_id}: {report['report_id']}"
-            )
+            logger.info(f"✅ Generated ethics compliance report for {user_id}: {report['report_id']}")
             return report
 
         except Exception as e:
@@ -1038,9 +998,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         return True
 
-    async def _check_policy_compliance(
-        self, evaluation: EthicalEvaluation, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _check_policy_compliance(self, evaluation: EthicalEvaluation, context: dict[str, Any]) -> dict[str, Any]:
         """Check compliance against all policies"""
 
         compliance_result = await self.check_compliance(evaluation, context)
@@ -1083,21 +1041,13 @@ class ComprehensiveEthicsPolicyEngine:
         # Framework-based justification
         for framework, score in evaluation.framework_scores.items():
             if score > 0.7:
-                justifications.append(
-                    f"{framework.value} analysis supports the action (score: {score:.2f})"
-                )
+                justifications.append(f"{framework.value} analysis supports the action (score: {score:.2f})")
             elif score < 0.4:
-                justifications.append(
-                    f"{framework.value} analysis raises concerns (score: {score:.2f})"
-                )
+                justifications.append(f"{framework.value} analysis raises concerns (score: {score:.2f})")
 
         # Principle-based justification
-        high_scoring_principles = [
-            p.value for p, s in evaluation.principle_scores.items() if s > 0.8
-        ]
-        low_scoring_principles = [
-            p.value for p, s in evaluation.principle_scores.items() if s < 0.4
-        ]
+        high_scoring_principles = [p.value for p, s in evaluation.principle_scores.items() if s > 0.8]
+        low_scoring_principles = [p.value for p, s in evaluation.principle_scores.items() if s < 0.4]
 
         if high_scoring_principles:
             justifications.append(f"Strong adherence to: {', '.join(high_scoring_principles)}")
@@ -1171,9 +1121,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         return benefits
 
-    async def _analyze_identity_ethics_impact(
-        self, action: str, context: dict[str, Any]
-    ) -> Optional[float]:
+    async def _analyze_identity_ethics_impact(self, action: str, context: dict[str, Any]) -> Optional[float]:
         """Analyze ethical impact on identity systems (⚛️)"""
 
         identity_factors = ["identity", "authentication", "verification", "authorization"]
@@ -1193,16 +1141,12 @@ class ComprehensiveEthicsPolicyEngine:
 
         return None
 
-    async def _analyze_consciousness_ethics_impact(
-        self, action: str, context: dict[str, Any]
-    ) -> Optional[float]:
+    async def _analyze_consciousness_ethics_impact(self, action: str, context: dict[str, Any]) -> Optional[float]:
         """Analyze ethical impact on consciousness systems (🧠)"""
 
         consciousness_factors = ["decision", "reasoning", "learning", "memory", "consciousness"]
 
-        if any(
-            factor in action.lower() or factor in str(context) for factor in consciousness_factors
-        ):
+        if any(factor in action.lower() or factor in str(context) for factor in consciousness_factors):
             # Impact on consciousness systems
             base_impact = 0.6
 
@@ -1258,9 +1202,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         # Create a simplified context for caching
         cache_context = {
-            k: v
-            for k, v in context.items()
-            if k in ["context_type", "risk_level", "user_type", "content_type"]
+            k: v for k, v in context.items() if k in ["context_type", "risk_level", "user_type", "content_type"]
         }
 
         import hashlib
@@ -1284,19 +1226,13 @@ class ComprehensiveEthicsPolicyEngine:
         current_avg = self.metrics["average_evaluation_time"]
         total_evals = self.metrics["total_evaluations"]
 
-        self.metrics["average_evaluation_time"] = (
-            (current_avg * (total_evals - 1)) + eval_time
-        ) / total_evals
+        self.metrics["average_evaluation_time"] = ((current_avg * (total_evals - 1)) + eval_time) / total_evals
 
         # Update constitutional compliance rate
         if evaluation.constitutional_compliance:
-            compliance_count = (
-                int(self.metrics["constitutional_compliance_rate"] * (total_evals - 1)) + 1
-            )
+            compliance_count = int(self.metrics["constitutional_compliance_rate"] * (total_evals - 1)) + 1
         else:
-            compliance_count = int(
-                self.metrics["constitutional_compliance_rate"] * (total_evals - 1)
-            )
+            compliance_count = int(self.metrics["constitutional_compliance_rate"] * (total_evals - 1))
 
         self.metrics["constitutional_compliance_rate"] = compliance_count / total_evals
 

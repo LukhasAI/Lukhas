@@ -112,15 +112,9 @@ class DreamResponse(BaseModel):
 
     dream_id: str = Field(..., description="Unique dream identifier")
     processed_content: str = Field(..., description="Processed dream content")
-    qi_metrics: dict[str, Any] = Field(
-        default_factory=dict, description="Quantum-inspired processing metrics"
-    )
-    reflection_results: dict[str, Any] = Field(
-        default_factory=dict, description="Dream reflection results"
-    )
-    symbolic_analysis: dict[str, Any] = Field(
-        default_factory=dict, description="Symbolic analysis results"
-    )
+    qi_metrics: dict[str, Any] = Field(default_factory=dict, description="Quantum-inspired processing metrics")
+    reflection_results: dict[str, Any] = Field(default_factory=dict, description="Dream reflection results")
+    symbolic_analysis: dict[str, Any] = Field(default_factory=dict, description="Symbolic analysis results")
     processing_time: float = Field(..., description="Processing time in seconds")
 
 
@@ -364,9 +358,7 @@ class EnhancedDreamEngine:
                 # Also run dream reflection on the memory
                 if self.dream_reflection:
                     # Use process_dream method instead of reflect
-                    reflection_result = await self.dream_reflection.process_dream(
-                        memory.get("content", "")
-                    )
+                    reflection_result = await self.dream_reflection.process_dream(memory.get("content", ""))
                     # Store reflection result
                     await self._store_dream_reflection(
                         {
@@ -451,9 +443,7 @@ class EnhancedDreamEngine:
         duration = datetime.utcnow() - self.current_cycle["start_time"]
         memories = self.current_cycle["memories_processed"]
 
-        logger.info(
-            f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}"
-        )
+        logger.info(f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}")
 
     async def _handle_start_cycle(self, content: dict[str, Any]) -> None:
         """Handle start cycle request"""
@@ -581,9 +571,7 @@ class EnhancedDreamEngine:
                     processed = await self._process_dream_quantum(dream, qi_like_state)
                     processed_dreams.append(processed)
                 else:
-                    logger.warning(
-                        f"Insufficient coherence-inspired processing for dream {dream.get('id', 'unknown')}"
-                    )
+                    logger.warning(f"Insufficient coherence-inspired processing for dream {dream.get('id', 'unknown')}")
 
             except Exception as e:
                 logger.error(f"Error processing dream quantum: {e}")
@@ -620,9 +608,7 @@ class EnhancedDreamEngine:
                     self.current_cycle["memories_processed"] += 1
 
             else:
-                logger.warning(
-                    f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}"
-                )
+                logger.warning(f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}")
 
         except Exception as e:
             logger.error(f"Error processing dream: {e}")
@@ -859,12 +845,9 @@ async def get_status():
         dream_engine = get_dream_engine()
 
         return {
-            "status": (
-                "active" if hasattr(dream_engine, "active") and dream_engine.active else "inactive"
-            ),
+            "status": ("active" if hasattr(dream_engine, "active") and dream_engine.active else "inactive"),
             "engine_type": "EnhancedDreamEngine",
-            "qi_enabled": hasattr(dream_engine, "qi_adapter")
-            and dream_engine.qi_adapter is not None,
+            "qi_enabled": hasattr(dream_engine, "qi_adapter") and dream_engine.qi_adapter is not None,
             "reflection_enabled": True,
             "timestamp": datetime.now().isoformat(),
         }

@@ -393,9 +393,7 @@ class VocabularyManager:
 
         return None
 
-    def find_concept(
-        self, meaning: str, domain: Optional[SymbolicDomain] = None
-    ) -> Optional[Concept]:
+    def find_concept(self, meaning: str, domain: Optional[SymbolicDomain] = None) -> Optional[Concept]:
         """Find a concept by meaning"""
         if domain:
             vocab = self.vocabularies.get(domain)

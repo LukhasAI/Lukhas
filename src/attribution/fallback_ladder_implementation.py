@@ -69,9 +69,7 @@ class AttributionFallbackLadder:
             AttributionMethod.DEFAULT_FALLBACK: timedelta(hours=1),
         }
 
-    async def attribute_conversion(
-        self, conversion_event: dict, user_context: dict
-    ) -> AttributionResult:
+    async def attribute_conversion(self, conversion_event: dict, user_context: dict) -> AttributionResult:
         """
         Main attribution function - attempts all methods in priority order
 
@@ -89,8 +87,7 @@ class AttributionFallbackLadder:
         affiliate_result = await self._try_affiliate_attribution(conversion_event, user_context)
         if (
             affiliate_result
-            and affiliate_result.confidence
-            >= self.confidence_thresholds[AttributionMethod.AFFILIATE_LINK]
+            and affiliate_result.confidence >= self.confidence_thresholds[AttributionMethod.AFFILIATE_LINK]
         ):
             return affiliate_result
         if affiliate_result:
@@ -98,10 +95,7 @@ class AttributionFallbackLadder:
 
         # Tier 2: S2S Postback Attribution (0.85+ confidence)
         s2s_result = await self._try_s2s_attribution(conversion_event, user_context)
-        if (
-            s2s_result
-            and s2s_result.confidence >= self.confidence_thresholds[AttributionMethod.S2S_POSTBACK]
-        ):
+        if s2s_result and s2s_result.confidence >= self.confidence_thresholds[AttributionMethod.S2S_POSTBACK]:
             return s2s_result
         if s2s_result:
             attribution_attempts.append(s2s_result)
@@ -110,8 +104,7 @@ class AttributionFallbackLadder:
         receipt_result = await self._try_receipt_matching(conversion_event, user_context)
         if (
             receipt_result
-            and receipt_result.confidence
-            >= self.confidence_thresholds[AttributionMethod.RECEIPT_MATCHING]
+            and receipt_result.confidence >= self.confidence_thresholds[AttributionMethod.RECEIPT_MATCHING]
         ):
             return receipt_result
         if receipt_result:
@@ -121,8 +114,7 @@ class AttributionFallbackLadder:
         behavioral_result = await self._try_behavioral_inference(conversion_event, user_context)
         if (
             behavioral_result
-            and behavioral_result.confidence
-            >= self.confidence_thresholds[AttributionMethod.BEHAVIORAL_INFERENCE]
+            and behavioral_result.confidence >= self.confidence_thresholds[AttributionMethod.BEHAVIORAL_INFERENCE]
         ):
             return behavioral_result
         if behavioral_result:
@@ -132,8 +124,7 @@ class AttributionFallbackLadder:
         last_touch_result = await self._try_last_touch_attribution(conversion_event, user_context)
         if (
             last_touch_result
-            and last_touch_result.confidence
-            >= self.confidence_thresholds[AttributionMethod.LAST_TOUCH]
+            and last_touch_result.confidence >= self.confidence_thresholds[AttributionMethod.LAST_TOUCH]
         ):
             return last_touch_result
         if last_touch_result:
@@ -157,9 +148,7 @@ class AttributionFallbackLadder:
         current_url = user_context.get("current_url", "")
 
         # Look for LUKHAS tracking parameters
-        tracking_params = self._extract_tracking_params(
-            referrer_url
-        ) or self._extract_tracking_params(current_url)
+        tracking_params = self._extract_tracking_params(referrer_url) or self._extract_tracking_params(current_url)
 
         if not tracking_params:
             return None
@@ -180,10 +169,7 @@ class AttributionFallbackLadder:
         click_timestamp = tracking_params.get("timestamp")
         if click_timestamp:
             click_time = datetime.fromtimestamp(int(click_timestamp))
-            if (
-                datetime.now() - click_time
-                > self.attribution_windows[AttributionMethod.AFFILIATE_LINK]
-            ):
+            if datetime.now() - click_time > self.attribution_windows[AttributionMethod.AFFILIATE_LINK]:
                 return None
 
         # High confidence for direct affiliate attribution
@@ -206,9 +192,7 @@ class AttributionFallbackLadder:
             expires_at=datetime.now() + self.attribution_windows[AttributionMethod.AFFILIATE_LINK],
         )
 
-    async def _try_s2s_attribution(
-        self, conversion_event: dict, user_context: dict
-    ) -> Optional[AttributionResult]:
+    async def _try_s2s_attribution(self, conversion_event: dict, user_context: dict) -> Optional[AttributionResult]:
         """Tier 2: Server-to-Server postback attribution"""
 
         # Look for S2S postback data in recent conversions
@@ -226,17 +210,10 @@ class AttributionFallbackLadder:
 
                 # Verify postback timestamp within window
                 postback_time = datetime.fromisoformat(s2s_record["timestamp"])
-                if (
-                    datetime.now() - postback_time
-                    <= self.attribution_windows[AttributionMethod.S2S_POSTBACK]
-                ):
+                if datetime.now() - postback_time <= self.attribution_windows[AttributionMethod.S2S_POSTBACK]:
                     # Validate postback signature
                     if self._validate_postback_signature(s2s_record):
-                        confidence = (
-                            0.90
-                            if self._match_conversion_details(s2s_record, conversion_event)
-                            else 0.85
-                        )
+                        confidence = 0.90 if self._match_conversion_details(s2s_record, conversion_event) else 0.85
 
                         return AttributionResult(
                             method=AttributionMethod.S2S_POSTBACK,
@@ -247,20 +224,15 @@ class AttributionFallbackLadder:
                             conversion_value_usd=conversion_event.get("value_usd", 0.0),
                             attribution_data={
                                 "postback_data": s2s_record,
-                                "value_match": self._match_conversion_details(
-                                    s2s_record, conversion_event
-                                ),
+                                "value_match": self._match_conversion_details(s2s_record, conversion_event),
                             },
                             timestamp=datetime.now(),
-                            expires_at=datetime.now()
-                            + self.attribution_windows[AttributionMethod.S2S_POSTBACK],
+                            expires_at=datetime.now() + self.attribution_windows[AttributionMethod.S2S_POSTBACK],
                         )
 
         return None
 
-    async def _try_receipt_matching(
-        self, conversion_event: dict, user_context: dict
-    ) -> Optional[AttributionResult]:
+    async def _try_receipt_matching(self, conversion_event: dict, user_context: dict) -> Optional[AttributionResult]:
         """Tier 3: Receipt-based attribution matching"""
 
         # Extract purchase details for matching
@@ -279,9 +251,7 @@ class AttributionFallbackLadder:
         best_confidence = 0.0
 
         for opportunity in recent_opportunities:
-            match_confidence = self._calculate_receipt_match_confidence(
-                purchase_details, opportunity
-            )
+            match_confidence = self._calculate_receipt_match_confidence(purchase_details, opportunity)
 
             if match_confidence > best_confidence and match_confidence >= 0.75:
                 best_match = opportunity
@@ -301,8 +271,7 @@ class AttributionFallbackLadder:
                     "match_confidence": best_confidence,
                 },
                 timestamp=datetime.now(),
-                expires_at=datetime.now()
-                + self.attribution_windows[AttributionMethod.RECEIPT_MATCHING],
+                expires_at=datetime.now() + self.attribution_windows[AttributionMethod.RECEIPT_MATCHING],
             )
 
         return None
@@ -337,8 +306,7 @@ class AttributionFallbackLadder:
                         "pattern_match": likely_opportunity,
                     },
                     timestamp=datetime.now(),
-                    expires_at=datetime.now()
-                    + self.attribution_windows[AttributionMethod.BEHAVIORAL_INFERENCE],
+                    expires_at=datetime.now() + self.attribution_windows[AttributionMethod.BEHAVIORAL_INFERENCE],
                 )
 
         return None
@@ -357,13 +325,8 @@ class AttributionFallbackLadder:
 
         if last_interaction:
             interaction_time = datetime.fromisoformat(last_interaction["timestamp"])
-            if (
-                datetime.now() - interaction_time
-                <= self.attribution_windows[AttributionMethod.LAST_TOUCH]
-            ):
-                confidence = (
-                    0.50 if interaction_time > datetime.now() - timedelta(hours=6) else 0.40
-                )
+            if datetime.now() - interaction_time <= self.attribution_windows[AttributionMethod.LAST_TOUCH]:
+                confidence = 0.50 if interaction_time > datetime.now() - timedelta(hours=6) else 0.40
 
                 return AttributionResult(
                     method=AttributionMethod.LAST_TOUCH,
@@ -374,19 +337,15 @@ class AttributionFallbackLadder:
                     conversion_value_usd=conversion_event.get("value_usd", 0.0),
                     attribution_data={
                         "last_interaction": last_interaction,
-                        "time_gap_hours": (datetime.now() - interaction_time).total_seconds()
-                        / 3600,
+                        "time_gap_hours": (datetime.now() - interaction_time).total_seconds() / 3600,
                     },
                     timestamp=datetime.now(),
-                    expires_at=datetime.now()
-                    + self.attribution_windows[AttributionMethod.LAST_TOUCH],
+                    expires_at=datetime.now() + self.attribution_windows[AttributionMethod.LAST_TOUCH],
                 )
 
         return None
 
-    async def _default_fallback_attribution(
-        self, conversion_event: dict, user_context: dict
-    ) -> AttributionResult:
+    async def _default_fallback_attribution(self, conversion_event: dict, user_context: dict) -> AttributionResult:
         """Tier 6: Default fallback attribution"""
 
         # Default to most active publisher/merchant pair for this user
@@ -405,8 +364,7 @@ class AttributionFallbackLadder:
                 "default_data": default_attribution,
             },
             timestamp=datetime.now(),
-            expires_at=datetime.now()
-            + self.attribution_windows[AttributionMethod.DEFAULT_FALLBACK],
+            expires_at=datetime.now() + self.attribution_windows[AttributionMethod.DEFAULT_FALLBACK],
         )
 
     # Helper methods
@@ -437,12 +395,8 @@ class AttributionFallbackLadder:
             return False
 
         # Rebuild signature from parameters
-        param_string = "&".join(
-            [f"{k}={v}" for k, v in sorted(tracking_params.items()) if k != "signature"]
-        )
-        expected_signature = hmac.new(
-            self.webhook_secret.encode(), param_string.encode(), hashlib.sha256
-        ).hexdigest()
+        param_string = "&".join([f"{k}={v}" for k, v in sorted(tracking_params.items()) if k != "signature"])
+        expected_signature = hmac.new(self.webhook_secret.encode(), param_string.encode(), hashlib.sha256).hexdigest()
 
         return hmac.compare_digest(tracking_params["signature"], expected_signature)
 
@@ -480,9 +434,7 @@ class AttributionFallbackLadder:
 
         # Check timing - conversion should happen within reasonable time of postback
         postback_time = datetime.fromisoformat(s2s_record["timestamp"])
-        conversion_time = datetime.fromisoformat(
-            conversion_event.get("timestamp", datetime.now().isoformat())
-        )
+        conversion_time = datetime.fromisoformat(conversion_event.get("timestamp", datetime.now().isoformat()))
         time_match = abs((conversion_time - postback_time).total_seconds()) <= 3600  # 1 hour
 
         return value_match and time_match
@@ -503,17 +455,12 @@ class AttributionFallbackLadder:
             }
         ]
 
-    def _calculate_receipt_match_confidence(
-        self, purchase_details: dict, opportunity: dict
-    ) -> float:
+    def _calculate_receipt_match_confidence(self, purchase_details: dict, opportunity: dict) -> float:
         """Calculate confidence score for receipt matching"""
         confidence = 0.0
 
         # Exact product match
-        if (
-            opportunity.get("product", "").lower()
-            in str(purchase_details.get("products", [])).lower()
-        ):
+        if opportunity.get("product", "").lower() in str(purchase_details.get("products", [])).lower():
             confidence += 0.4
 
         # Price match (within 10%)

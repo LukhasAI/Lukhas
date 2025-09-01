@@ -222,18 +222,14 @@ class BioSimulationController:
             if self.affect_delta > 0.5:
                 self.hormones[HormoneType.DOPAMINE.value].update_level(self.affect_delta * 0.1)
             elif self.affect_delta < -0.5:
-                self.hormones[HormoneType.SEROTONIN.value].update_level(
-                    abs(self.affect_delta) * 0.1
-                )
+                self.hormones[HormoneType.SEROTONIN.value].update_level(abs(self.affect_delta) * 0.1)
 
             # Check system states and trigger callbacks
             self._check_system_states()
 
             # Log current state (reduced frequency)
             if int(datetime.now().timestamp()) % 10 == 0:  # Log every 10 seconds
-                logger.info(
-                    f"Endocrine state: {self._calculate_overall_state(self.get_hormone_state())}"
-                )
+                logger.info(f"Endocrine state: {self._calculate_overall_state(self.get_hormone_state())}")
                 logger.debug(f"Hormone levels: {self.get_hormone_state()}")
 
             await asyncio.sleep(simulation_interval)

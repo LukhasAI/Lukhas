@@ -185,9 +185,7 @@ class MemoryProtein:
     def is_functional(self) -> bool:
         """Check if protein is in functional state"""
         return (
-            self.folding_state == FoldingState.NATIVE
-            and self.activity_level > 0.1
-            and self.calculate_stability() > 0.3
+            self.folding_state == FoldingState.NATIVE and self.activity_level > 0.1 and self.calculate_stability() > 0.3
         )
 
 
@@ -208,9 +206,7 @@ class ProteinComplex:
             return 1.0
 
         # Average stability of members
-        stabilities = [
-            proteins[pid].calculate_stability() for pid in self.member_proteins if pid in proteins
-        ]
+        stabilities = [proteins[pid].calculate_stability() for pid in self.member_proteins if pid in proteins]
 
         if not stabilities:
             return 1.0
@@ -421,9 +417,7 @@ class SymbolicProteome:
             # Enhances stability
             protein.folding_energy *= 0.7
 
-        protein.modifications[modification].append(
-            {"timestamp": time.time(), "data": modification_data}
-        )
+        protein.modifications[modification].append({"timestamp": time.time(), "data": modification_data})
 
         logger.info(
             "Protein modified",
@@ -449,9 +443,7 @@ class SymbolicProteome:
             return None
 
         # Calculate formation energy
-        formation_energy = sum(self.proteins[pid].folding_energy for pid in valid_proteins) / len(
-            valid_proteins
-        )
+        formation_energy = sum(self.proteins[pid].folding_energy for pid in valid_proteins) / len(valid_proteins)
 
         # Create complex
         complex = ProteinComplex(
@@ -516,9 +508,7 @@ class SymbolicProteome:
 
         return results
 
-    async def express_memory_function(
-        self, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def express_memory_function(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Express the functional form of a memory through its proteins.
         This is like gene expression but for memories.
@@ -575,16 +565,12 @@ class SymbolicProteome:
         # Protein state distribution
         state_dist = {}
         for state in FoldingState:
-            state_dist[state.value] = sum(
-                1 for p in self.proteins.values() if p.folding_state == state
-            )
+            state_dist[state.value] = sum(1 for p in self.proteins.values() if p.folding_state == state)
 
         # Type distribution
         type_dist = {}
         for ptype in ProteinType:
-            type_dist[ptype.value] = sum(
-                1 for p in self.proteins.values() if p.protein_type == ptype
-            )
+            type_dist[ptype.value] = sum(1 for p in self.proteins.values() if p.protein_type == ptype)
 
         return {
             "total_proteins": len(self.proteins),
@@ -604,15 +590,11 @@ class SymbolicProteome:
 
     # Private methods
 
-    async def _synthesize_protein(
-        self, memory_id: str, memory_content: Any, protein_type: ProteinType
-    ) -> str:
+    async def _synthesize_protein(self, memory_id: str, memory_content: Any, protein_type: ProteinType) -> str:
         """Synthesize a protein from memory"""
 
         # Convert memory to codons (simplified)
-        content_str = (
-            json.dumps(memory_content) if isinstance(memory_content, dict) else str(memory_content)
-        )
+        content_str = json.dumps(memory_content) if isinstance(memory_content, dict) else str(memory_content)
 
         # Split into fragments and create codons
         fragment_size = 10
@@ -756,10 +738,7 @@ class SymbolicProteome:
                     type_compat = 1.0
                     if p1.protein_type == p2.protein_type:
                         type_compat = 0.8  # Same type = less synergy
-                    elif (
-                        p1.protein_type == ProteinType.RECEPTOR
-                        and p2.protein_type == ProteinType.ENZYMATIC
-                    ):
+                    elif p1.protein_type == ProteinType.RECEPTOR and p2.protein_type == ProteinType.ENZYMATIC:
                         type_compat = 1.5  # Good pairing
 
                     # Check modification compatibility
@@ -774,9 +753,7 @@ class SymbolicProteome:
 
         return total_compatibility / max(pair_count, 1)
 
-    def _generate_functional_output(
-        self, proteins: list[MemoryProtein], context: Optional[dict[str, Any]]
-    ) -> Any:
+    def _generate_functional_output(self, proteins: list[MemoryProtein], context: Optional[dict[str, Any]]) -> Any:
         """Generate functional output from active proteins"""
 
         # Aggregate protein functions
@@ -789,9 +766,7 @@ class SymbolicProteome:
 
         for protein in proteins:
             if protein.protein_type == ProteinType.ENZYMATIC:
-                output["enzymatic_activity"] += (
-                    protein.activity_level * protein.catalytic_efficiency
-                )
+                output["enzymatic_activity"] += protein.activity_level * protein.catalytic_efficiency
 
             elif protein.protein_type == ProteinType.RECEPTOR:
                 output["binding_capacity"] += len(protein.binding_sites) * protein.activity_level
@@ -851,9 +826,7 @@ class SymbolicProteome:
         while self._running:
             # Find proteins that need folding
             unfolded = [
-                p
-                for p in self.proteins.values()
-                if p.folding_state in [FoldingState.UNFOLDED, FoldingState.FOLDING]
+                p for p in self.proteins.values() if p.folding_state in [FoldingState.UNFOLDED, FoldingState.FOLDING]
             ]
 
             for protein in unfolded:
@@ -880,9 +853,7 @@ class SymbolicProteome:
                             # Remove from complexes
                             for complex_id in protein.complex_memberships:
                                 if complex_id in self.protein_complexes:
-                                    self.protein_complexes[complex_id].member_proteins.discard(
-                                        protein_id
-                                    )
+                                    self.protein_complexes[complex_id].member_proteins.discard(protein_id)
 
                             # Remove protein
                             del self.proteins[protein_id]
@@ -902,9 +873,7 @@ class SymbolicProteome:
         """Background protein-protein interaction detection"""
         while self._running:
             # Find proteins that could interact
-            functional_proteins = [
-                p for p in self.proteins.values() if p.is_functional() and len(p.binding_sites) > 0
-            ]
+            functional_proteins = [p for p in self.proteins.values() if p.is_functional() and len(p.binding_sites) > 0]
 
             # Random sampling for efficiency
             if len(functional_proteins) > 10:
@@ -1015,24 +984,18 @@ async def demonstrate_symbolic_proteome():
 
     if actual_protein_ids:
         # Phosphorylate first protein (activate)
-        await proteome.modify_protein(
-            actual_protein_ids[0], PostTranslationalModification.PHOSPHORYLATION
-        )
+        await proteome.modify_protein(actual_protein_ids[0], PostTranslationalModification.PHOSPHORYLATION)
         print(f"Phosphorylated protein {actual_protein_ids[0][:8]}...")
 
         # Methylate second protein (increase importance)
         if len(actual_protein_ids) > 1:
-            await proteome.modify_protein(
-                actual_protein_ids[1], PostTranslationalModification.METHYLATION
-            )
+            await proteome.modify_protein(actual_protein_ids[1], PostTranslationalModification.METHYLATION)
             print(f"Methylated protein {actual_protein_ids[1][:8]}...")
 
     # Form protein complex
     print("\n--- Forming Protein Complex ---")
     if len(actual_protein_ids) >= 2:
-        complex_id = await proteome.form_complex(
-            actual_protein_ids[:2], "functional_assembly", "memory_processing"
-        )
+        complex_id = await proteome.form_complex(actual_protein_ids[:2], "functional_assembly", "memory_processing")
         if complex_id:
             print(f"Formed complex: {complex_id[:16]}...")
 
@@ -1051,9 +1014,7 @@ async def demonstrate_symbolic_proteome():
 
     # Query functional proteins
     print("\n--- Querying Functional Proteins ---")
-    enzymatic = await proteome.query_functional_proteins(
-        protein_type=ProteinType.ENZYMATIC, min_activity=0.3
-    )
+    enzymatic = await proteome.query_functional_proteins(protein_type=ProteinType.ENZYMATIC, min_activity=0.3)
     print(f"Found {len(enzymatic)} functional enzymatic proteins")
 
     # Show metrics

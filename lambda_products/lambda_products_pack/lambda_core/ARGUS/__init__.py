@@ -109,9 +109,7 @@ __all__ = [
 ]
 
 
-def create_monitoring_system_from_config(
-    config_path: str = None, profile: MonitoringProfile = None
-):
+def create_monitoring_system_from_config(config_path: str = None, profile: MonitoringProfile = None):
     """
     Convenience function to create a complete monitoring system from configuration.
 

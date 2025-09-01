@@ -122,9 +122,7 @@ def get_orchestrator() -> MultiAIOrchestrator:
     global _orchestrator
 
     if not ORCHESTRATION_AVAILABLE:
-        raise HTTPException(
-            status_code=503, detail="Multi-AI orchestration not available - missing dependencies"
-        )
+        raise HTTPException(status_code=503, detail="Multi-AI orchestration not available - missing dependencies")
 
     if _orchestrator is None:
         try:
@@ -385,9 +383,7 @@ async def direct_provider_chat(provider: str, request: MultiAIRequest):
         # Create single-provider request
         orchestration_request = OrchestrationRequest(
             prompt=request.message,
-            task_type=TaskType(request.task_type.lower())
-            if request.task_type
-            else TaskType.CONVERSATION,
+            task_type=TaskType(request.task_type.lower()) if request.task_type else TaskType.CONVERSATION,
             providers=[ai_provider],
             consensus_required=False,
             max_latency_ms=request.max_latency_ms,
@@ -405,9 +401,7 @@ async def direct_provider_chat(provider: str, request: MultiAIRequest):
             "latency_ms": result.processing_time_ms,
             "metadata": {
                 "consensus_method": result.consensus_method,
-                "processing_details": result.individual_responses[0].__dict__
-                if result.individual_responses
-                else {},
+                "processing_details": result.individual_responses[0].__dict__ if result.individual_responses else {},
             },
         }
 

@@ -190,9 +190,7 @@ class HomeostasisController:
 
         logger.info("Homeostasis controller stopped")
 
-    def process_event(
-        self, event_type: str, event_data: dict[str, Any], source: str = "unknown"
-    ) -> list[Signal]:
+    def process_event(self, event_type: str, event_data: dict[str, Any], source: str = "unknown") -> list[Signal]:
         """
         Process a system event and emit appropriate hormones.
 
@@ -230,9 +228,7 @@ class HomeostasisController:
         # Update based on event type
         if event_type == "request":
             self.metrics.request_rate = event_data.get("rate", self.metrics.request_rate)
-            self.metrics.response_time_ms = event_data.get(
-                "response_time", self.metrics.response_time_ms
-            )
+            self.metrics.response_time_ms = event_data.get("response_time", self.metrics.response_time_ms)
 
         elif event_type == "error":
             self.metrics.error_rate = event_data.get("rate", self.metrics.error_rate)
@@ -250,9 +246,7 @@ class HomeostasisController:
         elif event_type == "queue":
             self.metrics.queue_depth = event_data.get("depth", self.metrics.queue_depth)
 
-    def _evaluate_hormone_needs(
-        self, event_type: str, event_data: dict[str, Any]
-    ) -> list[tuple[str, float, str]]:
+    def _evaluate_hormone_needs(self, event_type: str, event_data: dict[str, Any]) -> list[tuple[str, float, str]]:
         """
         Evaluate which hormones need to be emitted.
 
@@ -316,9 +310,7 @@ class HomeostasisController:
         if event_type in ["unclear_intent", "multiple_interpretations", "conflict"]:
             ambiguity = event_data.get("ambiguity_score", 0.6)
             if ambiguity > self.policy.hormone_policies["ambiguity"]["threshold"]:
-                hormones.append(
-                    ("ambiguity", min(ambiguity, 1.0), f"Ambiguous input: {event_type}")
-                )
+                hormones.append(("ambiguity", min(ambiguity, 1.0), f"Ambiguous input: {event_type}"))
 
         return hormones
 
@@ -350,9 +342,7 @@ class HomeostasisController:
 
         return min(stress, 1.0)
 
-    def _apply_rate_limits(
-        self, hormones: list[tuple[str, float, str]]
-    ) -> list[tuple[str, float, str]]:
+    def _apply_rate_limits(self, hormones: list[tuple[str, float, str]]) -> list[tuple[str, float, str]]:
         """Apply rate limiting and cooldowns to hormone emissions"""
         current_time = time.time()
         allowed = []
@@ -363,9 +353,7 @@ class HomeostasisController:
             self.minute_start = current_time
 
         if self.emissions_this_minute >= self.policy.max_emissions_per_minute:
-            logger.warning(
-                f"Rate limit reached: {self.emissions_this_minute} emissions this minute"
-            )
+            logger.warning(f"Rate limit reached: {self.emissions_this_minute} emissions this minute")
             return []
 
         # Check individual hormone cooldowns
@@ -611,16 +599,12 @@ class HomeostasisController:
         if feedback_score < 0.3:  # Poor feedback
             # Increase thresholds (be more conservative)
             for hormone_policy in self.policy.hormone_policies.values():
-                hormone_policy["threshold"] = min(
-                    1.0, hormone_policy["threshold"] * (1 + sensitivity * 0.1)
-                )
+                hormone_policy["threshold"] = min(1.0, hormone_policy["threshold"] * (1 + sensitivity * 0.1))
 
         elif feedback_score > 0.7:  # Good feedback
             # Decrease thresholds (be more responsive)
             for hormone_policy in self.policy.hormone_policies.values():
-                hormone_policy["threshold"] = max(
-                    0.1, hormone_policy["threshold"] * (1 - sensitivity * 0.05)
-                )
+                hormone_policy["threshold"] = max(0.1, hormone_policy["threshold"] * (1 - sensitivity * 0.05))
 
     def get_status(self) -> dict[str, Any]:
         """Get current homeostasis status"""

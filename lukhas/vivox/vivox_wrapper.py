@@ -30,6 +30,7 @@ except ImportError:
     # Fallback decorators for development
     def matriz_trace(operation: str):
         _ = operation
+
         def decorator(func):
             return func
 

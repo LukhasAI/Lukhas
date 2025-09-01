@@ -133,9 +133,7 @@ class LukhasMinimalMVP:
         print("🔐 Step 2: Passkey Authentication")
         print("-" * 40)
 
-        auth = self.identity_service.authenticate(
-            lid=user["lid"], passkey_response={"mock": "biometric_verified"}
-        )
+        auth = self.identity_service.authenticate(lid=user["lid"], passkey_response={"mock": "biometric_verified"})
 
         if auth["success"]:
             print("✅ Authentication successful")

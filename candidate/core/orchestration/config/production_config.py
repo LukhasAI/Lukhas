@@ -234,9 +234,7 @@ class ProductionOrchestratorConfig:
         config.performance.worker_processes = int(
             os.getenv("WORKER_PROCESSES", str(config.performance.worker_processes))
         )
-        config.performance.worker_threads = int(
-            os.getenv("WORKER_THREADS", str(config.performance.worker_threads))
-        )
+        config.performance.worker_threads = int(os.getenv("WORKER_THREADS", str(config.performance.worker_threads)))
 
         # Monitoring configuration
         config.monitoring.enable_metrics = os.getenv("ENABLE_METRICS", "true").lower() in (
@@ -244,9 +242,7 @@ class ProductionOrchestratorConfig:
             "1",
             "yes",
         )
-        config.monitoring.metrics_port = int(
-            os.getenv("METRICS_PORT", str(config.monitoring.metrics_port))
-        )
+        config.monitoring.metrics_port = int(os.getenv("METRICS_PORT", str(config.monitoring.metrics_port)))
 
         log_level_name = os.getenv("LOG_LEVEL", "INFO").upper()
         try:
@@ -256,9 +252,11 @@ class ProductionOrchestratorConfig:
             config.monitoring.log_level = LogLevel.INFO
 
         # Orchestration configuration
-        config.orchestration.enable_orchestration = os.getenv(
-            "ENABLE_ORCHESTRATION", "true"
-        ).lower() in ("true", "1", "yes")
+        config.orchestration.enable_orchestration = os.getenv("ENABLE_ORCHESTRATION", "true").lower() in (
+            "true",
+            "1",
+            "yes",
+        )
         config.orchestration.max_concurrent_orchestrators = int(
             os.getenv(
                 "MAX_CONCURRENT_ORCHESTRATORS",

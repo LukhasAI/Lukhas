@@ -62,8 +62,7 @@ class FunctionalAnalyzer:
                                 "args": len(node.args.args),
                                 "has_docstring": ast.get_docstring(node) is not None,
                                 "decorators": [
-                                    d.id if isinstance(d, ast.Name) else str(d)
-                                    for d in node.decorator_list
+                                    d.id if isinstance(d, ast.Name) else str(d) for d in node.decorator_list
                                 ],
                             }
                         )
@@ -181,23 +180,17 @@ class FunctionalAnalyzer:
             "identity": self.scan_for_capabilities(
                 "identity", ["formation", "validation", "authentication", "profile"]
             ),
-            "bio": self.scan_for_capabilities(
-                "bio", ["adaptation", "homeostasis", "signal", "endocrine", "synthesis"]
-            ),
+            "bio": self.scan_for_capabilities("bio", ["adaptation", "homeostasis", "signal", "endocrine", "synthesis"]),
             "quantum": self.scan_for_capabilities(
                 "quantum",
                 ["processing", "entanglement", "superposition", "measurement"],
             ),
-            "emotion": self.scan_for_capabilities(
-                "emotion", ["processing", "response", "modeling", "regulation"]
-            ),
+            "emotion": self.scan_for_capabilities("emotion", ["processing", "response", "modeling", "regulation"]),
             "orchestration": self.scan_for_capabilities(
                 "orchestration",
                 ["coordination", "workflow", "integration", "management"],
             ),
-            "api": self.scan_for_capabilities(
-                "api", ["endpoint", "service", "controller", "interface"]
-            ),
+            "api": self.scan_for_capabilities("api", ["endpoint", "service", "controller", "interface"]),
             "security": self.scan_for_capabilities(
                 "security",
                 ["authentication", "authorization", "encryption", "compliance"],
@@ -313,9 +306,7 @@ def main():
         "entry_points": entry_points,
         "critical_analysis": critical_analysis,
         "summary": {
-            "functional_systems": len(
-                [s for s in capabilities.values() if s["status"] == "functional"]
-            ),
+            "functional_systems": len([s for s in capabilities.values() if s["status"] == "functional"]),
             "total_systems": len(capabilities),
             "executable_entry_points": len([e for e in entry_points.values() if e["functional"]]),
             "total_entry_points": len(entry_points),
@@ -333,9 +324,7 @@ def main():
 
     print("\n📊 SYSTEM STATUS:")
     for system, data in capabilities.items():
-        status_emoji = (
-            "✅" if data["status"] == "functional" else "❌" if data["status"] == "missing" else "⚠️"
-        )
+        status_emoji = "✅" if data["status"] == "functional" else "❌" if data["status"] == "missing" else "⚠️"
         if data["status"] != "missing":
             ratio = f" ({data['functionality_ratio']:.1%} functional)"
         else:

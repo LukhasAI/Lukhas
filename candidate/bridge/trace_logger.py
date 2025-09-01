@@ -175,9 +175,7 @@ class BridgeTraceLogger:
 
         return event_id
 
-    def trace_symbolic_handshake(
-        self, dream_id: str, status: str, details: dict[str, Any] = None
-    ) -> str:
+    def trace_symbolic_handshake(self, dream_id: str, status: str, details: dict[str, Any] = None) -> str:
         """
         Trace symbolic handshake operations
 
@@ -203,9 +201,7 @@ class BridgeTraceLogger:
             metadata,
         )
 
-    def trace_memory_mapping(
-        self, map_id: str, operation: str, result: dict[str, Any] = None
-    ) -> str:
+    def trace_memory_mapping(self, map_id: str, operation: str, result: dict[str, Any] = None) -> str:
         """
         Trace memory mapping operations
 

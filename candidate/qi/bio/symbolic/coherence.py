@@ -117,9 +117,7 @@ class QICoherenceEnhancer:
 
         return z_t
 
-    def drift_score(
-        self, theta_A: float, theta_B: float, delta_S_A: float, delta_S_B: float
-    ) -> float:
+    def drift_score(self, theta_A: float, theta_B: float, delta_S_A: float, delta_S_B: float) -> float:
         """
         Calculate drift score between two quantum states.
 
@@ -189,9 +187,7 @@ class QICoherenceEnhancer:
         drift_score = 0.0
         if len(self.qi_states) >= 2:
             prev_state = self.qi_states[-2]
-            drift_score = self.drift_score(
-                prev_state.phase, phase, prev_state.entropy, entropy_change
-            )
+            drift_score = self.drift_score(prev_state.phase, phase, prev_state.entropy, entropy_change)
 
         # Phase alignment bonus
         phase_alignment = self._calculate_phase_alignment(phase)
@@ -311,9 +307,7 @@ class QICoherenceEnhancer:
         # Check alignment with key harmonic phases
         harmonic_phases = [0, np.pi / 2, np.pi, 3 * np.pi / 2]
 
-        min_distance = min(
-            min(abs(phase - hp), 2 * np.pi - abs(phase - hp)) for hp in harmonic_phases
-        )
+        min_distance = min(min(abs(phase - hp), 2 * np.pi - abs(phase - hp)) for hp in harmonic_phases)
 
         # Convert distance to alignment score
         alignment = 1.0 - (min_distance / (np.pi / 2))
@@ -330,10 +324,7 @@ class QICoherenceEnhancer:
                 "average_drift": 0.0,
             }
 
-        improvements = [
-            (e["enhanced_coherence"] / e["original_coherence"] - 1) * 100
-            for e in self.enhancement_history
-        ]
+        improvements = [(e["enhanced_coherence"] / e["original_coherence"] - 1) * 100 for e in self.enhancement_history]
 
         coherences = [e["enhanced_coherence"] for e in self.enhancement_history]
         drifts = [e["drift_score"] for e in self.enhancement_history if e["drift_score"] > 0]

@@ -239,9 +239,7 @@ class PluginRegistry:
                 return PluginMetadata(
                     name=file_path.stem,
                     description=(
-                        getattr(plugin_class, "__doc__", "").strip()
-                        if hasattr(plugin_class, "__doc__")
-                        else ""
+                        getattr(plugin_class, "__doc__", "").strip() if hasattr(plugin_class, "__doc__") else ""
                     ),
                 )
 
@@ -368,9 +366,7 @@ class PluginRegistry:
 
         return None
 
-    def _create_function_plugin_wrapper(
-        self, func: Callable, metadata: PluginMetadata
-    ) -> PluginInterface:
+    def _create_function_plugin_wrapper(self, func: Callable, metadata: PluginMetadata) -> PluginInterface:
         """Create a PluginInterface wrapper for function-based plugins"""
 
         class FunctionPlugin(PluginInterface):
@@ -507,9 +503,7 @@ class PluginRegistry:
 
         # If no specific handlers, broadcast to all active plugins
         if not handlers:
-            handlers = [
-                name for name, plugin in self.plugins.items() if plugin.status == PluginStatus.READY
-            ]
+            handlers = [name for name, plugin in self.plugins.items() if plugin.status == PluginStatus.READY]
 
         # Process signal with each handler
         for plugin_name in handlers:

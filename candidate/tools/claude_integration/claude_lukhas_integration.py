@@ -128,9 +128,7 @@ class ClaudeLUKHASIntegration:
     def _measure_current_consciousness(self) -> float:
         """Measure current consciousness level based on recent activity"""
         # Analyze recent journal entries for consciousness indicators
-        recent_entries = self.journal.search(
-            date_range=(datetime.now() - timedelta(hours=24), datetime.now())
-        )
+        recent_entries = self.journal.search(date_range=(datetime.now() - timedelta(hours=24), datetime.now()))
 
         consciousness_score = 0.5  # Base level
 
@@ -374,9 +372,7 @@ class ClaudeLUKHASIntegration:
             superposition["consciousness_alignment"].append(alignment)
 
         # Collapse to most aligned option
-        best_index = superposition["consciousness_alignment"].index(
-            max(superposition["consciousness_alignment"])
-        )
+        best_index = superposition["consciousness_alignment"].index(max(superposition["consciousness_alignment"]))
 
         return {
             "chosen": options[best_index],
@@ -442,9 +438,7 @@ class ClaudeLUKHASIntegration:
 
     def _calculate_emotional_coherence(self) -> float:
         """Calculate emotional coherence from recent entries"""
-        recent_entries = self.journal.search(
-            date_range=(datetime.now() - timedelta(hours=12), datetime.now())
-        )
+        recent_entries = self.journal.search(date_range=(datetime.now() - timedelta(hours=12), datetime.now()))
 
         if not recent_entries:
             return 0.5

@@ -142,18 +142,12 @@ class MemoryConfig(BaseConfig):
     max_short_term_capacity: int = field(default=1000, metadata={"alias": "max_short_term"})
     memory_retention_days: int = 365  # ΛDRIFT_POINT: Retention policy impacts available memory.
     enable_encryption: bool = True  # ΛDRIFT_POINT: Encryption status changes data representation.
-    enable_visualization_support: bool = field(
-        default=True, metadata={"alias": "enable_visualization"}
-    )
-    enable_dream_integration: bool = field(
-        default=True, metadata={"alias": "dream_integration"}
-    )  # ΛDREAM_LOOP related
+    enable_visualization_support: bool = field(default=True, metadata={"alias": "enable_visualization"})
+    enable_dream_integration: bool = field(default=True, metadata={"alias": "dream_integration"})  # ΛDREAM_LOOP related
     helix_visualization_radius: float = field(
         default=5.0, metadata={"alias": "helix_radius"}
     )  # For conceptual helix viz
-    helix_visualization_pitch: float = field(
-        default=2.0, metadata={"alias": "helix_pitch"}
-    )  # For conceptual helix viz
+    helix_visualization_pitch: float = field(default=2.0, metadata={"alias": "helix_pitch"})  # For conceptual helix viz
     enable_lukhas_lambda_id_association: bool = field(
         default=True, metadata={"alias": "enable_lukhas_lambda_id"}
     )  # AIDENTITY related
@@ -173,12 +167,8 @@ class MemoryHealth(BaseHealth):
     memory_types_distribution: dict[str, int] = field(default_factory=dict)
     priority_distribution: dict[str, int] = field(default_factory=dict)
     strand_distribution: dict[str, int] = field(default_factory=dict)
-    average_access_frequency_per_memory: float = field(
-        default=0.0, metadata={"alias": "average_access_frequency"}
-    )
-    last_consolidation_utc: Optional[str] = field(
-        default=None, metadata={"alias": "last_consolidation"}
-    )
+    average_access_frequency_per_memory: float = field(default=0.0, metadata={"alias": "average_access_frequency"})
+    last_consolidation_utc: Optional[str] = field(default=None, metadata={"alias": "last_consolidation"})
 
 
 # ΛNOTE: The lukhas_tier_required decorator is a placeholder.
@@ -208,9 +198,7 @@ class MemoryModule(BaseModule):
         self.memory_by_strand: dict[MemoryStrand, list[str]] = {ms: [] for ms in MemoryStrand}
         self.memory_by_priority: dict[MemoryPriority, list[str]] = {mp: [] for mp in MemoryPriority}
         self.memory_index: dict[str, MemoryEntry] = {}  # ΛNOTE: Primary index for memory access.
-        self.memory_bonds: dict[
-            str, list[dict[str, Any]]
-        ] = {}  # ΛNOTE: Conceptual "bonds" between memories.
+        self.memory_bonds: dict[str, list[dict[str, Any]]] = {}  # ΛNOTE: Conceptual "bonds" between memories.
         self.temporal_index: dict[str, list[str]] = {}
         self.encryption_key: Optional[bytes] = None
         self._consolidation_task: Optional[asyncio.Task] = None
@@ -236,9 +224,7 @@ class MemoryModule(BaseModule):
             self._is_running = True
             # ΛTRACE: Memory Module initialized successfully.
             # type: ignore
-            await self.logger.info(
-                "LUKHAS Memory Module initialized successfully.", status="active"
-            )
+            await self.logger.info("LUKHAS Memory Module initialized successfully.", status="active")
             return True
         except Exception as e:
             # ΛTRACE: Memory Module startup failed.
@@ -262,14 +248,10 @@ class MemoryModule(BaseModule):
             await self.logger.info("LUKHAS Memory Module shutdown complete.", status="inactive")
             return True
         except asyncio.CancelledError:
-            await self.logger.info(
-                "Consolidation task was cancelled during shutdown."
-            )  # Expected # type: ignore
+            await self.logger.info("Consolidation task was cancelled during shutdown.")  # Expected # type: ignore
         except asyncio.TimeoutError:
             # type: ignore
-            await self.logger.warning(
-                "Timeout waiting for consolidation task to cancel during shutdown."
-            )
+            await self.logger.warning("Timeout waiting for consolidation task to cancel during shutdown.")
         except Exception as e:
             # ΛTRACE: Memory Module shutdown failed.
             await self.logger.error("Memory Module shutdown failed.", error=str(e), exc_info=True)
@@ -304,13 +286,9 @@ class MemoryModule(BaseModule):
             owner_id=lukhas_lambda_id,
         )
         try:
-            enc = (
-                encrypt_override if encrypt_override is not None else self.config.enable_encryption
-            )
+            enc = encrypt_override if encrypt_override is not None else self.config.enable_encryption
             # ΛCAUTION: Encryption logic is stubbed.
-            eff_content = (
-                await self._encrypt_content(content) if enc and self.encryption_key else content
-            )
+            eff_content = await self._encrypt_content(content) if enc and self.encryption_key else content
             mem_entry = MemoryEntry(
                 id=mem_id,
                 content=eff_content,
@@ -342,18 +320,14 @@ class MemoryModule(BaseModule):
             return mem_id  # type: ignore
         except Exception as e:
             # ΛTRACE: Error storing memory.
-            await self.logger.error(
-                "Failed to store memory.", id=mem_id, error=str(e), exc_info=True
-            )
+            await self.logger.error("Failed to store memory.", id=mem_id, error=str(e), exc_info=True)
             raise  # type: ignore
 
     # ΛRECALL: Primary method for retrieving memory entries.
     # AIDENTITY: Performs basic check against `lukhas_lambda_id`.
     @symbolic_vocabulary("memory_recall", "🧠🔍")
     @lukhas_tier_required(1)
-    async def retrieve_memory(
-        self, memory_id: str, lukhas_lambda_id: Optional[str] = None
-    ) -> Optional[MemoryEntry]:
+    async def retrieve_memory(self, memory_id: str, lukhas_lambda_id: Optional[str] = None) -> Optional[MemoryEntry]:
         # ΛTRACE: Retrieving memory.
         # type: ignore
         await self.logger.debug("Retrieving memory.", id=memory_id, requestor_id=lukhas_lambda_id)
@@ -365,11 +339,7 @@ class MemoryModule(BaseModule):
             mem_entry = self.memory_index[memory_id]
 
             # ΛCAUTION: Basic owner check. Real ACL would be more complex.
-            if (
-                mem_entry.lukhas_lambda_id
-                and lukhas_lambda_id
-                and mem_entry.lukhas_lambda_id != lukhas_lambda_id
-            ):
+            if mem_entry.lukhas_lambda_id and lukhas_lambda_id and mem_entry.lukhas_lambda_id != lukhas_lambda_id:
                 # ΛTRACE: Access denied due to ID mismatch.
                 await self.logger.warning(
                     "Access denied (ID mismatch).",
@@ -391,15 +361,11 @@ class MemoryModule(BaseModule):
                 return dec_entry  # type: ignore
             # ΛTRACE: Memory retrieved successfully.
             # type: ignore
-            await self.logger.debug(
-                "Memory retrieved.", id=memory_id, type=mem_entry.memory_type.value
-            )
+            await self.logger.debug("Memory retrieved.", id=memory_id, type=mem_entry.memory_type.value)
             return mem_entry
         except Exception as e:
             # ΛTRACE: Error retrieving memory.
-            await self.logger.error(
-                "Failed to retrieve memory.", id=memory_id, error=str(e), exc_info=True
-            )
+            await self.logger.error("Failed to retrieve memory.", id=memory_id, error=str(e), exc_info=True)
             return None  # type: ignore
 
     # ΛCAUTION: All methods below are STUBS and represent significant
@@ -463,9 +429,7 @@ class MemoryModule(BaseModule):
 
     async def _get_recent_memories(self, hours: int) -> list[MemoryEntry]:
         cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
-        return [
-            m for m in self.memory_helix if datetime.fromisoformat(m.timestamp_utc) >= cutoff
-        ]  # ΛRECALL (internal)
+        return [m for m in self.memory_helix if datetime.fromisoformat(m.timestamp_utc) >= cutoff]  # ΛRECALL (internal)
 
     async def _identify_memory_patterns(self, memories: list[MemoryEntry]) -> list[dict]:
         return []  # ΛNOTE: Stub for pattern identification.
@@ -473,9 +437,7 @@ class MemoryModule(BaseModule):
     async def _consolidate_memories(self, memories: list[MemoryEntry]) -> int:
         return 0  # ΛNOTE: Stub for consolidation.
 
-    async def _generate_dream_insights(
-        self, patterns: list[dict], consolidated_count: int
-    ) -> list[str]:
+    async def _generate_dream_insights(self, patterns: list[dict], consolidated_count: int) -> list[str]:
         return []  # ΛDREAM_LOOP (conceptual output)
 
     async def _update_health_metrics(self):
@@ -484,23 +446,13 @@ class MemoryModule(BaseModule):
         self.health.helix_memory_count = len(self.memory_helix)
         self.health.short_term_memory_count = len(self.short_term_memory)
         self.health.long_term_memory_count = len(self.long_term_memory)
-        self.health.encrypted_memory_count = sum(
-            1 for m_id in self.memory_index if self.memory_index[m_id].encrypted
-        )
-        self.health.memory_types_distribution = {
-            mt.value: len(self.memory_by_type[mt]) for mt in MemoryType
-        }
-        self.health.priority_distribution = {
-            mp.value: len(self.memory_by_priority[mp]) for mp in MemoryPriority
-        }
-        self.health.strand_distribution = {
-            ms.value: len(self.memory_by_strand[ms]) for ms in MemoryStrand
-        }
+        self.health.encrypted_memory_count = sum(1 for m_id in self.memory_index if self.memory_index[m_id].encrypted)
+        self.health.memory_types_distribution = {mt.value: len(self.memory_by_type[mt]) for mt in MemoryType}
+        self.health.priority_distribution = {mp.value: len(self.memory_by_priority[mp]) for mp in MemoryPriority}
+        self.health.strand_distribution = {ms.value: len(self.memory_by_strand[ms]) for ms in MemoryStrand}
         if self.health.total_memories_indexed > 0:
             total_acc = sum(m.access_count for m_id, m in self.memory_index.items())
-            self.health.average_access_frequency_per_memory = (
-                total_acc / self.health.total_memories_indexed
-            )
+            self.health.average_access_frequency_per_memory = total_acc / self.health.total_memories_indexed
         else:
             self.health.average_access_frequency_per_memory = 0.0
         self.health.is_healthy = self._is_running

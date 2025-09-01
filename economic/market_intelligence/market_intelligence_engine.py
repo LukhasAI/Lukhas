@@ -78,15 +78,10 @@ class MarketIntelligenceEngine(CoreInterface):
             market_data = await self._analyze_domain_market(domain)
 
             # Calculate opportunity metrics
-            opportunity_score = await self._calculate_opportunity_score(
-                market_data, time_horizon_years
-            )
+            opportunity_score = await self._calculate_opportunity_score(market_data, time_horizon_years)
 
             # Check if meets criteria
-            if (
-                market_data.size >= min_market_size
-                and opportunity_score >= disruption_potential_threshold
-            ):
+            if market_data.size >= min_market_size and opportunity_score >= disruption_potential_threshold:
                 from .economic_reality_manipulator import MarketOpportunity
 
                 opportunity = MarketOpportunity(
@@ -131,17 +126,13 @@ class MarketIntelligenceEngine(CoreInterface):
         }
 
         # Analyze innovation cycles
-        patterns["innovation_cycles"] = await self._analyze_innovation_cycles(
-            competitor, time_window_years
-        )
+        patterns["innovation_cycles"] = await self._analyze_innovation_cycles(competitor, time_window_years)
 
         # Identify technology focus areas
         patterns["technology_focus_areas"] = await self._identify_tech_focus(competitor)
 
         # Analyze investment patterns
-        patterns["investment_patterns"] = await self._analyze_investments(
-            competitor, time_window_years
-        )
+        patterns["investment_patterns"] = await self._analyze_investments(competitor, time_window_years)
 
         if analysis_depth in ["detailed", "comprehensive"]:
             # Analyze partnership strategies
@@ -237,9 +228,7 @@ class MarketIntelligenceEngine(CoreInterface):
             customer_readiness=0.6,
         )
 
-    async def _calculate_opportunity_score(
-        self, market_data: MarketData, time_horizon: int
-    ) -> float:
+    async def _calculate_opportunity_score(self, market_data: MarketData, time_horizon: int) -> float:
         """Calculate opportunity score for a market"""
 
         # Base score from market fundamentals
@@ -288,9 +277,7 @@ class MarketIntelligenceEngine(CoreInterface):
             advantages.append("sustainability_mandate")
 
         # Universal advantages
-        advantages.extend(
-            ["first_mover_advantage", "network_effects_potential", "data_accumulation_advantage"]
-        )
+        advantages.extend(["first_mover_advantage", "network_effects_potential", "data_accumulation_advantage"])
 
         return advantages
 
@@ -344,9 +331,7 @@ class MarketIntelligenceEngine(CoreInterface):
 
         return risks
 
-    async def _analyze_innovation_cycles(
-        self, competitor: str, time_window: int
-    ) -> list[dict[str, Any]]:
+    async def _analyze_innovation_cycles(self, competitor: str, time_window: int) -> list[dict[str, Any]]:
         """Analyze competitor innovation cycles"""
 
         cycles = []
@@ -429,9 +414,7 @@ class MarketIntelligenceEngine(CoreInterface):
             weaknesses.append("underinvestment_in_rd")
 
         # Generic weaknesses
-        weaknesses.extend(
-            ["legacy_system_debt", "organizational_inertia", "talent_retention_challenges"]
-        )
+        weaknesses.extend(["legacy_system_debt", "organizational_inertia", "talent_retention_challenges"])
 
         return weaknesses
 

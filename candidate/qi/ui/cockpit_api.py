@@ -131,9 +131,7 @@ def get_safety_card_markdown(
         md = to_markdown(card)
         return HTMLResponse(content=md, media_type="text/plain")
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Safety card markdown generation failed: {e!s}"
-        )
+        raise HTTPException(status_code=500, detail=f"Safety card markdown generation failed: {e!s}")
 
 
 @app.get("/cockpit/safety_card.pdf")
@@ -145,9 +143,7 @@ def get_safety_card_pdf(
     _check_auth(token)
     try:
         # Mock PDF response - requires weasyprint
-        raise HTTPException(
-            status_code=404, detail="PDF generation requires weasyprint installation"
-        )
+        raise HTTPException(status_code=404, detail="PDF generation requires weasyprint installation")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"PDF generation failed: {e!s}")
 
@@ -160,15 +156,11 @@ def calibration_svg(
     token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
-    return HTMLResponse(
-        reliability_svg(task=task, width=width, height=height), media_type="image/svg+xml"
-    )
+    return HTMLResponse(reliability_svg(task=task, width=width, height=height), media_type="image/svg+xml")
 
 
 @app.post("/cockpit/calibration/refit")
-def calibration_refit(
-    source: str = Query("eval"), token: str | None = Header(None, alias="X-Auth-Token")
-):
+def calibration_refit(source: str = Query("eval"), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
         p = fit_and_save(source_preference=source)
@@ -226,9 +218,7 @@ def generate_full_report(
 
 
 @app.get("/cockpit/adaptive/analyze")
-def analyze_adaptive_performance(
-    window: int = Query(2000), token: str | None = Header(None, alias="X-Auth-Token")
-):
+def analyze_adaptive_performance(window: int = Query(2000), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
         engine = AdaptiveLearningEngine()
@@ -246,8 +236,7 @@ def get_adaptive_candidates(token: str | None = Header(None, alias="X-Auth-Token
         candidates = engine.batch_offline_eval(top_k=10)
         return {
             "items": [
-                {"id": c.id, "patch": c.patch, "meta": c.meta, "score_offline": c.score_offline}
-                for c in candidates
+                {"id": c.id, "patch": c.patch, "meta": c.meta, "score_offline": c.score_offline} for c in candidates
             ],
             "count": len(candidates),
         }
@@ -298,9 +287,7 @@ def discover_tool_combinations(
     try:
         engine = AdaptiveLearningEngine()
         focus_list = [t.strip() for t in tasks_focus.split(",")] if tasks_focus else None
-        candidates = engine.discover_new_node_combinations(
-            target_file=target_file, tasks_focus=focus_list
-        )
+        candidates = engine.discover_new_node_combinations(target_file=target_file, tasks_focus=focus_list)
         return {
             "candidates": [{"id": c.id, "patch": c.patch, "meta": c.meta} for c in candidates],
             "count": len(candidates),
@@ -329,9 +316,7 @@ def propose_best_adaptive(
 
 
 @app.get("/cockpit/human-adapt/analyze")
-def analyze_human_satisfaction(
-    window: int = Query(1000), token: str | None = Header(None, alias="X-Auth-Token")
-):
+def analyze_human_satisfaction(window: int = Query(1000), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
         engine = HumanAdaptEngine()
@@ -342,9 +327,7 @@ def analyze_human_satisfaction(
 
 
 @app.get("/cockpit/human/proposals")
-def get_human_proposals(
-    user: str | None = Query(None), token: str | None = Header(None, alias="X-Auth-Token")
-):
+def get_human_proposals(user: str | None = Query(None), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
         engine = HumanAdaptEngine()
@@ -555,9 +538,7 @@ def apply_proposal_unified(
 
 
 @app.get("/cockpit/approvals/stats")
-def get_approval_stats(
-    days_back: int = Query(7), token: str | None = Header(None, alias="X-Auth-Token")
-):
+def get_approval_stats(days_back: int = Query(7), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
         proposals = list_proposals()
@@ -621,11 +602,7 @@ def get_recent_receipts(
         receipts = _recent_receipts(limit * 2)  # Get more to allow filtering
 
         if task_filter:
-            receipts = [
-                r
-                for r in receipts
-                if (r.get("activity") or {}).get("type", "").find(task_filter) >= 0
-            ]
+            receipts = [r for r in receipts if (r.get("activity") or {}).get("type", "").find(task_filter) >= 0]
 
         receipts = receipts[:limit]
 
@@ -663,9 +640,7 @@ def get_recent_receipts(
 
 
 @app.get("/cockpit/receipts")
-def get_receipts_simplified(
-    limit: int = Query(20), token: str | None = Header(None, alias="X-Auth-Token")
-):
+def get_receipts_simplified(limit: int = Query(20), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
         receipts = _recent_receipts(limit)
@@ -784,9 +759,7 @@ def get_feedback_list(
         from qi.feedback.store import get_store
 
         store = get_store()
-        feedback = store.read_feedback(
-            limit=limit, task_filter=task, jurisdiction_filter=jurisdiction
-        )
+        feedback = store.read_feedback(limit=limit, task_filter=task, jurisdiction_filter=jurisdiction)
 
         # Compute summary
         if feedback:
@@ -812,9 +785,7 @@ def get_feedback_list(
 
 
 @app.get("/cockpit/feedback/clusters")
-def get_feedback_clusters(
-    task: str | None = Query(None), token: str | None = Header(None, alias="X-Auth-Token")
-):
+def get_feedback_clusters(task: str | None = Query(None), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
         from qi.feedback.store import get_store
@@ -831,9 +802,7 @@ def get_feedback_clusters(
 
 
 @app.post("/cockpit/feedback/cluster")
-def run_feedback_clustering(
-    limit: int = Query(1000), token: str | None = Header(None, alias="X-Auth-Token")
-):
+def run_feedback_clustering(limit: int = Query(1000), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
         from qi.feedback.triage import get_triage
@@ -941,8 +910,7 @@ def get_dashboard_summary(token: str | None = Header(None, alias="X-Auth-Token")
             },
             "production": {
                 "receipt_count": len(recent_receipts),
-                "avg_latency": sum(r.get("latency_ms", 0) for r in recent_receipts)
-                / max(len(recent_receipts), 1),
+                "avg_latency": sum(r.get("latency_ms", 0) for r in recent_receipts) / max(len(recent_receipts), 1),
             },
             "governance": {"pending_proposals": len(pending_proposals), "proposal_sources": {}},
             "learning": {"adaptive_patterns": adaptive_patterns, "human_patterns": human_patterns},
@@ -1084,9 +1052,7 @@ def ui_trace(
   }})();
 </script>
 """
-    return HTMLResponse(
-        content=html.replace("</body>", inject + "</body>") if "</body>" in html else html + inject
-    )
+    return HTMLResponse(content=html.replace("</body>", inject + "</body>") if "</body>" in html else html + inject)
 
 
 @app.get("/ui/approver", response_class=HTMLResponse)
@@ -1109,9 +1075,7 @@ def ui_approver(
   }})();
 </script>
 """
-    return HTMLResponse(
-        content=html.replace("</body>", inject + "</body>") if "</body>" in html else html + inject
-    )
+    return HTMLResponse(content=html.replace("</body>", inject + "</body>") if "</body>" in html else html + inject)
 
 
 # Root redirect

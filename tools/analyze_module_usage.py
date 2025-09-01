@@ -113,9 +113,7 @@ class ModuleUsageAnalyzer:
             possible_files.append(str(init_file))
 
         # Try as a direct file
-        py_file = (
-            Path(*parts[:-1]) / f"{parts[-1]}.py" if len(parts) > 1 else Path(f"{parts[0]}.py")
-        )
+        py_file = Path(*parts[:-1]) / f"{parts[-1]}.py" if len(parts) > 1 else Path(f"{parts[0]}.py")
         if (self.root_path / py_file).exists():
             possible_files.append(str(py_file))
 
@@ -129,9 +127,7 @@ class ModuleUsageAnalyzer:
             if (self.root_path / init_file).exists():
                 possible_files.append(str(init_file))
 
-            py_file = (
-                Path(*parts[:-1]) / f"{parts[-1]}.py" if len(parts) > 1 else Path(f"{parts[0]}.py")
-            )
+            py_file = Path(*parts[:-1]) / f"{parts[-1]}.py" if len(parts) > 1 else Path(f"{parts[0]}.py")
             if (self.root_path / py_file).exists():
                 possible_files.append(str(py_file))
 
@@ -220,9 +216,7 @@ class ModuleUsageAnalyzer:
             "__init__.py",  # May be empty but needed
         }
 
-        self.orphaned_files = {
-            f for f in self.orphaned_files if not any(fp in f for fp in false_positives)
-        }
+        self.orphaned_files = {f for f in self.orphaned_files if not any(fp in f for fp in false_positives)}
 
     def analyze_module_directories(self) -> dict[str, dict]:
         """Analyze each module directory for usage statistics"""
@@ -267,9 +261,7 @@ class ModuleUsageAnalyzer:
                 "total_files": len(module_files),
                 "imported_files": len(imported_files),
                 "orphaned_files": len(orphaned),
-                "usage_percentage": (
-                    (len(imported_files) / len(module_files) * 100) if module_files else 0
-                ),
+                "usage_percentage": ((len(imported_files) / len(module_files) * 100) if module_files else 0),
                 "orphaned_list": sorted(orphaned)[:10],  # Top 10 orphaned files
             }
 

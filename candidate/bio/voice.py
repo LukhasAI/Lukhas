@@ -154,9 +154,7 @@ class VoiceBioAdapter:
             "timestamp": datetime.now().isoformat(),
             "registered_modules": len(getattr(self, "_registered_modules", {})),
             "active_modules": sum(
-                1
-                for m in getattr(self, "_registered_modules", {}).values()
-                if m.get("active", False)
+                1 for m in getattr(self, "_registered_modules", {}).values() if m.get("active", False)
             ),
             "optimization_active": hasattr(self, "_optimization_config"),
             "processing_history": getattr(self, "_processing_count", 0),

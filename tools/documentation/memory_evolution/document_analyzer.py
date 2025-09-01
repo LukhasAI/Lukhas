@@ -52,11 +52,7 @@ class DocumentStructureAnalyzer:
             return 0.0
 
         # Count section depths
-        depths = Counter(
-            len(re.match(r"#+", section).group(0))
-            for section in sections
-            if section.startswith("#")
-        )
+        depths = Counter(len(re.match(r"#+", section).group(0)) for section in sections if section.startswith("#"))
 
         # Calculate depth score
         max_depth = max(depths.keys()) if depths else 0
@@ -65,11 +61,7 @@ class DocumentStructureAnalyzer:
 
         return min(
             1.0,
-            (
-                0.3 * min(3, max_depth) / 3
-                + 0.4 * min(3, depth_variety) / 3
-                + 0.3 * min(5, sections_per_level) / 5
-            ),
+            (0.3 * min(3, max_depth) / 3 + 0.4 * min(3, depth_variety) / 3 + 0.3 * min(5, sections_per_level) / 5),
         )
 
     def _analyze_code_blocks(self, content: str) -> float:
@@ -92,9 +84,7 @@ class DocumentStructureAnalyzer:
             if not lines:
                 continue
 
-            indent_consistency = (
-                len({len(line) - len(line.lstrip()) for line in lines if line.strip()}) <= 2
-            )
+            indent_consistency = len({len(line) - len(line.lstrip()) for line in lines if line.strip()}) <= 2
 
             has_comments = any(re.search(r"#|//|/\*|\*/", line) for line in lines)
 
@@ -144,10 +134,7 @@ class DocumentStructureAnalyzer:
     def _analyze_formatting(self, content: str) -> float:
         """Analyze document formatting consistency."""
         # Check consistent spacing
-        consistent_spacing = (
-            len({len(line) - len(line.lstrip()) for line in content.split("\n") if line.strip()})
-            <= 2
-        )
+        consistent_spacing = len({len(line) - len(line.lstrip()) for line in content.split("\n") if line.strip()}) <= 2
 
         # Check list formatting
         list_items = re.findall(r"[-*]\s+\w+", content)
@@ -156,8 +143,7 @@ class DocumentStructureAnalyzer:
         # Check header formatting
         headers = re.findall(r"#{1,6}\s+\w+", content)
         consistent_headers = (
-            len({len(h) - len(h.lstrip("#")) for h in headers})
-            == len({re.sub(r"#+\s+", "", h) for h in headers})
+            len({len(h) - len(h.lstrip("#")) for h in headers}) == len({re.sub(r"#+\s+", "", h) for h in headers})
             if headers
             else True
         )

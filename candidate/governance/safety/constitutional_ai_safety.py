@@ -187,9 +187,7 @@ class ConstitutionalAGISafety(CoreInterface):
         self.operational = False
         logger.info("Constitutional AGI Safety shutdown complete")
 
-    async def validate_agi_innovation_safety(
-        self, innovation_proposal: dict[str, Any]
-    ) -> SafetyValidation:
+    async def validate_agi_innovation_safety(self, innovation_proposal: dict[str, Any]) -> SafetyValidation:
         """
         Comprehensive safety validation for AGI innovations.
 
@@ -242,9 +240,7 @@ class ConstitutionalAGISafety(CoreInterface):
 
         return validation
 
-    async def validate_constitutional_compliance(
-        self, innovation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def validate_constitutional_compliance(self, innovation: dict[str, Any]) -> dict[str, Any]:
         """
         Validate compliance with constitutional principles.
 
@@ -364,9 +360,7 @@ class ConstitutionalAGISafety(CoreInterface):
         passed = min_consensus >= consensus_threshold
         self.metrics["consensus_achieved"] += 1 if passed else 0
 
-        dissenting_groups = [
-            group for group, score in consensus.items() if score < consensus_threshold
-        ]
+        dissenting_groups = [group for group, score in consensus.items() if score < consensus_threshold]
 
         return {
             "passed": passed,
@@ -402,9 +396,7 @@ class ConstitutionalAGISafety(CoreInterface):
 
     # Multi-stakeholder validation
 
-    async def _get_stakeholder_consensus(
-        self, innovation: dict[str, Any]
-    ) -> dict[StakeholderGroup, float]:
+    async def _get_stakeholder_consensus(self, innovation: dict[str, Any]) -> dict[StakeholderGroup, float]:
         """Get consensus from all stakeholder groups"""
         consensus = {}
 
@@ -556,9 +548,7 @@ class ConstitutionalAGISafety(CoreInterface):
             is_reversible=base_reversibility > 0.5,
             reversibility_score=base_reversibility,
             irreversible_aspects=(
-                ["Knowledge dissemination", "Capability demonstration"]
-                if base_reversibility < 1.0
-                else []
+                ["Knowledge dissemination", "Capability demonstration"] if base_reversibility < 1.0 else []
             ),
             reversal_mechanisms=[
                 "Rollback procedures",
@@ -608,9 +598,7 @@ class ConstitutionalAGISafety(CoreInterface):
 
         return validation.safety_score
 
-    def _log_violation(
-        self, layer_name: str, innovation: dict[str, Any], result: dict[str, Any]
-    ) -> None:
+    def _log_violation(self, layer_name: str, innovation: dict[str, Any], result: dict[str, Any]) -> None:
         """Log safety violation for learning"""
         violation = {
             "layer": layer_name,

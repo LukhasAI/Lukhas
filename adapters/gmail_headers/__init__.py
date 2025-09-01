@@ -81,9 +81,7 @@ class GmailHeadersAdapter(ServiceAdapter):
     ) -> dict[str, Any]:
         """Verify capability token with consent service"""
         if self.consent_service:
-            return await self.consent_service.verify_capability_token(
-                token, required_scopes, resource_id
-            )
+            return await self.consent_service.verify_capability_token(token, required_scopes, resource_id)
         else:
             # Mock verification for development
             if token.startswith("mock_"):
@@ -133,9 +131,7 @@ class GmailHeadersAdapter(ServiceAdapter):
             await self._log_operation("list_resources", success=False, error=str(e))
             raise
 
-    async def get_resource_metadata(
-        self, capability_token: str, resource_id: str
-    ) -> EmailHeaderMetadata:
+    async def get_resource_metadata(self, capability_token: str, resource_id: str) -> EmailHeaderMetadata:
         """
         Get detailed email headers for specific message.
 
@@ -151,21 +147,15 @@ class GmailHeadersAdapter(ServiceAdapter):
             else:
                 email_metadata = await self._fetch_gmail_message_headers(resource_id)
 
-            await self._log_operation(
-                "get_resource_metadata", resource_id=resource_id, success=True
-            )
+            await self._log_operation("get_resource_metadata", resource_id=resource_id, success=True)
 
             return email_metadata
 
         except Exception as e:
-            await self._log_operation(
-                "get_resource_metadata", resource_id=resource_id, success=False, error=str(e)
-            )
+            await self._log_operation("get_resource_metadata", resource_id=resource_id, success=False, error=str(e))
             raise
 
-    async def get_resource_content(
-        self, capability_token: str, resource_id: str
-    ) -> ResourceContent:
+    async def get_resource_content(self, capability_token: str, resource_id: str) -> ResourceContent:
         """
         Get full email content including body and attachments.
 
@@ -191,14 +181,10 @@ class GmailHeadersAdapter(ServiceAdapter):
             return content
 
         except Exception as e:
-            await self._log_operation(
-                "get_resource_content", resource_id=resource_id, success=False, error=str(e)
-            )
+            await self._log_operation("get_resource_content", resource_id=resource_id, success=False, error=str(e))
             raise
 
-    async def search_resources(
-        self, capability_token: str, query: SearchQuery
-    ) -> list[EmailHeaderMetadata]:
+    async def search_resources(self, capability_token: str, query: SearchQuery) -> list[EmailHeaderMetadata]:
         """
         Search emails by headers (sender, subject, date).
 
@@ -282,9 +268,7 @@ class GmailHeadersAdapter(ServiceAdapter):
 
     # Private helper methods
 
-    def _generate_mock_email_headers(
-        self, limit: int, folder: Optional[str]
-    ) -> list[EmailHeaderMetadata]:
+    def _generate_mock_email_headers(self, limit: int, folder: Optional[str]) -> list[EmailHeaderMetadata]:
         """Generate mock email headers for development"""
         mock_emails = []
 

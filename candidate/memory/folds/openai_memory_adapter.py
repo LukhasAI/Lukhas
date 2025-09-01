@@ -184,9 +184,7 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
         similarities.sort(key=lambda x: x["similarity"], reverse=True)
         return similarities[:top_k]
 
-    async def synthesize_memory_narrative(
-        self, memories: list[dict[str, Any]], context: Optional[str] = None
-    ) -> str:
+    async def synthesize_memory_narrative(self, memories: list[dict[str, Any]], context: Optional[str] = None) -> str:
         """
         Create a narrative synthesis of multiple memories.
 

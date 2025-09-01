@@ -54,9 +54,7 @@ class TestMemorySystemValidation:
             prevention_rate = (1 - cascade_count / total_operations) * 100
 
             print(f"Cascade prevention rate: {prevention_rate}%")
-            assert prevention_rate >= 99.7, (
-                f"Cascade prevention rate {prevention_rate}% below target 99.7%"
-            )
+            assert prevention_rate >= 99.7, f"Cascade prevention rate {prevention_rate}% below target 99.7%"
 
         except ImportError as e:
             pytest.skip(f"Unified memory core not available: {e}")
@@ -165,10 +163,7 @@ class TestMemorySystemValidation:
                 resonance_result = await linker.detect_quantum_dream_resonance(test_traces)
 
                 assert resonance_result is not None, "Quantum resonance detection failed"
-                assert (
-                    "resonance_patterns" in resonance_result
-                    or "quantum_correlations" in resonance_result
-                )
+                assert "resonance_patterns" in resonance_result or "quantum_correlations" in resonance_result
 
                 print(f"Quantum resonance detection successful: {type(resonance_result)}")
             else:
@@ -228,9 +223,9 @@ class TestMemorySystemValidation:
                 trinity_markers = ["⚛️", "🧠", "🛡️"]
                 trinity_integration = any(marker in str(result) for marker in trinity_markers)
 
-                assert trinity_integration or "trinity" in str(result).lower(), (
-                    "Trinity Framework integration not detected"
-                )
+                assert (
+                    trinity_integration or "trinity" in str(result).lower()
+                ), "Trinity Framework integration not detected"
 
                 print("Trinity Framework integration validated")
 

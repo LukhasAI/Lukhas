@@ -189,9 +189,7 @@ class LambdaIDGenerator:
             # Add more reserved combinations
         ]
 
-    def _log_generation(
-        self, lambda_id: str, tier: TierLevel, user_context: Optional[dict] = None
-    ) -> None:
+    def _log_generation(self, lambda_id: str, tier: TierLevel, user_context: Optional[dict] = None) -> None:
         """Log ΛiD generation event for audit trail"""
         {
             "timestamp": datetime.now().isoformat(),
@@ -260,9 +258,7 @@ if __name__ == "__main__":
         "preferences": {"symbolic_style": "mystical"},
     }
 
-    personalized_id = generator.generate_lambda_id(
-        TierLevel.FRIEND, user_context, symbolic_preference="🌀"
-    )
+    personalized_id = generator.generate_lambda_id(TierLevel.FRIEND, user_context, symbolic_preference="🌀")
     print(f"Personalized ΛiD: {personalized_id}")
 
     print(f"Generation Stats: {generator.get_generation_stats()}")

@@ -77,9 +77,7 @@ class AXAInterface(EHRInterface):
         # - Verify API access
         pass
 
-    async def get_patient_record(
-        self, patient_id: str, record_types: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def get_patient_record(self, patient_id: str, record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from AXA
 
@@ -87,15 +85,11 @@ class AXAInterface(EHRInterface):
             patient_id: AXA Member ID
             record_types: Types of records to retrieve
         """
-        self.audit.log_access(
-            user_id=self.config["provider_id"], action="get_patient_record", resource_id=patient_id
-        )
+        self.audit.log_access(user_id=self.config["provider_id"], action="get_patient_record", resource_id=patient_id)
         # Implement AXA-specific record retrieval
         pass
 
-    async def verify_insurance_coverage(
-        self, member_id: str, service_code: str, provider_id: str
-    ) -> dict[str, Any]:
+    async def verify_insurance_coverage(self, member_id: str, service_code: str, provider_id: str) -> dict[str, Any]:
         """
         Verify insurance coverage for specific service
 
@@ -131,7 +125,5 @@ class AXAInterface(EHRInterface):
 
     async def handle_error(self, error: Exception) -> None:
         """Handle AXA-specific errors"""
-        self.audit.log_security_event(
-            event_type="error", severity="error", details={"error": str(error)}
-        )
+        self.audit.log_security_event(event_type="error", severity="error", details={"error": str(error)})
         # Implement AXA-specific error handling

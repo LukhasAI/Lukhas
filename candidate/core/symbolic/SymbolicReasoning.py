@@ -88,11 +88,7 @@ class SymbolicEngine:
         logical_chains = self._build_symbolic_logical_chains(logical_elements)
         weighted_logic = self._calculate_symbolic_confidences(logical_chains)
 
-        valid_logic = {
-            k: v
-            for k, v in weighted_logic.items()
-            if v.get("confidence", 0) >= self.confidence_threshold
-        }
+        valid_logic = {k: v for k, v in weighted_logic.items() if v.get("confidence", 0) >= self.confidence_threshold}
 
         return {
             "symbolic_reasoning": weighted_logic,
@@ -224,9 +220,7 @@ class SymbolicEngine:
             type_count = len(elements_by_type)
             type_diversity_bonus = min(0.1, 0.03 * type_count)
 
-            symbolic_types = sum(
-                1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t
-            )
+            symbolic_types = sum(1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t)
             symbolic_bonus = min(0.15, 0.05 * symbolic_types)
 
             evidence_strength = 0
@@ -243,9 +237,7 @@ class SymbolicEngine:
                 "elements": chain["elements"][:3],
                 "confidence": final_confidence,
                 "relation_type": chain.get("relation_type", "unknown"),
-                "summary": self._create_symbolic_summary(
-                    chain["elements"], chain.get("relation_type", "unknown")
-                ),
+                "summary": self._create_symbolic_summary(chain["elements"], chain.get("relation_type", "unknown")),
             }
 
         return weighted_logic

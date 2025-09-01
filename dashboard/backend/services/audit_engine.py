@@ -103,9 +103,7 @@ class AuditEngine:
                 with open(gitleaks_file) as f:
                     try:
                         data = json.load(f)
-                        results["security"]["secrets_found"] = (
-                            len(data) if isinstance(data, list) else 0
-                        )
+                        results["security"]["secrets_found"] = len(data) if isinstance(data, list) else 0
                     except json.JSONDecodeError:
                         results["security"]["secrets_found"] = 0
 

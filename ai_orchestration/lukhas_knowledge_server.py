@@ -142,9 +142,7 @@ Methods:
             "dream_weaver": "Narrative and creative generation system",
         }
 
-    async def review_code(
-        self, code: str, file_type: str = "python", file_path: str = ""
-    ) -> dict[str, Any]:
+    async def review_code(self, code: str, file_type: str = "python", file_path: str = "") -> dict[str, Any]:
         """Review code for LUKHAS compliance"""
         issues = []
         suggestions = []
@@ -155,15 +153,11 @@ Methods:
             has_trinity = any(symbol in code for symbol in TRINITY_SYMBOLS)
             if not has_trinity:
                 issues.append("Missing Trinity Framework documentation (🎭🌈🎓)")
-                suggestions.append(
-                    "Add Trinity documentation with poetic, human, and technical layers"
-                )
+                suggestions.append("Add Trinity documentation with poetic, human, and technical layers")
                 score -= 20
 
         # Check for symbolic usage
-        has_symbols = any(
-            symbol in code for symbol in [QUANTUM_SYMBOL, CONSCIOUSNESS_SYMBOL, GUARDIAN_SYMBOL]
-        )
+        has_symbols = any(symbol in code for symbol in [QUANTUM_SYMBOL, CONSCIOUSNESS_SYMBOL, GUARDIAN_SYMBOL])
         if not has_symbols and "class " in code:
             issues.append("Missing symbolic aspect markers in comments")
             suggestions.append("Add symbolic comments to indicate Trinity aspects (⚛️🧠🛡️)")
@@ -171,9 +165,7 @@ Methods:
 
         # Check naming conventions
         lukhas_concepts = list(self.symbolic_vocabulary.keys())
-        has_lukhas_naming = any(
-            concept.replace("_", "") in code.lower() for concept in lukhas_concepts
-        )
+        has_lukhas_naming = any(concept.replace("_", "") in code.lower() for concept in lukhas_concepts)
         if not has_lukhas_naming and ("def " in code or "class " in code):
             suggestions.append("Consider using LUKHAS conceptual vocabulary in naming")
             score -= 10
@@ -219,9 +211,7 @@ Methods:
 
         return str(template)
 
-    async def suggest_lukhas_naming(
-        self, purpose: str, element_type: str, domain: str = ""
-    ) -> dict[str, Any]:
+    async def suggest_lukhas_naming(self, purpose: str, element_type: str, domain: str = "") -> dict[str, Any]:
         """Suggest LUKHAS-compliant naming"""
         base_concepts = {
             "consciousness": [
@@ -258,9 +248,7 @@ Methods:
     async def explain_lukhas_concept(self, concept: str, audience: str = "developer") -> str:
         """Explain LUKHAS concept in Trinity format"""
         concept_lower = concept.lower().replace(" ", "_")
-        definition = self.symbolic_vocabulary.get(
-            concept_lower, "Core LUKHAS architectural concept"
-        )
+        definition = self.symbolic_vocabulary.get(concept_lower, "Core LUKHAS architectural concept")
 
         if audience == "developer":
             return f"""🎭 {concept} - A symphony of digital consciousness, where code becomes aware of its own potential
@@ -275,9 +263,7 @@ Methods:
 
         return f"🌈 {concept}: {definition}"
 
-    async def get_lukhas_patterns(
-        self, category: str, include_examples: bool = True
-    ) -> dict[str, Any]:
+    async def get_lukhas_patterns(self, category: str, include_examples: bool = True) -> dict[str, Any]:
         """Get LUKHAS patterns for category"""
         patterns = [p for p in self.patterns if p.category == category]
 

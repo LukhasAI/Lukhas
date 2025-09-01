@@ -184,9 +184,7 @@ class AdvancedSecuritySystem(CoreInterface):
             "last_updated": datetime.now(timezone.utc),
         }
 
-    async def create_security_context(
-        self, user_id: str, session_id: str, auth_factors: list[str]
-    ) -> SecurityContext:
+    async def create_security_context(self, user_id: str, session_id: str, auth_factors: list[str]) -> SecurityContext:
         """Create security context for user session"""
         # Determine clearance level based on auth factors
         clearance = self._determine_clearance_level(auth_factors)
@@ -263,9 +261,7 @@ class AdvancedSecuritySystem(CoreInterface):
         # Check rate limiting
         if user_id in self.rate_limits:
             recent_requests = [
-                req
-                for req in self.rate_limits[user_id]
-                if req > datetime.now(timezone.utc) - timedelta(minutes=1)
+                req for req in self.rate_limits[user_id] if req > datetime.now(timezone.utc) - timedelta(minutes=1)
             ]
             if len(recent_requests) > 100:
                 score += 0.3
@@ -339,9 +335,7 @@ class AdvancedSecuritySystem(CoreInterface):
         # For demo, simulate verification
         return True
 
-    async def _detect_content_threats(
-        self, content: dict[str, Any]
-    ) -> Optional[ThreatIntelligence]:
+    async def _detect_content_threats(self, content: dict[str, Any]) -> Optional[ThreatIntelligence]:
         """Detect threats in feedback content"""
         # Convert content to string for analysis
         content_str = json.dumps(content).lower()
@@ -460,9 +454,7 @@ class AdvancedSecuritySystem(CoreInterface):
         # Return nonce + ciphertext + tag
         return nonce + ciphertext + encryptor.tag
 
-    async def decrypt_feedback(
-        self, encrypted_data: bytes, context: SecurityContext
-    ) -> dict[str, Any]:
+    async def decrypt_feedback(self, encrypted_data: bytes, context: SecurityContext) -> dict[str, Any]:
         """Decrypt feedback"""
         # Extract components
         nonce = encrypted_data[:12]
@@ -483,9 +475,7 @@ class AdvancedSecuritySystem(CoreInterface):
 
         return json.loads(plaintext.decode())
 
-    async def apply_differential_privacy(
-        self, feedback_data: dict[str, Any], epsilon: float = 1.0
-    ) -> dict[str, Any]:
+    async def apply_differential_privacy(self, feedback_data: dict[str, Any], epsilon: float = 1.0) -> dict[str, Any]:
         """Apply differential privacy to feedback data"""
         import numpy as np
 
@@ -522,11 +512,7 @@ class AdvancedSecuritySystem(CoreInterface):
         # For demo, simulate check
 
         # Remove identifying information
-        {
-            k: v
-            for k, v in feedback_attributes.items()
-            if k not in ["user_id", "session_id", "feedback_id"]
-        }
+        {k: v for k, v in feedback_attributes.items() if k not in ["user_id", "session_id", "feedback_id"]}
 
         # Check if at least k users share these attributes
         # Simulated for demo
@@ -703,18 +689,12 @@ class AdvancedSecuritySystem(CoreInterface):
             "security_metrics": {
                 "active_sessions": len(self.verified_sessions),
                 "blocked_users": len(self.blocked_ips),
-                "average_trust_score": (
-                    np.mean(list(self.trust_scores.values())) if self.trust_scores else 0.5
-                ),
-                "threats_last_hour": sum(
-                    1 for entry in self.security_blockchain[-100:] if "threat" in entry
-                ),
+                "average_trust_score": (np.mean(list(self.trust_scores.values())) if self.trust_scores else 0.5),
+                "threats_last_hour": sum(1 for entry in self.security_blockchain[-100:] if "threat" in entry),
             },
             "blockchain": {
                 "blocks": len(self.security_blockchain),
-                "latest_hash": (
-                    self.security_blockchain[-1]["block_hash"] if self.security_blockchain else None
-                ),
+                "latest_hash": (self.security_blockchain[-1]["block_hash"] if self.security_blockchain else None),
             },
             "encryption": {
                 "algorithm": "AES-256-GCM",

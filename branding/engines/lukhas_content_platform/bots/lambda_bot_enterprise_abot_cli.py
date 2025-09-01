@@ -92,9 +92,7 @@ def ai():
 # PR Commands
 @pr.command()
 @click.argument("pr_number", type=int)
-@click.option(
-    "--auto-merge/--no-auto-merge", default=True, help="Enable auto-merge for qualifying PRs"
-)
+@click.option("--auto-merge/--no-auto-merge", default=True, help="Enable auto-merge for qualifying PRs")
 @click.option("--consciousness-level", type=click.Choice(["FOCUSED", "QUANTUM"]), default="FOCUSED")
 def review(pr_number: int, auto_merge: bool, consciousness_level: str):
     """Review a specific PR with LUKHAS AI ΛBot intelligence"""
@@ -128,9 +126,7 @@ def review(pr_number: int, auto_merge: bool, consciousness_level: str):
                 click.echo(f"📝 Documentation: {len(result['documentation'])} types generated")
 
             if result.get("compliance"):
-                compliance_status = (
-                    "✅ Compliant" if result["compliance"]["compliant"] else "❌ Requires Review"
-                )
+                compliance_status = "✅ Compliant" if result["compliance"]["compliant"] else "❌ Requires Review"
                 click.echo(f"⚖️ EU Compliance: {compliance_status}")
 
         except ImportError as e:
@@ -191,9 +187,7 @@ def generate(doc_type: str, pr_number: int, output: str):
 
 
 @docs.command()
-@click.option(
-    "--format", "doc_format", type=click.Choice(["markdown", "html", "pdf"]), default="markdown"
-)
+@click.option("--format", "doc_format", type=click.Choice(["markdown", "html", "pdf"]), default="markdown")
 def daily_digest(doc_format: str):
     """Generate daily development digest"""
     click.echo(f"📅 Generating daily digest in {doc_format} format...")
@@ -282,9 +276,7 @@ def auto_heal():
 # Content Creation Commands
 @content.command()
 @click.option("--title", prompt="Content title", help="Title for the content")
-@click.option(
-    "--type", "content_type", type=click.Choice(["guide", "manual", "update"]), default="guide"
-)
+@click.option("--type", "content_type", type=click.Choice(["guide", "manual", "update"]), default="guide")
 @click.option("--sync-notion/--no-sync", default=True, help="Sync to Notion")
 def create(title: str, content_type: str, sync_notion: bool):
     """Create new content with AI assistance"""
@@ -543,12 +535,8 @@ def security():
 
 @security.command()
 @click.option("--auto-fix", is_flag=True, default=True, help="Enable autonomous fixing")
-@click.option(
-    "--safety-threshold", type=float, default=0.8, help="Confidence threshold for auto-fixes"
-)
-@click.option(
-    "--scope", type=click.Choice(["all", "python", "javascript", "system"]), default="all"
-)
+@click.option("--safety-threshold", type=float, default=0.8, help="Confidence threshold for auto-fixes")
+@click.option("--scope", type=click.Choice(["all", "python", "javascript", "system"]), default="all")
 def heal(auto_fix: bool, safety_threshold: float, scope: str):
     """🤖 Autonomous security vulnerability healing"""
     click.echo("🤖 LUKHAS AI ΛBot Autonomous Security Healer starting...")
@@ -626,9 +614,7 @@ def scan(format: str):
                     click.echo("\n📊 Security Vulnerabilities Found:")
                     click.echo("=" * 80)
                     for vuln in vulnerabilities:
-                        click.echo(
-                            f"📦 {vuln.package}: {vuln.current_version} → {vuln.fixed_version}"
-                        )
+                        click.echo(f"📦 {vuln.package}: {vuln.current_version} → {vuln.fixed_version}")
                         click.echo(f"   🔴 Severity: {vuln.severity}")
                         click.echo(f"   🔧 Auto-fixable: {'✅' if vuln.auto_fixable else '❌'}")
                         if vuln.cve_id:
@@ -641,9 +627,7 @@ def scan(format: str):
             else:  # brief
                 if vulnerabilities:
                     auto_fixable = sum(1 for v in vulnerabilities if v.auto_fixable)
-                    click.echo(
-                        f"🔍 Found {len(vulnerabilities)} vulnerabilities ({auto_fixable} auto-fixable)"
-                    )
+                    click.echo(f"🔍 Found {len(vulnerabilities)} vulnerabilities ({auto_fixable} auto-fixable)")
                     for vuln in vulnerabilities:
                         status = "🔧" if vuln.auto_fixable else "⚠️"
                         click.echo(f"   {status} {vuln.package}: {vuln.severity}")
@@ -687,9 +671,7 @@ def status():
 
 
 @security.command()
-@click.confirmation_option(
-    prompt="Are you sure you want to replace Dependabot with LUKHAS AI ΛBot?"
-)
+@click.confirmation_option(prompt="Are you sure you want to replace Dependabot with LUKHAS AI ΛBot?")
 def replace_dependabot():
     """🔄 Replace Dependabot with LUKHAS AI ΛBot Autonomous Security Healer"""
     click.echo("🔄 Replacing Dependabot with LUKHAS AI ΛBot...")
@@ -898,11 +880,7 @@ def analytics():
         click.echo("Service Usage:")
 
         for service, count in analytics["service_usage"].items():
-            percentage = (
-                (count / analytics["total_requests"] * 100)
-                if analytics["total_requests"] > 0
-                else 0
-            )
+            percentage = (count / analytics["total_requests"] * 100) if analytics["total_requests"] > 0 else 0
             click.echo(f"   {service}: {count} requests ({percentage:.1f}%)")
 
         if analytics["total_requests"] == 0:
@@ -985,27 +963,17 @@ def budget():
             click.echo(f"   Current Balance: ${status['budget_status']['current_balance']:.4f}")
             click.echo(f"   Daily Budget: ${status['budget_status']['daily_budget']:.2f}")
             click.echo(f"   Total Accumulated: ${status['budget_status']['total_accumulated']:.4f}")
-            click.echo(
-                f"   Days Remaining: {status['budget_status']['days_of_budget_remaining']:.1f}"
-            )
+            click.echo(f"   Days Remaining: {status['budget_status']['days_of_budget_remaining']:.1f}")
             click.echo("")
             click.echo("🧠 Intelligence Metrics:")
-            click.echo(
-                f"   Efficiency Score: {status['intelligence_metrics']['efficiency_score']:.1f}%"
-            )
-            click.echo(
-                f"   Money Saved: ${status['intelligence_metrics']['money_saved_by_conservation']:.4f}"
-            )
-            click.echo(
-                f"   Conservation Streak: {status['intelligence_metrics']['conservation_streak']}"
-            )
+            click.echo(f"   Efficiency Score: {status['intelligence_metrics']['efficiency_score']:.1f}%")
+            click.echo(f"   Money Saved: ${status['intelligence_metrics']['money_saved_by_conservation']:.4f}")
+            click.echo(f"   Conservation Streak: {status['intelligence_metrics']['conservation_streak']}")
             click.echo("")
             click.echo("📊 Usage Analysis:")
             click.echo(f"   Today Spent: ${status['spending_analysis']['today_spent']:.4f}")
             click.echo(f"   Month Spent: ${status['spending_analysis']['month_spent']:.4f}")
-            click.echo(
-                f"   Monthly Projection: ${status['spending_analysis']['monthly_projection']:.4f}"
-            )
+            click.echo(f"   Monthly Projection: ${status['spending_analysis']['monthly_projection']:.4f}")
             click.echo(f"   Calls Today: {status['usage_patterns']['calls_today']}")
 
             # Show recommendations
@@ -1032,9 +1000,7 @@ def budget():
     type=click.Choice(["LOW", "MEDIUM", "HIGH", "CRITICAL"]),
     help="Urgency level",
 )
-@click.option(
-    "--force", is_flag=True, help="Force the call even if LUKHAS AI ΛBot recommends conservation"
-)
+@click.option("--force", is_flag=True, help="Force the call even if LUKHAS AI ΛBot recommends conservation")
 def test(prompt: str, urgency: str, force: bool):
     """Test OpenAI with LUKHAS AI ΛBot's intelligent financial controls"""
     try:
@@ -1074,9 +1040,7 @@ def test(prompt: str, urgency: str, force: bool):
             click.echo(f"   Balance: ${status['budget_status']['current_balance']:.4f}")
             click.echo(f"   Efficiency: {status['intelligence_metrics']['efficiency_score']:.1f}%")
             if status["intelligence_metrics"]["conservation_streak"] > 0:
-                click.echo(
-                    f"   Conservation: {status['intelligence_metrics']['conservation_streak']} decisions"
-                )
+                click.echo(f"   Conservation: {status['intelligence_metrics']['conservation_streak']} decisions")
 
     except ImportError:
         click.echo("❌ LUKHAS AI ΛBot Intelligent Controller not available")
@@ -1140,9 +1104,7 @@ def notion_sync():
         click.echo("📋 Report Summary:")
         click.echo(f"   Balance: ${report['budget_status']['current_balance']:.4f}")
         click.echo(f"   Efficiency: {report['intelligence_metrics']['efficiency_score']:.1f}%")
-        click.echo(
-            f"   Money Saved: ${report['intelligence_metrics']['money_saved_by_conservation']:.4f}"
-        )
+        click.echo(f"   Money Saved: ${report['intelligence_metrics']['money_saved_by_conservation']:.4f}")
         click.echo(f"   Recommendations: {len(report['recommendations'])} insights")
         click.echo("")
         click.echo("🔄 Next steps:")

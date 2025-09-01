@@ -50,10 +50,7 @@ class DreamLimiter:
                 ratio = count / len(predicted_window)
                 self.driftScore = ratio
                 self.affect_delta = max(self.affect_delta, ratio)
-                if (
-                    len(self.emotion_window) >= self.config.window_size - 1
-                    and ratio > self.config.recursion_threshold
-                ):
+                if len(self.emotion_window) >= self.config.window_size - 1 and ratio > self.config.recursion_threshold:
                     logger.debug(
                         "DreamLimiter skipped dream due to recursion: %s ratio=%.2f",
                         emotion,

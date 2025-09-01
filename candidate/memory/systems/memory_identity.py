@@ -96,9 +96,7 @@ class MemoryIdentityIntegration:
         logger.debug(f"Memory registered: {memory_key}")
         return True
 
-    def verify_access_permission(
-        self, memory_key: str, user_id: Optional[str], requesting_tier: AccessTier
-    ) -> bool:
+    def verify_access_permission(self, memory_key: str, user_id: Optional[str], requesting_tier: AccessTier) -> bool:
         """
         Verify if a user has permission to access a memory.
 
@@ -244,9 +242,7 @@ class MemoryIdentityIntegration:
         """
         return list(self.shared_memories.get(user_id, set()))
 
-    def encrypt_memory_content(
-        self, memory_key: str, memory_content: dict[str, Any]
-    ) -> dict[str, Any]:
+    def encrypt_memory_content(self, memory_key: str, memory_content: dict[str, Any]) -> dict[str, Any]:
         """
         Encrypt sensitive memory content.
 
@@ -289,9 +285,7 @@ class MemoryIdentityIntegration:
             logger.error(f"Error encrypting memory content: {e!s}")
             return memory_content
 
-    def decrypt_memory_content(
-        self, memory_key: str, encrypted_memory: dict[str, Any]
-    ) -> dict[str, Any]:
+    def decrypt_memory_content(self, memory_key: str, encrypted_memory: dict[str, Any]) -> dict[str, Any]:
         """
         Decrypt encrypted memory content.
 
@@ -419,9 +413,7 @@ class MemoryIdentityIntegration:
         archived = 0
 
         for key in memory_keys:
-            if key in self.memory_permissions and not self.memory_permissions[key].get(
-                "archived", False
-            ):
+            if key in self.memory_permissions and not self.memory_permissions[key].get("archived", False):
                 # Mark the memory as archived rather than removing it
                 self.memory_permissions[key]["archived"] = True
                 self.memory_permissions[key]["archive_date"] = datetime.now().isoformat()

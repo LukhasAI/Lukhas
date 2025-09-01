@@ -281,9 +281,7 @@ class BrandMonitoringAdapter:
     def _analyze_trinity_framework_presence(self, content_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze presence of Trinity Framework elements"""
 
-        config = self.brand_metrics_config["brand_consistency_metrics"][
-            "trinity_framework_presence"
-        ]
+        config = self.brand_metrics_config["brand_consistency_metrics"]["trinity_framework_presence"]
 
         return {
             "identity_mentions": {
@@ -507,9 +505,7 @@ class BrandMonitoringAdapter:
             "trend": "stable",  # Would be calculated from historical data
         }
 
-    def _generate_brand_recommendations(
-        self, brand_metrics: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _generate_brand_recommendations(self, brand_metrics: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate actionable brand improvement recommendations"""
 
         recommendations = []
@@ -588,19 +584,13 @@ class BrandMonitoringAdapter:
         if "brand_performance" in brand_metrics:
             performance = brand_metrics["brand_performance"]
             if performance["voice_consistency_score"] > 0.9:
-                insights["key_findings"].append(
-                    "Voice consistency is exceptionally high across all contexts"
-                )
+                insights["key_findings"].append("Voice consistency is exceptionally high across all contexts")
 
         # Identify emerging trends
-        insights["emerging_trends"].append(
-            "Increasing user preference for consciousness-aware communication"
-        )
+        insights["emerging_trends"].append("Increasing user preference for consciousness-aware communication")
 
         # Spot opportunities
-        insights["opportunities"].append(
-            "Strong Trinity Framework alignment enables deeper user connection"
-        )
+        insights["opportunities"].append("Strong Trinity Framework alignment enables deeper user connection")
 
         # Identify risks
         if "brand_consistency" in brand_metrics:

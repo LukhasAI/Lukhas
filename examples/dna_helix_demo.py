@@ -52,9 +52,7 @@ async def demonstrate_basic_memory():
     # Repair memory
     if memory.helix_core.should_repair():
         print("\n🛠 Memory drift exceeds threshold - initiating repair...")
-        memory.helix_core.repair(
-            method=RepairMethod.PARTIAL_HEAL, cause="Demonstration drift correction"
-        )
+        memory.helix_core.repair(method=RepairMethod.PARTIAL_HEAL, cause="Demonstration drift correction")
 
         repaired = list(memory.helix_core.current.sequence)
         print("✅ Memory repaired:")

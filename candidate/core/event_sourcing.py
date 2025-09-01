@@ -94,9 +94,7 @@ class EventStore:
                 )
                 conn.commit()
                 # Verify table exists
-                cursor.execute(
-                    "SELECT name FROM sqlite_master WHERE type='table' AND name='events'"
-                )
+                cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='events'")
                 if cursor.fetchone():
                     logger.info(f"Event store database initialized successfully at {self.db_path}")
                 else:
@@ -394,9 +392,7 @@ class EventReplayService:
     def __init__(self, event_store: EventStore):
         self.event_store = event_store
 
-    def replay_aggregate_to_point_in_time(
-        self, aggregate_id: str, target_time: float
-    ) -> AIAgentAggregate:
+    def replay_aggregate_to_point_in_time(self, aggregate_id: str, target_time: float) -> AIAgentAggregate:
         """
         Replay an aggregate to a specific point in time
         Enables powerful temporal debugging
@@ -422,18 +418,14 @@ class EventReplayService:
         """
         return self.event_store.get_events_by_correlation_id(correlation_id)
 
-    def analyze_agent_behavior(
-        self, agent_id: str, time_window: Optional[tuple] = None
-    ) -> dict[str, Any]:
+    def analyze_agent_behavior(self, agent_id: str, time_window: Optional[tuple] = None) -> dict[str, Any]:
         """
         Analyze agent behavior patterns from event history
         """
         if time_window:
             start_time, end_time = time_window
             events = [
-                e
-                for e in self.event_store.get_events_for_aggregate(agent_id)
-                if start_time <= e.timestamp <= end_time
+                e for e in self.event_store.get_events_for_aggregate(agent_id) if start_time <= e.timestamp <= end_time
             ]
         else:
             events = self.event_store.get_events_for_aggregate(agent_id)

@@ -294,9 +294,7 @@ class WebXRIntegration:
         )
 
         # Generate holographic layers
-        holographic_layers = self._generate_holographic_layers(
-            base_glyph_data, mode, spatial_dimensions
-        )
+        holographic_layers = self._generate_holographic_layers(base_glyph_data, mode, spatial_dimensions)
 
         # Create interaction zones
         interaction_zones = self._create_interaction_zones(spatial_origin, mode, target_platform)
@@ -409,9 +407,7 @@ class WebXRIntegration:
         logger.info(f"🎭 Generated {len(layers)} holographic layers")
         return layers
 
-    def _get_layer_configurations(
-        self, mode: HolographicMode, spatial_dimensions: int
-    ) -> list[dict[str, Any]]:
+    def _get_layer_configurations(self, mode: HolographicMode, spatial_dimensions: int) -> list[dict[str, Any]]:
         """Get layer configurations for different holographic modes"""
 
         if mode == HolographicMode.FLOATING_GLYPH:
@@ -496,9 +492,7 @@ class WebXRIntegration:
         else:  # Default configuration
             return [{"z_depth": 0.0, "opacity": 1.0, "layer_type": "primary"}]
 
-    def _generate_layer_matrix(
-        self, base_matrix: np.ndarray, config: dict[str, Any], layer_index: int
-    ) -> np.ndarray:
+    def _generate_layer_matrix(self, base_matrix: np.ndarray, config: dict[str, Any], layer_index: int) -> np.ndarray:
         """Generate visual matrix for a specific holographic layer"""
         layer_type = config.get("layer_type", "generic")
 
@@ -596,9 +590,7 @@ class WebXRIntegration:
                     spiral_effect = np.sin(angle * 3 + depth_factor * 10 + time.time()) * 0.5 + 0.5
 
                     if distance < min(width, height) // 3:  # Within portal radius
-                        portal_intensity = spiral_effect * (
-                            1.0 - distance / (min(width, height) // 3)
-                        )
+                        portal_intensity = spiral_effect * (1.0 - distance / (min(width, height) // 3))
                         portal_matrix[y, x, :] = [
                             int(portal_intensity * 200),  # Blue-white portal
                             int(portal_intensity * 150),
@@ -822,9 +814,7 @@ class WebXRIntegration:
 
         return adaptations
 
-    def _generate_temporal_dynamics(
-        self, mode: HolographicMode, qi_entanglement: bool
-    ) -> dict[str, Any]:
+    def _generate_temporal_dynamics(self, mode: HolographicMode, qi_entanglement: bool) -> dict[str, Any]:
         """Generate temporal dynamics for holographic animations"""
         dynamics = {
             "base_animation_speed": 1.0,
@@ -929,14 +919,10 @@ class WebXRIntegration:
         # Apply consciousness adaptations
         consciousness_effects = {}
         if consciousness_state and self.enable_consciousness_adaptation:
-            consciousness_effects = self._apply_realtime_consciousness_effects(
-                glyph, consciousness_state
-            )
+            consciousness_effects = self._apply_realtime_consciousness_effects(glyph, consciousness_state)
 
         # Generate platform-specific rendering commands
-        platform_commands = self._generate_platform_rendering_commands(
-            glyph.platform, rendered_layers, animation_data
-        )
+        platform_commands = self._generate_platform_rendering_commands(glyph.platform, rendered_layers, animation_data)
 
         scene_data = {
             "glyph_id": glyph_id,
@@ -1079,8 +1065,7 @@ class WebXRIntegration:
             "base_speed": base_speed,
             "breathing_phase": math.sin(current_time * breathing_freq * 2 * math.pi),
             "rotation_angle": (current_time * temporal_dynamics.get("rotation_speed", 0)) % 360,
-            "float_offset": temporal_dynamics.get("float_amplitude", 0.0)
-            * math.sin(current_time * 2),
+            "float_offset": temporal_dynamics.get("float_amplitude", 0.0) * math.sin(current_time * 2),
             "pulse_intensity": 0.5
             + 0.5 * math.sin(current_time * temporal_dynamics.get("pulse_rate", 1.0) * 2 * math.pi),
         }

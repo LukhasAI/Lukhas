@@ -258,9 +258,7 @@ class AsyncHashCalculator:
 
     def get_performance_stats(self) -> dict[str, Any]:
         """Get hash calculation performance statistics"""
-        cache_hit_rate = (
-            self.calculations_cached / max(self.calculations_total + self.calculations_cached, 1)
-        ) * 100
+        cache_hit_rate = (self.calculations_cached / max(self.calculations_total + self.calculations_cached, 1)) * 100
 
         return {
             "total_calculations": self.calculations_total,
@@ -312,9 +310,7 @@ class AsyncAuditBuffer:
         """Initialize async audit buffer with Redis if available"""
         if self._redis_enabled:
             try:
-                self._redis = redis.Redis.from_url(
-                    "redis://localhost:6379/1", decode_responses=True
-                )
+                self._redis = redis.Redis.from_url("redis://localhost:6379/1", decode_responses=True)
                 await self._redis.ping()
                 print("🚀 AsyncAuditBuffer: Redis cache enabled for extreme performance")
             except Exception:
@@ -330,9 +326,7 @@ class AsyncAuditBuffer:
             return
 
         self._flush_task = asyncio.create_task(self._background_flush_loop())
-        print(
-            f"🔥 AsyncAuditBuffer: Background flushing started (interval: {self.flush_interval}s)"
-        )
+        print(f"🔥 AsyncAuditBuffer: Background flushing started (interval: {self.flush_interval}s)")
 
     async def _background_flush_loop(self):
         """High-performance background flush loop"""
@@ -452,9 +446,7 @@ class AsyncAuditBuffer:
 
     def get_performance_stats(self) -> dict[str, Any]:
         """Get audit buffer performance statistics"""
-        throughput_events_per_sec = self.events_flushed / max(
-            self.flush_operations * self.flush_interval, 1
-        )
+        throughput_events_per_sec = self.events_flushed / max(self.flush_operations * self.flush_interval, 1)
 
         return {
             "events_buffered": self.events_buffered,
@@ -542,9 +534,7 @@ class ExtremeAuthPerformanceOptimizer:
 
             # Log performance achievements
             if metrics.total_duration_ms <= self.fast_path_threshold_ms:
-                print(
-                    f"⚡ ULTRA-FAST PATH: {operation} completed in {metrics.total_duration_ms:.2f}ms"
-                )
+                print(f"⚡ ULTRA-FAST PATH: {operation} completed in {metrics.total_duration_ms:.2f}ms")
             elif metrics.is_target_met():
                 print(
                     f"✅ TARGET MET: {operation} completed in {metrics.total_duration_ms:.2f}ms (target: {self.target_p95_latency_ms}ms)"
@@ -706,9 +696,7 @@ class ExtremeAuthPerformanceOptimizer:
         p99 = percentile(durations, 0.99)
 
         # Performance targets analysis
-        target_achievement_rate = (
-            self.successful_optimizations / max(self.total_authentications, 1)
-        ) * 100
+        target_achievement_rate = (self.successful_optimizations / max(self.total_authentications, 1)) * 100
 
         # Component performance
         component_stats = {
@@ -722,8 +710,7 @@ class ExtremeAuthPerformanceOptimizer:
                 "total_authentications": self.total_authentications,
                 "successful_optimizations": self.successful_optimizations,
                 "target_achievement_rate_percent": target_achievement_rate,
-                "openai_scale_ready": p95 <= self.target_p95_latency_ms
-                and target_achievement_rate >= 95.0,
+                "openai_scale_ready": p95 <= self.target_p95_latency_ms and target_achievement_rate >= 95.0,
             },
             "performance_percentiles": {
                 "p50_latency_ms": p50,
@@ -758,14 +745,10 @@ class ExtremeAuthPerformanceOptimizer:
             recommendations.append("⚡ Implement request-level caching for repeated operations")
 
         if current_p95 > 30.0:
-            recommendations.append(
-                "🚀 Consider implementing request batching for higher throughput"
-            )
+            recommendations.append("🚀 Consider implementing request batching for higher throughput")
 
         if current_p95 <= self.target_p95_latency_ms:
-            recommendations.append(
-                f"✅ TARGET ACHIEVED: P95 latency {current_p95:.1f}ms meets OpenAI-scale target!"
-            )
+            recommendations.append(f"✅ TARGET ACHIEVED: P95 latency {current_p95:.1f}ms meets OpenAI-scale target!")
 
         if current_p95 <= 10.0:
             recommendations.append(
@@ -776,9 +759,7 @@ class ExtremeAuthPerformanceOptimizer:
 
     async def run_performance_benchmark(self, num_operations: int = 1000) -> dict[str, Any]:
         """Run comprehensive performance benchmark"""
-        print(
-            f"🧪 Running performance benchmark with {num_operations} authentication operations..."
-        )
+        print(f"🧪 Running performance benchmark with {num_operations} authentication operations...")
 
         benchmark_start = time.time()
         operations_completed = 0
@@ -812,8 +793,7 @@ class ExtremeAuthPerformanceOptimizer:
             "benchmark_summary": {
                 "operations_completed": operations_completed,
                 "operations_successful": operations_successful,
-                "success_rate_percent": (operations_successful / max(operations_completed, 1))
-                * 100,
+                "success_rate_percent": (operations_successful / max(operations_completed, 1)) * 100,
                 "total_duration_seconds": benchmark_duration,
                 "throughput_rps": throughput_rps,
                 "openai_scale_target_met": throughput_rps >= 10000
@@ -832,12 +812,8 @@ class ExtremeAuthPerformanceOptimizer:
         print("✅ Benchmark complete!")
         print(f"   Throughput: {throughput_rps:.0f} RPS")
         print(f"   P95 Latency: {dashboard['performance_percentiles']['p95_latency_ms']:.1f}ms")
-        print(
-            f"   Success Rate: {benchmark_results['benchmark_summary']['success_rate_percent']:.1f}%"
-        )
-        print(
-            f"   OpenAI Scale Ready: {benchmark_results['benchmark_summary']['openai_scale_target_met']}"
-        )
+        print(f"   Success Rate: {benchmark_results['benchmark_summary']['success_rate_percent']:.1f}%")
+        print(f"   OpenAI Scale Ready: {benchmark_results['benchmark_summary']['openai_scale_target_met']}")
 
         return benchmark_results
 

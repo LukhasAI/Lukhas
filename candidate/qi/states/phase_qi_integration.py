@@ -105,9 +105,7 @@ class QIIntegrationTestSuite:
         print("✅ All quantum systems initialized")
         return systems
 
-    async def test_quantum_entanglement_integration(
-        self, systems: dict[str, Any]
-    ) -> dict[str, float]:
+    async def test_quantum_entanglement_integration(self, systems: dict[str, Any]) -> dict[str, float]:
         """Test entanglement-like correlation between all optimization modules"""
         print("🔬 Testing Quantum Entanglement Integration...")
 
@@ -161,9 +159,7 @@ class QIIntegrationTestSuite:
         end_time = time.perf_counter()
         results["total_entanglement_time"] = (end_time - start_time) * 1000  # ms
 
-        print(
-            f"✅ Quantum entanglement tests completed in {results['total_entanglement_time']:.2f}ms"
-        )
+        print(f"✅ Quantum entanglement tests completed in {results['total_entanglement_time']:.2f}ms")
         return results
 
     async def test_throughput_optimization(self, systems: dict[str, Any]) -> dict[str, float]:
@@ -195,9 +191,7 @@ class QIIntegrationTestSuite:
                 elif domain == "identity":
                     await system.authenticate_lambda_identity(f"test_user_{i}")
                 elif domain == "testing":
-                    await system.run_quantum_test_vector(
-                        f"test_case_{i}", {"input": i, "expected": i * 2}
-                    )
+                    await system.run_quantum_test_vector(f"test_case_{i}", {"input": i, "expected": i * 2})
                 elif domain == "governance":
                     await system.evaluate_ethical_compliance(action={"type": "test", "id": i})
                 elif domain == "quantum":
@@ -245,9 +239,7 @@ class QIIntegrationTestSuite:
             # Get quantum-optimized energy usage
             if hasattr(system, "get_energy_metrics"):
                 energy_metrics = await system.get_energy_metrics()
-                optimized_energy = energy_metrics.get(
-                    "computational_entropy", baseline_energy[domain] * 0.6
-                )
+                optimized_energy = energy_metrics.get("computational_entropy", baseline_energy[domain] * 0.6)
             else:
                 # Simulate 40% reduction for systems without direct energy metrics
                 optimized_energy = baseline_energy[domain] * 0.6
@@ -287,9 +279,7 @@ class QIIntegrationTestSuite:
             elif domain == "testing":
                 await system.run_quantum_test_vector("critical_test", {"urgent": True})
             elif domain == "governance":
-                await system.qi_ethical_reasoning(
-                    {"action": "emergency_access", "priority": "critical"}
-                )
+                await system.qi_ethical_reasoning({"action": "emergency_access", "priority": "critical"})
             elif domain == "quantum":
                 await system.get_quantum_coherence()
 
@@ -305,9 +295,7 @@ class QIIntegrationTestSuite:
         response_times = [results[key] for key in results if "response_time_ms" in key]
         results["max_response_time"] = max(response_times)
         results["average_response_time"] = np.mean(response_times)
-        results["sub_100ms_compliance"] = (
-            sum(1 for rt in response_times if rt < 100) / len(response_times) * 100
-        )
+        results["sub_100ms_compliance"] = sum(1 for rt in response_times if rt < 100) / len(response_times) * 100
 
         print(f"✅ Sub-100ms compliance: {results['sub_100ms_compliance']:.1f}%")
         return results
@@ -336,9 +324,7 @@ class QIIntegrationTestSuite:
         fidelities = [results[key] for key in results if "qi_fidelity" in key]
         results["average_quantum_fidelity"] = np.mean(fidelities)
         results["min_quantum_fidelity"] = min(fidelities)
-        results["fidelity_compliance"] = (
-            sum(1 for f in fidelities if f >= 0.95) / len(fidelities) * 100
-        )
+        results["fidelity_compliance"] = sum(1 for f in fidelities if f >= 0.95) / len(fidelities) * 100
 
         print(f"✅ Average quantum fidelity: {results['average_quantum_fidelity']:.3f}")
         return results
@@ -426,16 +412,12 @@ class QIIntegrationTestSuite:
         print("\n🎯 PERFORMANCE TARGETS:")
 
         # Throughput
-        avg_improvement = self.test_results["performance_metrics"].get(
-            "average_improvement_factor", 0
-        )
+        avg_improvement = self.test_results["performance_metrics"].get("average_improvement_factor", 0)
         throughput_status = "✅" if avg_improvement >= 5.0 else "⚠️"
         print(f"  {throughput_status} Throughput: {avg_improvement:.1f}x (Target: 5-10x)")
 
         # Energy Efficiency
-        avg_energy_reduction = self.test_results["energy_efficiency"].get(
-            "average_energy_reduction", 0
-        )
+        avg_energy_reduction = self.test_results["energy_efficiency"].get("average_energy_reduction", 0)
         energy_status = "✅" if avg_energy_reduction >= 40.0 else "⚠️"
         print(f"  {energy_status} Energy Reduction: {avg_energy_reduction:.1f}% (Target: 40%)")
 

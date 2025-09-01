@@ -23,9 +23,7 @@ load_dotenv(Path(__file__).parent.parent.parent / ".env")
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Pattern to find and replace existing descriptions
-DESCRIPTION_PATTERN = re.compile(
-    r'(@lukhas/HEADER_FOOTER_TEMPLATE\.py\n)\n([^#]*?)(?=""")', re.MULTILINE | re.DOTALL
-)
+DESCRIPTION_PATTERN = re.compile(r'(@lukhas/HEADER_FOOTER_TEMPLATE\.py\n)\n([^#]*?)(?=""")', re.MULTILINE | re.DOTALL)
 
 
 def analyze_quantum_code(filepath: Path) -> dict[str, any]:
@@ -63,16 +61,12 @@ def analyze_quantum_code(filepath: Path) -> dict[str, any]:
         # Extract classes with their docstrings
         class_pattern = re.compile(r'class\s+(\w+).*?:\s*\n\s*"""(.*?)"""', re.DOTALL)
         for match in class_pattern.finditer(content):
-            analysis["classes"].append(
-                {"name": match.group(1), "docstring": match.group(2).strip()}
-            )
+            analysis["classes"].append({"name": match.group(1), "docstring": match.group(2).strip()})
 
         # Extract key functions
         func_pattern = re.compile(r"def\s+(\w+)\s*\([^)]*\)\s*->\s*([^:]+):", re.MULTILINE)
         for match in func_pattern.finditer(content):
-            analysis["functions"].append(
-                {"name": match.group(1), "return_type": match.group(2).strip()}
-            )
+            analysis["functions"].append({"name": match.group(1), "return_type": match.group(2).strip()})
 
         # Quantum concept detection (comprehensive)
         qi_patterns = {
@@ -283,9 +277,7 @@ def add_verbose_description(filepath: Path) -> bool:
 
         # If no existing description found, add after template reference
         if new_content == content:
-            new_content = re.sub(
-                r"(@lukhas/HEADER_FOOTER_TEMPLATE\.py\n)", r"\1" + description, content
-            )
+            new_content = re.sub(r"(@lukhas/HEADER_FOOTER_TEMPLATE\.py\n)", r"\1" + description, content)
 
         if new_content != content:
             with open(filepath, "w", encoding="utf-8") as f:
@@ -409,9 +401,7 @@ def find_good_candidates(project_root: Path) -> list[Path]:
                 with open(file_path, encoding="utf-8") as f:
                     content = f.read()
                     has_template = "@lukhas/HEADER_FOOTER_TEMPLATE.py" in content
-                    has_description = re.search(
-                        r"@lukhas/HEADER_FOOTER_TEMPLATE\.py\n\n\w+.*\n=+\n", content
-                    )
+                    has_description = re.search(r"@lukhas/HEADER_FOOTER_TEMPLATE\.py\n\n\w+.*\n=+\n", content)
                     if has_template and not has_description:
                         unique_candidates.append(file_path)
             except BaseException:

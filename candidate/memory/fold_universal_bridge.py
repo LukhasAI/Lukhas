@@ -257,9 +257,7 @@ class MemoryFoldUniversalBridge:
         if "identity" in self.active_bridges:
             tier_info = await self._integrate_identity(user_id)
             if tier_info["tier"] < 2:
-                logger.warning(
-                    f"User {user_id} tier {tier_info['tier']} insufficient for memory creation"
-                )
+                logger.warning(f"User {user_id} tier {tier_info['tier']} insufficient for memory creation")
                 return {"error": "Insufficient tier access", "required_tier": 2}
             integrated_metadata["creator_tier"] = tier_info["tier"]
 
@@ -472,9 +470,7 @@ class MemoryFoldUniversalBridge:
             logger.error(f"Identity integration failed: {e}")
             return {"tier": 0, "error": str(e)}
 
-    async def _integrate_echo_detection(
-        self, memory_fold: dict[str, Any], user_id: Optional[str]
-    ) -> dict[str, Any]:
+    async def _integrate_echo_detection(self, memory_fold: dict[str, Any], user_id: Optional[str]) -> dict[str, Any]:
         """Check for emotional echo loops."""
         try:
             # Get recent memories
@@ -613,9 +609,7 @@ class MemoryFoldUniversalBridge:
         # Add consciousness data if available
         if memory_fold.get("metadata", {}).get("consciousness_reflection"):
             matada_node["consciousness_state"] = {
-                "coherence": memory_fold["metadata"]["consciousness_reflection"].get(
-                    "consciousness_coherence", 0.5
-                ),
+                "coherence": memory_fold["metadata"]["consciousness_reflection"].get("consciousness_coherence", 0.5),
                 "awareness_level": "integrated",
             }
 
@@ -679,9 +673,7 @@ class MemoryFoldUniversalBridge:
         except BaseException:
             return "unknown"
 
-    async def _create_dream_quantum_bridge(
-        self, memory_fold: dict[str, Any], dream_snapshot: DreamSnapshot
-    ):
+    async def _create_dream_quantum_bridge(self, memory_fold: dict[str, Any], dream_snapshot: DreamSnapshot):
         """Create special quantum bridge between dream and memory."""
         try:
             # Dreams have special quantum properties
@@ -706,9 +698,7 @@ class MemoryFoldUniversalBridge:
         emotion_boost = emotion_weights.get(memory_fold["emotion"], 0.5)
         return min(1.0, base_priority * emotion_boost)
 
-    def _group_memories_by_emotion(
-        self, memories: list[dict[str, Any]]
-    ) -> dict[str, list[dict[str, Any]]]:
+    def _group_memories_by_emotion(self, memories: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
         """Group memories by emotional themes for narrative."""
         groups = {}
 
@@ -776,9 +766,7 @@ class MemoryFoldUniversalBridge:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 
-async def create_universal_memory(
-    emotion: str, context: str, user_id: Optional[str] = None
-) -> dict[str, Any]:
+async def create_universal_memory(emotion: str, context: str, user_id: Optional[str] = None) -> dict[str, Any]:
     """
     Convenience function to create a memory with full universal integration.
 
@@ -819,9 +807,7 @@ async def get_universal_bridge() -> MemoryFoldUniversalBridge:
         except BaseException:
             dream_system = None
 
-        _universal_bridge = MemoryFoldUniversalBridge(
-            memory_system=memory_system, dream_system=dream_system
-        )
+        _universal_bridge = MemoryFoldUniversalBridge(memory_system=memory_system, dream_system=dream_system)
 
     return _universal_bridge
 

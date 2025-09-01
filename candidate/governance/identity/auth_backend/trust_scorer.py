@@ -190,8 +190,7 @@ class LukhasTrustScorer:
                 score -= 4.0
                 patterns["anomaly_count"] += 1
                 self.logger.info(
-                    f"Temporal anomaly detected for {user_id}: "
-                    f"current={current_hour}, avg={avg_hour:.1f}"
+                    f"Temporal anomaly detected for {user_id}: " f"current={current_hour}, avg={avg_hour:.1f}"
                 )
             elif time_deviation > 4:
                 score -= 2.0
@@ -263,9 +262,7 @@ class LukhasTrustScorer:
             # Check for impossible travel
             if len(patterns["geolocation_patterns"]) > 1:
                 last_location = patterns["geolocation_patterns"][-2]
-                time_diff = (
-                    current_time - last_location["timestamp"]
-                ).total_seconds() / 3600  # hours
+                time_diff = (current_time - last_location["timestamp"]).total_seconds() / 3600  # hours
 
                 # Simplified distance check (in production, use proper geolocation)
                 if (
@@ -282,9 +279,7 @@ class LukhasTrustScorer:
             patterns["session_durations"] = patterns["session_durations"][-20:]
 
             if len(patterns["session_durations"]) > 5:
-                avg_duration = sum(patterns["session_durations"]) / len(
-                    patterns["session_durations"]
-                )
+                avg_duration = sum(patterns["session_durations"]) / len(patterns["session_durations"])
                 if session_duration > avg_duration * 3:  # Unusually long session
                     score -= 2.0
 
@@ -306,8 +301,7 @@ class LukhasTrustScorer:
         behavioral_score = max(0, score)
 
         self.logger.debug(
-            f"Behavioral score for {user_id}: {behavioral_score} "
-            f"(anomalies: {patterns['anomaly_count']})"
+            f"Behavioral score for {user_id}: {behavioral_score} " f"(anomalies: {patterns['anomaly_count']})"
         )
 
         return behavioral_score
@@ -481,8 +475,7 @@ class LukhasTrustScorer:
         contextual_score = max(0, score)
 
         self.logger.debug(
-            f"Contextual score calculated: {contextual_score} "
-            f"(hour: {hour}, auth_freq: {auth_frequency})"
+            f"Contextual score calculated: {contextual_score} " f"(hour: {hour}, auth_freq: {auth_frequency})"
         )
 
         return contextual_score
@@ -592,9 +585,7 @@ class LukhasTrustScorer:
 
         except Exception as e:
             self.logger.error(f"Trust score calculation failed for {user_id}: {e!s}")
-            self.audit_logger.log_security_event(
-                "trust_calculation_error", {"user_id": user_id, "error": str(e)}
-            )
+            self.audit_logger.log_security_event("trust_calculation_error", {"user_id": user_id, "error": str(e)})
 
             # Return safe default score on error
             return {
@@ -610,9 +601,7 @@ class LukhasTrustScorer:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    def update_risk_factors(
-        self, user_id: str, risk_level: str, reason: str, expiry_hours: int = 24
-    ):
+    def update_risk_factors(self, user_id: str, risk_level: str, reason: str, expiry_hours: int = 24):
         """
         Update risk factors for a user (e.g., after suspicious activity).
 

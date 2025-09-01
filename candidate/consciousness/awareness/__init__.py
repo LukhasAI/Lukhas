@@ -71,9 +71,7 @@ __all__ = [
     # Add other names to be exported by 'from candidate.core.advanced.brain.awareness import *'
 ]
 
-logger.info(
-    f"ΛTRACE: 'core.advanced.brain.awareness' package initialized. Exposed symbols in __all__: {__all__}"
-)
+logger.info(f"ΛTRACE: 'core.advanced.brain.awareness' package initialized. Exposed symbols in __all__: {__all__}")
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py

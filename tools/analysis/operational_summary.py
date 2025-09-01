@@ -79,9 +79,7 @@ def generate_operational_summary(reports):
         print(f"   • Operational Rate: {working_entries / total_entries:.1%}")
 
         print("\n   🎯 KEY ENTRY POINTS:")
-        main_entries = [
-            path for path, data in entry_points.items() if "main.py" in path and data["functional"]
-        ]
+        main_entries = [path for path, data in entry_points.items() if "main.py" in path and data["functional"]]
         for entry in main_entries[:5]:  # Show top 5:
             print(f"      ✅ {entry}")
 
@@ -101,10 +99,7 @@ def generate_operational_summary(reports):
                 }
 
         for system, caps in capabilities_by_system.items():
-            print(
-                f"   🔧 {system.upper()}: {caps['count']} capability types, "
-                f"{caps['confidence']} high-confidence"
-            )
+            print(f"   🔧 {system.upper()}: {caps['count']} capability types, " f"{caps['confidence']} high-confidence")
             if caps["types"]:
                 print(f"      Capabilities: {', '.join(caps['types'][:5])}")  # Show first 5
 
@@ -128,9 +123,7 @@ def generate_operational_summary(reports):
     if "connectivity" in reports:
         conn_data = reports["connectivity"]
         working_systems = len(conn_data.get("working_systems", []))
-        total_systems = len(conn_data.get("working_systems", [])) + len(
-            conn_data.get("broken_systems", [])
-        )
+        total_systems = len(conn_data.get("working_systems", [])) + len(conn_data.get("broken_systems", []))
         isolated_files = len(conn_data.get("isolated_files", []))
 
         if total_systems > 0:
@@ -158,11 +151,7 @@ def generate_operational_summary(reports):
             print(f"   🔧 IMPROVE FUNCTIONALITY: {', '.join(low_performing)}")
 
         # Missing systems
-        missing = [
-            s
-            for s, d in reports["functional"]["system_capabilities"].items()
-            if d["status"] == "missing"
-        ]
+        missing = [s for s, d in reports["functional"]["system_capabilities"].items() if d["status"] == "missing"]
         if missing:
             print(f"   ➕ ADD MISSING SYSTEMS: {', '.join(missing)}")
 

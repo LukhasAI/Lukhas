@@ -133,13 +133,9 @@ class MemoryTrackerIntegration:
         self.alert_threshold_mb = self.config.get("memory_alert_threshold_mb", 1000.0)
         self.alerts_triggered = 0
 
-        logger.info(
-            f"Memory monitoring thresholds initialized - alert at {self.alert_threshold_mb}MB"
-        )
+        logger.info(f"Memory monitoring thresholds initialized - alert at {self.alert_threshold_mb}MB")
 
-    async def start_memory_tracking(
-        self, root_module=None, session_id: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def start_memory_tracking(self, root_module=None, session_id: Optional[str] = None) -> dict[str, Any]:
         """
         Start memory tracking for a module or system
 
@@ -267,9 +263,7 @@ class MemoryTrackerIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def get_memory_summary(
-        self, session_id: Optional[str] = None, top_ops: int = 20
-    ) -> dict[str, Any]:
+    async def get_memory_summary(self, session_id: Optional[str] = None, top_ops: int = 20) -> dict[str, Any]:
         """
         Get memory usage summary
 
@@ -401,15 +395,11 @@ class MemoryTrackerIntegration:
             metrics = {
                 **self.performance_metrics,
                 "monitoring_active": self.monitoring_active,
-                "active_sessions": len(
-                    [s for s in self.tracking_sessions.values() if s["status"] == "active"]
-                ),
+                "active_sessions": len([s for s in self.tracking_sessions.values() if s["status"] == "active"]),
                 "total_sessions": len(self.tracking_sessions),
                 "memory_tracker_available": MEMORY_TRACKER_AVAILABLE,
                 "config": {
-                    "operator_level_tracking": self.config.get(
-                        "enable_operator_level_tracking", True
-                    ),
+                    "operator_level_tracking": self.config.get("enable_operator_level_tracking", True),
                     "cuda_monitoring": self.config.get("enable_cuda_monitoring", True),
                     "alert_threshold_mb": self.config.get("memory_alert_threshold_mb", 1000.0),
                 },
@@ -524,9 +514,7 @@ class MemoryTrackerIntegration:
             "fallback": True,
         }
 
-    async def _fallback_get_summary(
-        self, session_id: Optional[str], top_ops: int
-    ) -> dict[str, Any]:
+    async def _fallback_get_summary(self, session_id: Optional[str], top_ops: int) -> dict[str, Any]:
         """Fallback summary generation"""
         return {
             "success": True,
@@ -552,9 +540,7 @@ class MemoryTrackerIntegration:
             "fallback": True,
         }
 
-    async def _fallback_visualize_traces(
-        self, session_id: Optional[str], save_path: Optional[str]
-    ) -> dict[str, Any]:
+    async def _fallback_visualize_traces(self, session_id: Optional[str], save_path: Optional[str]) -> dict[str, Any]:
         """Fallback trace visualization"""
         return {
             "success": True,

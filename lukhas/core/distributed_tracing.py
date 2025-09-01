@@ -678,11 +678,7 @@ class EventReplayer:
 
             if is_agent_span:
                 agent_events.extend(
-                    [
-                        log
-                        for log in span_data.get("logs", [])
-                        if not to_timestamp or log["timestamp"] <= to_timestamp
-                    ]
+                    [log for log in span_data.get("logs", []) if not to_timestamp or log["timestamp"] <= to_timestamp]
                 )
 
         agent_events.sort(key=lambda e: e["timestamp"])

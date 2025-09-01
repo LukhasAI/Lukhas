@@ -66,13 +66,9 @@ class ConstitutionalGatekeeper:
         self.violation_history: list[dict] = []
         self.startup_time = datetime.now()
 
-        constitutional_logger.info(
-            f"Constitutional Gatekeeper initialized with {enforcement_level.value} enforcement"
-        )
+        constitutional_logger.info(f"Constitutional Gatekeeper initialized with {enforcement_level.value} enforcement")
 
-    def validate_ui_parameters(
-        self, grid_size: int, timeout: int, attention_load: float
-    ) -> tuple[bool, list[str]]:
+    def validate_ui_parameters(self, grid_size: int, timeout: int, attention_load: float) -> tuple[bool, list[str]]:
         """
         Validate UI parameters against constitutional constraints.
 
@@ -88,9 +84,7 @@ class ConstitutionalGatekeeper:
 
         # Grid size validation
         if grid_size > self.thresholds.max_grid_size:
-            violations.append(
-                f"Grid size {grid_size} exceeds constitutional limit of {self.thresholds.max_grid_size}"
-            )
+            violations.append(f"Grid size {grid_size} exceeds constitutional limit of {self.thresholds.max_grid_size}")
 
         # Timeout validation
         if timeout < self.thresholds.min_timeout_seconds:
@@ -124,9 +118,7 @@ class ConstitutionalGatekeeper:
 
         return is_valid, violations
 
-    def enforce_cultural_safety(
-        self, emoji_list: list[str], user_culture: Optional[str] = None
-    ) -> list[str]:
+    def enforce_cultural_safety(self, emoji_list: list[str], user_culture: Optional[str] = None) -> list[str]:
         """
         Enforce cultural safety by filtering potentially offensive emojis.
 
@@ -220,9 +212,7 @@ class ConstitutionalGatekeeper:
         if sync_interval < 1.0:
             violations.append(f"Sync interval {sync_interval}s too frequent, minimum 1.0s required")
         elif sync_interval > 300.0:  # 5 minutes max
-            violations.append(
-                f"Sync interval {sync_interval}s too infrequent, maximum 300s allowed"
-            )
+            violations.append(f"Sync interval {sync_interval}s too infrequent, maximum 300s allowed")
 
         is_valid = len(violations) == 0
 
@@ -238,9 +228,7 @@ class ConstitutionalGatekeeper:
 
         return is_valid
 
-    def validate_neurodivergent_accessibility(
-        self, ui_config: dict[str, Any]
-    ) -> tuple[bool, list[str]]:
+    def validate_neurodivergent_accessibility(self, ui_config: dict[str, Any]) -> tuple[bool, list[str]]:
         """
         Validate UI configuration for neurodivergent accessibility based on research.
 
@@ -264,15 +252,11 @@ class ConstitutionalGatekeeper:
 
         # Autism spectrum validations
         color_combinations = ui_config.get("color_scheme", {})
-        if color_combinations.get("high_contrast", False) and color_combinations.get(
-            "bright_colors", False
-        ):
+        if color_combinations.get("high_contrast", False) and color_combinations.get("bright_colors", False):
             issues.append("High contrast bright colors may cause autism spectrum sensory overload")
 
         if ui_config.get("unexpected_changes", False):
-            issues.append(
-                "Unexpected interface changes violate autism spectrum predictability needs"
-            )
+            issues.append("Unexpected interface changes violate autism spectrum predictability needs")
 
         audio_config = ui_config.get("audio", {})
         if audio_config.get("notification_sounds", False):
@@ -292,15 +276,11 @@ class ConstitutionalGatekeeper:
         # General cognitive load validations
         element_count = ui_config.get("total_interactive_elements", 0)
         if element_count > 5:
-            issues.append(
-                f"Too many interactive elements ({element_count}) exceeds working memory capacity"
-            )
+            issues.append(f"Too many interactive elements ({element_count}) exceeds working memory capacity")
 
         processing_time = ui_config.get("required_processing_time_seconds", 0)
         if processing_time > 0 and processing_time < 10:
-            issues.append(
-                f"Processing time ({processing_time}s) may be insufficient for neurodivergent users"
-            )
+            issues.append(f"Processing time ({processing_time}s) may be insufficient for neurodivergent users")
 
         is_accessible = len(issues) == 0
 
@@ -316,9 +296,7 @@ class ConstitutionalGatekeeper:
 
         return is_accessible, issues
 
-    def validate_post_quantum_security(
-        self, crypto_config: dict[str, Any]
-    ) -> tuple[bool, list[str]]:
+    def validate_post_quantum_security(self, crypto_config: dict[str, Any]) -> tuple[bool, list[str]]:
         """
         Validate post-quantum cryptography configuration based on security research.
 
@@ -339,9 +317,7 @@ class ConstitutionalGatekeeper:
 
         signature_alg = crypto_config.get("digital_signature_algorithm")
         if signature_alg and signature_alg not in approved_algorithms["digital_signatures"]:
-            issues.append(
-                f"Digital signature algorithm '{signature_alg}' not NIST-approved for PQC"
-            )
+            issues.append(f"Digital signature algorithm '{signature_alg}' not NIST-approved for PQC")
 
         kem_alg = crypto_config.get("key_encapsulation_algorithm")
         if kem_alg and kem_alg not in approved_algorithms["key_encapsulation"]:
@@ -354,18 +330,14 @@ class ConstitutionalGatekeeper:
         # Validate entropy requirements
         entropy_bits = crypto_config.get("entropy_bits", 0)
         if entropy_bits < 512:
-            issues.append(
-                f"Entropy ({entropy_bits} bits) below recommended minimum of 512 bits for PQC"
-            )
+            issues.append(f"Entropy ({entropy_bits} bits) below recommended minimum of 512 bits for PQC")
 
         # Validate key rotation policy
         key_rotation_hours = crypto_config.get("key_rotation_hours", 0)
         if key_rotation_hours == 0:
             issues.append("No key rotation policy defined - required for PQC security")
         elif key_rotation_hours > 168:  # 1 week
-            issues.append(
-                f"Key rotation interval ({key_rotation_hours}h) exceeds recommended maximum of 168h"
-            )
+            issues.append(f"Key rotation interval ({key_rotation_hours}h) exceeds recommended maximum of 168h")
 
         # Validate quantum-safe transport
         transport_security = crypto_config.get("transport_security", {})

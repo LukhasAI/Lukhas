@@ -199,9 +199,7 @@ class MaximumEntropyPasswordGenerator:
         logger.info(f"Generating maximum entropy password (target: {min_entropy_bits} bits)")
 
         # Select optimal combination of modalities
-        selected_modalities = self._select_optimal_modalities(
-            min_entropy_bits, max_components, memorability_threshold
-        )
+        selected_modalities = self._select_optimal_modalities(min_entropy_bits, max_components, memorability_threshold)
 
         # Generate components
         components = {}
@@ -292,8 +290,7 @@ class MaximumEntropyPasswordGenerator:
         )
 
         logger.info(
-            f"Generated password with {total_entropy:.2f} bits of entropy "
-            f"({qi_entropy:.2f} quantum-resistant bits)"
+            f"Generated password with {total_entropy:.2f} bits of entropy " f"({qi_entropy:.2f} quantum-resistant bits)"
         )
 
         return password
@@ -642,9 +639,7 @@ async def demo_maximum_entropy_password():
         print(f"Colors: {len(password.color_component)} color harmony")
 
     if password.pattern_component:
-        print(
-            f"Pattern: {len(password.pattern_component)}x{len(password.pattern_component)} matrix"
-        )
+        print(f"Pattern: {len(password.pattern_component)}x{len(password.pattern_component)} matrix")
 
     if password.rhythm_component:
         print(f"Rhythm: {len(password.rhythm_component)} beats")

@@ -281,9 +281,9 @@ class HealthCheckSystem:
     def _update_metrics(self, result: HealthCheckResult):
         """Update Prometheus metrics"""
         # Duration
-        self.health_check_duration.labels(
-            component=result.component, type=result.component_type.value
-        ).observe(result.latency_ms / 1000.0)
+        self.health_check_duration.labels(component=result.component, type=result.component_type.value).observe(
+            result.latency_ms / 1000.0
+        )
 
         # Status
         status_value = {
@@ -293,9 +293,7 @@ class HealthCheckSystem:
             HealthStatus.UNKNOWN: 0.0,
         }[result.status]
 
-        self.health_status_gauge.labels(
-            component=result.component, type=result.component_type.value
-        ).set(status_value)
+        self.health_status_gauge.labels(component=result.component, type=result.component_type.value).set(status_value)
 
         # Counter
         self.health_check_total.labels(
@@ -423,9 +421,7 @@ class HealthCheckSystem:
         """Get Prometheus metrics"""
         return generate_latest()
 
-    async def get_history(
-        self, minutes: int = 60, component: Optional[str] = None
-    ) -> list[dict[str, Any]]:
+    async def get_history(self, minutes: int = 60, component: Optional[str] = None) -> list[dict[str, Any]]:
         """Get health check history"""
         cutoff = datetime.utcnow() - timedelta(minutes=minutes)
 
@@ -466,9 +462,7 @@ class DatabaseHealthCheck:
 
         try:
             # Connect with timeout
-            conn = await asyncio.wait_for(
-                asyncpg.connect(self.connection_string), timeout=self.timeout
-            )
+            conn = await asyncio.wait_for(asyncpg.connect(self.connection_string), timeout=self.timeout)
 
             # Run simple query
             await conn.fetchval("SELECT 1")
@@ -664,13 +658,9 @@ async def main():
         DatabaseHealthCheck("postgresql://localhost/lukhas"),
     )
 
-    health_system.register_check(
-        "redis", ComponentType.CACHE, RedisHealthCheck("redis://localhost:6379")
-    )
+    health_system.register_check("redis", ComponentType.CACHE, RedisHealthCheck("redis://localhost:6379"))
 
-    health_system.register_check(
-        "api", ComponentType.API, HTTPHealthCheck("http://localhost:8000/health")
-    )
+    health_system.register_check("api", ComponentType.API, HTTPHealthCheck("http://localhost:8000/health"))
 
     # Register alert callback
     async def alert_callback(result: HealthCheckResult):

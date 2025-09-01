@@ -95,9 +95,7 @@ class EnhancedGlyphEngine:
         if any(word in concept.lower() for word in ["remember", "memory", "recall"]):
             glyph = self.factory.create_memory_glyph(concept, emotion_vector)
         elif any(word in concept.lower() for word in ["feel", "emotion", "mood"]):
-            glyph = self.factory.create_emotion_glyph(
-                emotion_vector or EmotionVector(intensity=0.5)
-            )
+            glyph = self.factory.create_emotion_glyph(emotion_vector or EmotionVector(intensity=0.5))
         elif any(word in concept.lower() for word in ["think", "consciousness", "aware"]):
             glyph = Glyph(
                 glyph_type=GlyphType.CAUSAL,
@@ -184,9 +182,7 @@ class EnhancedGlyphEngine:
 
             # Translate to preferred modality
             primary_modality = list(target_modalities)[0]
-            translated = self.translator.translate(
-                symbol, primary_modality, list(target_domains)[0]
-            )
+            translated = self.translator.translate(symbol, primary_modality, list(target_domains)[0])
 
             # Add all preferred modalities and domains
             translated.modalities = target_modalities
@@ -292,16 +288,12 @@ class EnhancedGlyphEngine:
             visited.add(symbol.symbol_id)
 
             # Find similar symbols
-            similar = self.universal_protocol.find_similar_symbols(
-                symbol, threshold=0.7, max_results=10
-            )
+            similar = self.universal_protocol.find_similar_symbols(symbol, threshold=0.7, max_results=10)
 
             for sim_symbol, _ in similar:
                 # Find source module
                 if sim_symbol.symbol_id in self.global_symbol_registry:
-                    source_module = self.global_symbol_registry[sim_symbol.symbol_id][
-                        "source_module"
-                    ]
+                    source_module = self.global_symbol_registry[sim_symbol.symbol_id]["source_module"]
 
                     if source_module not in related_by_module:
                         related_by_module[source_module] = []
@@ -376,9 +368,7 @@ class EnhancedGlyphEngine:
         """Backward compatibility with original GLYPH engine"""
         return self._glyph_cache.get(glyph_repr)
 
-    def create_memory_glyph(
-        self, memory_content: str, emotion: Optional[dict[str, float]] = None
-    ) -> Glyph:
+    def create_memory_glyph(self, memory_content: str, emotion: Optional[dict[str, float]] = None) -> Glyph:
         """Backward compatibility method"""
         symbol = self.encode_concept(
             memory_content,

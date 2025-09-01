@@ -298,9 +298,7 @@ class AutonomousInnovationCore(CoreInterface):
         # Explore each reality branch
         exploration_tasks = []
         for branch in simulation.branches[:reality_count]:
-            task = self._explore_single_reality(
-                branch=branch, hypothesis=hypothesis, depth=exploration_depth
-            )
+            task = self._explore_single_reality(branch=branch, hypothesis=hypothesis, depth=exploration_depth)
             exploration_tasks.append(task)
 
         # Gather results from all parallel explorations
@@ -345,9 +343,7 @@ class AutonomousInnovationCore(CoreInterface):
             return None
 
         # Calculate aggregate scores
-        breakthrough_score = sum(r["breakthrough_score"] for r in reality_results) / len(
-            reality_results
-        )
+        breakthrough_score = sum(r["breakthrough_score"] for r in reality_results) / len(reality_results)
 
         if breakthrough_score < 0.9:
             return None
@@ -360,12 +356,9 @@ class AutonomousInnovationCore(CoreInterface):
             description=hypothesis.description,
             breakthrough_score=breakthrough_score,
             impact_assessment={
-                "economic": sum(r.get("economic_impact", 0) for r in reality_results)
-                / len(reality_results),
-                "scientific": sum(r.get("scientific_impact", 0) for r in reality_results)
-                / len(reality_results),
-                "social": sum(r.get("social_impact", 0) for r in reality_results)
-                / len(reality_results),
+                "economic": sum(r.get("economic_impact", 0) for r in reality_results) / len(reality_results),
+                "scientific": sum(r.get("scientific_impact", 0) for r in reality_results) / len(reality_results),
+                "social": sum(r.get("social_impact", 0) for r in reality_results) / len(reality_results),
             },
             implementation_plan={
                 "phases": self._generate_implementation_phases(hypothesis, reality_results),
@@ -399,9 +392,7 @@ class AutonomousInnovationCore(CoreInterface):
 
                     for opportunity in opportunities[:3]:  # Process top 3 opportunities
                         # 2. Generate hypotheses
-                        hypotheses = await self.generate_breakthrough_hypotheses(
-                            opportunity, hypothesis_count=50
-                        )
+                        hypotheses = await self.generate_breakthrough_hypotheses(opportunity, hypothesis_count=50)
 
                         # 3. Test hypotheses in parallel realities
                         for hypothesis in hypotheses[:10]:  # Test top 10 hypotheses
@@ -410,9 +401,7 @@ class AutonomousInnovationCore(CoreInterface):
                             )
 
                             # 4. Validate and synthesize innovations
-                            innovation = await self.validate_and_synthesize_innovation(
-                                hypothesis, reality_results
-                            )
+                            innovation = await self.validate_and_synthesize_innovation(hypothesis, reality_results)
 
                             if innovation:
                                 # 5. Trigger downstream processes
@@ -495,9 +484,7 @@ class AutonomousInnovationCore(CoreInterface):
         self.metrics["patents_generated"] += len(patents)
         return patents
 
-    def _update_pattern_library(
-        self, innovation: BreakthroughInnovation, results: list[dict[str, Any]]
-    ) -> None:
+    def _update_pattern_library(self, innovation: BreakthroughInnovation, results: list[dict[str, Any]]) -> None:
         """Update pattern library with successful innovation patterns"""
         pattern = {
             "innovation_id": innovation.innovation_id,

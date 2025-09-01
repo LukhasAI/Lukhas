@@ -375,9 +375,7 @@ class HealthChecker:
             overall_status = HealthStatus.HEALTHY
             message = "All components healthy"
 
-        avg_response_time = (
-            total_response_time / len(self.health_status) if self.health_status else 0.0
-        )
+        avg_response_time = total_response_time / len(self.health_status) if self.health_status else 0.0
 
         return {
             "status": overall_status.value,

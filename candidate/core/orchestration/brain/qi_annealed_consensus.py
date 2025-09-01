@@ -72,13 +72,9 @@ class QIAnnealedEthicalConsensus:
         embeddings["privacy"] = 0.5 * base_vectors["liberty"] + 0.5 * base_vectors["care"]
         embeddings["transparency"] = 0.7 * base_vectors["fairness"] + 0.3 * base_vectors["care"]
         embeddings["responsibility"] = 0.4 * base_vectors["care"] + 0.6 * base_vectors["authority"]
-        embeddings["human_oversight"] = (
-            0.6 * base_vectors["authority"] + 0.4 * base_vectors["fairness"]
-        )
+        embeddings["human_oversight"] = 0.6 * base_vectors["authority"] + 0.4 * base_vectors["fairness"]
         embeddings["cultural_respect"] = (
-            0.5 * base_vectors["care"]
-            + 0.3 * base_vectors["fairness"]
-            + 0.2 * base_vectors["authority"]
+            0.5 * base_vectors["care"] + 0.3 * base_vectors["fairness"] + 0.2 * base_vectors["authority"]
         )
 
         # Normalize all embeddings to unit length
@@ -157,9 +153,7 @@ class QIAnnealedEthicalConsensus:
             "energy_trace": energy_trace,
         }
 
-    def _prepare_constraint_penalties(
-        self, constraints: Optional[list[dict[str, Any]]]
-    ) -> list[dict[str, Any]]:
+    def _prepare_constraint_penalties(self, constraints: Optional[list[dict[str, Any]]]) -> list[dict[str, Any]]:
         """Prepare constraint penalties for the annealing process"""
         if not constraints:
             return []
@@ -252,9 +246,7 @@ class QIAnnealedEthicalConsensus:
         # Return final state and energy trace
         return current_state, energy_trace
 
-    def _propose_quantum_like_state(
-        self, current_state: np.ndarray, temperature: float
-    ) -> np.ndarray:
+    def _propose_quantum_like_state(self, current_state: np.ndarray, temperature: float) -> np.ndarray:
         """
         Propose a new quantum-like state using simulated quantum fluctuations
 
@@ -280,9 +272,7 @@ class QIAnnealedEthicalConsensus:
 
         return proposed_state
 
-    def _calculate_system_energy(
-        self, state: np.ndarray, constraints: list[dict[str, Any]]
-    ) -> float:
+    def _calculate_system_energy(self, state: np.ndarray, constraints: list[dict[str, Any]]) -> float:
         """
         Calculate the system energy (lower is better)
 
@@ -315,12 +305,8 @@ class QIAnnealedEthicalConsensus:
                     constraint_energy += violation * constraint["penalty_factor"]
 
             elif constraint["type"] == "relative_importance":
-                principle_a_idx = list(self.ethical_embeddings.keys()).index(
-                    constraint["principle_a"]
-                )
-                principle_b_idx = list(self.ethical_embeddings.keys()).index(
-                    constraint["principle_b"]
-                )
+                principle_a_idx = list(self.ethical_embeddings.keys()).index(constraint["principle_a"])
+                principle_b_idx = list(self.ethical_embeddings.keys()).index(constraint["principle_b"])
 
                 weight_a = state[principle_a_idx]
                 weight_b = state[principle_b_idx]

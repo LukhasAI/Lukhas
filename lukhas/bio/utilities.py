@@ -150,9 +150,7 @@ class BioUtilities:
         return base_value * modulation
 
     @staticmethod
-    def calculate_swarm_consensus(
-        opinions: list[float], influence_weights: Optional[list[float]] = None
-    ) -> float:
+    def calculate_swarm_consensus(opinions: list[float], influence_weights: Optional[list[float]] = None) -> float:
         """
         Calculate swarm consensus from multiple opinions.
 
@@ -179,9 +177,7 @@ class BioUtilities:
         return sum(opinions) / len(opinions)
 
     @staticmethod
-    def generate_growth_pattern(
-        current_size: float, growth_rate: float, carrying_capacity: float
-    ) -> float:
+    def generate_growth_pattern(current_size: float, growth_rate: float, carrying_capacity: float) -> float:
         """
         Generate growth following logistic growth pattern (S-curve).
 
@@ -231,9 +227,7 @@ def calculate_bio_energy(complexity: float, duration: float = 1.0) -> float:
     return BioUtilities.calculate_energy_cost(complexity, duration)
 
 
-def apply_evolution(
-    population: list[Any], fitness_func: callable, mutation_rate: float = 0.01
-) -> list[Any]:
+def apply_evolution(population: list[Any], fitness_func: callable, mutation_rate: float = 0.01) -> list[Any]:
     """
     Apply evolutionary selection and mutation to a population.
 

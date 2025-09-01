@@ -97,9 +97,7 @@ class AdvancedSymbolicDeltaCompressor:
         self.compressed_memory_path = (
             "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/advanced_compressed_memory.jsonl"
         )
-        self.motif_database_path = (
-            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/motif_database.jsonl"
-        )
+        self.motif_database_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/motif_database.jsonl"
 
         # Emotional keyword patterns for advanced detection
         self.emotional_patterns = {
@@ -163,9 +161,7 @@ class AdvancedSymbolicDeltaCompressor:
             if freq >= self.motif_min_frequency:
                 emotional_weight = self._calculate_emotional_weight(phrase)
                 importance_score = self._calculate_importance_score(phrase, content)
-                entropy_contrib = self._calculate_entropy_contribution(
-                    phrase, freq, len(bigrams) + len(trigrams)
-                )
+                entropy_contrib = self._calculate_entropy_contribution(phrase, freq, len(bigrams) + len(trigrams))
 
                 motifs.append(
                     SymbolicMotif(
@@ -223,9 +219,7 @@ class AdvancedSymbolicDeltaCompressor:
 
         return min(base_score, 1.0)
 
-    def _calculate_entropy_contribution(
-        self, pattern: str, frequency: int, total_elements: int
-    ) -> float:
+    def _calculate_entropy_contribution(self, pattern: str, frequency: int, total_elements: int) -> float:
         """Calculate the entropy contribution of a pattern."""
         if total_elements == 0:
             return 0.0
@@ -258,9 +252,7 @@ class AdvancedSymbolicDeltaCompressor:
             if sentence.strip():
                 emotional_weight = self._calculate_emotional_weight(sentence)
                 importance_score = self._calculate_importance_score(sentence, content)
-                position_factor = (
-                    1.0 - (i / len(sentences)) * 0.2
-                )  # Earlier sentences slightly more important
+                position_factor = 1.0 - (i / len(sentences)) * 0.2  # Earlier sentences slightly more important
 
                 combined_score = emotional_weight * importance_score * position_factor
                 sentence_scores.append((sentence.strip(), combined_score))
@@ -305,11 +297,7 @@ class AdvancedSymbolicDeltaCompressor:
         motifs = self.extract_advanced_motifs(content_str, fold_key)
 
         # Calculate delta if previous content exists
-        delta_info = (
-            self._calculate_content_delta(content_str, previous_content_str)
-            if previous_content
-            else None
-        )
+        delta_info = self._calculate_content_delta(content_str, previous_content_str) if previous_content else None
 
         # Importance-based pruning
         target_compression = max(self.compression_threshold, 1.0 - importance_score)
@@ -319,14 +307,10 @@ class AdvancedSymbolicDeltaCompressor:
         metrics = CompressionMetrics(
             original_size=len(content_str),
             compressed_size=len(compressed_content),
-            compression_ratio=(
-                1.0 - (len(compressed_content) / len(content_str)) if len(content_str) > 0 else 0.0
-            ),
+            compression_ratio=(1.0 - (len(compressed_content) / len(content_str)) if len(content_str) > 0 else 0.0),
             entropy_preserved=sum(m.entropy_contribution for m in motifs),
             motifs_extracted=len(motifs),
-            emotional_fidelity=(
-                sum(m.emotional_weight for m in motifs) / len(motifs) if motifs else 0.0
-            ),
+            emotional_fidelity=(sum(m.emotional_weight for m in motifs) / len(motifs) if motifs else 0.0),
         )
 
         # Detect compression loops before finalizing result
@@ -386,9 +370,7 @@ class AdvancedSymbolicDeltaCompressor:
         common_words = current_words & previous_words
 
         semantic_similarity = (
-            len(common_words) / len(current_words | previous_words)
-            if (current_words | previous_words)
-            else 1.0
+            len(common_words) / len(current_words | previous_words) if (current_words | previous_words) else 1.0
         )
 
         return {
@@ -396,8 +378,7 @@ class AdvancedSymbolicDeltaCompressor:
             "words_added": len(added_words),
             "words_removed": len(removed_words),
             "words_common": len(common_words),
-            "structural_change": abs(len(current) - len(previous))
-            / max(len(current), len(previous), 1),
+            "structural_change": abs(len(current) - len(previous)) / max(len(current), len(previous), 1),
         }
 
     def _store_compressed_memory(self, compression_data: dict[str, Any]):
@@ -438,9 +419,7 @@ class AdvancedSymbolicDeltaCompressor:
     # LUKHAS_TAG: compression_analytics
     def analyze_compression_patterns(self, time_window_hours: int = 24) -> dict[str, Any]:
         """Analyze compression patterns and effectiveness over a time window."""
-        cutoff_time = datetime.now(timezone.utc).replace(microsecond=0) - timedelta(
-            hours=time_window_hours
-        )
+        cutoff_time = datetime.now(timezone.utc).replace(microsecond=0) - timedelta(hours=time_window_hours)
 
         analysis = {
             "time_window_hours": time_window_hours,
@@ -458,9 +437,7 @@ class AdvancedSymbolicDeltaCompressor:
                     for line in f:
                         try:
                             data = json.loads(line.strip())
-                            timestamp = datetime.fromisoformat(
-                                data["timestamp_utc"].replace("Z", "+00:00")
-                            )
+                            timestamp = datetime.fromisoformat(data["timestamp_utc"].replace("Z", "+00:00"))
                             if timestamp >= cutoff_time:
                                 compressions.append(data)
                         except (json.JSONDecodeError, KeyError, ValueError):
@@ -475,12 +452,8 @@ class AdvancedSymbolicDeltaCompressor:
                         # Analyze motif patterns
                         for compression in compressions:
                             for motif in compression.get("extracted_motifs", []):
-                                analysis["motif_frequency_distribution"][motif["pattern"]] += motif[
-                                    "frequency"
-                                ]
-                                analysis["emotional_pattern_trends"][motif["pattern"]] += motif[
-                                    "emotional_weight"
-                                ]
+                                analysis["motif_frequency_distribution"][motif["pattern"]] += motif["frequency"]
+                                analysis["emotional_pattern_trends"][motif["pattern"]] += motif["emotional_weight"]
 
                         # Track efficiency trend
                         analysis["compression_efficiency_trend"] = [
@@ -497,9 +470,7 @@ class AdvancedSymbolicDeltaCompressor:
 
         return analysis
 
-    def _detect_compression_loops(
-        self, motifs: list[SymbolicMotif], fold_key: str, content: str
-    ) -> dict[str, Any]:
+    def _detect_compression_loops(self, motifs: list[SymbolicMotif], fold_key: str, content: str) -> dict[str, Any]:
         """
         Detects compression loops using call stack inspection and symbol repetition tracking.
 
@@ -643,9 +614,7 @@ class AdvancedSymbolicDeltaCompressor:
             "total_patterns": total_patterns,
             "unique_patterns": unique_patterns,
             "entropy_reduction": round(entropy_reduction, 4),
-            "repetition_ratio": (
-                round(max_repetition / total_patterns, 4) if total_patterns > 0 else 0
-            ),
+            "repetition_ratio": (round(max_repetition / total_patterns, 4) if total_patterns > 0 else 0),
         }
 
     def _calculate_max_theoretical_entropy(self, content_length: int) -> float:
@@ -696,9 +665,7 @@ class AdvancedSymbolicDeltaCompressor:
             # Calculate loop risk score
             compression_frequency = len(recent_compressions)
             avg_stack_depth = (
-                np.mean([c["call_stack_depth"] for c in recent_compressions])
-                if recent_compressions
-                else 0
+                np.mean([c["call_stack_depth"] for c in recent_compressions]) if recent_compressions else 0
             )
 
             loop_risk_score = min(1.0, (compression_frequency / 10.0) + (avg_stack_depth / 30.0))
@@ -719,9 +686,7 @@ class AdvancedSymbolicDeltaCompressor:
                 "error": str(e),
             }
 
-    def _analyze_motif_complexity_ratio(
-        self, motifs: list[SymbolicMotif], content: str
-    ) -> dict[str, Any]:
+    def _analyze_motif_complexity_ratio(self, motifs: list[SymbolicMotif], content: str) -> dict[str, Any]:
         """Analyzes the ratio of motif complexity to content complexity."""
         if not motifs:
             return {
@@ -731,9 +696,7 @@ class AdvancedSymbolicDeltaCompressor:
             }
 
         # Calculate total motif complexity
-        total_motif_complexity = sum(
-            len(m.pattern) * m.frequency * m.importance_score for m in motifs
-        )
+        total_motif_complexity = sum(len(m.pattern) * m.frequency * m.importance_score for m in motifs)
 
         # Content complexity (simple measure)
         content_complexity = len(set(content.split())) * len(content.split())

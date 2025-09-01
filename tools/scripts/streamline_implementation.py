@@ -21,9 +21,7 @@ class StreamlineImplementation:
 
     def __init__(self):
         self.root_path = Path("/Users/agi_dev/Lukhas")
-        self.backup_dir = (
-            self.root_path / ".streamline_backup" / datetime.now().strftime("%Y%m%d_%H%M%S")
-        )
+        self.backup_dir = self.root_path / ".streamline_backup" / datetime.now().strftime("%Y%m%d_%H%M%S")
         self.changes_made = []
 
     def implement_phase1(self):
@@ -241,9 +239,7 @@ __all__ = [
         # Use the first occurrence as the canonical version
         canonical = dup_group["occurrences"][0]
 
-        logger.info(
-            f"   Consolidating {canonical['name']} ({len(dup_group['occurrences'])} duplicates)"
-        )
+        logger.info(f"   Consolidating {canonical['name']} ({len(dup_group['occurrences'])} duplicates)")
 
         # For now, just log what would be done
         # In a real implementation, we would:

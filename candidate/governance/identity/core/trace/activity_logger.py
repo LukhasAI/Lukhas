@@ -63,9 +63,7 @@ class LambdaTraceLogger:
             "symbolic_data": symbolic_data,
             "session_id": symbolic_data.get("session_id"),
             "device_fingerprint": symbolic_data.get("device_fingerprint"),
-            "ip_address": (
-                symbolic_data.get("ip_address") if self._geo_consent_granted(user_id) else None
-            ),
+            "ip_address": (symbolic_data.get("ip_address") if self._geo_consent_granted(user_id) else None),
             "user_agent": symbolic_data.get("user_agent"),
             "trace_context": self._build_trace_context(user_id, activity_type),
         }
@@ -165,9 +163,7 @@ class LambdaTraceLogger:
             "symbolic_sequence": activity_sequence,
             "activity_breakdown": self._analyze_activity_breakdown(user_traces),
             "risk_indicators": self._identify_risk_patterns(user_traces),
-            "enterprise_summary": (
-                self._generate_enterprise_summary(user_traces) if self.enterprise_mode else None
-            ),
+            "enterprise_summary": (self._generate_enterprise_summary(user_traces) if self.enterprise_mode else None),
         }
 
         return pattern_analysis
@@ -210,9 +206,7 @@ class LambdaTraceLogger:
         """Build contextual information for trace"""
         return {
             "user_tier": self._get_user_tier(user_id),
-            "recent_activity_count": len(
-                [t for t in self.trace_buffer[-10:] if t["user_id"] == user_id]
-            ),
+            "recent_activity_count": len([t for t in self.trace_buffer[-10:] if t["user_id"] == user_id]),
             "activity_frequency": self._calculate_activity_frequency(user_id),
             "symbolic_pattern_hash": self._generate_pattern_hash(user_id),
         }
@@ -264,9 +258,7 @@ class LambdaTraceLogger:
             "total_trace_events": len(traces),
             "security_events": len([t for t in traces if t["activity_type"] == "security_event"]),
             "consent_modifications": len([t for t in traces if "consent" in t["activity_type"]]),
-            "cross_system_interactions": len(
-                [t for t in traces if t["activity_type"] == "cross_system"]
-            ),
+            "cross_system_interactions": len([t for t in traces if t["activity_type"] == "cross_system"]),
             "forensic_confidence": "high" if len(traces) > 10 else "medium",
         }
 

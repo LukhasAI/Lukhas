@@ -136,9 +136,7 @@ class VoiceMemoryHelix:
         self.learning_rate = self.config.get("learning_rate", 0.2)
         self.practice_interval = self.config.get("practice_interval", 5)  # sessions
         self.retention_factor = self.config.get("retention_factor", 0.95)  # memory decay rate
-        self.cultural_sensitivity = self.config.get(
-            "cultural_sensitivity", 0.8
-        )  # How sensitive to cultural context
+        self.cultural_sensitivity = self.config.get("cultural_sensitivity", 0.8)  # How sensitive to cultural context
 
         # Statistics
         self.stats = {
@@ -415,8 +413,8 @@ class VoiceMemoryHelix:
                 if accent in self.pronunciation_memory[word]["variants"]:
                     # Blend the existing and new pronunciation
                     old_pron = self.pronunciation_memory[word]["variants"][accent]
-                    self.pronunciation_memory[word]["variants"][accent] = (
-                        self._blend_pronunciations(old_pron, correction, self.learning_rate)
+                    self.pronunciation_memory[word]["variants"][accent] = self._blend_pronunciations(
+                        old_pron, correction, self.learning_rate
                     )
                 else:
                     # Add new variant
@@ -501,9 +499,7 @@ class VoiceMemoryHelix:
         for word, data in self.pronunciation_memory.items():
             try:
                 # Calculate days since last practice
-                last_practiced = datetime.fromisoformat(
-                    data.get("last_practiced", "2000-01-01T00:00:00")
-                )
+                last_practiced = datetime.fromisoformat(data.get("last_practiced", "2000-01-01T00:00:00"))
                 days_since = (now - last_practiced).days
 
                 # Calculate priority score

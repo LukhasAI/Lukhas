@@ -249,9 +249,7 @@ class ConsensusProtocol:
                 await self._send_heartbeats()
             elif self.state == NodeState.FOLLOWER:
                 # Check if we need to start election
-                time_since_heartbeat = (
-                    datetime.now() - self.last_heartbeat_received
-                ).total_seconds()
+                time_since_heartbeat = (datetime.now() - self.last_heartbeat_received).total_seconds()
                 if time_since_heartbeat > self.election_timeout:
                     await self._start_election()
 
@@ -291,9 +289,7 @@ class ConsensusProtocol:
         # Wait for vote responses (with timeout)
         if vote_tasks:
             try:
-                await asyncio.wait_for(
-                    asyncio.gather(*vote_tasks, return_exceptions=True), timeout=3.0
-                )
+                await asyncio.wait_for(asyncio.gather(*vote_tasks, return_exceptions=True), timeout=3.0)
             except asyncio.TimeoutError:
                 logger.warning("Vote request timeout", node_id=self.node_id)
 
@@ -494,9 +490,7 @@ class ConsensusProtocol:
             if entry.consensus_achieved:
                 matching_memories.append(entry.to_dict())
 
-        return aiohttp.web.json_response(
-            {"success": True, "query_id": query_id, "memories": matching_memories}
-        )
+        return aiohttp.web.json_response({"success": True, "query_id": query_id, "memories": matching_memories})
 
     async def _handle_node_join(self, request):
         """Handle new node joining the network"""
@@ -702,9 +696,7 @@ class DistributedMemoryFold:
             )
         else:
             # Fallback: generate simple memory ID
-            memory_id = hashlib.sha256(
-                f"{content}{datetime.now().isoformat()}".encode()
-            ).hexdigest()[:16]
+            memory_id = hashlib.sha256(f"{content}{datetime.now().isoformat()}".encode()).hexdigest()[:16]
 
         # Create distributed memory entry
         memory_data = json.dumps(
@@ -720,9 +712,7 @@ class DistributedMemoryFold:
             memory_id=memory_id,
             content_hash=hashlib.sha256(memory_data).hexdigest(),
             memory_data=memory_data,
-            embedding_hash=(
-                hashlib.sha256(embedding.tobytes()).hexdigest() if embedding is not None else ""
-            ),
+            embedding_hash=(hashlib.sha256(embedding.tobytes()).hexdigest() if embedding is not None else ""),
             node_id=self.node_id,
             timestamp=datetime.now(),
             term=self.consensus.current_term,
@@ -759,9 +749,7 @@ class DistributedMemoryFold:
             results = await asyncio.gather(*propagation_tasks, return_exceptions=True)
 
             # Count successful propagations
-            successful_propagations = sum(
-                1 for result in results if not isinstance(result, Exception) and result
-            )
+            successful_propagations = sum(1 for result in results if not isinstance(result, Exception) and result)
 
             # Achieve consensus if majority accepted
             total_nodes = len(self.consensus.nodes)
@@ -798,9 +786,7 @@ class DistributedMemoryFold:
             logger.warning(f"Failed to sync memory to {node_info.node_id}", error=str(e))
             return False
 
-    async def query_memory(
-        self, query: str, top_k: int = 10, include_distributed: bool = True
-    ) -> list[dict[str, Any]]:
+    async def query_memory(self, query: str, top_k: int = 10, include_distributed: bool = True) -> list[dict[str, Any]]:
         """
         Query memories from distributed system.
 
@@ -872,9 +858,7 @@ class DistributedMemoryFold:
 
         return distributed_memories
 
-    async def _send_memory_query(
-        self, node_info: NodeInfo, query: str, query_id: str
-    ) -> list[dict[str, Any]]:
+    async def _send_memory_query(self, node_info: NodeInfo, query: str, query_id: str) -> list[dict[str, Any]]:
         """Send memory query to specific node"""
 
         try:
@@ -910,13 +894,9 @@ class DistributedMemoryFold:
             "alive_nodes": len(alive_nodes),
             "local_memories": len(self.local_memories),
             "distributed_memories": len(self.distributed_memories),
-            "consensus_memories": sum(
-                1 for entry in self.distributed_memories.values() if entry.consensus_achieved
-            ),
+            "consensus_memories": sum(1 for entry in self.distributed_memories.values() if entry.consensus_achieved),
             "consciousness_level": self.consciousness_level,
-            "network_health": (
-                len(alive_nodes) / len(self.consensus.nodes) if self.consensus.nodes else 0.0
-            ),
+            "network_health": (len(alive_nodes) / len(self.consensus.nodes) if self.consensus.nodes else 0.0),
         }
 
 
@@ -959,9 +939,7 @@ async def example_distributed_usage():
     print("=" * 60)
 
     # Create first node (bootstrap node)
-    node1 = await create_distributed_memory_fold(
-        node_id="node_1", port=8001, consciousness_level=0.9
-    )
+    node1 = await create_distributed_memory_fold(node_id="node_1", port=8001, consciousness_level=0.9)
 
     print("✅ Created bootstrap node (node_1)")
 
@@ -996,9 +974,7 @@ async def example_distributed_usage():
     await asyncio.sleep(2)
 
     # Query from node2
-    results = await node2.query_memory(
-        query="distributed AGI consensus", top_k=5, include_distributed=True
-    )
+    results = await node2.query_memory(query="distributed AGI consensus", top_k=5, include_distributed=True)
 
     print(f"📤 Query results: {len(results)} memories found")
 

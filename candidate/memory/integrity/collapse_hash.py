@@ -172,11 +172,7 @@ class MerkleTree:
     def add_memory(self, memory_data: Any, memory_id: str) -> str:
         """Add a memory to the tree"""
         # Serialize and hash the memory data
-        serialized = (
-            json.dumps(memory_data, sort_keys=True)
-            if isinstance(memory_data, dict)
-            else str(memory_data)
-        )
+        serialized = json.dumps(memory_data, sort_keys=True) if isinstance(memory_data, dict) else str(memory_data)
         data_hash = self._hash_data(serialized)
 
         # Create leaf node
@@ -196,19 +192,13 @@ class MerkleTree:
 
         return data_hash
 
-    def verify_memory(
-        self, memory_id: str, memory_data: Any
-    ) -> tuple[IntegrityStatus, Optional[str]]:
+    def verify_memory(self, memory_id: str, memory_data: Any) -> tuple[IntegrityStatus, Optional[str]]:
         """Verify integrity of a specific memory"""
         if memory_id not in self.node_map:
             return IntegrityStatus.UNVERIFIED, "Memory not found in tree"
 
         # Compute expected hash
-        serialized = (
-            json.dumps(memory_data, sort_keys=True)
-            if isinstance(memory_data, dict)
-            else str(memory_data)
-        )
+        serialized = json.dumps(memory_data, sort_keys=True) if isinstance(memory_data, dict) else str(memory_data)
         expected_hash = self._hash_data(serialized)
 
         # Get actual hash from tree
@@ -384,9 +374,7 @@ class CollapseHash:
 
         # Auto checkpoint if enabled
         if self.enable_auto_checkpoint and self.total_memories % self.checkpoint_interval == 0:
-            checkpoint_id = await self.create_checkpoint(
-                metadata={"auto": True, "memory_count": self.total_memories}
-            )
+            checkpoint_id = await self.create_checkpoint(metadata={"auto": True, "memory_count": self.total_memories})
             logger.info(
                 "Auto checkpoint created",
                 checkpoint_id=checkpoint_id,
@@ -401,9 +389,7 @@ class CollapseHash:
             "total_memories": self.total_memories,
         }
 
-    async def verify_memory(
-        self, memory_id: str, memory_data: Any, generate_proof: bool = False
-    ) -> dict[str, Any]:
+    async def verify_memory(self, memory_id: str, memory_data: Any, generate_proof: bool = False) -> dict[str, Any]:
         """Verify memory integrity"""
         self.total_verifications += 1
 
@@ -483,9 +469,7 @@ class CollapseHash:
 
         return checkpoint.checkpoint_id
 
-    async def rollback_to_checkpoint(
-        self, checkpoint_id: str, reason: str = "Unspecified"
-    ) -> dict[str, Any]:
+    async def rollback_to_checkpoint(self, checkpoint_id: str, reason: str = "Unspecified") -> dict[str, Any]:
         """Rollback memory state to a checkpoint"""
 
         if checkpoint_id not in self.checkpoints:
@@ -561,9 +545,7 @@ class CollapseHash:
 
         # Check all integrity tags
         corrupted_tags = [
-            tag_key
-            for tag_key, (_, _, status) in self.integrity_tags.items()
-            if status == IntegrityStatus.CORRUPTED
+            tag_key for tag_key, (_, _, status) in self.integrity_tags.items() if status == IntegrityStatus.CORRUPTED
         ]
 
         # Calculate metrics
@@ -672,17 +654,13 @@ async def demonstrate_collapse_hash():
 
     memory_ids = []
     for i, memory in enumerate(memories):
-        await collapse_hash.add_memory(
-            memory_id=f"mem_{i}", memory_data=memory, tags=["learning", memory["type"]]
-        )
+        await collapse_hash.add_memory(memory_id=f"mem_{i}", memory_data=memory, tags=["learning", memory["type"]])
         memory_ids.append(f"mem_{i}")
         print(f"Added memory {i}: {memory['content'][:30]}...")
 
     # Verify a memory
     print("\n--- Verifying Memory ---")
-    verify_result = await collapse_hash.verify_memory(
-        memory_id="mem_1", memory_data=memories[1], generate_proof=True
-    )
+    verify_result = await collapse_hash.verify_memory(memory_id="mem_1", memory_data=memories[1], generate_proof=True)
     print(f"Verification: {verify_result['status']}")
     if "proof" in verify_result:
         print(f"Proof length: {len(verify_result['proof'])}")
@@ -690,9 +668,7 @@ async def demonstrate_collapse_hash():
     # Simulate corruption
     print("\n--- Simulating Corruption ---")
     corrupted_memory = {"content": "CORRUPTED DATA", "type": "achievement"}
-    verify_corrupt = await collapse_hash.verify_memory(
-        memory_id="mem_1", memory_data=corrupted_memory
-    )
+    verify_corrupt = await collapse_hash.verify_memory(memory_id="mem_1", memory_data=corrupted_memory)
     print(f"Corrupted verification: {verify_corrupt['status']}")
     print(f"Message: {verify_corrupt['message']}")
 

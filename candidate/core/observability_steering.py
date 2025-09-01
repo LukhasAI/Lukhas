@@ -250,10 +250,7 @@ class ObservabilityCollector:
         # Look for rapid succession of error events
         error_timeline = []
         for event in self.system_events:
-            if (
-                event["event_type"] == "actor_failure"
-                and current_time - event["timestamp"] <= window
-            ):
+            if event["event_type"] == "actor_failure" and current_time - event["timestamp"] <= window:
                 error_timeline.append(event)
 
         if len(error_timeline) > 3:  # Multiple failures
@@ -280,9 +277,7 @@ class ObservabilityCollector:
                 return SystemHealth.UNKNOWN
 
             # Count healthy actors
-            healthy_count = sum(
-                1 for metrics in self.current_metrics.values() if metrics.get("error_rate", 0) < 0.1
-            )
+            healthy_count = sum(1 for metrics in self.current_metrics.values() if metrics.get("error_rate", 0) < 0.1)
 
             health_ratio = healthy_count / total_actors
 
@@ -485,9 +480,7 @@ class ObservableActor(Actor):
         # Calculate rates
         current_time = time.time()
 
-        message_rate = self._stats["messages_processed"] / max(
-            1.0, current_time - self._stats["created_at"]
-        )
+        message_rate = self._stats["messages_processed"] / max(1.0, current_time - self._stats["created_at"])
 
         error_rate = self._stats["messages_failed"] / max(1, self._stats["messages_processed"])
 

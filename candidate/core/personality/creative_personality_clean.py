@@ -134,15 +134,11 @@ class LucasAGI:
 
         # Learning Pathway
         elif context.get("task_type") == "learning":
-            output["learning_insights"] = self.meta_learner.generate_insights(
-                processed["model_outputs"]
-            )
+            output["learning_insights"] = self.meta_learner.generate_insights(processed["model_outputs"])
 
         # Default: Balanced response
         else:
-            output["balanced_response"] = self.harmony_engine.synthesize_response(
-                processed["late_fusion"]
-            )
+            output["balanced_response"] = self.harmony_engine.synthesize_response(processed["late_fusion"])
 
         # Update metrics
         self._update_metrics(output, context)

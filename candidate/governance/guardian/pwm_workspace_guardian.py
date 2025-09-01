@@ -111,9 +111,7 @@ class WorkspaceGuardian:
         await self.governance.startup()
         print("🛡️  Workspace Guardian active - protecting your productivity workspace")
 
-    async def check_file_operation(
-        self, operation: str, file_path: str, context: dict = None
-    ) -> dict:
+    async def check_file_operation(self, operation: str, file_path: str, context: dict = None) -> dict:
         """Check if a file operation should be allowed."""
 
         context = context or {}
@@ -186,9 +184,7 @@ class WorkspaceGuardian:
             health_factors.append(1.0)
 
         # Check for critical files presence
-        critical_present = sum(
-            1 for cf in self.critical_files if os.path.exists(os.path.join(self.workspace_root, cf))
-        )
+        critical_present = sum(1 for cf in self.critical_files if os.path.exists(os.path.join(self.workspace_root, cf)))
         critical_ratio = critical_present / len(self.critical_files)
         health_factors.append(critical_ratio)
 

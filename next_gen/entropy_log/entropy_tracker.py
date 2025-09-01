@@ -331,9 +331,7 @@ class EntropyTracker:
             "trend": trend,
         }
 
-    def export_report(
-        self, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None
-    ) -> dict:
+    def export_report(self, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None) -> dict:
         """Export entropy analysis report"""
         # Filter entries by date
         entries = self.journal_entries

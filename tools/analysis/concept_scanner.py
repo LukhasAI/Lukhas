@@ -201,9 +201,7 @@ class LukhasConceptScanner:
             if usage_count == 0:
                 recommendations.append(f"Consider implementing '{concept}' ({description})")
             elif usage_count < 5:
-                recommendations.append(
-                    f"Low usage of '{concept}' - ensure it's properly integrated"
-                )
+                recommendations.append(f"Low usage of '{concept}' - ensure it's properly integrated")
 
         # Check for consistent naming
         if self.naming_patterns:
@@ -229,9 +227,7 @@ def main():
     # Print summary
     print("\n📊 LUKHAS CONCEPT SUMMARY:")
     print(f"   Total concept instances found: {report['total_concepts_found']}")
-    print(
-        f"   Unique concepts in use: {report['unique_concepts_used']}/{len(scanner.core_concepts)}"
-    )
+    print(f"   Unique concepts in use: {report['unique_concepts_used']}/{len(scanner.core_concepts)}")
 
     print("\n🔝 TOP 10 MOST USED CONCEPTS:")
     for concept, count in report["concepts_by_frequency"][:10]:

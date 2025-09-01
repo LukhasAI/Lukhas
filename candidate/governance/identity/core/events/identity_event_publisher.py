@@ -166,11 +166,7 @@ class IdentityEventPublisher:
     ) -> str:
         """Publish a tier change event."""
 
-        event_type = (
-            IdentityEventType.TIER_UPGRADE_APPROVED
-            if approved
-            else IdentityEventType.TIER_UPGRADE_DENIED
-        )
+        event_type = IdentityEventType.TIER_UPGRADE_APPROVED if approved else IdentityEventType.TIER_UPGRADE_DENIED
 
         event = IdentityEvent(
             event_type=event_type,
@@ -203,9 +199,7 @@ class IdentityEventPublisher:
 
         # Trigger benefit activation if approved
         if approved:
-            await self.publish_tier_benefits_activation(
-                lambda_id, tier_context.new_tier, tier_context.benefits_delta
-            )
+            await self.publish_tier_benefits_activation(lambda_id, tier_context.new_tier, tier_context.benefits_delta)
 
         return event.event_id
 
@@ -260,11 +254,7 @@ class IdentityEventPublisher:
     ) -> str:
         """Publish a security-related event."""
 
-        priority = (
-            IdentityEventPriority.EMERGENCY
-            if immediate_action_required
-            else IdentityEventPriority.CRITICAL
-        )
+        priority = IdentityEventPriority.EMERGENCY if immediate_action_required else IdentityEventPriority.CRITICAL
 
         event = IdentityEvent(
             event_type=event_type,
@@ -294,9 +284,7 @@ class IdentityEventPublisher:
 
         # Trigger healing if needed
         if immediate_action_required:
-            await self.publish_healing_event(
-                lambda_id, tier_level, "SECURITY_THREAT", event.event_id
-            )
+            await self.publish_healing_event(lambda_id, tier_level, "SECURITY_THREAT", event.event_id)
 
         return event.event_id
 
@@ -363,9 +351,7 @@ class IdentityEventPublisher:
 
         return event.event_id
 
-    async def publish_tier_benefits_activation(
-        self, lambda_id: str, tier_level: int, benefits: dict[str, Any]
-    ) -> str:
+    async def publish_tier_benefits_activation(self, lambda_id: str, tier_level: int, benefits: dict[str, Any]) -> str:
         """Publish tier benefits activation event."""
 
         event = IdentityEvent(
@@ -426,9 +412,7 @@ class IdentityEventPublisher:
 
         # Log security-critical events
         if event.is_security_critical():
-            logger.warning(
-                f"Security-critical event: {event.event_type.value} for {event.lambda_id}"
-            )
+            logger.warning(f"Security-critical event: {event.event_type.value} for {event.lambda_id}")
 
         # Execute registered handlers
         if event.event_type in self.event_handlers:

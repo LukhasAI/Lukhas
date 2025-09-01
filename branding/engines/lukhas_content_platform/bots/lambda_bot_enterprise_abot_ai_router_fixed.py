@@ -204,9 +204,7 @@ class ABotIntelligentAIRouter:
             ),
         }
 
-        logger.info(
-            f"🤖 LUKHAS AI ΛBot Intelligent AI Router initialized with {len(self.services)} services"
-        )
+        logger.info(f"🤖 LUKHAS AI ΛBot Intelligent AI Router initialized with {len(self.services)} services")
 
     def _get_keychain_value(self, service: str) -> Optional[str]:
         """Get API key from Mac KeyChain"""
@@ -262,9 +260,7 @@ class ABotIntelligentAIRouter:
         # Apply priority-based selection
         if priority == "cost":
             # Choose cheapest
-            best_service_id, best_service = min(
-                suitable_services, key=lambda x: x[1].cost_per_1k_tokens
-            )
+            best_service_id, best_service = min(suitable_services, key=lambda x: x[1].cost_per_1k_tokens)
             reason = f"Cost-effective choice: ${best_service.cost_per_1k_tokens:.4f}/1K tokens"
         elif priority == "quality":
             # Choose highest quality
@@ -280,18 +276,12 @@ class ABotIntelligentAIRouter:
         else:  # balanced
             # Balanced scoring algorithm
             def calculate_balance_score(service):
-                cost_score = 1.0 / (
-                    service.cost_per_1k_tokens * 1000 + 0.1
-                )  # Lower cost = higher score
+                cost_score = 1.0 / (service.cost_per_1k_tokens * 1000 + 0.1)  # Lower cost = higher score
                 quality_score = service.quality_score / 10.0
-                speed_score = {"fast": 1.0, "medium": 0.7, "slow": 0.4}.get(
-                    service.response_time, 0.5
-                )
+                speed_score = {"fast": 1.0, "medium": 0.7, "slow": 0.4}.get(service.response_time, 0.5)
                 return (cost_score * 0.4) + (quality_score * 0.4) + (speed_score * 0.2)
 
-            best_service_id, best_service = max(
-                suitable_services, key=lambda x: calculate_balance_score(x[1])
-            )
+            best_service_id, best_service = max(suitable_services, key=lambda x: calculate_balance_score(x[1]))
             reason = "Balanced cost/quality/speed optimization"
 
         # Estimate cost (rough calculation based on prompt length)
@@ -342,9 +332,7 @@ def get_ai_router_status() -> dict:
             # Quick availability test (without making actual API calls)
             api_key = router._get_keychain_value(service_info.keychain_service)
             services_status[service_name] = {
-                "available": api_key is not None
-                and api_key != "your-api-key-here"
-                and len(api_key.strip()) > 10,
+                "available": api_key is not None and api_key != "your-api-key-here" and len(api_key.strip()) > 10,
                 "cost_per_1k": service_info.cost_per_1k_tokens,
                 "primary_use_cases": service_info.best_for,
                 "keychain_service": service_info.keychain_service,
@@ -371,9 +359,7 @@ def get_ai_router_status() -> dict:
         analytics = {"total_requests": 0, "service_usage": {}}
 
     # Find cheapest and most expensive available services
-    available_service_costs = {
-        k: v["cost_per_1k"] for k, v in services_status.items() if v.get("available", False)
-    }
+    available_service_costs = {k: v["cost_per_1k"] for k, v in services_status.items() if v.get("available", False)}
 
     cheapest_service = (
         min(available_service_costs.keys(), key=lambda k: available_service_costs[k])
@@ -391,21 +377,15 @@ def get_ai_router_status() -> dict:
         "services_overview": {
             "total_services": total_services,
             "available_services": available_services,
-            "availability_percentage": (available_services / total_services) * 100
-            if total_services > 0
-            else 0,
+            "availability_percentage": (available_services / total_services) * 100 if total_services > 0 else 0,
             "cheapest_service": cheapest_service,
             "most_expensive_service": most_expensive_service,
         },
         "services_detail": services_status,
         "routing_analytics": analytics,
         "cost_analysis": {
-            "cheapest_cost": min(available_service_costs.values())
-            if available_service_costs
-            else 0,
-            "most_expensive_cost": max(available_service_costs.values())
-            if available_service_costs
-            else 0,
+            "cheapest_cost": min(available_service_costs.values()) if available_service_costs else 0,
+            "most_expensive_cost": max(available_service_costs.values()) if available_service_costs else 0,
             "average_cost": sum(available_service_costs.values()) / len(available_service_costs)
             if available_service_costs
             else 0,

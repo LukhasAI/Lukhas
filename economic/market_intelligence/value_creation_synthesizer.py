@@ -49,9 +49,7 @@ class ValueCreationSynthesizer(CoreInterface):
         self._initialized = True
         logger.info("Value Creation Synthesizer initialized")
 
-    async def synthesize_value_structure(
-        self, domain: str, market_size: float, time_horizon: int
-    ) -> dict[str, Any]:
+    async def synthesize_value_structure(self, domain: str, market_size: float, time_horizon: int) -> dict[str, Any]:
         """
         Synthesize a value creation structure for a market
 
@@ -78,9 +76,7 @@ class ValueCreationSynthesizer(CoreInterface):
         structure["value_chain"] = await self._map_value_chain(domain)
 
         # Design monetization models
-        structure["monetization_models"] = await self._design_monetization_models(
-            domain, market_size, time_horizon
-        )
+        structure["monetization_models"] = await self._design_monetization_models(domain, market_size, time_horizon)
 
         # Calculate value distribution
         structure["value_distribution"] = await self._calculate_value_distribution(
@@ -110,9 +106,7 @@ class ValueCreationSynthesizer(CoreInterface):
         # Generate strategies for each gap
         for gap_type, gap_magnitude in gaps.items():
             if gap_magnitude > 0.1:  # Significant gap
-                strategies = await self._generate_gap_strategies(
-                    gap_type, gap_magnitude, current_dynamics
-                )
+                strategies = await self._generate_gap_strategies(gap_type, gap_magnitude, current_dynamics)
                 optimizations.extend(strategies)
 
         # Prioritize optimizations
@@ -120,9 +114,7 @@ class ValueCreationSynthesizer(CoreInterface):
 
         return optimizations[:5]  # Return top 5 optimizations
 
-    async def identify_advantages(
-        self, market: dict[str, Any], advantage_types: list[str]
-    ) -> list[dict[str, str]]:
+    async def identify_advantages(self, market: dict[str, Any], advantage_types: list[str]) -> list[dict[str, str]]:
         """
         Identify competitive advantages from a market position
 
@@ -452,9 +444,7 @@ class ValueCreationSynthesizer(CoreInterface):
 
         return strategies
 
-    async def _prioritize_optimizations(
-        self, optimizations: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    async def _prioritize_optimizations(self, optimizations: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Prioritize optimization strategies"""
 
         # Score each optimization

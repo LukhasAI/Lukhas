@@ -93,9 +93,7 @@ class NIΛS:
         # Tier rules
         self.tier_rules = {}
 
-    async def register_user(
-        self, user_id: str, tier: MessageTier, consent_level: ConsentLevel
-    ) -> bool:
+    async def register_user(self, user_id: str, tier: MessageTier, consent_level: ConsentLevel) -> bool:
         """Register a new user"""
         self.users[user_id] = {
             "id": user_id,

@@ -250,9 +250,7 @@ Fixed code:"""
             logger.error(f"Ollama API call failed: {e}")
         return None
 
-    def _parse_fix_response(
-        self, issue: CodeIssue, response: str, lines: list[str]
-    ) -> Optional[CodeFix]:
+    def _parse_fix_response(self, issue: CodeIssue, response: str, lines: list[str]) -> Optional[CodeFix]:
         """Parse LLM response into a CodeFix"""
         # Clean the response
         fixed_code = response.strip()
@@ -301,9 +299,7 @@ Fixed code:"""
     async def apply_fix(self, fix: CodeFix, dry_run: bool = False) -> bool:
         """Apply a fix to the file"""
         if fix.confidence < self.guardian_threshold:
-            logger.warning(
-                f"Fix confidence {fix.confidence} below threshold {self.guardian_threshold}"
-            )
+            logger.warning(f"Fix confidence {fix.confidence} below threshold {self.guardian_threshold}")
             return False
 
         try:
@@ -332,9 +328,7 @@ Fixed code:"""
                     self.failed_fixes.append(fix)
                     return False
             else:
-                logger.info(
-                    f"[DRY RUN] Would apply fix to {fix.issue.file_path}:{fix.issue.line_number}"
-                )
+                logger.info(f"[DRY RUN] Would apply fix to {fix.issue.file_path}:{fix.issue.line_number}")
                 return True
 
         except Exception as e:
@@ -365,9 +359,7 @@ Fixed code:"""
                     results["fixes_applied"] += 1
                 else:
                     results["fixes_failed"] += 1
-                results["fixes"].append(
-                    {"issue": issue.message, "confidence": fix.confidence, "success": success}
-                )
+                results["fixes"].append({"issue": issue.message, "confidence": fix.confidence, "success": success})
 
         return results
 
@@ -376,10 +368,8 @@ Fixed code:"""
         return {
             "successful_fixes": len(self.successful_fixes),
             "failed_fixes": len(self.failed_fixes),
-            "success_rate": len(self.successful_fixes)
-            / max(1, len(self.successful_fixes) + len(self.failed_fixes)),
-            "average_confidence": sum(f.confidence for f in self.successful_fixes)
-            / max(1, len(self.successful_fixes)),
+            "success_rate": len(self.successful_fixes) / max(1, len(self.successful_fixes) + len(self.failed_fixes)),
+            "average_confidence": sum(f.confidence for f in self.successful_fixes) / max(1, len(self.successful_fixes)),
         }
 
 
@@ -388,9 +378,7 @@ async def main():
     async with LocalLLMFixer() as fixer:
         # Check if Ollama is available
         if not await fixer.check_ollama_available():
-            print(
-                "❌ Ollama not available. Please install and run Ollama with deepseek-coder model."
-            )
+            print("❌ Ollama not available. Please install and run Ollama with deepseek-coder model.")
             print("   brew install ollama")
             print("   ollama pull deepseek-coder:6.7b")
             print("   ollama serve")

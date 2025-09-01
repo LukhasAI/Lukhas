@@ -45,9 +45,7 @@ def extract_symbolic_glyphs(file_path: Path) -> dict[str, any]:
             content = f.read()
 
         # Find all emoji/symbolic characters
-        emoji_pattern = re.compile(
-            r"[\U0001F300-\U0001F9FF]|[\U00002600-\U000027BF]|[\U0001F1E0-\U0001F1FF]"
-        )
+        emoji_pattern = re.compile(r"[\U0001F300-\U0001F9FF]|[\U00002600-\U000027BF]|[\U0001F1E0-\U0001F1FF]")
         glyphs = emoji_pattern.findall(content)
 
         glyph_summary["total_glyphs"] = len(glyphs)
@@ -248,9 +246,7 @@ def main():
     parser.add_argument("manifest_file", help="Path to manifest file")
     parser.add_argument("--output", "-o", help="Output hash file (default: manifest_file.hash)")
     parser.add_argument("--verify", "-v", action="store_true", help="Verify existing hash file")
-    parser.add_argument(
-        "--hash-file", help="Hash file for verification (default: manifest_file.hash)"
-    )
+    parser.add_argument("--hash-file", help="Hash file for verification (default: manifest_file.hash)")
 
     args = parser.parse_args()
 
@@ -286,9 +282,7 @@ def main():
             print(
                 f"   Symbolic Glyphs: {hash_manifest['symbolic_analysis']['total_glyphs']} total, {len(hash_manifest['symbolic_analysis']['unique_glyphs'])} unique"
             )
-            print(
-                f"   Trinity References: {hash_manifest['symbolic_analysis']['trinity_references']}"
-            )
+            print(f"   Trinity References: {hash_manifest['symbolic_analysis']['trinity_references']}")
 
             print("\n🔐 Manifest integrity locked with symbolic proof")
             print(f"   Verification: python3 {sys.argv[0]} {args.manifest_file} --verify")

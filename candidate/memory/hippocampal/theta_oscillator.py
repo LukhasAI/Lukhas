@@ -85,9 +85,7 @@ class ThetaOscillator:
         self.max_history = 1000
 
         # Callbacks for phase-specific events
-        self.phase_callbacks: dict[OscillationPhase, list[Callable]] = {
-            phase: [] for phase in OscillationPhase
-        }
+        self.phase_callbacks: dict[OscillationPhase, list[Callable]] = {phase: [] for phase in OscillationPhase}
 
         # Running state
         self._running = False

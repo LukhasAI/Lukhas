@@ -139,9 +139,7 @@ class LocalSymbolStore:
 
         return False
 
-    def create_composition(
-        self, name: str, symbol_ids: list[str], operators: list[str], meaning: str
-    ) -> str:
+    def create_composition(self, name: str, symbol_ids: list[str], operators: list[str], meaning: str) -> str:
         """
         Create a symbol composition.
 
@@ -234,9 +232,7 @@ class ULChallengeService:
         self.active_challenges: dict[str, CompositionChallenge] = {}
         self.verified_signatures: dict[str, ULSignature] = {}
 
-    async def generate_challenge(
-        self, lid: str, action: str, required_meanings: list[str]
-    ) -> CompositionChallenge:
+    async def generate_challenge(self, lid: str, action: str, required_meanings: list[str]) -> CompositionChallenge:
         """
         Generate composition challenge for user.
 
@@ -525,9 +521,7 @@ class UniversalLanguageService:
         for symbol in list(self.local_store.symbols.values())[: get_required_symbols(action)]:
             symbol_proofs.append(symbol.symbol_hash[:16])  # Truncated for demo
 
-        signature = await self.challenge_service.create_ul_signature(
-            lid, action, symbol_proofs, composition_proof
-        )
+        signature = await self.challenge_service.create_ul_signature(lid, action, symbol_proofs, composition_proof)
 
         return signature
 
@@ -551,9 +545,7 @@ async def demonstrate_ul_workflow():
         "power",
     )
 
-    await service.bind_symbol(
-        SymbolType.WORD, "with great power", MeaningType.CONCEPT, "responsibility"
-    )
+    await service.bind_symbol(SymbolType.WORD, "with great power", MeaningType.CONCEPT, "responsibility")
 
     print("✅ Bound 'power' to emoji: ⚡️💪")
     print("✅ Bound 'responsibility' to phrase: 'with great power'")

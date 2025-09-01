@@ -136,9 +136,7 @@ class DASTAdapter:
                     "status": adapter_info.get("status", "unknown"),
                     "last_sync": adapter_info.get("last_sync"),
                     "error_count": adapter_info.get("error_count", 0),
-                    "rate_limit_remaining": self._get_rate_limit_remaining(
-                        config.name, config.rate_limit
-                    ),
+                    "rate_limit_remaining": self._get_rate_limit_remaining(config.name, config.rate_limit),
                 }
             except Exception as e:
                 return {"name": config.name, "status": "error", "error": str(e)}
@@ -165,9 +163,7 @@ class DASTAdapter:
             url = f"{config.endpoint}/rest/api/3/search"
             params = {"jql": jql, "maxResults": 50}
 
-            async with session.get(
-                url, headers=headers, params=params, timeout=config.timeout
-            ) as response:
+            async with session.get(url, headers=headers, params=params, timeout=config.timeout) as response:
                 if response.status == 200:
                     data = await response.json()
                     return self._convert_jira_to_dast_format(data.get("issues", []))
@@ -189,9 +185,7 @@ class DASTAdapter:
             url = f"{config.endpoint}/issues"
             params = {"assignee": "user", "state": "open", "per_page": 50}
 
-            async with session.get(
-                url, headers=headers, params=params, timeout=config.timeout
-            ) as response:
+            async with session.get(url, headers=headers, params=params, timeout=config.timeout) as response:
                 if response.status == 200:
                     issues = await response.json()
                     return self._convert_github_to_dast_format(issues)
@@ -236,9 +230,7 @@ class DASTAdapter:
         async with aiohttp.ClientSession() as session:
             headers = {"Authorization": f"Bearer {config.auth_token}"} if config.auth_token else {}
 
-            async with session.get(
-                config.endpoint, headers=headers, timeout=config.timeout
-            ) as response:
+            async with session.get(config.endpoint, headers=headers, timeout=config.timeout) as response:
                 if response.status == 200:
                     data = await response.json()
                     return self._convert_generic_to_dast_format(data)
@@ -265,9 +257,7 @@ class DASTAdapter:
 
             url = f"{config.endpoint}/rest/api/3/issue"
 
-            async with session.post(
-                url, headers=headers, json=jira_task, timeout=config.timeout
-            ) as response:
+            async with session.post(url, headers=headers, json=jira_task, timeout=config.timeout) as response:
                 return response.status in [200, 201]
 
     async def _push_to_github(self, config: AdapterConfig, task_data: dict) -> bool:
@@ -286,9 +276,7 @@ class DASTAdapter:
 
             url = f"{config.endpoint}/issues"
 
-            async with session.post(
-                url, headers=headers, json=github_issue, timeout=config.timeout
-            ) as response:
+            async with session.post(url, headers=headers, json=github_issue, timeout=config.timeout) as response:
                 return response.status in [200, 201]
 
     async def _push_to_legacy_dast(self, config: AdapterConfig, task_data: dict) -> bool:
@@ -327,9 +315,7 @@ class DASTAdapter:
                 "id": f"jira_{issue['key']}",
                 "title": issue["fields"]["summary"],
                 "description": issue["fields"].get("description", ""),
-                "priority": self._map_jira_priority(
-                    issue["fields"].get("priority", {}).get("name", "Medium")
-                ),
+                "priority": self._map_jira_priority(issue["fields"].get("priority", {}).get("name", "Medium")),
                 "status": self._map_jira_status(issue["fields"]["status"]["name"]),
                 "tags": ["jira", issue["fields"]["issuetype"]["name"].lower()],
                 "context": {
@@ -417,9 +403,7 @@ class DASTAdapter:
                 "summary": dast_task["title"],
                 "description": dast_task.get("description", ""),
                 "issuetype": {"name": "Task"},
-                "priority": {
-                    "name": self._map_dast_to_jira_priority(dast_task.get("priority", "medium"))
-                },
+                "priority": {"name": self._map_dast_to_jira_priority(dast_task.get("priority", "medium"))},
             }
         }
 
@@ -504,9 +488,7 @@ class DASTAdapter:
 
         # Remove old requests (older than 1 minute)
         self.rate_limiters[adapter_name] = [
-            req_time
-            for req_time in self.rate_limiters[adapter_name]
-            if current_time - req_time < 60
+            req_time for req_time in self.rate_limiters[adapter_name] if current_time - req_time < 60
         ]
 
         # Check if we're under the limit

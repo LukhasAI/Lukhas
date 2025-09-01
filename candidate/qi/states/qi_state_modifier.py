@@ -38,9 +38,7 @@ class QILikeStateModifier:
                 superposition_states=states,
                 collapse_probability=0.5,
             )
-            obs = self.qi_service.observe_quantum_like_state(
-                user_id=getattr(thread, "owner_id", "system")
-            )
+            obs = self.qi_service.observe_quantum_like_state(user_id=getattr(thread, "owner_id", "system"))
             thread.metadata = getattr(thread, "metadata", {})
             thread.metadata["qi_mod"] = {
                 "superposition": sup,

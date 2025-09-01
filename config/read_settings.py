@@ -27,9 +27,7 @@ from .settings_loader import (
 # Initialize logger for ΛTRACE using structlog
 logger = structlog.get_logger("ΛTRACE.core.config.ReadSettingsScript")
 
-if (
-    __name__ == "__main__" and not structlog.is_configured()
-):  # Ensure configuration for standalone run
+if __name__ == "__main__" and not structlog.is_configured():  # Ensure configuration for standalone run
     structlog.configure(
         processors=[
             structlog.stdlib.add_logger_name,
@@ -93,9 +91,7 @@ def display_settings():
     logger.debug("Symbolic keys displayed", num_keys=len(all_keys))
 
     logger.info("Validating settings...")
-    validation_result = (
-        validate_settings()
-    )  # Assuming this returns a meaningful status or logs itself
+    validation_result = validate_settings()  # Assuming this returns a meaningful status or logs itself
     logger.info("Settings validation complete.", validation_status=str(validation_result))
 
     logger.info("Displaying Consent and Memory Policy.")

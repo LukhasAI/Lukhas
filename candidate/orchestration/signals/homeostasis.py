@@ -85,9 +85,7 @@ class OscillationDetector:
     def __init__(self, window_size: int = 20, threshold: float = 0.3):
         self.window_size = window_size
         self.threshold = threshold
-        self.signal_history: dict[SignalType, deque] = {
-            sig_type: deque(maxlen=window_size) for sig_type in SignalType
-        }
+        self.signal_history: dict[SignalType, deque] = {sig_type: deque(maxlen=window_size) for sig_type in SignalType}
 
     def update(self, signal: Signal):
         """Update history with new signal"""
@@ -366,9 +364,7 @@ class HomeostasisController:
                 params.temperature = self._eval_expression(
                     maps["alignment_risk"].get("temperature", "0.7"), {"x": risk}
                 )
-                params.top_p = self._eval_expression(
-                    maps["alignment_risk"].get("top_p", "0.9"), {"x": risk}
-                )
+                params.top_p = self._eval_expression(maps["alignment_risk"].get("top_p", "0.9"), {"x": risk})
                 params.reasoning_effort = self._eval_expression(
                     maps["alignment_risk"].get("reasoning_effort", "0.5"), {"x": risk}
                 )
@@ -383,9 +379,7 @@ class HomeostasisController:
                     self._eval_expression(maps["stress"].get("temperature", "0.7"), {"x": stress}),
                 )
                 params.max_output_tokens = int(
-                    self._eval_expression(
-                        maps["stress"].get("max_output_tokens", "1024"), {"x": stress}
-                    )
+                    self._eval_expression(maps["stress"].get("max_output_tokens", "1024"), {"x": stress})
                 )
 
         # Process ambiguity (set reasoning_effort directly for any ambiguity)
@@ -402,9 +396,7 @@ class HomeostasisController:
                     ),
                 )
                 params.retrieval_k = int(
-                    self._eval_expression(
-                        maps["ambiguity"].get("retrieval_k", "5"), {"x": ambiguity}
-                    )
+                    self._eval_expression(maps["ambiguity"].get("retrieval_k", "5"), {"x": ambiguity})
                 )
 
         # Process urgency
@@ -422,9 +414,7 @@ class HomeostasisController:
                 )
                 params.reasoning_effort = min(
                     params.reasoning_effort,
-                    self._eval_expression(
-                        maps["urgency"].get("reasoning_effort", "0.5"), {"x": urgency}
-                    ),
+                    self._eval_expression(maps["urgency"].get("reasoning_effort", "0.5"), {"x": urgency}),
                 )
 
         # Process novelty
@@ -433,9 +423,7 @@ class HomeostasisController:
             if "novelty" in maps:
                 params.temperature = max(
                     params.temperature,
-                    self._eval_expression(
-                        maps["novelty"].get("temperature", "0.7"), {"x": novelty}
-                    ),
+                    self._eval_expression(maps["novelty"].get("temperature", "0.7"), {"x": novelty}),
                 )
                 params.memory_write_strength = self._eval_expression(
                     maps["novelty"].get("memory_write", "0.5"), {"x": novelty}
@@ -445,9 +433,7 @@ class HomeostasisController:
         if SignalType.TRUST in levels:
             trust = levels[SignalType.TRUST]
             if "trust" in maps:
-                params.temperature = self._eval_expression(
-                    maps["trust"].get("temperature", "0.7"), {"x": trust}
-                )
+                params.temperature = self._eval_expression(maps["trust"].get("temperature", "0.7"), {"x": trust})
                 params.memory_write_strength = max(
                     params.memory_write_strength,
                     self._eval_expression(maps["trust"].get("memory_write", "0.5"), {"x": trust}),
@@ -589,9 +575,7 @@ class HomeostasisController:
 
         return modulation
 
-    def _generate_explanation(
-        self, event: SystemEvent, signals: list[Signal], modulation: ModulationParams
-    ) -> str:
+    def _generate_explanation(self, event: SystemEvent, signals: list[Signal], modulation: ModulationParams) -> str:
         """Generate human-readable explanation"""
         parts = [f"Event: {event.value}"]
 

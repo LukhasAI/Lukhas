@@ -436,9 +436,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
 
                 # Check queue depths
                 if hasattr(self, "_processing_queues"):
-                    self.metrics.queue_depth = sum(
-                        len(queue) for queue in self._processing_queues.values()
-                    )
+                    self.metrics.queue_depth = sum(len(queue) for queue in self._processing_queues.values())
 
                 # Log metrics periodically
                 if self.metrics.feedback_per_second > 0:
@@ -576,9 +574,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             user_hash = hash(f"{user_id}_{exp_name}") % 100
 
             cumulative = 0
-            for _i, (variant, split) in enumerate(
-                zip(exp_config["variants"], exp_config["traffic_split"])
-            ):
+            for _i, (variant, split) in enumerate(zip(exp_config["variants"], exp_config["traffic_split"])):
                 cumulative += split * 100
                 if user_hash < cumulative:
                     assignments[exp_name] = variant

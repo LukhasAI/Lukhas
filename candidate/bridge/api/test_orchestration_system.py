@@ -151,9 +151,7 @@ class OrchestrationTestSuite:
             },
         }
 
-    async def _test_calculator_handler(
-        self, expression: str, precision: int = 2, **kwargs
-    ) -> dict[str, Any]:
+    async def _test_calculator_handler(self, expression: str, precision: int = 2, **kwargs) -> dict[str, Any]:
         """Test calculator function"""
         try:
             # Safe evaluation of simple mathematical expressions
@@ -170,9 +168,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             return {"error": str(e)}
 
-    async def _test_memory_handler(
-        self, key: str, action: str, value: str = None, **kwargs
-    ) -> dict[str, Any]:
+    async def _test_memory_handler(self, key: str, action: str, value: str = None, **kwargs) -> dict[str, Any]:
         """Test memory storage function"""
         if not hasattr(self, "_test_memory"):
             self._test_memory = {}
@@ -321,9 +317,7 @@ class OrchestrationTestSuite:
                     bridge.register_function(function_definition)
 
             # Test function call
-            messages = [
-                {"role": "user", "content": "Calculate 15 + 27 using the calculator function"}
-            ]
+            messages = [{"role": "user", "content": "Calculate 15 + 27 using the calculator function"}]
 
             response = await bridge.complete_with_functions(
                 messages=messages, function_mode=FunctionCallMode.AUTO, execute_functions=True
@@ -333,9 +327,7 @@ class OrchestrationTestSuite:
 
             # Validate response
             success = (
-                response.content
-                and len(response.function_calls) > 0
-                and latency < 2000  # 2 second timeout
+                response.content and len(response.function_calls) > 0 and latency < 2000  # 2 second timeout
             )
 
             self.results.append(
@@ -423,9 +415,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(
-                    test_name="Anthropic Tool Use", success=False, latency_ms=latency, error=str(e)
-                )
+                TestResult(test_name="Anthropic Tool Use", success=False, latency_ms=latency, error=str(e))
             )
             return False
 
@@ -543,9 +533,7 @@ class OrchestrationTestSuite:
 
             # Validate streaming
             success = (
-                chunks_received > 0
-                and len(content_received) > 0
-                and latency < 12000  # 12 second timeout
+                chunks_received > 0 and len(content_received) > 0 and latency < 12000  # 12 second timeout
             )
 
             self.results.append(
@@ -632,9 +620,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(
-                    test_name="Latency Benchmark", success=False, latency_ms=latency, error=str(e)
-                )
+                TestResult(test_name="Latency Benchmark", success=False, latency_ms=latency, error=str(e))
             )
             return False
 
@@ -663,15 +649,12 @@ class OrchestrationTestSuite:
 
             # Count successful responses
             successful_responses = sum(
-                1
-                for response in responses
-                if not isinstance(response, Exception) and response.content
+                1 for response in responses if not isinstance(response, Exception) and response.content
             )
 
             # Success if at least 2/3 requests succeed
             success = (
-                successful_responses >= 2
-                and latency < 8000  # 8 second timeout for 3 concurrent requests
+                successful_responses >= 2 and latency < 8000  # 8 second timeout for 3 concurrent requests
             )
 
             self.results.append(
@@ -773,9 +756,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(
-                    test_name="Input Sanitization", success=False, latency_ms=latency, error=str(e)
-                )
+                TestResult(test_name="Input Sanitization", success=False, latency_ms=latency, error=str(e))
             )
             return False
 
@@ -830,9 +811,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(
-                    test_name="Health Endpoint", success=False, latency_ms=latency, error=str(e)
-                )
+                TestResult(test_name="Health Endpoint", success=False, latency_ms=latency, error=str(e))
             )
             return False
 

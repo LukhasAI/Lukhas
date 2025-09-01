@@ -97,9 +97,7 @@ class VoiceHub:
             if "recognition" in self.services and "audio" in request_data:
                 recognition_service = self.services["recognition"]
                 if hasattr(recognition_service, "transcribe"):
-                    results["recognition"] = await recognition_service.transcribe(
-                        request_data["audio"]
-                    )
+                    results["recognition"] = await recognition_service.transcribe(request_data["audio"])
 
             results["timestamp"] = asyncio.get_event_loop().time()
             return results

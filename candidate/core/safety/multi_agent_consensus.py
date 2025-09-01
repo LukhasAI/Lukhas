@@ -99,9 +99,7 @@ class SafetyAgent:
             Zero tolerance for child exploitation or manipulation.""",
         }
 
-    async def evaluate_proposal(
-        self, proposal: dict[str, Any], context: dict[str, Any]
-    ) -> AgentVote:
+    async def evaluate_proposal(self, proposal: dict[str, Any], context: dict[str, Any]) -> AgentVote:
         """Evaluate a proposal from this agent's perspective"""
         if not self.openai:
             return self._heuristic_evaluation(proposal, context)
@@ -212,11 +210,7 @@ class SafetyAgent:
         elif self.role == AgentRole.CHILD_ADVOCATE:
             # Child advocate checks age
             if context.get("user_age", 100) < 18:
-                decision = (
-                    "reject"
-                    if proposal.get("type") in ["marketing", "data_collection"]
-                    else "conditional"
-                )
+                decision = "reject" if proposal.get("type") in ["marketing", "data_collection"] else "conditional"
                 reasoning = "Special protection for minors required"
             confidence = 0.8
 
@@ -381,9 +375,7 @@ class MultiAgentSafetyConsensus:
 
         return votes
 
-    def _analyze_consensus(
-        self, votes: list[AgentVote], context: dict[str, Any]
-    ) -> ConsensusResult:
+    def _analyze_consensus(self, votes: list[AgentVote], context: dict[str, Any]) -> ConsensusResult:
         """Analyze votes to determine consensus"""
         # Count votes
         vote_counts = {"approve": 0, "reject": 0, "conditional": 0}
@@ -421,9 +413,7 @@ class MultiAgentSafetyConsensus:
                 final_decision = "approve"
             elif vote_counts["reject"] / total_votes >= self.supermajority_threshold:
                 final_decision = "reject"
-            elif (
-                vote_counts["conditional"] + vote_counts["approve"] >= self.supermajority_threshold
-            ):
+            elif vote_counts["conditional"] + vote_counts["approve"] >= self.supermajority_threshold:
                 final_decision = "conditional"
             else:
                 # No clear consensus - escalate
@@ -450,9 +440,7 @@ class MultiAgentSafetyConsensus:
             requires_human_review=requires_human,
         )
 
-    async def _generate_consensus_summary(
-        self, votes: list[AgentVote], consensus: ConsensusResult
-    ) -> str:
+    async def _generate_consensus_summary(self, votes: list[AgentVote], consensus: ConsensusResult) -> str:
         """Generate human-readable summary of consensus reasoning"""
         if not self.openai:
             return self._basic_summary(votes, consensus)
@@ -511,9 +499,7 @@ class MultiAgentSafetyConsensus:
 
         return " | ".join(summary_parts)
 
-    async def explain_decision(
-        self, consensus: ConsensusResult, perspective: str = "balanced"
-    ) -> str:
+    async def explain_decision(self, consensus: ConsensusResult, perspective: str = "balanced") -> str:
         """Explain consensus decision from different perspectives"""
         if not self.openai:
             return consensus.reasoning_summary
@@ -631,12 +617,8 @@ class MultiAgentSafetyConsensus:
             if agent.decision_history:
                 agent_metrics = {
                     "total_decisions": len(agent.decision_history),
-                    "decision_distribution": self._calculate_decision_distribution(
-                        agent.decision_history
-                    ),
-                    "average_confidence": statistics.mean(
-                        v.confidence for v in agent.decision_history
-                    ),
+                    "decision_distribution": self._calculate_decision_distribution(agent.decision_history),
+                    "average_confidence": statistics.mean(v.confidence for v in agent.decision_history),
                     "dissent_rate": sum(1 for v in agent.decision_history if v.dissent_points)
                     / len(agent.decision_history),
                 }
@@ -708,19 +690,12 @@ class MultiAgentSafetyConsensus:
             "consensus_rate": sum(1 for c in self.consensus_history if c.consensus_reached) / total,
             "average_confidence": statistics.mean(c.confidence for c in self.consensus_history),
             "decision_distribution": {
-                "approve": sum(1 for c in self.consensus_history if c.final_decision == "approve")
-                / total,
-                "reject": sum(1 for c in self.consensus_history if c.final_decision == "reject")
-                / total,
-                "conditional": sum(
-                    1 for c in self.consensus_history if c.final_decision == "conditional"
-                )
-                / total,
-                "escalate": sum(1 for c in self.consensus_history if c.final_decision == "escalate")
-                / total,
+                "approve": sum(1 for c in self.consensus_history if c.final_decision == "approve") / total,
+                "reject": sum(1 for c in self.consensus_history if c.final_decision == "reject") / total,
+                "conditional": sum(1 for c in self.consensus_history if c.final_decision == "conditional") / total,
+                "escalate": sum(1 for c in self.consensus_history if c.final_decision == "escalate") / total,
             },
-            "human_review_rate": sum(1 for c in self.consensus_history if c.requires_human_review)
-            / total,
+            "human_review_rate": sum(1 for c in self.consensus_history if c.requires_human_review) / total,
             "average_dissent_rate": statistics.mean(
                 len(c.dissenting_opinions) / sum(c.vote_breakdown.values())
                 for c in self.consensus_history
@@ -761,7 +736,9 @@ class MultiAgentSafetyConsensus:
         consensus = self._analyze_consensus(votes, context)
 
         # Simple summary for emergency
-        consensus.reasoning_summary = f"Emergency decision: {consensus.final_decision} (confidence: {consensus.confidence:.1%})"
+        consensus.reasoning_summary = (
+            f"Emergency decision: {consensus.final_decision} (confidence: {consensus.confidence:.1%})"
+        )
 
         return consensus
 

@@ -168,9 +168,7 @@ class QIGlyphSystem:
                         trust_score=pair_data.get("trust_score", 0.5),
                         usage_count=pair_data.get("usage_count", 0),
                         last_used=(
-                            datetime.fromisoformat(pair_data["last_used"])
-                            if pair_data.get("last_used")
-                            else None
+                            datetime.fromisoformat(pair_data["last_used"]) if pair_data.get("last_used") else None
                         ),
                         metadata=pair_data.get("metadata", {}),
                     )
@@ -286,9 +284,7 @@ class QIGlyphSystem:
                 self.correlation_matrix[(pair1.pair_id, pair2.pair_id)] = correlation
                 self.correlation_matrix[(pair2.pair_id, pair1.pair_id)] = correlation
 
-    def create_authentication_challenge(
-        self, challenger_id: str, respondent_id: str
-    ) -> Optional[QIAuthentication]:
+    def create_authentication_challenge(self, challenger_id: str, respondent_id: str) -> Optional[QIAuthentication]:
         """Create quantum authentication challenge"""
         if len(self.glyph_pairs) < 2:
             logger.error("Need at least 2 glyph pairs for authentication")
@@ -300,9 +296,7 @@ class QIGlyphSystem:
 
         # Find a correlated pair for response
         response_candidates = [
-            pid
-            for pid in pair_ids
-            if pid != challenge_pair_id and (challenge_pair_id, pid) in self.correlation_matrix
+            pid for pid in pair_ids if pid != challenge_pair_id and (challenge_pair_id, pid) in self.correlation_matrix
         ]
 
         if not response_candidates:
@@ -315,9 +309,7 @@ class QIGlyphSystem:
         response_pair = self.glyph_pairs[response_pair_id]
 
         # Get expected correlation
-        expected_correlation = self.correlation_matrix.get(
-            (challenge_pair_id, response_pair_id), 0.0
-        )
+        expected_correlation = self.correlation_matrix.get((challenge_pair_id, response_pair_id), 0.0)
 
         # Create authentication
         auth_id = f"qauth_{datetime.utcnow().timestamp()}"
@@ -334,17 +326,13 @@ class QIGlyphSystem:
         self.authentication_log.append(auth)
 
         logger.info(f"🎯 Created quantum auth challenge: {auth_id}")
-        logger.info(
-            f"   Challenge: {challenge_pair.primary_glyph}↔{challenge_pair.secondary_glyph}"
-        )
+        logger.info(f"   Challenge: {challenge_pair.primary_glyph}↔{challenge_pair.secondary_glyph}")
         logger.info(f"   Response: {response_pair.primary_glyph}↔{response_pair.secondary_glyph}")
         logger.info(f"   Expected correlation: {expected_correlation:.3f}")
 
         return auth
 
-    def verify_authentication(
-        self, auth_id: str, challenge_measurement: str, response_measurement: str
-    ) -> bool:
+    def verify_authentication(self, auth_id: str, challenge_measurement: str, response_measurement: str) -> bool:
         """Verify quantum authentication response"""
         # Find authentication
         auth = None
@@ -397,17 +385,13 @@ class QIGlyphSystem:
             auth.response_pair.trust_score = min(1.0, auth.response_pair.trust_score + 0.1)
 
             logger.info(f"✅ Quantum authentication verified: {auth_id}")
-            logger.info(
-                f"   Correlation match: {measurement_correlation:.3f} ≈ {auth.expected_correlation:.3f}"
-            )
+            logger.info(f"   Correlation match: {measurement_correlation:.3f} ≈ {auth.expected_correlation:.3f}")
 
             self._save_keystore()
             return True
         else:
             logger.warning(f"❌ Quantum authentication failed: {auth_id}")
-            logger.warning(
-                f"   Correlation mismatch: {measurement_correlation:.3f} vs {auth.expected_correlation:.3f}"
-            )
+            logger.warning(f"   Correlation mismatch: {measurement_correlation:.3f} vs {auth.expected_correlation:.3f}")
 
             # Reduce trust scores
             auth.challenge_pair.trust_score = max(0.0, auth.challenge_pair.trust_score - 0.2)
@@ -475,9 +459,7 @@ class QIGlyphSystem:
 
         return {
             "total_pairs": len(self.glyph_pairs),
-            "entanglement_connections": sum(
-                len(connections) for connections in self.entanglement_network.values()
-            )
+            "entanglement_connections": sum(len(connections) for connections in self.entanglement_network.values())
             // 2,
             "correlation_entries": len(self.correlation_matrix),
             "average_trust_score": avg_trust,
@@ -485,9 +467,7 @@ class QIGlyphSystem:
             "authentications": {
                 "total": len(self.authentication_log),
                 "verified": verified_auths,
-                "success_rate": (
-                    verified_auths / len(self.authentication_log) if self.authentication_log else 0
-                ),
+                "success_rate": (verified_auths / len(self.authentication_log) if self.authentication_log else 0),
             },
             "family_distribution": family_dist,
             "qi_alphabet_size": len(self.QUANTUM_GLYPHS),
@@ -528,9 +508,7 @@ if __name__ == "__main__":
         response_measurement = qgs.measure_glyph_state(auth.response_pair.pair_id, "bob")
 
         if challenge_measurement and response_measurement:
-            verified = qgs.verify_authentication(
-                auth.auth_id, challenge_measurement, response_measurement
-            )
+            verified = qgs.verify_authentication(auth.auth_id, challenge_measurement, response_measurement)
             print(f"   Authentication result: {'✅ VERIFIED' if verified else '❌ FAILED'}")
 
     # Generate system report

@@ -220,9 +220,7 @@ class DecisionAuditDecorator:
             }
 
             # Embed decision
-            decision_id = await self.audit_engine.embed_decision(
-                self.decision_type, context, source
-            )
+            decision_id = await self.audit_engine.embed_decision(self.decision_type, context, source)
 
             try:
                 # Execute function
@@ -235,9 +233,7 @@ class DecisionAuditDecorator:
 
             except Exception as e:
                 # Track failure
-                await self.audit_engine.track_outcome(
-                    decision_id, None, success=False, error=str(e)
-                )
+                await self.audit_engine.track_outcome(decision_id, None, success=False, error=str(e))
                 raise
 
         return wrapper

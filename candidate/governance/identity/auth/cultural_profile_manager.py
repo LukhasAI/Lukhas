@@ -291,9 +291,7 @@ class CulturalProfileManager:
         )
 
         self.cultural_profiles[user_id] = profile
-        cultural_logger.info(
-            f"Created cultural profile for user {user_id}: {primary_culture.value}"
-        )
+        cultural_logger.info(f"Created cultural profile for user {user_id}: {primary_culture.value}")
 
         return profile
 
@@ -345,13 +343,9 @@ class CulturalProfileManager:
         # Log any additional constitutional exclusions
         constitutional_exclusions = set(filtered_emojis) - set(constitutional_filtered)
         for emoji in constitutional_exclusions:
-            exclusion_report["constitutional_exclusions"].append(
-                f"{emoji}: Constitutional safety enforcement"
-            )
+            exclusion_report["constitutional_exclusions"].append(f"{emoji}: Constitutional safety enforcement")
 
-        cultural_logger.info(
-            f"Filtered {len(emoji_list)} emojis to {len(constitutional_filtered)} for user {user_id}"
-        )
+        cultural_logger.info(f"Filtered {len(emoji_list)} emojis to {len(constitutional_filtered)} for user {user_id}")
 
         return constitutional_filtered, exclusion_report
 
@@ -387,9 +381,7 @@ class CulturalProfileManager:
             # Check cultural restrictions
             restricted_cultures = emoji_data.get("restricted_cultures", [])
             if profile.primary_culture in restricted_cultures:
-                reasons["cultural_exclusions"] = (
-                    f"Restricted in {profile.primary_culture.value} culture"
-                )
+                reasons["cultural_exclusions"] = f"Restricted in {profile.primary_culture.value} culture"
                 return True, reasons
 
             # Check sensitivity level against user's sensitivity threshold
@@ -411,9 +403,7 @@ class CulturalProfileManager:
 
         if emoji in problematic_emojis:
             reasoning = accessibility_data.get("reasoning", "Accessibility concern")
-            reasons["accessibility_exclusions"] = (
-                f"{profile.accessibility_profile.value}: {reasoning}"
-            )
+            reasons["accessibility_exclusions"] = f"{profile.accessibility_profile.value}: {reasoning}"
             return True, reasons
 
         return False, reasons
@@ -489,9 +479,7 @@ class CulturalProfileManager:
 
         for profile, data in self.accessibility_map.items():
             if emoji in data.get("problematic_emojis", []):
-                considerations.append(
-                    f"{profile.value}: {data.get('reasoning', 'Accessibility concern')}"
-                )
+                considerations.append(f"{profile.value}: {data.get('reasoning', 'Accessibility concern')}")
 
         return considerations
 

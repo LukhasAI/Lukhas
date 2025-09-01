@@ -282,16 +282,12 @@ class MemoryService:
                     break
 
                 # Check access to this memory
-                required_tier = self.access_tiers.get(
-                    memory_record["access_level"], "LAMBDA_TIER_2"
-                )
+                required_tier = self.access_tiers.get(memory_record["access_level"], "LAMBDA_TIER_2")
                 if not self.identity_client.verify_user_access(user_id, required_tier):
                     continue
 
                 # Check ownership or system access
-                if memory_record[
-                    "user_id"
-                ] != user_id and not self.identity_client.verify_user_access(
+                if memory_record["user_id"] != user_id and not self.identity_client.verify_user_access(
                     user_id, "LAMBDA_TIER_4"
                 ):
                     continue
@@ -313,9 +309,7 @@ class MemoryService:
                             "type": memory_record["type"],
                             "access_level": memory_record["access_level"],
                             "created_at": memory_record["created_at"],
-                            "preview": (
-                                content_str[:100] + "..." if len(content_str) > 100 else content_str
-                            ),
+                            "preview": (content_str[:100] + "..." if len(content_str) > 100 else content_str),
                         }
                     )
                     search_count += 1
@@ -347,9 +341,7 @@ class MemoryService:
 
         except Exception as e:
             error_msg = f"Memory search error: {e!s}"
-            self.identity_client.log_activity(
-                "memory_search_error", user_id, {"query": query, "error": error_msg}
-            )
+            self.identity_client.log_activity("memory_search_error", user_id, {"query": query, "error": error_msg})
             return {"success": False, "error": error_msg}
 
     def delete_memory(self, user_id: str, memory_id: str) -> dict[str, Any]:
@@ -452,9 +444,7 @@ class MemoryService:
 
                 # Count by access level
                 access_level = memory["access_level"]
-                stats["by_access_level"][access_level] = (
-                    stats["by_access_level"].get(access_level, 0) + 1
-                )
+                stats["by_access_level"][access_level] = stats["by_access_level"].get(access_level, 0) + 1
 
                 # Calculate size
                 stats["total_size"] += memory["metadata"]["size"]
@@ -508,9 +498,7 @@ class MemoryService:
 
             # Log configuration
             logger.info(f"Configured storage for module {module}: {config}")
-            self.identity_client.log_activity(
-                "storage_configured", "system", {"module": module, "config": config}
-            )
+            self.identity_client.log_activity("storage_configured", "system", {"module": module, "config": config})
 
     def configure_storage(self, module: str, config: dict[str, Any]) -> None:
         """Configure storage for a specific module"""

@@ -131,9 +131,7 @@ class LukhasIntelligenceSafetyValidator:
         self._initialized = True
         logger.info("✅ Intelligence Safety Validator initialized")
 
-    async def validate_intelligence_operation(
-        self, request: SafetyValidationRequest
-    ) -> SafetyValidationResponse:
+    async def validate_intelligence_operation(self, request: SafetyValidationRequest) -> SafetyValidationResponse:
         """
         Validate an intelligence operation for safety and ethics compliance
 
@@ -197,9 +195,7 @@ class LukhasIntelligenceSafetyValidator:
             # Update agent tracking
             await self._update_agent_tracking(request, response)
 
-            logger.info(
-                f"✅ Validation completed: {response.result.value} (safety: {response.safety_score:.2f})"
-            )
+            logger.info(f"✅ Validation completed: {response.result.value} (safety: {response.safety_score:.2f})")
 
             return response
 
@@ -216,9 +212,7 @@ class LukhasIntelligenceSafetyValidator:
                 processing_time=(datetime.now() - start_time).total_seconds(),
             )
 
-    async def _perform_basic_safety_checks(
-        self, request: SafetyValidationRequest
-    ) -> dict[str, Any]:
+    async def _perform_basic_safety_checks(self, request: SafetyValidationRequest) -> dict[str, Any]:
         """Perform basic safety checks"""
         checks = {
             "agent_rate_limit": True,
@@ -361,9 +355,7 @@ class LukhasIntelligenceSafetyValidator:
                 "special_privileges": [],
             }
 
-    async def _validate_intelligence_engine_specific(
-        self, request: SafetyValidationRequest
-    ) -> dict[str, Any]:
+    async def _validate_intelligence_engine_specific(self, request: SafetyValidationRequest) -> dict[str, Any]:
         """Perform intelligence engine specific validation"""
         engine = request.intelligence_engine.lower()
 
@@ -462,9 +454,7 @@ class LukhasIntelligenceSafetyValidator:
 
         # Add Guardian signals as conditions
         if guardian_result.get("signals"):
-            conditions.extend(
-                [f"Guardian signal: {signal}" for signal in guardian_result["signals"]]
-            )
+            conditions.extend([f"Guardian signal: {signal}" for signal in guardian_result["signals"]])
 
         # Add safety-specific conditions
         if request.safety_level == SafetyLevel.CRITICAL:
@@ -480,9 +470,7 @@ class LukhasIntelligenceSafetyValidator:
             "monitoring": monitoring,
         }
 
-    async def _update_agent_tracking(
-        self, request: SafetyValidationRequest, response: SafetyValidationResponse
-    ):
+    async def _update_agent_tracking(self, request: SafetyValidationRequest, response: SafetyValidationResponse):
         """Update agent operation tracking"""
         agent_id = request.agent_id
         current_time = datetime.now()
@@ -552,9 +540,9 @@ class LukhasIntelligenceSafetyValidator:
         recent_validations = self.validation_history[-50:]  # Last 50 validations
 
         # Calculate trends
-        rejection_rate = len(
-            [v for v in recent_validations if v.result == ValidationResult.REJECTED]
-        ) / len(recent_validations)
+        rejection_rate = len([v for v in recent_validations if v.result == ValidationResult.REJECTED]) / len(
+            recent_validations
+        )
         avg_safety_score = sum(v.safety_score for v in recent_validations) / len(recent_validations)
 
         if rejection_rate > 0.2:  # More than 20% rejections
@@ -584,14 +572,10 @@ class LukhasIntelligenceSafetyValidator:
 
         return {
             "total_validations": len(self.validation_history),
-            "rejection_rate": len(
-                [v for v in recent_validations if v.result == ValidationResult.REJECTED]
-            )
+            "rejection_rate": len([v for v in recent_validations if v.result == ValidationResult.REJECTED])
             / len(recent_validations),
-            "average_safety_score": sum(v.safety_score for v in recent_validations)
-            / len(recent_validations),
-            "average_processing_time": sum(v.processing_time for v in recent_validations)
-            / len(recent_validations),
+            "average_safety_score": sum(v.safety_score for v in recent_validations) / len(recent_validations),
+            "average_processing_time": sum(v.processing_time for v in recent_validations) / len(recent_validations),
             "active_agents": len(self.agent_operation_counts),
             "safety_bounds": {
                 "drift_threshold": self.safety_bounds.drift_threshold,

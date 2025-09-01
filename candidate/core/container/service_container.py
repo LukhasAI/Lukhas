@@ -199,9 +199,7 @@ class ServiceContainer(IServiceProvider):
                 if service is not None:
                     kwargs[param_name] = service
                 elif param.default == param.empty:
-                    raise ValueError(
-                        f"Cannot resolve required parameter {param_name} of type {param.annotation}"
-                    )
+                    raise ValueError(f"Cannot resolve required parameter {param_name} of type {param.annotation}")
 
         return cls(**kwargs)
 

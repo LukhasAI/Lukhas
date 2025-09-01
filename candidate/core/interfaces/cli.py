@@ -53,9 +53,7 @@ def launch():
     print(f"📅 Session started: {datetime.now().isoformat()}")  # Keep UI output
     display_system_status()
     logger.info("Auto-triggering visual prompt generation")
-    print(
-        "\n🔁 Auto-Trigger: Generating visual prompt from most recent flashback..."
-    )  # Keep UI output
+    print("\n🔁 Auto-Trigger: Generating visual prompt from most recent flashback...")  # Keep UI output
     os.system("python3 visualizer.py")
     display_flashback_preview()
     voice_welcome()

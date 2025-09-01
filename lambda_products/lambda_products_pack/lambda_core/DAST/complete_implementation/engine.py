@@ -161,9 +161,7 @@ class LucasDASTEngine:
         self._record_operation_time(time.time() - start_time)
         return result
 
-    def progress(
-        self, task_id: str, status: Optional[str] = None, notes: Optional[str] = None
-    ) -> dict[str, Any]:
+    def progress(self, task_id: str, status: Optional[str] = None, notes: Optional[str] = None) -> dict[str, Any]:
         """
         🎯 Update task progress with AI-powered insights
 
@@ -407,9 +405,7 @@ class LucasDASTEngine:
 
         return max(0.0, min(10.0, score))  # Clamp between 0-10
 
-    def _apply_symbolic_reasoning(
-        self, request: str, context: dict, ai_analysis: dict
-    ) -> dict[str, Any]:
+    def _apply_symbolic_reasoning(self, request: str, context: dict, ai_analysis: dict) -> dict[str, Any]:
         """Apply symbolic reasoning for complex task relationships"""
         return {
             "reasoning_type": "symbolic",
@@ -481,9 +477,7 @@ class LucasDASTEngine:
         elif task.status == TaskStatus.IN_PROGRESS:
             analysis["recommendations"].append("Continue current trajectory")
             if task.estimated_duration:
-                analysis["next_actions"].append(
-                    f"Estimated {task.estimated_duration} minutes remaining"
-                )
+                analysis["next_actions"].append(f"Estimated {task.estimated_duration} minutes remaining")
 
         # Analyze notes if provided
         if notes:
@@ -655,9 +649,7 @@ def focus(query: Optional[str] = None, limit: int = 5) -> list[dict[str, Any]]:
     return get_dast_engine().focus(query, limit)
 
 
-def progress(
-    task_id: str, status: Optional[str] = None, notes: Optional[str] = None
-) -> dict[str, Any]:
+def progress(task_id: str, status: Optional[str] = None, notes: Optional[str] = None) -> dict[str, Any]:
     """🎯 Update task progress with AI-powered insights"""
     return get_dast_engine().progress(task_id, status, notes)
 

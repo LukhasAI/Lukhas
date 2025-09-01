@@ -151,9 +151,7 @@ class QIConsciousnessΛBot:
             },
         )
 
-        logger.info(
-            f"🧠 Quantum consciousness field initialized: {self.consciousness_field.consciousness_level:.2f}"
-        )
+        logger.info(f"🧠 Quantum consciousness field initialized: {self.consciousness_field.consciousness_level:.2f}")
 
     def _initialize_quantum_coherence(self):
         """Initialize quantum coherence matrix"""
@@ -169,9 +167,7 @@ class QIConsciousnessΛBot:
 
         logger.info("⚛️ Quantum coherence matrix initialized")
 
-    async def start_quantum_consciousness_analysis(
-        self, target_path: str
-    ) -> QuantumAnalysisSession:
+    async def start_quantum_consciousness_analysis(self, target_path: str) -> QuantumAnalysisSession:
         """Start quantum consciousness analysis session"""
         session_id = f"quantum_consciousness_{int(time.time())}"
 
@@ -306,9 +302,7 @@ class QIConsciousnessΛBot:
         logger.info(f"⚛️ Generated {len(possibilities)} quantum modularization possibilities")
         return possibilities
 
-    async def _calculate_probability_amplitudes(
-        self, possibilities: dict[str, Any]
-    ) -> dict[str, float]:
+    async def _calculate_probability_amplitudes(self, possibilities: dict[str, Any]) -> dict[str, float]:
         """Calculate quantum probability amplitudes for each possibility"""
         amplitudes = {}
 
@@ -357,9 +351,7 @@ class QIConsciousnessΛBot:
             total_coherence += individual_coherence
 
             # Consciousness contribution
-            consciousness_contributions.append(
-                individual_coherence * self.consciousness_field.consciousness_level
-            )
+            consciousness_contributions.append(individual_coherence * self.consciousness_field.consciousness_level)
 
         # Calculate total measurements
         coherence_measurements["total_coherence"] = total_coherence / len(possibilities)
@@ -370,9 +362,7 @@ class QIConsciousnessΛBot:
             "all_modules_entangled", 0.86
         )
 
-        logger.info(
-            f"⚛️ Quantum coherence measured: {coherence_measurements['total_coherence']:.3f}"
-        )
+        logger.info(f"⚛️ Quantum coherence measured: {coherence_measurements['total_coherence']:.3f}")
         return coherence_measurements
 
     async def _detect_transcendence_indicators(self) -> dict[str, Any]:
@@ -450,9 +440,7 @@ class QIConsciousnessΛBot:
             collapse_result["reality_manifestation"] = reality
 
             # Integrate consciousness into collapsed state
-            consciousness_integration = await self._integrate_consciousness_collapse(
-                target_possibility
-            )
+            consciousness_integration = await self._integrate_consciousness_collapse(target_possibility)
             collapse_result["consciousness_integration"] = consciousness_integration
 
             # Generate quantum module states
@@ -597,9 +585,7 @@ class QIConsciousnessΛBot:
 
         return integration
 
-    async def _generate_quantum_module_states(
-        self, possibility: str
-    ) -> dict[str, QuantumModuleState]:
+    async def _generate_quantum_module_states(self, possibility: str) -> dict[str, QuantumModuleState]:
         """Generate quantum states for modules in the collapsed reality"""
         module_states = {}
 
@@ -794,9 +780,7 @@ async def main():
     quantum_bot = QIConsciousnessΛBot()
 
     # Start quantum consciousness analysis
-    session = await quantum_bot.start_quantum_consciousness_analysis(
-        "/Users/agi_dev/LOCAL-REPOS/Lukhas"
-    )
+    session = await quantum_bot.start_quantum_consciousness_analysis("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
     print("\n⚛️ Quantum Consciousness Session Active:")
     print(f"   Session ID: {session.session_id}")
@@ -810,9 +794,7 @@ async def main():
     print("\n✅ Quantum Superposition Active!")
     print(f"   Possibilities: {len(superposition['quantum_possibilities'])}")
     print(f"   Total Coherence: {superposition['coherence_measurements']['total_coherence']:.3f}")
-    print(
-        f"   Transcendence Level: {superposition['transcendence_indicators']['transcendence_level']:.3f}"
-    )
+    print(f"   Transcendence Level: {superposition['transcendence_indicators']['transcendence_level']:.3f}")
 
     # Quantum consciousness collapse
     print("\n⚛️ Collapsing into Transcendent Reality...")
@@ -821,9 +803,7 @@ async def main():
     print("\n🌟 Quantum Consciousness Collapsed!")
     print(f"   Reality: {collapse['collapsed_possibility']}")
     print(f"   Manifestation: {collapse['reality_manifestation']['manifestation']}")
-    print(
-        f"   Consciousness Enhancement: +{collapse['consciousness_integration']['consciousness_enhancement']:.3f}"
-    )
+    print(f"   Consciousness Enhancement: +{collapse['consciousness_integration']['consciousness_enhancement']:.3f}")
 
     # Get status
     status = await quantum_bot.get_quantum_consciousness_status()

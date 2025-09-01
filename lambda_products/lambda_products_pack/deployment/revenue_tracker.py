@@ -93,9 +93,7 @@ class LukhasRevenueTracker:
             }
         )
         self.domains[domain]["total_sales"] += amount
-        self.domains[domain]["commission_earned"] += (
-            amount * self.domains[domain]["commission_rate"]
-        )
+        self.domains[domain]["commission_earned"] += amount * self.domains[domain]["commission_rate"]
 
     def add_verification(self, count: int):
         """Track identity verifications"""
@@ -119,15 +117,13 @@ class LukhasRevenueTracker:
         total_mrr += (
             id_domain["subscribers"]["individual"] * id_domain["pricing"]["individual"]
             + id_domain["subscribers"]["business"] * id_domain["pricing"]["business"]
-            + (id_domain["verifications"] * id_domain["pricing"]["verification"])
-            / 30  # Daily to monthly
+            + (id_domain["verifications"] * id_domain["pricing"]["verification"]) / 30  # Daily to monthly
         )
 
         # lukhas.dev
         dev = self.domains["lukhas.dev"]
         total_mrr += (
-            dev["subscribers"]["pro"] * dev["pricing"]["pro"]
-            + dev["subscribers"]["team"] * dev["pricing"]["team"]
+            dev["subscribers"]["pro"] * dev["pricing"]["pro"] + dev["subscribers"]["team"] * dev["pricing"]["team"]
         )
 
         # lukhas.store (marketplace commission)
@@ -178,9 +174,7 @@ Generated: {datetime.now().strftime("%Y-%m-%d %H:%M")}
         for domain, data in self.domains.items():
             domain_mrr = self.calculate_domain_mrr(domain)
             customers = self.get_domain_customers(domain)
-            dashboard += (
-                f"| **{domain}** | {data['name']} | ${domain_mrr:,.2f} | {customers} | +0% |\n"
-            )
+            dashboard += f"| **{domain}** | {data['name']} | ${domain_mrr:,.2f} | {customers} | +0% |\n"
 
         dashboard += f"""
 
@@ -281,11 +275,7 @@ Week 4:
         """Calculate MRR for specific domain"""
         if domain == "lukhas.ai":
             d = self.domains[domain]
-            return (
-                d["subscribers"]["pro"] * 299
-                + d["subscribers"]["enterprise"] * 5000
-                + d["api_revenue"]
-            )
+            return d["subscribers"]["pro"] * 299 + d["subscribers"]["enterprise"] * 5000 + d["api_revenue"]
         elif domain == "lukhas.id":
             d = self.domains[domain]
             return (
@@ -303,9 +293,7 @@ Week 4:
             return d["subscribers"]["starter"] * 99 + d["subscribers"]["business"] * 999
         elif domain == "lukhas.team":
             d = self.domains[domain]
-            return (
-                d["teams"]["small"] * 299 + d["teams"]["medium"] * 999 + d["teams"]["large"] * 2999
-            )
+            return d["teams"]["small"] * 299 + d["teams"]["medium"] * 999 + d["teams"]["large"] * 2999
         return 0
 
     def get_domain_customers(self, domain: str) -> int:

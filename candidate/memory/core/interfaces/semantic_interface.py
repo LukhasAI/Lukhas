@@ -211,9 +211,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         if concept_definitions:
             for concept_id, definition in concept_definitions.items():
                 if concept_id not in semantic_content.concept_nodes:
-                    semantic_content.concept_nodes[concept_id] = ConceptNode(
-                        concept_id=concept_id, label=concept_id
-                    )
+                    semantic_content.concept_nodes[concept_id] = ConceptNode(concept_id=concept_id, label=concept_id)
                 semantic_content.concept_nodes[concept_id].definition = definition
 
         # Add relationships
@@ -253,9 +251,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
             metadata=metadata,
         )
 
-    async def read_memory(
-        self, memory_id: str, include_relations: bool = True, **kwargs
-    ) -> MemoryResponse:
+    async def read_memory(self, memory_id: str, include_relations: bool = True, **kwargs) -> MemoryResponse:
         """Read semantic memory with optional relationship expansion"""
 
         if memory_id not in self.semantic_memories:
@@ -305,9 +301,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
                 for key, value in content.items():
                     # Update concept attributes
                     if semantic_content.primary_concept in semantic_content.concept_nodes:
-                        concept_node = semantic_content.concept_nodes[
-                            semantic_content.primary_concept
-                        ]
+                        concept_node = semantic_content.concept_nodes[semantic_content.primary_concept]
                         concept_node.attributes[key] = value
 
         # Add new relationships
@@ -505,15 +499,11 @@ class SemanticMemoryInterface(BaseMemoryInterface):
                     if key in ["type", "category", "concept", "event"]:
                         concept_id = str(value)
                         if concept_id not in extracted_concepts:
-                            extracted_concepts[concept_id] = ConceptNode(
-                                concept_id=concept_id, label=concept_id
-                            )
+                            extracted_concepts[concept_id] = ConceptNode(concept_id=concept_id, label=concept_id)
 
                         # Add this episode as source
                         extracted_concepts[concept_id].source_episodes.add(episode_id)
-                        extracted_concepts[
-                            concept_id
-                        ].consolidation_strength += consolidation_strength
+                        extracted_concepts[concept_id].consolidation_strength += consolidation_strength
 
         # Create semantic memory from extracted knowledge
         semantic_content = SemanticMemoryContent(
@@ -528,9 +518,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
             primary = max(extracted_concepts.values(), key=lambda c: c.consolidation_strength)
             semantic_content.primary_concept = primary.concept_id
 
-        return await self.create_memory(
-            content=semantic_content, consolidation_source="episodic_memories"
-        )
+        return await self.create_memory(content=semantic_content, consolidation_source="episodic_memories")
 
     async def infer_relationships(
         self,
@@ -595,9 +583,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
             hierarchy[category] = {
                 "concept_count": len(concepts),
                 "concepts": [c.concept_id for c in concepts],
-                "average_activation": (
-                    np.mean([c.activation_count for c in concepts]) if concepts else 0
-                ),
+                "average_activation": (np.mean([c.activation_count for c in concepts]) if concepts else 0),
                 "subcategories": self._find_subcategories(concepts),
             }
 
@@ -625,9 +611,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
                         spread_activation = activation * relation.strength * 0.7  # Decay
 
                         if target in new_activations:
-                            new_activations[target] = max(
-                                new_activations[target], spread_activation
-                            )
+                            new_activations[target] = max(new_activations[target], spread_activation)
                         else:
                             new_activations[target] = spread_activation
 

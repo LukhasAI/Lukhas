@@ -12,9 +12,7 @@ class ComplianceMonitor:
         self.drift_score += drift_increment * 0.1  # Drift accumulates slowly
 
         # Log decision
-        print(
-            f"Decision compliance: {decision_compliance:.2f}, Drift increment: {drift_increment:.2f}"
-        )
+        print(f"Decision compliance: {decision_compliance:.2f}, Drift increment: {drift_increment:.2f}")
         print(f"Updated drift score: {self.drift_score:.2f}")
         self.log_drift_event(decision_compliance, drift_increment)
 

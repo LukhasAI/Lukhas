@@ -68,14 +68,10 @@ class EntropyProbe:
         symbolic_trace: list[dict[str, Any]] = []
 
         # 2. Calculate the entropy of the trace.
-        entropy: float = self.calculate_entropy(
-            [event.get("event_type") for event in symbolic_trace]
-        )
+        entropy: float = self.calculate_entropy([event.get("event_type") for event in symbolic_trace])
 
         # 3. Get the current emotional state.
-        emotional_state: dict[str, Any] = (
-            self.brain_integrator.emotional_oscillator.get_current_state()
-        )
+        emotional_state: dict[str, Any] = self.brain_integrator.emotional_oscillator.get_current_state()
         emotional_load: float = emotional_state.get("intensity", 0.0)
 
         # 4. Get the current recursion depth.

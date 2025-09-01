@@ -415,9 +415,7 @@ class IntegratedMonitoringSystem:
 
         # Create hormone-driven dashboard
         if self.dashboard_enabled:
-            self.dashboard = create_hormone_driven_dashboard(
-                self.signal_bus, self.config.get("dashboard_config", {})
-            )
+            self.dashboard = create_hormone_driven_dashboard(self.signal_bus, self.config.get("dashboard_config", {}))
 
         # Create neuroplastic learning orchestrator
         if self.learning_enabled:
@@ -681,9 +679,7 @@ class IntegratedMonitoringSystem:
             total_adaptations = adaptation_stats["total_adaptations"]
             if total_adaptations > 0:
                 success_rates = adaptation_stats["success_rates"]
-                avg_success = (
-                    sum(success_rates.values()) / len(success_rates) if success_rates else 0.0
-                )
+                avg_success = sum(success_rates.values()) / len(success_rates) if success_rates else 0.0
                 health.adaptation_effectiveness = avg_success
                 health.plasticity_health = avg_success
 
@@ -709,9 +705,7 @@ class IntegratedMonitoringSystem:
         # Calculate system stability
         if len(self.health_history) >= 10:
             recent_health = [h.overall_health for h in list(self.health_history)[-10:]]
-            variance = sum((h - health.overall_health) ** 2 for h in recent_health) / len(
-                recent_health
-            )
+            variance = sum((h - health.overall_health) ** 2 for h in recent_health) / len(recent_health)
             health.system_stability = 1.0 - min(1.0, variance * 2.0)
         else:
             health.system_stability = 0.5
@@ -900,9 +894,7 @@ class IntegratedMonitoringSystem:
             await self._set_monitoring_level(MonitoringLevel.STANDARD)
 
     # Callback for homeostasis controller
-    async def _on_homeostasis_change(
-        self, old_state: HomeostasisState, new_state: HomeostasisState
-    ):
+    async def _on_homeostasis_change(self, old_state: HomeostasisState, new_state: HomeostasisState):
         """Called when homeostasis state changes"""
 
         logger.info(

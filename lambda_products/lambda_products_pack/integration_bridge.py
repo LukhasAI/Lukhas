@@ -63,16 +63,12 @@ class IntegrationBridge:
 
             # Enable consciousness features
             if self.config["components"]["consciousness"]["enabled"]:
-                consciousness_features = self.config["components"]["consciousness"][
-                    "lambda_products"
-                ]
+                consciousness_features = self.config["components"]["consciousness"]["lambda_products"]
                 for product in consciousness_features:
                     if "nias" in product:
                         nias.consciousness_enabled = True
                         nias.consciousness_features = product["nias"]["features"]
-                        print(
-                            f"   ✅ Consciousness features enabled: {product['nias']['features']}"
-                        )
+                        print(f"   ✅ Consciousness features enabled: {product['nias']['features']}")
 
             # Enable Guardian policies
             if self.config["components"]["guardian"]["enabled"]:
@@ -133,9 +129,7 @@ class IntegrationBridge:
 
             # Enable consciousness features
             if self.config["components"]["consciousness"]["enabled"]:
-                consciousness_features = self.config["components"]["consciousness"][
-                    "lambda_products"
-                ]
+                consciousness_features = self.config["components"]["consciousness"]["lambda_products"]
                 for product in consciousness_features:
                     if "agents" in product:
                         orchestrator.consciousness_enabled = True
@@ -182,9 +176,7 @@ class IntegrationBridge:
 
             # Set performance targets
             plugin_system.target_throughput = plugin_config.get("registration_throughput", 50000)
-            print(
-                f"   ✅ Target throughput: {plugin_config.get('registration_throughput')} ops/sec"
-            )
+            print(f"   ✅ Target throughput: {plugin_config.get('registration_throughput')} ops/sec")
 
             # Enable features
             plugin_system.health_monitoring = plugin_config.get("health_monitoring", True)

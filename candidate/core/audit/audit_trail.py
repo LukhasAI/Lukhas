@@ -329,9 +329,7 @@ class AuditTrail:
                 "decision_id": decision_id,
                 "decision_type": decision_type,
                 "rationale": rationale,
-                "alternatives_count": (
-                    len(alternatives_considered) if alternatives_considered else 0
-                ),
+                "alternatives_count": (len(alternatives_considered) if alternatives_considered else 0),
             },
         )
 
@@ -388,9 +386,7 @@ class AuditTrail:
         complexity_delta = to_state.get("complexity", 0) - from_state.get("complexity", 0)
 
         event_type = (
-            AuditEventType.CONSCIOUSNESS_EMERGENCE
-            if emergence_detected
-            else AuditEventType.CONSCIOUSNESS_STATE_CHANGE
+            AuditEventType.CONSCIOUSNESS_EMERGENCE if emergence_detected else AuditEventType.CONSCIOUSNESS_STATE_CHANGE
         )
 
         await self.log_event(
@@ -611,9 +607,7 @@ class AuditTrail:
 
         recommendations = []
         if len(violations) > 10:
-            recommendations.append(
-                "High number of security violations detected. Review security policies."
-            )
+            recommendations.append("High number of security violations detected. Review security policies.")
         if summary["block_rate"] < 0.95:
             recommendations.append("Threat blocking rate below 95%. Enhance security measures.")
 
@@ -777,9 +771,7 @@ class AuditTrail:
             "total_events": self.event_count,
             "event_types": dict(self.event_counters),
             "severity_distribution": dict(self.severity_counters),
-            "most_active_actors": sorted(
-                self.actor_activity.items(), key=lambda x: x[1], reverse=True
-            )[:10],
+            "most_active_actors": sorted(self.actor_activity.items(), key=lambda x: x[1], reverse=True)[:10],
             "active_decisions": len(self.active_decisions),
             "buffer_size": len(self.event_buffer),
         }

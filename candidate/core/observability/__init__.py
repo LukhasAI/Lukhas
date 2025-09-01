@@ -210,9 +210,7 @@ class ObservabilityManager:
         try:
             # Initialize Trinity Framework monitoring first (foundation)
             if TRINITY_MONITORING_AVAILABLE:
-                self.trinity_monitor = TrinityFrameworkMonitor(
-                    self.config.get("trinity_monitoring", {})
-                )
+                self.trinity_monitor = TrinityFrameworkMonitor(self.config.get("trinity_monitoring", {}))
                 initialization_results["trinity_monitoring"] = True
                 logger.info("✅ Trinity Framework monitoring initialized")
             else:
@@ -221,9 +219,7 @@ class ObservabilityManager:
 
             # Initialize Guardian monitoring
             if GUARDIAN_MONITORING_AVAILABLE:
-                self.guardian_monitor = GuardianMonitoringDashboard(
-                    self.config.get("guardian_monitoring", {})
-                )
+                self.guardian_monitor = GuardianMonitoringDashboard(self.config.get("guardian_monitoring", {}))
                 initialization_results["guardian_monitoring"] = True
                 logger.info("✅ Guardian monitoring initialized")
             else:
@@ -232,9 +228,7 @@ class ObservabilityManager:
 
             # Initialize consciousness monitoring
             if CONSCIOUSNESS_MONITORING_AVAILABLE:
-                self.consciousness_monitor = AwarenessMonitoringSystem(
-                    self.config.get("consciousness_monitoring", {})
-                )
+                self.consciousness_monitor = AwarenessMonitoringSystem(self.config.get("consciousness_monitoring", {}))
                 initialization_results["consciousness_monitoring"] = True
                 logger.info("✅ Consciousness monitoring initialized")
             else:
@@ -296,9 +290,7 @@ class ObservabilityManager:
             "systems_status": {
                 "unified_dashboard": "active" if self.unified_dashboard else "not_available",
                 "guardian_monitor": "active" if self.guardian_monitor else "not_available",
-                "consciousness_monitor": "active"
-                if self.consciousness_monitor
-                else "not_available",
+                "consciousness_monitor": "active" if self.consciousness_monitor else "not_available",
                 "health_monitor": "active" if self.health_monitor else "not_available",
                 "alerting_system": "active" if self.alerting_system else "not_available",
                 "trinity_monitor": "active" if self.trinity_monitor else "not_available",

@@ -173,9 +173,7 @@ class EnhancedMemoryVisualizer:
         )
         try:
             modulated_data = self._quantum_modulate_memory(memory_data)
-            self.logger.debug(
-                "Memory data quantum modulated for visualization.", memory_id=memory_id
-            )
+            self.logger.debug("Memory data quantum modulated for visualization.", memory_id=memory_id)
 
             # ΛNOTE: Plot creation methods are placeholders.
             fig = self._create_memory_plot(memory_id, modulated_data, retrieval_metadata)
@@ -183,25 +181,19 @@ class EnhancedMemoryVisualizer:
                 st.plotly_chart(fig, use_container_width=True)  # Check if fig is not None
 
             if self.config.emotional_mapping:
-                emotion_fig = self._create_emotion_plot(
-                    memory_id, modulated_data, retrieval_metadata
-                )
+                emotion_fig = self._create_emotion_plot(memory_id, modulated_data, retrieval_metadata)
                 if emotion_fig:
                     st.plotly_chart(emotion_fig, use_container_width=True)
 
             if self.config.dream_collapse:
                 # ΛNOTE: Dream collapse visualization is a placeholder.
-                collapse_fig = self._create_collapse_plot(
-                    memory_id, modulated_data, retrieval_metadata
-                )
+                collapse_fig = self._create_collapse_plot(memory_id, modulated_data, retrieval_metadata)
                 if collapse_fig:
                     st.plotly_chart(collapse_fig, use_container_width=True)
 
             final_coherence = 0.0
             if self.qi_oscillator:
-                final_coherence = getattr(
-                    self.qi_oscillator, "entanglement_factor", 0.0
-                )  # Using example attribute
+                final_coherence = getattr(self.qi_oscillator, "entanglement_factor", 0.0)  # Using example attribute
 
             self.logger.info(
                 "Memory fold visualization generated successfully.",
@@ -213,9 +205,7 @@ class EnhancedMemoryVisualizer:
                 "status": "success",
                 "memory_id": memory_id,
                 "coherence_metric_example": final_coherence,  # Example metric
-                "visualization_elements_generated": bool(
-                    fig or emotion_fig or collapse_fig
-                ),  # Simplified check
+                "visualization_elements_generated": bool(fig or emotion_fig or collapse_fig),  # Simplified check
             }
 
         except Exception as e:
@@ -294,9 +284,7 @@ class Enhanced3DVisualizer:
     """
 
     def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
-        self.logger = logger.bind(
-            visualizer_3d_id=f"mem_viz_3d_{datetime.now().strftime('%H%M%S')}"
-        )
+        self.logger = logger.bind(visualizer_3d_id=f"mem_viz_3d_{datetime.now().strftime('%H%M%S')}")
         try:
             self.qi_oscillator = qi_oscillator or QIOscillator()
             self.logger.debug("QIOscillator initialized for 3DVisualizer.")
@@ -309,9 +297,7 @@ class Enhanced3DVisualizer:
             self.qi_oscillator = None  # type: ignore
         self.logger.info("Enhanced3DVisualizer initialized.")
 
-    def launch_3d_viewer(
-        self, memory_id: str, memory_data: dict[str, Any]
-    ) -> None:  # Added memory_id
+    def launch_3d_viewer(self, memory_id: str, memory_data: dict[str, Any]) -> None:  # Added memory_id
         """Launch 3D memory visualization (placeholder)."""
         # ΛNOTE: Placeholder for launching 3D viewer. Requires a 3D graphics library.
         self.logger.info("Launching 3D viewer (placeholder).", memory_id=memory_id)

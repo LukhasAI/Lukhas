@@ -11,9 +11,7 @@ import re
 from pathlib import Path
 
 # Pattern to find the ASCII art ending
-ASCII_END_PATTERN = re.compile(
-    r"(╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝)\n", re.MULTILINE
-)
+ASCII_END_PATTERN = re.compile(r"(╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝)\n", re.MULTILINE)
 
 # Template reference to add
 TEMPLATE_REFERENCE = """

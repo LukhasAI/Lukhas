@@ -359,9 +359,7 @@ class SymbolicTranslator:
 
         return translated
 
-    def batch_translate(
-        self, symbols: list[Symbol], source_system: str, target_system: str
-    ) -> list[Symbol]:
+    def batch_translate(self, symbols: list[Symbol], source_system: str, target_system: str) -> list[Symbol]:
         """Translate multiple symbols at once"""
         return [self.translate(s, source_system, target_system) for s in symbols]
 
@@ -432,9 +430,7 @@ class SymbolicLanguageFramework:
                 value=constraint,
             )
             expression.add_symbol(constraint_symbol)
-            expression.add_relation(
-                SymbolicRelation(decision_symbol.id, constraint_symbol.id, "constrained_by")
-            )
+            expression.add_relation(SymbolicRelation(decision_symbol.id, constraint_symbol.id, "constrained_by"))
 
         # Store trace
         if context.decision_id not in self.decision_traces:

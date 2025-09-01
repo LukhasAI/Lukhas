@@ -90,9 +90,7 @@ class OscillatorAdapter:
 
         logger.info(f"Added node {node.node_type} to oscillator network")
 
-    async def process_signal(
-        self, signal: dict[str, Any], context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def process_signal(self, signal: dict[str, Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Process a signal through the oscillator network
 
         Args:
@@ -109,17 +107,13 @@ class OscillatorAdapter:
             attended_signal = self.qi_inspired_gate.attend(signal, self.sync_state)
 
             # Filter through cristae topology
-            filtered_signal = self.crista_filter.filter(
-                attended_signal, self.sync_state["coherence"]
-            )
+            filtered_signal = self.crista_filter.filter(attended_signal, self.sync_state["coherence"])
 
             # Process through proton gradient
             gradient_processed = self.proton_gradient.process(filtered_signal, self.sync_state)
 
             # Propagate through node network
-            responses = await asyncio.gather(
-                *[node.process(gradient_processed, context) for node in self.nodes]
-            )
+            responses = await asyncio.gather(*[node.process(gradient_processed, context) for node in self.nodes])
 
             # Integrate responses
             integrated_response = self._integrate_responses(responses)
@@ -234,9 +228,7 @@ class OscillatorAdapter:
     async def _measure_performance(self) -> None:
         """Measure and log performance metrics"""
         if not (
-            self.metrics["sync_quality"]
-            and self.metrics["energy_efficiency"]
-            and self.metrics["processing_latency"]
+            self.metrics["sync_quality"] and self.metrics["energy_efficiency"] and self.metrics["processing_latency"]
         ):
             return
 
@@ -245,6 +237,5 @@ class OscillatorAdapter:
         avg_latency = np.mean(self.metrics["processing_latency"][-10:])
 
         logger.debug(
-            f"Performance metrics - Sync: {avg_sync:.3f}, "
-            f"Energy: {avg_energy:.3f}, Latency: {avg_latency:.3f}ms"
+            f"Performance metrics - Sync: {avg_sync:.3f}, " f"Energy: {avg_energy:.3f}, Latency: {avg_latency:.3f}ms"
         )

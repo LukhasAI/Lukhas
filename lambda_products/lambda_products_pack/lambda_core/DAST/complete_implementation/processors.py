@@ -332,9 +332,7 @@ class TagProcessor:
         categorized = {}
 
         for category, category_tags in self.tag_hierarchy.items():
-            matching_tags = [
-                tag for tag in tags if tag.lower() in [ct.lower() for ct in category_tags]
-            ]
+            matching_tags = [tag for tag in tags if tag.lower() in [ct.lower() for ct in category_tags]]
             if matching_tags:
                 categorized[category] = matching_tags
 
@@ -366,9 +364,7 @@ class TagProcessor:
             )
 
         # Status conflicts
-        status_tags = [
-            tag for tag in tags_lower if tag in ["new", "in-progress", "review", "testing", "done"]
-        ]
+        status_tags = [tag for tag in tags_lower if tag in ["new", "in-progress", "review", "testing", "done"]]
         if len(status_tags) > 1:
             conflicts.append(
                 {
@@ -424,9 +420,7 @@ class AttentionProcessor:
         self.attention_patterns: dict[str, Any] = {}
         self.focus_sessions: list[dict] = []
 
-    def process_attention_request(
-        self, request: str, context: Optional[dict] = None
-    ) -> dict[str, Any]:
+    def process_attention_request(self, request: str, context: Optional[dict] = None) -> dict[str, Any]:
         """Process attention/focus requests with AI optimization"""
         attention_analysis = {
             "focus_type": self._classify_focus_type(request),
@@ -527,9 +521,7 @@ class SolutionProcessor:
         self.solution_database: dict[str, Any] = {}
         self.pattern_library: dict[str, list[dict]] = {}
 
-    def process_solution(
-        self, problem: str, solution: str, context: Optional[dict] = None
-    ) -> dict[str, Any]:
+    def process_solution(self, problem: str, solution: str, context: Optional[dict] = None) -> dict[str, Any]:
         """Process and store solution with intelligent categorization"""
         solution_record = {
             "problem": problem,

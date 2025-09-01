@@ -164,9 +164,7 @@ def _configure_logger(logger: logging.Logger) -> None:
         formatter = JSONFormatter()
     else:
         formats = {
-            "standard": (
-                "%(symbol)s %(asctime)s %(module_context)s %(name)s - %(levelname)s - %(message)s"
-            ),
+            "standard": ("%(symbol)s %(asctime)s %(module_context)s %(name)s - %(levelname)s - %(message)s"),
             "detailed": (
                 "%(symbol)s %(asctime)s %(module_context)s "
                 "[%(name)s:%(funcName)s:%(lineno)d] %(levelname)s - %(message)s"

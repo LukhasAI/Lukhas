@@ -55,9 +55,7 @@ class LukhasConfig(BaseSettings):
     )
 
     qi_api_url: str = Field(
-        default_factory=lambda: os.getenv(
-            "QUANTUM_API_URL", "http://localhost:8080/api/v1/quantum"
-        ),
+        default_factory=lambda: os.getenv("QUANTUM_API_URL", "http://localhost:8080/api/v1/quantum"),
         description="Quantum service endpoint",
     )
 
@@ -79,9 +77,7 @@ class LukhasConfig(BaseSettings):
     )
 
     # OpenAI Configuration
-    openai_api_key: Optional[str] = Field(
-        default=None, env="OPENAI_API_KEY", description="OpenAI API key"
-    )
+    openai_api_key: Optional[str] = Field(default=None, env="OPENAI_API_KEY", description="OpenAI API key")
 
     # CORS Settings
     cors_origins: str = Field(

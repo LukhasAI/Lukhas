@@ -118,9 +118,7 @@ class OAuthManager:
             encoded_data = base64.b64encode(json_data.encode()).decode()
 
             # Create HMAC for integrity
-            signature = hmac.new(
-                self.encryption_key, encoded_data.encode(), hashlib.sha256
-            ).hexdigest()
+            signature = hmac.new(self.encryption_key, encoded_data.encode(), hashlib.sha256).hexdigest()
 
             return f"{encoded_data}.{signature}"
 
@@ -139,9 +137,7 @@ class OAuthManager:
             encoded_data, signature = parts
 
             # Verify HMAC
-            expected_signature = hmac.new(
-                self.encryption_key, encoded_data.encode(), hashlib.sha256
-            ).hexdigest()
+            expected_signature = hmac.new(self.encryption_key, encoded_data.encode(), hashlib.sha256).hexdigest()
 
             if not hmac.compare_digest(signature, expected_signature):
                 raise ValueError("Token data integrity check failed")
@@ -218,9 +214,7 @@ class OAuthManager:
             logger.error("State validation failed: %s", str(e))
             return False
 
-    async def store_credentials(
-        self, user_id: str, provider: OAuthProvider, credentials: dict[str, Any]
-    ) -> bool:
+    async def store_credentials(self, user_id: str, provider: OAuthProvider, credentials: dict[str, Any]) -> bool:
         """
         Store OAuth credentials securely
 
@@ -243,9 +237,7 @@ class OAuthManager:
                 "provider": provider.value,
                 "credentials": credentials,
                 "stored_at": datetime.utcnow().isoformat(),
-                "expires_at": (
-                    datetime.utcnow() + timedelta(hours=self.token_ttl_hours)
-                ).isoformat(),
+                "expires_at": (datetime.utcnow() + timedelta(hours=self.token_ttl_hours)).isoformat(),
                 "status": TokenStatus.ACTIVE.value,
             }
 
@@ -267,9 +259,7 @@ class OAuthManager:
             logger.error("Failed to store credentials: %s", str(e))
             return False
 
-    async def get_credentials(
-        self, user_id: str, provider: OAuthProvider
-    ) -> Optional[dict[str, Any]]:
+    async def get_credentials(self, user_id: str, provider: OAuthProvider) -> Optional[dict[str, Any]]:
         """
         Get stored OAuth credentials
 
@@ -285,9 +275,7 @@ class OAuthManager:
             stored_data = self.token_store.get(storage_key)
 
             if not stored_data:
-                logger.debug(
-                    "No credentials found for user %s, provider %s", user_id, provider.value
-                )
+                logger.debug("No credentials found for user %s, provider %s", user_id, provider.value)
                 return None
 
             # Decrypt credential data
@@ -368,9 +356,7 @@ class OAuthManager:
                 logger.info("Revoked credentials for user %s, provider %s", user_id, provider.value)
                 return True
             else:
-                logger.debug(
-                    "No credentials to revoke for user %s, provider %s", user_id, provider.value
-                )
+                logger.debug("No credentials to revoke for user %s, provider %s", user_id, provider.value)
                 return True  # Consider it successful if nothing to revoke
 
         except Exception as e:
@@ -387,9 +373,7 @@ class OAuthManager:
             self.auth_attempts[user_id] = []
 
         # Remove old attempts
-        self.auth_attempts[user_id] = [
-            attempt for attempt in self.auth_attempts[user_id] if attempt > one_hour_ago
-        ]
+        self.auth_attempts[user_id] = [attempt for attempt in self.auth_attempts[user_id] if attempt > one_hour_ago]
 
         # Check rate limit
         if len(self.auth_attempts[user_id]) >= self.max_attempts_per_hour:
@@ -405,11 +389,7 @@ class OAuthManager:
             current_time = datetime.utcnow()
 
             # Clean up expired states
-            expired_states = [
-                state
-                for state, data in self.state_store.items()
-                if current_time > data["expires_at"]
-            ]
+            expired_states = [state for state, data in self.state_store.items() if current_time > data["expires_at"]]
 
             for state in expired_states:
                 del self.state_store[state]

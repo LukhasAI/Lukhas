@@ -36,9 +36,7 @@ def generate_analysis_summary():
     # Consciousness Systems
     print("\n3. 🧠 CONSCIOUSNESS SYSTEMS STATUS:")
     print("   ✅ 4/7 consciousness modules working (57.1%)")
-    print(
-        "   ✅ Working: candidate.consciousness, creative_core, neuroplastic_connector, matriz_adapter"
-    )
+    print("   ✅ Working: candidate.consciousness, creative_core, neuroplastic_connector, matriz_adapter")
     print("   ❌ Issues:")
     print("      • Missing integrations.elevenlabs")
     print("      • Undefined QIUserContext")

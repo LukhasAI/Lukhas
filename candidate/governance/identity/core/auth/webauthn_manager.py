@@ -121,8 +121,7 @@ class WebAuthnManager:
             existing_credentials = []
             if user_id in self.credentials:
                 existing_credentials = [
-                    {"id": cred.credential_id, "type": "public-key"}
-                    for cred in self.credentials[user_id]
+                    {"id": cred.credential_id, "type": "public-key"} for cred in self.credentials[user_id]
                 ]
 
             # Generate registration options
@@ -143,12 +142,8 @@ class WebAuthnManager:
                 ],
                 "authenticatorSelection": {
                     "authenticatorAttachment": tier_reqs.get("platform_attachment", "any"),
-                    "userVerification": (
-                        "required" if tier_reqs.get("user_verification", False) else "preferred"
-                    ),
-                    "residentKey": (
-                        "required" if tier_reqs.get("resident_key", False) else "preferred"
-                    ),
+                    "userVerification": ("required" if tier_reqs.get("user_verification", False) else "preferred"),
+                    "residentKey": ("required" if tier_reqs.get("resident_key", False) else "preferred"),
                 },
                 "attestation": "direct" if user_tier >= 3 else "none",
                 "excludeCredentials": existing_credentials,
@@ -190,14 +185,10 @@ class WebAuthnManager:
             return {
                 "success": False,
                 "error": f"Registration options generation failed: {e!s}",
-                "generation_time_ms": (
-                    (time.time() - start_time) * 1000 if "start_time" in locals() else 0
-                ),
+                "generation_time_ms": ((time.time() - start_time) * 1000 if "start_time" in locals() else 0),
             }
 
-    def verify_registration_response(
-        self, registration_id: str, response: dict[str, Any]
-    ) -> dict[str, Any]:
+    def verify_registration_response(self, registration_id: str, response: dict[str, Any]) -> dict[str, Any]:
         """✅ Verify WebAuthn registration response and create credential"""
         try:
             start_time = time.time()
@@ -215,9 +206,7 @@ class WebAuthnManager:
                 return {"success": False, "error": "Registration expired"}
 
             # 🛡️ Guardian validation
-            if not self._constitutional_validation(
-                pending_reg["user_id"], "webauthn_registration", response
-            ):
+            if not self._constitutional_validation(pending_reg["user_id"], "webauthn_registration", response):
                 return {"success": False, "error": "Guardian validation failed"}
 
             # Extract and validate response components
@@ -288,14 +277,10 @@ class WebAuthnManager:
             return {
                 "success": False,
                 "error": f"Registration verification failed: {e!s}",
-                "verification_time_ms": (
-                    (time.time() - start_time) * 1000 if "start_time" in locals() else 0
-                ),
+                "verification_time_ms": ((time.time() - start_time) * 1000 if "start_time" in locals() else 0),
             }
 
-    def generate_authentication_options(
-        self, user_id: Optional[str] = None, tier_level: int = 0
-    ) -> dict[str, Any]:
+    def generate_authentication_options(self, user_id: Optional[str] = None, tier_level: int = 0) -> dict[str, Any]:
         """🔓 Generate WebAuthn authentication options"""
         try:
             start_time = time.time()
@@ -325,9 +310,7 @@ class WebAuthnManager:
                 "challenge": challenge_b64,
                 "rpId": self.rp_id,
                 "allowCredentials": allowed_credentials,
-                "userVerification": (
-                    "required" if tier_reqs.get("user_verification", False) else "preferred"
-                ),
+                "userVerification": ("required" if tier_reqs.get("user_verification", False) else "preferred"),
                 "timeout": 60000,  # 60 seconds
                 "extensions": {
                     "hmacGetSecret": tier_level >= 4,
@@ -367,14 +350,10 @@ class WebAuthnManager:
             return {
                 "success": False,
                 "error": f"Authentication options generation failed: {e!s}",
-                "generation_time_ms": (
-                    (time.time() - start_time) * 1000 if "start_time" in locals() else 0
-                ),
+                "generation_time_ms": ((time.time() - start_time) * 1000 if "start_time" in locals() else 0),
             }
 
-    def verify_authentication_response(
-        self, authentication_id: str, response: dict[str, Any]
-    ) -> dict[str, Any]:
+    def verify_authentication_response(self, authentication_id: str, response: dict[str, Any]) -> dict[str, Any]:
         """🔍 Verify WebAuthn authentication response"""
         try:
             start_time = time.time()
@@ -469,9 +448,7 @@ class WebAuthnManager:
             return {
                 "success": False,
                 "error": f"Authentication verification failed: {e!s}",
-                "verification_time_ms": (
-                    (time.time() - start_time) * 1000 if "start_time" in locals() else 0
-                ),
+                "verification_time_ms": ((time.time() - start_time) * 1000 if "start_time" in locals() else 0),
             }
 
     def get_user_credentials(self, user_id: str) -> dict[str, Any]:

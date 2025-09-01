@@ -59,11 +59,7 @@ def _get_git_sha() -> str:
     try:
         import subprocess
 
-        return (
-            subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL)
-            .decode()
-            .strip()
-        )
+        return subprocess.check_output(["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL).decode().strip()
     except Exception:
         return "TBD"
 
@@ -89,11 +85,7 @@ def _node_type(author_graph: Mapping[str, object], node_id: str) -> str | None:
 
 def _collect_nodes(author_graph: Mapping[str, object]) -> dict[str, Mapping[str, object]]:
     nodes = author_graph.get("nodes", {})  # type: ignore[assignment]
-    return (
-        {k: v for k, v in nodes.items() if isinstance(v, Mapping)}
-        if isinstance(nodes, Mapping)
-        else {}
-    )
+    return {k: v for k, v in nodes.items() if isinstance(v, Mapping)} if isinstance(nodes, Mapping) else {}
 
 
 def _collect_edges(author_graph: Mapping[str, object]) -> list[Mapping[str, object]]:
@@ -209,9 +201,7 @@ def compile_graph(
 
     # Provenance
     inputs = list(inputs or [])
-    prov_inputs = [
-        {"path": p, "sha256": h} for (p, h) in inputs if isinstance(p, str) and isinstance(h, str)
-    ]
+    prov_inputs = [{"path": p, "sha256": h} for (p, h) in inputs if isinstance(p, str) and isinstance(h, str)]
     # Scope hash over the canonical JSON of the author graph
     scope_hash = _sha256_bytes(json.dumps(author, sort_keys=True, separators=(",", ":")).encode())
     provenance = {
@@ -268,9 +258,7 @@ def compile_graph(
 def _cli(argv: Sequence[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="MATRIZ Graph Compiler v0.1")
     ap.add_argument("input", help="Author graph JSON path")
-    ap.add_argument(
-        "--out-dir", default="reports/matriz", help="Output directory for plan and report"
-    )
+    ap.add_argument("--out-dir", default="reports/matriz", help="Output directory for plan and report")
     args = ap.parse_args(argv)
 
     in_path = Path(args.input)

@@ -88,9 +88,7 @@ class DocHeaderGenerator:
                 elif isinstance(node, ast.FunctionDef):
                     # Only top-level functions
                     if not any(
-                        isinstance(p, ast.ClassDef)
-                        for p in ast.walk(tree)
-                        if hasattr(p, "body") and node in p.body
+                        isinstance(p, ast.ClassDef) for p in ast.walk(tree) if hasattr(p, "body") and node in p.body
                     ):
                         info["functions"].append(node.name)
 
@@ -118,9 +116,7 @@ class DocHeaderGenerator:
 
         if any(term in path_str for term in ["identity", "auth", "lid", "lambda"]):
             return "⚛️"
-        elif any(
-            term in path_str for term in ["consent", "governance", "guardian", "ethics", "policy"]
-        ):
+        elif any(term in path_str for term in ["consent", "governance", "guardian", "ethics", "policy"]):
             return "🛡️"
         elif any(term in path_str for term in ["consciousness", "brain", "memory", "context"]):
             return "🧠"
@@ -247,9 +243,7 @@ class DocHeaderGenerator:
 
             # Add header (or simulate in dry-run)
             if dry_run:
-                self.report["processed"].append(
-                    {"path": str(module_path), "header": header, "info": info}
-                )
+                self.report["processed"].append({"path": str(module_path), "header": header, "info": info})
             else:
                 if self.add_header_to_file(module_path, header):
                     self.report["processed"].append(str(module_path))

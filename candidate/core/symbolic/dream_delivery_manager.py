@@ -162,9 +162,7 @@ class DreamDeliveryManager:
             channels = self.output_channels
 
         # Extract information from dream content
-        dream_id = dream_content.get(
-            "dream_id", f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        )
+        dream_id = dream_content.get("dream_id", f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
         dream_text = dream_content.get("content", "")
         dream_emotions = dream_content.get("emotional_context", {})
         intent = dream_content.get("intent", "share_dream")
@@ -335,9 +333,7 @@ class DreamDeliveryManager:
         # Apply symbolic relationship patterns if available
         if self.symbolic_world and emotion["name"] != "neutral":
             try:
-                voice_params = self._enhance_voice_with_symbolic_patterns(
-                    voice_params, emotion["name"], message
-                )
+                voice_params = self._enhance_voice_with_symbolic_patterns(voice_params, emotion["name"], message)
                 logger.debug(f"Applied symbolic patterns to voice parameters for {emotion['name']}")
             except Exception as e:
                 logger.warning(f"Failed to apply symbolic patterns: {e}")
@@ -513,9 +509,7 @@ class DreamDeliveryManager:
                 # Get baseline parameters from pattern
                 pitch_baseline = pattern_symbol.get_property("pitch_baseline")
                 if pitch_baseline is not None:
-                    voice_params.pitch = (
-                        voice_params.pitch + pitch_baseline
-                    ) / 2  # Average with existing
+                    voice_params.pitch = (voice_params.pitch + pitch_baseline) / 2  # Average with existing
 
                 speed_baseline = pattern_symbol.get_property("speed_baseline")
                 if speed_baseline is not None:
@@ -535,9 +529,7 @@ class DreamDeliveryManager:
 
                 articulation_baseline = pattern_symbol.get_property("articulation_baseline")
                 if articulation_baseline is not None:
-                    voice_params.articulation = (
-                        voice_params.articulation + articulation_baseline
-                    ) / 2
+                    voice_params.articulation = (voice_params.articulation + articulation_baseline) / 2
 
                 inflection_baseline = pattern_symbol.get_property("inflection_baseline")
                 if inflection_baseline is not None:
@@ -558,9 +550,7 @@ class DreamDeliveryManager:
                         rel_pitch = rel_pattern.get_property("pitch_baseline")
                         if rel_pitch is not None:
                             influence = blend_factor * rel_strength
-                            voice_params.pitch = (
-                                voice_params.pitch * (1 - influence) + rel_pitch * influence
-                            )
+                            voice_params.pitch = voice_params.pitch * (1 - influence) + rel_pitch * influence
 
                         # Blend other parameters similarly
                         # (Code condensed for brevity - would apply to all voice parameters)
@@ -572,9 +562,7 @@ class DreamDeliveryManager:
 
                 # Apply content adjustment with a small weight
                 content_weight = 0.2
-                voice_params.inflection += (
-                    content_adjustment.get("inflection_adjustment", 0) * content_weight
-                )
+                voice_params.inflection += content_adjustment.get("inflection_adjustment", 0) * content_weight
                 voice_params.speed += content_adjustment.get("speed_adjustment", 0) * content_weight
 
                 # Ensure parameters stay in valid ranges
@@ -755,9 +743,7 @@ class DreamDeliveryManager:
 
         return {"status": "success", "notification_type": "dream_insight"}
 
-    def _register_in_symbolic_world(
-        self, dream_content: dict[str, Any], delivery_context: dict[str, Any]
-    ) -> None:
+    def _register_in_symbolic_world(self, dream_content: dict[str, Any], delivery_context: dict[str, Any]) -> None:
         """
         Register dream delivery in symbolic world for integrated awareness
 

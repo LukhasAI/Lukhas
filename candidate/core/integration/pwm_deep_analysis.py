@@ -29,11 +29,7 @@ class ConnectivityAnalyzer:
     def scan_python_files(self):
         """Find all Python files excluding archives"""
         self.python_files = list(self.root_path.rglob("*.py"))
-        self.python_files = [
-            f
-            for f in self.python_files
-            if "._cleanup_archive" not in str(f) and ".git" not in str(f)
-        ]
+        self.python_files = [f for f in self.python_files if "._cleanup_archive" not in str(f) and ".git" not in str(f)]
         print(f"📊 Found {len(self.python_files)} Python files to analyze")
 
     def analyze_imports(self, file_path):
@@ -87,11 +83,7 @@ class ConnectivityAnalyzer:
                     content = f.read()
 
                 lines_of_code = len(
-                    [
-                        line
-                        for line in content.split("\n")
-                        if line.strip() and not line.strip().startswith("#")
-                    ]
+                    [line for line in content.split("\n") if line.strip() and not line.strip().startswith("#")]
                 )
                 imports_out = len(self.import_graph.get(module_name, set()))
                 imports_in = len(self.reverse_graph.get(module_name, set()))
@@ -173,9 +165,7 @@ class ConnectivityAnalyzer:
                 {"file": f, "metrics": self.file_metrics[f]}
                 for f in self.critical_hubs[:20]  # Top 20
             ],
-            "isolated_files": [
-                {"file": f, "metrics": self.file_metrics[f]} for f in self.isolated_files
-            ],
+            "isolated_files": [{"file": f, "metrics": self.file_metrics[f]} for f in self.isolated_files],
             "directory_analysis": self.analyze_directories(),
         }
 
@@ -241,17 +231,13 @@ def main():
     for hub in report["critical_hubs"][:10]:
         metrics = hub["metrics"]
         print(f"  📁 {hub['file']}")
-        print(
-            f"     🔗 Connectivity: {metrics['connectivity_score']} | 📏 LOC: {metrics['lines_of_code']}"
-        )
+        print(f"     🔗 Connectivity: {metrics['connectivity_score']} | 📏 LOC: {metrics['lines_of_code']}")
 
     print("\n🏝️ Isolated Files to Archive (Sample):")
     for isolated in report["isolated_files"][:10]:
         metrics = isolated["metrics"]
         print(f"  🗑️ {isolated['file']}")
-        print(
-            f"     🔗 Connectivity: {metrics['connectivity_score']} | 📏 LOC: {metrics['lines_of_code']}"
-        )
+        print(f"     🔗 Connectivity: {metrics['connectivity_score']} | 📏 LOC: {metrics['lines_of_code']}")
 
     print("\n📄 Full report saved to: _CONNECTIVITY_ANALYSIS.json")
 

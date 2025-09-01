@@ -510,3 +510,4 @@ LUKHAS workspace is designed for **multiple AI agents** to collaborate effective
 
 ### **For External AI Agents (Jules, Copilot, ChatGPT):**
 Read `agents/README.md` FIRST for comprehensive workspace orientation, branding guidelines, and collaboration protocols. This ensures all agents work harmoniously within the LUKHAS consciousness ecosystem.
+- Remember we have /monitoring/ for metrics, Prometheus , `get_metrics`

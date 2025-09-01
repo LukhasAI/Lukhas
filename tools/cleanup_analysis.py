@@ -63,13 +63,7 @@ def analyze_cleanup_candidates():
             continue  # Keep __init__ files
         else:
             # Check if it's a variant or duplicate
-            if (
-                "_old" in file
-                or "_backup" in file
-                or "_copy" in file
-                or "deprecated" in file
-                or "obsolete" in file
-            ):
+            if "_old" in file or "_backup" in file or "_copy" in file or "deprecated" in file or "obsolete" in file:
                 categories["archive_candidates"].append(file)
             else:
                 categories["safe_to_delete"].append(file)

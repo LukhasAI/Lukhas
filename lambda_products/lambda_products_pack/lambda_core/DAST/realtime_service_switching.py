@@ -183,9 +183,7 @@ class RealTimeServiceSwitcher:
             return response
 
         # Primary failed, try failover
-        backup_providers = self._get_backup_providers(
-            request.service_type, exclude=[primary_provider.provider_id]
-        )
+        backup_providers = self._get_backup_providers(request.service_type, exclude=[primary_provider.provider_id])
 
         for backup in backup_providers[: request.max_retries]:
             response = await self._try_provider(backup, request)
@@ -265,9 +263,7 @@ class RealTimeServiceSwitcher:
 
         return health_results
 
-    def configure_failover_strategy(
-        self, strategy: FailoverStrategy, config: Optional[dict[str, Any]] = None
-    ) -> None:
+    def configure_failover_strategy(self, strategy: FailoverStrategy, config: Optional[dict[str, Any]] = None) -> None:
         """Configure the failover strategy"""
         self.failover_strategy = strategy
 
@@ -308,9 +304,7 @@ class RealTimeServiceSwitcher:
                     "avg_response_time_ms": statistics.mean(metrics[-100:]),
                     "p95_response_time_ms": self._calculate_percentile(metrics[-100:], 95),
                     "p99_response_time_ms": self._calculate_percentile(metrics[-100:], 99),
-                    "requests_handled": len(
-                        [r for r in self.response_history if r.provider_id == provider_id]
-                    ),
+                    "requests_handled": len([r for r in self.response_history if r.provider_id == provider_id]),
                     "cost_incurred": self._calculate_provider_cost(provider_id),
                 }
 
@@ -404,16 +398,12 @@ class RealTimeServiceSwitcher:
 
         return available
 
-    def _get_backup_providers(
-        self, service_type: ServiceType, exclude: list[str]
-    ) -> list[ServiceProvider]:
+    def _get_backup_providers(self, service_type: ServiceType, exclude: list[str]) -> list[ServiceProvider]:
         """Get backup providers excluding specific ones"""
         available = self._get_available_providers(service_type)
         return [p for p in available if p.provider_id not in exclude]
 
-    async def _try_provider(
-        self, provider: ServiceProvider, request: ServiceRequest
-    ) -> ServiceResponse:
+    async def _try_provider(self, provider: ServiceProvider, request: ServiceRequest) -> ServiceResponse:
         """Try to execute request with specific provider"""
         start_time = time.time()
 
@@ -451,9 +441,7 @@ class RealTimeServiceSwitcher:
                 response_time_ms=response_time,
             )
 
-    async def _call_provider_api(
-        self, provider: ServiceProvider, request: ServiceRequest, timeout: float
-    ) -> Any:
+    async def _call_provider_api(self, provider: ServiceProvider, request: ServiceRequest, timeout: float) -> Any:
         """Make actual API call to provider"""
         # This is a simulation - would implement actual API calls
         import random
@@ -513,9 +501,7 @@ class RealTimeServiceSwitcher:
 
             return health
 
-    def _update_provider_metrics(
-        self, provider_id: str, success: bool, response_time: float
-    ) -> None:
+    def _update_provider_metrics(self, provider_id: str, success: bool, response_time: float) -> None:
         """Update provider performance metrics"""
         # Update performance history
         if provider_id not in self.performance_metrics:
@@ -525,9 +511,7 @@ class RealTimeServiceSwitcher:
 
         # Keep only recent metrics
         if len(self.performance_metrics[provider_id]) > self.performance_window:
-            self.performance_metrics[provider_id] = self.performance_metrics[provider_id][
-                -self.performance_window :
-            ]
+            self.performance_metrics[provider_id] = self.performance_metrics[provider_id][-self.performance_window :]
 
         # Update health
         if provider_id in self.service_health:
@@ -552,13 +536,9 @@ class RealTimeServiceSwitcher:
                     health.status = ServiceStatus.UNAVAILABLE
 
             # Update success rate
-            recent_responses = [
-                r for r in self.response_history[-100:] if r.provider_id == provider_id
-            ]
+            recent_responses = [r for r in self.response_history[-100:] if r.provider_id == provider_id]
             if recent_responses:
-                health.success_rate = sum(1 for r in recent_responses if r.success) / len(
-                    recent_responses
-                )
+                health.success_rate = sum(1 for r in recent_responses if r.success) / len(recent_responses)
 
             # Update health score
             health.health_score = self._calculate_health_score(health)
@@ -633,9 +613,7 @@ class RealTimeServiceSwitcher:
         # Count recent requests per provider
         request_counts = {}
         for provider in providers:
-            count = sum(
-                1 for r in self.response_history[-100:] if r.provider_id == provider.provider_id
-            )
+            count = sum(1 for r in self.response_history[-100:] if r.provider_id == provider.provider_id)
             request_counts[provider.provider_id] = count
 
         # Select provider with least recent requests
@@ -700,9 +678,7 @@ class RealTimeServiceSwitcher:
         # Check for single points of failure
         for service_type in ServiceType:
             if self._count_available_providers(service_type) < 2:
-                recommendations.append(
-                    f"Add backup provider for {service_type.value} to enable failover"
-                )
+                recommendations.append(f"Add backup provider for {service_type.value} to enable failover")
 
         # Check for poor performing providers
         for provider_id, health in self.service_health.items():
@@ -715,10 +691,7 @@ class RealTimeServiceSwitcher:
 
         # Check for high costs
         high_cost_providers = [
-            p
-            for providers in self.service_providers.values()
-            for p in providers
-            if p.cost_per_request > 0.05
+            p for providers in self.service_providers.values() for p in providers if p.cost_per_request > 0.05
         ]
         if high_cost_providers:
             recommendations.append("Consider adding lower-cost alternatives for cost optimization")
@@ -760,9 +733,7 @@ class RealTimeServiceSwitcher:
         if not provider:
             return 0.0
 
-        request_count = sum(
-            1 for r in self.response_history if r.provider_id == provider_id and r.success
-        )
+        request_count = sum(1 for r in self.response_history if r.provider_id == provider_id and r.success)
 
         return request_count * provider.cost_per_request
 
@@ -828,9 +799,7 @@ if __name__ == "__main__":
         switcher = RealTimeServiceSwitcher()
 
         # Configure failover strategy
-        switcher.configure_failover_strategy(
-            FailoverStrategy.PERFORMANCE_BASED, {"health_check_interval": 10.0}
-        )
+        switcher.configure_failover_strategy(FailoverStrategy.PERFORMANCE_BASED, {"health_check_interval": 10.0})
 
         # Simulate some requests
         for i in range(5):

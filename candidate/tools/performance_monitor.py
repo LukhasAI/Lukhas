@@ -430,17 +430,13 @@ class PerformanceOptimizer:
         return [
             {
                 "name": "high_cpu_usage",
-                "condition": lambda metrics: any(
-                    m.metric_name == "cpu_usage" and m.value > 80 for m in metrics
-                ),
+                "condition": lambda metrics: any(m.metric_name == "cpu_usage" and m.value > 80 for m in metrics),
                 "recommendation": "Consider reducing concurrent operations or optimizing CPU-intensive tasks",
                 "priority": "high",
             },
             {
                 "name": "high_memory_usage",
-                "condition": lambda metrics: any(
-                    m.metric_name == "memory_usage" and m.value > 85 for m in metrics
-                ),
+                "condition": lambda metrics: any(m.metric_name == "memory_usage" and m.value > 85 for m in metrics),
                 "recommendation": "Implement memory management strategies, clear caches, or increase available memory",
                 "priority": "high",
             },
@@ -454,17 +450,14 @@ class PerformanceOptimizer:
             },
             {
                 "name": "high_error_rate",
-                "condition": lambda metrics: any(
-                    m.metric_name == "error_rate" and m.value > 0.15 for m in metrics
-                ),
+                "condition": lambda metrics: any(m.metric_name == "error_rate" and m.value > 0.15 for m in metrics),
                 "recommendation": "Investigate error causes, improve error handling, and enhance validation",
                 "priority": "high",
             },
             {
                 "name": "excessive_disk_io",
                 "condition": lambda metrics: any(
-                    m.metric_name in ["disk_read_mb_per_sec", "disk_write_mb_per_sec"]
-                    and m.value > 100
+                    m.metric_name in ["disk_read_mb_per_sec", "disk_write_mb_per_sec"] and m.value > 100
                     for m in metrics
                 ),
                 "recommendation": "Optimize file operations, implement caching, or consider using faster storage",
@@ -509,9 +502,7 @@ class PerformanceMonitor:
         self.config = config or {}
 
         # Components
-        self.collector = PerformanceCollector(
-            collection_interval=self.config.get("collection_interval", 1.0)
-        )
+        self.collector = PerformanceCollector(collection_interval=self.config.get("collection_interval", 1.0))
         self.analyzer = PerformanceAnalyzer(alert_thresholds=self.config.get("alert_thresholds"))
         self.optimizer = PerformanceOptimizer()
 
@@ -601,9 +592,7 @@ class PerformanceMonitor:
                 logger.error(f"Performance analysis error: {e}")
                 await asyncio.sleep(10)
 
-    def _calculate_health_score(
-        self, metrics: list[PerformanceMetric], alerts: list[PerformanceAlert]
-    ) -> float:
+    def _calculate_health_score(self, metrics: list[PerformanceMetric], alerts: list[PerformanceAlert]) -> float:
         """Calculate overall system health score (0.0 to 1.0)"""
         if not metrics:
             return 0.5  # Neutral score with no data
@@ -670,9 +659,7 @@ class PerformanceMonitor:
             "summary": self.analyzer.get_performance_summary(metrics),
             "alerts": [asdict(a) for a in self.analyzer.analyze_metrics(metrics)],
             "recommendations": self.optimizer.generate_recommendations(metrics),
-            "health_score": self._calculate_health_score(
-                metrics, self.analyzer.analyze_metrics(metrics)
-            ),
+            "health_score": self._calculate_health_score(metrics, self.analyzer.analyze_metrics(metrics)),
             "monitoring_config": self.config,
             "raw_metrics": [asdict(m) for m in metrics[-1000:]],  # Last 1000 metrics
         }

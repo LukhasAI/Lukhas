@@ -69,6 +69,61 @@ requests_per_minute = Counter(
     ["endpoint", "status"],
 )
 
+# === AKA QUALIA PHENOMENOLOGICAL METRICS (B4: Wave B Implementation) ===
+
+# Proto-qualia dimensional metrics
+akaq_tone = Gauge("akaq_tone", "Proto-qualia tone dimension [-1,1]", ["episode_id"])
+akaq_arousal = Gauge("akaq_arousal", "Proto-qualia arousal dimension [0,1]", ["episode_id"])
+akaq_clarity = Gauge("akaq_clarity", "Proto-qualia clarity dimension [0,1]", ["episode_id"])
+akaq_embodiment = Gauge("akaq_embodiment", "Proto-qualia embodiment dimension [0,1]", ["episode_id"])
+akaq_narrative_gravity = Gauge("akaq_narrative_gravity", "Proto-qualia narrative gravity [0,1]", ["episode_id"])
+
+# Energy accounting metrics (Freud-2025 formulas)
+akaq_affect_energy = Gauge("akaq_affect_energy", "Computed affect energy E_t", ["episode_id"])
+akaq_energy_before_regulation = Gauge("akaq_energy_before_regulation", "Energy snapshot before regulation")
+akaq_energy_after_regulation = Gauge("akaq_energy_after_regulation", "Energy snapshot after regulation")
+akaq_energy_conservation_ratio = Gauge("akaq_energy_conservation_ratio", "Energy conservation ratio (after/before)")
+
+# Consciousness quality metrics
+akaq_drift_phi = Gauge("akaq_drift_phi", "Temporal coherence metric (1 = perfect coherence)", ["episode_id"])
+akaq_congruence_index = Gauge("akaq_congruence_index", "Goals↔ethics↔scene alignment index", ["episode_id"])
+akaq_sublimation_rate = Gauge("akaq_sublimation_rate", "Proportion of affect energy transformed", ["episode_id"])
+akaq_neurosis_risk = Gauge("akaq_neurosis_risk", "Estimated loop recurrence probability", ["episode_id"])
+akaq_qualia_novelty = Gauge("akaq_qualia_novelty", "Novelty compared to recent history", ["episode_id"])
+akaq_repair_delta = Gauge("akaq_repair_delta", "Repair improvement after regulation", ["episode_id"])
+
+# Risk and regulation metrics
+akaq_risk_score = Gauge("akaq_risk_score", "TEQ Guardian risk assessment score", ["severity"])
+akaq_regulation_gain = Gauge("akaq_regulation_gain", "Applied gain modulation factor")
+akaq_regulation_pace = Gauge("akaq_regulation_pace", "Applied pace modulation factor")
+
+# VIVOX integration health
+akaq_vivox_drift_score = Gauge("akaq_vivox_drift_score", "VIVOX computed drift score")
+akaq_vivox_drift_exceeded = Counter("akaq_vivox_drift_exceeded_total", "VIVOX drift threshold exceeded events")
+
+# Processing performance for consciousness
+akaq_processing_time = Histogram(
+    "akaq_processing_time_seconds",
+    "Full step() processing time",
+    buckets=(0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0),
+)
+akaq_regulation_processing_time = Histogram(
+    "akaq_regulation_processing_time_seconds",
+    "Regulation policy generation time",
+    buckets=(0.0001, 0.0005, 0.001, 0.0025, 0.005, 0.01, 0.025, 0.05),
+)
+
+# System counters
+akaq_scenes_processed_total = Counter("akaq_scenes_processed_total", "Total phenomenological scenes processed")
+akaq_regulations_applied_total = Counter("akaq_regulations_applied_total", "Total regulation policies applied")
+akaq_energy_conservation_violations_total = Counter(
+    "akaq_energy_conservation_violations_total", "Energy conservation violations"
+)
+akaq_teq_interventions_total = Counter("akaq_teq_interventions_total", "TEQ Guardian interventions", ["severity"])
+
+# Action frequency counters
+akaq_regulation_actions_total = Counter("akaq_regulation_actions_total", "Regulation actions by type", ["action_type"])
+
 
 class MetricsCollector:
     """Centralized metrics collection"""
@@ -117,6 +172,86 @@ class MetricsCollector:
     def record_request(self, endpoint: str, status: str = "success"):
         """Record API request"""
         requests_per_minute.labels(endpoint=endpoint, status=status).inc()
+
+    # === AKA QUALIA METRICS RECORDING METHODS ===
+
+    def record_aka_qualia_scene(self, scene_result: dict):
+        """Record complete Aka Qualia scene processing result (B4: akaq_ metrics integration)"""
+        scene = scene_result.get("scene")
+        metrics_data = scene_result.get("metrics")
+        energy_snapshot = scene_result.get("energy_snapshot")
+        vivox_results = scene_result.get("vivox_results", {})
+
+        if not scene or not metrics_data:
+            return
+
+        episode_id = metrics_data.episode_id
+
+        # Record proto-qualia dimensions
+        akaq_tone.labels(episode_id=episode_id).set(scene.proto.tone)
+        akaq_arousal.labels(episode_id=episode_id).set(scene.proto.arousal)
+        akaq_clarity.labels(episode_id=episode_id).set(scene.proto.clarity)
+        akaq_embodiment.labels(episode_id=episode_id).set(scene.proto.embodiment)
+        akaq_narrative_gravity.labels(episode_id=episode_id).set(scene.proto.narrative_gravity)
+
+        # Record consciousness quality metrics
+        akaq_drift_phi.labels(episode_id=episode_id).set(metrics_data.drift_phi)
+        akaq_congruence_index.labels(episode_id=episode_id).set(metrics_data.congruence_index)
+        akaq_sublimation_rate.labels(episode_id=episode_id).set(metrics_data.sublimation_rate)
+        akaq_neurosis_risk.labels(episode_id=episode_id).set(metrics_data.neurosis_risk)
+        akaq_qualia_novelty.labels(episode_id=episode_id).set(metrics_data.qualia_novelty)
+        akaq_repair_delta.labels(episode_id=episode_id).set(metrics_data.repair_delta)
+
+        # Record risk assessment
+        akaq_risk_score.labels(severity=scene.risk.severity.value).set(scene.risk.score)
+        if scene.risk.score > 0.1:  # Only count meaningful interventions
+            akaq_teq_interventions_total.labels(severity=scene.risk.severity.value).inc()
+
+        # Record energy accounting
+        if energy_snapshot:
+            akaq_energy_before_regulation.set(energy_snapshot.energy_before)
+            akaq_energy_after_regulation.set(energy_snapshot.energy_after)
+
+            conservation_ratio = (
+                energy_snapshot.energy_after / energy_snapshot.energy_before
+                if energy_snapshot.energy_before > 0
+                else 1.0
+            )
+            akaq_energy_conservation_ratio.set(conservation_ratio)
+
+            if energy_snapshot.conservation_violation:
+                akaq_energy_conservation_violations_total.inc()
+
+        # Record VIVOX metrics
+        if "drift_analysis" in vivox_results:
+            drift_data = vivox_results["drift_analysis"]
+            akaq_vivox_drift_score.set(drift_data.get("drift_score", 0.0))
+
+            if drift_data.get("drift_exceeded", False):
+                akaq_vivox_drift_exceeded.inc()
+
+        # Increment scene counter
+        akaq_scenes_processed_total.inc()
+
+    def record_aka_qualia_regulation(self, policy: dict, audit_entry: dict):
+        """Record regulation policy application"""
+        akaq_regulation_gain.set(policy.get("gain", 1.0))
+        akaq_regulation_pace.set(policy.get("pace", 1.0))
+
+        # Record actions by type
+        for action in policy.get("actions", []):
+            akaq_regulation_actions_total.labels(action_type=action).inc()
+
+        # Record processing time
+        processing_time = audit_entry.get("performance_metrics", {}).get("processing_time_ms", 0) / 1000.0
+        if processing_time > 0:
+            akaq_regulation_processing_time.observe(processing_time)
+
+        akaq_regulations_applied_total.inc()
+
+    def record_aka_qualia_processing_time(self, duration_seconds: float):
+        """Record overall Aka Qualia processing time"""
+        akaq_processing_time.observe(duration_seconds)
 
     def get_metrics(self) -> bytes:
         """Generate Prometheus metrics output"""

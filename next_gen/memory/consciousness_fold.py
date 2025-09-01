@@ -42,9 +42,7 @@ class MemoryFold:
 
     def compute_hash(self) -> str:
         """Compute symbolic hash of fold contents"""
-        content_str = (
-            f"{self.consciousness_state}|{''.join(self.trust_glyphs)}|{self.entropy_score}"
-        )
+        content_str = f"{self.consciousness_state}|{''.join(self.trust_glyphs)}|{self.entropy_score}"
         return hashlib.sha3_256(content_str.encode()).hexdigest()[:16]
 
     def to_dict(self) -> dict:
@@ -169,9 +167,7 @@ class ConsciousnessMemory:
         """Create a new memory fold linked to current consciousness state"""
 
         # Get memory traits for current state
-        traits = self.STATE_MEMORY_TRAITS.get(
-            self.current_state, {"retention": 0.5, "clarity": 0.5, "emotion": 0.0}
-        )
+        traits = self.STATE_MEMORY_TRAITS.get(self.current_state, {"retention": 0.5, "clarity": 0.5, "emotion": 0.0})
 
         # Generate fold ID
         fold_id = f"fold_{datetime.utcnow().timestamp()}_{self.current_state[:3]}"
@@ -248,9 +244,7 @@ class ConsciousnessMemory:
                 ),
             )
 
-    def recall_by_similarity(
-        self, target_entropy: float, threshold: float = 0.1
-    ) -> list[MemoryFold]:
+    def recall_by_similarity(self, target_entropy: float, threshold: float = 0.1) -> list[MemoryFold]:
         """Recall memories with similar entropy levels"""
         similar_folds = []
 
@@ -358,9 +352,7 @@ class ConsciousnessMemory:
             "state_distribution": state_dist,
             "top_glyphs": sorted(glyph_freq.items(), key=lambda x: x[1], reverse=True)[:5],
             "current_consciousness": self.current_state,
-            "database_size": (
-                Path(self.db_path).stat().st_size if Path(self.db_path).exists() else 0
-            ),
+            "database_size": (Path(self.db_path).stat().st_size if Path(self.db_path).exists() else 0),
         }
 
 

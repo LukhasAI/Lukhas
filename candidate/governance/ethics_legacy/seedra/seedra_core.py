@@ -133,9 +133,7 @@ class SEEDRACore:
                 "expiry": expiry.isoformat(),
             }
 
-    async def check_consent(
-        self, user_id: str, data_type: str, operation: str = "read"
-    ) -> dict[str, Any]:
+    async def check_consent(self, user_id: str, data_type: str, operation: str = "read") -> dict[str, Any]:
         """Check if user has consented to specific data operation"""
         async with self._lock:
             # Check if user has any consent record
@@ -231,9 +229,7 @@ class SEEDRACore:
 
         return {"allowed": True, "constraints_applied": list(constraints.keys())}
 
-    async def create_session(
-        self, user_id: str, session_type: str, metadata: Optional[dict[str, Any]] = None
-    ) -> str:
+    async def create_session(self, user_id: str, session_type: str, metadata: Optional[dict[str, Any]] = None) -> str:
         """Create a new SEEDRA session for tracking data access"""
         session_id = self._generate_session_id(user_id, session_type)
 
@@ -308,9 +304,7 @@ class SEEDRACore:
             consent_record = self.consent_registry.get(user_id, {})
 
             # Count active sessions
-            active_session_count = sum(
-                1 for session in self.active_sessions.values() if session["user_id"] == user_id
-            )
+            active_session_count = sum(1 for session in self.active_sessions.values() if session["user_id"] == user_id)
 
             # Get recent access logs
             recent_accesses = []
@@ -323,19 +317,13 @@ class SEEDRACore:
                 "consent_status": {
                     "has_consent": bool(consent_record),
                     "consent_level": (
-                        ConsentLevel(consent_record.get("consent_level", 0)).name
-                        if consent_record
-                        else "NONE"
+                        ConsentLevel(consent_record.get("consent_level", 0)).name if consent_record else "NONE"
                     ),
                     "expiry": consent_record.get("expiry") if consent_record else None,
-                    "is_valid": (
-                        self._is_consent_valid(consent_record) if consent_record else False
-                    ),
+                    "is_valid": (self._is_consent_valid(consent_record) if consent_record else False),
                 },
                 "active_sessions": active_session_count,
-                "recent_data_accesses": sorted(
-                    recent_accesses, key=lambda x: x["timestamp"], reverse=True
-                )[:20],
+                "recent_data_accesses": sorted(recent_accesses, key=lambda x: x["timestamp"], reverse=True)[:20],
             }
 
     async def revoke_consent(self, user_id: str) -> dict[str, Any]:
@@ -376,9 +364,7 @@ class SEEDRACore:
         expiry = datetime.fromisoformat(expiry_str)
         return datetime.now() < expiry
 
-    def _check_consent_level(
-        self, consent_level: ConsentLevel, data_type: str, operation: str
-    ) -> bool:
+    def _check_consent_level(self, consent_level: ConsentLevel, data_type: str, operation: str) -> bool:
         """Check if consent level allows specific operation"""
         # Basic level - only non-sensitive reads
         if consent_level == ConsentLevel.BASIC:

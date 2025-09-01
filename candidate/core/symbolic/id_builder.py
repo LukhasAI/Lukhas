@@ -193,9 +193,7 @@ class LUKHASIDBuilder:
             "qi_resonance": user_input.get("quantum", 0.4),
         }
 
-    def authenticate_with_phrase(
-        self, lid_number: str, phrase_attempt: str
-    ) -> tuple[bool, Optional[dict]]:
+    def authenticate_with_phrase(self, lid_number: str, phrase_attempt: str) -> tuple[bool, Optional[dict]]:
         """Authenticate using symbolic phrase"""
         if lid_number not in self.identities:
             return False, {"error": "Identity not found"}
@@ -363,9 +361,7 @@ def create_lukhas_auth_demo():
         if auth_result.get("authenticated"):
             print("\n✅ Authentication Successful!")
             print(f"   Session Token: {auth_result['session_token'][:32]}...")
-            print(
-                f"   Consciousness Level: {auth_result['consciousness_signature']['awareness_level']}"
-            )
+            print(f"   Consciousness Level: {auth_result['consciousness_signature']['awareness_level']}")
 
         # Demo 3: Show QRG data
         print("\n3️⃣ QRG (Quantum-Resistant Glyph) Generated:")

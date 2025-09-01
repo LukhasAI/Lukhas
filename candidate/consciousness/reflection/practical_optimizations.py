@@ -440,9 +440,7 @@ class LazyComputation(OptimizationStrategy):
             "executed": self.executed_computations,
             "saved": self.saved_computations,
             "savings_rate": (
-                self.saved_computations / self.deferred_computations
-                if self.deferred_computations > 0
-                else 0
+                self.saved_computations / self.deferred_computations if self.deferred_computations > 0 else 0
             ),
         }
 
@@ -538,8 +536,7 @@ class BatchProcessor(OptimizationStrategy):
 
                 # Check if we should process
                 should_process = (
-                    len(self.pending_items) >= self.batch_size
-                    or time.time() - self._last_process_time > self.timeout
+                    len(self.pending_items) >= self.batch_size or time.time() - self._last_process_time > self.timeout
                 )
 
                 if should_process:
@@ -826,9 +823,7 @@ class ComputationReuse(OptimizationStrategy):
                 "computations_saved": self.computations_saved,
                 "total_computations": self.total_computations,
                 "savings_rate": (
-                    self.computations_saved / self.total_computations
-                    if self.total_computations > 0
-                    else 0
+                    self.computations_saved / self.total_computations if self.total_computations > 0 else 0
                 ),
                 "cache_size": len(self.cache),
                 "hit_rate": hit_rate,

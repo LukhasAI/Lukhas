@@ -137,9 +137,7 @@ class LambdaIDEntropyEngine:
 
             # Tier compliance analysis
             if tier is not None:
-                analysis.tier_compliance = self._analyze_tier_compliance(
-                    analysis.overall_score, tier
-                )
+                analysis.tier_compliance = self._analyze_tier_compliance(analysis.overall_score, tier)
 
             # Generate strengths and weaknesses
             self._analyze_strengths_weaknesses(analysis)
@@ -214,17 +212,13 @@ class LambdaIDEntropyEngine:
             "current_score": current_analysis.overall_score,
             "target_minimum": target_threshold.get("minimum", 1.0),
             "target_recommended": target_threshold.get("recommended", 2.0),
-            "improvement_needed": max(
-                0, target_threshold.get("minimum", 1.0) - current_analysis.overall_score
-            ),
+            "improvement_needed": max(0, target_threshold.get("minimum", 1.0) - current_analysis.overall_score),
             "optimizations": [],
         }
 
         # Generate specific optimizations
         if current_analysis.overall_score < target_threshold.get("minimum", 1.0):
-            optimization["optimizations"].extend(
-                self._generate_optimizations(lambda_id, target_tier)
-            )
+            optimization["optimizations"].extend(self._generate_optimizations(lambda_id, target_tier))
 
         return optimization
 
@@ -431,9 +425,7 @@ class LambdaIDEntropyEngine:
         if analysis.component_scores.get("pattern_complexity", 0) < 0.3:
             analysis.weaknesses.append("Simple pattern structure")
 
-    def _generate_entropy_recommendations(
-        self, analysis: EntropyAnalysis, tier: Optional[int]
-    ) -> None:
+    def _generate_entropy_recommendations(self, analysis: EntropyAnalysis, tier: Optional[int]) -> None:
         """Generate optimization recommendations"""
         recommendations = []
 
@@ -455,9 +447,7 @@ class LambdaIDEntropyEngine:
 
         analysis.recommendations = recommendations
 
-    def _generate_live_suggestions(
-        self, partial_id: str, current_score: float, target_score: float
-    ) -> list[str]:
+    def _generate_live_suggestions(self, partial_id: str, current_score: float, target_score: float) -> list[str]:
         """Generate real-time suggestions during ΛiD construction"""
         suggestions = []
 

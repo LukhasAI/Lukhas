@@ -265,9 +265,7 @@ class ColonyConsensus:
 
         return outcome
 
-    async def _majority_vote_consensus(
-        self, proposal: ConsensusProposal, votes: list[AgentVote]
-    ) -> ConsensusOutcome:
+    async def _majority_vote_consensus(self, proposal: ConsensusProposal, votes: list[AgentVote]) -> ConsensusOutcome:
         """Simple majority vote consensus"""
         vote_counts = defaultdict(int)
 
@@ -290,9 +288,7 @@ class ColonyConsensus:
             method_used=ConsensusMethod.MAJORITY_VOTE,
         )
 
-    async def _weighted_vote_consensus(
-        self, proposal: ConsensusProposal, votes: list[AgentVote]
-    ) -> ConsensusOutcome:
+    async def _weighted_vote_consensus(self, proposal: ConsensusProposal, votes: list[AgentVote]) -> ConsensusOutcome:
         """Weighted vote consensus based on agent weights and confidence"""
         weighted_scores = defaultdict(float)
         total_weight = 0
@@ -322,9 +318,7 @@ class ColonyConsensus:
             dissent_analysis=dissent_analysis,
         )
 
-    async def _hormone_consensus(
-        self, proposal: ConsensusProposal, votes: list[AgentVote]
-    ) -> ConsensusOutcome:
+    async def _hormone_consensus(self, proposal: ConsensusProposal, votes: list[AgentVote]) -> ConsensusOutcome:
         """Hormone-based consensus using signal levels"""
 
         # Adjust votes based on hormone levels
@@ -366,9 +360,7 @@ class ColonyConsensus:
 
         return outcome
 
-    async def _byzantine_consensus(
-        self, proposal: ConsensusProposal, votes: list[AgentVote]
-    ) -> ConsensusOutcome:
+    async def _byzantine_consensus(self, proposal: ConsensusProposal, votes: list[AgentVote]) -> ConsensusOutcome:
         """Byzantine fault-tolerant consensus"""
 
         # Identify potential faulty agents (low confidence, inconsistent history)
@@ -411,9 +403,7 @@ class ColonyConsensus:
 
         return outcome
 
-    async def _emergent_consensus(
-        self, proposal: ConsensusProposal, votes: list[AgentVote]
-    ) -> ConsensusOutcome:
+    async def _emergent_consensus(self, proposal: ConsensusProposal, votes: list[AgentVote]) -> ConsensusOutcome:
         """Emergent consensus through iterative refinement"""
 
         max_iterations = 5
@@ -458,9 +448,7 @@ class ColonyConsensus:
 
         return outcome
 
-    async def _probabilistic_consensus(
-        self, proposal: ConsensusProposal, votes: list[AgentVote]
-    ) -> ConsensusOutcome:
+    async def _probabilistic_consensus(self, proposal: ConsensusProposal, votes: list[AgentVote]) -> ConsensusOutcome:
         """Probabilistic consensus using Monte Carlo sampling"""
 
         num_samples = 1000
@@ -493,9 +481,7 @@ class ColonyConsensus:
             method_used=ConsensusMethod.PROBABILISTIC,
         )
 
-    async def _quorum_consensus(
-        self, proposal: ConsensusProposal, votes: list[AgentVote]
-    ) -> ConsensusOutcome:
+    async def _quorum_consensus(self, proposal: ConsensusProposal, votes: list[AgentVote]) -> ConsensusOutcome:
         """Quorum-based consensus requiring minimum participation"""
 
         participation_rate = len(votes) / max(1, len(self.agents))

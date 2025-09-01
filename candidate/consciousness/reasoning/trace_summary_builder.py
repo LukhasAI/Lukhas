@@ -64,9 +64,7 @@ class TraceSummaryBuilder:
         self.narrative_styles = ["technical", "explanatory", "simplified"]
         self.current_style = "explanatory"
 
-    async def build_summary(
-        self, reason_tree: dict[str, Any], style: str = "explanatory"
-    ) -> dict[str, Any]:
+    async def build_summary(self, reason_tree: dict[str, Any], style: str = "explanatory") -> dict[str, Any]:
         """
         Build a comprehensive summary from a reasoning trace tree
 
@@ -268,8 +266,7 @@ class TraceSummaryBuilder:
         for i, step in enumerate(path[:5]):  # First 5 steps
             if self.current_style == "technical":
                 narrative_parts.append(
-                    f"{i + 1}. {step['type'].upper()}: {step['summary']} "
-                    f"(confidence: {step['confidence']:.2f})"
+                    f"{i + 1}. {step['type'].upper()}: {step['summary']} " f"(confidence: {step['confidence']:.2f})"
                 )
             else:
                 narrative_parts.append(f"{i + 1}. {step['summary']}")
@@ -334,8 +331,7 @@ class TraceSummaryBuilder:
         avg_confidence = confidence_analysis.get("average", 0)
         if avg_confidence < 0.5:
             recommendations.append(
-                "Low overall confidence detected. Consider gathering more data or "
-                "refining reasoning parameters."
+                "Low overall confidence detected. Consider gathering more data or " "refining reasoning parameters."
             )
 
         # Check for low confidence nodes
@@ -349,13 +345,9 @@ class TraceSummaryBuilder:
         # Strategy-specific recommendations
         for insight in insights:
             if insight["type"] == "deductive" and insight["confidence"] < 0.7:
-                recommendations.append(
-                    "Deductive reasoning shows uncertainty. Verify logical premises."
-                )
+                recommendations.append("Deductive reasoning shows uncertainty. Verify logical premises.")
             elif insight["type"] == "inductive" and len(insights) < 3:
-                recommendations.append(
-                    "Limited inductive examples. Gather more data for stronger patterns."
-                )
+                recommendations.append("Limited inductive examples. Gather more data for stronger patterns.")
 
         # General recommendations
         if not recommendations:
@@ -423,7 +415,9 @@ def summarize_reason_trace(reason_tree: dict) -> str:
         confidence = reason_tree.get("confidence", 0.0)
 
         if "Low overall confidence" in str(reason):
-            return f"Reasoning failure due to low overall confidence ({confidence:.2f}). Suggest review of reasoning path."
+            return (
+                f"Reasoning failure due to low overall confidence ({confidence:.2f}). Suggest review of reasoning path."
+            )
 
         return f"Reasoning failure due to {reason}. Suggest correction path via fold revision."
 

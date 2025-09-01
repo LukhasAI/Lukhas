@@ -134,11 +134,7 @@ def search_emotions(criteria: dict[str, str]) -> list[dict]:
     Returns:
         list: A list of matching emotion log entries.
     """
-    return [
-        entry
-        for entry in emotion_db["log"]
-        if all(entry.get(key) == value for key, value in criteria.items())
-    ]
+    return [entry for entry in emotion_db["log"] if all(entry.get(key) == value for key, value in criteria.items())]
 
 
 def summarize_emotions():

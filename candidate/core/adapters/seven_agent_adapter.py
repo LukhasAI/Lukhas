@@ -210,9 +210,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
 
         try:
             with AgentSpans.consent_record(user_id=user_id, purpose=action, granted=granted):
-                self._consent_ledger.record_consent(
-                    subject_id=user_id, purpose=action, granted=granted
-                )
+                self._consent_ledger.record_consent(subject_id=user_id, purpose=action, granted=granted)
                 return True
         except Exception as e:
             logger.error(f"Failed to record consent: {e}")
@@ -264,16 +262,10 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
         try:
             # Use policy engine to evaluate risk
             risk_score = (
-                self._policy_engine.calculate_risk(scenario)
-                if hasattr(self._policy_engine, "calculate_risk")
-                else 0.5
+                self._policy_engine.calculate_risk(scenario) if hasattr(self._policy_engine, "calculate_risk") else 0.5
             )
             return {
-                "risk_level": "high"
-                if risk_score > 0.7
-                else "medium"
-                if risk_score > 0.3
-                else "low",
+                "risk_level": "high" if risk_score > 0.7 else "medium" if risk_score > 0.3 else "low",
                 "score": risk_score,
                 "factors": scenario.get("factors", []),
             }

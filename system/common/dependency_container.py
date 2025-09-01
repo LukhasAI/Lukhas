@@ -51,9 +51,7 @@ class DependencyContainer:
                 if dep_instance:
                     setattr(module, dep_name, dep_instance)
                 else:
-                    logger.warning(
-                        f"Could not resolve dependency {dep_name} for {module.__class__.__name__}"
-                    )
+                    logger.warning(f"Could not resolve dependency {dep_name} for {module.__class__.__name__}")
 
 
 # Global container instance

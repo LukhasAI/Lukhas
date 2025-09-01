@@ -153,9 +153,7 @@ class InnovationDriftProtection(CoreInterface):
         self.drift_events: list[DriftEvent] = []
         self.operation_count = 0
 
-        logger.info(
-            f"🛡️ Innovation Drift Protection initialized (threshold: {self.config.drift_threshold})"
-        )
+        logger.info(f"🛡️ Innovation Drift Protection initialized (threshold: {self.config.drift_threshold})")
 
     async def initialize(self) -> None:
         """Initialize all drift protection systems"""
@@ -237,9 +235,7 @@ class InnovationDriftProtection(CoreInterface):
                 await self._regulate_emotional_state()
 
             # Generate innovation with monitoring
-            innovation = await self._monitored_innovation_generation(
-                hypothesis, reality_count, exploration_depth
-            )
+            innovation = await self._monitored_innovation_generation(hypothesis, reality_count, exploration_depth)
 
             if not innovation:
                 return None
@@ -363,9 +359,7 @@ class InnovationDriftProtection(CoreInterface):
                 if not hallucination:
                     hallucination_free_results.append(result)
                 else:
-                    logger.warning(
-                        f"⚠️ Hallucination detected: {hallucination.hallucination_type.value}"
-                    )
+                    logger.warning(f"⚠️ Hallucination detected: {hallucination.hallucination_type.value}")
 
             if not hallucination_free_results:
                 logger.warning("No hallucination-free results found")
@@ -401,17 +395,12 @@ class InnovationDriftProtection(CoreInterface):
             except asyncio.CancelledError:
                 break
 
-    async def _check_for_hallucination(
-        self, result: dict[str, Any]
-    ) -> Optional[HallucinationReport]:
+    async def _check_for_hallucination(self, result: dict[str, Any]) -> Optional[HallucinationReport]:
         """Check if result contains hallucinations"""
         # Use safety framework's hallucination detection
         hallucination_check = await self.safety_framework.detect_hallucinations(result)
 
-        if (
-            hallucination_check
-            and hallucination_check.severity > self.config.hallucination_threshold
-        ):
+        if hallucination_check and hallucination_check.severity > self.config.hallucination_threshold:
             return hallucination_check
 
         return None
@@ -454,9 +443,7 @@ class InnovationDriftProtection(CoreInterface):
 
         return validation_result
 
-    async def _validate_drift_compliance(
-        self, innovation: BreakthroughInnovation
-    ) -> dict[str, Any]:
+    async def _validate_drift_compliance(self, innovation: BreakthroughInnovation) -> dict[str, Any]:
         """Validate innovation doesn't cause excessive drift"""
         # Calculate drift impact
         drift_metrics = DriftMetrics(
@@ -483,9 +470,7 @@ class InnovationDriftProtection(CoreInterface):
             "threshold": self.config.drift_threshold,
         }
 
-    async def _validate_no_hallucinations(
-        self, innovation: BreakthroughInnovation
-    ) -> dict[str, Any]:
+    async def _validate_no_hallucinations(self, innovation: BreakthroughInnovation) -> dict[str, Any]:
         """Validate innovation has no hallucinations"""
         # Check all hallucination types
         hallucinations_found = []
@@ -498,9 +483,7 @@ class InnovationDriftProtection(CoreInterface):
 
         return {"passed": passed, "hallucinations": hallucinations_found}
 
-    async def _validate_ethics_compliance(
-        self, innovation: BreakthroughInnovation
-    ) -> dict[str, Any]:
+    async def _validate_ethics_compliance(self, innovation: BreakthroughInnovation) -> dict[str, Any]:
         """Validate innovation meets ethical standards"""
         # Use safety framework for ethics check
         ethics_validation = await self.safety_framework.validate_ethics(innovation.__dict__)
@@ -565,9 +548,7 @@ class InnovationDriftProtection(CoreInterface):
             }
         )
 
-    async def _handle_drift_violation(
-        self, drift_score: DriftScore, checkpoint: Optional[Checkpoint]
-    ) -> None:
+    async def _handle_drift_violation(self, drift_score: DriftScore, checkpoint: Optional[Checkpoint]) -> None:
         """Handle drift threshold violation"""
         logger.error(f"❌ Drift violation: {drift_score.overall_score}")
 
@@ -707,9 +688,7 @@ async def initialize_drift_protection():
             innovation_core = await initialize_innovation_core()
 
         # Create drift protection
-        drift_protection = InnovationDriftProtection(
-            innovation_core=innovation_core, config=DriftProtectionConfig()
-        )
+        drift_protection = InnovationDriftProtection(innovation_core=innovation_core, config=DriftProtectionConfig())
 
         await drift_protection.initialize()
 

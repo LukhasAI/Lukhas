@@ -104,9 +104,7 @@ async def demonstrate_endocrine_system():
     print(f"  Current neuroplasticity: {rest_profile['effects']['neuroplasticity']:.2f}")
     print("  Factors affecting neuroplasticity:")
     print(f"    - Stress (cortisol): {rest_profile['levels']['cortisol']:.2f} (inhibits)")
-    print(
-        f"    - Mood (dopamine/serotonin): {rest_profile['effects']['mood_valence']:.2f} (enhances)"
-    )
+    print(f"    - Mood (dopamine/serotonin): {rest_profile['effects']['mood_valence']:.2f} (enhances)")
     print(f"    - Rest (melatonin): {rest_profile['levels']['melatonin']:.2f} (crucial)")
 
     # 10. Show effect history

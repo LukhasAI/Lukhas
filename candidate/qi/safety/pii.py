@@ -19,9 +19,7 @@ _IPv6 = re.compile(r"\b([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\b")
 _SSN = re.compile(r"\b\d{3}-\d{2}-\d{4}\b")  # US-style; customize per jurisdiction
 _CC = re.compile(r"\b(?:\d[ -]*?){13,19}\b")  # candidate; will Luhn-check
 
-_NAME_HINT = re.compile(
-    r"\b(Name|Full Name|First Name|Last Name)\b:\s*([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)"
-)
+_NAME_HINT = re.compile(r"\b(Name|Full Name|First Name|Last Name)\b:\s*([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)")
 
 
 def _luhn(cc: str) -> bool:

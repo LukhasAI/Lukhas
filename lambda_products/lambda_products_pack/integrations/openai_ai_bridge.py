@@ -115,9 +115,7 @@ class OpenAILambdaBridge:
         logger.info("Initializing OpenAI-Lambda AGI Bridge")
 
         # Set integration level
-        self.integration_level = AGIIntegrationLevel[
-            config.get("integration_level", "BASIC").upper()
-        ]
+        self.integration_level = AGIIntegrationLevel[config.get("integration_level", "BASIC").upper()]
 
         # Initialize compute budgets
         if "compute_budgets" in config:
@@ -195,9 +193,7 @@ class OpenAILambdaBridge:
         if self.nias_connected:
             emotional_analysis = await self.analyze_emotional_content(prompt)
             if emotional_analysis["requires_adjustment"]:
-                processed_prompt = await self.adjust_for_emotional_state(
-                    processed_prompt, emotional_analysis
-                )
+                processed_prompt = await self.adjust_for_emotional_state(processed_prompt, emotional_analysis)
                 lambda_context["emotional"] = emotional_analysis
                 self.metrics["emotional_adjustments"] += 1
 
@@ -205,9 +201,7 @@ class OpenAILambdaBridge:
         if self.abas_connected:
             attention_analysis = await self.analyze_attention_requirements(processed_prompt)
             if attention_analysis["requires_focus"]:
-                processed_prompt = await self.optimize_for_attention(
-                    processed_prompt, attention_analysis
-                )
+                processed_prompt = await self.optimize_for_attention(processed_prompt, attention_analysis)
                 lambda_context["attention"] = attention_analysis
                 self.metrics["attention_optimizations"] += 1
 
@@ -249,9 +243,7 @@ class OpenAILambdaBridge:
                 )
 
                 response = completion.choices[0].message.content
-                tokens_used = (
-                    completion.usage.total_tokens if hasattr(completion, "usage") else 1000
-                )
+                tokens_used = completion.usage.total_tokens if hasattr(completion, "usage") else 1000
 
             except Exception as e:
                 logger.error(f"OpenAI API error: {e}")
@@ -324,9 +316,7 @@ class OpenAILambdaBridge:
 
         return analysis
 
-    async def adjust_for_emotional_state(
-        self, prompt: str, emotional_analysis: dict[str, Any]
-    ) -> str:
+    async def adjust_for_emotional_state(self, prompt: str, emotional_analysis: dict[str, Any]) -> str:
         """Adjust prompt based on emotional state"""
 
         if emotional_analysis["emotional_state"] == "stressed":
@@ -363,9 +353,7 @@ class OpenAILambdaBridge:
 
         return prompt
 
-    async def enhance_context(
-        self, prompt: str, existing_context: Optional[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def enhance_context(self, prompt: str, existing_context: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Enhance context using DΛST"""
 
         # Simulate DΛST context enhancement
@@ -417,9 +405,7 @@ class OpenAILambdaBridge:
 
         return {"safe": True, "reason": None}
 
-    async def apply_consciousness_filter(
-        self, response: str, lambda_context: dict[str, Any]
-    ) -> str:
+    async def apply_consciousness_filter(self, response: str, lambda_context: dict[str, Any]) -> str:
         """Apply consciousness layer filtering to response"""
 
         # Add consciousness markers
@@ -446,9 +432,7 @@ class OpenAILambdaBridge:
             base_prompt += f" Optimize response for {lambda_context['attention']['cognitive_load']} cognitive load."
 
         if lambda_context.get("context"):
-            base_prompt += (
-                f" Consider context domain: {lambda_context['context'].get('domain', 'general')}."
-            )
+            base_prompt += f" Consider context domain: {lambda_context['context'].get('domain', 'general')}."
 
         return base_prompt
 
@@ -528,9 +512,7 @@ class OpenAILambdaBridge:
             "consciousness_active": self.consciousness_layer_active,
             "safety_enabled": self.safety_checks_enabled,
             "compute_budgets_active": len(self.compute_budgets),
-            "total_tokens_managed": sum(
-                budget.used_tokens for budget in self.compute_budgets.values()
-            ),
+            "total_tokens_managed": sum(budget.used_tokens for budget in self.compute_budgets.values()),
         }
 
 

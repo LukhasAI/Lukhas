@@ -30,9 +30,7 @@ class Orchestrator:
         self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
 
         # Log orchestrator initialization
-        db.log_system_activity(
-            "orchestrator", "system_init", "System orchestrator initialized", 1.0
-        )
+        db.log_system_activity("orchestrator", "system_init", "System orchestrator initialized", 1.0)
 
     def create_complete_content_workflow(self, topic: str, content_type: str = "blog_post") -> dict:
         """
@@ -139,9 +137,7 @@ Generated through our integrated platform with real database integration.
         print("=" * 60)
 
         # Test workflow
-        result = self.create_complete_content_workflow(
-            "Consciousness Technology Innovation", "technical_documentation"
-        )
+        result = self.create_complete_content_workflow("Consciousness Technology Innovation", "technical_documentation")
 
         print("\n📊 Workflow Results:")
         print(f"   Content Items: {result['content_analytics']['total_content_items']}")

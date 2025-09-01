@@ -23,9 +23,7 @@ PII = [
         r"\b(?!(?:127\.0\.0\.1|localhost|0\.0\.0\.0|192\.168\.|10\.|172\.(?:1[6-9]|2[0-9]|3[01])\.))(?:\d{1,3}\.){3}\d{1,3}\b"
     ),
     # API keys and secrets (common patterns)
-    re.compile(
-        r'(?i)(api[_-]?key|secret[_-]?key|access[_-]?token|private[_-]?key)\s*[:=]\s*["\'][^"\']{20,}["\']'
-    ),
+    re.compile(r'(?i)(api[_-]?key|secret[_-]?key|access[_-]?token|private[_-]?key)\s*[:=]\s*["\'][^"\']{20,}["\']'),
 ]
 
 # Exclude patterns (safe to ignore)
@@ -89,11 +87,7 @@ def check_file(filepath):
                 return {
                     "file": str(filepath),
                     "line": lines,
-                    "pattern": (
-                        pattern.pattern[:50] + "..."
-                        if len(pattern.pattern) > 50
-                        else pattern.pattern
-                    ),
+                    "pattern": (pattern.pattern[:50] + "..." if len(pattern.pattern) > 50 else pattern.pattern),
                     "match": match.group()[:50],  # Truncate for security
                 }
     except Exception as e:

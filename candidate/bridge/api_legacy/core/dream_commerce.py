@@ -140,21 +140,11 @@ class DreamSeedSubmission(BaseModel):
         max_length=500,
         description="Dream seed description",
     )
-    symbolic_prompts: dict[str, Any] = Field(
-        ..., description="Symbolic prompts (images, audio, emotions, text)"
-    )
-    target_emotions: list[str] = Field(
-        default_factory=list, description="Target emotional experiences"
-    )
-    consent_requirements: ConsentLevel = Field(
-        ConsentLevel.STANDARD, description="Required consent level"
-    )
-    revenue_model: RevenueModel = Field(
-        RevenueModel.FREE, description="Revenue model for this seed"
-    )
-    creator_revenue_share: float = Field(
-        0.0, ge=0.0, le=1.0, description="Creator revenue share (0.0-1.0)"
-    )
+    symbolic_prompts: dict[str, Any] = Field(..., description="Symbolic prompts (images, audio, emotions, text)")
+    target_emotions: list[str] = Field(default_factory=list, description="Target emotional experiences")
+    consent_requirements: ConsentLevel = Field(ConsentLevel.STANDARD, description="Required consent level")
+    revenue_model: RevenueModel = Field(RevenueModel.FREE, description="Revenue model for this seed")
+    creator_revenue_share: float = Field(0.0, ge=0.0, le=1.0, description="Creator revenue share (0.0-1.0)")
     ethical_boundaries: list[str] = Field(default_factory=list, description="Ethical constraints")
     metadata: dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
 
@@ -164,16 +154,12 @@ class DreamExperienceRequest(BaseModel):
 
     user_id: str = Field(..., description="User identifier")
     dream_seed_id: str = Field(..., description="Selected dream seed ID")
-    personalization_level: float = Field(
-        0.5, ge=0.0, le=1.0, description="Personalization intensity"
-    )
+    personalization_level: float = Field(0.5, ge=0.0, le=1.0, description="Personalization intensity")
     experience_duration: int = Field(10, ge=1, le=60, description="Experience duration in minutes")
     visualization_format: str = Field("narrative", description="Format for dream visualization")
     include_sora_video: bool = Field(False, description="Generate Sora video content")
     consent_confirmation: dict[str, bool] = Field(..., description="Consent confirmations")
-    payment_details: Optional[dict[str, Any]] = Field(
-        None, description="Payment information if required"
-    )
+    payment_details: Optional[dict[str, Any]] = Field(None, description="Payment information if required")
 
 
 class DreamMarketplaceFilter(BaseModel):
@@ -310,9 +296,7 @@ class DreamCommerceEngine:
             self.logger.error(f"Failed to initialize dream commerce engine: {e}")
             return False
 
-    async def create_dream_seed(
-        self, creator_id: str, submission: DreamSeedSubmission
-    ) -> DreamSeed:
+    async def create_dream_seed(self, creator_id: str, submission: DreamSeedSubmission) -> DreamSeed:
         """Create a new dream seed for the marketplace"""
         try:
             # Verify creator permissions
@@ -375,13 +359,8 @@ class DreamCommerceEngine:
             self.creator_profiles[creator_id]["total_seeds"] += 1
 
             # Add specialization if new
-            if (
-                submission.seed_type.value
-                not in self.creator_profiles[creator_id]["specializations"]
-            ):
-                self.creator_profiles[creator_id]["specializations"].append(
-                    submission.seed_type.value
-                )
+            if submission.seed_type.value not in self.creator_profiles[creator_id]["specializations"]:
+                self.creator_profiles[creator_id]["specializations"].append(submission.seed_type.value)
 
             # Publish creation event
             if self.event_bus:
@@ -414,9 +393,7 @@ class DreamCommerceEngine:
             dream_seed = self.dream_seeds[request.dream_seed_id]
 
             # Verify user consent
-            consent_valid = await self._verify_user_consent(
-                request.user_id, dream_seed, request.consent_confirmation
-            )
+            consent_valid = await self._verify_user_consent(request.user_id, dream_seed, request.consent_confirmation)
 
             if not consent_valid:
                 raise HTTPException(status_code=403, detail="Insufficient or invalid consent")
@@ -424,9 +401,7 @@ class DreamCommerceEngine:
             # Process payment if required
             payment_processed = False
             if dream_seed.revenue_model != RevenueModel.FREE:
-                payment_result = await self._process_payment(
-                    request.user_id, dream_seed, request.payment_details
-                )
+                payment_result = await self._process_payment(request.user_id, dream_seed, request.payment_details)
                 payment_processed = payment_result["success"]
 
                 if not payment_processed:
@@ -450,9 +425,7 @@ class DreamCommerceEngine:
                 )
 
             if request.include_sora_video:
-                sora_video_url = await self._generate_sora_video(
-                    dream_content, visualization_content
-                )
+                sora_video_url = await self._generate_sora_video(dream_content, visualization_content)
 
             # Create privacy proof if required
             privacy_proof = None
@@ -534,17 +507,11 @@ class DreamCommerceEngine:
                     continue
 
                 # Apply consent level filter
-                if (
-                    filters.consent_levels
-                    and dream_seed.consent_requirements not in filters.consent_levels
-                ):
+                if filters.consent_levels and dream_seed.consent_requirements not in filters.consent_levels:
                     continue
 
                 # Apply revenue model filter
-                if (
-                    filters.revenue_models
-                    and dream_seed.revenue_model not in filters.revenue_models
-                ):
+                if filters.revenue_models and dream_seed.revenue_model not in filters.revenue_models:
                     continue
 
                 # Apply creator filter
@@ -830,9 +797,7 @@ class DreamCommerceEngine:
         # Return placeholder URL
         return f"https://sora-api.example.com/videos/{video_id}.mp4"
 
-    async def _process_revenue_sharing(
-        self, dream_seed: DreamSeed, payment_result: dict[str, Any]
-    ) -> None:
+    async def _process_revenue_sharing(self, dream_seed: DreamSeed, payment_result: dict[str, Any]) -> None:
         """Process revenue sharing between creator and platform"""
         total_amount = Decimal(str(payment_result["amount"]))
         creator_share = total_amount * Decimal(str(dream_seed.creator_revenue_share))
@@ -845,9 +810,7 @@ class DreamCommerceEngine:
         # Update dream seed revenue
         dream_seed.revenue_generated += total_amount
 
-        self.logger.info(
-            f"Revenue sharing processed: Creator {creator_share}, Platform {platform_share}"
-        )
+        self.logger.info(f"Revenue sharing processed: Creator {creator_share}, Platform {platform_share}")
 
     def get_commerce_stats(self) -> dict[str, Any]:
         """Get comprehensive commerce engine statistics"""
@@ -862,9 +825,7 @@ class DreamCommerceEngine:
                 for model in RevenueModel
             },
             "seed_types_distribution": {
-                seed_type.value: len(
-                    [s for s in self.dream_seeds.values() if s.seed_type == seed_type]
-                )
+                seed_type.value: len([s for s in self.dream_seeds.values() if s.seed_type == seed_type])
                 for seed_type in DreamSeedType
             },
             "average_seed_price": float(

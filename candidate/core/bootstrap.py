@@ -208,9 +208,7 @@ class LUKHASBootstrap:
                 }
 
         # Overall health assessment
-        healthy_count = sum(
-            1 for h in health_report["services"].values() if h.get("status") == "healthy"
-        )
+        healthy_count = sum(1 for h in health_report["services"].values() if h.get("status") == "healthy")
         total_count = len(health_report["services"])
 
         health_report["overall"] = {
@@ -323,25 +321,19 @@ class LUKHASBootstrap:
             # 3. Generate a dream
             dream = self.services.get("dream")
             if dream:
-                dream_result = await dream.generate_dream(
-                    seed={"concept": "integration", "emotion": "curiosity"}
-                )
+                dream_result = await dream.generate_dream(seed={"concept": "integration", "emotion": "curiosity"})
                 logger.info(f"  ✓ Generated dream: {dream_result.get('dream_id')}")
 
             # 4. Analyze emotion
             emotion = self.services.get("emotion")
             if emotion:
-                emotion_result = await emotion.analyze_emotion(
-                    input_data="Service bootstrap successful"
-                )
+                emotion_result = await emotion.analyze_emotion(input_data="Service bootstrap successful")
                 logger.info(f"  ✓ Analyzed emotion: VAD={emotion_result}")
 
             # 5. Check ethics
             governance = self.services.get("governance")
             if governance:
-                ethics_result = await governance.check_ethics(
-                    action="bootstrap_demo", context={"purpose": "testing"}
-                )
+                ethics_result = await governance.check_ethics(action="bootstrap_demo", context={"purpose": "testing"})
                 logger.info(f"  ✓ Ethics check: {'Permitted' if ethics_result else 'Denied'}")
 
             logger.info("✅ Integration demonstration complete")

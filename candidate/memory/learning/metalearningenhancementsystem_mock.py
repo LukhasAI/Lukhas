@@ -167,9 +167,7 @@ class MetaLearningEnhancementsystem:
 
         return discovery_results
 
-    async def create_enhanced_learning_config(
-        self, learning_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def create_enhanced_learning_config(self, learning_context: dict[str, Any]) -> dict[str, Any]:
         """Create mock enhanced config"""
         return {
             "base_config": learning_context,
@@ -181,9 +179,7 @@ class MetaLearningEnhancementsystem:
             "created_at": datetime.now().isoformat(),
         }
 
-    async def apply_dynamic_optimization(
-        self, config: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def apply_dynamic_optimization(self, config: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Apply mock optimization"""
         new_rate = await self.rate_modulator.optimize_rate(context)
         return {
@@ -217,13 +213,9 @@ class MetaLearningEnhancementWrapper:
 
     async def initialize(self):
         """Initialize mock wrapper"""
-        discovery_results = (
-            await self.enhancement_system.discover_and_enhance_meta_learning_systems()
-        )
+        discovery_results = await self.enhancement_system.discover_and_enhance_meta_learning_systems()
 
-        self.integration_stats["total_enhancements"] = len(
-            discovery_results.get("enhancement_results", [])
-        )
+        self.integration_stats["total_enhancements"] = len(discovery_results.get("enhancement_results", []))
         self.integration_stats["successful_enhancements"] = sum(
             1 for r in discovery_results.get("enhancement_results", []) if r.get("success", False)
         )
@@ -233,9 +225,7 @@ class MetaLearningEnhancementWrapper:
     async def enhance_learning_process(self, learning_context: dict[str, Any]) -> dict[str, Any]:
         """Mock enhance learning process"""
         try:
-            enhanced_config = await self.enhancement_system.create_enhanced_learning_config(
-                learning_context
-            )
+            enhanced_config = await self.enhancement_system.create_enhanced_learning_config(learning_context)
 
             if self.enhancement_system.enhancement_mode == Enhancementmode.OPTIMIZATION_ACTIVE:
                 optimization_result = await self.enhancement_system.apply_dynamic_optimization(

@@ -193,9 +193,7 @@ class EnhancedOnboardingManager:
             logger.error(f"ΛTRACE: Onboarding session start error: {e}")
             return {"success": False, "error": str(e)}
 
-    def progress_onboarding_stage(
-        self, session_id: str, stage_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def progress_onboarding_stage(self, session_id: str, stage_data: dict[str, Any]) -> dict[str, Any]:
         """
         # Progress to next onboarding stage with user input
         # Provides adaptive guidance based on user responses
@@ -222,9 +220,7 @@ class EnhancedOnboardingManager:
             progress.current_stage = next_stage
 
             # Update completion percentage
-            progress.completion_percentage = (
-                len(progress.completed_stages) / len(OnboardingStage) * 100
-            )
+            progress.completion_percentage = len(progress.completed_stages) / len(OnboardingStage) * 100
             progress.time_spent_minutes = (time.time() - context.session_start) / 60
 
             # Generate content for next stage
@@ -278,17 +274,13 @@ class EnhancedOnboardingManager:
                 }
 
             # Generate onboarding completion report
-            completion_report = self._generate_completion_report(
-                context, progress, lambda_id_result
-            )
+            completion_report = self._generate_completion_report(context, progress, lambda_id_result)
 
             # Clean up session data
             del self.active_sessions[session_id]
             del self.session_progress[session_id]
 
-            logger.info(
-                f"ΛTRACE: Onboarding completed successfully - ΛiD: {lambda_id_result['lambda_id'][:10]}..."
-            )
+            logger.info(f"ΛTRACE: Onboarding completed successfully - ΛiD: {lambda_id_result['lambda_id'][:10]}...")
             return {
                 "success": True,
                 "lambda_id": lambda_id_result["lambda_id"],
@@ -321,12 +313,8 @@ class EnhancedOnboardingManager:
             "symbolic_vault_size": progress.symbolic_vault_size,
             "time_spent_minutes": progress.time_spent_minutes,
             "cultural_context": context.cultural_indicators,
-            "personality_type": (
-                context.personality_type.value if context.personality_type else None
-            ),
-            "entropy_score": (
-                progress.entropy_progression[-1] if progress.entropy_progression else 0.0
-            ),
+            "personality_type": (context.personality_type.value if context.personality_type else None),
+            "entropy_score": (progress.entropy_progression[-1] if progress.entropy_progression else 0.0),
         }
 
     def _generate_welcome_stage(self, session_id: str) -> dict[str, Any]:
@@ -334,9 +322,7 @@ class EnhancedOnboardingManager:
         context = self.active_sessions[session_id]
 
         # Detect user's preferred language/culture for messaging
-        cultural_context = (
-            context.cultural_indicators[0] if context.cultural_indicators else "universal"
-        )
+        cultural_context = context.cultural_indicators[0] if context.cultural_indicators else "universal"
 
         welcome_messages = {
             "universal": {
@@ -416,9 +402,7 @@ class EnhancedOnboardingManager:
 
         return {"score": 0.5, "processed": True}
 
-    def _process_welcome_data(
-        self, data: dict[str, Any], context: OnboardingContext
-    ) -> dict[str, Any]:
+    def _process_welcome_data(self, data: dict[str, Any], context: OnboardingContext) -> dict[str, Any]:
         """Process welcome stage user selections."""
         # Set personality type
         if "personality_type" in data:
@@ -439,16 +423,12 @@ class EnhancedOnboardingManager:
 
         return {
             "score": 1.0,
-            "personality_set": (
-                context.personality_type.value if context.personality_type else None
-            ),
+            "personality_set": (context.personality_type.value if context.personality_type else None),
             "cultural_context_detected": bool(context.cultural_indicators),
             "tier_goal": context.tier_goal,
         }
 
-    def _process_symbolic_foundation_data(
-        self, data: dict[str, Any], context: OnboardingContext
-    ) -> dict[str, Any]:
+    def _process_symbolic_foundation_data(self, data: dict[str, Any], context: OnboardingContext) -> dict[str, Any]:
         """Process symbolic foundation building."""
         symbolic_elements = data.get("symbolic_elements", [])
 
@@ -480,9 +460,7 @@ class EnhancedOnboardingManager:
         context.user_preferences["symbolic_vault"] = processed_elements
 
         # Update progress
-        progress = self.session_progress[
-            list(self.active_sessions.keys())[0]
-        ]  # Get session from active sessions
+        progress = self.session_progress[list(self.active_sessions.keys())[0]]  # Get session from active sessions
         progress.symbolic_vault_size = len(processed_elements)
         progress.entropy_progression.append(total_entropy)
 
@@ -590,9 +568,7 @@ class EnhancedOnboardingManager:
             "entropy_target": 0.3,
         }
 
-    def _build_final_user_profile(
-        self, context: OnboardingContext, progress: OnboardingProgress
-    ) -> dict[str, Any]:
+    def _build_final_user_profile(self, context: OnboardingContext, progress: OnboardingProgress) -> dict[str, Any]:
         """Build final user profile from onboarding data."""
 
         # Extract symbolic vault entries
@@ -612,17 +588,13 @@ class EnhancedOnboardingManager:
         profile = {
             "symbolic_entries": symbolic_entries,
             "consciousness_level": context.consciousness_indicators.get("overall", 0.5),
-            "cultural_context": (
-                context.cultural_indicators[0] if context.cultural_indicators else None
-            ),
+            "cultural_context": (context.cultural_indicators[0] if context.cultural_indicators else None),
             "biometric_enrolled": context.device_capabilities.get("biometric", False),
             "qrg_enabled": True,
             "location_prefix": context.user_preferences.get("location_prefix", "USR"),
             "org_code": context.user_preferences.get("org_code", "LUKH"),
             "favorite_emoji": context.user_preferences.get("favorite_emoji", "🔒"),
-            "personality_type": (
-                context.personality_type.value if context.personality_type else "simple"
-            ),
+            "personality_type": (context.personality_type.value if context.personality_type else "simple"),
             "security_preference": context.security_preference,
             "tier_goal": context.tier_goal,
         }
@@ -640,15 +612,11 @@ class EnhancedOnboardingManager:
         return {
             "onboarding_duration_minutes": progress.time_spent_minutes,
             "stages_completed": len(progress.completed_stages),
-            "final_entropy_score": (
-                progress.entropy_progression[-1] if progress.entropy_progression else 0.0
-            ),
+            "final_entropy_score": (progress.entropy_progression[-1] if progress.entropy_progression else 0.0),
             "tier_achieved": lambda_id_result["tier_level"],
             "tier_goal_met": lambda_id_result["tier_level"] >= context.tier_goal,
             "cultural_integration": bool(context.cultural_indicators),
-            "personality_type": (
-                context.personality_type.value if context.personality_type else None
-            ),
+            "personality_type": (context.personality_type.value if context.personality_type else None),
             "symbolic_vault_size": progress.symbolic_vault_size,
             "biometric_enabled": lambda_id_result.get("biometric_required", False),
             "qrg_generated": lambda_id_result.get("qrg_enabled", False),
@@ -700,9 +668,7 @@ class EnhancedOnboardingManager:
         else:
             return base_time + 2
 
-    def _get_personalized_symbolic_suggestions(
-        self, context: OnboardingContext
-    ) -> list[dict[str, Any]]:
+    def _get_personalized_symbolic_suggestions(self, context: OnboardingContext) -> list[dict[str, Any]]:
         """Get personalized symbolic suggestions based on user context."""
         suggestions = []
 
@@ -713,11 +679,7 @@ class EnhancedOnboardingManager:
                     suggestions.append(
                         {
                             "value": suggestion,
-                            "type": (
-                                "emoji"
-                                if len(suggestion) == 1 and ord(suggestion) > 127
-                                else "word"
-                            ),
+                            "type": ("emoji" if len(suggestion) == 1 and ord(suggestion) > 127 else "word"),
                             "cultural_context": cultural_indicator,
                             "reason": f"Popular in {cultural_indicator} culture",
                         }
@@ -754,11 +716,7 @@ class EnhancedOnboardingManager:
                     suggestions.append(
                         {
                             "value": suggestion,
-                            "type": (
-                                "emoji"
-                                if len(suggestion) == 1 and ord(suggestion) > 127
-                                else "word"
-                            ),
+                            "type": ("emoji" if len(suggestion) == 1 and ord(suggestion) > 127 else "word"),
                             "reason": f"Matches {context.personality_type.value} personality",
                         }
                     )

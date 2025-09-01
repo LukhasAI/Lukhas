@@ -224,9 +224,7 @@ class MemoryTraumaRepair:
         self.repair_stats["active_traumas"] = len(active_traumas)
         return active_traumas
 
-    async def force_repair(
-        self, memory_id: str, repair_strategy: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def force_repair(self, memory_id: str, repair_strategy: Optional[str] = None) -> dict[str, Any]:
         """Force repair of a memory"""
         trauma = TraumaSignature(
             trauma_id=f"forced_{memory_id}_{datetime.now().timestamp()}",

@@ -70,9 +70,7 @@ def parse_jsonl_snapshots(path: Optional[Path] = None) -> list[dict[str, Any]]:
     return snapshots
 
 
-def calculate_drift_trends(
-    snapshots: list[dict[str, Any]], window_hours: int = 24
-) -> dict[str, Any]:
+def calculate_drift_trends(snapshots: list[dict[str, Any]], window_hours: int = 24) -> dict[str, Any]:
     """
     Calculate drift trends from snapshots.
 

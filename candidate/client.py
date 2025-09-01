@@ -50,9 +50,7 @@ class Lukhas:
         last_err = None
         while attempt <= self.retries:
             try:
-                resp = self.s.request(
-                    method, url, params=params, json=json_body, timeout=self.timeout
-                )
+                resp = self.s.request(method, url, params=params, json=json_body, timeout=self.timeout)
                 if 200 <= resp.status_code < 300:
                     if "application/json" in resp.headers.get("content-type", ""):
                         return resp.json()

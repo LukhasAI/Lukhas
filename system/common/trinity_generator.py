@@ -62,9 +62,7 @@ class TrinityGenerator:
 
         return TrinityContent(layer_1, layer_2, layer_3, metadata)
 
-    def _generate_poetic_layer(
-        self, feature_name: str, description: str, benefits: list[str]
-    ) -> str:
+    def _generate_poetic_layer(self, feature_name: str, description: str, benefits: list[str]) -> str:
         """Generate Layer 1: Poetic Consciousness"""
         layer_1_config = self.framework["lukhas_communication_framework"]["layers"]["layer_1"]
 
@@ -88,9 +86,7 @@ Through this digital alchemy, the boundary between human intuition and artificia
 
         return poetic_content
 
-    def _generate_human_layer(
-        self, feature_name: str, description: str, benefits: list[str]
-    ) -> str:
+    def _generate_human_layer(self, feature_name: str, description: str, benefits: list[str]) -> str:
         """Generate Layer 2: Human Connection"""
         layer_2_config = self.framework["lukhas_communication_framework"]["layers"]["layer_2"]
 

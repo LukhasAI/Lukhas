@@ -54,9 +54,7 @@ def guardian_adapter():
 @pytest.fixture
 def integrated_platform(mock_budget_manager, mock_consciousness_cache, mock_revenue_tracker):
     """Guardian integrated platform instance."""
-    return GuardianIntegratedPlatform(
-        mock_budget_manager, mock_consciousness_cache, mock_revenue_tracker
-    )
+    return GuardianIntegratedPlatform(mock_budget_manager, mock_consciousness_cache, mock_revenue_tracker)
 
 
 class TestGuardianSystemAdapter:
@@ -288,9 +286,7 @@ class TestGuardianIntegratedPlatform:
         assert metrics["ethical_compliance"]["profit_sharing_active"] is True
 
     @pytest.mark.asyncio
-    async def test_consciousness_cache_integration(
-        self, integrated_platform, mock_consciousness_cache
-    ):
+    async def test_consciousness_cache_integration(self, integrated_platform, mock_consciousness_cache):
         """Test that consciousness profiles are properly cached."""
         consciousness_profile = {"user_id": "test_user", "values": ["test"]}
 

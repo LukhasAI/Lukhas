@@ -88,9 +88,7 @@ class TestToolExecutor:
     @pytest.mark.asyncio
     async def test_schedule_task_success(self, tool_executor):
         """Test successful task scheduling"""
-        result = await tool_executor.execute(
-            "schedule_task", '{"when": "tomorrow", "note": "Test task"}'
-        )
+        result = await tool_executor.execute("schedule_task", '{"when": "tomorrow", "note": "Test task"}')
 
         assert "Task scheduled" in result
         assert "Test task" in result
@@ -147,9 +145,7 @@ class TestToolExecutor:
     @pytest.mark.asyncio
     async def test_code_execution_disabled(self, tool_executor):
         """Test code execution when disabled"""
-        result = await tool_executor.execute(
-            "exec_code", '{"language": "python", "source": "print(\\"hello\\")"}'
-        )
+        result = await tool_executor.execute("exec_code", '{"language": "python", "source": "print(\\"hello\\")"}')
 
         assert "Code execution is disabled" in result
 
@@ -158,9 +154,7 @@ class TestToolExecutor:
         """Test code execution with invalid language"""
         with patch.dict(os.environ, {"LUKHAS_ENABLE_CODE_EXEC": "true"}):
             executor = ToolExecutor()
-            result = await executor.execute(
-                "exec_code", '{"language": "invalid", "source": "test"}'
-            )
+            result = await executor.execute("exec_code", '{"language": "invalid", "source": "test"}')
 
             assert "Language 'invalid' is not supported" in result
 
@@ -169,9 +163,7 @@ class TestToolExecutor:
         """Test code execution blocked by security"""
         with patch.dict(os.environ, {"LUKHAS_ENABLE_CODE_EXEC": "true"}):
             executor = ToolExecutor()
-            result = await executor.execute(
-                "exec_code", '{"language": "python", "source": "import os"}'
-            )
+            result = await executor.execute("exec_code", '{"language": "python", "source": "import os"}')
 
             assert "Security violation" in result
 
@@ -245,30 +237,22 @@ class TestToolExecutorGuardian:
     async def test_guardian_security_validation(self, guardian):
         """Test Guardian security validation"""
         # Safe URL should pass
-        security_result = await guardian._validate_security(
-            "open_url", {"url": "https://example.com"}
-        )
+        security_result = await guardian._validate_security("open_url", {"url": "https://example.com"})
         assert security_result["approved"]
 
         # Dangerous URL should fail
-        security_result = await guardian._validate_security(
-            "open_url", {"url": "ftp://example.com"}
-        )
+        security_result = await guardian._validate_security("open_url", {"url": "ftp://example.com"})
         assert not security_result["approved"]
 
     @pytest.mark.asyncio
     async def test_guardian_ethical_validation(self, guardian):
         """Test Guardian ethical validation"""
         # Safe operation should pass
-        ethical_result = await guardian._validate_tool_ethics(
-            "retrieve_knowledge", {"query": "science"}
-        )
+        ethical_result = await guardian._validate_tool_ethics("retrieve_knowledge", {"query": "science"})
         assert ethical_result["approved"]
 
         # Potentially harmful operation should have concerns
-        ethical_result = await guardian._validate_tool_ethics(
-            "open_url", {"url": "https://hack-tools.com"}
-        )
+        ethical_result = await guardian._validate_tool_ethics("open_url", {"url": "https://hack-tools.com"})
         assert not ethical_result["approved"]
         assert len(ethical_result["concerns"]) > 0
 
@@ -285,9 +269,7 @@ class TestToolExecutorGuardian:
             "ethical_concerns": [],
         }
 
-        await guardian.log_execution_decision(
-            "test_tool", {"arg": "value"}, validation_result, "execution result"
-        )
+        await guardian.log_execution_decision("test_tool", {"arg": "value"}, validation_result, "execution result")
 
         # Should not raise exception
         assert True
@@ -311,9 +293,7 @@ class TestToolOrchestrator:
     @pytest.mark.asyncio
     async def test_orchestration_invalid_json(self, orchestrator):
         """Test orchestration with invalid JSON"""
-        result = await orchestrator.execute_with_orchestration(
-            "test_tool", "invalid json", {"lid": "test_user"}
-        )
+        result = await orchestrator.execute_with_orchestration("test_tool", "invalid json", {"lid": "test_user"})
 
         assert not result["success"]
         assert "Invalid JSON arguments" in result["error"]

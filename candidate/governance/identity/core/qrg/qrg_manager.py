@@ -219,9 +219,7 @@ class LambdaIDQRGGenerator:
 
         return img
 
-    def _apply_consciousness_adaptation(
-        self, img: Image.Image, consciousness_level: float
-    ) -> Image.Image:
+    def _apply_consciousness_adaptation(self, img: Image.Image, consciousness_level: float) -> Image.Image:
         """Apply consciousness-adaptive visual elements."""
         overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
         draw = ImageDraw.Draw(overlay)
@@ -474,9 +472,7 @@ class LambdaIDQRGGenerator:
         else:
             return hashlib.sha256(f"vault_{lambda_id}_{time.time()}".encode()).hexdigest()[:24]
 
-    def _create_qrg_metadata(
-        self, config: LambdaIDQRGConfig, package: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _create_qrg_metadata(self, config: LambdaIDQRGConfig, package: dict[str, Any]) -> dict[str, Any]:
         """Create comprehensive QRG metadata."""
         qrg_id = self._generate_qrg_id(config.lambda_id)
 
@@ -518,9 +514,7 @@ class LambdaIDQRGGenerator:
         """Retrieve QRG metadata for a given ΛiD."""
         return self.qrg_registry.get(lambda_id)
 
-    def validate_qrg_challenge(
-        self, qrg_data: dict[str, Any], response: dict[str, Any]
-    ) -> dict[str, bool]:
+    def validate_qrg_challenge(self, qrg_data: dict[str, Any], response: dict[str, Any]) -> dict[str, bool]:
         """Validate QRG authentication challenge response."""
         logger.info("ΛTRACE: Validating QRG authentication challenge")
 
@@ -580,9 +574,7 @@ class LambdaIDQRGGenerator:
         logger.info(f"ΛTRACE: QRG validation result: {validation_result['valid']}")
         return validation_result
 
-    def _validate_challenge_elements(
-        self, challenge_elements: list[str], response: dict[str, Any]
-    ) -> bool:
+    def _validate_challenge_elements(self, challenge_elements: list[str], response: dict[str, Any]) -> bool:
         """Validate challenge elements response."""
         # Implement challenge validation logic based on symbolic vault elements
         for element in challenge_elements:

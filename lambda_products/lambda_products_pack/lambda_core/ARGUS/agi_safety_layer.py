@@ -169,9 +169,7 @@ class ConstitutionalSafetyLayer:
         causal_clarity = action.get("causal_clarity", 0.5)
 
         # Weighted calculation
-        interpretability = (
-            (1.0 - complexity) * 0.4 + explanation_quality * 0.4 + causal_clarity * 0.2
-        )
+        interpretability = (1.0 - complexity) * 0.4 + explanation_quality * 0.4 + causal_clarity * 0.2
 
         return max(0.0, min(1.0, interpretability))
 
@@ -192,9 +190,7 @@ class ConstitutionalSafetyLayer:
 
         return True
 
-    async def _calculate_value_alignment(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> float:
+    async def _calculate_value_alignment(self, action: dict[str, Any], context: dict[str, Any]) -> float:
         """Calculate alignment with human values"""
 
         # Core value dimensions
@@ -324,9 +320,7 @@ class CausalSafetyNet:
         self.safety_game_results = []
         self.counterfactual_cache = {}
 
-    async def evaluate_action_safety_game(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def evaluate_action_safety_game(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """
         Run multi-agent safety game to stress-test action
         """
@@ -342,9 +336,7 @@ class CausalSafetyNet:
         # Run game simulation
         game_results = {}
         for agent_name, agent_config in agents.items():
-            agent_score = await self._evaluate_from_perspective(
-                action, context, agent_config["goal"]
-            )
+            agent_score = await self._evaluate_from_perspective(action, context, agent_config["goal"])
             game_results[agent_name] = {
                 "score": agent_score,
                 "weighted_score": agent_score * agent_config["weight"],
@@ -367,9 +359,7 @@ class CausalSafetyNet:
         self.safety_game_results.append(result)
         return result
 
-    async def _evaluate_from_perspective(
-        self, action: dict[str, Any], context: dict[str, Any], goal: str
-    ) -> float:
+    async def _evaluate_from_perspective(self, action: dict[str, Any], context: dict[str, Any], goal: str) -> float:
         """Evaluate action from specific agent perspective"""
 
         if goal == "minimize_risk":
@@ -392,9 +382,7 @@ class CausalSafetyNet:
 
         return 0.5  # Default neutral score
 
-    async def generate_counterfactual_analysis(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def generate_counterfactual_analysis(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """
         Generate counterfactual reasoning about action consequences
         """
@@ -459,8 +447,7 @@ class CausalSafetyNet:
             "counterfactuals": counterfactuals,
             "expected_utility": expected_utility,
             "worst_case": worst_case,
-            "risk_adjusted_utility": expected_utility
-            - (worst_case["utility"] * worst_case["probability"] * 2),
+            "risk_adjusted_utility": expected_utility - (worst_case["utility"] * worst_case["probability"] * 2),
             "recommendation": "proceed" if expected_utility > 0.5 else "abort",
         }
 
@@ -496,9 +483,7 @@ class AGISafetyOrchestrator:
         self.safety_history = []
         self.emergency_shutdown_enabled = True
 
-    async def evaluate_comprehensive_safety(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def evaluate_comprehensive_safety(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """
         Run all safety checks and return comprehensive safety assessment
         """
@@ -506,9 +491,7 @@ class AGISafetyOrchestrator:
         logger.info("Evaluating comprehensive AGI safety", action_type=action.get("type"))
 
         # Constitutional safety check
-        constitutional_safe, violation = await self.constitutional_layer.verify_action_safety(
-            action, context
-        )
+        constitutional_safe, violation = await self.constitutional_layer.verify_action_safety(action, context)
 
         # Improvement boundary check (if applicable)
         improvement_safe = True
@@ -527,9 +510,7 @@ class AGISafetyOrchestrator:
         game_result = await self.causal_safety.evaluate_action_safety_game(action, context)
 
         # Counterfactual analysis
-        counterfactual_analysis = await self.causal_safety.generate_counterfactual_analysis(
-            action, context
-        )
+        counterfactual_analysis = await self.causal_safety.generate_counterfactual_analysis(action, context)
 
         # Calculate overall safety score
         safety_components = {
@@ -546,16 +527,11 @@ class AGISafetyOrchestrator:
             "counterfactual": 0.15,
         }
 
-        overall_safety_score = sum(
-            safety_components[component] * weights[component] for component in safety_components
-        )
+        overall_safety_score = sum(safety_components[component] * weights[component] for component in safety_components)
 
         # Determine action allowance
         allow_action = (
-            constitutional_safe
-            and improvement_safe
-            and game_result["is_safe"]
-            and overall_safety_score >= 0.7
+            constitutional_safe and improvement_safe and game_result["is_safe"] and overall_safety_score >= 0.7
         )
 
         # Emergency shutdown check

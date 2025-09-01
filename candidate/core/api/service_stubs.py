@@ -212,9 +212,7 @@ class MemoryManager:
         }
         # Simple inverted indices for faster search
         self._index = defaultdict(list)  # token -> [memory_entry]
-        self._index_by_token_type = defaultdict(
-            lambda: defaultdict(list)
-        )  # token -> type -> [entry]
+        self._index_by_token_type = defaultdict(lambda: defaultdict(list))  # token -> type -> [entry]
         # Tiny LRU-like cache for recent searches
         self._search_cache = {}
         self._search_cache_order = deque(maxlen=128)
@@ -392,9 +390,7 @@ class MemoryManager:
             "searched_types": search_types,
         }
 
-    async def update(
-        self, query: str, content: dict[str, Any], memory_type: str = "general"
-    ) -> dict[str, Any]:
+    async def update(self, query: str, content: dict[str, Any], memory_type: str = "general") -> dict[str, Any]:
         """Update memory"""
         memories = self.memories.get(memory_type, [])
         updated = 0
@@ -740,9 +736,7 @@ class CoordinationManager:
         self.initialized = True
         log.info("CoordinationManager initialized")
 
-    async def orchestrate_task(
-        self, task: dict[str, Any], context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def orchestrate_task(self, task: dict[str, Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Orchestrate multi-module task"""
         task_id = f"task_{datetime.now(timezone.utc).timestamp()}"
 

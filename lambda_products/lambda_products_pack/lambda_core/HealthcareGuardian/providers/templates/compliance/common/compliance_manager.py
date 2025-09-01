@@ -51,9 +51,7 @@ class BaseComplianceManager(ABC):
         self.audit_enabled = config.get("audit_enabled", True)
 
     @abstractmethod
-    async def validate_data_processing(
-        self, data: dict[str, Any], purpose: str, legal_basis: str
-    ) -> bool:
+    async def validate_data_processing(self, data: dict[str, Any], purpose: str, legal_basis: str) -> bool:
         """Validate if data processing is compliant"""
         pass
 
@@ -63,9 +61,7 @@ class BaseComplianceManager(ABC):
         pass
 
     @abstractmethod
-    async def log_data_access(
-        self, user_id: str, subject_id: str, data_accessed: list[str], purpose: str
-    ) -> None:
+    async def log_data_access(self, user_id: str, subject_id: str, data_accessed: list[str], purpose: str) -> None:
         """Log data access for audit purposes"""
         pass
 
@@ -78,9 +74,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         self.data_retention_days = config.get("data_retention_days", 2555)  # 7 years default
         self.consent_cache = {}
 
-    async def validate_data_processing(
-        self, data: dict[str, Any], purpose: str, legal_basis: str
-    ) -> bool:
+    async def validate_data_processing(self, data: dict[str, Any], purpose: str, legal_basis: str) -> bool:
         """Validate data processing across all configured frameworks"""
 
         # Check each framework's requirements
@@ -97,9 +91,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
 
         return True
 
-    async def _validate_gdpr_processing(
-        self, data: dict[str, Any], purpose: str, legal_basis: str
-    ) -> bool:
+    async def _validate_gdpr_processing(self, data: dict[str, Any], purpose: str, legal_basis: str) -> bool:
         """Validate GDPR compliance"""
 
         # Check if legal basis is valid
@@ -123,9 +115,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
 
         return True
 
-    async def _validate_hipaa_processing(
-        self, data: dict[str, Any], purpose: str, legal_basis: str
-    ) -> bool:
+    async def _validate_hipaa_processing(self, data: dict[str, Any], purpose: str, legal_basis: str) -> bool:
         """Validate HIPAA compliance"""
 
         # Check if purpose is permitted under HIPAA
@@ -144,9 +134,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
 
         return True
 
-    async def _validate_lopd_processing(
-        self, data: dict[str, Any], purpose: str, legal_basis: str
-    ) -> bool:
+    async def _validate_lopd_processing(self, data: dict[str, Any], purpose: str, legal_basis: str) -> bool:
         """Validate Spanish LOPD compliance"""
 
         # LOPD follows similar principles to GDPR
@@ -199,9 +187,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
 
         return consent_valid
 
-    async def _check_gdpr_consent(
-        self, subject_id: str, purpose: str, data_types: list[str]
-    ) -> bool:
+    async def _check_gdpr_consent(self, subject_id: str, purpose: str, data_types: list[str]) -> bool:
         """Check GDPR consent requirements"""
 
         # GDPR requires explicit consent for sensitive data
@@ -215,9 +201,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
 
         return True
 
-    async def _check_hipaa_authorization(
-        self, subject_id: str, purpose: str, data_types: list[str]
-    ) -> bool:
+    async def _check_hipaa_authorization(self, subject_id: str, purpose: str, data_types: list[str]) -> bool:
         """Check HIPAA authorization requirements"""
 
         # HIPAA allows disclosure for TPO without authorization
@@ -237,9 +221,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         # Implementation would check authorization database
         return True  # Placeholder
 
-    async def log_data_access(
-        self, user_id: str, subject_id: str, data_accessed: list[str], purpose: str
-    ) -> None:
+    async def log_data_access(self, user_id: str, subject_id: str, data_accessed: list[str], purpose: str) -> None:
         """Log data access for audit purposes"""
 
         access_log = {

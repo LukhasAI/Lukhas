@@ -178,9 +178,7 @@ class SelfHealingSystem:
         # Create circuit breaker
         self.circuit_breakers[name] = CircuitBreaker(name)
 
-    async def handle_failure(
-        self, component: str, error: Exception, context: dict[str, Any] = None
-    ) -> bool:
+    async def handle_failure(self, component: str, error: Exception, context: dict[str, Any] = None) -> bool:
         """
         Handle system failure
 
@@ -305,9 +303,7 @@ class SelfHealingSystem:
 
         return False
 
-    async def _execute_healing_strategy(
-        self, failure: SystemFailure, strategy: HealingStrategy
-    ) -> bool:
+    async def _execute_healing_strategy(self, failure: SystemFailure, strategy: HealingStrategy) -> bool:
         """Execute specific healing strategy"""
         component = failure.component
 
@@ -409,11 +405,7 @@ class SelfHealingSystem:
             await asyncio.sleep(300)  # Every 5 minutes
 
             # Analyze recent failures
-            recent_failures = [
-                f
-                for f in self.failure_history
-                if f.timestamp > datetime.utcnow() - timedelta(hours=1)
-            ]
+            recent_failures = [f for f in self.failure_history if f.timestamp > datetime.utcnow() - timedelta(hours=1)]
 
             patterns = self._detect_failure_patterns(recent_failures)
 
@@ -594,9 +586,7 @@ class HealingLearner:
     """Learn from healing successes and failures"""
 
     def __init__(self):
-        self.strategy_success_rates: dict[tuple[FailureType, HealingStrategy], float] = defaultdict(
-            lambda: 0.5
-        )
+        self.strategy_success_rates: dict[tuple[FailureType, HealingStrategy], float] = defaultdict(lambda: 0.5)
         self.healing_patterns: list[dict[str, Any]] = []
 
     async def learn(self, failure: SystemFailure, success: bool):

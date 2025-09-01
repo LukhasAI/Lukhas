@@ -86,9 +86,7 @@ class AIComplianceManager:
 
         self.logger.info(f"🛡️ AI Compliance Manager initialized for {region} with {level} level")
 
-    async def validate_ai_action(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def validate_ai_action(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Validate AI action against all applicable regulations"""
 
         result = {
@@ -140,9 +138,7 @@ class AIComplianceManager:
 
             # Determine overall compliance level
             if result["violations"]:
-                critical_violations = [
-                    v for v in result["violations"] if v.get("severity") == "critical"
-                ]
+                critical_violations = [v for v in result["violations"] if v.get("severity") == "critical"]
                 high_violations = [v for v in result["violations"] if v.get("severity") == "high"]
 
                 if critical_violations:
@@ -177,9 +173,7 @@ class AIComplianceManager:
                 ],
             }
 
-    async def _check_eu_ai_act_compliance(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _check_eu_ai_act_compliance(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Check compliance with EU AI Act requirements"""
 
         result = {
@@ -196,10 +190,7 @@ class AIComplianceManager:
         # Check for prohibited AI practices (Article 5)
         prohibited_practices = self.compliance_rules["EU"]["prohibited_practices"]
         for practice in prohibited_practices:
-            if (
-                practice in action_type.lower()
-                or practice in str(action.get("description", "")).lower()
-            ):
+            if practice in action_type.lower() or practice in str(action.get("description", "")).lower():
                 result["compliant"] = False
                 result["risk_level"] = "prohibited"
                 result["violations"].append(
@@ -258,9 +249,7 @@ class AIComplianceManager:
 
         return result
 
-    async def _check_gdpr_compliance(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _check_gdpr_compliance(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Check GDPR compliance for data processing"""
 
         result = {
@@ -350,9 +339,7 @@ class AIComplianceManager:
 
         return result
 
-    async def _check_nist_compliance(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _check_nist_compliance(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Check NIST AI Risk Management Framework compliance"""
 
         result = {
@@ -417,9 +404,7 @@ class AIComplianceManager:
 
         return result
 
-    async def _check_iso_compliance(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _check_iso_compliance(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Check ISO/IEC standards compliance"""
 
         result = {
@@ -488,13 +473,9 @@ class AIComplianceManager:
             "active_regulations": self.compliance_rules,
             "assessment_summary": {
                 "total_assessments": len(self.assessment_history),
-                "compliant_assessments": len(
-                    [a for a in self.assessment_history if a["compliant"]]
-                ),
+                "compliant_assessments": len([a for a in self.assessment_history if a["compliant"]]),
                 "violation_count": len(self.violation_log),
-                "last_assessment": (
-                    self.assessment_history[-1]["timestamp"] if self.assessment_history else None
-                ),
+                "last_assessment": (self.assessment_history[-1]["timestamp"] if self.assessment_history else None),
             },
             "data_processing_purposes": self._get_processing_purposes(),
             "compliance_certifications": [
@@ -527,9 +508,7 @@ class AIComplianceManager:
 
         cutoff_time = datetime.now() - timedelta(hours=hours)
         recent_assessments = [
-            a
-            for a in self.assessment_history
-            if datetime.fromisoformat(a["timestamp"]) >= cutoff_time
+            a for a in self.assessment_history if datetime.fromisoformat(a["timestamp"]) >= cutoff_time
         ]
 
         if not recent_assessments:

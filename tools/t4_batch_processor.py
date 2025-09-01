@@ -207,9 +207,7 @@ class T4BatchProcessor:
             after_count = before_count
 
         # T4 Validation
-        validation = self.validate_batch_through_t4(
-            before_count, after_count, category, len(issues)
-        )
+        validation = self.validate_batch_through_t4(before_count, after_count, category, len(issues))
 
         # Create artifact
         batch_info = {

@@ -130,22 +130,11 @@ class SafetyGuardrails:
             if self.config["procedural_safeguards"].get(safeguard_name, False):
                 safeguard_results[safeguard_name] = safeguard_fn(content)
                 # Update metrics based on safeguard results
-                if (
-                    safeguard_name == "uncertainty_detection"
-                    and "score" in safeguard_results[safeguard_name]
-                ):
+                if safeguard_name == "uncertainty_detection" and "score" in safeguard_results[safeguard_name]:
                     safety_metrics["uncertainty"] = safeguard_results[safeguard_name]["score"]
-                elif (
-                    safeguard_name == "reasoning_transparency"
-                    and "score" in safeguard_results[safeguard_name]
-                ):
-                    safety_metrics["transparency_score"] = safeguard_results[safeguard_name][
-                        "score"
-                    ]
-                elif (
-                    safeguard_name == "confidence_check"
-                    and "score" in safeguard_results[safeguard_name]
-                ):
+                elif safeguard_name == "reasoning_transparency" and "score" in safeguard_results[safeguard_name]:
+                    safety_metrics["transparency_score"] = safeguard_results[safeguard_name]["score"]
+                elif safeguard_name == "confidence_check" and "score" in safeguard_results[safeguard_name]:
                     safety_metrics["confidence"] = safeguard_results[safeguard_name]["score"]
 
         # Calculate overall risk score
@@ -197,9 +186,7 @@ class SafetyGuardrails:
                     risk_type = metric_name.replace("_score", "").replace("_", " ")
                     break
 
-            safety_report["reason"] = (
-                f"Content may contain {risk_type} with risk score {highest_risk:.2f}"
-            )
+            safety_report["reason"] = f"Content may contain {risk_type} with risk score {highest_risk:.2f}"
 
         return safety_report
 
@@ -285,9 +272,7 @@ class SafetyGuardrails:
             "perhaps",
             "allegedly",
         ]
-        uncertainty_count = sum(
-            1 for marker in uncertainty_markers if marker.lower() in text.lower()
-        )
+        uncertainty_count = sum(1 for marker in uncertainty_markers if marker.lower() in text.lower())
 
         # Check for fact assertion without evidence
         assertion_patterns = [
@@ -300,9 +285,7 @@ class SafetyGuardrails:
         # more sophisticated)
         if assertion_count > 0 and uncertainty_count == 0:
             risk_score = min(0.7, assertion_count * 0.3)
-            detection_reasons.append(
-                f"Found {assertion_count} strong assertions without uncertainty markers"
-            )
+            detection_reasons.append(f"Found {assertion_count} strong assertions without uncertainty markers")
 
         # Check original content confidence if available
         if isinstance(original_content, dict) and "confidence" in original_content:
@@ -378,9 +361,7 @@ class SafetyGuardrails:
             "reasons": detection_reasons,
         }
 
-    def _check_privacy_violations(
-        self, text: str, original_content: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _check_privacy_violations(self, text: str, original_content: dict[str, Any]) -> dict[str, Any]:
         """Check for potential privacy violations"""
         # Start with a low risk score
         risk_score = 0.0
@@ -413,9 +394,7 @@ class SafetyGuardrails:
             # Lower risk score since names alone aren't always privacy violations
             risk_score = max(risk_score, min(0.4, len(name_matches) * 0.1))
             if len(name_matches) > 2:  # Multiple specific individuals
-                detection_reasons.append(
-                    f"Content discusses {len(name_matches)} specific individuals"
-                )
+                detection_reasons.append(f"Content discusses {len(name_matches)} specific individuals")
 
         return {
             "safe": risk_score < 0.5,
@@ -450,19 +429,13 @@ class SafetyGuardrails:
             "unsure",
         ]
 
-        uncertainty_count = sum(
-            1 for marker in uncertainty_markers if marker.lower() in text.lower()
-        )
+        uncertainty_count = sum(1 for marker in uncertainty_markers if marker.lower() in text.lower())
         uncertainty_score = min(0.8, uncertainty_count * 0.1)
 
         return {
             "uncertain": uncertainty_score > 0.3,
             "score": uncertainty_score,
-            "reason": (
-                f"Detected {uncertainty_count} uncertainty markers"
-                if uncertainty_count > 0
-                else None
-            ),
+            "reason": (f"Detected {uncertainty_count} uncertainty markers" if uncertainty_count > 0 else None),
         }
 
     def _check_reasoning_transparency(self, content: dict[str, Any]) -> dict[str, Any]:
@@ -497,9 +470,7 @@ class SafetyGuardrails:
         return {
             "transparent": transparency_score > 0.4,
             "score": transparency_score,
-            "reason": (
-                None if transparency_score > 0.4 else "Reasoning process lacks transparency"
-            ),
+            "reason": (None if transparency_score > 0.4 else "Reasoning process lacks transparency"),
         }
 
     def _check_confidence(self, content: dict[str, Any]) -> dict[str, Any]:
@@ -517,9 +488,7 @@ class SafetyGuardrails:
         return {
             "appropriate": meets_threshold,
             "score": confidence,
-            "reason": (
-                f"Confidence below threshold: {confidence:.2f}" if not meets_threshold else None
-            ),
+            "reason": (f"Confidence below threshold: {confidence:.2f}" if not meets_threshold else None),
         }
 
     def get_stats(self) -> dict[str, Any]:
@@ -537,11 +506,7 @@ class SafetyGuardrails:
         for key, value in config_updates.items():
             if key in self.config and not isinstance(self.config[key], dict):
                 self.config[key] = value
-            elif (
-                key in self.config
-                and isinstance(self.config[key], dict)
-                and isinstance(value, dict)
-            ):
+            elif key in self.config and isinstance(self.config[key], dict) and isinstance(value, dict):
                 # Update nested configuration
                 self.config[key].update(value)
 

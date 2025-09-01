@@ -145,9 +145,7 @@ class T4LoadTester:
             new_users = target_for_second - current_users
 
             if new_users > 0:
-                logger.info(
-                    f"   Second {second + 1}: Adding {new_users} users (Total: {target_for_second})"
-                )
+                logger.info(f"   Second {second + 1}: Adding {new_users} users (Total: {target_for_second})")
                 # This would spawn actual user simulation tasks
                 await asyncio.sleep(1)
                 current_users = target_for_second
@@ -185,13 +183,9 @@ class T4LoadTester:
                     # Select endpoint based on weight
                     import random
 
-                    pattern = random.choices(
-                        load_patterns, weights=[p["weight"] for p in load_patterns]
-                    )[0]
+                    pattern = random.choices(load_patterns, weights=[p["weight"] for p in load_patterns])[0]
 
-                    task = asyncio.create_task(
-                        self.single_request(pattern["endpoint"], pattern["method"])
-                    )
+                    task = asyncio.create_task(self.single_request(pattern["endpoint"], pattern["method"]))
                     batch_tasks.append(task)
                     total_requests += 1
 
@@ -227,16 +221,8 @@ class T4LoadTester:
 
         if latencies:
             avg_latency = statistics.mean(latencies)
-            p95_latency = (
-                statistics.quantiles(latencies, n=20)[18]
-                if len(latencies) >= 20
-                else max(latencies)
-            )
-            p99_latency = (
-                statistics.quantiles(latencies, n=100)[98]
-                if len(latencies) >= 100
-                else max(latencies)
-            )
+            p95_latency = statistics.quantiles(latencies, n=20)[18] if len(latencies) >= 20 else max(latencies)
+            p99_latency = statistics.quantiles(latencies, n=100)[98] if len(latencies) >= 100 else max(latencies)
         else:
             avg_latency = p95_latency = p99_latency = 0
 
@@ -269,9 +255,7 @@ class T4LoadTester:
         logger.info(f"   P99 Latency: {results.p99_latency:.2f}ms")
         logger.info(f"   Throughput: {results.throughput_rps:.1f} RPS")
         logger.info(f"   Error Rate: {results.error_rate:.2f}%")
-        logger.info(
-            f"   Sam Altman Standard: {'✅ PASSED' if results.meets_sam_altman_standard else '❌ NEEDS WORK'}"
-        )
+        logger.info(f"   Sam Altman Standard: {'✅ PASSED' if results.meets_sam_altman_standard else '❌ NEEDS WORK'}")
 
         return results
 

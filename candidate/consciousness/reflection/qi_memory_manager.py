@@ -122,9 +122,7 @@ class QIMemoryManager(BaseMemoryManager):
             self.logger.error("Failed to store quantum memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def retrieve(
-        self, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def retrieve(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Retrieve memory with coherence-inspired processing check.
 
@@ -144,9 +142,7 @@ class QIMemoryManager(BaseMemoryManager):
 
             # Handle context-aware retrieval
             if context and context.get("collapse_superposition"):
-                memory_data = self._collapse_superposition(
-                    memory_package["data"], self.quantum_like_states[memory_id]
-                )
+                memory_data = self._collapse_superposition(memory_package["data"], self.quantum_like_states[memory_id])
             else:
                 memory_data = memory_package["data"]
 
@@ -166,14 +162,10 @@ class QIMemoryManager(BaseMemoryManager):
             self.logger.error("Memory not found", memory_id=memory_id)
             return {"status": "error", "error": f"Memory not found: {memory_id}"}
         except Exception as e:
-            self.logger.error(
-                "Failed to retrieve quantum memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to retrieve quantum memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def update(
-        self, memory_id: str, updates: dict[str, Any], merge: bool = True
-    ) -> dict[str, Any]:
+    async def update(self, memory_id: str, updates: dict[str, Any], merge: bool = True) -> dict[str, Any]:
         """Update memory with quantum-like state evolution."""
         try:
             # Retrieve current state
@@ -220,9 +212,7 @@ class QIMemoryManager(BaseMemoryManager):
                 # Mark as deleted in index
                 if memory_id in self._memory_index:
                     self._memory_index[memory_id]["deleted"] = True
-                    self._memory_index[memory_id]["deleted_at"] = datetime.now(
-                        timezone.utc
-                    ).isoformat()
+                    self._memory_index[memory_id]["deleted_at"] = datetime.now(timezone.utc).isoformat()
                     self._save_index()
             else:
                 # Remove from disk
@@ -243,9 +233,7 @@ class QIMemoryManager(BaseMemoryManager):
             self.logger.error("Failed to delete quantum memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def search(
-        self, criteria: dict[str, Any], limit: Optional[int] = None
-    ) -> list[dict[str, Any]]:
+    async def search(self, criteria: dict[str, Any], limit: Optional[int] = None) -> list[dict[str, Any]]:
         """
         Search memories with quantum-aware filtering.
 
@@ -345,9 +333,7 @@ class QIMemoryManager(BaseMemoryManager):
             )
             return {"status": "error", "error": str(e)}
 
-    async def visualize(
-        self, memory_id: str, options: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def visualize(self, memory_id: str, options: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Create quantum-like state visualization.
 
@@ -372,17 +358,13 @@ class QIMemoryManager(BaseMemoryManager):
                 },
                 "coherence": self.coherence_scores.get(memory_id, 0.0),
                 "entanglements": list(self.entanglements.get(memory_id, set())),
-                "visualization_type": (
-                    options.get("type", "quantum_sphere") if options else "quantum_sphere"
-                ),
+                "visualization_type": (options.get("type", "quantum_sphere") if options else "quantum_sphere"),
             }
 
             return {"status": "success", "visualization_data": viz_data}
 
         except Exception as e:
-            self.logger.error(
-                "Failed to visualize quantum memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to visualize quantum memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     # === Private helper methods ===
@@ -427,18 +409,14 @@ class QIMemoryManager(BaseMemoryManager):
         # Simple collapse - in real implementation would be more sophisticated
         return memory_data
 
-    def _evolve_quantum_like_state(
-        self, current_state: dict[str, Any], updates: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evolve_quantum_like_state(self, current_state: dict[str, Any], updates: dict[str, Any]) -> dict[str, Any]:
         """Evolve quantum-like state based on updates."""
         # Simple evolution - rotate phases based on update complexity
         evolved_state = current_state.copy()
         update_factor = len(str(updates)) / 100.0
 
         if "phase" in evolved_state:
-            evolved_state["phase"] = [
-                (p + update_factor) % (2 * np.pi) for p in evolved_state["phase"]
-            ]
+            evolved_state["phase"] = [(p + update_factor) % (2 * np.pi) for p in evolved_state["phase"]]
 
         return evolved_state
 
@@ -472,9 +450,7 @@ class QIMemoryManager(BaseMemoryManager):
             **base_stats,
             "quantum_memories": len(self.quantum_like_states),
             "total_entanglements": sum(len(e) for e in self.entanglements.values()) // 2,
-            "average_coherence": (
-                np.mean(list(self.coherence_scores.values())) if self.coherence_scores else 0.0
-            ),
+            "average_coherence": (np.mean(list(self.coherence_scores.values())) if self.coherence_scores else 0.0),
             "coherence_threshold": self.quantum_config["coherence_threshold"],
         }
 

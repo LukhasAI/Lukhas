@@ -158,9 +158,7 @@ class Actor(ABC):
 
             # Stop all children
             if self._children:
-                await asyncio.gather(
-                    *[child.stop() for child in self._children], return_exceptions=True
-                )
+                await asyncio.gather(*[child.stop() for child in self._children], return_exceptions=True)
 
             # Update metrics
             if self._start_time:
@@ -324,9 +322,7 @@ class ActorSupervisor:
     async def stop_all(self) -> None:
         """Stop all supervised actors"""
         if self.actors:
-            await asyncio.gather(
-                *[actor.stop() for actor in self.actors.values()], return_exceptions=True
-            )
+            await asyncio.gather(*[actor.stop() for actor in self.actors.values()], return_exceptions=True)
         self.actors.clear()
 
 
@@ -450,9 +446,7 @@ class ActorSystem:
 
         # Stop any remaining actors
         if self.actors:
-            await asyncio.gather(
-                *[actor.stop() for actor in self.actors.values()], return_exceptions=True
-            )
+            await asyncio.gather(*[actor.stop() for actor in self.actors.values()], return_exceptions=True)
 
         self.actors.clear()
         self.supervisors.clear()
@@ -474,9 +468,7 @@ def get_actor(actor_id: str) -> Optional[Actor]:
     return actor_system.get_actor(actor_id)
 
 
-async def send_message(
-    sender: str, recipient: str, message_type: str, payload: dict[str, Any]
-) -> bool:
+async def send_message(sender: str, recipient: str, message_type: str, payload: dict[str, Any]) -> bool:
     """Send message through global system"""
     message = Message(
         message_id=str(uuid.uuid4()),

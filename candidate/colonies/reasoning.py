@@ -139,9 +139,7 @@ class ReasoningColony(BaseColony):
                                 new_fact = self._apply_transitivity(fact1, fact2)
                                 if new_fact and new_fact not in derived_facts:
                                     new_facts.add(new_fact)
-                                    reasoning_steps.append(
-                                        f"Applied transitivity: {fact1} + {fact2} -> {new_fact}"
-                                    )
+                                    reasoning_steps.append(f"Applied transitivity: {fact1} + {fact2} -> {new_fact}")
 
                 # Apply modus ponens
                 elif rule_name == "modus_ponens":

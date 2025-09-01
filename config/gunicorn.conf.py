@@ -52,53 +52,65 @@ raw_env = [
     "LUKHAS_GUNICORN=true",
 ]
 
+
 # Hooks for Trinity Framework integration
 def on_starting(server):
     """Called just before the master process is initialized."""
     server.log.info("🚀 LUKHAS AI starting up - Trinity Framework initializing")
 
+
 def on_reload(server):
     """Called to recycle workers during a reload via SIGHUP."""
     server.log.info("🔄 LUKHAS AI reloading - Trinity Framework reconnecting")
+
 
 def when_ready(server):
     """Called just after the server is started."""
     server.log.info("✅ LUKHAS AI ready - Trinity Framework: ⚛️🧠🛡️ online")
     server.log.info(f"👥 Workers: {workers} | 🔗 Connections per worker: {worker_connections}")
 
+
 def worker_int(worker):
     """Called just after a worker exited on SIGINT or SIGQUIT."""
     worker.log.info(f"⚠️  Worker {worker.pid} interrupted - graceful shutdown initiated")
+
 
 def pre_fork(server, worker):
     """Called just before a worker is forked."""
     server.log.info(f"🔄 Forking worker {worker.age}")
 
+
 def post_fork(server, worker):
     """Called just after a worker has been forked."""
     server.log.info(f"✨ Worker {worker.pid} spawned (age: {worker.age})")
+
 
 def post_worker_init(worker):
     """Called just after a worker has initialized the application."""
     worker.log.info(f"🧠 Worker {worker.pid} initialized - LUKHAS consciousness active")
 
+
 def worker_abort(worker):
     """Called when a worker received the SIGABRT signal."""
     worker.log.error(f"💥 Worker {worker.pid} aborted")
 
+
 def pre_exec(server):
     """Called just before a new master process is forked."""
     server.log.info("🔄 LUKHAS AI master process restarting")
+
 
 def pre_request(worker, req):
     """Called just before a worker processes the request."""
     # Log high-level request info for Trinity Framework monitoring
     worker.log.debug(f"🔍 Processing: {req.method} {req.path}")
 
+
 def post_request(worker, req, environ, resp):
     """Called after a worker processes the request."""
     # Enhanced logging for Trinity Framework analytics
     worker.log.debug(f"✅ Completed: {req.method} {req.path} -> {resp.status}")
+
 
 # Custom application callable for LUKHAS AI
 def application(environ, start_response):
@@ -109,34 +121,37 @@ def application(environ, start_response):
     try:
         # Import the actual LUKHAS AI application
         from lukhas.main import create_app
+
         app = create_app()
         return app(environ, start_response)
     except ImportError as e:
         # Fallback for testing
-        response_body = f"LUKHAS AI Trinity Framework ⚛️🧠🛡️\nError: {str(e)}\n"
-        status = '500 Internal Server Error'
-        headers = [('Content-Type', 'text/plain')]
+        response_body = f"LUKHAS AI Trinity Framework ⚛️🧠🛡️\nError: {e!s}\n"
+        status = "500 Internal Server Error"
+        headers = [("Content-Type", "text/plain")]
         start_response(status, headers)
         return [response_body.encode()]
 
+
 # Development vs Production settings
-if os.getenv('LUKHAS_ENVIRONMENT') == 'development':
+if os.getenv("LUKHAS_ENVIRONMENT") == "development":
     # Development overrides
     workers = 1
     reload = True
     loglevel = "debug"
     accesslog = "-"  # stdout
-    errorlog = "-"   # stderr
-    
-elif os.getenv('LUKHAS_ENVIRONMENT') == 'production':
+    errorlog = "-"  # stderr
+
+elif os.getenv("LUKHAS_ENVIRONMENT") == "production":
     # Production optimizations
     preload_app = True
     max_requests = 2000
     max_requests_jitter = 100
     worker_tmp_dir = "/dev/shm"  # Use RAM for temporary files
-    
+
 # Performance tuning based on available memory
 import psutil
+
 memory_gb = psutil.virtual_memory().total / (1024**3)
 
 if memory_gb >= 8:
@@ -148,6 +163,6 @@ elif memory_gb >= 4:
     workers = min(workers, 8)
     worker_connections = 1500
 else:
-    # Low memory configuration  
+    # Low memory configuration
     workers = min(workers, 4)
     worker_connections = 1000

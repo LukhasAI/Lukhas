@@ -69,9 +69,7 @@ class ModelOrchestrator:
         else:
             raise ValueError("No LLM providers are available.")
 
-        response_text, model_used = await selected_wrapper.generate_response(
-            prompt, model=model, **kwargs
-        )
+        response_text, model_used = await selected_wrapper.generate_response(prompt, model=model, **kwargs)
         return response_text, selected_provider.value, model_used
 
     def get_available_providers(self) -> list[LLMProvider]:

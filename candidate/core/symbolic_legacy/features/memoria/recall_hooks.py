@@ -60,9 +60,7 @@ class RecallHooks:
 
     # ΛRECALL_LOOP
 
-    def execute_post_recall_hooks(
-        self, recall_results: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def execute_post_recall_hooks(self, recall_results: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """
         Executes all post-recall hooks.
 

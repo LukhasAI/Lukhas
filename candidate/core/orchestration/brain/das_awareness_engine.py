@@ -271,9 +271,7 @@ class EnvironmentalReasoner:
         # Calculate environmental scores
         temp_score = normalize(inputs.temperature, -20, 50, 18, 24)
         humidity_score = normalize(inputs.humidity, 0, 100, 40, 60)
-        noise_score = normalize(
-            120 - inputs.ambient_noise, 0, 120, 80, 120
-        )  # Lower noise is better
+        noise_score = normalize(120 - inputs.ambient_noise, 0, 120, 80, 120)  # Lower noise is better
         light_score = normalize(inputs.light_level, 0, 2000, 300, 800)
 
         # Air quality impact
@@ -287,20 +285,14 @@ class EnvironmentalReasoner:
         # Energy efficiency assessment
         energy_efficiency = 1.0
         if inputs.energy_consumption:
-            energy_efficiency = max(
-                0.1, 1.0 - (inputs.energy_consumption / 100)
-            )  # Penalize high consumption
+            energy_efficiency = max(0.1, 1.0 - (inputs.energy_consumption / 100))  # Penalize high consumption
 
         # Detect environmental anomalies
         anomaly_detected = self._detect_anomalies(inputs)
 
         # Calculate composite score
         base_score = (
-            temp_score * 0.25
-            + humidity_score * 0.2
-            + noise_score * 0.2
-            + light_score * 0.15
-            + air_quality_score * 0.2
+            temp_score * 0.25 + humidity_score * 0.2 + noise_score * 0.2 + light_score * 0.15 + air_quality_score * 0.2
         ) + location_bonus
 
         # Apply energy efficiency multiplier
@@ -348,9 +340,7 @@ class EnvironmentalReasoner:
 
         return len(anomalies) > 0
 
-    def _calculate_sustainability_rating(
-        self, score: float, inputs: EnvironmentalAwarenessInput
-    ) -> str:
+    def _calculate_sustainability_rating(self, score: float, inputs: EnvironmentalAwarenessInput) -> str:
         """Calculate sustainability rating."""
         if score >= 0.9:
             return "Excellent"
@@ -550,9 +540,7 @@ class CognitiveAwarenessModule(AwarenessModule):
             base_score -= 20
 
         # Decision support bonus
-        if result.get("decision_support_needed") and not inputs.context_data.get(
-            "support_available", False
-        ):
+        if result.get("decision_support_needed") and not inputs.context_data.get("support_available", False):
             base_score -= 15
 
         return max(0.0, min(base_score, 100.0))
@@ -602,17 +590,13 @@ class DastAwarenessEngine:
         """Initialize awareness modules."""
         # Environmental Module
         env_reasoner = EnvironmentalReasoner()
-        self.modules[AwarenessType.ENVIRONMENTAL] = EnvironmentalAwarenessModule(
-            env_reasoner, self.config
-        )
+        self.modules[AwarenessType.ENVIRONMENTAL] = EnvironmentalAwarenessModule(env_reasoner, self.config)
 
         # Cognitive Module
         cog_reasoner = CognitiveReasoner()
         self.modules[AwarenessType.COGNITIVE] = CognitiveAwarenessModule(cog_reasoner, self.config)
 
-    def process_awareness(
-        self, awareness_type: AwarenessType, inputs: AwarenessInput
-    ) -> AwarenessOutput:
+    def process_awareness(self, awareness_type: AwarenessType, inputs: AwarenessInput) -> AwarenessOutput:
         """Process awareness data through appropriate module."""
         if awareness_type not in self.modules:
             raise ValueError(f"Awareness type {awareness_type} not supported")
@@ -626,9 +610,7 @@ class DastAwarenessEngine:
         tasks = []
         for awareness_type, inputs in awareness_data.items():
             if awareness_type in self.modules:
-                task = asyncio.create_task(
-                    asyncio.to_thread(self.process_awareness, awareness_type, inputs)
-                )
+                task = asyncio.create_task(asyncio.to_thread(self.process_awareness, awareness_type, inputs))
                 tasks.append((awareness_type, task))
 
         results = {}

@@ -51,9 +51,7 @@ def generate_qi_migration_report():
 
     # Files with quantum in name
     qi_files = list(base_path.rglob("*quantum*"))
-    config_quantum_files = [
-        f for f in qi_files if "config" in str(f) or "json" in str(f) or "yaml" in str(f)
-    ]
+    config_quantum_files = [f for f in qi_files if "config" in str(f) or "json" in str(f) or "yaml" in str(f)]
 
     print(f"📄 Files with 'quantum' in name: {len(qi_files)}")
     print(f"⚙️  Configuration files: {len(config_quantum_files)}")

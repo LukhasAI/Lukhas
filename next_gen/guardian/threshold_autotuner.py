@@ -365,23 +365,13 @@ class SymbolicThresholdAutotuner:
         else:
             metrics_list = list(self.metrics_history)
             self.performance_baseline = {
-                "response_time": statistics.median(
-                    [m.guardian_response_time for m in metrics_list]
-                ),
+                "response_time": statistics.median([m.guardian_response_time for m in metrics_list]),
                 "accuracy": statistics.median([m.threat_detection_accuracy for m in metrics_list]),
-                "false_positive_rate": statistics.median(
-                    [m.false_positive_rate for m in metrics_list]
-                ),
-                "false_negative_rate": statistics.median(
-                    [m.false_negative_rate for m in metrics_list]
-                ),
+                "false_positive_rate": statistics.median([m.false_positive_rate for m in metrics_list]),
+                "false_negative_rate": statistics.median([m.false_negative_rate for m in metrics_list]),
                 "system_load": statistics.median([m.system_load for m in metrics_list]),
-                "intervention_success": statistics.median(
-                    [m.intervention_success_rate for m in metrics_list]
-                ),
-                "symbolic_coherence": statistics.median(
-                    [m.symbolic_coherence for m in metrics_list]
-                ),
+                "intervention_success": statistics.median([m.intervention_success_rate for m in metrics_list]),
+                "symbolic_coherence": statistics.median([m.symbolic_coherence for m in metrics_list]),
             }
 
         logger.info(f"Performance baseline calculated: {self.performance_baseline}")
@@ -401,9 +391,7 @@ class SymbolicThresholdAutotuner:
         """Save metrics history to file"""
         try:
             self.metrics_file.parent.mkdir(parents=True, exist_ok=True)
-            metrics_data = [
-                asdict(metrics) for metrics in list(self.metrics_history)[-100:]
-            ]  # Save last 100
+            metrics_data = [asdict(metrics) for metrics in list(self.metrics_history)[-100:]]  # Save last 100
 
             with open(self.metrics_file, "w") as f:
                 json.dump(metrics_data, f, indent=2)
@@ -431,14 +419,9 @@ class SymbolicThresholdAutotuner:
                 continue
 
             # Analyze performance for this threshold
-            adjustment_recommendation = await self._analyze_threshold_performance(
-                threshold, current_metrics
-            )
+            adjustment_recommendation = await self._analyze_threshold_performance(threshold, current_metrics)
 
-            if (
-                adjustment_recommendation
-                and adjustment_recommendation["confidence"] >= self.confidence_threshold
-            ):
+            if adjustment_recommendation and adjustment_recommendation["confidence"] >= self.confidence_threshold:
                 await self._apply_threshold_adjustment(threshold, adjustment_recommendation)
 
     async def _assess_system_stability(self) -> float:
@@ -451,14 +434,10 @@ class SymbolicThresholdAutotuner:
         # Calculate stability metrics
         entropy_variance = statistics.variance([m.entropy_score for m in recent_metrics])
         drift_variance = statistics.variance([m.drift_velocity for m in recent_metrics])
-        consciousness_variance = statistics.variance(
-            [m.consciousness_stability for m in recent_metrics]
-        )
+        consciousness_variance = statistics.variance([m.consciousness_stability for m in recent_metrics])
 
         # Lower variance indicates higher stability
-        stability_score = 1.0 - min(
-            1.0, (entropy_variance + drift_variance + consciousness_variance) / 3
-        )
+        stability_score = 1.0 - min(1.0, (entropy_variance + drift_variance + consciousness_variance) / 3)
 
         return stability_score
 
@@ -478,15 +457,11 @@ class SymbolicThresholdAutotuner:
         elif threshold.metric_type == "drift":
             return await self._analyze_drift_threshold(threshold, recent_metrics, current_metrics)
         elif threshold.metric_type == "stability":
-            return await self._analyze_stability_threshold(
-                threshold, recent_metrics, current_metrics
-            )
+            return await self._analyze_stability_threshold(threshold, recent_metrics, current_metrics)
         elif threshold.metric_type == "trust":
             return await self._analyze_trust_threshold(threshold, recent_metrics, current_metrics)
         elif threshold.metric_type == "performance":
-            return await self._analyze_performance_threshold(
-                threshold, recent_metrics, current_metrics
-            )
+            return await self._analyze_performance_threshold(threshold, recent_metrics, current_metrics)
 
         return None
 
@@ -570,9 +545,7 @@ class SymbolicThresholdAutotuner:
         avg_drift = statistics.mean(drift_values)
         drift_variance = statistics.variance(drift_values) if len(drift_values) > 1 else 0
 
-        intervention_success = statistics.mean(
-            [m.intervention_success_rate for m in recent_metrics]
-        )
+        intervention_success = statistics.mean([m.intervention_success_rate for m in recent_metrics])
 
         # If drift is consistently low but we're still intervening too much
         if avg_drift < threshold.current_value * 0.7 and intervention_success < 0.7:
@@ -614,9 +587,7 @@ class SymbolicThresholdAutotuner:
 
         stability_values = [m.consciousness_stability for m in recent_metrics]
         avg_stability = statistics.mean(stability_values)
-        stability_trend = (
-            stability_values[-1] - stability_values[0] if len(stability_values) >= 2 else 0
-        )
+        stability_trend = stability_values[-1] - stability_values[0] if len(stability_values) >= 2 else 0
 
         system_load = statistics.mean([m.system_load for m in recent_metrics])
 
@@ -660,9 +631,7 @@ class SymbolicThresholdAutotuner:
 
         false_positives = statistics.mean([m.false_positive_rate for m in recent_metrics])
         false_negatives = statistics.mean([m.false_negative_rate for m in recent_metrics])
-        intervention_success = statistics.mean(
-            [m.intervention_success_rate for m in recent_metrics]
-        )
+        intervention_success = statistics.mean([m.intervention_success_rate for m in recent_metrics])
 
         # Balance between security and usability
         if false_positives > 0.2 and intervention_success > 0.8:
@@ -880,9 +849,7 @@ class SymbolicThresholdAutotuner:
         # Performance trends
         if len(self.metrics_history) >= 20:
             recent_20 = list(self.metrics_history)[-20:]
-            older_20 = (
-                list(self.metrics_history)[-40:-20] if len(self.metrics_history) >= 40 else []
-            )
+            older_20 = list(self.metrics_history)[-40:-20] if len(self.metrics_history) >= 40 else []
 
             if older_20:
                 for metric in [
@@ -937,9 +904,7 @@ class SymbolicThresholdAutotuner:
             return None
 
         threshold = self.thresholds[threshold_name]
-        recent_adjustments = [
-            adj for adj in self.adjustment_history if adj.threshold_name == threshold_name
-        ]
+        recent_adjustments = [adj for adj in self.adjustment_history if adj.threshold_name == threshold_name]
 
         return {
             "name": threshold.name,
@@ -951,9 +916,7 @@ class SymbolicThresholdAutotuner:
             "symbolic_pattern": threshold.symbolic_pattern,
             "adjustment_count": threshold.adjustment_count,
             "last_adjusted": threshold.last_adjusted,
-            "recent_adjustments": len(
-                [adj for adj in recent_adjustments if time.time() - adj.timestamp < 86400]
-            ),
+            "recent_adjustments": len([adj for adj in recent_adjustments if time.time() - adj.timestamp < 86400]),
         }
 
     async def manual_threshold_adjustment(
@@ -968,9 +931,7 @@ class SymbolicThresholdAutotuner:
 
         # Validate new value
         if not (threshold.min_value <= new_value <= threshold.max_value):
-            logger.error(
-                f"Value {new_value} out of range [{threshold.min_value}, {threshold.max_value}]"
-            )
+            logger.error(f"Value {new_value} out of range [{threshold.min_value}, {threshold.max_value}]")
             return False
 
         # Create manual adjustment

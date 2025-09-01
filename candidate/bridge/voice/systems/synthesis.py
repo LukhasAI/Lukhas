@@ -65,9 +65,7 @@ class AdaptiveVoiceSynthesis:
         }
 
         # Default priority order (can be overridden by config)
-        self.provider_priority = self.config.get(
-            "provider_priority", ["elevenlabs", "coqui", "edge_tts", "local"]
-        )
+        self.provider_priority = self.config.get("provider_priority", ["elevenlabs", "coqui", "edge_tts", "local"])
 
         # Load voice profiles
         self.voice_profiles = self._load_voice_profiles()
@@ -92,9 +90,7 @@ class AdaptiveVoiceSynthesis:
             },
         )
 
-        self.logger.info(
-            f"Adaptive Voice Synthesis initialized with {len(self.voice_profiles)} voice profiles"
-        )
+        self.logger.info(f"Adaptive Voice Synthesis initialized with {len(self.voice_profiles)} voice profiles")
 
     async def synthesize(
         self,
@@ -176,9 +172,7 @@ class AdaptiveVoiceSynthesis:
                 "error": str(e),
             }
 
-    def _select_voice_profile(
-        self, context: dict[str, Any], voice_id: Optional[str] = None
-    ) -> VoiceProfile:
+    def _select_voice_profile(self, context: dict[str, Any], voice_id: Optional[str] = None) -> VoiceProfile:
         """Select the most appropriate voice profile based on context"""
         # If specific voice ID requested and available, use it
         if voice_id and voice_id in self.voice_profiles:
@@ -223,9 +217,7 @@ class AdaptiveVoiceSynthesis:
 
         # Consider emotional complexity
         emotion = context.get("emotion", "neutral")
-        complexity = (
-            len(context.get("emotional_nuances", [])) if "emotional_nuances" in context else 0
-        )
+        complexity = len(context.get("emotional_nuances", [])) if "emotional_nuances" in context else 0
 
         if (emotion not in ["neutral", "calm"] or complexity > 2) and "coqui" in self.providers:
             return "coqui"
@@ -271,9 +263,7 @@ class AdaptiveVoiceSynthesis:
         # For other emotions, return original text
         return text
 
-    def _generate_voice_parameters(
-        self, voice_profile: VoiceProfile, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _generate_voice_parameters(self, voice_profile: VoiceProfile, context: dict[str, Any]) -> dict[str, Any]:
         """Generate voice parameters based on profile and context"""
         params = {
             "pitch": voice_profile.base_pitch,

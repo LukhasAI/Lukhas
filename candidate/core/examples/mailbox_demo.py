@@ -225,9 +225,7 @@ async def demonstrate_priority_processing():
         )
 
     # High priority urgent task
-    tasks.append(
-        priority_actor.tell("process_task", {"task_name": "urgent-request", "priority": "HIGH"})
-    )
+    tasks.append(priority_actor.tell("process_task", {"task_name": "urgent-request", "priority": "HIGH"}))
 
     # System critical task
     tasks.append(

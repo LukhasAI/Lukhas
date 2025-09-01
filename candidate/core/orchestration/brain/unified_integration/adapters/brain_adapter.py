@@ -65,9 +65,7 @@ class BrainAdapter:
         except Exception as e:
             logger.error(f"Error handling message: {e}")
 
-    async def process_input(
-        self, input_data: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def process_input(self, input_data: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Process input through brain
 
         Args:
@@ -99,9 +97,7 @@ class BrainAdapter:
             self.cognitive_states["current_task"] = None
             self.cognitive_states["last_activity"] = datetime.now().isoformat()
 
-    async def consolidate_memories(
-        self, hours_limit: float = 24.0, max_memories: int = 100
-    ) -> dict[str, Any]:
+    async def consolidate_memories(self, hours_limit: float = 24.0, max_memories: int = 100) -> dict[str, Any]:
         """Consolidate recent memories
 
         Args:

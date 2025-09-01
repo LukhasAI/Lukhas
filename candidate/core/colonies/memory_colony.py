@@ -115,9 +115,7 @@ class MemoryColony(BaseColony):
         }
 
         # Global memory index
-        self.global_index: dict[str, list[tuple[str, str]]] = defaultdict(
-            list
-        )  # tag -> [(agent_id, memory_id)]
+        self.global_index: dict[str, list[tuple[str, str]]] = defaultdict(list)  # tag -> [(agent_id, memory_id)]
 
         # Memory statistics
         self.stats = {
@@ -459,8 +457,7 @@ class MemoryColony(BaseColony):
             "agent_stats": agent_stats,
             "total_tags": len(self.global_index),
             "memory_distribution": {
-                mt: sum(len(a.local_storage) for a in agents)
-                for mt, agents in self.memory_agents.items()
+                mt: sum(len(a.local_storage) for a in agents) for mt, agents in self.memory_agents.items()
             },
         }
 
@@ -525,9 +522,7 @@ async def demo_enhanced_memory_colony():
 
         # Retrieve specific memory
         if stored_ids:
-            retrieve_result = await colony.execute_task(
-                "retrieve-1", {"type": "retrieve", "memory_id": stored_ids[0]}
-            )
+            retrieve_result = await colony.execute_task("retrieve-1", {"type": "retrieve", "memory_id": stored_ids[0]})
             print(f"\nRetrieved memory: {retrieve_result}")
 
         # Get statistics

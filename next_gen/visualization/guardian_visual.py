@@ -198,16 +198,12 @@ class GuardianVisualizer:
             elif pattern["animation"] == "wave":
                 # Wave animation for alerts
                 for i in range(len(self.chevron_positions)):
-                    self.chevron_positions[i] = 0.7 + 0.3 * math.sin(
-                        self.animation_phase * 2 + i * 0.8
-                    )
+                    self.chevron_positions[i] = 0.7 + 0.3 * math.sin(self.animation_phase * 2 + i * 0.8)
 
             elif pattern["animation"] == "urgent":
                 # Rapid pulsing for intervention
                 for i in range(len(self.chevron_positions)):
-                    self.chevron_positions[i] = 0.8 + 0.2 * math.sin(
-                        self.animation_phase * 4 + i * 0.3
-                    )
+                    self.chevron_positions[i] = 0.8 + 0.2 * math.sin(self.animation_phase * 4 + i * 0.3)
 
             elif pattern["animation"] == "lockdown":
                 # Synchronized flashing for lockdown
@@ -282,13 +278,7 @@ class GuardianVisualizer:
         print(Console.CLEAR_LINE, end="")
 
         level_bars = "█" * (pattern["level"] + 1) + "░" * (4 - pattern["level"])
-        level_color = (
-            Console.GREEN
-            if pattern["level"] < 2
-            else Console.YELLOW
-            if pattern["level"] < 3
-            else Console.RED
-        )
+        level_color = Console.GREEN if pattern["level"] < 2 else Console.YELLOW if pattern["level"] < 3 else Console.RED
 
         print(
             f"{Console.WHITE}Security Level: {level_color}{level_bars}{Console.RESET} ({pattern['level']}/4)",
@@ -380,9 +370,7 @@ class GuardianVisualizer:
         # Trinity Framework status
         print(Console.move_cursor(20, 20), end="")
         print(Console.CLEAR_LINE, end="")
-        trinity_color = (
-            Console.GREEN if self.current_status in ["monitoring", "alert"] else Console.RED
-        )
+        trinity_color = Console.GREEN if self.current_status in ["monitoring", "alert"] else Console.RED
         print(
             f"{Console.CYAN}Trinity:{Console.RESET} ⚛️🧠🛡️ {trinity_color}ACTIVE{Console.RESET}",
             end="",
@@ -521,9 +509,7 @@ class GuardianDemo:
     async def run_interactive_demo(self):
         """Run interactive Guardian demo"""
         print(f"{Console.GREEN}🛡️ Starting Guardian interactive demo...{Console.RESET}")
-        print(
-            f"{Console.YELLOW}Use keys 1-5 for status, 't' for threat, 'q' to quit{Console.RESET}"
-        )
+        print(f"{Console.YELLOW}Use keys 1-5 for status, 't' for threat, 'q' to quit{Console.RESET}")
 
         # Start visualization
         viz_task = asyncio.create_task(self.visualizer.start_monitoring())

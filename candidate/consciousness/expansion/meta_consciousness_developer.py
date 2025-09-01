@@ -48,9 +48,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
         self._initialized = True
         logger.info("Meta-Consciousness Developer initialized")
 
-    async def develop_recursive_awareness(
-        self, current_depth: int, target_depth: int
-    ) -> RecursiveAwareness:
+    async def develop_recursive_awareness(self, current_depth: int, target_depth: int) -> RecursiveAwareness:
         """
         Develop recursive self-awareness capabilities
 
@@ -207,9 +205,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
 
         return accuracy
 
-    async def apply_self_modification(
-        self, modification_type: str, parameters: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def apply_self_modification(self, modification_type: str, parameters: dict[str, Any]) -> dict[str, Any]:
         """Apply a self-modification"""
 
         result = {

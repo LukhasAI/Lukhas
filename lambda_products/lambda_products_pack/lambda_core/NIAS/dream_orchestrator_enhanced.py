@@ -153,17 +153,11 @@ class EnhancedDreamOrchestrator:
         """Initialize all services with dependency injection"""
 
         # Register core services as singletons
-        await self.container.register_service(
-            "consent_manager", lambda: ConsentManager(), ServiceLifecycle.SINGLETON
-        )
+        await self.container.register_service("consent_manager", lambda: ConsentManager(), ServiceLifecycle.SINGLETON)
 
-        await self.container.register_service(
-            "dream_generator", lambda: DreamGenerator(), ServiceLifecycle.SINGLETON
-        )
+        await self.container.register_service("dream_generator", lambda: DreamGenerator(), ServiceLifecycle.SINGLETON)
 
-        await self.container.register_service(
-            "emotional_filter", lambda: EmotionalFilter(), ServiceLifecycle.SINGLETON
-        )
+        await self.container.register_service("emotional_filter", lambda: EmotionalFilter(), ServiceLifecycle.SINGLETON)
 
         # Register services with dependencies
         await self.container.register_service(
@@ -182,13 +176,9 @@ class EnhancedDreamOrchestrator:
 
         # Register integration services with fallbacks
         if INTEGRATION_AVAILABLE:
-            await self.container.register_service(
-                "abas_core", lambda: ABASCore(), ServiceLifecycle.SINGLETON
-            )
+            await self.container.register_service("abas_core", lambda: ABASCore(), ServiceLifecycle.SINGLETON)
 
-            await self.container.register_service(
-                "dast_core", lambda: DASTCore(), ServiceLifecycle.SINGLETON
-            )
+            await self.container.register_service("dast_core", lambda: DASTCore(), ServiceLifecycle.SINGLETON)
 
             # Register fallback services
             await self.container.register_fallback("abas_core", "abas_fallback")
@@ -277,9 +267,7 @@ class EnhancedDreamOrchestrator:
                     if service_name not in self.service_health:
                         self.service_health[service_name] = ServiceHealth(
                             service_name=service_name,
-                            status=(
-                                ServiceStatus.HEALTHY if is_healthy else ServiceStatus.UNAVAILABLE
-                            ),
+                            status=(ServiceStatus.HEALTHY if is_healthy else ServiceStatus.UNAVAILABLE),
                             last_check=datetime.now(),
                         )
                     else:
@@ -386,9 +374,7 @@ class EnhancedDreamOrchestrator:
             # Check emotional state
             try:
                 emotional_filter = await self.container.get_healthy_service("emotional_filter")
-                emotional_check = await self._check_emotional_readiness(
-                    user_id, user_profile, emotional_filter
-                )
+                emotional_check = await self._check_emotional_readiness(user_id, user_profile, emotional_filter)
 
                 if not emotional_check.get("ready", True):
                     self.metrics["ethical_blocks"] += 1
@@ -466,9 +452,7 @@ class EnhancedDreamOrchestrator:
         """Check if user is emotionally ready for dream commerce"""
         try:
             # Get emotional state from profile
-            emotional_state = (
-                user_profile.emotional_profile if hasattr(user_profile, "emotional_profile") else {}
-            )
+            emotional_state = user_profile.emotional_profile if hasattr(user_profile, "emotional_profile") else {}
 
             if not emotional_state:
                 emotional_state = {
@@ -499,9 +483,7 @@ class EnhancedDreamOrchestrator:
             # Default to ready with caution
             return {"ready": True, "caution": True}
 
-    async def process_user_action(
-        self, user_id: str, action: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_user_action(self, user_id: str, action: str, data: dict[str, Any]) -> dict[str, Any]:
         """
         Process user action with enhanced error handling
 
@@ -516,9 +498,7 @@ class EnhancedDreamOrchestrator:
         try:
             await self._ensure_initialized()
             # Validate request
-            await self.validator.validate_request(
-                "user_metrics", {"user_id": user_id, "metric_type": "engagement"}
-            )
+            await self.validator.validate_request("user_metrics", {"user_id": user_id, "metric_type": "engagement"})
 
             session = self.active_sessions.get(user_id)
             if not session:

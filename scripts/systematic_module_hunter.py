@@ -141,9 +141,7 @@ class SystematicModuleHunter:
 
         return found_locations
 
-    def test_module_with_hunting(
-        self, module_name: str, expected_classes: list[str] = None
-    ) -> dict[str, Any]:
+    def test_module_with_hunting(self, module_name: str, expected_classes: list[str] = None) -> dict[str, Any]:
         """Test a module and hunt for missing classes"""
         self.log_info(f"Testing module: {module_name}")
 
@@ -178,13 +176,9 @@ class SystematicModuleHunter:
                         locations = self.global_search_class(class_name)
                         result["missing_classes"][class_name] = locations
                         if locations:
-                            self.log_warning(
-                                f"  ⚠️  Class '{class_name}' not in module but found elsewhere"
-                            )
+                            self.log_warning(f"  ⚠️  Class '{class_name}' not in module but found elsewhere")
                         else:
-                            self.log_error(
-                                f"  ❌ Class '{class_name}' completely missing from codebase"
-                            )
+                            self.log_error(f"  ❌ Class '{class_name}' completely missing from codebase")
 
         except ImportError as e:
             result["status"] = "import_error"
@@ -400,11 +394,7 @@ class SystematicModuleHunter:
 
                 system_missing += len(module_result.get("missing_classes", {}))
                 system_found_elsewhere += len(
-                    [
-                        cls
-                        for cls, locations in module_result.get("missing_classes", {}).items()
-                        if locations
-                    ]
+                    [cls for cls, locations in module_result.get("missing_classes", {}).items() if locations]
                 )
 
             total_modules += system_total
@@ -429,11 +419,7 @@ class SystematicModuleHunter:
         # Key findings
         print("\n🔬 KEY HUNT FINDINGS:")
         if total_found_elsewhere > 0:
-            recovery_rate = (
-                (total_found_elsewhere / total_missing_classes * 100)
-                if total_missing_classes > 0
-                else 0
-            )
+            recovery_rate = (total_found_elsewhere / total_missing_classes * 100) if total_missing_classes > 0 else 0
             print(f"   ✅ Recovery rate: {recovery_rate:.1f}% of missing classes found elsewhere")
         else:
             print("   ❌ No missing classes found elsewhere - may need creation")

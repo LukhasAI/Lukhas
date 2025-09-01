@@ -186,17 +186,13 @@ class ImportErrorFixer:
                         for alias in node.names:
                             module_name = alias.name
                             if not self.module_exists(module_name):
-                                self.missing_modules[module_name].append(
-                                    str(py_file.relative_to(self.root_path))
-                                )
+                                self.missing_modules[module_name].append(str(py_file.relative_to(self.root_path)))
                                 self.errors_by_category["missing_module"] += 1
 
                     elif isinstance(node, ast.ImportFrom) and node.module:
                         module_name = node.module
                         if not self.module_exists(module_name):
-                            self.missing_modules[module_name].append(
-                                str(py_file.relative_to(self.root_path))
-                            )
+                            self.missing_modules[module_name].append(str(py_file.relative_to(self.root_path)))
                             self.errors_by_category["missing_module"] += 1
 
             except Exception as e:
@@ -306,9 +302,7 @@ class ImportErrorFixer:
                 if path.is_dir() and (path / "__init__.py").exists():
                     return str(path.relative_to(self.root_path)).replace("/", ".")
                 elif path.with_suffix(".py").exists():
-                    return (
-                        str(path.relative_to(self.root_path)).replace("/", ".").replace(".py", "")
-                    )
+                    return str(path.relative_to(self.root_path)).replace("/", ".").replace(".py", "")
 
         return None
 
@@ -366,9 +360,7 @@ class ImportErrorFixer:
                     with open(init_file, "w", encoding="utf-8") as f:
                         f.write(f'"""\n{part.title()} Module\n"""\n\n')
 
-                    logger.info(
-                        f"✅ Created module structure: {current_path.relative_to(self.root_path)}"
-                    )
+                    logger.info(f"✅ Created module structure: {current_path.relative_to(self.root_path)}")
 
     def report_external_modules(self, external_modules: dict[str, list[str]]) -> None:
         """Report external modules that need to be installed"""
@@ -443,9 +435,7 @@ class ImportErrorFixer:
                     with open(py_file, "w", encoding="utf-8") as f:
                         f.write(content)
 
-                    logger.info(
-                        f"✅ Fixed import patterns in {py_file.relative_to(self.root_path)}"
-                    )
+                    logger.info(f"✅ Fixed import patterns in {py_file.relative_to(self.root_path)}")
                     self.fixed_files.append(str(py_file))
 
             except Exception as e:

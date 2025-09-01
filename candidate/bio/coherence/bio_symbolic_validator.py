@@ -547,9 +547,7 @@ class BioSymbolicCoherenceValidator:
                     expected_freq = self._get_expected_frequency(osc_type)
 
                     # Check if frequencies are within expected range
-                    freq_deviation = (
-                        abs(statistics.mean(frequencies) - expected_freq) / expected_freq
-                    )
+                    freq_deviation = abs(statistics.mean(frequencies) - expected_freq) / expected_freq
                     if freq_deviation > 0.2:  # 20% deviation threshold
                         disruption_indicators.append(freq_deviation)
 
@@ -576,8 +574,7 @@ class BioSymbolicCoherenceValidator:
 
         # Calculate consciousness output (weighted by contribution)
         consciousness_output = sum(
-            rhythm.consciousness_contribution * rhythm.amplitude
-            for rhythm in self.bio_rhythms.values()
+            rhythm.consciousness_contribution * rhythm.amplitude for rhythm in self.bio_rhythms.values()
         )
 
         # Calculate efficiency ratio
@@ -728,9 +725,7 @@ class BioSymbolicCoherenceValidator:
 
         return statistics.mean(coupling_scores) if coupling_scores else 0.5
 
-    def _calculate_phase_amplitude_coupling(
-        self, low_freq: BioRhythm, high_freq: BioRhythm
-    ) -> float:
+    def _calculate_phase_amplitude_coupling(self, low_freq: BioRhythm, high_freq: BioRhythm) -> float:
         """Calculate phase-amplitude coupling between two rhythms"""
         # Simplified phase-amplitude coupling calculation
         phase_diff = abs(low_freq.phase - high_freq.phase)
@@ -802,9 +797,7 @@ class BioSymbolicCoherenceValidator:
         return {
             "metabolic_load": statistics.mean(metabolic_loads) if metabolic_loads else 0.0,
             "neuroplasticity": statistics.mean(plasticity_values) if plasticity_values else 0.0,
-            "homeostatic_balance": 1.0 - statistics.mean(homeostatic_values)
-            if homeostatic_values
-            else 1.0,
+            "homeostatic_balance": 1.0 - statistics.mean(homeostatic_values) if homeostatic_values else 1.0,
             "adaptation_capacity": statistics.mean(adaptation_values) if adaptation_values else 0.0,
         }
 

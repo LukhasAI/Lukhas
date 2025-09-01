@@ -433,9 +433,7 @@ class AdvancedHaikuGenerator:
             "expansion_depth": expansion_depth,
         }
 
-    async def generate_haiku_series(
-        self, themes: list[str], count_per_theme: int = 1
-    ) -> dict[str, Any]:
+    async def generate_haiku_series(self, themes: list[str], count_per_theme: int = 1) -> dict[str, Any]:
         """Generate a series of haiku across multiple themes"""
         series_results = {}
         all_metrics = []
@@ -453,10 +451,8 @@ class AdvancedHaikuGenerator:
         if all_metrics:
             avg_metrics = {
                 "qi_coherence": sum(m["qi_coherence"] for m in all_metrics) / len(all_metrics),
-                "consciousness_resonance": sum(m["consciousness_resonance"] for m in all_metrics)
-                / len(all_metrics),
-                "creative_entropy": sum(m["creative_entropy"] for m in all_metrics)
-                / len(all_metrics),
+                "consciousness_resonance": sum(m["consciousness_resonance"] for m in all_metrics) / len(all_metrics),
+                "creative_entropy": sum(m["creative_entropy"] for m in all_metrics) / len(all_metrics),
             }
         else:
             avg_metrics = {
@@ -823,9 +819,7 @@ async def main():
     print(f"Haiku:\n{haiku_result['haiku_text']}")
     print(f"Syllables: {haiku_result['syllable_structure']}")
     print(f"Quantum Coherence: {haiku_result['consciousness_metrics']['qi_coherence']:.3f}")
-    print(
-        f"Consciousness Resonance: {haiku_result['consciousness_metrics']['consciousness_resonance']:.3f}"
-    )
+    print(f"Consciousness Resonance: {haiku_result['consciousness_metrics']['consciousness_resonance']:.3f}")
 
     # Generate series
     print("\n🌺 Generating Haiku Series...")

@@ -211,9 +211,7 @@ class ΛLens:
 class SymbolGenerator:
     """Generates GLYPH symbols from parsed content"""
 
-    async def generate(
-        self, content: dict, symbol_style: str = "modern", max_symbols: int = 1000
-    ) -> list[GlyphSymbol]:
+    async def generate(self, content: dict, symbol_style: str = "modern", max_symbols: int = 1000) -> list[GlyphSymbol]:
         """Generate symbols from parsed content"""
         symbols = []
 

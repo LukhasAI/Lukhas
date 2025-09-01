@@ -418,17 +418,13 @@ class HippocampalBuffer:
 
         # Select memories for replay
         if memory_ids:
-            replay_memories = [
-                self.memory_index[mid] for mid in memory_ids if mid in self.memory_index
-            ]
+            replay_memories = [self.memory_index[mid] for mid in memory_ids if mid in self.memory_index]
         else:
             # Prioritized sampling based on salience
             sorted_queue = sorted(self.replay_queue, key=lambda x: x[1], reverse=True)
 
             replay_ids = [item[0] for item in sorted_queue[:replay_count]]
-            replay_memories = [
-                self.memory_index[mid] for mid in replay_ids if mid in self.memory_index
-            ]
+            replay_memories = [self.memory_index[mid] for mid in replay_ids if mid in self.memory_index]
 
         # Simulate ripple events
         ripple_data = []
@@ -439,9 +435,7 @@ class HippocampalBuffer:
                 "timestamp": time.time(),
                 "memory_id": memory.memory_id,
                 "content": memory.content,
-                "pattern": (
-                    memory.pattern_vector.tolist() if memory.pattern_vector is not None else None
-                ),
+                "pattern": (memory.pattern_vector.tolist() if memory.pattern_vector is not None else None),
                 "associations": list(memory.associated_memories),
                 "replay_strength": memory.encoding_strength * memory.calculate_salience(),
             }
@@ -524,9 +518,7 @@ class HippocampalBuffer:
 
         # Activate sparse subset of neurons
         active_neurons = int(self.pattern_dimension * self.sparse_coding_level)
-        active_indices = np.random.choice(
-            self.pattern_dimension, size=active_neurons, replace=False
-        )
+        active_indices = np.random.choice(self.pattern_dimension, size=active_neurons, replace=False)
 
         # Set activation strengths
         pattern[active_indices] = np.random.uniform(0.5, 1.0, size=active_neurons)
@@ -537,9 +529,7 @@ class HippocampalBuffer:
 
         return pattern
 
-    def _find_similar_memories(
-        self, pattern: np.ndarray, threshold: float = None
-    ) -> list[EpisodicMemory]:
+    def _find_similar_memories(self, pattern: np.ndarray, threshold: float = None) -> list[EpisodicMemory]:
         """Find memories with similar patterns"""
 
         threshold = threshold or self.pattern_separation_threshold
@@ -602,8 +592,7 @@ class HippocampalBuffer:
             "unique_memories": len(self.memory_index),
             "total_encoded": self.total_encoded,
             "retrieval_success_rate": (
-                self.successful_retrievals
-                / max(self.successful_retrievals + self.failed_retrievals, 1)
+                self.successful_retrievals / max(self.successful_retrievals + self.failed_retrievals, 1)
             ),
             "total_replays": self.total_replays,
             "current_theta_phase": self.current_theta_phase,

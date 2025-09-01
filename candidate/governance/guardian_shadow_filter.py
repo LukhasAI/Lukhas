@@ -321,9 +321,7 @@ class GuardianShadowFilter:
             risk_factors.append(divergence)
 
         # Transformation rate risk
-        recent_transformations = len(
-            [t for t in self.transformation_history if t > time.time() - 3600]
-        )
+        recent_transformations = len([t for t in self.transformation_history if t > time.time() - 3600])
         rate_risk = recent_transformations / self.MAX_TRANSFORMATIONS_PER_HOUR
         risk_factors.append(rate_risk)
 

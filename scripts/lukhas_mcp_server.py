@@ -94,8 +94,7 @@ class LUKHASConsciousnessMCP:
         # Discover additional modules with consciousness patterns
         for path in self.project_root.rglob("*"):
             if path.is_dir() and any(
-                pattern in path.name.lower()
-                for pattern in ["consciousness", "memory", "quantum", "bio", "trinity"]
+                pattern in path.name.lower() for pattern in ["consciousness", "memory", "quantum", "bio", "trinity"]
             ):
                 modules[path.name] = path
 
@@ -381,22 +380,16 @@ class LUKHASConsciousnessMCP:
             "trinity_framework": {
                 "identity_modules": [m for m in self.consciousness_modules if "identity" in m],
                 "consciousness_modules": [
-                    m
-                    for m in self.consciousness_modules
-                    if "consciousness" in m or "vivox" in m or "memory" in m
+                    m for m in self.consciousness_modules if "consciousness" in m or "vivox" in m or "memory" in m
                 ],
                 "guardian_modules": [
-                    m
-                    for m in self.consciousness_modules
-                    if "governance" in m or "ethics" in m or "guardian" in m
+                    m for m in self.consciousness_modules if "governance" in m or "ethics" in m or "guardian" in m
                 ],
             },
             "advanced_systems": {
                 "qi_modules": [m for m in self.consciousness_modules if "quantum" in m],
                 "bio_modules": [m for m in self.consciousness_modules if "bio" in m],
-                "creativity_modules": [
-                    m for m in self.consciousness_modules if "creativity" in m or "emotion" in m
-                ],
+                "creativity_modules": [m for m in self.consciousness_modules if "creativity" in m or "emotion" in m],
             },
             "module_details": {
                 name: {
@@ -612,14 +605,10 @@ class LUKHASConsciousnessMCP:
         # Score based on keywords
         keywords = task_description.lower()
 
-        if any(
-            word in keywords for word in ["consciousness", "awareness", "vivox", "architecture"]
-        ):
+        if any(word in keywords for word in ["consciousness", "awareness", "vivox", "architecture"]):
             agent_scores["supreme_consciousness_architect"] += 3
 
-        if any(
-            word in keywords for word in ["security", "ethics", "guardian", "safety", "compliance"]
-        ):
+        if any(word in keywords for word in ["security", "ethics", "guardian", "safety", "compliance"]):
             agent_scores["guardian_system_commander"] += 3
 
         if any(word in keywords for word in ["memory", "fold", "persistence", "learning"]):
@@ -628,9 +617,7 @@ class LUKHASConsciousnessMCP:
         if any(word in keywords for word in ["emotion", "creativity", "dream", "feeling"]):
             agent_scores["creativity_emotion_colonel"] += 3
 
-        if any(
-            word in keywords for word in ["integration", "orchestration", "bridge", "coordination"]
-        ):
+        if any(word in keywords for word in ["integration", "orchestration", "bridge", "coordination"]):
             agent_scores["orchestration_colonel"] += 3
 
         # Adjust for complexity
@@ -662,9 +649,7 @@ class LUKHASConsciousnessMCP:
                 f"**All Agent Scores**:\n"
                 + "\n".join(
                     f"- {agent}: {score:.1f}"
-                    for agent, score in sorted(
-                        agent_scores.items(), key=lambda x: x[1], reverse=True
-                    )
+                    for agent, score in sorted(agent_scores.items(), key=lambda x: x[1], reverse=True)
                 ),
             )
         ]
@@ -677,9 +662,7 @@ class LUKHASConsciousnessMCP:
             return {"identity": 1.0, "consciousness": 0.6, "guardian": 0.7}
         elif any(word in module_name for word in ["consciousness", "vivox", "memory", "brain"]):
             return {"identity": 0.7, "consciousness": 1.0, "guardian": 0.8}
-        elif any(
-            word in module_name for word in ["governance", "ethics", "guardian", "compliance"]
-        ):
+        elif any(word in module_name for word in ["governance", "ethics", "guardian", "compliance"]):
             return {"identity": 0.8, "consciousness": 0.6, "guardian": 1.0}
         else:
             return {"identity": 0.6, "consciousness": 0.7, "guardian": 0.8}

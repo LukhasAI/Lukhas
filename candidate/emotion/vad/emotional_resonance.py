@@ -256,12 +256,8 @@ class EmotionalResonance:
             ) * new_arousal + self.emotional_contagion_factor * ext_arousal
 
         # Apply emotional inertia (emotions change gradually)
-        self.valence = (
-            self.emotional_inertia * prev_valence + (1 - self.emotional_inertia) * new_valence
-        )
-        self.arousal = (
-            self.emotional_inertia * prev_arousal + (1 - self.emotional_inertia) * new_arousal
-        )
+        self.valence = self.emotional_inertia * prev_valence + (1 - self.emotional_inertia) * new_valence
+        self.arousal = self.emotional_inertia * prev_arousal + (1 - self.emotional_inertia) * new_arousal
 
         # Normalize valence to -1.0 to 1.0
         self.valence = max(-1.0, min(1.0, self.valence))
@@ -280,9 +276,7 @@ class EmotionalResonance:
         intensity = self.arousal
 
         # Generate resonance pattern based on emotion state
-        resonance_pattern = self._generate_resonance_pattern(
-            emotion_state, intensity, sigma_x, sigma_y
-        )
+        resonance_pattern = self._generate_resonance_pattern(emotion_state, intensity, sigma_x, sigma_y)
 
         # Update current state
         self.current_state = emotion_state
@@ -493,10 +487,7 @@ class EmotionalResonance:
                 value = 0.6 * intensity * math.sin(8 * math.pi * x) + 0.7
             elif pattern_type == "harmonic_rise":
                 # Rising harmonic pattern for joy
-                value = (
-                    0.5 * intensity * (math.sin(3 * math.pi * x) + math.sin(5 * math.pi * x)) / 2
-                    + 0.6
-                )
+                value = 0.5 * intensity * (math.sin(3 * math.pi * x) + math.sin(5 * math.pi * x)) / 2 + 0.6
             elif pattern_type == "questioning_pattern":
                 # Pattern that rises then falls, like a question
                 value = 0.4 * intensity * math.sin(3 * math.pi * x * (1 + x)) + 0.5
@@ -523,9 +514,7 @@ class EmotionalResonance:
         time_delta = now - timedelta(hours=time_window_hours)
 
         # Filter history for the given time window
-        relevant_history = [
-            entry for entry in self.emotional_history if entry["timestamp"] >= time_delta
-        ]
+        relevant_history = [entry for entry in self.emotional_history if entry["timestamp"] >= time_delta]
 
         if not relevant_history:
             return {
@@ -565,12 +554,8 @@ class EmotionalResonance:
 
         # Calculate valence trend
         if len(valence_values) >= 2:
-            valence_start = sum(valence_values[: len(valence_values) // 3]) / (
-                len(valence_values) // 3 or 1
-            )
-            valence_end = sum(valence_values[-len(valence_values) // 3 :]) / (
-                len(valence_values) // 3 or 1
-            )
+            valence_start = sum(valence_values[: len(valence_values) // 3]) / (len(valence_values) // 3 or 1)
+            valence_end = sum(valence_values[-len(valence_values) // 3 :]) / (len(valence_values) // 3 or 1)
             if valence_end > valence_start + 0.1:
                 valence_trend = "improving"
             elif valence_end < valence_start - 0.1:
@@ -582,12 +567,8 @@ class EmotionalResonance:
 
         # Calculate arousal trend
         if len(arousal_values) >= 2:
-            arousal_start = sum(arousal_values[: len(arousal_values) // 3]) / (
-                len(arousal_values) // 3 or 1
-            )
-            arousal_end = sum(arousal_values[-len(arousal_values) // 3 :]) / (
-                len(arousal_values) // 3 or 1
-            )
+            arousal_start = sum(arousal_values[: len(arousal_values) // 3]) / (len(arousal_values) // 3 or 1)
+            arousal_end = sum(arousal_values[-len(arousal_values) // 3 :]) / (len(arousal_values) // 3 or 1)
             if arousal_end > arousal_start + 0.1:
                 arousal_trend = "increasing"
             elif arousal_end < arousal_start - 0.1:
@@ -623,12 +604,8 @@ class EmotionalResonance:
             "state_distribution": {state: count / total for state, count in state_counts.items()},
             "valence_trend": valence_trend,
             "arousal_trend": arousal_trend,
-            "average_valence": (
-                sum(valence_values) / len(valence_values) if valence_values else 0.5
-            ),
-            "average_arousal": (
-                sum(arousal_values) / len(arousal_values) if arousal_values else 0.5
-            ),
+            "average_valence": (sum(valence_values) / len(valence_values) if valence_values else 0.5),
+            "average_arousal": (sum(arousal_values) / len(arousal_values) if arousal_values else 0.5),
         }
 
     def visualize_emotional_state(self) -> str:
@@ -753,9 +730,7 @@ Last Updated: {self.last_update.strftime("%H:%M:%S")}
             print(f"Error generating emotion plot: {e}")
             return None
 
-    def modulate_voice_parameters(
-        self, custom_calibration: dict[str, float] = None
-    ) -> dict[str, float]:
+    def modulate_voice_parameters(self, custom_calibration: dict[str, float] = None) -> dict[str, float]:
         """
         Generate voice modulation parameters based on current emotional state.
         Integrates with symbolic world if available to enrich voice modulation.
@@ -870,16 +845,12 @@ Last Updated: {self.last_update.strftime("%H:%M:%S")}
         valence_factor = (self.valence + 1) / 2  # Convert to 0-1 range
         params["pitch"] *= 0.9 + 0.2 * valence_factor  # Higher pitch for positive valence
         params["timbre"] = 0.7 - 0.4 * valence_factor  # Softer timbre for positive valence
-        params["inflection"] = (
-            0.3 + 0.5 * valence_factor
-        )  # More varied inflection for positive valence
+        params["inflection"] = 0.3 + 0.5 * valence_factor  # More varied inflection for positive valence
 
         # Arousal affects speed, volume and articulation
         params["speed"] *= 0.8 + 0.4 * self.arousal  # Higher speed for higher arousal
         params["volume"] *= 0.8 + 0.4 * self.arousal  # Higher volume for higher arousal
-        params["articulation"] = (
-            0.4 + 0.6 * self.arousal
-        )  # More precise articulation with higher arousal
+        params["articulation"] = 0.4 + 0.6 * self.arousal  # More precise articulation with higher arousal
         params["vocal_tension"] = 0.3 + 0.7 * self.arousal  # Higher tension with higher arousal
 
         # Apply intensity scaling
@@ -931,9 +902,7 @@ Last Updated: {self.last_update.strftime("%H:%M:%S")}
             }
 
             # Create the symbol and link it to the emotional state
-            modulation_symbol = self.symbolic_world.create_symbol(
-                modulation_symbol_name, modulation_properties
-            )
+            modulation_symbol = self.symbolic_world.create_symbol(modulation_symbol_name, modulation_properties)
             self.symbolic_world.link_symbols(
                 modulation_symbol,
                 emotion_symbol,
@@ -1042,9 +1011,7 @@ Last Updated: {self.last_update.strftime("%H:%M:%S")}
             "intensity": (abs(valence) + arousal) / 2,
         }
 
-    def emotional_feedback_loop(
-        self, context_text: str, response_type: str = "text"
-    ) -> dict[str, Any]:
+    def emotional_feedback_loop(self, context_text: str, response_type: str = "text") -> dict[str, Any]:
         """
         Process text input, extract emotions, and provide appropriate response.
 

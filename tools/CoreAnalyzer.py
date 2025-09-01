@@ -170,14 +170,8 @@ class CoreAnalyzer:
 
         # Legitimate lukhas components
         legitimate_indicators = [
-            any(
-                kw in file_lower
-                for kw in ["memory", "memoria", "fold", "dreams", "mapper", "nodes"]
-            ),
-            any(
-                kw in path_lower
-                for kw in ["memory", "dreams", "brain", "cognitive", "intelligence"]
-            ),
+            any(kw in file_lower for kw in ["memory", "memoria", "fold", "dreams", "mapper", "nodes"]),
+            any(kw in path_lower for kw in ["memory", "dreams", "brain", "cognitive", "intelligence"]),
             any(kw in content_lower for kw in ["memory", "dreams", "cognitive", "intelligence"]),
             "guardian" in file_lower or "guardian" in path_lower,
             "enhancement" in file_lower or "enhancement" in path_lower,
@@ -188,11 +182,7 @@ class CoreAnalyzer:
 
         # External package indicators
         external_indicators = [
-            any(
-                pkg in path_lower
-                for pkg_list in self.external_packages.values()
-                for pkg in pkg_list
-            ),
+            any(pkg in path_lower for pkg_list in self.external_packages.values() for pkg in pkg_list),
             file_name in ["requirements.txt", "package.json", "setup.py", "Dockerfile"],
             ".git" in path_lower or "node_modules" in path_lower,
             path_lower.startswith("external/"),
@@ -223,18 +213,12 @@ class CoreAnalyzer:
 
             f.write(f"- **Total Files Analyzed:** {total}\n")
             f.write(f"- **Core AI Components:** {core} ({core / total * 100:.1f}%)\n")
-            f.write(
-                f"- **Legitimate lukhas Components:** {legitimate} ({legitimate / total * 100:.1f}%)\n"
-            )
+            f.write(f"- **Legitimate lukhas Components:** {legitimate} ({legitimate / total * 100:.1f}%)\n")
             f.write(f"- **External Packages:** {external} ({external / total * 100:.1f}%)\n")
-            f.write(
-                f"- **Questionable/Unknown:** {questionable} ({questionable / total * 100:.1f}%)\n\n"
-            )
+            f.write(f"- **Questionable/Unknown:** {questionable} ({questionable / total * 100:.1f}%)\n\n")
 
             actual_lukhas = core + legitimate
-            f.write(
-                f"### **Actual lukhas System: {actual_lukhas} files ({actual_lukhas / total * 100:.1f}%)**\n\n"
-            )
+            f.write(f"### **Actual lukhas System: {actual_lukhas} files ({actual_lukhas / total * 100:.1f}%)**\n\n")
 
             # Core AI Files
             if self.analysis["core_agi_files"]:
@@ -250,9 +234,7 @@ class CoreAnalyzer:
                     f.write("\n")
 
                 if len(self.analysis["core_agi_files"]) > 20:
-                    f.write(
-                        f"*... and {len(self.analysis['core_agi_files']) - 20} more core AI files*\n\n"
-                    )
+                    f.write(f"*... and {len(self.analysis['core_agi_files']) - 20} more core AI files*\n\n")
 
             # Legitimate Components
             if self.analysis["legitimate_components"]:
@@ -262,9 +244,7 @@ class CoreAnalyzer:
                 # Group by category
                 by_category = defaultdict(list)
                 for file_info in self.analysis["legitimate_components"]:
-                    category = (
-                        file_info["path"].split("/")[0] if "/" in file_info["path"] else "root"
-                    )
+                    category = file_info["path"].split("/")[0] if "/" in file_info["path"] else "root"
                     by_category[category].append(file_info)
 
                 for category, files in by_category.items():
@@ -283,9 +263,7 @@ class CoreAnalyzer:
                 # Group by directory
                 by_dir = defaultdict(list)
                 for file_info in self.analysis["external_packages"]:
-                    main_dir = (
-                        file_info["path"].split("/")[0] if "/" in file_info["path"] else "root"
-                    )
+                    main_dir = file_info["path"].split("/")[0] if "/" in file_info["path"] else "root"
                     by_dir[main_dir].append(file_info)
 
                 # Sort by file count

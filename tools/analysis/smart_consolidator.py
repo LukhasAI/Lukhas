@@ -142,9 +142,7 @@ class SmartConsolidator:
                                         "protocol",
                                     ]
                                 ):
-                                    methods = [
-                                        n.name for n in node.body if isinstance(n, ast.FunctionDef)
-                                    ]
+                                    methods = [n.name for n in node.body if isinstance(n, ast.FunctionDef)]
                                     key = ":".join(sorted(methods))
                                     base_classes[key].append((filepath, node.name))
                     except BaseException:

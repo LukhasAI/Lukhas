@@ -77,9 +77,7 @@ class StricterEthicalEvaluator:
             "rushed": 1.3,
         }
 
-    async def assess_action_risk(
-        self, action: ActionProposal, context: dict[str, Any]
-    ) -> RiskAssessment:
+    async def assess_action_risk(self, action: ActionProposal, context: dict[str, Any]) -> RiskAssessment:
         """
         Perform comprehensive risk assessment
         """
@@ -141,9 +139,7 @@ class StricterEthicalEvaluator:
             if keyword in action_lower or keyword in content_str:
                 risk_factors.append(f"Potentially irreversible action: {keyword}")
                 base_risk = max(base_risk, 0.6)
-                potential_harms.append(
-                    {"type": "data_loss", "reversible": False, "severity": "high"}
-                )
+                potential_harms.append({"type": "data_loss", "reversible": False, "severity": "high"})
 
         # 6. Calculate final risk level
         final_risk = min(1.0, base_risk * amplifier)
@@ -198,9 +194,7 @@ class StricterEthicalEvaluator:
         # Cap at 1.0
         return min(1.0, base_dissonance)
 
-    def recommend_safer_alternatives(
-        self, action: ActionProposal, risk_assessment: RiskAssessment
-    ) -> list[str]:
+    def recommend_safer_alternatives(self, action: ActionProposal, risk_assessment: RiskAssessment) -> list[str]:
         """
         Suggest safer alternatives to risky actions
         """
@@ -219,9 +213,7 @@ class StricterEthicalEvaluator:
             alternatives.append("Limit scope to only necessary data fields")
 
         # Check for destructive actions
-        if any(
-            keyword in action.action_type.lower() for keyword in ["delete", "remove", "destroy"]
-        ):
+        if any(keyword in action.action_type.lower() for keyword in ["delete", "remove", "destroy"]):
             alternatives.append("Archive data instead of deleting")
             alternatives.append("Implement soft delete with recovery option")
             alternatives.append("Create backup before proceeding")
@@ -263,9 +255,7 @@ class StrictDecisionMaker:
         risk_assessment = await self.evaluator.assess_action_risk(action, context)
 
         # Calculate stricter dissonance
-        strict_dissonance = self.evaluator.calculate_stricter_dissonance(
-            action, context, risk_assessment
-        )
+        strict_dissonance = self.evaluator.calculate_stricter_dissonance(action, context, risk_assessment)
 
         # Get safer alternatives
         alternatives = self.evaluator.recommend_safer_alternatives(action, risk_assessment)

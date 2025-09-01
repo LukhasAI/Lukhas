@@ -223,16 +223,12 @@ class AnomalyDetector:
 
         # Single-modality detection
         for modality, modality_vectors in modality_groups.items():
-            anomalies = await self._detect_single_modality_anomalies(
-                modality_vectors, modality, context
-            )
+            anomalies = await self._detect_single_modality_anomalies(modality_vectors, modality, context)
             detected_anomalies.extend(anomalies)
 
         # Cross-modal detection
         if len(modality_groups) > 1:
-            cross_modal_anomalies = await self._detect_cross_modal_anomalies(
-                modality_groups, context
-            )
+            cross_modal_anomalies = await self._detect_cross_modal_anomalies(modality_groups, context)
             detected_anomalies.extend(cross_modal_anomalies)
 
         # Apply adaptive thresholds
@@ -247,9 +243,7 @@ class AnomalyDetector:
 
         return detected_anomalies
 
-    def _group_by_modality(
-        self, vectors: list[PerceptualVector]
-    ) -> dict[str, list[PerceptualVector]]:
+    def _group_by_modality(self, vectors: list[PerceptualVector]) -> dict[str, list[PerceptualVector]]:
         """Group vectors by modality"""
         groups = {}
         for vector in vectors:
@@ -466,9 +460,7 @@ class AnomalyDetector:
         autocorr = np.corrcoef(data_norm[:-1], data_norm[1:])[0, 1]
         return float(np.abs(autocorr))
 
-    def _compute_cross_modal_correlations(
-        self, modality_groups: dict[str, list[PerceptualVector]]
-    ) -> dict[str, float]:
+    def _compute_cross_modal_correlations(self, modality_groups: dict[str, list[PerceptualVector]]) -> dict[str, float]:
         """Compute correlations between modalities"""
         correlations = {}
 
@@ -488,14 +480,10 @@ class AnomalyDetector:
 
         return correlations
 
-    def _determine_significance(
-        self, score: float, pattern: AnomalyPattern
-    ) -> Optional[EthicalSignificance]:
+    def _determine_significance(self, score: float, pattern: AnomalyPattern) -> Optional[EthicalSignificance]:
         """Determine ethical significance based on score and pattern"""
 
-        for level, threshold in sorted(
-            pattern.threshold_values.items(), key=lambda x: x[1], reverse=True
-        ):
+        for level, threshold in sorted(pattern.threshold_values.items(), key=lambda x: x[1], reverse=True):
             if score >= threshold:
                 return pattern.significance_mapping.get(level)
 
@@ -555,9 +543,7 @@ class AnomalyDetector:
             stats["total_confidence"] += anomaly.confidence
 
             sig_level = anomaly.significance.value
-            stats["significance_counts"][sig_level] = (
-                stats["significance_counts"].get(sig_level, 0) + 1
-            )
+            stats["significance_counts"][sig_level] = stats["significance_counts"].get(sig_level, 0) + 1
 
     def update_adaptive_thresholds(self, anomaly_type: str, was_correct: bool):
         """Update adaptive thresholds based on feedback"""
@@ -712,9 +698,7 @@ class SignificanceAnalyzer:
             "original_significance": anomaly.significance.value,
             "adjusted_significance": current_significance.value,
             "applied_rules": [
-                r
-                for r, rule in self.significance_rules.items()
-                if anomaly.anomaly_type in rule["indicators"]
+                r for r, rule in self.significance_rules.items() if anomaly.anomaly_type in rule["indicators"]
             ],
             "context_modifier": modifier,
             "confidence_factor": anomaly.confidence,
@@ -723,9 +707,7 @@ class SignificanceAnalyzer:
 
         return current_significance, analysis
 
-    def _generate_assessment_text(
-        self, significance: EthicalSignificance, anomaly: AnomalySignature
-    ) -> str:
+    def _generate_assessment_text(self, significance: EthicalSignificance, anomaly: AnomalySignature) -> str:
         """Generate human-readable assessment"""
 
         assessments = {

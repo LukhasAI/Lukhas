@@ -194,9 +194,7 @@ class QIUserContext:
             ethical_alignment=data.get("ethical_alignment", 0.8),
             created_at=datetime.fromisoformat(data["created_at"]),
             last_accessed=datetime.fromisoformat(data["last_accessed"]),
-            expires_at=(
-                datetime.fromisoformat(data["expires_at"]) if data.get("expires_at") else None
-            ),
+            expires_at=(datetime.fromisoformat(data["expires_at"]) if data.get("expires_at") else None),
             composite_agents=data.get("composite_agents", []),
             swarm_membership=data.get("swarm_membership", []),
             consciousness_level=data.get("consciousness_level", 0.0),
@@ -406,9 +404,7 @@ class QIIdentityManager:
 
         # Handle hierarchical identity relationships
         if parent_identity_id:
-            context.identity_generation = await self._calculate_identity_generation(
-                parent_identity_id
-            )
+            context.identity_generation = await self._calculate_identity_generation(parent_identity_id)
             self.identity_hierarchy[parent_identity_id].append(user_id)
 
             # Inherit some properties from parent
@@ -427,9 +423,7 @@ class QIIdentityManager:
         self.logger.info(f"Quantum identity created successfully for {user_id}")
         return context
 
-    async def authenticate_quantum_identity(
-        self, user_id: str, credentials: dict[str, Any]
-    ) -> Optional[QIUserContext]:
+    async def authenticate_quantum_identity(self, user_id: str, credentials: dict[str, Any]) -> Optional[QIUserContext]:
         """
         Authenticate user with quantum-proof verification.
 
@@ -467,9 +461,7 @@ class QIIdentityManager:
         self.logger.debug(f"Quantum authentication successful for {user_id}")
         return context
 
-    async def authorize_colony_access(
-        self, user_context: QIUserContext, colony_id: str, operation: str
-    ) -> bool:
+    async def authorize_colony_access(self, user_context: QIUserContext, colony_id: str, operation: str) -> bool:
         """
         Authorize access to colony operations based on quantum identity and tiers.
 
@@ -481,9 +473,7 @@ class QIIdentityManager:
         Returns:
             True if authorized, False otherwise
         """
-        self.logger.debug(
-            f"Authorizing colony access: {user_context.user_id} -> {colony_id}.{operation}"
-        )
+        self.logger.debug(f"Authorizing colony access: {user_context.user_id} -> {colony_id}.{operation}")
 
         # Check basic tier requirements
         tier_limits = self.tier_resource_limits[user_context.tier_level]
@@ -503,16 +493,12 @@ class QIIdentityManager:
         for colony_type, required in colony_requirements.items():
             if colony_type in colony_id.lower():
                 if not required:
-                    self.logger.warning(
-                        f"Access denied: {user_context.user_id} lacks tier for {colony_type}"
-                    )
+                    self.logger.warning(f"Access denied: {user_context.user_id} lacks tier for {colony_type}")
                     return False
 
         # Check resource availability
         if not await self._check_resource_availability(user_context, operation):
-            self.logger.warning(
-                f"Access denied: {user_context.user_id} lacks resources for {operation}"
-            )
+            self.logger.warning(f"Access denied: {user_context.user_id} lacks resources for {operation}")
             return False
 
         # Generate collapse hash for authorization decision
@@ -553,9 +539,7 @@ class QIIdentityManager:
 
         return key_id
 
-    async def _verify_quantum_credentials(
-        self, context: QIUserContext, credentials: dict[str, Any]
-    ) -> bool:
+    async def _verify_quantum_credentials(self, context: QIUserContext, credentials: dict[str, Any]) -> bool:
         """Verify quantum-proof credentials."""
         if not self.qi_key_manager or not context.qi_key_id:
             # Fallback to basic verification
@@ -614,8 +598,7 @@ class QIIdentityManager:
         # Analyze credential quality
         credential_strength = self._calculate_credential_strength(credentials)
         context.behavior_patterns["avg_credential_strength"] = (
-            context.behavior_patterns.get("avg_credential_strength", 0.5) * 0.9
-            + credential_strength * 0.1
+            context.behavior_patterns.get("avg_credential_strength", 0.5) * 0.9 + credential_strength * 0.1
         )
 
         # Update trust score based on patterns
@@ -839,25 +822,19 @@ def get_quantum_identity_manager() -> QIIdentityManager:
 
 
 # Convenience functions for common operations
-async def create_agi_identity(
-    user_id: str, identity_type: AGIIdentityType = AGIIdentityType.HUMAN
-) -> QIUserContext:
+async def create_agi_identity(user_id: str, identity_type: AGIIdentityType = AGIIdentityType.HUMAN) -> QIUserContext:
     """Create AGI-ready identity with quantum security."""
     manager = get_quantum_identity_manager()
     return await manager.create_quantum_identity(user_id, identity_type)
 
 
-async def authenticate_quantum_user(
-    user_id: str, credentials: dict[str, Any]
-) -> Optional[QIUserContext]:
+async def authenticate_quantum_user(user_id: str, credentials: dict[str, Any]) -> Optional[QIUserContext]:
     """Authenticate user with quantum-proof verification."""
     manager = get_quantum_identity_manager()
     return await manager.authenticate_quantum_identity(user_id, credentials)
 
 
-async def authorize_quantum_access(
-    user_context: QIUserContext, colony_id: str, operation: str
-) -> bool:
+async def authorize_quantum_access(user_context: QIUserContext, colony_id: str, operation: str) -> bool:
     """Authorize colony access with quantum identity validation."""
     manager = get_quantum_identity_manager()
     return await manager.authorize_colony_access(user_context, colony_id, operation)

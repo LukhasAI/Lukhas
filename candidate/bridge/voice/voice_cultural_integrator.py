@@ -95,9 +95,7 @@ class VoiceCulturalIntegrator:
                 return None
         return None
 
-    async def process_cultural_context(
-        self, user_text: str, user_id: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_cultural_context(self, user_text: str, user_id: str, context: dict[str, Any]) -> dict[str, Any]:
         """
         Process cultural context from user input and update the context.
 
@@ -135,9 +133,7 @@ class VoiceCulturalIntegrator:
                 with contextlib.suppress(builtins.BaseException):
                     words_learned = await self.memory_helix.detect_new_words(user_text)
 
-            accent_detected = (
-                context.get("accent_info", {}).get("name") if context.get("accent_info") else None
-            )
+            accent_detected = context.get("accent_info", {}).get("name") if context.get("accent_info") else None
 
             self.accent_adapter.remember_location(
                 user_id=user_id,
@@ -183,9 +179,7 @@ class VoiceCulturalIntegrator:
 
         return []
 
-    async def generate_cultural_response(
-        self, base_response: str, user_id: str, context: dict[str, Any]
-    ) -> str:
+    async def generate_cultural_response(self, base_response: str, user_id: str, context: dict[str, Any]) -> str:
         """
         Enhance response with cultural awareness features like reminiscence.
 
@@ -221,15 +215,11 @@ class VoiceCulturalIntegrator:
         cultural_context = context.get("cultural_context", "casual")
 
         # Extract unusual words (longer words are more likely to be interesting)
-        words = [
-            w for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", "")) if len(w) > 5
-        ]
+        words = [w for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", "")) if len(w) > 5]
 
         for word in words:
             if self.accent_adapter.should_express_curiosity(word, cultural_context):
-                curiosity_question = self.accent_adapter.generate_curiosity_question(
-                    word, cultural_context
-                )
+                curiosity_question = self.accent_adapter.generate_curiosity_question(word, cultural_context)
 
                 # Add curiosity question
                 updated_response = f"{updated_response}\n\n{curiosity_question}"

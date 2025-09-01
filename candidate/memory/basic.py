@@ -221,14 +221,10 @@ class MemoryManager:
                 "total_accesses": total_accesses,
                 "avg_accesses": (total_accesses / len(all_memories) if all_memories else 0),
                 "oldest_memory": (
-                    min(all_memories, key=lambda x: x.created_at).created_at.isoformat()
-                    if all_memories
-                    else None
+                    min(all_memories, key=lambda x: x.created_at).created_at.isoformat() if all_memories else None
                 ),
                 "newest_memory": (
-                    max(all_memories, key=lambda x: x.created_at).created_at.isoformat()
-                    if all_memories
-                    else None
+                    max(all_memories, key=lambda x: x.created_at).created_at.isoformat() if all_memories else None
                 ),
             }
         return {"total_memories": 0}

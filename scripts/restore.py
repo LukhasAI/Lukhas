@@ -50,9 +50,7 @@ def main():
     # verify bundle hash
     calc = sha256_file(tar_local)
     if calc != man["bundle"]["sha256"]:
-        print(
-            f"ERROR: bundle sha256 mismatch\n expected={man['bundle']['sha256']}\n   actual={calc}"
-        )
+        print(f"ERROR: bundle sha256 mismatch\n expected={man['bundle']['sha256']}\n   actual={calc}")
         return 2
 
     # extract

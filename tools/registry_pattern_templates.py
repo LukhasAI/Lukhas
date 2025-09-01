@@ -32,9 +32,7 @@ class CoreDecisionRegistry:
     def register_engine(self, name: str, engine: DecisionEngineProtocol) -> None:
         """Register decision engine (called by candidate modules via adapter)."""
         self._engines[name] = engine
-        self._audit_trail.append(
-            {"action": "engine_registered", "name": name, "type": type(engine).__name__}
-        )
+        self._audit_trail.append({"action": "engine_registered", "name": name, "type": type(engine).__name__})
 
     def get_engine(self, name: str) -> DecisionEngineProtocol | None:
         """Get registered engine (safe for accepted lane)."""
@@ -58,9 +56,7 @@ def register_decision_engine(name: str, engine: DecisionEngineProtocol) -> None:
     _DECISION_REGISTRY.register_engine(name, engine)
 
 
-def decide(
-    policy_input: dict[str, Any], *, engine: str | None = None, mode: str = "dry_run"
-) -> dict[str, Any]:
+def decide(policy_input: dict[str, Any], *, engine: str | None = None, mode: str = "dry_run") -> dict[str, Any]:
     """Core decision function - audit compliant implementation."""
     # Always safe default in audit mode
     if mode == "dry_run" or not engine:
@@ -140,9 +136,7 @@ def register_guardian(name: str, guardian: GuardianProtocol) -> None:
     _GUARDIAN_REGISTRY.register_guardian(name, guardian)
 
 
-def guardian_check(
-    event: dict[str, Any], *, guardian: str = "default", mode: str = "dry_run"
-) -> dict[str, Any]:
+def guardian_check(event: dict[str, Any], *, guardian: str = "default", mode: str = "dry_run") -> dict[str, Any]:
     """Guardian check function - audit compliant."""
     # Safe default for audit
     if mode == "dry_run":
@@ -181,9 +175,7 @@ class CandidateAdapter:
         self._integrations: dict[str, Any] = {}
         self._load_history: list[dict[str, Any]] = []
 
-    def register_candidate_module(
-        self, module_name: str, capabilities: list[str], loader_func: callable
-    ) -> None:
+    def register_candidate_module(self, module_name: str, capabilities: list[str], loader_func: callable) -> None:
         """Register candidate module via adapter pattern."""
         self._integrations[module_name] = {
             "capabilities": capabilities,

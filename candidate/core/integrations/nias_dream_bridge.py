@@ -334,9 +334,7 @@ class NIASDreamBridge:
     async def extract_dream_insights(self, user_id: str, time_window: int = 3600) -> dict[str, Any]:
         """Extract insights from recent dream processing"""
         recent_dreams = [
-            msg
-            for msg in self.dream_queue
-            if (datetime.now() - msg.created_at).total_seconds() < time_window
+            msg for msg in self.dream_queue if (datetime.now() - msg.created_at).total_seconds() < time_window
         ]
 
         insights = {
@@ -440,13 +438,9 @@ class NIASDreamBridge:
 
         mode_counts = {}
         for mode in DreamInjectionMode:
-            mode_counts[mode.value] = sum(
-                1 for msg in self.dream_queue if msg.injection_mode == mode
-            )
+            mode_counts[mode.value] = sum(1 for msg in self.dream_queue if msg.injection_mode == mode)
 
-        avg_priority = (
-            sum(msg.priority for msg in self.dream_queue) / total_dreams if total_dreams > 0 else 0
-        )
+        avg_priority = sum(msg.priority for msg in self.dream_queue) / total_dreams if total_dreams > 0 else 0
 
         return {
             "total_pending": total_dreams,

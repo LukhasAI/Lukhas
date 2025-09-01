@@ -125,11 +125,7 @@ class TestMultiAIOrchestration:
 
         except Exception as e:
             # If no AI providers are available, we expect specific errors
-            assert (
-                "No valid responses" in str(e)
-                or "not available" in str(e)
-                or "not initialized" in str(e)
-            )
+            assert "No valid responses" in str(e) or "not available" in str(e) or "not initialized" in str(e)
 
     async def test_consensus_orchestration(self, multi_ai_orchestrator):
         """Test consensus orchestration with multiple providers"""
@@ -168,11 +164,7 @@ class TestMultiAIOrchestration:
 
         except Exception as e:
             # Expected if AI providers aren't configured
-            assert (
-                "No valid responses" in str(e)
-                or "not available" in str(e)
-                or "Failed to initialize" in str(e)
-            )
+            assert "No valid responses" in str(e) or "not available" in str(e) or "Failed to initialize" in str(e)
 
     async def test_context_preservation(self, multi_ai_orchestrator):
         """Test context preservation across requests"""
@@ -212,11 +204,7 @@ class TestMultiAIOrchestration:
 
         except Exception as e:
             # Expected if AI providers aren't configured
-            assert (
-                "No valid responses" in str(e)
-                or "not available" in str(e)
-                or "not initialized" in str(e)
-            )
+            assert "No valid responses" in str(e) or "not available" in str(e) or "not initialized" in str(e)
 
     async def test_performance_monitoring(self, multi_ai_orchestrator):
         """Test performance monitoring and metrics collection"""
@@ -255,9 +243,7 @@ class TestMultiAIOrchestration:
         orchestrator = multi_ai_orchestrator
 
         # Test circuit breaker status
-        provider_score = orchestrator.performance_monitor.get_provider_score(
-            AIProvider.OPENAI, TaskType.CONVERSATION
-        )
+        provider_score = orchestrator.performance_monitor.get_provider_score(AIProvider.OPENAI, TaskType.CONVERSATION)
         assert 0.0 <= provider_score <= 1.0
 
         # Check circuit breaker health
@@ -299,9 +285,7 @@ class TestMultiAIOrchestration:
         context_id = "performance_test_context"
 
         # Create initial context
-        await orchestrator.context_manager.update_context(
-            context_id, "Initial context", "Response", {"test": True}
-        )
+        await orchestrator.context_manager.update_context(context_id, "Initial context", "Response", {"test": True})
 
         # Measure context retrieval time
         start_time = time.time()
@@ -333,11 +317,7 @@ class TestMultiAIOrchestration:
             assert False, "Should have raised an exception for invalid request"
         except Exception as e:
             # Should handle invalid requests gracefully
-            assert (
-                "timeout" in str(e).lower()
-                or "invalid" in str(e).lower()
-                or "no valid responses" in str(e).lower()
-            )
+            assert "timeout" in str(e).lower() or "invalid" in str(e).lower() or "no valid responses" in str(e).lower()
 
     async def test_concurrent_orchestration_requests(self, multi_ai_orchestrator):
         """Test concurrent request handling"""
@@ -528,9 +508,7 @@ class TestPerformanceBenchmarks:
         handoff_times = []
 
         # Create some context
-        await orchestrator.context_manager.update_context(
-            context_id, "Initial", "Response", {"test": True}
-        )
+        await orchestrator.context_manager.update_context(context_id, "Initial", "Response", {"test": True})
 
         # Benchmark context retrieval
         for i in range(20):

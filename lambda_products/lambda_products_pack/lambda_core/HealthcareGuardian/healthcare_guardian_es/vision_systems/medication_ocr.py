@@ -164,9 +164,7 @@ class MedicationOCRSystem:
 
         except Exception as e:
             logger.warning(f"OCR engine not available: {e}")
-            logger.warning(
-                "Install with: brew install tesseract (macOS) or apt-get install tesseract-ocr"
-            )
+            logger.warning("Install with: brew install tesseract (macOS) or apt-get install tesseract-ocr")
             self.ocr_available = False
 
     async def scan_medication_label(self, image_path: str) -> Optional[MedicationInfo]:
@@ -240,9 +238,7 @@ class MedicationOCRSystem:
 
         return denoised
 
-    async def _extract_medication_info(
-        self, text: str, image_path: str
-    ) -> Optional[MedicationInfo]:
+    async def _extract_medication_info(self, text: str, image_path: str) -> Optional[MedicationInfo]:
         """Extract structured medication information from OCR text"""
         if not text:
             return None
@@ -555,9 +551,7 @@ class MedicationOCRSystem:
         # Would need reference object or calibration
         return None
 
-    async def _match_pill_database(
-        self, shape: str, color: str, markings: Optional[str]
-    ) -> Optional[str]:
+    async def _match_pill_database(self, shape: str, color: str, markings: Optional[str]) -> Optional[str]:
         """Match pill characteristics with database"""
         # Simplified matching
         # In production, use comprehensive pill database

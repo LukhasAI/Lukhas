@@ -216,8 +216,7 @@ class UnifiedTEQCoupler:
 
         reason = " | ".join(reasons) if reasons else "Allowed"
         logger.info(
-            f"[TEQ] {module}.{action} @ risk={risk_level:.2f}: "
-            f"{'✓ ALLOWED' if allowed else '✗ DENIED'} ({reason})"
+            f"[TEQ] {module}.{action} @ risk={risk_level:.2f}: " f"{'✓ ALLOWED' if allowed else '✗ DENIED'} ({reason})"
         )
 
         return allowed, reason, suggestions
@@ -310,9 +309,7 @@ class UnifiedTEQCoupler:
                     remedies.append(remedy)
 
         allowed = len(reasons) == 0
-        return PolicyGateResult(
-            allowed=allowed, reasons=reasons, remedies=remedies, jurisdiction=self.jurisdiction
-        )
+        return PolicyGateResult(allowed=allowed, reasons=reasons, remedies=remedies, jurisdiction=self.jurisdiction)
 
     def _checks_for_task(self, task: str) -> list[dict[str, Any]]:
         """Get checks for a specific task from policy pack"""
@@ -413,10 +410,7 @@ class UnifiedTEQCoupler:
         logger.warning("[TEQ] EMERGENCY LOCKDOWN ACTIVATED")
 
     def _can_explore(self) -> bool:
-        return (
-            self.current_energy < self.energy_budget * 0.3
-            and self.risk_accumulator < self.energy_budget * 0.2
-        )
+        return self.current_energy < self.energy_budget * 0.3 and self.risk_accumulator < self.energy_budget * 0.2
 
     def _has_energy_budget(self, required: float) -> bool:
         return self.current_energy + required < self.energy_budget
@@ -567,9 +561,7 @@ def main():
 
         teq = UnifiedTEQCoupler(policy_dir=args.policy_root, jurisdiction=args.jurisdiction)
 
-        allowed, reason, suggestions = teq.evaluate(
-            args.module, args.task, args.risk, args.energy, context
-        )
+        allowed, reason, suggestions = teq.evaluate(args.module, args.task, args.risk, args.energy, context)
 
         result = {
             "allowed": allowed,

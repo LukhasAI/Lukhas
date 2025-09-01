@@ -46,9 +46,7 @@ class SASInterface(EHRInterface):
         # - Verify credentials
         pass
 
-    async def get_patient_record(
-        self, patient_id: str, record_types: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def get_patient_record(self, patient_id: str, record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from SAS
 
@@ -64,9 +62,7 @@ class SASInterface(EHRInterface):
         # Implement SAS-specific record retrieval
         pass
 
-    async def update_patient_record(
-        self, patient_id: str, data: dict[str, Any], update_type: str
-    ) -> bool:
+    async def update_patient_record(self, patient_id: str, data: dict[str, Any], update_type: str) -> bool:
         """Update patient records in SAS"""
         self.audit.log_access(
             user_id=self.config["centro_salud_id"],
@@ -96,7 +92,5 @@ class SASInterface(EHRInterface):
 
     async def handle_error(self, error: Exception) -> None:
         """Handle SAS-specific errors"""
-        self.audit.log_security_event(
-            event_type="error", severity="error", details={"error": str(error)}
-        )
+        self.audit.log_security_event(event_type="error", severity="error", details={"error": str(error)})
         # Implement SAS-specific error handling

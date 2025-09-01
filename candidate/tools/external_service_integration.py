@@ -130,9 +130,7 @@ class ExternalServiceIntegration:
             self.integration_metrics["authentication_successes"] += 1
 
             # Check consent for operation
-            consent_granted = await self._check_operation_consent(
-                adapter, lid, operation, arguments
-            )
+            consent_granted = await self._check_operation_consent(adapter, lid, operation, arguments)
             if not consent_granted:
                 self.integration_metrics["consent_denials"] += 1
                 return self._create_error_result(
@@ -259,9 +257,7 @@ class ExternalServiceIntegration:
 
                 token = self._create_capability_token(lid, "gmail", ["read"])
 
-                result = await adapter.get_message(
-                    lid=lid, message_id=arguments["message_id"], capability_token=token
-                )
+                result = await adapter.get_message(lid=lid, message_id=arguments["message_id"], capability_token=token)
 
                 return {"success": True, "data": result, "operation": "gmail_read"}
 
@@ -300,9 +296,7 @@ class ExternalServiceIntegration:
 
                 token = self._create_capability_token(lid, "dropbox", ["read"])
 
-                result = await adapter.download_file(
-                    lid=lid, file_path=arguments["file_path"], capability_token=token
-                )
+                result = await adapter.download_file(lid=lid, file_path=arguments["file_path"], capability_token=token)
 
                 return {"success": True, "data": result, "operation": "dropbox_download"}
 
@@ -351,9 +345,7 @@ class ExternalServiceIntegration:
 
                 token = self._create_capability_token(lid, "google_drive", ["read"])
 
-                result = await adapter.download_file(
-                    lid=lid, file_id=arguments["file_id"], capability_token=token
-                )
+                result = await adapter.download_file(lid=lid, file_id=arguments["file_id"], capability_token=token)
 
                 return {"success": True, "data": result, "operation": "drive_download"}
 
@@ -394,9 +386,7 @@ class ExternalServiceIntegration:
             logger.error(f"Drive operation failed: {operation}: {e}")
             return self._create_error_result(str(e))
 
-    def _create_capability_token(
-        self, lid: str, service: str, scopes: list[str]
-    ) -> Optional[CapabilityToken]:
+    def _create_capability_token(self, lid: str, service: str, scopes: list[str]) -> Optional[CapabilityToken]:
         """Create capability token for service operation"""
         if not CapabilityToken:
             return None
@@ -417,9 +407,7 @@ class ExternalServiceIntegration:
             logger.warning(f"Failed to create capability token: {e}")
             return None
 
-    def _create_error_result(
-        self, error_message: str, details: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    def _create_error_result(self, error_message: str, details: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Create standardized error result"""
         result = {"success": False, "error": error_message, "timestamp": datetime.now().isoformat()}
 
@@ -472,8 +460,7 @@ class ExternalServiceIntegration:
                 self.integration_metrics["successful_operations"]
                 / max(
                     1,
-                    self.integration_metrics["successful_operations"]
-                    + self.integration_metrics["failed_operations"],
+                    self.integration_metrics["successful_operations"] + self.integration_metrics["failed_operations"],
                 )
             ),
             "authentication_success_rate": (

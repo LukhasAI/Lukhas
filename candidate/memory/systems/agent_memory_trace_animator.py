@@ -312,9 +312,7 @@ class AgentMemoryTraceAnimator:
             metadata = {
                 "trace_id": trace.id,
                 "animation_type": AnimationType.QUANTUM_WAVES.value,
-                "entanglement_pairs": len(
-                    [n for n in trace.nodes if n.qi_like_state == "entangled"]
-                ),
+                "entanglement_pairs": len([n for n in trace.nodes if n.qi_like_state == "entangled"]),
                 "wave_frequency_avg": 2.4,
                 "coherence_level_avg": 0.87,  # NOTE: Example fixed values.
                 "color_scheme": self._get_color_scheme(trace.trace_type),
@@ -396,8 +394,7 @@ class AgentMemoryTraceAnimator:
                     "symbolic_tags": node.symbolic_tags or [],
                     "importance": node.importance_score,
                     "agent_id": node.agent_id,
-                    "x": (hash(node.id) % (self.canvas_width - 100))
-                    + 50,  # NOTE: Simple hash-based positioning.
+                    "x": (hash(node.id) % (self.canvas_width - 100)) + 50,  # NOTE: Simple hash-based positioning.
                     "y": (hash(node.id + "_y_val") % (self.canvas_height - 100)) + 50,
                 }
             )
@@ -532,9 +529,7 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
         return html_content
 
     # CAUTION: This HTML generation is a STUB.
-    async def _create_symbolic_html_stub(
-        self, trace: MemoryTrace, graph_data: dict[str, Any]
-    ) -> str:
+    async def _create_symbolic_html_stub(self, trace: MemoryTrace, graph_data: dict[str, Any]) -> str:
         # TRACE: Generating symbolic HTML stub.
         log.warning("Symbolic reasoning HTML generation is a STUB.", for_trace_id=trace.id)
         return f"<html><body><h1>Symbolic Reasoning Animation - {trace.id} (Stub)</h1><pre>{json.dumps(graph_data, indent=2)}</pre></body></html>"
@@ -584,14 +579,10 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
                 type="decision" if i % 2 == 0 else "analysis",
                 content={"detail": f"Sample content for node {i}", "value": i * 100},
                 timestamp=node_ts,
-                connections=[
-                    f"sample_node_{j}_{trace_type.value}" for j in range(max(0, i - 1), i)
-                ],
+                connections=[f"sample_node_{j}_{trace_type.value}" for j in range(max(0, i - 1), i)],
                 importance_score=min(1.0, 0.3 + (i * 0.15)),
                 qi_like_state=(
-                    "entangled"
-                    if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT and i % 2 == 0
-                    else None
+                    "entangled" if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT and i % 2 == 0 else None
                 ),
                 symbolic_tags=["sample", trace_type.value, f"step_{i}"],
                 agent_id=f"agent_{i % 2}",  # AIDENTITY
@@ -606,9 +597,7 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
             start_time=start_time,
             end_time=start_time + timedelta(seconds=(len(nodes) - 1) * 10 + 5),
             qi_signature=(
-                f"Q-Sample-{start_time.timestamp()}"
-                if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT
-                else None
+                f"Q-Sample-{start_time.timestamp()}" if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT else None
             ),
             symbolic_metadata={"source": "sample_generator", "version": "1.0"},
         )
@@ -656,9 +645,7 @@ async def main_demo():
 
     sample_symbolic_trace = await animator.generate_sample_trace(MemoryTraceType.SYMBOLIC_REASONING)
     # GLYPH: Creating symbolic reasoning animation (stub).
-    symbolic_animation_data = await animator.create_symbolic_reasoning_animation(
-        sample_symbolic_trace
-    )
+    symbolic_animation_data = await animator.create_symbolic_reasoning_animation(sample_symbolic_trace)
     symbolic_output_path = output_dir / f"{sample_symbolic_trace.id}_animation_stub.html"
     if symbolic_animation_data.get("html"):
         animator.save_animation_to_file(symbolic_animation_data["html"], symbolic_output_path)

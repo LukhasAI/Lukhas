@@ -196,9 +196,7 @@ class EthicsIntegration:
                 logger.warning(f"SRD raised concerns: {reflection['concerns']}")
 
             # 6. Drift detection
-            drift_check = await self.drift_sentinel.check_decision_drift(
-                result, self.decision_history[-10:]
-            )
+            drift_check = await self.drift_sentinel.check_decision_drift(result, self.decision_history[-10:])
             if drift_check.get("drift_detected", False):
                 await self.stabilization_tuner.stabilize_ethics_drift(drift_check)
 
@@ -216,9 +214,7 @@ class EthicsIntegration:
             if decision_id in self.active_decisions:
                 del self.active_decisions[decision_id]
 
-    def _determine_decision_type(
-        self, action: str, context: dict[str, Any], urgency: str
-    ) -> EthicalDecisionType:
+    def _determine_decision_type(self, action: str, context: dict[str, Any], urgency: str) -> EthicalDecisionType:
         """Determine the type of ethical decision required"""
         # Critical decisions that affect users or system integrity
         critical_keywords = [
@@ -242,9 +238,7 @@ class EthicsIntegration:
 
         return EthicalDecisionType.ROUTINE
 
-    async def _evaluate_routine_decision(
-        self, agent_id: str, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _evaluate_routine_decision(self, agent_id: str, action: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate routine decisions through standard MEG process"""
         # MEG evaluation
         meg_result = await self.meg.evaluate_action(action, context)
@@ -259,9 +253,7 @@ class EthicsIntegration:
             "decision_type": "routine",
         }
 
-    async def _evaluate_elevated_decision(
-        self, agent_id: str, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _evaluate_elevated_decision(self, agent_id: str, action: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate elevated decisions with DAO consultation"""
         # MEG evaluation
         meg_result = await self.meg.evaluate_action(action, context)
@@ -281,9 +273,7 @@ class EthicsIntegration:
             "decision_type": "elevated",
         }
 
-    async def _evaluate_critical_decision(
-        self, agent_id: str, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _evaluate_critical_decision(self, agent_id: str, action: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate critical decisions requiring human oversight"""
         # MEG evaluation first
         meg_result = await self.meg.evaluate_action(action, context)

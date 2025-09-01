@@ -88,9 +88,7 @@ class VoiceInterface:
             provider = metadata.get("provider", "auto")
 
             # Try the preferred provider first
-            if provider == "system" or (
-                provider == "auto" and self._should_use_system_voice(message.content)
-            ):
+            if provider == "system" or (provider == "auto" and self._should_use_system_voice(message.content)):
                 return await self._speak_system(message.content)
 
             # Try ElevenLabs

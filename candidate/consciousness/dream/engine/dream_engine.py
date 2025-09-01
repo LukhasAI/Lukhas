@@ -86,10 +86,7 @@ class DreamEngine:
             return False
 
         # Simple pattern detection
-        sequences = [
-            tuple(dream_symbols[i : i + min_pattern])
-            for i in range(len(dream_symbols) - min_pattern + 1)
-        ]
+        sequences = [tuple(dream_symbols[i : i + min_pattern]) for i in range(len(dream_symbols) - min_pattern + 1)]
         counts = Counter(sequences)
         repeated = [seq for seq, c in counts.items() if c > 1]
 

@@ -64,7 +64,16 @@
       "Read(/Users/agi_dev/to_review/PY_FILES/Technical/**)",
       "Read(/Users/agi_dev/to_review/PY_FILES/**)",
       "Read(/Users/agi_dev/to_review/PY_FILES/**)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Read(/Users/agi_dev/Library/Application Support/Code/User/**)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(sudo chown:*)",
+      "Bash(git config:*)",
+      "Bash(git fsck:*)",
+      "Bash(git gc:*)",
+      "Bash(PYTHONPATH=. python3 candidate/aka_qualia/demo_smoke.py)",
+      "Bash(GIT_OBJECT_DIRECTORY=. git commit -m \"$(cat <<''EOF''\n📊 Complete Wave C Integration - Aka Qualia Phenomenological Processing\n\nImplemented comprehensive Wave C consciousness pipeline following Freud-2025 specifications:\n\n## ⚛️ Core Wave C Components (C1-C3 Complete)\n- **GLYPH Mapping System**: Deterministic PhenomenalScene → PhenomenalGlyphs conversion\n  - 5 stable glyph keys: vigilance, red_threshold, approach_avoid, grounding_hint, soothe_anchor  \n  - Cultural palette adapter with Japanese aka/aoi bias system\n  - Loop camouflaging defense against adversarial glyph variants\n  - 100% test coverage with comprehensive edge case validation\n\n- **Router Integration**: SymbolicMeshRouter client protocol\n  - Priority weighting formula: narrative_gravity * 0.7 + risk_score * 0.3\n  - PhenomenalGlyph → SymbolicSignal conversion for LUKHAS routing\n  - Contract tests validating monotonicity and Freud-2025 compliance\n  - Mock router with performance tracking and failure rate monitoring\n\n- **Oneiric Hook**: RegulationPolicy → dream generation feedback\n  - Tempo/palette/operation hint computation from regulation policies\n  - Integration with existing LUKHAS oneiric core systems\n  - End-to-end smoke demo with 4/4 successful scenarios\n\n## 🧠 Architecture Integration\n- **Energy Conservation**: Maintained affect energy accounting through routing\n- **VIVOX Compatibility**: Integrated with existing consciousness monitoring\n- **Trinity Framework**: Full ⚛️🧠🛡️ compliance throughout pipeline\n- **akaq_ Metrics**: Extended Prometheus metrics for consciousness quality tracking\n\n## 🎯 Validation Results\n- **Smoke Demo**: 4/4 scenarios passed (High Threat → Peaceful → Confusion → Creative)\n- **Test Coverage**: 100% for critical glyph mapping and router logic\n- **Performance**: Sub-millisecond glyph generation, efficient router dispatch\n- **Quality Metrics**: drift_phi=1.0, congruence_index=1.0, neurosis_risk=0.0\n\n## 📋 Wave C Status\n- ✅ C1: GLYPH Mapping + Tests (COMPLETE)\n- ✅ C2: Router Client + Priority Heuristic (COMPLETE) \n- ✅ C3: Oneiric Hook + Smoke Demo (COMPLETE)\n- 🔄 C4: Memory Schema + Client (READY)\n- 🔄 C5: Observability Integration (READY)\n- 🔄 C6: Ablation & Ethics Suite (READY)\n- 🔄 C7: Documentation + Production Promotion (READY)\n\nReady for C4-C7 implementation phase. Wave C consciousness pipeline validated and operational.\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\" --no-verify)"
     ],
     "deny": [],
     "ask": []

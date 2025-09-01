@@ -345,9 +345,7 @@ class TemporalAnimationEngine:
         frames = []
 
         # Generate temporal seed
-        temporal_seed = self._generate_temporal_seed(
-            base_matrix, consciousness_context, market_state
-        )
+        temporal_seed = self._generate_temporal_seed(base_matrix, consciousness_context, market_state)
 
         # Generate each frame
         for frame_idx in range(frame_count):
@@ -355,9 +353,7 @@ class TemporalAnimationEngine:
 
             # Generate frame based on animation type
             if animation_type == AnimationType.QUANTUM_PULSE:
-                frame = self._generate_quantum_pulse_frame(
-                    base_matrix, frame_idx, frame_count, temporal_seed
-                )
+                frame = self._generate_quantum_pulse_frame(base_matrix, frame_idx, frame_count, temporal_seed)
             elif animation_type == AnimationType.CONSCIOUSNESS_WAVE:
                 frame = self._generate_consciousness_wave_frame(
                     base_matrix, frame_idx, frame_count, consciousness_context
@@ -369,17 +365,11 @@ class TemporalAnimationEngine:
             elif animation_type == AnimationType.DIMENSIONAL_SHIFT:
                 frame = self._generate_dimensional_shift_frame(base_matrix, frame_idx, frame_count)
             elif animation_type == AnimationType.LAMBDA_METAMORPHOSIS:
-                frame = self._generate_lambda_metamorphosis_frame(
-                    base_matrix, frame_idx, frame_count
-                )
+                frame = self._generate_lambda_metamorphosis_frame(base_matrix, frame_idx, frame_count)
             elif animation_type == AnimationType.SOVEREIGN_PULSE:
-                frame = self._generate_sovereign_pulse_frame(
-                    base_matrix, frame_idx, frame_count, sovereignty_level
-                )
+                frame = self._generate_sovereign_pulse_frame(base_matrix, frame_idx, frame_count, sovereignty_level)
             elif animation_type == AnimationType.MARKET_DISRUPTION:
-                frame = self._generate_market_disruption_frame(
-                    base_matrix, frame_idx, frame_count, market_state
-                )
+                frame = self._generate_market_disruption_frame(base_matrix, frame_idx, frame_count, market_state)
             else:
                 frame = self._generate_default_frame(base_matrix, frame_idx, frame_count)
 
@@ -389,15 +379,11 @@ class TemporalAnimationEngine:
 
             # Add consciousness signature if available
             if consciousness_context:
-                frame.consciousness_signature = self._generate_consciousness_signature(
-                    frame_idx, consciousness_context
-                )
+                frame.consciousness_signature = self._generate_consciousness_signature(frame_idx, consciousness_context)
 
             # Add market correlation
             if market_state:
-                frame.market_correlation = self._calculate_market_correlation(
-                    frame_idx, market_state
-                )
+                frame.market_correlation = self._calculate_market_correlation(frame_idx, market_state)
 
             # Assert sovereignty
             if self.sovereign_mode:
@@ -455,13 +441,9 @@ class TemporalAnimationEngine:
                 pulse_factor = np.exp(-distance / (width * 0.3)) * qi_amplitude
 
                 if len(pulsed_matrix.shape) == 3:
-                    pulsed_matrix[y, x] = np.clip(
-                        pulsed_matrix[y, x] * (1 + pulse_factor), 0, 255
-                    ).astype(np.uint8)
+                    pulsed_matrix[y, x] = np.clip(pulsed_matrix[y, x] * (1 + pulse_factor), 0, 255).astype(np.uint8)
                 else:
-                    pulsed_matrix[y, x] = np.clip(
-                        pulsed_matrix[y, x] * (1 + pulse_factor), 0, 255
-                    ).astype(np.uint8)
+                    pulsed_matrix[y, x] = np.clip(pulsed_matrix[y, x] * (1 + pulse_factor), 0, 255).astype(np.uint8)
 
         # Generate motion vectors
         motion_vectors = {
@@ -532,9 +514,7 @@ class TemporalAnimationEngine:
             "consciousness_dominance": dominance,
         }
 
-        temporal_hash = hashlib.sha3_256(
-            f"{frame_idx}{valence}{arousal}{dominance}".encode()
-        ).hexdigest()
+        temporal_hash = hashlib.sha3_256(f"{frame_idx}{valence}{arousal}{dominance}".encode()).hexdigest()
 
         return TemporalFrame(
             frame_id=f"CW_{frame_idx:06d}",
@@ -544,9 +524,7 @@ class TemporalAnimationEngine:
             temporal_hash=temporal_hash,
         )
 
-    def _generate_fibonacci_frame(
-        self, base_matrix: np.ndarray, frame_idx: int, total_frames: int
-    ) -> TemporalFrame:
+    def _generate_fibonacci_frame(self, base_matrix: np.ndarray, frame_idx: int, total_frames: int) -> TemporalFrame:
         """
         Generate Fibonacci spiral animation frame
 
@@ -687,16 +665,14 @@ class TemporalAnimationEngine:
         # Apply golden sovereign glow
         if len(sovereign_matrix.shape) == 3:
             # Add golden sovereignty aura
-            sovereign_matrix[:, :, 0] = np.clip(
-                sovereign_matrix[:, :, 0] * (1 + aura_strength * 0.5), 0, 255
-            ).astype(np.uint8)
-            sovereign_matrix[:, :, 1] = np.clip(
-                sovereign_matrix[:, :, 1] * (1 + aura_strength * 0.3), 0, 255
-            ).astype(np.uint8)
-        else:
-            sovereign_matrix = np.clip(sovereign_matrix * (1 + aura_strength), 0, 255).astype(
+            sovereign_matrix[:, :, 0] = np.clip(sovereign_matrix[:, :, 0] * (1 + aura_strength * 0.5), 0, 255).astype(
                 np.uint8
             )
+            sovereign_matrix[:, :, 1] = np.clip(sovereign_matrix[:, :, 1] * (1 + aura_strength * 0.3), 0, 255).astype(
+                np.uint8
+            )
+        else:
+            sovereign_matrix = np.clip(sovereign_matrix * (1 + aura_strength), 0, 255).astype(np.uint8)
 
         motion_vectors = {
             "sovereignty_level": float(sovereignty_level),
@@ -706,9 +682,7 @@ class TemporalAnimationEngine:
             "market_disruption": sovereignty_level * 100,  # Million dollar metric
         }
 
-        temporal_hash = hashlib.sha3_256(
-            f"SOVEREIGN_{frame_idx}{sovereignty_level}".encode()
-        ).hexdigest()
+        temporal_hash = hashlib.sha3_256(f"SOVEREIGN_{frame_idx}{sovereignty_level}".encode()).hexdigest()
 
         return TemporalFrame(
             frame_id=f"SOV_{frame_idx:06d}",
@@ -772,9 +746,7 @@ class TemporalAnimationEngine:
             "disruption_value": volatility * 1000000,  # Million dollar chaos
         }
 
-        temporal_hash = hashlib.sha3_256(
-            f"MARKET_{frame_idx}{volatility}{trend}".encode()
-        ).hexdigest()
+        temporal_hash = hashlib.sha3_256(f"MARKET_{frame_idx}{volatility}{trend}".encode()).hexdigest()
 
         return TemporalFrame(
             frame_id=f"MKT_{frame_idx:06d}",
@@ -785,9 +757,7 @@ class TemporalAnimationEngine:
             market_correlation=volatility,
         )
 
-    def _generate_default_frame(
-        self, base_matrix: np.ndarray, frame_idx: int, total_frames: int
-    ) -> TemporalFrame:
+    def _generate_default_frame(self, base_matrix: np.ndarray, frame_idx: int, total_frames: int) -> TemporalFrame:
         """Default frame generation"""
         frame_matrix = base_matrix.copy()
 
@@ -849,9 +819,7 @@ class TemporalAnimationEngine:
         # Cache token
         self.token_cache.append(token)
 
-        logger.info(
-            f"🔑 TEMPORAL TOKEN GENERATED - EXPIRES IN {validity_duration.total_seconds()}s"
-        )
+        logger.info(f"🔑 TEMPORAL TOKEN GENERATED - EXPIRES IN {validity_duration.total_seconds()}s")
         return token
 
     def validate_temporal_authentication(
@@ -912,16 +880,12 @@ class TemporalAnimationEngine:
         qi_data = f"QUANTUM_{frame_idx}_{time.time()}"
         return hashlib.sha3_256(qi_data.encode()).hexdigest()[:16]
 
-    def _generate_consciousness_signature(
-        self, frame_idx: int, consciousness_context: dict[str, Any]
-    ) -> str:
+    def _generate_consciousness_signature(self, frame_idx: int, consciousness_context: dict[str, Any]) -> str:
         """Generate consciousness signature for frame"""
         consciousness_data = f"{frame_idx}{json.dumps(consciousness_context)}"
         return hashlib.sha256(consciousness_data.encode()).hexdigest()[:16]
 
-    def _calculate_market_correlation(
-        self, frame_idx: int, market_state: dict[str, float]
-    ) -> float:
+    def _calculate_market_correlation(self, frame_idx: int, market_state: dict[str, float]) -> float:
         """Calculate market correlation for frame"""
         volatility = market_state.get("volatility", 0.5)
         trend = market_state.get("trend", 0.0)

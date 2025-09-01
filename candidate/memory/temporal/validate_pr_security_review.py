@@ -77,16 +77,12 @@ def validate_pr_security_review():
             print("\nSummary from latest report:")
             print(f"- Repositories processed: {summary.get('repositories_processed', 0)}")
             print(f"- PRs scanned: {summary.get('stats', {}).get('prs_scanned', 0)}")
-            print(
-                f"- Security issues found: {summary.get('stats', {}).get('security_issues_found', 0)}"
-            )
+            print(f"- Security issues found: {summary.get('stats', {}).get('security_issues_found', 0)}")
             print(f"- Security PRs identified: {summary.get('total_security_prs', 0)}")
             print(f"- Critical security PRs: {summary.get('critical_security_prs', 0)}")
             print(f"- PRs reviewed: {summary.get('stats', {}).get('prs_reviewed', 0)}")
 
-            unresolved = summary.get("total_security_prs", 0) - summary.get("stats", {}).get(
-                "prs_reviewed", 0
-            )
+            unresolved = summary.get("total_security_prs", 0) - summary.get("stats", {}).get("prs_reviewed", 0)
 
             if unresolved == 0:
                 print("✅ All security PRs have been reviewed!")

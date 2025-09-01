@@ -378,9 +378,7 @@ class MonitoringConfigManager:
                 "plasticity_sensitivity": 0.6,
             },
             "metrics": {
-                "collection_intervals": {
-                    k: v * 0.5 for k, v in MetricsCollectionConfig().collection_intervals.items()
-                },
+                "collection_intervals": {k: v * 0.5 for k, v in MetricsCollectionConfig().collection_intervals.items()},
                 "anomaly_sensitivity": 1.5,
             },
             "features": {"experimental_features": True},
@@ -444,17 +442,13 @@ class MonitoringConfigManager:
             "log_level": "INFO",
             "dashboard": {
                 "refresh_interval": 0.5,
-                "widget_update_intervals": {
-                    k: v * 0.5 for k, v in DashboardConfig().widget_update_intervals.items()
-                },
+                "widget_update_intervals": {k: v * 0.5 for k, v in DashboardConfig().widget_update_intervals.items()},
             },
             "endocrine": {"hormone_sampling_interval": 1.0},
             "plasticity": {"risk_tolerance": 0.4},
         }
 
-    def load_config(
-        self, profile: Optional[MonitoringProfile] = None
-    ) -> ComprehensiveMonitoringConfig:
+    def load_config(self, profile: Optional[MonitoringProfile] = None) -> ComprehensiveMonitoringConfig:
         """Load configuration from file or create default"""
 
         # Start with default configuration
@@ -636,9 +630,7 @@ def load_monitoring_config(
     return manager.load_config(profile)
 
 
-def save_monitoring_config(
-    config: ComprehensiveMonitoringConfig, config_path: Optional[str] = None
-):
+def save_monitoring_config(config: ComprehensiveMonitoringConfig, config_path: Optional[str] = None):
     """Save monitoring configuration to file"""
 
     manager = MonitoringConfigManager(config_path)

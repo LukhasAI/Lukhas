@@ -80,9 +80,7 @@ class SymbolicTag:
         if self.last_updated is None:
             self.last_updated = datetime.now()
         if self.lambda_signature is None:
-            tag_hash = hashlib.sha256(f"{self.symbol}{self.category.value}".encode()).hexdigest()[
-                :8
-            ]
+            tag_hash = hashlib.sha256(f"{self.symbol}{self.category.value}".encode()).hexdigest()[:8]
             self.lambda_signature = f"Λ-SYMBOL-{tag_hash.upper()}"
 
     def is_valid(self) -> bool:
@@ -169,9 +167,7 @@ class DΛST:
 
         # Symbol analysis
         self.symbol_relationships: dict[str, dict[str, float]] = {}  # Symbol co-occurrence
-        self.temporal_patterns: dict[
-            str, list[tuple[int, list[str]]]
-        ] = {}  # Hour -> common symbols
+        self.temporal_patterns: dict[str, list[tuple[int, list[str]]]] = {}  # Hour -> common symbols
 
         logger.info("DΛST system initialized with symbolic consciousness")
 
@@ -324,9 +320,7 @@ class DΛST:
                 # Update metadata
                 existing_tag.metadata.update(tag.metadata)
 
-                if expires_at and (
-                    not existing_tag.expires_at or expires_at > existing_tag.expires_at
-                ):
+                if expires_at and (not existing_tag.expires_at or expires_at > existing_tag.expires_at):
                     existing_tag.expires_at = expires_at
 
             else:
@@ -360,9 +354,7 @@ class DΛST:
             logger.error(f"Error adding symbol: {e}")
             return False
 
-    async def remove_symbol(
-        self, user_id: str, symbol: str, category: Optional[SymbolCategory] = None
-    ) -> bool:
+    async def remove_symbol(self, user_id: str, symbol: str, category: Optional[SymbolCategory] = None) -> bool:
         """Remove a symbolic tag from user's context"""
         if user_id not in self.user_contexts:
             return False
@@ -782,9 +774,7 @@ class DΛST:
                         context.tags = [
                             tag
                             for tag in context.tags
-                            if not (
-                                tag.last_updated < cutoff_time and tag.confidence <= conf_threshold
-                            )
+                            if not (tag.last_updated < cutoff_time and tag.confidence <= conf_threshold)
                         ]
             else:
                 await self.remove_symbol(user_id, target)
@@ -796,9 +786,7 @@ class DΛST:
 
         cutoff_time = datetime.now() - timedelta(hours=hours)
         recent_history = [
-            (timestamp, tags)
-            for timestamp, tags in self.symbol_histories[user_id]
-            if timestamp > cutoff_time
+            (timestamp, tags) for timestamp, tags in self.symbol_histories[user_id] if timestamp > cutoff_time
         ]
 
         if not recent_history:
@@ -896,12 +884,8 @@ if __name__ == "__main__":
         print(f"   Initial tags: {await dast.get_current_tags('alice')}")
 
         # Add some symbols from different sources
-        await dast.add_symbol(
-            "alice", "coding", SymbolCategory.ACTIVITY, SymbolSource.ACTIVITY_TRACKER, 0.8
-        )
-        await dast.add_symbol(
-            "alice", "creative-flow", SymbolCategory.CREATIVE, SymbolSource.AI_INFERENCE, 0.6
-        )
+        await dast.add_symbol("alice", "coding", SymbolCategory.ACTIVITY, SymbolSource.ACTIVITY_TRACKER, 0.8)
+        await dast.add_symbol("alice", "creative-flow", SymbolCategory.CREATIVE, SymbolSource.AI_INFERENCE, 0.6)
         await dast.add_symbol("alice", "office", SymbolCategory.CONTEXT, SymbolSource.LOCATION, 0.9)
 
         print(f"\n📊 Updated tags: {await dast.get_current_tags('alice')}")

@@ -18,6 +18,7 @@ except ImportError:
 
     def emit_node(node_type):
         _ = node_type
+
         def decorator(func):
             return func
 
@@ -236,9 +237,7 @@ class MemoryWrapper:
         except Exception as e:
             return {"ok": False, "error": str(e), "memory_active": False}
 
-    def extend_causal_chain(
-        self, fold_id: str, new_event: str, mode: str = "auto"
-    ) -> dict[str, Any]:
+    def extend_causal_chain(self, fold_id: str, new_event: str, mode: str = "auto") -> dict[str, Any]:
         """Extend causal chain for a fold"""
         effective_mode = self._get_mode(mode)
 
@@ -268,9 +267,7 @@ class MemoryWrapper:
         except Exception as e:
             return {"ok": False, "error": str(e), "mode": effective_mode}
 
-    def update_valence(
-        self, fold_id: str, new_valence: float, mode: str = "auto"
-    ) -> dict[str, Any]:
+    def update_valence(self, fold_id: str, new_valence: float, mode: str = "auto") -> dict[str, Any]:
         """Update emotional valence for a fold"""
         effective_mode = self._get_mode(mode)
 

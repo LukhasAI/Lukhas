@@ -184,9 +184,7 @@ class CollapseIntegration:
         component_scores = component_data.get("component_scores", {})
 
         # Update tracker
-        self.collapse_tracker.update_entropy_score(
-            symbolic_data=symbolic_data, component_scores=component_scores
-        )
+        self.collapse_tracker.update_entropy_score(symbolic_data=symbolic_data, component_scores=component_scores)
 
     async def monitor_system_health(self, interval: float = 60.0) -> None:
         """

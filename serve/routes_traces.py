@@ -148,9 +148,7 @@ async def get_recent_traces(
                 response = ExecutionTraceResponse(**trace_data)
                 responses.append(response)
             except Exception as e:
-                logger.warning(
-                    f"Skipping malformed trace {trace_data.get('trace_id', 'unknown')}: {e}"
-                )
+                logger.warning(f"Skipping malformed trace {trace_data.get('trace_id', 'unknown')}: {e}")
                 continue
 
         logger.info(f"Returning {len(responses)} recent traces")
@@ -224,9 +222,7 @@ async def get_trace(
         if trace_data is None:
             # Trace not found
             logger.info(f"Trace not found: {trace_id}")
-            error_response = TraceNotFoundResponse(
-                message=f"No trace found with ID: {trace_id}", trace_id=trace_id
-            )
+            error_response = TraceNotFoundResponse(message=f"No trace found with ID: {trace_id}", trace_id=trace_id)
             return JSONResponse(status_code=404, content=error_response.model_dump())
 
         # Convert to enhanced response model

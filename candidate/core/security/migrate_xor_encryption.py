@@ -112,9 +112,7 @@ class XORMigration:
         return {
             "file": str(file_path),
             "patches": patches,
-            "imports_needed": [
-                "from candidate.core.security.enhanced_crypto import get_encryption_manager"
-            ],
+            "imports_needed": ["from candidate.core.security.enhanced_crypto import get_encryption_manager"],
         }
 
     def _generate_crypto_replacement(self, func_node: ast.FunctionDef) -> str:
@@ -159,9 +157,7 @@ class XORMigration:
                 results.append(f"\nWould patch {file_path}:")
                 results.append(f"  Add imports: {patch_info['imports_needed']}")
                 for patch in patch_info["patches"]:
-                    results.append(
-                        f"  Replace function '{patch['function']}' at line {patch['line']}"
-                    )
+                    results.append(f"  Replace function '{patch['function']}' at line {patch['line']}")
             else:
                 # Actually apply patches
                 self._apply_file_patches(Path(file_path), patch_info)

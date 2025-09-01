@@ -250,9 +250,7 @@ db = LukhasDatabaseIntegration()
         """Upgrade content platform to use database actively"""
         self.logger.info("🎯 Upgrading content platform with database integration...")
 
-        content_platform_path = (
-            self.engines_path / "lukhas_content_platform" / "lukhas_unified_content_platform.py"
-        )
+        content_platform_path = self.engines_path / "lukhas_content_platform" / "lukhas_unified_content_platform.py"
 
         # Read existing content
         with open(content_platform_path) as f:

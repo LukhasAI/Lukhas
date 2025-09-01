@@ -73,9 +73,7 @@ class AutomatedContentGenerator:
             print(f"Warning: Could not parse template file {file_path}: {e}")
             return {"content": "", "loaded": False}
 
-    def generate_homepage_content(
-        self, domain: str, custom_sections: Optional[list[str]] = None
-    ) -> dict:
+    def generate_homepage_content(self, domain: str, custom_sections: Optional[list[str]] = None) -> dict:
         """Generate complete homepage content for a domain"""
         if domain not in self.platform.domain_mapping:
             raise ValueError(f"Unknown domain: {domain}")
@@ -149,13 +147,9 @@ class AutomatedContentGenerator:
             "constellation_stars": domain_stars,
         }
 
-    def _generate_hero_section(
-        self, domain: str, style_guide: dict, star_symbols: str, star_names: str
-    ) -> str:
+    def _generate_hero_section(self, domain: str, style_guide: dict, star_symbols: str, star_names: str) -> str:
         """Generate hero section content"""
-        philosophy = style_guide.get(
-            "philosophy", "Consciousness technology serving human potential"
-        )
+        philosophy = style_guide.get("philosophy", "Consciousness technology serving human potential")
 
         # Extract tone percentages
         tone_parts = style_guide["tone"].split(", ")
@@ -330,9 +324,7 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
             "lukhas.lab": "participate in rigorous academic inquiry while maintaining openness to consciousness mystery",
         }
 
-        return capabilities.get(
-            domain, "serve human potential through collaborative discovery and shared exploration"
-        )
+        return capabilities.get(domain, "serve human potential through collaborative discovery and shared exploration")
 
     def _generate_core_principles(self, domain: str, style_guide: dict) -> str:
         """Generate core principles for the domain"""

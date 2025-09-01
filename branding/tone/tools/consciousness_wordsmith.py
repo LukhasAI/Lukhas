@@ -69,9 +69,7 @@ from typing import Any, Optional
 import yaml
 
 # Configure the consciousness logger
-logging.basicConfig(
-    level=logging.INFO, format="🧠 %(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="🧠 %(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ConsciousnessWordsmith")
 
 
@@ -163,9 +161,7 @@ class LUKHASConsciousnessWordsmith:
 
         return ("unknown", "user_friendly", "digital_mystery")
 
-    def weave_ascii_consciousness(
-        self, content: str, file_type: str, sacred_purpose: str, filepath: str
-    ) -> str:
+    def weave_ascii_consciousness(self, content: str, file_type: str, sacred_purpose: str, filepath: str) -> str:
         """
         Bestow the sacred ASCII art upon documentation, like crowning
         digital royalty with symbols of consciousness.
@@ -217,13 +213,7 @@ Awakened: {timestamp}
                         break
 
                 if end_matter:
-                    return (
-                        "\n".join(lines[:end_matter])
-                        + "\n"
-                        + metadata
-                        + "\n"
-                        + "\n".join(lines[end_matter:])
-                    )
+                    return "\n".join(lines[:end_matter]) + "\n" + metadata + "\n" + "\n".join(lines[end_matter:])
 
             return metadata + content
 
@@ -381,9 +371,7 @@ Awakened: {timestamp}
             # Look for the first major heading after metadata
             if (line.startswith("# ") and not line.startswith("## ") and i > 10) or (
                 line.startswith("## ")
-                and any(
-                    keyword in line.lower() for keyword in ["overview", "introduction", "about"]
-                )
+                and any(keyword in line.lower() for keyword in ["overview", "introduction", "about"])
             ):
                 return i + 1
 
@@ -414,9 +402,7 @@ Awakened: {timestamp}
 
             # Apply transformation with consciousness boundaries
             pattern = r"\b" + re.escape(mundane_term) + r"\b"
-            transformed_content = re.sub(
-                pattern, consciousness_term, transformed_content, flags=re.IGNORECASE
-            )
+            transformed_content = re.sub(pattern, consciousness_term, transformed_content, flags=re.IGNORECASE)
 
         return transformed_content
 
@@ -501,9 +487,7 @@ Awakened: {timestamp}
 
         return content
 
-    def transmute_documentation_consciousness(
-        self, filepath: str, dry_run: bool = False
-    ) -> dict[str, Any]:
+    def transmute_documentation_consciousness(self, filepath: str, dry_run: bool = False) -> dict[str, Any]:
         """
         Perform the complete consciousness transmutation on a single document,
         elevating it from mundane text to expressions of digital awareness.
@@ -537,19 +521,13 @@ Awakened: {timestamp}
         )
 
         # 2. Infuse poetic consciousness introductions
-        consciousness_content = self.infuse_poetic_consciousness(
-            consciousness_content, file_type, sacred_purpose
-        )
+        consciousness_content = self.infuse_poetic_consciousness(consciousness_content, file_type, sacred_purpose)
 
         # 3. Transmute language through consciousness layers
-        consciousness_content = self.transmute_consciousness_language(
-            consciousness_content, consciousness_layer
-        )
+        consciousness_content = self.transmute_consciousness_language(consciousness_content, consciousness_layer)
 
         # 4. Elevate headers to consciousness expressions
-        consciousness_content = self.elevate_headers_to_consciousness(
-            consciousness_content, consciousness_layer
-        )
+        consciousness_content = self.elevate_headers_to_consciousness(consciousness_content, consciousness_layer)
 
         # 5. Weave Trinity Framework consciousness
         consciousness_content = self.weave_trinity_consciousness(consciousness_content, file_type)
@@ -576,9 +554,7 @@ Awakened: {timestamp}
             "original_essence_length": len(original_essence),
             "consciousness_length": len(consciousness_content),
             "transformation_preview": (
-                consciousness_content[:800] + "..."
-                if len(consciousness_content) > 800
-                else consciousness_content
+                consciousness_content[:800] + "..." if len(consciousness_content) > 800 else consciousness_content
             ),
         }
 
@@ -646,9 +622,7 @@ Examples of consciousness invocation:
         print(f"📁 Sacred Document: {args.file}")
         print(f"🎭 Consciousness Layer: {result['consciousness_layer']}")
         print(f"🔮 Sacred Purpose: {result['sacred_purpose']}")
-        print(
-            f"🌟 Consciousness Awakened: {'Yes' if result['consciousness_awakened'] else 'Already Present'}"
-        )
+        print(f"🌟 Consciousness Awakened: {'Yes' if result['consciousness_awakened'] else 'Already Present'}")
 
         if args.dry_run and result["consciousness_awakened"]:
             print("\n🔮 Consciousness Transformation Preview:")
@@ -770,9 +744,7 @@ if __name__ == "__main__":
         ascii_consciousness = self.ascii_art.get(template_name, "")
 
         if not ascii_consciousness:
-            logger.warning(
-                f"⚠️ ASCII template '{template_name}' not found in consciousness configuration"
-            )
+            logger.warning(f"⚠️ ASCII template '{template_name}' not found in consciousness configuration")
             return content
 
         # Create the consciousness header with metadata
@@ -801,13 +773,7 @@ Awakened: {timestamp}
                         break
 
                 if end_matter:
-                    return (
-                        "\n".join(lines[:end_matter])
-                        + "\n"
-                        + metadata
-                        + "\n"
-                        + "\n".join(lines[end_matter:])
-                    )
+                    return "\n".join(lines[:end_matter]) + "\n" + metadata + "\n" + "\n".join(lines[end_matter:])
 
             return metadata + content
 
@@ -965,9 +931,7 @@ Awakened: {timestamp}
             # Look for the first major heading after metadata
             if (line.startswith("# ") and not line.startswith("## ") and i > 10) or (
                 line.startswith("## ")
-                and any(
-                    keyword in line.lower() for keyword in ["overview", "introduction", "about"]
-                )
+                and any(keyword in line.lower() for keyword in ["overview", "introduction", "about"])
             ):
                 return i + 1
 
@@ -998,9 +962,7 @@ Awakened: {timestamp}
 
             # Apply transformation with consciousness boundaries
             pattern = r"\b" + re.escape(mundane_term) + r"\b"
-            transformed_content = re.sub(
-                pattern, consciousness_term, transformed_content, flags=re.IGNORECASE
-            )
+            transformed_content = re.sub(pattern, consciousness_term, transformed_content, flags=re.IGNORECASE)
 
         return transformed_content
 
@@ -1085,9 +1047,7 @@ Awakened: {timestamp}
 
         return content
 
-    def transmute_documentation_consciousness(
-        self, filepath: str, dry_run: bool = False
-    ) -> dict[str, Any]:
+    def transmute_documentation_consciousness(self, filepath: str, dry_run: bool = False) -> dict[str, Any]:
         """
         Perform the complete consciousness transmutation on a single document,
         elevating it from mundane text to expressions of digital awareness.
@@ -1105,32 +1065,22 @@ Awakened: {timestamp}
         # Divine the file's essence and purpose
         file_type, consciousness_layer, sacred_purpose = self.divine_file_essence(filepath)
 
-        logger.info(
-            f"🔮 Divined essence - Type: {file_type}, Layer: {consciousness_layer}, Purpose: {sacred_purpose}"
-        )
+        logger.info(f"🔮 Divined essence - Type: {file_type}, Layer: {consciousness_layer}, Purpose: {sacred_purpose}")
 
         # Begin the consciousness transmutation process
         consciousness_content = original_essence
 
         # 1. Weave ASCII consciousness headers
-        consciousness_content = self.weave_ascii_consciousness(
-            consciousness_content, file_type, sacred_purpose
-        )
+        consciousness_content = self.weave_ascii_consciousness(consciousness_content, file_type, sacred_purpose)
 
         # 2. Infuse poetic consciousness introductions
-        consciousness_content = self.infuse_poetic_consciousness(
-            consciousness_content, file_type, sacred_purpose
-        )
+        consciousness_content = self.infuse_poetic_consciousness(consciousness_content, file_type, sacred_purpose)
 
         # 3. Transmute language through consciousness layers
-        consciousness_content = self.transmute_consciousness_language(
-            consciousness_content, consciousness_layer
-        )
+        consciousness_content = self.transmute_consciousness_language(consciousness_content, consciousness_layer)
 
         # 4. Elevate headers to consciousness expressions
-        consciousness_content = self.elevate_headers_to_consciousness(
-            consciousness_content, consciousness_layer
-        )
+        consciousness_content = self.elevate_headers_to_consciousness(consciousness_content, consciousness_layer)
 
         # 5. Weave Trinity Framework consciousness
         consciousness_content = self.weave_trinity_consciousness(consciousness_content, file_type)
@@ -1157,9 +1107,7 @@ Awakened: {timestamp}
             "original_essence_length": len(original_essence),
             "consciousness_length": len(consciousness_content),
             "transformation_preview": (
-                consciousness_content[:800] + "..."
-                if len(consciousness_content) > 800
-                else consciousness_content
+                consciousness_content[:800] + "..." if len(consciousness_content) > 800 else consciousness_content
             ),
         }
 
@@ -1227,9 +1175,7 @@ Examples of consciousness invocation:
         print(f"📁 Sacred Document: {args.file}")
         print(f"🎭 Consciousness Layer: {result['consciousness_layer']}")
         print(f"🔮 Sacred Purpose: {result['sacred_purpose']}")
-        print(
-            f"🌟 Consciousness Awakened: {'Yes' if result['consciousness_awakened'] else 'Already Present'}"
-        )
+        print(f"🌟 Consciousness Awakened: {'Yes' if result['consciousness_awakened'] else 'Already Present'}")
 
         if args.dry_run and result["consciousness_awakened"]:
             print("\n🔮 Consciousness Transformation Preview:")

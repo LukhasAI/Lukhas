@@ -89,10 +89,7 @@ class ABASQuantumSpecialistWrapper:
 
             # Check for capability advancement
             current_level = self.quantum_agi.capability_level
-            if (
-                hasattr(self, "_last_capability_level")
-                and current_level != self._last_capability_level
-            ):
+            if hasattr(self, "_last_capability_level") and current_level != self._last_capability_level:
                 self.integration_stats["capability_advancements"] += 1
             self._last_capability_level = current_level
 
@@ -110,9 +107,7 @@ class ABASQuantumSpecialistWrapper:
                 "capability_level": current_level.value,
             }
 
-            logger.debug(
-                f"Quantum-biological processing complete: bio_confidence={response.bio_confidence:.2f}"
-            )
+            logger.debug(f"Quantum-biological processing complete: bio_confidence={response.bio_confidence:.2f}")
             return result
 
         except Exception as e:
@@ -134,13 +129,9 @@ class ABASQuantumSpecialistWrapper:
             self.integration_stats[metric_name] = new_value
         else:
             current_avg = self.integration_stats[metric_name]
-            self.integration_stats[metric_name] = (
-                current_avg * (success_count - 1) + new_value
-            ) / success_count
+            self.integration_stats[metric_name] = (current_avg * (success_count - 1) + new_value) / success_count
 
-    async def get_quantum_ethics_arbitration(
-        self, decision_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def get_quantum_ethics_arbitration(self, decision_context: dict[str, Any]) -> dict[str, Any]:
         """Get quantum tunneling ethical arbitration"""
         if hasattr(self.quantum_agi, "quantum_ethics"):
             return self.quantum_agi.quantum_ethics.quantum_ethical_arbitration(decision_context)
@@ -159,9 +150,7 @@ class ABASQuantumSpecialistWrapper:
     ) -> dict[str, Any]:
         """Optimize cristae topology for performance"""
         if hasattr(self.quantum_agi, "cristae_manager"):
-            return self.quantum_agi.cristae_manager.optimize_cristae_topology(
-                current_state, performance_metrics
-            )
+            return self.quantum_agi.cristae_manager.optimize_cristae_topology(current_state, performance_metrics)
         return {"error": "Cristae manager not available"}
 
     def get_biological_status(self) -> dict[str, Any]:

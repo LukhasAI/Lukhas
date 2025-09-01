@@ -167,9 +167,7 @@ class DeveloperTools(BaseCommand):
         table_data.extend(commands)
 
         formatter = TableFormatter()
-        print(
-            formatter.create_table(table_data, title="Available Developer Commands", style="lukhas")
-        )
+        print(formatter.create_table(table_data, title="Available Developer Commands", style="lukhas"))
 
     async def analyze_code(self, args: list[str]) -> bool:
         """Analyze code metrics and quality"""
@@ -433,9 +431,7 @@ class DeveloperTools(BaseCommand):
         for file_path in python_files:
             with open(file_path, encoding="utf-8") as f:
                 code = f.read()
-                lines_of_code += len(
-                    [l for l in code.split("\n") if l.strip() and not l.strip().startswith("#")]
-                )
+                lines_of_code += len([l for l in code.split("\n") if l.strip() and not l.strip().startswith("#")])
                 functions_count += code.count("def ")
                 classes_count += code.count("class ")
 

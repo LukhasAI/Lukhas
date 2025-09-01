@@ -167,13 +167,9 @@ class ModuleStandardizationChecker:
 
         # Generate recommendations
         if results["missing_files"]:
-            results["recommendations"].append(
-                f"Create missing files: {', '.join(results['missing_files'])}"
-            )
+            results["recommendations"].append(f"Create missing files: {', '.join(results['missing_files'])}")
         if results["missing_dirs"]:
-            results["recommendations"].append(
-                f"Create missing directories: {', '.join(results['missing_dirs'])}"
-            )
+            results["recommendations"].append(f"Create missing directories: {', '.join(results['missing_dirs'])}")
         if results["missing_docs"]:
             results["recommendations"].append("Add comprehensive documentation")
         if results["missing_tests"]:
@@ -194,9 +190,7 @@ class ModuleStandardizationChecker:
             result = self.results[module]
             if result["exists"]:
                 status = "✅" if result["score"] >= 80 else "⚠️" if result["score"] >= 50 else "❌"
-                print(
-                    f"{status} {module:<15} Score: {result['score']:>5.1f}% | Files: {result['file_count']:>4}"
-                )
+                print(f"{status} {module:<15} Score: {result['score']:>5.1f}% | Files: {result['file_count']:>4}")
             else:
                 print(f"❌ {module:<15} Not found")
 
@@ -210,9 +204,7 @@ class ModuleStandardizationChecker:
                 "total_modules": len(CORE_MODULES),
                 "existing_modules": sum(1 for r in self.results.values() if r.get("exists", False)),
                 "fully_compliant": sum(1 for r in self.results.values() if r.get("score", 0) >= 95),
-                "partially_compliant": sum(
-                    1 for r in self.results.values() if 50 <= r.get("score", 0) < 95
-                ),
+                "partially_compliant": sum(1 for r in self.results.values() if 50 <= r.get("score", 0) < 95),
                 "non_compliant": sum(1 for r in self.results.values() if r.get("score", 0) < 50),
                 "average_score": 0,
             },

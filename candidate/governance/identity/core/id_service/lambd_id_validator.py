@@ -234,9 +234,7 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("symbolic_validation")
 
         if symbolic_result != ValidationResult.VALID:
-            validation_details["errors"].append(
-                f"Symbolic validation failed: {symbolic_result.value}"
-            )
+            validation_details["errors"].append(f"Symbolic validation failed: {symbolic_result.value}")
             return symbolic_result, validation_details
 
         # 4. Collision detection
@@ -351,9 +349,7 @@ class LambdaIDValidator:
             tier, timestamp_hash, symbolic_char, entropy_hash = components
 
             # Calculate checksum using SHA-256 based algorithm
-            checksum_input = (
-                f"{tier}{timestamp_hash}{symbolic_char}{entropy_hash}LUKHAS_CHECKSUM_SALT"
-            )
+            checksum_input = f"{tier}{timestamp_hash}{symbolic_char}{entropy_hash}LUKHAS_CHECKSUM_SALT"
             hashlib.sha256(checksum_input.encode()).hexdigest()[:4]
 
             # For existing ΛiDs, checksum would be stored separately or encoded

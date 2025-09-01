@@ -15,9 +15,7 @@ class CodebaseHygieneExecutor:
 
     def __init__(self):
         self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
-        self.backup_dir = (
-            self.workspace / f".hygiene_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        )
+        self.backup_dir = self.workspace / f".hygiene_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.changes_log = []
         self.import_updates = {}
 
@@ -206,9 +204,7 @@ class CodebaseHygieneExecutor:
             consolidated_content = []
             consolidated_content.append('"""')
             consolidated_content.append("Consolidated Governance Extended Module")
-            consolidated_content.append(
-                "Combines audit_logger, compliance_hooks, and policy_manager"
-            )
+            consolidated_content.append("Combines audit_logger, compliance_hooks, and policy_manager")
             consolidated_content.append('"""')
             consolidated_content.append("")
 
@@ -240,9 +236,7 @@ class CodebaseHygieneExecutor:
             "backup_location": str(self.backup_dir),
             "changes": self.changes_log,
             "summary": {
-                "directories_renamed": len(
-                    [c for c in self.changes_log if c["type"] == "directory"]
-                ),
+                "directories_renamed": len([c for c in self.changes_log if c["type"] == "directory"]),
                 "files_renamed": len([c for c in self.changes_log if c["type"] == "file"]),
                 "total_changes": len(self.changes_log),
             },

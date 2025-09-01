@@ -72,9 +72,7 @@ class MockQuantumBiologicalAGI:
         logger.info("Mock integration with ethics engine")
         return True
 
-    async def process_with_quantum_biology(
-        self, input_text: str, context: dict = None
-    ) -> QuantumBioResponse:
+    async def process_with_quantum_biology(self, input_text: str, context: dict = None) -> QuantumBioResponse:
         """Mock quantum-biological processing"""
         datetime.now()
         processing_id = f"mock_proc_{datetime.now().timestamp()}"
@@ -250,13 +248,9 @@ class ABASQuantumSpecialistWrapper:
             self.integration_stats[metric_name] = new_value
         else:
             current_avg = self.integration_stats[metric_name]
-            self.integration_stats[metric_name] = (
-                current_avg * (success_count - 1) + new_value
-            ) / success_count
+            self.integration_stats[metric_name] = (current_avg * (success_count - 1) + new_value) / success_count
 
-    async def get_quantum_ethics_arbitration(
-        self, decision_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def get_quantum_ethics_arbitration(self, decision_context: dict[str, Any]) -> dict[str, Any]:
         """Mock quantum ethics arbitration"""
         return {
             "arbitration_id": f"mock_arb_{datetime.now().timestamp()}",
@@ -282,9 +276,7 @@ class ABASQuantumSpecialistWrapper:
         return {
             "optimization_id": f"mock_opt_{datetime.now().timestamp()}",
             "performance_improvement": random.uniform(0.1, 0.3),
-            "transformed_topology": {
-                "folding_pattern": random.choice(["tubular", "lamellar", "optimized_hybrid"])
-            },
+            "transformed_topology": {"folding_pattern": random.choice(["tubular", "lamellar", "optimized_hybrid"])},
         }
 
     def get_biological_status(self) -> dict[str, Any]:

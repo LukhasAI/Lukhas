@@ -302,11 +302,7 @@ class APIAnalyzer:
 
         for route_info in routes:
             path = route_info[0]
-            methods = (
-                route_info[1].replace("'", "").replace('"', "").split(",")
-                if route_info[1]
-                else ["GET"]
-            )
+            methods = route_info[1].replace("'", "").replace('"', "").split(",") if route_info[1] else ["GET"]
 
             for method_str in methods:
                 method_str = method_str.strip().upper()
@@ -716,8 +712,7 @@ class APIDocumentationGenerator:
                             {
                                 "application/json": {
                                     "examples": {
-                                        f"example_{i}": {"value": ex}
-                                        for i, ex in enumerate(response.examples)
+                                        f"example_{i}": {"value": ex} for i, ex in enumerate(response.examples)
                                     }
                                 }
                             }
@@ -932,7 +927,9 @@ class APIDocumentationGenerator:
         <ul>
 """
             for response in endpoint.responses:
-                html_content += f"            <li><strong>{response.status_code}:</strong> {response.description}</li>\n"
+                html_content += (
+                    f"            <li><strong>{response.status_code}:</strong> {response.description}</li>\n"
+                )
 
             html_content += "        </ul>\n    </div>\n"
 

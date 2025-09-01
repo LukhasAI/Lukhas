@@ -189,9 +189,7 @@ class BiometricIntegrationManager:
                 return {"success": False, "error": "Missing biometric template"}
 
             # Apply cultural adaptation if specified
-            adapted_template = self._apply_cultural_adaptation(
-                raw_template, biometric_type, cultural_context
-            )
+            adapted_template = self._apply_cultural_adaptation(raw_template, biometric_type, cultural_context)
 
             # Create secure hash of biometric template
             template_hash = self._create_secure_biometric_hash(adapted_template, lambda_id)
@@ -237,9 +235,7 @@ class BiometricIntegrationManager:
             logger.error(f"ΛTRACE: Biometric enrollment error: {e}")
             return {"success": False, "error": str(e)}
 
-    def verify_biometric(
-        self, lambda_id: str, verification_data: dict[str, Any]
-    ) -> BiometricVerificationResult:
+    def verify_biometric(self, lambda_id: str, verification_data: dict[str, Any]) -> BiometricVerificationResult:
         """
         # Verify biometric against enrolled templates
         # Supports tier-based requirements and consciousness validation
@@ -282,18 +278,14 @@ class BiometricIntegrationManager:
                 )
 
             # Apply cultural adaptation to verification template
-            adapted_verification = self._apply_cultural_adaptation(
-                raw_template, biometric_type, cultural_context
-            )
+            adapted_verification = self._apply_cultural_adaptation(raw_template, biometric_type, cultural_context)
 
             # Verify against each matching template
             best_match = None
             best_confidence = 0.0
 
             for template in matching_templates:
-                confidence = self._calculate_biometric_match_confidence(
-                    adapted_verification, template, lambda_id
-                )
+                confidence = self._calculate_biometric_match_confidence(adapted_verification, template, lambda_id)
 
                 if confidence > best_confidence:
                     best_confidence = confidence
@@ -308,9 +300,7 @@ class BiometricIntegrationManager:
 
             # Validate cultural context if required
             cultural_context_verified = (
-                self._validate_cultural_biometric_context(best_match, cultural_context)
-                if cultural_context
-                else True
+                self._validate_cultural_biometric_context(best_match, cultural_context) if cultural_context else True
             )
 
             # Validate consciousness markers if available
@@ -484,9 +474,7 @@ class BiometricIntegrationManager:
         hash_object = hashlib.sha256(combined.encode())
         return base64.b64encode(hash_object.digest()).decode()
 
-    def _extract_consciousness_markers(
-        self, biometric_data: dict[str, Any]
-    ) -> Optional[dict[str, Any]]:
+    def _extract_consciousness_markers(self, biometric_data: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Extract consciousness-related markers from biometric data."""
         consciousness_data = biometric_data.get("consciousness_markers", {})
 

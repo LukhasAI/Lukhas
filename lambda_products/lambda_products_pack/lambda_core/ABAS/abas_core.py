@@ -220,9 +220,7 @@ class ΛBAS:
         # These will be applied as defaults for new users
         self._default_boundary_templates = {b.id: b for b in default_boundaries}
 
-    async def register_user(
-        self, user_id: str, initial_state: AttentionState = AttentionState.AVAILABLE
-    ) -> bool:
+    async def register_user(self, user_id: str, initial_state: AttentionState = AttentionState.AVAILABLE) -> bool:
         """Register a new user with ΛBAS system"""
         try:
             self.user_attention_states[user_id] = initial_state
@@ -266,9 +264,7 @@ class ΛBAS:
             # Keep only recent history (last 24 hours)
             cutoff_time = datetime.now() - timedelta(hours=24)
             self.attention_history[user_id] = [
-                (timestamp, metric)
-                for timestamp, metric in self.attention_history[user_id]
-                if timestamp > cutoff_time
+                (timestamp, metric) for timestamp, metric in self.attention_history[user_id] if timestamp > cutoff_time
             ]
 
             # Update current metrics
@@ -281,9 +277,7 @@ class ΛBAS:
 
             # Log state transitions
             if new_state != old_state:
-                logger.info(
-                    f"User {user_id} attention state: {old_state.value} -> {new_state.value}"
-                )
+                logger.info(f"User {user_id} attention state: {old_state.value} -> {new_state.value}")
 
                 # Trigger boundary adjustments if needed
                 await self._adjust_boundaries_for_state_change(user_id, old_state, new_state)
@@ -297,9 +291,7 @@ class ΛBAS:
             logger.error(f"Error updating attention metrics for {user_id}: {e}")
             return False
 
-    async def _determine_attention_state(
-        self, user_id: str, metrics: AttentionMetrics
-    ) -> AttentionState:
+    async def _determine_attention_state(self, user_id: str, metrics: AttentionMetrics) -> AttentionState:
         """Determine attention state from metrics"""
 
         # Flow state detection
@@ -312,11 +304,7 @@ class ΛBAS:
             return AttentionState.FLOW_STATE
 
         # Overload detection
-        if (
-            metrics.cognitive_load >= 0.85
-            or metrics.attention_residue >= 0.7
-            or metrics.multitask_penalty >= 0.5
-        ):
+        if metrics.cognitive_load >= 0.85 or metrics.attention_residue >= 0.7 or metrics.multitask_penalty >= 0.5:
             return AttentionState.OVERLOADED
 
         # Recovery state
@@ -324,11 +312,7 @@ class ΛBAS:
             return AttentionState.RECOVERING
 
         # Focused state
-        if (
-            metrics.focus_level >= 0.7
-            and metrics.cognitive_load >= 0.5
-            and metrics.cognitive_load <= 0.7
-        ):
+        if metrics.focus_level >= 0.7 and metrics.cognitive_load >= 0.5 and metrics.cognitive_load <= 0.7:
             return AttentionState.FOCUSED
 
         # Recently interrupted
@@ -376,15 +360,11 @@ class ΛBAS:
                 )
 
             # 3. Evaluate request against attention state
-            state_evaluation = await self._evaluate_request_for_state(
-                request, current_state, current_metrics
-            )
+            state_evaluation = await self._evaluate_request_for_state(request, current_state, current_metrics)
 
             if state_evaluation["decision"] == "defer":
                 # Add to deferred queue
-                defer_until = datetime.now() + timedelta(
-                    minutes=state_evaluation.get("defer_minutes", 15)
-                )
+                defer_until = datetime.now() + timedelta(minutes=state_evaluation.get("defer_minutes", 15))
                 self.deferred_requests[user_id].append((request, defer_until))
 
                 return AttentionDecision(
@@ -432,9 +412,7 @@ class ΛBAS:
                 reasoning=[f"System error: {e!s}"],
             )
 
-    async def _check_boundary_violations(
-        self, user_id: str, request: AttentionRequest
-    ) -> dict[str, Any]:
+    async def _check_boundary_violations(self, user_id: str, request: AttentionRequest) -> dict[str, Any]:
         """Check if request violates any active boundaries"""
         active_boundaries = self.active_boundaries[user_id]
         current_metrics = self.attention_metrics[user_id]
@@ -463,8 +441,7 @@ class ΛBAS:
                 reason = "Temporal boundary violation"
 
             elif boundary.type == BoundaryType.CREATIVE and (
-                current_metrics.flow_probability >= boundary.threshold
-                and request.interruptibility < 0.5
+                current_metrics.flow_probability >= boundary.threshold and request.interruptibility < 0.5
             ):
                 violation = True
                 reason = "Creative flow protection - interruption would be disruptive"
@@ -480,9 +457,7 @@ class ΛBAS:
 
         return {"blocked": False}
 
-    async def _is_boundary_active(
-        self, boundary: AttentionBoundary, metrics: AttentionMetrics
-    ) -> bool:
+    async def _is_boundary_active(self, boundary: AttentionBoundary, metrics: AttentionMetrics) -> bool:
         """Check if boundary is currently active"""
         # Check if recently triggered and still in duration
         if boundary.last_triggered:
@@ -499,9 +474,7 @@ class ΛBAS:
         # Default to inactive
         return False
 
-    async def _check_temporal_boundary(
-        self, boundary: AttentionBoundary, request: AttentionRequest
-    ) -> bool:
+    async def _check_temporal_boundary(self, boundary: AttentionBoundary, request: AttentionRequest) -> bool:
         """Check temporal boundary violations"""
         # Implementation would depend on specific temporal rules
         # For now, simple time-of-day checking
@@ -541,9 +514,7 @@ class ΛBAS:
                 return {
                     "decision": "block",
                     "confidence": 0.95,
-                    "reasoning": [
-                        "Flow state protection - non-urgent, non-interruptible request blocked"
-                    ],
+                    "reasoning": ["Flow state protection - non-urgent, non-interruptible request blocked"],
                 }
 
         elif state == AttentionState.OVERLOADED:
@@ -785,9 +756,7 @@ class ΛBAS:
             return False
 
         original_count = len(self.active_boundaries[user_id])
-        self.active_boundaries[user_id] = [
-            b for b in self.active_boundaries[user_id] if b.id != boundary_id
-        ]
+        self.active_boundaries[user_id] = [b for b in self.active_boundaries[user_id] if b.id != boundary_id]
 
         removed = len(self.active_boundaries[user_id]) < original_count
         if removed:
@@ -852,9 +821,7 @@ if __name__ == "__main__":
         print(f"   State: {status['attention_state']}")
         print(f"   Focus Level: {status['metrics']['focus_level']:.2f}")
         print(f"   Cognitive Load: {status['metrics']['cognitive_load']:.2f}")
-        print(
-            f"   Active Boundaries: {status['boundaries']['active']}/{status['boundaries']['total']}"
-        )
+        print(f"   Active Boundaries: {status['boundaries']['active']}/{status['boundaries']['total']}")
 
         # System metrics
         system_metrics = abas.get_system_metrics()

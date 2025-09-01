@@ -72,9 +72,7 @@ class OrchestratorColony(BaseColony):
 
                 if task.id in colony.completed_tasks:
                     step_result = colony.completed_tasks[task.id].result
-                    workflow_result["results"].append(
-                        {"step": i, "colony": colony_name, "result": step_result}
-                    )
+                    workflow_result["results"].append({"step": i, "colony": colony_name, "result": step_result})
                     workflow_result["steps_completed"] += 1
                 else:
                     workflow_result["status"] = "failed"

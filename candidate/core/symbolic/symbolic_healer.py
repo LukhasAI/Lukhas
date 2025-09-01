@@ -162,14 +162,10 @@ class SymbolicHealer:
         )
 
         # Calculate severity
-        severity = self._calculate_severity(
-            drift_score, conflict_score, entropy_level, guardian_flagged
-        )
+        severity = self._calculate_severity(drift_score, conflict_score, entropy_level, guardian_flagged)
 
         # Identify affected and missing glyphs
-        affected_glyphs = [
-            g for g in glyph_trace if g in self.warning_glyphs or g in self.blocked_glyphs
-        ]
+        affected_glyphs = [g for g in glyph_trace if g in self.warning_glyphs or g in self.blocked_glyphs]
         missing_glyphs = list(self.trinity_core - set(glyph_trace))
 
         # Determine entropy state
@@ -192,14 +188,10 @@ class SymbolicHealer:
         healing_priority = self._determine_healing_priority(primary_issue, severity)
 
         # Generate symbolic prescription
-        prescription = self._generate_prescription(
-            primary_issue, missing_glyphs, affected_glyphs, entropy_state
-        )
+        prescription = self._generate_prescription(primary_issue, missing_glyphs, affected_glyphs, entropy_state)
 
         # Generate reasoning
-        reasoning = self._generate_reasoning(
-            primary_issue, drift_score, entropy_level, trinity_coherence
-        )
+        reasoning = self._generate_reasoning(primary_issue, drift_score, entropy_level, trinity_coherence)
 
         # Create diagnosis
         diagnosis = SymbolicDiagnosis(
@@ -256,9 +248,7 @@ class SymbolicHealer:
         else:
             return DiagnosisType.HALLUCINATION
 
-    def _calculate_severity(
-        self, drift: float, conflict: float, entropy: float, guardian: bool
-    ) -> float:
+    def _calculate_severity(self, drift: float, conflict: float, entropy: float, guardian: bool) -> float:
         """Calculate overall severity of symbolic issues"""
         base_severity = (drift + conflict + entropy) / 3.0
 
@@ -393,9 +383,7 @@ class SymbolicHealer:
         # Add healing suffix if severely damaged
         if severity > 0.7:
             healing_glyphs = self._select_healing_glyphs(primary_issue)
-            restored += (
-                f"\n\n{healing_glyphs} *Symbolic restoration applied - Trinity Framework aligned*"
-            )
+            restored += f"\n\n{healing_glyphs} *Symbolic restoration applied - Trinity Framework aligned*"
 
         # Ensure Trinity presence
         if not any(g in restored for g in self.trinity_core):

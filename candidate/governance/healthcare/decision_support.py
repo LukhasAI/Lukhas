@@ -135,15 +135,9 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             analysis = {
                 "timestamp": datetime.utcnow().isoformat(),
                 "case_id": case_data.get("case_id"),
-                "differential_diagnosis": await self._generate_differential(
-                    symptoms, medical_history, patient_context
-                ),
-                "risk_assessment": await self._assess_risk(
-                    symptoms, medical_history, patient_context
-                ),
-                "suggested_tests": await self._suggest_tests(
-                    symptoms, medical_history, patient_context
-                ),
+                "differential_diagnosis": await self._generate_differential(symptoms, medical_history, patient_context),
+                "risk_assessment": await self._assess_risk(symptoms, medical_history, patient_context),
+                "suggested_tests": await self._suggest_tests(symptoms, medical_history, patient_context),
                 "clinical_guidelines": await self._get_relevant_guidelines(symptoms),
                 "governance": {
                     "confidence_level": 0.85,
@@ -175,9 +169,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
         except Exception as e:
             logger.error(f"Error analyzing case: {e!s}")
             # Log error in governance audit trail
-            await self._log_governance_action(
-                "analysis_error", case_data.get("case_id"), {"error": str(e)}
-            )
+            await self._log_governance_action("analysis_error", case_data.get("case_id"), {"error": str(e)})
             raise
 
     async def get_recommendations(
@@ -202,9 +194,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                 "diagnosis": {
                     "suggested": analysis["differential_diagnosis"][:3],
                     "confidence": self._calculate_confidence(analysis),
-                    "supporting_evidence": await self._get_evidence(
-                        analysis["differential_diagnosis"][:3]
-                    ),
+                    "supporting_evidence": await self._get_evidence(analysis["differential_diagnosis"][:3]),
                     "governance": {
                         "human_verification_required": True,
                         "confidence_threshold_met": self._calculate_confidence(analysis) > 0.7,
@@ -213,9 +203,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                 },
                 "tests": {
                     "recommended": analysis["suggested_tests"],
-                    "priority": self._prioritize_tests(
-                        analysis["suggested_tests"], case_data.get("symptoms", [])
-                    ),
+                    "priority": self._prioritize_tests(analysis["suggested_tests"], case_data.get("symptoms", [])),
                     "governance": {
                         "cost_effectiveness_validated": True,
                         "patient_safety_confirmed": True,
@@ -402,9 +390,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             },
         }
 
-    def _prioritize_tests(
-        self, tests: list[dict[str, Any]], symptoms: list[str]
-    ) -> list[dict[str, Any]]:
+    def _prioritize_tests(self, tests: list[dict[str, Any]], symptoms: list[str]) -> list[dict[str, Any]]:
         """Prioritize suggested tests with governance considerations"""
 
         # Sort by urgency, evidence level, and governance requirements
@@ -443,9 +429,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             },
         }
 
-    async def _suggest_follow_up(
-        self, analysis: dict[str, Any], case_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _suggest_follow_up(self, analysis: dict[str, Any], case_data: dict[str, Any]) -> dict[str, Any]:
         """Suggest follow-up actions with governance oversight"""
         # TODO: Implement follow-up suggestion logic
         return {
@@ -475,9 +459,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "severe headache",
             "loss of consciousness",
         ]
-        return any(
-            symptom.lower() in [s.lower() for s in symptoms] for symptom in high_risk_symptoms
-        )
+        return any(symptom.lower() in [s.lower() for s in symptoms] for symptom in high_risk_symptoms)
 
     async def _check_emergency_conditions(self, analysis: dict[str, Any]) -> bool:
         """Check for emergency conditions requiring immediate escalation"""
@@ -506,26 +488,18 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
     def _get_escalation_rules(self, analysis: dict[str, Any]) -> dict[str, Any]:
         """Get escalation rules based on analysis"""
         return {
-            "immediate_escalation": analysis.get("governance", {}).get(
-                "emergency_escalation", False
-            ),
-            "human_review_required": analysis.get("governance", {}).get(
-                "human_review_required", False
-            ),
+            "immediate_escalation": analysis.get("governance", {}).get("emergency_escalation", False),
+            "human_review_required": analysis.get("governance", {}).get("human_review_required", False),
             "specialist_referral": False,  # TODO: Implement logic
             "emergency_services": analysis.get("governance", {}).get("emergency_escalation", False),
         }
 
-    async def _validate_recommendation_safety(
-        self, recommendations: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _validate_recommendation_safety(self, recommendations: dict[str, Any]) -> dict[str, Any]:
         """Validate recommendations against safety guidelines"""
         # TODO: Implement comprehensive safety validation
         return {"approved": True, "safety_score": 0.95, "warnings": [], "contraindications": []}
 
-    async def _log_governance_action(
-        self, action: str, case_id: Optional[str], metadata: dict[str, Any]
-    ):
+    async def _log_governance_action(self, action: str, case_id: Optional[str], metadata: dict[str, Any]):
         """Log action in governance audit trail"""
         audit_entry = {
             "timestamp": datetime.utcnow().isoformat(),

@@ -178,9 +178,7 @@ class DriftDashboard:
         self.remediation_log: deque[RemediationAction] = deque(maxlen=50)
 
         # Statistical tracking
-        self.component_stats = defaultdict(
-            lambda: {"mean": 0.0, "std": 0.0, "max": 0.0, "min": float("inf")}
-        )
+        self.component_stats = defaultdict(lambda: {"mean": 0.0, "std": 0.0, "max": 0.0, "min": float("inf")})
 
         # Pattern detection
         self.loop_detector = LoopPatternDetector()
@@ -254,9 +252,7 @@ class DriftDashboard:
             )
 
         # Generate 15-minute lookahead prediction
-        lookahead_prediction = self.cascade_predictor.predict_15min_lookahead(
-            self.drift_history, snapshot
-        )
+        lookahead_prediction = self.cascade_predictor.predict_15min_lookahead(self.drift_history, snapshot)
 
         # Check for future intervention requirements
         if lookahead_prediction.get("summary", {}).get("requires_immediate_action", False):
@@ -311,9 +307,7 @@ class DriftDashboard:
         # Generate 15-minute prediction for dashboard
         prediction_data = {}
         if current and len(self.drift_history) >= 10:
-            prediction_data = self.cascade_predictor.predict_15min_lookahead(
-                self.drift_history, current
-            )
+            prediction_data = self.cascade_predictor.predict_15min_lookahead(self.drift_history, current)
 
         return {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -677,9 +671,7 @@ class CascadePredictor:
 
         return min(cascade_risk, 1.0)
 
-    def predict_15min_lookahead(
-        self, history: deque[DriftSnapshot], current: DriftSnapshot
-    ) -> dict[str, Any]:
+    def predict_15min_lookahead(self, history: deque[DriftSnapshot], current: DriftSnapshot) -> dict[str, Any]:
         """
         Predict drift trajectory over next 15 minutes using trend analysis.
 
@@ -738,9 +730,7 @@ class CascadePredictor:
 
             # Calculate trend slope
             n = len(x)
-            trend_slope = (n * np.sum(x * y) - np.sum(x) * np.sum(y)) / (
-                n * np.sum(x**2) - (np.sum(x)) ** 2
-            )
+            trend_slope = (n * np.sum(x * y) - np.sum(x) * np.sum(y)) / (n * np.sum(x**2) - (np.sum(x)) ** 2)
             trend_intercept = np.mean(y) - trend_slope * np.mean(x)
 
             # Project 15 minutes into future (assuming 1-second intervals)
@@ -769,18 +759,14 @@ class CascadePredictor:
         confidence = confidence / len(predictions) if predictions else 0.0
 
         # Calculate future risk based on predicted values
-        predicted_total_drift = predictions.get("total", {}).get(
-            "predicted_15min", current.total_drift
-        )
+        predicted_total_drift = predictions.get("total", {}).get("predicted_15min", current.total_drift)
         future_risk = self._calculate_future_risk(predicted_total_drift, predictions)
 
         # Generate risk trajectory over 15-minute window
         trajectory = []
         for minute in range(0, 16, 3):  # Every 3 minutes for 15 minutes
             steps_ahead = minute * 60  # Convert to seconds
-            trajectory_drift = predictions["total"]["current"] + (
-                predictions["total"]["trend_slope"] * steps_ahead
-            )
+            trajectory_drift = predictions["total"]["current"] + (predictions["total"]["trend_slope"] * steps_ahead)
             trajectory_drift = max(0.0, min(1.0, trajectory_drift))
             trajectory_risk = self._calculate_future_risk(trajectory_drift, predictions)
 
@@ -801,9 +787,7 @@ class CascadePredictor:
                     {
                         "minutes_ahead": point["minutes_ahead"],
                         "risk_level": point["risk_level"],
-                        "recommended_action": self._recommend_intervention(
-                            point["predicted_drift"]
-                        ),
+                        "recommended_action": self._recommend_intervention(point["predicted_drift"]),
                     }
                 )
 
@@ -816,12 +800,8 @@ class CascadePredictor:
             "intervention_points": intervention_points,
             "summary": {
                 "predicted_peak_drift": max(point["predicted_drift"] for point in trajectory),
-                "time_to_critical": min(
-                    [p["minutes_ahead"] for p in intervention_points], default=None
-                ),
-                "overall_trend": predictions["total"]["trend_direction"]
-                if "total" in predictions
-                else "unknown",
+                "time_to_critical": min([p["minutes_ahead"] for p in intervention_points], default=None),
+                "overall_trend": predictions["total"]["trend_direction"] if "total" in predictions else "unknown",
                 "requires_immediate_action": future_risk > 0.8,
             },
         }
@@ -831,9 +811,7 @@ class CascadePredictor:
         base_risk = predicted_drift
 
         # Add component imbalance risk
-        component_values = [
-            pred.get("predicted_15min", 0.0) for pred in component_predictions.values()
-        ]
+        component_values = [pred.get("predicted_15min", 0.0) for pred in component_predictions.values()]
         if len(component_values) > 1:
             imbalance_risk = np.std(component_values) * 0.5
             base_risk += imbalance_risk

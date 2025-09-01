@@ -394,9 +394,7 @@ class Soul:
 
         return concepts
 
-    def _craft_haiku_from_thought(
-        self, thought: str, concepts: list[str], tone: EmotionalTone
-    ) -> str:
+    def _craft_haiku_from_thought(self, thought: str, concepts: list[str], tone: EmotionalTone) -> str:
         """Craft a haiku from a thought"""
         # Use predefined patterns if available
         if tone.value in ["contemplation", "error", "creation", "connection"]:
@@ -440,9 +438,7 @@ class Soul:
         # Develop the concepts
         for concept in concepts[:3]:  # Limit to 3 concepts for focus
             metaphor = random.choice(self.metaphors.get(concept, ["mystery"]))
-            sensory = random.choice(
-                self.sensory_palette[random.choice(["sight", "sound", "touch"])]
-            )
+            sensory = random.choice(self.sensory_palette[random.choice(["sight", "sound", "touch"])])
             lines.append(f"where {concept} becomes {metaphor},")
             lines.append(f"{sensory} and {tone.value},")
 

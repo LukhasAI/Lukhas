@@ -257,9 +257,7 @@ class QIColony(BaseColony):
         """Initialize quantum-enabled agents."""
         for i in range(count):
             agent_id = f"quantum-agent-{i}"
-            oscillator = QIBioOscillator(
-                frequency=PrimeOscillator.PRIMES[i % len(PrimeOscillator.PRIMES)]
-            )
+            oscillator = QIBioOscillator(frequency=PrimeOscillator.PRIMES[i % len(PrimeOscillator.PRIMES)])
 
             agent = QIAgent(agent_id, oscillator)
             self.agents[agent_id] = agent
@@ -302,9 +300,7 @@ class QIColony(BaseColony):
         self.logger.info(f"Created {count} entangled quantum agents")
         return agent_ids
 
-    async def execute_quantum_algorithm(
-        self, algorithm: str, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_quantum_algorithm(self, algorithm: str, params: dict[str, Any]) -> dict[str, Any]:
         """Execute a quantum-inspired algorithm across the colony."""
         self.logger.info(f"Executing quantum algorithm: {algorithm}")
 
@@ -464,9 +460,7 @@ class QIColony(BaseColony):
             "circuit_depth": depth,
         }
 
-    async def _generic_quantum_compute(
-        self, algorithm: str, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _generic_quantum_compute(self, algorithm: str, params: dict[str, Any]) -> dict[str, Any]:
         """Generic quantum computation using the colony."""
         # Distribute computation across quantum agents
         agent_tasks = []
@@ -567,9 +561,7 @@ class QIColony(BaseColony):
 
         return state
 
-    def _calculate_gradient(
-        self, hamiltonian: np.ndarray, state: np.ndarray, theta: np.ndarray
-    ) -> np.ndarray:
+    def _calculate_gradient(self, hamiltonian: np.ndarray, state: np.ndarray, theta: np.ndarray) -> np.ndarray:
         """Calculate gradient for VQE optimization."""
         gradient = np.zeros_like(theta)
         epsilon = 1e-4
@@ -590,9 +582,7 @@ class QIColony(BaseColony):
 
         return gradient
 
-    def _evaluate_qaoa(
-        self, graph: dict[str, list[str]], beta: np.ndarray, gamma: np.ndarray
-    ) -> float:
+    def _evaluate_qaoa(self, graph: dict[str, list[str]], beta: np.ndarray, gamma: np.ndarray) -> float:
         """Evaluate QAOA circuit for MaxCut problem."""
         # Simplified QAOA evaluation
         num_edges = sum(len(neighbors) for neighbors in graph.values()) // 2
@@ -650,17 +640,13 @@ class QIColony(BaseColony):
             result = await self.execute_quantum_algorithm(algorithm, params)
 
             # Send response
-            await self.comm_fabric.send_message(
-                message.sender_id, "qi_result", result, MessagePriority.HIGH
-            )
+            await self.comm_fabric.send_message(message.sender_id, "qi_result", result, MessagePriority.HIGH)
         except Exception as e:
             self.logger.error(f"Quantum computation failed: {e}")
 
             error_response = {"error": str(e), "algorithm": algorithm}
 
-            await self.comm_fabric.send_message(
-                message.sender_id, "qi_error", error_response, MessagePriority.HIGH
-            )
+            await self.comm_fabric.send_message(message.sender_id, "qi_error", error_response, MessagePriority.HIGH)
 
 
 # Example usage

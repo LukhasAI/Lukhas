@@ -112,9 +112,7 @@ def import_folds(
         # Verify spec version
         spec_version = header.get("spec", "unknown")
         if spec_version not in SUPPORTED_SPECS:
-            raise LKFPackVersionError(
-                f"Unsupported spec version: {spec_version} (supported: {SUPPORTED_SPECS})"
-            )
+            raise LKFPackVersionError(f"Unsupported spec version: {spec_version} (supported: {SUPPORTED_SPECS})")
 
         # Extract metadata
         codec = header.get("codec", "none")
@@ -143,9 +141,7 @@ def import_folds(
         if verify_crc:
             calculated_crc = binascii.crc32(payload) & 0xFFFFFFFF
             if calculated_crc != crc_given:
-                raise LKFPackIntegrityError(
-                    f"CRC mismatch - expected: {crc_given}, calculated: {calculated_crc}"
-                )
+                raise LKFPackIntegrityError(f"CRC mismatch - expected: {crc_given}, calculated: {calculated_crc}")
 
             # Also verify against header CRC if present
             if header_crc is not None and header_crc != crc_given:
@@ -290,9 +286,7 @@ def verify_lkf_pack(path: Path) -> dict[str, Any]:
         # Check entry count
         expected = header.get("entries", 0)
         if entry_count != expected:
-            report["warnings"].append(
-                f"Entry count mismatch: expected {expected}, found {entry_count}"
-            )
+            report["warnings"].append(f"Entry count mismatch: expected {expected}, found {entry_count}")
 
     except LKFPackError as e:
         report["errors"].append(str(e))

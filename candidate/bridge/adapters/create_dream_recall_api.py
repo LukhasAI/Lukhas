@@ -22,19 +22,13 @@ class DreamScenario(BaseModel):
     """Input scenario for dream exploration"""
 
     scenario: str = Field(..., description="The scenario to explore")
-    parallel_universes: int = Field(
-        5, ge=1, le=10, description="Number of parallel outcomes to generate"
-    )
-    emotional_context: dict[str, float] = Field(
-        default_factory=dict, description="Emotional state values 0-1"
-    )
+    parallel_universes: int = Field(5, ge=1, le=10, description="Number of parallel outcomes to generate")
+    emotional_context: dict[str, float] = Field(default_factory=dict, description="Emotional state values 0-1")
     time_horizons: list[str] = Field(
         default_factory=lambda: ["immediate"],
         description="Time periods to explore",
     )
-    constraints: Optional[dict[str, Any]] = Field(
-        None, description="Optional constraints on outcomes"
-    )
+    constraints: Optional[dict[str, Any]] = Field(None, description="Optional constraints on outcomes")
 
 
 class DreamOutcome(BaseModel):
@@ -46,9 +40,7 @@ class DreamOutcome(BaseModel):
     path: list[str]
     emotional_trajectory: dict[str, list[float]]
     key_decisions: list[dict[str, Any]]
-    emergence_factor: float = Field(
-        ..., ge=0, le=1, description="How surprising/emergent this outcome is"
-    )
+    emergence_factor: float = Field(..., ge=0, le=1, description="How surprising/emergent this outcome is")
 
 
 class DreamRecallResponse(BaseModel):
@@ -78,9 +70,7 @@ class LUKHASDreamEngine:
             universe_id = f"u{i + 1}_q{self.qi_state.randint(1000)}"
 
             # Generate unique outcome based on quantum fluctuations
-            outcome = await self._generate_outcome(
-                scenario.scenario, scenario.emotional_context, universe_id
-            )
+            outcome = await self._generate_outcome(scenario.scenario, scenario.emotional_context, universe_id)
 
             # Calculate emergence factor (how unexpected)
             emergence = self._calculate_emergence(outcome, scenario.scenario)
@@ -99,9 +89,7 @@ class LUKHASDreamEngine:
 
         return outcomes
 
-    async def _generate_outcome(
-        self, scenario: str, emotions: dict[str, float], universe_id: str
-    ) -> dict:
+    async def _generate_outcome(self, scenario: str, emotions: dict[str, float], universe_id: str) -> dict:
         """Generate a single outcome in a parallel universe"""
         # This is where LUKHAS's dream logic would generate scenarios
         # For demo, we'll create plausible variations
@@ -265,9 +253,7 @@ def extract_insights(outcomes: list[DreamOutcome], scenario: DreamScenario) -> l
     # Find most emergent outcome
     most_emergent = max(outcomes, key=lambda x: x.emergence_factor)
     if most_emergent.emergence_factor > 0.7:
-        insights.append(
-            f"Surprising possibility discovered in universe {most_emergent.universe_id}"
-        )
+        insights.append(f"Surprising possibility discovered in universe {most_emergent.universe_id}")
 
     # Analyze emotional patterns
     emotional_convergence = analyze_emotional_convergence(outcomes)

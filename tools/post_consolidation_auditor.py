@@ -104,24 +104,16 @@ class PostConsolidationAuditor:
                 audit_results["directory_analysis"][directory] = {"status": "NOT_FOUND"}
 
         # Perform comprehensive file analysis
-        audit_results["file_analysis"] = self._analyze_all_files(
-            audit_results["directory_analysis"]
-        )
+        audit_results["file_analysis"] = self._analyze_all_files(audit_results["directory_analysis"])
 
         # Categorize all components
-        audit_results["categorization_report"] = self._categorize_components(
-            audit_results["file_analysis"]
-        )
+        audit_results["categorization_report"] = self._categorize_components(audit_results["file_analysis"])
 
         # Identify unclassified components
-        audit_results["unclassified_components"] = self._identify_unclassified(
-            audit_results["categorization_report"]
-        )
+        audit_results["unclassified_components"] = self._identify_unclassified(audit_results["categorization_report"])
 
         # Generate recommendations
-        audit_results["consolidation_recommendations"] = self._generate_recommendations(
-            audit_results
-        )
+        audit_results["consolidation_recommendations"] = self._generate_recommendations(audit_results)
 
         # Calculate summary statistics
         audit_results["summary_statistics"] = self._calculate_statistics(audit_results)
@@ -203,9 +195,7 @@ class PostConsolidationAuditor:
                         print(f"⚠️  Warning: Could not access {file_path}: {e}")
 
             # Sort and limit largest files
-            analysis["largest_files"] = sorted(
-                analysis["largest_files"], key=lambda x: x[1], reverse=True
-            )[:10]
+            analysis["largest_files"] = sorted(analysis["largest_files"], key=lambda x: x[1], reverse=True)[:10]
             analysis["file_types_found"] = list(analysis["file_types_found"])
 
         except Exception as e:
@@ -456,9 +446,7 @@ class PostConsolidationAuditor:
 
         # Category distribution
         if audit_results["categorization_report"].get("category_statistics"):
-            for category, cat_stats in audit_results["categorization_report"][
-                "category_statistics"
-            ].items():
+            for category, cat_stats in audit_results["categorization_report"]["category_statistics"].items():
                 stats["files_by_category"][category] = cat_stats["file_count"]
 
         # Size calculations
@@ -576,9 +564,7 @@ class PostConsolidationAuditor:
 ### **Categorized Components:**
 """
 
-        for category, cat_stats in (
-            audit_results["categorization_report"].get("category_statistics", {}).items()
-        ):
+        for category, cat_stats in audit_results["categorization_report"].get("category_statistics", {}).items():
             report += f"""
 - **{category.upper()}:** {cat_stats["file_count"]} files ({cat_stats["total_size"]} bytes)
   - File types: {", ".join(cat_stats["file_types"])}
@@ -675,9 +661,7 @@ class PostConsolidationAuditor:
 ### **Complete File Inventory by Category:**
 """
 
-        for category, files in (
-            audit_results["detailed_inventory"].get("inventory_by_category", {}).items()
-        ):
+        for category, files in audit_results["detailed_inventory"].get("inventory_by_category", {}).items():
             if files:
                 report += f"""
 
@@ -741,9 +725,7 @@ class PostConsolidationAuditor:
 
         # Save detailed report
         report = self.generate_comprehensive_report(audit_results)
-        report_path = (
-            self.workspace_root / f"POST_CONSOLIDATION_AUDIT_REPORT_{self.audit_timestamp}.md"
-        )
+        report_path = self.workspace_root / f"POST_CONSOLIDATION_AUDIT_REPORT_{self.audit_timestamp}.md"
         with open(report_path, "w") as f:
             f.write(report)
 
@@ -777,9 +759,7 @@ def main():
     print(f"📁 Total Files Remaining: {stats.get('total_files_remaining', 0)}")
     print(f"📊 Total Size: {stats.get('total_size_remaining_mb', 0):.2f} MB")
     print(f"🏷️  Categorized Files: {sum(stats.get('files_by_category', {}).values())}")
-    print(
-        f"❓ Unclassified Files: {len(audit_results['unclassified_components']['unclassified_files'])}"
-    )
+    print(f"❓ Unclassified Files: {len(audit_results['unclassified_components']['unclassified_files'])}")
     print(f"🔄 Recommendations: {len(audit_results['consolidation_recommendations'])}")
 
     # Show top recommendations

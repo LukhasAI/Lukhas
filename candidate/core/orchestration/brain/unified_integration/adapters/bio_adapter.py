@@ -74,9 +74,7 @@ class BioInspiredAdapter:
         except Exception as e:
             logger.error(f"Error handling message: {e}")
 
-    async def apply_attention(
-        self, target_id: str, attention_params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def apply_attention(self, target_id: str, attention_params: dict[str, Any]) -> dict[str, Any]:
         """Apply quantum attention to target
 
         Args:
@@ -101,9 +99,7 @@ class BioInspiredAdapter:
             "gradient_state": self.bio_metrics["proton_gradient"],
         }
 
-    async def allocate_resources(
-        self, request_id: str, resource_type: str, priority: str = "normal"
-    ) -> dict[str, Any]:
+    async def allocate_resources(self, request_id: str, resource_type: str, priority: str = "normal") -> dict[str, Any]:
         """Bio-inspired resource allocation
 
         Args:

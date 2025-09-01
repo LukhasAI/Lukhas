@@ -205,9 +205,7 @@ class GLYPHEngine:
             logger.error(f"Failed to register custom GLYPH: {e}")
             return False
 
-    def create_token(
-        self, glyph: str, meaning: Optional[str] = None, context: Optional[str] = None
-    ) -> GLYPHToken:
+    def create_token(self, glyph: str, meaning: Optional[str] = None, context: Optional[str] = None) -> GLYPHToken:
         """Create a GLYPH token"""
         # Check cache first
         cache_key = f"{glyph}:{meaning}:{context}"
@@ -241,9 +239,7 @@ class GLYPHEngine:
 
         return GLYPHSequence(tokens=tokens)
 
-    def create_sequence(
-        self, glyphs: list[str], meanings: Optional[list[str]] = None
-    ) -> GLYPHSequence:
+    def create_sequence(self, glyphs: list[str], meanings: Optional[list[str]] = None) -> GLYPHSequence:
         """Create a GLYPH sequence from a list of glyphs"""
         tokens = []
 

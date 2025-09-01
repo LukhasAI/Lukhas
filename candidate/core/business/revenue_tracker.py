@@ -104,22 +104,16 @@ class RevenueTracker:
         """
 
         # Get commission rate for product category
-        commission_rate = self.commission_rates.get(
-            product_category, self.commission_rates["default"]
-        )
+        commission_rate = self.commission_rates.get(product_category, self.commission_rates["default"])
 
         # Apply consciousness-based adjustments
         if consciousness_context:
-            commission_rate = await self._adjust_commission_for_consciousness(
-                commission_rate, consciousness_context
-            )
+            commission_rate = await self._adjust_commission_for_consciousness(commission_rate, consciousness_context)
 
         # Calculate earnings
         total_commission = conversion_value * commission_rate
         user_earnings = total_commission * (self.profit_sharing_config["user_percentage"] / 100.0)
-        platform_earnings = total_commission * (
-            self.profit_sharing_config["platform_percentage"] / 100.0
-        )
+        platform_earnings = total_commission * (self.profit_sharing_config["platform_percentage"] / 100.0)
 
         # Generate conversion ID
         conversion_id = self._generate_conversion_id(user_id, ad_id, datetime.now())
@@ -179,24 +173,18 @@ class RevenueTracker:
             }
 
         # Check payout eligibility
-        eligible_for_payout = (
-            user_earnings.pending_payout >= self.profit_sharing_config["minimum_payout"]
-        )
+        eligible_for_payout = user_earnings.pending_payout >= self.profit_sharing_config["minimum_payout"]
 
         # Calculate recent performance (last 30 days)
         thirty_days_ago = datetime.now() - timedelta(days=30)
-        recent_conversions = [
-            c for c in user_earnings.earnings_history if c.timestamp > thirty_days_ago
-        ]
+        recent_conversions = [c for c in user_earnings.earnings_history if c.timestamp > thirty_days_ago]
         recent_earnings = sum(c.user_earnings for c in recent_conversions)
 
         # Top performing product categories
         category_earnings = {}
         for conversion in user_earnings.earnings_history:
             category = conversion.product_metadata.get("category", "unknown")
-            category_earnings[category] = (
-                category_earnings.get(category, 0) + conversion.user_earnings
-            )
+            category_earnings[category] = category_earnings.get(category, 0) + conversion.user_earnings
 
         top_categories = sorted(category_earnings.items(), key=lambda x: x[1], reverse=True)[:5]
 
@@ -206,17 +194,13 @@ class RevenueTracker:
             "pending_payout": user_earnings.pending_payout,
             "paid_out": user_earnings.paid_out,
             "conversion_count": user_earnings.conversion_count,
-            "last_conversion": user_earnings.last_conversion.isoformat()
-            if user_earnings.last_conversion
-            else None,
+            "last_conversion": user_earnings.last_conversion.isoformat() if user_earnings.last_conversion else None,
             "eligible_for_payout": eligible_for_payout,
             "minimum_payout_threshold": self.profit_sharing_config["minimum_payout"],
             "recent_performance_30d": {
                 "earnings": recent_earnings,
                 "conversions": len(recent_conversions),
-                "avg_commission_value": recent_earnings / len(recent_conversions)
-                if recent_conversions
-                else 0,
+                "avg_commission_value": recent_earnings / len(recent_conversions) if recent_conversions else 0,
             },
             "top_performing_categories": top_categories,
         }
@@ -271,9 +255,7 @@ class RevenueTracker:
             }
 
         # Calculate platform metrics
-        avg_conversion_value = (
-            self.platform_revenue["total_revenue"] / self.platform_revenue["total_conversions"]
-        )
+        avg_conversion_value = self.platform_revenue["total_revenue"] / self.platform_revenue["total_conversions"]
 
         # Calculate ROI (assuming $0.50 average cost per user per day)
         estimated_user_cost = len(self.user_earnings) * 0.50  # Daily cost
@@ -287,19 +269,13 @@ class RevenueTracker:
         category_revenue = {}
         for conversion in self.conversion_history:
             category = conversion.product_metadata.get("category", "unknown")
-            category_revenue[category] = (
-                category_revenue.get(category, 0) + conversion.conversion_value
-            )
+            category_revenue[category] = category_revenue.get(category, 0) + conversion.conversion_value
 
         top_categories = sorted(category_revenue.items(), key=lambda x: x[1], reverse=True)[:5]
 
         # User engagement metrics
         active_earners = len([u for u in self.user_earnings.values() if u.conversion_count > 0])
-        avg_user_earnings = (
-            self.platform_revenue["total_user_earnings"] / active_earners
-            if active_earners > 0
-            else 0
-        )
+        avg_user_earnings = self.platform_revenue["total_user_earnings"] / active_earners if active_earners > 0 else 0
 
         return {
             "total_revenue": self.platform_revenue["total_revenue"],

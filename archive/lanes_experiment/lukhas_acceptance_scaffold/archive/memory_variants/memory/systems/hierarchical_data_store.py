@@ -96,13 +96,9 @@ class MemoryNode:
     checksum: Optional[str] = None
     # Collapse state tracking fields (Task 6 - Claude Code)
     collapse_trace_id: Optional[str] = None  # Links to collapse events
-    collapse_score_history: list[tuple[datetime, float]] = field(
-        default_factory=list
-    )  # History of collapse scores
+    collapse_score_history: list[tuple[datetime, float]] = field(default_factory=list)  # History of collapse scores
     collapse_alert_level: Optional[str] = None  # Current alert level (GREEN/YELLOW/ORANGE/RED)
-    collapse_metadata: dict[str, Any] = field(
-        default_factory=dict
-    )  # Additional collapse-related data
+    collapse_metadata: dict[str, Any] = field(default_factory=dict)  # Additional collapse-related data
 
 
 @dataclass
@@ -428,9 +424,7 @@ class HierarchicalDataStore:
             node.content = json.loads(zlib.decompress(compressed_data).decode())
         else:
             # For lossy compression, reconstruct from compressed form
-            node.content = await self._reconstruct_from_compressed(
-                compressed_data, node.compression_level
-            )
+            node.content = await self._reconstruct_from_compressed(compressed_data, node.compression_level)
 
         node.is_compressed = False
 
@@ -460,9 +454,7 @@ class HierarchicalDataStore:
         # Placeholder for symbolic compression
         symbol = {
             "type": "symbol",
-            "id": hashlib.sha256(str(content).encode()).hexdigest()[
-                :8
-            ],  # Changed from MD5 for security
+            "id": hashlib.sha256(str(content).encode()).hexdigest()[:8],  # Changed from MD5 for security
         }
         return json.dumps(symbol).encode()
 
@@ -560,9 +552,7 @@ class HierarchicalDataStore:
             # Calculate pruning score
             age_days = (current_time - node.created_at).days
             access_days = (current_time - node.last_accessed).days
-            prune_score = (age_days * access_days) / (
-                node.importance_score * (node.access_count + 1)
-            )
+            prune_score = (age_days * access_days) / (node.importance_score * (node.access_count + 1))
 
             if prune_score > 1000:  # Threshold for pruning
                 candidates.append((prune_score, node_id))
@@ -657,9 +647,7 @@ class HierarchicalDataStore:
                     }
                     for node_id, node in self.nodes.items()
                 },
-                "compression_cache": {
-                    node_id: data.hex() for node_id, data in self.compression_cache.items()
-                },
+                "compression_cache": {node_id: data.hex() for node_id, data in self.compression_cache.items()},
                 "metrics": self.metrics,
             }
 
@@ -827,24 +815,16 @@ class HierarchicalDataStore:
         ) / (1024 * 1024)
 
         # Count collapse-affected nodes
-        collapse_affected = sum(
-            1 for node in self.nodes.values() if node.collapse_trace_id is not None
-        )
-        high_risk_count = len(
-            [n for n in self.nodes.values() if n.collapse_alert_level in ["ORANGE", "RED"]]
-        )
+        collapse_affected = sum(1 for node in self.nodes.values() if node.collapse_trace_id is not None)
+        high_risk_count = len([n for n in self.nodes.values() if n.collapse_alert_level in ["ORANGE", "RED"]])
 
         return {
             "total_nodes": self.metrics["total_nodes"],
             "compressed_nodes": self.metrics["compressed_nodes"],
             "memory_usage_mb": round(memory_usage_mb, 2),
             "compression_ratio": f"{self.metrics['compression_ratio']:.2%}",
-            "cache_hit_rate": (
-                f"{self.metrics['cache_hits'] / max(1, self.metrics['total_accesses']):.2%}"
-            ),
-            "tier_distribution": {
-                tier.value: len(nodes) for tier, nodes in self.tier_indices.items()
-            },
+            "cache_hit_rate": (f"{self.metrics['cache_hits'] / max(1, self.metrics['total_accesses']):.2%}"),
+            "tier_distribution": {tier.value: len(nodes) for tier, nodes in self.tier_indices.items()},
             "pruned_total": self.metrics["pruned_nodes"],
             # Collapse state metrics
             "collapse_affected_nodes": collapse_affected,

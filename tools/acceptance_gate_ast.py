@@ -201,9 +201,7 @@ class ImportScannerAST(ast.NodeVisitor):
         self.generic_visit(node)
 
 
-def analyze_facade_pattern(
-    file_path: pathlib.Path, tree: ast.AST, source: str
-) -> tuple[bool, float, dict[str, Any]]:
+def analyze_facade_pattern(file_path: pathlib.Path, tree: ast.AST, source: str) -> tuple[bool, float, dict[str, Any]]:
     """
     Analyze file for facade pattern using multiple heuristics.
     Returns: (is_facade, facade_score, analysis_details)
@@ -241,9 +239,7 @@ def analyze_facade_pattern(
     is_small = total_lines <= 40
     is_import_heavy = import_ratio > 0.6
     is_low_complexity = code_complexity <= 2
-    has_banned_imports = any(
-        node for node in ast.walk(tree) if isinstance(node, (ast.Import, ast.ImportFrom))
-    )
+    has_banned_imports = any(node for node in ast.walk(tree) if isinstance(node, (ast.Import, ast.ImportFrom)))
 
     # Calculate composite facade score
     facade_score = 0.0
@@ -288,9 +284,7 @@ def scan_file_comprehensive(file_path: pathlib.Path, audit: AuditTrail) -> dict[
     scanner.visit(tree)
 
     audit.stats["files_scanned"] += 1
-    audit.stats["total_imports"] += (
-        len(scanner.imports) + len(scanner.from_imports) + len(scanner.dynamic_imports)
-    )
+    audit.stats["total_imports"] += len(scanner.imports) + len(scanner.from_imports) + len(scanner.dynamic_imports)
 
     # Record violations
     for violation in scanner.violations:
@@ -362,9 +356,7 @@ def main():
             print(f"  {facade['file']} - score: {facade['facade_score']:.2f}")
 
     print(f"\n📋 Detailed audit report: {report_path}")
-    print(
-        f"🎯 Compliance status: {'READY' if final_report['compliance_status']['accepts_ready'] else 'NEEDS WORK'}"
-    )
+    print(f"🎯 Compliance status: {'READY' if final_report['compliance_status']['accepts_ready'] else 'NEEDS WORK'}")
 
     # Exit with appropriate code for CI integration
     exit_code = 0 if len(audit.violations) == 0 else 2

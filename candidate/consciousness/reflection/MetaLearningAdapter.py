@@ -215,15 +215,11 @@ class MetaLearningEnhancementAdapter:
             enhancement_results["learning_rate"] = rate_results
 
             # 2. Federated Learning Coordination
-            federated_results = await self._enhance_federated_learning(
-                current_metrics, system_feedback
-            )
+            federated_results = await self._enhance_federated_learning(current_metrics, system_feedback)
             enhancement_results["federated"] = federated_results
 
             # 3. Symbolic Feedback Processing
-            symbolic_results = await self._enhance_symbolic_feedback(
-                current_metrics, system_feedback
-            )
+            symbolic_results = await self._enhance_symbolic_feedback(current_metrics, system_feedback)
             enhancement_results["symbolic"] = symbolic_results
 
             # 4. Performance Dashboard Update
@@ -242,18 +238,14 @@ class MetaLearningEnhancementAdapter:
             # Update phase based on results
             await self._update_learning_phase(enhancement_results)
 
-            logger.info(
-                f"✅ Meta-learning enhancement completed: {overall_enhancement.get('adaptation', 0.0):.3f}"
-            )
+            logger.info(f"✅ Meta-learning enhancement completed: {overall_enhancement.get('adaptation', 0.0):.3f}")
             return enhancement_results
 
         except Exception as e:
             logger.error(f"❌ Meta-learning enhancement failed: {e}")
             return {"success": False, "error": str(e), "adaptation": 0.0}
 
-    async def process_biological_feedback(
-        self, topology_features: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_biological_feedback(self, topology_features: dict[str, Any]) -> dict[str, Any]:
         """Process biological feedback from Crista Optimizer"""
         try:
             logger.debug("Processing biological feedback from Crista Optimizer")
@@ -288,9 +280,7 @@ class MetaLearningEnhancementAdapter:
             logger.error(f"Failed to process biological feedback: {e}")
             return {"success": False, "error": str(e)}
 
-    async def _enhance_learning_rate(
-        self, metrics: dict[str, Any], feedback: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _enhance_learning_rate(self, metrics: dict[str, Any], feedback: dict[str, Any]) -> dict[str, Any]:
         """Enhance learning rate based on current performance"""
         current_rate = self.current_metrics.current_learning_rate
         performance = metrics.get("overall_performance", 0.5)
@@ -334,9 +324,7 @@ class MetaLearningEnhancementAdapter:
             "adaptation": self.current_metrics.learning_rate_adaptation,
         }
 
-    async def _enhance_federated_learning(
-        self, metrics: dict[str, Any], feedback: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _enhance_federated_learning(self, metrics: dict[str, Any], feedback: dict[str, Any]) -> dict[str, Any]:
         """Enhance federated learning coordination"""
         # Simulate federated node coordination
         target_nodes = 5
@@ -384,9 +372,7 @@ class MetaLearningEnhancementAdapter:
             "federated_state": self.current_metrics.federated_state.value,
         }
 
-    async def _enhance_symbolic_feedback(
-        self, metrics: dict[str, Any], feedback: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _enhance_symbolic_feedback(self, metrics: dict[str, Any], feedback: dict[str, Any]) -> dict[str, Any]:
         """Enhance symbolic feedback loops"""
         # Process intent node integration
         intent_integration = await self._process_intent_nodes(feedback)
@@ -432,9 +418,7 @@ class MetaLearningEnhancementAdapter:
             "feedback_buffer_size": len(self.symbolic_feedback_buffer),
         }
 
-    async def _update_performance_dashboard(
-        self, enhancement_results: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _update_performance_dashboard(self, enhancement_results: dict[str, Any]) -> dict[str, Any]:
         """Update performance monitoring dashboard"""
         # Calculate overall performance metrics
         learning_rate_perf = enhancement_results.get("learning_rate", {}).get("adaptation", 0.0)
@@ -615,8 +599,7 @@ class MetaLearningEnhancementAdapter:
             return 1.0
 
         recent_rates = [
-            entry.get("new_rate", self.current_metrics.current_learning_rate)
-            for entry in self.adaptation_history[-10:]
+            entry.get("new_rate", self.current_metrics.current_learning_rate) for entry in self.adaptation_history[-10:]
         ]
 
         if len(recent_rates) < 2:
@@ -707,9 +690,7 @@ class MetaLearningEnhancementAdapter:
         if len(self.performance_history) < 2:
             return 0.0
 
-        recent_performances = [
-            entry["overall_performance"] for entry in self.performance_history[-5:]
-        ]
+        recent_performances = [entry["overall_performance"] for entry in self.performance_history[-5:]]
 
         if len(recent_performances) < 2:
             return 0.0
@@ -734,19 +715,13 @@ class MetaLearningEnhancementAdapter:
 
         # Add symbolic feedback stability
         if len(self.symbolic_feedback_buffer) > 0:
-            recent_qualities = [
-                entry.get("symbolic_quality", 0.5) for entry in self.symbolic_feedback_buffer[-10:]
-            ]
-            symbolic_stability = (
-                1.0 - np.std(recent_qualities) if len(recent_qualities) > 1 else 0.5
-            )
+            recent_qualities = [entry.get("symbolic_quality", 0.5) for entry in self.symbolic_feedback_buffer[-10:]]
+            symbolic_stability = 1.0 - np.std(recent_qualities) if len(recent_qualities) > 1 else 0.5
         else:
             symbolic_stability = 0.5
 
         # Weighted combination
-        overall_stability = (
-            0.4 * rate_stability + 0.3 * federated_stability + 0.3 * symbolic_stability
-        )
+        overall_stability = 0.4 * rate_stability + 0.3 * federated_stability + 0.3 * symbolic_stability
 
         return overall_stability
 
@@ -768,9 +743,7 @@ class MetaLearningEnhancementAdapter:
         symbolic_adaptation = enhancement_results.get("symbolic", {}).get("symbolic_quality", 0.0)
 
         # Weighted overall adaptation
-        overall_adaptation = (
-            0.4 * learning_adaptation + 0.3 * federated_adaptation + 0.3 * symbolic_adaptation
-        )
+        overall_adaptation = 0.4 * learning_adaptation + 0.3 * federated_adaptation + 0.3 * symbolic_adaptation
 
         # Success criteria
         success = overall_adaptation > 0.5
@@ -782,11 +755,7 @@ class MetaLearningEnhancementAdapter:
             "federated_contribution": federated_adaptation,
             "symbolic_contribution": symbolic_adaptation,
             "enhancement_quality": (
-                "high"
-                if overall_adaptation > 0.8
-                else "medium"
-                if overall_adaptation > 0.5
-                else "low"
+                "high" if overall_adaptation > 0.8 else "medium" if overall_adaptation > 0.5 else "low"
             ),
         }
 

@@ -326,9 +326,7 @@ class TieredStateManager:
         if sync_direction in ["to_persistent", "bidirectional"]:
             # Save actor state to persistent store
             actor_state = (
-                getattr(actor, "state", {})
-                if hasattr(actor, "state")
-                else self.local_states.get(actor_id, {})
+                getattr(actor, "state", {}) if hasattr(actor, "state") else self.local_states.get(actor_id, {})
             )
 
             if actor_state:
@@ -340,9 +338,7 @@ class TieredStateManager:
                     metadata={"sync_time": time.time()},
                 )
 
-    def subscribe_to_replicated_state(
-        self, aggregate_id: str, callback: Callable[[str, dict[str, Any]], None]
-    ) -> None:
+    def subscribe_to_replicated_state(self, aggregate_id: str, callback: Callable[[str, dict[str, Any]], None]) -> None:
         """Subscribe to changes in replicated state"""
         self.replication_subscribers[aggregate_id].add(callback)
 
@@ -372,9 +368,7 @@ class TieredStateManager:
 
         # Get events since snapshot
         if hasattr(self.event_store, "get_events"):
-            events = self.event_store.get_events(
-                aggregate_id, start_version=start_version, end_version=version
-            )
+            events = self.event_store.get_events(aggregate_id, start_version=start_version, end_version=version)
         else:
             events = []
 
@@ -422,9 +416,7 @@ class TieredStateManager:
         if event_count % self.snapshot_interval == 0:
             await self.create_snapshot(aggregate_id)
 
-    async def _notify_replication_subscribers(
-        self, aggregate_id: str, updates: dict[str, Any]
-    ) -> None:
+    async def _notify_replication_subscribers(self, aggregate_id: str, updates: dict[str, Any]) -> None:
         """Notify subscribers of replicated state changes"""
         subscribers = self.replication_subscribers.get(aggregate_id, set()).copy()
 
@@ -467,9 +459,7 @@ class StateCoordinator:
         self.actor_states: dict[str, str] = {}  # actor_id -> aggregate_id mapping
         self._sync_tasks: dict[str, asyncio.Task] = {}
 
-    async def register_actor(
-        self, actor: Any, aggregate_id: Optional[str] = None, auto_sync: bool = True
-    ) -> str:
+    async def register_actor(self, actor: Any, aggregate_id: Optional[str] = None, auto_sync: bool = True) -> str:
         """Register an actor with the state coordinator"""
         actor_id = getattr(actor, "actor_id", str(actor))
 
@@ -537,9 +527,7 @@ class StateCoordinator:
 
             return all(results)
 
-    async def _two_phase_commit(
-        self, actor_ids: list[str], updates: dict[str, dict[str, Any]]
-    ) -> bool:
+    async def _two_phase_commit(self, actor_ids: list[str], updates: dict[str, dict[str, Any]]) -> bool:
         """Implement two-phase commit for strong consistency"""
         # Phase 1: Prepare
         prepared = []

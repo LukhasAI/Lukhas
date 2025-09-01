@@ -600,9 +600,7 @@ class DynamicModalityBroker:
             await self._trigger_event("error_occurred", {"error": str(e), "modality": modality})
             return False
 
-    async def broadcast_data(
-        self, data: ModalityData, modality_filter: Optional[Callable] = None
-    ) -> dict[str, bool]:
+    async def broadcast_data(self, data: ModalityData, modality_filter: Optional[Callable] = None) -> dict[str, bool]:
         """Broadcast data to multiple modalities"""
 
         results = {}
@@ -737,14 +735,10 @@ class DynamicModalityBroker:
         """Get comprehensive broker status"""
         return {
             "running": self._running,
-            "registered_modalities": {
-                mid: modality.to_dict() for mid, modality in self.registered_modalities.items()
-            },
+            "registered_modalities": {mid: modality.to_dict() for mid, modality in self.registered_modalities.items()},
             "data_routes": self.data_routes,
             "metrics": self.broker_metrics.copy(),
-            "uptime_seconds": (
-                datetime.now(timezone.utc) - self.broker_metrics["uptime_start"]
-            ).total_seconds(),
+            "uptime_seconds": (datetime.now(timezone.utc) - self.broker_metrics["uptime_start"]).total_seconds(),
         }
 
     def get_capabilities_summary(self) -> dict[str, list[dict]]:

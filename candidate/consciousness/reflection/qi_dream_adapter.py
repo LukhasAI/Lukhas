@@ -214,9 +214,7 @@ class QIDreamAdapter:
             return self._last_processed_state
         return {"coherence": 0.0, "insights": [], "timestamp": None}
 
-    async def enhance_emotional_state(
-        self, emotional_context: dict[str, float]
-    ) -> dict[str, float]:
+    async def enhance_emotional_state(self, emotional_context: dict[str, float]) -> dict[str, float]:
         """Enhance emotional state using quantum-inspired processing
 
         Args:
@@ -230,9 +228,7 @@ class QIDreamAdapter:
             emotion_qubits = await self.dream_oscillator.encode_emotional_state(emotional_context)
 
             # Apply quantum transformations to find hidden correlations
-            transformed = await self.dream_oscillator.apply_emotional_transformations(
-                emotion_qubits
-            )
+            transformed = await self.dream_oscillator.apply_emotional_transformations(emotion_qubits)
 
             # Extract enhanced emotional state
             enhanced = await self.dream_oscillator.measure_emotional_state(transformed)
@@ -314,9 +310,7 @@ class QIDreamAdapter:
             Dict containing convergent insights from all parallel paths
         """
         try:
-            logger.info(
-                f"Starting multiverse dream simulation with {parallel_paths} parallel paths"
-            )
+            logger.info(f"Starting multiverse dream simulation with {parallel_paths} parallel paths")
 
             # Initialize parallel dream paths
             parallel_dreams = []
@@ -378,8 +372,7 @@ class QIDreamAdapter:
                 "parallel_dreams": completed_dreams,
                 "convergent_insights": convergent_insights,
                 "overall_coherence": overall_coherence,
-                "quantum_superposition_achieved": overall_coherence
-                > self.config.coherence_threshold,
+                "quantum_superposition_achieved": overall_coherence > self.config.coherence_threshold,
                 "timestamp": datetime.utcnow().isoformat(),
             }
 
@@ -464,33 +457,25 @@ class QIDreamAdapter:
                 "branches": branches,
                 "coherence": await self.dream_oscillator.measure_coherence(),
                 "ethical_outcome": self._evaluate_ethical_outcome(path_insights, path_config),
-                "emotional_resonance": self._evaluate_emotional_resonance(
-                    path_insights, path_config
-                ),
+                "emotional_resonance": self._evaluate_emotional_resonance(path_insights, path_config),
                 "timestamp": datetime.utcnow().isoformat(),
             }
 
         except Exception as e:
-            logger.error(
-                f"Dream path simulation failed for {path_config.get('path_id', 'unknown')}: {e}"
-            )
+            logger.error(f"Dream path simulation failed for {path_config.get('path_id', 'unknown')}: {e}")
             return {
                 "success": False,
                 "path_id": path_config.get("path_id", "unknown"),
                 "error": str(e),
             }
 
-    async def _apply_lens_transformations(
-        self, quantum_state: Any, path_config: dict[str, Any]
-    ) -> Any:
+    async def _apply_lens_transformations(self, quantum_state: Any, path_config: dict[str, Any]) -> Any:
         """Apply lens-specific transformations to quantum state"""
         # Implementation would apply different transformations based on ethical,
         # emotional, and contextual lenses
         return await self.dream_oscillator.apply_transformations(quantum_state)
 
-    async def _extract_path_insights(
-        self, transformed_state: Any, path_config: dict[str, Any]
-    ) -> list[dict]:
+    async def _extract_path_insights(self, transformed_state: Any, path_config: dict[str, Any]) -> list[dict]:
         """Extract insights specific to dream path configuration"""
         base_insights = await self._extract_insights(transformed_state)
 
@@ -508,9 +493,7 @@ class QIDreamAdapter:
 
         return enhanced_insights
 
-    async def _simulate_dream_branches(
-        self, path_config: dict[str, Any], current_state: Any
-    ) -> list[dict]:
+    async def _simulate_dream_branches(self, path_config: dict[str, Any], current_state: Any) -> list[dict]:
         """Simulate additional branches from current dream state"""
         # For demonstration, create 2 branches per path
         branches = []
@@ -536,9 +519,7 @@ class QIDreamAdapter:
 
         return branches
 
-    def _evaluate_ethical_outcome(
-        self, insights: list[dict], path_config: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_ethical_outcome(self, insights: list[dict], path_config: dict[str, Any]) -> dict[str, Any]:
         """Evaluate ethical outcome of dream path"""
         return {
             "ethical_lens": path_config["ethical_lens"],
@@ -547,9 +528,7 @@ class QIDreamAdapter:
             "ethical_strengths": ["coherent_reasoning", "harm_minimization"],
         }
 
-    def _evaluate_emotional_resonance(
-        self, insights: list[dict], path_config: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_emotional_resonance(self, insights: list[dict], path_config: dict[str, Any]) -> dict[str, Any]:
         """Evaluate emotional resonance of dream path"""
         return {
             "emotional_lens": path_config["emotional_lens"],
@@ -593,9 +572,7 @@ class QIDreamAdapter:
                 "emotional_synthesis": emotional_synthesis,
                 "meta_insights": meta_insights,
                 "total_insights_processed": len(all_insights),
-                "successful_paths": len(
-                    [d for d in completed_dreams if d["result"].get("success", False)]
-                ),
+                "successful_paths": len([d for d in completed_dreams if d["result"].get("success", False)]),
                 "convergence_strength": self._calculate_convergence_strength(convergent_patterns),
             }
 
@@ -629,8 +606,7 @@ class QIDreamAdapter:
                     {
                         "pattern": pattern_data["pattern"],
                         "convergence_count": pattern_data["count"],
-                        "average_confidence": pattern_data["confidence_sum"]
-                        / pattern_data["count"],
+                        "average_confidence": pattern_data["confidence_sum"] / pattern_data["count"],
                         "appearing_paths": pattern_data["paths"],
                     }
                 )
@@ -679,9 +655,7 @@ class QIDreamAdapter:
             lens_resonances[lens].append(score)
 
         # Calculate average resonances per lens
-        lens_averages = {
-            lens: sum(scores) / len(scores) for lens, scores in lens_resonances.items()
-        }
+        lens_averages = {lens: sum(scores) / len(scores) for lens, scores in lens_resonances.items()}
 
         return {
             "lens_resonances": lens_averages,

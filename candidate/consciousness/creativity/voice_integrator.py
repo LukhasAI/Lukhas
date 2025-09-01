@@ -81,9 +81,7 @@ class EnhancedVoiceIntegrator:
 
         logger.info("Enhanced voice integrator initialized")
 
-    async def process_voice(
-        self, audio_data: bytes, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def process_voice(self, audio_data: bytes, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Process voice input with quantum enhancement
 
         Args:
@@ -103,9 +101,7 @@ class EnhancedVoiceIntegrator:
 
         # Quantum emotion enhancement if available
         if self.qi_enhancer:
-            emotion = await self._enhance_emotion(
-                result.get("emotion"), result.get("emotion_confidence", 0.0), ctx
-            )
+            emotion = await self._enhance_emotion(result.get("emotion"), result.get("emotion_confidence", 0.0), ctx)
             if emotion:
                 result["emotion"] = emotion
                 result["qi_enhanced"] = True
@@ -116,9 +112,7 @@ class EnhancedVoiceIntegrator:
 
         return result
 
-    async def generate_speech(
-        self, text: str, voice_params: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def generate_speech(self, text: str, voice_params: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Generate speech output with quantum enhancement
 
         Args:
@@ -153,9 +147,7 @@ class EnhancedVoiceIntegrator:
 
         return result
 
-    async def _basic_voice_processing(
-        self, audio_data: bytes, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _basic_voice_processing(self, audio_data: bytes, context: dict[str, Any]) -> dict[str, Any]:
         """Perform basic voice processing without quantum enhancement"""
         try:
             # Voice recognition
@@ -269,9 +261,7 @@ class EnhancedVoiceIntegrator:
         # Select profile based on context
         return self.profile_manager.select_profile_for_context(params)
 
-    def _adapt_cultural_context(
-        self, result: dict[str, Any], params: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _adapt_cultural_context(self, result: dict[str, Any], params: dict[str, Any]) -> dict[str, Any]:
         """Apply cultural adaptation to synthesis result"""
         if not result["success"]:
             return result

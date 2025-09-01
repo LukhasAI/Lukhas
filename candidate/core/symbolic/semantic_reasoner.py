@@ -97,9 +97,7 @@ class SymbolicReasoningEngine:
         contextual_content = self._extract_contextual_content(data)
 
         # Identify logical elements with priority on symbolic patterns
-        logical_elements = self._extract_logical_elements(
-            semantic_content, symbolic_content, contextual_content
-        )
+        logical_elements = self._extract_logical_elements(semantic_content, symbolic_content, contextual_content)
 
         # Build logical chains using symbolic structures
         logical_chains = self._build_symbolic_logical_chains(logical_elements)
@@ -108,9 +106,7 @@ class SymbolicReasoningEngine:
         weighted_logic = self._calculate_symbolic_confidences(logical_chains)
 
         # Filter by confidence threshold
-        valid_logic = {
-            k: v for k, v in weighted_logic.items() if v["confidence"] >= self.confidence_threshold
-        }
+        valid_logic = {k: v for k, v in weighted_logic.items() if v["confidence"] >= self.confidence_threshold}
 
         # Update internal reasoning graph
         if valid_logic:
@@ -119,12 +115,8 @@ class SymbolicReasoningEngine:
         # Prepare reasoning results with symbolic structure
         reasoning_results = {
             "logical_chains": valid_logic,
-            "primary_conclusion": (
-                self._identify_primary_conclusion(valid_logic) if valid_logic else None
-            ),
-            "confidence": (
-                max([v["confidence"] for v in valid_logic.values()]) if valid_logic else 0.0
-            ),
+            "primary_conclusion": (self._identify_primary_conclusion(valid_logic) if valid_logic else None),
+            "confidence": (max([v["confidence"] for v in valid_logic.values()]) if valid_logic else 0.0),
             "reasoning_path": self._extract_symbolic_reasoning_path(valid_logic),
             "symbolic_structure": self._extract_symbolic_structure(valid_logic),
             "timestamp": datetime.now().isoformat(),
@@ -368,9 +360,7 @@ class SymbolicReasoningEngine:
                         # Check for semantic overlap between first item in this chain
                         # and other items
                         for other_item in other_items:
-                            if any(
-                                self._check_semantic_overlap(item, other_item) for item in items
-                            ):
+                            if any(self._check_semantic_overlap(item, other_item) for item in items):
                                 logical_chains[chain_id]["elements"].append(other_item)
                                 # Strengthen confidence due to cross-domain evidence
                                 logical_chains[chain_id]["base_confidence"] = min(
@@ -423,9 +413,7 @@ class SymbolicReasoningEngine:
             type_diversity_bonus = min(0.1, 0.03 * type_count)
 
             # Rule 2: Symbolic types have higher weight
-            symbolic_types = sum(
-                1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t
-            )
+            symbolic_types = sum(1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t)
             symbolic_bonus = min(0.15, 0.05 * symbolic_types)
 
             # Rule 3: More elements in high-confidence types increase confidence
@@ -444,9 +432,7 @@ class SymbolicReasoningEngine:
                 "elements": chain["elements"][:3],  # Limit elements stored for efficiency
                 "confidence": final_confidence,
                 "relation_type": chain.get("relation_type", "unknown"),
-                "summary": self._create_symbolic_summary(
-                    chain["elements"], chain.get("relation_type", "unknown")
-                ),
+                "summary": self._create_symbolic_summary(chain["elements"], chain.get("relation_type", "unknown")),
             }
 
         return weighted_logic
@@ -505,9 +491,9 @@ class SymbolicReasoningEngine:
                 entry["frequency"] += 1
                 entry["last_seen"] = timestamp
                 # Running average of confidence
-                entry["avg_confidence"] = (
-                    entry["avg_confidence"] * (entry["frequency"] - 1) + confidence
-                ) / entry["frequency"]
+                entry["avg_confidence"] = (entry["avg_confidence"] * (entry["frequency"] - 1) + confidence) / entry[
+                    "frequency"
+                ]
 
         # Limit reasoning graph size by pruning oldest and least frequent entries
         if len(self.reasoning_graph) > 30:  # Reduced size limit for efficiency

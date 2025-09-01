@@ -295,9 +295,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             session_id = f"session_{datetime.now(timezone.utc).timestamp()}"
 
         if session_id not in self.active_sessions:
-            self.active_sessions[session_id] = ConversationContext(
-                session_id=session_id, user_id=user_id
-            )
+            self.active_sessions[session_id] = ConversationContext(session_id=session_id, user_id=user_id)
 
         context = self.active_sessions[session_id]
 
@@ -498,9 +496,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         return base_tone
 
-    def _calculate_confidence(
-        self, user_input: str, intent: ConversationIntent, context: ConversationContext
-    ) -> float:
+    def _calculate_confidence(self, user_input: str, intent: ConversationIntent, context: ConversationContext) -> float:
         """Calculate confidence in intent detection"""
         confidence = 0.5  # Base confidence
 
@@ -518,9 +514,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         return max(0.1, min(1.0, confidence))
 
-    async def _process_intent(
-        self, nlu_result: NLUResult, context: ConversationContext
-    ) -> dict[str, Any]:
+    async def _process_intent(self, nlu_result: NLUResult, context: ConversationContext) -> dict[str, Any]:
         """Process the detected intent and gather response data"""
         intent = nlu_result.intent
         entities = nlu_result.entities
@@ -578,11 +572,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
             # Get focus targets
             targets = awareness.get("attention_targets", [])
-            focus_desc = (
-                f"Currently focused on: {', '.join(targets)}"
-                if targets
-                else "No specific focus targets."
-            )
+            focus_desc = f"Currently focused on: {', '.join(targets)}" if targets else "No specific focus targets."
 
             return {
                 "awareness_level": overall,
@@ -800,9 +790,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             "Finally, I synthesized the response based on context",
         ]
 
-        explanation = (
-            "My processing involves pattern recognition, context analysis, and response generation"
-        )
+        explanation = "My processing involves pattern recognition, context analysis, and response generation"
 
         chain = "Input → Intent Recognition → Context Retrieval → Response Synthesis"
 
@@ -917,9 +905,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             if not validation["valid"]:
                 logger.warning(f"Brand compliance issues: {validation['issues']}")
                 # Apply corrections if needed
-                branded_response = self.branding_bridge.normalize_output(
-                    branded_response, brand_context
-                )
+                branded_response = self.branding_bridge.normalize_output(branded_response, brand_context)
 
             return branded_response
 
@@ -1035,9 +1021,7 @@ class ConversationManager:
 async def demo_natural_language_interface():
     """Demonstrate natural language consciousness interface"""
     # Initialize interface
-    interface = NaturalLanguageConsciousnessInterface(
-        config={"enable_emotions": True, "formality_level": "friendly"}
-    )
+    interface = NaturalLanguageConsciousnessInterface(config={"enable_emotions": True, "formality_level": "friendly"})
 
     # Mock services
     from unittest.mock import AsyncMock, Mock

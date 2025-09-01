@@ -147,9 +147,7 @@ class StudioGTΨHooks:
             "action": request.action,
             "action_description": action_info.get("description", f"Perform {request.action}"),
             "risk_level": risk_level.value,
-            "context_summary": self._generate_context_summary(
-                request.action, request.action_context
-            ),
+            "context_summary": self._generate_context_summary(request.action, request.action_context),
             "required_gesture": challenge.required_gesture_type.value,
             "gesture_instructions": self._get_gesture_instructions(challenge.required_gesture_type),
             "warnings": self._generate_risk_warnings(request.action, risk_level),
@@ -209,14 +207,10 @@ class StudioGTΨHooks:
                     redirect_url="/studio/actions/approved",
                 )
             else:
-                return GestureSubmissionResponse(
-                    success=False, message=f"Gesture verification failed: {result.error}"
-                )
+                return GestureSubmissionResponse(success=False, message=f"Gesture verification failed: {result.error}")
 
         except Exception as e:
-            return GestureSubmissionResponse(
-                success=False, message=f"Gesture processing error: {e!s}"
-            )
+            return GestureSubmissionResponse(success=False, message=f"Gesture processing error: {e!s}")
 
     async def check_action_approval(
         self, lid: str, approval_id: str, action: str, action_context: dict[str, Any]
@@ -233,9 +227,7 @@ class StudioGTΨHooks:
         Returns:
             True if action is approved
         """
-        request = ActionApprovalRequest(
-            lid=lid, approval_id=approval_id, action=action, action_context=action_context
-        )
+        request = ActionApprovalRequest(lid=lid, approval_id=approval_id, action=action, action_context=action_context)
 
         result = await self.verification_service.check_action_approval(request)
         return result.approved
@@ -382,9 +374,7 @@ async def get_gtpsi_hooks() -> StudioGTΨHooks:
 
 
 @router.post("/consent-ui")
-async def request_consent_ui(
-    request: ConsentUIRequest, hooks: StudioGTΨHooks = gtpsi_hooks
-) -> ConsentUIResponse:
+async def request_consent_ui(request: ConsentUIRequest, hooks: StudioGTΨHooks = gtpsi_hooks) -> ConsentUIResponse:
     """
     Request consent UI for high-risk action.
 

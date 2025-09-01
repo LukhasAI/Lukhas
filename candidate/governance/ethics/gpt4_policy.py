@@ -204,9 +204,7 @@ Respond in JSON format with the following structure:
         ]
 
         if decision.symbolic_state:
-            prompt_parts.append(
-                f"\nSymbolic State: {json.dumps(decision.symbolic_state, indent=2)}"
-            )
+            prompt_parts.append(f"\nSymbolic State: {json.dumps(decision.symbolic_state, indent=2)}")
 
         if decision.glyphs:
             prompt_parts.append(f"\nSymbolic Glyphs: {', '.join(decision.glyphs)}")

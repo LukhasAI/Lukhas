@@ -469,9 +469,7 @@ class ControlValidationEngine:
 
         return critical_results
 
-    async def _execute_validation_test(
-        self, test: ValidationTest, control: SecurityControl
-    ) -> ValidationResult:
+    async def _execute_validation_test(self, test: ValidationTest, control: SecurityControl) -> ValidationResult:
         """Execute individual validation test"""
 
         try:
@@ -497,9 +495,7 @@ class ControlValidationEngine:
                 remediation_priority="High",
             )
 
-    async def _execute_automated_test(
-        self, test: ValidationTest, control: SecurityControl
-    ) -> ValidationResult:
+    async def _execute_automated_test(self, test: ValidationTest, control: SecurityControl) -> ValidationResult:
         """Execute automated validation test"""
 
         # Simulate automated test execution
@@ -529,9 +525,7 @@ class ControlValidationEngine:
 
         recommendations = []
         if effectiveness_score < 80:
-            recommendations.extend(
-                ["Review control configuration", "Implement additional monitoring"]
-            )
+            recommendations.extend(["Review control configuration", "Implement additional monitoring"])
 
         return ValidationResult(
             test_id=test.test_id,
@@ -548,9 +542,7 @@ class ControlValidationEngine:
             remediation_priority="Medium" if effectiveness_score < 80 else "Low",
         )
 
-    async def _execute_manual_test(
-        self, test: ValidationTest, control: SecurityControl
-    ) -> ValidationResult:
+    async def _execute_manual_test(self, test: ValidationTest, control: SecurityControl) -> ValidationResult:
         """Execute manual validation test"""
 
         # Simulate manual test execution
@@ -574,9 +566,7 @@ class ControlValidationEngine:
 
         recommendations = []
         if effectiveness_score < 85:
-            recommendations.extend(
-                ["Enhance control implementation", "Provide additional training"]
-            )
+            recommendations.extend(["Enhance control implementation", "Provide additional training"])
 
         return ValidationResult(
             test_id=test.test_id,
@@ -593,9 +583,7 @@ class ControlValidationEngine:
             remediation_priority="Medium" if effectiveness_score < 85 else "Low",
         )
 
-    async def generate_validation_report(
-        self, validation_results: dict[str, list[ValidationResult]]
-    ) -> dict[str, Any]:
+    async def generate_validation_report(self, validation_results: dict[str, list[ValidationResult]]) -> dict[str, Any]:
         """Generate comprehensive validation report"""
 
         total_tests = sum(len(results) for results in validation_results.values())
@@ -606,14 +594,10 @@ class ControlValidationEngine:
             all_results.extend(results)
 
         effective_tests = len([r for r in all_results if r.status == ControlStatus.EFFECTIVE])
-        partially_effective = len(
-            [r for r in all_results if r.status == ControlStatus.PARTIALLY_EFFECTIVE]
-        )
+        partially_effective = len([r for r in all_results if r.status == ControlStatus.PARTIALLY_EFFECTIVE])
         ineffective_tests = len([r for r in all_results if r.status == ControlStatus.INEFFECTIVE])
 
-        avg_effectiveness = (
-            sum(r.effectiveness_score for r in all_results) / len(all_results) if all_results else 0
-        )
+        avg_effectiveness = sum(r.effectiveness_score for r in all_results) / len(all_results) if all_results else 0
 
         # Control category analysis
         category_analysis = await self._analyze_by_category(validation_results)
@@ -634,15 +618,9 @@ class ControlValidationEngine:
                 "ineffective_controls": ineffective_tests,
             },
             "control_effectiveness": {
-                "effective_percentage": (
-                    (effective_tests / total_tests * 100) if total_tests > 0 else 0
-                ),
-                "partially_effective_percentage": (
-                    (partially_effective / total_tests * 100) if total_tests > 0 else 0
-                ),
-                "ineffective_percentage": (
-                    (ineffective_tests / total_tests * 100) if total_tests > 0 else 0
-                ),
+                "effective_percentage": ((effective_tests / total_tests * 100) if total_tests > 0 else 0),
+                "partially_effective_percentage": ((partially_effective / total_tests * 100) if total_tests > 0 else 0),
+                "ineffective_percentage": ((ineffective_tests / total_tests * 100) if total_tests > 0 else 0),
             },
             "category_analysis": category_analysis,
             "critical_findings": critical_findings,
@@ -653,9 +631,7 @@ class ControlValidationEngine:
 
         return report
 
-    async def _analyze_by_category(
-        self, validation_results: dict[str, list[ValidationResult]]
-    ) -> dict[str, Any]:
+    async def _analyze_by_category(self, validation_results: dict[str, list[ValidationResult]]) -> dict[str, Any]:
         """Analyze results by control category"""
 
         category_scores = {}
@@ -667,9 +643,7 @@ class ControlValidationEngine:
                 if category not in category_scores:
                     category_scores[category] = []
 
-                avg_score = (
-                    sum(r.effectiveness_score for r in results) / len(results) if results else 0
-                )
+                avg_score = sum(r.effectiveness_score for r in results) / len(results) if results else 0
                 category_scores[category].append(avg_score)
 
         # Calculate category averages
@@ -678,20 +652,12 @@ class ControlValidationEngine:
             category_analysis[category] = {
                 "average_effectiveness": sum(scores) / len(scores) if scores else 0,
                 "control_count": len(scores),
-                "status": (
-                    "Good"
-                    if sum(scores) / len(scores) >= 80
-                    else "Needs Improvement"
-                    if scores
-                    else "Unknown"
-                ),
+                "status": ("Good" if sum(scores) / len(scores) >= 80 else "Needs Improvement" if scores else "Unknown"),
             }
 
         return category_analysis
 
-    async def _identify_critical_findings(
-        self, results: list[ValidationResult]
-    ) -> list[dict[str, Any]]:
+    async def _identify_critical_findings(self, results: list[ValidationResult]) -> list[dict[str, Any]]:
         """Identify critical findings requiring immediate attention"""
 
         critical_findings = []
@@ -715,9 +681,7 @@ class ControlValidationEngine:
 
         return critical_findings
 
-    async def _generate_remediation_plan(
-        self, results: list[ValidationResult]
-    ) -> dict[str, list[dict[str, Any]]]:
+    async def _generate_remediation_plan(self, results: list[ValidationResult]) -> dict[str, list[dict[str, Any]]]:
         """Generate prioritized remediation plan"""
 
         remediation_plan = {"High": [], "Medium": [], "Low": []}
@@ -740,9 +704,7 @@ class ControlValidationEngine:
 
         return remediation_plan
 
-    async def _assess_compliance_status(
-        self, validation_results: dict[str, list[ValidationResult]]
-    ) -> dict[str, Any]:
+    async def _assess_compliance_status(self, validation_results: dict[str, list[ValidationResult]]) -> dict[str, Any]:
         """Assess compliance status against frameworks"""
 
         frameworks = ["NIST", "ISO27001", "GDPR", "EU AI Act"]
@@ -778,9 +740,7 @@ class ControlValidationEngine:
     async def _generate_recommendations(self, results: list[ValidationResult]) -> list[str]:
         """Generate high-level recommendations"""
 
-        avg_effectiveness = (
-            sum(r.effectiveness_score for r in results) / len(results) if results else 0
-        )
+        avg_effectiveness = sum(r.effectiveness_score for r in results) / len(results) if results else 0
 
         recommendations = []
 

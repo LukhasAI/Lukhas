@@ -214,9 +214,7 @@ class SystemConsolidator:
             unified_conn.commit()
             unified_conn.close()
 
-            self.logger.info(
-                f"✅ Database consolidation complete: {files_processed} databases merged"
-            )
+            self.logger.info(f"✅ Database consolidation complete: {files_processed} databases merged")
 
             return ConsolidationResult(
                 source_systems=list(set(source_systems)),
@@ -273,9 +271,7 @@ class SystemConsolidator:
 
                     # Copy document templates
                     for template_file in system_path.rglob("*.jinja2"):
-                        target_template = (
-                            target_path / "templates" / f"{system_name}_{template_file.name}"
-                        )
+                        target_template = target_path / "templates" / f"{system_name}_{template_file.name}"
                         shutil.copy2(template_file, target_template)
                         files_merged += 1
 
@@ -368,9 +364,7 @@ if __name__ == "__main__":
     print("⚛️🧠🛡️ Trinity Framework Integrated")
 ''')
 
-            self.logger.info(
-                f"✅ Document generation consolidation complete: {files_merged} files merged"
-            )
+            self.logger.info(f"✅ Document generation consolidation complete: {files_merged} files merged")
 
             return ConsolidationResult(
                 source_systems=list(doc_systems.keys()),
@@ -433,17 +427,13 @@ if __name__ == "__main__":
 
                     # Copy web interfaces
                     for web_file in system_path.rglob("*.html"):
-                        target_web = (
-                            target_path / "web_interface" / f"{system_name}_{web_file.name}"
-                        )
+                        target_web = target_path / "web_interface" / f"{system_name}_{web_file.name}"
                         shutil.copy2(web_file, target_web)
                         files_merged += 1
 
                     # Copy commercial features
                     for commercial_file in system_path.rglob("*commercial*.py"):
-                        target_commercial = (
-                            target_path / "commercial" / f"{system_name}_{commercial_file.name}"
-                        )
+                        target_commercial = target_path / "commercial" / f"{system_name}_{commercial_file.name}"
                         shutil.copy2(commercial_file, target_commercial)
                         files_merged += 1
 
@@ -514,9 +504,7 @@ if __name__ == "__main__":
     print("⚛️🧠🛡️ Trinity Framework Integrated")
 ''')
 
-            self.logger.info(
-                f"✅ Content platform consolidation complete: {files_merged} files merged"
-            )
+            self.logger.info(f"✅ Content platform consolidation complete: {files_merged} files merged")
 
             return ConsolidationResult(
                 source_systems=list(content_systems.keys()),

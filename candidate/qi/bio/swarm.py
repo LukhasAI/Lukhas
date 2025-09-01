@@ -175,9 +175,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
                 context={
                     "colonies": list(self.colonies.keys()),
                     "bio_colonies": list(self.bio_colonies.keys()),
-                    "agent_count": sum(
-                        len(getattr(c, "agents", {})) for c in self.colonies.values()
-                    ),
+                    "agent_count": sum(len(getattr(c, "agents", {})) for c in self.colonies.values()),
                     "active_tasks": self._get_active_tasks(),
                     "swarm_state": self._get_swarm_state(),
                 },
@@ -273,9 +271,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
         # Stage 1: Preprocessing
         if "preprocessing" in self.bio_colonies:
             try:
-                preprocessing_result = await self.bio_colonies["preprocessing"].process_sensor_data(
-                    data
-                )
+                preprocessing_result = await self.bio_colonies["preprocessing"].process_sensor_data(data)
                 pipeline_result["pipeline_stages"].append(
                     {
                         "stage": "preprocessing",
@@ -306,9 +302,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
         # Stage 3: Adaptive Threshold Adjustment
         if "adaptive_threshold" in self.bio_colonies:
             try:
-                threshold_result = await self.bio_colonies["adaptive_threshold"].adapt_thresholds(
-                    data
-                )
+                threshold_result = await self.bio_colonies["adaptive_threshold"].adapt_thresholds(data)
                 pipeline_result["pipeline_stages"].append(
                     {
                         "stage": "threshold_adaptation",
@@ -323,9 +317,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
         # Stage 4: Contextual Mapping
         if "contextual_mapping" in self.bio_colonies:
             try:
-                mapping_result = await self.bio_colonies[
-                    "contextual_mapping"
-                ].map_to_symbolic_context(data)
+                mapping_result = await self.bio_colonies["contextual_mapping"].map_to_symbolic_context(data)
                 pipeline_result["pipeline_stages"].append(
                     {
                         "stage": "contextual_mapping",
@@ -341,14 +333,9 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
         pipeline_result["processing_metadata"] = {
             "stages_completed": len(pipeline_result["pipeline_stages"]),
             "total_processing_time": sum(
-                stage.get("result", {}).get("processing_time", 0)
-                for stage in pipeline_result["pipeline_stages"]
+                stage.get("result", {}).get("processing_time", 0) for stage in pipeline_result["pipeline_stages"]
             ),
-            "pipeline_health": (
-                "healthy"
-                if len(pipeline_result["anomalies_detected"]) == 0
-                else "anomalies_detected"
-            ),
+            "pipeline_health": ("healthy" if len(pipeline_result["anomalies_detected"]) == 0 else "anomalies_detected"),
         }
 
         return pipeline_result
@@ -414,9 +401,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
             }
         )
 
-    def _synthesize_results_basic(
-        self, results: list[dict], task: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _synthesize_results_basic(self, results: list[dict], task: dict[str, Any]) -> dict[str, Any]:
         """Basic result synthesis fallback."""
         return {
             "task_id": task.get("task_id", "unknown"),
@@ -467,9 +452,7 @@ async def demonstrate_bio_symbolic_swarm():
 
     try:
         pipeline_result = await hub.process_bio_symbolic_pipeline(test_data)
-        print(
-            f"Pipeline stages completed: {pipeline_result['processing_metadata']['stages_completed']}"
-        )
+        print(f"Pipeline stages completed: {pipeline_result['processing_metadata']['stages_completed']}")
         print(f"Anomalies detected: {len(pipeline_result['anomalies_detected'])}")
     except Exception as e:
         print(f"Pipeline processing failed: {e}")

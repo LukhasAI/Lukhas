@@ -86,9 +86,7 @@ except ImportError:
     class SimpleDreamEngine:
         async def generate_dream_sequence(self, daily_data: list = None):
             return {
-                "dream_sequence": {
-                    "narrative": "A peaceful dream state of creative possibility..."
-                },
+                "dream_sequence": {"narrative": "A peaceful dream state of creative possibility..."},
                 "learning": {"insights": "Creative potential explored"},
                 "memory_trace": "dream_fallback_001",
             }
@@ -315,9 +313,7 @@ class EnhancedDreamEngine:
         duration = datetime.utcnow() - self.current_cycle["start_time"]
         memories = self.current_cycle["memories_processed"]
 
-        logger.info(
-            f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}"
-        )
+        logger.info(f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}")
 
     async def _handle_start_cycle(self, content: dict[str, Any]) -> None:
         """Handle start cycle request"""
@@ -454,9 +450,7 @@ class EnhancedDreamEngine:
                     self.current_cycle["memories_processed"] += 1
 
             else:
-                logger.warning(
-                    f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}"
-                )
+                logger.warning(f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}")
 
         except Exception as e:
             logger.error(f"Error processing dream: {e}")

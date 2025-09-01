@@ -111,9 +111,7 @@ class MemoryDriftMirror:
                 "reason": "Entropy delta consistently high",
             }
 
-        is_divergent = all(
-            entropy_deltas[i] > entropy_deltas[i - 1] for i in range(1, len(entropy_deltas))
-        )
+        is_divergent = all(entropy_deltas[i] > entropy_deltas[i - 1] for i in range(1, len(entropy_deltas)))
         if is_divergent:
             return {"type": "divergent", "reason": "Entropy delta is increasing"}
 
@@ -143,15 +141,11 @@ class MemoryDriftMirror:
                     if len(last_three_classifications) == 3 and all(
                         c["type"] == "collapse risk" for c in last_three_classifications
                     ):
-                        logging.warning(
-                            "Collapse risk detected more than once in the last 3 entries."
-                        )
+                        logging.warning("Collapse risk detected more than once in the last 3 entries.")
             except FileNotFoundError:
                 pass
 
         # This is a placeholder for a more sophisticated entropy calculation
         entropy_delta = np.random.rand()
         if entropy_delta > self.entropy_threshold:
-            logging.warning(
-                f"Entropy delta ({entropy_delta}) exceeds threshold ({self.entropy_threshold})."
-            )
+            logging.warning(f"Entropy delta ({entropy_delta}) exceeds threshold ({self.entropy_threshold}).")

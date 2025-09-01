@@ -70,9 +70,7 @@ class QIInspiredAttention:
         """Initialize the quantum-inspired matrices used for attention processing"""
         # Superposition matrix (symmetric for quantum-inspired properties)
         init_scale = 0.1 * self.superposition_strength
-        self.superposition_matrix = np.random.normal(
-            0, init_scale, (self.dimension, self.dimension)
-        )
+        self.superposition_matrix = np.random.normal(0, init_scale, (self.dimension, self.dimension))
 
         # Make it symmetric (Hermitian-like) for quantum properties
         self.superposition_matrix = (self.superposition_matrix + self.superposition_matrix.T) / 2
@@ -236,9 +234,7 @@ class QIInspiredAttention:
         entropy = -np.sum(non_zeros * np.log2(non_zeros)) if len(non_zeros) > 0 else 0
 
         # Update running average
-        self.attention_stats["avg_entropy"] = (
-            0.95 * self.attention_stats["avg_entropy"] + 0.05 * entropy
-        )
+        self.attention_stats["avg_entropy"] = 0.95 * self.attention_stats["avg_entropy"] + 0.05 * entropy
 
         # Store last distribution
         self.attention_stats["last_distribution"] = output_distribution
@@ -252,16 +248,12 @@ class QIInspiredAttention:
         # If entropy is very low, reduce barrier height to encourage exploration
         if self.attention_stats["avg_entropy"] < 1.0:
             self.barrier_height = max(0.2, self.barrier_height * 0.95)
-            logger.debug(
-                f"Reduced barrier height to {self.barrier_height:.2f} to increase exploration"
-            )
+            logger.debug(f"Reduced barrier height to {self.barrier_height:.2f} to increase exploration")
 
         # If entropy is very high, increase barrier height to focus attention
         elif self.attention_stats["avg_entropy"] > 3.0:
             self.barrier_height = min(1.5, self.barrier_height * 1.05)
-            logger.debug(
-                f"Increased barrier height to {self.barrier_height:.2f} to focus attention"
-            )
+            logger.debug(f"Increased barrier height to {self.barrier_height:.2f} to focus attention")
 
     def repair(self) -> bool:
         """Self-repair functionality for the bio-orchestrator's auto-repair system
@@ -409,9 +401,7 @@ class QIAttentionEnsemble:
             "ensemble_size": self.ensemble_size,
             "dimension": self.dimension,
             "modules": module_diagnostics,
-            "coherence_avg": np.mean(
-                [m.attention_stats["coherence"] for m in self.attention_modules]
-            ),
+            "coherence_avg": np.mean([m.attention_stats["coherence"] for m in self.attention_modules]),
         }
 
     """This implementation includes:
@@ -479,9 +469,7 @@ def enhanced_attention_hook(original_attention_fn):
         }
 
         # Apply quantum-inspired processing via orchestrator
-        success, enhanced_dist = bio_orchestrator.invoke_module(
-            "qi_attention", "process", attn_dist, context
-        )
+        success, enhanced_dist = bio_orchestrator.invoke_module("qi_attention", "process", attn_dist, context)
 
         return enhanced_dist if success else attn_dist
 

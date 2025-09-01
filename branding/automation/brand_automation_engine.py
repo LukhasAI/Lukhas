@@ -57,9 +57,7 @@ class BrandAutomationEngine:
         self._load_automation_config()
 
         # Initialize automation
-        db.log_system_activity(
-            "brand_automation", "engine_init", "Brand automation engine initialized", 1.0
-        )
+        db.log_system_activity("brand_automation", "engine_init", "Brand automation engine initialized", 1.0)
 
     def _setup_logging(self) -> logging.Logger:
         """Setup automation logging"""
@@ -68,9 +66,7 @@ class BrandAutomationEngine:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = (
-            self.logs_path / f"brand_automation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-        )
+        log_file = self.logs_path / f"brand_automation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -90,9 +86,7 @@ class BrandAutomationEngine:
                 with open(self.config_path) as f:
                     config_data = json.load(f)
 
-                self.automation_tasks = [
-                    AutomationTask(**task) for task in config_data.get("tasks", [])
-                ]
+                self.automation_tasks = [AutomationTask(**task) for task in config_data.get("tasks", [])]
                 self.logger.info(f"Loaded {len(self.automation_tasks)} automation tasks")
             except Exception as e:
                 self.logger.error(f"Failed to load automation config: {e}")
@@ -256,14 +250,10 @@ class BrandAutomationEngine:
             if check_terminology:
                 # Check for outdated terminology
                 if "artificial intelligence" in content_text.lower():
-                    issues.append(
-                        "Uses 'artificial intelligence' instead of 'consciousness technology'"
-                    )
+                    issues.append("Uses 'artificial intelligence' instead of 'consciousness technology'")
 
                 if "AI system" in content_text and "consciousness technology" not in content_text:
-                    issues.append(
-                        "Generic AI terminology without consciousness technology branding"
-                    )
+                    issues.append("Generic AI terminology without consciousness technology branding")
 
             if issues:
                 consistency_issues.append(
@@ -534,9 +524,7 @@ class BrandAutomationEngine:
             summary["success_rate"],
         )
 
-        self.logger.info(
-            f"✅ Automation cycle completed: {successful_tasks}/{total_tasks} tasks successful"
-        )
+        self.logger.info(f"✅ Automation cycle completed: {successful_tasks}/{total_tasks} tasks successful")
 
         return summary
 
@@ -546,8 +534,7 @@ class BrandAutomationEngine:
             "engine_status": "active",
             "total_tasks": len(self.automation_tasks),
             "enabled_tasks": len([t for t in self.automation_tasks if t.enabled]),
-            "average_success_rate": sum(t.success_rate for t in self.automation_tasks)
-            / len(self.automation_tasks)
+            "average_success_rate": sum(t.success_rate for t in self.automation_tasks) / len(self.automation_tasks)
             if self.automation_tasks
             else 0,
             "tasks": [

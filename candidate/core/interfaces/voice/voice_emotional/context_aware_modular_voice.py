@@ -100,9 +100,7 @@ class ContextAnalyzer:
         # Implementation would analyze for recurring topics, preferences, etc.
 
         # Find related past interactions
-        related_interactions = [
-            m for m in memory if m.get("context", {}).get("intent") == current_intent
-        ]
+        related_interactions = [m for m in memory if m.get("context", {}).get("intent") == current_intent]
 
         return {
             "familiarity": familiarity,
@@ -133,9 +131,7 @@ class ContextAnalyzer:
 
         return min(1.0, urgency)
 
-    def _determine_formality(
-        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
-    ) -> float:
+    def _determine_formality(self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]) -> float:
         """Determine appropriate formality level"""
         # Start with medium formality
         formality = 0.5
@@ -150,9 +146,7 @@ class ContextAnalyzer:
 
         return max(0.1, min(0.9, formality))
 
-    def _calculate_confidence(
-        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
-    ) -> float:
+    def _calculate_confidence(self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]) -> float:
         """Calculate confidence in our context understanding"""
         # Base confidence on NLP understanding
         confidence = nlp_analysis.get("confidence", 0.5)
@@ -324,9 +318,7 @@ class ComplianceEngine:
         if "device_info" in anonymized:
             if isinstance(anonymized["device_info"], dict):
                 safe_keys = ["type", "os", "battery_level"]
-                anonymized["device_info"] = {
-                    k: v for k, v in anonymized["device_info"].items() if k in safe_keys
-                }
+                anonymized["device_info"] = {k: v for k, v in anonymized["device_info"].items() if k in safe_keys}
             else:
                 anonymized["device_info"] = {"type": "anonymized"}
 

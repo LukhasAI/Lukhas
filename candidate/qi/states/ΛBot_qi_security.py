@@ -50,9 +50,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ΛBot_Quantum_Security")
 
 # Import brain system components for bio-symbolic threat detection
@@ -142,9 +140,7 @@ class PostQuantumCryptographyEngine:
             "generated_at": datetime.utcnow().isoformat(),
         }
 
-    async def qi_encrypt(
-        self, data: bytes, public_key: str, algorithm: str = "kyber"
-    ) -> dict[str, Any]:
+    async def qi_encrypt(self, data: bytes, public_key: str, algorithm: str = "kyber") -> dict[str, Any]:
         """Encrypt data using post-quantum-inspired algorithms"""
 
         # Implement post-quantum encryption
@@ -158,9 +154,7 @@ class PostQuantumCryptographyEngine:
             "encryption_timestamp": datetime.utcnow().isoformat(),
         }
 
-    async def qi_decrypt(
-        self, encrypted_data: bytes, private_key: str, algorithm: str = "kyber"
-    ) -> bytes:
+    async def qi_decrypt(self, encrypted_data: bytes, private_key: str, algorithm: str = "kyber") -> bytes:
         """Decrypt data using post-quantum-inspired algorithms"""
 
         return await self._pq_decrypt(encrypted_data, private_key, algorithm)
@@ -215,9 +209,7 @@ class BioSymbolicThreatDetector:
         )
 
         # Emotional brain for threat sentiment analysis
-        emotional_assessment = await self.brain_symphony.emotional.evaluate_threat_patterns(
-            input_data
-        )
+        emotional_assessment = await self.brain_symphony.emotional.evaluate_threat_patterns(input_data)
 
         # Memory brain for threat pattern matching
         memory_matches = await self.brain_symphony.memory.match_threat_patterns(input_data)
@@ -265,9 +257,7 @@ class QIVulnerabilityAnalyzer:
 
         logger.info("⚛️ Quantum Vulnerability Analyzer initialized")
 
-    async def analyze_quantum_vulnerabilities(
-        self, target: str, code_content: str
-    ) -> SecurityAssessment:
+    async def analyze_quantum_vulnerabilities(self, target: str, code_content: str) -> SecurityAssessment:
         """Comprehensive quantum-era vulnerability analysis"""
 
         assessment_id = str(uuid.uuid4())
@@ -418,9 +408,7 @@ class AdaptiveSecurityOrchestrator:
         await self._update_security_state(assessment)
 
         # Verify security improvements
-        orchestration_result["security_improved"] = await self._verify_security_improvement(
-            assessment
-        )
+        orchestration_result["security_improved"] = await self._verify_security_improvement(assessment)
 
         return orchestration_result
 
@@ -442,9 +430,7 @@ class ΛBotQuantumSecurityOrchestrator:
         # Initialize security components
         self.pq_crypto_engine = PostQuantumCryptographyEngine()
         self.bio_threat_detector = BioSymbolicThreatDetector(self.brain_symphony)
-        self.vuln_analyzer = QIVulnerabilityAnalyzer(
-            self.pq_crypto_engine, self.bio_threat_detector
-        )
+        self.vuln_analyzer = QIVulnerabilityAnalyzer(self.pq_crypto_engine, self.bio_threat_detector)
         self.adaptive_orchestrator = AdaptiveSecurityOrchestrator(
             self.pq_crypto_engine, self.bio_threat_detector, self.vuln_analyzer
         )
@@ -461,16 +447,12 @@ class ΛBotQuantumSecurityOrchestrator:
 
         logger.info("🚀 ΛBot Quantum Security Orchestrator initialized")
 
-    async def perform_quantum_security_assessment(
-        self, repository: str, code_content: str
-    ) -> SecurityAssessment:
+    async def perform_quantum_security_assessment(self, repository: str, code_content: str) -> SecurityAssessment:
         """Perform comprehensive quantum-era security assessment"""
 
         logger.info(f"🔍 Performing quantum security assessment for {repository}")
 
-        assessment = await self.vuln_analyzer.analyze_quantum_vulnerabilities(
-            repository, code_content
-        )
+        assessment = await self.vuln_analyzer.analyze_quantum_vulnerabilities(repository, code_content)
 
         # Update metrics
         self.security_metrics["assessments_performed"] += 1
@@ -513,10 +495,7 @@ class ΛBotQuantumSecurityOrchestrator:
             "current_threat_level": self.adaptive_orchestrator.security_state["threat_level"],
             "post_quantum_readiness": self.adaptive_orchestrator.security_state["qi_readiness"],
             "bio_symbolic_enabled": BRAIN_SYSTEM_AVAILABLE,
-            "adaptive_security_active": len(
-                self.adaptive_orchestrator.security_state["adaptive_measures_active"]
-            )
-            > 0,
+            "adaptive_security_active": len(self.adaptive_orchestrator.security_state["adaptive_measures_active"]) > 0,
         }
 
 

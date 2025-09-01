@@ -111,15 +111,11 @@ protection:
             if is_contaminated:
                 assert len(findings) == 1, "Contaminated entry should be flagged."
                 assert findings[0]["entry_id"] == entry_id
-                assert entry_id in sanctum.quarantine_entries, (
-                    "Contaminated entry should be in quarantine."
-                )
+                assert entry_id in sanctum.quarantine_entries, "Contaminated entry should be in quarantine."
                 contaminated_entries += 1
             else:
                 assert len(findings) == 0, "Normal entry should not be flagged."
-                assert entry_id not in sanctum.quarantine_entries, (
-                    "Normal entry should not be quarantined."
-                )
+                assert entry_id not in sanctum.quarantine_entries, "Normal entry should not be quarantined."
 
         # Verify that all contaminated entries were caught
         assert contaminated_entries == total_operations / 10
@@ -130,9 +126,7 @@ protection:
 
         # This is a simplified check. A real scenario is more complex.
         # We check if only the contaminated entries are quarantined.
-        assert quarantined_count == contaminated_entries, (
-            "Only contaminated entries should be quarantined."
-        )
+        assert quarantined_count == contaminated_entries, "Only contaminated entries should be quarantined."
 
         # In this simulation, if we quarantine all bad entries and no good ones, prevention is 100%
         # A more complex test would involve interaction between memories.

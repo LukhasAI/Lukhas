@@ -333,9 +333,7 @@ class DreamDivergenceMapper:
             summary_stats=summary_stats,
         )
 
-    def _calculate_pairwise_drift(
-        self, session1: DreamSession, session2: DreamSession
-    ) -> DriftScore:
+    def _calculate_pairwise_drift(self, session1: DreamSession, session2: DreamSession) -> DriftScore:
         """Calculate drift score between two sessions."""
         # Symbolic overlap (inverted - lower overlap = higher drift)
         symbols1 = set(session1.symbolic_tags)
@@ -450,9 +448,7 @@ class DreamDivergenceMapper:
                 colorscale="Viridis",
                 showscale=True,
                 colorbar={"title": "Drift Score"},
-                hovertemplate=(
-                    "Session 1: %{y}<br>Session 2: %{x}<br>Drift Score: %{z:.3f}<br><extra></extra>"
-                ),
+                hovertemplate=("Session 1: %{y}<br>Session 2: %{x}<br>Drift Score: %{z:.3f}<br><extra></extra>"),
             )
         )
 
@@ -573,9 +569,7 @@ class DreamDivergenceMapper:
             output_lines.append(" ".join(row))
 
         output_lines.append("")
-        output_lines.append(
-            "Legend: ███ High (>0.8) ▓▓▓ Med-High (>0.6) ▒▒▒ Medium (>0.4) ░░░ Low (>0.2)"
-        )
+        output_lines.append("Legend: ███ High (>0.8) ▓▓▓ Med-High (>0.6) ▒▒▒ Medium (>0.4) ░░░ Low (>0.2)")
 
         # Save to text file
         text_path = out_path.replace(".svg", ".txt").replace(".png", ".txt")
@@ -627,8 +621,7 @@ class DreamDivergenceMapper:
             "avg_entropy_shift": avg_entropy_shift,
             "critical_transitions": critical_transitions,
             "high_drift_pairs": [
-                {"session1": s1, "session2": s2, "drift_score": score}
-                for s1, s2, score in high_drift_pairs[:5]
+                {"session1": s1, "session2": s2, "drift_score": score} for s1, s2, score in high_drift_pairs[:5]
             ],
         }
 
@@ -694,9 +687,7 @@ def main():
     print(f"Sessions Analyzed: {summary['summary']['total_sessions']}")
     print(f"Mean Drift Score: {summary['summary']['mean_drift']:.3f}")
     print(f"Max Drift Score: {summary['summary']['max_drift']:.3f}")
-    print(
-        f"Max Drift Pair: {summary['max_drift_pair']['session1']} ↔ {summary['max_drift_pair']['session2']}"
-    )
+    print(f"Max Drift Pair: {summary['max_drift_pair']['session1']} ↔ {summary['max_drift_pair']['session2']}")
     print(f"Top Symbols: {', '.join(summary['top_symbols'][:5])}")
     print(f"Critical Transitions: {len(summary['critical_transitions'])}")
     print(f"Average Entropy Shift: {summary['avg_entropy_shift']:.3f}")

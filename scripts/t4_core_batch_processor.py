@@ -105,9 +105,7 @@ class T4CoreBatchProcessor:
             # Apply black formatting if available
             black_path = self.workspace / ".venv_test" / "bin" / "black"
             if black_path.exists():
-                result = subprocess.run(
-                    [str(black_path), "--quiet", str(full_path)], capture_output=True, text=True
-                )
+                result = subprocess.run([str(black_path), "--quiet", str(full_path)], capture_output=True, text=True)
 
                 if result.returncode == 0:
                     fixes_applied.append("BLACK_FORMATTING")
@@ -167,9 +165,7 @@ class T4CoreBatchProcessor:
             return
 
         print(f"📁 Batch {batch_num}: Processing {len(batch_files)} files")
-        print(
-            f"📊 Range: {start_idx + 1}-{start_idx + len(batch_files)} of {len(core_files)} total"
-        )
+        print(f"📊 Range: {start_idx + 1}-{start_idx + len(batch_files)} of {len(core_files)} total")
         print("")
 
         # Process each file

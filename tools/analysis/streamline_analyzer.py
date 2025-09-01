@@ -147,9 +147,7 @@ class StreamlineAnalyzer:
         # Find common imports
         common_imports = {imp: count for imp, count in imports.items() if count > 5}
         if common_imports:
-            self.findings["redundant_imports"].append(
-                {"module": module_name, "imports": common_imports}
-            )
+            self.findings["redundant_imports"].append({"module": module_name, "imports": common_imports})
 
     def _get_function_signature(self, node: ast.FunctionDef) -> str:
         """Get normalized function signature"""
@@ -189,26 +187,18 @@ class StreamlineAnalyzer:
 
                         # Check for common patterns
                         if "get_logger(__name__)" in content:
-                            patterns["logger_initialization"]["files"].append(
-                                str(py_file.relative_to(self.root_path))
-                            )
+                            patterns["logger_initialization"]["files"].append(str(py_file.relative_to(self.root_path)))
                         if "json.load" in content:
-                            patterns["config_loading"]["files"].append(
-                                str(py_file.relative_to(self.root_path))
-                            )
+                            patterns["config_loading"]["files"].append(str(py_file.relative_to(self.root_path)))
                         if "async def initialize" in content:
-                            patterns["async_initialization"]["files"].append(
-                                str(py_file.relative_to(self.root_path))
-                            )
+                            patterns["async_initialization"]["files"].append(str(py_file.relative_to(self.root_path)))
 
                         # Find interface classes
                         tree = ast.parse(content)
                         for node in ast.walk(tree):
                             if isinstance(node, ast.ClassDef):
                                 if "Interface" in node.name or "Base" in node.name:
-                                    interface_classes[node.name].append(
-                                        str(py_file.relative_to(self.root_path))
-                                    )
+                                    interface_classes[node.name].append(str(py_file.relative_to(self.root_path)))
 
                     except Exception:
                         pass
@@ -294,8 +284,7 @@ class StreamlineAnalyzer:
                     "description": "Combine classes with identical interfaces",
                     "impact": "Reduce class hierarchy complexity",
                     "examples": [
-                        f"{c['occurrences'][0]['name']} in {c['module']}"
-                        for c in self.findings["similar_classes"][:3]
+                        f"{c['occurrences'][0]['name']} in {c['module']}" for c in self.findings["similar_classes"][:3]
                     ],
                 }
             )

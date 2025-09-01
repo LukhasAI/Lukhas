@@ -240,9 +240,7 @@ class QIVaultManager:
         logger.info(f"✅ API key stored with quantum authentication for {service_name}")
         return encrypted_api_key
 
-    def authenticate_and_decrypt_api_key(
-        self, user_id: str, service_name: str, qr_verification: str
-    ) -> Optional[str]:
+    def authenticate_and_decrypt_api_key(self, user_id: str, service_name: str, qr_verification: str) -> Optional[str]:
         """Authenticate user and decrypt API key"""
         logger.info(f"🔐 Authenticating API key access for {service_name}")
 
@@ -287,9 +285,7 @@ class QIVaultManager:
             logger.error(f"❌ Error authenticating API key: {e}")
             return None
 
-    def create_anonymous_crypto_session(
-        self, user_id: str, requested_access: list[str]
-    ) -> AnonymousCryptoSession:
+    def create_anonymous_crypto_session(self, user_id: str, requested_access: list[str]) -> AnonymousCryptoSession:
         """Create anonymous crypto session after ΛiD authentication"""
         logger.info("🔒 Creating anonymous crypto session")
 
@@ -317,9 +313,7 @@ class QIVaultManager:
         logger.info(f"✅ Anonymous crypto session created: {session_id[:8]}...")
         return session
 
-    def store_quantum_seed_phrase(
-        self, user_id: str, seed_phrase: str, shard_count: int = 5
-    ) -> QISeedPhrase:
+    def store_quantum_seed_phrase(self, user_id: str, seed_phrase: str, shard_count: int = 5) -> QISeedPhrase:
         """Store seed phrase with quantum sharding and recovery glyphs"""
         logger.info("🔐 Storing quantum-secured seed phrase")
 
@@ -378,9 +372,7 @@ class QIVaultManager:
         """Verify VeriFold QR authentication"""
         try:
             # Decrypt and verify QR payload
-            decrypted_payload = self.fernet.decrypt(
-                base64.urlsafe_b64decode(verification_qr.hidden_qr_data)
-            )
+            decrypted_payload = self.fernet.decrypt(base64.urlsafe_b64decode(verification_qr.hidden_qr_data))
             json.loads(decrypted_payload.decode())
 
             # Verify quantum signature
@@ -396,9 +388,7 @@ class QIVaultManager:
             logger.error(f"QR verification error: {e}")
             return False
 
-    def get_anonymous_trading_session(
-        self, session_id: str, exchange: str
-    ) -> Optional[dict[str, str]]:
+    def get_anonymous_trading_session(self, session_id: str, exchange: str) -> Optional[dict[str, str]]:
         """Get anonymous trading session tokens (untraceable after auth)"""
         if session_id not in self.active_sessions:
             logger.error("❌ Invalid or expired session")
@@ -448,9 +438,7 @@ class QIVaultManager:
         }
 
         # Save report
-        report_file = (
-            self.vault_path / f"vault_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
+        report_file = self.vault_path / f"vault_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 
@@ -474,9 +462,7 @@ def main():
 
     # 2. Create anonymous crypto session
     print("\n2. Creating anonymous crypto session...")
-    crypto_session = vault.create_anonymous_crypto_session(
-        user_id, ["seed_phrase", "cold_wallet", "trading"]
-    )
+    crypto_session = vault.create_anonymous_crypto_session(user_id, ["seed_phrase", "cold_wallet", "trading"])
 
     # 3. Store quantum seed phrase
     print("\n3. Storing quantum seed phrase...")

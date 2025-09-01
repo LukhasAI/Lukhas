@@ -250,9 +250,7 @@ class OrchestrationCore:
         try:
             # Try initialization with parameters
             try:
-                self.awareness_system = BioAwarenessSystem(
-                    bio_core=self.bio_core, memory_manager=self.memory_manager
-                )
+                self.awareness_system = BioAwarenessSystem(bio_core=self.bio_core, memory_manager=self.memory_manager)
             except TypeError:
                 # Try basic initialization
                 self.awareness_system = BioAwarenessSystem()
@@ -350,9 +348,7 @@ class OrchestrationCore:
             # await self.module_registry.register_module(name, module) #TODO: See above
             self.active_modules[name] = module
 
-        logger.info(
-            f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)"
-        )
+        logger.info(f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)")
 
     async def _initiate_consciousness_loop(self):
         """Start the main consciousness simulation loop."""

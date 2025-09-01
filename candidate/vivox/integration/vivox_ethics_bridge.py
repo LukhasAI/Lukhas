@@ -163,9 +163,7 @@ class VIVOXEthicsBridge:
         if hasattr(self.vivox_mae.dissonance_calculator, "ethical_principles"):
             if mae_principle in self.vivox_mae.dissonance_calculator.ethical_principles:
                 # Blend weights
-                current_weight = self.vivox_mae.dissonance_calculator.ethical_principles[
-                    mae_principle
-                ]
+                current_weight = self.vivox_mae.dissonance_calculator.ethical_principles[mae_principle]
                 new_weight = (current_weight + constraint.weight) / 2
                 self.vivox_mae.dissonance_calculator.ethical_principles[mae_principle] = new_weight
 
@@ -198,9 +196,7 @@ class VIVOXEthicsBridge:
             }
         ]
 
-    async def _evaluate_with_seedra(
-        self, action: ActionProposal, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _evaluate_with_seedra(self, action: ActionProposal, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate action with SEEDRA system"""
         # Placeholder for actual SEEDRA evaluation
         return {
@@ -209,9 +205,7 @@ class VIVOXEthicsBridge:
             "reasoning": "SEEDRA evaluation placeholder",
         }
 
-    async def _evaluate_with_guardian(
-        self, action: ActionProposal, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _evaluate_with_guardian(self, action: ActionProposal, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate action with Guardian System"""
         # Placeholder for actual Guardian evaluation
         return {

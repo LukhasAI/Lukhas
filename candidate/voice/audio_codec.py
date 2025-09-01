@@ -129,9 +129,7 @@ class WAVDecoder(AudioDecoder):
 
             # Convert to numpy array
             if sample_width == 1:
-                audio_data = (
-                    np.frombuffer(raw_data, dtype=np.uint8).astype(np.float32) / 128.0 - 1.0
-                )
+                audio_data = np.frombuffer(raw_data, dtype=np.uint8).astype(np.float32) / 128.0 - 1.0
             elif sample_width == 2:
                 audio_data = np.frombuffer(raw_data, dtype=np.int16).astype(np.float32) / 32768.0
             elif sample_width == 3:
@@ -326,9 +324,7 @@ class LUKHASAudioCodecManager:
 
             # Update statistics
             self.stats["encodings_performed"] += 1
-            self.stats["codecs_used"][codec.value] = (
-                self.stats["codecs_used"].get(codec.value, 0) + 1
-            )
+            self.stats["codecs_used"][codec.value] = self.stats["codecs_used"].get(codec.value, 0) + 1
             self.stats["total_data_processed"] += len(audio_data)
 
             # Emit GLYPH event
@@ -339,9 +335,7 @@ class LUKHASAudioCodecManager:
                     "quality": params.quality.value,
                     "input_size": len(audio_data),
                     "output_size": len(encoded_data),
-                    "compression_ratio": len(audio_data) / len(encoded_data)
-                    if len(encoded_data) > 0
-                    else 0,
+                    "compression_ratio": len(audio_data) / len(encoded_data) if len(encoded_data) > 0 else 0,
                 },
             )
 

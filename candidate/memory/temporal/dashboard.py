@@ -179,9 +179,7 @@ class MemoryHealthDashboard:
         dream_stats = self._analyze_dream_integration_metrics()
 
         # Calculate overall stability
-        stability_score = self._calculate_system_stability(
-            fold_stats, compression_stats, dream_stats
-        )
+        stability_score = self._calculate_system_stability(fold_stats, compression_stats, dream_stats)
 
         # Create metrics object
         metrics = MemoryHealthMetrics(
@@ -236,9 +234,7 @@ class MemoryHealthDashboard:
         return active_blocks
 
     # LUKHAS_TAG: drift_event_analysis
-    def view_recent_drift_events(
-        self, hours_back: int = 24, limit: int = 50
-    ) -> list[DriftEventSummary]:
+    def view_recent_drift_events(self, hours_back: int = 24, limit: int = 50) -> list[DriftEventSummary]:
         """
         View recent memory drift events with analysis.
 
@@ -314,30 +310,22 @@ class MemoryHealthDashboard:
             },
             "cascade_overview": {
                 "active_blocks": len(active_cascades),
-                "critical_blocks": len(
-                    [b for b in active_cascades if b.severity_level == "critical"]
-                ),
+                "critical_blocks": len([b for b in active_cascades if b.severity_level == "critical"]),
                 "intervention_types": Counter([b.intervention_type for b in active_cascades]),
             },
             "drift_overview": {
                 "recent_events": len(recent_drifts),
                 "high_severity_events": len([d for d in recent_drifts if d.drift_score > 0.7]),
-                "average_drift": (
-                    np.mean([d.drift_score for d in recent_drifts]) if recent_drifts else 0.0
-                ),
+                "average_drift": (np.mean([d.drift_score for d in recent_drifts]) if recent_drifts else 0.0),
             },
             "performance_metrics": performance_metrics,
             "tier_usage": tier_usage,
             "trends": {"drift_trends": drift_trends, "cascade_trends": cascade_trends},
             "recommendations": recommendations,
-            "alert_level": self._determine_alert_level(
-                health_metrics, active_cascades, recent_drifts
-            ),
+            "alert_level": self._determine_alert_level(health_metrics, active_cascades, recent_drifts),
         }
 
-        logger.info(
-            f"Dashboard summary generated: status={summary['health_overview']['system_status']}"
-        )
+        logger.info(f"Dashboard summary generated: status={summary['health_overview']['system_status']}")
 
         return summary
 
@@ -375,9 +363,7 @@ class MemoryHealthDashboard:
                     for line in f:
                         try:
                             trace_data = json.loads(line.strip())
-                            trace_time = datetime.fromisoformat(
-                                trace_data["timestamp_utc"].replace("Z", "+00:00")
-                            )
+                            trace_time = datetime.fromisoformat(trace_data["timestamp_utc"].replace("Z", "+00:00"))
 
                             if trace_time >= cutoff_time:
                                 dream_analytics["total_dreams_processed"] += 1
@@ -411,9 +397,7 @@ class MemoryHealthDashboard:
 
         # Calculate averages
         if dream_analytics["integration_quality_scores"]:
-            dream_analytics["average_entanglement_level"] = np.mean(
-                dream_analytics["integration_quality_scores"]
-            )
+            dream_analytics["average_entanglement_level"] = np.mean(dream_analytics["integration_quality_scores"])
 
         # Calculate success rate
         total = dream_analytics["total_dreams_processed"]
@@ -422,9 +406,7 @@ class MemoryHealthDashboard:
         else:
             dream_analytics["success_rate"] = 0.0
 
-        logger.info(
-            f"Dream integration analytics: success_rate={dream_analytics['success_rate']:.3f}"
-        )
+        logger.info(f"Dream integration analytics: success_rate={dream_analytics['success_rate']:.3f}")
 
         return dict(dream_analytics)  # Convert defaultdict to regular dict
 
@@ -565,20 +547,14 @@ class MemoryHealthDashboard:
                             # Check if this is a recent activation
                             timestamp_str = entry.get("timestamp", "")
                             try:
-                                timestamp = datetime.fromisoformat(
-                                    timestamp_str.replace("Z", "+00:00")
-                                )
-                                age_minutes = (
-                                    datetime.now(timezone.utc) - timestamp
-                                ).total_seconds() / 60
+                                timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
+                                age_minutes = (datetime.now(timezone.utc) - timestamp).total_seconds() / 60
 
                                 # Consider blocks active for 60 minutes after activation
                                 if age_minutes < 60:
                                     block = CascadeBlockInfo(
                                         block_id=f"emotional_{entry.get('timestamp', '')[:19]}",
-                                        fold_key=entry.get("identity_delta", {}).get(
-                                            "fold_key", "unknown"
-                                        ),
+                                        fold_key=entry.get("identity_delta", {}).get("fold_key", "unknown"),
                                         block_type="emotional_circuit_breaker",
                                         activation_timestamp=timestamp_str,
                                         severity_level="critical",
@@ -586,12 +562,8 @@ class MemoryHealthDashboard:
                                         duration_minutes=age_minutes,
                                         status=("active" if age_minutes < 30 else "cooling_down"),
                                         related_metrics={
-                                            "emotion_volatility": entry.get(
-                                                "emotion_volatility", 0.0
-                                            ),
-                                            "stabilization_factor": entry.get(
-                                                "stabilization_factor", 0.0
-                                            ),
+                                            "emotion_volatility": entry.get("emotion_volatility", 0.0),
+                                            "stabilization_factor": entry.get("stabilization_factor", 0.0),
                                         },
                                     )
                                     blocks.append(block)
@@ -623,12 +595,8 @@ class MemoryHealthDashboard:
 
                             if severity in ["high", "critical"]:
                                 try:
-                                    timestamp = datetime.fromisoformat(
-                                        timestamp_str.replace("Z", "+00:00")
-                                    )
-                                    age_minutes = (
-                                        datetime.now(timezone.utc) - timestamp
-                                    ).total_seconds() / 60
+                                    timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
+                                    age_minutes = (datetime.now(timezone.utc) - timestamp).total_seconds() / 60
 
                                     # Consider high-severity blocks active for 120
                                     # minutes
@@ -642,16 +610,12 @@ class MemoryHealthDashboard:
                                             block_type="ethical_governance",
                                             activation_timestamp=timestamp_str,
                                             severity_level=severity,
-                                            intervention_type=entry.get(
-                                                "recommended_intervention", "monitor"
-                                            ),
+                                            intervention_type=entry.get("recommended_intervention", "monitor"),
                                             duration_minutes=age_minutes,
                                             status=("active" if age_minutes < 60 else "monitoring"),
                                             related_metrics={
                                                 "risk_factors": entry.get("risk_factors", {}),
-                                                "detected_patterns_count": len(
-                                                    entry.get("detected_patterns", [])
-                                                ),
+                                                "detected_patterns_count": len(entry.get("detected_patterns", [])),
                                             },
                                         )
                                         blocks.append(block)
@@ -681,12 +645,8 @@ class MemoryHealthDashboard:
                             if entry.get("loop_flag"):
                                 timestamp_str = entry.get("timestamp_utc", "")
                                 try:
-                                    timestamp = datetime.fromisoformat(
-                                        timestamp_str.replace("Z", "+00:00")
-                                    )
-                                    age_minutes = (
-                                        datetime.now(timezone.utc) - timestamp
-                                    ).total_seconds() / 60
+                                    timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
+                                    age_minutes = (datetime.now(timezone.utc) - timestamp).total_seconds() / 60
 
                                     # Consider loop blocks active for 30 minutes
                                     if age_minutes < 30:
@@ -697,22 +657,16 @@ class MemoryHealthDashboard:
                                             fold_key=entry.get("fold_key", "unknown"),
                                             block_type="compression_loop",
                                             activation_timestamp=timestamp_str,
-                                            severity_level=loop_detection.get(
-                                                "risk_level", "medium"
-                                            ).lower(),
+                                            severity_level=loop_detection.get("risk_level", "medium").lower(),
                                             intervention_type="compression_throttle",
                                             duration_minutes=age_minutes,
                                             status=("active" if age_minutes < 15 else "recovering"),
                                             related_metrics={
-                                                "entropy_ratio": loop_detection.get(
-                                                    "entropy_analysis", {}
-                                                ).get("entropy_ratio", 0.0),
-                                                "call_stack_depth": loop_detection.get(
-                                                    "call_stack_depth", 0
+                                                "entropy_ratio": loop_detection.get("entropy_analysis", {}).get(
+                                                    "entropy_ratio", 0.0
                                                 ),
-                                                "loop_indicators_count": len(
-                                                    loop_detection.get("loop_indicators", [])
-                                                ),
+                                                "call_stack_depth": loop_detection.get("call_stack_depth", 0),
+                                                "loop_indicators_count": len(loop_detection.get("loop_indicators", [])),
                                             },
                                         )
                                         blocks.append(block)
@@ -727,9 +681,7 @@ class MemoryHealthDashboard:
 
         return blocks
 
-    def _analyze_drift_events_from_integrity_log(
-        self, cutoff_time: datetime
-    ) -> list[DriftEventSummary]:
+    def _analyze_drift_events_from_integrity_log(self, cutoff_time: datetime) -> list[DriftEventSummary]:
         """Analyze drift events from integrity log."""
         events = []
 
@@ -742,9 +694,7 @@ class MemoryHealthDashboard:
 
                             if entry.get("event_type") == "symbolic_drift":
                                 timestamp_str = entry.get("timestamp_utc", "")
-                                timestamp = datetime.fromisoformat(
-                                    timestamp_str.replace("Z", "+00:00")
-                                )
+                                timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
 
                                 if timestamp >= cutoff_time:
                                     event = DriftEventSummary(
@@ -791,11 +741,7 @@ class MemoryHealthDashboard:
                                     drift_type="dream_induced",
                                     causative_factors=entry.get("safeguard_flags", []),
                                     stability_impact=entry.get("entanglement_level", 0) / 15.0,
-                                    resolution_status=(
-                                        "integrated"
-                                        if not entry.get("safeguard_flags")
-                                        else "flagged"
-                                    ),
+                                    resolution_status=("integrated" if not entry.get("safeguard_flags") else "flagged"),
                                 )
                                 events.append(event)
 
@@ -851,9 +797,7 @@ class MemoryHealthDashboard:
             "types": dict(cascade_types),
             "severity_distribution": dict(severity_levels),
             "critical_count": severity_levels.get("critical", 0),
-            "average_duration": (
-                np.mean([c.duration_minutes for c in active_cascades]) if active_cascades else 0.0
-            ),
+            "average_duration": (np.mean([c.duration_minutes for c in active_cascades]) if active_cascades else 0.0),
         }
 
     def _get_system_performance_metrics(self, time_window_hours: int) -> dict[str, Any]:
@@ -884,34 +828,24 @@ class MemoryHealthDashboard:
 
         # Stability-based recommendations
         if health_metrics.stability_score < 0.7:
-            recommendations.append(
-                "System stability below optimal - consider reducing memory fold creation rate"
-            )
+            recommendations.append("System stability below optimal - consider reducing memory fold creation rate")
 
         # Cascade-based recommendations
         critical_cascades = [c for c in active_cascades if c.severity_level == "critical"]
         if len(critical_cascades) > 2:
-            recommendations.append(
-                "Multiple critical cascade blocks detected - recommend manual intervention review"
-            )
+            recommendations.append("Multiple critical cascade blocks detected - recommend manual intervention review")
 
         # Drift-based recommendations
         high_drift_events = [d for d in recent_drifts if d.drift_score > 0.8]
         if len(high_drift_events) > 5:
-            recommendations.append(
-                "High drift event frequency detected - consider tightening drift thresholds"
-            )
+            recommendations.append("High drift event frequency detected - consider tightening drift thresholds")
 
         # Performance-based recommendations
         if health_metrics.compression_efficiency < 0.6:
-            recommendations.append(
-                "Compression efficiency below optimal - review compression algorithm parameters"
-            )
+            recommendations.append("Compression efficiency below optimal - review compression algorithm parameters")
 
         if not recommendations:
-            recommendations.append(
-                "System operating within normal parameters - no immediate action required"
-            )
+            recommendations.append("System operating within normal parameters - no immediate action required")
 
         return recommendations
 

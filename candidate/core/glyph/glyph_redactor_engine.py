@@ -200,11 +200,7 @@ class GlyphRedactorEngine:  # #ΛPSEUDOCODE
             return REDACTION_GLYPH_OBFUSCATE
         elif mode == "text_label":
             # ΛSCRUBBED (text_label)
-            level_short = (
-                glyph_sensitivity_level.split("_")[0]
-                if "_" in glyph_sensitivity_level
-                else "SENSITIVE"
-            )
+            level_short = glyph_sensitivity_level.split("_")[0] if "_" in glyph_sensitivity_level else "SENSITIVE"
             return f"{REDACTION_TEXT_PREFIX}{level_short}{REDACTION_TEXT_SUFFIX}"
         else:  # Default to strict for unknown modes
             # ΛSCRUBBED (default_strict)

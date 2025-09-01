@@ -62,11 +62,7 @@ def fix_common_syntax_patterns(content: str) -> tuple[str, list[str]]:
         # Pattern 5: Fix missing colons in control structures
         control_patterns = [r"^\s*(if|elif|else|for|while|try|except|finally|with|def|class)\s+"]
         for pattern in control_patterns:
-            if (
-                re.match(pattern, line)
-                and not line.rstrip().endswith(":")
-                and not line.rstrip().endswith(",")
-            ):
+            if re.match(pattern, line) and not line.rstrip().endswith(":") and not line.rstrip().endswith(","):
                 line = line.rstrip() + ":"
                 fixes_applied.append(f"Line {i}: Added missing colon")
                 break

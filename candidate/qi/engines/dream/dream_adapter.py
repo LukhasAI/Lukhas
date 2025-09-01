@@ -101,14 +101,10 @@ class QIDreamAdapter:
             total_weight += weight
 
         # Normalize weights
-        superposition["superposition_weights"] = [
-            w / total_weight for w in superposition["superposition_weights"]
-        ]
+        superposition["superposition_weights"] = [w / total_weight for w in superposition["superposition_weights"]]
 
         # Combine dream content
-        combined_content = self._combine_dream_content(
-            effective_states, superposition["superposition_weights"]
-        )
+        combined_content = self._combine_dream_content(effective_states, superposition["superposition_weights"])
         superposition.update(combined_content)
 
         # Update quantum-like state
@@ -117,9 +113,7 @@ class QIDreamAdapter:
 
         return superposition
 
-    def _combine_dream_content(
-        self, states: list[dict[str, Any]], weights: list[float]
-    ) -> dict[str, Any]:
+    def _combine_dream_content(self, states: list[dict[str, Any]], weights: list[float]) -> dict[str, Any]:
         """Combine dream content from multiple states using superposition-like state."""
         combined = {
             "dream_content": "",
@@ -186,9 +180,7 @@ class QIDreamAdapter:
         self.qi_like_state["entanglement_pairs"].append(pair_id)
 
         # Create entangled properties
-        entangled_result = self._create_entangled_properties(
-            dream_data_1, dream_data_2, entanglement_strength
-        )
+        entangled_result = self._create_entangled_properties(dream_data_1, dream_data_2, entanglement_strength)
 
         return {
             "pair_id": pair_id,
@@ -197,23 +189,17 @@ class QIDreamAdapter:
             "correlation_factors": entanglement_pair["correlation_factors"],
         }
 
-    def _calculate_correlation_factors(
-        self, data1: dict[str, Any], data2: dict[str, Any]
-    ) -> dict[str, float]:
+    def _calculate_correlation_factors(self, data1: dict[str, Any], data2: dict[str, Any]) -> dict[str, float]:
         """Calculate correlation factors between two dream data sets."""
         factors = {}
 
         # Emotional correlation
         if "emotional_intensity" in data1 and "emotional_intensity" in data2:
-            factors["emotional"] = 1.0 - abs(
-                data1["emotional_intensity"] - data2["emotional_intensity"]
-            )
+            factors["emotional"] = 1.0 - abs(data1["emotional_intensity"] - data2["emotional_intensity"])
 
         # Narrative correlation
         if "narrative_coherence" in data1 and "narrative_coherence" in data2:
-            factors["narrative"] = 1.0 - abs(
-                data1["narrative_coherence"] - data2["narrative_coherence"]
-            )
+            factors["narrative"] = 1.0 - abs(data1["narrative_coherence"] - data2["narrative_coherence"])
 
         # Symbolic correlation
         if "symbolic_elements" in data1 and "symbolic_elements" in data2:
@@ -239,15 +225,11 @@ class QIDreamAdapter:
 
         # Entangled narrative elements
         if "dream_content" in data1 and "dream_content" in data2:
-            entangled["dream_content"] = (
-                f"[Entangled] {data1['dream_content']} <-> {data2['dream_content']}"
-            )
+            entangled["dream_content"] = f"[Entangled] {data1['dream_content']} <-> {data2['dream_content']}"
 
         # Entangled symbolic elements
         if "symbolic_elements" in data1 and "symbolic_elements" in data2:
-            entangled["symbolic_elements"] = list(
-                set(data1["symbolic_elements"] + data2["symbolic_elements"])
-            )
+            entangled["symbolic_elements"] = list(set(data1["symbolic_elements"] + data2["symbolic_elements"]))
 
         # Entanglement-specific properties
         entangled["entanglement_strength"] = strength
@@ -287,9 +269,7 @@ class QIDreamAdapter:
         if observable == "coherence":
             # Measure coherence with some uncertainty
             uncertainty = (1.0 - self.config.measurement_precision) * 0.1
-            measured_value = self.qi_like_state["coherence"] + random.uniform(
-                -uncertainty, uncertainty
-            )
+            measured_value = self.qi_like_state["coherence"] + random.uniform(-uncertainty, uncertainty)
             measurement_result["value"] = max(0.0, min(1.0, measured_value))
 
         elif observable == "phase":
@@ -300,8 +280,7 @@ class QIDreamAdapter:
             # Measure entanglement strength
             if self.qi_like_state["entanglement_pairs"]:
                 avg_strength = sum(
-                    self.entangled_dreams[pair_id]["strength"]
-                    for pair_id in self.qi_like_state["entanglement_pairs"]
+                    self.entangled_dreams[pair_id]["strength"] for pair_id in self.qi_like_state["entanglement_pairs"]
                 ) / len(self.qi_like_state["entanglement_pairs"])
                 measurement_result["value"] = avg_strength
             else:
@@ -413,9 +392,7 @@ class QIDreamAdapter:
             return "stable"
 
         # Simple trend calculation
-        start_avg = sum(recent_coherence[: len(recent_coherence) // 2]) / (
-            len(recent_coherence) // 2
-        )
+        start_avg = sum(recent_coherence[: len(recent_coherence) // 2]) / (len(recent_coherence) // 2)
         end_avg = sum(recent_coherence[len(recent_coherence) // 2 :]) / (
             len(recent_coherence) - len(recent_coherence) // 2
         )

@@ -198,9 +198,7 @@ class RedundancyAnalyzer:
                     continue
 
                 # Calculate similarity
-                similarity = difflib.SequenceMatcher(
-                    None, func1["normalized"], func2["normalized"]
-                ).ratio()
+                similarity = difflib.SequenceMatcher(None, func1["normalized"], func2["normalized"]).ratio()
 
                 # Report high similarity (>80%)
                 if similarity > 0.8:
@@ -314,9 +312,7 @@ class RedundancyAnalyzer:
         near_duplicates = total_duplications - exact_duplicates
 
         # Estimate code savings
-        total_duplicate_lines = sum(
-            d.lines1[1] - d.lines1[0] for d in self.duplications if d.similarity > 0.9
-        )
+        total_duplicate_lines = sum(d.lines1[1] - d.lines1[0] for d in self.duplications if d.similarity > 0.9)
 
         report = {
             "summary": {
@@ -325,15 +321,9 @@ class RedundancyAnalyzer:
                 "exact_duplicates": exact_duplicates,
                 "near_duplicates": near_duplicates,
                 "estimated_duplicate_lines": total_duplicate_lines,
-                "common_imports": len(
-                    [p for p in self.redundant_patterns if p["type"] == "common_import"]
-                ),
-                "duplicate_classes": len(
-                    [p for p in self.redundant_patterns if p["type"] == "duplicate_class"]
-                ),
-                "common_patterns": len(
-                    [p for p in self.redundant_patterns if p["type"] == "common_pattern"]
-                ),
+                "common_imports": len([p for p in self.redundant_patterns if p["type"] == "common_import"]),
+                "duplicate_classes": len([p for p in self.redundant_patterns if p["type"] == "duplicate_class"]),
+                "common_patterns": len([p for p in self.redundant_patterns if p["type"] == "common_pattern"]),
             },
             "duplications": [
                 {
@@ -368,17 +358,12 @@ class RedundancyAnalyzer:
                     "type": "remove_exact_duplicates",
                     "description": f"Remove {len(exact_dups)} exact duplicate functions",
                     "impact": f"Reduce codebase by ~{len(exact_dups) * 20} lines",
-                    "examples": [
-                        f"{d.function1} in {d.file1} and {d.function2} in {d.file2}"
-                        for d in exact_dups[:3]
-                    ],
+                    "examples": [f"{d.function1} in {d.file1} and {d.function2} in {d.file2}" for d in exact_dups[:3]],
                 }
             )
 
         # Recommendation for common imports
-        common_imports = [
-            p for p in self.redundant_patterns if p["type"] == "common_import" and p["count"] > 10
-        ]
+        common_imports = [p for p in self.redundant_patterns if p["type"] == "common_import" and p["count"] > 10]
         if common_imports:
             recommendations.append(
                 {
@@ -400,8 +385,7 @@ class RedundancyAnalyzer:
                     "description": f"Consolidate {len(dup_classes)} duplicate class definitions",
                     "impact": "Improve maintainability and reduce confusion",
                     "examples": [
-                        f"{p['class_name']} appears in {len(p['occurrences'])} files"
-                        for p in dup_classes[:3]
+                        f"{p['class_name']} appears in {len(p['occurrences'])} files" for p in dup_classes[:3]
                     ],
                 }
             )
@@ -415,9 +399,7 @@ class RedundancyAnalyzer:
                     "type": "abstract_patterns",
                     "description": "Create utility functions for common code patterns",
                     "impact": "Improve consistency and reduce boilerplate",
-                    "patterns": [
-                        f"{p['pattern']}: {p['total_count']} occurrences" for p in common_patterns
-                    ],
+                    "patterns": [f"{p['pattern']}: {p['total_count']} occurrences" for p in common_patterns],
                 }
             )
 

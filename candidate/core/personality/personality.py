@@ -136,9 +136,7 @@ class ShynessModule:
                 global_mean = global_shyness.get("mean", 0.5)
 
                 # Blend local and global patterns
-                self.shyness_level = (
-                    0.7 * (self.shyness_level + local_adjustment) + 0.3 * global_mean
-                )
+                self.shyness_level = 0.7 * (self.shyness_level + local_adjustment) + 0.3 * global_mean
             except Exception as e:
                 logger.warning(
                     "ΛPERSONALITY: Federated learning unavailable",
@@ -234,9 +232,7 @@ class EtiquetteEngine:
             style=style.value,
         )
 
-    def get_etiquette_adjustments(
-        self, context: InteractionContext, user_id: Optional[str] = None
-    ) -> dict[str, float]:
+    def get_etiquette_adjustments(self, context: InteractionContext, user_id: Optional[str] = None) -> dict[str, float]:
         """Get etiquette adjustments for current context"""
 
         base_rules = self.context_rules.get(context, self.context_rules[InteractionContext.CASUAL])
@@ -313,17 +309,14 @@ class PersonalityManager:
 
         # Combine all factors
         personality_profile = {
-            "verbosity": interaction_style["verbosity"]
-            * etiquette_adjustments["verbosity_modifier"]
-            * energy_factor,
+            "verbosity": interaction_style["verbosity"] * etiquette_adjustments["verbosity_modifier"] * energy_factor,
             "response_latency": interaction_style["response_latency"] / energy_factor,
             "emotional_expressiveness": (
                 interaction_style["emotional_expressiveness"]
                 * etiquette_adjustments["emotional_expression"]
                 * mood_factor
             ),
-            "politeness_level": self.etiquette_engine.politeness_level
-            * etiquette_adjustments["politeness_multiplier"],
+            "politeness_level": self.etiquette_engine.politeness_level * etiquette_adjustments["politeness_multiplier"],
             "technical_detail": etiquette_adjustments["technical_detail"],
             "topic_initiative": interaction_style["topic_initiative"] * energy_factor,
             "self_disclosure": interaction_style["self_disclosure"],
@@ -393,10 +386,7 @@ class PersonalityManager:
                 "energy_level": self.energy_level,
                 "social_confidence": self.social_confidence,
                 "session_interactions": self.interaction_count,
-                "session_duration_minutes": (
-                    datetime.now() - self.session_start_time
-                ).total_seconds()
-                / 60,
+                "session_duration_minutes": (datetime.now() - self.session_start_time).total_seconds() / 60,
             },
             "shyness_module": {
                 "current_shyness": self.shyness_module.shyness_level,

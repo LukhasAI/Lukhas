@@ -381,9 +381,7 @@ class ProactiveAssistanceSystem:
                 return
 
         # Check for frustration
-        frustration_count = sum(
-            1 for action in recent_actions if action.action_type in self.frustration_indicators
-        )
+        frustration_count = sum(1 for action in recent_actions if action.action_type in self.frustration_indicators)
         if frustration_count >= 3:
             self.user_states[user_id] = UserState.FRUSTRATED
             return
@@ -630,11 +628,7 @@ class ProactiveAssistanceSystem:
 
     def _identify_search_target(self, user_id: str) -> str:
         """Identify what user is searching for"""
-        search_actions = [
-            a
-            for a in self.action_history.get(user_id, [])[-10:]
-            if "search" in a.action_type.lower()
-        ]
+        search_actions = [a for a in self.action_history.get(user_id, [])[-10:] if "search" in a.action_type.lower()]
 
         if search_actions and search_actions[-1].context.get("query"):
             return search_actions[-1].context["query"]
@@ -703,15 +697,11 @@ class ProactiveAssistanceSystem:
         # Abandonment points
         if pain_points.get("abandonment_points"):
             top_abandonment = max(pain_points["abandonment_points"].items(), key=lambda x: x[1])
-            recommendations.append(
-                f"Simplify '{top_abandonment[0]}' - {top_abandonment[1]} users quit here"
-            )
+            recommendations.append(f"Simplify '{top_abandonment[0]}' - {top_abandonment[1]} users quit here")
 
         return recommendations
 
-    def _identify_frequently_searched_features(
-        self, behavioral_data: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _identify_frequently_searched_features(self, behavioral_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Identify features users frequently search for"""
         search_counts = {}
 
@@ -758,15 +748,11 @@ class ProactiveAssistanceSystem:
                             targets_with_confusion.add(action.target)
 
             for target in targets_with_confusion:
-                confusion_areas.append(
-                    {"name": target, "indicators": ["random_clicks", "hesitation"]}
-                )
+                confusion_areas.append({"name": target, "indicators": ["random_clicks", "hesitation"]})
 
         return confusion_areas[:5]
 
-    def _identify_inefficient_workflows(
-        self, behavioral_data: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _identify_inefficient_workflows(self, behavioral_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Identify workflows that could be optimized"""
         workflows = []
 

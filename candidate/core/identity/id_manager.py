@@ -54,9 +54,7 @@ def register_new_user(username: str, desired_tier: int = 1) -> str:
     """
     new_sid = f"{username}_sid_{len(USER_TIERS) + 1:03d}"
     USER_TIERS[new_sid] = desired_tier
-    print(
-        f"➕ [LucasID] Registered new user: {username} with SID: {new_sid} and Tier: {desired_tier}"
-    )
+    print(f"➕ [LucasID] Registered new user: {username} with SID: {new_sid} and Tier: {desired_tier}")
     return new_sid
 
 

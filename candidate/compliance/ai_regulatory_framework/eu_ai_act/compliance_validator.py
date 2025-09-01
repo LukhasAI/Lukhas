@@ -107,9 +107,7 @@ class EUAIActValidator:
             "instruction_documentation",
         }
 
-    async def assess_system_compliance(
-        self, system_profile: AISystemProfile
-    ) -> ComplianceAssessment:
+    async def assess_system_compliance(self, system_profile: AISystemProfile) -> ComplianceAssessment:
         """
         Comprehensive compliance assessment for an AI system
 
@@ -227,9 +225,7 @@ class EUAIActValidator:
 
         return violations
 
-    async def _validate_transparency_requirements(
-        self, system_profile: AISystemProfile
-    ) -> list[str]:
+    async def _validate_transparency_requirements(self, system_profile: AISystemProfile) -> list[str]:
         """Validate transparency requirements"""
         violations = []
 
@@ -275,9 +271,7 @@ class EUAIActValidator:
         requirements.append("Monitor ongoing compliance")
         return requirements
 
-    async def _generate_recommendations(
-        self, violations: list[str], risk_category: AISystemRiskCategory
-    ) -> list[str]:
+    async def _generate_recommendations(self, violations: list[str], risk_category: AISystemRiskCategory) -> list[str]:
         """Generate compliance recommendations"""
         recommendations = []
 
@@ -307,9 +301,7 @@ class EUAIActValidator:
         else:
             return ComplianceStatus.NON_COMPLIANT
 
-    async def _calculate_confidence(
-        self, system_profile: AISystemProfile, violations: list[str]
-    ) -> float:
+    async def _calculate_confidence(self, system_profile: AISystemProfile, violations: list[str]) -> float:
         """Calculate confidence score for assessment"""
         base_confidence = 0.8
 
@@ -348,9 +340,7 @@ class EUAIActValidator:
             "violations": assessment.violations,
             "recommendations": assessment.recommendations,
             "next_steps": await self._generate_next_steps(assessment),
-            "regulatory_references": await self._get_regulatory_references(
-                assessment.risk_category
-            ),
+            "regulatory_references": await self._get_regulatory_references(assessment.risk_category),
         }
 
         return report

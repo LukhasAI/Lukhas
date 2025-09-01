@@ -20,11 +20,7 @@ def fetch_cached_jwks(issuer: str) -> Optional[dict[str, Any]]:
     then fetch from issuer's .well-known/jwks.json endpoint.
     """
     # For now, return a mock JWKS
-    return {
-        "keys": [
-            {"kty": "OKP", "use": "sig", "kid": "default", "alg": "Ed25519", "x": "mock_public_key"}
-        ]
-    }
+    return {"keys": [{"kty": "OKP", "use": "sig", "kid": "default", "alg": "Ed25519", "x": "mock_public_key"}]}
 
 
 def verify_content_hash(content_bytes: bytes, seal: dict[str, Any]) -> bool:
@@ -104,9 +100,7 @@ Examples:
 
     parser.add_argument("path", help="Path to file containing GLYPH seal")
 
-    parser.add_argument(
-        "--online", action="store_true", help="Enable online checks (revocation, fresh JWKS)"
-    )
+    parser.add_argument("--online", action="store_true", help="Enable online checks (revocation, fresh JWKS)")
 
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
 

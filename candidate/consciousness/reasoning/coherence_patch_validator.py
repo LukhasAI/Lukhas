@@ -138,9 +138,7 @@ class CoherencePatchValidator:
 
         return metrics
 
-    async def validate_and_patch(
-        self, reasoning_trace: dict[str, Any], apply_patches: bool = True
-    ) -> dict[str, Any]:
+    async def validate_and_patch(self, reasoning_trace: dict[str, Any], apply_patches: bool = True) -> dict[str, Any]:
         """
         Validate coherence and apply patches if needed
 
@@ -235,10 +233,7 @@ class CoherencePatchValidator:
                 # Check if conclusions build on each other
                 if "conclusion" in prev_step and "input" in curr_step:
                     # Simple check - in reality would use NLP
-                    if any(
-                        word in str(curr_step["input"])
-                        for word in str(prev_step["conclusion"]).split()
-                    ):
+                    if any(word in str(curr_step["input"]) for word in str(prev_step["conclusion"]).split()):
                         factors.append(1.0)
                     else:
                         factors.append(0.5)
@@ -418,9 +413,7 @@ class CoherencePatchValidator:
 
         return issues
 
-    async def _generate_patches(
-        self, trace: dict[str, Any], issues: list[dict[str, Any]]
-    ) -> list[CoherencePatch]:
+    async def _generate_patches(self, trace: dict[str, Any], issues: list[dict[str, Any]]) -> list[CoherencePatch]:
         """Generate patches to fix identified issues"""
         patches = []
 
@@ -536,9 +529,7 @@ class CoherencePatchValidator:
             "stability_delta": metrics_after.stability_score - metrics_before.stability_score,
             "drift_delta": metrics_after.drift_score - metrics_before.drift_score,
             "patches_applied": [p.to_dict() for p in patches_applied],
-            "overall_improvement": self._calculate_patch_effectiveness(
-                metrics_before, metrics_after
-            ),
+            "overall_improvement": self._calculate_patch_effectiveness(metrics_before, metrics_after),
         }
 
         # Write to log file
@@ -561,9 +552,7 @@ class CoherencePatchValidator:
 
         summary = {
             "validations_analyzed": len(recent),
-            "average_metrics": {
-                key: sum(values) / len(values) for key, values in avg_scores.items()
-            },
+            "average_metrics": {key: sum(values) / len(values) for key, values in avg_scores.items()},
             "patches_applied_total": len([p for p in self.patch_history if p.applied]),
             "average_patch_effectiveness": (
                 sum(p.effectiveness for p in self.patch_history if p.applied)
@@ -577,9 +566,7 @@ class CoherencePatchValidator:
 
 
 # Backward compatibility function
-def validate_harmonization(
-    trace_before: dict[str, Any], trace_after: dict[str, Any]
-) -> dict[str, Any]:
+def validate_harmonization(trace_before: dict[str, Any], trace_after: dict[str, Any]) -> dict[str, Any]:
     """
     Compare pre/post traces to determine effectiveness of harmonization.
 

@@ -165,9 +165,7 @@ class ConsciousnessVisualizationBridge:
                 "identity_particles": lambda s: int(s.identity_strength * 10000),
                 "consciousness_particles": lambda s: int(s.consciousness_strength * 10000),
                 "guardian_particles": lambda s: int(s.guardian_strength * 10000),
-                "balance": lambda s: min(
-                    s.identity_strength, s.consciousness_strength, s.guardian_strength
-                ),
+                "balance": lambda s: min(s.identity_strength, s.consciousness_strength, s.guardian_strength),
             },
         }
 
@@ -191,9 +189,7 @@ class ConsciousnessVisualizationBridge:
                 "secondary": lambda s: self._hsv_to_rgb(0.25, 0.7, s.glyph_resonance),
             },
             VisualizationMode.QUANTUM: {
-                "primary": lambda s: self._hsv_to_rgb(
-                    0.8 + s.entanglement * 0.2, s.qi_coherence, 0.7
-                ),
+                "primary": lambda s: self._hsv_to_rgb(0.8 + s.entanglement * 0.2, s.qi_coherence, 0.7),
                 "secondary": lambda s: self._hsv_to_rgb(0.85, 0.9, s.qi_coherence),
             },
             VisualizationMode.TRINITY: {

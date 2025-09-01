@@ -115,9 +115,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
 
         self.logger.info("Distributed consciousness engine stopped")
 
-    async def process_consciousness_task(
-        self, task_type: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_consciousness_task(self, task_type: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process consciousness tasks using distributed colony architecture.
 
@@ -153,9 +151,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
             self._update_colony_metrics(task_type, False)
             raise
 
-    async def _process_reflection_distributed(
-        self, task_id: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_reflection_distributed(self, task_id: str, data: dict[str, Any]) -> dict[str, Any]:
         """Process reflection using multiple colonies in parallel."""
         self.logger.debug(f"Distributing reflection task {task_id} across colonies")
 
@@ -193,15 +189,9 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         integrated_result = {
             "task_id": task_id,
             "timestamp": datetime.now().isoformat(),
-            "reasoning_analysis": (
-                results[0] if not isinstance(results[0], Exception) else {"error": str(results[0])}
-            ),
-            "memory_context": (
-                results[1] if not isinstance(results[1], Exception) else {"error": str(results[1])}
-            ),
-            "creative_insights": (
-                results[2] if not isinstance(results[2], Exception) else {"error": str(results[2])}
-            ),
+            "reasoning_analysis": (results[0] if not isinstance(results[0], Exception) else {"error": str(results[0])}),
+            "memory_context": (results[1] if not isinstance(results[1], Exception) else {"error": str(results[1])}),
+            "creative_insights": (results[2] if not isinstance(results[2], Exception) else {"error": str(results[2])}),
             "distributed": True,
         }
 
@@ -210,9 +200,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
 
         return integrated_result
 
-    async def _process_integration_distributed(
-        self, task_id: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_integration_distributed(self, task_id: str, data: dict[str, Any]) -> dict[str, Any]:
         """Process integration tasks across colonies with coordination."""
         self.logger.debug(f"Processing integration task {task_id} with colony coordination")
 
@@ -230,17 +218,11 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
 
         for step in plan.get("steps", []):
             if step["colony"] == "memory":
-                result = await self.memory_colony.execute_task(
-                    f"{task_id}-step-{step['id']}", step["task"]
-                )
+                result = await self.memory_colony.execute_task(f"{task_id}-step-{step['id']}", step["task"])
             elif step["colony"] == "creativity":
-                result = await self.creativity_colony.execute_task(
-                    f"{task_id}-step-{step['id']}", step["task"]
-                )
+                result = await self.creativity_colony.execute_task(f"{task_id}-step-{step['id']}", step["task"])
             else:
-                result = await self.reasoning_colony.execute_task(
-                    f"{task_id}-step-{step['id']}", step["task"]
-                )
+                result = await self.reasoning_colony.execute_task(f"{task_id}-step-{step['id']}", step["task"])
             integration_results.append(result)
 
         # Final integration by reasoning colony
@@ -250,9 +232,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
             "original_data": data,
         }
 
-        final_result = await self.reasoning_colony.execute_task(
-            f"{task_id}-final", final_integration
-        )
+        final_result = await self.reasoning_colony.execute_task(f"{task_id}-final", final_integration)
 
         return {
             "task_id": task_id,
@@ -262,9 +242,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
             "distributed": True,
         }
 
-    async def _process_awareness_distributed(
-        self, task_id: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_awareness_distributed(self, task_id: str, data: dict[str, Any]) -> dict[str, Any]:
         """Process awareness updates using colony consensus."""
         self.logger.debug(f"Processing awareness task {task_id} with colony consensus")
 
@@ -277,9 +255,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
             "stimuli": data.get("stimuli", []),
             "current_state": self.global_consciousness_state.to_dict(),
         }
-        awareness_tasks.append(
-            self.reasoning_colony.execute_task(f"{task_id}-reasoning-aware", reasoning_awareness)
-        )
+        awareness_tasks.append(self.reasoning_colony.execute_task(f"{task_id}-reasoning-aware", reasoning_awareness))
 
         # Memory colony evaluates contextual awareness
         memory_awareness = {
@@ -287,9 +263,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
             "stimuli": data.get("stimuli", []),
             "history_depth": 10,
         }
-        awareness_tasks.append(
-            self.memory_colony.execute_task(f"{task_id}-memory-aware", memory_awareness)
-        )
+        awareness_tasks.append(self.memory_colony.execute_task(f"{task_id}-memory-aware", memory_awareness))
 
         # Creativity colony evaluates emergent awareness
         creativity_awareness = {
@@ -297,9 +271,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
             "stimuli": data.get("stimuli", []),
             "exploration_mode": "divergent",
         }
-        awareness_tasks.append(
-            self.creativity_colony.execute_task(f"{task_id}-creativity-aware", creativity_awareness)
-        )
+        awareness_tasks.append(self.creativity_colony.execute_task(f"{task_id}-creativity-aware", creativity_awareness))
 
         # Gather all awareness evaluations
         awareness_results = await asyncio.gather(*awareness_tasks)
@@ -375,34 +347,20 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
             "engine_running": self._running,
             "colonies": {
                 "reasoning": {
-                    "active": (
-                        self.reasoning_colony.active
-                        if hasattr(self.reasoning_colony, "active")
-                        else False
-                    ),
+                    "active": (self.reasoning_colony.active if hasattr(self.reasoning_colony, "active") else False),
                     "metrics": self.colony_metrics["reasoning"],
                 },
                 "memory": {
-                    "active": (
-                        self.memory_colony.active
-                        if hasattr(self.memory_colony, "active")
-                        else False
-                    ),
+                    "active": (self.memory_colony.active if hasattr(self.memory_colony, "active") else False),
                     "metrics": self.colony_metrics["memory"],
                 },
                 "creativity": {
-                    "active": (
-                        self.creativity_colony.active
-                        if hasattr(self.creativity_colony, "active")
-                        else False
-                    ),
+                    "active": (self.creativity_colony.active if hasattr(self.creativity_colony, "active") else False),
                     "metrics": self.colony_metrics["creativity"],
                 },
             },
             "total_distributed_tasks": sum(m["tasks"] for m in self.colony_metrics.values()),
-            "average_success_rate": np.mean(
-                [m["success_rate"] for m in self.colony_metrics.values()]
-            ),
+            "average_success_rate": np.mean([m["success_rate"] for m in self.colony_metrics.values()]),
         }
 
         return status
@@ -487,9 +445,7 @@ async def demo_distributed_consciousness():
             "target": "unified_understanding",
         }
 
-        integration_result = await engine.process_consciousness_task(
-            "integration", integration_data
-        )
+        integration_result = await engine.process_consciousness_task("integration", integration_data)
         print("\nIntegration Result:", integration_result)
 
     finally:

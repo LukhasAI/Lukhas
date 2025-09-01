@@ -147,9 +147,7 @@ class ProtonGradient:
         """Processes input data through a quantum-modulated gradient."""
         self.log.debug("Processing input via ProtonGradient.", input_keys=list(input_data.keys()))
         try:
-            numeric_values = [
-                float(val) for val in input_data.values() if isinstance(val, (int, float))
-            ]
+            numeric_values = [float(val) for val in input_data.values() if isinstance(val, (int, float))]
             string_lengths = [len(str(val)) for val in input_data.values() if isinstance(val, str)]
             total_numeric_sum = sum(numeric_values)
             total_string_len_sum = sum(string_lengths)
@@ -159,21 +157,13 @@ class ProtonGradient:
             if num_items == 0:
                 gradient_strength = 0.0
             else:
-                gradient_strength = (
-                    total_numeric_sum / max(1, len(numeric_values)) if numeric_values else 0
-                ) + (
-                    total_string_len_sum / max(1, len(string_lengths)) / 10.0
-                    if string_lengths
-                    else 0
+                gradient_strength = (total_numeric_sum / max(1, len(numeric_values)) if numeric_values else 0) + (
+                    total_string_len_sum / max(1, len(string_lengths)) / 10.0 if string_lengths else 0
                 )
-                gradient_strength = np.clip(
-                    gradient_strength / max(1, num_items), -10.0, 10.0
-                ).item()  # type: ignore
+                gradient_strength = np.clip(gradient_strength / max(1, num_items), -10.0, 10.0).item()  # type: ignore
 
             random_influence = np.random.randn(3) * gradient_strength * 0.1
-            self.gradient_state_vector = self.qi_oscillator.qi_modulate(
-                self.gradient_state_vector + random_influence
-            )
+            self.gradient_state_vector = self.qi_oscillator.qi_modulate(self.gradient_state_vector + random_influence)
 
             processed_data = self._apply_gradient_to_data(input_data, self.gradient_state_vector)
             self.log.info(
@@ -193,9 +183,7 @@ class ProtonGradient:
             }
 
     @lukhas_tier_required(3)
-    def _apply_gradient_to_data(
-        self, data: dict[str, Any], gradient_vector: np.ndarray
-    ) -> dict[str, Any]:
+    def _apply_gradient_to_data(self, data: dict[str, Any], gradient_vector: np.ndarray) -> dict[str, Any]:
         """Applies the calculated proton gradient effect to the data."""
         processed_data: dict[str, Any] = {}
         gradient_effect_factors = gradient_vector * 0.1
@@ -221,9 +209,7 @@ class QIAttentionGate:
         self.log.info("QIAttentionGate initialized.")
 
     @lukhas_tier_required(2)
-    async def attend(
-        self, input_data: dict[str, Any], focus_map: dict[str, float]
-    ) -> dict[str, Any]:
+    async def attend(self, input_data: dict[str, Any], focus_map: dict[str, float]) -> dict[str, Any]:
         """Applies quantum-enhanced attention using bio-oscillator integration."""
         self.log.debug(
             "Applying quantum-enhanced attention.",
@@ -232,26 +218,16 @@ class QIAttentionGate:
         )
         try:
             relevant_focus_values = np.array(
-                [
-                    focus_map.get(key, 0.0)
-                    for key in input_data
-                    if isinstance(input_data[key], (int, float))
-                ],
+                [focus_map.get(key, 0.0) for key in input_data if isinstance(input_data[key], (int, float))],
                 dtype=float,
             )
 
             if relevant_focus_values.size == 0:
-                self.log.warning(
-                    "No numeric data found in input_data to apply attention. Returning input as is."
-                )
+                self.log.warning("No numeric data found in input_data to apply attention. Returning input as is.")
                 return input_data
 
-            qi_modulated_frequencies = self.bio_oscillator.modulate_frequencies(
-                relevant_focus_values
-            )
-            normalized_attention_weights = self._normalize_attention_weights(
-                qi_modulated_frequencies
-            )
+            qi_modulated_frequencies = self.bio_oscillator.modulate_frequencies(relevant_focus_values)
+            normalized_attention_weights = self._normalize_attention_weights(qi_modulated_frequencies)
 
             attended_data: dict[str, Any] = {}
             weight_idx = 0
@@ -299,9 +275,7 @@ class CristaFilter:
         self.log.info("CristaFilter initialized.")
 
     @lukhas_tier_required(2)
-    async def filter(
-        self, input_data: dict[str, Any], system_context_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def filter(self, input_data: dict[str, Any], system_context_state: dict[str, Any]) -> dict[str, Any]:
         """Applies bio-inspired filtering with quantum modulation based on system context."""
         self.log.debug(
             "Applying crista-inspired filter.",
@@ -320,9 +294,7 @@ class CristaFilter:
                     key, {"threshold": 0.1, "momentum": 0.95, "qi_weight": 1.0}
                 )
                 if isinstance(value, (int, float)):
-                    filtered_data_output[key] = self._apply_quantum_filter_to_value(
-                        value, current_filter_params
-                    )
+                    filtered_data_output[key] = self._apply_quantum_filter_to_value(value, current_filter_params)
                 elif isinstance(value, dict):
                     nested_context = (
                         system_context_state.get(key, {})
@@ -369,22 +341,18 @@ class CristaFilter:
 
             if isinstance(state_value, (int, float)):
                 self.filter_state_params[key]["threshold"] = np.clip(
-                    self.filter_state_params[key]["threshold"] * 0.98
-                    + 0.02 * (1 / (1 + abs(state_value))),
+                    self.filter_state_params[key]["threshold"] * 0.98 + 0.02 * (1 / (1 + abs(state_value))),
                     0.05,
                     0.95,
                 ).item()  # type: ignore
                 self.filter_state_params[key]["qi_weight"] = np.clip(
-                    self.filter_state_params[key]["qi_weight"]
-                    * (0.95 + 0.1 * np.tanh(state_value)),
+                    self.filter_state_params[key]["qi_weight"] * (0.95 + 0.1 * np.tanh(state_value)),
                     0.5,
                     1.5,
                 ).item()  # type: ignore
 
     @lukhas_tier_required(3)
-    def _apply_quantum_filter_to_value(
-        self, value: float, filter_params: dict[str, float]
-    ) -> float:
+    def _apply_quantum_filter_to_value(self, value: float, filter_params: dict[str, float]) -> float:
         """Applies a quantum-modulated filter to a single numeric value."""
         threshold = filter_params.get("threshold", 0.1)
         momentum = filter_params.get("momentum", 0.9)

@@ -50,9 +50,7 @@ _RECENT_INTERACTIONS = []
 MAX_RECENT_INTERACTIONS = 10
 
 
-def store_interaction(
-    user_input: str, system_response: str, context: Optional[dict[str, Any]] = None
-):
+def store_interaction(user_input: str, system_response: str, context: Optional[dict[str, Any]] = None):
     """Stores an interaction for later recall."""
     if len(_RECENT_INTERACTIONS) >= MAX_RECENT_INTERACTIONS:
         _RECENT_INTERACTIONS.pop(0)  # Remove oldest

@@ -266,9 +266,7 @@ def info_command(args):
 
 def main():
     """Main CLI entry point"""
-    parser = argparse.ArgumentParser(
-        prog="glyph", description="LUKHAS AI GLYPH Cryptographic Seal System"
-    )
+    parser = argparse.ArgumentParser(prog="glyph", description="LUKHAS AI GLYPH Cryptographic Seal System")
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 

@@ -56,15 +56,11 @@ class RecurringEmotionTracker:
             return stagnation_detected
 
         # If no stagnation, check for recurrence
-        emotional_history = self.emotional_memory.get_emotional_history(
-            hours_ago=self.history_window * 24
-        )
+        emotional_history = self.emotional_memory.get_emotional_history(hours_ago=self.history_window * 24)
         if not emotional_history:
             return None
 
-        current_emotion = self.emotional_memory.get_current_emotional_state()[
-            "current_emotion_vector"
-        ]
+        current_emotion = self.emotional_memory.get_current_emotional_state()["current_emotion_vector"]
         recurrence_detected = self._check_recurrence(current_emotion, emotional_history)
         if recurrence_detected:
             return recurrence_detected

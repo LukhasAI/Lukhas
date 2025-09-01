@@ -326,9 +326,7 @@ class NeuroSymbolicIntegration:
         word_count = len(text.split())
         char_count = len(text)
         has_question = "?" in text
-        has_emotion_words = any(
-            word in text.lower() for word in ["happy", "sad", "angry", "confused", "excited"]
-        )
+        has_emotion_words = any(word in text.lower() for word in ["happy", "sad", "angry", "confused", "excited"])
 
         # Generate simple response
         if has_question:
@@ -336,9 +334,7 @@ class NeuroSymbolicIntegration:
             response_type = "question_response"
             confidence = 0.6
         elif has_emotion_words:
-            response_text = (
-                "I can sense there are emotions involved here. Would you like to talk about it?"
-            )
+            response_text = "I can sense there are emotions involved here. Would you like to talk about it?"
             response_type = "emotional_response"
             confidence = 0.5
         else:
@@ -389,9 +385,7 @@ class NeuroSymbolicIntegration:
 
         try:
             if NEURO_SYMBOLIC_AVAILABLE and hasattr(self.attention_module, "attend"):
-                result = await self.attention_module.attend(
-                    input_data, context or {}, user_id, session_token
-                )
+                result = await self.attention_module.attend(input_data, context or {}, user_id, session_token)
             else:
                 # Fallback attention processing
                 result = self._fallback_attention_processing(input_data, context)
@@ -465,9 +459,7 @@ class NeuroSymbolicIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    def _fallback_causal_reasoning(
-        self, attended_data: dict[str, Any], user_id: str
-    ) -> dict[str, Any]:
+    def _fallback_causal_reasoning(self, attended_data: dict[str, Any], user_id: str) -> dict[str, Any]:
         """Fallback causal reasoning"""
         return {
             "causal_chains": {
@@ -504,9 +496,7 @@ class NeuroSymbolicIntegration:
         active_sessions = len(self.session_registry)
 
         # Calculate cache hit rate
-        cache_hits = sum(
-            1 for entry in self.processing_cache.values() if self._is_cache_valid(entry)
-        )
+        cache_hits = sum(1 for entry in self.processing_cache.values() if self._is_cache_valid(entry))
         cache_hit_rate = cache_hits / total_processes if total_processes > 0 else 0
 
         return {

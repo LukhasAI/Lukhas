@@ -33,9 +33,7 @@ from typing import (  # Union and Tuple are not used, can be removed
 # Add parent directory to path for identity interface
 # AIMPORT_TODO: This sys.path manipulation is generally discouraged.
 # Prefer absolute imports or proper packaging.
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)  # Use abspath for robustness
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # Use abspath for robustness
 
 try:
     from identity.interface import (
@@ -194,15 +192,11 @@ class LearningService:
 
         try:
             # NOTE: Core data processing logic is in a private method.
-            learning_results = self._process_learning_data(
-                data_source, learning_mode, learning_objectives
-            )
+            learning_results = self._process_learning_data(data_source, learning_mode, learning_objectives)
             self._update_knowledge_base(learning_results)
 
             # Added microsecs
-            session_id = (
-                f"learn_{learning_mode}_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
-            )
+            session_id = f"learn_{learning_mode}_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
 
             self.identity_client.log_activity(
                 "learning_session_completed",
@@ -420,12 +414,8 @@ class LearningService:
             }
 
         try:
-            synthesis_results = self._synthesize_knowledge_sources(
-                knowledge_sources, synthesis_method
-            )
-            self._update_knowledge_graph(
-                synthesis_results
-            )  # NOTE: Updates internal knowledge graph.
+            synthesis_results = self._synthesize_knowledge_sources(knowledge_sources, synthesis_method)
+            self._update_knowledge_graph(synthesis_results)  # NOTE: Updates internal knowledge graph.
 
             synthesis_id = f"synthesis_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
 
@@ -527,9 +517,7 @@ class LearningService:
             }
 
         try:
-            transfer_results = self._process_transfer_learning(
-                source_domain, target_domain, knowledge_to_transfer
-            )
+            transfer_results = self._process_transfer_learning(source_domain, target_domain, knowledge_to_transfer)
 
             transfer_id = f"transfer_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
 
@@ -762,9 +750,7 @@ class LearningService:
         }
 
     # # Placeholder: Synthesize knowledge from multiple sources
-    def _synthesize_knowledge_sources(
-        self, sources: list[dict[str, Any]], method: str
-    ) -> dict[str, Any]:
+    def _synthesize_knowledge_sources(self, sources: list[dict[str, Any]], method: str) -> dict[str, Any]:
         """Synthesize knowledge from multiple sources."""
         # NOTE: Simplified placeholder for knowledge synthesis.
         # CAUTION: This method uses random values for results; it's a stub.
@@ -777,9 +763,7 @@ class LearningService:
         total_elements = sum(len(source.get("elements", [])) for source in sources)
 
         return {
-            "knowledge_nodes": [
-                f"node_{i}" for i in range(total_elements // 2 if total_elements > 1 else 1)
-            ],
+            "knowledge_nodes": [f"node_{i}" for i in range(total_elements // 2 if total_elements > 1 else 1)],
             "coherence": random.uniform(0.7, 0.95),
             "synthesis_method": method,
             "integration_quality": random.uniform(0.75, 0.9),
@@ -846,9 +830,7 @@ class LearningService:
         return {
             "adaptation_frequency": len(self.knowledge_base["adaptation_history"]),
             "success_trend": ("improving" if random.random() > 0.3 else "stable"),  # Example trend
-            "most_adapted_behaviors": random.sample(
-                ["problem_solving", "communication", "planning"], k=2
-            ),  # Example
+            "most_adapted_behaviors": random.sample(["problem_solving", "communication", "planning"], k=2),  # Example
         }
 
     # # Placeholder: Track knowledge base evolution
@@ -866,9 +848,7 @@ class LearningService:
 
 # # Module API functions for easy import
 # EXPOSE: Simplified top-level functions for accessing LearningService capabilities.
-def learn_from_data(
-    user_id: str, data_source: dict[str, Any], learning_mode: str = "supervised"
-) -> dict[str, Any]:
+def learn_from_data(user_id: str, data_source: dict[str, Any], learning_mode: str = "supervised") -> dict[str, Any]:
     """Simplified API for learning from data."""
     # NOTE: Convenience function. Creates a new service instance per call.
     # TRACE: learn_from_data (module function) called
@@ -883,9 +863,7 @@ def learn_from_data(
 
 # # Simplified API for behavior adaptation
 # EXPOSE: Convenience function.
-def adapt_behavior(
-    user_id: str, adaptation_context: dict[str, Any], behavior_targets: list[str]
-) -> dict[str, Any]:
+def adapt_behavior(user_id: str, adaptation_context: dict[str, Any], behavior_targets: list[str]) -> dict[str, Any]:
     """Simplified API for behavior adaptation."""
     # NOTE: Convenience function.
     # TRACE: adapt_behavior (module function) called

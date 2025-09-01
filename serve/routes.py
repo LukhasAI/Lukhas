@@ -168,9 +168,7 @@ async def generate_dream(req: DreamRequest) -> DreamResponse:
             elif len(symbols) == 2:
                 dream = f"In this {emotional_modifier} dream, {symbols[0]} and {symbols[1]} merge into one"
             else:
-                dream = (
-                    f"A {emotional_modifier} dream of {symbols[0]} echoing through infinite space"
-                )
+                dream = f"A {emotional_modifier} dream of {symbols[0]} echoing through infinite space"
     return DreamResponse(dream=dream, driftScore=drift_score, affect_delta=affect_delta)
 
 
@@ -193,9 +191,7 @@ async def glyph_feedback(req: GlyphFeedbackRequest) -> GlyphFeedbackResponse:
             suggestions.append("High drift detected - consider simplifying symbol complexity")
             suggestions.append("Reduce symbolic noise by filtering redundant elements")
         else:
-            suggestions.append(
-                f"Moderate drift (score: {req.driftScore:.3f}) - fine-tune symbol alignment"
-            )
+            suggestions.append(f"Moderate drift (score: {req.driftScore:.3f}) - fine-tune symbol alignment")
     else:
         suggestions.append("Drift within acceptable range - maintain current configuration")
 

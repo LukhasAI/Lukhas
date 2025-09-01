@@ -16,13 +16,9 @@ CONF_FILE = os.path.join(STATE, "budget_config.json")
 class BudgetConfig:
     default_token_cap: int = 200_000  # per-run soft cap
     default_latency_ms: int = 10_000
-    user_overrides: dict[str, dict[str, Any]] = (
-        None  # {user_id: {"token_cap":..., "latency_ms":...}}
-    )
+    user_overrides: dict[str, dict[str, Any]] = None  # {user_id: {"token_cap":..., "latency_ms":...}}
     task_overrides: dict[str, dict[str, Any]] = None  # {task: {...}}
-    model_costs: dict[str, dict[str, float]] = (
-        None  # {model: {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
-    )
+    model_costs: dict[str, dict[str, float]] = None  # {model: {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
 
     def to_dict(self):
         return {
@@ -30,8 +26,7 @@ class BudgetConfig:
             "default_latency_ms": self.default_latency_ms,
             "user_overrides": self.user_overrides or {},
             "task_overrides": self.task_overrides or {},
-            "model_costs": self.model_costs
-            or {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}},
+            "model_costs": self.model_costs or {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}},
         }
 
 
@@ -66,9 +61,7 @@ class Budgeter:
         _save_json(BUDGET_FILE, self.state)
 
     # ---- planning ----
-    def plan(
-        self, *, text: str = "", model: str = "default", target_tokens: int | None = None
-    ) -> dict[str, Any]:
+    def plan(self, *, text: str = "", model: str = "default", target_tokens: int | None = None) -> dict[str, Any]:
         # Ensure model_costs has default
         if not self.conf.model_costs:
             self.conf.model_costs = {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
@@ -107,9 +100,7 @@ class Budgeter:
             lat = int(u.get("latency_ms", lat))
         return {"token_cap": cap, "latency_ms": lat}
 
-    def check(
-        self, *, user_id: str | None, task: str | None, plan: dict[str, Any]
-    ) -> dict[str, Any]:
+    def check(self, *, user_id: str | None, task: str | None, plan: dict[str, Any]) -> dict[str, Any]:
         caps = self._caps(user_id, task)
         reasons = []
         if plan["tokens_planned"] > caps["token_cap"]:

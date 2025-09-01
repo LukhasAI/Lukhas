@@ -385,9 +385,7 @@ class AdaptiveMetricsCollector:
 
                 # Anomaly detection
                 if metric_def.anomaly_detection:
-                    data_point.anomaly_score = self.anomaly_detectors[metric_name].detect(
-                        data_point
-                    )
+                    data_point.anomaly_score = self.anomaly_detectors[metric_name].detect(data_point)
 
                 # Store data point
                 self.metric_data[metric_name].append(data_point)
@@ -754,15 +752,11 @@ class AdaptiveMetricsCollector:
             return []
 
         cutoff_time = datetime.now(timezone.utc) - timedelta(minutes=lookback_minutes)
-        recent_data = [
-            point.value for point in self.metric_data[metric_name] if point.timestamp > cutoff_time
-        ]
+        recent_data = [point.value for point in self.metric_data[metric_name] if point.timestamp > cutoff_time]
 
         return recent_data
 
-    def get_contextual_analysis(
-        self, context: MetricContext, lookback_hours: int = 2
-    ) -> ContextualAnalysis:
+    def get_contextual_analysis(self, context: MetricContext, lookback_hours: int = 2) -> ContextualAnalysis:
         """Get analysis of metrics within a specific context"""
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=lookback_hours)
 
@@ -771,9 +765,7 @@ class AdaptiveMetricsCollector:
         # Analyze each metric within this context
         for metric_name, data_points in self.metric_data.items():
             context_points = [
-                point
-                for point in data_points
-                if point.context == context and point.timestamp > cutoff_time
+                point for point in data_points if point.context == context and point.timestamp > cutoff_time
             ]
 
             if context_points:
@@ -830,11 +822,7 @@ class AdaptiveMetricsCollector:
         if "hormone_levels" in bio:
             bio = bio.get("hormone_levels", {})
         sysd = current_data.get("system", {})
-        cog = (
-            current_data.get("consciousness", {})
-            if isinstance(current_data.get("consciousness", {}), dict)
-            else {}
-        )
+        cog = current_data.get("consciousness", {}) if isinstance(current_data.get("consciousness", {}), dict) else {}
 
         cortisol = float(bio.get("cortisol", 0.5) or 0.5)
         adrenaline = float(bio.get("adrenaline", 0.5) or 0.5)
@@ -848,9 +836,7 @@ class AdaptiveMetricsCollector:
 
         # Derived metrics in [0,1]
         stress_risk = min(1.0, 0.5 * cortisol + 0.4 * adrenaline + 0.1 * cpu)
-        learning_readiness = max(
-            0.0, min(1.0, 0.5 * dopamine + 0.3 * serotonin + 0.2 * (1.0 - cpu))
-        )
+        learning_readiness = max(0.0, min(1.0, 0.5 * dopamine + 0.3 * serotonin + 0.2 * (1.0 - cpu)))
         cognitive_load = max(0.0, min(1.0, 0.6 * cpu + 0.4 * mem))
         social_engagement = max(0.0, min(1.0, 0.7 * oxytocin + 0.3 * serotonin))
 

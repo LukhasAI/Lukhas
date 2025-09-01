@@ -115,9 +115,7 @@ class BioEngine:
         asyncio.create_task(self._homeostatic_loop())
         asyncio.create_task(self._circadian_loop())
 
-    async def process_stimulus(
-        self, stimulus_type: str, intensity: float, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_stimulus(self, stimulus_type: str, intensity: float, context: dict[str, Any]) -> dict[str, Any]:
         """
         Process external stimulus through bio-symbolic pathways.
 
@@ -162,9 +160,7 @@ class BioEngine:
 
         return response
 
-    def _calculate_hormonal_response(
-        self, stimulus_type: str, intensity: float
-    ) -> dict[HormoneType, float]:
+    def _calculate_hormonal_response(self, stimulus_type: str, intensity: float) -> dict[HormoneType, float]:
         """Calculate hormonal response to stimulus"""
         response = {}
 
@@ -207,9 +203,7 @@ class BioEngine:
 
             self.hormone_levels[hormone] = new_level
 
-    async def _process_through_mitochondria(
-        self, stimulus_type: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_through_mitochondria(self, stimulus_type: str, context: dict[str, Any]) -> dict[str, Any]:
         """Process stimulus through mitochondrial pathways"""
         # Simulate ATP production based on current state
         atp_production = self.mitochondria.calculate_atp_production(

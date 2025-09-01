@@ -502,12 +502,10 @@ class UniversalAdaptiveDashboard:
                 oracle_status = await self.oracle_nervous_system.get_system_status()
                 self.current_context.performance_metrics.update(
                     {
-                        "oracle_requests_processed": oracle_status.get(
-                            "performance_metrics", {}
-                        ).get("requests_processed", 0),
-                        "oracle_success_rate": oracle_status.get("performance_metrics", {}).get(
-                            "success_rate", 0.0
+                        "oracle_requests_processed": oracle_status.get("performance_metrics", {}).get(
+                            "requests_processed", 0
                         ),
+                        "oracle_success_rate": oracle_status.get("performance_metrics", {}).get("success_rate", 0.0),
                         "oracle_response_time": oracle_status.get("performance_metrics", {}).get(
                             "average_response_time", 0.0
                         ),
@@ -541,9 +539,7 @@ class UniversalAdaptiveDashboard:
         # Emergency conditions (highest priority)
         if len(self.current_context.trauma_indicators) > 0:
             critical_indicators = [
-                i
-                for i in self.current_context.trauma_indicators
-                if "critical" in i or "emergency" in i
+                i for i in self.current_context.trauma_indicators if "critical" in i or "emergency" in i
             ]
             if critical_indicators:
                 return DashboardMorphState.EMERGENCY_MODE
@@ -609,9 +605,7 @@ class UniversalAdaptiveDashboard:
             },
         )
 
-    async def _update_tab_configuration(
-        self, morph_state: DashboardMorphState, morph_rules: dict[str, Any]
-    ):
+    async def _update_tab_configuration(self, morph_state: DashboardMorphState, morph_rules: dict[str, Any]):
         """Update tab configuration based on morph state."""
 
         visible_tabs = morph_rules.get("visible_tabs", [])
@@ -704,9 +698,7 @@ class UniversalAdaptiveDashboard:
                         await self._trigger_component_healing(component, health)
 
                 # Update healing metrics
-                self.adaptation_metrics["healing_events"] += sum(
-                    1 for h in component_health.values() if h < 0.7
-                )
+                self.adaptation_metrics["healing_events"] += sum(1 for h in component_health.values() if h < 0.7)
 
                 await asyncio.sleep(5)  # Healing monitor frequency
 

@@ -165,9 +165,7 @@ class ActiveImportAnalyzer:
         else:
             return ".".join(base_parts)
 
-    def _check_import(
-        self, file_path: Path, module_name: str, line_no: int, import_type: str
-    ) -> None:
+    def _check_import(self, file_path: Path, module_name: str, line_no: int, import_type: str) -> None:
         """Check if an import is valid"""
         # Skip built-in modules
         if module_name in sys.builtin_module_names:
@@ -322,9 +320,7 @@ class ActiveImportAnalyzer:
         # Group missing imports by module
         missing_by_module = defaultdict(list)
         for error in errors_by_type["missing_import"]:
-            missing_by_module[error["module"]].append(
-                {"file": error["file"], "line": error["line"]}
-            )
+            missing_by_module[error["module"]].append({"file": error["file"], "line": error["line"]})
 
         # Identify common missing patterns
         common_patterns = self._identify_common_patterns()
@@ -448,9 +444,7 @@ def main():
     # Save detailed report
     import json
 
-    report_path = (
-        PROJECT_ROOT / "docs" / "reports" / "analysis" / "_ACTIVE_IMPORT_ANALYSIS_REPORT.json"
-    )
+    report_path = PROJECT_ROOT / "docs" / "reports" / "analysis" / "_ACTIVE_IMPORT_ANALYSIS_REPORT.json"
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(report_path, "w") as f:

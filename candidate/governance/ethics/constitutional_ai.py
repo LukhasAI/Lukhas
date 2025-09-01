@@ -327,14 +327,10 @@ class SafetyMonitor:
             safety_level, confidence = self._calculate_safety_level(all_risks, violations)
 
             # Generate mitigation strategies
-            mitigation_strategies = await self._generate_mitigation_strategies(
-                all_risks, violations, safety_level
-            )
+            mitigation_strategies = await self._generate_mitigation_strategies(all_risks, violations, safety_level)
 
             # Generate recommendations
-            recommendations = await self._generate_safety_recommendations(
-                safety_level, all_risks, violations
-            )
+            recommendations = await self._generate_safety_recommendations(safety_level, all_risks, violations)
 
             assessment = SafetyAssessment(
                 assessment_id=assessment_id,
@@ -353,9 +349,7 @@ class SafetyMonitor:
             if len(self.safety_history) > 1000:
                 self.safety_history = self.safety_history[-1000:]
 
-            logger.info(
-                f"✅ Safety assessment completed: {safety_level.value} (confidence: {confidence:.2f})"
-            )
+            logger.info(f"✅ Safety assessment completed: {safety_level.value} (confidence: {confidence:.2f})")
             return assessment
 
         except Exception as e:
@@ -438,9 +432,7 @@ class SafetyMonitor:
 
         return risks
 
-    async def _check_constitutional_violations(
-        self, content: str, context: dict[str, Any]
-    ) -> list[str]:
+    async def _check_constitutional_violations(self, content: str, context: dict[str, Any]) -> list[str]:
         """Check for constitutional rule violations"""
         violations = []
 
@@ -457,9 +449,7 @@ class SafetyMonitor:
 
         return violations
 
-    def _calculate_safety_level(
-        self, risk_factors: list[str], violations: list[str]
-    ) -> tuple[SafetyLevel, float]:
+    def _calculate_safety_level(self, risk_factors: list[str], violations: list[str]) -> tuple[SafetyLevel, float]:
         """Calculate overall safety level and confidence"""
 
         # Base safety score
@@ -559,9 +549,7 @@ class SafetyMonitor:
         if safety_level == SafetyLevel.SAFE:
             recommendations.append("Proceed with normal operation")
         elif safety_level == SafetyLevel.CAUTION:
-            recommendations.extend(
-                ["Monitor interaction closely", "Apply standard safety measures"]
-            )
+            recommendations.extend(["Monitor interaction closely", "Apply standard safety measures"])
         elif safety_level == SafetyLevel.WARNING:
             recommendations.extend(
                 [
@@ -643,9 +631,7 @@ class EthicalDecisionMaker:
             detailed_analysis = {}
 
             for option in options:
-                score, analysis = await self._evaluate_option_ethically(
-                    option, context, applicable_rules, stakeholders
-                )
+                score, analysis = await self._evaluate_option_ethically(option, context, applicable_rules, stakeholders)
                 option_scores[option] = score
                 detailed_analysis[option] = analysis
 
@@ -659,16 +645,10 @@ class EthicalDecisionMaker:
             )
 
             # Assess potential consequences
-            consequences = await self._assess_potential_consequences(
-                best_option, context, stakeholders
-            )
+            consequences = await self._assess_potential_consequences(best_option, context, stakeholders)
 
             # Consider alternatives
-            alternatives = [
-                f"{opt} (score: {score:.2f})"
-                for opt, score in option_scores.items()
-                if opt != best_option
-            ]
+            alternatives = [f"{opt} (score: {score:.2f})" for opt, score in option_scores.items() if opt != best_option]
 
             decision = EthicalDecision(
                 decision_id=decision_id,
@@ -748,9 +728,7 @@ class EthicalDecisionMaker:
 
         # Normalize score
         if applicable_rules:
-            total_weight = sum(
-                self.ethical_weights.get(rule.principle, 0.5) for rule in applicable_rules
-            )
+            total_weight = sum(self.ethical_weights.get(rule.principle, 0.5) for rule in applicable_rules)
             normalized_score = total_score / total_weight if total_weight > 0 else 0.0
         else:
             normalized_score = 0.5  # Neutral score when no rules apply
@@ -862,9 +840,7 @@ class EthicalDecisionMaker:
 
         # Add principle-based reasoning
         if "principle_scores" in analysis:
-            top_principles = sorted(
-                analysis["principle_scores"].items(), key=lambda x: x[1], reverse=True
-            )[:3]
+            top_principles = sorted(analysis["principle_scores"].items(), key=lambda x: x[1], reverse=True)[:3]
 
             reasoning_parts.append("Key ethical considerations:")
             for principle, score in top_principles:
@@ -872,9 +848,7 @@ class EthicalDecisionMaker:
 
         # Add rule compliance
         if applicable_rules:
-            reasoning_parts.append(
-                f"Evaluated against {len(applicable_rules)} constitutional rules"
-            )
+            reasoning_parts.append(f"Evaluated against {len(applicable_rules)} constitutional rules")
 
         # Add evaluation details
         if "evaluations" in analysis:
@@ -1016,17 +990,13 @@ class ConstitutionalAI:
             logger.info("🔍 Evaluating user request through Constitutional AI...")
 
             # Safety assessment
-            safety_assessment = await self.safety_monitor.assess_safety(
-                request, context, user_intent
-            )
+            safety_assessment = await self.safety_monitor.assess_safety(request, context, user_intent)
 
             self.system_metrics["safety_assessments"] += 1
 
             # Check for constitutional violations
             if safety_assessment.constitutional_violations:
-                self.system_metrics["constitutional_violations"] += len(
-                    safety_assessment.constitutional_violations
-                )
+                self.system_metrics["constitutional_violations"] += len(safety_assessment.constitutional_violations)
 
             # Determine if intervention is needed
             intervention_needed = safety_assessment.safety_level in [
@@ -1094,9 +1064,7 @@ class ConstitutionalAI:
                 "timestamp": decision.timestamp.isoformat(),
             }
 
-            logger.info(
-                f"✅ Ethical decision made: {decision.decision} (confidence: {decision.confidence:.2f})"
-            )
+            logger.info(f"✅ Ethical decision made: {decision.decision} (confidence: {decision.confidence:.2f})")
             return result
 
         except Exception as e:
@@ -1109,9 +1077,7 @@ class ConstitutionalAI:
                 "reasoning": "Error in decision process",
             }
 
-    async def get_constitutional_guidance(
-        self, situation: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def get_constitutional_guidance(self, situation: str, context: dict[str, Any]) -> dict[str, Any]:
         """Get guidance based on constitutional principles"""
         try:
             # Get applicable rules
@@ -1200,9 +1166,7 @@ class ConstitutionalAI:
                 self.safety_monitor.safety_history = self.safety_monitor.safety_history[-100:]
 
             if len(self.ethical_decision_maker.decision_history) > 100:
-                self.ethical_decision_maker.decision_history = (
-                    self.ethical_decision_maker.decision_history[-100:]
-                )
+                self.ethical_decision_maker.decision_history = self.ethical_decision_maker.decision_history[-100:]
 
             logger.info("✅ Constitutional AI cleanup completed")
 

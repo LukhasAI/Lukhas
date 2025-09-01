@@ -38,9 +38,7 @@ class PrivacyManager:
         self.privacy_settings[key] = value
 
         # Log the change
-        self.log_privacy_event(
-            {"action": "privacy_setting_changed", "setting": key, "new_value": value}
-        )
+        self.log_privacy_event({"action": "privacy_setting_changed", "setting": key, "new_value": value})
 
     def get_privacy_setting(self, key):
         """Get a privacy setting"""
@@ -104,9 +102,7 @@ class PrivacyManager:
                     d[key] = anonymize_dict(d[key])
                 elif isinstance(d[key], list):
                     # Recurse into lists
-                    d[key] = [
-                        anonymize_dict(item) if isinstance(item, dict) else item for item in d[key]
-                    ]
+                    d[key] = [anonymize_dict(item) if isinstance(item, dict) else item for item in d[key]]
             return d
 
         return anonymize_dict(anonymized_data)
@@ -144,9 +140,7 @@ class PrivacyManager:
                     d[key] = encrypt_dict(d[key])
                 elif isinstance(d[key], list):
                     # Recurse into lists
-                    d[key] = [
-                        encrypt_dict(item) if isinstance(item, dict) else item for item in d[key]
-                    ]
+                    d[key] = [encrypt_dict(item) if isinstance(item, dict) else item for item in d[key]]
             return d
 
         return encrypt_dict(encrypted_data)

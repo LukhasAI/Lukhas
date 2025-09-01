@@ -38,9 +38,7 @@ class SecurityUpdater:
 
         # Check with pip-audit
         print("  Running pip-audit...")
-        code, stdout, stderr = self.run_command(
-            ["python3", "-m", "pip_audit", "--desc", "--format", "json"]
-        )
+        code, stdout, stderr = self.run_command(["python3", "-m", "pip_audit", "--desc", "--format", "json"])
         if code == 0 and stdout:
             try:
                 audit_results = json.loads(stdout)
@@ -87,9 +85,7 @@ class SecurityUpdater:
     def prioritize_updates(self, vulnerabilities: list[dict]) -> list[dict]:
         """Prioritize vulnerabilities by severity"""
         severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "unknown": 4}
-        return sorted(
-            vulnerabilities, key=lambda x: severity_order.get(x.get("severity", "unknown"), 4)
-        )
+        return sorted(vulnerabilities, key=lambda x: severity_order.get(x.get("severity", "unknown"), 4))
 
     def update_package(self, package: str, version: str = None) -> bool:
         """Update a specific package"""
@@ -327,12 +323,8 @@ Automated security update by security-update.py
 
 def main():
     parser = argparse.ArgumentParser(description="LUKHAS Security Update Tool")
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Show what would be updated without making changes"
-    )
-    parser.add_argument(
-        "--auto", action="store_true", help="Automatically update without prompting"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be updated without making changes")
+    parser.add_argument("--auto", action="store_true", help="Automatically update without prompting")
     parser.add_argument("--no-test", action="store_true", help="Skip running tests after updates")
 
     args = parser.parse_args()
@@ -342,9 +334,7 @@ def main():
     missing_tools = []
 
     for module_name, package_name in required_tools:
-        result = subprocess.run(
-            ["python3", "-c", f"import {module_name}"], capture_output=True, text=True
-        )
+        result = subprocess.run(["python3", "-c", f"import {module_name}"], capture_output=True, text=True)
         if result.returncode != 0:
             missing_tools.append(package_name)
 

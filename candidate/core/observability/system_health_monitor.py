@@ -494,15 +494,9 @@ class SystemHealthMonitor:
             snapshot.fold_health_score = cascade_metrics["fold_health"]
 
             # Trinity Framework health
-            snapshot.identity_system_health = self.component_states[
-                ComponentType.IDENTITY
-            ].overall_health
-            snapshot.consciousness_system_health = self.component_states[
-                ComponentType.CONSCIOUSNESS
-            ].overall_health
-            snapshot.guardian_system_health = self.component_states[
-                ComponentType.GUARDIAN
-            ].overall_health
+            snapshot.identity_system_health = self.component_states[ComponentType.IDENTITY].overall_health
+            snapshot.consciousness_system_health = self.component_states[ComponentType.CONSCIOUSNESS].overall_health
+            snapshot.guardian_system_health = self.component_states[ComponentType.GUARDIAN].overall_health
 
             # Critical indicators
             snapshot.active_alerts = await self._count_active_alerts()
@@ -655,9 +649,7 @@ class SystemHealthMonitor:
         else:
             return random.uniform(-0.1, 0.1)  # Default variation
 
-    async def _update_component_specific_metrics(
-        self, component_type: ComponentType, component: ComponentHealth
-    ):
+    async def _update_component_specific_metrics(self, component_type: ComponentType, component: ComponentHealth):
         """Update component-specific metrics"""
 
         if component_type == ComponentType.GUARDIAN:
@@ -700,9 +692,7 @@ class SystemHealthMonitor:
                 # Cascade prevention impacts memory health
                 if prevention_score < self.cascade_prevention_target:
                     health_penalty = (self.cascade_prevention_target - prevention_score) * 2
-                    memory_component.overall_health = max(
-                        0.0, memory_component.overall_health - health_penalty
-                    )
+                    memory_component.overall_health = max(0.0, memory_component.overall_health - health_penalty)
 
                 # Update cascade-specific indicators
                 if cascade_risk > 0.1:
@@ -839,10 +829,7 @@ class SystemHealthMonitor:
             return True
 
         # Check cascade prevention
-        if (
-            self.current_health
-            and self.current_health.cascade_prevention_score < self.cascade_prevention_target
-        ):
+        if self.current_health and self.current_health.cascade_prevention_score < self.cascade_prevention_target:
             return True
 
         return False
@@ -929,9 +916,7 @@ class SystemHealthMonitor:
                 recommendations.append(f"Immediate attention required for {component_type.value}")
 
             if component.overall_health < 0.8:
-                recommendations.append(
-                    f"Preventive maintenance recommended for {component_type.value}"
-                )
+                recommendations.append(f"Preventive maintenance recommended for {component_type.value}")
 
             if component.predicted_issues:
                 recommendations.append(f"Proactive maintenance needed for {component_type.value}")
@@ -959,10 +944,7 @@ class SystemHealthMonitor:
         # Clean component history
         for component_type in self.component_health_history:
             history = self.component_health_history[component_type]
-            while (
-                history
-                and datetime.fromisoformat(history[0]["timestamp"].isoformat()) < cutoff_time
-            ):
+            while history and datetime.fromisoformat(history[0]["timestamp"].isoformat()) < cutoff_time:
                 history.popleft()
 
         # Clean metrics history
@@ -1064,8 +1046,7 @@ class SystemHealthMonitor:
                 "cascade_risk": self.current_health.memory_cascade_risk,
                 "prevention_score": self.current_health.cascade_prevention_score,
                 "fold_health": self.current_health.fold_health_score,
-                "target_met": self.current_health.cascade_prevention_score
-                >= self.cascade_prevention_target,
+                "target_met": self.current_health.cascade_prevention_score >= self.cascade_prevention_target,
             },
             # Component health summary
             "components": {
@@ -1073,8 +1054,7 @@ class SystemHealthMonitor:
                     "health": component.overall_health,
                     "status": component.health_status.value,
                     "operational": component.is_operational,
-                    "issues": len(component.critical_indicators)
-                    + len(component.warning_indicators),
+                    "issues": len(component.critical_indicators) + len(component.warning_indicators),
                 }
                 for component_type, component in self.current_health.component_health.items()
             },
@@ -1087,9 +1067,7 @@ class SystemHealthMonitor:
             },
         }
 
-    async def get_health_report(
-        self, time_period: Optional[tuple[datetime, datetime]] = None
-    ) -> HealthReport:
+    async def get_health_report(self, time_period: Optional[tuple[datetime, datetime]] = None) -> HealthReport:
         """Generate comprehensive health report"""
 
         if not time_period:
@@ -1098,9 +1076,7 @@ class SystemHealthMonitor:
             time_period = (start_time, end_time)
 
         # Filter snapshots for time period
-        period_snapshots = [
-            s for s in self.health_snapshots if time_period[0] <= s.timestamp <= time_period[1]
-        ]
+        period_snapshots = [s for s in self.health_snapshots if time_period[0] <= s.timestamp <= time_period[1]]
 
         if not period_snapshots:
             return HealthReport(
@@ -1166,18 +1142,14 @@ class SystemHealthMonitor:
         report.cascade_prevention_analysis = {
             "average_prevention_score": statistics.mean(cascade_scores),
             "average_cascade_risk": statistics.mean(cascade_risks),
-            "target_compliance": sum(
-                1 for s in cascade_scores if s >= self.cascade_prevention_target
-            )
+            "target_compliance": sum(1 for s in cascade_scores if s >= self.cascade_prevention_target)
             / len(cascade_scores),
             "max_risk_event": max(cascade_risks) if cascade_risks else 0.0,
         }
 
         # Add recommendations
         if overall_system_health < 0.7:
-            report.immediate_actions.append(
-                "System health below acceptable level - immediate investigation required"
-            )
+            report.immediate_actions.append("System health below acceptable level - immediate investigation required")
 
         if critical_issues_count > 0:
             report.immediate_actions.append(f"Address {critical_issues_count} critical issues")

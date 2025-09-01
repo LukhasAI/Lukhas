@@ -353,9 +353,7 @@ else:
                 )
 
                 if "Balance:" in result.stdout:
-                    balance_line = [
-                        line for line in result.stdout.split("\n") if "Balance:" in line
-                    ][0]
+                    balance_line = [line for line in result.stdout.split("\n") if "Balance:" in line][0]
                     print(f"💰 Final {balance_line.strip()}")
             except:
                 pass

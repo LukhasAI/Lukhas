@@ -53,9 +53,7 @@ async def test_chat_completions_specific_provider(test_app, mock_orchestrator):
 
 @pytest.mark.asyncio
 async def test_chat_completions_fallback(test_app, mock_orchestrator):
-    mock_orchestrator.generate_response = AsyncMock(
-        return_value=("mock response", "openai", "gpt-3.5-turbo")
-    )
+    mock_orchestrator.generate_response = AsyncMock(return_value=("mock response", "openai", "gpt-3.5-turbo"))
     async with LifespanManager(test_app):
         async with AsyncClient(app=test_app, base_url="http://test") as client:
             response = await client.post("/v1/chat/completions", json={"prompt": "test prompt"})
@@ -63,9 +61,7 @@ async def test_chat_completions_fallback(test_app, mock_orchestrator):
         assert response.json()["response"] == "mock response"
         assert response.json()["provider"] == "openai"  # Default fallback
         assert response.json()["model"] == "gpt-3.5-turbo"
-        mock_orchestrator.generate_response.assert_called_once_with(
-            prompt="test prompt", provider=None, model=None
-        )
+        mock_orchestrator.generate_response.assert_called_once_with(prompt="test prompt", provider=None, model=None)
 
 
 @pytest.mark.asyncio

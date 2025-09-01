@@ -250,9 +250,7 @@ class CodebaseAnalyzer:
                 self.issues["potential_duplicates"].append(
                     {
                         "normalized_name": normalized_name,
-                        "files": [
-                            {"path": str(f["relative_path"]), "lines": f["lines"]} for f in files
-                        ],
+                        "files": [{"path": str(f["relative_path"]), "lines": f["lines"]} for f in files],
                     }
                 )
 

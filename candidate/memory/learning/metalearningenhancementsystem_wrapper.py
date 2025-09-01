@@ -70,23 +70,15 @@ class MetaLearningEnhancementWrapper:
         """Initialize and discover existing meta-learning systems"""
         try:
             # Discover and enhance existing systems
-            discovery_results = (
-                await self.enhancement_system.discover_and_enhance_meta_learning_systems()
-            )
+            discovery_results = await self.enhancement_system.discover_and_enhance_meta_learning_systems()
 
             # Update stats from discovery
-            self.integration_stats["total_enhancements"] = len(
-                discovery_results.get("enhancement_results", [])
-            )
+            self.integration_stats["total_enhancements"] = len(discovery_results.get("enhancement_results", []))
             self.integration_stats["successful_enhancements"] = sum(
-                1
-                for r in discovery_results.get("enhancement_results", [])
-                if r.get("success", False)
+                1 for r in discovery_results.get("enhancement_results", []) if r.get("success", False)
             )
 
-            logger.info(
-                f"Enhanced {self.integration_stats['successful_enhancements']} meta-learning systems"
-            )
+            logger.info(f"Enhanced {self.integration_stats['successful_enhancements']} meta-learning systems")
             return True
 
         except Exception as e:
@@ -97,9 +89,7 @@ class MetaLearningEnhancementWrapper:
         """Enhance a learning process with monitoring and optimization"""
         try:
             # Create enhanced learning configuration
-            enhanced_config = await self.enhancement_system.create_enhanced_learning_config(
-                learning_context
-            )
+            enhanced_config = await self.enhancement_system.create_enhanced_learning_config(learning_context)
 
             # Apply dynamic optimization if enabled
             if self.enhancement_system.enhancement_mode == EnhancementMode.OPTIMIZATION_ACTIVE:
@@ -111,10 +101,8 @@ class MetaLearningEnhancementWrapper:
 
             # Start monitoring if not already active
             if hasattr(self.enhancement_system, "monitor_dashboard"):
-                monitor_id = (
-                    await self.enhancement_system.monitor_dashboard.start_monitoring_session(
-                        {"context": learning_context, "config": enhanced_config}
-                    )
+                monitor_id = await self.enhancement_system.monitor_dashboard.start_monitoring_session(
+                    {"context": learning_context, "config": enhanced_config}
                 )
                 enhanced_config["monitor_id"] = monitor_id
                 self.integration_stats["active_monitors"] += 1
@@ -123,8 +111,7 @@ class MetaLearningEnhancementWrapper:
                 "success": True,
                 "enhanced_config": enhanced_config,
                 "monitoring_active": True,
-                "optimization_applied": self.enhancement_system.enhancement_mode
-                == EnhancementMode.OPTIMIZATION_ACTIVE,
+                "optimization_applied": self.enhancement_system.enhancement_mode == EnhancementMode.OPTIMIZATION_ACTIVE,
             }
 
         except Exception as e:

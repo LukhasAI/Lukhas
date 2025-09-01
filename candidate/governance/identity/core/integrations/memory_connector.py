@@ -124,9 +124,7 @@ class MemoryConnector:
 
         logger.info("Memory Connector initialized")
 
-    def store_identity_memory(
-        self, lambda_id: str, memory_data: dict[str, Any]
-    ) -> MemoryIntegrationResult:
+    def store_identity_memory(self, lambda_id: str, memory_data: dict[str, Any]) -> MemoryIntegrationResult:
         """
         Store identity-related memory
 
@@ -180,9 +178,7 @@ class MemoryConnector:
 
         except Exception as e:
             logger.error(f"Memory storage error: {e}")
-            return MemoryIntegrationResult(
-                success=False, operation_type="store_memory", error_message=str(e)
-            )
+            return MemoryIntegrationResult(success=False, operation_type="store_memory", error_message=str(e))
 
     def retrieve_identity_memories(self, query: MemoryQuery) -> MemoryIntegrationResult:
         """
@@ -244,13 +240,9 @@ class MemoryConnector:
 
         except Exception as e:
             logger.error(f"Memory retrieval error: {e}")
-            return MemoryIntegrationResult(
-                success=False, operation_type="retrieve_memories", error_message=str(e)
-            )
+            return MemoryIntegrationResult(success=False, operation_type="retrieve_memories", error_message=str(e))
 
-    def create_biographical_anchor(
-        self, lambda_id: str, life_event: dict[str, Any]
-    ) -> MemoryIntegrationResult:
+    def create_biographical_anchor(self, lambda_id: str, life_event: dict[str, Any]) -> MemoryIntegrationResult:
         """
         Create biographical memory anchor for identity verification
 
@@ -308,9 +300,7 @@ class MemoryConnector:
                 error_message=str(e),
             )
 
-    def verify_biographical_memory(
-        self, lambda_id: str, verification_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def verify_biographical_memory(self, lambda_id: str, verification_data: dict[str, Any]) -> dict[str, Any]:
         """
         Verify identity using biographical memory
 
@@ -418,9 +408,7 @@ class MemoryConnector:
             )
 
         # Calculate usage statistics
-        recent_patterns = [
-            p for p in patterns if p.get("timestamp", 0) > time.time() - 86400
-        ]  # Last 24h
+        recent_patterns = [p for p in patterns if p.get("timestamp", 0) > time.time() - 86400]  # Last 24h
 
         return {
             "patterns_available": True,
@@ -430,13 +418,10 @@ class MemoryConnector:
             "operation_distribution": operation_counts,
             "temporal_patterns": temporal_patterns[-10:],  # Last 10 patterns
             "most_accessed_type": (
-                max(memory_type_counts.items(), key=lambda x: x[1])[0]
-                if memory_type_counts
-                else None
+                max(memory_type_counts.items(), key=lambda x: x[1])[0] if memory_type_counts else None
             ),
             "average_daily_accesses": (
-                len(patterns)
-                / max(1, (time.time() - patterns[0].get("timestamp", time.time())) / 86400)
+                len(patterns) / max(1, (time.time() - patterns[0].get("timestamp", time.time())) / 86400)
                 if patterns
                 else 0
             ),
@@ -452,9 +437,7 @@ class MemoryConnector:
         memory_id = hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[:16]
 
         # Create integrity hash
-        content_hash = hashlib.sha256(
-            json.dumps(memory_data["content"], sort_keys=True).encode()
-        ).hexdigest()
+        content_hash = hashlib.sha256(json.dumps(memory_data["content"], sort_keys=True).encode()).hexdigest()
 
         return MemoryRecord(
             memory_id=memory_id,
@@ -487,9 +470,7 @@ class MemoryConnector:
         record.access_count += 1
         return record
 
-    def _apply_memory_filters(
-        self, memories: list[MemoryRecord], query: MemoryQuery
-    ) -> list[MemoryRecord]:
+    def _apply_memory_filters(self, memories: list[MemoryRecord], query: MemoryQuery) -> list[MemoryRecord]:
         """Apply query filters to memories"""
         filtered = memories
 
@@ -529,9 +510,7 @@ class MemoryConnector:
 
         return access_hierarchy[required_level] >= access_hierarchy[memory.access_level]
 
-    def _sort_memories_by_relevance(
-        self, memories: list[MemoryRecord], query: MemoryQuery
-    ) -> list[MemoryRecord]:
+    def _sort_memories_by_relevance(self, memories: list[MemoryRecord], query: MemoryQuery) -> list[MemoryRecord]:
         """Sort memories by relevance to query"""
 
         def relevance_score(memory):
@@ -562,9 +541,7 @@ class MemoryConnector:
         if isinstance(memory_types, list):
             type_list = [mt.value if hasattr(mt, "value") else str(mt) for mt in memory_types]
         else:
-            type_list = [
-                (memory_types.value if hasattr(memory_types, "value") else str(memory_types))
-            ]
+            type_list = [(memory_types.value if hasattr(memory_types, "value") else str(memory_types))]
 
         pattern = {
             "timestamp": time.time(),
@@ -587,16 +564,12 @@ class MemoryConnector:
             "inference_system": False,
         }
 
-    def _create_verification_anchor(
-        self, lambda_id: str, memory_id: str, biographical_data: dict[str, Any]
-    ):
+    def _create_verification_anchor(self, lambda_id: str, memory_id: str, biographical_data: dict[str, Any]):
         """Create verification anchor from biographical data"""
         # This would create verification questions and anchors
         # For identity verification based on biographical memories
 
-    def _calculate_biographical_match(
-        self, stored_data: dict[str, Any], verification_data: dict[str, Any]
-    ) -> float:
+    def _calculate_biographical_match(self, stored_data: dict[str, Any], verification_data: dict[str, Any]) -> float:
         """Calculate match score between stored and verification biographical data"""
         matches = 0
         total_checks = 0

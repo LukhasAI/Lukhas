@@ -179,9 +179,7 @@ class FileTraceStorageProvider(TraceStorageProvider):
             trace_logger = self._get_trace_logger()
 
             # Check if storage directory is accessible
-            storage_accessible = os.path.isdir(self.storage_location) and os.access(
-                self.storage_location, os.W_OK
-            )
+            storage_accessible = os.path.isdir(self.storage_location) and os.access(self.storage_location, os.W_OK)
 
             # Check if all_traces.jsonl exists and is readable
             all_traces_file = os.path.join(self.storage_location, "all_traces.jsonl")
@@ -249,9 +247,7 @@ def get_default_trace_provider() -> TraceStorageProvider:
     if _default_provider is None:
         # Use environment variable or default location
         storage_location = os.getenv("LUKHAS_TRACE_STORAGE", "var/traces/")
-        _default_provider = create_trace_storage_provider(
-            provider_type="file", storage_location=storage_location
-        )
+        _default_provider = create_trace_storage_provider(provider_type="file", storage_location=storage_location)
     return _default_provider
 
 

@@ -387,9 +387,7 @@ class ComprehensiveOrphanAnalyzer:
 
         # Calculate used files
         for dir_name in dir_stats:
-            dir_stats[dir_name]["used"] = (
-                dir_stats[dir_name]["total"] - dir_stats[dir_name]["orphaned"]
-            )
+            dir_stats[dir_name]["used"] = dir_stats[dir_name]["total"] - dir_stats[dir_name]["orphaned"]
             dir_stats[dir_name]["usage_percentage"] = (
                 (dir_stats[dir_name]["used"] / dir_stats[dir_name]["total"] * 100)
                 if dir_stats[dir_name]["total"] > 0
@@ -480,9 +478,7 @@ class ComprehensiveOrphanAnalyzer:
                 "total_python_files": total_files,
                 "used_files": used_count,
                 "orphaned_files": orphaned_count,
-                "orphaned_percentage": (
-                    (orphaned_count / total_files * 100) if total_files > 0 else 0
-                ),
+                "orphaned_percentage": ((orphaned_count / total_files * 100) if total_files > 0 else 0),
                 "entry_points": list(self.entry_points),
                 "analysis_timestamp": str(Path.cwd()),
             },
@@ -623,9 +619,7 @@ def print_report(report: dict):
     print("\n💡 RECOMMENDATIONS")
     print("-" * 80)
     for rec in report["recommendations"][:10]:
-        emoji = {"ARCHIVE": "📦", "REVIEW": "🔍", "INTEGRATE": "🔗", "KEEP": "✅"}.get(
-            rec["action"], "❓"
-        )
+        emoji = {"ARCHIVE": "📦", "REVIEW": "🔍", "INTEGRATE": "🔗", "KEEP": "✅"}.get(rec["action"], "❓")
         print(f"\n{emoji} {rec['directory']}")
         print(f"   Action: {rec['action']}")
         print(f"   Reason: {rec['reason']}")

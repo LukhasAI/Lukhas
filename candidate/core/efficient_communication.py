@@ -287,9 +287,7 @@ class P2PChannel:
             "energy_saved": 0.0,
         }
 
-    async def establish_connection(
-        self, remote_node_id: str, connection_info: dict[str, Any]
-    ) -> bool:
+    async def establish_connection(self, remote_node_id: str, connection_info: dict[str, Any]) -> bool:
         """Establish a direct connection to another node"""
         try:
             # Simulate connection establishment
@@ -449,9 +447,7 @@ class EfficientCommunicationFabric:
         """Subscribe to specific event types"""
         self.kernel_bus.subscribe(event_type, handler)
 
-    async def establish_p2p_connection(
-        self, remote_node: str, connection_info: dict[str, Any]
-    ) -> bool:
+    async def establish_p2p_connection(self, remote_node: str, connection_info: dict[str, Any]) -> bool:
         """Establish P2P connection for efficient data transfer"""
         return await self.p2p_channel.establish_connection(remote_node, connection_info)
 
@@ -472,9 +468,7 @@ class EfficientCommunicationFabric:
         """Alias for get_communication_stats for API compatibility"""
         return self.get_communication_stats()
 
-    async def send_large_data(
-        self, recipient: str, data: bytes, chunk_size: int = 1024 * 1024
-    ) -> bool:
+    async def send_large_data(self, recipient: str, data: bytes, chunk_size: int = 1024 * 1024) -> bool:
         """Send large data in chunks to prevent memory issues"""
         if len(data) <= chunk_size:
             # Small data, send normally
@@ -492,9 +486,7 @@ class EfficientCommunicationFabric:
             "total_size": len(data),
         }
 
-        if not await self.send_message(
-            recipient, "large_data_meta", metadata, MessagePriority.HIGH
-        ):
+        if not await self.send_message(recipient, "large_data_meta", metadata, MessagePriority.HIGH):
             return False
 
         # Send chunks
@@ -506,17 +498,13 @@ class EfficientCommunicationFabric:
                 "data": chunk,
             }
 
-            if not await self.send_message(
-                recipient, "large_data_chunk", chunk_msg, MessagePriority.HIGH
-            ):
+            if not await self.send_message(recipient, "large_data_chunk", chunk_msg, MessagePriority.HIGH):
                 return False
 
         # Send completion message
         completion = {"type": "large_data_complete", "chunk_id": chunk_id}
 
-        return await self.send_message(
-            recipient, "large_data_complete", completion, MessagePriority.HIGH
-        )
+        return await self.send_message(recipient, "large_data_complete", completion, MessagePriority.HIGH)
 
 
 class EnergyMonitor:
@@ -551,17 +539,11 @@ class EnergyMonitor:
             return {"total_energy": 0.0, "average_per_message": 0.0}
 
         recent_hour = time.time() - 3600
-        recent_usage = [
-            entry["energy_cost"]
-            for entry in self.energy_history
-            if entry["timestamp"] > recent_hour
-        ]
+        recent_usage = [entry["energy_cost"] for entry in self.energy_history if entry["timestamp"] > recent_hour]
 
         return {
             "total_energy": self.total_energy_used,
-            "average_per_message": (
-                sum(e["energy_cost"] for e in self.energy_history) / len(self.energy_history)
-            ),
+            "average_per_message": (sum(e["energy_cost"] for e in self.energy_history) / len(self.energy_history)),
             "hourly_usage": sum(recent_usage),
             "efficiency_score": self._calculate_efficiency_score(),
             "message_count": len(self.energy_history),
@@ -572,9 +554,7 @@ class EnergyMonitor:
         if not self.energy_history:
             return 100.0
 
-        avg_per_message = sum(e["energy_cost"] for e in self.energy_history) / len(
-            self.energy_history
-        )
+        avg_per_message = sum(e["energy_cost"] for e in self.energy_history) / len(self.energy_history)
 
         target = self.efficiency_targets["max_energy_per_message"]
         efficiency = max(0, (target - avg_per_message) / target * 100)

@@ -303,17 +303,11 @@ class UserFeedbackSystem(CoreInterface):
 
         # Process feedback based on type
         if feedback_type == FeedbackType.TEXT:
-            feedback_item.processed_sentiment = await self._process_text_feedback(
-                content.get("text", "")
-            )
+            feedback_item.processed_sentiment = await self._process_text_feedback(content.get("text", ""))
         elif feedback_type == FeedbackType.EMOJI:
-            feedback_item.processed_sentiment = self._process_emoji_feedback(
-                content.get("emoji", "")
-            )
+            feedback_item.processed_sentiment = self._process_emoji_feedback(content.get("emoji", ""))
         elif feedback_type == FeedbackType.RATING:
-            feedback_item.processed_sentiment = self._process_rating_feedback(
-                content.get("rating", 3)
-            )
+            feedback_item.processed_sentiment = self._process_rating_feedback(content.get("rating", 3))
         elif feedback_type == FeedbackType.QUICK:
             feedback_item.processed_sentiment = self._process_quick_feedback(content)
 
@@ -362,9 +356,7 @@ class UserFeedbackSystem(CoreInterface):
         context = context or {}
 
         if user_id not in self.user_profiles:
-            rules = self.compliance_rules.get(
-                region, self.compliance_rules[ComplianceRegion.GLOBAL]
-            )
+            rules = self.compliance_rules.get(region, self.compliance_rules[ComplianceRegion.GLOBAL])
             requires_consent = rules.get("requires_explicit_consent", False)
             if region == ComplianceRegion.EU and "personal_data" in context:
                 # Treat presence of personal_data as explicit consent signal for this submission
@@ -500,9 +492,7 @@ class UserFeedbackSystem(CoreInterface):
             elif profile.total_feedback_given > 10:
                 profile.feedback_frequency = "sometimes"
 
-    async def edit_feedback(
-        self, feedback_id: str, user_id: str, new_content: dict[str, Any]
-    ) -> bool:
+    async def edit_feedback(self, feedback_id: str, user_id: str, new_content: dict[str, Any]) -> bool:
         """
         Allow user to edit their feedback.
 
@@ -540,9 +530,7 @@ class UserFeedbackSystem(CoreInterface):
 
         # Reprocess sentiment
         if feedback.feedback_type == FeedbackType.TEXT:
-            feedback.processed_sentiment = await self._process_text_feedback(
-                new_content.get("text", "")
-            )
+            feedback.processed_sentiment = await self._process_text_feedback(new_content.get("text", ""))
 
         # Audit trail
         if self.audit_service:
@@ -682,11 +670,7 @@ class UserFeedbackSystem(CoreInterface):
 
         # Normalize sentiments
         total_feedback = len(
-            [
-                f
-                for f in feedback_ids
-                if f in self.feedback_items and not self.feedback_items[f].is_deleted
-            ]
+            [f for f in feedback_ids if f in self.feedback_items and not self.feedback_items[f].is_deleted]
         )
         if total_feedback > 0:
             sentiments = {k: v / total_feedback for k, v in sentiments.items()}
@@ -833,8 +817,7 @@ class UserFeedbackSystem(CoreInterface):
         # Normalize sentiment
         if report["summary"]["total_feedback"] > 0:
             report["summary"]["overall_sentiment"] = {
-                k: v / report["summary"]["total_feedback"]
-                for k, v in report["summary"]["overall_sentiment"].items()
+                k: v / report["summary"]["total_feedback"] for k, v in report["summary"]["overall_sentiment"].items()
             }
 
         # Calculate satisfaction score
@@ -930,15 +913,11 @@ class UserFeedbackSystem(CoreInterface):
             return {"success": success}
 
         elif action == "delete":
-            success = await self.delete_feedback(
-                feedback_id=data["feedback_id"], user_id=data["user_id"]
-            )
+            success = await self.delete_feedback(feedback_id=data["feedback_id"], user_id=data["user_id"])
             return {"success": success}
 
         elif action == "history":
-            history = await self.get_user_feedback_history(
-                user_id=data["user_id"], limit=data.get("limit", 50)
-            )
+            history = await self.get_user_feedback_history(user_id=data["user_id"], limit=data.get("limit", 50))
             return {"history": [f.to_audit_entry() for f in history]}
 
         elif action == "summary":

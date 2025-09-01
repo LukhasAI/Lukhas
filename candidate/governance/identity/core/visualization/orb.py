@@ -178,9 +178,7 @@ class LUKHASOrb:
         """Generate visualization parameters from state"""
 
         # Get base colors
-        consciousness_color = CONSCIOUSNESS_COLORS.get(
-            state.consciousness_category, CONSCIOUSNESS_COLORS["neutral"]
-        )
+        consciousness_color = CONSCIOUSNESS_COLORS.get(state.consciousness_category, CONSCIOUSNESS_COLORS["neutral"])
         emotional_color = EMOTIONAL_COLORS.get(state.emotional_state, EMOTIONAL_COLORS["neutral"])
         tier_info = TIER_AURAS.get(state.tier_level, TIER_AURAS[0])
 
@@ -232,9 +230,7 @@ class LUKHASOrb:
         """Blend two colors with given ratio"""
         return tuple(int(c1 * ratio + c2 * (1 - ratio)) for c1, c2 in zip(color1, color2))
 
-    def _modulate_color(
-        self, base_color: tuple[int, int, int], modulation: float
-    ) -> tuple[int, int, int]:
+    def _modulate_color(self, base_color: tuple[int, int, int], modulation: float) -> tuple[int, int, int]:
         """Modulate color brightness based on value"""
         factor = 0.5 + modulation * 0.5
         return tuple(min(255, int(c * factor)) for c in base_color)
@@ -328,9 +324,7 @@ class LUKHASOrb:
             "aura": aura_data,
             "pattern": pattern_data,
             "metadata": {
-                "consciousness_level": (
-                    self.current_state.consciousness_level if self.current_state else 0
-                ),
+                "consciousness_level": (self.current_state.consciousness_level if self.current_state else 0),
                 "pattern_type": self.visualization.pattern.value,
                 "tier_level": (self.current_state.tier_level if self.current_state else 0),
             },
@@ -342,9 +336,7 @@ class LUKHASOrb:
 
         for i in range(self.visualization.particle_density):
             # Use deterministic randomness based on particle index
-            seed = (
-                hashlib.sha256()
-            )  #  Changed from MD5 for securityf"{i}{int(elapsed_time}".encode()).hexdigest()
+            seed = hashlib.sha256()  #  Changed from MD5 for securityf"{i}{int(elapsed_time}".encode()).hexdigest()
             rand_values = [int(seed[j : j + 2], 16) / 255.0 for j in range(0, 6, 2)]
 
             # Orbital motion

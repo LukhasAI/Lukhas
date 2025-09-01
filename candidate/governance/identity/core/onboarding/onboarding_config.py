@@ -116,9 +116,7 @@ class OnboardingConfigManager:
     def __init__(self, config_path: Optional[str] = None):
         logger.info("ΛTRACE: Initializing Onboarding Configuration Manager")
 
-        self.config_path = config_path or os.path.join(
-            os.path.dirname(__file__), "onboarding_config.json"
-        )
+        self.config_path = config_path or os.path.join(os.path.dirname(__file__), "onboarding_config.json")
         self.config = self._load_or_create_default_config()
 
         # Initialize default configurations
@@ -206,9 +204,7 @@ class OnboardingConfigManager:
                 validation_rules=["symbolic_vault_verified", "entropy_validated"],
                 recommendations_enabled=False,
             ),
-            "completion": StageConfiguration(
-                required=True, timeout_minutes=5, recommendations_enabled=True
-            ),
+            "completion": StageConfiguration(required=True, timeout_minutes=5, recommendations_enabled=True),
         }
 
         self.config.stage_configurations.update(default_stages)
@@ -521,9 +517,7 @@ class OnboardingConfigManager:
 
     def get_personality_flow(self, personality_type: str) -> PersonalityFlowConfig:
         """Get configuration for specific personality flow."""
-        return self.config.personality_flows.get(
-            personality_type, self.config.personality_flows["simple"]
-        )
+        return self.config.personality_flows.get(personality_type, self.config.personality_flows["simple"])
 
     def get_cultural_config(self, cultural_context: str) -> CulturalConfiguration:
         """Get configuration for specific cultural context."""
@@ -546,9 +540,7 @@ class OnboardingConfigManager:
 
         return False
 
-    def validate_stage_completion(
-        self, stage_name: str, stage_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def validate_stage_completion(self, stage_name: str, stage_data: dict[str, Any]) -> dict[str, Any]:
         """Validate stage completion against configuration rules."""
         stage_config = self.get_stage_config(stage_name)
         validation_result = {"valid": True, "errors": [], "warnings": []}
@@ -573,8 +565,7 @@ class OnboardingConfigManager:
         adaptive_flow = [
             stage
             for stage in adaptive_flow
-            if stage not in flow_config.skip_stages
-            and not self.should_skip_stage(stage, user_context)
+            if stage not in flow_config.skip_stages and not self.should_skip_stage(stage, user_context)
         ]
 
         # Ensure mandatory stages are included

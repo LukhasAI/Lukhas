@@ -205,9 +205,7 @@ class NIASEngine:
             },
         }
 
-    async def process_message(
-        self, message: dict[str, Any], user_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_message(self, message: dict[str, Any], user_context: dict[str, Any]) -> dict[str, Any]:
         """
         Process a message through the complete NIΛS pipeline.
 
@@ -242,9 +240,7 @@ class NIASEngine:
                 return self._complete_processing(processing_session, result)
 
             # Phase 3: Symbolic Processing
-            result = await self._phase_symbolic_processing(
-                message, user_context, processing_session
-            )
+            result = await self._phase_symbolic_processing(message, user_context, processing_session)
             message = result["processed_message"]
 
             # Phase 4: Tier Filtering
@@ -376,9 +372,7 @@ class NIASEngine:
                         logger.warning(f"ΛBAS gating failed, using fallback: {e}")
 
             # Fallback to legacy emotional gating
-            return await self._phase_emotional_gating_fallback(
-                message, user_context, session, phase_start
-            )
+            return await self._phase_emotional_gating_fallback(message, user_context, session, phase_start)
 
         except Exception as e:
             logger.error(f"Emotional gating failed: {e}")
@@ -462,9 +456,7 @@ class NIASEngine:
                 if user_id:
                     try:
                         # Get symbolic context from DAST
-                        symbolic_context = await self.dast_adapter.get_symbolic_context(
-                            user_id, message_type
-                        )
+                        symbolic_context = await self.dast_adapter.get_symbolic_context(user_id, message_type)
 
                         # Enhanced symbolic processing with DAST
                         processed_message = message.copy()
@@ -508,9 +500,7 @@ class NIASEngine:
                         logger.warning(f"DΛST symbolic processing failed, using fallback: {e}")
 
             # Fallback to legacy symbolic processing
-            return await self._phase_symbolic_processing_fallback(
-                message, user_context, session, phase_start
-            )
+            return await self._phase_symbolic_processing_fallback(message, user_context, session, phase_start)
 
         except Exception as e:
             logger.error(f"Symbolic processing failed: {e}")
@@ -525,9 +515,7 @@ class NIASEngine:
     ) -> dict[str, Any]:
         """Fallback symbolic processing using legacy patterns"""
 
-        emotional_state = session["phases"][ProcessingPhase.EMOTIONAL_GATING.value][
-            "emotional_state"
-        ]
+        emotional_state = session["phases"][ProcessingPhase.EMOTIONAL_GATING.value]["emotional_state"]
 
         # Apply symbolic mappings based on emotional state
         emotional_mapping = self.symbolic_patterns["emotional_mappings"].get(
@@ -549,9 +537,7 @@ class NIASEngine:
 
         # Apply LUKHAS symbolic authentication if available
         if self._has_lukhas_integration():
-            processed_message["symbolic_auth"] = await self._apply_symbolic_auth(
-                processed_message, user_context
-            )
+            processed_message["symbolic_auth"] = await self._apply_symbolic_auth(processed_message, user_context)
 
         session["phases"][ProcessingPhase.SYMBOLIC_PROCESSING.value] = {
             "start_time": phase_start.isoformat(),
@@ -606,9 +592,7 @@ class NIASEngine:
             from .widget_engine import get_widget_engine
 
             widget_engine = get_widget_engine()
-            widget_config = await widget_engine.generate_widget(
-                message, user_context, user_context["tier"]
-            )
+            widget_config = await widget_engine.generate_widget(message, user_context, user_context["tier"])
 
             session["phases"][ProcessingPhase.WIDGET_GENERATION.value] = {
                 "start_time": phase_start.isoformat(),
@@ -646,12 +630,8 @@ class NIASEngine:
                     user_id = user_context.get("user_id")
                     if user_id:
                         delivery_result = {"status": "delivered", "successful": True}
-                        await self.dast_adapter.update_symbolic_context_from_message(
-                            user_id, message, delivery_result
-                        )
-                        logger.debug(
-                            f"Updated DΛST context for {user_id} after successful delivery"
-                        )
+                        await self.dast_adapter.update_symbolic_context_from_message(user_id, message, delivery_result)
+                        logger.debug(f"Updated DΛST context for {user_id} after successful delivery")
                 except Exception as e:
                     logger.warning(f"Failed to update DΛST context after delivery: {e}")
 
@@ -682,14 +662,11 @@ class NIASEngine:
                 "phase": ProcessingPhase.DELIVERY.value,
             }
 
-    def _complete_processing(
-        self, session: dict[str, Any], final_result: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _complete_processing(self, session: dict[str, Any], final_result: dict[str, Any]) -> dict[str, Any]:
         """Complete processing session with final result"""
         session["end_time"] = datetime.now().isoformat()
         session["total_duration_ms"] = (
-            datetime.fromisoformat(session["end_time"])
-            - datetime.fromisoformat(session["start_time"])
+            datetime.fromisoformat(session["end_time"]) - datetime.fromisoformat(session["start_time"])
         ).total_seconds() * 1000
         session["final_result"] = final_result
 
@@ -726,9 +703,7 @@ class NIASEngine:
                         emotional_state = self.abas_adapter.attention_to_emotional_mapping.get(
                             attention_state, "neutral"
                         )
-                        logger.debug(
-                            f"ΛBAS mapped {attention_state} -> {emotional_state} for {user_id}"
-                        )
+                        logger.debug(f"ΛBAS mapped {attention_state} -> {emotional_state} for {user_id}")
                         return emotional_state
 
             except Exception as e:
@@ -773,9 +748,7 @@ class NIASEngine:
         # Placeholder for actual LUKHAS integration check
         return False
 
-    async def _apply_symbolic_auth(
-        self, message: dict[str, Any], user_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _apply_symbolic_auth(self, message: dict[str, Any], user_context: dict[str, Any]) -> dict[str, Any]:
         """Apply LUKHAS symbolic authentication"""
         # Placeholder for ΛSYMBOLIC integration
         return {
@@ -862,9 +835,7 @@ class NIASEngine:
             "approved": gating_config.get("allow_delivery", True),
             "emotional_state": emotional_state,
             "defer_until": (
-                (
-                    datetime.now() + timedelta(hours=gating_config.get("defer_duration_hours", 0))
-                ).isoformat()
+                (datetime.now() + timedelta(hours=gating_config.get("defer_duration_hours", 0))).isoformat()
                 if not gating_config.get("allow_delivery", True)
                 else None
             ),

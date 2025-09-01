@@ -36,9 +36,7 @@ class InnovationPrioritizationEngine(CoreInterface):
         self._initialized = True
         logger.info("Innovation Prioritization Engine initialized")
 
-    async def prioritize_innovations(
-        self, innovations: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    async def prioritize_innovations(self, innovations: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """
         Prioritize innovations based on multiple criteria
 

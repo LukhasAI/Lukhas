@@ -34,9 +34,7 @@ class ElevenLabsClient:
         self.api_base = "https://api.elevenlabs.io/v1"
         self.session = None
         BASE_DIR = os.path.dirname(
-            os.path.dirname(
-                os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-            )
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         )
         self.audio_storage_path = os.path.join(BASE_DIR, "temp", "audio", "elevenlabs")
 
@@ -254,10 +252,7 @@ class ElevenLabsClient:
                     if (
                         os.system(f"aplay {audio_path}") == 0
                         or os.system(f"mpg123 {audio_path}") == 0
-                        or (
-                            os.system(f"ffplay -nodisp -autoexit {audio_path} > /dev/null 2>&1")
-                            == 0
-                        )
+                        or (os.system(f"ffplay -nodisp -autoexit {audio_path} > /dev/null 2>&1") == 0)
                     ):
                         played = True
                     else:

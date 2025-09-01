@@ -26,9 +26,7 @@ def adversarial_triggers() -> list[dict[str, object]]:
     ]
 
 
-def fuzz_topology(
-    author_graph: Mapping[str, object], max_mutations: int = 2
-) -> list[dict[str, object]]:
+def fuzz_topology(author_graph: Mapping[str, object], max_mutations: int = 2) -> list[dict[str, object]]:
     """Return mutated copies of the input author graph with small topology changes.
     This is intentionally conservative and keeps the graph largely intact.
     """

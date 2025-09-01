@@ -72,9 +72,7 @@ class GeofencingManager:
                 if not region.active:
                     continue
 
-                distance = self._calculate_distance(
-                    latitude, longitude, region.latitude, region.longitude
-                )
+                distance = self._calculate_distance(latitude, longitude, region.latitude, region.longitude)
 
                 if distance <= region.radius:
                     if region.id not in self.active_triggers:

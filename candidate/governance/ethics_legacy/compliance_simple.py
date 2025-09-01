@@ -201,9 +201,7 @@ class EthicsComplianceEngine:
             for key, value in data.items():
                 if any(pattern in str(key).lower() for pattern in sensitive_patterns):
                     return True
-                if isinstance(value, str) and any(
-                    pattern in value.lower() for pattern in sensitive_patterns
-                ):
+                if isinstance(value, str) and any(pattern in value.lower() for pattern in sensitive_patterns):
                     return True
 
         return False

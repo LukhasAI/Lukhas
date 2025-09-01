@@ -107,9 +107,7 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
         # Implementation
         pass
 
-    async def get_medical_history(
-        self, patient_id: str, record_types: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def get_medical_history(self, patient_id: str, record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """Retrieve patient's medical history from ASISA systems"""
         self.log_audit_event(
             event_type="medical_history_access",

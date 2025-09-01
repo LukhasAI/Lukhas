@@ -95,9 +95,7 @@ class LambdaIDEntropy:
 
         # Calculate overall entropy scores
         analysis.shannon_entropy = self._calculate_combined_shannon_entropy(components)
-        analysis.normalized_entropy = self._normalize_entropy(
-            analysis.shannon_entropy, len(lambda_id)
-        )
+        analysis.normalized_entropy = self._normalize_entropy(analysis.shannon_entropy, len(lambda_id))
         analysis.character_diversity = self._calculate_character_diversity(lambda_id)
         analysis.pattern_score = self._analyze_patterns(lambda_id)
         analysis.randomness_score = self._analyze_randomness(entropy_hash)
@@ -227,17 +225,11 @@ class LambdaIDEntropy:
 
         for i in range(len(ascii_values) - 2):
             # Check for ascending sequences
-            if (
-                ascii_values[i + 1] == ascii_values[i] + 1
-                and ascii_values[i + 2] == ascii_values[i] + 2
-            ):
+            if ascii_values[i + 1] == ascii_values[i] + 1 and ascii_values[i + 2] == ascii_values[i] + 2:
                 penalty += 0.3
 
             # Check for descending sequences
-            if (
-                ascii_values[i + 1] == ascii_values[i] - 1
-                and ascii_values[i + 2] == ascii_values[i] - 2
-            ):
+            if ascii_values[i + 1] == ascii_values[i] - 1 and ascii_values[i + 2] == ascii_values[i] - 2:
                 penalty += 0.3
 
         return min(penalty, 1.0)
@@ -313,9 +305,7 @@ class LambdaIDEntropy:
         expected_frequency = len(text) / len(char_counts)
 
         # Calculate chi-square statistic
-        chi_square = sum(
-            (count - expected_frequency) ** 2 / expected_frequency for count in char_counts.values()
-        )
+        chi_square = sum((count - expected_frequency) ** 2 / expected_frequency for count in char_counts.values())
 
         # Normalize to 0-1 scale (this is a simplified version)
         # In practice, you'd compare against chi-square distribution

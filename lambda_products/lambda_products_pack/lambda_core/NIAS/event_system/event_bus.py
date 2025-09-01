@@ -198,9 +198,7 @@ class NIASEventBus:
             tier=tier,
         )
 
-    async def start_message_processing(
-        self, message_id: str, user_id: str, message_data: dict[str, Any]
-    ) -> str:
+    async def start_message_processing(self, message_id: str, user_id: str, message_data: dict[str, Any]) -> str:
         """Start coordinated message processing session"""
         correlation_id = f"msg_processing_{message_id}_{uuid.uuid4().hex[:8]}"
 
@@ -250,11 +248,7 @@ class NIASEventBus:
 
         # Publish completion event
         await self.publish_nias_event(
-            (
-                NIASEventType.MESSAGE_DELIVERED
-                if result.get("status") == "delivered"
-                else NIASEventType.MESSAGE_BLOCKED
-            ),
+            (NIASEventType.MESSAGE_DELIVERED if result.get("status") == "delivered" else NIASEventType.MESSAGE_BLOCKED),
             payload={
                 "message_id": message_id,
                 "result": result,
@@ -390,12 +384,8 @@ class NIASEventBus:
             "events_failed": self._events_failed,
             "messages_delivered": self._messages_delivered,
             "messages_blocked": self._messages_blocked,
-            "delivery_rate": (
-                self._messages_delivered / max(1, self._messages_delivered + self._messages_blocked)
-            ),
-            "success_rate": (
-                self._events_processed / max(1, self._events_processed + self._events_failed)
-            ),
+            "delivery_rate": (self._messages_delivered / max(1, self._messages_delivered + self._messages_blocked)),
+            "success_rate": (self._events_processed / max(1, self._events_processed + self._events_failed)),
             "active_users": len(self._user_event_history),
             "active_correlations": len(self._correlation_tracking),
             "subscriber_count": sum(len(callbacks) for callbacks in self._subscribers.values()),

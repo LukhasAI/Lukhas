@@ -49,17 +49,12 @@ class MemoryConfig:
             cascade_threshold=float(os.getenv("MEMORY_CASCADE_THRESHOLD", "0.997")),
             target_creation_time_ms=float(os.getenv("MEMORY_TARGET_CREATION_MS", "10.0")),
             target_access_time_ms=float(os.getenv("MEMORY_TARGET_ACCESS_MS", "50.0")),
-            target_consolidation_time_ms=float(
-                os.getenv("MEMORY_TARGET_CONSOLIDATION_MS", "100.0")
-            ),
+            target_consolidation_time_ms=float(os.getenv("MEMORY_TARGET_CONSOLIDATION_MS", "100.0")),
             memory_active=os.getenv("MEMORY_ACTIVE", "false").lower() == "true",
-            enable_matriz_instrumentation=os.getenv("MEMORY_MATRIZ_ENABLED", "true").lower()
-            == "true",
-            enable_performance_monitoring=os.getenv("MEMORY_PERF_MONITORING", "true").lower()
-            == "true",
+            enable_matriz_instrumentation=os.getenv("MEMORY_MATRIZ_ENABLED", "true").lower() == "true",
+            enable_performance_monitoring=os.getenv("MEMORY_PERF_MONITORING", "true").lower() == "true",
             max_error_rate=float(os.getenv("MEMORY_MAX_ERROR_RATE", "0.05")),
-            enable_graceful_degradation=os.getenv("MEMORY_GRACEFUL_DEGRADATION", "true").lower()
-            == "true",
+            enable_graceful_degradation=os.getenv("MEMORY_GRACEFUL_DEGRADATION", "true").lower() == "true",
             consolidation_trigger_ratio=float(os.getenv("MEMORY_CONSOLIDATION_TRIGGER", "0.9")),
             importance_pruning_threshold=float(os.getenv("MEMORY_PRUNING_THRESHOLD", "0.1")),
         )

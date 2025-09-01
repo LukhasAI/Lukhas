@@ -83,9 +83,7 @@ class LukhasCreateEngine:
         }
         logger.info("🎨 LUKHAS Create Engine initialized successfully")
 
-    async def create(
-        self, request: str, context: dict[str, Any] = None, **kwargs
-    ) -> CreateResponse:
+    async def create(self, request: str, context: dict[str, Any] = None, **kwargs) -> CreateResponse:
         """
         🚀 Main creation interface - Generate content using AGI capabilities
 
@@ -111,9 +109,7 @@ class LukhasCreateEngine:
         response = await self._generate_content(create_request, enhanced_context)
 
         # Store creation in history for learning
-        self.creation_history.append(
-            {"request": create_request, "response": response, "timestamp": time.time()}
-        )
+        self.creation_history.append({"request": create_request, "response": response, "timestamp": time.time()})
 
         logger.info(f"✅ Content created: {create_request.type.value}")
         return response
@@ -207,9 +203,7 @@ class LukhasCreateEngine:
 
         return enhanced_context
 
-    async def _generate_content(
-        self, request: CreateRequest, context: dict[str, Any]
-    ) -> CreateResponse:
+    async def _generate_content(self, request: CreateRequest, context: dict[str, Any]) -> CreateResponse:
         """Generate content using appropriate creator module"""
 
         # Select appropriate creator
@@ -250,9 +244,7 @@ class LukhasCreateEngine:
             f"Alternative 3: {content[:100]}... (creative variation)",
         ]
 
-    def _calculate_confidence(
-        self, request: CreateRequest, content: str, context: dict[str, Any]
-    ) -> float:
+    def _calculate_confidence(self, request: CreateRequest, content: str, context: dict[str, Any]) -> float:
         """Calculate confidence score for generated content"""
         base_confidence = 0.8
 

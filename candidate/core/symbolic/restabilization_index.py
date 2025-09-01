@@ -177,9 +177,7 @@ class RestabilizationIndex:
 
         summary = {
             "total_recovery_events": total_events,
-            "symbols_recovered": list(
-                {event["symbol_id"] for event in self.recovery_events.values()}
-            ),
+            "symbols_recovered": list({event["symbol_id"] for event in self.recovery_events.values()}),
             "recovery_event_ids": list(self.recovery_events.keys()),
             "drift_links_established": len(self.drift_links),
             "total_links_to_recovery_events": linked_events_count,
@@ -210,9 +208,7 @@ if __name__ == "__main__":
         "mechanism": "internal_model_adjustment",
     }
     notes1 = "Dampened extreme emotional response after unexpected negative stimulus for symbol 'persona_echo_7'."
-    event1_id = index.register_recovery(
-        symbol_id="persona_echo_7", recovery_vector=recovery_vec1, notes=notes1
-    )
+    event1_id = index.register_recovery(symbol_id="persona_echo_7", recovery_vector=recovery_vec1, notes=notes1)
     print(f"Registered recovery event 1: {event1_id} for symbol 'persona_echo_7'")
 
     # ΛTRACE: Simulating second recovery registration

@@ -130,9 +130,7 @@ class ServiceRegistry:
             result[name] = {
                 "initialized": self._initialized.get(name, False),
                 "metadata": self._metadata.get(name, {}),
-                "type": (
-                    type(self._services[name]).__name__ if name in self._services else "factory"
-                ),
+                "type": (type(self._services[name]).__name__ if name in self._services else "factory"),
             }
 
         return result

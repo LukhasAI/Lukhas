@@ -163,9 +163,7 @@ class NIASDastAdapter:
             "widget": ["interface", "tool", "productivity"],
         }
 
-    async def register_user(
-        self, user_id: str, initial_symbols: Optional[list[str]] = None
-    ) -> bool:
+    async def register_user(self, user_id: str, initial_symbols: Optional[list[str]] = None) -> bool:
         """Register user with DAST for symbolic context tracking"""
         if not self.dast_available or not self.dast_instance:
             logger.debug(f"DAST not available, skipping user registration: {user_id}")
@@ -186,9 +184,7 @@ class NIASDastAdapter:
             logger.error(f"Failed to register user {user_id} with DΛST: {e}")
             return False
 
-    async def get_symbolic_context(
-        self, user_id: str, message_type: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def get_symbolic_context(self, user_id: str, message_type: Optional[str] = None) -> dict[str, Any]:
         """
         Get symbolic context for message processing.
         This is the primary integration point for NIAS symbolic processing phase.
@@ -237,22 +233,16 @@ class NIASDastAdapter:
                 "coherence_score": context_snapshot.coherence_score,
                 "lambda_fingerprint": context_snapshot.lambda_fingerprint,
                 "dast_integration": True,
-                "timestamp": (
-                    context_snapshot.timestamp.isoformat() if context_snapshot.timestamp else None
-                ),
+                "timestamp": (context_snapshot.timestamp.isoformat() if context_snapshot.timestamp else None),
             }
 
             # Add message-specific symbolic enhancements
             if message_type:
                 message_symbols = self.message_to_symbol_mapping.get(message_type, [])
                 symbolic_context["message_aligned_symbols"] = message_symbols
-                symbolic_context["message_coherence"] = self._calculate_message_coherence(
-                    current_tags, message_symbols
-                )
+                symbolic_context["message_coherence"] = self._calculate_message_coherence(current_tags, message_symbols)
 
-            logger.debug(
-                f"DΛST provided symbolic context for {user_id}: {len(current_tags)} active symbols"
-            )
+            logger.debug(f"DΛST provided symbolic context for {user_id}: {len(current_tags)} active symbols")
             return symbolic_context
 
         except Exception as e:
@@ -288,9 +278,7 @@ class NIASDastAdapter:
 
         return self.activity_to_tone_mapping.get(primary_activity.lower(), "neutral")
 
-    def _calculate_message_coherence(
-        self, current_tags: list[str], message_symbols: list[str]
-    ) -> float:
+    def _calculate_message_coherence(self, current_tags: list[str], message_symbols: list[str]) -> float:
         """Calculate coherence between current context and message symbols"""
         if not current_tags or not message_symbols:
             return 0.5  # Neutral coherence
@@ -353,9 +341,7 @@ class NIASDastAdapter:
         if message_type:
             message_symbols = self.message_to_symbol_mapping.get(message_type, [])
             fallback_context["message_aligned_symbols"] = message_symbols
-            fallback_context["message_coherence"] = self._calculate_message_coherence(
-                symbolic_tags, message_symbols
-            )
+            fallback_context["message_coherence"] = self._calculate_message_coherence(symbolic_tags, message_symbols)
 
         return fallback_context
 
@@ -422,9 +408,7 @@ class NIASDastAdapter:
             logger.error(f"Failed to update symbolic context for {user_id}: {e}")
             return False
 
-    async def get_activity_suggestions(
-        self, user_id: str, current_context: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def get_activity_suggestions(self, user_id: str, current_context: dict[str, Any]) -> list[dict[str, Any]]:
         """Get activity suggestions based on current symbolic context"""
         if not self.dast_available or not self.dast_instance:
             return []

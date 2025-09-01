@@ -301,9 +301,7 @@ class DNAHelixMemory:
         self._log_access("link", f"{source_id}->{target_id}")
         return True
 
-    def retrieve_by_similarity(
-        self, query_state: CognitiveState, top_k: int = 5
-    ) -> list[MemoryNode]:
+    def retrieve_by_similarity(self, query_state: CognitiveState, top_k: int = 5) -> list[MemoryNode]:
         """Retrieve nodes most similar to query state"""
         query_vec = query_state.to_vector()
         similarities = []
@@ -311,9 +309,7 @@ class DNAHelixMemory:
         for _node_id, node in self.nodes.items():
             node_vec = node.state.to_vector()
             # Cosine similarity
-            similarity = np.dot(query_vec, node_vec) / (
-                np.linalg.norm(query_vec) * np.linalg.norm(node_vec) + 1e-10
-            )
+            similarity = np.dot(query_vec, node_vec) / (np.linalg.norm(query_vec) * np.linalg.norm(node_vec) + 1e-10)
             similarities.append((similarity, node))
 
         # Sort by similarity and return top k
@@ -348,9 +344,7 @@ class DNAHelixMemory:
     def _cleanup_old_nodes(self):
         """Remove least important nodes when at capacity"""
         # Calculate importance for all nodes
-        importances = [
-            (node.calculate_importance(), node_id) for node_id, node in self.nodes.items()
-        ]
+        importances = [(node.calculate_importance(), node_id) for node_id, node in self.nodes.items()]
         importances.sort()
 
         # Remove bottom 10%

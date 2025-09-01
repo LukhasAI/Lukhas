@@ -95,9 +95,7 @@ class NIASOpenAIAdapter:
                 fusion_result = await self._early_fusion(processed_streams, user_context)
 
             # Step 3: Generate unified interpretation
-            interpretation = await self._generate_unified_interpretation(
-                fusion_result, user_context
-            )
+            interpretation = await self._generate_unified_interpretation(fusion_result, user_context)
 
             return {
                 "fusion_result": fusion_result,
@@ -110,9 +108,7 @@ class NIASOpenAIAdapter:
             logger.error(f"Multimodal fusion failed: {e}")
             return await self._fallback_fusion(data_streams, user_context)
 
-    async def _process_individual_modalities(
-        self, data_streams: list[MultimodalData]
-    ) -> list[MultimodalData]:
+    async def _process_individual_modalities(self, data_streams: list[MultimodalData]) -> list[MultimodalData]:
         """Process each modality with appropriate OpenAI model"""
         processed = []
 
@@ -252,9 +248,7 @@ class NIASOpenAIAdapter:
                 "saccade_count": len(saccades),
                 "interpretation": interpretation.choices[0].message.content,
                 "attention_score": (
-                    len(fixations) / (len(fixations) + len(saccades))
-                    if (fixations or saccades)
-                    else 0.5
+                    len(fixations) / (len(fixations) + len(saccades)) if (fixations or saccades) else 0.5
                 ),
             }
 
@@ -503,9 +497,7 @@ class NIASOpenAIAdapter:
                     },
                     {
                         "role": "user",
-                        "content": (
-                            text_data if isinstance(text_data, str) else json.dumps(text_data)
-                        ),
+                        "content": (text_data if isinstance(text_data, str) else json.dumps(text_data)),
                     },
                 ],
                 functions=[
@@ -825,9 +817,7 @@ class NIASOpenAIAdapter:
 
         # Check how many modalities were successfully processed
         successful = sum(
-            1
-            for stream in processed_streams
-            if stream.processed_data and "error" not in stream.processed_data
+            1 for stream in processed_streams if stream.processed_data and "error" not in stream.processed_data
         )
 
         # Base confidence on success rate and modality importance
@@ -910,9 +900,7 @@ class NIASOpenAIAdapter:
 
         return indicators
 
-    async def generate_personalization_recommendations(
-        self, fusion_result: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def generate_personalization_recommendations(self, fusion_result: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate personalization recommendations based on fusion results"""
         if not self.client:
             return []
@@ -1012,9 +1000,7 @@ class NIASOpenAIAdapter:
             logger.error(f"Content moderation failed: {e}")
             return {"flagged": False, "error": str(e)}
 
-    async def visualize_attention_state(
-        self, fusion_result: dict[str, Any], style: str = "abstract"
-    ) -> Optional[str]:
+    async def visualize_attention_state(self, fusion_result: dict[str, Any], style: str = "abstract") -> Optional[str]:
         """Generate visual representation of attention state using DALL-E"""
         if not self.client:
             return None

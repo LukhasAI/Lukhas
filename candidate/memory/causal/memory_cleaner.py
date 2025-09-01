@@ -67,9 +67,7 @@ class MemoryCleaner:
 
         # Use standard logger for this instance
         self.logger = logging.getLogger(f"{__name__}.{self.agent_id}")
-        self.logger.info(
-            f"🧹 Memory Cleaner sub-agent spawned - task_type: {task_data.get('memory_issue', 'unknown')}"
-        )
+        self.logger.info(f"🧹 Memory Cleaner sub-agent spawned - task_type: {task_data.get('memory_issue', 'unknown')}")
 
     def analyze_memory_fragmentation(self) -> dict[str, Any]:
         """Analyze current memory fragmentation state"""
@@ -98,13 +96,9 @@ class MemoryCleaner:
                 "segment_id": f"seg_{i:04d}",
                 "location": f"0x{random.randint(0x1000, 0xFFFF):04X}",
                 "size": random.randint(1024, 4096),
-                "error_type": random.choice(
-                    ["checksum_mismatch", "null_reference", "cyclic_reference"]
-                ),
+                "error_type": random.choice(["checksum_mismatch", "null_reference", "cyclic_reference"]),
             }
-            for i in random.sample(
-                range(total_segments), min(corrupted_count, 5)
-            )  # Limit to 5 for performance
+            for i in random.sample(range(total_segments), min(corrupted_count, 5))  # Limit to 5 for performance
         ]
 
         redundant_memories = [
@@ -184,18 +178,14 @@ class MemoryCleaner:
 
         # Consolidate redundant memories
         if analysis["redundant_memories"]:
-            self.logger.info(
-                f"Consolidating {len(analysis['redundant_memories'])} redundant memories"
-            )
+            self.logger.info(f"Consolidating {len(analysis['redundant_memories'])} redundant memories")
             for memory in analysis["redundant_memories"]:
                 # Keep only one copy
                 duplicates_removed = memory["duplicate_count"] - 1
                 space_per_duplicate = memory["size_impact"] / memory["duplicate_count"]
 
                 cleanup_stats["memories_consolidated"] += duplicates_removed
-                cleanup_stats["space_recovered_mb"] += (
-                    duplicates_removed * space_per_duplicate
-                ) / 1024.0
+                cleanup_stats["space_recovered_mb"] += (duplicates_removed * space_per_duplicate) / 1024.0
 
                 time.sleep(0.005)  # Simulate consolidation work
 
@@ -210,9 +200,7 @@ class MemoryCleaner:
         # Calculate success
         total_issues = len(analysis["corrupted_segments"]) + len(analysis["redundant_memories"])
         total_fixed = (
-            cleanup_stats["segments_cleaned"]
-            + cleanup_stats["memories_consolidated"]
-            + cleanup_stats["errors_fixed"]
+            cleanup_stats["segments_cleaned"] + cleanup_stats["memories_consolidated"] + cleanup_stats["errors_fixed"]
         )
         success_rate = total_fixed / total_issues if total_issues > 0 else 1.0
 
@@ -328,9 +316,7 @@ class MemoryCleaner:
     def advanced_memory_defragmentation(self) -> dict[str, Any]:
         """Advanced memory defragmentation with causal chain preservation"""
         # ΛPHASE_NODE: Advanced Memory Defragmentation Start
-        self.logger.info(
-            "🔧 Performing advanced memory defragmentation with causal chain preservation."
-        )
+        self.logger.info("🔧 Performing advanced memory defragmentation with causal chain preservation.")
 
         defrag_stats = {
             "memory_blocks_analyzed": 0,
@@ -414,9 +400,7 @@ class MemoryCleaner:
             time.sleep(0.001)  # Simulate repair work
 
         # Calculate stability enhancement
-        repair_rate = coherence_stats["coherence_violations_repaired"] / max(
-            coherence_violations, 1
-        )
+        repair_rate = coherence_stats["coherence_violations_repaired"] / max(coherence_violations, 1)
         coherence_stats["stability_enhancement"] = repair_rate * 0.2  # Up to 20% enhancement
 
         self.logger.info(
@@ -468,15 +452,10 @@ class MemoryCleaner:
             time.sleep(0.003)  # Simulate reconnection work
 
         # Calculate chain integrity score
-        repairs = (
-            validation_stats["integrity_violations_repaired"]
-            + validation_stats["orphaned_memories_reconnected"]
-        )
+        repairs = validation_stats["integrity_violations_repaired"] + validation_stats["orphaned_memories_reconnected"]
         total_issues = integrity_violations + orphaned_memories
 
-        validation_stats["chain_integrity_score"] = (
-            (repairs / max(total_issues, 1)) if total_issues > 0 else 1.0
-        )
+        validation_stats["chain_integrity_score"] = (repairs / max(total_issues, 1)) if total_issues > 0 else 1.0
 
         self.logger.info(
             "Causal integrity validation completed",
@@ -530,13 +509,13 @@ class MemoryCleaner:
             time.sleep(0.001)  # Simulate correction work
 
         # Calculate performance metrics
-        optimization_stats["entropy_optimization_score"] = optimization_stats[
-            "entropy_violations_corrected"
-        ] / max(entropy_violations, 1)
+        optimization_stats["entropy_optimization_score"] = optimization_stats["entropy_violations_corrected"] / max(
+            entropy_violations, 1
+        )
 
-        optimization_stats["cascade_prevention_rate"] = optimization_stats[
-            "cascade_attempts_prevented"
-        ] / max(cascade_attempts, 1)
+        optimization_stats["cascade_prevention_rate"] = optimization_stats["cascade_attempts_prevented"] / max(
+            cascade_attempts, 1
+        )
 
         self.logger.info(
             "Fold entropy optimization completed",
@@ -640,9 +619,7 @@ class MemoryCleaner:
         """Get historical cleanup statistics"""
         return {
             "last_cleanup_stats": self.last_cleanup_stats,
-            "last_cleanup_time": self.last_cleanup_time.isoformat()
-            if self.last_cleanup_time
-            else None,
+            "last_cleanup_time": self.last_cleanup_time.isoformat() if self.last_cleanup_time else None,
             "last_consolidation_stats": self.last_consolidation_stats,
             "last_consolidation_time": self.last_consolidation_time.isoformat()
             if self.last_consolidation_time

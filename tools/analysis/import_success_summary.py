@@ -51,9 +51,7 @@ def analyze_final_state():
                 # Check for import errors by looking for commented imports
                 has_import_errors = False
                 for line in content.split("\n"):
-                    if ("# import" in line and "External dependency" in line) or (
-                        "# from" in line and "TODO" in line
-                    ):
+                    if ("# import" in line and "External dependency" in line) or ("# from" in line and "TODO" in line):
                         has_import_errors = True
                         break
 
@@ -71,12 +69,8 @@ def analyze_final_state():
             continue
 
     # Calculate statistics
-    syntax_success_rate = (
-        (valid_syntax_files / total_python_files) * 100 if total_python_files > 0 else 0
-    )
-    import_success_rate = (
-        (fully_working_files / total_python_files) * 100 if total_python_files > 0 else 0
-    )
+    syntax_success_rate = (valid_syntax_files / total_python_files) * 100 if total_python_files > 0 else 0
+    import_success_rate = (fully_working_files / total_python_files) * 100 if total_python_files > 0 else 0
 
     print("\n📈 Overall Statistics:")
     print(f"   Total Python files analyzed: {total_python_files:,}")
@@ -90,9 +84,7 @@ def analyze_final_state():
     print(f"   Fully working files: {fully_working_files:,} ({import_success_rate:.1f}%)")
 
     # Analyze by module
-    module_stats = defaultdict(
-        lambda: {"total": 0, "working": 0, "syntax_errors": 0, "import_errors": 0}
-    )
+    module_stats = defaultdict(lambda: {"total": 0, "working": 0, "syntax_errors": 0, "import_errors": 0})
 
     for py_file in PROJECT_ROOT.rglob("*.py"):
         if any(ignore in str(py_file) for ignore in [".venv", "__pycache__", ".git"]):
@@ -114,9 +106,7 @@ def analyze_final_state():
             module_stats[module]["working"] += 1
 
     print("\n📊 Module-wise Statistics:")
-    print(
-        f"{'Module':<25} {'Total':<8} {'Working':<8} {'Syntax':<8} {'Import':<8} {'Success %':<10}"
-    )
+    print(f"{'Module':<25} {'Total':<8} {'Working':<8} {'Syntax':<8} {'Import':<8} {'Success %':<10}")
     print("-" * 75)
 
     for module, stats in sorted(module_stats.items()):
@@ -138,14 +128,10 @@ def analyze_final_state():
 
     # Categorize remaining issues
     active_syntax_errors = [
-        e
-        for e in syntax_errors
-        if not any(ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"])
+        e for e in syntax_errors if not any(ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"])
     ]
     active_import_errors = [
-        e
-        for e in import_errors
-        if not any(ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"])
+        e for e in import_errors if not any(ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"])
     ]
 
     print("\n⚠️ Remaining Issues (Active Codebase Only):")

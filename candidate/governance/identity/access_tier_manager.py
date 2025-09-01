@@ -412,9 +412,7 @@ class ComprehensiveAccessTierManager:
 
         return eligibility
 
-    async def _check_tier_requirements(
-        self, profile: UserAccessProfile, requirements: TierRequirements
-    ) -> bool:
+    async def _check_tier_requirements(self, profile: UserAccessProfile, requirements: TierRequirements) -> bool:
         """Check if user meets tier requirements"""
 
         # Basic metric requirements
@@ -560,10 +558,7 @@ class ComprehensiveAccessTierManager:
         tier_dist[new_tier.value] = tier_dist.get(new_tier.value, 0) + 1
         self.metrics["tier_distribution"] = tier_dist
 
-        logger.info(
-            f"🎯 Tier change: {user_id} {old_tier.value} → {new_tier.value} "
-            f"({transition_type.value})"
-        )
+        logger.info(f"🎯 Tier change: {user_id} {old_tier.value} → {new_tier.value} " f"({transition_type.value})")
 
         return transition_type
 
@@ -602,9 +597,7 @@ class ComprehensiveAccessTierManager:
 
         return AccessDecision.ALLOW
 
-    async def _check_trinity_framework_access(
-        self, profile: UserAccessProfile, resource: str
-    ) -> bool:
+    async def _check_trinity_framework_access(self, profile: UserAccessProfile, resource: str) -> bool:
         """Check Trinity Framework access requirements"""
 
         # ⚛️ Identity coherence check
@@ -631,9 +624,7 @@ class ComprehensiveAccessTierManager:
                     profile = self.user_profiles[user_id]
 
                     # Check if assessment is due
-                    time_since_assessment = (
-                        datetime.now() - profile.last_assessment
-                    ).total_seconds()
+                    time_since_assessment = (datetime.now() - profile.last_assessment).total_seconds()
                     if time_since_assessment >= self.assessment_interval:
                         if self.auto_tier_assessment:
                             await self.process_tier_progression(user_id)

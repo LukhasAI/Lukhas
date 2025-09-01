@@ -439,9 +439,7 @@ def generate_ci_integration_package(output_dir: Path) -> dict[str, Any]:
     # Generate GitHub Actions workflow
     workflow_dir = output_dir / ".github" / "workflows"
     workflow_dir.mkdir(parents=True, exist_ok=True)
-    (workflow_dir / "audit-validation.yml").write_text(
-        ci_integration.generate_github_workflow_template()
-    )
+    (workflow_dir / "audit-validation.yml").write_text(ci_integration.generate_github_workflow_template())
 
     # Generate pre-commit configuration
     (output_dir / ".pre-commit-config.yaml").write_text(ci_integration.generate_pre_commit_config())

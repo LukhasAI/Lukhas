@@ -107,9 +107,7 @@ class QITunnelingEthics:
             "arbitration_id": arbitration_id,
             "qi_like_state": ethical_wavefunction,
             "collapsed_decision": collapsed_ethics,
-            "tunneling_probabilities": self._calculate_tunneling_probabilities(
-                ethical_wavefunction
-            ),
+            "tunneling_probabilities": self._calculate_tunneling_probabilities(ethical_wavefunction),
             "ethical_resonance": self._calculate_ethical_resonance(collapsed_ethics),
             "timestamp": datetime.now().isoformat(),
         }
@@ -229,9 +227,7 @@ class QITunnelingEthics:
             return 0.0
 
         decision_values = [state["confidence"] for state in collapsed_ethics.values()]
-        tunneling_contributions = [
-            state["tunneling_contribution"] for state in collapsed_ethics.values()
-        ]
+        tunneling_contributions = [state["tunneling_contribution"] for state in collapsed_ethics.values()]
 
         # Resonance is harmony between decisions and quantum-inspired effects
         decision_harmony = 1.0 - np.var(decision_values)
@@ -322,9 +318,7 @@ class ProtonMotiveProcessor:
         complexity_factors = [
             len(content) / 100.0,  # Length factor
             len(content.split()) / 20.0,  # Word count factor
-            (
-                sum(1 for c in content if c.isupper()) / len(content) if content else 0
-            ),  # Emphasis factor
+            (sum(1 for c in content if c.isupper()) / len(content) if content else 0),  # Emphasis factor
         ]
 
         concentration = min(1.0, sum(complexity_factors) / len(complexity_factors))
@@ -411,9 +405,7 @@ class CristaeTopologyManager:
             "efficiency_analysis": efficiency_analysis,
             "optimal_configuration": optimal_config,
             "transformed_topology": transformed_topology,
-            "performance_improvement": self._calculate_improvement(
-                efficiency_analysis, optimal_config
-            ),
+            "performance_improvement": self._calculate_improvement(efficiency_analysis, optimal_config),
             "timestamp": datetime.now().isoformat(),
         }
 
@@ -439,10 +431,7 @@ class CristaeTopologyManager:
             "energy_efficiency": energy_efficiency,
             "processing_efficiency": min(1.0, processing_efficiency),
             "connection_density": surface_connections / max(1, volume_complexity**2),
-            "overall_efficiency": (
-                sa_vol_ratio + energy_efficiency + min(1.0, processing_efficiency)
-            )
-            / 3.0,
+            "overall_efficiency": (sa_vol_ratio + energy_efficiency + min(1.0, processing_efficiency)) / 3.0,
         }
 
         return efficiency_analysis
@@ -639,9 +628,7 @@ class QIBiologicalAGI:
 
         try:
             # Step 1: Quantum Ethical Arbitration
-            ethical_arbitration = self.qi_ethics.qi_ethical_arbitration(
-                {"content": input_text, "context": context}
-            )
+            ethical_arbitration = self.qi_ethics.qi_ethical_arbitration({"content": input_text, "context": context})
 
             # Check if processing should continue
             if not self._passes_ethical_arbitration(ethical_arbitration):
@@ -678,9 +665,7 @@ class QIBiologicalAGI:
             )
 
             # Step 4: Optimize Cristae Topology
-            cristae_optimization = self.cristae_manager.optimize_cristae_topology(
-                self.cellular_state, self.bio_metrics
-            )
+            cristae_optimization = self.cristae_manager.optimize_cristae_topology(self.cellular_state, self.bio_metrics)
 
             # Step 5: Generate Response with Quantum-Biological Processing
             response_content = await self._generate_qi_bio_response(
@@ -736,9 +721,7 @@ class QIBiologicalAGI:
             self._update_biological_metrics(response, processing_time)
             self._advance_capability_level()
 
-            logger.info(
-                f"✅ Quantum-biological processing complete - Bio-confidence: {bio_confidence:.2f}"
-            )
+            logger.info(f"✅ Quantum-biological processing complete - Bio-confidence: {bio_confidence:.2f}")
 
             return response
 
@@ -827,13 +810,9 @@ class QIBiologicalAGI:
         # Add cristae optimization insights
         improvement = cristae_optimization.get("performance_improvement", 0.0)
         if improvement > 0.2:
-            response_parts.append(
-                f"\n🏗️ Significant cristae optimization achieved (+{improvement:.1%} efficiency)"
-            )
+            response_parts.append(f"\n🏗️ Significant cristae optimization achieved (+{improvement:.1%} efficiency)")
         elif improvement > 0.1:
-            response_parts.append(
-                f"\n🔧 Moderate cristae improvements (+{improvement:.1%} efficiency)"
-            )
+            response_parts.append(f"\n🔧 Moderate cristae improvements (+{improvement:.1%} efficiency)")
 
         # Add capability level progression
         response_parts.append(f"\n🔬 Current bio-capability level: {self.capability_level.value}")
@@ -884,9 +863,7 @@ class QIBiologicalAGI:
         cycles = self.bio_metrics["total_processing_cycles"]
 
         current_atp_avg = self.bio_metrics["average_atp_efficiency"]
-        self.bio_metrics["average_atp_efficiency"] = (
-            current_atp_avg * (cycles - 1) + response.atp_efficiency
-        ) / cycles
+        self.bio_metrics["average_atp_efficiency"] = (current_atp_avg * (cycles - 1) + response.atp_efficiency) / cycles
 
         current_coherence_avg = self.bio_metrics["qi_coherence_stability"]
         self.bio_metrics["qi_coherence_stability"] = (
@@ -933,9 +910,7 @@ class QIBiologicalAGI:
         if avg_performance > 0.98 and cycles > 100:
             if self.capability_level == QIBioCapabilityLevel.CRISTAE:
                 self.capability_level = QIBioCapabilityLevel.QI_TUNNELING
-                logger.info(
-                    "🔬 Advanced to QUANTUM_TUNNELING capability level - Maximum bio-AI achieved!"
-                )
+                logger.info("🔬 Advanced to QUANTUM_TUNNELING capability level - Maximum bio-AI achieved!")
 
     def get_biological_status(self) -> dict:
         """Get comprehensive biological AI status"""

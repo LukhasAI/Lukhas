@@ -139,9 +139,7 @@ def migrate_module(migration: dict):
     # Create compatibility shim
     if "imports" in migration:
         # Single file shim
-        new_import = (
-            str(migration["target"].relative_to(ACCEPTED_BASE)).replace("/", ".").replace(".py", "")
-        )
+        new_import = str(migration["target"].relative_to(ACCEPTED_BASE)).replace("/", ".").replace(".py", "")
         new_import = f"lukhas.acceptance.accepted.{new_import}"
         create_compatibility_shim(migration["source"], new_import, migration["imports"])
     elif migration.get("is_directory") and "main_imports" in migration:
@@ -175,11 +173,7 @@ warnings.warn(
 def create_migration_log():
     """Create a log of the migration"""
 
-    log_path = (
-        LUKHAS_ROOT
-        / "docs/migration_logs"
-        / f"migration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-    )
+    log_path = LUKHAS_ROOT / "docs/migration_logs" / f"migration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     log_content = f"""# Migration Log - Top 3 Modules to Production

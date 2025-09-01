@@ -217,13 +217,7 @@ class WorkflowOrchestrator:
         try:
             # Check resource limits
             if (
-                len(
-                    [
-                        w
-                        for w in self.active_workflows.values()
-                        if w.status == WorkflowStatus.RUNNING
-                    ]
-                )
+                len([w for w in self.active_workflows.values() if w.status == WorkflowStatus.RUNNING])
                 >= self.max_concurrent_workflows
             ):
                 raise RuntimeError("Maximum concurrent workflows exceeded")
@@ -242,15 +236,11 @@ class WorkflowOrchestrator:
 
             # Complete workflow
             workflow.completed_at = datetime.utcnow()
-            workflow.execution_time_ms = (
-                workflow.completed_at - workflow.started_at
-            ).total_seconds() * 1000
+            workflow.execution_time_ms = (workflow.completed_at - workflow.started_at).total_seconds() * 1000
 
             # Check if workflow succeeded
             failed_critical_tasks = [
-                task
-                for task in workflow.tasks.values()
-                if task.status == TaskStatus.FAILED and task.critical
+                task for task in workflow.tasks.values() if task.status == TaskStatus.FAILED and task.critical
             ]
 
             if failed_critical_tasks:
@@ -311,9 +301,7 @@ class WorkflowOrchestrator:
                         task.started_at = datetime.utcnow()
 
                         # Update transparency
-                        await self.transparency.update_task_status(
-                            workflow.id, task.id, TaskStatus.RUNNING
-                        )
+                        await self.transparency.update_task_status(workflow.id, task.id, TaskStatus.RUNNING)
 
                 # Wait for at least one task to complete
                 if running_tasks:
@@ -344,20 +332,14 @@ class WorkflowOrchestrator:
                                 if task.critical:
                                     logger.error("Critical task failed: %s - %s", task.name, str(e))
                                 else:
-                                    logger.warning(
-                                        "Non-critical task failed: %s - %s", task.name, str(e)
-                                    )
+                                    logger.warning("Non-critical task failed: %s - %s", task.name, str(e))
                                     completed_tasks.add(task_id)  # Skip non-critical failures
 
                             task.completed_at = datetime.utcnow()
-                            task.execution_time_ms = (
-                                task.completed_at - task.started_at
-                            ).total_seconds() * 1000
+                            task.execution_time_ms = (task.completed_at - task.started_at).total_seconds() * 1000
 
                             # Update transparency
-                            await self.transparency.update_task_status(
-                                workflow.id, task_id, task.status
-                            )
+                            await self.transparency.update_task_status(workflow.id, task_id, task.status)
 
                             # Clean up
                             del running_tasks[task_id]
@@ -365,9 +347,7 @@ class WorkflowOrchestrator:
                 # Check for deadlock or failure conditions
                 if not running_tasks and len(completed_tasks) < len(workflow.tasks):
                     remaining_tasks = [
-                        t
-                        for t in workflow.tasks.values()
-                        if t.id not in completed_tasks and t.id not in running_tasks
+                        t for t in workflow.tasks.values() if t.id not in completed_tasks and t.id not in running_tasks
                     ]
 
                     if remaining_tasks:
@@ -381,9 +361,7 @@ class WorkflowOrchestrator:
                                     break
 
                         if not can_proceed:
-                            raise RuntimeError(
-                                "Workflow deadlock - remaining tasks cannot be executed"
-                            )
+                            raise RuntimeError("Workflow deadlock - remaining tasks cannot be executed")
 
         finally:
             # Cancel any remaining tasks
@@ -450,9 +428,7 @@ class WorkflowOrchestrator:
                     return result
 
                 except Exception as e:
-                    logger.warning(
-                        "Task attempt %d failed: %s - %s", attempt + 1, task.name, str(e)
-                    )
+                    logger.warning("Task attempt %d failed: %s - %s", attempt + 1, task.name, str(e))
 
                     if attempt < task.retry_count:
                         # Wait before retry (exponential backoff)
@@ -460,9 +436,7 @@ class WorkflowOrchestrator:
                         continue
                     else:
                         # Record failure
-                        await self.workflow_monitor.record_task_completion(
-                            workflow.id, task.id, False
-                        )
+                        await self.workflow_monitor.record_task_completion(workflow.id, task.id, False)
                         raise
 
     async def _execute_ai_task(self, task: WorkflowTask) -> Any:

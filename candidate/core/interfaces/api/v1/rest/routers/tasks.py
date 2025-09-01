@@ -21,9 +21,7 @@ class TaskAnnouncement(BaseModel):
 
 
 @router.post("/announce-task")
-async def announce_task(
-    payload: TaskAnnouncement, bus: EventBus = Depends(get_event_bus)
-) -> dict[str, Any]:
+async def announce_task(payload: TaskAnnouncement, bus: EventBus = Depends(get_event_bus)) -> dict[str, Any]:
     bus.announce_task(payload.model_dump())
     return {"status": "announced"}
 

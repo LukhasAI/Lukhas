@@ -25,9 +25,7 @@ def _maybe_kafka_producer():
     try:
         from kafka import KafkaProducer  # pip install kafka-python
     except Exception as e:
-        raise RuntimeError(
-            "Kafka sink requested but kafka-python not installed: pip install kafka-python"
-        ) from e
+        raise RuntimeError("Kafka sink requested but kafka-python not installed: pip install kafka-python") from e
     return KafkaProducer(
         bootstrap_servers=brokers.split(","),
         acks="all",

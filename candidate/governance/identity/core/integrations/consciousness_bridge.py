@@ -208,9 +208,7 @@ class ConsciousnessBridge:
 
         except Exception as e:
             logger.error(f"Consciousness sync establishment error: {e}")
-            return ConsciousnessBridgeResult(
-                success=False, operation_type="establish_sync", error_message=str(e)
-            )
+            return ConsciousnessBridgeResult(success=False, operation_type="establish_sync", error_message=str(e))
 
     def sync_consciousness_state(
         self,
@@ -247,9 +245,7 @@ class ConsciousnessBridge:
 
             mapper = ConsciousnessMapper()
 
-            consciousness_state = mapper.map_to_consciousness_state(
-                biometric_data, cognitive_metrics
-            )
+            consciousness_state = mapper.map_to_consciousness_state(biometric_data, cognitive_metrics)
 
             # Store consciousness state
             self.consciousness_states[lambda_id].append(consciousness_state)
@@ -259,9 +255,7 @@ class ConsciousnessBridge:
                 self.consciousness_states[lambda_id] = self.consciousness_states[lambda_id][-1000:]
 
             # Analyze consciousness coherence
-            coherence_analysis = self._analyze_consciousness_coherence(
-                lambda_id, consciousness_state
-            )
+            coherence_analysis = self._analyze_consciousness_coherence(lambda_id, consciousness_state)
 
             # Detect anomalies
             anomaly_detected = self._detect_consciousness_anomalies(lambda_id, consciousness_state)
@@ -304,9 +298,7 @@ class ConsciousnessBridge:
 
         except Exception as e:
             logger.error(f"Consciousness sync error: {e}")
-            return ConsciousnessBridgeResult(
-                success=False, operation_type="sync_consciousness", error_message=str(e)
-            )
+            return ConsciousnessBridgeResult(success=False, operation_type="sync_consciousness", error_message=str(e))
 
     def get_consciousness_pattern_analysis(
         self, lambda_id: str, analysis_window: timedelta = timedelta(hours=24)
@@ -373,9 +365,7 @@ class ConsciousnessBridge:
             logger.error(f"Consciousness pattern analysis error: {e}")
             return {"patterns_available": False, "error": str(e)}
 
-    def detect_consciousness_spoofing(
-        self, lambda_id: str, current_state: ConsciousnessState
-    ) -> dict[str, Any]:
+    def detect_consciousness_spoofing(self, lambda_id: str, current_state: ConsciousnessState) -> dict[str, Any]:
         """
         Detect potential consciousness spoofing attempts
 
@@ -416,9 +406,7 @@ class ConsciousnessBridge:
                 last_emotion = recent_states[-1].emotional_state
 
                 # Check for unnatural emotional transitions
-                if self._is_unnatural_emotion_transition(
-                    last_emotion, current_state.emotional_state
-                ):
+                if self._is_unnatural_emotion_transition(last_emotion, current_state.emotional_state):
                     spoofing_indicators.append("unnatural_emotion_transition")
                     suspicion_score += 0.4
 
@@ -459,12 +447,8 @@ class ConsciousnessBridge:
                 "indicators": spoofing_indicators,
                 "pattern_consistency": pattern_consistency,
                 "baseline_comparison": {
-                    "consciousness_deviation": (
-                        deviation if "avg_consciousness_level" in baseline else None
-                    ),
-                    "synchrony_deviation": (
-                        synchrony_deviation if "avg_neural_synchrony" in baseline else None
-                    ),
+                    "consciousness_deviation": (deviation if "avg_consciousness_level" in baseline else None),
+                    "synchrony_deviation": (synchrony_deviation if "avg_neural_synchrony" in baseline else None),
                 },
             }
 
@@ -496,9 +480,7 @@ class ConsciousnessBridge:
         }
         return True
 
-    def _perform_initial_sync(
-        self, lambda_id: str, sync_state: ConsciousnessSync
-    ) -> dict[str, Any]:
+    def _perform_initial_sync(self, lambda_id: str, sync_state: ConsciousnessSync) -> dict[str, Any]:
         """Perform initial synchronization"""
         return {
             "sync_established": True,
@@ -506,9 +488,7 @@ class ConsciousnessBridge:
             "baseline_created": True,
         }
 
-    def _analyze_consciousness_coherence(
-        self, lambda_id: str, current_state: ConsciousnessState
-    ) -> dict[str, Any]:
+    def _analyze_consciousness_coherence(self, lambda_id: str, current_state: ConsciousnessState) -> dict[str, Any]:
         """Analyze consciousness coherence"""
         # Get recent states for comparison
         recent_states = self.consciousness_states.get(lambda_id, [])[-10:]
@@ -648,9 +628,7 @@ class ConsciousnessBridge:
             logger.warning(f"ORB visualization update failed: {e}")
             return None
 
-    def _sync_with_external_systems(
-        self, lambda_id: str, consciousness_state: ConsciousnessState
-    ) -> dict[str, bool]:
+    def _sync_with_external_systems(self, lambda_id: str, consciousness_state: ConsciousnessState) -> dict[str, bool]:
         """Sync with external consciousness systems"""
         # Placeholder for external system integration
         return {
@@ -681,9 +659,7 @@ class ConsciousnessBridge:
 
         return {
             "emotion_distribution": emotion_counts,
-            "most_common": (
-                max(emotion_counts.items(), key=lambda x: x[1])[0] if emotion_counts else None
-            ),
+            "most_common": (max(emotion_counts.items(), key=lambda x: x[1])[0] if emotion_counts else None),
             "emotion_stability": len(set(emotions)) / len(emotions) if emotions else 0,
             "transitions": self._analyze_emotion_transitions(emotions),
         }
@@ -733,9 +709,7 @@ class ConsciousnessBridge:
 
         return {
             "focus_distribution": focus_counts,
-            "primary_focus": (
-                max(focus_counts.items(), key=lambda x: x[1])[0] if focus_counts else None
-            ),
+            "primary_focus": (max(focus_counts.items(), key=lambda x: x[1])[0] if focus_counts else None),
             "focus_diversity": len(set(all_focus_areas)),
             "average_focus_areas": np.mean([len(s.attention_focus) for s in states]),
         }
@@ -755,9 +729,7 @@ class ConsciousnessBridge:
         """Extract indicators useful for identity verification"""
         return {
             "unique_patterns": True,
-            "pattern_complexity": np.mean(
-                [s.consciousness_level * s.neural_synchrony for s in states]
-            ),
+            "pattern_complexity": np.mean([s.consciousness_level * s.neural_synchrony for s in states]),
             "emotional_signature": self._create_emotional_signature(states),
             "consciousness_fingerprint": self._create_consciousness_fingerprint(states),
         }
@@ -794,9 +766,7 @@ class ConsciousnessBridge:
 
         return natural_transitions / total_transitions if total_transitions > 0 else 1.0
 
-    def _is_unnatural_emotion_transition(
-        self, from_emotion: EmotionalState, to_emotion: EmotionalState
-    ) -> bool:
+    def _is_unnatural_emotion_transition(self, from_emotion: EmotionalState, to_emotion: EmotionalState) -> bool:
         """Check if emotion transition is unnatural"""
         # Define unnatural transitions (simplified)
         unnatural_transitions = {
@@ -812,9 +782,7 @@ class ConsciousnessBridge:
 
         return transition in unnatural_transitions
 
-    def _check_pattern_consistency(
-        self, lambda_id: str, current_state: ConsciousnessState
-    ) -> float:
+    def _check_pattern_consistency(self, lambda_id: str, current_state: ConsciousnessState) -> float:
         """Check consistency with established patterns"""
         baseline = self.baseline_patterns.get(lambda_id, {})
 

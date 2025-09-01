@@ -274,9 +274,7 @@ class LambdaIdIntegration:
         logger.info(f"✅ Authentication successful for {identity.lambda_id}")
         return auth_result
 
-    def _verify_glyph_authenticity(
-        self, glyph_data: dict[str, Any], identity: SymbolicIdentity
-    ) -> dict[str, Any]:
+    def _verify_glyph_authenticity(self, glyph_data: dict[str, Any], identity: SymbolicIdentity) -> dict[str, Any]:
         """Verify QRG glyph authenticity against identity"""
         verification_result = {
             "valid": False,
@@ -326,9 +324,7 @@ class LambdaIdIntegration:
         signature_json = json.dumps(signature_data, sort_keys=True)
         return hashlib.sha3_256(signature_json.encode()).hexdigest()
 
-    def _match_consciousness_profile(
-        self, glyph_fingerprint: str, stored_profile: dict[str, Any]
-    ) -> bool:
+    def _match_consciousness_profile(self, glyph_fingerprint: str, stored_profile: dict[str, Any]) -> bool:
         """Match consciousness profile from glyph with stored profile"""
         # In production, would use more sophisticated matching
         # For now, simple hash comparison
@@ -360,9 +356,7 @@ class LambdaIdIntegration:
         matches = sum(c1 == c2 for c1, c2 in zip(fp1, fp2))
         return matches / len(fp1)
 
-    def _verify_consciousness_coherence(
-        self, glyph_fingerprint: str, stored_profile: dict[str, Any]
-    ) -> bool:
+    def _verify_consciousness_coherence(self, glyph_fingerprint: str, stored_profile: dict[str, Any]) -> bool:
         """Verify consciousness coherence between glyph and stored profile"""
         # More sophisticated consciousness verification would go here
         # For now, delegate to profile matching
@@ -414,9 +408,7 @@ class LambdaIdIntegration:
         logger.info("✅ NIΛS consent integration completed")
         return nias_integration
 
-    def integrate_with_wallet_vault(
-        self, identity: SymbolicIdentity, vault_permissions: list[str]
-    ) -> dict[str, Any]:
+    def integrate_with_wallet_vault(self, identity: SymbolicIdentity, vault_permissions: list[str]) -> dict[str, Any]:
         """
         Integrate with WΛLLET quantum identity vault
 
@@ -495,9 +487,7 @@ class LambdaIdIntegration:
             "overall_status": "active",
             "access_tier": identity.access_tier.value,
             "product_status": product_status,
-            "last_authentication": (
-                identity.last_authentication.isoformat() if identity.last_authentication else None
-            ),
+            "last_authentication": (identity.last_authentication.isoformat() if identity.last_authentication else None),
         }
 
     # Mock implementations for development when LUKHAS components not available

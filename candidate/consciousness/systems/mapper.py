@@ -368,9 +368,7 @@ class ConsciousnessMapper:
             consciousness_profile.intensity,
         )
 
-    async def get_voice_mapping(
-        self, consciousness_state: ConsciousnessState = None
-    ) -> VoiceConsciousnessMapping:
+    async def get_voice_mapping(self, consciousness_state: ConsciousnessState = None) -> VoiceConsciousnessMapping:
         """Get voice mapping for consciousness state"""
         state = consciousness_state or self.current_consciousness.state
 
@@ -379,9 +377,7 @@ class ConsciousnessMapper:
 
             # Apply current consciousness intensity
             if self.current_consciousness:
-                mapping = await self._adjust_mapping_for_intensity(
-                    mapping, self.current_consciousness.intensity
-                )
+                mapping = await self._adjust_mapping_for_intensity(mapping, self.current_consciousness.intensity)
 
             return mapping
 
@@ -448,9 +444,7 @@ class ConsciousnessMapper:
         # Find dominant effects
         if effect_counts:
             max_count = max(effect_counts.values())
-            analysis["dominant_effects"] = [
-                effect for effect, count in effect_counts.items() if count == max_count
-            ]
+            analysis["dominant_effects"] = [effect for effect, count in effect_counts.items() if count == max_count]
 
         # Calculate consciousness alignment
         if self.current_consciousness:
@@ -553,20 +547,14 @@ class ConsciousnessMapper:
             "intensity_range": (min(intensities), max(intensities)),
             "state_changes": len(set(states)),
             "dominant_state": max(set(states), key=states.count).value,
-            "symbolic_coherence": sum(c.symbolic_resonance for c in recent_history)
-            / len(recent_history),
-            "emotional_stability": sum(c.emotional_coherence for c in recent_history)
-            / len(recent_history),
+            "symbolic_coherence": sum(c.symbolic_resonance for c in recent_history) / len(recent_history),
+            "emotional_stability": sum(c.emotional_coherence for c in recent_history) / len(recent_history),
         }
 
         # Determine trend direction
         if len(intensities) >= 3:
             recent_avg = sum(intensities[-3:]) / 3
-            earlier_avg = (
-                sum(intensities[:-3]) / len(intensities[:-3])
-                if len(intensities) > 3
-                else recent_avg
-            )
+            earlier_avg = sum(intensities[:-3]) / len(intensities[:-3]) if len(intensities) > 3 else recent_avg
 
             if recent_avg > earlier_avg * 1.1:
                 trends["trend"] = "ascending"

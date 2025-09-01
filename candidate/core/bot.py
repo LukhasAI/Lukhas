@@ -82,9 +82,7 @@ class UnifiedBot:
             self.ai_available = False
             logger.warning("⚠️ OpenAI not available, using fallback mode")
 
-    def process_task(
-        self, prompt: str, task_type: TaskType = TaskType.GENERAL, **kwargs
-    ) -> dict[str, Any]:
+    def process_task(self, prompt: str, task_type: TaskType = TaskType.GENERAL, **kwargs) -> dict[str, Any]:
         """
         Process a task using appropriate routing based on mode and task type
 

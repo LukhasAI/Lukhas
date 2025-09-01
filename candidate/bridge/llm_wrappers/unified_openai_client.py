@@ -174,9 +174,7 @@ class UnifiedOpenAIClient(LLMWrapper):
 
         return message
 
-    def get_conversation_messages(
-        self, conversation_id: str, max_tokens: int = 4000
-    ) -> list[dict[str, Any]]:
+    def get_conversation_messages(self, conversation_id: str, max_tokens: int = 4000) -> list[dict[str, Any]]:
         """Get conversation messages formatted for OpenAI API"""
         if conversation_id not in self.conversations:
             raise ValueError(f"Conversation {conversation_id} not found")
@@ -393,9 +391,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         """Get information about available models and current configuration"""
         return {
             "task_models": self.TASK_MODELS,
-            "selected_model": (
-                self.TASK_MODELS.get(task, self.TASK_MODELS["general"]) if task else None
-            ),
+            "selected_model": (self.TASK_MODELS.get(task, self.TASK_MODELS["general"]) if task else None),
             "organization_id": self.organization_id,
             "project_id": self.project_id,
             "default_temperature": self.default_temperature,
@@ -407,9 +403,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         await self.async_client.close()
         logger.info("UnifiedOpenAIClient closed")
 
-    async def generate_response(
-        self, prompt: str, model: Optional[str] = None, **kwargs
-    ) -> tuple[str, str]:
+    async def generate_response(self, prompt: str, model: Optional[str] = None, **kwargs) -> tuple[str, str]:
         """
         Generate a response from the LLM.
         This is an adapter method to comply with the LLMWrapper interface.

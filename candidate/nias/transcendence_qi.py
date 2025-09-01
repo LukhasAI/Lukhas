@@ -74,14 +74,10 @@ class NIASTranscendenceQiPlatform:
         bio_state = await self.qi_biometrics.get_qi_biostate(user_id)
 
         # 2. Get consciousness profile from your oracle
-        consciousness_profile = await self.consciousness_oracle.get_full_consciousness_profile(
-            user_id
-        )
+        consciousness_profile = await self.consciousness_oracle.get_full_consciousness_profile(user_id)
 
         # 3. Get collective wisdom from your collective mind
-        collective_recommendations = await self.collective_ad_mind.get_collective_recommendations(
-            user_id
-        )
+        collective_recommendations = await self.collective_ad_mind.get_collective_recommendations(user_id)
 
         # 4. Check planetary consciousness alignment
         planetary_alignment = await self.planetary_network.coordinate_with_planetary_field(
@@ -98,15 +94,11 @@ class NIASTranscendenceQiPlatform:
         )
 
         # 6. Apply qi empathy for genuine connection
-        empathic_enhancement = await self.qi_empathy.generate_empathic_response(
-            consciousness_profile, {}
-        )
+        empathic_enhancement = await self.qi_empathy.generate_empathic_response(consciousness_profile, {})
 
         # 7. Design consciousness catalyst experience
-        catalyst_experience = (
-            await self.ascension_catalyst.design_consciousness_catalyst_experience(
-                consciousness_profile, base_product
-            )
+        catalyst_experience = await self.ascension_catalyst.design_consciousness_catalyst_experience(
+            consciousness_profile, base_product
         )
 
         # 8. Create omni-reality narrative

@@ -249,9 +249,7 @@ class BioSymbolicΛBot:
         """Start bio-symbolic analysis session"""
         session_id = f"bio_sym_{int(time.time())}"
 
-        session = SymbolicAnalysisSession(
-            session_id=session_id, start_time=datetime.now(), target_path=target_path
-        )
+        session = SymbolicAnalysisSession(session_id=session_id, start_time=datetime.now(), target_path=target_path)
 
         self.current_session = session
 
@@ -435,9 +433,7 @@ class BioSymbolicΛBot:
         logger.info(f"🌱 Discovered emergent pattern: {emergent_pattern.biological_analogy}")
         return patterns
 
-    async def generate_bio_inspired_modularization_strategy(
-        self, patterns: list[BioSymbolicPattern]
-    ) -> dict[str, Any]:
+    async def generate_bio_inspired_modularization_strategy(self, patterns: list[BioSymbolicPattern]) -> dict[str, Any]:
         """
         Generate modularization strategy based on bio-symbolic patterns
         """

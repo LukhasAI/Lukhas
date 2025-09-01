@@ -87,9 +87,7 @@ class T4EnterpriseValidator:
         self.start_time = datetime.now()
 
         logger.info("🧪 T4 Enterprise Validator initialized")
-        logger.info(
-            "   Validating Sam Altman (Scale) + Dario Amodei (Safety) + Demis Hassabis (Rigor)"
-        )
+        logger.info("   Validating Sam Altman (Scale) + Dario Amodei (Safety) + Demis Hassabis (Rigor)")
 
     async def run_comprehensive_validation(self) -> T4ValidationReport:
         """
@@ -149,33 +147,23 @@ class T4EnterpriseValidator:
         logger.info("📊 Validating T4 Monitoring Stack")
 
         # Test 4: Datadog monitoring
-        await self._run_validation_test(
-            "Datadog T4 Monitoring", "monitoring", self._test_datadog_monitoring
-        )
+        await self._run_validation_test("Datadog T4 Monitoring", "monitoring", self._test_datadog_monitoring)
 
         # Test 5: Sentry error tracking
-        await self._run_validation_test(
-            "Sentry Error Tracking", "monitoring", self._test_sentry_monitoring
-        )
+        await self._run_validation_test("Sentry Error Tracking", "monitoring", self._test_sentry_monitoring)
 
         # Test 6: Enterprise dashboards
-        await self._run_validation_test(
-            "Enterprise Dashboard Creation", "monitoring", self._test_enterprise_dashboards
-        )
+        await self._run_validation_test("Enterprise Dashboard Creation", "monitoring", self._test_enterprise_dashboards)
 
     async def _validate_data_management(self):
         """Validate T4 data management systems"""
         logger.info("💾 Validating T4 Data Management")
 
         # Test 7: MongoDB Atlas enterprise
-        await self._run_validation_test(
-            "MongoDB Atlas Enterprise Features", "data", self._test_mongodb_enterprise
-        )
+        await self._run_validation_test("MongoDB Atlas Enterprise Features", "data", self._test_mongodb_enterprise)
 
         # Test 8: Data governance
-        await self._run_validation_test(
-            "Enterprise Data Governance", "data", self._test_data_governance
-        )
+        await self._run_validation_test("Enterprise Data Governance", "data", self._test_data_governance)
 
     async def _validate_sam_altman_scale_standards(self):
         """Validate Sam Altman (Scale) standards implementation"""
@@ -187,42 +175,30 @@ class T4EnterpriseValidator:
         )
 
         # Test 10: Auto-scaling configuration
-        await self._run_validation_test(
-            "Auto-scaling Configuration", "scale", self._test_auto_scaling_config
-        )
+        await self._run_validation_test("Auto-scaling Configuration", "scale", self._test_auto_scaling_config)
 
         # Test 11: Performance targets
-        await self._run_validation_test(
-            "Performance Targets (<50ms p95)", "scale", self._test_performance_targets
-        )
+        await self._run_validation_test("Performance Targets (<50ms p95)", "scale", self._test_performance_targets)
 
     async def _validate_dario_amodei_safety_standards(self):
         """Validate Dario Amodei (Safety) standards implementation"""
         logger.info("🛡️ Validating Dario Amodei (Safety) Standards")
 
         # Test 12: Constitutional AI enhanced
-        await self._run_validation_test(
-            "Constitutional AI (drift <0.05)", "safety", self._test_constitutional_ai
-        )
+        await self._run_validation_test("Constitutional AI (drift <0.05)", "safety", self._test_constitutional_ai)
 
         # Test 13: Security compliance
-        await self._run_validation_test(
-            "Security Compliance Framework", "safety", self._test_security_compliance
-        )
+        await self._run_validation_test("Security Compliance Framework", "safety", self._test_security_compliance)
 
         # Test 14: Enterprise safety monitoring
-        await self._run_validation_test(
-            "Enterprise Safety Monitoring", "safety", self._test_safety_monitoring
-        )
+        await self._run_validation_test("Enterprise Safety Monitoring", "safety", self._test_safety_monitoring)
 
     async def _validate_demis_hassabis_rigor_standards(self):
         """Validate Demis Hassabis (Rigor) standards implementation"""
         logger.info("🔬 Validating Demis Hassabis (Rigor) Standards")
 
         # Test 15: A/B testing platform
-        await self._run_validation_test(
-            "A/B Testing Platform", "rigor", self._test_ab_testing_platform
-        )
+        await self._run_validation_test("A/B Testing Platform", "rigor", self._test_ab_testing_platform)
 
         # Test 16: Statistical significance
         await self._run_validation_test(
@@ -230,37 +206,27 @@ class T4EnterpriseValidator:
         )
 
         # Test 17: Scientific rigor scoring
-        await self._run_validation_test(
-            "Scientific Rigor Assessment", "rigor", self._test_scientific_rigor
-        )
+        await self._run_validation_test("Scientific Rigor Assessment", "rigor", self._test_scientific_rigor)
 
     async def _validate_infrastructure_orchestration(self):
         """Validate T4 infrastructure orchestration"""
         logger.info("🏗️ Validating T4 Infrastructure Orchestration")
 
         # Test 18: T4 orchestrator
-        await self._run_validation_test(
-            "T4 Enterprise Orchestrator", "infrastructure", self._test_t4_orchestrator
-        )
+        await self._run_validation_test("T4 Enterprise Orchestrator", "infrastructure", self._test_t4_orchestrator)
 
         # Test 19: Service health monitoring
-        await self._run_validation_test(
-            "Service Health Monitoring", "infrastructure", self._test_service_health
-        )
+        await self._run_validation_test("Service Health Monitoring", "infrastructure", self._test_service_health)
 
     async def _validate_enterprise_compliance(self):
         """Validate enterprise compliance and SLA"""
         logger.info("📋 Validating Enterprise Compliance")
 
         # Test 20: SLA compliance
-        await self._run_validation_test(
-            "SLA Compliance Validation", "compliance", self._test_sla_compliance
-        )
+        await self._run_validation_test("SLA Compliance Validation", "compliance", self._test_sla_compliance)
 
         # Test 21: Enterprise documentation
-        await self._run_validation_test(
-            "Enterprise Documentation", "compliance", self._test_enterprise_documentation
-        )
+        await self._run_validation_test("Enterprise Documentation", "compliance", self._test_enterprise_documentation)
 
     async def _run_validation_test(self, test_name: str, category: str, test_func):
         """Run individual validation test"""
@@ -288,9 +254,7 @@ class T4EnterpriseValidator:
             self.results.append(validation_result)
 
             status_icon = "✅" if validation_result.passed else "❌"
-            logger.info(
-                f"    {status_icon} {test_name}: {validation_result.score:.1f}% ({duration_ms:.1f}ms)"
-            )
+            logger.info(f"    {status_icon} {test_name}: {validation_result.score:.1f}% ({duration_ms:.1f}ms)")
 
             if validation_result.error_message:
                 logger.warning(f"      Error: {validation_result.error_message}")
@@ -804,11 +768,7 @@ class T4EnterpriseValidator:
         # Calculate category scores
         def category_score(category: str) -> float:
             category_results = [r for r in self.results if r.category == category]
-            return (
-                sum(r.score for r in category_results) / len(category_results)
-                if category_results
-                else 0
-            )
+            return sum(r.score for r in category_results) / len(category_results) if category_results else 0
 
         monitoring_score = category_score("monitoring")
         data_score = category_score("data")
@@ -940,9 +900,7 @@ class T4EnterpriseValidator:
         print(
             f"\n📦 GitHub Student Pack Integration: {'✅ ACTIVE' if report.github_student_pack_integration else '❌ INACTIVE'}"
         )
-        print(
-            f"📋 SLA Compliance: {'✅ COMPLIANT' if report.sla_compliance else '❌ NON-COMPLIANT'}"
-        )
+        print(f"📋 SLA Compliance: {'✅ COMPLIANT' if report.sla_compliance else '❌ NON-COMPLIANT'}")
 
         print("\n🔧 Component Scores:")
         print(f"   Monitoring Stack: {report.monitoring_score:.1f}%")

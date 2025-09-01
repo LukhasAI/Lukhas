@@ -314,9 +314,7 @@ class BioSymbolicCoherenceMonitor:
                     issues.append(f" - {m.misalignment_factors[0]}")
         return issues
 
-    async def _measure_coherence_metric(
-        self, metric: CoherenceMetric
-    ) -> Optional[CoherenceMeasurement]:
+    async def _measure_coherence_metric(self, metric: CoherenceMetric) -> Optional[CoherenceMeasurement]:
         """Measure a specific coherence metric"""
 
         try:
@@ -436,9 +434,7 @@ class BioSymbolicCoherenceMonitor:
         elif bio_stress < 0.3 and decision_making_active:
             decision_coherence = 0.7  # Shouldn't be overly active when relaxed
 
-        coherence_score = (
-            consciousness_alignment * 0.4 + reasoning_alignment * 0.4 + decision_coherence * 0.2
-        )
+        coherence_score = consciousness_alignment * 0.4 + reasoning_alignment * 0.4 + decision_coherence * 0.2
 
         alignment_factors = []
         misalignment_factors = []
@@ -510,9 +506,7 @@ class BioSymbolicCoherenceMonitor:
         return CoherenceMeasurement(
             metric_type=CoherenceMetric.LEARNING_INTEGRATION,
             coherence_score=coherence_score,
-            bio_component_state={
-                "learning_hormones": {"dopamine": dopamine, "serotonin": serotonin}
-            },
+            bio_component_state={"learning_hormones": {"dopamine": dopamine, "serotonin": serotonin}},
             symbolic_component_state={"memory_ops": memory_operations},
             alignment_factors=alignment_factors,
             misalignment_factors=misalignment_factors,
@@ -721,9 +715,7 @@ class BioSymbolicCoherenceMonitor:
         critical_issues = []
         for metric, measurement in measurements.items():
             if measurement.coherence_score < 0.3:
-                critical_issues.append(
-                    f"{metric.value} critically low: {measurement.coherence_score:.2f}"
-                )
+                critical_issues.append(f"{metric.value} critically low: {measurement.coherence_score:.2f}")
 
         # Calculate stability index
         stability_index = await self._calculate_stability_index()
@@ -763,9 +755,7 @@ class BioSymbolicCoherenceMonitor:
             "trend": trend,
             "direction": trend,
             "recent_average": sum(recent_scores) / len(recent_scores),
-            "variance": sum(
-                (x - sum(recent_scores) / len(recent_scores)) ** 2 for x in recent_scores
-            )
+            "variance": sum((x - sum(recent_scores) / len(recent_scores)) ** 2 for x in recent_scores)
             / len(recent_scores),
         }
 
@@ -779,26 +769,18 @@ class BioSymbolicCoherenceMonitor:
 
         # Overall level recommendations
         if overall_level in [CoherenceLevel.CRITICAL, CoherenceLevel.POOR]:
-            recommendations.append(
-                "System requires immediate attention to restore bio-symbolic alignment"
-            )
+            recommendations.append("System requires immediate attention to restore bio-symbolic alignment")
             recommendations.append("Consider reducing system load and focusing on core functions")
 
         # Metric-specific recommendations
         for metric, measurement in measurements.items():
             if measurement.coherence_score < 0.5:
                 if metric == CoherenceMetric.HORMONE_GLYPH_ALIGNMENT:
-                    recommendations.append(
-                        "Adjust GLYPH processing rate to match current hormone state"
-                    )
+                    recommendations.append("Adjust GLYPH processing rate to match current hormone state")
                 elif metric == CoherenceMetric.STRESS_RESPONSE_COHERENCE:
-                    recommendations.append(
-                        "Calibrate consciousness and decision systems to stress levels"
-                    )
+                    recommendations.append("Calibrate consciousness and decision systems to stress levels")
                 elif metric == CoherenceMetric.EMOTIONAL_SYMBOLIC_SYNC:
-                    recommendations.append(
-                        "Balance symbolic processing complexity with emotional state"
-                    )
+                    recommendations.append("Balance symbolic processing complexity with emotional state")
 
         return recommendations
 
@@ -887,9 +869,7 @@ class BioSymbolicCoherenceMonitor:
             > cutoff_time
         ]
 
-    def get_metric_history(
-        self, metric: CoherenceMetric, lookback_points: int = 50
-    ) -> list[CoherenceMeasurement]:
+    def get_metric_history(self, metric: CoherenceMetric, lookback_points: int = 50) -> list[CoherenceMeasurement]:
         """Get history for a specific coherence metric"""
         measurements = self.measurements[metric]
         return list(measurements)[-lookback_points:]
@@ -902,16 +882,11 @@ class BioSymbolicCoherenceMonitor:
             "current_coherence": (current_report.overall_coherence if current_report else 0.0),
             "current_level": (current_report.overall_level.name if current_report else "UNKNOWN"),
             "stability_index": (current_report.stability_index if current_report else 0.0),
-            "total_measurements": sum(
-                len(measurements) for measurements in self.measurements.values()
-            ),
+            "total_measurements": sum(len(measurements) for measurements in self.measurements.values()),
             "critical_issues_count": (len(current_report.critical_issues) if current_report else 0),
             "metrics_tracked": len(CoherenceMetric),
             "monitoring_duration_hours": (
-                (
-                    datetime.now(timezone.utc) - self.coherence_history[0]["timestamp"]
-                ).total_seconds()
-                / 3600
+                (datetime.now(timezone.utc) - self.coherence_history[0]["timestamp"]).total_seconds() / 3600
                 if self.coherence_history
                 else 0
             ),
@@ -925,17 +900,13 @@ class CoherenceAnomalyDetector:
         self.baseline_patterns = {}
         self.anomaly_threshold = 0.3
 
-    def detect_anomalies(
-        self, measurements: dict[CoherenceMetric, CoherenceMeasurement]
-    ) -> list[str]:
+    def detect_anomalies(self, measurements: dict[CoherenceMetric, CoherenceMeasurement]) -> list[str]:
         """Detect coherence anomalies"""
         anomalies = []
 
         for metric, measurement in measurements.items():
             if measurement.coherence_score < self.anomaly_threshold:
-                anomalies.append(
-                    f"Anomaly detected in {metric.value}: score {measurement.coherence_score:.2f}"
-                )
+                anomalies.append(f"Anomaly detected in {metric.value}: score {measurement.coherence_score:.2f}")
 
         return anomalies
 

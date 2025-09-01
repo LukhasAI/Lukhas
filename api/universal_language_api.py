@@ -275,9 +275,7 @@ async def understand_symbols(
                     universal_symbol = symbol.glyph
                 elif result.final_decision:
                     # Try to translate the decision to a universal symbol
-                    translation_result = translator.translate(
-                        str(result.final_decision), target_type="glyph"
-                    )
+                    translation_result = translator.translate(str(result.final_decision), target_type="glyph")
                     if translation_result and translation_result.is_successful():
                         universal_symbol = str(translation_result.target)
         except Exception as lookup_error:
@@ -316,9 +314,7 @@ async def generate_password(
             import string
 
             text_length = max(3, request.entropy_bits // 20)
-            password_elements["text"] = "".join(
-                random.choices(string.ascii_letters + string.digits, k=text_length)
-            )
+            password_elements["text"] = "".join(random.choices(string.ascii_letters + string.digits, k=text_length))
 
         # Generate emoji component
         if "emoji" in request.modalities:
@@ -341,9 +337,7 @@ async def generate_password(
         actual_entropy = calculate_entropy(password_elements)
 
         # Calculate memorability (simplified)
-        element_count = sum(
-            len(v) if isinstance(v, (list, str)) else 1 for v in password_elements.values()
-        )
+        element_count = sum(len(v) if isinstance(v, (list, str)) else 1 for v in password_elements.values())
         memorability = max(0.3, min(1.0, 1.0 - (element_count / 20)))
 
         return PasswordGenerationResponse(
@@ -477,9 +471,7 @@ async def colony_consensus(
 
         # Update hormone levels based on urgency
         if request.urgency > 0.7:
-            colony.homeostasis.update_hormone_levels(
-                {"urgency": request.urgency, "stress": request.urgency * 0.5}
-            )
+            colony.homeostasis.update_hormone_levels({"urgency": request.urgency, "stress": request.urgency * 0.5})
 
         # Create consensus task
         task = OrchestrationTask(

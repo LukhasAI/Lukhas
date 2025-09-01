@@ -62,9 +62,7 @@ class IntegratedLukhasDemo:
             self.action_history.append(data["action_id"])
             return data
 
-    async def submit_feedback(
-        self, action_id: str, feedback_type: str, content: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def submit_feedback(self, action_id: str, feedback_type: str, content: dict[str, Any]) -> dict[str, Any]:
         """Submit feedback for an action"""
         async with (
             aiohttp.ClientSession() as session,
@@ -157,9 +155,7 @@ class IntegratedLukhasDemo:
             try:
                 rating_value = int(rating)
                 if 1 <= rating_value <= 5:
-                    result = await self.submit_feedback(
-                        action_id, "rating", {"rating": rating_value}
-                    )
+                    result = await self.submit_feedback(action_id, "rating", {"rating": rating_value})
                     print(f"✅ {result['message']}")
                     return True
             except ValueError:
@@ -176,9 +172,7 @@ class IntegratedLukhasDemo:
             try:
                 emoji_idx = int(emoji_choice) - 1
                 if 0 <= emoji_idx < len(emojis):
-                    result = await self.submit_feedback(
-                        action_id, "emoji", {"emoji": emojis[emoji_idx]}
-                    )
+                    result = await self.submit_feedback(action_id, "emoji", {"emoji": emojis[emoji_idx]})
                     print(f"✅ {result['message']}")
                     return True
             except (ValueError, IndexError):
@@ -196,15 +190,11 @@ class IntegratedLukhasDemo:
             # Quick feedback
             quick = input("👍 or 👎? (+/-): ").strip()
             if quick in ["+", "👍", "up", "yes"]:
-                result = await self.submit_feedback(
-                    action_id, "quick", {"rating": 5, "thumbs_up": True}
-                )
+                result = await self.submit_feedback(action_id, "quick", {"rating": 5, "thumbs_up": True})
                 print(f"✅ {result['message']}")
                 return True
             elif quick in ["-", "👎", "down", "no"]:
-                result = await self.submit_feedback(
-                    action_id, "quick", {"rating": 1, "thumbs_up": False}
-                )
+                result = await self.submit_feedback(action_id, "quick", {"rating": 1, "thumbs_up": False})
                 print(f"✅ {result['message']}")
                 return True
 
@@ -416,9 +406,7 @@ class IntegratedLukhasDemo:
             await self.run_demo_scenarios()
 
             # Offer to continue in interactive mode
-            continue_interactive = input(
-                "\n\nWould you like to continue in interactive mode? (y/n): "
-            ).strip()
+            continue_interactive = input("\n\nWould you like to continue in interactive mode? (y/n): ").strip()
             if continue_interactive.lower() in ["y", "yes"]:
                 await self.interactive_mode()
         else:

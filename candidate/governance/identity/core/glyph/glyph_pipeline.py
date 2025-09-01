@@ -219,24 +219,18 @@ class GLYPHPipeline:
                 )
 
             # Enhance with identity embedding
-            enhanced_glyph = self._embed_identity_features(
-                base_glyph_result, request, identity_data
-            )
+            enhanced_glyph = self._embed_identity_features(base_glyph_result, request, identity_data)
 
             # Add steganographic layers if requested
             steganographic_layers = None
             if request.steganographic_data:
-                steganographic_layers = self._add_steganographic_layers(
-                    enhanced_glyph, request.steganographic_data
-                )
+                steganographic_layers = self._add_steganographic_layers(enhanced_glyph, request.steganographic_data)
 
             # Generate ORB visualization if required
             orb_visualization = None
             template = self.identity_templates.get(request.glyph_type, {})
             if template.get("orb_integration") and request.consciousness_state:
-                orb_visualization = self._generate_orb_visualization(
-                    request.consciousness_state, request.tier_level
-                )
+                orb_visualization = self._generate_orb_visualization(request.consciousness_state, request.tier_level)
 
             # Generate quantum signature
             qi_signature = None
@@ -247,14 +241,10 @@ class GLYPHPipeline:
                 qi_signature = self._generate_quantum_signature(enhanced_glyph, identity_data)
 
             # Compile security metadata
-            security_metadata = self._compile_security_metadata(
-                request, qi_signature, steganographic_layers
-            )
+            security_metadata = self._compile_security_metadata(request, qi_signature, steganographic_layers)
 
             # Create final GLYPH image
-            final_glyph_image = self._create_final_glyph_image(
-                enhanced_glyph, orb_visualization, request
-            )
+            final_glyph_image = self._create_final_glyph_image(enhanced_glyph, orb_visualization, request)
 
             # Calculate processing time
             processing_time = time.time() - start_time
@@ -343,9 +333,7 @@ class GLYPHPipeline:
             )
 
         # Verify identity embedding
-        identity_verified = self._verify_identity_embedding(
-            glyph_result.identity_embedding, verification_data
-        )
+        identity_verified = self._verify_identity_embedding(glyph_result.identity_embedding, verification_data)
 
         overall_verified = qi_verified and steganographic_verified and identity_verified
 
@@ -519,9 +507,7 @@ class GLYPHPipeline:
 
         return enhanced_glyph
 
-    def _add_steganographic_layers(
-        self, glyph: dict[str, Any], steganographic_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _add_steganographic_layers(self, glyph: dict[str, Any], steganographic_data: dict[str, Any]) -> dict[str, Any]:
         """Add steganographic layers to GLYPH"""
         # Use the steganographic embedder
         embedding_result = self.steganographic_embedder.embed_identity_data(
@@ -542,9 +528,7 @@ class GLYPHPipeline:
             "data_integrity": embedding_result.get("integrity", True),
         }
 
-    def _generate_orb_visualization(
-        self, consciousness_state: ConsciousnessState, tier_level: int
-    ) -> dict[str, Any]:
+    def _generate_orb_visualization(self, consciousness_state: ConsciousnessState, tier_level: int) -> dict[str, Any]:
         """Generate ORB visualization for GLYPH"""
         # Create ORB state
         orb_state = OrbState(
@@ -571,9 +555,7 @@ class GLYPHPipeline:
             "integration_method": "overlay",
         }
 
-    def _generate_quantum_signature(
-        self, glyph: dict[str, Any], identity_data: dict[str, Any]
-    ) -> str:
+    def _generate_quantum_signature(self, glyph: dict[str, Any], identity_data: dict[str, Any]) -> str:
         """Generate quantum signature for GLYPH"""
         # Create signature data
         signature_data = json.dumps(
@@ -587,9 +569,7 @@ class GLYPHPipeline:
 
         # Generate PQC signature
         signature_keypair = self.pqc_engine.generate_signature_keypair("Dilithium3")
-        pqc_signature = self.pqc_engine.sign_message(
-            signature_data, signature_keypair.private_key, "Dilithium3"
-        )
+        pqc_signature = self.pqc_engine.sign_message(signature_data, signature_keypair.private_key, "Dilithium3")
 
         return base64.b64encode(pqc_signature.signature).decode()
 
@@ -696,16 +676,12 @@ class GLYPHPipeline:
         # For now, return True if signature exists
         return bool(signature)
 
-    def _verify_steganographic_layers(
-        self, layers: dict[str, Any], verification_data: dict[str, Any]
-    ) -> bool:
+    def _verify_steganographic_layers(self, layers: dict[str, Any], verification_data: dict[str, Any]) -> bool:
         """Verify steganographic layers"""
         # This would verify the steganographic embedding
         return layers.get("data_integrity", True)
 
-    def _verify_identity_embedding(
-        self, embedding: dict[str, Any], verification_data: dict[str, Any]
-    ) -> bool:
+    def _verify_identity_embedding(self, embedding: dict[str, Any], verification_data: dict[str, Any]) -> bool:
         """Verify identity embedding"""
         # Basic verification of identity embedding
         required_fields = ["lambda_id", "tier_level", "embedding_method"]
@@ -738,11 +714,8 @@ class GLYPHPipeline:
             "glyph_types": glyph_types,
             "security_levels": security_levels,
             "tier_levels": tier_levels,
-            "success_rate": sum(1 for g in self.generated_glyphs.values() if g.success)
-            / len(self.generated_glyphs),
+            "success_rate": sum(1 for g in self.generated_glyphs.values() if g.success) / len(self.generated_glyphs),
             "qi_secured": sum(1 for g in self.generated_glyphs.values() if g.qi_signature),
-            "steganographic_enhanced": sum(
-                1 for g in self.generated_glyphs.values() if g.steganographic_layers
-            ),
+            "steganographic_enhanced": sum(1 for g in self.generated_glyphs.values() if g.steganographic_layers),
             "orb_integrated": sum(1 for g in self.generated_glyphs.values() if g.orb_visualization),
         }

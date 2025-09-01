@@ -39,16 +39,16 @@ def authenticate(
         and credential
         and credential.get("type") == "webauthn"
     ):
-            auth_result = _webauthn_manager.verify_authentication_response(
-                authentication_id=credential.get("authentication_id"),
-                response=credential.get("response", {}),
-            )
-            return {
-                "ok": auth_result.get("success", False),
-                "user": {"lid": auth_result.get("user_id", lid)},
-                "method": "webauthn",
-                "tier_level": auth_result.get("tier_level", 0),
-            }
+        auth_result = _webauthn_manager.verify_authentication_response(
+            authentication_id=credential.get("authentication_id"),
+            response=credential.get("response", {}),
+        )
+        return {
+            "ok": auth_result.get("success", False),
+            "user": {"lid": auth_result.get("user_id", lid)},
+            "method": "webauthn",
+            "tier_level": auth_result.get("tier_level", 0),
+        }
 
     return {"ok": True, "user": {"lid": lid}, "method": "dry_run"}
 
@@ -82,9 +82,7 @@ def verify_passkey(
     """Verify a WebAuthn passkey registration"""
     _ = kwargs
     if mode != "dry_run" and WEBAUTHN_ACTIVE and _webauthn_manager:
-        result = _webauthn_manager.verify_registration_response(
-            registration_id=registration_id, response=response
-        )
+        result = _webauthn_manager.verify_registration_response(registration_id=registration_id, response=response)
         return {
             "ok": result.get("success", False),
             "credential_id": result.get("credential_id"),
@@ -111,9 +109,7 @@ def list_credentials(user_id: str, *, mode: str = "dry_run", **kwargs) -> dict[s
 
 
 @instrument("DECISION", label="auth:revoke", capability="identity:revoke")
-def revoke_credential(
-    user_id: str, credential_id: str, *, mode: str = "dry_run", **kwargs
-) -> dict[str, Any]:
+def revoke_credential(user_id: str, credential_id: str, *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     """Revoke a WebAuthn credential"""
     _ = kwargs
     if mode != "dry_run" and WEBAUTHN_ACTIVE and _webauthn_manager:

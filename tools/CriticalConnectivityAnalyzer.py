@@ -37,9 +37,7 @@ class CriticalConnectivityAnalyzer:
                 self.affected_systems[system].add(broken_import)
 
                 # Store pattern
-                self.broken_patterns[missing_module].append(
-                    {"file": file_path, "import": broken_import}
-                )
+                self.broken_patterns[missing_module].append({"file": file_path, "import": broken_import})
 
     def identify_critical_issues(self):
         """Identify the most critical connectivity issues."""
@@ -139,9 +137,7 @@ class CriticalConnectivityAnalyzer:
         print(f"   Total Files: {self.report['total_files']}")
         print(f"   Broken Imports: {self.report['broken_imports_count']}")
         print(f"   Isolated Files: {self.report['isolated_files_count']}")
-        print(
-            f"   Isolation Rate: {(self.report['isolated_files_count'] / self.report['total_files'] * 100):.1f}%"
-        )
+        print(f"   Isolation Rate: {(self.report['isolated_files_count'] / self.report['total_files'] * 100):.1f}%")
 
         print("\n🚨 CRITICAL MISSING MODULES:")
         for issue in critical_issues["missing_core_modules"][:5]:
@@ -160,9 +156,7 @@ class CriticalConnectivityAnalyzer:
             print(f"      ❌ Missing: {issue['import']}")
 
         print("\n🏝️  ISOLATION BY SYSTEM:")
-        for system, files in sorted(
-            isolation_patterns.items(), key=lambda x: len(x[1]), reverse=True
-        )[:8]:
+        for system, files in sorted(isolation_patterns.items(), key=lambda x: len(x[1]), reverse=True)[:8]:
             print(f"   📂 {system}: {len(files)} isolated files")
 
         print("\n🔧 IMMEDIATE ACTION PLAN:")

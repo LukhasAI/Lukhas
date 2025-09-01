@@ -271,9 +271,7 @@ class T4ObservabilityStack:
 
         return decorator
 
-    def submit_metric(
-        self, metric_type: str, metric_name: str, value: float, tags: Optional[list[str]] = None
-    ):
+    def submit_metric(self, metric_type: str, metric_name: str, value: float, tags: Optional[list[str]] = None):
         """
         Submit a custom metric to Datadog.
 

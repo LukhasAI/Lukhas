@@ -72,9 +72,7 @@ class QISecurityIntegration:
 
         for algorithm in ["kyber", "dilithium"]:
             try:
-                await self.security_orchestrator.pq_crypto_engine.generate_quantum_resistant_keys(
-                    algorithm
-                )
+                await self.security_orchestrator.pq_crypto_engine.generate_quantum_resistant_keys(algorithm)
                 logger.info(f"Generated {algorithm} keys successfully")
             except Exception as e:
                 logger.warning(f"Failed to generate {algorithm} keys: {e}")
@@ -96,9 +94,7 @@ class QISecurityIntegration:
             "threat_response_mode": "adaptive",
         }
 
-    async def perform_security_assessment(
-        self, target: str, code: Optional[str] = None
-    ) -> SecurityAssessment:
+    async def perform_security_assessment(self, target: str, code: Optional[str] = None) -> SecurityAssessment:
         """
         Perform a comprehensive quantum security assessment
 
@@ -120,9 +116,7 @@ class QISecurityIntegration:
                 return cached["assessment"]
 
         # Perform assessment
-        assessment = await self.security_orchestrator.perform_quantum_security_assessment(
-            target, code
-        )
+        assessment = await self.security_orchestrator.perform_quantum_security_assessment(target, code)
 
         # Cache the result
         self.assessment_cache[cache_key] = {
@@ -145,13 +139,9 @@ class QISecurityIntegration:
         if not self.is_initialized:
             await self.initialize()
 
-        return await self.security_orchestrator.pq_crypto_engine.generate_quantum_resistant_keys(
-            algorithm
-        )
+        return await self.security_orchestrator.pq_crypto_engine.generate_quantum_resistant_keys(algorithm)
 
-    async def encrypt_quantum_safe(
-        self, data: bytes, public_key: str, algorithm: str = "kyber"
-    ) -> dict[str, Any]:
+    async def encrypt_quantum_safe(self, data: bytes, public_key: str, algorithm: str = "kyber") -> dict[str, Any]:
         """
         Encrypt data using quantum-resistant algorithms
 
@@ -166,9 +156,7 @@ class QISecurityIntegration:
         if not self.is_initialized:
             await self.initialize()
 
-        return await self.security_orchestrator.pq_crypto_engine.qi_encrypt(
-            data, public_key, algorithm
-        )
+        return await self.security_orchestrator.pq_crypto_engine.qi_encrypt(data, public_key, algorithm)
 
     async def detect_quantum_threats(self, system_state: dict[str, Any]) -> list[QIThreat]:
         """
@@ -188,10 +176,8 @@ class QISecurityIntegration:
 
         # Check for quantum vulnerabilities
         if self.security_orchestrator.vuln_analyzer:
-            vuln_report = (
-                await self.security_orchestrator.vuln_analyzer._analyze_quantum_vulnerabilities(
-                    json.dumps(system_state)
-                )
+            vuln_report = await self.security_orchestrator.vuln_analyzer._analyze_quantum_vulnerabilities(
+                json.dumps(system_state)
             )
 
             for vuln in vuln_report.get("vulnerabilities", []):

@@ -378,9 +378,7 @@ class PoeticTechniques:
             "quantum",
             "neurons",
         ]:
-            metaphor_key = f"{concept}_as_" + random.choice(
-                ["ocean", "architecture", "dance", "constellation"]
-            )
+            metaphor_key = f"{concept}_as_" + random.choice(["ocean", "architecture", "dance", "constellation"])
             if metaphor_key in self.extended_metaphors:
                 description_parts.append(random.choice(self.extended_metaphors[metaphor_key]))
 
@@ -460,12 +458,8 @@ if __name__ == "__main__":
     print()
 
     print("▸ RICH DESCRIPTION (Multiple techniques):")
-    print(
-        f"  Memory: {techniques.create_rich_description('memory', ['alliteration', 'metaphor', 'imagery'])}"
-    )
-    print(
-        f"  Consciousness: {techniques.create_rich_description('consciousness', ['assonance', 'metaphor'])}"
-    )
+    print(f"  Memory: {techniques.create_rich_description('memory', ['alliteration', 'metaphor', 'imagery'])}")
+    print(f"  Consciousness: {techniques.create_rich_description('consciousness', ['assonance', 'metaphor'])}")
     print()
 
     print("══════════════════════════════════════════════════════════════")

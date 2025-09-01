@@ -169,9 +169,7 @@ class GovernanceColony(BaseColony):
 
         self.comm_fabric.subscribe_to_events("emergency_override", self._handle_emergency_override)
 
-        logger.info(
-            f"GovernanceColony {self.colony_id} started with {len(self.agents)} ethics agents"
-        )
+        logger.info(f"GovernanceColony {self.colony_id} started with {len(self.agents)} ethics agents")
 
     async def _initialize_ethics_agents(self):
         """Initialize specialized ethics agents."""
@@ -230,9 +228,7 @@ class GovernanceColony(BaseColony):
                 "message": f"Unknown task type: {task_type}",
             }
 
-    async def _conduct_ethics_review(
-        self, task_id: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _conduct_ethics_review(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """Conduct a full ethics review with multiple agents."""
 
         # Determine which agents should review
@@ -252,9 +248,7 @@ class GovernanceColony(BaseColony):
         approval_rate = approved_count / total_count if total_count > 0 else 0
 
         # Aggregate scores
-        avg_ethical_score = (
-            sum(e["ethical_score"] for e in evaluations) / total_count if total_count > 0 else 0
-        )
+        avg_ethical_score = sum(e["ethical_score"] for e in evaluations) / total_count if total_count > 0 else 0
 
         # Collect all violations
         all_violations = []
@@ -420,9 +414,7 @@ class GovernanceColony(BaseColony):
         self.audit_log.append(log_entry)
 
         # Also log to distributed tracing
-        with self.tracer.trace_agent_operation(
-            self.colony_id, "governance_decision", {"task_id": task_id}
-        ) as ctx:
+        with self.tracer.trace_agent_operation(self.colony_id, "governance_decision", {"task_id": task_id}) as ctx:
             self.tracer.add_tag(ctx, "approved", approved)
             self.tracer.add_tag(ctx, "reason", reason)
 

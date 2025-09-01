@@ -274,9 +274,7 @@ class GuardianSystemIntegration:
         self.recent_validations = []
 
         # Alert system
-        self.alert_handlers: dict[GuardianAlertLevel, list[Callable]] = {
-            level: [] for level in GuardianAlertLevel
-        }
+        self.alert_handlers: dict[GuardianAlertLevel, list[Callable]] = {level: [] for level in GuardianAlertLevel}
 
         # Initialize system
         asyncio.create_task(self._initialize_guardian_system())
@@ -292,25 +290,19 @@ class GuardianSystemIntegration:
             # Initialize Consent Ledger
             if ConsentLedgerV1:
                 self.consent_ledger = ConsentLedgerV1(
-                    db_path=self.config.get(
-                        "consent_db_path", "candidate/governance/consent_ledger.db"
-                    ),
+                    db_path=self.config.get("consent_db_path", "candidate/governance/consent_ledger.db"),
                     enable_trinity_validation=True,
                 )
                 logger.info("✅ Consent Ledger initialized")
 
             # Initialize Drift Detector
             if AdvancedDriftDetector:
-                self.drift_detector = AdvancedDriftDetector(
-                    config=self.config.get("drift_detector", {})
-                )
+                self.drift_detector = AdvancedDriftDetector(config=self.config.get("drift_detector", {}))
                 logger.info("✅ Drift Detector initialized")
 
             # Initialize Ethics Engine
             if ComprehensiveEthicsPolicyEngine:
-                self.ethics_engine = ComprehensiveEthicsPolicyEngine(
-                    config=self.config.get("ethics_engine", {})
-                )
+                self.ethics_engine = ComprehensiveEthicsPolicyEngine(config=self.config.get("ethics_engine", {}))
                 logger.info("✅ Ethics Policy Engine initialized")
 
             # Initialize Audit System
@@ -349,9 +341,7 @@ class GuardianSystemIntegration:
             self.status = GuardianStatus.ERROR
             self.metrics.status = GuardianStatus.ERROR
             logger.error(f"❌ Guardian System initialization failed: {e}")
-            await self._trigger_alert(
-                GuardianAlertLevel.CRITICAL, f"System initialization failed: {e}"
-            )
+            await self._trigger_alert(GuardianAlertLevel.CRITICAL, f"System initialization failed: {e}")
 
     async def _connect_components(self):
         """Connect Guardian System components for integration"""
@@ -367,9 +357,7 @@ class GuardianSystemIntegration:
 
         logger.info("🔗 Guardian System components connected")
 
-    async def validate_action(
-        self, request: GuardianValidationRequest
-    ) -> GuardianValidationResponse:
+    async def validate_action(self, request: GuardianValidationRequest) -> GuardianValidationResponse:
         """
         Comprehensive validation of an action through all Guardian System components
 
@@ -499,9 +487,7 @@ class GuardianSystemIntegration:
             # Handle alerts
             if response.alerts:
                 for alert in response.alerts:
-                    await self._trigger_alert(
-                        GuardianAlertLevel(alert.get("level", "warning")), alert["message"]
-                    )
+                    await self._trigger_alert(GuardianAlertLevel(alert.get("level", "warning")), alert["message"])
 
             logger.info(
                 f"🛡️ Validation complete: {request.action} -> {response.result.value} (confidence: {response.confidence:.3f}, time: {response.validation_time_ms:.1f}ms)"
@@ -516,9 +502,7 @@ class GuardianSystemIntegration:
             response.reasoning = f"Guardian System error: {e!s}"
             response.validation_time_ms = (time.time() - start_time) * 1000
 
-            await self._trigger_alert(
-                GuardianAlertLevel.EMERGENCY, f"Guardian validation error: {e}"
-            )
+            await self._trigger_alert(GuardianAlertLevel.EMERGENCY, f"Guardian validation error: {e}")
 
             return response
 
@@ -577,9 +561,7 @@ class GuardianSystemIntegration:
             return {
                 "status": "completed",
                 "drift_score": measurement.drift_score,
-                "severity": measurement.severity.value
-                if hasattr(measurement, "severity")
-                else "unknown",
+                "severity": measurement.severity.value if hasattr(measurement, "severity") else "unknown",
                 "threshold_exceeded": measurement.drift_score > 0.15,
                 "confidence": measurement.confidence if hasattr(measurement, "confidence") else 0.0,
                 "contributing_factors": getattr(measurement, "contributing_factors", []),
@@ -737,10 +719,7 @@ class GuardianSystemIntegration:
 
         # Determine result
         if blocking_issues:
-            if any(
-                issue in ["constitutional_violation", "ethics_emergency_stop"]
-                for issue in blocking_issues
-            ):
+            if any(issue in ["constitutional_violation", "ethics_emergency_stop"] for issue in blocking_issues):
                 result = ValidationResult.EMERGENCY_STOP
             elif "consent_required" in blocking_issues:
                 result = ValidationResult.REQUIRES_CONSENT
@@ -775,11 +754,7 @@ class GuardianSystemIntegration:
             avg_score = sum(validation_scores) / len(validation_scores)
             reasoning_parts.append(f"Average validation score: {avg_score:.3f}")
 
-        if (
-            response.identity_validated
-            and response.consciousness_aligned
-            and response.guardian_approved
-        ):
+        if response.identity_validated and response.consciousness_aligned and response.guardian_approved:
             reasoning_parts.append("Trinity Framework validation passed")
         else:
             trinity_issues = []
@@ -791,9 +766,7 @@ class GuardianSystemIntegration:
                 trinity_issues.append("guardian")
             reasoning_parts.append(f"Trinity Framework issues: {', '.join(trinity_issues)}")
 
-        reasoning = (
-            ". ".join(reasoning_parts) if reasoning_parts else "No specific validation issues found"
-        )
+        reasoning = ". ".join(reasoning_parts) if reasoning_parts else "No specific validation issues found"
 
         return {
             "result": result,
@@ -856,15 +829,11 @@ class GuardianSystemIntegration:
             try:
                 # Map event types to available enum values
                 event_type_map = {
-                    "SYSTEM_START": "SYSTEM_START"
-                    if hasattr(AuditEventType, "SYSTEM_START")
-                    else "SYSTEM_EVENT",
+                    "SYSTEM_START": "SYSTEM_START" if hasattr(AuditEventType, "SYSTEM_START") else "SYSTEM_EVENT",
                     "SYSTEM_SHUTDOWN": "SYSTEM_SHUTDOWN"
                     if hasattr(AuditEventType, "SYSTEM_SHUTDOWN")
                     else "SYSTEM_EVENT",
-                    "GUARDIAN_ALERT": "GUARDIAN_ALERT"
-                    if hasattr(AuditEventType, "GUARDIAN_ALERT")
-                    else "SYSTEM_EVENT",
+                    "GUARDIAN_ALERT": "GUARDIAN_ALERT" if hasattr(AuditEventType, "GUARDIAN_ALERT") else "SYSTEM_EVENT",
                 }
 
                 mapped_event_type = event_type_map.get(event_type, "SYSTEM_EVENT")
@@ -913,9 +882,7 @@ class GuardianSystemIntegration:
         if len(self.validation_times) > 1000:  # Keep last 1000 validations
             self.validation_times.pop(0)
 
-        self.metrics.average_validation_time_ms = sum(self.validation_times) / len(
-            self.validation_times
-        )
+        self.metrics.average_validation_time_ms = sum(self.validation_times) / len(self.validation_times)
 
         # Update rates
         current_time = datetime.now()
@@ -937,9 +904,7 @@ class GuardianSystemIntegration:
             self.metrics.policy_violations += 1
 
         if response.alerts:
-            security_alerts = [
-                a for a in response.alerts if a.get("level") in ["high", "critical", "emergency"]
-            ]
+            security_alerts = [a for a in response.alerts if a.get("level") in ["high", "critical", "emergency"]]
             self.metrics.security_alerts += len(security_alerts)
 
         # Update Trinity Framework metrics
@@ -985,9 +950,7 @@ class GuardianSystemIntegration:
         await self._log_audit_event(
             event_type="GUARDIAN_ALERT",
             message=f"Guardian alert: {message}",
-            level="CRITICAL"
-            if level in [GuardianAlertLevel.CRITICAL, GuardianAlertLevel.EMERGENCY]
-            else "WARNING",
+            level="CRITICAL" if level in [GuardianAlertLevel.CRITICAL, GuardianAlertLevel.EMERGENCY] else "WARNING",
             event_data={"alert_level": level.value, "alert_message": message},
         )
 
@@ -1051,31 +1014,21 @@ class GuardianSystemIntegration:
 
                 # Check average validation time
                 if self.metrics.average_validation_time_ms > 500:  # > 500ms is concerning
-                    health_issues.append(
-                        f"High validation latency: {self.metrics.average_validation_time_ms:.1f}ms"
-                    )
+                    health_issues.append(f"High validation latency: {self.metrics.average_validation_time_ms:.1f}ms")
 
                 # Check timeout rate
-                if (
-                    self.metrics.validation_timeout_rate > self.metrics.total_validations * 0.01
-                ):  # > 1% timeout rate
-                    health_issues.append(
-                        f"High timeout rate: {self.metrics.validation_timeout_rate}"
-                    )
+                if self.metrics.validation_timeout_rate > self.metrics.total_validations * 0.01:  # > 1% timeout rate
+                    health_issues.append(f"High timeout rate: {self.metrics.validation_timeout_rate}")
 
                 # Check emergency stops
                 if self.metrics.emergency_stops > 0:
-                    health_issues.append(
-                        f"Emergency stops detected: {self.metrics.emergency_stops}"
-                    )
+                    health_issues.append(f"Emergency stops detected: {self.metrics.emergency_stops}")
 
                 # Check drift breaches
                 if (
                     self.metrics.drift_threshold_breaches > self.metrics.total_validations * 0.05
                 ):  # > 5% drift breach rate
-                    health_issues.append(
-                        f"High drift breach rate: {self.metrics.drift_threshold_breaches}"
-                    )
+                    health_issues.append(f"High drift breach rate: {self.metrics.drift_threshold_breaches}")
 
                 # Report health issues
                 if health_issues:

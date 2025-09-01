@@ -97,9 +97,7 @@ class AI:
             federated_model=self.federated_manager.get_model("creative_style"),
         )
 
-        self.protest_module = EthicalProtestModule(
-            federated_model=self.federated_manager.get_model("legal_compliance")
-        )
+        self.protest_module = EthicalProtestModule(federated_model=self.federated_manager.get_model("legal_compliance"))
 
         # Creative Systems
         self.doodler = ConceptualDoodler(cognitive_model=self.meta_learner.cognitive_model)

@@ -198,9 +198,7 @@ def check_escalation_requirements(drift_score: float, config: dict) -> dict[str,
     return escalation_result
 
 
-def enrich_trace_metadata(
-    result: dict, trace_index: str, context_id: Optional[str] = None
-) -> dict[str, Any]:
+def enrich_trace_metadata(result: dict, trace_index: str, context_id: Optional[str] = None) -> dict[str, Any]:
     """Add comprehensive timestamp, module origin, and context metadata."""
     enriched_metadata = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -313,11 +311,7 @@ def detect_ethical_drift(
         "trace_index": trace_index,
         "ethics_assessment": {
             "status": (
-                "CRITICAL"
-                if weighted_drift_score >= 5
-                else "WARNING"
-                if weighted_drift_score >= 2
-                else "NORMAL"
+                "CRITICAL" if weighted_drift_score >= 5 else "WARNING" if weighted_drift_score >= 2 else "NORMAL"
             ),
             "confidence": 0.95,
             "recommendation": _generate_recommendation(weighted_drift_score, escalation_info),
@@ -333,10 +327,7 @@ def detect_ethical_drift(
         result["export_path"] = export_path
 
     # Real-time alerting if configured
-    if (
-        config.get("reporting", {}).get("real_time_alerts", False)
-        and escalation_info["escalation_triggered"]
-    ):
+    if config.get("reporting", {}).get("real_time_alerts", False) and escalation_info["escalation_triggered"]:
         _send_real_time_alerts(result, escalation_info)
 
     # #ΛTRACE_VERIFIER
@@ -363,9 +354,7 @@ def _send_real_time_alerts(result: dict, escalation_info: dict) -> None:
     """Send real-time alerts for critical ethical violations."""
     # Implementation would integrate with actual alerting systems
     # (Slack, email, governance dashboard, etc.)
-    print(
-        f"🚨 ETHICS ALERT: {escalation_info['escalation_level']} - Score: {result['drift_score']}"
-    )
+    print(f"🚨 ETHICS ALERT: {escalation_info['escalation_level']} - Score: {result['drift_score']}")
     for action in escalation_info.get("actions_required", []):
         print(f"   → Action Required: {action}")
 

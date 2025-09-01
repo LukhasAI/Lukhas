@@ -85,9 +85,7 @@ class OrchestrationAPIRequest(BaseModel):
     specific_functions: Optional[list[str]] = Field(None, description="Specific functions to allow")
 
     # Performance constraints
-    max_latency_ms: int = Field(
-        5000, description="Maximum latency in milliseconds", ge=100, le=30000
-    )
+    max_latency_ms: int = Field(5000, description="Maximum latency in milliseconds", ge=100, le=30000)
     max_cost: float = Field(0.10, description="Maximum cost per request", ge=0.001, le=10.0)
 
     # Quality requirements
@@ -118,12 +116,8 @@ class FunctionRegistrationRequest(BaseModel):
 
     functions: dict[str, dict[str, Any]] = Field(..., description="Functions to register")
     global_scope: bool = Field(True, description="Register globally for all providers")
-    security_validated: bool = Field(
-        False, description="Whether functions have been security validated"
-    )
-    healthcare_compliant: bool = Field(
-        False, description="Whether functions are healthcare compliant"
-    )
+    security_validated: bool = Field(False, description="Whether functions have been security validated")
+    healthcare_compliant: bool = Field(False, description="Whether functions are healthcare compliant")
 
 
 class OrchestrationAPIResponse(BaseModel):
@@ -152,15 +146,11 @@ class OrchestrationAPIResponse(BaseModel):
     strategy_used: str = Field(..., description="Orchestration strategy used")
 
     # Function calling results
-    function_calls: list[dict[str, Any]] = Field(
-        default_factory=list, description="Function calls made"
-    )
+    function_calls: list[dict[str, Any]] = Field(default_factory=list, description="Function calls made")
     tool_uses: list[dict[str, Any]] = Field(default_factory=list, description="Tool uses made")
 
     # Transparency
-    individual_responses: list[dict[str, Any]] = Field(
-        default_factory=list, description="Individual model responses"
-    )
+    individual_responses: list[dict[str, Any]] = Field(default_factory=list, description="Individual model responses")
     decision_rationale: str = Field("", description="Decision-making rationale")
 
 
@@ -221,9 +211,7 @@ class APIKeyManager:
         self.request_counts[user_id].append(current_time)
         return True
 
-    def check_cost_limit(
-        self, api_key: str, user_info: dict[str, Any], estimated_cost: float
-    ) -> bool:
+    def check_cost_limit(self, api_key: str, user_info: dict[str, Any], estimated_cost: float) -> bool:
         """Check if request would exceed cost limits"""
         user_id = user_info["user_id"]
         daily_limit = user_info["cost_limit"]["daily"]
@@ -249,9 +237,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
 
     # Check rate limits
     if not api_key_manager.check_rate_limit(api_key, user_info):
-        raise HTTPException(
-            status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail="Rate limit exceeded"
-        )
+        raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail="Rate limit exceeded")
 
     return {"api_key": api_key, "user_info": user_info}
 
@@ -318,9 +304,7 @@ if FASTAPI_AVAILABLE:
 
             # Check cost limits
             if not api_key_manager.check_cost_limit(api_key, user_info, request.max_cost):
-                raise HTTPException(
-                    status_code=status.HTTP_402_PAYMENT_REQUIRED, detail="Daily cost limit exceeded"
-                )
+                raise HTTPException(status_code=status.HTTP_402_PAYMENT_REQUIRED, detail="Daily cost limit exceeded")
 
             # Convert API request to orchestration request
             orchestrator = get_orchestrator()
@@ -332,8 +316,7 @@ if FASTAPI_AVAILABLE:
                 if request.providers
                 else [APIProvider.ALL],
                 strategy=OrchestrationStrategy(request.strategy),
-                enable_functions=request.enable_functions
-                and "functions" in user_info["permissions"],
+                enable_functions=request.enable_functions and "functions" in user_info["permissions"],
                 specific_functions=request.specific_functions,
                 max_latency_ms=request.max_latency_ms,
                 max_cost_threshold=request.max_cost,
@@ -381,9 +364,7 @@ if FASTAPI_AVAILABLE:
 
     # Streaming endpoint with Server-Sent Events
     @app.post("/api/v1/stream")
-    async def stream_orchestration(
-        request: StreamingRequest, current_user: dict = Depends(get_current_user)
-    ):
+    async def stream_orchestration(request: StreamingRequest, current_user: dict = Depends(get_current_user)):
         """
         Stream AI responses in real-time using Server-Sent Events (SSE).
 
@@ -395,9 +376,7 @@ if FASTAPI_AVAILABLE:
 
         # Check permissions
         if "streaming" not in user_info["permissions"]:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN, detail="Streaming permission required"
-            )
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Streaming permission required")
 
         async def generate_stream():
             """Generate SSE stream"""
@@ -407,8 +386,7 @@ if FASTAPI_AVAILABLE:
                 orchestration_request = OrchestrationRequest(
                     prompt=request.prompt,
                     preferred_providers=[APIProvider(request.provider)],
-                    enable_functions=request.enable_functions
-                    and "functions" in user_info["permissions"],
+                    enable_functions=request.enable_functions and "functions" in user_info["permissions"],
                 )
 
                 async for chunk in orchestrator.stream_orchestration(orchestration_request):
@@ -462,17 +440,13 @@ if FASTAPI_AVAILABLE:
                         # Handle chat message
                         prompt = message.get("prompt", "")
                         if not prompt:
-                            await websocket.send_text(
-                                json.dumps({"type": "error", "error": "Empty prompt"})
-                            )
+                            await websocket.send_text(json.dumps({"type": "error", "error": "Empty prompt"}))
                             continue
 
                         # Basic authentication for WebSocket (in production, use proper auth)
                         api_key = message.get("api_key")
                         if not api_key or api_key not in api_key_manager.api_keys:
-                            await websocket.send_text(
-                                json.dumps({"type": "error", "error": "Invalid API key"})
-                            )
+                            await websocket.send_text(json.dumps({"type": "error", "error": "Invalid API key"}))
                             continue
 
                         # Stream response
@@ -505,15 +479,11 @@ if FASTAPI_AVAILABLE:
 
                     else:
                         await websocket.send_text(
-                            json.dumps(
-                                {"type": "error", "error": f"Unknown message type: {message_type}"}
-                            )
+                            json.dumps({"type": "error", "error": f"Unknown message type: {message_type}"})
                         )
 
                 except json.JSONDecodeError:
-                    await websocket.send_text(
-                        json.dumps({"type": "error", "error": "Invalid JSON message"})
-                    )
+                    await websocket.send_text(json.dumps({"type": "error", "error": "Invalid JSON message"}))
 
                 except Exception as e:
                     logger.error(f"WebSocket processing error: {e}")
@@ -526,9 +496,7 @@ if FASTAPI_AVAILABLE:
 
     # Enhanced function registration endpoint with validation
     @app.post("/api/v1/functions/register")
-    async def register_functions(
-        request: FunctionRegistrationRequest, current_user: dict = Depends(get_current_user)
-    ):
+    async def register_functions(request: FunctionRegistrationRequest, current_user: dict = Depends(get_current_user)):
         """
         Register custom functions for use with AI models.
 
@@ -559,11 +527,7 @@ if FASTAPI_AVAILABLE:
                         detail={
                             "error": "Function validation failed",
                             "validation_errors": validation_result.errors,
-                            "security_issues": [
-                                e
-                                for e in validation_result.errors
-                                if "security" in e.get("type", "")
-                            ],
+                            "security_issues": [e for e in validation_result.errors if "security" in e.get("type", "")],
                         },
                     )
         except Exception as e:
@@ -584,9 +548,7 @@ if FASTAPI_AVAILABLE:
                 orchestrator.register_global_functions(request.functions)
 
             # Log function registration for audit
-            logger.info(
-                f"Functions registered by user {user_info['user_id']}: {list(request.functions.keys())}"
-            )
+            logger.info(f"Functions registered by user {user_info['user_id']}: {list(request.functions.keys())}")
 
             return {
                 "success": True,
@@ -707,17 +669,13 @@ if FASTAPI_AVAILABLE:
         shared configuration and cost optimization.
         """
         if len(requests) > 10:  # Limit batch size
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="Batch size limited to 10 requests"
-            )
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Batch size limited to 10 requests")
 
         user_info = current_user["user_info"]
 
         # Check permissions
         if "orchestration" not in user_info["permissions"]:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN, detail="Orchestration permission required"
-            )
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Orchestration permission required")
 
         batch_results = []
         total_cost = 0.0
@@ -748,9 +706,7 @@ if FASTAPI_AVAILABLE:
 
     # Model comparison endpoint
     @app.post("/api/v1/compare-models")
-    async def compare_models(
-        request: OrchestrationAPIRequest, current_user: dict = Depends(get_current_user)
-    ):
+    async def compare_models(request: OrchestrationAPIRequest, current_user: dict = Depends(get_current_user)):
         """
         Compare responses from different AI models side-by-side.
 
@@ -760,9 +716,7 @@ if FASTAPI_AVAILABLE:
         user_info = current_user["user_info"]
 
         if "orchestration" not in user_info["permissions"]:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN, detail="Orchestration permission required"
-            )
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Orchestration permission required")
 
         # Force parallel strategy for comparison
         request.strategy = "parallel"

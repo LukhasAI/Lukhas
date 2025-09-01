@@ -122,9 +122,7 @@ class MemorySystem:
         # Basic pattern extraction - would be more sophisticated in production
         if isinstance(data, dict):
             for key, value in data.items():
-                if isinstance(value, str) and any(
-                    symbol in value for symbol in ["Λ", "⟐", "◊", "○"]
-                ):
+                if isinstance(value, str) and any(symbol in value for symbol in ["Λ", "⟐", "◊", "○"]):
                     patterns.append(f"{key}:{value}")
         return patterns
 
@@ -133,9 +131,7 @@ class MemorySystem:
         for pattern in new_patterns:
             if pattern in self.patterns:
                 self.patterns[pattern]["count"] += 1
-                self.patterns[pattern]["stability"] = min(
-                    1.0, self.patterns[pattern]["stability"] + 0.1
-                )
+                self.patterns[pattern]["stability"] = min(1.0, self.patterns[pattern]["stability"] + 0.1)
             else:
                 self.patterns[pattern] = {
                     "count": 1,

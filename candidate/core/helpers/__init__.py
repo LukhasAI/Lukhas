@@ -16,9 +16,7 @@ import structlog
 
 # ΛTRACE: Initializing logger for core.helpers
 log = structlog.get_logger(__name__)
-log.info(
-    "core.helpers module initialized"
-)  # ΛNOTE: Basic initialization logging for helper utilities.
+log.info("core.helpers module initialized")  # ΛNOTE: Basic initialization logging for helper utilities.
 
 # --- String Manipulation Utilities ---
 
@@ -36,9 +34,7 @@ def sanitize_string_for_logging(input_string: Optional[str]) -> str:
         return ""
     # AINFER: Basic inference of sensitive patterns (e.g., looks like an API key)
     # This is a placeholder for more sophisticated pattern matching if needed.
-    if re.search(
-        r"(?:api_key|password|secret|token)", input_string, re.IGNORECASE
-    ):  # ΛNOTE: Basic keyword check
+    if re.search(r"(?:api_key|password|secret|token)", input_string, re.IGNORECASE):  # ΛNOTE: Basic keyword check
         # ΛTRACE: Detected potentially sensitive keyword in string
         log.debug("Sanitizing potentially sensitive string for logging.")
         return "[REDACTED_SENSITIVE_STRING]"
@@ -51,9 +47,7 @@ def sanitize_string_for_logging(input_string: Optional[str]) -> str:
 # ΛUTIL
 
 
-def truncate_string(
-    input_string: Optional[str], max_length: int = 100, ellipsis: str = "..."
-) -> str:
+def truncate_string(input_string: Optional[str], max_length: int = 100, ellipsis: str = "...") -> str:
     """
     Truncates a string to a maximum length, adding an ellipsis if truncated.
     # ΛNOTE: Useful for displaying long strings in UIs or concise log messages.

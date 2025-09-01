@@ -112,9 +112,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
                 self.coordination_network["connections"][inst1.instance_id] = []
                 for j, inst2 in enumerate(instances):
                     if i != j:
-                        self.coordination_network["connections"][inst1.instance_id].append(
-                            inst2.instance_id
-                        )
+                        self.coordination_network["connections"][inst1.instance_id].append(inst2.instance_id)
 
         elif topology == "star":
             # Star topology - all connected to first instance
@@ -124,9 +122,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
                     self.coordination_network["connections"][inst.instance_id] = [hub.instance_id]
                     if hub.instance_id not in self.coordination_network["connections"]:
                         self.coordination_network["connections"][hub.instance_id] = []
-                    self.coordination_network["connections"][hub.instance_id].append(
-                        inst.instance_id
-                    )
+                    self.coordination_network["connections"][hub.instance_id].append(inst.instance_id)
 
         elif topology == "ring":
             # Ring topology - each connected to neighbors
@@ -140,9 +136,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
         return self.coordination_network
 
-    async def synchronize_collective(
-        self, instances: list[ConsciousnessInstance]
-    ) -> dict[str, Any]:
+    async def synchronize_collective(self, instances: list[ConsciousnessInstance]) -> dict[str, Any]:
         """
         Synchronize collective consciousness state
 
@@ -186,9 +180,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
         return self.collective_state
 
-    async def distribute_task(
-        self, task: dict[str, Any], instances: list[ConsciousnessInstance]
-    ) -> dict[str, Any]:
+    async def distribute_task(self, task: dict[str, Any], instances: list[ConsciousnessInstance]) -> dict[str, Any]:
         """
         Distribute a task across consciousness instances
 
@@ -219,9 +211,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         # Calculate parallelization benefit
         if distribution["assignments"]:
             distribution["parallelization_factor"] = len(distribution["assignments"]) ** 0.7
-            distribution["expected_completion_time"] = (
-                complexity / distribution["parallelization_factor"]
-            )
+            distribution["expected_completion_time"] = complexity / distribution["parallelization_factor"]
 
         return distribution
 

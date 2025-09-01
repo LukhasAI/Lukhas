@@ -88,9 +88,7 @@ class ToolAnalytics:
             return f"tool_{uuid.uuid4().hex[:8]}"
 
         call_id = f"tool_{uuid.uuid4().hex[:8]}"
-        self.active_calls[call_id] = ToolCall(
-            tool_name=tool_name, arguments=arguments, start_time=time.time()
-        )
+        self.active_calls[call_id] = ToolCall(tool_name=tool_name, arguments=arguments, start_time=time.time())
         return call_id
 
     def complete_tool_call(

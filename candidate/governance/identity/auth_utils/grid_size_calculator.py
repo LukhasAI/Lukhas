@@ -157,21 +157,15 @@ class GridSizeCalculator:
         reasoning.append(f"Base grid size {base_grid_size} for {content_count} items")
 
         # Step 2: Apply cognitive load adjustments
-        cognitive_adjusted_size = self._apply_cognitive_load_adjustment(
-            base_grid_size, cognitive_load_level
-        )
-        reasoning.append(
-            f"Cognitive load ({cognitive_load_level}) adjusted to {cognitive_adjusted_size}"
-        )
+        cognitive_adjusted_size = self._apply_cognitive_load_adjustment(base_grid_size, cognitive_load_level)
+        reasoning.append(f"Cognitive load ({cognitive_load_level}) adjusted to {cognitive_adjusted_size}")
 
         # Step 3: Apply screen size constraints
         screen_adjusted_size = self._apply_screen_constraints(cognitive_adjusted_size, screen)
         reasoning.append(f"Screen constraints applied: {screen_adjusted_size}")
 
         # Step 4: Apply accessibility requirements
-        final_grid_size = self._apply_accessibility_adjustments(
-            screen_adjusted_size, accessibility_requirements
-        )
+        final_grid_size = self._apply_accessibility_adjustments(screen_adjusted_size, accessibility_requirements)
         reasoning.append(f"Accessibility adjustments: {final_grid_size}")
 
         # Step 5: Calculate optimal layout
@@ -240,12 +234,8 @@ class GridSizeCalculator:
     def _apply_screen_constraints(self, grid_size: int, screen: ScreenDimensions) -> int:
         """Apply screen size constraints to grid size."""
         # Calculate available screen space
-        available_width = (
-            screen.width - screen.safe_area_insets["left"] - screen.safe_area_insets["right"]
-        )
-        available_height = (
-            screen.height - screen.safe_area_insets["top"] - screen.safe_area_insets["bottom"]
-        )
+        available_width = screen.width - screen.safe_area_insets["left"] - screen.safe_area_insets["right"]
+        available_height = screen.height - screen.safe_area_insets["top"] - screen.safe_area_insets["bottom"]
 
         # Reserve space for UI elements (roughly 40% of screen for grid)
         grid_area_width = available_width * 0.9
@@ -333,12 +323,8 @@ class GridSizeCalculator:
         available_height = screen.height * 0.4  # 40% of screen height for grid
 
         # Calculate optimal cell size
-        max_cell_width = (
-            available_width - (cells_per_row - 1) * self.constraints.min_spacing
-        ) / cells_per_row
-        max_cell_height = (
-            available_height - (cells_per_column - 1) * self.constraints.min_spacing
-        ) / cells_per_column
+        max_cell_width = (available_width - (cells_per_row - 1) * self.constraints.min_spacing) / cells_per_row
+        max_cell_height = (available_height - (cells_per_column - 1) * self.constraints.min_spacing) / cells_per_column
 
         # Use square cells (smallest dimension)
         optimal_cell_size = min(max_cell_width, max_cell_height)
@@ -351,9 +337,7 @@ class GridSizeCalculator:
         # Apply accessibility adjustments
         if accessibility_requirements:
             if accessibility_requirements.get("large_touch_targets", False):
-                optimal_cell_size = max(
-                    optimal_cell_size, self.accessibility_guidelines["min_touch_target"]
-                )
+                optimal_cell_size = max(optimal_cell_size, self.accessibility_guidelines["min_touch_target"])
 
         # Constrain cell size
         optimal_cell_size = max(
@@ -372,9 +356,7 @@ class GridSizeCalculator:
 
         # Calculate total dimensions
         total_width = cells_per_row * optimal_cell_size + (cells_per_row - 1) * optimal_spacing
-        total_height = (
-            cells_per_column * optimal_cell_size + (cells_per_column - 1) * optimal_spacing
-        )
+        total_height = cells_per_column * optimal_cell_size + (cells_per_column - 1) * optimal_spacing
 
         # Calculate confidence based on how well constraints are satisfied
         confidence = self._calculate_layout_confidence(
@@ -410,9 +392,7 @@ class GridSizeCalculator:
         # For other sizes, use adaptive pattern
         return GridPattern.ADAPTIVE
 
-    def _calculate_rectangular_layout(
-        self, grid_size: int, screen: ScreenDimensions
-    ) -> tuple[int, int]:
+    def _calculate_rectangular_layout(self, grid_size: int, screen: ScreenDimensions) -> tuple[int, int]:
         """Calculate optimal rectangular layout for non-square grid sizes."""
         # Find factors of grid_size
         factors = []
@@ -506,9 +486,7 @@ class GridSizeCalculator:
         # Calculate overall confidence
         return sum(confidence_factors) / len(confidence_factors)
 
-    def _validate_grid_calculation(
-        self, layout_result: dict[str, Any], screen: ScreenDimensions
-    ) -> dict[str, Any]:
+    def _validate_grid_calculation(self, layout_result: dict[str, Any], screen: ScreenDimensions) -> dict[str, Any]:
         """Validate and potentially adjust the grid calculation."""
         result = layout_result.copy()
 
@@ -537,12 +515,10 @@ class GridSizeCalculator:
             result["cell_size"] = self.constraints.min_cell_size
             # Recalculate total dimensions
             result["total_width"] = (
-                result["cells_per_row"] * result["cell_size"]
-                + (result["cells_per_row"] - 1) * result["spacing"]
+                result["cells_per_row"] * result["cell_size"] + (result["cells_per_row"] - 1) * result["spacing"]
             )
             result["total_height"] = (
-                result["cells_per_column"] * result["cell_size"]
-                + (result["cells_per_column"] - 1) * result["spacing"]
+                result["cells_per_column"] * result["cell_size"] + (result["cells_per_column"] - 1) * result["spacing"]
             )
             result["confidence"] *= 0.9
 

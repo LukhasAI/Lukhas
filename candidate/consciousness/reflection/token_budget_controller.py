@@ -198,9 +198,7 @@ class TokenBudgetController:
                 "is_initial_period": self.is_initial_period,
                 "call_log": self.call_log[-100:],  # Keep last 100 call logs
                 "findings_log": self.findings_log[-50:],  # Keep last 50 findings
-                "recommendations_applied": self.recommendations_applied[
-                    -50:
-                ],  # Keep last 50 recommendations
+                "recommendations_applied": self.recommendations_applied[-50:],  # Keep last 50 recommendations
                 "first_run_date": self.first_run_date.isoformat(),
                 "last_reset_date": self.last_reset_date.isoformat(),
                 "last_daily_reset": self.last_daily_reset.isoformat(),
@@ -244,12 +242,8 @@ class TokenBudgetController:
                 self.is_initial_period = False
                 budget_to_add = self.DAILY_BUDGET_LIMIT * days_passed
 
-                self.logger.info(
-                    f"💰 ΛBot transitioned to strict daily budget: ${self.DAILY_BUDGET_LIMIT}/day"
-                )
-                self.logger.info(
-                    f"💰 Daily budget allocation: ${budget_to_add:.4f} for {days_passed} days"
-                )
+                self.logger.info(f"💰 ΛBot transitioned to strict daily budget: ${self.DAILY_BUDGET_LIMIT}/day")
+                self.logger.info(f"💰 Daily budget allocation: ${budget_to_add:.4f} for {days_passed} days")
 
             else:
                 # Normal operation: strict $0.10/day, unused accumulates
@@ -261,9 +255,7 @@ class TokenBudgetController:
                 )
 
             # Add to accumulated credits (capped at MAX_ACCUMULATED_CREDITS)
-            self.accumulated_credits = min(
-                self.accumulated_credits + budget_to_add, self.MAX_ACCUMULATED_CREDITS
-            )
+            self.accumulated_credits = min(self.accumulated_credits + budget_to_add, self.MAX_ACCUMULATED_CREDITS)
 
             # Reset daily spend
             self.daily_spend = 0.0
@@ -271,9 +263,7 @@ class TokenBudgetController:
 
             # Track conservation if no calls were made
             if days_passed > 1:
-                conservation_amount = (
-                    self.DAILY_BUDGET_LIMIT * (days_passed - 1) if not self.is_initial_period else 0
-                )
+                conservation_amount = self.DAILY_BUDGET_LIMIT * (days_passed - 1) if not self.is_initial_period else 0
                 self.track_conservation(days_passed - 1, conservation_amount)
 
             self.logger.info(f"💰 Total accumulated credits: ${self.accumulated_credits:.4f}")
@@ -291,9 +281,7 @@ class TokenBudgetController:
             self.efficiency_score = 100.0
             return
 
-        total_budget_available = self.accumulated_credits + (
-            self.DAILY_BUDGET_LIMIT * 30
-        )  # Rough monthly estimate
+        total_budget_available = self.accumulated_credits + (self.DAILY_BUDGET_LIMIT * 30)  # Rough monthly estimate
         money_saved_ratio = self.money_saved_by_conservation / max(total_budget_available, 1)
 
         # Efficiency factors from original ABot
@@ -417,11 +405,7 @@ class TokenBudgetController:
             self.money_saved_by_conservation += context.estimated_cost
 
         # Override for urgent situations with flex budget
-        if (
-            not should_call
-            and context.urgency == CallUrgency.HIGH
-            and self.can_use_flex_budget(context.estimated_cost)
-        ):
+        if not should_call and context.urgency == CallUrgency.HIGH and self.can_use_flex_budget(context.estimated_cost):
             should_call = True
             priority = BudgetPriority.HIGH
             reason = "High urgency - flex budget override approved"
@@ -618,9 +602,7 @@ class TokenBudgetController:
             )
 
         if self.accumulated_credits >= flex_budget_threshold:
-            recommendations.append(
-                "Flex budget available - can handle high-priority requests beyond daily limit"
-            )
+            recommendations.append("Flex budget available - can handle high-priority requests beyond daily limit")
 
         if daily_usage_percentage > 80:
             warnings.append("Approaching daily budget limit - consider conservative mode")
@@ -635,17 +617,13 @@ class TokenBudgetController:
 
         # ΛBot specific recommendations based on findings
         recent_findings = [f["finding"] for f in self.findings_log[-10:]]
-        pending_recommendations = [
-            r for r in self.recommendations_applied[-10:] if not r["applied"]
-        ]
+        pending_recommendations = [r for r in self.recommendations_applied[-10:] if not r["applied"]]
 
         if len(pending_recommendations) > 5:
             warnings.append(f"{len(pending_recommendations)} recommendations pending application")
 
         if len(recent_findings) > 0:
-            recommendations.append(
-                f"Recent findings available: {len(recent_findings)} items for review"
-            )
+            recommendations.append(f"Recent findings available: {len(recent_findings)} items for review")
 
         # Determine overall financial health
         overall_health = "good"
@@ -675,16 +653,10 @@ class TokenBudgetController:
             "call_tracking": {
                 "total_calls_logged": len(self.call_log),
                 "recent_findings": len(
-                    [
-                        f
-                        for f in self.findings_log
-                        if (datetime.now() - datetime.fromisoformat(f["timestamp"])).days < 1
-                    ]
+                    [f for f in self.findings_log if (datetime.now() - datetime.fromisoformat(f["timestamp"])).days < 1]
                 ),
                 "pending_recommendations": len(pending_recommendations),
-                "applied_recommendations": len(
-                    [r for r in self.recommendations_applied if r["applied"]]
-                ),
+                "applied_recommendations": len([r for r in self.recommendations_applied if r["applied"]]),
             },
             "recommendations": recommendations,
             "warnings": warnings,
@@ -702,9 +674,7 @@ class TokenBudgetController:
             "total_calls": self.total_calls,
             "total_cost": self.total_calls_cost,
             "recent_findings": recent_findings[-5:],  # Last 5 findings
-            "pending_recommendations": [
-                r["recommendation"] for r in pending_recommendations[-5:]
-            ],  # Last 5 pending
+            "pending_recommendations": [r["recommendation"] for r in pending_recommendations[-5:]],  # Last 5 pending
         }
 
 
@@ -741,9 +711,7 @@ def main():
     # Financial report
     report = controller.get_financial_intelligence_report()
     print("\n📊 Financial Intelligence Report:")
-    print(
-        f"Daily Budget: ${report['daily_budget_status']['used']:.3f} / ${controller.DAILY_BUDGET_LIMIT}"
-    )
+    print(f"Daily Budget: ${report['daily_budget_status']['used']:.3f} / ${controller.DAILY_BUDGET_LIMIT}")
     print(f"Efficiency Score: {report['conservation_metrics']['efficiency']:.1f}")
     print(f"Conservation Streak: {report['conservation_metrics']['streak']}")
     print(f"Overall Health: {report['overall_financial_health']}")

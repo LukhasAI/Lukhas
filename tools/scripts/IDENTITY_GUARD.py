@@ -76,9 +76,7 @@ class IdentityGuard:
                     for j in range(i + 1, min(i + 10, len(lines))):
                         next_line = lines[j]
 
-                        if re.match(r"\s*async def\s+\w+", next_line) or re.match(
-                            r"\s*def\s+\w+", next_line
-                        ):
+                        if re.match(r"\s*async def\s+\w+", next_line) or re.match(r"\s*def\s+\w+", next_line):
                             func_def_found = True
 
                             # Check if function has authentication
@@ -135,13 +133,9 @@ class IdentityGuard:
             )
 
             # Check for public functions that should be protected
-            public_functions = re.findall(
-                r"^\s*(async\s+)?def\s+([a-zA-Z_]\w*)", content, re.MULTILINE
-            )
+            public_functions = re.findall(r"^\s*(async\s+)?def\s+([a-zA-Z_]\w*)", content, re.MULTILINE)
             unprotected_functions = [
-                func
-                for _, func in public_functions
-                if not func.startswith("_") and func not in ["main", "__init__"]
+                func for _, func in public_functions if not func.startswith("_") and func not in ["main", "__init__"]
             ]
 
             if unprotected_functions and not has_identity_import:
@@ -240,9 +234,7 @@ class IdentityGuard:
             print("=" * 50)
             print("\n🔧 Quick Fixes:")
             print("  • API endpoints: Add 'user: AuthContext = Depends(require_t3_or_above)'")
-            print(
-                "  • Imports: Add 'from identity.middleware import AuthContext, require_t3_or_above'"
-            )
+            print("  • Imports: Add 'from identity.middleware import AuthContext, require_t3_or_above'")
             print("  • User tracking: Add 'data[\"user_id\"] = user.user_id'")
             print("\n🔨 Automated fix: python3 tools/scripts/AUTO_IDENTITY_FIXER.py")
             print("📖 Template: tools/templates/protected_api_template.py")

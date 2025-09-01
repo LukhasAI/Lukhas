@@ -442,9 +442,7 @@ class OllamaManager:
         if actions["health_check"]["disk_usage"]:
             disk_gb = float(actions["health_check"]["disk_usage"].split()[0])
             if disk_gb > 20:
-                actions["final_recommendations"].append(
-                    "Consider removing large models to save disk space"
-                )
+                actions["final_recommendations"].append("Consider removing large models to save disk space")
 
         return actions
 

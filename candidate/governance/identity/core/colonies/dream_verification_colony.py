@@ -174,9 +174,7 @@ class DreamAnalysisAgent(SwarmAgent):
                 "branch_id": branch.branch_id,
             }
 
-    async def _analyze_symbolic_content(
-        self, branch: MultiverseDreamBranch, dream_seed: DreamSeed
-    ) -> dict[str, Any]:
+    async def _analyze_symbolic_content(self, branch: MultiverseDreamBranch, dream_seed: DreamSeed) -> dict[str, Any]:
         """Analyze symbolic content and meaning."""
         await asyncio.sleep(0.15)  # Simulate processing
 
@@ -185,9 +183,7 @@ class DreamAnalysisAgent(SwarmAgent):
         for symbol in branch.symbolic_elements:
             # Analyze symbol in context
             meaning_score = self._calculate_symbol_meaning(symbol, dream_seed.emotional_anchor)
-            personal_relevance = self._assess_personal_relevance(
-                symbol, dream_seed.memory_fragments
-            )
+            personal_relevance = self._assess_personal_relevance(symbol, dream_seed.memory_fragments)
 
             symbol_analysis[symbol.symbol_type] = {
                 "meaning_score": meaning_score,
@@ -234,9 +230,7 @@ class DreamAnalysisAgent(SwarmAgent):
         historical_alignment = 0.5
         if historical_patterns:
             historical_narratives = [p.dream_content.get("narrative") for p in historical_patterns]
-            historical_alignment = self._compare_narrative_patterns(
-                narrative, historical_narratives
-            )
+            historical_alignment = self._compare_narrative_patterns(narrative, historical_narratives)
 
         return {
             "success": True,
@@ -247,9 +241,7 @@ class DreamAnalysisAgent(SwarmAgent):
             "narrative_authenticity": overall_coherence * historical_alignment,
         }
 
-    async def _analyze_emotional_patterns(
-        self, branch: MultiverseDreamBranch, dream_seed: DreamSeed
-    ) -> dict[str, Any]:
+    async def _analyze_emotional_patterns(self, branch: MultiverseDreamBranch, dream_seed: DreamSeed) -> dict[str, Any]:
         """Analyze emotional resonance and patterns."""
         await asyncio.sleep(0.1)
 
@@ -260,17 +252,13 @@ class DreamAnalysisAgent(SwarmAgent):
         emotional_metrics = {
             "trajectory_smoothness": self._calculate_trajectory_smoothness(trajectory),
             "emotional_range": len(set(trajectory)) / max(len(trajectory), 1),
-            "seed_alignment": self._check_emotional_seed_alignment(
-                trajectory, dream_seed.emotional_anchor
-            ),
+            "seed_alignment": self._check_emotional_seed_alignment(trajectory, dream_seed.emotional_anchor),
             "intensity_profile": self._analyze_emotional_intensity(trajectory),
         }
 
         # Detect emotional patterns
         patterns = {
-            "dominant_emotion": (
-                max(set(trajectory), key=trajectory.count) if trajectory else None
-            ),
+            "dominant_emotion": (max(set(trajectory), key=trajectory.count) if trajectory else None),
             "emotional_cycles": self._detect_emotional_cycles(trajectory),
             "transformation_points": self._find_emotional_transformations(trajectory),
         }
@@ -310,9 +298,7 @@ class DreamAnalysisAgent(SwarmAgent):
                 detected_archetypes[archetype] = presence_score
 
         # Calculate archetypal coherence
-        coherence = self._calculate_archetypal_coherence(
-            detected_archetypes, branch.symbolic_elements
-        )
+        coherence = self._calculate_archetypal_coherence(detected_archetypes, branch.symbolic_elements)
 
         return {
             "success": True,
@@ -320,9 +306,7 @@ class DreamAnalysisAgent(SwarmAgent):
             "archetypal_coherence": coherence,
             "confidence": min(1.0, coherence * 1.2),
             "dominant_archetype": (
-                max(detected_archetypes.items(), key=lambda x: x[1])[0]
-                if detected_archetypes
-                else None
+                max(detected_archetypes.items(), key=lambda x: x[1])[0] if detected_archetypes else None
             ),
             "archetypal_balance": self._assess_archetypal_balance(detected_archetypes),
         }
@@ -340,9 +324,7 @@ class DreamAnalysisAgent(SwarmAgent):
         branch_elements = self._extract_branch_elements(branch)
 
         for element in branch_elements:
-            element_hash = (
-                hashlib.sha256()
-            )  #  Changed from MD5 for securitystr(element.encode()).hexdigest()[:8]
+            element_hash = hashlib.sha256()  #  Changed from MD5 for securitystr(element.encode()).hexdigest()[:8]
             if element_hash in self.convergence_patterns:
                 self.convergence_patterns[element_hash] += 1
                 convergence_points.append(
@@ -359,9 +341,7 @@ class DreamAnalysisAgent(SwarmAgent):
         convergence_score = len(convergence_points) / max(len(branch_elements), 1)
 
         # Identify quantum collapse points
-        collapse_points = [
-            cp for cp in convergence_points if cp["occurrences"] / total_branches > 0.7
-        ]
+        collapse_points = [cp for cp in convergence_points if cp["occurrences"] / total_branches > 0.7]
 
         self.multiverse_correlations += len(convergence_points)
 
@@ -395,12 +375,8 @@ class DreamAnalysisAgent(SwarmAgent):
         # Compare with historical temporal patterns
         historical_consistency = 0.5
         if historical_patterns:
-            historical_temporal = [
-                p.temporal_markers for p in historical_patterns if p.temporal_markers
-            ]
-            historical_consistency = self._compare_temporal_patterns(
-                temporal_sequence, historical_temporal
-            )
+            historical_temporal = [p.temporal_markers for p in historical_patterns if p.temporal_markers]
+            historical_consistency = self._compare_temporal_patterns(temporal_sequence, historical_temporal)
 
         overall_consistency = np.mean(list(temporal_metrics.values()))
 
@@ -447,9 +423,7 @@ class DreamAnalysisAgent(SwarmAgent):
             "confidence": min(1.0, collective_score * 1.25),
             "universal_patterns": detected_patterns,
             "cultural_elements": cultural_elements,
-            "collective_authenticity": self._assess_collective_authenticity(
-                detected_patterns, cultural_elements
-            ),
+            "collective_authenticity": self._assess_collective_authenticity(detected_patterns, cultural_elements),
         }
 
     async def _analyze_quantum_signatures(self, branch: MultiverseDreamBranch) -> dict[str, Any]:
@@ -667,19 +641,13 @@ class DreamVerificationColony(BaseColony):
             analysis_results = await self._analyze_dream_branches(dream_branches, task)
 
             # Perform collective analysis
-            collective_insights = await self._perform_collective_analysis(
-                analysis_results, dream_branches, lambda_id
-            )
+            collective_insights = await self._perform_collective_analysis(analysis_results, dream_branches, lambda_id)
 
             # Perform quantum verification
-            qi_result = await self._perform_quantum_verification(
-                dream_branches, analysis_results, lambda_id
-            )
+            qi_result = await self._perform_quantum_verification(dream_branches, analysis_results, lambda_id)
 
             # Build final consensus
-            consensus = await self._build_dream_consensus(
-                analysis_results, collective_insights, qi_result
-            )
+            consensus = await self._build_dream_consensus(analysis_results, collective_insights, qi_result)
 
             # Create authentication result
             auth_result = DreamAuthenticationResult(
@@ -746,9 +714,7 @@ class DreamVerificationColony(BaseColony):
 
             return auth_result
 
-    async def _simulate_multiverse_dreams(
-        self, task: DreamVerificationTask
-    ) -> list[MultiverseDreamBranch]:
+    async def _simulate_multiverse_dreams(self, task: DreamVerificationTask) -> list[MultiverseDreamBranch]:
         """Simulate multiple dream branches for multiverse analysis."""
 
         self.multiverse_simulations += 1
@@ -827,9 +793,7 @@ class DreamVerificationColony(BaseColony):
                         key=lambda a: a.capabilities[method.value].proficiency,
                     )
 
-                    task_coro = agent.analyze_dream_branch(
-                        branch, task.dream_seed, task.historical_dreams
-                    )
+                    task_coro = agent.analyze_dream_branch(branch, task.dream_seed, task.historical_dreams)
                     analysis_tasks.append(task_coro)
 
         # Execute analyses in parallel
@@ -897,9 +861,7 @@ class DreamVerificationColony(BaseColony):
 
         # Extract quantum signatures
         qi_analyses = [
-            r
-            for r in analysis_results
-            if r.get("specialization") == DreamAnalysisMethod.QUANTUM_ENTANGLEMENT.value
+            r for r in analysis_results if r.get("specialization") == DreamAnalysisMethod.QUANTUM_ENTANGLEMENT.value
         ]
 
         if not qi_analyses:
@@ -917,9 +879,7 @@ class DreamVerificationColony(BaseColony):
         entanglement_patterns = self._detect_quantum_entanglements(dream_branches)
 
         # Calculate multiverse correlation
-        multiverse_correlation = self._calculate_multiverse_correlation(
-            dream_branches, entanglement_patterns
-        )
+        multiverse_correlation = self._calculate_multiverse_correlation(dream_branches, entanglement_patterns)
 
         # Update quantum entanglements for user
         if lambda_id not in self.qi_entanglements:
@@ -1026,17 +986,14 @@ class DreamVerificationColony(BaseColony):
         dissent_reasons = []
         for vote_id, vote_data in votes.items():
             if not vote_data["vote"]:
-                dissent_reasons.append(
-                    f"{vote_data['method']}: Low confidence ({vote_data['confidence']:.2f})"
-                )
+                dissent_reasons.append(f"{vote_data['method']}: Low confidence ({vote_data['confidence']:.2f})")
 
         return ConsensusResult(
             consensus_reached=consensus_reached,
             decision=consensus_reached,
             confidence=overall_confidence,
             votes={k: v["vote"] for k, v in votes.items()},
-            participation_rate=len(analysis_results)
-            / (len(self.verification_agents) * self.multiverse_branches),
+            participation_rate=len(analysis_results) / (len(self.verification_agents) * self.multiverse_branches),
             dissent_reasons=dissent_reasons[:5],
         )
 
@@ -1098,9 +1055,7 @@ class DreamVerificationColony(BaseColony):
 
         return variation
 
-    async def _extract_dream_symbols(
-        self, dream_variation: dict[str, Any], dream_seed: DreamSeed
-    ) -> list[DreamSymbol]:
+    async def _extract_dream_symbols(self, dream_variation: dict[str, Any], dream_seed: DreamSeed) -> list[DreamSymbol]:
         """Extract symbolic elements from dream variation."""
         symbols = []
 
@@ -1110,15 +1065,9 @@ class DreamVerificationColony(BaseColony):
         # Common dream symbols
         symbol_library = {
             "water": DreamSymbol("water", "flow", 0.8, ["calm", "emotion"], 0.7, "fluid"),
-            "door": DreamSymbol(
-                "door", "transition", 0.9, ["opportunity", "fear"], 0.8, "threshold"
-            ),
-            "flight": DreamSymbol(
-                "flight", "freedom", 0.85, ["joy", "escape"], 0.9, "transcendence"
-            ),
-            "mirror": DreamSymbol(
-                "mirror", "reflection", 0.95, ["self", "truth"], 0.85, "revelation"
-            ),
+            "door": DreamSymbol("door", "transition", 0.9, ["opportunity", "fear"], 0.8, "threshold"),
+            "flight": DreamSymbol("flight", "freedom", 0.85, ["joy", "escape"], 0.9, "transcendence"),
+            "mirror": DreamSymbol("mirror", "reflection", 0.95, ["self", "truth"], 0.85, "revelation"),
         }
 
         for symbol_key, symbol in symbol_library.items():
@@ -1156,9 +1105,7 @@ class DreamVerificationColony(BaseColony):
 
         for result in analysis_results:
             if result.get("success"):
-                signature_elements.append(
-                    f"{result.get('specialization')}:{result.get('confidence'):.3f}"
-                )
+                signature_elements.append(f"{result.get('specialization')}:{result.get('confidence'):.3f}")
 
         signature_string = "|".join(sorted(signature_elements))
         return hashlib.sha256(signature_string.encode()).hexdigest()[:32]

@@ -88,11 +88,7 @@ class IntentNode:
         # Accent and curiosity integration
         accent_adapter = context.get("accent_adapter") if context else None
         context.get("user_id", "unknown") if context else "unknown"
-        user_text = (
-            input_data["text"]
-            if isinstance(input_data, dict) and "text" in input_data
-            else str(input_data)
-        )
+        user_text = input_data["text"] if isinstance(input_data, dict) and "text" in input_data else str(input_data)
 
         # Safeguard for formal/professional context
         if accent_adapter and not accent_adapter.safeguard_formal_context(context or {}):
@@ -173,9 +169,7 @@ class IntentNode:
 
         return integrated_result
 
-    async def _neural_process(
-        self, input_data: dict[str, Any], context: dict[str, Any] = None
-    ) -> dict[str, Any]:
+    async def _neural_process(self, input_data: dict[str, Any], context: dict[str, Any] = None) -> dict[str, Any]:
         """Process input using neural network approach."""
         # The type of input determines how we extract features
         input_type = input_data.get("type", "text")
@@ -269,9 +263,7 @@ class IntentNode:
 
         # Add some parameter estimation based on intent
         if primary_intent == "query":
-            result["parameters"] = {
-                "query_type": ("information" if "what" in text else "clarification")
-            }
+            result["parameters"] = {"query_type": ("information" if "what" in text else "clarification")}
         elif primary_intent == "command":
             result["parameters"] = {"target_system": "self"}
 
@@ -313,9 +305,7 @@ class IntentNode:
             rules_applied.append("command_verb_rule")
 
         # Request detection
-        elif "please" in text.lower() or re.search(
-            r"(could|would|can)(\s+you|\s+i|\s+we)", text.lower()
-        ):
+        elif "please" in text.lower() or re.search(r"(could|would|can)(\s+you|\s+i|\s+we)", text.lower()):
             primary_intent = "request"
             confidence += 0.2
             rules_applied.append("request_marker_rule")
@@ -391,17 +381,13 @@ class IntentNode:
 
         return features
 
-    def _integrate_results(
-        self, neural_result: dict[str, Any], symbolic_result: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _integrate_results(self, neural_result: dict[str, Any], symbolic_result: dict[str, Any]) -> dict[str, Any]:
         """Integrate neural and symbolic results."""
         # Calculate weighted confidence
         neural_confidence = neural_result["confidence"]
         symbolic_confidence = symbolic_result["confidence"]
 
-        weighted_confidence = (neural_confidence * self.neural_weight) + (
-            symbolic_confidence * self.symbolic_weight
-        )
+        weighted_confidence = (neural_confidence * self.neural_weight) + (symbolic_confidence * self.symbolic_weight)
 
         # Determine primary intent based on weighted confidence
         neural_weighted = neural_confidence * self.neural_weight

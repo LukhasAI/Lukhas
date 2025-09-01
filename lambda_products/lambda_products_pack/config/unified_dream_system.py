@@ -233,9 +233,7 @@ class UnifiedDreamSystem:
         # Store in history
         self.dream_history.append(unified_dream)
 
-        logger.info(
-            f"Dream {dream_id} processed in {processing_time:.2f}ms using {token_cost} tokens"
-        )
+        logger.info(f"Dream {dream_id} processed in {processing_time:.2f}ms using {token_cost} tokens")
 
         return unified_dream
 
@@ -267,9 +265,7 @@ class UnifiedDreamSystem:
 
         return scenarios
 
-    async def _generate_seeds(
-        self, context: dict[str, Any], scenarios: list[DreamScenario]
-    ) -> list[DreamSeed]:
+    async def _generate_seeds(self, context: dict[str, Any], scenarios: list[DreamScenario]) -> list[DreamSeed]:
         """Generate dream seeds from context and scenarios"""
         if not self.seed_enabled or not self.seed_manager:
             return []
@@ -278,9 +274,7 @@ class UnifiedDreamSystem:
 
         # Generate seeds based on scenarios
         for scenario in scenarios[:2]:  # Limit seeds based on tier
-            if (self.tier_level == "T1" and len(seeds) >= 1) or (
-                self.tier_level == "T2" and len(seeds) >= 3
-            ):
+            if (self.tier_level == "T1" and len(seeds) >= 1) or (self.tier_level == "T2" and len(seeds) >= 3):
                 break
 
             seed = DreamSeed(
@@ -299,9 +293,7 @@ class UnifiedDreamSystem:
 
         return seeds
 
-    async def _enhance_seeds(
-        self, seeds: list[DreamSeed], scenarios: list[DreamScenario]
-    ) -> list[DreamSeed]:
+    async def _enhance_seeds(self, seeds: list[DreamSeed], scenarios: list[DreamScenario]) -> list[DreamSeed]:
         """Enhance existing seeds with scenario data"""
         enhanced_seeds = []
 
@@ -317,9 +309,7 @@ class UnifiedDreamSystem:
 
         return enhanced_seeds
 
-    async def _track_causality(
-        self, scenarios: list[DreamScenario], seeds: list[DreamSeed]
-    ) -> dict[str, Any]:
+    async def _track_causality(self, scenarios: list[DreamScenario], seeds: list[DreamSeed]) -> dict[str, Any]:
         """Track causality between dreams, memory, and reasoning"""
         if not self.causality_tracker:
             return {}
@@ -365,9 +355,7 @@ class UnifiedDreamSystem:
         causality_map["total_causation_strength"] = total_strength / (len(scenarios) + len(seeds))
 
         # Store causality event
-        self.causality_events.append(
-            {"timestamp": datetime.now().isoformat(), "causality_map": causality_map}
-        )
+        self.causality_events.append({"timestamp": datetime.now().isoformat(), "causality_map": causality_map})
 
         return causality_map
 
@@ -429,9 +417,7 @@ class UnifiedDreamSystem:
             "enterprise_compliance": {
                 "causality_fully_traced": True,
                 "token_budget_respected": self.total_tokens_consumed <= self.token_budget,
-                "consent_verified": all(
-                    all(s.consent_verified for s in d.seeds) for d in self.dream_history
-                ),
+                "consent_verified": all(all(s.consent_verified for s in d.seeds) for d in self.dream_history),
                 "transparency_level": "enterprise_grade",
             },
         }

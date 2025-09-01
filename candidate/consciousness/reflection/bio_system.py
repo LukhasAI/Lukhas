@@ -105,15 +105,11 @@ class MitochondrialQIBridge:
         current_state = input_signal
 
         # Complex I: NADH to ubiquinone
-        self.complex_states["complex_i"] = self.qi_oscillator.qi_modulate(
-            np.concatenate([current_state, [1.0]])
-        )
+        self.complex_states["complex_i"] = self.qi_oscillator.qi_modulate(np.concatenate([current_state, [1.0]]))
         current_state = self.complex_states["complex_i"][:3]
 
         # Complex III: Cytochrome bc1
-        self.complex_states["complex_iii"] = self.qi_oscillator.qi_modulate(
-            np.concatenate([current_state, [1.0]])
-        )
+        self.complex_states["complex_iii"] = self.qi_oscillator.qi_modulate(np.concatenate([current_state, [1.0]]))
         current_state = self.complex_states["complex_iii"][:3]
 
         # Complex IV: Cytochrome c oxidase
@@ -134,9 +130,7 @@ class MitochondrialQIBridge:
     def _quantum_synthesis(self, proton_gradient: np.ndarray) -> tuple[np.ndarray, dict[str, Any]]:
         """Synthesize quantum-enhanced output"""
         # Complex V: ATP synthase simulation
-        self.complex_states["complex_v"] = self.qi_oscillator.qi_modulate(
-            np.concatenate([proton_gradient, [1.0, 1.0]])
-        )
+        self.complex_states["complex_v"] = self.qi_oscillator.qi_modulate(np.concatenate([proton_gradient, [1.0, 1.0]]))
 
         # Calculate coherence-inspired processing
         coherence = np.mean([np.linalg.norm(state) for state in self.complex_states.values()])
@@ -296,9 +290,7 @@ class SelfAwareAgent:
 
         # Adaptive model adjustment based on performance
         if coherence < self.coherence_threshold:
-            logger.info(
-                f"Self-assessment: Low coherence detected ({coherence:.3f}), adapting models"
-            )
+            logger.info(f"Self-assessment: Low coherence detected ({coherence:.3f}), adapting models")
             self.adapt_models(context, coherence)
 
         return coherence
@@ -344,9 +336,7 @@ class SelfAwareAgent:
 
         # Adjust learning rate based on performance trends
         if len(self.performance_history) > 10:
-            recent_coherence = [
-                h["coherence"] for h in self.performance_history[-10:] if h["context"] == context
-            ]
+            recent_coherence = [h["coherence"] for h in self.performance_history[-10:] if h["context"] == context]
             if len(recent_coherence) > 5:
                 trend = np.mean(recent_coherence[-5:]) - np.mean(recent_coherence[:5])
                 if trend > 0:
@@ -369,14 +359,10 @@ class SelfAwareAgent:
 
         # Calculate consciousness indicators
         context_diversity = len({h["context"] for h in recent_performance})
-        adaptation_frequency = sum(
-            1 for model in self.internal_models.values() if model["adaptation_count"] > 0
-        )
+        adaptation_frequency = sum(1 for model in self.internal_models.values() if model["adaptation_count"] > 0)
 
         consciousness_level = (
-            avg_coherence * 0.5
-            + min(context_diversity / 10.0, 1.0) * 0.3
-            + min(adaptation_frequency / 5.0, 1.0) * 0.2
+            avg_coherence * 0.5 + min(context_diversity / 10.0, 1.0) * 0.3 + min(adaptation_frequency / 5.0, 1.0) * 0.2
         )
 
         return {
@@ -455,16 +441,12 @@ class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
 
         # Self-assessment if expected output provided
         if expected_output is not None and self.self_aware_agent.self_assessment_enabled:
-            coherence = self.self_aware_agent.evaluate_performance(
-                output, expected_output, context="qi_bio_processing"
-            )
+            coherence = self.self_aware_agent.evaluate_performance(output, expected_output, context="qi_bio_processing")
 
             # Add consciousness metadata to output
             output["consciousness_metadata"] = {
                 "coherence_score": coherence,
-                "consciousness_level": self.self_aware_agent.get_self_assessment_report()[
-                    "consciousness_level"
-                ],
+                "consciousness_level": self.self_aware_agent.get_self_assessment_report()["consciousness_level"],
                 "timestamp": datetime.now().isoformat(),
             }
 

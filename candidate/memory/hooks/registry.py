@@ -190,9 +190,7 @@ class HookRegistry:
         """
         return self._execute_hooks("after_recall", item, tags)
 
-    def _execute_hooks(
-        self, operation: str, item: MemoryItem, tags: Optional[set[str]] = None
-    ) -> MemoryItem:
+    def _execute_hooks(self, operation: str, item: MemoryItem, tags: Optional[set[str]] = None) -> MemoryItem:
         """Execute hooks for given operation
 
         Args:
@@ -229,9 +227,7 @@ class HookRegistry:
 
                 # Execute hook
                 try:
-                    processed_item = self._execute_single_hook(
-                        registered, operation, processed_item
-                    )
+                    processed_item = self._execute_single_hook(registered, operation, processed_item)
                     executed_count += 1
 
                 except HookExecutionError as e:
@@ -281,9 +277,7 @@ class HookRegistry:
 
         return hooks_to_execute
 
-    def _execute_single_hook(
-        self, registered: RegisteredHook, operation: str, item: MemoryItem
-    ) -> MemoryItem:
+    def _execute_single_hook(self, registered: RegisteredHook, operation: str, item: MemoryItem) -> MemoryItem:
         """Execute a single hook with retry and timeout
 
         Args:
@@ -316,9 +310,7 @@ class HookRegistry:
 
                 # Validate result
                 if not isinstance(result, MemoryItem):
-                    raise HookExecutionError(
-                        f"Hook {hook_name} returned invalid type: {type(result)}"
-                    )
+                    raise HookExecutionError(f"Hook {hook_name} returned invalid type: {type(result)}")
 
                 # Reset failure count on success
                 self._failed_hooks[hook_name] = 0
@@ -414,18 +406,14 @@ class HookRegistry:
             Dictionary of registry metrics
         """
         total_hooks = sum(len(hooks) for hooks in self._hooks.values())
-        enabled_hooks = sum(
-            1 for hooks in self._hooks.values() for reg in hooks if reg.hook.is_enabled()
-        )
+        enabled_hooks = sum(1 for hooks in self._hooks.values() for reg in hooks if reg.hook.is_enabled())
 
         return {
             "total_hooks": total_hooks,
             "enabled_hooks": enabled_hooks,
             "disabled_by_circuit_breaker": len(self._disabled_hooks),
             "execution_metrics": self._execution_metrics.copy(),
-            "hooks_by_priority": {
-                priority.name: len(hooks) for priority, hooks in self._hooks.items()
-            },
+            "hooks_by_priority": {priority.name: len(hooks) for priority, hooks in self._hooks.items()},
         }
 
     def enable_circuit_breaker(self) -> None:

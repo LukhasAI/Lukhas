@@ -106,9 +106,7 @@ class ULSignature(BaseModel):
     lid: str = Field(..., description="Canonical ΛID")
     action: str = Field(..., description="Action being approved")
     symbol_proofs: list[str] = Field(..., description="Symbol proof hashes")
-    composition_proof: Optional[CompositionProof] = Field(
-        None, description="Composition proof if challenged"
-    )
+    composition_proof: Optional[CompositionProof] = Field(None, description="Composition proof if challenged")
     timestamp: datetime = Field(..., description="Signature timestamp")
     expires_at: datetime = Field(..., description="Signature expiration")
 

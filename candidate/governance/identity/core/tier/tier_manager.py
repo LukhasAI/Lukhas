@@ -205,9 +205,7 @@ class LambdaTierManager:
         # Enhanced tier access validation with QRS integration
         # Validates access based on tier requirements and capabilities
         """
-        logger.info(
-            f"ΛTRACE: Validating tier access - Current: {current_tier}, Requested: {requested_tier}"
-        )
+        logger.info(f"ΛTRACE: Validating tier access - Current: {current_tier}, Requested: {requested_tier}")
 
         try:
             # Convert to enum values for validation
@@ -226,17 +224,12 @@ class LambdaTierManager:
                 current_requirements = self.tier_requirements[current_tier_enum]
 
                 # Missing capabilities
-                missing_caps = (
-                    requested_requirements.required_capabilities
-                    - current_requirements.required_capabilities
-                )
+                missing_caps = requested_requirements.required_capabilities - current_requirements.required_capabilities
                 for cap in missing_caps:
                     missing_requirements.append(f"Missing capability: {cap.value}")
 
                 # Generate QRS-enhanced recommendations
-                recommendations = self._generate_qrs_upgrade_recommendations(
-                    current_tier_enum, requested_tier_enum
-                )
+                recommendations = self._generate_qrs_upgrade_recommendations(current_tier_enum, requested_tier_enum)
 
             return {
                 "access_granted": access_granted,
@@ -305,9 +298,7 @@ class LambdaTierManager:
                     continue
 
                 # Found eligible tier
-                logger.info(
-                    f"ΛTRACE: User eligible for tier {tier_level.value} ({tier_level.name})"
-                )
+                logger.info(f"ΛTRACE: User eligible for tier {tier_level.value} ({tier_level.name})")
                 return {
                     "eligible_tier": tier_level.value,
                     "tier_name": tier_level.name,
@@ -323,10 +314,7 @@ class LambdaTierManager:
                 "eligible_tier": TierLevel.FREE.value,
                 "tier_name": TierLevel.FREE.name,
                 "tier_symbol": self.tier_symbols[TierLevel.FREE.value],
-                "capabilities": [
-                    cap.value
-                    for cap in self.tier_requirements[TierLevel.FREE].required_capabilities
-                ],
+                "capabilities": [cap.value for cap in self.tier_requirements[TierLevel.FREE].required_capabilities],
                 "qrs_integration": True,
                 "success": True,
             }
@@ -339,9 +327,7 @@ class LambdaTierManager:
                 "success": False,
             }
 
-    def _generate_qrs_upgrade_recommendations(
-        self, current_tier: TierLevel, target_tier: TierLevel
-    ) -> list[str]:
+    def _generate_qrs_upgrade_recommendations(self, current_tier: TierLevel, target_tier: TierLevel) -> list[str]:
         """Generate QRS-specific recommendations for tier upgrade."""
         recommendations = []
 
@@ -350,28 +336,17 @@ class LambdaTierManager:
 
         # Symbolic vault recommendations
         if target_requirements.min_symbolic_elements > current_requirements.min_symbolic_elements:
-            diff = (
-                target_requirements.min_symbolic_elements
-                - current_requirements.min_symbolic_elements
-            )
+            diff = target_requirements.min_symbolic_elements - current_requirements.min_symbolic_elements
             recommendations.append(f"Add {diff} more symbolic elements to your ΛiD vault")
-            recommendations.append(
-                "Consider adding diverse elements: emoji, phrases, cultural symbols"
-            )
+            recommendations.append("Consider adding diverse elements: emoji, phrases, cultural symbols")
 
         # Entropy recommendations
         if target_requirements.min_entropy_score > current_requirements.min_entropy_score:
-            recommendations.append(
-                f"Improve entropy score to {target_requirements.min_entropy_score}"
-            )
-            recommendations.append(
-                "Add complex phrases, special characters, or unique combinations"
-            )
+            recommendations.append(f"Improve entropy score to {target_requirements.min_entropy_score}")
+            recommendations.append("Add complex phrases, special characters, or unique combinations")
 
         # QRG capability recommendations
-        missing_caps = (
-            target_requirements.required_capabilities - current_requirements.required_capabilities
-        )
+        missing_caps = target_requirements.required_capabilities - current_requirements.required_capabilities
         if TierCapability.QRG_GENERATION in missing_caps:
             recommendations.append("Enable QRG (QR-Glymph) generation capabilities")
         if TierCapability.QRG_ADVANCED in missing_caps:
@@ -383,18 +358,12 @@ class LambdaTierManager:
             recommendations.append("Complete biometric enrollment process")
 
         # Cultural diversity recommendations
-        if (
-            target_requirements.cultural_diversity_required
-            and not current_requirements.cultural_diversity_required
-        ):
+        if target_requirements.cultural_diversity_required and not current_requirements.cultural_diversity_required:
             recommendations.append("Add culturally diverse symbolic elements")
             recommendations.append("Include multiple languages, scripts, or cultural references")
 
         # Enterprise recommendations
-        if (
-            target_requirements.enterprise_features_required
-            and not current_requirements.enterprise_features_required
-        ):
+        if target_requirements.enterprise_features_required and not current_requirements.enterprise_features_required:
             recommendations.append("Enable enterprise integration features")
             recommendations.append("Contact enterprise sales for activation")
 
@@ -426,9 +395,7 @@ class LambdaTierManager:
         current_tier = self.get_user_tier(user_id)
 
         # Validate tier progression rules
-        validation_result = self._validate_tier_upgrade(
-            user_id, current_tier, new_tier, validation_data
-        )
+        validation_result = self._validate_tier_upgrade(user_id, current_tier, new_tier, validation_data)
         if not validation_result["valid"]:
             return {
                 "success": False,
@@ -489,9 +456,7 @@ class LambdaTierManager:
 
         # Check inherited permissions from lower tiers
         for tier_level in range(user_tier):
-            lower_tier_permissions = self.tier_rules.get(f"tier_{tier_level}", {}).get(
-                "permissions", []
-            )
+            lower_tier_permissions = self.tier_rules.get(f"tier_{tier_level}", {}).get("permissions", [])
             if permission in lower_tier_permissions:
                 return True
 
@@ -554,16 +519,8 @@ class LambdaTierManager:
                 "tier": tier,
                 "name": self.tier_names[tier],
                 "symbol": self.tier_symbols[tier],
-                "status": (
-                    "current"
-                    if tier == current_tier
-                    else "unlocked"
-                    if tier < current_tier
-                    else "locked"
-                ),
-                "requirements": (
-                    self._get_tier_requirements(tier) if tier > current_tier else None
-                ),
+                "status": ("current" if tier == current_tier else "unlocked" if tier < current_tier else "locked"),
+                "requirements": (self._get_tier_requirements(tier) if tier > current_tier else None),
             }
 
             progression_map["progression_path"].append(tier_status)
@@ -606,9 +563,7 @@ class LambdaTierManager:
     def _load_tier_permissions(self) -> dict:
         """Load tier permissions from configuration"""
         try:
-            with open(
-                self.config.get("tier_permissions_path", "config/tier_permissions.json")
-            ) as f:
+            with open(self.config.get("tier_permissions_path", "config/tier_permissions.json")) as f:
                 return json.load(f)
         except FileNotFoundError:
             return self._get_default_tier_config()
@@ -691,9 +646,7 @@ class LambdaTierManager:
             },
         }
 
-    def _validate_tier_upgrade(
-        self, user_id: str, current_tier: int, new_tier: int, validation_data: dict
-    ) -> dict:
+    def _validate_tier_upgrade(self, user_id: str, current_tier: int, new_tier: int, validation_data: dict) -> dict:
         """Comprehensive tier upgrade validation"""
 
         # Basic validation
@@ -791,9 +744,7 @@ class LambdaTierManager:
         # TODO: Implement persistent storage loading
         return None
 
-    def _persist_tier_change(
-        self, user_id: str, old_tier: int, new_tier: int, validation_data: dict
-    ):
+    def _persist_tier_change(self, user_id: str, old_tier: int, new_tier: int, validation_data: dict):
         """Persist tier change to storage"""
         # TODO: Implement persistent storage
 

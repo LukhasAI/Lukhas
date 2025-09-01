@@ -104,9 +104,7 @@ class JWTTokenManager:
         self.secret_key = secret_key or secrets.token_urlsafe(32)
         self.algorithm = "HS256"  # Will upgrade to ES256 with KMS
 
-    def issue_token(
-        self, lid: str, namespace: str, capabilities: list[str], ttl_seconds: int = 3600
-    ) -> str:
+    def issue_token(self, lid: str, namespace: str, capabilities: list[str], ttl_seconds: int = 3600) -> str:
         """Issue JWT token for authenticated identity"""
         payload = {
             "lid": lid,
@@ -260,9 +258,7 @@ class IdentityService:
 
         # Issue token
         capabilities = NamespaceSchema.NAMESPACES[identity.namespace]["capabilities"]
-        token = self.token_manager.issue_token(
-            lid=lid, namespace=identity.namespace, capabilities=capabilities
-        )
+        token = self.token_manager.issue_token(lid=lid, namespace=identity.namespace, capabilities=capabilities)
 
         # Check performance
         elapsed_ms = (time.time() - start_time) * 1000

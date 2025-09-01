@@ -48,9 +48,7 @@ class MigrationReport:
             "total_failed": self.total_failed,
             "success_rate": (self.total_migrated / len(self.results) if self.results else 0),
             "failed_memories": [
-                {"id": r.original_id, "error": r.error_message}
-                for r in self.results
-                if r.migration_status == "failed"
+                {"id": r.original_id, "error": r.error_message} for r in self.results if r.migration_status == "failed"
             ],
         }
 
@@ -292,9 +290,7 @@ class VIVOXMemoryBridge:
             pass
 
         # Unify results
-        results["unified_results"] = self._unify_results(
-            results["lukhas_results"], results["vivox_results"]
-        )
+        results["unified_results"] = self._unify_results(results["lukhas_results"], results["vivox_results"])
 
         return results
 

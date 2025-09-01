@@ -196,19 +196,13 @@ class BioSymbolicAwarenessAdapter:
     async def _process_through_pipeline(self, data: dict[str, float]) -> dict[str, float]:
         """Single unified processing pipeline following quantum-biological metaphor"""
         # Phase 1: Quantum Focus (Attention)
-        focused = await self._apply_with_fallback(
-            self.attention_gate.attend, data, self.qi_like_state
-        )
+        focused = await self._apply_with_fallback(self.attention_gate.attend, data, self.qi_like_state)
 
         # Phase 2: Energy Flow (Resource Allocation)
-        energized = await self._allocate_resources(
-            self.proton_gradient.process, focused, self.qi_like_state
-        )
+        energized = await self._allocate_resources(self.proton_gradient.process, focused, self.qi_like_state)
 
         # Phase 3: Pattern Recognition (Learning)
-        filtered = await self._filter_with_learning(
-            self.crista_filter.filter, energized, self.bio_metrics
-        )
+        filtered = await self._filter_with_learning(self.crista_filter.filter, energized, self.bio_metrics)
 
         # Phase 4: Security (Protection)
         secured = await self._secure_with_protocols(
@@ -219,9 +213,7 @@ class BioSymbolicAwarenessAdapter:
 
         return secured
 
-    async def _adapt_and_learn(
-        self, input_data: dict[str, float], output_data: dict[str, float]
-    ) -> None:
+    async def _adapt_and_learn(self, input_data: dict[str, float], output_data: dict[str, float]) -> None:
         """Unified adaptation and learning process"""
         # Update core metrics
         self._update_metrics(input_data, output_data)
@@ -343,9 +335,7 @@ class BioSymbolicAwarenessAdapter:
 
         return min(
             1.0,
-            self.safety_state["pattern_stability"]
-            * (1.0 - violations_penalty)
-            * self.bio_metrics["identity_strength"],
+            self.safety_state["pattern_stability"] * (1.0 - violations_penalty) * self.bio_metrics["identity_strength"],
         )
 
     def _calculate_adaptation_trend(self) -> dict[str, float]:
@@ -394,18 +384,12 @@ class BioSymbolicAwarenessAdapter:
 
         return actions
 
-    def _update_metrics(
-        self, input_vector: dict[str, float], output_vector: dict[str, float]
-    ) -> None:
+    def _update_metrics(self, input_vector: dict[str, float], output_vector: dict[str, float]) -> None:
         """Update bio-inspired metrics based on processing results"""
         # Update proton gradient (energy level)
         energy_used = float(np.mean(list(output_vector.values()))) if output_vector else 0.0
-        self.bio_metrics["proton_gradient"] = float(
-            self.bio_metrics["proton_gradient"] * (1.0 - 0.1 * energy_used)
-        )
-        self.bio_metrics["proton_gradient"] = float(
-            np.clip(self.bio_metrics["proton_gradient"], 0.1, 1.0)
-        )
+        self.bio_metrics["proton_gradient"] = float(self.bio_metrics["proton_gradient"] * (1.0 - 0.1 * energy_used))
+        self.bio_metrics["proton_gradient"] = float(np.clip(self.bio_metrics["proton_gradient"], 0.1, 1.0))
 
         # Update attention focus
         if input_vector and output_vector and len(input_vector) == len(output_vector):
@@ -414,14 +398,10 @@ class BioSymbolicAwarenessAdapter:
         else:
             attention_quality = 0.5  # Default attention quality
 
-        self.bio_metrics["attention_focus"] = float(
-            0.8 * self.bio_metrics["attention_focus"] + 0.2 * attention_quality
-        )
+        self.bio_metrics["attention_focus"] = float(0.8 * self.bio_metrics["attention_focus"] + 0.2 * attention_quality)
 
         # Update pattern match confidence
-        self.bio_metrics["pattern_match"] = (
-            float(np.mean(list(output_vector.values()))) if output_vector else 0.0
-        )
+        self.bio_metrics["pattern_match"] = float(np.mean(list(output_vector.values()))) if output_vector else 0.0
 
         # Decay coherence-inspired processing
         self.qi_like_state["coherence"] = float(self.qi_like_state["coherence"] * 0.99)
@@ -694,9 +674,7 @@ class BioSymbolicAwarenessAdapter:
                 self.pattern_memory["long_term"].add(pattern)
                 logger.info("Pattern promoted to long-term memory")
 
-    async def _apply_known_pattern(
-        self, data: dict[str, float], pattern_sig: str
-    ) -> dict[str, float]:
+    async def _apply_known_pattern(self, data: dict[str, float], pattern_sig: str) -> dict[str, float]:
         """Apply a known pattern from memory"""
         # Use pattern_sig for consistency (avoid unused parameter warning)
         pattern_boost = 0.1 if pattern_sig in self.pattern_memory["long_term"] else 0.0
@@ -707,9 +685,7 @@ class BioSymbolicAwarenessAdapter:
             for key, value in data.items()
         }
 
-    async def _apply_learned_pattern(
-        self, data: dict[str, float], pattern_sig: str
-    ) -> dict[str, float]:
+    async def _apply_learned_pattern(self, data: dict[str, float], pattern_sig: str) -> dict[str, float]:
         """Apply a learned pattern with adaptation"""
         # Use pattern_sig for learning enhancement
         learning_boost = 0.05 if pattern_sig in self.pattern_memory["cross_domain"] else 0.0
@@ -727,9 +703,7 @@ class BioSymbolicAwarenessAdapter:
             # Update pattern quality metrics
             quality = float(np.mean(list(result.values()))) if result else 0.0
             if quality > 0.7:
-                self.bio_metrics["pattern_match"] = float(
-                    min(1.0, self.bio_metrics["pattern_match"] + 0.1)
-                )
+                self.bio_metrics["pattern_match"] = float(min(1.0, self.bio_metrics["pattern_match"] + 0.1))
 
     async def _reset_quantum_like_state(self) -> None:
         """Reset quantum-like state to safe defaults"""
@@ -753,9 +727,7 @@ class BioSymbolicAwarenessAdapter:
             return 1.0
 
         # Check pattern consistency
-        consistent_patterns = sum(
-            1 for p in self.pattern_memory["short_term"] if p in self.pattern_memory["long_term"]
-        )
+        consistent_patterns = sum(1 for p in self.pattern_memory["short_term"] if p in self.pattern_memory["long_term"])
 
         return consistent_patterns / len(self.pattern_memory["short_term"])
 

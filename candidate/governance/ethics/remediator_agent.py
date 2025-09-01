@@ -175,9 +175,7 @@ class RemediatorAgent:
         Returns:
             Agent ID of the spawned EthicsGuardian
         """
-        return self._spawn_ethics_guardian(f"MANUAL_{int(datetime.now().timestamp())}", task_data)[
-            "agent_id"
-        ]
+        return self._spawn_ethics_guardian(f"MANUAL_{int(datetime.now().timestamp())}", task_data)["agent_id"]
 
     def spawn_memory_cleaner(self, task_data: dict[str, Any]) -> str:
         """
@@ -189,9 +187,7 @@ class RemediatorAgent:
         Returns:
             Agent ID of the spawned MemoryCleaner
         """
-        return self._spawn_memory_cleaner(f"MANUAL_{int(datetime.now().timestamp())}", task_data)[
-            "agent_id"
-        ]
+        return self._spawn_memory_cleaner(f"MANUAL_{int(datetime.now().timestamp())}", task_data)["agent_id"]
 
     def get_agent_status(self, agent_id: str) -> Optional[dict[str, Any]]:
         """Get status information for a specific spawned agent."""
@@ -343,13 +339,9 @@ class RemediatorAgent:
 
             try:
                 if agent_type == "EthicsGuardian":
-                    agent_result = self._execute_ethics_workflow(
-                        agent_instance, session["issue_data"]
-                    )
+                    agent_result = self._execute_ethics_workflow(agent_instance, session["issue_data"])
                 elif agent_type == "MemoryCleaner":
-                    agent_result = self._execute_memory_workflow(
-                        agent_instance, session["issue_data"]
-                    )
+                    agent_result = self._execute_memory_workflow(agent_instance, session["issue_data"])
                 else:
                     agent_result = {"status": "unknown_agent_type"}
 
@@ -378,9 +370,7 @@ class RemediatorAgent:
 
         return results
 
-    def _execute_ethics_workflow(
-        self, guardian: EthicsGuardian, issue_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _execute_ethics_workflow(self, guardian: EthicsGuardian, issue_data: dict[str, Any]) -> dict[str, Any]:
         """Execute the ethics guardian workflow."""
         # Perform ethical assessment
         decision_context = issue_data.get("decision_context", issue_data)
@@ -398,9 +388,7 @@ class RemediatorAgent:
             "recommendations": assessment.get("recommendations", []),
         }
 
-    def _execute_memory_workflow(
-        self, cleaner: MemoryCleaner, issue_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _execute_memory_workflow(self, cleaner: MemoryCleaner, issue_data: dict[str, Any]) -> dict[str, Any]:
         """Execute the memory cleaner workflow."""
         # Perform memory analysis
         analysis = cleaner.analyze_memory_fragmentation()

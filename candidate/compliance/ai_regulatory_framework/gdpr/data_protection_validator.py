@@ -113,9 +113,7 @@ class GDPRValidator:
             score -= 0.3
 
         if activity.international_transfers and not activity.processor:
-            recommendations.append(
-                "Consider implementing appropriate safeguards for international transfers"
-            )
+            recommendations.append("Consider implementing appropriate safeguards for international transfers")
 
         if activity.automated_decision_making:
             recommendations.append("Ensure appropriate measures for automated decision-making")

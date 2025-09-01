@@ -45,9 +45,7 @@ async def initialize_agi_supremacy_modules() -> dict[str, Any]:
             "status": "registered",
             "capabilities": ["market_creation", "competitive_analysis", "value_synthesis"],
         }
-        logger.info(
-            "✅ Economic Reality Manipulator registered - Trillion-dollar market creation enabled"
-        )
+        logger.info("✅ Economic Reality Manipulator registered - Trillion-dollar market creation enabled")
 
     except Exception as e:
         logger.error(f"Failed to register Economic Reality Manipulator: {e}")
@@ -63,17 +61,13 @@ async def initialize_agi_supremacy_modules() -> dict[str, Any]:
         await consciousness_expander.initialize()
 
         register_service("consciousness_expansion_engine", consciousness_expander)
-        container.register_singleton(
-            "consciousness_expansion_engine", lambda: consciousness_expander
-        )
+        container.register_singleton("consciousness_expansion_engine", lambda: consciousness_expander)
 
         registration_status["consciousness_expansion_engine"] = {
             "status": "registered",
             "capabilities": ["transcendence", "multiplication", "dimensional_expansion"],
         }
-        logger.info(
-            "✅ Consciousness Expansion Engine registered - Transcendence capabilities enabled"
-        )
+        logger.info("✅ Consciousness Expansion Engine registered - Transcendence capabilities enabled")
 
     except Exception as e:
         logger.error(f"Failed to register Consciousness Expansion Engine: {e}")
@@ -98,9 +92,7 @@ async def initialize_agi_supremacy_modules() -> dict[str, Any]:
             "status": "registered",
             "capabilities": ["regulatory_compliance", "international_coordination", "sovereignty"],
         }
-        logger.info(
-            "✅ Global Interoperability Engine registered - International market access enabled"
-        )
+        logger.info("✅ Global Interoperability Engine registered - International market access enabled")
 
     except Exception as e:
         logger.error(f"Failed to register Global Interoperability Engine: {e}")
@@ -141,9 +133,7 @@ async def initialize_agi_supremacy_modules() -> dict[str, Any]:
         await innovation_orchestrator.initialize()
 
         register_service("autonomous_innovation_orchestrator", innovation_orchestrator)
-        container.register_singleton(
-            "autonomous_innovation_orchestrator", lambda: innovation_orchestrator
-        )
+        container.register_singleton("autonomous_innovation_orchestrator", lambda: innovation_orchestrator)
 
         registration_status["autonomous_innovation_orchestrator"] = {
             "status": "registered",
@@ -153,9 +143,7 @@ async def initialize_agi_supremacy_modules() -> dict[str, Any]:
                 "breakthrough_synthesis",
             ],
         }
-        logger.info(
-            "✅ Autonomous Innovation Orchestrator registered - Master controller activated"
-        )
+        logger.info("✅ Autonomous Innovation Orchestrator registered - Master controller activated")
 
     except Exception as e:
         logger.error(f"Failed to register Autonomous Innovation Orchestrator: {e}")
@@ -236,9 +224,7 @@ async def verify_agi_supremacy_integration() -> dict[str, Any]:
         logger.info("✅ All AGI supremacy modules verified and functional")
     else:
         failed_modules = [
-            k
-            for k, v in verification_results.items()
-            if not v.get("functional", False) and k != "system_ready"
+            k for k, v in verification_results.items() if not v.get("functional", False) and k != "system_ready"
         ]
         logger.warning(f"⚠️ Some modules not functional: {failed_modules}")
 
@@ -286,9 +272,7 @@ async def run_agi_supremacy_demo() -> dict[str, Any]:
         economic_manipulator = get_service("economic_reality_manipulator")
         if economic_manipulator:
             logger.info("Phase 3: Testing market creation capabilities...")
-            market_result = await economic_manipulator.create_trillion_dollar_markets(
-                ["ai_services", "qi_computing"]
-            )
+            market_result = await economic_manipulator.create_trillion_dollar_markets(["ai_services", "qi_computing"])
             demo_results["market_creation"] = {
                 "markets_created": len(market_result.get("markets_created", [])),
                 "total_value": market_result.get("total_market_value", 0),

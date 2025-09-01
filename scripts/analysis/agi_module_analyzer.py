@@ -108,9 +108,7 @@ class AGIModuleAnalyzer:
             except Exception as e:
                 print(f"Warning: Could not parse {py_file}: {e}")
 
-    def _analyze_module_ast(
-        self, file_path: Path, tree: ast.AST, content: str
-    ) -> Optional[ModuleAnalysis]:
+    def _analyze_module_ast(self, file_path: Path, tree: ast.AST, content: str) -> Optional[ModuleAnalysis]:
         """Analyze a module's AST to understand its structure and purpose"""
 
         # Extract classes and functions
@@ -134,10 +132,7 @@ class AGIModuleAnalyzer:
 
         # Identify interfaces (public methods/functions)
         interfaces = [f for f in functions if not f.startswith("_")] + [
-            f"{c}.{m}"
-            for c in classes
-            for m in self._get_class_methods(tree, c)
-            if not m.startswith("_")
+            f"{c}.{m}" for c in classes for m in self._get_class_methods(tree, c) if not m.startswith("_")
         ]
 
         # Classify AGI component type
@@ -177,18 +172,14 @@ class AGIModuleAnalyzer:
 
         return complexity + (lines * 0.01) + (imports * 0.1)
 
-    def _determine_module_purpose(
-        self, file_path: Path, content: str, classes: list[str], functions: list[str]
-    ) -> str:
+    def _determine_module_purpose(self, file_path: Path, content: str, classes: list[str], functions: list[str]) -> str:
         """Determine module purpose using heuristics or AI"""
         if self.use_ai:
             return self._ai_analyze_purpose(file_path, content, classes, functions)
         else:
             return self._heuristic_analyze_purpose(file_path, content, classes, functions)
 
-    def _ai_analyze_purpose(
-        self, file_path: Path, content: str, classes: list[str], functions: list[str]
-    ) -> str:
+    def _ai_analyze_purpose(self, file_path: Path, content: str, classes: list[str], functions: list[str]) -> str:
         """Use AI to analyze module purpose (placeholder for Claude API integration)"""
         # This would integrate with Claude API to analyze the code
         # For now, fall back to heuristics
@@ -225,18 +216,14 @@ class AGIModuleAnalyzer:
             return "Memory systems and information storage"
         elif any(word in filename for word in ["learning", "adaptation", "training"]):
             return "Learning and adaptation mechanisms"
-        elif "bio" in filename or any(
-            word in filename for word in ["cellular", "hormone", "organic"]
-        ):
+        elif "bio" in filename or any(word in filename for word in ["cellular", "hormone", "organic"]):
             return "Bio-inspired processing and biological system simulation"
         elif any(word in filename for word in ["ethics", "safety", "governance"]):
             return "Ethics, safety, and governance systems"
         else:
             return f"AGI component - {filename.replace('_', ' ').title()}"
 
-    def _classify_agi_component(
-        self, file_path: Path, content: str, classes: list[str], functions: list[str]
-    ) -> str:
+    def _classify_agi_component(self, file_path: Path, content: str, classes: list[str], functions: list[str]) -> str:
         """Classify what type of AGI component this module represents"""
         filename = file_path.stem.lower()
         content_lower = content.lower()
@@ -261,9 +248,7 @@ class AGIModuleAnalyzer:
             return max(scores, key=scores.get)
         return "utility"
 
-    def _determine_abstraction_level(
-        self, content: str, classes: list[str], functions: list[str]
-    ) -> str:
+    def _determine_abstraction_level(self, content: str, classes: list[str], functions: list[str]) -> str:
         """Determine the abstraction level of the module"""
         if any("abstract" in cls.lower() or "base" in cls.lower() for cls in classes):
             return "abstract_base"
@@ -420,9 +405,7 @@ class AGIModuleAnalyzer:
                         "interface_signature": interface_sig,
                         "redundant_modules": [mod[0] for mod in module_group],
                         "recommendation": "Keep the most complex module, merge others",
-                        "primary_candidate": max(module_group, key=lambda x: x[1].complexity_score)[
-                            0
-                        ],
+                        "primary_candidate": max(module_group, key=lambda x: x[1].complexity_score)[0],
                     }
                 )
 
@@ -520,9 +503,7 @@ class AGIModuleAnalyzer:
 
         # Check for overly complex modules
         complex_modules = [
-            (path, analysis)
-            for path, analysis in self.modules.items()
-            if analysis.complexity_score > 50
+            (path, analysis) for path, analysis in self.modules.items() if analysis.complexity_score > 50
         ]
 
         if complex_modules:
@@ -665,9 +646,7 @@ class AGIModuleAnalyzer:
             "total_nodes": self.dependency_graph.number_of_nodes(),
             "total_edges": self.dependency_graph.number_of_edges(),
             "cyclic": not nx.is_directed_acyclic_graph(self.dependency_graph),
-            "strongly_connected_components": len(
-                list(nx.strongly_connected_components(self.dependency_graph))
-            ),
+            "strongly_connected_components": len(list(nx.strongly_connected_components(self.dependency_graph))),
             "max_depth": self._calculate_max_dependency_depth(),
         }
 
@@ -678,11 +657,7 @@ class AGIModuleAnalyzer:
 
         try:
             # Find nodes with no dependencies (sources)
-            sources = [
-                node
-                for node in self.dependency_graph.nodes()
-                if self.dependency_graph.in_degree(node) == 0
-            ]
+            sources = [node for node in self.dependency_graph.nodes() if self.dependency_graph.in_degree(node) == 0]
             if not sources:
                 return 0
 
@@ -830,12 +805,8 @@ def main():
     print("\n🧠 AGI MODULE ANALYSIS COMPLETE")
     print("=" * 50)
     print(f"Architecture Components: {len(analysis_result['architecture_analysis'])}")
-    print(
-        f"Consolidation Opportunities: {len(analysis_result['consolidation_plan']['merge_candidates'])}"
-    )
-    print(
-        f"Optimization Recommendations: {len(analysis_result['optimization_plan']['architectural_optimizations'])}"
-    )
+    print(f"Consolidation Opportunities: {len(analysis_result['consolidation_plan']['merge_candidates'])}")
+    print(f"Optimization Recommendations: {len(analysis_result['optimization_plan']['architectural_optimizations'])}")
     print("\n📊 Files generated:")
     print("  - agi_analysis.json (detailed analysis)")
     print("  - consolidate_agi_modules.py (consolidation script)")

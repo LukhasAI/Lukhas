@@ -200,9 +200,7 @@ class QIEthicsEngine:
         total_weight = 0.0
 
         for principle in self.enabled_principles:
-            principle_result = await self._evaluate_principle(
-                principle, action, context, decision_quantum_like_state
-            )
+            principle_result = await self._evaluate_principle(principle, action, context, decision_quantum_like_state)
 
             principle_scores[principle.value] = principle_result
             evaluation_result["principle_evaluations"][principle.value] = principle_result
@@ -227,22 +225,16 @@ class QIEthicsEngine:
                 self.violations_detected += 1
 
         # Calculate overall ethical score
-        evaluation_result["ethical_score"] = (
-            total_weighted_score / total_weight if total_weight > 0 else 0.0
-        )
+        evaluation_result["ethical_score"] = total_weighted_score / total_weight if total_weight > 0 else 0.0
 
         # Evaluate coherence-inspired processing
-        evaluation_result["qi_coherence"] = self._calculate_quantum_coherence(
-            decision_quantum_like_state
-        )
+        evaluation_result["qi_coherence"] = self._calculate_quantum_coherence(decision_quantum_like_state)
 
         # Determine if action is approved
         evaluation_result["approved"] = (
             evaluation_result["ethical_score"] >= 0.7
             and evaluation_result["qi_coherence"] >= self.qi_coherence_threshold
-            and not any(
-                v["severity"] >= EthicalSeverity.HIGH.value for v in evaluation_result["violations"]
-            )
+            and not any(v["severity"] >= EthicalSeverity.HIGH.value for v in evaluation_result["violations"])
         )
 
         # Generate recommendations
@@ -311,13 +303,9 @@ class QIEthicsEngine:
         elif principle == EthicalPrinciple.SUSTAINABILITY:
             principle_result = await self._evaluate_sustainability(action, context, qi_like_state)
         elif principle == EthicalPrinciple.CONSCIOUSNESS_RESPECT:
-            principle_result = await self._evaluate_consciousness_respect(
-                action, context, qi_like_state
-            )
+            principle_result = await self._evaluate_consciousness_respect(action, context, qi_like_state)
         elif principle == EthicalPrinciple.QUANTUM_COHERENCE:
-            principle_result = await self._evaluate_quantum_coherence_principle(
-                action, context, qi_like_state
-            )
+            principle_result = await self._evaluate_quantum_coherence_principle(action, context, qi_like_state)
 
         # Add superposition-like state factors
         qi_factor = np.random.uniform(0.9, 1.1)  # Quantum uncertainty
@@ -708,8 +696,7 @@ class QIEthicsEngine:
 
             stakeholder_impact[stakeholder] = {
                 "impact_score": impact_score,
-                "qi_entangled": stakeholder
-                in qi_like_state.entanglement_map.get("stakeholders", ""),
+                "qi_entangled": stakeholder in qi_like_state.entanglement_map.get("stakeholders", ""),
             }
 
         return stakeholder_impact

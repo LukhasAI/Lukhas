@@ -221,18 +221,14 @@ class ConsentFilter:
 
                 consent_request["consent_items"].append(consent_item)
 
-            logger.info(
-                f"Consent requested for user {user_id}: {[ct.value for ct in consent_types]}"
-            )
+            logger.info(f"Consent requested for user {user_id}: {[ct.value for ct in consent_types]}")
             return consent_request
 
         except Exception as e:
             logger.error(f"Failed to create consent request for {user_id}: {e}")
             return {"error": str(e), "request_id": None}
 
-    async def grant_consent(
-        self, user_id: str, consent_grants: dict[str, bool], request_id: str
-    ) -> dict[str, Any]:
+    async def grant_consent(self, user_id: str, consent_grants: dict[str, bool], request_id: str) -> dict[str, Any]:
         """
         Process user's consent grants/denials.
 
@@ -466,12 +462,8 @@ class ConsentFilter:
 
     def _get_privacy_notice(self, tier: str) -> dict[str, Any]:
         """Get tier-specific privacy notice"""
-        retention = self.privacy_policies["data_retention"].get(
-            tier, self.privacy_policies["data_retention"]["T3"]
-        )
-        sharing = self.privacy_policies["data_sharing"].get(
-            tier, self.privacy_policies["data_sharing"]["T3"]
-        )
+        retention = self.privacy_policies["data_retention"].get(tier, self.privacy_policies["data_retention"]["T3"])
+        sharing = self.privacy_policies["data_sharing"].get(tier, self.privacy_policies["data_sharing"]["T3"])
 
         return {
             "data_retention_days": retention["days"],

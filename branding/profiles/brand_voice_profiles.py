@@ -716,9 +716,7 @@ class LukhasBrandVoiceProfiles:
         blend_ratios = custom_blend or context_config["blend_ratio"]
 
         # Blend the profiles
-        blended_profile = self._blend_voice_profiles(
-            primary_profile, secondary_profile, blend_ratios
-        )
+        blended_profile = self._blend_voice_profiles(primary_profile, secondary_profile, blend_ratios)
 
         # Apply context adaptations
         blended_profile = self._apply_context_adaptations(blended_profile, context_config)
@@ -741,9 +739,7 @@ class LukhasBrandVoiceProfiles:
 
         return blended_profile
 
-    def _apply_context_adaptations(
-        self, profile: dict[str, Any], context_config: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _apply_context_adaptations(self, profile: dict[str, Any], context_config: dict[str, Any]) -> dict[str, Any]:
         """Apply context-specific adaptations to a voice profile"""
 
         adapted_profile = profile.copy()
@@ -757,37 +753,23 @@ class LukhasBrandVoiceProfiles:
                 if adaptation == "increase_warmth":
                     original_params.warmth = min(1.0, original_params.warmth + adjustment)
                 elif adaptation == "increase_empathy":
-                    original_params.empathy_level = min(
-                        1.0, original_params.empathy_level + adjustment
-                    )
+                    original_params.empathy_level = min(1.0, original_params.empathy_level + adjustment)
                 elif adaptation == "simplify_technical":
-                    original_params.technical_depth = max(
-                        0.0, original_params.technical_depth - adjustment
-                    )
+                    original_params.technical_depth = max(0.0, original_params.technical_depth - adjustment)
                 elif adaptation == "increase_precision":
-                    original_params.technical_depth = min(
-                        1.0, original_params.technical_depth + adjustment
-                    )
+                    original_params.technical_depth = min(1.0, original_params.technical_depth + adjustment)
                 elif adaptation == "maintain_consciousness_context":
                     original_params.consciousness_emphasis = min(
                         1.0, original_params.consciousness_emphasis + adjustment
                     )
                 elif adaptation == "increase_inspiration":
-                    original_params.creativity_factor = min(
-                        1.0, original_params.creativity_factor + adjustment
-                    )
+                    original_params.creativity_factor = min(1.0, original_params.creativity_factor + adjustment)
                 elif adaptation == "enhance_trinity_symbols":
-                    original_params.trinity_integration = min(
-                        1.0, original_params.trinity_integration + adjustment
-                    )
+                    original_params.trinity_integration = min(1.0, original_params.trinity_integration + adjustment)
                 elif adaptation == "boost_creativity":
-                    original_params.creativity_factor = min(
-                        1.0, original_params.creativity_factor + adjustment
-                    )
+                    original_params.creativity_factor = min(1.0, original_params.creativity_factor + adjustment)
                 elif adaptation == "maximize_empathy":
-                    original_params.empathy_level = min(
-                        1.0, original_params.empathy_level + adjustment
-                    )
+                    original_params.empathy_level = min(1.0, original_params.empathy_level + adjustment)
                 elif adaptation == "increase_patience":
                     # This would modify tone descriptors or characteristics
                     pass
@@ -801,9 +783,7 @@ class LukhasBrandVoiceProfiles:
 
         return adapted_profile
 
-    def _apply_audience_adaptations(
-        self, profile: dict[str, Any], audience_config: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _apply_audience_adaptations(self, profile: dict[str, Any], audience_config: dict[str, Any]) -> dict[str, Any]:
         """Apply audience-specific adaptations to a voice profile"""
 
         adapted_profile = profile.copy()
@@ -815,33 +795,23 @@ class LukhasBrandVoiceProfiles:
 
             for adjustment, value in adjustments.items():
                 if adjustment == "simplify_language":
-                    original_params.technical_depth = max(
-                        0.0, original_params.technical_depth - value
-                    )
+                    original_params.technical_depth = max(0.0, original_params.technical_depth - value)
                     original_params.formality = max(0.0, original_params.formality - value)
                 elif adjustment == "increase_warmth":
                     original_params.warmth = min(1.0, original_params.warmth + value)
                 elif adjustment == "reduce_technical_jargon":
-                    original_params.technical_depth = max(
-                        0.0, original_params.technical_depth - value
-                    )
+                    original_params.technical_depth = max(0.0, original_params.technical_depth - value)
                 elif adjustment == "enhance_accessibility":
                     original_params.warmth = min(1.0, original_params.warmth + value)
                     original_params.empathy_level = min(1.0, original_params.empathy_level + value)
                 elif adjustment == "increase_technical_depth":
-                    original_params.technical_depth = min(
-                        1.0, original_params.technical_depth + value
-                    )
+                    original_params.technical_depth = min(1.0, original_params.technical_depth + value)
                 elif adjustment == "enhance_precision" or adjustment == "boost_credibility":
                     original_params.formality = min(1.0, original_params.formality + value)
                 elif adjustment == "maximize_creativity":
-                    original_params.creativity_factor = min(
-                        1.0, original_params.creativity_factor + value
-                    )
+                    original_params.creativity_factor = min(1.0, original_params.creativity_factor + value)
                 elif adjustment == "increase_inspiration":
-                    original_params.expressiveness = min(
-                        1.0, original_params.expressiveness + value
-                    )
+                    original_params.expressiveness = min(1.0, original_params.expressiveness + value)
 
         # Add audience-specific communication priorities
         if "communication_priorities" in audience_config:
@@ -853,9 +823,7 @@ class LukhasBrandVoiceProfiles:
 
         return adapted_profile
 
-    def _apply_trinity_emphasis(
-        self, profile: dict[str, Any], trinity_emphasis: list[str]
-    ) -> dict[str, Any]:
+    def _apply_trinity_emphasis(self, profile: dict[str, Any], trinity_emphasis: list[str]) -> dict[str, Any]:
         """Apply Trinity Framework emphasis to voice profile"""
 
         emphasized_profile = profile.copy()
@@ -866,9 +834,7 @@ class LukhasBrandVoiceProfiles:
 
                 # Enhance characteristics with Trinity elements
                 if "characteristics" in emphasized_profile:
-                    emphasized_profile["characteristics"].extend(
-                        trinity_config["voice_characteristics"]
-                    )
+                    emphasized_profile["characteristics"].extend(trinity_config["voice_characteristics"])
 
                 # Add Trinity-specific language patterns
                 emphasized_profile[f"{component}_patterns"] = trinity_config["language_patterns"]
@@ -880,9 +846,7 @@ class LukhasBrandVoiceProfiles:
 
                     for modifier, value in modifiers.items():
                         if modifier == "authenticity":
-                            params.consciousness_emphasis = min(
-                                1.0, params.consciousness_emphasis * value
-                            )
+                            params.consciousness_emphasis = min(1.0, params.consciousness_emphasis * value)
                         elif modifier == "intellectual_depth":
                             params.technical_depth = min(1.0, params.technical_depth * value)
                         elif modifier == "ethical_foundation":
@@ -913,10 +877,8 @@ class LukhasBrandVoiceProfiles:
         blended_params = VoiceParameters(
             expressiveness=primary_params.expressiveness * primary_weight
             + secondary_params.expressiveness * secondary_weight,
-            formality=primary_params.formality * primary_weight
-            + secondary_params.formality * secondary_weight,
-            warmth=primary_params.warmth * primary_weight
-            + secondary_params.warmth * secondary_weight,
+            formality=primary_params.formality * primary_weight + secondary_params.formality * secondary_weight,
+            warmth=primary_params.warmth * primary_weight + secondary_params.warmth * secondary_weight,
             technical_depth=primary_params.technical_depth * primary_weight
             + secondary_params.technical_depth * secondary_weight,
             consciousness_emphasis=primary_params.consciousness_emphasis * primary_weight
@@ -936,13 +898,9 @@ class LukhasBrandVoiceProfiles:
             "characteristics": primary_profile.get("characteristics", [])
             + secondary_profile.get("characteristics", []),
             "tone_descriptors": list(
-                set(
-                    primary_profile.get("tone_descriptors", [])
-                    + secondary_profile.get("tone_descriptors", [])
-                )
+                set(primary_profile.get("tone_descriptors", []) + secondary_profile.get("tone_descriptors", []))
             ),
-            "use_cases": primary_profile.get("use_cases", [])
-            + secondary_profile.get("use_cases", []),
+            "use_cases": primary_profile.get("use_cases", []) + secondary_profile.get("use_cases", []),
             "trinity_emphasis": {
                 component: f"{primary_profile.get('trinity_emphasis', {}).get(component, '')} + {secondary_profile.get('trinity_emphasis', {}).get(component, '')}"
                 for component in ["identity", "consciousness", "guardian"]
@@ -1046,9 +1004,7 @@ if __name__ == "__main__":
 
     # Test recommendations
     print("=== Context Recommendations ===")
-    marketing_recommendations = voice_profiles.get_context_recommendations(
-        VoiceContext.MARKETING_CONTENT
-    )
+    marketing_recommendations = voice_profiles.get_context_recommendations(VoiceContext.MARKETING_CONTENT)
     print("Marketing Context Recommendations:")
     print(f"Primary Profile: {marketing_recommendations['recommended_primary']}")
     print(f"Key Messages: {marketing_recommendations['key_messages'][:2]}")

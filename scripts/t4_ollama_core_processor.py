@@ -164,9 +164,7 @@ CONSTRAINTS:
 
         # Only apply LOW risk fixes
         low_risk_fixes = [
-            issue
-            for issue in analysis_result.get("issues_found", [])
-            if issue.get("risk_level") == "LOW"
+            issue for issue in analysis_result.get("issues_found", []) if issue.get("risk_level") == "LOW"
         ]
 
         if not low_risk_fixes:
@@ -187,9 +185,7 @@ CONSTRAINTS:
 
             # Apply simple fixes
             for fix in low_risk_fixes:
-                if fix.get("type") == "unused_import" and "Remove unused import" in fix.get(
-                    "suggested_fix", ""
-                ):
+                if fix.get("type") == "unused_import" and "Remove unused import" in fix.get("suggested_fix", ""):
                     # Very conservative: only remove imports that are clearly unused
                     lines = content.split("\n")
                     for i, line in enumerate(lines):
@@ -261,9 +257,7 @@ CONSTRAINTS:
             return False
 
         print(f"📁 Batch {batch_num}: Processing {len(batch_files)} files with LLM")
-        print(
-            f"📊 Range: {start_idx + 1}-{start_idx + len(batch_files)} of {len(core_files)} total"
-        )
+        print(f"📊 Range: {start_idx + 1}-{start_idx + len(batch_files)} of {len(core_files)} total")
         print("")
 
         # Process each file with LLM

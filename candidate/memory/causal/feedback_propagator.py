@@ -102,15 +102,11 @@ class DreamFeedbackPropagator:
         self.emotional_memory = emotional_memory
         self.mood_regulator = mood_regulator or MoodRegulator(emotional_memory)
         self.snapshot_store = DreamSnapshotStore()
-        self.redirection_controller = SnapshotRedirectionController(
-            self.emotional_memory, self.snapshot_store
-        )
+        self.redirection_controller = SnapshotRedirectionController(self.emotional_memory, self.snapshot_store)
 
         # LUKHAS_TAG: dream_causality_map - Initialize causality tracking
         self.fold_lineage_tracker = FoldLineageTracker()
-        self.dream_causal_trace_path = (
-            "/Users/agi_dev/Downloads/Consolidation-Repo/trace/dream_causal_trace.json"
-        )
+        self.dream_causal_trace_path = "/Users/agi_dev/Downloads/Consolidation-Repo/trace/dream_causal_trace.json"
         self.causal_events = []
 
         # Initialize identity client for tier and consent checking
@@ -128,12 +124,8 @@ class DreamFeedbackPropagator:
 
         # Verify user has appropriate tier for dream processing
         if not verify_access(user_id, "LAMBDA_TIER_3"):
-            log.warning(
-                f"Access denied for dream feedback propagation: {user_id} lacks LAMBDA_TIER_3"
-            )
-            raise PermissionError(
-                f"User {user_id} lacks required tier for dream feedback processing"
-            )
+            log.warning(f"Access denied for dream feedback propagation: {user_id} lacks LAMBDA_TIER_3")
+            raise PermissionError(f"User {user_id} lacks required tier for dream feedback processing")
 
         # Check consent for dream feedback processing
         if not check_consent(user_id, "dream_feedback_processing"):
@@ -157,9 +149,7 @@ class DreamFeedbackPropagator:
 
             if trajectory_adjustment:
                 # Safety guard against overcorrection
-                total_adjustment = sum(
-                    abs(v) for v in trajectory_adjustment.get("emotional_context", {}).values()
-                )
+                total_adjustment = sum(abs(v) for v in trajectory_adjustment.get("emotional_context", {}).values())
                 if total_adjustment > MAX_ALLOWED_ADJUSTMENT:
                     log.warning(
                         "Trajectory overshoot risk",
@@ -175,9 +165,7 @@ class DreamFeedbackPropagator:
                 log.info(f"Applying trajectory adjustment: {trajectory_adjustment}")
                 dream_data["emotional_context"] = dream_data.get("emotional_context", {})
                 for emotion, value in trajectory_adjustment.get("emotional_context", {}).items():
-                    dream_data["emotional_context"][emotion] = (
-                        dream_data["emotional_context"].get(emotion, 0) + value
-                    )
+                    dream_data["emotional_context"][emotion] = dream_data["emotional_context"].get(emotion, 0) + value
 
         # LUKHAS_TAG: dream_causality_map - Track dream→memory causation
         self._track_dream_memory_causation(dream_data, trajectory_adjustment)
@@ -217,18 +205,14 @@ class DreamFeedbackPropagator:
                 "dream_id": dream_id,
                 "source_type": "dream_feedback",
                 "target_type": "emotional_memory",
-                "causation_strength": self._calculate_causation_strength(
-                    dream_data, trajectory_adjustment
-                ),
+                "causation_strength": self._calculate_causation_strength(dream_data, trajectory_adjustment),
                 "metadata": {
                     "drift_score": dream_data.get("affect_trace", {}).get("total_drift"),
                     "emotional_context": dream_data.get("emotional_context", {}),
                     "trajectory_adjustment": trajectory_adjustment,
                     "current_emotion_state": current_emotion,
                     "safety_guards_triggered": trajectory_adjustment
-                    and sum(
-                        abs(v) for v in trajectory_adjustment.get("emotional_context", {}).values()
-                    )
+                    and sum(abs(v) for v in trajectory_adjustment.get("emotional_context", {}).values())
                     > MAX_ALLOWED_ADJUSTMENT,
                 },
             }
@@ -259,9 +243,7 @@ class DreamFeedbackPropagator:
             )
 
     # LUKHAS_TAG: dream_causality_map
-    def _track_redirection_causality(
-        self, user_id: str, redirect_narrative: str, dream_data: dict[str, Any]
-    ) -> None:
+    def _track_redirection_causality(self, user_id: str, redirect_narrative: str, dream_data: dict[str, Any]) -> None:
         """Track causality of dream narrative redirection events."""
         try:
             redirection_event = {
@@ -353,9 +335,7 @@ class DreamFeedbackPropagator:
 
             # Factor in trajectory adjustment magnitude
             if trajectory_adjustment:
-                adjustment_magnitude = sum(
-                    abs(v) for v in trajectory_adjustment.get("emotional_context", {}).values()
-                )
+                adjustment_magnitude = sum(abs(v) for v in trajectory_adjustment.get("emotional_context", {}).values())
                 base_strength += min(adjustment_magnitude, 0.3)
 
             # Factor in emotional context richness
@@ -390,22 +370,12 @@ class DreamFeedbackPropagator:
                 "causality_summary": {
                     "total_events": len(self.causal_events),
                     "memory_causations": len(
-                        [
-                            e
-                            for e in self.causal_events
-                            if e["event_type"] == "dream_memory_causation"
-                        ]
+                        [e for e in self.causal_events if e["event_type"] == "dream_memory_causation"]
                     ),
                     "redirection_causations": len(
-                        [
-                            e
-                            for e in self.causal_events
-                            if e["event_type"] == "dream_redirection_causation"
-                        ]
+                        [e for e in self.causal_events if e["event_type"] == "dream_redirection_causation"]
                     ),
-                    "average_causation_strength": sum(
-                        e["causation_strength"] for e in self.causal_events
-                    )
+                    "average_causation_strength": sum(e["causation_strength"] for e in self.causal_events)
                     / len(self.causal_events),
                     "ethical_compliance_status": (
                         "verified"
@@ -421,8 +391,7 @@ class DreamFeedbackPropagator:
                     "causality_fully_traced": True,
                     "ethical_filters_verified": True,
                     "feedback_loops_detected": any(
-                        e.get("metadata", {}).get("safety_guards_triggered", False)
-                        for e in self.causal_events
+                        e.get("metadata", {}).get("safety_guards_triggered", False) for e in self.causal_events
                     ),
                     "transparency_level": "enterprise_grade",
                 },

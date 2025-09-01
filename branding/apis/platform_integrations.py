@@ -95,9 +95,7 @@ class PlatformAPIManager:
 
     def __init__(self, credentials_path: str = None):
         self.base_path = Path(__file__).parent.parent
-        self.credentials_path = credentials_path or (
-            self.base_path / "config" / "api_credentials.json"
-        )
+        self.credentials_path = credentials_path or (self.base_path / "config" / "api_credentials.json")
         self.logs_path = self.base_path / "logs"
 
         # Initialize components
@@ -277,9 +275,7 @@ class PlatformAPIManager:
         """Post to Twitter/𝕏 using API v2"""
 
         if "twitter" not in self.platform_clients:
-            return PostResult(
-                success=False, platform="twitter", error="Twitter client not initialized"
-            )
+            return PostResult(success=False, platform="twitter", error="Twitter client not initialized")
 
         try:
             client = self.platform_clients["twitter"]
@@ -334,9 +330,7 @@ class PlatformAPIManager:
         """Post to LinkedIn using custom API implementation"""
 
         if "linkedin" not in self.credentials:
-            return PostResult(
-                success=False, platform="linkedin", error="LinkedIn credentials not configured"
-            )
+            return PostResult(success=False, platform="linkedin", error="LinkedIn credentials not configured")
 
         try:
             creds = self.credentials["linkedin"]
@@ -406,9 +400,7 @@ class PlatformAPIManager:
         """Post to Reddit using PRAW"""
 
         if "reddit" not in self.platform_clients:
-            return PostResult(
-                success=False, platform="reddit", error="Reddit client not initialized"
-            )
+            return PostResult(success=False, platform="reddit", error="Reddit client not initialized")
 
         try:
             reddit = self.platform_clients["reddit"]
@@ -444,9 +436,7 @@ class PlatformAPIManager:
         """Post to Instagram using Graph API"""
 
         if "instagram" not in self.credentials:
-            return PostResult(
-                success=False, platform="instagram", error="Instagram credentials not configured"
-            )
+            return PostResult(success=False, platform="instagram", error="Instagram credentials not configured")
 
         try:
             self.credentials["instagram"]
@@ -486,8 +476,7 @@ class PlatformAPIManager:
             self.rate_limits[platform] = RateLimitInfo(
                 platform=platform,
                 requests_remaining=self.default_rate_limits[platform]["requests"],
-                reset_time=datetime.now()
-                + timedelta(seconds=self.default_rate_limits[platform]["window"]),
+                reset_time=datetime.now() + timedelta(seconds=self.default_rate_limits[platform]["window"]),
                 window_duration=self.default_rate_limits[platform]["window"],
                 last_request=datetime.now() - timedelta(hours=1),
             )
@@ -502,9 +491,7 @@ class PlatformAPIManager:
 
         # Check if we have requests remaining
         if rate_limit.requests_remaining <= 0:
-            self.logger.warning(
-                f"Rate limit exceeded for {platform}. Reset at {rate_limit.reset_time}"
-            )
+            self.logger.warning(f"Rate limit exceeded for {platform}. Reset at {rate_limit.reset_time}")
             return False
 
         return True
@@ -580,14 +567,10 @@ class PlatformAPIManager:
                 if media_paths and len(media_paths) > 0:
                     return await self.post_to_instagram(content, media_paths[0])
                 else:
-                    return PostResult(
-                        success=False, platform="instagram", error="Instagram requires media"
-                    )
+                    return PostResult(success=False, platform="instagram", error="Instagram requires media")
 
             else:
-                return PostResult(
-                    success=False, platform=platform, error=f"Platform {platform} not supported"
-                )
+                return PostResult(success=False, platform=platform, error=f"Platform {platform} not supported")
 
         except Exception as e:
             self.logger.error(f"❌ Failed to post to {platform}: {e}")

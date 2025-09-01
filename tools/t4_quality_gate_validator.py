@@ -101,9 +101,7 @@ class T4QualityGateValidator:
                 return False
 
         # Check pytest is available
-        success, _, _ = self.run_command(
-            ["python", "-m", "pytest", "--version"], "Check pytest availability"
-        )
+        success, _, _ = self.run_command(["python", "-m", "pytest", "--version"], "Check pytest availability")
         if not success:
             print("❌ pytest not available")
             return False
@@ -297,9 +295,7 @@ class T4QualityGateValidator:
             security_passed = security_summary.get("passed", 0)
             security_failed = security_summary.get("failed", 0)
 
-            security_pass_rate = (
-                (security_passed / security_total * 100) if security_total > 0 else 0
-            )
+            security_pass_rate = (security_passed / security_total * 100) if security_total > 0 else 0
 
             metrics["security_metrics"] = {
                 "total_security_tests": security_total,
@@ -310,12 +306,8 @@ class T4QualityGateValidator:
 
         # Quality scores (T4 standards)
         test_score = min(metrics["test_metrics"].get("pass_rate_percentage", 0) / 95 * 100, 100)
-        coverage_score = min(
-            metrics["coverage_metrics"].get("total_coverage_percentage", 0) / 95 * 100, 100
-        )
-        security_score = min(
-            metrics["security_metrics"].get("security_pass_rate_percentage", 0) / 95 * 100, 100
-        )
+        coverage_score = min(metrics["coverage_metrics"].get("total_coverage_percentage", 0) / 95 * 100, 100)
+        security_score = min(metrics["security_metrics"].get("security_pass_rate_percentage", 0) / 95 * 100, 100)
 
         overall_score = (test_score + coverage_score + security_score) / 3
 
@@ -387,9 +379,7 @@ class T4QualityGateValidator:
         self.results["performance_metrics"] = metrics
         self.results["overall_status"] = "PASSED" if gates_passed else "FAILED"
         self.results["metadata"]["end_time"] = datetime.now(timezone.utc).isoformat()
-        self.results["metadata"]["duration_seconds"] = (
-            datetime.now(timezone.utc) - self.start_time
-        ).total_seconds()
+        self.results["metadata"]["duration_seconds"] = (datetime.now(timezone.utc) - self.start_time).total_seconds()
 
         # Save comprehensive report
         report_path = RESULTS_DIR / f"t4_validation_report_{int(time.time())}.json"

@@ -238,9 +238,7 @@ class NIASRewardEngine:
             "level_up": level_up,
             "newly_unlocked": newly_unlocked,
             "new_achievements": new_achievements,
-            "message": self._generate_reward_message(
-                credits_earned, points_earned, newly_unlocked, new_achievements
-            ),
+            "message": self._generate_reward_message(credits_earned, points_earned, newly_unlocked, new_achievements),
         }
 
     def redeem_reward(self, user_id: str, reward_id: str) -> dict[str, Any]:
@@ -371,9 +369,7 @@ class NIASRewardEngine:
         current_level_threshold = (profile.experience_level - 1) * 100
         next_level_threshold = profile.experience_level * 100
         level_progress = (
-            (profile.total_points - current_level_threshold)
-            / (next_level_threshold - current_level_threshold)
-            * 100
+            (profile.total_points - current_level_threshold) / (next_level_threshold - current_level_threshold) * 100
         )
 
         return {
@@ -543,7 +539,5 @@ if __name__ == "__main__":
     print("\nUser Dashboard:", json.dumps(dashboard, indent=2, default=str))
 
     # Try to unlock content
-    unlock_result = reward_engine.unlock_exclusive_content(
-        user_id="user_123", content_id="advanced_analytics"
-    )
+    unlock_result = reward_engine.unlock_exclusive_content(user_id="user_123", content_id="advanced_analytics")
     print("\nUnlock Result:", json.dumps(unlock_result, indent=2))

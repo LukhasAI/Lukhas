@@ -108,9 +108,7 @@ class AlphaFoldInspiredEngine:
         stabilized_embedding = await self._apply_stabilizers(seq_embedding, emotional_stabilizers)
 
         # Run GAT folding iterations
-        folded_structure = await self._gat_folding_iterations(
-            stabilized_embedding, ethical_constraints
-        )
+        folded_structure = await self._gat_folding_iterations(stabilized_embedding, ethical_constraints)
 
         # Generate 3D structure
         structure_3d = await self._generate_3d_structure(folded_structure)
@@ -150,9 +148,7 @@ class AlphaFoldInspiredEngine:
 
         return np.array(embedding)
 
-    async def _apply_stabilizers(
-        self, embedding: np.ndarray, stabilizers: list[dict[str, float]]
-    ) -> np.ndarray:
+    async def _apply_stabilizers(self, embedding: np.ndarray, stabilizers: list[dict[str, float]]) -> np.ndarray:
         """Apply emotional stabilizers as force constraints"""
         stabilized = embedding.copy()
 
@@ -190,9 +186,7 @@ class AlphaFoldInspiredEngine:
 
         return current_state
 
-    async def _generate_3d_structure(
-        self, folded_state: np.ndarray
-    ) -> list[tuple[float, float, float]]:
+    async def _generate_3d_structure(self, folded_state: np.ndarray) -> list[tuple[float, float, float]]:
         """Generate 3D coordinates from folded state"""
         coords = []
 
@@ -296,9 +290,7 @@ class TopologyAnalyzer:
 
     async def assess_stability(self, fold: "ProteinFold") -> "StabilityAssessment":
         """Quick stability assessment"""
-        return StabilityAssessment(
-            is_stable=fold.stability > 0.7, stability_score=fold.stability, warnings=[]
-        )
+        return StabilityAssessment(is_stable=fold.stability > 0.7, stability_score=fold.stability, warnings=[])
 
     async def analyze_full_topology(self, fold: "ProteinFold") -> ProteinTopology:
         """Complete topology analysis"""
@@ -382,9 +374,7 @@ class TopologyAnalyzer:
 
         return patterns
 
-    async def _detect_ethical_conflicts(
-        self, structure_data: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def _detect_ethical_conflicts(self, structure_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Detect ethical conflict patterns in fold"""
         conflicts = []
 
@@ -471,9 +461,7 @@ class VIVOXSymbolicProteome:
         sequence = await self._memory_to_amino_sequence(memory_entry)
 
         # Calculate emotional bonds as stabilizing forces
-        emotional_bonds = await self.emotional_bonds.calculate_bonds(
-            emotional_context, memory_entry.decision_data
-        )
+        emotional_bonds = await self.emotional_bonds.calculate_bonds(emotional_context, memory_entry.decision_data)
 
         # Perform GAT-based folding
         fold = await self.protein_folding_engine.fold_with_gat(
@@ -627,9 +615,7 @@ class VIVOXSymbolicProteome:
         has_conflict = any(issue.type == MisfoldingType.ETHICAL_CONFLICT for issue in issues)
 
         if has_bias:
-            recommendations.append(
-                "Apply debiasing chaperone proteins to redistribute memory clusters"
-            )
+            recommendations.append("Apply debiasing chaperone proteins to redistribute memory clusters")
             recommendations.append("Increase ethical constraint weights during refolding")
 
         if has_trauma:

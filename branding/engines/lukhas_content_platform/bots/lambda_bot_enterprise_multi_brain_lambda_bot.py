@@ -199,9 +199,7 @@ class MultiBrainΛBot:
             analysis_results["coordination_results"]["lambda"] = lambda_result
 
             # Integration Brain Synthesis
-            synthesis_result = await self._synthesize_multi_brain_results(
-                codex_result, jules_result, lambda_result
-            )
+            synthesis_result = await self._synthesize_multi_brain_results(codex_result, jules_result, lambda_result)
             analysis_results["synthesis"] = synthesis_result
 
             # Record brain states
@@ -289,9 +287,7 @@ class MultiBrainΛBot:
             "bio_sync_quality": 0.93,
         }
 
-        logger.info(
-            f"⚛️ LUKHAS AI ΛBot brain orchestration: {result['findings']['qi_optimization']}"
-        )
+        logger.info(f"⚛️ LUKHAS AI ΛBot brain orchestration: {result['findings']['qi_optimization']}")
         return result
 
     async def _synthesize_multi_brain_results(
@@ -322,9 +318,7 @@ class MultiBrainΛBot:
                     ],
                 },
                 "confidence_synthesis": (
-                    codex_result["confidence"]
-                    + jules_result["confidence"]
-                    + lambda_result["confidence"]
+                    codex_result["confidence"] + jules_result["confidence"] + lambda_result["confidence"]
                 )
                 / 3,
                 "bio_sync_harmony": (
@@ -369,9 +363,7 @@ class MultiBrainΛBot:
             "base_lambda_bot_available": self.base_lambda_bot is not None,
             "specialized_brains_count": len(self.specialized_brains),
             "synchronization_state": {
-                "last_sync": self.sync_state.last_sync.isoformat()
-                if self.sync_state.last_sync
-                else None,
+                "last_sync": self.sync_state.last_sync.isoformat() if self.sync_state.last_sync else None,
                 "harmony_level": self.sync_state.sync_harmony,
                 "active_frequencies": {
                     "codex": self.sync_state.codex_frequency,
@@ -401,9 +393,7 @@ async def main():
     # Get system status
     status = await multi_brain_bot.get_multi_brain_status()
     print("\n📊 System Status:")
-    print(
-        f"   Brain Symphony: {'✅ Available' if status['brain_symphony_available'] else '❌ Not Available'}"
-    )
+    print(f"   Brain Symphony: {'✅ Available' if status['brain_symphony_available'] else '❌ Not Available'}")
     print(f"   Specialized Brains: {status['specialized_brains_count']}")
     print(f"   Sync State: {status['synchronization_state']['harmony_level']}")
 
@@ -419,12 +409,8 @@ async def main():
 
     print("\n✅ Analysis Complete!")
     print(f"   Session ID: {results['session_id']}")
-    print(
-        f"   Synthesis Confidence: {results['synthesis']['integrated_findings']['confidence_synthesis']:.2f}"
-    )
-    print(
-        f"   Bio-Sync Harmony: {results['synthesis']['integrated_findings']['bio_sync_harmony']:.2f}"
-    )
+    print(f"   Synthesis Confidence: {results['synthesis']['integrated_findings']['confidence_synthesis']:.2f}")
+    print(f"   Bio-Sync Harmony: {results['synthesis']['integrated_findings']['bio_sync_harmony']:.2f}")
 
     print("\n🎯 Recommended Actions:")
     for i, action in enumerate(results["synthesis"]["next_actions"], 1):

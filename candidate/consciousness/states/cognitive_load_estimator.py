@@ -284,9 +284,7 @@ class CognitiveLoadEstimator:
 
         return assessment
 
-    def _extract_cognitive_indicators(
-        self, performance_data: dict[str, Any]
-    ) -> CognitiveIndicators:
+    def _extract_cognitive_indicators(self, performance_data: dict[str, Any]) -> CognitiveIndicators:
         """
         Extract cognitive indicators from performance data.
 
@@ -303,11 +301,7 @@ class CognitiveLoadEstimator:
 
         # Extract error rate
         error_rate = performance_data.get("error_rate", 0)
-        if (
-            error_rate == 0
-            and "errors" in performance_data
-            and "total_attempts" in performance_data
-        ):
+        if error_rate == 0 and "errors" in performance_data and "total_attempts" in performance_data:
             error_rate = performance_data["errors"] / max(performance_data["total_attempts"], 1)
 
         # Extract task completion time
@@ -391,10 +385,7 @@ class CognitiveLoadEstimator:
 
         # Long completion times indicate fatigue
         completion_time = performance_data.get("completion_time", 0)
-        if (
-            self.baseline_metrics
-            and completion_time > self.baseline_metrics.task_completion_time * 1.5
-        ):
+        if self.baseline_metrics and completion_time > self.baseline_metrics.task_completion_time * 1.5:
             fatigue_indicators.append(0.5)
 
         # Calculate overall fatigue level
@@ -469,9 +460,7 @@ class CognitiveLoadEstimator:
         else:
             return CognitiveLoadLevel.OVERLOAD
 
-    def _identify_load_factors(
-        self, indicators: CognitiveIndicators, load_score: float
-    ) -> list[str]:
+    def _identify_load_factors(self, indicators: CognitiveIndicators, load_score: float) -> list[str]:
         """Identify primary factors contributing to cognitive load."""
         factors = []
 
@@ -505,9 +494,7 @@ class CognitiveLoadEstimator:
 
         return factors
 
-    def _calculate_confidence(
-        self, indicators: CognitiveIndicators, context: Optional[dict[str, Any]]
-    ) -> float:
+    def _calculate_confidence(self, indicators: CognitiveIndicators, context: Optional[dict[str, Any]]) -> float:
         """Calculate confidence in the cognitive load assessment."""
         confidence_factors = []
 
@@ -636,9 +623,7 @@ class CognitiveLoadEstimator:
                 "consistency_trend": len(self.performance_metrics["consistency"]),
             },
             "thresholds": self.personal_thresholds.copy(),
-            "adaptation_rules": {
-                level.value: rules for level, rules in self.adaptation_rules.items()
-            },
+            "adaptation_rules": {level.value: rules for level, rules in self.adaptation_rules.items()},
         }
 
 

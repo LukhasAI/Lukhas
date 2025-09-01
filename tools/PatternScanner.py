@@ -254,9 +254,7 @@ class FunctionScanner:
                 for pattern_type, patterns in self.function_patterns.items():
                     for pattern in patterns:
                         # Check function name and surrounding context
-                        if re.search(pattern, func_name, re.IGNORECASE) or re.search(
-                            pattern, context, re.IGNORECASE
-                        ):
+                        if re.search(pattern, func_name, re.IGNORECASE) or re.search(pattern, context, re.IGNORECASE):
                             self.matches[pattern_type].append(
                                 FunctionMatch(
                                     name=func_name,
@@ -313,9 +311,7 @@ class FunctionScanner:
         file_function_count = {}
         for matches in self.matches.values():
             for match in matches:
-                file_function_count[match.file_path] = (
-                    file_function_count.get(match.file_path, 0) + 1
-                )
+                file_function_count[match.file_path] = file_function_count.get(match.file_path, 0) + 1
 
         if file_function_count:
             print("\n📁 Top Files with Specialized Functions:")

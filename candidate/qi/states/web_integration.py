@@ -169,13 +169,9 @@ class QIWebSecurity:
 
         # Verify quantum signature if provided
         if qi_signature:
-            request_hash = hashlib.sha3_256(
-                json.dumps(request_data, sort_keys=True).encode()
-            ).digest()
+            request_hash = hashlib.sha3_256(json.dumps(request_data, sort_keys=True).encode()).digest()
 
-            expected_signature = self._generate_quantum_signature(
-                request_hash, session.qi_keypair["private_key"]
-            )
+            expected_signature = self._generate_quantum_signature(request_hash, session.qi_keypair["private_key"])
 
             if not hmac.compare_digest(qi_signature, expected_signature):
                 return False
@@ -201,9 +197,7 @@ class QIWebSecurity:
 
         # Serialize and encrypt data
         data_json = json.dumps(data, sort_keys=True)
-        encryption_key = hashlib.sha3_256(
-            session.qi_keypair["private_key"] + session.qi_nonce.encode()
-        ).digest()
+        encryption_key = hashlib.sha3_256(session.qi_keypair["private_key"] + session.qi_nonce.encode()).digest()
 
         # Simple encryption (production would use proper post-quantum encryption)
         encrypted = self._xor_encrypt(data_json.encode(), encryption_key)
@@ -219,9 +213,7 @@ class QIWebSecurity:
 
         # Decrypt data
         encrypted_bytes = base64.b64decode(encrypted_data)
-        encryption_key = hashlib.sha3_256(
-            session.qi_keypair["private_key"] + session.qi_nonce.encode()
-        ).digest()
+        encryption_key = hashlib.sha3_256(session.qi_keypair["private_key"] + session.qi_nonce.encode()).digest()
 
         decrypted = self._xor_encrypt(encrypted_bytes, encryption_key)
         return json.loads(decrypted.decode())
@@ -278,9 +270,7 @@ class QIWebAuthenticator:
         """Authenticate user with ΛiD quantum identity"""
 
         # Generate ΛiD# from emoji seed (simplified)
-        qi_hash = hashlib.sha3_256(
-            emoji_seed.encode() + (qi_challenge or b"") + (biometric_data or b"")
-        ).digest()
+        qi_hash = hashlib.sha3_256(emoji_seed.encode() + (qi_challenge or b"") + (biometric_data or b"")).digest()
 
         int.from_bytes(qi_hash[:2], "big")
         lambda_id = f"LUKHAS{emoji_seed}"
@@ -301,9 +291,7 @@ class QIWebAuthenticator:
 
         return auth_result
 
-    async def create_web_session(
-        self, lambda_id: str, request_info: dict[str, str]
-    ) -> dict[str, Any]:
+    async def create_web_session(self, lambda_id: str, request_info: dict[str, str]) -> dict[str, Any]:
         """Create quantum-secure web session after authentication"""
 
         session = await self.security.create_quantum_session(

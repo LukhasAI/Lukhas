@@ -129,9 +129,7 @@ class SymbolicDriftTracker:
             "drift_magnitude": drift_magnitude,
             "metadata": metadata,
             "timestamp": (
-                self._core_tracker.drift_records[-1]["timestamp"]
-                if self._core_tracker.drift_records
-                else None
+                self._core_tracker.drift_records[-1]["timestamp"] if self._core_tracker.drift_records else None
             ),
         }
         self.drift_records.append(drift_event)
@@ -180,9 +178,7 @@ class SymbolicDriftTracker:
 
     # Enterprise feature delegation methods
 
-    def calculate_symbolic_drift(
-        self, current_symbols: list, prior_symbols: list, context: dict
-    ) -> float:
+    def calculate_symbolic_drift(self, current_symbols: list, prior_symbols: list, context: dict) -> float:
         """Delegate to core enterprise drift calculation."""
         return self._core_tracker.calculate_symbolic_drift(current_symbols, prior_symbols, context)
 

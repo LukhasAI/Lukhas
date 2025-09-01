@@ -120,9 +120,7 @@ class EcosystemReinforcer:
                     with open(bridge_path, "w") as f:
                         f.write(bridge_content)
 
-                    self.bridges_created.append(
-                        {"location": str(bridge_path), "connects": [module1, module2]}
-                    )
+                    self.bridges_created.append({"location": str(bridge_path), "connects": [module1, module2]})
 
             print(f"  ✅ Created bridge: {module1} ↔ {module2}")
 

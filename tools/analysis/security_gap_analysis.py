@@ -103,9 +103,7 @@ class SecurityComplianceAnalyzer:
                 module_info["total_lines"] += file_info["lines"]
 
             except Exception as e:
-                module_info["files"].append(
-                    {"path": str(py_file.relative_to(self.root_path)), "error": str(e)}
-                )
+                module_info["files"].append({"path": str(py_file.relative_to(self.root_path)), "error": str(e)})
 
         return module_info
 
@@ -236,13 +234,7 @@ class SecurityComplianceAnalyzer:
             total_lines = data.get("total_lines", 0)
             security_score = data.get("security_keywords", 0)
 
-            status = (
-                "❌ CRITICAL"
-                if file_count < 3
-                else "⚠️ MINIMAL"
-                if file_count < 8
-                else "✅ ADEQUATE"
-            )
+            status = "❌ CRITICAL" if file_count < 3 else "⚠️ MINIMAL" if file_count < 8 else "✅ ADEQUATE"
 
             print(
                 f"   • {module.upper()}: {file_count} files, {func_count} functions, "
@@ -252,13 +244,7 @@ class SecurityComplianceAnalyzer:
         # Critical Gaps
         print("\n🚨 CRITICAL GAPS IDENTIFIED:")
         for gap in self.analysis["gaps"]:
-            severity_icon = (
-                "🔴"
-                if gap["severity"] == "CRITICAL"
-                else "🟠"
-                if gap["severity"] == "HIGH"
-                else "🟡"
-            )
+            severity_icon = "🔴" if gap["severity"] == "CRITICAL" else "🟠" if gap["severity"] == "HIGH" else "🟡"
             print(f"   {severity_icon} [{gap['severity']}] {gap['category']}: {gap['issue']}")
             print(f"      → {gap['details']}")
 
@@ -267,25 +253,19 @@ class SecurityComplianceAnalyzer:
 
         # Privacy recommendations
         if len(self.analysis["privacy"]["files"]) < 5:
-            print(
-                f"\n   🔒 PRIVACY MODULE (URGENT - Only {len(self.analysis['privacy']['files'])} files):"
-            )
+            print(f"\n   🔒 PRIVACY MODULE (URGENT - Only {len(self.analysis['privacy']['files'])} files):")
             for rec in self.analysis["recommendations"]["privacy"][:3]:
                 print(f"      • {rec}")
 
         # Security recommendations
         if len(self.analysis["security"]["files"]) < 10:
-            print(
-                f"\n   🛡️ SECURITY MODULE (CRITICAL - Only {len(self.analysis['security']['files'])} files):"
-            )
+            print(f"\n   🛡️ SECURITY MODULE (CRITICAL - Only {len(self.analysis['security']['files'])} files):")
             for rec in self.analysis["recommendations"]["security"][:4]:
                 print(f"      • {rec}")
 
         # Compliance recommendations
         if len(self.analysis["compliance"]["files"]) < 8:
-            print(
-                f"\n   📋 COMPLIANCE MODULE (HIGH - Only {len(self.analysis['compliance']['files'])} files):"
-            )
+            print(f"\n   📋 COMPLIANCE MODULE (HIGH - Only {len(self.analysis['compliance']['files'])} files):")
             for rec in self.analysis["recommendations"]["compliance"][:3]:
                 print(f"      • {rec}")
 

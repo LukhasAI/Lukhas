@@ -45,9 +45,7 @@ class CreativeCore:
 
         return inspiration
 
-    def synthesize_ideas(
-        self, idea_a: str, idea_b: str, fusion_strength: float = 0.8
-    ) -> dict[str, Any]:
+    def synthesize_ideas(self, idea_a: str, idea_b: str, fusion_strength: float = 0.8) -> dict[str, Any]:
         """Synthesize two ideas into a creative fusion."""
         if fusion_strength > self.innovation_threshold:
             synthesis = {
@@ -67,9 +65,7 @@ class CreativeCore:
 
             return synthesis
         else:
-            logger.info(
-                f"Fusion strength {fusion_strength:.2f} below innovation threshold {self.innovation_threshold}"
-            )
+            logger.info(f"Fusion strength {fusion_strength:.2f} below innovation threshold {self.innovation_threshold}")
             return {"error": "Insufficient fusion strength for creative synthesis"}
 
     def activate_creative_mode(self, mode: str = "flow") -> bool:
@@ -90,9 +86,7 @@ class CreativeCore:
             logger.warning(f"Unknown creative mode: {mode}")
             return False
 
-    def generate_novel_patterns(
-        self, input_data: list[Any], pattern_complexity: float = 0.7
-    ) -> dict[str, Any]:
+    def generate_novel_patterns(self, input_data: list[Any], pattern_complexity: float = 0.7) -> dict[str, Any]:
         """Generate novel creative patterns from input data."""
         pattern_analysis = {
             "input_size": len(input_data),
@@ -113,9 +107,9 @@ class CreativeCore:
             }
             pattern_analysis["patterns_found"].append(pattern)
 
-        pattern_analysis["novelty_score"] = sum(
-            p["novelty"] for p in pattern_analysis["patterns_found"]
-        ) / len(pattern_analysis["patterns_found"])
+        pattern_analysis["novelty_score"] = sum(p["novelty"] for p in pattern_analysis["patterns_found"]) / len(
+            pattern_analysis["patterns_found"]
+        )
 
         # Store successful patterns
         if pattern_analysis["novelty_score"] > 0.5:
@@ -127,9 +121,7 @@ class CreativeCore:
         )
         return pattern_analysis
 
-    def create_artistic_composition(
-        self, elements: list[str], style: str = "abstract"
-    ) -> dict[str, Any]:
+    def create_artistic_composition(self, elements: list[str], style: str = "abstract") -> dict[str, Any]:
         """Create artistic composition from given elements."""
         composition = {
             "elements": elements,
@@ -164,9 +156,7 @@ class CreativeCore:
         composition["artistic_techniques"] = techniques.get(style, ["experimental_approach"])
 
         # Calculate emotional resonance
-        composition["emotional_resonance"] = min(
-            1.0, composition["creativity_score"] * 0.8 + len(elements) * 0.05
-        )
+        composition["emotional_resonance"] = min(1.0, composition["creativity_score"] * 0.8 + len(elements) * 0.05)
 
         self.active_projects.append(composition)
         logger.info(
@@ -187,9 +177,7 @@ class CreativeCore:
             "most_novel_pattern": max(self.creative_patterns.items(), key=lambda x: x[1])
             if self.creative_patterns
             else None,
-            "recent_inspirations": list(self.inspiration_sources.keys())[-5:]
-            if self.inspiration_sources
-            else [],
+            "recent_inspirations": list(self.inspiration_sources.keys())[-5:] if self.inspiration_sources else [],
         }
 
 

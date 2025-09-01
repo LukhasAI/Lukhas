@@ -379,17 +379,13 @@ class EmbeddingStorage:
     def exists(self, memory_id: str) -> bool:
         """Check if embedding exists in storage"""
         with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.execute(
-                "SELECT 1 FROM embeddings WHERE memory_id = ? LIMIT 1", (memory_id,)
-            )
+            cursor = conn.execute("SELECT 1 FROM embeddings WHERE memory_id = ? LIMIT 1", (memory_id,))
             return cursor.fetchone() is not None
 
     def delete_embedding(self, memory_id: str) -> bool:
         """Delete embedding from storage"""
         with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.execute(
-                "SELECT file_path FROM embeddings WHERE memory_id = ?", (memory_id,)
-            )
+            cursor = conn.execute("SELECT file_path FROM embeddings WHERE memory_id = ?", (memory_id,))
             row = cursor.fetchone()
 
             if row:
@@ -412,9 +408,7 @@ class EmbeddingStorage:
     def get_storage_stats(self) -> dict[str, Any]:
         """Get storage statistics"""
         with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.execute(
-                "SELECT COUNT(*), AVG(dimension), SUM(access_count) FROM embeddings"
-            )
+            cursor = conn.execute("SELECT COUNT(*), AVG(dimension), SUM(access_count) FROM embeddings")
             count, avg_dim, total_accesses = cursor.fetchone()
 
             # Calculate total storage size

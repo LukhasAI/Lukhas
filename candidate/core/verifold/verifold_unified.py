@@ -201,9 +201,7 @@ class UnifiedVeriFoldSystem:
         )
 
         # Create collapse snapshot
-        snapshot = self._create_collapse_snapshot(
-            collapse_data, user_id, lambda_tier, collapse_type
-        )
+        snapshot = self._create_collapse_snapshot(collapse_data, user_id, lambda_tier, collapse_type)
 
         # Generate cryptographic hash
         verifold_hash = self._compute_verifold_hash(snapshot)
@@ -259,9 +257,7 @@ class UnifiedVeriFoldSystem:
 
         # Verify cryptographic signature if present
         if record.signature and record.public_key and PQ_AVAILABLE:
-            signature_valid = self._verify_signature(
-                record.verifold_hash, record.signature, record.public_key
-            )
+            signature_valid = self._verify_signature(record.verifold_hash, record.signature, record.public_key)
             if not signature_valid:
                 logger.warning(
                     "VeriFold signature invalid",
@@ -276,9 +272,7 @@ class UnifiedVeriFoldSystem:
         return True
 
     @require_identity(required_tier="LAMBDA_TIER_3", check_consent="collapse_monitoring")
-    async def monitor_collapse_cascade(
-        self, user_id: str, threshold: float = 0.8
-    ) -> dict[str, Any]:
+    async def monitor_collapse_cascade(self, user_id: str, threshold: float = 0.8) -> dict[str, Any]:
         """
         Monitor for collapse cascade events across the system.
 
@@ -300,9 +294,7 @@ class UnifiedVeriFoldSystem:
         active_collapses = len(self.active_collapses)
 
         # Analyze collapse patterns
-        recent_collapses = [
-            record for record in self.collapse_history[-10:] if record.snapshot.entropy_score > 0.6
-        ]
+        recent_collapses = [record for record in self.collapse_history[-10:] if record.snapshot.entropy_score > 0.6]
 
         # Check for tier-specific risks
         tier_risks = self._analyze_tier_risks(user_id)
@@ -334,9 +326,7 @@ class UnifiedVeriFoldSystem:
         return status
 
     @require_identity(required_tier="LAMBDA_TIER_4", check_consent="system_intervention")
-    async def trigger_collapse_intervention(
-        self, user_id: str, intervention_type: str = "moderate"
-    ) -> dict[str, Any]:
+    async def trigger_collapse_intervention(self, user_id: str, intervention_type: str = "moderate") -> dict[str, Any]:
         """
         Trigger intervention to prevent system-wide collapse.
 
@@ -460,9 +450,7 @@ class UnifiedVeriFoldSystem:
             logger.error("Failed to sign VeriFold hash", error=str(e))
             return "", ""
 
-    def _verify_signature(
-        self, verifold_hash: str, signature_hex: str, public_key_hex: str
-    ) -> bool:
+    def _verify_signature(self, verifold_hash: str, signature_hex: str, public_key_hex: str) -> bool:
         """Verify post-quantum signature."""
         if not PQ_AVAILABLE:
             return False
@@ -500,9 +488,7 @@ class UnifiedVeriFoldSystem:
         """Update system entropy based on new collapse."""
         # Weighted average of system entropy
         weight = 0.1  # New record weight
-        self.system_entropy = (
-            1 - weight
-        ) * self.system_entropy + weight * record.snapshot.entropy_score
+        self.system_entropy = (1 - weight) * self.system_entropy + weight * record.snapshot.entropy_score
 
         # Add to history
         self.collapse_history.append(record)
@@ -618,9 +604,7 @@ def get_global_verifold_system() -> UnifiedVeriFoldSystem:
 # Convenience functions for backward compatibility with CollapseHash
 
 
-def generate_verifold_hash(
-    collapse_data: dict[str, Any], user_id: str, lambda_tier: str
-) -> VeriFoldRecord:
+def generate_verifold_hash(collapse_data: dict[str, Any], user_id: str, lambda_tier: str) -> VeriFoldRecord:
     """
     Generate VeriFold hash (replaces generate_collapse_hash).
 

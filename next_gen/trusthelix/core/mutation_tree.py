@@ -215,9 +215,7 @@ class SymbolicMutationTree:
 
         self.active_paths[user_id] = node
 
-        logger.info(
-            f"🔄 Action tracked: {action} → drift: {self.current_drift:.3f} ({drift_delta:+.3f})"
-        )
+        logger.info(f"🔄 Action tracked: {action} → drift: {self.current_drift:.3f} ({drift_delta:+.3f})")
         logger.info(f"🎭 Glyphs mutated: {' '.join(glyphs)} → {' '.join(mutated_glyphs)}")
 
         return mutated_glyphs, self.current_drift

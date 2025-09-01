@@ -581,18 +581,14 @@ async def dashboard():
 @app.post("/api/register")
 async def register(request: LoginRequest):
     """Register user with ΛID"""
-    result = identity_service.register_user(
-        email=request.email, display_name=request.display_name or request.email
-    )
+    result = identity_service.register_user(email=request.email, display_name=request.display_name or request.email)
     return result
 
 
 @app.post("/api/authenticate")
 async def authenticate(request: PasskeyAuthRequest):
     """Authenticate with passkey"""
-    result = identity_service.authenticate(
-        lid=request.lid, method="passkey", credential=request.credential
-    )
+    result = identity_service.authenticate(lid=request.lid, method="passkey", credential=request.credential)
 
     if result["success"]:
         # Create session (in production: use secure session management)

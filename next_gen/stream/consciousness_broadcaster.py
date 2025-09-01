@@ -132,10 +132,7 @@ class ConsciousnessBroadcaster:
 
             # Check GDPR consent
             gdpr = data.get("gdpr_consent", {})
-            if (
-                gdpr.get("streaming_authorized")
-                and datetime.fromisoformat(gdpr["expires"]) > datetime.utcnow()
-            ):
+            if gdpr.get("streaming_authorized") and datetime.fromisoformat(gdpr["expires"]) > datetime.utcnow():
                 self.gdpr_consent["global"] = gdpr
         else:
             # Generate simulated state
@@ -148,9 +145,7 @@ class ConsciousnessBroadcaster:
         # Use previous state or random
         if self.current_state:
             # Transition from current state
-            possible_states = self.TRANSITIONS.get(
-                self.current_state.current_state, list(self.STATES.keys())
-            )
+            possible_states = self.TRANSITIONS.get(self.current_state.current_state, list(self.STATES.keys()))
             new_state = random.choice(possible_states)
             previous = self.current_state.current_state
             transition_ms = random.randint(1000, 5000)

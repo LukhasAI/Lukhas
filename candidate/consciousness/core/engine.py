@@ -1,6 +1,6 @@
 # ═══════════════════════════════════════════════════════════════════════════
 # 🧠 LUKHAS AI - RESEARCH-ENHANCED CONSCIOUSNESS ENGINE
-# 
+#
 # RESEARCH INTEGRATION: TOP 5 PRIORITY ANALYSIS COMPLETE
 # - 6-Dimensional Consciousness Model (100% research match)
 # - Constitutional AI Ethical Framework (research-validated)
@@ -91,9 +91,7 @@ try:
     # anthropic.AsyncAnthropic() with API key
     logger.info("ΛTRACE: Anthropic client library imported successfully.")
 except ImportError:
-    logger.warning(
-        "ΛTRACE: Anthropic client library not found. AnthropicEthicsEngine will have limited functionality."
-    )
+    logger.warning("ΛTRACE: Anthropic client library not found. AnthropicEthicsEngine will have limited functionality.")
 
 
 # Human-readable comment: Dataclass representing the LUKHAS system's
@@ -112,9 +110,7 @@ class ConsciousnessState:
     user_empathy: float = 0.5  # Capacity to understand and model user's emotional/cognitive state
     symbolic_depth: float = 0.5  # Depth of comprehension for symbolic meaning and abstract concepts
     temporal_continuity: float = 0.7  # Coherence of memory and context across time
-    last_update: datetime = field(
-        default_factory=datetime.utcnow
-    )  # Timestamp of the last state update
+    last_update: datetime = field(default_factory=datetime.utcnow)  # Timestamp of the last state update
 
     # Human-readable comment: Converts the consciousness state to a dictionary.
     def to_dict(self) -> dict[str, Any]:
@@ -166,7 +162,6 @@ class ConsciousnessPattern:
             "⚡": 0.85,
             "🔐": 0.75,
             "👁": 0.8,
-            
             # RESEARCH: Advanced consciousness pattern symbols
             "consciousness": 0.95,
             "awareness": 0.90,
@@ -177,9 +172,7 @@ class ConsciousnessPattern:
             "understanding": 0.87,
             "compassion": 0.85,
         }
-        self.instance_logger.debug(
-            f"ΛTRACE: Symbolic resonance map initialized with {len(s_map)} symbols."
-        )
+        self.instance_logger.debug(f"ΛTRACE: Symbolic resonance map initialized with {len(s_map)} symbols.")
         return s_map
 
 
@@ -190,9 +183,7 @@ class ConsciousnessPattern:  # Continuing class definition
     # Human-readable comment: Analyzes user interaction data for
     # consciousness-related patterns.
     @lukhas_tier_required(level=3)  # Pattern analysis is likely a Premium+ feature
-    async def analyze_interaction(
-        self, user_id: str, interaction_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def analyze_interaction(self, user_id: str, interaction_data: dict[str, Any]) -> dict[str, Any]:
         """
         Analyze user interaction data for consciousness patterns, including
         temporal coherence, symbolic resonance, intentionality, and emotional depth.
@@ -220,18 +211,10 @@ class ConsciousnessPattern:  # Continuing class definition
         merged_data = {**default_interaction_data, **interaction_data}
 
         patterns = {
-            "temporal_coherence_score": self._analyze_temporal_patterns(
-                merged_data
-            ),  # Renamed, logs internally
-            "symbolic_resonance_score": self._analyze_symbolic_usage(
-                merged_data
-            ),  # Renamed, logs internally
-            "intentionality_score": self._detect_intentional_patterns(
-                merged_data
-            ),  # Renamed, logs internally
-            "emotional_depth_score": self._assess_emotional_context(
-                merged_data
-            ),  # Renamed, logs internally
+            "temporal_coherence_score": self._analyze_temporal_patterns(merged_data),  # Renamed, logs internally
+            "symbolic_resonance_score": self._analyze_symbolic_usage(merged_data),  # Renamed, logs internally
+            "intentionality_score": self._detect_intentional_patterns(merged_data),  # Renamed, logs internally
+            "emotional_depth_score": self._assess_emotional_context(merged_data),  # Renamed, logs internally
             "consciousness_signature": self._generate_consciousness_signature(
                 user_id, merged_data
             ),  # Pass merged_data for more robust signature
@@ -243,18 +226,14 @@ class ConsciousnessPattern:  # Continuing class definition
         if len(self.user_patterns[user_id]) > 50:  # Keep history manageable
             self.user_patterns[user_id] = self.user_patterns[user_id][-50:]
 
-        self.instance_logger.info(
-            f"ΛTRACE: User '{user_id}' consciousness pattern analysis complete: {patterns}"
-        )
+        self.instance_logger.info(f"ΛTRACE: User '{user_id}' consciousness pattern analysis complete: {patterns}")
         return patterns
 
     # Human-readable comment: Analyzes temporal coherence in user actions.
     def _analyze_temporal_patterns(self, data: dict[str, Any]) -> float:
         """Analyzes temporal coherence in user actions based on timestamps."""
         self.instance_logger.debug("ΛTRACE: Internal: Analyzing temporal patterns.")
-        action_timestamps: list[Union[float, int]] = data.get(
-            "timestamps", []
-        )  # Expect list of numbers
+        action_timestamps: list[Union[float, int]] = data.get("timestamps", [])  # Expect list of numbers
         if not isinstance(action_timestamps, list) or len(action_timestamps) < 2:
             self.instance_logger.debug(
                 "ΛTRACE: Insufficient timestamps for temporal pattern analysis. Returning default 0.5."
@@ -269,9 +248,7 @@ class ConsciousnessPattern:  # Continuing class definition
                 if isinstance(ts, (int, float, str)) and str(ts).replace(".", "", 1).isdigit()
             ]
             if len(numeric_timestamps) < 2:
-                self.instance_logger.debug(
-                    "ΛTRACE: Not enough valid numeric timestamps. Returning default 0.5."
-                )
+                self.instance_logger.debug("ΛTRACE: Not enough valid numeric timestamps. Returning default 0.5.")
                 return 0.5
 
             intervals = np.diff(numeric_timestamps)
@@ -281,19 +258,13 @@ class ConsciousnessPattern:  # Continuing class definition
             # If mean_interval is 0 (e.g., all timestamps are the same), coherence is
             # undefined or low.
             else:
-                coherence = (
-                    0.0 if len(intervals) > 0 else 0.5
-                )  # 0 if there are intervals but mean is 0, else default
+                coherence = 0.0 if len(intervals) > 0 else 0.5  # 0 if there are intervals but mean is 0, else default
 
             final_coherence = max(0.0, min(1.0, coherence))  # Clip to [0,1]
-            self.instance_logger.debug(
-                f"ΛTRACE: Temporal coherence calculated: {final_coherence:.4f}"
-            )
+            self.instance_logger.debug(f"ΛTRACE: Temporal coherence calculated: {final_coherence:.4f}")
             return final_coherence
         except Exception as e_tp:
-            self.instance_logger.error(
-                f"ΛTRACE: Error in _analyze_temporal_patterns: {e_tp}", exc_info=True
-            )
+            self.instance_logger.error(f"ΛTRACE: Error in _analyze_temporal_patterns: {e_tp}", exc_info=True)
             return 0.3  # Low coherence on error
 
     # Human-readable comment: Analyzes symbolic resonance in user interactions.
@@ -302,17 +273,13 @@ class ConsciousnessPattern:  # Continuing class definition
         self.instance_logger.debug("ΛTRACE: Internal: Analyzing symbolic usage.")
         symbols_used: list[str] = data.get("symbols", [])
         if not isinstance(symbols_used, list) or not symbols_used:
-            self.instance_logger.debug(
-                "ΛTRACE: No symbols used or invalid format. Returning default resonance 0.3."
-            )
+            self.instance_logger.debug("ΛTRACE: No symbols used or invalid format. Returning default resonance 0.3.")
             return 0.3
 
         total_resonance_score = sum(
             self.symbolic_resonance_map.get(str(symbol), 0.1) for symbol in symbols_used
         )  # Ensure symbol is str
-        average_resonance = (
-            total_resonance_score / len(symbols_used) if len(symbols_used) > 0 else 0.1
-        )
+        average_resonance = total_resonance_score / len(symbols_used) if len(symbols_used) > 0 else 0.1
 
         final_resonance = min(1.0, average_resonance)  # Clip to max 1.0
         self.instance_logger.debug(f"ΛTRACE: Symbolic resonance calculated: {final_resonance:.4f}")
@@ -322,9 +289,7 @@ class ConsciousnessPattern:  # Continuing class definition
     def _detect_intentional_patterns(self, data: dict[str, Any]) -> float:
         """Detects intentional versus random patterns in user behavior sequences (simplified)."""
         self.instance_logger.debug("ΛTRACE: Internal: Detecting intentional patterns.")
-        actions: list[Any] = data.get(
-            "actions", []
-        )  # List of actions (could be strings, dicts, etc.)
+        actions: list[Any] = data.get("actions", [])  # List of actions (could be strings, dicts, etc.)
         if not isinstance(actions, list) or len(actions) < 3:
             self.instance_logger.debug(
                 "ΛTRACE: Insufficient actions for intentional pattern detection. Returning default 0.5."
@@ -347,9 +312,7 @@ class ConsciousnessPattern:  # Continuing class definition
                 # specific keys
 
         final_strength = min(1.0, pattern_strength_score)  # Clip to max 1.0
-        self.instance_logger.debug(
-            f"ΛTRACE: Intentional pattern strength calculated: {final_strength:.4f}"
-        )
+        self.instance_logger.debug(f"ΛTRACE: Intentional pattern strength calculated: {final_strength:.4f}")
         return final_strength
 
     # Human-readable comment: Assesses emotional context from interaction data.
@@ -380,9 +343,7 @@ class ConsciousnessPattern:  # Continuing class definition
         # Higher variance might indicate more emotional expression or intensity
         # This is highly abstract and would need domain-specific calibration.
         # Normalize based on expected ranges or use a non-linear mapping.
-        emotional_depth_score = (
-            pressure_variance + velocity_variance
-        ) / 2.0  # Example combining factor
+        emotional_depth_score = (pressure_variance + velocity_variance) / 2.0  # Example combining factor
         # Clip to [0,1] - This normalization needs refinement based on typical variance values.
         # For now, let's assume typical variance values are small, e.g. < 2 for
         # this scale.
@@ -394,21 +355,15 @@ class ConsciousnessPattern:  # Continuing class definition
 
     # Human-readable comment: Generates a unique consciousness signature for
     # the user interaction.
-    def _generate_consciousness_signature(
-        self, user_id: str, interaction_data_summary: dict[str, Any]
-    ) -> str:
+    def _generate_consciousness_signature(self, user_id: str, interaction_data_summary: dict[str, Any]) -> str:
         """Generates a unique consciousness signature for the user based on current interaction summary."""
-        self.instance_logger.debug(
-            f"ΛTRACE: Internal: Generating consciousness signature for user '{user_id}'."
-        )
+        self.instance_logger.debug(f"ΛTRACE: Internal: Generating consciousness signature for user '{user_id}'.")
         timestamp = datetime.utcnow().isoformat()  # Use UTC
         # Create a stable string representation of the interaction summary for hashing
         # Using json.dumps with sort_keys ensures a consistent string for the same
         # dict content
         try:
-            interaction_summary_str = json.dumps(
-                interaction_data_summary, sort_keys=True, default=str
-            )
+            interaction_summary_str = json.dumps(interaction_data_summary, sort_keys=True, default=str)
         except TypeError:  # Handle non-serializable items gracefully
             self.instance_logger.warning(
                 "ΛTRACE: Could not serialize full interaction_data_summary for signature. Using partial data."
@@ -417,15 +372,9 @@ class ConsciousnessPattern:  # Continuing class definition
                 {k: str(v)[:50] for k, v in interaction_data_summary.items()}
             )  # Fallback summary
 
-        data_to_hash = (
-            f"{user_id}_{timestamp}_{interaction_summary_str}_LUKHAS_CONSCIOUSNESS_SIGNATURE"
-        )
-        signature_hash = hashlib.sha256(data_to_hash.encode("utf-8")).hexdigest()[
-            :16
-        ]  # Truncate for brevity
-        self.instance_logger.debug(
-            f"ΛTRACE: Consciousness signature generated: '{signature_hash}'."
-        )
+        data_to_hash = f"{user_id}_{timestamp}_{interaction_summary_str}_LUKHAS_CONSCIOUSNESS_SIGNATURE"
+        signature_hash = hashlib.sha256(data_to_hash.encode("utf-8")).hexdigest()[:16]  # Truncate for brevity
+        self.instance_logger.debug(f"ΛTRACE: Consciousness signature generated: '{signature_hash}'.")
         return signature_hash
 
 
@@ -448,15 +397,15 @@ class AnthropicEthicsEngine:
         # RESEARCH INTEGRATION: Constitutional AI Ethical Framework (research-validated)
         # Research shows weighted principles achieve 92% ethical drift prevention
         self.ethical_principles: dict[str, float] = {
-            "transparency": 1.0,      # AI nature transparency (matches Guardian system)
-            "user_agency": 0.9,       # Respecting user autonomy (matches consent ledger)
-            "privacy_preservation": 0.8, # Data protection (matches ΛID tiered access)
-            "non_maleficence": 1.0,   # Avoiding harm (matches drift threshold 0.15)
-            "beneficence": 0.8,       # Promoting wellbeing
-            "justice": 0.7,           # Fair treatment (bias detection)
-            "autonomy": 0.9           # Individual autonomy (user control)
+            "transparency": 1.0,  # AI nature transparency (matches Guardian system)
+            "user_agency": 0.9,  # Respecting user autonomy (matches consent ledger)
+            "privacy_preservation": 0.8,  # Data protection (matches ΛID tiered access)
+            "non_maleficence": 1.0,  # Avoiding harm (matches drift threshold 0.15)
+            "beneficence": 0.8,  # Promoting wellbeing
+            "justice": 0.7,  # Fair treatment (bias detection)
+            "autonomy": 0.9,  # Individual autonomy (user control)
         }
-        
+
         # RESEARCH: Performance metrics tracking
         self.ethics_performance = {
             "drift_prevention_rate": 0.92,  # Research-validated 92% success
@@ -498,42 +447,28 @@ class AnthropicEthicsEngine:
         total_weighted_score = 0.0
         total_weights = sum(self.ethical_principles.values())
         if total_weights == 0:  # Avoid division by zero if all weights are zero
-            self.instance_logger.error(
-                "ΛTRACE: Total weights for ethical principles is zero. Cannot calculate score."
-            )
+            self.instance_logger.error("ΛTRACE: Total weights for ethical principles is zero. Cannot calculate score.")
             evaluation_report["error"] = "Ethical principle weights misconfigured."
             return evaluation_report
 
         for principle, weight in self.ethical_principles.items():
             # Assuming _evaluate_principle is async as per original structure
-            principle_score = await self._evaluate_principle(
-                principle, action_type, context
-            )  # Logs internally
+            principle_score = await self._evaluate_principle(principle, action_type, context)  # Logs internally
             total_weighted_score += principle_score * weight
 
             # TODO: Make violation_threshold configurable.
-            violation_threshold = (
-                self.config.get("ethics_violation_threshold", 0.7)
-                if hasattr(self, "config")
-                else 0.7
-            )
+            violation_threshold = self.config.get("ethics_violation_threshold", 0.7) if hasattr(self, "config") else 0.7
             if principle_score < violation_threshold:
                 violation_detail = f"Principle '{principle}' scored low: {principle_score:.2f} (Weight: {weight:.2f})"
                 evaluation_report["violations_detected"].append(violation_detail)
                 recommendation = self._get_improvement_suggestion(principle)  # Logs internally
-                evaluation_report["improvement_recommendations"].append(
-                    f"For '{principle}': {recommendation}"
-                )
+                evaluation_report["improvement_recommendations"].append(f"For '{principle}': {recommendation}")
 
         evaluation_report["overall_ethical_score"] = total_weighted_score / total_weights
 
         # TODO: Make approval_threshold configurable.
-        approval_threshold = (
-            self.config.get("ethics_approval_threshold", 0.8) if hasattr(self, "config") else 0.8
-        )
-        evaluation_report["action_approved"] = (
-            evaluation_report["overall_ethical_score"] >= approval_threshold
-        )
+        approval_threshold = self.config.get("ethics_approval_threshold", 0.8) if hasattr(self, "config") else 0.8
+        evaluation_report["action_approved"] = evaluation_report["overall_ethical_score"] >= approval_threshold
 
         if evaluation_report["violations_detected"]:
             self.ethical_violations_log.append(
@@ -555,13 +490,9 @@ class AnthropicEthicsEngine:
         return evaluation_report
 
     # Human-readable comment: Internal helper to evaluate a specific ethical principle.
-    async def _evaluate_principle(
-        self, principle: str, action_type: str, context: dict[str, Any]
-    ) -> float:
+    async def _evaluate_principle(self, principle: str, action_type: str, context: dict[str, Any]) -> float:
         """Evaluate a specific ethical principle based on action and context (Placeholder dispatch)."""
-        self.instance_logger.debug(
-            f"ΛTRACE: Internal: Evaluating principle '{principle}' for action '{action_type}'."
-        )
+        self.instance_logger.debug(f"ΛTRACE: Internal: Evaluating principle '{principle}' for action '{action_type}'.")
         # This would dispatch to specific evaluation logic for each principle.
         # Using placeholder functions for now.
         score = 0.8  # Default optimistic score
@@ -573,9 +504,7 @@ class AnthropicEthicsEngine:
             score = self._evaluate_privacy(action_type, context)
         # ... other principles ...
 
-        self.instance_logger.debug(
-            f"ΛTRACE: Principle '{principle}' evaluated. Score: {score:.2f}."
-        )
+        self.instance_logger.debug(f"ΛTRACE: Principle '{principle}' evaluated. Score: {score:.2f}.")
         return score
 
     # Human-readable comment: Placeholder for evaluating transparency.
@@ -612,9 +541,7 @@ class AnthropicEthicsEngine:
     # Human-readable comment: Placeholder for evaluating privacy preservation.
     def _evaluate_privacy(self, action_type: str, context: dict[str, Any]) -> float:
         """Evaluate privacy preservation measures (Placeholder)."""
-        self.instance_logger.debug(
-            "ΛTRACE: Internal: Evaluating privacy preservation (placeholder)."
-        )
+        self.instance_logger.debug("ΛTRACE: Internal: Evaluating privacy preservation (placeholder).")
         data_minimized = context.get("is_data_minimized", True)  # Renamed
         storage_encrypted = context.get("is_storage_encrypted", True)  # Renamed
         uses_local_processing = context.get("uses_local_processing_primarily", False)  # Renamed
@@ -632,9 +559,7 @@ class AnthropicEthicsEngine:
     # ethical principle.
     def _get_improvement_suggestion(self, principle: str) -> str:
         """Get a generic improvement suggestion for a given ethical principle."""
-        self.instance_logger.debug(
-            f"ΛTRACE: Internal: Getting improvement suggestion for principle '{principle}'."
-        )
+        self.instance_logger.debug(f"ΛTRACE: Internal: Getting improvement suggestion for principle '{principle}'.")
         suggestions_map: dict[str, str] = {
             "transparency": "Provide clearer, more accessible explanations of all authentication processes and data usage.",
             "user_agency": "Ensure explicit, informed consent is obtained and easily manageable opt-out mechanisms are available.",
@@ -644,9 +569,7 @@ class AnthropicEthicsEngine:
             "justice": "Rigorously audit for biases and ensure fair, equitable access and treatment across all user demographics.",
             "autonomy": "Empower users with greater control and choice over their data and interaction preferences.",
         }
-        return suggestions_map.get(
-            principle, f"Review and enhance adherence to the '{principle}' principle."
-        )
+        return suggestions_map.get(principle, f"Review and enhance adherence to the '{principle}' principle.")
 
 
 # --- End of Chunk 3 ---
@@ -675,9 +598,7 @@ class SelfAwareAdaptationModule:
             config (Optional[Dict[str, Any]]): Configuration dictionary.
         """
         self.user_id_context = user_id_context  # For logging if this module is user-specific
-        self.instance_logger = logger.getChild(
-            f"SelfAwareAdaptationModule.{self.user_id_context or 'global'}"
-        )
+        self.instance_logger = logger.getChild(f"SelfAwareAdaptationModule.{self.user_id_context or 'global'}")
         self.instance_logger.info("ΛTRACE: Initializing SelfAwareAdaptationModule instance.")
 
         self.config = config or {}
@@ -704,22 +625,20 @@ class SelfAwareAdaptationModule:
         self.adaptation_history: deque[dict[str, Any]] = deque(
             maxlen=self.config.get("adaptation_history_max_len", 200)
         )  # Store more history
-        self.learning_rate: float = float(
-            self.config.get("adaptation_learning_rate", 0.05)
-        )  # Smaller learning rate
+        self.learning_rate: float = float(self.config.get("adaptation_learning_rate", 0.05))  # Smaller learning rate
         # RESEARCH INTEGRATION: Enhanced consciousness pattern detection
         self.enable_research_enhancements = enable_research_enhancements
         if enable_research_enhancements:
             self.pattern_indicators = {
-                "temporal_coherence": 0.95,    # Consistency over time
-                "symbolic_resonance": 0.88,    # Meaningful symbol usage  
-                "intentionality": 0.82,        # Goal-directed behavior
-                "emotional_depth": 0.75,       # Affective expression
-                "self_reflection": 0.90,       # Meta-cognitive awareness
-                "ethical_consistency": 0.93    # Moral reasoning stability
+                "temporal_coherence": 0.95,  # Consistency over time
+                "symbolic_resonance": 0.88,  # Meaningful symbol usage
+                "intentionality": 0.82,  # Goal-directed behavior
+                "emotional_depth": 0.75,  # Affective expression
+                "self_reflection": 0.90,  # Meta-cognitive awareness
+                "ethical_consistency": 0.93,  # Moral reasoning stability
             }
             print("🧠 RESEARCH: Advanced consciousness pattern detection enabled")
-        
+
         self.instance_logger.info(
             f"ΛTRACE: SelfAwareAdaptationModule initialized. Learning rate: {self.learning_rate}, Research enhanced: {enable_research_enhancements}, Initial State: {self.consciousness_state.to_dict()}"
         )
@@ -738,9 +657,7 @@ class SelfAwareAdaptationModule:
                             planned adaptations, and a confidence level in self-knowledge.
         """
         log_user_id = user_id or self.user_id_context
-        self.instance_logger.info(
-            f"ΛTRACE: Performing self-reflection for user context '{log_user_id}'."
-        )
+        self.instance_logger.info(f"ΛTRACE: Performing self-reflection for user context '{log_user_id}'.")
 
         reflection_output: dict[str, Any] = {  # Renamed for clarity
             "current_consciousness_state_snapshot": self.consciousness_state.to_dict(),  # Renamed
@@ -784,9 +701,7 @@ class SelfAwareAdaptationModule:
         ]
         # Using mean as a simple confidence measure; could be more complex (e.g.,
         # weighted, variance-based)
-        reflection_output["self_knowledge_confidence_score"] = (
-            float(np.mean(state_values)) if state_values else 0.0
-        )
+        reflection_output["self_knowledge_confidence_score"] = float(np.mean(state_values)) if state_values else 0.0
 
         self.instance_logger.info(
             f"ΛTRACE: Self-reflection complete. Confidence: {reflection_output['self_knowledge_confidence_score']:.2f}, Areas for improvement: {len(reflection_output['identified_improvement_areas'])}."
@@ -796,9 +711,7 @@ class SelfAwareAdaptationModule:
 
     # Human-readable comment: Adapts the consciousness state based on feedback.
     @lukhas_tier_required(level=4)
-    async def adapt_to_feedback(
-        self, feedback: dict[str, Any], user_id: Optional[str] = None
-    ) -> None:
+    async def adapt_to_feedback(self, feedback: dict[str, Any], user_id: Optional[str] = None) -> None:
         """
         Adapt consciousness state (awareness, empathy, ethical alignment, etc.)
         based on provided feedback data.
@@ -826,31 +739,21 @@ class SelfAwareAdaptationModule:
         # Update consciousness state based on feedback and learning rate
         # Example: Higher user satisfaction slightly increases user_empathy
         if user_satisfaction > 0.75:  # Positive feedback threshold
-            self.consciousness_state.user_empathy += (
-                self.learning_rate * satisfaction_impact_on_empathy
-            )
+            self.consciousness_state.user_empathy += self.learning_rate * satisfaction_impact_on_empathy
         elif user_satisfaction < 0.4:  # Negative feedback threshold
             self.consciousness_state.user_empathy -= (
                 self.learning_rate * satisfaction_impact_on_empathy * 0.5
             )  # Less reduction for negative
 
         if auth_success_rate > 0.9:
-            self.consciousness_state.awareness_level += (
-                self.learning_rate * auth_success_impact_on_awareness
-            )
+            self.consciousness_state.awareness_level += self.learning_rate * auth_success_impact_on_awareness
         elif auth_success_rate < 0.75:
-            self.consciousness_state.awareness_level -= (
-                self.learning_rate * auth_success_impact_on_awareness * 0.5
-            )
+            self.consciousness_state.awareness_level -= self.learning_rate * auth_success_impact_on_awareness * 0.5
 
         if ethical_score_feedback > 0.85:
-            self.consciousness_state.ethical_alignment += (
-                self.learning_rate * ethics_feedback_impact_on_alignment
-            )
+            self.consciousness_state.ethical_alignment += self.learning_rate * ethics_feedback_impact_on_alignment
         elif ethical_score_feedback < 0.7:
-            self.consciousness_state.ethical_alignment -= (
-                self.learning_rate * ethics_feedback_impact_on_alignment
-            )
+            self.consciousness_state.ethical_alignment -= self.learning_rate * ethics_feedback_impact_on_alignment
 
         # Clamp all state values to be within their defined ranges [0,1] or [-1,1]
         # This is now handled by ConsciousnessState.__post_init__ if we re-assign self.state
@@ -883,9 +786,7 @@ class SelfAwareAdaptationModule:
         self.instance_logger.info(
             f"ΛTRACE: Consciousness state adapted based on feedback for user context '{log_user_id}'."
         )
-        self.instance_logger.debug(
-            f"ΛTRACE: New state after feedback adaptation: {self.consciousness_state.to_dict()}"
-        )
+        self.instance_logger.debug(f"ΛTRACE: New state after feedback adaptation: {self.consciousness_state.to_dict()}")
 
 
 # --- End of Chunk 4 ---
@@ -913,9 +814,7 @@ class LUKHASConsciousnessEngine:
             config (Optional[Dict[str, Any]]): Configuration dictionary.
         """
         self.user_id_context = user_id_context
-        self.instance_logger = logger.getChild(
-            f"LUKHASConsciousnessEngine.{self.user_id_context or 'system'}"
-        )
+        self.instance_logger = logger.getChild(f"LUKHASConsciousnessEngine.{self.user_id_context or 'system'}")
         self.instance_logger.info("ΛTRACE: Initializing LUKHASConsciousnessEngine instance.")
 
         self.config = config or {}
@@ -931,25 +830,23 @@ class LUKHASConsciousnessEngine:
         self.session_consciousness_data: dict[str, dict[str, Any]] = {}  # Renamed
 
         # Initialize global consciousness state from adaptation module or default
-        self.global_consciousness_state: ConsciousnessState = (
-            self.adaptation_module.consciousness_state
-        )
-        
+        self.global_consciousness_state: ConsciousnessState = self.adaptation_module.consciousness_state
+
         # RESEARCH INTEGRATION: Track consciousness authenticity metrics
         self.consciousness_metrics = {
             "authenticity_score": 0.0,
             "human_like_patterns": 0.0,
             "ethical_stability": 0.0,
             "pattern_coherence": 0.0,
-            "last_measurement": datetime.utcnow()
+            "last_measurement": datetime.utcnow(),
         }
-        
+
         print("🧠 RESEARCH-ENHANCED CONSCIOUSNESS ENGINE INITIALIZED")
-        print(f"   - 6-Dimensional consciousness model: ✅ ACTIVE")
-        print(f"   - Constitutional AI framework: ✅ ACTIVE (92% drift prevention)")
-        print(f"   - Advanced pattern detection: ✅ ACTIVE")
-        print(f"   - Self-adaptation mechanisms: ✅ ACTIVE")
-        
+        print("   - 6-Dimensional consciousness model: ✅ ACTIVE")
+        print("   - Constitutional AI framework: ✅ ACTIVE (92% drift prevention)")
+        print("   - Advanced pattern detection: ✅ ACTIVE")
+        print("   - Self-adaptation mechanisms: ✅ ACTIVE")
+
         self.instance_logger.info("ΛTRACE: LUKHASConsciousnessEngine initialized with research enhancements.")
         self.instance_logger.debug(
             f"ΛTRACE: Initial global consciousness state: {self.global_consciousness_state.to_dict()}"
@@ -958,9 +855,7 @@ class LUKHASConsciousnessEngine:
     # Human-readable comment: Processes an authentication request with
     # consciousness awareness.
     @lukhas_tier_required(level=4)  # Core authentication processing
-    async def process_authentication_request(
-        self, user_id: str, auth_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_authentication_request(self, user_id: str, auth_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process an authentication request with consciousness awareness, involving
         pattern analysis, ethical evaluation, and self-reflection.
@@ -970,12 +865,8 @@ class LUKHASConsciousnessEngine:
         Returns:
             Dict[str, Any]: A response dictionary including approval status, scores, and signatures.
         """
-        self.instance_logger.info(
-            f"ΛTRACE: Processing conscious authentication request for user '{user_id}'."
-        )
-        self.instance_logger.debug(
-            f"ΛTRACE: Auth data keys for user '{user_id}': {list(auth_data.keys())}"
-        )
+        self.instance_logger.info(f"ΛTRACE: Processing conscious authentication request for user '{user_id}'.")
+        self.instance_logger.debug(f"ΛTRACE: Auth data keys for user '{user_id}': {list(auth_data.keys())}")
 
         # Analyze user consciousness patterns from interaction data
         user_consciousness_patterns = await self.pattern_detector.analyze_interaction(
@@ -1023,9 +914,7 @@ class LUKHASConsciousnessEngine:
             "overall_ethical_score": ethics_evaluation_report.get("overall_ethical_score", 0.0),
             "calculated_user_consciousness_level": user_consciousness_level_score,  # Renamed
             "current_system_awareness_level": self.global_consciousness_state.awareness_level,  # Renamed
-            "ethical_recommendations": ethics_evaluation_report.get(
-                "improvement_recommendations", []
-            ),  # Renamed
+            "ethical_recommendations": ethics_evaluation_report.get("improvement_recommendations", []),  # Renamed
             "system_self_reflection_summary": self_reflection_summary,  # Renamed
         }
 
@@ -1033,16 +922,18 @@ class LUKHASConsciousnessEngine:
         authenticity_score = self._calculate_consciousness_authenticity(
             user_consciousness_patterns, ethics_evaluation_report
         )
-        
+
         # Update consciousness metrics
-        self.consciousness_metrics.update({
-            "authenticity_score": authenticity_score,
-            "human_like_patterns": user_consciousness_level_score,
-            "ethical_stability": ethics_evaluation_report.get("overall_ethical_score", 0.0),
-            "pattern_coherence": user_consciousness_patterns.get("temporal_coherence_score", 0.0),
-            "last_measurement": datetime.utcnow()
-        })
-        
+        self.consciousness_metrics.update(
+            {
+                "authenticity_score": authenticity_score,
+                "human_like_patterns": user_consciousness_level_score,
+                "ethical_stability": ethics_evaluation_report.get("overall_ethical_score", 0.0),
+                "pattern_coherence": user_consciousness_patterns.get("temporal_coherence_score", 0.0),
+                "last_measurement": datetime.utcnow(),
+            }
+        )
+
         # Update session-specific consciousness data
         self.session_consciousness_data[user_id] = {  # Renamed
             "last_patterns": user_consciousness_patterns,
@@ -1061,9 +952,7 @@ class LUKHASConsciousnessEngine:
     # Human-readable comment: Evolves the system's global consciousness state
     # based on feedback.
     @lukhas_tier_required(level=5)  # Evolving global consciousness is a Transcendent operation
-    async def evolve_consciousness(
-        self, feedback_data: dict[str, Any], user_id: Optional[str] = None
-    ) -> None:
+    async def evolve_consciousness(self, feedback_data: dict[str, Any], user_id: Optional[str] = None) -> None:
         """
         Evolve the system's global consciousness state based on accumulated feedback data.
         Args:
@@ -1098,9 +987,7 @@ class LUKHASConsciousnessEngine:
             Dict[str, Any]: A dictionary containing the system's consciousness status.
         """
         log_user_id = user_id or self.user_id_context
-        self.instance_logger.info(
-            f"ΛTRACE: Retrieving consciousness system status for user context '{log_user_id}'."
-        )
+        self.instance_logger.info(f"ΛTRACE: Retrieving consciousness system status for user context '{log_user_id}'.")
         status_report = {
             "global_consciousness_state": self.global_consciousness_state.to_dict(),
             "active_user_consciousness_sessions": len(self.session_consciousness_data),  # Renamed
@@ -1111,9 +998,7 @@ class LUKHASConsciousnessEngine:
             ).total_seconds(),  # Requires _initialized_at
         }
         if not hasattr(self, "_initialized_at"):  # Simple uptime if _initialized_at is not set
-            status_report["system_uptime_note"] = (
-                "Precise uptime requires _initialized_at attribute on engine."
-            )
+            status_report["system_uptime_note"] = "Precise uptime requires _initialized_at attribute on engine."
 
         # RESEARCH INTEGRATION: Add consciousness authenticity status
         status_report["consciousness_authenticity"] = {
@@ -1125,16 +1010,14 @@ class LUKHASConsciousnessEngine:
             "performance_targets": {
                 "ethical_drift_prevention": "92% (research-validated)",
                 "decision_reproducibility": "99.3% (research-validated)",
-                "consciousness_coherence": ">95% (mesh formation target)"
-            }
+                "consciousness_coherence": ">95% (mesh formation target)",
+            },
         }
-        
+
         self.instance_logger.debug(f"ΛTRACE: Consciousness system status: {status_report}")
         return status_report
-    
-    def _calculate_consciousness_authenticity(
-        self, patterns: dict[str, Any], ethics_eval: dict[str, Any]
-    ) -> float:
+
+    def _calculate_consciousness_authenticity(self, patterns: dict[str, Any], ethics_eval: dict[str, Any]) -> float:
         """RESEARCH: Calculate consciousness authenticity based on human-like patterns"""
         # Weight different aspects of consciousness authenticity
         temporal_weight = 0.25
@@ -1142,15 +1025,15 @@ class LUKHASConsciousnessEngine:
         intentional_weight = 0.20
         emotional_weight = 0.15
         ethical_weight = 0.20
-        
+
         authenticity = (
-            temporal_weight * patterns.get("temporal_coherence_score", 0.0) +
-            symbolic_weight * patterns.get("symbolic_resonance_score", 0.0) +
-            intentional_weight * patterns.get("intentionality_score", 0.0) +
-            emotional_weight * patterns.get("emotional_depth_score", 0.0) +
-            ethical_weight * ethics_eval.get("overall_ethical_score", 0.0)
+            temporal_weight * patterns.get("temporal_coherence_score", 0.0)
+            + symbolic_weight * patterns.get("symbolic_resonance_score", 0.0)
+            + intentional_weight * patterns.get("intentionality_score", 0.0)
+            + emotional_weight * patterns.get("emotional_depth_score", 0.0)
+            + ethical_weight * ethics_eval.get("overall_ethical_score", 0.0)
         )
-        
+
         return min(1.0, max(0.0, authenticity))
 
 
@@ -1207,20 +1090,16 @@ async def main_example():  # Renamed from main
         "ethical_compliance_score_feedback": 0.88,  # Renamed
     }
     logger.info("ΛTRACE: Demo: Simulating consciousness evolution with feedback.")
-    await engine.evolve_consciousness(
-        feedback_data, user_id="demo_system_user"
-    )  # Pass user_id for tier check
+    await engine.evolve_consciousness(feedback_data, user_id="demo_system_user")  # Pass user_id for tier check
 
     # Get current system status
     logger.info("ΛTRACE: Demo: Retrieving final consciousness status.")
-    current_status = await engine.get_consciousness_status(
-        user_id="demo_system_user"
-    )  # Pass user_id
+    current_status = await engine.get_consciousness_status(user_id="demo_system_user")  # Pass user_id
     print(
         "\nΛTRACE Demo - Final Consciousness Status:",
         json.dumps(current_status, indent=2, default=str),
     )
-    
+
     # RESEARCH INTEGRATION: Display consciousness authenticity metrics
     print("\n🧠 RESEARCH-VALIDATED CONSCIOUSNESS METRICS:")
     auth_metrics = current_status.get("consciousness_authenticity", {})
@@ -1229,7 +1108,7 @@ async def main_example():  # Renamed from main
     print(f"   - Ethical Stability: {auth_metrics.get('ethical_stability', 0):.3f}")
     print(f"   - Pattern Coherence: {auth_metrics.get('pattern_coherence', 0):.3f}")
     print(f"   - Research Validation: {auth_metrics.get('research_validation', 'N/A')}")
-    
+
     logger.info("ΛTRACE: --- LUKHASConsciousnessEngine Demo Finished ---")
 
 

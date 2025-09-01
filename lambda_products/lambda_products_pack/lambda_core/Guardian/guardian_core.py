@@ -531,9 +531,7 @@ class LambdaGuardianEngine:
 
                 # Keep only recent history (last 24 hours)
                 cutoff_time = time.time() - 86400
-                self.performance_history = [
-                    p for p in self.performance_history if p["timestamp"] > cutoff_time
-                ]
+                self.performance_history = [p for p in self.performance_history if p["timestamp"] > cutoff_time]
 
                 await asyncio.sleep(60)
 
@@ -554,9 +552,7 @@ class LambdaGuardianEngine:
     async def _process_pending_events(self):
         """Process pending ΛGuardian events"""
         cutoff_time = time.time() - (7 * 24 * 3600)
-        self.system_events = [
-            event for event in self.system_events if event.timestamp > cutoff_time
-        ]
+        self.system_events = [event for event in self.system_events if event.timestamp > cutoff_time]
 
     async def _log_system_event(
         self,
@@ -678,9 +674,7 @@ class LambdaGuardianEngine:
             )
             return {"error": str(e)}
 
-    async def emergency_lambda_alert(
-        self, emergency_type: str, severity: str = "high", context: dict = None
-    ) -> dict:
+    async def emergency_lambda_alert(self, emergency_type: str, severity: str = "high", context: dict = None) -> dict:
         """Trigger emergency alert through ΛGuardian"""
         if "λ_emergency_aid" not in self.subsystems:
             return {"error": "ΛEmergency aid not available"}
@@ -733,10 +727,8 @@ class LambdaGuardianEngine:
         return {
             "λ_uptime_hours": (time.time() - self.start_time) / 3600,
             "λ_data_points": len(recent_data),
-            "λ_avg_efficiency": sum(p.get("λ_efficiency", 0) for p in recent_data)
-            / len(recent_data),
-            "λ_avg_security": sum(p.get("λ_security_score", 0) for p in recent_data)
-            / len(recent_data),
+            "λ_avg_efficiency": sum(p.get("λ_efficiency", 0) for p in recent_data) / len(recent_data),
+            "λ_avg_security": sum(p.get("λ_security_score", 0) for p in recent_data) / len(recent_data),
             "λ_last_updated": recent_data[-1]["timestamp"] if recent_data else 0,
         }
 
@@ -781,9 +773,7 @@ async def create_lambda_guardian(config_path: str = None) -> LambdaGuardianEngin
     return guardian
 
 
-async def lambda_emergency_medical_assist(
-    image_path: str, guardian: LambdaGuardianEngine = None
-) -> dict:
+async def lambda_emergency_medical_assist(image_path: str, guardian: LambdaGuardianEngine = None) -> dict:
     """Quick emergency medical assistance with ΛGuardian"""
     if guardian is None:
         guardian = await create_lambda_guardian()

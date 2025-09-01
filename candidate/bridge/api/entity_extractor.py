@@ -392,9 +392,7 @@ class EntityExtractor:
 
         return metadata
 
-    def _calculate_confidence(
-        self, match: re.Match, entity_type: EntityType, full_text: str
-    ) -> float:
+    def _calculate_confidence(self, match: re.Match, entity_type: EntityType, full_text: str) -> float:
         """Calculate confidence score for extracted entity."""
         base_confidence = 0.7
 

@@ -70,9 +70,7 @@ try:
     BRAIN_INTEGRATION_AVAILABLE = True
     logger.info("Brain Integration module loaded successfully in Dream Engine")
 except ImportError:
-    logger.warning(
-        "Could not import brain integration module. Dream consolidation will be limited."
-    )
+    logger.warning("Could not import brain integration module. Dream consolidation will be limited.")
     BRAIN_INTEGRATION_AVAILABLE = False
 
 # Import drift tracker for symbolic metrics
@@ -103,9 +101,7 @@ try:
     DREAM_CLUSTERING_AVAILABLE = True
     logger.info("Clustering libraries available for dream synthesis")
 except ImportError:
-    logger.warning(
-        "Clustering libraries not available. Dream consolidation will operate without clustering."
-    )
+    logger.warning("Clustering libraries not available. Dream consolidation will operate without clustering.")
     DREAM_CLUSTERING_AVAILABLE = False
 
 
@@ -339,8 +335,7 @@ class DreamReflectionLoop:
         self.metrics["reflections_generated"] += 1
         if dream_state.qi_coherence > 0:
             self.metrics["qi_coherence_avg"] = (
-                self.metrics["qi_coherence_avg"] * (self.metrics["dreams_processed"] - 1)
-                + dream_state.qi_coherence
+                self.metrics["qi_coherence_avg"] * (self.metrics["dreams_processed"] - 1) + dream_state.qi_coherence
             ) / self.metrics["dreams_processed"]
 
         # Store in buffer
@@ -430,9 +425,7 @@ class DreamReflectionLoop:
         self.dreaming = True
 
         # Start dream thread
-        self.dream_thread = threading.Thread(
-            target=self._run_dream_cycle, args=(duration,), daemon=True
-        )
+        self.dream_thread = threading.Thread(target=self._run_dream_cycle, args=(duration,), daemon=True)
         self.dream_thread.start()
 
         logger.info(f"Dream cycle started for {duration} minutes")
@@ -504,9 +497,7 @@ class DreamReflectionLoop:
 
         try:
             # Get recent memories
-            recent_memories = self.memory_manager.get_recent_memories(
-                limit=self.config.consolidation_batch_size
-            )
+            recent_memories = self.memory_manager.get_recent_memories(limit=self.config.consolidation_batch_size)
 
             if not recent_memories:
                 logger.info("No recent memories to consolidate")
@@ -539,15 +530,12 @@ class DreamReflectionLoop:
                         "source_count": len(cluster_memories),
                         "timestamp": datetime.now().isoformat(),
                         "themes": self._extract_themes(cluster_memories),
-                        "importance": sum(m.get("importance", 0.5) for m in cluster_memories)
-                        / len(cluster_memories),
+                        "importance": sum(m.get("importance", 0.5) for m in cluster_memories) / len(cluster_memories),
                     }
 
                     # Store consolidated memory
                     self.memory_manager.store_memory(consolidated)
-                    logger.info(
-                        f"Consolidated {len(cluster_memories)} memories into cluster {cluster_id}"
-                    )
+                    logger.info(f"Consolidated {len(cluster_memories)} memories into cluster {cluster_id}")
 
             self.metrics["memory_consolidations"] += 1
 
@@ -591,9 +579,7 @@ class DreamReflectionLoop:
             # Store insights if above threshold
             for insight in insights:
                 if insight["confidence"] >= self.config.insight_confidence_threshold:
-                    logger.info(
-                        f"Insight discovered: {insight['theme']} (confidence: {insight['confidence']:.2f})"
-                    )
+                    logger.info(f"Insight discovered: {insight['theme']} (confidence: {insight['confidence']:.2f})")
                     if self.memory_manager:
                         self.memory_manager.store_memory(
                             {
@@ -690,9 +676,7 @@ class DreamReflectionLoop:
             if sadness_level > self.config.sadness_repair_threshold:
                 from bio.bio_utilities import inject_narrative_repair
 
-                synthesized["narrative"] = inject_narrative_repair(
-                    synthesized["narrative"], {"sadness": sadness_level}
-                )
+                synthesized["narrative"] = inject_narrative_repair(synthesized["narrative"], {"sadness": sadness_level})
                 synthesized["repair_injected"] = True
             else:
                 synthesized["repair_injected"] = False
@@ -718,9 +702,7 @@ class DreamReflectionLoop:
     def _log_dream(self, dream):
         """Log dream to file for analysis."""
         try:
-            filename = (
-                self.dream_log_path / f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-            )
+            filename = self.dream_log_path / f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
             with open(filename, "w") as f:
                 json.dump(dream, f, indent=2, default=str)
             logger.debug(f"Dream logged to {filename}")
@@ -825,9 +807,7 @@ class DreamReflectionLoop:
         while self.is_running:
             try:
                 # Check for idle state
-                if (
-                    time.time() - self.last_activity_time > self.config.idle_trigger_seconds
-                ) and not self.dreaming:
+                if (time.time() - self.last_activity_time > self.config.idle_trigger_seconds) and not self.dreaming:
                     logger.info("System idle detected - starting dream cycle")
                     self.start_dream_cycle()
 
@@ -873,8 +853,7 @@ class DreamReflectionLoop:
         self.entropy_delta = self.calculate_entropy_delta(dream_content)
 
         logger.debug(
-            f"Dream scores updated - Drift: {self.drift_score:.3f}, "
-            f"Convergence: {self.convergence_score:.3f}"
+            f"Dream scores updated - Drift: {self.drift_score:.3f}, " f"Convergence: {self.convergence_score:.3f}"
         )
 
     def calculate_drift(self, dream_content):
@@ -905,9 +884,7 @@ class DreamReflectionLoop:
         """Send dream feedback to memory system."""
         if self.memory_manager:
             try:
-                self.memory_manager.update_memory_importance(
-                    dream.get("id"), feedback.get("importance_delta", 0)
-                )
+                self.memory_manager.update_memory_importance(dream.get("id"), feedback.get("importance_delta", 0))
             except Exception as e:
                 logger.error(f"Failed to send dream feedback: {e}")
 

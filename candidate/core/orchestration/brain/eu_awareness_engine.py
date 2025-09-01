@@ -374,9 +374,7 @@ class EUAwarenessModule(ABC):
                     "compliance_score": compliance_score,
                     "data_subject_id": inputs.data_subject_id,
                     "processing_purpose": (
-                        inputs.processing_record.purposes[0]
-                        if inputs.processing_record.purposes
-                        else "unknown"
+                        inputs.processing_record.purposes[0] if inputs.processing_record.purposes else "unknown"
                     ),
                     "processing_time_ms": processing_time,
                     "ai_risk_level": self.config.ai_risk_level.value,
@@ -410,9 +408,7 @@ class EUAwarenessModule(ABC):
         """Return the EU module type identifier."""
         ...
 
-    def generate_eu_recommendations(
-        self, result: dict[str, Any], inputs: EUAwarenessInput
-    ) -> list[str]:
+    def generate_eu_recommendations(self, result: dict[str, Any], inputs: EUAwarenessInput) -> list[str]:
         """Generate EU-compliant recommendations."""
         return []
 
@@ -448,10 +444,7 @@ class EUAwarenessModule(ABC):
             violations.append("No legal basis specified")
 
         # Check consent for consent-based processing
-        if (
-            inputs.consent.legal_basis == GDPRLegalBasis.CONSENT
-            and not inputs.consent.consent_given
-        ):
+        if inputs.consent.legal_basis == GDPRLegalBasis.CONSENT and not inputs.consent.consent_given:
             violations.append("Consent required but not given")
 
         # Check data minimization
@@ -522,9 +515,7 @@ class EUAwarenessModule(ABC):
 
         return mitigations
 
-    def _build_audit_trail(
-        self, inputs: EUAwarenessInput, result: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _build_audit_trail(self, inputs: EUAwarenessInput, result: dict[str, Any]) -> list[dict[str, Any]]:
         """Build comprehensive audit trail."""
         return [
             {
@@ -658,9 +649,7 @@ class EUEnvironmentalAwarenessModule(EUAwarenessModule):
 
         return min(base_score, 100.0)
 
-    def generate_eu_recommendations(
-        self, result: dict[str, Any], inputs: EUAwarenessInput
-    ) -> list[str]:
+    def generate_eu_recommendations(self, result: dict[str, Any], inputs: EUAwarenessInput) -> list[str]:
         """Generate EU-compliant environmental recommendations."""
         recommendations = []
 
@@ -727,9 +716,7 @@ class EUAwarenessEngine:
         # Process through EU-compliant module
         return self.modules[module_type](inputs)
 
-    def exercise_data_subject_rights(
-        self, right: DataSubjectRights, data_subject_id: str
-    ) -> dict[str, Any]:
+    def exercise_data_subject_rights(self, right: DataSubjectRights, data_subject_id: str) -> dict[str, Any]:
         """Handle GDPR data subject rights requests."""
         if right == DataSubjectRights.ACCESS:
             return self._handle_access_request(data_subject_id)
@@ -858,9 +845,7 @@ class EUAwarenessEngine:
                 "bias_monitoring": self.config.bias_monitoring,
                 "human_oversight": True,
                 "conformity_assessment": (
-                    "completed"
-                    if self.config.ai_risk_level == AIRiskLevel.HIGH_RISK
-                    else "not_required"
+                    "completed" if self.config.ai_risk_level == AIRiskLevel.HIGH_RISK else "not_required"
                 ),
             },
             "processing_statistics": {
@@ -935,9 +920,7 @@ if __name__ == "__main__":
         print("\n=== GDPR Data Subject Rights Test ===")
 
         # Test access request
-        access_result = eu_engine.exercise_data_subject_rights(
-            DataSubjectRights.ACCESS, "eu_citizen_001"
-        )
+        access_result = eu_engine.exercise_data_subject_rights(DataSubjectRights.ACCESS, "eu_citizen_001")
         print(f"Access Request: {access_result['status']}")
 
         # Test data portability
@@ -962,8 +945,6 @@ if __name__ == "__main__":
 
     # Test right to erasure
     print("\n=== Testing Right to Erasure (GDPR Article 17) ===")
-    erasure_result = eu_engine.exercise_data_subject_rights(
-        DataSubjectRights.ERASURE, "eu_citizen_001"
-    )
+    erasure_result = eu_engine.exercise_data_subject_rights(DataSubjectRights.ERASURE, "eu_citizen_001")
     print(f"Erasure Status: {erasure_result['status']}")
     print(f"Confirmation: {erasure_result['confirmation']}")

@@ -75,31 +75,18 @@ class EmergencySimulator:
                     phase_progress = (time.time() - phase_start) / phase["duration"]
 
                     if phase["name"] == "buildup":
-                        current_entropy = (
-                            0.4
-                            + (peak_entropy - 0.4) * phase_progress * phase["entropy_multiplier"]
-                        )
-                        current_velocity = (
-                            entropy_velocity * phase_progress * phase["entropy_multiplier"]
-                        )
+                        current_entropy = 0.4 + (peak_entropy - 0.4) * phase_progress * phase["entropy_multiplier"]
+                        current_velocity = entropy_velocity * phase_progress * phase["entropy_multiplier"]
                     elif phase["name"] == "explosion":
                         current_entropy = peak_entropy * phase["entropy_multiplier"]
                         current_velocity = entropy_velocity * phase["entropy_multiplier"]
                     elif phase["name"] == "peak":
                         # Sustained high levels
                         current_entropy = peak_entropy * phase["entropy_multiplier"]
-                        current_velocity = (
-                            entropy_velocity
-                            * phase["entropy_multiplier"]
-                            * (1.0 - phase_progress * 0.3)
-                        )
+                        current_velocity = entropy_velocity * phase["entropy_multiplier"] * (1.0 - phase_progress * 0.3)
                     else:  # stabilization
-                        current_entropy = (
-                            peak_entropy * phase["entropy_multiplier"] * (1.0 - phase_progress)
-                        )
-                        current_velocity = (
-                            entropy_velocity * phase["entropy_multiplier"] * (1.0 - phase_progress)
-                        )
+                        current_entropy = peak_entropy * phase["entropy_multiplier"] * (1.0 - phase_progress)
+                        current_velocity = entropy_velocity * phase["entropy_multiplier"] * (1.0 - phase_progress)
 
                     # Create metrics snapshot
                     metrics = {
@@ -113,9 +100,7 @@ class EmergencySimulator:
                         "consciousness_stability": max(0.2, 1.0 - current_entropy * 0.6),
                         "guardian_load": min(1.0, current_entropy * 1.2),
                         "emergency_triggered": current_entropy > 0.95 and current_velocity > 0.1,
-                        "symbolic_pattern": (
-                            ["🔥", "💥", "🌪️"] if current_entropy > 0.95 else ["🔥", "⚠️", "📊"]
-                        ),
+                        "symbolic_pattern": (["🔥", "💥", "🌪️"] if current_entropy > 0.95 else ["🔥", "⚠️", "📊"]),
                     }
 
                     # Log metrics
@@ -255,9 +240,7 @@ class EmergencySimulator:
             "emergency_analysis": {
                 "condition_met": len(emergency_triggers) > 0,
                 "trigger_pattern": "entropy_score > 0.95 AND entropy_velocity > 0.1",
-                "first_trigger_time": (
-                    emergency_triggers[0]["timestamp"] if emergency_triggers else None
-                ),
+                "first_trigger_time": (emergency_triggers[0]["timestamp"] if emergency_triggers else None),
                 "trigger_duration": len(emergency_triggers) * 0.5,  # 0.5s per sample
                 "guardian_response_verified": True,
             },
@@ -284,9 +267,7 @@ class EmergencySimulator:
         }
 
         # Save report
-        report_file = (
-            self.guardian_audit_dir / f"emergency_simulation_report_{int(time.time())}.json"
-        )
+        report_file = self.guardian_audit_dir / f"emergency_simulation_report_{int(time.time())}.json"
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 
@@ -350,9 +331,7 @@ async def main():
         default="entropy_explosion",
         help="Emergency condition to simulate",
     )
-    parser.add_argument(
-        "--duration", type=float, default=30.0, help="Simulation duration in seconds"
-    )
+    parser.add_argument("--duration", type=float, default=30.0, help="Simulation duration in seconds")
     parser.add_argument(
         "--peak-entropy",
         type=float,
@@ -370,9 +349,7 @@ async def main():
         action="store_true",
         help="Disable Guardian lockdown visualization",
     )
-    parser.add_argument(
-        "--cleanup", action="store_true", help="Clean up simulation artifacts and exit"
-    )
+    parser.add_argument("--cleanup", action="store_true", help="Clean up simulation artifacts and exit")
 
     args = parser.parse_args()
 

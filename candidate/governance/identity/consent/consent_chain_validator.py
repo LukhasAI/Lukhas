@@ -163,11 +163,7 @@ class ConsentDecision:
 
     def requires_user_confirmation(self) -> bool:
         """Check if user confirmation is required"""
-        return (
-            self.validity_state == ConsentValidity.CONDITIONAL
-            or self.ethical_score < 0.8
-            or len(self.warnings) > 0
-        )
+        return self.validity_state == ConsentValidity.CONDITIONAL or self.ethical_score < 0.8 or len(self.warnings) > 0
 
 
 @dataclass
@@ -349,9 +345,7 @@ class ConsentChainValidator:
 
         for consent_type in consent_types:
             # Check existing consent
-            existing_valid = await self._check_existing_consent(
-                chain, consent_type, existing_consents
-            )
+            existing_valid = await self._check_existing_consent(chain, consent_type, existing_consents)
 
             if not existing_valid:
                 # Create new consent node
@@ -378,17 +372,11 @@ class ConsentChainValidator:
 
         # Calculate scores
         ethical_score = await self._calculate_ethical_score(chain, consent_types)
-        consciousness_alignment = self._assess_consciousness_alignment(
-            consciousness_state, consent_types
-        )
-        cultural_appropriateness = self._assess_cultural_appropriateness(
-            cultural_context, consent_types
-        )
+        consciousness_alignment = self._assess_consciousness_alignment(consciousness_state, consent_types)
+        cultural_appropriateness = self._assess_cultural_appropriateness(cultural_context, consent_types)
 
         # Determine consent symbol
-        consent_symbol = self._select_consent_symbol(
-            all_valid, ethical_score, consciousness_alignment, warnings
-        )
+        consent_symbol = self._select_consent_symbol(all_valid, ethical_score, consciousness_alignment, warnings)
 
         # Determine validity state
         validity_state = self._determine_validity_state(all_valid, ethical_score, warnings)
@@ -525,9 +513,7 @@ class ConsentChainValidator:
         sig_content = f"{node.node_id}|{node.compute_hash()}|{node.ethical_hash}"
         return hashlib.sha3_512(sig_content.encode()).hexdigest()
 
-    async def _validate_against_trusthelix(
-        self, node: ConsentNode, consent_type: ConsentType
-    ) -> dict[str, Any]:
+    async def _validate_against_trusthelix(self, node: ConsentNode, consent_type: ConsentType) -> dict[str, Any]:
         """Validate consent node against TrustHelix ethical principles"""
         # Traverse TrustHelix for relevant principles
         relevant_principles = self.trust_helix_root.traverse_for_consent(consent_type)
@@ -546,11 +532,7 @@ class ConsentChainValidator:
             "score": compliance_score,
             "principles_checked": relevant_principles,
             "violations": violations,
-            "reason": (
-                f"Failed principles: {', '.join(violations)}"
-                if violations
-                else "All principles met"
-            ),
+            "reason": (f"Failed principles: {', '.join(violations)}" if violations else "All principles met"),
         }
 
     def _check_principle_compliance(self, node: ConsentNode, principle: str) -> bool:
@@ -568,9 +550,7 @@ class ConsentChainValidator:
         check_func = compliance_checks.get(principle, lambda n: True)
         return check_func(node)
 
-    async def _calculate_ethical_score(
-        self, chain: ConsentChain, consent_types: list[ConsentType]
-    ) -> float:
+    async def _calculate_ethical_score(self, chain: ConsentChain, consent_types: list[ConsentType]) -> float:
         """Calculate overall ethical score for consent chain"""
         if not chain.nodes:
             return 0.0
@@ -600,9 +580,7 @@ class ConsentChainValidator:
 
         return sum(scores) / len(scores)
 
-    def _assess_consciousness_alignment(
-        self, consciousness_state: str, consent_types: list[ConsentType]
-    ) -> float:
+    def _assess_consciousness_alignment(self, consciousness_state: str, consent_types: list[ConsentType]) -> float:
         """Assess how well consciousness state aligns with consent requirements"""
         # T5 requires high consciousness alignment
         alignment_scores = {
@@ -667,9 +645,7 @@ class ConsentChainValidator:
         else:
             return ConsentSymbol.HARMONY  # Basic harmonious consent
 
-    def _determine_validity_state(
-        self, valid: bool, ethical_score: float, warnings: list[str]
-    ) -> ConsentValidity:
+    def _determine_validity_state(self, valid: bool, ethical_score: float, warnings: list[str]) -> ConsentValidity:
         """Determine consent validity state"""
         if not valid:
             return ConsentValidity.PENDING
@@ -708,9 +684,7 @@ class ConsentChainValidator:
         if len(self.validation_audit) > 10000:
             self.validation_audit = self.validation_audit[-5000:]
 
-    async def revoke_consent(
-        self, user_id: str, consent_types: list[ConsentType]
-    ) -> dict[str, Any]:
+    async def revoke_consent(self, user_id: str, consent_types: list[ConsentType]) -> dict[str, Any]:
         """Revoke specific consent types for user"""
         chain = self.consent_chains.get(user_id)
         if not chain:

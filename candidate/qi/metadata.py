@@ -261,9 +261,7 @@ class QIMetadataManager:
             "information",
             "data",
         ]
-        knowledge_score = sum(1 for term in knowledge_indicators if term in content_lower) / len(
-            knowledge_indicators
-        )
+        knowledge_score = sum(1 for term in knowledge_indicators if term in content_lower) / len(knowledge_indicators)
         dimensions[SymbolicDimension.KNOWLEDGE.value] = min(1.0, knowledge_score)
 
         # Creativity dimension
@@ -281,16 +279,12 @@ class QIMetadataManager:
 
         # Ethics dimension
         ethics_indicators = ["ethical", "moral", "responsible", "fair", "justice"]
-        ethics_score = sum(1 for term in ethics_indicators if term in content_lower) / len(
-            ethics_indicators
-        )
+        ethics_score = sum(1 for term in ethics_indicators if term in content_lower) / len(ethics_indicators)
         dimensions[SymbolicDimension.ETHICS.value] = min(1.0, ethics_score)
 
         # Technical dimension
         technical_indicators = ["technical", "system", "algorithm", "code", "software"]
-        technical_score = sum(1 for term in technical_indicators if term in content_lower) / len(
-            technical_indicators
-        )
+        technical_score = sum(1 for term in technical_indicators if term in content_lower) / len(technical_indicators)
         dimensions[SymbolicDimension.TECHNICAL.value] = min(1.0, technical_score)
 
         # Social dimension
@@ -301,9 +295,7 @@ class QIMetadataManager:
             "interaction",
             "collaboration",
         ]
-        social_score = sum(1 for term in social_indicators if term in content_lower) / len(
-            social_indicators
-        )
+        social_score = sum(1 for term in social_indicators if term in content_lower) / len(social_indicators)
         dimensions[SymbolicDimension.SOCIAL.value] = min(1.0, social_score)
 
         # Set minimum baseline for all dimensions
@@ -398,9 +390,7 @@ class QIMetadataManager:
             return [self.metadata_store[content_id] for content_id in matching_ids]
         return []
 
-    async def search_by_dimension(
-        self, dimension: SymbolicDimension, min_weight: float = 0.5
-    ) -> list[QIMetadata]:
+    async def search_by_dimension(self, dimension: SymbolicDimension, min_weight: float = 0.5) -> list[QIMetadata]:
         """Search content by symbolic dimension."""
         content_ids = self.dimension_index.get(dimension.value, set())
         results = []
@@ -452,8 +442,7 @@ class QIMetadataManager:
             "top_tags": sorted(tag_frequency.items(), key=lambda x: x[1], reverse=True)[:10],
             "qi_enabled": self.qi_enabled,
             "average_entanglements": (
-                sum(len(m.qi_entanglement_refs) for m in self.metadata_store.values())
-                / total_content
+                sum(len(m.qi_entanglement_refs) for m in self.metadata_store.values()) / total_content
                 if total_content > 0
                 else 0
             ),

@@ -76,9 +76,7 @@ class NeuralSymbolicIntegration:
             "rules_applied": ["rule1", "rule2"],
         }
 
-    def _integrate_results(
-        self, neural_result: dict[str, Any], symbolic_result: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _integrate_results(self, neural_result: dict[str, Any], symbolic_result: dict[str, Any]) -> dict[str, Any]:
         """Integrate neural and symbolic results."""
         # Calculate weighted confidence
         neural_confidence = neural_result["confidence"]

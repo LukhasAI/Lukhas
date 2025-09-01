@@ -84,8 +84,7 @@ class LUKHASProduction:
         self.config = {
             "api_host": os.getenv("LUKHAS_API_HOST", "0.0.0.0"),
             "api_port": int(os.getenv("LUKHAS_API_PORT", "8080")),
-            "enable_consciousness": os.getenv("LUKHAS_ENABLE_CONSCIOUSNESS", "true").lower()
-            == "true",
+            "enable_consciousness": os.getenv("LUKHAS_ENABLE_CONSCIOUSNESS", "true").lower() == "true",
             "enable_memory": os.getenv("LUKHAS_ENABLE_MEMORY", "true").lower() == "true",
             "enable_dreams": os.getenv("LUKHAS_ENABLE_DREAMS", "true").lower() == "true",
             "enable_governance": os.getenv("LUKHAS_ENABLE_GOVERNANCE", "true").lower() == "true",
@@ -302,9 +301,7 @@ class LUKHASProduction:
                     "health": "/health",
                 },
             }
-            logger.info(
-                f"✅ API gateway configured on {self.config['api_host']}:{self.config['api_port']}"
-            )
+            logger.info(f"✅ API gateway configured on {self.config['api_host']}:{self.config['api_port']}")
 
         except Exception as e:
             logger.error(f"❌ API gateway setup failed: {e}")
@@ -332,9 +329,7 @@ class LUKHASProduction:
                 logger.warning(f"  ❌ {component_name}: {status}")
 
         # Calculate overall health score
-        health_score = (
-            (operational_components / total_components) * 100 if total_components > 0 else 0
-        )
+        health_score = (operational_components / total_components) * 100 if total_components > 0 else 0
 
         self.system_health.update(
             {
@@ -376,9 +371,7 @@ class LUKHASProduction:
             self.components["api_gateway"]["status"] = "running"
             self.is_running = True
 
-            logger.info(
-                f"🌐 API server running on http://{self.config['api_host']}:{self.config['api_port']}"
-            )
+            logger.info(f"🌐 API server running on http://{self.config['api_host']}:{self.config['api_port']}")
             logger.info("📚 Documentation available at: /docs")
 
             # Run the server

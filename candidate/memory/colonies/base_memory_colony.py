@@ -169,9 +169,7 @@ class BaseMemoryColony(ABC):
         self.colony_id = colony_id
         self.colony_role = colony_role
         self.specialized_memory_types = set(specialized_memory_types)
-        self.capabilities = capabilities or ColonyCapabilities(
-            supported_memory_types=set(specialized_memory_types)
-        )
+        self.capabilities = capabilities or ColonyCapabilities(supported_memory_types=set(specialized_memory_types))
 
         # State management
         self.state = ColonyState.INITIALIZING
@@ -401,9 +399,7 @@ class BaseMemoryColony(ABC):
             "specialized_types": [t.value for t in self.specialized_memory_types],
             "metrics": {
                 "total_operations": self.metrics.total_operations,
-                "success_rate": (
-                    self.metrics.successful_operations / max(self.metrics.total_operations, 1)
-                ),
+                "success_rate": (self.metrics.successful_operations / max(self.metrics.total_operations, 1)),
                 "active_operations": self.metrics.active_operations,
                 "current_load": self.metrics.current_load_percentage,
                 "average_response_time_ms": self.metrics.average_response_time_ms,
@@ -474,17 +470,12 @@ class BaseMemoryColony(ABC):
         if not self.active_operations:
             return
 
-        logger.info(
-            f"Colony {self.colony_id} completing {len(self.active_operations)} active operations"
-        )
+        logger.info(f"Colony {self.colony_id} completing {len(self.active_operations)} active operations")
 
         try:
             await asyncio.wait_for(
                 asyncio.gather(
-                    *[
-                        self._cancel_operation(op_id)
-                        for op_id in list(self.active_operations.keys())
-                    ],
+                    *[self._cancel_operation(op_id) for op_id in list(self.active_operations.keys())],
                     return_exceptions=True,
                 ),
                 timeout=timeout,
@@ -505,9 +496,7 @@ class BaseMemoryColony(ABC):
             self.metrics.last_heartbeat = time.time()
 
             # Update load percentage
-            current_load = (
-                len(self.active_operations) / self.capabilities.max_concurrent_operations * 100
-            )
+            current_load = len(self.active_operations) / self.capabilities.max_concurrent_operations * 100
             self.metrics.current_load_percentage = current_load
 
             # Adjust state based on load
@@ -523,10 +512,7 @@ class BaseMemoryColony(ABC):
     async def _operation_processing_loop(self):
         """Process queued operations"""
         while self._running:
-            if (
-                self.operation_queue
-                and len(self.active_operations) < self.capabilities.max_concurrent_operations
-            ):
+            if self.operation_queue and len(self.active_operations) < self.capabilities.max_concurrent_operations:
                 operation = self.operation_queue.popleft()
                 asyncio.create_task(self.process_memory_operation(operation))
 

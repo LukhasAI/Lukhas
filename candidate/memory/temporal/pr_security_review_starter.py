@@ -27,9 +27,7 @@ def run_security_review():
     """Run the security review task"""
     print(f"[{datetime.now().isoformat()}] Starting PR Security Review")
 
-    script_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "pr_security_review_task.py"
-    )
+    script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pr_security_review_task.py")
 
     try:
         # Run the script
@@ -39,9 +37,7 @@ def run_security_review():
             print(f"[{datetime.now().isoformat()}] PR Security Review completed successfully")
             print(result.stdout)
         else:
-            print(
-                f"[{datetime.now().isoformat()}] PR Security Review failed with code {result.returncode}"
-            )
+            print(f"[{datetime.now().isoformat()}] PR Security Review failed with code {result.returncode}")
             print(f"Error: {result.stderr}")
 
     except Exception as e:

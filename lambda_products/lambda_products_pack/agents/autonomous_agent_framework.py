@@ -255,9 +255,7 @@ class AutonomousAgent:
         if self.state == AgentState.ERROR:
             return
 
-        if (self.task_queue and self.state == AgentState.IDLE) or (
-            not self.task_queue and self.goals
-        ):
+        if (self.task_queue and self.state == AgentState.IDLE) or (not self.task_queue and self.goals):
             self.state = AgentState.PLANNING
         elif self.should_learn():
             self.state = AgentState.LEARNING
@@ -315,9 +313,7 @@ class AutonomousAgent:
             if task.retry_count < task.max_retries:
                 # Re-queue the task
                 await self.add_task(task)
-                logger.warning(
-                    f"Task {task.id} failed, retrying ({task.retry_count}/{task.max_retries})"
-                )
+                logger.warning(f"Task {task.id} failed, retrying ({task.retry_count}/{task.max_retries})")
             else:
                 logger.error(f"Task {task.id} failed after {task.max_retries} retries")
                 self.completed_tasks.append(task)
@@ -333,9 +329,7 @@ class AutonomousAgent:
         self.state = AgentState.LEARNING
 
         # Analyze completed tasks
-        success_rate = sum(1 for t in self.completed_tasks if not t.error) / len(
-            self.completed_tasks
-        )
+        success_rate = sum(1 for t in self.completed_tasks if not t.error) / len(self.completed_tasks)
 
         # Update learning memory
         self.learning_memory["success_rate"] = success_rate
@@ -504,15 +498,9 @@ class AgentOrchestrator:
         """Get status of entire agent fleet"""
         return {
             "total_agents": len(self.agents),
-            "agents_by_type": {
-                agent_type: len(agents) for agent_type, agents in self.agent_pools.items()
-            },
-            "total_value_generated": sum(
-                agent.metrics["value_generated"] for agent in self.agents.values()
-            ),
-            "total_tasks_completed": sum(
-                agent.metrics["tasks_completed"] for agent in self.agents.values()
-            ),
+            "agents_by_type": {agent_type: len(agents) for agent_type, agents in self.agent_pools.items()},
+            "total_value_generated": sum(agent.metrics["value_generated"] for agent in self.agents.values()),
+            "total_tasks_completed": sum(agent.metrics["tasks_completed"] for agent in self.agents.values()),
             "agents_status": [agent.get_status() for agent in self.agents.values()],
         }
 
@@ -522,9 +510,7 @@ class AgentOrchestrator:
 
         if target_count > current_count:
             # Scale up
-            await self.deploy_agent_fleet(
-                agent_type, target_count - current_count, {"auto_scale": True}
-            )
+            await self.deploy_agent_fleet(agent_type, target_count - current_count, {"auto_scale": True})
         elif target_count < current_count:
             # Scale down
             agents_to_remove = current_count - target_count

@@ -54,9 +54,7 @@ st.sidebar.image("assets/logo.svg", use_column_width=True)
 st.sidebar.title("LUKHAS SYSTEMS")
 agent_enabled = st.sidebar.checkbox("🧠 Enable Symbolic Agent", value=False)
 user_tier = st.sidebar.selectbox("🔐 Access Tier", [0, 1, 2, 3, 4, 5], index=2)
-selected_module = st.sidebar.selectbox(
-    "📦 Module Focus", ["lukhas_self", "lukhas_scheduler", "lukhas_gatekeeper"]
-)
+selected_module = st.sidebar.selectbox("📦 Module Focus", ["lukhas_self", "lukhas_scheduler", "lukhas_gatekeeper"])
 
 if st.sidebar.button("🌙 Reflective Dream Scheduler"):
     st.info("Reflective dream scheduling initiated…")

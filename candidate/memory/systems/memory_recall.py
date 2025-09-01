@@ -35,9 +35,7 @@ except ImportError:
         component="LucasMemoryRecall",
     )
 
-    def decrypt_user_file(
-        seed_phrase: list[str], filename_in_vault: str, output_filepath: str
-    ) -> bool:
+    def decrypt_user_file(seed_phrase: list[str], filename_in_vault: str, output_filepath: str) -> bool:
         log.info(
             "Placeholder decrypt_user_file called.",
             vault_filename=filename_in_vault,
@@ -72,9 +70,7 @@ except ImportError:
     def generate_sid(seed_phrase: list[str]) -> str:
         log.info("Placeholder generate_sid called.")
         # Generate a simple SID from first letters of seed words for placeholder
-        return "placeholder_sid_" + "".join(
-            s[0].lower() for s in seed_phrase if s and len(s) > 0 and s[0].isalnum()
-        )
+        return "placeholder_sid_" + "".join(s[0].lower() for s in seed_phrase if s and len(s) > 0 and s[0].isalnum())
 
 
 LUKHAS_FUNCTION_TIER = 3
@@ -100,9 +96,7 @@ def recall_memories(
     # Check SEEDRA component availability
     # If any SEEDRA component is real but the other is a placeholder, it might lead to issues.
     # If both are placeholders, the example flow can proceed with dummy data.
-    if (
-        SEEDRA_CORE_AVAILABLE != SEEDRA_VAULT_AVAILABLE
-    ):  # XOR condition: one is real, one is placeholder
+    if SEEDRA_CORE_AVAILABLE != SEEDRA_VAULT_AVAILABLE:  # XOR condition: one is real, one is placeholder
         log.error(
             "SEEDRA components partially unavailable/placeholder. Recall may not function as expected.",
             core_available=SEEDRA_CORE_AVAILABLE,
@@ -111,9 +105,7 @@ def recall_memories(
         # Decide if to proceed or return early based on project policy for partial placeholders
         # For now, allowing to proceed to see if placeholder logic covers it.
     elif not SEEDRA_CORE_AVAILABLE and not SEEDRA_VAULT_AVAILABLE:  # Both are placeholders
-        log.warning(
-            "Using placeholders for both SEEDRA core (SID generation) and vault (decryption)."
-        )
+        log.warning("Using placeholders for both SEEDRA core (SID generation) and vault (decryption).")
 
     try:
         sid = generate_sid(seed_phrase)
@@ -197,8 +189,7 @@ def recall_memories(
                     "Retrieved 'Lukhas' memory.",
                     file=enc_file_path.name,
                     ts=content.get("timestamp_utc_iso", content.get("timestamp", "N/A")),
-                    event=str(content.get("event_description", content.get("event", "")))[:60]
-                    + "...",
+                    event=str(content.get("event_description", content.get("event", "")))[:60] + "...",
                 )
             else:
                 log.error(
@@ -230,9 +221,7 @@ def recall_memories(
                         os_error=str(e_del),
                     )
 
-    log.info(
-        f"Finished recalling 'Lukhas' memories. Retrieved {len(recalled_list)} items successfully."
-    )
+    log.info(f"Finished recalling 'Lukhas' memories. Retrieved {len(recalled_list)} items successfully.")
     return recalled_list
 
 

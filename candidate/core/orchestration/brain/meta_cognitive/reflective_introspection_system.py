@@ -325,21 +325,15 @@ class ReflectiveIntrospectionSystem:
         # Calculate improvement metrics
         total_insights = len(self.insight_history)
         total_improvements = len(self.improvement_plans)
-        active_improvements = len(
-            [imp for imp in self.improvement_plans if imp.get("status") == "active"]
-        )
-        completed_improvements = len(
-            [imp for imp in self.improvement_plans if imp.get("status") == "completed"]
-        )
+        active_improvements = len([imp for imp in self.improvement_plans if imp.get("status") == "active"])
+        completed_improvements = len([imp for imp in self.improvement_plans if imp.get("status") == "completed"])
 
         # Latest insights
         latest_insights = self.insight_history[-5:] if self.insight_history else []
 
         return {
             "reflection_cycles": self.reflection_cycle,
-            "last_reflection": (
-                self.last_reflection_time.isoformat() if self.last_reflection_time else None
-            ),
+            "last_reflection": (self.last_reflection_time.isoformat() if self.last_reflection_time else None),
             "total_insights_generated": total_insights,
             "total_improvements_proposed": total_improvements,
             "active_improvements": active_improvements,
@@ -388,9 +382,9 @@ class ReflectiveIntrospectionSystem:
 
                 threshold = thresholds.get(metric, 1.0)
 
-                if (
-                    metric in ["response_time", "cognitive_load"] and recent_avg > threshold
-                ) or " + "(metric in ["memory_efficiency", "accuracy"] and recent_avg < threshold):
+                if (metric in ["response_time", "cognitive_load"] and recent_avg > threshold) or " + "(
+                    metric in ["memory_efficiency", "accuracy"] and recent_avg < threshold
+                ):
                     bottlenecks.append(
                         {
                             "type": "performance_bottleneck",
@@ -479,9 +473,7 @@ class ReflectiveIntrospectionSystem:
             reflection = {
                 "awareness_level": self._calculate_awareness_level(processing_result),
                 "processing_quality": self._assess_processing_quality(processing_result),
-                "learning_opportunities": self._identify_learning_opportunities(
-                    input_data, context, processing_result
-                ),
+                "learning_opportunities": self._identify_learning_opportunities(input_data, context, processing_result),
                 "cognitive_load": self._estimate_cognitive_load(context),
                 "adaptation_suggestions": self._generate_adaptation_suggestions(processing_result),
                 "meta_timestamp": datetime.datetime.now().isoformat(),

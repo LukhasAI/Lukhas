@@ -336,9 +336,7 @@ class MemoryManager:
             memory = {
                 "data": data,
                 "metadata": metadata,
-                "memory_type": (
-                    memory_type.value if isinstance(memory_type, MemoryType) else memory_type
-                ),
+                "memory_type": (memory_type.value if isinstance(memory_type, MemoryType) else memory_type),
                 "priority": (priority.value if isinstance(priority, MemoryPriority) else priority),
                 "owner_id": owner_id,
                 "timestamp": datetime.now().isoformat(),
@@ -366,18 +364,12 @@ class MemoryManager:
             if self.id_integration and owner_id:
                 # Determine minimum access tier
                 min_tier = self.tier_requirements.get(
-                    (
-                        memory_type
-                        if isinstance(memory_type, MemoryType)
-                        else MemoryType(memory_type)
-                    ),
+                    (memory_type if isinstance(memory_type, MemoryType) else MemoryType(memory_type)),
                     AccessTier.TIER_1,
                 )
 
                 # Apply priority overrides
-                priority_obj = (
-                    priority if isinstance(priority, MemoryPriority) else MemoryPriority(priority)
-                )
+                priority_obj = priority if isinstance(priority, MemoryPriority) else MemoryPriority(priority)
                 if priority_obj in self.priority_overrides:
                     priority_tier = self.priority_overrides[priority_obj]
                     if priority_tier.value > min_tier.value:
@@ -403,9 +395,7 @@ class MemoryManager:
 
             # Update memory type stats
             mem_type_str = memory_type.value if isinstance(memory_type, MemoryType) else memory_type
-            self.stats["memory_types"][mem_type_str] = (
-                self.stats["memory_types"].get(mem_type_str, 0) + 1
-            )
+            self.stats["memory_types"][mem_type_str] = self.stats["memory_types"].get(mem_type_str, 0) + 1
 
             # Persist to disk
             self._persist_memory(key, memory)
@@ -526,9 +516,7 @@ class MemoryManager:
 
             stored_memory["metadata"]["forgotten"] = True
             stored_memory["metadata"]["forgotten_at"] = datetime.now().isoformat()
-            stored_memory["metadata"]["forgotten_by"] = (
-                user_identity.get_user_id() if user_identity else "system"
-            )
+            stored_memory["metadata"]["forgotten_by"] = user_identity.get_user_id() if user_identity else "system"
 
             # Write back the updated memory with forgotten status
             with open(memory_path, "w") as f:
@@ -542,9 +530,7 @@ class MemoryManager:
 
             memory["metadata"]["forgotten"] = True
             memory["metadata"]["forgotten_at"] = datetime.now().isoformat()
-            memory["metadata"]["forgotten_by"] = (
-                user_identity.get_user_id() if user_identity else "system"
-            )
+            memory["metadata"]["forgotten_by"] = user_identity.get_user_id() if user_identity else "system"
 
             # Update the memory fold
             self.memory_folds.add_fold(
@@ -580,9 +566,7 @@ class MemoryManager:
 
         return results
 
-    def extract_user_insights(
-        self, user_id: str, user_identity: Optional[ID] = None
-    ) -> dict[str, Any]:
+    def extract_user_insights(self, user_id: str, user_identity: Optional[ID] = None) -> dict[str, Any]:
         """
         Extract insights and patterns from a specific user's memories.
         Adapted from prot1/memory_manager.py and enhanced for prot2.
@@ -640,16 +624,12 @@ class MemoryManager:
         # For prot1 compatibility, we'll analyze 'text' field if present in 'data'
         for memory in user_memories_data:
             text_to_analyze = None
-            if (
-                memory.get("memory_type") == MemoryType.PREFERENCE.value
-            ):  # Assuming PREFERENCE type exists
+            if memory.get("memory_type") == MemoryType.PREFERENCE.value:  # Assuming PREFERENCE type exists
                 if isinstance(memory.get("data"), dict) and "text" in memory["data"]:
                     text_to_analyze = memory["data"]["text"]
                 elif isinstance(memory.get("data"), str):
                     text_to_analyze = memory["data"]
-            elif (
-                isinstance(memory.get("data"), dict) and "text" in memory["data"]
-            ):  # Fallback for other types
+            elif isinstance(memory.get("data"), dict) and "text" in memory["data"]:  # Fallback for other types
                 text_to_analyze = memory["data"]["text"]
             elif isinstance(memory.get("data"), str):  # Fallback for string data
                 text_to_analyze = memory["data"]
@@ -675,9 +655,7 @@ class MemoryManager:
                 for pattern, category in preference_patterns:
                     matches = re.finditer(pattern, text_lower)
                     for match in matches:
-                        extracted_value = (
-                            match.group(1).strip().split(".")[0].split(",")[0]
-                        )  # Get first part
+                        extracted_value = match.group(1).strip().split(".")[0].split(",")[0]  # Get first part
                         if extracted_value:  # Ensure non-empty
                             preferences.setdefault(category, []).append(extracted_value)
                             # Avoid duplicate entries for the same preference
@@ -719,13 +697,9 @@ class MemoryManager:
                 f"User has an extensive interaction history with {len(user_memories_data)} memories."
             )
         elif len(user_memories_data) > 10:
-            summary_insights.append(
-                f"User has a moderate interaction history with {len(user_memories_data)} memories."
-            )
+            summary_insights.append(f"User has a moderate interaction history with {len(user_memories_data)} memories.")
         else:
-            summary_insights.append(
-                f"User has a limited interaction history with {len(user_memories_data)} memories."
-            )
+            summary_insights.append(f"User has a limited interaction history with {len(user_memories_data)} memories.")
 
         if preferences.get("likes") and len(preferences["likes"]) >= 3:
             summary_insights.append("User has expressed multiple likes/preferences.")
@@ -825,9 +799,7 @@ class MemoryManager:
 
             # Write memory data to file
             with open(file_path, "w") as f:
-                json.dump(
-                    memory, f, default=str
-                )  # default=str to handle non-serializable types like datetime
+                json.dump(memory, f, default=str)  # default=str to handle non-serializable types like datetime
 
             logger.info(f"Memory persisted to disk: {key}")
         except Exception as e:
@@ -919,9 +891,7 @@ class MemoryManager:
         )
 
         # Apply priority overrides
-        priority_obj = (
-            priority if isinstance(priority, MemoryPriority) else MemoryPriority(priority)
-        )
+        priority_obj = priority if isinstance(priority, MemoryPriority) else MemoryPriority(priority)
         if priority_obj in self.priority_overrides:
             priority_tier = self.priority_overrides[priority_obj]
             if priority_tier.value > min_tier.value:

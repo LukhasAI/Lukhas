@@ -140,9 +140,7 @@ class EmotionalMemoryVector:
 
         # Limit history size
         if len(self.vectors[user_id]["history"]) > self.memory_retention:
-            self.vectors[user_id]["history"] = self.vectors[user_id]["history"][
-                -self.memory_retention :
-            ]
+            self.vectors[user_id]["history"] = self.vectors[user_id]["history"][-self.memory_retention :]
 
         # Update composite vector with weighted average
         self._update_composite_vector(user_id)
@@ -277,9 +275,7 @@ class SymbolicIdentityHash:
             best_similarity = 0
 
             for user_id, hash_data in self.identity_hashes.items():
-                similarity = self._calculate_hash_similarity(
-                    verification_hash["hash"], hash_data["hash"]
-                )
+                similarity = self._calculate_hash_similarity(verification_hash["hash"], hash_data["hash"])
                 if similarity > best_similarity and similarity >= 0.8:
                     best_similarity = similarity
                     best_match = user_id

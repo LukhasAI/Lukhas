@@ -58,15 +58,10 @@ AdvancedConfidenceCalibrator = None
 
 try:
     current_script_path = Path(__file__).resolve()
-    project_root = (
-        current_script_path.parent.parent
-    )  # Assumes reasoning/ is one level down from project root
+    project_root = current_script_path.parent.parent  # Assumes reasoning/ is one level down from project root
     abstract_reasoning_module_path = project_root / "abstract_reasoning"
 
-    if (
-        abstract_reasoning_module_path.exists()
-        and str(abstract_reasoning_module_path) not in sys.path
-    ):
+    if abstract_reasoning_module_path.exists() and str(abstract_reasoning_module_path) not in sys.path:
         sys.path.insert(0, str(abstract_reasoning_module_path))
         logger.info(
             "ΛTRACE: Added abstract_reasoning module path to sys.path.",
@@ -110,9 +105,7 @@ except ImportError as e:
             return {}
 
         async def get_performance_summary(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-            logger.warning(
-                "ΛTRACE: Using dummy AbstractReasoningBrainInterface.get_performance_summary"
-            )
+            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainInterface.get_performance_summary")
             return {}
 
         async def provide_feedback(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
@@ -120,9 +113,7 @@ except ImportError as e:
             return {}
 
         async def get_reasoning_history(self, *args: Any, **kwargs: Any) -> list[Any]:
-            logger.warning(
-                "ΛTRACE: Using dummy AbstractReasoningBrainInterface.get_reasoning_history"
-            )
+            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainInterface.get_reasoning_history")
             return []
 
         async def shutdown(self):
@@ -227,9 +218,7 @@ async def demonstrate_abstract_reasoning() -> None:
 
         # Assuming the structure of 'result1' based on original logging
         solution_details1 = result1.get("solution_details", {})  # Renamed
-        coherent_solution_package1 = solution_details1.get(
-            "coherent_solution_package", {}
-        )  # Renamed
+        coherent_solution_package1 = solution_details1.get("coherent_solution_package", {})  # Renamed
         reasoning_summary1 = coherent_solution_package1.get(
             "reasoning_conclusion_summary", "Analysis details not available."
         )  # Renamed
@@ -238,9 +227,9 @@ async def demonstrate_abstract_reasoning() -> None:
         confidence_analysis1 = await reasoning_interface.analyze_confidence(
             reasoning_output=result1, request_id=f"{req_id_main_demo}_ex1_conf"
         )  # Renamed
-        overall_interpretation1 = confidence_analysis1.get(
-            "full_confidence_interpretation", {}
-        ).get("overall_assessment", "N/A")  # Renamed
+        overall_interpretation1 = confidence_analysis1.get("full_confidence_interpretation", {}).get(
+            "overall_assessment", "N/A"
+        )  # Renamed
         demo_logger.info("📊 Confidence Interpretation", interpretation=overall_interpretation1)
 
         # Placeholder for actual content of further examples to keep this change focused.
@@ -267,13 +256,9 @@ async def demonstrate_abstract_reasoning() -> None:
         # is available)
         if reason_about:
             demo_logger.info(" ")
-            demo_logger.info(
-                "⚡ Example 4: Quick Reasoning Function", example_id="ex4_quick_reason"
-            )
+            demo_logger.info("⚡ Example 4: Quick Reasoning Function", example_id="ex4_quick_reason")
             demo_logger.info("-" * 40)
-            quick_problem = {
-                "description": "Optimal path for drone delivery in a dynamic urban environment."
-            }
+            quick_problem = {"description": "Optimal path for drone delivery in a dynamic urban environment."}
             quick_result = await reason_about(
                 problem_data=quick_problem,
                 context_info={"weather": "clear", "traffic": "moderate"},
@@ -297,9 +282,7 @@ async def demonstrate_abstract_reasoning() -> None:
         )
         demo_logger.info("-" * 40)
         # ... (Simulated call and logging for Example 6) ...
-        demo_logger.info(
-            "Feedback processing and reasoning history update would be demonstrated here."
-        )
+        demo_logger.info("Feedback processing and reasoning history update would be demonstrated here.")
 
     except Exception as e:
         demo_logger.error(
@@ -312,9 +295,7 @@ async def demonstrate_abstract_reasoning() -> None:
         demo_logger.info("ΛTRACE: Attempting to shut down Abstract Reasoning Brain Interface...")
         if reasoning_interface:  # Ensure it was initialized
             await reasoning_interface.shutdown()
-        demo_logger.info(
-            "ΛTRACE: 🛑 Abstract Reasoning Brain Interface shutdown sequence complete."
-        )
+        demo_logger.info("ΛTRACE: 🛑 Abstract Reasoning Brain Interface shutdown sequence complete.")
 
     demo_logger.info("🎉 Bio-Quantum Symbolic Reasoning Demo Complete!")
     demo_logger.info("=" * 60)
@@ -406,9 +387,7 @@ async def demonstrate_advanced_features() -> None:
         adv_logger.info("ΛTRACE: Shutting down AbstractReasoningBrainCore...")
         if core_instance:  # Ensure it was initialized
             await core_instance.shutdown_brain()
-        adv_logger.info(
-            "ΛTRACE: AbstractReasoningBrainCore shutdown. Advanced Features Demo finished."
-        )
+        adv_logger.info("ΛTRACE: AbstractReasoningBrainCore shutdown. Advanced Features Demo finished.")
 
 
 # Example of using the system for scientific research reasoning.
@@ -422,9 +401,7 @@ async def scientific_research_example() -> None:
     sci_logger.info("🔬 Starting Scientific Research Use Case Demo")
 
     if not ABSTRACT_REASONING_COMPONENTS_AVAILABLE or not reason_about:
-        sci_logger.error(
-            "ΛTRACE: `reason_about` function not available. Skipping scientific research demo."
-        )
+        sci_logger.error("ΛTRACE: `reason_about` function not available. Skipping scientific research demo.")
         return
 
     research_problem_data: dict[str, Any] = {
@@ -459,9 +436,7 @@ async def business_strategy_example() -> None:
     biz_logger.info("💼 Starting Business Strategy Use Case Demo")
 
     if not ABSTRACT_REASONING_COMPONENTS_AVAILABLE or not reason_about:
-        biz_logger.error(
-            "ΛTRACE: `reason_about` function not available. Skipping business strategy demo."
-        )
+        biz_logger.error("ΛTRACE: `reason_about` function not available. Skipping business strategy demo.")
         return
 
     strategy_problem_data: dict[str, Any] = {
@@ -494,9 +469,7 @@ async def creative_design_example() -> None:
     design_logger.info("🎨 Starting Creative Design Use Case Demo")
 
     if not ABSTRACT_REASONING_COMPONENTS_AVAILABLE or not reason_about:
-        design_logger.error(
-            "ΛTRACE: `reason_about` function not available. Skipping creative design demo."
-        )
+        design_logger.error("ΛTRACE: `reason_about` function not available. Skipping creative design demo.")
         return
 
     design_problem_data: dict[str, Any] = {

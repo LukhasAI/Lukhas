@@ -235,12 +235,8 @@ class MemoryHub:
                 if self.memory_planner:
                     self.register_service("memory_planner", self.memory_planner)
                     # Create default allocation pools
-                    self.memory_planner.create_allocation_pool(
-                        "default", 1024 * 1024
-                    )  # 1MB default pool
-                    self.memory_planner.create_allocation_pool(
-                        "large", 10 * 1024 * 1024
-                    )  # 10MB large pool
+                    self.memory_planner.create_allocation_pool("default", 1024 * 1024)  # 1MB default pool
+                    self.memory_planner.create_allocation_pool("large", 10 * 1024 * 1024)  # 10MB large pool
                     logger.info("Memory planning components initialized with default pools")
             except Exception as e:
                 logger.error(f"Failed to initialize memory planning: {e}")
@@ -477,15 +473,11 @@ class MemoryHub:
                     "consolidation_orchestrator",
                     "sleep_cycle_manager",
                 ]:
-                    module = __import__(
-                        f"memory.consolidation.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"memory.consolidation.{service_name}", fromlist=[class_name])
                 elif service_name == "replay_buffer":
                     module = __import__("memory.replay.replay_buffer", fromlist=[class_name])
                 elif service_name == "resonant_memory_access":
-                    module = __import__(
-                        "memory.resonance.resonant_memory_access", fromlist=[class_name]
-                    )
+                    module = __import__("memory.resonance.resonant_memory_access", fromlist=[class_name])
                 elif service_name in ["integration_bridge", "adaptive_memory_engine"]:
                     module = __import__(f"memory.systems.{service_name}", fromlist=[class_name])
 
@@ -567,9 +559,7 @@ class MemoryHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(
-                        service_name, self.services[service_name], "memory"
-                    )
+                    discovery.register_service_globally(service_name, self.services[service_name], "memory")
 
             logger.debug(f"Registered {len(key_services)} memory services with global discovery")
         except Exception as e:
@@ -645,9 +635,7 @@ class MemoryHub:
             except Exception as e:
                 logger.error(f"Failed to connect to SymbolicHub: {e}")
         else:
-            logger.warning(
-                "SymbolicHub or SymbolicMemoryMapper not available - skipping connection"
-            )
+            logger.warning("SymbolicHub or SymbolicMemoryMapper not available - skipping connection")
 
         # Setup distributed state management
         try:
@@ -769,9 +757,7 @@ class MemoryHub:
             logger.error(f"Failed to encode memory in helix: {e}")
             return ""
 
-    async def mutate_helix_memory(
-        self, memory_id: str, mutation: dict[str, Any], strategy: str
-    ) -> bool:
+    async def mutate_helix_memory(self, memory_id: str, mutation: dict[str, Any], strategy: str) -> bool:
         """Apply mutation to helix memory"""
         if not GOLDEN_HELIX_AVAILABLE:
             logger.warning("Golden Helix Memory Mapper not available")
@@ -922,9 +908,7 @@ class MemoryHub:
             logger.error(f"Failed to create episodic memory: {e}")
             return {"success": False, "error": str(e)}
 
-    async def retrieve_episodic_memory(
-        self, memory_id: str, include_related: bool = False
-    ) -> dict[str, Any]:
+    async def retrieve_episodic_memory(self, memory_id: str, include_related: bool = False) -> dict[str, Any]:
         """Retrieve episodic memory by ID through colony integration"""
         if not EPISODIC_MEMORY_COLONY_AVAILABLE:
             logger.warning("Episodic memory colony not available")
@@ -944,9 +928,7 @@ class MemoryHub:
             logger.error(f"Failed to retrieve episodic memory: {e}")
             return {"success": False, "error": str(e)}
 
-    async def search_episodic_memories(
-        self, query: dict[str, Any], limit: int = 50
-    ) -> list[dict[str, Any]]:
+    async def search_episodic_memories(self, query: dict[str, Any], limit: int = 50) -> list[dict[str, Any]]:
         """Search episodic memories through colony integration"""
         if not EPISODIC_MEMORY_COLONY_AVAILABLE:
             logger.warning("Episodic memory colony not available")
@@ -1026,9 +1008,7 @@ class MemoryHub:
             return {"available": False, "error": str(e)}
 
     # Memory Tracker interface methods
-    async def start_memory_tracking(
-        self, root_module=None, session_id: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def start_memory_tracking(self, root_module=None, session_id: Optional[str] = None) -> dict[str, Any]:
         """Start memory tracking through integration"""
         if not MEMORY_TRACKER_AVAILABLE:
             logger.warning("Memory tracker not available")
@@ -1062,9 +1042,7 @@ class MemoryHub:
             logger.error(f"Failed to stop memory tracking: {e}")
             return {"success": False, "error": str(e)}
 
-    async def get_memory_tracking_summary(
-        self, session_id: Optional[str] = None, top_ops: int = 20
-    ) -> dict[str, Any]:
+    async def get_memory_tracking_summary(self, session_id: Optional[str] = None, top_ops: int = 20) -> dict[str, Any]:
         """Get memory tracking summary through integration"""
         if not MEMORY_TRACKER_AVAILABLE:
             logger.warning("Memory tracker not available")

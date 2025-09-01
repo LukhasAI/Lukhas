@@ -54,9 +54,7 @@ class RiskOverlayManager:
         with self._lock:
             self._load()
 
-    def get_policies(
-        self, jurisdiction: Optional[str] = None, context: Optional[str] = None
-    ) -> dict[str, Any]:
+    def get_policies(self, jurisdiction: Optional[str] = None, context: Optional[str] = None) -> dict[str, Any]:
         """
         Returns the merged policy dict for the given jurisdiction and context.
         Order of precedence:

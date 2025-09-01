@@ -185,9 +185,7 @@ class TrueCoreAnalyzer:
                 core_by_module = defaultdict(list)
                 for file in self.categories["true_core"]:
                     if "/" in file:
-                        module = (
-                            file.split("/")[1] if file.startswith("core/") else file.split("/")[0]
-                        )
+                        module = file.split("/")[1] if file.startswith("core/") else file.split("/")[0]
                         core_by_module[module].append(file)
 
                 for module, files in sorted(core_by_module.items()):
@@ -200,9 +198,7 @@ class TrueCoreAnalyzer:
 
             # External Packages
             f.write("## 📦 External Packages (Should be Dependencies)\n\n")
-            f.write(
-                f"**{len(self.categories['external_packages'])} files** - Not part of your AI core\n\n"
-            )
+            f.write(f"**{len(self.categories['external_packages'])} files** - Not part of your AI core\n\n")
 
             if self.categories["external_packages"]:
                 external_by_package = defaultdict(list)
@@ -226,12 +222,8 @@ class TrueCoreAnalyzer:
             # Interface Bloat
             if self.categories["interface_bloat"]:
                 f.write("## 🖥️ Interface Bloat\n\n")
-                f.write(
-                    f"**{len(self.categories['interface_bloat'])} files** - Large interface packages\n\n"
-                )
-                f.write(
-                    "*Consider if these should be separate repositories or external dependencies*\n\n"
-                )
+                f.write(f"**{len(self.categories['interface_bloat'])} files** - Large interface packages\n\n")
+                f.write("*Consider if these should be separate repositories or external dependencies*\n\n")
 
             # Recommendations
             f.write("## 🎯 Recommendations\n\n")
@@ -243,14 +235,10 @@ class TrueCoreAnalyzer:
                 f.write("⚠️ **ALERT**: External packages outnumber your core AI files!\n\n")
 
             f.write("### Immediate Actions:\n")
-            f.write(
-                "1. **Move External Packages** - Move video/audio generation to `external_dependencies/`\n"
-            )
+            f.write("1. **Move External Packages** - Move video/audio generation to `external_dependencies/`\n")
             f.write("2. **Create requirements.txt** - List external packages as dependencies\n")
             f.write("3. **Clean Core Focus** - Keep only true AI logic in `lukhas/core/`\n")
-            f.write(
-                "4. **Separate Interfaces** - Consider moving large UI packages to separate repos\n\n"
-            )
+            f.write("4. **Separate Interfaces** - Consider moving large UI packages to separate repos\n\n")
 
             f.write("### Target Structure:\n")
             f.write("```\n")
@@ -292,9 +280,7 @@ def main():
     print(f"   • Total Files: {total}")
 
     if external > true_core:
-        print(
-            f"\n⚠️  ALERT: External packages are {external / true_core:.1f}x larger than your core!"
-        )
+        print(f"\n⚠️  ALERT: External packages are {external / true_core:.1f}x larger than your core!")
         print("   Most files are NOT your AI code - they're external libraries!")
     else:
         print("\n✅ Good: Your core AI is the primary component")

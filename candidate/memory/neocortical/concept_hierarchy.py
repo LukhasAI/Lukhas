@@ -334,17 +334,13 @@ class ConceptHierarchy:
 
                 # Extract is-a relationships
                 if concept.parent:
-                    ontology["relationships"]["is_a"].append(
-                        {"child": concept.name, "parent": concept.parent.name}
-                    )
+                    ontology["relationships"]["is_a"].append({"child": concept.name, "parent": concept.parent.name})
 
                 # Extract properties
                 for attr_name, attr_value in concept.attributes.items():
                     if attr_name not in ontology["properties"]:
                         ontology["properties"][attr_name] = []
-                    ontology["properties"][attr_name].append(
-                        {"concept": concept.name, "value": attr_value}
-                    )
+                    ontology["properties"][attr_name].append({"concept": concept.name, "value": attr_value})
 
         return ontology
 
@@ -532,9 +528,7 @@ class ConceptHierarchy:
             depth_dist[concept.level] += 1
 
         # Find most accessed concepts
-        accessed_concepts = [
-            (c.name, c.access_count) for c in self.concepts.values() if c.access_count > 0
-        ]
+        accessed_concepts = [(c.name, c.access_count) for c in self.concepts.values() if c.access_count > 0]
         accessed_concepts.sort(key=lambda x: x[1], reverse=True)
 
         return {
@@ -593,9 +587,7 @@ if __name__ == "__main__":
     print("\n--- Semantic Distance ---")
     print(f"Dog <-> Cat: {hierarchy.get_semantic_distance('Dog', 'Cat'):.2f}")
     print(f"Dog <-> Eagle: {hierarchy.get_semantic_distance('Dog', 'Eagle'):.2f}")
-    print(
-        f"Golden Retriever <-> Siamese Cat: {hierarchy.get_semantic_distance('Golden Retriever', 'Siamese Cat'):.2f}"
-    )
+    print(f"Golden Retriever <-> Siamese Cat: {hierarchy.get_semantic_distance('Golden Retriever', 'Siamese Cat'):.2f}")
 
     # Extract ontology
     print("\n--- Ontology ---")

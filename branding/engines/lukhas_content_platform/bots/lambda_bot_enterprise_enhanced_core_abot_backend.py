@@ -38,9 +38,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("EnhancedCoreABot")
 
 # Configuration
@@ -57,9 +55,7 @@ app = FastAPI(title="Enhanced Core LUKHAS AI ΛBot API", version="2.0.0")
 database = databases.Database(DATABASE_URL)
 redis_client = redis.from_url(REDIS_URL)
 celery_app = Celery("coreΛBot", broker=REDIS_URL, backend=REDIS_URL)
-s3_client = boto3.client(
-    "s3", aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-)
+s3_client = boto3.client("s3", aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
 
@@ -448,9 +444,7 @@ class SocialMediaService:
             "twitter": TwitterIntegration(),
         }
 
-    async def authenticate_platform(
-        self, platform: str, auth_code: str, user_id: str
-    ) -> dict[str, Any]:
+    async def authenticate_platform(self, platform: str, auth_code: str, user_id: str) -> dict[str, Any]:
         """Authenticate user with social platform"""
         if platfrom not in self.platforms:
             raise HTTPException(status_code=400, detail="Unsupported platform")
@@ -660,9 +654,7 @@ class ComplianceService:
         user_data["media_files"] = [dict(file) for file in media_files]
 
         # Platfrom connections
-        platform_query = platform_connections_table.select().where(
-            platform_connections_table.c.user_id == user_id
-        )
+        platform_query = platform_connections_table.select().where(platform_connections_table.c.user_id == user_id)
         platforms = await database.fetch_all(platform_query)
         user_data["platform_connections"] = [dict(conn) for conn in platforms]
 
@@ -674,23 +666,13 @@ class ComplianceService:
         """Delete all user data for GDPR compliance"""
         try:
             # Delete in reverse dependency order
+            await database.execute(compliance_logs_table.delete().where(compliance_logs_table.c.user_id == user_id))
             await database.execute(
-                compliance_logs_table.delete().where(compliance_logs_table.c.user_id == user_id)
+                platform_connections_table.delete().where(platform_connections_table.c.user_id == user_id)
             )
-            await database.execute(
-                platform_connections_table.delete().where(
-                    platform_connections_table.c.user_id == user_id
-                )
-            )
-            await database.execute(
-                media_files_table.delete().where(media_files_table.c.user_id == user_id)
-            )
-            await database.execute(
-                chat_messages_table.delete().where(chat_messages_table.c.user_id == user_id)
-            )
-            await database.execute(
-                content_items_table.delete().where(content_items_table.c.user_id == user_id)
-            )
+            await database.execute(media_files_table.delete().where(media_files_table.c.user_id == user_id))
+            await database.execute(chat_messages_table.delete().where(chat_messages_table.c.user_id == user_id))
+            await database.execute(content_items_table.delete().where(content_items_table.c.user_id == user_id))
             await database.execute(users_table.delete().where(users_table.c.id == user_id))
 
             return {"status": "completed", "message": "All user data has been permanently deleted"}
@@ -727,9 +709,7 @@ class FileService:
         try:
             # Upload to S3
             file_content = await file.read()
-            s3_client.put_object(
-                Bucket=AWS_BUCKET_NAME, Key=s3_key, Body=file_content, ContentType=file.content_type
-            )
+            s3_client.put_object(Bucket=AWS_BUCKET_NAME, Key=s3_key, Body=file_content, ContentType=file.content_type)
 
             # Generate S3 URL
             s3_url = f"https://{AWS_BUCKET_NAME}.s3.amazonaws.com/{s3_key}"
@@ -767,9 +747,7 @@ class FileService:
                 return file_type
         return None
 
-    async def get_user_files(
-        self, user_id: str, file_type: Optional[str] = None
-    ) -> list[dict[str, Any]]:
+    async def get_user_files(self, user_id: str, file_type: Optional[str] = None) -> list[dict[str, Any]]:
         """Get user's uploaded files"""
         query = media_files_table.select().where(media_files_table.c.user_id == user_id)
 
@@ -888,9 +866,7 @@ async def login(login_data: UserLogin):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     # Update last login
-    update_query = (
-        users_table.update().where(users_table.c.id == user["id"]).values(last_login=func.now())
-    )
+    update_query = users_table.update().where(users_table.c.id == user["id"]).values(last_login=func.now())
     await database.execute(update_query)
 
     # Create access token
@@ -970,9 +946,7 @@ async def send_chat_message(message: ChatMessage, current_user=Depends(get_curre
 
 
 @app.post("/chat/generate-content")
-async def generate_content_suggestion(
-    platform: str, topic: str, current_user=Depends(get_current_user)
-):
+async def generate_content_suggestion(platform: str, topic: str, current_user=Depends(get_current_user)):
     """Generate content suggestion for specific platform"""
     user_context = {"user_id": str(current_user["id"])}
     content = await chatgpt_service.generate_content(platform, topic, user_context)
@@ -987,9 +961,7 @@ async def review_content(content: str, platform: str, current_user=Depends(get_c
     review = await chatgpt_service.review_content(content, platform, user_context)
 
     # Check compliance
-    compliance_flags = await compliance_service.check_content_compliance(
-        content, str(current_user["id"])
-    )
+    compliance_flags = await compliance_service.check_content_compliance(content, str(current_user["id"]))
 
     return {"review": review, "compliance_flags": compliance_flags, "platform": platfrom}
 
@@ -998,9 +970,7 @@ async def review_content(content: str, platform: str, current_user=Depends(get_c
 async def apply_amendment(request: AmendmentRequest, current_user=Depends(get_current_user)):
     """Apply natural language amendment to content"""
     user_context = {"user_id": str(current_user["id"])}
-    updated_content = await chatgpt_service.apply_amendment(
-        request.content, request.amendment, user_context
-    )
+    updated_content = await chatgpt_service.apply_amendment(request.content, request.amendment, user_context)
 
     return {
         "original_content": request.content,
@@ -1016,9 +986,7 @@ async def create_content(content_data: ContentCreate, current_user=Depends(get_c
     user_id = str(current_user["id"])
 
     # Check compliance
-    compliance_flags = await compliance_service.check_content_compliance(
-        content_data.content, user_id
-    )
+    compliance_flags = await compliance_service.check_content_compliance(content_data.content, user_id)
 
     content_values = {
         "user_id": user_id,
@@ -1095,11 +1063,7 @@ async def review_content_item(
         existing_amendments.append(review_request.comments)
         update_data["user_amendments"] = existing_amendments
 
-    update_query = (
-        content_items_table.update()
-        .where(content_items_table.c.id == content_id)
-        .values(**update_data)
-    )
+    update_query = content_items_table.update().where(content_items_table.c.id == content_id).values(**update_data)
 
     await database.execute(update_query)
 
@@ -1115,14 +1079,10 @@ async def publish_content(content_id: str, current_user=Depends(get_current_user
 
 # Social media integration routes
 @app.post("/social/connect/{platform}")
-async def connect_social_platform(
-    platform: str, auth_code: str = Form(...), current_user=Depends(get_current_user)
-):
+async def connect_social_platform(platform: str, auth_code: str = Form(...), current_user=Depends(get_current_user)):
     """Connect user to social media platform"""
     try:
-        auth_data = await social_media_service.authenticate_platform(
-            platform, auth_code, str(current_user["id"])
-        )
+        auth_data = await social_media_service.authenticate_platform(platform, auth_code, str(current_user["id"]))
         return {"status": "success", "platform": platform, "data": auth_data}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -1230,9 +1190,7 @@ async def handle_data_request(
     current_user=Depends(get_current_user),
 ):
     """Handle GDPR data subject requests"""
-    result = await compliance_service.handle_data_subject_request(
-        str(current_user["id"]), request_type
-    )
+    result = await compliance_service.handle_data_subject_request(str(current_user["id"]), request_type)
     return result
 
 

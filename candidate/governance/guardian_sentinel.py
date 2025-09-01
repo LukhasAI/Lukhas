@@ -89,9 +89,7 @@ class GuardianSentinel:
                 )
 
         # Shadow filter for identity protection
-        shadow_check = self.shadow_filter.check_transformation(
-            context.get("persona"), context.get("entropy", 0.0)
-        )
+        shadow_check = self.shadow_filter.check_transformation(context.get("persona"), context.get("entropy", 0.0))
 
         if not shadow_check["allowed"]:
             return (
@@ -105,9 +103,7 @@ class GuardianSentinel:
 
         return True, "Action permitted", {"threat_level": "low"}
 
-    def intervene(
-        self, threat_type: str, severity: float, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def intervene(self, threat_type: str, severity: float, context: dict[str, Any]) -> dict[str, Any]:
         """
         Execute Guardian intervention based on threat assessment.
 
@@ -167,9 +163,7 @@ class GuardianSentinel:
             ],
         }
 
-    def monitor_symbolic_coherence(
-        self, glyphs: list[str], expected_pattern: Optional[str] = None
-    ) -> dict[str, Any]:
+    def monitor_symbolic_coherence(self, glyphs: list[str], expected_pattern: Optional[str] = None) -> dict[str, Any]:
         """
         Monitor symbolic coherence and Trinity alignment.
 

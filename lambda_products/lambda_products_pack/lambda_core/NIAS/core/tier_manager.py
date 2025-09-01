@@ -194,9 +194,7 @@ class TierManager:
 
         return self.user_tiers.get(user_id)
 
-    async def update_user_tier(
-        self, user_id: str, new_tier: str, reason: str = "manual_update"
-    ) -> dict[str, Any]:
+    async def update_user_tier(self, user_id: str, new_tier: str, reason: str = "manual_update") -> dict[str, Any]:
         """Update user's tier"""
         try:
             if new_tier not in self.tier_configs:
@@ -257,9 +255,7 @@ class TierManager:
 
         return config
 
-    async def apply_tier_filters(
-        self, message: dict[str, Any], processing_config: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def apply_tier_filters(self, message: dict[str, Any], processing_config: dict[str, Any]) -> dict[str, Any]:
         """Apply tier-specific filters to a message"""
         filtered_message = message.copy()
 
@@ -279,15 +275,11 @@ class TierManager:
         if processing_config["processing_rules"]["show_ads"]:
             # Add ad placement opportunities
             filtered_message["ad_placement_enabled"] = True
-            filtered_message["ad_frequency"] = (
-                "standard" if processing_config["name"] == "Enhanced" else "high"
-            )
+            filtered_message["ad_frequency"] = "standard" if processing_config["name"] == "Enhanced" else "high"
 
         if processing_config["processing_rules"]["require_feedback"]:
             filtered_message["feedback_required"] = True
-            filtered_message["feedback_prompt"] = (
-                "Please rate this recommendation to help us improve"
-            )
+            filtered_message["feedback_prompt"] = "Please rate this recommendation to help us improve"
 
         return filtered_message
 
@@ -431,12 +423,9 @@ class TierManager:
         for tier, usage_list in usage_by_tier.items():
             if usage_list:
                 avg_usage[tier] = {
-                    "avg_messages": sum(u.get("messages_received", 0) for u in usage_list)
-                    / len(usage_list),
-                    "avg_interactions": sum(u.get("widgets_interacted", 0) for u in usage_list)
-                    / len(usage_list),
-                    "avg_feedback": sum(u.get("feedback_provided", 0) for u in usage_list)
-                    / len(usage_list),
+                    "avg_messages": sum(u.get("messages_received", 0) for u in usage_list) / len(usage_list),
+                    "avg_interactions": sum(u.get("widgets_interacted", 0) for u in usage_list) / len(usage_list),
+                    "avg_feedback": sum(u.get("feedback_provided", 0) for u in usage_list) / len(usage_list),
                 }
             else:
                 avg_usage[tier] = {

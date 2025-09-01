@@ -1,0 +1,421 @@
+{
+  "demo_statistics": {
+    "demo_runs": 1,
+    "total_glyphs_generated": 7,
+    "total_hints_generated": 16,
+    "router_stats": {
+      "router_available": true,
+      "routing_enabled": true,
+      "routes_sent": 4,
+      "routes_failed": 0,
+      "failure_rate": 0.0,
+      "average_priority": 0.5575,
+      "mock_mode": true
+    },
+    "oneiric_stats": {
+      "policies_applied": 4,
+      "http_requests_sent": 0,
+      "http_failures": 0,
+      "http_success_rate": 1.0
+    }
+  },
+  "scenario_results": [
+    {
+      "seed": {
+        "name": "High Threat Vigilance",
+        "description": "High arousal, negative tone, red colorfield - should trigger vigilance glyph",
+        "proto": {
+          "narrative_gravity": 0.8,
+          "embodiment": 0.6,
+          "colorfield": "aka/red",
+          "arousal": 0.9,
+          "tone": -0.6,
+          "clarity": 0.7,
+          "temporal_feel": "urgent",
+          "agency_feel": "active"
+        },
+        "risk": {
+          "score": 0.8
+        },
+        "subject": "threat_detection",
+        "object": "unknown_entity"
+      },
+      "scene": {
+        "proto": {
+          "tone": -0.6,
+          "arousal": 0.9,
+          "clarity": 0.7,
+          "embodiment": 0.6,
+          "colorfield": "aka/red",
+          "temporal_feel": "urgent",
+          "agency_feel": "active",
+          "narrative_gravity": 0.8
+        },
+        "subject": "threat_detection",
+        "object": "unknown_entity",
+        "context": {},
+        "risk": {
+          "score": 0.8,
+          "reasons": [],
+          "severity": "high"
+        },
+        "transform_chain": [],
+        "timestamp": 1756688273.9925828
+      },
+      "glyphs": [
+        {
+          "key": "aka:vigilance",
+          "attrs": {
+            "arousal": 0.9,
+            "tone": -0.6,
+            "clarity": 0.7,
+            "risk_score": 0.8,
+            "severity": "high"
+          }
+        },
+        {
+          "key": "aka:red_threshold",
+          "attrs": {
+            "narrative_gravity": 0.8,
+            "embodiment": 0.6,
+            "colorfield": "aka/red",
+            "arousal": 0.9,
+            "temporal_feel": "urgent",
+            "agency_feel": "active"
+          }
+        },
+        {
+          "key": "aka:grounding_hint",
+          "attrs": {
+            "suggested_palette": "aoi/blue",
+            "clarity": 0.7,
+            "embodiment": 0.6,
+            "risk_severity": "high",
+            "grounding_urgency": 0.4
+          }
+        }
+      ],
+      "priority": 0.7999999999999999,
+      "policy": {
+        "gain": 1.5,
+        "pace": 1.4300000000000002,
+        "color_contrast": "aoi/blue",
+        "actions": [
+          "breathing",
+          "pause",
+          "reframe",
+          "sublimate"
+        ]
+      },
+      "hints": {
+        "tempo": 1.7160000000000002,
+        "palette_hint": "aoi/blue",
+        "ops": [
+          "breathing",
+          "pause",
+          "reframe",
+          "sublimate"
+        ],
+        "anchors": {}
+      },
+      "metrics": {
+        "drift_phi": 1.0,
+        "congruence_index": 1.0,
+        "sublimation_rate": 0.5,
+        "neurosis_risk": 0.0,
+        "qualia_novelty": 0.8,
+        "repair_delta": 0.5,
+        "timestamp": 1756688273.9927008,
+        "episode_id": "demo_1756688273"
+      },
+      "pipeline_stats": {
+        "glyphs_generated": 3,
+        "hints_generated": 4,
+        "routing_priority": 0.7999999999999999
+      },
+      "seed_index": 1,
+      "success": true
+    },
+    {
+      "seed": {
+        "name": "Peaceful Grounding",
+        "description": "Low arousal, positive tone, blue colorfield - should trigger soothe anchor",
+        "proto": {
+          "narrative_gravity": 0.3,
+          "embodiment": 0.9,
+          "colorfield": "aoi/blue",
+          "arousal": 0.2,
+          "tone": 0.6,
+          "clarity": 0.9,
+          "temporal_feel": "suspended",
+          "agency_feel": "passive"
+        },
+        "risk": {
+          "score": 0.1
+        },
+        "subject": "meditation",
+        "object": "inner_peace"
+      },
+      "scene": {
+        "proto": {
+          "tone": 0.6,
+          "arousal": 0.2,
+          "clarity": 0.9,
+          "embodiment": 0.9,
+          "colorfield": "aoi/blue",
+          "temporal_feel": "suspended",
+          "agency_feel": "passive",
+          "narrative_gravity": 0.3
+        },
+        "subject": "meditation",
+        "object": "inner_peace",
+        "context": {},
+        "risk": {
+          "score": 0.1,
+          "reasons": [],
+          "severity": "none"
+        },
+        "transform_chain": [],
+        "timestamp": 1756688273.9929311
+      },
+      "glyphs": [
+        {
+          "key": "aka:soothe_anchor",
+          "attrs": {
+            "tone": 0.6,
+            "arousal": 0.2,
+            "colorfield": "aoi/blue",
+            "embodiment": 0.9,
+            "temporal_feel": "suspended",
+            "soothe_strength": 0.48
+          }
+        }
+      ],
+      "priority": 0.24,
+      "policy": {
+        "gain": 1.2,
+        "pace": 0.54,
+        "color_contrast": null,
+        "actions": []
+      },
+      "hints": {
+        "tempo": 0.378,
+        "palette_hint": "aoi/blue",
+        "ops": [],
+        "anchors": {}
+      },
+      "metrics": {
+        "drift_phi": 0.24,
+        "congruence_index": 1.0,
+        "sublimation_rate": 0.0,
+        "neurosis_risk": 0.0,
+        "qualia_novelty": 0.3,
+        "repair_delta": 0.5,
+        "timestamp": 1756688273.993002,
+        "episode_id": "demo_1756688273"
+      },
+      "pipeline_stats": {
+        "glyphs_generated": 1,
+        "hints_generated": 4,
+        "routing_priority": 0.24
+      },
+      "seed_index": 2,
+      "success": true
+    },
+    {
+      "seed": {
+        "name": "Cognitive Confusion",
+        "description": "Low clarity, moderate arousal - should trigger grounding hint",
+        "proto": {
+          "narrative_gravity": 0.5,
+          "embodiment": 0.4,
+          "colorfield": "yellow/uncertain",
+          "arousal": 0.6,
+          "tone": -0.1,
+          "clarity": 0.2,
+          "temporal_feel": "elastic",
+          "agency_feel": "shared"
+        },
+        "risk": {
+          "score": 0.4
+        },
+        "subject": "problem_solving",
+        "object": "complex_decision",
+        "context": {
+          "approach_avoid_score": 0.7
+        }
+      },
+      "scene": {
+        "proto": {
+          "tone": -0.1,
+          "arousal": 0.6,
+          "clarity": 0.2,
+          "embodiment": 0.4,
+          "colorfield": "yellow/uncertain",
+          "temporal_feel": "elastic",
+          "agency_feel": "shared",
+          "narrative_gravity": 0.5
+        },
+        "subject": "problem_solving",
+        "object": "complex_decision",
+        "context": {
+          "approach_avoid_score": 0.7
+        },
+        "risk": {
+          "score": 0.4,
+          "reasons": [],
+          "severity": "moderate"
+        },
+        "transform_chain": [],
+        "timestamp": 1756688273.993034
+      },
+      "glyphs": [
+        {
+          "key": "aka:approach_avoid",
+          "attrs": {
+            "score": 0.7,
+            "tone": -0.1,
+            "agency_feel": "shared",
+            "narrative_gravity": 0.5
+          }
+        },
+        {
+          "key": "aka:grounding_hint",
+          "attrs": {
+            "suggested_palette": "aoi/blue",
+            "clarity": 0.2,
+            "embodiment": 0.4,
+            "risk_severity": "moderate",
+            "grounding_urgency": 0.8
+          }
+        }
+      ],
+      "priority": 0.47,
+      "policy": {
+        "gain": 0.7,
+        "pace": 1.0,
+        "color_contrast": null,
+        "actions": [
+          "focus-shift"
+        ]
+      },
+      "hints": {
+        "tempo": 1.0,
+        "palette_hint": "aoi/blue",
+        "ops": [
+          "focus-shift",
+          "pause",
+          "reframe"
+        ],
+        "anchors": {}
+      },
+      "metrics": {
+        "drift_phi": 1.0,
+        "congruence_index": 1.0,
+        "sublimation_rate": 0.0,
+        "neurosis_risk": 0.0,
+        "qualia_novelty": 0.5,
+        "repair_delta": 0.5,
+        "timestamp": 1756688273.9931,
+        "episode_id": "demo_1756688273"
+      },
+      "pipeline_stats": {
+        "glyphs_generated": 2,
+        "hints_generated": 4,
+        "routing_priority": 0.47
+      },
+      "seed_index": 3,
+      "success": true
+    },
+    {
+      "seed": {
+        "name": "Creative Sublimation",
+        "description": "High narrative gravity, moderate negative tone - should trigger creative transformation",
+        "proto": {
+          "narrative_gravity": 0.9,
+          "embodiment": 0.8,
+          "colorfield": "purple/creative",
+          "arousal": 0.7,
+          "tone": -0.2,
+          "clarity": 0.8,
+          "temporal_feel": "elastic",
+          "agency_feel": "active"
+        },
+        "risk": {
+          "score": 0.3
+        },
+        "subject": "artistic_creation",
+        "object": "transformative_work"
+      },
+      "scene": {
+        "proto": {
+          "tone": -0.2,
+          "arousal": 0.7,
+          "clarity": 0.8,
+          "embodiment": 0.8,
+          "colorfield": "purple/creative",
+          "temporal_feel": "elastic",
+          "agency_feel": "active",
+          "narrative_gravity": 0.9
+        },
+        "subject": "artistic_creation",
+        "object": "transformative_work",
+        "context": {},
+        "risk": {
+          "score": 0.3,
+          "reasons": [],
+          "severity": "low"
+        },
+        "transform_chain": [],
+        "timestamp": 1756688273.99313
+      },
+      "glyphs": [
+        {
+          "key": "aka:vigilance",
+          "attrs": {
+            "arousal": 0.7,
+            "tone": -0.2,
+            "clarity": 0.8,
+            "risk_score": 0.3,
+            "severity": "low"
+          }
+        }
+      ],
+      "priority": 0.72,
+      "policy": {
+        "gain": 1.7000000000000002,
+        "pace": 1.0,
+        "color_contrast": null,
+        "actions": [
+          "sublimate"
+        ]
+      },
+      "hints": {
+        "tempo": 1.0,
+        "palette_hint": "aoi/blue",
+        "ops": [
+          "sublimate"
+        ],
+        "anchors": {}
+      },
+      "metrics": {
+        "drift_phi": 0.9199999999999999,
+        "congruence_index": 1.0,
+        "sublimation_rate": 1.0,
+        "neurosis_risk": 0.0,
+        "qualia_novelty": 0.9,
+        "repair_delta": 0.5,
+        "timestamp": 1756688273.993192,
+        "episode_id": "demo_1756688273"
+      },
+      "pipeline_stats": {
+        "glyphs_generated": 1,
+        "hints_generated": 4,
+        "routing_priority": 0.72
+      },
+      "seed_index": 4,
+      "success": true
+    }
+  ],
+  "timestamp": 1756688273.993322
+}

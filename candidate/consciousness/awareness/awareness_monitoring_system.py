@@ -480,13 +480,9 @@ class AwarenessMonitoringSystem:
 
             # Calculate running average awareness
             recent_scores = [s.awareness_score for s in list(self.awareness_snapshots)[-100:]]
-            self.system_metrics["average_awareness"] = (
-                statistics.mean(recent_scores) if recent_scores else 0.0
-            )
+            self.system_metrics["average_awareness"] = statistics.mean(recent_scores) if recent_scores else 0.0
 
-            logger.debug(
-                f"📸 Awareness snapshot: level={awareness_level.value}, score={awareness_score:.3f}"
-            )
+            logger.debug(f"📸 Awareness snapshot: level={awareness_level.value}, score={awareness_score:.3f}")
 
         except Exception as e:
             logger.error(f"❌ Awareness snapshot capture failed: {e}")
@@ -651,9 +647,7 @@ class AwarenessMonitoringSystem:
             "efficiency_score": snapshot.awareness_score * snapshot.processing_capacity,
             "stability_score": 1.0 - (snapshot.cognitive_load_score * 0.5),
             "responsiveness": snapshot.attention_span * 0.8,
-            "overall_performance": (
-                snapshot.awareness_score + snapshot.processing_capacity + snapshot.attention_span
-            )
+            "overall_performance": (snapshot.awareness_score + snapshot.processing_capacity + snapshot.attention_span)
             / 3.0,
         }
 
@@ -811,9 +805,7 @@ class AwarenessMonitoringSystem:
 
         # Analyze performance trends
         performance_scores = [
-            s.performance_metrics.get("overall_performance", 0.0)
-            for s in snapshots
-            if s.performance_metrics
+            s.performance_metrics.get("overall_performance", 0.0) for s in snapshots if s.performance_metrics
         ]
 
         if len(performance_scores) > 5:
@@ -841,9 +833,7 @@ class AwarenessMonitoringSystem:
                 self.consciousness_insights.append(insight)
                 self.system_metrics["insights_generated"] += 1
 
-    async def _generate_attention_insights(
-        self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]
-    ):
+    async def _generate_attention_insights(self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]):
         """Generate attention improvement insights"""
 
         # Look for attention instability
@@ -875,9 +865,7 @@ class AwarenessMonitoringSystem:
                 self.consciousness_insights.append(insight)
                 self.system_metrics["insights_generated"] += 1
 
-    async def _generate_load_insights(
-        self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]
-    ):
+    async def _generate_load_insights(self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]):
         """Generate cognitive load management insights"""
 
         # Analyze cognitive load patterns
@@ -946,15 +934,11 @@ class AwarenessMonitoringSystem:
 
             if avg_awareness < targets["awareness_stability"]:
                 calibration_needed = True
-                adjustments["awareness_boost"] = (
-                    targets["awareness_stability"] - avg_awareness
-                ) * 0.1
+                adjustments["awareness_boost"] = (targets["awareness_stability"] - avg_awareness) * 0.1
 
             if avg_performance < targets["cognitive_efficiency"]:
                 calibration_needed = True
-                adjustments["efficiency_optimization"] = (
-                    targets["cognitive_efficiency"] - avg_performance
-                ) * 0.1
+                adjustments["efficiency_optimization"] = (targets["cognitive_efficiency"] - avg_performance) * 0.1
 
             if calibration_needed:
                 await self._apply_calibration_adjustments(adjustments)
@@ -989,10 +973,7 @@ class AwarenessMonitoringSystem:
 
         # Clean insights (keep longer)
         insight_cutoff = datetime.now() - timedelta(hours=self.snapshot_retention_hours * 2)
-        while (
-            self.consciousness_insights
-            and self.consciousness_insights[0].generated_at < insight_cutoff
-        ):
+        while self.consciousness_insights and self.consciousness_insights[0].generated_at < insight_cutoff:
             self.consciousness_insights.popleft()
 
     async def get_current_awareness_status(self) -> dict[str, Any]:
@@ -1019,9 +1000,7 @@ class AwarenessMonitoringSystem:
             },
         }
 
-    async def get_awareness_report(
-        self, time_period: Optional[tuple[datetime, datetime]] = None
-    ) -> AwarenessReport:
+    async def get_awareness_report(self, time_period: Optional[tuple[datetime, datetime]] = None) -> AwarenessReport:
         """Generate comprehensive awareness report"""
 
         if not time_period:
@@ -1030,19 +1009,11 @@ class AwarenessMonitoringSystem:
             time_period = (start_time, end_time)
 
         # Filter data for time period
-        period_snapshots = [
-            s for s in self.awareness_snapshots if time_period[0] <= s.timestamp <= time_period[1]
-        ]
+        period_snapshots = [s for s in self.awareness_snapshots if time_period[0] <= s.timestamp <= time_period[1]]
 
-        period_patterns = [
-            p for p in self.attention_patterns if time_period[0] <= p.detected_at <= time_period[1]
-        ]
+        period_patterns = [p for p in self.attention_patterns if time_period[0] <= p.detected_at <= time_period[1]]
 
-        period_insights = [
-            i
-            for i in self.consciousness_insights
-            if time_period[0] <= i.generated_at <= time_period[1]
-        ]
+        period_insights = [i for i in self.consciousness_insights if time_period[0] <= i.generated_at <= time_period[1]]
 
         if not period_snapshots:
             return AwarenessReport(
@@ -1076,9 +1047,7 @@ class AwarenessMonitoringSystem:
 
         average_cognitive_load = statistics.mean(load_scores)
         processing_efficiency = statistics.mean(processing_capacities)
-        attention_stability = 1.0 - (
-            statistics.variance(attention_spans) if len(attention_spans) > 1 else 0
-        )
+        attention_stability = 1.0 - (statistics.variance(attention_spans) if len(attention_spans) > 1 else 0)
 
         # Health assessment
         healthy_count = sum(1 for s in period_snapshots if s.is_healthy)
@@ -1125,8 +1094,7 @@ class AwarenessMonitoringSystem:
 
         self.system_metrics["last_updated"] = datetime.now().isoformat()
         self.system_metrics["monitoring_uptime"] = (
-            datetime.now()
-            - datetime.fromisoformat(self.system_metrics["last_updated"].split(".")[0])
+            datetime.now() - datetime.fromisoformat(self.system_metrics["last_updated"].split(".")[0])
         ).total_seconds()
 
         return self.system_metrics.copy()

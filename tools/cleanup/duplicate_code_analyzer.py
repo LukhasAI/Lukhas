@@ -227,9 +227,7 @@ class DuplicateCodeAnalyzer:
             )
 
         if report["conflicting_imports"]:
-            report["recommendations"].append(
-                "Some modules are imported excessively. Consider creating facade modules."
-            )
+            report["recommendations"].append("Some modules are imported excessively. Consider creating facade modules.")
 
         return report
 

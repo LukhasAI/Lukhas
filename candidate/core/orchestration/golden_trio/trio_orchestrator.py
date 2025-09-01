@@ -568,9 +568,7 @@ class TrioOrchestrator:
         self.register_system_handler(system_type, component_instance)
         logger.info(f"Registered component {component_name} as {system_type.value} handler")
 
-    async def notify_task_created(
-        self, system: str, task_id: str, task_data: dict[str, Any]
-    ) -> None:
+    async def notify_task_created(self, system: str, task_id: str, task_data: dict[str, Any]) -> None:
         """Notify orchestrator of task creation"""
         # Update context with new task
         await self.context_manager.set(
@@ -589,9 +587,7 @@ class TrioOrchestrator:
             "status": "created",
         }
 
-    async def notify_task_completed(
-        self, system: str, task_id: str, result: dict[str, Any]
-    ) -> None:
+    async def notify_task_completed(self, system: str, task_id: str, result: dict[str, Any]) -> None:
         """Notify orchestrator of task completion"""
         # Update context
         active_tasks = await self.context_manager.get(f"system_state.{system}.active_tasks", [])

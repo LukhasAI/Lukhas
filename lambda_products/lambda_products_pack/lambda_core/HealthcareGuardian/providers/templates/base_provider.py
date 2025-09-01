@@ -50,9 +50,7 @@ class BaseHealthcareProvider(ABC):
 
     def initialize_logging(self):
         """Set up provider-specific logging"""
-        log_format = (
-            f"%(asctime)s - {self.config.provider_id} - %(name)s - %(levelname)s - %(message)s"
-        )
+        log_format = f"%(asctime)s - {self.config.provider_id} - %(name)s - %(levelname)s - %(message)s"
         logging.basicConfig(format=log_format, level=logging.INFO)
 
     @abstractmethod
@@ -66,16 +64,12 @@ class BaseHealthcareProvider(ABC):
         pass
 
     @abstractmethod
-    async def get_patient_record(
-        self, patient_id: str, record_types: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def get_patient_record(self, patient_id: str, record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """Retrieve patient records"""
         pass
 
     @abstractmethod
-    async def update_patient_record(
-        self, patient_id: str, data: dict[str, Any], update_type: str
-    ) -> bool:
+    async def update_patient_record(self, patient_id: str, data: dict[str, Any], update_type: str) -> bool:
         """Update patient records"""
         pass
 
@@ -95,9 +89,7 @@ class BaseHealthcareProvider(ABC):
         pass
 
     @abstractmethod
-    async def schedule_appointment(
-        self, patient_id: str, provider_id: str, appointment_data: dict[str, Any]
-    ) -> str:
+    async def schedule_appointment(self, patient_id: str, provider_id: str, appointment_data: dict[str, Any]) -> str:
         """Schedule a medical appointment"""
         pass
 
@@ -136,9 +128,7 @@ class BaseHealthcareProvider(ABC):
 
     def validate_data(self, data: dict[str, Any], required_fields: list[str]) -> bool:
         """Validate data against required fields"""
-        missing_fields = [
-            field for field in required_fields if field not in data or data[field] is None
-        ]
+        missing_fields = [field for field in required_fields if field not in data or data[field] is None]
         if missing_fields:
             raise ValueError(f"Missing required fields: {missing_fields}")
         return True

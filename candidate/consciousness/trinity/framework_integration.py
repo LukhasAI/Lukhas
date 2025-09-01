@@ -342,9 +342,7 @@ class TrinityFrameworkIntegration:
 
             # Calculate overall compliance
             report.overall_compliance_score = self._calculate_overall_compliance(report)
-            report.overall_compliance_level = self._determine_compliance_level(
-                report.overall_compliance_score
-            )
+            report.overall_compliance_level = self._determine_compliance_level(report.overall_compliance_score)
             report.integration_state = self._determine_integration_state(report)
 
             # Detect violations
@@ -403,15 +401,11 @@ class TrinityFrameworkIntegration:
             bio_identity = await self._check_bio_identity_patterns()
             authenticity_checks.append(bio_identity)
 
-        identity_metrics["authenticity"] = (
-            statistics.mean(authenticity_checks) if authenticity_checks else 0.5
-        )
+        identity_metrics["authenticity"] = statistics.mean(authenticity_checks) if authenticity_checks else 0.5
 
         # Validate consistency - stable identity representation
         if len(self.trinity_metrics_history) >= 10:
-            recent_identity_scores = [
-                m.identity_coherence for m in self.trinity_metrics_history[-10:]
-            ]
+            recent_identity_scores = [m.identity_coherence for m in self.trinity_metrics_history[-10:]]
             identity_variance = statistics.variance(recent_identity_scores)
             identity_metrics["consistency"] = max(0.0, 1.0 - identity_variance)
         else:
@@ -450,9 +444,7 @@ class TrinityFrameworkIntegration:
             bio_awareness = await self._measure_bio_consciousness_depth()
             depth_measurements.append(bio_awareness)
 
-        consciousness_metrics["depth"] = (
-            statistics.mean(depth_measurements) if depth_measurements else 0.5
-        )
+        consciousness_metrics["depth"] = statistics.mean(depth_measurements) if depth_measurements else 0.5
 
         # Validate breadth - scope of awareness
         breadth_score = await self.consciousness_monitor.measure_awareness_breadth()
@@ -487,9 +479,7 @@ class TrinityFrameworkIntegration:
             bio_protection = await self._check_bio_protection()
             protection_checks.append(bio_protection)
 
-        guardian_metrics["protection"] = (
-            statistics.mean(protection_checks) if protection_checks else 0.8
-        )
+        guardian_metrics["protection"] = statistics.mean(protection_checks) if protection_checks else 0.8
 
         # Validate ethics compliance
         ethics_score = await self.guardian_monitor.evaluate_ethics_compliance()
@@ -505,9 +495,7 @@ class TrinityFrameworkIntegration:
 
         return guardian_metrics
 
-    async def _calculate_integration_metrics(
-        self, trinity_metrics: TrinityMetrics
-    ) -> dict[str, float]:
+    async def _calculate_integration_metrics(self, trinity_metrics: TrinityMetrics) -> dict[str, float]:
         """Calculate Trinity Framework integration metrics"""
         integration_metrics = {"balance": 0.0, "synergy": 0.0, "emergence": 0.0, "coherence": 0.0}
 
@@ -703,9 +691,7 @@ class TrinityFrameworkIntegration:
         else:
             return IntegrationState.CONFLICTED
 
-    async def _detect_trinity_violations(
-        self, report: TrinityComplianceReport
-    ) -> list[TrinityViolation]:
+    async def _detect_trinity_violations(self, report: TrinityComplianceReport) -> list[TrinityViolation]:
         """Detect Trinity Framework violations"""
         violations = []
 
@@ -720,10 +706,7 @@ class TrinityFrameworkIntegration:
             violations.append(violation)
 
         # Consciousness violations
-        if (
-            report.trinity_metrics.consciousness_depth
-            < self.config.consciousness_compliance_threshold
-        ):
+        if report.trinity_metrics.consciousness_depth < self.config.consciousness_compliance_threshold:
             violation = TrinityViolation(
                 component=TrinityComponent.CONSCIOUSNESS,
                 severity="high" if report.trinity_metrics.consciousness_depth < 0.3 else "medium",
@@ -788,14 +771,10 @@ class TrinityFrameworkIntegration:
         recommendations = []
 
         if report.trinity_metrics.identity_authenticity < 0.7:
-            recommendations.append(
-                "Strengthen identity authenticity through consistent self-representation"
-            )
+            recommendations.append("Strengthen identity authenticity through consistent self-representation")
 
         if report.trinity_metrics.consciousness_depth < 0.7:
-            recommendations.append(
-                "Enhance consciousness depth through deeper awareness processing"
-            )
+            recommendations.append("Enhance consciousness depth through deeper awareness processing")
 
         if report.trinity_metrics.guardian_ethics < 0.8:
             recommendations.append("Improve guardian ethics compliance and safety mechanisms")
@@ -819,9 +798,7 @@ class TrinityFrameworkIntegration:
                 violation.resolution_actions = resolution_actions
                 violation.resolution_status = "in_progress"
 
-                logger.info(
-                    f"ΛTRACE: Resolving violation {violation.violation_id}: {violation.description}"
-                )
+                logger.info(f"ΛTRACE: Resolving violation {violation.violation_id}: {violation.description}")
 
             except Exception as e:
                 logger.error(f"ΛTRACE: Failed to resolve violation {violation.violation_id}: {e}")

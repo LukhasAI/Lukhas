@@ -80,9 +80,7 @@ class ABASIntegrationHub:
                     self.qi_specialist,
                 )
                 # Register with trio orchestrator
-                await self.trio_orchestrator.register_component(
-                    "abas_quantum_specialist", self.qi_specialist
-                )
+                await self.trio_orchestrator.register_component("abas_quantum_specialist", self.qi_specialist)
                 logger.info("ABAS quantum specialist fully integrated")
             except Exception as e:
                 logger.error(f"Failed to integrate quantum specialist: {e}")
@@ -137,9 +135,7 @@ class ABASIntegrationHub:
                         if "bias_analysis" in arb:
                             bias_analysis = arb["bias_analysis"]
                             if bias_analysis.get("bias_detected"):
-                                for bias_type, score in bias_analysis.get(
-                                    "bias_scores", {}
-                                ).items():
+                                for bias_type, score in bias_analysis.get("bias_scores", {}).items():
                                     total_bias_score += score
                                     if score > 0.2:
                                         bias_types_detected.add(bias_type)
@@ -179,9 +175,7 @@ class ABASIntegrationHub:
             target=SystemType.ABAS,  # Self-notification for logging
             message_type="bias_alert",
             payload=alert_data,
-            priority=(
-                MessagePriority.HIGH if alert_data["severity"] == "high" else MessagePriority.NORMAL
-            ),
+            priority=(MessagePriority.HIGH if alert_data["severity"] == "high" else MessagePriority.NORMAL),
         )
 
         # Log to audit system
@@ -215,9 +209,7 @@ class ABASIntegrationHub:
         elif message_type == "get_status":
             return self.get_status()
         elif message_type == "apply_fairness":
-            return await self._apply_fairness_adjustments(
-                payload.get("decision", {}), payload.get("bias_analysis", {})
-            )
+            return await self._apply_fairness_adjustments(payload.get("decision", {}), payload.get("bias_analysis", {}))
         elif message_type == "qi_biological_process":
             return await self.process_quantum_biological(payload)
         elif message_type == "qi_ethics_arbitration":
@@ -300,15 +292,9 @@ class ABASIntegrationHub:
             )
 
         # Calculate fairness scores
-        fairness_metrics["procedural_fairness"] = await self._calculate_procedural_fairness(
-            conflict_data
-        )
-        fairness_metrics["distributive_fairness"] = await self._calculate_distributive_fairness(
-            conflict_data
-        )
-        fairness_metrics["interactional_fairness"] = await self._calculate_interactional_fairness(
-            conflict_data
-        )
+        fairness_metrics["procedural_fairness"] = await self._calculate_procedural_fairness(conflict_data)
+        fairness_metrics["distributive_fairness"] = await self._calculate_distributive_fairness(conflict_data)
+        fairness_metrics["interactional_fairness"] = await self._calculate_interactional_fairness(conflict_data)
 
         # Overall fairness score
         fairness_metrics["overall_fairness"] = (
@@ -319,9 +305,7 @@ class ABASIntegrationHub:
 
         return fairness_metrics
 
-    async def quantify_bias(
-        self, conflict_data: dict[str, Any], fairness_metrics: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def quantify_bias(self, conflict_data: dict[str, Any], fairness_metrics: dict[str, Any]) -> dict[str, Any]:
         """Quantify potential bias in the conflict"""
         bias_analysis = {
             "bias_detected": False,
@@ -355,17 +339,13 @@ class ABASIntegrationHub:
 
         # Generate mitigation recommendations
         if bias_analysis["bias_detected"]:
-            bias_analysis[
-                "mitigation_recommendations"
-            ] = await self._generate_bias_mitigation_recommendations(
+            bias_analysis["mitigation_recommendations"] = await self._generate_bias_mitigation_recommendations(
                 bias_analysis["bias_types"], conflict_data
             )
 
         return bias_analysis
 
-    async def _calculate_stakeholder_impact(
-        self, stakeholder: str, conflict_data: dict[str, Any]
-    ) -> float:
+    async def _calculate_stakeholder_impact(self, stakeholder: str, conflict_data: dict[str, Any]) -> float:
         """Calculate impact score for a stakeholder"""
         # Simplified impact calculation
         base_impact = 0.5
@@ -531,18 +511,12 @@ class ABASIntegrationHub:
 
         # Adjust decision confidence based on bias
         if "confidence" in adjusted_decision:
-            max_bias_score = (
-                max(bias_analysis["bias_scores"].values()) if bias_analysis["bias_scores"] else 0
-            )
-            adjusted_decision["confidence"] *= (
-                1 - max_bias_score * 0.2
-            )  # Reduce confidence by up to 20% based on bias
+            max_bias_score = max(bias_analysis["bias_scores"].values()) if bias_analysis["bias_scores"] else 0
+            adjusted_decision["confidence"] *= 1 - max_bias_score * 0.2  # Reduce confidence by up to 20% based on bias
 
         # Add fairness warning if significant bias detected
         if any(score > 0.5 for score in bias_analysis["bias_scores"].values()):
-            adjusted_decision["fairness_warning"] = (
-                "Significant bias detected - manual review recommended"
-            )
+            adjusted_decision["fairness_warning"] = "Significant bias detected - manual review recommended"
 
         return adjusted_decision
 
@@ -553,9 +527,7 @@ class ABASIntegrationHub:
             return True
         return bool(set(conflict1.get("stakeholders", [])) & set(conflict2.get("stakeholders", [])))
 
-    async def register_component(
-        self, component_name: str, component_path: str, component_instance: Any
-    ):
+    async def register_component(self, component_name: str, component_path: str, component_instance: Any):
         """Register an ABAS component for integration"""
         self.registered_components[component_name] = {
             "path": component_path,
@@ -652,9 +624,7 @@ class ABASIntegrationHub:
         # Add ethics monitoring to other methods
         await self._add_ethics_monitoring(component_name, component_instance)
 
-    async def _validate_decision_outcome(
-        self, decision: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _validate_decision_outcome(self, decision: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Validate decision outcome for ethical compliance"""
         validation_result = {
             "valid": True,
@@ -668,9 +638,7 @@ class ABASIntegrationHub:
             if self._detect_unfair_advantage(decision):
                 validation_result["valid"] = False
                 validation_result["warning"] = "Decision may create unfair advantage"
-                validation_result["remediation"] = (
-                    "Consider redistributing resources more equitably"
-                )
+                validation_result["remediation"] = "Consider redistributing resources more equitably"
 
         # Check for discriminatory outcomes
         if "priority" in decision or "ranking" in decision:
@@ -732,9 +700,7 @@ class ABASIntegrationHub:
                 return max_val > 2 * avg_val
         return False
 
-    def _detect_discriminatory_pattern(
-        self, decision: dict[str, Any], context: dict[str, Any]
-    ) -> bool:
+    def _detect_discriminatory_pattern(self, decision: dict[str, Any], context: dict[str, Any]) -> bool:
         """Detect potential discriminatory patterns"""
         # Simplified pattern detection
         protected_groups = ["minority", "disabled", "elderly", "gender"]

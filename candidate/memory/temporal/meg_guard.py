@@ -71,9 +71,7 @@ class MEG:
 
         # Remove old entries outside the window
         self.call_history[func_name] = [
-            t
-            for t in self.call_history[func_name]
-            if current_time - t < self.config.rate_limit_window
+            t for t in self.call_history[func_name] if current_time - t < self.config.rate_limit_window
         ]
 
         # Check if we're within limit
@@ -151,9 +149,7 @@ class MEG:
 
                 # Log the call
                 if self.config.log_calls:
-                    logger.info(
-                        f"MEG.guard: Executing {func_name} with timeout={effective_timeout}s"
-                    )
+                    logger.info(f"MEG.guard: Executing {func_name} with timeout={effective_timeout}s")
                     self._total_calls += 1
 
                 # Retry logic with timeout
@@ -161,9 +157,7 @@ class MEG:
                     try:
                         if asyncio.iscoroutinefunction(func):
                             # Already async
-                            result = await asyncio.wait_for(
-                                func(*args, **kwargs), timeout=effective_timeout
-                            )
+                            result = await asyncio.wait_for(func(*args, **kwargs), timeout=effective_timeout)
                         else:
                             # Wrap sync function
                             result = await asyncio.wait_for(

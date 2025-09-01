@@ -29,21 +29,15 @@ class TestPublicAPI(unittest.TestCase):
         # Get the auth system and generate a key for testing
         self.auth_system = get_auth_system()
         self.user_id = "test_api_user"
-        self.key_id, self.key_secret = self.auth_system.generate_api_key(
-            self.user_id, ["read", "write"]
-        )
+        self.key_id, self.key_secret = self.auth_system.generate_api_key(self.user_id, ["read", "write"])
 
         # Create a valid token
         valid_token = f"{self.key_id}:{self.key_secret}"
-        self.valid_auth_header = {
-            "Authorization": f"Bearer {base64.b64encode(valid_token.encode()).decode()}"
-        }
+        self.valid_auth_header = {"Authorization": f"Bearer {base64.b64encode(valid_token.encode()).decode()}"}
 
         # Create an invalid token
         invalid_token = "invalid_id:invalid_secret"
-        self.invalid_auth_header = {
-            "Authorization": f"Bearer {base64.b64encode(invalid_token.encode()).decode()}"
-        }
+        self.invalid_auth_header = {"Authorization": f"Bearer {base64.b64encode(invalid_token.encode()).decode()}"}
 
     def test_health_check(self):
         """Test the public health check endpoint."""
@@ -64,16 +58,12 @@ class TestPublicAPI(unittest.TestCase):
 
     def test_chat_endpoint_invalid_auth(self):
         """Test that the chat endpoint fails with an invalid API key."""
-        response = self.client.post(
-            "/v1/chat", json={"message": "hello"}, headers=self.invalid_auth_header
-        )
+        response = self.client.post("/v1/chat", json={"message": "hello"}, headers=self.invalid_auth_header)
         self.assertEqual(response.status_code, 401)
 
     def test_chat_endpoint_valid_auth(self):
         """Test that the chat endpoint succeeds with a valid API key."""
-        response = self.client.post(
-            "/v1/chat", json={"message": "hello"}, headers=self.valid_auth_header
-        )
+        response = self.client.post("/v1/chat", json={"message": "hello"}, headers=self.valid_auth_header)
         self.assertEqual(response.status_code, 200)
         self.assertIn("response", response.json())
 
@@ -84,9 +74,7 @@ class TestPublicAPI(unittest.TestCase):
 
     def test_dreams_endpoint_valid_auth(self):
         """Test that the dreams endpoint succeeds with a valid API key."""
-        response = self.client.post(
-            "/v1/dreams", json={"prompt": "a dream"}, headers=self.valid_auth_header
-        )
+        response = self.client.post("/v1/dreams", json={"prompt": "a dream"}, headers=self.valid_auth_header)
         self.assertEqual(response.status_code, 200)
         self.assertIn("dream", response.json())
 

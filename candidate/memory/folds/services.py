@@ -100,9 +100,7 @@ class MemoryService:
         self._index[agent_id]["by_type"][mem_type].append(memory_entry["id"])
 
         # Index by time
-        self._index[agent_id]["by_time"].append(
-            {"id": memory_entry["id"], "timestamp": memory_entry["timestamp"]}
-        )
+        self._index[agent_id]["by_time"].append({"id": memory_entry["id"], "timestamp": memory_entry["timestamp"]})
 
     async def retrieve(
         self, agent_id: str, query: Optional[dict[str, Any]] = None, limit: int = 10
@@ -204,9 +202,7 @@ class MemoryService:
         """Store an experience memory"""
         return await self.store(agent_id, experience, "experience")
 
-    async def store_learning_outcome(
-        self, agent_id: str, outcome: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def store_learning_outcome(self, agent_id: str, outcome: dict[str, Any]) -> dict[str, Any]:
         """Store a learning outcome"""
         return await self.store(agent_id, outcome, "learning_outcome")
 
@@ -214,16 +210,12 @@ class MemoryService:
         """Store a creative output"""
         return await self.store(agent_id, creation, "creation")
 
-    async def retrieve_context(
-        self, agent_id: str, query: str, limit: int = 10
-    ) -> list[dict[str, Any]]:
+    async def retrieve_context(self, agent_id: str, query: str, limit: int = 10) -> list[dict[str, Any]]:
         """Retrieve context memories for a query"""
         # Simplified - in real implementation would use semantic search
         return await self.retrieve(agent_id, {"type": "experience"}, limit)
 
-    async def retrieve_learning_context(
-        self, agent_id: str, limit: int = 100
-    ) -> list[dict[str, Any]]:
+    async def retrieve_learning_context(self, agent_id: str, limit: int = 100) -> list[dict[str, Any]]:
         """Retrieve learning-specific context"""
         return await self.retrieve(agent_id, {"type": "learning_outcome"}, limit)
 

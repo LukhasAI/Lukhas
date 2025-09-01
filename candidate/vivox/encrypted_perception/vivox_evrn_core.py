@@ -540,9 +540,7 @@ class VIVOXEncryptedPerceptionNode:
                 continue
 
             # Detect pattern in encrypted vectors
-            detection_result = await self._detect_specific_anomaly(
-                vectors, pattern_name, pattern_config, context
-            )
+            detection_result = await self._detect_specific_anomaly(vectors, pattern_name, pattern_config, context)
 
             if detection_result:
                 anomalies.append(detection_result)
@@ -606,9 +604,7 @@ class VIVOXEncryptedPerceptionNode:
 
         return anomaly
 
-    def _compute_anomaly_score(
-        self, vector: PerceptualVector, anomaly_type: str, config: dict[str, Any]
-    ) -> float:
+    def _compute_anomaly_score(self, vector: PerceptualVector, anomaly_type: str, config: dict[str, Any]) -> float:
         """Compute anomaly score for encrypted vector"""
 
         # Get reference patterns for this anomaly type
@@ -742,9 +738,7 @@ class VIVOXEncryptedPerceptionNode:
             )
             if max_confidence > self.ethical_thresholds.get("privacy_override", 0.95):
                 assessment["privacy_override_considered"] = True
-                assessment["override_justification"] = (
-                    "Critical safety concern with high confidence"
-                )
+                assessment["override_justification"] = "Critical safety concern with high confidence"
 
         return assessment
 
@@ -777,10 +771,7 @@ class VIVOXEncryptedPerceptionNode:
             targets.append("VIVOX.IEN")
 
         # High significance goes to Moral Alignment Engine (MAE)
-        if (
-            ethical_assessment.get("critical_count", 0) > 0
-            or ethical_assessment.get("high_count", 0) > 0
-        ):
+        if ethical_assessment.get("critical_count", 0) > 0 or ethical_assessment.get("high_count", 0) > 0:
             targets.append("VIVOX.MAE")
 
         # Emotional relevance goes to ERN
@@ -954,9 +945,7 @@ class VIVOXEncryptedPerceptionNode:
                 anomaly_id=f"heat_stress_{int(datetime.now().timestamp())}",
                 anomaly_type="cross_modal_heat_stress",
                 confidence=float(confidence),
-                significance=(
-                    EthicalSignificance.HIGH if confidence > 0.8 else EthicalSignificance.MODERATE
-                ),
+                significance=(EthicalSignificance.HIGH if confidence > 0.8 else EthicalSignificance.MODERATE),
                 perceptual_vectors=visual_vectors + thermal_vectors,
                 detection_context={
                     "visual_score": float(visual_score),
@@ -987,9 +976,7 @@ class VIVOXEncryptedPerceptionNode:
                 anomaly_id=f"physical_distress_{int(datetime.now().timestamp())}",
                 anomaly_type="cross_modal_physical_distress",
                 confidence=float(confidence),
-                significance=(
-                    EthicalSignificance.CRITICAL if confidence > 0.85 else EthicalSignificance.HIGH
-                ),
+                significance=(EthicalSignificance.CRITICAL if confidence > 0.85 else EthicalSignificance.HIGH),
                 perceptual_vectors=motion_vectors + texture_vectors,
                 detection_context={
                     "motion_variance": float(motion_variance),
@@ -1019,18 +1006,14 @@ class VIVOXEncryptedPerceptionNode:
 
         for perception in self.perception_history:
             for anomaly in perception.detected_anomalies:
-                anomaly_counts[anomaly.anomaly_type] = (
-                    anomaly_counts.get(anomaly.anomaly_type, 0) + 1
-                )
+                anomaly_counts[anomaly.anomaly_type] = anomaly_counts.get(anomaly.anomaly_type, 0) + 1
                 significance_counts[anomaly.significance.value] += 1
 
         # Calculate averages
         avg_anomalies_per_perception = (
             sum(len(p.detected_anomalies) for p in self.perception_history) / total_perceptions
         )
-        avg_vectors_per_perception = (
-            sum(len(p.encrypted_vectors) for p in self.perception_history) / total_perceptions
-        )
+        avg_vectors_per_perception = sum(len(p.encrypted_vectors) for p in self.perception_history) / total_perceptions
 
         # Modality distribution
         modality_counts = {}
@@ -1049,9 +1032,7 @@ class VIVOXEncryptedPerceptionNode:
             "anomaly_statistics": {
                 anomaly_type: {
                     "count": stats["count"],
-                    "average_confidence": (
-                        stats["total_confidence"] / stats["count"] if stats["count"] > 0 else 0
-                    ),
+                    "average_confidence": (stats["total_confidence"] / stats["count"] if stats["count"] > 0 else 0),
                     "significance_distribution": stats["significance_distribution"],
                 }
                 for anomaly_type, stats in self.anomaly_statistics.items()

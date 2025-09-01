@@ -74,9 +74,7 @@ async def test_get_available_providers(orchestrator):
 @pytest.mark.asyncio
 async def test_generate_response_specific_provider(orchestrator, mock_openai_wrapper):
     prompt = "test prompt"
-    response, provider, model = await orchestrator.generate_response(
-        prompt, provider=LLMProvider.OPENAI, model="gpt-4"
-    )
+    response, provider, model = await orchestrator.generate_response(prompt, provider=LLMProvider.OPENAI, model="gpt-4")
     assert response == "openai response"
     assert provider == "openai"
     assert model == "mock_model"

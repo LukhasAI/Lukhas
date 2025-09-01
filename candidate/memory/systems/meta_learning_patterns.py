@@ -202,9 +202,7 @@ class MetaLearningPattern:
             "source_episodes": self.source_episodes,
             "confidence_score": self.confidence_score,
             "last_updated": self.last_updated.isoformat(),
-            "pattern_embedding": (
-                self.pattern_embedding.tolist() if self.pattern_embedding is not None else None
-            ),
+            "pattern_embedding": (self.pattern_embedding.tolist() if self.pattern_embedding is not None else None),
         }
 
     @classmethod
@@ -294,8 +292,7 @@ class LearningTrajectoryAnalyzer:
             "trajectory_stats": stats,
             "critical_moments": critical_moments,
             "total_events": len(events),
-            "time_span": (events[-1].timestamp - events[0].timestamp).total_seconds()
-            / 3600,  # hours
+            "time_span": (events[-1].timestamp - events[0].timestamp).total_seconds() / 3600,  # hours
         }
 
     def _smooth_series(self, series: list[float]) -> list[float]:
@@ -305,16 +302,12 @@ class LearningTrajectoryAnalyzer:
 
         smoothed = [series[0]]
         for i in range(1, len(series)):
-            smoothed_value = (
-                self.smoothing_factor * series[i] + (1 - self.smoothing_factor) * smoothed[i - 1]
-            )
+            smoothed_value = self.smoothing_factor * series[i] + (1 - self.smoothing_factor) * smoothed[i - 1]
             smoothed.append(smoothed_value)
 
         return smoothed
 
-    def _identify_learning_phases(
-        self, performance: list[float], learning_rate: list[float]
-    ) -> list[dict[str, Any]]:
+    def _identify_learning_phases(self, performance: list[float], learning_rate: list[float]) -> list[dict[str, Any]]:
         """Identify distinct phases in the learning trajectory"""
         phases = []
 
@@ -343,9 +336,7 @@ class LearningTrajectoryAnalyzer:
             if phase_type != current_phase["phase_type"] or i == len(performance) - 1:
                 # Complete current phase
                 current_phase["end_idx"] = i - 1 if i < len(performance) - 1 else i
-                current_phase["duration"] = (
-                    current_phase["end_idx"] - current_phase["start_idx"] + 1
-                )
+                current_phase["duration"] = current_phase["end_idx"] - current_phase["start_idx"] + 1
                 current_phase["avg_performance"] = np.mean(
                     performance[current_phase["start_idx"] : current_phase["end_idx"] + 1]
                 )
@@ -394,9 +385,7 @@ class LearningTrajectoryAnalyzer:
         else:
             return "regression"
 
-    def _calculate_trajectory_stats(
-        self, events: list[LearningEvent], performance: list[float]
-    ) -> dict[str, float]:
+    def _calculate_trajectory_stats(self, events: list[LearningEvent], performance: list[float]) -> dict[str, float]:
         """Calculate statistical measures of the learning trajectory"""
         if not events or not performance:
             return {}
@@ -455,9 +444,7 @@ class LearningTrajectoryAnalyzer:
 
         return breakthroughs
 
-    def _identify_critical_moments(
-        self, events: list[LearningEvent], performance: list[float]
-    ) -> list[dict[str, Any]]:
+    def _identify_critical_moments(self, events: list[LearningEvent], performance: list[float]) -> list[dict[str, Any]]:
         """Identify critical moments in the learning trajectory"""
         critical_moments = []
 
@@ -593,9 +580,7 @@ class PatternExtractor:
 
         # Extract patterns from each cluster
         for _cluster_id, cluster_trajectories in trajectory_clusters.items():
-            cluster_patterns = await self._extract_cluster_patterns(
-                cluster_trajectories, learning_events
-            )
+            cluster_patterns = await self._extract_cluster_patterns(cluster_trajectories, learning_events)
             extracted_patterns.extend(cluster_patterns)
 
         # Cross-cluster pattern analysis
@@ -606,10 +591,7 @@ class PatternExtractor:
         validated_patterns = [
             p
             for p in extracted_patterns
-            if (
-                p.confidence_score >= self.confidence_threshold
-                and p.observed_frequency >= self.min_pattern_frequency
-            )
+            if (p.confidence_score >= self.confidence_threshold and p.observed_frequency >= self.min_pattern_frequency)
         ]
 
         logger.info(
@@ -621,9 +603,7 @@ class PatternExtractor:
 
         return validated_patterns
 
-    async def _cluster_trajectories(
-        self, trajectory_analyses: list[dict[str, Any]]
-    ) -> dict[str, list[dict[str, Any]]]:
+    async def _cluster_trajectories(self, trajectory_analyses: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
         """Cluster similar learning trajectories"""
         clusters = defaultdict(list)
 
@@ -643,9 +623,7 @@ class PatternExtractor:
             clusters[cluster_key].append(analysis)
 
         # Filter out singleton clusters
-        filtered_clusters = {
-            k: v for k, v in clusters.items() if len(v) >= self.min_pattern_frequency
-        }
+        filtered_clusters = {k: v for k, v in clusters.items() if len(v) >= self.min_pattern_frequency}
 
         return filtered_clusters
 
@@ -664,24 +642,18 @@ class PatternExtractor:
             patterns.append(sequence_pattern)
 
         # Analyze strategy usage patterns
-        strategy_pattern = await self._extract_strategy_pattern(
-            cluster_trajectories, all_learning_events
-        )
+        strategy_pattern = await self._extract_strategy_pattern(cluster_trajectories, all_learning_events)
         if strategy_pattern:
             patterns.append(strategy_pattern)
 
         # Analyze attention focus patterns
-        attention_pattern = await self._extract_attention_pattern(
-            cluster_trajectories, all_learning_events
-        )
+        attention_pattern = await self._extract_attention_pattern(cluster_trajectories, all_learning_events)
         if attention_pattern:
             patterns.append(attention_pattern)
 
         return patterns
 
-    async def _extract_sequence_pattern(
-        self, trajectories: list[dict[str, Any]]
-    ) -> Optional[MetaLearningPattern]:
+    async def _extract_sequence_pattern(self, trajectories: list[dict[str, Any]]) -> Optional[MetaLearningPattern]:
         """Extract common learning sequence patterns"""
 
         if len(trajectories) < self.min_pattern_frequency:
@@ -710,14 +682,10 @@ class PatternExtractor:
         common_transitions = sorted(phase_transitions.items(), key=lambda x: x[1], reverse=True)[:5]
 
         # Calculate pattern statistics
-        success_rates = [
-            t.get("trajectory_stats", {}).get("final_performance", 0) for t in trajectories
-        ]
+        success_rates = [t.get("trajectory_stats", {}).get("final_performance", 0) for t in trajectories]
         avg_success_rate = np.mean(success_rates)
 
-        pattern_id = hashlib.sha256(f"sequence_{common_phases}_{time.time()}".encode()).hexdigest()[
-            :16
-        ]
+        pattern_id = hashlib.sha256(f"sequence_{common_phases}_{time.time()}".encode()).hexdigest()[:16]
 
         return MetaLearningPattern(
             pattern_id=pattern_id,
@@ -728,9 +696,7 @@ class PatternExtractor:
                 "learning_context": "skill_acquisition",
                 "initial_performance": {"min": 0.0, "max": 0.3},
             },
-            learning_sequence=[
-                {"phase": phase, "expected_duration": "variable"} for phase in common_phases[:5]
-            ],
+            learning_sequence=[{"phase": phase, "expected_duration": "variable"} for phase in common_phases[:5]],
             success_conditions={
                 "final_performance": {"min": avg_success_rate - 0.1},
                 "phase_progression": common_transitions[:3],
@@ -803,9 +769,7 @@ class PatternExtractor:
             reverse=True,
         )[:5]
 
-        pattern_id = hashlib.sha256(
-            f"strategy_{top_strategies}_{time.time()}".encode()
-        ).hexdigest()[:16]
+        pattern_id = hashlib.sha256(f"strategy_{top_strategies}_{time.time()}".encode()).hexdigest()[:16]
 
         return MetaLearningPattern(
             pattern_id=pattern_id,
@@ -900,13 +864,7 @@ class PatternExtractor:
                     optimal_patterns[focus_area] = {
                         "correlation": correlation,
                         "optimal_weight": (
-                            np.mean(
-                                [
-                                    m["weight"]
-                                    for m in measurements
-                                    if m["success"] > np.mean(successes)
-                                ]
-                            )
+                            np.mean([m["weight"] for m in measurements if m["success"] > np.mean(successes)])
                             if any(m["success"] > np.mean(successes) for m in measurements)
                             else np.mean(weights)
                         ),
@@ -923,9 +881,7 @@ class PatternExtractor:
             reverse=True,
         )[:3]
 
-        pattern_id = hashlib.sha256(f"attention_{top_patterns}_{time.time()}".encode()).hexdigest()[
-            :16
-        ]
+        pattern_id = hashlib.sha256(f"attention_{top_patterns}_{time.time()}".encode()).hexdigest()[:16]
 
         return MetaLearningPattern(
             pattern_id=pattern_id,
@@ -973,9 +929,7 @@ class PatternExtractor:
             last_updated=datetime.now(),
         )
 
-    async def _extract_meta_patterns(
-        self, base_patterns: list[MetaLearningPattern]
-    ) -> list[MetaLearningPattern]:
+    async def _extract_meta_patterns(self, base_patterns: list[MetaLearningPattern]) -> list[MetaLearningPattern]:
         """Extract higher-order patterns from base patterns"""
 
         meta_patterns = []
@@ -993,9 +947,7 @@ class PatternExtractor:
 
         return meta_patterns
 
-    async def _analyze_pattern_combinations(
-        self, patterns: list[MetaLearningPattern]
-    ) -> Optional[MetaLearningPattern]:
+    async def _analyze_pattern_combinations(self, patterns: list[MetaLearningPattern]) -> Optional[MetaLearningPattern]:
         """Analyze how patterns work together"""
 
         # Find patterns that frequently co-occur
@@ -1015,9 +967,9 @@ class PatternExtractor:
         best_pair = max(pattern_pairs, key=lambda x: x[2])
         pattern_a, pattern_b, overlap = best_pair
 
-        pattern_id = hashlib.sha256(
-            f"combination_{pattern_a.pattern_id}_{pattern_b.pattern_id}".encode()
-        ).hexdigest()[:16]
+        pattern_id = hashlib.sha256(f"combination_{pattern_a.pattern_id}_{pattern_b.pattern_id}".encode()).hexdigest()[
+            :16
+        ]
 
         return MetaLearningPattern(
             pattern_id=pattern_id,
@@ -1051,23 +1003,16 @@ class PatternExtractor:
                 },
             ],
             observed_frequency=overlap,
-            success_rate=(pattern_a.success_rate + pattern_b.success_rate) / 2
-            + 0.1,  # Synergy bonus
-            learning_acceleration=(
-                pattern_a.learning_acceleration + pattern_b.learning_acceleration
-            )
-            * 0.7,
+            success_rate=(pattern_a.success_rate + pattern_b.success_rate) / 2 + 0.1,  # Synergy bonus
+            learning_acceleration=(pattern_a.learning_acceleration + pattern_b.learning_acceleration) * 0.7,
             transfer_potential=min(pattern_a.transfer_potential, pattern_b.transfer_potential),
-            cognitive_load=(pattern_a.cognitive_load + pattern_b.cognitive_load)
-            * 0.8,  # Some efficiency
+            cognitive_load=(pattern_a.cognitive_load + pattern_b.cognitive_load) * 0.8,  # Some efficiency
             source_episodes=list(set(pattern_a.source_episodes + pattern_b.source_episodes)),
             confidence_score=min(pattern_a.confidence_score, pattern_b.confidence_score) * 0.9,
             last_updated=datetime.now(),
         )
 
-    async def _analyze_pattern_evolution(
-        self, patterns: list[MetaLearningPattern]
-    ) -> Optional[MetaLearningPattern]:
+    async def _analyze_pattern_evolution(self, patterns: list[MetaLearningPattern]) -> Optional[MetaLearningPattern]:
         """Analyze how patterns evolve over time"""
 
         # Group patterns by type and analyze temporal changes
@@ -1096,9 +1041,7 @@ class PatternExtractor:
 
         pattern_type, evolved_patterns, evolution_score = best_evolution
 
-        pattern_id = hashlib.sha256(
-            f"evolution_{pattern_type.value}_{time.time()}".encode()
-        ).hexdigest()[:16]
+        pattern_id = hashlib.sha256(f"evolution_{pattern_type.value}_{time.time()}".encode()).hexdigest()[:16]
 
         return MetaLearningPattern(
             pattern_id=pattern_id,
@@ -1162,9 +1105,7 @@ class PatternExtractor:
 
         return np.mean(accelerations) if accelerations else 0.0
 
-    def _estimate_strategy_acceleration(
-        self, top_strategies: list[tuple[str, dict[str, Any]]]
-    ) -> float:
+    def _estimate_strategy_acceleration(self, top_strategies: list[tuple[str, dict[str, Any]]]) -> float:
         """Estimate learning acceleration from strategy effectiveness"""
         if not top_strategies:
             return 0.0
@@ -1186,17 +1127,11 @@ class PatternExtractor:
 
         # Calculate improvement in key metrics
         success_improvement = late_pattern.success_rate - early_pattern.success_rate
-        acceleration_improvement = (
-            late_pattern.learning_acceleration - early_pattern.learning_acceleration
-        )
+        acceleration_improvement = late_pattern.learning_acceleration - early_pattern.learning_acceleration
         confidence_improvement = late_pattern.confidence_score - early_pattern.confidence_score
 
         # Weight improvements
-        evolution_score = (
-            success_improvement * 0.4
-            + acceleration_improvement * 0.3
-            + confidence_improvement * 0.3
-        )
+        evolution_score = success_improvement * 0.4 + acceleration_improvement * 0.3 + confidence_improvement * 0.3
 
         return max(0.0, evolution_score)
 
@@ -1308,9 +1243,7 @@ class MetaLearningPatternSystem:
                 trajectory_analyses.append(analysis)
 
         # Extract patterns
-        new_patterns = await self.pattern_extractor.extract_patterns(
-            trajectory_analyses, learning_trajectories
-        )
+        new_patterns = await self.pattern_extractor.extract_patterns(trajectory_analyses, learning_trajectories)
 
         # Generate embeddings for patterns
         for pattern in new_patterns:
@@ -1332,9 +1265,7 @@ class MetaLearningPatternSystem:
 
         return new_patterns
 
-    async def _convert_to_learning_events(
-        self, episodic_memories: list[dict[str, Any]]
-    ) -> list[list[LearningEvent]]:
+    async def _convert_to_learning_events(self, episodic_memories: list[dict[str, Any]]) -> list[list[LearningEvent]]:
         """Convert episodic memories to learning event trajectories"""
 
         # Group memories by learning context/domain
@@ -1407,12 +1338,7 @@ class MetaLearningPatternSystem:
             return True
 
         # Check for performance metrics or difficulty indicators
-        return bool(
-            any(
-                key in metadata
-                for key in ["performance", "difficulty", "success_rate", "skill_level"]
-            )
-        )
+        return bool(any(key in metadata for key in ["performance", "difficulty", "success_rate", "skill_level"]))
 
     def _extract_domain(self, content: str, metadata: dict[str, Any]) -> str:
         """Extract learning domain from memory content"""
@@ -1469,9 +1395,7 @@ class MetaLearningPatternSystem:
 
         return "general"
 
-    async def _memory_to_learning_event(
-        self, memory: dict[str, Any], domain: str
-    ) -> Optional[LearningEvent]:
+    async def _memory_to_learning_event(self, memory: dict[str, Any], domain: str) -> Optional[LearningEvent]:
         """Convert a memory to a learning event"""
 
         try:
@@ -1507,15 +1431,9 @@ class MetaLearningPatternSystem:
                 knowledge_gained=knowledge_gained,
                 attention_patterns=attention_patterns,
                 difficulty_level=metadata.get("difficulty", self._estimate_difficulty(content)),
-                success_rate=performance_metrics.get(
-                    "success_rate", self._estimate_success(content)
-                ),
-                learning_rate=performance_metrics.get(
-                    "learning_rate", self._estimate_learning_rate(content)
-                ),
-                memory_consolidation_score=metadata.get(
-                    "consolidation", self._estimate_consolidation(content)
-                ),
+                success_rate=performance_metrics.get("success_rate", self._estimate_success(content)),
+                learning_rate=performance_metrics.get("learning_rate", self._estimate_learning_rate(content)),
+                memory_consolidation_score=metadata.get("consolidation", self._estimate_consolidation(content)),
             )
 
             return learning_event
@@ -1524,9 +1442,7 @@ class MetaLearningPatternSystem:
             logger.warning(f"Failed to convert memory to learning event: {e}")
             return None
 
-    def _extract_performance_metrics(
-        self, content: str, metadata: dict[str, Any]
-    ) -> dict[str, float]:
+    def _extract_performance_metrics(self, content: str, metadata: dict[str, Any]) -> dict[str, float]:
         """Extract performance metrics from memory content"""
 
         metrics = {}
@@ -1696,9 +1612,7 @@ class MetaLearningPatternSystem:
 
         return knowledge
 
-    def _extract_attention_patterns(
-        self, content: str, metadata: dict[str, Any]
-    ) -> dict[str, float]:
+    def _extract_attention_patterns(self, content: str, metadata: dict[str, Any]) -> dict[str, float]:
         """Extract attention allocation patterns"""
 
         patterns = {}
@@ -1831,8 +1745,7 @@ class MetaLearningPatternSystem:
 
             # Calculate cosine similarity
             similarity = np.dot(query_pattern.pattern_embedding, pattern.pattern_embedding) / (
-                np.linalg.norm(query_pattern.pattern_embedding)
-                * np.linalg.norm(pattern.pattern_embedding)
+                np.linalg.norm(query_pattern.pattern_embedding) * np.linalg.norm(pattern.pattern_embedding)
             )
 
             similarities.append((pattern, float(similarity)))
@@ -1869,9 +1782,7 @@ class MetaLearningPatternSystem:
             if available_time < 2.0:  # Less than 2 hours
                 score += (1.0 - pattern.cognitive_load) * 0.1
             else:
-                score += (
-                    pattern.cognitive_load * 0.05
-                )  # Complex patterns might be beneficial with more time
+                score += pattern.cognitive_load * 0.05  # Complex patterns might be beneficial with more time
 
             # Confidence in pattern
             score += pattern.confidence_score * 0.1
@@ -1912,9 +1823,7 @@ class MetaLearningPatternSystem:
             "avg_learning_acceleration": np.mean(learning_accelerations),
             "high_confidence_patterns": sum(1 for s in confidence_scores if s > 0.8),
             "high_success_patterns": sum(1 for s in success_rates if s > 0.8),
-            "most_frequent_type": (
-                max(pattern_types.items(), key=lambda x: x[1])[0] if pattern_types else None
-            ),
+            "most_frequent_type": (max(pattern_types.items(), key=lambda x: x[1])[0] if pattern_types else None),
         }
 
 

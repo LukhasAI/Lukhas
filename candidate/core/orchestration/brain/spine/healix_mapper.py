@@ -90,9 +90,7 @@ class HealixMapper:
 
         return helix_nodes
 
-    def calculate_drift_score(
-        self, current_state: dict[str, Any], baseline: dict[str, Any]
-    ) -> float:
+    def calculate_drift_score(self, current_state: dict[str, Any], baseline: dict[str, Any]) -> float:
         """
             Returns a drift score indicating how far the current emotional state is from the baseline using cosine similarity.
 

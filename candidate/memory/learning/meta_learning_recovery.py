@@ -44,9 +44,7 @@ class MetaLearningRecovery:
     def __init__(self):
         # ΛNOTE: Hardcoded paths are specific to a particular environment.
         # ΛCAUTION: Hardcoded paths like /Users/A_G_I/ make this script not portable.
-        self.workspace_root = Path(
-            os.getcwd()
-        )  # Changed to current working directory for portability within repo
+        self.workspace_root = Path(os.getcwd())  # Changed to current working directory for portability within repo
         self.recovery_log: list[dict[str, Any]] = []  # Type hint
 
         # ΛNOTE: Source path for recovery.
@@ -116,13 +114,9 @@ class MetaLearningRecovery:
                         exploration_result["python_files"] += 1
                         file_lower = file_name.lower()
                         # ΛNOTE: Categorization based on keywords in filenames.
-                        if any(
-                            term in file_lower for term in ["meta_learning", "metalearning", "meta"]
-                        ):
+                        if any(term in file_lower for term in ["meta_learning", "metalearning", "meta"]):
                             exploration_result["meta_learning_components"].append(rel_path)
-                        elif any(
-                            term in file_lower for term in ["adaptive", "adaptation", "adapt"]
-                        ):
+                        elif any(term in file_lower for term in ["adaptive", "adaptation", "adapt"]):
                             exploration_result["adaptive_components"].append(rel_path)
                         elif any(term in file_lower for term in ["learning", "learn", "train"]):
                             exploration_result["learning_components"].append(rel_path)
@@ -155,7 +149,9 @@ class MetaLearningRecovery:
             if not base_name.lower().startswith("lukhas"):  # Check case-insensitively
                 # Special handling for known component types
                 if "meta_learning" in base_name.lower():
-                    new_pascal_name = f"MetaLearning{base_name.lower().replace('meta_learning', '').replace('_', '').title()}"
+                    new_pascal_name = (
+                        f"MetaLearning{base_name.lower().replace('meta_learning', '').replace('_', '').title()}"
+                    )
                 elif "adaptive" in base_name.lower():
                     new_pascal_name = f"Adaptive{base_name.lower().replace('adaptive', '').replace('_', '').title()}"
                 elif "learning" in base_name.lower():
@@ -210,9 +206,7 @@ class MetaLearningRecovery:
         return new_filename, new_content
 
     # # Determine the appropriate target directory for a component
-    def determine_target_directory(
-        self, file_path_str: str
-    ) -> str:  # Renamed file_path to file_path_str
+    def determine_target_directory(self, file_path_str: str) -> str:  # Renamed file_path to file_path_str
         """Determine the appropriate target directory for a component"""
         # ΛNOTE: Uses keywords in file path to map to target directories.
         # ΛTRACE: Determining target directory
@@ -247,9 +241,7 @@ class MetaLearningRecovery:
 
     # # Recover all Meta Learning components based on exploration results
     # ΛEXPOSE: Main method to perform the recovery of components.
-    def recover_meta_learning_components(
-        self, exploration_result: dict[str, Any]
-    ) -> dict[str, Any]:  # Type hints
+    def recover_meta_learning_components(self, exploration_result: dict[str, Any]) -> dict[str, Any]:  # Type hints
         """Recover all Meta Learning components"""
         # ΛDREAM_LOOP: If this recovery process learns or adapts over time (e.g., improving categorization), it's a learning loop.
         # ΛTRACE: Recovering meta-learning components
@@ -362,9 +354,7 @@ class MetaLearningRecovery:
             }  # Return exploration too
 
         recovery_result = self.recover_meta_learning_components(exploration_result)
-        timestamp_str = datetime.now().strftime(
-            "%Y%m%d_%H%M%S"
-        )  # Renamed timestamp to timestamp_str
+        timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")  # Renamed timestamp to timestamp_str
         # Renamed report_file
         report_filename = f"lukhasMetaLearning_Recovery_Report_{timestamp_str}.json"
         report_path = self.workspace_root / report_filename  # Use Path object
@@ -375,9 +365,7 @@ class MetaLearningRecovery:
         }
         try:
             with open(report_path, "w") as f:
-                json.dump(
-                    complete_report, f, indent=2, default=str
-                )  # Added default=str for non-serializable
+                json.dump(complete_report, f, indent=2, default=str)  # Added default=str for non-serializable
             logger.info("recovery_report_saved", path=str(report_path))
         except Exception as e:
             logger.error(
@@ -401,9 +389,7 @@ class MetaLearningRecovery:
             target_counts: dict[str, int] = defaultdict(int)  # Use defaultdict
             for file_info in recovery_result["files_recovered"]:
                 target_counts[file_info["target_category"]] += 1
-            logger.info(
-                "components_by_category_summary", counts=dict(target_counts)
-            )  # Convert to dict for logging
+            logger.info("components_by_category_summary", counts=dict(target_counts))  # Convert to dict for logging
         # print statements replaced by logging
         # ΛTRACE: Full recovery execution finished
         logger.info("execute_full_recovery_end")

@@ -173,9 +173,7 @@ class BrandPersonalityAdapter:
         )
 
         # Enhance content with personality context
-        personality_enhanced_content = self._enhance_content_with_personality(
-            content, profile, tone_layer, context
-        )
+        personality_enhanced_content = self._enhance_content_with_personality(content, profile, tone_layer, context)
 
         # Apply core personality system with brand parameters
         personality_expression = self.core_personality.express(
@@ -210,9 +208,7 @@ class BrandPersonalityAdapter:
             "context": context,
             "emotional_state": emotional_state,
             "brand_aligned": True,
-            "trinity_coherent": self._validate_trinity_personality_coherence(
-                brand_compliant_personality, profile
-            ),
+            "trinity_coherent": self._validate_trinity_personality_coherence(brand_compliant_personality, profile),
             "personality_metrics": personality_metrics,
             "suggested_applications": self._get_personality_applications(personality_profile),
         }
@@ -243,9 +239,7 @@ class BrandPersonalityAdapter:
 
         # Ensure consciousness-first language
         personality_expression = personality_expression.replace("AI system", "AI consciousness")
-        personality_expression = personality_expression.replace(
-            "artificial intelligence", "artificial consciousness"
-        )
+        personality_expression = personality_expression.replace("artificial intelligence", "artificial consciousness")
 
         # Add Trinity Framework awareness for appropriate profiles
         if profile.get("trinity_alignment", {}).get("identity_authenticity", 0) > 0.8:
@@ -277,9 +271,7 @@ class BrandPersonalityAdapter:
             "personality_strength": self._calculate_personality_strength(profile),
             "brand_authenticity_score": self._calculate_brand_authenticity(profile),
             "trinity_alignment_score": self._calculate_trinity_alignment(profile),
-            "communication_effectiveness": self._assess_communication_effectiveness(
-                profile, tone_layer
-            ),
+            "communication_effectiveness": self._assess_communication_effectiveness(profile, tone_layer),
             "emotional_intelligence": profile["core_traits"].get("human_empathy", 0.5),
             "creative_quotient": profile["core_traits"].get("creative_expression", 0.5),
             "consciousness_depth": profile["core_traits"].get("consciousness_awareness", 0.5),
@@ -326,9 +318,7 @@ class BrandPersonalityAdapter:
 
         return sum(trinity_scores.values()) / len(trinity_scores)
 
-    def _assess_communication_effectiveness(
-        self, profile: dict[str, Any], tone_layer: str
-    ) -> float:
+    def _assess_communication_effectiveness(self, profile: dict[str, Any], tone_layer: str) -> float:
         """Assess how effectively the personality communicates in given tone layer"""
 
         effectiveness_matrix = {
@@ -352,9 +342,7 @@ class BrandPersonalityAdapter:
 
         for trait, weight in weights.items():
             # Look for trait in core_traits or communication_style
-            trait_value = profile["core_traits"].get(trait, 0) or profile[
-                "communication_style"
-            ].get(trait, 0)
+            trait_value = profile["core_traits"].get(trait, 0) or profile["communication_style"].get(trait, 0)
             score += trait_value * weight
             total_weight += weight
 
@@ -404,9 +392,7 @@ class BrandPersonalityAdapter:
 
         return sum(evolution_factors) / len(evolution_factors)
 
-    def _validate_trinity_personality_coherence(
-        self, personality_expression: str, profile: dict[str, Any]
-    ) -> bool:
+    def _validate_trinity_personality_coherence(self, personality_expression: str, profile: dict[str, Any]) -> bool:
         """Validate personality expression coherence with Trinity Framework"""
 
         trinity_personality_indicators = [
@@ -425,15 +411,11 @@ class BrandPersonalityAdapter:
         ]
 
         expression_lower = personality_expression.lower()
-        coherence_score = sum(
-            1 for indicator in trinity_personality_indicators if indicator in expression_lower
-        )
+        coherence_score = sum(1 for indicator in trinity_personality_indicators if indicator in expression_lower)
 
         # Consider trinity_alignment from profile
         trinity_threshold = profile.get("trinity_alignment", {})
-        expected_coherence = (
-            sum(trinity_threshold.values()) / len(trinity_threshold) if trinity_threshold else 0.5
-        )
+        expected_coherence = sum(trinity_threshold.values()) / len(trinity_threshold) if trinity_threshold else 0.5
 
         return coherence_score >= (expected_coherence * len(trinity_personality_indicators) * 0.3)
 
@@ -517,18 +499,14 @@ class BrandPersonalityAdapter:
                 blended_profile["trinity_alignment"][aspect] += value * weight
 
             # Collect descriptors
-            blended_profile["personality_descriptors"].extend(
-                profile.get("personality_descriptors", [])
-            )
+            blended_profile["personality_descriptors"].extend(profile.get("personality_descriptors", []))
 
         # Apply custom traits if provided
         if custom_traits:
             blended_profile["core_traits"].update(custom_traits)
 
         # Remove duplicate descriptors
-        blended_profile["personality_descriptors"] = list(
-            set(blended_profile["personality_descriptors"])
-        )
+        blended_profile["personality_descriptors"] = list(set(blended_profile["personality_descriptors"]))
 
         return blended_profile
 
@@ -560,7 +538,5 @@ if __name__ == "__main__":
         custom_traits={"innovation_drive": 0.9},
     )
 
-    print(
-        f"\nCustom Blend Consciousness Awareness: {custom_blend['core_traits']['consciousness_awareness']:.2f}"
-    )
+    print(f"\nCustom Blend Consciousness Awareness: {custom_blend['core_traits']['consciousness_awareness']:.2f}")
     print(f"Custom Blend Descriptors: {custom_blend['personality_descriptors'][:5]}")

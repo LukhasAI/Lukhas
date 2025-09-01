@@ -212,9 +212,7 @@ class EthicalHierarchy:
                 result["compliance_checks"][framework.value] = compliance
 
             # 3. Perform stakeholder impact analysis
-            stakeholder_impact = await self._analyze_stakeholder_impact(
-                action, context, stakeholders
-            )
+            stakeholder_impact = await self._analyze_stakeholder_impact(action, context, stakeholders)
             result["stakeholder_impact"] = stakeholder_impact
 
             # 4. Calculate overall ethical assessment
@@ -266,14 +264,9 @@ class EthicalHierarchy:
         if principle == EthicalPrinciple.HUMAN_DIGNITY:
             # Evaluate respect for human dignity
             if "human" in action_description.lower():
-                if any(
-                    term in action_description.lower() for term in ["respect", "dignity", "worth"]
-                ):
+                if any(term in action_description.lower() for term in ["respect", "dignity", "worth"]):
                     score = 0.9
-                elif any(
-                    term in action_description.lower()
-                    for term in ["exploit", "degrade", "manipulate"]
-                ):
+                elif any(term in action_description.lower() for term in ["exploit", "degrade", "manipulate"]):
                     score = 0.1
                 else:
                     score = 0.7
@@ -417,9 +410,7 @@ class EthicalHierarchy:
                         )
 
         # Calculate compliance score
-        total_checks = len(compliance_result["violations"]) + len(
-            compliance_result["requirements_met"]
-        )
+        total_checks = len(compliance_result["violations"]) + len(compliance_result["requirements_met"])
         if total_checks > 0:
             violation_weight = len(compliance_result["violations"]) * 0.5
             compliance_result["score"] = max(0.0, 1.0 - (violation_weight / total_checks))
@@ -459,15 +450,9 @@ class EthicalHierarchy:
 
             elif stakeholder == "society":
                 if "social" in action.get("description", "").lower():
-                    if any(
-                        term in action.get("description", "").lower()
-                        for term in ["benefit", "improve"]
-                    ):
+                    if any(term in action.get("description", "").lower() for term in ["benefit", "improve"]):
                         impact_score = 0.7
-                    elif any(
-                        term in action.get("description", "").lower()
-                        for term in ["harm", "disrupt"]
-                    ):
+                    elif any(term in action.get("description", "").lower() for term in ["harm", "disrupt"]):
                         impact_score = 0.3
 
             impact_analysis["stakeholder_impacts"][stakeholder] = {
@@ -477,9 +462,9 @@ class EthicalHierarchy:
             }
 
         # Calculate overall impact
-        avg_impact = sum(
-            s["impact_score"] for s in impact_analysis["stakeholder_impacts"].values()
-        ) / len(impact_analysis["stakeholder_impacts"])
+        avg_impact = sum(s["impact_score"] for s in impact_analysis["stakeholder_impacts"].values()) / len(
+            impact_analysis["stakeholder_impacts"]
+        )
 
         if avg_impact >= 0.7:
             impact_analysis["overall_impact"] = "positive"
@@ -490,9 +475,7 @@ class EthicalHierarchy:
 
         return impact_analysis
 
-    async def _calculate_overall_assessment(
-        self, evaluation_result: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _calculate_overall_assessment(self, evaluation_result: dict[str, Any]) -> dict[str, Any]:
         """Calculate overall ethical assessment."""
 
         ethical_scores = evaluation_result["ethical_scores"]
@@ -512,9 +495,7 @@ class EthicalHierarchy:
 
         # Calculate compliance score
         compliance_scores = [check["score"] for check in compliance_checks.values()]
-        overall_compliance_score = (
-            sum(compliance_scores) / len(compliance_scores) if compliance_scores else 1.0
-        )
+        overall_compliance_score = sum(compliance_scores) / len(compliance_scores) if compliance_scores else 1.0
 
         # Combined assessment
         combined_score = (overall_ethical_score * 0.6) + (overall_compliance_score * 0.4)
@@ -535,9 +516,7 @@ class EthicalHierarchy:
             "combined_score": combined_score,
             "severity": severity.value,
             "confidence": min(1.0, combined_score + 0.1),  # Confidence in assessment
-            "reasoning": self._generate_assessment_reasoning(
-                evaluation_result, combined_score, severity
-            ),
+            "reasoning": self._generate_assessment_reasoning(evaluation_result, combined_score, severity),
         }
 
     def _generate_assessment_reasoning(
@@ -568,9 +547,7 @@ class EthicalHierarchy:
                 compliance_violations.append(framework)
 
         if compliance_violations:
-            reasoning_parts.append(
-                f"Legal compliance issues with {', '.join(compliance_violations)}"
-            )
+            reasoning_parts.append(f"Legal compliance issues with {', '.join(compliance_violations)}")
         else:
             reasoning_parts.append("Full legal compliance maintained")
 
@@ -599,21 +576,15 @@ class EthicalHierarchy:
             if score < 0.5:
                 principle = EthicalPrinciple(principle_str)
                 if principle == EthicalPrinciple.TRANSPARENCY:
-                    recommendations.append(
-                        "Implement explainable AI mechanisms to improve transparency"
-                    )
+                    recommendations.append("Implement explainable AI mechanisms to improve transparency")
                 elif principle == EthicalPrinciple.PRIVACY_PROTECTION:
                     recommendations.append("Strengthen data protection and privacy safeguards")
                 elif principle == EthicalPrinciple.FAIRNESS:
-                    recommendations.append(
-                        "Conduct bias testing and implement fairness constraints"
-                    )
+                    recommendations.append("Conduct bias testing and implement fairness constraints")
                 elif principle == EthicalPrinciple.AUTONOMY:
                     recommendations.append("Enhance user control and informed consent mechanisms")
                 elif principle == EthicalPrinciple.NON_MALEFICENCE:
-                    recommendations.append(
-                        "Implement additional safety controls and risk mitigation"
-                    )
+                    recommendations.append("Implement additional safety controls and risk mitigation")
 
         # Compliance recommendations
         for framework, check in evaluation_result["compliance_checks"].items():
@@ -647,9 +618,7 @@ class EthicalHierarchy:
         # Check for critical violations
         critical_violations = []
         for check in evaluation_result["compliance_checks"].values():
-            critical_violations.extend(
-                [v for v in check.get("violations", []) if v.get("severity") == "critical"]
-            )
+            critical_violations.extend([v for v in check.get("violations", []) if v.get("severity") == "critical"])
 
         if critical_violations or severity == EthicalSeverity.CRITICAL:
             return "rejected"
@@ -745,9 +714,7 @@ class EthicalHierarchy:
 
         elif jurisdiction == "US":
             # US frameworks emphasize fairness and accountability
-            priority_weights[EthicalPrinciple.FAIRNESS] = min(
-                1.0, priority_weights[EthicalPrinciple.FAIRNESS] + 0.1
-            )
+            priority_weights[EthicalPrinciple.FAIRNESS] = min(1.0, priority_weights[EthicalPrinciple.FAIRNESS] + 0.1)
             priority_weights[EthicalPrinciple.ACCOUNTABILITY] = min(
                 1.0, priority_weights[EthicalPrinciple.ACCOUNTABILITY] + 0.1
             )
@@ -762,8 +729,7 @@ class EthicalHierarchy:
 
         recent_evaluations = self.decision_history[-10:] if self.decision_history else []
         approval_rate = (
-            len([e for e in recent_evaluations if e["approval_status"] == "approved"])
-            / len(recent_evaluations)
+            len([e for e in recent_evaluations if e["approval_status"] == "approved"]) / len(recent_evaluations)
             if recent_evaluations
             else 0
         )
@@ -777,9 +743,7 @@ class EthicalHierarchy:
                 "total_evaluations": total_evaluations,
                 "total_violations": total_violations,
                 "recent_approval_rate": approval_rate,
-                "violation_rate": (
-                    total_violations / total_evaluations if total_evaluations > 0 else 0
-                ),
+                "violation_rate": (total_violations / total_evaluations if total_evaluations > 0 else 0),
             },
             "current_weights": {k.value: v for k, v in self.context_weights.items()},
             "recent_violations": [

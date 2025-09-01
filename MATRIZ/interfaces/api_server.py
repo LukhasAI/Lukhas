@@ -42,9 +42,7 @@ from ..nodes.math_node import MathNode
 from ..nodes.validator_node import ValidatorNode
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Global orchestrator instance
@@ -58,9 +56,7 @@ class QueryRequest(BaseModel):
 
     query: str = Field(..., min_length=1, max_length=10000, description="Query to process")
     trace_id: Optional[str] = Field(None, description="Optional execution trace ID")
-    context: Optional[dict[str, Any]] = Field(
-        default_factory=dict, description="Additional context"
-    )
+    context: Optional[dict[str, Any]] = Field(default_factory=dict, description="Additional context")
     include_trace: bool = Field(default=True, description="Include detailed execution trace")
     include_nodes: bool = Field(default=True, description="Include MATRIZ nodes in response")
 
@@ -329,9 +325,7 @@ async def process_query(
             response_data["reasoning_chain"] = result.get("reasoning_chain", [])
 
         # Log successful processing
-        logger.info(
-            f"Query processed successfully (trace: {trace_id}, time: {response_data['processing_time']:.3f}s)"
-        )
+        logger.info(f"Query processed successfully (trace: {trace_id}, time: {response_data['processing_time']:.3f}s)")
 
         # Send to WebSocket clients in background
         if websocket_connections:
@@ -422,9 +416,7 @@ async def get_node_details(node_name: str, orch: CognitiveOrchestrator = Depends
 
 
 @app.get("/system/graph", tags=["System"])
-async def get_matriz_graph(
-    orch: CognitiveOrchestrator = Depends(get_orchestrator), limit: int = 100
-):
+async def get_matriz_graph(orch: CognitiveOrchestrator = Depends(get_orchestrator), limit: int = 100):
     """Get the MATRIZ graph nodes (limited for performance)"""
     nodes = list(orch.matriz_graph.values())[-limit:]
     return {
@@ -435,9 +427,7 @@ async def get_matriz_graph(
 
 
 @app.get("/system/trace", tags=["System"])
-async def get_execution_trace(
-    orch: CognitiveOrchestrator = Depends(get_orchestrator), limit: int = 50
-):
+async def get_execution_trace(orch: CognitiveOrchestrator = Depends(get_orchestrator), limit: int = 50):
     """Get recent execution traces"""
     traces = orch.execution_trace[-limit:]
     return {
@@ -488,9 +478,7 @@ async def websocket_endpoint(websocket: WebSocket):
             "data": {
                 "client_id": client_id,
                 "message": "Connected to MATRIZ-AGI WebSocket",
-                "available_nodes": (
-                    list(orchestrator.available_nodes.keys()) if orchestrator else []
-                ),
+                "available_nodes": (list(orchestrator.available_nodes.keys()) if orchestrator else []),
             },
             "timestamp": datetime.now().isoformat(),
         }
@@ -570,12 +558,8 @@ async def websocket_endpoint(websocket: WebSocket):
                             "type": "system_info",
                             "data": {
                                 "nodes": nodes,
-                                "matriz_graph_size": (
-                                    len(orchestrator.matriz_graph) if orchestrator else 0
-                                ),
-                                "execution_trace_count": (
-                                    len(orchestrator.execution_trace) if orchestrator else 0
-                                ),
+                                "matriz_graph_size": (len(orchestrator.matriz_graph) if orchestrator else 0),
+                                "execution_trace_count": (len(orchestrator.execution_trace) if orchestrator else 0),
                                 "total_queries": total_queries,
                                 "uptime_seconds": time.time() - start_time,
                             },

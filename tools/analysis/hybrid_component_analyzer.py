@@ -251,12 +251,8 @@ class HybridComponentAnalyzer:
 
                         for hormone_type, patterns in hormone_patterns.items():
                             if any(pattern in content for pattern in patterns):
-                                module = (
-                                    root.split(os.sep)[1] if len(root.split(os.sep)) > 1 else "root"
-                                )
-                                tag_hormones[hormone_type].append(
-                                    {"module": module, "file": file, "path": file_path}
-                                )
+                                module = root.split(os.sep)[1] if len(root.split(os.sep)) > 1 else "root"
+                                tag_hormones[hormone_type].append({"module": module, "file": file, "path": file_path})
                     except BaseException:
                         pass
 
@@ -281,9 +277,7 @@ class HybridComponentAnalyzer:
             subdirs = self.identify_hybrid_subdirs(module)
 
             # Filter to only highly hybrid subdirectories
-            hybrid_subdirs = {
-                name: info for name, info in subdirs.items() if info["hybrid_score"] >= 3
-            }
+            hybrid_subdirs = {name: info for name, info in subdirs.items() if info["hybrid_score"] >= 3}
 
             hybrid_map["modules"][module] = {
                 "subdirectories": subdirs,
@@ -363,14 +357,9 @@ def main():
         "hybrid_mapping": hybrid_map,
         "neuroplastic_responses": neuroplastic_map,
         "summary": {
-            "total_hybrid_components": sum(
-                m["hybrid_count"] for m in hybrid_map["modules"].values()
-            ),
+            "total_hybrid_components": sum(m["hybrid_count"] for m in hybrid_map["modules"].values()),
             "most_connected_modules": sorted(
-                [
-                    (m, len(hybrid_map["cross_module_matrix"].get(m, {})))
-                    for m in analyzer.module_dirs
-                ],
+                [(m, len(hybrid_map["cross_module_matrix"].get(m, {}))) for m in analyzer.module_dirs],
                 key=lambda x: x[1],
                 reverse=True,
             )[:5],

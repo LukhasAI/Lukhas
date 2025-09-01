@@ -351,9 +351,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/auth/login")
         async def login(credentials: dict[str, Any]):
             """Login and get JWT token"""
-            result = await self.security.create_secure_session(
-                credentials.get("user_id"), credentials
-            )
+            result = await self.security.create_secure_session(credentials.get("user_id"), credentials)
 
             if not result:
                 raise HTTPException(
@@ -366,9 +364,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/auth/mfa/verify")
         async def verify_mfa(session_id: str, mfa_data: dict[str, str]):
             """Verify MFA code"""
-            result = await self.security.verify_mfa(
-                session_id, mfa_data.get("method"), mfa_data.get("code")
-            )
+            result = await self.security.verify_mfa(session_id, mfa_data.get("method"), mfa_data.get("code"))
 
             if not result:
                 raise HTTPException(
@@ -455,17 +451,11 @@ class EnhancedAPISystem:
             try:
                 # Execute memory operation
                 if action == "store":
-                    result = await self.memory.store(
-                        request.content, memory_type=request.memory_type
-                    )
+                    result = await self.memory.store(request.content, memory_type=request.memory_type)
                 elif action == "retrieve":
-                    result = await self.memory.retrieve(
-                        request.query, memory_type=request.memory_type
-                    )
+                    result = await self.memory.retrieve(request.query, memory_type=request.memory_type)
                 elif action == "search":
-                    result = await self.memory.search(
-                        request.query, memory_type=request.memory_type
-                    )
+                    result = await self.memory.search(request.query, memory_type=request.memory_type)
                 elif action == "update":
                     result = await self.memory.update(
                         request.query,
@@ -657,16 +647,12 @@ class EnhancedAPISystem:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
             return {
-                "consciousness": (
-                    self.consciousness.get_capabilities() if self.consciousness else {}
-                ),
+                "consciousness": (self.consciousness.get_capabilities() if self.consciousness else {}),
                 "memory": (self.memory.get_capabilities() if self.memory else {}),
                 "guardian": (self.guardian.get_capabilities() if self.guardian else {}),
                 "emotion": (self.emotion.get_capabilities() if self.emotion else {}),
                 "dream": self.dream.get_capabilities() if self.dream else {},
-                "symbolic": (
-                    self.symbolic_engine.get_capabilities() if self.symbolic_engine else {}
-                ),
+                "symbolic": (self.symbolic_engine.get_capabilities() if self.symbolic_engine else {}),
             }
 
         @self.app.get("/api/v2/metrics")
@@ -734,9 +720,7 @@ class EnhancedAPISystem:
         op = request.operation.replace("coordination.", "")
 
         if op == "orchestrate":
-            return await self.coordination.orchestrate_task(
-                request.data.get("task", {}), request.context
-            )
+            return await self.coordination.orchestrate_task(request.data.get("task", {}), request.context)
         else:
             raise ValueError(f"Unknown coordination operation: {op}")
 

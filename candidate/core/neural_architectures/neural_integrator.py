@@ -580,9 +580,7 @@ class NeuralIntegrator:
 
                 for pattern in recent_patterns:
                     # Quantum-enhanced feature extraction
-                    enhanced_features = await self.qi_inspired_processor.enhance_features(
-                        pattern.features
-                    )
+                    enhanced_features = await self.qi_inspired_processor.enhance_features(pattern.features)
 
                     # Update pattern with enhanced features
                     pattern.features = enhanced_features
@@ -666,9 +664,7 @@ class NeuralIntegrator:
                 results["similar_patterns"] = similar_patterns
 
             else:
-                logger.warning(
-                    f"No neural network found for architecture: {context.architecture_type}"
-                )
+                logger.warning(f"No neural network found for architecture: {context.architecture_type}")
 
         except Exception as e:
             logger.error(f"Error processing input: {e}")

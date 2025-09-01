@@ -33,9 +33,7 @@ from .integration.vivox_bridge import QIBridgeEvent, VIVOXQIBridge
 
 
 # Main factory function
-def create_quantum_readiness_system(
-    vivox_interfaces: dict = None, qi_config: dict = None
-) -> QISubstrate:
+def create_quantum_readiness_system(vivox_interfaces: dict = None, qi_config: dict = None) -> QISubstrate:
     """
     Create a complete VIVOX.QREADY system
 

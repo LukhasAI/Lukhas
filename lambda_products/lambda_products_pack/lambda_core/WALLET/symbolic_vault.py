@@ -59,9 +59,7 @@ class WalletSymbolicVault:
 
         return False
 
-    def encrypt_wallet_memory(
-        self, memory_data: dict[str, Any], access_layer: int
-    ) -> dict[str, Any]:
+    def encrypt_wallet_memory(self, memory_data: dict[str, Any], access_layer: int) -> dict[str, Any]:
         """Encrypt wallet memory with symbolic environmental anchoring"""
         if access_layer not in self.access_layers:
             raise ValueError(f"Invalid access layer: {access_layer}")
@@ -97,17 +95,13 @@ class WalletSymbolicVault:
 
         logger.info(f"Stored transaction seed for {transaction_id}")
 
-    def recover_transaction_seed(
-        self, transaction_id: str, provided_seed: str
-    ) -> Optional[dict[str, Any]]:
+    def recover_transaction_seed(self, transaction_id: str, provided_seed: str) -> Optional[dict[str, Any]]:
         """Recover transaction using symbolic seed"""
         if transaction_id not in self.transaction_seeds:
             return None
 
         stored_seed = self.transaction_seeds[transaction_id]
-        provided_hash = self._hash_trigger_data(
-            {"seed": provided_seed, "context": stored_seed["context"]}
-        )
+        provided_hash = self._hash_trigger_data({"seed": provided_seed, "context": stored_seed["context"]})
 
         if provided_hash == stored_seed["seed_hash"]:
             return stored_seed["context"]
@@ -119,9 +113,7 @@ class WalletSymbolicVault:
         backup_data = {
             "lambda_id": self.lambda_id,
             "access_layers": self.access_layers,
-            "environmental_triggers": {
-                k: {**v, "hash": "[REDACTED]"} for k, v in self.environmental_triggers.items()
-            },
+            "environmental_triggers": {k: {**v, "hash": "[REDACTED]"} for k, v in self.environmental_triggers.items()},
             "wallet_memories_count": len(self.wallet_memories),
             "transaction_seeds_count": len(self.transaction_seeds),
             "backup_timestamp": datetime.now().isoformat(),
@@ -134,9 +126,7 @@ class WalletSymbolicVault:
         """Restore wallet vault from symbolic backup"""
         try:
             # Verify symbolic phrase
-            if not self._verify_symbolic_verification(
-                backup_data.get("symbolic_verification"), symbolic_phrase
-            ):
+            if not self._verify_symbolic_verification(backup_data.get("symbolic_verification"), symbolic_phrase):
                 logger.warning(f"Invalid symbolic phrase for restoration of {self.lambda_id}")
                 return False
 
@@ -186,9 +176,7 @@ class WalletSymbolicVault:
     def _verify_full_kyi(self, verification_data: dict[str, Any]) -> bool:
         """Verify full KYI (Know Your Identity) for high-value operations"""
         return (
-            "legal_id" in verification_data
-            and "biometric" in verification_data
-            and "two_factor" in verification_data
+            "legal_id" in verification_data and "biometric" in verification_data and "two_factor" in verification_data
         )
 
     def _verify_guardian_layer(self, verification_data: dict[str, Any]) -> bool:

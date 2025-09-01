@@ -242,9 +242,7 @@ class AutoEscalatorEngine:
             "tier_progress": self._calculate_tier_progress(user_metrics, base_tier),
         }
 
-    def check_tier_promotion(
-        self, user_id: str, current_tier: EscalatorTier, updated_metrics: UserMetrics
-    ) -> Dict:
+    def check_tier_promotion(self, user_id: str, current_tier: EscalatorTier, updated_metrics: UserMetrics) -> Dict:
         """
         Check if user qualifies for tier promotion
 
@@ -283,9 +281,7 @@ class AutoEscalatorEngine:
                 "new_split": f"{self.tier_policies[new_tier].user_share_bps / 100}%",
                 "effective_date": datetime.now().isoformat(),
                 "promotion_benefits": self._get_tier_benefits(new_tier),
-                "celebration_message": self._get_promotion_message(current_tier, new_tier)
-                if is_promotion
-                else None,
+                "celebration_message": self._get_promotion_message(current_tier, new_tier) if is_promotion else None,
             }
 
         return {
@@ -294,9 +290,7 @@ class AutoEscalatorEngine:
             "tier_progress": self._calculate_tier_progress(updated_metrics, current_tier),
         }
 
-    def check_performance_bonuses(
-        self, user_metrics: UserMetrics, recent_activity: List[dict]
-    ) -> List[str]:
+    def check_performance_bonuses(self, user_metrics: UserMetrics, recent_activity: List[dict]) -> List[str]:
         """
         Check which performance bonuses user qualifies for
 
@@ -465,9 +459,7 @@ class AutoEscalatorEngine:
                 "conversions": {
                     "current": metrics.conversions_count,
                     "required": min_conversions,
-                    "progress": round(
-                        min(metrics.conversions_count / max(min_conversions, 1), 1.0), 3
-                    ),
+                    "progress": round(min(metrics.conversions_count / max(min_conversions, 1), 1.0), 3),
                 },
                 "days_active": {
                     "current": metrics.days_active,
@@ -538,15 +530,11 @@ class AutoEscalatorEngine:
         # Mock implementation - in production would analyze actual activity
         return len(recent_activity) >= days
 
-    def _check_volume_spike(
-        self, recent_activity: List[dict], multiplier: float, days: int
-    ) -> bool:
+    def _check_volume_spike(self, recent_activity: List[dict], multiplier: float, days: int) -> bool:
         """Check if user has volume spike"""
         # Mock implementation - in production would calculate volume ratios
         recent_volume = sum(activity.get("value_usd", 0) for activity in recent_activity[-days:])
-        avg_volume = sum(activity.get("value_usd", 0) for activity in recent_activity) / len(
-            recent_activity
-        )
+        avg_volume = sum(activity.get("value_usd", 0) for activity in recent_activity) / len(recent_activity)
         return recent_volume >= avg_volume * multiplier
 
     def _sustained_quality(self, metrics: UserMetrics, days: int) -> bool:
@@ -622,9 +610,7 @@ def demo_auto_escalator():
         # Show tier progress
         if split["next_tier"]:
             progress = split["tier_progress"]
-            print(
-                f"   Next Tier: {split['next_tier'].title()} ({progress['overall_progress'] * 100:.1f}% complete)"
-            )
+            print(f"   Next Tier: {split['next_tier'].title()} ({progress['overall_progress'] * 100:.1f}% complete)")
         else:
             print("   Status: Maximum tier achieved! 🏆")
 

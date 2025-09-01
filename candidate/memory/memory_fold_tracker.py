@@ -220,9 +220,7 @@ class MemoryFoldTracker:
                 and curr.get("entropy", 0) > prev.get("entropy", 0) + 0.3
             )
 
-            trinity_collapse = (
-                curr.get("trinity_coherence", 1) < self.collapse_indicators["trinity_void"]
-            )
+            trinity_collapse = curr.get("trinity_coherence", 1) < self.collapse_indicators["trinity_void"]
 
             drift_critical = curr.get("drift_score", 0) > self.collapse_indicators["drift_critical"]
 

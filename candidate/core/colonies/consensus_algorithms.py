@@ -192,9 +192,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         logger.info(f"Quantum vote cast by {agent_id} for {proposal_id}")
         return True
 
-    async def _quantum_consensus(
-        self, proposal: ConsensusProposal, qi_votes: list[QIVote]
-    ) -> ConsensusOutcome:
+    async def _quantum_consensus(self, proposal: ConsensusProposal, qi_votes: list[QIVote]) -> ConsensusOutcome:
         """
         Quantum superposition consensus mechanism
         """
@@ -341,20 +339,14 @@ class AdvancedColonyConsensus(ColonyConsensus):
         for _iteration in range(max_iterations):
             for particle in self.swarm_particles.values():
                 # Update velocity
-                cognitive_component = (
-                    2.0 * random.random() * (particle.personal_best - particle.position)
-                )
+                cognitive_component = 2.0 * random.random() * (particle.personal_best - particle.position)
 
                 if self.global_best_position is not None:
-                    social_component = (
-                        2.0 * random.random() * (self.global_best_position - particle.position)
-                    )
+                    social_component = 2.0 * random.random() * (self.global_best_position - particle.position)
                 else:
                     social_component = np.zeros(num_dimensions)
 
-                particle.velocity = (
-                    particle.inertia * particle.velocity + cognitive_component + social_component
-                )
+                particle.velocity = particle.inertia * particle.velocity + cognitive_component + social_component
 
                 # Update position
                 particle.position += particle.velocity
@@ -674,15 +666,11 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
         outcome = await self._weighted_vote_consensus(proposal, quadratic_votes)
         outcome.method_used = ConsensusMethod.WEIGHTED_VOTE  # Update to quadratic method
-        outcome.metadata["total_credits_used"] = sum(
-            100 - credits for credits in voting_credits.values()
-        )
+        outcome.metadata["total_credits_used"] = sum(100 - credits for credits in voting_credits.values())
 
         return outcome
 
-    async def _holographic_consensus(
-        self, proposal: ConsensusProposal, votes: list[AgentVote]
-    ) -> ConsensusOutcome:
+    async def _holographic_consensus(self, proposal: ConsensusProposal, votes: list[AgentVote]) -> ConsensusOutcome:
         """
         Holographic consensus with fractal decision structure
         """
@@ -775,9 +763,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
         # Adjust learning parameters
         if len(self.consensus_memory) > 10:
-            recent_confidence = np.mean(
-                [m["confidence"] for m in list(self.consensus_memory)[-10:]]
-            )
+            recent_confidence = np.mean([m["confidence"] for m in list(self.consensus_memory)[-10:]])
             if recent_confidence < 0.6:
                 # Low confidence - increase exploration
                 self.learning_rate = min(0.1, self.learning_rate * 1.1)
@@ -895,9 +881,7 @@ async def demo_advanced_consensus():
     # 2. Swarm Intelligence Consensus
     print("\n2️⃣ Swarm Intelligence Consensus:")
 
-    proposal_id = await consensus.propose(
-        content="Migrate to new server cluster", proposer="swarm_coordinator"
-    )
+    proposal_id = await consensus.propose(content="Migrate to new server cluster", proposer="swarm_coordinator")
 
     # Create diverse initial votes
     for agent_id in agents:
@@ -920,9 +904,7 @@ async def demo_advanced_consensus():
     # 3. Genetic Evolution Consensus
     print("\n3️⃣ Genetic Evolution Consensus:")
 
-    proposal_id = await consensus.propose(
-        content="Evolve new AI capabilities", proposer="evolution_coordinator"
-    )
+    proposal_id = await consensus.propose(content="Evolve new AI capabilities", proposer="evolution_coordinator")
 
     for agent_id in agents:
         vote_type = random.choice([VoteType.APPROVE, VoteType.REJECT])
@@ -947,9 +929,7 @@ async def demo_advanced_consensus():
         "agent_5": "agent_4",
     }
 
-    proposal_id = await consensus.propose(
-        content="Implement liquid governance", proposer="liquid_coordinator"
-    )
+    proposal_id = await consensus.propose(content="Implement liquid governance", proposer="liquid_coordinator")
 
     # Only delegates vote
     for agent_id in ["agent_1", "agent_4", "agent_6", "agent_7", "agent_8", "agent_9"]:
@@ -967,9 +947,7 @@ async def demo_advanced_consensus():
     # 5. Multi-Stage Pipeline
     print("\n5️⃣ Multi-Stage Consensus Pipeline:")
 
-    proposal_id = await consensus.propose(
-        content="Complex multi-phase decision", proposer="pipeline_coordinator"
-    )
+    proposal_id = await consensus.propose(content="Complex multi-phase decision", proposer="pipeline_coordinator")
 
     for agent_id in agents:
         vote_type = random.choice([VoteType.APPROVE, VoteType.REJECT, VoteType.ABSTAIN])

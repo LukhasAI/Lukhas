@@ -133,14 +133,10 @@ class QIProcessingCore:
             input_signal = self._prepare_quantum_signal(input_data)
 
             # Process through mitochondrial bridge
-            bridge_output, bridge_meta = await self.mitochondrial_bridge.process_quantum_signal(
-                input_signal, context
-            )
+            bridge_output, bridge_meta = await self.mitochondrial_bridge.process_quantum_signal(input_signal, context)
 
             # Process through quantum synaptic gate
-            gate_output, gate_meta = await self.synaptic_gate.process_signal(
-                bridge_output, self.qi_like_state
-            )
+            gate_output, gate_meta = await self.synaptic_gate.process_signal(bridge_output, self.qi_like_state)
 
             # Apply neuroplasticity modulation
             modulated_output, plasticity_meta = await self.plasticity_modulator.modulate_processing(
@@ -156,9 +152,7 @@ class QIProcessingCore:
             self.metrics["processing_time_total"] += processing_time
 
             # Check for quantum advantage
-            qi_advantage = self._calculate_quantum_advantage(
-                bridge_meta, gate_meta, plasticity_meta
-            )
+            qi_advantage = self._calculate_quantum_advantage(bridge_meta, gate_meta, plasticity_meta)
             if qi_advantage > 0.7:
                 self.metrics["qi_advantages"] += 1
 
@@ -195,13 +189,9 @@ class QIProcessingCore:
 
             # Adjust coherence-inspired processing based on learning state
             coherence_adjustment = learning_efficiency * 0.1
-            self.config["coherence_threshold"] = min(
-                0.95, self.config["coherence_threshold"] + coherence_adjustment
-            )
+            self.config["coherence_threshold"] = min(0.95, self.config["coherence_threshold"] + coherence_adjustment)
 
-            logger.info(
-                f"Applied learning bias: adaptation_rate={adaptation_rate}, efficiency={learning_efficiency}"
-            )
+            logger.info(f"Applied learning bias: adaptation_rate={adaptation_rate}, efficiency={learning_efficiency}")
 
         except Exception as e:
             logger.warning(f"Learning bias application failed: {e}")
@@ -211,9 +201,7 @@ class QIProcessingCore:
         try:
             # Extract optimization parameters
             coherence_boost = qi_like_state.get("coherence_boost", 0.0)
-            entanglement_strength = qi_like_state.get(
-                "entanglement_strength", self.config["entanglement_strength"]
-            )
+            entanglement_strength = qi_like_state.get("entanglement_strength", self.config["entanglement_strength"])
 
             # Apply coherence boost
             if coherence_boost > 0:
@@ -262,18 +250,14 @@ class QIProcessingCore:
             logger.warning(f"Signal preparation failed: {e}")
             return np.random.random(5) * 0.5 + 0.25
 
-    def _update_quantum_like_state(
-        self, output: np.ndarray, plasticity_meta: dict[str, Any]
-    ) -> None:
+    def _update_quantum_like_state(self, output: np.ndarray, plasticity_meta: dict[str, Any]) -> None:
         """Update internal quantum-like state based on processing results"""
         try:
             # Apply plasticity-based state evolution
             plasticity_factor = plasticity_meta.get("adaptation_strength", 0.1)
 
             # Weighted update of quantum-like state
-            self.qi_like_state = (
-                self.qi_like_state * (1 - plasticity_factor) + output * plasticity_factor
-            )
+            self.qi_like_state = self.qi_like_state * (1 - plasticity_factor) + output * plasticity_factor
 
             # Normalize to maintain quantum constraints
             norm = np.linalg.norm(self.qi_like_state)
@@ -309,9 +293,7 @@ class QIProcessingCore:
             plasticity_adaptation = plasticity_meta.get("adaptation_strength", 0.5)
 
             # Calculate overall quantum advantage
-            qi_advantage = (
-                bridge_efficiency * 0.4 + gate_coherence * 0.4 + plasticity_adaptation * 0.2
-            )
+            qi_advantage = bridge_efficiency * 0.4 + gate_coherence * 0.4 + plasticity_adaptation * 0.2
 
             return min(1.0, max(0.0, qi_advantage))
 
@@ -383,13 +365,9 @@ class QIProcessingCore:
 
     def get_quantum_metrics(self) -> dict[str, Any]:
         """Get quantum-inspired processing metrics"""
-        avg_processing_time = self.metrics["processing_time_total"] / max(
-            1, self.metrics["total_operations"]
-        )
+        avg_processing_time = self.metrics["processing_time_total"] / max(1, self.metrics["total_operations"])
 
-        coherence_success_rate = self.metrics["successful_coherence"] / max(
-            1, self.metrics["total_operations"]
-        )
+        coherence_success_rate = self.metrics["successful_coherence"] / max(1, self.metrics["total_operations"])
 
         qi_advantage_rate = self.metrics["qi_advantages"] / max(1, self.metrics["total_operations"])
 
@@ -408,38 +386,26 @@ class QIProcessingCore:
 
             # Optimize coherence threshold
             recent_coherence = (
-                self.coherence_history[-10:]
-                if len(self.coherence_history) >= 10
-                else self.coherence_history
+                self.coherence_history[-10:] if len(self.coherence_history) >= 10 else self.coherence_history
             )
             if recent_coherence:
                 avg_coherence = sum(recent_coherence) / len(recent_coherence)
                 if avg_coherence > 0.9:
                     # Increase threshold for better performance
-                    self.config["coherence_threshold"] = min(
-                        0.95, self.config["coherence_threshold"] + 0.01
-                    )
+                    self.config["coherence_threshold"] = min(0.95, self.config["coherence_threshold"] + 0.01)
                     optimization_results["coherence_threshold"] = "increased"
                 elif avg_coherence < 0.7:
                     # Decrease threshold for more stability
-                    self.config["coherence_threshold"] = max(
-                        0.6, self.config["coherence_threshold"] - 0.01
-                    )
+                    self.config["coherence_threshold"] = max(0.6, self.config["coherence_threshold"] - 0.01)
                     optimization_results["coherence_threshold"] = "decreased"
 
             # Optimize entanglement strength
-            qi_advantage_rate = self.metrics["qi_advantages"] / max(
-                1, self.metrics["total_operations"]
-            )
+            qi_advantage_rate = self.metrics["qi_advantages"] / max(1, self.metrics["total_operations"])
             if qi_advantage_rate > 0.8:
-                self.config["entanglement_strength"] = min(
-                    1.0, self.config["entanglement_strength"] + 0.05
-                )
+                self.config["entanglement_strength"] = min(1.0, self.config["entanglement_strength"] + 0.05)
                 optimization_results["entanglement_strength"] = "increased"
             elif qi_advantage_rate < 0.3:
-                self.config["entanglement_strength"] = max(
-                    0.3, self.config["entanglement_strength"] - 0.05
-                )
+                self.config["entanglement_strength"] = max(0.3, self.config["entanglement_strength"] - 0.05)
                 optimization_results["entanglement_strength"] = "decreased"
 
             # Optimize plasticity rate

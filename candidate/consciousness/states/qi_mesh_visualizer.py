@@ -100,9 +100,7 @@ class QIMeshVisualizer:
             "coherence": {"cmap": "plasma", "range": (0.0, 1.0)},
         }
 
-    def load_entanglement_data(
-        self, log_path: Optional[str] = None, live_mode: bool = False
-    ) -> dict[str, Any]:
+    def load_entanglement_data(self, log_path: Optional[str] = None, live_mode: bool = False) -> dict[str, Any]:
         """
         Load entanglement matrix, phase conflicts, and ethics mesh states
 
@@ -220,14 +218,10 @@ class QIMeshVisualizer:
         for i, mod_a in enumerate(modules):
             for _j, mod_b in enumerate(modules[i + 1 :], i + 1):
                 strength = np.random.beta(3, 1)  # Bias toward higher values
-                phase_diff = abs(
-                    subsystem_states[mod_a]["phase"] - subsystem_states[mod_b]["phase"]
-                )
+                phase_diff = abs(subsystem_states[mod_a]["phase"] - subsystem_states[mod_b]["phase"])
                 phase_diff = min(phase_diff, 2 * np.pi - phase_diff)
 
-                coherence = (
-                    subsystem_states[mod_a]["coherence"] + subsystem_states[mod_b]["coherence"]
-                ) / 2
+                coherence = (subsystem_states[mod_a]["coherence"] + subsystem_states[mod_b]["coherence"]) / 2
                 conflict_risk = max(0.0, 0.5 - strength) * np.random.uniform(0.5, 1.5)
 
                 pair_key = f"{mod_a}↔{mod_b}"
@@ -267,9 +261,7 @@ class QIMeshVisualizer:
             "entanglement_matrix": {
                 "entanglements": entanglements,
                 "matrix_metrics": {
-                    "average_entanglement": np.mean(
-                        [e["strength"] for e in entanglements.values()]
-                    ),
+                    "average_entanglement": np.mean([e["strength"] for e in entanglements.values()]),
                     "max_conflict_risk": max([e["conflict_risk"] for e in entanglements.values()]),
                     "phase_variance": np.var([s["phase"] for s in subsystem_states.values()]),
                     "total_pairs": len(entanglements),
@@ -279,9 +271,7 @@ class QIMeshVisualizer:
             "subsystem_states": subsystem_states,
         }
 
-    def generate_entanglement_heatmap(
-        self, matrix: dict[str, Any], save_path: Optional[str] = None
-    ) -> None:
+    def generate_entanglement_heatmap(self, matrix: dict[str, Any], save_path: Optional[str] = None) -> None:
         """Generate visual heatmap of pairwise entanglement scores"""
         if not HAS_MATPLOTLIB:
             print("Matplotlib not available for heatmap generation")
@@ -374,9 +364,7 @@ class QIMeshVisualizer:
 
         plt.show()
 
-    def plot_phase_synchronization(
-        self, data: dict[str, Any], save_path: Optional[str] = None
-    ) -> None:
+    def plot_phase_synchronization(self, data: dict[str, Any], save_path: Optional[str] = None) -> None:
         """Generate radar chart showing phase sync across subsystems"""
         if not HAS_MATPLOTLIB:
             print("Matplotlib not available for radar chart")
@@ -398,9 +386,7 @@ class QIMeshVisualizer:
         for metric in metrics:
             if metric == "stability":
                 # Calculate stability from entropy (inverse)
-                metric_values = [
-                    1.0 - state.get("entropy", 0.5) for state in subsystem_states.values()
-                ]
+                metric_values = [1.0 - state.get("entropy", 0.5) for state in subsystem_states.values()]
             else:
                 metric_values = [state.get(metric, 0.5) for state in subsystem_states.values()]
             values.append(metric_values)
@@ -445,9 +431,7 @@ class QIMeshVisualizer:
 
         plt.show()
 
-    def list_active_conflict_pairs(
-        self, conflicts: list[str], entanglements: dict[str, Any]
-    ) -> str:
+    def list_active_conflict_pairs(self, conflicts: list[str], entanglements: dict[str, Any]) -> str:
         """Generate human-readable output of phase-misaligned modules and risk tiers"""
         if not conflicts:
             return "✅ No active phase conflicts detected - mesh is stable\n"
@@ -515,9 +499,7 @@ class QIMeshVisualizer:
 
         return "\n".join(output)
 
-    def generate_interactive_dashboard(
-        self, data: dict[str, Any], output_path: Optional[str] = None
-    ) -> str:
+    def generate_interactive_dashboard(self, data: dict[str, Any], output_path: Optional[str] = None) -> str:
         """Generate interactive HTML dashboard with hover tooltips"""
         if not HAS_PLOTLY:
             print("Plotly not available for interactive dashboard")
@@ -606,9 +588,7 @@ class QIMeshVisualizer:
                     theta=metrics + [metrics[0]],
                     fill="toself",
                     name=module.capitalize(),
-                    line_color=px.colors.qualitative.Set3[
-                        hash(module) % len(px.colors.qualitative.Set3)
-                    ],
+                    line_color=px.colors.qualitative.Set3[hash(module) % len(px.colors.qualitative.Set3)],
                 ),
                 row=1,
                 col=2,
@@ -708,9 +688,7 @@ class QIMeshVisualizer:
 
         return output_path
 
-    def _generate_static_dashboard(
-        self, data: dict[str, Any], output_path: Optional[str] = None
-    ) -> str:
+    def _generate_static_dashboard(self, data: dict[str, Any], output_path: Optional[str] = None) -> str:
         """Generate static HTML dashboard when Plotly not available"""
         logger.info("Generating static HTML dashboard")
 
@@ -725,9 +703,7 @@ class QIMeshVisualizer:
         logger.info(f"Static dashboard saved to {output_path}")
         return output_path
 
-    def export_visual_summary(
-        self, data: dict[str, Any], output_path: str, format_type: str = "markdown"
-    ) -> None:
+    def export_visual_summary(self, data: dict[str, Any], output_path: str, format_type: str = "markdown") -> None:
         """
         Save current mesh state as HTML report, image, or markdown snapshot
 
@@ -763,9 +739,7 @@ class QIMeshVisualizer:
         markdown.append("## Executive Summary")
         markdown.append(f"- **Mesh Ethics Score:** {unified_field['mesh_ethics_score']:.3f}")
         markdown.append(f"- **Risk Level:** {unified_field['risk_level']}")
-        markdown.append(
-            f"- **Phase Synchronization:** {unified_field['phase_synchronization']:.3f}"
-        )
+        markdown.append(f"- **Phase Synchronization:** {unified_field['phase_synchronization']:.3f}")
         markdown.append(f"- **Active Conflicts:** {len(conflicts)}")
         markdown.append("")
 
@@ -775,14 +749,8 @@ class QIMeshVisualizer:
         markdown.append("|------|----------|------------|---------------|")
 
         for pair, metrics in sorted(entanglements.items()):
-            strength_emoji = (
-                "🟢" if metrics["strength"] > 0.7 else ("🟡" if metrics["strength"] > 0.4 else "🔴")
-            )
-            risk_emoji = (
-                "🔴"
-                if metrics["conflict_risk"] > 0.5
-                else ("🟡" if metrics["conflict_risk"] > 0.2 else "🟢")
-            )
+            strength_emoji = "🟢" if metrics["strength"] > 0.7 else ("🟡" if metrics["strength"] > 0.4 else "🔴")
+            risk_emoji = "🔴" if metrics["conflict_risk"] > 0.5 else ("🟡" if metrics["conflict_risk"] > 0.2 else "🟢")
 
             markdown.append(
                 f"| {strength_emoji} {pair} | {metrics['strength']:.3f} | "
@@ -991,9 +959,7 @@ Examples:
         default="markdown",
         help="Export format",
     )
-    parser.add_argument(
-        "--window", type=str, default="1h", help="Time window for data (e.g., 1h, 24h)"
-    )
+    parser.add_argument("--window", type=str, default="1h", help="Time window for data (e.g., 1h, 24h)")
     parser.add_argument(
         "--output-dir",
         type=str,

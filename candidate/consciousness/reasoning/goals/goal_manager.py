@@ -54,9 +54,7 @@ class GoalManagementNode:
         elif intent_data["type"] == "task":
             description = f"Complete task: {intent_data.get('original_text', 'Unknown task')}"
         else:  # dialogue
-            description = (
-                f"Engage in dialogue about: {intent_data.get('original_text', 'Unknown topic')}"
-            )
+            description = f"Engage in dialogue about: {intent_data.get('original_text', 'Unknown topic')}"
 
         return {
             "id": goal_id,
@@ -80,9 +78,7 @@ class GoalManagementNode:
         else:  # dialogue
             return self._create_dialogue_plan(goal, intent_data)
 
-    def _create_query_plan(
-        self, goal: dict[str, Any], intent_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _create_query_plan(self, goal: dict[str, Any], intent_data: dict[str, Any]) -> dict[str, Any]:
         """Create a plan for answering a query."""
         return {
             "type": "query",
@@ -95,9 +91,7 @@ class GoalManagementNode:
             ],
         }
 
-    def _create_task_plan(
-        self, goal: dict[str, Any], intent_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _create_task_plan(self, goal: dict[str, Any], intent_data: dict[str, Any]) -> dict[str, Any]:
         """Create a plan for completing a task."""
         return {
             "type": "task",
@@ -111,9 +105,7 @@ class GoalManagementNode:
             ],
         }
 
-    def _create_dialogue_plan(
-        self, goal: dict[str, Any], intent_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _create_dialogue_plan(self, goal: dict[str, Any], intent_data: dict[str, Any]) -> dict[str, Any]:
         """Create a plan for engaging in dialogue."""
         return {
             "type": "dialogue",

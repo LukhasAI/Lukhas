@@ -132,16 +132,11 @@ class LUKHASFileOrganizationOracle:
         # Check against organization patterns
         for destination, config in self.ORGANIZATION_PATTERNS.items():
             # Check exclusions first
-            if any(
-                self._matches_pattern(filename, pattern.upper())
-                for pattern in config.get("exclude_patterns", [])
-            ):
+            if any(self._matches_pattern(filename, pattern.upper()) for pattern in config.get("exclude_patterns", [])):
                 continue
 
             # Check main patterns
-            if any(
-                self._matches_pattern(filename, pattern.upper()) for pattern in config["patterns"]
-            ):
+            if any(self._matches_pattern(filename, pattern.upper()) for pattern in config["patterns"]):
                 # Check for subdirectory classification
                 if "subdirs" in config:
                     for subdir, subpatterns in config["subdirs"].items():
@@ -270,9 +265,7 @@ class LUKHASFileOrganizationOracle:
         if not self.dry_run:
             self._save_organization_report(report)
 
-        logger.info(
-            f"✨ Organization complete: {organized_count} files organized, {failed_count} failed"
-        )
+        logger.info(f"✨ Organization complete: {organized_count} files organized, {failed_count} failed")
         return report
 
     def _save_organization_report(self, report: dict) -> None:

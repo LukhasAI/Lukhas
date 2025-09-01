@@ -86,9 +86,7 @@ class DocEngine:
         )
 
         # Log generation activity
-        db.log_system_activity(
-            "doc_engine", "document_generated", f"Generated {doc_type}: {title}", voice_coherence
-        )
+        db.log_system_activity("doc_engine", "document_generated", f"Generated {doc_type}: {title}", voice_coherence)
 
         return {
             "id": doc_id,

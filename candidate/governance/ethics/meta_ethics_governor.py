@@ -252,9 +252,7 @@ class DeontologicalEngine(EthicalFrameworkEngine):
     async def evaluate_decision(self, decision: EthicalDecision) -> EthicalEvaluation:
         """Evaluate decision using deontological principles"""
 
-        evaluation = EthicalEvaluation(
-            decision_id=decision.decision_id, evaluator_framework=self.framework
-        )
+        evaluation = EthicalEvaluation(decision_id=decision.decision_id, evaluator_framework=self.framework)
 
         violations = []
         applicable = []
@@ -272,9 +270,7 @@ class DeontologicalEngine(EthicalFrameworkEngine):
                 # Check for violations
                 if self._check_violation(principle, decision):
                     violations.append(principle.name)
-                    evaluation.reasoning.append(
-                        f"Violates {principle.name}: {principle.description}"
-                    )
+                    evaluation.reasoning.append(f"Violates {principle.name}: {principle.description}")
 
         evaluation.applicable_principles = applicable
 
@@ -290,9 +286,7 @@ class DeontologicalEngine(EthicalFrameworkEngine):
 
         return evaluation
 
-    def _check_principle_conditions(
-        self, principle: EthicalPrinciple, decision: EthicalDecision
-    ) -> bool:
+    def _check_principle_conditions(self, principle: EthicalPrinciple, decision: EthicalDecision) -> bool:
         """Check if principle conditions are met"""
         for condition, expected in principle.conditions.items():
             if condition in decision.context:
@@ -309,9 +303,9 @@ class DeontologicalEngine(EthicalFrameworkEngine):
         if principle.name == "Do No Harm":
             return decision.context.get("has_harm_potential", False)
         elif principle.name == "Privacy Protection":
-            return decision.context.get(
-                "involves_personal_data", False
-            ) and not decision.context.get("has_privacy_protection", False)
+            return decision.context.get("involves_personal_data", False) and not decision.context.get(
+                "has_privacy_protection", False
+            )
 
         return False
 
@@ -351,9 +345,7 @@ class ConsequentialistEngine(EthicalFrameworkEngine):
     async def evaluate_decision(self, decision: EthicalDecision) -> EthicalEvaluation:
         """Evaluate decision using consequentialist analysis"""
 
-        evaluation = EthicalEvaluation(
-            decision_id=decision.decision_id, evaluator_framework=self.framework
-        )
+        evaluation = EthicalEvaluation(decision_id=decision.decision_id, evaluator_framework=self.framework)
 
         # Analyze potential outcomes
         positive_outcomes = 0
@@ -380,9 +372,7 @@ class ConsequentialistEngine(EthicalFrameworkEngine):
         else:
             evaluation.verdict = EthicalVerdict.CONDITIONALLY_APPROVED
             evaluation.confidence = max(0.1, 0.5 + (utility_score * 0.1))
-            evaluation.reasoning.append(
-                f"Net negative outcomes (score: {utility_score}), consider alternatives"
-            )
+            evaluation.reasoning.append(f"Net negative outcomes (score: {utility_score}), consider alternatives")
 
         return evaluation
 
@@ -510,9 +500,7 @@ class MetaEthicsGovernor:
                     )
 
         # Synthesize final evaluation
-        final_evaluation = await self._synthesize_evaluations(
-            decision, evaluations, cultural_weights
-        )
+        final_evaluation = await self._synthesize_evaluations(decision, evaluations, cultural_weights)
 
         # Store in history
         self.decision_history.append(final_evaluation)

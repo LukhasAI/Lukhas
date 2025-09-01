@@ -88,9 +88,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         ]
         self.validate_data(self.config, required_fields)
 
-    async def check_prescription_status(
-        self, rx_number: str, store_id: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def check_prescription_status(self, rx_number: str, store_id: Optional[str] = None) -> dict[str, Any]:
         """Check status of a prescription"""
         store = store_id or self.config["store_id"]
         self.log_audit_event(
@@ -103,9 +101,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         # Implement prescription status check
         pass
 
-    async def verify_insurance(
-        self, patient_id: str, insurance_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def verify_insurance(self, patient_id: str, insurance_data: dict[str, Any]) -> dict[str, Any]:
         """Verify insurance coverage for pharmacy services"""
         self.log_audit_event(
             event_type="insurance_verification",
@@ -116,9 +112,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         # Implement insurance verification
         pass
 
-    async def schedule_minuteclinic(
-        self, patient_id: str, service_type: str, appointment_time: datetime
-    ) -> str:
+    async def schedule_minuteclinic(self, patient_id: str, service_type: str, appointment_time: datetime) -> str:
         """Schedule MinuteClinic appointment"""
         self.log_audit_event(
             event_type="appointment_scheduling",
@@ -141,9 +135,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         # Implement prescription claim submission
         pass
 
-    async def check_drug_interactions(
-        self, patient_id: str, drug_codes: list[str]
-    ) -> list[dict[str, Any]]:
+    async def check_drug_interactions(self, patient_id: str, drug_codes: list[str]) -> list[dict[str, Any]]:
         """Check for drug interactions"""
         self.log_audit_event(
             event_type="drug_interaction_check",

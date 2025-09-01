@@ -293,9 +293,7 @@ class HormoneDrivenDashboard:
             endocrine_engine = kwargs.get("endocrine_engine", args[0] if len(args) > 0 else None)
             metrics_collector = kwargs.get("metrics_collector", args[1] if len(args) > 1 else None)
             coherence_monitor = kwargs.get("coherence_monitor", args[2] if len(args) > 2 else None)
-            plasticity_manager = kwargs.get(
-                "plasticity_manager", args[3] if len(args) > 3 else None
-            )
+            plasticity_manager = kwargs.get("plasticity_manager", args[3] if len(args) > 3 else None)
             self.endocrine_engine = endocrine_engine
             self.metrics_collector = metrics_collector
             self.coherence_monitor = coherence_monitor
@@ -399,9 +397,7 @@ class HormoneDrivenDashboard:
             # Get context from metrics collector if available
             try:
                 stats = self.metrics_collector.get_collection_statistics()
-                self.current_context = MetricContext(
-                    stats.get("current_context", "normal_operation")
-                )
+                self.current_context = MetricContext(stats.get("current_context", "normal_operation"))
             except Exception:
                 pass
 
@@ -419,12 +415,8 @@ class HormoneDrivenDashboard:
                 continue
 
             # Check if widget needs update based on refresh interval
-            last_update = self.last_update_times.get(
-                widget_id, datetime.min.replace(tzinfo=timezone.utc)
-            )
-            if datetime.now(timezone.utc) - last_update < timedelta(
-                seconds=widget.refresh_interval
-            ):
+            last_update = self.last_update_times.get(widget_id, datetime.min.replace(tzinfo=timezone.utc))
+            if datetime.now(timezone.utc) - last_update < timedelta(seconds=widget.refresh_interval):
                 continue
 
             # Update widget data based on visualization type
@@ -494,12 +486,8 @@ class HormoneDrivenDashboard:
 
         # Add contextual information
         radar_data["context"] = self.current_context.value
-        radar_data["homeostasis_state"] = getattr(
-            self.current_endocrine_state, "homeostasis_state", "unknown"
-        )
-        radar_data["coherence_score"] = getattr(
-            self.current_endocrine_state, "coherence_score", 0.0
-        )
+        radar_data["homeostasis_state"] = getattr(self.current_endocrine_state, "homeostasis_state", "unknown")
+        radar_data["coherence_score"] = getattr(self.current_endocrine_state, "coherence_score", 0.0)
 
         return radar_data
 
@@ -549,9 +537,7 @@ class HormoneDrivenDashboard:
         # Get trend data for each metric
         for metric_name in widget.data_sources:
             if self.metrics_collector:
-                trend_data = self.metrics_collector.get_metric_trend(
-                    metric_name, lookback_minutes=30
-                )
+                trend_data = self.metrics_collector.get_metric_trend(metric_name, lookback_minutes=30)
                 if trend_data:
                     time_series_data["series"][metric_name] = trend_data
                     time_series_data["ranges"][metric_name] = {
@@ -891,9 +877,7 @@ class HormoneDrivenDashboard:
             title=title,
         )
 
-    def _get_alert_recommendations(
-        self, severity: AlertSeverity, metric_name: Optional[str]
-    ) -> list[str]:
+    def _get_alert_recommendations(self, severity: AlertSeverity, metric_name: Optional[str]) -> list[str]:
         """Get recommendations for an alert"""
 
         recommendations = []
@@ -988,9 +972,7 @@ class HormoneDrivenDashboard:
         return self.widget_data_cache.get(widget_id)
 
     # ---- Public wrappers expected by tests ----
-    async def generate_predictive_insights(
-        self, current_state: Optional[dict[str, Any]] = None
-    ) -> list[Any]:
+    async def generate_predictive_insights(self, current_state: Optional[dict[str, Any]] = None) -> list[Any]:
         """Public wrapper to generate and return predictive insights as dicts.
 
         If current_state provides 'metrics' or 'endocrine', seed the current values
@@ -1200,9 +1182,7 @@ class HormoneDrivenDashboard:
                 coherence,
             )
 
-    async def generate_hormone_radar_data(
-        self, hormone_levels: Optional[dict[str, float]] = None
-    ) -> dict[str, Any]:
+    async def generate_hormone_radar_data(self, hormone_levels: Optional[dict[str, float]] = None) -> dict[str, Any]:
         """Public wrapper to generate hormone radar visualization data."""
         # If provided levels, create a transient snapshot-like holder
         if hormone_levels and isinstance(hormone_levels, dict):
@@ -1229,9 +1209,7 @@ class HormoneDrivenDashboard:
         )
         return await self._generate_hormone_radar_data(widget)
 
-    async def predict_recovery_timeline(
-        self, current_state: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def predict_recovery_timeline(self, current_state: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Estimate a simple recovery timeline based on hormone balance and stress.
 
         Returns a dict with 'estimated_minutes' and 'confidence'.
@@ -1312,9 +1290,7 @@ class TrendPredictor:
             trend = "stable"
 
         # Assess risk
-        variance = sum(
-            (x - sum(recent_values) / len(recent_values)) ** 2 for x in recent_values
-        ) / len(recent_values)
+        variance = sum((x - sum(recent_values) / len(recent_values)) ** 2 for x in recent_values) / len(recent_values)
         if variance > 0.1:
             risk_level = "high"
         elif variance > 0.05:

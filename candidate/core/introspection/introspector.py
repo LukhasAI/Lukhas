@@ -131,9 +131,7 @@ class ModuleIntrospector:
                         "name": node.name,
                         "line": node.lineno,
                         "args": [arg.arg for arg in node.args.args],
-                        "decorators": [
-                            self._get_decorator_name(dec) for dec in node.decorator_list
-                        ],
+                        "decorators": [self._get_decorator_name(dec) for dec in node.decorator_list],
                     }
                 )
             elif isinstance(node, ast.ClassDef):
@@ -142,9 +140,7 @@ class ModuleIntrospector:
                         "name": node.name,
                         "line": node.lineno,
                         "bases": [self._get_base_name(base) for base in node.bases],
-                        "decorators": [
-                            self._get_decorator_name(dec) for dec in node.decorator_list
-                        ],
+                        "decorators": [self._get_decorator_name(dec) for dec in node.decorator_list],
                     }
                 )
             elif isinstance(node, ast.Import):

@@ -57,9 +57,7 @@ class BaseColony(ABC):
 
         # State
         self.is_running = False
-        self.symbolic_carryover: dict[
-            str, tuple[str, TagScope, TagPermission, float, Optional[float]]
-        ] = {}
+        self.symbolic_carryover: dict[str, tuple[str, TagScope, TagPermission, float, Optional[float]]] = {}
         self.tag_propagation_log: list[dict[str, Any]] = []
         self.fast_execution_blocked: bool = False
         self.supervisor_agent = SupervisorAgent()
@@ -83,9 +81,7 @@ class BaseColony(ABC):
 
         # Get actor system and create actor
         self.actor_system = await get_global_actor_system()
-        self.actor_ref = await self.actor_system.create_actor(
-            AIAgentActor, self.colony_id, self.capabilities
-        )
+        self.actor_ref = await self.actor_system.create_actor(AIAgentActor, self.colony_id, self.capabilities)
 
         # Create agent in event store
         correlation_id = str(uuid.uuid4())

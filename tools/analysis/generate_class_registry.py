@@ -66,9 +66,7 @@ class ClassRegistryGenerator:
 
                     # Track inheritance
                     for base in class_info["base_classes"]:
-                        self.inheritance_map[base].append(
-                            {"class": node.name, "module": module_name}
-                        )
+                        self.inheritance_map[base].append({"class": node.name, "module": module_name})
 
                     class_count += 1
 
@@ -77,9 +75,7 @@ class ClassRegistryGenerator:
         except Exception:
             return 0
 
-    def _analyze_class(
-        self, node: ast.ClassDef, file_path: Path, module_name: str
-    ) -> dict[str, Any]:
+    def _analyze_class(self, node: ast.ClassDef, file_path: Path, module_name: str) -> dict[str, Any]:
         """Analyze a class node and extract information"""
         # Extract base classes
         base_classes = []
@@ -123,9 +119,7 @@ class ClassRegistryGenerator:
             "class_methods": class_methods,
             "static_methods": static_methods,
             "has_init": "__init__" in methods,
-            "docstring": (
-                docstring[:100] + "..." if docstring and len(docstring) > 100 else docstring
-            ),
+            "docstring": (docstring[:100] + "..." if docstring and len(docstring) > 100 else docstring),
         }
 
     def _create_report(self) -> dict[str, Any]:

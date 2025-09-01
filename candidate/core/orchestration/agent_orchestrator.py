@@ -103,9 +103,7 @@ class AgentOrchestrator:
     async def initialize(self) -> bool:
         """Initialize the orchestrator and all subsystems"""
         try:
-            self._logger.info(
-                f"Initializing LUKHAS Agent Orchestrator - Session: {self.session_id}"
-            )
+            self._logger.info(f"Initializing LUKHAS Agent Orchestrator - Session: {self.session_id}")
 
             # Start protocol
             self.protocol.start()
@@ -231,9 +229,7 @@ class AgentOrchestrator:
 
             # Check for active tasks
             active_agent_tasks = [
-                task_id
-                for task_id, (_, assigned_agent) in self.active_tasks.items()
-                if assigned_agent == agent_id
+                task_id for task_id, (_, assigned_agent) in self.active_tasks.items() if assigned_agent == agent_id
             ]
 
             if active_agent_tasks:
@@ -341,9 +337,7 @@ class AgentOrchestrator:
                 except ValueError:
                     # Custom capability
                     custom_agents = {
-                        agent_id
-                        for agent_id, agent in self.agents.items()
-                        if agent.has_capability(cap_str)
+                        agent_id for agent_id, agent in self.agents.items() if agent.has_capability(cap_str)
                     }
                     candidate_sets.append(custom_agents)
 
@@ -395,9 +389,7 @@ class AgentOrchestrator:
             timeout = task.timeout or self.config["task_timeout_default"]
 
             # Execute task with timeout
-            result_data = await asyncio.wait_for(
-                agent.process_task(task.to_dict()), timeout=timeout
-            )
+            result_data = await asyncio.wait_for(agent.process_task(task.to_dict()), timeout=timeout)
 
             # Create task result
             result = TaskResult(
@@ -574,9 +566,7 @@ class AgentOrchestrator:
         self._logger.error(f"Error from {message.sender_id}: {error_info}")
 
         # Notify plugins
-        await self.plugin_registry.broadcast_signal(
-            {"type": "error", "source": message.sender_id, "error": error_info}
-        )
+        await self.plugin_registry.broadcast_signal({"type": "error", "source": message.sender_id, "error": error_info})
 
     async def _handle_task_completion(self, message: OrchestrationMessage) -> None:
         """Handle task completion messages"""
@@ -600,9 +590,7 @@ class AgentOrchestrator:
             "agents": {
                 "total": len(self.agents),
                 "by_status": self._count_agents_by_status(),
-                "capabilities": {
-                    cap.value: len(agents) for cap, agents in self.agent_capabilities.items()
-                },
+                "capabilities": {cap.value: len(agents) for cap, agents in self.agent_capabilities.items()},
             },
             "tasks": {
                 "queued": self.task_queue.qsize(),

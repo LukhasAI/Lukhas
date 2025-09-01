@@ -108,22 +108,12 @@ if __name__ == "__main__":
 
     # Example designs
     examples = {
-        "minimal": designer.create_custom_status(
-            "minimal", status="monitoring", violations=0, critical=0
-        ),
-        "detailed": designer.create_custom_status(
-            "detailed", status="5 issues found", violations=5, critical=1
-        ),
+        "minimal": designer.create_custom_status("minimal", status="monitoring", violations=0, critical=0),
+        "detailed": designer.create_custom_status("detailed", status="5 issues found", violations=5, critical=1),
         "compact": designer.create_custom_status("compact", violations=3, critical=0),
-        "professional": designer.create_custom_status(
-            "professional", quality_score=95, violations=2
-        ),
-        "developer": designer.create_custom_status(
-            "developer", files_scanned=1250, violations=8, critical=2
-        ),
-        "gaming": designer.create_custom_status(
-            "gaming", quality_level=7, critical=1, violations=4
-        ),
+        "professional": designer.create_custom_status("professional", quality_score=95, violations=2),
+        "developer": designer.create_custom_status("developer", files_scanned=1250, violations=8, critical=2),
+        "gaming": designer.create_custom_status("gaming", quality_level=7, critical=1, violations=4),
     }
 
     print("🎨 LUKHAS AI ΛBot Status Bar Design Examples:")

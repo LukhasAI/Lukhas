@@ -56,12 +56,8 @@ class ReasoningHub:
             )
 
             discovery = get_service_discovery()
-            discovery.register_service_globally(
-                "advanced_orchestrator", self.advanced_orchestrator, "reasoning"
-            )
-            discovery.register_service_globally(
-                "ethical_reasoning", self.ethical_reasoning, "reasoning"
-            )
+            discovery.register_service_globally("advanced_orchestrator", self.advanced_orchestrator, "reasoning")
+            discovery.register_service_globally("ethical_reasoning", self.ethical_reasoning, "reasoning")
             logger.debug("services_registered_globally")
         except Exception as exc:
             logger.warning("service_discovery_registration_failed", error=str(exc))

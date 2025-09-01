@@ -63,9 +63,7 @@ class Agent:
 
         logger.info(f"Agent {agent_id} ({agent_type.value}) initialized")
 
-    async def send_message(
-        self, receiver: str, message_type: MessageType, content: Any
-    ) -> AgentMessage:
+    async def send_message(self, receiver: str, message_type: MessageType, content: Any) -> AgentMessage:
         """Send a message to another agent."""
         message = AgentMessage(
             sender=self.agent_id,
@@ -81,15 +79,11 @@ class Agent:
 
     async def process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """Process an incoming message."""
-        logger.debug(
-            f"Agent {self.agent_id} processing message from {message.sender}: {message.message_type.value}"
-        )
+        logger.debug(f"Agent {self.agent_id} processing message from {message.sender}: {message.message_type.value}")
 
         if message.message_type == MessageType.HEARTBEAT:
             self.last_heartbeat = time.time()
-            return await self.send_message(
-                message.sender, MessageType.RESPONSE, {"status": "alive"}
-            )
+            return await self.send_message(message.sender, MessageType.RESPONSE, {"status": "alive"})
 
         elif message.message_type == MessageType.STATUS:
             status_info = {

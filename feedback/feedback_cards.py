@@ -243,9 +243,7 @@ class FeedbackCardsManager:
 
         return card
 
-    def create_correction_card(
-        self, user_input: str, ai_response: str, session_id: str = "", **kwargs
-    ) -> FeedbackCard:
+    def create_correction_card(self, user_input: str, ai_response: str, session_id: str = "", **kwargs) -> FeedbackCard:
         """
         Create a correction feedback card.
 
@@ -543,9 +541,7 @@ class FeedbackCardsManager:
         quality_score = min(accuracy_feedback / max(total_feedback, 1) + 0.5, 1.0)
 
         # Factor 5: Time factor (recent activity is valued)
-        recent_feedback = sum(
-            1 for row in history if (datetime.now().timestamp() - float(row[4])) < 604800
-        )  # 1 week
+        recent_feedback = sum(1 for row in history if (datetime.now().timestamp() - float(row[4])) < 604800)  # 1 week
         recency_score = min(recent_feedback / 5.0, 1.0)
 
         # Weighted combination

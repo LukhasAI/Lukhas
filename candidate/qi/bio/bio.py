@@ -157,16 +157,10 @@ class MitochondrialQIBridge:
         try:
             modulated_input = self.qi_oscillator.qi_modulate(input_signal)
             electron_transport_state = await self._simulate_electron_transport(modulated_input)
-            simulated_proton_gradient = self._simulate_proton_gradient_generation(
-                electron_transport_state
-            )
-            output_signal, processing_metadata = self._simulate_quantum_atp_synthesis(
-                simulated_proton_gradient
-            )
+            simulated_proton_gradient = self._simulate_proton_gradient_generation(electron_transport_state)
+            output_signal, processing_metadata = self._simulate_quantum_atp_synthesis(simulated_proton_gradient)
 
-            processing_metadata["timestamp_utc_iso"] = (
-                current_timestamp  # Use consistent timestamp for the operation
-            )
+            processing_metadata["timestamp_utc_iso"] = current_timestamp  # Use consistent timestamp for the operation
             self.log.info(
                 "Quantum signal processed by mitochondrial bridge.",
                 output_coherence=processing_metadata.get("coherence"),
@@ -183,9 +177,7 @@ class MitochondrialQIBridge:
                 exc_info=True,
             )
             error_output = (
-                np.zeros_like(input_signal)
-                if isinstance(input_signal, np.ndarray)
-                else np.array([0.0], dtype=float)
+                np.zeros_like(input_signal) if isinstance(input_signal, np.ndarray) else np.array([0.0], dtype=float)
             )
             error_metadata = {
                 "error": str(e),
@@ -222,9 +214,7 @@ class MitochondrialQIBridge:
         )
         current_state = self.complex_states["complex_iii_cytochrome_bc1"][:3]
 
-        self.complex_states["complex_iv_cytochrome_c_oxidase"] = self.qi_oscillator.qi_modulate(
-            current_state[:3]
-        )
+        self.complex_states["complex_iv_cytochrome_c_oxidase"] = self.qi_oscillator.qi_modulate(current_state[:3])
 
         self.log.debug(
             "Electron transport simulation step complete.",
@@ -234,13 +224,9 @@ class MitochondrialQIBridge:
         return current_state
 
     @lukhas_tier_required(3)
-    def _simulate_proton_gradient_generation(
-        self, electron_transport_state: np.ndarray
-    ) -> np.ndarray:
+    def _simulate_proton_gradient_generation(self, electron_transport_state: np.ndarray) -> np.ndarray:
         """Simulates generation of a quantum-enhanced proton gradient."""
-        gradient_strength = (
-            np.mean(electron_transport_state).item() if electron_transport_state.size > 0 else 0.0
-        )  # type: ignore
+        gradient_strength = np.mean(electron_transport_state).item() if electron_transport_state.size > 0 else 0.0  # type: ignore
         self.log.debug(
             "Simulating proton gradient generation.",
             gradient_strength=gradient_strength,
@@ -271,9 +257,7 @@ class MitochondrialQIBridge:
             np.concatenate([padded_gradient, [1.0, 0.7]])
         )
 
-        coherence_values = [
-            np.linalg.norm(state).item() for state in self.complex_states.values() if state.size > 0
-        ]  # type: ignore
+        coherence_values = [np.linalg.norm(state).item() for state in self.complex_states.values() if state.size > 0]  # type: ignore
         overall_coherence = np.mean(coherence_values).item() if coherence_values else 0.0  # type: ignore
 
         metadata = {
@@ -324,9 +308,7 @@ class QISynapticGate:
             interference_pattern = self._compute_simulated_quantum_interference(
                 pre_synaptic_signal, post_synaptic_context_signal
             )
-            self.internal_quantum_like_state = self.bio_oscillator.modulate_frequencies(
-                interference_pattern
-            )
+            self.internal_quantum_like_state = self.bio_oscillator.modulate_frequencies(interference_pattern)
             output_signal = self._generate_quantum_enhanced_output(interference_pattern)
 
             current_coherence = (
@@ -387,9 +369,7 @@ class QISynapticGate:
             }
 
     @lukhas_tier_required(3)
-    def _compute_simulated_quantum_interference(
-        self, pre_signal: np.ndarray, post_signal: np.ndarray
-    ) -> np.ndarray:
+    def _compute_simulated_quantum_interference(self, pre_signal: np.ndarray, post_signal: np.ndarray) -> np.ndarray:
         """Simulates computation of a quantum interference pattern between two signals."""
         if pre_signal.shape != post_signal.shape:
             self.log.error(
@@ -455,9 +435,7 @@ class NeuroplasticityModulator:
             timestamp=current_timestamp,
         )
         try:
-            plasticity_delta_signal = self._calculate_plasticity_delta_signal(
-                current_neural_state, target_neural_state
-            )
+            plasticity_delta_signal = self._calculate_plasticity_delta_signal(current_neural_state, target_neural_state)
             qi_modulated_delta = self.qi_oscillator.qi_modulate(plasticity_delta_signal)
 
             # SYNTAX_ERROR_FIXED:             self.plasticity_state_vector =

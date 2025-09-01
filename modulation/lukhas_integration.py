@@ -236,23 +236,17 @@ class EndocrineLLMOrchestrator:
 
         # Consciousness signals
         consciousness_context = context.get("consciousness", {})
-        consciousness_signals = await self.signal_emitter.emit_consciousness_signals(
-            consciousness_context
-        )
+        consciousness_signals = await self.signal_emitter.emit_consciousness_signals(consciousness_context)
         all_signals.extend(consciousness_signals)
 
         # Orchestration signals
         orchestration_context = context.get("orchestration", {})
-        orchestration_signals = await self.signal_emitter.emit_orchestration_signals(
-            orchestration_context
-        )
+        orchestration_signals = await self.signal_emitter.emit_orchestration_signals(orchestration_context)
         all_signals.extend(orchestration_signals)
 
         # Universal Language signals
         language_context = context.get("universal_language", {})
-        language_signals = await self.signal_emitter.emit_universal_language_signals(
-            language_context
-        )
+        language_signals = await self.signal_emitter.emit_universal_language_signals(language_context)
         all_signals.extend(language_signals)
 
         return all_signals
@@ -337,9 +331,7 @@ class EndocrineLLMOrchestrator:
         for style, stats in style_success.items():
             success_rate = stats["success"] / stats["total"] if stats["total"] > 0 else 0
             if stats["total"] >= 3:  # Only report on styles with enough data
-                print(
-                    f"📊 Style '{style}' success rate: {success_rate:.1%} ({stats['success']}/{stats['total']})"
-                )
+                print(f"📊 Style '{style}' success rate: {success_rate:.1%} ({stats['success']}/{stats['total']})")
 
 
 # Example usage and integration test

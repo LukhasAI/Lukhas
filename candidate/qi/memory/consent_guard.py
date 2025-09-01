@@ -90,9 +90,7 @@ class ConsentGuard:
 
     def revoke(self, user_id: str, purpose: str) -> Consent:
         """Revoke consent for a specific purpose"""
-        consent = Consent(
-            user_id=user_id, purpose=purpose, granted=False, timestamp=time.time(), ttl_seconds=0
-        )
+        consent = Consent(user_id=user_id, purpose=purpose, granted=False, timestamp=time.time(), ttl_seconds=0)
 
         # Persist revocation
         with open(self.storage_path, "a") as f:
@@ -220,9 +218,7 @@ def require_consent(guard: ConsentGuard, user_id: str, purpose: str) -> tuple[bo
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="ConsentGuard CLI - Designed by: Gonzalo Dominguez - Lukhas AI"
-    )
+    ap = argparse.ArgumentParser(description="ConsentGuard CLI - Designed by: Gonzalo Dominguez - Lukhas AI")
     ap.add_argument("--storage", default="~/.lukhas/consent/ledger.jsonl")
 
     sub = ap.add_subparsers(dest="cmd", help="Commands")
@@ -266,12 +262,8 @@ def main():
 
     if args.cmd == "grant":
         metadata = json.loads(args.metadata) if args.metadata else {}
-        consent = guard.grant(
-            args.user, args.purpose, ttl_seconds=args.ttl_days * 86400, metadata=metadata
-        )
-        print(
-            f"✅ Granted: {consent.user_id} -> {consent.purpose} (expires in {args.ttl_days} days)"
-        )
+        consent = guard.grant(args.user, args.purpose, ttl_seconds=args.ttl_days * 86400, metadata=metadata)
+        print(f"✅ Granted: {consent.user_id} -> {consent.purpose} (expires in {args.ttl_days} days)")
 
     elif args.cmd == "revoke":
         consent = guard.revoke(args.user, args.purpose)

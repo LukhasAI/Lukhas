@@ -124,9 +124,7 @@ class AdaptiveThresholdColony(BaseColony):
             base_thresholds = self._get_base_thresholds(bio_data)
 
             # Apply context modifiers
-            adapted_thresholds = await self._apply_context_modifiers(
-                base_thresholds, context, bio_data
-            )
+            adapted_thresholds = await self._apply_context_modifiers(base_thresholds, context, bio_data)
 
             # Check for A/B test overrides
             if self.ab_tests:
@@ -223,9 +221,7 @@ class AdaptiveThresholdColony(BaseColony):
 
         return modified
 
-    async def _get_modifier_values(
-        self, context: dict[str, Any], bio_data: dict[str, Any]
-    ) -> dict[str, float]:
+    async def _get_modifier_values(self, context: dict[str, Any], bio_data: dict[str, Any]) -> dict[str, float]:
         """Calculate all context modifier values."""
         modifiers = {}
 
@@ -237,9 +233,7 @@ class AdaptiveThresholdColony(BaseColony):
 
         return modifiers
 
-    def _calculate_circadian_modifier(
-        self, context: dict[str, Any], bio_data: dict[str, Any]
-    ) -> float:
+    def _calculate_circadian_modifier(self, context: dict[str, Any], bio_data: dict[str, Any]) -> float:
         """Calculate circadian rhythm modifier."""
         current_hour = datetime.utcnow().hour
 
@@ -255,9 +249,7 @@ class AdaptiveThresholdColony(BaseColony):
 
         return np.clip(circadian_value, 0.3, 1.0)
 
-    def _calculate_stress_modifier(
-        self, context: dict[str, Any], bio_data: dict[str, Any]
-    ) -> float:
+    def _calculate_stress_modifier(self, context: dict[str, Any], bio_data: dict[str, Any]) -> float:
         """Calculate stress history modifier."""
         # Add current stress to history
         if "cortisol" in bio_data:
@@ -278,9 +270,7 @@ class AdaptiveThresholdColony(BaseColony):
         else:
             return 1.0  # Neutral
 
-    async def _calculate_colony_modifier(
-        self, context: dict[str, Any], bio_data: dict[str, Any]
-    ) -> float:
+    async def _calculate_colony_modifier(self, context: dict[str, Any], bio_data: dict[str, Any]) -> float:
         """Calculate colony consensus modifier."""
         # Check cache first
         cache_key = f"{json.dumps(sorted(bio_data.items()))}"
@@ -299,9 +289,7 @@ class AdaptiveThresholdColony(BaseColony):
 
         return consensus_value
 
-    def _calculate_methylation_modifier(
-        self, context: dict[str, Any], bio_data: dict[str, Any]
-    ) -> float:
+    def _calculate_methylation_modifier(self, context: dict[str, Any], bio_data: dict[str, Any]) -> float:
         """Calculate methylation-based modifier."""
         # Get methylation decay factor from model
         decay_factor = self.methylation_model.genetic_decay_factor
@@ -407,10 +395,7 @@ class AdaptiveThresholdColony(BaseColony):
         self.learning_config["experience_buffer"].append(experience)
 
         # Update if enough experiences
-        if (
-            len(self.learning_config["experience_buffer"])
-            >= self.learning_config["update_frequency"]
-        ):
+        if len(self.learning_config["experience_buffer"]) >= self.learning_config["update_frequency"]:
             await self._ppo_update()
 
     async def _ppo_update(self):
@@ -442,9 +427,7 @@ class AdaptiveThresholdColony(BaseColony):
 
         logger.info(f"PPO update complete. Avg reward: {avg_reward:.3f}, Adjustment: {adjustment}")
 
-    def _apply_ab_tests(
-        self, thresholds: dict[str, dict[str, float]]
-    ) -> dict[str, dict[str, float]]:
+    def _apply_ab_tests(self, thresholds: dict[str, dict[str, float]]) -> dict[str, dict[str, float]]:
         """Apply A/B test overrides to thresholds."""
         # Placeholder for A/B testing framework
         # In production, this would randomly assign variants and track results

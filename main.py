@@ -167,9 +167,7 @@ class LUKHAS:
 
         # Get health report from bootstrap
         if self.bootstrap:
-            health_report = (
-                await self.bootstrap.check_system_health()
-            )  # Remove protected member access
+            health_report = await self.bootstrap.check_system_health()  # Remove protected member access
 
             logger.info("\n📊 Startup Summary:")
             logger.info("  - Services loaded: %d", len(self.bootstrap.services))

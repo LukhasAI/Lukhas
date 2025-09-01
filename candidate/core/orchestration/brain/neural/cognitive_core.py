@@ -223,9 +223,7 @@ class NeuralIntelligenceSystem:
         self.drift_score_calculator = None  # Cognitive drift measurement
         self.collapse_hash_processor = None  # Quantum information compression
 
-        logger.info(
-            "🚀 Additional Lukhas innovations (Flashback, DriftScore, CollapseHash) will be implemented"
-        )
+        logger.info("🚀 Additional Lukhas innovations (Flashback, DriftScore, CollapseHash) will be implemented")
 
     def _initialize_system_state(self):
         """Initialize system state management"""
@@ -262,9 +260,7 @@ class NeuralIntelligenceSystem:
                 except TypeError:
                     # Fallback to old signature if needed
                     try:
-                        compliance_result = await self.compliance_engine.check_compliance(
-                            input_data
-                        )
+                        compliance_result = await self.compliance_engine.check_compliance(input_data)
                     except BaseException:
                         # If compliance engine is not working, use basic safety
                         compliance_result = {"compliant": True}
@@ -278,10 +274,7 @@ class NeuralIntelligenceSystem:
                     )
             else:
                 # Basic safety check without compliance engine
-                if any(
-                    word in input_data.get("text", "").lower()
-                    for word in ["hack", "harm", "illegal"]
-                ):
+                if any(word in input_data.get("text", "").lower() for word in ["hack", "harm", "illegal"]):
                     return AGIResponse(
                         content="I cannot assist with requests that might be harmful or illegal.",
                         confidence=0.0,
@@ -292,13 +285,9 @@ class NeuralIntelligenceSystem:
             # Step 2: Orchestrate cognitive processing
             if self.orchestrator:
                 try:
-                    orchestration_result = await self.orchestrator.orchestrate_processing(
-                        input_data
-                    )
+                    orchestration_result = await self.orchestrator.orchestrate_processing(input_data)
                 except Exception as e:
-                    logger.warning(
-                        f"Orchestrator processing failed: {e}, falling back to simplified processing"
-                    )
+                    logger.warning(f"Orchestrator processing failed: {e}, falling back to simplified processing")
                     orchestration_result = await self._simplified_processing(input_data)
             else:
                 # Simplified processing without orchestrator
@@ -306,15 +295,11 @@ class NeuralIntelligenceSystem:
 
             # Step 3: Apply Lukhas innovations if available
             if self.dream_processor and input_data.get("enable_dreams", True):
-                dream_enhancement = await self._apply_dream_processing(
-                    input_data, orchestration_result
-                )
+                dream_enhancement = await self._apply_dream_processing(input_data, orchestration_result)
                 orchestration_result.update(dream_enhancement)
 
             if self.healix_mapper and input_data.get("enable_healix", True):
-                healix_optimization = await self._apply_healix_optimization(
-                    input_data, orchestration_result
-                )
+                healix_optimization = await self._apply_healix_optimization(input_data, orchestration_result)
                 orchestration_result.update(healix_optimization)
 
             # Step 4: Generate enhanced response
@@ -324,9 +309,7 @@ class NeuralIntelligenceSystem:
                     "I need more information to provide a helpful response.",
                 ),
                 confidence=orchestration_result.get("confidence", 0.7),
-                capability_level=orchestration_result.get(
-                    "capability_level", AGICapabilityLevel.INTERMEDIATE
-                ),
+                capability_level=orchestration_result.get("capability_level", AGICapabilityLevel.INTERMEDIATE),
                 metadata={
                     "orchestration_data": orchestration_result,
                     "lukhas_innovations_applied": LUKHAS_INNOVATIONS_AVAILABLE,
@@ -346,9 +329,7 @@ class NeuralIntelligenceSystem:
 
             # Step 6: Continuous learning
             if self.continuous_learning:
-                await self._continuous_learning_update(
-                    input_data, agi_response, orchestration_result
-                )
+                await self._continuous_learning_update(input_data, agi_response, orchestration_result)
 
             self.performance_metrics["total_interactions"] += 1
             return agi_response
@@ -372,9 +353,7 @@ class NeuralIntelligenceSystem:
             dream_context = {
                 "input": input_data.get("text", ""),
                 "current_processing": orchestration_result,
-                "session_context": (
-                    self.conversation_history[-5:] if self.conversation_history else []
-                ),
+                "session_context": (self.conversation_history[-5:] if self.conversation_history else []),
             }
 
             # Apply dream-based enhancement (simplified for now)
@@ -388,9 +367,7 @@ class NeuralIntelligenceSystem:
             logger.warning(f"Dream processing failed: {e}")
             return {}
 
-    async def _apply_healix_optimization(
-        self, input_data: dict, orchestration_result: dict
-    ) -> dict:
+    async def _apply_healix_optimization(self, input_data: dict, orchestration_result: dict) -> dict:
         """Apply Lukhas Healix innovation for golden ratio optimization"""
         try:
             if not self.healix_mapper:
