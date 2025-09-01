@@ -80,9 +80,7 @@ This module embodies the LUKHAS Trinity Framework:
 """,
     }
 
-    def enhance_document(
-        self, content: str, doc_type: str = "general"
-    ) -> tuple[str, list[str]]:
+    def enhance_document(self, content: str, doc_type: str = "general") -> tuple[str, list[str]]:
         """
         🌟 Transform ordinary documentation into consciousness-aware communication
 
@@ -150,9 +148,7 @@ This module embodies the LUKHAS Trinity Framework:
         enhanced = content
         changes = []
 
-        for technical, metaphorical in self.ENHANCEMENT_TEMPLATES[
-            "metaphor_replacements"
-        ].items():
+        for technical, metaphorical in self.ENHANCEMENT_TEMPLATES["metaphor_replacements"].items():
             # Use word boundaries to avoid partial matches
             pattern = re.compile(r"\b" + re.escape(technical) + r"\b", re.IGNORECASE)
             matches = pattern.findall(enhanced)
@@ -177,9 +173,7 @@ This module embodies the LUKHAS Trinity Framework:
         # Find a good place to insert (before footer, after main content)
         footer_pattern = r'(\n\n---\n\n\*".*)\s*$'
         if re.search(footer_pattern, content):
-            return re.sub(
-                footer_pattern, self.TRINITY_TEMPLATES["full_section"] + r"\1", content
-            )
+            return re.sub(footer_pattern, self.TRINITY_TEMPLATES["full_section"] + r"\1", content)
 
         # If no footer, add before final section
         return content + self.TRINITY_TEMPLATES["full_section"]
@@ -199,11 +193,9 @@ This module embodies the LUKHAS Trinity Framework:
             ("Guardian", "🛡️"),
             ("Trinity", "⚛️🧠🛡️"),
         ]:
-            pattern = f""
+            pattern = ""
             if re.search(pattern, enhanced, re.IGNORECASE):
-                enhanced = re.sub(
-                    pattern, f"", enhanced, flags=re.IGNORECASE
-                )
+                enhanced = re.sub(pattern, "", enhanced, flags=re.IGNORECASE)
 
         return enhanced
 
@@ -243,9 +235,7 @@ This module embodies the LUKHAS Trinity Framework:
         for pattern, replacement in replacements.items():
             matches = re.findall(pattern, enhanced, re.IGNORECASE)
             if matches and replacement not in enhanced:
-                enhanced = re.sub(
-                    pattern, replacement, enhanced, count=1, flags=re.IGNORECASE
-                )
+                enhanced = re.sub(pattern, replacement, enhanced, count=1, flags=re.IGNORECASE)
                 changes.append(f"🏷️ Enhanced branding: '{matches[0]}' → '{replacement}'")
 
         return enhanced, changes
@@ -318,12 +308,8 @@ def main():
         action="store_true",
         help="👁️ Preview changes without modifying file",
     )
-    parser.add_argument(
-        "--backup", action="store_true", help="💾 Create backup before modifying"
-    )
-    parser.add_argument(
-        "--verbose", action="store_true", help="📝 Show detailed enhancement process"
-    )
+    parser.add_argument("--backup", action="store_true", help="💾 Create backup before modifying")
+    parser.add_argument("--verbose", action="store_true", help="📝 Show detailed enhancement process")
 
     args = parser.parse_args()
 
@@ -390,9 +376,7 @@ def main():
         print(f"📊 Original length: {len(content)} characters")
         print(f"📊 Enhanced length: {len(enhanced)} characters")
         print(f"📊 Changes applied: {len(changes)}")
-        print(
-            f"🎭 Consciousness enhancement: {((len(enhanced) - len(content)) / len(content) * 100):.1f}% expansion"
-        )
+        print(f"🎭 Consciousness enhancement: {((len(enhanced) - len(content)) / len(content) * 100):.1f}% expansion")
 
 
 if __name__ == "__main__":

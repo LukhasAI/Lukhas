@@ -267,11 +267,8 @@ class SmokeDemo:
         """Compute congruence between scene state and policy response"""
         # Check if policy pace matches scene urgency
         pace_match = 1.0
-        if (
-            scene.proto.temporal_feel == TemporalFeel.URGENT
-            and policy.pace < 1.0
-            or scene.proto.temporal_feel == TemporalFeel.SUSPENDED
-            and policy.pace > 1.0
+        if (scene.proto.temporal_feel == TemporalFeel.URGENT and policy.pace < 1.0) or (
+            scene.proto.temporal_feel == TemporalFeel.SUSPENDED and policy.pace > 1.0
         ):
             pace_match = 0.7
 
@@ -293,7 +290,7 @@ class SmokeDemo:
         priority = compute_routing_priority(scene)
 
         glyph_priority_coherence = 1.0
-        if high_priority_glyphs > 0 and priority < 0.5 or high_priority_glyphs == 0 and priority > 0.8:
+        if (high_priority_glyphs > 0 and priority < 0.5) or (high_priority_glyphs == 0 and priority > 0.8):
             glyph_priority_coherence = 0.7
 
         # Check policy-hints coherence

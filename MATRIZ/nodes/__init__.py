@@ -16,9 +16,9 @@ from .math_node import MathNode
 from .validator_node import ValidatorNode
 
 __all__ = [
+    "FactNode",
     "MathNode",
     "ValidatorNode",
-    "FactNode",
 ]
 
 __version__ = "1.0.0"
