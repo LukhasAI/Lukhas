@@ -240,10 +240,10 @@ class SystemHealthAnalyzer:
                         "status_code": response.status_code,
                         "response_data": (
                             response.json()
-                            if response.headers.get("content-type", "").startswith(:
+                            if response.headers.get("content-type", "").startswith(
                                 "application/json"
                             )
-                            else response.text[:200]:
+                            else response.text[:200]
                         ),
                     }
                     logger.info(
@@ -332,8 +332,8 @@ class SystemHealthAnalyzer:
             }
 
             logger.info(
-                f"📊 Tests: {passed_tests} passed, {failed_tests} failed,
-                {warnings} warnings"
+                f"📊 Tests: {passed_tests} passed, {failed_tests} failed, "
+                f"{warnings} warnings"
             )
 
             if failed_tests > 0:
@@ -552,16 +552,16 @@ class SystemHealthAnalyzer:
                 "online"
                 if any(
                     api.get("status") == "online"
-                    for api in self.results["api_systems"].values():
+                    for api in self.results["api_systems"].values()
                 )
-                else "offline":
+                else "offline"
             ),
             "test_success_rate": self.results["test_results"].get("success_rate", 0),
             "vivox_components_working": len(
                 [
                     v
-                    for v in self.results["vivox_systems"].values():
-                    if v.get("status") == "working":
+                    for v in self.results["vivox_systems"].values()
+                    if v.get("status") == "working"
                 ]
             ),
             "recommendation_count": len(self.results["recommendations"]),
@@ -577,8 +577,8 @@ class SystemHealthAnalyzer:
         working_modules = len(
             [
                 m
-                for m in self.results["core_modules"].values():
-                if m.get("status") == "working":
+                for m in self.results["core_modules"].values()
+                if m.get("status") == "working"
             ]
         )
         total_modules = len(self.results["core_modules"])
@@ -595,8 +595,8 @@ class SystemHealthAnalyzer:
         existing_files = len(
             [
                 f
-                for f in self.results["file_integrity"].values():
-                if f.get("exists", False):
+                for f in self.results["file_integrity"].values()
+                if f.get("exists", False)
             ]
         )
         if total_files > 0:
@@ -616,8 +616,8 @@ class SystemHealthAnalyzer:
         working += len(
             [
                 m
-                for m in self.results["core_modules"].values():
-                if m.get("status") == "working":
+                for m in self.results["core_modules"].values()
+                if m.get("status") == "working"
             ]
         )
 
@@ -625,8 +625,8 @@ class SystemHealthAnalyzer:
         working += len(
             [
                 a
-                for a in self.results["api_systems"].values():
-                if a.get("status") == "online":
+                for a in self.results["api_systems"].values()
+                if a.get("status") == "online"
             ]
         )
 
@@ -634,8 +634,8 @@ class SystemHealthAnalyzer:
         working += len(
             [
                 v
-                for v in self.results["vivox_systems"].values():
-                if v.get("status") == "working":
+                for v in self.results["vivox_systems"].values()
+                if v.get("status") == "working"
             ]
         )
 
@@ -648,8 +648,8 @@ class SystemHealthAnalyzer:
         # Module recommendations
         failed_modules = [
             name
-            for name, info in self.results["core_modules"].items():
-            if info.get("status") != "working":
+            for name, info in self.results["core_modules"].items()
+            if info.get("status") != "working"
         ]
         if failed_modules:
             recommendations.append(f"Fix failed modules: {', '.join(failed_modules)}")
