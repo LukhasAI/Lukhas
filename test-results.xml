@@ -1,6 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="2" failures="0" skipped="4" tests="6" time="1.647" timestamp="2025-09-01T20:20:17.248894+01:00" hostname="g.local"><testcase classname="" name="tests.matriz.test_orchestrator_schema" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/matriz/test_orchestrator_schema.py'.
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="3" failures="0" skipped="4" tests="7" time="18.130" timestamp="2025-09-01T22:55:47.874310+00:00" hostname="devbox"><testcase classname="" name="tests.matriz.test_orchestrator_schema" time="0.000"><error message="collection failure">ImportError while importing test module '/app/tests/matriz/test_orchestrator_schema.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/_pytest/pathlib.py:549: in import_path
+    mod = _import_module_using_spec(
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
 tests/matriz/test_orchestrator_schema.py:7: in &lt;module&gt;
     from matriz.core.node_interface import CognitiveNode
-E   ModuleNotFoundError: No module named 'matriz.core'</error></testcase><testcase classname="" name="tests.phase2.test_orchestration_integration" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_orchestration_integration.py', 43, "Skipped: Phase 2 modules not available: No module named 'uvloop'")</skipped></testcase><testcase classname="" name="tests.phase2.test_performance_benchmarks" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_performance_benchmarks.py', 49, "Skipped: Performance testing modules not available: No module named 'uvloop'")</skipped></testcase><testcase classname="" name="tests.phase2.test_security_compliance" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_security_compliance.py', 43, "Skipped: Security modules not available: cannot import name 'ComplianceEngine' from 'candidate.compliance.ai_compliance' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/compliance/ai_compliance.py)")</skipped></testcase><testcase classname="" name="tests.phase2.test_tool_execution_safety" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_tool_execution_safety.py', 34, "Skipped: Tool execution modules not available: No module named 'candidate.tools.code_executor'")</skipped></testcase><testcase classname="" name="tests.unit.lukhas.test_consciousness" time="0.000"><error message="collection failure">'trinity' not found in `markers` configuration option</error></testcase></testsuite></testsuites>
+E   ModuleNotFoundError: No module named 'matriz.core'</error></testcase><testcase classname="" name="tests.matriz.test_trace_fetch" time="0.000"><error message="collection failure">enterprise/observability/t4_observability_stack.py:45: in &lt;module&gt;
+    from lukhas.consciousness import ConsciousnessCore
+E   ImportError: cannot import name 'ConsciousnessCore' from 'lukhas.consciousness' (/app/lukhas/consciousness/__init__.py). Did you mean: 'consciousness'?
+
+During handling of the above exception, another exception occurred:
+tests/matriz/test_trace_fetch.py:29: in &lt;module&gt;
+    from serve.main import app
+serve/main.py:23: in &lt;module&gt;
+    from enterprise.observability.instantiate import obs_stack
+enterprise/observability/instantiate.py:1: in &lt;module&gt;
+    from .t4_observability_stack import T4ObservabilityStack
+enterprise/observability/t4_observability_stack.py:54: in &lt;module&gt;
+    from candidate.memory import MemoryFoldSystem
+candidate/memory/__init__.py:19: in &lt;module&gt;
+    from .core import MemoryCore
+candidate/memory/core/__init__.py:11: in &lt;module&gt;
+    from .unified_memory_orchestrator import UnifiedMemoryOrchestrator
+candidate/memory/core/unified_memory_orchestrator.py:36: in &lt;module&gt;
+    from ..integrity.collapse_hash import CollapseHash
+candidate/memory/integrity/__init__.py:11: in &lt;module&gt;
+    from .collapse_hash import CollapseHash
+candidate/memory/integrity/collapse_hash.py:61: in &lt;module&gt;
+    from candidate.core.symbolism.tags import TagScope
+candidate/core/symbolism/__init__.py:27: in &lt;module&gt;
+    from .archiver import Archiver
+candidate/core/symbolism/archiver.py:11: in &lt;module&gt;
+    from lukhas.core.colonies.base_colony import BaseColony
+lukhas/core/colonies/__init__.py:55: in &lt;module&gt;
+    class BaseColony(ABC):
+lukhas/core/colonies/__init__.py:62: in BaseColony
+    self.actors: dict[str, Any] = {}
+    ^^^^
+E   NameError: name 'self' is not defined</error></testcase><testcase classname="" name="tests.phase2.test_orchestration_integration" time="0.000"><skipped message="collection skipped">('/app/tests/phase2/test_orchestration_integration.py', 43, "Skipped: Phase 2 modules not available: cannot import name 'WorkflowExecution' from 'candidate.orchestration.multi_model_orchestration' (/app/candidate/orchestration/multi_model_orchestration.py)")</skipped></testcase><testcase classname="" name="tests.phase2.test_performance_benchmarks" time="0.000"><skipped message="collection skipped">('/app/tests/phase2/test_performance_benchmarks.py', 49, "Skipped: Performance testing modules not available: No module named 'lukhas.identity.core'")</skipped></testcase><testcase classname="" name="tests.phase2.test_security_compliance" time="0.000"><skipped message="collection skipped">('/app/tests/phase2/test_security_compliance.py', 43, "Skipped: Security modules not available: cannot import name 'ComplianceEngine' from 'candidate.compliance.ai_compliance' (/app/candidate/compliance/ai_compliance.py)")</skipped></testcase><testcase classname="" name="tests.phase2.test_tool_execution_safety" time="0.000"><skipped message="collection skipped">('/app/tests/phase2/test_tool_execution_safety.py', 34, "Skipped: Tool execution modules not available: No module named 'candidate.tools.code_executor'")</skipped></testcase><testcase classname="" name="tests.unit.lukhas.test_consciousness" time="0.000"><error message="collection failure">'trinity' not found in `markers` configuration option</error></testcase></testsuite></testsuites>

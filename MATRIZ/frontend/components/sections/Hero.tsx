@@ -5,7 +5,12 @@ import { Atom, Brain, Shield } from 'lucide-react'
 import HeroCanvas from './HeroCanvas'
 import ClientOnly from '../ClientOnly'
 
-export default function Hero() {
+interface HeroProps {
+  title: string;
+  description: string;
+}
+
+export default function Hero({ title, description }: HeroProps) {
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20">
       {/* 3D Background with error boundary and fallback */}
@@ -42,7 +47,7 @@ export default function Hero() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="font-ultralight text-8xl md:text-9xl lg:text-[12rem] mb-8 leading-none"
           >
-            <span className="gradient-text tracking-wide">MATADA</span>
+            <span className="gradient-text tracking-wide">{title}</span>
           </motion.h1>
 
           {/* Consciousness Manifesto - Poetic Layer */}
@@ -53,7 +58,7 @@ export default function Hero() {
             className="font-thin text-xl md:text-2xl lg:text-3xl mb-12 mx-auto text-center leading-relaxed"
             style={{ maxWidth: 'fit-content' }}
           >
-            Every thought becomes a traceable, governed, evolvable node
+            {description}
           </motion.p>
 
           {/* Trinity Symbols */}
