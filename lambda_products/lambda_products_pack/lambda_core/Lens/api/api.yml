@@ -1,0 +1,107 @@
+openapi: 3.0.0
+info:
+  title: "ΛLens API"
+  version: "1.0.0"
+  description: "API for translating files into interactive GLYPH dashboards (Photons)."
+servers:
+  - url: "/api/v1"
+
+paths:
+  /lens/jobs:
+    post:
+      summary: "Create a new file translation job"
+      operationId: "create_job"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./l_lens/config/contracts/job.schema.json"
+      responses:
+        "202":
+          description: "Job accepted for processing."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id:
+                    type: string
+                    format: uuid
+  /lens/jobs/{job_id}:
+    get:
+      summary: "Get job status and results"
+      operationId: "get_job_status"
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: "Job status and results bundle."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [pending, running, success, failed]
+                  results:
+                    type: object # Contains glyph_graph, widgets, etc.
+        "404":
+          description: "Job not found."
+
+  /lens/photon/validate:
+    post:
+      summary: "Validate a Photon document"
+      operationId: "validate_photon"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./l_lens/config/contracts/photon.schema.json"
+      responses:
+        "200":
+          description: "Validation successful."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                  errors:
+                    type: array
+                    items:
+                      type: string
+  /lens/photon/publish:
+    post:
+      summary: "Publish a Photon document"
+      operationId: "publish_photon"
+      # In a real system, this would require ΛiD authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./l_lens/config/contracts/photon.schema.json"
+      responses:
+        "201":
+          description: "Photon published successfully."
+
+  /lens/presets:
+    get:
+      summary: "Get available widget and GLYPH presets"
+      operationId: "get_presets"
+      responses:
+        "200":
+          description: "A list of available presets."
+          content:
+            application/json:
+              schema:
+                $ref: "./l_lens/config/contracts/widget.schema.json"

@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://lukhas.ai/schemas/lens/widget.schema.json",
+  "title": "Widget Preset Definitions",
+  "description": "A collection of presets for standard dashboard widgets.",
+  "type": "object",
+  "properties": {
+    "presets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the widget preset (e.g., 'MetricCard')."
+          },
+          "label": {
+            "type": "string",
+            "description": "Human-readable name for the UI Palette."
+          },
+          "description": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string",
+            "description": "Icon identifier for the UI."
+          },
+          "properties_schema": {
+            "type": "object",
+            "description": "A JSON Schema defining the configurable properties for this widget in the Inspector Panel."
+          }
+        },
+        "required": ["id", "label", "properties_schema"]
+      }
+    }
+  }
+}

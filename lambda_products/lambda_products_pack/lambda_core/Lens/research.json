@@ -1,0 +1,45 @@
+{
+  "photon_version": "1.0.0",
+  "title": "Analysis of 'Attention Is All You Need'",
+  "description": "A GLYPH dashboard summarizing key concepts from the Transformer paper.",
+  "theme": "light",
+  "nodes": [
+    {
+      "id": "node-1",
+      "kind": "Topic",
+      "label": "Transformer Architecture",
+      "properties": { "summary": "Core model structure..." }
+    },
+    {
+      "id": "node-2",
+      "kind": "Concept",
+      "label": "Multi-Head Attention",
+      "access_tag": "internal-research"
+    },
+    {
+      "id": "widget-1",
+      "kind": "MetricCard",
+      "label": "BLEU Score",
+      "properties": { "title": "WMT'14 En-Fr BLEU", "value": "41.8" }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-1",
+      "source": "node-1",
+      "target": "node-2",
+      "kind": "contains",
+      "label": "contains"
+    }
+  ],
+  "layout": {
+    "positions_2d": {
+      "node-1": { "x": 100, "y": 150 },
+      "node-2": { "x": 400, "y": 150 },
+      "widget-1": { "x": 250, "y": 300 }
+    }
+  },
+  "provenance": {
+    "node-2": { "qrg_doc_id": "qrg-doc-123", "span": [2056, 2512] }
+  }
+}

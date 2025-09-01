@@ -14,11 +14,13 @@ Usage:
 """
 
 import asyncio
+import logging
 import time
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 from candidate.aka_qualia.glyphs import compute_glyph_priority, map_scene_to_glyphs, normalize_glyph_keys
+from candidate.aka_qualia.memory import AkaqMemory, create_memory_client
 from candidate.aka_qualia.metrics import AkaQualiaMetrics, EnergySnapshot
 from candidate.aka_qualia.models import Metrics, PhenomenalGlyph, PhenomenalScene, ProtoQualia, RegulationPolicy
 from candidate.aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
@@ -27,8 +29,11 @@ from candidate.aka_qualia.pls import PLS
 from candidate.aka_qualia.regulation import RegulationAuditEntry, RegulationPolicyEngine
 from candidate.aka_qualia.router_client import RouterClient, compute_routing_priority, create_router_client
 from candidate.aka_qualia.teq_hook import TEQGuardian
+from candidate.aka_qualia.util import compute_drift_phi, extract_affect_energy
 from candidate.aka_qualia.vivox_integration import VivoxAkaQualiaIntegration
 from candidate.metrics import get_metrics_collector
+
+logger = logging.getLogger(__name__)
 
 
 class AkaQualia:
@@ -50,7 +55,7 @@ class AkaQualia:
         glyph_mapper: Optional[Callable] = None,
         router: Optional[RouterClient] = None,
         oneiric_hook: Optional[OneiricHook] = None,
-        memory: Optional[Any] = None,
+        memory: Optional[AkaqMemory] = None,
         config: Optional[Dict[str, Any]] = None,
     ):
         """
@@ -61,17 +66,25 @@ class AkaQualia:
             teq_guardian: TEQ Guardian for ethical oversight
             glyph_mapper: Function to map scenes to glyphs
             router: EQNOX router for glyph routing
-            memory: Memory system for scene persistence
+            memory: AkaqMemory client for scene persistence (C4 Wave C integration)
             config: Configuration overrides
         """
+        # Load configuration first
+        self.config = self._load_config(config)
+
         # Initialize components with defaults
         self.pls = pls or PLS()
         self.teq_guardian = teq_guardian or TEQGuardian()
         self.glyph_mapper = glyph_mapper or self._default_glyph_mapper
-        self.memory = memory
 
-        # Load configuration
-        self.config = self._load_config(config)
+        # Initialize memory client (C4 Wave C integration)
+        if memory:
+            self.memory = memory
+        else:
+            # Create memory client based on configuration
+            memory_driver = self.config.get("memory_driver", "noop")
+            memory_config = self.config.get("memory_config", {})
+            self.memory = create_memory_client(memory_driver, **memory_config)
 
         # Initialize VIVOX integration
         self.vivox_integration = VivoxAkaQualiaIntegration(
@@ -130,6 +143,8 @@ class AkaQualia:
             "max_history_length": 100,
             "enable_glyph_routing": True,
             "enable_memory_storage": True,
+            "memory_driver": "noop",  # C4: sql, noop
+            "memory_config": {},  # C4: driver-specific config
             "temperature": 0.4,
             "metrics_window": 10,
             # VIVOX integration settings
@@ -370,7 +385,32 @@ class AkaQualia:
         energy_delta = abs(energy_before - energy_after)
         conservation_violation = energy_delta > self.metrics_computer.config.energy_epsilon
 
-        # Store both snapshots (using the 'after' snapshot as the primary one for compatibility)
+        # Create enhanced energy snapshot for metrics collection
+        # Enhance the after snapshot with before/after data for metrics compatibility
+        if hasattr(energy_snapshot_after, "__dict__"):
+            energy_snapshot_after.__dict__.update(
+                {
+                    "energy_before": energy_before,
+                    "energy_after": energy_after,
+                    "conservation_violation": conservation_violation,
+                }
+            )
+        else:
+            # Fallback: create a simple object with required attributes
+            class EnhancedEnergySnapshot:
+                def __init__(self, original, energy_before, energy_after, conservation_violation):
+                    # Copy original attributes
+                    for attr, value in original.__dict__.items():
+                        setattr(self, attr, value)
+                    # Add required attributes
+                    self.energy_before = energy_before
+                    self.energy_after = energy_after
+                    self.conservation_violation = conservation_violation
+
+            energy_snapshot_after = EnhancedEnergySnapshot(
+                energy_snapshot_after, energy_before, energy_after, conservation_violation
+            )
+
         energy_snapshot = energy_snapshot_after
         self.energy_snapshots.append(energy_snapshot)
         self.conservation_violations.append(conservation_violation)
@@ -379,7 +419,7 @@ class AkaQualia:
         metrics = self._compute_metrics(regulated_scene, memory_ctx, vivox_results)
 
         # Step 6: Log and store with regulation audit
-        self._log_results(regulated_scene, glyphs, policy, metrics, audit_entry)
+        self._log_results(regulated_scene, glyphs, policy, metrics, audit_entry, vivox_results)
 
         # Step 6: Route glyphs with priority weighting (C2: Wave C router integration)
         if self.config.get("enable_glyph_routing", True) and self.router:
@@ -388,10 +428,20 @@ class AkaQualia:
                 routing_priority = compute_routing_priority(regulated_scene)
 
                 # Add routing context
+                # Compute conservation ratio for routing context
+                conservation_ratio = 1.0
+                if energy_snapshot and hasattr(energy_snapshot, "energy_before") and energy_snapshot.energy_before > 0:
+                    conservation_ratio = (
+                        getattr(energy_snapshot, "energy_after", energy_snapshot.energy_before)
+                        / energy_snapshot.energy_before
+                    )
+                elif audit_entry and hasattr(audit_entry, "conservation_ratio"):
+                    conservation_ratio = audit_entry.conservation_ratio
+
                 routing_context = {
                     "episode_id": metrics.episode_id,
                     "risk_severity": regulated_scene.risk.severity.value,
-                    "energy_conservation_ratio": conservation_ratio if energy_snapshot else 1.0,
+                    "energy_conservation_ratio": conservation_ratio,
                     "vivox_drift_score": vivox_results.get("drift_analysis", {}).get("drift_score", 0.0),
                 }
 
@@ -549,8 +599,23 @@ class AkaQualia:
     ) -> Metrics:
         """Compute phenomenological metrics for evaluation with VIVOX integration"""
 
-        # Drift phi - use VIVOX drift score if available, otherwise compute
-        if vivox_results and "drift_analysis" in vivox_results:
+        # Drift phi - use C4 memory-aware computation with previous scene data
+        previous_scene = None
+        if self.memory and self.config["enable_memory_storage"]:
+            try:
+                # Fetch previous scene from memory for accurate drift computation
+                prev_data = self.memory.fetch_prev_scene(user_id="system", before_ts=None)
+                if prev_data:
+                    previous_scene = prev_data["proto"]
+            except Exception as e:
+                print(f"Warning: Could not fetch previous scene for drift computation: {e}")
+
+        # Use C4 utility function for precise drift computation
+        if previous_scene:
+            prev_timestamp = previous_scene.get("timestamp", scene.timestamp - 1.0)
+            time_delta = abs(scene.timestamp - prev_timestamp)
+            drift_phi = compute_drift_phi(scene.proto.__dict__, previous_scene, time_delta)
+        elif vivox_results and "drift_analysis" in vivox_results:
             drift_phi = 1.0 - vivox_results["drift_analysis"]["drift_score"]  # Invert for coherence
         else:
             drift_phi = self._compute_drift_phi(scene)
@@ -747,6 +812,7 @@ class AkaQualia:
         policy: RegulationPolicy,
         metrics: Metrics,
         audit_entry: Optional[RegulationAuditEntry] = None,
+        vivox_results: Optional[Dict[str, Any]] = None,
     ) -> None:
         """Log results to history and memory if enabled"""
 
@@ -766,22 +832,49 @@ class AkaQualia:
         if len(self.conservation_violations) > max_history:
             self.conservation_violations = self.conservation_violations[-max_history:]
 
-        # Store in memory system if enabled
+        # Store in memory system using C4 Wave C memory persistence
         if self.config["enable_memory_storage"] and self.memory:
             try:
-                self.memory.store(
-                    {
-                        "scene": scene.model_dump(),
-                        "glyphs": [g.model_dump() for g in glyphs],
-                        "policy": policy.model_dump(),
-                        "metrics": metrics.model_dump(),
-                        "regulation_audit": audit_entry.__dict__ if audit_entry else None,
-                        "module": "aka_qualia",
-                        "timestamp": scene.timestamp,
-                    }
+                # Prepare scene data for C4 memory schema
+                scene_data = scene.model_dump()
+                glyphs_data = [g.model_dump() for g in glyphs]
+                policy_data = policy.model_dump()
+                metrics_data = metrics.model_dump()
+
+                # Add GDPR-compliant metadata
+                if vivox_results:
+                    scene_data["collapse_hash"] = vivox_results.get("drift_analysis", {}).get("collapse_hash")
+                if hasattr(scene, "transform_chain"):
+                    scene_data["transform_chain"] = scene.transform_chain or []
+                else:
+                    scene_data["transform_chain"] = []
+
+                # Compute energy metrics for C4 accounting
+                energy_before = extract_affect_energy(scene.proto.__dict__)
+                energy_after = energy_before  # Post-regulation energy (would be computed from regulated scene)
+
+                enhanced_metrics = {
+                    **metrics_data,
+                    "affect_energy_before": energy_before,
+                    "affect_energy_after": energy_after,
+                    "affect_energy_diff": energy_after - energy_before,
+                }
+
+                # Save using C4 memory interface with full audit trail
+                scene_id = self.memory.save(
+                    user_id="system",  # TODO: Use actual user ID from context
+                    scene=scene_data,
+                    glyphs=glyphs_data,
+                    policy=policy_data,
+                    metrics=enhanced_metrics,
+                    cfg_version="wave_c_v1.0.0",
                 )
+
+                # Log successful storage
+                print(f"Scene {scene_id} stored to memory with {len(glyphs_data)} glyphs")
+
             except Exception as e:
-                print(f"Warning: Memory storage failed: {e}")
+                print(f"Warning: C4 memory storage failed: {e}")
 
     def get_status(self) -> Dict[str, Any]:
         """Get current system status and statistics with VIVOX integration"""
