@@ -80,8 +80,8 @@ class WebAuthnManager:
         self.pending_authentications: dict[str, dict] = {}
 
         # Performance optimization
-        self.validation_cache = {}
-        self.challenge_cache = {}
+        self.validation_cache: dict[str, Any] = {}
+        self.challenge_cache: dict[str, Any] = {}
 
         # Trinity Framework integration
         self.guardian_validator = None  # 🛡️ Guardian
@@ -392,7 +392,7 @@ class WebAuthnManager:
                 return {"success": False, "error": "User ID mismatch"}
 
             # 🛡️ Guardian validation
-            if not self._constitutional_validation(user_id, "webauthn_authentication", response):
+            if not user_id or not self._constitutional_validation(user_id, "webauthn_authentication", response):
                 return {"success": False, "error": "Guardian validation failed"}
 
             # Extract and validate response components
@@ -422,7 +422,8 @@ class WebAuthnManager:
                 del self.pending_authentications[authentication_id]
 
                 # 🧠 Update consciousness patterns
-                self._update_consciousness_patterns(user_id, "webauthn_authentication_successful")
+                if user_id:
+                    self._update_consciousness_patterns(user_id, "webauthn_authentication_successful")
 
                 # Performance tracking
                 verification_time = (time.time() - start_time) * 1000
@@ -643,7 +644,7 @@ class WebAuthnManager:
 
     def _get_device_type_distribution(self) -> dict[str, int]:
         """Get distribution of credentials by device type"""
-        device_dist = {}
+        device_dist: dict[str, int] = {}
         for creds in self.credentials.values():
             for cred in creds:
                 device_type = cred.device_type

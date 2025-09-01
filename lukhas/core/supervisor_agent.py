@@ -6,7 +6,7 @@ Trinity Framework: ⚛️🧠🛡️
 
 import logging
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -90,7 +90,7 @@ class SupervisorAgent:
         Returns:
             Analysis results
         """
-        analysis = {
+        analysis: Dict[str, Any] = {
             "complexity": "medium",
             "risk_level": "low",
             "approval": "approved",

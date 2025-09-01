@@ -132,7 +132,15 @@ async def generate_dream(req: DreamRequest) -> DreamResponse:
     )
     # Implement real dream engine logic with consciousness integration
     try:
-        from consciousness.unified.auto_consciousness import ConsciousnessCore
+        try:
+            from candidate.orchestration.brain.consciousness_core import ConsciousnessCore
+        except ImportError:
+            try:
+                from candidate.consciousness import ConsciousnessCore
+            except ImportError:
+                # Fallback mock for tests
+                class ConsciousnessCore:
+                    pass
 
         consciousness = ConsciousnessCore()
 

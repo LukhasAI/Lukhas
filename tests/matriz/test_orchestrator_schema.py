@@ -4,8 +4,12 @@ import sys
 # Ensure repository root is on the path when running from tests/
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from matriz.core.node_interface import CognitiveNode
-from matriz.core.orchestrator import CognitiveOrchestrator
+try:
+    from matriz.core.node_interface import CognitiveNode
+    from matriz.core.orchestrator import CognitiveOrchestrator
+except ImportError:
+    from lukhas.matriz.core.node_interface import CognitiveNode
+    from lukhas.matriz.core.orchestrator import CognitiveOrchestrator
 from matriz.nodes.math_node import MathNode
 from matriz.nodes.validator_node import ValidatorNode
 

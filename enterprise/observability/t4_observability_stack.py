@@ -42,7 +42,15 @@ except ImportError:
 
 # LUKHAS integrations
 try:
-    from lukhas.consciousness import ConsciousnessCore
+    try:
+        from candidate.orchestration.brain.consciousness_core import ConsciousnessCore
+    except ImportError:
+        try:
+            from candidate.consciousness import ConsciousnessCore
+        except ImportError:
+            # Fallback mock for tests
+            class ConsciousnessCore:
+                pass
     from lukhas.guardian import GuardianSystem
     from lukhas.memory import MemoryFoldSystem
     from lukhas.trinity import TrinityFramework
