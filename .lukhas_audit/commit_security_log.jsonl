@@ -1511,3 +1511,4 @@ Removed invalid external paths causing git repository detection errors:
 - Cleaned up dangling git objects with gc
 
 This should resolve the VS Code git scanning issues and 'fatal: not a git repository' errors.","security_scan":"pending"}
+{"timestamp":"2025-09-01T18:23:49Z","commit":"6953089f7e3c79f09404e30839ec0fdb0008aa6f","branch":"main","author":"LukhasAI","message":"chore: Update Claude settings permissions","security_scan":"pending"}
