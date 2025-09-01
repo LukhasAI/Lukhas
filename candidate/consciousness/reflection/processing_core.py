@@ -227,7 +227,7 @@ class QIProcessingCore:
             if isinstance(input_data, dict):
                 # Convert dict values to numerical array
                 values = []
-                for _key, value in input_data.items():
+                for value in input_data.values():
                     if isinstance(value, (int, float)):
                         values.append(value)
                     elif isinstance(value, str):

@@ -298,7 +298,7 @@ class MetricCollector:
         """Remove old metric data points to prevent memory growth"""
         cutoff_time = datetime.now() - timedelta(hours=self.max_history_hours)
 
-        for _metric_name, points in self.metrics.items():
+        for points in self.metrics.values():
             # Remove old points
             while points and points[0].timestamp < cutoff_time:
                 points.popleft()
@@ -815,9 +815,8 @@ class DriftMonitoringAPI:
 
         for detector in self.drift_detectors.values():
             for alert in detector.active_alerts.values():
-                if not alert.resolved:
-                    if severity is None or alert.severity == severity:
-                        active_alerts.append(alert)
+                if not alert.resolved and (severity is None or alert.severity == severity):
+                    active_alerts.append(alert)
 
         return sorted(active_alerts, key=lambda a: a.created_at, reverse=True)
 

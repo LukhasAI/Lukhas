@@ -267,10 +267,7 @@ class MemoryVisualizer:
         ax.grid(True, alpha=0.3)
 
         # Save or show
-        if save_path:
-            output_path = self.output_dir / save_path
-        else:
-            output_path = self.output_dir / f"fold_{fold.fold_id}_2d.png"
+        output_path = self.output_dir / save_path if save_path else self.output_dir / f"fold_{fold.fold_id}_2d.png"
 
         plt.savefig(output_path, dpi=300, bbox_inches="tight")
         plt.close()
@@ -325,10 +322,7 @@ class MemoryVisualizer:
         )
 
         # Save
-        if save_path:
-            output_path = self.output_dir / save_path
-        else:
-            output_path = self.output_dir / f"fold_{fold.fold_id}_2d.html"
+        output_path = self.output_dir / save_path if save_path else self.output_dir / f"fold_{fold.fold_id}_2d.html"
 
         fig.write_html(output_path)
 
@@ -386,10 +380,7 @@ class MemoryVisualizer:
         )
 
         # Save
-        if save_path:
-            output_path = self.output_dir / save_path
-        else:
-            output_path = self.output_dir / f"fold_{fold.fold_id}_3d.html"
+        output_path = self.output_dir / save_path if save_path else self.output_dir / f"fold_{fold.fold_id}_3d.html"
 
         fig.write_html(output_path)
 
@@ -425,10 +416,7 @@ class MemoryVisualizer:
         ax.set_zlabel("Z Position")
 
         # Save
-        if save_path:
-            output_path = self.output_dir / save_path
-        else:
-            output_path = self.output_dir / f"fold_{fold.fold_id}_3d.png"
+        output_path = self.output_dir / save_path if save_path else self.output_dir / f"fold_{fold.fold_id}_3d.png"
 
         plt.savefig(output_path, dpi=300, bbox_inches="tight")
         plt.close()
@@ -470,10 +458,7 @@ class MemoryVisualizer:
             ascii_art += "=" * width
 
         # Save
-        if save_path:
-            output_path = self.output_dir / save_path
-        else:
-            output_path = self.output_dir / f"fold_{fold.fold_id}_ascii.txt"
+        output_path = self.output_dir / save_path if save_path else self.output_dir / f"fold_{fold.fold_id}_ascii.txt"
 
         with open(output_path, "w") as f:
             f.write(ascii_art)

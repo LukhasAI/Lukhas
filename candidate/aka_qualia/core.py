@@ -55,7 +55,7 @@ class AkaQualia:
         router: Optional[RouterClient] = None,
         oneiric_hook: Optional[OneiricHook] = None,
         memory: Optional[AkaqMemory] = None,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         """
         Initialize AkaQualia with pluggable components.
@@ -127,14 +127,14 @@ class AkaQualia:
             self.oneiric_hook = create_oneiric_hook(oneiric_mode, oneiric_base_url, oneiric_config)
 
         # State tracking
-        self.scene_history: List[PhenomenalScene] = []
-        self.metrics_history: List[Metrics] = []
-        self.energy_snapshots: List[EnergySnapshot] = []
-        self.regulation_audit_entries: List[RegulationAuditEntry] = []
-        self.conservation_violations: List[bool] = []
+        self.scene_history: list[PhenomenalScene] = []
+        self.metrics_history: list[Metrics] = []
+        self.energy_snapshots: list[EnergySnapshot] = []
+        self.regulation_audit_entries: list[RegulationAuditEntry] = []
+        self.conservation_violations: list[bool] = []
         self.initialization_time = time.time()
 
-    def _load_config(self, config_override: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _load_config(self, config_override: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Load configuration with defaults and overrides"""
         # Default configuration
         default_config = {
@@ -175,10 +175,10 @@ class AkaQualia:
     def infer_scene(
         self,
         *,
-        signals: Dict[str, Any],
-        goals: Dict[str, Any],
-        ethics_state: Dict[str, Any],
-        memory_ctx: Dict[str, Any],
+        signals: dict[str, Any],
+        goals: dict[str, Any],
+        ethics_state: dict[str, Any],
+        memory_ctx: dict[str, Any],
         temperature: Optional[float] = None,
     ) -> PhenomenalScene:
         """
@@ -234,7 +234,7 @@ class AkaQualia:
 
         return scene
 
-    def emit_glyphs(self, scene: PhenomenalScene) -> List[PhenomenalGlyph]:
+    def emit_glyphs(self, scene: PhenomenalScene) -> list[PhenomenalGlyph]:
         """
         Generate GLYPH representations for symbolic routing.
 
@@ -265,8 +265,8 @@ class AkaQualia:
         return normalized_glyphs
 
     def regulate(
-        self, scene: PhenomenalScene, guardian_state: Dict[str, Any], energy_before: float
-    ) -> Tuple[RegulationPolicy, RegulationAuditEntry]:
+        self, scene: PhenomenalScene, guardian_state: dict[str, Any], energy_before: float
+    ) -> tuple[RegulationPolicy, RegulationAuditEntry]:
         """
         Generate regulation policy using enhanced RegulationPolicyEngine.
 
@@ -285,12 +285,12 @@ class AkaQualia:
     async def step(
         self,
         *,
-        signals: Dict[str, Any],
-        goals: Dict[str, Any],
-        ethics_state: Dict[str, Any],
-        guardian_state: Dict[str, Any],
-        memory_ctx: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        signals: dict[str, Any],
+        goals: dict[str, Any],
+        ethics_state: dict[str, Any],
+        guardian_state: dict[str, Any],
+        memory_ctx: dict[str, Any],
+    ) -> dict[str, Any]:
         """
         Execute one complete phenomenological processing cycle.
 
@@ -377,7 +377,7 @@ class AkaQualia:
         self.regulation_audit_entries.append(audit_entry)
 
         # Store energy snapshots for accounting using metrics computer
-        energy_snapshot_before = self.metrics_computer.compute_energy_snapshot(scene)
+        self.metrics_computer.compute_energy_snapshot(scene)
         energy_snapshot_after = self.metrics_computer.compute_energy_snapshot(regulated_scene)
 
         # Check energy conservation
@@ -562,8 +562,8 @@ class AkaQualia:
     def _compute_metrics_precise(
         self,
         scene: PhenomenalScene,
-        memory_ctx: Dict[str, Any],
-        vivox_results: Optional[Dict[str, Any]] = None,
+        memory_ctx: dict[str, Any],
+        vivox_results: Optional[dict[str, Any]] = None,
         energy_snapshot: Optional[EnergySnapshot] = None,
     ) -> Metrics:
         """Compute precise metrics using Freud-2025 mathematical formulas"""
@@ -594,7 +594,7 @@ class AkaQualia:
         )
 
     def _compute_metrics(
-        self, scene: PhenomenalScene, memory_ctx: Dict[str, Any], vivox_results: Optional[Dict[str, Any]] = None
+        self, scene: PhenomenalScene, memory_ctx: dict[str, Any], vivox_results: Optional[dict[str, Any]] = None
     ) -> Metrics:
         """Compute phenomenological metrics for evaluation with VIVOX integration"""
 
@@ -752,13 +752,13 @@ class AkaQualia:
 
         return 1.0 - max_similarity
 
-    def _extract_subject(self, signals: Dict[str, Any]) -> str:
+    def _extract_subject(self, signals: dict[str, Any]) -> str:
         """Extract scene subject from signals (simplified v1)"""
         if "subject" in signals:
             return str(signals["subject"])
         return "observer"  # Default
 
-    def _extract_object(self, signals: Dict[str, Any]) -> str:
+    def _extract_object(self, signals: dict[str, Any]) -> str:
         """Extract scene object from signals (simplified v1)"""
         if "object" in signals or "target" in signals:
             return str(signals.get("object", signals.get("target", "")))
@@ -769,7 +769,7 @@ class AkaQualia:
                 return text[0]
         return "stimulus"  # Default
 
-    def _default_glyph_mapper(self, scene: PhenomenalScene) -> List[PhenomenalGlyph]:
+    def _default_glyph_mapper(self, scene: PhenomenalScene) -> list[PhenomenalGlyph]:
         """Default implementation of scene→glyph mapping"""
         glyphs = []
 
@@ -807,11 +807,11 @@ class AkaQualia:
     def _log_results(
         self,
         scene: PhenomenalScene,
-        glyphs: List[PhenomenalGlyph],
+        glyphs: list[PhenomenalGlyph],
         policy: RegulationPolicy,
         metrics: Metrics,
         audit_entry: Optional[RegulationAuditEntry] = None,
-        vivox_results: Optional[Dict[str, Any]] = None,
+        vivox_results: Optional[dict[str, Any]] = None,
     ) -> None:
         """Log results to history and memory if enabled"""
 
@@ -875,7 +875,7 @@ class AkaQualia:
             except Exception as e:
                 print(f"Warning: C4 memory storage failed: {e}")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current system status and statistics with VIVOX integration"""
         # Energy conservation statistics
         conservation_violations = sum(self.conservation_violations)

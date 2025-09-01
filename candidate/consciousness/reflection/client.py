@@ -962,7 +962,7 @@ class Client(BaseClient):
                     return response
 
                 request = self._build_redirect_request(request, response)
-                history = history + [response]
+                history = [*history, response]
 
                 if follow_redirects:
                     response.read()
@@ -1666,7 +1666,7 @@ class AsyncClient(BaseClient):
                     return response
 
                 request = self._build_redirect_request(request, response)
-                history = history + [response]
+                history = [*history, response]
 
                 if follow_redirects:
                     await response.aread()

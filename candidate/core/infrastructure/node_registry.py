@@ -52,7 +52,7 @@ class NodeRegistry:
 
         logger.info("Node Registry initialized")
 
-    def discover_nodes(self, node_paths: list[str] = None) -> None:
+    def discover_nodes(self, node_paths: Optional[list[str]] = None) -> None:
         """
         Discover available node types from given paths
 

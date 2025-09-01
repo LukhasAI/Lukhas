@@ -119,7 +119,7 @@ class AkaQualiaMetrics:
 
     def compute_repair_delta(
         self, energy_before: EnergySnapshot, energy_after: EnergySnapshot, policy_work: float = 0.0
-    ) -> Tuple[float, bool]:
+    ) -> tuple[float, bool]:
         """
         Compute repair delta with energy conservation check:
         ΔE = E_before - E_after - policy_work
@@ -186,7 +186,7 @@ class AkaQualiaMetrics:
 
         return max(0.0, min(1.0, drift_phi))
 
-    def compute_congruence_index(self, scene: PhenomenalScene, goals: Dict[str, Any]) -> float:
+    def compute_congruence_index(self, scene: PhenomenalScene, goals: dict[str, Any]) -> float:
         """
         Compute congruence as 1 - MSE(v, v̂) normalized to [0,1]
 
@@ -208,7 +208,7 @@ class AkaQualiaMetrics:
 
         return max(0.0, min(1.0, congruence))
 
-    def _goals_to_target_pq(self, goals: Dict[str, Any]) -> List[float]:
+    def _goals_to_target_pq(self, goals: dict[str, Any]) -> list[float]:
         """Map goals to target proto-qualia vector"""
         # Default neutral target
         target = [0.0, 0.5, 0.6, 0.6, 0.3]  # [tone, arousal, clarity, embodiment, narrative_gravity]
@@ -227,7 +227,7 @@ class AkaQualiaMetrics:
 
         return target
 
-    def compute_neurosis_risk(self, scene: PhenomenalScene, glyphs: List[Any]) -> float:
+    def compute_neurosis_risk(self, scene: PhenomenalScene, glyphs: list[Any]) -> float:
         """
         Compute neurosis risk using entropy-based recurrence:
         1 - H(ngrams) / log(K) with penalty for repeated GLYPH triplets
@@ -329,8 +329,8 @@ class AkaQualiaMetrics:
     def compute_comprehensive_metrics(
         self,
         scene: PhenomenalScene,
-        goals: Dict[str, Any],
-        glyphs: List[Any],
+        goals: dict[str, Any],
+        glyphs: list[Any],
         energy_before: Optional[EnergySnapshot] = None,
         policy_work: float = 0.0,
     ) -> Metrics:
@@ -370,7 +370,6 @@ class AkaQualiaMetrics:
             repair_delta, conservation_valid = self.compute_repair_delta(energy_before, energy_after, policy_work)
         else:
             repair_delta = 0.0
-            conservation_valid = True
 
         # Store in history
         self.scene_history.append(scene)
@@ -391,7 +390,7 @@ class AkaQualiaMetrics:
             episode_id=f"episode_{int(scene.timestamp or 0)}",
         )
 
-    def get_alert_status(self) -> Dict[str, Any]:
+    def get_alert_status(self) -> dict[str, Any]:
         """Get current alert status for monitoring"""
         return {
             "consecutive_over_sublimation": self.consecutive_over_sublimation,

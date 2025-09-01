@@ -489,7 +489,7 @@ if __name__ == "__main__":
         print(f"  {platform}: {details['focus']} - {details['posting_frequency']}")
 
     print(f"\n📅 Campaign Calendar ({len(thought_leadership.campaign_calendar)} months):")
-    for _month, calendar in thought_leadership.campaign_calendar.items():
+    for calendar in thought_leadership.campaign_calendar.values():
         print(f"  {calendar.month}: {len(calendar.content_pieces)} pieces, {calendar.expected_reach:,} reach")
 
     print("\n🎯 Quarterly Objectives:")

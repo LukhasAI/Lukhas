@@ -135,10 +135,7 @@ class CapManager:
     def revoke(self, subject: str, cap_prefix: str | None = None, persist: bool = False) -> int:
         arr = self._leases.get(subject, [])
         before = len(arr)
-        if cap_prefix is None:
-            arr = []
-        else:
-            arr = [l for l in arr if not any(c.startswith(cap_prefix) for c in l.caps)]
+        arr = [] if cap_prefix is None else [l for l in arr if not any(c.startswith(cap_prefix) for c in l.caps)]
         self._leases[subject] = arr
         if persist:
             self._save()

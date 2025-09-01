@@ -282,7 +282,7 @@ class SelfHealingManager:
         self,
         component_id: str,
         component_type: str,
-        dependencies: list[str] = None,
+        dependencies: Optional[list[str]] = None,
     ):
         """Register a dashboard component for health monitoring."""
 
@@ -306,7 +306,7 @@ class SelfHealingManager:
         component_id: str,
         issue_type: str,
         severity: float,
-        issue_data: dict[str, Any] = None,
+        issue_data: Optional[dict[str, Any]] = None,
     ):
         """Report a component issue for healing consideration."""
 
@@ -617,7 +617,7 @@ class SelfHealingManager:
         while True:
             try:
                 # Check health of all registered components
-                for component_id, _component in self.component_health.items():
+                for component_id in self.component_health:
                     await self._check_component_health(component_id)
 
                 self.last_health_check = datetime.now()

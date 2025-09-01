@@ -758,7 +758,7 @@ class BrandSentimentEngine:
 
         return distribution
 
-    def analyze_brand_perception_evolution(self, time_periods: list[str] = None) -> dict[str, Any]:
+    def analyze_brand_perception_evolution(self, time_periods: Optional[list[str]] = None) -> dict[str, Any]:
         """Analyze how brand perception has evolved over time"""
 
         if time_periods is None:

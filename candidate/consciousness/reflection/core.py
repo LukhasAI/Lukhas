@@ -582,7 +582,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                     strength = link["strength"]
                     if any(p[0] == next_id for p in path):
                         continue
-                    new_path = path + [(next_id, cumulative_strength * strength)]
+                    new_path = [*path, (next_id, cumulative_strength * strength)]
                     trace_recursive(next_id, new_path, cumulative_strength * strength, depth + 1)
 
         trace_recursive(memory_id, [(memory_id, 1.0)], 1.0, 0)
@@ -1480,7 +1480,7 @@ class DistributedMemoryFold:
         self,
         node_id: str,
         port: int,
-        bootstrap_nodes: list[tuple[str, int]] = None,
+        bootstrap_nodes: Optional[list[tuple[str, int]]] = None,
         consciousness_level: float = 0.8,
     ):
         self.node_id = node_id
@@ -1547,9 +1547,9 @@ class DistributedMemoryFold:
     async def store_memory(
         self,
         content: str,
-        tags: list[str] = None,
+        tags: Optional[list[str]] = None,
         embedding: np.ndarray = None,
-        metadata: dict[str, Any] = None,
+        metadata: Optional[dict[str, Any]] = None,
         require_consensus: bool = True,
     ) -> str:
         """

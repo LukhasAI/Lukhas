@@ -43,7 +43,7 @@ class AttributionFallbackLadder:
     Ensures reliable attribution even when primary methods fail
     """
 
-    def __init__(self, redis_client=None, webhook_secret: str = None):
+    def __init__(self, redis_client=None, webhook_secret: Optional[str] = None):
         self.redis_client = redis_client
         self.webhook_secret = webhook_secret or "default_webhook_secret"
 
@@ -367,7 +367,7 @@ class AttributionFallbackLadder:
 
     # Helper methods
 
-    def _extract_tracking_params(self, url: str) -> Optional[Dict]:
+    def _extract_tracking_params(self, url: str) -> Optional[dict]:
         """Extract LUKHAS tracking parameters from URL"""
         if "lukhas" not in url.lower():
             return None
@@ -437,7 +437,7 @@ class AttributionFallbackLadder:
 
         return value_match and time_match
 
-    async def _get_recent_opportunities(self, user_id: str) -> List[dict]:
+    async def _get_recent_opportunities(self, user_id: str) -> list[dict]:
         """Get user's recent opportunity interactions"""
         # In production, this would query the opportunities database
         # For now, return mock data

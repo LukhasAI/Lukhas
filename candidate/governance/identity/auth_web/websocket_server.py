@@ -449,7 +449,7 @@ class DashboardWebSocketServer:
         stream_type: StreamType,
         data: dict[str, Any],
         priority: int = 3,
-        target_clients: set[str] = None,
+        target_clients: Optional[set[str]] = None,
     ):
         """Broadcast a message to subscribed clients."""
 

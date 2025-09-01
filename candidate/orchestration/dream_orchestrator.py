@@ -67,9 +67,7 @@ class DreamOrchestrator:
 
     def _simulate_lukhas_guardian_check(self, text: str) -> bool:
         print("Simulating LUKHAS guardian check for text.", file=sys.stderr)
-        if "unsafe" in text.lower():
-            return False
-        return True
+        return "unsafe" not in text.lower()
 
     def _get_dream_manifest_from_gpt(self, seed: str, concepts: list[str]) -> dict:
         print("Generating Dream Manifest with GPT-4...", file=sys.stderr)

@@ -310,13 +310,12 @@ class TierManager:
                         "limit": daily_limit,
                     }
 
-            if monthly_limit != "unlimited":
-                if usage.get("monthly_messages", 0) >= monthly_limit:
-                    return {
-                        "allowed": False,
-                        "reason": "monthly_limit_exceeded",
-                        "limit": monthly_limit,
-                    }
+            if monthly_limit != "unlimited" and usage.get("monthly_messages", 0) >= monthly_limit:
+                return {
+                    "allowed": False,
+                    "reason": "monthly_limit_exceeded",
+                    "limit": monthly_limit,
+                }
 
         elif action == "api_call":
             api_limit = config["limits"].get("api_calls_daily", 0)
@@ -447,7 +446,7 @@ class TierManager:
         """Calculate potential tier upgrade opportunities"""
         upgrade_candidates = {"T3_to_T2": 0, "T2_to_T1": 0}
 
-        for user_id, _user_data in self.user_tiers.items():
+        for user_id in self.user_tiers:
             suggestion = await self.suggest_tier_upgrade(user_id)
             if suggestion:
                 if suggestion["suggested_tier"] == "T2":

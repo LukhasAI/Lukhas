@@ -183,10 +183,7 @@ class GLYPHGenerationAgent(SwarmAgent):
 
         if pattern_type == "sacred_geometry":
             # Generate sacred geometry patterns based on tier
-            if task.tier_level >= 3:
-                pattern = self._create_metatron_cube(size)
-            else:
-                pattern = self._create_flower_of_life(size)
+            pattern = self._create_metatron_cube(size) if task.tier_level >= 3 else self._create_flower_of_life(size)
 
         elif pattern_type == "fibonacci":
             pattern = self._create_fibonacci_spiral(size)
@@ -728,7 +725,7 @@ class DistributedGLYPHColony(BaseColony):
 
         # Select best fragments through consensus
         selected_fragments = []
-        for _fragment_type, type_fragments in fragments_by_type.items():
+        for type_fragments in fragments_by_type.values():
             if len(type_fragments) == 1:
                 selected_fragments.append(type_fragments[0])
             else:

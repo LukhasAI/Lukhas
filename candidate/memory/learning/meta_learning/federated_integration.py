@@ -318,7 +318,7 @@ class FederatedLearningIntegration:
         }
 
         # Synchronize with each node
-        for _node_id, node in self.nodes.items():
+        for node in self.nodes.values():
             if self._should_sync_with_node(node):
                 node_sync = self._synchronize_with_node(node)
                 sync_results["nodes_synchronized"] += 1

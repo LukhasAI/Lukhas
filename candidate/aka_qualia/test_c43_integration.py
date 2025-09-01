@@ -9,6 +9,7 @@ into the AkaQualia consciousness pipeline.
 """
 
 import asyncio
+import contextlib
 import tempfile
 from pathlib import Path
 
@@ -134,10 +135,8 @@ async def test_c43_memory_integration():
 
     finally:
         # Clean up temporary database
-        try:
+        with contextlib.suppress(Exception):
             Path(db_path).unlink(missing_ok=True)
-        except:
-            pass
 
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ import math
 import random
 import sys
 import time
+from typing import Optional
 
 
 # Console control sequences
@@ -43,7 +44,7 @@ class Console:
     CURSOR_SHOW = "\033[?25h"
 
     @staticmethod
-    def move_cursor(row: int, col: int):
+    def move_cursor(row: int, col: int) -> str:
         return f"\033[{row};{col}H"
 
     @staticmethod
@@ -485,7 +486,7 @@ class GuardianVisualizer:
                 flush=True,
             )
 
-    async def add_threat(self, threat_type: str = None, severity: float = None):
+    async def add_threat(self, threat_type: Optional[str] = None, severity: Optional[float] = None):
         """Manually add a threat for testing"""
         threat_type = threat_type or random.choice(list(self.THREAT_VISUALS.keys()))
         severity = severity or random.uniform(0.5, 0.9)

@@ -167,7 +167,7 @@ def main():
 
         custom_args = input(f"\n{Colors.CYAN}Enter custom arguments: {Colors.END}").strip()
         if custom_args:
-            command = ["python", "tools/llm_code_fixer.py"] + custom_args.split()
+            command = ["python", "tools/llm_code_fixer.py", *custom_args.split()]
         else:
             print("No arguments provided, exiting.")
             return 0

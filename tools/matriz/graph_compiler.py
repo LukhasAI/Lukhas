@@ -144,9 +144,8 @@ def validate_invariants(author: Mapping[str, object]) -> list[str]:
             continue
         st = nodes[src].get("type")
         dt = nodes[dst].get("type")
-        if isinstance(st, str) and isinstance(dt, str):
-            if (st, dt) not in ALLOWED_EDGES:
-                errs.append(f"edge[{i}]: disallowed type pair {st}->{dt}")
+        if isinstance(st, str) and isinstance(dt, str) and (st, dt) not in ALLOWED_EDGES:
+            errs.append(f"edge[{i}]: disallowed type pair {st}->{dt}")
 
         p95 = e.get("p95_budget_ms")
         if p95 is not None and not isinstance(p95, (int, float)):

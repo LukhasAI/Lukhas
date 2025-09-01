@@ -282,15 +282,14 @@ class AdvancedSecuritySystem(CoreInterface):
             Tuple of (is_secure, threat_info)
         """
         # Check authentication
-        if context.session_id not in self.verified_sessions:
-            if not await self._verify_session(context):
-                return False, ThreatIntelligence(
-                    threat_type=ThreatType.PRIVILEGE_ESCALATION,
-                    severity=0.8,
-                    indicators=["unverified_session"],
-                    mitigation="Require re-authentication",
-                    detected_at=datetime.now(timezone.utc),
-                )
+        if context.session_id not in self.verified_sessions and not await self._verify_session(context):
+            return False, ThreatIntelligence(
+                threat_type=ThreatType.PRIVILEGE_ESCALATION,
+                severity=0.8,
+                indicators=["unverified_session"],
+                mitigation="Require re-authentication",
+                detected_at=datetime.now(timezone.utc),
+            )
 
         # Check for threats in content
         if feedback.content:

@@ -3303,7 +3303,7 @@ class AsyncInferenceClient:
         model: Optional[str] = None,
         hypothesis_template: Optional[str] = None,
         # deprecated argument
-        labels: list[str] = None,  # type: ignore
+        labels: Optional[list[str]] = None,  # type: ignore
     ) -> list[ZeroShotImageClassificationOutputElement]:
         """
         Provide input image and text labels to predict text labels for the image.

@@ -227,7 +227,7 @@ class GuardianReflector:
         logger.info(f"Ethical reflection completed: {moral_score:.3f} moral score, {severity.value} severity")
         return reflection
 
-    async def detect_moral_drift(self, time_window: timedelta = None) -> MoralDrift:
+    async def detect_moral_drift(self, time_window: Optional[timedelta] = None) -> MoralDrift:
         """
         Detect moral drift in recent decisions
 

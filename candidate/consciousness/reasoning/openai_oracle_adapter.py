@@ -30,7 +30,7 @@ import logging
 import re
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 from candidate.bridge.openai_core_service import (
     ModelType,
@@ -226,7 +226,7 @@ For each analysis:
         self,
         context: dict[str, Any],
         time_horizon: str = "near",
-        focus_areas: list[str] = None,
+        focus_areas: Optional[list[str]] = None,
     ) -> dict[str, Any]:
         """Generate enhanced prediction using OpenAI with specialized reasoning."""
         template = self.prompt_templates["prediction"]
@@ -359,7 +359,7 @@ For each analysis:
         self,
         context: dict[str, Any],
         analysis_type: str = "comprehensive",
-        focus_areas: list[str] = None,
+        focus_areas: Optional[list[str]] = None,
     ) -> dict[str, Any]:
         """Perform deep analytical reasoning with OpenAI enhancement."""
         template = self.prompt_templates["analysis"]
@@ -403,8 +403,8 @@ For each analysis:
     async def temporal_reasoning(
         self,
         context: dict[str, Any],
-        horizons: list[str] = None,
-        focus_areas: list[str] = None,
+        horizons: Optional[list[str]] = None,
+        focus_areas: Optional[list[str]] = None,
     ) -> dict[str, Any]:
         """Perform reasoning across multiple time horizons."""
         template = self.prompt_templates["temporal_reasoning"]

@@ -60,7 +60,7 @@ class TestSQLQueryCorrectness:
         """Should be able to filter scenes by risk severity"""
 
         # Add high and low risk scenes
-        for scene, risk_type in [(high_risk_scene, "high"), (low_risk_scene, "low")]:
+        for scene, _risk_type in [(high_risk_scene, "high"), (low_risk_scene, "low")]:
             scene_data = scene.model_dump()
             sql_memory.save(
                 user_id="risk_filter_test",
@@ -74,9 +74,9 @@ class TestSQLQueryCorrectness:
         # Test custom SQL query for high-risk scenes
         with sql_memory.engine.begin() as conn:
             query = text("""
-                SELECT scene_id, risk->>'severity' as severity 
-                FROM akaq_scene 
-                WHERE user_id = :user_id 
+                SELECT scene_id, risk->>'severity' as severity
+                FROM akaq_scene
+                WHERE user_id = :user_id
                 AND risk->>'severity' = 'high'
                 ORDER BY ts DESC
             """)
@@ -148,14 +148,14 @@ class TestSQLQueryCorrectness:
         # Test complex join query
         with sql_memory.engine.begin() as conn:
             query = text("""
-                SELECT 
-                    s.scene_id, 
+                SELECT
+                    s.scene_id,
                     s.subject,
-                    s.drift_phi, 
+                    s.drift_phi,
                     array_agg(g.key ORDER BY g.key) as glyph_keys
-                FROM akaq_scene s 
+                FROM akaq_scene s
                 JOIN akaq_glyph g USING(scene_id)
-                WHERE s.user_id = :user_id 
+                WHERE s.user_id = :user_id
                 GROUP BY s.scene_id, s.subject, s.drift_phi
                 ORDER BY s.ts DESC
             """)
@@ -186,7 +186,7 @@ class TestDatabaseSchemaValidation:
             scene_columns = conn.execute(
                 text("""
                 SELECT column_name, data_type, is_nullable
-                FROM information_schema.columns 
+                FROM information_schema.columns
                 WHERE table_name = 'akaq_scene'
                 ORDER BY ordinal_position
             """)
@@ -236,8 +236,8 @@ class TestDatabaseSchemaValidation:
         with sql_memory.engine.begin() as conn:
             # Check that user_id + timestamp index exists
             index_query = text("""
-                SELECT indexname, indexdef 
-                FROM pg_indexes 
+                SELECT indexname, indexdef
+                FROM pg_indexes
                 WHERE tablename = 'akaq_scene'
                 AND indexdef LIKE '%user_id%'
                 AND indexdef LIKE '%ts%'
@@ -250,9 +250,9 @@ class TestDatabaseSchemaValidation:
             except:
                 # SQLite doesn't have pg_indexes, use sqlite_master
                 sqlite_index_query = text("""
-                    SELECT name, sql 
-                    FROM sqlite_master 
-                    WHERE type='index' 
+                    SELECT name, sql
+                    FROM sqlite_master
+                    WHERE type='index'
                     AND tbl_name='akaq_scene'
                     AND sql LIKE '%user_id%'
                 """)
@@ -456,13 +456,13 @@ class TestComplexQueries:
         # Test aggregation query
         with sql_memory.engine.begin() as conn:
             query = text("""
-                SELECT 
+                SELECT
                     COUNT(*) as scene_count,
                     AVG(drift_phi) as avg_drift,
                     MIN(drift_phi) as min_drift,
                     MAX(drift_phi) as max_drift,
                     STDDEV(drift_phi) as stddev_drift
-                FROM akaq_scene 
+                FROM akaq_scene
                 WHERE user_id = :user_id
             """)
 
@@ -488,7 +488,7 @@ class TestComplexQueries:
         ]
 
         for i, scene_time in enumerate(scene_times):
-            scene_data = create_test_scene(subject=f"temporal_test_{i}", timestamp=scene_time)
+            create_test_scene(subject=f"temporal_test_{i}", timestamp=scene_time)
 
             # Manually set the timestamp in the save call
             with sql_memory.engine.begin() as conn:
@@ -497,13 +497,13 @@ class TestComplexQueries:
                 conn.execute(
                     text("""
                     INSERT INTO akaq_scene (
-                        scene_id, user_id, ts, subject, object, proto, proto_vec, 
+                        scene_id, user_id, ts, subject, object, proto, proto_vec,
                         risk, context, drift_phi, congruence_index, neurosis_risk,
                         repair_delta, sublimation_rate, cfg_version
                     ) VALUES (
-                        :scene_id, :user_id, to_timestamp(:ts), :subject, :object, 
-                        :proto, :proto_vec, :risk, :context, :drift_phi, 
-                        :congruence_index, :neurosis_risk, :repair_delta, 
+                        :scene_id, :user_id, to_timestamp(:ts), :subject, :object,
+                        :proto, :proto_vec, :risk, :context, :drift_phi,
+                        :congruence_index, :neurosis_risk, :repair_delta,
                         :sublimation_rate, :cfg_version
                     )
                 """),
@@ -532,8 +532,8 @@ class TestComplexQueries:
         with sql_memory.engine.begin() as conn:
             query = text("""
                 SELECT scene_id, subject, EXTRACT(EPOCH FROM ts) as timestamp
-                FROM akaq_scene 
-                WHERE user_id = :user_id 
+                FROM akaq_scene
+                WHERE user_id = :user_id
                 AND ts >= to_timestamp(:cutoff_time)
                 ORDER BY ts DESC
             """)

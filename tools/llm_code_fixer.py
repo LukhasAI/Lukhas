@@ -409,7 +409,7 @@ class CodeQualityAnalyzer:
 class LLMCodeFixer:
     """Main class for LLM-powered code quality improvement"""
 
-    def __init__(self, project_root: str = None):
+    def __init__(self, project_root: Optional[str] = None):
         self.project_root = Path(project_root or os.getcwd())
         self.analyzer = CodeQualityAnalyzer(self.project_root)
         self.llm_service = os.getenv("LOCAL_LLM_SERVICE", "ollama")

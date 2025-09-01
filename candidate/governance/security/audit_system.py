@@ -494,10 +494,7 @@ class AuditStorage:
         # Compliance filters
         if query.compliance_relevant_only and not event.compliance_relevant:
             return False
-        if query.compliance_frameworks and not query.compliance_frameworks.intersection(event.compliance_frameworks):
-            return False
-
-        return True
+        return not (query.compliance_frameworks and not query.compliance_frameworks.intersection(event.compliance_frameworks))
 
 
 class AuditEventProcessor:
@@ -1127,7 +1124,7 @@ class ComprehensiveAuditSystem:
 
 
 # Convenience functions for common audit operations
-async def audit_login(user_id: str, success: bool, source_ip: str = None) -> str:
+async def audit_login(user_id: str, success: bool, source_ip: Optional[str] = None) -> str:
     """Audit user login event"""
     audit_system = ComprehensiveAuditSystem()
 
@@ -1182,7 +1179,7 @@ async def audit_security_violation(violation_type: str, details: str, risk_score
     )
 
 
-async def audit_trinity_event(component: str, event_details: dict[str, Any], user_id: str = None) -> str:
+async def audit_trinity_event(component: str, event_details: dict[str, Any], user_id: Optional[str] = None) -> str:
     """Audit Trinity Framework event"""
     audit_system = ComprehensiveAuditSystem()
 

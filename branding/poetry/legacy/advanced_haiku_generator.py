@@ -345,10 +345,7 @@ class AdvancedHaikuGenerator:
         base_haiku = await self._generate_quantum_haiku(theme, style)
 
         # Apply neural expansion if enabled
-        if expansion_depth > 0:
-            expanded_haiku = self._expand_haiku(base_haiku, expansion_depth)
-        else:
-            expanded_haiku = base_haiku
+        expanded_haiku = self._expand_haiku(base_haiku, expansion_depth) if expansion_depth > 0 else base_haiku
 
         # Ensure perfect syllable structure
         final_haiku = self._ensure_syllable_structure(expanded_haiku)

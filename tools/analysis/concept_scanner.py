@@ -89,7 +89,7 @@ class LukhasConceptScanner:
             content = file_path.read_text(encoding="utf-8")
 
             # Search for concepts in code
-            for concept, _description in self.core_concepts.items():
+            for concept in self.core_concepts:
                 # Case-insensitive search
                 pattern = re.compile(rf"\b{re.escape(concept)}\b", re.IGNORECASE)
                 matches = pattern.finditer(content)

@@ -369,10 +369,7 @@ def validate_trinity_compliance(harmonizer: DriftHarmonizer) -> bool:
 
     # Check Trinity weights sum to 1.0 (approximately)
     weight_sum = harmonizer.identity_weight + harmonizer.consciousness_weight + harmonizer.guardian_weight
-    if abs(weight_sum - 1.0) > 0.01:
-        return False
-
-    return True
+    return not abs(weight_sum - 1.0) > 0.01
 
 
 if __name__ == "__main__":

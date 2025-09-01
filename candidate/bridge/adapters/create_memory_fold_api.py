@@ -218,7 +218,7 @@ class QIMemoryEngine:
         """Quantum-inspired memory search"""
         results = []
 
-        for _fold_id, fold in self.memory_helix.items():
+        for fold in self.memory_helix.values():
             # Text similarity (simplified for demo)
             text_similarity = self._calculate_text_similarity(query, fold.content)
 

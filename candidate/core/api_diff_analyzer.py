@@ -76,35 +76,34 @@ class TestAPIExtractor(ast.NodeVisitor):
     def visit_Call(self, node):
         """Visit function calls to find API usage"""
         # Look for patterns like actor_ref.send_message(), fabric.total_messages, etc.
-        if isinstance(node.func, ast.Attribute):
-            if isinstance(node.func.value, ast.Name):
-                obj_name = node.func.value.id
-                method_name = node.func.attr
+        if isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name):
+            obj_name = node.func.value.id
+            method_name = node.func.attr
 
-                # Common test object patterns
-                if any(
-                    pattern in obj_name.lower()
-                    for pattern in [
-                        "actor",
-                        "ref",
-                        "fabric",
-                        "agent",
-                        "system",
-                        "colony",
-                    ]
-                ):
-                    # Get the full line for context
-                    line_content = self.lines[node.lineno - 1] if node.lineno <= len(self.lines) else ""
+            # Common test object patterns
+            if any(
+                pattern in obj_name.lower()
+                for pattern in [
+                    "actor",
+                    "ref",
+                    "fabric",
+                    "agent",
+                    "system",
+                    "colony",
+                ]
+            ):
+                # Get the full line for context
+                line_content = self.lines[node.lineno - 1] if node.lineno <= len(self.lines) else ""
 
-                    api_call = APICall(
-                        file_path=self.file_path,
-                        line_number=node.lineno,
-                        class_name=self._infer_class_name(obj_name),
-                        method_name=method_name,
-                        full_call=f"{obj_name}.{method_name}",
-                        context=line_content.strip(),
-                    )
-                    self.api_calls.append(api_call)
+                api_call = APICall(
+                    file_path=self.file_path,
+                    line_number=node.lineno,
+                    class_name=self._infer_class_name(obj_name),
+                    method_name=method_name,
+                    full_call=f"{obj_name}.{method_name}",
+                    context=line_content.strip(),
+                )
+                self.api_calls.append(api_call)
 
         self.generic_visit(node)
 

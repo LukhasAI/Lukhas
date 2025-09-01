@@ -316,10 +316,7 @@ class CoherencePatchValidator:
 
         # All used symbols should be defined
         undefined_symbols = used_symbols - defined_symbols
-        if undefined_symbols:
-            consistency = 1.0 - (len(undefined_symbols) / len(used_symbols))
-        else:
-            consistency = 1.0
+        consistency = 1.0 - len(undefined_symbols) / len(used_symbols) if undefined_symbols else 1.0
 
         return consistency
 
@@ -504,10 +501,7 @@ class CoherencePatchValidator:
         before_score = metrics_before.overall_score()
         after_score = metrics_after.overall_score()
 
-        if before_score > 0:
-            improvement = (after_score - before_score) / before_score
-        else:
-            improvement = after_score
+        improvement = (after_score - before_score) / before_score if before_score > 0 else after_score
 
         return max(0.0, min(1.0, improvement))
 

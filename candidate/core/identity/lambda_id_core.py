@@ -560,9 +560,8 @@ class LukhasIdentityService:
         success = False
         tokens = {}
 
-        if method == "passkey":
-            if self.passkey_manager.verify_authentication(lid, credential or {}):
-                success = True
+        if method == "passkey" and self.passkey_manager.verify_authentication(lid, credential or {}):
+            success = True
 
         if success:
             # Issue tokens

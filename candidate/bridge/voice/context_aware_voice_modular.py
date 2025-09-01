@@ -127,7 +127,7 @@ class ContextAnalyzer:
         self,
         user_input: str,
         metadata: dict[str, Any],
-        memory: list[dict[str, Any]] = None,
+        memory: Optional[list[dict[str, Any]]] = None,
     ) -> ContextAnalysis:
         """
         Analyze context from multiple sources
@@ -356,7 +356,7 @@ class VoiceModulator:
     emotion, urgency, formality, and temporal factors.
     """
 
-    def __init__(self, settings: dict[str, Any] = None):
+    def __init__(self, settings: Optional[dict[str, Any]] = None):
         """Initialize voice modulator with configuration"""
         if settings is None:
             settings = {}
@@ -555,7 +555,7 @@ class ContextAwareVoiceSystem:
     and generates appropriate voice responses with full context awareness.
     """
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the complete voice system"""
         if config is None:
             config = {}
@@ -679,7 +679,7 @@ class ContextAwareVoiceSystem:
 _voice_system: Optional[ContextAwareVoiceSystem] = None
 
 
-def get_voice_system(config: dict[str, Any] = None) -> ContextAwareVoiceSystem:
+def get_voice_system(config: Optional[dict[str, Any]] = None) -> ContextAwareVoiceSystem:
     """Get the global context-aware voice system instance"""
     global _voice_system
     if _voice_system is None:

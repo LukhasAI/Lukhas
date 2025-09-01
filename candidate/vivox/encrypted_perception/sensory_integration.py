@@ -621,7 +621,7 @@ class MultimodalFusion:
         self,
         perceptual_vectors: list[PerceptualVector],
         fusion_strategy: str = "default",
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> tuple[EncryptedPerception, dict[str, Any]]:
         """
         Fuse multiple sensory modalities into unified perception

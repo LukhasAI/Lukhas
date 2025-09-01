@@ -96,7 +96,7 @@ class TypedEventBus:
 
     def unsubscribe(self, subscription_id: str) -> bool:
         """Unsubscribe using subscription ID"""
-        for _event_type, subscriptions in self._subscribers.items():
+        for subscriptions in self._subscribers.values():
             for i, sub in enumerate(subscriptions):
                 if sub.subscription_id == subscription_id:
                     subscriptions.pop(i)

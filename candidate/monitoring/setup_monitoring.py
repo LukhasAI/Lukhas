@@ -10,7 +10,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 class MonitoringSetup:
     """Setup and manage monitoring infrastructure"""
 
-    def __init__(self, config_path: str = None):
+    def __init__(self, config_path: Optional[str] = None):
         self.config_path = Path(config_path) if config_path else Path("monitoring_config.yaml")
         self.services = {}
         self.base_dir = Path(__file__).parent

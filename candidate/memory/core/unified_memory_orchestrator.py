@@ -526,10 +526,10 @@ class UnifiedMemoryOrchestrator:
         self,
         content: Any,
         memory_type: MemoryType,
-        tags: list[str] = None,
+        tags: Optional[list[str]] = None,
         emotional_valence: float = 0.0,
         importance: float = 0.5,
-        semantic_links: list[str] = None,
+        semantic_links: Optional[list[str]] = None,
     ) -> str:
         """
         Encode a new memory into the hippocampal buffer.
@@ -814,7 +814,7 @@ class UnifiedMemoryOrchestrator:
     async def retrieve_memory(
         self,
         query: Union[str, dict[str, Any]],
-        memory_types: list[MemoryType] = None,
+        memory_types: Optional[list[MemoryType]] = None,
         use_pattern_completion: bool = True,
         max_results: int = 10,
     ) -> list[tuple[MemoryTrace, float]]:
@@ -864,13 +864,13 @@ class UnifiedMemoryOrchestrator:
         return unique_results
 
     def _search_working_memory(
-        self, query: Union[str, dict[str, Any]], memory_types: list[MemoryType] = None
+        self, query: Union[str, dict[str, Any]], memory_types: Optional[list[MemoryType]] = None
     ) -> list[tuple[MemoryTrace, float]]:
         """Fast search in working memory"""
         results = []
         query_str = str(query).lower()
 
-        for _memory_id, trace in self.working_memory.items():
+        for trace in self.working_memory.values():
             if memory_types and trace.memory_type not in memory_types:
                 continue
 
@@ -885,7 +885,7 @@ class UnifiedMemoryOrchestrator:
     async def _search_hippocampal(
         self,
         query: Union[str, dict[str, Any]],
-        memory_types: list[MemoryType] = None,
+        memory_types: Optional[list[MemoryType]] = None,
         use_pattern_completion: bool = True,
     ) -> list[tuple[MemoryTrace, float]]:
         """Search in hippocampal buffer with pattern completion"""
@@ -957,7 +957,7 @@ class UnifiedMemoryOrchestrator:
         )
 
     async def _search_neocortical(
-        self, query: Union[str, dict[str, Any]], memory_types: list[MemoryType] = None
+        self, query: Union[str, dict[str, Any]], memory_types: Optional[list[MemoryType]] = None
     ) -> list[tuple[MemoryTrace, float]]:
         """Search in consolidated neocortical memories"""
         results = []

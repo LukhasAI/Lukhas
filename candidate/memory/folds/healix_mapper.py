@@ -540,10 +540,7 @@ class QIHealixMapper:
         helix_pitch = len(sequence) * 0.1  # Proportional to sequence length
 
         # Calculate angular position based on emotional vector
-        if len(emotional_vector) >= 2:
-            helix_angle = np.arctan2(emotional_vector[1], emotional_vector[0])
-        else:
-            helix_angle = 0.0
+        helix_angle = np.arctan2(emotional_vector[1], emotional_vector[0]) if len(emotional_vector) >= 2 else 0.0
 
         # 3D coordinates
         x = helix_radius * np.cos(helix_angle)

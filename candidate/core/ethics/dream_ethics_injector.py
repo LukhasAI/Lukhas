@@ -335,7 +335,7 @@ class DreamEthicsInjector:
             if ann.alignment_score > 0.7:
                 insights.append(
                     f"The '{ann.tag}' aspect strongly aligns with core values "
-                    f"of {list(self.core_principles.keys())[0]}"
+                    f"of {next(iter(self.core_principles.keys()))}"
                 )
             elif ann.alignment_score < -0.5:
                 insights.append(

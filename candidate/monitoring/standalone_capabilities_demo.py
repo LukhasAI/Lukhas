@@ -128,10 +128,7 @@ class StandaloneMonitoringDemo:
         threshold += historical_factor + circadian_factor + load_factor + success_factor
 
         # Factor 5 & 6: Bounds checking and context modifiers
-        if inverted:
-            threshold = max(0.1, min(0.8, threshold))
-        else:
-            threshold = max(0.2, min(0.95, threshold))
+        threshold = max(0.1, min(0.8, threshold)) if inverted else max(0.2, min(0.95, threshold))
 
         return threshold
 

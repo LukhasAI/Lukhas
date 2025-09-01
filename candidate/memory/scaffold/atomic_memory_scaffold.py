@@ -576,7 +576,7 @@ async def demonstrate_scaffold():
         print(f"Stored: '{content}' -> Coil {result['coil_id']}")
 
     # Simulate trauma event
-    test_coil = list(scaffold.coil_system.coils.keys())[0]
+    test_coil = next(iter(scaffold.coil_system.coils.keys()))
     trauma_result = scaffold.coil_system.assess_trauma_impact(test_coil, 0.8)
     print(f"\nTrauma test: {trauma_result}")
 

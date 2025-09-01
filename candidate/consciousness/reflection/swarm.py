@@ -102,7 +102,7 @@ class EnhancedSwarmAgent(Actor):
     Enhanced SwarmAgent with real behaviors and capabilities.
     """
 
-    def __init__(self, agent_id: str, colony: "EnhancedColony", capabilities: list[str] = None):
+    def __init__(self, agent_id: str, colony: "EnhancedColony", capabilities: Optional[list[str]] = None):
         super().__init__(agent_id)
         self.agent_id = agent_id
         self.colony = colony
@@ -377,7 +377,7 @@ class EnhancedSwarmAgent(Actor):
 
             # Adjust based on knowledge
             if isinstance(knowledge, dict):
-                for _key, value in knowledge.items():
+                for value in knowledge.values():
                     if str(option) in str(value):
                         score += 0.2
 
@@ -682,7 +682,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
 
     async def broadcast_to_agents(self, message: dict[str, Any], criteria: Optional[Callable] = None):
         """Broadcast message to all agents or those matching criteria."""
-        for _agent_id, agent in self.agents.items():
+        for agent in self.agents.values():
             if criteria is None or criteria(agent):
                 agent.receive(message)
 
@@ -1238,7 +1238,7 @@ async def demonstrate_enhanced_swarm():
     # Show some agent details
     print("\n=== Sample Agent Status ===")
     sample_colony = swarm.colonies["reasoning-alpha"]
-    sample_agent = list(sample_colony.agents.values())[0]
+    sample_agent = next(iter(sample_colony.agents.values()))
     agent_status = sample_agent.get_status()
     print(f"Agent: {agent_status['agent_id']}")
     print(f"State: {agent_status['state']}")

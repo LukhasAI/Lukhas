@@ -724,9 +724,8 @@ class TierManager:
                 filtered["related_memories"] = len(filtered.get("related_memories", []))
 
         # Tier 4: Most features but some restrictions
-        if user_tier < self.thresholds["full_access"]:
-            if "advanced_metrics" in filtered:
-                del filtered["advanced_metrics"]
+        if user_tier < self.thresholds["full_access"] and "advanced_metrics" in filtered:
+            del filtered["advanced_metrics"]
 
         return filtered
 
@@ -1097,7 +1096,7 @@ class MemoryFoldSystem:
 
             # Find neighborhood
             neighborhood = self.get_emotional_neighborhood(emotion, threshold)
-            cluster_emotions = [emotion] + list(neighborhood.keys())
+            cluster_emotions = [emotion, *list(neighborhood.keys())]
 
             # Only create cluster if meaningful
             if len(cluster_emotions) >= 2:
@@ -1179,7 +1178,7 @@ class MemoryFoldSystem:
                 consolidated.append(
                     {
                         "consolidated_key": consolidated_fold["hash"],
-                        "source_emotions": list(set([base_emotion] + list(neighborhood.keys()))),
+                        "source_emotions": list(set([base_emotion, *list(neighborhood.keys())])),
                         "theme_count": len(themes),
                     }
                 )

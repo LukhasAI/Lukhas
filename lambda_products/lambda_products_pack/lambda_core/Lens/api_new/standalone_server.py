@@ -39,23 +39,23 @@ from lambda_products.lambda_products_pack.lambda_core.Lens.widgets.widget_factor
 class JobRequest(BaseModel):
     file_type: str
     content: Optional[str] = None
-    options: Optional[Dict[str, Any]] = {}
+    options: Optional[dict[str, Any]] = {}
 
 
 class JobResponse(BaseModel):
     job_id: str
     status: str
     message: str
-    result: Optional[Dict[str, Any]] = None
+    result: Optional[dict[str, Any]] = None
 
 
 class PhotonDocument(BaseModel):
     id: str
     title: str
     content: str
-    symbols: List[Dict[str, Any]]
-    widgets: List[Dict[str, Any]]
-    metadata: Dict[str, Any]
+    symbols: list[dict[str, Any]]
+    widgets: list[dict[str, Any]]
+    metadata: dict[str, Any]
 
 
 # Initialize components
@@ -179,7 +179,7 @@ async def get_job_status(job_id: str):
     return JobResponse(job_id=job_id, status=job["status"], message=f"Job {job['status']}", result=job.get("result"))
 
 
-async def process_file_async(content: str, file_type: str, job_id: str) -> Dict[str, Any]:
+async def process_file_async(content: str, file_type: str, job_id: str) -> dict[str, Any]:
     """Process file content asynchronously"""
     try:
         # Parse content based on type

@@ -563,7 +563,7 @@ class BiometricIntegrationManager:
         matching_categories = 0
         total_categories = len(template_markers)
 
-        for category, _markers in template_markers.items():
+        for category in template_markers:
             if category in verification_markers:
                 matching_categories += 1
 

@@ -31,9 +31,9 @@ except ImportError:
 # LUKHAS integrations with fallback
 try:
     from lukhas.consciousness import ConsciousnessCore
+    from lukhas.constellation import ConstellationFramework
     from lukhas.guardian import GuardianSystem
     from lukhas.memory import MemoryFoldSystem
-    from lukhas.constellation import ConstellationFramework
 
     LUKHAS_AVAILABLE = True
 except ImportError:
@@ -264,8 +264,8 @@ class ConstellationFrameworkBenchmark:
         memory_start = time.time()
         await asyncio.sleep(0.004)  # 4ms memory processing
         memory_time = (time.time() - memory_start) * 1000
-        
-        # Vision (🔬) - Analysis processing  
+
+        # Vision (🔬) - Analysis processing
         vision_start = time.time()
         await asyncio.sleep(0.003)  # 3ms vision processing
         vision_time = (time.time() - vision_start) * 1000

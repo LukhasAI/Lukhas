@@ -55,7 +55,7 @@ class SecurityReport:
 class SecurityAutopilot:
     """Automated security management system"""
 
-    def __init__(self, project_root: Path = None):
+    def __init__(self, project_root: Optional[Path] = None):
         self.project_root = project_root or Path.cwd()
         self.requirements_file = self.project_root / "requirements.txt"
         self.venv_path = self.project_root / ".venv"

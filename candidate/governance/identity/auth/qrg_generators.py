@@ -26,7 +26,7 @@ import secrets  # Used for secure random generation
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 import qrcode
@@ -37,11 +37,12 @@ from lukhas.security import secure_random
 
 # Import LUKHAS components
 try:
+    from utils.cultural_safety_checker import CulturalSafetyChecker
+
     from candidate.core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
     from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
-    from utils.cultural_safety_checker import CulturalSafetyChecker
 except ImportError:
     print("Warning: LUKHAS core components not found. Running in standalone mode.")
 
@@ -396,7 +397,7 @@ class SteganographicQRGenerator:
             self.entropy_sync = None
 
     def generate_steganographic_qr(
-        self, visible_data: str, hidden_data: str, steganography_key: str = None
+        self, visible_data: str, hidden_data: str, steganography_key: Optional[str] = None
     ) -> dict[str, Any]:
         """
         Generate QR code with hidden data embedded steganographically.
@@ -570,10 +571,7 @@ class QIQRGenerator:
             Dictionary containing quantum-secured QR code
         """
         # Generate quantum entropy for security
-        if self.entropy_sync:
-            qi_entropy = self.entropy_sync.generate_quantum_entropy(256)
-        else:
-            qi_entropy = secrets.token_bytes(256)
+        qi_entropy = self.entropy_sync.generate_quantum_entropy(256) if self.entropy_sync else secrets.token_bytes(256)
 
         # Create quantum signature
         qi_signature = self._generate_quantum_signature(data, qi_entropy)

@@ -424,7 +424,7 @@ class OAuthManager:
         try:
             providers = []
 
-            for storage_key, stored_data in self.token_store.items():
+            for stored_data in self.token_store.values():
                 if stored_data["user_id"] == user_id:
                     try:
                         credential_data = self._decrypt_token_data(stored_data["encrypted_data"])

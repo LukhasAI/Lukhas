@@ -456,13 +456,7 @@ class ParallelRealitySimulator(CoreInterface):
             sub_branch = await self._create_branch(parent_branch.state, branch_id, reality_type)
 
             # Add causal chain
-            sub_branch.causal_chain = parent_branch.causal_chain + [
-                {
-                    "from": branch_id,
-                    "to": sub_branch.branch_id,
-                    "divergence": sub_branch.divergence_point,
-                }
-            ]
+            sub_branch.causal_chain = [*parent_branch.causal_chain, {"from": branch_id, "to": sub_branch.branch_id, "divergence": sub_branch.divergence_point}]
 
             simulation.branches.append(sub_branch)
             self.reality_tree[branch_id].append(sub_branch.branch_id)
@@ -555,10 +549,7 @@ class ParallelRealitySimulator(CoreInterface):
             selected = max(viable_branches, key=lambda b: b.ethical_score)
         elif selection_criteria.get("maximize") == "creativity":
             creative_branches = [b for b in viable_branches if b.reality_type == RealityType.CREATIVE]
-            if creative_branches:
-                selected = max(creative_branches, key=lambda b: b.probability)
-            else:
-                selected = viable_branches[0]
+            selected = max(creative_branches, key=lambda b: b.probability) if creative_branches else viable_branches[0]
         else:
             # Random weighted selection
             weights = [b.probability for b in viable_branches]

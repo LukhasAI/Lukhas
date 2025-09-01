@@ -28,7 +28,7 @@ from typing import List, Tuple
 ROOT = Path(__file__).resolve().parents[2]
 
 # Conservative replacements (identifier-aware)
-REPLACEMENTS: List[Tuple[re.Pattern, str]] = [
+REPLACEMENTS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"\bTRINITY_FRAMEWORK\b"), "CONSTELLATION_FRAMEWORK"),
     (re.compile(r"\bget_trinity_context\b"), "get_constellation_context"),
     (re.compile(r"\btrinity_framework\b"), "constellation_framework"),
@@ -56,7 +56,7 @@ def iter_py_files(paths: Iterable[str]) -> Iterable[Path]:
             yield fp
 
 
-def apply_replacements_to_text(text: str) -> Tuple[str, int]:
+def apply_replacements_to_text(text: str) -> tuple[str, int]:
     changed = 0
     new_text = text
     for pattern, repl in REPLACEMENTS:
@@ -79,7 +79,7 @@ def backup_and_write(path: Path, new_text: str) -> None:
         fh.write(new_text)
 
 
-def main(argv: List[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--paths", nargs="*", default=DEFAULT_PATHS, help="Directories to scan (relative to repo root)")
     parser.add_argument("--dry-run", action="store_true", default=False, help="Only print would-change files")

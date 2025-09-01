@@ -39,8 +39,8 @@ class EmotionAnalysisResult:
 
     emotion: str
     confidence: float
-    vocal_features: Dict[str, float]
-    prosody_analysis: Dict[str, float]
+    vocal_features: dict[str, float]
+    prosody_analysis: dict[str, float]
     timestamp: datetime
 
 
@@ -109,7 +109,7 @@ class SpeechEmotionRecognizer:
             timestamp=datetime.now(timezone.utc),
         )
 
-    def _extract_prosodic_features(self, audio_data: np.ndarray, sample_rate: int) -> Dict[str, float]:
+    def _extract_prosodic_features(self, audio_data: np.ndarray, sample_rate: int) -> dict[str, float]:
         """RESEARCH: Extract vocal cues - tone, pitch, rhythm, intensity, prosody"""
 
         # Simplified prosodic feature extraction (in production would use librosa/torchaudio)
@@ -131,7 +131,7 @@ class SpeechEmotionRecognizer:
 
         return features
 
-    def _compute_sparse_attention(self, features: Dict[str, float]) -> Dict[str, float]:
+    def _compute_sparse_attention(self, features: dict[str, float]) -> dict[str, float]:
         """RESEARCH: Sparse attention mechanism for critical vocal features"""
 
         attention_weights = {}
@@ -148,7 +148,7 @@ class SpeechEmotionRecognizer:
 
         return attention_weights
 
-    def _classify_emotion(self, features: Dict[str, float], attention_weights: Dict[str, float]) -> tuple[str, float]:
+    def _classify_emotion(self, features: dict[str, float], attention_weights: dict[str, float]) -> tuple[str, float]:
         """RESEARCH: Emotion classification using weighted prosodic features"""
 
         # Simplified emotion classification (in production would use trained neural network)
@@ -203,7 +203,7 @@ class DynamicVoiceModulator:
         }
 
     def generate_empathetic_response(
-        self, user_emotion: str, content: str, context: Dict[str, Any]
+        self, user_emotion: str, content: str, context: dict[str, Any]
     ) -> VoiceModulationParams:
         """RESEARCH: Generate empathetic voice modulation for user's emotional state"""
 
@@ -233,7 +233,7 @@ class DynamicVoiceModulator:
 
         return adjusted_params
 
-    def apply_modulation(self, text: str, params: VoiceModulationParams) -> Dict[str, Any]:
+    def apply_modulation(self, text: str, params: VoiceModulationParams) -> dict[str, Any]:
         """RESEARCH: Apply voice modulation parameters to generate emotional speech"""
 
         # In production, would interface with TTS engine (ElevenLabs, OpenAI, etc.)
@@ -356,7 +356,7 @@ class VoiceIntegrationLayer:
         """Legacy compatibility wrapper - routes to research-enhanced processing"""
         return await self.process_voice_with_emotion(input_data, context)
 
-    def get_emotion_processing_stats(self) -> Dict[str, Any]:
+    def get_emotion_processing_stats(self) -> dict[str, Any]:
         """RESEARCH: Get performance statistics for emotion processing"""
         if not self.processing_history:
             return {"status": "no_data", "message": "No processing history available"}

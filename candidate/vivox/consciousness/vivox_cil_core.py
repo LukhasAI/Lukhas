@@ -801,7 +801,7 @@ class VIVOXConsciousnessInterpretationLayer:
         self.inert_mode = False
 
     async def simulate_conscious_experience(
-        self, perceptual_input: dict[str, Any], internal_state: dict[str, Any] = None
+        self, perceptual_input: dict[str, Any], internal_state: Optional[dict[str, Any]] = None
     ) -> ConsciousExperience:
         """
         Collapse encrypted simulations into coherent internal states

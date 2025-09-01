@@ -240,7 +240,7 @@ class DreamDeliveryManager:
         message: str,
         intent: str,
         personality_vector: dict[str, float],
-        emotions: dict[str, Any] = None,
+        emotions: Optional[dict[str, Any]] = None,
         voice_style: Optional[str] = None,
     ) -> dict[str, Any]:
         """

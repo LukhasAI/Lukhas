@@ -931,10 +931,7 @@ class AuthGovernancePolicyEngine:
 
     def export_policies(self, category: Optional[PolicyCategory] = None) -> dict[str, Any]:
         """Export governance policies for documentation"""
-        if category:
-            policies = self.get_policies_by_category(category)
-        else:
-            policies = list(self.policy_rules.values())
+        policies = self.get_policies_by_category(category) if category else list(self.policy_rules.values())
 
         return {
             "export_timestamp": datetime.now().isoformat(),

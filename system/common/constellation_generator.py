@@ -60,10 +60,10 @@ class ConstellationGenerator:
             "feature_name": feature_name,
             "framework_version": self.framework["lukhas_communication_framework"]["version"],
         }
-        
+
         # Generate constellation context
         constellation_context = self._generate_constellation_context(feature_name, description, benefits)
-        
+
         return ConstellationContent(layer_1, layer_2, layer_3, constellation_context, metadata)
 
     def _generate_poetic_layer(self, feature_name: str, description: str, benefits: list[str]) -> str:
@@ -150,7 +150,7 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
         # Add code examples
         if code_examples:
             technical_content += "\n## Implementation Examples\n\n"
-            for i, example in enumerate(code_examples, 1):
+            for _i, example in enumerate(code_examples, 1):
                 if example.startswith("```"):
                     example.split("\n")[0].replace("```", "")
                     example = "\n".join(example.split("\n")[1:-1])
@@ -231,10 +231,10 @@ Perfect for developers who want to add AI capabilities without the complexity.""
             "api_name": api_spec["name"],
             "documentation_type": "api",
         }
-        
+
         # Generate constellation context for API
         constellation_context = self._generate_api_constellation_context(api_spec)
-        
+
         return ConstellationContent(layer_1, layer_2, layer_3, constellation_context, metadata)
 
     def save_constellation_content(self, content: ConstellationContent, output_path: Path):
@@ -320,7 +320,7 @@ Perfect for developers who want to add AI capabilities without the complexity.""
                 "emergence_support": "new patterns can emerge"
             }
         }
-    
+
     def _generate_api_constellation_context(self, api_spec: dict[str, Any]) -> dict[str, Any]:
         """Generate constellation context for API documentation"""
         return {

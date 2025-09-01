@@ -329,7 +329,7 @@ class MemoryColony(BaseColony):
 
         removed_count = 0
 
-        for _agent_id, agent in self.agents.items():
+        for agent in self.agents.values():
             if isinstance(agent, MemoryAgent) and memory_id in agent.local_storage:
                 # Remove from storage
                 memory = agent.local_storage.pop(memory_id)

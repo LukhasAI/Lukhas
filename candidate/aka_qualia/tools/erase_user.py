@@ -15,7 +15,7 @@ import argparse
 import json
 import logging
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 try:
     from sqlalchemy import create_engine, text
@@ -27,7 +27,7 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-def count_user_data(engine: Engine, user_id: str) -> Dict[str, int]:
+def count_user_data(engine: Engine, user_id: str) -> dict[str, int]:
     """Count user data before deletion for audit purposes"""
     try:
         with engine.begin() as conn:
@@ -55,7 +55,7 @@ def count_user_data(engine: Engine, user_id: str) -> Dict[str, int]:
         raise
 
 
-def delete_user_data(engine: Engine, user_id: str, dry_run: bool = False) -> Dict[str, Any]:
+def delete_user_data(engine: Engine, user_id: str, dry_run: bool = False) -> dict[str, Any]:
     """Delete all user data with cascade (scenes -> glyphs)"""
     try:
         with engine.begin() as conn:
@@ -102,7 +102,7 @@ def verify_deletion(engine: Engine, user_id: str) -> bool:
         return False
 
 
-def log_audit_entry(audit_result: Dict[str, Any], audit_file: str = None) -> None:
+def log_audit_entry(audit_result: dict[str, Any], audit_file: Optional[str] = None) -> None:
     """Log audit entry for GDPR compliance"""
     if audit_file:
         try:

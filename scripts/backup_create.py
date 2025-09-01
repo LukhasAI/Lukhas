@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import contextlib
 import fnmatch
 import hashlib
 import json
@@ -55,10 +56,8 @@ def main():
 
     # Choose compression
     comp = "gz"
-    try:
+    with contextlib.suppress(Exception):
         comp = "zst"
-    except Exception:
-        pass
 
     tar_name = f"lukhas_backup_{tag}.tar.{comp}"
     tar_path = os.path.join(args.outdir, tar_name)

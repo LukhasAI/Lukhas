@@ -15,7 +15,7 @@ class Memoria:
 
     def trace(self):
         print("\n🧠 OXNITUS TRACE LOG:")
-        for i, entry in enumerate(self.memory_log, 1):
+        for _i, entry in enumerate(self.memory_log, 1):
             print("\n")
             print(f"Timestamp: {entry['timestamp']}")
             print(f"Intent:    {entry['input']}")

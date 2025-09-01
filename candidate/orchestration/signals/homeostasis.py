@@ -505,10 +505,7 @@ class HomeostasisController:
 
     def detect_oscillation(self) -> bool:
         """Check if any signals are oscillating"""
-        for signal_type in SignalType:
-            if self.oscillation_detector.detect_oscillation(signal_type):
-                return True
-        return False
+        return any(self.oscillation_detector.detect_oscillation(signal_type) for signal_type in SignalType)
 
     def explain_decision(self, audit_id: str) -> Optional[AuditTrail]:
         """

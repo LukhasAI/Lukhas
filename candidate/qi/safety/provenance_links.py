@@ -124,10 +124,7 @@ def presign_for_record(
       - record dict (from provenance_uploader)
     Returns dict with url + metadata. Content-Type derived from record when available.
     """
-    if isinstance(record_or_sha, str):
-        rec = _load_record_by_sha(record_or_sha)
-    else:
-        rec = record_or_sha
+    rec = _load_record_by_sha(record_or_sha) if isinstance(record_or_sha, str) else record_or_sha
 
     storage_url = rec.get("storage_url")
     if not storage_url:

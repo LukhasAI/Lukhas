@@ -16,7 +16,7 @@ class XRRenderer:
     def __init__(self):
         self.scene_scale = 1.0
 
-    async def render(self, dashboard: Any) -> Dict[str, Any]:
+    async def render(self, dashboard: Any) -> dict[str, Any]:
         """Render dashboard as XR scene"""
         # Create glTF structure
         gltf = {
@@ -47,7 +47,7 @@ class XRRenderer:
 
         return gltf
 
-    def _create_symbol_node(self, symbol: GlyphSymbol, index: int) -> Dict[str, Any]:
+    def _create_symbol_node(self, symbol: GlyphSymbol, index: int) -> dict[str, Any]:
         """Create a glTF node for a symbol"""
         node = {
             "name": f"symbol_{symbol.id}",
@@ -64,38 +64,12 @@ class XRRenderer:
 
         return node
 
-    def _create_symbol_mesh(self, symbol: GlyphSymbol, index: int) -> Dict[str, Any]:
+    def _create_symbol_mesh(self, symbol: GlyphSymbol, index: int) -> dict[str, Any]:
         """Create a mesh for a symbol"""
         # Create a simple cube mesh for each symbol
         # In a real implementation, you'd create more sophisticated geometry
 
         # Cube vertices (8 vertices)
-        vertices = [
-            -0.5,
-            -0.5,
-            0.5,  # 0
-            0.5,
-            -0.5,
-            0.5,  # 1
-            0.5,
-            0.5,
-            0.5,  # 2
-            -0.5,
-            0.5,
-            0.5,  # 3
-            -0.5,
-            -0.5,
-            -0.5,  # 4
-            0.5,
-            -0.5,
-            -0.5,  # 5
-            0.5,
-            0.5,
-            -0.5,  # 6
-            -0.5,
-            0.5,
-            -0.5,  # 7
-        ]
 
         # Cube indices (36 indices for 12 triangles)
         indices = [
@@ -153,7 +127,7 @@ class XRRenderer:
 
         return mesh
 
-    def _create_symbol_material(self, symbol: GlyphSymbol) -> Dict[str, Any]:
+    def _create_symbol_material(self, symbol: GlyphSymbol) -> dict[str, Any]:
         """Create material for a symbol"""
         # Base colors for different symbol types
         base_colors = {

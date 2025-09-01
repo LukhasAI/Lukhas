@@ -925,7 +925,7 @@ class AdvancedRuleValidator:
 
         exported_rules = []
 
-        for _rule_id, rule in self.rules.items():
+        for rule in self.rules.values():
             exported_rule = {
                 "rule_id": rule.rule_id,
                 "name": rule.name,

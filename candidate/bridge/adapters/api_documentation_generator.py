@@ -208,11 +208,10 @@ class APIAnalyzer:
         method = None
         path = None
 
-        if isinstance(decorator.func, ast.Attribute):
-            if hasattr(decorator.func, "attr"):
-                method_name = decorator.func.attr.upper()
-                if method_name in [m.value for m in HTTPMethod]:
-                    method = HTTPMethod(method_name)
+        if isinstance(decorator.func, ast.Attribute) and hasattr(decorator.func, "attr"):
+            method_name = decorator.func.attr.upper()
+            if method_name in [m.value for m in HTTPMethod]:
+                method = HTTPMethod(method_name)
 
         # Extract path from decorator arguments
         if decorator.args and isinstance(decorator.args[0], ast.Str):

@@ -95,7 +95,7 @@ class DreamNarrator:
 
     """Handles dream state narration for lukhas consciousness"""
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.current_dream_sequence: Optional[DreamSequence] = None
         self.dream_history: list[DreamSequence] = []
@@ -385,7 +385,7 @@ class DreamNarrator:
         return max(0.0, min(1.0, total_coherence))
 
     async def generate_dream_narration(
-        self, narration_type: DreamNarrationType, context: dict[str, Any] = None
+        self, narration_type: DreamNarrationType, context: Optional[dict[str, Any]] = None
     ) -> DreamNarration:
         """Generate dream narration of specified type"""
         if not self.current_dream_sequence:
@@ -395,10 +395,7 @@ class DreamNarrator:
 
         # Select appropriate template
         templates = self.narrative_templates.get(narration_type, [])
-        if not templates:
-            template = "In the depths of consciousness, {content} unfolds..."
-        else:
-            template = random.choice(templates)
+        template = "In the depths of consciousness, {content} unfolds..." if not templates else random.choice(templates)
 
         # Generate narrative content
         narrative_context = await self._build_narrative_context(narration_type, context)

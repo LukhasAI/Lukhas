@@ -312,8 +312,8 @@ class UniversalSymbolProtocol:
     def create_symbol(
         self,
         content: Any,
-        modalities: set[SymbolModality] = None,
-        domains: set[SymbolDomain] = None,
+        modalities: Optional[set[SymbolModality]] = None,
+        domains: Optional[set[SymbolDomain]] = None,
         emotion: Optional[dict[str, float]] = None,
     ) -> UniversalSymbol:
         """

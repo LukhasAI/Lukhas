@@ -47,7 +47,7 @@ class SwarmRecommendationSystem:
 
         recommendations = []
 
-        for i in range(random.randint(1, 4)):
+        for _i in range(random.randint(1, 4)):
             recommendation_type = random.choice(["product", "service", "experience", "idea"])
 
             recommendation = {

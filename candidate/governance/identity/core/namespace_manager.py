@@ -694,10 +694,7 @@ class NamespaceManager:
                 return False
 
             # Validate namespace ID format
-            if "/" in namespace_id or "\\" in namespace_id:
-                return False
-
-            return True
+            return not ("/" in namespace_id or "\\" in namespace_id)
 
         except Exception:
             return False

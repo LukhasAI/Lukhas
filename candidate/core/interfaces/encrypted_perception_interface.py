@@ -28,7 +28,7 @@ class EthicalSignificance(Enum):
 class PerceptualVector:
     """Shared perceptual vector class"""
 
-    def __init__(self, data: np.ndarray, metadata: dict[str, Any] = None):
+    def __init__(self, data: np.ndarray, metadata: Optional[dict[str, Any]] = None):
         self.data = data
         self.metadata = metadata or {}
         self.timestamp = metadata.get("timestamp") if metadata else None

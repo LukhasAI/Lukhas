@@ -245,11 +245,7 @@ class DeontologicalReasoner:
 
         maxim_lower = maxim.lower()
 
-        for pattern, concept in contradiction_patterns:
-            if pattern in maxim_lower and concept in maxim_lower:
-                return True
-
-        return False
+        return any(pattern in maxim_lower and concept in maxim_lower for pattern, concept in contradiction_patterns)
 
     async def _check_practical_contradiction(self, maxim: str, context: dict[str, Any]) -> bool:
         """Check if universalizing maxim would undermine its own purpose."""
@@ -508,7 +504,7 @@ class ConsequentialistReasoner:
         self,
         proposed_action: str,
         context: dict[str, Any],
-        alternatives: list[str] = None,
+        alternatives: Optional[list[str]] = None,
     ) -> dict[str, Any]:
         """Evaluate action using consequentialist principles."""
 
@@ -655,7 +651,7 @@ class ConsequentialistReasoner:
 
         preference_satisfaction = 0.0
 
-        for _stakeholder, preferences in stakeholder_preferences.items():
+        for preferences in stakeholder_preferences.values():
             for preference, strength in preferences.items():
                 # Check if consequences satisfy this preference
                 satisfaction_level = self._check_preference_satisfaction(preference, consequences)
@@ -815,7 +811,7 @@ class ConsequentialistReasoner:
 
         # Get combined scores
         combined_scores = []
-        for _action, utilities in action_utilities.items():
+        for utilities in action_utilities.values():
             combined_score = (
                 utilities.get("classical_util", 0) * 0.3
                 + utilities.get("preference_util", 0) * 0.2
@@ -1350,7 +1346,7 @@ class EthicalReasoningSystem:
         self,
         ethical_question: str,
         context: dict[str, Any],
-        stakeholder_analysis: dict[StakeholderType, dict[str, Any]] = None,
+        stakeholder_analysis: Optional[dict[StakeholderType, dict[str, Any]]] = None,
     ) -> MoralJudgment:
         """Make comprehensive ethical judgment using multiple frameworks."""
 
@@ -1852,7 +1848,7 @@ class EthicalReasoningSystem:
         principle_weights = dict.fromkeys(MoralPrinciple, 0.5)
 
         # Adjust based on framework analyses
-        for framework, _analysis in framework_analyses.items():
+        for framework in framework_analyses:
             if framework == EthicalFramework.DEONTOLOGICAL:
                 # Deontological emphasizes duty-based principles
                 principle_weights[MoralPrinciple.AUTONOMY] += 0.2

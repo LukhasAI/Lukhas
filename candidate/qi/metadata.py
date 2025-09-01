@@ -39,7 +39,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 
 class SymbolicDimension(Enum):
@@ -91,7 +91,7 @@ class QIMetadataManager:
     for content in ΛWebManager_LUKHAS Edition.
     """
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = logging.getLogger("ΛWebManager_LUKHAS.QIMetadata")
 
@@ -111,7 +111,7 @@ class QIMetadataManager:
         self.logger.info("🔮 Quantum Metadata Manager initialized")
 
     async def generate_quantum_metadata(
-        self, content: str, content_id: str = None, manual_tags: list[str] = None
+        self, content: str, content_id: Optional[str] = None, manual_tags: Optional[list[str]] = None
     ) -> QIMetadata:
         """
         Generate comprehensive quantum metadata for content.

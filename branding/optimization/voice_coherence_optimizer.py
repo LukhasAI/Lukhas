@@ -288,7 +288,7 @@ VOICE COHERENCE OPTIMIZATION:
 
         # Add enhancement layers
         if "enhancement_layers" in base_prompt:
-            for _layer_name, layer_content in base_prompt["enhancement_layers"].items():
+            for layer_content in base_prompt["enhancement_layers"].values():
                 optimized_prompt += f"\n\n{layer_content}"
         else:
             # Add individual strategist layers

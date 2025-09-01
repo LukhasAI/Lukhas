@@ -57,9 +57,8 @@ class SymbolicSignal:
             self.timestamp = time.time()
 
         # Ensure symbolic consistency
-        if self.signal_type == SignalType.LUKHAS_RECALL:
-            if "memory_fold" not in self.payload:
-                logger.warning("lukhas:recall signal missing memory_fold")
+        if self.signal_type == SignalType.LUKHAS_RECALL and "memory_fold" not in self.payload:
+            logger.warning("lukhas:recall signal missing memory_fold")
 
         logger.info(
             f"Symbolic signal created: {self.signal_type.value} from {self.source_module} to {self.target_module}"

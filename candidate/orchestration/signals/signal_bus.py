@@ -87,10 +87,7 @@ class SignalPattern:
             return False
         if not (self.level_min <= signal.level <= self.level_max):
             return False
-        for key, value in self.metadata_match.items():
-            if signal.metadata.get(key) != value:
-                return False
-        return True
+        return all(signal.metadata.get(key) == value for key, value in self.metadata_match.items())
 
 
 class SignalBus:

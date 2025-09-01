@@ -505,7 +505,7 @@ class ResonantMemoryAccess:
             # Create new cluster
             cluster = ResonantCluster(
                 center_frequency=signature.fundamental_freq,
-                member_signatures=[signature] + potential_members,
+                member_signatures=[signature, *potential_members],
             )
             cluster.update_coherence()
 

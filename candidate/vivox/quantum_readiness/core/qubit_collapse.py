@@ -7,7 +7,7 @@ import hashlib
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 
@@ -58,7 +58,7 @@ class CollapseField:
         modified_amplitudes = state_vec * self.probability_distribution
 
         # Apply moral anchors as additional phase factors
-        for _anchor, strength in self.moral_anchors.items():
+        for strength in self.moral_anchors.values():
             phase_shift = strength * np.pi
             modified_amplitudes *= np.exp(1j * phase_shift)
 
@@ -116,7 +116,7 @@ class QubitCollapseEngine:
         self,
         ethical_scenario: dict[str, float],
         uncertainty_level: float = 0.5,
-        uncertainty: float = None,
+        uncertainty: Optional[float] = None,
     ) -> QIState:
         """
         Create quantum superposition representing moral ambiguity

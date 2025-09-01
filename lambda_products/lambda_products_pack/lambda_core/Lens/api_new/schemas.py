@@ -16,14 +16,14 @@ class JobRequest(BaseModel):
         default="auto", description="Type of source file", enum=["text", "code", "data", "image", "auto"]
     )
 
-    policies: Optional[Dict[str, bool]] = Field(
+    policies: Optional[dict[str, bool]] = Field(
         default_factory=lambda: {"LLM_off": True, "redact_on": False, "offline_only": True},
         description="Security and processing policies",
     )
 
-    parser_opts: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Parser-specific options")
+    parser_opts: Optional[dict[str, Any]] = Field(default_factory=dict, description="Parser-specific options")
 
-    target_forms: Optional[List[str]] = Field(
+    target_forms: Optional[list[str]] = Field(
         default_factory=lambda: ["web2d"], description="Desired output formats", items={"enum": ["web2d", "xr"]}
     )
 
@@ -50,8 +50,8 @@ class PhotonNode(BaseModel):
     id: str = Field(..., description="Unique node identifier")
     kind: str = Field(..., description="Node type/kind")
     label: str = Field(..., description="Human-readable label")
-    properties: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Node properties")
-    data_binding: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Data binding configuration")
+    properties: Optional[dict[str, Any]] = Field(default_factory=dict, description="Node properties")
+    data_binding: Optional[dict[str, Any]] = Field(default_factory=dict, description="Data binding configuration")
     access_tag: Optional[str] = Field(default=None, description="ΛID access tag")
 
 
@@ -68,10 +68,10 @@ class PhotonEdge(BaseModel):
 class PhotonLayout(BaseModel):
     """Photon document layout model"""
 
-    positions_2d: Optional[Dict[str, Dict[str, float]]] = Field(
+    positions_2d: Optional[dict[str, dict[str, float]]] = Field(
         default_factory=dict, description="2D positions for nodes"
     )
-    positions_3d: Optional[Dict[str, Dict[str, float]]] = Field(
+    positions_3d: Optional[dict[str, dict[str, float]]] = Field(
         default_factory=dict, description="3D positions for nodes"
     )
 
@@ -87,13 +87,13 @@ class PhotonDocument(BaseModel):
 
     theme: Optional[str] = Field(default="system", description="UI theme", enum=["dark", "light", "system"])
 
-    nodes: List[PhotonNode] = Field(default_factory=list, description="Document nodes")
+    nodes: list[PhotonNode] = Field(default_factory=list, description="Document nodes")
 
-    edges: List[PhotonEdge] = Field(default_factory=list, description="Document edges")
+    edges: list[PhotonEdge] = Field(default_factory=list, description="Document edges")
 
     layout: Optional[PhotonLayout] = Field(default_factory=PhotonLayout, description="Layout configuration")
 
-    provenance: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Data provenance information")
+    provenance: Optional[dict[str, Any]] = Field(default_factory=dict, description="Data provenance information")
 
 
 class WidgetPreset(BaseModel):
@@ -103,13 +103,13 @@ class WidgetPreset(BaseModel):
     label: str = Field(..., description="Human-readable name")
     description: Optional[str] = Field(default=None, description="Preset description")
     icon: Optional[str] = Field(default=None, description="Icon identifier")
-    properties_schema: Dict[str, Any] = Field(..., description="JSON Schema for widget properties")
+    properties_schema: dict[str, Any] = Field(..., description="JSON Schema for widget properties")
 
 
 class WidgetPresetsResponse(BaseModel):
     """Response model for widget presets"""
 
-    presets: List[WidgetPreset] = Field(..., description="Available widget presets")
+    presets: list[WidgetPreset] = Field(..., description="Available widget presets")
 
 
 class ExportRequest(BaseModel):
@@ -117,7 +117,7 @@ class ExportRequest(BaseModel):
 
     format: str = Field(..., description="Export format", enum=["gltf", "json", "photon"])
 
-    options: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Export-specific options")
+    options: Optional[dict[str, Any]] = Field(default_factory=dict, description="Export-specific options")
 
 
 class HealthResponse(BaseModel):

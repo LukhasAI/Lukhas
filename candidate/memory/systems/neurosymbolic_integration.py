@@ -349,7 +349,7 @@ class NeuralSymbolicExtractor:
         self,
         memory_content: str,
         memory_embedding: Optional[np.ndarray] = None,
-        memory_metadata: dict[str, Any] = None,
+        memory_metadata: Optional[dict[str, Any]] = None,
     ) -> list[SymbolicEntity]:
         """
         Extract symbolic entities from memory content and neural representation.
@@ -1319,7 +1319,7 @@ class SymbolicReasoner:
 
                 for relation in relations:
                     if relation.subject_id == current_entity and relation.object_id not in path:
-                        queue.append((relation.object_id, path + [relation.object_id]))
+                        queue.append((relation.object_id, [*path, relation.object_id]))
 
         return sorted(paths, key=lambda x: x["confidence"], reverse=True)
 
@@ -1896,7 +1896,7 @@ async def example_neurosymbolic_usage():
 
     # Test classification query
     if layer.entities:
-        first_entity_id = list(layer.entities.keys())[0]
+        first_entity_id = next(iter(layer.entities.keys()))
         classification_query = {"type": "classification", "entity": first_entity_id}
 
         classification_results = await layer.query_knowledge(classification_query)

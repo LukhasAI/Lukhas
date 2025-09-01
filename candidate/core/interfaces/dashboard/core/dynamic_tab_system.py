@@ -194,7 +194,7 @@ class DynamicTabSystem:
             self.logger.error("Tab system initialization failed", error=str(e))
             raise
 
-    async def register_tab(self, tab: AdaptiveTab, behavior_rules: list[TabBehaviorRule] = None):
+    async def register_tab(self, tab: AdaptiveTab, behavior_rules: Optional[list[TabBehaviorRule]] = None):
         """Register a new adaptive tab with the system."""
 
         self.registered_tabs[tab.tab_id] = tab
@@ -302,7 +302,7 @@ class DynamicTabSystem:
 
         # Update contextual correlations
         current_context = interaction_data.get("context", {})
-        for context_key, _context_value in current_context.items():
+        for context_key in current_context:
             if context_key not in pattern.context_correlation:
                 pattern.context_correlation[context_key] = 0.0
             pattern.context_correlation[context_key] += 0.1
@@ -521,7 +521,7 @@ class DynamicTabSystem:
 
         for tab_id, tab in self.registered_tabs.items():
             # Check behavior rules
-            for _rule_id, rule in self.behavior_rules.items():
+            for rule in self.behavior_rules.values():
                 if await self._rule_matches_context(rule, context):
                     if rule.visibility_action == "show" and not tab.is_visible:
                         tab_changes["show"].append(tab_id)

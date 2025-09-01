@@ -214,9 +214,8 @@ class TierValidator:
 
             # Check feature compatibility
             features = tier_config.get("features", {})
-            if features.get("biometric_auth", False):
-                if not user_data.get("biometric_capable", False):
-                    eligibility_issues.append("Biometric authentication not available")
+            if features.get("biometric_auth", False) and not user_data.get("biometric_capable", False):
+                eligibility_issues.append("Biometric authentication not available")
 
             # 🧠 Consciousness pattern analysis
             consciousness_score = self._analyze_consciousness_patterns(user_data)
@@ -501,10 +500,7 @@ class TierValidator:
 
             # Check limits
             hourly_limit = rate_limits.get("generation_per_hour", float("inf"))
-            if tracker["hourly_count"] >= hourly_limit:
-                return False
-
-            return True
+            return not tracker["hourly_count"] >= hourly_limit
 
         except Exception:
             return True  # Allow on error (fail open for availability)

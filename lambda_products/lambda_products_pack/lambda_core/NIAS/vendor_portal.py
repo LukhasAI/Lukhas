@@ -383,10 +383,7 @@ class VendorPortal:
 
             # Generate affiliate link
             vendor = self.vendors.get(vendor_id)
-            if vendor and vendor.domains:
-                base_url = f"https://{vendor.domains[0]}"
-            else:
-                base_url = "https://checkout.nias.ai"
+            base_url = f"https://{vendor.domains[0]}" if vendor and vendor.domains else "https://checkout.nias.ai"
 
             affiliate_link = f"{base_url}/quick-buy?data={urllib.parse.quote(encoded_params)}"
 

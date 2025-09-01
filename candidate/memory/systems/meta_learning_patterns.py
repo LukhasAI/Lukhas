@@ -579,7 +579,7 @@ class PatternExtractor:
         trajectory_clusters = await self._cluster_trajectories(trajectory_analyses)
 
         # Extract patterns from each cluster
-        for _cluster_id, cluster_trajectories in trajectory_clusters.items():
+        for cluster_trajectories in trajectory_clusters.values():
             cluster_patterns = await self._extract_cluster_patterns(cluster_trajectories, learning_events)
             extracted_patterns.extend(cluster_patterns)
 

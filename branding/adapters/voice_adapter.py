@@ -7,7 +7,7 @@ import asyncio
 import logging
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # Add bridge module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "bridge"))
@@ -132,7 +132,7 @@ class BrandVoiceAdapter:
         self,
         content: str,
         tone_layer: str = "user_friendly",
-        voice_profile: str = None,
+        voice_profile: Optional[str] = None,
         emotional_context: str = "neutral",
         audience_context: str = "general",
         **kwargs,

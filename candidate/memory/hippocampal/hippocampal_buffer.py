@@ -529,7 +529,7 @@ class HippocampalBuffer:
 
         return pattern
 
-    def _find_similar_memories(self, pattern: np.ndarray, threshold: float = None) -> list[EpisodicMemory]:
+    def _find_similar_memories(self, pattern: np.ndarray, threshold: Optional[float] = None) -> list[EpisodicMemory]:
         """Find memories with similar patterns"""
 
         threshold = threshold or self.pattern_separation_threshold

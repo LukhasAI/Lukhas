@@ -351,9 +351,8 @@ class TagProcessor:
             if "frontend" in repo_name or "ui" in repo_name:
                 if "frontend" not in current_set:
                     suggestions.append("frontend")
-            elif "api" in repo_name or "backend" in repo_name:
-                if "backend" not in current_set:
-                    suggestions.append("backend")
+            elif ("api" in repo_name or "backend" in repo_name) and "backend" not in current_set:
+                suggestions.append("backend")
 
         # Tag combination suggestions
         if "bug" in current_set and "critical" not in current_set and "high" not in current_set:

@@ -178,7 +178,7 @@ class InterventionExecution:
     execution_log: list[dict[str, Any]] = field(default_factory=list)
     rollback_available: bool = True
 
-    def add_log_entry(self, action: str, status: str, details: dict[str, Any] = None):
+    def add_log_entry(self, action: str, status: str, details: Optional[dict[str, Any]] = None):
         """Add execution log entry."""
         self.execution_log.append(
             {
@@ -918,8 +918,8 @@ def create_escalation_signal(
     emotion_volatility: float,
     contradiction_density: float,
     symbol_ids: list[str],
-    memory_ids: list[str] = None,
-    context: dict[str, Any] = None,
+    memory_ids: Optional[list[str]] = None,
+    context: Optional[dict[str, Any]] = None,
 ) -> EscalationSignal:
     """Create an escalation signal for governor processing."""
 

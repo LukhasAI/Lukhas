@@ -530,9 +530,8 @@ class WorkflowOrchestrator:
         rec_stack = set()
 
         for task_id in workflow.tasks:
-            if task_id not in visited:
-                if has_cycle(task_id, visited, rec_stack):
-                    raise ValueError("Circular dependency detected in workflow")
+            if task_id not in visited and has_cycle(task_id, visited, rec_stack):
+                raise ValueError("Circular dependency detected in workflow")
 
         # Validate dependencies exist
         all_task_ids = set(workflow.tasks.keys())

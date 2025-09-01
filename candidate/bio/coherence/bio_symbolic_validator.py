@@ -819,10 +819,7 @@ class BioSymbolicCoherenceValidator:
         sum_xy = sum(xi * yi for xi, yi in zip(x, y))
         sum_x2 = sum(xi * xi for xi in x)
 
-        if n * sum_x2 - sum_x * sum_x != 0:
-            slope = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x)
-        else:
-            slope = 0
+        slope = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x) if n * sum_x2 - sum_x * sum_x != 0 else 0
 
         # Determine trend direction and strength
         if slope > 0.001:

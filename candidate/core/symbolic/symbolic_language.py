@@ -181,10 +181,7 @@ class SymbolicExpression:
             return True
 
         # Check each condition
-        for condition in conditions:
-            if not self._check_condition(condition, context):
-                return False
-        return True
+        return all(self._check_condition(condition, context) for condition in conditions)
 
     def _check_condition(self, condition: dict[str, Any], context: dict[str, Any]) -> bool:
         """Check a single condition"""
@@ -336,7 +333,7 @@ class SymbolicTranslator:
         rules = self.translation_rules[rule_key]
 
         # Check if we have a specific translation rule
-        for _rule_type, mappings in rules.items():
+        for mappings in rules.values():
             if symbol.name in mappings:
                 translated = mappings[symbol.name]
                 # Preserve original attributes

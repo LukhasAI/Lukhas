@@ -28,7 +28,7 @@ class IMemoryModule(ABC):
     """Interface for memory modules"""
 
     @abstractmethod
-    async def store(self, key: str, value: Any, metadata: dict[str, Any] = None) -> bool:
+    async def store(self, key: str, value: Any, metadata: Optional[dict[str, Any]] = None) -> bool:
         """Store data in memory"""
 
     @abstractmethod

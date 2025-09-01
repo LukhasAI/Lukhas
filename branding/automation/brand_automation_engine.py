@@ -243,9 +243,8 @@ class BrandAutomationEngine:
 
             issues = []
 
-            if check_trinity:
-                if "⚛️🧠🛡️" not in content_text and "Trinity Framework" not in content_text:
-                    issues.append("Missing Trinity Framework branding")
+            if check_trinity and "⚛️🧠🛡️" not in content_text and "Trinity Framework" not in content_text:
+                issues.append("Missing Trinity Framework branding")
 
             if check_terminology:
                 # Check for outdated terminology

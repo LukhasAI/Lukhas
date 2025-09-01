@@ -81,7 +81,7 @@ else:
             )
 
             if "Balance:" in budget_result.stdout:
-                balance_line = [line for line in budget_result.stdout.split("\n") if "Balance:" in line][0]
+                balance_line = next(line for line in budget_result.stdout.split("\n") if "Balance:" in line)
                 print(f"💰 {balance_line.strip()}")
         except:
             pass

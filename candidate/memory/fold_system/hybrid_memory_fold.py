@@ -709,7 +709,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                     if any(p[0] == next_id for p in path):
                         continue
 
-                    new_path = path + [(next_id, cumulative_strength * strength)]
+                    new_path = [*path, (next_id, cumulative_strength * strength)]
                     trace_recursive(next_id, new_path, cumulative_strength * strength, depth + 1)
 
         # Start tracing
