@@ -8,6 +8,7 @@ AI agent interactions, enabling observability and debugging.
 
 import json
 import logging
+import os
 import threading
 import time
 import uuid
@@ -615,7 +616,7 @@ class StateSnapshotter:
                 return None
             latest_file = max(
                 files,
-                key=lambda f: float(f.split("-")[1].replace(".json", "")),
+                key=lambda f: float(f.split("-")[-1].replace(".json", "")),
             )
             filepath = os.path.join(self.storage_path, latest_file)
             with open(filepath) as f:
