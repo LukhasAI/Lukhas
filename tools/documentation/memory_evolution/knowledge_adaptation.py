@@ -91,7 +91,7 @@ class KnowledgeAdaptation:
         """Apply time-based decay to knowledge confidence."""
         now = datetime.now()
         for node in self.knowledge_graph.nodes.values():
-            time_diff = (now - node.last_accessed).total_seconds() / (24 * 3600# Days
+            time_diff = (now - node.last_accessed).total_seconds() / (24 * 3600)  # Days
             decay = self.decay_rate * time_diff
             node.update_confidence(node.confidence * (1 - decay))
 

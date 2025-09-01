@@ -492,7 +492,7 @@ class SimpleDashboard:
         """Generate HTML for logs section"""
         if not self.data.logs:
             return "No logs available"
-        return "\n".join(self.data.logs[-20:]# Show last 20 logs
+        return "\n".join(self.data.logs[-20:])  # Show last 20 logs
 
 
 class StreamlitFallback:
