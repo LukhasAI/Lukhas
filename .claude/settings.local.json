@@ -88,7 +88,8 @@
       "Bash(rm:*)",
       "Bash(make:*)",
       "Bash(bash:*)",
-      "Read(/Users/A-SYS/.Trash/**)"
+      "Read(/Users/A-SYS/.Trash/**)",
+      "Bash(git stash show:*)"
     ],
     "deny": [],
     "ask": []
