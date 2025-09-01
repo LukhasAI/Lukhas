@@ -32,9 +32,7 @@ try:
     BRAIN_COMPONENTS_AVAILABLE = True
 except ImportError:
     # Fallback mock implementations for standalone operation
-    print(
-        "🔄 Abstract Reasoning Brain: Running in standalone mode (brain components not available)"
-    )
+    print("🔄 Abstract Reasoning Brain: Running in standalone mode (brain components not available)")
 
     class MockBrainCore:
         """Mock brain core for standalone operation"""
@@ -189,9 +187,7 @@ class BrainSymphony:
         dream_patterns = await self.dreams.process_independently(dream_input)
 
         # Apply quantum enhancement to dream patterns
-        enhanced_patterns = await self._apply_quantum_enhancement(
-            dream_patterns, "divergent_exploration"
-        )
+        enhanced_patterns = await self._apply_quantum_enhancement(dream_patterns, "divergent_exploration")
 
         return {
             "phase": "possibility_exploration",
@@ -215,9 +211,7 @@ class BrainSymphony:
         emotional_signals = await self.emotional.process_independently(emotional_input)
 
         # Apply bio-oscillation to emotional signals
-        bio_enhanced_signals = await self._apply_bio_oscillation(
-            emotional_signals, self.config.emotional_frequency
-        )
+        bio_enhanced_signals = await self._apply_bio_oscillation(emotional_signals, self.config.emotional_frequency)
 
         return {
             "phase": "aesthetic_evaluation",
@@ -290,9 +284,7 @@ class BrainSymphony:
             qi_input = qi_input / np.max(qi_input)  # Normalize
 
             # Process through quantum bridge
-            enhanced_output, metadata = await self.qi_bridge.process_quantum_signal(
-                qi_input, {"mode": mode}
-            )
+            enhanced_output, metadata = await self.qi_bridge.process_quantum_signal(qi_input, {"mode": mode})
 
             return {
                 "original": data,
@@ -305,9 +297,7 @@ class BrainSymphony:
             logger.warning(f"Quantum enhancement failed: {e}")
             return data
 
-    async def _apply_bio_oscillation(
-        self, data: dict[str, Any], frequency: float
-    ) -> dict[str, Any]:
+    async def _apply_bio_oscillation(self, data: dict[str, Any], frequency: float) -> dict[str, Any]:
         """Apply bio-oscillation patterns to enhance brain coherence"""
         try:
             # Generate bio-oscillation pattern
@@ -492,9 +482,7 @@ class BioQuantumSymbolicReasoner:
             dream_patterns = await self.brain_symphony.explore_possibility_space(problem_space)
 
             # Phase 2: Emotional evaluation (Emotional Brain - 6.0Hz)
-            emotional_signals = await self.brain_symphony.evaluate_solution_aesthetics(
-                dream_patterns
-            )
+            emotional_signals = await self.brain_symphony.evaluate_solution_aesthetics(dream_patterns)
 
             # Phase 3: Memory pattern matching (Memory Brain - 10Hz)
             analogies = await self.brain_symphony.find_structural_analogies(problem_space)
@@ -551,9 +539,7 @@ class BioQuantumSymbolicReasoner:
             logger.error(f"❌ Bio-Quantum Abstract Reasoning failed: {e}")
             raise
 
-    async def _create_quantum_superposition_of_paths(
-        self, phase_outputs: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _create_quantum_superposition_of_paths(self, phase_outputs: list[dict[str, Any]]) -> dict[str, Any]:
         """Create superposition-like state of all reasoning pathways"""
         try:
             logger.info("⚛️ Creating superposition-like state of reasoning pathways")
@@ -586,9 +572,7 @@ class BioQuantumSymbolicReasoner:
                 "qi_interference_applied": True,
                 "phase_components": len(qi_vectors),
                 "qi_coherence": abs(np.mean(enhanced_superposition)),
-                "entanglement_strength": self._calculate_entanglement_strength(
-                    enhanced_superposition
-                ),
+                "entanglement_strength": self._calculate_entanglement_strength(enhanced_superposition),
             }
 
         except Exception as e:
@@ -627,9 +611,7 @@ class BioQuantumSymbolicReasoner:
                 final_coherence = self._calculate_multi_brain_coherence(entangled_states)
 
                 # Generate coherent solution
-                coherent_solution = self._synthesize_coherent_solution(
-                    entangled_states, qi_superposition, context
-                )
+                coherent_solution = self._synthesize_coherent_solution(entangled_states, qi_superposition, context)
 
                 return {
                     "coherent_solution": coherent_solution,
@@ -675,9 +657,7 @@ class BioQuantumSymbolicReasoner:
         # Normalize
         return qi_like_state / np.linalg.norm(qi_like_state)
 
-    async def _apply_quantum_inspired_gates(
-        self, state: np.ndarray, gates: list[str]
-    ) -> np.ndarray:
+    async def _apply_quantum_inspired_gates(self, state: np.ndarray, gates: list[str]) -> np.ndarray:
         """Apply sequence of quantum gates to enhance the state"""
         enhanced_state = state.copy()
 
@@ -783,9 +763,7 @@ class BioQuantumSymbolicReasoner:
             state_energy = np.sum(np.abs(state) ** 2)
             state_complexity = -np.sum(np.abs(state) * np.log2(np.abs(state) + 1e-10))
 
-            evidence.append(
-                f"{brain_name} brain: Energy={state_energy:.3f}, Complexity={state_complexity:.3f}"
-            )
+            evidence.append(f"{brain_name} brain: Energy={state_energy:.3f}, Complexity={state_complexity:.3f}")
 
         return evidence
 
@@ -831,9 +809,7 @@ class BioQuantumSymbolicReasoner:
                 return solution["confidence_level"]
             else:
                 # Default confidence based on solution completeness
-                completeness = len([k for k, v in solution.items() if v is not None]) / len(
-                    solution
-                )
+                completeness = len([k for k, v in solution.items() if v is not None]) / len(solution)
                 return completeness
         except BaseException:
             return 0.5  # Moderate confidence default
@@ -859,9 +835,7 @@ class OscillationSynchronizer:
         phase_relationships = await self._calculate_phase_relationships(brain_symphony)
 
         # Apply synchronization corrections
-        synchronized_results = await self._apply_synchronization(
-            integrated_results, phase_relationships
-        )
+        synchronized_results = await self._apply_synchronization(integrated_results, phase_relationships)
 
         # Measure final coherence
         final_coherence = await brain_symphony.calculate_cross_brain_coherence()
@@ -874,9 +848,7 @@ class OscillationSynchronizer:
             "master_frequency": self.master_frequency,
         }
 
-    async def _calculate_phase_relationships(
-        self, brain_symphony: BrainSymphony
-    ) -> dict[str, float]:
+    async def _calculate_phase_relationships(self, brain_symphony: BrainSymphony) -> dict[str, float]:
         """Calculate phase relationships between brain oscillations"""
         brain_frequencies = {
             "dreams": brain_symphony.config.dreams_frequency,

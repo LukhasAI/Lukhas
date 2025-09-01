@@ -46,9 +46,7 @@ class LambdaSSOEngine:
             "device_trust": "🔗",
         }
 
-    def generate_sso_token(
-        self, user_id: str, service_scope: list[str], device_info: dict = None
-    ) -> dict:
+    def generate_sso_token(self, user_id: str, service_scope: list[str], device_info: dict = None) -> dict:
         """Generate symbolic SSO token for service access with multi-device support"""
 
         # Validate user tier permissions for requested scope
@@ -71,9 +69,7 @@ class LambdaSSOEngine:
             "user_id": user_id,
             "service_scope": service_scope,
             "created_at": datetime.utcnow().isoformat(),
-            "expires_at": (
-                datetime.utcnow() + timedelta(hours=self.token_expiry_hours)
-            ).isoformat(),
+            "expires_at": (datetime.utcnow() + timedelta(hours=self.token_expiry_hours)).isoformat(),
             "device_info": device_info or {},
             "symbolic_signature": self._generate_symbolic_signature(user_id, service_scope),
             "platform_compatibility": self._determine_platform_compatibility(device_info),
@@ -114,9 +110,7 @@ class LambdaSSOEngine:
             "platform_support": token_data["platform_compatibility"],
         }
 
-    def validate_token(
-        self, token_id: str, service_id: str, validation_context: dict = None
-    ) -> dict:
+    def validate_token(self, token_id: str, service_id: str, validation_context: dict = None) -> dict:
         """Validate SSO token for service access with symbolic verification"""
 
         if token_id not in self.active_tokens:
@@ -135,16 +129,12 @@ class LambdaSSOEngine:
 
         # Validate symbolic signature if provided
         if validation_context and "symbolic_challenge" in validation_context:
-            if not self._validate_symbolic_challenge(
-                token_data, validation_context["symbolic_challenge"]
-            ):
+            if not self._validate_symbolic_challenge(token_data, validation_context["symbolic_challenge"]):
                 return {"valid": False, "reason": "Symbolic challenge failed"}
 
         # Check device trust if validation context includes device info
         if validation_context and "device_info" in validation_context:
-            device_trust_level = self._validate_device_trust(
-                token_data["user_id"], validation_context["device_info"]
-            )
+            device_trust_level = self._validate_device_trust(token_data["user_id"], validation_context["device_info"])
             if device_trust_level < 0.5:  # Trust threshold
                 return {"valid": False, "reason": "Device trust insufficient"}
 
@@ -192,9 +182,7 @@ class LambdaSSOEngine:
                 }
 
             # Generate new SSO token for this device
-            token_result = self.generate_sso_token(
-                user_id, glyph_payload.get("service_scope", ["basic"]), device_info
-            )
+            token_result = self.generate_sso_token(user_id, glyph_payload.get("service_scope", ["basic"]), device_info)
 
             if token_result["success"]:
                 # Log QR-G authentication
@@ -214,9 +202,7 @@ class LambdaSSOEngine:
         except Exception as e:
             return {"success": False, "error": f"QR-G authentication failed: {e!s}"}
 
-    def authenticate_with_biometric_fallback(
-        self, user_id: str, biometric_data: dict, device_info: dict
-    ) -> dict:
+    def authenticate_with_biometric_fallback(self, user_id: str, biometric_data: dict, device_info: dict) -> dict:
         """Biometric fallback authentication across apps"""
 
         # Validate biometric data
@@ -254,15 +240,11 @@ class LambdaSSOEngine:
 
         return token_result
 
-    def sync_tokens_across_devices(
-        self, user_id: str, source_device: str, target_devices: list[str]
-    ) -> dict:
+    def sync_tokens_across_devices(self, user_id: str, source_device: str, target_devices: list[str]) -> dict:
         """Sync SSO tokens across user's trusted devices"""
 
         # Get user's active tokens
-        user_tokens = {
-            tid: token for tid, token in self.active_tokens.items() if token["user_id"] == user_id
-        }
+        user_tokens = {tid: token for tid, token in self.active_tokens.items() if token["user_id"] == user_id}
 
         if not user_tokens:
             return {"success": False, "error": "No active tokens to sync"}
@@ -395,9 +377,7 @@ class LambdaSSOEngine:
         from identity.mobile.qr_code_animator import QRCodeAnimator
 
         animator = QRCodeAnimator()
-        glyph_payload["glyph_image_b64"] = animator.generate_glyph(
-            token_data["user_id"], token_data["token_id"]
-        )
+        glyph_payload["glyph_image_b64"] = animator.generate_glyph(token_data["user_id"], token_data["token_id"])
 
         # Create QR-G signature
         glyph_signature = self._sign_qr_glyph(glyph_payload)
@@ -629,9 +609,7 @@ class LambdaSSOEngine:
 
             # Generate HMAC signature (in production, use secure key management)
             signing_key = self.config.get("qr_glyph_signing_key", "LUKHAS_QRG_SECRET_2024").encode()
-            expected_signature = hmac.new(
-                signing_key, canonical_string.encode(), hashlib.sha256
-            ).hexdigest()
+            expected_signature = hmac.new(signing_key, canonical_string.encode(), hashlib.sha256).hexdigest()
 
             # Constant-time comparison to prevent timing attacks
             signature_valid = hmac.compare_digest(provided_signature, expected_signature)

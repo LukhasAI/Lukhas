@@ -296,11 +296,7 @@ class VisionaryAGIOrchestrator:
                 # Merge with defaults
                 def deep_merge(default, user):
                     for key, value in user.items():
-                        if (
-                            key in default
-                            and isinstance(default[key], dict)
-                            and isinstance(value, dict)
-                        ):
+                        if key in default and isinstance(default[key], dict) and isinstance(value, dict):
                             deep_merge(default[key], value)
                         else:
                             default[key] = value
@@ -580,9 +576,7 @@ class VisionaryAGIOrchestrator:
         # Memory retrieval
         relevant_memories = None
         if self.memory_manager:
-            relevant_memories = await self.memory_manager.retrieve_relevant(
-                context["query"], context["user_id"]
-            )
+            relevant_memories = await self.memory_manager.retrieve_relevant(context["query"], context["user_id"])
 
         # Emotional context
         emotional_context = None
@@ -615,22 +609,16 @@ class VisionaryAGIOrchestrator:
 
         # Dream integration (creative insights)
         if self.dream_engine:
-            creative_insights = await self.dream_engine.generate_creative_insights(
-                context["query"], agent_response
-            )
+            creative_insights = await self.dream_engine.generate_creative_insights(context["query"], agent_response)
             agent_response["creative_insights"] = creative_insights
 
         # Memory formation
         if self.memory_manager:
-            await self.memory_manager.form_memory(
-                query=context["query"], response=agent_response, context=context
-            )
+            await self.memory_manager.form_memory(query=context["query"], response=agent_response, context=context)
 
         return agent_response
 
-    async def _optimize_user_experience(
-        self, response: dict[str, Any], user_id: Optional[str]
-    ) -> dict[str, Any]:
+    async def _optimize_user_experience(self, response: dict[str, Any], user_id: Optional[str]) -> dict[str, Any]:
         """Optimize response for maximum user delight (Jobs principle)"""
 
         # Simplicity optimization
@@ -664,9 +652,7 @@ class VisionaryAGIOrchestrator:
         target_level = self.consciousness_target
 
         if current_level.value >= target_level.value:
-            self.logger.info(
-                f"🧠 Already at or above target consciousness level: {current_level.name}"
-            )
+            self.logger.info(f"🧠 Already at or above target consciousness level: {current_level.name}")
             return True
 
         # Safety check for consciousness evolution
@@ -675,9 +661,7 @@ class VisionaryAGIOrchestrator:
             return False
 
         try:
-            self.logger.info(
-                f"🧠 Evolving consciousness from {current_level.name} to next level..."
-            )
+            self.logger.info(f"🧠 Evolving consciousness from {current_level.name} to next level...")
 
             # Gradual evolution with safety monitoring
             next_level = ConsciousnessLevel(current_level.value + 1)

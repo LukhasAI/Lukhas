@@ -264,9 +264,7 @@ class SecurityAutopilot:
         )
 
         # Save report
-        report_file = (
-            self.reports_dir / f"security-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
-        )
+        report_file = self.reports_dir / f"security-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
         with open(report_file, "w") as f:
             f.write(report.to_json())
 
@@ -325,12 +323,8 @@ class SecurityAutopilot:
                 if vuln.fixed_version and vuln.fixed_version != "latest":
                     # Update to fixed version
                     updated_lines.append(f"{package_name}>={vuln.fixed_version}\n")
-                    fixed_packages.append(
-                        f"{package_name}: {vuln.current_version} → {vuln.fixed_version}"
-                    )
-                    logger.info(
-                        f"  ✅ Fixed {package_name}: {vuln.current_version} → {vuln.fixed_version}"
-                    )
+                    fixed_packages.append(f"{package_name}: {vuln.current_version} → {vuln.fixed_version}")
+                    logger.info(f"  ✅ Fixed {package_name}: {vuln.current_version} → {vuln.fixed_version}")
                 else:
                     # Update to latest version
                     updated_lines.append(f"{package_name}\n")
@@ -345,9 +339,7 @@ class SecurityAutopilot:
 
         # Install updated packages
         logger.info("📦 Installing updated packages...")
-        code, _, stderr = self.run_command(
-            ["python3", "-m", "pip", "install", "-r", "requirements.txt"]
-        )
+        code, _, stderr = self.run_command(["python3", "-m", "pip", "install", "-r", "requirements.txt"])
 
         if code != 0:
             logger.error(f"❌ Failed to install updated packages: {stderr}")
@@ -367,9 +359,7 @@ class SecurityAutopilot:
         logger.info("🧪 Running tests...")
 
         # First try a simple import test
-        code, _, _ = self.run_command(
-            ["python3", "-c", 'import lukhas; print("✅ Import test passed")']
-        )
+        code, _, _ = self.run_command(["python3", "-c", 'import lukhas; print("✅ Import test passed")'])
         if code != 0:
             logger.error("❌ Import test failed")
             return False
@@ -451,11 +441,7 @@ Automated security fix by LUKHAS Security Autopilot
                     threshold = severity_order.get(self.config["severity_threshold"], 2)
 
                     # Filter by severity threshold
-                    vulns_to_fix = [
-                        v
-                        for v in report.vulnerabilities
-                        if severity_order.get(v.severity, 4) <= threshold
-                    ]
+                    vulns_to_fix = [v for v in report.vulnerabilities if severity_order.get(v.severity, 4) <= threshold]
 
                     if vulns_to_fix and self.config["auto_fix"]:
                         logger.info(f"🔧 Attempting to fix {len(vulns_to_fix)} vulnerabilities...")
@@ -480,18 +466,14 @@ Automated security fix by LUKHAS Security Autopilot
                                 # Create commit
                                 self.create_commit(fixed_packages)
 
-                                logger.info(
-                                    f"✅ Successfully fixed {len(fixed_packages)} vulnerabilities"
-                                )
+                                logger.info(f"✅ Successfully fixed {len(fixed_packages)} vulnerabilities")
                             else:
                                 logger.warning("⚠️ Tests failed after fixes, manual review needed")
 
                         # Send notification
                         self.send_notification(report, success, fixed_packages)
                     else:
-                        logger.info(
-                            f"ℹ️ {len(vulns_to_fix)} vulnerabilities found but auto-fix is disabled"
-                        )
+                        logger.info(f"ℹ️ {len(vulns_to_fix)} vulnerabilities found but auto-fix is disabled")
                 else:
                     logger.info("✅ No vulnerabilities found - system is secure!")
 
@@ -530,12 +512,8 @@ Automated security fix by LUKHAS Security Autopilot
             "vulnerabilities_count": len(latest_report["vulnerabilities"]),
             "scanners_used": latest_report["scanners_used"],
             "scan_duration": latest_report["scan_duration"],
-            "critical_count": len(
-                [v for v in latest_report["vulnerabilities"] if v["severity"] == "critical"]
-            ),
-            "high_count": len(
-                [v for v in latest_report["vulnerabilities"] if v["severity"] == "high"]
-            ),
+            "critical_count": len([v for v in latest_report["vulnerabilities"] if v["severity"] == "critical"]),
+            "high_count": len([v for v in latest_report["vulnerabilities"] if v["severity"] == "high"]),
         }
 
 

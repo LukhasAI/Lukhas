@@ -16,9 +16,7 @@ from typing import Any
 import psutil
 
 # Configure structured logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -56,9 +54,7 @@ class EliteProductionDeployment:
     """
 
     def __init__(self):
-        self.deployment_id = hashlib.sha256(f"{datetime.now().isoformat()}".encode()).hexdigest()[
-            :8
-        ]
+        self.deployment_id = hashlib.sha256(f"{datetime.now().isoformat()}".encode()).hexdigest()[:8]
 
         self.metrics = DeploymentMetrics(start_time=datetime.now())
         self.stage = DeploymentStage.CANARY
@@ -188,9 +184,7 @@ class EliteProductionDeployment:
         self.canary_orchestrator = AgentOrchestrator()
 
         # Deploy limited agents
-        await self.canary_orchestrator.deploy_agent_fleet(
-            agent_type="NIAS", count=1, config={"environment": "canary"}
-        )
+        await self.canary_orchestrator.deploy_agent_fleet(agent_type="NIAS", count=1, config={"environment": "canary"})
 
         self.stage = DeploymentStage.CANARY
         logger.info("✅ Canary deployed")
@@ -201,9 +195,7 @@ class EliteProductionDeployment:
 
         # Scale up agents
         await self.canary_orchestrator.scale_fleet("NIAS", 5)
-        await self.canary_orchestrator.deploy_agent_fleet(
-            agent_type="ABAS", count=3, config={"environment": "staging"}
-        )
+        await self.canary_orchestrator.deploy_agent_fleet(agent_type="ABAS", count=3, config={"environment": "staging"})
 
         self.stage = DeploymentStage.STAGING
         logger.info("✅ Staging deployed")

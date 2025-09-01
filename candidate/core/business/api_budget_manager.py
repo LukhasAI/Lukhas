@@ -129,9 +129,7 @@ class APIBudgetManager:
         # Calculate daily averages over last 7 days
         seven_days_ago = datetime.now() - timedelta(days=7)
         recent_usage = [
-            entry
-            for entry in usage.usage_history
-            if datetime.fromisoformat(entry["timestamp"]) > seven_days_ago
+            entry for entry in usage.usage_history if datetime.fromisoformat(entry["timestamp"]) > seven_days_ago
         ]
 
         total_recent_cost = sum(entry["cost"] for entry in recent_usage)
@@ -151,9 +149,7 @@ class APIBudgetManager:
             "avg_daily_cost_7d": round(avg_daily_cost, 4),
             "total_operations_7d": len(recent_usage),
             "top_operations": sorted(operation_costs.items(), key=lambda x: x[1], reverse=True)[:5],
-            "budget_utilization_rate": round(avg_daily_cost / usage.daily_limit, 2)
-            if usage.daily_limit > 0
-            else 0,
+            "budget_utilization_rate": round(avg_daily_cost / usage.daily_limit, 2) if usage.daily_limit > 0 else 0,
         }
 
     async def get_aggregate_metrics(self) -> dict[str, any]:
@@ -172,9 +168,7 @@ class APIBudgetManager:
             "total_users": len(self.user_budgets),
             "total_allocated": round(total_allocated, 2),
             "total_used": round(total_used, 2),
-            "utilization_rate": round(
-                total_used / total_allocated if total_allocated > 0 else 0, 2
-            ),
+            "utilization_rate": round(total_used / total_allocated if total_allocated > 0 else 0, 2),
             "tier_distribution": tier_distribution,
             "avg_user_budget": round(total_allocated / len(self.user_budgets), 2),
         }

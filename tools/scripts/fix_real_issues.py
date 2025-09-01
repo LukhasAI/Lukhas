@@ -31,9 +31,7 @@ def get_flake8_issues(directory: str) -> dict:
                         code = error_parts[0]
                         msg = error_parts[1]
 
-                        issues[filepath].append(
-                            {"line": line_num, "col": col, "code": code, "msg": msg}
-                        )
+                        issues[filepath].append({"line": line_num, "col": col, "code": code, "msg": msg})
             except (ValueError, IndexError):
                 continue
 

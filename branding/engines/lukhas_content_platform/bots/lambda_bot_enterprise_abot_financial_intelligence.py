@@ -192,9 +192,7 @@ class ABotFinancialIntelligence:
 
         # Budget impact calculation
         budget_impact = (
-            (estimated_cost / self.metrics.current_balance) * 100
-            if self.metrics.current_balance > 0
-            else 100
+            (estimated_cost / self.metrics.current_balance) * 100 if self.metrics.current_balance > 0 else 100
         )
 
         return CallDecision(
@@ -239,19 +237,13 @@ class ABotFinancialIntelligence:
         # Base efficiency on money saved vs spent
         total_budget_available = self.metrics.total_accumulated
         money_saved_ratio = (
-            self.metrics.money_saved_by_conservation / total_budget_available
-            if total_budget_available > 0
-            else 0
+            self.metrics.money_saved_by_conservation / total_budget_available if total_budget_available > 0 else 0
         )
 
         # Efficiency factors
-        conservation_bonus = min(
-            self.metrics.conservation_streak * 2, 20
-        )  # Max 20 points for conservation
+        conservation_bonus = min(self.metrics.conservation_streak * 2, 20)  # Max 20 points for conservation
         flex_budget_penalty = (
-            (self.metrics.flex_budget_used / total_budget_available) * 10
-            if total_budget_available > 0
-            else 0
+            (self.metrics.flex_budget_used / total_budget_available) * 10 if total_budget_available > 0 else 0
         )
 
         # Calculate score (0-100)
@@ -260,9 +252,7 @@ class ABotFinancialIntelligence:
         conservation_score = conservation_bonus  # Up to 20 points for conservation
         penalty = min(flex_budget_penalty, 10)  # Max 10 point penalty
 
-        self.metrics.efficiency_score = min(
-            100, max(0, base_score + savings_score + conservation_score - penalty)
-        )
+        self.metrics.efficiency_score = min(100, max(0, base_score + savings_score + conservation_score - penalty))
 
     def get_financial_report(self) -> dict:
         """Generate comprehensive financial report for Notion sync"""
@@ -312,9 +302,7 @@ class ABotFinancialIntelligence:
         recommendations = []
 
         if self.metrics.efficiency_score > 90:
-            recommendations.append(
-                "🌟 Excellent financial management! Keep up the intelligent conservation."
-            )
+            recommendations.append("🌟 Excellent financial management! Keep up the intelligent conservation.")
         elif self.metrics.efficiency_score > 70:
             recommendations.append("👍 Good budget discipline. Consider optimizing call frequency.")
         else:
@@ -363,9 +351,7 @@ if __name__ == "__main__":
     print(f"   Current Balance: ${report['budget_status']['current_balance']:.4f}")
     print(f"   Efficiency Score: {report['intelligence_metrics']['efficiency_score']:.1f}%")
     print(f"   Money Saved: ${report['intelligence_metrics']['money_saved_by_conservation']:.4f}")
-    print(
-        f"   Conservation Streak: {report['intelligence_metrics']['conservation_streak']} decisions"
-    )
+    print(f"   Conservation Streak: {report['intelligence_metrics']['conservation_streak']} decisions")
 
     # Test decision making
     test_context = {

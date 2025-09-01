@@ -212,9 +212,7 @@ class AdvancedIdentityValidator:
                 await self._validate_continuous(validation, identity_data)
 
             # Risk assessment
-            validation.risk_level = await self._assess_identity_risk(
-                validation, identity_data, context
-            )
+            validation.risk_level = await self._assess_identity_risk(validation, identity_data, context)
 
             # Trinity Framework integration
             await self._integrate_trinity_framework(validation, identity_data, context)
@@ -252,9 +250,7 @@ class AdvancedIdentityValidator:
                 risk_factors=[f"Validation error: {e!s}"],
             )
 
-    async def _validate_biometric(
-        self, validation: IdentityValidation, identity_data: dict[str, Any]
-    ):
+    async def _validate_biometric(self, validation: IdentityValidation, identity_data: dict[str, Any]):
         """Validate biometric identity data"""
 
         # Get or create biometric profile
@@ -277,9 +273,7 @@ class AdvancedIdentityValidator:
             biometric_matches.append(facial_match)
 
         if "voice_pattern" in identity_data and profile.voice_pattern_hash:
-            voice_match = await self._compare_voice_patterns(
-                identity_data["voice_pattern"], profile.voice_pattern_hash
-            )
+            voice_match = await self._compare_voice_patterns(identity_data["voice_pattern"], profile.voice_pattern_hash)
             biometric_matches.append(voice_match)
 
         if "behavioral_signature" in identity_data and profile.behavioral_signature:
@@ -297,9 +291,7 @@ class AdvancedIdentityValidator:
             validation.confidence_score = 0.0
             validation.risk_factors.append("no_biometric_data_available")
 
-    async def _validate_behavioral(
-        self, validation: IdentityValidation, identity_data: dict[str, Any]
-    ):
+    async def _validate_behavioral(self, validation: IdentityValidation, identity_data: dict[str, Any]):
         """Validate behavioral patterns"""
 
         # Get behavioral baseline
@@ -324,16 +316,12 @@ class AdvancedIdentityValidator:
 
         # Mouse movement patterns
         if "mouse_pattern" in identity_data and "mouse_pattern" in baseline:
-            mouse_score = await self._compare_mouse_patterns(
-                identity_data["mouse_pattern"], baseline["mouse_pattern"]
-            )
+            mouse_score = await self._compare_mouse_patterns(identity_data["mouse_pattern"], baseline["mouse_pattern"])
             behavioral_scores.append(mouse_score)
 
         # Usage patterns
         if "usage_pattern" in identity_data and "usage_pattern" in baseline:
-            usage_score = await self._compare_usage_patterns(
-                identity_data["usage_pattern"], baseline["usage_pattern"]
-            )
+            usage_score = await self._compare_usage_patterns(identity_data["usage_pattern"], baseline["usage_pattern"])
             behavioral_scores.append(usage_score)
 
         # Calculate behavioral score
@@ -349,18 +337,14 @@ class AdvancedIdentityValidator:
             validation.confidence_score = 0.0
             validation.risk_factors.append("insufficient_behavioral_data")
 
-    async def _validate_credential(
-        self, validation: IdentityValidation, identity_data: dict[str, Any]
-    ):
+    async def _validate_credential(self, validation: IdentityValidation, identity_data: dict[str, Any]):
         """Validate credentials"""
 
         credential_checks = []
 
         # Password validation
         if "password" in identity_data:
-            password_valid = await self._validate_password(
-                validation.user_id, identity_data["password"]
-            )
+            password_valid = await self._validate_password(validation.user_id, identity_data["password"])
             credential_checks.append(password_valid)
 
         # Token validation
@@ -370,9 +354,7 @@ class AdvancedIdentityValidator:
 
         # Certificate validation
         if "certificate" in identity_data:
-            cert_valid = await self._validate_certificate(
-                validation.user_id, identity_data["certificate"]
-            )
+            cert_valid = await self._validate_certificate(validation.user_id, identity_data["certificate"])
             credential_checks.append(cert_valid)
 
         # Calculate credential score
@@ -384,9 +366,7 @@ class AdvancedIdentityValidator:
             validation.confidence_score = 0.0
             validation.risk_factors.append("no_credentials_provided")
 
-    async def _validate_multi_factor(
-        self, validation: IdentityValidation, identity_data: dict[str, Any]
-    ):
+    async def _validate_multi_factor(self, validation: IdentityValidation, identity_data: dict[str, Any]):
         """Validate using multiple factors"""
 
         factor_scores = []
@@ -533,14 +513,11 @@ class AdvancedIdentityValidator:
             v
             for v in self.validation_history
             if v.user_id == user_id
-            and (datetime.now() - v.validation_timestamp).total_seconds()
-            < 86400 * 30  # Last 30 days
+            and (datetime.now() - v.validation_timestamp).total_seconds() < 86400 * 30  # Last 30 days
         ]
 
         success_rate = (
-            len([v for v in recent_validations if v.is_valid]) / len(recent_validations)
-            if recent_validations
-            else 0.0
+            len([v for v in recent_validations if v.is_valid]) / len(recent_validations) if recent_validations else 0.0
         )
 
         return {
@@ -550,14 +527,8 @@ class AdvancedIdentityValidator:
             "profile_confidence": profile.profile_confidence if profile else 0.0,
             "recent_validations": len(recent_validations),
             "success_rate": success_rate,
-            "last_validation": recent_validations[-1].validation_timestamp.isoformat()
-            if recent_validations
-            else None,
-            "risk_assessment": "low"
-            if success_rate > 0.9
-            else "medium"
-            if success_rate > 0.7
-            else "high",
+            "last_validation": recent_validations[-1].validation_timestamp.isoformat() if recent_validations else None,
+            "risk_assessment": "low" if success_rate > 0.9 else "medium" if success_rate > 0.7 else "high",
         }
 
     async def get_system_metrics(self) -> dict[str, Any]:

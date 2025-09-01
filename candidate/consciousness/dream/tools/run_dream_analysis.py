@@ -238,9 +238,7 @@ Examples:
 
             # Exit with error code if critical anomalies found
             critical_count = sum(
-                1
-                for a in report.anomalies_detected
-                if a.severity.value in ["critical", "catastrophic"]
+                1 for a in report.anomalies_detected if a.severity.value in ["critical", "catastrophic"]
             )
 
             if critical_count > 0:

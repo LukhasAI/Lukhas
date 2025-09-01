@@ -232,9 +232,7 @@ class TestConsciousnessState:
     @pytest.mark.unit
     def test_state_serialization(self):
         """Test consciousness state serialization/deserialization."""
-        state = ConsciousnessState(
-            awareness=AwarenessLevel.ENHANCED, is_active=True, last_activity=time.time()
-        )
+        state = ConsciousnessState(awareness=AwarenessLevel.ENHANCED, is_active=True, last_activity=time.time())
 
         # Serialize to dict
         state_dict = state.to_dict()

@@ -341,9 +341,7 @@ class MorphingEngine:
 
         return predictions[:5]  # Return top 5 predictions
 
-    async def prepare_predictive_morph(
-        self, predicted_state: DashboardMorphState, confidence: float
-    ):
+    async def prepare_predictive_morph(self, predicted_state: DashboardMorphState, confidence: float):
         """Prepare for a predicted morphing state."""
 
         if confidence < 0.7:  # Confidence threshold
@@ -657,9 +655,7 @@ class MorphingEngine:
                     transition_id = f"{from_state.value}_to_{to_state.value}"
 
                     # Determine transition characteristics based on state types
-                    duration, strategy, components = self._calculate_transition_parameters(
-                        from_state, to_state
-                    )
+                    duration, strategy, components = self._calculate_transition_parameters(from_state, to_state)
 
                     transition = MorphingTransition(
                         transition_id=transition_id,
@@ -812,9 +808,7 @@ class MorphingEngine:
             ],
         )
 
-    def _calculate_transition_priority(
-        self, from_state: DashboardMorphState, to_state: DashboardMorphState
-    ) -> int:
+    def _calculate_transition_priority(self, from_state: DashboardMorphState, to_state: DashboardMorphState) -> int:
         """Calculate transition priority (1 = highest, 10 = lowest)."""
 
         # Emergency states have highest priority
@@ -932,9 +926,7 @@ class MorphingEngine:
         # Implementation would analyze morph_history for patterns
         return []
 
-    async def _determine_emotional_adaptation(
-        self, emotional_state: dict[str, float]
-    ) -> Optional[dict[str, Any]]:
+    async def _determine_emotional_adaptation(self, emotional_state: dict[str, float]) -> Optional[dict[str, Any]]:
         """Determine appropriate emotional adaptation."""
         # Implementation would analyze emotional state and determine adaptations
         return None

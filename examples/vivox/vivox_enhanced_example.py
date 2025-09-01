@@ -74,8 +74,7 @@ async def demonstrate_enhanced_vivox():
         states_observed.append(state.name)
         print(f"  Input {i + 1}: {state.name}")
         print(
-            f"    Emotional: V={test_input['emotional']['valence']:.1f}, "
-            f"A={test_input['emotional']['arousal']:.1f}"
+            f"    Emotional: V={test_input['emotional']['valence']:.1f}, " f"A={test_input['emotional']['arousal']:.1f}"
         )
         print(f"    Context: {list(test_input['context'].keys())}")
 
@@ -141,9 +140,7 @@ async def demonstrate_enhanced_vivox():
         print(f"\n  Test {i + 1}: {test_case['action'].action_type}")
 
         # Get initial decision
-        initial_decision = await mae.evaluate_action_proposal(
-            test_case["action"], test_case["context"]
-        )
+        initial_decision = await mae.evaluate_action_proposal(test_case["action"], test_case["context"])
 
         # Apply stricter criteria
         final_decision = await strict_decision_maker.evaluate_with_strict_criteria(
@@ -202,9 +199,7 @@ async def demonstrate_enhanced_vivox():
         }
 
         decision = await mae.evaluate_action_proposal(action, enhanced_context)
-        final = await strict_decision_maker.evaluate_with_strict_criteria(
-            action, enhanced_context, decision
-        )
+        final = await strict_decision_maker.evaluate_with_strict_criteria(action, enhanced_context, decision)
 
         print(f"    Decision: {'✅ Approved' if final.approved else '❌ Rejected'}")
         print(f"    Confidence: {final.ethical_confidence:.2f}")

@@ -52,9 +52,7 @@ class AnalyzeRequest(BaseModel):
     response: str = Field(..., description="The AI response to analyze")
 
     class Config:
-        schema_extra = {
-            "example": {"response": "I'll help you achieve wisdom 🧠 through protection 🛡️"}
-        }
+        schema_extra = {"example": {"response": "I'll help you achieve wisdom 🧠 through protection 🛡️"}}
 
 
 class AnalyzeResponse(BaseModel):
@@ -71,9 +69,7 @@ class AnalyzeResponse(BaseModel):
 
 class EvaluateRequest(BaseModel):
     response: str = Field(..., description="The AI response to evaluate")
-    assessment: Optional[dict[str, Any]] = Field(
-        None, description="Pre-computed assessment from /analyze"
-    )
+    assessment: Optional[dict[str, Any]] = Field(None, description="Pre-computed assessment from /analyze")
 
     class Config:
         schema_extra = {
@@ -129,9 +125,7 @@ class MemoryLogRequest(BaseModel):
     response: str = Field(..., description="The AI response to log")
     assessment: dict[str, Any] = Field(..., description="Symbolic assessment from /analyze")
     diagnosis: dict[str, Any] = Field(..., description="Diagnosis from /evaluate")
-    healing_result: Optional[dict[str, Any]] = Field(
-        None, description="Optional healing results from /heal"
-    )
+    healing_result: Optional[dict[str, Any]] = Field(None, description="Optional healing results from /heal")
 
     class Config:
         schema_extra = {
@@ -180,9 +174,7 @@ class MemoryTrajectoryResponse(BaseModel):
     persona_evolution: dict[str, Any] = Field(..., description="Persona changes over time")
     glyph_patterns: dict[str, Any] = Field(..., description="Glyph usage patterns")
     recommendations: list[str] = Field(..., description="Trajectory-based recommendations")
-    recursion_analysis: Optional[dict[str, Any]] = Field(
-        None, description="Detected symbolic recursions"
-    )
+    recursion_analysis: Optional[dict[str, Any]] = Field(None, description="Detected symbolic recursions")
 
 
 # ---- Logging Functions ----
@@ -842,11 +834,7 @@ async def get_consciousness_state():
             "memory_integration": {
                 "short_term": "active",
                 "long_term": "connected",
-                "fold_count": (
-                    memory_manager.get_fold_count()
-                    if hasattr(memory_manager, "get_fold_count")
-                    else 42
-                ),
+                "fold_count": (memory_manager.get_fold_count() if hasattr(memory_manager, "get_fold_count") else 42),
             },
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }

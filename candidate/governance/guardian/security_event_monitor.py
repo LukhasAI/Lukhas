@@ -375,9 +375,7 @@ class SecurityEventMonitor:
         if outcome == AuthenticationOutcome.SUCCESS:
             logger.info(f"🔒 Authentication success: {user_id} from {ip_address}")
         else:
-            logger.warning(
-                f"🔒 Authentication {outcome.value}: {user_id} from {ip_address} - {failure_reason}"
-            )
+            logger.warning(f"🔒 Authentication {outcome.value}: {user_id} from {ip_address} - {failure_reason}")
 
         return event_id
 
@@ -451,9 +449,7 @@ class SecurityEventMonitor:
 
         return event_id
 
-    async def detect_brute_force_attack(
-        self, time_window_minutes: int = 60
-    ) -> list[ThreatDetection]:
+    async def detect_brute_force_attack(self, time_window_minutes: int = 60) -> list[ThreatDetection]:
         """
         Detect brute force attack patterns.
 
@@ -517,9 +513,7 @@ class SecurityEventMonitor:
                 if self.config.get("auto_block_brute_force", False):
                     await self._block_ip_address(ip_address, "brute_force_attack")
 
-                logger.warning(
-                    f"🔒 Brute force attack detected from {ip_address}: {len(failures)} attempts"
-                )
+                logger.warning(f"🔒 Brute force attack detected from {ip_address}: {len(failures)} attempts")
 
         return detections
 
@@ -553,10 +547,7 @@ class SecurityEventMonitor:
 
         # Check for geographical anomalies
         for event in recent_events:
-            if (
-                event.geolocation
-                and event.geolocation.get("country") not in profile.login_countries
-            ):
+            if event.geolocation and event.geolocation.get("country") not in profile.login_countries:
                 detection_id = f"geo_anomaly_{uuid.uuid4().hex[:8]}"
 
                 detection = ThreatDetection(
@@ -584,9 +575,7 @@ class SecurityEventMonitor:
         # Check for time-based anomalies
         current_hour = datetime.now().hour
         if profile.typical_login_hours and current_hour not in profile.typical_login_hours:
-            recent_auth_events = [
-                e for e in recent_events if e.event_type == SecurityEventType.AUTHENTICATION
-            ]
+            recent_auth_events = [e for e in recent_events if e.event_type == SecurityEventType.AUTHENTICATION]
 
             if recent_auth_events:
                 detection_id = f"time_anomaly_{uuid.uuid4().hex[:8]}"
@@ -644,16 +633,11 @@ class SecurityEventMonitor:
             events_by_threat_level[event.threat_level.value] += 1
 
         # Authentication success rate
-        total_auth_events = sum(
-            1 for e in recent_events if e.event_type == SecurityEventType.AUTHENTICATION
-        )
+        total_auth_events = sum(1 for e in recent_events if e.event_type == SecurityEventType.AUTHENTICATION)
         successful_auths = sum(
             1
             for e in recent_events
-            if (
-                e.event_type == SecurityEventType.AUTHENTICATION
-                and e.auth_outcome == AuthenticationOutcome.SUCCESS
-            )
+            if (e.event_type == SecurityEventType.AUTHENTICATION and e.auth_outcome == AuthenticationOutcome.SUCCESS)
         )
         auth_success_rate = (successful_auths / total_auth_events) if total_auth_events > 0 else 1.0
 
@@ -702,9 +686,7 @@ class SecurityEventMonitor:
                 "risk_score": profile.risk_score,
                 "trust_level": profile.trust_level,
                 "security_violations": profile.security_violations,
-                "last_activity": profile.last_security_event.isoformat()
-                if profile.last_security_event
-                else None,
+                "last_activity": profile.last_security_event.isoformat() if profile.last_security_event else None,
             }
             for user_id, profile in self.user_profiles.items()
             if profile.risk_score > 0.7
@@ -713,27 +695,18 @@ class SecurityEventMonitor:
         # Trinity Framework security status
         trinity_security = {
             "identity": {
-                "monitored_events": len(
-                    self.trinity_security_contexts["identity"]["monitored_events"]
-                ),
+                "monitored_events": len(self.trinity_security_contexts["identity"]["monitored_events"]),
                 "security_level": self.trinity_security_contexts["identity"]["security_level"],
-                "recent_violations": len(
-                    [e for e in recent_events if "identity" in e.identity_context]
-                ),
+                "recent_violations": len([e for e in recent_events if "identity" in e.identity_context]),
             },
             "guardian": {
-                "protection_rules": len(
-                    self.trinity_security_contexts["guardian"]["protection_rules"]
-                ),
-                "enforcement_level": self.trinity_security_contexts["guardian"][
-                    "enforcement_level"
-                ],
+                "protection_rules": len(self.trinity_security_contexts["guardian"]["protection_rules"]),
+                "enforcement_level": self.trinity_security_contexts["guardian"]["enforcement_level"],
                 "blocked_threats": len(
                     [
                         e
                         for e in recent_events
-                        if SecurityAction.BLOCK_IP in e.actions_taken
-                        or SecurityAction.QUARANTINE in e.actions_taken
+                        if SecurityAction.BLOCK_IP in e.actions_taken or SecurityAction.QUARANTINE in e.actions_taken
                     ]
                 ),
             },
@@ -769,20 +742,14 @@ class SecurityEventMonitor:
                 "total_detections": len(self.threat_detections),
                 "recent_threats": recent_threats,
                 "threat_types": list(set(t.threat_type for t in self.threat_detections)),
-                "high_confidence_threats": len(
-                    [t for t in self.threat_detections if t.confidence > 0.8]
-                ),
+                "high_confidence_threats": len([t for t in self.threat_detections if t.confidence > 0.8]),
             },
             # Incident management
             "incidents": {
                 "total_incidents": len(self.security_incidents),
                 "active_incidents": active_incidents,
                 "resolved_incidents": len(
-                    [
-                        inc
-                        for inc in self.security_incidents.values()
-                        if inc.resolution_status == "resolved"
-                    ]
+                    [inc for inc in self.security_incidents.values() if inc.resolution_status == "resolved"]
                 ),
             },
             # User analysis
@@ -900,9 +867,7 @@ class SecurityEventMonitor:
             "geofencing_enabled": False,
         }
 
-    def _assess_auth_threat_level(
-        self, outcome: AuthenticationOutcome, user_id: str, ip_address: str
-    ) -> ThreatLevel:
+    def _assess_auth_threat_level(self, outcome: AuthenticationOutcome, user_id: str, ip_address: str) -> ThreatLevel:
         """Assess threat level for authentication event."""
 
         if outcome == AuthenticationOutcome.SUCCESS:

@@ -82,9 +82,7 @@ class MemoryEfficientScheduler:
     def __init__(self, max_actors: int = 10_000_000):
         self.max_actors = max_actors
         self.actors: dict[str, LightweightActor] = {}
-        self.priority_queues: dict[ActorPriority, deque] = {
-            priority: deque() for priority in ActorPriority
-        }
+        self.priority_queues: dict[ActorPriority, deque] = {priority: deque() for priority in ActorPriority}
         self.active_count = 0
         self.total_memory_bytes = 0
         self._running = False
@@ -231,9 +229,7 @@ class MemoryEfficientScheduler:
         return {
             "active_actors": self.active_count,
             "total_memory_mb": self.total_memory_bytes / 1_000_000,
-            "avg_memory_per_actor": (
-                self.total_memory_bytes / self.active_count if self.active_count > 0 else 0
-            ),
+            "avg_memory_per_actor": (self.total_memory_bytes / self.active_count if self.active_count > 0 else 0),
             "queued_messages": sum(len(queue) for queue in self.priority_queues.values()),
         }
 

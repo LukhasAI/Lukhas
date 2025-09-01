@@ -16,9 +16,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../.
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Import healthcare guardian components
@@ -259,10 +257,7 @@ class HealthcareGuardian:
                 "Manténgase tranquilo, la ayuda está en camino."
             )
         else:
-            return (
-                "Entiendo que necesita ayuda. ¿Es una emergencia médica? "
-                "Diga 'sí' si necesita que llame al 112."
-            )
+            return "Entiendo que necesita ayuda. ¿Es una emergencia médica? " "Diga 'sí' si necesita que llame al 112."
 
     async def handle_medication_query(self, command: str) -> str:
         """Handle medication-related queries"""
@@ -297,10 +292,7 @@ class HealthcareGuardian:
                     return "No tiene citas programadas próximamente."
 
             elif "pedir" in command.lower() or "nueva" in command.lower():
-                return (
-                    "Voy a buscar citas disponibles para usted. "
-                    "¿Prefiere por la mañana o por la tarde?"
-                )
+                return "Voy a buscar citas disponibles para usted. " "¿Prefiere por la mañana o por la tarde?"
 
         return "El sistema de citas no está disponible en este momento."
 

@@ -88,8 +88,6 @@ class SymbolAwareTieredMemory:
     def get_dream_flagged(self, limit: int = 5) -> list[dict[str, Any]]:
         """Return recent dream-flagged memories."""
         dreams = [
-            {"id": mid, "data": self.cache.get(mid)}
-            for mid, meta in self.metadata.items()
-            if meta.get("is_dream")
+            {"id": mid, "data": self.cache.get(mid)} for mid, meta in self.metadata.items() if meta.get("is_dream")
         ]
         return dreams[:limit]

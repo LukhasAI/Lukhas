@@ -257,9 +257,7 @@ class QIHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(
-                        service_name, self.services[service_name], "quantum"
-                    )
+                    discovery.register_service_globally(service_name, self.services[service_name], "quantum")
 
             logger.debug(f"Registered {len(key_services)} quantum services with global discovery")
         except Exception as e:
@@ -324,9 +322,7 @@ class QIHub:
             }
 
         try:
-            result = await self.services["neuro_symbolic"].process_text(
-                text, user_id, session_token, context
-            )
+            result = await self.services["neuro_symbolic"].process_text(text, user_id, session_token, context)
             return {"status": "completed", "result": result}
         except Exception as e:
             logger.error(f"Quantum text processing failed: {e}")
@@ -346,9 +342,7 @@ class QIHub:
             }
 
         try:
-            result = await self.services["neuro_symbolic"].apply_quantum_attention(
-                input_data, context, user_id
-            )
+            result = await self.services["neuro_symbolic"].apply_quantum_attention(input_data, context, user_id)
             return {"status": "completed", "result": result}
         except Exception as e:
             logger.error(f"Quantum attention processing failed: {e}")
@@ -365,9 +359,7 @@ class QIHub:
             }
 
         try:
-            result = await self.services["neuro_symbolic"].perform_causal_reasoning(
-                attended_data, user_id
-            )
+            result = await self.services["neuro_symbolic"].perform_causal_reasoning(attended_data, user_id)
             return {"status": "completed", "result": result}
         except Exception as e:
             logger.error(f"Causal reasoning failed: {e}")

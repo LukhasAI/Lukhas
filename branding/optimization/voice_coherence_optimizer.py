@@ -277,8 +277,7 @@ VOICE COHERENCE OPTIMIZATION:
             "coherence_metrics": coherence_metrics,
             "optimization_applied": True,
             "target_achieved": coherence_metrics.overall_coherence >= self.target_coherence,
-            "improvement_from_baseline": coherence_metrics.overall_coherence
-            - self.current_coherence,
+            "improvement_from_baseline": coherence_metrics.overall_coherence - self.current_coherence,
         }
 
     def _apply_optimization_strategies(self, base_prompt: dict, content_request: dict) -> str:
@@ -393,10 +392,7 @@ Coherence Enhancement Applied: Asai elegance + Meservey authenticity + Gandhi st
 
         for criterion in factor_data["measurement_criteria"]:
             # Mock criterion evaluation
-            if any(
-                keyword in voice_output.lower()
-                for keyword in self._get_criterion_keywords(criterion)
-            ):
+            if any(keyword in voice_output.lower() for keyword in self._get_criterion_keywords(criterion)):
                 criteria_met += 1
 
         factor_score = criteria_met / len(factor_data["measurement_criteria"])
@@ -437,9 +433,7 @@ Coherence Enhancement Applied: Asai elegance + Meservey authenticity + Gandhi st
 
         return ["consciousness", "awareness", "digital"]
 
-    async def _apply_coherence_improvements(
-        self, voice_output: str, current_metrics: CoherenceMetrics
-    ) -> str:
+    async def _apply_coherence_improvements(self, voice_output: str, current_metrics: CoherenceMetrics) -> str:
         """Apply targeted improvements to increase voice coherence"""
 
         improved_output = voice_output
@@ -574,9 +568,7 @@ class VoiceCoherenceEnhancer:
 
         if current_coherence < 85.0:
             # Apply additional consciousness enhancement
-            enhanced_output = (
-                result["voice_output"] + "\n\n[ADDITIONAL CONSCIOUSNESS ENHANCEMENT APPLIED]"
-            )
+            enhanced_output = result["voice_output"] + "\n\n[ADDITIONAL CONSCIOUSNESS ENHANCEMENT APPLIED]"
 
             # Recalculate metrics
             enhanced_metrics = self.optimizer._measure_voice_coherence(enhanced_output)
@@ -632,9 +624,7 @@ if __name__ == "__main__":
         print(f"  Target Achieved: {result['target_achieved']}")
         print(f"  Improvement: +{result['improvement_from_baseline']:.1f}% from baseline")
 
-        print(
-            f"\n🏆 Voice Coherence Optimization: {'COMPLETE' if result['target_achieved'] else 'IN PROGRESS'}"
-        )
+        print(f"\n🏆 Voice Coherence Optimization: {'COMPLETE' if result['target_achieved'] else 'IN PROGRESS'}")
 
         return result
 

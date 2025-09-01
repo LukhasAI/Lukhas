@@ -300,17 +300,14 @@ class MemoryEvolutionEngine:
             with self.lock:
                 total_evolutions = sum(len(events) for events in self.evolution_history.values())
                 successful_evolutions = sum(
-                    sum(1 for event in events if event.success)
-                    for events in self.evolution_history.values()
+                    sum(1 for event in events if event.success) for events in self.evolution_history.values()
                 )
 
                 stats = {
                     "total_memories_evolved": len(self.evolution_history),
                     "total_evolution_events": total_evolutions,
                     "successful_evolutions": successful_evolutions,
-                    "success_rate": (
-                        successful_evolutions / total_evolutions if total_evolutions > 0 else 0
-                    ),
+                    "success_rate": (successful_evolutions / total_evolutions if total_evolutions > 0 else 0),
                     "available_rules": list(self.evolution_rules.keys()),
                 }
 

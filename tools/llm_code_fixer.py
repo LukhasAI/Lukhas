@@ -80,9 +80,7 @@ class LocalLLMClient:
         if self.session:
             await self.session.close()
 
-    async def generate_fix(
-        self, issue: CodeIssue, file_content: str, context_lines: int = 10
-    ) -> dict[str, Any]:
+    async def generate_fix(self, issue: CodeIssue, file_content: str, context_lines: int = 10) -> dict[str, Any]:
         """Generate a fix for a code quality issue using local LLM"""
 
         if not self.session:
@@ -191,9 +189,7 @@ Focus on these common LUKHAS patterns:
         }
 
         try:
-            async with self.session.post(
-                f"{self.base_url}/api/generate", json=payload, timeout=30
-            ) as response:
+            async with self.session.post(f"{self.base_url}/api/generate", json=payload, timeout=30) as response:
                 if response.status == 200:
                     result = await response.json()
                     # Try to parse JSON from response
@@ -229,9 +225,7 @@ Focus on these common LUKHAS patterns:
         }
 
         try:
-            async with self.session.post(
-                f"{self.base_url}/v1/chat/completions", json=payload, timeout=30
-            ) as response:
+            async with self.session.post(f"{self.base_url}/v1/chat/completions", json=payload, timeout=30) as response:
                 if response.status == 200:
                     result = await response.json()
                     content = result["choices"][0]["message"]["content"]
@@ -360,9 +354,7 @@ class CodeQualityAnalyzer:
                     column=ruff_issue.get("location", {}).get("column", 0),
                     rule_code=ruff_issue.get("code", ""),
                     rule_name=(
-                        ruff_issue.get("message", "").split(":")[0]
-                        if ":" in ruff_issue.get("message", "")
-                        else ""
+                        ruff_issue.get("message", "").split(":")[0] if ":" in ruff_issue.get("message", "") else ""
                     ),
                     message=ruff_issue.get("message", ""),
                     severity=self._determine_severity(ruff_issue.get("code", "")),
@@ -423,9 +415,7 @@ class LLMCodeFixer:
         self.llm_service = os.getenv("LOCAL_LLM_SERVICE", "ollama")
         self.llm_base_url = os.getenv("LOCAL_LLM_BASE_URL", "http://localhost:11434")
         self.dry_run = os.getenv("LUKHAS_CODE_FIX_DRY_RUN", "false").lower() == "true"
-        self.backup_dir = (
-            self.project_root / ".code_fix_backups" / datetime.now().strftime("%Y%m%d_%H%M%S")
-        )
+        self.backup_dir = self.project_root / ".code_fix_backups" / datetime.now().strftime("%Y%m%d_%H%M%S")
 
         # Create backup directory
         self.backup_dir.mkdir(parents=True, exist_ok=True)
@@ -469,9 +459,7 @@ class LLMCodeFixer:
 
         # Check LLM availability
         if not await self._check_llm_availability():
-            print(
-                "❌ Local LLM service not available. Please start your LLM service and try again."
-            )
+            print("❌ Local LLM service not available. Please start your LLM service and try again.")
             return False
 
         # Analyze codebase
@@ -494,11 +482,7 @@ class LLMCodeFixer:
         try:
             async with LocalLLMClient(self.llm_service, self.llm_base_url) as client:
                 # Simple test request
-                test_result = (
-                    await client._ollama_generate("Test connection")
-                    if client.service == "ollama"
-                    else None
-                )
+                test_result = await client._ollama_generate("Test connection") if client.service == "ollama" else None
                 if test_result and "error" not in test_result:
                     print("✅ Local LLM service is available")
                     return True
@@ -532,9 +516,7 @@ class LLMCodeFixer:
             batch_size = config.get("batch_size", 10)
 
             print(f"\n🎯 Processing Category {cat_idx + 1}/{total_categories}: {category}")
-            print(
-                f"   Priority: {priority}, Issues: {len(category_issues)}, Batch Size: {batch_size}"
-            )
+            print(f"   Priority: {priority}, Issues: {len(category_issues)}, Batch Size: {batch_size}")
 
             # Process in batches
             for i in range(0, len(category_issues), batch_size):
@@ -575,9 +557,7 @@ class LLMCodeFixer:
             # Print progress
             status = "✅" if result.success else "❌"
             file_short = Path(result.issue.file_path).name
-            print(
-                f"      {status} {file_short}:{result.issue.line_number} - {result.issue.rule_code}"
-            )
+            print(f"      {status} {file_short}:{result.issue.line_number} - {result.issue.rule_code}")
 
             if result.success:
                 self.progress["successful_fixes"] += 1
@@ -635,26 +615,20 @@ class LLMCodeFixer:
                 # Apply fix
                 success = self._apply_fix(file_path, issue, fix_code, file_content)
                 if not success:
-                    return FixResult(
-                        issue=issue, success=False, error_message="Failed to apply fix"
-                    )
+                    return FixResult(issue=issue, success=False, error_message="Failed to apply fix")
 
             return FixResult(
                 issue=issue,
                 success=True,
                 applied_fix=fix_code,
                 validation_passed=confidence > 0.8,
-                trinity_compliant=(
-                    all(trinity_compliance.values()) if trinity_compliance else False
-                ),
+                trinity_compliant=(all(trinity_compliance.values()) if trinity_compliance else False),
             )
 
         except Exception as e:
             return FixResult(issue=issue, success=False, error_message=f"Unexpected error: {e}")
 
-    def _apply_fix(
-        self, file_path: Path, issue: CodeIssue, fix_code: str, original_content: str
-    ) -> bool:
+    def _apply_fix(self, file_path: Path, issue: CodeIssue, fix_code: str, original_content: str) -> bool:
         """Apply the LLM-generated fix to the file"""
 
         try:
@@ -680,10 +654,7 @@ class LLMCodeFixer:
     def _generate_final_report(self):
         """Generate final improvement report"""
 
-        report_path = (
-            self.project_root
-            / f"code_improvement_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-        )
+        report_path = self.project_root / f"code_improvement_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
 
         total_attempted = self.progress["total_fixes_attempted"]
         successful = self.progress["successful_fixes"]
@@ -751,17 +722,13 @@ async def main():
 
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="🧠 LUKHAS Local LLM Code Quality Improvement System"
-    )
+    parser = argparse.ArgumentParser(description="🧠 LUKHAS Local LLM Code Quality Improvement System")
     parser.add_argument(
         "--project-root",
         default=os.getcwd(),
         help="Root directory of the project to improve",
     )
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Run analysis without making changes"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Run analysis without making changes")
     parser.add_argument(
         "--llm-service",
         choices=["ollama", "lmstudio"],

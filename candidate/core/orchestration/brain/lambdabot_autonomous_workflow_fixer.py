@@ -124,9 +124,7 @@ class ΛBotAutonomousWorkflowFixer:
                     current_issue["branch"] = branch_info.replace(" branch", "")
 
             # Extract timing information
-            elif current_issue and any(
-                time_word in line.lower() for time_word in ["hour", "day", "minute"]
-            ):
+            elif current_issue and any(time_word in line.lower() for time_word in ["hour", "day", "minute"]):
                 current_issue["time_ago"] = line.strip()
 
         # Add the last issue
@@ -147,15 +145,11 @@ class ΛBotAutonomousWorkflowFixer:
 
         self.logger.info(f"🔍 Analyzed notifications: found {len(issues)} fixable issues")
         for issue in issues[:5]:  # Log top 5
-            self.logger.info(
-                f"   • {issue['repository']} - {issue['workflow_name']} (priority: {issue['priority']})"
-            )
+            self.logger.info(f"   • {issue['repository']} - {issue['workflow_name']} (priority: {issue['priority']})")
 
         return issues
 
-    def autonomous_fix_github_notifications(
-        self, notifications_text: str, max_fixes: int = 10
-    ) -> dict[str, Any]:
+    def autonomous_fix_github_notifications(self, notifications_text: str, max_fixes: int = 10) -> dict[str, Any]:
         """Autonomously fix issues from GitHub notifications"""
         self.logger.info("🤖 Starting autonomous fix of GitHub notifications...")
 
@@ -179,9 +173,7 @@ class ΛBotAutonomousWorkflowFixer:
         # Filter high-priority issues
         high_priority_issues = [i for i in issues if i.get("priority", 0) >= 85][:max_fixes]
 
-        self.logger.info(
-            f"🎯 Targeting {len(high_priority_issues)} high-priority issues for autonomous fixes"
-        )
+        self.logger.info(f"🎯 Targeting {len(high_priority_issues)} high-priority issues for autonomous fixes")
 
         # Execute fixes
         fix_results = []
@@ -199,13 +191,9 @@ class ΛBotAutonomousWorkflowFixer:
                 total_cost += fix_result.cost
 
                 if fix_result.success:
-                    self.logger.info(
-                        f"✅ Successfully fixed: {issue['repository']} - {issue['workflow_name']}"
-                    )
+                    self.logger.info(f"✅ Successfully fixed: {issue['repository']} - {issue['workflow_name']}")
                 else:
-                    self.logger.warning(
-                        f"❌ Failed to fix: {issue['repository']} - {fix_result.error_message}"
-                    )
+                    self.logger.warning(f"❌ Failed to fix: {issue['repository']} - {fix_result.error_message}")
 
             except Exception as e:
                 self.logger.error(f"❌ Exception fixing {issue['repository']}: {e}")
@@ -516,9 +504,7 @@ class ΛBotAutonomousWorkflowFixer:
             "created_at": datetime.now().isoformat(),
         }
 
-    def _generate_workflow_fix_description(
-        self, workflow_name: str, fixes_applied: list[str]
-    ) -> str:
+    def _generate_workflow_fix_description(self, workflow_name: str, fixes_applied: list[str]) -> str:
         """Generate PR description for workflow fixes"""
         return f"""## 🤖 Autonomous Workflow Fix
 

@@ -237,9 +237,7 @@ class MemoryOptimizer:
 
             memory_mb = psutil.Process().memory_info().rss / (1024 * 1024)
             if memory_mb > self.memory_limit_mb:
-                logger.warning(
-                    f"Memory usage {memory_mb:.1f}MB exceeds limit {self.memory_limit_mb}MB"
-                )
+                logger.warning(f"Memory usage {memory_mb:.1f}MB exceeds limit {self.memory_limit_mb}MB")
 
     def get_stats(self) -> dict[str, Any]:
         """Get memory optimizer statistics"""

@@ -69,12 +69,8 @@ def fix_eol_string_literal(file_path):
                 if line_no < len(lines):
                     next_line = lines[line_no]
                     # If next line is a continuation, merge it
-                    if not next_line.strip().startswith('"') and not next_line.strip().startswith(
-                        "}"
-                    ):
-                        lines[line_no - 1] = (
-                            problem_line.rstrip() + " " + next_line.strip() + '",\n'
-                        )
+                    if not next_line.strip().startswith('"') and not next_line.strip().startswith("}"):
+                        lines[line_no - 1] = problem_line.rstrip() + " " + next_line.strip() + '",\n'
                         lines[line_no] = ""
 
         # Write fixed content back

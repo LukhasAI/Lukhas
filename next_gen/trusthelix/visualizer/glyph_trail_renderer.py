@@ -209,9 +209,7 @@ class GlyphTrailRenderer:
                                 "at_position": idx,
                                 "glyph": trail.trail[idx],
                                 "timestamp": (
-                                    trail.timestamps[idx].isoformat()
-                                    if idx < len(trail.timestamps)
-                                    else None
+                                    trail.timestamps[idx].isoformat() if idx < len(trail.timestamps) else None
                                 ),
                             }
                         )
@@ -227,9 +225,7 @@ class GlyphTrailRenderer:
             reversal_count = sum(1 for p in self.global_patterns if p["is_reversal"])
             return {
                 "total_reversals": reversal_count,
-                "reversal_rate": (
-                    reversal_count / len(self.global_patterns) if self.global_patterns else 0
-                ),
+                "reversal_rate": (reversal_count / len(self.global_patterns) if self.global_patterns else 0),
                 "common_reversals": self._get_common_reversals(),
             }
 
@@ -291,9 +287,7 @@ class GlyphTrailRenderer:
         # Sort by frequency
         sorted_mutations = sorted(mutation_counts.items(), key=lambda x: x[1], reverse=True)
 
-        return [
-            {"mutation": mutation, "frequency": count} for mutation, count in sorted_mutations[:10]
-        ]
+        return [{"mutation": mutation, "frequency": count} for mutation, count in sorted_mutations[:10]]
 
     def render_symbolic_reversal(self, glyph_sequence: list[str]) -> str:
         """Render a symbolic reversal sequence with special formatting"""

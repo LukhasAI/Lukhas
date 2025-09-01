@@ -217,8 +217,7 @@ class NeuroSymbolicIntegrator:
         # Calculate weighted confidence
         if effective_symbolic_weight + effective_neural_weight > 0:
             integrated_confidence = (
-                (symbolic_confidence * effective_symbolic_weight)
-                + (neural_confidence * effective_neural_weight)
+                (symbolic_confidence * effective_symbolic_weight) + (neural_confidence * effective_neural_weight)
             ) / (effective_symbolic_weight + effective_neural_weight)
         else:
             integrated_confidence = 0.0
@@ -249,9 +248,7 @@ class NeuroSymbolicIntegrator:
             "secondary_results": secondary_results,
             "symbolic_results": symbolic_results,
             "neural_results": neural_results,
-            "reasoning_trace": self._extract_reasoning_trace(
-                symbolic_results, neural_results, primary_source
-            ),
+            "reasoning_trace": self._extract_reasoning_trace(symbolic_results, neural_results, primary_source),
             "timestamp": datetime.now().isoformat(),
         }
 
@@ -294,9 +291,7 @@ class NeuroSymbolicIntegrator:
             "secondary_results": secondary_results,
             "symbolic_results": symbolic_results,
             "neural_results": neural_results,
-            "reasoning_trace": self._extract_reasoning_trace(
-                symbolic_results, neural_results, primary_source
-            ),
+            "reasoning_trace": self._extract_reasoning_trace(symbolic_results, neural_results, primary_source),
             "timestamp": datetime.now().isoformat(),
         }
 
@@ -341,8 +336,7 @@ class NeuroSymbolicIntegrator:
         # Calculate weighted confidence
         if adaptive_symbolic_weight + adaptive_neural_weight > 0:
             integrated_confidence = (
-                (symbolic_confidence * adaptive_symbolic_weight)
-                + (neural_confidence * adaptive_neural_weight)
+                (symbolic_confidence * adaptive_symbolic_weight) + (neural_confidence * adaptive_neural_weight)
             ) / (adaptive_symbolic_weight + adaptive_neural_weight)
         else:
             integrated_confidence = 0.0
@@ -374,9 +368,7 @@ class NeuroSymbolicIntegrator:
             "symbolic_results": symbolic_results,
             "neural_results": neural_results,
             "confidence_gap": confidence_gap,
-            "reasoning_trace": self._extract_reasoning_trace(
-                symbolic_results, neural_results, primary_source
-            ),
+            "reasoning_trace": self._extract_reasoning_trace(symbolic_results, neural_results, primary_source),
             "timestamp": datetime.now().isoformat(),
         }
 

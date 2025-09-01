@@ -55,9 +55,7 @@ class UsageBasedLearning:
         stats["views"] += 1
         if "time_spent" in metadata:
             avg_time = stats["avg_time_spent"]
-            stats["avg_time_spent"] = (
-                avg_time * (stats["views"] - 1) + metadata["time_spent"]
-            ) / stats["views"]
+            stats["avg_time_spent"] = (avg_time * (stats["views"] - 1) + metadata["time_spent"]) / stats["views"]
 
         if "success" in metadata:
             if metadata["success"]:
@@ -117,8 +115,6 @@ class UsageBasedLearning:
                     recommendations.append(next_doc)
 
         # Sort by effectiveness
-        recommendations.sort(
-            key=lambda doc_id: self.get_document_effectiveness(doc_id), reverse=True
-        )
+        recommendations.sort(key=lambda doc_id: self.get_document_effectiveness(doc_id), reverse=True)
 
         return recommendations

@@ -102,9 +102,7 @@ class Modulator:
 
         params["temperature"] = clamp(float(params["temperature"]), *b["temperature"])
         params["top_p"] = clamp(float(params["top_p"]), *b["top_p"])
-        params["max_output_tokens"] = int(
-            clamp(int(params["max_output_tokens"]), *b["max_output_tokens"])
-        )
+        params["max_output_tokens"] = int(clamp(int(params["max_output_tokens"]), *b["max_output_tokens"]))
         params["retrieval_k"] = int(clamp(int(params["retrieval_k"]), *b["retrieval_k"]))
         params["planner_beam"] = int(clamp(int(params["planner_beam"]), *b["planner_beam"]))
         params["memory_write"] = clamp(float(params["memory_write"]), *b["memory_write"])

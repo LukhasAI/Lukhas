@@ -94,15 +94,11 @@ class QRGAdapter:
             "evidence_synthesis": "Evidence-based conclusion building",
         }
 
-    async def generate_quality_reasoning(
-        self, request: LambdaProductRequest
-    ) -> LambdaProductResponse:
+    async def generate_quality_reasoning(self, request: LambdaProductRequest) -> LambdaProductResponse:
         """Generate high-quality reasoning using GPT-OSS"""
 
         start_time = time.time()
-        request_id = (
-            f"qrg_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
-        )
+        request_id = f"qrg_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
 
         # Create QRG-specific prompt
         enhanced_data = {
@@ -127,9 +123,7 @@ class QRGAdapter:
         processing_time = int((time.time() - start_time) * 1000)
 
         # Create symbolic signature for QRG
-        symbolic_signature = (
-            f"ΛQ{request.processing_mode.name[0]}{lambda_enhanced['quality_score']:.0f}"
-        )
+        symbolic_signature = f"ΛQ{request.processing_mode.name[0]}{lambda_enhanced['quality_score']:.0f}"
 
         response = LambdaProductResponse(
             product_type=self.product_type,
@@ -147,9 +141,7 @@ class QRGAdapter:
         logger.info(f"QRG processing complete: {request_id} in {processing_time}ms")
         return response
 
-    def _enhance_with_qrg_patterns(
-        self, gpt_result: dict[str, Any], request: LambdaProductRequest
-    ) -> dict[str, Any]:
+    def _enhance_with_qrg_patterns(self, gpt_result: dict[str, Any], request: LambdaProductRequest) -> dict[str, Any]:
         """Enhance GPT-OSS result with QRG-specific patterns"""
 
         reasoning = gpt_result.get("reasoning", {})
@@ -199,9 +191,7 @@ class QRGAdapter:
         for sentence in sentences:
             sentence = sentence.strip()
             if sentence and (
-                "therefore" in sentence.lower()
-                or "because" in sentence.lower()
-                or "consequently" in sentence.lower()
+                "therefore" in sentence.lower() or "because" in sentence.lower() or "consequently" in sentence.lower()
             ):
                 chain.append(sentence)
 
@@ -216,9 +206,7 @@ class QRGAdapter:
         contradictions = ["however", "but", "although", "despite"]
 
         logical_score = sum(1 for indicator in logical_indicators if indicator in raw_output)
-        contradiction_penalty = (
-            sum(1 for contradiction in contradictions if contradiction in raw_output) * 0.1
-        )
+        contradiction_penalty = sum(1 for contradiction in contradictions if contradiction in raw_output) * 0.1
 
         validity = min(logical_score / 5.0, 1.0) - contradiction_penalty
         return max(validity, 0.0)
@@ -314,15 +302,11 @@ class NIASAdapter:
             "cognitive_modeling": "Model cognitive architectures",
         }
 
-    async def perform_intelligence_analysis(
-        self, request: LambdaProductRequest
-    ) -> LambdaProductResponse:
+    async def perform_intelligence_analysis(self, request: LambdaProductRequest) -> LambdaProductResponse:
         """Perform neural intelligence analysis using GPT-OSS"""
 
         start_time = time.time()
-        request_id = (
-            f"nias_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
-        )
+        request_id = f"nias_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
 
         # Create NIAS-specific prompt
         enhanced_data = {
@@ -364,9 +348,7 @@ class NIASAdapter:
         logger.info(f"NIAS processing complete: {request_id}")
         return response
 
-    def _enhance_with_nias_analysis(
-        self, gpt_result: dict[str, Any], request: LambdaProductRequest
-    ) -> dict[str, Any]:
+    def _enhance_with_nias_analysis(self, gpt_result: dict[str, Any], request: LambdaProductRequest) -> dict[str, Any]:
         """Enhance with NIAS-specific neural analysis"""
 
         reasoning = gpt_result.get("reasoning", {})
@@ -405,9 +387,7 @@ class NIASAdapter:
         complexity = active_patterns / len(patterns)
 
         patterns["complexity"] = complexity
-        patterns["dominant_pattern"] = max(
-            patterns.items(), key=lambda x: x[1] if isinstance(x[1], bool) else False
-        )[0]
+        patterns["dominant_pattern"] = max(patterns.items(), key=lambda x: x[1] if isinstance(x[1], bool) else False)[0]
 
         return patterns
 
@@ -417,16 +397,12 @@ class NIASAdapter:
         insights = reasoning.get("key_insights", [])
 
         metrics = {
-            "analytical": len([i for i in insights if "analyz" in i.lower()])
-            / max(len(insights), 1),
-            "creative": len(
-                [i for i in insights if "creativ" in i.lower() or "innovat" in i.lower()]
-            )
+            "analytical": len([i for i in insights if "analyz" in i.lower()]) / max(len(insights), 1),
+            "creative": len([i for i in insights if "creativ" in i.lower() or "innovat" in i.lower()])
             / max(len(insights), 1),
             "logical": self._assess_logical_validity(reasoning),
             "adaptive": 0.7,  # Would implement adaptive intelligence detection
-            "metacognitive": "metacognitive" in raw_output.lower()
-            or "thinking about thinking" in raw_output.lower(),
+            "metacognitive": "metacognitive" in raw_output.lower() or "thinking about thinking" in raw_output.lower(),
         }
 
         # Calculate overall intelligence score
@@ -514,12 +490,8 @@ class NIASAdapter:
         base_confidence = reasoning.get("confidence_factors", {}).get("context_relevance", 0.5)
 
         # Add NIAS-specific confidence factors
-        neural_bonus = (
-            0.15 if self._identify_neural_patterns(reasoning)["complexity"] > 0.6 else 0.0
-        )
-        intelligence_bonus = (
-            0.1 if self._calculate_intelligence_metrics(reasoning)["overall"] > 0.7 else 0.0
-        )
+        neural_bonus = 0.15 if self._identify_neural_patterns(reasoning)["complexity"] > 0.6 else 0.0
+        intelligence_bonus = 0.1 if self._calculate_intelligence_metrics(reasoning)["overall"] > 0.7 else 0.0
 
         return min(base_confidence + neural_bonus + intelligence_bonus, 1.0)
 
@@ -546,15 +518,11 @@ class ABASAdapter:
             "risk_assessment": "Business risk evaluation",
         }
 
-    async def perform_business_analysis(
-        self, request: LambdaProductRequest
-    ) -> LambdaProductResponse:
+    async def perform_business_analysis(self, request: LambdaProductRequest) -> LambdaProductResponse:
         """Perform business analysis using GPT-OSS"""
 
         start_time = time.time()
-        request_id = (
-            f"abas_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
-        )
+        request_id = f"abas_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
 
         # Create business analysis prompt
         enhanced_data = {
@@ -579,9 +547,7 @@ class ABASAdapter:
         processing_time = int((time.time() - start_time) * 1000)
 
         # Business analysis symbolic signature
-        symbolic_signature = (
-            f"ΛB{lambda_enhanced['business_score']:.0f}{lambda_enhanced['strategic_value']:.0f}"
-        )
+        symbolic_signature = f"ΛB{lambda_enhanced['business_score']:.0f}{lambda_enhanced['strategic_value']:.0f}"
 
         response = LambdaProductResponse(
             product_type=self.product_type,
@@ -747,9 +713,7 @@ class ABASAdapter:
         """Calculate overall business analysis score"""
         # Simplified scoring based on analysis completeness
         market_score = 0.8 if enhanced["market_analysis"]["growth_potential"] == "high" else 0.6
-        financial_score = (
-            0.9 if enhanced["financial_assessment"]["revenue_potential"] == "positive" else 0.7
-        )
+        financial_score = 0.9 if enhanced["financial_assessment"]["revenue_potential"] == "positive" else 0.7
         strategic_score = len(enhanced["strategic_evaluation"]) / 5.0
 
         return (market_score + financial_score + strategic_score) / 3.0 * 100
@@ -798,15 +762,11 @@ class DASTAdapter:
             "prescriptive": "What should be done analysis",
         }
 
-    async def perform_data_analytics_strategy(
-        self, request: LambdaProductRequest
-    ) -> LambdaProductResponse:
+    async def perform_data_analytics_strategy(self, request: LambdaProductRequest) -> LambdaProductResponse:
         """Perform data analytics and strategic thinking"""
 
         start_time = time.time()
-        request_id = (
-            f"dast_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
-        )
+        request_id = f"dast_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
 
         # Create data analytics prompt
         enhanced_data = {
@@ -831,9 +791,7 @@ class DASTAdapter:
         processing_time = int((time.time() - start_time) * 1000)
 
         # DAST symbolic signature
-        symbolic_signature = (
-            f"ΛD{lambda_enhanced['analytics_score']:.0f}{lambda_enhanced['strategic_depth']:.0f}"
-        )
+        symbolic_signature = f"ΛD{lambda_enhanced['analytics_score']:.0f}{lambda_enhanced['strategic_depth']:.0f}"
 
         response = LambdaProductResponse(
             product_type=self.product_type,
@@ -851,9 +809,7 @@ class DASTAdapter:
         logger.info(f"DAST processing complete: {request_id}")
         return response
 
-    def _enhance_with_dast_analysis(
-        self, gpt_result: dict[str, Any], request: LambdaProductRequest
-    ) -> dict[str, Any]:
+    def _enhance_with_dast_analysis(self, gpt_result: dict[str, Any], request: LambdaProductRequest) -> dict[str, Any]:
         """Enhance with data analytics and strategic thinking"""
 
         reasoning = gpt_result.get("reasoning", {})
@@ -962,9 +918,7 @@ class DASTAdapter:
         """Calculate analytics capability score"""
         pattern_score = enhanced["data_patterns"]["strength"] * 0.4
         insight_score = len(enhanced["data_insights"]) / 10.0 * 0.3
-        predictive_score = (
-            0.8 if enhanced["predictive_analysis"]["confidence_interval"] == "high" else 0.6
-        )
+        predictive_score = 0.8 if enhanced["predictive_analysis"]["confidence_interval"] == "high" else 0.6
         predictive_score *= 0.3
 
         return (pattern_score + insight_score + predictive_score) * 100

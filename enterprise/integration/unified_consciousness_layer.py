@@ -191,9 +191,7 @@ class UnifiedConsciousnessLayer:
 
         # Step 5: Enterprise observability (Jules)
         processing_time = (datetime.now() - start_time).total_seconds() * 1000
-        self.observability_stack.submit_metric(
-            "histogram", "lukhas.consciousness.request_duration_ms", processing_time
-        )
+        self.observability_stack.submit_metric("histogram", "lukhas.consciousness.request_duration_ms", processing_time)
 
         return {
             "response": orchestration_result.get("response", ""),

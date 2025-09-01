@@ -18,12 +18,17 @@ import time
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
+from candidate.aka_qualia.glyphs import compute_glyph_priority, map_scene_to_glyphs, normalize_glyph_keys
 from candidate.aka_qualia.metrics import AkaQualiaMetrics, EnergySnapshot
 from candidate.aka_qualia.models import Metrics, PhenomenalGlyph, PhenomenalScene, ProtoQualia, RegulationPolicy
+from candidate.aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
+from candidate.aka_qualia.palette import get_safe_palette_recommendation
 from candidate.aka_qualia.pls import PLS
 from candidate.aka_qualia.regulation import RegulationAuditEntry, RegulationPolicyEngine
+from candidate.aka_qualia.router_client import RouterClient, compute_routing_priority, create_router_client
 from candidate.aka_qualia.teq_hook import TEQGuardian
 from candidate.aka_qualia.vivox_integration import VivoxAkaQualiaIntegration
+from candidate.metrics import get_metrics_collector
 
 
 class AkaQualia:
@@ -43,7 +48,8 @@ class AkaQualia:
         pls: Optional[PLS] = None,
         teq_guardian: Optional[TEQGuardian] = None,
         glyph_mapper: Optional[Callable] = None,
-        router: Optional[Any] = None,
+        router: Optional[RouterClient] = None,
+        oneiric_hook: Optional[OneiricHook] = None,
         memory: Optional[Any] = None,
         config: Optional[Dict[str, Any]] = None,
     ):
@@ -62,7 +68,6 @@ class AkaQualia:
         self.pls = pls or PLS()
         self.teq_guardian = teq_guardian or TEQGuardian()
         self.glyph_mapper = glyph_mapper or self._default_glyph_mapper
-        self.router = router
         self.memory = memory
 
         # Load configuration
@@ -88,6 +93,26 @@ class AkaQualia:
                 "audit_log_path": self.config.get("regulation_audit_path", "logs/aka_qualia_regulation.jsonl"),
             }
         )
+
+        # Initialize metrics collector for observability (B4: akaq_ prefixed integration)
+        self.metrics_collector = get_metrics_collector()
+
+        # Initialize router client (C2: Wave C router integration)
+        if router:
+            self.router = router
+        else:
+            router_type = self.config.get("router_type", "lukhas")
+            router_config = self.config.get("router", {})
+            self.router = create_router_client(router_type, router_config)
+
+        # Initialize oneiric hook (C3: Wave C oneiric integration)
+        if oneiric_hook:
+            self.oneiric_hook = oneiric_hook
+        else:
+            oneiric_mode = self.config.get("oneiric_mode", "local")
+            oneiric_base_url = self.config.get("oneiric_base_url")
+            oneiric_config = self.config.get("oneiric", {})
+            self.oneiric_hook = create_oneiric_hook(oneiric_mode, oneiric_base_url, oneiric_config)
 
         # State tracking
         self.scene_history: List[PhenomenalScene] = []
@@ -199,13 +224,31 @@ class AkaQualia:
         """
         Generate GLYPH representations for symbolic routing.
 
+        Uses deterministic Wave C glyph mapping with cultural palette adaptation
+        and loop camouflaging defense.
+
         Args:
             scene: PhenomenalScene to convert to glyphs
 
         Returns:
-            List[PhenomenalGlyph]: Symbolic representations
+            List[PhenomenalGlyph]: Normalized symbolic representations
         """
-        return self.glyph_mapper(scene)
+        # Use deterministic Wave C glyph mapper
+        raw_glyphs = map_scene_to_glyphs(scene)
+
+        # Apply normalization for loop camouflaging defense
+        normalized_glyphs = normalize_glyph_keys(raw_glyphs)
+
+        # Enhance context with cultural palette recommendations if needed
+        if scene.risk.severity.value in {"moderate", "high"}:
+            culture_profile = self.config.get("culture_profile", "default")
+            safe_palette = get_safe_palette_recommendation(scene.proto.colorfield, culture_profile)
+
+            # Add safe palette to scene context for downstream systems
+            if hasattr(scene.context, "update") and isinstance(scene.context, dict):
+                scene.context.update({"safe_palette_recommendation": safe_palette})
+
+        return normalized_glyphs
 
     def regulate(
         self, scene: PhenomenalScene, guardian_state: Dict[str, Any], energy_before: float
@@ -255,6 +298,9 @@ class AkaQualia:
         Returns:
             Dict containing scene, glyphs, policy, metrics
         """
+        # Track processing time for B4 metrics
+        step_start_time = time.time()
+
         # Step 1: Infer phenomenological scene
         scene = self.infer_scene(signals=signals, goals=goals, ethics_state=ethics_state, memory_ctx=memory_ctx)
 
@@ -335,23 +381,67 @@ class AkaQualia:
         # Step 6: Log and store with regulation audit
         self._log_results(regulated_scene, glyphs, policy, metrics, audit_entry)
 
-        # Step 6: Route glyphs if enabled
-        if self.config["enable_glyph_routing"] and self.router:
+        # Step 6: Route glyphs with priority weighting (C2: Wave C router integration)
+        if self.config.get("enable_glyph_routing", True) and self.router:
             try:
-                self.router.route(glyphs)
-            except Exception as e:
-                print(f"Warning: Glyph routing failed: {e}")
+                # Compute routing priority using Freud-2025 Wave C formula
+                routing_priority = compute_routing_priority(regulated_scene)
 
-        return {
+                # Add routing context
+                routing_context = {
+                    "episode_id": metrics.episode_id,
+                    "risk_severity": regulated_scene.risk.severity.value,
+                    "energy_conservation_ratio": conservation_ratio if energy_snapshot else 1.0,
+                    "vivox_drift_score": vivox_results.get("drift_analysis", {}).get("drift_score", 0.0),
+                }
+
+                self.router.route(glyphs, routing_priority, routing_context)
+
+                # Log routing decision
+                logger.info(f"Routed {len(glyphs)} glyphs with priority {routing_priority:.3f}")
+
+            except Exception as e:
+                logger.error(f"Glyph routing failed: {e}")
+                if not self.config.get("router_fallback_on_error", True):
+                    raise
+
+        # Step 7: Apply oneiric hook for narrative feedback (C3: Wave C oneiric integration)
+        oneiric_hints = {}
+        if self.config.get("enable_oneiric_feedback", True) and self.oneiric_hook:
+            try:
+                oneiric_hints = self.oneiric_hook.apply_policy(scene=regulated_scene, policy=policy)
+                logger.debug(f"Generated {len(oneiric_hints)} oneiric hints for narrative feedback")
+            except Exception as e:
+                logger.error(f"Oneiric feedback failed: {e}")
+                if not self.config.get("oneiric_fallback_on_error", True):
+                    raise
+
+        # Step 8: Update LUKHAS metrics system (B4: akaq_ prefixed observability)
+        result = {
             "scene": regulated_scene,
             "glyphs": glyphs,
             "policy": policy,
             "metrics": metrics,
+            "oneiric_hints": oneiric_hints,
             "energy_snapshot": energy_snapshot,
             "regulation_audit": audit_entry,
             "vivox_results": vivox_results,
             "timestamp": scene.timestamp,
         }
+
+        # Record complete scene processing in LUKHAS metrics
+        self.metrics_collector.record_aka_qualia_scene(result)
+
+        # Record regulation policy metrics
+        policy_dict = {"gain": policy.gain, "pace": policy.pace, "actions": policy.actions}
+        audit_dict = audit_entry.__dict__ if hasattr(audit_entry, "__dict__") else audit_entry
+        self.metrics_collector.record_aka_qualia_regulation(policy_dict, audit_dict)
+
+        # Record total processing time
+        step_duration = time.time() - step_start_time
+        self.metrics_collector.record_aka_qualia_processing_time(step_duration)
+
+        return result
 
     def _apply_regulation(self, scene: PhenomenalScene, policy: RegulationPolicy) -> PhenomenalScene:
         """
@@ -735,3 +825,12 @@ class AkaQualia:
             },
             "config": self.config,
         }
+
+    def get_prometheus_metrics(self) -> bytes:
+        """
+        Get Prometheus metrics content (B4: akaq_ prefixed observability).
+
+        Returns:
+            Prometheus metrics in exposition format
+        """
+        return self.metrics_collector.get_metrics()

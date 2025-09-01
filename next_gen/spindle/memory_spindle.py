@@ -84,9 +84,7 @@ class MemorySpindle:
         logger.info(f"   Window size: {window_size}")
         logger.info(f"   Log file: {log_file}")
 
-    def add_memory(
-        self, glyphs: list[str], entropy_score: float, entropy_class: str, content: dict
-    ):
+    def add_memory(self, glyphs: list[str], entropy_score: float, entropy_class: str, content: dict):
         """Add a memory to the spindle"""
         self.memory_window.append(
             {

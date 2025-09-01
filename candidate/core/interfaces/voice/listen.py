@@ -68,9 +68,7 @@ Respond symbolically, with empathy and intelligence.
 
 def loop_symbolic_conversation():
     logger.info("Starting symbolic conversation loop")
-    print(
-        "🔁 LUKHAS is now listening + responding symbolically. Ctrl+C to stop.\n"
-    )  # Keep UI output
+    print("🔁 LUKHAS is now listening + responding symbolically. Ctrl+C to stop.\n")  # Keep UI output
     while True:
         input_text = listen_to_human()
         if input_text:

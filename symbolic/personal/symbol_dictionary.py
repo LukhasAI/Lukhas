@@ -194,9 +194,7 @@ class PersonalSymbolDictionary:
             return False
 
         # Create mapping
-        mapping = SymbolMapping(
-            symbol=symbol, meaning=meaning, gesture_type=gesture_type, context=context
-        )
+        mapping = SymbolMapping(symbol=symbol, meaning=meaning, gesture_type=gesture_type, context=context)
 
         # Store mapping
         self.mappings[symbol] = mapping
@@ -212,9 +210,7 @@ class PersonalSymbolDictionary:
             self.gesture_patterns[pattern.pattern_id] = pattern
 
         # Track evolution
-        self.evolution_history.append(
-            {"action": "add_symbol", "symbol": symbol, "timestamp": time.time()}
-        )
+        self.evolution_history.append({"action": "add_symbol", "symbol": symbol, "timestamp": time.time()})
 
         logger.info(f"Added symbol mapping: {symbol} -> {meaning}")
         return True
@@ -229,9 +225,7 @@ class PersonalSymbolDictionary:
             return mapping.meaning
         return None
 
-    def detect_gesture(
-        self, gesture_sequence: list[str], timings: Optional[list[float]] = None
-    ) -> Optional[str]:
+    def detect_gesture(self, gesture_sequence: list[str], timings: Optional[list[float]] = None) -> Optional[str]:
         """Detect symbol from gesture sequence"""
         for pattern in self.gesture_patterns.values():
             if pattern.matches(gesture_sequence, timings or []):
@@ -316,15 +310,9 @@ class PersonalSymbolDictionary:
 
         for symbol, mapping in self.mappings.items():
             # Only export high-confidence, non-personal symbols
-            if (
-                mapping.confidence >= confidence_threshold
-                and mapping.context != "personal"
-                and mapping.usage_count > 5
-            ):
+            if mapping.confidence >= confidence_threshold and mapping.context != "personal" and mapping.usage_count > 5:
                 # Hash the meaning for privacy
-                meaning_hash = hashlib.sha256(
-                    f"{self.user_id}:{mapping.meaning}".encode()
-                ).hexdigest()[:8]
+                meaning_hash = hashlib.sha256(f"{self.user_id}:{mapping.meaning}".encode()).hexdigest()[:8]
 
                 public_symbols[symbol] = meaning_hash
 
@@ -354,12 +342,8 @@ class PersonalSymbolDictionary:
         try:
             # Prepare data
             data = {
-                "mappings": {
-                    symbol: mapping.to_dict() for symbol, mapping in self.mappings.items()
-                },
-                "gesture_patterns": {
-                    pid: asdict(pattern) for pid, pattern in self.gesture_patterns.items()
-                },
+                "mappings": {symbol: mapping.to_dict() for symbol, mapping in self.mappings.items()},
+                "gesture_patterns": {pid: asdict(pattern) for pid, pattern in self.gesture_patterns.items()},
                 "evolution_history": self.evolution_history,
                 "feedback_scores": self.feedback_scores,
             }
@@ -395,8 +379,7 @@ class PersonalSymbolDictionary:
 
             # Restore patterns
             self.gesture_patterns = {
-                pid: GesturePattern(**pattern_data)
-                for pid, pattern_data in data.get("gesture_patterns", {}).items()
+                pid: GesturePattern(**pattern_data) for pid, pattern_data in data.get("gesture_patterns", {}).items()
             }
 
             self.evolution_history = data.get("evolution_history", [])
@@ -447,10 +430,7 @@ def demo_personal_dictionary():
 
         # Get statistics
         stats = dictionary.get_statistics()
-        print(
-            f"📊 Dictionary stats: {stats['total_symbols']} symbols, "
-            f"{stats['total_usage']} total uses"
-        )
+        print(f"📊 Dictionary stats: {stats['total_symbols']} symbols, " f"{stats['total_usage']} total uses")
 
         # Export public symbols for universal exchange
         public = dictionary.export_public_symbols()

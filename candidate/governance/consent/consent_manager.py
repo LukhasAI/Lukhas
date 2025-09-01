@@ -159,9 +159,7 @@ class ConsentRecord:
     withdrawal_reason: Optional[str] = None
 
     # Compliance context
-    applicable_regimes: list[ComplianceRegime] = field(
-        default_factory=lambda: [ComplianceRegime.GDPR]
-    )
+    applicable_regimes: list[ComplianceRegime] = field(default_factory=lambda: [ComplianceRegime.GDPR])
     consent_evidence: dict[str, Any] = field(default_factory=dict)
 
     # Technical details
@@ -332,29 +330,20 @@ class AdvancedConsentManager:
                 # Check if consent already exists and is valid
                 existing_consent = await self._get_active_consent(user_id, purpose_id)
                 if existing_consent and existing_consent.status == ConsentStatus.GRANTED:
-                    logger.info(
-                        f"ℹ️ Valid consent already exists for user {user_id}, purpose {purpose_id}"
-                    )
+                    logger.info(f"ℹ️ Valid consent already exists for user {user_id}, purpose {purpose_id}")
                     consent_records[purpose_id] = existing_consent
                     continue
 
                 # Create new consent record
-                consent_record = await self._create_consent_record(
-                    user_id, purpose, method, context
-                )
+                consent_record = await self._create_consent_record(user_id, purpose, method, context)
 
                 # Validate GDPR Article 7 requirements
                 validation_result = await self._validate_gdpr_article_7(consent_record, context)
                 if not validation_result["valid"]:
-                    logger.error(
-                        f"❌ GDPR Article 7 validation failed: {validation_result['reasons']}"
-                    )
+                    logger.error(f"❌ GDPR Article 7 validation failed: {validation_result['reasons']}")
                     consent_record.status = ConsentStatus.INVALID
                     consent_record.guardian_validations.extend(
-                        [
-                            f"GDPR validation failed: {reason}"
-                            for reason in validation_result["reasons"]
-                        ]
+                        [f"GDPR validation failed: {reason}" for reason in validation_result["reasons"]]
                     )
 
                 # Store consent record
@@ -366,9 +355,7 @@ class AdvancedConsentManager:
                     receipt = await self._generate_consent_receipt(user_id, [purpose_id])
                     self.consent_receipts[receipt.receipt_id] = receipt
 
-                logger.info(
-                    f"✅ Consent record created: {consent_record.consent_id} for purpose {purpose_id}"
-                )
+                logger.info(f"✅ Consent record created: {consent_record.consent_id} for purpose {purpose_id}")
 
             # Update metrics
             await self._update_metrics()
@@ -402,9 +389,7 @@ class AdvancedConsentManager:
             withdrawals = 0
 
             # Get all active consents for user
-            active_consents = await self._get_user_consents(
-                user_id, status_filter=ConsentStatus.GRANTED
-            )
+            active_consents = await self._get_user_consents(user_id, status_filter=ConsentStatus.GRANTED)
 
             if purpose_ids is None:
                 # Withdraw all consents
@@ -412,9 +397,7 @@ class AdvancedConsentManager:
             else:
                 # Withdraw specific purposes
                 consents_to_withdraw = [
-                    consent
-                    for consent in active_consents
-                    if consent.purpose.purpose_id in purpose_ids
+                    consent for consent in active_consents if consent.purpose.purpose_id in purpose_ids
                 ]
 
             withdrawal_time = datetime.now()
@@ -428,15 +411,11 @@ class AdvancedConsentManager:
                 consent.updated_at = withdrawal_time
 
                 # Add guardian validation
-                consent.guardian_validations.append(
-                    f"Consent withdrawn at {withdrawal_time} via {method.value}"
-                )
+                consent.guardian_validations.append(f"Consent withdrawn at {withdrawal_time} via {method.value}")
 
                 withdrawals += 1
 
-                logger.info(
-                    f"✅ Consent withdrawn: {consent.consent_id} for purpose {consent.purpose.purpose_id}"
-                )
+                logger.info(f"✅ Consent withdrawn: {consent.consent_id} for purpose {consent.purpose.purpose_id}")
 
             if withdrawals > 0:
                 # Update metrics
@@ -547,9 +526,7 @@ class AdvancedConsentManager:
         # Calculate expiration date
         expires_at = None
         if purpose.retention_period > 0:
-            expires_at = current_time + timedelta(
-                days=min(purpose.retention_period, self.consent_expiry_days)
-            )
+            expires_at = current_time + timedelta(days=min(purpose.retention_period, self.consent_expiry_days))
 
         # Create consent record
         consent_record = ConsentRecord(
@@ -564,9 +541,7 @@ class AdvancedConsentManager:
             ip_address=context.get("ip_address"),
             user_agent=context.get("user_agent"),
             geolocation=context.get("geolocation"),
-            consent_text=context.get(
-                "consent_text", f"I consent to processing my data for {purpose.name}"
-            ),
+            consent_text=context.get("consent_text", f"I consent to processing my data for {purpose.name}"),
             privacy_policy_version=context.get("privacy_policy_version", "1.0"),
             applicable_regimes=[ComplianceRegime.GDPR],  # Default to GDPR
         )
@@ -592,9 +567,7 @@ class AdvancedConsentManager:
 
         return consent_record
 
-    async def _validate_gdpr_article_7(
-        self, consent_record: ConsentRecord, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _validate_gdpr_article_7(self, consent_record: ConsentRecord, context: dict[str, Any]) -> dict[str, Any]:
         """Validate GDPR Article 7 requirements"""
 
         validation_issues = []
@@ -618,9 +591,7 @@ class AdvancedConsentManager:
             validation_issues.append("Withdrawal information not provided")
 
         # Article 7(4) - Necessity assessment for contracts
-        if consent_record.consent_type == ConsentType.CONTRACT and not context.get(
-            "necessity_assessed", False
-        ):
+        if consent_record.consent_type == ConsentType.CONTRACT and not context.get("necessity_assessed", False):
             validation_issues.append("Contract necessity not assessed")
 
         # Informed consent validation
@@ -644,9 +615,7 @@ class AdvancedConsentManager:
             "article_7_compliant": len(validation_issues) == 0,
         }
 
-    async def _generate_consent_receipt(
-        self, user_id: str, purpose_ids: list[str]
-    ) -> ConsentReceipt:
+    async def _generate_consent_receipt(self, user_id: str, purpose_ids: list[str]) -> ConsentReceipt:
         """Generate GDPR-compliant consent receipt"""
 
         receipt_id = f"receipt_{uuid.uuid4().hex[:12]}"
@@ -715,30 +684,21 @@ class AdvancedConsentManager:
     ) -> list[ConsentRecord]:
         """Get all consent records for a user"""
 
-        user_consents = [
-            consent for consent in self.consent_records.values() if consent.user_id == user_id
-        ]
+        user_consents = [consent for consent in self.consent_records.values() if consent.user_id == user_id]
 
         if status_filter:
-            user_consents = [
-                consent for consent in user_consents if consent.status == status_filter
-            ]
+            user_consents = [consent for consent in user_consents if consent.status == status_filter]
 
         return user_consents
 
-    async def _trigger_data_processing_updates(
-        self, user_id: str, withdrawn_consents: list[ConsentRecord]
-    ):
+    async def _trigger_data_processing_updates(self, user_id: str, withdrawn_consents: list[ConsentRecord]):
         """Trigger updates to data processing systems when consent is withdrawn"""
 
         # This would integrate with actual data processing systems
         # to stop processing based on withdrawn consent
 
         for consent in withdrawn_consents:
-            logger.info(
-                f"🛑 Data processing stopped for user {user_id}, "
-                f"purpose {consent.purpose.purpose_id}"
-            )
+            logger.info(f"🛑 Data processing stopped for user {user_id}, " f"purpose {consent.purpose.purpose_id}")
 
             # Add guardian validation for immediate effect
             consent.guardian_validations.append(
@@ -749,15 +709,9 @@ class AdvancedConsentManager:
         """Update consent management metrics"""
 
         total_consents = len(self.consent_records)
-        active_consents = len(
-            [c for c in self.consent_records.values() if c.status == ConsentStatus.GRANTED]
-        )
-        withdrawn_consents = len(
-            [c for c in self.consent_records.values() if c.status == ConsentStatus.WITHDRAWN]
-        )
-        expired_consents = len(
-            [c for c in self.consent_records.values() if c.status == ConsentStatus.EXPIRED]
-        )
+        active_consents = len([c for c in self.consent_records.values() if c.status == ConsentStatus.GRANTED])
+        withdrawn_consents = len([c for c in self.consent_records.values() if c.status == ConsentStatus.WITHDRAWN])
+        expired_consents = len([c for c in self.consent_records.values() if c.status == ConsentStatus.EXPIRED])
 
         self.metrics.update(
             {
@@ -765,25 +719,17 @@ class AdvancedConsentManager:
                 "active_consents": active_consents,
                 "withdrawn_consents": withdrawn_consents,
                 "expired_consents": expired_consents,
-                "withdrawal_rate": withdrawn_consents / total_consents
-                if total_consents > 0
-                else 0.0,
+                "withdrawal_rate": withdrawn_consents / total_consents if total_consents > 0 else 0.0,
                 "last_updated": datetime.now().isoformat(),
             }
         )
 
         # Calculate GDPR compliance rate
         gdpr_compliant = len(
-            [
-                c
-                for c in self.consent_records.values()
-                if c.freely_given and c.specific and c.informed and c.unambiguous
-            ]
+            [c for c in self.consent_records.values() if c.freely_given and c.specific and c.informed and c.unambiguous]
         )
 
-        self.metrics["gdpr_compliance_rate"] = (
-            gdpr_compliant / total_consents if total_consents > 0 else 1.0
-        )
+        self.metrics["gdpr_compliance_rate"] = gdpr_compliant / total_consents if total_consents > 0 else 1.0
 
         # Update purpose-specific metrics
         purpose_counts = {}
@@ -802,9 +748,7 @@ class AdvancedConsentManager:
             "user_id": user_id,
             "total_consents": len(user_consents),
             "active_consents": len([c for c in user_consents if c.status == ConsentStatus.GRANTED]),
-            "withdrawn_consents": len(
-                [c for c in user_consents if c.status == ConsentStatus.WITHDRAWN]
-            ),
+            "withdrawn_consents": len([c for c in user_consents if c.status == ConsentStatus.WITHDRAWN]),
             "consent_details": [],
         }
 
@@ -828,9 +772,7 @@ class AdvancedConsentManager:
 
         return dashboard_data
 
-    async def export_consent_audit_trail(
-        self, user_id: Optional[str] = None
-    ) -> list[dict[str, Any]]:
+    async def export_consent_audit_trail(self, user_id: Optional[str] = None) -> list[dict[str, Any]]:
         """Export complete audit trail for consent records"""
 
         consents_to_export = []
@@ -860,9 +802,7 @@ class AdvancedConsentManager:
                 "timestamps": {
                     "granted_at": consent.granted_at.isoformat(),
                     "expires_at": consent.expires_at.isoformat() if consent.expires_at else None,
-                    "withdrawn_at": consent.withdrawn_at.isoformat()
-                    if consent.withdrawn_at
-                    else None,
+                    "withdrawn_at": consent.withdrawn_at.isoformat() if consent.withdrawn_at else None,
                     "updated_at": consent.updated_at.isoformat(),
                 },
                 "gdpr_article_7": {
@@ -879,9 +819,7 @@ class AdvancedConsentManager:
                     "geolocation": consent.geolocation,
                 },
                 "withdrawal_info": {
-                    "method": consent.withdrawal_method.value
-                    if consent.withdrawal_method
-                    else None,
+                    "method": consent.withdrawal_method.value if consent.withdrawal_method else None,
                     "reason": consent.withdrawal_reason,
                 },
                 "compliance": {
@@ -910,11 +848,7 @@ class AdvancedConsentManager:
         current_time = datetime.now()
 
         for consent in self.consent_records.values():
-            if (
-                consent.expires_at
-                and current_time > consent.expires_at
-                and consent.status == ConsentStatus.GRANTED
-            ):
+            if consent.expires_at and current_time > consent.expires_at and consent.status == ConsentStatus.GRANTED:
                 consent.status = ConsentStatus.EXPIRED
                 consent.updated_at = current_time
                 consent.guardian_validations.append(f"Automatically expired at {current_time}")

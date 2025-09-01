@@ -234,9 +234,7 @@ class AdaptiveLearningEngine:
                     rationale=f"Adaptive candidate {cand.id} (offline={cand.score_offline})",
                 )
                 prop.attestation = (
-                    _attest([{"phase": "adaptive", "candidate": asdict(cand)}])
-                    if "_attest" in globals()
-                    else None
+                    _attest([{"phase": "adaptive", "candidate": asdict(cand)}]) if "_attest" in globals() else None
                 )
                 _queue_proposal(prop)
                 planned.append(pid)
@@ -267,9 +265,7 @@ class AdaptiveLearningEngine:
         if not os.path.exists(CANDIDATES):
             return []
         return [
-            json.loads(ln)
-            for ln in _ORIG_OPEN(CANDIDATES, "r", encoding="utf-8").read().splitlines()
-            if ln.strip()
+            json.loads(ln) for ln in _ORIG_OPEN(CANDIDATES, "r", encoding="utf-8").read().splitlines() if ln.strip()
         ]
 
     def _write_candidates(self, arr: list[dict]):

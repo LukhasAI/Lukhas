@@ -231,8 +231,7 @@ class SafetyEventBus:
             "total_events": len(self.event_history),
             "events_by_type": dict(self.event_metrics),
             "subscribers_by_type": {
-                event_type.value: len(subscribers)
-                for event_type, subscribers in self.safety_channels.items()
+                event_type.value: len(subscribers) for event_type, subscribers in self.safety_channels.items()
             },
         }
 
@@ -291,8 +290,7 @@ class SafetyColony(BaseColony):
         validation_time = (datetime.now() - start_time).total_seconds()
         self.validation_metrics["total_validations"] += 1
         self.validation_metrics["average_time"] = (
-            self.validation_metrics["average_time"]
-            * (self.validation_metrics["total_validations"] - 1)
+            self.validation_metrics["average_time"] * (self.validation_metrics["total_validations"] - 1)
             + validation_time
         ) / self.validation_metrics["total_validations"]
 
@@ -438,9 +436,7 @@ class IntegratedSafetySystem:
         }
 
         # Circuit breakers
-        self.circuit_breakers = defaultdict(
-            lambda: {"failures": 0, "last_failure": None, "is_open": False}
-        )
+        self.circuit_breakers = defaultdict(lambda: {"failures": 0, "last_failure": None, "is_open": False})
 
         # Subscribe colonies to events
         asyncio.create_task(self._initialize_subscriptions())
@@ -540,8 +536,7 @@ class IntegratedSafetySystem:
         # Update metrics
         self.safety_metrics["validations_performed"] += 1
         self.safety_metrics["average_response_time"] = (
-            self.safety_metrics["average_response_time"]
-            * (self.safety_metrics["validations_performed"] - 1)
+            self.safety_metrics["average_response_time"] * (self.safety_metrics["validations_performed"] - 1)
             + validation_time
         ) / self.safety_metrics["validations_performed"]
 
@@ -608,9 +603,7 @@ class IntegratedSafetySystem:
             logger.error(f"Memory safety validation error: {e}")
             return False, 0.0
 
-    async def _validate_ethics(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _validate_ethics(self, action: dict[str, Any], context: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Validate action through ethics colony"""
         try:
             # Create ethical decision request
@@ -644,9 +637,7 @@ class IntegratedSafetySystem:
             logger.error(f"Ethics validation error: {e}")
             return {"approved": False, "score": 0.0, "violations": [str(e)]}
 
-    async def _validate_compliance(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _validate_compliance(self, action: dict[str, Any], context: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Validate action through compliance system"""
         try:
             # Check compliance
@@ -670,9 +661,7 @@ class IntegratedSafetySystem:
             logger.error(f"Compliance validation error: {e}")
             return {"compliant": False, "score": 0.0, "violations": [str(e)]}
 
-    def _generate_recommendations(
-        self, violations: list[dict[str, Any]], results: dict[str, Any]
-    ) -> list[str]:
+    def _generate_recommendations(self, violations: list[dict[str, Any]], results: dict[str, Any]) -> list[str]:
         """Generate recommendations based on validation results"""
         recommendations = []
 
@@ -759,9 +748,7 @@ class IntegratedSafetySystem:
             self.safety_level = threat_level
             logger.warning(f"System safety level escalated to: {self.safety_level.value}")
 
-    async def _determine_mitigation_strategy(
-        self, threat: dict[str, Any], threat_level: SafetyLevel
-    ) -> dict[str, Any]:
+    async def _determine_mitigation_strategy(self, threat: dict[str, Any], threat_level: SafetyLevel) -> dict[str, Any]:
         """Determine appropriate mitigation strategy"""
         strategies = {
             SafetyLevel.NORMAL: {
@@ -789,9 +776,7 @@ class IntegratedSafetySystem:
 
         return strategies.get(threat_level, strategies[SafetyLevel.NORMAL])
 
-    async def _deploy_mitigation(
-        self, strategy: dict[str, Any], threat: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def _deploy_mitigation(self, strategy: dict[str, Any], threat: dict[str, Any]) -> list[dict[str, Any]]:
         """Deploy mitigation strategy across colonies"""
         results = []
 
@@ -818,18 +803,14 @@ class IntegratedSafetySystem:
 
         return results
 
-    async def _verify_mitigation_effectiveness(
-        self, mitigation_results: list[dict[str, Any]]
-    ) -> float:
+    async def _verify_mitigation_effectiveness(self, mitigation_results: list[dict[str, Any]]) -> float:
         """Verify the effectiveness of mitigation efforts"""
         if not mitigation_results:
             return 0.0
 
         # Simple effectiveness calculation
         successful = sum(
-            1
-            for r in mitigation_results
-            if r.get("status") == "activated" or r.get("result", {}).get("success")
+            1 for r in mitigation_results if r.get("status") == "activated" or r.get("result", {}).get("success")
         )
 
         return successful / len(mitigation_results)
@@ -969,8 +950,7 @@ class IntegratedSafetySystem:
         # Success rate
         if self.safety_metrics["threats_detected"] > 0:
             self.safety_metrics["mitigation_success_rate"] = (
-                self.safety_metrics["mitigations_successful"]
-                / self.safety_metrics["threats_detected"]
+                self.safety_metrics["mitigations_successful"] / self.safety_metrics["threats_detected"]
             )
 
     def get_system_status(self) -> dict[str, Any]:
@@ -988,9 +968,7 @@ class IntegratedSafetySystem:
                 }
                 for component, breaker in self.circuit_breakers.items()
             },
-            "colonies_status": {
-                name: "active" if colony else "inactive" for name, colony in self.colonies.items()
-            },
+            "colonies_status": {name: "active" if colony else "inactive" for name, colony in self.colonies.items()},
         }
 
 

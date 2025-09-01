@@ -88,9 +88,7 @@ except ImportError as e_sym_replay_imp:
 
 
 try:
-    DREAM_LOGS_REPLAYER_DIR = Path(
-        os.getenv("LUKHAS_DREAM_LOGS_PATH_CONFIG", "./.lukhas_logs/memoria_dreams")
-    )
+    DREAM_LOGS_REPLAYER_DIR = Path(os.getenv("LUKHAS_DREAM_LOGS_PATH_CONFIG", "./.lukhas_logs/memoria_dreams"))
     DREAM_LOGS_REPLAYER_DIR.mkdir(parents=True, exist_ok=True)
 except Exception as e_path_replay_cfg:
     log.error(
@@ -116,8 +114,7 @@ def load_recent_dream_logs(
         specific_file_path=str(specific_log_file) if specific_log_file else "None",
     )
     target_log = specific_log_file or (
-        DREAM_LOGS_REPLAYER_DIR
-        / f"dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl"
+        DREAM_LOGS_REPLAYER_DIR / f"dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl"
     )
     if not target_log.exists():
         log.warning("Dream log file not found for replay.", path=str(target_log))
@@ -182,9 +179,7 @@ def replay_dreams_with_current_state() -> None:
         original_emo = dream_log_item.get("additional_metadata", {}).get(
             "emotional_tone", {"primary": "neutral_replay_tone"}
         )
-        replay_intro = (
-            f"Replaying LUKHAS Dream {i} (ID: {dream_log_item.get('dream_log_id', 'Unknown')}):"
-        )
+        replay_intro = f"Replaying LUKHAS Dream {i} (ID: {dream_log_item.get('dream_log_id', 'Unknown')}):"
         log.info(replay_intro, dream_preview=narrative[:80] + "...")
         try:
             speak(
@@ -233,8 +228,7 @@ if __name__ == "__main__":
     if not LUKHAS_SYMBOLIC_COMPONENTS_REPLAYER_AVAILABLE_FLAG:  # If using placeholders
         log.warning("Replayer example running with placeholders for symbolic_ai components.")
         dummy_log_file_path = (
-            DREAM_LOGS_REPLAYER_DIR
-            / f"dreams_log_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.jsonl"
+            DREAM_LOGS_REPLAYER_DIR / f"dreams_log_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.jsonl"
         )
         if not dummy_log_file_path.exists():
             try:

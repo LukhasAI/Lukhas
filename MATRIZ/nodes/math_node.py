@@ -148,9 +148,7 @@ class MathNode(CognitiveNode):
             # Create success state
             state = NodeState(
                 confidence=confidence,
-                salience=min(
-                    0.9, 0.5 + complexity_score * 0.4
-                ),  # Higher complexity = higher salience
+                salience=min(0.9, 0.5 + complexity_score * 0.4),  # Higher complexity = higher salience
                 valence=0.8,  # Positive - successful computation
                 utility=0.9,  # High utility for mathematical results
                 novelty=max(0.1, complexity_score),  # Novelty based on complexity
@@ -285,9 +283,7 @@ class MathNode(CognitiveNode):
 
             # Validate provenance
             provenance = matriz_node.get("provenance", {})
-            if "producer" not in provenance or "mathematical_computation" not in provenance.get(
-                "capabilities", []
-            ):
+            if "producer" not in provenance or "mathematical_computation" not in provenance.get("capabilities", []):
                 return False
 
             return True
@@ -479,9 +475,7 @@ class MathNode(CognitiveNode):
         except Exception:
             return 0.5  # Default complexity if calculation fails
 
-    def _calculate_confidence(
-        self, expression: str, result: Union[float, int], complexity: float
-    ) -> float:
+    def _calculate_confidence(self, expression: str, result: Union[float, int], complexity: float) -> float:
         """
         Calculate confidence score based on expression and result.
 
@@ -692,9 +686,7 @@ if __name__ == "__main__":
             # Check reflections
             if matriz_node["reflections"]:
                 reflection = matriz_node["reflections"][0]
-                print(
-                    f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:50]}..."
-                )
+                print(f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:50]}...")
 
             if is_valid and type_matches:
                 success_count += 1
@@ -706,9 +698,7 @@ if __name__ == "__main__":
             print(f"✗ EXCEPTION: {e!s}")
 
     print("\n" + "=" * 50)
-    print(
-        f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests * 100:.1f}%)"
-    )
+    print(f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests * 100:.1f}%)")
     print(f"Processing History: {len(math_node.get_trace())} MATRIZ nodes created")
 
     # Show deterministic behavior

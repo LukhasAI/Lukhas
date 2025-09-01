@@ -46,9 +46,7 @@ class LegacyComponentAdapter:
 
         logger.info(f"Legacy adapter initialized for {component_id}")
 
-    def adapt_legacy_message(
-        self, message: dict[str, Any], target: Optional[str] = None
-    ) -> Message:
+    def adapt_legacy_message(self, message: dict[str, Any], target: Optional[str] = None) -> Message:
         """Convert legacy message format to new standard
 
         Args:

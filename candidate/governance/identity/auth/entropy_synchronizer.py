@@ -97,9 +97,7 @@ class EntropySynchronizer:
                 entropy_logger.error("Constitutional validation failed for sync server")
                 return False
 
-            self.websocket_server = await websockets.serve(
-                self._handle_device_connection, host, port
-            )
+            self.websocket_server = await websockets.serve(self._handle_device_connection, host, port)
 
             entropy_logger.info(f"Entropy sync server started on {host}:{port}")
             return True
@@ -160,9 +158,7 @@ class EntropySynchronizer:
             device_type = self.connected_devices.get(device_id)
 
             if not device_type:
-                await websocket.send(
-                    json.dumps({"type": "error", "message": "Device not authenticated"})
-                )
+                await websocket.send(json.dumps({"type": "error", "message": "Device not authenticated"}))
                 return
 
             # Validate entropy quality
@@ -207,9 +203,7 @@ class EntropySynchronizer:
         except Exception as e:
             entropy_logger.error(f"Error processing entropy data: {e}")
 
-    def _calculate_entropy_quality(
-        self, entropy_data: dict[str, Any], device_type: DeviceType
-    ) -> float:
+    def _calculate_entropy_quality(self, entropy_data: dict[str, Any], device_type: DeviceType) -> float:
         """
         Calculate the quality score of entropy data.
 
@@ -229,9 +223,7 @@ class EntropySynchronizer:
 
         # Check temporal freshness
         if "timestamp" in entropy_data:
-            age_seconds = (
-                datetime.now() - datetime.fromisoformat(entropy_data["timestamp"])
-            ).total_seconds()
+            age_seconds = (datetime.now() - datetime.fromisoformat(entropy_data["timestamp"])).total_seconds()
             freshness_score = max(0.0, 1.0 - (age_seconds / 60.0))  # Decay over 1 minute
             quality_factors.append(freshness_score)
 
@@ -312,8 +304,7 @@ class EntropySynchronizer:
             "device_types": [dt.value for dt in self.connected_devices.values()],
             "entropy_sources": len(self.entropy_buffer),
             "total_entropy_bits": self._calculate_total_entropy_bits(),
-            "constitutional_compliance": self._calculate_total_entropy_bits()
-            >= self.min_entropy_bits,
+            "constitutional_compliance": self._calculate_total_entropy_bits() >= self.min_entropy_bits,
             "average_quality_score": (
                 sum(s.quality_score for s in self.entropy_buffer) / len(self.entropy_buffer)
                 if self.entropy_buffer

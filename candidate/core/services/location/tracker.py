@@ -98,10 +98,7 @@ class LocationTracker:
     def _should_update_location(self, new_location: LocationUpdate) -> bool:
         """Determine if location should be updated based on privacy and accuracy"""
         # Check minimum time interval
-        if (
-            self.last_update_time
-            and (datetime.utcnow() - self.last_update_time).total_seconds() < self.minimum_time
-        ):
+        if self.last_update_time and (datetime.utcnow() - self.last_update_time).total_seconds() < self.minimum_time:
             return False
 
         # Check minimum distance if we have a previous location

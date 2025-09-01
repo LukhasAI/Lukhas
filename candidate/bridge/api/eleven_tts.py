@@ -121,9 +121,7 @@ def main():
         return 1
 
     # Run async function
-    success = asyncio.run(
-        generate_speech(text, voice_id=args.voice, output_path=args.output, play=args.play)
-    )
+    success = asyncio.run(generate_speech(text, voice_id=args.voice, output_path=args.output, play=args.play))
 
     return 0 if success else 1
 

@@ -335,10 +335,7 @@ class SymbolicKernelBus:
                         self._metrics["events_failed"] += 1
 
                     # Retry logic for critical events
-                    if (
-                        event.priority == EventPriority.CRITICAL
-                        and event.retries < event.max_retries
-                    ):
+                    if event.priority == EventPriority.CRITICAL and event.retries < event.max_retries:
                         event.retries += 1
                         await self._requeue_event(event)
 
@@ -451,9 +448,7 @@ class SymbolicKernelBus:
                     # Validate compliance
                     validation = validate_output(branded_value, self._brand_context)
                     if not validation["valid"]:
-                        logger.debug(
-                            f"Event payload branding issue in {key}: {validation['issues']}"
-                        )
+                        logger.debug(f"Event payload branding issue in {key}: {validation['issues']}")
 
                     event.payload[key] = branded_value
 

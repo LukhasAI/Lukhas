@@ -188,9 +188,7 @@ class ColonyMemoryAdapter:
             colony_id=self.colony_id,
         )
 
-    def register_interface_factory(
-        self, memory_type: MemoryType, factory: Callable[..., BaseMemoryInterface]
-    ):
+    def register_interface_factory(self, memory_type: MemoryType, factory: Callable[..., BaseMemoryInterface]):
         """Register a factory for creating memory interfaces"""
         self.interface_factories[memory_type] = factory
 
@@ -459,9 +457,7 @@ class ColonyMemoryAdapter:
                     stats.total_operations += 1
                     stats.last_operation_time = time.time()
                     stats.memory_types_handled.add(
-                        operation.metadata.memory_type
-                        if operation.metadata
-                        else MemoryType.EPISODIC
+                        operation.metadata.memory_type if operation.metadata else MemoryType.EPISODIC
                     )
 
                     if response.success:
@@ -474,9 +470,7 @@ class ColonyMemoryAdapter:
                         stats.average_response_time = execution_time
                     else:
                         alpha = 0.1  # Exponential moving average
-                        stats.average_response_time = (
-                            alpha * execution_time + (1 - alpha) * stats.average_response_time
-                        )
+                        stats.average_response_time = alpha * execution_time + (1 - alpha) * stats.average_response_time
 
             # Add to history
             self.operation_history.append(
@@ -538,9 +532,7 @@ class ColonyMemoryAdapter:
 
         # Load balancing: select based on performance
         active_colonies = [
-            cid
-            for cid, stats in self.colony_stats.items()
-            if stats.is_active and stats.success_rate > 0.5
+            cid for cid, stats in self.colony_stats.items() if stats.is_active and stats.success_rate > 0.5
         ]
 
         if not active_colonies:
@@ -619,9 +611,7 @@ class ColonyMemoryAdapter:
     def get_adapter_stats(self) -> dict[str, Any]:
         """Get comprehensive adapter statistics"""
         success_rate = self.successful_operations / max(self.total_operations, 1)
-        avg_response_time = (
-            sum(self.response_times) / len(self.response_times) if self.response_times else 0
-        )
+        avg_response_time = sum(self.response_times) / len(self.response_times) if self.response_times else 0
 
         cache_hit_rate = self.cache_hits / max(self.cache_hits + self.cache_misses, 1)
 

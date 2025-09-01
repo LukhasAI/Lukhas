@@ -246,9 +246,7 @@ class EthicalDriftGovernor:
 
         # Find applicable governance rules
         applicable_rules = [
-            rule
-            for rule in self.governance_rules.values()
-            if rule.enabled and memory_type in rule.memory_types
+            rule for rule in self.governance_rules.values() if rule.enabled and memory_type in rule.memory_types
         ]
 
         if not applicable_rules:
@@ -325,9 +323,7 @@ class EthicalDriftGovernor:
         # Check for rapid changes
         if self._detect_rapid_changes(fold_key, rule.time_window_minutes):
             violations.append("rapid_changes")
-            risk_factors["change_velocity"] = self._calculate_change_velocity(
-                fold_key, rule.time_window_minutes
-            )
+            risk_factors["change_velocity"] = self._calculate_change_velocity(fold_key, rule.time_window_minutes)
 
         # Check importance manipulation
         importance_change = abs(new_importance - previous_importance)
@@ -365,9 +361,7 @@ class EthicalDriftGovernor:
             detected_patterns=detected_patterns,
             risk_factors=risk_factors,
             timestamp_utc=datetime.now(timezone.utc).isoformat(),
-            recommended_intervention=rule.intervention_mapping.get(
-                severity, InterventionType.MONITOR
-            ),
+            recommended_intervention=rule.intervention_mapping.get(severity, InterventionType.MONITOR),
         )
 
     def _detect_rapid_changes(self, fold_key: str, time_window_minutes: int) -> bool:
@@ -520,25 +514,18 @@ class EthicalDriftGovernor:
         recent_interventions = [
             intervention
             for intervention in self.intervention_history
-            if datetime.fromisoformat(intervention["timestamp_utc"].replace("Z", "+00:00"))
-            >= cutoff_time
+            if datetime.fromisoformat(intervention["timestamp_utc"].replace("Z", "+00:00")) >= cutoff_time
         ]
 
         # Calculate metrics
         concern_by_severity = {}
         for severity in EthicalSeverity:
-            concern_by_severity[severity.value] = len(
-                [c for c in recent_concerns if c.severity == severity]
-            )
+            concern_by_severity[severity.value] = len([c for c in recent_concerns if c.severity == severity])
 
         intervention_by_type = {}
         for intervention_type in InterventionType:
             intervention_by_type[intervention_type.value] = len(
-                [
-                    i
-                    for i in recent_interventions
-                    if i["intervention_type"] == intervention_type.value
-                ]
+                [i for i in recent_interventions if i["intervention_type"] == intervention_type.value]
             )
 
         memory_type_analysis = {}
@@ -570,9 +557,7 @@ class EthicalDriftGovernor:
                 "success_rate": self._calculate_intervention_success_rate(recent_interventions),
                 "average_response_time": self._calculate_avg_response_time(recent_interventions),
             },
-            "recommendations": self._generate_recommendations(
-                recent_concerns, recent_interventions
-            ),
+            "recommendations": self._generate_recommendations(recent_concerns, recent_interventions),
         }
 
         # Store report
@@ -589,9 +574,7 @@ class EthicalDriftGovernor:
 
         return [
             {"pattern": pattern, "frequency": count}
-            for pattern, count in sorted(pattern_counts.items(), key=lambda x: x[1], reverse=True)[
-                :5
-            ]
+            for pattern, count in sorted(pattern_counts.items(), key=lambda x: x[1], reverse=True)[:5]
         ]
 
     def _calculate_intervention_success_rate(self, interventions: list[dict[str, Any]]) -> float:

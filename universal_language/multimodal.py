@@ -371,9 +371,7 @@ class MultiModalProcessor:
 
         return combined
 
-    def calculate_similarity(
-        self, message1: MultiModalMessage, message2: MultiModalMessage
-    ) -> float:
+    def calculate_similarity(self, message1: MultiModalMessage, message2: MultiModalMessage) -> float:
         """Calculate similarity between two multi-modal messages"""
         # Find common modalities
         modalities1 = {m.modality for m in message1.modalities}

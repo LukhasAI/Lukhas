@@ -278,9 +278,7 @@ class SystemCoordinator:
     async def _start_component_monitoring(self):
         """Start monitoring all system components"""
         # Start monitoring thread
-        self.processing_thread = threading.Thread(
-            target=self._component_monitoring_loop, daemon=True
-        )
+        self.processing_thread = threading.Thread(target=self._component_monitoring_loop, daemon=True)
         self.processing_thread.start()
 
         # Start main coordination loop
@@ -430,9 +428,7 @@ class SystemCoordinator:
         memory_type = request.data.get("type")
         limit = request.data.get("limit", 10)
 
-        memories = await self.memory_manager.retrieve_memories(
-            query=query, memory_type=memory_type, limit=limit
-        )
+        memories = await self.memory_manager.retrieve_memories(query=query, memory_type=memory_type, limit=limit)
 
         return {"memories": memories, "count": len(memories)}
 
@@ -461,9 +457,7 @@ class SystemCoordinator:
         text = request.data.get("text")
         voice_characteristics = request.data.get("voice_characteristics", {})
 
-        audio_data = await self.voice_processor.text_to_speech(
-            text=text, voice_characteristics=voice_characteristics
-        )
+        audio_data = await self.voice_processor.text_to_speech(text=text, voice_characteristics=voice_characteristics)
 
         return {"audio_data": audio_data, "duration": len(audio_data)}
 
@@ -573,9 +567,7 @@ class SystemCoordinator:
             for pattern in patterns:
                 # Submit to neural integrator for learning
                 if self.neural_integrator:
-                    await self.neural_integrator.processing_queue.put(
-                        {"type": "pattern", "data": pattern}
-                    )
+                    await self.neural_integrator.processing_queue.put({"type": "pattern", "data": pattern})
 
     async def _coordinate_voice_personality(self):
         """Coordinate voice and personality systems"""
@@ -584,9 +576,7 @@ class SystemCoordinator:
             current_persona = await self.persona_manager.get_current_persona()
 
             if current_persona and self.voice_processor:
-                voice_characteristics = await self.persona_manager.get_voice_characteristics(
-                    current_persona
-                )
+                voice_characteristics = await self.persona_manager.get_voice_characteristics(current_persona)
 
                 # Update voice processor with personality characteristics
                 await self.voice_processor.update_voice_characteristics(voice_characteristics)

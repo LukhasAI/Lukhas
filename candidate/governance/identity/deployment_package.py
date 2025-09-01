@@ -100,9 +100,7 @@ class SystemValidator:
         required = DeploymentConfig.REQUIRED_PYTHON_VERSION
 
         if version[:2] >= required:
-            results["details"]["python_version"] = (
-                f"{version.major}.{version.minor}.{version.micro}"
-            )
+            results["details"]["python_version"] = f"{version.major}.{version.minor}.{version.micro}"
         else:
             results["status"] = "FAIL"
             results["errors"].append(
@@ -236,22 +234,12 @@ class SystemValidator:
 
         # Generate summary
         total_validations = len(self.validation_results)
-        passed_validations = sum(
-            1 for r in self.validation_results.values() if r["status"] == "PASS"
-        )
-        partial_validations = sum(
-            1 for r in self.validation_results.values() if r["status"] == "PARTIAL"
-        )
-        failed_validations = sum(
-            1 for r in self.validation_results.values() if r["status"] == "FAIL"
-        )
+        passed_validations = sum(1 for r in self.validation_results.values() if r["status"] == "PASS")
+        partial_validations = sum(1 for r in self.validation_results.values() if r["status"] == "PARTIAL")
+        failed_validations = sum(1 for r in self.validation_results.values() if r["status"] == "FAIL")
 
         summary = {
-            "status": (
-                "PASS"
-                if failed_validations == 0
-                else ("PARTIAL" if passed_validations > 0 else "FAIL")
-            ),
+            "status": ("PASS" if failed_validations == 0 else ("PARTIAL" if passed_validations > 0 else "FAIL")),
             "duration": validation_duration,
             "total_validations": total_validations,
             "passed": passed_validations,

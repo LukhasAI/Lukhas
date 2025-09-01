@@ -94,14 +94,10 @@ class CognitiveAdapter:
 
         try:
             # Apply quantum attention mechanism
-            attended_data = self.attention_gate.attend(
-                input_data, self.cognitive_state["attention_focus"]
-            )
+            attended_data = self.attention_gate.attend(input_data, self.cognitive_state["attention_focus"])
 
             # Filter through cristae topology
-            filtered_data = self.crista_filter.filter(
-                attended_data, self.cognitive_state["emotional_state"]
-            )
+            filtered_data = self.crista_filter.filter(attended_data, self.cognitive_state["emotional_state"])
 
             # Process through proton gradient
             gradient_processed = self.proton_gradient.process(filtered_data, self.cognitive_state)
@@ -127,9 +123,7 @@ class CognitiveAdapter:
             logger.error(f"Error in cognitive processing: {e}")
             raise
 
-    async def retrieve_memory(
-        self, query: dict[str, Any], memory_type: str = "all"
-    ) -> list[dict[str, Any]]:
+    async def retrieve_memory(self, query: dict[str, Any], memory_type: str = "all") -> list[dict[str, Any]]:
         """Retrieve memories matching query
 
         Args:
@@ -141,9 +135,7 @@ class CognitiveAdapter:
         """
         try:
             # Apply attention to memory search
-            attended_query = self.attention_gate.attend(
-                query, self.cognitive_state["attention_focus"]
-            )
+            attended_query = self.attention_gate.attend(query, self.cognitive_state["attention_focus"])
 
             matches = []
 
@@ -160,9 +152,7 @@ class CognitiveAdapter:
                 matches.extend(self._search_emotional(attended_query))
 
             # Filter results through cristae
-            filtered_matches = self.crista_filter.filter(
-                matches, self.cognitive_state["emotional_state"]
-            )
+            filtered_matches = self.crista_filter.filter(matches, self.cognitive_state["emotional_state"])
 
             return filtered_matches
 
@@ -182,9 +172,7 @@ class CognitiveAdapter:
                 processed_data["working_memory_updates"][-5:]  # Keep last 5 items
             )
             if len(self.cognitive_state["working_memory"]) > 10:
-                self.cognitive_state["working_memory"] = self.cognitive_state["working_memory"][
-                    -10:
-                ]
+                self.cognitive_state["working_memory"] = self.cognitive_state["working_memory"][-10:]
 
         # Update emotional state
         if "emotional_updates" in processed_data:
@@ -203,9 +191,7 @@ class CognitiveAdapter:
         timestamp = datetime.now().isoformat()
 
         # Generate memory ID
-        memory_id = self.identity_encoder.encode_id(
-            f"{timestamp}-{hash(json.dumps(processed_data))}"
-        )
+        memory_id = self.identity_encoder.encode_id(f"{timestamp}-{hash(json.dumps(processed_data))}")
 
         # Prepare base memory entry
         memory_entry = {
@@ -265,9 +251,7 @@ class CognitiveAdapter:
 
         return recognized_patterns
 
-    def _generate_response(
-        self, processed_data: dict[str, Any], patterns: dict[str, list[Any]]
-    ) -> dict[str, Any]:
+    def _generate_response(self, processed_data: dict[str, Any], patterns: dict[str, list[Any]]) -> dict[str, Any]:
         """Generate response based on processed data and recognized patterns"""
         return {
             "cognitive_state": self.cognitive_state,
@@ -278,9 +262,7 @@ class CognitiveAdapter:
                 "procedural": len(self.memory["procedural"]),
                 "emotional": len(self.memory["emotional"]),
             },
-            "metrics": {
-                key: np.mean(values[-10:]) for key, values in self.metrics.items() if values
-            },
+            "metrics": {key: np.mean(values[-10:]) for key, values in self.metrics.items() if values},
         }
 
     def _record_metrics(self, start_time: datetime) -> None:
@@ -339,9 +321,7 @@ class CognitiveAdapter:
         # Implementation would check for structural patterns
         return False
 
-    def _match_emotional_pattern(
-        self, emotional_state: dict[str, float], pattern: dict[str, Any]
-    ) -> bool:
+    def _match_emotional_pattern(self, emotional_state: dict[str, float], pattern: dict[str, Any]) -> bool:
         """Match emotional patterns in data"""
         # Implementation would check for emotional patterns
         return False

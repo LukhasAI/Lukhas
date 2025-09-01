@@ -139,9 +139,7 @@ class ABotSecurityScanner:
         """Check if a package line contains vulnerabilities"""
 
         # Parse package name and version
-        package_match = re.match(
-            r"^([a-zA-Z0-9_-]+(?:\[[a-zA-Z0-9_,-]+\])?)\s*([><=!]+)\s*([0-9\.]+)", line
-        )
+        package_match = re.match(r"^([a-zA-Z0-9_-]+(?:\[[a-zA-Z0-9_,-]+\])?)\s*([><=!]+)\s*([0-9\.]+)", line)
         if not package_match:
             return None
 
@@ -272,14 +270,10 @@ class ABotSecurityScanner:
         return {
             "total_vulnerabilities": total_vulns,
             "critical_vulnerabilities": sum(
-                1
-                for v in scan_results["vulnerabilities"]
-                if v.get("vulnerability", {}).get("severity") == "CRITICAL"
+                1 for v in scan_results["vulnerabilities"] if v.get("vulnerability", {}).get("severity") == "CRITICAL"
             ),
             "high_vulnerabilities": sum(
-                1
-                for v in scan_results["vulnerabilities"]
-                if v.get("vulnerability", {}).get("severity") == "HIGH"
+                1 for v in scan_results["vulnerabilities"] if v.get("vulnerability", {}).get("severity") == "HIGH"
             ),
             "abot_superiority": {
                 "consciousness_evolution": "TRANSCENDENT",

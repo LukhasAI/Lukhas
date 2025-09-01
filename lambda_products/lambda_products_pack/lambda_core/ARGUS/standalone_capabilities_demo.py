@@ -200,9 +200,7 @@ class StandaloneMonitoringDemo:
             + metrics.get("stress_level", 0.5) * 0.1
         )
 
-        stress_threshold = self.simulate_adaptive_threshold_calculation(
-            "stress_adaptation", stress_level, 0.7
-        )
+        stress_threshold = self.simulate_adaptive_threshold_calculation("stress_adaptation", stress_level, 0.7)
 
         if stress_level > stress_threshold:
             triggers.append(
@@ -431,13 +429,7 @@ class StandaloneMonitoringDemo:
 
         print(f"\n🚨 SYSTEM ALERTS: {len(alerts)}")
         for alert in alerts:
-            icon = (
-                "🔴"
-                if alert.level == AlertLevel.HIGH
-                else "🟡"
-                if alert.level == AlertLevel.MEDIUM
-                else "🟢"
-            )
+            icon = "🔴" if alert.level == AlertLevel.HIGH else "🟡" if alert.level == AlertLevel.MEDIUM else "🟢"
             print(f"   {icon} {alert.level.value}: {alert.message}")
 
         print(f"\n🔮 PREDICTIVE INSIGHTS: {len(insights)}")
@@ -509,9 +501,7 @@ class StandaloneMonitoringDemo:
         )
 
         triggers = self.analyze_plasticity_triggers(snapshot)
-        perf_triggers = [
-            t for t in triggers if t.trigger_type == PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
-        ]
+        perf_triggers = [t for t in triggers if t.trigger_type == PlasticityTriggerType.PERFORMANCE_OPTIMIZATION]
 
         print(f"\n🎯 PERFORMANCE TRIGGERS: {len(perf_triggers)}")
         for trigger in perf_triggers:
@@ -532,13 +522,9 @@ class StandaloneMonitoringDemo:
         print(
             f"   Performance: {perf_metrics['performance']:.3f} → {improved_performance:.3f} (+{improved_performance - perf_metrics['performance']:.3f})"
         )
-        print(
-            f"   Confidence: {perf_metrics['decision_confidence']:.3f} → {improved_confidence:.3f}"
-        )
+        print(f"   Confidence: {perf_metrics['decision_confidence']:.3f} → {improved_confidence:.3f}")
 
-        improvement_score = (improved_performance - perf_metrics["performance"]) / perf_metrics[
-            "performance"
-        ]
+        improvement_score = (improved_performance - perf_metrics["performance"]) / perf_metrics["performance"]
         print(f"   🎯 Overall Improvement: {improvement_score:.1%}")
 
         results = {
@@ -680,22 +666,14 @@ class StandaloneMonitoringDemo:
         print(f"\n🚨 ACTIVE ALERTS: {len(alerts)}")
         if alerts:
             for alert in alerts:
-                icon = (
-                    "🔴"
-                    if alert.level == AlertLevel.HIGH
-                    else "🟡"
-                    if alert.level == AlertLevel.MEDIUM
-                    else "🟢"
-                )
+                icon = "🔴" if alert.level == AlertLevel.HIGH else "🟡" if alert.level == AlertLevel.MEDIUM else "🟢"
                 print(f"   {icon} {alert.message}")
         else:
             print("   ✅ No active alerts - system operating normally")
 
         print(f"\n🔮 PREDICTIVE INSIGHTS: {len(insights)}")
         for insight in insights:
-            confidence_bar = "●" * int(insight.confidence * 5) + "○" * (
-                5 - int(insight.confidence * 5)
-            )
+            confidence_bar = "●" * int(insight.confidence * 5) + "○" * (5 - int(insight.confidence * 5))
             print(f"   💡 {insight.category}")
             print(f"      {insight.prediction[:60]}...")
             print(f"      Confidence: {confidence_bar} {insight.confidence:.3f}")
@@ -783,9 +761,7 @@ class StandaloneMonitoringDemo:
         print("📚 LEARNING HISTORY ANALYSIS:")
         successful_experiments = [e for e in learning_history if e["success"]]
         success_rate = len(successful_experiments) / len(learning_history)
-        avg_improvement = sum(e["improvement"] for e in successful_experiments) / len(
-            successful_experiments
-        )
+        avg_improvement = sum(e["improvement"] for e in successful_experiments) / len(successful_experiments)
 
         print(f"   🧪 Total Experiments: {len(learning_history)}")
         print(f"   ✅ Success Rate: {success_rate:.1%}")

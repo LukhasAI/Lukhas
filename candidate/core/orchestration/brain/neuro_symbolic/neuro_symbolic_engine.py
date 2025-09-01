@@ -35,9 +35,7 @@ class QIInspiredAttention:
         """Initialize the superposition matrix for quantum-inspired processing"""
         dimensions = len(self.attention_gates)
         # Create a normalized matrix for quantum-inspired superposition
-        self.superposition_matrix = (
-            np.eye(dimensions) * 0.5 + np.ones((dimensions, dimensions)) * 0.5 / dimensions
-        )
+        self.superposition_matrix = np.eye(dimensions) * 0.5 + np.ones((dimensions, dimensions)) * 0.5 / dimensions
         # Ensure it's properly normalized
         for i in range(dimensions):
             row_sum = np.sum(self.superposition_matrix[i, :])
@@ -156,18 +154,14 @@ class QIInspiredAttention:
         if "text" in input_data:
             attended_data["attended_content"]["semantic"] = {
                 "content": input_data["text"],
-                "weight": float(
-                    attention_weights[list(self.attention_gates.keys()).index("semantic")]
-                ),
+                "weight": float(attention_weights[list(self.attention_gates.keys()).index("semantic")]),
             }
 
         # Apply emotional attention
         if "emotion" in input_data:
             attended_data["attended_content"]["emotional"] = {
                 "content": input_data["emotion"],
-                "weight": float(
-                    attention_weights[list(self.attention_gates.keys()).index("emotional")]
-                ),
+                "weight": float(attention_weights[list(self.attention_gates.keys()).index("emotional")]),
             }
 
         # Include other attention dimensions similarly
@@ -231,20 +225,12 @@ class CausalReasoningModule:
             Dict containing reasoning results and causal chains
         """
         # Extract content from attended data
-        semantic_content = (
-            attended_data.get("attended_content", {}).get("semantic", {}).get("content")
-        )
-        emotional_content = (
-            attended_data.get("attended_content", {}).get("emotional", {}).get("content")
-        )
-        contextual_content = (
-            attended_data.get("attended_content", {}).get("contextual", {}).get("content")
-        )
+        semantic_content = attended_data.get("attended_content", {}).get("semantic", {}).get("content")
+        emotional_content = attended_data.get("attended_content", {}).get("emotional", {}).get("content")
+        contextual_content = attended_data.get("attended_content", {}).get("contextual", {}).get("content")
 
         # Identify potential causes and effects
-        causes_effects = self._extract_causal_elements(
-            semantic_content, emotional_content, contextual_content
-        )
+        causes_effects = self._extract_causal_elements(semantic_content, emotional_content, contextual_content)
 
         # Build causal chains
         causal_chains = self._build_causal_chains(causes_effects)
@@ -253,9 +239,7 @@ class CausalReasoningModule:
         weighted_causes = self._calculate_causal_confidences(causal_chains)
 
         # Filter by confidence threshold
-        valid_causes = {
-            k: v for k, v in weighted_causes.items() if v["confidence"] >= self.confidence_threshold
-        }
+        valid_causes = {k: v for k, v in weighted_causes.items() if v["confidence"] >= self.confidence_threshold}
 
         # Update internal causal graph
         self._update_causal_graph(valid_causes)
@@ -264,9 +248,7 @@ class CausalReasoningModule:
         reasoning_results = {
             "causal_chains": valid_causes,
             "primary_cause": (self._identify_primary_cause(valid_causes) if valid_causes else None),
-            "confidence": (
-                max([v["confidence"] for v in valid_causes.values()]) if valid_causes else 0.0
-            ),
+            "confidence": (max([v["confidence"] for v in valid_causes.values()]) if valid_causes else 0.0),
             "reasoning_path": self._extract_reasoning_path(valid_causes),
             "original_attended_data": attended_data,
             "timestamp": datetime.now().isoformat(),
@@ -287,10 +269,7 @@ class CausalReasoningModule:
             if isinstance(semantic_content, str):
                 sentences = semantic_content.split(".")
                 for sentence in sentences:
-                    if any(
-                        word in sentence.lower()
-                        for word in ["because", "cause", "reason", "due to"]
-                    ):
+                    if any(word in sentence.lower() for word in ["because", "cause", "reason", "due to"]):
                         causes_effects.append(
                             {
                                 "type": "semantic",
@@ -309,8 +288,7 @@ class CausalReasoningModule:
                     {
                         "type": "emotional",
                         "content": f"Emotional state: {primary_emotion} (intensity: {intensity})",
-                        "base_confidence": 0.6
-                        * intensity,  # Lower base confidence for emotional reasoning
+                        "base_confidence": 0.6 * intensity,  # Lower base confidence for emotional reasoning
                     }
                 )
 
@@ -350,8 +328,7 @@ class CausalReasoningModule:
                         causal_chains[chain_id]["elements"].append(other_item)
                         # Average the confidences
                         causal_chains[chain_id]["base_confidence"] = (
-                            causal_chains[chain_id]["base_confidence"]
-                            + other_item["base_confidence"]
+                            causal_chains[chain_id]["base_confidence"] + other_item["base_confidence"]
                         ) / 2
 
         return causal_chains
@@ -418,9 +395,9 @@ class CausalReasoningModule:
                 self.causal_graph[chain_id]["frequency"] += 1
                 self.causal_graph[chain_id]["confidence_history"].append(chain_data["confidence"])
                 # Keep last 10 confidence values
-                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[chain_id][
-                    "confidence_history"
-                ][-10:]
+                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[chain_id]["confidence_history"][
+                    -10:
+                ]
 
     def _identify_primary_cause(self, valid_causes):
         """Identify the most likely primary cause from valid causes"""
@@ -538,9 +515,7 @@ class NeuroSymbolicEngine:
         if len(self.processing_history) > 1000:
             self.processing_history = self.processing_history[-1000:]
 
-        logger.info(
-            f"Completed processing for user {user_id} with confidence: {response.get('confidence')}"
-        )
+        logger.info(f"Completed processing for user {user_id} with confidence: {response.get('confidence')}")
 
         return response
 
@@ -619,9 +594,7 @@ class NeuroSymbolicEngine:
             response["response_type"] = "high_confidence"
         elif confidence >= 0.5:
             # Medium confidence response
-            response_text = self._create_medium_confidence_response(
-                primary_cause, reasoning_results, input_data
-            )
+            response_text = self._create_medium_confidence_response(primary_cause, reasoning_results, input_data)
             response["response_type"] = "medium_confidence"
         else:
             # Low confidence response
@@ -638,9 +611,7 @@ class NeuroSymbolicEngine:
             response["image_prompt"] = self._generate_image_prompt(input_data, reasoning_results)
 
         # Add suggested actions
-        response["suggested_actions"] = self._generate_suggested_actions(
-            reasoning_results, input_data
-        )
+        response["suggested_actions"] = self._generate_suggested_actions(reasoning_results, input_data)
 
         return response
 

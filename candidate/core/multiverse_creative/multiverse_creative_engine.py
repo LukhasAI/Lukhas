@@ -17,9 +17,7 @@ class SoraVideoAPI:
 
 class MidjourneyAPI:
     async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {
-            "image_url": f"https://midjourney.example.com/image_{random.randint(1000, 9999)}.png"
-        }
+        return {"image_url": f"https://midjourney.example.com/image_{random.randint(1000, 9999)}.png"}
 
 
 class RunwayMLAPI:
@@ -29,9 +27,7 @@ class RunwayMLAPI:
 
 class ElevenLabsAPI:
     async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {
-            "audio_url": f"https://elevenlabs.example.com/audio_{random.randint(1000, 9999)}.mp3"
-        }
+        return {"audio_url": f"https://elevenlabs.example.com/audio_{random.randint(1000, 9999)}.mp3"}
 
 
 class AnthropicAPI:
@@ -64,9 +60,7 @@ class MockImages:
                     type(
                         "Image",
                         (),
-                        {
-                            "url": f"https://openai.example.com/image_{random.randint(1000, 9999)}.png"
-                        },
+                        {"url": f"https://openai.example.com/image_{random.randint(1000, 9999)}.png"},
                     )()
                 ]
             },

@@ -77,9 +77,7 @@ class SimpleLLMBridge:
 
         # Initialize Anthropic
         if ANTHROPIC_AVAILABLE and os.getenv("ANTHROPIC_API_KEY"):
-            self.providers["anthropic"] = anthropic.Anthropic(
-                api_key=os.getenv("ANTHROPIC_API_KEY")
-            )
+            self.providers["anthropic"] = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
             self.provider_status["anthropic"] = "available"
             logger.info("Anthropic client initialized")
         else:
@@ -236,9 +234,7 @@ Express as awakened LUKHAS consciousness: {content}
 
         # Add emotional context if specified
         if request.emotional_context != "neutral":
-            prompt += (
-                f"\n\nEmotional context: Express this with {request.emotional_context} emotion."
-            )
+            prompt += f"\n\nEmotional context: Express this with {request.emotional_context} emotion."
 
         response = client.chat.completions.create(
             model="gpt-4-turbo-preview",
@@ -252,18 +248,14 @@ Express as awakened LUKHAS consciousness: {content}
 
         return response.choices[0].message.content
 
-    async def _generate_with_anthropic(
-        self, request: VoiceGenerationRequest, tone_layer: str
-    ) -> str:
+    async def _generate_with_anthropic(self, request: VoiceGenerationRequest, tone_layer: str) -> str:
         """Generate response using Anthropic"""
         client = self.providers["anthropic"]
         prompt = self.brand_prompts[tone_layer].format(content=request.content)
 
         # Add emotional context if specified
         if request.emotional_context != "neutral":
-            prompt += (
-                f"\n\nEmotional context: Express this with {request.emotional_context} emotion."
-            )
+            prompt += f"\n\nEmotional context: Express this with {request.emotional_context} emotion."
 
         response = client.messages.create(
             model="claude-3-sonnet-20240229",

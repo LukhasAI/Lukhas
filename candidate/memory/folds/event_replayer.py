@@ -76,9 +76,7 @@ class EventReplayer:
     # ✅ TODO: extend with CLI interface for governance dashboard
 
 
-def replay_ethical_events(
-    event_store: EventStore, aggregate_id: str | None = None
-) -> AIAgentAggregate | list[Event]:
+def replay_ethical_events(event_store: EventStore, aggregate_id: str | None = None) -> AIAgentAggregate | list[Event]:
     """Filter and replay events tagged with ``ETHICAL``."""
     replayer = EventReplayer(event_store)
     ethical_events = replayer.filter_events_by_tag("ETHICAL", aggregate_id)

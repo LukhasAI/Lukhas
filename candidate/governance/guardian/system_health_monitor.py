@@ -333,9 +333,7 @@ class SystemHealthMonitor:
 
         while self.monitoring_active:
             try:
-                if datetime.now() - self.last_report_time >= timedelta(
-                    seconds=self.report_interval
-                ):
+                if datetime.now() - self.last_report_time >= timedelta(seconds=self.report_interval):
                     await self._generate_health_report()
                     self.last_report_time = datetime.now()
 
@@ -601,9 +599,7 @@ class SystemHealthMonitor:
 
         return HealthStatus.CRITICAL
 
-    def _assess_metric_cascade_risk(
-        self, component: str, metric_type: str, value: float
-    ) -> CascadeRisk:
+    def _assess_metric_cascade_risk(self, component: str, metric_type: str, value: float) -> CascadeRisk:
         """Assess cascade risk for a metric."""
 
         # Memory metrics have higher cascade risk
@@ -627,9 +623,7 @@ class SystemHealthMonitor:
         current_time = datetime.now()
 
         # Recent metrics (last 24 hours)
-        recent_metrics = [
-            m for m in self.health_metrics if current_time - m.timestamp < timedelta(hours=24)
-        ]
+        recent_metrics = [m for m in self.health_metrics if current_time - m.timestamp < timedelta(hours=24)]
 
         # Component health summary
         component_health = defaultdict(list)
@@ -644,9 +638,7 @@ class SystemHealthMonitor:
                 component_scores[component] = sum(scores) / len(scores)
 
         # Overall health calculation
-        overall_score = (
-            sum(component_scores.values()) / len(component_scores) if component_scores else 0.0
-        )
+        overall_score = sum(component_scores.values()) / len(component_scores) if component_scores else 0.0
         overall_status = self._score_to_health_status(overall_score)
 
         # Cascade prevention rate
@@ -659,9 +651,7 @@ class SystemHealthMonitor:
         )
 
         # API performance summary
-        recent_api_snapshots = [
-            s for s in self.api_snapshots if current_time - s.timestamp < timedelta(hours=1)
-        ]
+        recent_api_snapshots = [s for s in self.api_snapshots if current_time - s.timestamp < timedelta(hours=1)]
 
         avg_response_time = (
             sum(s.response_time_ms for s in recent_api_snapshots) / len(recent_api_snapshots)
@@ -679,9 +669,9 @@ class SystemHealthMonitor:
         for framework in self.trinity_components.keys():
             framework_metrics = [m for m in recent_metrics if f"trinity_{framework}" in m.component]
             if framework_metrics:
-                framework_score = sum(
-                    self._health_status_to_score(m.status) for m in framework_metrics
-                ) / len(framework_metrics)
+                framework_score = sum(self._health_status_to_score(m.status) for m in framework_metrics) / len(
+                    framework_metrics
+                )
                 trinity_health[framework] = framework_score
 
         return {
@@ -789,9 +779,7 @@ class SystemHealthMonitor:
             if len(values) >= 3:
                 trend_slope = self._calculate_trend(values)
                 trends[metric_type] = {
-                    "trend": "increasing"
-                    if trend_slope > 0.1
-                    else ("decreasing" if trend_slope < -0.1 else "stable"),
+                    "trend": "increasing" if trend_slope > 0.1 else ("decreasing" if trend_slope < -0.1 else "stable"),
                     "slope": trend_slope,
                     "current": values[-1] if values else 0.0,
                     "average": sum(values) / len(values),
@@ -844,9 +832,7 @@ class SystemHealthMonitor:
         """Assess overall system health."""
         pass  # Implementation placeholder
 
-    async def _handle_cascade_event(
-        self, cascade_risk: CascadeRisk, memory_usage: float, trend: float
-    ):
+    async def _handle_cascade_event(self, cascade_risk: CascadeRisk, memory_usage: float, trend: float):
         """Handle detected cascade event."""
         pass  # Implementation placeholder
 
@@ -887,9 +873,7 @@ class SystemHealthMonitor:
         else:
             return CascadeRisk.LOW
 
-    def _assess_api_performance(
-        self, response_time: float, error_rate: float, throughput: float
-    ) -> PerformanceTier:
+    def _assess_api_performance(self, response_time: float, error_rate: float, throughput: float) -> PerformanceTier:
         """Assess API performance tier."""
         if response_time < 100 and error_rate < 0.5:
             return PerformanceTier.OPTIMAL
@@ -920,9 +904,7 @@ class SystemHealthMonitor:
             return value / 100.0
         return 0.0
 
-    def _calculate_consciousness_impact(
-        self, component: str, metric_type: str, value: float
-    ) -> float:
+    def _calculate_consciousness_impact(self, component: str, metric_type: str, value: float) -> float:
         """Calculate impact on consciousness systems (🧠)."""
         if "consciousness" in component or "memory" in component or "awareness" in component:
             return value / 100.0

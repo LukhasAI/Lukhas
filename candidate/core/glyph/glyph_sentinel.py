@@ -315,9 +315,7 @@ class GlyphSentinel:
             "decay_rate": metrics.decay_rate,
             "access_frequency": metrics.access_frequency,
             "last_accessed": metrics.last_accessed.isoformat(),
-            "predicted_expiry": (
-                metrics.predicted_expiry.isoformat() if metrics.predicted_expiry else None
-            ),
+            "predicted_expiry": (metrics.predicted_expiry.isoformat() if metrics.predicted_expiry else None),
             "persistence_policy": profile.policy.value,
             "importance_weight": profile.importance_weight,
             "stability_trend": metrics.stability_trend,
@@ -762,12 +760,8 @@ class GlyphSentinel:
         avg_integrity = 0.0
         avg_access_freq = 0.0
         if total_glyphs > 0:
-            avg_integrity = (
-                sum(m.integrity_score for m in self.decay_metrics.values()) / total_glyphs
-            )
-            avg_access_freq = (
-                sum(m.access_frequency for m in self.decay_metrics.values()) / total_glyphs
-            )
+            avg_integrity = sum(m.integrity_score for m in self.decay_metrics.values()) / total_glyphs
+            avg_access_freq = sum(m.access_frequency for m in self.decay_metrics.values()) / total_glyphs
 
         return {
             "total_monitored_glyphs": total_glyphs,

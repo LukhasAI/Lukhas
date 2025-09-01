@@ -151,9 +151,7 @@ class QIConsciousnessHub:
 
             # Route through quantum attention economics
             if self.qi_attention_economics:
-                attention_result = await self.qi_attention_economics.process_attention_event(
-                    event_type, event_data
-                )
+                attention_result = await self.qi_attention_economics.process_attention_event(event_type, event_data)
                 event_data["attention_analysis"] = attention_result
 
             # Check emotional safety with ABAS
@@ -220,9 +218,7 @@ class QIConsciousnessHub:
 
         return True
 
-    async def _defer_to_dream_state(
-        self, agent_id: str, event_data: dict[str, Any]
-    ) -> ProcessingResult:
+    async def _defer_to_dream_state(self, agent_id: str, event_data: dict[str, Any]) -> ProcessingResult:
         """Defer processing to dream state when not emotionally ready"""
         # Create dream deferral entry
         dream_entry = {
@@ -693,9 +689,7 @@ class QIConsciousnessHub:
         base_coherence = state.coherence
 
         # Reduce coherence for rapid state changes
-        recent_states = [
-            s for s in self.state_history[-10:] if s.timestamp > datetime.now().timestamp() - 300
-        ]
+        recent_states = [s for s in self.state_history[-10:] if s.timestamp > datetime.now().timestamp() - 300]
         state_changes = len({s.state_type for s in recent_states})
 
         coherence_penalty = (state_changes - 1) * 0.1
@@ -710,9 +704,7 @@ class QIConsciousnessHub:
             return {"error": "No consciousness state found"}
 
         # Gather historical data
-        agent_history = [
-            s for s in self.state_history if hasattr(s, "agent_id") and s.agent_id == agent_id
-        ]
+        agent_history = [s for s in self.state_history if hasattr(s, "agent_id") and s.agent_id == agent_id]
 
         report = {
             "agent_id": agent_id,

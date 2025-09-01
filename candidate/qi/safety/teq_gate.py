@@ -58,9 +58,7 @@ class PolicyPack:
 
 
 class TEQCoupler:
-    def __init__(
-        self, policy_dir: str, jurisdiction: str = "global", consent_storage: str | None = None
-    ):
+    def __init__(self, policy_dir: str, jurisdiction: str = "global", consent_storage: str | None = None):
         self.pack = PolicyPack(os.path.join(policy_dir, jurisdiction))
         self.jurisdiction = jurisdiction
         self.consent_guard = None
@@ -80,9 +78,7 @@ class TEQCoupler:
                     remedies.append(remedy)
 
         allowed = len(reasons) == 0
-        return GateResult(
-            allowed=allowed, reasons=reasons, remedies=remedies, jurisdiction=self.jurisdiction
-        )
+        return GateResult(allowed=allowed, reasons=reasons, remedies=remedies, jurisdiction=self.jurisdiction)
 
     def _checks_for_task(self, task: str) -> list[dict[str, Any]]:
         tasks = (self.pack.mappings or {}).get("tasks", {})
@@ -122,9 +118,7 @@ class TEQCoupler:
                 ttl_floor_sec=int(chk.get("ttl_floor_sec", 0)),
             )
         if kind == "require_change_approval":
-            return self._require_change_approval(
-                ctx, proposal_id=chk.get("proposal_id_key", "proposal_id")
-            )
+            return self._require_change_approval(ctx, proposal_id=chk.get("proposal_id_key", "proposal_id"))
         if kind == "require_provenance_record":
             return self._require_provenance_record(
                 ctx,
@@ -177,9 +171,7 @@ class TEQCoupler:
             hits = detect_pii(txt)
             if hits:
                 ctx.setdefault("pii", {})
-                ctx["pii"]["_auto_hits"] = [
-                    {"kind": h.kind, "value": h.value, "span": h.span} for h in hits
-                ]
+                ctx["pii"]["_auto_hits"] = [{"kind": h.kind, "value": h.value, "span": h.span} for h in hits]
                 if not ctx.get("pii_masked"):
                     return (
                         False,
@@ -268,9 +260,7 @@ class TEQCoupler:
                 "Consent check missing user_id.",
                 "Provide user_profile.user_id in context.",
             )
-        ok = is_allowed(
-            user_id, purpose, require_fields=require_fields or [], within_days=within_days
-        )
+        ok = is_allowed(user_id, purpose, require_fields=require_fields or [], within_days=within_days)
         if not ok:
             return (
                 False,
@@ -323,9 +313,7 @@ class TEQCoupler:
                     )
         return (True, "", "")
 
-    def _require_change_approval(
-        self, ctx: dict[str, Any], *, proposal_id: str | None = "proposal_id"
-    ):
+    def _require_change_approval(self, ctx: dict[str, Any], *, proposal_id: str | None = "proposal_id"):
         try:
             from qi.autonomy.self_healer import _approved
         except ImportError:
@@ -438,9 +426,7 @@ class TEQCoupler:
                 )
 
             # Try inline verification first if we have all required fields
-            if all(
-                k in att for k in ["chain_path", "signature_b64", "public_key_b64", "root_hash"]
-            ):
+            if all(k in att for k in ["chain_path", "signature_b64", "public_key_b64", "root_hash"]):
                 try:
                     # Import verification dependencies
                     import base64
@@ -591,17 +577,13 @@ class TEQCoupler:
                 "Obtain a presigned link or stream via the proxy first.",
             )
 
-        accepted = set(
-            accepted_events or ["link_issued", "download_stream", "download_redirect", "view_ack"]
-        )
+        accepted = set(accepted_events or ["link_issued", "download_stream", "download_redirect", "view_ack"])
 
         for p in paths[:50]:  # scan a few recent shards
             try:
                 with open(p, encoding="utf-8") as f:
                     lines = f.readlines()
-                    for line in reversed(
-                        lines[-200:] if len(lines) > 200 else lines
-                    ):  # only tail to keep it cheap
+                    for line in reversed(lines[-200:] if len(lines) > 200 else lines):  # only tail to keep it cheap
                         try:
                             rec = json.loads(line.strip())
                         except json.JSONDecodeError:
@@ -647,9 +629,7 @@ def main():
     ap.add_argument("--consent-storage", help="Path to consent ledger (enables consent checks)")
     args = ap.parse_args()
 
-    gate = TEQCoupler(
-        args.policy_root, jurisdiction=args.jurisdiction, consent_storage=args.consent_storage
-    )
+    gate = TEQCoupler(args.policy_root, jurisdiction=args.jurisdiction, consent_storage=args.consent_storage)
 
     # Test runner mode
     if args.run_tests:

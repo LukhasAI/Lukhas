@@ -233,9 +233,7 @@ class HealixVisualizer:
                     {
                         "resonance": memory["resonance"],
                         "strand": strand_type.value,
-                        "age_hours": (
-                            datetime.utcnow() - datetime.fromisoformat(memory["created"])
-                        ).total_seconds()
+                        "age_hours": (datetime.utcnow() - datetime.fromisoformat(memory["created"])).total_seconds()
                         / 3600,
                         "mutations": len(memory.get("mutations", [])),
                     }
@@ -273,9 +271,7 @@ class HealixVisualizer:
                 go.Bar(
                     x=list(mutation_counts.keys()),
                     y=list(mutation_counts.values()),
-                    marker_color=[
-                        self.mutation_colors.get(mut, "#95A5A6") for mut in mutation_counts
-                    ],
+                    marker_color=[self.mutation_colors.get(mut, "#95A5A6") for mut in mutation_counts],
                     showlegend=False,
                 ),
                 row=1,
@@ -310,9 +306,7 @@ class HealixVisualizer:
             memories = self.healix.strands[strand_type]
             if memories:
                 avg_resonance = sum(mem["resonance"] for mem in memories) / len(memories)
-                mutation_rate = sum(len(mem.get("mutations", [])) for mem in memories) / len(
-                    memories
-                )
+                mutation_rate = sum(len(mem.get("mutations", [])) for mem in memories) / len(memories)
                 health_score = min(1.0, avg_resonance * (1 + mutation_rate / 10))
                 strand_health[strand_type.value] = health_score
             else:
@@ -335,10 +329,7 @@ class HealixVisualizer:
         total_memories = sum(len(self.healix.strands[strand]) for strand in MemoryStrand)
         avg_system_resonance = (
             (
-                sum(
-                    sum(mem["resonance"] for mem in self.healix.strands[strand])
-                    for strand in MemoryStrand
-                )
+                sum(sum(mem["resonance"] for mem in self.healix.strands[strand]) for strand in MemoryStrand)
                 / total_memories
             )
             if total_memories > 0
@@ -398,9 +389,7 @@ class HealixVisualizer:
             memories = self.healix.strands[strand_type]
             for i, memory in enumerate(memories):
                 # Create spiral positioning for each strand
-                angle = i * 0.5 + list(MemoryStrand).index(strand_type) * (
-                    2 * np.pi / len(MemoryStrand)
-                )
+                angle = i * 0.5 + list(MemoryStrand).index(strand_type) * (2 * np.pi / len(MemoryStrand))
                 radius = memory["resonance"] * 3 + 1
 
                 x = radius * np.cos(angle)
@@ -676,9 +665,7 @@ async def launch_healix_ui():
     # Add sample memories
     memory_ids = []
     for sample in sample_memories:
-        memory_id = await healix.encode_memory(
-            sample["memory"], sample["strand"], sample["context"]
-        )
+        memory_id = await healix.encode_memory(sample["memory"], sample["strand"], sample["context"])
         memory_ids.append(memory_id)
         print(f"✅ Added {sample['strand'].value} memory: {memory_id[:30]}...")
 

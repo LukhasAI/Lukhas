@@ -289,18 +289,13 @@ class ExtremePerformanceServer:
 
             # Cache successful GET responses
             if (
-                request.method == "GET"
-                and response.status_code == 200
-                and self.redis_cache
-                and response_time_ms < 50.0
+                request.method == "GET" and response.status_code == 200 and self.redis_cache and response_time_ms < 50.0
             ):  # Only cache fast responses
                 try:
                     # Extract response body for caching
                     if hasattr(response, "body"):
                         cache_key = f"api_cache:{request.url}"
-                        await self.redis_cache.setex(
-                            cache_key, self.cache_ttl_seconds, response.body.decode()
-                        )
+                        await self.redis_cache.setex(cache_key, self.cache_ttl_seconds, response.body.decode())
                         response.headers["X-Cache"] = "MISS"
                 except Exception:
                     pass  # Cache write failure - not critical
@@ -350,8 +345,7 @@ class ExtremePerformanceServer:
                     (self.cache_hits / max(self.cache_hits + self.cache_misses, 1)) * 100, 1
                 ),
                 "openai_scale_ready": (
-                    self.avg_response_time_ms <= self.target_api_latency_p95
-                    and all(components_health.values())
+                    self.avg_response_time_ms <= self.target_api_latency_p95 and all(components_health.values())
                 ),
             }
 
@@ -381,9 +375,7 @@ class ExtremePerformanceServer:
             """Extreme performance authentication with <25ms P95 latency"""
 
             if not EXTREME_OPTIMIZATIONS_AVAILABLE:
-                raise HTTPException(
-                    status_code=503, detail="Extreme performance optimizations not available"
-                )
+                raise HTTPException(status_code=503, detail="Extreme performance optimizations not available")
 
             auth_start = time.perf_counter()
 
@@ -403,9 +395,7 @@ class ExtremePerformanceServer:
                     details={
                         "operation": operation,
                         "auth_duration_ms": auth_duration_ms,
-                        "performance_level": auth_result.get("performance", {}).get(
-                            "performance_level"
-                        ),
+                        "performance_level": auth_result.get("performance", {}).get("performance_level"),
                         "request_id": getattr(request.state, "request_id", "unknown"),
                     },
                 )
@@ -453,15 +443,11 @@ class ExtremePerformanceServer:
 
         # Performance benchmark endpoint
         @app.post("/benchmark/extreme", response_class=JSONResponse)
-        async def run_extreme_benchmark(
-            num_operations: int = 1000, benchmark_type: str = "authentication"
-        ):
+        async def run_extreme_benchmark(num_operations: int = 1000, benchmark_type: str = "authentication"):
             """Run extreme performance benchmark"""
 
             if not EXTREME_OPTIMIZATIONS_AVAILABLE:
-                raise HTTPException(
-                    status_code=503, detail="Extreme performance optimizations not available"
-                )
+                raise HTTPException(status_code=503, detail="Extreme performance optimizations not available")
 
             benchmark_start = time.perf_counter()
 
@@ -471,13 +457,9 @@ class ExtremePerformanceServer:
                     results = await self.extreme_optimizer.run_performance_benchmark(num_operations)
                 elif benchmark_type == "audit":
                     # Audit logging benchmark
-                    results = await self.audit_logger.run_performance_benchmark_extreme(
-                        num_operations
-                    )
+                    results = await self.audit_logger.run_performance_benchmark_extreme(num_operations)
                 else:
-                    raise HTTPException(
-                        status_code=400, detail=f"Unknown benchmark type: {benchmark_type}"
-                    )
+                    raise HTTPException(status_code=400, detail=f"Unknown benchmark type: {benchmark_type}")
 
                 benchmark_duration = time.perf_counter() - benchmark_start
 
@@ -529,19 +511,13 @@ class ExtremePerformanceServer:
 
             # Add component dashboards if available
             if self.extreme_optimizer:
-                dashboard_data["optimizer_performance"] = (
-                    self.extreme_optimizer.get_performance_dashboard()
-                )
+                dashboard_data["optimizer_performance"] = self.extreme_optimizer.get_performance_dashboard()
 
             if self.audit_logger:
-                dashboard_data[
-                    "audit_performance"
-                ] = await self.audit_logger.get_performance_dashboard_extreme()
+                dashboard_data["audit_performance"] = await self.audit_logger.get_performance_dashboard_extreme()
 
             if self.identity_connector:
-                dashboard_data["identity_performance"] = (
-                    self.identity_connector.get_performance_dashboard()
-                )
+                dashboard_data["identity_performance"] = self.identity_connector.get_performance_dashboard()
 
             # Overall assessment
             overall_ready = all(

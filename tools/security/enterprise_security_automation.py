@@ -135,9 +135,7 @@ class EnterprisSecurityScanner:
 
         # Core configuration
         self.project_root = Path(self.config.get("project_root", "."))
-        self.scan_patterns = self.config.get(
-            "scan_patterns", ["*.py", "*.js", "*.ts", "*.yaml", "*.yml", "*.json"]
-        )
+        self.scan_patterns = self.config.get("scan_patterns", ["*.py", "*.js", "*.ts", "*.yaml", "*.yml", "*.json"])
         self.excluded_paths = self.config.get(
             "excluded_paths",
             [
@@ -319,23 +317,15 @@ class EnterprisSecurityScanner:
             result.lines_scanned = sum(await self._count_lines(f) for f in files_to_scan)
 
             # Calculate severity counts
-            result.critical_count = len(
-                [f for f in findings if f.severity == SecuritySeverity.CRITICAL]
-            )
+            result.critical_count = len([f for f in findings if f.severity == SecuritySeverity.CRITICAL])
             result.high_count = len([f for f in findings if f.severity == SecuritySeverity.HIGH])
-            result.medium_count = len(
-                [f for f in findings if f.severity == SecuritySeverity.MEDIUM]
-            )
+            result.medium_count = len([f for f in findings if f.severity == SecuritySeverity.MEDIUM])
             result.low_count = len([f for f in findings if f.severity == SecuritySeverity.LOW])
 
             # Calculate constitutional drift score
             if self.constitutional_framework:
-                result.constitutional_drift_score = await self._calculate_overall_drift_score(
-                    findings
-                )
-                result.compliance_status = (
-                    "non_compliant" if result.constitutional_drift_score >= 0.15 else "compliant"
-                )
+                result.constitutional_drift_score = await self._calculate_overall_drift_score(findings)
+                result.compliance_status = "non_compliant" if result.constitutional_drift_score >= 0.15 else "compliant"
 
             # Auto-fix attempts
             if self.config.get("auto_fix_enabled", True):
@@ -359,9 +349,7 @@ class EnterprisSecurityScanner:
                     else AuditEventType.SYSTEM_OPERATION,
                     action="security_scan_complete",
                     outcome="completed",
-                    severity=AuditSeverity.CRITICAL
-                    if result.critical_count > 0
-                    else AuditSeverity.INFO,
+                    severity=AuditSeverity.CRITICAL if result.critical_count > 0 else AuditSeverity.INFO,
                     details={
                         "scan_id": scan_id,
                         "findings": len(findings),
@@ -371,9 +359,7 @@ class EnterprisSecurityScanner:
                     },
                 )
 
-            logger.info(
-                f"✅ Security scan complete: {len(findings)} findings, {result.auto_fixed_count} auto-fixed"
-            )
+            logger.info(f"✅ Security scan complete: {len(findings)} findings, {result.auto_fixed_count} auto-fixed")
 
             return result
 
@@ -528,8 +514,7 @@ class EnterprisSecurityScanner:
                         for match in matches:
                             # Skip if it looks like a test or example
                             if any(
-                                indicator in line.lower()
-                                for indicator in ["test", "example", "demo", "fake", "mock"]
+                                indicator in line.lower() for indicator in ["test", "example", "demo", "fake", "mock"]
                             ):
                                 continue
 
@@ -741,14 +726,10 @@ class EnterprisSecurityScanner:
                         line,
                     )
                 elif "api_key" in line.lower():
-                    fixed_line = re.sub(
-                        r'api_key\s*=\s*["\'][^"\']+["\']', 'api_key = os.getenv("API_KEY")', line
-                    )
+                    fixed_line = re.sub(r'api_key\s*=\s*["\'][^"\']+["\']', 'api_key = os.getenv("API_KEY")', line)
                 else:
                     # Generic secret replacement
-                    fixed_line = re.sub(
-                        r'(\w+)\s*=\s*["\'][^"\']+["\']', r'\1 = os.getenv("\1".upper())', line
-                    )
+                    fixed_line = re.sub(r'(\w+)\s*=\s*["\'][^"\']+["\']', r'\1 = os.getenv("\1".upper())', line)
 
                 lines[finding.line_number - 1] = fixed_line
 
@@ -906,9 +887,7 @@ class EnterprisSecurityScanner:
             current_avg = self.scan_metrics["avg_scan_time_seconds"]
             total_scans = self.scan_metrics["total_scans"]
 
-            self.scan_metrics["avg_scan_time_seconds"] = (
-                current_avg * (total_scans - 1) + scan_time
-            ) / total_scans
+            self.scan_metrics["avg_scan_time_seconds"] = (current_avg * (total_scans - 1) + scan_time) / total_scans
 
     def get_scan_summary(self) -> dict[str, Any]:
         """Get comprehensive scan summary"""
@@ -923,9 +902,7 @@ class EnterprisSecurityScanner:
         return {
             "latest_scan": {
                 "scan_id": latest_scan.scan_id,
-                "completed_at": latest_scan.completed_at.isoformat()
-                if latest_scan.completed_at
-                else None,
+                "completed_at": latest_scan.completed_at.isoformat() if latest_scan.completed_at else None,
                 "total_findings": len(latest_scan.findings),
                 "critical": latest_scan.critical_count,
                 "high": latest_scan.high_count,
@@ -937,9 +914,7 @@ class EnterprisSecurityScanner:
             },
             "metrics": self.scan_metrics,
             "total_scans": len(self.scan_history),
-            "constitutional_drift_status": "CRITICAL"
-            if latest_scan.constitutional_drift_score >= 0.15
-            else "NORMAL",
+            "constitutional_drift_status": "CRITICAL" if latest_scan.constitutional_drift_score >= 0.15 else "NORMAL",
         }
 
 

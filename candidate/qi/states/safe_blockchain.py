@@ -54,9 +54,7 @@ class QISafeAuditBlockchain:
         self.pending_transactions: List[Transaction] = []
         self.pqc_signer = PostQuantumSigner()
 
-    async def log_ai_decision(
-        self, decision: AIDecision, context: DecisionContext, user_consent: ConsentProof
-    ) -> str:
+    async def log_ai_decision(self, decision: AIDecision, context: DecisionContext, user_consent: ConsentProof) -> str:
         """
         Create immutable record of AI decision
         """
@@ -76,9 +74,7 @@ class QISafeAuditBlockchain:
         signature = await self.pqc_signer.sign(rlp.encode(audit_data), include_timestamp=True)
 
         # 3. Create transaction
-        transaction = Transaction(
-            data=audit_data, signature=signature, transaction_type="ai_decision_audit"
-        )
+        transaction = Transaction(data=audit_data, signature=signature, transaction_type="ai_decision_audit")
 
         # 4. Add to pending and mine if threshold reached
         self.pending_transactions.append(transaction)
@@ -105,9 +101,7 @@ class QISafeAuditBlockchain:
                     decision_tree.add_leaf(tx.data)
 
         # Generate zero-knowledge proof of compliance
-        compliance_proof = await self._generate_compliance_proof(
-            decision_tree, compliance_framework
-        )
+        compliance_proof = await self._generate_compliance_proof(decision_tree, compliance_framework)
 
         return ComplianceReport(
             merkle_root=decision_tree.root,

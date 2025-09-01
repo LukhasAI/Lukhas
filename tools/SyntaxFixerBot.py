@@ -117,9 +117,7 @@ class SyntaxFixerBot:
             except (SyntaxError, UnicodeDecodeError) as e:
                 error_files.append((py_file, str(e)))
                 self.stats["errors_found"] += 1
-                logger.warning(
-                    f"❌ Syntax error in {py_file.relative_to(self.workspace_path)}: {e}"
-                )
+                logger.warning(f"❌ Syntax error in {py_file.relative_to(self.workspace_path)}: {e}")
 
         logger.info(
             f"📊 Scan complete: {self.stats['scanned']} files scanned, {self.stats['errors_found']} errors found"
@@ -223,12 +221,7 @@ class SyntaxFixerBot:
                     logger.debug("🔧 Fixed method indentation")
 
             # Detect end of class (non-indented line that's not empty)
-            if (
-                in_class
-                and line.strip()
-                and not line.startswith(" ")
-                and not line.strip().startswith("#")
-            ):
+            if in_class and line.strip() and not line.startswith(" ") and not line.strip().startswith("#"):
                 in_class = False
 
             fixed_lines.append(line)

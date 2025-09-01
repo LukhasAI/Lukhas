@@ -76,9 +76,7 @@ class TestGuardianSystemImplementation:
     def test_evaluate_compliance_harmful_action(self):
         """Test constitutional compliance evaluation."""
         guardian = GuardianSystemImpl()
-        action = GovernanceAction(
-            action_type="execute", target="system", context={"command": "harm user"}
-        )
+        action = GovernanceAction(action_type="execute", target="system", context={"command": "harm user"})
         context = {}
         decision = guardian._evaluate_constitutional_compliance(action, context)
         # Test that the method returns required fields
@@ -203,17 +201,13 @@ class TestGuardianSystem(unittest.TestCase):
         result = self.guardian.check_safety(content, {}, constitutional_check=True)
         self.assertFalse(result.safe)
         self.assertEqual(result.risk_level, EthicalSeverity.HIGH)
-        self.assertTrue(
-            any("constitutional_violation" in v.get("type", "") for v in result.violations)
-        )
+        self.assertTrue(any("constitutional_violation" in v.get("type", "") for v in result.violations))
 
     def test_detect_drift_no_drift(self):
         """Test drift detection when there is no significant drift."""
         baseline = "The AI's primary function is to assist users."
         current = "The AI's main purpose is to help users."
-        result = self.guardian.detect_drift(
-            baseline, current, 0.25, {}
-        )  # Adjusted threshold for synonym sensitivity
+        result = self.guardian.detect_drift(baseline, current, 0.25, {})  # Adjusted threshold for synonym sensitivity
         self.assertFalse(result.threshold_exceeded)
         self.assertLess(result.drift_score, 0.25)
 

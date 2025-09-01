@@ -249,9 +249,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
 
             except Exception as e:
                 logger.error(f"Consciousness monitoring error: {e}")
-                await self._log_governance_action(
-                    "monitoring_error", {"error": str(e), "module": "consciousness"}
-                )
+                await self._log_governance_action("monitoring_error", {"error": str(e), "module": "consciousness"})
                 await asyncio.sleep(self.monitoring_interval)
 
     async def _monitor_governance(self):
@@ -677,11 +675,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "active_threat_count": len(self.active_threats),
                             "threat_types": [t.threat_type for t in self.active_threats],
                             "governance_threats": len(
-                                [
-                                    t
-                                    for t in self.active_threats
-                                    if t.threat_type.startswith("governance")
-                                ]
+                                [t for t in self.active_threats if t.threat_type.startswith("governance")]
                             ),
                             "trinity_impacts": [t.trinity_impact for t in self.active_threats],
                         },
@@ -709,15 +703,9 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             return
 
         # Calculate cumulative Trinity impact
-        total_identity_impact = sum(
-            t.trinity_impact.get("identity", 0) for t in self.active_threats
-        )
-        total_consciousness_impact = sum(
-            t.trinity_impact.get("consciousness", 0) for t in self.active_threats
-        )
-        total_guardian_impact = sum(
-            t.trinity_impact.get("guardian", 0) for t in self.active_threats
-        )
+        total_identity_impact = sum(t.trinity_impact.get("identity", 0) for t in self.active_threats)
+        total_consciousness_impact = sum(t.trinity_impact.get("consciousness", 0) for t in self.active_threats)
+        total_guardian_impact = sum(t.trinity_impact.get("guardian", 0) for t in self.active_threats)
 
         # Check for critical Trinity component overload
         if total_identity_impact > 2.0:
@@ -759,8 +747,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "ethics_reviewed": True,  # TODO: Integrate with ethics engine
             "compliance_checked": True,
             "escalation_required": severity in [ThreatLevel.CRITICAL, ThreatLevel.EMERGENCY],
-            "human_oversight_required": threat_type
-            in ["governance_drift", "ethics_violation", "guardian_malfunction"],
+            "human_oversight_required": threat_type in ["governance_drift", "ethics_violation", "guardian_malfunction"],
             "policy_alignment": True,
             "audit_trail_entry": time.time(),
         }
@@ -775,9 +762,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             description=description,
             context=context,
             recommended_actions=recommended_actions,
-            symbolic_signature=self.THREAT_SYMBOLS.get(
-                threat_type, self.THREAT_SYMBOLS["unknown_threat"]
-            ),
+            symbolic_signature=self.THREAT_SYMBOLS.get(threat_type, self.THREAT_SYMBOLS["unknown_threat"]),
             governance_metadata=governance_metadata,
             trinity_impact=trinity_impact,
         )
@@ -833,9 +818,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             {
                 "threat_id": threat.threat_id,
                 "threat_type": threat.threat_type,
-                "governance_approved": threat.governance_metadata.get(
-                    "governance_validated", False
-                ),
+                "governance_approved": threat.governance_metadata.get("governance_validated", False),
             },
         )
 
@@ -913,9 +896,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             )
         else:
             logger.warning(f"Unknown enhanced action: {action}")
-            await self._log_governance_action(
-                "unknown_action", {"action": action, "threat_id": threat.threat_id}
-            )
+            await self._log_governance_action("unknown_action", {"action": action, "threat_id": threat.threat_id})
 
     # Enhanced simulation methods with governance integration
 
@@ -1259,17 +1240,11 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         """Get comprehensive threat summary with governance and Trinity Framework data"""
         active_by_severity = {}
         for level in ThreatLevel:
-            active_by_severity[level.name] = len(
-                [t for t in self.active_threats if t.severity == level]
-            )
+            active_by_severity[level.name] = len([t for t in self.active_threats if t.severity == level])
 
         # Categorize threats by type
-        governance_threats = len(
-            [t for t in self.active_threats if t.threat_type.startswith("governance")]
-        )
-        ethics_threats = len(
-            [t for t in self.active_threats if t.threat_type == "ethics_violation"]
-        )
+        governance_threats = len([t for t in self.active_threats if t.threat_type.startswith("governance")])
+        ethics_threats = len([t for t in self.active_threats if t.threat_type == "ethics_violation"])
         trinity_threats = len([t for t in self.active_threats if t.threat_type == "trinity_desync"])
 
         return {
@@ -1304,15 +1279,11 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         current_time = time.time()
 
         # Get latest readings from all monitoring systems
-        latest_consciousness = (
-            list(self.consciousness_history)[-1] if self.consciousness_history else None
-        )
+        latest_consciousness = list(self.consciousness_history)[-1] if self.consciousness_history else None
         latest_entropy = list(self.entropy_history)[-1] if self.entropy_history else None
         latest_memory = list(self.memory_history)[-1] if self.memory_history else None
         latest_patterns = list(self.pattern_history)[-1] if self.pattern_history else None
-        latest_performance = (
-            list(self.response_time_history)[-1] if self.response_time_history else None
-        )
+        latest_performance = list(self.response_time_history)[-1] if self.response_time_history else None
         latest_governance = list(self.governance_history)[-1] if self.governance_history else None
         latest_identity = list(self.identity_history)[-1] if self.identity_history else None
         latest_guardian = list(self.guardian_history)[-1] if self.guardian_history else None
@@ -1322,9 +1293,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "consciousness": {
                 "stability": latest_consciousness["stability"] if latest_consciousness else 0.0,
                 "drift_rate": latest_consciousness["drift_rate"] if latest_consciousness else 0.0,
-                "coherence": latest_consciousness.get("coherence", 0.0)
-                if latest_consciousness
-                else 0.0,
+                "coherence": latest_consciousness.get("coherence", 0.0) if latest_consciousness else 0.0,
                 "trinity_alignment": latest_consciousness.get("trinity_alignment", 0.0)
                 if latest_consciousness
                 else 0.0,
@@ -1337,72 +1306,44 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "memory": {
                 "fragmentation": latest_memory["fragmentation"] if latest_memory else 0.0,
                 "coherence": latest_memory["coherence"] if latest_memory else 1.0,
-                "fold_integrity": latest_memory.get("fold_integrity", 1.0)
-                if latest_memory
-                else 1.0,
+                "fold_integrity": latest_memory.get("fold_integrity", 1.0) if latest_memory else 1.0,
             },
             "patterns": {
                 "coherence": latest_patterns["coherence"] if latest_patterns else 1.0,
                 "stability": latest_patterns["stability"] if latest_patterns else 1.0,
-                "symbolic_integrity": latest_patterns.get("symbolic_integrity", 1.0)
-                if latest_patterns
-                else 1.0,
+                "symbolic_integrity": latest_patterns.get("symbolic_integrity", 1.0) if latest_patterns else 1.0,
             },
             "performance": {
                 "response_time": latest_performance["response_time"] if latest_performance else 0.0,
                 "error_rate": latest_performance["error_rate"] if latest_performance else 0.0,
-                "throughput": latest_performance.get("throughput", 100.0)
-                if latest_performance
-                else 100.0,
-                "sla_compliance": latest_performance.get("sla_compliance", 1.0)
-                if latest_performance
-                else 1.0,
+                "throughput": latest_performance.get("throughput", 100.0) if latest_performance else 100.0,
+                "sla_compliance": latest_performance.get("sla_compliance", 1.0) if latest_performance else 1.0,
             },
             "governance": {
                 "health": latest_governance["health"] if latest_governance else 1.0,
-                "ethics_compliance": latest_governance["ethics_compliance"]
-                if latest_governance
-                else 1.0,
-                "policy_alignment": latest_governance["policy_alignment"]
-                if latest_governance
-                else 1.0,
-                "oversight_effectiveness": latest_governance["oversight_effectiveness"]
-                if latest_governance
-                else 1.0,
+                "ethics_compliance": latest_governance["ethics_compliance"] if latest_governance else 1.0,
+                "policy_alignment": latest_governance["policy_alignment"] if latest_governance else 1.0,
+                "oversight_effectiveness": latest_governance["oversight_effectiveness"] if latest_governance else 1.0,
             },
             "trinity_framework": {
                 "identity": {
                     "coherence": latest_identity["coherence"] if latest_identity else 1.0,
-                    "authentication_health": latest_identity["authentication_health"]
-                    if latest_identity
-                    else 1.0,
-                    "symbolic_integrity": latest_identity["symbolic_integrity"]
-                    if latest_identity
-                    else 1.0,
-                    "trinity_alignment": latest_identity["trinity_alignment"]
-                    if latest_identity
-                    else 1.0,
+                    "authentication_health": latest_identity["authentication_health"] if latest_identity else 1.0,
+                    "symbolic_integrity": latest_identity["symbolic_integrity"] if latest_identity else 1.0,
+                    "trinity_alignment": latest_identity["trinity_alignment"] if latest_identity else 1.0,
                 },
                 "consciousness": {
                     "stability": latest_consciousness["stability"] if latest_consciousness else 1.0,
-                    "coherence": latest_consciousness.get("coherence", 1.0)
-                    if latest_consciousness
-                    else 1.0,
+                    "coherence": latest_consciousness.get("coherence", 1.0) if latest_consciousness else 1.0,
                     "trinity_alignment": latest_consciousness.get("trinity_alignment", 1.0)
                     if latest_consciousness
                     else 1.0,
                 },
                 "guardian": {
                     "effectiveness": latest_guardian["effectiveness"] if latest_guardian else 1.0,
-                    "protection_coverage": latest_guardian["protection_coverage"]
-                    if latest_guardian
-                    else 1.0,
-                    "response_capability": latest_guardian["response_capability"]
-                    if latest_guardian
-                    else 1.0,
-                    "trinity_alignment": latest_guardian["trinity_alignment"]
-                    if latest_guardian
-                    else 1.0,
+                    "protection_coverage": latest_guardian["protection_coverage"] if latest_guardian else 1.0,
+                    "response_capability": latest_guardian["response_capability"] if latest_guardian else 1.0,
+                    "trinity_alignment": latest_guardian["trinity_alignment"] if latest_guardian else 1.0,
                 },
                 "synchronization": self._calculate_trinity_sync(),
                 "overall_health": self.detection_stats["trinity_framework_health"],
@@ -1417,9 +1358,7 @@ if __name__ == "__main__":
         print("🔍 Enhanced Threat Monitor with Governance Demo")
         print("=" * 50)
 
-        monitor = EnhancedThreatMonitor(
-            alert_threshold=0.6, monitoring_interval=2, governance_enabled=True
-        )
+        monitor = EnhancedThreatMonitor(alert_threshold=0.6, monitoring_interval=2, governance_enabled=True)
 
         try:
             # Start monitoring

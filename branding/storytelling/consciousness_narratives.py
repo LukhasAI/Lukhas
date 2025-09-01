@@ -497,15 +497,9 @@ if __name__ == "__main__":
     for principle, description in storytelling_system.storytelling_philosophy.items():
         print(f"  {principle}: {description[:80]}...")
 
-    print(
-        f"\n🎭 Story Archetypes: {len(storytelling_system.story_archetypes)} consciousness archetypes created"
-    )
-    print(
-        f"📚 Narrative Frameworks: {len(storytelling_system.narrative_frameworks)} story frameworks developed"
-    )
-    print(
-        f"🎨 Brand Mythology: {len(storytelling_system.brand_mythology)} mythology elements established"
-    )
+    print(f"\n🎭 Story Archetypes: {len(storytelling_system.story_archetypes)} consciousness archetypes created")
+    print(f"📚 Narrative Frameworks: {len(storytelling_system.narrative_frameworks)} story frameworks developed")
+    print(f"🎨 Brand Mythology: {len(storytelling_system.brand_mythology)} mythology elements established")
     print(f"📝 Content Templates: {len(content_templates)} story templates ready")
 
     print("\n🚀 Master Brand Story:")

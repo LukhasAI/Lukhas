@@ -101,9 +101,7 @@ def main():
         with open(args.output, "w", encoding="utf-8") as f:
             f.write(content)
         if args.report:
-            print(
-                f"✅ Sanitized content written to {args.output}: {replacement_count} replacements made"
-            )
+            print(f"✅ Sanitized content written to {args.output}: {replacement_count} replacements made")
     else:
         print(content)
         if args.report:

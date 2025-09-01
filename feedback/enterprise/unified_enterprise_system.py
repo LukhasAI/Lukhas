@@ -212,9 +212,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
             enterprise_feedback.scale_tracking_id = tracking_id
             result["scale"] = {
                 "tracking_id": tracking_id,
-                "estimated_processing_ms": self._estimate_processing_time(
-                    enterprise_feedback.processing_tier
-                ),
+                "estimated_processing_ms": self._estimate_processing_time(enterprise_feedback.processing_tier),
             }
 
         # Update collective intelligence
@@ -274,9 +272,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
             # Check for SQL injection attempts
             sql_patterns = ["' or '1'='1", "drop table", "union select"]
             if any(pattern in text for pattern in sql_patterns):
-                logger.warning(
-                    f"SQL injection attempt detected from {feedback.base_feedback.user_id}"
-                )
+                logger.warning(f"SQL injection attempt detected from {feedback.base_feedback.user_id}")
                 self.threat_intelligence["suspicious_patterns"].append(
                     {
                         "type": "sql_injection",
@@ -324,8 +320,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
                 # Exponential moving average
                 alpha = 0.001  # Learning rate
                 self.collective_intelligence.global_sentiment[emotion] = (
-                    alpha * score
-                    + (1 - alpha) * self.collective_intelligence.global_sentiment[emotion]
+                    alpha * score + (1 - alpha) * self.collective_intelligence.global_sentiment[emotion]
                 )
 
         # Detect emerging patterns
@@ -345,8 +340,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
 
                 # Update with weighted average
                 self.collective_intelligence.collective_values[principle_name] = (
-                    self.collective_intelligence.collective_values[principle_name] * 0.999
-                    + score * 0.001
+                    self.collective_intelligence.collective_values[principle_name] * 0.999 + score * 0.001
                 )
 
     async def _detect_emerging_patterns(self, text: str) -> None:
@@ -365,9 +359,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
         # Check for emerging patterns
         if len(self._word_frequencies) > 1000:
             # Get top growing terms
-            sorted_words = sorted(self._word_frequencies.items(), key=lambda x: x[1], reverse=True)[
-                :20
-            ]
+            sorted_words = sorted(self._word_frequencies.items(), key=lambda x: x[1], reverse=True)[:20]
 
             self.collective_intelligence.emerging_patterns = [
                 {"term": word, "frequency": count} for word, count in sorted_words
@@ -429,9 +421,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
                 # Check for warning patterns
                 for category, keywords in self.warning_patterns.items():
                     if hasattr(self, "_word_frequencies"):
-                        frequency = sum(
-                            self._word_frequencies.get(keyword, 0) for keyword in keywords
-                        )
+                        frequency = sum(self._word_frequencies.get(keyword, 0) for keyword in keywords)
 
                         if frequency > 100:  # Threshold
                             warnings.append(
@@ -439,9 +429,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
                                     "category": category,
                                     "severity": ("high" if frequency > 1000 else "medium"),
                                     "frequency": frequency,
-                                    "keywords_detected": [
-                                        k for k in keywords if self._word_frequencies.get(k, 0) > 0
-                                    ],
+                                    "keywords_detected": [k for k in keywords if self._word_frequencies.get(k, 0) > 0],
                                     "timestamp": datetime.now(timezone.utc),
                                     "recommended_actions": self._get_warning_actions(category),
                                 }
@@ -611,9 +599,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
             "training_data_size": len(valid_feedback),
             "created_at": datetime.now(timezone.utc),
             "performance_metrics": {
-                "alignment_score": np.mean(
-                    [f.constitutional_alignment.overall_alignment for f in valid_feedback]
-                ),
+                "alignment_score": np.mean([f.constitutional_alignment.overall_alignment for f in valid_feedback]),
                 "domains": specialization_config.get("domains", ["general"]),
             },
         }
@@ -657,9 +643,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
                 ).encode()
             ).hexdigest(),
             "constitutional_alignment": (
-                feedback.constitutional_alignment.overall_alignment
-                if feedback.constitutional_alignment
-                else None
+                feedback.constitutional_alignment.overall_alignment if feedback.constitutional_alignment else None
             ),
             "scale_tracking_id": feedback.scale_tracking_id,
             "security_clearance": feedback.security_clearance,
@@ -762,12 +746,8 @@ class UnifiedEnterpriseSystem(CoreInterface):
             "operational": self.operational,
             "mode": self.mode.value,
             "subsystems": {
-                "constitutional": (
-                    self.constitutional_system.operational if self.constitutional_system else False
-                ),
-                "scale": (
-                    self.scale_infrastructure.operational if self.scale_infrastructure else False
-                ),
+                "constitutional": (self.constitutional_system.operational if self.constitutional_system else False),
+                "scale": (self.scale_infrastructure.operational if self.scale_infrastructure else False),
             },
             "collective_intelligence": {
                 "total_feedback": self.collective_intelligence.total_feedback_processed,
@@ -781,9 +761,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
             },
             "blockchain": {
                 "blocks": len(self.audit_blockchain),
-                "latest_hash": (
-                    self.audit_blockchain[-1]["block_hash"] if self.audit_blockchain else None
-                ),
+                "latest_hash": (self.audit_blockchain[-1]["block_hash"] if self.audit_blockchain else None),
             },
             "monetization": {
                 "specialized_models": len(self.specialized_models),

@@ -260,9 +260,7 @@ class ExplanationGenerator(ABC):
     """Abstract base class for explanation generators."""
 
     @abstractmethod
-    async def generate_explanation(
-        self, request: ExplanationRequest, decision_context: dict[str, Any]
-    ) -> str:
+    async def generate_explanation(self, request: ExplanationRequest, decision_context: dict[str, Any]) -> str:
         """Generate explanation based on request and context."""
 
 
@@ -297,9 +295,7 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
         # Interactive generator (interactive visualizations)
         self.modality_generators[ModalityType.INTERACTIVE] = self._generate_interactive_content
 
-    async def generate_explanation(
-        self, request: ExplanationRequest, decision_context: dict[str, Any]
-    ) -> str:
+    async def generate_explanation(self, request: ExplanationRequest, decision_context: dict[str, Any]) -> str:
         """Generate explanation - legacy compatibility"""
         output = await self.generate_multimodal_explanation(request, decision_context)
         return output.natural_language
@@ -323,9 +319,7 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
 
             if modality in self.modality_generators:
                 try:
-                    content = await self.modality_generators[modality](
-                        request, decision_context, modality_pref
-                    )
+                    content = await self.modality_generators[modality](request, decision_context, modality_pref)
                     output.add_modality_content(
                         modality=modality,
                         content=content,
@@ -339,9 +333,7 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
         # Calculate overall confidence based on successful modalities
         total_modalities = len(request.preferred_modalities)
         successful_modalities = len(output.modality_content)
-        output.confidence_score = (
-            successful_modalities / total_modalities if total_modalities > 0 else 0.0
-        )
+        output.confidence_score = successful_modalities / total_modalities if total_modalities > 0 else 0.0
 
         return output
 
@@ -577,9 +569,7 @@ class NaturalLanguageGenerator(ExplanationGenerator):
 
         return default_templates
 
-    async def generate_explanation(
-        self, request: ExplanationRequest, decision_context: dict[str, Any]
-    ) -> str:
+    async def generate_explanation(self, request: ExplanationRequest, decision_context: dict[str, Any]) -> str:
         """Generate natural language explanation."""
 
         audience_style = self._get_audience_style(request.audience)
@@ -659,9 +649,7 @@ class NaturalLanguageGenerator(ExplanationGenerator):
         }
         return styles.get(audience, styles[ExplanationAudience.GENERAL_USER])
 
-    def _get_depth_content(
-        self, depth: ExplanationDepth, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _get_depth_content(self, depth: ExplanationDepth, context: dict[str, Any]) -> dict[str, Any]:
         """Extract content based on explanation depth."""
         if depth == ExplanationDepth.SUMMARY:
             return {"include_details": False, "include_technical": False}
@@ -684,9 +672,7 @@ class FormalProofGenerator(ExplanationGenerator):
         self.config = config or {}
         self.proof_system = self.config.get("proof_system", "first_order_logic")
 
-    async def generate_explanation(
-        self, request: ExplanationRequest, decision_context: dict[str, Any]
-    ) -> str:
+    async def generate_explanation(self, request: ExplanationRequest, decision_context: dict[str, Any]) -> str:
         """Generate formal proof explanation."""
         proof = await self._generate_formal_proof(decision_context)
         return self._format_proof(proof, request.audience)
@@ -753,12 +739,8 @@ class FormalProofGenerator(ExplanationGenerator):
                 )
 
             # Calculate overall validity score
-            step_confidences = [
-                step.get("confidence", 0.8) for step in steps if "confidence" in step
-            ]
-            validity_score = (
-                sum(step_confidences) / len(step_confidences) if step_confidences else 0.8
-            )
+            step_confidences = [step.get("confidence", 0.8) for step in steps if "confidence" in step]
+            validity_score = sum(step_confidences) / len(step_confidences) if step_confidences else 0.8
 
             # Try to integrate with theorem prover if available
             try:
@@ -931,9 +913,7 @@ class ExplainabilityInterfaceLayer:
             enriched_context = await self._enrich_context(decision_context)
 
             # Generate natural language explanation
-            natural_language = await self.nl_generator.generate_explanation(
-                explanation_request, enriched_context
-            )
+            natural_language = await self.nl_generator.generate_explanation(explanation_request, enriched_context)
 
             # Generate formal proof if requested
             formal_proof = None
@@ -941,18 +921,14 @@ class ExplainabilityInterfaceLayer:
                 explanation_request.requires_proof
                 or explanation_request.explanation_type == ExplanationType.FORMAL_PROOF
             ):
-                await self.proof_generator.generate_explanation(
-                    explanation_request, enriched_context
-                )
+                await self.proof_generator.generate_explanation(explanation_request, enriched_context)
                 formal_proof = await self.proof_generator._generate_formal_proof(enriched_context)
 
             # Extract causal chain
             causal_chain = await self._extract_causal_chain(enriched_context)
 
             # Calculate quality metrics
-            quality_metrics = await self._calculate_quality_metrics(
-                natural_language, formal_proof, enriched_context
-            )
+            quality_metrics = await self._calculate_quality_metrics(natural_language, formal_proof, enriched_context)
 
             # Create explanation output
             explanation_output = ExplanationOutput(
@@ -967,8 +943,7 @@ class ExplainabilityInterfaceLayer:
                 evidence_sources=enriched_context.get("evidence_sources", []),
                 quality_metrics=quality_metrics,
                 metadata={
-                    "generation_time_ms": (datetime.now(timezone.utc) - start_time).total_seconds()
-                    * 1000,
+                    "generation_time_ms": (datetime.now(timezone.utc) - start_time).total_seconds() * 1000,
                     "context_enrichment": bool(LUKHAS_INTEGRATION),
                     "proof_generated": formal_proof is not None,
                 },
@@ -1091,9 +1066,7 @@ class ExplainabilityInterfaceLayer:
             premises = context.get("premises", [])
 
             # Get symbolic reasoning trace
-            trace_result = await self.symbolic_engine.trace_reasoning(
-                query=query, premises=premises, context=context
-            )
+            trace_result = await self.symbolic_engine.trace_reasoning(query=query, premises=premises, context=context)
 
             # Format trace steps
             formatted_steps = []
@@ -1191,9 +1164,7 @@ class ExplainabilityInterfaceLayer:
 
         # Overall quality score
         quality_scores = [v for v in metrics.values() if v > 0]
-        metrics["overall_quality"] = (
-            sum(quality_scores) / len(quality_scores) if quality_scores else 0.0
-        )
+        metrics["overall_quality"] = sum(quality_scores) / len(quality_scores) if quality_scores else 0.0
 
         return metrics
 
@@ -1210,22 +1181,16 @@ class ExplainabilityInterfaceLayer:
 
             # Score essential elements (weight: 0.5)
             essential_score = sum(
-                1
-                for elem in essential_elements
-                if elem in explanation_lower or elem in context_lower
+                1 for elem in essential_elements if elem in explanation_lower or elem in context_lower
             ) / len(essential_elements)
 
             # Score important elements (weight: 0.3)
             important_score = sum(
-                1
-                for elem in important_elements
-                if elem in explanation_lower or elem in context_lower
+                1 for elem in important_elements if elem in explanation_lower or elem in context_lower
             ) / len(important_elements)
 
             # Score quality elements (weight: 0.2)
-            quality_score = sum(1 for elem in quality_elements if elem in explanation_lower) / len(
-                quality_elements
-            )
+            quality_score = sum(1 for elem in quality_elements if elem in explanation_lower) / len(quality_elements)
 
             # Calculate weighted completeness score
             completeness = essential_score * 0.5 + important_score * 0.3 + quality_score * 0.2
@@ -1335,8 +1300,7 @@ class ExplainabilityInterfaceLayer:
             ]
             structure_score = min(
                 1.0,
-                sum(1 for indicator in structure_indicators if indicator in explanation_lower)
-                * 0.1,
+                sum(1 for indicator in structure_indicators if indicator in explanation_lower) * 0.1,
             )
 
             # Jargon penalty (technical terms that might reduce clarity)
@@ -1431,9 +1395,7 @@ class ExplainabilityInterfaceLayer:
                 # Return verifiable signature string
                 return f"SRD_V1:{signature_value}:{verification_data['public_key_id']}"
             else:
-                raise Exception(
-                    f"SRD signing failed: {srd_signature.get('error', 'Unknown error')}"
-                )
+                raise Exception(f"SRD signing failed: {srd_signature.get('error', 'Unknown error')}")
 
         except Exception as e:
             self.logger.error("ΛTRACE_SIGNING_ERROR", error=str(e))
@@ -1466,14 +1428,10 @@ class ExplainabilityInterfaceLayer:
 
         # Track quality scores
         if explanation.quality_metrics.get("overall_quality", 0) > 0:
-            self.metrics["explanation_quality_scores"].append(
-                explanation.quality_metrics["overall_quality"]
-            )
+            self.metrics["explanation_quality_scores"].append(explanation.quality_metrics["overall_quality"])
             # Keep only last 100 scores
             if len(self.metrics["explanation_quality_scores"]) > 100:
-                self.metrics["explanation_quality_scores"] = self.metrics[
-                    "explanation_quality_scores"
-                ][-100:]
+                self.metrics["explanation_quality_scores"] = self.metrics["explanation_quality_scores"][-100:]
 
     async def interactive_explanation(
         self, decision_id: str, initial_question: str, context: dict[str, Any]
@@ -1505,9 +1463,7 @@ class ExplainabilityInterfaceLayer:
         initial_explanation = await self.explain_decision(decision_id, request, context)
 
         # Generate intelligent follow-up questions based on decision context
-        followup_questions = await self._generate_contextual_followups(
-            decision_id, initial_explanation, context
-        )
+        followup_questions = await self._generate_contextual_followups(decision_id, initial_explanation, context)
 
         # Initialize dialogue state for session management
         dialogue_state = {
@@ -1604,9 +1560,7 @@ class ExplainabilityInterfaceLayer:
         total_decisions = len(audit_results)
         signed_decisions = sum(1 for r in audit_results if r["signed"])
         avg_compliance = (
-            sum(r["compliance_score"] for r in audit_results) / total_decisions
-            if total_decisions > 0
-            else 0.0
+            sum(r["compliance_score"] for r in audit_results) / total_decisions if total_decisions > 0 else 0.0
         )
 
         # Perform statistical analysis on audit results
@@ -1616,9 +1570,7 @@ class ExplainabilityInterfaceLayer:
         patterns = await self._detect_audit_patterns(audit_results, context_data)
 
         # Enhanced recommendations based on analysis
-        recommendations = await self._generate_enhanced_audit_recommendations(
-            audit_results, stats_analysis, patterns
-        )
+        recommendations = await self._generate_enhanced_audit_recommendations(audit_results, stats_analysis, patterns)
 
         return {
             "report_id": report_id,
@@ -1627,9 +1579,7 @@ class ExplainabilityInterfaceLayer:
             "summary": {
                 "total_decisions": total_decisions,
                 "signed_decisions": signed_decisions,
-                "signature_rate": (
-                    signed_decisions / total_decisions if total_decisions > 0 else 0.0
-                ),
+                "signature_rate": (signed_decisions / total_decisions if total_decisions > 0 else 0.0),
                 "average_compliance_score": avg_compliance,
             },
             "statistical_analysis": stats_analysis,
@@ -1654,23 +1604,17 @@ class ExplainabilityInterfaceLayer:
 
         # Calculate derived metrics
         if self.metrics["explanation_quality_scores"]:
-            metrics["average_quality_score"] = sum(
-                self.metrics["explanation_quality_scores"]
-            ) / len(self.metrics["explanation_quality_scores"])
-            metrics["quality_score_std"] = self._calculate_std(
+            metrics["average_quality_score"] = sum(self.metrics["explanation_quality_scores"]) / len(
                 self.metrics["explanation_quality_scores"]
             )
+            metrics["quality_score_std"] = self._calculate_std(self.metrics["explanation_quality_scores"])
         else:
             metrics["average_quality_score"] = 0.0
             metrics["quality_score_std"] = 0.0
 
         if self.metrics["explanations_generated"] > 0:
-            metrics["proof_generation_rate"] = (
-                self.metrics["proofs_generated"] / self.metrics["explanations_generated"]
-            )
-            metrics["signing_rate"] = (
-                self.metrics["explanations_signed"] / self.metrics["explanations_generated"]
-            )
+            metrics["proof_generation_rate"] = self.metrics["proofs_generated"] / self.metrics["explanations_generated"]
+            metrics["signing_rate"] = self.metrics["explanations_signed"] / self.metrics["explanations_generated"]
         else:
             metrics["proof_generation_rate"] = 0.0
             metrics["signing_rate"] = 0.0
@@ -1779,9 +1723,7 @@ class ExplainabilityInterfaceLayer:
 
         return chain
 
-    async def _verify_with_theorem_prover(
-        self, steps: list[dict[str, Any]], conclusion: str
-    ) -> float:
+    async def _verify_with_theorem_prover(self, steps: list[dict[str, Any]], conclusion: str) -> float:
         """Attempt verification with external theorem prover."""
         try:
             # Try to connect to theorem prover service
@@ -1820,9 +1762,7 @@ class ExplainabilityInterfaceLayer:
             return 0.7
 
     # Helper methods for audit analysis and reporting
-    async def _perform_audit_statistical_analysis(
-        self, audit_results: list[dict]
-    ) -> dict[str, Any]:
+    async def _perform_audit_statistical_analysis(self, audit_results: list[dict]) -> dict[str, Any]:
         """Perform statistical analysis on audit results"""
 
         if not audit_results:
@@ -1852,26 +1792,18 @@ class ExplainabilityInterfaceLayer:
                 "unsigned_count": len(signing_rates) - sum(signing_rates),
             },
             "quality_statistics": {
-                "avg_completeness": sum(completeness_scores) / len(completeness_scores)
-                if completeness_scores
-                else 0.0,
-                "avg_accuracy": sum(accuracy_scores) / len(accuracy_scores)
-                if accuracy_scores
-                else 0.0,
+                "avg_completeness": sum(completeness_scores) / len(completeness_scores) if completeness_scores else 0.0,
+                "avg_accuracy": sum(accuracy_scores) / len(accuracy_scores) if accuracy_scores else 0.0,
                 "completeness_distribution": self._calculate_basic_stats(completeness_scores)
                 if completeness_scores
                 else {},
-                "accuracy_distribution": self._calculate_basic_stats(accuracy_scores)
-                if accuracy_scores
-                else {},
+                "accuracy_distribution": self._calculate_basic_stats(accuracy_scores) if accuracy_scores else {},
             },
         }
 
         return stats
 
-    async def _detect_audit_patterns(
-        self, audit_results: list[dict], context_data: dict[str, dict]
-    ) -> dict[str, Any]:
+    async def _detect_audit_patterns(self, audit_results: list[dict], context_data: dict[str, dict]) -> dict[str, Any]:
         """Detect patterns in audit results"""
 
         patterns = {
@@ -1890,23 +1822,17 @@ class ExplainabilityInterfaceLayer:
             import statistics
 
             std_dev = statistics.stdev(compliance_scores) if len(compliance_scores) > 1 else 0
-            patterns["consistency_score"] = max(
-                0.0, 1.0 - std_dev
-            )  # High consistency = low deviation
+            patterns["consistency_score"] = max(0.0, 1.0 - std_dev)  # High consistency = low deviation
 
         # Identify risk areas
-        low_compliance_decisions = [
-            r["decision_id"] for r in audit_results if r["compliance_score"] < 0.6
-        ]
+        low_compliance_decisions = [r["decision_id"] for r in audit_results if r["compliance_score"] < 0.6]
         if low_compliance_decisions:
             patterns["risk_areas"].append(
                 {
                     "type": "low_compliance",
                     "description": f"{len(low_compliance_decisions)} decisions have compliance scores below 0.6",
                     "affected_decisions": low_compliance_decisions[:5],  # Limit for brevity
-                    "severity": "high"
-                    if len(low_compliance_decisions) > len(audit_results) * 0.2
-                    else "medium",
+                    "severity": "high" if len(low_compliance_decisions) > len(audit_results) * 0.2 else "medium",
                 }
             )
 
@@ -1918,9 +1844,7 @@ class ExplainabilityInterfaceLayer:
                     "type": "unsigned_decisions",
                     "description": f"{len(unsigned_decisions)} decisions are not SRD-signed",
                     "affected_decisions": unsigned_decisions[:5],
-                    "severity": "medium"
-                    if len(unsigned_decisions) < len(audit_results) * 0.1
-                    else "high",
+                    "severity": "medium" if len(unsigned_decisions) < len(audit_results) * 0.1 else "high",
                 }
             )
 
@@ -2159,9 +2083,7 @@ class ExplainabilityInterfaceLayer:
             "non-linear",
         ]
 
-        complexity_score = sum(
-            1 for indicator in complexity_indicators if indicator in text.lower()
-        )
+        complexity_score = sum(1 for indicator in complexity_indicators if indicator in text.lower())
 
         if word_count > 300 or complexity_score > 3:
             return "high"

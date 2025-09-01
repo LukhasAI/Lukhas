@@ -176,9 +176,7 @@ class SymbolicHub:
             self.event_handlers[event_type] = []
         self.event_handlers[event_type].append(handler)
 
-    async def process_symbolic_data(
-        self, symbolic_data: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_symbolic_data(self, symbolic_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Process symbolic data through the symbolic system"""
 
         # Process through glyph engine first
@@ -235,9 +233,7 @@ class SymbolicHub:
 
         for handler in handlers:
             try:
-                result = (
-                    await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
-                )
+                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
                 results.append(result)
             except Exception as e:
                 logger.error(f"Symbolic handler error for {event_type}: {e}")

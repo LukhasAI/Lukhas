@@ -143,9 +143,7 @@ class QIResistantKeyManager:
         self.last_rotation = datetime.now(timezone.utc)
         self.audit_logs: list[CryptoAuditLog] = []
 
-    def generate_keypair(
-        self, algorithm: str, security_level: SecurityLevel
-    ) -> tuple[bytes, bytes]:
+    def generate_keypair(self, algorithm: str, security_level: SecurityLevel) -> tuple[bytes, bytes]:
         """Generate a quantum-resistant keypair"""
         session_id = self._generate_session_id()
 
@@ -297,9 +295,7 @@ class PostQuantumCryptoEngine:
 
         logger.info("PostQuantumCryptoEngine initialized with production configuration")
 
-    async def create_secure_session(
-        self, peer_id: str, session_requirements: dict[str, Any]
-    ) -> str:
+    async def create_secure_session(self, peer_id: str, session_requirements: dict[str, Any]) -> str:
         """
         Create a quantum-secure communication session
 
@@ -314,9 +310,7 @@ class PostQuantumCryptoEngine:
 
         try:
             # Generate session-specific keys
-            public_key, private_key = self.key_manager.generate_keypair(
-                "kyber", self.config.security_level
-            )
+            public_key, private_key = self.key_manager.generate_keypair("kyber", self.config.security_level)
 
             # Derive session keys using quantum-resistant KDF
             session_keys = await self.qi_kdf.derive_session_keys(
@@ -346,9 +340,7 @@ class PostQuantumCryptoEngine:
             logger.error(f"Failed to create secure session: {e}")
             raise
 
-    async def sign_data(
-        self, data: bytes, session_id: str, include_timestamp: bool = True
-    ) -> dict[str, Any]:
+    async def sign_data(self, data: bytes, session_id: str, include_timestamp: bool = True) -> dict[str, Any]:
         """
         Create quantum-resistant digital signature
 
@@ -382,14 +374,10 @@ class PostQuantumCryptoEngine:
             # Generate signature
             if CRYPTO_AVAILABLE and self.config.enable_hybrid_mode:
                 # Hybrid signature: classical + post-quantum
-                classical_signature = self._create_classical_signature(
-                    domain_separated, session_data["private_key"]
-                )
+                classical_signature = self._create_classical_signature(domain_separated, session_data["private_key"])
 
                 # Post-quantum signature (when available)
-                pq_signature = self._create_pq_signature(
-                    domain_separated, session_data["private_key"]
-                )
+                pq_signature = self._create_pq_signature(domain_separated, session_data["private_key"])
 
                 signature_data = {
                     "classical": classical_signature,
@@ -399,17 +387,13 @@ class PostQuantumCryptoEngine:
             else:
                 # Fallback to enhanced classical signature
                 signature_data = {
-                    "signature": self._create_enhanced_signature(
-                        domain_separated, session_data["private_key"]
-                    ),
+                    "signature": self._create_enhanced_signature(domain_separated, session_data["private_key"]),
                     "hybrid_mode": False,
                 }
 
             result = {
                 "signature_data": signature_data,
-                "algorithm": (
-                    "hybrid_pq" if self.config.enable_hybrid_mode else "enhanced_classical"
-                ),
+                "algorithm": ("hybrid_pq" if self.config.enable_hybrid_mode else "enhanced_classical"),
                 "security_level": self.config.security_level.value,
                 "timestamp": timestamp.isoformat() if timestamp else None,
                 "session_id": session_id,
@@ -482,9 +466,7 @@ class PostQuantumCryptoEngine:
         """Create enhanced signature with multiple security layers"""
         # Multi-layer signature for enhanced security
         layer1 = hashlib.pbkdf2_hmac("sha256", private_key, data[:16], 150000)
-        layer2 = hashlib.pbkdf2_hmac(
-            "sha256", layer1, data[16:32] if len(data) > 16 else b"pad", 150000
-        )
+        layer2 = hashlib.pbkdf2_hmac("sha256", layer1, data[16:32] if len(data) > 16 else b"pad", 150000)
         layer3 = hashlib.pbkdf2_hmac("sha256", layer2, data, 150000)
 
         enhanced_signature = hashlib.hmac.new(layer3, data, hashlib.sha256).digest()
@@ -501,9 +483,7 @@ class PostQuantumCryptoEngine:
             session_data = self.session_cache[session_id]
 
             # Generate new keys
-            new_public, new_private = self.key_manager.generate_keypair(
-                "kyber", self.config.security_level
-            )
+            new_public, new_private = self.key_manager.generate_keypair("kyber", self.config.security_level)
 
             # Derive new session keys
             new_session_keys = await self.qi_kdf.derive_session_keys(
@@ -622,9 +602,7 @@ class SecureMemoryManager:
         if isinstance(data, str) and data in self.protected_data:
             # Overwrite memory multiple times (DoD 5220.22-M standard)
             for _ in range(3):
-                self.protected_data[data] = {
-                    k: secrets.token_bytes(32) for k in self.protected_data[data]
-                }
+                self.protected_data[data] = {k: secrets.token_bytes(32) for k in self.protected_data[data]}
             del self.protected_data[data]
         elif isinstance(data, dict):
             # Overwrite dictionary values

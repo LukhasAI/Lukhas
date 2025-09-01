@@ -160,9 +160,7 @@ def generate_system_report() -> dict[str, Any]:
     # Python environment
     print("🐍 Checking Python environment...")
     py_result = run_command("python3 --version")
-    report["metadata"]["python_version"] = (
-        py_result["stdout"] if py_result["success"] else "unknown"
-    )
+    report["metadata"]["python_version"] = py_result["stdout"] if py_result["success"] else "unknown"
 
     # Environment variables
     print("🔧 Checking environment variables...")
@@ -260,24 +258,18 @@ def generate_system_report() -> dict[str, Any]:
     print("💡 Generating recommendations...")
 
     # Check module import issues
-    failed_imports = [
-        name for name, data in report["core_modules"].items() if not data["importable"]
-    ]
+    failed_imports = [name for name, data in report["core_modules"].items() if not data["importable"]]
     if failed_imports:
         report["recommendations"].append(f"Fix import issues: {', '.join(failed_imports)}")
 
     # Check API services
-    non_responding_apis = [
-        name for name, data in report["api_services"].items() if not data["responding"]
-    ]
+    non_responding_apis = [name for name, data in report["api_services"].items() if not data["responding"]]
     if non_responding_apis:
         report["recommendations"].append(f"Start API services: {', '.join(non_responding_apis)}")
 
     # Check missing files
     missing_files = [
-        name
-        for name, data in report["file_system"].items()
-        if isinstance(data, dict) and not data.get("exists", True)
+        name for name, data in report["file_system"].items() if isinstance(data, dict) and not data.get("exists", True)
     ]
     if missing_files:
         report["recommendations"].append(f"Restore missing files: {', '.join(missing_files)}")
@@ -298,13 +290,7 @@ def generate_system_report() -> dict[str, Any]:
     successful_checks = (
         len([m for m in report["core_modules"].values() if m["importable"]])
         + len([a for a in report["api_services"].values() if a["responding"]])
-        + len(
-            [
-                f
-                for f in report["file_system"].values()
-                if isinstance(f, dict) and f.get("exists", False)
-            ]
-        )
+        + len([f for f in report["file_system"].values() if isinstance(f, dict) and f.get("exists", False)])
         + len([e for e in report["environment"].values() if e["present"]])
     )
 
@@ -314,9 +300,7 @@ def generate_system_report() -> dict[str, Any]:
         "overall_health_score": round(health_score, 1),
         "total_issues": len(report["issues"]),
         "total_recommendations": len(report["recommendations"]),
-        "core_modules_working": len(
-            [m for m in report["core_modules"].values() if m["importable"]]
-        ),
+        "core_modules_working": len([m for m in report["core_modules"].values() if m["importable"]]),
         "total_core_modules": len(report["core_modules"]),
         "apis_responding": len([a for a in report["api_services"].values() if a["responding"]]),
         "total_apis_tested": len(report["api_services"]),
@@ -336,12 +320,8 @@ def print_report_summary(report: dict[str, Any]):
     summary = report["summary"]
 
     print(f"🎯 Overall Health Score: {summary['overall_health_score']}%")
-    print(
-        f"📦 Core Modules: {summary['core_modules_working']}/{summary['total_core_modules']} working"
-    )
-    print(
-        f"🌐 API Services: {summary['apis_responding']}/{summary['total_apis_tested']} responding"
-    )
+    print(f"📦 Core Modules: {summary['core_modules_working']}/{summary['total_core_modules']} working")
+    print(f"🌐 API Services: {summary['apis_responding']}/{summary['total_apis_tested']} responding")
     print(f"🧪 Tests Available: {summary['test_count']}")
     print(f"⚠️ Issues Found: {summary['total_issues']}")
     print(f"💡 Recommendations: {summary['total_recommendations']}")

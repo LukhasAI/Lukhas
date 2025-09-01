@@ -140,9 +140,7 @@ class TagConsensusRequest:
             return False
 
         total_weight = sum(self.vote_weights.values())
-        approve_weight = sum(
-            weight for voter, weight in self.vote_weights.items() if self.votes.get(voter, False)
-        )
+        approve_weight = sum(weight for voter, weight in self.vote_weights.items() if self.votes.get(voter, False))
 
         return approve_weight / total_weight >= self.tag.consensus_threshold
 
@@ -220,9 +218,7 @@ class IdentityTagResolver:
             tier_required=tier_level,
             consensus_required=require_consensus,
             issuer_id=issuer_id or "system",
-            expiry_time=(
-                datetime.utcnow() + timedelta(hours=expiry_hours) if expiry_hours else None
-            ),
+            expiry_time=(datetime.utcnow() + timedelta(hours=expiry_hours) if expiry_hours else None),
         )
 
         # Check if consensus is required
@@ -394,9 +390,7 @@ class IdentityTagResolver:
                 },
             )
 
-    def resolve_identity_permissions(
-        self, lambda_id: str, resource: str, tier_level: int
-    ) -> dict[str, Any]:
+    def resolve_identity_permissions(self, lambda_id: str, resource: str, tier_level: int) -> dict[str, Any]:
         """
         Resolve permissions for identity based on tags and trust network.
         """
@@ -420,22 +414,14 @@ class IdentityTagResolver:
             valid_tags.append(tag)
 
         # Check permission tags
-        permission_tags = [
-            tag
-            for tag in valid_tags
-            if tag.name.startswith("permission:") and resource in tag.value
-        ]
+        permission_tags = [tag for tag in valid_tags if tag.name.startswith("permission:") and resource in tag.value]
 
         if permission_tags:
             permissions["allowed"] = True
             permissions["applicable_tags"] = [tag.name for tag in permission_tags]
 
         # Check restriction tags
-        restriction_tags = [
-            tag
-            for tag in valid_tags
-            if tag.name.startswith("restriction:") and resource in tag.value
-        ]
+        restriction_tags = [tag for tag in valid_tags if tag.name.startswith("restriction:") and resource in tag.value]
 
         if restriction_tags:
             permissions["allowed"] = False
@@ -495,9 +481,7 @@ class IdentityTagResolver:
             "trust_relationships": self._count_trust_relationships(lambda_id),
         }
 
-    def _get_trust_network(
-        self, identity_id: str, min_trust: TrustLevel = TrustLevel.LOW
-    ) -> list[str]:
+    def _get_trust_network(self, identity_id: str, min_trust: TrustLevel = TrustLevel.LOW) -> list[str]:
         """Get trusted identities above threshold."""
         trusted = []
 
@@ -618,8 +602,7 @@ class IdentityTagResolver:
                                     "tag": request.tag,
                                     "action": "consensus_approved",
                                     "votes": len(request.votes),
-                                    "approval_rate": sum(1 for v in request.votes.values() if v)
-                                    / len(request.votes),
+                                    "approval_rate": sum(1 for v in request.votes.values() if v) / len(request.votes),
                                 }
                             )
 

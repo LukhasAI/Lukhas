@@ -103,9 +103,7 @@ def _apply_environment_overrides(config: dict[str, Any]) -> dict[str, Any]:
             str(config["security"].get("api_key_required", False)),
         )
     )
-    config["security"]["api_key"] = os.getenv(
-        "LUKHAS_MONITORING_API_KEY", config["security"].get("api_key", "")
-    )
+    config["security"]["api_key"] = os.getenv("LUKHAS_MONITORING_API_KEY", config["security"].get("api_key", ""))
 
     # Rate limits
     config["security"].setdefault("rate_limits", {})
@@ -132,9 +130,7 @@ def _apply_environment_overrides(config: dict[str, Any]) -> dict[str, Any]:
 
     # Logging Configuration
     config.setdefault("logging", {})
-    config["logging"]["level"] = os.getenv(
-        "LUKHAS_LOG_LEVEL", config["logging"].get("level", "INFO")
-    ).upper()
+    config["logging"]["level"] = os.getenv("LUKHAS_LOG_LEVEL", config["logging"].get("level", "INFO")).upper()
 
     # File paths with environment overrides
     config["logging"].setdefault("files", {})
@@ -243,12 +239,8 @@ def _apply_environment_overrides(config: dict[str, Any]) -> dict[str, Any]:
                 str(config["production"].get("ssl_enabled", False)),
             )
         )
-        config["production"]["ssl_cert"] = os.getenv(
-            "LUKHAS_SSL_CERT", config["production"].get("ssl_cert", "")
-        )
-        config["production"]["ssl_key"] = os.getenv(
-            "LUKHAS_SSL_KEY", config["production"].get("ssl_key", "")
-        )
+        config["production"]["ssl_cert"] = os.getenv("LUKHAS_SSL_CERT", config["production"].get("ssl_cert", ""))
+        config["production"]["ssl_key"] = os.getenv("LUKHAS_SSL_KEY", config["production"].get("ssl_key", ""))
 
         # Production defaults (security-focused)
         config["security"]["api_key_required"] = True
@@ -331,9 +323,7 @@ def validate_config(config: dict[str, Any]) -> dict[str, Any]:
         issues.append("unified_dashboard and meta_dashboard cannot use the same port")
 
     # Security checks
-    if get_config_value(config, "security.api_key_required") and not get_config_value(
-        config, "security.api_key"
-    ):
+    if get_config_value(config, "security.api_key_required") and not get_config_value(config, "security.api_key"):
         warnings.append("API key is required but not configured")
 
     # Production readiness checks

@@ -61,9 +61,7 @@ class GuardianSystem:
         # The __init__ will be called every time, but the instance is the same.
         # We can use a flag to do initialization only once.
         if not hasattr(self, "_initialized"):
-            self._enhanced_system = EnhancedGuardianSystem(
-                config={"drift_threshold": drift_threshold}
-            )
+            self._enhanced_system = EnhancedGuardianSystem(config={"drift_threshold": drift_threshold})
             self.drift_threshold = drift_threshold
             self._initialized = True
 

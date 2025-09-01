@@ -82,9 +82,7 @@ class FunctionIndexGenerator:
         except Exception:
             return 0
 
-    def _analyze_function(
-        self, node: ast.FunctionDef, file_path: Path, module_name: str
-    ) -> dict[str, Any]:
+    def _analyze_function(self, node: ast.FunctionDef, file_path: Path, module_name: str) -> dict[str, Any]:
         """Analyze a function node and extract information"""
         # Extract parameters
         params = []
@@ -105,11 +103,11 @@ class FunctionIndexGenerator:
         for decorator in node.decorator_list:
             if isinstance(decorator, ast.Name):
                 decorators.append(decorator.id)
-                self.decorator_usage[decorator.id].append(
-                    {"function": node.name, "module": module_name}
-                )
+                self.decorator_usage[decorator.id].append({"function": node.name, "module": module_name})
             elif isinstance(decorator, ast.Attribute):
-                decorator_name = f"{decorator.value.id if isinstance(decorator.value, ast.Name) else '...'}.{decorator.attr}"
+                decorator_name = (
+                    f"{decorator.value.id if isinstance(decorator.value, ast.Name) else '...'}.{decorator.attr}"
+                )
                 decorators.append(decorator_name)
 
         # Extract return type if available
@@ -136,9 +134,7 @@ class FunctionIndexGenerator:
             "decorators": decorators,
             "returns": return_type,
             "complexity": complexity,
-            "docstring": (
-                docstring[:100] + "..." if docstring and len(docstring) > 100 else docstring
-            ),
+            "docstring": (docstring[:100] + "..." if docstring and len(docstring) > 100 else docstring),
         }
 
     def _get_annotation_string(self, annotation) -> str:
@@ -202,9 +198,7 @@ class FunctionIndexGenerator:
         complex_functions = []
         for module, functions in self.index.items():
             for func_name, info in functions.items():
-                complex_functions.append(
-                    (func_name, module, info["complexity"], len(info["params"]))
-                )
+                complex_functions.append((func_name, module, info["complexity"], len(info["params"])))
         complex_functions.sort(key=lambda x: x[2], reverse=True)
 
         report = {

@@ -90,19 +90,12 @@ class BioConsolidator:
                     classes.append(
                         {
                             "name": node.name,
-                            "bases": [
-                                base.id if isinstance(base, ast.Name) else str(base)
-                                for base in node.bases
-                            ],
-                            "methods": [
-                                n.name for n in node.body if isinstance(n, ast.FunctionDef)
-                            ],
+                            "bases": [base.id if isinstance(base, ast.Name) else str(base) for base in node.bases],
+                            "methods": [n.name for n in node.body if isinstance(n, ast.FunctionDef)],
                         }
                     )
                 elif isinstance(node, ast.FunctionDef) and node.col_offset == 0:
-                    functions.append(
-                        {"name": node.name, "args": [arg.arg for arg in node.args.args]}
-                    )
+                    functions.append({"name": node.name, "args": [arg.arg for arg in node.args.args]})
                 elif isinstance(node, (ast.Import, ast.ImportFrom)):
                     imports.append(ast.unparse(node))
 
@@ -213,9 +206,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
                         content += "        pass\n\n"
                     else:
                         content += f"    def {method}(self, *args, **kwargs):\n"
-                        content += (
-                            "        raise NotImplementedError('Bio consolidation in progress')\n\n"
-                        )
+                        content += "        raise NotImplementedError('Bio consolidation in progress')\n\n"
             else:
                 content += "    pass\n\n"
 

@@ -17,9 +17,7 @@ class MockDatabase:
         self.content = []
         self.content_id_counter = 1
 
-    def log_system_activity(
-        self, system_name: str, activity_type: str, description: str, value: float
-    ):
+    def log_system_activity(self, system_name: str, activity_type: str, description: str, value: float):
         """Mock log system activity"""
         self.activities.append(
             {
@@ -185,7 +183,5 @@ if __name__ == "__main__":
     print("\n" + "=" * 50)
     print("✨ All tests completed successfully!")
     print(f"📊 Total domains tested: {len(multiple_results)}")
-    print(
-        f"📈 Success rate: {len([r for r in multiple_results.values() if 'error' not in r])}/{len(multiple_results)}"
-    )
+    print(f"📈 Success rate: {len([r for r in multiple_results.values() if 'error' not in r])}/{len(multiple_results)}")
     print("📄 Content files generated in test_output/")

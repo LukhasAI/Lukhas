@@ -398,9 +398,7 @@ class SafetyChecker:
         self.config.update(new_config)
         self.risk_threshold = self.config.get("risk_threshold", self.risk_threshold)
         self.strict_mode = self.config.get("strict_mode", self.strict_mode)
-        self.enable_context_analysis = self.config.get(
-            "context_analysis", self.enable_context_analysis
-        )
+        self.enable_context_analysis = self.config.get("context_analysis", self.enable_context_analysis)
 
         self.logger.info("SafetyChecker configuration updated")
 

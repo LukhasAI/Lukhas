@@ -91,9 +91,7 @@ class UnifiedCognitiveOrchestrator:
     def __init__(self):
         # Core enhanced components
         self.glyph_engine = get_enhanced_glyph_engine()
-        self.memory_engine = OptimizedFoldEngine(
-            max_memory_mb=2048, cache_size=1000, enable_mmap=True
-        )
+        self.memory_engine = OptimizedFoldEngine(max_memory_mb=2048, cache_size=1000, enable_mmap=True)
         self.qi_processor = QIProcessor(num_qubits=8)
         self.consensus_system = AdvancedColonyConsensus("main_colony")
 
@@ -150,9 +148,7 @@ class UnifiedCognitiveOrchestrator:
 
         # Memory events update cognitive state
         async def on_memory_created(event: MemoryFoldCreated):
-            self.cognitive_state.memory_load = (
-                self.memory_engine.get_statistics()["total_size_mb"] / 2048
-            )
+            self.cognitive_state.memory_load = self.memory_engine.get_statistics()["total_size_mb"] / 2048
             await self._update_awareness_from_memory(event.fold_id)
 
         # Consensus events trigger decisions
@@ -181,9 +177,7 @@ class UnifiedCognitiveOrchestrator:
         ]
 
         for module_name, weight in modules:
-            self.consensus_system.register_agent(
-                agent_id=module_name, weight=weight, capabilities=[module_name]
-            )
+            self.consensus_system.register_agent(agent_id=module_name, weight=weight, capabilities=[module_name])
             self.registered_modules[module_name] = {
                 "weight": weight,
                 "active": True,
@@ -277,9 +271,7 @@ class UnifiedCognitiveOrchestrator:
             # Create cross-module links
             for _module, symbols in related.items():
                 for related_symbol in symbols[:3]:  # Limit connections
-                    self.glyph_engine.create_cross_module_link(
-                        symbol, related_symbol, link_type="semantic"
-                    )
+                    self.glyph_engine.create_cross_module_link(symbol, related_symbol, link_type="semantic")
 
     async def _make_decisions(self):
         """Make decisions using advanced consensus"""
@@ -361,9 +353,7 @@ class UnifiedCognitiveOrchestrator:
             await self._encode_to_memory(action_symbol)
 
             # Update awareness
-            self.cognitive_state.awareness_level = min(
-                1.0, self.cognitive_state.awareness_level + 0.1
-            )
+            self.cognitive_state.awareness_level = min(1.0, self.cognitive_state.awareness_level + 0.1)
 
     async def _encode_to_memory(self, symbol: UniversalSymbol):
         """Encode a symbol to optimized memory"""
@@ -403,9 +393,7 @@ class UnifiedCognitiveOrchestrator:
             if "cognitive_state" in fold.content:
                 past_awareness = fold.content["cognitive_state"].get("awareness", 0.5)
                 # Blend with current awareness
-                self.cognitive_state.awareness_level = (
-                    0.7 * self.cognitive_state.awareness_level + 0.3 * past_awareness
-                )
+                self.cognitive_state.awareness_level = 0.7 * self.cognitive_state.awareness_level + 0.3 * past_awareness
 
     async def _consolidate_memories(self):
         """Consolidate memories using compression"""
@@ -426,9 +414,7 @@ class UnifiedCognitiveOrchestrator:
 
         if len(symbols_to_compress) > 10:
             # Compress symbols
-            compressed = self.glyph_engine.universal_protocol.compress_symbols(
-                symbols_to_compress[:50]
-            )
+            compressed = self.glyph_engine.universal_protocol.compress_symbols(symbols_to_compress[:50])
 
             # Store compressed state
             self.memory_engine.create_fold(
@@ -527,9 +513,7 @@ class UnifiedCognitiveOrchestrator:
         results = {}
 
         # Consciousness processing
-        consciousness_result = self.glyph_engine.translate_for_module(
-            thought_symbol, "consciousness"
-        )
+        consciousness_result = self.glyph_engine.translate_for_module(thought_symbol, "consciousness")
         results["consciousness"] = consciousness_result
 
         # Memory encoding

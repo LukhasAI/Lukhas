@@ -31,9 +31,7 @@ class SecurityIssueFixer:
         report_path = Path("reports/security/bandit.json")
 
         if not report_path.exists():
-            click.echo(
-                "❌ Bandit security report not found. Run 'make security-comprehensive-scan' first."
-            )
+            click.echo("❌ Bandit security report not found. Run 'make security-comprehensive-scan' first.")
             return []
 
         with open(report_path) as f:
@@ -186,8 +184,7 @@ Focus on practical, secure solutions that maintain functionality.
             # Add comment warning about hardcoded passwords
             if line_num <= len(lines):
                 lines[line_num - 1] = (
-                    lines[line_num - 1].rstrip()
-                    + "  # SECURITY: Consider using environment variables\n"
+                    lines[line_num - 1].rstrip() + "  # SECURITY: Consider using environment variables\n"
                 )
 
             # Write back
@@ -214,12 +211,8 @@ Focus on practical, secure solutions that maintain functionality.
             self.create_backup(file_path)
 
             # Replace common bind-all patterns
-            content = content.replace(
-                '"0.0.0.0"', '"127.0.0.1"  # Changed from 0.0.0.0 for security'
-            )
-            content = content.replace(
-                "'0.0.0.0'", "'127.0.0.1'  # Changed from 0.0.0.0 for security"
-            )
+            content = content.replace('"0.0.0.0"', '"127.0.0.1"  # Changed from 0.0.0.0 for security')
+            content = content.replace("'0.0.0.0'", "'127.0.0.1'  # Changed from 0.0.0.0 for security")
             content = content.replace(
                 'host="0.0.0.0"',
                 'host="127.0.0.1"  # Changed from 0.0.0.0 for security',
@@ -251,12 +244,8 @@ Focus on practical, secure solutions that maintain functionality.
             self.create_backup(file_path)
 
             # Replace insecure hash functions
-            content = content.replace(
-                "hashlib.md5(", "hashlib.sha256(  # Changed from MD5 for security"
-            )
-            content = content.replace(
-                "hashlib.sha1(", "hashlib.sha256(  # Changed from SHA1 for security"
-            )
+            content = content.replace("hashlib.md5(", "hashlib.sha256(  # Changed from MD5 for security")
+            content = content.replace("hashlib.sha1(", "hashlib.sha256(  # Changed from SHA1 for security")
 
             with open(file_path, "w") as f:
                 f.write(content)
@@ -280,9 +269,7 @@ Focus on practical, secure solutions that maintain functionality.
             issue_type = issue["test_name"]
 
             if issue_type in fixable_types and fixable_types[issue_type]["auto_fixable"]:
-                click.echo(
-                    f"\n🛠️ Processing {issue_type} in {issue['filename']}:{issue['line_number']}"
-                )
+                click.echo(f"\n🛠️ Processing {issue_type} in {issue['filename']}:{issue['line_number']}")
 
                 # Get AI analysis
                 analysis = await self.analyze_issue_with_ollama(issue)
@@ -331,8 +318,7 @@ Focus on practical, secure solutions that maintain functionality.
             # Add security comment
             if line_num <= len(lines):
                 lines[line_num - 1] = (
-                    lines[line_num - 1].rstrip()
-                    + "  # SECURITY: Review subprocess call for input validation\n"
+                    lines[line_num - 1].rstrip() + "  # SECURITY: Review subprocess call for input validation\n"
                 )
 
             with open(file_path, "w") as f:
@@ -367,12 +353,8 @@ Focus on practical, secure solutions that maintain functionality.
         click.echo("\n📊 SECURITY FIX SUMMARY:")
         click.echo("=========================")
         click.echo(f"🎯 Issues addressed: {total_fixed}/{total_issues}")
-        click.echo(
-            f"🔥 HIGH severity issues: {len([f for f in self.fixes_applied if f['severity'] == 'HIGH'])}"
-        )
-        click.echo(
-            f"⚠️ MEDIUM severity issues: {len([f for f in self.fixes_applied if f['severity'] == 'MEDIUM'])}"
-        )
+        click.echo(f"🔥 HIGH severity issues: {len([f for f in self.fixes_applied if f['severity'] == 'HIGH'])}")
+        click.echo(f"⚠️ MEDIUM severity issues: {len([f for f in self.fixes_applied if f['severity'] == 'MEDIUM'])}")
 
         if self.fixes_applied:
             click.echo("\n✅ FIXED ISSUES:")

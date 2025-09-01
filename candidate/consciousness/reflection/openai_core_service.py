@@ -360,9 +360,7 @@ class OpenAICoreService:
                     {
                         "url": image.url if hasattr(image, "url") else None,
                         "b64_json": (image.b64_json if hasattr(image, "b64_json") else None),
-                        "revised_prompt": (
-                            image.revised_prompt if hasattr(image, "revised_prompt") else None
-                        ),
+                        "revised_prompt": (image.revised_prompt if hasattr(image, "revised_prompt") else None),
                     }
                 )
 
@@ -677,9 +675,7 @@ class OpenAIMockProvider:
             "emotion": "The emotional resonance indicates a complex interplay of feelings...",
         }
 
-        content = module_responses.get(
-            request.module, "This is a mock response for development purposes."
-        )
+        content = module_responses.get(request.module, "This is a mock response for development purposes.")
 
         return OpenAIResponse(
             request_id="mock",
@@ -827,9 +823,7 @@ class RateLimiter:
 
 
 # Convenience functions for modules
-async def generate_text(
-    module: str, prompt: str, model_type: ModelType = ModelType.FAST, **kwargs
-) -> str:
+async def generate_text(module: str, prompt: str, model_type: ModelType = ModelType.FAST, **kwargs) -> str:
     """Convenience function for text generation."""
     service = OpenAICoreService()
     request = OpenAIRequest(
@@ -845,9 +839,7 @@ async def generate_text(
         raise Exception(f"Text generation failed: {response.error}")
 
 
-async def generate_image(
-    module: str, prompt: str, size: str = "1024x1024", **kwargs
-) -> dict[str, Any]:
+async def generate_image(module: str, prompt: str, size: str = "1024x1024", **kwargs) -> dict[str, Any]:
     """Convenience function for image generation."""
     service = OpenAICoreService()
     request = OpenAIRequest(

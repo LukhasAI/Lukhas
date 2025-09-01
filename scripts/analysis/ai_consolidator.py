@@ -49,9 +49,7 @@ class AICodeConsolidator:
 
         return results
 
-    async def _merge_modules_with_ai(
-        self, codebase_path: str, merge_candidate: dict
-    ) -> Optional[dict]:
+    async def _merge_modules_with_ai(self, codebase_path: str, merge_candidate: dict) -> Optional[dict]:
         """Use AI to intelligently merge similar modules"""
         modules = merge_candidate["modules"]
         component_type = merge_candidate["component_type"]
@@ -120,9 +118,7 @@ MERGED MODULE:
 
         return prompt
 
-    async def _standardize_interfaces_with_ai(
-        self, codebase_path: str, interface_plan: dict
-    ) -> list[dict]:
+    async def _standardize_interfaces_with_ai(self, codebase_path: str, interface_plan: dict) -> list[dict]:
         """Use AI to standardize interfaces across AGI components"""
         print("🔧 Standardizing AGI component interfaces...")
 
@@ -165,9 +161,7 @@ OUTPUT: Complete Python interface definition with full documentation.
 
         return standardized_results
 
-    async def _optimize_modules_with_ai(
-        self, codebase_path: str, optimization_plan: dict
-    ) -> list[dict]:
+    async def _optimize_modules_with_ai(self, codebase_path: str, optimization_plan: dict) -> list[dict]:
         """Use AI to optimize individual modules"""
         print("⚡ Optimizing AGI modules with AI...")
 
@@ -184,9 +178,7 @@ OUTPUT: Complete Python interface definition with full documentation.
                         with open(full_path) as f:
                             original_code = f.read()
 
-                        optimized_code = await self._optimize_complex_module(
-                            module_path, original_code
-                        )
+                        optimized_code = await self._optimize_complex_module(module_path, original_code)
 
                         if optimized_code:
                             optimized_results.append(

@@ -185,10 +185,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
                 violations.append(violation)
 
         # Calculate overall alignment
-        weighted_sum = sum(
-            score * self.principle_weights[principle]
-            for principle, score in principle_scores.items()
-        )
+        weighted_sum = sum(score * self.principle_weights[principle] for principle, score in principle_scores.items())
         total_weight = sum(self.principle_weights.values())
         overall_alignment = weighted_sum / total_weight
 
@@ -287,8 +284,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
 
         # Check if feedback rewards harmful AI responses
         if (
-            context.get("ai_response_harmful", False)
-            and feedback.feedback_type == FeedbackType.RATING
+            context.get("ai_response_harmful", False) and feedback.feedback_type == FeedbackType.RATING
         ) and feedback.content.get("rating", 0) >= 4:
             score = 0.2
             violation = ConstitutionalViolation(
@@ -414,9 +410,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
 
         return score, None
 
-    async def _process_aligned_feedback(
-        self, feedback: FeedbackItem, alignment: FeedbackAlignment
-    ) -> dict[str, Any]:
+    async def _process_aligned_feedback(self, feedback: FeedbackItem, alignment: FeedbackAlignment) -> dict[str, Any]:
         """Process feedback that aligns with constitutional principles"""
         # Apply differential privacy
         await self._apply_differential_privacy(feedback)
@@ -458,9 +452,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
         # Anonymize text
         if feedback.feedback_type == FeedbackType.TEXT:
             # In production, use advanced text anonymization
-            private_feedback.content["text"] = self._anonymize_text(
-                feedback.content.get("text", "")
-            )
+            private_feedback.content["text"] = self._anonymize_text(feedback.content.get("text", ""))
 
         return private_feedback
 
@@ -520,17 +512,13 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             if learning_type not in self.learned_patterns:
                 self.learned_patterns[learning_type] = []
 
-            self.learned_patterns[learning_type].append(
-                {"learning": learning, "timestamp": datetime.now(timezone.utc)}
-            )
+            self.learned_patterns[learning_type].append({"learning": learning, "timestamp": datetime.now(timezone.utc)})
 
             # Limit history size
             if len(self.learned_patterns[learning_type]) > 1000:
                 self.learned_patterns[learning_type] = self.learned_patterns[learning_type][-1000:]
 
-    async def _request_clarification(
-        self, feedback: FeedbackItem, alignment: FeedbackAlignment
-    ) -> dict[str, Any]:
+    async def _request_clarification(self, feedback: FeedbackItem, alignment: FeedbackAlignment) -> dict[str, Any]:
         """Request clarification for misaligned feedback"""
         # Identify main issues
         issues = []
@@ -594,9 +582,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
 
         # Generate recommendations
         if len(self.violation_history) > 100:
-            report["recommendations"].append(
-                "High violation rate detected. Consider additional user education."
-            )
+            report["recommendations"].append("High violation rate detected. Consider additional user education.")
 
         return report
 

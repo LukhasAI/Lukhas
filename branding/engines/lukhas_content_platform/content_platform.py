@@ -58,13 +58,9 @@ class ContentPlatform:
         }
 
         # Log platform initialization
-        db.log_system_activity(
-            "content_platform", "platform_init", "Content platform initialized", 1.0
-        )
+        db.log_system_activity("content_platform", "platform_init", "Content platform initialized", 1.0)
 
-    def generate_content(
-        self, content_type: str, title: str, content: str, voice_coherence: float = 50.0
-    ) -> int:
+    def generate_content(self, content_type: str, title: str, content: str, voice_coherence: float = 50.0) -> int:
         """Generate content and save to unified database"""
         # Add Constellation Framework branding
         enhanced_content = f"""
@@ -105,9 +101,7 @@ class ContentPlatform:
             content = db.get_all_content(limit)
 
         # Log retrieval activity
-        db.log_system_activity(
-            "content_platform", "content_retrieved", f"Retrieved {len(content)} items", len(content)
-        )
+        db.log_system_activity("content_platform", "content_retrieved", f"Retrieved {len(content)} items", len(content))
 
         return content
 
@@ -121,9 +115,7 @@ class ContentPlatform:
     ) -> int:
         """Generate content optimized for specific LUKHAS domain"""
         if domain not in self.domain_mapping:
-            raise ValueError(
-                f"Unknown domain: {domain}. Available domains: {list(self.domain_mapping.keys())}"
-            )
+            raise ValueError(f"Unknown domain: {domain}. Available domains: {list(self.domain_mapping.keys())}")
 
         # Get constellation stars for this domain
         domain_stars = self.domain_mapping[domain]
@@ -316,9 +308,7 @@ class ContentPlatform:
         ]
 
         # Log bot access
-        db.log_system_activity(
-            "content_platform", "bots_accessed", f"Accessed {len(bots)} specialist bots", len(bots)
-        )
+        db.log_system_activity("content_platform", "bots_accessed", f"Accessed {len(bots)} specialist bots", len(bots))
 
         return bots
 

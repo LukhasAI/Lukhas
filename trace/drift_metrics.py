@@ -32,9 +32,7 @@ class DriftTracker:
         self.timestamps: deque = deque(maxlen=window_size)
         self.categories: dict[str, deque] = defaultdict(lambda: deque(maxlen=window_size))
 
-    def record(
-        self, value: float, category: str = "general", metadata: Optional[dict] = None
-    ) -> None:
+    def record(self, value: float, category: str = "general", metadata: Optional[dict] = None) -> None:
         """Record a drift measurement."""
         current_time = time.time()
 

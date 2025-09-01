@@ -220,9 +220,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
             episodic_content = operation.content
         else:
             # Convert generic content to episodic structure
-            episodic_content = EpisodicMemoryContent(
-                content=operation.content, context=EpisodicContext()
-            )
+            episodic_content = EpisodicMemoryContent(content=operation.content, context=EpisodicContext())
 
             # Extract event type if available
             if isinstance(operation.content, dict):
@@ -404,15 +402,11 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
                 # Calculate replay strength based on significance and recency
                 replay_strength = (
-                    record.personal_significance * 0.4
-                    + record.emotional_intensity * 0.3
-                    + record.vividness * 0.3
+                    record.personal_significance * 0.4 + record.emotional_intensity * 0.3 + record.vividness * 0.3
                 )
 
                 # Update consolidation readiness
-                record.consolidation_readiness = min(
-                    1.0, record.consolidation_readiness + replay_strength * 0.1
-                )
+                record.consolidation_readiness = min(1.0, record.consolidation_readiness + replay_strength * 0.1)
 
                 replayed_memories.append(
                     {
@@ -425,9 +419,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
         logger.debug("Episodic replay completed", replayed_count=len(replayed_memories))
 
-        return MemoryResponse(
-            operation_id=operation.operation_id, success=True, content=replayed_memories
-        )
+        return MemoryResponse(operation_id=operation.operation_id, success=True, content=replayed_memories)
 
     async def _cast_consensus_vote(self, consensus_request: dict[str, Any]) -> dict[str, Any]:
         """Cast vote based on episodic memory expertise"""
@@ -554,9 +546,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
             # Spatial similarity
             if record.content.context.location is not None and content.context.location is not None:
-                distance = np.linalg.norm(
-                    record.content.context.location - content.context.location
-                )
+                distance = np.linalg.norm(record.content.context.location - content.context.location)
                 if distance < 0.1:
                     similarity_score += 0.3
 
@@ -719,9 +709,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
                         record.replay_count += 1
 
                         # Increase consolidation readiness
-                        record.consolidation_readiness = min(
-                            1.0, record.consolidation_readiness + 0.1
-                        )
+                        record.consolidation_readiness = min(1.0, record.consolidation_readiness + 0.1)
 
             await asyncio.sleep(2.0)  # Process replays every 2 seconds
 

@@ -361,24 +361,18 @@ class EnhancedGuardianSystem:
                 threat_score=threat_analysis["score"],
                 source=source,
                 target=threat_data.get("target"),
-                description=threat_analysis.get(
-                    "description", f"{threat_type} detected from {source}"
-                ),
+                description=threat_analysis.get("description", f"{threat_type} detected from {source}"),
                 indicators=threat_analysis.get("indicators", []),
                 system_state=await self._capture_system_state(),
                 user_context=context.get("user_context"),
                 confidence=threat_analysis.get("confidence", 0.8),
                 false_positive_risk=threat_analysis.get("false_positive_risk", 0.1),
-                recommended_actions=threat_analysis.get(
-                    "recommended_actions", [ResponseAction.MONITOR]
-                ),
+                recommended_actions=threat_analysis.get("recommended_actions", [ResponseAction.MONITOR]),
             )
 
             # Trinity Framework analysis
             detection.identity_impact = await self._analyze_identity_impact(threat_data, context)
-            detection.consciousness_impact = await self._analyze_consciousness_impact(
-                threat_data, context
-            )
+            detection.consciousness_impact = await self._analyze_consciousness_impact(threat_data, context)
             detection.guardian_priority = await self._determine_guardian_priority(detection)
 
             # Store active threat
@@ -394,16 +388,10 @@ class EnhancedGuardianSystem:
                 assigned_agent.threats_detected += 1
 
             # Trigger automated response if configured
-            if (
-                detection.automated_response
-                and assigned_agent
-                and assigned_agent.auto_response_enabled
-            ):
+            if detection.automated_response and assigned_agent and assigned_agent.auto_response_enabled:
                 await self._trigger_automated_response(detection)
 
-            logger.info(
-                f"🚨 Threat detected: {detection_id} ({threat_type}, level: {detection.threat_level.value})"
-            )
+            logger.info(f"🚨 Threat detected: {detection_id} ({threat_type}, level: {detection.threat_level.value})")
 
             return detection
 
@@ -457,12 +445,8 @@ class EnhancedGuardianSystem:
             response.completed_at = datetime.now()
             response.execution_time = (response.completed_at - response.started_at).total_seconds()
             response.success = all(r["success"] for r in execution_results)
-            response.threat_neutralized = await self._evaluate_threat_neutralization(
-                threat, execution_results
-            )
-            response.effectiveness_score = await self._calculate_response_effectiveness(
-                response, execution_results
-            )
+            response.threat_neutralized = await self._evaluate_threat_neutralization(threat, execution_results)
+            response.effectiveness_score = await self._calculate_response_effectiveness(response, execution_results)
 
             # Update threat status
             if response.threat_neutralized:
@@ -473,9 +457,7 @@ class EnhancedGuardianSystem:
                 threat.status = "responding"
 
             # Check for collateral impact
-            response.collateral_impact = await self._assess_collateral_impact(
-                response, execution_results
-            )
+            response.collateral_impact = await self._assess_collateral_impact(response, execution_results)
 
             # Determine follow-up requirements
             if not response.threat_neutralized or response.effectiveness_score < 0.7:
@@ -490,9 +472,7 @@ class EnhancedGuardianSystem:
             # Update agent performance
             await self._update_agent_performance(agent, response)
 
-            logger.info(
-                f"✅ Threat response completed: {response_id} (success: {response.success})"
-            )
+            logger.info(f"✅ Threat response completed: {response_id} (success: {response.success})")
 
             return response
 
@@ -626,9 +606,7 @@ class EnhancedGuardianSystem:
         except Exception as e:
             return {"success": False, "error": str(e), "execution_time": time.time() - start_time}
 
-    async def _enhance_monitoring(
-        self, threat: ThreatDetection, agent: GuardianAgent
-    ) -> dict[str, Any]:
+    async def _enhance_monitoring(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
         """Enhance monitoring for specific threat"""
 
         # Increase monitoring frequency
@@ -646,9 +624,7 @@ class EnhancedGuardianSystem:
             "threshold_lowered": True,
         }
 
-    async def _generate_alerts(
-        self, threat: ThreatDetection, agent: GuardianAgent
-    ) -> dict[str, Any]:
+    async def _generate_alerts(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
         """Generate alerts for stakeholders"""
 
         alert_data = {
@@ -663,9 +639,7 @@ class EnhancedGuardianSystem:
         }
 
         # Log alert (in real implementation, this would send notifications)
-        logger.warning(
-            f"🚨 GUARDIAN ALERT: {threat.threat_type} threat detected - Level: {threat.threat_level.value}"
-        )
+        logger.warning(f"🚨 GUARDIAN ALERT: {threat.threat_type} threat detected - Level: {threat.threat_level.value}")
 
         return {
             "success": True,
@@ -674,9 +648,7 @@ class EnhancedGuardianSystem:
             "notification_channels": ["log", "metrics"],  # Would include email, slack, etc.
         }
 
-    async def _block_operation(
-        self, threat: ThreatDetection, agent: GuardianAgent
-    ) -> dict[str, Any]:
+    async def _block_operation(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
         """Block the threatening operation"""
 
         # In real implementation, this would interface with the actual systems
@@ -698,9 +670,7 @@ class EnhancedGuardianSystem:
             "review_required": True,
         }
 
-    async def _quarantine_source(
-        self, threat: ThreatDetection, agent: GuardianAgent
-    ) -> dict[str, Any]:
+    async def _quarantine_source(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
         """Quarantine the threat source"""
 
         # Isolate the threat source from the rest of the system
@@ -719,9 +689,7 @@ class EnhancedGuardianSystem:
             "release_requires_approval": True,
         }
 
-    async def _emergency_shutdown(
-        self, threat: ThreatDetection, agent: GuardianAgent
-    ) -> dict[str, Any]:
+    async def _emergency_shutdown(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
         """Perform emergency system shutdown"""
 
         self.emergency_protocols_active = True
@@ -745,9 +713,7 @@ class EnhancedGuardianSystem:
             "recovery_required": True,
         }
 
-    async def _initiate_repairs(
-        self, threat: ThreatDetection, agent: GuardianAgent
-    ) -> dict[str, Any]:
+    async def _initiate_repairs(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
         """Initiate system repairs"""
 
         repair_actions = []
@@ -768,9 +734,7 @@ class EnhancedGuardianSystem:
             "monitoring_active": True,
         }
 
-    async def _escalate_to_humans(
-        self, threat: ThreatDetection, agent: GuardianAgent
-    ) -> dict[str, Any]:
+    async def _escalate_to_humans(self, threat: ThreatDetection, agent: GuardianAgent) -> dict[str, Any]:
         """Escalate threat to human operators"""
 
         escalation_data = {
@@ -797,9 +761,7 @@ class EnhancedGuardianSystem:
             "success": True,
             "action": "escalated_to_humans",
             "escalation_data": escalation_data,
-            "priority": "high"
-            if threat.threat_level in [ThreatLevel.CRITICAL, ThreatLevel.SEVERE]
-            else "normal",
+            "priority": "high" if threat.threat_level in [ThreatLevel.CRITICAL, ThreatLevel.SEVERE] else "normal",
             "response_required": True,
         }
 
@@ -847,9 +809,7 @@ class EnhancedGuardianSystem:
                 score += success_rate * 0.2
 
             # Availability scoring (inverse of current load)
-            current_load = len(
-                [t for t in self.active_threats.values() if t.assigned_guardian == agent.agent_id]
-            )
+            current_load = len([t for t in self.active_threats.values() if t.assigned_guardian == agent.agent_id])
             availability = max(0.1, 1.0 - (current_load * 0.1))
             score *= availability
 
@@ -958,18 +918,14 @@ class EnhancedGuardianSystem:
     async def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status"""
 
-        active_agent_count = len(
-            [a for a in self.guardian_agents.values() if a.status == GuardianStatus.ACTIVE]
-        )
+        active_agent_count = len([a for a in self.guardian_agents.values() if a.status == GuardianStatus.ACTIVE])
 
         return {
             "system_status": self.system_status.value,
             "guardian_agents": {
                 "total": len(self.guardian_agents),
                 "active": active_agent_count,
-                "offline": len(
-                    [a for a in self.guardian_agents.values() if a.status == GuardianStatus.OFFLINE]
-                ),
+                "offline": len([a for a in self.guardian_agents.values() if a.status == GuardianStatus.OFFLINE]),
                 "agents": [
                     {
                         "id": agent.agent_id,

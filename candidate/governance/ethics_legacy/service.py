@@ -52,9 +52,7 @@ class EthicsService:
         self.identity_client = IdentityClient()
         self.ethics_rules = self._load_ethics_rules()
 
-    def assess_action(
-        self, user_id: str, action: str, context: dict[str, Any]
-    ) -> tuple[bool, str, dict[str, Any]]:
+    def assess_action(self, user_id: str, action: str, context: dict[str, Any]) -> tuple[bool, str, dict[str, Any]]:
         """
         Assess whether a proposed action is ethically permissible.
 
@@ -99,14 +97,10 @@ class EthicsService:
 
         except Exception as e:
             error_msg = f"Ethics assessment error: {e!s}"
-            self.identity_client.log_activity(
-                "ethics_error", user_id, {"action": action, "error": error_msg}
-            )
+            self.identity_client.log_activity("ethics_error", user_id, {"action": action, "error": error_msg})
             return False, error_msg, {}
 
-    def check_compliance(
-        self, user_id: str, regulation: str, data: dict[str, Any]
-    ) -> tuple[bool, dict[str, Any]]:
+    def check_compliance(self, user_id: str, regulation: str, data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
         """
         Check compliance with specific regulations (GDPR, AI Act, etc.).
 
@@ -141,14 +135,10 @@ class EthicsService:
 
         except Exception as e:
             error_report = {"error": f"Compliance check failed: {e!s}"}
-            self.identity_client.log_activity(
-                "compliance_error", user_id, {"regulation": regulation, "error": str(e)}
-            )
+            self.identity_client.log_activity("compliance_error", user_id, {"regulation": regulation, "error": str(e)})
             return False, error_report
 
-    def evaluate_safety(
-        self, user_id: str, operation: str, parameters: dict[str, Any]
-    ) -> dict[str, Any]:
+    def evaluate_safety(self, user_id: str, operation: str, parameters: dict[str, Any]) -> dict[str, Any]:
         """
         Evaluate safety implications of an operation.
 
@@ -187,14 +177,10 @@ class EthicsService:
 
         except Exception as e:
             error_result = {"safe": False, "error": str(e)}
-            self.identity_client.log_activity(
-                "safety_error", user_id, {"operation": operation, "error": str(e)}
-            )
+            self.identity_client.log_activity("safety_error", user_id, {"operation": operation, "error": str(e)})
             return error_result
 
-    def audit_decision(
-        self, user_id: str, decision: str, reasoning: str, context: dict[str, Any]
-    ) -> None:
+    def audit_decision(self, user_id: str, decision: str, reasoning: str, context: dict[str, Any]) -> None:
         """
         Audit an ethical decision for transparency and accountability.
 
@@ -297,9 +283,7 @@ class EthicsService:
 
         return result
 
-    def _assess_operation_safety(
-        self, operation: str, parameters: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _assess_operation_safety(self, operation: str, parameters: dict[str, Any]) -> dict[str, Any]:
         """Assess safety of an operation."""
         safety_score = 0.8  # Default safe score
         risks = []
@@ -433,17 +417,13 @@ def assess_action(
     return service.assess_action(user_id, action, context or {})
 
 
-def check_compliance(
-    user_id: str, regulation: str, data: dict[str, Any]
-) -> tuple[bool, dict[str, Any]]:
+def check_compliance(user_id: str, regulation: str, data: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
     """Simplified API for compliance checking."""
     service = EthicsService()
     return service.check_compliance(user_id, regulation, data)
 
 
-def evaluate_safety(
-    user_id: str, operation: str, parameters: Optional[dict[str, Any]] = None
-) -> dict[str, Any]:
+def evaluate_safety(user_id: str, operation: str, parameters: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """Simplified API for safety evaluation."""
     service = EthicsService()
     return service.evaluate_safety(user_id, operation, parameters or {})
@@ -462,13 +442,9 @@ if __name__ == "__main__":
     print(f"Action assessment: {permitted} - {reason}")
 
     # Test compliance check
-    compliant, report = ethics.check_compliance(
-        test_user, "GDPR", {"personal_data": True, "consent_obtained": True}
-    )
+    compliant, report = ethics.check_compliance(test_user, "GDPR", {"personal_data": True, "consent_obtained": True})
     print(f"GDPR compliance: {compliant}")
 
     # Test safety evaluation
-    safety = ethics.evaluate_safety(
-        test_user, "memory_access", {"scope": "user_data", "purpose": "analysis"}
-    )
+    safety = ethics.evaluate_safety(test_user, "memory_access", {"scope": "user_data", "purpose": "analysis"})
     print(f"Safety assessment: {safety.get('safe', False)}")

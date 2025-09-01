@@ -87,9 +87,7 @@ class TestMultiModelOrchestration:
     @pytest.fixture
     def orchestrator(self, mock_bridges):
         """Create orchestrator with mocked bridges"""
-        return MultiModelOrchestrator(
-            model_bridges=mock_bridges, consensus_threshold=0.7, max_retries=3
-        )
+        return MultiModelOrchestrator(model_bridges=mock_bridges, consensus_threshold=0.7, max_retries=3)
 
     @pytest.mark.asyncio
     async def test_single_model_execution(self, orchestrator, mock_bridges):
@@ -257,9 +255,7 @@ class TestTrinityFrameworkIntegration:
         orchestrator, guardian = trinity_orchestrator
 
         # Execute with Guardian validation
-        result = await orchestrator.execute_with_validation(
-            prompt="Generate creative content", validate_ethics=True
-        )
+        result = await orchestrator.execute_with_validation(prompt="Generate creative content", validate_ethics=True)
 
         # Verify Guardian was consulted
         guardian.validate_ethical_compliance.assert_called()

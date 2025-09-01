@@ -242,9 +242,7 @@ class DreamAuthenticationEngine:
             create_dream_proposal(
                 dream_title=f"Dream Pattern Registration: {pattern.pattern_id}",
                 emotional_index=(
-                    sum(emotional_signature.values()) / len(emotional_signature)
-                    if emotional_signature
-                    else 0.5
+                    sum(emotional_signature.values()) / len(emotional_signature) if emotional_signature else 0.5
                 ),
                 summary=f"User {lambda_id} registered dream pattern with {len(symbolic_content)} symbols",
                 dream_id=pattern.pattern_id,
@@ -381,9 +379,7 @@ class DreamAuthenticationEngine:
             response_symbols = self._extract_symbolic_content(dream_narrative)
 
             # Calculate symbolic alignment with expected elements
-            symbolic_alignment = self._calculate_symbolic_alignment(
-                response_symbols, seed.expected_elements
-            )
+            symbolic_alignment = self._calculate_symbolic_alignment(response_symbols, seed.expected_elements)
 
             # Calculate consciousness coherence
             consciousness_coherence = self._calculate_consciousness_coherence(
@@ -391,9 +387,7 @@ class DreamAuthenticationEngine:
             )
 
             # Verify lucidity claims
-            lucidity_verification = self._verify_lucidity_claims(
-                dream_response, seed.difficulty_level
-            )
+            lucidity_verification = self._verify_lucidity_claims(dream_response, seed.difficulty_level)
 
             # Calculate archetypal resonance
             archetypal_resonance = self._calculate_archetypal_resonance(response_symbols)
@@ -403,9 +397,7 @@ class DreamAuthenticationEngine:
             dream_pattern_match = self._calculate_pattern_match(dream_response, user_patterns)
 
             # Calculate personal significance match
-            personal_significance_match = self._calculate_personal_significance(
-                dream_response, user_patterns
-            )
+            personal_significance_match = self._calculate_personal_significance(dream_response, user_patterns)
 
             # Quantum verification
             qi_verified = self._verify_dream_response_integrity(dream_response)
@@ -592,9 +584,7 @@ class DreamAuthenticationEngine:
         else:
             return random.choice(prompts)
 
-    def _calculate_symbolic_alignment(
-        self, response_symbols: list[str], expected_elements: list[str]
-    ) -> float:
+    def _calculate_symbolic_alignment(self, response_symbols: list[str], expected_elements: list[str]) -> float:
         """Calculate alignment between response symbols and expected elements"""
         if not expected_elements:
             return 1.0
@@ -622,9 +612,7 @@ class DreamAuthenticationEngine:
         }
         return equivalents_map.get(symbol, [])
 
-    def _calculate_consciousness_coherence(
-        self, reported: dict[str, Any], target: dict[str, float]
-    ) -> float:
+    def _calculate_consciousness_coherence(self, reported: dict[str, Any], target: dict[str, float]) -> float:
         """Calculate consciousness coherence with target state"""
         coherence_scores = []
 
@@ -675,9 +663,7 @@ class DreamAuthenticationEngine:
 
         return sum(resonance_scores) / len(symbols) if resonance_scores else 0.0
 
-    def _calculate_pattern_match(
-        self, dream_response: dict[str, Any], user_patterns: list[DreamPattern]
-    ) -> float:
+    def _calculate_pattern_match(self, dream_response: dict[str, Any], user_patterns: list[DreamPattern]) -> float:
         """Calculate match with user's historical dream patterns"""
         if not user_patterns:
             return 0.5  # Neutral for new users
@@ -689,14 +675,10 @@ class DreamAuthenticationEngine:
 
         for pattern in user_patterns[-5:]:  # Check last 5 patterns
             # Symbol similarity
-            symbol_similarity = self._calculate_symbol_similarity(
-                response_symbols, pattern.symbolic_content
-            )
+            symbol_similarity = self._calculate_symbol_similarity(response_symbols, pattern.symbolic_content)
 
             # Emotional similarity
-            emotional_similarity = self._calculate_emotional_similarity(
-                response_emotions, pattern.emotional_signature
-            )
+            emotional_similarity = self._calculate_emotional_similarity(response_emotions, pattern.emotional_signature)
 
             # Combined similarity
             combined_similarity = (symbol_similarity + emotional_similarity) / 2
@@ -720,9 +702,7 @@ class DreamAuthenticationEngine:
 
         return intersection / union if union > 0 else 0.0
 
-    def _calculate_emotional_similarity(
-        self, emotions1: dict[str, float], emotions2: dict[str, float]
-    ) -> float:
+    def _calculate_emotional_similarity(self, emotions1: dict[str, float], emotions2: dict[str, float]) -> float:
         """Calculate similarity between emotional signatures"""
         if not emotions1 and not emotions2:
             return 1.0
@@ -806,12 +786,10 @@ class DreamAuthenticationEngine:
             "seeds_count": len(user_seeds),
             "avg_lucidity": sum(p.lucidity_level for p in user_patterns) / len(user_patterns),
             "avg_vividness": sum(p.vividness_score for p in user_patterns) / len(user_patterns),
-            "avg_significance": sum(p.personal_significance for p in user_patterns)
-            / len(user_patterns),
+            "avg_significance": sum(p.personal_significance for p in user_patterns) / len(user_patterns),
             "most_common_symbols": self._get_most_common_symbols(user_patterns),
             "dream_states": [p.dream_state.value for p in user_patterns],
-            "archetypal_presence": sum(len(p.archetypal_content) for p in user_patterns)
-            / len(user_patterns),
+            "archetypal_presence": sum(len(p.archetypal_content) for p in user_patterns) / len(user_patterns),
         }
 
     def _get_most_common_symbols(self, patterns: list[DreamPattern]) -> list[str]:

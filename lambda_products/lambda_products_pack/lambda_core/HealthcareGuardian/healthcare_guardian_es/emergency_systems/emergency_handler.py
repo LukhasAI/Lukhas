@@ -423,9 +423,7 @@ class EmergencyResponseSystem:
         }
 
         # Log the call
-        incident.actions_taken.append(
-            f"Emergency services called at {datetime.now()}: {self.emergency_number}"
-        )
+        incident.actions_taken.append(f"Emergency services called at {datetime.now()}: {self.emergency_number}")
         incident.contacts_notified.append(self.emergency_number)
 
         # In production, this would make actual call
@@ -438,9 +436,7 @@ class EmergencyResponseSystem:
                 await self._send_emergency_notification(contact, incident)
                 incident.contacts_notified.append(contact.name)
 
-    async def _send_emergency_notification(
-        self, contact: EmergencyContact, incident: EmergencyIncident
-    ):
+    async def _send_emergency_notification(self, contact: EmergencyContact, incident: EmergencyIncident):
         """Send notification to emergency contact"""
         message = self._create_emergency_message(incident, contact.languages[0])
 
@@ -516,10 +512,7 @@ class EmergencyResponseSystem:
 
         threshold = thresholds.get(self.fall_sensitivity, thresholds["medium"])
 
-        if (
-            acceleration > threshold["acceleration"]
-            and orientation_change > threshold["orientation"]
-        ):
+        if acceleration > threshold["acceleration"] and orientation_change > threshold["orientation"]:
             logger.warning("Fall detected!")
             return True
 

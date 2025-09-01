@@ -68,9 +68,7 @@ class ParallelRealityDemo:
         await self.simulator.initialize()
         logger.info("Demo setup complete")
 
-    async def _mock_guardian_validation(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _mock_guardian_validation(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Mock guardian validation with varying responses"""
         # Simulate different ethical scores based on reality content
         state = action.get("state", {})
@@ -272,9 +270,7 @@ class ParallelRealityDemo:
         print(f"Initial creative branches: {len(simulation.branches)}")
 
         # Select diverse branches to merge
-        creative_branches = [
-            b for b in simulation.branches if b.reality_type == RealityType.CREATIVE
-        ]
+        creative_branches = [b for b in simulation.branches if b.reality_type == RealityType.CREATIVE]
 
         if len(creative_branches) >= 2:
             merge_candidates = creative_branches[:2]
@@ -282,9 +278,7 @@ class ParallelRealityDemo:
 
             print("\nMerging branches:")
             for branch in merge_candidates:
-                print(
-                    f"  {branch.branch_id}: novelty={branch.divergence_point.get('novelty_factor', 0):.2f}"
-                )
+                print(f"  {branch.branch_id}: novelty={branch.divergence_point.get('novelty_factor', 0):.2f}")
 
             # Perform merge
             merged = await self.simulator.merge_realities(simulation.simulation_id, branch_ids)
@@ -333,12 +327,8 @@ class ParallelRealityDemo:
         print("\nPrediction horizons:")
         for horizon in sorted(predictions_by_horizon.keys()):
             branches = predictions_by_horizon[horizon]
-            avg_confidence = sum(b.divergence_point.get("confidence", 0) for b in branches) / len(
-                branches
-            )
-            print(
-                f"  Horizon {horizon}: {len(branches)} branches, avg confidence: {avg_confidence:.2f}"
-            )
+            avg_confidence = sum(b.divergence_point.get("confidence", 0) for b in branches) / len(branches)
+            print(f"  Horizon {horizon}: {len(branches)} branches, avg confidence: {avg_confidence:.2f}")
 
         # Collapse to most probable future
         print("\nCollapsing to most probable future...")
@@ -368,7 +358,9 @@ class ParallelRealityDemo:
     def _format_insight(self, insight: dict[str, Any]) -> str:
         """Format insight for display"""
         if insight["type"] == "probability_analysis":
-            return f"Selected probability {insight['selected_probability']:.2f} (percentile: {insight['percentile']:.0%})"
+            return (
+                f"Selected probability {insight['selected_probability']:.2f} (percentile: {insight['percentile']:.0%})"
+            )
         elif insight["type"] == "reality_distribution":
             return f"Selected {insight['selected_type']} from {len(insight['distribution'])} types"
         elif insight["type"] == "causal_analysis":
@@ -390,9 +382,7 @@ class ParallelRealityDemo:
         print(f"  Total branches explored: {status['metrics']['branches_explored']}")
         print(f"  Realities collapsed: {status['metrics']['realities_collapsed']}")
         print(f"  Insights generated: {status['metrics']['insights_generated']}")
-        print(
-            f"  Average branches/simulation: {status['metrics']['average_branches_per_simulation']:.1f}"
-        )
+        print(f"  Average branches/simulation: {status['metrics']['average_branches_per_simulation']:.1f}")
 
         print(f"\nActive simulations: {status['active_simulations']}")
         print(f"Total branches in memory: {status['total_branches']}")

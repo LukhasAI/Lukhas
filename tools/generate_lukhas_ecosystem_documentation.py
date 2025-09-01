@@ -24,9 +24,7 @@ from pathlib import Path
 from typing import Any
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Workspace paths
@@ -176,9 +174,7 @@ class LUKHASDocumentationOrchestrator:
 
             logger.info(f"  ✅ Generated: {filename}")
 
-    async def _generate_file_content(
-        self, section_id: str, filename: str, section_info: dict[str, Any]
-    ) -> str:
+    async def _generate_file_content(self, section_id: str, filename: str, section_info: dict[str, Any]) -> str:
         """Generate content for a specific documentation file."""
         # This is where we would integrate with ΛEasyDoc and LukhasDoc
         # For now, we'll generate structured content based on the current
@@ -739,9 +735,7 @@ Choose your path:
         # Implementation for deployment operations documentation
         return ""
 
-    async def _generate_default_content(
-        self, section_id: str, filename: str, section_info: dict[str, Any]
-    ) -> str:
+    async def _generate_default_content(self, section_id: str, filename: str, section_info: dict[str, Any]) -> str:
         """Generate default content for unknown sections."""
         return f"""# {section_info["title"]}: {filename}
 

@@ -167,9 +167,7 @@ class CollapseEngine:
         )
 
     # {ΛCOLLAPSE}
-    def collapse_nodes(
-        self, nodes: list[MemoryNode], strategy: str = "auto"
-    ) -> Optional[CollapseResult]:
+    def collapse_nodes(self, nodes: list[MemoryNode], strategy: str = "auto") -> Optional[CollapseResult]:
         """
         Collapse a list of memory nodes into a single node.
 
@@ -400,9 +398,7 @@ class CollapseEngine:
         total_weight = sum(n.emotional_weight for n in nodes)
         if total_weight > 0:
             weights = [n.emotional_weight / total_weight for n in nodes]
-            compressed.emotional_weight = sum(
-                w * n.emotional_weight for w, n in zip(weights, nodes)
-            )
+            compressed.emotional_weight = sum(w * n.emotional_weight for w, n in zip(weights, nodes))
         else:
             compressed.emotional_weight = 0.0
 
@@ -419,9 +415,7 @@ class CollapseEngine:
         compressed.child_nodes = [c for c, count in child_counter.items() if count > threshold]
 
         # Compress content
-        compressed.content = (
-            f"[Compressed from {len(nodes)} nodes with {len(tag_counter)} original tags]"
-        )
+        compressed.content = f"[Compressed from {len(nodes)} nodes with {len(tag_counter)} original tags]"
 
         # Update metadata
         compressed.collapse_count = max(n.collapse_count for n in nodes) + 1
@@ -576,12 +570,8 @@ class CollapseEngine:
             }
 
         total_source_nodes = sum(len(r.source_nodes) for r in self.collapse_history)
-        avg_entropy_reduction = sum(r.entropy_reduction for r in self.collapse_history) / len(
-            self.collapse_history
-        )
-        avg_semantic_loss = sum(r.semantic_loss for r in self.collapse_history) / len(
-            self.collapse_history
-        )
+        avg_entropy_reduction = sum(r.entropy_reduction for r in self.collapse_history) / len(self.collapse_history)
+        avg_semantic_loss = sum(r.semantic_loss for r in self.collapse_history) / len(self.collapse_history)
 
         collapse_type_counts = Counter(r.collapse_type for r in self.collapse_history)
 

@@ -42,9 +42,7 @@ class ConsentEvent:
 
 
 def _sha(d: dict[str, Any]) -> str:
-    return hashlib.sha256(
-        json.dumps(d, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    ).hexdigest()
+    return hashlib.sha256(json.dumps(d, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
 
 
 def _read_index() -> dict[str, dict[str, dict[str, Any]]]:
@@ -270,9 +268,7 @@ def main():
     elif args.cmd == "revoke":
         print(json.dumps(asdict(revoke(args.user, args.purpose, args.reason)), indent=2))
     elif args.cmd == "check":
-        ok = is_allowed(
-            args.user, args.purpose, require_fields=args.need_fields, within_days=args.within_days
-        )
+        ok = is_allowed(args.user, args.purpose, require_fields=args.need_fields, within_days=args.within_days)
         print(json.dumps({"allowed": ok}, indent=2))
         raise SystemExit(0 if ok else 2)
     else:

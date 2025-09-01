@@ -106,9 +106,7 @@ class ConsentPathLogger:
         # Ensure tables exist
         self._init_database()
 
-        cursor = conn.execute(
-            "SELECT consent_hash FROM consent_paths WHERE parent_hash IS NULL LIMIT 1"
-        )
+        cursor = conn.execute("SELECT consent_hash FROM consent_paths WHERE parent_hash IS NULL LIMIT 1")
         result = cursor.fetchone()
 
         if result:
@@ -199,9 +197,7 @@ class ConsentPathLogger:
         self._save_entry(entry)
 
         # Log symbolic notation
-        logger.info(
-            f"✓ Consent logged: {entry.to_symbolic_notation()} [hash: {entry.consent_hash[:8]}...]"
-        )
+        logger.info(f"✓ Consent logged: {entry.to_symbolic_notation()} [hash: {entry.consent_hash[:8]}...]")
 
         return entry
 
@@ -291,9 +287,7 @@ class ConsentPathLogger:
 
         for i, entry in enumerate(path):
             # Create visual representation
-            drift_indicator = (
-                "🟢" if entry.drift_score < 0.3 else "🟡" if entry.drift_score < 0.7 else "🔴"
-            )
+            drift_indicator = "🟢" if entry.drift_score < 0.3 else "🟡" if entry.drift_score < 0.7 else "🔴"
 
             lines.append(f"\n[{i + 1}] {entry.timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
             lines.append(f"    {entry.to_symbolic_notation()}")
@@ -315,9 +309,7 @@ class ConsentPathLogger:
 
         return "\n".join(lines)
 
-    def generate_audit_report(
-        self, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None
-    ) -> dict:
+    def generate_audit_report(self, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None) -> dict:
         """Generate audit report for date range"""
         with sqlite3.connect(self.db_path) as conn:
             # Build query
@@ -364,9 +356,7 @@ class ConsentPathLogger:
                     "total_entries": total_entries,
                     "unique_users": unique_users,
                     "average_drift": avg_drift,
-                    "success_rate": (
-                        outcome_counts["success"] / total_entries if total_entries else 0
-                    ),
+                    "success_rate": (outcome_counts["success"] / total_entries if total_entries else 0),
                 },
                 "action_distribution": action_counts,
                 "outcome_distribution": outcome_counts,

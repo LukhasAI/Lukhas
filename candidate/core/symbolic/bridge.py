@@ -28,9 +28,7 @@ class NeuralSymbolicBridge:
         self.dream_processor = DreamProcessor()
         self.integration_threshold = 0.7
 
-    async def process_input(
-        self, neural_output: dict[str, Any], context: dict[str, Any] = None
-    ) -> dict[str, Any]:
+    async def process_input(self, neural_output: dict[str, Any], context: dict[str, Any] = None) -> dict[str, Any]:
         """Process neural network output through symbolic reasoning"""
         # Extract patterns from neural output
         patterns = self._extract_patterns(neural_output)
@@ -79,15 +77,11 @@ class NeuralSymbolicBridge:
                     symbolic_result["relationships"].append(relationship)
 
         # Make logical inferences
-        symbolic_result["inferences"] = self._make_inferences(
-            patterns, symbolic_result["relationships"], context
-        )
+        symbolic_result["inferences"] = self._make_inferences(patterns, symbolic_result["relationships"], context)
 
         return symbolic_result
 
-    def _integrate_results(
-        self, neural_output: dict[str, Any], symbolic_result: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _integrate_results(self, neural_output: dict[str, Any], symbolic_result: dict[str, Any]) -> dict[str, Any]:
         """Integrate neural and symbolic results"""
         # Calculate combined confidence
         neural_conf = neural_output.get("confidence", 0.5)

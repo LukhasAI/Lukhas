@@ -145,9 +145,7 @@ except ImportError as e:
                 tier=tier.name,
             )
 
-        def check_permission(
-            self, source_id: Optional[str], target_id: str, message_type: Any
-        ) -> bool:
+        def check_permission(self, source_id: Optional[str], target_id: str, message_type: Any) -> bool:
             log.debug(
                 "PH_ECI: check_permission called",
                 source=source_id,
@@ -265,9 +263,7 @@ class EnhancedCoreIntegrator:
             self.access_controller = AccessController(self.config.security_config)  # type: ignore
             self.qi_auth = QIAuthenticator()  # type: ignore
             self.compliance_monitor = ComplianceMonitor()  # type: ignore
-            log.info(
-                "Security components (AccessController, QIAuth, ComplianceMonitor) initialized."
-            )
+            log.info("Security components (AccessController, QIAuth, ComplianceMonitor) initialized.")
 
         self.components: dict[str, Any] = {}
         self.event_subscribers: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -376,9 +372,7 @@ class EnhancedCoreIntegrator:
                 self.qi_layer.verify_message_state(payload)
 
             if self.access_controller and hasattr(self.access_controller, "check_permission"):
-                permission_granted = self.access_controller.check_permission(
-                    source_id, target_id, msg_type
-                )  # type: ignore
+                permission_granted = self.access_controller.check_permission(source_id, target_id, msg_type)  # type: ignore
                 if not permission_granted:
                     log.warning(
                         "Message permission denied.",
@@ -502,9 +496,7 @@ class EnhancedCoreIntegrator:
             "integrator_instance_id": f"ECI_{hex(id(self))[-6:]}",  # Slightly longer ID
             "registered_components_count": len(self.components),
             "component_statuses_snapshot": self.component_status.copy(),
-            "event_subscribers_count": sum(
-                len(subs_list) for subs_list in self.event_subscribers.values()
-            ),
+            "event_subscribers_count": sum(len(subs_list) for subs_list in self.event_subscribers.values()),
             "qi_coherence_level": q_coherence_status,
             "bio_orchestrator_health": bio_health_status,
             "security_module_status": security_module_status,
@@ -846,9 +838,7 @@ class EnhancedCoreIntegrator:
                     continue
 
                 # Submit callback execution to thread pool
-                future = self._event_executor.submit(
-                    self._invoke_subscriber_callback, subscriber, event
-                )
+                future = self._event_executor.submit(self._invoke_subscriber_callback, subscriber, event)
                 future_to_subscriber[future] = subscriber
 
             # Wait for completion with timeout (to maintain <250ms target)
@@ -869,9 +859,7 @@ class EnhancedCoreIntegrator:
 
         return notified_count
 
-    def _meets_context_requirements(
-        self, event: dict[str, Any], subscriber: dict[str, Any]
-    ) -> bool:
+    def _meets_context_requirements(self, event: dict[str, Any], subscriber: dict[str, Any]) -> bool:
         """Check if event meets subscriber's context requirements."""
         requirements = subscriber.get("context_requirements", {})
         if not requirements:
@@ -883,9 +871,7 @@ class EnhancedCoreIntegrator:
                 return False
         return True
 
-    def _invoke_subscriber_callback(
-        self, subscriber: dict[str, Any], event: dict[str, Any]
-    ) -> bool:
+    def _invoke_subscriber_callback(self, subscriber: dict[str, Any], event: dict[str, Any]) -> bool:
         """Invoke a single subscriber callback with performance tracking."""
         start_time = time.time()
 
@@ -913,9 +899,7 @@ class EnhancedCoreIntegrator:
             execution_time = (time.time() - start_time) * 1000
             prev_avg = subscriber.get("average_execution_time_ms", 0.0)
             count = subscriber["invocation_count"]
-            subscriber["average_execution_time_ms"] = (
-                prev_avg * (count - 1) + execution_time
-            ) / count
+            subscriber["average_execution_time_ms"] = (prev_avg * (count - 1) + execution_time) / count
 
             log.debug(
                 "Subscriber callback executed successfully",

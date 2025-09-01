@@ -65,9 +65,7 @@ async def main():
             products_registered = await adapter.auto_register_all_products()
 
             if products_registered:
-                print(
-                    f"✅ Successfully registered {len(products_registered)} Lambda Products with "
-                )
+                print(f"✅ Successfully registered {len(products_registered)} Lambda Products with ")
                 for product in products_registered:
                     print(f"   - {product}")
             else:
@@ -90,9 +88,7 @@ async def main():
 
         # Deploy a test agent
         test_agent = AutonomousAgent("test_001", "NIAS")
-        await orchestrator.deploy_agent(
-            test_agent, {"max_autonomous_days": 1, "decision_threshold": 0.85}
-        )
+        await orchestrator.deploy_agent(test_agent, {"max_autonomous_days": 1, "decision_threshold": 0.85})
 
         # Set a goal
         goal = AgentGoal(description="Optimize system performance", priority=AgentPriority.NORMAL)

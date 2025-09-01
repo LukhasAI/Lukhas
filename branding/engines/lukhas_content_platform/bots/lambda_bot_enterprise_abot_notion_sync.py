@@ -166,17 +166,13 @@ class ABotNotionSync:
 
         return health_data
 
-    def generate_recommendations(
-        self, financial_data: dict, ai_data: dict, health_data: dict
-    ) -> list[str]:
+    def generate_recommendations(self, financial_data: dict, ai_data: dict, health_data: dict) -> list[str]:
         """Generate intelligent recommendations based on system data"""
         recommendations = []
 
         # Financial recommendations
         if financial_data.get("efficiency_score", 0) < 80:
-            recommendations.append(
-                "🔧 Consider optimizing AI usage to improve financial efficiency"
-            )
+            recommendations.append("🔧 Consider optimizing AI usage to improve financial efficiency")
 
         if financial_data.get("current_balance", 0) < 0.05:
             recommendations.append("💰 Budget running low - consider increasing daily allocation")
@@ -189,9 +185,7 @@ class ABotNotionSync:
             recommendations.append("🤖 Some AI services may be offline - check API keys")
 
         if ai_data.get("success_rate", 100) < 95:
-            recommendations.append(
-                "🔍 AI routing success rate below optimal - investigate failures"
-            )
+            recommendations.append("🔍 AI routing success rate below optimal - investigate failures")
 
         # System health recommendations
         if health_data.get("status") == "degraded":
@@ -240,9 +234,7 @@ class ABotNotionSync:
         system_health = self.get_system_health()
 
         # Generate insights
-        recommendations = self.generate_recommendations(
-            financial_data, ai_routing_data, system_health
-        )
+        recommendations = self.generate_recommendations(financial_data, ai_routing_data, system_health)
         alerts = self.generate_alerts(financial_data, ai_routing_data, system_health)
 
         # Create report

@@ -25,9 +25,7 @@ class ClassicalDreamScenario(BaseModel):
 
     scenario: str = Field(..., description="The scenario to explore")
     branch_count: int = Field(5, ge=1, le=10, description="Number of branches to explore")
-    emotional_context: dict[str, float] = Field(
-        default_factory=dict, description="Emotional state values 0-1"
-    )
+    emotional_context: dict[str, float] = Field(default_factory=dict, description="Emotional state values 0-1")
     deterministic_seed: Optional[int] = Field(None, description="Seed for reproducible results")
     safety_level: float = Field(0.8, ge=0, le=1, description="Safety threshold for exploration")
 
@@ -209,9 +207,7 @@ class ClassicalDreamEngine:
                 {
                     "depth": depth,
                     "chosen": selected_option,
-                    "alternatives": [
-                        opt for i, opt in enumerate(current_node.options) if i != option_index
-                    ],
+                    "alternatives": [opt for i, opt in enumerate(current_node.options) if i != option_index],
                     "confidence": current_node.probabilities[option_index],
                 }
             )
@@ -327,9 +323,7 @@ class ClassicalDreamEngine:
                 safety_scores=[0.95, 0.85, 0.9],
             )
 
-    def _calculate_path_likelihood(
-        self, path: list[str], emotions: dict[str, list[float]]
-    ) -> float:
+    def _calculate_path_likelihood(self, path: list[str], emotions: dict[str, list[float]]) -> float:
         """Calculate likelihood of path success"""
 
         # Base likelihood on path coherence
@@ -390,8 +384,7 @@ class ClassicalDreamEngine:
         if branches:
             best_branch = max(branches, key=lambda b: b.likelihood)
             insights.append(
-                f"Most promising approach: {best_branch.path[0]} "
-                f"(likelihood: {best_branch.likelihood:.2f})"
+                f"Most promising approach: {best_branch.path[0]} " f"(likelihood: {best_branch.likelihood:.2f})"
             )
 
         # Check safety

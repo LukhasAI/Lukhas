@@ -279,9 +279,7 @@ class DocumentationAnalytics:
         priority_metrics = sorted(metric_averages.items(), key=lambda x: x[1])[:3]
         for metric, score in priority_metrics:
             if score < 75:
-                overall_recommendations.append(
-                    f"Improve {metric.replace('_', ' ')} (current score: {score:.1f})"
-                )
+                overall_recommendations.append(f"Improve {metric.replace('_', ' ')} (current score: {score:.1f})")
 
         # Create summary
         summary = {
@@ -331,25 +329,18 @@ class DocumentationAnalytics:
             {
                 "type": "popular_content",
                 "title": "Most Popular Documentation Pages",
-                "data": [
-                    {"page": page, "views": metrics.page_views} for page, metrics in popular_pages
-                ],
+                "data": [{"page": page, "views": metrics.page_views} for page, metrics in popular_pages],
             }
         )
 
         # Analyze high bounce rate content
-        high_bounce_pages = [
-            (page, metrics) for page, metrics in usage_data.items() if metrics.bounce_rate > 0.7
-        ]
+        high_bounce_pages = [(page, metrics) for page, metrics in usage_data.items() if metrics.bounce_rate > 0.7]
         if high_bounce_pages:
             detailed_findings.append(
                 {
                     "type": "high_bounce_rate",
                     "title": "Pages with High Bounce Rate",
-                    "data": [
-                        {"page": page, "bounce_rate": metrics.bounce_rate}
-                        for page, metrics in high_bounce_pages
-                    ],
+                    "data": [{"page": page, "bounce_rate": metrics.bounce_rate} for page, metrics in high_bounce_pages],
                 }
             )
             recommendations.append("Improve content quality for high bounce rate pages")
@@ -370,9 +361,7 @@ class DocumentationAnalytics:
 
         # Calculate metrics
         total_views = sum(metrics.page_views for metrics in usage_data.values())
-        avg_time_on_page = statistics.mean(
-            [metrics.time_on_page for metrics in usage_data.values()]
-        )
+        avg_time_on_page = statistics.mean([metrics.time_on_page for metrics in usage_data.values()])
         avg_bounce_rate = statistics.mean([metrics.bounce_rate for metrics in usage_data.values()])
 
         summary = {
@@ -443,12 +432,10 @@ class DocumentationAnalytics:
         summary = {
             "total_gaps_identified": len(all_gaps),
             "high_priority_gaps": len(high_priority_gaps),
-            "most_requested_topics": Counter(
-                [topic for gap in all_gaps for topic in gap.related_topics]
-            ).most_common(10),
-            "content_type_distribution": Counter(
-                [gap.suggested_content_type.value for gap in all_gaps]
-            ).most_common(),
+            "most_requested_topics": Counter([topic for gap in all_gaps for topic in gap.related_topics]).most_common(
+                10
+            ),
+            "content_type_distribution": Counter([gap.suggested_content_type.value for gap in all_gaps]).most_common(),
         }
 
         return AnalyticsReport(
@@ -516,9 +503,7 @@ class DocumentationAnalytics:
             "pattern_types": len(pattern_types),
             "high_frequency_patterns": len(high_frequency_patterns),
             "most_common_pattern_type": (
-                max(pattern_types.keys(), key=lambda x: len(pattern_types[x]))
-                if pattern_types
-                else None
+                max(pattern_types.keys(), key=lambda x: len(pattern_types[x])) if pattern_types else None
             ),
         }
 
@@ -557,47 +542,34 @@ class DocumentationAnalytics:
         # Analyze page load times
         load_times = [data["load_time"] for data in performance_data.values()]
         avg_load_time = statistics.mean(load_times)
-        slow_pages = [
-            (page, data) for page, data in performance_data.items() if data["load_time"] > 3.0
-        ]
+        slow_pages = [(page, data) for page, data in performance_data.items() if data["load_time"] > 3.0]
 
         if slow_pages:
             detailed_findings.append(
                 {
                     "type": "slow_loading_pages",
                     "title": "Pages with Slow Load Times",
-                    "data": [
-                        {"page": page, "load_time": data["load_time"]} for page, data in slow_pages
-                    ],
+                    "data": [{"page": page, "load_time": data["load_time"]} for page, data in slow_pages],
                 }
             )
             recommendations.append("Optimize slow-loading pages")
 
         # Analyze mobile performance
-        mobile_issues = [
-            (page, data)
-            for page, data in performance_data.items()
-            if data.get("mobile_score", 100) < 80
-        ]
+        mobile_issues = [(page, data) for page, data in performance_data.items() if data.get("mobile_score", 100) < 80]
 
         if mobile_issues:
             detailed_findings.append(
                 {
                     "type": "mobile_performance",
                     "title": "Pages with Mobile Performance Issues",
-                    "data": [
-                        {"page": page, "mobile_score": data["mobile_score"]}
-                        for page, data in mobile_issues
-                    ],
+                    "data": [{"page": page, "mobile_score": data["mobile_score"]} for page, data in mobile_issues],
                 }
             )
             recommendations.append("Improve mobile performance for affected pages")
 
         # Analyze accessibility scores
         accessibility_issues = [
-            (page, data)
-            for page, data in performance_data.items()
-            if data.get("accessibility_score", 100) < 90
+            (page, data) for page, data in performance_data.items() if data.get("accessibility_score", 100) < 90
         ]
 
         if accessibility_issues:
@@ -692,9 +664,7 @@ class DocumentationAnalytics:
             "total_issues": len(accessibility_issues),
             "files_with_issues": len(detailed_findings),
             "category_breakdown": category_summary,
-            "critical_issues": len(
-                [issue for issue in accessibility_issues if issue["severity"] == "critical"]
-            ),
+            "critical_issues": len([issue for issue in accessibility_issues if issue["severity"] == "critical"]),
         }
 
         return AnalyticsReport(
@@ -714,9 +684,7 @@ class DocumentationAnalytics:
         )
 
     # Quality analysis methods
-    async def _analyze_completeness(
-        self, content_path: str, filters: dict[str, Any]
-    ) -> QualityScore:
+    async def _analyze_completeness(self, content_path: str, filters: dict[str, Any]) -> QualityScore:
         """Analyze documentation completeness"""
 
         try:
@@ -920,8 +888,7 @@ class DocumentationAnalytics:
         # Check for example keywords
         example_keywords = ["example", "sample", "demo", "tutorial"]
         example_mentions = sum(
-            len(re.findall(rf"\b{keyword}\b", content, re.IGNORECASE))
-            for keyword in example_keywords
+            len(re.findall(rf"\b{keyword}\b", content, re.IGNORECASE)) for keyword in example_keywords
         )
 
         if example_mentions > 0:
@@ -942,9 +909,7 @@ class DocumentationAnalytics:
             confidence=0.7,
         )
 
-    async def _analyze_accessibility(
-        self, content_path: str, filters: dict[str, Any]
-    ) -> QualityScore:
+    async def _analyze_accessibility(self, content_path: str, filters: dict[str, Any]) -> QualityScore:
         """Analyze documentation accessibility"""
 
         accessibility_issues = await self._analyze_accessibility_issues(content_path)
@@ -978,9 +943,7 @@ class DocumentationAnalytics:
 
             recommendations = []
             if days_old > 90:
-                recommendations.append(
-                    "Review and update content - last modified over 3 months ago"
-                )
+                recommendations.append("Review and update content - last modified over 3 months ago")
             elif days_old > 180:
                 recommendations.append("Content is over 6 months old - consider major revision")
 
@@ -1003,9 +966,7 @@ class DocumentationAnalytics:
                 confidence=0.0,
             )
 
-    async def _analyze_consistency(
-        self, content_path: str, filters: dict[str, Any]
-    ) -> QualityScore:
+    async def _analyze_consistency(self, content_path: str, filters: dict[str, Any]) -> QualityScore:
         """Analyze documentation consistency"""
 
         # This would typically compare against style guides and other documents
@@ -1122,9 +1083,7 @@ class DocumentationAnalytics:
         return issues
 
     # Content gaps analysis
-    async def _analyze_search_gaps(
-        self, time_period: tuple[datetime, datetime]
-    ) -> list[ContentGap]:
+    async def _analyze_search_gaps(self, time_period: tuple[datetime, datetime]) -> list[ContentGap]:
         """Analyze search queries to identify content gaps"""
 
         # Simulated search gap analysis
@@ -1159,9 +1118,7 @@ class DocumentationAnalytics:
 
         return gaps
 
-    async def _analyze_support_ticket_gaps(
-        self, time_period: tuple[datetime, datetime]
-    ) -> list[ContentGap]:
+    async def _analyze_support_ticket_gaps(self, time_period: tuple[datetime, datetime]) -> list[ContentGap]:
         """Analyze support tickets to identify content gaps"""
 
         # Simulated support ticket analysis
@@ -1185,9 +1142,7 @@ class DocumentationAnalytics:
 
         return gaps
 
-    async def _analyze_user_feedback_gaps(
-        self, time_period: tuple[datetime, datetime]
-    ) -> list[ContentGap]:
+    async def _analyze_user_feedback_gaps(self, time_period: tuple[datetime, datetime]) -> list[ContentGap]:
         """Analyze user feedback to identify content gaps"""
 
         # Simulated user feedback analysis

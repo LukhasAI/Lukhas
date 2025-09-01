@@ -172,9 +172,7 @@ class SystemIntegrationHub:
         # Bio system integration
         self.core_hub.register_service("bio_engine", self.bio_engine)
         self.core_hub.register_service("bio_symbolic", self.bio_integration_hub)
-        self.bio_engine.register_integration_callback = (
-            lambda cb: None
-        )  # Bio engine handles its own callbacks
+        self.bio_engine.register_integration_callback = lambda cb: None  # Bio engine handles its own callbacks
 
         # Update phase alignment
         self._update_phase("core_systems", time.time())
@@ -194,9 +192,7 @@ class SystemIntegrationHub:
     def _connect_ethics_systems(self):
         """Connect all ethics components"""
         # Replace individual ethics connections with unified system
-        self.ethics_service.register_unified_system = (
-            lambda us: None
-        )  # Placeholder for unified system registration
+        self.ethics_service.register_unified_system = lambda us: None  # Placeholder for unified system registration
         self.core_hub.register_service("unified_ethics", self.unified_ethics)
 
         # MEG as central ethics coordinator (kept for compatibility)

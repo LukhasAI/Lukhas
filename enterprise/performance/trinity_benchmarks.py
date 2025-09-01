@@ -310,12 +310,8 @@ class TrinityFrameworkBenchmark:
         }
 
         logger.info("🎯 Memory System Results:")
-        logger.info(
-            f"   Efficiency: {efficiency:.3f}% ({'✅' if efficiency >= 99.7 else '⚠️'} Target: ≥99.7%)"
-        )
-        logger.info(
-            f"   Cascades: {cascade_count}/{fold_count} ({results['cascades_per_thousand']:.1f}/1000)"
-        )
+        logger.info(f"   Efficiency: {efficiency:.3f}% ({'✅' if efficiency >= 99.7 else '⚠️'} Target: ≥99.7%)")
+        logger.info(f"   Cascades: {cascade_count}/{fold_count} ({results['cascades_per_thousand']:.1f}/1000)")
         logger.info(f"   Processing Time: {total_time * 1000:.1f}ms")
 
         return results
@@ -351,9 +347,7 @@ class TrinityFrameworkBenchmark:
                 drift_score = case["expected_drift"]
             else:
                 # Simulation based on expected values
-                drift_score = case["expected_drift"] + (
-                    time.time() % 0.02 - 0.01
-                )  # ±0.01 variation
+                drift_score = case["expected_drift"] + (time.time() % 0.02 - 0.01)  # ±0.01 variation
 
             processing_time = (time.time() - start_time) * 1000
 
@@ -389,9 +383,7 @@ class TrinityFrameworkBenchmark:
         logger.info(
             f"   Compliance Rate: {compliance_rate:.1f}% ({'✅' if compliance_rate == 100 else '⚠️'} Target: 100%)"
         )
-        logger.info(
-            f"   Average Drift: {avg_drift:.3f} ({'✅' if avg_drift < 0.15 else '⚠️'} Target: <0.15)"
-        )
+        logger.info(f"   Average Drift: {avg_drift:.3f} ({'✅' if avg_drift < 0.15 else '⚠️'} Target: <0.15)")
         logger.info(f"   Violations: {total_violations}/{len(test_cases)}")
 
         return summary
@@ -417,8 +409,7 @@ class TrinityFrameworkBenchmark:
             "p95_latency_ms": performance_metrics.latency_p95,
             "throughput_rps": performance_metrics.throughput_rps,
             "scalability_grade": "A+" if performance_metrics.latency_p95 < 25 else "B+",
-            "meets_targets": performance_metrics.latency_p95 < 25
-            and performance_metrics.error_rate < 0.1,
+            "meets_targets": performance_metrics.latency_p95 < 25 and performance_metrics.error_rate < 0.1,
         }
 
         # Dario Amodei: Safety & Alignment
@@ -477,9 +468,7 @@ class TrinityFrameworkBenchmark:
             recommendations.append("Complete enterprise observability and monitoring stack")
 
         if not recommendations:
-            recommendations = [
-                "System meets T4 leadership standards - ready for enterprise deployment"
-            ]
+            recommendations = ["System meets T4 leadership standards - ready for enterprise deployment"]
 
         results = T4BenchmarkResults(
             altman_performance=altman_performance,
@@ -500,9 +489,7 @@ class TrinityFrameworkBenchmark:
 
         return results
 
-    def save_benchmark_results(
-        self, results: T4BenchmarkResults, filename: Optional[str] = None
-    ) -> str:
+    def save_benchmark_results(self, results: T4BenchmarkResults, filename: Optional[str] = None) -> str:
         """Save benchmark results to file"""
         if not filename:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

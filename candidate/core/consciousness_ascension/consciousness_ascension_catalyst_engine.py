@@ -70,9 +70,7 @@ class ConsciousnessAscensionCatalystEngine:
             await self.flow_state_research.design_flow_activation_sequence(),
         ]
 
-        consciousness_tech_integration = await self.consciousness_technologies.integrate_experience(
-            {}
-        )
+        consciousness_tech_integration = await self.consciousness_technologies.integrate_experience({})
 
         return {
             "consciousness_catalyst_experience": {

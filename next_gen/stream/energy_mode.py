@@ -131,9 +131,7 @@ class EnergyManager:
         self.monitoring_active = False
 
         logger.info("🌙 Energy Manager initialized")
-        logger.info(
-            f"   Profile: {self.current_profile.profile_name} {self.current_profile.symbolic_indicator}"
-        )
+        logger.info(f"   Profile: {self.current_profile.profile_name} {self.current_profile.symbolic_indicator}")
         logger.info(f"   Auto-switch: {'enabled' if auto_switch else 'disabled'}")
 
     async def start_monitoring(self):
@@ -156,12 +154,8 @@ class EnergyManager:
                     timestamp=datetime.utcnow(),
                     cpu_percent=psutil.cpu_percent(interval=1),
                     memory_percent=psutil.virtual_memory().percent,
-                    disk_io=(
-                        sum(psutil.disk_io_counters()[:2]) if psutil.disk_io_counters() else 0
-                    ),
-                    network_io=(
-                        sum(psutil.net_io_counters()[:2]) if psutil.net_io_counters() else 0
-                    ),
+                    disk_io=(sum(psutil.disk_io_counters()[:2]) if psutil.disk_io_counters() else 0),
+                    network_io=(sum(psutil.net_io_counters()[:2]) if psutil.net_io_counters() else 0),
                 )
 
                 # Get battery info if available
@@ -322,9 +316,7 @@ class EnergyManager:
                     asyncio.create_task(self._execute_operation(operation))
 
                 # Energy-aware delay
-                delay = self.current_profile.operation_delay * (
-                    1.0 / self.current_profile.throttle_factor
-                )
+                delay = self.current_profile.operation_delay * (1.0 / self.current_profile.throttle_factor)
                 await asyncio.sleep(delay)
 
             except Exception as e:
@@ -416,9 +408,7 @@ class EnergyManager:
         old_profile = self.current_profile.profile_name
         self.current_profile = self.ENERGY_PROFILES[profile_name]
 
-        self._log_energy_event(
-            "manual_switch", {"from_profile": old_profile, "to_profile": profile_name}
-        )
+        self._log_energy_event("manual_switch", {"from_profile": old_profile, "to_profile": profile_name})
 
         logger.info(f"🔧 Manual profile switch: {old_profile} → {profile_name}")
         return True
@@ -445,12 +435,8 @@ class EnergyManager:
         # Calculate average metrics
         if self.metrics_history:
             avg_cpu = sum(m.cpu_percent for m in self.metrics_history) / len(self.metrics_history)
-            avg_memory = sum(m.memory_percent for m in self.metrics_history) / len(
-                self.metrics_history
-            )
-            avg_energy = sum(m.energy_score for m in self.metrics_history) / len(
-                self.metrics_history
-            )
+            avg_memory = sum(m.memory_percent for m in self.metrics_history) / len(self.metrics_history)
+            avg_energy = sum(m.energy_score for m in self.metrics_history) / len(self.metrics_history)
         else:
             avg_cpu = avg_memory = avg_energy = 0.0
 
@@ -506,9 +492,7 @@ async def demo_energy_manager():
 
     print("🌙 Energy Manager Demo")
     print("=" * 60)
-    print(
-        f"Initial profile: {manager.current_profile.profile_name} {manager.current_profile.symbolic_indicator}"
-    )
+    print(f"Initial profile: {manager.current_profile.profile_name} {manager.current_profile.symbolic_indicator}")
 
     # Queue some operations
     print("\n📋 Queueing operations...")

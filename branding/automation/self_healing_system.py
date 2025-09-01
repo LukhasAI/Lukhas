@@ -61,9 +61,7 @@ class SelfHealingSystem:
         self._load_healing_config()
 
         # Initialize healing system
-        db.log_system_activity(
-            "self_healing", "system_init", "Self-healing system initialized", 1.0
-        )
+        db.log_system_activity("self_healing", "system_init", "Self-healing system initialized", 1.0)
 
     def _setup_logging(self) -> logging.Logger:
         """Setup healing system logging"""
@@ -92,9 +90,7 @@ class SelfHealingSystem:
                 with open(self.config_path) as f:
                     config_data = json.load(f)
 
-                self.healing_history = [
-                    HealingAction(**action) for action in config_data.get("healing_history", [])
-                ]
+                self.healing_history = [HealingAction(**action) for action in config_data.get("healing_history", [])]
                 self.logger.info(f"Loaded {len(self.healing_history)} healing actions from history")
             except Exception as e:
                 self.logger.error(f"Failed to load healing config: {e}")
@@ -106,9 +102,7 @@ class SelfHealingSystem:
         """Save healing configuration and history"""
         config_data = {
             "last_updated": datetime.now().isoformat(),
-            "healing_history": [
-                asdict(action) for action in self.healing_history[-100:]
-            ],  # Keep last 100 actions
+            "healing_history": [asdict(action) for action in self.healing_history[-100:]],  # Keep last 100 actions
         }
 
         self.config_path.parent.mkdir(exist_ok=True)
@@ -154,10 +148,7 @@ class SelfHealingSystem:
                         "type": "elite_naming",
                         "path": str(relative_path),
                         "current_name": filename,
-                        "suggested_name": filename.lower()
-                        .replace("elite", "")
-                        .replace("__", "_")
-                        .strip("_"),
+                        "suggested_name": filename.lower().replace("elite", "").replace("__", "_").strip("_"),
                         "severity": "medium",
                     }
                 )
@@ -454,9 +445,7 @@ if __name__ == "__main__":
                 success=True,
             )
 
-            self.logger.info(
-                f"✅ Handled empty directory: {empty_dir['path']} - {action_description}"
-            )
+            self.logger.info(f"✅ Handled empty directory: {empty_dir['path']} - {action_description}")
             return action
 
         except Exception as e:
@@ -486,7 +475,9 @@ if __name__ == "__main__":
                 # Simple voice coherence improvement
                 new_coherence = min(inconsistency["voice_coherence"] + 10, 100)
                 db.update_voice_coherence(content_id, new_coherence)
-                action_description += f" | Improved voice coherence: {inconsistency['voice_coherence']} → {new_coherence}"
+                action_description += (
+                    f" | Improved voice coherence: {inconsistency['voice_coherence']} → {new_coherence}"
+                )
 
             action = HealingAction(
                 action_id=f"brand_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
@@ -588,11 +579,7 @@ if __name__ == "__main__":
             "total_issues_detected": total_issues,
             "total_fixes_applied": total_fixes,
             "success_rate": success_rate,
-            "system_health": "excellent"
-            if success_rate > 90
-            else "good"
-            if success_rate > 70
-            else "needs_attention",
+            "system_health": "excellent" if success_rate > 90 else "good" if success_rate > 70 else "needs_attention",
         }
 
         healing_results["cycle_completed"] = datetime.now().isoformat()
@@ -622,11 +609,7 @@ if __name__ == "__main__":
             "system_status": "active",
             "total_healing_actions": len(self.healing_history),
             "recent_actions": len(recent_actions),
-            "success_rate": (
-                len([a for a in self.healing_history if a.success])
-                / len(self.healing_history)
-                * 100
-            )
+            "success_rate": (len([a for a in self.healing_history if a.success]) / len(self.healing_history) * 100)
             if self.healing_history
             else 100,
             "last_healing_cycle": recent_actions[-1].applied_at if recent_actions else None,

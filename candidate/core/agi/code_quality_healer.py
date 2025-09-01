@@ -150,9 +150,7 @@ class CodeQualityHealer:
         elif fix_type == FixType.FORMATTING:
             self.metrics.formatting_issues += 1
 
-    async def heal_failure(
-        self, failure: SystemFailure, strategy: Optional[HealingStrategy] = None
-    ) -> HealingAction:
+    async def heal_failure(self, failure: SystemFailure, strategy: Optional[HealingStrategy] = None) -> HealingAction:
         """Heal a specific code quality failure"""
 
         # Determine strategy if not provided
@@ -192,9 +190,7 @@ class CodeQualityHealer:
         else:
             self.metrics.failed_fixes += 1
 
-        self.metrics.improvement_rate = self.metrics.fixed_issues / max(
-            1, self.metrics.total_issues
-        )
+        self.metrics.improvement_rate = self.metrics.fixed_issues / max(1, self.metrics.total_issues)
 
         return action
 

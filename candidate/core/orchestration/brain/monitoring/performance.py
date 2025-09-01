@@ -435,9 +435,7 @@ class CacheManager:
         """Remove expired entries."""
         with self._lock:
             current_time = time.time()
-            expired_keys = [
-                key for key, (_, expires_at) in self._cache.items() if current_time > expires_at
-            ]
+            expired_keys = [key for key, (_, expires_at) in self._cache.items() if current_time > expires_at]
 
             for key in expired_keys:
                 del self._cache[key]
@@ -540,10 +538,7 @@ class AsyncTaskManager:
     async def get_task_status(self) -> dict[str, str]:
         """Get status of all tasks."""
         async with self._lock:
-            return {
-                task_id: "completed" if task.done() else "running"
-                for task_id, task in self.tasks.items()
-            }
+            return {task_id: "completed" if task.done() else "running" for task_id, task in self.tasks.items()}
 
 
 # Performance decorators
@@ -584,9 +579,7 @@ def memory_limit(max_mb: int):
                 memory_used_mb = (final_memory - initial_memory) / 1024 / 1024
 
                 if memory_used_mb > max_mb:
-                    logging.warning(
-                        f"{func.__name__} used {memory_used_mb:.1f}MB (limit: {max_mb}MB)"
-                    )
+                    logging.warning(f"{func.__name__} used {memory_used_mb:.1f}MB (limit: {max_mb}MB)")
 
                 return result
             except MemoryError:
@@ -614,8 +607,7 @@ def performance_context(description: str = "Operation"):
         memory_delta = end_memory - start_memory
 
         logging.info(
-            f"{description} completed in {execution_time:.4f}s, "
-            f"memory delta: {memory_delta / 1024 / 1024:.1f}MB"
+            f"{description} completed in {execution_time:.4f}s, " f"memory delta: {memory_delta / 1024 / 1024:.1f}MB"
         )
 
 

@@ -271,9 +271,7 @@ class QubitCollapseEngine:
         max_iterations = 100
         for _iteration in range(max_iterations):
             # Apply field
-            evolved_state = self.apply_collapse_field(
-                current_state, collapse_field, evolution_time=0.1
-            )
+            evolved_state = self.apply_collapse_field(current_state, collapse_field, evolution_time=0.1)
             evolution_path.append(evolved_state.state_vector.copy())
 
             # Check collapse condition
@@ -334,9 +332,7 @@ class QubitCollapseEngine:
         # Apply quantum synchronization
         if self.substrate and len(agent_states) > 1:
             # Use substrate for entanglement
-            coupled_states = self.substrate.apply_resonance_coupling(
-                agent_states, coupling_strength=0.3
-            )
+            coupled_states = self.substrate.apply_resonance_coupling(agent_states, coupling_strength=0.3)
         else:
             coupled_states = agent_states
 
@@ -485,9 +481,7 @@ class QubitCollapseEngine:
 
         return ethical_outcome, collapsed_state
 
-    def _calculate_ethical_score(
-        self, collapsed_state: QIState, constraints: dict[str, Any]
-    ) -> float:
+    def _calculate_ethical_score(self, collapsed_state: QIState, constraints: dict[str, Any]) -> float:
         """Calculate ethical score of collapsed state"""
         score = 0.0
         total_weight = 0.0
@@ -524,13 +518,9 @@ class QubitCollapseEngine:
             ) * old_pattern + self.reinforcement_rate * new_pattern
 
             # Renormalize
-            self.reinforcement_patterns[pattern_key] /= np.linalg.norm(
-                self.reinforcement_patterns[pattern_key]
-            )
+            self.reinforcement_patterns[pattern_key] /= np.linalg.norm(self.reinforcement_patterns[pattern_key])
 
-    def _check_multi_agent_consensus(
-        self, convergence_results: list[ProbabilisticConvergence]
-    ) -> bool:
+    def _check_multi_agent_consensus(self, convergence_results: list[ProbabilisticConvergence]) -> bool:
         """Check if multiple agents reached consensus"""
         if len(convergence_results) < 2:
             return True
@@ -575,9 +565,7 @@ class QubitCollapseEngine:
             "collapse_types": collapse_types,
             "ethical_outcomes": ethical_outcomes,
             "average_ethical_score": np.mean([c.ethical_score for c in self.collapse_history]),
-            "consensus_rate": (
-                consensus_rate / len(self.collapse_history) if self.collapse_history else 0
-            ),
+            "consensus_rate": (consensus_rate / len(self.collapse_history) if self.collapse_history else 0),
             "reinforcement_patterns": len(self.reinforcement_patterns),
             "collapse_threshold": self.collapse_threshold,
         }

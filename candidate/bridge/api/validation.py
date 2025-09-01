@@ -141,18 +141,12 @@ class SecurityValidator:
 
     def __init__(self, enable_hipaa: bool = True):
         self.enable_hipaa = enable_hipaa
-        self.compiled_patterns = [
-            re.compile(pattern, re.IGNORECASE) for pattern in self.DANGEROUS_PATTERNS
-        ]
+        self.compiled_patterns = [re.compile(pattern, re.IGNORECASE) for pattern in self.DANGEROUS_PATTERNS]
         self.phi_patterns = (
-            [re.compile(pattern, re.IGNORECASE) for pattern in self.PHI_PATTERNS]
-            if enable_hipaa
-            else []
+            [re.compile(pattern, re.IGNORECASE) for pattern in self.PHI_PATTERNS] if enable_hipaa else []
         )
 
-    def validate_content_security(
-        self, content: str, context: str = "general"
-    ) -> list[dict[str, Any]]:
+    def validate_content_security(self, content: str, context: str = "general") -> list[dict[str, Any]]:
         """Validate content for security issues"""
         issues = []
 
@@ -264,9 +258,7 @@ class RequestValidator:
             # Security validation
             if prompt:
                 request_context = context.get("type", "general") if context else "general"
-                security_issues = self.security_validator.validate_content_security(
-                    prompt, request_context
-                )
+                security_issues = self.security_validator.validate_content_security(prompt, request_context)
                 for issue in security_issues:
                     result.add_error(
                         ValidationErrorType(issue["type"]),
@@ -410,9 +402,7 @@ class RequestValidator:
         result.execution_time_ms = (time.perf_counter() - start_time) * 1000
         return result
 
-    async def validate_function_registration(
-        self, request_data: dict[str, Any]
-    ) -> ValidationResult:
+    async def validate_function_registration(self, request_data: dict[str, Any]) -> ValidationResult:
         """Validate function registration request"""
         start_time = time.perf_counter()
         result = ValidationResult(is_valid=True)
@@ -444,9 +434,7 @@ class RequestValidator:
                     continue
 
                 # Security validation for function
-                security_issues = self.security_validator.validate_function_security(
-                    {"name": func_name, **func_def}
-                )
+                security_issues = self.security_validator.validate_function_security({"name": func_name, **func_def})
 
                 for issue in security_issues:
                     result.add_error(
@@ -459,9 +447,7 @@ class RequestValidator:
                 required_func_fields = ["description"]
                 for field in required_func_fields:
                     if field not in func_def:
-                        result.add_warning(
-                            f"Function '{func_name}' missing recommended field: {field}"
-                        )
+                        result.add_warning(f"Function '{func_name}' missing recommended field: {field}")
 
         except Exception as e:
             result.add_error(
@@ -501,9 +487,7 @@ class ResponseValidator:
             # Validate response content
             content = response.get("content", "")
             if content:
-                security_issues = self.security_validator.validate_content_security(
-                    content, "response"
-                )
+                security_issues = self.security_validator.validate_content_security(content, "response")
                 for issue in security_issues:
                     result.add_error(
                         ValidationErrorType(issue["type"]),
@@ -534,9 +518,7 @@ class ResponseValidator:
             if original_request:
                 min_confidence = original_request.get("min_confidence", 0.7)
                 if confidence < min_confidence:
-                    result.add_warning(
-                        f"Response confidence ({confidence}) below requested minimum ({min_confidence})"
-                    )
+                    result.add_warning(f"Response confidence ({confidence}) below requested minimum ({min_confidence})")
 
         except Exception as e:
             result.add_error(
@@ -693,9 +675,7 @@ class AuthenticationValidator:
             # Validate tier
             tier = payload.get("tier")
             if tier not in self.tier_permissions:
-                result.add_error(
-                    ValidationErrorType.AUTHORIZATION_FAILED, f"Invalid tier: {tier}", field="tier"
-                )
+                result.add_error(ValidationErrorType.AUTHORIZATION_FAILED, f"Invalid tier: {tier}", field="tier")
 
             result.metadata = {
                 "user_id": payload.get("user_id"),
@@ -725,9 +705,7 @@ class AuthenticationValidator:
 
         return result
 
-    async def validate_api_key(
-        self, api_key: str, required_permissions: list[str]
-    ) -> ValidationResult:
+    async def validate_api_key(self, api_key: str, required_permissions: list[str]) -> ValidationResult:
         """Validate API key and permissions"""
         result = ValidationResult(is_valid=True)
 
@@ -844,9 +822,7 @@ class ComprehensiveAPIValidator:
                 else:
                     # Determine required permissions based on request type
                     required_permissions = self._get_required_permissions(request_type, context)
-                    auth_result = await self.auth_validator.validate_api_key(
-                        auth_token, required_permissions
-                    )
+                    auth_result = await self.auth_validator.validate_api_key(auth_token, required_permissions)
 
                 if not auth_result.is_valid:
                     self._update_metrics("failed", auth_result)
@@ -854,13 +830,9 @@ class ComprehensiveAPIValidator:
 
             # Request-specific validation
             if request_type == "orchestration":
-                result = await self.request_validator.validate_orchestration_request(
-                    request_data, context
-                )
+                result = await self.request_validator.validate_orchestration_request(request_data, context)
             elif request_type == "streaming":
-                result = await self.request_validator.validate_streaming_request(
-                    request_data, context
-                )
+                result = await self.request_validator.validate_streaming_request(request_data, context)
             elif request_type == "function_registration":
                 result = await self.request_validator.validate_function_registration(request_data)
             elif request_type == "healthcare":
@@ -911,9 +883,7 @@ class ComprehensiveAPIValidator:
             logger.error(f"❌ Validation error: {validation_id} - {e!s}")
             return error_result
 
-    def _get_required_permissions(
-        self, request_type: str, context: Optional[dict[str, Any]]
-    ) -> list[str]:
+    def _get_required_permissions(self, request_type: str, context: Optional[dict[str, Any]]) -> list[str]:
         """Get required permissions for request type"""
         permission_map = {
             "orchestration": ["orchestration"],
@@ -945,9 +915,7 @@ class ComprehensiveAPIValidator:
         # Update average latency
         current_avg = self.validation_metrics["average_latency_ms"]
         total_validations = self.validation_metrics["total_validations"]
-        new_avg = (
-            (current_avg * (total_validations - 1)) + result.execution_time_ms
-        ) / total_validations
+        new_avg = ((current_avg * (total_validations - 1)) + result.execution_time_ms) / total_validations
         self.validation_metrics["average_latency_ms"] = new_avg
 
         # Count error types
@@ -1047,9 +1015,7 @@ async def validate_api_response(
 ) -> ValidationResult:
     """Validate API response"""
     validator = get_validator()
-    return await validator.response_validator.validate_orchestration_response(
-        response_data, original_request
-    )
+    return await validator.response_validator.validate_orchestration_response(response_data, original_request)
 
 
 # Security utilities
@@ -1146,9 +1112,7 @@ async def run_validation_tests() -> dict[str, Any]:
             "name": "security_validation",
             "success": not security_result.is_valid,  # Should fail for malicious content
             "execution_time_ms": security_result.execution_time_ms,
-            "security_violations": len(
-                [e for e in security_result.errors if e["type"] == "security_violation"]
-            ),
+            "security_violations": len([e for e in security_result.errors if e["type"] == "security_violation"]),
         }
     )
 

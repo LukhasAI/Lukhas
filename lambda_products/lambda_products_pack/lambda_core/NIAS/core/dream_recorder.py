@@ -263,13 +263,9 @@ class DreamRecorder:
 
         # Calculate resonance based on interaction patterns
         positive_interactions = sum(
-            1
-            for i in interactions
-            if i["interaction_type"] in ["view", "like", "share", "purchase"]
+            1 for i in interactions if i["interaction_type"] in ["view", "like", "share", "purchase"]
         )
-        negative_interactions = sum(
-            1 for i in interactions if i["interaction_type"] in ["dismiss", "block"]
-        )
+        negative_interactions = sum(1 for i in interactions if i["interaction_type"] in ["dismiss", "block"])
         total_interactions = len(interactions)
 
         if total_interactions > 0:
@@ -304,9 +300,7 @@ class DreamRecorder:
         except Exception as e:
             self.logger.error(f"Failed to save dream narrative: {e}")
 
-    async def get_user_dream_seeds(
-        self, user_id: str, status: Optional[str] = None
-    ) -> list[dict[str, Any]]:
+    async def get_user_dream_seeds(self, user_id: str, status: Optional[str] = None) -> list[dict[str, Any]]:
         """Get dream seeds for a specific user"""
         user_seeds = []
 
@@ -330,9 +324,7 @@ class DreamRecorder:
         dismissed_seeds = len([s for s in brand_seeds if s["status"] == "dismissed"])
 
         avg_resonance = sum(
-            s.get("symbolic_resonance", 0)
-            for s in brand_seeds
-            if s.get("symbolic_resonance") is not None
+            s.get("symbolic_resonance", 0) for s in brand_seeds if s.get("symbolic_resonance") is not None
         ) / max(1, total_seeds)
 
         return {
@@ -345,9 +337,7 @@ class DreamRecorder:
             "performance_score": (avg_resonance + (converted_seeds / max(1, total_seeds))) / 2,
         }
 
-    async def get_dream_analytics(
-        self, user_id: Optional[str] = None, days: int = 30
-    ) -> dict[str, Any]:
+    async def get_dream_analytics(self, user_id: Optional[str] = None, days: int = 30) -> dict[str, Any]:
         """Get comprehensive dream analytics"""
         cutoff_date = datetime.now() - timedelta(days=days)
 
@@ -394,9 +384,7 @@ class DreamRecorder:
         # Calculate brand averages
         for brand_data in brand_breakdown.values():
             if brand_data["resonance_count"] > 0:
-                brand_data["avg_resonance"] = (
-                    brand_data["resonance_sum"] / brand_data["resonance_count"]
-                )
+                brand_data["avg_resonance"] = brand_data["resonance_sum"] / brand_data["resonance_count"]
             else:
                 brand_data["avg_resonance"] = 0
 
@@ -454,6 +442,4 @@ async def record_dream_interaction(
 ) -> dict[str, Any]:
     """Convenience function to record dream interaction"""
     recorder = get_dream_recorder()
-    return await recorder.record_dream_interaction(
-        seed_id, user_id, interaction_type, interaction_data
-    )
+    return await recorder.record_dream_interaction(seed_id, user_id, interaction_type, interaction_data)

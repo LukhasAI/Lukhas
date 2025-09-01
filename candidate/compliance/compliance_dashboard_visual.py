@@ -59,7 +59,9 @@ st.code(script_text)
 handout_text = "# Lucas Compliance Brief\n\n" + digest_path.read_text() + "\n---\n" + script_text
 handout_bytes = handout_text.encode("utf-8")
 b64 = base64.b64encode(handout_bytes).decode()
-href = f'<a href="data:file/txt;base64,{b64}" download="lucas_compliance_handout.txt">📥 Download Compliance Handout</a>'
+href = (
+    f'<a href="data:file/txt;base64,{b64}" download="lucas_compliance_handout.txt">📥 Download Compliance Handout</a>'
+)
 st.markdown(href, unsafe_allow_html=True)
 
 st.caption("✅ Approved under the symbolic vision of SA (governance) and SJ (experience design).")
@@ -94,9 +96,7 @@ if st.checkbox("📱 Optimize for Mobile Display (experimental)"):
     )
     st.success("✅ Mobile layout adjustments applied.")
 
-st.markdown(
-    "💬 *Next module to re-link: `id_portal/frontend/login.js` — tiered auth + face emoji grid.*"
-)
+st.markdown("💬 *Next module to re-link: `id_portal/frontend/login.js` — tiered auth + face emoji grid.*")
 
 st.divider()
 st.markdown("## 🔐 ID Portal Preview")

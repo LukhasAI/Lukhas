@@ -154,9 +154,7 @@ class TrinityFrameworkDeployer:
 
         return logger
 
-    async def deploy_trinity_framework(
-        self, system_path: str, system_name: str
-    ) -> list[TrinityDeploymentResult]:
+    async def deploy_trinity_framework(self, system_path: str, system_name: str) -> list[TrinityDeploymentResult]:
         """Deploy Trinity Framework integration for an entire content system"""
         self.logger.info(f"🎯 Deploying Trinity Framework for {system_name}...")
 
@@ -225,27 +223,21 @@ class TrinityFrameworkDeployer:
             framework_elements = []
 
             # Deploy identity integration (⚛️)
-            identity_added = await self._integrate_identity_framework(
-                trinity_content, file_path.suffix
-            )
+            identity_added = await self._integrate_identity_framework(trinity_content, file_path.suffix)
             if identity_added["content"] != trinity_content:
                 trinity_content = identity_added["content"]
                 integrations_added += identity_added["count"]
                 framework_elements.extend(identity_added["elements"])
 
             # Deploy consciousness integration (🧠)
-            consciousness_added = await self._integrate_consciousness_framework(
-                trinity_content, file_path.suffix
-            )
+            consciousness_added = await self._integrate_consciousness_framework(trinity_content, file_path.suffix)
             if consciousness_added["content"] != trinity_content:
                 trinity_content = consciousness_added["content"]
                 integrations_added += consciousness_added["count"]
                 framework_elements.extend(consciousness_added["elements"])
 
             # Deploy guardian integration (🛡️)
-            guardian_added = await self._integrate_guardian_framework(
-                trinity_content, file_path.suffix
-            )
+            guardian_added = await self._integrate_guardian_framework(trinity_content, file_path.suffix)
             if guardian_added["content"] != trinity_content:
                 trinity_content = guardian_added["content"]
                 integrations_added += guardian_added["count"]
@@ -305,9 +297,7 @@ class TrinityFrameworkDeployer:
             if header_match:
                 header_line = header_match.group(0)
                 trinity_subtitle = "\n\n⚛️ **Trinity Framework Identity**: Authentic consciousness technology with symbolic self-expression\n"
-                enhanced_content = enhanced_content.replace(
-                    header_line, header_line + trinity_subtitle
-                )
+                enhanced_content = enhanced_content.replace(header_line, header_line + trinity_subtitle)
                 integrations += 1
                 elements.append("Identity Framework Header")
 
@@ -327,9 +317,7 @@ class TrinityFrameworkDeployer:
 
         return {"content": enhanced_content, "count": integrations, "elements": elements}
 
-    async def _integrate_consciousness_framework(
-        self, content: str, file_ext: str
-    ) -> dict[str, Any]:
+    async def _integrate_consciousness_framework(self, content: str, file_ext: str) -> dict[str, Any]:
         """Integrate 🧠 Consciousness Framework elements"""
         enhanced_content = content
         integrations = 0
@@ -374,10 +362,7 @@ class TrinityFrameworkDeployer:
         self.trinity_specifications["guardian"]
 
         # Add ethical AI messaging
-        if (
-            any(term in content.lower() for term in ["security", "ethics", "governance"])
-            and "🛡️" not in content
-        ):
+        if any(term in content.lower() for term in ["security", "ethics", "governance"]) and "🛡️" not in content:
             # Enhance security/ethics mentions
             for keyword in ["security", "ethics"]:
                 if keyword in content.lower():
@@ -480,9 +465,7 @@ class TrinityFrameworkDeployer:
 
         return deployment_results
 
-    async def _generate_trinity_report(
-        self, deployment_results: dict[str, Any], total_integrations: int
-    ):
+    async def _generate_trinity_report(self, deployment_results: dict[str, Any], total_integrations: int):
         """Generate comprehensive Trinity Framework deployment report"""
         report_path = self.base_path / "TRINITY_FRAMEWORK_DEPLOYMENT_REPORT.md"
 

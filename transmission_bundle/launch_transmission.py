@@ -131,9 +131,7 @@ class LUKHASTransmission:
 
         # Check Python version
         python_version = sys.version_info
-        logger.info(
-            f"   Python version: {python_version.major}.{python_version.minor}.{python_version.micro}"
-        )
+        logger.info(f"   Python version: {python_version.major}.{python_version.minor}.{python_version.micro}")
 
         # Check required directories exist
         required_dirs = [
@@ -257,12 +255,8 @@ class LUKHASTransmission:
         logger.info("-" * 40)
 
         # Check component status
-        running_components = [
-            name for name, status in self.component_status.items() if status == "running"
-        ]
-        failed_components = [
-            name for name, status in self.component_status.items() if status == "failed"
-        ]
+        running_components = [name for name, status in self.component_status.items() if status == "running"]
+        failed_components = [name for name, status in self.component_status.items() if status == "failed"]
 
         logger.info(f"   Running components: {len(running_components)}")
         logger.info(f"   Failed components: {len(failed_components)}")
@@ -292,9 +286,7 @@ class LUKHASTransmission:
         # Guardian system components
         guardian_components = ["guardian_sentinel", "entropy_tracker"]
 
-        guardian_active = all(
-            self.component_status.get(comp) == "running" for comp in guardian_components
-        )
+        guardian_active = all(self.component_status.get(comp) == "running" for comp in guardian_components)
 
         if guardian_active:
             logger.info("   🛡️ Guardian Sentinel: ACTIVE")
@@ -355,12 +347,8 @@ class LUKHASTransmission:
             "components": self.component_status,
             "health_metrics": {
                 "total_components": len(self.components),
-                "running_components": len(
-                    [s for s in self.component_status.values() if s == "running"]
-                ),
-                "failed_components": len(
-                    [s for s in self.component_status.values() if s == "failed"]
-                ),
+                "running_components": len([s for s in self.component_status.values() if s == "running"]),
+                "failed_components": len([s for s in self.component_status.values() if s == "failed"]),
                 "health_score": len([s for s in self.component_status.values() if s == "running"])
                 / len(self.components),
             },

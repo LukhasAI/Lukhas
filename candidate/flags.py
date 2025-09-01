@@ -101,8 +101,7 @@ def require_feature(name: str) -> None:
     """
     if not _flags.get(name):
         raise RuntimeError(
-            f"Feature '{name}' is not enabled. "
-            f"Enable with LUKHAS_FLAG_{name.upper()}=true or in lukhas_flags.yaml"
+            f"Feature '{name}' is not enabled. " f"Enable with LUKHAS_FLAG_{name.upper()}=true or in lukhas_flags.yaml"
         )
 
 

@@ -56,9 +56,7 @@ class CreativityService:
         """
         # Retrieve relevant memories for context
         if memory:
-            context_memories = await memory.retrieve_context(
-                agent_id, query=prompt.get("theme", ""), limit=10
-            )
+            context_memories = await memory.retrieve_context(agent_id, query=prompt.get("theme", ""), limit=10)
         else:
             context_memories = []
 
@@ -112,9 +110,7 @@ class CreativityService:
     ) -> dict[str, Any]:
         """Create based on dream synthesis"""
         if not dream:
-            return await self.generate_creative_output(
-                agent_id, {"theme": "spontaneous", "source": "non-dream"}
-            )
+            return await self.generate_creative_output(agent_id, {"theme": "spontaneous", "source": "non-dream"})
 
         # Get dream synthesis
         dream_content = await dream.synthesize(agent_id, dream_seed)
@@ -136,9 +132,7 @@ class CreativityService:
         contributions = []
 
         for agent_id in agent_ids:
-            contribution = await self.generate_creative_output(
-                agent_id, {"theme": theme, "collaborative": True}
-            )
+            contribution = await self.generate_creative_output(agent_id, {"theme": theme, "collaborative": True})
             contributions.append(contribution)
 
         # Merge contributions

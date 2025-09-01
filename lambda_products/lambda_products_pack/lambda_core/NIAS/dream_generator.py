@@ -106,9 +106,7 @@ class DreamGenerator:
             self.openai_client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         else:
             self.openai_client = None
-            logger.warning(
-                "OpenAI client not initialized. Set OPENAI_API_KEY environment variable."
-            )
+            logger.warning("OpenAI client not initialized. Set OPENAI_API_KEY environment variable.")
 
         self.dream_cache: dict[str, GeneratedDream] = {}
         self.generation_queue: list[tuple[DreamContext, asyncio.Future]] = []
@@ -147,9 +145,7 @@ class DreamGenerator:
             cache_key = self._get_cache_key(context)
             if cache_key in self.dream_cache:
                 cached_dream = self.dream_cache[cache_key]
-                if (datetime.now() - cached_dream.created_at).seconds < self.config[
-                    "cache_duration_minutes"
-                ] * 60:
+                if (datetime.now() - cached_dream.created_at).seconds < self.config["cache_duration_minutes"] * 60:
                     logger.info(f"Returning cached dream: {cached_dream.dream_id}")
                     return cached_dream
 
@@ -282,21 +278,15 @@ Guidelines:
 
         if context.vendor_seed:
             seed = context.vendor_seed
-            prompt_parts.append(
-                f"Product context: {seed.product_data.get('name', 'something special')}"
-            )
-            prompt_parts.append(
-                f"Emotional theme: {seed.narrative[:100] if seed.narrative else 'discovery'}"
-            )
+            prompt_parts.append(f"Product context: {seed.product_data.get('name', 'something special')}")
+            prompt_parts.append(f"Emotional theme: {seed.narrative[:100] if seed.narrative else 'discovery'}")
 
         if context.personal_data:
             # Add relevant personal context (privacy-filtered)
             if "upcoming_events" in context.personal_data:
                 events = context.personal_data["upcoming_events"]
                 if events:
-                    prompt_parts.append(
-                        f"Upcoming moment: {events[0].get('type', 'special occasion')}"
-                    )
+                    prompt_parts.append(f"Upcoming moment: {events[0].get('type', 'special occasion')}")
 
             if "interests" in context.personal_data:
                 interests = context.personal_data["interests"][:3]
@@ -306,16 +296,10 @@ Guidelines:
             # Add recent activity context
             recent = context.recent_events[0] if context.recent_events else {}
             if recent.get("type") == "browsing":
-                prompt_parts.append(
-                    f"Recently exploring: {recent.get('category', 'new possibilities')}"
-                )
+                prompt_parts.append(f"Recently exploring: {recent.get('category', 'new possibilities')}")
 
         base_prompt = "Create a brief, poetic dream narrative that gently weaves together: "
-        return (
-            base_prompt + "; ".join(prompt_parts)
-            if prompt_parts
-            else base_prompt + "a moment of peaceful discovery"
-        )
+        return base_prompt + "; ".join(prompt_parts) if prompt_parts else base_prompt + "a moment of peaceful discovery"
 
     def _get_bio_rhythm_description(self, bio_rhythm: BioRhythm) -> str:
         """Get description for biological rhythm"""
@@ -399,9 +383,7 @@ Guidelines:
         """Placeholder for Sora video generation (future implementation)"""
         # When Sora becomes available, this would generate dream videos
         # For now, return None or a placeholder
-        logger.info(
-            "Sora video generation not yet available - placeholder for future implementation"
-        )
+        logger.info("Sora video generation not yet available - placeholder for future implementation")
         return None
 
     async def _extract_symbolism(self, narrative: str) -> list[str]:
@@ -459,9 +441,7 @@ Guidelines:
             "one_click_data": seed.one_click_data,
         }
 
-    def _calculate_emotional_profile(
-        self, narrative: str, context: DreamContext
-    ) -> dict[str, float]:
+    def _calculate_emotional_profile(self, narrative: str, context: DreamContext) -> dict[str, float]:
         """Calculate emotional profile of generated content"""
         # Base emotional profile from mood
         mood_profiles = {
@@ -504,9 +484,7 @@ Guidelines:
             },
         }
 
-        profile = mood_profiles.get(
-            context.mood, {"joy": 0.5, "calm": 0.5, "stress": 0.0, "longing": 0.3}
-        )
+        profile = mood_profiles.get(context.mood, {"joy": 0.5, "calm": 0.5, "stress": 0.0, "longing": 0.3})
 
         # Adjust based on bio rhythm
         if context.bio_rhythm in [BioRhythm.EVENING_WIND, BioRhythm.NIGHT_QUIET]:
@@ -520,9 +498,7 @@ Guidelines:
 
         return profile
 
-    async def _validate_ethics(
-        self, narrative: str, visual_prompt: str, context: DreamContext
-    ) -> float:
+    async def _validate_ethics(self, narrative: str, visual_prompt: str, context: DreamContext) -> float:
         """Validate ethical compliance with Vivox system"""
         score = 1.0
 

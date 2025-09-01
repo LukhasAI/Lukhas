@@ -160,9 +160,8 @@ class MEGPolicyBridge:
         symbolic_alignment = meg_eval.confidence  # Use MEG confidence as alignment score
 
         # Combine reasoning from MEG
-        combined_reasoning = (
-            f"MEG Evaluation ({meg_eval.evaluator_framework.value}): "
-            + " + ; ".join(meg_eval.reasoning)
+        combined_reasoning = f"MEG Evaluation ({meg_eval.evaluator_framework.value}): " + " + ; ".join(
+            meg_eval.reasoning
         )
 
         # Create recommendations based on MEG findings

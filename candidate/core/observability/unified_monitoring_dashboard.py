@@ -467,35 +467,25 @@ class UnifiedMonitoringDashboard:
 
                 # Extract key metrics
                 if "guardian" in guardian_data:
-                    dashboard_data.drift_score = guardian_data["guardian"].get(
-                        "current_drift_score", 0.0
-                    )
+                    dashboard_data.drift_score = guardian_data["guardian"].get("current_drift_score", 0.0)
 
                 if "security" in guardian_data:
-                    dashboard_data.threat_level = guardian_data["security"].get(
-                        "threat_level", "benign"
-                    )
+                    dashboard_data.threat_level = guardian_data["security"].get("threat_level", "benign")
 
                 if "compliance" in guardian_data:
                     dashboard_data.compliance_score = guardian_data["compliance"].get("score", 1.0)
 
             # Collect consciousness data
             if self.consciousness_monitor:
-                consciousness_status = (
-                    await self.consciousness_monitor.get_current_awareness_status()
-                )
+                consciousness_status = await self.consciousness_monitor.get_current_awareness_status()
                 dashboard_data.consciousness_data = consciousness_status
 
                 if consciousness_status:
-                    dashboard_data.awareness_level = consciousness_status.get(
-                        "awareness_level", "standard"
+                    dashboard_data.awareness_level = consciousness_status.get("awareness_level", "standard")
+                    dashboard_data.cognitive_load = consciousness_status.get("cognitive_load_score", 0.5)
+                    dashboard_data.consciousness_health = consciousness_status.get("performance_metrics", {}).get(
+                        "overall_performance", 1.0
                     )
-                    dashboard_data.cognitive_load = consciousness_status.get(
-                        "cognitive_load_score", 0.5
-                    )
-                    dashboard_data.consciousness_health = consciousness_status.get(
-                        "performance_metrics", {}
-                    ).get("overall_performance", 1.0)
 
             # Collect system health data
             if self.health_monitor:
@@ -505,9 +495,7 @@ class UnifiedMonitoringDashboard:
                 if health_status:
                     dashboard_data.overall_health = health_status.get("overall_health", 1.0)
                     dashboard_data.overall_status = health_status.get("system_status", "healthy")
-                    dashboard_data.system_uptime = health_status.get("system_metrics", {}).get(
-                        "uptime", 1.0
-                    )
+                    dashboard_data.system_uptime = health_status.get("system_metrics", {}).get("uptime", 1.0)
 
                     # Extract component health
                     components = health_status.get("components", {})
@@ -562,14 +550,9 @@ class UnifiedMonitoringDashboard:
             }
 
             # Generate predictions and recommendations based on mode
-            if (
-                mode in [DashboardMode.DETAILED, DashboardMode.DEBUG]
-                and self.config.enable_predictive_analytics
-            ):
+            if mode in [DashboardMode.DETAILED, DashboardMode.DEBUG] and self.config.enable_predictive_analytics:
                 dashboard_data.predictions = await self._generate_predictions(dashboard_data)
-                dashboard_data.recommendations = await self._generate_recommendations(
-                    dashboard_data
-                )
+                dashboard_data.recommendations = await self._generate_recommendations(dashboard_data)
 
         except Exception as e:
             logger.error(f"❌ Dashboard data generation failed: {e}")
@@ -596,13 +579,9 @@ class UnifiedMonitoringDashboard:
                             alert_type=alert_data.get("type", "unknown"),
                             title=f"Guardian Alert: {alert_data.get('type', 'Unknown')}",
                             message=alert_data.get("message", "No message"),
-                            priority=self._convert_to_alert_priority(
-                                alert_data.get("severity", "info")
-                            ),
+                            priority=self._convert_to_alert_priority(alert_data.get("severity", "info")),
                             category="guardian",
-                            created_at=datetime.fromisoformat(
-                                alert_data.get("created_at", datetime.now().isoformat())
-                            ),
+                            created_at=datetime.fromisoformat(alert_data.get("created_at", datetime.now().isoformat())),
                             source_data=alert_data,
                             trinity_impact={"guardian": 1.0},  # 🛡️
                         )
@@ -630,9 +609,7 @@ class UnifiedMonitoringDashboard:
 
             # Collect consciousness alerts
             if self.consciousness_monitor:
-                consciousness_status = (
-                    await self.consciousness_monitor.get_current_awareness_status()
-                )
+                consciousness_status = await self.consciousness_monitor.get_current_awareness_status()
 
                 stress_indicators = consciousness_status.get("stress_indicators", [])
                 if stress_indicators:
@@ -744,9 +721,7 @@ class UnifiedMonitoringDashboard:
             recommendations.append("Memory usage high - consider cleanup procedures")
 
         # Trinity Framework recommendations
-        trinity_health_avg = (
-            sum(component["health"] for component in dashboard_data.trinity_status.values()) / 3
-        )
+        trinity_health_avg = sum(component["health"] for component in dashboard_data.trinity_status.values()) / 3
 
         if trinity_health_avg < 0.8:
             recommendations.append("Trinity Framework health below optimal - review all components")
@@ -811,8 +786,7 @@ class UnifiedMonitoringDashboard:
             [
                 s
                 for s in self.sessions.values()
-                if (datetime.now() - s.last_active).total_seconds()
-                < 300  # Active in last 5 minutes
+                if (datetime.now() - s.last_active).total_seconds() < 300  # Active in last 5 minutes
             ]
         )
 
@@ -882,9 +856,7 @@ class UnifiedMonitoringDashboard:
                 "cache_hits": self.dashboard_metrics["cache_hits"],
                 "cache_misses": self.dashboard_metrics["cache_misses"],
                 "hit_rate": self.dashboard_metrics["cache_hits"]
-                / max(
-                    1, self.dashboard_metrics["cache_hits"] + self.dashboard_metrics["cache_misses"]
-                )
+                / max(1, self.dashboard_metrics["cache_hits"] + self.dashboard_metrics["cache_misses"])
                 * 100,
             },
             "system_configuration": {
@@ -927,9 +899,7 @@ class UnifiedMonitoringDashboard:
             "alert_management": {
                 "total_alerts": len(self.unified_alerts),
                 "unresolved_alerts": len([a for a in self.unified_alerts if not a.resolved]),
-                "critical_alerts": len(
-                    [a for a in self.unified_alerts if a.priority == AlertPriority.CRITICAL]
-                ),
+                "critical_alerts": len([a for a in self.unified_alerts if a.priority == AlertPriority.CRITICAL]),
                 "alerts_by_system": {
                     system: len([a for a in self.unified_alerts if a.source_system == system])
                     for system in set(a.source_system for a in self.unified_alerts)

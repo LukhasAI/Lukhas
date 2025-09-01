@@ -168,9 +168,7 @@ class LearningHub:
                     "symbolic_feedback",
                     "federated_integration",
                 ]:
-                    module = __import__(
-                        f"learning.meta_learning.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"learning.meta_learning.{service_name}", fromlist=[class_name])
                 else:
                     module = __import__(f"learning.{service_name}", fromlist=[class_name])
 
@@ -282,9 +280,7 @@ class LearningHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(
-                        service_name, self.services[service_name], "learning"
-                    )
+                    discovery.register_service_globally(service_name, self.services[service_name], "learning")
 
             logger.debug(f"Registered {len(key_services)} learning services with global discovery")
         except Exception as e:
@@ -357,17 +353,13 @@ class LearningHub:
 
         try:
             result = await self.enhancement_system.run_enhancement_cycle()
-            self.learning_metrics["enhancement_cycles"] = (
-                self.learning_metrics.get("enhancement_cycles", 0) + 1
-            )
+            self.learning_metrics["enhancement_cycles"] = self.learning_metrics.get("enhancement_cycles", 0) + 1
             return {"success": True, "result": result}
         except Exception as e:
             logger.error(f"Enhancement cycle failed: {e}")
             return {"success": False, "error": str(e)}
 
-    async def process_learning_event(
-        self, learning_data: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_learning_event(self, learning_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Process a learning event through the learning system"""
 
         # Route through meta-learning first
@@ -386,9 +378,7 @@ class LearningHub:
         adaptive_result = None
         if adaptive_core and hasattr(adaptive_core, "adapt_from_learning"):
             try:
-                adaptive_result = await adaptive_core.adapt_from_learning(
-                    meta_result or learning_data
-                )
+                adaptive_result = await adaptive_core.adapt_from_learning(meta_result or learning_data)
                 self.learning_metrics["adaptation_events"] += 1
             except Exception as e:
                 logger.error(f"Adaptive learning error: {e}")
@@ -449,9 +439,7 @@ class LearningHub:
 
         for handler in handlers:
             try:
-                result = (
-                    await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
-                )
+                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
                 results.append(result)
             except Exception as e:
                 logger.error(f"Learning handler error for {event_type}: {e}")

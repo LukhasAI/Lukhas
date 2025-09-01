@@ -112,9 +112,7 @@ class AuthQRGBridge:
             "status": "pending_qrg_integration",
         }
 
-    async def create_animated_auth_flow(
-        self, session_id: str, consciousness_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def create_animated_auth_flow(self, session_id: str, consciousness_data: dict[str, Any]) -> dict[str, Any]:
         """Create animated QR authentication flow"""
         # TODO: Implement when QRG animation engine is integrated
         return {

@@ -80,9 +80,7 @@ class DropboxAdapter(ServiceAdapter):
     ) -> dict[str, Any]:
         """Verify capability token with consent service"""
         if self.consent_service:
-            return await self.consent_service.verify_capability_token(
-                token, required_scopes, resource_id
-            )
+            return await self.consent_service.verify_capability_token(token, required_scopes, resource_id)
         else:
             # Mock verification for development
             if token.startswith("mock_"):
@@ -129,9 +127,7 @@ class DropboxAdapter(ServiceAdapter):
             await self._log_operation("list_resources", success=False, error=str(e))
             raise
 
-    async def get_resource_metadata(
-        self, capability_token: str, resource_id: str
-    ) -> DropboxFileMetadata:
+    async def get_resource_metadata(self, capability_token: str, resource_id: str) -> DropboxFileMetadata:
         """
         Get detailed file metadata.
 
@@ -147,21 +143,15 @@ class DropboxAdapter(ServiceAdapter):
             else:
                 file_metadata = await self._fetch_dropbox_metadata(resource_id)
 
-            await self._log_operation(
-                "get_resource_metadata", resource_id=resource_id, success=True
-            )
+            await self._log_operation("get_resource_metadata", resource_id=resource_id, success=True)
 
             return file_metadata
 
         except Exception as e:
-            await self._log_operation(
-                "get_resource_metadata", resource_id=resource_id, success=False, error=str(e)
-            )
+            await self._log_operation("get_resource_metadata", resource_id=resource_id, success=False, error=str(e))
             raise
 
-    async def get_resource_content(
-        self, capability_token: str, resource_id: str
-    ) -> ResourceContent:
+    async def get_resource_content(self, capability_token: str, resource_id: str) -> ResourceContent:
         """
         Download actual file content.
 
@@ -187,9 +177,7 @@ class DropboxAdapter(ServiceAdapter):
             return content
 
         except Exception as e:
-            await self._log_operation(
-                "get_resource_content", resource_id=resource_id, success=False, error=str(e)
-            )
+            await self._log_operation("get_resource_content", resource_id=resource_id, success=False, error=str(e))
             raise
 
     async def put_resource(
@@ -222,14 +210,10 @@ class DropboxAdapter(ServiceAdapter):
                 metadata={"name": name, "size": len(content)},
             )
 
-            return OperationResult(
-                success=True, resource_id=file_path, message=f"File '{name}' uploaded successfully"
-            )
+            return OperationResult(success=True, resource_id=file_path, message=f"File '{name}' uploaded successfully")
 
         except Exception as e:
-            await self._log_operation(
-                "put_resource", success=False, error=str(e), metadata={"name": name}
-            )
+            await self._log_operation("put_resource", success=False, error=str(e), metadata={"name": name})
             raise
 
     async def move_resource(
@@ -264,14 +248,10 @@ class DropboxAdapter(ServiceAdapter):
             return result
 
         except Exception as e:
-            await self._log_operation(
-                "move_resource", resource_id=resource_id, success=False, error=str(e)
-            )
+            await self._log_operation("move_resource", resource_id=resource_id, success=False, error=str(e))
             raise
 
-    async def search_resources(
-        self, capability_token: str, query: SearchQuery
-    ) -> list[DropboxFileMetadata]:
+    async def search_resources(self, capability_token: str, query: SearchQuery) -> list[DropboxFileMetadata]:
         """
         Search Dropbox files by name or content.
 
@@ -343,9 +323,7 @@ class DropboxAdapter(ServiceAdapter):
             else:
                 success = await self._remove_dropbox_webhook(watch_id)
 
-            await self._log_operation(
-                "unwatch_resources", success=success, metadata={"watch_id": watch_id}
-            )
+            await self._log_operation("unwatch_resources", success=success, metadata={"watch_id": watch_id})
 
             return OperationResult(success=success, message=f"Webhook {watch_id} removed")
 
@@ -398,9 +376,7 @@ class DropboxAdapter(ServiceAdapter):
                     path_lower=file_path.lower(),
                     content_hash=None if is_folder else content_hash,
                     is_shared=i % 4 == 0,
-                    shared_link_url=f"https://dropbox.com/s/{content_hash[:16]}/{name}"
-                    if i % 4 == 0
-                    else None,
+                    shared_link_url=f"https://dropbox.com/s/{content_hash[:16]}/{name}" if i % 4 == 0 else None,
                     client_modified=datetime.now(timezone.utc) - timedelta(hours=25 - i),
                     server_modified=datetime.now(timezone.utc) - timedelta(hours=24 - i),
                     revision=f"rev_{i + 1:03d}",
@@ -493,25 +469,19 @@ Actual file size: {metadata.size} bytes
             content_type="text/plain",
         )
 
-    def _mock_upload_file(
-        self, parent_path: Optional[str], name: str, content: bytes, content_type: str
-    ) -> str:
+    def _mock_upload_file(self, parent_path: Optional[str], name: str, content: bytes, content_type: str) -> str:
         """Mock file upload"""
         base_path = parent_path or "/"
         file_path = f"{base_path.rstrip('/')}/{name}"
         return file_path
 
-    def _mock_move_file(
-        self, file_path: str, new_parent_path: str, new_name: Optional[str]
-    ) -> OperationResult:
+    def _mock_move_file(self, file_path: str, new_parent_path: str, new_name: Optional[str]) -> OperationResult:
         """Mock file move operation"""
         old_name = file_path.split("/")[-1]
         final_name = new_name or old_name
         new_path = f"{new_parent_path.rstrip('/')}/{final_name}"
 
-        return OperationResult(
-            success=True, resource_id=new_path, message=f"File moved from {file_path} to {new_path}"
-        )
+        return OperationResult(success=True, resource_id=new_path, message=f"File moved from {file_path} to {new_path}")
 
     def _mock_search_files(self, query: SearchQuery) -> list[DropboxFileMetadata]:
         """Mock file search"""
@@ -533,14 +503,10 @@ Actual file size: {metadata.size} bytes
             filtered = [f for f in filtered if f.size and f.size <= query.size_max]
 
         if query.modified_after:
-            filtered = [
-                f for f in filtered if f.modified_at and f.modified_at >= query.modified_after
-            ]
+            filtered = [f for f in filtered if f.modified_at and f.modified_at >= query.modified_after]
 
         if query.modified_before:
-            filtered = [
-                f for f in filtered if f.modified_at and f.modified_at <= query.modified_before
-            ]
+            filtered = [f for f in filtered if f.modified_at and f.modified_at <= query.modified_before]
 
         return filtered[: query.limit]
 

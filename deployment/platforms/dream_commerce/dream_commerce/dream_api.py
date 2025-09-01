@@ -172,9 +172,7 @@ async def example_commercial_usage():
     await api.initialize()
 
     # Standard commercial request (no personality)
-    standard_request = DreamRequest(
-        prompt="flying over mountains", style="standard", use_personality=False
-    )
+    standard_request = DreamRequest(prompt="flying over mountains", style="standard", use_personality=False)
 
     standard_response = await api.generate_dream(standard_request)
     print(f"Standard Dream: {standard_response.content}")

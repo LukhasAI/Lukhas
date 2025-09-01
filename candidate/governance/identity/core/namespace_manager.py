@@ -198,21 +198,14 @@ class NamespaceManager:
             # Create default policy
             policy_data = {
                 "namespace_id": namespace.namespace_id,
-                "access_control": "strict"
-                if namespace.namespace_type != NamespaceType.DEVELOPMENT
-                else "relaxed",
+                "access_control": "strict" if namespace.namespace_type != NamespaceType.DEVELOPMENT else "relaxed",
                 "cross_namespace_allowed": namespace.namespace_type == NamespaceType.ROOT,
                 "authentication_requirements": {
-                    "minimum_tier": 0
-                    if namespace.namespace_type == NamespaceType.DEVELOPMENT
-                    else 1,
-                    "require_mfa": namespace.namespace_type
-                    in [NamespaceType.ROOT, NamespaceType.ENTERPRISE],
+                    "minimum_tier": 0 if namespace.namespace_type == NamespaceType.DEVELOPMENT else 1,
+                    "require_mfa": namespace.namespace_type in [NamespaceType.ROOT, NamespaceType.ENTERPRISE],
                     "session_timeout": 3600,
                 },
-                "audit_level": "full"
-                if namespace.namespace_type == NamespaceType.ROOT
-                else "standard",
+                "audit_level": "full" if namespace.namespace_type == NamespaceType.ROOT else "standard",
             }
 
             policy = NamespacePolicy(policy_data)
@@ -335,11 +328,8 @@ class NamespaceManager:
             # Create default policy
             policy_data = {
                 "namespace_id": namespace_id,
-                "access_control": "strict"
-                if namespace_type != NamespaceType.SANDBOX
-                else "relaxed",
-                "cross_namespace_allowed": namespace_type
-                in [NamespaceType.ROOT, NamespaceType.ENTERPRISE],
+                "access_control": "strict" if namespace_type != NamespaceType.SANDBOX else "relaxed",
+                "cross_namespace_allowed": namespace_type in [NamespaceType.ROOT, NamespaceType.ENTERPRISE],
                 "authentication_requirements": {
                     "minimum_tier": self._get_minimum_tier_for_type(namespace_type),
                     "require_mfa": namespace_type in [NamespaceType.ROOT, NamespaceType.ENTERPRISE],
@@ -539,12 +529,8 @@ class NamespaceManager:
             type_distribution[ns_type] = type_distribution.get(ns_type, 0) + 1
 
         # Policy statistics
-        strict_policies = sum(
-            1 for policy in self.policies.values() if policy.access_control == "strict"
-        )
-        cross_namespace_enabled = sum(
-            1 for policy in self.policies.values() if policy.cross_namespace_allowed
-        )
+        strict_policies = sum(1 for policy in self.policies.values() if policy.access_control == "strict")
+        cross_namespace_enabled = sum(1 for policy in self.policies.values() if policy.cross_namespace_allowed)
 
         return {
             "system": "LUKHAS Namespace Manager",
@@ -588,9 +574,7 @@ class NamespaceManager:
 
         return identifier
 
-    def _resolve_by_pattern(
-        self, identifier: str, context: Optional[dict] = None
-    ) -> Optional[IdentityNamespace]:
+    def _resolve_by_pattern(self, identifier: str, context: Optional[dict] = None) -> Optional[IdentityNamespace]:
         """Resolve namespace by pattern matching"""
         # Try exact match first
         for namespace_id, namespace in self.namespaces.items():
@@ -706,10 +690,7 @@ class NamespaceManager:
 
             # Check for suspicious patterns
             data_str = str(data)
-            if any(
-                pattern in data_str.lower()
-                for pattern in ["script", "eval", "javascript:", "__proto__"]
-            ):
+            if any(pattern in data_str.lower() for pattern in ["script", "eval", "javascript:", "__proto__"]):
                 return False
 
             # Validate namespace ID format

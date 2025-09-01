@@ -208,9 +208,7 @@ class NaturalBreakpointDetector:
 
         return False, None, {"reason": "no_suitable_breakpoint"}
 
-    def request_permission(
-        self, context: str = "general", incentive: Optional[str] = None
-    ) -> dict[str, Any]:
+    def request_permission(self, context: str = "general", incentive: Optional[str] = None) -> dict[str, Any]:
         """
         Request user permission for ad display
         Implements the consent-based approach
@@ -264,9 +262,7 @@ class NaturalBreakpointDetector:
         if user_response == "dismissed_quickly":
             self.current_workflow.interruption_score += 0.2
         elif user_response == "engaged":
-            self.current_workflow.interruption_score = max(
-                0, self.current_workflow.interruption_score - 0.1
-            )
+            self.current_workflow.interruption_score = max(0, self.current_workflow.interruption_score - 0.1)
 
     def get_timing_recommendations(self) -> dict[str, Any]:
         """Get recommendations for optimal ad timing"""
@@ -376,9 +372,7 @@ class NaturalBreakpointDetector:
         if time_since_activity < 2.0:  # Within 2 seconds of completion
             task_data = {
                 "task_type": self.current_workflow.task_type,
-                "task_duration": (
-                    datetime.now() - self.current_workflow.start_time
-                ).total_seconds(),
+                "task_duration": (datetime.now() - self.current_workflow.start_time).total_seconds(),
             }
             return True, task_data
 
@@ -388,9 +382,7 @@ class NaturalBreakpointDetector:
         """Check if user is in a natural pause"""
         if self.current_workflow.state != WorkflowState.PAUSED:
             # Check for pause based on inactivity
-            time_since_activity = (
-                datetime.now() - self.current_workflow.last_activity
-            ).total_seconds()
+            time_since_activity = (datetime.now() - self.current_workflow.last_activity).total_seconds()
             if time_since_activity > self.pause_threshold:
                 self.current_workflow.state = WorkflowState.PAUSED
                 return True, time_since_activity
@@ -545,9 +537,7 @@ class NaturalBreakpointDetector:
 
     def _analyze_best_times(self) -> list[str]:
         """Analyze best times for ads based on history"""
-        successful_displays = [
-            record for record in self.breakpoint_history if record.get("user_response") == "engaged"
-        ]
+        successful_displays = [record for record in self.breakpoint_history if record.get("user_response") == "engaged"]
 
         if not successful_displays:
             return ["after_task_completion", "during_natural_pause"]
@@ -565,9 +555,7 @@ class NaturalBreakpointDetector:
     def _analyze_worst_times(self) -> list[str]:
         """Analyze worst times for ads based on history"""
         poor_displays = [
-            record
-            for record in self.breakpoint_history
-            if record.get("user_response") == "dismissed_quickly"
+            record for record in self.breakpoint_history if record.get("user_response") == "dismissed_quickly"
         ]
 
         if not poor_displays:
@@ -598,10 +586,7 @@ class NaturalBreakpointDetector:
             suggestions.append("Wait for longer tasks to complete before displaying ads")
 
         if len(self.breakpoint_history) > 10:
-            success_rate = (
-                sum(1 for r in self.breakpoint_history[-10:] if r.get("user_response") == "engaged")
-                / 10
-            )
+            success_rate = sum(1 for r in self.breakpoint_history[-10:] if r.get("user_response") == "engaged") / 10
             if success_rate < 0.3:
                 suggestions.append("Improve targeting or reduce ad frequency")
 
@@ -628,9 +613,7 @@ if __name__ == "__main__":
 
         # Request permission if needed
         if bp_type != BreakpointType.PERMISSION_GRANTED:
-            permission_request = detector.request_permission(
-                context="task_complete", incentive="exclusive content"
-            )
+            permission_request = detector.request_permission(context="task_complete", incentive="exclusive content")
             print(f"Permission request: {permission_request}")
 
     # Get timing recommendations

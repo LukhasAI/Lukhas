@@ -155,9 +155,7 @@ async def fold_memory(request: MemoryFoldRequest):
         }
 
         # Store memory
-        memory_id = memory_system.store(
-            data=str(request.experience.get("content", "")), metadata=data
-        )
+        memory_id = memory_system.store(data=str(request.experience.get("content", "")), metadata=data)
 
         # Generate response
         return MemoryFoldResponse(

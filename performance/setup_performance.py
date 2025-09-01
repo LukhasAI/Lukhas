@@ -42,15 +42,11 @@ class PerformanceSetup:
             try:
                 logger.info(f"🔧 Applying {opt_name}...")
                 result = await opt_func()
-                self.optimizations_applied.append(
-                    {"name": opt_name, "status": "success", "details": result}
-                )
+                self.optimizations_applied.append({"name": opt_name, "status": "success", "details": result})
                 logger.info(f"✅ {opt_name} completed")
             except Exception as e:
                 logger.error(f"❌ {opt_name} failed: {e}")
-                self.optimizations_applied.append(
-                    {"name": opt_name, "status": "error", "error": str(e)}
-                )
+                self.optimizations_applied.append({"name": opt_name, "status": "error", "error": str(e)})
 
         await self.create_performance_config()
         await self.validate_optimizations()
@@ -355,9 +351,7 @@ class PerformanceSetup:
         config = {
             "version": "1.0.0",
             "last_updated": time.time(),
-            "optimizations": {
-                opt["name"]: opt["status"] == "success" for opt in self.optimizations_applied
-            },
+            "optimizations": {opt["name"]: opt["status"] == "success" for opt in self.optimizations_applied},
             "runtime_settings": {
                 "gc_threshold": 1000,
                 "memory_limit_mb": 2048,

@@ -63,15 +63,11 @@ async def demonstrate_decision_explainability():
     print(summary)
 
     print("\n2️⃣ STANDARD EXPLANATION:")
-    standard = await explain_decision(
-        emergency_context, emergency_outcome, ExplanationLevel.STANDARD
-    )
+    standard = await explain_decision(emergency_context, emergency_outcome, ExplanationLevel.STANDARD)
     print(standard)
 
     print("\n3️⃣ DETAILED EXPLANATION:")
-    detailed = await explain_decision(
-        emergency_context, emergency_outcome, ExplanationLevel.DETAILED
-    )
+    detailed = await explain_decision(emergency_context, emergency_outcome, ExplanationLevel.DETAILED)
     print(detailed)
 
     # Scenario 2: Ethical Decision
@@ -122,9 +118,7 @@ async def demonstrate_decision_explainability():
     }
 
     print("\n🔍 CAUSAL EXPLANATION (Why this decision?):")
-    explanation = await explainer.explain_decision(
-        ethical_context, ethical_outcome, ExplanationType.CAUSAL
-    )
+    explanation = await explainer.explain_decision(ethical_context, ethical_outcome, ExplanationType.CAUSAL)
     print(explanation.to_human_readable(ExplanationLevel.STANDARD))
 
     print("\n⚖️ COMPARATIVE EXPLANATION (Why not others?):")
@@ -167,9 +161,7 @@ async def demonstrate_decision_explainability():
     }
 
     print("\n📊 FULL DECISION EXPLANATION:")
-    full_explanation = await explainer.explain_decision(
-        strategic_context, strategic_outcome, ExplanationType.CAUSAL
-    )
+    full_explanation = await explainer.explain_decision(strategic_context, strategic_outcome, ExplanationType.CAUSAL)
     print(full_explanation.to_human_readable(ExplanationLevel.DETAILED))
 
     # Scenario 4: Low Confidence Decision

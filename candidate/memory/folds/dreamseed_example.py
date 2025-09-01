@@ -248,9 +248,7 @@ def demonstrate_dreamseed_integration():
     print(f"   • Session ID: {session_analytics['session_id']}")
     print(f"   • Total GLYPH Usage: {sum(session_analytics['total_glyph_usage'].values())}")
     print(f"   • Entangled Dreams: {session_analytics['entangled_dreams']}")
-    print(
-        f"   • Recursive Amplification Events: {session_analytics['recursive_amplification_events']}"
-    )
+    print(f"   • Recursive Amplification Events: {session_analytics['recursive_amplification_events']}")
 
     # Example 8: Advanced Drift Feedback
     print("\n📍 EXAMPLE 8: Dream Drift Feedback System")

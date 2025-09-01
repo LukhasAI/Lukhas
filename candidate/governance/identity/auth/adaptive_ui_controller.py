@@ -116,9 +116,7 @@ class AdaptiveUIController:
         blink_rate = user_metrics.get("blink_rate", 15.0)  # blinks per minute
 
         # Calculate attention score (inverse of hesitation and response time)
-        attention_score = max(
-            0.0, min(1.0, 1.0 - (mouse_hesitation * 0.5) - (response_time / 30.0))
-        )
+        attention_score = max(0.0, min(1.0, 1.0 - (mouse_hesitation * 0.5) - (response_time / 30.0)))
 
         # Calculate processing speed (inverse of response time)
         processing_speed = max(0.1, min(10.0, 1.0 / response_time))
@@ -152,9 +150,7 @@ class AdaptiveUIController:
         if len(self.cognitive_history) > 50:
             self.cognitive_history = self.cognitive_history[-40:]
 
-        ui_logger.info(
-            f"Cognitive load assessed: attention={attention_score:.2f}, stress={stress_indicators:.2f}"
-        )
+        ui_logger.info(f"Cognitive load assessed: attention={attention_score:.2f}, stress={stress_indicators:.2f}")
 
         return metrics
 
@@ -178,17 +174,13 @@ class AdaptiveUIController:
         performance_decline = max(0.0, earlier_avg - recent_avg)
 
         # Session duration factor
-        session_duration = (
-            datetime.now() - self.cognitive_history[0].timestamp
-        ).total_seconds() / 3600.0  # hours
+        session_duration = (datetime.now() - self.cognitive_history[0].timestamp).total_seconds() / 3600.0  # hours
         # Fatigue increases over 2 hours
         duration_fatigue = min(1.0, session_duration / 2.0)
 
         return min(1.0, performance_decline * 2.0 + duration_fatigue * 0.3)
 
-    def adapt_ui_to_cognitive_state(
-        self, cognitive_metrics: CognitiveLoadMetrics
-    ) -> UIConfiguration:
+    def adapt_ui_to_cognitive_state(self, cognitive_metrics: CognitiveLoadMetrics) -> UIConfiguration:
         """
         Adapt UI configuration based on cognitive load assessment.
 
@@ -229,9 +221,7 @@ class AdaptiveUIController:
         new_config.timeout_seconds = max(10, min(45, new_timeout))
 
         if new_config.timeout_seconds != self.current_config.timeout_seconds:
-            adaptation_reasons.append(
-                f"Timeout adapted to {new_config.timeout_seconds}s for processing speed"
-            )
+            adaptation_reasons.append(f"Timeout adapted to {new_config.timeout_seconds}s for processing speed")
 
         # Adapt visual elements based on stress and attention
         if cognitive_metrics.stress_indicators > 0.6:
@@ -254,8 +244,8 @@ class AdaptiveUIController:
             "audio": {"notification_sounds": new_config.audio_feedback},
         }
 
-        is_accessible, accessibility_issues = (
-            self.constitutional_gatekeeper.validate_neurodivergent_accessibility(ui_dict)
+        is_accessible, accessibility_issues = self.constitutional_gatekeeper.validate_neurodivergent_accessibility(
+            ui_dict
         )
 
         if not is_accessible:
@@ -332,9 +322,7 @@ class AdaptiveUIController:
         return {
             "session_id": self.session_id,
             "current_config": asdict(self.current_config),
-            "adaptation_mode": (
-                self.get_adaptation_mode(latest_metrics).value if latest_metrics else "unknown"
-            ),
+            "adaptation_mode": (self.get_adaptation_mode(latest_metrics).value if latest_metrics else "unknown"),
             "cognitive_metrics": asdict(latest_metrics) if latest_metrics else None,
             "cognitive_history_length": len(self.cognitive_history),
             "constitutional_compliance": True,  # Always true due to enforcement
@@ -363,9 +351,7 @@ class AdaptiveUIController:
         )
 
         # Trigger constitutional emergency
-        emergency_report = self.constitutional_gatekeeper.emergency_lockdown(
-            f"UI adaptation emergency: {reason}"
-        )
+        emergency_report = self.constitutional_gatekeeper.emergency_lockdown(f"UI adaptation emergency: {reason}")
 
         return emergency_report
 

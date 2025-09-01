@@ -117,14 +117,8 @@ def file_score_for_prune(path: Path) -> list[str]:
     if path.suffix == ".py":
         try:
             text = path.read_text(errors="ignore")
-            code_lines = sum(
-                1 for ln in text.splitlines() if ln.strip() and not ln.strip().startswith("#")
-            )
-            if (
-                code_lines < 20
-                and len(text) > 0
-                and ("Feature:" in text or "TODO" in text or "Notes" in text)
-            ):
+            code_lines = sum(1 for ln in text.splitlines() if ln.strip() and not ln.strip().startswith("#"))
+            if code_lines < 20 and len(text) > 0 and ("Feature:" in text or "TODO" in text or "Notes" in text):
                 tags.append("low_code_density")
         except Exception:
             pass

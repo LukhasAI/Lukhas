@@ -242,9 +242,7 @@ class BotCustomizer:
         print("\n📝 Sample Status Bar:")
         sample_text = getattr(self, "current_design", {}).get("text", "🤖 LUKHAS AI ΛBot")
         sample_text = (
-            sample_text.replace("{status}", "monitoring")
-            .replace("{violations}", "3")
-            .replace("{quality_score}", "95")
+            sample_text.replace("{status}", "monitoring").replace("{violations}", "3").replace("{quality_score}", "95")
         )
         print(f"  {sample_text}")
 
@@ -258,11 +256,7 @@ class BotCustomizer:
 
         try:
             # Update the status bar widget
-            if (
-                hasattr(self, "current_design")
-                or hasattr(self, "current_action")
-                or hasattr(self, "current_colors")
-            ):
+            if hasattr(self, "current_design") or hasattr(self, "current_action") or hasattr(self, "current_colors"):
                 self.update_status_bar_code()
                 print("✅ Status bar code updated")
 

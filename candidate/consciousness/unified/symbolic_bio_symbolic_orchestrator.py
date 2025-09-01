@@ -181,36 +181,23 @@ class BioSymbolicOrchestrator(BaseColony):
                 )
 
             # Stage 2: Consensus Integration
-            integrated_results = await self._integrate_colony_consensus(
-                colony_results, bio_data, context
-            )
+            integrated_results = await self._integrate_colony_consensus(colony_results, bio_data, context)
 
             # Stage 3: Quantum Enhancement
             if self.pipeline_config.qi_enhancement:
-                enhanced_results = await self._apply_quantum_enhancement(
-                    integrated_results, bio_data, context
-                )
+                enhanced_results = await self._apply_quantum_enhancement(integrated_results, bio_data, context)
             else:
                 enhanced_results = integrated_results
 
             # Stage 4: Coherence Calculation
-            coherence_metrics = self._calculate_comprehensive_coherence(
-                colony_results, enhanced_results
-            )
+            coherence_metrics = self._calculate_comprehensive_coherence(colony_results, enhanced_results)
 
             # Stage 5: Self-Healing (if coherence below threshold)
-            if (
-                coherence_metrics.overall_coherence < self.coherence_threshold
-                and self.healing_config["auto_recovery"]
-            ):
-                healed_results = await self._apply_self_healing(
-                    enhanced_results, coherence_metrics, bio_data, context
-                )
+            if coherence_metrics.overall_coherence < self.coherence_threshold and self.healing_config["auto_recovery"]:
+                healed_results = await self._apply_self_healing(enhanced_results, coherence_metrics, bio_data, context)
 
                 # Recalculate coherence after healing
-                coherence_metrics = self._calculate_comprehensive_coherence(
-                    colony_results, healed_results
-                )
+                coherence_metrics = self._calculate_comprehensive_coherence(colony_results, healed_results)
             else:
                 healed_results = enhanced_results
 
@@ -399,9 +386,7 @@ class BioSymbolicOrchestrator(BaseColony):
                 enhanced["qi_enhanced"] = True
                 enhanced["qi_boost_applied"] = boost_factor
 
-                logger.debug(
-                    f"Quantum boost applied: {original_confidence:.3f} → {enhanced['mapping_confidence']:.3f}"
-                )
+                logger.debug(f"Quantum boost applied: {original_confidence:.3f} → {enhanced['mapping_confidence']:.3f}")
 
         # Quantum entanglement effects
         if "active_glyphs" in enhanced and len(enhanced["active_glyphs"]) > 1:
@@ -488,9 +473,7 @@ class BioSymbolicOrchestrator(BaseColony):
             "temporal_stability": 0.05,
         }
 
-        metrics.overall_coherence = sum(
-            getattr(metrics, attr) * weight for attr, weight in weights.items()
-        )
+        metrics.overall_coherence = sum(getattr(metrics, attr) * weight for attr, weight in weights.items())
 
         # Apply quantum boost if present
         if integrated_results.get("qi_enhanced"):
@@ -540,9 +523,7 @@ class BioSymbolicOrchestrator(BaseColony):
             elif weak_point == "thresholds":
                 # Apply adaptive threshold adjustment
                 healing_actions.append("threshold_adjustment")
-                healed["threshold_confidence"] = min(
-                    healed.get("threshold_confidence", 0.5) * 1.15, 1.0
-                )
+                healed["threshold_confidence"] = min(healed.get("threshold_confidence", 0.5) * 1.15, 1.0)
 
             elif weak_point == "mapping":
                 # Apply context-aware re-mapping
@@ -611,8 +592,7 @@ class BioSymbolicOrchestrator(BaseColony):
         # Adaptive parameter updates
         if len(self.optimization_state["adaptation_history"]) >= 10:
             recent_coherence = [
-                record["coherence"]
-                for record in list(self.optimization_state["adaptation_history"])[-10:]
+                record["coherence"] for record in list(self.optimization_state["adaptation_history"])[-10:]
             ]
 
             coherence_trend = np.mean(np.diff(recent_coherence))
@@ -626,9 +606,7 @@ class BioSymbolicOrchestrator(BaseColony):
                 self.optimization_state["learning_rate"] *= 1.05
 
             # Clamp learning rate
-            self.optimization_state["learning_rate"] = np.clip(
-                self.optimization_state["learning_rate"], 0.001, 0.1
-            )
+            self.optimization_state["learning_rate"] = np.clip(self.optimization_state["learning_rate"], 0.001, 0.1)
 
         # Update consensus weights based on colony performance
         await self._update_consensus_weights()
@@ -663,9 +641,7 @@ class BioSymbolicOrchestrator(BaseColony):
 
     def _calculate_colony_consensus(self, colony_results: dict[str, dict[str, Any]]) -> float:
         """Calculate strength of consensus among colonies."""
-        valid_results = {
-            name: result for name, result in colony_results.items() if "error" not in result
-        }
+        valid_results = {name: result for name, result in colony_results.items() if "error" not in result}
 
         if len(valid_results) < 2:
             return 0.5  # Low consensus with insufficient data
@@ -812,8 +788,7 @@ class BioSymbolicOrchestrator(BaseColony):
             # Exponential moving average
             alpha = 0.1
             self.optimization_state["performance_baselines"]["coherence"] = (
-                alpha * coherence
-                + (1 - alpha) * self.optimization_state["performance_baselines"]["coherence"]
+                alpha * coherence + (1 - alpha) * self.optimization_state["performance_baselines"]["coherence"]
             )
 
         # Track processing efficiency
@@ -838,9 +813,7 @@ class BioSymbolicOrchestrator(BaseColony):
             "processing_time_ms": result["processing_time_ms"],
             "colonies_involved": len(self.colonies),
             "qi_enhanced": result["bio_symbolic_state"].get("qi_enhanced", False),
-            "self_healing_applied": result["bio_symbolic_state"].get(
-                "self_healing_activated", False
-            ),
+            "self_healing_applied": result["bio_symbolic_state"].get("self_healing_activated", False),
             "timestamp": result["timestamp"],
         }
 
@@ -866,9 +839,7 @@ class BioSymbolicOrchestrator(BaseColony):
             "colonies": list(self.colonies.keys()),
             "coherence_target": self.coherence_target,
             "coherence_threshold": self.coherence_threshold,
-            "recent_coherence": (
-                self.coherence_history[-1].overall_coherence if self.coherence_history else 0.0
-            ),
+            "recent_coherence": (self.coherence_history[-1].overall_coherence if self.coherence_history else 0.0),
             "consensus_weights": self.consensus_weights,
             "qi_config": self.qi_config,
             "healing_config": self.healing_config,

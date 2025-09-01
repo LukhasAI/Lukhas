@@ -111,8 +111,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
         # Performance tracking
         self.tier_metrics: dict[int, dict[str, Any]] = {
-            i: {"total_tasks": 0, "successful": 0, "failed": 0, "avg_duration": 0.0}
-            for i in range(6)
+            i: {"total_tasks": 0, "successful": 0, "failed": 0, "avg_duration": 0.0} for i in range(6)
         }
 
         # Event publisher
@@ -260,9 +259,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
         # Calculate priority based on tier
         base_priority = priority_override or TaskPriority.NORMAL
-        adjusted_priority = self._calculate_tier_priority(
-            base_priority, tier_profile.priority_boost
-        )
+        adjusted_priority = self._calculate_tier_priority(base_priority, tier_profile.priority_boost)
 
         # Create identity swarm task
         task = IdentitySwarmTask(
@@ -407,9 +404,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
         return required
 
-    def _calculate_tier_priority(
-        self, base_priority: TaskPriority, priority_boost: float
-    ) -> TaskPriority:
+    def _calculate_tier_priority(self, base_priority: TaskPriority, priority_boost: float) -> TaskPriority:
         """Calculate adjusted priority based on tier boost."""
         priority_values = {
             TaskPriority.LOW: 1,
@@ -467,8 +462,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
         # Set timeouts
         timeout_config = {
-            colony: tier_profile.timeout_seconds / len(task.required_colonies)
-            for colony in task.required_colonies
+            colony: tier_profile.timeout_seconds / len(task.required_colonies) for colony in task.required_colonies
         }
 
         return ColonyOrchestration(
@@ -594,9 +588,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             # Calculate overall verification result
             overall_confidence = 0.0
             if results:
-                confidences = [
-                    r.confidence_score for r in results.values() if hasattr(r, "confidence_score")
-                ]
+                confidences = [r.confidence_score for r in results.values() if hasattr(r, "confidence_score")]
                 if confidences:
                     overall_confidence = sum(confidences) / len(confidences)
 
@@ -676,19 +668,15 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             return
 
         # Check if all tasks are complete
-        all_complete = all(
-            task["status"] != "pending" for task in migration_request["verification_tasks"]
-        )
+        all_complete = all(task["status"] != "pending" for task in migration_request["verification_tasks"])
 
         if all_complete:
             # Determine if migration is approved
-            all_successful = all(
-                task["status"] == "completed" for task in migration_request["verification_tasks"]
-            )
+            all_successful = all(task["status"] == "completed" for task in migration_request["verification_tasks"])
 
-            avg_confidence = sum(
-                task.get("confidence", 0) for task in migration_request["verification_tasks"]
-            ) / len(migration_request["verification_tasks"])
+            avg_confidence = sum(task.get("confidence", 0) for task in migration_request["verification_tasks"]) / len(
+                migration_request["verification_tasks"]
+            )
 
             migration_approved = all_successful and avg_confidence >= 0.7
 
@@ -755,9 +743,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
                     # Update health tracking
                     health["last_check"] = datetime.utcnow()
-                    health["success_rate"] = colony_status.get("performance_metrics", {}).get(
-                        "success_rate", 1.0
-                    )
+                    health["success_rate"] = colony_status.get("performance_metrics", {}).get("success_rate", 1.0)
 
                     # Check if healing is needed
                     if colony_status["health_score"] < 0.6:
@@ -794,9 +780,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             "tier_queues": {tier: len(queue) for tier, queue in self.tier_task_queues.items()},
             "active_migrations": len(self.migration_requests),
             "migration_history_count": len(self.migration_history),
-            "total_tasks_processed": sum(
-                m["successful"] + m["failed"] for m in self.tier_metrics.values()
-            ),
+            "total_tasks_processed": sum(m["successful"] + m["failed"] for m in self.tier_metrics.values()),
         }
 
     def get_tier_performance_report(self) -> dict[str, Any]:

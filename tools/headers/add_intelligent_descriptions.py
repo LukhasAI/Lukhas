@@ -24,9 +24,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 TEMPLATE_PATTERN = re.compile(r"(@lukhas/HEADER_FOOTER_TEMPLATE\.py\n)\n", re.MULTILINE)
 
 # Pattern to find existing module info in the file
-MODULE_INFO_PATTERN = re.compile(
-    r'__module_name__\s*=\s*["\']([^"\']+)["\'].*?' r"__tier__\s*=\s*(\d+)", re.DOTALL
-)
+MODULE_INFO_PATTERN = re.compile(r'__module_name__\s*=\s*["\']([^"\']+)["\'].*?' r"__tier__\s*=\s*(\d+)", re.DOTALL)
 
 
 def analyze_code_content(filepath: Path) -> dict[str, str]:
@@ -38,9 +36,7 @@ def analyze_code_content(filepath: Path) -> dict[str, str]:
 
         # Extract module name and tier if available
         module_match = MODULE_INFO_PATTERN.search(content)
-        module_name = (
-            module_match.group(1) if module_match else filepath.stem.replace("_", " ").title()
-        )
+        module_name = module_match.group(1) if module_match else filepath.stem.replace("_", " ").title()
         tier = int(module_match.group(2)) if module_match else 3
 
         # Extract class names

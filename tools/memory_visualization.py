@@ -202,9 +202,7 @@ class MemoryVisualizer:
         # Add fold distribution chart
         fold_sizes = [len(fold.nodes) for fold in self.folds.values()]
         if fold_sizes:
-            chart_data = [
-                {"fold": f"Fold {i + 1}", "nodes": size} for i, size in enumerate(fold_sizes)
-            ]
+            chart_data = [{"fold": f"Fold {i + 1}", "nodes": size} for i, size in enumerate(fold_sizes)]
             self.dashboard.add_chart(
                 "fold_distribution",
                 "bar",
@@ -398,9 +396,7 @@ class MemoryVisualizer:
         self.logger.info(f"Saved 3D plotly visualization: {output_path}")
         return str(output_path)
 
-    def _visualize_fold_matplotlib_3d(
-        self, fold: MemoryFold, save_path: Optional[str] = None
-    ) -> str:
+    def _visualize_fold_matplotlib_3d(self, fold: MemoryFold, save_path: Optional[str] = None) -> str:
         """Create 3D matplotlib visualization"""
         fig = plt.figure(figsize=(12, 8))
         ax = fig.add_subplot(111, projection="3d")

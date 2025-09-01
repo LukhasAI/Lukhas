@@ -189,9 +189,7 @@ class EthicalPerceptionFilter:
 
         # Apply boundary-specific filters
         for boundary in applicable_boundaries:
-            filtered_data, filter_name = await self._apply_boundary_filter(
-                filtered_data, boundary, data_type
-            )
+            filtered_data, filter_name = await self._apply_boundary_filter(filtered_data, boundary, data_type)
             if filter_name:
                 applied_filters.append(filter_name)
 
@@ -524,9 +522,7 @@ class PrivacyPreservingVision:
         technique = self._select_privacy_technique(processing_goal, privacy_requirements)
 
         # Apply privacy-preserving processing
-        results = await self.privacy_techniques[technique](
-            image_data, processing_goal, privacy_requirements
-        )
+        results = await self.privacy_techniques[technique](image_data, processing_goal, privacy_requirements)
 
         return results
 
@@ -612,8 +608,7 @@ class PrivacyPreservingVision:
         # Create model update (no raw data)
         model_update = {
             "feature_statistics": {
-                k: {"mean": float(np.mean(v)), "std": float(np.std(v))}
-                for k, v in local_features.items()
+                k: {"mean": float(np.mean(v)), "std": float(np.std(v))} for k, v in local_features.items()
             },
             "sample_count": 1,
         }

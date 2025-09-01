@@ -83,9 +83,7 @@ class SymbolicLoopHarmonizer:
         self.log_dir = Path("lukhas/logs")
         self.log_dir.mkdir(parents=True, exist_ok=True)
 
-    async def harmonize_trace(
-        self, unstable_trace: dict[str, Any], context: dict[str, Any] = None
-    ) -> dict[str, Any]:
+    async def harmonize_trace(self, unstable_trace: dict[str, Any], context: dict[str, Any] = None) -> dict[str, Any]:
         """
         Harmonize an unstable reasoning trace
 
@@ -116,9 +114,7 @@ class SymbolicLoopHarmonizer:
                     applied_patches.append(patch)
 
                     # Record impact
-                    patch.impact = await self._measure_patch_impact(
-                        unstable_trace, harmonized_trace
-                    )
+                    patch.impact = await self._measure_patch_impact(unstable_trace, harmonized_trace)
 
                 except Exception as e:
                     logger.error(f"Failed to apply patch: {e}")
@@ -219,9 +215,7 @@ class SymbolicLoopHarmonizer:
 
         return False
 
-    async def _generate_symbolic_patches(
-        self, analysis: dict[str, Any], trace: dict[str, Any]
-    ) -> list[SymbolicPatch]:
+    async def _generate_symbolic_patches(self, analysis: dict[str, Any], trace: dict[str, Any]) -> list[SymbolicPatch]:
         """
         Generate symbolic patches based on analysis
         """
@@ -349,9 +343,7 @@ class SymbolicLoopHarmonizer:
             confidence=0.6,
         )
 
-    async def _apply_symbolic_patch(
-        self, trace: dict[str, Any], patch: SymbolicPatch
-    ) -> dict[str, Any]:
+    async def _apply_symbolic_patch(self, trace: dict[str, Any], patch: SymbolicPatch) -> dict[str, Any]:
         """
         Apply a symbolic patch to a trace
         """
@@ -397,9 +389,7 @@ class SymbolicLoopHarmonizer:
 
         return patched_trace
 
-    async def _measure_patch_impact(
-        self, original: dict[str, Any], patched: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _measure_patch_impact(self, original: dict[str, Any], patched: dict[str, Any]) -> dict[str, Any]:
         """
         Measure the impact of a patch
         """
@@ -415,9 +405,7 @@ class SymbolicLoopHarmonizer:
 
         return impact
 
-    async def _integrate_dream_state(
-        self, trace: dict[str, Any], patches: list[SymbolicPatch]
-    ) -> dict[str, Any]:
+    async def _integrate_dream_state(self, trace: dict[str, Any], patches: list[SymbolicPatch]) -> dict[str, Any]:
         """
         Integrate dream state adjustments
         """

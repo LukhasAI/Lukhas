@@ -134,11 +134,7 @@ class IdentityAutomationSuite:
         if guard_script.exists():
             try:
                 # Validate key API files
-                api_files = (
-                    list((self.root_path / "api").glob("*.py"))
-                    if (self.root_path / "api").exists()
-                    else []
-                )
+                api_files = list((self.root_path / "api").glob("*.py")) if (self.root_path / "api").exists() else []
 
                 for api_file in api_files[:3]:  # Validate first 3 API files
                     result = subprocess.run(

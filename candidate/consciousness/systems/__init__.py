@@ -102,9 +102,7 @@ __all__ = [
 # runtime errors on `import *`
 __all__ = [name for name in __all__ if globals().get(name) is not None]
 
-logger.info(
-    f"ΛTRACE: 'consciousness.core_consciousness' package initialized. Exposed symbols in __all__: {__all__}"
-)
+logger.info(f"ΛTRACE: 'consciousness.core_consciousness' package initialized. Exposed symbols in __all__: {__all__}")
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

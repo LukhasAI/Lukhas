@@ -279,9 +279,7 @@ class DynamicQRGLYPHEngine:
                 return False, {"error": "QRGLYPH expired"}
 
             # Verify signature
-            if not self._verify_signature(
-                qrglyph.payload, qrglyph.signature, qrglyph.ed448_public_key
-            ):
+            if not self._verify_signature(qrglyph.payload, qrglyph.signature, qrglyph.ed448_public_key):
                 return False, {"error": "Invalid signature"}
 
             # Verify user binding
@@ -289,9 +287,7 @@ class DynamicQRGLYPHEngine:
                 return False, {"error": "User mismatch"}
 
             # Verify consciousness binding
-            if not self._verify_consciousness_binding(
-                qrglyph.metadata.consciousness_binding, consciousness_state
-            ):
+            if not self._verify_consciousness_binding(qrglyph.metadata.consciousness_binding, consciousness_state):
                 return False, {"error": "Consciousness state mismatch"}
 
             # Verify biometric binding
@@ -317,23 +313,17 @@ class DynamicQRGLYPHEngine:
             return True, {
                 "glyph_id": qrglyph.glyph_id,
                 "glyph_type": qrglyph.metadata.glyph_type.value,
-                "consciousness_coherence": qrglyph.metadata.consciousness_binding.get(
-                    "coherence_level", 0
-                ),
+                "consciousness_coherence": qrglyph.metadata.consciousness_binding.get("coherence_level", 0),
                 "cultural_symbols": qrglyph.metadata.cultural_symbols,
                 "rotation_count": qrglyph.metadata.rotation_count,
-                "remaining_lifetime": (
-                    qrglyph.metadata.expiration_time - datetime.utcnow()
-                ).total_seconds(),
+                "remaining_lifetime": (qrglyph.metadata.expiration_time - datetime.utcnow()).total_seconds(),
             }
 
         except Exception as e:
             logger.error(f"❌ QRGLYPH validation error: {e}")
             return False, {"error": str(e)}
 
-    async def generate_zk_proof(
-        self, qrglyph: DynamicQRGLYPH, private_witness: dict[str, Any]
-    ) -> ZKProof:
+    async def generate_zk_proof(self, qrglyph: DynamicQRGLYPH, private_witness: dict[str, Any]) -> ZKProof:
         """
         Generate zero-knowledge proof for QRGLYPH authentication
         """
@@ -409,17 +399,14 @@ class DynamicQRGLYPHEngine:
         # Create new GLYPH with incremented rotation count
         new_payload = old_glyph.payload.copy()
         new_payload["rotation_sequence"] = self._generate_rotation_sequence()
-        new_payload["previous_glyph_hash"] = hashlib.sha256(
-            old_glyph.to_base64().encode()
-        ).hexdigest()
+        new_payload["previous_glyph_hash"] = hashlib.sha256(old_glyph.to_base64().encode()).hexdigest()
 
         new_signature = self._sign_payload(new_payload)
 
         new_metadata = GLYPHMetadata(
             glyph_type=old_glyph.metadata.glyph_type,
             creation_time=datetime.utcnow(),
-            expiration_time=datetime.utcnow()
-            + self._get_glyph_lifetime(old_glyph.metadata.glyph_type),
+            expiration_time=datetime.utcnow() + self._get_glyph_lifetime(old_glyph.metadata.glyph_type),
             consciousness_binding=old_glyph.metadata.consciousness_binding,
             cultural_symbols=old_glyph.metadata.cultural_symbols,
             biometric_hash=old_glyph.metadata.biometric_hash,
@@ -525,9 +512,7 @@ class DynamicQRGLYPHEngine:
         payload_bytes = json.dumps(payload, sort_keys=True).encode()
         return self.ed448_private_key.sign(payload_bytes)
 
-    def _verify_signature(
-        self, payload: dict[str, Any], signature: bytes, public_key_bytes: bytes
-    ) -> bool:
+    def _verify_signature(self, payload: dict[str, Any], signature: bytes, public_key_bytes: bytes) -> bool:
         """Verify Ed448 signature"""
         try:
             public_key = ed448.Ed448PublicKey.from_public_bytes(public_key_bytes)
@@ -561,15 +546,11 @@ class DynamicQRGLYPHEngine:
         # Check coherence level
         return binding.get("coherence_level", 0) >= 0.6
 
-    async def _generate_zk_commitment(
-        self, payload: dict[str, Any], consciousness_binding: dict[str, Any]
-    ) -> str:
+    async def _generate_zk_commitment(self, payload: dict[str, Any], consciousness_binding: dict[str, Any]) -> str:
         """Generate ZK commitment for QRGLYPH"""
         commitment_data = {
             "payload_hash": hashlib.sha256(json.dumps(payload).encode()).hexdigest(),
-            "consciousness_hash": hashlib.sha256(
-                json.dumps(consciousness_binding).encode()
-            ).hexdigest(),
+            "consciousness_hash": hashlib.sha256(json.dumps(consciousness_binding).encode()).hexdigest(),
             "timestamp": datetime.utcnow().isoformat(),
         }
 

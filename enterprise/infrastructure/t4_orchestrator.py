@@ -340,9 +340,7 @@ class T4EnterpriseOrchestrator:
                 },
             )
             logger.info("   ✅ Safety systems initialized")
-            logger.info(
-                f"   Constitutional AI drift threshold: {self.constitutional_ai.get_drift_threshold()}"
-            )
+            logger.info(f"   Constitutional AI drift threshold: {self.constitutional_ai.get_drift_threshold()}")
 
         except Exception as e:
             logger.error(f"Failed to initialize safety stack: {e}")
@@ -368,9 +366,7 @@ class T4EnterpriseOrchestrator:
                 },
             )
             logger.info("   ✅ Rigor systems initialized")
-            logger.info(
-                f"   Statistical significance threshold: {self.ab_testing.significance_threshold}"
-            )
+            logger.info(f"   Statistical significance threshold: {self.ab_testing.significance_threshold}")
 
         except Exception as e:
             logger.error(f"Failed to initialize rigor stack: {e}")
@@ -401,9 +397,7 @@ class T4EnterpriseOrchestrator:
                     if service.health == T4ServiceHealth.WARNING
                     else "❌"
                 )
-                logger.info(
-                    f"   {health_icon} {service.service_name}: {service.health.value} ({response_time:.1f}ms)"
-                )
+                logger.info(f"   {health_icon} {service.service_name}: {service.health.value} ({response_time:.1f}ms)")
 
         except Exception as e:
             logger.error(f"Health checks failed: {e}")
@@ -440,11 +434,7 @@ class T4EnterpriseOrchestrator:
                         "details": {"sentry_status": "inactive"},
                     }
 
-            elif (
-                service_name == "mongodb"
-                and self.mongodb_integration
-                and self.mongodb_integration.enabled
-            ):
+            elif service_name == "mongodb" and self.mongodb_integration and self.mongodb_integration.enabled:
                 # Check MongoDB connectivity (would test actual connection)
                 return {
                     "health": T4ServiceHealth.HEALTHY,
@@ -490,21 +480,13 @@ class T4EnterpriseOrchestrator:
             scientific_rigor_score = 91.8
 
             # Calculate overall health
-            healthy_services = len(
-                [s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY]
-            )
+            healthy_services = len([s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY])
             total_services = len(self.services)
-            service_availability = (
-                (healthy_services / total_services * 100) if total_services > 0 else 0
-            )
+            service_availability = (healthy_services / total_services * 100) if total_services > 0 else 0
 
             # Overall health score calculation
             scale_score = 100 if api_latency_p95 < 50 else max(0, 100 - (api_latency_p95 - 50))
-            safety_score = (
-                100
-                if constitutional_drift < 0.05
-                else max(0, 100 - (constitutional_drift - 0.05) * 1000)
-            )
+            safety_score = 100 if constitutional_drift < 0.05 else max(0, 100 - (constitutional_drift - 0.05) * 1000)
             rigor_score = scientific_rigor_score
 
             overall_health_score = (scale_score + safety_score + rigor_score) / 3
@@ -514,8 +496,7 @@ class T4EnterpriseOrchestrator:
                 [
                     api_latency_p95 <= self.config["sla_targets"]["api_latency_p95_ms"],
                     uptime_percentage >= self.config["sla_targets"]["uptime_percentage"],
-                    constitutional_drift
-                    <= self.config["sla_targets"]["constitutional_drift_threshold"],
+                    constitutional_drift <= self.config["sla_targets"]["constitutional_drift_threshold"],
                 ]
             )
 
@@ -668,9 +649,7 @@ class T4EnterpriseOrchestrator:
                 await self._perform_health_checks()
 
                 # Update system status based on service health
-                healthy_services = len(
-                    [s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY]
-                )
+                healthy_services = len([s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY])
                 total_services = len(self.services)
 
                 if total_services == 0:
@@ -714,9 +693,7 @@ class T4EnterpriseOrchestrator:
             "github_student_pack": {
                 "datadog_enabled": self.datadog_monitor.enabled if self.datadog_monitor else False,
                 "sentry_enabled": self.sentry_monitor.enabled if self.sentry_monitor else False,
-                "mongodb_enabled": self.mongodb_integration.enabled
-                if self.mongodb_integration
-                else False,
+                "mongodb_enabled": self.mongodb_integration.enabled if self.mongodb_integration else False,
             },
             "enterprise_standards": {
                 "sam_altman_scale": "implemented",
@@ -829,11 +806,7 @@ async def main():
         print("🏥 Service Health Status:")
         for service_name, service_data in status_report["services"].items():
             health_icon = (
-                "✅"
-                if service_data["health"] == "healthy"
-                else "⚠️"
-                if service_data["health"] == "warning"
-                else "❌"
+                "✅" if service_data["health"] == "healthy" else "⚠️" if service_data["health"] == "warning" else "❌"
             )
             print(
                 f"  {health_icon} {service_name}: {service_data['health']} ({service_data['response_time_ms']:.1f}ms)"

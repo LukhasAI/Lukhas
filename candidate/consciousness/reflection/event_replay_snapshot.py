@@ -405,10 +405,7 @@ class SnapshotStore:
 
     async def save_snapshot(self, snapshot: ActorStateSnapshot):
         """Save a snapshot to disk"""
-        filename = (
-            self.storage_path
-            / f"{snapshot.actor_id}_{snapshot.timestamp:.0f}_{snapshot.event_id}.snap"
-        )
+        filename = self.storage_path / f"{snapshot.actor_id}_{snapshot.timestamp:.0f}_{snapshot.event_id}.snap"
 
         # Compress snapshot data
         compressed_data = gzip.compress(pickle.dumps(snapshot))
@@ -422,9 +419,7 @@ class SnapshotStore:
 
         logger.info(f"Saved snapshot for {snapshot.actor_id} at {snapshot.timestamp}")
 
-    async def load_snapshot(
-        self, actor_id: str, timestamp: Optional[float] = None
-    ) -> Optional[ActorStateSnapshot]:
+    async def load_snapshot(self, actor_id: str, timestamp: Optional[float] = None) -> Optional[ActorStateSnapshot]:
         """Load a snapshot for an actor"""
         with self._lock:
             snapshots = self.snapshot_index.get(actor_id, [])
@@ -463,14 +458,10 @@ class SnapshotStore:
         with self._lock:
             for actor_id in list(self.snapshot_index.keys()):
                 # Filter out old snapshots
-                new_snapshots = [
-                    (t, f) for t, f in self.snapshot_index[actor_id] if t > cutoff_time
-                ]
+                new_snapshots = [(t, f) for t, f in self.snapshot_index[actor_id] if t > cutoff_time]
 
                 # Delete old files
-                old_snapshots = [
-                    (t, f) for t, f in self.snapshot_index[actor_id] if t <= cutoff_time
-                ]
+                old_snapshots = [(t, f) for t, f in self.snapshot_index[actor_id] if t <= cutoff_time]
 
                 for _, filename in old_snapshots:
                     try:
@@ -627,9 +618,7 @@ class EventSourcedActor(Actor):
 
         try:
             # Get events
-            events = await self.event_store.get_events_for_actor(
-                self.actor_id, start_time, end_time
-            )
+            events = await self.event_store.get_events_for_actor(self.actor_id, start_time, end_time)
 
             # Find latest snapshot before start time
             if self.snapshot_store and start_time:
@@ -677,9 +666,7 @@ class ReplayController:
         self.event_store = event_store
         self.snapshot_store = snapshot_store
 
-    async def replay_scenario(
-        self, correlation_id: str, speed: float = 1.0, isolated: bool = True
-    ) -> dict[str, Any]:
+    async def replay_scenario(self, correlation_id: str, speed: float = 1.0, isolated: bool = True) -> dict[str, Any]:
         """Replay all events for a correlation ID"""
         # Get all events
         events = await self.event_store.get_events_by_correlation(correlation_id)

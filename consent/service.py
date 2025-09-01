@@ -43,9 +43,7 @@ class ConsentGrantRequest(BaseModel):
     purpose_id: str = Field(..., description="Purpose of the consent")
     ttl_minutes: int = Field(60, description="Time-to-live in minutes")
     resource_pattern: Optional[str] = Field(None, description="Resource filter pattern")
-    context: Optional[dict[str, Any]] = Field(
-        None, description="Additional context for the request"
-    )
+    context: Optional[dict[str, Any]] = Field(None, description="Additional context for the request")
 
     @field_validator("scopes")
     def validate_scopes(cls, v):
@@ -166,9 +164,7 @@ class ConsentService:
 
     async def initialize(self):
         """Initialize database connection pool"""
-        self.db_pool = await asyncpg.create_pool(
-            self.db_url, min_size=2, max_size=10, command_timeout=30
-        )
+        self.db_pool = await asyncpg.create_pool(self.db_url, min_size=2, max_size=10, command_timeout=30)
 
     async def close(self):
         """Close database connections"""
@@ -216,14 +212,10 @@ class ConsentService:
                     raise ValueError(f"Escalation triggered: {escalation_result['reason']}")
 
                 # Validate service and scopes exist
-                service_info = await self._validate_service_and_scopes(
-                    conn, request.service, request.scopes
-                )
+                service_info = await self._validate_service_and_scopes(conn, request.service, request.scopes)
 
                 # Determine TTL based on scope levels
-                effective_ttl = self._calculate_effective_ttl(
-                    service_info["scope_levels"], request.ttl_minutes
-                )
+                effective_ttl = self._calculate_effective_ttl(service_info["scope_levels"], request.ttl_minutes)
 
                 # Create consent grant using database function
                 grant_id = await conn.fetchval(
@@ -289,9 +281,7 @@ class ConsentService:
                 )
                 raise
 
-    async def revoke_consent(
-        self, request: ConsentRevokeRequest, client_ip: Optional[str] = None
-    ) -> int:
+    async def revoke_consent(self, request: ConsentRevokeRequest, client_ip: Optional[str] = None) -> int:
         """
         Revoke consent grants and invalidate tokens.
 
@@ -480,9 +470,7 @@ class ConsentService:
 
     # Private helper methods
 
-    async def _validate_service_and_scopes(
-        self, conn, service_name: str, scopes: list[str]
-    ) -> dict:
+    async def _validate_service_and_scopes(self, conn, service_name: str, scopes: list[str]) -> dict:
         """Validate that service and scopes exist"""
         service_query = """
             SELECT s.service_id, s.service_name, s.max_scope_level,
@@ -606,9 +594,7 @@ class ConsentService:
             caveats=caveats,
         )
 
-    def _verify_macaroon(
-        self, macaroon, required_scopes: list[str], resource_id: Optional[str]
-    ) -> dict[str, Any]:
+    def _verify_macaroon(self, macaroon, required_scopes: list[str], resource_id: Optional[str]) -> dict[str, Any]:
         """Verify macaroon caveats (production implementation)"""
         # In production: implement full macaroon verification
         # For now, extract basic claims
@@ -646,9 +632,7 @@ class ConsentService:
             "resource_pattern": caveat_dict.get("resource_pattern"),
         }
 
-    def _mock_verify_token(
-        self, token: str, required_scopes: list[str], resource_id: Optional[str]
-    ) -> dict[str, Any]:
+    def _mock_verify_token(self, token: str, required_scopes: list[str], resource_id: Optional[str]) -> dict[str, Any]:
         """Mock token verification for development"""
         if not token.startswith("mock_macaroon_"):
             raise ValueError("Invalid mock token format")
@@ -770,9 +754,7 @@ class ConsentService:
         # For now, we will just return a default trust score
         return {"final_trust_score": 0.8}
 
-    async def _apply_escalation_rules(
-        self, request: ConsentGrantRequest, trust_score: float
-    ) -> Optional[dict]:
+    async def _apply_escalation_rules(self, request: ConsentGrantRequest, trust_score: float) -> Optional[dict]:
         """Apply escalation rules with governance and Trinity Framework awareness"""
         eval_context = {
             "permission_type": "read",  # Hardcoded for now
@@ -823,9 +805,7 @@ class ConsentService:
     async def delete_user_consent_grants(self, lid: str) -> int:
         """Delete all consent grants for a user."""
         async with self.db_pool.acquire() as conn:
-            result = await conn.execute(
-                "DELETE FROM consent.consent_grants WHERE user_lid = $1", lid
-            )
+            result = await conn.execute("DELETE FROM consent.consent_grants WHERE user_lid = $1", lid)
             return int(result.split(" ")[1])
 
     async def update_consent_grant(self, grant_id: str, new_data: dict) -> Optional[dict]:
@@ -839,9 +819,7 @@ class ConsentService:
     async def get_user_audit_trail(self, lid: str) -> list[dict]:
         """Get the audit trail for a user."""
         async with self.db_pool.acquire() as conn:
-            rows = await conn.fetch(
-                "SELECT * FROM consent.audit_log WHERE user_lid = $1 ORDER BY event_at DESC", lid
-            )
+            rows = await conn.fetch("SELECT * FROM consent.audit_log WHERE user_lid = $1 ORDER BY event_at DESC", lid)
             return [dict(row) for row in rows]
 
 
@@ -882,9 +860,7 @@ async def demonstrate_consent_service():
 
         # Escalate to content access
         print("\n📈 Escalating to content access...")
-        content_token = await service.escalate_to_content(
-            "gonzo", "gmail", "thread_123", "Read specific email", 15
-        )
+        content_token = await service.escalate_to_content("gonzo", "gmail", "thread_123", "Read specific email", 15)
         print(f"🎟️  Content token: {content_token.scopes}")
 
         # Revoke consent

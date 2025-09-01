@@ -98,26 +98,18 @@ class TierValidator:
                 user_activity_days = self._calculate_activity_days(user_data)
                 min_days = upgrade_reqs["min_activity_days"]
                 if user_activity_days < min_days:
-                    result.requirements_missing.append(
-                        f"Activity days: {user_activity_days}/{min_days}"
-                    )
+                    result.requirements_missing.append(f"Activity days: {user_activity_days}/{min_days}")
                 else:
-                    result.requirements_met.append(
-                        f"Activity days: {user_activity_days}/{min_days} ✓"
-                    )
+                    result.requirements_met.append(f"Activity days: {user_activity_days}/{min_days} ✓")
 
             # Entropy score requirement
             if "min_entropy_score" in upgrade_reqs:
                 user_entropy = user_data.get("entropy_score", 0.0)
                 min_entropy = upgrade_reqs["min_entropy_score"]
                 if user_entropy < min_entropy:
-                    result.requirements_missing.append(
-                        f"Entropy score: {user_entropy:.1f}/{min_entropy}"
-                    )
+                    result.requirements_missing.append(f"Entropy score: {user_entropy:.1f}/{min_entropy}")
                 else:
-                    result.requirements_met.append(
-                        f"Entropy score: {user_entropy:.1f}/{min_entropy} ✓"
-                    )
+                    result.requirements_met.append(f"Entropy score: {user_entropy:.1f}/{min_entropy} ✓")
 
             # Verification requirement
             if upgrade_reqs.get("verification_required", False):
@@ -138,9 +130,7 @@ class TierValidator:
                 user_referrals = user_data.get("referral_count", 0)
                 min_referrals = upgrade_reqs["referrals_required"]
                 if user_referrals < min_referrals:
-                    result.requirements_missing.append(
-                        f"Referrals: {user_referrals}/{min_referrals}"
-                    )
+                    result.requirements_missing.append(f"Referrals: {user_referrals}/{min_referrals}")
                 else:
                     result.requirements_met.append(f"Referrals: {user_referrals}/{min_referrals} ✓")
 
@@ -179,9 +169,7 @@ class TierValidator:
 
             # Generate next tier requirements if current upgrade not eligible
             if not result.eligible_for_upgrade and target_tier < 5:
-                result.next_tier_requirements = self._get_next_tier_requirements(
-                    target_tier + 1, user_data
-                )
+                result.next_tier_requirements = self._get_next_tier_requirements(target_tier + 1, user_data)
 
         except Exception as e:
             result.errors.append(f"Validation error: {e!s}")
@@ -233,9 +221,7 @@ class TierValidator:
             # 🧠 Consciousness pattern analysis
             consciousness_score = self._analyze_consciousness_patterns(user_data)
             if consciousness_score < (tier_level * 0.15):  # Progressive consciousness requirement
-                eligibility_issues.append(
-                    f"Consciousness pattern insufficient: {consciousness_score:.2f}"
-                )
+                eligibility_issues.append(f"Consciousness pattern insufficient: {consciousness_score:.2f}")
 
             return len(eligibility_issues) == 0, eligibility_issues
 
@@ -275,9 +261,7 @@ class TierValidator:
                     "eligible_for_upgrade": validation_result.eligible_for_upgrade,
                     "requirements_met": validation_result.requirements_met,
                     "requirements_missing": validation_result.requirements_missing,
-                    "completion_percentage": self._calculate_progression_percentage(
-                        validation_result
-                    ),
+                    "completion_percentage": self._calculate_progression_percentage(validation_result),
                 }
 
             # Usage statistics
@@ -561,9 +545,7 @@ class TierValidator:
 
     def _calculate_progression_percentage(self, validation_result: TierValidationResult) -> float:
         """Calculate tier progression percentage"""
-        total_reqs = len(validation_result.requirements_met) + len(
-            validation_result.requirements_missing
-        )
+        total_reqs = len(validation_result.requirements_met) + len(validation_result.requirements_missing)
         if total_reqs == 0:
             return 100.0
         return (len(validation_result.requirements_met) / total_reqs) * 100.0
@@ -576,9 +558,7 @@ class TierValidator:
         if current_tier < 5:
             entropy_score = user_data.get("entropy_score", 0.0)
             if entropy_score < 3.0:
-                recommendations.append(
-                    "🔮 Increase entropy score through varied symbolic character usage"
-                )
+                recommendations.append("🔮 Increase entropy score through varied symbolic character usage")
 
             if not user_data.get("verified", False):
                 recommendations.append("✅ Complete identity verification to unlock higher tiers")
@@ -604,9 +584,7 @@ class TierValidator:
 class WebAuthnTierValidator(TierValidator):
     """🔐 WebAuthn/FIDO2-specific tier validation extensions"""
 
-    def validate_webauthn_tier_access(
-        self, user_id: str, requested_tier: int, webauthn_credential: dict
-    ) -> bool:
+    def validate_webauthn_tier_access(self, user_id: str, requested_tier: int, webauthn_credential: dict) -> bool:
         """Validate tier access with WebAuthn credential validation"""
         try:
             # Basic tier validation first

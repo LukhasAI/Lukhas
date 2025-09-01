@@ -365,9 +365,7 @@ class LogicalReasoningAgent(ReasoningAgent):
 
         return premises
 
-    def _apply_deduction(
-        self, question: str, premises: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _apply_deduction(self, question: str, premises: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Apply deductive reasoning to derive conclusions"""
         conclusions = []
 
@@ -386,8 +384,7 @@ class LogicalReasoningAgent(ReasoningAgent):
                         if any(word in question.lower() for word in consequent.lower().split()):
                             conclusions.append(
                                 {
-                                    "conclusion": f"Based on {antecedent}, "
-                                    f"we can deduce: {consequent}",
+                                    "conclusion": f"Based on {antecedent}, " f"we can deduce: {consequent}",
                                     "confidence": 0.8,
                                     "symbols": self._extract_symbols(content_str),
                                 }
@@ -439,9 +436,7 @@ class CausalReasoningAgent(ReasoningAgent):
 
         return insight
 
-    def _build_causal_chain(
-        self, question: str, memories: list[tuple[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _build_causal_chain(self, question: str, memories: list[tuple[str, Any]]) -> list[dict[str, Any]]:
         """Build a causal chain from memories"""
         chain = []
 
@@ -558,9 +553,7 @@ class CreativeReasoningAgent(ReasoningAgent):
 
         return insight
 
-    def _generate_associations(
-        self, question: str, memories: list[tuple[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _generate_associations(self, question: str, memories: list[tuple[str, Any]]) -> list[dict[str, Any]]:
         """Generate creative associations from memories"""
         associations = []
 
@@ -613,8 +606,7 @@ class CreativeReasoningAgent(ReasoningAgent):
                             {
                                 "insight": insight,
                                 "novelty_score": novelty,
-                                "confidence": 0.6
-                                * novelty,  # Creative insights have moderate confidence
+                                "confidence": 0.6 * novelty,  # Creative insights have moderate confidence
                                 "symbols": self._extract_symbols(insight),
                                 "new_symbols": [f"ΛCREATIVE_{uuid.uuid4().hex[:6]}"],
                             }
@@ -651,10 +643,7 @@ class CreativeReasoningAgent(ReasoningAgent):
 
         # Generate creative connection
         if assoc1["type"] == "metaphor":
-            return (
-                f"By viewing '{content1}' through the lens of '{content2}', "
-                f"we discover a new perspective"
-            )
+            return f"By viewing '{content1}' through the lens of '{content2}', " f"we discover a new perspective"
         elif assoc1["type"] == "lateral":
             return f"The unexpected connection between '{content1}' and '{content2}' suggests a novel approach"
         else:
@@ -818,10 +807,7 @@ class ReasoningColony:
                 agent.reasoner_type in query.required_reasoners
                 or (query.emotional_context > 0.7 and agent.reasoner_type == ReasonerType.EMOTIONAL)
                 or ("why" in query.question.lower() and agent.reasoner_type == ReasonerType.CAUSAL)
-                or (
-                    "should" in query.question.lower()
-                    and agent.reasoner_type == ReasonerType.ETHICAL
-                )
+                or ("should" in query.question.lower() and agent.reasoner_type == ReasonerType.ETHICAL)
             ):
                 relevant.append(agent)
 
@@ -866,9 +852,7 @@ class ReasoningColony:
 
         return required
 
-    async def _build_consensus(
-        self, query: ReasoningQuery, insights: list[ReasoningInsight]
-    ) -> dict[str, Any]:
+    async def _build_consensus(self, query: ReasoningQuery, insights: list[ReasoningInsight]) -> dict[str, Any]:
         """Build consensus from multiple insights"""
         if not insights:
             return {"reached": False, "conclusions": [], "confidence": 0.0}
@@ -898,10 +882,7 @@ class ReasoningColony:
                 )
                 total_confidence += group_confidence
 
-        reached = (
-            len(conclusions) > 0
-            and (total_confidence / len(conclusions)) >= query.required_confidence
-        )
+        reached = len(conclusions) > 0 and (total_confidence / len(conclusions)) >= query.required_confidence
 
         return {
             "reached": reached,
@@ -909,9 +890,7 @@ class ReasoningColony:
             "confidence": (total_confidence / len(conclusions) if conclusions else 0.0),
         }
 
-    def _group_similar_insights(
-        self, insights: list[ReasoningInsight]
-    ) -> list[list[ReasoningInsight]]:
+    def _group_similar_insights(self, insights: list[ReasoningInsight]) -> list[list[ReasoningInsight]]:
         """Group insights by similarity"""
         groups = []
         used = set()
@@ -937,9 +916,7 @@ class ReasoningColony:
 
         return groups
 
-    def _calculate_insight_similarity(
-        self, insight1: ReasoningInsight, insight2: ReasoningInsight
-    ) -> float:
+    def _calculate_insight_similarity(self, insight1: ReasoningInsight, insight2: ReasoningInsight) -> float:
         """Calculate similarity between two insights"""
         # Symbol overlap
         symbols1 = insight1.supporting_symbols | insight1.derived_symbols
@@ -1034,13 +1011,10 @@ class ReasoningColony:
             "active_queries": len(self.active_queries),
             "completed_queries": len(self.completed_queries),
             "total_queries": self.total_queries,
-            "consensus_rate": (
-                self.consensus_reached / self.total_queries if self.total_queries > 0 else 0
-            ),
+            "consensus_rate": (self.consensus_reached / self.total_queries if self.total_queries > 0 else 0),
             "insights_generated": self.insights_generated,
             "agent_distribution": {
-                t.value: sum(1 for a in self.agents.values() if a.reasoner_type == t)
-                for t in ReasonerType
+                t.value: sum(1 for a in self.agents.values() if a.reasoner_type == t) for t in ReasonerType
             },
         }
 

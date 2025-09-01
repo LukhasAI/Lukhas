@@ -204,9 +204,7 @@ def generate_todo_report(all_todos: list[dict]) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="T4 TODO Marker - Annotate TODO items with suggestions"
-    )
+    parser = argparse.ArgumentParser(description="T4 TODO Marker - Annotate TODO items with suggestions")
     parser.add_argument("paths", nargs="*", default=["."], help="Paths to scan for TODOs")
     parser.add_argument(
         "--dry-run",
@@ -244,11 +242,7 @@ def main():
             files_to_process = []
             for root, dirs, files in os.walk(path):
                 # Skip denied directories
-                dirs[:] = [
-                    d
-                    for d in dirs
-                    if not any(pattern in os.path.join(root, d) for pattern in deny_patterns)
-                ]
+                dirs[:] = [d for d in dirs if not any(pattern in os.path.join(root, d) for pattern in deny_patterns)]
 
                 for file in files:
                     if file.endswith(".py"):

@@ -314,11 +314,7 @@ class NodeRegistry:
 
         # Add any public properties
         for attr in dir(node):
-            if (
-                not attr.startswith("_")
-                and not callable(getattr(node, attr))
-                and attr not in ["agi", "logger"]
-            ):
+            if not attr.startswith("_") and not callable(getattr(node, attr)) and attr not in ["agi", "logger"]:
                 info[attr] = getattr(node, attr)
 
         return info

@@ -297,9 +297,7 @@ class EnhancedVoiceProcessor:
                 )
 
             # Analyze context through consciousness
-            consciousness_insights = await self.consciousness_adapter.analyze_context_for_voice(
-                context
-            )
+            consciousness_insights = await self.consciousness_adapter.analyze_context_for_voice(context)
 
             # Determine processing approach based on mode
             if mode == VoiceProcessingMode.REAL_TIME:
@@ -307,9 +305,7 @@ class EnhancedVoiceProcessor:
             elif mode == VoiceProcessingMode.STREAMING:
                 result = await self._process_streaming(text, context, consciousness_insights)
             elif mode == VoiceProcessingMode.CONSCIOUSNESS_DRIVEN:
-                result = await self._process_consciousness_driven(
-                    text, context, consciousness_insights
-                )
+                result = await self._process_consciousness_driven(text, context, consciousness_insights)
             else:  # BATCH or INTERACTIVE
                 result = await self._process_batch(text, context, consciousness_insights)
 
@@ -439,9 +435,7 @@ class EnhancedVoiceProcessor:
             quality_metrics={"estimated_quality": 0.85},
         )
 
-    def _get_consciousness_adapted_parameters(
-        self, consciousness_insights: dict[str, Any]
-    ) -> VoiceParameters:
+    def _get_consciousness_adapted_parameters(self, consciousness_insights: dict[str, Any]) -> VoiceParameters:
         """Get voice parameters adapted from consciousness insights"""
         recommendations = consciousness_insights.get("recommended_voice_parameters", {})
 
@@ -690,9 +684,7 @@ class VoiceSystemEnhanced:
 
         session = self.active_sessions[session_id]
         session["texts_processed"] = session.get("texts_processed", 0) + 1
-        session["total_processing_time"] = (
-            session.get("total_processing_time", 0.0) + result.processing_time_ms
-        )
+        session["total_processing_time"] = session.get("total_processing_time", 0.0) + result.processing_time_ms
         session["last_text"] = text
         session["last_result"] = result.to_dict()
         session["updated"] = time.time()

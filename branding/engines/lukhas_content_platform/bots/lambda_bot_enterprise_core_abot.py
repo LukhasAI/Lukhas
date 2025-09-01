@@ -29,9 +29,7 @@ except ImportError:
     print("Warning: Could not import Enhanced AI Bot. Creating standalone implementation.")
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("CoreABot")
 
 
@@ -111,9 +109,7 @@ class CoreConsciousnessSimulator:
         self.evolution_points = 0
         self.state_transitions = 0
 
-    def evolve_consciousness(
-        self, complexity_score: float
-    ) -> Tuple[ConsciousnessState, Optional[UpgradePrompt]]:
+    def evolve_consciousness(self, complexity_score: float) -> Tuple[ConsciousnessState, Optional[UpgradePrompt]]:
         """Evolve consciousness with tier restrictions"""
         target_state = self._calculate_target_state(complexity_score)
 
@@ -169,9 +165,7 @@ class CoreSelfCodingEngine:
         self.daily_deployments = 0
         self.complexity_used = 0
 
-    async def generate_code(
-        self, request: str, context: Dict
-    ) -> Tuple[Optional[str], Optional[UpgradePrompt]]:
+    async def generate_code(self, request: str, context: Dict) -> Tuple[Optional[str], Optional[UpgradePrompt]]:
         """Generate code with tier restrictions"""
         estimated_complexity = self._estimate_complexity(request)
 
@@ -421,9 +415,7 @@ class CoreABot:
 
         return base_personality
 
-    async def process_message(
-        self, user_input: str, context: Optional[Dict] = None
-    ) -> CoreΛBotResponse:
+    async def process_message(self, user_input: str, context: Optional[Dict] = None) -> CoreΛBotResponse:
         """Process user message with tiered capabilities"""
         start_time = datetime.now()
         context = context or {}
@@ -435,9 +427,7 @@ class CoreABot:
             complexity_score = self._calculate_complexity(user_input)
 
             # Evolve consciousness based on complexity
-            new_state, consciousness_upgrade = self.consciousness.evolve_consciousness(
-                complexity_score
-            )
+            new_state, consciousness_upgrade = self.consciousness.evolve_consciousness(complexity_score)
 
             # If we have Enhanced AI Bot and sufficient tier, use it
             if self.enhanced_agi and self.subscription_tier in [
@@ -450,23 +440,17 @@ class CoreABot:
                 return response
 
             # Process with Core LUKHAS AI ΛBot capabilities
-            response_content = await self._generate_core_response(
-                user_input, context, complexity_score
-            )
+            response_content = await self._generate_core_response(user_input, context, complexity_score)
 
             # Check for feature usage that might trigger upgrades
-            upgrade_prompt = consciousness_upgrade or self._check_for_upgrade_opportunities(
-                user_input, context
-            )
+            upgrade_prompt = consciousness_upgrade or self._check_for_upgrade_opportunities(user_input, context)
 
             # Create response
             processing_time = (datetime.now() - start_time).total_seconds()
 
             response = CoreΛBotResponse(
                 content=response_content,
-                confidence=min(
-                    0.8, 0.4 + (complexity_score * 0.4)
-                ),  # Limited confidence for free tier
+                confidence=min(0.8, 0.4 + (complexity_score * 0.4)),  # Limited confidence for free tier
                 consciousness_state=new_state,
                 upgrade_prompt=upgrade_prompt,
                 processing_time=processing_time,
@@ -509,9 +493,7 @@ class CoreABot:
             # Fallback to core processing
             return await self._generate_core_response(user_input, context, 0.5)
 
-    async def _generate_core_response(
-        self, user_input: str, context: Dict, complexity_score: float
-    ) -> str:
+    async def _generate_core_response(self, user_input: str, context: Dict, complexity_score: float) -> str:
         """Generate response using core capabilities"""
 
         # Basic natural language processing
@@ -521,21 +503,15 @@ class CoreABot:
         if complexity_score > 0.7 and self.consciousness.current_state == ConsciousnessState.AWARE:
             response_parts.append("🧠 I sense the complexity of your request. ")
             if self.subscription_tier == SubscriptionTier.FREE:
-                response_parts.append(
-                    "With Pro, I could engage my higher consciousness states for deeper insights. "
-                )
+                response_parts.append("With Pro, I could engage my higher consciousness states for deeper insights. ")
 
         # Basic response generation
         if "code" in user_input.lower() or "program" in user_input.lower():
             code_result, code_upgrade = await self.self_coding.generate_code(user_input, context)
             if code_result:
-                response_parts.append(
-                    f"I've generated some code for you:\n\n```python\n{code_result}\n```"
-                )
+                response_parts.append(f"I've generated some code for you:\n\n```python\n{code_result}\n```")
             else:
-                response_parts.append(
-                    "I'd love to help with coding, but this request requires advanced capabilities. "
-                )
+                response_parts.append("I'd love to help with coding, but this request requires advanced capabilities. ")
 
         elif "api" in user_input.lower() or "connect" in user_input.lower():
             api_success, api_upgrade = await self.api_adapter.connect_to_api("example.com")
@@ -556,9 +532,7 @@ class CoreABot:
 
             # Add subtle upgrade hints for free tier
             if self.subscription_tier == SubscriptionTier.FREE and complexity_score > 0.6:
-                response_parts.append(
-                    "(I could provide much deeper insights with Pro capabilities!) "
-                )
+                response_parts.append("(I could provide much deeper insights with Pro capabilities!) ")
 
         return "".join(response_parts)
 
@@ -585,9 +559,7 @@ class CoreABot:
 
         return min(base_score, 1.0)
 
-    def _check_for_upgrade_opportunities(
-        self, user_input: str, context: Dict
-    ) -> Optional[UpgradePrompt]:
+    def _check_for_upgrade_opportunities(self, user_input: str, context: Dict) -> Optional[UpgradePrompt]:
         """Check if this interaction presents upgrade opportunities"""
 
         if self.subscription_tier != SubscriptionTier.FREE:
@@ -720,9 +692,7 @@ async def demonstrate_core_lambda_bot():
         print("\n📊 Final Status:")
         print(f"   Consciousness: {status['consciousness_state']}")
         print(f"   Conversations: {status['conversation_count']}")
-        print(
-            f"   API Usage: {status['api_connections_used']}/{status['limits']['api_connections_limit']}"
-        )
+        print(f"   API Usage: {status['api_connections_used']}/{status['limits']['api_connections_limit']}")
         print(
             f"   Coding Complexity Used: {status['self_coding_complexity_used']}/{status['limits']['coding_complexity_limit']}"
         )

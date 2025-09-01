@@ -268,9 +268,7 @@ class VIVOXCryptoSystem:
             for algorithm in HashAlgorithm:
                 if algorithm != self.primary_algorithm:
                     try:
-                        secondary_hashes[algorithm] = self._compute_hash(
-                            hash_input, algorithm, salt
-                        )
+                        secondary_hashes[algorithm] = self._compute_hash(hash_input, algorithm, salt)
                     except Exception as e:
                         print(f"Warning: Could not compute {algorithm.value} hash: {e}")
 
@@ -396,9 +394,7 @@ class VIVOXCryptoSystem:
         audit_json = json.dumps(audit_data, sort_keys=True, separators=(",", ":"))
 
         # Generate hash record
-        hash_record = self.generate_multi_hash(
-            audit_json, timestamp, {"audit_type": "z_collapse_event"}
-        )
+        hash_record = self.generate_multi_hash(audit_json, timestamp, {"audit_type": "z_collapse_event"})
 
         # Get previous hash for chaining
         previous_hash = None
@@ -619,9 +615,7 @@ if __name__ == "__main__":
         "baseline_test": True,
     }
 
-    collapse_hash, audit_trail = secure_engine.secure_collapse_with_audit(
-        z_result, collapse_data, mathematical_trace
-    )
+    collapse_hash, audit_trail = secure_engine.secure_collapse_with_audit(z_result, collapse_data, mathematical_trace)
 
     print(f"Collapse hash: {collapse_hash[:32]}...")
     print(f"Event ID: {audit_trail.event_id}")

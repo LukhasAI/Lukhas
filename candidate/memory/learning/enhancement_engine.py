@@ -294,9 +294,7 @@ class VoiceMemoryBridge:
         print("=" * 50)
 
         # Save sprint completion
-        sprint_file = (
-            self.enhancement_dir / f"completed_sprint_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
-        )
+        sprint_file = self.enhancement_dir / f"completed_sprint_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
         with open(sprint_file, "w") as f:
             json.dump(sprint_summary, f, default=str, indent=2)
 

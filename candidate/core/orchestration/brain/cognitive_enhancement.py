@@ -96,21 +96,13 @@ class CognitiveAGIEnhancement:
         # Extract actionable insights for cognitive learning
         learning_insights = {
             "meta_cognitive_patterns": agi_result.get("meta_cognitive", {}).get("patterns", []),
-            "successful_reasoning_chains": agi_result.get("causal_reasoning", {}).get(
-                "successful_chains", []
-            ),
-            "user_understanding_improvements": agi_result.get("theory_of_mind", {}).get(
-                "insights", []
-            ),
-            "curiosity_driven_topics": agi_result.get("curiosity_exploration", {}).get(
-                "topics", []
-            ),
+            "successful_reasoning_chains": agi_result.get("causal_reasoning", {}).get("successful_chains", []),
+            "user_understanding_improvements": agi_result.get("theory_of_mind", {}).get("insights", []),
+            "curiosity_driven_topics": agi_result.get("curiosity_exploration", {}).get("topics", []),
         }
 
         # Log the learning incorporation
-        logger.info(
-            f" Incorporating AGI insights into cognitive core: {len(learning_insights)} insight categories"
-        )
+        logger.info(f" Incorporating AGI insights into cognitive core: {len(learning_insights)} insight categories")
 
         return learning_insights
 
@@ -143,9 +135,7 @@ def enhance_cognitive_core():
                 self._agi_enhancement = CognitiveAGIEnhancement(self)
                 logger.info(" AGI enhancement initialized for cognitive engine")
 
-        async def _process_with_agi_enhancement(
-            self, user_input: str, context: Optional[dict] = None
-        ):
+        async def _process_with_agi_enhancement(self, user_input: str, context: Optional[dict] = None):
             """Process input with AGI enhancement"""
             if not hasattr(self, "_agi_enhancement"):
                 self._initialize_agi_enhancement()

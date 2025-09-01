@@ -161,10 +161,7 @@ class LUKHASSystem:
 
         # Log critical failures
         for name, info in results.items():
-            if (
-                info.status == ModuleStatus.FAILED
-                and info.config.priority == ModulePriority.CRITICAL
-            ):
+            if info.status == ModuleStatus.FAILED and info.config.priority == ModulePriority.CRITICAL:
                 self.logger.error(f"Critical module {name} failed: {info.error}")
 
         return self.module_manager.get_status_report()

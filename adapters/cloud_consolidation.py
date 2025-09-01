@@ -60,12 +60,8 @@ class ConsolidationRequest(BaseModel):
     """Request for cloud consolidation analysis"""
 
     lid: str = Field(..., description="Canonical ΛID")
-    services: list[str] = Field(
-        default=["gmail", "drive", "dropbox"], description="Services to analyze"
-    )
-    include_old_threshold_days: int = Field(
-        365, description="Files older than X days considered for archival"
-    )
+    services: list[str] = Field(default=["gmail", "drive", "dropbox"], description="Services to analyze")
+    include_old_threshold_days: int = Field(365, description="Files older than X days considered for archival")
     large_file_threshold_mb: int = Field(100, description="Files larger than X MB flagged as large")
     duplicate_detection: bool = Field(True, description="Enable duplicate detection")
     dry_run: bool = Field(True, description="Dry-run mode (no actual changes)")
@@ -161,9 +157,7 @@ class CloudConsolidationService:
 
         return plan
 
-    async def _analyze_files(
-        self, files: list[ResourceMetadata], request: ConsolidationRequest
-    ) -> ConsolidationPlan:
+    async def _analyze_files(self, files: list[ResourceMetadata], request: ConsolidationRequest) -> ConsolidationPlan:
         """Analyze files and create consolidation recommendations"""
 
         total_size = sum(f.size or 0 for f in files)
@@ -174,14 +168,8 @@ class CloudConsolidationService:
             duplicate_groups = await self._find_duplicates(files)
 
         # 2. Old files analysis
-        old_threshold = datetime.now(timezone.utc) - timedelta(
-            days=request.include_old_threshold_days
-        )
-        old_files = [
-            f
-            for f in files
-            if f.modified_at and f.modified_at < old_threshold and f.size and f.size > 0
-        ]
+        old_threshold = datetime.now(timezone.utc) - timedelta(days=request.include_old_threshold_days)
+        old_files = [f for f in files if f.modified_at and f.modified_at < old_threshold and f.size and f.size > 0]
 
         # 3. Large files analysis
         large_threshold = request.large_file_threshold_mb * 1024 * 1024
@@ -265,9 +253,7 @@ class CloudConsolidationService:
             if len(file_group) > 1:
                 # Generate content hash based on file properties
                 # In production: would use actual file content hashes
-                content_hash = hashlib.sha256(
-                    f"{size}:{name}".encode()
-                ).hexdigest()  # Changed from MD5 for security
+                content_hash = hashlib.sha256(f"{size}:{name}".encode()).hexdigest()  # Changed from MD5 for security
 
                 total_size = size * len(file_group)
                 redundant_size = size * (len(file_group) - 1)  # Keep one copy
@@ -342,9 +328,7 @@ class CloudConsolidationService:
                 else:
                     result = {"success": False, "error": f"Unknown action type: {action['type']}"}
 
-                results.append(
-                    {"action_index": action_index, "action_type": action["type"], "result": result}
-                )
+                results.append({"action_index": action_index, "action_type": action["type"], "result": result})
 
                 if result.get("success"):
                     total_savings += action.get("savings_bytes", 0)
@@ -376,9 +360,7 @@ class CloudConsolidationService:
             "message": f"Removed {len(action['files'])} duplicate files",
         }
 
-    async def _execute_archive_files(
-        self, action: dict[str, Any], capability_tokens: dict[str, str]
-    ) -> dict[str, Any]:
+    async def _execute_archive_files(self, action: dict[str, Any], capability_tokens: dict[str, str]) -> dict[str, Any]:
         """Execute old file archival"""
         # This would move files to archive folders
         return {
@@ -435,8 +417,7 @@ async def create_consolidation_plan(
         # Mock capability tokens for development
         # In production: these would come from authenticated request
         capability_tokens = {
-            service_name: f"mock_capability_{service_name}_{request.lid}"
-            for service_name in request.services
+            service_name: f"mock_capability_{service_name}_{request.lid}" for service_name in request.services
         }
 
         plan = await service.analyze_consolidation(request, capability_tokens)
@@ -454,9 +435,7 @@ async def create_consolidation_plan(
             f"({plan.projected_savings_percent}%)"
         )
 
-        return ConsolidationResponse(
-            lid=request.lid, plan=plan, execution_token=execution_token, message=message
-        )
+        return ConsolidationResponse(lid=request.lid, plan=plan, execution_token=execution_token, message=message)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Analysis failed: {e!s}")
@@ -483,9 +462,7 @@ async def execute_consolidation_plan(
             raise HTTPException(status_code=400, detail="Invalid execution token")
 
         if not request.confirm_destructive:
-            raise HTTPException(
-                status_code=400, detail="Destructive operations require explicit confirmation"
-            )
+            raise HTTPException(status_code=400, detail="Destructive operations require explicit confirmation")
 
         # Mock execution for development
         # In production: would retrieve plan from token and execute

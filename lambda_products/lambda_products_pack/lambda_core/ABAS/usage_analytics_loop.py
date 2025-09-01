@@ -158,13 +158,7 @@ class UsageAnalyticsLoop:
         search_patterns = self._analyze_search_patterns()
 
         # Combine patterns
-        all_patterns = (
-            task_patterns
-            + error_patterns
-            + navigation_patterns
-            + feature_patterns
-            + search_patterns
-        )
+        all_patterns = task_patterns + error_patterns + navigation_patterns + feature_patterns + search_patterns
 
         # Filter significant patterns
         significant_patterns = self._filter_significant_patterns(all_patterns)
@@ -459,15 +453,9 @@ class UsageAnalyticsLoop:
                     pattern_id=f"frequent_search_{query[:20]}",
                     pattern_type="frequent_search",
                     frequency=count,
-                    users_affected=len(
-                        {e["user_id"] for e in search_events if e["data"].get("query") == query}
-                    ),
-                    first_detected=min(
-                        e["timestamp"] for e in search_events if e["data"].get("query") == query
-                    ),
-                    last_occurrence=max(
-                        e["timestamp"] for e in search_events if e["data"].get("query") == query
-                    ),
+                    users_affected=len({e["user_id"] for e in search_events if e["data"].get("query") == query}),
+                    first_detected=min(e["timestamp"] for e in search_events if e["data"].get("query") == query),
+                    last_occurrence=max(e["timestamp"] for e in search_events if e["data"].get("query") == query),
                     context={
                         "query": query,
                         "suggestion": f"Make '{query}' more discoverable",
@@ -483,10 +471,7 @@ class UsageAnalyticsLoop:
 
         for pattern in patterns:
             # Check minimum thresholds
-            if (
-                pattern.frequency >= self.pattern_min_occurrences
-                and pattern.users_affected >= self.pattern_min_users
-            ):
+            if pattern.frequency >= self.pattern_min_occurrences and pattern.users_affected >= self.pattern_min_users:
                 significant.append(pattern)
 
         return significant
@@ -606,9 +591,7 @@ class UsageAnalyticsLoop:
 
         return metrics
 
-    def _generate_optimization_recommendations(
-        self, pain_points: list[PainPoint]
-    ) -> list[OptimizationRecommendation]:
+    def _generate_optimization_recommendations(self, pain_points: list[PainPoint]) -> list[OptimizationRecommendation]:
         """Generate optimization recommendations from pain points"""
         recommendations = []
 
@@ -666,9 +649,7 @@ class UsageAnalyticsLoop:
         # Calculate current error rate
         recent_events = []
         for events in self.usage_data.values():
-            recent_events.extend(
-                [e for e in events if (timestamp - e["timestamp"]).total_seconds() < 3600]
-            )
+            recent_events.extend([e for e in events if (timestamp - e["timestamp"]).total_seconds() < 3600])
 
         if recent_events:
             error_count = sum(1 for e in recent_events if e["event_type"] == "error")
@@ -751,8 +732,7 @@ class UsageAnalyticsLoop:
         for pain_point in self.pain_points.values():
             # Check if still occurring
             recent_occurrence = any(
-                (datetime.now() - p.last_occurrence).total_seconds() < 3600
-                for p in pain_point.patterns
+                (datetime.now() - p.last_occurrence).total_seconds() < 3600 for p in pain_point.patterns
             )
 
             if recent_occurrence:
@@ -767,9 +747,7 @@ class UsageAnalyticsLoop:
 
         return active
 
-    def _generate_implementation_steps(
-        self, recommendation: OptimizationRecommendation
-    ) -> list[str]:
+    def _generate_implementation_steps(self, recommendation: OptimizationRecommendation) -> list[str]:
         """Generate implementation steps for recommendation"""
         steps_map = {
             OptimizationType.UI_IMPROVEMENT: [
@@ -881,9 +859,7 @@ if __name__ == "__main__":
 
     # Users searching for features
     for _i in range(15):
-        analytics.track_usage_event(
-            f"user_{random.randint(1, 10)}", "search", {"query": "export data"}
-        )
+        analytics.track_usage_event(f"user_{random.randint(1, 10)}", "search", {"query": "export data"})
 
     # Analyze patterns
     analysis = analytics.analyze_usage_patterns()

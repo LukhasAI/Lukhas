@@ -60,9 +60,7 @@ class VerifoldRegistryAdapter:
 
         # Verify integrity
         expected_hash = entry.collapse_hash
-        is_valid, error = await self.safety.verify_memory_integrity(
-            memory_id, memory_data, expected_hash
-        )
+        is_valid, error = await self.safety.verify_memory_integrity(memory_id, memory_data, expected_hash)
 
         if not is_valid:
             # Notify callbacks of failed verification
@@ -113,9 +111,7 @@ class VerifoldRegistryAdapter:
             "module": module_name,
             "total_verifications": len(self.safety.verifold_registry),
             "average_trust": (
-                np.mean(
-                    [self._calculate_trust_score(e) for e in self.safety.verifold_registry.values()]
-                )
+                np.mean([self._calculate_trust_score(e) for e in self.safety.verifold_registry.values()])
                 if self.safety.verifold_registry
                 else 1.0
             ),
@@ -398,22 +394,18 @@ class ConsensusValidationAdapter:
             memory_data = memory.data
 
             # Get similar memories for consensus
-            similar_memories = [
-                (m.item_id, m.data, s) for m, s in candidates if m.item_id != memory_id
-            ][:min_consensus_memories]
+            similar_memories = [(m.item_id, m.data, s) for m, s in candidates if m.item_id != memory_id][
+                :min_consensus_memories
+            ]
 
             # Local consensus validation
-            is_valid, confidence = await self.safety.consensus_validation(
-                memory_id, memory_data, similar_memories
-            )
+            is_valid, confidence = await self.safety.consensus_validation(memory_id, memory_data, similar_memories)
 
             if not is_valid:
                 continue
 
             # Colony consensus validation
-            consensus_reached, agreement, votes = await self.validate_with_colonies(
-                memory_id, memory_data, colonies
-            )
+            consensus_reached, agreement, votes = await self.validate_with_colonies(memory_id, memory_data, colonies)
 
             if consensus_reached:
                 # Adjust score based on consensus strength
@@ -502,9 +494,7 @@ class MemorySafetyIntegration:
             },
             "reality_anchors": {
                 "global_anchors": len(self.safety.reality_anchors),
-                "module_anchors": sum(
-                    len(anchors) for anchors in self.anchors._module_anchors.values()
-                ),
+                "module_anchors": sum(len(anchors) for anchors in self.anchors._module_anchors.values()),
             },
             "consensus": self.consensus.get_consensus_report(),
         }
@@ -570,9 +560,7 @@ async def demonstrate_integration():
     )
 
     # Verify for learning module
-    is_valid, trust_score, error = await integration.verifold.verify_for_module(
-        "learning", mem_id, test_memory
-    )
+    is_valid, trust_score, error = await integration.verifold.verify_for_module("learning", mem_id, test_memory)
 
     print(f"  Verification: {'✅' if is_valid else '❌'}")
     print(f"  Trust score: {trust_score:.3f}")
@@ -581,9 +569,7 @@ async def demonstrate_integration():
     print("\n2. Drift Metrics Integration:")
 
     embedding = np.random.randn(1024).astype(np.float32)
-    drift_result = await integration.drift.track_module_usage(
-        "learning", "integration", embedding, {"action": "test"}
-    )
+    drift_result = await integration.drift.track_module_usage("learning", "integration", embedding, {"action": "test"})
 
     print(f"  Drift score: {drift_result['drift_score']:.3f}")
     print(f"  Recommendation: {drift_result['recommendation']}")

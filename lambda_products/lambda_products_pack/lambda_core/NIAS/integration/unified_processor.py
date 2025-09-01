@@ -143,9 +143,7 @@ class UnifiedMessageProcessor:
             if self.integrations_initialized:
                 logger.info("Unified processor ready - three-way integration active")
             else:
-                logger.warning(
-                    "No integrations available - unified processor running in fallback mode"
-                )
+                logger.warning("No integrations available - unified processor running in fallback mode")
 
         except Exception as e:
             logger.error(f"Failed to initialize integrations: {e}")
@@ -213,11 +211,7 @@ class UnifiedMessageProcessor:
                 context.delivery_result = self._fallback_nias_processing(context)
 
             # Phase 5: Update symbolic context based on delivery result
-            if (
-                context.dast_available
-                and self.dast_adapter
-                and context.delivery_result.get("status") == "delivered"
-            ):
+            if context.dast_available and self.dast_adapter and context.delivery_result.get("status") == "delivered":
                 await self._phase_update_symbolic_context(context)
 
             # Finalize processing
@@ -244,9 +238,7 @@ class UnifiedMessageProcessor:
             )
 
             # Enhance with activity suggestions
-            activity_suggestions = await self.dast_adapter.get_activity_suggestions(
-                context.user_id, symbolic_context
-            )
+            activity_suggestions = await self.dast_adapter.get_activity_suggestions(context.user_id, symbolic_context)
 
             symbolic_context["activity_suggestions"] = activity_suggestions
             symbolic_context["dast_phase_success"] = True
@@ -273,15 +265,11 @@ class UnifiedMessageProcessor:
             enhanced_context = context.user_context.copy()
             if context.symbolic_context:
                 enhanced_context["symbolic_context"] = context.symbolic_context
-                enhanced_context["primary_activity"] = context.symbolic_context.get(
-                    "primary_activity"
+                enhanced_context["primary_activity"] = context.symbolic_context.get("primary_activity")
+                enhanced_context["coherence_score"] = context.symbolic_context.get("coherence_score")
+                enhanced_context["focus_score"] = context.symbolic_context.get("context_scores", {}).get(
+                    "focus_score", 0.5
                 )
-                enhanced_context["coherence_score"] = context.symbolic_context.get(
-                    "coherence_score"
-                )
-                enhanced_context["focus_score"] = context.symbolic_context.get(
-                    "context_scores", {}
-                ).get("focus_score", 0.5)
 
             # Get ΛBAS attention decision
             attention_result = await self.abas_adapter.check_attention_availability(
@@ -331,9 +319,7 @@ class UnifiedMessageProcessor:
             elif nias_result.get("status") == "deferred":
                 self.processing_stats["deferred_messages"] += 1
 
-            logger.debug(
-                f"NIΛS processing completed for {context.user_id}: {nias_result.get('status')}"
-            )
+            logger.debug(f"NIΛS processing completed for {context.user_id}: {nias_result.get('status')}")
             return nias_result
 
         except Exception as e:
@@ -358,9 +344,7 @@ class UnifiedMessageProcessor:
                     context.user_id, context.message, interaction_result
                 )
 
-                logger.debug(
-                    f"DΛST context updated for {context.user_id} after successful delivery"
-                )
+                logger.debug(f"DΛST context updated for {context.user_id} after successful delivery")
 
         except Exception as e:
             logger.warning(f"Failed to update DΛST context for {context.user_id}: {e}")
@@ -391,9 +375,7 @@ class UnifiedMessageProcessor:
     def _finalize_processing(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Finalize unified processing with complete results"""
         context.end_time = datetime.now()
-        context.total_processing_time_ms = (
-            context.end_time - context.start_time
-        ).total_seconds() * 1000
+        context.total_processing_time_ms = (context.end_time - context.start_time).total_seconds() * 1000
 
         # Update average processing time
         total_requests = self.processing_stats["total_requests"]
@@ -427,9 +409,7 @@ class UnifiedMessageProcessor:
         )
         return result
 
-    def _handle_processing_error(
-        self, context: UnifiedProcessingContext, error: Exception
-    ) -> dict[str, Any]:
+    def _handle_processing_error(self, context: UnifiedProcessingContext, error: Exception) -> dict[str, Any]:
         """Handle processing errors with graceful degradation"""
         processing_time = (datetime.now() - context.start_time).total_seconds() * 1000
 

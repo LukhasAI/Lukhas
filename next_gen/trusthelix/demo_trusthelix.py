@@ -51,9 +51,7 @@ async def demo_trusthelix():
         print(f"   Current glyphs: {' '.join(current_glyphs)}")
 
         # Track in mutation tree
-        new_glyphs, drift_score = mutation_tree.track_action(
-            user_id, current_glyphs, action, outcome
-        )
+        new_glyphs, drift_score = mutation_tree.track_action(user_id, current_glyphs, action, outcome)
 
         # Calculate entropy
         entropy = mutation_tree.calculate_entropy()

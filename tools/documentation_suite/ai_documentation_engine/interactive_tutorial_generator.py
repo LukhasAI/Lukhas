@@ -218,23 +218,17 @@ class TutorialGenerator:
             user_preferences = {}
 
         # Get tutorial template
-        template = self.tutorial_templates.get(
-            tutorial_type, self.tutorial_templates[TutorialType.COMPREHENSIVE]
-        )
+        template = self.tutorial_templates.get(tutorial_type, self.tutorial_templates[TutorialType.COMPREHENSIVE])
 
         # Generate tutorial metadata
         tutorial_id = f"tutorial_{uuid.uuid4().hex[:8]}"
         title = f"{topic} - {tutorial_type.value.replace('_', ' ').title()}"
 
         # Generate learning objectives
-        learning_objectives = await self._generate_learning_objectives(
-            topic, tutorial_type, difficulty_level
-        )
+        learning_objectives = await self._generate_learning_objectives(topic, tutorial_type, difficulty_level)
 
         # Generate tutorial steps
-        steps = await self._generate_tutorial_steps(
-            topic, template, difficulty_level, learning_style, user_preferences
-        )
+        steps = await self._generate_tutorial_steps(topic, template, difficulty_level, learning_style, user_preferences)
 
         # Calculate estimated duration
         estimated_duration = sum(step.estimated_time for step in steps)
@@ -351,19 +345,13 @@ class TutorialGenerator:
         """Generate code example step"""
 
         if topic.lower().startswith("compliance"):
-            code_example, expected_output = await self._generate_compliance_code_example(
-                difficulty_level
-            )
+            code_example, expected_output = await self._generate_compliance_code_example(difficulty_level)
         elif topic.lower().startswith("security"):
-            code_example, expected_output = await self._generate_security_code_example(
-                difficulty_level
-            )
+            code_example, expected_output = await self._generate_security_code_example(difficulty_level)
         elif topic.lower().startswith("api"):
             code_example, expected_output = await self._generate_api_code_example(difficulty_level)
         else:
-            code_example, expected_output = await self._generate_general_code_example(
-                topic, difficulty_level
-            )
+            code_example, expected_output = await self._generate_general_code_example(topic, difficulty_level)
 
         step = TutorialStep(
             step_id=f"step_{step_number}_code_example",
@@ -461,9 +449,7 @@ class TutorialGenerator:
     ) -> TutorialStep:
         """Generate troubleshooting step"""
 
-        troubleshooting_content = await self._generate_troubleshooting_content(
-            topic, difficulty_level
-        )
+        troubleshooting_content = await self._generate_troubleshooting_content(topic, difficulty_level)
 
         step = TutorialStep(
             step_id=f"step_{step_number}_troubleshooting",
@@ -476,9 +462,7 @@ class TutorialGenerator:
         return step
 
     # Content generation methods
-    async def _generate_compliance_explanation(
-        self, topic: str, difficulty_level: DifficultyLevel
-    ) -> str:
+    async def _generate_compliance_explanation(self, topic: str, difficulty_level: DifficultyLevel) -> str:
         """Generate compliance-specific explanation"""
 
         if difficulty_level == DifficultyLevel.BEGINNER:
@@ -526,9 +510,7 @@ Modern AI systems can have significant impact on people's lives, so ensuring the
 - Cross-jurisdictional compliance strategies
 """
 
-    async def _generate_security_explanation(
-        self, topic: str, difficulty_level: DifficultyLevel
-    ) -> str:
+    async def _generate_security_explanation(self, topic: str, difficulty_level: DifficultyLevel) -> str:
         """Generate security-specific explanation"""
 
         return f"""
@@ -582,9 +564,7 @@ Modern AI systems can have significant impact on people's lives, so ensuring the
 - Error retry and backoff strategies
 """
 
-    async def _generate_general_explanation(
-        self, topic: str, difficulty_level: DifficultyLevel
-    ) -> str:
+    async def _generate_general_explanation(self, topic: str, difficulty_level: DifficultyLevel) -> str:
         """Generate general explanation"""
 
         return f"""
@@ -608,9 +588,7 @@ This section introduces the key concepts and principles of {topic} in the LUKHAS
 - Better user experience and satisfaction
 """
 
-    async def _generate_compliance_code_example(
-        self, difficulty_level: DifficultyLevel
-    ) -> tuple[str, str]:
+    async def _generate_compliance_code_example(self, difficulty_level: DifficultyLevel) -> tuple[str, str]:
         """Generate compliance code example"""
 
         if difficulty_level == DifficultyLevel.BEGINNER:
@@ -683,9 +661,7 @@ NIST: compliant (Score: 91/100)
 
         return code, expected_output
 
-    async def _generate_security_code_example(
-        self, difficulty_level: DifficultyLevel
-    ) -> tuple[str, str]:
+    async def _generate_security_code_example(self, difficulty_level: DifficultyLevel) -> tuple[str, str]:
         """Generate security code example"""
 
         code = """
@@ -720,9 +696,7 @@ Vulnerabilities: 2
 
         return code, expected_output
 
-    async def _generate_api_code_example(
-        self, difficulty_level: DifficultyLevel
-    ) -> tuple[str, str]:
+    async def _generate_api_code_example(self, difficulty_level: DifficultyLevel) -> tuple[str, str]:
         """Generate API code example"""
 
         code = """
@@ -754,9 +728,7 @@ Compliance Score: 87
 
         return code, expected_output
 
-    async def _generate_general_code_example(
-        self, topic: str, difficulty_level: DifficultyLevel
-    ) -> tuple[str, str]:
+    async def _generate_general_code_example(self, topic: str, difficulty_level: DifficultyLevel) -> tuple[str, str]:
         """Generate general code example"""
 
         code = f"""
@@ -776,9 +748,7 @@ print(f"Result: {{result}}")
 
         return code, expected_output
 
-    async def _generate_compliance_exercise(
-        self, difficulty_level: DifficultyLevel
-    ) -> dict[str, Any]:
+    async def _generate_compliance_exercise(self, difficulty_level: DifficultyLevel) -> dict[str, Any]:
         """Generate compliance exercise"""
 
         return {
@@ -840,9 +810,7 @@ assert system_profile["automated_decision_making"] == True
             ],
         }
 
-    async def _generate_security_exercise(
-        self, difficulty_level: DifficultyLevel
-    ) -> dict[str, Any]:
+    async def _generate_security_exercise(self, difficulty_level: DifficultyLevel) -> dict[str, Any]:
         """Generate security exercise"""
 
         return {
@@ -1062,9 +1030,7 @@ assert hasattr(client, 'api_key') or hasattr(client, 'token')
             ],
         }
 
-    async def _generate_general_exercise(
-        self, topic: str, difficulty_level: DifficultyLevel
-    ) -> dict[str, Any]:
+    async def _generate_general_exercise(self, topic: str, difficulty_level: DifficultyLevel) -> dict[str, Any]:
         """Generate general exercise"""
 
         return {
@@ -1144,7 +1110,9 @@ print(f"Result: {result}")
     async def _generate_tutorial_description(self, topic: str, tutorial_type: TutorialType) -> str:
         """Generate tutorial description"""
 
-        base_description = f"This interactive tutorial will guide you through {topic} concepts and practical implementation."
+        base_description = (
+            f"This interactive tutorial will guide you through {topic} concepts and practical implementation."
+        )
 
         type_specific = {
             TutorialType.QUICK_START: "Get up and running quickly with the essential knowledge you need.",
@@ -1157,9 +1125,7 @@ print(f"Result: {result}")
 
         return f"{base_description} {type_specific.get(tutorial_type, '')}"
 
-    async def _generate_prerequisites(
-        self, topic: str, difficulty_level: DifficultyLevel
-    ) -> list[str]:
+    async def _generate_prerequisites(self, topic: str, difficulty_level: DifficultyLevel) -> list[str]:
         """Generate tutorial prerequisites"""
 
         prerequisites = ["Basic understanding of Python programming"]
@@ -1184,9 +1150,7 @@ print(f"Result: {result}")
             "completion_threshold": 80,  # Minimum percentage to pass
             "time_bonus": 10,  # Bonus points for completing quickly
             "hint_penalty": 5,  # Penalty per hint used
-            "objectives_weight": {
-                obj: 100 / len(learning_objectives) for obj in learning_objectives
-            },
+            "objectives_weight": {obj: 100 / len(learning_objectives) for obj in learning_objectives},
         }
 
     async def _generate_quiz_content(self, topic: str, difficulty_level: DifficultyLevel) -> str:
@@ -1216,9 +1180,7 @@ print(f"Result: {result}")
 **Answers:** 1-b, 2-c, 3-b
 """
 
-    async def _generate_checkpoint_content(
-        self, topic: str, previous_steps: list[TutorialStep]
-    ) -> str:
+    async def _generate_checkpoint_content(self, topic: str, previous_steps: list[TutorialStep]) -> str:
         """Generate checkpoint content"""
 
         completed_concepts = []
@@ -1247,9 +1209,7 @@ Great job! You've completed {len(previous_steps)} steps in this {topic} tutorial
 Take a moment to review what you've learned before continuing!
 """
 
-    async def _generate_troubleshooting_content(
-        self, topic: str, difficulty_level: DifficultyLevel
-    ) -> str:
+    async def _generate_troubleshooting_content(self, topic: str, difficulty_level: DifficultyLevel) -> str:
         """Generate troubleshooting content"""
 
         return f"""

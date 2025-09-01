@@ -64,9 +64,7 @@ class PerceptualEncryptor:
     def _generate_master_key(self) -> bytes:
         """Generate secure master key"""
         # In production, this would use proper key generation
-        return hashlib.pbkdf2_hmac(
-            "sha256", b"VIVOX_EVRN_MASTER_2024", b"ethical_perception_salt", 100000
-        )
+        return hashlib.pbkdf2_hmac("sha256", b"VIVOX_EVRN_MASTER_2024", b"ethical_perception_salt", 100000)
 
     def _initialize_transform_matrices(self) -> dict[str, np.ndarray]:
         """Initialize non-reversible transformation matrices"""
@@ -401,9 +399,7 @@ class PerceptualEncryptor:
         autocorr = np.corrcoef(vector[:-1], vector[1:])[0, 1]
         return float(np.abs(autocorr))
 
-    def verify_encryption_integrity(
-        self, encrypted_vector: np.ndarray, signature: VectorSignature
-    ) -> bool:
+    def verify_encryption_integrity(self, encrypted_vector: np.ndarray, signature: VectorSignature) -> bool:
         """Verify encrypted vector hasn't been tampered with"""
         return signature.verify(encrypted_vector)
 
@@ -431,9 +427,7 @@ class PerceptualEncryptor:
             "threshold": threshold,
             "valid": proof_valid,
             "timestamp": np.datetime64("now").astype(float),
-            "proof_hash": hashlib.sha256(
-                f"{property_name}_{threshold}_{proof_valid}".encode()
-            ).hexdigest(),
+            "proof_hash": hashlib.sha256(f"{property_name}_{threshold}_{proof_valid}".encode()).hexdigest(),
         }
 
         return proof

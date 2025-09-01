@@ -33,11 +33,7 @@ class CausalReasoningModule:
         causal_chains = self._build_causal_chains(causal_elements)
         weighted_causes = self._calculate_causal_confidences(causal_chains)
 
-        valid_causes = {
-            k: v
-            for k, v in weighted_causes.items()
-            if v.get("confidence", 0) >= self.confidence_threshold
-        }
+        valid_causes = {k: v for k, v in weighted_causes.items() if v.get("confidence", 0) >= self.confidence_threshold}
 
         if valid_causes:
             self._update_causal_graph(valid_causes)
@@ -161,9 +157,9 @@ class CausalReasoningModule:
             else:
                 self.causal_graph[chain_id]["frequency"] += 1
                 self.causal_graph[chain_id]["confidence_history"].append(chain_data["confidence"])
-                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[chain_id][
-                    "confidence_history"
-                ][-10:]
+                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[chain_id]["confidence_history"][
+                    -10:
+                ]
 
     def _identify_primary_cause(self, valid_causes: dict) -> Optional[dict]:
         """Identify most likely primary cause"""
@@ -216,9 +212,7 @@ class CausalReasoningModule:
             "total_reasoning_sessions": len(self.causal_history),
             "causal_graph_size": len(self.causal_graph),
             "confidence_trend": (
-                "improving"
-                if len(recent_confidence) > 1 and recent_confidence[-1] > recent_confidence[0]
-                else "stable"
+                "improving" if len(recent_confidence) > 1 and recent_confidence[-1] > recent_confidence[0] else "stable"
             ),
         }
 

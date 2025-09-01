@@ -195,9 +195,7 @@ class EmotionalFilter:
             # Keep only recent history (last 24 hours)
             cutoff_time = datetime.now() - timedelta(hours=24)
             self.emotional_history[user_id] = [
-                (timestamp, vector)
-                for timestamp, vector in self.emotional_history[user_id]
-                if timestamp > cutoff_time
+                (timestamp, vector) for timestamp, vector in self.emotional_history[user_id] if timestamp > cutoff_time
             ]
 
             return True
@@ -241,37 +239,27 @@ class EmotionalFilter:
 
         try:
             # 1. Dream residue protection
-            dream_check = await self._check_dream_residue_protection(
-                message, current_emotional_state, profile
-            )
+            dream_check = await self._check_dream_residue_protection(message, current_emotional_state, profile)
             if not dream_check["approved"]:
                 return dream_check
 
             # 2. Stress level protection
-            stress_check = await self._check_stress_protection(
-                message, current_emotional_state, profile
-            )
+            stress_check = await self._check_stress_protection(message, current_emotional_state, profile)
             if not stress_check["approved"]:
                 return stress_check
 
             # 3. Emotional tone matching
-            tone_check = await self._check_emotional_tone_compatibility(
-                message, current_emotional_state, profile
-            )
+            tone_check = await self._check_emotional_tone_compatibility(message, current_emotional_state, profile)
             if not tone_check["approved"]:
                 return tone_check
 
             # 4. Intensity vs capacity
-            intensity_check = await self._check_intensity_capacity(
-                message, current_emotional_state, profile
-            )
+            intensity_check = await self._check_intensity_capacity(message, current_emotional_state, profile)
             if not intensity_check["approved"]:
                 return intensity_check
 
             # 5. Therapeutic goals alignment
-            therapeutic_check = await self._check_therapeutic_alignment(
-                message, current_emotional_state, profile
-            )
+            therapeutic_check = await self._check_therapeutic_alignment(message, current_emotional_state, profile)
             if not therapeutic_check["approved"]:
                 return therapeutic_check
 
@@ -556,9 +544,7 @@ class EmotionalFilter:
 
         cutoff_time = datetime.now() - timedelta(hours=hours)
         recent_history = [
-            (timestamp, vector)
-            for timestamp, vector in self.emotional_history[user_id]
-            if timestamp > cutoff_time
+            (timestamp, vector) for timestamp, vector in self.emotional_history[user_id] if timestamp > cutoff_time
         ]
 
         if not recent_history:
@@ -593,9 +579,7 @@ class EmotionalFilter:
             "recommendations": [],  # Will be populated asynchronously if needed
         }
 
-    async def _generate_wellness_recommendations(
-        self, history: list[tuple[datetime, EmotionalVector]]
-    ) -> list[str]:
+    async def _generate_wellness_recommendations(self, history: list[tuple[datetime, EmotionalVector]]) -> list[str]:
         """Generate wellness recommendations based on emotional patterns"""
         recommendations = []
 
@@ -613,17 +597,11 @@ class EmotionalFilter:
         focus_periods = [v for v in focus_values if v >= 0.8]
 
         if len(focus_periods) / len(focus_values) < 0.2:
-            recommendations.append(
-                "Focus enhancement techniques recommended - low focus periods detected"
-            )
+            recommendations.append("Focus enhancement techniques recommended - low focus periods detected")
 
         # Check for emotional volatility
-        stress_changes = [
-            abs(stress_values[i] - stress_values[i - 1]) for i in range(1, len(stress_values))
-        ]
+        stress_changes = [abs(stress_values[i] - stress_values[i - 1]) for i in range(1, len(stress_values))]
         if stress_changes and sum(stress_changes) / len(stress_changes) > 0.3:
-            recommendations.append(
-                "High emotional volatility detected - consider stability practices"
-            )
+            recommendations.append("High emotional volatility detected - consider stability practices")
 
         return recommendations

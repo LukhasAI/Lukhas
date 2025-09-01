@@ -47,9 +47,9 @@ def test_author_reference_guard_detects_violations():
         # print(f"Stderr: {result.stderr}")
 
         # Should find violations and exit with code 1
-        assert result.returncode == 1, (
-            f"Guard should detect violations. Got code {result.returncode}, output: {result.stdout}"
-        )
+        assert (
+            result.returncode == 1
+        ), f"Guard should detect violations. Got code {result.returncode}, output: {result.stdout}"
         assert "violations:" in result.stdout.lower(), "Should detect violations"
 
     finally:
@@ -80,9 +80,7 @@ This academic paper references Keats and Einstein with proper citations.
         )
 
         # Should allow academic content and exit with code 0
-        assert result.returncode == 0, (
-            f"Guard should allow academic content:\n{result.stdout}\n{result.stderr}"
-        )
+        assert result.returncode == 0, f"Guard should allow academic content:\n{result.stdout}\n{result.stderr}"
 
     finally:
         # Clean up test file

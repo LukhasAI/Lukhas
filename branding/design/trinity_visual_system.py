@@ -337,9 +337,7 @@ class TrinityVisualSystem:
         for name, color in self.color_palette.items():
             var_name = name.replace("_", "-")
             css_vars += f"  --trinity-{var_name}: {color.hex_value};\n"
-            css_vars += (
-                f"  --trinity-{var_name}-rgb: {color.rgb[0]}, {color.rgb[1]}, {color.rgb[2]};\n"
-            )
+            css_vars += f"  --trinity-{var_name}-rgb: {color.rgb[0]}, {color.rgb[1]}, {color.rgb[2]};\n"
 
         # Spacing variables
         css_vars += "\n  /* Consciousness Spacing System */\n"

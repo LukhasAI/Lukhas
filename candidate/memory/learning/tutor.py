@@ -133,9 +133,7 @@ class TutorEngine:
 
         return session
 
-    def _generate_learning_objectives(
-        self, topic: str, difficulty: DifficultyLevel
-    ) -> list[LearningObjective]:
+    def _generate_learning_objectives(self, topic: str, difficulty: DifficultyLevel) -> list[LearningObjective]:
         """Generate learning objectives from the knowledge graph."""
         objectives = []
 
@@ -267,9 +265,7 @@ class TutorEngine:
 
         return responses
 
-    async def _generate_responses(
-        self, session: LearningSession, user_response: str
-    ) -> list[TutorMessage]:
+    async def _generate_responses(self, session: LearningSession, user_response: str) -> list[TutorMessage]:
         """Generate appropriate responses based on user's input."""
         current_objective = session.objectives[session.current_objective_index]
         responses = []

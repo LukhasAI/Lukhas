@@ -78,9 +78,7 @@ class SymbolicMessage:
 
     def _generate_signature(self) -> str:
         """Generate Lambda signature for message authenticity"""
-        content_hash = hashlib.sha256(
-            f"{self.id}{self.content}{self.tier.value}".encode()
-        ).hexdigest()[:8]
+        content_hash = hashlib.sha256(f"{self.id}{self.content}{self.tier.value}".encode()).hexdigest()[:8]
         return f"Λ-{content_hash.upper()}"
 
 
@@ -197,9 +195,7 @@ class NIΛS:
 
         logger.info(f"NIΛS running in {mode} mode")
 
-    async def register_user(
-        self, user_id: str, tier: MessageTier, consent_level: ConsentLevel
-    ) -> UserContext:
+    async def register_user(self, user_id: str, tier: MessageTier, consent_level: ConsentLevel) -> UserContext:
         """Register a new user with NIΛS system"""
         context = UserContext(
             user_id=user_id,
@@ -280,9 +276,7 @@ class NIΛS:
             emotional_check = await self._filter_emotional_state(message, context)
             if not emotional_check["stable"]:
                 if emotional_check["defer"]:
-                    return await self._schedule_for_later(
-                        message, user_id, emotional_check["reason"]
-                    )
+                    return await self._schedule_for_later(message, user_id, emotional_check["reason"])
                 else:
                     return DeliveryResult(
                         status="blocked",
@@ -336,9 +330,7 @@ class NIΛS:
         message_count = len(self.session_limits[user_id])
         return not message_count >= self.config["max_messages_per_session"]
 
-    async def _validate_consent(
-        self, message: SymbolicMessage, context: UserContext
-    ) -> dict[str, Any]:
+    async def _validate_consent(self, message: SymbolicMessage, context: UserContext) -> dict[str, Any]:
         """Validate user consent for message delivery"""
         # Check tier requirements
         if context.tier.value < message.tier.value:
@@ -373,9 +365,7 @@ class NIΛS:
 
         return {"approved": True, "reason": "Consent validated"}
 
-    async def _filter_emotional_state(
-        self, message: SymbolicMessage, context: UserContext
-    ) -> dict[str, Any]:
+    async def _filter_emotional_state(self, message: SymbolicMessage, context: UserContext) -> dict[str, Any]:
         """Filter based on emotional state and stability"""
         emotional_vector = context.emotional_vector
         stress = emotional_vector.get("stress", 0.0)
@@ -412,9 +402,7 @@ class NIΛS:
 
         return {"stable": True, "reason": "Emotional state stable for delivery"}
 
-    async def _match_symbolic_context(
-        self, message: SymbolicMessage, context: UserContext
-    ) -> dict[str, Any]:
+    async def _match_symbolic_context(self, message: SymbolicMessage, context: UserContext) -> dict[str, Any]:
         """Match message symbols with user's current context"""
         user_tags = set(context.current_tags)
         message_tags = set(message.tags)
@@ -437,9 +425,7 @@ class NIΛS:
 
         return {"matches": True, "reason": f"Symbolic match found: {list(overlap)}"}
 
-    async def _schedule_dream_delivery(
-        self, message: SymbolicMessage, user_id: str
-    ) -> DeliveryResult:
+    async def _schedule_dream_delivery(self, message: SymbolicMessage, user_id: str) -> DeliveryResult:
         """Schedule message for dream-aware delivery"""
         if user_id not in self.dream_schedule:
             self.dream_schedule[user_id] = []
@@ -459,9 +445,7 @@ class NIΛS:
             lambda_trace=f"Λ-DREAM-{message.lambda_signature}",
         )
 
-    async def _schedule_for_later(
-        self, message: SymbolicMessage, user_id: str, reason: str
-    ) -> DeliveryResult:
+    async def _schedule_for_later(self, message: SymbolicMessage, user_id: str, reason: str) -> DeliveryResult:
         """Schedule message for later delivery"""
         # Simple scheduling - would integrate with more sophisticated timing
         scheduled_time = datetime.now() + timedelta(minutes=30)
@@ -474,9 +458,7 @@ class NIΛS:
             lambda_trace=f"Λ-DEFER-{message.lambda_signature}",
         )
 
-    async def _deliver_message(
-        self, message: SymbolicMessage, context: UserContext
-    ) -> DeliveryResult:
+    async def _deliver_message(self, message: SymbolicMessage, context: UserContext) -> DeliveryResult:
         """Execute final message delivery"""
         delivery_method = "visual"
 
@@ -504,9 +486,7 @@ class NIΛS:
             lambda_trace=f"Λ-DELIVER-{message.lambda_signature}",
         )
 
-    async def _update_delivery_history(
-        self, user_id: str, message: SymbolicMessage, result: DeliveryResult
-    ):
+    async def _update_delivery_history(self, user_id: str, message: SymbolicMessage, result: DeliveryResult):
         """Update delivery history and logs"""
         if user_id not in self.message_history:
             self.message_history[user_id] = []
@@ -515,15 +495,10 @@ class NIΛS:
         self.delivery_log.append(result)
 
         # Quantum audit trail for enterprise users
-        if (
-            self.config["qi_security"]
-            and self.user_contexts[user_id].tier.value >= MessageTier.ENTERPRISE.value
-        ):
+        if self.config["qi_security"] and self.user_contexts[user_id].tier.value >= MessageTier.ENTERPRISE.value:
             await self._create_quantum_audit_entry(user_id, message, result)
 
-    async def _create_quantum_audit_entry(
-        self, user_id: str, message: SymbolicMessage, result: DeliveryResult
-    ):
+    async def _create_quantum_audit_entry(self, user_id: str, message: SymbolicMessage, result: DeliveryResult):
         """Create quantum-secured audit entry"""
         audit_data = {
             "timestamp": datetime.now().isoformat(),

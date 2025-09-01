@@ -46,11 +46,7 @@ class NIASIntegrationHub:
     def filter_content(self, content: dict[str, Any], user_tier: str) -> dict[str, Any]:
         transparency = self.get_transparency_level(user_tier)
         if transparency["level"] < 3:
-            filtered = {
-                k: v
-                for k, v in content.items()
-                if k not in ["internal_metrics", "debug_info", "audit_trail"]
-            }
+            filtered = {k: v for k, v in content.items() if k not in ["internal_metrics", "debug_info", "audit_trail"]}
         elif transparency["level"] < 5:
             filtered = {k: v for k, v in content.items() if k not in ["debug_info"]}
         else:

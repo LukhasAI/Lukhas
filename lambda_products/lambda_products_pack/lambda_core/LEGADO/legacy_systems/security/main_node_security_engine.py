@@ -185,9 +185,7 @@ class MainNodeSecurityEngine:
             context = session["context"]
 
             # Generate cognitive response
-            cognitive_response = await self.neuro_symbolic_engine.process_text(
-                text, user_id, context
-            )
+            cognitive_response = await self.neuro_symbolic_engine.process_text(text, user_id, context)
 
             response = {
                 "status": "success",
@@ -262,9 +260,7 @@ class MainNodeSecurityEngine:
             "session_summary": {
                 "user_id": user_id,
                 "interactions": archived_session["interactions"],
-                "duration": self._calculate_duration(
-                    archived_session["start_time"], archived_session["end_time"]
-                ),
+                "duration": self._calculate_duration(archived_session["start_time"], archived_session["end_time"]),
                 "learning_insights": learning_report.get("adaptation_progress", 0),
             },
         }
@@ -289,9 +285,7 @@ class MainNodeSecurityEngine:
                     "memory_usage": self._get_memory_usage(),
                 }
 
-                logger.debug(
-                    f"System health updated: {len(self.system_state['active_sessions'])} active sessions"
-                )
+                logger.debug(f"System health updated: {len(self.system_state['active_sessions'])} active sessions")
 
                 # Wait before next check
                 await asyncio.sleep(60)  # Check every minute

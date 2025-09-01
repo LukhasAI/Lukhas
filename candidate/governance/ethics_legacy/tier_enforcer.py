@@ -40,9 +40,7 @@ def tier_required(level: str):
             current = TIERS.get(user_tier, 0)
 
             if current < required:
-                raise PermissionError(
-                    f"[ΛBLOCKED] Tier '{user_tier}' insufficient for '{level}' access."
-                )
+                raise PermissionError(f"[ΛBLOCKED] Tier '{user_tier}' insufficient for '{level}' access.")
 
             return func(*args, **kwargs)
 

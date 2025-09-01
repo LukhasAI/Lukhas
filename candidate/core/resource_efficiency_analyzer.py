@@ -269,10 +269,7 @@ class ResourceEfficiencyAnalyzer:
         energy_estimate = self._estimate_energy_consumption(cpu_percent)
 
         # Garbage collection stats
-        gc_stats = {
-            f"gen{i}_collections": gc.get_stats()[i]["collections"]
-            for i in range(len(gc.get_stats()))
-        }
+        gc_stats = {f"gen{i}_collections": gc.get_stats()[i]["collections"] for i in range(len(gc.get_stats()))}
 
         return ResourceSnapshot(
             timestamp=time.time(),
@@ -336,9 +333,7 @@ class ResourceEfficiencyAnalyzer:
         energy_analysis = self._analyze_energy_consumption(snapshots)
 
         # Calculate overall efficiency score
-        efficiency_score = self._calculate_efficiency_score(
-            trends, bottlenecks, memory_analysis, cpu_analysis
-        )
+        efficiency_score = self._calculate_efficiency_score(trends, bottlenecks, memory_analysis, cpu_analysis)
 
         # Resource utilization summary
         resource_utilization = {
@@ -498,9 +493,7 @@ class ResourceEfficiencyAnalyzer:
                 )
 
             # Memory leak detection
-            if (
-                memory_trend.trend_direction == "increasing" and memory_trend.trend_rate > 0.01
-            ):  # 1% per second
+            if memory_trend.trend_direction == "increasing" and memory_trend.trend_rate > 0.01:  # 1% per second
                 bottlenecks.append(
                     {
                         "type": "potential_memory_leak",
@@ -615,9 +608,7 @@ class ResourceEfficiencyAnalyzer:
                 {
                     "category": "memory_optimization",
                     "priority": (
-                        "high"
-                        if any(b["type"] == "potential_memory_leak" for b in bottlenecks)
-                        else "medium"
+                        "high" if any(b["type"] == "potential_memory_leak" for b in bottlenecks) else "medium"
                     ),
                     "title": "Reduce Memory Consumption",
                     "description": "Memory usage is high or growing",
@@ -853,15 +844,11 @@ class ResourceEfficiencyAnalyzer:
             "network_send_rate": sum(net_sent) / time_span,
             "network_recv_rate": sum(net_recv) / time_span,
             "disk_utilization": self._estimate_disk_utilization(disk_reads, disk_writes, time_span),
-            "network_utilization": self._estimate_network_utilization(
-                net_sent, net_recv, time_span
-            ),
+            "network_utilization": self._estimate_network_utilization(net_sent, net_recv, time_span),
             "io_pattern": self._classify_io_pattern(disk_reads, disk_writes, net_sent, net_recv),
         }
 
-    def _estimate_disk_utilization(
-        self, reads: list[int], writes: list[int], time_span: float
-    ) -> float:
+    def _estimate_disk_utilization(self, reads: list[int], writes: list[int], time_span: float) -> float:
         """Estimate disk utilization percentage"""
         # Assume 500 MB/s as typical SSD throughput
         max_throughput = 500 * 1024 * 1024
@@ -871,9 +858,7 @@ class ResourceEfficiencyAnalyzer:
 
         return min(100, (actual_throughput / max_throughput) * 100)
 
-    def _estimate_network_utilization(
-        self, sent: list[int], recv: list[int], time_span: float
-    ) -> float:
+    def _estimate_network_utilization(self, sent: list[int], recv: list[int], time_span: float) -> float:
         """Estimate network utilization percentage"""
         # Assume 1 Gbps network
         max_throughput = 1024 * 1024 * 1024 / 8  # 1 Gbps in bytes
@@ -1047,9 +1032,7 @@ if __name__ == "__main__":
         # Print quick stats every 5 seconds
         if i % 5 == 0:
             stats = analyzer.get_quick_stats()
-            print(
-                f"Quick stats: CPU={stats['cpu_percent']:.1f}%, Memory={stats['memory_mb']:.1f}MB"
-            )
+            print(f"Quick stats: CPU={stats['cpu_percent']:.1f}%, Memory={stats['memory_mb']:.1f}MB")
 
     # Generate efficiency report
     print("\nGenerating efficiency report...")

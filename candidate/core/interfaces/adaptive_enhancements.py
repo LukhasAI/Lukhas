@@ -49,12 +49,7 @@ class CognitiveLoad:
         drift_penalty = symbolic_state.drift_score * 0.5
         entropy_stress = abs(symbolic_state.entropy_level - 0.5) * 0.3
 
-        adjusted = (
-            self.base_load * 0.4
-            + self.fatigue_factor * 0.2
-            + drift_penalty * 0.2
-            + entropy_stress * 0.2
-        )
+        adjusted = self.base_load * 0.4 + self.fatigue_factor * 0.2 + drift_penalty * 0.2 + entropy_stress * 0.2
 
         # Scale by consciousness level
         return min(1.0, adjusted / max(0.1, consciousness_factor))
@@ -403,10 +398,7 @@ class AdaptiveInterfaceEnhancer:
             "cognitive_metrics": {
                 "load": cognitive_load,
                 "fatigue": self.cognitive_load.fatigue_factor,
-                "session_duration": (
-                    datetime.now(timezone.utc) - self.session_start
-                ).total_seconds()
-                / 3600,
+                "session_duration": (datetime.now(timezone.utc) - self.session_start).total_seconds() / 3600,
             },
             "compliance": self.compliance.validate_output(lukhas_response, tier),
         }
@@ -474,9 +466,7 @@ async def demo_integration():
     }
 
     # Enhance with UX features
-    enhanced = await enhancer.enhance_response(
-        lukhas_response, {"access_tier": AccessTier.T3}, ExportFormat.MARKDOWN
-    )
+    enhanced = await enhancer.enhance_response(lukhas_response, {"access_tier": AccessTier.T3}, ExportFormat.MARKDOWN)
 
     print("Enhanced Response:")
     print(f"Interface Mode: {enhanced['interface_mode']}")
@@ -488,9 +478,7 @@ async def demo_integration():
         print(enhanced["export"])
 
     # Test natural language processing
-    intent = await enhancer.process_natural_input(
-        "Help me analyze the system performance and create a report"
-    )
+    intent = await enhancer.process_natural_input("Help me analyze the system performance and create a report")
 
     print(f"\nProcessed Intent: {intent['intent']['symbolic_action']}")
     print(f"Requires Consciousness: {intent['requires_consciousness']}")

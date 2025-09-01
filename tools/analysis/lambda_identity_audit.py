@@ -150,9 +150,7 @@ class LambdaIDSystemAudit:
             covered_categories.update(module_data["categories"])
 
         coverage = len(covered_categories) / total_categories * 100
-        logger.info(
-            f"   Functionality coverage: {coverage:.1f}% ({len(covered_categories)}/{total_categories})"
-        )
+        logger.info(f"   Functionality coverage: {coverage:.1f}% ({len(covered_categories)}/{total_categories})")
 
     def _security_audit(self):
         """Perform security audit"""
@@ -235,17 +233,11 @@ class LambdaIDSystemAudit:
                         if isinstance(node, ast.ImportFrom):
                             if node.module:
                                 # Check if importing from another identity module
-                                if any(
-                                    identity_part in node.module
-                                    for identity_part in ["identity", "auth"]
-                                ):
+                                if any(identity_part in node.module for identity_part in ["identity", "auth"]):
                                     self.dependencies[relative_path].add(node.module)
                         elif isinstance(node, ast.Import):
                             for alias in node.names:
-                                if any(
-                                    identity_part in alias.name
-                                    for identity_part in ["identity", "auth"]
-                                ):
+                                if any(identity_part in alias.name for identity_part in ["identity", "auth"]):
                                     self.dependencies[relative_path].add(alias.name)
                 except BaseException:
                     pass
@@ -263,9 +255,7 @@ class LambdaIDSystemAudit:
         total_functions = sum(len(data["functions"]) for data in self.functionality_map.values())
         total_lines = sum(data["size_lines"] for data in self.functionality_map.values())
 
-        high_severity_issues = [
-            issue for issue in self.security_issues if issue["severity"] == "HIGH"
-        ]
+        high_severity_issues = [issue for issue in self.security_issues if issue["severity"] == "HIGH"]
         [issue for issue in self.security_issues if issue["severity"] == "MEDIUM"]
 
         # Generate recommendations
@@ -281,9 +271,7 @@ class LambdaIDSystemAudit:
                 }
             )
 
-        if "authentication" not in [
-            cat for data in self.functionality_map.values() for cat in data["categories"]
-        ]:
+        if "authentication" not in [cat for data in self.functionality_map.values() for cat in data["categories"]]:
             recommendations.append(
                 {
                     "priority": "HIGH",
@@ -358,17 +346,13 @@ class LambdaIDSystemAudit:
         print(f"   Modules analyzed: {summary['total_modules']}")
         print(f"   Functions found: {summary['total_functions']}")
         print(f"   Total code lines: {summary['total_lines']:,}")
-        print(
-            f"   Security issues: {summary['security_issues']} ({summary['high_severity_issues']} high severity)"
-        )
+        print(f"   Security issues: {summary['security_issues']} ({summary['high_severity_issues']} high severity)")
         print(f"   Open-source readiness: {summary['readiness_score']:.1f}%")
 
         if report["security_issues"]:
             print("\n⚠️  Top Security Issues:")
             for issue in report["security_issues"][:5]:
-                print(
-                    f"   [{issue['severity']}] {issue['issue_type']} in {issue['file']}:{issue['line']}"
-                )
+                print(f"   [{issue['severity']}] {issue['issue_type']} in {issue['file']}:{issue['line']}")
 
         print("\n💡 Key Recommendations:")
         for rec in report["recommendations"][:3]:

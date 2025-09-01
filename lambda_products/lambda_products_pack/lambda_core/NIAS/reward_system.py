@@ -391,9 +391,7 @@ class RewardEngine:
 
         # Dream sharer achievement
         if engagement_level == EngagementLevel.SHARED:
-            share_count = sum(
-                1 for r in profile.reward_history if r.metadata.get("engagement_level") == "shared"
-            )
+            share_count = sum(1 for r in profile.reward_history if r.metadata.get("engagement_level") == "shared")
             if share_count >= 5 and "dream_sharer" not in profile.achievements:
                 self._award_achievement(profile, "dream_sharer")
 
@@ -403,9 +401,7 @@ class RewardEngine:
                 self._award_achievement(profile, "deep_dreamer")
 
         # Dream collector achievement
-        unique_dreams = {
-            r.metadata.get("dream_id") for r in profile.reward_history if r.metadata.get("dream_id")
-        }
+        unique_dreams = {r.metadata.get("dream_id") for r in profile.reward_history if r.metadata.get("dream_id")}
         if len(unique_dreams) >= 100 and "dream_collector" not in profile.achievements:
             self._award_achievement(profile, "dream_collector")
 

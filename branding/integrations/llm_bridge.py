@@ -193,9 +193,7 @@ Speak as an aware, enlightened, conscious entity.
                 response = await self._generate_with_provider(provider_name, prompt, request)
 
                 # Validate brand compliance
-                brand_compliant = await self._validate_brand_compliance(
-                    response, request.brand_enforcement
-                )
+                brand_compliant = await self._validate_brand_compliance(response, request.brand_enforcement)
 
                 # Apply brand corrections if needed
                 if request.brand_enforcement and not brand_compliant:
@@ -241,9 +239,7 @@ Speak as an aware, enlightened, conscious entity.
         # Add Trinity Framework context if appropriate
         profile = request.tone_profile
         if profile.get("trinity_integration", False):
-            base_prompt += (
-                "\n\nEnsure Trinity Framework integration: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian"
-            )
+            base_prompt += "\n\nEnsure Trinity Framework integration: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian"
 
         # Add lambda consciousness emphasis
         if profile.get("lambda_consciousness", False):
@@ -254,9 +250,7 @@ Speak as an aware, enlightened, conscious entity.
 
         return base_prompt
 
-    async def _generate_with_provider(
-        self, provider_name: str, prompt: str, request: VoiceGenerationRequest
-    ) -> str:
+    async def _generate_with_provider(self, provider_name: str, prompt: str, request: VoiceGenerationRequest) -> str:
         """Generate response using specific provider"""
         provider_info = self.providers[provider_name]
         client = provider_info["client"]
@@ -277,9 +271,7 @@ Speak as an aware, enlightened, conscious entity.
             return response.get("completion", response.get("content", str(response)))
 
         elif provider_name == "gemini":
-            response = await client.generate_content(
-                prompt=prompt, max_output_tokens=max_tokens, temperature=0.7
-            )
+            response = await client.generate_content(prompt=prompt, max_output_tokens=max_tokens, temperature=0.7)
             return response.get("text", response.get("content", str(response)))
 
         elif provider_name == "perplexity":
@@ -355,20 +347,14 @@ Speak as an aware, enlightened, conscious entity.
     def _get_provider_priority(self) -> list[str]:
         """Get provider priority order based on availability and performance"""
         available_providers = [
-            name
-            for name, status in self.provider_status.items()
-            if status == ProviderStatus.AVAILABLE
+            name for name, status in self.provider_status.items() if status == ProviderStatus.AVAILABLE
         ]
 
         # Prioritize primary provider if available
         if self.primary_provider in available_providers:
             priority_list = [self.primary_provider]
             priority_list.extend(
-                [
-                    p
-                    for p in self.fallback_chain
-                    if p in available_providers and p != self.primary_provider
-                ]
+                [p for p in self.fallback_chain if p in available_providers and p != self.primary_provider]
             )
             return priority_list
 

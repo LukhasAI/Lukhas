@@ -231,9 +231,7 @@ async def revoke_consent(
         )
 
         # Revoke consent
-        revoked_count = await service.revoke_consent(
-            service_request, client_ip=get_client_ip(request)
-        )
+        revoked_count = await service.revoke_consent(service_request, client_ip=get_client_ip(request))
 
         message = f"Successfully revoked {revoked_count} consent grant(s)"
         if revoked_count == 0:

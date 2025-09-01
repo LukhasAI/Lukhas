@@ -208,8 +208,7 @@ class TypedEventBus:
             "events_published": self._events_published,
             "events_processed": self._events_processed,
             "events_failed": self._events_failed,
-            "success_rate": self._events_processed
-            / max(1, self._events_processed + self._events_failed),
+            "success_rate": self._events_processed / max(1, self._events_processed + self._events_failed),
             "subscriber_count": sum(len(subs) for subs in self._subscribers.values()),
             "event_types_subscribed": len(self._subscribers),
             "correlation_groups": len(self._correlation_tracking),
@@ -312,9 +311,7 @@ def auto_subscribe_handlers(obj: Any, event_bus: EventBusService) -> list[str]:
             handler = cast(Callable[[DomainEvent], Union[None, asyncio.Future]], attr)
             subscription_id = event_bus.subscribe(typed_event_type, handler)
             subscription_ids.append(subscription_id)
-            logger.info(
-                f"Auto-subscribed {obj.__class__.__name__}.{attr_name} to {typed_event_type.__name__}"
-            )
+            logger.info(f"Auto-subscribed {obj.__class__.__name__}.{attr_name} to {typed_event_type.__name__}")
 
     return subscription_ids
 

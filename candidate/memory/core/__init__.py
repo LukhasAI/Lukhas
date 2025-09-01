@@ -26,9 +26,7 @@ except ImportError as e:
 try:
     from ..fold_system.hybrid_memory_fold import HybridMemoryFold, create_hybrid_memory_fold
 
-    logger.debug(
-        "Imported HybridMemoryFold and create_hybrid_memory_fold from ..fold_system.hybrid_memory_fold"
-    )
+    logger.debug("Imported HybridMemoryFold and create_hybrid_memory_fold from ..fold_system.hybrid_memory_fold")
 except ImportError as e:
     logger.warning(f"Could not import HybridMemoryFold and create_hybrid_memory_fold: {e}")
     HybridMemoryFold = None

@@ -73,9 +73,7 @@ class UnifiedIntegration:
             # Create console handler if not already exists
             if not logger.handlers:
                 handler = logging.StreamHandler()
-                formatter = logging.Formatter(
-                    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-                )
+                formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
                 handler.setFormatter(formatter)
                 logger.addHandler(handler)
         else:
@@ -358,9 +356,7 @@ class UnifiedIntegration:
                 step_args = [current_data] + step_args
 
                 # Execute step
-                step_result = self.invoke_component(
-                    step_component_id, step_method, step_args, step_kwargs
-                )
+                step_result = self.invoke_component(step_component_id, step_method, step_args, step_kwargs)
                 step_results.append(step_result)
 
                 if not step_result.success:
@@ -452,9 +448,7 @@ class UnifiedIntegration:
             "active_components": sum(1 for c in self.components.values() if c["active"]),
             "total_operations": total_operations,
             "successful_operations": successful_operations,
-            "success_rate": (
-                successful_operations / total_operations if total_operations > 0 else 0.0
-            ),
+            "success_rate": (successful_operations / total_operations if total_operations > 0 else 0.0),
             "active_pipelines": len(self.integration_handlers),
             "config": {
                 "max_concurrent_operations": self.config.max_concurrent_operations,

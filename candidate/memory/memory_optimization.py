@@ -566,9 +566,7 @@ class MemoryOptimizer:
 
             return freed
 
-        self.optimization_callbacks.extend(
-            [clear_empty_collections, compress_large_objects, force_gc]
-        )
+        self.optimization_callbacks.extend([clear_empty_collections, compress_large_objects, force_gc])
 
     async def start_monitoring(self) -> None:
         """Start memory monitoring and optimization"""
@@ -594,8 +592,7 @@ class MemoryOptimizer:
 
                 if memory_usage > self.target_memory_bytes * self.memory_threshold:
                     logger.warning(
-                        f"Memory usage {memory_usage / 1024 / 1024:.1f}MB "
-                        f"exceeds threshold, optimizing..."
+                        f"Memory usage {memory_usage / 1024 / 1024:.1f}MB " f"exceeds threshold, optimizing..."
                     )
                     self._trigger_optimization()
 
@@ -643,9 +640,7 @@ class MemoryOptimizer:
             "optimization_stats": self.stats,
         }
 
-    def create_memory_efficient_collection(
-        self, collection_type: str, initial_data: Optional[Any] = None
-    ) -> Any:
+    def create_memory_efficient_collection(self, collection_type: str, initial_data: Optional[Any] = None) -> Any:
         """
         Create a memory-efficient collection that automatically returns to pool
         """
@@ -913,9 +908,7 @@ async def demonstrate_memory_optimization():
         regular.append(i)
 
     print(f"Compact list memory: {compact.memory_usage()} bytes")
-    print(
-        f"Regular list memory: {sys.getsizeof(regular) + sum(sys.getsizeof(i) for i in regular)} bytes"
-    )
+    print(f"Regular list memory: {sys.getsizeof(regular) + sum(sys.getsizeof(i) for i in regular)} bytes")
 
     # Bloom filter for membership testing
     bloom = BloomFilter(expected_items=10000, false_positive_rate=0.01)

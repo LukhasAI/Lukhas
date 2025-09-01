@@ -187,18 +187,14 @@ class NIASABASAdapter:
                 "abas_decision": decision.decision,
             }
 
-            logger.debug(
-                f"ΛBAS attention check for {user_id}: {decision.decision} ({emotional_state})"
-            )
+            logger.debug(f"ΛBAS attention check for {user_id}: {decision.decision} ({emotional_state})")
             return response
 
         except Exception as e:
             logger.error(f"ΛBAS attention check failed for {user_id}: {e}")
             return self._fallback_attention_check(user_id, message, user_context, error=str(e))
 
-    def _create_attention_request(
-        self, message: dict[str, Any], user_context: dict[str, Any]
-    ) -> AttentionRequest:
+    def _create_attention_request(self, message: dict[str, Any], user_context: dict[str, Any]) -> AttentionRequest:
         """Create ABAS attention request from NIAS message"""
 
         # Determine message characteristics
@@ -274,9 +270,7 @@ class NIASABASAdapter:
         """Calculate how acceptable it is to interrupt for this message"""
 
         # Base interruptibility inversely related to cognitive cost
-        base_interruptibility = 1.0 - self.cognitive_cost_mapping.get(
-            message.get("type", "notification"), 0.4
-        )
+        base_interruptibility = 1.0 - self.cognitive_cost_mapping.get(message.get("type", "notification"), 0.4)
 
         # Urgent messages are more interruptible
         urgency_bonus = urgency * 0.3

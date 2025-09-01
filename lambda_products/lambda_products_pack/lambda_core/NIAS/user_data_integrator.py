@@ -88,9 +88,7 @@ class EmailIntegrator:
             "subscription": r"(?i)(subscription|renewal|billing)",
         }
 
-    async def scan_receipts(
-        self, email_access_token: str, provider: str, scan_depth_days: int = 30
-    ) -> dict[str, Any]:
+    async def scan_receipts(self, email_access_token: str, provider: str, scan_depth_days: int = 30) -> dict[str, Any]:
         """
         Scan email for shopping receipts and extract patterns
 
@@ -117,9 +115,7 @@ class EmailIntegrator:
         patterns["product_categories"] = ["Electronics", "Groceries", "Fitness"]
         patterns["subscription_services"] = ["Netflix", "Spotify", "Adobe"]
 
-        logger.info(
-            f"Scanned emails for user, found {len(patterns['frequent_merchants'])} merchants"
-        )
+        logger.info(f"Scanned emails for user, found {len(patterns['frequent_merchants'])} merchants")
         return patterns
 
     def extract_preferences_from_newsletters(self, email_content: list[str]) -> list[str]:
@@ -150,9 +146,7 @@ class ShoppingIntegrator:
         self.supported_platforms = ["amazon", "ebay", "shopify", "etsy", "walmart"]
         self.product_categories = {}
 
-    async def get_shopping_history(
-        self, platform: str, api_token: str, months_back: int = 6
-    ) -> dict[str, Any]:
+    async def get_shopping_history(self, platform: str, api_token: str, months_back: int = 6) -> dict[str, Any]:
         """
         Retrieve shopping history from e-commerce platform
 
@@ -362,9 +356,7 @@ class UserDataIntegrator:
             shopping_config = prefs.data_sources[DataSource.SHOPPING]
             if shopping_config["enabled"]:
                 for platform in shopping_config.get("providers", []):
-                    shopping_data = await self.shopping_integrator.get_shopping_history(
-                        platform, "dummy_token"
-                    )
+                    shopping_data = await self.shopping_integrator.get_shopping_history(platform, "dummy_token")
 
                     # Update profile with shopping data
                     profile.spending_categories = list(shopping_data.get("categories", {}).keys())
@@ -394,9 +386,7 @@ class UserDataIntegrator:
             profile = self._anonymize_profile(profile)
 
         self.user_profiles[user_id] = profile
-        logger.info(
-            f"Synced user data for {user_id}, completeness: {profile.data_completeness:.1%}"
-        )
+        logger.info(f"Synced user data for {user_id}, completeness: {profile.data_completeness:.1%}")
 
         return profile
 
@@ -429,9 +419,7 @@ class UserDataIntegrator:
             generalized_brands[category].append(affinity)
 
         # Average affinities by category
-        profile.brand_affinities = {
-            cat: sum(affs) / len(affs) for cat, affs in generalized_brands.items()
-        }
+        profile.brand_affinities = {cat: sum(affs) / len(affs) for cat, affs in generalized_brands.items()}
 
         return profile
 
@@ -490,9 +478,7 @@ class UserDataIntegrator:
             # Add more detailed data for full sharing
             vendor_profile.update(
                 {
-                    "brand_affinities": {
-                        k: round(v, 1) for k, v in list(profile.brand_affinities.items())[:5]
-                    },
+                    "brand_affinities": {k: round(v, 1) for k, v in list(profile.brand_affinities.items())[:5]},
                     "dream_symbols": profile.dream_symbols[:3],
                 }
             )

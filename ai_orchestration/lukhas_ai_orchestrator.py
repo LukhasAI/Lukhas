@@ -89,9 +89,7 @@ class LUKHASAIOrchestrator:
         ]
         return "\n".join(context_parts)
 
-    async def route_request(
-        self, task_type: str, content: str, context: dict[str, Any] = None
-    ) -> str:
+    async def route_request(self, task_type: str, content: str, context: dict[str, Any] = None) -> str:
         """🧠 Route requests to optimal AI provider based on task type"""
         routing_map = {
             "trinity_documentation": "claude",
@@ -126,9 +124,7 @@ class LUKHASAIOrchestrator:
 
             raise Exception(f"All AI providers failed: {e}")
 
-    async def _call_provider(
-        self, provider_name: str, content: str, context: dict[str, Any]
-    ) -> str:
+    async def _call_provider(self, provider_name: str, content: str, context: dict[str, Any]) -> str:
         """🎯 Call specific AI provider with LUKHAS context"""
         self.providers[provider_name]
 
@@ -191,9 +187,7 @@ class LUKHASAIOrchestrator:
                 "options": {"temperature": 0.1, "top_k": 40},
             }
 
-            async with session.post(
-                f"{self.providers['ollama'].endpoint}/api/generate", json=payload
-            ) as resp:
+            async with session.post(f"{self.providers['ollama'].endpoint}/api/generate", json=payload) as resp:
                 if resp.status == 200:
                     result = await resp.json()
                     return result.get("response", "")
@@ -267,9 +261,7 @@ class LUKHASAIOrchestrator:
         response = await self.route_request("code_review", prompt)
         return {"review": response, "file_path": file_path}
 
-    async def suggest_lukhas_naming(
-        self, purpose: str, element_type: str, domain: str = ""
-    ) -> list[str]:
+    async def suggest_lukhas_naming(self, purpose: str, element_type: str, domain: str = "") -> list[str]:
         """🧠 Generate LUKHAS-compliant naming suggestions"""
         prompt = f"""
         Suggest LUKHAS-compliant names for a {element_type} that {purpose}.

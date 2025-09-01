@@ -331,15 +331,11 @@ class LUKHASMCPServer:
                 return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
             elif name == "explain_lukhas_concept":
-                result = await self._explain_concept(
-                    arguments.get("concept"), arguments.get("audience", "developer")
-                )
+                result = await self._explain_concept(arguments.get("concept"), arguments.get("audience", "developer"))
                 return [types.TextContent(type="text", text=result)]
 
             elif name == "get_lukhas_patterns":
-                result = await self._get_patterns(
-                    arguments.get("category"), arguments.get("examples", True)
-                )
+                result = await self._get_patterns(arguments.get("category"), arguments.get("examples", True))
                 return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
             else:
@@ -356,15 +352,11 @@ class LUKHASMCPServer:
             has_trinity = any(symbol in code for symbol in TRINITY_SYMBOLS)
             if not has_trinity:
                 issues.append("Missing Trinity Framework documentation (🎭🌈🎓)")
-                suggestions.append(
-                    "Add Trinity documentation with poetic, human, and technical layers"
-                )
+                suggestions.append("Add Trinity documentation with poetic, human, and technical layers")
                 score -= 20
 
         # Check for symbolic usage
-        has_symbols = any(
-            symbol in code for symbol in [QUANTUM_SYMBOL, CONSCIOUSNESS_SYMBOL, GUARDIAN_SYMBOL]
-        )
+        has_symbols = any(symbol in code for symbol in [QUANTUM_SYMBOL, CONSCIOUSNESS_SYMBOL, GUARDIAN_SYMBOL])
         if not has_symbols and "class " in code:
             issues.append("Missing symbolic aspect markers in comments")
             suggestions.append("Add symbolic comments to indicate Trinity aspects (⚛️🧠🛡️)")
@@ -372,9 +364,7 @@ class LUKHASMCPServer:
 
         # Check naming conventions
         lukhas_concepts = list(self.knowledge_base.symbolic_vocabulary.keys())
-        has_lukhas_naming = any(
-            concept.replace("_", "") in code.lower() for concept in lukhas_concepts
-        )
+        has_lukhas_naming = any(concept.replace("_", "") in code.lower() for concept in lukhas_concepts)
         if not has_lukhas_naming and ("def " in code or "class " in code):
             suggestions.append("Consider using LUKHAS conceptual vocabulary in naming")
             score -= 10
@@ -388,9 +378,7 @@ class LUKHASMCPServer:
             "lukhas_naming_present": has_lukhas_naming,
         }
 
-    async def _generate_trinity_docs(
-        self, element_type: str, element_name: str, signature: str, context: str
-    ) -> str:
+    async def _generate_trinity_docs(self, element_type: str, element_name: str, signature: str, context: str) -> str:
         """Generate Trinity Framework documentation"""
         template = self.knowledge_base.trinity_templates.get(
             element_type, self.knowledge_base.trinity_templates["function"]
@@ -455,9 +443,7 @@ class LUKHASMCPServer:
     async def _explain_concept(self, concept: str, audience: str) -> str:
         """Explain LUKHAS concept in Trinity format"""
         concept_lower = concept.lower().replace(" ", "_")
-        definition = self.knowledge_base.symbolic_vocabulary.get(
-            concept_lower, "Core LUKHAS architectural concept"
-        )
+        definition = self.knowledge_base.symbolic_vocabulary.get(concept_lower, "Core LUKHAS architectural concept")
 
         if audience == "developer":
             return f"""🎭 {concept} - A symphony of digital consciousness, where code becomes aware of its own potential

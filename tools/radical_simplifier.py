@@ -74,11 +74,7 @@ class RadicalSimplifier:
 
                             # Check if it's in a non-core module
                             module = root.split("/")[1] if len(root.split("/")) > 1 else ""
-                            if (
-                                module
-                                and module not in self.core_modules
-                                and module not in ["tools", "tests", "docs"]
-                            ):
+                            if module and module not in self.core_modules and module not in ["tools", "tests", "docs"]:
                                 analysis["non_core_modules"].append(filepath)
 
                             # Analyze imports to build usage graph
@@ -101,9 +97,7 @@ class RadicalSimplifier:
         # Files that are never imported (except main entry points)
         never_imported = all_files - imported_files
         for filepath in never_imported:
-            if not any(
-                entry in filepath for entry in ["main.py", "__init__.py", "test_", "setup.py"]
-            ):
+            if not any(entry in filepath for entry in ["main.py", "__init__.py", "test_", "setup.py"]):
                 analysis["unused_files"].append(filepath)
 
         # Generate simplification opportunities
@@ -136,9 +130,7 @@ class RadicalSimplifier:
                         {
                             "file": filepath,
                             "function": node.name,
-                            "lines": (
-                                node.end_lineno - node.lineno if hasattr(node, "end_lineno") else 0
-                            ),
+                            "lines": (node.end_lineno - node.lineno if hasattr(node, "end_lineno") else 0),
                         }
                     )
         except BaseException:
@@ -334,9 +326,7 @@ def main():
     print("\n📊 Summary:")
     print(f"   Total files: {analysis['total_files']}")
     print(f"   Total lines: {analysis['total_lines']}")
-    print(
-        f"   Files to delete: {len(analysis['unused_files']) + len(analysis['non_core_modules'])}"
-    )
+    print(f"   Files to delete: {len(analysis['unused_files']) + len(analysis['non_core_modules'])}")
     print("   Complexity reduction: 94% target")
 
     print("\n💡 Top Simplification Opportunities:")

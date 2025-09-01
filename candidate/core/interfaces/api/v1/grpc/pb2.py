@@ -71,9 +71,7 @@ class ProcessResponse(message.Message):
         # Simplified serialization for testing
         import json
 
-        timestamp_value = (
-            self.timestamp.seconds if hasattr(self.timestamp, "seconds") else int(time.time())
-        )
+        timestamp_value = self.timestamp.seconds if hasattr(self.timestamp, "seconds") else int(time.time())
         data = {
             "request_id": self.request_id,
             "timestamp": timestamp_value,

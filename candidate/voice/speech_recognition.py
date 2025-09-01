@@ -104,9 +104,7 @@ class SpeechRecognitionRequest:
             "channels": self.channels,
             "language": self.language.value,
             "quality": self.quality.value,
-            "provider_preference": self.provider_preference.value
-            if self.provider_preference
-            else None,
+            "provider_preference": self.provider_preference.value if self.provider_preference else None,
             "enable_word_timestamps": self.enable_word_timestamps,
             "enable_confidence_scores": self.enable_confidence_scores,
             "enable_speaker_diarization": self.enable_speaker_diarization,
@@ -281,13 +279,9 @@ class WhisperOpenAIAdapter(SpeechRecognitionProviderAdapter):
 
                 # Call API
                 if request.enable_word_timestamps:
-                    response = await client.audio.transcriptions.create(
-                        response_format="verbose_json", **params
-                    )
+                    response = await client.audio.transcriptions.create(response_format="verbose_json", **params)
                 else:
-                    response = await client.audio.transcriptions.create(
-                        response_format="json", **params
-                    )
+                    response = await client.audio.transcriptions.create(response_format="json", **params)
 
                 # Process response
                 text = response.text
@@ -448,16 +442,13 @@ class WhisperLocalAdapter(SpeechRecognitionProviderAdapter):
                                 text=seg["text"],
                                 start_time=seg["start"],
                                 end_time=seg["end"],
-                                confidence=seg.get("avg_logprob", 0.0)
-                                + 1.0,  # Convert logprob to 0-1 range
+                                confidence=seg.get("avg_logprob", 0.0) + 1.0,  # Convert logprob to 0-1 range
                                 words=words,
                             )
                         )
 
                 # Overall confidence from segments
-                overall_confidence = (
-                    np.mean([seg.confidence for seg in segments]) if segments else 0.8
-                )
+                overall_confidence = np.mean([seg.confidence for seg in segments]) if segments else 0.8
 
                 return SpeechRecognitionResult(
                     success=True,
@@ -550,9 +541,7 @@ class GoogleSpeechAdapter(SpeechRecognitionProviderAdapter):
 
             # Add speech contexts for better recognition
             if request.context_phrases or request.vocabulary_hints:
-                speech_contexts = [
-                    speech.SpeechContext(phrases=request.context_phrases + request.vocabulary_hints)
-                ]
+                speech_contexts = [speech.SpeechContext(phrases=request.context_phrases + request.vocabulary_hints)]
                 config.speech_contexts = speech_contexts
 
             # Create audio object
@@ -631,9 +620,7 @@ class GoogleSpeechAdapter(SpeechRecognitionProviderAdapter):
         try:
             from google.cloud import speech
 
-            return (
-                self.credentials_path is not None or "GOOGLE_APPLICATION_CREDENTIALS" in os.environ
-            )
+            return self.credentials_path is not None or "GOOGLE_APPLICATION_CREDENTIALS" in os.environ
         except ImportError:
             return False
 
@@ -682,9 +669,7 @@ class SpeechRecognitionProviderManager:
         # OpenAI Whisper
         openai_config = self.config.get("whisper_openai", {})
         if openai_config.get("enabled", False):
-            self.providers[SpeechRecognitionProvider.WHISPER_OPENAI] = WhisperOpenAIAdapter(
-                openai_config
-            )
+            self.providers[SpeechRecognitionProvider.WHISPER_OPENAI] = WhisperOpenAIAdapter(openai_config)
 
         # Local Whisper
         local_config = self.config.get("whisper_local", {})
@@ -710,9 +695,7 @@ class SpeechRecognitionProviderManager:
                 available.append(provider_type)
         return available
 
-    def select_provider(
-        self, request: SpeechRecognitionRequest
-    ) -> Optional[SpeechRecognitionProviderAdapter]:
+    def select_provider(self, request: SpeechRecognitionRequest) -> Optional[SpeechRecognitionProviderAdapter]:
         """Select best provider for request"""
         # If specific provider requested
         if request.provider_preference and request.provider_preference in self.providers:
@@ -823,24 +806,18 @@ class LUKHASSpeechRecognitionService:
 
                 # Update provider usage stats
                 provider_type = provider.get_provider_type().value
-                self.stats["providers_used"][provider_type] = (
-                    self.stats["providers_used"].get(provider_type, 0) + 1
-                )
+                self.stats["providers_used"][provider_type] = self.stats["providers_used"].get(provider_type, 0) + 1
 
                 # Update language stats
                 language = request.language.value
-                self.stats["languages_processed"][language] = (
-                    self.stats["languages_processed"].get(language, 0) + 1
-                )
+                self.stats["languages_processed"][language] = self.stats["languages_processed"].get(language, 0) + 1
 
                 # Update average processing time
                 total_time = (time.time() - start_time) * 1000
                 result.processing_time_ms = total_time
 
                 self.stats["average_processing_time"] = (
-                    self.stats["average_processing_time"]
-                    * (self.stats["recognitions_successful"] - 1)
-                    + total_time
+                    self.stats["average_processing_time"] * (self.stats["recognitions_successful"] - 1) + total_time
                 ) / self.stats["recognitions_successful"]
 
                 # Emit GLYPH event
@@ -898,17 +875,13 @@ class LUKHASSpeechRecognitionService:
                 audio_data = f.read()
 
             # Create request
-            request = SpeechRecognitionRequest(
-                audio_data=audio_data, language=language, quality=quality
-            )
+            request = SpeechRecognitionRequest(audio_data=audio_data, language=language, quality=quality)
 
             return await self.recognize_speech(request)
 
         except Exception as e:
             self.logger.error(f"File recognition failed: {e!s}")
-            return SpeechRecognitionResult(
-                success=False, error_message=str(e), error_code="FILE_ERROR"
-            )
+            return SpeechRecognitionResult(success=False, error_message=str(e), error_code="FILE_ERROR")
 
     async def get_service_health(self) -> dict[str, Any]:
         """Get service health status"""

@@ -223,9 +223,7 @@ class SwarmHub:
             self.colonies[colony_id]["status"] = "healthy"
             print(f"SwarmHub: Received heartbeat from {colony_id}")
 
-    def update_colony_resource_state(
-        self, colony_id, resource_state, memory_load, symbolic_tag_density
-    ):
+    def update_colony_resource_state(self, colony_id, resource_state, memory_load, symbolic_tag_density):
         if colony_id in self.colonies:
             colony = self.get_colony(colony_id)
             colony.update_resource_state(resource_state)

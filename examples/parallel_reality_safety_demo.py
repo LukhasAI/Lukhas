@@ -64,9 +64,7 @@ class SafetyDemo:
 
         logger.info(f"Safety demo initialized with level: {safety_level.value}")
 
-    async def _mock_guardian(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _mock_guardian(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Mock guardian with variable responses"""
         state = action.get("state", {})
 
@@ -252,9 +250,7 @@ class SafetyDemo:
 
         # This should trigger warnings
         try:
-            await self.simulator.explore_branch(
-                simulation.simulation_id, risky_branch.branch_id, depth=2
-            )
+            await self.simulator.explore_branch(simulation.simulation_id, risky_branch.branch_id, depth=2)
         except Exception as e:
             print(f"  Exploration restricted: {e}")
 
@@ -326,9 +322,7 @@ class SafetyDemo:
         # Attempt collapse with consensus check
         print("\nAttempting reality collapse...")
         try:
-            selected = await self.simulator.collapse_reality(
-                simulation.simulation_id, {"maximize": "probability"}
-            )
+            selected = await self.simulator.collapse_reality(simulation.simulation_id, {"maximize": "probability"})
             print(f"  Selected branch: {selected.branch_id}")
             print(f"  Consensus warnings: {self.safety_framework.metrics['consensus_violations']}")
         except Exception as e:

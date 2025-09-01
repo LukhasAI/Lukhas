@@ -37,9 +37,7 @@ class DAOGovernanceNode:
             {"id": "safety_monitor", "weight": 1.0, "domain": "safety"},
         ]
 
-    def create_proposal(
-        self, title: str, description: str, proposal_type: str, data: dict[str, Any]
-    ) -> str:
+    def create_proposal(self, title: str, description: str, proposal_type: str, data: dict[str, Any]) -> str:
         """Create a new governance proposal."""
         proposal_id = str(uuid.uuid4())
 
@@ -71,9 +69,7 @@ class DAOGovernanceNode:
                 return proposal
         return None
 
-    def vote_on_proposal(
-        self, proposal_id: str, voter_id: str, vote: bool, comment: Optional[str] = None
-    ) -> bool:
+    def vote_on_proposal(self, proposal_id: str, voter_id: str, vote: bool, comment: Optional[str] = None) -> bool:
         """Cast a vote on a proposal."""
         proposal = self.get_proposal(proposal_id)
         if not proposal or proposal["status"] != "pending":
@@ -99,13 +95,9 @@ class DAOGovernanceNode:
 
         # If comment provided, add to comments
         if comment:
-            proposal["comments"].append(
-                {"author_id": voter_id, "text": comment, "timestamp": time.time()}
-            )
+            proposal["comments"].append({"author_id": voter_id, "text": comment, "timestamp": time.time()})
 
-        self.logger.info(
-            f"Recorded vote from {voter_id} on proposal {proposal_id}: {'Approve' if vote else 'Reject'}"
-        )
+        self.logger.info(f"Recorded vote from {voter_id} on proposal {proposal_id}: {'Approve' if vote else 'Reject'}")
 
         # Check if we have enough votes to make a decision
         self._check_proposal_status(proposal_id)
@@ -193,13 +185,9 @@ class DAOGovernanceNode:
 
             comment = None
             if vote:
-                comment = (
-                    f"I approve this proposal as it aligns with {member['domain']} principles."
-                )
+                comment = f"I approve this proposal as it aligns with {member['domain']} principles."
             else:
-                comment = (
-                    f"I reject this proposal as it raises concerns in the {member['domain']} area."
-                )
+                comment = f"I reject this proposal as it raises concerns in the {member['domain']} area."
 
             self.vote_on_proposal(
                 proposal_id=proposal_id,

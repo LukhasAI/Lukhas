@@ -71,9 +71,7 @@ def fix_communication_fabric():
     # Check if total_messages is already in get_statistics
     if "total_messages" not in content:
         # Find the get_statistics method and add total_messages
-        stats_pattern = (
-            r"(def get_statistics\(self\) -> Dict\[str, Any\]:[\s\S]*?return {[\s\S]*?)(}[\s\n]*?)"
-        )
+        stats_pattern = r"(def get_statistics\(self\) -> Dict\[str, Any\]:[\s\S]*?return {[\s\S]*?)(}[\s\n]*?)"
 
         def add_total_messages(match):
             stats_dict = match.group(1)
@@ -82,9 +80,7 @@ def fix_communication_fabric():
             # Add total_messages if not present
             if "total_messages" not in stats_dict:
                 # Insert before the closing brace
-                new_stats = (
-                    stats_dict + '            "total_messages": self._message_count,\n            '
-                )
+                new_stats = stats_dict + '            "total_messages": self._message_count,\n            '
                 return new_stats + closing
             return match.group(0)
 
@@ -233,10 +229,7 @@ def update_validation_script():
     content = validation_path.read_text()
 
     # Fix import - add DistributedAIAgent import
-    if (
-        "DistributedAIAgent" in content
-        and "from candidate.core.integrated_system import" in content
-    ):
+    if "DistributedAIAgent" in content and "from candidate.core.integrated_system import" in content:
         # Import pattern already exists, make sure DistributedAIAgent is included
         import_pattern = r"from core\.core\.integrated_system import ([^\n]*)"
 

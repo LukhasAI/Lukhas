@@ -50,9 +50,7 @@ class ConstitutionalRule:
 
             is_valid = self.validator(symbol)
             if not is_valid:
-                message = (
-                    f"Symbol '{symbol.name}' violates {self.principle.value}: {self.description}"
-                )
+                message = f"Symbol '{symbol.name}' violates {self.principle.value}: {self.description}"
                 return False, message
 
             return True, None
@@ -490,9 +488,7 @@ class SymbolSandbox:
             "validation_rate": valid / total if total > 0 else 0,
             "generation_rate": can_generate / total if total > 0 else 0,
             "violations_by_principle": principle_counts,
-            "test_duration": time.time() - self.test_results[0]["timestamp"]
-            if self.test_results
-            else 0,
+            "test_duration": time.time() - self.test_results[0]["timestamp"] if self.test_results else 0,
         }
 
 
@@ -509,9 +505,7 @@ class ConstitutionalAPI:
         self.sandbox = SymbolSandbox()
         self.audit_log: list[dict[str, Any]] = []
 
-    def create_safe_symbol(
-        self, name: str, domain: SymbolicDomain, value: Any, **attributes
-    ) -> Optional[Symbol]:
+    def create_safe_symbol(self, name: str, domain: SymbolicDomain, value: Any, **attributes) -> Optional[Symbol]:
         """
         Create a symbol with constitutional validation.
 

@@ -35,6 +35,7 @@ except ImportError as e:
     LukhasOpenAIClient = None
     OpenAIWrapper = None
 
+
 # Import other wrappers if they exist
 def _load_optional(wrapper_name: str, class_name: str):
     try:
@@ -43,6 +44,7 @@ def _load_optional(wrapper_name: str, class_name: str):
     except ImportError:
         logger.debug("Optional wrapper %s not available", wrapper_name)
         return None
+
 
 optional_imports = []
 for wrapper_name, class_name in [

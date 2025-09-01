@@ -171,9 +171,7 @@ class ComprehensiveAPIOrchestrator:
 
         # Initialize provider bridges
         self.bridges = {}
-        self._initialize_bridges(
-            openai_api_key, anthropic_api_key, google_api_key, perplexity_api_key
-        )
+        self._initialize_bridges(openai_api_key, anthropic_api_key, google_api_key, perplexity_api_key)
 
         # Initialize orchestration components
         self.orchestrator = MultiModelOrchestrator() if BRIDGES_AVAILABLE else None
@@ -349,9 +347,7 @@ class ComprehensiveAPIOrchestrator:
                 decision_rationale=f"Error occurred during orchestration: {e!s}",
             )
 
-    async def stream_orchestration(
-        self, request: OrchestrationRequest
-    ) -> AsyncGenerator[dict[str, Any], None]:
+    async def stream_orchestration(self, request: OrchestrationRequest) -> AsyncGenerator[dict[str, Any], None]:
         """Stream orchestration results in real-time"""
 
         logger.info(f"📡 Starting streaming orchestration: {request.request_id}")
@@ -373,9 +369,7 @@ class ComprehensiveAPIOrchestrator:
             if provider == APIProvider.OPENAI and hasattr(bridge, "stream_with_functions"):
                 async for chunk in bridge.stream_with_functions(
                     messages=messages,
-                    function_mode=FunctionCallMode.AUTO
-                    if request.enable_functions
-                    else FunctionCallMode.NONE,
+                    function_mode=FunctionCallMode.AUTO if request.enable_functions else FunctionCallMode.NONE,
                 ):
                     yield {
                         "type": chunk.get("type", "content"),
@@ -388,9 +382,7 @@ class ComprehensiveAPIOrchestrator:
             elif provider == APIProvider.ANTHROPIC and hasattr(bridge, "stream_with_tools"):
                 async for chunk in bridge.stream_with_tools(
                     messages=messages,
-                    tool_mode=ToolUseMode.ENABLED
-                    if request.enable_functions
-                    else ToolUseMode.DISABLED,
+                    tool_mode=ToolUseMode.ENABLED if request.enable_functions else ToolUseMode.DISABLED,
                 ):
                     yield {
                         "type": chunk.get("type", "content"),
@@ -470,20 +462,14 @@ class ComprehensiveAPIOrchestrator:
                 if current_cost + request.max_cost_threshold > daily_limit:
                     raise ValueError(f"Daily cost limit exceeded for {provider.value}")
 
-    def _select_providers(
-        self, request: OrchestrationRequest, max_count: Optional[int] = None
-    ) -> list[APIProvider]:
+    def _select_providers(self, request: OrchestrationRequest, max_count: Optional[int] = None) -> list[APIProvider]:
         """Select providers based on request preferences and availability"""
         available_providers = list(self.bridges.keys())
 
         if APIProvider.ALL in request.preferred_providers:
             selected = available_providers
         else:
-            selected = [
-                p
-                for p in request.preferred_providers
-                if p in available_providers and p != APIProvider.ALL
-            ]
+            selected = [p for p in request.preferred_providers if p in available_providers and p != APIProvider.ALL]
 
         if max_count:
             selected = selected[:max_count]
@@ -510,9 +496,7 @@ class ComprehensiveAPIOrchestrator:
         if best_provider == APIProvider.OPENAI:
             result = await bridge.complete_with_functions(
                 messages=messages,
-                function_mode=FunctionCallMode.AUTO
-                if request.enable_functions
-                else FunctionCallMode.NONE,
+                function_mode=FunctionCallMode.AUTO if request.enable_functions else FunctionCallMode.NONE,
                 execute_functions=True,
             )
 
@@ -640,7 +624,9 @@ class ComprehensiveAPIOrchestrator:
             if len(top_responses) > 1 and len(top_responses[0]) > 0 and len(top_responses[1]) > 0:
                 # Simple ensemble: use primary but note consensus
                 ensemble_content = primary_result.get("content", "")
-                decision_rationale = f"High consensus ({agreement_level:.3f}) ensemble from {len(provider_results)} providers"
+                decision_rationale = (
+                    f"High consensus ({agreement_level:.3f}) ensemble from {len(provider_results)} providers"
+                )
             else:
                 ensemble_content = primary_result.get("content", "")
                 decision_rationale = f"Primary provider selected with score {primary_score:.3f}"
@@ -654,9 +640,7 @@ class ComprehensiveAPIOrchestrator:
 
         return OrchestrationResponse(
             content=ensemble_content,
-            confidence_score=min(
-                1.0, primary_score + (agreement_level * 0.1)
-            ),  # Boost confidence with agreement
+            confidence_score=min(1.0, primary_score + (agreement_level * 0.1)),  # Boost confidence with agreement
             primary_provider=primary_provider,
             participating_providers=[p for p, _ in provider_results],
             agreement_level=agreement_level,
@@ -763,9 +747,7 @@ class ComprehensiveAPIOrchestrator:
         """Combine all provider responses into comprehensive ensemble"""
         return await self._consensus_orchestration(request, providers)  # Similar to consensus
 
-    async def _execute_provider(
-        self, provider: APIProvider, request: OrchestrationRequest
-    ) -> dict[str, Any]:
+    async def _execute_provider(self, provider: APIProvider, request: OrchestrationRequest) -> dict[str, Any]:
         """Execute request on specific provider"""
         bridge = self.bridges[provider]
         start_time = time.perf_counter()
@@ -774,9 +756,7 @@ class ComprehensiveAPIOrchestrator:
             messages = [{"role": "user", "content": request.prompt}]
             result = await bridge.complete_with_functions(
                 messages=messages,
-                function_mode=FunctionCallMode.AUTO
-                if request.enable_functions
-                else FunctionCallMode.NONE,
+                function_mode=FunctionCallMode.AUTO if request.enable_functions else FunctionCallMode.NONE,
             )
             return {
                 "content": result.content,
@@ -932,9 +912,7 @@ class ComprehensiveAPIOrchestrator:
         # Update average latency
         current_avg = self.metrics["average_latency_ms"]
         total_requests = self.metrics["total_requests"]
-        new_avg = (
-            (current_avg * (total_requests - 1)) + response.total_latency_ms
-        ) / total_requests
+        new_avg = ((current_avg * (total_requests - 1)) + response.total_latency_ms) / total_requests
         self.metrics["average_latency_ms"] = new_avg
 
         # Update cost tracking
@@ -959,9 +937,7 @@ class ComprehensiveAPIOrchestrator:
         if response.consensus_achieved:
             # Update consensus success rate
             current_rate = self.metrics["consensus_success_rate"]
-            self.metrics["consensus_success_rate"] = (
-                (current_rate * (total_requests - 1)) + 1.0
-            ) / total_requests
+            self.metrics["consensus_success_rate"] = ((current_rate * (total_requests - 1)) + 1.0) / total_requests
 
     def get_metrics(self) -> dict[str, Any]:
         """Get comprehensive orchestration metrics"""
@@ -984,9 +960,7 @@ class ComprehensiveAPIOrchestrator:
         # Factor in success rate, latency, and cost efficiency
         success_rate = self.metrics["successful_requests"] / total_requests
         latency_score = max(0, 1 - (self.metrics["average_latency_ms"] / 2000))  # 2s = 0 score
-        cost_efficiency = min(
-            1.0, 0.10 / max(self.metrics["total_cost"] / total_requests, 0.001)
-        )  # $0.10 target
+        cost_efficiency = min(1.0, 0.10 / max(self.metrics["total_cost"] / total_requests, 0.001))  # $0.10 target
 
         return success_rate * 0.5 + latency_score * 0.3 + cost_efficiency * 0.2
 
@@ -1046,9 +1020,7 @@ class AdvancedConsensusStrategies:
             matched_cluster = None
             for cluster in clusters:
                 cluster_words = set(cluster[0].get("content", "").lower().split())
-                similarity = len(words.intersection(cluster_words)) / len(
-                    words.union(cluster_words)
-                )
+                similarity = len(words.intersection(cluster_words)) / len(words.union(cluster_words))
 
                 if similarity > similarity_threshold:
                     matched_cluster = cluster

@@ -37,14 +37,10 @@ class SemanticExtractor:
         # Pattern storage
         self.observed_patterns: dict[str, int] = Counter()
         self.semantic_clusters: dict[str, set[str]] = defaultdict(set)
-        self.abstraction_hierarchy: dict[int, dict[str, set[str]]] = {
-            level: {} for level in range(abstraction_levels)
-        }
+        self.abstraction_hierarchy: dict[int, dict[str, set[str]]] = {level: {} for level in range(abstraction_levels)}
 
         # Relationship extraction
-        self.entity_relations: dict[str, dict[str, set[str]]] = defaultdict(
-            lambda: defaultdict(set)
-        )
+        self.entity_relations: dict[str, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))
         self.causal_chains: list[tuple[str, str, float]] = []  # (cause, effect, confidence)
 
         # Statistics
@@ -130,14 +126,10 @@ class SemanticExtractor:
         entity_similarity = len(common_features) / len(total_features)
 
         # Compare actions
-        action_similarity = self._compare_sequences(
-            features1.get("actions", []), features2.get("actions", [])
-        )
+        action_similarity = self._compare_sequences(features1.get("actions", []), features2.get("actions", []))
 
         # Compare attributes
-        attr_similarity = self._compare_attributes(
-            features1.get("attributes", {}), features2.get("attributes", {})
-        )
+        attr_similarity = self._compare_attributes(features1.get("attributes", {}), features2.get("attributes", {}))
 
         # Weighted combination
         similarity = 0.4 * entity_similarity + 0.3 * action_similarity + 0.3 * attr_similarity
@@ -202,9 +194,7 @@ class SemanticExtractor:
                     entity_pairs.append((entities[i], entities[j]))
 
         pair_counts = Counter(entity_pairs)
-        frequent_pairs = [
-            pair for pair, count in pair_counts.items() if count >= self.min_pattern_frequency
-        ]
+        frequent_pairs = [pair for pair, count in pair_counts.items() if count >= self.min_pattern_frequency]
         patterns["entity_pairs"] = frequent_pairs
 
         # Action sequences
@@ -216,9 +206,7 @@ class SemanticExtractor:
                     action_sequences.append(seq)
 
         seq_counts = Counter(action_sequences)
-        frequent_sequences = [
-            seq for seq, count in seq_counts.items() if count >= self.min_pattern_frequency
-        ]
+        frequent_sequences = [seq for seq, count in seq_counts.items() if count >= self.min_pattern_frequency]
         patterns["action_sequences"] = frequent_sequences
 
         # Attribute patterns
@@ -230,9 +218,7 @@ class SemanticExtractor:
         # Find common attribute values
         for key, values in attr_patterns.items():
             value_counts = Counter(values)
-            common_values = [
-                v for v, count in value_counts.most_common(3) if count >= self.min_pattern_frequency
-            ]
+            common_values = [v for v, count in value_counts.most_common(3) if count >= self.min_pattern_frequency]
             if common_values:
                 patterns[f"common_{key}"] = common_values
 
@@ -296,9 +282,7 @@ class SemanticExtractor:
                 effect = ep2.get("outcome", "unknown")
                 confidence = 0.5  # Would calculate based on frequency
 
-                relationships["causal"].append(
-                    {"cause": cause, "effect": effect, "confidence": confidence}
-                )
+                relationships["causal"].append({"cause": cause, "effect": effect, "confidence": confidence})
 
                 self.causal_chains.append((cause, effect, confidence))
 
@@ -312,9 +296,7 @@ class SemanticExtractor:
 
         temporal_events.sort()
         for i in range(len(temporal_events) - 1):
-            relationships["temporal"].append(
-                {"before": temporal_events[i][1], "after": temporal_events[i + 1][1]}
-            )
+            relationships["temporal"].append({"before": temporal_events[i][1], "after": temporal_events[i + 1][1]})
 
         # Extract hierarchical relationships (is-a, part-of)
         for ep in episodes:
@@ -491,9 +473,7 @@ class SemanticExtractor:
             "semantic_clusters": len(self.semantic_clusters),
             "causal_chains": len(self.causal_chains),
             "abstraction_levels": self.abstraction_levels,
-            "most_common_patterns": [
-                pattern for pattern, _ in self.observed_patterns.most_common(5)
-            ],
+            "most_common_patterns": [pattern for pattern, _ in self.observed_patterns.most_common(5)],
         }
 
 

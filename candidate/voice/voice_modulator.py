@@ -215,9 +215,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(
-                    f"Guardian rejected voice modulation: {validation_result.get('reason')}"
-                )
+                raise ValueError(f"Guardian rejected voice modulation: {validation_result.get('reason')}")
 
             # Convert audio data to numpy array
             audio_array = self._bytes_to_audio_array(audio_data, sample_rate)
@@ -242,9 +240,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
             # 3. Volume adjustment
             if parameters.volume_gain != 1.0:
-                modulated_audio = self._apply_volume_adjustment(
-                    modulated_audio, parameters.volume_gain
-                )
+                modulated_audio = self._apply_volume_adjustment(modulated_audio, parameters.volume_gain)
                 processing_metadata["volume_adjustment"] = {"gain": parameters.volume_gain}
 
             # 4. Formant shifting
@@ -256,16 +252,12 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
             # 5. Breathiness effect
             if parameters.breathiness > 0.0:
-                modulated_audio = await self._apply_breathiness(
-                    modulated_audio, parameters.breathiness, sample_rate
-                )
+                modulated_audio = await self._apply_breathiness(modulated_audio, parameters.breathiness, sample_rate)
                 processing_metadata["breathiness"] = {"level": parameters.breathiness}
 
             # 6. Roughness effect
             if parameters.roughness > 0.0:
-                modulated_audio = await self._apply_roughness(
-                    modulated_audio, parameters.roughness, sample_rate
-                )
+                modulated_audio = await self._apply_roughness(modulated_audio, parameters.roughness, sample_rate)
                 processing_metadata["roughness"] = {"level": parameters.roughness}
 
             # 7. Vibrato effect
@@ -286,9 +278,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
                 "type": "VOICE_MODULATION",
                 "parameters": parameters.to_dict(),
                 "processing_metadata": processing_metadata,
-                "quality_metrics": await self._calculate_quality_metrics(
-                    audio_array, modulated_audio, sample_rate
-                ),
+                "quality_metrics": await self._calculate_quality_metrics(audio_array, modulated_audio, sample_rate),
                 "guardian_approved": True,
             }
 
@@ -303,9 +293,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
         except Exception as e:
             self.logger.error(f"Voice modulation failed: {e!s}")
-            await GLYPH.emit(
-                "voice.modulation.error", {"error": str(e), "parameters": parameters.to_dict()}
-            )
+            await GLYPH.emit("voice.modulation.error", {"error": str(e), "parameters": parameters.to_dict()})
 
             return audio_data, {"success": False, "error": str(e), "original_returned": True}
 
@@ -457,9 +445,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             "algorithm": "spectral_envelope",
         }
 
-    async def _apply_breathiness(
-        self, audio: np.ndarray, breathiness: float, sample_rate: int
-    ) -> np.ndarray:
+    async def _apply_breathiness(self, audio: np.ndarray, breathiness: float, sample_rate: int) -> np.ndarray:
         """Add breathiness effect to voice"""
         # Add filtered noise to simulate breathiness
         noise = np.random.normal(0, 0.1, len(audio))
@@ -475,9 +461,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
         return breathy_audio
 
-    async def _apply_roughness(
-        self, audio: np.ndarray, roughness: float, sample_rate: int
-    ) -> np.ndarray:
+    async def _apply_roughness(self, audio: np.ndarray, roughness: float, sample_rate: int) -> np.ndarray:
         """Add roughness effect to voice"""
         # Add low-frequency modulation to simulate roughness
         t = np.arange(len(audio)) / sample_rate
@@ -491,9 +475,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
         return rough_audio
 
-    async def _apply_vibrato(
-        self, audio: np.ndarray, rate: float, depth: float, sample_rate: int
-    ) -> np.ndarray:
+    async def _apply_vibrato(self, audio: np.ndarray, rate: float, depth: float, sample_rate: int) -> np.ndarray:
         """Add vibrato effect to voice"""
         t = np.arange(len(audio)) / sample_rate
 
@@ -607,9 +589,7 @@ class VoiceModulator:
                 "mode": mode.value if hasattr(mode, "value") else str(mode),
             }
 
-    def determine_parameters(
-        self, mode: VoiceModulationMode, context: dict[str, Any]
-    ) -> VoiceParameters:
+    def determine_parameters(self, mode: VoiceModulationMode, context: dict[str, Any]) -> VoiceParameters:
         """
         Determine voice parameters based on mode and context
         Implements context-aware parameter selection
@@ -727,9 +707,7 @@ class VoiceModulator:
             arousal=-0.2,
         )
 
-    def _adapt_to_context(
-        self, base_parameters: VoiceParameters, context: dict[str, Any]
-    ) -> VoiceParameters:
+    def _adapt_to_context(self, base_parameters: VoiceParameters, context: dict[str, Any]) -> VoiceParameters:
         """Adapt parameters based on context"""
         adapted = VoiceParameters(
             pitch_shift=base_parameters.pitch_shift,
@@ -806,9 +784,7 @@ class LucasVoiceSystem:
                 "success": True,
                 "text": text,
                 "voice_mode": mode,
-                "parameters": self.voice_modulator.determine_parameters(
-                    VoiceModulationMode(mode), context
-                ).to_dict(),
+                "parameters": self.voice_modulator.determine_parameters(VoiceModulationMode(mode), context).to_dict(),
                 "context": context,
                 "gdpr_compliant": self.gdpr_enabled,
             }

@@ -136,9 +136,7 @@ class StateValue:
     def __post_init__(self):
         # Ensure timestamp is set if not provided, though field default_factory is
         # better
-        if (
-            getattr(self, "timestamp", None) is None
-        ):  # Check if exists, as field default_factory is used
+        if getattr(self, "timestamp", None) is None:  # Check if exists, as field default_factory is used
             self.timestamp = time.time()
 
 
@@ -203,11 +201,7 @@ class SharedStateManager:
 
         # Identity integration
         # AIDENTITY: IdentityClient is used here for access control if available.
-        if (
-            identity_available
-            and IdentityClient is not None
-            and not isinstance(IdentityClient, _DummyIdentityClient)
-        ):
+        if identity_available and IdentityClient is not None and not isinstance(IdentityClient, _DummyIdentityClient):
             self.identity_client: Optional[IdentityClient] = IdentityClient()
             self.logger.info("IdentityClient integration enabled for SharedStateManager.")
         else:
@@ -261,9 +255,7 @@ class SharedStateManager:
         access_level = state_value.access_level
 
         if state_value.owner_module == module:
-            self.logger.debug(
-                "Access granted: requester is owner module", key=key, module_name=module
-            )
+            self.logger.debug("Access granted: requester is owner module", key=key, module_name=module)
             return True
 
         if access_level == StateAccessLevel.PUBLIC and operation == StateOperation.READ:
@@ -283,9 +275,11 @@ class SharedStateManager:
                 if tier == "ADMIN":
                     self.logger.debug("Access granted: ADMIN tier", key=key, user_id=user_id)
                     return True
-                if (
-                    access_level == StateAccessLevel.PROTECTED and operation == StateOperation.READ
-                ) and tier in ["DEVELOPER", "RESEARCHER", "SYSTEM"]:
+                if (access_level == StateAccessLevel.PROTECTED and operation == StateOperation.READ) and tier in [
+                    "DEVELOPER",
+                    "RESEARCHER",
+                    "SYSTEM",
+                ]:
                     self.logger.debug(
                         "Access granted: PROTECTED read for authorized tier",
                         key=key,
@@ -365,9 +359,7 @@ class SharedStateManager:
                 num_expired_keys_removed=len(expired_keys),
             )
 
-    def _resolve_conflict(
-        self, key: str, existing: StateValue, new_value: Any, module: str
-    ) -> bool:
+    def _resolve_conflict(self, key: str, existing: StateValue, new_value: Any, module: str) -> bool:
         """Resolve state conflicts based on strategy"""
         # ΛNOTE: Conflict resolution strategy is applied here. Current merge is
         # simple dict update.
@@ -598,9 +590,7 @@ class SharedStateManager:
             )
             return False
 
-    def get_state(
-        self, key: str, module: str, user_id: Optional[str] = None, default: Any = None
-    ) -> Any:
+    def get_state(self, key: str, module: str, user_id: Optional[str] = None, default: Any = None) -> Any:
         """Get a state value"""
         self.logger.debug("Attempting to get state", key=key, module_name=module, user_id=user_id)
         try:
@@ -662,9 +652,7 @@ class SharedStateManager:
 
     def delete_state(self, key: str, module: str, user_id: Optional[str] = None) -> bool:
         """Delete a state value"""
-        self.logger.debug(
-            "Attempting to delete state", key=key, module_name=module, user_id=user_id
-        )
+        self.logger.debug("Attempting to delete state", key=key, module_name=module, user_id=user_id)
         try:
             with self._get_lock(key):
                 if key not in self.state:
@@ -800,27 +788,20 @@ class SharedStateManager:
             )
             return False
 
-    def get_keys_by_prefix(
-        self, prefix: str, module: str, user_id: Optional[str] = None
-    ) -> list[str]:
+    def get_keys_by_prefix(self, prefix: str, module: str, user_id: Optional[str] = None) -> list[str]:
         """Get all keys matching a prefix, respecting access controls."""
-        self.logger.debug(
-            "Getting keys by prefix", prefix=prefix, module_name=module, user_id=user_id
-        )
+        self.logger.debug("Getting keys by prefix", prefix=prefix, module_name=module, user_id=user_id)
         self._cleanup_expired()
 
         accessible_keys = [
             key
             for key in list(self.state.keys())
-            if key.startswith(prefix)
-            and self._check_access(key, StateOperation.READ, module, user_id)
+            if key.startswith(prefix) and self._check_access(key, StateOperation.READ, module, user_id)
         ]
         self.logger.info("Keys by prefix retrieved", prefix=prefix, count=len(accessible_keys))
         return accessible_keys
 
-    def get_state_info(
-        self, key: str, module: str, user_id: Optional[str] = None
-    ) -> Optional[dict[str, Any]]:
+    def get_state_info(self, key: str, module: str, user_id: Optional[str] = None) -> Optional[dict[str, Any]]:
         """Get metadata about a state value"""
         self.logger.debug("Getting state info", key=key, module_name=module, user_id=user_id)
         if key not in self.state:
@@ -850,9 +831,7 @@ class SharedStateManager:
         self.logger.info("State info retrieved", key=key, info_keys=list(info.keys()))
         return info
 
-    def get_change_history(
-        self, key: Optional[str] = None, limit: int = 100
-    ) -> list[dict[str, Any]]:
+    def get_change_history(self, key: Optional[str] = None, limit: int = 100) -> list[dict[str, Any]]:
         """Get change history for a key or all changes"""
         self.logger.debug("Fetching change history", key=key, limit=limit)
 
@@ -901,9 +880,7 @@ class SharedStateManager:
         )
         return current_stats
 
-    def rollback_to_version(
-        self, key: str, version: int, module: str, user_id: Optional[str] = None
-    ) -> bool:
+    def rollback_to_version(self, key: str, version: int, module: str, user_id: Optional[str] = None) -> bool:
         """Rollback a key to a specific version from its change history."""
         self.logger.info(
             "Attempting rollback",
@@ -956,9 +933,7 @@ class SharedStateManager:
                 return True
             else:
                 current_sv = self.state.get(key)
-                access_level_for_restore = (
-                    current_sv.access_level if current_sv else StateAccessLevel.PROTECTED
-                )
+                access_level_for_restore = current_sv.access_level if current_sv else StateAccessLevel.PROTECTED
                 ttl_for_restore = current_sv.ttl if current_sv else None
                 metadata_for_restore = current_sv.metadata if current_sv else None
 
@@ -1019,9 +994,7 @@ def set_shared_state(
 
 
 # ΛEXPOSE
-def get_shared_state(
-    key: str, module: str, user_id: Optional[str] = None, default: Any = None
-) -> Any:
+def get_shared_state(key: str, module: str, user_id: Optional[str] = None, default: Any = None) -> Any:
     """Get shared state value using the global shared_state instance."""
     logger.debug(
         "Convenience: get_shared_state called",

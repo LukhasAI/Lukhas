@@ -201,11 +201,7 @@ class NodeManager:
             node_class = None
             for attr_name in dir(node_module):
                 attr = getattr(node_module, attr_name)
-                if (
-                    isinstance(attr, type)
-                    and hasattr(attr, "process_message")
-                    and callable(attr.process_message)
-                ):
+                if isinstance(attr, type) and hasattr(attr, "process_message") and callable(attr.process_message):
                     node_class = attr
                     break
 

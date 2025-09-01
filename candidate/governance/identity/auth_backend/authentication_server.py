@@ -163,9 +163,7 @@ class AuthenticationServer:
             # Store device public key for this session
             if device_public_key:
                 try:
-                    verify_key = nacl.signing.VerifyKey(
-                        device_public_key, encoder=nacl.encoding.HexEncoder
-                    )
+                    verify_key = nacl.signing.VerifyKey(device_public_key, encoder=nacl.encoding.HexEncoder)
                     self.device_verify_keys[user_id] = verify_key
                     logger.info(f"Device public key stored for user {user_id}")
                 except Exception as e:
@@ -188,15 +186,11 @@ class AuthenticationServer:
                         await asyncio.wait_for(pong_waiter, timeout=10)
                     except Exception:
                         self.expire_session(session_id)
-                        await websocket.send(
-                            json.dumps({"error": "Session expired: heartbeat lost"})
-                        )
+                        await websocket.send(json.dumps({"error": "Session expired: heartbeat lost"}))
                         break
                     if time.time() - last_entropy_time > 120:
                         self.expire_session(session_id)
-                        await websocket.send(
-                            json.dumps({"error": "Session expired due to inactivity"})
-                        )
+                        await websocket.send(json.dumps({"error": "Session expired due to inactivity"}))
                         break
                     continue
                 try:
@@ -218,9 +212,7 @@ class AuthenticationServer:
                         await websocket.send(json.dumps({"error": "Invalid payload format"}))
                         continue
                     if not self.verify_entropy_packet(raw_payload, signature_hex, device_id):
-                        await websocket.send(
-                            json.dumps({"error": "Invalid entropy packet signature"})
-                        )
+                        await websocket.send(json.dumps({"error": "Invalid entropy packet signature"}))
                         self.audit_logger.log_event(
                             f"Rejected entropy update: bad signature for device {device_id}",
                             constitutional_tag=True,
@@ -248,9 +240,7 @@ class AuthenticationServer:
                     timestamps = self.device_entropy_timestamps.get(device_id, [])
                     timestamps = [t for t in timestamps if now - t < 10]
                     if len(timestamps) >= self.entropy_rate_limit:
-                        await websocket.send(
-                            json.dumps({"error": "Rate limit exceeded for device"})
-                        )
+                        await websocket.send(json.dumps({"error": "Rate limit exceeded for device"}))
                         logger.warning(f"Rate limit exceeded for device {device_id}")
                         self.audit_logger.log_event(
                             f"Rate limit exceeded for device {device_id}",
@@ -263,13 +253,9 @@ class AuthenticationServer:
                         entropy_sync.update_entropy(device_id, entropy_value)
                     except Exception as e:
                         await websocket.send(json.dumps({"error": "Entropy update failed"}))
-                        self.audit_logger.log_event(
-                            f"Entropy update failed: {e}", constitutional_tag=True
-                        )
+                        self.audit_logger.log_event(f"Entropy update failed: {e}", constitutional_tag=True)
                         continue
-                    if not self.constitutional_gatekeeper.validate(
-                        entropy_sync.get_entropy_level()
-                    ):
+                    if not self.constitutional_gatekeeper.validate(entropy_sync.get_entropy_level()):
                         await websocket.send(json.dumps({"error": "Entropy validation failed"}))
                         self.audit_logger.log_event(
                             f"Entropy validation failed for session {session_id}",
@@ -371,9 +357,7 @@ class AuthenticationServer:
                         )
 
                     except Exception as trust_error:
-                        logger.warning(
-                            f"Trust scoring failed for session {session_id}: {trust_error}"
-                        )
+                        logger.warning(f"Trust scoring failed for session {session_id}: {trust_error}")
                         # Continue with authentication even if trust scoring fails
                         # Trust scoring is enhancement, not critical path
 
@@ -399,18 +383,14 @@ class AuthenticationServer:
                     )
         except Exception as e:
             logger.error(f"Error handling client connection: {e}\n{traceback.format_exc()}")
-            self.audit_logger.log_event(
-                f"Exception in client connection: {e}", constitutional_tag=True
-            )
+            self.audit_logger.log_event(f"Exception in client connection: {e}", constitutional_tag=True)
 
     def create_authentication_session(self, user_id: str) -> str:
         session_id = hashlib.sha256(f"{user_id}{datetime.now()}".encode()).hexdigest()
         entropy_sync = EntropySynchronizer()
         entropy_sync.last_active = time.time()
         self.active_sessions[session_id] = entropy_sync
-        self.audit_logger.log_event(
-            f"Session created for user {user_id} with session ID {session_id}"
-        )
+        self.audit_logger.log_event(f"Session created for user {user_id} with session ID {session_id}")
         return session_id
 
     def validate_authentication_request(self, session_data: dict[str, Any]) -> bool:
@@ -449,22 +429,15 @@ class AuthenticationServer:
     def expire_sessions(self):
         current_time = time.time()
         for session_id, session_data in list(self.active_sessions.items()):
-            if (
-                hasattr(session_data, "last_active")
-                and current_time - session_data.last_active > 3600
-            ):
+            if hasattr(session_data, "last_active") and current_time - session_data.last_active > 3600:
                 del self.active_sessions[session_id]
-                self.audit_logger.log_event(
-                    f"Session expired: {session_id}", constitutional_tag=True
-                )
+                self.audit_logger.log_event(f"Session expired: {session_id}", constitutional_tag=True)
 
     def expire_session(self, session_id):
         if session_id in self.active_sessions:
             try:
                 del self.active_sessions[session_id]
-                self.audit_logger.log_event(
-                    f"Session expired: {session_id}", constitutional_tag=True
-                )
+                self.audit_logger.log_event(f"Session expired: {session_id}", constitutional_tag=True)
             except Exception as e:
                 logger.error(f"Error expiring session {session_id}: {e}")
                 self.audit_logger.log_event(f"Session expiry error: {e}", constitutional_tag=True)
@@ -473,9 +446,7 @@ class AuthenticationServer:
         if device_id not in self.device_reliability:
             self.device_reliability[device_id] = []
         self.device_reliability[device_id].append(entropy_value)
-        average_reliability = sum(self.device_reliability[device_id]) / len(
-            self.device_reliability[device_id]
-        )
+        average_reliability = sum(self.device_reliability[device_id]) / len(self.device_reliability[device_id])
         self.audit_logger.log_event(
             f"Device {device_id} reliability: {average_reliability}",
             constitutional_tag=True,
@@ -483,9 +454,7 @@ class AuthenticationServer:
         if len(self.device_reliability[device_id]) >= 5:
             recent = self.device_reliability[device_id][-5:]
             if all(val < 0.5 for val in recent):
-                logger.critical(
-                    f"Device {device_id} reliability degraded: last 5 entropy values < 0.5"
-                )
+                logger.critical(f"Device {device_id} reliability degraded: last 5 entropy values < 0.5")
                 self.audit_logger.log_event(
                     f"Device {device_id} reliability degraded: last 5 entropy values < 0.5",
                     constitutional_tag=True,
@@ -513,9 +482,9 @@ class AuthenticationServer:
             # Count concurrent sessions for this user
             concurrent_count = 0
             for session_id, session_data in self.active_sessions.items():
-                if (
-                    hasattr(session_data, "user_id") and session_data.user_id == user_id
-                ) or session_id.startswith(user_id[:8]):
+                if (hasattr(session_data, "user_id") and session_data.user_id == user_id) or session_id.startswith(
+                    user_id[:8]
+                ):
                     concurrent_count += 1
 
             return {
@@ -529,9 +498,7 @@ class AuthenticationServer:
 
     # 🛡️ GDPR/CCPA COMPLIANCE METHODS
 
-    async def initialize_user_privacy_profile(
-        self, user_id: str, jurisdiction: str = "EU"
-    ) -> UserPrivacyProfile:
+    async def initialize_user_privacy_profile(self, user_id: str, jurisdiction: str = "EU") -> UserPrivacyProfile:
         """Initialize privacy profile for new user with compliance defaults"""
         privacy_profile = UserPrivacyProfile(
             user_id=user_id,
@@ -651,9 +618,7 @@ class AuthenticationServer:
                 }
 
         except Exception as e:
-            logger.error(
-                f"Error handling data subject request {request_type.value} for user {user_id}: {e}"
-            )
+            logger.error(f"Error handling data subject request {request_type.value} for user {user_id}: {e}")
             return {"success": False, "error": str(e), "request_id": request_id}
 
     async def _handle_access_request(self, user_id: str, request_id: str) -> dict[str, Any]:
@@ -674,9 +639,7 @@ class AuthenticationServer:
                 "consent_records": {k: v.isoformat() for k, v in profile.gdpr_consents.items()},
                 "opt_out_preferences": profile.ccpa_opt_outs,
                 "jurisdiction": profile.privacy_jurisdiction,
-                "last_update": (
-                    profile.last_consent_update.isoformat() if profile.last_consent_update else None
-                ),
+                "last_update": (profile.last_consent_update.isoformat() if profile.last_consent_update else None),
             }
 
         # Session data
@@ -749,9 +712,7 @@ class AuthenticationServer:
             anonymized_records = []
             for record in self.consent_audit_trail:
                 if record["user_id"] == user_id:
-                    record["user_id"] = (
-                        f"anonymized_{hashlib.sha256(user_id.encode()).hexdigest()[:8]}"
-                    )
+                    record["user_id"] = f"anonymized_{hashlib.sha256(user_id.encode()).hexdigest()[:8]}"
                     anonymized_records.append(record)
 
             erasure_results["consent_records"] = True
@@ -916,12 +877,8 @@ class AuthenticationServer:
                 if profile.last_consent_update:
                     retention_end = profile.last_consent_update + timedelta(days=retention_days)
                     if current_time > retention_end:
-                        logger.info(
-                            f"Auto-deleting expired data for user {user_id}, type {data_type}"
-                        )
-                        await self._handle_erasure_request(
-                            user_id, f"auto_cleanup_{int(time.time())}"
-                        )
+                        logger.info(f"Auto-deleting expired data for user {user_id}, type {data_type}")
+                        await self._handle_erasure_request(user_id, f"auto_cleanup_{int(time.time())}")
                         break
 
 

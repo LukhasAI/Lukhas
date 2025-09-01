@@ -286,9 +286,7 @@ class MetricCollector:
     def get_recent_values(self, metric_name: str, hours: int = 24) -> list[float]:
         """Get recent metric values within time window"""
         cutoff_time = datetime.now() - timedelta(hours=hours)
-        recent_points = [
-            point for point in self.metrics[metric_name] if point.timestamp >= cutoff_time
-        ]
+        recent_points = [point for point in self.metrics[metric_name] if point.timestamp >= cutoff_time]
         return [point.value for point in recent_points]
 
     def get_metric_history(self, metric_name: str, hours: int = 24) -> list[MetricDataPoint]:
@@ -371,9 +369,7 @@ class DriftDetector:
                 # Z-score > 2 indicates significant deviation
                 if abs(zscore) > 2:
                     drift_detected = True
-                    deviation_percent = (
-                        abs(current_value - self.current_baseline) / self.current_baseline * 100
-                    )
+                    deviation_percent = abs(current_value - self.current_baseline) / self.current_baseline * 100
 
         elif self.config.statistical_test == "ks_test":
             baseline_values = metric_collector.get_recent_values(
@@ -384,9 +380,7 @@ class DriftDetector:
             current_window = recent_values[-min(len(recent_values), 20) :]
 
             if len(baseline_values) > 10 and len(current_window) > 5:
-                ks_statistic = self.analyzer.kolmogorov_smirnov_test(
-                    baseline_values, current_window
-                )
+                ks_statistic = self.analyzer.kolmogorov_smirnov_test(baseline_values, current_window)
                 confidence_score = ks_statistic
 
                 # K-S statistic > 0.3 indicates distribution shift
@@ -398,9 +392,7 @@ class DriftDetector:
             all_values = metric_collector.get_recent_values(self.config.metric_name, hours=24)
 
             if len(all_values) > self.config.window_size:
-                deviation_percent = self.analyzer.moving_average_deviation(
-                    all_values, self.config.window_size
-                )
+                deviation_percent = self.analyzer.moving_average_deviation(all_values, self.config.window_size)
                 confidence_score = min(deviation_percent / 50.0, 1.0)  # Normalize
 
                 if deviation_percent > self.config.threshold_percent:
@@ -418,9 +410,7 @@ class DriftDetector:
 
     async def _update_baseline_if_needed(self, metric_collector: MetricCollector):
         """Update baseline metrics if sufficient time has passed"""
-        hours_since_baseline = (
-            datetime.now() - self.last_baseline_calculation
-        ).total_seconds() / 3600
+        hours_since_baseline = (datetime.now() - self.last_baseline_calculation).total_seconds() / 3600
 
         if hours_since_baseline >= self.config.baseline_window_hours:
             baseline_values = metric_collector.get_recent_values(
@@ -501,9 +491,7 @@ class DriftDetector:
 
         return alert
 
-    def _generate_recommendations(
-        self, severity: DriftSeverity, deviation_percent: float
-    ) -> list[str]:
+    def _generate_recommendations(self, severity: DriftSeverity, deviation_percent: float) -> list[str]:
         """Generate actionable recommendations based on drift"""
         recommendations = []
 
@@ -930,9 +918,7 @@ class DriftMonitoringAPI:
         # Count active alerts synchronously
         active_alerts_count = 0
         for detector in self.drift_detectors.values():
-            active_alerts_count += len(
-                [a for a in detector.active_alerts.values() if not a.resolved]
-            )
+            active_alerts_count += len([a for a in detector.active_alerts.values() if not a.resolved])
 
         return {
             "api_version": "v1.0.0",

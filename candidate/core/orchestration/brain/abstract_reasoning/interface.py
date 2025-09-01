@@ -83,20 +83,14 @@ class AbstractReasoningBrainInterface:
             await self.initialize()
 
         # Determine if radar analytics should be used for this call
-        use_radar = (
-            enable_radar_analytics
-            if enable_radar_analytics is not None
-            else self.enable_radar_analytics
-        )
+        use_radar = enable_radar_analytics if enable_radar_analytics is not None else self.enable_radar_analytics
 
         # If radar analytics is enabled, use the integrated processing
         if use_radar and self.radar_integration:
             logger.info(f"🧠📊 Starting abstract reasoning with radar analytics: {reasoning_type}")
 
             problem_description = (
-                problem
-                if isinstance(problem, str)
-                else problem.get("description", "Complex reasoning problem")
+                problem if isinstance(problem, str) else problem.get("description", "Complex reasoning problem")
             )
             return await self.radar_integration.process_with_radar_analytics(
                 problem_description, context, generate_visualization=True
@@ -136,18 +130,12 @@ class AbstractReasoningBrainInterface:
                 "solution": result.get("reasoning_result", {}).get("solution", {}),
                 "confidence": result.get("confidence_metrics", {}).get("meta_confidence", 0.0),
                 "reasoning_path": result.get("reasoning_result", {}).get("reasoning_path", {}),
-                "coherence": result.get("processing_metadata", {}).get(
-                    "brain_symphony_coherence", 0.0
-                ),
-                "uncertainty": result.get("confidence_metrics", {}).get(
-                    "uncertainty_decomposition", {}
-                ),
+                "coherence": result.get("processing_metadata", {}).get("brain_symphony_coherence", 0.0),
+                "uncertainty": result.get("confidence_metrics", {}).get("uncertainty_decomposition", {}),
                 "full_result": result,
             }
 
-            logger.info(
-                f"✅ Abstract reasoning completed - Confidence: {simplified_result['confidence']:.3f}"
-            )
+            logger.info(f"✅ Abstract reasoning completed - Confidence: {simplified_result['confidence']:.3f}")
 
             return simplified_result
 
@@ -257,14 +245,10 @@ class AbstractReasoningBrainInterface:
 
         # Uncertainty interpretation
         uncertainty = confidence_metrics.get("uncertainty_decomposition", {})
-        dominant_uncertainty = (
-            max(uncertainty.items(), key=lambda x: x[1]) if uncertainty else ("unknown", 0)
-        )
+        dominant_uncertainty = max(uncertainty.items(), key=lambda x: x[1]) if uncertainty else ("unknown", 0)
 
         if dominant_uncertainty[1] > 0.3:
-            interpretations["primary_uncertainty"] = (
-                f"Dominated by {dominant_uncertainty[0]} uncertainty"
-            )
+            interpretations["primary_uncertainty"] = f"Dominated by {dominant_uncertainty[0]} uncertainty"
         else:
             interpretations["primary_uncertainty"] = "Well-balanced uncertainty distribution"
 
@@ -345,11 +329,8 @@ class AbstractReasoningBrainInterface:
                     "timestamp": session.get("processing_metadata", {}).get("processing_timestamp"),
                     "reasoning_type": session.get("processing_metadata", {}).get("reasoning_type"),
                     "confidence": session.get("confidence_metrics", {}).get("meta_confidence", 0.0),
-                    "coherence": session.get("processing_metadata", {}).get(
-                        "brain_symphony_coherence", 0.0
-                    ),
-                    "success": session.get("confidence_metrics", {}).get("meta_confidence", 0.0)
-                    > 0.7,
+                    "coherence": session.get("processing_metadata", {}).get("brain_symphony_coherence", 0.0),
+                    "success": session.get("confidence_metrics", {}).get("meta_confidence", 0.0) > 0.7,
                 }
                 summaries.append(summary)
 
@@ -382,9 +363,7 @@ class AbstractReasoningBrainInterface:
                 "performance_metrics": status["performance_metrics"],
                 "session_statistics": {
                     "total_sessions": status["reasoning_sessions_count"],
-                    "calibration_quality": status.get("calibration_summary", {}).get(
-                        "calibration_score", 0.0
-                    ),
+                    "calibration_quality": status.get("calibration_summary", {}).get("calibration_score", 0.0),
                 },
                 "capabilities": {
                     "bio_quantum_reasoning": True,
@@ -502,9 +481,7 @@ class AbstractReasoningBrainInterface:
         Returns:
             Reasoning result with radar analytics and visualization path
         """
-        return await self.reason_abstractly(
-            problem, context, reasoning_type, enable_radar_analytics=True
-        )
+        return await self.reason_abstractly(problem, context, reasoning_type, enable_radar_analytics=True)
 
     def configure_radar_analytics(self, config: dict[str, Any]) -> bool:
         """
@@ -603,17 +580,13 @@ async def reason_about_with_radar(
     await interface.initialize()
 
     try:
-        result = await interface.reason_with_radar_visualization(
-            problem_description, context, reasoning_type
-        )
+        result = await interface.reason_with_radar_visualization(problem_description, context, reasoning_type)
         return result
     finally:
         await interface.shutdown()
 
 
-async def start_radar_monitoring_session(
-    update_interval: float = 2.0, duration: float = 30.0
-) -> str:
+async def start_radar_monitoring_session(update_interval: float = 2.0, duration: float = 30.0) -> str:
     """
     Start a radar monitoring session and return analytics export path.
 

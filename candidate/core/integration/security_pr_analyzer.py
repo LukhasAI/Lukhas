@@ -171,9 +171,7 @@ class SecurityScanner:
 
         for root, dirs, files in os.walk(repo_path):
             # Skip common directories
-            dirs[:] = [
-                d for d in dirs if d not in [".git", "__pycache__", "node_modules", ".venv", "venv"]
-            ]
+            dirs[:] = [d for d in dirs if d not in [".git", "__pycache__", "node_modules", ".venv", "venv"]]
 
             for file in files:
                 # Skip binary files and common non-code files
@@ -240,9 +238,7 @@ class SecurityScanner:
                                     SecurityIssue(
                                         type="DEPENDENCY",
                                         severity=(
-                                            "HIGH"
-                                            if vuln.get("severity", "medium").lower() == "high"
-                                            else "MEDIUM"
+                                            "HIGH" if vuln.get("severity", "medium").lower() == "high" else "MEDIUM"
                                         ),
                                         file=str(req_file.relative_to(repo_path)),
                                         line=0,
@@ -319,8 +315,7 @@ class SecurityScanner:
 
                 # Check if file matches sensitive patterns
                 is_sensitive = any(
-                    file.lower().endswith(pattern.replace("*", ""))
-                    or pattern.replace("*", "") in file.lower()
+                    file.lower().endswith(pattern.replace("*", "")) or pattern.replace("*", "") in file.lower()
                     for pattern in sensitive_patterns
                 )
 
@@ -531,9 +526,7 @@ class PRAnalyzer:
                 }
             )
 
-    def analyze_repository_prs(
-        self, repo_info: dict[str, Any], days_back: int = 30
-    ) -> dict[str, Any]:
+    def analyze_repository_prs(self, repo_info: dict[str, Any], days_back: int = 30) -> dict[str, Any]:
         """Analyze pull requests in repository"""
 
         if not self.github_token:
@@ -620,9 +613,7 @@ class PRAnalyzer:
                             "token",
                         ]
                     ):
-                        analysis.issues_found.append(
-                            f"Changes to sensitive file: {file['filename']}"
-                        )
+                        analysis.issues_found.append(f"Changes to sensitive file: {file['filename']}")
                         analysis.security_risk = "HIGH"
 
                     # Check patch content for security issues
@@ -642,24 +633,18 @@ class PRAnalyzer:
                         if re.search(r"\+.*\b(?:eval|exec)\s*\(", patch):
                             analysis.issues_found.append("Use of dangerous functions (eval/exec)")
                             analysis.security_risk = (
-                                "MEDIUM"
-                                if analysis.security_risk == "LOW"
-                                else analysis.security_risk
+                                "MEDIUM" if analysis.security_risk == "LOW" else analysis.security_risk
                             )
 
                         # Check for SQL injection patterns
                         if re.search(r"\+.*execute\s*\([^)]*%[^)]*\)", patch):
                             analysis.issues_found.append("Potential SQL injection pattern")
                             analysis.security_risk = (
-                                "MEDIUM"
-                                if analysis.security_risk == "LOW"
-                                else analysis.security_risk
+                                "MEDIUM" if analysis.security_risk == "LOW" else analysis.security_risk
                             )
 
                 # Calculate code quality score
-                analysis.code_quality_score = self._calculate_pr_quality_score(
-                    files, analysis.issues_found
-                )
+                analysis.code_quality_score = self._calculate_pr_quality_score(files, analysis.issues_found)
 
         except Exception as e:
             analysis.issues_found.append(f"Analysis error: {e!s}")
@@ -688,29 +673,19 @@ class PRAnalyzer:
         recommendations = []
 
         if results["high_risk_prs"] > 0:
-            recommendations.append(
-                f"🚨 {results['high_risk_prs']} high-risk PRs require immediate security review"
-            )
+            recommendations.append(f"🚨 {results['high_risk_prs']} high-risk PRs require immediate security review")
 
         if results["open_prs"] > 10:
-            recommendations.append(
-                "📊 Consider reducing the number of open PRs to improve review quality"
-            )
+            recommendations.append("📊 Consider reducing the number of open PRs to improve review quality")
 
         # Analyze PR patterns
         pr_analyses = results["pr_analyses"]
-        avg_quality = (
-            sum(pr.code_quality_score for pr in pr_analyses) / len(pr_analyses)
-            if pr_analyses
-            else 0
-        )
+        avg_quality = sum(pr.code_quality_score for pr in pr_analyses) / len(pr_analyses) if pr_analyses else 0
 
         if avg_quality < 70:
             recommendations.append("📈 Consider implementing stricter code review processes")
 
-        secret_issues = sum(
-            1 for pr in pr_analyses if any("secret" in issue.lower() for issue in pr.issues_found)
-        )
+        secret_issues = sum(1 for pr in pr_analyses if any("secret" in issue.lower() for issue in pr.issues_found))
         if secret_issues > 0:
             recommendations.append("🔐 Implement pre-commit hooks to prevent secrets in code")
 

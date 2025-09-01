@@ -204,9 +204,7 @@ class QRGCoverageIntegration:
                         setattr(test_config, key, value)
 
             # Run the comprehensive test suite
-            test_result, coverage_percentage = await self._run_test_suite_async(
-                test_categories, test_config
-            )
+            test_result, coverage_percentage = await self._run_test_suite_async(test_categories, test_config)
 
             end_time = time.time()
             runtime = end_time - start_time
@@ -214,9 +212,7 @@ class QRGCoverageIntegration:
             # Create coverage report
             coverage_report = CoverageReport(
                 total_tests=test_result.testsRun,
-                passed_tests=test_result.testsRun
-                - len(test_result.failures)
-                - len(test_result.errors),
+                passed_tests=test_result.testsRun - len(test_result.failures) - len(test_result.errors),
                 failed_tests=len(test_result.failures),
                 error_count=len(test_result.errors),
                 coverage_percentage=coverage_percentage,
@@ -264,9 +260,7 @@ class QRGCoverageIntegration:
         loop = asyncio.get_event_loop()
 
         # Run the comprehensive test suite in a thread pool
-        result = await loop.run_in_executor(
-            None, self._run_test_suite_sync, test_categories, test_config
-        )
+        result = await loop.run_in_executor(None, self._run_test_suite_sync, test_categories, test_config)
 
         return result
 
@@ -320,8 +314,7 @@ class QRGCoverageIntegration:
 
         # Update average runtime
         total_runtime = (
-            self.test_metrics["average_runtime"] * (self.test_metrics["total_executions"] - 1)
-            + report.runtime_seconds
+            self.test_metrics["average_runtime"] * (self.test_metrics["total_executions"] - 1) + report.runtime_seconds
         )
         self.test_metrics["average_runtime"] = total_runtime / self.test_metrics["total_executions"]
 
@@ -418,12 +411,8 @@ class QRGCoverageIntegration:
         recent_coverages = [r.coverage_percentage for r in self.test_history[-5:]]
 
         if len(recent_coverages) >= 3:
-            first_third = sum(recent_coverages[: len(recent_coverages) // 3]) / (
-                len(recent_coverages) // 3
-            )
-            last_third = sum(recent_coverages[-len(recent_coverages) // 3 :]) / (
-                len(recent_coverages) // 3
-            )
+            first_third = sum(recent_coverages[: len(recent_coverages) // 3]) / (len(recent_coverages) // 3)
+            last_third = sum(recent_coverages[-len(recent_coverages) // 3 :]) / (len(recent_coverages) // 3)
 
             if last_third > first_third + 2:
                 return "improving"

@@ -145,9 +145,7 @@ async def request_challenge(
     """
     # Check if action requires UL entropy
     if not requires_ul_entropy(request.action):
-        raise HTTPException(
-            status_code=400, detail=f"Action '{request.action}' does not require UL entropy"
-        )
+        raise HTTPException(status_code=400, detail=f"Action '{request.action}' does not require UL entropy")
 
     try:
         challenge = await service.request_challenge(request.lid, request.action)
@@ -204,9 +202,7 @@ async def verify_proof(
                 message="Composition proof verified successfully",
             )
         else:
-            return ProofVerificationResponse(
-                verified=False, message="Composition proof verification failed"
-            )
+            return ProofVerificationResponse(verified=False, message="Composition proof verification failed")
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Proof verification failed: {e!s}")

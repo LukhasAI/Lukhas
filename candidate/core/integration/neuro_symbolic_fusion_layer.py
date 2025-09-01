@@ -374,15 +374,9 @@ class NeuroSymbolicFusionLayer:
         """Get comprehensive metrics about fusion layer performance"""
         try:
             total_patterns = len(self.fusion_patterns)
-            avg_coherence = (
-                np.mean([p.coherence_score for p in self.fusion_patterns])
-                if self.fusion_patterns
-                else 0.0
-            )
+            avg_coherence = np.mean([p.coherence_score for p in self.fusion_patterns]) if self.fusion_patterns else 0.0
             avg_fusion_strength = (
-                np.mean([p.fusion_strength for p in self.fusion_patterns])
-                if self.fusion_patterns
-                else 0.0
+                np.mean([p.fusion_strength for p in self.fusion_patterns]) if self.fusion_patterns else 0.0
             )
 
             metrics = {
@@ -409,9 +403,7 @@ class NeuroSymbolicFusionLayer:
 
     # Helper methods for internal operations
 
-    def _apply_fusion_mode(
-        self, pattern: NeuroSymbolicPattern, mode: FusionMode
-    ) -> NeuroSymbolicPattern:
+    def _apply_fusion_mode(self, pattern: NeuroSymbolicPattern, mode: FusionMode) -> NeuroSymbolicPattern:
         """Apply fusion mode specific processing"""
         if mode == FusionMode.NEURAL_DOMINANT:
             pattern.neural_signature *= 1.2
@@ -427,9 +419,7 @@ class NeuroSymbolicFusionLayer:
 
         return pattern
 
-    def _calculate_energy_cost(
-        self, neural_input: np.ndarray, symbolic_input: dict[str, Any]
-    ) -> float:
+    def _calculate_energy_cost(self, neural_input: np.ndarray, symbolic_input: dict[str, Any]) -> float:
         """Calculate the energy cost of fusion operation"""
         neural_cost = np.sum(np.abs(neural_input)) * 0.1
         symbolic_cost = len(str(symbolic_input)) * 0.001
@@ -568,9 +558,7 @@ class NeuroSymbolicFusionLayer:
             Collapsed superposition into single fused pattern
         """
         try:
-            self.logger.info(
-                "Processing superposition states", candidate_count=len(state_candidates)
-            )
+            self.logger.info("Processing superposition states", candidate_count=len(state_candidates))
 
             # Phase 1: Create superposition of all candidate states
             superposition_weights = []

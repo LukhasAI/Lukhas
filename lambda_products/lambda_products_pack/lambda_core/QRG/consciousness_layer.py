@@ -191,9 +191,7 @@ class ConsciousnessLayer:
         if ConsciousnessSource.QUANTUM_RESONANCE in self.consciousness_sources:
             self.qi_detector = QICoherenceDetector()
 
-        logger.info(
-            f"🔧 Initialized {len(self.consciousness_sources)} consciousness detection systems"
-        )
+        logger.info(f"🔧 Initialized {len(self.consciousness_sources)} consciousness detection systems")
 
     def detect_consciousness_state(
         self,
@@ -956,9 +954,7 @@ class ConsciousnessLayer:
         📚 Academic Layer: "Temporal consciousness pattern analysis and statistical summary"
         """
         cutoff_time = datetime.now() - timedelta(hours=time_window_hours)
-        recent_signatures = [
-            sig for sig in self.consciousness_history if sig.vad_profile.timestamp > cutoff_time
-        ]
+        recent_signatures = [sig for sig in self.consciousness_history if sig.vad_profile.timestamp > cutoff_time]
 
         if not recent_signatures:
             return {"error": "No consciousness data in specified time window"}
@@ -997,17 +993,13 @@ class ConsciousnessLayer:
             },
             "average_consciousness_coherence": round(avg_coherence, 3),
             "most_common_state": (
-                max(state_distribution, key=state_distribution.get)
-                if state_distribution
-                else "neutral"
+                max(state_distribution, key=state_distribution.get) if state_distribution else "neutral"
             ),
             "consciousness_stability": round(1.0 - np.std([v[0] for v in vad_values]), 3),
             "recommendations": self._generate_consciousness_recommendations(recent_signatures),
         }
 
-    def _generate_consciousness_recommendations(
-        self, signatures: list[ConsciousnessSignature]
-    ) -> list[str]:
+    def _generate_consciousness_recommendations(self, signatures: list[ConsciousnessSignature]) -> list[str]:
         """Generate consciousness wellness recommendations"""
         recommendations = []
 

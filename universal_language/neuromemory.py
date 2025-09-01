@@ -247,15 +247,11 @@ class CorticalNetwork:
         # Create connections based on shared attributes
         for other_id, other_node in self.semantic_nodes.items():
             if other_id != concept_id:
-                similarity = self._compute_attribute_similarity(
-                    node["attributes"], other_node["attributes"]
-                )
+                similarity = self._compute_attribute_similarity(node["attributes"], other_node["attributes"])
                 if similarity > 0.3:
                     self._add_connection(concept_id, other_id, similarity)
 
-    def spreading_activation(
-        self, start_concept: str, max_spread: int = 3
-    ) -> list[tuple[str, float]]:
+    def spreading_activation(self, start_concept: str, max_spread: int = 3) -> list[tuple[str, float]]:
         """
         Spreading activation through semantic network.
 
@@ -292,9 +288,7 @@ class CorticalNetwork:
         """
         self._add_connection(concept1, concept2, strength_increase=0.1)
 
-    def _add_connection(
-        self, concept1: str, concept2: str, strength: float = 0.5, strength_increase: float = 0.0
-    ):
+    def _add_connection(self, concept1: str, concept2: str, strength: float = 0.5, strength_increase: float = 0.0):
         """Add or strengthen connection between concepts"""
         if concept1 not in self.connections:
             self.connections[concept1] = set()
@@ -573,9 +567,7 @@ class NeuroSymbolicMemory:
             else 0,
         }
 
-    def _calculate_importance(
-        self, symbol: Symbol, context: dict[str, Any], outcome: Optional[str]
-    ) -> float:
+    def _calculate_importance(self, symbol: Symbol, context: dict[str, Any], outcome: Optional[str]) -> float:
         """Calculate importance of a memory"""
         importance = 0.5  # Base importance
 

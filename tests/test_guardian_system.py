@@ -176,17 +176,13 @@ class TestConsentLedger:
             )
 
             # Check allowed action
-            result = ledger.check_consent(
-                lid="test_user_003", resource_type="calendar", action="read"
-            )
+            result = ledger.check_consent(lid="test_user_003", resource_type="calendar", action="read")
 
             assert result["allowed"] is True
             assert "consent_id" in result
 
             # Check disallowed action
-            result = ledger.check_consent(
-                lid="test_user_003", resource_type="calendar", action="write"
-            )
+            result = ledger.check_consent(lid="test_user_003", resource_type="calendar", action="write")
 
             assert result["allowed"] is False
             assert result["reason"] == "action_not_in_scope"
@@ -230,9 +226,7 @@ class TestDriftDetector:
     async def test_drift_detector_initialization(self):
         """Test drift detector initializes with proper configuration"""
 
-        detector = AdvancedDriftDetector(
-            config={"drift_threshold": 0.15, "measurement_interval": 5.0}
-        )
+        detector = AdvancedDriftDetector(config={"drift_threshold": 0.15, "measurement_interval": 5.0})
 
         assert detector is not None
         assert detector.drift_threshold == 0.15
@@ -336,9 +330,7 @@ class TestDriftDetector:
 
 
 @pytest.mark.asyncio
-@pytest.mark.skipif(
-    not ETHICS_ENGINE_AVAILABLE, reason="ComprehensiveEthicsPolicyEngine not available"
-)
+@pytest.mark.skipif(not ETHICS_ENGINE_AVAILABLE, reason="ComprehensiveEthicsPolicyEngine not available")
 class TestEthicsPolicyEngine:
     """Test Ethics Policy Engine with Constitutional AI"""
 
@@ -734,9 +726,9 @@ class TestGuardianSystemIntegration:
             validation_time_ms = (end_time - start_time) * 1000
             validation_times.append(validation_time_ms)
 
-            assert response.validation_time_ms <= 250, (
-                f"Validation took {response.validation_time_ms}ms, exceeding 250ms requirement"
-            )
+            assert (
+                response.validation_time_ms <= 250
+            ), f"Validation took {response.validation_time_ms}ms, exceeding 250ms requirement"
 
         # Check average performance
         avg_time = sum(validation_times) / len(validation_times)

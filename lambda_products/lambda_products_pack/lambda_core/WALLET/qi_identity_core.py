@@ -235,9 +235,7 @@ class QIWalletEngine:
                 }
             )
 
-            logger.info(
-                f"Created WΛLLET identity {identity.lambda_id} with address {identity.wallet_address}"
-            )
+            logger.info(f"Created WΛLLET identity {identity.lambda_id} with address {identity.wallet_address}")
             return identity
 
         except Exception as e:
@@ -253,9 +251,7 @@ class QIWalletEngine:
         identity = self.identity_registry[lambda_id]
         return self.wallet_balances.get(identity.wallet_address, {})
 
-    async def transfer_funds(
-        self, from_id: str, to_address: str, amount: float, currency: str = "ΛCOIN"
-    ) -> bool:
+    async def transfer_funds(self, from_id: str, to_address: str, amount: float, currency: str = "ΛCOIN") -> bool:
         """Transfer funds between wallets"""
         try:
             if from_id not in self.identity_registry:
@@ -296,9 +292,7 @@ class QIWalletEngine:
             self.transaction_history.append(transaction)
             self.performance_metrics["total_transactions"] += 1
 
-            logger.info(
-                f"Transfer successful: {amount} {currency} from {from_address} to {to_address}"
-            )
+            logger.info(f"Transfer successful: {amount} {currency} from {from_address} to {to_address}")
             return True
 
         except Exception as e:
@@ -314,15 +308,9 @@ class QIWalletEngine:
         identity = self.identity_registry[lambda_id]
         address = identity.wallet_address
 
-        return [
-            tx
-            for tx in self.transaction_history
-            if tx["from_address"] == address or tx["to_address"] == address
-        ]
+        return [tx for tx in self.transaction_history if tx["from_address"] == address or tx["to_address"] == address]
 
-    async def authenticate_wallet(
-        self, lambda_id: str, quantum_challenge: Optional[bytes] = None
-    ) -> bool:
+    async def authenticate_wallet(self, lambda_id: str, quantum_challenge: Optional[bytes] = None) -> bool:
         """Authenticate wallet identity using quantum verification"""
         try:
             if lambda_id not in self.identity_registry:

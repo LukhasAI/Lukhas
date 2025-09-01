@@ -312,9 +312,7 @@ class DreamNarrator:
             return None
 
         # Calculate final duration
-        self.current_dream_sequence.duration_seconds = (
-            time.time() - self.current_dream_sequence.start_time
-        )
+        self.current_dream_sequence.duration_seconds = time.time() - self.current_dream_sequence.start_time
 
         # Generate dream summary narration
         if self.narration_enabled:
@@ -381,10 +379,7 @@ class DreamNarrator:
 
         # Weighted average
         total_coherence = (
-            thematic_similarity * 0.3
-            + emotional_coherence * 0.3
-            + symbolic_coherence * 0.2
-            + depth_coherence * 0.2
+            thematic_similarity * 0.3 + emotional_coherence * 0.3 + symbolic_coherence * 0.2 + depth_coherence * 0.2
         )
 
         return max(0.0, min(1.0, total_coherence))
@@ -410,9 +405,7 @@ class DreamNarrator:
         narrative_text = await self._apply_template(template, narrative_context)
 
         # Determine voice parameters
-        voice_parameters = await self._calculate_dream_voice_parameters(
-            narration_type, narrative_context
-        )
+        voice_parameters = await self._calculate_dream_voice_parameters(narration_type, narrative_context)
 
         # Extract symbolic elements
         symbolic_elements = await self._extract_symbolic_elements(narrative_text, narrative_context)
@@ -424,9 +417,7 @@ class DreamNarrator:
         consciousness_level = await self._calculate_consciousness_level(narrative_context)
 
         # Estimate narration duration
-        estimated_duration = await self._estimate_narration_duration(
-            narrative_text, voice_parameters
-        )
+        estimated_duration = await self._estimate_narration_duration(narrative_text, voice_parameters)
 
         narration = DreamNarration(
             narration_id=f"narration_{int(time.time())}_{random.randint(100, 999)}",
@@ -479,9 +470,7 @@ class DreamNarrator:
         if not self.current_dream_sequence.elements:
             return {}
 
-        all_symbols = "".join(
-            elem.symbolic_signature for elem in self.current_dream_sequence.elements
-        )
+        all_symbols = "".join(elem.symbolic_signature for elem in self.current_dream_sequence.elements)
         symbol_counts = {}
 
         for symbol in all_symbols:
@@ -606,9 +595,7 @@ class DreamNarrator:
 
         return base_params
 
-    async def _extract_symbolic_elements(
-        self, narrative_text: str, context: dict[str, Any]
-    ) -> list[str]:
+    async def _extract_symbolic_elements(self, narrative_text: str, context: dict[str, Any]) -> list[str]:
         """Extract symbolic elements from narrative"""
         symbolic_elements = []
 
@@ -671,9 +658,7 @@ class DreamNarrator:
 
         return max(0.1, min(1.0, base_level))
 
-    async def _estimate_narration_duration(
-        self, narrative_text: str, voice_parameters: dict[str, float]
-    ) -> float:
+    async def _estimate_narration_duration(self, narrative_text: str, voice_parameters: dict[str, float]) -> float:
         """Estimate narration duration in seconds"""
         # Base calculation: ~150 words per minute for normal speech
         word_count = len(narrative_text.split())
@@ -793,9 +778,7 @@ class DreamNarrator:
 
     async def get_dream_summary(self) -> dict[str, Any]:
         """Get summary of current or last dream sequence"""
-        sequence = self.current_dream_sequence or (
-            self.dream_history[-1] if self.dream_history else None
-        )
+        sequence = self.current_dream_sequence or (self.dream_history[-1] if self.dream_history else None)
 
         if not sequence:
             return {"status": "no_dreams_recorded"}
@@ -804,18 +787,14 @@ class DreamNarrator:
             "sequence_id": sequence.sequence_id,
             "phase": sequence.phase.value,
             "duration": (
-                sequence.duration_seconds
-                if sequence.duration_seconds > 0
-                else time.time() - sequence.start_time
+                sequence.duration_seconds if sequence.duration_seconds > 0 else time.time() - sequence.start_time
             ),
             "element_count": len(sequence.elements),
             "narrative_coherence": sequence.narrative_coherence,
             "symbolic_density": sequence.symbolic_density,
             "emotional_summary": {
                 "average": (
-                    sum(sequence.emotional_flow) / len(sequence.emotional_flow)
-                    if sequence.emotional_flow
-                    else 0.0
+                    sum(sequence.emotional_flow) / len(sequence.emotional_flow) if sequence.emotional_flow else 0.0
                 ),
                 "range": (
                     (min(sequence.emotional_flow), max(sequence.emotional_flow))

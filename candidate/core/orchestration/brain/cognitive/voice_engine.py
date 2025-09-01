@@ -38,9 +38,7 @@ class CognitiveVoiceEngine:
             "learning_adaptations": set(),
         }
 
-    async def process_cognitive_voice(
-        self, voice_data: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_cognitive_voice(self, voice_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Process voice with cognitive understanding and emotional awareness"""
         # Analyze emotional and cognitive states
         emotional_state = await self._analyze_emotional_state(voice_data)
@@ -149,9 +147,7 @@ class CognitiveVoiceEngine:
 
         return pattern_analysis
 
-    def _generate_adaptations(
-        self, successful_patterns: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _generate_adaptations(self, successful_patterns: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Generate voice adaptations based on successful patterns"""
         adaptations = []
         for pattern in successful_patterns:

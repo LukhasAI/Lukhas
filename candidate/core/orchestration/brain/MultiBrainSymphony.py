@@ -117,8 +117,7 @@ class DreamBrainSpecialist(SpecializedBrainCore):
         """Extract symbolic patterns from input data"""
         text_content = str(data.get("content", ""))
         return {
-            "metaphorical_content": "symbolic" in text_content.lower()
-            or "dream" in text_content.lower(),
+            "metaphorical_content": "symbolic" in text_content.lower() or "dream" in text_content.lower(),
             "symbolic_density": min(0.9, len(text_content) / 100.0),
             "creative_potential": 0.8,
         }
@@ -153,9 +152,7 @@ class MemoryBrainSpecialist(SpecializedBrainCore):
 
         # Integration with existing memory emotional integrator
         memory_analysis = {}
-        if self.memory_integrator and hasattr(
-            self.memory_integrator, "store_with_emotional_context"
-        ):
+        if self.memory_integrator and hasattr(self.memory_integrator, "store_with_emotional_context"):
             try:
                 memory_analysis = self.memory_integrator.store_with_emotional_context(data)
             except Exception as e:
@@ -440,14 +437,10 @@ class MultiBrainSymphonyOrchestrator:
                         f"Memory analysis shows {memory_relevance:.2f} relevance score"
                     )
                 elif brain_name == "learning" and "adaptation_recommendations" in result:
-                    symphony_synthesis["synthesized_insights"].extend(
-                        result["adaptation_recommendations"]
-                    )
+                    symphony_synthesis["synthesized_insights"].extend(result["adaptation_recommendations"])
 
         # Calculate coordination quality
-        symphony_synthesis["coordination_quality"] = (
-            successful_results / len(brain_results) if brain_results else 0.0
-        )
+        symphony_synthesis["coordination_quality"] = successful_results / len(brain_results) if brain_results else 0.0
 
         # Add overall symphony assessment
         if symphony_synthesis["coordination_quality"] > 0.8:

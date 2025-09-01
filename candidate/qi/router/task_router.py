@@ -200,9 +200,7 @@ class TaskRouter:
 
 # ---------------- CLI ----------------
 def main():
-    ap = argparse.ArgumentParser(
-        description="Task-specific router (YAML presets + confidence-aware)"
-    )
+    ap = argparse.ArgumentParser(description="Task-specific router (YAML presets + confidence-aware)")
     ap.add_argument(
         "--presets",
         help=f"Path to presets YAML (default: {DEFAULT_PRESETS_PATH} or ${PRESETS_PATH_ENV})",

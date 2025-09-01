@@ -94,9 +94,7 @@ def _sparse_encode_precomputed(
     if algorithm == "lasso_lars":
         alpha = float(regularization) / n_features  # account for scaling
         try:
-            err_mgt = np.seterr(
-                all="ignore"
-            )  # ΛCAUTION: Ignoring all numpy errors here. Could mask issues.
+            err_mgt = np.seterr(all="ignore")  # ΛCAUTION: Ignoring all numpy errors here. Could mask issues.
 
             # Not passing in verbose=max(0, verbose-1) because Lars.fit already
             # corrects the verbosity level.
@@ -485,8 +483,7 @@ def _dict_learning(
                 current_cost=current_cost,
             )
             print(
-                "Iteration % 3i (elapsed time: % 3is, % 4.1fmn, current cost % 7.3f)"
-                % (ii, dt, dt / 60, current_cost)
+                "Iteration % 3i (elapsed time: % 3is, % 4.1fmn, current cost % 7.3f)" % (ii, dt, dt / 60, current_cost)
             )
 
         # Update code
@@ -1208,9 +1205,7 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
             max_iter=self.transform_max_iter,
             verbose=self.verbose,
         )
-        batch_cost = (
-            0.5 * ((X - code @ dictionary) ** 2).sum() + self.alpha * np.sum(np.abs(code))
-        ) / batch_size
+        batch_cost = (0.5 * ((X - code @ dictionary) ** 2).sum() + self.alpha * np.sum(np.abs(code))) / batch_size
         # ΛTRACE: Sparse code computed for mini-batch.
         logger.debug("minibatch_sparse_code_computed", step=step, batch_cost=batch_cost)
 
@@ -1264,10 +1259,7 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         )
 
         if self.verbose:
-            print(
-                f"Minibatch step {step}/{n_steps}: mean batch cost: "
-                f"{batch_cost}, ewa cost: {self._ewa_cost}"
-            )
+            print(f"Minibatch step {step}/{n_steps}: mean batch cost: " f"{batch_cost}, ewa cost: {self._ewa_cost}")
 
         dict_diff = linalg.norm(new_dict - old_dict) / self._n_components
         if self.tol > 0 and dict_diff <= self.tol:
@@ -1297,9 +1289,7 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
 
         if self.max_no_improvement is not None and self._no_improvement >= self.max_no_improvement:
             if self.verbose:
-                print(
-                    f"Converged (lack of improvement in objective function) at step {step}/{n_steps}"
-                )
+                print(f"Converged (lack of improvement in objective function) at step {step}/{n_steps}")
             # ΛTRACE: Convergence due to lack of improvement.
             logger.info(
                 "convergence_no_improvement",
@@ -1349,9 +1339,7 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         for i, batch_slice in zip(range(n_steps), batches):  # Renamed batch to batch_slice
             X_batch = X_train[batch_slice]
             batch_cost = self._minibatch_step(X_batch, dictionary, self._random_state, i)
-            if self._check_convergence(
-                X_batch, batch_cost, dictionary, old_dict, n_samples, i, n_steps
-            ):
+            if self._check_convergence(X_batch, batch_cost, dictionary, old_dict, n_samples, i, n_steps):
                 break
             if self.callback is not None:
                 self.callback(locals())
@@ -1379,9 +1367,7 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
             X_shape=X.shape if hasattr(X, "shape") else "unknown",
         )
         has_components = hasattr(self, "components_")
-        X = validate_data(
-            self, X, dtype=[np.float64, np.float32], order="C", reset=not has_components
-        )
+        X = validate_data(self, X, dtype=[np.float64, np.float32], order="C", reset=not has_components)
 
         if not has_components:
             self._check_params(X)

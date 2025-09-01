@@ -359,9 +359,7 @@ if __name__ == "__main__":
 
         main_log.info("Initializing engine component...")
         initialization_success = await engine_component.initialize()
-        main_log.info(
-            f"Engine Initialization: {'successful' if initialization_success else 'failed'}"
-        )
+        main_log.info(f"Engine Initialization: {'successful' if initialization_success else 'failed'}")
 
         if initialization_success:
             main_log.info("Processing sample 'consciousness' data...")

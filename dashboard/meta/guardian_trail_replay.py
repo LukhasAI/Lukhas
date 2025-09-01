@@ -210,13 +210,7 @@ def print_event(event: dict[str, Any], index: int):
     # Drift score bar
     if drift_score > 0:
         bar_length = int(drift_score * 40)
-        bar_color = (
-            Colors.GREEN
-            if drift_score < 0.15
-            else Colors.YELLOW
-            if drift_score < 0.20
-            else Colors.RED
-        )
+        bar_color = Colors.GREEN if drift_score < 0.15 else Colors.YELLOW if drift_score < 0.20 else Colors.RED
         bar = "█" * bar_length + "░" * (40 - bar_length)
         print(f"Drift: {bar_color}{bar}{Colors.RESET} {drift_score:.2f}")
 

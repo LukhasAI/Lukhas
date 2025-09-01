@@ -31,9 +31,7 @@ class WebRTCPeerSync:
             )
             raise ValueError("Invalid peer_id or signaling_server_url.")
         try:
-            self.audit_logger.log_event(
-                f"Attempting connection to peer {peer_id} via {signaling_server_url}"
-            )
+            self.audit_logger.log_event(f"Attempting connection to peer {peer_id} via {signaling_server_url}")
             signaling_data = await self._send_signaling_request(peer_id, signaling_server_url)
             self.peers[peer_id] = signaling_data
             if peer_public_key:
@@ -48,9 +46,7 @@ class WebRTCPeerSync:
             return signaling_data
         except Exception as e:
             logger.error(f"connect_to_peer failed for {peer_id}: {e}")
-            self.audit_logger.log_event(
-                f"connect_to_peer failed for {peer_id}: {e}", constitutional_tag=True
-            )
+            self.audit_logger.log_event(f"connect_to_peer failed for {peer_id}: {e}", constitutional_tag=True)
             raise
 
     async def sync_entropy(self, peer_id, entropy_data):
@@ -66,9 +62,7 @@ class WebRTCPeerSync:
             self.audit_logger.log_event(f"Entropy sync event with peer {peer_id}: {entropy_data}")
             # Placeholder for entropy sync logic
         except Exception as e:
-            self.audit_logger.log_event(
-                f"sync_entropy failed for {peer_id}: {e}", constitutional_tag=True
-            )
+            self.audit_logger.log_event(f"sync_entropy failed for {peer_id}: {e}", constitutional_tag=True)
             raise
 
     async def _send_signaling_request(self, peer_id, signaling_server):

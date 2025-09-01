@@ -193,9 +193,7 @@ class LukhasIntegrationAdapter:
                 min_tier=self.get_tier_requirement(lambda_plugin.manifest.id),
                 permissions=set(lambda_plugin.manifest.capabilities),
                 dependencies=lambda_plugin.manifest.dependencies,
-                health_status=(
-                    "healthy" if lambda_plugin.status == PluginStatus.ACTIVE else "unknown"
-                ),
+                health_status=("healthy" if lambda_plugin.status == PluginStatus.ACTIVE else "unknown"),
             )
 
             # Register with module registry - use correct API signature
@@ -230,15 +228,11 @@ class LukhasIntegrationAdapter:
         has_access = user_tier >= required_tier
 
         if not has_access:
-            logger.warning(
-                f"Access denied to {product_id}: User tier {user_tier} < Required {required_tier}"
-            )
+            logger.warning(f"Access denied to {product_id}: User tier {user_tier} < Required {required_tier}")
 
         return has_access
 
-    async def process_with_tier_check(
-        self, product_id: str, input_data: Any, user_tier: int
-    ) -> Optional[Any]:
+    async def process_with_tier_check(self, product_id: str, input_data: Any, user_tier: int) -> Optional[Any]:
         """Process data through Lambda Product with tier validation"""
 
         # Check tier access

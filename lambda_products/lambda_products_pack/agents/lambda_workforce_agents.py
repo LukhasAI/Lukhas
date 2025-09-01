@@ -146,9 +146,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
                 }
             )
 
-        self.metrics["value_generated"] += (
-            len(at_risk_employees) * 10000
-        )  # $10K value per prevented burnout
+        self.metrics["value_generated"] += len(at_risk_employees) * 10000  # $10K value per prevented burnout
 
         return {
             "at_risk_count": len(at_risk_employees),
@@ -168,9 +166,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
             "productivity_gain": random.uniform(0.10, 0.25),
         }
 
-        self.metrics["value_generated"] += (
-            messages_optimized * 50
-        )  # $50 value per optimized communication
+        self.metrics["value_generated"] += messages_optimized * 50  # $50 value per optimized communication
 
         return optimization_results
 
@@ -575,30 +571,18 @@ class LambdaWorkforceOrchestrator:
             "DΛST": 6000,  # $6K/month per agent
         }
 
-        monthly_cost = sum(
-            agent_costs.get(agent.agent_type.split("_")[0], 5000) for agent in self.agents.values()
-        )
+        monthly_cost = sum(agent_costs.get(agent.agent_type.split("_")[0], 5000) for agent in self.agents.values())
 
         roi = {
             "total_value_generated": total_value,
             "monthly_cost": monthly_cost,
             "net_value": total_value - monthly_cost,
-            "roi_percentage": (
-                ((total_value - monthly_cost) / monthly_cost * 100) if monthly_cost > 0 else 0
-            ),
-            "payback_period_days": (
-                (monthly_cost / (total_value / 30)) if total_value > 0 else float("inf")
-            ),
+            "roi_percentage": (((total_value - monthly_cost) / monthly_cost * 100) if monthly_cost > 0 else 0),
+            "payback_period_days": ((monthly_cost / (total_value / 30)) if total_value > 0 else float("inf")),
             "agents_deployed": len(self.agents),
-            "autonomous_hours": sum(
-                agent.metrics["uptime_hours"] for agent in self.agents.values()
-            ),
-            "tasks_completed": sum(
-                agent.metrics["tasks_completed"] for agent in self.agents.values()
-            ),
-            "decisions_made": sum(
-                agent.metrics["decisions_made"] for agent in self.agents.values()
-            ),
+            "autonomous_hours": sum(agent.metrics["uptime_hours"] for agent in self.agents.values()),
+            "tasks_completed": sum(agent.metrics["tasks_completed"] for agent in self.agents.values()),
+            "decisions_made": sum(agent.metrics["decisions_made"] for agent in self.agents.values()),
         }
 
         return roi
@@ -610,13 +594,9 @@ class LambdaWorkforceOrchestrator:
             "timestamp": datetime.now().isoformat(),
             "executive_summary": {
                 "agents_active": len(self.agents),
-                "total_value_generated": sum(
-                    agent.metrics["value_generated"] for agent in self.agents.values()
-                ),
+                "total_value_generated": sum(agent.metrics["value_generated"] for agent in self.agents.values()),
                 "roi": self.calculate_roi()["roi_percentage"],
-                "recommendation": (
-                    "SCALE UP" if self.calculate_roi()["roi_percentage"] > 200 else "MAINTAIN"
-                ),
+                "recommendation": ("SCALE UP" if self.calculate_roi()["roi_percentage"] > 200 else "MAINTAIN"),
             },
             "agent_performance": {},
             "business_impact": {

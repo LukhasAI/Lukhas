@@ -141,9 +141,7 @@ class ShadowOrchestrator:
         start_time = time.time()
 
         # Execute legacy orchestrator (primary)
-        legacy_result = await self._execute_orchestrator(
-            legacy_orchestrator, "legacy", *args, **kwargs
-        )
+        legacy_result = await self._execute_orchestrator(legacy_orchestrator, "legacy", *args, **kwargs)
 
         # Execute new orchestrator (shadow)
         new_result = await self._execute_orchestrator(new_orchestrator, "new", *args, **kwargs)
@@ -263,9 +261,7 @@ class ShadowOrchestrator:
 
         return differences
 
-    def _compare_sequences(
-        self, legacy: Union[list, tuple], new: Union[list, tuple]
-    ) -> dict[str, Any]:
+    def _compare_sequences(self, legacy: Union[list, tuple], new: Union[list, tuple]) -> dict[str, Any]:
         """Compare sequence results"""
         differences = {}
 
@@ -404,14 +400,10 @@ class OrchestratorRouter:
             mode_str = getattr(mode, "value", str(mode))
 
             if mode_str == "legacy":
-                return await self._execute_legacy_only(
-                    orchestrator_name, legacy_orchestrator, *args, **kwargs
-                )
+                return await self._execute_legacy_only(orchestrator_name, legacy_orchestrator, *args, **kwargs)
 
             elif mode_str == "new":
-                return await self._execute_new_only(
-                    orchestrator_name, new_orchestrator, *args, **kwargs
-                )
+                return await self._execute_new_only(orchestrator_name, new_orchestrator, *args, **kwargs)
 
             elif mode_str == "shadow":
                 return await self._execute_shadow_mode(
@@ -516,9 +508,7 @@ class OrchestratorRouter:
         """Execute in shadow mode (legacy primary, new for comparison)"""
         shadow_orch = self.shadow_orchestrators[orchestrator_name]
 
-        comparison = await shadow_orch.execute_shadow(
-            legacy_orchestrator, new_orchestrator, *args, **kwargs
-        )
+        comparison = await shadow_orch.execute_shadow(legacy_orchestrator, new_orchestrator, *args, **kwargs)
 
         # Record metrics for the primary (legacy) result
         self._record_metrics(
@@ -547,17 +537,14 @@ class OrchestratorRouter:
         """Execute in parallel mode (both run, compare, use legacy)"""
         shadow_orch = self.shadow_orchestrators[orchestrator_name]
 
-        comparison = await shadow_orch.execute_shadow(
-            legacy_orchestrator, new_orchestrator, *args, **kwargs
-        )
+        comparison = await shadow_orch.execute_shadow(legacy_orchestrator, new_orchestrator, *args, **kwargs)
 
         # Log detailed comparison
         logger.info(
             "Parallel execution completed",
             orchestrator_name=orchestrator_name,
             results_match=comparison.results_match,
-            legacy_faster=comparison.legacy_result.execution_time_ms
-            < comparison.new_result.execution_time_ms,
+            legacy_faster=comparison.legacy_result.execution_time_ms < comparison.new_result.execution_time_ms,
         )
 
         # Use legacy result as primary
@@ -591,23 +578,17 @@ class OrchestratorRouter:
 
         if use_new:
             logger.debug(f"Canary routing to new orchestrator for {orchestrator_name}")
-            return await self._execute_new_only(
-                orchestrator_name, new_orchestrator, *args, **kwargs
-            )
+            return await self._execute_new_only(orchestrator_name, new_orchestrator, *args, **kwargs)
         else:
             logger.debug(f"Canary routing to legacy orchestrator for {orchestrator_name}")
-            return await self._execute_legacy_only(
-                orchestrator_name, legacy_orchestrator, *args, **kwargs
-            )
+            return await self._execute_legacy_only(orchestrator_name, legacy_orchestrator, *args, **kwargs)
 
     async def _execute_fallback(self, orchestrator_name: str, *args, **kwargs) -> Any:
         """Execute fallback when circuit breaker is open"""
         logger.warning(f"Executing fallback for {orchestrator_name}")
         # In a real implementation, this would use a safe fallback orchestrator
         # For now, raise an exception
-        raise Exception(
-            f"Orchestrator '{orchestrator_name}' is currently unavailable (circuit breaker open)"
-        )
+        raise Exception(f"Orchestrator '{orchestrator_name}' is currently unavailable (circuit breaker open)")
 
     def _ensure_orchestrator_tracking(self, orchestrator_name: str):
         """Ensure tracking objects exist for orchestrator"""

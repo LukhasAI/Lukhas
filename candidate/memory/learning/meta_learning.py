@@ -52,14 +52,10 @@ class MetaLearningSystem:
         # ΛNOTE: Initializes storage for federated models, symbolic knowledge, and performance metrics.
         # ΛDRIFT_POINT: Federated models can drift over time due to new data from
         # clients.
-        self.federated_models: dict[
-            str, Any
-        ] = {}  # Stores aggregated models from federated learning
+        self.federated_models: dict[str, Any] = {}  # Stores aggregated models from federated learning
         # ΛDRIFT_POINT: The symbolic DB can drift as new, potentially incorrect,
         # rules are added.
-        self.symbolic_db: dict[str, dict[str, Any]] = defaultdict(
-            dict
-        )  # For neural-symbolic integration
+        self.symbolic_db: dict[str, dict[str, Any]] = defaultdict(dict)  # For neural-symbolic integration
         self.performance_metrics = LearningMetrics()
         # ΛSEED: Initial state of models and DB are seeds for the system's evolution.
         # ΛTRACE: MetaLearningSystem initialized
@@ -99,9 +95,7 @@ class MetaLearningSystem:
         # ΛTRACE: Learning plan generated
         logger.debug("learning_plan_generated_meta", plan_keys=list(learning_plan.keys()))
 
-        self._update_metrics(
-            learning_plan
-        )  # Metrics updated based on the plan itself, or expected outcomes.
+        self._update_metrics(learning_plan)  # Metrics updated based on the plan itself, or expected outcomes.
 
         # ΛTRACE: Learning approach optimization complete
         logger.info(
@@ -191,13 +185,9 @@ class MetaLearningSystem:
         # ΛTRACE: Updating metrics (stub)
         logger.debug("update_metrics_stub_meta")
         # This would typically happen after actual learning/execution of the plan
-        self.performance_metrics.accuracy = (
-            random.uniform(0.7, 0.95) if __import__("random") else 0.8
-        )
+        self.performance_metrics.accuracy = random.uniform(0.7, 0.95) if __import__("random") else 0.8
         self.performance_metrics.loss = 1.0 - self.performance_metrics.accuracy
-        self.performance_metrics.insights_gained += (
-            random.randint(1, 5) if __import__("random") else 2
-        )
+        self.performance_metrics.insights_gained += random.randint(1, 5) if __import__("random") else 2
         self.performance_metrics.adaptations_made += 1  # One adaptation per plan generation for now
         logger.info(
             "performance_metrics_updated_meta",
@@ -219,9 +209,7 @@ class MetaLearningSystem:
                 "data_points_seen": 0,
             }
         self.federated_models[model_id_to_update]["version"] += 1
-        self.federated_models[model_id_to_update]["data_points_seen"] += feedback.get(
-            "data_points_count", 1
-        )
+        self.federated_models[model_id_to_update]["data_points_seen"] += feedback.get("data_points_count", 1)
         logger.info(
             "federated_model_updated_meta",
             model_id=model_id_to_update,

@@ -287,22 +287,14 @@ class BrandSentimentEngine:
     def _compile_emotion_patterns(self) -> dict[str, re.Pattern]:
         """Compile regex patterns for emotion detection"""
         return {
-            "excitement": re.compile(
-                r"excit|amazing|incredible|fantastic|wonderful|brilliant", re.IGNORECASE
-            ),
+            "excitement": re.compile(r"excit|amazing|incredible|fantastic|wonderful|brilliant", re.IGNORECASE),
             "satisfaction": re.compile(r"satisf|pleased|happy|content|glad|great", re.IGNORECASE),
-            "frustration": re.compile(
-                r"frustrat|annoying|difficult|hard|struggle|problem", re.IGNORECASE
-            ),
+            "frustration": re.compile(r"frustrat|annoying|difficult|hard|struggle|problem", re.IGNORECASE),
             "confusion": re.compile(r"confus|unclear|don't understand|lost|puzzle", re.IGNORECASE),
             "trust": re.compile(r"trust|reliable|depend|confident|faith|believe", re.IGNORECASE),
             "concern": re.compile(r"concern|worry|anxious|nervous|uncertain|doubt", re.IGNORECASE),
-            "appreciation": re.compile(
-                r"appreciat|grateful|thank|helpful|useful|valuable", re.IGNORECASE
-            ),
-            "disappointment": re.compile(
-                r"disappoint|let down|expected more|not what|underwhelm", re.IGNORECASE
-            ),
+            "appreciation": re.compile(r"appreciat|grateful|thank|helpful|useful|valuable", re.IGNORECASE),
+            "disappointment": re.compile(r"disappoint|let down|expected more|not what|underwhelm", re.IGNORECASE),
         }
 
     def _build_brand_dimension_indicators(self) -> dict[BrandDimension, dict[str, list[str]]]:
@@ -556,23 +548,18 @@ class BrandSentimentEngine:
 
         # Analyze critical emotions for this context
         emotional_indicators = self._analyze_emotional_indicators(text)
-        critical_emotion_scores = [
-            emotional_indicators.get(emotion, 0.0) for emotion in critical_emotions
-        ]
+        critical_emotion_scores = [emotional_indicators.get(emotion, 0.0) for emotion in critical_emotions]
 
         # Calculate appropriateness based on positive indicators in relevant dimensions
         dimension_appropriateness = (
-            sum(max(0, score) for score in relevant_dimension_scores)
-            / len(relevant_dimension_scores)
+            sum(max(0, score) for score in relevant_dimension_scores) / len(relevant_dimension_scores)
             if relevant_dimension_scores
             else 0.5
         )
 
         # Factor in emotional appropriateness (presence of relevant emotions)
         emotion_appropriateness = (
-            sum(critical_emotion_scores) / len(critical_emotion_scores)
-            if critical_emotion_scores
-            else 0.5
+            sum(critical_emotion_scores) / len(critical_emotion_scores) if critical_emotion_scores else 0.5
         )
 
         # Combined appropriateness score
@@ -615,9 +602,9 @@ class BrandSentimentEngine:
         # Dimensional consistency (low variance indicates consistent sentiment)
         dimension_values = [score for score in brand_dimensions.values() if score != 0.0]
         if dimension_values:
-            dimension_variance = sum(
-                (score - overall_sentiment) ** 2 for score in dimension_values
-            ) / len(dimension_values)
+            dimension_variance = sum((score - overall_sentiment) ** 2 for score in dimension_values) / len(
+                dimension_values
+            )
             consistency_factor = max(0.0, 1.0 - dimension_variance)
         else:
             consistency_factor = 0.5
@@ -627,10 +614,7 @@ class BrandSentimentEngine:
 
         # Combine factors
         confidence = (
-            brand_relevance_factor * 0.3
-            + sentiment_clarity * 0.3
-            + consistency_factor * 0.2
-            + text_length_factor * 0.2
+            brand_relevance_factor * 0.3 + sentiment_clarity * 0.3 + consistency_factor * 0.2 + text_length_factor * 0.2
         )
 
         return min(1.0, max(0.1, confidence))  # Ensure confidence is between 0.1 and 1.0
@@ -678,9 +662,7 @@ class BrandSentimentEngine:
                 "overall_sentiment": result.overall_sentiment,
                 "polarity": result.polarity.value,
                 "confidence": result.confidence,
-                "brand_dimensions": {
-                    dim.value: score for dim, score in result.brand_dimensions.items()
-                },
+                "brand_dimensions": {dim.value: score for dim, score in result.brand_dimensions.items()},
                 "trinity_sentiment": result.trinity_sentiment,
                 "context_appropriateness": result.context_appropriateness,
                 "metadata": metadata or {},
@@ -706,9 +688,7 @@ class BrandSentimentEngine:
 
         # Filter recent sentiment history
         recent_sentiments = [
-            entry
-            for entry in self.sentiment_history
-            if datetime.fromisoformat(entry["timestamp"]) > cutoff_time
+            entry for entry in self.sentiment_history if datetime.fromisoformat(entry["timestamp"]) > cutoff_time
         ]
 
         if not recent_sentiments:
@@ -721,9 +701,7 @@ class BrandSentimentEngine:
         # Brand dimension trends
         dimension_trends = {}
         for dimension in BrandDimension:
-            dimension_scores = [
-                entry["brand_dimensions"].get(dimension.value, 0.0) for entry in recent_sentiments
-            ]
+            dimension_scores = [entry["brand_dimensions"].get(dimension.value, 0.0) for entry in recent_sentiments]
             dimension_trends[dimension.value] = {
                 "average": sum(dimension_scores) / len(dimension_scores),
                 "trend": "improving"
@@ -736,9 +714,7 @@ class BrandSentimentEngine:
         # Trinity sentiment trends
         trinity_trends = {}
         for component in ["identity", "consciousness", "guardian"]:
-            component_scores = [
-                entry["trinity_sentiment"].get(component, 0.0) for entry in recent_sentiments
-            ]
+            component_scores = [entry["trinity_sentiment"].get(component, 0.0) for entry in recent_sentiments]
             trinity_trends[component] = {
                 "average": sum(component_scores) / len(component_scores),
                 "trend": "improving"
@@ -796,12 +772,11 @@ class BrandSentimentEngine:
                 evolution_analysis[period] = {
                     "overall_sentiment": trends["overall_sentiment"]["average"],
                     "confidence": trends["average_confidence"],
-                    "strongest_dimension": max(
-                        trends["brand_dimension_trends"].items(), key=lambda x: x[1]["average"]
-                    )[0],
+                    "strongest_dimension": max(trends["brand_dimension_trends"].items(), key=lambda x: x[1]["average"])[
+                        0
+                    ],
                     "trinity_strength": {
-                        component: data["average"]
-                        for component, data in trends["trinity_sentiment_trends"].items()
+                        component: data["average"] for component, data in trends["trinity_sentiment_trends"].items()
                     },
                 }
 
@@ -864,12 +839,8 @@ class BrandSentimentEngine:
             "report_timestamp": datetime.now().isoformat(),
             "context": context,
             "executive_summary": {
-                "overall_brand_sentiment": recent_trends.get("overall_sentiment", {}).get(
-                    "average", 0.0
-                ),
-                "sentiment_trend": recent_trends.get("overall_sentiment", {}).get(
-                    "trend", "stable"
-                ),
+                "overall_brand_sentiment": recent_trends.get("overall_sentiment", {}).get("average", 0.0),
+                "sentiment_trend": recent_trends.get("overall_sentiment", {}).get("trend", "stable"),
                 "confidence_level": recent_trends.get("average_confidence", 0.0),
                 "key_strength": self._identify_key_strength(recent_trends),
                 "primary_opportunity": self._identify_primary_opportunity(recent_trends),
@@ -880,14 +851,10 @@ class BrandSentimentEngine:
                 "brand_evolution": evolution,
                 "context_insights": context_insights,
             },
-            "recommendations": self._generate_sentiment_recommendations(
-                recent_trends, evolution, context
-            ),
+            "recommendations": self._generate_sentiment_recommendations(recent_trends, evolution, context),
         }
 
-    def _generate_context_specific_insights(
-        self, context: str, trends: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _generate_context_specific_insights(self, context: str, trends: dict[str, Any]) -> dict[str, Any]:
         """Generate insights specific to the given context"""
 
         if context not in self.context_analyzers:
@@ -1024,9 +991,7 @@ if __name__ == "__main__":
         print(f"Context Appropriateness: {result.context_appropriateness:.3f}")
 
         # Show top brand dimensions
-        top_dimensions = sorted(
-            result.brand_dimensions.items(), key=lambda x: abs(x[1]), reverse=True
-        )[:3]
+        top_dimensions = sorted(result.brand_dimensions.items(), key=lambda x: abs(x[1]), reverse=True)[:3]
 
         print("Top Brand Dimensions:")
         for dimension, score in top_dimensions:

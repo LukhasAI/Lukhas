@@ -64,9 +64,7 @@ class VIVOXEVRNDemo:
         print(f"✓ Encrypted data hash: {encrypted_hash}")
         print(f"✓ Hashes are different: {original_hash != encrypted_hash}")
 
-        self.results.append(
-            {"demo": "basic_perception", "success": True, "privacy_preserved": True}
-        )
+        self.results.append({"demo": "basic_perception", "success": True, "privacy_preserved": True})
 
     async def demo_anomaly_detection(self):
         """Demonstrate anomaly detection without exposing content"""
@@ -87,8 +85,7 @@ class VIVOXEVRNDemo:
             {
                 "name": "Motion distress",
                 "thermal_pattern": lambda: np.random.normal(0.5, 0.1, (64, 64)),
-                "motion_pattern": lambda: np.sin(np.linspace(0, 20 * np.pi, 100))
-                * (1 + np.random.randn(100) * 0.5),
+                "motion_pattern": lambda: np.sin(np.linspace(0, 20 * np.pi, 100)) * (1 + np.random.randn(100) * 0.5),
             },
         ]
 
@@ -108,9 +105,7 @@ class VIVOXEVRNDemo:
             # Detect anomalies
             vectors = [thermal_perception.to_vector(), motion_perception.to_vector()]
 
-            anomalies = await self.evrn.detect_anomalies(
-                vectors, context={"demo_scenario": scenario["name"]}
-            )
+            anomalies = await self.evrn.detect_anomalies(vectors, context={"demo_scenario": scenario["name"]})
 
             if anomalies:
                 print(f"  ⚠️  Anomalies detected: {len(anomalies)}")
@@ -138,8 +133,7 @@ class VIVOXEVRNDemo:
         # Different texture patterns (without revealing actual textures)
         textures = {
             "smooth_fabric": np.ones((64, 64)) + np.random.randn(64, 64) * 0.01,
-            "rough_surface": np.random.randn(64, 64) * 0.5
-            + np.sin(np.linspace(0, 50, 64))[:, None],
+            "rough_surface": np.random.randn(64, 64) * 0.5 + np.sin(np.linspace(0, 50, 64))[:, None],
             "damaged_material": np.random.randn(64, 64) * 1.0,
         }
 
@@ -150,9 +144,7 @@ class VIVOXEVRNDemo:
             encrypted_texture = self.evrn.encryptor.encrypt_vector(texture_data.flatten())[0]
 
             # Analyze in encrypted space
-            features, metadata = await analyzer.analyze_texture(
-                encrypted_texture, {"material_type": texture_name}
-            )
+            features, metadata = await analyzer.analyze_texture(encrypted_texture, {"material_type": texture_name})
 
             print(f"  Roughness: {features.roughness:.3f}")
             print(f"  Smoothness: {features.smoothness:.3f}")
@@ -190,9 +182,7 @@ class VIVOXEVRNDemo:
             encrypted = self.evrn.encryptor.encrypt_vector(full_vector)[0]
             walking_sequence.append(encrypted)
 
-        walking_features, walking_meta = await detector.detect_motion(
-            walking_sequence, 0.1, {"activity": "walking"}
-        )
+        walking_features, walking_meta = await detector.detect_motion(walking_sequence, 0.1, {"activity": "walking"})
 
         print(f"  Velocity: {walking_features.velocity:.3f}")
         print(f"  Stability: {walking_features.stability:.3f}")
@@ -213,9 +203,7 @@ class VIVOXEVRNDemo:
             encrypted = self.evrn.encryptor.encrypt_vector(full_vector)[0]
             fall_sequence.append(encrypted)
 
-        fall_features, fall_meta = await detector.detect_motion(
-            fall_sequence, 0.1, {"activity": "monitoring"}
-        )
+        fall_features, fall_meta = await detector.detect_motion(fall_sequence, 0.1, {"activity": "monitoring"})
 
         print(f"  Acceleration: {fall_features.acceleration:.3f}")
         print(f"  Jerk: {fall_features.jerk:.3f}")
@@ -357,9 +345,7 @@ class VIVOXEVRNDemo:
         for scenario in privacy_scenarios:
             print(f"\nScenario: {scenario['name']}")
 
-            perception = await self.evrn.process_perception(
-                sensitive_data, "visual", scenario["context"]
-            )
+            perception = await self.evrn.process_perception(sensitive_data, "visual", scenario["context"])
 
             print(f"  Privacy level: {perception.privacy_level}")
             print(f"  Matches expected: {perception.privacy_level == scenario['expected_privacy']}")

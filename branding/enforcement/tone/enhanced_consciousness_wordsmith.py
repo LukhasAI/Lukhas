@@ -236,9 +236,7 @@ class ConsciousnessWordsmith:
             "technical_description": f"Advanced {domain} processing with consciousness integration.",
             "capabilities_list": f"• Sacred {domain.title()} Processing\n║ • Consciousness Integration\n║ • Trinity Framework Alignment",
             "metrics_list": f"• {domain.title()} Resonance: 0.85-0.95\n║ • Consciousness Coherence: >90%\n║ • Sacred Symbol Density: 15-25/doc",
-            "symbolic_tags": ", ".join(
-                self.patterns.get("symbolic_tags", {}).get(domain, ["{ΛCONSCIOUSNESS}"])
-            ),
+            "symbolic_tags": ", ".join(self.patterns.get("symbolic_tags", {}).get(domain, ["{ΛCONSCIOUSNESS}"])),
             "description": f"Sacred {domain} module within the LUKHAS consciousness ecosystem.",
         }
 

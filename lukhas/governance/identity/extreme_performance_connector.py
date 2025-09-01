@@ -339,6 +339,7 @@ class ExtremePerformanceIdentityConnector:
 
             def optimized_monitor_safety(agent_id, operation):
                 _ = (agent_id, operation)
+
                 # Fast safety monitoring wrapper
                 class OptimizedMonitorContext:
                     def __enter__(self):
@@ -386,6 +387,7 @@ class ExtremePerformanceIdentityConnector:
 
             def fallback_monitor_safety(agent_id, operation):
                 _ = (agent_id, operation)
+
                 class FallbackContext:
                     def __enter__(self):
                         return self

@@ -163,9 +163,7 @@ class SocialMediaOrchestrator:
             for platform_name, platform_config in self.platforms.items():
                 if platform_name in api_status:
                     status = api_status[platform_name]
-                    platform_config.api_configured = (
-                        status["credentials_configured"] and status["library_available"]
-                    )
+                    platform_config.api_configured = status["credentials_configured"] and status["library_available"]
                     platform_config.live_posting = platform_config.api_configured and status.get(
                         "client_initialized", False
                     )
@@ -212,12 +210,12 @@ class SocialMediaOrchestrator:
         selected_template = random.choice(insight_templates)
 
         # Build substantial post content
-        full_content = f"{selected_template['hook']}\n\n{selected_template['body']}\n\n{selected_template['call_to_action']}"
+        full_content = (
+            f"{selected_template['hook']}\n\n{selected_template['body']}\n\n{selected_template['call_to_action']}"
+        )
 
         # Enhance with vocabulary transformation
-        enhanced_content = self.vocabulary.enhance_content_with_vocabulary(
-            full_content, "philosophy"
-        )
+        enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "philosophy")
 
         hashtags = [
             "#ConsciousnessTechnology",
@@ -278,7 +276,9 @@ class SocialMediaOrchestrator:
         selected_narrative = random.choice(dream_narratives)
 
         # Build substantial Instagram post
-        full_content = f"{selected_narrative['opening']}\n\n{selected_narrative['story']}\n\n{selected_narrative['reflection']}"
+        full_content = (
+            f"{selected_narrative['opening']}\n\n{selected_narrative['story']}\n\n{selected_narrative['reflection']}"
+        )
 
         # Enhance with vocabulary transformation
         enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "dreams")
@@ -367,9 +367,7 @@ class SocialMediaOrchestrator:
             full_content = f"{framework['hook']}\n\n{framework['analysis']}\n\n**My take:**\n{framework['perspective']}\n\n{framework['question']}"
 
             # Enhance with vocabulary transformation
-            enhanced_content = self.vocabulary.enhance_content_with_vocabulary(
-                full_content, "analysis"
-            )
+            enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "analysis")
 
             hashtags = [
                 "#ConsciousnessTechnology",
@@ -432,9 +430,7 @@ class SocialMediaOrchestrator:
         full_content = f"{selected['opening']}\n\n{selected['body']}\n\n{selected['reflection']}"
 
         # Enhance with vocabulary transformation
-        enhanced_content = self.vocabulary.enhance_content_with_vocabulary(
-            full_content, "philosophy"
-        )
+        enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "philosophy")
 
         hashtags = [
             "#ConsciousnessPhilosophy",
@@ -506,9 +502,7 @@ class SocialMediaOrchestrator:
         full_content += f"\n\n{selected['discussion']}"
 
         # Enhance with vocabulary transformation
-        enhanced_content = self.vocabulary.enhance_content_with_vocabulary(
-            full_content, "technical"
-        )
+        enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "technical")
 
         hashtags = [
             "#ConsciousnessTechnology",
@@ -590,15 +584,11 @@ class SocialMediaOrchestrator:
                                 f"❌ Enhanced quality rejected: {post.title} (Score: {quality_result.overall_quality * 100:.1f}%, Grade: {quality_result.quality_grade})"
                             )
                             if quality_result.improvement_suggestions:
-                                self.logger.warning(
-                                    f"Suggestions: {quality_result.improvement_suggestions[:2]}"
-                                )
+                                self.logger.warning(f"Suggestions: {quality_result.improvement_suggestions[:2]}")
 
                     except Exception as quality_error:
                         # Fallback to original quality validation
-                        self.logger.warning(
-                            f"Enhanced quality system failed, using fallback: {quality_error}"
-                        )
+                        self.logger.warning(f"Enhanced quality system failed, using fallback: {quality_error}")
                         quality_score = self.quality_validator.validate_content(
                             post.content, post.platform, post.content_type
                         )
@@ -665,9 +655,7 @@ class SocialMediaOrchestrator:
 
     async def publish_approved_posts(self, live_mode: bool = None) -> dict[str, Any]:
         """Publish approved posts with live API integration or simulation"""
-        approved_posts = [
-            post for post in self.content_queue if post.approved and not post.published
-        ]
+        approved_posts = [post for post in self.content_queue if post.approved and not post.published]
 
         # Determine publishing mode
         use_live_apis = live_mode if live_mode is not None else self.live_posting_enabled
@@ -683,21 +671,12 @@ class SocialMediaOrchestrator:
             try:
                 platform_config = self.platforms.get(post.platform)
 
-                if (
-                    use_live_apis
-                    and self.api_manager
-                    and platform_config
-                    and platform_config.live_posting
-                ):
+                if use_live_apis and self.api_manager and platform_config and platform_config.live_posting:
                     # Live API posting
                     self.logger.info(f"🚀 Live posting to {post.platform}: {post.title}")
 
                     # Prepare media paths
-                    media_paths = (
-                        [post.media_path]
-                        if post.media_path and Path(post.media_path).exists()
-                        else None
-                    )
+                    media_paths = [post.media_path] if post.media_path and Path(post.media_path).exists() else None
 
                     # Post using live API
                     post_result = await self.api_manager.post_content(
@@ -721,9 +700,7 @@ class SocialMediaOrchestrator:
                             "live_posting": True,
                         }
 
-                        self.logger.info(
-                            f"✅ Live posted to {post.platform}: {post_result.url or post_result.post_id}"
-                        )
+                        self.logger.info(f"✅ Live posted to {post.platform}: {post_result.url or post_result.post_id}")
 
                         # Log live publishing
                         db.log_system_activity(
@@ -741,9 +718,7 @@ class SocialMediaOrchestrator:
                             "live_posting": True,
                         }
 
-                        self.logger.error(
-                            f"❌ Live posting failed for {post.platform}: {post_result.error}"
-                        )
+                        self.logger.error(f"❌ Live posting failed for {post.platform}: {post_result.error}")
 
                         # Log live publishing failure
                         db.log_system_activity(
@@ -764,9 +739,7 @@ class SocialMediaOrchestrator:
                         "success": True,
                         "platform": post.platform,
                         "simulation": True,
-                        "reason": "Live API not available"
-                        if not use_live_apis
-                        else "Platform not configured",
+                        "reason": "Live API not available" if not use_live_apis else "Platform not configured",
                     }
 
                     # Log simulation
@@ -794,9 +767,7 @@ class SocialMediaOrchestrator:
             "total_approved": len(approved_posts),
             "live_posting_used": use_live_apis,
             "posting_results": results,
-            "platforms_configured": sum(1 for p in self.platforms.values() if p.live_posting)
-            if use_live_apis
-            else 0,
+            "platforms_configured": sum(1 for p in self.platforms.values() if p.live_posting) if use_live_apis else 0,
         }
 
     def get_content_analytics(self) -> dict[str, Any]:
@@ -814,16 +785,10 @@ class SocialMediaOrchestrator:
         # Content type distribution
         content_type_counts = {}
         for post in self.content_queue:
-            content_type_counts[post.content_type] = (
-                content_type_counts.get(post.content_type, 0) + 1
-            )
+            content_type_counts[post.content_type] = content_type_counts.get(post.content_type, 0) + 1
 
         # Live posting capabilities
-        live_platforms = (
-            sum(1 for p in self.platforms.values() if p.live_posting)
-            if self.live_posting_enabled
-            else 0
-        )
+        live_platforms = sum(1 for p in self.platforms.values() if p.live_posting) if self.live_posting_enabled else 0
 
         return {
             "total_content_generated": total_posts,

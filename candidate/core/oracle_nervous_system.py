@@ -375,9 +375,7 @@ class OracleNervousSystem:
 
             # Handle cross-colony events if requested
             if request.cross_colony_context:
-                cross_colony_events = await self._generate_cross_colony_events(
-                    request, response_data
-                )
+                cross_colony_events = await self._generate_cross_colony_events(request, response_data)
 
             processing_time = time.time() - start_time
 
@@ -490,9 +488,7 @@ class OracleNervousSystem:
         if not self.openai_adapter:
             raise RuntimeError("OpenAI Adapter not available")
 
-        result = await self.openai_adapter.perform_deep_analysis(
-            context=request.context, analysis_type="comprehensive"
-        )
+        result = await self.openai_adapter.perform_deep_analysis(context=request.context, analysis_type="comprehensive")
 
         return {
             "analysis_type": "openai_enhanced_nervous_system",
@@ -521,9 +517,7 @@ class OracleNervousSystem:
             "nervous_system_processing": True,
         }
 
-    def _calculate_confidence(
-        self, response_data: dict[str, Any], capability: OracleCapability
-    ) -> float:
+    def _calculate_confidence(self, response_data: dict[str, Any], capability: OracleCapability) -> float:
         """Calculate confidence score for the response."""
         base_confidence = 0.7
 
@@ -659,9 +653,7 @@ class OracleNervousSystem:
                     capability.health_status = "operational"  # Would do actual checks
 
                 # Update overall system health
-                unhealthy_count = sum(
-                    1 for cap in self.capabilities.values() if cap.health_status != "operational"
-                )
+                unhealthy_count = sum(1 for cap in self.capabilities.values() if cap.health_status != "operational")
 
                 if unhealthy_count == 0:
                     self.health_status = "optimal"
@@ -708,9 +700,7 @@ class OracleNervousSystem:
                     "openai_enhanced": cap.openai_enhanced,
                     "colony_integrated": cap.colony_integrated,
                     "health_status": cap.health_status,
-                    "last_health_check": (
-                        cap.last_health_check.isoformat() if cap.last_health_check else None
-                    ),
+                    "last_health_check": (cap.last_health_check.isoformat() if cap.last_health_check else None),
                 }
                 for cap_type, cap in self.capabilities.items()
             },
@@ -825,9 +815,7 @@ async def temporal_reasoning(context: dict[str, Any], **kwargs) -> NervousSystem
     return await system.process_request(request)
 
 
-logger.info(
-    "ΛORACLE: Nervous System Integration Hub loaded. Unified Oracle intelligence available."
-)
+logger.info("ΛORACLE: Nervous System Integration Hub loaded. Unified Oracle intelligence available.")
 
 """
 ══════════════════════════════════════════════════════════════════════════════════

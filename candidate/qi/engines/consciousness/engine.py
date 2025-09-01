@@ -210,18 +210,14 @@ class EnhancedQIEngine:
         """
         try:
             # Process through mitochondrial bridge
-            bridge_output, bridge_meta = await self.mitochondrial_bridge.process_quantum_signal(
-                input_signal, context
-            )
+            bridge_output, bridge_meta = await self.mitochondrial_bridge.process_quantum_signal(input_signal, context)
 
             # Generate pre/post synaptic signals
             pre_synaptic = bridge_output
             post_synaptic = self.qi_like_state
 
             # Process through synaptic gate
-            gate_output, gate_meta = await self.synaptic_gate.process_signal(
-                pre_synaptic, post_synaptic, context
-            )
+            gate_output, gate_meta = await self.synaptic_gate.process_signal(pre_synaptic, post_synaptic, context)
 
             # Modulate plasticity
             new_state, plasticity_meta = await self.plasticity_modulator.modulate_plasticity(

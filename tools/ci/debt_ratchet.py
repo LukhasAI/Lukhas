@@ -61,15 +61,11 @@ def touched_files_against_main():
             ).splitlines()
         else:
             # Local context
-            out = subprocess.check_output(
-                ["git", "diff", "--name-only", "origin/main...HEAD"], text=True
-            ).splitlines()
+            out = subprocess.check_output(["git", "diff", "--name-only", "origin/main...HEAD"], text=True).splitlines()
     except Exception:
         try:
             # Fallback to origin/main
-            out = subprocess.check_output(
-                ["git", "diff", "--name-only", "origin/main...HEAD"], text=True
-            ).splitlines()
+            out = subprocess.check_output(["git", "diff", "--name-only", "origin/main...HEAD"], text=True).splitlines()
         except Exception:
             return []
     return [f for f in out if f.endswith(".py")]
@@ -89,9 +85,7 @@ def count_by_pkg(json_path):
 def main():
     load_allowed()
     changed = touched_files_against_main()
-    pkgs_touched = sorted(
-        {to_pkg(f) for f in changed if to_pkg(f) in {"lukhas", "candidate", "universal_language"}}
-    )
+    pkgs_touched = sorted({to_pkg(f) for f in changed if to_pkg(f) in {"lukhas", "candidate", "universal_language"}})
     if not pkgs_touched:
         print("No tracked packages touched; ratchet passes.")
         return 0
@@ -104,9 +98,7 @@ def main():
 
     # baseline from main
     try:
-        subprocess.check_call(
-            ["git", "fetch", "origin", "main", "--depth", "1"], capture_output=True
-        )
+        subprocess.check_call(["git", "fetch", "origin", "main", "--depth", "1"], capture_output=True)
         subprocess.check_call(["git", "checkout", "-q", "origin/main"], capture_output=True)
         run_ruff(["."], "reports/lints/ruff_main.json")
         base_counts = count_by_pkg("reports/lints/ruff_main.json")

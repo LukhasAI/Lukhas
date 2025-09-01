@@ -18,9 +18,7 @@ import os
 
 
 class ComplianceMonitor:
-    def __init__(
-        self, drift_thresholds=None, log_dir="lucas_governance/logs", moving_average_window=20
-    ):
+    def __init__(self, drift_thresholds=None, log_dir="lucas_governance/logs", moving_average_window=20):
         self.drift_score = 0.0
         self.drift_thresholds = drift_thresholds or {
             "default": {"recalibrate": 0.3, "escalate": 0.6},
@@ -36,9 +34,7 @@ class ComplianceMonitor:
         self.compliance_history = []
         self.moving_average_window = moving_average_window
 
-    def evaluate_decision(
-        self, decision_id, compliance_score, subsystem="default", lucas_id="LUCID-000"
-    ):
+    def evaluate_decision(self, decision_id, compliance_score, subsystem="default", lucas_id="LUCID-000"):
         drift_increment = 0.0
         if self.compliance_history:
             moving_average = sum(self.compliance_history) / len(self.compliance_history)

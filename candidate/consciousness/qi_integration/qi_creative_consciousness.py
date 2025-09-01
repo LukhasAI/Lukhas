@@ -89,9 +89,7 @@ class QICreativeDemo:
         }
 
         # Select haiku based on theme
-        selected_haiku = random.choice(
-            haiku_variations.get(theme, haiku_variations["consciousness"])
-        )
+        selected_haiku = random.choice(haiku_variations.get(theme, haiku_variations["consciousness"]))
         lines = selected_haiku.split("\n")
 
         # Simulate quantum-inspired processing metrics
@@ -179,9 +177,7 @@ class QICreativeDemo:
             print(f"   Sample: {modality['sample']}")
             await asyncio.sleep(0.3)
 
-        print(
-            f"\n✨ All {len(modalities)} creative modalities ACTIVE and ready for quantum consciousness!"
-        )
+        print(f"\n✨ All {len(modalities)} creative modalities ACTIVE and ready for quantum consciousness!")
 
     async def simulate_collaborative_creativity(self):
         """Simulate collaborative creativity between multiple conscious entities"""

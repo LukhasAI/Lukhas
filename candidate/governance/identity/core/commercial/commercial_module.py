@@ -283,9 +283,7 @@ class CommercialModule:
 
         brand_prefix = self.registered_brands[brand_code]
         if not brand_prefix.is_valid():
-            return CommercialLambdaIDResult(
-                success=False, error=f"Brand prefix status: {brand_prefix.status.value}"
-            )
+            return CommercialLambdaIDResult(success=False, error=f"Brand prefix status: {brand_prefix.status.value}")
 
         # Determine commercial format
         commercial_tier = brand_prefix.commercial_tier
@@ -294,15 +292,11 @@ class CommercialModule:
             if commercial_tier == CommercialTier.BUSINESS:
                 lambda_id = self._generate_business_format(brand_code, tier, user_context, options)
             elif commercial_tier == CommercialTier.ENTERPRISE:
-                lambda_id = self._generate_enterprise_format(
-                    brand_code, tier, user_context, options
-                )
+                lambda_id = self._generate_enterprise_format(brand_code, tier, user_context, options)
             elif commercial_tier == CommercialTier.CORPORATE:
                 lambda_id = self._generate_corporate_format(brand_code, tier, user_context, options)
             elif commercial_tier == CommercialTier.WHITE_LABEL:
-                lambda_id = self._generate_white_label_format(
-                    brand_code, tier, user_context, options
-                )
+                lambda_id = self._generate_white_label_format(brand_code, tier, user_context, options)
             else:
                 raise ValueError(f"Unsupported commercial tier: {commercial_tier}")
 
@@ -375,9 +369,7 @@ class CommercialModule:
         entropy_seed = f"{brand_code}{enhanced_tier}{timestamp_hash}{symbolic_char}"
         entropy_hash = hashlib.sha256(entropy_seed.encode()).hexdigest()[:4].upper()
 
-        return (
-            f"LUKHAS©{brand_code}-{enhanced_tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
-        )
+        return f"LUKHAS©{brand_code}-{enhanced_tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
 
     def _generate_enterprise_format(
         self,
@@ -438,9 +430,7 @@ class CommercialModule:
         entropy_seed = f"{brand_code}{enhanced_tier}{timestamp_hash}{symbolic_char}{user_context.get('user_id', '')}"
         entropy_hash = hashlib.sha256(entropy_seed.encode()).hexdigest()[:5].upper()
 
-        return (
-            f"LUKHAS©{brand_code}-{enhanced_tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
-        )
+        return f"LUKHAS©{brand_code}-{enhanced_tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
 
     def _generate_white_label_format(
         self,
@@ -487,9 +477,7 @@ class CommercialModule:
                 self.usage_tracking[brand_code][today] = 0
             self.usage_tracking[brand_code][today] += 1
 
-    def _calculate_billing(
-        self, brand_prefix: BrandPrefix, user_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _calculate_billing(self, brand_prefix: BrandPrefix, user_context: dict[str, Any]) -> dict[str, Any]:
         """Calculate billing information for commercial ΛiD generation."""
         tier_config = self.config["commercial_tiers"][brand_prefix.commercial_tier.value]
 
@@ -502,9 +490,7 @@ class CommercialModule:
             "currency": self.config["billing"]["currency"],
         }
 
-    def validate_commercial_lambda_id(
-        self, lambda_id: str, validation_level: str = "enterprise"
-    ) -> dict[str, Any]:
+    def validate_commercial_lambda_id(self, lambda_id: str, validation_level: str = "enterprise") -> dict[str, Any]:
         """
         Validate a commercial ΛiD with enhanced checks.
 
@@ -553,9 +539,7 @@ class CommercialModule:
         )
 
         # Commercial-specific validation
-        commercial_checks = self._validate_commercial_specific(
-            lambda_id, commercial_info, brand_prefix
-        )
+        commercial_checks = self._validate_commercial_specific(lambda_id, commercial_info, brand_prefix)
 
         # Combine results
         result = {
@@ -572,9 +556,7 @@ class CommercialModule:
             },
             "base_validation": base_validation.__dict__,
             "commercial_checks": commercial_checks,
-            "entropy_analysis": self.entropy_engine.analyze_entropy(
-                lambda_id, commercial_info["tier"]
-            ),
+            "entropy_analysis": self.entropy_engine.analyze_entropy(lambda_id, commercial_info["tier"]),
         }
 
         return result
@@ -586,9 +568,7 @@ class CommercialModule:
 
         # Enterprise format:
         # LUKHAS⬟{BRAND}-{DIVISION}-{TIER}-{TIMESTAMP}-{SYMBOLIC}-{ENTROPY}
-        enterprise_pattern = (
-            r"^LUKHAS⬟([A-Z0-9]{2,8})-([A-Z]{2,3})-(\d)-([A-F0-9]{3,4})-(.)-([A-F0-9]{3,4})$"
-        )
+        enterprise_pattern = r"^LUKHAS⬟([A-Z0-9]{2,8})-([A-Z]{2,3})-(\d)-([A-F0-9]{3,4})-(.)-([A-F0-9]{3,4})$"
 
         # Check business format
         business_match = re.match(business_pattern, lambda_id)
@@ -649,12 +629,8 @@ class CommercialModule:
             checks["warnings"].append("Usage approaching tier limits")
 
         # Commercial tier format validation
-        if (
-            commercial_info["format"] == "business"
-            and brand_prefix.commercial_tier == CommercialTier.BUSINESS
-        ) or (
-            commercial_info["format"] == "enterprise"
-            and brand_prefix.commercial_tier == CommercialTier.ENTERPRISE
+        if (commercial_info["format"] == "business" and brand_prefix.commercial_tier == CommercialTier.BUSINESS) or (
+            commercial_info["format"] == "enterprise" and brand_prefix.commercial_tier == CommercialTier.ENTERPRISE
         ):
             checks["commercial_tier_match"] = True
         else:
@@ -681,11 +657,7 @@ class CommercialModule:
             "expiry_date": brand.expiry_date.isoformat(),
             "usage_stats": {
                 "total_generated": brand.usage_stats["lambda_ids_generated"],
-                "last_used": (
-                    brand.usage_stats["last_used"].isoformat()
-                    if brand.usage_stats["last_used"]
-                    else None
-                ),
+                "last_used": (brand.usage_stats["last_used"].isoformat() if brand.usage_stats["last_used"] else None),
                 "daily_usage": usage_data,
             },
             "tier_limits": self.config["commercial_tiers"][brand.commercial_tier.value],
@@ -700,9 +672,7 @@ class CommercialModule:
         return {
             "success": True,
             "commercial_tiers": self.config["commercial_tiers"],
-            "symbolic_characters": {
-                tier.value: symbols for tier, symbols in self.commercial_symbols.items()
-            },
+            "symbolic_characters": {tier.value: symbols for tier, symbols in self.commercial_symbols.items()},
             "features_comparison": {
                 "business": {
                     "branded_prefixes": True,

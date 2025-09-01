@@ -98,10 +98,7 @@ class FeedbackStore:
                     # Apply filters
                     if task_filter and fc.get("context", {}).get("task") != task_filter:
                         continue
-                    if (
-                        jurisdiction_filter
-                        and fc.get("context", {}).get("jurisdiction") != jurisdiction_filter
-                    ):
+                    if jurisdiction_filter and fc.get("context", {}).get("jurisdiction") != jurisdiction_filter:
                         continue
 
                     feedback.append(fc)

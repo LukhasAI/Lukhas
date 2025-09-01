@@ -136,9 +136,7 @@ class ConsensusEngine:
         # Select consensus method
         consensus_method = method or self.default_method
 
-        logger.info(
-            "Processing consensus for %d responses using %s", len(responses), consensus_method.value
-        )
+        logger.info("Processing consensus for %d responses using %s", len(responses), consensus_method.value)
 
         try:
             # Apply the selected consensus method
@@ -161,9 +159,7 @@ class ConsensusEngine:
             result.individual_responses = responses
 
             # Calculate quality metrics
-            result.quality_metrics = self._calculate_quality_metrics(
-                result.final_response, responses
-            )
+            result.quality_metrics = self._calculate_quality_metrics(result.final_response, responses)
 
             logger.info(
                 "Consensus completed in %.2fms with confidence %.3f",
@@ -227,9 +223,7 @@ class ConsensusEngine:
             weighted_content_scores.append((response, weight, content_score))
 
         # Select the best weighted response
-        best_response = max(
-            weighted_content_scores, key=lambda x: x[1] * x[2]
-        )  # weight * content_score
+        best_response = max(weighted_content_scores, key=lambda x: x[1] * x[2])  # weight * content_score
 
         # Calculate consensus confidence
         consensus_confidence = min(best_response[1] / total_weight * 2, 1.0)
@@ -294,9 +288,7 @@ class ConsensusEngine:
 
             if clusters:
                 # Select best cluster and synthesize
-                best_cluster = max(
-                    clusters, key=lambda c: len(c) * sum(self._score_response_quality(r) for r in c)
-                )
+                best_cluster = max(clusters, key=lambda c: len(c) * sum(self._score_response_quality(r) for r in c))
                 synthesized_response = self._synthesize_cluster_response(best_cluster)
 
                 # Calculate hybrid confidence
@@ -326,9 +318,7 @@ class ConsensusEngine:
             individual_responses=[],
         )
 
-    async def _best_response_consensus(
-        self, responses: list[Any], error: Optional[str] = None
-    ) -> ConsensusResult:
+    async def _best_response_consensus(self, responses: list[Any], error: Optional[str] = None) -> ConsensusResult:
         """Simple best response selection (fallback method)"""
 
         # Score all responses and select the best
@@ -356,10 +346,7 @@ class ConsensusEngine:
 
             for group in groups:
                 # Check similarity with group representative (first item)
-                if (
-                    self._calculate_text_similarity(response.content, group[0].content)
-                    > self.similarity_threshold
-                ):
+                if self._calculate_text_similarity(response.content, group[0].content) > self.similarity_threshold:
                     group.append(response)
                     added_to_group = True
                     break
@@ -379,9 +366,7 @@ class ConsensusEngine:
                 if i == j:
                     similarity = 1.0
                 else:
-                    similarity = self._calculate_text_similarity(
-                        responses[i].content, responses[j].content
-                    )
+                    similarity = self._calculate_text_similarity(responses[i].content, responses[j].content)
 
                 matrix[i][j] = similarity
                 matrix[j][i] = similarity  # Symmetric matrix
@@ -412,9 +397,7 @@ class ConsensusEngine:
         # Combined similarity
         return (jaccard * 0.8) + (length_ratio * 0.2)
 
-    def _find_response_clusters(
-        self, responses: list[Any], similarity_matrix: list[list[float]]
-    ) -> list[list[Any]]:
+    def _find_response_clusters(self, responses: list[Any], similarity_matrix: list[list[float]]) -> list[list[Any]]:
         """Find clusters of similar responses using similarity matrix"""
         n = len(responses)
         visited = [False] * n
@@ -495,9 +478,7 @@ class ConsensusEngine:
 
         return length_score
 
-    def _calculate_quality_metrics(
-        self, final_response: str, responses: list[Any]
-    ) -> dict[str, float]:
+    def _calculate_quality_metrics(self, final_response: str, responses: list[Any]) -> dict[str, float]:
         """Calculate quality metrics for the consensus result"""
         if not responses:
             return {}

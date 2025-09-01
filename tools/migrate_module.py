@@ -29,9 +29,7 @@ class ModuleMigrator:
                 with open(py_file, encoding="utf-8") as f:
                     for line_no, line in enumerate(f, 1):
                         if pattern.search(line):
-                            illegal.append(
-                                f"{py_file.relative_to(self.root)}:{line_no}: {line.strip()}"
-                            )
+                            illegal.append(f"{py_file.relative_to(self.root)}:{line_no}: {line.strip()}")
             except Exception as e:
                 print(f"Error reading {py_file}: {e}")
 

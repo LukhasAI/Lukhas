@@ -132,9 +132,7 @@ class WorkspaceAnalyzer:
         """Identify which root-level systems are working vs broken."""
         print("⚙️ Identifying working vs broken systems...")
 
-        root_dirs = [
-            d for d in self.root_path.iterdir() if d.is_dir() and not d.name.startswith(".")
-        ]
+        root_dirs = [d for d in self.root_path.iterdir() if d.is_dir() and not d.name.startswith(".")]
 
         for root_dir in root_dirs:
             system_info = {
@@ -193,11 +191,7 @@ class WorkspaceAnalyzer:
             "workspace_overview": {
                 "total_python_files": len(self.modules),
                 "total_root_systems": len(
-                    [
-                        d
-                        for d in self.root_path.iterdir()
-                        if d.is_dir() and not d.name.startswith(".")
-                    ]
+                    [d for d in self.root_path.iterdir() if d.is_dir() and not d.name.startswith(".")]
                 ),
                 "working_systems": len(self.working_systems),
                 "broken_systems": len(self.broken_systems),
@@ -209,9 +203,7 @@ class WorkspaceAnalyzer:
             "connectivity_stats": {
                 "files_with_imports": len([f for f in self.modules if self.imports[f]]),
                 "files_with_exports": len([f for f in self.modules if self.exports[f]]),
-                "highly_connected": len(
-                    [f for f in self.modules if len(self.imports[f]) + len(self.exports[f]) > 5]
-                ),
+                "highly_connected": len([f for f in self.modules if len(self.imports[f]) + len(self.exports[f]) > 5]),
             },
         }
 
@@ -245,15 +237,11 @@ class WorkspaceAnalyzer:
 
         print(f"\n✅ WORKING SYSTEMS ({len(self.working_systems)}):")
         for system in self.working_systems[:10]:  # Top 10
-            print(
-                f"   • {system['name']}: {system['file_count']} files, {system['connected_files']} connected"
-            )
+            print(f"   • {system['name']}: {system['file_count']} files, {system['connected_files']} connected")
 
         print(f"\n❌ BROKEN/ISOLATED SYSTEMS ({len(self.broken_systems)}):")
         for system in self.broken_systems[:10]:  # Top 10
-            print(
-                f"   • {system['name']}: {system['file_count']} files, {system['isolated_files']} isolated"
-            )
+            print(f"   • {system['name']}: {system['file_count']} files, {system['isolated_files']} isolated")
 
         print("\n🔍 TOP ISOLATED FILES (Size-based):")
         for file_info in self.isolated_files[:15]:  # Top 15

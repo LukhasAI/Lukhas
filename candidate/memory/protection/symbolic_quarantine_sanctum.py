@@ -141,9 +141,7 @@ class QuarantineEntry:
             **asdict(self),
             "threat_level": self.threat_level.value,
             "status": self.status.value,
-            "viability_assessment": (
-                self.viability_assessment.value if self.viability_assessment else None
-            ),
+            "viability_assessment": (self.viability_assessment.value if self.viability_assessment else None),
         }
 
     def add_audit_entry(self, action: str, details: dict[str, Any] = None):
@@ -491,9 +489,9 @@ class SymbolicQuarantineSanctum:
                 # Update entry with repaired content
                 entry.original_content = repaired_content
                 entry.status = QuarantineStatus.PENDING_RELEASE
-                entry.repair_success_rate = len(
-                    [r for r in entry.repair_attempts if r.get("success", False)]
-                ) / len(entry.repair_attempts)
+                entry.repair_success_rate = len([r for r in entry.repair_attempts if r.get("success", False)]) / len(
+                    entry.repair_attempts
+                )
 
                 entry.add_audit_entry(
                     "REPAIR_SUCCESSFUL",
@@ -593,9 +591,7 @@ class SymbolicQuarantineSanctum:
         # Factor 2: Entropy reduction
         current_entropy = self._calculate_entropy_score(entry.original_content)
         if current_entropy < self.safety_thresholds["entropy_quarantine"]:
-            viability_score += (
-                1.0 - (current_entropy / self.safety_thresholds["entropy_quarantine"])
-            ) * 0.25
+            viability_score += (1.0 - (current_entropy / self.safety_thresholds["entropy_quarantine"])) * 0.25
         confidence_score += 0.2
 
         # Factor 3: Threat level assessment
@@ -748,9 +744,7 @@ class SymbolicQuarantineSanctum:
                 {
                     "force_release": force_release,
                     "reviewer_approval": reviewer_approval,
-                    "viability": (
-                        entry.viability_assessment.value if entry.viability_assessment else None
-                    ),
+                    "viability": (entry.viability_assessment.value if entry.viability_assessment else None),
                 },
             )
 
@@ -771,9 +765,7 @@ class SymbolicQuarantineSanctum:
                 {
                     "force_release": force_release,
                     "reviewer_approval": reviewer_approval,
-                    "final_viability": (
-                        entry.viability_assessment.value if entry.viability_assessment else None
-                    ),
+                    "final_viability": (entry.viability_assessment.value if entry.viability_assessment else None),
                 },
             )
 
@@ -864,9 +856,7 @@ class SymbolicQuarantineSanctum:
             "threat_level": entry.threat_level.value,
             "quarantine_duration": self._calculate_duration(entry.quarantine_timestamp),
             "repair_attempts": len(entry.repair_attempts),
-            "viability_assessment": (
-                entry.viability_assessment.value if entry.viability_assessment else None
-            ),
+            "viability_assessment": (entry.viability_assessment.value if entry.viability_assessment else None),
             "viability_confidence": entry.viability_confidence,
             "contamination_vectors": entry.contamination_vectors,
         }
@@ -909,9 +899,7 @@ class SymbolicQuarantineSanctum:
             "repair_protocol_stats": {
                 protocol: {
                     **stats,
-                    "success_rate": (
-                        stats["successes"] / stats["attempts"] if stats["attempts"] > 0 else 0.0
-                    ),
+                    "success_rate": (stats["successes"] / stats["attempts"] if stats["attempts"] > 0 else 0.0),
                 }
                 for protocol, stats in protocol_stats.items()
             },
@@ -981,9 +969,7 @@ class SymbolicQuarantineSanctum:
                     "contamination_score": contamination_score,
                     "contamination_reasons": contamination_reasons,
                     "threat_level": self._assess_threat_level(contamination_score),
-                    "recommended_action": (
-                        "QUARANTINE" if contamination_score > 0.7 else "MONITOR"
-                    ),
+                    "recommended_action": ("QUARANTINE" if contamination_score > 0.7 else "MONITOR"),
                 }
 
                 findings.append(finding)
@@ -1417,9 +1403,7 @@ class SymbolicQuarantineSanctum:
 
         return min(entropy, 1.0)
 
-    def _identify_contamination_vectors(
-        self, content: dict[str, Any], metadata: dict[str, Any]
-    ) -> list[str]:
+    def _identify_contamination_vectors(self, content: dict[str, Any], metadata: dict[str, Any]) -> list[str]:
         """Identify contamination vectors in content."""
         vectors = []
 
@@ -1571,12 +1555,8 @@ def main():
     # Scan command
     scan_parser = subparsers.add_parser("scan", help="Scan for contamination")
     scan_parser.add_argument("--dir", required=True, help="Directory to scan")
-    scan_parser.add_argument(
-        "--auto-quarantine", action="store_true", help="Auto-quarantine flagged entries"
-    )
-    scan_parser.add_argument(
-        "--format", choices=["json", "table"], default="table", help="Output format"
-    )
+    scan_parser.add_argument("--auto-quarantine", action="store_true", help="Auto-quarantine flagged entries")
+    scan_parser.add_argument("--format", choices=["json", "table"], default="table", help="Output format")
 
     # Repair command
     repair_parser = subparsers.add_parser("repair", help="Apply repair protocol")

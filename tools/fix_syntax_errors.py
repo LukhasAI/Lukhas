@@ -159,9 +159,7 @@ class PythonSyntaxFixer:
         lines = content.splitlines()
 
         # Pattern for invalid imports with spaces
-        import_pattern = re.compile(
-            r"(from|import)\s+([A-Z][A-Z\s]+(?:Λ|λ)?[A-Za-z\s]*?)(\.|import|\s|$)"
-        )
+        import_pattern = re.compile(r"(from|import)\s+([A-Z][A-Z\s]+(?:Λ|λ)?[A-Za-z\s]*?)(\.|import|\s|$)")
 
         for i, line in enumerate(lines):
             match = import_pattern.search(line)
@@ -344,9 +342,7 @@ class PythonSyntaxFixer:
 
                 # Track fixes by type
                 for fix in fixes:
-                    self.report.fixes_by_type[fix.fix_type] = (
-                        self.report.fixes_by_type.get(fix.fix_type, 0) + 1
-                    )
+                    self.report.fixes_by_type[fix.fix_type] = self.report.fixes_by_type.get(fix.fix_type, 0) + 1
 
         return self.report
 

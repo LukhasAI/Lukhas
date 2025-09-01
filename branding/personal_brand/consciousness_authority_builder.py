@@ -376,9 +376,7 @@ class ConsciousnessAuthorityBuilder:
                 },
             },
             "measurement_framework": {
-                "authority_metrics": self.thought_leadership_framework[
-                    "authority_measurement_kpis"
-                ],
+                "authority_metrics": self.thought_leadership_framework["authority_measurement_kpis"],
                 "engagement_targets": self._create_engagement_targets(),
                 "thought_leadership_indicators": self._create_thought_leadership_indicators(),
                 "roi_measurement": self._create_roi_measurement(),

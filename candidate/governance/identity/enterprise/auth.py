@@ -316,9 +316,7 @@ class EnterpriseAuthenticationModule:
                 metadata={"exception": str(e)},
             )
 
-    def _authenticate_ldap(
-        self, username: str, password: str, session_id: str
-    ) -> AuthenticationResult:
+    def _authenticate_ldap(self, username: str, password: str, session_id: str) -> AuthenticationResult:
         """Authenticate user against LDAP/Active Directory."""
         if not self.ldap_config:
             return self._failed_auth_result(session_id, "LDAP not configured")
@@ -399,9 +397,7 @@ class EnterpriseAuthenticationModule:
         except Exception as e:
             return self._failed_auth_result(session_id, f"LDAP authentication failed: {e!s}")
 
-    def _authenticate_oauth(
-        self, auth_data: dict[str, Any], session_id: str
-    ) -> AuthenticationResult:
+    def _authenticate_oauth(self, auth_data: dict[str, Any], session_id: str) -> AuthenticationResult:
         """Authenticate user using OAuth 2.0/OpenID Connect."""
         if not self.oauth_config:
             return self._failed_auth_result(session_id, "OAuth not configured")
@@ -445,9 +441,7 @@ class EnterpriseAuthenticationModule:
             enterprise_user = self._create_enterprise_user_from_oauth(userinfo)
 
             # Generate internal tokens
-            internal_access_token, refresh_token, expires_at = self._generate_tokens(
-                enterprise_user
-            )
+            internal_access_token, refresh_token, expires_at = self._generate_tokens(enterprise_user)
 
             # Create session
             self._create_session(session_id, enterprise_user, internal_access_token)
@@ -472,9 +466,7 @@ class EnterpriseAuthenticationModule:
         except Exception as e:
             return self._failed_auth_result(session_id, f"OAuth authentication failed: {e!s}")
 
-    def _authenticate_saml(
-        self, auth_data: dict[str, Any], session_id: str
-    ) -> AuthenticationResult:
+    def _authenticate_saml(self, auth_data: dict[str, Any], session_id: str) -> AuthenticationResult:
         """Authenticate user using SAML SSO."""
         if not self.saml_config:
             return self._failed_auth_result(session_id, "SAML not configured")
@@ -570,9 +562,7 @@ class EnterpriseAuthenticationModule:
         except Exception as e:
             return self._failed_auth_result(session_id, f"JWT authentication failed: {e!s}")
 
-    def _authenticate_certificate(
-        self, auth_data: dict[str, Any], session_id: str
-    ) -> AuthenticationResult:
+    def _authenticate_certificate(self, auth_data: dict[str, Any], session_id: str) -> AuthenticationResult:
         """Authenticate user using client certificate."""
         try:
             # Extract certificate from auth data
@@ -632,9 +622,7 @@ class EnterpriseAuthenticationModule:
         except Exception as e:
             return self._failed_auth_result(session_id, f"Certificate authentication failed: {e!s}")
 
-    def verify_mfa(
-        self, mfa_token: str, mfa_code: str, mfa_method: AuthenticationMethod
-    ) -> AuthenticationResult:
+    def verify_mfa(self, mfa_token: str, mfa_code: str, mfa_method: AuthenticationMethod) -> AuthenticationResult:
         """Verify multi-factor authentication."""
         try:
             # Decode MFA token to get user information
@@ -808,8 +796,7 @@ class EnterpriseAuthenticationModule:
             "user": user,
             "access_token": access_token,
             "created_at": datetime.utcnow(),
-            "expires_at": datetime.utcnow()
-            + timedelta(hours=self.config.get("session_timeout_hours", 8)),
+            "expires_at": datetime.utcnow() + timedelta(hours=self.config.get("session_timeout_hours", 8)),
             "last_activity": datetime.utcnow(),
         }
 
@@ -1035,16 +1022,12 @@ class EnterpriseAuthenticationModule:
             attributes["username"] = nameid_element.text
 
         # Extract attribute statements
-        attr_statements = saml_root.findall(
-            ".//{urn:oasis:names:tc:SAML:2.0:assertion}AttributeStatement"
-        )
+        attr_statements = saml_root.findall(".//{urn:oasis:names:tc:SAML:2.0:assertion}AttributeStatement")
         for attr_statement in attr_statements:
             attrs = attr_statement.findall(".//{urn:oasis:names:tc:SAML:2.0:assertion}Attribute")
             for attr in attrs:
                 attr_name = attr.get("Name")
-                attr_values = attr.findall(
-                    ".//{urn:oasis:names:tc:SAML:2.0:assertion}AttributeValue"
-                )
+                attr_values = attr.findall(".//{urn:oasis:names:tc:SAML:2.0:assertion}AttributeValue")
                 if attr_values:
                     attributes[attr_name] = attr_values[0].text
 

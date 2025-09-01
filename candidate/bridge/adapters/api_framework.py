@@ -257,9 +257,7 @@ class RequestTracingMiddleware(BaseHTTPMiddleware):
 
         # Update metrics
         endpoint = request.url.path.split("/")
-        version = (
-            endpoint[2] if len(endpoint) > 2 and endpoint[2] in ["v1", "v2", "v3"] else "unknown"
-        )
+        version = endpoint[2] if len(endpoint) > 2 and endpoint[2] in ["v1", "v2", "v3"] else "unknown"
 
         request_count.labels(
             method=request.method,
@@ -268,9 +266,9 @@ class RequestTracingMiddleware(BaseHTTPMiddleware):
             status=response.status_code,
         ).inc()
 
-        request_duration.labels(
-            method=request.method, endpoint=request.url.path, version=version
-        ).observe(duration_ms / 1000.0)
+        request_duration.labels(method=request.method, endpoint=request.url.path, version=version).observe(
+            duration_ms / 1000.0
+        )
 
         return response
 
@@ -285,9 +283,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next):
         # Get client identifier
-        client_id = request.headers.get(
-            "X-API-Key", request.client.host if request.client else "unknown"
-        )
+        client_id = request.headers.get("X-API-Key", request.client.host if request.client else "unknown")
 
         # Check rate limit
         key = f"rate_limit:{client_id}:{datetime.utcnow().strftime('%Y%m%d%H%M')}"

@@ -143,9 +143,7 @@ class PerformanceOrchestrator:
         self.active_alerts = []
         self.alert_callbacks = []
 
-        self.logger.info(
-            "🚀 LUKHAS Performance Orchestrator initialized with Trinity Framework integration"
-        )
+        self.logger.info("🚀 LUKHAS Performance Orchestrator initialized with Trinity Framework integration")
 
     async def start_performance_monitoring(
         self, user_id: str, modules: Optional[list[str]] = None, monitoring_interval: float = 1.0
@@ -272,9 +270,7 @@ class PerformanceOrchestrator:
             self.logger.error(f"❌ Performance optimization failed: {e}")
             return {"success": False, "error": str(e)}
 
-    async def get_performance_status(
-        self, user_id: str, include_detailed: bool = False
-    ) -> dict[str, Any]:
+    async def get_performance_status(self, user_id: str, include_detailed: bool = False) -> dict[str, Any]:
         """
         Get comprehensive performance status with consciousness and Trinity Framework metrics.
 
@@ -302,37 +298,28 @@ class PerformanceOrchestrator:
                 "active_monitoring_sessions": len(self.monitoring_sessions),
                 # Trinity Framework status
                 "trinity_framework_health": {
-                    "identity_performance": current_metrics.get(
-                        "trinity_framework_alignment", {}
-                    ).get("identity", 0),
-                    "consciousness_performance": current_metrics.get(
-                        "trinity_framework_alignment", {}
-                    ).get("consciousness", 0),
-                    "guardian_performance": current_metrics.get(
-                        "trinity_framework_alignment", {}
-                    ).get("guardian", 0),
+                    "identity_performance": current_metrics.get("trinity_framework_alignment", {}).get("identity", 0),
+                    "consciousness_performance": current_metrics.get("trinity_framework_alignment", {}).get(
+                        "consciousness", 0
+                    ),
+                    "guardian_performance": current_metrics.get("trinity_framework_alignment", {}).get("guardian", 0),
                 },
                 # Core performance indicators
                 "core_metrics": {
                     "latency_ms": current_metrics.get("latency_ms", 0),
                     "throughput_ops_sec": current_metrics.get("throughput_ops_sec", 0),
                     "memory_usage_mb": current_metrics.get("memory_usage_mb", 0),
-                    "consciousness_awareness_level": current_metrics.get(
-                        "consciousness_awareness_level", 0
-                    ),
+                    "consciousness_awareness_level": current_metrics.get("consciousness_awareness_level", 0),
                 },
                 # Bio-inspired metrics
                 "bio_metrics": {
                     "oscillator_frequency": current_metrics.get("bio_oscillator_frequency", 0),
                     "frequency_stability": abs(
-                        current_metrics.get("bio_oscillator_frequency", 0)
-                        - self.bio_oscillator_target_frequency
+                        current_metrics.get("bio_oscillator_frequency", 0) - self.bio_oscillator_target_frequency
                     )
                     <= 1.0,
                     "cascade_prevention_rate": current_metrics.get("cascade_prevention_rate", 0),
-                    "cascade_prevention_target_met": current_metrics.get(
-                        "cascade_prevention_rate", 0
-                    )
+                    "cascade_prevention_target_met": current_metrics.get("cascade_prevention_rate", 0)
                     >= self.cascade_prevention_target,
                 },
                 # Quantum-inspired metrics
@@ -347,9 +334,7 @@ class PerformanceOrchestrator:
                 # Alert status
                 "alerts": {
                     "active_count": len(self.active_alerts),
-                    "critical_alerts": len(
-                        [a for a in self.active_alerts if a.severity == "critical"]
-                    ),
+                    "critical_alerts": len([a for a in self.active_alerts if a.severity == "critical"]),
                     "recent_alerts": self.active_alerts[-5:] if self.active_alerts else [],
                 },
             }
@@ -360,9 +345,7 @@ class PerformanceOrchestrator:
                     "module_specific_metrics": current_metrics.get("module_specific_metrics", {}),
                     "performance_history": self.performance_history[-10:],  # Last 10 measurements
                     "threshold_analysis": self._analyze_thresholds(current_metrics),
-                    "optimization_recommendations": self._generate_optimization_recommendations(
-                        current_metrics
-                    ),
+                    "optimization_recommendations": self._generate_optimization_recommendations(current_metrics),
                 }
 
             return status_response
@@ -441,9 +424,7 @@ class PerformanceOrchestrator:
                 self.logger.error(f"❌ Monitoring loop error: {e}")
                 await asyncio.sleep(interval)
 
-    async def _collect_performance_metrics(
-        self, modules: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def _collect_performance_metrics(self, modules: Optional[list[str]] = None) -> dict[str, Any]:
         """Collect comprehensive performance metrics from all monitored systems."""
         try:
             modules = modules or self._get_default_modules()
@@ -654,9 +635,7 @@ class PerformanceOrchestrator:
     # Optimization Algorithm Implementations
     # ===========================================
 
-    async def _adaptive_optimization(
-        self, modules: list[str], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _adaptive_optimization(self, modules: list[str], context: dict[str, Any]) -> dict[str, Any]:
         """Adaptive optimization algorithm with consciousness awareness."""
         self.logger.info("⚡ Executing adaptive optimization")
 
@@ -680,9 +659,7 @@ class PerformanceOrchestrator:
             "trinity_framework_enhanced": True,
         }
 
-    async def _real_time_optimization(
-        self, modules: list[str], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _real_time_optimization(self, modules: list[str], context: dict[str, Any]) -> dict[str, Any]:
         """Real-time optimization for critical performance issues."""
         self.logger.info("⚡ Executing real-time optimization")
 
@@ -703,9 +680,7 @@ class PerformanceOrchestrator:
             "execution_priority": "critical",
         }
 
-    async def _batch_optimization(
-        self, modules: list[str], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _batch_optimization(self, modules: list[str], context: dict[str, Any]) -> dict[str, Any]:
         """Batch optimization for comprehensive system tuning."""
         self.logger.info("⚡ Executing batch optimization")
 
@@ -727,9 +702,7 @@ class PerformanceOrchestrator:
             "comprehensive_analysis": True,
         }
 
-    async def _consciousness_aware_optimization(
-        self, modules: list[str], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _consciousness_aware_optimization(self, modules: list[str], context: dict[str, Any]) -> dict[str, Any]:
         """Consciousness-aware optimization preserving awareness patterns."""
         self.logger.info("⚡ Executing consciousness-aware optimization")
 
@@ -753,9 +726,7 @@ class PerformanceOrchestrator:
             "awareness_enhanced": True,
         }
 
-    async def _quantum_enhanced_optimization(
-        self, modules: list[str], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _quantum_enhanced_optimization(self, modules: list[str], context: dict[str, Any]) -> dict[str, Any]:
         """Quantum-inspired optimization algorithms."""
         self.logger.info("⚡ Executing quantum-enhanced optimization")
 
@@ -779,9 +750,7 @@ class PerformanceOrchestrator:
             "coherence_preserved": True,
         }
 
-    async def _bio_synchronized_optimization(
-        self, modules: list[str], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _bio_synchronized_optimization(self, modules: list[str], context: dict[str, Any]) -> dict[str, Any]:
         """Bio-inspired optimization with oscillator synchronization."""
         self.logger.info("⚡ Executing bio-synchronized optimization")
 
@@ -805,9 +774,7 @@ class PerformanceOrchestrator:
             "natural_patterns_preserved": True,
         }
 
-    def _calculate_improvements(
-        self, pre_metrics: dict[str, Any], post_metrics: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _calculate_improvements(self, pre_metrics: dict[str, Any], post_metrics: dict[str, Any]) -> dict[str, Any]:
         """Calculate improvement metrics between pre and post optimization."""
         improvements = {}
 
@@ -816,18 +783,14 @@ class PerformanceOrchestrator:
         post_latency = post_metrics.get("latency_ms", 0)
         if pre_latency > 0:
             improvements["latency_improvement_ms"] = pre_latency - post_latency
-            improvements["latency_improvement_pct"] = (
-                (pre_latency - post_latency) / pre_latency
-            ) * 100
+            improvements["latency_improvement_pct"] = ((pre_latency - post_latency) / pre_latency) * 100
 
         # Throughput improvement
         pre_throughput = pre_metrics.get("throughput_ops_sec", 0)
         post_throughput = post_metrics.get("throughput_ops_sec", 0)
         if pre_throughput > 0:
             improvements["throughput_improvement_ops"] = post_throughput - pre_throughput
-            improvements["throughput_improvement_pct"] = (
-                (post_throughput - pre_throughput) / pre_throughput
-            ) * 100
+            improvements["throughput_improvement_pct"] = ((post_throughput - pre_throughput) / pre_throughput) * 100
 
         # Overall score improvement
         pre_score = pre_metrics.get("overall_score", 0)
@@ -901,9 +864,7 @@ class PerformanceOrchestrator:
 
         # Check cascade prevention rate
         if metrics.get("cascade_prevention_rate", 1.0) < self.cascade_prevention_target:
-            recommendations.append(
-                "Critical: Execute memory fold optimization for cascade prevention"
-            )
+            recommendations.append("Critical: Execute memory fold optimization for cascade prevention")
 
         # Check consciousness level
         if metrics.get("consciousness_awareness_level", 1.0) < 0.8:
@@ -911,9 +872,7 @@ class PerformanceOrchestrator:
 
         # Check overall performance
         if metrics.get("overall_score", 100) < 70:
-            recommendations.append(
-                "Execute comprehensive batch optimization for system-wide improvements"
-            )
+            recommendations.append("Execute comprehensive batch optimization for system-wide improvements")
 
         return recommendations[:5]  # Limit to top 5 recommendations
 

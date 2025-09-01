@@ -327,9 +327,7 @@ class HeartbeatVisualizer:
             )
 
             # Guardian status (simulated)
-            guardian_status = (
-                "🛡️ MONITORING" if self.current_state != "turbulent" else "🚨 INTERVENING"
-            )
+            guardian_status = "🛡️ MONITORING" if self.current_state != "turbulent" else "🚨 INTERVENING"
             print(Console.move_cursor(19, 20), end="")
             print(Console.CLEAR_LINE, end="")
             print(

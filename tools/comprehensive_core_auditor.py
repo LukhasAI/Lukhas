@@ -489,9 +489,7 @@ class ComprehensiveCoreAuditor:
 
         print(f"📊 Total unclassified files: {unclassified_analysis['total_unclassified']}")
         print(f"📁 Spread across {len(unclassified_analysis['by_directory'])} directories")
-        print(
-            f"🏷️  {len(unclassified_analysis['potential_categories'])} potential categories identified"
-        )
+        print(f"🏷️  {len(unclassified_analysis['potential_categories'])} potential categories identified")
 
         return unclassified_analysis
 
@@ -586,9 +584,7 @@ class ComprehensiveCoreAuditor:
         for dir_name in self.core_directories:
             if dir_name in self.audit_results["directories_scanned"]:
                 stats = self.audit_results["directory_stats"][dir_name]
-                report += (
-                    f"| `{dir_name}` | ✅ Found | {stats['total_files']} | `{stats['path']}` |\n"
-                )
+                report += f"| `{dir_name}` | ✅ Found | {stats['total_files']} | `{stats['path']}` |\n"
             else:
                 report += f"| `{dir_name}` | ❌ Not Found | 0 | N/A |\n"
 
@@ -616,9 +612,7 @@ class ComprehensiveCoreAuditor:
 """
 
         # Sort file types by count
-        sorted_file_types = sorted(
-            self.audit_results["file_types"].items(), key=lambda x: x[1], reverse=True
-        )
+        sorted_file_types = sorted(self.audit_results["file_types"].items(), key=lambda x: x[1], reverse=True)
 
         for file_type, count in sorted_file_types:
             percentage = (count / max(self.audit_results["total_files"], 1)) * 100
@@ -738,9 +732,7 @@ class ComprehensiveCoreAuditor:
 
         if unclassified_count > 0:
             percentage = (unclassified_count / total_files) * 100
-            recommendations.append(
-                f"Review {unclassified_count} unclassified files ({percentage:.1f}% of total)"
-            )
+            recommendations.append(f"Review {unclassified_count} unclassified files ({percentage:.1f}% of total)")
 
         if unclassified_analysis["potential_categories"]:
             recommendations.append("Consider creating new categories for identified patterns")
@@ -748,9 +740,7 @@ class ComprehensiveCoreAuditor:
         # Check for directories with many files
         for dir_name, stats in self.audit_results["directory_stats"].items():
             if stats["total_files"] > 50:
-                recommendations.append(
-                    f"Consider organizing `{dir_name}` directory ({stats['total_files']} files)"
-                )
+                recommendations.append(f"Consider organizing `{dir_name}` directory ({stats['total_files']} files)")
 
         # Check for dominant file types
         python_files = self.audit_results["file_types"].get("python", 0)
@@ -758,9 +748,7 @@ class ComprehensiveCoreAuditor:
             recommendations.append("High Python file concentration - consider modular organization")
 
         if len(self.audit_results["categorized_files"]) < 5:
-            recommendations.append(
-                "Consider expanding categorization system for better organization"
-            )
+            recommendations.append("Consider expanding categorization system for better organization")
 
         recommendations.append("Implement automated categorization for future file additions")
         recommendations.append("Create cleanup scripts for empty directories and obsolete files")

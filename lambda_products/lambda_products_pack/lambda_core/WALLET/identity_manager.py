@@ -81,9 +81,7 @@ class WalletIdentityManager:
             # Save initial snapshot
             self._take_wallet_identity_snapshot("initialization")
 
-        self.logger.info(
-            f"WΛLLET Identity Manager initialized with ID: {self.wallet_identity['id']}"
-        )
+        self.logger.info(f"WΛLLET Identity Manager initialized with ID: {self.wallet_identity['id']}")
 
     def create_wallet_identity(
         self,
@@ -102,9 +100,7 @@ class WalletIdentityManager:
         Returns:
             Created wallet identity
         """
-        wallet_identity = LambdaWalletIdentity.generate(
-            emoji_seed=emoji_seed, tier=tier, biometric_data=biometric_data
-        )
+        wallet_identity = LambdaWalletIdentity.generate(emoji_seed=emoji_seed, tier=tier, biometric_data=biometric_data)
 
         # Store in active wallets
         self.active_wallets[wallet_identity.lambda_id] = wallet_identity
@@ -348,9 +344,7 @@ class WalletIdentityManager:
             save_data = {
                 **self.wallet_identity,
                 "active_wallets_count": len(self.active_wallets),
-                "transaction_patterns_count": sum(
-                    len(patterns) for patterns in self.transaction_patterns.values()
-                ),
+                "transaction_patterns_count": sum(len(patterns) for patterns in self.transaction_patterns.values()),
                 "snapshots_count": len(self.wallet_identity_snapshots),
             }
 
@@ -367,9 +361,7 @@ class WalletIdentityManager:
     def get_security_summary(self) -> dict[str, Any]:
         """Get security summary for all wallet identities"""
         total_wallets = len(self.active_wallets)
-        biometric_protected = sum(
-            1 for wallet in self.active_wallets.values() if wallet.biometric_hash is not None
-        )
+        biometric_protected = sum(1 for wallet in self.active_wallets.values() if wallet.biometric_hash is not None)
 
         tier_distribution = defaultdict(int)
         for wallet in self.active_wallets.values():
@@ -380,9 +372,7 @@ class WalletIdentityManager:
             "biometric_protected": biometric_protected,
             "biometric_percentage": (biometric_protected / max(1, total_wallets)) * 100,
             "tier_distribution": dict(tier_distribution),
-            "total_transactions": sum(
-                len(patterns) for patterns in self.transaction_patterns.values()
-            ),
+            "total_transactions": sum(len(patterns) for patterns in self.transaction_patterns.values()),
             "vaults_active": len(self.wallet_vaults),
             "security_events": sum(
                 len(pattern.get("security_events", [])) for pattern in self.access_patterns.values()

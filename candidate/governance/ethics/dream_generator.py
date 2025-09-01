@@ -143,22 +143,14 @@ def generate_dream(evaluate_action):
     print(f"[DreamGenerator] Dream collapsed: {result['status']}")
     dream["result"] = result
 
-    risk_score = dream["emotional_intensity"] + (
-        0.3 if dream["parameters"]["potential_harm"] else 0
-    )
+    risk_score = dream["emotional_intensity"] + (0.3 if dream["parameters"]["potential_harm"] else 0)
     alignment_score = 1.0 - (0.5 if dream["parameters"]["bias_flag"] else 0)
 
     # ΛTAG: risk
-    dream["risk_tag"] = (
-        "ΛRISK:HIGH" if risk_score > 0.7 else "ΛRISK:MEDIUM" if risk_score > 0.4 else "ΛRISK:LOW"
-    )
+    dream["risk_tag"] = "ΛRISK:HIGH" if risk_score > 0.7 else "ΛRISK:MEDIUM" if risk_score > 0.4 else "ΛRISK:LOW"
     # ΛTAG: alignment
     dream["alignment_tag"] = (
-        "ΛALIGN:HIGH"
-        if alignment_score >= 0.7
-        else "ΛALIGN:MEDIUM"
-        if alignment_score >= 0.4
-        else "ΛALIGN:LOW"
+        "ΛALIGN:HIGH" if alignment_score >= 0.7 else "ΛALIGN:MEDIUM" if alignment_score >= 0.4 else "ΛALIGN:LOW"
     )
 
     ethics_result = _apply_ethical_filter(dream)

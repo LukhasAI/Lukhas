@@ -73,9 +73,7 @@ def demonstrate_ethical_collapse():
         "beneficence": 0.9,
     }
 
-    superposition = collapse_engine.create_moral_superposition(
-        ethical_scenario, uncertainty_level=0.3
-    )
+    superposition = collapse_engine.create_moral_superposition(ethical_scenario, uncertainty_level=0.3)
     print(f"   Moral superposition created with fidelity {superposition.fidelity:.3f}")
 
     # Perform ethical collapse
@@ -86,9 +84,7 @@ def demonstrate_ethical_collapse():
 
     print(f"   Collapse type: {convergence.collapse_type.value}")
     print(f"   Ethical score: {convergence.ethical_score:.3f}")
-    print(
-        f"   Collapsed to: {convergence.final_state.metadata.get('measurement_outcome', 'unknown')}"
-    )
+    print(f"   Collapsed to: {convergence.final_state.metadata.get('measurement_outcome', 'unknown')}")
 
     # Multi-agent collapse
     print("\n3. Multi-agent ethical collapse...")

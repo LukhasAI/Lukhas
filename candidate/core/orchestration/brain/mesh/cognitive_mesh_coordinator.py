@@ -219,10 +219,7 @@ class CognitiveNode(ABC):
         """Main processing loop for handling tasks"""
         while self._running:
             try:
-                if (
-                    self.task_queue
-                    and len(self.active_tasks) < self.capabilities.max_concurrent_tasks
-                ):
+                if self.task_queue and len(self.active_tasks) < self.capabilities.max_concurrent_tasks:
                     task = self.task_queue.popleft()
                     asyncio.create_task(self._execute_task(task))
                 else:
@@ -312,9 +309,7 @@ class CognitiveNode(ABC):
         while self._running:
             try:
                 self.metrics.last_heartbeat = datetime.now()
-                self.metrics.current_load = (
-                    len(self.active_tasks) / self.capabilities.max_concurrent_tasks
-                )
+                self.metrics.current_load = len(self.active_tasks) / self.capabilities.max_concurrent_tasks
 
                 # Send heartbeat to coordinator
                 if self.coordinator_ref and self.coordinator_ref():
@@ -610,9 +605,7 @@ class CognitiveMeshCoordinator:
             node = self.nodes[node_id]
 
             # Base score from node quality
-            quality_score = sum(node.metrics.quality_trend) / max(
-                1, len(node.metrics.quality_trend)
-            )
+            quality_score = sum(node.metrics.quality_trend) / max(1, len(node.metrics.quality_trend))
 
             # Load factor (prefer less loaded nodes)
             load_factor = 1.0 - node.metrics.current_load
@@ -637,9 +630,7 @@ class CognitiveMeshCoordinator:
         best_node = max(available_candidates, key=score_node)
         return best_node
 
-    async def _find_alternative_node(
-        self, task: CognitiveTask, excluded: set[str]
-    ) -> Optional[str]:
+    async def _find_alternative_node(self, task: CognitiveTask, excluded: set[str]) -> Optional[str]:
         """Find alternative node when primary choice is unavailable"""
         # Similar to _find_optimal_node but with exclusions
         candidates = []
@@ -720,9 +711,7 @@ class CognitiveMeshCoordinator:
 
                 for node_id, node in self.nodes.items():
                     # Check heartbeat freshness
-                    time_since_heartbeat = (
-                        current_time - node.metrics.last_heartbeat
-                    ).total_seconds()
+                    time_since_heartbeat = (current_time - node.metrics.last_heartbeat).total_seconds()
 
                     if time_since_heartbeat > 30:  # 30 seconds timeout
                         if node.status != NodeStatus.OFFLINE:
@@ -852,12 +841,9 @@ class CognitiveMeshCoordinator:
             "mesh_id": self.mesh_id,
             "metrics": self.mesh_metrics.copy(),
             "topology": {
-                "total_connections": sum(
-                    len(neighbors) for neighbors in self.mesh_topology.values()
-                ),
+                "total_connections": sum(len(neighbors) for neighbors in self.mesh_topology.values()),
                 "average_connections": (
-                    sum(len(neighbors) for neighbors in self.mesh_topology.values())
-                    / max(1, len(self.mesh_topology))
+                    sum(len(neighbors) for neighbors in self.mesh_topology.values()) / max(1, len(self.mesh_topology))
                 ),
             },
             "node_distribution": {

@@ -58,12 +58,8 @@ class PQCSigner:
             # Generate Dilithium3 keys (placeholder - real implementation would use actual lib)
             return {
                 "algorithm": "dilithium3",
-                "public_key": base64.b64encode(
-                    os.urandom(1952)
-                ).decode(),  # Dilithium3 public key size
-                "private_key": base64.b64encode(
-                    os.urandom(4000)
-                ).decode(),  # Dilithium3 private key size
+                "public_key": base64.b64encode(os.urandom(1952)).decode(),  # Dilithium3 public key size
+                "private_key": base64.b64encode(os.urandom(4000)).decode(),  # Dilithium3 private key size
                 "key_id": hashlib.sha256(os.urandom(32)).hexdigest()[:16],
             }
         elif HAS_ED25519:

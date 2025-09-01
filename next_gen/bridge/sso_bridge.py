@@ -328,9 +328,7 @@ class SSOBridge:
 
         return auth_url, transaction_id
 
-    def handle_sso_callback(
-        self, transaction_id: str, authorization_code: str, state: str
-    ) -> Optional[SSOSession]:
+    def handle_sso_callback(self, transaction_id: str, authorization_code: str, state: str) -> Optional[SSOSession]:
         """Handle SSO callback and complete authentication"""
         if transaction_id not in self.transactions:
             logger.error(f"Unknown transaction: {transaction_id}")
@@ -347,9 +345,7 @@ class SSOBridge:
         provider = self.providers[transaction.provider_id]
 
         # Exchange authorization code for tokens (simulated)
-        token_response = self._exchange_code_for_tokens(
-            provider, authorization_code, transaction.redirect_uri
-        )
+        token_response = self._exchange_code_for_tokens(provider, authorization_code, transaction.redirect_uri)
 
         if not token_response:
             transaction.error_message = "Token exchange failed"
@@ -375,8 +371,7 @@ class SSOBridge:
             access_token=token_response["access_token"],
             refresh_token=token_response.get("refresh_token"),
             token_type=token_response.get("token_type", "Bearer"),
-            expires_at=datetime.utcnow()
-            + timedelta(seconds=token_response.get("expires_in", 3600)),
+            expires_at=datetime.utcnow() + timedelta(seconds=token_response.get("expires_in", 3600)),
             scopes=transaction.requested_scopes,
             user_claims=user_info,
             assigned_glyphs=assigned_glyphs,
@@ -401,9 +396,7 @@ class SSOBridge:
 
         return session
 
-    def _exchange_code_for_tokens(
-        self, provider: SSOProvider, code: str, redirect_uri: str
-    ) -> Optional[dict]:
+    def _exchange_code_for_tokens(self, provider: SSOProvider, code: str, redirect_uri: str) -> Optional[dict]:
         """Exchange authorization code for access tokens (simulated)"""
         # In a real implementation, this would make an HTTP POST to the token endpoint
         logger.info("🔄 Simulating token exchange...")
@@ -450,9 +443,7 @@ class SSOBridge:
 
         return None
 
-    def _map_claims_to_glyphs(
-        self, user_claims: dict, provider_mapping: dict[str, str]
-    ) -> list[str]:
+    def _map_claims_to_glyphs(self, user_claims: dict, provider_mapping: dict[str, str]) -> list[str]:
         """Map user claims to LUKHAS glyphs"""
         assigned_glyphs = []
 

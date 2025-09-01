@@ -231,9 +231,7 @@ class PersonalSymbolDictionary:
 
         return personal_symbol
 
-    def get_symbol(
-        self, user_id: str, symbol: str, create_if_missing: bool = False
-    ) -> Optional[PersonalSymbol]:
+    def get_symbol(self, user_id: str, symbol: str, create_if_missing: bool = False) -> Optional[PersonalSymbol]:
         """
         Get a symbol from user's dictionary.
 
@@ -267,9 +265,7 @@ class PersonalSymbolDictionary:
 
         return None
 
-    def interpret_symbols(
-        self, user_id: str, text: str, context: Optional[str] = None
-    ) -> dict[str, Any]:
+    def interpret_symbols(self, user_id: str, text: str, context: Optional[str] = None) -> dict[str, Any]:
         """
         Interpret symbols in text using user's dictionary.
 
@@ -308,9 +304,7 @@ class PersonalSymbolDictionary:
                 personal_sym.update_usage()
 
                 # Replace in translated text
-                interpretation["translated"] = interpretation["translated"].replace(
-                    symbol, f"[{personal_sym.meaning}]"
-                )
+                interpretation["translated"] = interpretation["translated"].replace(symbol, f"[{personal_sym.meaning}]")
 
                 # Adjust confidence
                 interpretation["confidence"] *= personal_sym.confidence
@@ -353,9 +347,9 @@ class PersonalSymbolDictionary:
             user_symbols = []
             for symbol in self.dictionaries[user_id].values():
                 if symbol.embeddings is not None:
-                    similarity = cosine_similarity(
-                        concept_embedding.reshape(1, -1), symbol.embeddings.reshape(1, -1)
-                    )[0, 0]
+                    similarity = cosine_similarity(concept_embedding.reshape(1, -1), symbol.embeddings.reshape(1, -1))[
+                        0, 0
+                    ]
                     user_symbols.append((symbol, similarity))
 
             # Sort by similarity
@@ -404,9 +398,7 @@ class PersonalSymbolDictionary:
             if len(self.evolution_history[f"{user_id}:{symbol}"]) % 10 == 0:
                 self._save_user_dictionary(user_id)
 
-    def merge_symbols(
-        self, user_id: str, symbols: list[str], new_symbol: str, new_meaning: str
-    ) -> PersonalSymbol:
+    def merge_symbols(self, user_id: str, symbols: list[str], new_symbol: str, new_meaning: str) -> PersonalSymbol:
         """
         Merge multiple symbols into a new compound symbol.
 
@@ -448,9 +440,7 @@ class PersonalSymbolDictionary:
         user_dict = self.dictionaries[user_id]
 
         # Sort by frequency and recency
-        symbols_sorted = sorted(
-            user_dict.items(), key=lambda x: (x[1].frequency, x[1].last_used or 0)
-        )
+        symbols_sorted = sorted(user_dict.items(), key=lambda x: (x[1].frequency, x[1].last_used or 0))
 
         # Remove bottom 10%
         to_remove = max(1, len(symbols_sorted) // 10)
@@ -529,9 +519,7 @@ class PersonalSymbolDictionary:
 
         # Calculate statistics
         sorted_by_freq = sorted(user_dict.values(), key=lambda x: x.frequency, reverse=True)
-        export["statistics"]["most_used"] = [
-            {"symbol": s.symbol, "frequency": s.frequency} for s in sorted_by_freq[:5]
-        ]
+        export["statistics"]["most_used"] = [{"symbol": s.symbol, "frequency": s.frequency} for s in sorted_by_freq[:5]]
 
         sorted_by_stability = sorted(user_dict.values(), key=lambda x: x.stability, reverse=True)
         export["statistics"]["most_stable"] = [
@@ -596,9 +584,7 @@ if __name__ == "__main__":
     print(f"Confidence: {interpretation['confidence']:.1%}")
 
     # Learn from usage
-    dictionary.learn_from_usage(
-        user_id=user_id, symbol="🌟", context="praising good code", success=True
-    )
+    dictionary.learn_from_usage(user_id=user_id, symbol="🌟", context="praising good code", success=True)
     print(f"\n🌟 confidence after positive feedback: {symbol1.confidence:.2f}")
 
     # Suggest symbols

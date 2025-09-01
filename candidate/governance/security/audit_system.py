@@ -494,9 +494,7 @@ class AuditStorage:
         # Compliance filters
         if query.compliance_relevant_only and not event.compliance_relevant:
             return False
-        if query.compliance_frameworks and not query.compliance_frameworks.intersection(
-            event.compliance_frameworks
-        ):
+        if query.compliance_frameworks and not query.compliance_frameworks.intersection(event.compliance_frameworks):
             return False
 
         return True
@@ -561,21 +559,15 @@ class AuditEventProcessor:
 
         # Update by level
         level_key = event.level.value
-        self.statistics.events_by_level[level_key] = (
-            self.statistics.events_by_level.get(level_key, 0) + 1
-        )
+        self.statistics.events_by_level[level_key] = self.statistics.events_by_level.get(level_key, 0) + 1
 
         # Update by category
         category_key = event.category.value
-        self.statistics.events_by_category[category_key] = (
-            self.statistics.events_by_category.get(category_key, 0) + 1
-        )
+        self.statistics.events_by_category[category_key] = self.statistics.events_by_category.get(category_key, 0) + 1
 
         # Update by type
         type_key = event.event_type.value
-        self.statistics.events_by_type[type_key] = (
-            self.statistics.events_by_type.get(type_key, 0) + 1
-        )
+        self.statistics.events_by_type[type_key] = self.statistics.events_by_type.get(type_key, 0) + 1
 
         # Time-based statistics (simplified - would use proper time windows in production)
         now = datetime.now()
@@ -1039,14 +1031,10 @@ class ComprehensiveAuditSystem:
             "generated_at": datetime.now().isoformat(),
             "summary": {
                 "total_events": len(events),
-                "compliance_violations": len(
-                    [e for e in events if e.event_type == AuditEventType.POLICY_VIOLATION]
-                ),
+                "compliance_violations": len([e for e in events if e.event_type == AuditEventType.POLICY_VIOLATION]),
                 "privacy_events": len([e for e in events if e.category == AuditCategory.PRIVACY]),
                 "security_events": len([e for e in events if e.category == AuditCategory.SECURITY]),
-                "data_access_events": len(
-                    [e for e in events if e.category == AuditCategory.DATA_ACCESS]
-                ),
+                "data_access_events": len([e for e in events if e.category == AuditCategory.DATA_ACCESS]),
             },
             "events_by_type": {},
             "high_risk_events": [
@@ -1069,16 +1057,12 @@ class ComprehensiveAuditSystem:
 
         # Add recommendations if requested
         if include_recommendations:
-            report["recommendations"] = await self._generate_compliance_recommendations(
-                events, framework
-            )
+            report["recommendations"] = await self._generate_compliance_recommendations(events, framework)
 
         logger.info(f"✅ Generated compliance report: {report_id} ({len(events)} events)")
         return report
 
-    async def _generate_compliance_recommendations(
-        self, events: list[AuditEvent], framework: str
-    ) -> list[str]:
+    async def _generate_compliance_recommendations(self, events: list[AuditEvent], framework: str) -> list[str]:
         """Generate compliance recommendations based on audit events"""
 
         recommendations = []
@@ -1086,9 +1070,7 @@ class ComprehensiveAuditSystem:
         # Analyze patterns and violations
         violations = [e for e in events if e.event_type == AuditEventType.POLICY_VIOLATION]
         if violations:
-            recommendations.append(
-                f"Address {len(violations)} policy violations identified in the audit period"
-            )
+            recommendations.append(f"Address {len(violations)} policy violations identified in the audit period")
 
         high_risk_events = [e for e in events if e.risk_score > 0.7]
         if high_risk_events:
@@ -1100,9 +1082,7 @@ class ComprehensiveAuditSystem:
         if framework.lower() == "gdpr":
             privacy_events = [e for e in events if e.category == AuditCategory.PRIVACY]
             if privacy_events:
-                recommendations.append(
-                    "Review privacy event handling procedures for GDPR compliance"
-                )
+                recommendations.append("Review privacy event handling procedures for GDPR compliance")
 
         elif framework.lower() == "soc2":
             access_events = [e for e in events if e.category == AuditCategory.AUTHORIZATION]
@@ -1112,9 +1092,7 @@ class ComprehensiveAuditSystem:
         # Trinity Framework recommendations
         identity_events = [e for e in events if e.identity_context]
         if identity_events:
-            recommendations.append(
-                "Review identity verification processes within Trinity Framework"
-            )
+            recommendations.append("Review identity verification processes within Trinity Framework")
 
         return recommendations
 
@@ -1188,9 +1166,7 @@ async def audit_data_access(user_id: str, resource: str, access_type: str, grant
     )
 
 
-async def audit_security_violation(
-    violation_type: str, details: str, risk_score: float = 0.8
-) -> str:
+async def audit_security_violation(violation_type: str, details: str, risk_score: float = 0.8) -> str:
     """Audit security violation"""
     audit_system = ComprehensiveAuditSystem()
 
@@ -1206,9 +1182,7 @@ async def audit_security_violation(
     )
 
 
-async def audit_trinity_event(
-    component: str, event_details: dict[str, Any], user_id: str = None
-) -> str:
+async def audit_trinity_event(component: str, event_details: dict[str, Any], user_id: str = None) -> str:
     """Audit Trinity Framework event"""
     audit_system = ComprehensiveAuditSystem()
 

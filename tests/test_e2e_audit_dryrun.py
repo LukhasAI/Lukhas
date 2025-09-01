@@ -58,9 +58,7 @@ class AuditSafetyChecker:
         # API keys should either be empty or clearly marked as audit/test keys
         for key in api_keys:
             value = os.getenv(key, "")
-            if value and not any(
-                marker in value.lower() for marker in ["audit", "test", "local", "dry"]
-            ):
+            if value and not any(marker in value.lower() for marker in ["audit", "test", "local", "dry"]):
                 pytest.fail(f"Real API key detected: {key}")
 
 
@@ -88,9 +86,7 @@ class AuditMockRegistry:
         }
 
     @staticmethod
-    def mock_governance_record_consent(
-        consent_data: dict[str, Any], mode: str = "dry_run"
-    ) -> dict[str, Any]:
+    def mock_governance_record_consent(consent_data: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """Mock consent recording for audit."""
         if mode != "dry_run":
             raise RuntimeError("Non-dry-run mode not allowed in audit")
@@ -105,9 +101,7 @@ class AuditMockRegistry:
         }
 
     @staticmethod
-    def mock_orchestration_build_context(
-        context_data: dict[str, Any], mode: str = "dry_run"
-    ) -> dict[str, Any]:
+    def mock_orchestration_build_context(context_data: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """Mock context building for audit."""
         if mode != "dry_run":
             raise RuntimeError("Non-dry-run mode not allowed in audit")
@@ -249,17 +243,13 @@ class TestE2EAuditDryRun:
 
         # Step 2: Consent Recording
         consent_data = {"subject": user_id, "scopes": ["e2e_testing", "audit_validation"]}
-        consent_result = AuditMockRegistry.mock_governance_record_consent(
-            consent_data, mode="dry_run"
-        )
+        consent_result = AuditMockRegistry.mock_governance_record_consent(consent_data, mode="dry_run")
         assert consent_result["ok"] is True
         assert consent_result["audit_safe"] is True
 
         # Step 3: Context Building
         context_data = {"session_id": auth_result["session_id"], "tenant": "audit_e2e_tenant"}
-        context_result = AuditMockRegistry.mock_orchestration_build_context(
-            context_data, mode="dry_run"
-        )
+        context_result = AuditMockRegistry.mock_orchestration_build_context(context_data, mode="dry_run")
         assert context_result["audit_safe"] is True
 
         # Step 4: Policy Decision
@@ -380,6 +370,4 @@ if __name__ == "__main__":
     print("E2E Audit Report Generated:")
     print(f"  Audit ready: {report['compliance_status']['audit_ready']}")
     print(f"  Safety verified: {all(report['safety_verification'].values())}")
-    print(
-        f"  Test coverage: {sum(report['test_coverage'].values())}/{len(report['test_coverage'])} tests"
-    )
+    print(f"  Test coverage: {sum(report['test_coverage'].values())}/{len(report['test_coverage'])} tests")

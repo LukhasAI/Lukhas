@@ -72,16 +72,12 @@ class OrganizationScanner:
 
                 # Check for mixed case in directory names
                 if re.search(r"[A-Z].*[a-z]", dir_name) and "_" in dir_name:
-                    self.issues["mixed_case_dirs"].append(
-                        str(dir_path.relative_to(self.workspace_root))
-                    )
+                    self.issues["mixed_case_dirs"].append(str(dir_path.relative_to(self.workspace_root)))
 
                 # Check if directory is empty
                 try:
                     if not any(dir_path.iterdir()):
-                        self.issues["empty_directories"].append(
-                            str(dir_path.relative_to(self.workspace_root))
-                        )
+                        self.issues["empty_directories"].append(str(dir_path.relative_to(self.workspace_root)))
                 except PermissionError:
                     pass
 
@@ -99,10 +95,7 @@ class OrganizationScanner:
                 "API.md",
             ]:
                 # Additional checks for legitimate docs
-                if not any(
-                    keyword in md_file.name.upper()
-                    for keyword in ["AUDIT", "ARCHITECTURE", "DESIGN", "SPEC"]
-                ):
+                if not any(keyword in md_file.name.upper() for keyword in ["AUDIT", "ARCHITECTURE", "DESIGN", "SPEC"]):
                     self.issues["misplaced_md_files"].append(str(relative_path))
 
     def scan_duplicate_names(self):
@@ -113,9 +106,7 @@ class OrganizationScanner:
 
         for file_path in self.lukhas_path.rglob("*"):
             if file_path.is_file():
-                name_locations[file_path.name].append(
-                    str(file_path.relative_to(self.workspace_root))
-                )
+                name_locations[file_path.name].append(str(file_path.relative_to(self.workspace_root)))
 
         for name, locations in name_locations.items():
             if len(locations) > 1:
@@ -162,9 +153,7 @@ class OrganizationScanner:
                         self.issues["orphaned_files"].append(
                             {
                                 "file": relative_path,
-                                "current_location": str(
-                                    file_path.parent.relative_to(self.workspace_root)
-                                ),
+                                "current_location": str(file_path.parent.relative_to(self.workspace_root)),
                                 "suggested_category": expected_category,
                                 "reason": f"Matches pattern: {pattern}",
                             }
@@ -229,17 +218,13 @@ class OrganizationScanner:
             report += f"- `{empty_dir}`\n"
 
         if self.issues["misplaced_md_files"]:
-            report += (
-                f"\n### 📄 Misplaced Documentation ({len(self.issues['misplaced_md_files'])})\n"
-            )
+            report += f"\n### 📄 Misplaced Documentation ({len(self.issues['misplaced_md_files'])})\n"
             for md_file in self.issues["misplaced_md_files"][:5]:
                 report += f"- `{md_file}`\n"
 
         if self.issues["large_files"]:
             report += f"\n### 🐘 Large Files ({len(self.issues['large_files'])})\n"
-            for large_file in sorted(
-                self.issues["large_files"], key=lambda x: x["size_mb"], reverse=True
-            )[:5]:
+            for large_file in sorted(self.issues["large_files"], key=lambda x: x["size_mb"], reverse=True)[:5]:
                 report += f"- `{large_file['file']}` ({large_file['size_mb']} MB)\n"
 
         # Show some duplicate names

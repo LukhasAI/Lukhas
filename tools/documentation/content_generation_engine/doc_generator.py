@@ -235,9 +235,7 @@ class DocGenerator:
 
         return sections
 
-    def _generate_module_section(
-        self, module_node: SKGNode, config: DocumentationConfig
-    ) -> DocSection:
+    def _generate_module_section(self, module_node: SKGNode, config: DocumentationConfig) -> DocSection:
         """Generate documentation section for a module."""
         # Create main module section
         module_section = DocSection(
@@ -255,9 +253,7 @@ class DocGenerator:
 
         return module_section
 
-    def _generate_class_section(
-        self, class_node: SKGNode, config: DocumentationConfig
-    ) -> DocSection:
+    def _generate_class_section(self, class_node: SKGNode, config: DocumentationConfig) -> DocSection:
         """Generate documentation section for a class."""
         # Create class section
         class_section = DocSection(
@@ -278,9 +274,7 @@ class DocGenerator:
 
         return class_section
 
-    def _generate_function_section(
-        self, func_node: SKGNode, config: DocumentationConfig
-    ) -> DocSection:
+    def _generate_function_section(self, func_node: SKGNode, config: DocumentationConfig) -> DocSection:
         """Generate documentation section for a function/method."""
         props = func_node.properties
 
@@ -319,9 +313,7 @@ class DocGenerator:
 
         return f"{name}({', '.join(parts)})"
 
-    def _enhance_with_lucas_patterns(
-        self, sections: list[DocSection], config: DocumentationConfig
-    ) -> list[DocSection]:
+    def _enhance_with_lucas_patterns(self, sections: list[DocSection], config: DocumentationConfig) -> list[DocSection]:
         """
         Apply Lukhas AGI patterns to enhance documentation quality.
         This could include:
@@ -333,9 +325,7 @@ class DocGenerator:
         for section in sections:
             # Adjust complexity if bio-oscillator data is available
             if config.bio_oscillator_data:
-                optimal_complexity = self._calculate_optimal_complexity(
-                    section, config.bio_oscillator_data
-                )
+                optimal_complexity = self._calculate_optimal_complexity(section, config.bio_oscillator_data)
                 section.complexity_level = optimal_complexity
 
             # Add cultural context if specified

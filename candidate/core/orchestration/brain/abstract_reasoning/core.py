@@ -168,9 +168,7 @@ class AbstractReasoningBrainCore:
         self.confidence_calibrator = AdvancedConfidenceCalibrator()
 
         self.active = True
-        logger.info(
-            f"⚡ {self.brain_id} Brain activated - Bio-Quantum Symphony ready for abstract reasoning"
-        )
+        logger.info(f"⚡ {self.brain_id} Brain activated - Bio-Quantum Symphony ready for abstract reasoning")
 
     async def process_independently(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
@@ -188,14 +186,10 @@ class AbstractReasoningBrainCore:
             logger.info(f"🧠⚛️ Processing abstract reasoning: {reasoning_type}")
 
             # Execute Bio-Quantum Abstract Reasoning
-            reasoning_result = await self.bio_quantum_reasoner.abstract_reason(
-                problem_space, context
-            )
+            reasoning_result = await self.bio_quantum_reasoner.abstract_reason(problem_space, context)
 
             # Perform advanced confidence calibration
-            confidence_metrics = self.confidence_calibrator.calibrate_confidence(
-                reasoning_result, context
-            )
+            confidence_metrics = self.confidence_calibrator.calibrate_confidence(reasoning_result, context)
 
             # Prepare enhanced result
             enhanced_result = {
@@ -216,9 +210,7 @@ class AbstractReasoningBrainCore:
                     "bio_quantum_enhanced": True,
                     "multi_brain_orchestration": True,
                     "processing_timestamp": datetime.now().isoformat(),
-                    "brain_symphony_coherence": reasoning_result.get("metadata", {}).get(
-                        "cross_brain_coherence", 0.0
-                    ),
+                    "brain_symphony_coherence": reasoning_result.get("metadata", {}).get("cross_brain_coherence", 0.0),
                 },
             }
 
@@ -336,9 +328,7 @@ class AbstractReasoningBrainCore:
                 symbolic_confidence=confidence_metrics_dict.get("symbolic_confidence", 0.5),
                 emotional_confidence=confidence_metrics_dict.get("emotional_confidence", 0.5),
                 cross_brain_coherence=confidence_metrics_dict.get("cross_brain_coherence", 0.5),
-                uncertainty_decomposition=confidence_metrics_dict.get(
-                    "uncertainty_decomposition", {}
-                ),
+                uncertainty_decomposition=confidence_metrics_dict.get("uncertainty_decomposition", {}),
                 meta_confidence=confidence_metrics_dict.get("meta_confidence", 0.5),
                 calibration_score=confidence_metrics_dict.get("calibration_score", 0.5),
             )
@@ -370,16 +360,12 @@ class AbstractReasoningBrainCore:
             complexity_factors.append(num_phases / 6.0)  # Normalize by max phases
 
             # Cross-brain coherence (lower coherence = higher complexity)
-            coherence = reasoning_result.get("processing_metadata", {}).get(
-                "brain_symphony_coherence", 0.5
-            )
+            coherence = reasoning_result.get("processing_metadata", {}).get("brain_symphony_coherence", 0.5)
             complexity_factors.append(1.0 - coherence)
 
             # Processing time (longer time = higher complexity)
             processing_time = (
-                reasoning_result.get("reasoning_result", {})
-                .get("metadata", {})
-                .get("processing_time_seconds", 1.0)
+                reasoning_result.get("reasoning_result", {}).get("metadata", {}).get("processing_time_seconds", 1.0)
             )
             time_complexity = min(1.0, processing_time / 10.0)  # Normalize by 10 seconds
             complexity_factors.append(time_complexity)
@@ -436,9 +422,7 @@ class AbstractReasoningBrainCore:
             "performance_metrics": self.performance_metrics,
             "reasoning_sessions_count": len(self.reasoning_sessions),
             "calibration_summary": (
-                self.confidence_calibrator.get_calibration_summary()
-                if self.confidence_calibrator
-                else None
+                self.confidence_calibrator.get_calibration_summary() if self.confidence_calibrator else None
             ),
         }
 

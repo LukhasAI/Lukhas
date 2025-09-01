@@ -57,9 +57,7 @@ class DependencyAnalyzer:
                             self.module_imports[module_name].add(imported_module)
                             self.import_graph.add_edge(module_name, imported_module)
                     elif node.level > 0:  # Relative import
-                        imported_module = self._resolve_relative_import(
-                            file_path, node.module, node.level
-                        )
+                        imported_module = self._resolve_relative_import(file_path, node.module, node.level)
                         if imported_module and self._is_local_module(imported_module):
                             self.module_imports[module_name].add(imported_module)
                             self.import_graph.add_edge(module_name, imported_module)
@@ -114,9 +112,7 @@ class DependencyAnalyzer:
 
         return top_level in local_modules
 
-    def _resolve_relative_import(
-        self, file_path: Path, module: Optional[str], level: int
-    ) -> Optional[str]:
+    def _resolve_relative_import(self, file_path: Path, module: Optional[str], level: int) -> Optional[str]:
         """Resolve relative import to absolute module name"""
         current_module = self._path_to_module(file_path)
         parts = current_module.split(".")
@@ -424,9 +420,7 @@ def main():
 
     print("\n💡 Fix Suggestions:")
     for i, suggestion in enumerate(suggestions[:5], 1):
-        print(
-            f"\n   Cycle {i}: {' → '.join(suggestion['cycle'][:3])}{'...' if len(suggestion['cycle']) > 3 else ''}"
-        )
+        print(f"\n   Cycle {i}: {' → '.join(suggestion['cycle'][:3])}{'...' if len(suggestion['cycle']) > 3 else ''}")
         print(f"   Type: {suggestion['type']}, Severity: {suggestion['severity']}")
         for fix in suggestion["fixes"]:
             print(f"   Fix: {fix['action']} - {fix['description']}")
@@ -454,9 +448,7 @@ def main():
         "module_coupling": impact["module_coupling"],
     }
 
-    report_path = (
-        PROJECT_ROOT / "docs" / "reports" / "analysis" / "_CIRCULAR_DEPENDENCY_REPORT.json"
-    )
+    report_path = PROJECT_ROOT / "docs" / "reports" / "analysis" / "_CIRCULAR_DEPENDENCY_REPORT.json"
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(report_path, "w") as f:

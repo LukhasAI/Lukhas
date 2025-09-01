@@ -41,9 +41,7 @@ try:
 except ImportError:
     LIBOQS_AVAILABLE = False
     logger = logging.getLogger("LUKHAS_PQC")
-    logger.warning(
-        "liboqs not available - using enhanced simulation mode with correct parameter sizes"
-    )
+    logger.warning("liboqs not available - using enhanced simulation mode with correct parameter sizes")
 
 
 @dataclass
@@ -214,9 +212,7 @@ class PQCCryptoEngine:
             expires_at=datetime.now() + timedelta(hours=self.key_rotation_hours),
         )
 
-    def encapsulate_secret(
-        self, public_key: bytes, algorithm: str = "Kyber768"
-    ) -> tuple[bytes, bytes]:
+    def encapsulate_secret(self, public_key: bytes, algorithm: str = "Kyber768") -> tuple[bytes, bytes]:
         """
         Encapsulate a shared secret using KEM.
 
@@ -257,9 +253,7 @@ class PQCCryptoEngine:
         logger.info(f"Secret encapsulated using {algorithm}")
         return ciphertext, shared_secret
 
-    def decapsulate_secret(
-        self, ciphertext: bytes, private_key: bytes, algorithm: str = "Kyber768"
-    ) -> bytes:
+    def decapsulate_secret(self, ciphertext: bytes, private_key: bytes, algorithm: str = "Kyber768") -> bytes:
         """
         Decapsulate shared secret using private key.
 
@@ -301,9 +295,7 @@ class PQCCryptoEngine:
         logger.info(f"Secret decapsulated using {algorithm}")
         return shared_secret
 
-    def sign_message(
-        self, message: bytes, private_key: bytes, algorithm: str = "Dilithium3"
-    ) -> PQCSignature:
+    def sign_message(self, message: bytes, private_key: bytes, algorithm: str = "Dilithium3") -> PQCSignature:
         """
         Sign message with post-quantum digital signature.
 
@@ -381,9 +373,7 @@ class PQCCryptoEngine:
 
             # Check signature size
             if len(signature.signature) != params["sig_size"]:
-                logger.error(
-                    f"Invalid signature size: expected {params['sig_size']}, got {len(signature.signature)}"
-                )
+                logger.error(f"Invalid signature size: expected {params['sig_size']}, got {len(signature.signature)}")
                 return False
 
             # In simulation mode, verify by checking signature was created with same inputs
@@ -448,8 +438,7 @@ class PQCCryptoEngine:
         # Calculate entropy estimation
         total_bytes = len(entropy_data)
         entropy_estimate = -sum(
-            (count / total_bytes) * (count / total_bytes).bit_length()
-            for count in byte_frequency.values()
+            (count / total_bytes) * (count / total_bytes).bit_length() for count in byte_frequency.values()
         )
 
         sufficient = len(entropy_data) >= 64 and entropy_estimate > 6.0
@@ -484,9 +473,7 @@ class PQCCryptoEngine:
             "implementation_mode": ("liboqs" if LIBOQS_AVAILABLE else "enhanced_simulation"),
         }
 
-    def establish_quantum_safe_channel(
-        self, peer_public_key: bytes, algorithm: str = "Kyber768"
-    ) -> dict[str, Any]:
+    def establish_quantum_safe_channel(self, peer_public_key: bytes, algorithm: str = "Kyber768") -> dict[str, Any]:
         """
         Establish a quantum-safe communication channel with a peer.
 

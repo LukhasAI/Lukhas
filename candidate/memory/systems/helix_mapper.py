@@ -81,9 +81,7 @@ class HelixMapper:
         return links
 
     @lukhas_tier_required(2)
-    async def map_memory(
-        self, data: dict[str, Any], strand_identifier: tuple[str, str]
-    ) -> Optional[str]:
+    async def map_memory(self, data: dict[str, Any], strand_identifier: tuple[str, str]) -> Optional[str]:
         """Maps data to DNA-like memory structure, encrypts it, and assigns an ID."""
         main_strand, sub_strand = strand_identifier
         log.debug(
@@ -93,10 +91,7 @@ class HelixMapper:
             data_keys_preview=list(data.keys())[:3],
         )
 
-        if (
-            main_strand not in self.memory_strands
-            or sub_strand not in self.memory_strands[main_strand]
-        ):
+        if main_strand not in self.memory_strands or sub_strand not in self.memory_strands[main_strand]:
             log.error(
                 "Invalid strand identifier.",
                 main=main_strand,

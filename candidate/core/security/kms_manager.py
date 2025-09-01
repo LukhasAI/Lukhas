@@ -242,9 +242,7 @@ class SecretScanner:
         "github_token": re.compile(r"ghp_[0-9a-zA-Z]{36}"),
         "slack_token": re.compile(r"xox[baprs]-[0-9a-zA-Z-]+"),
         "private_key": re.compile(r"-----BEGIN (RSA |EC |)PRIVATE KEY-----"),
-        "jwt_secret": re.compile(
-            r'[jJ][wW][tT][-_]?[sS][eE][cC][rR][eE][tT].*[=:].*[\'"][0-9a-zA-Z]{16,}[\'"]'
-        ),
+        "jwt_secret": re.compile(r'[jJ][wW][tT][-_]?[sS][eE][cC][rR][eE][tT].*[=:].*[\'"][0-9a-zA-Z]{16,}[\'"]'),
     }
 
     def __init__(self, exclude_dirs: list[str] = None):
@@ -278,9 +276,7 @@ class SecretScanner:
                                 "file": str(file_path),
                                 "line": line_num,
                                 "type": secret_type,
-                                "match": match.group()[:50] + "..."
-                                if len(match.group()) > 50
-                                else match.group(),
+                                "match": match.group()[:50] + "..." if len(match.group()) > 50 else match.group(),
                                 "severity": "HIGH",
                             }
                         )
@@ -362,9 +358,7 @@ class SBOMGenerator:
 
         try:
             # Get installed packages
-            result = subprocess.run(
-                ["pip", "list", "--format", "json"], capture_output=True, text=True
-            )
+            result = subprocess.run(["pip", "list", "--format", "json"], capture_output=True, text=True)
 
             if result.returncode == 0:
                 packages = json.loads(result.stdout)

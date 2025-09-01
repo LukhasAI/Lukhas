@@ -189,14 +189,10 @@ class BreakthroughDetector(CoreInterface):
                 # Update detection patterns for learning
                 self._update_detection_patterns(candidate)
 
-        logger.info(
-            f"🌟 Detected {len(validated_breakthroughs)} civilization-changing breakthroughs"
-        )
+        logger.info(f"🌟 Detected {len(validated_breakthroughs)} civilization-changing breakthroughs")
         return validated_breakthroughs
 
-    async def detect_exponential_impact(
-        self, reality_results: list[dict[str, Any]]
-    ) -> list[BreakthroughCandidate]:
+    async def detect_exponential_impact(self, reality_results: list[dict[str, Any]]) -> list[BreakthroughCandidate]:
         """
         Detect innovations with exponential rather than linear impact.
 
@@ -215,9 +211,7 @@ class BreakthroughDetector(CoreInterface):
             # Check for exponential characteristics
             if impact_curve.growth_rate > 2.0 and impact_curve.acceleration > 1.5:
                 # Validate exponential sustainability
-                sustainability = await self.validate_exponential_sustainability(
-                    result, impact_curve
-                )
+                sustainability = await self.validate_exponential_sustainability(result, impact_curve)
 
                 if sustainability.is_sustainable:
                     candidate = BreakthroughCandidate(
@@ -238,9 +232,7 @@ class BreakthroughDetector(CoreInterface):
 
         return exponential_candidates
 
-    async def detect_paradigm_shift(
-        self, reality_results: list[dict[str, Any]]
-    ) -> list[BreakthroughCandidate]:
+    async def detect_paradigm_shift(self, reality_results: list[dict[str, Any]]) -> list[BreakthroughCandidate]:
         """
         Detect innovations that break current paradigms.
 
@@ -264,9 +256,7 @@ class BreakthroughDetector(CoreInterface):
 
             # If breaks multiple paradigms, it's revolutionary
             if len(paradigm_conflicts) >= 2:
-                revolution_potential = await self.assess_revolution_potential(
-                    result, paradigm_conflicts
-                )
+                revolution_potential = await self.assess_revolution_potential(result, paradigm_conflicts)
 
                 if revolution_potential > 0.9:
                     candidate = BreakthroughCandidate(
@@ -294,9 +284,7 @@ class BreakthroughDetector(CoreInterface):
 
         return paradigm_breakers
 
-    async def detect_network_effect(
-        self, reality_results: list[dict[str, Any]]
-    ) -> list[BreakthroughCandidate]:
+    async def detect_network_effect(self, reality_results: list[dict[str, Any]]) -> list[BreakthroughCandidate]:
         """
         Detect innovations with powerful network effects.
 
@@ -335,9 +323,7 @@ class BreakthroughDetector(CoreInterface):
 
         return network_candidates
 
-    async def detect_foundational_tech(
-        self, reality_results: list[dict[str, Any]]
-    ) -> list[BreakthroughCandidate]:
+    async def detect_foundational_tech(self, reality_results: list[dict[str, Any]]) -> list[BreakthroughCandidate]:
         """
         Detect foundational technologies that enable other innovations.
 
@@ -420,9 +406,7 @@ class BreakthroughDetector(CoreInterface):
 
         return consciousness_candidates
 
-    async def detect_scientific_revolution(
-        self, reality_results: list[dict[str, Any]]
-    ) -> list[BreakthroughCandidate]:
+    async def detect_scientific_revolution(self, reality_results: list[dict[str, Any]]) -> list[BreakthroughCandidate]:
         """
         Detect innovations that trigger scientific revolutions.
 
@@ -501,9 +485,7 @@ class BreakthroughDetector(CoreInterface):
             "resource_availability": 0.1,
         }
 
-        validation_score = sum(
-            score * weights[criterion] for criterion, score in validation_criteria.items()
-        )
+        validation_score = sum(score * weights[criterion] for criterion, score in validation_criteria.items())
 
         # Adjust for breakthrough type
         if candidate.breakthrough_type == BreakthroughType.CONSCIOUSNESS_EVOLUTION:
@@ -529,9 +511,7 @@ class BreakthroughDetector(CoreInterface):
             inflection_point=int(24 * (1 - base_score)),
         )
 
-    async def validate_exponential_sustainability(
-        self, result: dict[str, Any], impact_curve: ImpactCurve
-    ) -> Any:
+    async def validate_exponential_sustainability(self, result: dict[str, Any], impact_curve: ImpactCurve) -> Any:
         """Validate that exponential growth is sustainable"""
 
         class Sustainability:
@@ -541,9 +521,7 @@ class BreakthroughDetector(CoreInterface):
 
         return Sustainability()
 
-    async def analyze_paradigm_conflict(
-        self, result: dict[str, Any], paradigm: ScientificParadigm
-    ) -> ParadigmConflict:
+    async def analyze_paradigm_conflict(self, result: dict[str, Any], paradigm: ScientificParadigm) -> ParadigmConflict:
         """Analyze conflict between innovation and paradigm"""
         # Simplified conflict detection
         breakthrough_score = result.get("breakthrough_score", 0)
@@ -556,9 +534,7 @@ class BreakthroughDetector(CoreInterface):
             evidence=[result],
         )
 
-    async def assess_revolution_potential(
-        self, result: dict[str, Any], conflicts: list[ParadigmConflict]
-    ) -> float:
+    async def assess_revolution_potential(self, result: dict[str, Any], conflicts: list[ParadigmConflict]) -> float:
         """Assess potential for scientific revolution"""
         if len(conflicts) >= 3:
             return 0.95
@@ -608,9 +584,7 @@ class BreakthroughDetector(CoreInterface):
             "collective_awakening": base_score * 0.9,
         }
 
-    async def analyze_scientific_revolution_potential(
-        self, result: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def analyze_scientific_revolution_potential(self, result: dict[str, Any]) -> dict[str, Any]:
         """Analyze potential for scientific revolution"""
         base_score = result.get("breakthrough_score", 0.5)
 
@@ -725,9 +699,7 @@ class BreakthroughDetector(CoreInterface):
         """Process input through detector"""
         # Implement CoreInterface abstract method
         if isinstance(input_data, dict) and "reality_results" in input_data:
-            breakthroughs = await self.detect_civilization_changing_breakthroughs(
-                input_data["reality_results"]
-            )
+            breakthroughs = await self.detect_civilization_changing_breakthroughs(input_data["reality_results"])
             return {"breakthroughs": breakthroughs}
         return {"status": "processed"}
 
@@ -773,8 +745,6 @@ if __name__ == "__main__":
         print(f"Detected {len(breakthroughs)} civilization-changing breakthroughs")
 
         for breakthrough in breakthroughs:
-            print(
-                f"  - {breakthrough.breakthrough_type.value}: Impact {breakthrough.civilizational_impact:.2f}"
-            )
+            print(f"  - {breakthrough.breakthrough_type.value}: Impact {breakthrough.civilizational_impact:.2f}")
 
     asyncio.run(main())

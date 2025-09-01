@@ -181,9 +181,7 @@ class EthicsHITLOBridge:
         self.escalation_rules.sort(key=lambda r: r.priority)
         logger.info(f"Added escalation rule: {rule.name}")
 
-    def should_escalate_evaluation(
-        self, evaluation: EthicsEvaluation
-    ) -> tuple[bool, Optional[EthicsEscalationRule]]:
+    def should_escalate_evaluation(self, evaluation: EthicsEvaluation) -> tuple[bool, Optional[EthicsEscalationRule]]:
         """Check if evaluation should be escalated to human review
 
         Args:
@@ -226,9 +224,7 @@ class EthicsHITLOBridge:
             description=f"Ethics review: {decision.action}",
             data=self._create_review_context(decision, evaluation, rule),
             priority=rule.decision_priority,
-            urgency_deadline=(
-                datetime.now() + timedelta(minutes=timeout_minutes) if timeout_minutes else None
-            ),
+            urgency_deadline=(datetime.now() + timedelta(minutes=timeout_minutes) if timeout_minutes else None),
             ethical_implications=evaluation.risk_flags,
             ai_recommendation="DENY" if not evaluation.allowed else "APPROVE",
             ai_confidence=evaluation.confidence,
@@ -248,8 +244,7 @@ class EthicsHITLOBridge:
             self._update_metrics(review_result, review_time)
 
             logger.info(
-                f"Human review completed: {review_result.decision} "
-                f"(confidence: {review_result.confidence})"
+                f"Human review completed: {review_result.decision} " f"(confidence: {review_result.confidence})"
             )
 
             return review_result
@@ -289,11 +284,7 @@ class EthicsHITLOBridge:
                         response_id=f"system_{decision_id}",
                         assignment_id="",
                         reviewer_id="system",
-                        decision=(
-                            "approve"
-                            if decision_record.status == DecisionStatus.APPROVED
-                            else "reject"
-                        ),
+                        decision=("approve" if decision_record.status == DecisionStatus.APPROVED else "reject"),
                         confidence=0.8,
                         reasoning=f"System decision: {decision_record.status.value}",
                     )
@@ -354,9 +345,7 @@ class EthicsHITLOBridge:
         else:
             return "LOW"
 
-    def _generate_review_questions(
-        self, decision: Decision, evaluation: EthicsEvaluation
-    ) -> list[str]:
+    def _generate_review_questions(self, decision: Decision, evaluation: EthicsEvaluation) -> list[str]:
         """Generate specific questions for human reviewers"""
         questions = []
 
@@ -399,9 +388,7 @@ class EthicsHITLOBridge:
         # Update average review time
         total_escalations = self.metrics["escalations_total"]
         current_avg = self.metrics["average_review_time"]
-        self.metrics["average_review_time"] = (
-            current_avg * (total_escalations - 1) + review_time
-        ) / total_escalations
+        self.metrics["average_review_time"] = (current_avg * (total_escalations - 1) + review_time) / total_escalations
 
     async def evaluate_with_human_oversight(
         self,
@@ -494,9 +481,7 @@ class EthicsHITLOBridge:
             self.configure_oversight(scenario, config)
 
             # Log configuration
-            logger.info(
-                f"Configured human oversight for scenario: {scenario} with config: {config}"
-            )
+            logger.info(f"Configured human oversight for scenario: {scenario} with config: {config}")
 
     def configure_oversight(self, scenario: str, config: dict[str, Any]) -> None:
         """Configure oversight for a specific scenario"""
@@ -513,9 +498,7 @@ class EthicsHITLOBridge:
             risk_threshold=config.get("threshold", 0.8),
             require_consensus=len(config.get("modules", [])) > 1,
             decision_priority=(
-                DecisionPriority.HIGH
-                if config.get("threshold", 0.8) >= 0.9
-                else DecisionPriority.MEDIUM
+                DecisionPriority.HIGH if config.get("threshold", 0.8) >= 0.9 else DecisionPriority.MEDIUM
             ),
         )
 

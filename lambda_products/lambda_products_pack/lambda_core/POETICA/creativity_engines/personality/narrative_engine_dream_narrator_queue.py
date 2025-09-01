@@ -65,11 +65,7 @@ def load_dreams():
 
 
 def filter_narratable_dreams(dreams):
-    return [
-        d
-        for d in dreams
-        if d.get("suggest_voice") is True and d.get("consent") and d.get("tier", 0) >= 3
-    ]
+    return [d for d in dreams if d.get("suggest_voice") is True and d.get("consent") and d.get("tier", 0) >= 3]
 
 
 def save_to_queue(filtered):

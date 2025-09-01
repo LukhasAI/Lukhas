@@ -56,9 +56,7 @@ class TinyABASGate:
         stress_level = user_state.get("stress", 0.0)
         if stress_level > self.stress_threshold:
             defer_time = int(time.time()) + (2 * 3600)  # 2 hours
-            return GateDecision(
-                approved=False, reason="stress_block", confidence=0.9, defer_until=defer_time
-            )
+            return GateDecision(approved=False, reason="stress_block", confidence=0.9, defer_until=defer_time)
 
         # Flow state protection
         if user_state.get("flow_state", False):
@@ -104,9 +102,7 @@ class TinyABASGate:
         """Extract alignment score from opportunity"""
         return opportunity.get("risk", {}).get("alignment", 0.5)
 
-    def _calculate_approval_confidence(
-        self, user_state: dict[str, Any], opportunity: dict[str, Any]
-    ) -> float:
+    def _calculate_approval_confidence(self, user_state: dict[str, Any], opportunity: dict[str, Any]) -> float:
         """Calculate confidence score for approval decision"""
         confidence_factors = []
 

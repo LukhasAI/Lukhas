@@ -41,14 +41,11 @@ try:
     from plotly.subplots import make_subplots
 except ImportError as e:
     raise ImportError(
-        f"Missing required dependencies: {e}. "
-        "Please install with: pip install networkx plotly pandas numpy"
+        f"Missing required dependencies: {e}. " "Please install with: pip install networkx plotly pandas numpy"
     )
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -396,9 +393,7 @@ class MATRIZGraphViewer:
 
             # Links filter
             if has_links is not None:
-                has_any_links = (
-                    self.graph.in_degree(node_id) > 0 or self.graph.out_degree(node_id) > 0
-                )
+                has_any_links = self.graph.in_degree(node_id) > 0 or self.graph.out_degree(node_id) > 0
                 if has_links != has_any_links:
                     continue
 
@@ -458,8 +453,7 @@ class MATRIZGraphViewer:
                 margin={"b": 20, "l": 5, "r": 5, "t": 40},
                 annotations=[
                     {
-                        "text": f"Nodes: {self.graph.number_of_nodes()}, "
-                        f"Edges: {self.graph.number_of_edges()}",
+                        "text": f"Nodes: {self.graph.number_of_nodes()}, " f"Edges: {self.graph.number_of_edges()}",
                         "showarrow": False,
                         "xref": "paper",
                         "yref": "paper",
@@ -543,9 +537,7 @@ class MATRIZGraphViewer:
                     go.Frame(
                         data=frame_data,
                         name=str(timestamp),
-                        layout={
-                            "title": f"{title} - {datetime.fromtimestamp(timestamp / 1000).strftime('%H:%M:%S')}"
-                        },
+                        layout={"title": f"{title} - {datetime.fromtimestamp(timestamp / 1000).strftime('%H:%M:%S')}"},
                     )
                 )
 
@@ -607,9 +599,7 @@ class MATRIZGraphViewer:
                                         "transition": {"duration": 300},
                                     },
                                 ],
-                                "label": datetime.fromtimestamp(int(frame.name) / 1000).strftime(
-                                    "%H:%M:%S"
-                                ),
+                                "label": datetime.fromtimestamp(int(frame.name) / 1000).strftime("%H:%M:%S"),
                                 "method": "animate",
                             }
                             for frame in frames
@@ -743,10 +733,7 @@ class MATRIZGraphViewer:
                     cells={
                         "values": [
                             list(metrics.keys()),
-                            [
-                                f"{v:.3f}" if isinstance(v, float) else str(v)
-                                for v in metrics.values()
-                            ],
+                            [f"{v:.3f}" if isinstance(v, float) else str(v) for v in metrics.values()],
                         ],
                         "fill_color": "white",
                         "align": "left",
@@ -790,9 +777,7 @@ class MATRIZGraphViewer:
         current_time = time.time()
 
         # Check cache
-        if (
-            cache_key in self._analysis_cache and current_time - self._cache_timestamp < 300
-        ):  # 5 minute cache
+        if cache_key in self._analysis_cache and current_time - self._cache_timestamp < 300:  # 5 minute cache
             return self._analysis_cache[cache_key]
 
         try:
@@ -823,24 +808,16 @@ class MATRIZGraphViewer:
             if sample_nodes:
                 # Degree centrality
                 degree_centrality = nx.degree_centrality(self.graph)
-                metrics["Avg Degree Centrality"] = np.mean(
-                    [degree_centrality[n] for n in sample_nodes]
-                )
+                metrics["Avg Degree Centrality"] = np.mean([degree_centrality[n] for n in sample_nodes])
 
                 # Betweenness centrality (expensive, so sample)
                 if len(sample_nodes) <= 50:
-                    between_centrality = nx.betweenness_centrality(
-                        self.graph, k=min(20, len(sample_nodes))
-                    )
-                    metrics["Avg Betweenness Centrality"] = np.mean(
-                        list(between_centrality.values())
-                    )
+                    between_centrality = nx.betweenness_centrality(self.graph, k=min(20, len(sample_nodes)))
+                    metrics["Avg Betweenness Centrality"] = np.mean(list(between_centrality.values()))
 
                 # Clustering coefficient
                 clustering = nx.clustering(undirected_graph)
-                metrics["Avg Clustering Coefficient"] = np.mean(
-                    [clustering[n] for n in sample_nodes]
-                )
+                metrics["Avg Clustering Coefficient"] = np.mean([clustering[n] for n in sample_nodes])
 
             # Confidence and salience statistics
             confidences = [data.get("confidence", 0) for _, data in self.graph.nodes(data=True)]
@@ -1064,9 +1041,7 @@ class MATRIZGraphViewer:
 
         # Link type distribution
         if self.graph.edges():
-            link_types = [
-                data.get("link_type", "unknown") for _, _, data in self.graph.edges(data=True)
-            ]
+            link_types = [data.get("link_type", "unknown") for _, _, data in self.graph.edges(data=True)]
             summary["link_types"] = dict(Counter(link_types))
 
         # Temporal range
@@ -1183,9 +1158,7 @@ class MATRIZGraphViewer:
             self.layout_cache[cache_key] = pos
             return pos
 
-    def _add_edges_to_plot(
-        self, fig: go.Figure, pos: dict, show_weights: bool, highlight_critical: bool
-    ) -> None:
+    def _add_edges_to_plot(self, fig: go.Figure, pos: dict, show_weights: bool, highlight_critical: bool) -> None:
         """Add edges to the plot."""
         edge_traces = defaultdict(list)
 
@@ -1231,9 +1204,7 @@ class MATRIZGraphViewer:
 
     def _add_nodes_to_plot(self, fig: go.Figure, pos: dict, show_info: bool) -> None:
         """Add nodes to the plot grouped by type."""
-        node_traces = defaultdict(
-            lambda: {"x": [], "y": [], "text": [], "hovertext": [], "size": []}
-        )
+        node_traces = defaultdict(lambda: {"x": [], "y": [], "text": [], "hovertext": [], "size": []})
 
         for node_id, data in self.graph.nodes(data=True):
             if node_id not in pos:
@@ -1297,9 +1268,7 @@ class MATRIZGraphViewer:
 
         return "<br>".join(lines)
 
-    def _create_node_trace(
-        self, graph: nx.DiGraph, pos: dict, show_info: bool
-    ) -> Optional[go.Scatter]:
+    def _create_node_trace(self, graph: nx.DiGraph, pos: dict, show_info: bool) -> Optional[go.Scatter]:
         """Create a single node trace for animation frames."""
         if not graph.nodes():
             return None

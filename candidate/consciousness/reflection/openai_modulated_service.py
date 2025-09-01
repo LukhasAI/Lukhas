@@ -187,9 +187,7 @@ class OpenAIModulatedService:
 
         return context
 
-    async def _modulate_text_request(
-        self, data: dict[str, Any], signal_context: dict[str, float]
-    ) -> dict[str, Any]:
+    async def _modulate_text_request(self, data: dict[str, Any], signal_context: dict[str, float]) -> dict[str, Any]:
         """Modulate text generation request based on signals"""
         # Get original prompt
         original_prompt = data.get("prompt", "")
@@ -321,9 +319,7 @@ class OpenAIModulatedService:
             "module": request.module,
             "capability": request.capability.value,
             "signal_context": signal_context,
-            "model_used": (
-                request.model_preference.value if request.model_preference else "default"
-            ),
+            "model_used": (request.model_preference.value if request.model_preference else "default"),
             "priority": request.priority,
             "success": response.success,
             "latency_ms": response.latency_ms,

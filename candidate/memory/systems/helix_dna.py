@@ -139,9 +139,7 @@ class HelixMemory:
         """Create SHA-256 hash for integrity verification."""
         return hashlib.sha256(data.encode("utf-8")).hexdigest()
 
-    async def _create_memory_bonds(
-        self, decision_data: dict[str, Any], context: dict[str, Any]
-    ) -> set[str]:
+    async def _create_memory_bonds(self, decision_data: dict[str, Any], context: dict[str, Any]) -> set[str]:
         log.warning("_create_memory_bonds is STUB.", status="needs_implementation")
         bonds: set[str] = set()
         if context.get("user_id"):

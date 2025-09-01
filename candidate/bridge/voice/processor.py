@@ -106,9 +106,7 @@ class VoiceProcessor:
             logger.error(f"Speech-to-text failed: {e}")
             return None
 
-    async def process_voice(
-        self, input_data: Union[str, bytes], mode: VoiceMode = VoiceMode.BOTH
-    ) -> dict[str, Any]:
+    async def process_voice(self, input_data: Union[str, bytes], mode: VoiceMode = VoiceMode.BOTH) -> dict[str, Any]:
         """Process voice data
 
         Args:

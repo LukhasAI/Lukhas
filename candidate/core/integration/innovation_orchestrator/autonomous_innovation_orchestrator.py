@@ -151,42 +151,30 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             self.current_cycle.opportunities_identified = len(innovation_opportunities)
 
             # PHASE 2: Resource Allocation Optimization
-            resource_allocation = (
-                await self.resource_allocation_optimizer.optimize_resource_allocation(
-                    self.innovation_engines, innovation_opportunities
-                )
+            resource_allocation = await self.resource_allocation_optimizer.optimize_resource_allocation(
+                self.innovation_engines, innovation_opportunities
             )
 
             # PHASE 3: Parallel Innovation Execution
-            innovation_results = await self.execute_parallel_innovation(
-                resource_allocation, innovation_opportunities
-            )
+            innovation_results = await self.execute_parallel_innovation(resource_allocation, innovation_opportunities)
             self.current_cycle.innovations_generated = len(innovation_results)
 
             # PHASE 4: Breakthrough Synthesis
-            synthesized_breakthroughs = (
-                await self.breakthrough_synthesis_engine.synthesize_breakthroughs(
-                    innovation_results
-                )
+            synthesized_breakthroughs = await self.breakthrough_synthesis_engine.synthesize_breakthroughs(
+                innovation_results
             )
             self.current_cycle.breakthroughs_synthesized = len(synthesized_breakthroughs)
 
             # PHASE 5: Innovation Prioritization
-            prioritized_innovations = (
-                await self.innovation_prioritization_engine.prioritize_innovations(
-                    synthesized_breakthroughs
-                )
+            prioritized_innovations = await self.innovation_prioritization_engine.prioritize_innovations(
+                synthesized_breakthroughs
             )
 
             # PHASE 6: Implementation Strategy Generation
-            implementation_strategies = await self.generate_implementation_strategies(
-                prioritized_innovations
-            )
+            implementation_strategies = await self.generate_implementation_strategies(prioritized_innovations)
 
             # Calculate total value
-            self.current_cycle.estimated_value = await self.calculate_total_market_value(
-                prioritized_innovations
-            )
+            self.current_cycle.estimated_value = await self.calculate_total_market_value(prioritized_innovations)
 
             # Complete cycle
             self.current_cycle.end_time = datetime.now(timezone.utc)
@@ -216,12 +204,8 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                 "priority_innovations": prioritized_innovations[:10],  # Top 10
                 "implementation_strategies": implementation_strategies,
                 "estimated_market_value": self.current_cycle.estimated_value,
-                "competitive_advantage_duration": await self.estimate_competitive_advantage(
-                    prioritized_innovations
-                ),
-                "cycle_duration_seconds": (
-                    self.current_cycle.end_time - self.current_cycle.start_time
-                ).total_seconds(),
+                "competitive_advantage_duration": await self.estimate_competitive_advantage(prioritized_innovations),
+                "cycle_duration_seconds": (self.current_cycle.end_time - self.current_cycle.start_time).total_seconds(),
             }
 
         except Exception as e:
@@ -420,9 +404,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             )
 
             # Calculate total timeline
-            strategy["timeline_months"] = sum(
-                p["duration_months"] for p in strategy["implementation_phases"]
-            )
+            strategy["timeline_months"] = sum(p["duration_months"] for p in strategy["implementation_phases"])
 
             # Define success metrics
             strategy["success_metrics"] = [
@@ -484,9 +466,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
         return total_value
 
-    async def estimate_competitive_advantage(
-        self, innovations: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def estimate_competitive_advantage(self, innovations: list[dict[str, Any]]) -> dict[str, Any]:
         """
         Estimate competitive advantage duration from innovations
 
@@ -509,9 +489,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             advantage["factors"].append("paradigm_first_mover")
 
         # Check for consciousness evolution (hard to replicate)
-        consciousness_evolutions = [
-            i for i in innovations if i.get("type") == "consciousness_evolution"
-        ]
+        consciousness_evolutions = [i for i in innovations if i.get("type") == "consciousness_evolution"]
         if consciousness_evolutions:
             advantage["duration_months"] = max(advantage["duration_months"], 36)  # 3 years minimum
             advantage["factors"].append("consciousness_uniqueness")
@@ -655,11 +633,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         if self.cycle_history:
             completed_cycles = [c for c in self.cycle_history if c.status == "completed"]
             if completed_cycles:
-                durations = [
-                    (c.end_time - c.start_time).total_seconds()
-                    for c in completed_cycles
-                    if c.end_time
-                ]
+                durations = [(c.end_time - c.start_time).total_seconds() for c in completed_cycles if c.end_time]
                 if durations:
                     metrics["average_cycle_duration"] = sum(durations) / len(durations)
 

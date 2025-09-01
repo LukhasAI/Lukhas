@@ -176,9 +176,7 @@ class QRGLYPHGenerator:
         # AES256 encryption would be applied here for storage
         return base64.b64encode(json.dumps(qrglyph_data).encode()).decode()
 
-    def generate_dynamic_qrglyph(
-        self, user_id: str, session_data: dict, expires_in: int = 300
-    ) -> str:
+    def generate_dynamic_qrglyph(self, user_id: str, session_data: dict, expires_in: int = 300) -> str:
         """Generate dynamic QRGLYPH for T5 with expiration"""
         payload = {
             "uid": user_id,
@@ -299,11 +297,7 @@ class TierAuthenticator:
             return t2_result
 
         # Additional biometric verification
-        biometric_data = (
-            credentials.secondary_auth.get("biometric_template")
-            if credentials.secondary_auth
-            else None
-        )
+        biometric_data = credentials.secondary_auth.get("biometric_template") if credentials.secondary_auth else None
         if not biometric_data:
             return {"success": False, "error": "Biometric data required for T3"}
 
@@ -314,9 +308,7 @@ class TierAuthenticator:
         stored_bio_hash = credentials.biometric_hash
 
         # For testing, accept mock biometric hashes
-        if stored_bio_hash.startswith("mock_") or secrets.compare_digest(
-            biometric_hash, stored_bio_hash
-        ):
+        if stored_bio_hash.startswith("mock_") or secrets.compare_digest(biometric_hash, stored_bio_hash):
             pass  # Verification successful
         else:
             return {"success": False, "error": "Biometric verification failed"}
@@ -390,9 +382,7 @@ class TierAuthenticator:
             "expires_in": 7200,  # 2 hours
             "qi_safe": True,
             "consciousness_coherence": (
-                qrglyph_validation.get("consciousness_coherence", 0.8)
-                if qrglyph_validation
-                else 0.7
+                qrglyph_validation.get("consciousness_coherence", 0.8) if qrglyph_validation else 0.7
             ),
             "zk_proof_verified": bool(zk_proof and zk_proof.get("valid")),
         }
@@ -569,9 +559,7 @@ class LambdaIDSystem:
             logger.error(f"Authentication error: {e}")
             return {"success": False, "error": "Internal authentication error"}
 
-    def create_consent_record(
-        self, user_id: str, tier: AuthTier, consent_data: dict
-    ) -> ConsentRecord:
+    def create_consent_record(self, user_id: str, tier: AuthTier, consent_data: dict) -> ConsentRecord:
         """Create GDPR-compliant consent record"""
         consent_json = json.dumps(consent_data, sort_keys=True)
         consent_hash = self.authenticator.hasher.hash_biometric(consent_json.encode())

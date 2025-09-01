@@ -53,9 +53,7 @@ class BotAGISystem:
             self.active = True
             return True
 
-    async def process_request(
-        self, user_input: str, context: Optional[dict] = None
-    ) -> dict[str, Any]:
+    async def process_request(self, user_input: str, context: Optional[dict] = None) -> dict[str, Any]:
         """Process a request through the AGI system"""
         if self.orchestrator:
             return await self.orchestrator.process_agi_request(user_input, context)

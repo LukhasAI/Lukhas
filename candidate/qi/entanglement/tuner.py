@@ -236,11 +236,7 @@ class SymbolicStabilizer:
         applicable = []
         for tag, info in cls.STABILIZERS.items():
             applicable_pairs = info["applicable_pairs"]
-            if (
-                "*" in applicable_pairs
-                or pair_str in applicable_pairs
-                or reverse_pair_str in applicable_pairs
-            ):
+            if "*" in applicable_pairs or pair_str in applicable_pairs or reverse_pair_str in applicable_pairs:
                 applicable.append(tag)
 
         return applicable
@@ -363,12 +359,8 @@ class AdaptiveEntanglementStabilizer:
                 "entanglement_matrix": {
                     "entanglements": entanglements,
                     "matrix_metrics": {
-                        "average_entanglement": np.mean(
-                            [e["strength"] for e in entanglements.values()]
-                        ),
-                        "max_conflict_risk": max(
-                            [e["conflict_risk"] for e in entanglements.values()]
-                        ),
+                        "average_entanglement": np.mean([e["strength"] for e in entanglements.values()]),
+                        "max_conflict_risk": max([e["conflict_risk"] for e in entanglements.values()]),
                     },
                 },
                 "unified_field": {
@@ -447,9 +439,7 @@ class AdaptiveEntanglementStabilizer:
 
                 if instability_types:
                     unstable_pairs.append((pair, instability_types))
-                    logger.warning(
-                        f"Instability detected: {pair[0]}↔{pair[1]} - {', '.join(instability_types)}"
-                    )
+                    logger.warning(f"Instability detected: {pair[0]}↔{pair[1]} - {', '.join(instability_types)}")
 
         return [(pair[0], pair[1]) for pair, _ in unstable_pairs]
 
@@ -511,9 +501,7 @@ class AdaptiveEntanglementStabilizer:
 
         # Low coherence - use coherence boosters
         elif current_strength < self.coherence_threshold:
-            coherence_stabilizers = [
-                s for s in applicable if s in ["ΛANCHOR", "ΛFOCUS", "ΛCLARITY"]
-            ]
+            coherence_stabilizers = [s for s in applicable if s in ["ΛANCHOR", "ΛFOCUS", "ΛCLARITY"]]
             selected.extend(coherence_stabilizers[:1])
 
         # Emotional instability
@@ -606,9 +594,7 @@ class AdaptiveEntanglementStabilizer:
         4. Set duration timer
         """
         # Simulate stabilizer injection
-        logger.debug(
-            f"Injecting {tag} with strength {info['strength']} for {info['duration_minutes']} minutes"
-        )
+        logger.debug(f"Injecting {tag} with strength {info['strength']} for {info['duration_minutes']} minutes")
 
         # This would integrate with:
         # - ethics/qi_mesh_integrator.py for mesh modification
@@ -679,13 +665,9 @@ class AdaptiveEntanglementStabilizer:
         with open(log_file, "a") as f:
             f.write(json.dumps(log_entry, default=str) + "\n")
 
-        logger.info(
-            f"ΛTUNE log emitted: {entry['subsystem_pair']} - {', '.join(entry['stabilizers_applied'])}"
-        )
+        logger.info(f"ΛTUNE log emitted: {entry['subsystem_pair']} - {', '.join(entry['stabilizers_applied'])}")
 
-    async def run_continuous_monitoring(
-        self, log_file: str, window: int = 10, interval: int = 30
-    ) -> None:
+    async def run_continuous_monitoring(self, log_file: str, window: int = 10, interval: int = 30) -> None:
         """
         Run continuous monitoring and stabilization
 
@@ -844,9 +826,7 @@ Examples:
 
             # Show final status
             status = stabilizer.get_stabilization_status()
-            print(
-                f"\n📈 Stabilization complete: {status['stabilization_history_count']} actions taken"
-            )
+            print(f"\n📈 Stabilization complete: {status['stabilization_history_count']} actions taken")
 
         return 0
 

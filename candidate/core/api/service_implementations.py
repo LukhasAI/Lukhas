@@ -158,9 +158,7 @@ def log_service_status():
     real_count = sum(status.values())
     total_count = len(status)
 
-    log.info(
-        f"Service Implementation Status: {real_count}/{total_count} real implementations available"
-    )
+    log.info(f"Service Implementation Status: {real_count}/{total_count} real implementations available")
 
     for service, available in status.items():
         if available:

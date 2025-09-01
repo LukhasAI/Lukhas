@@ -143,9 +143,7 @@ class CapManager:
         if persist:
             self._save()
         removed = before - len(arr)
-        _audit_write(
-            "lease_revoke", {"subject": subject, "cap_prefix": cap_prefix, "removed": removed}
-        )
+        _audit_write("lease_revoke", {"subject": subject, "cap_prefix": cap_prefix, "removed": removed})
         return removed
 
     def list(self, subject: str, now: float | None = None) -> list[Lease]:
@@ -254,9 +252,7 @@ class FileGuard:
         return self._orig_remove(path, *a, **k)
 
     def _rn(self, src, dst, *a, **k):
-        if not _check_path_allowed(src, self.fs.write or []) or not _check_path_allowed(
-            dst, self.fs.write or []
-        ):
+        if not _check_path_allowed(src, self.fs.write or []) or not _check_path_allowed(dst, self.fs.write or []):
             return self._deny(f"{src} -> {dst}", "rename")
         return self._orig_rename(src, dst, *a, **k)
 
@@ -346,16 +342,12 @@ class Sandbox:
             finally:
                 _audit_write("sandbox_exit", {"subject": plan.subject})
 
-    def run_cmd(
-        self, plan: SandboxPlan, cmd: list[str], timeout: int | None = None
-    ) -> tuple[int, str]:
+    def run_cmd(self, plan: SandboxPlan, cmd: list[str], timeout: int | None = None) -> tuple[int, str]:
         with self.activate(plan) as env:
             # merge env with minimal PATH (unless provided)
             if "PATH" not in env:
                 env["PATH"] = "/usr/bin:/bin:/usr/local/bin"
-            proc = subprocess.Popen(
-                cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, env=env
-            )
+            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, env=env)
             try:
                 out = proc.communicate(timeout=timeout)[0]
             except subprocess.TimeoutExpired:
@@ -369,9 +361,7 @@ class Sandbox:
 def _cli():
     import argparse
 
-    ap = argparse.ArgumentParser(
-        description="Lukhas Capability Sandbox (leases, FS/ENV isolation, audit)"
-    )
+    ap = argparse.ArgumentParser(description="Lukhas Capability Sandbox (leases, FS/ENV isolation, audit)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     g1 = sub.add_parser("grant")
@@ -403,9 +393,7 @@ def _cli():
     g5.add_argument("--cwd")
     g5.add_argument("--fs-read", action="append", default=[])
     g5.add_argument("--fs-write", action="append", default=[])
-    g5.add_argument(
-        "--env-allow", action="append", default=["PATH", "HOME"]
-    )  # env prefixes to leak in
+    g5.add_argument("--env-allow", action="append", default=["PATH", "HOME"])  # env prefixes to leak in
     g5.add_argument("--env", action="append", default=[], help="KEY=VALUE injections")
     g5.add_argument("--timeout", type=int)
     g5.add_argument("cmd", nargs=argparse.REMAINDER)

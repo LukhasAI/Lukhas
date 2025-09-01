@@ -60,9 +60,7 @@ class ModuleInternalAnalyzer:
             file_path = module_path / orphan
             if self.is_high_value(file_path):
                 size = os.path.getsize(file_path)
-                high_value_orphans.append(
-                    {"file": orphan, "size": size, "lines": self.count_lines(file_path)}
-                )
+                high_value_orphans.append({"file": orphan, "size": size, "lines": self.count_lines(file_path)})
 
         # Sort by size
         high_value_orphans.sort(key=lambda x: x["size"], reverse=True)

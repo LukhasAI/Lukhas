@@ -59,9 +59,7 @@ class ExponentialLearningSystem:
             learning_rate: Base learning rate.
             growth_factor: Factor for learning effectiveness increase per cycle. #ΛDRIFT_POINT
         """
-        self.knowledge_base: dict[str, Any] = (
-            initial_knowledge_base or {}
-        )  # This is the system's memory.
+        self.knowledge_base: dict[str, Any] = initial_knowledge_base or {}  # This is the system's memory.
         self.learning_rate: float = learning_rate
         self.growth_factor: float = growth_factor  # ΛDRIFT_POINT: Key parameter for learning curve.
         self.adaptation_cycles: int = 0
@@ -188,8 +186,7 @@ class ExponentialLearningSystem:
         # ΛTRACE: Retrieving ExponentialLearningSystem status.
         status_data = {
             "adaptation_cycles": self.adaptation_cycles,
-            "current_effective_learning_rate": self.learning_rate
-            * (self.growth_factor**self.adaptation_cycles),
+            "current_effective_learning_rate": self.learning_rate * (self.growth_factor**self.adaptation_cycles),
             "knowledge_base_size": len(self.knowledge_base),
             "status_timestamp_utc": datetime.now(timezone.utc).isoformat(),
         }

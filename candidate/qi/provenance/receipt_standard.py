@@ -23,11 +23,7 @@ def _semantic_hash(vector: list[float] | None) -> str | None:
     if not vector:
         return None
     # simple stable hash (don't store vector by default)
-    return _sha256(
-        json.dumps(
-            [round(x, 6) for x in vector], separators=(",", ":"), ensure_ascii=False
-        ).encode()
-    )
+    return _sha256(json.dumps([round(x, 6) for x in vector], separators=(",", ":"), ensure_ascii=False).encode())
 
 
 @dataclass

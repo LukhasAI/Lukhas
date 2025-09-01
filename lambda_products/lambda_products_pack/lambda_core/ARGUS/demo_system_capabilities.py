@@ -203,9 +203,7 @@ class SystemCapabilitiesDemo:
 
         self.demo_results["stress_response"] = scenario_results
 
-        print(
-            "   ✅ SCENARIO COMPLETE: System successfully detected, analyzed, and adapted to stress!"
-        )
+        print("   ✅ SCENARIO COMPLETE: System successfully detected, analyzed, and adapted to stress!")
         await asyncio.sleep(2)
 
     async def demo_scenario_2_performance_optimization(self):
@@ -259,14 +257,10 @@ class SystemCapabilitiesDemo:
         print(f"   🧬 Dopamine (motivation): {performance_hormones['dopamine']:.3f}")
 
         print("\n🎯 STEP 2: Performance Trigger Detection")
-        perf_triggers = await self.endocrine_engine.analyze_plasticity_triggers(
-            performance_snapshot
-        )
+        perf_triggers = await self.endocrine_engine.analyze_plasticity_triggers(performance_snapshot)
 
         performance_triggers = [
-            t
-            for t in perf_triggers
-            if t.trigger_type == PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
+            t for t in perf_triggers if t.trigger_type == PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
         ]
         print(f"   🚨 Performance Triggers: {len(performance_triggers)}")
 
@@ -299,9 +293,7 @@ class SystemCapabilitiesDemo:
         )
 
         print(f"   📊 Learning Context Metrics: {len(context_metrics)}")
-        print(
-            f"   🎯 Key Metric - Learning Readiness: {context_metrics.get('learning_readiness', 0):.3f}"
-        )
+        print(f"   🎯 Key Metric - Learning Readiness: {context_metrics.get('learning_readiness', 0):.3f}")
         print(f"   🧠 Key Metric - Cognitive Load: {context_metrics.get('cognitive_load', 0):.3f}")
 
         print("\n🚀 STEP 5: Performance Enhancement Execution")
@@ -445,9 +437,7 @@ class SystemCapabilitiesDemo:
             "interaction_prediction": 0.35,
         }
 
-        social_coherence = await self.coherence_monitor.measure_coherence(
-            bio_social_state, symbolic_social_state
-        )
+        social_coherence = await self.coherence_monitor.measure_coherence(bio_social_state, symbolic_social_state)
 
         print(
             f"   🔗 Bio-Social Coherence: {sum(c.coherence_score for c in social_coherence) / len(social_coherence):.3f}"
@@ -567,9 +557,7 @@ class SystemCapabilitiesDemo:
         print("📊 STEP 1: Learning History Analysis")
         successful_experiments = [e for e in learning_data["recent_experiments"] if e["success"]]
         success_rate = len(successful_experiments) / len(learning_data["recent_experiments"])
-        avg_improvement = sum(e["improvement"] for e in successful_experiments) / len(
-            successful_experiments
-        )
+        avg_improvement = sum(e["improvement"] for e in successful_experiments) / len(successful_experiments)
 
         print(f"   🧪 Recent Experiments: {len(learning_data['recent_experiments'])}")
         print(f"   ✅ Success Rate: {success_rate:.1%}")
@@ -580,23 +568,17 @@ class SystemCapabilitiesDemo:
         # Analyze stress patterns
         stress_trend = learning_data["pattern_history"]["stress_patterns"]
         stress_slope = (stress_trend[-1] - stress_trend[0]) / len(stress_trend)
-        print(
-            f"   📉 Stress Pattern Trend: {stress_slope:+.3f} ({'Improving' if stress_slope < 0 else 'Worsening'})"
-        )
+        print(f"   📉 Stress Pattern Trend: {stress_slope:+.3f} ({'Improving' if stress_slope < 0 else 'Worsening'})")
 
         # Analyze performance patterns
         perf_trend = learning_data["pattern_history"]["performance_patterns"]
         perf_slope = (perf_trend[-1] - perf_trend[0]) / len(perf_trend)
-        print(
-            f"   📈 Performance Trend: {perf_slope:+.3f} ({'Improving' if perf_slope > 0 else 'Declining'})"
-        )
+        print(f"   📈 Performance Trend: {perf_slope:+.3f} ({'Improving' if perf_slope > 0 else 'Declining'})")
 
         # Analyze social patterns
         social_trend = learning_data["pattern_history"]["social_patterns"]
         social_slope = (social_trend[-1] - social_trend[0]) / len(social_trend)
-        print(
-            f"   🤝 Social Trend: {social_slope:+.3f} ({'Improving' if social_slope > 0 else 'Declining'})"
-        )
+        print(f"   🤝 Social Trend: {social_slope:+.3f} ({'Improving' if social_slope > 0 else 'Declining'})")
 
         print("\n🧠 STEP 3: Knowledge Consolidation")
         consolidation_result = await self.learning_orchestrator.consolidate_learning(
@@ -611,9 +593,7 @@ class SystemCapabilitiesDemo:
             }
         )
 
-        print(
-            f"   📚 Knowledge Items Consolidated: {consolidation_result.get('items_consolidated', 0)}"
-        )
+        print(f"   📚 Knowledge Items Consolidated: {consolidation_result.get('items_consolidated', 0)}")
         print("   🎯 Learning Patterns Identified:")
         print("      • Stress adaptations most effective during work hours")
         print("      • Performance boosts require dopamine correlation")
@@ -628,9 +608,7 @@ class SystemCapabilitiesDemo:
 
         successful_transfers = 0
         for source, target in transfer_scenarios:
-            transfer_result = await self.learning_orchestrator.apply_transfer_learning(
-                source, target
-            )
+            transfer_result = await self.learning_orchestrator.apply_transfer_learning(source, target)
             if transfer_result.get("success", False):
                 successful_transfers += 1
                 print(f"   ✅ {source} → {target}: Transfer successful")
@@ -744,9 +722,7 @@ class SystemCapabilitiesDemo:
 
         print(f"   💡 PREDICTIVE INSIGHTS ({len(insights)}):")
         for i, insight in enumerate(insights[:4], 1):  # Show first 4
-            confidence_bar = "●" * int(insight.confidence * 5) + "○" * (
-                5 - int(insight.confidence * 5)
-            )
+            confidence_bar = "●" * int(insight.confidence * 5) + "○" * (5 - int(insight.confidence * 5))
             print(f"      {i}. {insight.category}")
             print(f"         {insight.prediction[:70]}...")
             print(f"         Confidence: {confidence_bar} {insight.confidence:.3f}")
@@ -759,18 +735,10 @@ class SystemCapabilitiesDemo:
 
         for alert in alerts:
             alert_counts[alert.level.value] += 1
-            icon = (
-                "🔴"
-                if alert.level.value == "HIGH"
-                else "🟡"
-                if alert.level.value == "MEDIUM"
-                else "🟢"
-            )
+            icon = "🔴" if alert.level.value == "HIGH" else "🟡" if alert.level.value == "MEDIUM" else "🟢"
             print(f"      {icon} {alert.level.value}: {alert.message}")
 
-        print(
-            f"   📊 Alert Distribution: 🔴{alert_counts['HIGH']} 🟡{alert_counts['MEDIUM']} 🟢{alert_counts['LOW']}"
-        )
+        print(f"   📊 Alert Distribution: 🔴{alert_counts['HIGH']} 🟡{alert_counts['MEDIUM']} 🟢{alert_counts['LOW']}")
 
         print("\n⏱️ STEP 4: Recovery Timeline Prediction")
         recovery_timeline = await self.dashboard.predict_recovery_timeline(current_state)
@@ -864,9 +832,7 @@ class SystemCapabilitiesDemo:
                 print(f"   • Final Performance: {results['final_performance']:.3f}")
 
             elif scenario_name == "social_enhancement":
-                print(
-                    f"   • Oxytocin Boost: {results['enhanced_oxytocin'] - results['initial_oxytocin']:+.3f}"
-                )
+                print(f"   • Oxytocin Boost: {results['enhanced_oxytocin'] - results['initial_oxytocin']:+.3f}")
                 print(f"   • Empathy Improvement: {results['social_improvement']:.1%}")
                 print(f"   • Social Triggers: {results['triggers_detected']}")
 
@@ -878,9 +844,7 @@ class SystemCapabilitiesDemo:
             elif scenario_name == "dashboard":
                 print(f"   • Hormones Tracked: {results['hormone_levels_tracked']}")
                 print(f"   • Insights Generated: {results['insights_generated']}")
-                print(
-                    f"   • Alerts: {results['alerts_generated']} (High: {results['high_priority_alerts']})"
-                )
+                print(f"   • Alerts: {results['alerts_generated']} (High: {results['high_priority_alerts']})")
 
             print()
 

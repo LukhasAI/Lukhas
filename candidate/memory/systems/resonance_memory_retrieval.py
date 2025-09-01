@@ -205,9 +205,7 @@ class ResonanceCalculator:
         return min(1.0, max(0.0, resonance_score))
 
     @staticmethod
-    def temporal_decay(
-        creation_time: datetime, current_time: datetime, half_life_hours: float = 24.0
-    ) -> float:
+    def temporal_decay(creation_time: datetime, current_time: datetime, half_life_hours: float = 24.0) -> float:
         """Calculate temporal decay factor for memory resonance"""
         time_diff = (current_time - creation_time).total_seconds() / 3600  # hours
         decay_factor = math.exp(-math.log(2) * time_diff / half_life_hours)
@@ -247,12 +245,8 @@ class ResonanceGate:
         freq_fingerprint = FrequencyGenerator.generate_frequency_fingerprint(emotional_state)
 
         # Create memory ID
-        memory_content = (
-            json.dumps(memory_data) if not isinstance(memory_data, str) else memory_data
-        )
-        memory_id = hashlib.sha3_256((memory_content + str(datetime.now())).encode()).hexdigest()[
-            :16
-        ]
+        memory_content = json.dumps(memory_data) if not isinstance(memory_data, str) else memory_data
+        memory_id = hashlib.sha3_256((memory_content + str(datetime.now())).encode()).hexdigest()[:16]
 
         # Create resonant memory
         resonant_memory = ResonantMemory(
@@ -329,25 +323,19 @@ class ResonanceGate:
         """Retrieve memories that resonate with current emotional state"""
 
         current_time = datetime.now(timezone.utc)
-        current_fingerprint = FrequencyGenerator.generate_frequency_fingerprint(
-            current_emotional_state
-        )
+        current_fingerprint = FrequencyGenerator.generate_frequency_fingerprint(current_emotional_state)
 
         resonant_memories = []
 
         for memory_id, memory in self.frequency_memory_map.items():
             # Calculate base resonance
-            base_resonance = ResonanceCalculator.frequency_resonance(
-                current_fingerprint, memory.frequency_signature
-            )
+            base_resonance = ResonanceCalculator.frequency_resonance(current_fingerprint, memory.frequency_signature)
 
             # Apply temporal decay
             temporal_factor = ResonanceCalculator.temporal_decay(memory.creation_time, current_time)
 
             # Apply access boost
-            access_factor = ResonanceCalculator.access_boost(
-                memory.access_count, memory.last_accessed, current_time
-            )
+            access_factor = ResonanceCalculator.access_boost(memory.access_count, memory.last_accessed, current_time)
 
             # Calculate final resonance score
             final_resonance = base_resonance * temporal_factor + access_factor
@@ -558,8 +546,7 @@ class ResonanceGate:
         recent_events = [
             log
             for log in self.access_log
-            if datetime.fromisoformat(log["timestamp"].replace("Z", "+00:00"))
-            > current_time - timedelta(hours=1)
+            if datetime.fromisoformat(log["timestamp"].replace("Z", "+00:00")) > current_time - timedelta(hours=1)
         ]
 
         # Performance metrics
@@ -569,18 +556,10 @@ class ResonanceGate:
             sample_state = EmotionalState(valence=0, arousal=0.5, dominance=0.5, stress_level=0.3)
             sample_results = self.retrieve_by_resonance(sample_state, limit=5, include_scores=True)
             if sample_results:
-                avg_resonance = sum(r["resonance_score"] for r in sample_results) / len(
-                    sample_results
-                )
+                avg_resonance = sum(r["resonance_score"] for r in sample_results) / len(sample_results)
 
         health = {
-            "status": (
-                "healthy"
-                if utilization < 0.9
-                else "near_capacity"
-                if utilization < 1.0
-                else "at_capacity"
-            ),
+            "status": ("healthy" if utilization < 0.9 else "near_capacity" if utilization < 1.0 else "at_capacity"),
             "memory_utilization": utilization,
             "total_memories": total_memories,
             "recent_activity": len(recent_events),
@@ -605,33 +584,23 @@ if __name__ == "__main__":
         test_memories = [
             {
                 "data": "Successfully completed important project deadline",
-                "emotional_state": EmotionalState(
-                    valence=0.8, arousal=0.6, dominance=0.7, stress_level=0.3
-                ),
+                "emotional_state": EmotionalState(valence=0.8, arousal=0.6, dominance=0.7, stress_level=0.3),
             },
             {
                 "data": "Had a stressful meeting with difficult client",
-                "emotional_state": EmotionalState(
-                    valence=-0.4, arousal=0.8, dominance=0.3, stress_level=0.9
-                ),
+                "emotional_state": EmotionalState(valence=-0.4, arousal=0.8, dominance=0.3, stress_level=0.9),
             },
             {
                 "data": "Enjoyed relaxing weekend with family",
-                "emotional_state": EmotionalState(
-                    valence=0.7, arousal=0.2, dominance=0.6, stress_level=0.1
-                ),
+                "emotional_state": EmotionalState(valence=0.7, arousal=0.2, dominance=0.6, stress_level=0.1),
             },
             {
                 "data": "Learned new programming technique",
-                "emotional_state": EmotionalState(
-                    valence=0.5, arousal=0.7, dominance=0.8, stress_level=0.2
-                ),
+                "emotional_state": EmotionalState(valence=0.5, arousal=0.7, dominance=0.8, stress_level=0.2),
             },
             {
                 "data": "Received positive feedback from supervisor",
-                "emotional_state": EmotionalState(
-                    valence=0.9, arousal=0.5, dominance=0.6, stress_level=0.1
-                ),
+                "emotional_state": EmotionalState(valence=0.9, arousal=0.5, dominance=0.6, stress_level=0.1),
             },
         ]
 
@@ -672,17 +641,13 @@ if __name__ == "__main__":
                 f"   State: v={query['state'].valence:.1f}, a={query['state'].arousal:.1f}, d={query['state'].dominance:.1f}, s={query['state'].stress_level:.1f}"
             )
 
-            results = resonance_gate.retrieve_by_resonance(
-                query["state"], limit=3, include_scores=True
-            )
+            results = resonance_gate.retrieve_by_resonance(query["state"], limit=3, include_scores=True)
 
             if results:
                 print(f"   📊 Found {len(results)} resonant memories:")
                 for result in results:
                     data_preview = (
-                        str(result["data"])[:40] + "..."
-                        if len(str(result["data"])) > 40
-                        else str(result["data"])
+                        str(result["data"])[:40] + "..." if len(str(result["data"])) > 40 else str(result["data"])
                     )
                     print(f"     • {result['resonance_score']:.3f}: {data_preview}")
                     if "detailed_scores" in result:
@@ -691,9 +656,7 @@ if __name__ == "__main__":
                             f"       (base: {scores['base_resonance']:.3f}, temporal: {scores['temporal_factor']:.3f}, access: {scores['access_factor']:.3f})"
                         )
             else:
-                print(
-                    f"   ❌ No memories found above threshold ({resonance_gate.resonance_threshold})"
-                )
+                print(f"   ❌ No memories found above threshold ({resonance_gate.resonance_threshold})")
 
         # Test memory access by ID
         print("\n🔍 Testing direct memory access...")
@@ -702,9 +665,7 @@ if __name__ == "__main__":
             if test_memory:
                 print(f"   📖 Memory: {test_memory['data']}")
                 print(f"   📊 Access count: {test_memory['access_count']}")
-                print(
-                    f"   🎵 Dominant frequency: {test_memory['frequency_info']['dominant_frequency']:.1f} Hz"
-                )
+                print(f"   🎵 Dominant frequency: {test_memory['frequency_info']['dominant_frequency']:.1f} Hz")
 
         # Analyze patterns
         print("\n📈 Analyzing resonance patterns...")
@@ -714,9 +675,7 @@ if __name__ == "__main__":
             print(f"   📊 Total memories: {analysis['memory_count']}")
             print(f"   😊 Avg valence: {analysis['emotional_distributions']['valence']['avg']:.2f}")
             print(f"   ⚡ Avg arousal: {analysis['emotional_distributions']['arousal']['avg']:.2f}")
-            print(
-                f"   🎵 Avg frequency: {analysis['frequency_distributions']['dominant_frequency']['avg']:.1f} Hz"
-            )
+            print(f"   🎵 Avg frequency: {analysis['frequency_distributions']['dominant_frequency']['avg']:.1f} Hz")
             print(f"   👁️ Total accesses: {analysis['access_patterns']['total_accesses']}")
 
         # System health check

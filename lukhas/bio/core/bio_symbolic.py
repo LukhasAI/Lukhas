@@ -270,10 +270,7 @@ class BioSymbolic:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "bio_data": bio_data,
             "symbolic_data": symbolic_data,
-            "coherence": (
-                self.calculate_coherence(bio_data) + self.calculate_coherence(symbolic_data)
-            )
-            / 2,
+            "coherence": (self.calculate_coherence(bio_data) + self.calculate_coherence(symbolic_data)) / 2,
         }
 
         self.integration_events.append(integration_event)
@@ -313,9 +310,7 @@ class BioSymbolicOrchestrator:
             results.append(processed)
 
         # Calculate overall coherence
-        overall_coherence = (
-            sum(r.get("coherence", 0) for r in results) / len(results) if results else 0
-        )
+        overall_coherence = sum(r.get("coherence", 0) for r in results) / len(results) if results else 0
 
         orchestration_result = {
             "timestamp": datetime.now(timezone.utc).isoformat(),

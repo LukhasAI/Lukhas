@@ -175,9 +175,7 @@ class LukhasDataFeeder:
                 triggers_fired = await self._check_trigger_conditions(system_state)
 
                 if triggers_fired:
-                    print(
-                        f"🔥 {len(triggers_fired)} triggers fired: {[t.name for t in triggers_fired]}"
-                    )
+                    print(f"🔥 {len(triggers_fired)} triggers fired: {[t.name for t in triggers_fired]}")
 
                 await asyncio.sleep(2.0)  # Feed data every 2 seconds
 
@@ -192,9 +190,7 @@ class LukhasDataFeeder:
         consciousness_data = {
             "awareness_level": await self.data_sources["consciousness"].get_awareness_level(),
             "attention_targets": await self.data_sources["consciousness"].get_attention_targets(),
-            "decision_confidence": await self.data_sources[
-                "consciousness"
-            ].get_decision_confidence(),
+            "decision_confidence": await self.data_sources["consciousness"].get_decision_confidence(),
         }
 
         # Memory data
@@ -277,9 +273,7 @@ class LukhasDataFeeder:
 
         # Recovery need indicator
         recovery_need = (
-            stress_indicator * 0.4
-            + memory["memory_load"] * 0.3
-            + (1.0 - biological["hormone_profile"]["gaba"]) * 0.3
+            stress_indicator * 0.4 + memory["memory_load"] * 0.3 + (1.0 - biological["hormone_profile"]["gaba"]) * 0.3
         )
 
         return {
@@ -290,8 +284,7 @@ class LukhasDataFeeder:
             "recovery_need": max(0.0, min(1.0, recovery_need)),
             "cpu_utilization": 0.3 + stress_indicator * 0.4,  # Simulated system load
             "response_time": 0.1 + (1.0 - performance_indicator) * 0.3,
-            "emotional_coherence": emotion["valence"] * 0.7
-            + (1.0 - abs(emotion["arousal"] - 0.5) * 2) * 0.3,
+            "emotional_coherence": emotion["valence"] * 0.7 + (1.0 - abs(emotion["arousal"] - 0.5) * 2) * 0.3,
         }
 
     async def _feed_to_monitoring_components(self, system_state: dict[str, Any]):
@@ -325,9 +318,7 @@ class LukhasDataFeeder:
                 self.monitoring_system.endocrine_engine.endocrine_system,
                 "_hormone_levels",
             ):
-                self.monitoring_system.endocrine_engine.endocrine_system._hormone_levels = (
-                    biological["hormone_profile"]
-                )
+                self.monitoring_system.endocrine_engine.endocrine_system._hormone_levels = biological["hormone_profile"]
 
     async def _update_metrics_collector(self, system_state: dict[str, Any]):
         """Update metrics collector with derived metrics"""
@@ -365,21 +356,16 @@ class LukhasDataFeeder:
             symbolic_data = {
                 "glyph_processing_rate": system_state["derived"]["performance_indicator"],
                 "consciousness_level": system_state["consciousness"]["awareness_level"],
-                "decision_making_active": system_state["consciousness"]["decision_confidence"]
-                > 0.7,
+                "decision_making_active": system_state["consciousness"]["decision_confidence"] > 0.7,
                 "memory_operations": system_state["memory"]["recent_activity"],
                 "reasoning_depth": system_state["reasoning"]["processing_depth"],
                 "symbolic_complexity": system_state["reasoning"]["logical_coherence"],
                 "processing_load": system_state["derived"]["cpu_utilization"],
             }
 
-            await self.monitoring_system.coherence_monitor.update_symbolic_system_state(
-                symbolic_data
-            )
+            await self.monitoring_system.coherence_monitor.update_symbolic_system_state(symbolic_data)
 
-    async def _check_trigger_conditions(
-        self, system_state: dict[str, Any]
-    ) -> list[PlasticityTriggerType]:
+    async def _check_trigger_conditions(self, system_state: dict[str, Any]) -> list[PlasticityTriggerType]:
         """Check if any trigger conditions are met"""
 
         triggers_fired = []
@@ -394,18 +380,10 @@ class LukhasDataFeeder:
 
         # 1. STRESS ADAPTATION TRIGGER
         # Combines cortisol, adrenaline, and derived stress indicator
-        stress_level = (
-            hormones["cortisol"] * 0.4
-            + hormones["adrenaline"] * 0.3
-            + derived["stress_indicator"] * 0.3
-        )
-        stress_threshold = self._calculate_adaptive_threshold(
-            "stress", stress_level, 0.7
-        )  # Base threshold 0.7
+        stress_level = hormones["cortisol"] * 0.4 + hormones["adrenaline"] * 0.3 + derived["stress_indicator"] * 0.3
+        stress_threshold = self._calculate_adaptive_threshold("stress", stress_level, 0.7)  # Base threshold 0.7
 
-        if stress_level > stress_threshold and self._check_cooldown(
-            "stress_adaptation", current_time
-        ):
+        if stress_level > stress_threshold and self._check_cooldown("stress_adaptation", current_time):
             triggers_fired.append(PlasticityTriggerType.STRESS_ADAPTATION)
             self.last_trigger_times["stress_adaptation"] = current_time
             print(f"🚨 STRESS TRIGGER: level={stress_level:.3f}, threshold={stress_threshold:.3f}")
@@ -417,25 +395,17 @@ class LukhasDataFeeder:
             "performance", performance_level, 0.4, inverted=True
         )  # Low performance triggers
 
-        if performance_level < performance_threshold and self._check_cooldown(
-            "performance_optimization", current_time
-        ):
+        if performance_level < performance_threshold and self._check_cooldown("performance_optimization", current_time):
             triggers_fired.append(PlasticityTriggerType.PERFORMANCE_OPTIMIZATION)
             self.last_trigger_times["performance_optimization"] = current_time
-            print(
-                f"📉 PERFORMANCE TRIGGER: level={performance_level:.3f}, threshold={performance_threshold:.3f}"
-            )
+            print(f"📉 PERFORMANCE TRIGGER: level={performance_level:.3f}, threshold={performance_threshold:.3f}")
 
         # 3. SOCIAL ENHANCEMENT TRIGGER
         # Based on low oxytocin and social engagement
         social_level = hormones["oxytocin"] * 0.6 + derived["social_engagement"] * 0.4
-        social_threshold = self._calculate_adaptive_threshold(
-            "social", social_level, 0.3, inverted=True
-        )
+        social_threshold = self._calculate_adaptive_threshold("social", social_level, 0.3, inverted=True)
 
-        if social_level < social_threshold and self._check_cooldown(
-            "social_enhancement", current_time
-        ):
+        if social_level < social_threshold and self._check_cooldown("social_enhancement", current_time):
             triggers_fired.append(PlasticityTriggerType.SOCIAL_ENHANCEMENT)
             self.last_trigger_times["social_enhancement"] = current_time
             print(f"🤝 SOCIAL TRIGGER: level={social_level:.3f}, threshold={social_threshold:.3f}")
@@ -445,30 +415,20 @@ class LukhasDataFeeder:
         recovery_level = hormones["melatonin"] * 0.5 + derived["recovery_need"] * 0.5
         recovery_threshold = self._calculate_adaptive_threshold("recovery", recovery_level, 0.6)
 
-        if recovery_level > recovery_threshold and self._check_cooldown(
-            "recovery_consolidation", current_time
-        ):
+        if recovery_level > recovery_threshold and self._check_cooldown("recovery_consolidation", current_time):
             triggers_fired.append(PlasticityTriggerType.RECOVERY_CONSOLIDATION)
             self.last_trigger_times["recovery_consolidation"] = current_time
-            print(
-                f"😴 RECOVERY TRIGGER: level={recovery_level:.3f}, threshold={recovery_threshold:.3f}"
-            )
+            print(f"😴 RECOVERY TRIGGER: level={recovery_level:.3f}, threshold={recovery_threshold:.3f}")
 
         # 5. EMOTIONAL REGULATION TRIGGER
         # Based on emotional volatility and coherence
         emotional_stability = derived["emotional_coherence"]
-        emotion_threshold = self._calculate_adaptive_threshold(
-            "emotion", emotional_stability, 0.5, inverted=True
-        )
+        emotion_threshold = self._calculate_adaptive_threshold("emotion", emotional_stability, 0.5, inverted=True)
 
-        if emotional_stability < emotion_threshold and self._check_cooldown(
-            "emotional_regulation", current_time
-        ):
+        if emotional_stability < emotion_threshold and self._check_cooldown("emotional_regulation", current_time):
             triggers_fired.append(PlasticityTriggerType.EMOTIONAL_REGULATION)
             self.last_trigger_times["emotional_regulation"] = current_time
-            print(
-                f"💭 EMOTION TRIGGER: stability={emotional_stability:.3f}, threshold={emotion_threshold:.3f}"
-            )
+            print(f"💭 EMOTION TRIGGER: stability={emotional_stability:.3f}, threshold={emotion_threshold:.3f}")
 
         return triggers_fired
 

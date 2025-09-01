@@ -249,9 +249,7 @@ class PolicyRuleEngine:
             # Validate rule
             validation_result = self._validate_rule(rule)
             if not validation_result["valid"]:
-                logger.error(
-                    f"❌ Invalid policy rule {rule.rule_id}: {validation_result['errors']}"
-                )
+                logger.error(f"❌ Invalid policy rule {rule.rule_id}: {validation_result['errors']}")
                 return False
 
             # Check for conflicts
@@ -341,18 +339,14 @@ class PolicyRuleEngine:
                 and rule.scope == existing_rule.scope
                 and self._conditions_similar(rule.conditions, existing_rule.conditions)
             ):
-                if (
-                    rule.action == PolicyAction.ALLOW and existing_rule.action == PolicyAction.DENY
-                ) or (
+                if (rule.action == PolicyAction.ALLOW and existing_rule.action == PolicyAction.DENY) or (
                     rule.action == PolicyAction.DENY and existing_rule.action == PolicyAction.ALLOW
                 ):
                     conflicts.append(f"Action conflict with {existing_rule_id}")
 
         return conflicts
 
-    def _conditions_similar(
-        self, conditions1: list[PolicyCondition], conditions2: list[PolicyCondition]
-    ) -> bool:
+    def _conditions_similar(self, conditions1: list[PolicyCondition], conditions2: list[PolicyCondition]) -> bool:
         """Check if two sets of conditions are similar"""
 
         if len(conditions1) != len(conditions2):
@@ -395,9 +389,7 @@ class PolicyRuleEngine:
                         # Evaluate the expression
                         return eval(expression, {"__builtins__": {}}, {})
                     except:
-                        logger.error(
-                            f"Failed to evaluate custom condition logic for rule {rule.rule_id}"
-                        )
+                        logger.error(f"Failed to evaluate custom condition logic for rule {rule.rule_id}")
                         return False
 
             return compiled_evaluator
@@ -406,9 +398,7 @@ class PolicyRuleEngine:
             logger.error(f"Failed to compile conditions for rule {rule.rule_id}: {e}")
             return None
 
-    def _evaluate_single_condition(
-        self, condition: PolicyCondition, context: dict[str, Any]
-    ) -> bool:
+    def _evaluate_single_condition(self, condition: PolicyCondition, context: dict[str, Any]) -> bool:
         """Evaluate a single policy condition"""
 
         # Get field value from context
@@ -453,17 +443,9 @@ class PolicyRuleEngine:
             elif condition.operator == ConditionOperator.LESS_EQUAL:
                 return float(field_value) <= float(condition.value)
             elif condition.operator == ConditionOperator.IN:
-                return (
-                    field_value in condition.value
-                    if isinstance(condition.value, (list, tuple, set))
-                    else False
-                )
+                return field_value in condition.value if isinstance(condition.value, (list, tuple, set)) else False
             elif condition.operator == ConditionOperator.NOT_IN:
-                return (
-                    field_value not in condition.value
-                    if isinstance(condition.value, (list, tuple, set))
-                    else True
-                )
+                return field_value not in condition.value if isinstance(condition.value, (list, tuple, set)) else True
             elif condition.operator == ConditionOperator.REGEX:
                 return bool(re.search(str(condition.value), str(field_value)))
             else:
@@ -601,9 +583,7 @@ class PolicyEnforcementEngine:
                         operator=ConditionOperator.IN,
                         value=["personal", "sensitive", "financial", "health"],
                     ),
-                    PolicyCondition(
-                        field="encrypted", operator=ConditionOperator.EQUALS, value=False
-                    ),
+                    PolicyCondition(field="encrypted", operator=ConditionOperator.EQUALS, value=False),
                 ],
                 condition_logic="AND",
                 action=PolicyAction.DENY,
@@ -626,9 +606,7 @@ class PolicyEnforcementEngine:
                         operator=ConditionOperator.EQUALS,
                         value="personal_data",
                     ),
-                    PolicyCondition(
-                        field="user_consent", operator=ConditionOperator.NOT_EQUALS, value=True
-                    ),
+                    PolicyCondition(field="user_consent", operator=ConditionOperator.NOT_EQUALS, value=True),
                 ],
                 condition_logic="AND",
                 action=PolicyAction.DENY,
@@ -649,9 +627,7 @@ class PolicyEnforcementEngine:
                 scope=PolicyScope.GLOBAL,
                 priority=PolicyPriority.HIGH,
                 conditions=[
-                    PolicyCondition(
-                        field="user_tier", operator=ConditionOperator.LESS_THAN, value=3
-                    ),
+                    PolicyCondition(field="user_tier", operator=ConditionOperator.LESS_THAN, value=3),
                     PolicyCondition(
                         field="resource_tier_requirement",
                         operator=ConditionOperator.GREATER_EQUAL,
@@ -721,11 +697,7 @@ class PolicyEnforcementEngine:
                 policy_type=PolicyType.TRINITY,
                 scope=PolicyScope.GLOBAL,
                 priority=PolicyPriority.HIGH,
-                conditions=[
-                    PolicyCondition(
-                        field="drift_score", operator=ConditionOperator.GREATER_THAN, value=0.15
-                    )
-                ],
+                conditions=[PolicyCondition(field="drift_score", operator=ConditionOperator.GREATER_THAN, value=0.15)],
                 action=PolicyAction.ESCALATE,
                 action_parameters={"reason": "Drift threshold exceeded", "automatic_repair": True},
             )
@@ -832,9 +804,7 @@ class PolicyEnforcementEngine:
                 warnings=["Policy evaluation system error"],
             )
 
-    async def _enhance_context(
-        self, context: dict[str, Any], operation: str, user_id: Optional[str]
-    ) -> dict[str, Any]:
+    async def _enhance_context(self, context: dict[str, Any], operation: str, user_id: Optional[str]) -> dict[str, Any]:
         """Enhance context with additional information for policy evaluation"""
 
         enhanced = context.copy()
@@ -857,9 +827,7 @@ class PolicyEnforcementEngine:
         )
 
         # Add system context
-        enhanced.update(
-            {"system_time": datetime.now().isoformat(), "policy_engine_version": "1.0.0"}
-        )
+        enhanced.update({"system_time": datetime.now().isoformat(), "policy_engine_version": "1.0.0"})
 
         return enhanced
 
@@ -972,9 +940,7 @@ class PolicyEnforcementEngine:
         self.violation_history.append(violation)
         return violation
 
-    async def _assess_identity_impact(
-        self, rule: PolicyRule, context: dict[str, Any]
-    ) -> Optional[str]:
+    async def _assess_identity_impact(self, rule: PolicyRule, context: dict[str, Any]) -> Optional[str]:
         """Assess impact on Identity component (⚛️)"""
 
         if rule.policy_type in [
@@ -989,9 +955,7 @@ class PolicyEnforcementEngine:
 
         return None
 
-    async def _assess_consciousness_impact(
-        self, rule: PolicyRule, context: dict[str, Any]
-    ) -> Optional[str]:
+    async def _assess_consciousness_impact(self, rule: PolicyRule, context: dict[str, Any]) -> Optional[str]:
         """Assess impact on Consciousness component (🧠)"""
 
         if rule.policy_type in [
@@ -1006,9 +970,7 @@ class PolicyEnforcementEngine:
 
         return None
 
-    async def _assess_guardian_impact(
-        self, rule: PolicyRule, context: dict[str, Any]
-    ) -> Optional[str]:
+    async def _assess_guardian_impact(self, rule: PolicyRule, context: dict[str, Any]) -> Optional[str]:
         """Assess impact on Guardian component (🛡️)"""
 
         if rule.policy_type in [
@@ -1023,9 +985,7 @@ class PolicyEnforcementEngine:
 
         return "Guardian monitoring: Policy violation detected"
 
-    async def _generate_rule_recommendations(
-        self, rule: PolicyRule, context: dict[str, Any]
-    ) -> list[str]:
+    async def _generate_rule_recommendations(self, rule: PolicyRule, context: dict[str, Any]) -> list[str]:
         """Generate recommendations based on triggered rule"""
 
         recommendations = []
@@ -1088,9 +1048,7 @@ class PolicyEnforcementEngine:
 
         # Check for emergency or critical violations
         critical_violations = [
-            v
-            for v in violations
-            if v.severity in [PolicyPriority.EMERGENCY, PolicyPriority.CRITICAL]
+            v for v in violations if v.severity in [PolicyPriority.EMERGENCY, PolicyPriority.CRITICAL]
         ]
         if critical_violations:
             highest_priority_action = PolicyAction.DENY
@@ -1103,16 +1061,12 @@ class PolicyEnforcementEngine:
 
         self.metrics["total_evaluations"] += 1
         self.metrics["total_violations"] += len(result.violations)
-        self.metrics["rules_active"] = len(
-            [r for r in self.rule_engine.rules.values() if r.enabled]
-        )
+        self.metrics["rules_active"] = len([r for r in self.rule_engine.rules.values() if r.enabled])
 
         # Update average evaluation time
         current_avg = self.metrics["average_evaluation_time"]
         total_evaluations = self.metrics["total_evaluations"]
-        new_avg = (
-            (current_avg * (total_evaluations - 1)) + result.evaluation_time
-        ) / total_evaluations
+        new_avg = ((current_avg * (total_evaluations - 1)) + result.evaluation_time) / total_evaluations
         self.metrics["average_evaluation_time"] = new_avg
 
         # Update policy effectiveness
@@ -1193,15 +1147,12 @@ class PolicyEnforcementEngine:
                 for policy_type in PolicyType
             },
             "rules_by_priority": {
-                priority.value: len([r for r in active_rules if r.priority == priority])
-                for priority in PolicyPriority
+                priority.value: len([r for r in active_rules if r.priority == priority]) for priority in PolicyPriority
             },
             "recent_violations": len([v for v in self.violation_history if v.status == "open"]),
             "metrics": self.metrics,
             "last_evaluation": (
-                self.evaluation_history[-1].evaluated_at.isoformat()
-                if self.evaluation_history
-                else None
+                self.evaluation_history[-1].evaluated_at.isoformat() if self.evaluation_history else None
             ),
         }
 
@@ -1229,15 +1180,11 @@ class PolicyEnforcementEngine:
                 "total": len(self.violation_history),
                 "open": len([v for v in self.violation_history if v.status == "open"]),
                 "by_severity": {
-                    priority.value: len(
-                        [v for v in self.violation_history if v.severity == priority]
-                    )
+                    priority.value: len([v for v in self.violation_history if v.severity == priority])
                     for priority in PolicyPriority
                 },
                 "by_type": {
-                    policy_type.value: len(
-                        [v for v in self.violation_history if v.policy_type == policy_type]
-                    )
+                    policy_type.value: len([v for v in self.violation_history if v.policy_type == policy_type])
                     for policy_type in PolicyType
                 },
             },

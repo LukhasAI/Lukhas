@@ -95,9 +95,7 @@ class ConsolidatedMemorycolonies:
         self.colony_replication_threshold = 0.8
         self.colony_degradation_threshold = 0.3
 
-        logger.info(
-            f"ConsolidatedMemoryColonies initialized with {len(self.colonies)} core colonies"
-        )
+        logger.info(f"ConsolidatedMemoryColonies initialized with {len(self.colonies)} core colonies")
 
     def _initialize_core_colonies(self):
         """Initialize core memory colonies for different memory types"""
@@ -154,9 +152,7 @@ class ConsolidatedMemorycolonies:
                     processing_results.append(result)
 
             # Consolidate results from multiple colonies
-            consolidated_result = await self._consolidate_colony_results(
-                processing_results, memory_classification
-            )
+            consolidated_result = await self._consolidate_colony_results(processing_results, memory_classification)
 
             # Update performance metrics
             processing_time = time.time() - start_time
@@ -200,9 +196,7 @@ class ConsolidatedMemorycolonies:
         }
 
         # Determine secondary characteristics
-        classification["secondary_types"] = self._identify_secondary_types(
-            memory_data, classification
-        )
+        classification["secondary_types"] = self._identify_secondary_types(memory_data, classification)
 
         return classification
 
@@ -234,24 +228,16 @@ class ConsolidatedMemorycolonies:
         complexity = (unique_words / max(word_count, 1)) * (word_count / 100)
         return min(complexity, 1.0)
 
-    def _identify_secondary_types(
-        self, memory_data: dict, classification: dict
-    ) -> list[ColonyType]:
+    def _identify_secondary_types(self, memory_data: dict, classification: dict) -> list[ColonyType]:
         """Identify secondary memory types for cross-colony processing"""
         secondary_types = []
 
         # Add emotional if high emotional intensity
-        if (
-            classification["emotional_intensity"] > 0.5
-            and classification["primary_type"] != ColonyType.EMOTIONAL
-        ):
+        if classification["emotional_intensity"] > 0.5 and classification["primary_type"] != ColonyType.EMOTIONAL:
             secondary_types.append(ColonyType.EMOTIONAL)
 
         # Add working memory if temporary significance
-        if (
-            classification["temporal_significance"] < 0.3
-            and classification["primary_type"] != ColonyType.WORKING
-        ):
+        if classification["temporal_significance"] < 0.3 and classification["primary_type"] != ColonyType.WORKING:
             secondary_types.append(ColonyType.WORKING)
 
         return secondary_types
@@ -272,8 +258,7 @@ class ConsolidatedMemorycolonies:
             # Select colony with lowest current load
             best_colony = min(
                 primary_colonies,
-                key=lambda cid: self.colonies[cid].current_load
-                / self.colonies[cid].memory_capacity,
+                key=lambda cid: self.colonies[cid].current_load / self.colonies[cid].memory_capacity,
             )
             target_colonies.append(best_colony)
 
@@ -287,8 +272,7 @@ class ConsolidatedMemorycolonies:
             if secondary_colonies and len(target_colonies) < 3:  # Limit cross-processing
                 best_secondary = min(
                     secondary_colonies,
-                    key=lambda cid: self.colonies[cid].current_load
-                    / self.colonies[cid].memory_capacity,
+                    key=lambda cid: self.colonies[cid].current_load / self.colonies[cid].memory_capacity,
                 )
                 target_colonies.append(best_secondary)
 
@@ -447,9 +431,7 @@ class ConsolidatedMemorycolonies:
             "narrative_coherence": 0.6,
         }
 
-    async def _consolidate_colony_results(
-        self, processing_results: list[dict], classification: dict
-    ) -> dict:
+    async def _consolidate_colony_results(self, processing_results: list[dict], classification: dict) -> dict:
         """Consolidate results from multiple colony processing"""
         if not processing_results:
             return {"status": "no_processing", "reason": "no_active_colonies"}
@@ -552,8 +534,7 @@ class ConsolidatedMemorycolonies:
         # Exponential moving average for processing time
         alpha = 0.1
         self.performance_metrics["average_processing_time"] = (
-            alpha * processing_time
-            + (1 - alpha) * self.performance_metrics["average_processing_time"]
+            alpha * processing_time + (1 - alpha) * self.performance_metrics["average_processing_time"]
         )
 
     def get_colony_status(self) -> dict:
@@ -572,8 +553,7 @@ class ConsolidatedMemorycolonies:
         return {
             "colony_statistics": colony_stats,
             "performance_metrics": self.performance_metrics,
-            "system_health": sum(c.health_score for c in self.colonies.values())
-            / len(self.colonies),
+            "system_health": sum(c.health_score for c in self.colonies.values()) / len(self.colonies),
         }
 
     def get_performance_metrics(self) -> dict:

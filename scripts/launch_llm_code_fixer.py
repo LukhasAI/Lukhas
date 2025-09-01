@@ -80,9 +80,7 @@ def check_prerequisites():
 
     if not llm_available:
         issues.append("No local LLM service found. Please start Ollama or LM Studio.")
-        print(
-            f"{Colors.YELLOW}   To install Ollama: curl -fsSL https://ollama.ai/install.sh | sh{Colors.END}"
-        )
+        print(f"{Colors.YELLOW}   To install Ollama: curl -fsSL https://ollama.ai/install.sh | sh{Colors.END}")
         print(f"{Colors.YELLOW}   To start Ollama: ollama serve{Colors.END}")
 
     return issues
@@ -194,9 +192,7 @@ def main():
             print("  2. Run tests to ensure functionality")
             print("  3. Commit the improvements")
         else:
-            print(
-                f"\n{Colors.RED}❌ Code improvement failed with exit code {result.returncode}{Colors.END}"
-            )
+            print(f"\n{Colors.RED}❌ Code improvement failed with exit code {result.returncode}{Colors.END}")
 
         return result.returncode
 

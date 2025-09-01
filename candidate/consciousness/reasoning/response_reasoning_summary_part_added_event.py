@@ -76,9 +76,7 @@ class Part(BaseModel):
     # Human-readable comment: Fixed literal type for discriminating this model part.
 
 
-logger.debug(
-    "Part data model class (for summary part) defined.", class_name="Part"
-)  # Removed manual ΛTRACE prefix
+logger.debug("Part data model class (for summary part) defined.", class_name="Part")  # Removed manual ΛTRACE prefix
 
 
 # ΛNOTE: This class, `ResponseReasoningSummaryPartAddedEvent`, defines the symbolic structure

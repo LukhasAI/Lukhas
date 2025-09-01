@@ -321,9 +321,7 @@ class Orchestra:
 '''
         self.write_file(module_path / "oscillator.py", oscillator_content)
 
-        self.modules_created.extend(
-            [str(module_path / "bio_core.py"), str(module_path / "oscillator.py")]
-        )
+        self.modules_created.extend([str(module_path / "bio_core.py"), str(module_path / "oscillator.py")])
 
     def standardize_voice_synthesis(self):
         """Standardize voice synthesis module."""

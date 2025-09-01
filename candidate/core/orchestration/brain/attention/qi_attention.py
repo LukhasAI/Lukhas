@@ -33,9 +33,7 @@ class QIInspiredAttention:
         n_gates = len(self.attention_gates)
         # Create a simple superposition matrix for demonstration
         self.superposition_matrix = np.random.rand(n_gates, n_gates)
-        self.superposition_matrix = self.superposition_matrix / np.sum(
-            self.superposition_matrix, axis=1, keepdims=True
-        )
+        self.superposition_matrix = self.superposition_matrix / np.sum(self.superposition_matrix, axis=1, keepdims=True)
 
     def attend(self, input_data: dict, context: dict) -> dict:
         """Apply quantum-inspired attention to input data"""
@@ -60,9 +58,7 @@ class QIInspiredAttention:
         """Extract features from input data for attention processing"""
         features = {}
         features["semantic"] = input_data.get("text", "")[:100] if "text" in input_data else None
-        features["emotional"] = input_data.get(
-            "emotion", {"primary_emotion": "neutral", "intensity": 0.5}
-        )
+        features["emotional"] = input_data.get("emotion", {"primary_emotion": "neutral", "intensity": 0.5})
         features["contextual"] = input_data.get("context", {})
         features["historical"] = input_data.get("history", [])
         return features
@@ -91,9 +87,7 @@ class QIInspiredAttention:
         attended_data = copy.deepcopy(input_data)
         gate_keys = list(self.attention_gates.keys())
 
-        attended_data["attention_weights"] = {
-            gate_keys[i]: float(attention_weights[i]) for i in range(len(gate_keys))
-        }
+        attended_data["attention_weights"] = {gate_keys[i]: float(attention_weights[i]) for i in range(len(gate_keys))}
         attended_data["attention_applied"] = True
         return attended_data
 
@@ -117,9 +111,7 @@ class QIInspiredAttention:
         """Dynamically adjust attention gate weights"""
         for gate, adjustment in adjustments.items():
             if gate in self.attention_gates:
-                self.attention_gates[gate] = max(
-                    0.0, min(1.0, self.attention_gates[gate] + adjustment)
-                )
+                self.attention_gates[gate] = max(0.0, min(1.0, self.attention_gates[gate] + adjustment))
 
 
 __all__ = ["QIInspiredAttention"]

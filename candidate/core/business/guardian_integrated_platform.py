@@ -52,9 +52,7 @@ class GuardianSystemAdapter:
         self.current_drift = 0.0
         self.last_drift_check = datetime.now()
 
-    async def check_content_ethics(
-        self, content: dict[str, Any], user_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def check_content_ethics(self, content: dict[str, Any], user_context: dict[str, Any]) -> dict[str, Any]:
         """
         Check advertising content against Guardian System ethics.
 
@@ -156,9 +154,7 @@ class GuardianSystemAdapter:
         ]
         return any(pattern in text for pattern in manipulative_patterns)
 
-    def _exploits_vulnerability(
-        self, content: dict[str, Any], user_context: dict[str, Any]
-    ) -> bool:
+    def _exploits_vulnerability(self, content: dict[str, Any], user_context: dict[str, Any]) -> bool:
         """Check if content exploits user vulnerabilities."""
         # Check for financial stress exploitation
         if user_context.get("financial_stress", 0) > 0.7:
@@ -296,9 +292,7 @@ class GuardianIntegratedPlatform:
             "product_metadata": product_metadata,
         }
 
-        ethics_check = await self.guardian.check_content_ethics(
-            conversion_context, {"user_id": user_id}
-        )
+        ethics_check = await self.guardian.check_content_ethics(conversion_context, {"user_id": user_id})
 
         if not ethics_check["ethics_approved"]:
             return {

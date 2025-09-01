@@ -342,9 +342,7 @@ class P2PNode:
 
         return discovered
 
-    async def _handle_connection(
-        self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter
-    ) -> None:
+    async def _handle_connection(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
         """Handle incoming peer connection"""
         peer_address = writer.get_extra_info("peername")
         logger.debug(f"New connection from {peer_address}")
@@ -442,11 +440,7 @@ class P2PNode:
 
                 elif message.message_type == MessageType.DISCOVERY:
                     # Share peer list
-                    peer_list = [
-                        peer.to_dict()
-                        for peer in self.peers.values()
-                        if peer.status == PeerStatus.CONNECTED
-                    ]
+                    peer_list = [peer.to_dict() for peer in self.peers.values() if peer.status == PeerStatus.CONNECTED]
                     await self.send_to_peer(peer_id, {"peers": peer_list})
 
             except Exception as e:
@@ -618,11 +612,7 @@ class P2PNode:
         """Get network statistics"""
         connected_peers = [p for p in self.peers.values() if p.status == PeerStatus.CONNECTED]
 
-        avg_latency = (
-            sum(p.latency_ms for p in connected_peers) / len(connected_peers)
-            if connected_peers
-            else 0
-        )
+        avg_latency = sum(p.latency_ms for p in connected_peers) / len(connected_peers) if connected_peers else 0
 
         return {
             "node_id": self.node_id,

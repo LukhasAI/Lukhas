@@ -196,9 +196,7 @@ class BioSymbolicFallbackManager:
         fallback_level = self._determine_fallback_level(component, error, context)
         reason = self._determine_fallback_reason(error)
 
-        logger.warning(
-            f"🛡️ Activating {fallback_level.value} fallback for {component}: {str(error)[:100]}"
-        )
+        logger.warning(f"🛡️ Activating {fallback_level.value} fallback for {component}: {str(error)[:100]}")
 
         # Check circuit breaker
         if self._should_circuit_break(component):
@@ -265,9 +263,7 @@ class BioSymbolicFallbackManager:
             # Escalate to critical fallback
             return await self._critical_system_fallback(component, context, original_task)
 
-    def _determine_fallback_level(
-        self, component: str, error: Exception, context: dict[str, Any]
-    ) -> FallbackLevel:
+    def _determine_fallback_level(self, component: str, error: Exception, context: dict[str, Any]) -> FallbackLevel:
         """Determine appropriate fallback level based on error and component health."""
         component_health = self.component_health[component]
 
@@ -316,9 +312,7 @@ class BioSymbolicFallbackManager:
 
         return False
 
-    def _update_component_health(
-        self, component: str, fallback_level: FallbackLevel, success: bool
-    ):
+    def _update_component_health(self, component: str, fallback_level: FallbackLevel, success: bool):
         """Update component health based on fallback outcome."""
         current_health = self.component_health[component]
 
@@ -546,9 +540,7 @@ class BioSymbolicFallbackManager:
             "colony_id": "mapping_fallback",
         }
 
-    async def _fallback_mapping_severe(
-        self, context: dict[str, Any], task_id: str, error: Exception
-    ) -> dict[str, Any]:
+    async def _fallback_mapping_severe(self, context: dict[str, Any], task_id: str, error: Exception) -> dict[str, Any]:
         """Severe mapping fallback - minimal GLYPH."""
         return {
             "task_id": task_id,
@@ -749,9 +741,7 @@ class BioSymbolicFallbackManager:
             "orchestrator_id": "orchestrator_fallback_critical",
         }
 
-    async def _critical_system_fallback(
-        self, component: str, context: dict[str, Any], task_id: str
-    ) -> dict[str, Any]:
+    async def _critical_system_fallback(self, component: str, context: dict[str, Any], task_id: str) -> dict[str, Any]:
         """Last resort system fallback when all else fails."""
         logger.critical(f"🚨 CRITICAL SYSTEM FALLBACK activated for {component}")
 
@@ -773,9 +763,7 @@ class BioSymbolicFallbackManager:
         """Generate comprehensive system health report."""
         total_fallbacks = len(self.fallback_history)
         recent_fallbacks = [
-            event
-            for event in self.fallback_history
-            if event.timestamp > datetime.utcnow() - timedelta(hours=1)
+            event for event in self.fallback_history if event.timestamp > datetime.utcnow() - timedelta(hours=1)
         ]
 
         fallback_by_level = defaultdict(int)
@@ -787,18 +775,14 @@ class BioSymbolicFallbackManager:
 
         return {
             "timestamp": datetime.utcnow().isoformat(),
-            "overall_health": (
-                min(self.component_health.values()) if self.component_health else 1.0
-            ),
+            "overall_health": (min(self.component_health.values()) if self.component_health else 1.0),
             "component_health": dict(self.component_health),
             "total_fallbacks": total_fallbacks,
             "recent_fallbacks_1h": len(recent_fallbacks),
             "fallbacks_by_level": dict(fallback_by_level),
             "fallbacks_by_component": dict(fallback_by_component),
             "circuit_breakers": {
-                component: data["failures"]
-                for component, data in self.circuit_breakers.items()
-                if data["failures"] > 0
+                component: data["failures"] for component, data in self.circuit_breakers.items() if data["failures"] > 0
             },
             "recommendations": self._generate_health_recommendations(),
         }
@@ -810,13 +794,9 @@ class BioSymbolicFallbackManager:
         # Check component health
         for component, health in self.component_health.items():
             if health < 0.3:
-                recommendations.append(
-                    f"URGENT: {component} component health critical ({health:.1%})"
-                )
+                recommendations.append(f"URGENT: {component} component health critical ({health:.1%})")
             elif health < 0.5:
-                recommendations.append(
-                    f"WARNING: {component} component health degraded ({health:.1%})"
-                )
+                recommendations.append(f"WARNING: {component} component health degraded ({health:.1%})")
 
         # Check circuit breakers
         for component, data in self.circuit_breakers.items():
@@ -825,9 +805,7 @@ class BioSymbolicFallbackManager:
 
         # Check recent fallback activity
         recent_fallbacks = [
-            event
-            for event in self.fallback_history
-            if event.timestamp > datetime.utcnow() - timedelta(minutes=30)
+            event for event in self.fallback_history if event.timestamp > datetime.utcnow() - timedelta(minutes=30)
         ]
 
         if len(recent_fallbacks) > 10:

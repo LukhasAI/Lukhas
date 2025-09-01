@@ -59,9 +59,7 @@ class SymptomReporter:
         logger.info(f"Starting symptom reporting for user {user_id} in {mode} mode")
 
         # Initialize session
-        session_id = self.data_manager.create_diagnostic_session(
-            user_id, {"status": "active", "mode": mode}
-        )
+        session_id = self.data_manager.create_diagnostic_session(user_id, {"status": "active", "mode": mode})
         if not session_id:
             return {"status": "error", "message": "Could not create session"}
 

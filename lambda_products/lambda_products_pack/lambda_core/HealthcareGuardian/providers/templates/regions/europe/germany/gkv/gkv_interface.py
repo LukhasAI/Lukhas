@@ -52,9 +52,7 @@ class GKVInterface(EHRInterface):
         # - Verify healthcare provider card (HBA)
         pass
 
-    async def get_patient_record(
-        self, patient_id: str, record_types: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def get_patient_record(self, patient_id: str, record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from GKV
 
@@ -70,9 +68,7 @@ class GKVInterface(EHRInterface):
         # Implement GKV-specific record retrieval
         pass
 
-    async def verify_insurance_status(
-        self, versichertennummer: str, leistungsart: str
-    ) -> dict[str, Any]:
+    async def verify_insurance_status(self, versichertennummer: str, leistungsart: str) -> dict[str, Any]:
         """
         Verify insurance status and coverage
 
@@ -90,9 +86,7 @@ class GKVInterface(EHRInterface):
 
     async def submit_kvdt_data(self, patient_id: str, kvdt_data: dict[str, Any]) -> str:
         """Submit KV billing data"""
-        self.audit.log_access(
-            user_id=self.config["betriebsnummer"], action="submit_kvdt", resource_id=patient_id
-        )
+        self.audit.log_access(user_id=self.config["betriebsnummer"], action="submit_kvdt", resource_id=patient_id)
         # Implement KVDT submission
         pass
 
@@ -113,7 +107,5 @@ class GKVInterface(EHRInterface):
 
     async def handle_error(self, error: Exception) -> None:
         """Handle GKV-specific errors"""
-        self.audit.log_security_event(
-            event_type="error", severity="error", details={"error": str(error)}
-        )
+        self.audit.log_security_event(event_type="error", severity="error", details={"error": str(error)})
         # Implement GKV-specific error handling

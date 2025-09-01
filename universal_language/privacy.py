@@ -335,9 +335,7 @@ class PrivateSymbolVault:
 
         return concept_ids
 
-    def translate_universal_to_private(
-        self, concept_ids: list[str], mode: str = "preferred"
-    ) -> list[Any]:
+    def translate_universal_to_private(self, concept_ids: list[str], mode: str = "preferred") -> list[Any]:
         """
         Translate universal concept IDs to private tokens.
 
@@ -462,9 +460,7 @@ class PrivateSymbolVault:
                     # For bindings, we can merge the values if they're different
                     if existing_binding != imported_binding:
                         # Create a merged binding with both values
-                        if isinstance(existing_binding, list) and isinstance(
-                            imported_binding, list
-                        ):
+                        if isinstance(existing_binding, list) and isinstance(imported_binding, list):
                             merged_values = list(set(existing_binding + imported_binding))
                             self.bindings[binding_key] = merged_values
                         else:
@@ -481,9 +477,7 @@ class PrivateSymbolVault:
             # Update stats by merging counters
             for stat_key, stat_value in imported_stats.items():
                 if stat_key in self.stats:
-                    if isinstance(stat_value, (int, float)) and isinstance(
-                        self.stats[stat_key], (int, float)
-                    ):
+                    if isinstance(stat_value, (int, float)) and isinstance(self.stats[stat_key], (int, float)):
                         # Sum numeric stats
                         self.stats[stat_key] += stat_value
                     else:

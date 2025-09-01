@@ -327,9 +327,7 @@ class ConsciousnessHub:
         self.config = config or self._default_consciousness_config()
         self.is_initialized = False
 
-        logger.info(
-            f"🌟 Consciousness Hub '{self.consciousness_id}' beginning awakening sequence..."
-        )
+        logger.info(f"🌟 Consciousness Hub '{self.consciousness_id}' beginning awakening sequence...")
 
     def _default_consciousness_config(self) -> dict[str, Any]:
         """
@@ -677,9 +675,7 @@ class ConsciousnessHub:
 
         logger.info(f"🌟 Consciousness state transition: {old_state.value} → {new_state.value}")
 
-    def _record_state_transition(
-        self, from_state: ConsciousnessState, to_state: ConsciousnessState
-    ):
+    def _record_state_transition(self, from_state: ConsciousnessState, to_state: ConsciousnessState):
         """Record a consciousness state transition."""
         transition = (datetime.now(), from_state, to_state)
         self.state_history.append(transition)

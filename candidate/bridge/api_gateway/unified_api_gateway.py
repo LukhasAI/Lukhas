@@ -202,9 +202,7 @@ class UnifiedAPIGateway:
 
             # Log slow requests
             if latency_ms > self.target_latency_ms:
-                logger.warning(
-                    "Slow request: %s %s - %.2fms", request.method, request.url.path, latency_ms
-                )
+                logger.warning("Slow request: %s %s - %.2fms", request.method, request.url.path, latency_ms)
 
             return response
 
@@ -246,9 +244,7 @@ class UnifiedAPIGateway:
 
         # Provider-specific endpoints
         @self.app.post("/providers/{provider}/chat")
-        async def provider_chat_endpoint(
-            provider: str, request: ChatRequest, http_request: Request
-        ):
+        async def provider_chat_endpoint(provider: str, request: ChatRequest, http_request: Request):
             """Direct provider chat endpoint"""
             return await self._handle_provider_chat(provider, request, http_request)
 
@@ -261,16 +257,12 @@ class UnifiedAPIGateway:
             user_context = await self.auth_middleware.authenticate(http_request)
 
             # Rate limiting check
-            await self.rate_limiter.check_rate_limit(
-                user_context.get("user_id", "anonymous"), "chat"
-            )
+            await self.rate_limiter.check_rate_limit(user_context.get("user_id", "anonymous"), "chat")
 
             # Build orchestration request
             orchestration_request = OrchestrationRequest(
                 prompt=request.message,
-                task_type=TaskType(request.task_type)
-                if request.task_type
-                else TaskType.CONVERSATION,
+                task_type=TaskType(request.task_type) if request.task_type else TaskType.CONVERSATION,
                 providers=[AIProvider(p) for p in request.providers] if request.providers else [],
                 consensus_required=request.consensus_required,
                 max_latency_ms=request.max_latency_ms,
@@ -313,25 +305,19 @@ class UnifiedAPIGateway:
             logger.error("Chat request failed: %s", str(e))
             raise HTTPException(status_code=500, detail=f"Chat processing failed: {e!s}")
 
-    async def _handle_orchestration(
-        self, request: ChatRequest, http_request: Request
-    ) -> OrchestrationResponse:
+    async def _handle_orchestration(self, request: ChatRequest, http_request: Request) -> OrchestrationResponse:
         """Handle full orchestration requests with detailed response"""
         start_time = time.time()
 
         try:
             # Authentication and rate limiting
             user_context = await self.auth_middleware.authenticate(http_request)
-            await self.rate_limiter.check_rate_limit(
-                user_context.get("user_id", "anonymous"), "orchestrate"
-            )
+            await self.rate_limiter.check_rate_limit(user_context.get("user_id", "anonymous"), "orchestrate")
 
             # Execute orchestration
             orchestration_request = OrchestrationRequest(
                 prompt=request.message,
-                task_type=TaskType(request.task_type)
-                if request.task_type
-                else TaskType.CONVERSATION,
+                task_type=TaskType(request.task_type) if request.task_type else TaskType.CONVERSATION,
                 providers=[AIProvider(p) for p in request.providers] if request.providers else [],
                 consensus_required=request.consensus_required,
                 max_latency_ms=request.max_latency_ms,
@@ -386,9 +372,7 @@ class UnifiedAPIGateway:
             logger.error("Orchestration request failed: %s", str(e))
             raise HTTPException(status_code=500, detail=f"Orchestration failed: {e!s}")
 
-    async def _handle_provider_chat(
-        self, provider: str, request: ChatRequest, http_request: Request
-    ) -> ChatResponse:
+    async def _handle_provider_chat(self, provider: str, request: ChatRequest, http_request: Request) -> ChatResponse:
         """Handle direct provider chat requests"""
         start_time = time.time()
 
@@ -401,16 +385,12 @@ class UnifiedAPIGateway:
 
             # Authentication and rate limiting
             user_context = await self.auth_middleware.authenticate(http_request)
-            await self.rate_limiter.check_rate_limit(
-                user_context.get("user_id", "anonymous"), f"provider_{provider}"
-            )
+            await self.rate_limiter.check_rate_limit(user_context.get("user_id", "anonymous"), f"provider_{provider}")
 
             # Direct provider execution
             orchestration_request = OrchestrationRequest(
                 prompt=request.message,
-                task_type=TaskType(request.task_type)
-                if request.task_type
-                else TaskType.CONVERSATION,
+                task_type=TaskType(request.task_type) if request.task_type else TaskType.CONVERSATION,
                 providers=[ai_provider],
                 consensus_required=False,  # Single provider
                 max_latency_ms=request.max_latency_ms,

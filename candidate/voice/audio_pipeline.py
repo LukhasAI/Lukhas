@@ -222,9 +222,7 @@ class InputValidationStage(PipelineStageProcessor):
         super().__init__(PipelineStage.INPUT_VALIDATION)
         self.guardian = GuardianValidator()
 
-    async def process(
-        self, input_data: PipelineInput, context: dict[str, Any]
-    ) -> tuple[PipelineInput, dict[str, Any]]:
+    async def process(self, input_data: PipelineInput, context: dict[str, Any]) -> tuple[PipelineInput, dict[str, Any]]:
         """Validate input data"""
         # Guardian validation
         validation_result = await self.guardian.validate_operation(
@@ -266,9 +264,7 @@ class TTSSynthesisStage(PipelineStageProcessor):
         super().__init__(PipelineStage.TTS_SYNTHESIS)
         self.tts_service = LUKHASTTSService(config)
 
-    async def process(
-        self, input_data: PipelineInput, context: dict[str, Any]
-    ) -> tuple[AudioBuffer, dict[str, Any]]:
+    async def process(self, input_data: PipelineInput, context: dict[str, Any]) -> tuple[AudioBuffer, dict[str, Any]]:
         """Synthesize speech from text"""
         # Create TTS request
         tts_request = TTSRequest(
@@ -290,9 +286,7 @@ class TTSSynthesisStage(PipelineStageProcessor):
 
         # Convert to AudioBuffer
         if tts_response.audio_data:
-            audio_array = (
-                np.frombuffer(tts_response.audio_data, dtype=np.int16).astype(np.float32) / 32768.0
-            )
+            audio_array = np.frombuffer(tts_response.audio_data, dtype=np.int16).astype(np.float32) / 32768.0
             buffer = AudioBuffer(
                 data=audio_array,
                 sample_rate=tts_response.sample_rate,
@@ -343,9 +337,7 @@ class VoiceModulationStage(PipelineStageProcessor):
             return audio_buffer, {"modulation_applied": False, "error": mod_metadata.get("error")}
 
         # Convert back to AudioBuffer
-        modulated_array = (
-            np.frombuffer(modulated_bytes, dtype=np.int16).astype(np.float32) / 32768.0
-        )
+        modulated_array = np.frombuffer(modulated_bytes, dtype=np.int16).astype(np.float32) / 32768.0
         modulated_buffer = AudioBuffer(
             data=modulated_array,
             sample_rate=audio_buffer.sample_rate,
@@ -396,9 +388,7 @@ class EffectsProcessingStage(PipelineStageProcessor):
                     custom_params=effect_params.get("custom_params", {}),
                 )
 
-                current_buffer = await self.effects_processor.apply_effect(
-                    current_buffer, effect_type, params
-                )
+                current_buffer = await self.effects_processor.apply_effect(current_buffer, effect_type, params)
                 effects_applied.append(effect_type.value)
             except Exception as e:
                 self.logger.warning(f"Effect {effect_type.value} failed: {e!s}")
@@ -439,9 +429,7 @@ class AudioProcessingStage(PipelineStageProcessor):
             return audio_buffer, {"processing_applied": False, "error": proc_metadata.get("error")}
 
         # Convert back to AudioBuffer
-        processed_array = (
-            np.frombuffer(processed_bytes, dtype=np.int16).astype(np.float32) / 32768.0
-        )
+        processed_array = np.frombuffer(processed_bytes, dtype=np.int16).astype(np.float32) / 32768.0
         processed_buffer = AudioBuffer(
             data=processed_array,
             sample_rate=audio_buffer.sample_rate,
@@ -460,9 +448,7 @@ class OutputFormattingStage(PipelineStageProcessor):
         super().__init__(PipelineStage.OUTPUT_FORMATTING)
         self.config = config
 
-    async def process(
-        self, input_data: AudioBuffer, context: dict[str, Any]
-    ) -> tuple[bytes, dict[str, Any]]:
+    async def process(self, input_data: AudioBuffer, context: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
         """Format audio output"""
         audio_buffer = input_data
 
@@ -505,9 +491,7 @@ class LUKHASAudioPipeline:
             PipelineStage.TTS_SYNTHESIS: TTSSynthesisStage(self.config.tts_config),
             PipelineStage.VOICE_MODULATION: VoiceModulationStage(self.config.modulation_config),
             PipelineStage.EFFECTS_PROCESSING: EffectsProcessingStage(self.config.effects_config),
-            PipelineStage.AUDIO_PROCESSING: AudioProcessingStage(
-                self.config.audio_processing_config
-            ),
+            PipelineStage.AUDIO_PROCESSING: AudioProcessingStage(self.config.audio_processing_config),
             PipelineStage.OUTPUT_FORMATTING: OutputFormattingStage(self.config),
         }
 
@@ -549,9 +533,7 @@ class LUKHASAudioPipeline:
             )
 
             if not validation_result.get("approved", False):
-                output.error_message = (
-                    f"Guardian rejected pipeline: {validation_result.get('reason')}"
-                )
+                output.error_message = f"Guardian rejected pipeline: {validation_result.get('reason')}"
                 return output
 
             # Process through enabled stages
@@ -566,19 +548,14 @@ class LUKHASAudioPipeline:
                     processor = self.stages[stage]
 
                     # Handle different stage input/output types
-                    if (
-                        stage == PipelineStage.INPUT_VALIDATION
-                        or stage == PipelineStage.TTS_SYNTHESIS
-                    ):
+                    if stage == PipelineStage.INPUT_VALIDATION or stage == PipelineStage.TTS_SYNTHESIS:
                         current_data, stage_metadata = await processor.process(current_data, {})
                     elif stage in [
                         PipelineStage.VOICE_MODULATION,
                         PipelineStage.EFFECTS_PROCESSING,
                         PipelineStage.AUDIO_PROCESSING,
                     ]:
-                        current_data, stage_metadata = await processor.process(
-                            (current_data, input_data), {}
-                        )
+                        current_data, stage_metadata = await processor.process((current_data, input_data), {})
                     elif stage == PipelineStage.OUTPUT_FORMATTING:
                         current_data, stage_metadata = await processor.process(current_data, {})
                     else:
@@ -599,9 +576,7 @@ class LUKHASAudioPipeline:
 
                     # Update stage failure rate
                     current_rate = self.stats["stage_success_rates"][stage.value]
-                    self.stats["stage_success_rates"][stage.value] = (
-                        current_rate * 0.95
-                    )  # Decay rate
+                    self.stats["stage_success_rates"][stage.value] = current_rate * 0.95  # Decay rate
 
                     return output
 
@@ -628,8 +603,7 @@ class LUKHASAudioPipeline:
 
             # Update average processing time
             self.stats["average_processing_time"] = (
-                self.stats["average_processing_time"] * (self.stats["pipelines_successful"] - 1)
-                + processing_time
+                self.stats["average_processing_time"] * (self.stats["pipelines_successful"] - 1) + processing_time
             ) / self.stats["pipelines_successful"]
 
             # Emit GLYPH event
@@ -659,9 +633,7 @@ class LUKHASAudioPipeline:
 
             return output
 
-    async def process_streaming(
-        self, input_data: PipelineInput
-    ) -> AsyncGenerator[dict[str, Any], None]:
+    async def process_streaming(self, input_data: PipelineInput) -> AsyncGenerator[dict[str, Any], None]:
         """
         Process audio with streaming output
 
@@ -721,9 +693,7 @@ async def text_to_speech_pipeline(
     """
     pipeline = LUKHASAudioPipeline()
 
-    input_data = PipelineInput(
-        text=text, voice_id=voice_id, quality_preference=quality, effects_preset=effects_preset
-    )
+    input_data = PipelineInput(text=text, voice_id=voice_id, quality_preference=quality, effects_preset=effects_preset)
 
     result = await pipeline.process(input_data)
 

@@ -59,9 +59,7 @@ class NIASCore:
         if self.dream_bridge:
             self._setup_dream_integration()
 
-    async def push_symbolic_message(
-        self, message: dict[str, Any], user_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def push_symbolic_message(self, message: dict[str, Any], user_context: dict[str, Any]) -> dict[str, Any]:
         """
         Main entry point for symbolic message delivery.
         Routes through consent, emotional, and symbolic filters.
@@ -124,9 +122,7 @@ class SymbolicMatcher:
     def __init__(self, openai_client=None):
         self.openai = openai_client
 
-    async def match_message_to_context(
-        self, message: dict[str, Any], user_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def match_message_to_context(self, message: dict[str, Any], user_context: dict[str, Any]) -> dict[str, Any]:
         """
         Match symbolic message to user context using AI when available.
         """
@@ -193,9 +189,7 @@ class DreamRecorder:
     def __init__(self):
         self.dream_queue = []
 
-    async def record_dream_message(
-        self, message: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def record_dream_message(self, message: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Record message for later dream processing"""
         import datetime
 

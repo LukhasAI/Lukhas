@@ -421,9 +421,7 @@ def _format_viz(data, viz_kind, device):
     encoded_buffer = base64.b64encode(buffer).decode("utf-8")
 
     json_format = json.dumps([{"name": "snapshot.pickle", "base64": encoded_buffer}])
-    return _memory_viz_template.replace("$VIZ_KIND", repr(viz_kind)).replace(
-        "$SNAPSHOT", json_format
-    )
+    return _memory_viz_template.replace("$VIZ_KIND", repr(viz_kind)).replace("$SNAPSHOT", json_format)
 
 
 def trace_plot(data, device=None, plot_segments=False):
@@ -542,9 +540,7 @@ def _profile_to_snapshot(profile):
             free(kv_to_elem.pop((tensor_key, version)), to_device(tensor_key.device))
             kv_to_elem[(tensor_key, version + 1)] = allocate(size, tensor_key, version + 1)
         elif action == Action.PREEXISTING:
-            kv_to_elem[(tensor_key, version)] = allocate(
-                size, tensor_key, version, during_trace=False
-            )
+            kv_to_elem[(tensor_key, version)] = allocate(size, tensor_key, version, during_trace=False)
 
     # create the final snapshot state
     blocks_at_end = [
@@ -619,7 +615,9 @@ if __name__ == "__main__":
             help="flamegraph svg (default: output.svg)",
         )
 
-    description = "Prints overall allocation statistics and a visualization of how the allocators segments are currently filled."
+    description = (
+        "Prints overall allocation statistics and a visualization of how the allocators segments are currently filled."
+    )
     stats_a = subparsers.add_parser("stats", description=description)
     stats_a.add_argument("input", help=pickled)
 

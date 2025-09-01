@@ -121,9 +121,7 @@ class LintCommand(BaseCommand):
     """Base class for linting commands"""
 
     def setup_parser(self, parser: argparse.ArgumentParser) -> None:
-        parser.add_argument(
-            "--fix", action="store_true", help="Automatically fix issues where possible"
-        )
+        parser.add_argument("--fix", action="store_true", help="Automatically fix issues where possible")
         parser.add_argument("--config", type=Path, help="Path to configuration file")
 
 

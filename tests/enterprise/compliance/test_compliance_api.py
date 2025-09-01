@@ -108,9 +108,7 @@ def test_list_policies(client):
 
 def test_protect_data(client, mock_dp_service):
     """Test the /protection/protect endpoint."""
-    response = client.post(
-        "/protection/protect", json={"data": "test", "policy_id": "pii_protection"}
-    )
+    response = client.post("/protection/protect", json={"data": "test", "policy_id": "pii_protection"})
     assert response.status_code == 200
     data = response.json()
     assert data["protected_data"]["encrypted"] is True

@@ -65,9 +65,7 @@ class PlanetaryConsciousnessNetwork:
             "solar_consciousness_influence": await self.solar_activity.get_consciousness_impact(),
             "lunar_consciousness_amplification": await self.lunar_cycles.get_current_amplification(),
             "morphic_field_coherence": morphic_coherence,
-            "planetary_evolution_phase": "integration"
-            if morphic_coherence > 0.5
-            else "diversification",
+            "planetary_evolution_phase": "integration" if morphic_coherence > 0.5 else "diversification",
         }
 
     async def coordinate_with_planetary_field(

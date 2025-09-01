@@ -102,10 +102,7 @@ class PracticalIntegrationHub:
         connections_made = 0
 
         # Core ↔ Consciousness connection
-        if (
-            "core_hub" in self.available_components
-            and "consciousness_hub" in self.available_components
-        ):
+        if "core_hub" in self.available_components and "consciousness_hub" in self.available_components:
             try:
                 self.core_hub.register_service("consciousness_hub", self.consciousness_hub)
                 connections_made += 1
@@ -114,10 +111,7 @@ class PracticalIntegrationHub:
                 logger.warning(f"⚠️ Core ↔ Consciousness connection failed: {e}")
 
         # Core ↔ Ethics connection
-        if (
-            "core_hub" in self.available_components
-            and "ethics_service" in self.available_components
-        ):
+        if "core_hub" in self.available_components and "ethics_service" in self.available_components:
             try:
                 self.core_hub.register_service("ethics_service", self.ethics_service)
                 connections_made += 1
@@ -126,10 +120,7 @@ class PracticalIntegrationHub:
                 logger.warning(f"⚠️ Core ↔ Ethics connection failed: {e}")
 
         # Unified Ethics ↔ Core connection (Phase 1.2 implementation)
-        if (
-            "core_hub" in self.available_components
-            and "unified_ethics" in self.available_components
-        ):
+        if "core_hub" in self.available_components and "unified_ethics" in self.available_components:
             try:
                 self.core_hub.register_service("unified_ethics", self.unified_ethics)
                 connections_made += 1
@@ -144,9 +135,7 @@ class PracticalIntegrationHub:
         working_components = len([s for s in self.integration_status.values() if s == "active"])
         total_components = len(self.integration_status)
 
-        connectivity_percentage = (
-            (working_components / total_components) * 100 if total_components > 0 else 0
-        )
+        connectivity_percentage = (working_components / total_components) * 100 if total_components > 0 else 0
 
         logger.info("=" * 60)
         logger.info("🏗️  PRACTICAL INTEGRATION HUB STATUS REPORT")
@@ -157,9 +146,7 @@ class PracticalIntegrationHub:
         logger.info("")
 
         for component, status in self.integration_status.items():
-            status_icon = (
-                "✅" if status == "active" else "❌" if status.startswith("failed") else "⚠️"
-            )
+            status_icon = "✅" if status == "active" else "❌" if status.startswith("failed") else "⚠️"
             logger.info(f"{status_icon} {component}: {status}")
 
         logger.info("")
@@ -181,9 +168,7 @@ class PracticalIntegrationHub:
         )
         logger.info("=" * 60)
 
-    async def process_integrated_request(
-        self, request_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_integrated_request(self, request_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Process requests through integrated systems"""
         try:
             result = {
@@ -193,16 +178,11 @@ class PracticalIntegrationHub:
             }
 
             # Route through appropriate system
-            if (
-                request_type.startswith("consciousness_")
-                and "consciousness_hub" in self.available_components
-            ):
+            if request_type.startswith("consciousness_") and "consciousness_hub" in self.available_components:
                 # Process through consciousness hub
                 result["consciousness_response"] = await self._process_consciousness_request(data)
 
-            elif (
-                request_type.startswith("ethics_") and "ethics_service" in self.available_components
-            ):
+            elif request_type.startswith("ethics_") and "ethics_service" in self.available_components:
                 # Process through ethics service
                 result["ethics_response"] = await self._process_ethics_request(data)
 
@@ -266,9 +246,7 @@ class PracticalIntegrationHub:
             "timestamp": datetime.now().isoformat(),
             "working_components": working_components,
             "total_components": total_components,
-            "connectivity_percentage": (
-                (working_components / total_components) * 100 if total_components > 0 else 0
-            ),
+            "connectivity_percentage": ((working_components / total_components) * 100 if total_components > 0 else 0),
             "component_status": self.integration_status,
             "available_services": list(self.available_components.keys()),
             "phase_1_goals": {

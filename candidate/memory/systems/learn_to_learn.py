@@ -34,9 +34,7 @@ class MetaLearningSystem:
         self.config: dict[str, Any] = config or {}
         self.learning_strategies: dict[str, dict[str, Any]] = self._initialize_strategies()
         self.strategy_performance: dict[str, dict[str, Any]] = {}
-        self.exploration_rate: float = self.config.get(
-            "initial_exploration_rate", 0.15
-        )  # Reduced default exploration
+        self.exploration_rate: float = self.config.get("initial_exploration_rate", 0.15)  # Reduced default exploration
         self.learning_cycle_count: int = 0
         self.overall_performance_history: list[dict[str, Any]] = []
         self.meta_parameters: dict[str, float] = self.config.get(
@@ -54,9 +52,7 @@ class MetaLearningSystem:
         )
 
     @lukhas_tier_required(3)
-    def optimize_learning_approach(
-        self, context: dict[str, Any], available_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def optimize_learning_approach(self, context: dict[str, Any], available_data: dict[str, Any]) -> dict[str, Any]:
         """Analyzes context/data, selects/applies learning strategy, evaluates, and adapts."""
         self.learning_cycle_count += 1
         log.info(
@@ -115,12 +111,8 @@ class MetaLearningSystem:
             return
         log.info("Incorporating feedback.", strategy=name, keys=list(feedback_data.keys()))
         if "performance_rating" in feedback_data:
-            self._update_strategy_performance_record(
-                name, {"user_rating": float(feedback_data["performance_rating"])}
-            )
-        if "parameter_adjustments" in feedback_data and isinstance(
-            feedback_data["parameter_adjustments"], dict
-        ):
+            self._update_strategy_performance_record(name, {"user_rating": float(feedback_data["performance_rating"])})
+        if "parameter_adjustments" in feedback_data and isinstance(feedback_data["parameter_adjustments"], dict):
             self._tune_strategy_parameters(name, feedback_data["parameter_adjustments"])
 
     @lukhas_tier_required(1)
@@ -136,9 +128,7 @@ class MetaLearningSystem:
             "ts_utc_iso": datetime.now(timezone.utc).isoformat(),
             "cycles": self.learning_cycle_count,
             "top_strategies": [n for n, d in sorted_strategies[:3]],
-            "usage_counts": {
-                n: d.get("usage_count", 0) for n, d in self.strategy_performance.items()
-            },
+            "usage_counts": {n: d.get("usage_count", 0) for n, d in self.strategy_performance.items()},
             "exploration_rate": self.exploration_rate,
             "meta_params": self.meta_parameters.copy(),
             "adaptation_metric": self._calculate_adaptation_progress_metric(),
@@ -257,14 +247,10 @@ class MetaLearningSystem:
         if len(self.overall_performance_history) >= 10:
             scores = [p.get("overall_score", 0.0) for p in self.overall_performance_history[-10:]]
             if len(scores) >= 5:
-                trend = (
-                    np.polyfit(range(len(scores)), scores, 1)[0] if len(scores) > 1 else 0
-                )  # Slope
+                trend = np.polyfit(range(len(scores)), scores, 1)[0] if len(scores) > 1 else 0  # Slope
                 if trend < 0.005:
                     self.exploration_rate = np.clip(self.exploration_rate * 1.05, 0.05, 0.5)
-                    log.info(
-                        "Increased exploration.", new_rate=self.exploration_rate
-                    )  # Increased max exploration
+                    log.info("Increased exploration.", new_rate=self.exploration_rate)  # Increased max exploration
                 else:
                     self.exploration_rate = np.clip(self.exploration_rate * 0.98, 0.05, 0.5)
 

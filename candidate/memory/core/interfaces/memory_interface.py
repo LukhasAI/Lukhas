@@ -227,9 +227,7 @@ class BaseMemoryInterface(ABC):
         )
 
     @abstractmethod
-    async def create_memory(
-        self, content: Any, metadata: Optional[MemoryMetadata] = None, **kwargs
-    ) -> MemoryResponse:
+    async def create_memory(self, content: Any, metadata: Optional[MemoryMetadata] = None, **kwargs) -> MemoryResponse:
         """Create a new memory"""
 
     @abstractmethod
@@ -320,9 +318,7 @@ class BaseMemoryInterface(ABC):
                     **operation.parameters,
                 )
             elif operation.operation_type == "read":
-                response = await self.read_memory(
-                    memory_id=operation.memory_id, **operation.parameters
-                )
+                response = await self.read_memory(memory_id=operation.memory_id, **operation.parameters)
             elif operation.operation_type == "update":
                 response = await self.update_memory(
                     memory_id=operation.memory_id,
@@ -331,16 +327,10 @@ class BaseMemoryInterface(ABC):
                     **operation.parameters,
                 )
             elif operation.operation_type == "delete":
-                response = await self.delete_memory(
-                    memory_id=operation.memory_id, **operation.parameters
-                )
+                response = await self.delete_memory(memory_id=operation.memory_id, **operation.parameters)
             elif operation.operation_type == "search":
-                responses = await self.search_memories(
-                    query=operation.content, **operation.parameters
-                )
-                response = MemoryResponse(
-                    operation_id=operation.operation_id, success=True, content=responses
-                )
+                responses = await self.search_memories(query=operation.content, **operation.parameters)
+                response = MemoryResponse(operation_id=operation.operation_id, success=True, content=responses)
             else:
                 response = MemoryResponse(
                     operation_id=operation.operation_id,
@@ -369,9 +359,7 @@ class BaseMemoryInterface(ABC):
         finally:
             self.total_operations += 1
 
-    async def _execute_in_colony(
-        self, operation: MemoryOperation, colony_id: str
-    ) -> MemoryResponse:
+    async def _execute_in_colony(self, operation: MemoryOperation, colony_id: str) -> MemoryResponse:
         """Execute operation in specific colony"""
         # In a real implementation, this would route to the actual colony
         # For now, simulate distributed execution
@@ -379,9 +367,7 @@ class BaseMemoryInterface(ABC):
         response.responding_colony = colony_id
         return response
 
-    def _achieve_consensus(
-        self, operation: MemoryOperation, responses: dict[str, MemoryResponse]
-    ) -> MemoryResponse:
+    def _achieve_consensus(self, operation: MemoryOperation, responses: dict[str, MemoryResponse]) -> MemoryResponse:
         """Achieve consensus across colony responses"""
         successful_responses = [r for r in responses.values() if r.success]
         success_rate = len(successful_responses) / len(responses)
@@ -444,9 +430,7 @@ class MemoryInterfaceRegistry:
         self._interfaces[memory_type] = interface
         logger.info(f"Registered {memory_type.value} memory interface")
 
-    def register_factory(
-        self, memory_type: MemoryType, factory: Callable[..., BaseMemoryInterface]
-    ):
+    def register_factory(self, memory_type: MemoryType, factory: Callable[..., BaseMemoryInterface]):
         """Register a factory for creating memory interfaces"""
         self._factories[memory_type] = factory
         logger.info(f"Registered {memory_type.value} memory factory")

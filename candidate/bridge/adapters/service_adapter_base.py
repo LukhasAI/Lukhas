@@ -461,9 +461,7 @@ class BaseServiceAdapter(ABC):
         if not self.ledger:
             return True  # Allow if ledger not available (testing)
 
-        consent_check = self.ledger.check_consent(
-            lid=lid, resource_type=self.service_name, action=action
-        )
+        consent_check = self.ledger.check_consent(lid=lid, resource_type=self.service_name, action=action)
         return consent_check["allowed"]
 
     async def authenticate_with_identity(self, lid: str, credentials: dict) -> dict:
@@ -503,9 +501,7 @@ class BaseServiceAdapter(ABC):
         pass
 
     @abstractmethod
-    async def fetch_resource(
-        self, lid: str, resource_id: str, capability_token: CapabilityToken
-    ) -> dict:
+    async def fetch_resource(self, lid: str, resource_id: str, capability_token: CapabilityToken) -> dict:
         """Fetch resource from external service"""
         pass
 
@@ -528,9 +524,7 @@ class BaseServiceAdapter(ABC):
         # Add consciousness system status if available
         if self.kernel_bus and self.consciousness_active:
             with contextlib.suppress(Exception):
-                status["consciousness_status"] = self.kernel_bus.get_service_status(
-                    f"adapter.{self.service_name}"
-                )
+                status["consciousness_status"] = self.kernel_bus.get_service_status(f"adapter.{self.service_name}")
 
         return status
 
@@ -538,9 +532,7 @@ class BaseServiceAdapter(ABC):
         """Persist adapter state using Memory service"""
         if self.memory_service:
             try:
-                await self.memory_service.store_adapter_state(
-                    adapter_name=self.service_name, state=state_data
-                )
+                await self.memory_service.store_adapter_state(adapter_name=self.service_name, state=state_data)
                 return True
             except Exception:
                 return False
@@ -703,9 +695,7 @@ class RateLimiter:
             self.requests[lid] = []
 
         # Clean old requests outside window
-        self.requests[lid] = [
-            (ts, act) for ts, act in self.requests[lid] if now - ts < self.window_seconds
-        ]
+        self.requests[lid] = [(ts, act) for ts, act in self.requests[lid] if now - ts < self.window_seconds]
 
         # Check if over limit
         current_count = len(self.requests[lid])

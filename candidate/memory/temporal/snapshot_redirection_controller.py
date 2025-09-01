@@ -118,12 +118,8 @@ class SnapshotRedirectionController:
             if not prev_emotion or not curr_emotion:
                 continue
 
-            prev_vector = np.array(
-                list(EmotionVector(prev_emotion.get("dimensions")).values.values())
-            )
-            curr_vector = np.array(
-                list(EmotionVector(curr_emotion.get("dimensions")).values.values())
-            )
+            prev_vector = np.array(list(EmotionVector(prev_emotion.get("dimensions")).values.values()))
+            curr_vector = np.array(list(EmotionVector(curr_emotion.get("dimensions")).values.values()))
 
             prev_timestamp_str = prev_snapshot.get("timestamp")
             curr_timestamp_str = curr_snapshot.get("timestamp")
@@ -170,9 +166,7 @@ class SnapshotRedirectionController:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    def _log_redirect(
-        self, snapshot: dict[str, Any], drift_score: float, narrative: dict[str, Any]
-    ):
+    def _log_redirect(self, snapshot: dict[str, Any], drift_score: float, narrative: dict[str, Any]):
         """
         Logs the redirection event.
 
@@ -276,8 +270,7 @@ class SnapshotRedirectionController:
             return None
 
         historical_drift = [
-            self._calculate_emotional_drift(recent_snapshots[: i + 1])
-            for i in range(1, len(recent_snapshots))
+            self._calculate_emotional_drift(recent_snapshots[: i + 1]) for i in range(1, len(recent_snapshots))
         ]
         historical_drift = [drift for drift in historical_drift if drift is not None]
 

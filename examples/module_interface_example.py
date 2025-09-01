@@ -359,9 +359,7 @@ class DataAnalyzer(CoreInterface):
         else:
             # Running average
             current_avg = self.metrics["average_time_ms"]
-            self.metrics["average_time_ms"] = (
-                current_avg * (total_analyses - 1) + elapsed_ms
-            ) / total_analyses
+            self.metrics["average_time_ms"] = (current_avg * (total_analyses - 1) + elapsed_ms) / total_analyses
 
     # Required interface methods
 
@@ -518,9 +516,7 @@ async def main():
 
     mock_consciousness = Mock()
     mock_consciousness.assess_awareness = AsyncMock(return_value={"overall_awareness": 0.8})
-    mock_consciousness.make_decision = AsyncMock(
-        return_value={"selected_option": "detailed", "confidence": 0.9}
-    )
+    mock_consciousness.make_decision = AsyncMock(return_value={"selected_option": "detailed", "confidence": 0.9})
 
     mock_guardian = Mock()
     mock_guardian.validate_action = AsyncMock(

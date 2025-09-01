@@ -55,9 +55,7 @@ def get_incident_statistics():
         content={
             "total_incidents": len(incidents),
             "incidents_24h": len(recent_24h),
-            "most_attempted_tools": sorted(tool_attempts.items(), key=lambda x: x[1], reverse=True)[
-                :10
-            ],
+            "most_attempted_tools": sorted(tool_attempts.items(), key=lambda x: x[1], reverse=True)[:10],
             "current_analytics": analytics.get_analytics_summary(),
             "recommendations": generate_recommendations(incidents, analytics),
         }

@@ -147,9 +147,7 @@ class MemoryFoldSystem:
         self.tag_name_index: dict[str, str] = {}  # tag_name -> tag_id (for deduplication)
 
         # Tag relationships (for semantic network)
-        self.tag_relationships: dict[str, dict[str, float]] = defaultdict(
-            dict
-        )  # tag_id -> {related_tag_id: weight}
+        self.tag_relationships: dict[str, dict[str, float]] = defaultdict(dict)  # tag_id -> {related_tag_id: weight}
 
         # Configuration
         self.enable_auto_tagging = enable_auto_tagging
@@ -266,11 +264,7 @@ class MemoryFoldSystem:
 
         # Record significant memories in structural conscience
         if self.structural_conscience and emotional_weight > 0.7:
-            severity = (
-                ConscienceSeverity.SIGNIFICANT
-                if emotional_weight > 0.9
-                else ConscienceSeverity.NOTABLE
-            )
+            severity = ConscienceSeverity.SIGNIFICANT if emotional_weight > 0.9 else ConscienceSeverity.NOTABLE
 
             await self.structural_conscience.record_moral_decision(
                 decision={
@@ -376,9 +370,7 @@ class MemoryFoldSystem:
                 # Increase relationship weight
                 current_weight = self.tag_relationships[tag_id].get(other_tag_id, 0.0)
                 self.tag_relationships[tag_id][other_tag_id] = min(current_weight + 0.1, 1.0)
-                self.tag_relationships[other_tag_id][tag_id] = self.tag_relationships[tag_id][
-                    other_tag_id
-                ]
+                self.tag_relationships[other_tag_id][tag_id] = self.tag_relationships[tag_id][other_tag_id]
 
     async def fold_out_by_tag(
         self,
@@ -436,9 +428,7 @@ class MemoryFoldSystem:
 
                     # Get item and its tags
                     item = self.items[item_id]
-                    item_tag_names = {
-                        self.tag_registry[tid].tag_name for tid in self.item_tags[item_id]
-                    }
+                    item_tag_names = {self.tag_registry[tid].tag_name for tid in self.item_tags[item_id]}
 
                     # Update access statistics
                     item.access_count += 1
@@ -480,9 +470,7 @@ class MemoryFoldSystem:
 
         return results
 
-    async def export_archive(
-        self, path: Path, filter_tags: Optional[list[str]] = None, **kwargs
-    ) -> dict[str, Any]:
+    async def export_archive(self, path: Path, filter_tags: Optional[list[str]] = None, **kwargs) -> dict[str, Any]:
         """
         Export memory folds to LKF-Pack archive.
 
@@ -500,9 +488,7 @@ class MemoryFoldSystem:
         for item_id, item in self.items.items():
             # Apply tag filter if specified
             if filter_tags:
-                item_tag_names = {
-                    self.tag_registry[tid].tag_name for tid in self.item_tags[item_id]
-                }
+                item_tag_names = {self.tag_registry[tid].tag_name for tid in self.item_tags[item_id]}
                 if not any(tag in item_tag_names for tag in filter_tags):
                     continue
 
@@ -523,9 +509,7 @@ class MemoryFoldSystem:
         # Export using foldout module
         return export_folds(folds_to_export, path, **kwargs)
 
-    async def import_archive(
-        self, path: Path, overwrite: bool = False, merge_tags: bool = True
-    ) -> dict[str, Any]:
+    async def import_archive(self, path: Path, overwrite: bool = False, merge_tags: bool = True) -> dict[str, Any]:
         """
         Import memory folds from LKF-Pack archive.
 
@@ -582,9 +566,7 @@ class MemoryFoldSystem:
         stats = self.stats.copy()
 
         # Calculate additional metrics
-        stats["average_tags_per_item"] = sum(len(tags) for tags in self.item_tags.values()) / max(
-            len(self.items), 1
-        )
+        stats["average_tags_per_item"] = sum(len(tags) for tags in self.item_tags.values()) / max(len(self.items), 1)
         stats["average_items_per_tag"] = sum(len(items) for items in self.tag_items.values()) / max(
             len(self.tag_registry), 1
         )
@@ -596,9 +578,7 @@ class MemoryFoldSystem:
 
 
 # Factory function
-def create_memory_fold_system(
-    enable_conscience: bool = True, enable_auto_tagging: bool = True
-) -> MemoryFoldSystem:
+def create_memory_fold_system(enable_conscience: bool = True, enable_auto_tagging: bool = True) -> MemoryFoldSystem:
     """
     Create a configured Memory Fold System.
 
@@ -615,6 +595,4 @@ def create_memory_fold_system(
 
         conscience = create_structural_conscience()
 
-    return MemoryFoldSystem(
-        structural_conscience=conscience, enable_auto_tagging=enable_auto_tagging
-    )
+    return MemoryFoldSystem(structural_conscience=conscience, enable_auto_tagging=enable_auto_tagging)

@@ -83,9 +83,7 @@ class KaiserPermanenteInterface(EHRInterface):
         # - Set up HealthConnect access
         pass
 
-    async def get_patient_record(
-        self, patient_id: str, record_types: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def get_patient_record(self, patient_id: str, record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from Kaiser
 
@@ -93,9 +91,7 @@ class KaiserPermanenteInterface(EHRInterface):
             patient_id: Kaiser MRN (Medical Record Number)
             record_types: Types of records to retrieve
         """
-        self.audit.log_access(
-            user_id=self.config["facility_id"], action="get_patient_record", resource_id=patient_id
-        )
+        self.audit.log_access(user_id=self.config["facility_id"], action="get_patient_record", resource_id=patient_id)
         # Implement Kaiser-specific record retrieval
         pass
 
@@ -107,9 +103,7 @@ class KaiserPermanenteInterface(EHRInterface):
             member_id: Kaiser member ID
             service_type: Type of medical service
         """
-        self.audit.log_access(
-            user_id=self.config["facility_id"], action="check_eligibility", resource_id=member_id
-        )
+        self.audit.log_access(user_id=self.config["facility_id"], action="check_eligibility", resource_id=member_id)
         # Implement eligibility check
         pass
 
@@ -120,23 +114,17 @@ class KaiserPermanenteInterface(EHRInterface):
 
     async def get_lab_results(self, patient_id: str, test_codes: list[str]) -> list[dict[str, Any]]:
         """Retrieve lab results from Kaiser HealthConnect"""
-        self.audit.log_access(
-            user_id=self.config["facility_id"], action="get_lab_results", resource_id=patient_id
-        )
+        self.audit.log_access(user_id=self.config["facility_id"], action="get_lab_results", resource_id=patient_id)
         # Implement lab results retrieval
         pass
 
     async def send_prescription(self, patient_id: str, prescription_data: dict[str, Any]) -> str:
         """Send prescription to Kaiser pharmacy"""
-        self.audit.log_access(
-            user_id=self.config["facility_id"], action="send_prescription", resource_id=patient_id
-        )
+        self.audit.log_access(user_id=self.config["facility_id"], action="send_prescription", resource_id=patient_id)
         # Implement prescription sending
         pass
 
     async def handle_error(self, error: Exception) -> None:
         """Handle Kaiser-specific errors"""
-        self.audit.log_security_event(
-            event_type="error", severity="error", details={"error": str(error)}
-        )
+        self.audit.log_security_event(event_type="error", severity="error", details={"error": str(error)})
         # Implement Kaiser-specific error handling

@@ -97,10 +97,7 @@ class ComponentHealth:
                     normalized = value  # Already 0-1
                 elif metric == HealthMetric.RESPONSE_TIME:
                     normalized = min(1.0, value / 1000)  # Convert ms, cap at 1s
-                elif (
-                    metric == HealthMetric.RESOURCE_USAGE
-                    or metric == HealthMetric.CONSENSUS_STRENGTH
-                ):
+                elif metric == HealthMetric.RESOURCE_USAGE or metric == HealthMetric.CONSENSUS_STRENGTH:
                     normalized = value  # Already 0-1
                 else:
                     normalized = 0.5  # Default
@@ -109,9 +106,7 @@ class ComponentHealth:
 
         # Consider error history
         recent_errors = sum(
-            1
-            for error in self.error_history
-            if error["timestamp"] > datetime.utcnow() - timedelta(minutes=5)
+            1 for error in self.error_history if error["timestamp"] > datetime.utcnow() - timedelta(minutes=5)
         )
         if recent_errors > 10:
             score *= 0.8
@@ -331,11 +326,7 @@ class IdentityHealthMonitor:
 
         # Update error rate metric
         error_count = len(
-            [
-                e
-                for e in component.error_history
-                if e["timestamp"] > datetime.utcnow() - timedelta(minutes=5)
-            ]
+            [e for e in component.error_history if e["timestamp"] > datetime.utcnow() - timedelta(minutes=5)]
         )
         # Errors per second over 5 minutes
         component.metrics[HealthMetric.ERROR_RATE] = error_count / 300
@@ -345,9 +336,7 @@ class IdentityHealthMonitor:
 
         # Immediate healing for critical errors
         if severity == "critical" or error_count > 20:
-            await self._trigger_component_healing(
-                component_id, tier_level, priority=IdentityEventPriority.CRITICAL
-            )
+            await self._trigger_component_healing(component_id, tier_level, priority=IdentityEventPriority.CRITICAL)
 
     async def _trigger_component_healing(
         self,
@@ -367,9 +356,7 @@ class IdentityHealthMonitor:
             return
 
         # Check healing cooldown
-        if component.last_healing and datetime.utcnow() - component.last_healing < timedelta(
-            minutes=5
-        ):
+        if component.last_healing and datetime.utcnow() - component.last_healing < timedelta(minutes=5):
             logger.info(f"Component {component_id} in healing cooldown")
             return
 
@@ -408,9 +395,7 @@ class IdentityHealthMonitor:
 
         logger.info(f"Created healing plan {plan.plan_id} for {component_id}")
 
-    def _determine_healing_strategy(
-        self, component: ComponentHealth, tier_level: int
-    ) -> HealingStrategy:
+    def _determine_healing_strategy(self, component: ComponentHealth, tier_level: int) -> HealingStrategy:
         """Determine appropriate healing strategy."""
 
         # Tier-based strategy selection
@@ -432,9 +417,7 @@ class IdentityHealthMonitor:
 
     # Healing strategy implementations
 
-    async def _heal_colony_restart(
-        self, component: ComponentHealth, tier_level: int
-    ) -> list[dict[str, Any]]:
+    async def _heal_colony_restart(self, component: ComponentHealth, tier_level: int) -> list[dict[str, Any]]:
         """Restart colony healing strategy."""
         return [
             {
@@ -457,9 +440,7 @@ class IdentityHealthMonitor:
             },
         ]
 
-    async def _heal_colony_agent_replacement(
-        self, component: ComponentHealth, tier_level: int
-    ) -> list[dict[str, Any]]:
+    async def _heal_colony_agent_replacement(self, component: ComponentHealth, tier_level: int) -> list[dict[str, Any]]:
         """Replace unhealthy agents in colony."""
         return [
             {
@@ -490,9 +471,7 @@ class IdentityHealthMonitor:
         """Adjust consensus parameters for better performance."""
 
         # Lower consensus requirements temporarily
-        new_threshold = max(
-            0.51, component.metrics.get(HealthMetric.CONSENSUS_STRENGTH, 0.67) - 0.1
-        )
+        new_threshold = max(0.51, component.metrics.get(HealthMetric.CONSENSUS_STRENGTH, 0.67) - 0.1)
 
         return [
             {
@@ -561,9 +540,7 @@ class IdentityHealthMonitor:
             },
         ]
 
-    async def _heal_auth_cache_clear(
-        self, component: ComponentHealth, tier_level: int
-    ) -> list[dict[str, Any]]:
+    async def _heal_auth_cache_clear(self, component: ComponentHealth, tier_level: int) -> list[dict[str, Any]]:
         """Clear authentication caches."""
         return [
             {
@@ -583,9 +560,7 @@ class IdentityHealthMonitor:
             },
         ]
 
-    async def _heal_auth_session_cleanup(
-        self, component: ComponentHealth, tier_level: int
-    ) -> list[dict[str, Any]]:
+    async def _heal_auth_session_cleanup(self, component: ComponentHealth, tier_level: int) -> list[dict[str, Any]]:
         """Clean up stale auth sessions."""
         return [
             {
@@ -674,9 +649,7 @@ class IdentityHealthMonitor:
                 logger.error(f"Healing executor error: {e}")
                 await asyncio.sleep(5)
 
-    async def _execute_healing_action(
-        self, action: str, params: dict[str, Any], component_type: ComponentType
-    ) -> Any:
+    async def _execute_healing_action(self, action: str, params: dict[str, Any], component_type: ComponentType) -> Any:
         """Execute a specific healing action."""
 
         # This would integrate with actual component APIs
@@ -727,9 +700,7 @@ class IdentityHealthMonitor:
                                     health_data.get("tier_level", 0),
                                 )
                         except Exception as e:
-                            await self.report_component_error(
-                                component_id, f"Health check failed: {e}", "error"
-                            )
+                            await self.report_component_error(component_id, f"Health check failed: {e}", "error")
 
                     # Check for stale components
                     if datetime.utcnow() - component.last_check > timedelta(minutes=5):
@@ -748,9 +719,7 @@ class IdentityHealthMonitor:
             try:
                 # Analyze recent health history
                 recent_history = [
-                    h
-                    for h in self.health_history
-                    if h["timestamp"] > datetime.utcnow() - timedelta(hours=1)
+                    h for h in self.health_history if h["timestamp"] > datetime.utcnow() - timedelta(hours=1)
                 ]
 
                 if len(recent_history) > 10:
@@ -767,9 +736,7 @@ class IdentityHealthMonitor:
 
                             # Negative trend indicates declining health
                             if trend < -0.01:  # 1% decline per measurement
-                                logger.warning(
-                                    f"Declining health trend for {component_id}: {trend}"
-                                )
+                                logger.warning(f"Declining health trend for {component_id}: {trend}")
 
                                 # Preemptive healing for critical components
                                 component = self.component_health.get(component_id)
@@ -840,9 +807,7 @@ class IdentityHealthMonitor:
                 "component": plan.component_id,
                 "strategy": plan.strategy.value,
                 "progress": (
-                    sum(1 for s in plan.steps if s["status"] == "completed") / len(plan.steps)
-                    if plan.steps
-                    else 0
+                    sum(1 for s in plan.steps if s["status"] == "completed") / len(plan.steps) if plan.steps else 0
                 ),
             }
             for plan in self.active_healing_plans.values()
@@ -855,9 +820,7 @@ class IdentityHealthMonitor:
             "status_distribution": dict(status_counts),
             "active_healing_plans": len(self.active_healing_plans),
             "healing_details": active_healing,
-            "total_healing_attempts": sum(
-                c.healing_attempts for c in self.component_health.values()
-            ),
+            "total_healing_attempts": sum(c.healing_attempts for c in self.component_health.values()),
             "recent_errors": sum(len(c.error_history) for c in self.component_health.values()),
         }
 
@@ -875,15 +838,9 @@ class IdentityHealthMonitor:
             "last_check": component.last_check.isoformat(),
             "metrics": {k.value: v for k, v in component.metrics.items()},
             "recent_errors": len(
-                [
-                    e
-                    for e in component.error_history
-                    if e["timestamp"] > datetime.utcnow() - timedelta(hours=1)
-                ]
+                [e for e in component.error_history if e["timestamp"] > datetime.utcnow() - timedelta(hours=1)]
             ),
             "healing_attempts": component.healing_attempts,
-            "last_healing": (
-                component.last_healing.isoformat() if component.last_healing else None
-            ),
+            "last_healing": (component.last_healing.isoformat() if component.last_healing else None),
             "tier_data": component.tier_specific_data,
         }

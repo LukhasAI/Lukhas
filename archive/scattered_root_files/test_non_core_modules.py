@@ -69,8 +69,7 @@ class NonCoreModuleTester:
                     "classes": [
                         name
                         for name in dir(module)
-                        if not name.startswith("_")
-                        and hasattr(getattr(module, name, None), "__class__")
+                        if not name.startswith("_") and hasattr(getattr(module, name, None), "__class__")
                     ],
                 }
                 self.log_success(f"Colony module: {module_name}")
@@ -109,8 +108,7 @@ class NonCoreModuleTester:
                     "classes": [
                         name
                         for name in dir(module)
-                        if not name.startswith("_")
-                        and hasattr(getattr(module, name, None), "__class__")
+                        if not name.startswith("_") and hasattr(getattr(module, name, None), "__class__")
                     ],
                 }
                 self.log_success(f"Consciousness module: {module_name}")
@@ -145,8 +143,7 @@ class NonCoreModuleTester:
                     "classes": [
                         name
                         for name in dir(module)
-                        if not name.startswith("_")
-                        and hasattr(getattr(module, name, None), "__class__")
+                        if not name.startswith("_") and hasattr(getattr(module, name, None), "__class__")
                     ],
                 }
                 self.log_success(f"Dream module: {module_name}")
@@ -181,8 +178,7 @@ class NonCoreModuleTester:
                     "classes": [
                         name
                         for name in dir(module)
-                        if not name.startswith("_")
-                        and hasattr(getattr(module, name, None), "__class__")
+                        if not name.startswith("_") and hasattr(getattr(module, name, None), "__class__")
                     ],
                 }
                 self.log_success(f"Bio-symbolic module: {module_name}")
@@ -221,8 +217,7 @@ class NonCoreModuleTester:
                     "classes": [
                         name
                         for name in dir(module)
-                        if not name.startswith("_")
-                        and hasattr(getattr(module, name, None), "__class__")
+                        if not name.startswith("_") and hasattr(getattr(module, name, None), "__class__")
                     ],
                 }
                 self.log_success(f"QI module: {module_name}")
@@ -259,8 +254,7 @@ class NonCoreModuleTester:
                     "classes": [
                         name
                         for name in dir(module)
-                        if not name.startswith("_")
-                        and hasattr(getattr(module, name, None), "__class__")
+                        if not name.startswith("_") and hasattr(getattr(module, name, None), "__class__")
                     ],
                 }
                 self.log_success(f"Candidate core module: {module_name}")
@@ -351,14 +345,10 @@ class NonCoreModuleTester:
 
             if category_total > 0:
                 success_rate = (category_success / category_total) * 100
-                print(
-                    f"📦 {category.title()}: {category_success}/{category_total} ({success_rate:.1f}%)"
-                )
+                print(f"📦 {category.title()}: {category_success}/{category_total} ({success_rate:.1f}%)")
 
         print()
-        overall_success_rate = (
-            (successful_modules / total_modules * 100) if total_modules > 0 else 0
-        )
+        overall_success_rate = (successful_modules / total_modules * 100) if total_modules > 0 else 0
         print(f"🎯 Overall: {successful_modules}/{total_modules} ({overall_success_rate:.1f}%)")
         print(f"⚠️  Warnings: {len(self.results['warnings'])}")
         print(f"❌ Errors: {len(self.results['errors'])}")

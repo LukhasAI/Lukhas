@@ -228,9 +228,7 @@ class TextureAnalyzer:
 
         return matches
 
-    def _detect_texture_anomalies(
-        self, features: TextureFeatures, context: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _detect_texture_anomalies(self, features: TextureFeatures, context: dict[str, Any]) -> list[dict[str, Any]]:
         """Detect anomalies in texture"""
         anomalies = []
 
@@ -373,9 +371,7 @@ class MotionDetector:
 
         return features, metadata
 
-    def _extract_motion_features(
-        self, sequence: list[np.ndarray], time_delta: float
-    ) -> MotionFeatures:
+    def _extract_motion_features(self, sequence: list[np.ndarray], time_delta: float) -> MotionFeatures:
         """Extract motion features from encrypted sequence"""
 
         if len(sequence) < 2:
@@ -416,9 +412,7 @@ class MotionDetector:
             power = np.abs(fft) ** 2
             power = power / (np.sum(power) + 1e-10)
             power = power[power > 0]
-            trajectory_complexity = float(
-                -np.sum(power * np.log2(power + 1e-10)) / np.log2(len(power))
-            )
+            trajectory_complexity = float(-np.sum(power * np.log2(power + 1e-10)) / np.log2(len(power)))
         else:
             trajectory_complexity = 0.0
 
@@ -554,9 +548,7 @@ class MotionDetector:
 
         # Remove direction changes from normalization
         normalized_features = feature_values[:3]  # velocity, acceleration, jerk
-        normalized_features = np.append(
-            normalized_features, feature_values[4:]
-        )  # trajectory_complexity, stability
+        normalized_features = np.append(normalized_features, feature_values[4:])  # trajectory_complexity, stability
 
         # Check physical plausibility
         physics_confidence = 1.0
@@ -683,9 +675,7 @@ class MultimodalFusion:
 
         return fused_perception, metadata
 
-    def _group_by_modality(
-        self, vectors: list[PerceptualVector]
-    ) -> dict[str, list[PerceptualVector]]:
+    def _group_by_modality(self, vectors: list[PerceptualVector]) -> dict[str, list[PerceptualVector]]:
         """Group vectors by modality"""
         groups = {}
         for vector in vectors:
@@ -807,9 +797,7 @@ class MultimodalFusion:
         # Check individual modality anomalies
         for modality, vectors in modality_groups.items():
             if self.anomaly_detector:
-                modality_anomalies = await self.anomaly_detector.detect_anomalies(
-                    vectors, {"modality": modality}
-                )
+                modality_anomalies = await self.anomaly_detector.detect_anomalies(vectors, {"modality": modality})
 
                 for anomaly in modality_anomalies:
                     if anomaly.confidence > 0.7:

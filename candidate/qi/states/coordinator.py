@@ -92,9 +92,7 @@ class QICoordinator:
             logger.error(f"Quantum-inspired processing error: {e}")
             return {"status": "error", "message": str(e)}
 
-    async def _process_consciousness_quantum_enhanced(
-        self, consciousness_data: Any
-    ) -> dict[str, Any]:
+    async def _process_consciousness_quantum_enhanced(self, consciousness_data: Any) -> dict[str, Any]:
         """Process consciousness data through integrated quantum systems"""
         processing_start = datetime.now()
 
@@ -139,9 +137,9 @@ class QICoordinator:
                 "status": "success",
                 "consciousness_insights": consciousness_insights,
                 "qi_coherence": qi_result.get("coherence", 0.5),
-                "bio_integration_efficiency": bio_quantum_result.get(
-                    "current_system_state", {}
-                ).get("overall_integration_efficiency", 0.5),
+                "bio_integration_efficiency": bio_quantum_result.get("current_system_state", {}).get(
+                    "overall_integration_efficiency", 0.5
+                ),
                 "processing_time_ms": processing_time * 1000,
                 "qi_advantage": qi_result.get("qi_advantage", 0.0),
             }
@@ -324,9 +322,7 @@ class QICoordinator:
             "consciousness_state": consciousness_state,
             "recommended_action": recommended_action,
             "qi_advantage_detected": combined_output.get("qi_advantage", 0.0) > 0.7,
-            "processing_quality": (
-                "high" if combined_output.get("combined_processing_success", False) else "limited"
-            ),
+            "processing_quality": ("high" if combined_output.get("combined_processing_success", False) else "limited"),
         }
 
     def _process_consciousness_fallback(self, consciousness_data: Any) -> dict[str, Any]:

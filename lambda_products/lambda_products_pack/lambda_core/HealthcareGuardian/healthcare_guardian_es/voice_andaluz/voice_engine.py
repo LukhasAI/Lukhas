@@ -389,9 +389,7 @@ class AndaluzVoiceEngine:
             "ibuprofeno": "Es para el dolor y la inflamación.",
         }
 
-        purpose = medication_purposes.get(
-            medication_name.lower(), "Es una medicina importante para su salud."
-        )
+        purpose = medication_purposes.get(medication_name.lower(), "Es una medicina importante para su salud.")
 
         explanation += purpose
         explanation += " Tómela como le dijo el médico."

@@ -243,9 +243,7 @@ class LUKHASAudioFilterBank:
             FilterType.ADAPTIVE_NOISE: AdaptiveNoiseFilter(),
         }
 
-    async def apply_filter(
-        self, buffer: AudioBuffer, filter_type: FilterType, params: FilterParameters
-    ) -> AudioBuffer:
+    async def apply_filter(self, buffer: AudioBuffer, filter_type: FilterType, params: FilterParameters) -> AudioBuffer:
         """Apply single filter"""
         try:
             validation_result = await self.guardian.validate_operation(

@@ -380,9 +380,7 @@ class MultiModelOrchestrator:
                 model_responses = await self._execute_competitive(prompt, pipeline_config, context)
 
             # Apply consensus algorithm
-            consensus_result = await self._apply_consensus(
-                model_responses, pipeline_config.consensus_strategy
-            )
+            consensus_result = await self._apply_consensus(model_responses, pipeline_config.consensus_strategy)
 
             # Complete timing and metrics
             orchestration_time = (time.perf_counter() - orchestration_start) * 1000
@@ -464,9 +462,7 @@ class MultiModelOrchestrator:
         except asyncio.TimeoutError:
             logger.warning(f"Parallel execution timed out after {pipeline.max_latency_ms}ms")
             # Return any completed responses
-            completed_responses = [
-                task.result() for task in tasks if task.done() and not task.exception()
-            ]
+            completed_responses = [task.result() for task in tasks if task.done() and not task.exception()]
             return completed_responses
 
     async def _execute_sequential(
@@ -485,8 +481,7 @@ class MultiModelOrchestrator:
                 # Add previous responses to context
                 if responses:
                     accumulated_context["previous_responses"] = [
-                        {"model": r.model_provider.value, "response": r.response_text}
-                        for r in responses
+                        {"model": r.model_provider.value, "response": r.response_text} for r in responses
                     ]
 
                 response = await self._execute_single_model(model, prompt, accumulated_context)
@@ -536,9 +531,7 @@ class MultiModelOrchestrator:
 
         return responses
 
-    async def _execute_single_model(
-        self, model: ModelProvider, prompt: str, context: Optional[dict]
-    ) -> ModelResponse:
+    async def _execute_single_model(self, model: ModelProvider, prompt: str, context: Optional[dict]) -> ModelResponse:
         """Execute a single model and return response"""
         request_start = time.perf_counter()
 
@@ -579,9 +572,7 @@ class MultiModelOrchestrator:
                 metadata={"error": str(e)},
             )
 
-    def _prepare_model_params(
-        self, model: ModelProvider, prompt: str, context: Optional[dict]
-    ) -> dict[str, Any]:
+    def _prepare_model_params(self, model: ModelProvider, prompt: str, context: Optional[dict]) -> dict[str, Any]:
         """Prepare model-specific parameters"""
         base_params = {"prompt": prompt, "max_tokens": 1000, "temperature": 0.7}
 
@@ -599,9 +590,7 @@ class MultiModelOrchestrator:
 
         return base_params
 
-    async def _apply_consensus(
-        self, responses: list[ModelResponse], strategy: ConsensusStrategy
-    ) -> ConsensusResult:
+    async def _apply_consensus(self, responses: list[ModelResponse], strategy: ConsensusStrategy) -> ConsensusResult:
         """Apply consensus algorithm to model responses"""
         if not responses:
             raise ValueError("No valid responses for consensus")
@@ -838,16 +827,12 @@ orchestrator = MultiModelOrchestrator()
 
 
 # Convenience functions
-async def orchestrate(
-    prompt: str, pipeline: str = "analysis", context: Optional[dict] = None
-) -> ConsensusResult:
+async def orchestrate(prompt: str, pipeline: str = "analysis", context: Optional[dict] = None) -> ConsensusResult:
     """Orchestrate multi-model consensus"""
     return await orchestrator.orchestrate(prompt, pipeline, context)
 
 
-async def get_consensus(
-    prompt: str, models: list[str], strategy: str = "weighted_vote"
-) -> ConsensusResult:
+async def get_consensus(prompt: str, models: list[str], strategy: str = "weighted_vote") -> ConsensusResult:
     """Get consensus from specified models"""
     model_providers = [ModelProvider(model) for model in models]
     strategy_enum = ConsensusStrategy(strategy)

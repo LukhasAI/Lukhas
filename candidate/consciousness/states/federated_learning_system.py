@@ -150,10 +150,7 @@ class LukhasFederatedModel:
                 if (
                     isinstance(self.parameters[param_name], (int, float, np.number))
                     and isinstance(grad_value, (int, float, np.number))
-                ) or (
-                    isinstance(self.parameters[param_name], np.ndarray)
-                    and isinstance(grad_value, np.ndarray)
-                ):
+                ) or (isinstance(self.parameters[param_name], np.ndarray) and isinstance(grad_value, np.ndarray)):
                     self.parameters[param_name] += weight * grad_value
                 else:
                     # ΛTRACE: Parameter type mismatch or unhandled type for gradient
@@ -257,9 +254,7 @@ class LukhasFederatedModel:
         model.contribution_count = data["contribution_count"]
         model.client_contributions = set(data["client_contributions"])  # Convert list back to set
         model.performance_metrics = data.get("performance_metrics", {})
-        model.lukhas_signature = data.get(
-            "lukhas_signature", model.lukhas_signature
-        )  # Fallback for older data
+        model.lukhas_signature = data.get("lukhas_signature", model.lukhas_signature)  # Fallback for older data
         # ΛTRACE: Model deserialized
         logger.debug(
             "model_deserialized_complete",
@@ -410,9 +405,7 @@ class LukhasFederatedLearningManager:
             return False
 
         model = self.models[model_id]
-        weight = self._calculate_client_weight(
-            client_id, model_id
-        )  # ΛNOTE: Weighting client contributions.
+        weight = self._calculate_client_weight(client_id, model_id)  # ΛNOTE: Weighting client contributions.
         success = model.update_with_gradients(gradients, client_id, weight)
 
         if success:

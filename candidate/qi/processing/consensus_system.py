@@ -226,17 +226,13 @@ class QIConsensusSystem:
             algorithm: Consensus algorithm to use
             bio_quantum_mode: Enable bio-quantum specific features
         """
-        self.components: dict[str, ComponentInfo] = {
-            comp_id: ComponentInfo(comp_id) for comp_id in components
-        }
+        self.components: dict[str, ComponentInfo] = {comp_id: ComponentInfo(comp_id) for comp_id in components}
         self.consensus_threshold = consensus_threshold
         self.algorithm = algorithm
         self.bio_quantum_mode = bio_quantum_mode
 
         # State management
-        self.current_state: Optional[QILikeState] = (
-            initial_state or self._get_default_initial_state()
-        )
+        self.current_state: Optional[QILikeState] = initial_state or self._get_default_initial_state()
         self.state_history: deque = deque(maxlen=100)  # Keep last 100 states
         self.pending_proposals: dict[str, ConsensusProposal] = {}
 
@@ -265,9 +261,7 @@ class QIConsensusSystem:
             metadata={"origin": "default_initialization"},
         )
 
-    async def propose_state_update(
-        self, component_id: str, proposed_state: QILikeState, priority: int = 0
-    ) -> str:
+    async def propose_state_update(self, component_id: str, proposed_state: QILikeState, priority: int = 0) -> str:
         """
         Propose a quantum-like state update with enhanced validation
 
@@ -388,9 +382,7 @@ class QIConsensusSystem:
         # Calculate weighted consensus
         total_weight = sum(weighted_votes.values())
         active_weight = sum(
-            brain_coherence.get(cid, 1.0)
-            for cid, c in self.components.items()
-            if c.state == ComponentState.ACTIVE
+            brain_coherence.get(cid, 1.0) for cid, c in self.components.items() if c.state == ComponentState.ACTIVE
         )
 
         consensus_achieved = (total_weight / active_weight) >= self.consensus_threshold
@@ -398,9 +390,7 @@ class QIConsensusSystem:
         if consensus_achieved:
             await self._apply_state_update(proposal)
 
-    async def _request_brain_vote(
-        self, component_id: str, proposal: ConsensusProposal, weight: float
-    ) -> float:
+    async def _request_brain_vote(self, component_id: str, proposal: ConsensusProposal, weight: float) -> float:
         """Request vote from bio-quantum brain component"""
         # In production, this would communicate with actual brain component
         # For now, simulate based on state similarity and coherence
@@ -470,9 +460,7 @@ class QIConsensusSystem:
                 return True
 
             # Accept if coherence improves significantly
-            coherence_improvement = (
-                proposal.proposed_state.phase_coherence - self.current_state.phase_coherence
-            )
+            coherence_improvement = proposal.proposed_state.phase_coherence - self.current_state.phase_coherence
             if coherence_improvement > 0.1:
                 return True
 
@@ -504,8 +492,7 @@ class QIConsensusSystem:
         else:
             proposal.phase = ConsensusPhase.ABORTED
             logger.info(
-                f"Proposal {proposal.proposal_id} rejected: "
-                f"{vote_ratio:.2%} < {self.consensus_threshold:.2%}"
+                f"Proposal {proposal.proposal_id} rejected: " f"{vote_ratio:.2%} < {self.consensus_threshold:.2%}"
             )
 
     async def _apply_state_update(self, proposal: ConsensusProposal):
@@ -530,10 +517,7 @@ class QIConsensusSystem:
         """Notify all components of state change"""
         # In production, this would send actual notifications
         # For now, log the change
-        logger.info(
-            f"State changed: type={new_state.state_type.value}, "
-            f"coherence={new_state.phase_coherence:.3f}"
-        )
+        logger.info(f"State changed: type={new_state.state_type.value}, " f"coherence={new_state.phase_coherence:.3f}")
 
     def get_current_state(self) -> Optional[QILikeState]:
         """Get the current consensus state"""
@@ -541,9 +525,7 @@ class QIConsensusSystem:
 
     def get_consensus_status(self) -> dict[str, Any]:
         """Get comprehensive consensus system status"""
-        active_components = sum(
-            1 for c in self.components.values() if c.state == ComponentState.ACTIVE
-        )
+        active_components = sum(1 for c in self.components.values() if c.state == ComponentState.ACTIVE)
 
         return {
             "current_state": (self.current_state.to_dict() if self.current_state else None),
@@ -564,9 +546,7 @@ class QIConsensusSystem:
             self.components[component_id].state = ComponentState.FAILED
 
             # Check if we still have quorum
-            active_components = sum(
-                1 for c in self.components.values() if c.state == ComponentState.ACTIVE
-            )
+            active_components = sum(1 for c in self.components.values() if c.state == ComponentState.ACTIVE)
 
             if active_components < len(self.components) * self.consensus_threshold:
                 logger.warning("Lost quorum due to component failures")
@@ -598,10 +578,7 @@ class PartitionDetector:
             for component_id, component in self.consensus_system.components.items():
                 time_since_heartbeat = (current_time - component.last_heartbeat).total_seconds()
 
-                if (
-                    component.state == ComponentState.ACTIVE
-                    and time_since_heartbeat > self.partition_threshold
-                ):
+                if component.state == ComponentState.ACTIVE and time_since_heartbeat > self.partition_threshold:
                     # Possible partition detected
                     component.state = ComponentState.PARTITIONED
                     logger.warning(f"Component {component_id} possibly partitioned")
@@ -635,17 +612,13 @@ class ConsensusMetrics:
 
     def get_summary(self) -> dict[str, Any]:
         """Get metrics summary"""
-        avg_consensus_time = (
-            sum(self.consensus_times) / len(self.consensus_times) if self.consensus_times else 0
-        )
+        avg_consensus_time = sum(self.consensus_times) / len(self.consensus_times) if self.consensus_times else 0
 
         return {
             "total_proposals": self.total_proposals,
             "accepted_proposals": self.accepted_proposals,
             "rejected_proposals": self.rejected_proposals,
-            "acceptance_rate": (
-                self.accepted_proposals / self.total_proposals if self.total_proposals > 0 else 0
-            ),
+            "acceptance_rate": (self.accepted_proposals / self.total_proposals if self.total_proposals > 0 else 0),
             "average_consensus_time": avg_consensus_time,
             "state_changes": self.state_changes,
         }

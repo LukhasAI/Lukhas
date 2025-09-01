@@ -52,9 +52,7 @@ class TestAuditTrail:
         """Test adding critical violations to audit trail."""
         audit = AuditTrail()
 
-        audit.add_violation(
-            "test/file.py", "illegal_import", "from candidate.module import Something", line_no=5
-        )
+        audit.add_violation("test/file.py", "illegal_import", "from candidate.module import Something", line_no=5)
 
         assert len(audit.violations) == 1
         violation = audit.violations[0]
@@ -129,9 +127,7 @@ class TestAuditTrail:
             assert len(report["facade_detections"]) == 1
 
             assert "compliance_status" in report
-            assert (
-                report["compliance_status"]["accepts_ready"] is False
-            )  # Has violations and facades
+            assert report["compliance_status"]["accepts_ready"] is False  # Has violations and facades
             assert report["compliance_status"]["critical_issues"] == 1
             assert report["compliance_status"]["warnings"] == 0
 

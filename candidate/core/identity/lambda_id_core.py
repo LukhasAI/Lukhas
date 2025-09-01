@@ -113,14 +113,10 @@ class LukhasIDGenerator:
             ns_config = getattr(ΛIDNamespace, namespace.upper(), None)
             if not ns_config:
                 valid_namespaces = ["USER", "AGENT", "SERVICE", "SYSTEM"]
-                raise InvalidNamespaceError(
-                    f"Invalid namespace: {namespace}. Valid options: {valid_namespaces}"
-                )
+                raise InvalidNamespaceError(f"Invalid namespace: {namespace}. Valid options: {valid_namespaces}")
 
             # Validate required fields
-            missing = [
-                f for f in ns_config["required_fields"] if f not in metadata or not metadata[f]
-            ]
+            missing = [f for f in ns_config["required_fields"] if f not in metadata or not metadata[f]]
             if missing:
                 raise ΛIDError(f"Missing or empty required fields for {namespace}: {missing}")
 
@@ -143,9 +139,7 @@ class LukhasIDGenerator:
             # Performance check
             elapsed_ms = (time.perf_counter() - start) * 1000
             if elapsed_ms > MAX_AUTH_LATENCY_MS:
-                logger.warning(
-                    f"⚠️ ΛID generation exceeded {MAX_AUTH_LATENCY_MS}ms: {elapsed_ms:.2f}ms"
-                )
+                logger.warning(f"⚠️ ΛID generation exceeded {MAX_AUTH_LATENCY_MS}ms: {elapsed_ms:.2f}ms")
                 # Don't raise exception, but log for monitoring
 
             logger.debug(f"⚛️ Generated ΛID {lid} in {elapsed_ms:.2f}ms")
@@ -335,9 +329,7 @@ class WebAuthnPasskeyManager:
                 "type": "registration",
             }
 
-            self._log_security_event(
-                lid, "registration_initiated", {"email": user_email, "challenge_id": challenge}
-            )
+            self._log_security_event(lid, "registration_initiated", {"email": user_email, "challenge_id": challenge})
 
             return {
                 "publicKey": {
@@ -526,9 +518,7 @@ class LukhasIdentityService:
 
         logger.info("⚛️🧠🛡️ LUKHAS Identity Service initialized with Trinity Framework integration")
 
-    def register_user(
-        self, email: str, display_name: str, consent_id: Optional[str] = None
-    ) -> dict[str, Any]:
+    def register_user(self, email: str, display_name: str, consent_id: Optional[str] = None) -> dict[str, Any]:
         """Register new user with ΛID"""
         start = time.perf_counter()
 
@@ -563,9 +553,7 @@ class LukhasIdentityService:
             "trinity_status": self.trinity_status,
         }
 
-    def authenticate(
-        self, lid: str, method: str = "passkey", credential: Optional[dict] = None
-    ) -> dict[str, Any]:
+    def authenticate(self, lid: str, method: str = "passkey", credential: Optional[dict] = None) -> dict[str, Any]:
         """Authenticate user with specified method"""
         start = time.perf_counter()
 
@@ -579,9 +567,7 @@ class LukhasIdentityService:
         if success:
             # Issue tokens
             id_token = self.oidc_provider.issue_id_token(lid, "lukhas-client")
-            access_token = self.oidc_provider.issue_access_token(
-                lid, ["openid", "profile", "email"], "lukhas-client"
-            )
+            access_token = self.oidc_provider.issue_access_token(lid, ["openid", "profile", "email"], "lukhas-client")
 
             tokens = {
                 "id_token": id_token,
@@ -631,9 +617,7 @@ class LukhasIdentityService:
             "operations_count": operations,
             "average_latency_ms": round(self.metrics.get("average_latency", 0), 2),
             "failed_operations": self.metrics["failed_operations"],
-            "success_rate": round(
-                (operations - self.metrics["failed_operations"]) / max(operations, 1) * 100, 2
-            ),
+            "success_rate": round((operations - self.metrics["failed_operations"]) / max(operations, 1) * 100, 2),
         }
 
     def _track_performance(self, latency_ms: float, success: bool = True):
@@ -646,9 +630,7 @@ class LukhasIdentityService:
 
         # Keep last 1000 measurements for accurate p95 calculation
         if len(self.metrics["auth_latencies"]) > MAX_PERFORMANCE_SAMPLES:
-            self.metrics["auth_latencies"] = self.metrics["auth_latencies"][
-                -MAX_PERFORMANCE_SAMPLES:
-            ]
+            self.metrics["auth_latencies"] = self.metrics["auth_latencies"][-MAX_PERFORMANCE_SAMPLES:]
 
         # Calculate p95 and average with consciousness awareness
         if self.metrics["auth_latencies"]:
@@ -803,9 +785,7 @@ if __name__ == "__main__":
         print("\n📊 Legacy Performance & Security Metrics:")
         legacy_metrics = service.get_performance_metrics()
         print(f"🏃 Operations: {legacy_metrics['performance']['operations_count']}")
-        print(
-            f"🎯 Average Latency: {legacy_metrics['performance'].get('average_latency', 0):.2f}ms"
-        )
+        print(f"🎯 Average Latency: {legacy_metrics['performance'].get('average_latency', 0):.2f}ms")
         print(f"⚛️ Trinity Integration: {legacy_metrics['trinity_status']}")
 
         # Test error handling

@@ -88,9 +88,7 @@ class AgentMemory:
             )
 
         self.memory_path = base_dir / f"{self.agent_id}_memory.jsonl"
-        self.lock = (
-            threading.RLock()
-        )  # Thread-safety for internal methods if called directly or via executor
+        self.lock = threading.RLock()  # Thread-safety for internal methods if called directly or via executor
 
         self._ensure_memory_file()
         # ΛTRACE: AgentMemory initialized.
@@ -147,9 +145,7 @@ class AgentMemory:
         try:
             # ΛNOTE: Using run_in_executor for sync I/O in async context.
             loop = asyncio.get_running_loop()
-            return await loop.run_in_executor(
-                None, self._append_memory_internal, self.agent_id, event_type, data
-            )
+            return await loop.run_in_executor(None, self._append_memory_internal, self.agent_id, event_type, data)
         except Exception as e:
             # ΛTRACE: Error in async wrapper for append_memory.
             log.error(
@@ -211,9 +207,7 @@ class AgentMemory:
     @lukhas_tier_required(1)
     async def read_memory(
         self,
-        key_filter: Optional[
-            str
-        ] = None,  # ΛNOTE: key_filter seems unused, event_type_filter is used instead.
+        key_filter: Optional[str] = None,  # ΛNOTE: key_filter seems unused, event_type_filter is used instead.
         agent_filter: Optional[str] = None,
         event_type_filter: Optional[str] = None,
         limit: int = 100,
@@ -342,16 +336,12 @@ class AgentMemory:
         """Retrieves 'insight_discovered' entries for a given agent."""
         # ΛTRACE: Fetching agent insights.
         log.debug("Fetching agent insights.", for_agent_id=agent_id, result_limit=limit)
-        return await self.read_memory(
-            agent_filter=agent_id, event_type_filter="insight_discovered", limit=limit
-        )
+        return await self.read_memory(agent_filter=agent_id, event_type_filter="insight_discovered", limit=limit)
 
     # ΛRECALL: Recalls recent activities for the current agent.
     # AIDENTITY: Operates on the current agent's (self.agent_id) memory.
     @lukhas_tier_required(1)
-    async def get_recent_activities(
-        self, minutes: int = 60, limit: int = 100
-    ) -> list[dict[str, Any]]:
+    async def get_recent_activities(self, minutes: int = 60, limit: int = 100) -> list[dict[str, Any]]:
         """Retrieves all activities for the current agent from the last N minutes."""
         # ΛTRACE: Fetching recent activities for current agent.
         log.debug(
@@ -413,9 +403,7 @@ _global_memory_lock = threading.Lock()  # Lock for managing the global instance 
 
 # AIDENTITY: `get_shared_memory` is key for obtaining agent-specific or
 # global memory access.
-def get_shared_memory(
-    agent_id: str = "global_default", base_path: Optional[str] = None
-) -> AgentMemory:
+def get_shared_memory(agent_id: str = "global_default", base_path: Optional[str] = None) -> AgentMemory:
     """Retrieves or creates a shared memory instance. Manages a global default."""
     global _shared_memory_instance
     # ΛTRACE: get_shared_memory called.
@@ -481,9 +469,7 @@ async def read_from_shared_memory(
     # ΛNOTE: The agent_filter passed to memory.read_memory will be agent_to_query.
     # If agent_filter was None originally, it defaults to "global_default", meaning it reads global_default's own memory.
     # Reading "all agents" would require a different mechanism or iteration.
-    return await memory.read_memory(
-        agent_filter=agent_to_query, event_type_filter=event_type_filter, limit=limit
-    )
+    return await memory.read_memory(agent_filter=agent_to_query, event_type_filter=event_type_filter, limit=limit)
 
 
 # ΛNOTE: Example usage demonstrating core functionalities.

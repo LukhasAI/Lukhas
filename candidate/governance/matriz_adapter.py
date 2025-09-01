@@ -52,9 +52,7 @@ class GovernanceMatrizAdapter:
         return node
 
     @staticmethod
-    def emit_ethics_decision(
-        decision_id: str, ethical_score: float, action: str, allowed: bool
-    ) -> dict[str, Any]:
+    def emit_ethics_decision(decision_id: str, ethical_score: float, action: str, allowed: bool) -> dict[str, Any]:
         """Emit an ethical decision node"""
 
         urgency = 0.2 if allowed else 0.9
@@ -167,9 +165,7 @@ class GovernanceMatrizAdapter:
         )
 
     @staticmethod
-    def emit_constitutional_check(
-        check_id: str, principle: str, aligned: bool, confidence: float
-    ) -> dict[str, Any]:
+    def emit_constitutional_check(check_id: str, principle: str, aligned: bool, confidence: float) -> dict[str, Any]:
         """Emit a constitutional AI principle check"""
 
         return GovernanceMatrizAdapter.create_node(

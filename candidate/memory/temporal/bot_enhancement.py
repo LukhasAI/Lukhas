@@ -215,9 +215,7 @@ class BotEnhancementEngine:
             "recommendations": [],
         }
 
-    def _create_error_response(
-        self, request: EnhancementRequest, error_msg: str
-    ) -> EnhancementResponse:
+    def _create_error_response(self, request: EnhancementRequest, error_msg: str) -> EnhancementResponse:
         """Create error response for failed enhancement"""
         return EnhancementResponse(
             request_id=f"error_{request.bot_id}_{int(asyncio.get_event_loop().time())}",

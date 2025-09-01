@@ -106,9 +106,7 @@ class IdentityAudit:
 
             # Check all Python files in module
             for py_file in module_path.rglob("*.py"):
-                if any(
-                    skip in str(py_file) for skip in ["__pycache__", "test", "backup", "archive"]
-                ):
+                if any(skip in str(py_file) for skip in ["__pycache__", "test", "backup", "archive"]):
                     continue
 
                 module_info["files_checked"] += 1
@@ -120,18 +118,14 @@ class IdentityAudit:
                 has_identity = any(re.search(pattern, content) for pattern in IDENTITY_PATTERNS)
 
                 # Check for enforcement
-                has_enforcement = any(
-                    re.search(pattern, content) for pattern in ENFORCEMENT_PATTERNS
-                )
+                has_enforcement = any(re.search(pattern, content) for pattern in ENFORCEMENT_PATTERNS)
 
                 if has_enforcement:
                     module_info["files_protected"] += 1
                 else:
                     module_info["files_unprotected"] += 1
                     if not has_identity:
-                        module_info["unprotected_files"].append(
-                            str(py_file.relative_to(self.root_path))
-                        )
+                        module_info["unprotected_files"].append(str(py_file.relative_to(self.root_path)))
 
             if module_info["files_protected"] > 0:
                 self.stats["protected_modules"] += 1
@@ -237,9 +231,7 @@ class IdentityAudit:
         print(f"  ❌ Modules without user linking: {len(modules_without_user_linking)}")
 
         # Show critical modules without user linking
-        critical_without_linking = [
-            m for m in modules_without_user_linking if m in PROTECTED_MODULES
-        ]
+        critical_without_linking = [m for m in modules_without_user_linking if m in PROTECTED_MODULES]
 
         if critical_without_linking:
             print("\n  ⚠️ Critical modules without user linking:")
@@ -255,12 +247,8 @@ class IdentityAudit:
 
         # Overall statistics
         print("\n📈 Overall Statistics:")
-        print(
-            f"  • Protected Modules: {self.stats['protected_modules']}/{self.stats['total_modules']}"
-        )
-        print(
-            f"  • Protected API Endpoints: {self.stats['protected_endpoints']}/{self.stats['api_endpoints']}"
-        )
+        print(f"  • Protected Modules: {self.stats['protected_modules']}/{self.stats['total_modules']}")
+        print(f"  • Protected API Endpoints: {self.stats['protected_endpoints']}/{self.stats['api_endpoints']}")
 
         # Module breakdown
         print("\n🔐 Module Protection Status:")

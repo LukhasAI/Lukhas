@@ -410,9 +410,7 @@ class ConsciousnessIntegrator:
 
             # Update voice characteristics based on personality
             if current_persona and self.current_context:
-                voice_characteristics = await self.persona_manager.get_voice_characteristics(
-                    current_persona
-                )
+                voice_characteristics = await self.persona_manager.get_voice_characteristics(current_persona)
 
                 # Apply voice characteristics
                 await self.voice_processor.update_voice_characteristics(voice_characteristics)
@@ -610,9 +608,7 @@ class ConsciousnessIntegrator:
                 "timestamp": timestamp,
                 "integrator_id": self.integrator_id,
                 "current_state": (
-                    self.current_state.value
-                    if hasattr(self.current_state, "value")
-                    else str(self.current_state)
+                    self.current_state.value if hasattr(self.current_state, "value") else str(self.current_state)
                 ),
                 "processing_status": "processed",
             }

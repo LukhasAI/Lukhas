@@ -121,11 +121,7 @@ class ModulatedOpenAIClient:
 
         # Add signal context for transparency
         if params.signal_context:
-            active_signals = [
-                f"{name}: {level:.2f}"
-                for name, level in params.signal_context.items()
-                if level > 0.1
-            ]
+            active_signals = [f"{name}: {level:.2f}" for name, level in params.signal_context.items() if level > 0.1]
             if active_signals:
                 signal_summary = ", ".join(active_signals)
                 system_content += f"\n\nCurrent endocrine state: {signal_summary}"

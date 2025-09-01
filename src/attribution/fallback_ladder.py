@@ -95,9 +95,7 @@ class AttributionFallbackLadder:
         if self.session:
             await self.session.close()
 
-    async def attribute_conversion(
-        self, conversion_data: dict[str, Any], context: dict[str, Any]
-    ) -> AttributionResult:
+    async def attribute_conversion(self, conversion_data: dict[str, Any], context: dict[str, Any]) -> AttributionResult:
         """
         Main attribution function - tries methods in priority order
 
@@ -137,9 +135,7 @@ class AttributionFallbackLadder:
                 threshold = self.confidence_thresholds[method]
 
                 if attempt.success and attempt.confidence >= threshold:
-                    logger.info(
-                        f"Attribution successful via {method.value} (confidence: {attempt.confidence:.3f})"
-                    )
+                    logger.info(f"Attribution successful via {method.value} (confidence: {attempt.confidence:.3f})")
 
                     return AttributionResult(
                         method_used=method,
@@ -152,9 +148,7 @@ class AttributionFallbackLadder:
                         total_processing_time=time.time() - start_time,
                     )
 
-                logger.info(
-                    f"Attribution via {method.value} below threshold (confidence: {attempt.confidence:.3f})"
-                )
+                logger.info(f"Attribution via {method.value} below threshold (confidence: {attempt.confidence:.3f})")
 
             except Exception as e:
                 logger.error(f"Attribution method {method.value} failed: {e!s}")
@@ -357,8 +351,7 @@ class AttributionFallbackLadder:
                     user_id=conversion_data.get("user_id"),
                     opportunity_id=receipt_result.get("opportunity_id"),
                     conversion_id=f"receipt_{conversion_data.get('order_id')}",
-                    success=confidence
-                    >= self.confidence_thresholds[AttributionMethod.RECEIPT_MATCHING],
+                    success=confidence >= self.confidence_thresholds[AttributionMethod.RECEIPT_MATCHING],
                 )
 
             else:
@@ -413,8 +406,7 @@ class AttributionFallbackLadder:
                     user_id=conversion_data.get("user_id"),
                     opportunity_id=behavioral_result.get("opportunity_id"),
                     conversion_id=f"behavioral_{conversion_data.get('order_id')}",
-                    success=confidence
-                    >= self.confidence_thresholds[AttributionMethod.BEHAVIORAL_INFERENCE],
+                    success=confidence >= self.confidence_thresholds[AttributionMethod.BEHAVIORAL_INFERENCE],
                 )
 
             else:
@@ -478,7 +470,9 @@ class AttributionFallbackLadder:
     def _generate_verification_token(self, conversion_data: dict[str, Any]) -> str:
         """Generate secure verification token for S2S postback"""
 
-        token_data = f"{conversion_data.get('order_id')}:{conversion_data.get('amount')}:{self.config.get('s2s_secret')}"
+        token_data = (
+            f"{conversion_data.get('order_id')}:{conversion_data.get('amount')}:{self.config.get('s2s_secret')}"
+        )
         return hashlib.sha256(token_data.encode()).hexdigest()[:16]
 
 
@@ -550,9 +544,7 @@ class ReceiptMatcher:
             }
         ]
 
-    def _score_receipt_match(
-        self, receipt: dict[str, Any], order_id: str, amount: float, merchant: str
-    ) -> float:
+    def _score_receipt_match(self, receipt: dict[str, Any], order_id: str, amount: float, merchant: str) -> float:
         """Score how well receipt matches purchase data"""
 
         score = 0.0
@@ -656,9 +648,7 @@ class BehavioralAnalyzer:
             "pattern": "no_clear_pattern",
         }
 
-    async def _collect_behavioral_signals(
-        self, user_id: str, purchase_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _collect_behavioral_signals(self, user_id: str, purchase_data: dict[str, Any]) -> dict[str, Any]:
         """Collect behavioral signals for analysis"""
 
         # This would query user behavior databases
@@ -672,9 +662,7 @@ class BehavioralAnalyzer:
             "typical_purchase_pattern": "research_then_buy",
         }
 
-    def _analyze_attribution_patterns(
-        self, signals: dict[str, Any], purchase_data: dict[str, Any]
-    ) -> float:
+    def _analyze_attribution_patterns(self, signals: dict[str, Any], purchase_data: dict[str, Any]) -> float:
         """Analyze behavioral patterns for attribution likelihood"""
 
         score = 0.0

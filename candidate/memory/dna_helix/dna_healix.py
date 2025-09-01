@@ -284,9 +284,7 @@ class DNAHealixCore:
         repaired = self._validate_repair(repaired)
 
         # Update current and log
-        glyphs_repaired = [
-            i for i, (a, b) in enumerate(zip(self.current.sequence, repaired.sequence)) if a != b
-        ]
+        glyphs_repaired = [i for i, (a, b) in enumerate(zip(self.current.sequence, repaired.sequence)) if a != b]
         self.current = repaired
         drift_after = self.calculate_drift()
 
@@ -321,9 +319,7 @@ class DNAHealixCore:
             window_origin = list(self.origin.sequence)[i : i + window_size]
 
             # Calculate local drift
-            local_drift = (
-                sum(1 for a, b in zip(window_current, window_origin) if a != b) / window_size
-            )
+            local_drift = sum(1 for a, b in zip(window_current, window_origin) if a != b) / window_size
 
             if local_drift > heal_threshold:
                 # Heal this segment
@@ -333,9 +329,7 @@ class DNAHealixCore:
 
         return SymbolicStrand(glyphs)
 
-    def _consensus_repair(
-        self, quorum_strands: list[SymbolicStrand], min_agreement: float = 0.6
-    ) -> SymbolicStrand:
+    def _consensus_repair(self, quorum_strands: list[SymbolicStrand], min_agreement: float = 0.6) -> SymbolicStrand:
         """Repair using consensus from multiple strands"""
         if not quorum_strands:
             return self._partial_heal()
@@ -611,11 +605,7 @@ class MemoryHelix:
         should_repair = self.helix_core.should_repair()
 
         return {
-            "status": "healthy"
-            if drift_score < 0.1
-            else "degraded"
-            if drift_score < 0.3
-            else "critical",
+            "status": "healthy" if drift_score < 0.1 else "degraded" if drift_score < 0.3 else "critical",
             "drift_score": drift_score,
             "should_repair": should_repair,
             "last_accessed": self.last_accessed.isoformat() if self.last_accessed else None,
@@ -637,9 +627,7 @@ class MemoryHelix:
         meta = data["metadata"]
         memory.created_at = datetime.fromisoformat(meta["created"])
         memory.access_count = meta["accessed"]
-        memory.last_accessed = (
-            datetime.fromisoformat(meta["last_access"]) if meta["last_access"] else None
-        )
+        memory.last_accessed = datetime.fromisoformat(meta["last_access"]) if meta["last_access"] else None
         memory.tags = set(meta["tags"])
         memory.locked = meta["locked"]
 

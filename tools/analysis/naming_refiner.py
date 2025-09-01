@@ -279,9 +279,7 @@ class LukhasNamingRefiner:
         report = {
             "timestamp": datetime.utcnow().isoformat() + "Z",
             "summary": {
-                "total_refinements": sum(
-                    len(v) for v in self.refinements.values() if isinstance(v, list)
-                ),
+                "total_refinements": sum(len(v) for v in self.refinements.values() if isinstance(v, list)),
                 "class_refinements": len(self.refinements["classes"]),
                 "function_refinements": len(self.refinements["functions"]),
                 "file_refinements": len(self.refinements["files"]),

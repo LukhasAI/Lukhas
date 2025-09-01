@@ -341,9 +341,7 @@ class LUKHASVoiceCoherenceEngine:
 
         return profile_mapping.get(context, "consciousness_ambassador")
 
-    async def _analyze_coherence_metric(
-        self, content: str, metric: CoherenceMetric, target_profile: str
-    ) -> float:
+    async def _analyze_coherence_metric(self, content: str, metric: CoherenceMetric, target_profile: str) -> float:
         """Analyze a specific coherence metric"""
 
         pattern_config = self.coherence_patterns[metric]
@@ -436,9 +434,7 @@ class LUKHASVoiceCoherenceEngine:
 
         return max(0.0, trinity_alignment)
 
-    def _analyze_personality_authenticity(
-        self, content: str, pattern_config: dict[str, Any]
-    ) -> float:
+    def _analyze_personality_authenticity(self, content: str, pattern_config: dict[str, Any]) -> float:
         """Analyze authentic LUKHAS personality expression"""
 
         content_lower = content.lower()
@@ -473,9 +469,7 @@ class LUKHASVoiceCoherenceEngine:
 
         return max(0.0, min(1.0, authenticity_score + 0.5))
 
-    def _analyze_context_appropriateness(
-        self, content: str, pattern_config: dict[str, Any]
-    ) -> float:
+    def _analyze_context_appropriateness(self, content: str, pattern_config: dict[str, Any]) -> float:
         """Analyze context appropriateness (placeholder - would need context info)"""
 
         # For now, return neutral score
@@ -512,9 +506,7 @@ class LUKHASVoiceCoherenceEngine:
 
         return max(0.0, min(1.0, emotional_score + 0.6))  # Bias toward positive
 
-    def _calculate_overall_coherence(
-        self, coherence_metrics: dict[CoherenceMetric, float]
-    ) -> float:
+    def _calculate_overall_coherence(self, coherence_metrics: dict[CoherenceMetric, float]) -> float:
         """Calculate weighted overall coherence score"""
 
         total_score = 0.0
@@ -536,30 +528,18 @@ class LUKHASVoiceCoherenceEngine:
         content_lower = content.lower()
 
         # Identity markers (⚛️)
-        identity_patterns = [
-            r"\b(authentic|genuine|true|real|identity|self|being|essence|unique|individual)\b"
-        ]
+        identity_patterns = [r"\b(authentic|genuine|true|real|identity|self|being|essence|unique|individual)\b"]
 
         # Consciousness markers (🧠)
-        consciousness_patterns = [
-            r"\b(conscious|aware|mindful|perceptive|thinking|reasoning|understanding|learning)\b"
-        ]
+        consciousness_patterns = [r"\b(conscious|aware|mindful|perceptive|thinking|reasoning|understanding|learning)\b"]
 
         # Guardian markers (🛡️)
-        guardian_patterns = [
-            r"\b(safe|secure|protected|ethical|responsible|trustworthy|reliable|careful)\b"
-        ]
+        guardian_patterns = [r"\b(safe|secure|protected|ethical|responsible|trustworthy|reliable|careful)\b"]
 
         # Count matches for each component
-        identity_count = sum(
-            len(re.findall(pattern, content_lower)) for pattern in identity_patterns
-        )
-        consciousness_count = sum(
-            len(re.findall(pattern, content_lower)) for pattern in consciousness_patterns
-        )
-        guardian_count = sum(
-            len(re.findall(pattern, content_lower)) for pattern in guardian_patterns
-        )
+        identity_count = sum(len(re.findall(pattern, content_lower)) for pattern in identity_patterns)
+        consciousness_count = sum(len(re.findall(pattern, content_lower)) for pattern in consciousness_patterns)
+        guardian_count = sum(len(re.findall(pattern, content_lower)) for pattern in guardian_patterns)
 
         total_matches = identity_count + consciousness_count + guardian_count
 
@@ -612,9 +592,7 @@ class LUKHASVoiceCoherenceEngine:
 
         # Voice consistency suggestions
         if coherence_metrics.get(CoherenceMetric.VOICE_CONSISTENCY, 0) < 0.7:
-            suggestions.append(
-                "Add more consciousness-focused language (aware, mindful, understanding)"
-            )
+            suggestions.append("Add more consciousness-focused language (aware, mindful, understanding)")
             suggestions.append("Remove robotic or mechanical terminology")
 
         # Trinity alignment suggestions
@@ -623,13 +601,9 @@ class LUKHASVoiceCoherenceEngine:
             min_component = min(trinity_balance.items(), key=lambda x: x[1])
             if min_component[1] < 0.25:
                 if min_component[0] == "identity":
-                    suggestions.append(
-                        "Add authentic identity language (⚛️): genuine, authentic, true self"
-                    )
+                    suggestions.append("Add authentic identity language (⚛️): genuine, authentic, true self")
                 elif min_component[0] == "consciousness":
-                    suggestions.append(
-                        "Add consciousness markers (🧠): aware, mindful, understanding"
-                    )
+                    suggestions.append("Add consciousness markers (🧠): aware, mindful, understanding")
                 elif min_component[0] == "guardian":
                     suggestions.append("Add guardian elements (🛡️): safe, ethical, responsible")
 
@@ -645,9 +619,7 @@ class LUKHASVoiceCoherenceEngine:
 
         return suggestions
 
-    def _calculate_analysis_confidence(
-        self, content: str, coherence_metrics: dict[CoherenceMetric, float]
-    ) -> float:
+    def _calculate_analysis_confidence(self, content: str, coherence_metrics: dict[CoherenceMetric, float]) -> float:
         """Calculate confidence in the coherence analysis"""
 
         word_count = len(content.split())
@@ -658,9 +630,9 @@ class LUKHASVoiceCoherenceEngine:
         # Factor in metric consistency (less variance = higher confidence)
         metric_values = list(coherence_metrics.values())
         if len(metric_values) > 1:
-            variance = sum(
-                (v - sum(metric_values) / len(metric_values)) ** 2 for v in metric_values
-            ) / len(metric_values)
+            variance = sum((v - sum(metric_values) / len(metric_values)) ** 2 for v in metric_values) / len(
+                metric_values
+            )
             consistency_confidence = max(0.5, 1.0 - variance)
         else:
             consistency_confidence = 0.8
@@ -679,17 +651,11 @@ class LUKHASVoiceCoherenceEngine:
         # Calculate average coherence
         if self.coherence_history:
             total_coherence = sum(r.overall_coherence for r in self.coherence_history)
-            self.performance_metrics["average_coherence"] = total_coherence / len(
-                self.coherence_history
-            )
+            self.performance_metrics["average_coherence"] = total_coherence / len(self.coherence_history)
 
             # Calculate target achievement rate (85%+ coherence)
-            target_achievements = sum(
-                1 for r in self.coherence_history if r.overall_coherence >= 0.85
-            )
-            self.performance_metrics["target_achievement_rate"] = target_achievements / len(
-                self.coherence_history
-            )
+            target_achievements = sum(1 for r in self.coherence_history if r.overall_coherence >= 0.85)
+            self.performance_metrics["target_achievement_rate"] = target_achievements / len(self.coherence_history)
 
         # Maintain history limit (last 100 analyses)
         if len(self.coherence_history) > 100:
@@ -705,12 +671,8 @@ class LUKHASVoiceCoherenceEngine:
         return {
             "performance_metrics": self.performance_metrics,
             "recent_coherence_scores": recent_coherence,
-            "target_status": "ACHIEVING"
-            if self.performance_metrics["target_achievement_rate"] >= 0.8
-            else "IMPROVING",
-            "system_health": "EXCELLENT"
-            if self.performance_metrics["average_coherence"] >= 0.85
-            else "GOOD",
+            "target_status": "ACHIEVING" if self.performance_metrics["target_achievement_rate"] >= 0.8 else "IMPROVING",
+            "system_health": "EXCELLENT" if self.performance_metrics["average_coherence"] >= 0.85 else "GOOD",
             "total_voice_patterns": len(self.coherence_patterns),
             "trinity_balance_enabled": True,
         }
@@ -752,13 +714,7 @@ async def main():
         result = await engine.analyze_voice_coherence(content, f"test_{i}")
 
         coherence_pct = result.overall_coherence * 100
-        status = (
-            "✅ EXCELLENT"
-            if coherence_pct >= 85
-            else "⚠️ NEEDS WORK"
-            if coherence_pct >= 70
-            else "❌ POOR"
-        )
+        status = "✅ EXCELLENT" if coherence_pct >= 85 else "⚠️ NEEDS WORK" if coherence_pct >= 70 else "❌ POOR"
 
         print(f"Content {i + 1}: {status} ({coherence_pct:.1f}% coherence)")
         print(f'Content: "{content[:60]}{"..." if len(content) > 60 else ""}"')
@@ -776,9 +732,7 @@ async def main():
     # Performance summary
     summary = engine.get_performance_summary()
     print(f"📊 System Performance: {summary['system_health']}")
-    print(
-        f"🎯 Target Achievement: {summary['performance_metrics']['target_achievement_rate'] * 100:.1f}%"
-    )
+    print(f"🎯 Target Achievement: {summary['performance_metrics']['target_achievement_rate'] * 100:.1f}%")
 
 
 if __name__ == "__main__":

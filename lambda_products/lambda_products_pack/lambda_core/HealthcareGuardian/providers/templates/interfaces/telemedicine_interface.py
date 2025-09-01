@@ -13,9 +13,7 @@ class TelemedicineInterface(ABC):
     """Abstract base class for telemedicine platform integration"""
 
     @abstractmethod
-    async def initialize_session(
-        self, provider_id: str, patient_id: str, session_type: str
-    ) -> dict[str, Any]:
+    async def initialize_session(self, provider_id: str, patient_id: str, session_type: str) -> dict[str, Any]:
         """Initialize a new telemedicine session"""
         pass
 
@@ -49,9 +47,7 @@ class TelemedicineSecurityHandler(ABC):
     """Handler for telemedicine security requirements"""
 
     @abstractmethod
-    async def verify_participant(
-        self, session_id: str, participant_id: str, verification_type: str
-    ) -> bool:
+    async def verify_participant(self, session_id: str, participant_id: str, verification_type: str) -> bool:
         """Verify participant identity"""
         pass
 
@@ -61,8 +57,6 @@ class TelemedicineSecurityHandler(ABC):
         pass
 
     @abstractmethod
-    async def log_security_event(
-        self, session_id: str, event_type: str, event_data: dict[str, Any]
-    ) -> None:
+    async def log_security_event(self, session_id: str, event_type: str, event_data: dict[str, Any]) -> None:
         """Log security-related events"""
         pass

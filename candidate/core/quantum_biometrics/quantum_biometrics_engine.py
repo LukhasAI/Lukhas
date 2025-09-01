@@ -63,9 +63,7 @@ class QuantumBiometricsEngine:
             "heart_rate_variability": hrv,
             "circadian_phase": circadian_phase,
             "glucose_consciousness_impact": random.uniform(0.1, 0.9),  # Placeholder
-            "quantum_entanglement_potential": await self.hive_mind_sensors.get_collective_resonance(
-                user_id
-            ),
+            "quantum_entanglement_potential": await self.hive_mind_sensors.get_collective_resonance(user_id),
         }
 
     async def predict_biological_receptivity(self, user_id: str) -> dict[str, float]:

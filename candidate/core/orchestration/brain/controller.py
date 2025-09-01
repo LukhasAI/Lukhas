@@ -228,9 +228,7 @@ class AdvancedAGIController:
         # Calculate system efficiency
         if self.metrics["total_interactions"] > 0:
             self.metrics["system_efficiency"] = (
-                self.metrics["reasoning_cycles"]
-                + self.metrics["memory_operations"]
-                + self.metrics["predictions_made"]
+                self.metrics["reasoning_cycles"] + self.metrics["memory_operations"] + self.metrics["predictions_made"]
             ) / (self.metrics["total_interactions"] * 3)
 
         return {
@@ -282,9 +280,7 @@ class AdvancedAGIController:
         Returns:
             List of similar memories
         """
-        return self.memory_manager.find_emotionally_similar_memories(
-            target_emotion=emotion, threshold=threshold
-        )
+        return self.memory_manager.find_emotionally_similar_memories(target_emotion=emotion, threshold=threshold)
 
     async def adaptive_learning_cycle(self) -> dict:
         """
@@ -335,8 +331,7 @@ class AdvancedAGIController:
         return {
             "total_memories": memory_stats.get("total_memories", 0),
             "emotional_clusters": memory_stats.get("emotional_clusters", {}),
-            "memory_efficiency": memory_stats.get("total_memories", 0)
-            / max(1, memory_stats.get("retrieval_count", 1)),
+            "memory_efficiency": memory_stats.get("total_memories", 0) / max(1, memory_stats.get("retrieval_count", 1)),
         }
 
     def _update_causal_models(self) -> dict:

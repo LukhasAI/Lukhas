@@ -100,9 +100,7 @@ class LukhasMetaCognitiveEngine:
         complexity_score = 0
         complexity_score += min(word_count / 50, 1.0) * 0.3
         complexity_score += min(question_marks / 3, 1.0) * 0.3
-        complexity_score += (
-            sum(1 for term in complex_terms if term in request.lower()) / len(complex_terms) * 0.4
-        )
+        complexity_score += sum(1 for term in complex_terms if term in request.lower()) / len(complex_terms) * 0.4
 
         if complexity_score < 0.3:
             return "simple"
@@ -315,9 +313,7 @@ class LukhasCausalReasoningEngine:
         """Initialize the causal reasoning engine"""
         logger.info("🔗 Lukhas causal reasoning engine initialized")
 
-    async def analyze_request_causality(
-        self, request: str, subsystem_responses: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def analyze_request_causality(self, request: str, subsystem_responses: dict[str, Any]) -> dict[str, Any]:
         """Analyze causal relationships in request processing"""
 
         analysis = {
@@ -329,9 +325,7 @@ class LukhasCausalReasoningEngine:
 
         return analysis
 
-    async def _identify_causal_chains(
-        self, request: str, responses: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def _identify_causal_chains(self, request: str, responses: dict[str, Any]) -> list[dict[str, Any]]:
         """Identify causal chains in the processing"""
         chains = []
 
@@ -362,9 +356,7 @@ class LukhasCausalReasoningEngine:
 
         return interventions
 
-    async def _predict_outcomes(
-        self, request: str, responses: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def _predict_outcomes(self, request: str, responses: dict[str, Any]) -> list[dict[str, Any]]:
         """Predict outcomes based on causal analysis"""
         predictions = []
 
@@ -495,9 +487,7 @@ class LukhasCuriosityEngine:
         """Initialize the curiosity engine"""
         logger.info("🔍 Lukhas curiosity engine initialized")
 
-    async def identify_learning_opportunities(
-        self, request: str, responses: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def identify_learning_opportunities(self, request: str, responses: dict[str, Any]) -> list[dict[str, Any]]:
         """Identify learning opportunities from processing"""
 
         opportunities = []
@@ -733,14 +723,10 @@ class LukhasNarrativeIntelligenceEngine:
         # Causal explanation
         causal_chains = causal_insights.get("causal_chains", [])
         if causal_chains:
-            narrative_parts.append(
-                "The processing revealed clear causal relationships between the components"
-            )
+            narrative_parts.append("The processing revealed clear causal relationships between the components")
 
         # Conclusion
-        narrative_parts.append(
-            "This analysis provides a comprehensive understanding of the request"
-        )
+        narrative_parts.append("This analysis provides a comprehensive understanding of the request")
 
         return ". ".join(narrative_parts) + "."
 

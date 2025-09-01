@@ -105,9 +105,7 @@ class LucasDASTAPI:
             else:
                 # Manual filtering
                 all_tasks = list(self.dast_engine.tasks.values())
-                filtered_tasks = self._apply_filters(
-                    all_tasks, query, priority_filter, status_filter
-                )
+                filtered_tasks = self._apply_filters(all_tasks, query, priority_filter, status_filter)
                 tasks = self._format_tasks_for_api(filtered_tasks[:limit])
 
             response = {
@@ -358,18 +356,13 @@ class LucasDASTAPI:
                 },
                 "api_health": {
                     "endpoints_operational": True,
-                    "response_time_target_met": performance_stats.get(
-                        "performance_target_met", True
-                    ),
+                    "response_time_target_met": performance_stats.get("performance_target_met", True),
                     "error_rate": self._calculate_error_rate(),
                 },
             }
 
             # Determine overall health
-            if (
-                not performance_stats.get("performance_target_met", True)
-                or self._calculate_error_rate() > 0.05
-            ):
+            if not performance_stats.get("performance_target_met", True) or self._calculate_error_rate() > 0.05:
                 health_status["status"] = "degraded"
 
             self._record_api_call("GET /health", time.time() - start_time)
@@ -505,9 +498,7 @@ class LucasDASTAPI:
                 "total_tasks": len(tasks),
             },
             "workflow_efficiency": {
-                "completion_rate": (
-                    status_distribution.get("completed", 0) / len(tasks) if tasks else 0
-                ),
+                "completion_rate": (status_distribution.get("completed", 0) / len(tasks) if tasks else 0),
                 "average_task_age": 3.5,  # days
                 "bottleneck_indicators": [],
             },
@@ -532,9 +523,7 @@ class LucasDASTAPI:
 
     def _generate_comprehensive_analytics(self, timeframe: int) -> dict:
         """Generate comprehensive analytics"""
-        performance = self._generate_performance_analytics(
-            self.dast_engine.get_performance_stats(), timeframe
-        )
+        performance = self._generate_performance_analytics(self.dast_engine.get_performance_stats(), timeframe)
         workflow = self._generate_workflow_analytics(timeframe)
         trends = self._generate_trend_analytics(timeframe)
 

@@ -141,9 +141,7 @@ class IntentNodeAdapter:
 
         # Calculate quantum probabilities
         total_probability = sum(abs(amp) ** 2 for amp in superposition.values())
-        probabilities = {
-            intent: abs(amp) ** 2 / total_probability for intent, amp in superposition.items()
-        }
+        probabilities = {intent: abs(amp) ** 2 / total_probability for intent, amp in superposition.items()}
 
         # Select primary intent (quantum collapse)
         primary_intent = max(probabilities.items(), key=lambda x: x[1])[0]
@@ -218,9 +216,7 @@ class IntentNodeAdapter:
     def _update_quantum_like_state(self, intent_result: dict[str, Any]) -> None:
         """Update quantum-like state based on intent detection"""
         # Update coherence based on confidence
-        self.qi_like_state["coherence"] = (
-            self.qi_like_state["coherence"] * 0.7 + intent_result["confidence"] * 0.3
-        )
+        self.qi_like_state["coherence"] = self.qi_like_state["coherence"] * 0.7 + intent_result["confidence"] * 0.3
 
         # Update entanglement based on context links
         self.qi_like_state["entanglement"] = {
@@ -237,13 +233,9 @@ class IntentNodeAdapter:
             "processing_time": processing_time,
             "qi_coherence": self.qi_like_state["coherence"],
             "attention_quality": (
-                np.mean(self.metrics["attention_quality"][-10:])
-                if self.metrics["attention_quality"]
-                else 0.0
+                np.mean(self.metrics["attention_quality"][-10:]) if self.metrics["attention_quality"] else 0.0
             ),
             "energy_efficiency": (
-                np.mean(self.metrics["energy_efficiency"][-10:])
-                if self.metrics["energy_efficiency"]
-                else 0.0
+                np.mean(self.metrics["energy_efficiency"][-10:]) if self.metrics["energy_efficiency"] else 0.0
             ),
         }

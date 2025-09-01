@@ -58,9 +58,7 @@ class EnhancedDASTOrchestrator:
         try:
             # {ΛROUTER_LINK}
             # Monitor system state
-            await self.awareness.monitor_system(
-                {"intent": intent, "system_state": self.get_system_state()}
-            )
+            await self.awareness.monitor_system({"intent": intent, "system_state": self.get_system_state()})
 
             # Quantum-enhanced ethical check
             ethical_result = await self._quantum_ethical_check(intent)

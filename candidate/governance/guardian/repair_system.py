@@ -250,12 +250,8 @@ class AutomatedRepairSystem:
         )
 
         # Trinity Framework analysis
-        operation.identity_impact = await self._analyze_identity_impact(
-            repair_type, affected_components
-        )
-        operation.consciousness_impact = await self._analyze_consciousness_impact(
-            repair_type, affected_components
-        )
+        operation.identity_impact = await self._analyze_identity_impact(repair_type, affected_components)
+        operation.consciousness_impact = await self._analyze_consciousness_impact(repair_type, affected_components)
 
         # Generate repair strategy if not provided
         if not operation.repair_strategy:
@@ -272,9 +268,7 @@ class AutomatedRepairSystem:
 
         operation.audit_log.append(f"Repair scheduled: {operation.repair_strategy}")
 
-        logger.info(
-            f"🔧 Repair scheduled: {operation_id} ({repair_type.value}, priority: {priority.value})"
-        )
+        logger.info(f"🔧 Repair scheduled: {operation_id} ({repair_type.value}, priority: {priority.value})")
 
         return operation
 
@@ -395,9 +389,7 @@ class AutomatedRepairSystem:
             optimizations_applied = 0
 
             for component in operation.affected_components:
-                optimization_success = await self._optimize_component_performance(
-                    component, operation
-                )
+                optimization_success = await self._optimize_component_performance(component, operation)
                 if optimization_success:
                     optimizations_applied += 1
                     operation.repair_log.append(f"Performance optimization applied to {component}")
@@ -407,14 +399,10 @@ class AutomatedRepairSystem:
             operation.repair_log.append("Resource allocation adjusted")
 
             # Verify performance improvement
-            performance_improvement = await self._measure_performance_improvement(
-                operation.affected_components
-            )
+            performance_improvement = await self._measure_performance_improvement(operation.affected_components)
             operation.repair_log.append(f"Performance improvement: {performance_improvement}%")
 
-            return (
-                optimizations_applied > 0 and performance_improvement > 5
-            )  # At least 5% improvement
+            return optimizations_applied > 0 and performance_improvement > 5  # At least 5% improvement
 
         except Exception as e:
             operation.repair_log.append(f"Performance optimization failed: {e!s}")
@@ -445,9 +433,7 @@ class AutomatedRepairSystem:
 
             # Verify system integration
             integration_check = await self._verify_system_integration(operation.affected_components)
-            operation.repair_log.append(
-                f"System integration check: {'passed' if integration_check else 'failed'}"
-            )
+            operation.repair_log.append(f"System integration check: {'passed' if integration_check else 'failed'}")
 
             return restored_components > 0 and integration_check
 
@@ -469,23 +455,17 @@ class AutomatedRepairSystem:
             corrections_applied = 0
 
             for violation in violations:
-                correction_success = await self._apply_constitutional_correction(
-                    violation, operation
-                )
+                correction_success = await self._apply_constitutional_correction(violation, operation)
                 if correction_success:
                     corrections_applied += 1
-                    operation.repair_log.append(
-                        f"Constitutional correction applied: {violation['type']}"
-                    )
+                    operation.repair_log.append(f"Constitutional correction applied: {violation['type']}")
 
             # Strengthen constitutional enforcement
             await self._strengthen_constitutional_enforcement(operation.affected_components)
             operation.repair_log.append("Constitutional enforcement strengthened")
 
             # Verify compliance restoration
-            compliance_score = await self._measure_constitutional_compliance(
-                operation.affected_components
-            )
+            compliance_score = await self._measure_constitutional_compliance(operation.affected_components)
             operation.repair_log.append(f"Post-repair compliance score: {compliance_score}")
 
             return corrections_applied > 0 and compliance_score > 0.9
@@ -506,25 +486,15 @@ class AutomatedRepairSystem:
 
             # System state preservation
             state_preserved = await self._preserve_critical_state(operation.affected_components)
-            operation.repair_log.append(
-                f"Critical state preservation: {'success' if state_preserved else 'failed'}"
-            )
+            operation.repair_log.append(f"Critical state preservation: {'success' if state_preserved else 'failed'}")
 
             # Graceful degradation
-            degradation_success = await self._implement_graceful_degradation(
-                operation.affected_components
-            )
-            operation.repair_log.append(
-                f"Graceful degradation: {'implemented' if degradation_success else 'failed'}"
-            )
+            degradation_success = await self._implement_graceful_degradation(operation.affected_components)
+            operation.repair_log.append(f"Graceful degradation: {'implemented' if degradation_success else 'failed'}")
 
             # Recovery sequence
-            recovery_success = await self._execute_recovery_sequence(
-                operation.affected_components, operation
-            )
-            operation.repair_log.append(
-                f"Recovery sequence: {'completed' if recovery_success else 'failed'}"
-            )
+            recovery_success = await self._execute_recovery_sequence(operation.affected_components, operation)
+            operation.repair_log.append(f"Recovery sequence: {'completed' if recovery_success else 'failed'}")
 
             return state_preserved and recovery_success
 

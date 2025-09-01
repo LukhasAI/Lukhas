@@ -157,10 +157,7 @@ class ConnectivityAnalyzer:
 
             # Check if isolated
             is_isolated = (
-                imports_out_count == 0
-                and imports_in_count == 0
-                and not metrics["is_init"]
-                and not metrics["has_main"]
+                imports_out_count == 0 and imports_in_count == 0 and not metrics["is_init"] and not metrics["has_main"]
             )
 
             metrics["is_isolated"] = is_isolated
@@ -220,8 +217,7 @@ class ConnectivityAnalyzer:
                 "isolated_files": len(truly_isolated),
                 "hub_files": len(hubs),
                 "average_connectivity": (
-                    sum(m["connectivity_score"] for m in self.file_metrics.values())
-                    / len(self.file_metrics)
+                    sum(m["connectivity_score"] for m in self.file_metrics.values()) / len(self.file_metrics)
                     if self.file_metrics
                     else 0
                 ),
@@ -230,8 +226,7 @@ class ConnectivityAnalyzer:
                 "highly_connected_threshold": 10,
                 "isolated_threshold": 0,
                 "average_imports_per_file": (
-                    sum(len(m["imports_out"]) for m in self.file_metrics.values())
-                    / len(self.file_metrics)
+                    sum(len(m["imports_out"]) for m in self.file_metrics.values()) / len(self.file_metrics)
                     if self.file_metrics
                     else 0
                 ),
@@ -272,9 +267,7 @@ class ConnectivityAnalyzer:
         for module, stats in module_stats.items():
             if stats["file_count"] > 0:
                 total_connectivity = sum(
-                    m["connectivity_score"]
-                    for f, m in self.file_metrics.items()
-                    if f.startswith(module + "/")
+                    m["connectivity_score"] for f, m in self.file_metrics.items() if f.startswith(module + "/")
                 )
                 stats["avg_connectivity"] = total_connectivity / stats["file_count"]
 

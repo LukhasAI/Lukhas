@@ -164,31 +164,23 @@ class LukhusQRGIntegrator:
         print(
             f"🧠 Consciousness engine: {'active' if hasattr(self.consciousness_engine, 'assess_consciousness') else 'mock'}"
         )
-        print(
-            f"🌍 Cultural manager: {'active' if hasattr(self.cultural_manager, 'get_cultural_profile') else 'mock'}"
-        )
+        print(f"🌍 Cultural manager: {'active' if hasattr(self.cultural_manager, 'get_cultural_profile') else 'mock'}")
 
     def create_qrg_context(self, user_id: str, **kwargs) -> QRGContext:
         """Create context for QRG generation"""
         # Get consciousness assessment
         consciousness_data = self.consciousness_engine.assess_consciousness(user_id)
-        consciousness_level = (
-            consciousness_data.get("level", 0.5) if isinstance(consciousness_data, dict) else 0.5
-        )
+        consciousness_level = consciousness_data.get("level", 0.5) if isinstance(consciousness_data, dict) else 0.5
 
         # Get cultural profile
         cultural_data = self.cultural_manager.get_cultural_profile(user_id)
         cultural_profile = (
-            cultural_data
-            if isinstance(cultural_data, dict)
-            else {"region": "universal", "preferences": {}}
+            cultural_data if isinstance(cultural_data, dict) else {"region": "universal", "preferences": {}}
         )
 
         # Estimate cognitive load
         cognitive_data = self.cognitive_estimator.estimate_load(user_id)
-        cognitive_load = (
-            cognitive_data.get("load", 0.3) if isinstance(cognitive_data, dict) else 0.3
-        )
+        cognitive_load = cognitive_data.get("load", 0.3) if isinstance(cognitive_data, dict) else 0.3
 
         # Default context values
         context = QRGContext(
@@ -200,12 +192,8 @@ class LukhusQRGIntegrator:
             attention_focus=kwargs.get("attention_focus", ["security", "authentication"]),
             timestamp=datetime.now(),
             session_id=kwargs.get("session_id", secrets.token_hex(16)),
-            device_capabilities=kwargs.get(
-                "device_capabilities", {"display": "standard", "interaction": "touch"}
-            ),
-            environmental_factors=kwargs.get(
-                "environmental_factors", {"lighting": "normal", "noise": "low"}
-            ),
+            device_capabilities=kwargs.get("device_capabilities", {"display": "standard", "interaction": "touch"}),
+            environmental_factors=kwargs.get("environmental_factors", {"lighting": "normal", "noise": "low"}),
         )
 
         # Cache session context
@@ -233,9 +221,7 @@ class LukhusQRGIntegrator:
         ).hexdigest()[:16]
 
         # Create visualization pattern
-        pattern_data = self._create_consciousness_pattern(
-            pattern_complexity, consciousness_state, neural_signature
-        )
+        pattern_data = self._create_consciousness_pattern(pattern_complexity, consciousness_state, neural_signature)
 
         # Generate metadata
         metadata = {
@@ -279,14 +265,8 @@ class LukhusQRGIntegrator:
         print(f"🌍 Generating cultural QRG for user {context.user_id}")
 
         # Analyze cultural context
-        cultural_analysis = self.safety_checker.check_cultural_safety(
-            context.cultural_profile, context.user_id
-        )
-        safety_score = (
-            cultural_analysis.get("safety_score", 0.9)
-            if isinstance(cultural_analysis, dict)
-            else 0.9
-        )
+        cultural_analysis = self.safety_checker.check_cultural_safety(context.cultural_profile, context.user_id)
+        safety_score = cultural_analysis.get("safety_score", 0.9) if isinstance(cultural_analysis, dict) else 0.9
 
         # Determine cultural adaptation strategy
         cultural_region = context.cultural_profile.get("region", "universal")
@@ -405,9 +385,7 @@ class LukhusQRGIntegrator:
             ],
         }
 
-        security_signature = hashlib.blake2b(
-            (pattern_data + qi_signature).encode(), key=qi_seed[:32]
-        ).hexdigest()
+        security_signature = hashlib.blake2b((pattern_data + qi_signature).encode(), key=qi_seed[:32]).hexdigest()
 
         result = QRGResult(
             qr_type=QRGType.QUANTUM_ENCRYPTED,
@@ -613,19 +591,13 @@ class LukhusQRGIntegrator:
             return QRGType.CULTURAL_SYMBOLIC
 
         # Dream state detection
-        if (
-            context.consciousness_level < 0.4
-            or "dream" in context.attention_focus
-            or context.cognitive_load < 0.2
-        ):
+        if context.consciousness_level < 0.4 or "dream" in context.attention_focus or context.cognitive_load < 0.2:
             return QRGType.DREAM_STATE
 
         # Default to consciousness-adaptive
         return QRGType.CONSCIOUSNESS_ADAPTIVE
 
-    def _create_consciousness_pattern(
-        self, complexity: int, consciousness_state: dict, neural_signature: str
-    ) -> str:
+    def _create_consciousness_pattern(self, complexity: int, consciousness_state: dict, neural_signature: str) -> str:
         """Create consciousness-resonant QR pattern"""
         # Simulate consciousness-adaptive pattern generation
         base_pattern = f"CONSCIOUSNESS_QR_{complexity}x{complexity}_{neural_signature}"
@@ -636,17 +608,13 @@ class LukhusQRGIntegrator:
 
         return pattern_data
 
-    def _create_cultural_pattern(
-        self, region: str, style: str, elements: list[str], signature: str
-    ) -> str:
+    def _create_cultural_pattern(self, region: str, style: str, elements: list[str], signature: str) -> str:
         """Create culturally-sensitive QR pattern"""
         cultural_elements = "_".join(elements)
         pattern_data = f"CULTURAL_QR_{region}_{style}_{cultural_elements}_{signature}"
         return pattern_data
 
-    def _create_quantum_pattern(
-        self, qi_seed: bytes, params: dict, security_level: SecurityLevel
-    ) -> str:
+    def _create_quantum_pattern(self, qi_seed: bytes, params: dict, security_level: SecurityLevel) -> str:
         """Create quantum-encrypted QR pattern"""
         seed_hex = qi_seed.hex()[:32]
         coherence = params.get("coherence", 0.95)
@@ -704,16 +672,9 @@ class LukhusQRGIntegrator:
         most_popular = max(type_counts.items(), key=lambda x: x[1])
 
         # Calculate averages
-        avg_compliance = (
-            sum(entry.get("compliance_score", 0) for entry in self.generation_history) / total
-        )
-        avg_cultural_safety = (
-            sum(entry.get("cultural_safety_score", 0) for entry in self.generation_history) / total
-        )
-        avg_consciousness = (
-            sum(entry.get("consciousness_resonance", 0) for entry in self.generation_history)
-            / total
-        )
+        avg_compliance = sum(entry.get("compliance_score", 0) for entry in self.generation_history) / total
+        avg_cultural_safety = sum(entry.get("cultural_safety_score", 0) for entry in self.generation_history) / total
+        avg_consciousness = sum(entry.get("consciousness_resonance", 0) for entry in self.generation_history) / total
 
         return {
             "total_generations": total,
@@ -726,9 +687,7 @@ class LukhusQRGIntegrator:
                 "consciousness_resonance": round(avg_consciousness, 3),
             },
             "active_sessions": len(self.active_sessions),
-            "last_generation": (
-                self.generation_history[-1]["timestamp"] if self.generation_history else None
-            ),
+            "last_generation": (self.generation_history[-1]["timestamp"] if self.generation_history else None),
         }
 
 

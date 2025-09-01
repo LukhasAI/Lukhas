@@ -309,9 +309,7 @@ async def get_stakeholder_dashboard(stakeholder_type: str) -> dict[str, Any]:
     }
 
     if stakeholder_type not in dashboards:
-        raise HTTPException(
-            status_code=404, detail=f"Stakeholder type '{stakeholder_type}' not found"
-        )
+        raise HTTPException(status_code=404, detail=f"Stakeholder type '{stakeholder_type}' not found")
 
     return {
         "stakeholder": stakeholder_type,

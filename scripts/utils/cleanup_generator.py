@@ -237,9 +237,7 @@ class CleanupGenerator:
                 lines.append(f"echo '  - {imp}'")
             lines.append("")
 
-        lines.append(
-            "echo 'Please review and fix these imports manually after running the reorganization'"
-        )
+        lines.append("echo 'Please review and fix these imports manually after running the reorganization'")
         lines.append("")
 
         return lines

@@ -140,9 +140,7 @@ class LambdaConsentManager:
             "symbolic_representation": symbolic_status,
             "symbolic_history": symbolic_history,
             "history_integrity": self.history_manager.verify_consent_chain(user_id),
-            "last_updated": max(
-                [c.get("timestamp", "") for c in active_consents.values()], default=""
-            ),
+            "last_updated": max([c.get("timestamp", "") for c in active_consents.values()], default=""),
         }
 
     def get_symbolic_consent_status(self, user_id: str) -> str:

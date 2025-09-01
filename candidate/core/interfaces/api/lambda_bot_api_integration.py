@@ -141,9 +141,7 @@ async def lambda_bot_health():
     return {
         "lambda_bots": health_status,
         "total_bots": len(LAMBDA_BOT_ENDPOINTS),
-        "healthy_bots": sum(
-            1 for status in health_status.values() if status.get("status") == "healthy"
-        ),
+        "healthy_bots": sum(1 for status in health_status.values() if status.get("status") == "healthy"),
         "timestamp": datetime.utcnow().isoformat(),
     }
 

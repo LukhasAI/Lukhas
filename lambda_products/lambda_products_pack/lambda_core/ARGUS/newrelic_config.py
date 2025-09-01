@@ -54,9 +54,7 @@ NEWRELIC_CONFIG = {
         "enabled": True,
     },
     # Custom Attributes for LUKHAS AI
-    "attributes": {
-        "include": ["request.*", "response.*", "lukhas.*", "consciousness.*", "trinity.*"]
-    },
+    "attributes": {"include": ["request.*", "response.*", "lukhas.*", "consciousness.*", "trinity.*"]},
 }
 
 
@@ -169,12 +167,8 @@ class LUKHASNewRelicMonitoring:
             )
 
             # Add custom metrics
-            newrelic.agent.record_custom_metric(
-                "Custom/LUKHAS/Dreams/GenerationTime", generation_time_ms
-            )
-            newrelic.agent.record_custom_metric(
-                "Custom/LUKHAS/Dreams/ConsciousnessScore", consciousness_score
-            )
+            newrelic.agent.record_custom_metric("Custom/LUKHAS/Dreams/GenerationTime", generation_time_ms)
+            newrelic.agent.record_custom_metric("Custom/LUKHAS/Dreams/ConsciousnessScore", consciousness_score)
 
         except Exception as e:
             self.logger.error(f"Failed to track dream generation: {e}")
@@ -191,9 +185,7 @@ class LUKHASNewRelicMonitoring:
 
             # Record Trinity Framework metrics
             newrelic.agent.record_custom_metric("Custom/LUKHAS/Trinity/Identity", identity_health)
-            newrelic.agent.record_custom_metric(
-                "Custom/LUKHAS/Trinity/Consciousness", consciousness_health
-            )
+            newrelic.agent.record_custom_metric("Custom/LUKHAS/Trinity/Consciousness", consciousness_health)
             newrelic.agent.record_custom_metric("Custom/LUKHAS/Trinity/Guardian", guardian_health)
 
             overall_health = (identity_health + consciousness_health + guardian_health) / 3

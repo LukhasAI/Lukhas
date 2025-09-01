@@ -176,9 +176,7 @@ class VIVOXQIBridge:
 
         return result
 
-    def qi_memory_encoding(
-        self, memory_trace: dict[str, Any], emotional_context: dict[str, float]
-    ) -> dict[str, Any]:
+    def qi_memory_encoding(self, memory_trace: dict[str, Any], emotional_context: dict[str, float]) -> dict[str, Any]:
         """
         Encode memory with quantum properties for ME
 
@@ -267,14 +265,10 @@ class VIVOXQIBridge:
         )
 
         # Perform multi-agent collapse
-        convergence_results = self.collapse_engine.multi_agent_collapse(
-            qi_agent_states, decision_scenario
-        )
+        convergence_results = self.collapse_engine.multi_agent_collapse(qi_agent_states, decision_scenario)
 
         # Check quantum synchronization
-        sync_event = self.synchronizer.create_sync_event(
-            list(agent_states.keys()), SyncType.CONSENSUS
-        )
+        sync_event = self.synchronizer.create_sync_event(list(agent_states.keys()), SyncType.CONSENSUS)
 
         # Aggregate results
         consensus_achieved = all(r.consensus_achieved for r in convergence_results)
@@ -374,9 +368,7 @@ class VIVOXQIBridge:
                 vector[i] = np.sqrt(emotion) * np.exp(1j * np.pi * importance)
 
         # Add quantum noise for uniqueness
-        vector += 0.1 * (
-            np.random.normal(0, 0.1, dimension) + 1j * np.random.normal(0, 0.1, dimension)
-        )
+        vector += 0.1 * (np.random.normal(0, 0.1, dimension) + 1j * np.random.normal(0, 0.1, dimension))
 
         return vector / np.linalg.norm(vector)
 
@@ -447,9 +439,7 @@ class VIVOXQIBridge:
             fidelity=agent_state.get("qi_readiness", 0.8),
         )
 
-    def _log_bridge_event(
-        self, target_module: str, operation: str, data: dict[str, Any], success: bool
-    ):
+    def _log_bridge_event(self, target_module: str, operation: str, data: dict[str, Any], success: bool):
         """Log quantum bridge event"""
         event = QIBridgeEvent(
             event_id=f"bridge_{datetime.now().timestamp()}",
@@ -476,21 +466,15 @@ class VIVOXQIBridge:
 
     def _bridge_to_mae(self, data: dict[str, Any]) -> dict[str, Any]:
         """Bridge to Moral Alignment Engine"""
-        return self.enhance_mae_validation_quantum(
-            data.get("moral_fingerprint", ""), data.get("alignment_scores", {})
-        )
+        return self.enhance_mae_validation_quantum(data.get("moral_fingerprint", ""), data.get("alignment_scores", {}))
 
     def _bridge_to_memory(self, data: dict[str, Any]) -> dict[str, Any]:
         """Bridge to Memory Expansion"""
-        return self.qi_memory_encoding(
-            data.get("memory_trace", {}), data.get("emotional_context", {})
-        )
+        return self.qi_memory_encoding(data.get("memory_trace", {}), data.get("emotional_context", {}))
 
     def _bridge_to_orchestration(self, data: dict[str, Any]) -> dict[str, Any]:
         """Bridge to Orchestration Layer"""
-        return self.orchestrate_quantum_consensus(
-            data.get("agent_states", {}), data.get("decision_scenario", {})
-        )
+        return self.orchestrate_quantum_consensus(data.get("agent_states", {}), data.get("decision_scenario", {}))
 
     def _bridge_to_emotion(self, data: dict[str, Any]) -> dict[str, Any]:
         """Bridge to Emotional Regulation Network"""

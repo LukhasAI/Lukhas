@@ -80,9 +80,7 @@ class LUKHASClient:
         url = f"{self.base_url}{endpoint}"
         headers = self._get_headers()
 
-        async with self.session.request(
-            method=method, url=url, headers=headers, json=data, params=params
-        ) as response:
+        async with self.session.request(method=method, url=url, headers=headers, json=data, params=params) as response:
             response_data = await response.json()
 
             if response.status >= 400:
@@ -175,9 +173,7 @@ class MemoryClient:
 
         return response.get("result", {}).get("results", [])
 
-    async def update(
-        self, query: str, content: dict[str, Any], memory_type: str = "general"
-    ) -> int:
+    async def update(self, query: str, content: dict[str, Any], memory_type: str = "general") -> int:
         """Update memories"""
         data = {
             "action": "update",
@@ -344,9 +340,7 @@ async def example_usage():
         print(f"Logged in: {auth_response}")
 
         # Query consciousness
-        consciousness_response = await client.consciousness.query(
-            "What is the nature of artificial consciousness?"
-        )
+        consciousness_response = await client.consciousness.query("What is the nature of artificial consciousness?")
         print(f"Consciousness says: {consciousness_response}")
 
         # Store a memory

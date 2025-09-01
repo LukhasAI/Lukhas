@@ -194,12 +194,9 @@ class GuardianAuditExporter:
         # System metrics
         system_metrics = {
             "total_interventions": len(interventions),
-            "successful_interventions": len(
-                [i for i in interventions if i["outcome"] == "successful"]
-            ),
+            "successful_interventions": len([i for i in interventions if i["outcome"] == "successful"]),
             "average_severity": sum(i["severity"] for i in interventions) / len(interventions),
-            "average_stabilization_time": sum(i["stabilization_time"] for i in interventions)
-            / len(interventions),
+            "average_stabilization_time": sum(i["stabilization_time"] for i in interventions) / len(interventions),
             "threat_type_distribution": {
                 "drift_spike": 1,
                 "pattern_anomaly": 1,

@@ -218,12 +218,8 @@ class BioOscillator:
             "qi_sync": self.qi_sync,
             "timestamp": datetime.utcnow().isoformat(),
             "verification": {
-                "identity_legacy": (
-                    self._security_context.lukhas_id if self._security_context else None
-                ),
-                "access_level": (
-                    self._security_context.access_level if self._security_context else None
-                ),
+                "identity_legacy": (self._security_context.lukhas_id if self._security_context else None),
+                "access_level": (self._security_context.access_level if self._security_context else None),
             },
         }
 
@@ -330,9 +326,7 @@ class MoodOscillator(BioOscillator):
             drift_score: The current drift score.
         """
         # #ΛTAG: endocrine_debug
-        logger.info(
-            f"Updating mood with affect_delta: {affect_delta} and drift_score: {drift_score}"
-        )
+        logger.info(f"Updating mood with affect_delta: {affect_delta} and drift_score: {drift_score}")
         self.affect_delta = affect_delta
         self.driftScore = drift_score
 
@@ -405,9 +399,7 @@ class MoodOscillator(BioOscillator):
                 "variability": 0.0,
             }
 
-        affect_delta = (
-            sum(emotional_signals.values()) / len(emotional_signals) if emotional_signals else 0.0
-        )
+        affect_delta = sum(emotional_signals.values()) / len(emotional_signals) if emotional_signals else 0.0
         self.update_mood(affect_delta, self.driftScore)
 
         return {

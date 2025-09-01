@@ -73,13 +73,9 @@ class EntropyProfile:
     def compute_entropy(self, t: float) -> float:
         """Compute entropy value at time t using configured waveform."""
         if self.wave_type == "sine":
-            return self.base_magnitude * (
-                1 + self.variance * np.sin(2 * np.pi * self.frequency * t)
-            )
+            return self.base_magnitude * (1 + self.variance * np.sin(2 * np.pi * self.frequency * t))
         elif self.wave_type == "square":
-            return self.base_magnitude * (
-                1 + self.variance * np.sign(np.sin(2 * np.pi * self.frequency * t))
-            )
+            return self.base_magnitude * (1 + self.variance * np.sign(np.sin(2 * np.pi * self.frequency * t)))
         elif self.wave_type == "sawtooth":
             phase = (t * self.frequency) % 1
             return self.base_magnitude * (1 + self.variance * (2 * phase - 1))
@@ -283,9 +279,7 @@ class DriftRecoverySimulator:
                     symbol_id=symbol_id,
                     health=health,
                 )
-                self.recovery_metrics[symbol_id].interventions.append(
-                    (time.time(), "cascade_prevention_triggered")
-                )
+                self.recovery_metrics[symbol_id].interventions.append((time.time(), "cascade_prevention_triggered"))
 
             await asyncio.sleep(0.1)  # 10Hz update rate
 
@@ -673,18 +667,12 @@ class DriftRecoverySimulator:
             "timestamp": datetime.now().isoformat(),
             "total_tests": len(test_results),
             "test_results": test_results,
-            "overall_resilience": (
-                np.mean([r["resilience_score"] for r in drift_tests]) if drift_tests else 0.0
-            ),
+            "overall_resilience": (np.mean([r["resilience_score"] for r in drift_tests]) if drift_tests else 0.0),
             "average_recovery_time": (
-                np.mean([r["recovery"]["time_to_recovery"] or 60.0 for r in drift_tests])
-                if drift_tests
-                else 0.0
+                np.mean([r["recovery"]["time_to_recovery"] or 60.0 for r in drift_tests]) if drift_tests else 0.0
             ),
             "cascade_impact": (
-                np.mean([r["result"]["total_health_loss"] for r in cascade_tests])
-                if cascade_tests
-                else 0.0
+                np.mean([r["result"]["total_health_loss"] for r in cascade_tests]) if cascade_tests else 0.0
             ),
         }
 
@@ -716,9 +704,7 @@ async def quick_drift_test(symbol_id: str = "test_symbol") -> dict[str, Any]:
     )
 
     # Measure recovery
-    recovery = await simulator.measure_recovery(
-        symbol_id, timeout=10.0, intervention_strategy="moderate"
-    )
+    recovery = await simulator.measure_recovery(symbol_id, timeout=10.0, intervention_strategy="moderate")
 
     return {
         "injection": injection_result,

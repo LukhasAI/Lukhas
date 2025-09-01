@@ -47,9 +47,7 @@ USER_CONTEXT_FUNCTIONS = [
 class AutoIdentityFixer:
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path)
-        self.backup_dir = (
-            self.root_path / f"identity_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        )
+        self.backup_dir = self.root_path / f"identity_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.fixes_applied = []
         self.errors = []
 
@@ -123,9 +121,7 @@ class AutoIdentityFixer:
                 if content != original_content:
                     if not dry_run:
                         api_file.write_text(content)
-                    self.fixes_applied.append(
-                        f"Protected {len(endpoints_found)} endpoints in {api_file.name}"
-                    )
+                    self.fixes_applied.append(f"Protected {len(endpoints_found)} endpoints in {api_file.name}")
 
             except Exception as e:
                 self.errors.append(f"Error fixing {api_file}: {e}")
@@ -250,9 +246,7 @@ except ImportError as e:
                     self.errors.append(f"Error adding user context to {py_file}: {e}")
 
             if files_modified > 0:
-                self.fixes_applied.append(
-                    f"Added user linking to {files_modified} files in {module_name}"
-                )
+                self.fixes_applied.append(f"Added user linking to {files_modified} files in {module_name}")
 
     def _add_missing_imports(self, dry_run: bool):
         """Add missing identity imports to files that need them."""
@@ -387,14 +381,10 @@ except ImportError:
                             func_match.group(1)
                             if func_line.endswith("):"):
                                 # Add parameter before closing paren
-                                new_func_line = (
-                                    func_line[:-2] + f", user: AuthContext = Depends({auth_dep})):"
-                                )
+                                new_func_line = func_line[:-2] + f", user: AuthContext = Depends({auth_dep})):"
                             else:
                                 # Function continues on next line
-                                new_func_line = (
-                                    func_line + f", user: AuthContext = Depends({auth_dep})"
-                                )
+                                new_func_line = func_line + f", user: AuthContext = Depends({auth_dep})"
                             modified_lines.append(new_func_line)
                         else:
                             modified_lines.append(func_line)
@@ -456,9 +446,7 @@ except ImportError:
         if self.backup_dir.exists():
             print(f"\n💾 Backups saved to: {self.backup_dir}")
 
-        print(
-            f"\n📁 Total files in backup: {len(list(self.backup_dir.rglob('*'))) if self.backup_dir.exists() else 0}"
-        )
+        print(f"\n📁 Total files in backup: {len(list(self.backup_dir.rglob('*'))) if self.backup_dir.exists() else 0}")
 
         # Next steps
         print("\n🚀 Next Steps:")

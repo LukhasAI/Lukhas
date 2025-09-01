@@ -229,10 +229,7 @@ class SharedEthicsEngine:
                 if not constraint.active:
                     continue
 
-                if (
-                    requesting_system not in constraint.applies_to
-                    and "ALL" not in constraint.applies_to
-                ):
+                if requesting_system not in constraint.applies_to and "ALL" not in constraint.applies_to:
                     continue
 
                 principles_considered.add(constraint.principle)
@@ -241,17 +238,13 @@ class SharedEthicsEngine:
 
                 if violation:
                     violations.append((constraint.principle, constraint.severity))
-                    reasoning_parts.append(
-                        f"Violates {constraint.principle.name}: {constraint.description}"
-                    )
+                    reasoning_parts.append(f"Violates {constraint.principle.name}: {constraint.description}")
 
             # Calculate decision based on violations
             decision = self._calculate_decision(violations, action, context)
 
             # Build recommendations
-            recommendations = self._generate_recommendations(
-                violations, action, context, requesting_system
-            )
+            recommendations = self._generate_recommendations(violations, action, context, requesting_system)
 
             # Create ethical decision
             ethical_decision = EthicalDecision(
@@ -259,11 +252,7 @@ class SharedEthicsEngine:
                 confidence=decision["confidence"],
                 principles_considered=list(principles_considered),
                 violations=violations,
-                reasoning=(
-                    "; ".join(reasoning_parts)
-                    if reasoning_parts
-                    else "No ethical concerns identified"
-                ),
+                reasoning=("; ".join(reasoning_parts) if reasoning_parts else "No ethical concerns identified"),
                 recommendations=recommendations,
                 metadata={
                     "requesting_system": requesting_system,
@@ -384,9 +373,7 @@ class SharedEthicsEngine:
 
         # System-specific recommendations
         if requesting_system == "NIAS":
-            recommendations.append(
-                "Consider positive gating to ensure content aligns with user state"
-            )
+            recommendations.append("Consider positive gating to ensure content aligns with user state")
         elif requesting_system == "DAST":
             recommendations.append("Verify task compatibility before execution")
         elif requesting_system == "ABAS":
@@ -416,9 +403,7 @@ class SharedEthicsEngine:
             "requesting_system": requesting_system,
             "decision_type": decision.decision_type.value,
             "confidence": decision.confidence,
-            "violations": [
-                {"principle": p.name, "severity": s.name} for p, s in decision.violations
-            ],
+            "violations": [{"principle": p.name, "severity": s.name} for p, s in decision.violations],
             "action_summary": {
                 "type": action.get("type", "unknown"),
                 "data_involved": action.get("data_type", "none"),
@@ -503,8 +488,7 @@ class SharedEthicsEngine:
             "decision_types": decision_types,
             "violation_counts": violation_counts,
             "system_requests": system_requests,
-            "average_confidence": sum(e["confidence"] for e in self.decision_history)
-            / total_decisions,
+            "average_confidence": sum(e["confidence"] for e in self.decision_history) / total_decisions,
             "report_generated": datetime.now().isoformat(),
         }
 

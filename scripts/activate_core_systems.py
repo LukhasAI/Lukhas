@@ -20,9 +20,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -39,9 +37,7 @@ async def activate_signal_bus():
         logger.info("✅ Signal Bus started successfully")
 
         # Test signal emission
-        test_signal = Signal(
-            name=SignalType.NOVELTY, level=0.5, source="activation_script", ttl_ms=5000
-        )
+        test_signal = Signal(name=SignalType.NOVELTY, level=0.5, source="activation_script", ttl_ms=5000)
 
         success = bus.publish(test_signal)
         if success:

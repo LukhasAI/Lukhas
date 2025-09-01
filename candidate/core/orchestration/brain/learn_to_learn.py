@@ -74,9 +74,7 @@ class MetaLearningSystem:
 
         # Update performance with feedback
         if "performance_rating" in feedback:
-            self._update_strategy_performance(
-                strategy_name, {"user_rating": feedback["performance_rating"]}
-            )
+            self._update_strategy_performance(strategy_name, {"user_rating": feedback["performance_rating"]})
 
         # Update strategy parameters if provided
         if "parameter_adjustments" in feedback:
@@ -213,9 +211,7 @@ class MetaLearningSystem:
 
         return result
 
-    def _evaluate_performance(
-        self, strategy_name: str, learning_result: dict, duration: float
-    ) -> dict:
+    def _evaluate_performance(self, strategy_name: str, learning_result: dict, duration: float) -> dict:
         """Evaluate the performance of the applied learning strategy"""
         # Placeholder - this would implement evaluation metrics
         metrics = {
@@ -275,17 +271,13 @@ class MetaLearningSystem:
         """Update meta-parameters based on learning history"""
         # Adjust exploration rate based on learning progress
         if len(self.performance_history) >= 10:
-            recent_variance = np.var(
-                [p.get("overall_score", 0) for p in self.performance_history[-10:]]
-            )
+            recent_variance = np.var([p.get("overall_score", 0) for p in self.performance_history[-10:]])
             # More variance = more exploration needed
             self.exploration_rate = min(0.3, max(0.05, recent_variance * 2))
 
         # Adjust other meta-parameters based on performance trends
         # Placeholder implementation
-        self.meta_parameters["adaptation_rate"] = max(
-            0.01, min(0.2, self.meta_parameters["adaptation_rate"])
-        )
+        self.meta_parameters["adaptation_rate"] = max(0.01, min(0.2, self.meta_parameters["adaptation_rate"]))
 
     def _adjust_strategy_parameters(self, strategy_name: str, adjustments: dict) -> None:
         """Adjust parameters of a specific strategy"""

@@ -154,9 +154,7 @@ class LukhasDatabaseIntegration:
         conn.commit()
         conn.close()
 
-    def log_system_activity(
-        self, system_name: str, activity_type: str, details: str, metric_value: float = 0.0
-    ):
+    def log_system_activity(self, system_name: str, activity_type: str, details: str, metric_value: float = 0.0):
         """Log activity from any system for analytics"""
         conn = self.get_connection()
         cursor = conn.cursor()

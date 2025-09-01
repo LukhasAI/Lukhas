@@ -22,9 +22,7 @@ class SmartFixer:
     def run_command(self, cmd: list[str]) -> tuple[int, str, str]:
         """Run command safely"""
         try:
-            result = subprocess.run(
-                cmd, capture_output=True, text=True, cwd=self.project_root, timeout=30
-            )
+            result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.project_root, timeout=30)
             return result.returncode, result.stdout, result.stderr
         except Exception as e:
             return 1, "", str(e)
@@ -233,9 +231,7 @@ class SmartFixer:
         if self.critical_issues:
             print("\n🔴 Critical issues that need manual attention:")
             for issue in self.critical_issues[:5]:
-                print(
-                    f"  {issue['file']}:{issue['line']} - {issue['code']}: {issue['message'][:50]}..."
-                )
+                print(f"  {issue['file']}:{issue['line']} - {issue['code']}: {issue['message'][:50]}...")
 
         print("\n📄 Full report: test_results/smart_fix_report.json")
         print("💡 Run 'git diff' to review all changes")

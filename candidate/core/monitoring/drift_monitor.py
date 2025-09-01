@@ -144,9 +144,7 @@ class UnifiedDriftMonitor:
         # Initialize core components
         self.symbolic_tracker = SymbolicDriftTracker(config=self.config.get("symbolic", {}))
 
-        self.ethical_sentinel = EthicalDriftSentinel(
-            threshold=self.config.get("ethical_threshold", 0.15)
-        )
+        self.ethical_sentinel = EthicalDriftSentinel(threshold=self.config.get("ethical_threshold", 0.15))
 
         self.simple_tracker = DriftTracker()
         self.harmonizer = DriftHarmonizer(threshold=self.config.get("harmonizer_threshold", 0.2))
@@ -332,9 +330,7 @@ class UnifiedDriftMonitor:
             ΛTAG="ΛDRIFT",
         )
 
-    async def _compute_unified_drift(
-        self, session_id: str, current_state: dict[str, Any]
-    ) -> UnifiedDriftScore:
+    async def _compute_unified_drift(self, session_id: str, current_state: dict[str, Any]) -> UnifiedDriftScore:
         """Compute comprehensive drift score across all dimensions."""
         timestamp = datetime.now(timezone.utc).isoformat()
 
@@ -358,14 +354,10 @@ class UnifiedDriftMonitor:
         }
 
         # 1. Symbolic drift (using core tracker)
-        symbolic_drift = self.symbolic_tracker.calculate_symbolic_drift(
-            current.symbols, prior.symbols, drift_context
-        )
+        symbolic_drift = self.symbolic_tracker.calculate_symbolic_drift(current.symbols, prior.symbols, drift_context)
 
         # 2. Emotional drift (direct calculation)
-        emotional_drift = self._calculate_emotional_drift(
-            current.emotional_vector, prior.emotional_vector
-        )
+        emotional_drift = self._calculate_emotional_drift(current.emotional_vector, prior.emotional_vector)
 
         # 3. Ethical drift
         ethical_drift = abs(current.ethical_alignment - prior.ethical_alignment)
@@ -374,9 +366,7 @@ class UnifiedDriftMonitor:
         temporal_drift = self._calculate_temporal_drift(current.timestamp, prior.timestamp)
 
         # 5. Entropy drift
-        entropy_drift = abs(current.entropy - prior.entropy) / max(
-            current.entropy, prior.entropy, 1.0
-        )
+        entropy_drift = abs(current.entropy - prior.entropy) / max(current.entropy, prior.entropy, 1.0)
 
         # Calculate weighted overall score
         overall_score = (
@@ -563,8 +553,7 @@ class UnifiedDriftMonitor:
         corrective_actions["monitoring_changes"] = {
             "new_frequency": base_frequency * severity_multiplier.get(alert.severity, 1.0),
             "enhanced_metrics": drift_score.overall_score > 0.7,
-            "extended_history": alert.severity
-            in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK],
+            "extended_history": alert.severity in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK],
         }
 
         logger.info(
@@ -713,9 +702,7 @@ class UnifiedDriftMonitor:
         await self.intervention_queue.put(alert)
 
         # Emit to symbolic tracker
-        self.symbolic_tracker.emit_drift_alert(
-            drift_score.overall_score, {"session_id": session_id, **context}
-        )
+        self.symbolic_tracker.emit_drift_alert(drift_score.overall_score, {"session_id": session_id, **context})
 
         logger.warning(
             "Drift alert created",
@@ -878,9 +865,7 @@ class UnifiedDriftMonitor:
         """Execute emotional grounding intervention."""
         # Get alignment controller if available
         if hasattr(self, "alignment_controller"):
-            suggestion = self.alignment_controller.suggest_modulation(
-                alert.drift_score.overall_score
-            )
+            suggestion = self.alignment_controller.suggest_modulation(alert.drift_score.overall_score)
             return {"status": "grounded", "suggestion": suggestion}
 
         return {

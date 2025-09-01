@@ -102,9 +102,7 @@ class EmotionMatrizAdapter:
         )
 
     @staticmethod
-    def emit_emotion_intent(
-        intent: str, confidence: float, context: Optional[dict] = None
-    ) -> dict[str, Any]:
+    def emit_emotion_intent(intent: str, confidence: float, context: Optional[dict] = None) -> dict[str, Any]:
         """Emit an emotion-intent mapping node"""
 
         return EmotionMatrizAdapter.create_node(
@@ -120,9 +118,7 @@ class EmotionMatrizAdapter:
         )
 
     @staticmethod
-    def emit_stagnation_detection(
-        emotion: str, duration_ms: int, threshold_ms: int = 5000
-    ) -> dict[str, Any]:
+    def emit_stagnation_detection(emotion: str, duration_ms: int, threshold_ms: int = 5000) -> dict[str, Any]:
         """Emit an affect stagnation detection node"""
 
         stagnation_ratio = duration_ms / threshold_ms
@@ -181,9 +177,7 @@ def wrap_vad_detection(original_func):
     def wrapper(*args, **kwargs):
         result = original_func(*args, **kwargs)
 
-        if isinstance(result, dict) and all(
-            k in result for k in ["valence", "arousal", "dominance"]
-        ):
+        if isinstance(result, dict) and all(k in result for k in ["valence", "arousal", "dominance"]):
             node = EmotionMatrizAdapter.emit_emotion_state(
                 valence=result["valence"],
                 arousal=result["arousal"],

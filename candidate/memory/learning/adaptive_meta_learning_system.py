@@ -106,9 +106,7 @@ class AdaptiveMetaLearningSystem:
             "performance_score": performance_metrics["overall_score"],
         }
 
-        logger.info(
-            f"✅ Learning completed with {performance_metrics['overall_score']:.3f} performance score"
-        )
+        logger.info(f"✅ Learning completed with {performance_metrics['overall_score']:.3f} performance score")
         return result
 
     def incorporate_feedback(self, feedback: dict) -> None:
@@ -125,9 +123,7 @@ class AdaptiveMetaLearningSystem:
 
         # Update performance with feedback
         if "performance_rating" in feedback:
-            self._update_strategy_performance(
-                strategy_name, {"user_rating": feedback["performance_rating"]}
-            )
+            self._update_strategy_performance(strategy_name, {"user_rating": feedback["performance_rating"]})
 
         # Update strategy parameters if provided
         if "parameter_adjustments" in feedback:
@@ -257,9 +253,7 @@ class AdaptiveMetaLearningSystem:
 
         # Return strategy with highest score
         best_strategy = max(strategy_scores.items(), key=lambda x: x[1])[0]
-        logger.info(
-            f"🎯 Exploiting with best strategy: {best_strategy} (score: {strategy_scores[best_strategy]:.3f})"
-        )
+        logger.info(f"🎯 Exploiting with best strategy: {best_strategy} (score: {strategy_scores[best_strategy]:.3f})")
         return best_strategy
 
     def _apply_strategy(self, strategy: dict, data: dict, context: dict) -> dict:
@@ -321,9 +315,7 @@ class AdaptiveMetaLearningSystem:
 
         return result
 
-    def _evaluate_performance(
-        self, strategy_name: str, learning_result: dict, duration: float
-    ) -> dict:
+    def _evaluate_performance(self, strategy_name: str, learning_result: dict, duration: float) -> dict:
         """Evaluate the performance of the applied learning strategy"""
         # Extract performance indicators from learning result
         if "accuracy" in learning_result:
@@ -415,9 +407,7 @@ class AdaptiveMetaLearningSystem:
                     self.meta_parameters["adaptation_rate"] *= 0.9
 
         # Keep parameters within bounds
-        self.meta_parameters["adaptation_rate"] = max(
-            0.01, min(0.2, self.meta_parameters["adaptation_rate"])
-        )
+        self.meta_parameters["adaptation_rate"] = max(0.01, min(0.2, self.meta_parameters["adaptation_rate"]))
 
     def _adjust_strategy_parameters(self, strategy_name: str, adjustments: dict) -> None:
         """Adjust parameters of a specific strategy based on feedback"""
@@ -434,9 +424,7 @@ class AdaptiveMetaLearningSystem:
                     min(10.0, new_value),  # Minimum value  # Maximum value
                 )
 
-                logger.info(
-                    f"🔧 Adjusted {param_name} for {strategy_name}: {current:.4f} → {new_value:.4f}"
-                )
+                logger.info(f"🔧 Adjusted {param_name} for {strategy_name}: {current:.4f} → {new_value:.4f}")
 
     def _calculate_adaptation_progress(self) -> float:
         """Calculate overall adaptation progress of the meta-learning system"""
@@ -473,11 +461,7 @@ class AdaptiveMetaLearningSystem:
                     "trend_coefficient": trend_coef,
                     "recent_average": np.mean(scores[-3:]),
                     "improvement": (
-                        "increasing"
-                        if trend_coef > 0.01
-                        else "decreasing"
-                        if trend_coef < -0.01
-                        else "stable"
+                        "increasing" if trend_coef > 0.01 else "decreasing" if trend_coef < -0.01 else "stable"
                     ),
                 }
 
@@ -532,9 +516,7 @@ class AdaptiveMetaLearningSystem:
 
         # Check complexity compatibility
         complexity = features.get("complexity_estimate", 0.5)
-        if (complexity > 0.7 and "complex" in suitable_for) or (
-            complexity < 0.3 and "simple" in suitable_for
-        ):
+        if (complexity > 0.7 and "complex" in suitable_for) or (complexity < 0.3 and "simple" in suitable_for):
             match_score += 0.15
 
         return min(1.0, match_score)
@@ -560,10 +542,7 @@ class AdaptiveMetaLearningSystem:
         # Strategy performance insights
         if self.strategy_performance:
             best_strategies = sorted(
-                [
-                    (name, perf.get("overall_score", 0))
-                    for name, perf in self.strategy_performance.items()
-                ],
+                [(name, perf.get("overall_score", 0)) for name, perf in self.strategy_performance.items()],
                 key=lambda x: x[1],
                 reverse=True,
             )[:2]
@@ -586,9 +565,7 @@ class AdaptiveMetaLearningSystem:
                 "High exploration rate indicates volatile performance - system still learning optimal strategies"
             )
         elif self.exploration_rate < 0.1:
-            insights.append(
-                "Low exploration rate indicates stable performance - system has found effective strategies"
-            )
+            insights.append("Low exploration rate indicates stable performance - system has found effective strategies")
 
         # Learning cycle insights
         if self.learning_cycle > 50:

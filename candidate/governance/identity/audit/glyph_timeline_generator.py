@@ -119,9 +119,7 @@ class GlyphTimelineGenerator:
             fallback_triggered = match_score < 0.85 and not success
 
             # Select glyphs based on outcome
-            cultural_glyph = self.glyph_categories["cultural"][
-                cultures.index(random.choice(cultures))
-            ]
+            cultural_glyph = self.glyph_categories["cultural"][cultures.index(random.choice(cultures))]
             consciousness_glyph = random.choice(self.glyph_categories["consciousness"])
 
             glyphs_used = [cultural_glyph, consciousness_glyph]

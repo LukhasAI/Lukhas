@@ -107,12 +107,8 @@ class EpisodicMemoryIntegration:
 
         # Configure colony settings if available
         if EPISODIC_COLONY_AVAILABLE and hasattr(self.colony, "pattern_separation_threshold"):
-            self.colony.pattern_separation_threshold = self.config.get(
-                "pattern_separation_threshold", 0.3
-            )
-            self.colony.pattern_completion_threshold = self.config.get(
-                "pattern_completion_threshold", 0.7
-            )
+            self.colony.pattern_separation_threshold = self.config.get("pattern_separation_threshold", 0.3)
+            self.colony.pattern_completion_threshold = self.config.get("pattern_completion_threshold", 0.7)
 
         logger.info("Episodic processing systems initialized")
 
@@ -200,9 +196,7 @@ class EpisodicMemoryIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def retrieve_episodic_memory(
-        self, memory_id: str, include_related: bool = False
-    ) -> dict[str, Any]:
+    async def retrieve_episodic_memory(self, memory_id: str, include_related: bool = False) -> dict[str, Any]:
         """
         Retrieve episodic memory by ID
 
@@ -256,9 +250,7 @@ class EpisodicMemoryIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def search_episodic_memories(
-        self, query: dict[str, Any], limit: int = 50
-    ) -> list[dict[str, Any]]:
+    async def search_episodic_memories(self, query: dict[str, Any], limit: int = 50) -> list[dict[str, Any]]:
         """
         Search episodic memories
 
@@ -375,12 +367,8 @@ class EpisodicMemoryIntegration:
                             candidates.append(
                                 {
                                     "memory_id": memory_id,
-                                    "consolidation_readiness": getattr(
-                                        record, "consolidation_readiness", 0.0
-                                    ),
-                                    "personal_significance": getattr(
-                                        record, "personal_significance", 0.0
-                                    ),
+                                    "consolidation_readiness": getattr(record, "consolidation_readiness", 0.0),
+                                    "personal_significance": getattr(record, "personal_significance", 0.0),
                                     "replay_count": getattr(record, "replay_count", 0),
                                     "last_accessed": getattr(record, "last_accessed", 0),
                                 }
@@ -414,18 +402,12 @@ class EpisodicMemoryIntegration:
             if EPISODIC_COLONY_AVAILABLE and hasattr(self.colony, "episodic_records"):
                 records = getattr(self.colony, "episodic_records", {})
                 if records:
-                    significances = [
-                        getattr(r, "personal_significance", 0.0) for r in records.values()
-                    ]
+                    significances = [getattr(r, "personal_significance", 0.0) for r in records.values()]
                     colony_metrics = {
                         "total_episodes": len(records),
-                        "average_significance": (
-                            sum(significances) / len(significances) if significances else 0.0
-                        ),
+                        "average_significance": (sum(significances) / len(significances) if significances else 0.0),
                         "replay_queue_size": len(getattr(self.colony, "replay_queue", [])),
-                        "consolidation_candidates": len(
-                            getattr(self.colony, "consolidation_candidates", [])
-                        ),
+                        "consolidation_candidates": len(getattr(self.colony, "consolidation_candidates", [])),
                     }
 
             # Combine all metrics
@@ -515,9 +497,7 @@ class EpisodicMemoryIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def _fallback_search_episodes(
-        self, query: dict[str, Any], limit: int
-    ) -> list[dict[str, Any]]:
+    async def _fallback_search_episodes(self, query: dict[str, Any], limit: int) -> list[dict[str, Any]]:
         """Fallback episode search"""
         results = []
 
@@ -546,9 +526,7 @@ class EpisodicMemoryIntegration:
 
         return results[:limit]
 
-    async def _fallback_trigger_replay(
-        self, memory_ids: Optional[list[str]], replay_strength: float
-    ) -> dict[str, Any]:
+    async def _fallback_trigger_replay(self, memory_ids: Optional[list[str]], replay_strength: float) -> dict[str, Any]:
         """Fallback replay triggering"""
         if not memory_ids:
             # Select top episodes for replay
@@ -579,10 +557,7 @@ class EpisodicMemoryIntegration:
         candidates = []
 
         for memory_id, episode in self.episode_registry.items():
-            if (
-                episode.get("replay_count", 0) >= 2
-                and episode.get("personal_significance", 0.0) > 0.5
-            ):
+            if episode.get("replay_count", 0) >= 2 and episode.get("personal_significance", 0.0) > 0.5:
                 candidates.append(
                     {
                         "memory_id": memory_id,

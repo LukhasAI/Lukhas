@@ -32,12 +32,8 @@ def _fill_placeholders(t: str, placeholders: dict[str, list[str]], rng: random.R
     return out
 
 
-def _mutations_for_task(
-    task: str, corpus: dict[str, Any]
-) -> tuple[list[str], list[dict[str, Any]]]:
-    seeds = (corpus.get("tasks", {}) or {}).get(task, []) or (corpus.get("tasks", {}) or {}).get(
-        "_default_", []
-    )
+def _mutations_for_task(task: str, corpus: dict[str, Any]) -> tuple[list[str], list[dict[str, Any]]]:
+    seeds = (corpus.get("tasks", {}) or {}).get(task, []) or (corpus.get("tasks", {}) or {}).get("_default_", [])
     attacks = corpus.get("attacks", []) or []
     return seeds, attacks
 
@@ -129,9 +125,7 @@ def fuzz(
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Lukhas Policy Mutation Fuzzer (deterministic, corpus-driven)"
-    )
+    ap = argparse.ArgumentParser(description="Lukhas Policy Mutation Fuzzer (deterministic, corpus-driven)")
     ap.add_argument("--policy-root", required=True)
     ap.add_argument("--jurisdiction", default="global")
     ap.add_argument("--task", required=True, help="Task to test (must exist in policy mappings)")

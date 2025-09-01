@@ -274,9 +274,7 @@ class CollapseTracker:
             asyncio.create_task(self._emit_alert(old_level, new_level))
 
     # {ΛSAFETY}
-    async def _emit_alert(
-        self, old_level: CollapseAlertLevel, new_level: CollapseAlertLevel
-    ) -> None:
+    async def _emit_alert(self, old_level: CollapseAlertLevel, new_level: CollapseAlertLevel) -> None:
         """
         Emit alerts when collapse level changes.
 
@@ -314,9 +312,7 @@ class CollapseTracker:
                     await self.ethics_callback(
                         {
                             **alert_data,
-                            "severity": (
-                                "HIGH" if new_level == CollapseAlertLevel.RED else "MEDIUM"
-                            ),
+                            "severity": ("HIGH" if new_level == CollapseAlertLevel.RED else "MEDIUM"),
                             "recommended_action": "intervention_required",
                         }
                     )
@@ -378,9 +374,7 @@ class CollapseTracker:
         except Exception as e:
             logger.error("Failed to persist collapse state", error=str(e))
 
-    def get_collapse_history(
-        self, trace_id: Optional[str] = None, limit: int = 100
-    ) -> list[dict[str, Any]]:
+    def get_collapse_history(self, trace_id: Optional[str] = None, limit: int = 100) -> list[dict[str, Any]]:
         """
         Retrieve collapse history.
 
@@ -422,9 +416,7 @@ class CollapseTracker:
 
     # Test utilities
 
-    def generate_synthetic_test_data(
-        self, scenario: str = "normal"
-    ) -> tuple[list[str], dict[str, float]]:
+    def generate_synthetic_test_data(self, scenario: str = "normal") -> tuple[list[str], dict[str, float]]:
         """
         Generate synthetic test data for validation.
 

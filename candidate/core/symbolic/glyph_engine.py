@@ -203,9 +203,7 @@ def detect_attractors(
 
             # Calculate stability (how consistent the return intervals are)
             if len(intervals) > 1:
-                interval_variance = sum((x - avg_return_time) ** 2 for x in intervals) / len(
-                    intervals
-                )
+                interval_variance = sum((x - avg_return_time) ** 2 for x in intervals) / len(intervals)
                 stability = 1 / (1 + interval_variance)
             else:
                 stability = 0.5

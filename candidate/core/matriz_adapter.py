@@ -52,9 +52,7 @@ class CoreMatrizAdapter:
         return node
 
     @staticmethod
-    def emit_glyph_event(
-        glyph: str, operation: str, context: Optional[dict] = None
-    ) -> dict[str, Any]:
+    def emit_glyph_event(glyph: str, operation: str, context: Optional[dict] = None) -> dict[str, Any]:
         """Emit a GLYPH processing event node"""
 
         return CoreMatrizAdapter.create_node(
@@ -111,9 +109,7 @@ class CoreMatrizAdapter:
         )
 
     @staticmethod
-    def emit_actor_event(
-        actor_id: str, event_type: str, message_type: Optional[str] = None
-    ) -> dict[str, Any]:
+    def emit_actor_event(actor_id: str, event_type: str, message_type: Optional[str] = None) -> dict[str, Any]:
         """Emit an actor system event node"""
 
         return CoreMatrizAdapter.create_node(
@@ -128,9 +124,7 @@ class CoreMatrizAdapter:
         )
 
     @staticmethod
-    def emit_integration_event(
-        source_module: str, target_module: str, operation: str, success: bool
-    ) -> dict[str, Any]:
+    def emit_integration_event(source_module: str, target_module: str, operation: str, success: bool) -> dict[str, Any]:
         """Emit an integration event between modules"""
 
         return CoreMatrizAdapter.create_node(

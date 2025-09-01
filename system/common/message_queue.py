@@ -135,9 +135,7 @@ class MessageQueue:
         else:
             # Exponential moving average
             alpha = 0.1
-            self._metrics["average_latency_ms"] = (
-                alpha * latency + (1 - alpha) * self._metrics["average_latency_ms"]
-            )
+            self._metrics["average_latency_ms"] = alpha * latency + (1 - alpha) * self._metrics["average_latency_ms"]
 
     def get_metrics(self) -> dict[str, Any]:
         """Get queue metrics"""

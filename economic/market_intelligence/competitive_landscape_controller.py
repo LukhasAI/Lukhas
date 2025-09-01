@@ -67,9 +67,7 @@ class CompetitiveLandscapeController(CoreInterface):
         self._initialized = True
         logger.info("Competitive Landscape Controller initialized")
 
-    async def execute_market_phase(
-        self, phase: dict[str, Any], market_design: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_market_phase(self, phase: dict[str, Any], market_design: dict[str, Any]) -> dict[str, Any]:
         """
         Execute a market creation phase
 
@@ -133,9 +131,7 @@ class CompetitiveLandscapeController(CoreInterface):
                 interventions.extend(disruptive)
 
             elif int_type == "complementary":
-                complementary = await self._identify_complementary_opportunities(
-                    competitor, patterns
-                )
+                complementary = await self._identify_complementary_opportunities(competitor, patterns)
                 interventions.extend(complementary)
 
             elif int_type == "defensive":
@@ -277,21 +273,15 @@ class CompetitiveLandscapeController(CoreInterface):
 
         for rec_type in recommendation_types:
             if rec_type == "offensive":
-                offensive_recs = await self._generate_offensive_recommendations(
-                    competitor, analysis
-                )
+                offensive_recs = await self._generate_offensive_recommendations(competitor, analysis)
                 recommendations.extend(offensive_recs)
 
             elif rec_type == "defensive":
-                defensive_recs = await self._generate_defensive_recommendations(
-                    competitor, analysis
-                )
+                defensive_recs = await self._generate_defensive_recommendations(competitor, analysis)
                 recommendations.extend(defensive_recs)
 
             elif rec_type == "collaborative":
-                collaborative_recs = await self._generate_collaborative_recommendations(
-                    competitor, analysis
-                )
+                collaborative_recs = await self._generate_collaborative_recommendations(competitor, analysis)
                 recommendations.extend(collaborative_recs)
 
         # Add priority scores
@@ -356,9 +346,7 @@ class CompetitiveLandscapeController(CoreInterface):
             },
         }
 
-    async def _execute_objective(
-        self, objective: str, market_design: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _execute_objective(self, objective: str, market_design: dict[str, Any]) -> dict[str, Any]:
         """Execute a single market objective"""
 
         result = {"success": False, "penetration": 0.0, "value": 0.0, "assets": []}
@@ -411,9 +399,9 @@ class CompetitiveLandscapeController(CoreInterface):
         # Check innovation cycles for gaps
         innovation_cycles = patterns.get("innovation_cycles", [])
         if innovation_cycles:
-            avg_cycle_duration = sum(
-                c.get("cycle_duration_months", 12) for c in innovation_cycles
-            ) / len(innovation_cycles)
+            avg_cycle_duration = sum(c.get("cycle_duration_months", 12) for c in innovation_cycles) / len(
+                innovation_cycles
+            )
 
             if avg_cycle_duration > 18:  # Slow innovation cycle
                 opportunities.append(
@@ -562,9 +550,7 @@ class CompetitiveLandscapeController(CoreInterface):
 
         return opportunities
 
-    async def _adjust_strategy_for_market(
-        self, strategy: dict[str, Any], competitor: str
-    ) -> dict[str, Any]:
+    async def _adjust_strategy_for_market(self, strategy: dict[str, Any], competitor: str) -> dict[str, Any]:
         """Adjust strategy based on market conditions"""
 
         # Check competitor position
@@ -622,9 +608,7 @@ class CompetitiveLandscapeController(CoreInterface):
 
         return score
 
-    async def _identify_positioning_advantages(
-        self, dimension_scores: dict[str, float]
-    ) -> list[str]:
+    async def _identify_positioning_advantages(self, dimension_scores: dict[str, float]) -> list[str]:
         """Identify advantages from positioning scores"""
 
         advantages = []
@@ -637,9 +621,7 @@ class CompetitiveLandscapeController(CoreInterface):
 
         return advantages
 
-    async def _identify_positioning_vulnerabilities(
-        self, dimension_scores: dict[str, float]
-    ) -> list[str]:
+    async def _identify_positioning_vulnerabilities(self, dimension_scores: dict[str, float]) -> list[str]:
         """Identify vulnerabilities from positioning scores"""
 
         vulnerabilities = []
@@ -652,9 +634,7 @@ class CompetitiveLandscapeController(CoreInterface):
 
         return vulnerabilities
 
-    async def _generate_offensive_recommendations(
-        self, competitor: str, analysis: Any
-    ) -> list[dict[str, Any]]:
+    async def _generate_offensive_recommendations(self, competitor: str, analysis: Any) -> list[dict[str, Any]]:
         """Generate offensive strategy recommendations"""
 
         recommendations = []
@@ -673,9 +653,7 @@ class CompetitiveLandscapeController(CoreInterface):
 
         return recommendations[:2]  # Limit to top 2
 
-    async def _generate_defensive_recommendations(
-        self, competitor: str, analysis: Any
-    ) -> list[dict[str, Any]]:
+    async def _generate_defensive_recommendations(self, competitor: str, analysis: Any) -> list[dict[str, Any]]:
         """Generate defensive strategy recommendations"""
 
         recommendations = []
@@ -694,9 +672,7 @@ class CompetitiveLandscapeController(CoreInterface):
 
         return recommendations
 
-    async def _generate_collaborative_recommendations(
-        self, competitor: str, analysis: Any
-    ) -> list[dict[str, Any]]:
+    async def _generate_collaborative_recommendations(self, competitor: str, analysis: Any) -> list[dict[str, Any]]:
         """Generate collaborative strategy recommendations"""
 
         recommendations = []

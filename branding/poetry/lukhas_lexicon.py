@@ -285,9 +285,7 @@ class LUKHASLexicon:
         return template.format(
             lambda_marker=random.choice(cls.LAMBDA_SYSTEM["markers"]),
             verb=random.choice(cls.PROCESS_VERBS["consciousness"]),
-            space=random.choice(
-                ["fold-space", "eigenspace", "Hilbert space", "consciousness field"]
-            ),
+            space=random.choice(["fold-space", "eigenspace", "Hilbert space", "consciousness field"]),
             quality=random.choice(cls.CONSCIOUSNESS_STATES["qualities"]),
             state=random.choice(cls.CONSCIOUSNESS_STATES["awareness"]),
             process=random.choice(cls.MEMORY_FOLDING["operations"]),
@@ -348,9 +346,7 @@ def demonstrate():
 
     print("\n  Lambda System:", ", ".join(LUKHASLexicon.LAMBDA_SYSTEM["markers"]))
     print("\n  Memory Operations:", ", ".join(LUKHASLexicon.MEMORY_FOLDING["operations"][:5]))
-    print(
-        "\n  Consciousness States:", ", ".join(LUKHASLexicon.CONSCIOUSNESS_STATES["awareness"][:4])
-    )
+    print("\n  Consciousness States:", ", ".join(LUKHASLexicon.CONSCIOUSNESS_STATES["awareness"][:4]))
     print("\n  Bio-Inspired:", ", ".join(LUKHASLexicon.BIO_INSPIRED["neural"][:4]))
     print("\n  Quantum States:", ", ".join(LUKHASLexicon.QUANTUM_INSPIRED["states"][:4]))
 

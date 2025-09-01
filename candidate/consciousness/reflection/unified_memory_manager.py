@@ -48,9 +48,7 @@ class EnhancedMemoryManager:
                 exc_info=True,
             )
             self.qi_oscillator = None
-        self.base_path = (
-            Path(base_path) if base_path else Path.home() / "LUKHAS_Memory/core_integration"
-        )
+        self.base_path = Path(base_path) if base_path else Path.home() / "LUKHAS_Memory/core_integration"
         try:
             self.base_path.mkdir(parents=True, exist_ok=True)
             self.logger.info("Memory storage base path ensured.", path=str(self.base_path))
@@ -72,9 +70,7 @@ class EnhancedMemoryManager:
                 exc_info=True,
             )
             self.visualizer = None
-        self.logger.info(
-            "EnhancedMemoryManager initialized.", base_storage_path=str(self.base_path)
-        )
+        self.logger.info("EnhancedMemoryManager initialized.", base_storage_path=str(self.base_path))
 
     async def store_memory(
         self,
@@ -86,8 +82,7 @@ class EnhancedMemoryManager:
         Store memory with quantum enhancement using an EnhancedMemoryFold.
         """
         effective_memory_id = (
-            memory_id
-            or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
+            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
         )
         self.logger.info(
             "Attempting to store memory.",
@@ -107,9 +102,7 @@ class EnhancedMemoryManager:
             return {
                 "status": "success",
                 "memory_id": effective_memory_id,
-                "qi_like_state_summary": stored_package.get("metadata", {}).get(
-                    "qi_like_state", "N/A"
-                ),
+                "qi_like_state_summary": stored_package.get("metadata", {}).get("qi_like_state", "N/A"),
             }
         except Exception as e:
             self.logger.error(
@@ -124,9 +117,7 @@ class EnhancedMemoryManager:
                 "error": str(e),
             }
 
-    async def retrieve_memory(
-        self, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def retrieve_memory(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Retrieve memory with coherence-inspired processing.
         """
@@ -144,21 +135,15 @@ class EnhancedMemoryManager:
                 disk_data_package = await self._load_from_disk(memory_id)
                 memory_fold = EnhancedMemoryFold(memory_id, self.memory_fold_config)
                 memory_fold.state["classical_state"] = disk_data_package.get("data")
-                memory_fold.state["qi_like_state"] = disk_data_package.get("metadata", {}).get(
-                    "qi_like_state"
-                )
-                memory_fold.state["entanglements"] = set(
-                    disk_data_package.get("metadata", {}).get("entanglements", [])
-                )
+                memory_fold.state["qi_like_state"] = disk_data_package.get("metadata", {}).get("qi_like_state")
+                memory_fold.state["entanglements"] = set(disk_data_package.get("metadata", {}).get("entanglements", []))
                 memory_fold.state["fold_time"] = disk_data_package.get("metadata", {}).get(
                     "created_at", datetime.now(timezone.utc).isoformat()
                 )
                 self.active_folds[memory_id] = memory_fold
                 self.logger.info("Memory fold loaded from disk and activated.", memory_id=memory_id)
             if not memory_fold:
-                raise FileNotFoundError(
-                    f"Memory fold {memory_id} could not be activated or loaded."
-                )
+                raise FileNotFoundError(f"Memory fold {memory_id} could not be activated or loaded.")
             retrieved_package = await memory_fold.retrieve(context)
             self.logger.info("Memory retrieved successfully.", memory_id=memory_id)
             return {
@@ -183,9 +168,7 @@ class EnhancedMemoryManager:
             )
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def visualize_memory(
-        self, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def visualize_memory(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Create visualization of memory.
         """
@@ -372,9 +355,7 @@ class EnhancedMemoryManager:
                 exc_info=True,
             )
             self.qi_oscillator = None
-        self.base_path = (
-            Path(base_path) if base_path else Path.home() / "LUKHAS_Memory/core_integration"
-        )
+        self.base_path = Path(base_path) if base_path else Path.home() / "LUKHAS_Memory/core_integration"
         try:
             self.base_path.mkdir(parents=True, exist_ok=True)
             self.logger.info("Memory storage base path ensured.", path=str(self.base_path))
@@ -396,9 +377,7 @@ class EnhancedMemoryManager:
                 exc_info=True,
             )
             self.visualizer = None
-        self.logger.info(
-            "EnhancedMemoryManager initialized.", base_storage_path=str(self.base_path)
-        )
+        self.logger.info("EnhancedMemoryManager initialized.", base_storage_path=str(self.base_path))
 
     async def store_memory(
         self,
@@ -410,8 +389,7 @@ class EnhancedMemoryManager:
         Store memory with quantum enhancement using an EnhancedMemoryFold.
         """
         effective_memory_id = (
-            memory_id
-            or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
+            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
         )
         self.logger.info(
             "Attempting to store memory.",
@@ -431,9 +409,7 @@ class EnhancedMemoryManager:
             return {
                 "status": "success",
                 "memory_id": effective_memory_id,
-                "qi_like_state_summary": stored_package.get("metadata", {}).get(
-                    "qi_like_state", "N/A"
-                ),
+                "qi_like_state_summary": stored_package.get("metadata", {}).get("qi_like_state", "N/A"),
             }
         except Exception as e:
             self.logger.error(
@@ -448,9 +424,7 @@ class EnhancedMemoryManager:
                 "error": str(e),
             }
 
-    async def retrieve_memory(
-        self, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def retrieve_memory(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Retrieve memory with coherence-inspired processing.
         """
@@ -468,21 +442,15 @@ class EnhancedMemoryManager:
                 disk_data_package = await self._load_from_disk(memory_id)
                 memory_fold = EnhancedMemoryFold(memory_id, self.memory_fold_config)
                 memory_fold.state["classical_state"] = disk_data_package.get("data")
-                memory_fold.state["qi_like_state"] = disk_data_package.get("metadata", {}).get(
-                    "qi_like_state"
-                )
-                memory_fold.state["entanglements"] = set(
-                    disk_data_package.get("metadata", {}).get("entanglements", [])
-                )
+                memory_fold.state["qi_like_state"] = disk_data_package.get("metadata", {}).get("qi_like_state")
+                memory_fold.state["entanglements"] = set(disk_data_package.get("metadata", {}).get("entanglements", []))
                 memory_fold.state["fold_time"] = disk_data_package.get("metadata", {}).get(
                     "created_at", datetime.now(timezone.utc).isoformat()
                 )
                 self.active_folds[memory_id] = memory_fold
                 self.logger.info("Memory fold loaded from disk and activated.", memory_id=memory_id)
             if not memory_fold:
-                raise FileNotFoundError(
-                    f"Memory fold {memory_id} could not be activated or loaded."
-                )
+                raise FileNotFoundError(f"Memory fold {memory_id} could not be activated or loaded.")
             retrieved_package = await memory_fold.retrieve(context)
             self.logger.info("Memory retrieved successfully.", memory_id=memory_id)
             return {
@@ -507,9 +475,7 @@ class EnhancedMemoryManager:
             )
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def visualize_memory(
-        self, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def visualize_memory(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Create visualization of memory.
         """
@@ -750,9 +716,7 @@ class QIMemoryManager(BaseMemoryManager):
             self.logger.error("Failed to store quantum memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def retrieve(
-        self, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def retrieve(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Retrieve memory with coherence-inspired processing check.
 
@@ -765,9 +729,7 @@ class QIMemoryManager(BaseMemoryManager):
                 self.qi_like_states[memory_id] = memory_package["quantum"]["state"]
                 self.coherence_scores[memory_id] = coherence
             if context and context.get("collapse_superposition"):
-                memory_data = self._collapse_superposition(
-                    memory_package["data"], self.qi_like_states[memory_id]
-                )
+                memory_data = self._collapse_superposition(memory_package["data"], self.qi_like_states[memory_id])
             else:
                 memory_data = memory_package["data"]
             self.logger.info("Quantum memory retrieved", memory_id=memory_id, coherence=coherence)
@@ -784,14 +746,10 @@ class QIMemoryManager(BaseMemoryManager):
             self.logger.error("Memory not found", memory_id=memory_id)
             return {"status": "error", "error": f"Memory not found: {memory_id}"}
         except Exception as e:
-            self.logger.error(
-                "Failed to retrieve quantum memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to retrieve quantum memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def update(
-        self, memory_id: str, updates: dict[str, Any], merge: bool = True
-    ) -> dict[str, Any]:
+    async def update(self, memory_id: str, updates: dict[str, Any], merge: bool = True) -> dict[str, Any]:
         """Update memory with quantum-like state evolution."""
         try:
             current = await self.retrieve(memory_id)
@@ -824,9 +782,7 @@ class QIMemoryManager(BaseMemoryManager):
             if soft_delete:
                 if memory_id in self._memory_index:
                     self._memory_index[memory_id]["deleted"] = True
-                    self._memory_index[memory_id]["deleted_at"] = datetime.now(
-                        timezone.utc
-                    ).isoformat()
+                    self._memory_index[memory_id]["deleted_at"] = datetime.now(timezone.utc).isoformat()
                     self._save_index()
             else:
                 file_path = self.base_path / f"{memory_id}.json"
@@ -841,9 +797,7 @@ class QIMemoryManager(BaseMemoryManager):
             self.logger.error("Failed to delete quantum memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def search(
-        self, criteria: dict[str, Any], limit: Optional[int] = None
-    ) -> list[dict[str, Any]]:
+    async def search(self, criteria: dict[str, Any], limit: Optional[int] = None) -> list[dict[str, Any]]:
         """
         Search memories with quantum-aware filtering.
 
@@ -918,9 +872,7 @@ class QIMemoryManager(BaseMemoryManager):
             )
             return {"status": "error", "error": str(e)}
 
-    async def visualize(
-        self, memory_id: str, options: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def visualize(self, memory_id: str, options: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Create quantum-like state visualization.
 
@@ -940,15 +892,11 @@ class QIMemoryManager(BaseMemoryManager):
                 },
                 "coherence": self.coherence_scores.get(memory_id, 0.0),
                 "entanglements": list(self.entanglements.get(memory_id, set())),
-                "visualization_type": (
-                    options.get("type", "qi_sphere") if options else "qi_sphere"
-                ),
+                "visualization_type": (options.get("type", "qi_sphere") if options else "qi_sphere"),
             }
             return {"status": "success", "visualization_data": viz_data}
         except Exception as e:
-            self.logger.error(
-                "Failed to visualize quantum memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to visualize quantum memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     def _initialize_quantum_like_state(self, memory_data: dict[str, Any]) -> dict[str, Any]:
@@ -975,22 +923,16 @@ class QIMemoryManager(BaseMemoryManager):
         self.coherence_scores[memory_id] = new_coherence
         return new_coherence
 
-    def _collapse_superposition(
-        self, memory_data: dict[str, Any], qi_like_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _collapse_superposition(self, memory_data: dict[str, Any], qi_like_state: dict[str, Any]) -> dict[str, Any]:
         """Collapse superposition-like state to classical state."""
         return memory_data
 
-    def _evolve_quantum_like_state(
-        self, current_state: dict[str, Any], updates: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evolve_quantum_like_state(self, current_state: dict[str, Any], updates: dict[str, Any]) -> dict[str, Any]:
         """Evolve quantum-like state based on updates."""
         evolved_state = current_state.copy()
         update_factor = len(str(updates)) / 100.0
         if "phase" in evolved_state:
-            evolved_state["phase"] = [
-                (p + update_factor) % (2 * np.pi) for p in evolved_state["phase"]
-            ]
+            evolved_state["phase"] = [(p + update_factor) % (2 * np.pi) for p in evolved_state["phase"]]
         return evolved_state
 
     def _entangle_quantum_like_states(self, state1: dict[str, Any], state2: dict[str, Any]) -> None:
@@ -1018,9 +960,7 @@ class QIMemoryManager(BaseMemoryManager):
             **base_stats,
             "qi_memories": len(self.qi_like_states),
             "total_entanglements": sum(len(e) for e in self.entanglements.values()) // 2,
-            "average_coherence": (
-                np.mean(list(self.coherence_scores.values())) if self.coherence_scores else 0.0
-            ),
+            "average_coherence": (np.mean(list(self.coherence_scores.values())) if self.coherence_scores else 0.0),
             "coherence_threshold": self.qi_config["coherence_threshold"],
         }
         return qi_stats
@@ -1117,9 +1057,7 @@ class DriftMemoryManager(BaseMemoryManager):
             self.logger.error("Failed to store drift memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def retrieve(
-        self, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def retrieve(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Retrieve memory with drift analysis.
 
@@ -1157,9 +1095,7 @@ class DriftMemoryManager(BaseMemoryManager):
             self.logger.error("Failed to retrieve drift memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def update(
-        self, memory_id: str, updates: dict[str, Any], merge: bool = True
-    ) -> dict[str, Any]:
+    async def update(self, memory_id: str, updates: dict[str, Any], merge: bool = True) -> dict[str, Any]:
         """Update memory with drift tracking."""
         try:
             current = await self.retrieve(memory_id)
@@ -1217,9 +1153,7 @@ class DriftMemoryManager(BaseMemoryManager):
             if soft_delete:
                 if memory_id in self._memory_index:
                     self._memory_index[memory_id]["deleted"] = True
-                    self._memory_index[memory_id]["deleted_at"] = datetime.now(
-                        timezone.utc
-                    ).isoformat()
+                    self._memory_index[memory_id]["deleted_at"] = datetime.now(timezone.utc).isoformat()
                     self._save_index()
             else:
                 file_path = self.base_path / f"{memory_id}.json"
@@ -1234,9 +1168,7 @@ class DriftMemoryManager(BaseMemoryManager):
             self.logger.error("Failed to delete drift memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def search(
-        self, criteria: dict[str, Any], limit: Optional[int] = None
-    ) -> list[dict[str, Any]]:
+    async def search(self, criteria: dict[str, Any], limit: Optional[int] = None) -> list[dict[str, Any]]:
         """
         Search memories with drift-aware filtering.
 
@@ -1341,9 +1273,7 @@ class DriftMemoryManager(BaseMemoryManager):
                 },
             }
 
-    async def correct_drift(
-        self, memory_id: str, correction_strength: Optional[float] = None
-    ) -> dict[str, Any]:
+    async def correct_drift(self, memory_id: str, correction_strength: Optional[float] = None) -> dict[str, Any]:
         """Manually correct drift for a memory."""
         try:
             memory = await self.retrieve(memory_id)
@@ -1414,9 +1344,7 @@ class DriftMemoryManager(BaseMemoryManager):
         data_str = json.dumps(data, sort_keys=True)
         return hashlib.sha256(data_str.encode()).hexdigest()[:16]
 
-    def _calculate_drift_vector(
-        self, reference_state: dict[str, Any], current_state: dict[str, Any]
-    ) -> np.ndarray:
+    def _calculate_drift_vector(self, reference_state: dict[str, Any], current_state: dict[str, Any]) -> np.ndarray:
         """Calculate drift vector between states."""
         ref_vector = np.array(reference_state.get("vector", []))
         curr_vector = np.array(current_state.get("vector", []))
@@ -1446,17 +1374,13 @@ class DriftMemoryManager(BaseMemoryManager):
                 drift_info["direction"] = drift_info["direction"].tolist()
             if memory_id in self.drift_history and len(self.drift_history[memory_id]) > 1:
                 recent_events = self.drift_history[memory_id][-2:]
-                time_diff = (
-                    recent_events[1]["timestamp"] - recent_events[0]["timestamp"]
-                ).total_seconds()
+                time_diff = (recent_events[1]["timestamp"] - recent_events[0]["timestamp"]).total_seconds()
                 if time_diff > 0:
                     magnitude_diff = recent_events[1]["magnitude"] - recent_events[0]["magnitude"]
                     drift_info["rate"] = magnitude_diff / time_diff
         return drift_info
 
-    def _apply_drift_correction(
-        self, memory_data: dict[str, Any], drift_info: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _apply_drift_correction(self, memory_data: dict[str, Any], drift_info: dict[str, Any]) -> dict[str, Any]:
         """Apply correction to memory data based on drift analysis."""
         corrected_data = memory_data.copy()
         corrected_data["_drift_correction"] = {
@@ -1534,10 +1458,7 @@ class DriftMemoryManager(BaseMemoryManager):
             return "stable"
         recent_magnitudes = [event["magnitude"] for event in history[-5:]]
         if len(recent_magnitudes) > 1:
-            diffs = [
-                recent_magnitudes[i + 1] - recent_magnitudes[i]
-                for i in range(len(recent_magnitudes) - 1)
-            ]
+            diffs = [recent_magnitudes[i + 1] - recent_magnitudes[i] for i in range(len(recent_magnitudes) - 1)]
             avg_diff = np.mean(diffs)
             if avg_diff > 0.01:
                 return "increasing"
@@ -1545,9 +1466,7 @@ class DriftMemoryManager(BaseMemoryManager):
                 return "decreasing"
         return "stable"
 
-    def _matches_drift_pattern(
-        self, memory_pattern: dict[str, Any], search_pattern: dict[str, Any]
-    ) -> bool:
+    def _matches_drift_pattern(self, memory_pattern: dict[str, Any], search_pattern: dict[str, Any]) -> bool:
         """Check if memory matches drift pattern criteria."""
         for key, value in search_pattern.items():
             if key not in memory_pattern:
@@ -1568,12 +1487,8 @@ class DriftMemoryManager(BaseMemoryManager):
     async def get_statistics(self) -> dict[str, Any]:
         """Get drift memory statistics."""
         base_stats = await super().get_statistics()
-        drift_magnitudes = [
-            state.get("drift_magnitude", 0.0) for state in self.drift_states.values()
-        ]
-        drifting_count = sum(
-            1 for mag in drift_magnitudes if mag > self.drift_config["drift_threshold"]
-        )
+        drift_magnitudes = [state.get("drift_magnitude", 0.0) for state in self.drift_states.values()]
+        drifting_count = sum(1 for mag in drift_magnitudes if mag > self.drift_config["drift_threshold"])
         drift_stats = {
             **base_stats,
             "drift_tracking_enabled": len(self.drift_states),

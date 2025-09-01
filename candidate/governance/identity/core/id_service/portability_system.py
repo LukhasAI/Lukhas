@@ -275,9 +275,7 @@ class LambdaIDPortabilitySystem:
 
             # Verify geographic proximity if location provided
             if current_location and original_location:
-                proximity_check = self._verify_geographic_proximity(
-                    current_location, original_location
-                )
+                proximity_check = self._verify_geographic_proximity(current_location, original_location)
                 attempt.security_checks["proximity"] = proximity_check
 
                 if not proximity_check["valid"]:
@@ -378,9 +376,7 @@ class LambdaIDPortabilitySystem:
 
         # Additional verification if required
         if additional_verification:
-            verification_passed = self._verify_additional_factors(
-                matching_lambda_id, additional_verification
-            )
+            verification_passed = self._verify_additional_factors(matching_lambda_id, additional_verification)
             attempt.security_checks["additional_verification"] = verification_passed
 
             if not verification_passed:
@@ -466,9 +462,7 @@ class LambdaIDPortabilitySystem:
         self.recovery_attempts.append(attempt)
         return attempt
 
-    def sync_across_devices(
-        self, lambda_id: str, source_device: str, target_devices: list[str]
-    ) -> dict[str, Any]:
+    def sync_across_devices(self, lambda_id: str, source_device: str, target_devices: list[str]) -> dict[str, Any]:
         """
         Synchronize ΛiD across multiple devices.
 
@@ -620,12 +614,8 @@ class LambdaIDPortabilitySystem:
             return {
                 "lambda_id": lambda_id,
                 "total_attempts": len(lambda_attempts),
-                "successful_recoveries": len(
-                    [a for a in lambda_attempts if a.status == RecoveryStatus.SUCCESS]
-                ),
-                "failed_attempts": len(
-                    [a for a in lambda_attempts if a.status == RecoveryStatus.FAILED]
-                ),
+                "successful_recoveries": len([a for a in lambda_attempts if a.status == RecoveryStatus.SUCCESS]),
+                "failed_attempts": len([a for a in lambda_attempts if a.status == RecoveryStatus.FAILED]),
                 "methods_used": list({a.method.value for a in lambda_attempts if a.method}),
                 "latest_attempt": (lambda_attempts[-1].to_dict() if lambda_attempts else None),
                 "package_exists": lambda_id in self.active_packages,
@@ -633,18 +623,14 @@ class LambdaIDPortabilitySystem:
         else:
             # Overall analytics
             total_attempts = len(self.recovery_attempts)
-            successful = len(
-                [a for a in self.recovery_attempts if a.status == RecoveryStatus.SUCCESS]
-            )
+            successful = len([a for a in self.recovery_attempts if a.status == RecoveryStatus.SUCCESS])
 
             method_stats = {}
             for method in RecoveryMethod:
                 method_attempts = [a for a in self.recovery_attempts if a.method == method]
                 method_stats[method.value] = {
                     "total": len(method_attempts),
-                    "successful": len(
-                        [a for a in method_attempts if a.status == RecoveryStatus.SUCCESS]
-                    ),
+                    "successful": len([a for a in method_attempts if a.status == RecoveryStatus.SUCCESS]),
                 }
 
             return {
@@ -658,9 +644,7 @@ class LambdaIDPortabilitySystem:
 
     # Private helper methods
 
-    def _generate_qr_geo_code(
-        self, lambda_id: str, geo_location: Optional[dict[str, float]]
-    ) -> str:
+    def _generate_qr_geo_code(self, lambda_id: str, geo_location: Optional[dict[str, float]]) -> str:
         """Generate QR-G code for ΛiD"""
         geo_data = self.geo_encoder.encode_with_location(lambda_id, geo_location)
         return geo_data

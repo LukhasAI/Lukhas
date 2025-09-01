@@ -320,9 +320,7 @@ def status():
                 data = json.load(f)
                 total_issues = len(data.get("results", []))
                 high_issues = len([i for i in data["results"] if i.get("issue_severity") == "HIGH"])
-                medium_issues = len(
-                    [i for i in data["results"] if i.get("issue_severity") == "MEDIUM"]
-                )
+                medium_issues = len([i for i in data["results"] if i.get("issue_severity") == "MEDIUM"])
 
             click.echo(f"🔥 HIGH severity: {high_issues} issues")
             click.echo(f"⚠️  MEDIUM severity: {medium_issues} issues")

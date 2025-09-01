@@ -434,9 +434,7 @@ class SymbolProgramSynthesizer:
         # Try generic synthesis
         return self._generic_synthesis(examples)
 
-    def synthesize_from_trace(
-        self, symbol_trace: list[tuple[str, Symbol]]
-    ) -> Optional[SymbolProgram]:
+    def synthesize_from_trace(self, symbol_trace: list[tuple[str, Symbol]]) -> Optional[SymbolProgram]:
         """
         Synthesize program from execution trace.
 
@@ -478,9 +476,7 @@ class SymbolProgramSynthesizer:
         self.programs[program.program_id] = program
         return program
 
-    def execute_program(
-        self, program: SymbolProgram, input_symbols: dict[str, Symbol]
-    ) -> dict[str, Symbol]:
+    def execute_program(self, program: SymbolProgram, input_symbols: dict[str, Symbol]) -> dict[str, Symbol]:
         """
         Execute a symbol program.
 
@@ -579,9 +575,7 @@ class SymbolProgramSynthesizer:
 
         return patterns
 
-    def _synthesize_transformation(
-        self, examples: list[dict[str, Any]], pattern_data: dict[str, Any]
-    ) -> SymbolProgram:
+    def _synthesize_transformation(self, examples: list[dict[str, Any]], pattern_data: dict[str, Any]) -> SymbolProgram:
         """Synthesize transformation program"""
         # Infer transformation function
         transform_ops = []
@@ -611,9 +605,7 @@ class SymbolProgramSynthesizer:
             operations=[{"op": "transform", "function": transform_ops[0]}],
         )
 
-    def _synthesize_composition(
-        self, examples: list[dict[str, Any]], pattern_data: dict[str, Any]
-    ) -> SymbolProgram:
+    def _synthesize_composition(self, examples: list[dict[str, Any]], pattern_data: dict[str, Any]) -> SymbolProgram:
         """Synthesize composition program"""
         arity = pattern_data["arity"]
 
@@ -630,9 +622,7 @@ class SymbolProgramSynthesizer:
             operations=[{"op": "compose", "arity": arity}],
         )
 
-    def _synthesize_filter(
-        self, examples: list[dict[str, Any]], pattern_data: dict[str, Any]
-    ) -> SymbolProgram:
+    def _synthesize_filter(self, examples: list[dict[str, Any]], pattern_data: dict[str, Any]) -> SymbolProgram:
         """Synthesize filtering program"""
         # Infer filter condition
         code = "filter(input, condition)"

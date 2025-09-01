@@ -57,9 +57,7 @@ class DreamBridge:
 
         return {"dream_id": dream_id, "dream_data": dream_result, "status": "active"}
 
-    async def integrate_dream_feedback(
-        self, dream_id: str, feedback: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def integrate_dream_feedback(self, dream_id: str, feedback: dict[str, Any]) -> dict[str, Any]:
         """Integrate feedback from a dream back into consciousness"""
         if dream_id not in self.active_dreams:
             return {"error": "Dream not found", "dream_id": dream_id}

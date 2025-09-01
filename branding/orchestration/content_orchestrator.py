@@ -120,27 +120,21 @@ class EliteContentOrchestrator:
         if self.content_engines_path.exists():
             for system_dir in self.content_engines_path.iterdir():
                 if system_dir.is_dir():
-                    system = await self._analyze_system(
-                        system_dir.name, "content_engine", str(system_dir)
-                    )
+                    system = await self._analyze_system(system_dir.name, "content_engine", str(system_dir))
                     systems.append(system)
 
         # Enterprise Systems
         if self.enterprise_systems_path.exists():
             for system_dir in self.enterprise_systems_path.iterdir():
                 if system_dir.is_dir():
-                    system = await self._analyze_system(
-                        system_dir.name, "enterprise_system", str(system_dir)
-                    )
+                    system = await self._analyze_system(system_dir.name, "enterprise_system", str(system_dir))
                     systems.append(system)
 
         # Mobile Applications
         if self.mobile_apps_path.exists():
             for system_dir in self.mobile_apps_path.iterdir():
                 if system_dir.is_dir():
-                    system = await self._analyze_system(
-                        system_dir.name, "mobile_app", str(system_dir)
-                    )
+                    system = await self._analyze_system(system_dir.name, "mobile_app", str(system_dir))
                     systems.append(system)
 
         self.systems = systems
@@ -161,11 +155,7 @@ class EliteContentOrchestrator:
             consciousness_tech_focus = await self._check_consciousness_tech_focus(path)
 
             # Determine elite readiness
-            elite_ready = (
-                voice_coherence >= self.elite_threshold
-                and trinity_integration
-                and consciousness_tech_focus
-            )
+            elite_ready = voice_coherence >= self.elite_threshold and trinity_integration and consciousness_tech_focus
 
             return ContentSystem(
                 name=name,
@@ -296,11 +286,7 @@ class EliteContentOrchestrator:
 
             # Calculate current metrics
             voice_coherence_scores = [s.voice_coherence for s in systems]
-            avg_coherence = (
-                sum(voice_coherence_scores) / len(voice_coherence_scores)
-                if voice_coherence_scores
-                else 0.0
-            )
+            avg_coherence = sum(voice_coherence_scores) / len(voice_coherence_scores) if voice_coherence_scores else 0.0
             elite_systems = [s for s in systems if s.elite_ready]
 
             # Generate comprehensive report
@@ -334,9 +320,7 @@ class EliteContentOrchestrator:
                 timestamp=datetime.now().isoformat(),
             )
 
-    async def _generate_orchestration_report(
-        self, systems: list[ContentSystem], avg_coherence: float
-    ):
+    async def _generate_orchestration_report(self, systems: list[ContentSystem], avg_coherence: float):
         """Generate comprehensive orchestration report"""
         report_path = self.base_path / "ELITE_ORCHESTRATION_REPORT.md"
 

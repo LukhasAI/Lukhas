@@ -133,9 +133,7 @@ class PluginLearningEngine(LucasPlugin):
         profile = await self.memory.get_user_knowledge_profile(user.id)
 
         # Create personalized session
-        session = self.tutor.create_session(
-            topic=topic, user_level=config.user_level, knowledge_profile=profile
-        )
+        session = self.tutor.create_session(topic=topic, user_level=config.user_level, knowledge_profile=profile)
 
         # Enable voice interaction if requested
         if config.voice_enabled:
@@ -146,9 +144,7 @@ class PluginLearningEngine(LucasPlugin):
 
         # Monitor bio-oscillator patterns if enabled
         if config.bio_oscillator_aware:
-            session.set_bio_monitor(
-                self.bio.create_session_monitor(session_type="learning", user_id=user.id)
-            )
+            session.set_bio_monitor(self.bio.create_session_monitor(session_type="learning", user_id=user.id))
 
         return session
 
@@ -190,9 +186,7 @@ class PluginLearningEngine(LucasPlugin):
         user_state = self.bio.get_current_state(user_id)
         knowledge_level = self.memory.get_topic_knowledge_level(user_id, topic)
 
-        return self.tutor.calculate_optimal_complexity(
-            bio_state=user_state, knowledge_level=knowledge_level
-        )
+        return self.tutor.calculate_optimal_complexity(bio_state=user_state, knowledge_level=knowledge_level)
 
     async def cleanup(self):
         """Clean up plugin resources properly."""

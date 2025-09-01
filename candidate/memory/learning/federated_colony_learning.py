@@ -57,9 +57,7 @@ class FederatedLearningColony(BaseColony):
         return {
             "round": self.learning_rounds,
             "participants": len(local_results),
-            "avg_loss": (
-                float(np.mean([r["avg_loss"] for r in local_results])) if local_results else 0.0
-            ),
+            "avg_loss": (float(np.mean([r["avg_loss"] for r in local_results])) if local_results else 0.0),
             "model_version": self.learning_rounds,
         }
 

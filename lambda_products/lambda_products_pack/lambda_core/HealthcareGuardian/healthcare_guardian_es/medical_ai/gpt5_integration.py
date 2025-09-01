@@ -186,8 +186,7 @@ class GPT5HealthcareClient:
         except Exception as e:
             logger.error(f"Error processing health query: {e}")
             return (
-                "Perdone, no he podido procesar su consulta. "
-                "Si es urgente, contacte con su médico o llame al 112."
+                "Perdone, no he podido procesar su consulta. " "Si es urgente, contacte con su médico o llame al 112."
             )
 
     def _assess_urgency(self, query: str) -> str:
@@ -384,9 +383,7 @@ class GPT5HealthcareClient:
                 "⚠️ Hay interacciones peligrosas. Consulte con su médico urgentemente."
             )
         elif interactions["caution"]:
-            interactions["recommendations"].append(
-                "⚡ Hay algunas interacciones. Coméntelo con su médico."
-            )
+            interactions["recommendations"].append("⚡ Hay algunas interacciones. Coméntelo con su médico.")
         else:
             interactions["recommendations"].append("✅ No hay interacciones peligrosas conocidas.")
 
@@ -518,10 +515,7 @@ class GPT5HealthcareClient:
                 break
 
         if not med_name:
-            return (
-                "No he reconocido el nombre de la medicina. "
-                "¿Puede decirme cómo se llama exactamente?"
-            )
+            return "No he reconocido el nombre de la medicina. " "¿Puede decirme cómo se llama exactamente?"
 
         med_info = self.medications[med_name]
 
@@ -532,9 +526,7 @@ class GPT5HealthcareClient:
             explanation += f"Recuerde: {med_info['warnings'][0]}. "
 
         if med_info["side_effects"]:
-            explanation += (
-                f"Puede causar {', '.join(med_info['side_effects'][:2])}, pero no siempre pasa. "
-            )
+            explanation += f"Puede causar {', '.join(med_info['side_effects'][:2])}, pero no siempre pasa. "
 
         explanation += "Si tiene dudas, pregunte a su médico o farmacéutico."
 
@@ -582,7 +574,4 @@ class GPT5HealthcareClient:
             "Siga las recomendaciones de su médico y mantenga hábitos saludables.",
         )
 
-        return (
-            advice + "\n\nRecuerde: Estos son consejos generales. "
-            "Siempre siga las indicaciones de su médico."
-        )
+        return advice + "\n\nRecuerde: Estos son consejos generales. " "Siempre siga las indicaciones de su médico."

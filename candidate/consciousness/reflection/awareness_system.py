@@ -97,9 +97,7 @@ class SystemState:
     resource_utilization: float = 0.0
     active_processes: int = 0
     alert_level: str = "normal"
-    last_update: datetime = field(
-        default_factory=lambda: datetime.now(timezone.utc)
-    )  # ΛTRACE_CHANGE: UTC default
+    last_update: datetime = field(default_factory=lambda: datetime.now(timezone.utc))  # ΛTRACE_CHANGE: UTC default
     # Extended state for integrations
     consciousness_level: float = 1.0
     dream_phase: Optional[str] = None
@@ -165,9 +163,7 @@ class QIAwarenessSystem:
         self.state_history: list[SystemState] = []
 
         self.active: bool = False
-        self.monitoring_task: Optional[asyncio.Task[None]] = (
-            None  # ΛTRACE_CHANGE: More specific type hint
-        )
+        self.monitoring_task: Optional[asyncio.Task[None]] = None  # ΛTRACE_CHANGE: More specific type hint
 
         # Integration with consciousness, dream, and ethics
         self.consciousness_engine: Optional[AwarenessEngine] = None
@@ -228,9 +224,7 @@ class QIAwarenessSystem:
                 "Started quantum system monitoring with consciousness/dream/ethics/neuroplasticity integration."
             )  # ΛTRACE_CHANGE
         except Exception as e:
-            log.error(
-                "Failed to start system monitoring.", error=str(e), exc_info=True
-            )  # ΛTRACE_CHANGE
+            log.error("Failed to start system monitoring.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
             self.active = False
 
     # @lukhas_tier_required(level=3) # ΛTRACE_ADD
@@ -254,9 +248,7 @@ class QIAwarenessSystem:
             await self.monitor_oscillator.measure_state()
             log.info("Stopped quantum system monitoring.")  # ΛTRACE_CHANGE
         except Exception as e:
-            log.error(
-                "Error stopping system monitoring.", error=str(e), exc_info=True
-            )  # ΛTRACE_CHANGE
+            log.error("Error stopping system monitoring.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
 
     # @lukhas_tier_required(level=1) # ΛTRACE_ADD
     def get_system_state(self) -> SystemState:
@@ -279,9 +271,7 @@ class QIAwarenessSystem:
         if not hours:
             return self.state_history
 
-        cutoff = datetime.now(timezone.utc) - timedelta(
-            hours=hours
-        )  # ΛTRACE_CHANGE: Use timezone.utc
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)  # ΛTRACE_CHANGE: Use timezone.utc
         return [state for state in self.state_history if state.last_update > cutoff]
 
     # @lukhas_tier_required(level=2) # ΛTRACE_ADD
@@ -290,9 +280,7 @@ class QIAwarenessSystem:
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())  # ΛTRACE_ADD
         log.debug("Handling message for system_awareness.", message_keys=list(message.keys()))
         try:
-            content: dict[str, Any] = message.get(
-                "content", {}
-            )  # ΛTRACE_CHANGE: Use .get for safety
+            content: dict[str, Any] = message.get("content", {})  # ΛTRACE_CHANGE: Use .get for safety
             action: Optional[str] = content.get("action")  # ΛTRACE_CHANGE: Use .get for safety
 
             log = log.bind(action=action)  # ΛTRACE_ADD
@@ -326,9 +314,7 @@ class QIAwarenessSystem:
         except asyncio.CancelledError:
             log.info("System monitoring loop cancelled.")  # ΛTRACE_CHANGE
         except Exception as e:
-            log.error(
-                "Error in system monitoring loop.", error=str(e), exc_info=True
-            )  # ΛTRACE_CHANGE
+            log.error("Error in system monitoring loop.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
             self.active = False  # Stop monitoring on unhandled error
         finally:  # ΛTRACE_ADD
             log.info("Monitoring loop ended.")
@@ -341,9 +327,7 @@ class QIAwarenessSystem:
             coherence: float = await self.monitor_oscillator.measure_coherence()
 
             self.current_state.qi_coherence = coherence
-            self.current_state.last_update = datetime.now(
-                timezone.utc
-            )  # ΛTRACE_CHANGE: Use timezone.utc
+            self.current_state.last_update = datetime.now(timezone.utc)  # ΛTRACE_CHANGE: Use timezone.utc
 
             if coherence < self.config.alert_threshold:
                 if self.current_state.alert_level != "warning":  # ΛTRACE_ADD: Log only on change
@@ -385,9 +369,7 @@ class QIAwarenessSystem:
             orchestrator_health: dict[str, Any] = await self.orchestrator.get_health_metrics()
 
             self.current_state.system_health = orchestrator_health.get("health_score", 1.0)
-            self.current_state.resource_utilization = orchestrator_health.get(
-                "resource_utilization", 0.0
-            )
+            self.current_state.resource_utilization = orchestrator_health.get("resource_utilization", 0.0)
             self.current_state.active_processes = orchestrator_health.get("active_processes", 0)
             log.debug(
                 "System health checked.",
@@ -463,9 +445,7 @@ class QIAwarenessSystem:
                 log.debug("No old metrics files to clean up.")
 
         except Exception as e:  # Catch other unexpected errors during glob or initial setup
-            log.error(
-                "Error cleaning up old metrics.", error=str(e), exc_info=True
-            )  # ΛTRACE_CHANGE
+            log.error("Error cleaning up old metrics.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
 
     # ΛTRACE_ADD: Consciousness integration methods
     async def _consciousness_sync_loop(self) -> None:
@@ -491,9 +471,7 @@ class QIAwarenessSystem:
         if self.consciousness_engine:
             try:
                 consciousness_data = await self.consciousness_engine.get_awareness_state()
-                self.current_state.consciousness_level = consciousness_data.get(
-                    "awareness_level", 1.0
-                )
+                self.current_state.consciousness_level = consciousness_data.get("awareness_level", 1.0)
 
                 # Adjust neuroplasticity based on consciousness level
                 if self.config.neuroplasticity_enabled:
@@ -869,9 +847,8 @@ class QIAwarenessSystem:
             momentum = self.config.learning_momentum
 
             # Use momentum-based update with safety constraints
-            new_rate = (
-                self.current_state.current_plasticity_rate * momentum
-                + base_rate * safety_factor * (1 - momentum)
+            new_rate = self.current_state.current_plasticity_rate * momentum + base_rate * safety_factor * (
+                1 - momentum
             )
 
             # Apply safety limit
@@ -880,9 +857,7 @@ class QIAwarenessSystem:
 
             if abs(rate_change) > max_change:
                 # Clamp the change to safety limit
-                new_rate = self.current_state.current_plasticity_rate + (
-                    max_change if rate_change > 0 else -max_change
-                )
+                new_rate = self.current_state.current_plasticity_rate + (max_change if rate_change > 0 else -max_change)
 
             # Update state
             self.current_state.current_plasticity_rate = max(0.01, min(0.5, new_rate))
@@ -923,9 +898,7 @@ class QIAwarenessSystem:
 
         reduction_factor = 0.5
         self.current_state.current_plasticity_rate *= reduction_factor
-        self.current_state.current_plasticity_rate = max(
-            0.01, self.current_state.current_plasticity_rate
-        )
+        self.current_state.current_plasticity_rate = max(0.01, self.current_state.current_plasticity_rate)
 
         log.warning(
             "Reduced neuroplasticity for safety.",
@@ -1020,9 +993,7 @@ class QIAwarenessSystem:
 
             # Update synaptic strength based on learning
             delta = learning_strength * self.current_state.current_plasticity_rate
-            self.current_state.synaptic_strength = min(
-                1.0, self.current_state.synaptic_strength + delta
-            )
+            self.current_state.synaptic_strength = min(1.0, self.current_state.synaptic_strength + delta)
 
             # Process through quantum processor if available
             if self.qi_inspired_processor:
@@ -1119,9 +1090,7 @@ class QIAwarenessSystem:
                 num_metrics_files=len(metrics_data),
             )
         except Exception as e:
-            log.error(
-                "Error handling metrics request.", error=str(e), exc_info=True
-            )  # ΛTRACE_CHANGE
+            log.error("Error handling metrics request.", error=str(e), exc_info=True)  # ΛTRACE_CHANGE
 
 
 # ΛFOOTER_START

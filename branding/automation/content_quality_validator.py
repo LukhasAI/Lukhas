@@ -63,9 +63,7 @@ class ContentQualityValidator:
         self.logger = self._setup_logging()
 
         # Initialize validator
-        db.log_system_activity(
-            "content_quality_validator", "system_init", "Content quality validator initialized", 1.0
-        )
+        db.log_system_activity("content_quality_validator", "system_init", "Content quality validator initialized", 1.0)
 
     def _setup_logging(self) -> logging.Logger:
         """Setup quality validator logging"""
@@ -74,9 +72,7 @@ class ContentQualityValidator:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = (
-            self.logs_path / f"content_quality_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-        )
+        log_file = self.logs_path / f"content_quality_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -95,25 +91,19 @@ class ContentQualityValidator:
         recommendations = []
 
         # Platform optimization check
-        platform_score = self._check_platform_optimization(
-            content, platform, issues, recommendations
-        )
+        platform_score = self._check_platform_optimization(content, platform, issues, recommendations)
 
         # Readability assessment
         readability_score = self._assess_readability(content, issues, recommendations)
 
         # Engagement factor analysis
-        engagement_score = self._assess_engagement_factors(
-            content, content_type, issues, recommendations
-        )
+        engagement_score = self._assess_engagement_factors(content, content_type, issues, recommendations)
 
         # Brand consistency validation
         brand_score = self._validate_brand_consistency(content, issues, recommendations)
 
         # Vocabulary richness evaluation
-        vocabulary_score = self._evaluate_vocabulary_richness(
-            content, content_type, issues, recommendations
-        )
+        vocabulary_score = self._evaluate_vocabulary_richness(content, content_type, issues, recommendations)
 
         # Calculate overall score (weighted)
         overall_score = (
@@ -163,22 +153,16 @@ class ContentQualityValidator:
 
         # Length validation
         if content_length < limits["min_length"]:
-            issues.append(
-                f"Content too short for {platform}: {content_length} < {limits['min_length']} characters"
-            )
+            issues.append(f"Content too short for {platform}: {content_length} < {limits['min_length']} characters")
             score -= 30
-            recommendations.append(
-                f"Expand content to at least {limits['min_length']} characters for {platform}"
-            )
+            recommendations.append(f"Expand content to at least {limits['min_length']} characters for {platform}")
 
         if content_length > limits["max_length"]:
             issues.append(
                 f"CRITICAL: Content too long for {platform}: {content_length} > {limits['max_length']} characters"
             )
             score -= 50
-            recommendations.append(
-                f"Reduce content to under {limits['max_length']} characters for {platform}"
-            )
+            recommendations.append(f"Reduce content to under {limits['max_length']} characters for {platform}")
 
         # Platform-specific formatting checks
         if platform == "twitter":
@@ -198,9 +182,7 @@ class ContentQualityValidator:
 
         return max(score, 0.0)
 
-    def _assess_readability(
-        self, content: str, issues: list[str], recommendations: list[str]
-    ) -> float:
+    def _assess_readability(self, content: str, issues: list[str], recommendations: list[str]) -> float:
         """Assess content readability with consciousness awareness"""
         score = 85.0  # Start with generous base score
 
@@ -243,9 +225,7 @@ class ContentQualityValidator:
             "emerging",
             "trinity",
         ]
-        consciousness_count = sum(
-            1 for word in consciousness_words if word.lower() in content.lower()
-        )
+        consciousness_count = sum(1 for word in consciousness_words if word.lower() in content.lower())
         len(content.split())
 
         if consciousness_count > 0:
@@ -274,9 +254,7 @@ class ContentQualityValidator:
             "emerging",
             "discover",
         ]
-        has_hook = any(
-            hook in content.lower()[:150] for hook in opening_hooks
-        )  # Check first 150 chars
+        has_hook = any(hook in content.lower()[:150] for hook in opening_hooks)  # Check first 150 chars
 
         if not has_hook:
             score -= 10  # Reduced penalty
@@ -334,17 +312,14 @@ class ContentQualityValidator:
 
         return max(score, 0.0)
 
-    def _validate_brand_consistency(
-        self, content: str, issues: list[str], recommendations: list[str]
-    ) -> float:
+    def _validate_brand_consistency(self, content: str, issues: list[str], recommendations: list[str]) -> float:
         """Validate LUKHAS AI brand consistency with improved scoring"""
         score = 85.0  # Start with generous base score
 
         # Trinity Framework usage - any form is good
         has_trinity_symbols = any(symbol in content for symbol in ["⚛️", "🧠", "🛡️"])
         has_trinity_text = any(
-            term in content.lower()
-            for term in ["trinity", "framework", "identity", "consciousness", "guardian"]
+            term in content.lower() for term in ["trinity", "framework", "identity", "consciousness", "guardian"]
         )
 
         if has_trinity_symbols or has_trinity_text:
@@ -527,9 +502,7 @@ What's your perspective on the spectrum of consciousness? 💭""",
         print(f"\n🧪 Testing: {test['label']}")
         print("-" * 40)
 
-        quality_score = validator.validate_content(
-            test["content"], test["platform"], test["content_type"]
-        )
+        quality_score = validator.validate_content(test["content"], test["platform"], test["content_type"])
 
         print(f"Overall Score: {quality_score.overall_score:.1f}/100")
         print(f"Approved: {'✅ YES' if quality_score.approved else '❌ NO'}")

@@ -109,10 +109,7 @@ async def simulate_swarm(
     network = SwarmNetwork(high_trust_filter=high_trust_filter, value_bias=value_bias)
     await network.start()
 
-    agents = [
-        SimAgent(f"agent-{i}", network, survival_score=random.uniform(0.5, 1.0))
-        for i in range(num_agents)
-    ]
+    agents = [SimAgent(f"agent-{i}", network, survival_score=random.uniform(0.5, 1.0)) for i in range(num_agents)]
     for agent in agents:
         network.register(agent)
 

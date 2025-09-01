@@ -77,9 +77,7 @@ class EthicsBatchGuard:
 
             # Log ethics violations for audit trail
             if result.status in [ComplianceStatus.WARNING, ComplianceStatus.BLOCKED]:
-                self.logger.warning(
-                    f"Ethics concern in task {task.get('id', 'unknown')}: {result.violations}"
-                )
+                self.logger.warning(f"Ethics concern in task {task.get('id', 'unknown')}: {result.violations}")
 
         return results
 
@@ -125,9 +123,7 @@ class EthicsBatchGuard:
         symbol_compliance = self._validate_symbol_compliance(task_content)
         if not symbol_compliance:
             violations.append("Brand symbol compliance violation detected")
-            recommendations.append(
-                "Use uppercase LUKHAS for LUKHAS branding in user-facing content"
-            )
+            recommendations.append("Use uppercase LUKHAS for LUKHAS branding in user-facing content")
             confidence -= 0.1
 
         # Agent badge requirements
@@ -135,9 +131,7 @@ class EthicsBatchGuard:
 
         # Adjust status based on ethics level
         if self.ethics_level == EthicsLevel.STRICT and violations:
-            status = (
-                ComplianceStatus.PENDING_REVIEW if status == ComplianceStatus.APPROVED else status
-            )
+            status = ComplianceStatus.PENDING_REVIEW if status == ComplianceStatus.APPROVED else status
         elif self.ethics_level == EthicsLevel.PERMISSIVE and status == ComplianceStatus.WARNING:
             status = ComplianceStatus.APPROVED
 
@@ -259,13 +253,9 @@ class EthicsBatchGuard:
         blocked = sum(1 for r in batch_results if r.status == ComplianceStatus.BLOCKED)
         pending = sum(1 for r in batch_results if r.status == ComplianceStatus.PENDING_REVIEW)
 
-        avg_confidence = (
-            sum(r.confidence for r in batch_results) / total_tasks if total_tasks > 0 else 0
-        )
+        avg_confidence = sum(r.confidence for r in batch_results) / total_tasks if total_tasks > 0 else 0
         symbol_compliance_rate = (
-            sum(1 for r in batch_results if r.symbol_compliance) / total_tasks
-            if total_tasks > 0
-            else 0
+            sum(1 for r in batch_results if r.symbol_compliance) / total_tasks if total_tasks > 0 else 0
         )
 
         all_violations = []

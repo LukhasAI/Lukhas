@@ -255,9 +255,7 @@ class Phase2ValidationRunner:
             total_coverage = coverage_data["totals"]["percent_covered"]
 
             # Generate HTML report
-            subprocess.run(
-                ["coverage", "html", "-d", f"{self.results_dir}/coverage_html"], check=True
-            )
+            subprocess.run(["coverage", "html", "-d", f"{self.results_dir}/coverage_html"], check=True)
 
             coverage_results = {
                 "success": True,
@@ -290,9 +288,7 @@ class Phase2ValidationRunner:
         quality_gates = {
             "integration_tests_pass": test_results.get("integration", {}).get("success", False),
             "security_compliance_pass": test_results.get("security", {}).get("success", False),
-            "performance_targets_met": test_results.get("performance", {}).get(
-                "targets_met", False
-            ),
+            "performance_targets_met": test_results.get("performance", {}).get("targets_met", False),
             "tool_safety_validated": test_results.get("tool_safety", {}).get("success", False),
             "coverage_target_met": coverage.get("target_met", False),
             "no_critical_failures": self._check_no_critical_failures(),
@@ -312,9 +308,7 @@ class Phase2ValidationRunner:
         }
 
         # Log quality gate results
-        logger.info(
-            f"Quality Gates: {gates_passed}/{total_gates} passed ({gates_passed / total_gates * 100:.1f}%)"
-        )
+        logger.info(f"Quality Gates: {gates_passed}/{total_gates} passed ({gates_passed / total_gates * 100:.1f}%)")
         for gate, passed in quality_gates.items():
             status = "✅" if passed else "❌"
             logger.info(f"  {status} {gate}")
@@ -332,9 +326,7 @@ class Phase2ValidationRunner:
 
         # Update final results
         self.validation_results["quality_gates"] = self.evaluate_quality_gates()
-        self.validation_results["promotion_readiness"] = self.validation_results["quality_gates"][
-            "promotion_ready"
-        ]
+        self.validation_results["promotion_readiness"] = self.validation_results["quality_gates"]["promotion_ready"]
 
         # Save detailed results
         results_file = self.results_dir / "phase2_validation_report.json"
@@ -359,12 +351,8 @@ class Phase2ValidationRunner:
 
         # Run test suites
         self.validation_results["test_suites"]["integration"] = await self.run_integration_tests()
-        self.validation_results["test_suites"][
-            "security"
-        ] = await self.run_security_compliance_tests()
-        self.validation_results["test_suites"][
-            "performance"
-        ] = await self.run_performance_benchmarks()
+        self.validation_results["test_suites"]["security"] = await self.run_security_compliance_tests()
+        self.validation_results["test_suites"]["performance"] = await self.run_performance_benchmarks()
         self.validation_results["test_suites"]["tool_safety"] = await self.run_tool_safety_tests()
 
         # Run coverage analysis
@@ -442,9 +430,7 @@ class Phase2ValidationRunner:
             f.write("# LUKHAS AI Phase 2 Validation Summary\n\n")
             f.write(f"**Generated:** {self.validation_results['timestamp']}\n")
             f.write(f"**Mode:** {self.validation_results['mode']}\n")
-            f.write(
-                f"**Execution Time:** {self.validation_results.get('total_execution_time', 0):.1f}s\n\n"
-            )
+            f.write(f"**Execution Time:** {self.validation_results.get('total_execution_time', 0):.1f}s\n\n")
 
             # Quality Gates
             gates = self.validation_results["quality_gates"]["gates"]
@@ -467,9 +453,7 @@ async def main():
     parser = argparse.ArgumentParser(description="LUKHAS AI Phase 2 Validation Runner")
     parser.add_argument("--quick", action="store_true", help="Run quick validation")
     parser.add_argument("--coverage-only", action="store_true", help="Run only coverage analysis")
-    parser.add_argument(
-        "--performance-only", action="store_true", help="Run only performance benchmarks"
-    )
+    parser.add_argument("--performance-only", action="store_true", help="Run only performance benchmarks")
     parser.add_argument("--report-only", action="store_true", help="Generate summary report only")
 
     args = parser.parse_args()
@@ -484,9 +468,7 @@ async def main():
             return 0
         elif args.performance_only:
             runner.setup_environment()
-            runner.validation_results["test_suites"][
-                "performance"
-            ] = await runner.run_performance_benchmarks()
+            runner.validation_results["test_suites"]["performance"] = await runner.run_performance_benchmarks()
             runner.generate_summary_report()
             return 0
         elif args.report_only:

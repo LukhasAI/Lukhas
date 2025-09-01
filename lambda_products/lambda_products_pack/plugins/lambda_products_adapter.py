@@ -118,12 +118,8 @@ class NIASPlugin(LukhasPlugin):
                 error_count=0 if is_healthy else 1,
                 uptime_seconds=self.get_uptime(),
                 custom_metrics={
-                    "messages_processed": (
-                        getattr(self.nias_engine, "message_count", 0) if self.nias_engine else 0
-                    ),
-                    "consent_checks": (
-                        getattr(self.nias_engine, "consent_checks", 0) if self.nias_engine else 0
-                    ),
+                    "messages_processed": (getattr(self.nias_engine, "message_count", 0) if self.nias_engine else 0),
+                    "consent_checks": (getattr(self.nias_engine, "consent_checks", 0) if self.nias_engine else 0),
                 },
             )
         except Exception as e:
@@ -313,9 +309,7 @@ class LambdaProductsAdapter:
         }
         self.enabled_products: dict[str, LukhasPlugin] = {}
 
-    async def enable_product(
-        self, product_id: str, config: Optional[dict[str, Any]] = None
-    ) -> Optional[LukhasPlugin]:
+    async def enable_product(self, product_id: str, config: Optional[dict[str, Any]] = None) -> Optional[LukhasPlugin]:
         """
         Enable a specific Lambda Product
 
@@ -398,9 +392,7 @@ class LambdaProductsAdapter:
             logger.error(f"Error disabling Lambda Product {product_id}: {e}")
             return False
 
-    async def enable_all_products(
-        self, configs: Optional[dict[str, dict[str, Any]]] = None
-    ) -> dict[str, bool]:
+    async def enable_all_products(self, configs: Optional[dict[str, dict[str, Any]]] = None) -> dict[str, bool]:
         """
         Enable all available Lambda Products
 

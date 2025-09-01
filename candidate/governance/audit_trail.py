@@ -90,9 +90,7 @@ class AuditEntry:
         """Compute SHA-256 checksum for integrity verification"""
         # Create deterministic representation
         # Handle both enum and string types for decision_type
-        decision_type_value = (
-            self.decision_type.value if hasattr(self.decision_type, "value") else self.decision_type
-        )
+        decision_type_value = self.decision_type.value if hasattr(self.decision_type, "value") else self.decision_type
         data = {
             "audit_id": self.audit_id,
             "timestamp": self.timestamp,
@@ -348,9 +346,7 @@ class AuditTrail:
 
         # Human explanation
         if entry.decision_type == DecisionType.RESPONSE:
-            explanations["human"] = (
-                f"Generated response based on user input with {entry.confidence:.0%} confidence."
-            )
+            explanations["human"] = f"Generated response based on user input with {entry.confidence:.0%} confidence."
             if entry.signals:
                 active_signals = [f"{k}: {v:.1f}" for k, v in entry.signals.items() if v > 0.3]
                 if active_signals:

@@ -141,9 +141,7 @@ class QRGDemo:
         print(f"\n{self.style['color']}🆔 Symbolic Identity Creation{self.style['color']}\033[0m")
 
         if self.layer == "poetic":
-            print(
-                "🌟 Speak your soul's symbolic essence - a phrase that resonates with your digital being..."
-            )
+            print("🌟 Speak your soul's symbolic essence - a phrase that resonates with your digital being...")
         elif self.layer == "user_friendly":
             print("💫 Create your memorable identity phrase (like 'S plus joy plus grow'):")
         else:
@@ -225,14 +223,10 @@ class QRGDemo:
 
         # Generate QRG
         consciousness_context = ConsciousnessContext(
-            emotional_state=self.current_identity.consciousness_profile.get(
-                "communication_style", "neutral"
-            ),
+            emotional_state=self.current_identity.consciousness_profile.get("communication_style", "neutral"),
             valence=self.current_identity.consciousness_profile["emotional_baseline"]["valence"],
             arousal=self.current_identity.consciousness_profile["emotional_baseline"]["arousal"],
-            dominance=self.current_identity.consciousness_profile["emotional_baseline"][
-                "dominance"
-            ],
+            dominance=self.current_identity.consciousness_profile["emotional_baseline"]["dominance"],
             user_tier=self.current_identity.access_tier.value[-1],  # Get tier number
             current_context="demo_generation",
         )
@@ -251,16 +245,12 @@ class QRGDemo:
 
     def _demo_consciousness_adaptation(self):
         """Demonstrate consciousness-aware adaptation"""
-        print(
-            f"\n{self.style['color']}🧠 Consciousness Adaptation Demo{self.style['color']}\033[0m"
-        )
+        print(f"\n{self.style['color']}🧠 Consciousness Adaptation Demo{self.style['color']}\033[0m")
 
         emotional_states = ["joy", "calm", "focus", "stress", "neutral"]
 
         if self.layer == "poetic":
-            print(
-                "🎭 Experience how your digital essence transforms with the rhythms of consciousness..."
-            )
+            print("🎭 Experience how your digital essence transforms with the rhythms of consciousness...")
         elif self.layer == "user_friendly":
             print("😊 See how your QR code changes based on your emotional state:")
         else:
@@ -411,25 +401,19 @@ class QRGDemo:
             "third_party_sharing": False,
         }
 
-        nias_result = self.lukhas_bridge.integrate_with_nias_consent(
-            self.current_identity, consent_prefs
-        )
+        nias_result = self.lukhas_bridge.integrate_with_nias_consent(self.current_identity, consent_prefs)
         print(f"   ✅ NIΛS integration: {nias_result['consent_registered']}")
 
         # WΛLLET Integration
         print("\n🔸 WΛLLET Quantum Vault Integration...")
         vault_permissions = ["identity_storage", "qi_backup", "cross_device_sync"]
 
-        wallet_result = self.lukhas_bridge.integrate_with_wallet_vault(
-            self.current_identity, vault_permissions
-        )
+        wallet_result = self.lukhas_bridge.integrate_with_wallet_vault(self.current_identity, vault_permissions)
         print(f"   🔐 Vault created: {wallet_result}")
 
         # Cross-product status
         print("\n🔸 Cross-product authentication status...")
-        status = self.lukhas_bridge.get_cross_product_authentication_status(
-            self.current_identity.lambda_id
-        )
+        status = self.lukhas_bridge.get_cross_product_authentication_status(self.current_identity.lambda_id)
 
         if "product_status" in status:
             print("   📊 Product Status:")
@@ -472,9 +456,7 @@ class QRGDemo:
 
     def _switch_communication_layer(self):
         """Switch communication layer"""
-        print(
-            f"\n{self.style['color']}🎭 Communication Layer Selection{self.style['color']}\033[0m"
-        )
+        print(f"\n{self.style['color']}🎭 Communication Layer Selection{self.style['color']}\033[0m")
 
         layers = ["poetic", "user_friendly", "academic"]
 

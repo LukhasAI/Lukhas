@@ -55,9 +55,7 @@ class LearningGatewayInterface(ABC):
         """Update learning parameters for a specific agent"""
 
     @abstractmethod
-    async def get_learning_metrics(
-        self, agent_id: str, metric_type: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def get_learning_metrics(self, agent_id: str, metric_type: Optional[str] = None) -> dict[str, Any]:
         """Retrieve learning metrics and performance data"""
 
 
@@ -108,9 +106,7 @@ class LearningGateway(LearningGatewayInterface):
                     context=request.context,
                 )
             else:
-                return LearningResponse(
-                    success=False, error=f"Unknown operation: {request.operation}"
-                )
+                return LearningResponse(success=False, error=f"Unknown operation: {request.operation}")
 
             return LearningResponse(
                 success=True,
@@ -135,9 +131,7 @@ class LearningGateway(LearningGatewayInterface):
         await self._ensure_initialized()
         return await self._service.update_parameters(agent_id, parameters)
 
-    async def get_learning_metrics(
-        self, agent_id: str, metric_type: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def get_learning_metrics(self, agent_id: str, metric_type: Optional[str] = None) -> dict[str, Any]:
         """Retrieve learning metrics and performance data"""
         await self._ensure_initialized()
         return await self._service.get_metrics(agent_id, metric_type)

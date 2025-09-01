@@ -115,9 +115,7 @@ class MemoryPlanner:
             "active_allocations": len(self.allocations),
             "total_allocated_bytes": total_allocated,
             "total_capacity_bytes": total_capacity,
-            "utilization_percent": (
-                (total_allocated / total_capacity * 100) if total_capacity > 0 else 0
-            ),
+            "utilization_percent": ((total_allocated / total_capacity * 100) if total_capacity > 0 else 0),
             "pools": {
                 name: {
                     "size": pool["total_size"],
@@ -148,9 +146,7 @@ class MemoryPlanner:
 
                     # Calculate potential memory savings
                     if id1 in self.allocations and id2 in self.allocations:
-                        optimizations["memory_saved_bytes"] += min(
-                            self.allocations[id1], self.allocations[id2]
-                        )
+                        optimizations["memory_saved_bytes"] += min(self.allocations[id1], self.allocations[id2])
 
         # Calculate fragmentation score
         for pool in self.allocation_pools.values():
@@ -161,9 +157,7 @@ class MemoryPlanner:
         if self.allocation_pools:
             optimizations["fragmentation_score"] /= len(self.allocation_pools)
 
-        logger.info(
-            f"Memory optimization found {optimizations['reuse_opportunities']} reuse opportunities"
-        )
+        logger.info(f"Memory optimization found {optimizations['reuse_opportunities']} reuse opportunities")
         return optimizations
 
 

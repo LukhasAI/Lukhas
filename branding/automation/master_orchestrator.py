@@ -73,9 +73,7 @@ class MasterOrchestrator:
         self._load_orchestration_config()
 
         # Initialize orchestrator
-        db.log_system_activity(
-            "master_orchestrator", "system_init", "Master orchestrator initialized", 1.0
-        )
+        db.log_system_activity("master_orchestrator", "system_init", "Master orchestrator initialized", 1.0)
 
     def _setup_logging(self) -> logging.Logger:
         """Setup orchestrator logging"""
@@ -84,9 +82,7 @@ class MasterOrchestrator:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = (
-            self.logs_path / f"master_orchestrator_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-        )
+        log_file = self.logs_path / f"master_orchestrator_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -106,10 +102,7 @@ class MasterOrchestrator:
                 with open(self.config_path) as f:
                     config_data = json.load(f)
 
-                self.schedules = [
-                    OrchestrationSchedule(**schedule)
-                    for schedule in config_data.get("schedules", [])
-                ]
+                self.schedules = [OrchestrationSchedule(**schedule) for schedule in config_data.get("schedules", [])]
                 self.orchestration_stats = config_data.get("stats", self.orchestration_stats)
                 self.logger.info(f"Loaded {len(self.schedules)} orchestration schedules")
             except Exception as e:
@@ -145,9 +138,7 @@ class MasterOrchestrator:
                 daily_time="18:00",
                 enabled=True,
             ),
-            OrchestrationSchedule(
-                system_name="deep_healing", schedule_type="daily", daily_time="02:00", enabled=True
-            ),
+            OrchestrationSchedule(system_name="deep_healing", schedule_type="daily", daily_time="02:00", enabled=True),
         ]
 
         self.schedules = default_schedules
@@ -313,9 +304,7 @@ class MasterOrchestrator:
             all_analytics = db.get_system_analytics()
 
             # Analyze performance trends
-            recent_analytics = [a for a in all_analytics if a.get("time")][
-                -100:
-            ]  # Last 100 entries
+            recent_analytics = [a for a in all_analytics if a.get("time")][-100:]  # Last 100 entries
 
             # Calculate metrics
             systems_active = len({a["system"] for a in recent_analytics})
@@ -332,17 +321,13 @@ class MasterOrchestrator:
 
             # Generate recommendations
             if avg_activity < 5:
-                performance_insights["recommendations"].append(
-                    "Consider increasing automation frequency"
-                )
+                performance_insights["recommendations"].append("Consider increasing automation frequency")
 
             if self.orchestration_stats["success_rate"] < 95:
                 performance_insights["recommendations"].append("Review failed automation tasks")
 
             if systems_active < 3:
-                performance_insights["recommendations"].append(
-                    "Activate additional automation systems"
-                )
+                performance_insights["recommendations"].append("Activate additional automation systems")
 
             if not performance_insights["recommendations"]:
                 performance_insights["recommendations"].append("✅ System performance is optimal")
@@ -470,10 +455,7 @@ class MasterOrchestrator:
 
             # Check daily schedules (simplified - would need proper time checking in production)
             elif schedule.schedule_type == "daily":
-                if (
-                    not schedule.last_run
-                    or datetime.fromisoformat(schedule.last_run).date() < current_time.date()
-                ):
+                if not schedule.last_run or datetime.fromisoformat(schedule.last_run).date() < current_time.date():
                     should_run = True
 
             if should_run:
@@ -521,13 +503,10 @@ class MasterOrchestrator:
         # Update orchestration stats
         self.orchestration_stats["cycles_completed"] += 1
         self.orchestration_stats["success_rate"] = (
-            self.orchestration_stats["success_rate"]
-            * (self.orchestration_stats["cycles_completed"] - 1)
-            + success_rate
+            self.orchestration_stats["success_rate"] * (self.orchestration_stats["cycles_completed"] - 1) + success_rate
         ) / self.orchestration_stats["cycles_completed"]
         self.orchestration_stats["avg_cycle_duration"] = (
-            self.orchestration_stats["avg_cycle_duration"]
-            * (self.orchestration_stats["cycles_completed"] - 1)
+            self.orchestration_stats["avg_cycle_duration"] * (self.orchestration_stats["cycles_completed"] - 1)
             + cycle_duration
         ) / self.orchestration_stats["cycles_completed"]
 
@@ -535,11 +514,7 @@ class MasterOrchestrator:
             "systems_executed": total_systems,
             "systems_successful": successful_systems,
             "cycle_duration": f"{cycle_duration:.1f}s",
-            "overall_health": "excellent"
-            if success_rate > 90
-            else "good"
-            if success_rate > 70
-            else "needs_attention",
+            "overall_health": "excellent" if success_rate > 90 else "good" if success_rate > 70 else "needs_attention",
         }
 
         # Save configuration

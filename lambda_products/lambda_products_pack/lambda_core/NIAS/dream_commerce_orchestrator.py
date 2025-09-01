@@ -209,9 +209,7 @@ class DreamCommerceOrchestrator:
 
             # Create new session
             session_id = f"dcs_{user_id}_{datetime.now().timestamp()}"
-            session = DreamCommerceSession(
-                session_id=session_id, user_id=user_id, started_at=datetime.now()
-            )
+            session = DreamCommerceSession(session_id=session_id, user_id=user_id, started_at=datetime.now())
 
             self.active_sessions[user_id] = session
 
@@ -231,9 +229,7 @@ class DreamCommerceOrchestrator:
             logger.error(f"Error initiating dream commerce: {e}")
             return {"status": "error", "message": str(e)}
 
-    async def deliver_vendor_dream(
-        self, user_id: str, vendor_id: str, seed_id: str
-    ) -> dict[str, Any]:
+    async def deliver_vendor_dream(self, user_id: str, vendor_id: str, seed_id: str) -> dict[str, Any]:
         """
         Deliver a specific vendor dream to user
 
@@ -257,9 +253,7 @@ class DreamCommerceOrchestrator:
                 return {"status": "error", "message": "Dream seed expired or invalid"}
 
             # Check vendor consent
-            has_vendor_consent = await self.consent_manager.check_vendor_permission(
-                user_id, vendor_id
-            )
+            has_vendor_consent = await self.consent_manager.check_vendor_permission(user_id, vendor_id)
 
             if not has_vendor_consent:
                 return {
@@ -318,9 +312,7 @@ class DreamCommerceOrchestrator:
             logger.error(f"Error delivering vendor dream: {e}")
             return {"status": "error", "message": str(e)}
 
-    async def process_user_action(
-        self, user_id: str, action: str, action_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_user_action(self, user_id: str, action: str, action_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process user action on delivered dream
 
@@ -339,9 +331,7 @@ class DreamCommerceOrchestrator:
                 # Track click
                 seed_id = action_data.get("seed_id")
                 if seed_id:
-                    await self.vendor_portal.update_seed_performance(
-                        seed_id, "click", {"user_id": user_id}
-                    )
+                    await self.vendor_portal.update_seed_performance(seed_id, "click", {"user_id": user_id})
 
                 # Generate affiliate link
                 vendor_id = action_data.get("vendor_id")
@@ -366,9 +356,7 @@ class DreamCommerceOrchestrator:
                 amount = action_data.get("amount", 0)
 
                 if seed_id:
-                    await self.vendor_portal.update_seed_performance(
-                        seed_id, "conversion", {"amount": amount}
-                    )
+                    await self.vendor_portal.update_seed_performance(seed_id, "conversion", {"amount": amount})
 
                 self.metrics["conversions"] += 1
 
@@ -391,9 +379,7 @@ class DreamCommerceOrchestrator:
                 reason = action_data.get("reason", "user_choice")
 
                 # Update user preferences
-                await self._update_user_preferences(
-                    user_id, {"dismissed_dream": dream_id, "reason": reason}
-                )
+                await self._update_user_preferences(user_id, {"dismissed_dream": dream_id, "reason": reason})
 
                 return {
                     "status": "success",
@@ -413,9 +399,7 @@ class DreamCommerceOrchestrator:
             logger.error(f"Error processing user action: {e}")
             return {"status": "error", "message": str(e)}
 
-    async def _check_emotional_readiness(
-        self, user_id: str, user_profile: UserDataProfile
-    ) -> dict[str, Any]:
+    async def _check_emotional_readiness(self, user_id: str, user_profile: UserDataProfile) -> dict[str, Any]:
         """Check if user is emotionally ready for dream delivery"""
         # Get current emotional state
         emotional_state = user_profile.current_context.get("emotional_state", {})
@@ -658,9 +642,7 @@ class DreamCommerceOrchestrator:
         user_emotional = user_profile.current_context.get("emotional_state", {})
         seed_emotional = seed.emotional_triggers
 
-        emotional_alignment = 1.0 - abs(
-            user_emotional.get("stress", 0) - seed_emotional.get("stress", 0)
-        )
+        emotional_alignment = 1.0 - abs(user_emotional.get("stress", 0) - seed_emotional.get("stress", 0))
         score += emotional_alignment * 0.2
 
         return min(1.0, score)

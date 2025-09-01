@@ -460,9 +460,7 @@ class DashboardColonyAgent(BaseColony):
                 "performance_predictions": oracle_status.get("performance_metrics", {}),
                 "upcoming_events": [],  # Would be populated by Oracle predictions
                 "recommendation": (
-                    "optimal"
-                    if oracle_status.get("health_status") == "optimal"
-                    else "attention_needed"
+                    "optimal" if oracle_status.get("health_status") == "optimal" else "attention_needed"
                 ),
             }
 
@@ -483,9 +481,7 @@ class DashboardColonyAgent(BaseColony):
                 "drift_score": ethics_status.get("drift_score", 0.0),
                 "active_decisions": ethics_status.get("active_decisions", 0),
                 "swarm_consensus": ethics_status.get("swarm_consensus", 0.0),
-                "recommendation": (
-                    "simple" if ethics_status.get("complexity_level", 0.0) < 0.3 else "complex"
-                ),
+                "recommendation": ("simple" if ethics_status.get("complexity_level", 0.0) < 0.3 else "complex"),
             }
 
         except Exception as e:
@@ -608,9 +604,7 @@ class DashboardColonyAgent(BaseColony):
         # Implementation details...
         return 0.8
 
-    async def _generate_intelligence_recommendations(
-        self, intelligence_data: dict[str, Any]
-    ) -> list[str]:
+    async def _generate_intelligence_recommendations(self, intelligence_data: dict[str, Any]) -> list[str]:
         """Generate recommendations based on aggregated intelligence."""
         # Implementation details...
         return ["optimize_performance", "monitor_ethics_complexity"]

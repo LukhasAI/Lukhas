@@ -157,9 +157,7 @@ echo "⚠️  PRESERVED FILES:"
 
     # List preserved high-value files
     if categories["high_value_keep"]:
-        script += (
-            f'echo "  - {len(categories["high_value_keep"])} high-value AI/AGI modules preserved"\n'
-        )
+        script += f'echo "  - {len(categories["high_value_keep"])} high-value AI/AGI modules preserved"\n'
 
     if categories["needs_manual_review"]:
         script += f'echo "  - {len(categories["needs_manual_review"])} files need manual review"\n'
@@ -220,11 +218,7 @@ def main():
         f.write("-" * 40 + "\n")
         for file in categories["high_value_keep"]:
             score = next(
-                (
-                    item["value_score"]
-                    for item in audit_report.get("high_value", [])
-                    if item.get("file_path") == file
-                ),
+                (item["value_score"] for item in audit_report.get("high_value", []) if item.get("file_path") == file),
                 "N/A",
             )
             f.write(f"{file} (Score: {score})\n")
@@ -244,9 +238,7 @@ def main():
     )
 
     print(f"\n💾 Files safe to archive: {safe_count}")
-    print(
-        f"🛡️ Files preserved: {len(categories['high_value_keep']) + len(categories['needs_manual_review'])}"
-    )
+    print(f"🛡️ Files preserved: {len(categories['high_value_keep']) + len(categories['needs_manual_review'])}")
 
 
 if __name__ == "__main__":

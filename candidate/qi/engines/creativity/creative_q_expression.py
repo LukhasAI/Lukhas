@@ -170,15 +170,11 @@ class QICreativeEngine:
         )
 
         # 2. Create superposition of creative possibilities
-        creative_superposition = await self._create_creative_superposition(
-            qi_context, modality, qi_depth
-        )
+        creative_superposition = await self._create_creative_superposition(qi_context, modality, qi_depth)
 
         # 3. Apply constraints as quantum gates
         if constraints:
-            creative_superposition = await self._apply_constraint_gates(
-                creative_superposition, constraints
-            )
+            creative_superposition = await self._apply_constraint_gates(creative_superposition, constraints)
 
         # 4. Entangle with cultural and emotional dimensions
         entangled_state = await self._entangle_dimensions(
@@ -243,9 +239,7 @@ class QICreativeEngine:
     ) -> CreativeQuantumLikeState:
         """Optimize creative state using quantum annealing"""
         # Mock optimization process
-        optimized_amplitude = state.amplitude_vector / np.sqrt(
-            np.sum(np.abs(state.amplitude_vector) ** 2)
-        )
+        optimized_amplitude = state.amplitude_vector / np.sqrt(np.sum(np.abs(state.amplitude_vector) ** 2))
 
         return CreativeQuantumLikeState(
             amplitude_vector=optimized_amplitude,
@@ -294,9 +288,7 @@ class QICreativeEngine:
             qc = await generator.apply_creative_gates(qc, qi_context)
 
         # Create initial quantum-like state
-        amplitude_vector = np.random.random(2 ** min(num_qubits, 8)) + 1j * np.random.random(
-            2 ** min(num_qubits, 8)
-        )
+        amplitude_vector = np.random.random(2 ** min(num_qubits, 8)) + 1j * np.random.random(2 ** min(num_qubits, 8))
         amplitude_vector = amplitude_vector / np.sqrt(np.sum(np.abs(amplitude_vector) ** 2))
 
         creative_state = CreativeQuantumLikeState(
@@ -376,9 +368,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
         word_superposition = await self._create_word_superposition(semantic_field)
 
         # 3. Apply syllable constraints using quantum gates
-        constrained_state = await self.qi_syllable_counter.apply_5_7_5_constraint(
-            word_superposition
-        )
+        constrained_state = await self.qi_syllable_counter.apply_5_7_5_constraint(word_superposition)
 
         # 4. Optimize for phonetic beauty and semantic depth
         optimized_haiku_state = await self._optimize_haiku_quantum_like_state(
@@ -415,8 +405,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
         return QIWordState(
             circuit=optimized_circuit,
             semantic_field=state.semantic_field,
-            amplitude_vector=state.amplitude_vector
-            * np.exp(1j * sum(optimization_criteria.values())),
+            amplitude_vector=state.amplitude_vector * np.exp(1j * sum(optimization_criteria.values())),
             phase_information=state.phase_information,
         )
 
@@ -466,9 +455,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
             circuit.cx(word_register[i], syllable_register[i % 8])
 
         # Add emotion coloring
-        emotion_weights = [
-            semantic_field.emotional_weights.get(word, 0.5) for word in semantic_field.words[:4]
-        ]
+        emotion_weights = [semantic_field.emotional_weights.get(word, 0.5) for word in semantic_field.words[:4]]
         for i, weight in enumerate(emotion_weights):
             angle = weight * np.pi / 2
             circuit.rz(angle, emotion_register[i])
@@ -520,9 +507,7 @@ class QIMusicComposer(CreativeExpressionProtocol):
         # 4. Collapse and synthesize
         return await self._synthesize_quantum_music(melody_state, chord_superposition, rhythm_state)
 
-    async def _synthesize_quantum_music(
-        self, melody_state, chord_superposition, rhythm_state
-    ) -> QIMusicalPiece:
+    async def _synthesize_quantum_music(self, melody_state, chord_superposition, rhythm_state) -> QIMusicalPiece:
         """Synthesize quantum music from component states"""
         # Mock synthesis - create musical piece from qi-like states
         notes = [("C4", 0.5, 0.8), ("E4", 0.5, 0.7), ("G4", 1.0, 0.9), ("C5", 0.5, 0.6)]
@@ -580,9 +565,7 @@ class BioCognitiveCreativityLayer:
         )
 
         # 4. Integrate dream-like associations
-        dream_enhanced = await self.rem_dream_synthesizer.inject_dream_logic(
-            plastic_enhanced, surrealism_level=0.3
-        )
+        dream_enhanced = await self.rem_dream_synthesizer.inject_dream_logic(plastic_enhanced, surrealism_level=0.3)
 
         return dream_enhanced
 
@@ -681,20 +664,14 @@ class CollaborativeCreativityOrchestrator:
             contributions = await self._gather_contributions(participants, shared_space)
 
             # Synthesize ideas in superposition-like state
-            synthesis = await self.idea_synthesizer.synthesize(
-                contributions, preserve_individual_essence=True
-            )
+            synthesis = await self.idea_synthesizer.synthesize(contributions, preserve_individual_essence=True)
 
             # Detect emergent properties
-            emergence = await self.emergence_detector.analyze(
-                synthesis, previous_state=shared_space
-            )
+            emergence = await self.emergence_detector.analyze(synthesis, previous_state=shared_space)
 
             if emergence.novel_properties:
                 # Harmonize any creative conflicts
-                harmonized = await self.conflict_harmonizer.harmonize(
-                    synthesis, emergence.conflicts
-                )
+                harmonized = await self.conflict_harmonizer.harmonize(synthesis, emergence.conflicts)
 
                 # Update shared space
                 shared_space = await self._update_shared_space(shared_space, harmonized)
@@ -713,9 +690,7 @@ class CollaborativeCreativityOrchestrator:
         # Final creation
         yield await self._finalize_collaborative_work(shared_space, participants)
 
-    async def _create_shared_creative_space(
-        self, participants: list[CreativeParticipant], creative_goal: CreativeGoal
-    ):
+    async def _create_shared_creative_space(self, participants: list[CreativeParticipant], creative_goal: CreativeGoal):
         """Create shared creative space for collaboration"""
         return {
             "participants": participants,
@@ -768,9 +743,7 @@ class CollaborativeCreativityOrchestrator:
 
         return CollaborativeCreation(
             content=final_content,
-            contributors={
-                f"participant_{i}": 1.0 / len(participants) for i in range(len(participants))
-            },
+            contributors={f"participant_{i}": 1.0 / len(participants) for i in range(len(participants))},
             emergence_score=0.8,
             harmony_index=0.9,
             innovation_level=0.7,
@@ -826,9 +799,7 @@ class AdaptiveCreativePersonalization:
 
         return PersonalizedCreation(
             base_creation=style_applied,
-            personalization_vector=self._compute_personalization_vector(
-                aesthetic_params, user_profile
-            ),
+            personalization_vector=self._compute_personalization_vector(aesthetic_params, user_profile),
             predicted_resonance=self._predict_user_resonance(style_applied, user_profile),
             adaptation_notes=["Cultural tuning applied", "Emotional adjustment made"],
             learning_updates={"style_evolution": 0.1},
@@ -840,9 +811,7 @@ class AdaptiveCreativePersonalization:
         """Compute personalization vector from user data"""
         return np.random.random(64)  # Mock personalization vector
 
-    def _predict_user_resonance(
-        self, creative_work: CreativeExpression, user_profile: UserCreativeProfile
-    ) -> float:
+    def _predict_user_resonance(self, creative_work: CreativeExpression, user_profile: UserCreativeProfile) -> float:
         """Predict how much the user will resonate with the creative work"""
         return np.random.random()  # Mock resonance prediction
 
@@ -868,9 +837,7 @@ class LukhasCreativeExpressionEngine:
         self.creativity_monitor = CreativityMonitor()
         self.evolution_engine = CreativeEvolutionEngine()
 
-    async def create(
-        self, request: CreativeRequest, user_session: UserSession
-    ) -> ProtectedCreativeWork:
+    async def create(self, request: CreativeRequest, user_session: UserSession) -> ProtectedCreativeWork:
         """
         Main entry point for creative generation
         """
@@ -886,9 +853,7 @@ class LukhasCreativeExpressionEngine:
         )
 
         # 3. Enhance with bio-cognitive processing
-        enhanced = await self.bio_cognitive_layer.enhance_creative_state(
-            base_creation, user_session.cognitive_state
-        )
+        enhanced = await self.bio_cognitive_layer.enhance_creative_state(base_creation, user_session.cognitive_state)
 
         # 4. Personalize for user
         personalized = await self.personalization_engine.personalize_creation(
@@ -896,18 +861,14 @@ class LukhasCreativeExpressionEngine:
         )
 
         # 5. Protect and return
-        protected = await self.ip_protector.protect_creative_work(
-            personalized, user_session.creator_identity
-        )
+        protected = await self.ip_protector.protect_creative_work(personalized, user_session.creator_identity)
 
         # 6. Log for evolution
         await self.evolution_engine.log_creation(protected, user_session, request)
 
         return protected
 
-    async def _prepare_quantum_context(
-        self, request: CreativeRequest, user_session: UserSession
-    ) -> QIContext:
+    async def _prepare_quantum_context(self, request: CreativeRequest, user_session: UserSession) -> QIContext:
         """Prepare quantum context from request and user session"""
         return QIContext(
             coherence_time=10.0,
@@ -928,9 +889,7 @@ class LukhasCreativeExpressionEngine:
             session_config=session_request.session_config,
         ):
             # Apply protection to each iteration
-            await self.ip_protector.protect_creative_work(
-                creation.content, session_request.participants[0].identity
-            )
+            await self.ip_protector.protect_creative_work(creation.content, session_request.participants[0].identity)
             yield creation
 
     async def evolve_creativity(self):

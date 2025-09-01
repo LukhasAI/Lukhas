@@ -98,9 +98,7 @@ except ImportError as e:
                 "dry_run": True,
             }
 
-        def make_quantum_decision(
-            self, options: list[Any], context: Optional[dict[str, Any]] = None
-        ) -> dict[str, Any]:
+        def make_quantum_decision(self, options: list[Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
             # Simple fallback decision
             _ = context
             import random
@@ -181,9 +179,7 @@ def process_quantum_inspired(input_data: dict[str, Any]) -> dict[str, Any]:
     return _global_qi_wrapper.process_with_constitutional_safety(input_data)
 
 
-def make_quantum_decision(
-    options: list[Any], context: Optional[dict[str, Any]] = None
-) -> dict[str, Any]:
+def make_quantum_decision(options: list[Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """Make decision using quantum-inspired superposition and collapse"""
     global _global_qi_wrapper
 

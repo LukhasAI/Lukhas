@@ -78,9 +78,7 @@ class Summary(BaseModel):
     # Human-readable comment: Fixed literal type for discriminating this model.
 
 
-logger.debug(
-    "Summary data model class defined.", class_name="Summary"
-)  # Removed manual ΛTRACE prefix
+logger.debug("Summary data model class defined.", class_name="Summary")  # Removed manual ΛTRACE prefix
 
 
 # ΛNOTE: The `ResponseReasoningItem` class is a core symbolic data model representing a discrete unit

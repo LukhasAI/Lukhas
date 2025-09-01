@@ -129,9 +129,7 @@ class NIASHub:
             tier = event.tier
 
             # Process through NIΛS pipeline
-            result = await self.process_symbolic_message(
-                message_data, {"user_id": user_id, "tier": tier}
-            )
+            result = await self.process_symbolic_message(message_data, {"user_id": user_id, "tier": tier})
 
             # Complete message processing
             await self.event_bus.complete_message_processing(
@@ -190,9 +188,7 @@ class NIASHub:
         """Get a registered service"""
         return self.services.get(name)
 
-    async def process_symbolic_message(
-        self, message: dict[str, Any], user_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_symbolic_message(self, message: dict[str, Any], user_context: dict[str, Any]) -> dict[str, Any]:
         """Process a symbolic message through NIΛS system"""
 
         user_id = user_context.get("user_id")
@@ -230,9 +226,7 @@ class NIASHub:
             # Step 4: Generate widget/delivery method
             widget_engine = self.get_service("widget_engine")
             if widget_engine:
-                widget_config = await widget_engine.generate_widget(
-                    message, user_context, user_tier
-                )
+                widget_config = await widget_engine.generate_widget(message, user_context, user_tier)
 
                 return {
                     "status": "delivered",

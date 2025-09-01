@@ -92,9 +92,7 @@ class BrandingStructureAnalyzer:
                     "files": len(files),
                     "subdirs": len(dirs),
                     "python_files": len([f for f in files if f.endswith(".py")]),
-                    "config_files": len(
-                        [f for f in files if f.endswith((".yaml", ".yml", ".json"))]
-                    ),
+                    "config_files": len([f for f in files if f.endswith((".yaml", ".yml", ".json"))]),
                     "doc_files": len([f for f in files if f.endswith(".md")]),
                 }
 
@@ -127,14 +125,10 @@ class BrandingStructureAnalyzer:
                     if isinstance(node, ast.ClassDef):
                         classes[node.name] = {
                             "file": str(py_file.relative_to(self.base_path)),
-                            "methods": [
-                                n.name for n in node.body if isinstance(n, ast.FunctionDef)
-                            ],
+                            "methods": [n.name for n in node.body if isinstance(n, ast.FunctionDef)],
                             "docstring": ast.get_docstring(node) or "",
                         }
-                    elif isinstance(node, ast.FunctionDef) and not isinstance(
-                        node, ast.AsyncFunctionDef
-                    ):
+                    elif isinstance(node, ast.FunctionDef) and not isinstance(node, ast.AsyncFunctionDef):
                         # Only top-level functions
                         if isinstance(getattr(node, "parent", None), ast.Module):
                             functions[node.name] = {
@@ -147,9 +141,7 @@ class BrandingStructureAnalyzer:
                     "classes": len([n for n in ast.walk(tree) if isinstance(n, ast.ClassDef)]),
                     "functions": len([n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)]),
                     "lines": len(content.splitlines()),
-                    "imports": len(
-                        [n for n in ast.walk(tree) if isinstance(n, (ast.Import, ast.ImportFrom))]
-                    ),
+                    "imports": len([n for n in ast.walk(tree) if isinstance(n, (ast.Import, ast.ImportFrom))]),
                 }
 
             except Exception as e:

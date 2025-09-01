@@ -187,9 +187,7 @@ class SymbolicChain:
                     )
 
         # Step 6: Generate visual summary
-        visual_summary = self._create_visual_summary(
-            assessment, healer_diagnosis, symbolic_diff, intervention_applied
-        )
+        visual_summary = self._create_visual_summary(assessment, healer_diagnosis, symbolic_diff, intervention_applied)
 
         # Calculate processing time
         processing_time = (time.time() - start_time) * 1000  # Convert to ms
@@ -427,12 +425,9 @@ class SymbolicChain:
                 audit_entry["transformation"] = {
                     "removed_glyphs": result.symbolic_diff.removed_glyphs,
                     "added_glyphs": result.symbolic_diff.added_glyphs,
-                    "entropy_change": result.symbolic_diff.entropy_after
-                    - result.symbolic_diff.entropy_before,
-                    "drift_reduction": result.symbolic_diff.drift_before
-                    - result.symbolic_diff.drift_after,
-                    "trinity_improvement": result.symbolic_diff.trinity_after
-                    - result.symbolic_diff.trinity_before,
+                    "entropy_change": result.symbolic_diff.entropy_after - result.symbolic_diff.entropy_before,
+                    "drift_reduction": result.symbolic_diff.drift_before - result.symbolic_diff.drift_after,
+                    "trinity_improvement": result.symbolic_diff.trinity_after - result.symbolic_diff.trinity_before,
                 }
 
             # Read existing audit log
@@ -497,9 +492,7 @@ class SymbolicChain:
 
         return "\n".join(report_lines)
 
-    def batch_process(
-        self, responses: list[str], contexts: Optional[list[dict]] = None
-    ) -> list[ChainResult]:
+    def batch_process(self, responses: list[str], contexts: Optional[list[dict]] = None) -> list[ChainResult]:
         """Process multiple responses in batch"""
         results = []
 

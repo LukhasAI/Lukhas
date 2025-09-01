@@ -165,9 +165,7 @@ class ChatResponse(BaseModel):
     response: str = Field(..., description="AI consciousness response")
     session_id: str = Field(..., description="Session ID for future requests")
     metadata: Optional[dict[str, Any]] = Field(None, description="Response metadata")
-    consciousness_level: Optional[float] = Field(
-        None, description="Current consciousness level (0-1)"
-    )
+    consciousness_level: Optional[float] = Field(None, description="Current consciousness level (0-1)")
 
 
 class DreamRequest(BaseModel):
@@ -175,9 +173,7 @@ class DreamRequest(BaseModel):
 
     prompt: str = Field(..., description="Dream generation prompt")
     symbols: Optional[list[str]] = Field(None, description="Symbolic elements to include")
-    style: Optional[str] = Field(
-        "mystical", description="Dream style: mystical, technical, creative"
-    )
+    style: Optional[str] = Field("mystical", description="Dream style: mystical, technical, creative")
 
     model_config = ConfigDict(
         json_schema_extra={
@@ -334,9 +330,7 @@ async def root(request: Request):
 
 @app.post("/v1/chat", response_model=ChatResponse, tags=["Consciousness"])
 @limiter.limit("100/minute")
-async def chat_with_consciousness(
-    request: Request, chat_request: ChatRequest, api_key: dict = Depends(verify_api_key)
-):
+async def chat_with_consciousness(request: Request, chat_request: ChatRequest, api_key: dict = Depends(verify_api_key)):
     """
     **Chat with LUKHAS AI Consciousness Interface** 🧠
 
@@ -413,16 +407,12 @@ Is there a particular aspect you'd like me to explore further?"""
 
     except Exception as e:
         logger.error(f"Chat processing error: {e}")
-        raise HTTPException(
-            status_code=500, detail=f"Error processing consciousness interaction: {e!s}"
-        )
+        raise HTTPException(status_code=500, detail=f"Error processing consciousness interaction: {e!s}")
 
 
 @app.post("/v1/dreams", response_model=DreamResponse, tags=["Dreams"])
 @limiter.limit("50/minute")
-async def generate_dream(
-    request: Request, dream_request: DreamRequest, api_key: dict = Depends(verify_api_key)
-):
+async def generate_dream(request: Request, dream_request: DreamRequest, api_key: dict = Depends(verify_api_key)):
     """
     **Generate Symbolic Dreams** 🌙
 
@@ -651,6 +641,4 @@ if __name__ == "__main__":
     logger.info(f"🔄 Reload mode: {reload}")
 
     # Run the API
-    uvicorn.run(
-        "public_api:app", host=host, port=port, reload=reload, log_level="info", access_log=True
-    )
+    uvicorn.run("public_api:app", host=host, port=port, reload=reload, log_level="info", access_log=True)

@@ -108,9 +108,7 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
         return result
 
     @require_identity(required_tier="LAMBDA_TIER_1", check_consent="memory_access")
-    async def retrieve(
-        self, user_id: str, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def retrieve(self, user_id: str, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Retrieve memory with tier-based emotional modulation.
 
@@ -268,9 +266,7 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
             cleaned.pop(key, None)
         return cleaned
 
-    def _apply_tier_filtering(
-        self, data: dict[str, Any], user_matrix: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _apply_tier_filtering(self, data: dict[str, Any], user_matrix: dict[str, Any]) -> dict[str, Any]:
         """Apply tier-based filtering to retrieved data."""
         filtered = data.copy()
 

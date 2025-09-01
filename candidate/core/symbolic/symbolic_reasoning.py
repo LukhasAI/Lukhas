@@ -94,9 +94,7 @@ class SymbolicEngine:
         self.reasoning_graph: dict[str, Any] = {}
         # ΛNOTE: `reasoning_history` logs summaries of recent reasoning sessions
         # for potential meta-analysis or debugging.
-        self.reasoning_history: list[
-            dict[str, Any]
-        ] = []  # Stores summaries of recent reasoning sessions
+        self.reasoning_history: list[dict[str, Any]] = []  # Stores summaries of recent reasoning sessions
 
         # ΛNOTE: `symbolic_rules` forms a declarative knowledge base of regex patterns,
         # categorizing textual cues for different types of symbolic relationships (causation, correlation, etc.).
@@ -192,17 +190,13 @@ class SymbolicEngine:
                                 including identified logical chains, valid logic,
         confidence, and timestamp.
         """
-        request_id = (
-            f"sym_reason_{int(datetime.now(timezone.utc).timestamp() * 1000)}"  # Ensure UTC
-        )
+        request_id = f"sym_reason_{int(datetime.now(timezone.utc).timestamp() * 1000)}"  # Ensure UTC
         method_logger = self.logger.bind(request_id=request_id, operation="reason")
         method_logger.info("Starting symbolic reasoning.", input_keys=list(input_data.keys()))
 
         try:
             semantic_content = self._extract_semantic_content(input_data)  # Logs internally
-            symbolic_content_patterns = self._extract_symbolic_patterns(
-                semantic_content
-            )  # Logs internally
+            symbolic_content_patterns = self._extract_symbolic_patterns(semantic_content)  # Logs internally
             context_info = input_data.get("context", {})
             method_logger.debug(
                 "Extracted content for reasoning.",
@@ -215,12 +209,8 @@ class SymbolicEngine:
                 semantic_content, symbolic_content_patterns, context_info
             )  # Logs internally
 
-            logical_chains_built = self._build_symbolic_logical_chains(
-                logical_elements_list
-            )  # Logs internally
-            weighted_logic_outcomes = self._calculate_symbolic_confidences(
-                logical_chains_built
-            )  # Logs internally
+            logical_chains_built = self._build_symbolic_logical_chains(logical_elements_list)  # Logs internally
+            weighted_logic_outcomes = self._calculate_symbolic_confidences(logical_chains_built)  # Logs internally
 
             valid_logic_chains = {
                 k: v
@@ -288,9 +278,7 @@ class SymbolicEngine:
         elif "content" in input_data and isinstance(input_data["content"], str):
             return input_data["content"]
         # Add more specific checks if other common text fields are expected
-        self.logger.warning(
-            "No primary text field found in input_data. Stringifying entire input as fallback."
-        )
+        self.logger.warning("No primary text field found in input_data. Stringifying entire input as fallback.")
         return str(input_data)  # Fallback, might be noisy
 
     # ΛNOTE: Identifies occurrences of predefined symbolic rule patterns (keywords for causation,
@@ -415,9 +403,7 @@ class SymbolicEngine:
     # ΛCAUTION: Current chain building is very basic and may not capture
     # complex multi-step inferences.
 
-    def _build_symbolic_logical_chains(
-        self, logical_elements: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _build_symbolic_logical_chains(self, logical_elements: list[dict[str, Any]]) -> dict[str, Any]:
         """Builds logical chains by linking related logical elements. (Simplified implementation)."""
         self.logger.debug(
             "Building symbolic logical chains.",
@@ -480,10 +466,9 @@ class SymbolicEngine:
         min_len_for_overlap = min(len(words1_set), len(words2_set))
 
         is_related = False
-        if (
-            min_len_for_overlap > 0
-            and (len(common_words_set) / min_len_for_overlap) >= overlap_threshold
-        ) or any(len(word) > 3 for word in common_words_set):
+        if (min_len_for_overlap > 0 and (len(common_words_set) / min_len_for_overlap) >= overlap_threshold) or any(
+            len(word) > 3 for word in common_words_set
+        ):
             is_related = True
 
         self.logger.debug(
@@ -498,9 +483,7 @@ class SymbolicEngine:
     # the count of high-confidence elements. This represents a heuristic
     # approach to belief aggregation.
 
-    def _calculate_symbolic_confidences(
-        self, logical_chains_dict: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _calculate_symbolic_confidences(self, logical_chains_dict: dict[str, Any]) -> dict[str, Any]:
         """Calculates final confidence scores for logical chains using symbolic rules and bonuses."""
         self.logger.debug(
             "Calculating symbolic confidences.",
@@ -519,14 +502,10 @@ class SymbolicEngine:
                 elements_by_type_map.setdefault(el_type, []).append(el)
 
             num_distinct_types = len(elements_by_type_map)
-            type_diversity_bonus_val = min(
-                0.1, 0.02 * num_distinct_types
-            )  # Small bonus for diversity
+            type_diversity_bonus_val = min(0.1, 0.02 * num_distinct_types)  # Small bonus for diversity
 
             # Bonus for presence of strong symbolic/formal logic indicators
-            num_symbolic_type_elements = sum(
-                1 for t in elements_by_type_map if "symbolic_" in t or "formal_" in t
-            )
+            num_symbolic_type_elements = sum(1 for t in elements_by_type_map if "symbolic_" in t or "formal_" in t)
             symbolic_presence_bonus = min(0.15, 0.05 * num_symbolic_type_elements)
 
             # Bonus for multiple pieces of evidence of the same high-confidence type
@@ -537,16 +516,11 @@ class SymbolicEngine:
 
             final_chain_confidence = min(
                 0.99,
-                base_chain_confidence
-                + type_diversity_bonus_val
-                + symbolic_presence_bonus
-                + evidence_strength_bonus,
+                base_chain_confidence + type_diversity_bonus_val + symbolic_presence_bonus + evidence_strength_bonus,
             )
 
             weighted_logic_outcomes[chain_id_str] = {
-                "elements_preview": [
-                    el.get("content", "N/A")[:50] for el in chain_elements[:3]
-                ],  # Preview of elements
+                "elements_preview": [el.get("content", "N/A")[:50] for el in chain_elements[:3]],  # Preview of elements
                 "confidence_score": final_chain_confidence,
                 "relation_type_inferred": chain_data.get("relation_type", "unknown"),
                 "chain_summary": self._create_symbolic_summary(
@@ -574,9 +548,7 @@ class SymbolicEngine:
     # This aids in the explainability of the symbolic reasoning process.
     # CAUSE_TRACE
 
-    def _create_symbolic_summary(
-        self, chain_elements: list[dict[str, Any]], relation_type_str: str
-    ) -> str:
+    def _create_symbolic_summary(self, chain_elements: list[dict[str, Any]], relation_type_str: str) -> str:
         """Generates a human-readable summary of a logical chain's content and inferred relation."""
         self.logger.debug(
             "Creating symbolic summary for chain.",
@@ -597,9 +569,7 @@ class SymbolicEngine:
             summary = f"Conditional: {contents_list[0][:70]}..."
         else:  # Generic summary
             summary = (
-                "Observed: "
-                + " | ".join(c[:50] for c in contents_list[:2])
-                + ("..." if len(contents_list) > 2 else "")
+                "Observed: " + " | ".join(c[:50] for c in contents_list[:2]) + ("..." if len(contents_list) > 2 else "")
             )
 
         self.logger.debug("Symbolic summary created.", summary_preview=summary[:100])
@@ -662,9 +632,7 @@ class SymbolicEngine:
             "symbolic_rule_categories_count": len(self.symbolic_rules),
             "total_symbolic_rules_keywords": sum(len(v) for v in self.symbolic_rules.values()),
             "current_confidence_threshold": self.confidence_threshold,
-            "current_reasoning_graph_nodes": len(
-                self.reasoning_graph
-            ),  # Number of learned patterns/chains
+            "current_reasoning_graph_nodes": len(self.reasoning_graph),  # Number of learned patterns/chains
             "reasoning_history_length": len(self.reasoning_history),
         }
         self.logger.debug("Symbolic insights generated.", insights_data=insights)

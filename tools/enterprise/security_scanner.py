@@ -355,14 +355,10 @@ class SecurityScanner:
                             matches = pattern.finditer(line)
                             for match in matches:
                                 # Calculate confidence based on context
-                                confidence = self._calculate_secret_confidence(
-                                    match.group(0), line, file_path
-                                )
+                                confidence = self._calculate_secret_confidence(match.group(0), line, file_path)
 
                                 if confidence > 0.5:  # Only report high confidence
-                                    secret_hash = hashlib.sha256(
-                                        match.group(0).encode()
-                                    ).hexdigest()
+                                    secret_hash = hashlib.sha256(match.group(0).encode()).hexdigest()
 
                                     secrets.append(
                                         SecretDetection(
@@ -465,9 +461,7 @@ class SecurityScanner:
 
     def _generate_summary(self, results: dict[str, Any], duration: float) -> dict[str, Any]:
         """Generate scan summary with risk assessment"""
-        critical_vulns = [
-            v for v in results["vulnerabilities"] if v.severity == SeverityLevel.CRITICAL
-        ]
+        critical_vulns = [v for v in results["vulnerabilities"] if v.severity == SeverityLevel.CRITICAL]
         high_vulns = [v for v in results["vulnerabilities"] if v.severity == SeverityLevel.HIGH]
 
         total_risk_score = sum(v.risk_score() for v in results["vulnerabilities"])
@@ -534,9 +528,7 @@ class SecurityScanner:
         # Implementation would parse package.json files
         return []
 
-    def _deduplicate_vulnerabilities(
-        self, vulns: list[SecurityVulnerability]
-    ) -> list[SecurityVulnerability]:
+    def _deduplicate_vulnerabilities(self, vulns: list[SecurityVulnerability]) -> list[SecurityVulnerability]:
         """Remove duplicate vulnerability findings"""
         unique_vulns = {}
         for vuln in vulns:

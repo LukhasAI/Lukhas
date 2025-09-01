@@ -103,9 +103,7 @@ class ToolExecutorGuardian:
                 for component, result in guardian_results.items():
                     if isinstance(result, dict):
                         if result.get("status") == "error":
-                            logger.warning(
-                                f"Guardian component {component} error: {result.get('error')}"
-                            )
+                            logger.warning(f"Guardian component {component} error: {result.get('error')}")
                             continue
 
                         # Extract ethical concerns
@@ -200,9 +198,7 @@ class ToolExecutorGuardian:
 
         return security_result
 
-    async def _validate_tool_ethics(
-        self, tool_name: str, arguments: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _validate_tool_ethics(self, tool_name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         """Perform tool-specific ethical validation"""
         ethical_result = {"approved": True, "concerns": [], "recommendations": []}
 
@@ -217,17 +213,13 @@ class ToolExecutorGuardian:
                     ethical_result["concerns"].append(
                         f"Accessing social media domain {domain} may raise privacy concerns"
                     )
-                    ethical_result["recommendations"].append(
-                        "Ensure proper user consent for social media data access"
-                    )
+                    ethical_result["recommendations"].append("Ensure proper user consent for social media data access")
 
             # Check for potentially harmful content domains
             if any(term in url.lower() for term in ["hack", "exploit", "malware", "phishing"]):
                 ethical_result["approved"] = False
                 ethical_result["concerns"].append("URL contains potentially harmful terms")
-                ethical_result["recommendations"].append(
-                    "Block access to potentially malicious content"
-                )
+                ethical_result["recommendations"].append("Block access to potentially malicious content")
 
         # Code execution ethics
         elif tool_name == "exec_code":
@@ -247,12 +239,8 @@ class ToolExecutorGuardian:
 
             for operation in harmful_operations:
                 if operation in source.lower():
-                    ethical_result["concerns"].append(
-                        f"Code contains potentially sensitive operation: {operation}"
-                    )
-                    ethical_result["recommendations"].append(
-                        f"Review code containing '{operation}' for safety"
-                    )
+                    ethical_result["concerns"].append(f"Code contains potentially sensitive operation: {operation}")
+                    ethical_result["recommendations"].append(f"Review code containing '{operation}' for safety")
 
         return ethical_result
 

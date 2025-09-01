@@ -161,9 +161,7 @@ class ContextManager:
 
             context_data = {
                 "entries": [asdict(entry) for entry in relevant_entries[-10:]],  # Last 10 entries
-                "summaries": [
-                    asdict(summary) for summary in relevant_summaries[-5:]
-                ],  # Last 5 summaries
+                "summaries": [asdict(summary) for summary in relevant_summaries[-5:]],  # Last 5 summaries
                 "total_entries": len(entries),
                 "total_summaries": len(summaries),
             }
@@ -243,9 +241,7 @@ class ContextManager:
         Returns:
             Enhanced prompt with context
         """
-        if not context_data or (
-            not context_data.get("entries") and not context_data.get("summaries")
-        ):
+        if not context_data or (not context_data.get("entries") and not context_data.get("summaries")):
             return prompt
 
         try:
@@ -263,9 +259,7 @@ class ContextManager:
                 recent_entries = entries[-3:]  # Last 3 exchanges
                 for entry in recent_entries:
                     if entry.get("prompt") and entry.get("response"):
-                        context_parts.append(
-                            f"Previous: {entry['prompt'][:200]}... → {entry['response'][:300]}..."
-                        )
+                        context_parts.append(f"Previous: {entry['prompt'][:200]}... → {entry['response'][:300]}...")
 
             # Combine with original prompt
             if context_parts:
@@ -346,9 +340,7 @@ class ContextManager:
         # Create summary text
         summary_text = f"Conversation involving {len(entries)} exchanges. "
         if len(key_points) > 5:
-            summary_text += (
-                f"Key topics: {', '.join(key_points[:3])} and {len(key_points) - 3} more."
-            )
+            summary_text += f"Key topics: {', '.join(key_points[:3])} and {len(key_points) - 3} more."
         else:
             summary_text += f"Topics: {', '.join(key_points)}"
 
@@ -397,9 +389,7 @@ class ContextManager:
         if not summaries:
             return []
 
-        cutoff_time = datetime.utcnow() - timedelta(
-            hours=self.max_context_age_hours * 2
-        )  # Keep summaries longer
+        cutoff_time = datetime.utcnow() - timedelta(hours=self.max_context_age_hours * 2)  # Keep summaries longer
 
         relevant_summaries = []
         for summary in summaries:
@@ -469,9 +459,7 @@ class ContextManager:
 
     async def get_performance_metrics(self) -> dict[str, Any]:
         """Get context manager performance metrics"""
-        avg_handoff_time = (
-            sum(self.handoff_times) / len(self.handoff_times) if self.handoff_times else 0
-        )
+        avg_handoff_time = sum(self.handoff_times) / len(self.handoff_times) if self.handoff_times else 0
 
         return {
             "active_contexts": len(self.context_cache),

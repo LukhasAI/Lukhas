@@ -276,9 +276,7 @@ class BaseOrchestrator(ABC):
         metadata: Optional[dict[str, Any]] = None,
     ) -> None:
         """Register a component for management"""
-        self.components[name] = ComponentInfo(
-            name=name, type=component_type, metadata=metadata or {}
-        )
+        self.components[name] = ComponentInfo(name=name, type=component_type, metadata=metadata or {})
         self.logger.debug(f"Registered component: {name} ({component_type})")
 
     def unregister_component(self, name: str) -> None:

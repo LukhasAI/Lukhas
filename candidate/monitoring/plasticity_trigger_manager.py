@@ -116,9 +116,7 @@ class PlasticityTriggerManager:
         self.daily_counters: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
 
         # Learning and optimization
-        self.success_rates: dict[PlasticityTriggerType, deque] = defaultdict(
-            lambda: deque(maxlen=50)
-        )
+        self.success_rates: dict[PlasticityTriggerType, deque] = defaultdict(lambda: deque(maxlen=50))
         self.impact_measurements: dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
         self.pattern_detector = PatternDetector()
 
@@ -191,9 +189,9 @@ class PlasticityTriggerManager:
                 success_threshold=0.6,
             )
         ]
-        self._rules_by_value[PlasticityTriggerType.PERFORMANCE_OPTIMIZATION.value] = (
-            self.adaptation_rules[PlasticityTriggerType.PERFORMANCE_OPTIMIZATION]
-        )
+        self._rules_by_value[PlasticityTriggerType.PERFORMANCE_OPTIMIZATION.value] = self.adaptation_rules[
+            PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
+        ]
 
         # Social enhancement rules
         self.adaptation_rules[PlasticityTriggerType.SOCIAL_ENHANCEMENT] = [
@@ -207,9 +205,9 @@ class PlasticityTriggerManager:
                 success_threshold=0.5,
             )
         ]
-        self._rules_by_value[PlasticityTriggerType.SOCIAL_ENHANCEMENT.value] = (
-            self.adaptation_rules[PlasticityTriggerType.SOCIAL_ENHANCEMENT]
-        )
+        self._rules_by_value[PlasticityTriggerType.SOCIAL_ENHANCEMENT.value] = self.adaptation_rules[
+            PlasticityTriggerType.SOCIAL_ENHANCEMENT
+        ]
 
         # Recovery consolidation rules
         self.adaptation_rules[PlasticityTriggerType.RECOVERY_CONSOLIDATION] = [
@@ -223,9 +221,9 @@ class PlasticityTriggerManager:
                 success_threshold=0.7,
             )
         ]
-        self._rules_by_value[PlasticityTriggerType.RECOVERY_CONSOLIDATION.value] = (
-            self.adaptation_rules[PlasticityTriggerType.RECOVERY_CONSOLIDATION]
-        )
+        self._rules_by_value[PlasticityTriggerType.RECOVERY_CONSOLIDATION.value] = self.adaptation_rules[
+            PlasticityTriggerType.RECOVERY_CONSOLIDATION
+        ]
 
         # Emotional regulation rules
         self.adaptation_rules[PlasticityTriggerType.EMOTIONAL_REGULATION] = [
@@ -239,9 +237,9 @@ class PlasticityTriggerManager:
                 success_threshold=0.65,
             )
         ]
-        self._rules_by_value[PlasticityTriggerType.EMOTIONAL_REGULATION.value] = (
-            self.adaptation_rules[PlasticityTriggerType.EMOTIONAL_REGULATION]
-        )
+        self._rules_by_value[PlasticityTriggerType.EMOTIONAL_REGULATION.value] = self.adaptation_rules[
+            PlasticityTriggerType.EMOTIONAL_REGULATION
+        ]
 
     async def evaluate_trigger(
         self, trigger_event: PlasticityEvent, current_snapshot: EndocrineSnapshot
@@ -315,9 +313,7 @@ class PlasticityTriggerManager:
         return plan
 
     # Public wrapper expected by tests
-    async def assess_adaptation_risk(
-        self, plan: AdaptationPlan, current_snapshot: EndocrineSnapshot
-    ) -> dict[str, Any]:
+    async def assess_adaptation_risk(self, plan: AdaptationPlan, current_snapshot: EndocrineSnapshot) -> dict[str, Any]:
         approved = await self._assess_adaptation_risk(plan, current_snapshot)
         # Normalize risk value output
         risk_val: float
@@ -401,9 +397,7 @@ class PlasticityTriggerManager:
 
         # Check system metrics conditions
         if "min_stress_level" in conditions:
-            stress_level = (
-                hormone_levels.get("cortisol", 0.5) + hormone_levels.get("adrenaline", 0.5)
-            ) / 2
+            stress_level = (hormone_levels.get("cortisol", 0.5) + hormone_levels.get("adrenaline", 0.5)) / 2
             if stress_level < conditions["min_stress_level"]:
                 return False
 
@@ -425,9 +419,7 @@ class PlasticityTriggerManager:
 
         return True
 
-    async def _check_prerequisites(
-        self, rule: AdaptationRule, current_snapshot: EndocrineSnapshot
-    ) -> bool:
+    async def _check_prerequisites(self, rule: AdaptationRule, current_snapshot: EndocrineSnapshot) -> bool:
         """Check if prerequisites for the rule are satisfied"""
 
         for prerequisite in rule.prerequisites:
@@ -458,9 +450,7 @@ class PlasticityTriggerManager:
         plan = AdaptationPlan(rule=rule, trigger_event=trigger_event)
 
         # Estimate impact based on trigger type and current state
-        plan.estimated_impact = await self._estimate_adaptation_impact(
-            rule.trigger_type, current_snapshot
-        )
+        plan.estimated_impact = await self._estimate_adaptation_impact(rule.trigger_type, current_snapshot)
 
         # Assess resource cost
         plan.resource_cost = await self._estimate_resource_cost(rule)
@@ -477,9 +467,7 @@ class PlasticityTriggerManager:
 
         return plan
 
-    async def _assess_adaptation_risk(
-        self, plan: AdaptationPlan, current_snapshot: EndocrineSnapshot
-    ) -> bool:
+    async def _assess_adaptation_risk(self, plan: AdaptationPlan, current_snapshot: EndocrineSnapshot) -> bool:
         """Assess the risk of applying the adaptation"""
 
         risk_factors = []
@@ -752,9 +740,7 @@ class PlasticityTriggerManager:
 
     async def _create_rollback_plan(self, rule: AdaptationRule) -> str:
         """Create a rollback plan for the adaptation"""
-        return (
-            f"Rollback plan for {rule.trigger_type.value}: monitor conditions and revert if needed"
-        )
+        return f"Rollback plan for {rule.trigger_type.value}: monitor conditions and revert if needed"
 
     # Public API methods
     def add_custom_rule(self, rule: AdaptationRule):
@@ -792,8 +778,7 @@ class PlasticityTriggerManager:
                 [
                     record
                     for record in self.adaptation_history
-                    if datetime.fromisoformat(record["timestamp"])
-                    > datetime.now(timezone.utc) - timedelta(hours=24)
+                    if datetime.fromisoformat(record["timestamp"]) > datetime.now(timezone.utc) - timedelta(hours=24)
                 ]
             ),
         }

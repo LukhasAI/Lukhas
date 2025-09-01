@@ -19,16 +19,12 @@ class EHRInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_patient_record(
-        self, patient_id: str, record_types: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def get_patient_record(self, patient_id: str, record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """Retrieve patient records from the EHR system"""
         pass
 
     @abstractmethod
-    async def update_patient_record(
-        self, patient_id: str, data: dict[str, Any], update_type: str
-    ) -> bool:
+    async def update_patient_record(self, patient_id: str, data: dict[str, Any], update_type: str) -> bool:
         """Update patient records in the EHR system"""
         pass
 

@@ -241,9 +241,7 @@ class AGISecuritySystem:
 
         return encrypted
 
-    async def create_secure_channel(
-        self, channel_id: str, participants: list[str]
-    ) -> "SecureChannel":
+    async def create_secure_channel(self, channel_id: str, participants: list[str]) -> "SecureChannel":
         """Create secure communication channel"""
         channel = SecureChannel(channel_id, participants, self.encryption_manager)
         self.secure_channels[channel_id] = channel
@@ -477,9 +475,7 @@ class ThreatDetectionSystem:
     async def initialize(self):
         """Initialize threat detection"""
 
-    async def detect_threat(
-        self, operation: str, data: Any, context: SecurityContext
-    ) -> Optional[SecurityIncident]:
+    async def detect_threat(self, operation: str, data: Any, context: SecurityContext) -> Optional[SecurityIncident]:
         """Detect threats in operation"""
         data_str = str(data).lower()
 
@@ -584,9 +580,7 @@ class RateLimiter:
         now = datetime.utcnow()
 
         # Clean old requests
-        self.requests[key] = [
-            req for req in self.requests[key] if now - req < timedelta(seconds=window_seconds)
-        ]
+        self.requests[key] = [req for req in self.requests[key] if now - req < timedelta(seconds=window_seconds)]
 
         # Check limit
         if len(self.requests[key]) >= max_requests:
@@ -642,9 +636,7 @@ class SecureChannel:
         if sender not in self.participants:
             return False
 
-        encrypted = await self.encryption_manager.encrypt_sensitive(
-            json.dumps(message).encode("utf-8")
-        )
+        encrypted = await self.encryption_manager.encrypt_sensitive(json.dumps(message).encode("utf-8"))
 
         self.message_history.append(
             {

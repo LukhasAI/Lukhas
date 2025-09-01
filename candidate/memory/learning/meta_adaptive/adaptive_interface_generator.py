@@ -105,9 +105,7 @@ class AdaptiveInterfaceGenerator:
         # Default to desktop
         return self.device_profiles["desktop"]
 
-    def _select_components(
-        self, prioritized_needs: list[dict], available_functions: list[str]
-    ) -> list[dict]:
+    def _select_components(self, prioritized_needs: list[dict], available_functions: list[str]) -> list[dict]:
         """Select appropriate interface components"""
         selected = []
 
@@ -123,10 +121,7 @@ class AdaptiveInterfaceGenerator:
         for function in available_functions:
             if function in function_map:
                 selected.extend(
-                    [
-                        {"type": component_type, "priority": 0.5}
-                        for component_type in function_map[function]
-                    ]
+                    [{"type": component_type, "priority": 0.5} for component_type in function_map[function]]
                 )
 
         # Adjust priorities based on user needs
@@ -336,9 +331,7 @@ class AdaptiveInterfaceGenerator:
 
         # Adjust for text size
         text_size_map = {"small": "14px", "medium": "16px", "large": "18px"}
-        style["typography"]["base_size"] = text_size_map.get(
-            user_profile.get("text_size", "medium"), "16px"
-        )
+        style["typography"]["base_size"] = text_size_map.get(user_profile.get("text_size", "medium"), "16px")
 
         return style
 

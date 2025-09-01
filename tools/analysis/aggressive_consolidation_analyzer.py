@@ -175,9 +175,7 @@ class AggressiveConsolidator:
             module_info = self.core_modules[module_name]
             plan["analysis"][module_name] = {
                 "current_files": len(files),
-                "candidates_for_consolidation": len(
-                    self.consolidation_candidates.get(module_name, [])
-                ),
+                "candidates_for_consolidation": len(self.consolidation_candidates.get(module_name, [])),
                 "submodules": module_info["submodules"],
                 "hybrid_submodules": module_info["hybrid"],
             }
@@ -253,9 +251,7 @@ class AggressiveConsolidator:
 
         # Create module manifests
         for module_name in self.core_modules:
-            manifest_path = os.path.join(
-                self.core_modules[module_name]["path"], "MODULE_MANIFEST.json"
-            )
+            manifest_path = os.path.join(self.core_modules[module_name]["path"], "MODULE_MANIFEST.json")
             manifest = self.create_module_manifest(module_name)
 
             os.makedirs(os.path.dirname(manifest_path), exist_ok=True)
@@ -336,9 +332,7 @@ def main():
 
     print(f"\n🧬 Hybrid modules identified: {len(plan['hybrid_modules'])}")
     for hybrid, info in plan["hybrid_modules"].items():
-        print(
-            f"  - {hybrid}: Primary in {info['primary_module']}, also in {info['also_exists_in']}"
-        )
+        print(f"  - {hybrid}: Primary in {info['primary_module']}, also in {info['also_exists_in']}")
 
     # Ask to execute
     print("\n" + "=" * 50)

@@ -361,19 +361,11 @@ def main():
         choices=["organize", "cleanup", "suggest", "watch", "restore", "report"],
         help="Command to execute",
     )
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Simulate actions without making changes"
-    )
-    parser.add_argument(
-        "--interactive", action="store_true", help="Ask before moving special files"
-    )
-    parser.add_argument(
-        "--interval", type=int, default=300, help="Watch interval in seconds (default: 300)"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Simulate actions without making changes")
+    parser.add_argument("--interactive", action="store_true", help="Ask before moving special files")
+    parser.add_argument("--interval", type=int, default=300, help="Watch interval in seconds (default: 300)")
     parser.add_argument("--file", help="File to restore (for restore command)")
-    parser.add_argument(
-        "--config", default=".file-organization.yaml", help="Configuration file path"
-    )
+    parser.add_argument("--config", default=".file-organization.yaml", help="Configuration file path")
 
     args = parser.parse_args()
 

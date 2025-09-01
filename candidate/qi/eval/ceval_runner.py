@@ -66,9 +66,7 @@ class CEvalRunner:
         Stub executor—replace with your real invoke + judge.
         """
         # Deterministic(ish) mock using task_id hash
-        seed = (
-            int(hashlib.sha1(task["id"].encode()).hexdigest()[:8], 16) ^ int(time.time()) & 0xFFFF
-        )
+        seed = int(hashlib.sha1(task["id"].encode()).hexdigest()[:8], 16) ^ int(time.time()) & 0xFFFF
         score = _rand_score(seed)
         return {
             "task_id": task["id"],
@@ -114,9 +112,7 @@ class CEvalRunner:
             with CEVAL_RUNTIME.labels(suite=suite_id).time():
                 pass  # we already measured; histogram increments with .time() context even if empty
             for r in results:
-                CEVAL_TASK.labels(suite=suite_id, task_id=r["task_id"], risk=r["risk"]).set(
-                    r["score"]
-                )
+                CEVAL_TASK.labels(suite=suite_id, task_id=r["task_id"], risk=r["risk"]).set(r["score"])
         return run
 
     def drift_check(self, baseline_file: str) -> dict[str, Any]:

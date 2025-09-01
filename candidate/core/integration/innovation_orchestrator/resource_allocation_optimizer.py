@@ -59,9 +59,7 @@ class ResourceAllocationOptimizer(CoreInterface):
 
             for opportunity in opportunities:
                 score = await self._score_engine_opportunity_fit(engine_name, opportunity)
-                scored_pairs.append(
-                    {"engine": engine_name, "opportunity": opportunity, "score": score}
-                )
+                scored_pairs.append({"engine": engine_name, "opportunity": opportunity, "score": score})
 
         # Sort by score (highest first)
         scored_pairs.sort(key=lambda x: x["score"], reverse=True)
@@ -109,9 +107,7 @@ class ResourceAllocationOptimizer(CoreInterface):
 
         return allocation_plan
 
-    async def _score_engine_opportunity_fit(
-        self, engine_name: str, opportunity: dict[str, Any]
-    ) -> float:
+    async def _score_engine_opportunity_fit(self, engine_name: str, opportunity: dict[str, Any]) -> float:
         """Score how well an engine fits an opportunity"""
 
         score = 0.5  # Base score

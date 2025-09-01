@@ -157,9 +157,7 @@ class LUKHASVoiceSystem:
         self.tts_service = LUKHASTTSService(self.config.get("tts", {}))
 
         # Speech recognition
-        self.speech_recognition = LUKHASSpeechRecognitionService(
-            self.config.get("speech_recognition", {})
-        )
+        self.speech_recognition = LUKHASSpeechRecognitionService(self.config.get("speech_recognition", {}))
 
         # Voice effects and modulation
         self.voice_effects = VoiceEffectsProcessor()
@@ -218,8 +216,7 @@ class LUKHASVoiceSystem:
         if effects_preset and response.success and response.audio_data:
             try:
                 buffer = AudioBuffer(
-                    data=np.frombuffer(response.audio_data, dtype=np.int16).astype(np.float32)
-                    / 32768.0,
+                    data=np.frombuffer(response.audio_data, dtype=np.int16).astype(np.float32) / 32768.0,
                     sample_rate=response.sample_rate,
                     channels=1,
                     format=AudioFormat.PCM_16,
@@ -256,9 +253,7 @@ class LUKHASVoiceSystem:
         Returns:
             Speech recognition result
         """
-        request = SpeechRecognitionRequest(
-            audio_data=audio_data, language=language, quality=quality, **kwargs
-        )
+        request = SpeechRecognitionRequest(audio_data=audio_data, language=language, quality=quality, **kwargs)
 
         return await self.speech_recognition.recognize_speech(request)
 
@@ -449,6 +444,4 @@ __all__ = [
 
 # Module initialization
 logger.info(f"LUKHAS Voice & Audio Systems Module v{__version__} loaded")
-logger.info(
-    "Available components: TTS, STT, Voice Effects, Audio Processing, Streaming, Analytics, Training"
-)
+logger.info("Available components: TTS, STT, Voice Effects, Audio Processing, Streaming, Analytics, Training")

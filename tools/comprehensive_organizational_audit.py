@@ -161,17 +161,13 @@ class OrganizationalAuditor:
 
                 # Check for test files not in test directories
                 if (
-                    "def test_" in content
-                    or "import pytest" in content
-                    or "import unittest" in content
+                    "def test_" in content or "import pytest" in content or "import unittest" in content
                 ) and "test" not in str(relative_path):
                     self.issues["misplaced_tests"].append(str(relative_path))
 
                 # Check for configuration files not in config directories
                 if (
-                    "CONFIG" in content
-                    or "SETTINGS" in content
-                    or "configuration" in content.lower()
+                    "CONFIG" in content or "SETTINGS" in content or "configuration" in content.lower()
                 ) and "config" not in str(relative_path):
                     self.issues["misplaced_configs"].append(str(relative_path))
 
@@ -180,9 +176,9 @@ class OrganizationalAuditor:
                     content = f.read()
 
                 # Check for task/todo files in wrong locations
-                if any(
-                    keyword in content.lower() for keyword in ["todo", "task", "claude", "agent"]
-                ) and ("memory" in str(relative_path) or "core" in str(relative_path)):
+                if any(keyword in content.lower() for keyword in ["todo", "task", "claude", "agent"]) and (
+                    "memory" in str(relative_path) or "core" in str(relative_path)
+                ):
                     self.issues["misplaced_task_files"].append(str(relative_path))
 
         except Exception as e:
@@ -196,27 +192,21 @@ class OrganizationalAuditor:
         dream_files = list(self.workspace.glob("**/dream*"))
         for file in dream_files:
             relative_path = file.relative_to(self.workspace)
-            if "dream" not in str(relative_path.parent) and "lukhas/core/dream" not in str(
-                relative_path
-            ):
+            if "dream" not in str(relative_path.parent) and "lukhas/core/dream" not in str(relative_path):
                 self.issues["misplaced_dream_files"].append(str(relative_path))
 
         # Find voice-related files outside voice modules
         voice_files = list(self.workspace.glob("**/voice*"))
         for file in voice_files:
             relative_path = file.relative_to(self.workspace)
-            if "voice" not in str(relative_path.parent) and "lukhas/core/voice" not in str(
-                relative_path
-            ):
+            if "voice" not in str(relative_path.parent) and "lukhas/core/voice" not in str(relative_path):
                 self.issues["misplaced_voice_files"].append(str(relative_path))
 
         # Find memory-related files outside memory modules
         memory_files = list(self.workspace.glob("**/memory*"))
         for file in memory_files:
             relative_path = file.relative_to(self.workspace)
-            if "memory" not in str(relative_path.parent) and "lukhas/core/memory" not in str(
-                relative_path
-            ):
+            if "memory" not in str(relative_path.parent) and "lukhas/core/memory" not in str(relative_path):
                 self.issues["misplaced_memory_files"].append(str(relative_path))
 
     def _check_module_organization(self):
@@ -246,9 +236,7 @@ class OrganizationalAuditor:
             ) and file.suffix in [".md", ".txt", ".json"]:
                 # Check if it belongs here
                 if module_name.lower() not in file.name.lower():
-                    self.issues["foreign_files_in_modules"].append(
-                        str(file.relative_to(self.workspace))
-                    )
+                    self.issues["foreign_files_in_modules"].append(str(file.relative_to(self.workspace)))
 
     def _analyze_naming_conventions(self):
         """Check naming convention consistency."""
@@ -327,9 +315,7 @@ class OrganizationalAuditor:
                 self.issues["missing_required_directories"].append(req_dir)
 
         # Check for production-ready configuration
-        config_files = list(self.workspace.glob("**/config*.py")) + list(
-            self.workspace.glob("**/config*.json")
-        )
+        config_files = list(self.workspace.glob("**/config*.py")) + list(self.workspace.glob("**/config*.json"))
         if not config_files:
             self.issues["missing_configuration"].append("No configuration files found")
 
@@ -369,9 +355,7 @@ class OrganizationalAuditor:
             "total_issues_found": total_issues,
             "critical_issues": critical_issues,
             "severity_level": severity,
-            "commercial_readiness": (
-                "NOT READY" if severity in ["CRITICAL", "HIGH"] else "NEEDS CLEANUP"
-            ),
+            "commercial_readiness": ("NOT READY" if severity in ["CRITICAL", "HIGH"] else "NEEDS CLEANUP"),
             "issues_by_category": dict(self.issues),
             "recommendations": self._generate_recommendations(),
             "cleanup_priority": self._prioritize_cleanup(),
@@ -397,9 +381,7 @@ class OrganizationalAuditor:
             )
 
         if self.issues.get("misplaced_tests"):
-            recommendations.append(
-                "CRITICAL: Relocate all test files to proper 'tests/' directory structure"
-            )
+            recommendations.append("CRITICAL: Relocate all test files to proper 'tests/' directory structure")
 
         if self.issues.get("incomplete_modules"):
             recommendations.append("HIGH: Complete all module structures with required files")
@@ -410,9 +392,7 @@ class OrganizationalAuditor:
         if self.issues.get("legacy_files"):
             recommendations.append("CLEANUP: Remove or archive all legacy/temporary files")
 
-        recommendations.append(
-            "STRUCTURE: Implement proper modular organization before commercial deployment"
-        )
+        recommendations.append("STRUCTURE: Implement proper modular organization before commercial deployment")
         recommendations.append("TESTING: Establish comprehensive test directory structure")
         recommendations.append("CONFIG: Create production-ready configuration management")
 

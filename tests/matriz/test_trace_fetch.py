@@ -225,9 +225,7 @@ class TestTraceAPI(unittest.TestCase):
         nonexistent_id = str(uuid.uuid4())
 
         # Make request for nonexistent trace
-        response = self.client.get(
-            f"/v1/matriz/trace/{nonexistent_id}", headers=self.valid_auth_headers
-        )
+        response = self.client.get(f"/v1/matriz/trace/{nonexistent_id}", headers=self.valid_auth_headers)
 
         # Verify 404 response
         self.assertEqual(response.status_code, 404)
@@ -261,9 +259,7 @@ class TestTraceAPI(unittest.TestCase):
         invalid_id = "not-a-valid-uuid"
 
         # Make request with invalid UUID
-        response = self.client.get(
-            f"/v1/matriz/trace/{invalid_id}", headers=self.valid_auth_headers
-        )
+        response = self.client.get(f"/v1/matriz/trace/{invalid_id}", headers=self.valid_auth_headers)
 
         # Verify 400 response
         self.assertEqual(response.status_code, 400)
@@ -329,9 +325,7 @@ class TestTraceAPI(unittest.TestCase):
         trace_id = self.test_traces[0]["trace_id"]
 
         # Make request with invalid authentication
-        response = self.client.get(
-            f"/v1/matriz/trace/{trace_id}", headers=self.invalid_auth_headers
-        )
+        response = self.client.get(f"/v1/matriz/trace/{trace_id}", headers=self.invalid_auth_headers)
 
         # Verify 401 response
         self.assertEqual(response.status_code, 401)
@@ -378,18 +372,14 @@ class TestTraceAPI(unittest.TestCase):
                 self.assertIn(field, first_trace)
 
         # Test with limit parameter
-        response_limited = self.client.get(
-            "/v1/matriz/trace/recent?limit=2", headers=self.valid_auth_headers
-        )
+        response_limited = self.client.get("/v1/matriz/trace/recent?limit=2", headers=self.valid_auth_headers)
 
         self.assertEqual(response_limited.status_code, 200)
         limited_traces = response_limited.json()
         self.assertLessEqual(len(limited_traces), 2)
 
         # Test with level filter
-        response_filtered = self.client.get(
-            "/v1/matriz/trace/recent?level=0", headers=self.valid_auth_headers
-        )
+        response_filtered = self.client.get("/v1/matriz/trace/recent?level=0", headers=self.valid_auth_headers)
 
         self.assertEqual(response_filtered.status_code, 200)
         filtered_traces = response_filtered.json()
@@ -514,28 +504,20 @@ class TestTraceAPI(unittest.TestCase):
         """
         # Test with very long string as trace ID
         very_long_id = "a" * 1000
-        response = self.client.get(
-            f"/v1/matriz/trace/{very_long_id}", headers=self.valid_auth_headers
-        )
+        response = self.client.get(f"/v1/matriz/trace/{very_long_id}", headers=self.valid_auth_headers)
         self.assertEqual(response.status_code, 400)  # Should be validation error
 
         # Test with special characters
         special_char_id = "trace@#$%^&*()"
-        response = self.client.get(
-            f"/v1/matriz/trace/{special_char_id}", headers=self.valid_auth_headers
-        )
+        response = self.client.get(f"/v1/matriz/trace/{special_char_id}", headers=self.valid_auth_headers)
         self.assertEqual(response.status_code, 400)  # Should be validation error
 
         # Test recent traces with invalid level
-        response = self.client.get(
-            "/v1/matriz/trace/recent?level=999", headers=self.valid_auth_headers
-        )
+        response = self.client.get("/v1/matriz/trace/recent?level=999", headers=self.valid_auth_headers)
         self.assertEqual(response.status_code, 400)  # Should be validation error
 
         # Test recent traces with excessive limit
-        response = self.client.get(
-            "/v1/matriz/trace/recent?limit=10000", headers=self.valid_auth_headers
-        )
+        response = self.client.get("/v1/matriz/trace/recent?limit=10000", headers=self.valid_auth_headers)
         self.assertEqual(response.status_code, 200)
         # Limit should be capped at 100
         traces = response.json()
@@ -558,9 +540,7 @@ class TestTraceAPI(unittest.TestCase):
 
         def make_request():
             try:
-                response = self.client.get(
-                    f"/v1/matriz/trace/{trace_id}", headers=self.valid_auth_headers
-                )
+                response = self.client.get(f"/v1/matriz/trace/{trace_id}", headers=self.valid_auth_headers)
                 results.append(response.status_code)
             except Exception as e:
                 errors.append(str(e))
@@ -581,9 +561,7 @@ class TestTraceAPI(unittest.TestCase):
 
         # Verify results
         self.assertEqual(len(errors), 0, f"Concurrent access errors: {errors}")
-        self.assertTrue(
-            all(status == 200 for status in results), f"Some requests failed: {results}"
-        )
+        self.assertTrue(all(status == 200 for status in results), f"Some requests failed: {results}")
 
 
 class TestTraceAPIWithoutAuth(unittest.TestCase):

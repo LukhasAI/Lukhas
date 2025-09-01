@@ -182,11 +182,7 @@ class CodeAnalyzer:
 
         for root, dirs, files in os.walk(directory_path):
             # Skip common non-source directories
-            dirs[:] = [
-                d
-                for d in dirs
-                if not d.startswith(".") and d not in ["__pycache__", "node_modules"]
-            ]
+            dirs[:] = [d for d in dirs if not d.startswith(".") and d not in ["__pycache__", "node_modules"]]
 
             for file in files:
                 if file.endswith(".py"):
@@ -224,13 +220,9 @@ class CodeAnalyzer:
                             "docstring": ast.get_docstring(item),
                             "args": [arg.arg for arg in item.args.args],
                             "returns": self._extract_return_annotation(item),
-                            "decorators": [
-                                d.id for d in item.decorator_list if isinstance(d, ast.Name)
-                            ],
+                            "decorators": [d.id for d in item.decorator_list if isinstance(d, ast.Name)],
                             "is_property": any(
-                                d.id == "property"
-                                for d in item.decorator_list
-                                if isinstance(d, ast.Name)
+                                d.id == "property" for d in item.decorator_list if isinstance(d, ast.Name)
                             ),
                             "is_async": isinstance(item, ast.AsyncFunctionDef),
                         }
@@ -258,9 +250,7 @@ class CodeAnalyzer:
                         "docstring": ast.get_docstring(node),
                         "args": [arg.arg for arg in node.args.args],
                         "returns": self._extract_return_annotation(node),
-                        "decorators": [
-                            d.id for d in node.decorator_list if isinstance(d, ast.Name)
-                        ],
+                        "decorators": [d.id for d in node.decorator_list if isinstance(d, ast.Name)],
                         "is_async": isinstance(node, ast.AsyncFunctionDef),
                         "line_number": node.lineno,
                     }
@@ -378,9 +368,7 @@ class CodeAnalyzer:
 
         return dependencies
 
-    def _extract_return_annotation(
-        self, node: Union[ast.FunctionDef, ast.AsyncFunctionDef]
-    ) -> Optional[str]:
+    def _extract_return_annotation(self, node: Union[ast.FunctionDef, ast.AsyncFunctionDef]) -> Optional[str]:
         """Extract return type annotation"""
 
         if node.returns:
@@ -405,8 +393,7 @@ class CodeAnalyzer:
             return [self._extract_literal_value(item) for item in node.elts]
         elif isinstance(node, ast.Dict):
             return {
-                self._extract_literal_value(k): self._extract_literal_value(v)
-                for k, v in zip(node.keys, node.values)
+                self._extract_literal_value(k): self._extract_literal_value(v) for k, v in zip(node.keys, node.values)
             }
         else:
             return "Complex Expression"
@@ -707,9 +694,7 @@ class DocumentationGenerator:
         output_path = output_dir / filename
 
         content = ""
-        content += (
-            f"*Generated on {documentation.generated_date.strftime('%Y-%m-%d %H:%M:%S')}*\n\n"
-        )
+        content += f"*Generated on {documentation.generated_date.strftime('%Y-%m-%d %H:%M:%S')}*\n\n"
 
         for section in documentation.sections:
             content += "#"
@@ -852,9 +837,7 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
 
         return content
 
-    def _generate_title(
-        self, request: DocumentationRequest, analysis_results: list[CodeAnalysisResult]
-    ) -> str:
+    def _generate_title(self, request: DocumentationRequest, analysis_results: list[CodeAnalysisResult]) -> str:
         """Generate documentation title"""
 
         if len(analysis_results) == 1:
@@ -890,27 +873,21 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
         # Implementation would create detailed API documentation sections
         return []
 
-    async def _generate_basic_examples(
-        self, analysis_results: list[CodeAnalysisResult]
-    ) -> list[str]:
+    async def _generate_basic_examples(self, analysis_results: list[CodeAnalysisResult]) -> list[str]:
         """Generate basic code examples"""
         return [
             "# Example: Basic usage\nfrom system ort ComplianceEngine\n\nengine = ComplianceEngine()\nresult = engine.validate_compliance()",
             "# Example: Advanced configuration\nengine.configure({\n    'strict_mode': True,\n    'auto_remediation': True\n})",
         ]
 
-    async def _generate_installation_examples(
-        self, analysis_results: list[CodeAnalysisResult]
-    ) -> list[str]:
+    async def _generate_installation_examples(self, analysis_results: list[CodeAnalysisResult]) -> list[str]:
         """Generate installation examples"""
         return [
             "pip install lukhas-",
             "# Or install from source\ngit clone https://github.com/LukhasAI/Lukhas.\ncd Lukhas\npipstall -e .",
         ]
 
-    async def _generate_configuration_examples(
-        self, analysis_results: list[CodeAnalysisResult]
-    ) -> list[str]:
+    async def _generate_configuration_examples(self, analysis_results: list[CodeAnalysisResult]) -> list[str]:
         """Generate configuration examples"""
         return [
             "# Configuration file: lukhas_fig.yaml\napi:\n  host: localhost\n  port: 8000\ncompliance:\n  strict_mode: true"
@@ -920,33 +897,23 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
         """Generate examples for a specific module"""
         return [""]
 
-    async def _generate_getting_started_content(
-        self, analysis_results: list[CodeAnalysisResult]
-    ) -> str:
+    async def _generate_getting_started_content(self, analysis_results: list[CodeAnalysisResult]) -> str:
         """Generate getting started content"""
         return "Follow these steps to get started with LUKHAS :\n\n1. Install the package\n2. Configure your environment\n3. Run your first compliance check"
 
-    async def _generate_prerequisites_content(
-        self, analysis_results: list[CodeAnalysisResult]
-    ) -> str:
+    async def _generate_prerequisites_content(self, analysis_results: list[CodeAnalysisResult]) -> str:
         """Generate prerequisites content"""
         return "Before installing LUKHAS , ensure you have:\n\n- Python 3.8 or higher\n- pip package manager\n- Virtual environment (recommended)"
 
-    async def _generate_installation_content(
-        self, analysis_results: list[CodeAnalysisResult]
-    ) -> str:
+    async def _generate_installation_content(self, analysis_results: list[CodeAnalysisResult]) -> str:
         """Generate installation content"""
         return "LUKHAS  can be installed using pip or from source. Follow the appropriate method for your setup."
 
-    async def _generate_configuration_content(
-        self, analysis_results: list[CodeAnalysisResult]
-    ) -> str:
+    async def _generate_configuration_content(self, analysis_results: list[CodeAnalysisResult]) -> str:
         """Generate configuration content"""
         return "Configure LUKHAS  by setting up the configuration file and environment variables."
 
-    async def _generate_architecture_overview(
-        self, analysis_results: list[CodeAnalysisResult]
-    ) -> str:
+    async def _generate_architecture_overview(self, analysis_results: list[CodeAnalysisResult]) -> str:
         """Generate architecture overview"""
         return f"The LUKHAS  system architecture consists of {len(analysis_results)} main modules organized in a modular, scalable design."
 

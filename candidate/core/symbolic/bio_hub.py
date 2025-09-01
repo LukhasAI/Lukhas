@@ -132,9 +132,7 @@ class BioHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(
-                        service_name, self.services[service_name], "bio"
-                    )
+                    discovery.register_service_globally(service_name, self.services[service_name], "bio")
 
             logger.debug(f"Registered {len(key_services)} bio services with global discovery")
         except Exception as e:
@@ -173,9 +171,7 @@ class BioHub:
         symbolic_result = None
         if symbolic_processor and hasattr(symbolic_processor, "interpret_bio_data"):
             try:
-                symbolic_result = await symbolic_processor.interpret_bio_data(
-                    bio_result or bio_data
-                )
+                symbolic_result = await symbolic_processor.interpret_bio_data(bio_result or bio_data)
             except Exception as e:
                 logger.error(f"Symbolic processing error: {e}")
                 symbolic_result = {"error": str(e)}
@@ -194,9 +190,7 @@ class BioHub:
 
         for handler in handlers:
             try:
-                result = (
-                    await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
-                )
+                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
                 results.append(result)
             except Exception as e:
                 logger.error(f"Bio handler error for {event_type}: {e}")

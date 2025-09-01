@@ -163,9 +163,7 @@ def main():
     ap.add_argument("--max-shift", type=float, default=0.1)
     ap.add_argument("--task", type=str, help="task name for per-task calibration")
     args = ap.parse_args()
-    result = calibrated_gate(
-        args.conf, base_threshold=args.base_threshold, max_shift=args.max_shift, task=args.task
-    )
+    result = calibrated_gate(args.conf, base_threshold=args.base_threshold, max_shift=args.max_shift, task=args.task)
     print(_json.dumps(result, indent=2))
 
 

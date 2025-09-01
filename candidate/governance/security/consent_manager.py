@@ -234,9 +234,7 @@ class ConsentManager(GlyphIntegrationMixin):
                 json.dump(self.consent_history, f, indent=2)
 
             # Log save action in governance
-            self._log_governance_action(
-                "consent_history_saved", {"record_count": len(self.consent_history)}
-            )
+            self._log_governance_action("consent_history_saved", {"record_count": len(self.consent_history)})
         except Exception as e:
             logger.error(f"Failed to save consent history: {e}")
 
@@ -398,9 +396,7 @@ class ConsentManager(GlyphIntegrationMixin):
                 request.governance_validated = governance_result["approved"]
                 if not governance_result["approved"]:
                     request.status = ConsentStatus.DENIED
-                    request.decision_reason = (
-                        f"Governance validation failed: {governance_result['reason']}"
-                    )
+                    request.decision_reason = f"Governance validation failed: {governance_result['reason']}"
                     await self._log_consent_decision(request)
                     return request
 
@@ -454,23 +450,17 @@ class ConsentManager(GlyphIntegrationMixin):
                 # Make automatic decision with governance weighting
                 governance_weight = 1.0 if request.governance_validated else 0.5
                 trinity_risk = max(request.trinity_impact.values())
-                adjusted_trust = (
-                    request.trust_score * governance_weight * (1.0 - trinity_risk * 0.3)
-                )
+                adjusted_trust = request.trust_score * governance_weight * (1.0 - trinity_risk * 0.3)
 
                 if adjusted_trust >= 0.7:
                     request.status = ConsentStatus.GRANTED
-                    request.decision_reason = (
-                        "Automatic approval - high trust score with governance validation"
-                    )
+                    request.decision_reason = "Automatic approval - high trust score with governance validation"
                 elif adjusted_trust >= 0.4:
                     request.status = ConsentStatus.PENDING
                     request.decision_reason = "Manual review required - medium trust score"
                 else:
                     request.status = ConsentStatus.DENIED
-                    request.decision_reason = (
-                        "Automatic denial - low trust score or governance concerns"
-                    )
+                    request.decision_reason = "Automatic denial - low trust score or governance concerns"
 
             # Generate final symbolic response
             symbolic_response = self._generate_symbolic_response(request)
@@ -488,9 +478,7 @@ class ConsentManager(GlyphIntegrationMixin):
             request.decision_reason = f"Processing error: {e!s}"
 
             # Log error in governance system
-            await self._log_governance_action(
-                "consent_processing_error", {"request_id": request.id, "error": str(e)}
-            )
+            await self._log_governance_action("consent_processing_error", {"request_id": request.id, "error": str(e)})
 
             return request
 
@@ -547,9 +535,7 @@ class ConsentManager(GlyphIntegrationMixin):
         """Check if request requires regulatory approval"""
         # Check for health data, financial data, or PII
         resource = request.target_resource.lower()
-        return any(
-            term in resource for term in ["health", "medical", "financial", "pii", "personal"]
-        )
+        return any(term in resource for term in ["health", "medical", "financial", "pii", "personal"])
 
     def _is_trinity_protected_resource(self, request: ConsentRequest) -> bool:
         """Check if resource is protected by Trinity Framework"""
@@ -575,9 +561,7 @@ class ConsentManager(GlyphIntegrationMixin):
 
         # Guardian impact
         if any(term in resource for term in ["guardian", "security", "protection", "governance"]):
-            impact_scores["guardian"] = (
-                0.9 if permission in ["modify", "delete", "disable"] else 0.5
-            )
+            impact_scores["guardian"] = 0.9 if permission in ["modify", "delete", "disable"] else 0.5
 
         # Cross-component impact
         if permission in ["admin", "root", "critical"]:
@@ -586,8 +570,7 @@ class ConsentManager(GlyphIntegrationMixin):
 
         # Calculate overall Trinity risk
         overall_risk = sum(
-            impact_scores[component] * self.trinity_weights[component]
-            for component in impact_scores
+            impact_scores[component] * self.trinity_weights[component] for component in impact_scores
         ) / len(impact_scores)
 
         return {
@@ -658,9 +641,7 @@ class ConsentManager(GlyphIntegrationMixin):
             "final_trust_score": final_score,
             "symbolic_sequence": symbolic_sequences[:5],  # Limit symbols
             "path_count": len(applicable_paths),
-            "governance_validated_paths": len(
-                [p for p in applicable_paths if p.governance_approved]
-            ),
+            "governance_validated_paths": len([p for p in applicable_paths if p.governance_approved]),
         }
 
     def _path_applies_to_request(self, path: TrustPath, request: ConsentRequest) -> bool:
@@ -933,9 +914,7 @@ class ConsentManager(GlyphIntegrationMixin):
             "governance_validated": request.governance_validated,
             "trinity_impact": request.trinity_impact,
             "governance_escalation": any(
-                "governance" in action
-                for action in request.context
-                if "governance" in action.lower()
+                "governance" in action for action in request.context if "governance" in action.lower()
             ),
         }
 
@@ -996,9 +975,7 @@ class ConsentManager(GlyphIntegrationMixin):
             request.decision_reason = reason
 
             await self._log_consent_decision(request)
-            await self._log_governance_action(
-                "consent_revoked", {"request_id": request_id, "reason": reason}
-            )
+            await self._log_governance_action("consent_revoked", {"request_id": request_id, "reason": reason})
 
             logger.info(f"Consent revoked: {request_id}")
             return True
@@ -1042,9 +1019,7 @@ class ConsentManager(GlyphIntegrationMixin):
             "current_trust": trust_history[-1] if trust_history else 0.5,
             "trust_trend": trend,
             "average_trinity_impact": avg_trinity_impact,
-            "last_request_age": time.time() - stats["last_request"]
-            if stats["last_request"]
-            else None,
+            "last_request_age": time.time() - stats["last_request"] if stats["last_request"] else None,
             "governance_compliant": governance_escalation_rate < 0.1,
         }
 
@@ -1072,18 +1047,14 @@ class ConsentManager(GlyphIntegrationMixin):
 
         # Recent activity (last 24 hours)
         recent_cutoff = time.time() - 86400
-        recent_requests = [
-            entry for entry in self.consent_history if entry.get("requested_at", 0) > recent_cutoff
-        ]
+        recent_requests = [entry for entry in self.consent_history if entry.get("requested_at", 0) > recent_cutoff]
 
         return {
             "total_requests": total_requests,
             "status_distribution": status_counts,
             "active_requests": len(self.active_requests),
             "trust_paths": len(self.trust_paths),
-            "governance_approved_paths": len(
-                [p for p in self.trust_paths.values() if p.governance_approved]
-            ),
+            "governance_approved_paths": len([p for p in self.trust_paths.values() if p.governance_approved]),
             "recent_24h": len(recent_requests),
             "success_rate": status_counts.get("granted", 0) / total_requests,
             "escalation_rate": status_counts.get("escalated", 0) / total_requests,

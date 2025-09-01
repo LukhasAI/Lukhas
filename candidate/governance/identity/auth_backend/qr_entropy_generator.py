@@ -84,9 +84,7 @@ class QREntropyGenerator:
             base_qr_data = {
                 "session_id": session_id,
                 "timestamp": datetime.utcnow().isoformat(),
-                "expires_at": (
-                    datetime.utcnow() + timedelta(seconds=self.max_code_lifetime)
-                ).isoformat(),
+                "expires_at": (datetime.utcnow() + timedelta(seconds=self.max_code_lifetime)).isoformat(),
                 "challenge": secrets.token_urlsafe(32),
             }
 
@@ -150,9 +148,7 @@ class QREntropyGenerator:
                 "constitutional_validated": False,
             }
 
-    def embed_steganographic_layers(
-        self, qr_image: Image.Image, entropy_data: bytes
-    ) -> Image.Image:
+    def embed_steganographic_layers(self, qr_image: Image.Image, entropy_data: bytes) -> Image.Image:
         """
         Embed steganographic entropy layers in QR image.
 
@@ -251,9 +247,7 @@ class QREntropyGenerator:
                 return False
 
             # Apply constitutional checks (🛡️ Guardian validation)
-            constitutional_result = self._constitutional_validation(
-                scan_payload, code_data["base_data"]
-            )
+            constitutional_result = self._constitutional_validation(scan_payload, code_data["base_data"])
 
             if not constitutional_result:
                 return False
@@ -302,9 +296,7 @@ class QREntropyGenerator:
                 bits.append((byte >> (7 - i)) & 1)
         return bits
 
-    def _embed_bits_in_channel(
-        self, pixels: list[tuple], bits: list[int], channel: int, bit_depth: int
-    ) -> list[tuple]:
+    def _embed_bits_in_channel(self, pixels: list[tuple], bits: list[int], channel: int, bit_depth: int) -> list[tuple]:
         """Embed bits in specific color channel using LSB steganography"""
         pixel_list = []
         bit_index = 0

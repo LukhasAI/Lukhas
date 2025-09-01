@@ -460,9 +460,7 @@ class OracleColony(BaseColony):
 
         return insights
 
-    async def generate_contextual_dream(
-        self, user_id: str, context: dict[str, Any]
-    ) -> OracleResponse:
+    async def generate_contextual_dream(self, user_id: str, context: dict[str, Any]) -> OracleResponse:
         """Generate a contextual dream for a specific user."""
         query = OracleQuery(
             query_type="dream",

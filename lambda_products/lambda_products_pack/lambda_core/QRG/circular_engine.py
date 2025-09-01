@@ -107,13 +107,9 @@ class CircularQREngine:
             self.ring_radii = self._calculate_linear_rings()
 
         # Angular sector calculations
-        self.sector_angles = [
-            (2 * self.PI * i / self.config.sector_count) for i in range(self.config.sector_count)
-        ]
+        self.sector_angles = [(2 * self.PI * i / self.config.sector_count) for i in range(self.config.sector_count)]
 
-        logger.info(
-            f"📐 Initialized geometry: {len(self.ring_radii)} rings, {self.config.sector_count} sectors"
-        )
+        logger.info(f"📐 Initialized geometry: {len(self.ring_radii)} rings, {self.config.sector_count} sectors")
 
     def _calculate_golden_ratio_rings(self) -> list[float]:
         """Calculate ring positions using golden ratio proportions"""
@@ -122,10 +118,7 @@ class CircularQREngine:
         for i in range(self.config.ring_count):
             # Golden ratio spiral positioning
             ratio_factor = (self.PHI**i) / (self.PHI**self.config.ring_count)
-            radius = (
-                self.config.center_radius
-                + (self.config.outer_radius - self.config.center_radius) * ratio_factor
-            )
+            radius = self.config.center_radius + (self.config.outer_radius - self.config.center_radius) * ratio_factor
             rings.append(radius)
 
         return rings
@@ -207,9 +200,7 @@ class CircularQREngine:
         visual_matrix = self._generate_visual_matrix(circular_data, visual_size)
 
         # Step 6: Apply pattern-specific enhancements
-        enhanced_matrix = self._apply_pattern_enhancements(
-            visual_matrix, circular_data, consciousness_context
-        )
+        enhanced_matrix = self._apply_pattern_enhancements(visual_matrix, circular_data, consciousness_context)
 
         logger.info("✨ Circular QR encoding completed")
         return enhanced_matrix, circular_data
@@ -398,9 +389,7 @@ class CircularQREngine:
                             circular_data.rings[ring_idx][sector_idx] = error_correction[ec_index]
                             ec_index += 1
 
-    def _apply_consciousness_adaptation(
-        self, circular_data: CircularData, consciousness_context: dict[str, Any]
-    ):
+    def _apply_consciousness_adaptation(self, circular_data: CircularData, consciousness_context: dict[str, Any]):
         """Apply consciousness-aware adaptations to circular pattern"""
         # 🎨 Poetic Layer: "Infusing soul's rhythm into geometric harmony"
         # 💬 User Friendly: "Personalizing your QR code based on your mood"
@@ -418,9 +407,7 @@ class CircularQREngine:
 
         # Apply adaptations to consciousness zones
         for zone_name, zone_config in self.consciousness_zones.items():
-            adaptation = self._calculate_zone_adaptation(
-                zone_config, valence, arousal, emotional_state
-            )
+            adaptation = self._calculate_zone_adaptation(zone_config, valence, arousal, emotional_state)
 
             consciousness_map["emotional_adaptations"][zone_name] = adaptation
 
@@ -607,9 +594,7 @@ class CircularQREngine:
 
         return enhanced_matrix
 
-    def _enhance_lambda_spiral(
-        self, matrix: np.ndarray, consciousness_context: Optional[dict[str, Any]]
-    ) -> np.ndarray:
+    def _enhance_lambda_spiral(self, matrix: np.ndarray, consciousness_context: Optional[dict[str, Any]]) -> np.ndarray:
         """Enhance with Lambda spiral pattern effects"""
         # Add Lambda symbol overlay
         center = matrix.shape[0] // 2
@@ -870,13 +855,9 @@ class CircularQREngine:
             },
             "capacity": {
                 "total_sectors": self.config.ring_count * self.config.sector_count,
-                "data_capacity": int(
-                    self.config.ring_count * self.config.sector_count * self.config.data_density
-                ),
+                "data_capacity": int(self.config.ring_count * self.config.sector_count * self.config.data_density),
                 "error_correction_capacity": int(
-                    self.config.ring_count
-                    * self.config.sector_count
-                    * self.config.redundancy_factor
+                    self.config.ring_count * self.config.sector_count * self.config.redundancy_factor
                 ),
             },
             "consciousness_zones": self.consciousness_zones,

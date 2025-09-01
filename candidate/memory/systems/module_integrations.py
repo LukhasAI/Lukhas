@@ -54,9 +54,7 @@ class LearningModuleIntegration:
         self.integration.verifold.register_trust_callback("learning", self._on_trust_update)
 
         # Drift triggers concept recalibration
-        self.integration.drift.register_calibration_callback(
-            "learning", self._on_drift_calibration_needed
-        )
+        self.integration.drift.register_calibration_callback("learning", self._on_drift_calibration_needed)
 
     async def _on_trust_update(self, memory_id: str, trust_score: float):
         """Handle trust score updates for training data"""
@@ -121,9 +119,7 @@ class LearningModuleIntegration:
 
         return training_batch[:batch_size]
 
-    async def track_concept_evolution(
-        self, concept: str, new_example: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def track_concept_evolution(self, concept: str, new_example: dict[str, Any]) -> dict[str, Any]:
         """
         Track how a concept evolves over time.
 
@@ -152,13 +148,7 @@ class LearningModuleIntegration:
 
             if concept_metrics and len(concept_metrics.drift_scores) >= 5:
                 recent_drift = np.mean(concept_metrics.drift_scores[-5:])
-                trend = (
-                    "stable"
-                    if recent_drift < 0.1
-                    else "evolving"
-                    if recent_drift < 0.3
-                    else "shifting"
-                )
+                trend = "stable" if recent_drift < 0.1 else "evolving" if recent_drift < 0.3 else "shifting"
 
                 return {
                     "concept": concept,
@@ -185,9 +175,7 @@ class LearningModuleIntegration:
         logger.info(f"Relearning concept: {tag}")
 
         # Get recent memories for this tag
-        recent_memories = await self.memory.fold_out_by_tag(
-            tag, max_items=self.concept_evolution_window
-        )
+        recent_memories = await self.memory.fold_out_by_tag(tag, max_items=self.concept_evolution_window)
 
         # Filter by trust and recency
         training_data = []
@@ -291,9 +279,7 @@ class CreativityModuleIntegration:
             )
 
             # Synthesize narrative
-            synthesis = await self._synthesize_creative_narrative(
-                valid_seeds, creative_neighbors, creativity_level
-            )
+            synthesis = await self._synthesize_creative_narrative(valid_seeds, creative_neighbors, creativity_level)
 
             # Reality check on output
             self.creation_counter += 1
@@ -373,9 +359,7 @@ class CreativityModuleIntegration:
 
         return synthesis
 
-    def _construct_narrative(
-        self, themes: list[str], emotions: list[str], connections: list[dict]
-    ) -> str:
+    def _construct_narrative(self, themes: list[str], emotions: list[str], connections: list[dict]) -> str:
         """Construct a creative narrative (simplified)"""
         narrative_parts = []
 
@@ -422,9 +406,7 @@ class VoiceModuleIntegration:
         self.emotion_consistency_threshold = 0.7
         self.voice_drift_window = 50  # interactions
 
-    async def store_voice_interaction(
-        self, speaker_id: str, transcript: str, audio_features: dict[str, Any]
-    ) -> str:
+    async def store_voice_interaction(self, speaker_id: str, transcript: str, audio_features: dict[str, Any]) -> str:
         """Store voice interaction with safety validation"""
         # Extract features
         emotion = audio_features.get("emotion", "neutral")
@@ -472,9 +454,7 @@ class VoiceModuleIntegration:
 
         return mem_id
 
-    async def _validate_emotional_consistency(
-        self, speaker_id: str, emotion: str, transcript: str
-    ) -> bool:
+    async def _validate_emotional_consistency(self, speaker_id: str, emotion: str, transcript: str) -> bool:
         """Validate if emotion matches transcript content"""
         # Simple heuristic - in production would use emotion-text model
         negative_emotions = ["anger", "sadness", "fear"]
@@ -507,21 +487,17 @@ class VoiceModuleIntegration:
         profile = self.speaker_profiles[speaker_id]
         profile["emotions"][emotion] += 1
         profile["interactions"] += 1
-        profile["avg_drift"] = (
-            profile["avg_drift"] * (profile["interactions"] - 1) + drift_score
-        ) / profile["interactions"]
+        profile["avg_drift"] = (profile["avg_drift"] * (profile["interactions"] - 1) + drift_score) / profile[
+            "interactions"
+        ]
         profile["last_seen"] = datetime.now(timezone.utc)
 
-    async def get_speaker_synthesis_data(
-        self, speaker_id: str, emotion_filter: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def get_speaker_synthesis_data(self, speaker_id: str, emotion_filter: Optional[str] = None) -> dict[str, Any]:
         """Get verified voice data for synthesis"""
         # Get speaker memories
         tag = f"speaker:{speaker_id}"
         if emotion_filter:
-            memories = await self.memory.fold_out_by_tags(
-                [tag, f"emotion:{emotion_filter}"], max_items=50
-            )
+            memories = await self.memory.fold_out_by_tags([tag, f"emotion:{emotion_filter}"], max_items=50)
         else:
             memories = await self.memory.fold_out_by_tag(tag, max_items=50)
 
@@ -659,24 +635,18 @@ class MetaModuleIntegration:
 
         # Filter significant patterns
         significant_sequences = {
-            seq: count
-            for seq, count in patterns["tag_sequences"].items()
-            if count >= min_occurrences
+            seq: count for seq, count in patterns["tag_sequences"].items() if count >= min_occurrences
         }
 
         # Analyze causal chains
         for memory_id in self.memory.causal_graph:
             if memory_id in self.safety.verifold_registry:
-                chains = await self.memory.trace_causal_chain(
-                    memory_id, direction="forward", max_depth=3
-                )
+                chains = await self.memory.trace_causal_chain(memory_id, direction="forward", max_depth=3)
 
                 for chain in chains:
                     if len(chain) >= 2:
                         # Verify all memories in chain
-                        all_verified = all(
-                            mem_id in self.safety.verifold_registry for mem_id, _ in chain
-                        )
+                        all_verified = all(mem_id in self.safety.verifold_registry for mem_id, _ in chain)
 
                         if all_verified:
                             patterns["causal_patterns"].append(
@@ -692,9 +662,7 @@ class MetaModuleIntegration:
 
         return {
             "significant_sequences": significant_sequences,
-            "causal_patterns": sorted(
-                patterns["causal_patterns"], key=lambda x: x["strength"], reverse=True
-            )[:10],
+            "causal_patterns": sorted(patterns["causal_patterns"], key=lambda x: x["strength"], reverse=True)[:10],
             "concept_clusters": patterns["concept_clusters"],
         }
 
@@ -723,9 +691,7 @@ class MetaModuleIntegration:
                 patterns["concept_clusters"][tag] = {
                     "size": len(embeddings),
                     "coherence": float(coherence),
-                    "drift": self.safety.drift_metrics.get(
-                        tag, DriftMetrics(tag=tag)
-                    ).calculate_drift(),
+                    "drift": self.safety.drift_metrics.get(tag, DriftMetrics(tag=tag)).calculate_drift(),
                 }
 
     async def learn_from_safety_metrics(self) -> dict[str, Any]:
@@ -741,16 +707,12 @@ class MetaModuleIntegration:
         for tag in self.memory.tag_registry.values():
             tag_memories = await self.memory.fold_out_by_tag(tag.tag_name, max_items=100)
 
-            verified_count = sum(
-                1 for mem in tag_memories if mem.item_id in self.safety.verifold_registry
-            )
+            verified_count = sum(1 for mem in tag_memories if mem.item_id in self.safety.verifold_registry)
 
             if len(tag_memories) > 0:
                 tag_reliability[tag.tag_name] = verified_count / len(tag_memories)
 
-        insights["reliability_patterns"] = dict(
-            sorted(tag_reliability.items(), key=lambda x: x[1], reverse=True)[:10]
-        )
+        insights["reliability_patterns"] = dict(sorted(tag_reliability.items(), key=lambda x: x[1], reverse=True)[:10])
 
         # Analyze drift trends
         for tag, metrics in self.safety.drift_metrics.items():
@@ -758,9 +720,7 @@ class MetaModuleIntegration:
                 # Calculate trend
                 recent = np.mean(metrics.drift_scores[-5:])
                 older = np.mean(metrics.drift_scores[-10:-5])
-                trend = (
-                    "increasing" if recent > older else "decreasing" if recent < older else "stable"
-                )
+                trend = "increasing" if recent > older else "decreasing" if recent < older else "stable"
 
                 insights["drift_trends"][tag] = {
                     "current": float(recent),
@@ -847,9 +807,7 @@ class MetaModuleIntegration:
         # Calculate potential efficiency gains
         total_memories = len(self.memory.items)
         total_tags = len(self.memory.tag_registry)
-        avg_tags_per_memory = sum(len(tags) for tags in self.memory.item_tags.values()) / max(
-            total_memories, 1
-        )
+        avg_tags_per_memory = sum(len(tags) for tags in self.memory.item_tags.values()) / max(total_memories, 1)
 
         optimization_report["efficiency_gains"] = {
             "current_tag_count": total_tags,

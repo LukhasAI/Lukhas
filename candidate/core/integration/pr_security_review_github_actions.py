@@ -23,9 +23,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler(
-            f"pr_security_review_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-        ),
+        logging.FileHandler(f"pr_security_review_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.log"),
     ],
 )
 logger = logging.getLogger("pr_security_review")

@@ -27,8 +27,7 @@ class LUKHAS2030Consolidator:
                     "awareness",
                     "reflection",
                 ],
-                "vision": "Single consciousness core with reflection, awareness, "
-                "and decision-making",
+                "vision": "Single consciousness core with reflection, awareness, " "and decision-making",
                 "features": [
                     "Self-awareness mechanisms",
                     "Reflection depth control",
@@ -309,9 +308,7 @@ class LUKHAS2030Consolidator:
         """Generate the full consolidation report"""
         total_current_files = sum(r["current_files"] for r in self.analysis_results.values())
         total_current_lines = sum(r["total_lines"] for r in self.analysis_results.values())
-        total_lines_saved = sum(
-            r["potential_savings"]["lines_saved"] for r in self.analysis_results.values()
-        )
+        total_lines_saved = sum(r["potential_savings"]["lines_saved"] for r in self.analysis_results.values())
 
         report = {
             "timestamp": datetime.now().isoformat(),
@@ -350,9 +347,7 @@ class LUKHAS2030Consolidator:
         for system, results in self.analysis_results.items():
             print(f"\n   {system}:")
             print(f"      Vision: {results['vision']}")
-            print(
-                f"      Current: {results['current_files']} files, {results['total_lines']:,} lines"
-            )
+            print(f"      Current: {results['current_files']} files, {results['total_lines']:,} lines")
             print(f"      Savings: {results['potential_savings']['percentage_saved']}")
             print(f"      Features: {len(results['features'])} core capabilities")
 
@@ -452,9 +447,7 @@ if __name__ == "__main__":
                 f.write(script_content)
             os.chmod(script_path, 0o755)
 
-        print(
-            f"\n🔧 Generated {len(self.consolidation_map)} consolidation scripts in {scripts_dir}"
-        )
+        print(f"\n🔧 Generated {len(self.consolidation_map)} consolidation scripts in {scripts_dir}")
 
 
 def main():

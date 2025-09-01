@@ -14,24 +14,18 @@ class MultiUserSync:
     def add_user(self, user_id):
         if not user_id or not isinstance(user_id, str):
             logger.error(f"Invalid user_id for add_user: {user_id}")
-            self.audit_logger.log_event(
-                f"Invalid user_id for add_user: {user_id}", constitutional_tag=True
-            )
+            self.audit_logger.log_event(f"Invalid user_id for add_user: {user_id}", constitutional_tag=True)
             raise ValueError("Invalid user_id for add_user.")
         self.user_buffers[user_id] = []
         self.audit_logger.log_event(f"User added: {user_id}", constitutional_tag=True)
 
     def update_entropy(self, user_id, entropy_value):
         if not user_id or user_id not in self.user_buffers:
-            self.audit_logger.log_event(
-                f"User not found for update_entropy: {user_id}", constitutional_tag=True
-            )
+            self.audit_logger.log_event(f"User not found for update_entropy: {user_id}", constitutional_tag=True)
             raise ValueError("User not found.")
         try:
             self.user_buffers[user_id].append(entropy_value)
-            self.audit_logger.log_event(
-                f"Entropy updated for user: {user_id}", constitutional_tag=True
-            )
+            self.audit_logger.log_event(f"Entropy updated for user: {user_id}", constitutional_tag=True)
         except Exception as e:
             self.audit_logger.log_event(
                 f"Entropy update failed for user {user_id}: {e}",
@@ -60,9 +54,7 @@ class MultiUserSync:
         if not quorum_met:
             self.audit_logger.log_event("Quorum not met. Forcing re-sync.", constitutional_tag=True)
             raise ValueError("Quorum not met. Re-sync required.")
-        self.audit_logger.log_event(
-            f"Quorum met with users: {valid_users}", constitutional_tag=True
-        )
+        self.audit_logger.log_event(f"Quorum met with users: {valid_users}", constitutional_tag=True)
         return valid_users
 
     def cross_validate_entropy(self):

@@ -120,9 +120,7 @@ class GlyphMemoryBridge:
             Memory fold dictionary with glyph associations
         """
         # Create the base memory fold
-        memory_fold = self.memory_system.create_memory_fold(
-            emotion=emotion, context=context, user_id=user_id
-        )
+        memory_fold = self.memory_system.create_memory_fold(emotion=emotion, context=context, user_id=user_id)
 
         memory_key = memory_fold["fold_hash"]
 
@@ -159,9 +157,7 @@ class GlyphMemoryBridge:
             list(set().union(*[g.semantic_tags for g in glyph_objects])) if glyph_objects else []
         )
 
-        logger.info(
-            f"Created glyph-indexed memory: {memory_key[:10]}... with {len(glyph_objects)} glyphs"
-        )
+        logger.info(f"Created glyph-indexed memory: {memory_key[:10]}... with {len(glyph_objects)} glyphs")
         return memory_fold
 
     def recall_by_glyph(
@@ -256,13 +252,9 @@ class GlyphMemoryBridge:
         self._link_glyph_to_memory(anchor_glyph, memory_key)
 
         # Update drift anchor tracking
-        self.drift_anchors[memory_key] = max(
-            self.drift_anchors.get(memory_key, 0.0), anchor_strength
-        )
+        self.drift_anchors[memory_key] = max(self.drift_anchors.get(memory_key, 0.0), anchor_strength)
 
-        logger.info(
-            f"Created drift anchor for memory {memory_key[:10]}... strength: {anchor_strength:.3f}"
-        )
+        logger.info(f"Created drift anchor for memory {memory_key[:10]}... strength: {anchor_strength:.3f}")
         return anchor_glyph
 
     def assess_memory_drift(self, memory_key: str) -> dict[str, float]:
@@ -312,9 +304,7 @@ class GlyphMemoryBridge:
         logger.debug(f"Memory drift assessment for {memory_key[:10]}...: {assessment}")
         return assessment
 
-    def get_memory_by_causal_link(
-        self, causal_origin_id: str, max_depth: int = 5
-    ) -> list[dict[str, Any]]:
+    def get_memory_by_causal_link(self, causal_origin_id: str, max_depth: int = 5) -> list[dict[str, Any]]:
         """
         Retrieve memories connected through causal glyph linkages.
 
@@ -353,14 +343,10 @@ class GlyphMemoryBridge:
         # Start traversal
         traverse_causal_chain(causal_origin_id, 0)
 
-        logger.info(
-            f"Found {len(causal_memories)} causally linked memories from origin {causal_origin_id}"
-        )
+        logger.info(f"Found {len(causal_memories)} causally linked memories from origin {causal_origin_id}")
         return causal_memories
 
-    def create_retrieval_filter(
-        self, filter_name: str, glyph_criteria: dict[str, Any]
-    ) -> dict[str, Any]:
+    def create_retrieval_filter(self, filter_name: str, glyph_criteria: dict[str, Any]) -> dict[str, Any]:
         """
         Create a reusable retrieval filter based on glyph criteria.
 
@@ -475,12 +461,8 @@ class GlyphMemoryBridge:
 
         # Calculate averages
         if self.glyph_index.memory_to_glyph:
-            total_associations = sum(
-                len(glyphs) for glyphs in self.glyph_index.memory_to_glyph.values()
-            )
-            stats["average_glyphs_per_memory"] = total_associations / len(
-                self.glyph_index.memory_to_glyph
-            )
+            total_associations = sum(len(glyphs) for glyphs in self.glyph_index.memory_to_glyph.values())
+            stats["average_glyphs_per_memory"] = total_associations / len(self.glyph_index.memory_to_glyph)
 
         # Glyph type distribution
         for glyph in self.active_glyphs.values():

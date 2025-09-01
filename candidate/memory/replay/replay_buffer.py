@@ -325,9 +325,7 @@ class ReplayBuffer:
             priority=getattr(memory, "stability", 1.0),
         )
 
-    def sample_batch(
-        self, batch_size: int, mode: ReplayMode = ReplayMode.PRIORITIZED
-    ) -> ReplayBatch:
+    def sample_batch(self, batch_size: int, mode: ReplayMode = ReplayMode.PRIORITIZED) -> ReplayBatch:
         """Sample batch of experiences for replay"""
 
         if len(self.experiences) < self.min_buffer_size:
@@ -524,15 +522,11 @@ class ReplayBuffer:
 
         for cluster_id in clusters:
             cluster_exp_ids = self.experience_clusters[cluster_id]
-            cluster_experiences = [
-                self.experiences[exp_id] for exp_id in cluster_exp_ids if exp_id in self.experiences
-            ]
+            cluster_experiences = [self.experiences[exp_id] for exp_id in cluster_exp_ids if exp_id in self.experiences]
 
             if cluster_experiences:
                 cluster_sample_size = min(samples_per_cluster, len(cluster_experiences))
-                cluster_sample = np.random.choice(
-                    cluster_experiences, size=cluster_sample_size, replace=False
-                )
+                cluster_sample = np.random.choice(cluster_experiences, size=cluster_sample_size, replace=False)
                 sampled.extend(cluster_sample)
 
         # Fill remaining slots if needed
@@ -670,9 +664,7 @@ class ReplayBuffer:
         # Experience type distribution
         type_counts = {}
         for exp in self.experiences.values():
-            type_counts[exp.experience_type.value] = (
-                type_counts.get(exp.experience_type.value, 0) + 1
-            )
+            type_counts[exp.experience_type.value] = type_counts.get(exp.experience_type.value, 0) + 1
         metrics["experience_types"] = type_counts
 
         # Priority statistics
@@ -743,9 +735,7 @@ async def demonstrate_replay_buffer():
 
     for mode in modes:
         batch = buffer.sample_batch(10, mode=mode)
-        print(
-            f"{mode.value}: {len(batch.experiences)} experiences, avg_priority={batch.avg_priority:.2f}"
-        )
+        print(f"{mode.value}: {len(batch.experiences)} experiences, avg_priority={batch.avg_priority:.2f}")
 
     # Update priorities
     print("\n--- Updating Priorities ---")

@@ -84,9 +84,7 @@ class SymbolicHandshake:
             "symbolic_tags": module_info.get("symbolic_tags", []),
         }
 
-        logger.info(
-            f"Module registered: {module_name} with tags: {module_info.get('symbolic_tags', [])}"
-        )
+        logger.info(f"Module registered: {module_name} with tags: {module_info.get('symbolic_tags', [])}")
 
     def create_signal(
         self,
@@ -158,11 +156,7 @@ class SymbolicHandshake:
         Get signal history for debugging symbolic interactions.
         """
         if module_name:
-            return [
-                s
-                for s in self.signal_history
-                if s.source_module == module_name or s.target_module == module_name
-            ]
+            return [s for s in self.signal_history if s.source_module == module_name or s.target_module == module_name]
         return self.signal_history.copy()
 
     def get_emotion_state_history(self) -> list[dict[str, Any]]:

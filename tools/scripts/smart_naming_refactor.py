@@ -187,9 +187,7 @@ class SmartNamingRefactor:
 
         # Filter out archives
         python_files = [
-            f
-            for f in python_files
-            if not any(skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"])
+            f for f in python_files if not any(skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"])
         ]
 
         print(f"Found {len(python_files)} Python files to process")
@@ -302,8 +300,7 @@ class LUKHASNameTransformer(ast.NodeTransformer):
         if "_" in name:
             parts = name.split("_")
             return "".join(
-                (part.capitalize() if part.lower() not in ["", "SGI", "AGI", "LUKHAS"] else part)
-                for part in parts
+                (part.capitalize() if part.lower() not in ["", "SGI", "AGI", "LUKHAS"] else part) for part in parts
             )
         else:
             return name[0].upper() + name[1:] if name else name

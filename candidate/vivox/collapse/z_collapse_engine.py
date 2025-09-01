@@ -323,9 +323,7 @@ class ZCollapseEngine:
         weight = max(0.0, 1.0 - (entropy_score / self.entropy_threshold))
         return weight
 
-    async def _calculate_entropy_differential(
-        self, states: list[CollapseState], context: dict[str, Any]
-    ) -> float:
+    async def _calculate_entropy_differential(self, states: list[CollapseState], context: dict[str, Any]) -> float:
         """
         Calculate ΔS(t) - entropy differential across potential states
         """
@@ -353,9 +351,7 @@ class ZCollapseEngine:
 
         return normalized_entropy
 
-    async def _calculate_alignment_amplitude(
-        self, states: list[CollapseState], context: dict[str, Any]
-    ) -> float:
+    async def _calculate_alignment_amplitude(self, states: list[CollapseState], context: dict[str, Any]) -> float:
         """
         Calculate A(t) - moral alignment amplitude from mae_validation
         """
@@ -372,9 +368,7 @@ class ZCollapseEngine:
         alignment = total_weight / total_amplitude
         return min(1.0, max(0.0, alignment))  # Clamp to [0, 1]
 
-    async def _calculate_resonance_phase(
-        self, states: list[CollapseState], context: dict[str, Any]
-    ) -> float:
+    async def _calculate_resonance_phase(self, states: list[CollapseState], context: dict[str, Any]) -> float:
         """
         Calculate θ(t) - resonance phase with prior collapsed states
         """
@@ -396,9 +390,7 @@ class ZCollapseEngine:
             phase_contributions.append(weighted_phase)
 
         # Calculate weighted average phase
-        total_weight = sum(
-            state.emotional_resonance * state.probability_amplitude for state in states
-        )
+        total_weight = sum(state.emotional_resonance * state.probability_amplitude for state in states)
 
         if total_weight == 0:
             return 0.0
@@ -424,9 +416,7 @@ class ZCollapseEngine:
         trace_echo = f"t:{timestamp:.6f}|a:{alignment:.6f}|e:{entropy:.6f}"
 
         # Generate moral fingerprint from states
-        moral_fingerprint = "|".join(
-            [f"{state.state_id}:{state.ethical_weight:.4f}" for state in states]
-        )
+        moral_fingerprint = "|".join([f"{state.state_id}:{state.ethical_weight:.4f}" for state in states])
 
         # Combine components
         hash_input = f"{z_component}||{trace_echo}||{moral_fingerprint}"
@@ -508,9 +498,7 @@ class ZCollapseEngine:
             recovery_action=recovery_action,
         )
 
-    def _create_failed_result(
-        self, timestamp: float, error_message: str, recovery_action: str
-    ) -> CollapseResult:
+    def _create_failed_result(self, timestamp: float, error_message: str, recovery_action: str) -> CollapseResult:
         """Create failed collapse result"""
         return CollapseResult(
             collapsed_state_vector=complex(0, 0),

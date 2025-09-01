@@ -188,9 +188,7 @@ class GrammarValidator:
         self.rules.append(rule)
         logger.info(f"Added grammar rule: {rule.name}")
 
-    def validate(
-        self, elements: list[Union[Symbol, Concept]], roles: list[GrammaticalRole]
-    ) -> tuple[bool, list[str]]:
+    def validate(self, elements: list[Union[Symbol, Concept]], roles: list[GrammaticalRole]) -> tuple[bool, list[str]]:
         """Validate a sequence against all rules"""
         violations = []
 
@@ -339,9 +337,7 @@ class LanguageParser:
         # Check for missing subject
         if GrammaticalRole.SUBJECT not in parsed.roles:
             # Insert default subject at beginning
-            default_subject = Symbol(
-                id="DEFAULT_SUBJECT", domain=SymbolicDomain.CONTEXT, name="system", value="system"
-            )
+            default_subject = Symbol(id="DEFAULT_SUBJECT", domain=SymbolicDomain.CONTEXT, name="system", value="system")
             corrected_elements = [default_subject] + parsed.elements
             corrected_roles = [GrammaticalRole.SUBJECT] + parsed.roles
             corrections.append((corrected_elements, corrected_roles))
@@ -349,21 +345,15 @@ class LanguageParser:
         # Check for missing verb
         if GrammaticalRole.VERB not in parsed.roles:
             # Insert default verb after subject
-            default_verb = Symbol(
-                id="DEFAULT_VERB", domain=SymbolicDomain.ACTION, name="process", value="process"
-            )
+            default_verb = Symbol(id="DEFAULT_VERB", domain=SymbolicDomain.ACTION, name="process", value="process")
             # Find subject position
             if GrammaticalRole.SUBJECT in parsed.roles:
                 subject_idx = parsed.roles.index(GrammaticalRole.SUBJECT)
                 corrected_elements = (
-                    parsed.elements[: subject_idx + 1]
-                    + [default_verb]
-                    + parsed.elements[subject_idx + 1 :]
+                    parsed.elements[: subject_idx + 1] + [default_verb] + parsed.elements[subject_idx + 1 :]
                 )
                 corrected_roles = (
-                    parsed.roles[: subject_idx + 1]
-                    + [GrammaticalRole.VERB]
-                    + parsed.roles[subject_idx + 1 :]
+                    parsed.roles[: subject_idx + 1] + [GrammaticalRole.VERB] + parsed.roles[subject_idx + 1 :]
                 )
                 corrections.append((corrected_elements, corrected_roles))
 
@@ -415,9 +405,7 @@ class GrammarEngine:
         # Validate
         return self.validator.validate(elements, roles)
 
-    def parse_sequence(
-        self, elements: list[Union[Symbol, Concept]], auto_correct: bool = False
-    ) -> ParsedStructure:
+    def parse_sequence(self, elements: list[Union[Symbol, Concept]], auto_correct: bool = False) -> ParsedStructure:
         """Parse a sequence of elements"""
         if auto_correct:
             return self.parser.parse_with_correction(elements)
@@ -441,9 +429,7 @@ class GrammarEngine:
             "total_rules": len(all_rules),
             "core_rules": len(self.validator.rules),
             "custom_rules": len(self.custom_rules),
-            "syntax_types": {
-                st.value: len([r for r in all_rules if r.syntax_type == st]) for st in SyntaxType
-            },
+            "syntax_types": {st.value: len([r for r in all_rules if r.syntax_type == st]) for st in SyntaxType},
             "active_rules": len([r for r in all_rules if r.active]),
             "inactive_rules": len([r for r in all_rules if not r.active]),
         }

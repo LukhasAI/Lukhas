@@ -82,9 +82,7 @@ class TTSRequest:
             "pitch": self.pitch,
             "volume": self.volume,
             "quality": self.quality.value,
-            "provider_preference": self.provider_preference.value
-            if self.provider_preference
-            else None,
+            "provider_preference": self.provider_preference.value if self.provider_preference else None,
             "user_id": self.user_id,
             "session_id": self.session_id,
             "context": self.context,
@@ -369,25 +367,19 @@ class TTSProviderManager:
         elevenlabs_config = self.config.get("elevenlabs", {})
         if elevenlabs_config.get("enabled", False):
             provider = ElevenLabsProvider(elevenlabs_config)
-            self.providers[TTSProviderType.ELEVENLABS] = LegacyTTSProviderAdapter(
-                provider, TTSProviderType.ELEVENLABS
-            )
+            self.providers[TTSProviderType.ELEVENLABS] = LegacyTTSProviderAdapter(provider, TTSProviderType.ELEVENLABS)
 
         # Edge TTS
         edge_config = self.config.get("edge_tts", {})
         if edge_config.get("enabled", True):  # Enabled by default
             provider = EdgeTTSProvider(edge_config)
-            self.providers[TTSProviderType.EDGE_TTS] = LegacyTTSProviderAdapter(
-                provider, TTSProviderType.EDGE_TTS
-            )
+            self.providers[TTSProviderType.EDGE_TTS] = LegacyTTSProviderAdapter(provider, TTSProviderType.EDGE_TTS)
 
         # Coqui TTS
         coqui_config = self.config.get("coqui", {})
         if coqui_config.get("enabled", False):
             provider = CoquiProvider(coqui_config)
-            self.providers[TTSProviderType.COQUI] = LegacyTTSProviderAdapter(
-                provider, TTSProviderType.COQUI
-            )
+            self.providers[TTSProviderType.COQUI] = LegacyTTSProviderAdapter(provider, TTSProviderType.COQUI)
 
         # OpenAI TTS
         openai_config = self.config.get("openai", {})
@@ -559,14 +551,11 @@ class LUKHASTTSService:
             # Update statistics
             self.stats["requests_successful"] += 1
             provider_type = provider.get_provider_type().value
-            self.stats["providers_used"][provider_type] = (
-                self.stats["providers_used"].get(provider_type, 0) + 1
-            )
+            self.stats["providers_used"][provider_type] = self.stats["providers_used"].get(provider_type, 0) + 1
 
             # Update average processing time
             self.stats["average_processing_time"] = (
-                self.stats["average_processing_time"] * (self.stats["requests_successful"] - 1)
-                + total_time
+                self.stats["average_processing_time"] * (self.stats["requests_successful"] - 1) + total_time
             ) / self.stats["requests_successful"]
 
             # Cache response
@@ -592,9 +581,7 @@ class LUKHASTTSService:
             self.logger.error(f"TTS synthesis failed: {e!s}")
             self.stats["requests_failed"] += 1
 
-            await GLYPH.emit(
-                "tts.synthesis.error", {"error": str(e), "text_length": len(request.text)}
-            )
+            await GLYPH.emit("tts.synthesis.error", {"error": str(e), "text_length": len(request.text)})
 
             return TTSResponse(
                 success=False,
@@ -650,9 +637,7 @@ class LUKHASTTSService:
                     provider = self.provider_manager.providers[provider_type]
                     if provider.is_available():
                         voices = provider.get_supported_voices()
-                        self.logger.info(
-                            f"Preloaded {len(voices)} voices from {provider_type.value}"
-                        )
+                        self.logger.info(f"Preloaded {len(voices)} voices from {provider_type.value}")
                 except Exception as e:
                     self.logger.error(f"Failed to preload voices from {provider_type.value}: {e}")
 
@@ -681,9 +666,7 @@ async def text_to_speech(
     # Create default service (would normally be singleton)
     service = LUKHASTTSService()
 
-    request = TTSRequest(
-        text=text, voice_id=voice_id, emotion=emotion, quality=quality, provider_preference=provider
-    )
+    request = TTSRequest(text=text, voice_id=voice_id, emotion=emotion, quality=quality, provider_preference=provider)
 
     return await service.synthesize_speech(request)
 

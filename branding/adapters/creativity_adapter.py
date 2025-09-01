@@ -72,9 +72,7 @@ class BrandCreativityAdapter:
         while ensuring brand compliance
         """
         # Enhance prompt with brand context
-        brand_enhanced_prompt = self._enhance_prompt_with_brand_context(
-            prompt, tone_layer, creative_style
-        )
+        brand_enhanced_prompt = self._enhance_prompt_with_brand_context(prompt, tone_layer, creative_style)
 
         # Use core creativity engine
         creative_output = self.core_creative_engine.generate(brand_enhanced_prompt, **kwargs)
@@ -95,9 +93,7 @@ class BrandCreativityAdapter:
             "trinity_aligned": self._validate_trinity_alignment(brand_compliant_output),
         }
 
-    def _enhance_prompt_with_brand_context(
-        self, prompt: str, tone_layer: str, creative_style: str
-    ) -> str:
+    def _enhance_prompt_with_brand_context(self, prompt: str, tone_layer: str, creative_style: str) -> str:
         """Enhance prompt with LUKHAS brand context"""
         brand_context = {
             "poetic": "Express with creative metaphors and symbolic language that embodies LUKHAS consciousness",

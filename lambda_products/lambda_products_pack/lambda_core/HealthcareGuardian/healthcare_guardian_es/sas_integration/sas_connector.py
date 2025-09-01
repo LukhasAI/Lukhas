@@ -247,9 +247,7 @@ class SASHealthcareConnector:
                     "notes": "Tensión controlada",
                 }
             ],
-            emergency_contacts=[
-                {"name": "Juan García", "relationship": "Hijo", "phone": "600123456"}
-            ],
+            emergency_contacts=[{"name": "Juan García", "relationship": "Hijo", "phone": "600123456"}],
         )
 
     async def get_next_appointment(self) -> Optional[str]:
@@ -265,9 +263,7 @@ class SASHealthcareConnector:
         appointments = self.appointment_cache.get(self.current_nuhsa, [])
 
         # Find next future appointment
-        future_appointments = [
-            apt for apt in appointments if apt.date > datetime.now() and apt.status != "cancelled"
-        ]
+        future_appointments = [apt for apt in appointments if apt.date > datetime.now() and apt.status != "cancelled"]
 
         if not future_appointments:
             return None
@@ -504,10 +500,7 @@ class SASHealthcareConnector:
         day = appointment.date.day
         month = months[appointment.date.month]
 
-        response = (
-            f"Tiene cita el {day} de {month} a las {appointment.time} "
-            f"con {appointment.doctor_name}. "
-        )
+        response = f"Tiene cita el {day} de {month} a las {appointment.time} " f"con {appointment.doctor_name}. "
 
         if appointment.specialty:
             response += f"Es de {appointment.specialty}. "
@@ -529,9 +522,7 @@ class SASHealthcareConnector:
         Returns:
             Formatted string for voice
         """
-        response = (
-            f"{prescription.medication_name}, {prescription.dosage}, {prescription.frequency}. "
-        )
+        response = f"{prescription.medication_name}, {prescription.dosage}, {prescription.frequency}. "
 
         if prescription.refills_remaining > 0:
             response += f"Le quedan {prescription.refills_remaining} repeticiones. "

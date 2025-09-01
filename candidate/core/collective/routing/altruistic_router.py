@@ -26,9 +26,7 @@ class AltruisticAdRouter:
         # self.consent_manager = ConsentManager()
         pass
 
-    async def find_routing_path(
-        self, user_id: str, recommendation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def find_routing_path(self, user_id: str, recommendation: dict[str, Any]) -> dict[str, Any]:
         """
         Finds an altruistic routing path for a recommendation.
 

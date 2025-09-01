@@ -218,9 +218,7 @@ class ToolExecutor:
 
         formatted_results = [f"Retrieved knowledge for '{query}':\n"]
 
-        for i, (docs, metadatas) in enumerate(
-            zip(results["documents"][0], results.get("metadatas", [[]])[0])
-        ):
+        for i, (docs, metadatas) in enumerate(zip(results["documents"][0], results.get("metadatas", [[]])[0])):
             formatted_results.append(f"{i + 1}. {docs}")
             if metadatas and "source" in metadatas:
                 formatted_results.append(f"   Source: {metadatas['source']}")
@@ -250,9 +248,7 @@ class ToolExecutor:
 - Multi-modal explanation capabilities with XIL"""
 
         # Consciousness technology
-        elif "consciousness" in query_lower and (
-            "ai" in query_lower or "artificial" in query_lower
-        ):
+        elif "consciousness" in query_lower and ("ai" in query_lower or "artificial" in query_lower):
             return """Retrieved knowledge about AI consciousness technology:
 - Consciousness requires self-awareness, intentionality, and subjective experience
 - Current AI systems exhibit narrow consciousness in specific domains
@@ -261,9 +257,7 @@ class ToolExecutor:
 - Ethical considerations around consciousness claims are paramount"""
 
         # Machine learning and AI development
-        elif any(
-            term in query_lower for term in ["machine learning", "neural networks", "deep learning"]
-        ):
+        elif any(term in query_lower for term in ["machine learning", "neural networks", "deep learning"]):
             return """Retrieved knowledge about ML/AI development:
 - Deep learning revolutionized pattern recognition and NLP
 - Transformer architectures enable large language models
@@ -272,9 +266,7 @@ class ToolExecutor:
 - Best practices: version control, testing, monitoring, documentation"""
 
         # Programming and development
-        elif any(
-            term in query_lower for term in ["python", "programming", "development", "coding"]
-        ):
+        elif any(term in query_lower for term in ["python", "programming", "development", "coding"]):
             return """Retrieved knowledge about software development:
 - Python dominates AI/ML development with rich ecosystem
 - Best practices: clean code, testing, documentation, version control
@@ -374,9 +366,7 @@ class ToolExecutor:
 
                 max_length = self.config.get("max_content_length", 8000)
                 if len(full_text) > max_length:
-                    full_text = (
-                        full_text[:max_length] + f"... (truncated from {len(full_text)} chars)"
-                    )
+                    full_text = full_text[:max_length] + f"... (truncated from {len(full_text)} chars)"
 
                 return f"Successfully retrieved and parsed content from {url}:\n\n{full_text}"
 
@@ -437,10 +427,7 @@ class ToolExecutor:
             Execution result or safe message
         """
         if not self.code_exec_enabled:
-            return (
-                "Code execution is disabled for security. "
-                "Enable with LUKHAS_ENABLE_CODE_EXEC=true if needed."
-            )
+            return "Code execution is disabled for security. " "Enable with LUKHAS_ENABLE_CODE_EXEC=true if needed."
 
         language = args.get("language", "unknown")
         source = args.get("source", "")
@@ -482,9 +469,7 @@ class ToolExecutor:
             # Build the image
             try:
                 logger.info(f"Building docker image {image_tag} for {language} code.")
-                image, _ = client.images.build(
-                    path=temp_dir, tag=image_tag, rm=True, forcerm=True, timeout=120
-                )
+                image, _ = client.images.build(path=temp_dir, tag=image_tag, rm=True, forcerm=True, timeout=120)
             except docker.errors.BuildError as e:
                 logger.error(f"Docker build failed for {language}: {e}")
                 log_str = "\n".join([str(line) for line in e.build_log])
@@ -652,9 +637,7 @@ RUN chmod +x {filename}
 
         # Clean old timestamps
         window_start = now - self.security_config["rate_limit_window"]
-        self._request_timestamps[key] = [
-            ts for ts in self._request_timestamps[key] if ts > window_start
-        ]
+        self._request_timestamps[key] = [ts for ts in self._request_timestamps[key] if ts > window_start]
 
         # Check rate limit
         if len(self._request_timestamps[key]) >= self.security_config["rate_limit_requests"]:
@@ -699,9 +682,7 @@ RUN chmod +x {filename}
         # Validate URL
         if not self._validate_url(url):
             self.metrics["security_violations"] += 1
-            await self._audit_log(
-                "url_blocked", {"url": url, "reason": "security_validation_failed"}
-            )
+            await self._audit_log("url_blocked", {"url": url, "reason": "security_validation_failed"})
             return f"URL blocked by security policy: {url}"
 
         # Check rate limits
@@ -717,9 +698,7 @@ RUN chmod +x {filename}
                 use_dns_cache=True,
             )
 
-            timeout = aiohttp.ClientTimeout(
-                total=self.security_config["request_timeout"], connect=10
-            )
+            timeout = aiohttp.ClientTimeout(total=self.security_config["request_timeout"], connect=10)
 
             headers = {
                 "User-Agent": self.security_config["user_agent"],
@@ -730,30 +709,18 @@ RUN chmod +x {filename}
                 "Upgrade-Insecure-Requests": "1",
             }
 
-            async with aiohttp.ClientSession(
-                connector=connector, timeout=timeout, headers=headers
-            ) as session:
+            async with aiohttp.ClientSession(connector=connector, timeout=timeout, headers=headers) as session:
                 async with session.get(url, allow_redirects=True, max_redirects=3) as response:
                     # Check content size
                     content_length = response.headers.get("content-length")
-                    if (
-                        content_length
-                        and int(content_length) > self.security_config["max_content_size"]
-                    ):
-                        await self._audit_log(
-                            "content_too_large", {"url": url, "size": content_length}
-                        )
+                    if content_length and int(content_length) > self.security_config["max_content_size"]:
+                        await self._audit_log("content_too_large", {"url": url, "size": content_length})
                         return f"Content too large ({content_length} bytes). Maximum allowed: {self.security_config['max_content_size']}"
 
                     # Check content type
                     content_type = response.headers.get("content-type", "").lower()
-                    if not any(
-                        ct in content_type
-                        for ct in ["text/", "application/json", "application/xml"]
-                    ):
-                        await self._audit_log(
-                            "unsupported_content_type", {"url": url, "content_type": content_type}
-                        )
+                    if not any(ct in content_type for ct in ["text/", "application/json", "application/xml"]):
+                        await self._audit_log("unsupported_content_type", {"url": url, "content_type": content_type})
                         return f"Unsupported content type: {content_type}"
 
                     # Read content with size limit
@@ -762,9 +729,7 @@ RUN chmod +x {filename}
                     async for chunk in response.content.iter_chunked(8192):
                         size += len(chunk)
                         if size > self.security_config["max_content_size"]:
-                            await self._audit_log(
-                                "content_too_large_streaming", {"url": url, "size": size}
-                            )
+                            await self._audit_log("content_too_large_streaming", {"url": url, "size": size})
                             return f"Content too large during streaming. Maximum allowed: {self.security_config['max_content_size']}"
                         content += chunk
 
@@ -827,17 +792,13 @@ RUN chmod +x {filename}
             for selector in content_selectors:
                 elements = soup.select(selector)
                 if elements:
-                    main_content = "\n".join(
-                        el.get_text(strip=True, separator=" ") for el in elements[:3]
-                    )
+                    main_content = "\n".join(el.get_text(strip=True, separator=" ") for el in elements[:3])
                     break
 
             # Fallback to paragraphs and headings
             if not main_content:
                 elements = soup.find_all(["p", "h1", "h2", "h3", "h4", "h5", "h6"], limit=10)
-                main_content = "\n".join(
-                    el.get_text(strip=True) for el in elements if el.get_text(strip=True)
-                )
+                main_content = "\n".join(el.get_text(strip=True) for el in elements if el.get_text(strip=True))
 
             # Extract metadata
             description = soup.find("meta", attrs={"name": "description"})
@@ -850,9 +811,7 @@ RUN chmod +x {filename}
 
             response_parts.append(f"URL: {url}")
             response_parts.append("Content:")
-            response_parts.append(
-                main_content[:2000] + "..." if len(main_content) > 2000 else main_content
-            )
+            response_parts.append(main_content[:2000] + "..." if len(main_content) > 2000 else main_content)
 
             return "\n\n".join(response_parts)
 
@@ -896,9 +855,7 @@ RUN chmod +x {filename}
             # Enhanced security checks
             if not self._validate_code_security(source, language):
                 self.metrics["security_violations"] += 1
-                await self._audit_log(
-                    "code_security_violation", {"execution_id": execution_id, "language": language}
-                )
+                await self._audit_log("code_security_violation", {"execution_id": execution_id, "language": language})
                 return "Code contains security violations and cannot be executed."
 
             docker_client = await self._get_docker_client()
@@ -965,11 +922,7 @@ RUN chmod +x {filename}
                         **container_limits,
                     )
 
-                    output = (
-                        container.decode("utf-8")
-                        if isinstance(container, bytes)
-                        else str(container)
-                    )
+                    output = container.decode("utf-8") if isinstance(container, bytes) else str(container)
 
                     await self._audit_log(
                         "code_execution_success",
@@ -1008,9 +961,7 @@ RUN chmod +x {filename}
         except RuntimeError as e:
             return str(e)
         except Exception as e:
-            await self._audit_log(
-                "code_execution_error", {"execution_id": execution_id, "error": str(e)}
-            )
+            await self._audit_log("code_execution_error", {"execution_id": execution_id, "error": str(e)})
             return f"Sandboxed execution failed: {e!s}"
         finally:
             self._active_executions -= 1

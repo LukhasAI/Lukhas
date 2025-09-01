@@ -92,16 +92,12 @@ class SelfOrganizingSwarm:
         self.swarm_manager.broadcast_event({"type": "CallForCompute"})
 
         # 3. Swarm Formation (Simulated)
-        compute_colonies = [
-            self.swarm_manager.create_colony(f"compute-{i}") for i in range(num_sub_tasks)
-        ]
+        compute_colonies = [self.swarm_manager.create_colony(f"compute-{i}") for i in range(num_sub_tasks)]
         print(f"Swarm: Formed a swarm of {len(compute_colonies)} compute colonies.")
 
         # 4. P2P Mesh Training (Simulated)
         print("Swarm: Starting P2P mesh training...")
         for colony in compute_colonies:
-            colony.create_agent(f"trainer-in-{colony.colony_id}").receive(
-                {"data_size": sub_task_size}
-            )
+            colony.create_agent(f"trainer-in-{colony.colony_id}").receive({"data_size": sub_task_size})
 
         print("--- Training Simulation Complete ---")

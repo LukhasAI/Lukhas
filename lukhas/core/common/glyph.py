@@ -146,9 +146,7 @@ class GLYPHToken:
             "target": self.target,
             "payload": self.payload,
             "context": self.context.to_dict(),
-            "priority": (
-                self.priority.value if isinstance(self.priority, GLYPHPriority) else self.priority
-            ),
+            "priority": (self.priority.value if isinstance(self.priority, GLYPHPriority) else self.priority),
             "metadata": self.metadata,
         }
 

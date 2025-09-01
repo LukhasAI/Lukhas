@@ -48,9 +48,7 @@ class ContextAnalyzer:
 
         logger.info("Context Analyzer initialized")
 
-    def analyze(
-        self, user_input: str, metadata: dict[str, Any], memory: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def analyze(self, user_input: str, metadata: dict[str, Any], memory: list[dict[str, Any]]) -> dict[str, Any]:
         """
         Analyze user input along with metadata and memory to extract context.
 
@@ -68,9 +66,7 @@ class ContextAnalyzer:
         nlp_analysis = self._analyze_text(user_input)
 
         # Analyze time context (time of day, day of week, etc.)
-        time_context = self._analyze_time(
-            metadata.get("timestamp", time.time()), metadata.get("timezone", "UTC")
-        )
+        time_context = self._analyze_time(metadata.get("timestamp", time.time()), metadata.get("timezone", "UTC"))
 
         # Analyze location context if available
         location_context = {}
@@ -235,9 +231,9 @@ class ContextAnalyzer:
         familiarity = min(1.0, len(memory) / 100)
 
         # Find related past interactions
-        related_interactions = [
-            m for m in memory if m.get("context", {}).get("intent") == current_intent
-        ][:5]  # Limit to 5 most recent
+        related_interactions = [m for m in memory if m.get("context", {}).get("intent") == current_intent][
+            :5
+        ]  # Limit to 5 most recent
 
         return {
             "familiarity": familiarity,
@@ -272,9 +268,7 @@ class ContextAnalyzer:
 
         return min(1.0, max(0.0, urgency))
 
-    def _determine_formality(
-        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
-    ) -> float:
+    def _determine_formality(self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]) -> float:
         """
         Determine appropriate formality level.
 
@@ -326,9 +320,7 @@ class ContextAnalyzer:
 
         return flags
 
-    def _calculate_confidence(
-        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
-    ) -> float:
+    def _calculate_confidence(self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]) -> float:
         """
         Calculate confidence in our context understanding.
 

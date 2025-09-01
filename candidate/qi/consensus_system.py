@@ -277,8 +277,7 @@ class QIAnnealedEthicalConsensus:
 
         # Final consensus is weighted by original principle scores
         consensus_score = sum(
-            score * principle_scores.get(principle, 0.5)
-            for principle, score in consensus_scores.items()
+            score * principle_scores.get(principle, 0.5) for principle, score in consensus_scores.items()
         )
         consensus_score /= len(consensus_scores) if consensus_scores else 1
 
@@ -293,9 +292,7 @@ class QIAnnealedEthicalConsensus:
             "annealing_steps": self.annealing_steps,
             "energy_final": energy_values[-1] if energy_values else 0.0,
             "processing_time": processing_time,
-            "convergence": (
-                bool(len(energy_values) > 1 and abs(energy_values[-1] - energy_values[-2]) < 0.0001)
-            ),
+            "convergence": (bool(len(energy_values) > 1 and abs(energy_values[-1] - energy_values[-2]) < 0.0001)),
         }
 
     def _anneal(
@@ -472,9 +469,7 @@ class QIAnnealedEthicalConsensus:
         """Get status information about the quantum consensus system"""
         avg_time = 0
         if self.consensus_history:
-            avg_time = sum(r["processing_time"] for r in self.consensus_history) / len(
-                self.consensus_history
-            )
+            avg_time = sum(r["processing_time"] for r in self.consensus_history) / len(self.consensus_history)
 
         return {
             "annealing_steps": self.annealing_steps,

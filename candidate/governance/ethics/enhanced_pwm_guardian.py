@@ -112,9 +112,7 @@ class EnhancedWorkspaceGuardian:
         else:
             print("🛡️  Guardian active - basic protection mode")
 
-    async def enhanced_file_operation_check(
-        self, operation: str, file_path: str, context: dict = None
-    ) -> dict:
+    async def enhanced_file_operation_check(self, operation: str, file_path: str, context: dict = None) -> dict:
         """Enhanced file operation check using superior ethics."""
 
         context = context or {}
@@ -274,9 +272,7 @@ class EnhancedWorkspaceGuardian:
             health_factors.append(1.0)
 
         # Enhanced critical files check
-        critical_present = sum(
-            1 for cf in self.critical_files if os.path.exists(os.path.join(self.workspace_root, cf))
-        )
+        critical_present = sum(1 for cf in self.critical_files if os.path.exists(os.path.join(self.workspace_root, cf)))
         critical_ratio = critical_present / len(self.critical_files)
         health_factors.append(critical_ratio)
 

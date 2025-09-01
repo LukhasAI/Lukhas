@@ -138,9 +138,7 @@ The narrative should be immersive and poetic, suitable for both reading and visu
             image_prompt = await self._create_image_prompt(response)
             base_dream["image_prompt"] = image_prompt
 
-            logger.info(
-                f"Enhanced dream narrative created: {base_dream.get('dream_id', 'unknown')}"
-            )
+            logger.info(f"Enhanced dream narrative created: {base_dream.get('dream_id', 'unknown')}")
             return base_dream
 
         except Exception as e:
@@ -163,9 +161,7 @@ Focus on:
 
 Make it vivid and specific for image generation."""
 
-        response = await self.text_client.chat_completion(
-            prompt, task="creativity", temperature=0.7, max_tokens=150
-        )
+        response = await self.text_client.chat_completion(prompt, task="creativity", temperature=0.7, max_tokens=150)
 
         return response["choices"][0]["message"]["content"]
 
@@ -263,9 +259,7 @@ Make it vivid and specific for image generation."""
             Updated dream with audio information
         """
         # Get text to narrate
-        text = dream.get("enhanced_narrative", {}).get("full_text") or dream.get(
-            "narrative", {}
-        ).get("description")
+        text = dream.get("enhanced_narrative", {}).get("full_text") or dream.get("narrative", {}).get("description")
 
         if not text:
             logger.error("No text found for narration")
@@ -310,9 +304,7 @@ Make it vivid and specific for image generation."""
     # VOICE RECOGNITION - Whisper Integration
     # ═══════════════════════════════════════════════════════════════════
 
-    async def voice_to_dream_prompt(
-        self, audio_file: str, language: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def voice_to_dream_prompt(self, audio_file: str, language: Optional[str] = None) -> dict[str, Any]:
         """
         Convert voice input to dream prompt using Whisper.
 
@@ -469,9 +461,7 @@ Create a cinematic description that includes:
 
 Keep it under 150 words and focus on motion and cinematography."""
 
-        response = await self.text_client.chat_completion(
-            prompt, task="creativity", temperature=0.8, max_tokens=200
-        )
+        response = await self.text_client.chat_completion(prompt, task="creativity", temperature=0.8, max_tokens=200)
 
         return response["choices"][0]["message"]["content"]
 

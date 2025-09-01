@@ -23,10 +23,7 @@ def load_blocklist(path=Path("tone/tools/author_blocklist.yaml")):
 def is_academic(text: str, file_path: str, cfg) -> bool:
     if BLOCK_CTX_FLAG in text:
         return True
-    return any(
-        str(file_path).replace("\\", "/").startswith(prefix.strip("/"))
-        for prefix in cfg["exceptions"]["paths"]
-    )
+    return any(str(file_path).replace("\\", "/").startswith(prefix.strip("/")) for prefix in cfg["exceptions"]["paths"])
 
 
 def scan_text(text: str, blocked: list[str]) -> list[str]:
@@ -45,9 +42,7 @@ def validate_file(fp: Path, cfg) -> list[str]:
         return []
 
     # Gate by extension and academic context
-    if fp.suffix.lower() not in {".md", ".mdx", ".txt", ".py", ".tsx", ".ts", ".js"} or is_academic(
-        text, str(fp), cfg
-    ):
+    if fp.suffix.lower() not in {".md", ".mdx", ".txt", ".py", ".tsx", ".ts", ".js"} or is_academic(text, str(fp), cfg):
         return []
 
     # Process blocked terms, neutralizing allowed stance terms first

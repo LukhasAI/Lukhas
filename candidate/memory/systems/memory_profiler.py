@@ -294,8 +294,7 @@ class SchemaMatcher:
 
         def matches(schema) -> bool:
             return len(schema.arguments) == len(signature) and all(
-                cls._types_match(observed, schema_arg.type)
-                for observed, schema_arg in zip(signature, schema.arguments)
+                cls._types_match(observed, schema_arg.type) for observed, schema_arg in zip(signature, schema.arguments)
             )
 
         return tuple(s for s in cls.lookup_schemas(t.name) or () if matches(s))
@@ -613,8 +612,7 @@ class DataFlowGraph:
 
         def leaf_op(e: _ProfilerEvent) -> bool:
             return e.typed[0] == _EventType.TorchOp and (
-                e.typed[1].scope == RecordScope.BACKWARD_FUNCTION
-                or bool(SchemaMatcher.match_schemas(e.typed[1]))
+                e.typed[1].scope == RecordScope.BACKWARD_FUNCTION or bool(SchemaMatcher.match_schemas(e.typed[1]))
             )
 
         def children_fn(e: _ProfilerEvent):
@@ -678,11 +676,7 @@ class CategoryDict:
         if isinstance(key, Key) and not isinstance(key, TensorKey):
             return None
         element = self._values[key.id]
-        return (
-            element.by_id
-            or element.by_key.get(key, None)
-            or element.by_version.get((key, version), None)
-        )
+        return element.by_id or element.by_key.get(key, None) or element.by_version.get((key, version), None)
 
 
 class MemoryProfile:
@@ -755,10 +749,7 @@ class MemoryProfile:
                     t = allocation_times[(key, False)]
                     events.append((t, Action.DESTROY, (key, last_version[key])))
 
-        output.extend(
-            (time, action, (key, version), self._size_map[key])
-            for time, action, (key, version) in events
-        )
+        output.extend((time, action, (key, version), self._size_map[key]) for time, action, (key, version) in events)
 
         output.sort(key=lambda x: (x[0], x[1].value))
         return tuple(output)
@@ -777,10 +768,7 @@ class MemoryProfile:
         for i in self._categories._values.values():
             all_tensor_versions.update((key, 0) for key in i._by_id_keyset)
 
-        return {
-            (key, version): self._categories.get(key, version)
-            for key, version in sorted(all_tensor_versions)
-        }
+        return {(key, version): self._categories.get(key, version) for key, version in sorted(all_tensor_versions)}
 
     def _any_version_depends_on_gradient(self) -> set[int]:
         """Extract IDs of Tensors which depend or will depend on a gradient.
@@ -873,8 +861,7 @@ class MemoryProfile:
             tensors = {(key, version) for key, (_, version) in node.inputs.items()}
             tensors |= node.outputs.items()
             if any(
-                self._categories.get(*i) in (Category.GRADIENT, Category.PARAMETER)
-                or i in produces_gradient
+                self._categories.get(*i) in (Category.GRADIENT, Category.PARAMETER) or i in produces_gradient
                 for i in tensors
             ):
                 produces_gradient |= tensors
@@ -926,9 +913,7 @@ class MemoryProfile:
         # we know are part of the backward pass but that doesn't guarantee that
         # they are part of the forward pass.
         candidate_parameters: set[TensorAndID] = set()
-        candidate_fwd_tensors: set[TensorAndID] = {
-            i for i, category in snapshot.items() if category == Category.INPUT
-        }
+        candidate_fwd_tensors: set[TensorAndID] = {i for i, category in snapshot.items() if category == Category.INPUT}
 
         for node in self._data_flow_graph.flow_nodes:
             inputs = {(key, value) for key, (_, value) in node.inputs.items()}
@@ -948,9 +933,7 @@ class MemoryProfile:
         used_for_gradient: set[TensorAndID] = set()
         for node in reversed(self._data_flow_graph.flow_nodes):
             if any(self._is_gradient(*i) or i in used_for_gradient for i in node.outputs.items()):
-                used_for_gradient.update(
-                    (key, version) for key, (_, version) in node.inputs.items()
-                )
+                used_for_gradient.update((key, version) for key, (_, version) in node.inputs.items())
         candidate_parameters.intersection_update(used_for_gradient)
 
         # and depends on a gradient.
@@ -995,9 +978,7 @@ class MemoryProfile:
             if RecordScope.BACKWARD_FUNCTION in get_scopes(node._event):
                 for key, version in node.outputs.items():
                     if version == 0 or self._categories.get(key, version - 1) in prior:
-                        self._categories.setdefault_by_version(
-                            key, version, Category.AUTOGRAD_DETAIL
-                        )
+                        self._categories.setdefault_by_version(key, version, Category.AUTOGRAD_DETAIL)
 
 
 class MemoryProfileTimeline:

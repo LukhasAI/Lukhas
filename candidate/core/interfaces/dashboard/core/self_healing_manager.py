@@ -374,9 +374,7 @@ class SelfHealingManager:
             estimated_duration=await self._estimate_healing_duration(component_id, strategy),
             required_resources=await self._determine_required_resources(component_id, strategy),
             dependencies=self.component_health[component_id].dependencies,
-            colony_coordination_required=await self._requires_colony_coordination(
-                component_id, strategy
-            ),
+            colony_coordination_required=await self._requires_colony_coordination(component_id, strategy),
             created_at=datetime.now(),
         )
 
@@ -420,16 +418,10 @@ class SelfHealingManager:
                         component_id=component_id,
                         healing_strategy=strategy,
                         priority=priority,
-                        estimated_duration=await self._estimate_healing_duration(
-                            component_id, strategy
-                        ),
-                        required_resources=await self._determine_required_resources(
-                            component_id, strategy
-                        ),
+                        estimated_duration=await self._estimate_healing_duration(component_id, strategy),
+                        required_resources=await self._determine_required_resources(component_id, strategy),
                         dependencies=component.dependencies,
-                        colony_coordination_required=await self._requires_colony_coordination(
-                            component_id, strategy
-                        ),
+                        colony_coordination_required=await self._requires_colony_coordination(component_id, strategy),
                         created_at=datetime.now(),
                     )
 
@@ -505,10 +497,7 @@ class SelfHealingManager:
                 execution_results["task_results"][task.task_id] = task_result
 
                 # Check if task failed and fallback needed
-                if (
-                    not task_result.get("success", False)
-                    and task.priority == HealingPriority.CRITICAL
-                ):
+                if not task_result.get("success", False) and task.priority == HealingPriority.CRITICAL:
                     self.logger.warning(
                         "Critical healing task failed, activating fallback",
                         task_id=task.task_id,
@@ -521,15 +510,9 @@ class SelfHealingManager:
 
             # Calculate overall success
             successful_tasks = sum(
-                1
-                for result in execution_results["task_results"].values()
-                if result.get("success", False)
+                1 for result in execution_results["task_results"].values() if result.get("success", False)
             )
-            success_rate = (
-                successful_tasks / len(healing_plan.healing_tasks)
-                if healing_plan.healing_tasks
-                else 0
-            )
+            success_rate = successful_tasks / len(healing_plan.healing_tasks) if healing_plan.healing_tasks else 0
             execution_results["overall_success"] = success_rate >= 0.8
 
             # Update healing metrics

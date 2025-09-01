@@ -275,9 +275,7 @@ class PerformanceMonitor:
                 stats.p99_latency_ms = statistics.quantiles(latencies, n=100)[98]  # 99th percentile
 
         # Update other metrics
-        stats.error_rate = (
-            stats.failed_requests / stats.total_requests if stats.total_requests > 0 else 0
-        )
+        stats.error_rate = stats.failed_requests / stats.total_requests if stats.total_requests > 0 else 0
         stats.last_updated = datetime.utcnow()
 
         # Update health status
@@ -315,9 +313,7 @@ class PerformanceMonitor:
 
         elif breaker["state"] == "open":
             # Check if timeout period has passed
-            if (
-                current_time - breaker["last_failure"]
-            ).total_seconds() > self.circuit_breaker_timeout:
+            if (current_time - breaker["last_failure"]).total_seconds() > self.circuit_breaker_timeout:
                 breaker["state"] = "half_open"
                 breaker["success_count"] = 0
                 logger.info("Circuit breaker half-opened for provider: %s", provider)
@@ -362,9 +358,7 @@ class PerformanceMonitor:
                 return 0.3  # Limited confidence during half-open
 
         # Base score from success rate
-        success_rate = (
-            stats.successful_requests / stats.total_requests if stats.total_requests > 0 else 0.5
-        )
+        success_rate = stats.successful_requests / stats.total_requests if stats.total_requests > 0 else 0.5
 
         # Latency penalty
         latency_score = 1.0
@@ -398,9 +392,7 @@ class PerformanceMonitor:
 
             # SLA metrics
             sla_compliant = sum(1 for r in self.consensus_results if r["sla_met"])
-            sla_compliance_rate = (
-                sla_compliant / len(self.consensus_results) if self.consensus_results else 0
-            )
+            sla_compliance_rate = sla_compliant / len(self.consensus_results) if self.consensus_results else 0
 
             # Provider metrics
             provider_metrics = {}
@@ -409,9 +401,7 @@ class PerformanceMonitor:
                     "status": stats.status.value,
                     "total_requests": stats.total_requests,
                     "success_rate": (
-                        stats.successful_requests / stats.total_requests
-                        if stats.total_requests > 0
-                        else 0
+                        stats.successful_requests / stats.total_requests if stats.total_requests > 0 else 0
                     ),
                     "avg_latency_ms": stats.avg_latency_ms,
                     "p95_latency_ms": stats.p95_latency_ms,
@@ -420,17 +410,13 @@ class PerformanceMonitor:
                 }
 
             # Circuit breaker status
-            active_circuits = sum(
-                1 for cb in self.circuit_breakers.values() if cb["state"] != "closed"
-            )
+            active_circuits = sum(1 for cb in self.circuit_breakers.values() if cb["state"] != "closed")
 
             return {
                 "timestamp": current_time.isoformat(),
                 "system": {
                     "total_requests": total_requests,
-                    "success_rate": successful_requests / total_requests
-                    if total_requests > 0
-                    else 0,
+                    "success_rate": successful_requests / total_requests if total_requests > 0 else 0,
                     "avg_orchestration_latency_ms": avg_orchestration_latency,
                     "sla_compliance_rate": sla_compliance_rate,
                     "active_circuit_breakers": active_circuits,
@@ -458,8 +444,7 @@ class PerformanceMonitor:
 
                 if score < 0.3:
                     recommendations.append(
-                        f"Consider removing {provider} from rotation due to poor performance "
-                        f"(score: {score:.2f})"
+                        f"Consider removing {provider} from rotation due to poor performance " f"(score: {score:.2f})"
                     )
                 elif score < 0.6:
                     recommendations.append(
@@ -469,9 +454,7 @@ class PerformanceMonitor:
 
                 # High error rate recommendations
                 if stats.error_rate > 0.1:
-                    recommendations.append(
-                        f"Investigate {provider} errors - error rate: {stats.error_rate:.1%}"
-                    )
+                    recommendations.append(f"Investigate {provider} errors - error rate: {stats.error_rate:.1%}")
 
                 # High latency recommendations
                 if stats.avg_latency_ms > self.latency_sla_ms:
@@ -490,9 +473,7 @@ class PerformanceMonitor:
                     )
 
             # Circuit breaker recommendations
-            active_circuits = sum(
-                1 for cb in self.circuit_breakers.values() if cb["state"] != "closed"
-            )
+            active_circuits = sum(1 for cb in self.circuit_breakers.values() if cb["state"] != "closed")
             if active_circuits > 0:
                 recommendations.append(
                     f"{active_circuits} circuit breaker(s) active - "
@@ -516,9 +497,7 @@ class PerformanceMonitor:
 
                 # Clean metrics buffer
                 original_size = len(self.metrics_buffer)
-                self.metrics_buffer = deque(
-                    (m for m in self.metrics_buffer if m.timestamp > cutoff_time), maxlen=10000
-                )
+                self.metrics_buffer = deque((m for m in self.metrics_buffer if m.timestamp > cutoff_time), maxlen=10000)
 
                 if len(self.metrics_buffer) < original_size:
                     logger.debug("Cleaned %d old metrics", original_size - len(self.metrics_buffer))
@@ -544,13 +523,10 @@ class PerformanceMonitor:
         # Calculate system metrics
         total_requests = sum(stats.total_requests for stats in self.provider_stats.values())
 
-        avg_orchestration_latency = (
-            statistics.mean(self.orchestration_latencies) if self.orchestration_latencies else 0
-        )
+        avg_orchestration_latency = statistics.mean(self.orchestration_latencies) if self.orchestration_latencies else 0
 
         consensus_success_rate = (
-            len([r for r in self.consensus_results if r["confidence"] > 0.7])
-            / len(self.consensus_results)
+            len([r for r in self.consensus_results if r["confidence"] > 0.7]) / len(self.consensus_results)
             if self.consensus_results
             else 0
         )
@@ -565,9 +541,7 @@ class PerformanceMonitor:
         if avg_orchestration_latency > 0:
             latency_score = min(1.0, self.latency_sla_ms / avg_orchestration_latency)
 
-        system_health_score = (
-            (avg_provider_score * 0.6) + (latency_score * 0.2) + (consensus_success_rate * 0.2)
-        )
+        system_health_score = (avg_provider_score * 0.6) + (latency_score * 0.2) + (consensus_success_rate * 0.2)
 
         # Generate recommendations
         recommendations = await self.get_performance_recommendations()

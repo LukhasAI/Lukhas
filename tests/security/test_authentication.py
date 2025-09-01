@@ -148,9 +148,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
             "email": "test@lukhas.ai",
         }
 
-        response = self.client.post(
-            "/api/v2/auth/register", json=user_data, content_type="application/json"
-        )
+        response = self.client.post("/api/v2/auth/register", json=user_data, content_type="application/json")
 
         self.assertEqual(response.status_code, 201)
         data = json.loads(response.data)
@@ -174,9 +172,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
             "email": "test@lukhas.ai",
         }
 
-        response = self.client.post(
-            "/api/v2/auth/register", json=user_data, content_type="application/json"
-        )
+        response = self.client.post("/api/v2/auth/register", json=user_data, content_type="application/json")
 
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.data)
@@ -192,15 +188,11 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         }
 
         # First registration should succeed
-        response1 = self.client.post(
-            "/api/v2/auth/register", json=user_data, content_type="application/json"
-        )
+        response1 = self.client.post("/api/v2/auth/register", json=user_data, content_type="application/json")
         self.assertEqual(response1.status_code, 201)
 
         # Second registration should fail
-        response2 = self.client.post(
-            "/api/v2/auth/register", json=user_data, content_type="application/json"
-        )
+        response2 = self.client.post("/api/v2/auth/register", json=user_data, content_type="application/json")
         self.assertEqual(response2.status_code, 409)
         data = json.loads(response2.data)
         self.assertFalse(data["success"])
@@ -219,9 +211,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         # Now test login
         login_data = {"username": "testuser", "password": PLACEHOLDER_PASSWORD_SECURE}
 
-        response = self.client.post(
-            "/api/v2/auth/login", json=login_data, content_type="application/json"
-        )
+        response = self.client.post("/api/v2/auth/login", json=login_data, content_type="application/json")
 
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.data)
@@ -245,9 +235,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         # Try login with wrong password
         login_data = {"username": "testuser", "password": PLACEHOLDER_PASSWORD_WRONG}
 
-        response = self.client.post(
-            "/api/v2/auth/login", json=login_data, content_type="application/json"
-        )
+        response = self.client.post("/api/v2/auth/login", json=login_data, content_type="application/json")
 
         self.assertEqual(response.status_code, 401)
         data = json.loads(response.data)
@@ -267,9 +255,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         login_data = {"username": "testuser", "password": PLACEHOLDER_PASSWORD_WRONG}
 
         for i in range(6):  # Exceed the 5 attempt limit
-            response = self.client.post(
-                "/api/v2/auth/login", json=login_data, content_type="application/json"
-            )
+            response = self.client.post("/api/v2/auth/login", json=login_data, content_type="application/json")
 
         # After multiple failures, account should be locked
         self.assertEqual(response.status_code, 423)  # Locked
@@ -324,9 +310,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         refresh_token = login_data["tokens"]["refresh_token"]
 
         # Test token refresh
-        response = self.client.post(
-            "/api/v2/auth/token/refresh", json={"refresh_token": refresh_token}
-        )
+        response = self.client.post("/api/v2/auth/token/refresh", json={"refresh_token": refresh_token})
 
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.data)
@@ -353,9 +337,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         access_token = login_data["tokens"]["access_token"]
 
         # Test logout
-        response = self.client.post(
-            "/api/v2/auth/logout", headers={"Authorization": f"Bearer {access_token}"}
-        )
+        response = self.client.post("/api/v2/auth/logout", headers={"Authorization": f"Bearer {access_token}"})
 
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.data)

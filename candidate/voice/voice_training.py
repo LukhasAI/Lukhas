@@ -214,12 +214,8 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
         await asyncio.sleep(0.1)
 
         return {
-            "train_loader": training_data[
-                : int(len(training_data) * (1 - self.config.validation_split))
-            ],
-            "val_loader": training_data[
-                int(len(training_data) * (1 - self.config.validation_split)) :
-            ],
+            "train_loader": training_data[: int(len(training_data) * (1 - self.config.validation_split))],
+            "val_loader": training_data[int(len(training_data) * (1 - self.config.validation_split)) :],
             "feature_stats": {"mean_mel": np.random.rand(80), "std_mel": np.random.rand(80)},
         }
 
@@ -357,35 +353,25 @@ class LUKHASVoiceTrainer:
             )
 
             if not validation_result.get("approved", False):
-                self.logger.warning(
-                    f"Guardian rejected training sample: {validation_result.get('reason')}"
-                )
+                self.logger.warning(f"Guardian rejected training sample: {validation_result.get('reason')}")
                 return False
 
             # Quality assessment
-            AudioBuffer(
-                data=audio_data, sample_rate=sample_rate, channels=1, format=AudioFormat.FLOAT_32
-            )
+            AudioBuffer(data=audio_data, sample_rate=sample_rate, channels=1, format=AudioFormat.FLOAT_32)
 
             # Convert to bytes for analytics
             audio_bytes = (audio_data * 32767).astype(np.int16).tobytes()
-            quality_report = await self.voice_analytics.analyze_voice_quality(
-                audio_bytes, sample_rate
-            )
+            quality_report = await self.voice_analytics.analyze_voice_quality(audio_bytes, sample_rate)
 
             # Check quality thresholds
             if quality_report.overall_score < 60:  # Minimum quality threshold
-                self.logger.warning(
-                    f"Low quality training sample rejected (score: {quality_report.overall_score})"
-                )
+                self.logger.warning(f"Low quality training sample rejected (score: {quality_report.overall_score})")
                 return False
 
             # Duration check
             duration = len(audio_data) / sample_rate
             if duration < self.config.min_audio_length or duration > self.config.max_audio_length:
-                self.logger.warning(
-                    f"Training sample duration {duration:.2f}s outside acceptable range"
-                )
+                self.logger.warning(f"Training sample duration {duration:.2f}s outside acceptable range")
                 return False
 
             # Create training data
@@ -451,9 +437,7 @@ class LUKHASVoiceTrainer:
                         transcript = f.read().strip()
                 else:
                     # Use speech recognition to generate transcript
-                    self.logger.info(
-                        f"No transcript found for {audio_file}, using speech recognition"
-                    )
+                    self.logger.info(f"No transcript found for {audio_file}, using speech recognition")
                     # Mock transcript
                     transcript = f"Generated transcript for {audio_file.name}"
 
@@ -516,9 +500,7 @@ class LUKHASVoiceTrainer:
             train_loader = prepared_data["train_loader"]
             val_loader = prepared_data["val_loader"]
 
-            self.logger.info(
-                f"Training data prepared: {len(train_loader)} train, {len(val_loader)} validation"
-            )
+            self.logger.info(f"Training data prepared: {len(train_loader)} train, {len(val_loader)} validation")
 
             # Training loop
             self._set_stage(TrainingStage.MODEL_TRAINING)
@@ -575,13 +557,8 @@ class LUKHASVoiceTrainer:
                         break
 
                 # Save checkpoint
-                if (
-                    self.config.save_checkpoints
-                    and (epoch + 1) % self.config.checkpoint_frequency == 0
-                ):
-                    checkpoint_path = os.path.join(
-                        self.config.output_dir, f"checkpoint_epoch_{epoch + 1}.json"
-                    )
+                if self.config.save_checkpoints and (epoch + 1) % self.config.checkpoint_frequency == 0:
+                    checkpoint_path = os.path.join(self.config.output_dir, f"checkpoint_epoch_{epoch + 1}.json")
                     await self.model.save_model(checkpoint_path, {"epoch": epoch})
 
             # Final evaluation
@@ -603,9 +580,7 @@ class LUKHASVoiceTrainer:
         except Exception as e:
             self.logger.error(f"Voice training failed: {e!s}")
 
-            await GLYPH.emit(
-                "voice.training.failed", {"error": str(e), "stage": self.current_stage.value}
-            )
+            await GLYPH.emit("voice.training.failed", {"error": str(e), "stage": self.current_stage.value})
 
             return False
 
@@ -639,9 +614,7 @@ class LUKHASVoiceTrainer:
         final_metrics = self.training_metrics[-1]
 
         return {
-            "status": "completed"
-            if self.current_stage == TrainingStage.EVALUATION
-            else "in_progress",
+            "status": "completed" if self.current_stage == TrainingStage.EVALUATION else "in_progress",
             "current_stage": self.current_stage.value,
             "total_epochs": len(self.training_metrics),
             "training_samples": len(self.training_data),
@@ -675,9 +648,7 @@ async def train_voice_model(
     Returns:
         Training summary
     """
-    config = TrainingConfig(
-        objective=objective, num_epochs=num_epochs, batch_size=16, learning_rate=0.001
-    )
+    config = TrainingConfig(objective=objective, num_epochs=num_epochs, batch_size=16, learning_rate=0.001)
 
     trainer = LUKHASVoiceTrainer(config)
 

@@ -123,9 +123,7 @@ class TrueQuantumRandomness:
         self.entropy_pool.extend(seed_hash)
         logger.info(f"🌱 Entropy pool seeded with {len(self.entropy_pool)} bytes")
 
-    def generate_quantum_bytes(
-        self, num_bytes: int, profile: Optional[EntropyProfile] = None
-    ) -> bytes:
+    def generate_quantum_bytes(self, num_bytes: int, profile: Optional[EntropyProfile] = None) -> bytes:
         """
         Generate quantum-grade random bytes
 
@@ -386,9 +384,7 @@ class TrueQuantumRandomness:
             "bias": bias,
             "autocorrelation": autocorr,
             "entropy_rate": entropy_rate,
-            "quality_score": self._calculate_quality_score(
-                chi_squared, bias, autocorr, entropy_rate
-            ),
+            "quality_score": self._calculate_quality_score(chi_squared, bias, autocorr, entropy_rate),
         }
 
         self.entropy_quality.update(quality_metrics)
@@ -443,9 +439,7 @@ class TrueQuantumRandomness:
         # Simple lag-1 autocorrelation
         mean_val = sum(data) / len(data)
 
-        numerator = sum(
-            (data[i] - mean_val) * (data[i + 1] - mean_val) for i in range(len(data) - 1)
-        )
+        numerator = sum((data[i] - mean_val) * (data[i + 1] - mean_val) for i in range(len(data) - 1))
         denominator = sum((x - mean_val) ** 2 for x in data)
 
         if denominator == 0:
@@ -477,9 +471,7 @@ class TrueQuantumRandomness:
         max_entropy = 8.0  # 8 bits per byte
         return entropy / max_entropy
 
-    def _calculate_quality_score(
-        self, chi_squared: float, bias: float, autocorr: float, entropy_rate: float
-    ) -> float:
+    def _calculate_quality_score(self, chi_squared: float, bias: float, autocorr: float, entropy_rate: float) -> float:
         """Calculate overall quality score"""
         # Weight different factors
         weights = {
@@ -518,9 +510,7 @@ class TrueQuantumRandomness:
         """Get detailed entropy quality report"""
         return {
             "entropy_source": self.entropy_source.value,
-            "available_sources": {
-                source.value: available for source, available in self.entropy_sources.items()
-            },
+            "available_sources": {source.value: available for source, available in self.entropy_sources.items()},
             "pool_size": len(self.entropy_pool),
             "quality_metrics": self.entropy_quality.copy(),
             "recommendations": self._generate_quality_recommendations(),

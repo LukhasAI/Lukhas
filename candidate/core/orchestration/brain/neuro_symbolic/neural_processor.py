@@ -169,9 +169,7 @@ class NeuralProcessor:
         Returns:
             Dict: Training results and metrics
         """
-        logger.info(
-            f"Training neural processor with {len(training_data)} examples over {epochs} epochs"
-        )
+        logger.info(f"Training neural processor with {len(training_data)} examples over {epochs} epochs")
 
         # Placeholder for training logic
         # In a real implementation, this would use backpropagation

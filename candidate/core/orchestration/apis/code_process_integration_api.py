@@ -638,9 +638,7 @@ class CodeProcessIntegrationAPI:
             quality_report = await self._analyze_code_quality(generated_code, request.language)
 
             # Step 6: Save to workspace
-            output_file = await self._save_generated_code(
-                generated_code, request, execution_result.success
-            )
+            output_file = await self._save_generated_code(generated_code, request, execution_result.success)
 
             # Update metrics
             generation_time = (time.time() - start_time) * 1000
@@ -653,9 +651,7 @@ class CodeProcessIntegrationAPI:
             # Update average generation time
             total_gens = self.metrics["total_generations"]
             current_avg = self.metrics["average_generation_time"]
-            self.metrics["average_generation_time"] = (
-                current_avg * (total_gens - 1) + generation_time
-            ) / total_gens
+            self.metrics["average_generation_time"] = (current_avg * (total_gens - 1) + generation_time) / total_gens
 
             # Prepare response
             response = {
@@ -854,9 +850,7 @@ class CodeProcessIntegrationAPI:
             maintainability_score=overall_score,
         )
 
-    async def _save_generated_code(
-        self, code: str, request: CodeGenerationRequest, is_valid: bool
-    ) -> Path:
+    async def _save_generated_code(self, code: str, request: CodeGenerationRequest, is_valid: bool) -> Path:
         """Save generated code to workspace"""
         # Create subdirectory for this request
         request_dir = self.workspace_path / f"gen_{request.request_id[:8]}"
@@ -912,9 +906,7 @@ class CodeProcessIntegrationAPI:
 
     def get_api_status(self) -> dict[str, Any]:
         """Get comprehensive API status"""
-        success_rate = self.metrics["successful_generations"] / max(
-            1, self.metrics["total_generations"]
-        )
+        success_rate = self.metrics["successful_generations"] / max(1, self.metrics["total_generations"])
 
         return {
             "api_version": "v1.0.0",

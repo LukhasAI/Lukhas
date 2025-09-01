@@ -164,9 +164,7 @@ async def emit_glyph(glyph: GLYPHSymbol, source_module: str):
     await glyph_router.route_glyph(glyph, source_module)
 
 
-def create_glyph(
-    symbol_type: str, payload: dict[str, Any], metadata: dict[str, Any] = None
-) -> GLYPHSymbol:
+def create_glyph(symbol_type: str, payload: dict[str, Any], metadata: dict[str, Any] = None) -> GLYPHSymbol:
     """Create a GLYPH with standard format"""
     return GLYPHSymbol(
         symbol_type=symbol_type,

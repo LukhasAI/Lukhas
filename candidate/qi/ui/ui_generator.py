@@ -65,9 +65,7 @@ class QIUIOptimizer:
         Use quantum annealing for optimal layout generation
         """
         # 1. Encode layout problem as QUBO
-        qubo_matrix = self._encode_layout_as_qubo(
-            ui_components, constraints, user_context.cognitive_load_tensor
-        )
+        qubo_matrix = self._encode_layout_as_qubo(ui_components, constraints, user_context.cognitive_load_tensor)
 
         # 2. Run quantum approximate optimization
         qi_result = await self.qi_backend.run_qaoa(qubo_matrix, num_layers=5, shots=1024)

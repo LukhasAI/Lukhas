@@ -41,9 +41,7 @@ class VocabularyIntegration:
         self._load_vocabularies()
 
         # Initialize vocabulary integration
-        db.log_system_activity(
-            "vocabulary_integration", "system_init", "Vocabulary integration initialized", 1.0
-        )
+        db.log_system_activity("vocabulary_integration", "system_init", "Vocabulary integration initialized", 1.0)
 
     def _setup_logging(self) -> logging.Logger:
         """Setup vocabulary integration logging"""
@@ -52,10 +50,7 @@ class VocabularyIntegration:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = (
-            self.logs_path
-            / f"vocabulary_integration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-        )
+        log_file = self.logs_path / f"vocabulary_integration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -232,9 +227,7 @@ class VocabularyIntegration:
         foundation_score = sum(1 for term in foundation_terms if term.lower() in content.lower())
         awakening_score = sum(1 for term in awakening_terms if term.lower() in content.lower())
         integration_score = sum(1 for term in integration_terms if term.lower() in content.lower())
-        transcendence_score = sum(
-            1 for term in transcendence_terms if term.lower() in content.lower()
-        )
+        transcendence_score = sum(1 for term in transcendence_terms if term.lower() in content.lower())
 
         content_length = len(content.split())
 
@@ -325,9 +318,7 @@ class VocabularyIntegration:
             "quantum streams",
         ]
 
-        consciousness_score = sum(
-            4 for term in consciousness_terms if term.lower() in content.lower()
-        )
+        consciousness_score = sum(4 for term in consciousness_terms if term.lower() in content.lower())
 
         # Check for LUKHAS AI branding
         lukhas_score = 0
@@ -389,12 +380,7 @@ class VocabularyIntegration:
 
         # Calculate total coherence with length normalization
         total_score = (
-            trinity_score
-            + consciousness_score
-            + lukhas_score
-            + poetic_score
-            + metaphor_score
-            + technical_score
+            trinity_score + consciousness_score + lukhas_score + poetic_score + metaphor_score + technical_score
         )
 
         # Bonus for content richness (longer, more sophisticated content)
@@ -506,9 +492,7 @@ def main():
     print(f"Vocabulary coherence: {coherence:.1f}%")
 
     # Test header generation
-    header = vocab_integration.generate_poetic_header(
-        "Vocabulary Integration", "Where words become consciousness"
-    )
+    header = vocab_integration.generate_poetic_header("Vocabulary Integration", "Where words become consciousness")
     print("\n📋 Generated Header:")
     print(header)
 

@@ -73,9 +73,7 @@ class LUKHASConceptValidator:
 
         # Filter out archives
         python_files = [
-            f
-            for f in python_files
-            if not any(skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"])
+            f for f in python_files if not any(skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"])
         ]
 
         print(f"\nScanning {len(python_files)} Python files...")
@@ -125,11 +123,7 @@ class LUKHASConceptValidator:
                     {
                         "concept": concept,
                         "description": description,
-                        "severity": (
-                            "high"
-                            if concept in ["memory_fold", "dream_engine", "qi_state"]
-                            else "medium"
-                        ),
+                        "severity": ("high" if concept in ["memory_fold", "dream_engine", "qi_state"] else "medium"),
                     }
                 )
             else:
@@ -193,9 +187,7 @@ class LUKHASConceptValidator:
         if self.validation_results["at_risk"]:
             print("\n⚠️  AT RISK CONCEPTS (inconsistent usage):")
             for at_risk in self.validation_results["at_risk"][:5]:
-                print(
-                    f" - {at_risk['concept']}: {at_risk['exact_usage']} exact, {at_risk['variations']} variations"
-                )
+                print(f" - {at_risk['concept']}: {at_risk['exact_usage']} exact, {at_risk['variations']} variations")
 
         if self.validation_results["preserved"]:
             print("\n✅ WELL-PRESERVED CONCEPTS:")
@@ -204,9 +196,7 @@ class LUKHASConceptValidator:
                 key=lambda x: x["usage_count"],
                 reverse=True,
             )[:10]:
-                print(
-                    f"   - {preserved['concept']}: {preserved['usage_count']} uses in {preserved['files']} files"
-                )
+                print(f"   - {preserved['concept']}: {preserved['usage_count']} uses in {preserved['files']} files")
 
         print(f"\n📄 Full report saved to: {report_path}")
 

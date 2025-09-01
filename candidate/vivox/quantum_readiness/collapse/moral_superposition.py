@@ -255,9 +255,7 @@ class MoralSuperposition:
             )
 
             # Reduce uncertainty over time
-            new_uncertainty = current_state.uncertainty_level * (
-                1 - self.uncertainty_decay * step / time_steps
-            )
+            new_uncertainty = current_state.uncertainty_level * (1 - self.uncertainty_decay * step / time_steps)
 
             # Create evolved state
             evolved_state = EthicalQIState(

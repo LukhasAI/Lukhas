@@ -38,9 +38,7 @@ logger = get_logger(__name__)
 
 try:
     # Consistent with lukhas_dreams.py log directory
-    DREAM_LOGS_REFLECTOR_DIR_CONFIG = Path(
-        os.getenv("LUKHAS_DREAM_LOGS_PATH_CONFIG", "./.lukhas_logs/memoria_dreams")
-    )
+    DREAM_LOGS_REFLECTOR_DIR_CONFIG = Path(os.getenv("LUKHAS_DREAM_LOGS_PATH_CONFIG", "./.lukhas_logs/memoria_dreams"))
     DREAM_LOGS_REFLECTOR_DIR_CONFIG.mkdir(parents=True, exist_ok=True)
 except Exception as e_path_reflect_cfg:
     log.error(
@@ -116,9 +114,7 @@ def reflect_on_dream_memories(dream_memories: list[dict[str, Any]]) -> list[str]
 
     for i, mem_item in enumerate(dream_memories):
         narrative = mem_item.get("dream_narrative_text", "")
-        meta_emo = mem_item.get("additional_metadata", {}).get(
-            "emotional_tone", {}
-        )  # Path from example
+        meta_emo = mem_item.get("additional_metadata", {}).get("emotional_tone", {})  # Path from example
         primary_emo = meta_emo.get("primary", "unknown_emotion_tone")
         visuals = mem_item.get("extracted_visual_prompts", [])
         visual_summary = visuals[0] if visuals else "[no specific visuals highlighted]"
@@ -129,9 +125,7 @@ def reflect_on_dream_memories(dream_memories: list[dict[str, Any]]) -> list[str]
         if any(k in narrative.lower() for k in ["mirror", "self", "reflection"]):
             reflection += "Themes of self-perception or introspection appear dominant. "
         if any(k in narrative.lower() for k in ["path", "journey", "labyrinth", "choice"]):
-            reflection += (
-                "The dream suggests considerations of future paths or complex problem-solving. "
-            )
+            reflection += "The dream suggests considerations of future paths or complex problem-solving. "
         reflections.append(reflection)
         log.debug(
             "Generated reflection for dream.",

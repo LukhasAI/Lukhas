@@ -367,16 +367,10 @@ class SimpleAgent(AgentInterface):
             # Check for registered handlers
             handler = self._message_handlers.get(message.message_type)
             if handler:
-                return (
-                    await handler(message)
-                    if asyncio.iscoroutinefunction(handler)
-                    else handler(message)
-                )
+                return await handler(message) if asyncio.iscoroutinefunction(handler) else handler(message)
 
             # Default handling
-            self._logger.info(
-                f"Received message {message.message_id} of type {message.message_type}"
-            )
+            self._logger.info(f"Received message {message.message_id} of type {message.message_type}")
 
             if message.requires_response:
                 return AgentMessage(

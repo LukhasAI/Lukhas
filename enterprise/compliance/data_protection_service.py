@@ -139,9 +139,7 @@ class DataProtectionService:
 
     async def initialize(self):
         """Initialize database connection pool and load policies"""
-        self.db_pool = await asyncpg.create_pool(
-            self.db_url, min_size=2, max_size=10, command_timeout=30
-        )
+        self.db_pool = await asyncpg.create_pool(self.db_url, min_size=2, max_size=10, command_timeout=30)
         await self._load_policies()
 
     async def close(self):
@@ -177,9 +175,7 @@ class DataProtectionService:
         methods_applied = []
 
         if policy.encryption_required:
-            protected_data, encryption_result = await self._apply_encryption(
-                protected_data, policy, context
-            )
+            protected_data, encryption_result = await self._apply_encryption(protected_data, policy, context)
             methods_applied.append(f"encryption_{policy.encryption_type}")
 
         # For now, we will just return the protected data and the methods applied
@@ -220,9 +216,7 @@ class DataProtectionService:
 
         return result_data, result_info
 
-    async def unprotect_data(
-        self, protected_data: Any, context: Optional[dict[str, Any]] = None
-    ) -> Any:
+    async def unprotect_data(self, protected_data: Any, context: Optional[dict[str, Any]] = None) -> Any:
         """
         Reverse data protection to recover original data.
         """
@@ -245,17 +239,13 @@ class DataProtectionService:
     async def get_user_data(self, user_lid: str) -> list[dict]:
         """Get all protected data for a user."""
         async with self.db_pool.acquire() as conn:
-            rows = await conn.fetch(
-                "SELECT * FROM protection.history WHERE user_lid = $1", user_lid
-            )
+            rows = await conn.fetch("SELECT * FROM protection.history WHERE user_lid = $1", user_lid)
             return [dict(row) for row in rows]
 
     async def delete_user_data(self, user_lid: str) -> int:
         """Delete all protected data for a user."""
         async with self.db_pool.acquire() as conn:
-            result = await conn.execute(
-                "DELETE FROM protection.history WHERE user_lid = $1", user_lid
-            )
+            result = await conn.execute("DELETE FROM protection.history WHERE user_lid = $1", user_lid)
             return int(result.split(" ")[1])
 
     async def update_protected_data(self, operation_id: str, new_data: Any) -> Optional[dict]:
@@ -278,9 +268,7 @@ class DataProtectionService:
         async with self.db_pool.acquire():
             # For now, we will just log a message.
             # In a real implementation, this would delete the data from the database.
-            print(
-                f"Enforcing data retention policy: deleting data older than {retention_period_days} days."
-            )
+            print(f"Enforcing data retention policy: deleting data older than {retention_period_days} days.")
 
     async def create_baa(
         self,

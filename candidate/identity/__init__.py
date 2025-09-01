@@ -375,9 +375,7 @@ def generate_lambda_id(user_id: str, tier: str = "T1") -> str:
             tier_enum = tier_mapping.get(tier, TierLevel.FRIEND)
             user_context = {"user_id": user_id}
 
-            return default_system.lambda_id_generator.generate_lambda_id(
-                tier=tier_enum, user_context=user_context
-            )
+            return default_system.lambda_id_generator.generate_lambda_id(tier=tier_enum, user_context=user_context)
         except Exception:
             pass
 

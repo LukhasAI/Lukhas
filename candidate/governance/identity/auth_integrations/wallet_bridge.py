@@ -75,9 +75,7 @@ class AuthWalletBridge:
                 "note": "WALLET components not yet wired",
             }
 
-    async def authenticate_with_wallet(
-        self, user_id: str, symbolic_credentials: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def authenticate_with_wallet(self, user_id: str, symbolic_credentials: dict[str, Any]) -> dict[str, Any]:
         """Authenticate using WALLET symbolic vault"""
         # TODO: Implement when WALLET is integrated
         return {

@@ -114,9 +114,7 @@ class LukhasDASTEngine:
     async def initialize(self):
         """Async initialization for the engine"""
 
-    async def track(
-        self, request: Union[str, dict], context: Optional[dict] = None
-    ) -> dict[str, Any]:
+    async def track(self, request: Union[str, dict], context: Optional[dict] = None) -> dict[str, Any]:
         """
         🎯 One-line task tracking with AI intelligence
 
@@ -197,9 +195,7 @@ class LukhasDASTEngine:
                     "priority": task.priority.value,
                     "status": task.status.value,
                     "ai_score": task.ai_insights.get("priority_score", 0),
-                    "reasoning": task.ai_insights.get(
-                        "focus_reasoning", "AI-powered prioritization"
-                    ),
+                    "reasoning": task.ai_insights.get("focus_reasoning", "AI-powered prioritization"),
                     "estimated_time": task.estimated_duration,
                     "context": task.context,
                 }
@@ -226,9 +222,7 @@ class LukhasDASTEngine:
         if task_id == "overall":
             # Return overall progress summary
             total_tasks = len(self.tasks)
-            completed_tasks = len(
-                [t for t in self.tasks.values() if t.status == TaskStatus.COMPLETED]
-            )
+            completed_tasks = len([t for t in self.tasks.values() if t.status == TaskStatus.COMPLETED])
 
             self._record_operation_time(time.time() - start_time)
             return {
@@ -565,9 +559,7 @@ class LukhasDASTEngine:
 
         return max(0.0, min(10.0, score))  # Clamp between 0-10
 
-    def _apply_symbolic_reasoning(
-        self, request: str, context: dict, ai_analysis: dict
-    ) -> dict[str, Any]:
+    def _apply_symbolic_reasoning(self, request: str, context: dict, ai_analysis: dict) -> dict[str, Any]:
         """Apply symbolic reasoning for complex task relationships"""
         return {
             "reasoning_type": "symbolic",
@@ -639,9 +631,7 @@ class LukhasDASTEngine:
         elif task.status == TaskStatus.IN_PROGRESS:
             analysis["recommendations"].append("Continue current trajectory")
             if task.estimated_duration:
-                analysis["next_actions"].append(
-                    f"Estimated {task.estimated_duration} minutes remaining"
-                )
+                analysis["next_actions"].append(f"Estimated {task.estimated_duration} minutes remaining")
 
         # Analyze notes if provided
         if notes:
@@ -702,9 +692,7 @@ class LukhasDASTEngine:
 
             if task.status == TaskStatus.COMPLETED:
                 metrics["completion_time"] = time.time()
-                metrics["actual_duration"] = metrics["completion_time"] - metrics.get(
-                    "creation_time", time.time()
-                )
+                metrics["actual_duration"] = metrics["completion_time"] - metrics.get("creation_time", time.time())
 
     # ========================================
     # 📊 PERFORMANCE & CACHING
@@ -778,9 +766,7 @@ async def focus(query: Optional[str] = None, limit: int = 5) -> list[dict[str, A
     return await engine.focus(query, limit)
 
 
-async def progress(
-    task_id: str, status: Optional[str] = None, notes: Optional[str] = None
-) -> dict[str, Any]:
+async def progress(task_id: str, status: Optional[str] = None, notes: Optional[str] = None) -> dict[str, Any]:
     """🎯 Update task progress with AI-powered insights"""
     engine = get_dast_engine()
     return await engine.progress(task_id, status, notes)

@@ -105,9 +105,7 @@ class TPMFallback:
                         created_at=datetime.fromisoformat(key_info["created_at"]),
                         usage_count=key_info.get("usage_count", 0),
                         last_used=(
-                            datetime.fromisoformat(key_info["last_used"])
-                            if key_info.get("last_used")
-                            else None
+                            datetime.fromisoformat(key_info["last_used"]) if key_info.get("last_used") else None
                         ),
                         metadata=key_info.get("metadata", {}),
                     )
@@ -426,9 +424,7 @@ class TPMFallback:
             "total_keys": total_keys,
             "active_keys": active_keys,
             "master_key_status": "present" if self.master_key else "missing",
-            "keystore_size": (
-                self.keystore_path.stat().st_size if self.keystore_path.exists() else 0
-            ),
+            "keystore_size": (self.keystore_path.stat().st_size if self.keystore_path.exists() else 0),
             "platform_measurements": len(self.platform_measurements),
             "capabilities": self.TPM_CAPABILITIES,
         }
@@ -475,9 +471,7 @@ if __name__ == "__main__":
     print("\n🛡️ Testing platform attestation...")
     nonce = tpm.get_random_bytes(32)
     attestation = tpm.attest_platform(nonce)
-    print(
-        f"   Attestation includes {len(attestation['attestation']['platform_measurements'])} PCR values"
-    )
+    print(f"   Attestation includes {len(attestation['attestation']['platform_measurements'])} PCR values")
     print(f"   Signed: {'✅ YES' if attestation['signature'] else '❌ NO'}")
 
     # Health check

@@ -59,9 +59,7 @@ logger = logging.getLogger(__name__)
 class OnboardingStartRequest(BaseModel):
     """Start onboarding request model"""
 
-    user_info: Optional[dict[str, Any]] = Field(
-        default_factory=dict, description="Initial user information"
-    )
+    user_info: Optional[dict[str, Any]] = Field(default_factory=dict, description="Initial user information")
     referral_code: Optional[str] = Field(None, description="Referral code")
     marketing_source: Optional[str] = Field(None, description="Marketing source")
 
@@ -81,9 +79,7 @@ class TierSetupRequest(BaseModel):
     session_id: str = Field(..., description="Onboarding session ID")
     experience_level: str = Field("beginner", description="User experience level")
     use_cases: list[str] = Field(default_factory=list, description="Intended use cases")
-    user_preferences: Optional[dict[str, Any]] = Field(
-        default_factory=dict, description="User preferences"
-    )
+    user_preferences: Optional[dict[str, Any]] = Field(default_factory=dict, description="User preferences")
     industry: Optional[str] = Field(None, description="User's industry")
     organization_size: Optional[str] = Field(None, description="Organization size")
 
@@ -109,9 +105,7 @@ class CompletionRequest(BaseModel):
 
     session_id: str = Field(..., description="Onboarding session ID")
     completed_steps: list[str] = Field(..., description="List of completed steps")
-    final_user_data: Optional[dict[str, Any]] = Field(
-        default_factory=dict, description="Final user data"
-    )
+    final_user_data: Optional[dict[str, Any]] = Field(default_factory=dict, description="Final user data")
     terms_accepted: bool = Field(True, description="Terms of service accepted")
     privacy_policy_accepted: bool = Field(True, description="Privacy policy accepted")
 
@@ -123,9 +117,7 @@ class OnboardingSession:
         self.sessions = {}  # In production, use Redis or database
         self.api_keys = {}  # In production, use secure key store
 
-    def create_session(
-        self, user_info: dict[str, Any], referral_code: Optional[str] = None
-    ) -> dict[str, Any]:
+    def create_session(self, user_info: dict[str, Any], referral_code: Optional[str] = None) -> dict[str, Any]:
         """Create new onboarding session"""
         session_id = f"session_{int(time.time() * 1000)}_{uuid.uuid4().hex[:8]}"
 
@@ -229,9 +221,7 @@ class OnboardingService:
     def __init__(self):
         self.validator = get_validator() if VALIDATION_AVAILABLE else None
 
-    async def validate_onboarding_request(
-        self, request_data: dict[str, Any], step: str
-    ) -> Optional[dict[str, Any]]:
+    async def validate_onboarding_request(self, request_data: dict[str, Any], step: str) -> Optional[dict[str, Any]]:
         """Validate onboarding request data"""
         if not self.validator:
             return None
@@ -341,9 +331,7 @@ class OnboardingService:
 
         return tier_features.get(tier, tier_features["LAMBDA_TIER_1"])
 
-    def validate_consent(
-        self, consent_choices: dict[str, bool], healthcare_context: bool = False
-    ) -> dict[str, Any]:
+    def validate_consent(self, consent_choices: dict[str, bool], healthcare_context: bool = False) -> dict[str, Any]:
         """Validate consent requirements"""
 
         # Required consents for all users
@@ -376,10 +364,7 @@ class OnboardingService:
             "missing_required": missing_required,
             "consent_score": consent_score,
             "healthcare_compliant": healthcare_context
-            and all(
-                consent_choices.get(c, False)
-                for c in ["medical_analysis", "phi_processing", "hipaa_compliance"]
-            )
+            and all(consent_choices.get(c, False) for c in ["medical_analysis", "phi_processing", "hipaa_compliance"])
             if healthcare_context
             else True,
         }
@@ -399,17 +384,13 @@ if FASTAPI_AVAILABLE:
         request_id = f"onboard_start_{int(time.time() * 1000)}"
 
         logger.info(f"🚀 Starting onboarding: {request_id}")
-        logger.info(
-            f"   User info keys: {list(request.user_info.keys()) if request.user_info else []}"
-        )
+        logger.info(f"   User info keys: {list(request.user_info.keys()) if request.user_info else []}")
         logger.info(f"   Referral code: {request.referral_code is not None}")
 
         try:
             # Validate request
             if VALIDATION_AVAILABLE:
-                validation_result = await onboarding_service.validate_onboarding_request(
-                    request.dict(), "start"
-                )
+                validation_result = await onboarding_service.validate_onboarding_request(request.dict(), "start")
                 if validation_result and not validation_result["valid"]:
                     raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,
@@ -469,15 +450,11 @@ if FASTAPI_AVAILABLE:
             # Validate session
             session = session_manager.get_session(request.session_id)
             if not session:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND, detail="Invalid or expired session"
-                )
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid or expired session")
 
             # Validate request data
             if VALIDATION_AVAILABLE:
-                validation_result = await onboarding_service.validate_onboarding_request(
-                    request.dict(), "tier-setup"
-                )
+                validation_result = await onboarding_service.validate_onboarding_request(request.dict(), "tier-setup")
                 if validation_result and not validation_result["valid"]:
                     raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,
@@ -491,9 +468,7 @@ if FASTAPI_AVAILABLE:
             assigned_tier = onboarding_service.assign_tier(
                 request.experience_level,
                 request.use_cases,
-                request.user_preferences.get("industry")
-                if request.user_preferences
-                else request.industry,
+                request.user_preferences.get("industry") if request.user_preferences else request.industry,
                 request.organization_size,
             )
 
@@ -560,18 +535,14 @@ if FASTAPI_AVAILABLE:
             # Validate session
             session = session_manager.get_session(request.session_id)
             if not session:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND, detail="Invalid or expired session"
-                )
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid or expired session")
 
             # Check if healthcare compliance is required
             use_cases = session.get("tier_setup_data", {}).get("use_cases", [])
             healthcare_context = "healthcare" in use_cases
 
             # Validate consent requirements
-            consent_validation = onboarding_service.validate_consent(
-                request.consent_choices, healthcare_context
-            )
+            consent_validation = onboarding_service.validate_consent(request.consent_choices, healthcare_context)
 
             if not consent_validation["valid"]:
                 raise HTTPException(
@@ -657,9 +628,7 @@ if FASTAPI_AVAILABLE:
             # Validate session
             session = session_manager.get_session(request.session_id)
             if not session:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND, detail="Invalid or expired session"
-                )
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid or expired session")
 
             # Verify all required steps are completed
             required_steps = ["tier-setup", "consent"]
@@ -702,9 +671,7 @@ if FASTAPI_AVAILABLE:
                 "account_type": "standard",
                 "verification_level": "basic",
                 "healthcare_compliant": session.get("healthcare_compliant", False),
-                "api_key_hash": hashlib.sha256(api_key.encode()).hexdigest()[
-                    :16
-                ],  # Store partial hash for reference
+                "api_key_hash": hashlib.sha256(api_key.encode()).hexdigest()[:16],  # Store partial hash for reference
                 "created_from": {
                     "ip_address": session.get("client_info", {}).get("ip_address"),
                     "user_agent": session.get("client_info", {}).get("user_agent"),
@@ -842,9 +809,7 @@ if FASTAPI_AVAILABLE:
         return recommendations[:5]  # Limit to 5 recommendations
 
 else:
-    logger.warning(
-        "⚠️ FastAPI not available - onboarding endpoints will use fallback implementation"
-    )
+    logger.warning("⚠️ FastAPI not available - onboarding endpoints will use fallback implementation")
     router = None
 
 

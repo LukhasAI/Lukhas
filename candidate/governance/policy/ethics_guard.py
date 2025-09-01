@@ -176,9 +176,7 @@ class LegalComplianceAssistant:
 
         # Human oversight check
         if guidelines["human_oversight"]:
-            if context.get("human_approval_required", False) and not context.get(
-                "human_approved", False
-            ):
+            if context.get("human_approval_required", False) and not context.get("human_approved", False):
                 ethical_concerns.append("Human oversight required but not obtained")
 
         return {
@@ -207,9 +205,7 @@ class LegalComplianceAssistant:
         privacy_check = self.check_privacy_compliance(data)
         ethical_check = self.ethical_review(context)
 
-        overall_compliant = (
-            safety_check["safe"] and privacy_check["compliant"] and ethical_check["approved"]
-        )
+        overall_compliant = safety_check["safe"] and privacy_check["compliant"] and ethical_check["approved"]
 
         return {
             "overall_compliant": overall_compliant,
@@ -233,8 +229,7 @@ class LegalComplianceAssistant:
             recent_violations = [
                 v
                 for v in self.violation_history
-                if (datetime.datetime.now() - datetime.datetime.fromisoformat(v["timestamp"])).days
-                <= 7
+                if (datetime.datetime.now() - datetime.datetime.fromisoformat(v["timestamp"])).days <= 7
             ]
 
             violation_types = {}

@@ -364,9 +364,7 @@ class QuantizedThoughtProcessor:
             "successful_cycles": self.metrics.successful_cycles,
             "failed_cycles": self.metrics.failed_cycles,
             "success_rate": (
-                self.metrics.successful_cycles / self.metrics.total_cycles
-                if self.metrics.total_cycles > 0
-                else 0
+                self.metrics.successful_cycles / self.metrics.total_cycles if self.metrics.total_cycles > 0 else 0
             ),
             "average_cycle_time_ms": round(self.metrics.average_cycle_time_ms, 2),
             "current_frequency_hz": round(self.metrics.current_frequency_hz, 2),

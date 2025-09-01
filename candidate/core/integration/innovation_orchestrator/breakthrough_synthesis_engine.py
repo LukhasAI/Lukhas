@@ -37,9 +37,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
         self._initialized = True
         logger.info("Breakthrough Synthesis Engine initialized")
 
-    async def synthesize_breakthroughs(
-        self, innovation_results: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    async def synthesize_breakthroughs(self, innovation_results: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """
         Synthesize breakthroughs from innovation results
 
@@ -112,9 +110,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
                 total_impact += 0.5
 
         breakthrough["impact_score"] = min(1.0, total_impact / len(innovations) * 1.2)
-        breakthrough["confidence"] = min(
-            1.0, len(innovations) / 5
-        )  # More sources = higher confidence
+        breakthrough["confidence"] = min(1.0, len(innovations) / 5)  # More sources = higher confidence
 
         # Extract key features
         if innovation_type == "consciousness_evolution":
@@ -124,15 +120,11 @@ class BreakthroughSynthesisEngine(CoreInterface):
                     breakthrough["consciousness_features"].extend(inn["new_capabilities"])
 
         elif innovation_type == "market_disruption":
-            breakthrough["total_market_value"] = sum(
-                inn.get("market_size", 0) for inn in innovations
-            )
+            breakthrough["total_market_value"] = sum(inn.get("market_size", 0) for inn in innovations)
 
         return breakthrough if breakthrough["impact_score"] > 0.5 else None
 
-    async def _convert_to_breakthrough(
-        self, innovation: dict[str, Any]
-    ) -> Optional[dict[str, Any]]:
+    async def _convert_to_breakthrough(self, innovation: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Convert single innovation to breakthrough format"""
 
         breakthrough = {
@@ -160,9 +152,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
 
         return breakthrough if breakthrough["impact_score"] > 0.3 else None
 
-    async def _synthesize_emergence(
-        self, grouped: dict[str, list[dict[str, Any]]]
-    ) -> Optional[dict[str, Any]]:
+    async def _synthesize_emergence(self, grouped: dict[str, list[dict[str, Any]]]) -> Optional[dict[str, Any]]:
         """Detect emergent breakthroughs from diverse innovations"""
 
         # Check for consciousness + market combination
@@ -191,9 +181,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
 
         return None
 
-    async def _detect_amplifications(
-        self, breakthroughs: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    async def _detect_amplifications(self, breakthroughs: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Detect amplification patterns in breakthroughs"""
 
         amplifications = []

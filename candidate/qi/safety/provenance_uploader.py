@@ -71,9 +71,7 @@ class ProvenanceRecord:
 
     # Links (optional)
     attestation: dict[str, Any] | None = None  # from qi.ops.provenance.attest()
-    extra_attachments: list[dict[str, Any]] | None = (
-        None  # e.g., list of {"path","sha256","storage_url"}
-    )
+    extra_attachments: list[dict[str, Any]] | None = None  # e.g., list of {"path","sha256","storage_url"}
 
     # Versioning
     schema_version: str = "1.0.0"
@@ -132,9 +130,7 @@ class GCSUploader(Uploader):
         try:
             from google.cloud import storage  # type: ignore
         except Exception as e:
-            raise RuntimeError(
-                "GCSUploader requires google-cloud-storage: pip install google-cloud-storage"
-            ) from e
+            raise RuntimeError("GCSUploader requires google-cloud-storage: pip install google-cloud-storage") from e
         self.client = storage.Client()
         self.bucket = self.client.bucket(bucket)
         self.prefix = prefix.rstrip("/") + "/"

@@ -80,15 +80,10 @@ class SymbolicKnowledgeIntegrator:
         # Knowledge file paths
         self.knowledge_files = [
             self.config_path / "foundational_knowledge.json",
-            Path(__file__).parent.parent.parent
-            / "foundry"
-            / "symbolic_seeds"
-            / "foundational_knowledge.json",
+            Path(__file__).parent.parent.parent / "foundry" / "symbolic_seeds" / "foundational_knowledge.json",
         ]
 
-        logger.info(
-            f"🔍 ΛTRACE: SymbolicKnowledgeIntegrator initialized with {len(self.knowledge_files)} sources"
-        )
+        logger.info(f"🔍 ΛTRACE: SymbolicKnowledgeIntegrator initialized with {len(self.knowledge_files)} sources")
 
     async def initialize_knowledge_integration(self) -> dict[str, Any]:
         """
@@ -112,9 +107,7 @@ class SymbolicKnowledgeIntegrator:
                         concepts = self.loader.load_symbolic_ontology(knowledge_file)
                         all_concepts.update(concepts)
                         loaded_files.append(str(knowledge_file))
-                        logger.info(
-                            f"🔍 ΛTRACE: Loaded {len(concepts)} concepts from {knowledge_file}"
-                        )
+                        logger.info(f"🔍 ΛTRACE: Loaded {len(concepts)} concepts from {knowledge_file}")
                     except Exception as e:
                         logger.warning(f"🔍 ΛTRACE: Failed to load {knowledge_file}: {e}")
 
@@ -136,9 +129,7 @@ class SymbolicKnowledgeIntegrator:
                 "timestamp": self.last_sync_timestamp,
             }
 
-            logger.info(
-                f"🔍 ΛTRACE: Knowledge integration initialized with {len(all_concepts)} concepts"
-            )
+            logger.info(f"🔍 ΛTRACE: Knowledge integration initialized with {len(all_concepts)} concepts")
             return result
 
         except Exception as e:
@@ -234,9 +225,7 @@ class SymbolicKnowledgeIntegrator:
 
         logger.info(f"🔍 ΛTRACE: Ethics grounding config written to {ethics_config_path}")
 
-    def _prepare_reasoning_integration(
-        self, concepts: dict[str, SymbolicConcept]
-    ) -> dict[str, Any]:
+    def _prepare_reasoning_integration(self, concepts: dict[str, SymbolicConcept]) -> dict[str, Any]:
         """Prepare knowledge for reasoning system integration."""
         concept_relationships = {}
         concept_definitions = {}
@@ -253,9 +242,7 @@ class SymbolicKnowledgeIntegrator:
         return {
             "concept_graph": concept_relationships,
             "concept_definitions": concept_definitions,
-            "reasoning_weights": {
-                name: concept.importance / 10.0 for name, concept in concepts.items()
-            },
+            "reasoning_weights": {name: concept.importance / 10.0 for name, concept in concepts.items()},
         }
 
     async def _integrate_with_reasoning_system(self, reasoning_export: dict[str, Any]):

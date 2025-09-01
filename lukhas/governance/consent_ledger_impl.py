@@ -563,6 +563,7 @@ class ConsentLedgerV1:
     def _notify_agents(self, event_type: str, data: dict[str, Any]) -> None:
         """Notify registered agents of ledger events"""
         for agent_name, callback in self.agent_callbacks.items():
+
             def _safe_invoke(cb, ev, payload, agent_label: str):
                 try:
                     cb(ev, payload)

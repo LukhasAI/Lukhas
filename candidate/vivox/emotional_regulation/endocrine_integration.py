@@ -57,9 +57,7 @@ class EmotionalHormoneMapping:
     duration_minutes: float = 30.0
     decay_rate: float = 0.1
 
-    def calculate_release_amount(
-        self, emotional_intensity: float, regulation_effectiveness: float
-    ) -> dict[str, float]:
+    def calculate_release_amount(self, emotional_intensity: float, regulation_effectiveness: float) -> dict[str, float]:
         """Calculate actual hormone release amounts"""
         release_amounts = {}
 
@@ -262,9 +260,7 @@ class VIVOXEndocrineIntegration:
             )
 
             # Combine and balance hormone releases
-            combined_triggers = self._combine_hormone_triggers(
-                emotional_triggers, regulation_triggers
-            )
+            combined_triggers = self._combine_hormone_triggers(emotional_triggers, regulation_triggers)
 
             # Apply hormone feedback mechanisms
             if self.hormone_feedback_enabled:
@@ -350,9 +346,7 @@ class VIVOXEndocrineIntegration:
         base_triggers = self.regulation_hormone_mappings[strategy]
 
         # Scale by effectiveness
-        scaled_triggers = {
-            hormone: amount * effectiveness for hormone, amount in base_triggers.items()
-        }
+        scaled_triggers = {hormone: amount * effectiveness for hormone, amount in base_triggers.items()}
 
         return scaled_triggers
 
@@ -378,9 +372,7 @@ class VIVOXEndocrineIntegration:
 
         return combined
 
-    def _apply_contextual_modulations(
-        self, triggers: dict[str, float], context: dict[str, Any]
-    ) -> dict[str, float]:
+    def _apply_contextual_modulations(self, triggers: dict[str, float], context: dict[str, Any]) -> dict[str, float]:
         """Apply contextual modulations to hormone triggers"""
 
         modulated = triggers.copy()
@@ -569,8 +561,7 @@ class VIVOXEndocrineIntegration:
         relevant_records = [
             record
             for record in self.hormone_release_history
-            if record["user_id"] == user_id
-            and datetime.fromisoformat(record["timestamp"]).timestamp() > cutoff_time
+            if record["user_id"] == user_id and datetime.fromisoformat(record["timestamp"]).timestamp() > cutoff_time
         ]
 
         if not relevant_records:
@@ -622,32 +613,21 @@ class VIVOXEndocrineIntegration:
                 reverse=True,
             )[:5],
             "stress_indicators": {
-                "cortisol_releases": hormone_totals.get(HormoneType.CORTISOL, {}).get(
-                    "positive", 0
-                ),
-                "adrenaline_releases": hormone_totals.get(HormoneType.ADRENALINE, {}).get(
-                    "positive", 0
-                ),
+                "cortisol_releases": hormone_totals.get(HormoneType.CORTISOL, {}).get("positive", 0),
+                "adrenaline_releases": hormone_totals.get(HormoneType.ADRENALINE, {}).get("positive", 0),
                 "stress_regulation_success": sum(
                     1
                     for r in relevant_records
                     if r["regulation_effectiveness"] > 0.7
                     and (
-                        HormoneType.CORTISOL in r["hormone_triggers"]
-                        or HormoneType.ADRENALINE in r["hormone_triggers"]
+                        HormoneType.CORTISOL in r["hormone_triggers"] or HormoneType.ADRENALINE in r["hormone_triggers"]
                     )
                 ),
             },
             "wellbeing_indicators": {
-                "serotonin_releases": hormone_totals.get(HormoneType.SEROTONIN, {}).get(
-                    "positive", 0
-                ),
-                "dopamine_releases": hormone_totals.get(HormoneType.DOPAMINE, {}).get(
-                    "positive", 0
-                ),
-                "endorphin_releases": hormone_totals.get(HormoneType.ENDORPHIN, {}).get(
-                    "positive", 0
-                ),
+                "serotonin_releases": hormone_totals.get(HormoneType.SEROTONIN, {}).get("positive", 0),
+                "dopamine_releases": hormone_totals.get(HormoneType.DOPAMINE, {}).get("positive", 0),
+                "endorphin_releases": hormone_totals.get(HormoneType.ENDORPHIN, {}).get("positive", 0),
             },
         }
 

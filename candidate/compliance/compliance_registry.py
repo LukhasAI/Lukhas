@@ -90,9 +90,7 @@ class ComplianceRegistry:
 
         component_type = component_id.split("_")[0]
         if component_type == "llm":
-            base_requirements.extend(
-                ["content_filtering", "bias_mitigation", "ethical_constraints"]
-            )
+            base_requirements.extend(["content_filtering", "bias_mitigation", "ethical_constraints"])
         elif component_type == "intent":
             base_requirements.extend(["consent_management", "pii_protection"])
 

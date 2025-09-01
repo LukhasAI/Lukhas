@@ -231,9 +231,7 @@ class ExtremePerformanceValidator:
             )
         )
 
-        print(
-            f"   Import cache P95: {p95_import_time:.2f}ms (target: {self.targets['import_cache_ms']}ms)"
-        )
+        print(f"   Import cache P95: {p95_import_time:.2f}ms (target: {self.targets['import_cache_ms']}ms)")
         print(f"   Cache hit rate: {cache_stats.get('hit_rate_percent', 0):.1f}%")
 
     async def _validate_hash_calculation_performance(self):
@@ -274,9 +272,7 @@ class ExtremePerformanceValidator:
             )
         )
 
-        print(
-            f"   Hash calculation P95: {p95_hash_time:.2f}ms (target: {self.targets['hash_calculation_ms']}ms)"
-        )
+        print(f"   Hash calculation P95: {p95_hash_time:.2f}ms (target: {self.targets['hash_calculation_ms']}ms)")
         print(f"   Cache hit rate: {hash_stats.get('cache_hit_rate_percent', 0):.1f}%")
 
     async def _validate_audit_buffer_performance(self):
@@ -321,9 +317,7 @@ class ExtremePerformanceValidator:
             )
         )
 
-        print(
-            f"   Audit buffer P95: {p95_audit_time:.2f}ms (target: {self.targets['audit_event_ms']}ms)"
-        )
+        print(f"   Audit buffer P95: {p95_audit_time:.2f}ms (target: {self.targets['audit_event_ms']}ms)")
 
     async def _validate_authentication_flow(self):
         """Validate complete authentication flow performance"""
@@ -351,9 +345,7 @@ class ExtremePerformanceValidator:
             )
         )
 
-        print(
-            f"   Authentication P95: {p95_latency:.1f}ms (target: {self.targets['auth_p95_ms']}ms)"
-        )
+        print(f"   Authentication P95: {p95_latency:.1f}ms (target: {self.targets['auth_p95_ms']}ms)")
         print(f"   Throughput: {auth_benchmark['benchmark_summary']['throughput_rps']:.0f} RPS")
 
     async def _validate_identity_connector(self):
@@ -529,14 +521,8 @@ class ExtremePerformanceValidator:
         pass_rate = (passed_tests / max(total_tests, 1)) * 100
 
         # Categorize results
-        critical_results = [
-            r
-            for r in self.results
-            if "Authentication" in r.test_name or "End-to-End" in r.test_name
-        ]
-        optimization_results = [
-            r for r in self.results if any(x in r.test_name for x in ["Import", "Hash", "Audit"])
-        ]
+        critical_results = [r for r in self.results if "Authentication" in r.test_name or "End-to-End" in r.test_name]
+        optimization_results = [r for r in self.results if any(x in r.test_name for x in ["Import", "Hash", "Audit"])]
         throughput_results = [r for r in self.results if "Throughput" in r.test_name]
 
         # Overall assessment
@@ -560,11 +546,7 @@ class ExtremePerformanceValidator:
                 "critical_performance": "PASS" if critical_pass else "FAIL",
                 "optimization_effectiveness": "PASS" if optimization_pass else "FAIL",
                 "throughput_capability": "PASS" if throughput_pass else "FAIL",
-                "performance_level": "extreme"
-                if pass_rate >= 95
-                else "good"
-                if pass_rate >= 80
-                else "needs_work",
+                "performance_level": "extreme" if pass_rate >= 95 else "good" if pass_rate >= 80 else "needs_work",
             },
             "detailed_results": [
                 {
@@ -600,9 +582,7 @@ class ExtremePerformanceValidator:
         if not failed_tests:
             recommendations.append("🚀 EXCELLENT: All performance targets achieved!")
             recommendations.append("🎯 System ready for OpenAI-scale deployment")
-            recommendations.append(
-                "💡 Consider implementing additional optimizations for extreme performance"
-            )
+            recommendations.append("💡 Consider implementing additional optimizations for extreme performance")
         else:
             for test in failed_tests:
                 if "Authentication" in test.test_name:

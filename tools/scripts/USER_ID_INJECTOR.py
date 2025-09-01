@@ -17,9 +17,7 @@ class UserIDInjector:
 
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path)
-        self.backup_dir = (
-            self.root_path / f"user_id_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        )
+        self.backup_dir = self.root_path / f"user_id_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         self.modifications = []
 
         # Patterns for data structures that should include user_id
@@ -100,10 +98,7 @@ class UserIDInjector:
         priority_files = [
             f
             for f in py_files
-            if any(
-                key in f.name
-                for key in ["core", "main", "service", "manager", "processor", "engine"]
-            )
+            if any(key in f.name for key in ["core", "main", "service", "manager", "processor", "engine"])
         ]
 
         files_to_process = priority_files[:10] if priority_files else py_files[:5]
@@ -203,10 +198,7 @@ class UserIDInjector:
                     elif "user_id=" not in line and '"' in line:
                         # Regular string logs - add extra parameter
                         if line.strip().endswith(")"):
-                            modified_line = (
-                                line[:-1]
-                                + ', extra={"user_id": getattr(user, "user_id", "system")})'
-                            )
+                            modified_line = line[:-1] + ', extra={"user_id": getattr(user, "user_id", "system")})'
                     break
 
             modified_lines.append(modified_line)
@@ -296,18 +288,12 @@ class UserIDInjector:
                     if func_line.endswith(":"):
                         # Single line function def
                         if "()" in func_line:
-                            modified_line = func_line.replace(
-                                "():", '(user: Optional["AuthContext"] = None):'
-                            )
+                            modified_line = func_line.replace("():", '(user: Optional["AuthContext"] = None):')
                         else:
-                            modified_line = func_line.replace(
-                                "):", ', user: Optional["AuthContext"] = None):'
-                            )
+                            modified_line = func_line.replace("):", ', user: Optional["AuthContext"] = None):')
                     else:
                         # Multi-line function def
-                        modified_line = func_line.replace(
-                            "(", '(user: Optional["AuthContext"] = None, '
-                        )
+                        modified_line = func_line.replace("(", '(user: Optional["AuthContext"] = None, ')
 
                     modified_lines.append(modified_line)
 

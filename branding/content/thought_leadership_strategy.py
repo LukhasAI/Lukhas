@@ -484,17 +484,13 @@ if __name__ == "__main__":
     for framework, details in thought_leadership.content_frameworks.items():
         print(f"  {framework}: {details['principle']}")
 
-    print(
-        f"\n📢 Distribution Strategy ({len(thought_leadership.distribution_strategy)} platforms):"
-    )
+    print(f"\n📢 Distribution Strategy ({len(thought_leadership.distribution_strategy)} platforms):")
     for platform, details in thought_leadership.distribution_strategy.items():
         print(f"  {platform}: {details['focus']} - {details['posting_frequency']}")
 
     print(f"\n📅 Campaign Calendar ({len(thought_leadership.campaign_calendar)} months):")
     for _month, calendar in thought_leadership.campaign_calendar.items():
-        print(
-            f"  {calendar.month}: {len(calendar.content_pieces)} pieces, {calendar.expected_reach:,} reach"
-        )
+        print(f"  {calendar.month}: {len(calendar.content_pieces)} pieces, {calendar.expected_reach:,} reach")
 
     print("\n🎯 Quarterly Objectives:")
     for quarter, objectives in roadmap["quarterly_objectives"].items():

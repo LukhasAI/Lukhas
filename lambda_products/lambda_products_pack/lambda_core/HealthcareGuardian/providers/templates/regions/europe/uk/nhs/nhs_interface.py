@@ -78,9 +78,7 @@ class NHSInterface(EHRInterface):
         # - Initialize Smart Card interface if required
         pass
 
-    async def get_patient_record(
-        self, patient_id: str, record_types: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def get_patient_record(self, patient_id: str, record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from NHS
 
@@ -88,15 +86,11 @@ class NHSInterface(EHRInterface):
             patient_id: NHS Number
             record_types: Types of records to retrieve
         """
-        self.audit.log_access(
-            user_id=self.config["org_code"], action="get_patient_record", resource_id=patient_id
-        )
+        self.audit.log_access(user_id=self.config["org_code"], action="get_patient_record", resource_id=patient_id)
         # Implement NHS-specific record retrieval
         pass
 
-    async def update_patient_record(
-        self, patient_id: str, data: dict[str, Any], update_type: str
-    ) -> bool:
+    async def update_patient_record(self, patient_id: str, data: dict[str, Any], update_type: str) -> bool:
         """Update patient records in NHS systems"""
         self.audit.log_access(
             user_id=self.config["org_code"],
@@ -126,7 +120,5 @@ class NHSInterface(EHRInterface):
 
     async def handle_error(self, error: Exception) -> None:
         """Handle NHS-specific errors"""
-        self.audit.log_security_event(
-            event_type="error", severity="error", details={"error": str(error)}
-        )
+        self.audit.log_security_event(event_type="error", severity="error", details={"error": str(error)})
         # Implement NHS-specific error handling

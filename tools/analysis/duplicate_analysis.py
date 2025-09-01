@@ -172,9 +172,7 @@ class DuplicateAnalyzer:
                 {
                     "type": "logger_initialization",
                     "description": "Create common logger factory",
-                    "affected_files": len(
-                        {f.split("::")[0] for f in self.common_patterns["logger_init"]}
-                    ),
+                    "affected_files": len({f.split("::")[0] for f in self.common_patterns["logger_init"]}),
                     "priority": "high",
                 }
             )
@@ -185,9 +183,7 @@ class DuplicateAnalyzer:
                 {
                     "type": "configuration_management",
                     "description": "Create centralized config loader",
-                    "affected_files": len(
-                        {f.split("::")[0] for f in self.common_patterns["config_loading"]}
-                    ),
+                    "affected_files": len({f.split("::")[0] for f in self.common_patterns["config_loading"]}),
                     "priority": "high",
                 }
             )
@@ -363,9 +359,7 @@ def main():
         print("\n💡 Consolidation Opportunities:")
         for opp in duplicates["consolidation_opportunities"]:
             print(f"   • {opp['type']}: {opp['description']}")
-            print(
-                f"     Priority: {opp['priority']}, Affected: {opp.get('affected_files', 'N/A')} files"
-            )
+            print(f"     Priority: {opp['priority']}, Affected: {opp.get('affected_files', 'N/A')} files")
 
     # Generate consolidation plan
     plan = generate_consolidation_plan(duplicates)
@@ -387,12 +381,8 @@ def main():
                 "duplicates": duplicates,
                 "consolidation_plan": plan,
                 "summary": {
-                    "total_functions_analyzed": sum(
-                        len(v) for v in analyzer.function_signatures.values()
-                    ),
-                    "total_classes_analyzed": sum(
-                        len(v) for v in analyzer.class_signatures.values()
-                    ),
+                    "total_functions_analyzed": sum(len(v) for v in analyzer.function_signatures.values()),
+                    "total_classes_analyzed": sum(len(v) for v in analyzer.class_signatures.values()),
                     "duplicate_functions": len(duplicates["duplicate_functions"]),
                     "similar_classes": len(duplicates["similar_classes"]),
                     "consolidation_opportunities": len(duplicates["consolidation_opportunities"]),

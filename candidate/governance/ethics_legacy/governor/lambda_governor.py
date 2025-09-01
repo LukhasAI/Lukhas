@@ -119,9 +119,7 @@ class EscalationSignal:
             **asdict(self),
             "source_module": self.source_module.value,
             "priority": self.priority.value,
-            "recommended_action": (
-                self.recommended_action.value if self.recommended_action else None
-            ),
+            "recommended_action": (self.recommended_action.value if self.recommended_action else None),
         }
 
     def calculate_urgency_score(self) -> float:
@@ -421,8 +419,7 @@ class LambdaGovernor:
         recent_escalations = [
             s
             for s in self.escalation_history
-            if self._is_recent(s.timestamp, minutes=10)
-            and any(sid in signal.symbol_ids for sid in s.symbol_ids)
+            if self._is_recent(s.timestamp, minutes=10) and any(sid in signal.symbol_ids for sid in s.symbol_ids)
         ]
 
         history_factor = min(len(recent_escalations) * 0.1, 0.3)
@@ -473,8 +470,7 @@ class LambdaGovernor:
                 return ActionDecision.QUARANTINE
 
         if risk_score >= self.safety_thresholds["contradiction_restructure"] and (
-            context.get("contradiction_density", 0)
-            > self.safety_thresholds["contradiction_restructure"]
+            context.get("contradiction_density", 0) > self.safety_thresholds["contradiction_restructure"]
         ):
             return ActionDecision.RESTRUCTURE
 
@@ -688,36 +684,28 @@ class LambdaGovernor:
         self.stats["interventions_executed"] += 1
         return execution
 
-    async def _execute_freeze(
-        self, response: ArbitrationResponse, execution: InterventionExecution
-    ):
+    async def _execute_freeze(self, response: ArbitrationResponse, execution: InterventionExecution):
         """Execute freeze intervention."""
         for symbol_id in response.affected_symbols:
             self.frozen_systems.add(symbol_id)
             execution.affected_systems.append(f"frozen_{symbol_id}")
             execution.add_log_entry("symbol_frozen", "completed", {"symbol_id": symbol_id})
 
-    async def _execute_quarantine(
-        self, response: ArbitrationResponse, execution: InterventionExecution
-    ):
+    async def _execute_quarantine(self, response: ArbitrationResponse, execution: InterventionExecution):
         """Execute quarantine intervention."""
         for symbol_id in response.affected_symbols:
             self.quarantined_symbols.add(symbol_id)
             execution.affected_systems.append(f"quarantined_{symbol_id}")
             execution.add_log_entry("symbol_quarantined", "completed", {"symbol_id": symbol_id})
 
-    async def _execute_restructure(
-        self, response: ArbitrationResponse, execution: InterventionExecution
-    ):
+    async def _execute_restructure(self, response: ArbitrationResponse, execution: InterventionExecution):
         """Execute restructure intervention."""
         for symbol_id in response.affected_symbols:
             self.restructured_components.add(symbol_id)
             execution.affected_systems.append(f"restructured_{symbol_id}")
             execution.add_log_entry("symbol_restructured", "completed", {"symbol_id": symbol_id})
 
-    async def _execute_shutdown(
-        self, response: ArbitrationResponse, execution: InterventionExecution
-    ):
+    async def _execute_shutdown(self, response: ArbitrationResponse, execution: InterventionExecution):
         """Execute shutdown intervention."""
         for symbol_id in response.affected_symbols:
             self.shutdown_systems.add(symbol_id)
@@ -798,9 +786,7 @@ class LambdaGovernor:
         confidence = min(base_confidence * clarity_factor * completeness_factor, 1.0)
         return max(confidence, 0.1)  # Minimum confidence
 
-    def _generate_intervention_tags(
-        self, signal: EscalationSignal, decision: ActionDecision
-    ) -> list[str]:
+    def _generate_intervention_tags(self, signal: EscalationSignal, decision: ActionDecision) -> list[str]:
         """Generate intervention tags for the response."""
         tags = ["AINTERVENTION"]
 
@@ -824,9 +810,7 @@ class LambdaGovernor:
 
         return tags
 
-    def _generate_reasoning(
-        self, signal: EscalationSignal, risk_score: float, decision: ActionDecision
-    ) -> str:
+    def _generate_reasoning(self, signal: EscalationSignal, risk_score: float, decision: ActionDecision) -> str:
         """Generate human-readable reasoning for the decision."""
         base_reason = f"Risk score {risk_score:.3f} from {signal.source_module.value}"
 
@@ -872,9 +856,7 @@ class LambdaGovernor:
             },
         }
 
-    def _create_rollback_plan(
-        self, signal: EscalationSignal, decision: ActionDecision
-    ) -> Optional[dict[str, Any]]:
+    def _create_rollback_plan(self, signal: EscalationSignal, decision: ActionDecision) -> Optional[dict[str, Any]]:
         """Create rollback plan for interventions."""
         if decision == ActionDecision.ALLOW:
             return None
@@ -905,9 +887,7 @@ class LambdaGovernor:
         current_avg = self.stats["average_response_time"]
         total_decisions = sum(self.stats["decisions_by_type"].values())
 
-        self.stats["average_response_time"] = (
-            current_avg * (total_decisions - 1) + response_time
-        ) / total_decisions
+        self.stats["average_response_time"] = (current_avg * (total_decisions - 1) + response_time) / total_decisions
 
     def _is_recent(self, timestamp: str, minutes: int = 5) -> bool:
         """Check if timestamp is within recent minutes."""

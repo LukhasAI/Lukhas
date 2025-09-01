@@ -110,9 +110,7 @@ class AtomicRule:
     def __post_init__(self):
         """Seal the rule with cryptographic hash"""
         if not self.hash_seal:
-            self.hash_seal = hashlib.sha256(
-                f"{self.rule_id}:{self.content}:{self.category}".encode()
-            ).hexdigest()
+            self.hash_seal = hashlib.sha256(f"{self.rule_id}:{self.content}:{self.category}".encode()).hexdigest()
 
 
 @dataclass
@@ -207,9 +205,7 @@ class AtomicNucleus:
 
         for rule_id in sorted(self.rules.keys()):
             rule = self.rules[rule_id]
-            expected_hash = hashlib.sha256(
-                f"{rule.rule_id}:{rule.content}:{rule.category}".encode()
-            ).hexdigest()
+            expected_hash = hashlib.sha256(f"{rule.rule_id}:{rule.content}:{rule.category}".encode()).hexdigest()
 
             if expected_hash != rule.hash_seal:
                 logger.error(
@@ -231,9 +227,7 @@ class AtomicNucleus:
 
         # Placeholder for quantum signature generation
         # In real implementation, this would interface with quantum systems
-        return hashlib.sha256(f"quantum:{time.time()}:{id(self.qi_state)}".encode()).hexdigest()[
-            :32
-        ]
+        return hashlib.sha256(f"quantum:{time.time()}:{id(self.qi_state)}".encode()).hexdigest()[:32]
 
     def _update_integrity_chain(self, new_hash: str):
         """Update the integrity hash chain"""
@@ -272,9 +266,7 @@ class FlexibleCoilSystem:
         logger.debug("Memory coil created", coil_id=coil.coil_id)
         return coil.coil_id
 
-    async def add_memory_to_coil(
-        self, coil_id: str, memory_fold: Any, stress_factor: float = 0.0
-    ) -> bool:
+    async def add_memory_to_coil(self, coil_id: str, memory_fold: Any, stress_factor: float = 0.0) -> bool:
         """Add a memory fold to a coil"""
         if coil_id not in self.coils:
             logger.warning("Coil not found", coil_id=coil_id)
@@ -411,9 +403,7 @@ class AtomicMemoryScaffold:
         self.enable_colony_tags = enable_colony_tags
 
         # Colony integration
-        self.symbolic_carryover: dict[
-            str, tuple[str, TagScope, TagPermission, float, Optional[float]]
-        ] = {}
+        self.symbolic_carryover: dict[str, tuple[str, TagScope, TagPermission, float, Optional[float]]] = {}
 
         # Metrics
         self.total_memories = 0
@@ -471,9 +461,7 @@ class AtomicMemoryScaffold:
         }
 
         # Add to coil with stress factor
-        success = await self.coil_system.add_memory_to_coil(
-            coil_id, memory_data, stress_factor=trauma_factor * 0.1
-        )
+        success = await self.coil_system.add_memory_to_coil(coil_id, memory_data, stress_factor=trauma_factor * 0.1)
 
         if success:
             self.total_memories += 1
@@ -528,12 +516,8 @@ class AtomicMemoryScaffold:
     def get_metrics(self) -> dict[str, Any]:
         """Get comprehensive metrics about the scaffold"""
         total_coils = len(self.coil_system.coils)
-        avg_stress = sum(c.stress_level for c in self.coil_system.coils.values()) / max(
-            total_coils, 1
-        )
-        avg_resilience = sum(c.resilience_score for c in self.coil_system.coils.values()) / max(
-            total_coils, 1
-        )
+        avg_stress = sum(c.stress_level for c in self.coil_system.coils.values()) / max(total_coils, 1)
+        avg_resilience = sum(c.resilience_score for c in self.coil_system.coils.values()) / max(total_coils, 1)
 
         return {
             "nucleus": {

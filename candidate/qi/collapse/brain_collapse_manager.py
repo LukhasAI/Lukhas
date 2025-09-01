@@ -56,13 +56,9 @@ class BrainCollapseManager:
         self.recovery_attempts: int = 0
         self.symbolic_trace_logger: SymbolicTraceLogger = SymbolicTraceLogger()
         self.collapse_mesh: CollapseMesh = CollapseMesh()
-        self.collapse_chain_integrity: CollapseChainIntegrity = CollapseChainIntegrity(
-            brain_integrator
-        )
+        self.collapse_chain_integrity: CollapseChainIntegrity = CollapseChainIntegrity(brain_integrator)
         self.collapse_bridge: CollapseBridge = CollapseBridge(brain_integrator)
-        self.memory_collapse_verifier: MemoryCollapseVerifier = MemoryCollapseVerifier(
-            brain_integrator
-        )
+        self.memory_collapse_verifier: MemoryCollapseVerifier = MemoryCollapseVerifier(brain_integrator)
         self.integrity_probe: IntegrityProbe = IntegrityProbe(brain_integrator)
 
     async def detect_collapse(self) -> bool:
@@ -103,9 +99,7 @@ class BrainCollapseManager:
                 "timestamp": self.collapse_time.isoformat(),
             }
         )
-        await self.collapse_bridge.report_collapse(
-            {"collapse_time": self.collapse_time.isoformat()}
-        )
+        await self.collapse_bridge.report_collapse({"collapse_time": self.collapse_time.isoformat()})
 
         # #ΛPENDING_PATCH: This is a placeholder.
         #                A real implementation would need to take steps to

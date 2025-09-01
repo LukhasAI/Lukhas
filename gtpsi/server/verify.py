@@ -181,9 +181,7 @@ class GTΨVerificationService:
                 CREATE INDEX IF NOT EXISTS idx_approvals_expires ON gtpsi.approvals(expires_at);
             """)
 
-    async def generate_challenge(
-        self, lid: str, action: str, action_context: dict[str, Any]
-    ) -> GestureChallenge:
+    async def generate_challenge(self, lid: str, action: str, action_context: dict[str, Any]) -> GestureChallenge:
         """
         Generate GTΨ challenge for high-risk action.
 
@@ -265,9 +263,7 @@ class GTΨVerificationService:
                 raise ValueError("Gesture quality too low")
 
             # 4. Verify against stored patterns
-            verification_score = await self._verify_against_patterns(
-                request.lid, request.gesture_features
-            )
+            verification_score = await self._verify_against_patterns(request.lid, request.gesture_features)
 
             if verification_score < 0.7:  # 70% similarity threshold
                 raise ValueError("Gesture pattern does not match")
@@ -276,8 +272,7 @@ class GTΨVerificationService:
             approval_id = f"approval_{secrets.token_urlsafe(24)}"
             approval_expiry = min(
                 challenge.expires_at,
-                datetime.now(timezone.utc)
-                + timedelta(seconds=get_max_approval_time(challenge.action)),
+                datetime.now(timezone.utc) + timedelta(seconds=get_max_approval_time(challenge.action)),
             )
 
             approval = GestureApproval(
@@ -296,9 +291,7 @@ class GTΨVerificationService:
             self.approvals[approval_id] = approval
 
             # Mark challenge as completed
-            challenge.expires_at = datetime.now(timezone.utc) + timedelta(
-                seconds=60
-            )  # Keep for cleanup
+            challenge.expires_at = datetime.now(timezone.utc) + timedelta(seconds=60)  # Keep for cleanup
 
             # Audit success
             processing_time = (time.perf_counter() - start_time) * 1000
@@ -312,9 +305,7 @@ class GTΨVerificationService:
                 metadata={"processing_time_ms": processing_time, "score": verification_score},
             )
 
-            return GestureVerificationResponse(
-                verified=True, approval_id=approval_id, expires_at=approval_expiry
-            )
+            return GestureVerificationResponse(verified=True, approval_id=approval_id, expires_at=approval_expiry)
 
         except Exception as e:
             # Audit failure
@@ -462,17 +453,13 @@ class GTΨVerificationService:
         now = datetime.now(timezone.utc)
 
         # Clean challenges
-        expired_challenges = [
-            cid for cid, challenge in self.active_challenges.items() if now > challenge.expires_at
-        ]
+        expired_challenges = [cid for cid, challenge in self.active_challenges.items() if now > challenge.expires_at]
 
         for cid in expired_challenges:
             del self.active_challenges[cid]
 
         # Clean approvals
-        expired_approvals = [
-            aid for aid, approval in self.approvals.items() if now > approval.expires_at
-        ]
+        expired_approvals = [aid for aid, approval in self.approvals.items() if now > approval.expires_at]
 
         for aid in expired_approvals:
             del self.approvals[aid]
@@ -514,9 +501,7 @@ class GTΨVerificationService:
 
         active_challenges = len([c for c in self.active_challenges.values() if now <= c.expires_at])
 
-        active_approvals = len(
-            [a for a in self.approvals.values() if not a.used and now <= a.expires_at]
-        )
+        active_approvals = len([a for a in self.approvals.values() if not a.used and now <= a.expires_at])
 
         total_enrolled_users = len(self.stored_gestures)
 

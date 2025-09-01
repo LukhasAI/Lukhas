@@ -89,9 +89,7 @@ class DALLEClient:
 
             logger.info(f"Generating image with DALL-E: {prompt[:50]}...")
 
-            async with self.session.post(
-                f"{self.api_base}/images/generations", json=payload
-            ) as response:
+            async with self.session.post(f"{self.api_base}/images/generations", json=payload) as response:
                 if response.status != 200:
                     error_text = await response.text()
                     logger.error(f"DALL-E API error: {response.status} - {error_text}")
@@ -209,9 +207,7 @@ class DALLEClient:
 
             logger.info(f"Editing image with DALL-E: {prompt[:50]}...")
 
-            async with self.session.post(
-                f"{self.api_base}/images/edits", data=form_data
-            ) as response:
+            async with self.session.post(f"{self.api_base}/images/edits", data=form_data) as response:
                 if response.status != 200:
                     error_text = await response.text()
                     logger.error(f"DALL-E API error: {response.status} - {error_text}")

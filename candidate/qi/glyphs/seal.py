@@ -120,9 +120,7 @@ def make_seal(
     # Convert signature to COSE format
     cose_sig = {
         "protected": base64.urlsafe_b64encode(
-            json.dumps(
-                {"alg": sig_info["alg"], "kid": sig_info.get("pubkey_id", "default")}
-            ).encode()
+            json.dumps({"alg": sig_info["alg"], "kid": sig_info.get("pubkey_id", "default")}).encode()
         )
         .decode()
         .rstrip("="),
@@ -157,9 +155,7 @@ def verify_seal(seal_bytes: bytes, sig: dict[str, Any], content_bytes: bytes | N
         from qi.crypto.pqc_signer import verify_signature
 
         # Decode COSE protected header
-        protected = json.loads(
-            base64.urlsafe_b64decode(sig["protected"] + "=" * (4 - len(sig["protected"]) % 4))
-        )
+        protected = json.loads(base64.urlsafe_b64decode(sig["protected"] + "=" * (4 - len(sig["protected"]) % 4)))
 
         sig_info = {
             "alg": protected["alg"],

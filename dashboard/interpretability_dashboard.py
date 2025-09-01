@@ -72,12 +72,8 @@ class DecisionTrace:
             explanation += f"\nConsidered {len(self.alternatives_considered)} alternatives\n"
 
         if self.feedback_received:
-            avg_rating = sum(f.get("rating", 0) for f in self.feedback_received) / len(
-                self.feedback_received
-            )
-            explanation += (
-                f"\nUser feedback: {avg_rating:.1f}/5 from {len(self.feedback_received)} users\n"
-            )
+            avg_rating = sum(f.get("rating", 0) for f in self.feedback_received) / len(self.feedback_received)
+            explanation += f"\nUser feedback: {avg_rating:.1f}/5 from {len(self.feedback_received)} users\n"
 
         return explanation
 
@@ -260,18 +256,12 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
                     if self.feedback_system:
                         # Get recent feedback for this module
                         module_decisions = [
-                            d
-                            for d in self.decision_traces.values()
-                            if d.module == module_name and d.feedback_received
+                            d for d in self.decision_traces.values() if d.module == module_name and d.feedback_received
                         ]
                         if module_decisions:
                             all_ratings = []
                             for decision in module_decisions[-10:]:  # Last 10 decisions
-                                ratings = [
-                                    f.get("rating", 0)
-                                    for f in decision.feedback_received
-                                    if "rating" in f
-                                ]
+                                ratings = [f.get("rating", 0) for f in decision.feedback_received if "rating" in f]
                                 all_ratings.extend(ratings)
 
                             if all_ratings:
@@ -388,9 +378,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         # Update module satisfaction score
         await self._update_module_health()
 
-    async def get_decision_explanation(
-        self, decision_id: str, include_feedback: bool = True
-    ) -> dict[str, Any]:
+    async def get_decision_explanation(self, decision_id: str, include_feedback: bool = True) -> dict[str, Any]:
         """
         Get comprehensive explanation for a decision.
 
@@ -444,9 +432,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             # Normalize sentiments
             if feedback_summary["sentiments"]:
                 total = sum(feedback_summary["sentiments"].values())
-                feedback_summary["sentiments"] = {
-                    k: v / total for k, v in feedback_summary["sentiments"].items()
-                }
+                feedback_summary["sentiments"] = {k: v / total for k, v in feedback_summary["sentiments"].items()}
 
             explanation["feedback"] = feedback_summary
 
@@ -507,9 +493,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             "current_metrics": {
                 "health_score": recent_metrics.health_score if recent_metrics else 0.0,
                 "active_modules": len([m for m in self.module_health.values() if m.operational]),
-                "decisions_per_minute": (
-                    recent_metrics.decisions_per_minute if recent_metrics else 0
-                ),
+                "decisions_per_minute": (recent_metrics.decisions_per_minute if recent_metrics else 0),
                 "user_satisfaction": self._calculate_overall_satisfaction(),
             },
             "recent_decisions": [
@@ -618,9 +602,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             awareness_state = await self.consciousness_service.assess_awareness({})
 
             # Get consciousness-related decisions
-            consciousness_decisions = [
-                d for d in self.decision_traces.values() if d.module == "consciousness_service"
-            ]
+            consciousness_decisions = [d for d in self.decision_traces.values() if d.module == "consciousness_service"]
 
             return {
                 "current_state": awareness_state,
@@ -632,9 +614,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
                         "timestamp": d.timestamp.isoformat(),
                         "user_satisfaction": self._calculate_decision_satisfaction(d),
                     }
-                    for d in sorted(
-                        consciousness_decisions, key=lambda x: x.timestamp, reverse=True
-                    )[:10]
+                    for d in sorted(consciousness_decisions, key=lambda x: x.timestamp, reverse=True)[:10]
                 ],
                 "awareness_history": self._get_awareness_history(),
                 "decision_patterns": self._analyze_consciousness_patterns(consciousness_decisions),
@@ -652,9 +632,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             memory_status = await self.memory_service.get_status()
 
             # Get memory-related decisions
-            memory_decisions = [
-                d for d in self.decision_traces.values() if d.module == "memory_service"
-            ]
+            memory_decisions = [d for d in self.decision_traces.values() if d.module == "memory_service"]
 
             return {
                 "status": memory_status,
@@ -725,14 +703,10 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
                     for event_type, entries in entries_by_type.items()
                 },
                 "decision_audit_trail": [
-                    entry
-                    for entry in recent_entries
-                    if entry.get("event_type") == "decision_tracked"
+                    entry for entry in recent_entries if entry.get("event_type") == "decision_tracked"
                 ][:20],
                 "feedback_audit_trail": [
-                    entry
-                    for entry in recent_entries
-                    if entry.get("event_type") == "user_feedback_collected"
+                    entry for entry in recent_entries if entry.get("event_type") == "user_feedback_collected"
                 ][:20],
             }
         except Exception as e:
@@ -768,9 +742,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         if not self.decision_traces:
             return 0.0
 
-        decisions_with_feedback = sum(
-            1 for d in self.decision_traces.values() if d.feedback_received
-        )
+        decisions_with_feedback = sum(1 for d in self.decision_traces.values() if d.feedback_received)
 
         return decisions_with_feedback / len(self.decision_traces)
 
@@ -793,9 +765,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         operational_count = sum(1 for h in self.module_health.values() if h.operational)
 
         base_health = sum(health_scores) / len(health_scores) if health_scores else 0.5
-        operational_ratio = (
-            operational_count / len(self.module_health) if self.module_health else 0.5
-        )
+        operational_ratio = operational_count / len(self.module_health) if self.module_health else 0.5
 
         # Factor in error rate and user satisfaction
         error_penalty = self._calculate_error_rate() * 0.3
@@ -811,11 +781,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
 
     def _calculate_overall_satisfaction(self) -> float:
         """Calculate overall user satisfaction"""
-        satisfactions = [
-            h.user_satisfaction
-            for h in self.module_health.values()
-            if h.user_satisfaction is not None
-        ]
+        satisfactions = [h.user_satisfaction for h in self.module_health.values() if h.user_satisfaction is not None]
 
         if not satisfactions:
             return 0.7  # Default neutral
@@ -858,17 +824,9 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         # Simple trend analysis
         recent_feedback = list(self.feedback_stream)[-20:]
 
-        positive_count = sum(
-            1
-            for f in recent_feedback
-            if f["feedback"].get("sentiment", {}).get("positive", 0) > 0.5
-        )
+        positive_count = sum(1 for f in recent_feedback if f["feedback"].get("sentiment", {}).get("positive", 0) > 0.5)
 
-        negative_count = sum(
-            1
-            for f in recent_feedback
-            if f["feedback"].get("sentiment", {}).get("negative", 0) > 0.5
-        )
+        negative_count = sum(1 for f in recent_feedback if f["feedback"].get("sentiment", {}).get("negative", 0) > 0.5)
 
         if positive_count > negative_count * 1.5:
             trend = "improving"
@@ -932,13 +890,9 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             if not health.operational:
                 recommendations.append(f"Restart {name} - currently non-operational")
             elif health.health_score < 0.5:
-                recommendations.append(
-                    f"Investigate {name} - low health score ({health.health_score:.1%})"
-                )
+                recommendations.append(f"Investigate {name} - low health score ({health.health_score:.1%})")
             elif health.error_count > 10:
-                recommendations.append(
-                    f"Review {name} errors - {health.error_count} errors detected"
-                )
+                recommendations.append(f"Review {name} errors - {health.error_count} errors detected")
 
         # Check user satisfaction
         satisfaction = self._calculate_overall_satisfaction()
@@ -961,9 +915,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
 
         # Clean up old decisions
         old_decisions = [
-            decision_id
-            for decision_id, trace in self.decision_traces.items()
-            if trace.timestamp < cutoff_time
+            decision_id for decision_id, trace in self.decision_traces.items() if trace.timestamp < cutoff_time
         ]
 
         for decision_id in old_decisions:
@@ -1019,9 +971,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             return {"status": "tracked"}
 
         elif action == "integrate_feedback":
-            await self.integrate_feedback(
-                decision_id=data["decision_id"], feedback_data=data["feedback_data"]
-            )
+            await self.integrate_feedback(decision_id=data["decision_id"], feedback_data=data["feedback_data"])
             return {"status": "integrated"}
 
         elif action == "explain_decision":
@@ -1056,9 +1006,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
 # Example usage
 async def demo_interpretability_dashboard():
     """Demonstrate the interpretability dashboard"""
-    dashboard = UnifiedInterpretabilityDashboard(
-        config={"update_interval": 2, "enable_realtime": True}
-    )
+    dashboard = UnifiedInterpretabilityDashboard(config={"update_interval": 2, "enable_realtime": True})
 
     # Mock services
     from unittest.mock import AsyncMock, Mock

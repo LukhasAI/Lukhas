@@ -161,9 +161,7 @@ async def get_meta_logs(limit: int = 50, user: AuthContext = Depends(require_t3_
             "summary": {
                 "total_entries": total_entries,
                 "trinity_aligned": trinity_aligned,
-                "trinity_percentage": (
-                    (trinity_aligned / total_entries * 100) if total_entries > 0 else 0
-                ),
+                "trinity_percentage": ((trinity_aligned / total_entries * 100) if total_entries > 0 else 0),
                 "risk_distribution": risk_distribution,
                 "unique_glyphs": list(all_glyphs),
                 "time_range": {
@@ -232,19 +230,12 @@ async def get_guardian_logs(limit: int = 20, user: AuthContext = Depends(get_cur
                 "total_interventions": len(enriched_guardian_logs),
                 "severity_distribution": {
                     "low": sum(1 for log in enriched_guardian_logs if log.get("severity") == "low"),
-                    "medium": sum(
-                        1 for log in enriched_guardian_logs if log.get("severity") == "medium"
-                    ),
-                    "high": sum(
-                        1 for log in enriched_guardian_logs if log.get("severity") == "high"
-                    ),
-                    "critical": sum(
-                        1 for log in enriched_guardian_logs if log.get("severity") == "critical"
-                    ),
+                    "medium": sum(1 for log in enriched_guardian_logs if log.get("severity") == "medium"),
+                    "high": sum(1 for log in enriched_guardian_logs if log.get("severity") == "high"),
+                    "critical": sum(1 for log in enriched_guardian_logs if log.get("severity") == "critical"),
                 },
                 "average_drift": (
-                    sum(log.get("drift_score", 0) for log in enriched_guardian_logs)
-                    / len(enriched_guardian_logs)
+                    sum(log.get("drift_score", 0) for log in enriched_guardian_logs) / len(enriched_guardian_logs)
                     if enriched_guardian_logs
                     else 0
                 ),

@@ -86,9 +86,7 @@ class DistributedMemorySystem:
         self.event_store = EventStore(f"memory_{system_id}.db")
 
         # State manager for fast access
-        self.state_manager = DistributedStateManager(
-            node_id=f"memory-node-{system_id}", event_store=self.event_store
-        )
+        self.state_manager = DistributedStateManager(node_id=f"memory-node-{system_id}", event_store=self.event_store)
 
         # Memory index for fast lookup
         self.memory_index: dict[str, tuple[MemoryType, str]] = {}  # memory_id -> (type, colony_id)
@@ -296,9 +294,7 @@ class DistributedMemorySystem:
                 search_task = {
                     "type": "search_memories",
                     "query": query,
-                    "query_embedding": (
-                        query_embedding.tolist() if query_embedding is not None else None
-                    ),
+                    "query_embedding": (query_embedding.tolist() if query_embedding is not None else None),
                     "limit": limit * 2,  # Get more to filter later
                     "threshold": threshold,
                 }
@@ -389,9 +385,7 @@ class DistributedMemorySystem:
                 "min_importance": 0.3,
             }
 
-            consolidation_tasks.append(
-                colony.execute_task(f"consolidate-{memory_type.value}", task)
-            )
+            consolidation_tasks.append(colony.execute_task(f"consolidate-{memory_type.value}", task))
 
         # Wait for all consolidations to complete
         results = await asyncio.gather(*consolidation_tasks, return_exceptions=True)
@@ -401,9 +395,7 @@ class DistributedMemorySystem:
             if isinstance(result, dict) and result.get("consolidated_count"):
                 consolidated_count += result["consolidated_count"]
 
-        self.logger.info(
-            f"Memory consolidation complete. Consolidated {consolidated_count} memories"
-        )
+        self.logger.info(f"Memory consolidation complete. Consolidated {consolidated_count} memories")
         return consolidated_count
 
     async def get_memory_statistics(self) -> dict[str, Any]:
@@ -480,9 +472,7 @@ class DistributedMemorySystem:
             timestamp=datetime.fromisoformat(data["timestamp"]),
             importance=data.get("importance", 0.5),
             access_count=data.get("access_count", 0),
-            last_accessed=(
-                datetime.fromisoformat(data["last_accessed"]) if data.get("last_accessed") else None
-            ),
+            last_accessed=(datetime.fromisoformat(data["last_accessed"]) if data.get("last_accessed") else None),
             colony_id=data.get("colony_id"),
             tags=data.get("tags", []),
         )

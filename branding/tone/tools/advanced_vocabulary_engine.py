@@ -76,25 +76,15 @@ class AdvancedVocabularyEngine:
         path_lower = file_path.lower()
 
         # Module detection patterns
-        if any(
-            word in content_lower or word in path_lower
-            for word in ["memory", "fold", "remember", "temporal"]
-        ):
+        if any(word in content_lower or word in path_lower for word in ["memory", "fold", "remember", "temporal"]):
             return "memory"
-        elif any(
-            word in content_lower or word in path_lower
-            for word in ["vivox", "emotion", "attention", "learning"]
-        ):
+        elif any(word in content_lower or word in path_lower for word in ["vivox", "emotion", "attention", "learning"]):
             return "vivox"
         elif any(
-            word in content_lower or word in path_lower
-            for word in ["quantum", "probability", "entangle", "collapse"]
+            word in content_lower or word in path_lower for word in ["quantum", "probability", "entangle", "collapse"]
         ):
             return "quantum"
-        elif any(
-            word in content_lower or word in path_lower
-            for word in ["trinity", "identity", "guardian", "ethics"]
-        ):
+        elif any(word in content_lower or word in path_lower for word in ["trinity", "identity", "guardian", "ethics"]):
             return "trinity_core"
         else:
             return "trinity_core"  # Default to core consciousness

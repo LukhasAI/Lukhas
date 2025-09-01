@@ -132,9 +132,7 @@ class LLMAssistedValidator:
             "flow_state": "Your optimal flow state enables seamless authentication. The system recognizes your peak performance and responds fluidly.",
         }
 
-    async def validate_authentication_context(
-        self, context: LLMAnalysisContext
-    ) -> LLMValidationResponse:
+    async def validate_authentication_context(self, context: LLMAnalysisContext) -> LLMValidationResponse:
         """
         Use LLM reasoning to validate authentication context and generate insights
         """
@@ -179,9 +177,7 @@ class LLMAssistedValidator:
 
         # Mock LLM analysis (in real implementation, would call actual LLM)
         analysis = {
-            "risk_level": (
-                "low" if context.consciousness_state in ["focused", "meditative"] else "medium"
-            ),
+            "risk_level": ("low" if context.consciousness_state in ["focused", "meditative"] else "medium"),
             "anomalies": [],
             "confidence": 0.85,
             "recommendations": [],
@@ -189,10 +185,7 @@ class LLMAssistedValidator:
         }
 
         # Analyze consciousness authenticity
-        if (
-            context.consciousness_state == "dreaming"
-            and context.session_metadata.get("time_of_day") == "daytime"
-        ):
+        if context.consciousness_state == "dreaming" and context.session_metadata.get("time_of_day") == "daytime":
             analysis["anomalies"].append("Dream state during daytime hours")
             analysis["risk_level"] = "medium"
             analysis["recommendations"].append("Verify dream state authenticity")
@@ -242,9 +235,7 @@ class LLMAssistedValidator:
 
         return analysis
 
-    async def _generate_authentication_narrative(
-        self, context: LLMAnalysisContext, analysis: dict[str, Any]
-    ) -> str:
+    async def _generate_authentication_narrative(self, context: LLMAnalysisContext, analysis: dict[str, Any]) -> str:
         """Generate natural language narrative for authentication"""
 
         base_narrative = self.narrative_templates.get(
@@ -261,15 +252,15 @@ class LLMAssistedValidator:
         if analysis.get("risk_level") == "low":
             security_detail = " All security validations have passed successfully, confirming your authentic identity."
         elif analysis.get("risk_level") == "medium":
-            security_detail = " Additional security measures have been applied to ensure your account remains protected."
+            security_detail = (
+                " Additional security measures have been applied to ensure your account remains protected."
+            )
 
         method_detail = f" Using {context.authentication_method.replace('_', ' ')} authentication method provides the optimal balance of security and user experience for your current state."
 
         return f"{base_narrative}{cultural_detail}{security_detail}{method_detail}"
 
-    async def _assess_security_risks(
-        self, context: LLMAnalysisContext, analysis: dict[str, Any]
-    ) -> str:
+    async def _assess_security_risks(self, context: LLMAnalysisContext, analysis: dict[str, Any]) -> str:
         """Assess security risks using LLM reasoning"""
 
         risk_level = analysis.get("risk_level", "medium")
@@ -295,29 +286,21 @@ class LLMAssistedValidator:
         cultural_context = context.cultural_context
 
         if cultural_context.get("region"):
-            observations.append(
-                f"Cultural adaptation applied for {cultural_context['region']} region"
-            )
+            observations.append(f"Cultural adaptation applied for {cultural_context['region']} region")
 
         if cultural_context.get("language") != "en":
-            observations.append(
-                f"Multi-language support activated for {cultural_context['language']}"
-            )
+            observations.append(f"Multi-language support activated for {cultural_context['language']}")
 
         if cultural_context.get("ui_direction") == "rtl":
             observations.append("Right-to-left UI adaptation applied")
 
         interaction_style = cultural_context.get("interaction_style")
         if interaction_style:
-            observations.append(
-                f"Authentication flow adapted for {interaction_style} interaction style"
-            )
+            observations.append(f"Authentication flow adapted for {interaction_style} interaction style")
 
         return observations
 
-    def _determine_validation_result(
-        self, context_analysis: dict, behavioral_analysis: dict
-    ) -> LLMValidationResult:
+    def _determine_validation_result(self, context_analysis: dict, behavioral_analysis: dict) -> LLMValidationResult:
         """Determine overall validation result"""
 
         risk_level = context_analysis.get("risk_level", "medium")

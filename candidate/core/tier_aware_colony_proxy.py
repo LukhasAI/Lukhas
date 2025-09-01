@@ -215,9 +215,9 @@ class TierAwareColonyProxy:
             return "query_operations"
         elif any(prefix in method_lower for prefix in ["create", "add", "insert", "generate"]):
             return "advanced_operations"
-        elif any(
-            prefix in method_lower for prefix in ["update", "modify", "edit", "change"]
-        ) or any(prefix in method_lower for prefix in ["delete", "remove", "destroy"]):
+        elif any(prefix in method_lower for prefix in ["update", "modify", "edit", "change"]) or any(
+            prefix in method_lower for prefix in ["delete", "remove", "destroy"]
+        ):
             return "admin_operations"
         elif any(prefix in method_lower for prefix in ["predict", "forecast", "anticipate"]):
             return "oracle_operations"
@@ -228,9 +228,7 @@ class TierAwareColonyProxy:
         """Setup method interception for identity-aware access control."""
         # Get all methods from the target colony
         for method_name in dir(self.target_colony):
-            if not method_name.startswith("_") and callable(
-                getattr(self.target_colony, method_name)
-            ):
+            if not method_name.startswith("_") and callable(getattr(self.target_colony, method_name)):
                 # Create wrapped version of the method
                 original_method = getattr(self.target_colony, method_name)
                 wrapped_method = self._create_identity_aware_wrapper(method_name, original_method)
@@ -238,9 +236,7 @@ class TierAwareColonyProxy:
                 # Replace the method on this proxy
                 setattr(self, method_name, wrapped_method)
 
-    def _create_identity_aware_wrapper(
-        self, method_name: str, original_method: Callable
-    ) -> Callable:
+    def _create_identity_aware_wrapper(self, method_name: str, original_method: Callable) -> Callable:
         """Create an identity-aware wrapper for a colony method."""
 
         # Determine if method is async
@@ -250,18 +246,14 @@ class TierAwareColonyProxy:
 
             @wraps(original_method)
             async def async_wrapper(*args, **kwargs):
-                return await self._execute_with_identity_check(
-                    method_name, original_method, args, kwargs
-                )
+                return await self._execute_with_identity_check(method_name, original_method, args, kwargs)
 
             return async_wrapper
         else:
 
             @wraps(original_method)
             def sync_wrapper(*args, **kwargs):
-                return asyncio.run(
-                    self._execute_with_identity_check(method_name, original_method, args, kwargs)
-                )
+                return asyncio.run(self._execute_with_identity_check(method_name, original_method, args, kwargs))
 
             return sync_wrapper
 
@@ -324,9 +316,7 @@ class TierAwareColonyProxy:
 
             # Keep only last 1000 measurements
             if len(self.performance_metrics[method_name]) > 1000:
-                self.performance_metrics[method_name] = self.performance_metrics[method_name][
-                    -1000:
-                ]
+                self.performance_metrics[method_name] = self.performance_metrics[method_name][-1000:]
 
     def _extract_user_context(self, args: tuple, kwargs: dict) -> Optional[QIUserContext]:
         """Extract user context from method arguments."""
@@ -375,9 +365,7 @@ class TierAwareColonyProxy:
 
         # Use quantum identity manager for additional authorization
         if self.identity_manager:
-            authorized = await self.identity_manager.authorize_colony_access(
-                user_context, self.proxy_id, method_name
-            )
+            authorized = await self.identity_manager.authorize_colony_access(user_context, self.proxy_id, method_name)
             if not authorized:
                 raise QISecurityError(f"Quantum authorization failed for method {method_name}")
 
@@ -440,9 +428,7 @@ class TierAwareColonyProxy:
     async def register_user_context(self, user_context: QIUserContext):
         """Register a user context for proxy access."""
         self.active_user_contexts[user_context.user_id] = user_context
-        self.logger.debug(
-            f"Registered user context for {user_context.user_id} in proxy {self.proxy_id}"
-        )
+        self.logger.debug(f"Registered user context for {user_context.user_id} in proxy {self.proxy_id}")
 
     async def unregister_user_context(self, user_id: str):
         """Unregister a user context."""
@@ -507,9 +493,7 @@ class TierAwareColonyProxy:
         raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
 
     def __str__(self) -> str:
-        return (
-            f"TierAwareColonyProxy({self.proxy_id}, wrapping {type(self.target_colony).__name__})"
-        )
+        return f"TierAwareColonyProxy({self.proxy_id}, wrapping {type(self.target_colony).__name__})"
 
     def __repr__(self) -> str:
         return f"TierAwareColonyProxy(proxy_id='{self.proxy_id}', target={type(self.target_colony).__name__})"
@@ -529,9 +513,7 @@ class ColonyProxyManager:
         self.proxies: dict[str, TierAwareColonyProxy] = {}
         self.logger = logging.getLogger(f"{__name__}.ColonyProxyManager")
 
-    def create_proxy(
-        self, colony: Union[BaseColony, object], proxy_id: Optional[str] = None
-    ) -> TierAwareColonyProxy:
+    def create_proxy(self, colony: Union[BaseColony, object], proxy_id: Optional[str] = None) -> TierAwareColonyProxy:
         """
         Create a tier-aware proxy for a colony.
 
@@ -571,9 +553,7 @@ class ColonyProxyManager:
         for proxy in self.proxies.values():
             await proxy.register_user_context(user_context)
 
-        self.logger.debug(
-            f"Registered user context {user_context.user_id} across {len(self.proxies)} proxies"
-        )
+        self.logger.debug(f"Registered user context {user_context.user_id} across {len(self.proxies)} proxies")
 
     async def unregister_user_context_all(self, user_id: str):
         """Unregister user context across all proxies."""

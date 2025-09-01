@@ -216,9 +216,7 @@ class MemoryEvolution:
         similarities = []
         for doc_id, vector in self.semantic_cache.items():
             # Simple cosine similarity
-            similarity = np.dot(query_vector, vector) / (
-                np.linalg.norm(query_vector) * np.linalg.norm(vector)
-            )
+            similarity = np.dot(query_vector, vector) / (np.linalg.norm(query_vector) * np.linalg.norm(vector))
             similarities.append((doc_id, similarity))
 
         # Return top similar documents
@@ -274,9 +272,7 @@ class MemoryEvolution:
         # Get semantic relations
         if current_doc := self.version_control.documents.get(doc_id):
             if current_doc.current_version:
-                semantic_relations = self._find_semantic_relations(
-                    current_doc.current_version.content, max_relations=5
-                )
+                semantic_relations = self._find_semantic_relations(current_doc.current_version.content, max_relations=5)
 
                 # Combine and score relationships
                 combined = {}
@@ -333,9 +329,7 @@ class MemoryEvolution:
 
         return combined_recs
 
-    def update_document_relationships(
-        self, doc_id: str, related_docs: list[str], strengths: list[float]
-    ):
+    def update_document_relationships(self, doc_id: str, related_docs: list[str], strengths: list[float]):
         """Update relationships between documents in knowledge graph."""
         knowledge_id = f"node_{doc_id}"
         related_knowledge_ids = [f"node_{doc}" for doc in related_docs]
@@ -361,9 +355,7 @@ class MemoryEvolution:
         for doc_id in self.version_control.documents:
             if current_version := self.version_control.documents[doc_id].current_version:
                 # Analyze current structure
-                structure_metrics = self.document_analyzer.analyze_structure(
-                    current_version.content
-                )
+                structure_metrics = self.document_analyzer.analyze_structure(current_version.content)
 
                 # Update metadata with new metrics
                 current_version.metadata["structure_metrics"] = structure_metrics
@@ -381,9 +373,7 @@ class MemoryEvolution:
                 )
 
                 # Update semantic relationships
-                self._update_semantic_relationships(
-                    doc_id, current_version.content, f"node_{doc_id}"
-                )
+                self._update_semantic_relationships(doc_id, current_version.content, f"node_{doc_id}")
 
         # Update semantic cache for old entries
         self._prune_semantic_cache()

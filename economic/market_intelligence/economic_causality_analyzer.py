@@ -72,30 +72,20 @@ class EconomicCausalityAnalyzer(CoreInterface):
         }
 
         # Analyze foundation causality
-        chains["foundation_paths"] = await self._analyze_foundation_causality(
-            market_structure, disruption_potential
-        )
+        chains["foundation_paths"] = await self._analyze_foundation_causality(market_structure, disruption_potential)
 
         # Analyze market entry causality
-        chains["entry_paths"] = await self._analyze_entry_causality(
-            market_structure, disruption_potential
-        )
+        chains["entry_paths"] = await self._analyze_entry_causality(market_structure, disruption_potential)
 
         # Analyze expansion causality
-        chains["expansion_paths"] = await self._analyze_expansion_causality(
-            market_structure, disruption_potential
-        )
+        chains["expansion_paths"] = await self._analyze_expansion_causality(market_structure, disruption_potential)
 
         # Analyze dominance causality
-        chains["dominance_paths"] = await self._analyze_dominance_causality(
-            market_structure, disruption_potential
-        )
+        chains["dominance_paths"] = await self._analyze_dominance_causality(market_structure, disruption_potential)
 
         return chains
 
-    async def analyze_market_dynamics(
-        self, market_implementation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def analyze_market_dynamics(self, market_implementation: dict[str, Any]) -> dict[str, Any]:
         """
         Analyze current market dynamics
 
@@ -114,9 +104,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
         }
 
         # Analyze competitive forces
-        dynamics["competitive_forces"] = await self._analyze_competitive_forces(
-            market_implementation
-        )
+        dynamics["competitive_forces"] = await self._analyze_competitive_forces(market_implementation)
 
         # Identify market trends
         dynamics["market_trends"] = await self._identify_market_trends(market_implementation)
@@ -132,9 +120,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
         return dynamics
 
-    async def estimate_strategy_impact(
-        self, strategy: dict[str, Any], market_factors: dict[str, Any]
-    ) -> float:
+    async def estimate_strategy_impact(self, strategy: dict[str, Any], market_factors: dict[str, Any]) -> float:
         """
         Estimate the impact of a strategy on the market
 
@@ -416,9 +402,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
         return paths
 
-    async def _analyze_competitive_forces(
-        self, market_implementation: dict[str, Any]
-    ) -> dict[str, float]:
+    async def _analyze_competitive_forces(self, market_implementation: dict[str, Any]) -> dict[str, float]:
         """Analyze Porter's Five Forces"""
 
         return {
@@ -429,9 +413,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
             "threat_of_new_entry": 0.6,
         }
 
-    async def _identify_market_trends(
-        self, market_implementation: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def _identify_market_trends(self, market_implementation: dict[str, Any]) -> list[dict[str, Any]]:
         """Identify current market trends"""
 
         trends = []
@@ -460,9 +442,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
         return trends
 
-    async def _detect_inflection_points(
-        self, market_implementation: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def _detect_inflection_points(self, market_implementation: dict[str, Any]) -> list[dict[str, Any]]:
         """Detect market inflection points"""
 
         inflection_points = []
@@ -489,9 +469,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
         return inflection_points
 
-    async def _identify_feedback_loops(
-        self, market_implementation: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def _identify_feedback_loops(self, market_implementation: dict[str, Any]) -> list[dict[str, Any]]:
         """Identify market feedback loops"""
 
         loops = []

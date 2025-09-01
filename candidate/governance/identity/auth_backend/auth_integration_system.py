@@ -293,9 +293,7 @@ class LUKHASAuthIntegrationSystem:
                             "type": "guardian_alert",
                             "message": "Guardian System detected ethical concern",
                             "drift_score": guardian_result.get("drift_score", 0.0),
-                            "severity": "high"
-                            if guardian_result.get("drift_score", 0.0) >= 0.8
-                            else "medium",
+                            "severity": "high" if guardian_result.get("drift_score", 0.0) >= 0.8 else "medium",
                         }
                     )
 
@@ -316,9 +314,7 @@ class LUKHASAuthIntegrationSystem:
                 if "guardian" in result["components"]:
                     enhanced_context.update(
                         {
-                            "constitutional_valid": result["components"]["guardian"].get(
-                                "constitutional_valid", True
-                            ),
+                            "constitutional_valid": result["components"]["guardian"].get("constitutional_valid", True),
                             "bias_flags": result["components"]["guardian"].get("bias_flags", []),
                             "drift_score": result["components"]["guardian"].get("drift_score", 0.0),
                             "guardian_monitoring": True,
@@ -359,20 +355,14 @@ class LUKHASAuthIntegrationSystem:
                 access_context = {
                     "granted": outcome == "success",
                     "scopes": auth_context.get("scopes", []),
-                    "constitutional_valid": result["components"]
-                    .get("guardian", {})
-                    .get("constitutional_valid", True),
-                    "requires_guardian_oversight": any(
-                        alert["type"] == "guardian_alert" for alert in result["alerts"]
-                    ),
+                    "constitutional_valid": result["components"].get("guardian", {}).get("constitutional_valid", True),
+                    "requires_guardian_oversight": any(alert["type"] == "guardian_alert" for alert in result["alerts"]),
                 }
 
                 session_context = {
                     "active": outcome == "success",
                     "session_id": auth_context.get("session_id", str(uuid.uuid4())),
-                    "consciousness_integration": auth_context.get(
-                        "consciousness_integration", False
-                    ),
+                    "consciousness_integration": auth_context.get("consciousness_integration", False),
                 }
 
                 symbolic_identity = self.glyph_registry.create_symbolic_identity(
@@ -391,13 +381,8 @@ class LUKHASAuthIntegrationSystem:
                     metadata={
                         "guardian_monitoring": "guardian" in result["components"],
                         "constitutional_valid": access_context["constitutional_valid"],
-                        "drift_detected": result["components"]
-                        .get("guardian", {})
-                        .get("drift_score", 0.0)
-                        >= 0.15,
-                        "bias_detected": bool(
-                            result["components"].get("guardian", {}).get("bias_flags", [])
-                        ),
+                        "drift_detected": result["components"].get("guardian", {}).get("drift_score", 0.0) >= 0.15,
+                        "bias_detected": bool(result["components"].get("guardian", {}).get("bias_flags", [])),
                     },
                 )
 
@@ -422,13 +407,9 @@ class LUKHASAuthIntegrationSystem:
                     **auth_context,
                     "integration_results": result["components"],
                     "symbolic_identity": result["glyph_data"].get("composite_glyph"),
-                    "constitutional_valid": result["components"]
-                    .get("guardian", {})
-                    .get("constitutional_valid", True),
+                    "constitutional_valid": result["components"].get("guardian", {}).get("constitutional_valid", True),
                     "guardian_monitoring": "guardian" in result["components"],
-                    "policy_compliant": result["components"]
-                    .get("policies", {})
-                    .get("compliant", True),
+                    "policy_compliant": result["components"].get("policies", {}).get("compliant", True),
                     "tier_level": tier_level,
                     "outcome": outcome,
                 }
@@ -446,9 +427,7 @@ class LUKHASAuthIntegrationSystem:
                 result["components"]["cross_module"] = {
                     "target_modules": [m.value for m in target_modules],
                     "propagation_results": propagation_results,
-                    "successful_propagations": sum(
-                        1 for success in propagation_results.values() if success
-                    ),
+                    "successful_propagations": sum(1 for success in propagation_results.values() if success),
                 }
 
                 result["cross_module_results"] = propagation_results
@@ -476,9 +455,7 @@ class LUKHASAuthIntegrationSystem:
             integration_duration = (datetime.now() - integration_start).total_seconds()
 
             # Calculate overall status
-            has_critical_alerts = any(
-                alert.get("severity") == "critical" for alert in result["alerts"]
-            )
+            has_critical_alerts = any(alert.get("severity") == "critical" for alert in result["alerts"])
             has_high_alerts = any(alert.get("severity") == "high" for alert in result["alerts"])
 
             if has_critical_alerts:
@@ -540,9 +517,7 @@ class LUKHASAuthIntegrationSystem:
 
         # Always include core modules for successful authentication
         if outcome == "success":
-            target_modules.extend(
-                [ModuleType.CONSCIOUSNESS, ModuleType.MEMORY, ModuleType.GUARDIAN]
-            )
+            target_modules.extend([ModuleType.CONSCIOUSNESS, ModuleType.MEMORY, ModuleType.GUARDIAN])
 
         # Include specific modules based on scopes
         scopes = auth_context.get("scopes", [])
@@ -581,19 +556,14 @@ class LUKHASAuthIntegrationSystem:
         # Update compliance rate
         total_auth = self.integration_metrics.total_authentications
         if total_auth > 0:
-            violations = (
-                self.integration_metrics.policy_violations
-                + self.integration_metrics.constitutional_violations
-            )
+            violations = self.integration_metrics.policy_violations + self.integration_metrics.constitutional_violations
             self.integration_metrics.compliance_rate = max(0.0, 1.0 - (violations / total_auth))
 
         # Update average drift score
         if "guardian" in result.get("components", {}):
             drift_score = result["components"]["guardian"].get("drift_score", 0.0)
             current_avg = self.integration_metrics.drift_score_average
-            self.integration_metrics.drift_score_average = (
-                current_avg * (total_auth - 1) + drift_score
-            ) / total_auth
+            self.integration_metrics.drift_score_average = (current_avg * (total_auth - 1) + drift_score) / total_auth
 
         # Update uptime
         uptime_seconds = (datetime.now() - self.startup_time).total_seconds()
@@ -643,9 +613,7 @@ class LUKHASAuthIntegrationSystem:
             # Check GLYPH registry status
             if self.glyph_enabled and self.glyph_registry:
                 glyph_stats = self.glyph_registry.get_registry_stats()
-                self.health_status.glyph_status = (
-                    "healthy" if glyph_stats["total_glyphs"] > 0 else "unhealthy"
-                )
+                self.health_status.glyph_status = "healthy" if glyph_stats["total_glyphs"] > 0 else "unhealthy"
             else:
                 self.health_status.glyph_status = "disabled"
 
@@ -704,35 +672,21 @@ class LUKHASAuthIntegrationSystem:
 
             # Check thresholds
             if self.integration_metrics.drift_score_average >= self.alert_thresholds["drift_score"]:
-                current_alerts.append(
-                    f"High average drift score: {self.integration_metrics.drift_score_average:.3f}"
-                )
+                current_alerts.append(f"High average drift score: {self.integration_metrics.drift_score_average:.3f}")
 
             if self.integration_metrics.compliance_rate < self.alert_thresholds["compliance_rate"]:
-                current_alerts.append(
-                    f"Low compliance rate: {self.integration_metrics.compliance_rate:.3f}"
-                )
+                current_alerts.append(f"Low compliance rate: {self.integration_metrics.compliance_rate:.3f}")
 
-            if (
-                self.integration_metrics.constitutional_violations
-                >= self.alert_thresholds["constitutional_violations"]
-            ):
+            if self.integration_metrics.constitutional_violations >= self.alert_thresholds["constitutional_violations"]:
                 current_alerts.append(
                     f"High constitutional violations: {self.integration_metrics.constitutional_violations}"
                 )
 
             if self.integration_metrics.bias_detections >= self.alert_thresholds["bias_detections"]:
-                current_alerts.append(
-                    f"Multiple bias detections: {self.integration_metrics.bias_detections}"
-                )
+                current_alerts.append(f"Multiple bias detections: {self.integration_metrics.bias_detections}")
 
-            if (
-                self.integration_metrics.policy_violations
-                >= self.alert_thresholds["policy_violations"]
-            ):
-                current_alerts.append(
-                    f"High policy violations: {self.integration_metrics.policy_violations}"
-                )
+            if self.integration_metrics.policy_violations >= self.alert_thresholds["policy_violations"]:
+                current_alerts.append(f"High policy violations: {self.integration_metrics.policy_violations}")
 
             self.health_status.active_alerts = current_alerts
 

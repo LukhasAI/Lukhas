@@ -211,9 +211,7 @@ class SymbolTranslator:
             text_parts.append(f"{symbol.core_glyph.symbol}")
 
         if symbol.emotional_state:
-            emotion_text = (
-                f"[{symbol.emotional_state.primary_emotion}:{symbol.emotional_state.intensity:.2f}]"
-            )
+            emotion_text = f"[{symbol.emotional_state.primary_emotion}:{symbol.emotional_state.intensity:.2f}]"
             text_parts.append(emotion_text)
 
         if symbol.domains:
@@ -404,9 +402,7 @@ class UniversalSymbolProtocol:
 
         return min(1.0, entropy)  # Cap at 1.0
 
-    def compress_symbols(
-        self, symbols: list[UniversalSymbol], target_ratio: float = 0.5
-    ) -> UniversalSymbol:
+    def compress_symbols(self, symbols: list[UniversalSymbol], target_ratio: float = 0.5) -> UniversalSymbol:
         """
         Compress multiple symbols into a single meta-symbol
         """
@@ -466,9 +462,7 @@ class UniversalSymbolProtocol:
 
         return compressed
 
-    def expand_symbol(
-        self, compressed_symbol: UniversalSymbol, expansion_factor: int = 2
-    ) -> list[UniversalSymbol]:
+    def expand_symbol(self, compressed_symbol: UniversalSymbol, expansion_factor: int = 2) -> list[UniversalSymbol]:
         """
         Expand a compressed symbol back into multiple symbols
         """

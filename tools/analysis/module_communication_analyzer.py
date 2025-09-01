@@ -216,12 +216,8 @@ class ModuleCommunicationAnalyzer:
                 self.out_degree = dict(self.communication_graph.out_degree())
 
                 # Find highly connected nodes
-                avg_degree = (
-                    sum(self.in_degree.values()) / len(self.in_degree) if self.in_degree else 0
-                )
-                bottlenecks = [
-                    node for node, degree in self.in_degree.items() if degree > avg_degree * 2
-                ]
+                avg_degree = sum(self.in_degree.values()) / len(self.in_degree) if self.in_degree else 0
+                bottlenecks = [node for node, degree in self.in_degree.items() if degree > avg_degree * 2]
 
                 logger.info(f"   Identified {len(bottlenecks)} potential bottleneck modules")
             except Exception:
@@ -259,9 +255,7 @@ class ModuleCommunicationAnalyzer:
 
     def _summarize_glyphs(self) -> dict[str, Any]:
         """Summarize GLYPH-based communication"""
-        total_glyph_usage = sum(
-            sum(g["count"] for g in glyphs) for glyphs in self.glyph_usage.values()
-        )
+        total_glyph_usage = sum(sum(g["count"] for g in glyphs) for glyphs in self.glyph_usage.values())
 
         return {
             "modules_using_glyphs": len(self.glyph_usage),
@@ -271,9 +265,7 @@ class ModuleCommunicationAnalyzer:
 
     def _summarize_events(self) -> dict[str, Any]:
         """Summarize event-based communication"""
-        total_event_usage = sum(
-            sum(e["count"] for e in events) for events in self.event_patterns.values()
-        )
+        total_event_usage = sum(sum(e["count"] for e in events) for events in self.event_patterns.values())
 
         return {
             "modules_using_events": len(self.event_patterns),
@@ -300,17 +292,12 @@ class ModuleCommunicationAnalyzer:
 
     def _get_most_active_glyph_modules(self) -> list[tuple[str, int]]:
         """Get modules with most GLYPH usage"""
-        glyph_counts = {
-            module: sum(g["count"] for g in glyphs) for module, glyphs in self.glyph_usage.items()
-        }
+        glyph_counts = {module: sum(g["count"] for g in glyphs) for module, glyphs in self.glyph_usage.items()}
         return sorted(glyph_counts.items(), key=lambda x: x[1], reverse=True)[:5]
 
     def _get_most_active_event_modules(self) -> list[tuple[str, int]]:
         """Get modules with most event usage"""
-        event_counts = {
-            module: sum(e["count"] for e in events)
-            for module, events in self.event_patterns.items()
-        }
+        event_counts = {module: sum(e["count"] for e in events) for module, events in self.event_patterns.items()}
         return sorted(event_counts.items(), key=lambda x: x[1], reverse=True)[:5]
 
     def _identify_bottlenecks(self) -> list[dict[str, Any]]:
@@ -318,9 +305,7 @@ class ModuleCommunicationAnalyzer:
         bottlenecks = []
 
         if hasattr(self, "in_degree"):
-            avg_in_degree = (
-                sum(self.in_degree.values()) / len(self.in_degree) if self.in_degree else 0
-            )
+            avg_in_degree = sum(self.in_degree.values()) / len(self.in_degree) if self.in_degree else 0
 
             for node, degree in self.in_degree.items():
                 if degree > avg_in_degree * 2:
@@ -342,9 +327,7 @@ class ModuleCommunicationAnalyzer:
         # Check for modules using multiple communication methods
         multi_method_modules = []
         for module in set(
-            list(self.direct_imports.keys())
-            + list(self.glyph_usage.keys())
-            + list(self.event_patterns.keys())
+            list(self.direct_imports.keys()) + list(self.glyph_usage.keys()) + list(self.event_patterns.keys())
         ):
             methods = []
             if module in self.direct_imports:
@@ -486,11 +469,7 @@ class ModuleCommunicationAnalyzer:
         """Generate analysis summary"""
         return {
             "total_modules_analyzed": len(
-                set(
-                    list(self.direct_imports.keys())
-                    + list(self.glyph_usage.keys())
-                    + list(self.event_patterns.keys())
-                )
+                set(list(self.direct_imports.keys()) + list(self.glyph_usage.keys()) + list(self.event_patterns.keys()))
             ),
             "communication_methods": {
                 "import_based": len(self.direct_imports),
@@ -514,9 +493,7 @@ class ModuleCommunicationAnalyzer:
             pos = nx.spring_layout(self.communication_graph)
 
             # Draw nodes
-            node_sizes = [
-                self.in_degree.get(node, 1) * 100 for node in self.communication_graph.nodes()
-            ]
+            node_sizes = [self.in_degree.get(node, 1) * 100 for node in self.communication_graph.nodes()]
             nx.draw_networkx_nodes(
                 self.communication_graph,
                 pos,
@@ -526,9 +503,7 @@ class ModuleCommunicationAnalyzer:
             )
 
             # Draw edges
-            nx.draw_networkx_edges(
-                self.communication_graph, pos, alpha=0.5, edge_color="gray", arrows=True
-            )
+            nx.draw_networkx_edges(self.communication_graph, pos, alpha=0.5, edge_color="gray", arrows=True)
 
             # Draw labels
             nx.draw_networkx_labels(self.communication_graph, pos)

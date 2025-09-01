@@ -244,9 +244,7 @@ class THDAnalyzer(VoiceQualityAnalyzer):
             grade=grade,
             metadata={
                 "fundamental_frequency": float(f0) if "f0" in locals() else None,
-                "fundamental_energy": float(fundamental_energy)
-                if "fundamental_energy" in locals()
-                else None,
+                "fundamental_energy": float(fundamental_energy) if "fundamental_energy" in locals() else None,
             },
         )
 
@@ -562,9 +560,7 @@ class LUKHASVoiceAnalytics:
             else:
                 raise ValueError(f"Unsupported audio format: {format}")
 
-            buffer = AudioBuffer(
-                data=audio_array, sample_rate=sample_rate, channels=channels, format=format
-            )
+            buffer = AudioBuffer(data=audio_array, sample_rate=sample_rate, channels=channels, format=format)
 
             # Select metrics to analyze
             if metrics is None:
@@ -611,8 +607,7 @@ class LUKHASVoiceAnalytics:
             # Update statistics
             self.stats["quality_distribution"][overall_grade.value] += 1
             self.stats["average_analysis_time"] = (
-                self.stats["average_analysis_time"] * (self.stats["analyses_performed"] - 1)
-                + report.analysis_time_ms
+                self.stats["average_analysis_time"] * (self.stats["analyses_performed"] - 1) + report.analysis_time_ms
             ) / self.stats["analyses_performed"]
 
             # Emit GLYPH event
@@ -686,9 +681,7 @@ class LUKHASVoiceAnalytics:
 
         return overall_score, overall_grade
 
-    def _generate_recommendations(
-        self, scores: dict[VoiceQualityMetric, VoiceQualityScore]
-    ) -> list[str]:
+    def _generate_recommendations(self, scores: dict[VoiceQualityMetric, VoiceQualityScore]) -> list[str]:
         """Generate quality improvement recommendations"""
         recommendations = []
 

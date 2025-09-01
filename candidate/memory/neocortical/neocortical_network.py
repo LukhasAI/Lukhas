@@ -275,15 +275,11 @@ class NeocorticalNetwork:
 
         if existing_memory:
             # Strengthen existing memory
-            await self._strengthen_semantic_memory(
-                existing_memory, episode_data, source_episode_id, replay_strength
-            )
+            await self._strengthen_semantic_memory(existing_memory, episode_data, source_episode_id, replay_strength)
             memory_id = existing_memory.memory_id
         else:
             # Create new semantic memory
-            memory_id = await self._create_semantic_memory(
-                concept, episode_data, source_episode_id, colony_id
-            )
+            memory_id = await self._create_semantic_memory(concept, episode_data, source_episode_id, colony_id)
 
         # Add to consolidation queue for distributed processing
         self.consolidation_queue.append((memory_id, episode_data))
@@ -463,9 +459,7 @@ class NeocorticalNetwork:
 
         # Extract attributes
         if isinstance(episode_data, dict):
-            memory.attributes = {
-                k: v for k, v in episode_data.items() if k not in ["type", "event", "concept"]
-            }
+            memory.attributes = {k: v for k, v in episode_data.items() if k not in ["type", "event", "concept"]}
 
         # Initialize layer activations
         for layer in CorticalLayer:
@@ -674,9 +668,7 @@ class NeocorticalNetwork:
 
         if self.semantic_memories:
             avg_stability = np.mean([m.stability for m in self.semantic_memories.values()])
-            avg_consolidation = np.mean(
-                [m.consolidation_count for m in self.semantic_memories.values()]
-            )
+            avg_consolidation = np.mean([m.consolidation_count for m in self.semantic_memories.values()])
         else:
             avg_stability = 0.0
             avg_consolidation = 0.0

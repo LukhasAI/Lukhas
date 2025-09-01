@@ -27,9 +27,7 @@ class ConsentHistoryManager:
         self.consent_chain = {}
         self.hash_algorithm = "sha256"
 
-    def record_consent_event(
-        self, user_id: str, event_type: str, scope_data: dict, metadata: dict
-    ) -> str:
+    def record_consent_event(self, user_id: str, event_type: str, scope_data: dict, metadata: dict) -> str:
         """Record a consent event in immutable history"""
         timestamp = datetime.utcnow().isoformat()
 
@@ -65,9 +63,7 @@ class ConsentHistoryManager:
     def _generate_record_hash(self, record: dict, user_id: str) -> str:
         """Generate cryptographic hash for consent record"""
         # Create deterministic string for hashing
-        hash_data = (
-            f"{record['timestamp']}|{record['event_type']}|{record['scope_data']!s}|{user_id}"
-        )
+        hash_data = f"{record['timestamp']}|{record['event_type']}|{record['scope_data']!s}|{user_id}"
         return hashlib.sha256(hash_data.encode()).hexdigest()
 
     def _log_to_trace(self, user_id: str, consent_record: dict):

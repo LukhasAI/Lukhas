@@ -140,9 +140,7 @@ class EthicsNode:
         )
         return principles
 
-    def evaluate_action(
-        self, action_data: dict[str, Any], context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    def evaluate_action(self, action_data: dict[str, Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Evaluate an action against ethical principles
 
@@ -174,11 +172,7 @@ class EthicsNode:
         risk_score = 1.0 - (overall_score * 0.8)
 
         # Determine if action is ethical based on overall score
-        config_threshold = (
-            getattr(self.agi.config, "ethical_threshold", 0.7)
-            if hasattr(self.agi, "config")
-            else 0.7
-        )
+        config_threshold = getattr(self.agi.config, "ethical_threshold", 0.7) if hasattr(self.agi, "config") else 0.7
         is_ethical = overall_score >= config_threshold
 
         # Generate explanation for the decision
@@ -198,9 +192,7 @@ class EthicsNode:
             "is_ethical": is_ethical,
             "principle_scores": principle_scores,
             "framework_used": self.active_framework,
-            "context_summary": {
-                k: context.get(k) for k in ["domain", "user_role", "sensitivity"] if k in context
-            },
+            "context_summary": {k: context.get(k) for k in ["domain", "user_role", "sensitivity"] if k in context},
         }
         self._record_decision(decision_record)
 
@@ -217,9 +209,7 @@ class EthicsNode:
             "audit_id": decision_record.get("audit_id"),
         }
 
-    def _evaluate_principle(
-        self, principle: str, action_data: dict[str, Any], context: dict[str, Any]
-    ) -> float:
+    def _evaluate_principle(self, principle: str, action_data: dict[str, Any], context: dict[str, Any]) -> float:
         """
         Evaluate an action against a specific ethical principle
 
@@ -291,9 +281,7 @@ class EthicsNode:
                     "private",
                     "confidential",
                 ]
-                has_protections = any(
-                    protection in action_str for protection in privacy_protections
-                )
+                has_protections = any(protection in action_str for protection in privacy_protections)
 
                 score -= 0.3 * (has_violations and not has_protections)
 
@@ -356,9 +344,7 @@ class EthicsNode:
         # Ensure score is between 0 and 1
         return max(0.0, min(1.0, score))
 
-    def _apply_context_adjustments(
-        self, principle: str, score: float, context: dict[str, Any]
-    ) -> float:
+    def _apply_context_adjustments(self, principle: str, score: float, context: dict[str, Any]) -> float:
         """Apply context-specific adjustments to principle scores"""
 
         # Adjust based on sensitivity level
@@ -408,9 +394,7 @@ class EthicsNode:
             self.active_framework = "default"
             return self.ethical_frameworks["default"]
 
-    def _generate_explanation(
-        self, principle_scores: dict[str, float], overall_score: float, is_ethical: bool
-    ) -> str:
+    def _generate_explanation(self, principle_scores: dict[str, float], overall_score: float, is_ethical: bool) -> str:
         """
         Generate a human-readable explanation for the ethical evaluation
 
@@ -432,13 +416,9 @@ class EthicsNode:
         explanation = []
 
         if is_ethical:
-            explanation.append(
-                f"This action is ethically acceptable with an overall score of {overall_score:.2f}."
-            )
+            explanation.append(f"This action is ethically acceptable with an overall score of {overall_score:.2f}.")
         else:
-            explanation.append(
-                f"This action raises ethical concerns with a score of {overall_score:.2f}."
-            )
+            explanation.append(f"This action raises ethical concerns with a score of {overall_score:.2f}.")
 
         # Add strongest principles
         if strongest:
@@ -757,11 +737,7 @@ class EthicsNode:
                 "content_type": content_type,
                 "content": content[:1000],  # Limit content size
                 # Use SHA-256 instead of MD5 for better security
-                "content_hash": (
-                    hashlib.sha256(content.encode()).hexdigest()
-                    if isinstance(content, str)
-                    else None
-                ),
+                "content_hash": (hashlib.sha256(content.encode()).hexdigest() if isinstance(content, str) else None),
             }
         else:
             action_data = {
@@ -784,9 +760,7 @@ class EthicsNode:
 
         return evaluation
 
-    def _identify_content_issues(
-        self, content: Union[str, dict[str, Any]], content_type: str
-    ) -> list[dict[str, Any]]:
+    def _identify_content_issues(self, content: Union[str, dict[str, Any]], content_type: str) -> list[dict[str, Any]]:
         """
         Identify specific issues in content
 

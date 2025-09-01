@@ -64,9 +64,7 @@ class IdentityConnector:
 
         for module, config in auth_config.items():
             self.configure_auth(module, config)
-            self.audit_logger.log_event(
-                "system", "auth_configured", {"module": module, "config": config}
-            )
+            self.audit_logger.log_event("system", "auth_configured", {"module": module, "config": config})
 
     def configure_auth(self, module: str, config: dict[str, str]):
         """Configure authentication for a specific module"""

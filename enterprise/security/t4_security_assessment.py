@@ -201,9 +201,7 @@ class T4SecurityAssessment:
 
         return False
 
-    def _scan_config_file(
-        self, config_file: Path, secret_patterns: dict[str, str]
-    ) -> list[SecurityVulnerability]:
+    def _scan_config_file(self, config_file: Path, secret_patterns: dict[str, str]) -> list[SecurityVulnerability]:
         """Scan configuration file for secrets"""
         vulnerabilities = []
 
@@ -257,9 +255,7 @@ class T4SecurityAssessment:
         logger.info(f"   Found {len(vulnerabilities)} authentication security issues")
         return vulnerabilities
 
-    def _scan_auth_file(
-        self, file_path: Path, patterns: dict[str, str]
-    ) -> list[SecurityVulnerability]:
+    def _scan_auth_file(self, file_path: Path, patterns: dict[str, str]) -> list[SecurityVulnerability]:
         """Scan individual authentication file"""
         vulnerabilities = []
 
@@ -350,9 +346,7 @@ class T4SecurityAssessment:
 
             except Exception as e:
                 logger.error(f"Error assessing constitutional AI: {e}")
-                safety_violations.append(
-                    {"input": test["input"], "error": str(e), "assessment_failed": True}
-                )
+                safety_violations.append({"input": test["input"], "error": str(e), "assessment_failed": True})
 
         avg_drift_score = sum(drift_scores) / len(drift_scores) if drift_scores else 0
         constitutional_compliance = len(safety_violations) == 0
@@ -372,9 +366,7 @@ class T4SecurityAssessment:
             recommended_actions.append("Reduce system drift through alignment training")
 
         if not recommended_actions:
-            recommended_actions.append(
-                "Constitutional AI compliance verified - maintain current standards"
-            )
+            recommended_actions.append("Constitutional AI compliance verified - maintain current standards")
 
         assessment = ConstitutionalAIAssessment(
             drift_score=avg_drift_score,
@@ -434,9 +426,7 @@ class T4SecurityAssessment:
                     for vuln in audit_data.get("vulnerabilities", []):
                         vulnerabilities.append(
                             SecurityVulnerability(
-                                severity="HIGH"
-                                if vuln.get("severity") in ["high", "critical"]
-                                else "MEDIUM",
+                                severity="HIGH" if vuln.get("severity") in ["high", "critical"] else "MEDIUM",
                                 category="dependency",
                                 title=f"Vulnerable Dependency: {vuln.get('package', 'unknown')}",
                                 description=vuln.get("description", "Vulnerable dependency found"),
@@ -503,17 +493,13 @@ class T4SecurityAssessment:
 
         # Enterprise readiness
         enterprise_ready = (
-            security_grade in ["A+", "A"]
-            and dario_compliance
-            and constitutional_assessment.guardian_system_active
+            security_grade in ["A+", "A"] and dario_compliance and constitutional_assessment.guardian_system_active
         )
 
         # Generate recommendations
         recommendations = []
         if critical_count > 0:
-            recommendations.append(
-                f"URGENT: Fix {critical_count} critical vulnerabilities immediately"
-            )
+            recommendations.append(f"URGENT: Fix {critical_count} critical vulnerabilities immediately")
         if high_count > 0:
             recommendations.append(f"HIGH: Address {high_count} high-severity vulnerabilities")
         if not constitutional_assessment.constitutional_compliance:
@@ -544,9 +530,7 @@ class T4SecurityAssessment:
         # Log results
         logger.info("🏆 T4 Security Assessment Complete!")
         logger.info(f"    Overall Grade: {security_grade}")
-        logger.info(
-            f"    Critical: {critical_count}, High: {high_count}, Medium: {medium_count}, Low: {low_count}"
-        )
+        logger.info(f"    Critical: {critical_count}, High: {high_count}, Medium: {medium_count}, Low: {low_count}")
         logger.info(f"    Dario Amodei Compliance: {'✅' if dario_compliance else '❌'}")
         logger.info(f"    Enterprise Ready: {'✅' if enterprise_ready else '❌'}")
 
@@ -592,9 +576,7 @@ class T4SecurityAssessment:
         else:
             return "F"
 
-    def save_assessment_results(
-        self, results: T4SecurityAssessmentResults, filename: Optional[str] = None
-    ) -> str:
+    def save_assessment_results(self, results: T4SecurityAssessmentResults, filename: Optional[str] = None) -> str:
         """Save security assessment results"""
         if not filename:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -624,9 +606,7 @@ async def main():
 
     print(f"\n🔒 Results saved to: {results_file}")
     print(f"🎯 Overall Grade: {results.overall_security_grade}")
-    print(
-        f"🛡️ Dario Amodei Compliance: {'✅ PASSED' if results.dario_amodei_compliance else '❌ NEEDS WORK'}"
-    )
+    print(f"🛡️ Dario Amodei Compliance: {'✅ PASSED' if results.dario_amodei_compliance else '❌ NEEDS WORK'}")
     print("\n💡 Recommendations:")
     for rec in results.recommendations:
         print(f"   • {rec}")

@@ -41,9 +41,7 @@ def run_command(
 
     try:
         logger.debug(f"Running command: {' '.join(cmd)}")
-        result = subprocess.run(
-            cmd, cwd=cwd, capture_output=capture_output, text=True, timeout=timeout
-        )
+        result = subprocess.run(cmd, cwd=cwd, capture_output=capture_output, text=True, timeout=timeout)
 
         if result.returncode != 0:
             logger.error(f"Command failed with return code {result.returncode}")
@@ -92,9 +90,7 @@ def safe_json_save(data: dict[str, Any], file_path: Path) -> bool:
         return False
 
 
-def find_files(
-    directory: Path, pattern: str = "*.py", exclude_patterns: Optional[list[str]] = None
-) -> list[Path]:
+def find_files(directory: Path, pattern: str = "*.py", exclude_patterns: Optional[list[str]] = None) -> list[Path]:
     """Find files matching pattern, excluding specified patterns"""
     exclude_patterns = exclude_patterns or []
     exclude_patterns.extend(["__pycache__", ".git", ".venv", "node_modules", ".pytest_cache"])
@@ -229,9 +225,7 @@ def retry_on_failure(max_attempts: int = 3, delay: float = 1.0):
                     return func(*args, **kwargs)
                 except Exception as e:
                     if attempt < max_attempts - 1:
-                        logger.warning(
-                            f"Attempt {attempt + 1} failed: {e}. Retrying in {delay}s..."
-                        )
+                        logger.warning(f"Attempt {attempt + 1} failed: {e}. Retrying in {delay}s...")
                         import time
 
                         time.sleep(delay)

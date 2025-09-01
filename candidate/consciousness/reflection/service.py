@@ -101,9 +101,7 @@ def lukhas_tier_required(level: int) -> Callable:
                     and args[0].user_id_context
                 ):
                     return args[0].user_id_context  # 'self.user_id_context' from a method
-                if len(args) > 1 and isinstance(
-                    args[1], str
-                ):  # Often user_id is the first param after 'self'
+                if len(args) > 1 and isinstance(args[1], str):  # Often user_id is the first param after 'self'
                     return args[1]
 
             user_id = kwargs.get("user_id", kwargs.get("user_id_context"))
@@ -166,9 +164,7 @@ try:
     from lukhas.governance.identity.interface import IdentityClient
 
     IDENTITY_CLIENT_AVAILABLE = True
-    logger.info(
-        "ΛTRACE: IdentityClient imported successfully from lukhas.governance.identity.interface."
-    )
+    logger.info("ΛTRACE: IdentityClient imported successfully from lukhas.governance.identity.interface.")
 except ImportError as e_ic:
     logger.error(
         "ΛTRACE: Failed to import IdentityClient from lukhas.governance.identity.interface. Using fallback.",
@@ -183,16 +179,12 @@ except ImportError as e_ic:
         """Fallback IdentityClient if the actual module is not found."""
 
         def __init__(self, user_id_context: Optional[str] = None):
-            self.instance_logger = logger.bind(
-                fallback_client_context=user_id_context or "global_fallback"
-            )
+            self.instance_logger = logger.bind(fallback_client_context=user_id_context or "global_fallback")
             self.instance_logger.warning(
                 "ΛTRACE: Using FALLBACK IdentityClient. All tier/consent checks will pass by default."
             )
 
-        def verify_user_access(
-            self, user_id: str, required_tier_str: str = "LAMBDA_TIER_0"
-        ) -> bool:
+        def verify_user_access(self, user_id: str, required_tier_str: str = "LAMBDA_TIER_0") -> bool:
             # In fallback, all access is granted for testing purposes.
             self.instance_logger.debug(
                 f"ΛTRACE: Fallback verify_user_access for user '{user_id}', tier '{required_tier_str}'. Returning True.",
@@ -243,9 +235,7 @@ class ConsciousnessService:
         """
         self.user_id_context = user_id_context
         # Hierarchical logger for this instance
-        self.instance_logger = logger.bind(
-            service_instance_user_context=self.user_id_context or "system_service"
-        )
+        self.instance_logger = logger.bind(service_instance_user_context=self.user_id_context or "system_service")
         self.instance_logger.info("ΛTRACE: Initializing ConsciousnessService instance.")
 
         # Initialize IdentityClient, passing context if it supports it.
@@ -313,9 +303,7 @@ class ConsciousnessService:
         try:
             # Perform any additional initialization based on config
             if config:
-                self.instance_logger.debug(
-                    "ΛTRACE: Initializing with configuration.", config=config
-                )
+                self.instance_logger.debug("ΛTRACE: Initializing with configuration.", config=config)
             else:
                 self.instance_logger.debug("ΛTRACE: Initializing with default configuration.")
 
@@ -342,9 +330,7 @@ class ConsciousnessService:
                 return False
 
         except Exception as e:
-            self.instance_logger.error(
-                "ΛTRACE: ConsciousnessService initialization failed.", error=str(e)
-            )
+            self.instance_logger.error("ΛTRACE: ConsciousnessService initialization failed.", error=str(e))
             return False
 
     # Processes an incoming stream of consciousness-related input data.
@@ -376,9 +362,7 @@ class ConsciousnessService:
             requested_level_key=requested_awareness_level_key,
         )
 
-        capability_config = self.consciousness_capabilities_config.get(
-            requested_awareness_level_key
-        )
+        capability_config = self.consciousness_capabilities_config.get(requested_awareness_level_key)
         if not capability_config:
             self.instance_logger.warning(
                 "ΛTRACE: Unsupported awareness level key requested.",
@@ -391,9 +375,7 @@ class ConsciousnessService:
             }
 
         # Tier and consent checks using string-based tier from config for IdentityClient
-        if not self.identity_client.verify_user_access(
-            user_id, str(capability_config["min_tier_str"])
-        ):
+        if not self.identity_client.verify_user_access(user_id, str(capability_config["min_tier_str"])):
             self.instance_logger.warning(
                 "ΛTRACE: Tier access denied for awareness processing.",
                 user_id=user_id,
@@ -429,25 +411,17 @@ class ConsciousnessService:
             )  # Update internal state based on processing
 
             # Generate a unique ID for this awareness processing event.
-            awareness_event_id = (
-                f"awareproc_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
-            )
+            awareness_event_id = f"awareproc_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
 
             # Log successful activity with relevant metadata.
             activity_log_details = {
                 "awareness_event_id": awareness_event_id,
                 "requested_awareness_level_key": requested_awareness_level_key,
                 "input_element_count": len(input_data_stream.get("elements", [])),
-                "achieved_processing_depth_score": processed_awareness_data.get(
-                    "achieved_depth_score", 0.0
-                ),
-                "generated_insights_count": len(
-                    processed_awareness_data.get("generated_awareness_insights", [])
-                ),
+                "achieved_processing_depth_score": processed_awareness_data.get("achieved_depth_score", 0.0),
+                "generated_insights_count": len(processed_awareness_data.get("generated_awareness_insights", [])),
             }
-            self.identity_client.log_activity(
-                "consciousness_stream_processed", user_id, activity_log_details
-            )
+            self.identity_client.log_activity("consciousness_stream_processed", user_id, activity_log_details)
             self.instance_logger.info(
                 "ΛTRACE: Consciousness stream processed successfully.",
                 user_id=user_id,
@@ -513,9 +487,7 @@ class ConsciousnessService:
         )
         capability_config = self.consciousness_capabilities_config["introspection_access"]
 
-        if not self.identity_client.verify_user_access(
-            user_id, str(capability_config["min_tier_str"])
-        ):
+        if not self.identity_client.verify_user_access(user_id, str(capability_config["min_tier_str"])):
             self.instance_logger.warning(
                 "ΛTRACE: Tier access denied for introspection.",
                 user_id=user_id,
@@ -544,9 +516,7 @@ class ConsciousnessService:
                 requested_depth_level,
                 introspection_method_type,
             )
-            introspection_event_id = (
-                f"introspect_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
-            )
+            introspection_event_id = f"introspect_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
 
             # Log successful introspection activity.
             activity_log_details = {
@@ -554,16 +524,10 @@ class ConsciousnessService:
                 "focus_area": introspection_focus_area,
                 "requested_depth": requested_depth_level,
                 "method_type": introspection_method_type,
-                "generated_insights_count": len(
-                    introspection_analysis_data.get("generated_insights", [])
-                ),
-                "achieved_reflection_quality_score": introspection_analysis_data.get(
-                    "achieved_quality_score", 0.0
-                ),
+                "generated_insights_count": len(introspection_analysis_data.get("generated_insights", [])),
+                "achieved_reflection_quality_score": introspection_analysis_data.get("achieved_quality_score", 0.0),
             }
-            self.identity_client.log_activity(
-                "introspection_performed_successfully", user_id, activity_log_details
-            )
+            self.identity_client.log_activity("introspection_performed_successfully", user_id, activity_log_details)
             self.instance_logger.info(
                 "ΛTRACE: Introspection performed successfully.",
                 user_id=user_id,
@@ -630,9 +594,7 @@ class ConsciousnessService:
         ]  # Detailed state often involves introspection-level data
 
         # Verify basic access first.
-        if not self.identity_client.verify_user_access(
-            user_id, str(basic_access_config["min_tier_str"])
-        ):
+        if not self.identity_client.verify_user_access(user_id, str(basic_access_config["min_tier_str"])):
             self.instance_logger.warning(
                 "ΛTRACE: Tier access denied for basic consciousness state.",
                 user_id=user_id,
@@ -661,12 +623,8 @@ class ConsciousnessService:
 
             if request_detailed_metrics:
                 # For detailed metrics, check higher tier and specific consent.
-                if self.identity_client.verify_user_access(
-                    user_id, str(detailed_access_config["min_tier_str"])
-                ):
-                    if self.identity_client.check_consent(
-                        user_id, str(detailed_access_config["consent_key"])
-                    ):
+                if self.identity_client.verify_user_access(user_id, str(detailed_access_config["min_tier_str"])):
+                    if self.identity_client.check_consent(user_id, str(detailed_access_config["consent_key"])):
                         self.instance_logger.debug(
                             "ΛTRACE: Access granted for detailed consciousness metrics.",
                             user_id=user_id,
@@ -704,14 +662,10 @@ class ConsciousnessService:
             activity_log_details = {
                 "detailed_metrics_requested": request_detailed_metrics,
                 "actual_detail_level_provided": report_state_data["report_detail_level"],
-                "overall_awareness_score_reported": report_state_data.get(
-                    "overall_awareness_score"
-                ),
+                "overall_awareness_score_reported": report_state_data.get("overall_awareness_score"),
                 "active_focus_points_count": len(report_state_data.get("active_focus_points", [])),
             }
-            self.identity_client.log_activity(
-                "consciousness_state_report_accessed", user_id, activity_log_details
-            )
+            self.identity_client.log_activity("consciousness_state_report_accessed", user_id, activity_log_details)
             self.instance_logger.info(
                 "ΛTRACE: Consciousness state report accessed.",
                 user_id=user_id,
@@ -774,9 +728,7 @@ class ConsciousnessService:
         # self-direction.
         capability_config = self.consciousness_capabilities_config["introspection_access"]
 
-        if not self.identity_client.verify_user_access(
-            user_id, str(capability_config["min_tier_str"])
-        ):
+        if not self.identity_client.verify_user_access(user_id, str(capability_config["min_tier_str"])):
             self.instance_logger.warning(
                 "ΛTRACE: Tier access denied for attention control.",
                 user_id=user_id,
@@ -810,16 +762,10 @@ class ConsciousnessService:
 
             # Update the service's current state regarding focus.
             self.current_internal_state["active_focus_points"] = new_focus_targets
-            self.current_internal_state["current_focus_intensity"] = (
-                focus_intensity_level  # Added to state
-            )
-            self.current_internal_state["last_state_update_timestamp_utc"] = (
-                datetime.utcnow().isoformat()
-            )
+            self.current_internal_state["current_focus_intensity"] = focus_intensity_level  # Added to state
+            self.current_internal_state["last_state_update_timestamp_utc"] = datetime.utcnow().isoformat()
 
-            attention_event_id = (
-                f"focusapply_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
-            )
+            attention_event_id = f"focusapply_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
 
             # Log successful attention direction.
             activity_log_details = {
@@ -831,9 +777,7 @@ class ConsciousnessService:
                     "achieved_effectiveness_score", 0.0
                 ),
             }
-            self.identity_client.log_activity(
-                "attention_focus_directed", user_id, activity_log_details
-            )
+            self.identity_client.log_activity("attention_focus_directed", user_id, activity_log_details)
             self.instance_logger.info(
                 "ΛTRACE: Attention focus directed successfully.",
                 user_id=user_id,
@@ -898,9 +842,7 @@ class ConsciousnessService:
         )
         capability_config = self.consciousness_capabilities_config["metacognitive_engagement"]
 
-        if not self.identity_client.verify_user_access(
-            user_id, str(capability_config["min_tier_str"])
-        ):
+        if not self.identity_client.verify_user_access(user_id, str(capability_config["min_tier_str"])):
             self.instance_logger.warning(
                 "ΛTRACE: Tier access denied for metacognitive analysis.",
                 user_id=user_id,
@@ -927,25 +869,17 @@ class ConsciousnessService:
             metacognitive_results_data = self._execute_metacognitive_processing(
                 topic_for_metacognition, requested_analysis_depth_key
             )
-            metacognition_event_id = (
-                f"metaproc_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
-            )
+            metacognition_event_id = f"metaproc_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
 
             # Log successful metacognitive engagement.
             activity_log_details = {
                 "metacognition_event_id": metacognition_event_id,
                 "analysis_topic": topic_for_metacognition,
                 "requested_depth_key": requested_analysis_depth_key,
-                "generated_insights_count": len(
-                    metacognitive_results_data.get("generated_metacognitive_insights", [])
-                ),
-                "achieved_recursion_levels": metacognitive_results_data.get(
-                    "achieved_recursion_depth", 0
-                ),
+                "generated_insights_count": len(metacognitive_results_data.get("generated_metacognitive_insights", [])),
+                "achieved_recursion_levels": metacognitive_results_data.get("achieved_recursion_depth", 0),
             }
-            self.identity_client.log_activity(
-                "metacognitive_analysis_engaged", user_id, activity_log_details
-            )
+            self.identity_client.log_activity("metacognitive_analysis_engaged", user_id, activity_log_details)
             self.instance_logger.info(
                 "ΛTRACE: Metacognitive analysis engaged successfully.",
                 user_id=user_id,
@@ -1005,9 +939,7 @@ class ConsciousnessService:
             "qi_awareness_features": 0.95,
             "collective_consciousness_interface": 1.0,
         }
-        achieved_depth_score = processing_depth_map.get(
-            processing_level_key, 0.5
-        )  # Default if key not found
+        achieved_depth_score = processing_depth_map.get(processing_level_key, 0.5)  # Default if key not found
 
         # Simulate insights and metrics based on processing depth.
         return {
@@ -1016,16 +948,13 @@ class ConsciousnessService:
                 f"Simulated insight from '{processing_level_key}' processing of input element X."
             ],
             "achieved_depth_score": achieved_depth_score,
-            "estimated_coherence_metric": 0.75
-            + (achieved_depth_score * 0.2),  # Example dynamic metric
+            "estimated_coherence_metric": 0.75 + (achieved_depth_score * 0.2),  # Example dynamic metric
             "detected_emergence_patterns": [f"simulated_pattern_{int(achieved_depth_score * 10)}"],
             "simulated_active_consciousness_threads": int(achieved_depth_score * 5) + 1,
         }
 
     # Internal logic for updating the service's overall consciousness state.
-    def _update_internal_consciousness_state(
-        self, processed_awareness_results: dict[str, Any]
-    ) -> None:  # Renamed arg
+    def _update_internal_consciousness_state(self, processed_awareness_results: dict[str, Any]) -> None:  # Renamed arg
         """Placeholder for updating the internal state of the consciousness service."""
         self.instance_logger.debug(
             "ΛTRACE: Internal: _update_internal_consciousness_state.",
@@ -1068,16 +997,13 @@ class ConsciousnessService:
             "detailed_self_reflection_summary": f"Simulated self-reflection on '{focus_area}' at depth {depth_level:.2f}.",
             "achieved_quality_score": min(depth_level + 0.25, 1.0),  # Example quality score
             "introspection_method_applied": method_type,
-            "achieved_recursion_depth_simulated": int(depth_level * 4)
-            + 1,  # Example recursion depth
+            "achieved_recursion_depth_simulated": int(depth_level * 4) + 1,  # Example recursion depth
         }
 
     # Internal logic for retrieving advanced/detailed consciousness metrics.
     def _get_advanced_consciousness_metrics_internal(self) -> dict[str, Any]:
         """Placeholder for retrieving advanced internal consciousness metrics."""
-        self.instance_logger.debug(
-            "ΛTRACE: Internal: _get_advanced_consciousness_metrics_internal."
-        )
+        self.instance_logger.debug("ΛTRACE: Internal: _get_advanced_consciousness_metrics_internal.")
         # These would be derived from more complex underlying models or simulations.
         return {
             "global_coherence_index": 0.88,
@@ -1111,9 +1037,7 @@ class ConsciousnessService:
     # Internal logic for analyzing current awareness patterns.
     def _analyze_current_awareness_patterns_internal(self) -> dict[str, Any]:
         """Placeholder for analyzing current patterns in consciousness or awareness."""
-        self.instance_logger.debug(
-            "ΛTRACE: Internal: _analyze_current_awareness_patterns_internal."
-        )
+        self.instance_logger.debug("ΛTRACE: Internal: _analyze_current_awareness_patterns_internal.")
         # This would involve pattern recognition on current state or recent history.
         return {
             "identified_dominant_cognitive_schemas": [
@@ -1144,15 +1068,11 @@ class ConsciousnessService:
             "achieved_effectiveness_score": min(intensity_level + 0.15, 1.0),  # Example score
             "confirmed_target_coverage_ratio": 1.0,  # Assuming all targets can be focused on
             "estimated_attention_coherence": 0.82 + (intensity_level * 0.1),
-            "effective_focus_duration_seconds": (
-                duration_seconds if duration_seconds else "system_managed_duration"
-            ),
+            "effective_focus_duration_seconds": (duration_seconds if duration_seconds else "system_managed_duration"),
         }
 
     # Internal logic for performing metacognitive processing.
-    def _execute_metacognitive_processing(
-        self, analysis_topic: str, depth_key: str
-    ) -> dict[str, Any]:  # Renamed args
+    def _execute_metacognitive_processing(self, analysis_topic: str, depth_key: str) -> dict[str, Any]:  # Renamed args
         """Placeholder for the core logic of performing metacognitive analysis."""
         self.instance_logger.debug(
             "ΛTRACE: Internal: _execute_metacognitive_processing.",
@@ -1223,9 +1143,7 @@ def perform_introspection_api(
 # Human-readable comment: Simplified module-level API for retrieving
 # consciousness state.
 @lukhas_tier_required(level=1)  # Tier 1: Seeker
-def get_consciousness_state_api(
-    user_id: str, include_detailed: bool = False
-) -> dict[str, Any]:  # Renamed
+def get_consciousness_state_api(user_id: str, include_detailed: bool = False) -> dict[str, Any]:  # Renamed
     """Simplified API for consciousness state retrieval. Requires user_id for tier check."""
     logger.info(
         "ΛTRACE: Module API call: get_consciousness_state_api.",
@@ -1313,9 +1231,7 @@ if __name__ == "__main__":
     logger.info(
         "ΛTRACE Demo - Consciousness State Report Result",
         success=demo_state_report_result.get("success", False),
-        detail_level=demo_state_report_result.get("consciousness_state_report", {}).get(
-            "report_detail_level"
-        ),
+        detail_level=demo_state_report_result.get("consciousness_state_report", {}).get("report_detail_level"),
         error=demo_state_report_result.get("error"),
     )
     if demo_state_report_result.get("success"):

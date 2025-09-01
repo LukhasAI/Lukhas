@@ -225,9 +225,7 @@ class WidgetEngine:
 
             # Apply brand customization
             if message.get("brand_id"):
-                widget_config = await self._apply_brand_customization(
-                    widget_config, message["brand_id"], tier
-                )
+                widget_config = await self._apply_brand_customization(widget_config, message["brand_id"], tier)
 
             # Store active widget
             self.active_widgets[widget_id] = widget_config
@@ -302,9 +300,7 @@ class WidgetEngine:
 
         return content
 
-    async def _apply_styling(
-        self, template: dict[str, Any], user_context: dict[str, Any], tier: str
-    ) -> dict[str, Any]:
+    async def _apply_styling(self, template: dict[str, Any], user_context: dict[str, Any], tier: str) -> dict[str, Any]:
         """Apply styling based on template and user preferences"""
         styling = template.get("styling", {}).copy()
 
@@ -632,9 +628,7 @@ class WidgetEngine:
         cutoff_date = datetime.now() - timedelta(days=days)
 
         recent_interactions = [
-            i
-            for i in self.interaction_history
-            if datetime.fromisoformat(i["timestamp"]) >= cutoff_date
+            i for i in self.interaction_history if datetime.fromisoformat(i["timestamp"]) >= cutoff_date
         ]
 
         # Interaction type breakdown
@@ -665,9 +659,7 @@ class WidgetEngine:
             "active_widgets": len(self.active_widgets),
             "interaction_breakdown": interaction_breakdown,
             "widget_performance": widget_performance,
-            "top_interactions": sorted(
-                interaction_breakdown.items(), key=lambda x: x[1], reverse=True
-            )[:5],
+            "top_interactions": sorted(interaction_breakdown.items(), key=lambda x: x[1], reverse=True)[:5],
         }
 
     async def cleanup_expired_widgets(self):

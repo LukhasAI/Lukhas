@@ -74,9 +74,7 @@ def scan_file(path: Path) -> list[tuple[int, str]]:
         line = raw_line.rstrip("\n")
         # Basic markdown fence tracking (```) and (~~~)
         if path.suffix.lower() in {".md", ".rst"}:
-            if not in_codeblock and (
-                line.strip().startswith("```") or line.strip().startswith("~~~")
-            ):
+            if not in_codeblock and (line.strip().startswith("```") or line.strip().startswith("~~~")):
                 in_codeblock = True
                 fence = line.strip()[:3]
                 continue

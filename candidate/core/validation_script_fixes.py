@@ -111,7 +111,9 @@ def fix_efficient_communication():
     # Check if _message_count is initialized in __init__
     if "_message_count" not in content:
         # Add message count tracking to __init__
-        init_pattern = r'(def __init__\(self[^\)]*\):[^\n]*\n(?:[ ]*"""[\s\S]*?"""\n)?)([\s\S]*?)(?=\n[ ]*def|\n[ ]*async def|\Z)'
+        init_pattern = (
+            r'(def __init__\(self[^\)]*\):[^\n]*\n(?:[ ]*"""[\s\S]*?"""\n)?)([\s\S]*?)(?=\n[ ]*def|\n[ ]*async def|\Z)'
+        )
 
         def add_message_count(match):
             init_signature = match.group(1)

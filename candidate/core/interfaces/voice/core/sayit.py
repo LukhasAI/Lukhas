@@ -14,9 +14,7 @@ def classify(text):
         return "alert"
     elif any(kw in text_lower for kw in ["echo", "log", "record", "recall", "archive"]):
         return "echo"
-    elif any(
-        kw in text_lower for kw in ["why", "feel", "meaning", "who am i", "conscious", "ethics"]
-    ):
+    elif any(kw in text_lower for kw in ["why", "feel", "meaning", "who am i", "conscious", "ethics"]):
         return "reflection"
     else:
         return "lukhas"

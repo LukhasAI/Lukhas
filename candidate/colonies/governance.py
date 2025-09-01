@@ -225,9 +225,7 @@ class GovernanceColony(BaseColony):
             result["success"] = True
 
         # Log intervention
-        self.audit_trail.append(
-            {"type": "intervention", "details": result, "timestamp": datetime.now()}
-        )
+        self.audit_trail.append({"type": "intervention", "details": result, "timestamp": datetime.now()})
 
         return result
 

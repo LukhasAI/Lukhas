@@ -258,14 +258,10 @@ class SymbolicMemoryManager:
                 "top_glyphs": [{"glyph": g[0], "count": g[1]} for g in top_glyphs],
                 "total_unique": len(glyph_frequency),
             },
-            "recommendations": self._generate_recommendations(
-                avg_drift, avg_entropy, drift_direction
-            ),
+            "recommendations": self._generate_recommendations(avg_drift, avg_entropy, drift_direction),
         }
 
-    def _generate_recommendations(
-        self, avg_drift: float, avg_entropy: float, drift_direction: str
-    ) -> list[str]:
+    def _generate_recommendations(self, avg_drift: float, avg_entropy: float, drift_direction: str) -> list[str]:
         """Generate recommendations based on trajectory analysis"""
         recommendations = []
 
@@ -314,8 +310,7 @@ class SymbolicMemoryManager:
                         {
                             "persona": current_persona,
                             "duration": persona_duration,
-                            "avg_drift": sum(s["drift_score"] for s in recent[-persona_duration:])
-                            / persona_duration,
+                            "avg_drift": sum(s["drift_score"] for s in recent[-persona_duration:]) / persona_duration,
                         }
                     )
                 current_persona = persona
@@ -329,8 +324,7 @@ class SymbolicMemoryManager:
                 {
                     "persona": current_persona,
                     "duration": persona_duration,
-                    "avg_drift": sum(s["drift_score"] for s in recent[-persona_duration:])
-                    / persona_duration,
+                    "avg_drift": sum(s["drift_score"] for s in recent[-persona_duration:]) / persona_duration,
                 }
             )
 
@@ -428,9 +422,7 @@ if __name__ == "__main__":
     }
 
     # Log a session
-    session_id = memory.log_session(
-        "Test response with chaos energy", test_assessment, test_diagnosis
-    )
+    session_id = memory.log_session("Test response with chaos energy", test_assessment, test_diagnosis)
 
     print(f"\nLogged session: {session_id}")
 

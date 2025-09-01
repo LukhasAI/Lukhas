@@ -496,9 +496,7 @@ class ConsentEscalationResolver:
         """Check if a trust path applies to the consent request"""
         # Simple heuristic: path applies if requester matches a node
         # In production, this would be more sophisticated
-        return request.requester in path.nodes or any(
-            node in request.context.get("roles", []) for node in path.nodes
-        )
+        return request.requester in path.nodes or any(node in request.context.get("roles", []) for node in path.nodes)
 
     async def _create_temporary_trust_path(self, request: ConsentRequest) -> TrustPath:
         """Create a temporary trust path for unknown requesters"""
@@ -541,9 +539,7 @@ class ConsentEscalationResolver:
     async def _apply_escalation_rules(self, request: ConsentRequest) -> Optional[dict]:
         """Apply escalation rules to determine if escalation is needed"""
         # Sort rules by priority (lower number = higher priority)
-        sorted_rules = sorted(
-            [r for r in self.escalation_rules if r.enabled], key=lambda x: x.priority
-        )
+        sorted_rules = sorted([r for r in self.escalation_rules if r.enabled], key=lambda x: x.priority)
 
         # Prepare evaluation context
         eval_context = {
@@ -559,9 +555,7 @@ class ConsentEscalationResolver:
             try:
                 # Evaluate rule condition
                 if eval(rule.condition, {"__builtins__": {}}, eval_context):
-                    logger.info(
-                        f"Escalation rule '{rule.rule_id}' triggered for request {request.id}"
-                    )
+                    logger.info(f"Escalation rule '{rule.rule_id}' triggered for request {request.id}")
 
                     return {
                         "rule_id": rule.rule_id,
@@ -647,9 +641,7 @@ class ConsentEscalationResolver:
             "resource": request.target_resource,
             "permission": request.permission_type,
             "trust_score": request.trust_score,
-            "escalation_level": (
-                request.escalation_level.name if request.escalation_level else None
-            ),
+            "escalation_level": (request.escalation_level.name if request.escalation_level else None),
         }
 
         # In production, write to audit log system
@@ -735,9 +727,7 @@ class ConsentEscalationResolver:
             "status": request.status.value,
             "trust_score": request.trust_score,
             "decision_reason": request.decision_reason,
-            "escalation_level": (
-                request.escalation_level.name if request.escalation_level else None
-            ),
+            "escalation_level": (request.escalation_level.name if request.escalation_level else None),
             "symbolic_path": request.symbolic_path,
             "processed_at": time.time(),
         }
@@ -794,9 +784,7 @@ class ConsentEscalationResolver:
             "escalation_rate": stats["escalated"] / max(1, stats["total_requests"]),
             "current_trust_score": trust_trend[-1] if trust_trend else 0.5,
             "trust_trend": trend_direction,
-            "last_request_age": (
-                time.time() - stats["last_request"] if stats["last_request"] else None
-            ),
+            "last_request_age": (time.time() - stats["last_request"] if stats["last_request"] else None),
         }
 
 

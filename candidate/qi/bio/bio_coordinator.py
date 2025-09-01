@@ -74,9 +74,7 @@ except ImportError as e:
             }
 
     class MockMitochondrialQIBridge:
-        async def process_quantum_signal(
-            self, signal: Any, context: Any
-        ) -> tuple[np.ndarray, dict[str, Any]]:
+        async def process_quantum_signal(self, signal: Any, context: Any) -> tuple[np.ndarray, dict[str, Any]]:
             return np.array([0.0]), {"coherence": 0.0, "status": "mocked_mito_bridge"}
 
     class MockQuantumSynapticGate:
@@ -206,9 +204,7 @@ class QIBioCoordinator:
                 coherence=qi_engine_result["metadata"]["coherence"],
             )
 
-            bio_quantum_pathway_result = await self._process_bio_quantum_pathway(
-                qi_engine_result["output"], context
-            )
+            bio_quantum_pathway_result = await self._process_bio_quantum_pathway(qi_engine_result["output"], context)
             self.log.debug("Bio-quantum pathway processing complete.", task_id=task_id)
 
             self._update_system_state_metrics(qi_engine_result, bio_quantum_pathway_result)
@@ -395,16 +391,12 @@ class QIBioCoordinator:
             "qi_synaptic_gate_meta",
             "neuroplasticity_modulator_meta",
         ]:
-            component_meta = bio_quantum_pathway_result.get("metadata", {}).get(
-                component_meta_key, {}
-            )
+            component_meta = bio_quantum_pathway_result.get("metadata", {}).get(component_meta_key, {})
             if isinstance(component_meta, dict) and "coherence" in component_meta:
                 bio_component_coherences.append(float(component_meta["coherence"]))
 
         if bio_component_coherences:
-            self.system_state["current_bio_stability_metric"] = float(
-                np.mean(bio_component_coherences)
-            )  # type: ignore
+            self.system_state["current_bio_stability_metric"] = float(np.mean(bio_component_coherences))  # type: ignore
 
         self.system_state["overall_integration_efficiency"] = float(
             np.mean(

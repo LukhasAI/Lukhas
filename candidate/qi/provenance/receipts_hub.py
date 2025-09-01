@@ -226,9 +226,7 @@ def main():
     e.set_defaults(func=_run_emit)
 
     g = sub.add_parser("export-grafana", help="Write a starter Grafana dashboard JSON")
-    g.add_argument(
-        "--out", default=os.path.join("ops", "grafana", "lukhas_exec_receipts_dashboard.json")
-    )
+    g.add_argument("--out", default=os.path.join("ops", "grafana", "lukhas_exec_receipts_dashboard.json"))
     g.set_defaults(func=lambda a: print(_generate_grafana(a.out)))
 
     args = ap.parse_args()

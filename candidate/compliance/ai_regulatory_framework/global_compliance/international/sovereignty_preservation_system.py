@@ -37,9 +37,7 @@ class SovereigntyPreservationSystem(CoreInterface):
 
         return {"data_residency": True, "local_processing": False, "compliance": True}
 
-    async def implement_data_localization(
-        self, jurisdiction: str, requirements: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def implement_data_localization(self, jurisdiction: str, requirements: dict[str, Any]) -> dict[str, Any]:
         """Implement data localization for a jurisdiction"""
 
         return {
@@ -49,9 +47,7 @@ class SovereigntyPreservationSystem(CoreInterface):
             "latency_ms": 50,
         }
 
-    async def ensure_processing_constraints(
-        self, jurisdiction: str, requirements: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def ensure_processing_constraints(self, jurisdiction: str, requirements: dict[str, Any]) -> dict[str, Any]:
         """Ensure processing constraints are met"""
 
         return {

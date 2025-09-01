@@ -93,9 +93,7 @@ class DefaultSupervisionDecider(SupervisionDecider):
 
         # Remove old failures outside the time window
         self.failure_history[actor_id] = [
-            t
-            for t in self.failure_history[actor_id]
-            if current_time - t <= self.strategy.within_time_window
+            t for t in self.failure_history[actor_id] if current_time - t <= self.strategy.within_time_window
         ]
 
         # Add current failure
@@ -105,10 +103,7 @@ class DefaultSupervisionDecider(SupervisionDecider):
         failure_count = len(self.failure_history[actor_id])
 
         if failure_count > self.strategy.max_failures:
-            logger.warning(
-                f"Actor {actor_id} exceeded max failures "
-                f"({failure_count}/{self.strategy.max_failures})"
-            )
+            logger.warning(f"Actor {actor_id} exceeded max failures " f"({failure_count}/{self.strategy.max_failures})")
             return SupervisionDirective.STOP
 
         # Check restart policy
@@ -241,9 +236,7 @@ class SupervisorActor(Actor):
         super().__init__(actor_id)
 
         self.supervision_strategy = supervision_strategy or SupervisionStrategy()
-        self.supervision_decider = supervision_decider or DefaultSupervisionDecider(
-            self.supervision_strategy
-        )
+        self.supervision_decider = supervision_decider or DefaultSupervisionDecider(self.supervision_strategy)
 
         # Track child actor metadata
         self.child_metadata: dict[str, dict[str, Any]] = {}

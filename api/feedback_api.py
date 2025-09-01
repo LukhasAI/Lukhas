@@ -53,9 +53,7 @@ class FeedbackRequest(BaseModel):
     feedback_type: FeedbackType = Field(..., description="Type of feedback")
     content: dict[str, Any] = Field(..., description="Feedback content")
     context: dict[str, Any] = Field(..., description="Context about the action")
-    region: Optional[ComplianceRegion] = Field(
-        ComplianceRegion.GLOBAL, description="User's regulatory region"
-    )
+    region: Optional[ComplianceRegion] = Field(ComplianceRegion.GLOBAL, description="User's regulatory region")
 
     class Config:
         json_schema_extra = {
@@ -293,9 +291,7 @@ async def submit_quick_feedback(request: QuickFeedbackRequest):
             context={"quick_feedback": True},
         )
 
-        return FeedbackResponse(
-            success=True, feedback_id=feedback_id, message="Quick feedback recorded"
-        )
+        return FeedbackResponse(success=True, feedback_id=feedback_id, message="Quick feedback recorded")
 
     except Exception as e:
         logger.error(f"Error with quick feedback: {e}")
@@ -353,9 +349,7 @@ async def submit_text_feedback(request: TextFeedbackRequest):
             context=request.context or {"text_feedback": True},
         )
 
-        return FeedbackResponse(
-            success=True, feedback_id=feedback_id, message="Text feedback recorded"
-        )
+        return FeedbackResponse(success=True, feedback_id=feedback_id, message="Text feedback recorded")
 
     except Exception as e:
         logger.error(f"Error with text feedback: {e}")
@@ -387,9 +381,7 @@ async def edit_feedback(request: FeedbackEditRequest):
 
 
 @app.delete("/feedback/{feedback_id}", response_model=FeedbackResponse, tags=["Feedback"])
-async def delete_feedback(
-    feedback_id: str, user_id: str = Query(..., description="User ID for verification")
-):
+async def delete_feedback(feedback_id: str, user_id: str = Query(..., description="User ID for verification")):
     """Delete feedback (soft delete for audit trail)."""
     try:
         if not feedback_system:

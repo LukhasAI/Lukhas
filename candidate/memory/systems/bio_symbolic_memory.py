@@ -150,9 +150,7 @@ class BioSymbolicMemory:
         # ΛDRIFT_POINT: Importance calculation is critical and currently a stub.
         # ΛTRACE: Computing importance score for interaction.
         log.debug("Computing importance score for interaction.")
-        importance_score = await self._compute_importance(
-            interaction, context, self.working_memory.current_items
-        )
+        importance_score = await self._compute_importance(interaction, context, self.working_memory.current_items)
         # ΛTRACE: Interaction importance score computed.
         log.info(
             "Interaction importance score computed.",
@@ -168,9 +166,7 @@ class BioSymbolicMemory:
             item_importance=importance_score,
             item_decay_rate=decay_rate,
         )
-        episodic_trace = await self.episodic_memory.store(
-            working_item, importance_score, decay_rate=decay_rate
-        )
+        episodic_trace = await self.episodic_memory.store(working_item, importance_score, decay_rate=decay_rate)
 
         consolidation_threshold = self.consolidation_engine.config.get("importance_threshold", 0.7)
 
@@ -218,9 +214,7 @@ class BioSymbolicMemory:
             outcome_feedback = context.get(
                 "outcome_feedback"
             )  # ΛSEED_CHAIN: Outcome feedback seeds procedural learning.
-            await self.procedural_memory.update_skill_pathways(
-                actions, success_signal=outcome_feedback
-            )
+            await self.procedural_memory.update_skill_pathways(actions, success_signal=outcome_feedback)
         # ΛTRACE: Interaction processing and storage complete.
         log.info(
             "Interaction processing and storage complete in BioSymbolicMemory.",
@@ -269,9 +263,7 @@ class BioSymbolicMemory:
     # ΛRECALL: Stub for finding related memories. This is a critical recall step for consolidation.
     # ΛCAUTION: This related memory search is a STUB.
     @lukhas_tier_required(1)
-    async def _find_related_memories(
-        self, interaction: UserInteraction, context: InteractionContext
-    ) -> list[Any]:
+    async def _find_related_memories(self, interaction: UserInteraction, context: InteractionContext) -> list[Any]:
         """Finds memories related to the current interaction. (Stub)"""
         interaction_content_preview = str(interaction.get("content", ""))[:50]
         # ΛTRACE: Finding related memories (stub implementation).

@@ -49,9 +49,7 @@ class MemoryTraumaRepair:
             raise ImportError("Trauma repair module not available")
 
         # Initialize the trauma repair system
-        self.repair_system = TraumaRepairSystem(
-            enable_immune_system=True, self_repair_threshold=0.3
-        )
+        self.repair_system = TraumaRepairSystem(enable_immune_system=True, self_repair_threshold=0.3)
 
         # Track repair statistics
         self.repair_stats = {
@@ -108,9 +106,7 @@ class MemoryTraumaRepair:
             if trauma:
                 self.repair_stats["traumas_detected"] += 1
                 result["trauma_detected"] = True
-                result["trauma_type"] = (
-                    trauma.trauma_type.value if hasattr(trauma, "trauma_type") else "unknown"
-                )
+                result["trauma_type"] = trauma.trauma_type.value if hasattr(trauma, "trauma_type") else "unknown"
                 result["severity"] = trauma.severity if hasattr(trauma, "severity") else 0.0
 
                 # Initiate repair if severity exceeds threshold
@@ -142,22 +138,16 @@ class MemoryTraumaRepair:
                 {
                     "trauma_id": trauma_id,
                     "memory_id": (trauma.memory_id if hasattr(trauma, "memory_id") else None),
-                    "trauma_type": (
-                        trauma.trauma_type.value if hasattr(trauma, "trauma_type") else "unknown"
-                    ),
+                    "trauma_type": (trauma.trauma_type.value if hasattr(trauma, "trauma_type") else "unknown"),
                     "severity": trauma.severity if hasattr(trauma, "severity") else 0.0,
-                    "detected_at": (
-                        trauma.detected_at.isoformat() if hasattr(trauma, "detected_at") else None
-                    ),
+                    "detected_at": (trauma.detected_at.isoformat() if hasattr(trauma, "detected_at") else None),
                 }
             )
 
         self.repair_stats["active_traumas"] = len(active_traumas)
         return active_traumas
 
-    async def force_repair(
-        self, memory_id: str, repair_strategy: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def force_repair(self, memory_id: str, repair_strategy: Optional[str] = None) -> dict[str, Any]:
         """Force repair of a specific memory"""
         result = {
             "memory_id": memory_id,

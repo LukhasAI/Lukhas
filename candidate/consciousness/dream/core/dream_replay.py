@@ -44,9 +44,7 @@ from .dream_limiter import DreamLimiter
 DREAM_LOG_PATH = Path("core/logs/dream_log.jsonl")
 
 
-def replay_recent_dreams(
-    limit=5, filter_by_tag=None, only_replay_candidates=False, sort_by_emotion=None
-):
+def replay_recent_dreams(limit=5, filter_by_tag=None, only_replay_candidates=False, sort_by_emotion=None):
     if not DREAM_LOG_PATH.exists():
         print("⚠️ No dream log file found.")
         return
@@ -78,9 +76,7 @@ def replay_recent_dreams(
     for dream in dreams:
         try:
             print(f"\n🌀 {dream['timestamp']} | ID: {dream['message_id']}")
-            print(
-                f"   Widget: {dream.get('source_widget', 'unknown')} | Tier: {dream.get('context_tier', '?')}"
-            )
+            print(f"   Widget: {dream.get('source_widget', 'unknown')} | Tier: {dream.get('context_tier', '?')}")
             print(f"   Tags: {', '.join(dream.get('tags', []))}")
 
             emotion = dream.get("emotion_vector", {})

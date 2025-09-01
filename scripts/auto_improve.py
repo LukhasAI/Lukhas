@@ -21,9 +21,7 @@ from core.agi.code_quality_healer import CodeQualityHealer
 from lukhas.bridge.local_llm_fixer import LocalLLMFixer
 from lukhas.orchestration.symbolic_kernel_bus import SymbolicEffect, SymbolicKernelBus
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -106,9 +104,7 @@ class AutoImprover:
         async with LocalLLMFixer() as fixer:
             return await fixer.check_ollama_available()
 
-    async def run_improvement_cycle(
-        self, target_files: Optional[list[str]] = None, max_issues: int = 100
-    ) -> dict:
+    async def run_improvement_cycle(self, target_files: Optional[list[str]] = None, max_issues: int = 100) -> dict:
         """Run a single improvement cycle"""
 
         print("\n🚀 Starting LUKHAS Auto-Improvement Cycle")
@@ -194,9 +190,7 @@ class AutoImprover:
 
         return results
 
-    async def _run_llm_fixes(
-        self, target_files: Optional[list[str]] = None, max_issues: int = 100
-    ) -> dict:
+    async def _run_llm_fixes(self, target_files: Optional[list[str]] = None, max_issues: int = 100) -> dict:
         """Run LLM-powered fixes"""
         results = {
             "files_analyzed": 0,
@@ -215,9 +209,7 @@ class AutoImprover:
 
                 # Skip test and venv files
                 files = [
-                    f
-                    for f in files
-                    if not any(skip in str(f) for skip in ["test_", "__pycache__", ".venv", "venv"])
+                    f for f in files if not any(skip in str(f) for skip in ["test_", "__pycache__", ".venv", "venv"])
                 ]
 
                 results["files_analyzed"] = len(files)
@@ -397,9 +389,7 @@ async def main():
     args = parser.parse_args()
 
     # Create improver
-    improver = AutoImprover(
-        workspace_path=args.path, use_ollama=not args.no_ollama, dry_run=args.dry_run
-    )
+    improver = AutoImprover(workspace_path=args.path, use_ollama=not args.no_ollama, dry_run=args.dry_run)
 
     # Check prerequisites
     if not await improver.check_prerequisites():

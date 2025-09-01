@@ -41,9 +41,7 @@ class ProposalMapper:
         threshold_delta = None
         if drift_delta is not None:
             # Limit to max allowed shift
-            threshold_delta = max(
-                -self.max_threshold_shift, min(self.max_threshold_shift, drift_delta * 0.1)
-            )
+            threshold_delta = max(-self.max_threshold_shift, min(self.max_threshold_shift, drift_delta * 0.1))
 
         # Determine explanation depth
         explain_depth = None
@@ -57,9 +55,7 @@ class ProposalMapper:
             return None
 
         try:
-            patch = PolicySafePatch(
-                style=style, threshold_delta=threshold_delta, explain_depth=explain_depth
-            )
+            patch = PolicySafePatch(style=style, threshold_delta=threshold_delta, explain_depth=explain_depth)
             return patch
         except ValueError:
             # Validation failed (e.g., threshold too large)

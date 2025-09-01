@@ -463,9 +463,7 @@ class AuditLogger:
             log_time = (time.time() - start_time) * 1000
             self.performance_metrics["events_logged"] += 1
             self.performance_metrics["avg_log_time_ms"] = (
-                self.performance_metrics["avg_log_time_ms"]
-                * (self.performance_metrics["events_logged"] - 1)
-                + log_time
+                self.performance_metrics["avg_log_time_ms"] * (self.performance_metrics["events_logged"] - 1) + log_time
             ) / self.performance_metrics["events_logged"]
             return event.event_id
         except Exception as e:
@@ -624,9 +622,7 @@ class AuditLogger:
 
         return matching_events
 
-    def _get_log_files_for_timerange(
-        self, start_time: Optional[datetime], end_time: Optional[datetime]
-    ) -> list[Path]:
+    def _get_log_files_for_timerange(self, start_time: Optional[datetime], end_time: Optional[datetime]) -> list[Path]:
         """Get log files that might contain events in the time range."""
         if not self.log_file_path.exists():
             return []
@@ -713,9 +709,7 @@ class AuditLogger:
 
         return True
 
-    async def generate_constitutional_report(
-        self, start_time: datetime, end_time: datetime
-    ) -> dict[str, Any]:
+    async def generate_constitutional_report(self, start_time: datetime, end_time: datetime) -> dict[str, Any]:
         """
         Generate constitutional transparency report.
 
@@ -753,8 +747,7 @@ class AuditLogger:
             "constitutional_enforcement": {
                 "total_enforcements": len(enforcement_events),
                 "enforcement_types": self._analyze_enforcement_types(enforcement_events),
-                "enforcement_frequency": len(enforcement_events)
-                / max(1, (end_time - start_time).days),
+                "enforcement_frequency": len(enforcement_events) / max(1, (end_time - start_time).days),
             },
             "system_overrides": {
                 "total_overrides": len(override_events),
@@ -763,16 +756,13 @@ class AuditLogger:
                     [
                         e
                         for e in override_events
-                        if e.get("constitutional_context", {}).get("constitutional_impact")
-                        == "high"
+                        if e.get("constitutional_context", {}).get("constitutional_impact") == "high"
                     ]
                 ),
             },
             "transparency_metrics": {
                 "events_requiring_review": len([e for e in events if e.get("requires_review")]),
-                "automatic_enforcements": len(
-                    [e for e in enforcement_events if not e.get("requires_review")]
-                ),
+                "automatic_enforcements": len([e for e in enforcement_events if not e.get("requires_review")]),
                 "manual_interventions": len([e for e in events if e.get("requires_review")]),
             },
             "compliance_status": {
@@ -784,9 +774,7 @@ class AuditLogger:
 
         return report
 
-    def _analyze_enforcement_types(
-        self, enforcement_events: list[dict[str, Any]]
-    ) -> dict[str, int]:
+    def _analyze_enforcement_types(self, enforcement_events: list[dict[str, Any]]) -> dict[str, int]:
         """Analyze types of constitutional enforcements."""
         enforcement_types = {}
 
@@ -817,8 +805,7 @@ class AuditLogger:
             [
                 e
                 for e in events
-                if e.get("severity") != "critical"
-                or e.get("event_type") == "constitutional_enforcement"
+                if e.get("severity") != "critical" or e.get("event_type") == "constitutional_enforcement"
             ]
         )
 

@@ -133,9 +133,7 @@ class LukhasNamingApplicator:
                     self.changes_applied["files"] += 1
                     print(f"   ✓ Renamed: {old_path} → {new_path}")
 
-    def _apply_refinements_to_file(
-        self, file_path: str, refinements: list[dict], refinement_type: str
-    ):
+    def _apply_refinements_to_file(self, file_path: str, refinements: list[dict], refinement_type: str):
         """Apply refinements to a single file"""
         file_path = Path(file_path)
 

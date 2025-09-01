@@ -199,9 +199,7 @@ class EliteVoiceCoherenceUpgrader:
             ),
         ]
 
-    async def upgrade_system_voice_coherence(
-        self, system_path: str, system_name: str
-    ) -> list[UpgradeResult]:
+    async def upgrade_system_voice_coherence(self, system_path: str, system_name: str) -> list[UpgradeResult]:
         """Upgrade voice coherence for an entire content system"""
         self.logger.info(f"🚀 Upgrading voice coherence for {system_name}...")
 
@@ -364,12 +362,8 @@ class EliteVoiceCoherenceUpgrader:
             }
 
             if results:
-                improvements = [
-                    r.upgraded_coherence - r.original_coherence for r in results if r.success
-                ]
-                system_results["average_improvement"] = (
-                    sum(improvements) / len(improvements) if improvements else 0.0
-                )
+                improvements = [r.upgraded_coherence - r.original_coherence for r in results if r.success]
+                system_results["average_improvement"] = sum(improvements) / len(improvements) if improvements else 0.0
 
             upgrade_results[system_name] = system_results
             total_files_upgraded += system_results["files_upgraded"]
@@ -380,9 +374,7 @@ class EliteVoiceCoherenceUpgrader:
             )
 
         # Generate upgrade report
-        await self._generate_upgrade_report(
-            upgrade_results, total_files_upgraded, total_changes_made
-        )
+        await self._generate_upgrade_report(upgrade_results, total_files_upgraded, total_changes_made)
 
         self.logger.info("✅ Elite voice coherence upgrade complete!")
         self.logger.info(f"📈 Total files upgraded: {total_files_upgraded}")
@@ -390,9 +382,7 @@ class EliteVoiceCoherenceUpgrader:
 
         return upgrade_results
 
-    async def _generate_upgrade_report(
-        self, upgrade_results: dict[str, Any], total_files: int, total_changes: int
-    ):
+    async def _generate_upgrade_report(self, upgrade_results: dict[str, Any], total_files: int, total_changes: int):
         """Generate comprehensive upgrade report"""
         report_path = self.base_path / "VOICE_COHERENCE_UPGRADE_REPORT.md"
 

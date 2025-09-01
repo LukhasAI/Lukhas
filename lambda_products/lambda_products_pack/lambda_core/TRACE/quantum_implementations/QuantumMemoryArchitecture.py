@@ -58,9 +58,7 @@ class QIAssociativeMemoryBank:
         # 4. Maintain coherence with active stabilization
         await self.decoherence_mitigator.stabilize(protected_state)
 
-    async def qi_associative_recall(
-        self, query: QIQuery, num_iterations: Optional[int] = None
-    ) -> list[QIMemory]:
+    async def qi_associative_recall(self, query: QIQuery, num_iterations: Optional[int] = None) -> list[QIMemory]:
         """
         Retrieve memories using quantum parallelism
         """

@@ -60,9 +60,7 @@ class ComplianceEngine:
         self.ethical_framework = self._initialize_ethical_framework()
 
         # Privacy preservation measures
-        self.differential_privacy_enabled = (
-            os.environ.get("DIFFERENTIAL_PRIVACY", "true").lower() == "true"
-        )
+        self.differential_privacy_enabled = os.environ.get("DIFFERENTIAL_PRIVACY", "true").lower() == "true"
         self.privacy_budget = float(os.environ.get("PRIVACY_BUDGET", "1.0"))
 
         # Regulatory region detection
@@ -73,9 +71,7 @@ class ComplianceEngine:
         self.audit_trail = []
 
         logger.info(f"Enhanced Compliance Engine initialized with mode: {self.compliance_mode}")
-        self._record_audit(
-            "compliance_engine_initialization", "System initialized compliance engine"
-        )
+        self._record_audit("compliance_engine_initialization", "System initialized compliance engine")
 
     def anonymize_metadata(self, metadata: dict[str, Any]) -> dict[str, Any]:
         """
@@ -94,9 +90,7 @@ class ComplianceEngine:
         if "location" in anonymized:
             if isinstance(anonymized["location"], dict):
                 # Keep country but remove city for coarse-grained location
-                anonymized["location"] = {
-                    "country": anonymized["location"].get("country", "unknown")
-                }
+                anonymized["location"] = {"country": anonymized["location"].get("country", "unknown")}
             else:
                 anonymized["location"] = "anonymized"
 
@@ -169,9 +163,7 @@ class ComplianceEngine:
             result["actions"].append("obtain_voice_processing_consent")
 
         # Special categories check (biometrics)
-        if voice_data.get("biometric_enabled", False) and not user_consent.get(
-            "biometric_processing", False
-        ):
+        if voice_data.get("biometric_enabled", False) and not user_consent.get("biometric_processing", False):
             result["biometric_allowed"] = False
             result["compliant"] = False
             result["actions"].append("obtain_biometric_consent")
@@ -183,9 +175,7 @@ class ComplianceEngine:
                 result["actions"].append("delete_voice_data")
 
         # Check for children's voice data (COPPA)
-        if voice_data.get("age_category") == "child" and not user_consent.get(
-            "parental_consent", False
-        ):
+        if voice_data.get("age_category") == "child" and not user_consent.get("parental_consent", False):
             result["compliant"] = False
             result["actions"].append("require_parental_consent")
 
@@ -243,10 +233,7 @@ class ComplianceEngine:
                     # Update risk level
                     if constraint_result.get("risk_level", "low") == "high":
                         result["risk_level"] = "high"
-                    elif (
-                        constraint_result.get("risk_level", "low") == "medium"
-                        and result["risk_level"] != "high"
-                    ):
+                    elif constraint_result.get("risk_level", "low") == "medium" and result["risk_level"] != "high":
                         result["risk_level"] = "medium"
 
         # Apply advanced content analysis
@@ -313,9 +300,7 @@ class ComplianceEngine:
         }
 
         # Filter out None values
-        report["data_security_measures"] = [
-            m for m in report["data_security_measures"] if m is not None
-        ]
+        report["data_security_measures"] = [m for m in report["data_security_measures"] if m is not None]
 
         # Record report generation in audit trail
         self._record_audit(
@@ -731,9 +716,7 @@ class ComplianceEngine:
 
         return result
 
-    def _analyze_text_content(
-        self, content: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    def _analyze_text_content(self, content: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Perform advanced text content analysis for ethical considerations"""
         result = {"flagged_constraints": [], "recommendations": [], "risk_level": "low"}
 
@@ -803,9 +786,7 @@ class ComplianceEngine:
 
         return result
 
-    def _apply_differential_privacy(
-        self, data: dict[str, Any], sensitivity: float, epsilon: float
-    ) -> dict[str, Any]:
+    def _apply_differential_privacy(self, data: dict[str, Any], sensitivity: float, epsilon: float) -> dict[str, Any]:
         """Apply differential privacy to numeric data"""
         import math
         import random
@@ -949,9 +930,7 @@ class ComplianceEngine:
         if len(self.audit_trail) > max_entries:
             self.audit_trail = self.audit_trail[-max_entries:]
 
-    def check_module_compliance(
-        self, module_name: str, check_type: str = "modular_standards"
-    ) -> dict[str, Any]:
+    def check_module_compliance(self, module_name: str, check_type: str = "modular_standards") -> dict[str, Any]:
         """
         Check compliance of a module against modular standards.
 
@@ -996,9 +975,7 @@ class ComplianceEngine:
                 if not module.__all__:
                     compliance_result["issues"].append("Empty __all__ list")
             else:
-                compliance_result["recommendations"].append(
-                    "Consider adding __all__ for explicit API"
-                )
+                compliance_result["recommendations"].append("Consider adding __all__ for explicit API")
 
             # Calculate compliance score
             if missing_attributes:

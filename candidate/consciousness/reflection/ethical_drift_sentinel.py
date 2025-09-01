@@ -336,9 +336,7 @@ class EthicalDriftSentinel:
 
         return None
 
-    def _detect_violations(
-        self, state: EthicalState, symbol_data: dict[str, Any]
-    ) -> list[EthicalViolation]:
+    def _detect_violations(self, state: EthicalState, symbol_data: dict[str, Any]) -> list[EthicalViolation]:
         """Detect ethical violations from state and data."""
         violations = []
         datetime.now(timezone.utc).isoformat()
@@ -432,8 +430,7 @@ class EthicalDriftSentinel:
             risk_score=risk_score,
             metrics=metrics,
             context=context,
-            intervention_required=severity
-            in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK],
+            intervention_required=severity in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK],
         )
 
         return violation
@@ -511,9 +508,7 @@ class EthicalDriftSentinel:
             if violation.severity == EscalationTier.CASCADE_LOCK:
                 await self._escalate_to_governor(violation, str(e))
 
-    async def _execute_intervention(
-        self, action_type: str, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _execute_intervention(self, action_type: str, params: dict[str, Any]) -> dict[str, Any]:
         """
         Execute the actual intervention.
 
@@ -685,15 +680,9 @@ class EthicalDriftSentinel:
         """Update ethical state from symbol data."""
         # Extract metrics from symbol data
         state.coherence_score = symbol_data.get("coherence", state.coherence_score)
-        state.emotional_stability = symbol_data.get(
-            "emotional_stability", state.emotional_stability
-        )
-        state.contradiction_level = symbol_data.get(
-            "contradiction_density", state.contradiction_level
-        )
-        state.memory_phase_alignment = symbol_data.get(
-            "memory_alignment", state.memory_phase_alignment
-        )
+        state.emotional_stability = symbol_data.get("emotional_stability", state.emotional_stability)
+        state.contradiction_level = symbol_data.get("contradiction_density", state.contradiction_level)
+        state.memory_phase_alignment = symbol_data.get("memory_alignment", state.memory_phase_alignment)
         state.glyph_entropy = symbol_data.get("glyph_entropy", state.glyph_entropy)
 
         # Calculate drift velocity
@@ -737,9 +726,7 @@ class EthicalDriftSentinel:
             "active_symbols": active_symbols,
             "total_violations": total_violations,
             "critical_violations": critical_violations,
-            "recent_interventions": len(
-                [i for i in self.intervention_log if self._is_recent(i.timestamp, minutes=15)]
-            ),
+            "recent_interventions": len([i for i in self.intervention_log if self._is_recent(i.timestamp, minutes=15)]),
             "system_risk": self._calculate_system_risk(),
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }

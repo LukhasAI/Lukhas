@@ -217,9 +217,7 @@ def main():
     layouts = ["force_directed", "hierarchical", "circular", "spiral"]
     for layout in layouts:
         try:
-            fig = viewer.create_interactive_plot(
-                layout=layout, title=f"Cognitive Chain - {layout.title()} Layout"
-            )
+            fig = viewer.create_interactive_plot(layout=layout, title=f"Cognitive Chain - {layout.title()} Layout")
             filename = f"cognitive_chain_{layout}.html"
             fig.write_html(filename)
             print(f"   ✓ Created {layout} layout: {filename}")

@@ -185,9 +185,7 @@ class AutonomousLearningPipeline:
         with contextlib.suppress(asyncio.TimeoutError):
             await asyncio.wait_for(self._wait_for_knowledge(topic), timeout=30.0)
 
-        return self.knowledge_base.get(
-            topic, {"status": "learning_in_progress", "goal_id": goal_id}
-        )
+        return self.knowledge_base.get(topic, {"status": "learning_in_progress", "goal_id": goal_id})
 
     async def teach_concept(self, concept: str, knowledge: dict[str, Any]):
         """
@@ -345,9 +343,7 @@ class AutonomousLearningPipeline:
         """Learn about learning itself"""
         # Analyze learning history
         relevant_experiences = [
-            exp
-            for exp in self.learning_history
-            if topic in exp.activity or topic in str(exp.knowledge_gained)
+            exp for exp in self.learning_history if topic in exp.activity or topic in str(exp.knowledge_gained)
         ]
 
         # Extract meta-knowledge
@@ -449,9 +445,7 @@ class AutonomousLearningPipeline:
         # Prioritize by deadline and importance
         return min(active_goals, key=lambda g: (g.deadline, -g.target_proficiency))
 
-    def _select_learning_strategy(
-        self, topic: str, knowledge_type: KnowledgeType
-    ) -> LearningStrategy:
+    def _select_learning_strategy(self, topic: str, knowledge_type: KnowledgeType) -> LearningStrategy:
         """Select appropriate learning strategy"""
         # Use weighted random selection
         strategies = list(self.strategy_weights.keys())
@@ -552,9 +546,7 @@ class ConceptMapper:
             if existing != concept:
                 similarity = self._calculate_similarity(concept, existing)
                 if similarity > 0.3:
-                    self.concept_graph[concept]["connections"].append(
-                        {"concept": existing, "strength": similarity}
-                    )
+                    self.concept_graph[concept]["connections"].append({"concept": existing, "strength": similarity})
 
     def find_related(self, topic: str, knowledge_base: dict) -> list[str]:
         """Find related topics"""
@@ -562,9 +554,7 @@ class ConceptMapper:
             return []
 
         connections = self.concept_graph[topic].get("connections", [])
-        return [
-            c["concept"] for c in sorted(connections, key=lambda x: x["strength"], reverse=True)
-        ]
+        return [c["concept"] for c in sorted(connections, key=lambda x: x["strength"], reverse=True)]
 
     def _calculate_similarity(self, concept1: str, concept2: str) -> float:
         """Calculate concept similarity"""

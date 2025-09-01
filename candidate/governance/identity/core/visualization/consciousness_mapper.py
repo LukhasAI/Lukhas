@@ -176,9 +176,7 @@ class ConsciousnessMapper:
         consciousness_level = self._calculate_consciousness_level(biometrics, cognitive)
 
         # Determine emotional state
-        emotional_state, emotional_intensity = self._determine_emotional_state(
-            biometrics, cognitive
-        )
+        emotional_state, emotional_intensity = self._determine_emotional_state(biometrics, cognitive)
 
         # Calculate neural synchrony
         neural_synchrony = self._calculate_neural_synchrony(biometrics)
@@ -217,9 +215,7 @@ class ConsciousnessMapper:
 
         return state
 
-    def _calculate_consciousness_level(
-        self, biometrics: BiometricData, cognitive: CognitiveMetrics
-    ) -> float:
+    def _calculate_consciousness_level(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
         """Calculate overall consciousness level from inputs"""
         factors = []
         weights = []
@@ -307,9 +303,7 @@ class ConsciousnessMapper:
 
         # Heart rate elevation
         if biometrics.heart_rate is not None:
-            hr_elevation = (
-                biometrics.heart_rate - self.baseline_heart_rate
-            ) / self.baseline_heart_rate
+            hr_elevation = (biometrics.heart_rate - self.baseline_heart_rate) / self.baseline_heart_rate
             arousal_factors.append(min(1.0, max(0.0, hr_elevation + 0.5)))
 
         # Skin conductance (strong arousal indicator)
@@ -392,9 +386,7 @@ class ConsciousnessMapper:
         synchrony = 1.0 - (variance / (max_variance + 0.1))
         return max(0.0, min(1.0, synchrony))
 
-    def _determine_attention_focus(
-        self, cognitive: CognitiveMetrics, context: dict[str, Any]
-    ) -> list[str]:
+    def _determine_attention_focus(self, cognitive: CognitiveMetrics, context: dict[str, Any]) -> list[str]:
         """Determine current attention focus areas"""
         focus_areas = []
 
@@ -428,9 +420,7 @@ class ConsciousnessMapper:
 
         return focus_areas if focus_areas else ["neutral"]
 
-    def _calculate_stress_level(
-        self, biometrics: BiometricData, cognitive: CognitiveMetrics
-    ) -> float:
+    def _calculate_stress_level(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
         """Calculate stress level from multiple indicators"""
         stress_factors = []
 
@@ -457,9 +447,7 @@ class ConsciousnessMapper:
 
         return sum(stress_factors) / len(stress_factors) if stress_factors else 0.3
 
-    def _calculate_relaxation_level(
-        self, biometrics: BiometricData, cognitive: CognitiveMetrics
-    ) -> float:
+    def _calculate_relaxation_level(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
         """Calculate relaxation level"""
         relax_factors = []
 
@@ -486,9 +474,7 @@ class ConsciousnessMapper:
 
         return sum(relax_factors) / len(relax_factors) if relax_factors else 0.5
 
-    def _calculate_authenticity_score(
-        self, biometrics: BiometricData, cognitive: CognitiveMetrics
-    ) -> float:
+    def _calculate_authenticity_score(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
         """Calculate authenticity score for spoofing detection"""
         authenticity_factors = []
 
@@ -513,9 +499,7 @@ class ConsciousnessMapper:
             breath_authenticity = 1.0 if 12 < biometrics.breathing_rate < 20 else 0.5
             authenticity_factors.append(breath_authenticity)
 
-        return (
-            sum(authenticity_factors) / len(authenticity_factors) if authenticity_factors else 0.8
-        )
+        return sum(authenticity_factors) / len(authenticity_factors) if authenticity_factors else 0.8
 
     def _smooth_state_transition(self, new_state: ConsciousnessState) -> ConsciousnessState:
         """Smooth state transitions using history"""
@@ -532,13 +516,11 @@ class ConsciousnessMapper:
         )
 
         smoothed_neural_synchrony = (
-            new_state.neural_synchrony * 0.6
-            + sum(s.neural_synchrony for s in recent_states) / len(recent_states) * 0.4
+            new_state.neural_synchrony * 0.6 + sum(s.neural_synchrony for s in recent_states) / len(recent_states) * 0.4
         )
 
         smoothed_stress = (
-            new_state.stress_level * 0.7
-            + sum(s.stress_level for s in recent_states) / len(recent_states) * 0.3
+            new_state.stress_level * 0.7 + sum(s.stress_level for s in recent_states) / len(recent_states) * 0.3
         )
 
         # Check if emotional state should transition

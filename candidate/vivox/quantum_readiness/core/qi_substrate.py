@@ -224,9 +224,7 @@ class QISubstrate:
 
             elif noise_type == QuantumNoiseType.DEPHASING:
                 # Random phase errors
-                phases = np.exp(
-                    1j * np.random.normal(0, strength * time_evolution, len(noisy_state))
-                )
+                phases = np.exp(1j * np.random.normal(0, strength * time_evolution, len(noisy_state)))
                 noisy_state *= phases
 
             elif noise_type == QuantumNoiseType.DEPOLARIZING:
@@ -358,9 +356,7 @@ class QISubstrate:
 
         # Create coupling Hamiltonian
         dimension = len(states[0].state_vector)
-        coupling_matrix = np.zeros(
-            (len(states) * dimension, len(states) * dimension), dtype=complex
-        )
+        coupling_matrix = np.zeros((len(states) * dimension, len(states) * dimension), dtype=complex)
 
         # Build block-diagonal with coupling terms
         for i in range(len(states)):
@@ -393,9 +389,7 @@ class QISubstrate:
                 state_vector=new_vector,
                 state_type=original_state.state_type,
                 fidelity=original_state.fidelity * 0.95,  # Slight fidelity loss
-                entanglement_map={
-                    s.state_id: coupling_strength for s in states if s != original_state
-                },
+                entanglement_map={s.state_id: coupling_strength for s in states if s != original_state},
                 metadata={**original_state.metadata, "resonance_coupled": True},
             )
             coupled_states.append(coupled_state)
@@ -429,9 +423,7 @@ class QISubstrate:
             "total_states": len(self.quantum_states),
             "active_states": len(active_states),
             "entangled_pairs": len(entangled_states) // 2,
-            "average_fidelity": (
-                np.mean([s.fidelity for s in active_states]) if active_states else 0
-            ),
+            "average_fidelity": (np.mean([s.fidelity for s in active_states]) if active_states else 0),
             "environment": {
                 "coherence_time": self.environment.coherence_time,
                 "temperature": self.environment.temperature,

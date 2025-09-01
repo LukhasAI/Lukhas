@@ -440,9 +440,7 @@ class SleepCycleManager:
             # Update architecture
             total_time = sum(self.time_in_stages.values())
             if total_time > 0:
-                self.architecture.total_sleep_time = (
-                    total_time - self.time_in_stages[SleepStage.WAKE]
-                )
+                self.architecture.total_sleep_time = total_time - self.time_in_stages[SleepStage.WAKE]
                 self.architecture.sleep_efficiency = self.architecture.total_sleep_time / total_time
 
                 # Update stage percentages

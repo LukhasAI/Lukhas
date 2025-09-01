@@ -292,9 +292,7 @@ class ContextBusOrchestrator:
                         await self._pause_for_step_up(workflow_id, policy_result)
 
                         # After step-up, retry policy check
-                        policy_result = await self._check_policy(
-                            lid, step.name, step.policy_context
-                        )
+                        policy_result = await self._check_policy(lid, step.name, step.policy_context)
                         if policy_result["verdict"] != PolicyVerdict.ALLOW:
                             raise Exception("Step-up authentication failed")
 
@@ -340,8 +338,7 @@ class ContextBusOrchestrator:
                 "results": self.workflows[workflow_id]["results"],
                 "narrative": self.workflow_narratives[workflow_id],
                 "performance": {
-                    "total_time_ms": (time.time() - self.workflows[workflow_id]["start_time"])
-                    * 1000,
+                    "total_time_ms": (time.time() - self.workflows[workflow_id]["start_time"]) * 1000,
                     "avg_handoff_ms": self.performance_metrics["avg_handoff_ms"],
                 },
             }
@@ -547,8 +544,7 @@ class WorkflowPipelines:
             WorkflowStep(
                 step_id="fetch_gmail",
                 name="Fetch Gmail Travel Emails",
-                handler=lambda lid,
-                ctx: orchestrator.gmail_integration.workflow_fetch_travel_emails(lid, ctx),
+                handler=lambda lid, ctx: orchestrator.gmail_integration.workflow_fetch_travel_emails(lid, ctx),
                 required_scopes=["read", "list"],
                 requires_policy_check=True,
                 policy_context={"resource_type": "gmail"},
@@ -556,8 +552,7 @@ class WorkflowPipelines:
             WorkflowStep(
                 step_id="fetch_drive",
                 name="Fetch Drive Travel Documents",
-                handler=lambda lid,
-                ctx: orchestrator.drive_integration.workflow_fetch_travel_documents(lid, ctx),
+                handler=lambda lid, ctx: orchestrator.drive_integration.workflow_fetch_travel_documents(lid, ctx),
                 required_scopes=["read", "list"],
                 requires_policy_check=True,
                 policy_context={"resource_type": "drive"},
@@ -565,8 +560,7 @@ class WorkflowPipelines:
             WorkflowStep(
                 step_id="fetch_dropbox",
                 name="Fetch Dropbox Travel Files",
-                handler=lambda lid,
-                ctx: orchestrator.dropbox_integration.workflow_fetch_travel_files(lid, ctx),
+                handler=lambda lid, ctx: orchestrator.dropbox_integration.workflow_fetch_travel_files(lid, ctx),
                 required_scopes=["read", "list"],
                 requires_policy_check=True,
                 policy_context={"resource_type": "dropbox"},
@@ -585,9 +579,7 @@ class WorkflowPipelines:
                 handler=lambda lid, ctx: {"cross_reference": "Opus 4 validation of analysis"},
                 required_scopes=["execute"],
                 requires_policy_check=True,
-                policy_context={
-                    "model": orchestrator.model_allocation.get("cross_reference", "opus-4")
-                },
+                policy_context={"model": orchestrator.model_allocation.get("cross_reference", "opus-4")},
             ),
             WorkflowStep(
                 step_id="generate_summary",

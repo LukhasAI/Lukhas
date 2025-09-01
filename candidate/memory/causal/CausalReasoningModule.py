@@ -45,20 +45,12 @@ class CausalReasoningModule:
             Dict containing reasoning results and causal chains
         """
         # Extract content from attended data
-        semantic_content = (
-            attended_data.get("attended_content", {}).get("semantic", {}).get("content")
-        )
-        emotional_content = (
-            attended_data.get("attended_content", {}).get("emotional", {}).get("content")
-        )
-        contextual_content = (
-            attended_data.get("attended_content", {}).get("contextual", {}).get("content")
-        )
+        semantic_content = attended_data.get("attended_content", {}).get("semantic", {}).get("content")
+        emotional_content = attended_data.get("attended_content", {}).get("emotional", {}).get("content")
+        contextual_content = attended_data.get("attended_content", {}).get("contextual", {}).get("content")
 
         # Identify potential causes and effects
-        causes_effects = self._extract_causal_elements(
-            semantic_content, emotional_content, contextual_content
-        )
+        causes_effects = self._extract_causal_elements(semantic_content, emotional_content, contextual_content)
 
         # Build causal chains
         causal_chains = self._build_causal_chains(causes_effects)
@@ -67,9 +59,7 @@ class CausalReasoningModule:
         weighted_causes = self._calculate_causal_confidences(causal_chains)
 
         # Filter by confidence threshold
-        valid_causes = {
-            k: v for k, v in weighted_causes.items() if v["confidence"] >= self.confidence_threshold
-        }
+        valid_causes = {k: v for k, v in weighted_causes.items() if v["confidence"] >= self.confidence_threshold}
 
         # Update internal causal graph
         self._update_causal_graph(valid_causes)
@@ -78,9 +68,7 @@ class CausalReasoningModule:
         reasoning_results = {
             "causal_chains": valid_causes,
             "primary_cause": (self._identify_primary_cause(valid_causes) if valid_causes else None),
-            "confidence": (
-                max([v["confidence"] for v in valid_causes.values()]) if valid_causes else 0.0
-            ),
+            "confidence": (max([v["confidence"] for v in valid_causes.values()]) if valid_causes else 0.0),
             "reasoning_path": self._extract_reasoning_path(valid_causes),
             "original_attended_data": attended_data,
             "timestamp": datetime.datetime.now().isoformat(),
@@ -208,8 +196,7 @@ class CausalReasoningModule:
                     causal_chains[chain_id]["elements"].append(other_element)
                     # Update confidence based on chain length and element confidence
                     causal_chains[chain_id]["base_confidence"] = (
-                        causal_chains[chain_id]["base_confidence"]
-                        + other_element.get("confidence", 0.5)
+                        causal_chains[chain_id]["base_confidence"] + other_element.get("confidence", 0.5)
                     ) / 2
 
         return causal_chains
@@ -429,9 +416,7 @@ class CausalReasoningModule:
 
         return diversity_score
 
-    async def analyze_causal_relationships(
-        self, input_data, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def analyze_causal_relationships(self, input_data, context: dict[str, Any]) -> dict[str, Any]:
         """
         Analyze causal relationships in input data within given context
 
@@ -497,9 +482,7 @@ class CausalReasoningModule:
         reasoning_path = reasoning_results.get("reasoning_path", [])
         return len(reasoning_path)
 
-    def _extract_temporal_relationships(
-        self, input_data, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _extract_temporal_relationships(self, input_data, context: dict[str, Any]) -> dict[str, Any]:
         """Extract temporal relationships from input and context"""
         temporal_info = {
             "has_temporal_markers": False,

@@ -103,9 +103,7 @@ class VoiceSafetyGuard:
             },
         ]
 
-        logger.info(
-            f"Voice Safety Guard initialized with {len(self.ethical_constraints)} ethical constraints"
-        )
+        logger.info(f"Voice Safety Guard initialized with {len(self.ethical_constraints)} ethical constraints")
 
     def validate_response(self, response: str, context: dict[str, Any] = None) -> str:
         """
@@ -216,9 +214,7 @@ class VoiceSafetyGuard:
 
         if "privacy_concern" in result["issues"]:
             result["recommendations"].append("Detected privacy concern")
-            result["recommendations"].append(
-                "Remind user not to share sensitive personal information"
-            )
+            result["recommendations"].append("Remind user not to share sensitive personal information")
 
         return result
 

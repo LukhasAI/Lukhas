@@ -149,9 +149,7 @@ class KeywordExtractor:
             keywords = sorted(keyword_set)
             # Remove very short or generic words
             filtered_keywords = [
-                kw
-                for kw in keywords
-                if len(kw) > 2 and kw not in {"the", "and", "for", "with", "from"}
+                kw for kw in keywords if len(kw) > 2 and kw not in {"the", "and", "for", "with", "from"}
             ]
             enhanced_domains[domain] = filtered_keywords[:20]  # Top 20 keywords per domain
 

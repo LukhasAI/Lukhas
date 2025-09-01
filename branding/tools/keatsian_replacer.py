@@ -139,8 +139,7 @@ class KeatsianReplacer:
 
             # Add Keatsian philosophy to vocabulary files
             if "vocabulary" in file_path.name or any(
-                vocab in file_path.name
-                for vocab in ["consciousness", "dream", "identity", "quantum"]
+                vocab in file_path.name for vocab in ["consciousness", "dream", "identity", "quantum"]
             ):
                 if not data:
                     data = {}
@@ -258,9 +257,7 @@ The LUKHAS system embodies Negative Capability - the capacity to remain in uncer
 """
             # Insert before the first main heading or at the beginning
             if re.search(r"^#[^#]", content, re.MULTILINE):
-                content = re.sub(
-                    r"^(#[^#].+)", keatsian_section + r"\1", content, count=1, flags=re.MULTILINE
-                )
+                content = re.sub(r"^(#[^#].+)", keatsian_section + r"\1", content, count=1, flags=re.MULTILINE)
             else:
                 content = keatsian_section + content
 
@@ -319,12 +316,8 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Apply Keatsian philosophy to LUKHAS branding")
-    parser.add_argument(
-        "--branding-root", default="branding", help="Root directory of branding files"
-    )
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Show what would be changed without making changes"
-    )
+    parser.add_argument("--branding-root", default="branding", help="Root directory of branding files")
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be changed without making changes")
 
     args = parser.parse_args()
 

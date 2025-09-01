@@ -62,9 +62,7 @@ except ImportError:
         component="MemoryEncryptor",
     )
 
-    def encrypt_user_file(
-        filepath_to_encrypt: str, seed_phrase: list[str], filename_in_vault: str
-    ) -> bool:
+    def encrypt_user_file(filepath_to_encrypt: str, seed_phrase: list[str], filename_in_vault: str) -> bool:
         log.info(
             "Placeholder encrypt_user_file called.",
             file_to_encrypt=filepath_to_encrypt,
@@ -125,9 +123,7 @@ def encrypt_memory(
                 source_file=str(temp_json_path),
                 vault_target_name=final_vault_filename,
             )
-            op_status = encrypt_user_file(
-                str(temp_json_path), seed_phrase, filename_in_vault=final_vault_filename
-            )  # type: ignore
+            op_status = encrypt_user_file(str(temp_json_path), seed_phrase, filename_in_vault=final_vault_filename)  # type: ignore
             encryption_successful = bool(op_status)
             if encryption_successful:
                 log.info(

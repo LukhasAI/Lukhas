@@ -288,9 +288,7 @@ class ConsciousnessCacheManager:
         # Check cache utilization
         utilization = len(self.cache) / self.max_cache_size
         if utilization > 0.9:
-            recommendations.append(
-                "Cache utilization high (>90%) - consider increasing max_cache_size"
-            )
+            recommendations.append("Cache utilization high (>90%) - consider increasing max_cache_size")
         elif utilization < 0.3:
             recommendations.append("Cache utilization low (<30%) - could reduce max_cache_size")
 
@@ -300,9 +298,7 @@ class ConsciousnessCacheManager:
 
         return recommendations
 
-    async def warm_consciousness_cache(
-        self, user_id: str, consciousness_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def warm_consciousness_cache(self, user_id: str, consciousness_data: dict[str, Any]) -> dict[str, Any]:
         """
         Pre-warm cache with consciousness data for better performance.
 

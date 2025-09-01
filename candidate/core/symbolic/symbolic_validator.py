@@ -167,9 +167,7 @@ class SymbolicIntegrationValidator(BaseValidator):
 
         return issues
 
-    async def _validate_symbolic_metadata(
-        self, metadata: SymbolicMetadata
-    ) -> list[ValidationIssue]:
+    async def _validate_symbolic_metadata(self, metadata: SymbolicMetadata) -> list[ValidationIssue]:
         """Validate symbolic metadata content"""
         issues = []
 
@@ -255,9 +253,7 @@ class SymbolicIntegrationValidator(BaseValidator):
 
         return issues
 
-    async def _check_symbolic_methods(
-        self, plugin_dir: Path, entry_point: str
-    ) -> list[ValidationIssue]:
+    async def _check_symbolic_methods(self, plugin_dir: Path, entry_point: str) -> list[ValidationIssue]:
         """Check for required symbolic methods in plugin class"""
         issues = []
 
@@ -286,9 +282,7 @@ class SymbolicIntegrationValidator(BaseValidator):
 
             if plugin_class:
                 # Get method names
-                method_names = {
-                    node.name for node in plugin_class.body if isinstance(node, ast.FunctionDef)
-                }
+                method_names = {node.name for node in plugin_class.body if isinstance(node, ast.FunctionDef)}
 
                 # Check for required symbolic methods
                 missing_methods = self.required_symbolic_methods - method_names
@@ -631,9 +625,7 @@ class ComplianceValidator(BaseValidator):
         # Validate each declared standard
         for standard in compliance_standards:
             if standard in self.compliance_requirements:
-                issues.extend(
-                    await self._validate_compliance_standard(standard, plugin_dir, manifest)
-                )
+                issues.extend(await self._validate_compliance_standard(standard, plugin_dir, manifest))
 
         # Check for data handling without compliance declarations
         if await self._detects_data_handling(plugin_dir) and not compliance_standards:
@@ -948,9 +940,7 @@ class ConsciousnessValidator(BaseValidator):
 
         return issues
 
-    async def _check_consciousness_declarations(
-        self, manifest: PluginManifest
-    ) -> list[ValidationIssue]:
+    async def _check_consciousness_declarations(self, manifest: PluginManifest) -> list[ValidationIssue]:
         """Check consciousness-related declarations"""
         issues = []
 

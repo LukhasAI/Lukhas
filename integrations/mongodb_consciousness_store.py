@@ -182,9 +182,7 @@ class LUKHASConsciousnessStore:
 
         await self.collections["memory_folds"].insert_one(fold_doc)
 
-        logger.info(
-            f"🧠 Created memory fold: {fold_doc['fold_id']} (importance: {importance_score})"
-        )
+        logger.info(f"🧠 Created memory fold: {fold_doc['fold_id']} (importance: {importance_score})")
         return fold_doc["fold_id"]
 
     async def _prevent_memory_cascade(self):
@@ -256,9 +254,7 @@ class LUKHASConsciousnessStore:
         logger.info(f"🔍 Found {len(conversations)} conversations for query: '{query}'")
         return conversations
 
-    async def get_memory_context(
-        self, fold_type: Optional[str] = None, limit: int = 20
-    ) -> list[dict[str, Any]]:
+    async def get_memory_context(self, fold_type: Optional[str] = None, limit: int = 20) -> list[dict[str, Any]]:
         """Get relevant memory context for consciousness processing"""
 
         query = {}
@@ -324,9 +320,7 @@ class LUKHASConsciousnessStore:
         )
 
         # Trinity Framework balance
-        latest_state = await self.collections["consciousness_states"].find_one(
-            sort=[("timestamp", -1)]
-        )
+        latest_state = await self.collections["consciousness_states"].find_one(sort=[("timestamp", -1)])
 
         analytics = {
             "conversation_analytics": conversation_stats[0] if conversation_stats else {},

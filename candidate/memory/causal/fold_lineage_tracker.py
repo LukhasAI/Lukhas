@@ -140,18 +140,10 @@ class FoldLineageTracker:
     Provides comprehensive tracking of fold relationships and causation patterns.
     """
 
-    def __init__(
-        self, max_drift_rate: float = MAX_DRIFT_RATE
-    ):  # JULES05_NOTE: Loop-safe guard added
-        self.lineage_log_path = (
-            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_lineage_log.jsonl"
-        )
-        self.causal_map_path = (
-            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_cause_map.jsonl"
-        )
-        self.lineage_graph_path = (
-            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/lineage_graph.jsonl"
-        )
+    def __init__(self, max_drift_rate: float = MAX_DRIFT_RATE):  # JULES05_NOTE: Loop-safe guard added
+        self.lineage_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_lineage_log.jsonl"
+        self.causal_map_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_cause_map.jsonl"
+        self.lineage_graph_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/lineage_graph.jsonl"
         self.max_drift_rate = max_drift_rate  # JULES05_NOTE: Loop-safe guard added
 
         # In-memory lineage graph for fast queries
@@ -189,10 +181,7 @@ class FoldLineageTracker:
             )
             return ""
 
-        if (
-            self.fold_nodes.get(source_fold_key)
-            and self.fold_nodes[source_fold_key].drift_score > self.max_drift_rate
-        ):
+        if self.fold_nodes.get(source_fold_key) and self.fold_nodes[source_fold_key].drift_score > self.max_drift_rate:
             logger.warning(
                 "FoldCausation: Drift rate exceeded, halting tracking",
                 source=source_fold_key,
@@ -304,9 +293,7 @@ class FoldLineageTracker:
             "fold_key": fold_key,
             "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
             "lineage_depth": len(lineage_trace),
-            "total_causal_links": sum(
-                len(self.lineage_graph.get(node.fold_key, [])) for node in lineage_trace
-            ),
+            "total_causal_links": sum(len(self.lineage_graph.get(node.fold_key, [])) for node in lineage_trace),
             "lineage_trace": [asdict(node) for node in lineage_trace],
             "causation_analysis": causation_analysis,
             "critical_points": critical_points,
@@ -375,10 +362,7 @@ class FoldLineageTracker:
         dominant_type = max(causation_counts, key=causation_counts.get)
 
         # Calculate average strengths
-        avg_strengths = {
-            ctype: sum(strengths) / len(strengths)
-            for ctype, strengths in causation_strengths.items()
-        }
+        avg_strengths = {ctype: sum(strengths) / len(strengths) for ctype, strengths in causation_strengths.items()}
 
         # Pattern diversity (entropy of causation distribution)
         pattern_diversity = 0.0
@@ -399,9 +383,7 @@ class FoldLineageTracker:
             "total_causal_links": total_links,
         }
 
-    def _identify_critical_points(
-        self, lineage_trace: list[FoldLineageNode]
-    ) -> list[dict[str, Any]]:
+    def _identify_critical_points(self, lineage_trace: list[FoldLineageNode]) -> list[dict[str, Any]]:
         """Identify critical decision points in the fold lineage."""
         critical_points = []
 
@@ -443,20 +425,14 @@ class FoldLineageTracker:
                             "fold_key": node.fold_key,
                             "timestamp": node.timestamp_utc,
                             "importance_change": importance_change,
-                            "direction": (
-                                "increase"
-                                if node.importance_score > prev_importance
-                                else "decrease"
-                            ),
+                            "direction": ("increase" if node.importance_score > prev_importance else "decrease"),
                             "severity": "high" if importance_change > 0.5 else "medium",
                         }
                     )
 
         return sorted(critical_points, key=lambda x: x["timestamp"], reverse=True)
 
-    def _calculate_stability_metrics(
-        self, lineage_trace: list[FoldLineageNode]
-    ) -> dict[str, float]:
+    def _calculate_stability_metrics(self, lineage_trace: list[FoldLineageNode]) -> dict[str, float]:
         """Calculate stability metrics for the fold lineage."""
         if len(lineage_trace) < 2:
             return {
@@ -473,12 +449,9 @@ class FoldLineageTracker:
         # Calculate importance volatility
         importance_scores = [node.importance_score for node in lineage_trace]
         importance_changes = [
-            abs(importance_scores[i] - importance_scores[i - 1])
-            for i in range(1, len(importance_scores))
+            abs(importance_scores[i] - importance_scores[i - 1]) for i in range(1, len(importance_scores))
         ]
-        importance_volatility = (
-            sum(importance_changes) / len(importance_changes) if importance_changes else 0.0
-        )
+        importance_volatility = sum(importance_changes) / len(importance_changes) if importance_changes else 0.0
 
         # Overall stability score (inverse of instability)
         instability = (drift_variance * 0.6) + (importance_volatility * 0.4)
@@ -564,14 +537,10 @@ class FoldLineageTracker:
                         try:
                             data = json.loads(line.strip())
                             if data.get("event_type") == "causal_link":
-                                link = CausalLink(
-                                    **{k: v for k, v in data.items() if k != "event_type"}
-                                )
+                                link = CausalLink(**{k: v for k, v in data.items() if k != "event_type"})
                                 self.lineage_graph[link.source_fold_key].append(link)
                             elif data.get("event_type") == "fold_state":
-                                node = FoldLineageNode(
-                                    **{k: v for k, v in data.items() if k != "event_type"}
-                                )
+                                node = FoldLineageNode(**{k: v for k, v in data.items() if k != "event_type"})
                                 self.fold_nodes[node.fold_key] = node
                         except (json.JSONDecodeError, TypeError):
                             continue
@@ -824,9 +793,7 @@ class FoldLineageTracker:
         slope = (n * xy_sum - x_sum * y_sum) / (n * x_sq_sum - x_sum * x_sum)
         return slope
 
-    def _estimate_time_to_critical_drift(
-        self, recent_drifts: list[float], trend: float
-    ) -> Optional[float]:
+    def _estimate_time_to_critical_drift(self, recent_drifts: list[float], trend: float) -> Optional[float]:
         """Estimate time until drift reaches critical threshold (0.8)."""
         if trend <= 0:
             return None  # Drift is stable or decreasing
@@ -868,9 +835,7 @@ class FoldLineageTracker:
         else:
             return "oscillating" if variance > 0.1 else "gradual"
 
-    def _calculate_intervention_leverage(
-        self, node: dict, lineage_trace: list, index: int
-    ) -> float:
+    def _calculate_intervention_leverage(self, node: dict, lineage_trace: list, index: int) -> float:
         """Calculate leverage score for potential intervention."""
         # Higher leverage for:
         # - Recent nodes (more impact on current state)
@@ -961,9 +926,7 @@ def create_enhanced_lineage_tracker(
         if "log_paths" in config:
             tracker.lineage_log_path = config["log_paths"].get("lineage", tracker.lineage_log_path)
             tracker.causal_map_path = config["log_paths"].get("causal", tracker.causal_map_path)
-            tracker.lineage_graph_path = config["log_paths"].get(
-                "graph", tracker.lineage_graph_path
-            )
+            tracker.lineage_graph_path = config["log_paths"].get("graph", tracker.lineage_graph_path)
 
     return tracker
 

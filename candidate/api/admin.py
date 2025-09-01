@@ -188,9 +188,7 @@ def admin_index(request: Request):
 
 
 @router.get("/incidents", response_class=HTMLResponse, dependencies=[Depends(require_api_key)])
-def admin_incidents(
-    tool: Optional[str] = Query(None), since_hours: int = Query(168, ge=1, le=24 * 30)
-):
+def admin_incidents(tool: Optional[str] = Query(None), since_hours: int = Query(168, ge=1, le=24 * 30)):
     _require_enabled()
     rows = recent_incidents(limit=2000)
 
@@ -258,9 +256,7 @@ def admin_tools():
     response_class=PlainTextResponse,
     dependencies=[Depends(require_api_key)],
 )
-def incidents_csv(
-    tool: Optional[str] = Query(None), since_hours: int = Query(168, ge=1, le=24 * 30)
-):
+def incidents_csv(tool: Optional[str] = Query(None), since_hours: int = Query(168, ge=1, le=24 * 30)):
     _require_enabled()
     rows = recent_incidents(limit=5000)
 

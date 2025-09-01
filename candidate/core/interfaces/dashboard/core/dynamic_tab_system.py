@@ -351,9 +351,7 @@ class DynamicTabSystem:
             sequence_probability = self._calculate_sequence_probability(tab_id, pattern)
 
             # Combined prediction score
-            prediction_score = (
-                time_probability * 0.3 + context_probability * 0.4 + sequence_probability * 0.3
-            )
+            prediction_score = time_probability * 0.3 + context_probability * 0.4 + sequence_probability * 0.3
 
             if prediction_score > 0.6:  # Prediction threshold
                 predictions.append(tab_id)

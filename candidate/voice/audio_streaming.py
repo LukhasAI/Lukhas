@@ -204,9 +204,7 @@ class LUKHASAudioStream:
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(
-                    f"Guardian rejected stream start: {validation_result.get('reason')}"
-                )
+                raise ValueError(f"Guardian rejected stream start: {validation_result.get('reason')}")
 
             self._set_state(StreamState.STARTING)
 
@@ -260,9 +258,7 @@ class LUKHASAudioStream:
 
             self._set_state(StreamState.IDLE)
 
-            await GLYPH.emit(
-                "audio.stream.stopped", {"stream_id": self.stream_id, "stats": self.get_stats()}
-            )
+            await GLYPH.emit("audio.stream.stopped", {"stream_id": self.stream_id, "stats": self.get_stats()})
 
             self.logger.info(f"Audio stream {self.stream_id} stopped")
             return True
@@ -401,15 +397,11 @@ class LUKHASAudioStream:
         if overrun:
             # Too much data, reduce quality slightly
             self.quality_adjustment_factor = max(0.5, self.quality_adjustment_factor * 0.95)
-            self.logger.debug(
-                f"Stream {self.stream_id} quality reduced to {self.quality_adjustment_factor:.2f}"
-            )
+            self.logger.debug(f"Stream {self.stream_id} quality reduced to {self.quality_adjustment_factor:.2f}")
         elif underrun:
             # Not enough data, increase quality slightly
             self.quality_adjustment_factor = min(1.0, self.quality_adjustment_factor * 1.05)
-            self.logger.debug(
-                f"Stream {self.stream_id} quality increased to {self.quality_adjustment_factor:.2f}"
-            )
+            self.logger.debug(f"Stream {self.stream_id} quality increased to {self.quality_adjustment_factor:.2f}")
         elif self.current_latency > self.config.max_latency_ms:
             # Latency too high, reduce quality
             self.quality_adjustment_factor = max(0.5, self.quality_adjustment_factor * 0.98)
@@ -422,9 +414,7 @@ class LUKHASAudioStream:
         if self.state != new_state:
             old_state = self.state
             self.state = new_state
-            self.logger.debug(
-                f"Stream {self.stream_id} state: {old_state.value} -> {new_state.value}"
-            )
+            self.logger.debug(f"Stream {self.stream_id} state: {old_state.value} -> {new_state.value}")
             if self.on_state_change_callback:
                 self.on_state_change_callback(new_state)
 
@@ -481,9 +471,7 @@ class LUKHASAudioStreamManager:
             if new_state == StreamState.ACTIVE:
                 self.global_stats["streams_active"] += 1
             elif new_state in [StreamState.IDLE, StreamState.ERROR]:
-                self.global_stats["streams_active"] = max(
-                    0, self.global_stats["streams_active"] - 1
-                )
+                self.global_stats["streams_active"] = max(0, self.global_stats["streams_active"] - 1)
 
             if original_state_callback:
                 original_state_callback(new_state)
@@ -521,18 +509,12 @@ class LUKHASAudioStreamManager:
 
     def get_active_streams(self) -> dict[str, LUKHASAudioStream]:
         """Get only active streams"""
-        return {
-            stream_id: stream
-            for stream_id, stream in self.streams.items()
-            if stream.state == StreamState.ACTIVE
-        }
+        return {stream_id: stream for stream_id, stream in self.streams.items() if stream.state == StreamState.ACTIVE}
 
     def get_global_stats(self) -> dict[str, Any]:
         """Get global streaming statistics"""
         total_throughput = sum(
-            stream.stats.throughput_kbps
-            for stream in self.streams.values()
-            if stream.state == StreamState.ACTIVE
+            stream.stats.throughput_kbps for stream in self.streams.values() if stream.state == StreamState.ACTIVE
         )
 
         return {
@@ -543,9 +525,7 @@ class LUKHASAudioStreamManager:
 
 
 # Convenience functions
-async def create_realtime_stream(
-    stream_id: str, sample_rate: int = 44100, buffer_size: int = 512
-) -> LUKHASAudioStream:
+async def create_realtime_stream(stream_id: str, sample_rate: int = 44100, buffer_size: int = 512) -> LUKHASAudioStream:
     """Create real-time audio stream with minimal latency"""
     config = StreamConfig(
         mode=StreamingMode.REAL_TIME,

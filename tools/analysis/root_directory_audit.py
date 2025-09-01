@@ -50,9 +50,7 @@ class RootDirectoryAuditor:
         self.directory_analysis: dict[str, dict[str, Any]] = {}
 
     def analyze_root(self) -> dict[str, Any]:
-        items = [
-            p.name for p in self.repo_root.iterdir() if p.is_dir() and not p.name.startswith(".")
-        ]
+        items = [p.name for p in self.repo_root.iterdir() if p.is_dir() and not p.name.startswith(".")]
         for name in sorted(items):
             self.analyze_directory(name)
         return self.generate_reorganization_plan()

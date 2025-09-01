@@ -51,9 +51,7 @@ try:
 
     ID_IMPORTS_AVAILABLE = True
 except ImportError:
-    logger.warning(
-        "Could not # import LUKHAS_ID  # External dependency components. Using placeholder implementations."
-    )
+    logger.warning("Could not # import LUKHAS_ID  # External dependency components. Using placeholder implementations.")
     ID_IMPORTS_AVAILABLE = False
 
     # Create placeholder enums if imports fail
@@ -218,9 +216,7 @@ class BrainIdentityConnector:
 
         # Check for memory ownership (owner has full access to their memories)
         if memory_owner and user_identity.get_user_id() == memory_owner:
-            self._log_access(
-                user_identity.get_user_id(), operation, memory_key, True, "Owner access"
-            )
+            self._log_access(user_identity.get_user_id(), operation, memory_key, True, "Owner access")
             return True
 
         # Get required tier based on operation and memory type
@@ -239,10 +235,7 @@ class BrainIdentityConnector:
 
         # Check access policy if provided
         if access_policy:
-            if (
-                access_policy == MemoryAccessPolicy.OWNER_ONLY
-                and user_identity.get_user_id() != memory_owner
-            ):
+            if access_policy == MemoryAccessPolicy.OWNER_ONLY and user_identity.get_user_id() != memory_owner:
                 self._log_access(
                     user_identity.get_user_id(),
                     operation,
@@ -254,9 +247,7 @@ class BrainIdentityConnector:
 
             if access_policy == MemoryAccessPolicy.PRIVATE:
                 # Private memories require higher tier than normal
-                private_tier = AccessTier(
-                    min(5, required_tier.value + 1)
-                )  # One tier higher, max TIER_5
+                private_tier = AccessTier(min(5, required_tier.value + 1))  # One tier higher, max TIER_5
                 if not user_identity.has_access_to_tier(private_tier):
                     self._log_access(
                         user_identity.get_user_id(),
@@ -341,9 +332,7 @@ class BrainIdentityConnector:
         )
         return True
 
-    def _get_required_tier(
-        self, operation: MemoryOperation, memory_type: Optional[str]
-    ) -> AccessTier:
+    def _get_required_tier(self, operation: MemoryOperation, memory_type: Optional[str]) -> AccessTier:
         """
         Get the required access tier for a memory operation.
 
@@ -520,9 +509,7 @@ class MemoryIdentityIntegration:
         Returns:
             bool: Success status
         """
-        return self.connector.register_memory(
-            memory_key, memory_owner, memory_type, access_policy, min_tier
-        )
+        return self.connector.register_memory(memory_key, memory_owner, memory_type, access_policy, min_tier)
 
     def authorize_access(
         self,
@@ -578,23 +565,17 @@ class MemoryIdentityIntegration:
                 mm = self.brain.memory_manager
 
                 if hasattr(mm, "retrieve"):
-                    mm.retrieve = self.connector.wrap_memory_function(
-                        mm.retrieve, MemoryOperation.READ
-                    )
+                    mm.retrieve = self.connector.wrap_memory_function(mm.retrieve, MemoryOperation.READ)
 
                 if hasattr(mm, "store"):
                     mm.store = self.connector.wrap_memory_function(mm.store, MemoryOperation.WRITE)
 
                 if hasattr(mm, "update"):
-                    mm.update = self.connector.wrap_memory_function(
-                        mm.update, MemoryOperation.MODIFY
-                    )
+                    mm.update = self.connector.wrap_memory_function(mm.update, MemoryOperation.MODIFY)
 
                 if hasattr(mm, "forget") or hasattr(mm, "delete"):
                     forget_method = getattr(mm, "forget", None) or mm.delete
-                    wrapped = self.connector.wrap_memory_function(
-                        forget_method, MemoryOperation.DELETE
-                    )
+                    wrapped = self.connector.wrap_memory_function(forget_method, MemoryOperation.DELETE)
 
                     # Assign to whichever method exists
                     if hasattr(mm, "forget"):

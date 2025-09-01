@@ -21,9 +21,7 @@ from infrastructure.cache.redis_client import init_redis
 from infrastructure.database.connection import init_db
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -160,9 +158,7 @@ app.include_router(realtime.router, prefix="/api/v1/realtime", tags=["realtime"]
 # Error handlers
 @app.exception_handler(404)
 async def not_found_handler(request, exc):
-    return JSONResponse(
-        status_code=404, content={"error": "Resource not found", "path": str(request.url)}
-    )
+    return JSONResponse(status_code=404, content={"error": "Resource not found", "path": str(request.url)})
 
 
 @app.exception_handler(500)

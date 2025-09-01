@@ -37,9 +37,7 @@ def generate_entropy_map_from_memory(memory: Mapping[str, int]) -> dict[str, flo
     return entropy_map
 
 
-def detect_collapse_points(
-    entropy_map: Mapping[str, float], threshold: float = 0.1
-) -> Iterable[str]:
+def detect_collapse_points(entropy_map: Mapping[str, float], threshold: float = 0.1) -> Iterable[str]:
     """Identify keys where entropy contribution falls below the threshold.
 
     # ΛTAG: collapse
@@ -49,9 +47,7 @@ def detect_collapse_points(
     return collapse
 
 
-def get_diagnostics_summary(
-    values: Sequence[float], memory: Mapping[str, int], threshold: float = 0.1
-) -> str:
+def get_diagnostics_summary(values: Sequence[float], memory: Mapping[str, int], threshold: float = 0.1) -> str:
     """Return diagnostics summary as JSON string for API consumption.
 
     # ΛTAG: drift

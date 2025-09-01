@@ -155,9 +155,7 @@ async def assess_processing_activity(
 
 
 @router.get("/users/{user_lid}/audit_trail")
-async def get_user_audit_trail(
-    user_lid: str, consent_service: ConsentService = Depends(get_consent_service)
-):
+async def get_user_audit_trail(user_lid: str, consent_service: ConsentService = Depends(get_consent_service)):
     """Get the audit trail for a user."""
     audit_trail = await consent_service.get_user_audit_trail(user_lid)
     return {"user_lid": user_lid, "audit_trail": audit_trail}

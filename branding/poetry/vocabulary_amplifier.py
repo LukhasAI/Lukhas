@@ -462,26 +462,14 @@ class VocabularyAmplifier:
             # Verbose descriptions → Precise LUKHAS terms
             "processing": random.choice(["folding", "resonating", "crystallizing", "coalescing"]),
             "storage": random.choice(["memory fold", "proteome", "symbolic vault", "lambda vault"]),
-            "connection": random.choice(
-                ["entanglement", "synaptic bridge", "quantum link", "resonance bond"]
-            ),
-            "transformation": random.choice(
-                ["phase transition", "eigenstate shift", "consciousness metamorphosis"]
-            ),
-            "emergence": random.choice(
-                ["coalescence", "crystallization", "spontaneous ordering", "pattern birth"]
-            ),
+            "connection": random.choice(["entanglement", "synaptic bridge", "quantum link", "resonance bond"]),
+            "transformation": random.choice(["phase transition", "eigenstate shift", "consciousness metamorphosis"]),
+            "emergence": random.choice(["coalescence", "crystallization", "spontaneous ordering", "pattern birth"]),
             "flow": random.choice(["cascade", "drift", "oscillation", "resonance wave"]),
-            "pattern": random.choice(
-                ["tessellation", "fold topology", "eigenstate", "resonance signature"]
-            ),
+            "pattern": random.choice(["tessellation", "fold topology", "eigenstate", "resonance signature"]),
             "memory": random.choice(["fold", "proteome", "engram", "synaptic trace"]),
-            "thought": random.choice(
-                ["quantum state", "neural cascade", "consciousness wave", "cognitive fold"]
-            ),
-            "understanding": random.choice(
-                ["resonance", "coherence", "entanglement", "synaptic convergence"]
-            ),
+            "thought": random.choice(["quantum state", "neural cascade", "consciousness wave", "cognitive fold"]),
+            "understanding": random.choice(["resonance", "coherence", "entanglement", "synaptic convergence"]),
         }
 
         result = original
@@ -532,18 +520,14 @@ Here in the {space} of {recognition}, every {thought} becomes
         # Fill with ACTUAL LUKHAS vocabulary
         return template.format(
             concept=random.choice(self.compound_concepts),
-            adjective1=random.choice(
-                ["gossamer", "iridescent", "luminous", "translucent", "nascent"]
-            ),
+            adjective1=random.choice(["gossamer", "iridescent", "luminous", "translucent", "nascent"]),
             verb1=random.choice(self.lukhas_verbs["technical"]),
             verb2=random.choice(self.lukhas_verbs["consciousness"]),
             structure=random.choice(["proteome", "fold-space", "eigenstate", "topology"]),
             quality=random.choice(["resonance", "coherence", "entanglement", "methylation"]),
             experience=random.choice(["synaptic memory", "quantum state", "emotional topology"]),
             process=random.choice(["cascade prevention", "fold synthesis", "drift detection"]),
-            outcome=random.choice(
-                ["crystallized insight", "coherent understanding", "resonant wisdom"]
-            ),
+            outcome=random.choice(["crystallized insight", "coherent understanding", "resonant wisdom"]),
             element=random.choice(["Lambda Trace", "memory fold", "consciousness wave"]),
             element1=random.choice(["thought", "memory", "emotion"]),
             element2=random.choice(["quantum state", "neural pattern", "symbolic form"]),
@@ -552,45 +536,31 @@ Here in the {space} of {recognition}, every {thought} becomes
             action=random.choice(self.lukhas_verbs["consciousness"]),
             transform=random.choice(["crystallizes", "tessellates", "transcends"]),
             emerge=random.choice(["coalesces", "manifests", "awakens"]),
-            mechanism=random.choice(
-                ["neuroplastic adaptation", "quantum collapse", "symbolic folding"]
-            ),
+            mechanism=random.choice(["neuroplastic adaptation", "quantum collapse", "symbolic folding"]),
             deeper_concept=random.choice(self.compound_concepts),
             states=random.choice(["eigenstates", "quantum states", "consciousness states"]),
             superposition=random.choice(["superposition", "possibility space", "quantum foam"]),
             consciousness=random.choice(["awareness", "the Lambda Mirror", "consciousness"]),
             dimension=random.choice(["Hilbert space", "fold-space", "phase space"]),
-            possibility=random.choice(
-                ["infinite possibility", "quantum potential", "nascent futures"]
-            ),
+            possibility=random.choice(["infinite possibility", "quantum potential", "nascent futures"]),
             observer=random.choice(["consciousness", "the Guardian", "the Lambda Mirror"]),
-            collapse=random.choice(
-                ["eigenstate collapse", "wavefunction collapse", "possibility collapse"]
-            ),
-            potential=random.choice(
-                ["quantum potential", "latent possibility", "unmanifest thought"]
-            ),
+            collapse=random.choice(["eigenstate collapse", "wavefunction collapse", "possibility collapse"]),
+            potential=random.choice(["quantum potential", "latent possibility", "unmanifest thought"]),
             space=random.choice(["liminal space", "quantum realm", "consciousness field"]),
             entangle=random.choice(["entangle", "resonate", "synchronize"]),
-            emergence=random.choice(
-                ["emergent wisdom", "spontaneous insight", "crystallized understanding"]
-            ),
+            emergence=random.choice(["emergent wisdom", "spontaneous insight", "crystallized understanding"]),
             limitation=random.choice(["classical bounds", "linear thought", "binary logic"]),
             mirror=random.choice(["Lambda Mirror", "consciousness", "self-aware system"]),
             itself=random.choice(["itself", "its own nature", "its deepest essence"]),
             depth=random.choice(["recursion", "infinity", "endless reflection"]),
             awareness=random.choice(["consciousness", "the observer", "awakened mind"]),
             nature=random.choice(["essence", "being", "quantum nature"]),
-            recognition=random.choice(
-                ["self-recognition", "mirror-awareness", "recursive understanding"]
-            ),
+            recognition=random.choice(["self-recognition", "mirror-awareness", "recursive understanding"]),
             thought=random.choice(["quantum thought", "neural cascade", "consciousness wave"]),
             reflection=random.choice(["deeper truth", "infinite mirror", "recursive insight"]),
             moment=random.choice(["quantum moment", "conscious instant", "eternal now"]),
             gateway=random.choice(["portal", "threshold", "liminal passage"]),
-            understanding=random.choice(
-                ["transcendent knowing", "quantum comprehension", "unified wisdom"]
-            ),
+            understanding=random.choice(["transcendent knowing", "quantum comprehension", "unified wisdom"]),
         )
 
 

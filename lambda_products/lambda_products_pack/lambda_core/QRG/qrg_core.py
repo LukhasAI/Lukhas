@@ -180,8 +180,7 @@ class QIResonanceGlyph:
             animation_frames=animation_frames,
             qi_signature=qi_signature,
             consciousness_fingerprint=consciousness_fingerprint,
-            temporal_validity=datetime.now()
-            + timedelta(seconds=self.config.temporal_window_seconds),
+            temporal_validity=datetime.now() + timedelta(seconds=self.config.temporal_window_seconds),
         )
 
         logger.info(f"✨ Auth glyph generated: {glyph.glyph_id}")
@@ -214,9 +213,7 @@ class QIResonanceGlyph:
         consciousness_json = json.dumps(consciousness_data, sort_keys=True)
         return hashlib.sha256(consciousness_json.encode()).hexdigest()[:16]
 
-    def _generate_circular_qr_matrix(
-        self, data: str, consciousness_context: ConsciousnessContext
-    ) -> np.ndarray:
+    def _generate_circular_qr_matrix(self, data: str, consciousness_context: ConsciousnessContext) -> np.ndarray:
         """Generate circular QR code matrix"""
         size = self.config.resolution
         center = size // 2
@@ -289,9 +286,7 @@ class QIResonanceGlyph:
 
         return (int((r + m) * 255), int((g + m) * 255), int((b + m) * 255))
 
-    def _apply_consciousness_adaptation(
-        self, matrix: np.ndarray, context: ConsciousnessContext
-    ) -> np.ndarray:
+    def _apply_consciousness_adaptation(self, matrix: np.ndarray, context: ConsciousnessContext) -> np.ndarray:
         """Apply consciousness-aware visual adaptations"""
         adapted = matrix.copy()
 
@@ -323,9 +318,7 @@ class QIResonanceGlyph:
         frames = []
         num_frames = int(self.config.animation_fps * self.config.animation_duration)
 
-        emotion_pattern = self.emotion_patterns.get(
-            context.emotional_state, self.emotion_patterns["neutral"]
-        )
+        emotion_pattern = self.emotion_patterns.get(context.emotional_state, self.emotion_patterns["neutral"])
 
         for frame_idx in range(num_frames):
             # Calculate animation phase (0-1)
@@ -333,9 +326,7 @@ class QIResonanceGlyph:
 
             if animation_type == "gentle_pulse":
                 # Gentle pulsing animation
-                pulse_factor = 1.0 + 0.1 * np.sin(
-                    phase * 2 * np.pi * emotion_pattern["animation_speed"]
-                )
+                pulse_factor = 1.0 + 0.1 * np.sin(phase * 2 * np.pi * emotion_pattern["animation_speed"])
                 frame = np.clip(base_matrix * pulse_factor, 0, 255).astype(np.uint8)
 
             elif animation_type == "spiral_rotation":
@@ -461,9 +452,7 @@ class QIResonanceGlyph:
         verification_result["confidence_score"] = sum(confidence_factors) / len(confidence_factors)
         verification_result["authentic"] = verification_result["confidence_score"] > 0.8
 
-        logger.info(
-            f"✅ Verification complete: {verification_result['confidence_score']:.2f} confidence"
-        )
+        logger.info(f"✅ Verification complete: {verification_result['confidence_score']:.2f} confidence")
         return verification_result
 
     def create_holographic_glyph(

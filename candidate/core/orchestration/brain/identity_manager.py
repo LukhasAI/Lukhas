@@ -117,9 +117,7 @@ class IdentityManager:
 
         self.logger.info(f"Identity Manager initialized with ID: {self.identity['id']}")
 
-    def process_experience(
-        self, experience: dict[str, Any], security_level: str = "standard"
-    ) -> dict[str, Any]:
+    def process_experience(self, experience: dict[str, Any], security_level: str = "standard") -> dict[str, Any]:
         """
         Process an experience and update identity components
 
@@ -157,9 +155,7 @@ class IdentityManager:
             }
 
             # Encrypt the enriched experience
-            encrypted_memory = self.trauma_lock.encrypt_memory(
-                enriched_experience, access_level=security_level
-            )
+            encrypted_memory = self.trauma_lock.encrypt_memory(enriched_experience, access_level=security_level)
 
             # Store reference to encrypted memory
             memory_id = encrypted_memory.get("vector_id")
@@ -182,9 +178,7 @@ class IdentityManager:
         # For standard experiences, just return emotional processing result
         return emotional_result
 
-    def retrieve_memory(
-        self, memory_id: str, access_context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    def retrieve_memory(self, memory_id: str, access_context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Retrieve a memory by ID, handling decryption if needed
 
@@ -246,9 +240,7 @@ class IdentityManager:
             "last_updated": time.time(),
         }
 
-    def update_identity(
-        self, updates: dict[str, Any], reason: str = "manual_update"
-    ) -> dict[str, Any]:
+    def update_identity(self, updates: dict[str, Any], reason: str = "manual_update") -> dict[str, Any]:
         """
         Update identity attributes manually
 

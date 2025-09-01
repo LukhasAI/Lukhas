@@ -72,9 +72,7 @@ class ConsolidatedMemoryvisualization:
     async def process_memory(self, memory_data: dict[str, Any]) -> Optional[dict]:
         """Process memory through consolidated pipeline with Trinity Framework integration"""
         start_time = time.time()
-        memory_id = memory_data.get(
-            "memory_id", hashlib.md5(str(memory_data).encode()).hexdigest()[:8]
-        )
+        memory_id = memory_data.get("memory_id", hashlib.md5(str(memory_data).encode()).hexdigest()[:8])
 
         try:
             # 🛡️ Guardian: Check for cascade prevention (99.7% success rate target)
@@ -130,15 +128,11 @@ class ConsolidatedMemoryvisualization:
         }
 
         # 1. Memory Trace Animation
-        trace_result = await self.trace_animator.animate_memory_trace(
-            memory_data, identity_signature
-        )
+        trace_result = await self.trace_animator.animate_memory_trace(memory_data, identity_signature)
         results["visualizations"]["trace_animation"] = trace_result
 
         # 2. Memory Helix Visualization
-        helix_result = await self.memory_helix.visualize_memory_helix(
-            memory_data, consciousness_context
-        )
+        helix_result = await self.memory_helix.visualize_memory_helix(memory_data, consciousness_context)
         results["visualizations"]["memory_helix"] = helix_result
 
         # 3. Connection Network Visualization
@@ -211,8 +205,7 @@ class ConsolidatedMemoryvisualization:
         self.performance_metrics["total_processed"] += 1
         alpha = 0.1  # Smoothing factor
         self.performance_metrics["average_processing_time"] = (
-            alpha * processing_time
-            + (1 - alpha) * self.performance_metrics["average_processing_time"]
+            alpha * processing_time + (1 - alpha) * self.performance_metrics["average_processing_time"]
         )
 
     def get_performance_metrics(self) -> dict:

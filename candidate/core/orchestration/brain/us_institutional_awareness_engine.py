@@ -319,9 +319,7 @@ class USEnvironmentalReasoner:
             "us_fairness_standards_met": True,
         }
 
-    def validate_compliance(
-        self, inputs: USInstitutionalInput, results: dict[str, Any]
-    ) -> dict[str, dict[str, Any]]:
+    def validate_compliance(self, inputs: USInstitutionalInput, results: dict[str, Any]) -> dict[str, dict[str, Any]]:
         """Validate US compliance across applicable laws."""
         compliance = {}
 
@@ -350,11 +348,7 @@ class USEnvironmentalReasoner:
     def _apply_ccpa_minimization(self, context: dict[str, Any]) -> dict[str, Any]:
         """Apply CCPA data minimization principles."""
         # Remove unnecessary identifiers
-        minimized = {
-            k: v
-            for k, v in context.items()
-            if k not in ["ip_address", "device_id", "precise_location"]
-        }
+        minimized = {k: v for k, v in context.items() if k not in ["ip_address", "device_id", "precise_location"]}
         return minimized
 
 
@@ -398,9 +392,7 @@ class USInstitutionalEnvironmentalModule(GlobalInstitutionalModule):
 
         return min(base_score, 100.0)
 
-    def generate_us_recommendations(
-        self, result: dict[str, Any], inputs: USInstitutionalInput
-    ) -> list[str]:
+    def generate_us_recommendations(self, result: dict[str, Any], inputs: USInstitutionalInput) -> list[str]:
         """Generate US-specific recommendations."""
         recommendations = []
 
@@ -446,9 +438,7 @@ class USInstitutionalAwarenessEngine:
         """Initialize US institutional modules."""
         # Environmental Module
         env_reasoner = USEnvironmentalReasoner()
-        self.modules["environmental"] = USInstitutionalEnvironmentalModule(
-            env_reasoner, self.config
-        )
+        self.modules["environmental"] = USInstitutionalEnvironmentalModule(env_reasoner, self.config)
 
     def _setup_us_registry(self):
         """Setup US processing registry."""
@@ -461,9 +451,7 @@ class USInstitutionalAwarenessEngine:
             "data_breaches": [],
         }
 
-    def process_awareness(
-        self, module_type: str, inputs: USInstitutionalInput
-    ) -> USInstitutionalOutput:
+    def process_awareness(self, module_type: str, inputs: USInstitutionalInput) -> USInstitutionalOutput:
         """Process awareness with US compliance."""
         if module_type not in self.modules:
             raise ValueError(f"US module type {module_type} not supported")

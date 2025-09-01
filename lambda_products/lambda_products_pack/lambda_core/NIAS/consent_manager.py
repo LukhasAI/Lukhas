@@ -187,9 +187,7 @@ class ConsentManager:
                 self.consent_records[user_id] = []
 
             # Remove any existing consent for this scope
-            self.consent_records[user_id] = [
-                r for r in self.consent_records[user_id] if r.scope != scope
-            ]
+            self.consent_records[user_id] = [r for r in self.consent_records[user_id] if r.scope != scope]
 
             # Add new consent
             self.consent_records[user_id].append(record)
@@ -220,9 +218,7 @@ class ConsentManager:
             for record in self.consent_records[user_id]:
                 if record.scope == scope:
                     if not record.revocable:
-                        logger.warning(
-                            f"Cannot revoke non-revocable consent: {user_id} - {scope.value}"
-                        )
+                        logger.warning(f"Cannot revoke non-revocable consent: {user_id} - {scope.value}")
                         return False
 
                     # Add audit entry
@@ -235,9 +231,7 @@ class ConsentManager:
                     )
 
             # Remove consent records for this scope
-            self.consent_records[user_id] = [
-                r for r in self.consent_records[user_id] if r.scope != scope
-            ]
+            self.consent_records[user_id] = [r for r in self.consent_records[user_id] if r.scope != scope]
 
             logger.info(f"Consent revoked: {user_id} - {scope.value}")
             return True
@@ -316,9 +310,7 @@ class ConsentManager:
             if current_level_value >= required_level_value:
                 # Additional contextual validation
                 if context:
-                    contextual_valid = await self._validate_contextual_consent(
-                        matching_record, context
-                    )
+                    contextual_valid = await self._validate_contextual_consent(matching_record, context)
                     if not contextual_valid["valid"]:
                         return contextual_valid
 
@@ -328,11 +320,7 @@ class ConsentManager:
                     "current_level": matching_record.level,
                     "required_level": required_level,
                     "granted_at": matching_record.granted_at.isoformat(),
-                    "expires_at": (
-                        matching_record.expires_at.isoformat()
-                        if matching_record.expires_at
-                        else None
-                    ),
+                    "expires_at": (matching_record.expires_at.isoformat() if matching_record.expires_at else None),
                 }
             else:
                 return {
@@ -352,9 +340,7 @@ class ConsentManager:
                 "required_level": required_level,
             }
 
-    async def _validate_contextual_consent(
-        self, record: ConsentRecord, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _validate_contextual_consent(self, record: ConsentRecord, context: dict[str, Any]) -> dict[str, Any]:
         """Validate contextual consent requirements"""
         # Check if consent context matches current context
         consent_context = record.context
@@ -430,9 +416,7 @@ class ConsentManager:
             "has_consent": len(active_consents) > 0,
             "active_consents": active_consents,
             "expired_consents": expired_consents,
-            "last_updated": (
-                max(r.granted_at for r in user_records).isoformat() if user_records else None
-            ),
+            "last_updated": (max(r.granted_at for r in user_records).isoformat() if user_records else None),
         }
 
     async def create_consent_template(self, template_name: str, template_config: dict[str, Any]):
@@ -440,9 +424,7 @@ class ConsentManager:
         self.consent_templates[template_name] = template_config
         logger.info(f"Created consent template: {template_name}")
 
-    async def apply_consent_template(
-        self, user_id: str, template_name: str, overrides: Optional[dict] = None
-    ) -> bool:
+    async def apply_consent_template(self, user_id: str, template_name: str, overrides: Optional[dict] = None) -> bool:
         """Apply a consent template to a user"""
         if template_name not in self.consent_templates:
             logger.error(f"Consent template not found: {template_name}")
@@ -573,18 +555,14 @@ class ConsentManager:
                     self.consent_records[user_id] = []
                 self.consent_records[user_id].append(record)
 
-            logger.info(
-                f"Data source consent granted for {user_id}: {[s.value for s in data_sources]}"
-            )
+            logger.info(f"Data source consent granted for {user_id}: {[s.value for s in data_sources]}")
             return True
 
         except Exception as e:
             logger.error(f"Error granting data source consent: {e}")
             return False
 
-    async def revoke_data_source_consent(
-        self, user_id: str, data_sources: list[DataSource]
-    ) -> bool:
+    async def revoke_data_source_consent(self, user_id: str, data_sources: list[DataSource]) -> bool:
         """Revoke consent for specific data sources"""
         try:
             if user_id not in self.data_source_permissions:
@@ -606,9 +584,7 @@ class ConsentManager:
                             }
                         )
 
-            logger.info(
-                f"Data source consent revoked for {user_id}: {[s.value for s in data_sources]}"
-            )
+            logger.info(f"Data source consent revoked for {user_id}: {[s.value for s in data_sources]}")
             return True
 
         except Exception as e:
@@ -763,18 +739,14 @@ class ConsentManager:
                 self.consent_records[user_id] = []
             self.consent_records[user_id].append(record)
 
-            logger.info(
-                f"AI generation consent granted for {user_id}: {[t.value for t in generation_types]}"
-            )
+            logger.info(f"AI generation consent granted for {user_id}: {[t.value for t in generation_types]}")
             return True
 
         except Exception as e:
             logger.error(f"Error granting AI generation consent: {e}")
             return False
 
-    async def check_ai_generation_permission(
-        self, user_id: str, generation_type: AIGenerationType
-    ) -> dict[str, Any]:
+    async def check_ai_generation_permission(self, user_id: str, generation_type: AIGenerationType) -> dict[str, Any]:
         """Check if user has granted permission for AI content generation"""
         if user_id not in self.ai_generation_settings:
             return {"allowed": False, "reason": "No AI generation consent found"}
@@ -807,9 +779,7 @@ class ConsentManager:
         # Data source permissions
         if user_id in self.data_source_permissions:
             for source in DataSource:
-                profile["data_sources"][source.value] = self.data_source_permissions[user_id].get(
-                    source, False
-                )
+                profile["data_sources"][source.value] = self.data_source_permissions[user_id].get(source, False)
 
         # Vendor permissions
         if user_id in self.vendor_permissions:

@@ -102,9 +102,9 @@ class DriftTracker:
 
         profile = self.user_profiles[user_id]
         profile["total_actions"] += 1
-        profile["avg_drift"] = (
-            profile["avg_drift"] * (profile["total_actions"] - 1) + drift_score
-        ) / profile["total_actions"]
+        profile["avg_drift"] = (profile["avg_drift"] * (profile["total_actions"] - 1) + drift_score) / profile[
+            "total_actions"
+        ]
         profile["max_drift"] = max(profile["max_drift"], drift_score)
         profile["last_seen"] = datetime.utcnow()
 
@@ -243,9 +243,7 @@ class DriftTracker:
             "avg_entropy": float(np.mean(entropy_values)),
             "entropy_trend": entropy_trend,
             "state_distribution": state_dist,
-            "dominant_state": (
-                max(state_dist.items(), key=lambda x: x[1])[0] if state_dist else "🌿"
-            ),
+            "dominant_state": (max(state_dist.items(), key=lambda x: x[1])[0] if state_dist else "🌿"),
             "recommendations": recommendations,
             "global_drift": self.global_drift,
         }
@@ -321,9 +319,7 @@ class DriftTracker:
             "patterns": patterns,
             "insights": insights,
             "total_patterns": len(self.pattern_cache),
-            "entropy_average": (
-                float(np.mean(self.entropy_window)) if self.entropy_window else 0.0
-            ),
+            "entropy_average": (float(np.mean(self.entropy_window)) if self.entropy_window else 0.0),
         }
 
     def export_report(self) -> dict:
@@ -342,8 +338,7 @@ class DriftTracker:
             },
             "patterns": self.get_pattern_insights(),
             "user_stability_scores": {
-                uid: profile["stability_score"]
-                for uid, profile in list(self.user_profiles.items())[:10]
+                uid: profile["stability_score"] for uid, profile in list(self.user_profiles.items())[:10]
             },
         }
 

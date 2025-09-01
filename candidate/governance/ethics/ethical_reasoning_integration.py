@@ -124,9 +124,7 @@ class EthicalReasoningIntegration:
         # Set baseline values in the value alignment system
         self.ethical_system.value_alignment_system.set_target_values(baseline_values)
 
-    async def evaluate_ethical_decision(
-        self, question: str, context: dict[str, Any]
-    ) -> MoralJudgment:
+    async def evaluate_ethical_decision(self, question: str, context: dict[str, Any]) -> MoralJudgment:
         """
         Evaluate an ethical decision using the integrated system
 
@@ -151,9 +149,7 @@ class EthicalReasoningIntegration:
 
         return judgment
 
-    async def check_action_permissibility(
-        self, action: str, maxim: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def check_action_permissibility(self, action: str, maxim: str, context: dict[str, Any]) -> dict[str, Any]:
         """
         Quick check if an action is ethically permissible
 
@@ -169,9 +165,7 @@ class EthicalReasoningIntegration:
             await self.initialize()
 
         # Use deontological reasoning for quick permissibility check
-        result = await self.ethical_system.deontological_reasoner.evaluate_action(
-            action, context, maxim
-        )
+        result = await self.ethical_system.deontological_reasoner.evaluate_action(action, context, maxim)
 
         return {
             "action": action,
@@ -192,9 +186,7 @@ class EthicalReasoningIntegration:
 
         return await self.ethical_system.value_alignment_system.assess_current_alignment()
 
-    async def get_ethical_constraints(
-        self, category: Optional[str] = None
-    ) -> list[EthicalConstraint]:
+    async def get_ethical_constraints(self, category: Optional[str] = None) -> list[EthicalConstraint]:
         """
         Get active ethical constraints, optionally filtered by category
 

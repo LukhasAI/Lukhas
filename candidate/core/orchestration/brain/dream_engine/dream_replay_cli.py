@@ -35,15 +35,9 @@ def run_cli():
         tag_input = input("🔖 Filter by tag? (comma-separated, or ENTER to skip): ").strip()
         filter_tags = [t.strip() for t in tag_input.split(",")] if tag_input else None
         replay_only = input("🔁 Only replay candidates? (y/N): ").strip().lower() == "y"
-        sort_axis = (
-            input("📊 Sort by emotion? (joy/stress/calm/longing) or ENTER to skip: ")
-            .strip()
-            .lower()
-        )
+        sort_axis = input("📊 Sort by emotion? (joy/stress/calm/longing) or ENTER to skip: ").strip().lower()
         sort_by = sort_axis if sort_axis in ["joy", "stress", "calm", "longing"] else None
-        voice_suggested = (
-            input("🗣 Only dreams flagged for voice narration? (y/N): ").strip().lower() == "y"
-        )
+        voice_suggested = input("🗣 Only dreams flagged for voice narration? (y/N): ").strip().lower() == "y"
     except Exception as e:
         print(f"⚠️ Input error: {e}")
         return

@@ -215,9 +215,7 @@ class LambdaVaultCore:
 
         return encrypted_memory
 
-    def store_lambda_seed(
-        self, seed_id: str, symbolic_seed: str, seed_context: dict[str, Any]
-    ) -> bool:
+    def store_lambda_seed(self, seed_id: str, symbolic_seed: str, seed_context: dict[str, Any]) -> bool:
         """Store Lambda symbolic seed for vault recovery"""
         try:
             seed_hash = self._hash_trigger_data(
@@ -249,9 +247,7 @@ class LambdaVaultCore:
             )
             return False
 
-    def recover_lambda_seed(
-        self, seed_id: str, provided_seed: str, seed_context: dict[str, Any]
-    ) -> bool:
+    def recover_lambda_seed(self, seed_id: str, provided_seed: str, seed_context: dict[str, Any]) -> bool:
         """Recover Lambda vault using symbolic seed"""
         if seed_id not in self.lambda_seeds:
             self._log_security_event(
@@ -288,9 +284,7 @@ class LambdaVaultCore:
             )
             return False
 
-    def create_lambda_vault_backup(
-        self, symbolic_phrase: str, include_quantum_state: bool = False
-    ) -> dict[str, Any]:
+    def create_lambda_vault_backup(self, symbolic_phrase: str, include_quantum_state: bool = False) -> dict[str, Any]:
         """Create Lambda-enhanced backup of vault"""
         backup_data = {
             "λ_vault_id": self.vault_id,

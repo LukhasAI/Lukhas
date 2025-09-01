@@ -13,8 +13,12 @@ import time
 from datetime import datetime, timezone
 
 # Trinity Framework imports
-from lambda_id_core import LukhasIdentityService, WebAuthnPasskeyManager, validate_trinity_framework
-from lambda_id_core import LambdaIDNamespace  # Using ASCII alias for ΛIDNamespace
+from lambda_id_core import (
+    LambdaIDNamespace,  # Using ASCII alias for ΛIDNamespace
+    LukhasIdentityService,
+    WebAuthnPasskeyManager,
+    validate_trinity_framework,
+)
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "bridges"))
 

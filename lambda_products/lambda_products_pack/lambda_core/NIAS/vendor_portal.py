@@ -60,9 +60,7 @@ class VendorProfile:
     def generate_api_credentials(self) -> tuple[str, str]:
         """Generate new API credentials for vendor"""
         api_key = f"vk_{uuid.uuid4().hex}"
-        api_secret = hashlib.sha256(
-            f"{self.vendor_id}_{datetime.now().isoformat()}".encode()
-        ).hexdigest()
+        api_secret = hashlib.sha256(f"{self.vendor_id}_{datetime.now().isoformat()}".encode()).hexdigest()
         return api_key, api_secret
 
 
@@ -347,9 +345,7 @@ class VendorPortal:
             "segments": targeting_criteria.keys(),
         }
 
-    async def generate_affiliate_link(
-        self, vendor_id: str, product_id: str, user_context: dict[str, Any]
-    ) -> str:
+    async def generate_affiliate_link(self, vendor_id: str, product_id: str, user_context: dict[str, Any]) -> str:
         """
         Generate a one-click affiliate link with pre-filled user data
 
@@ -482,9 +478,7 @@ class VendorPortal:
             for s in sorted_seeds
         ]
 
-    async def update_seed_performance(
-        self, seed_id: str, event_type: str, event_data: dict[str, Any]
-    ) -> bool:
+    async def update_seed_performance(self, seed_id: str, event_type: str, event_data: dict[str, Any]) -> bool:
         """Update performance metrics for a dream seed"""
         try:
             # Find the seed
@@ -503,18 +497,14 @@ class VendorPortal:
 
             # Update metrics based on event type
             if event_type == "impression":
-                seed.performance_metrics["impressions"] = (
-                    seed.performance_metrics.get("impressions", 0) + 1
-                )
+                seed.performance_metrics["impressions"] = seed.performance_metrics.get("impressions", 0) + 1
             elif event_type == "click":
                 seed.performance_metrics["clicks"] = seed.performance_metrics.get("clicks", 0) + 1
             elif event_type == "conversion":
-                seed.performance_metrics["conversions"] = (
-                    seed.performance_metrics.get("conversions", 0) + 1
+                seed.performance_metrics["conversions"] = seed.performance_metrics.get("conversions", 0) + 1
+                seed.performance_metrics["revenue"] = seed.performance_metrics.get("revenue", 0) + event_data.get(
+                    "amount", 0
                 )
-                seed.performance_metrics["revenue"] = seed.performance_metrics.get(
-                    "revenue", 0
-                ) + event_data.get("amount", 0)
 
             # Update vendor ethical score based on user feedback
             if event_type == "user_feedback":

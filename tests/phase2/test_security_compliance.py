@@ -362,9 +362,7 @@ class TestAuthenticationLatency:
     @pytest.fixture
     def identity_system(self):
         """Create identity system for testing"""
-        return IdentitySystem(
-            database_url="sqlite:///:memory:", jwt_secret=secrets.token_urlsafe(32)
-        )
+        return IdentitySystem(database_url="sqlite:///:memory:", jwt_secret=secrets.token_urlsafe(32))
 
     @pytest.mark.asyncio
     async def test_user_registration_performance(self, identity_system):
@@ -458,9 +456,7 @@ class TestSecurityIntegration:
         }
 
         # Register with compliance validation
-        reg_result = await identity_system.register_user_compliant(
-            registration_data, compliance_engine
-        )
+        reg_result = await identity_system.register_user_compliant(registration_data, compliance_engine)
 
         registration_time = time.time() - start_time
 
@@ -480,9 +476,7 @@ class TestSecurityIntegration:
 
         start_time = time.time()
 
-        api_result = await guardian_system.validate_api_request(
-            token, api_request, compliance_engine
-        )
+        api_result = await guardian_system.validate_api_request(token, api_request, compliance_engine)
 
         api_validation_time = time.time() - start_time
 

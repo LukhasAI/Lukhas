@@ -131,9 +131,7 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 
-MODEL_KWARGS_NOT_USED_REGEX = re.compile(
-    r"The following `model_kwargs` are not used by the model: \[(.*?)\]"
-)
+MODEL_KWARGS_NOT_USED_REGEX = re.compile(r"The following `model_kwargs` are not used by the model: \[(.*?)\]")
 
 
 class AsyncInferenceClient:
@@ -265,9 +263,7 @@ class AsyncInferenceClient:
         self._sessions: dict[ClientSession, set[ClientResponse]] = {}
 
     def __repr__(self):
-        return (
-            f"<InferenceClient(model='{self.model if self.model else ''}', timeout={self.timeout})>"
-        )
+        return f"<InferenceClient(model='{self.model if self.model else ''}', timeout={self.timeout})>"
 
     @overload
     async def post(  # type: ignore[misc]
@@ -369,10 +365,7 @@ class AsyncInferenceClient:
         aiohttp = _import_aiohttp()
 
         # TODO: this should be handled in provider helpers directly
-        if (
-            request_parameters.task in TASKS_EXPECTING_IMAGES
-            and "Accept" not in request_parameters.headers
-        ):
+        if request_parameters.task in TASKS_EXPECTING_IMAGES and "Accept" not in request_parameters.headers:
             request_parameters.headers["Accept"] = "image/png"
 
         with _open_as_binary(request_parameters.data) as data_as_binary:
@@ -390,9 +383,7 @@ class AsyncInferenceClient:
                 response_error_payload = None
                 if response.status != 200:
                     try:
-                        response_error_payload = (
-                            await response.json()
-                        )  # get payload before connection closed
+                        response_error_payload = await response.json()  # get payload before connection closed
                     except Exception:
                         pass
                 response.raise_for_status()
@@ -405,9 +396,7 @@ class AsyncInferenceClient:
             except asyncio.TimeoutError as error:
                 await session.close()
                 # Convert any `TimeoutError` to a `InferenceTimeoutError`
-                raise InferenceTimeoutError(
-                    f"Inference call timed out: {request_parameters.url}"
-                ) from error  # type: ignore
+                raise InferenceTimeoutError(f"Inference call timed out: {request_parameters.url}") from error  # type: ignore
             except aiohttp.ClientResponseError as error:
                 error.response_error_payload = response_error_payload
                 await session.close()
@@ -618,9 +607,7 @@ class AsyncInferenceClient:
         stop: Optional[list[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
-        tool_choice: Optional[
-            Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]
-        ] = None,
+        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
         tool_prompt: Optional[str] = None,
         tools: Optional[list[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
@@ -646,9 +633,7 @@ class AsyncInferenceClient:
         stop: Optional[list[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
-        tool_choice: Optional[
-            Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]
-        ] = None,
+        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
         tool_prompt: Optional[str] = None,
         tools: Optional[list[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
@@ -674,9 +659,7 @@ class AsyncInferenceClient:
         stop: Optional[list[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
-        tool_choice: Optional[
-            Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]
-        ] = None,
+        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
         tool_prompt: Optional[str] = None,
         tools: Optional[list[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
@@ -702,9 +685,7 @@ class AsyncInferenceClient:
         stop: Optional[list[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
-        tool_choice: Optional[
-            Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]
-        ] = None,
+        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
         tool_prompt: Optional[str] = None,
         tools: Optional[list[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
@@ -1504,9 +1485,7 @@ class AsyncInferenceClient:
         response = await self._inner_post(request_parameters)
         return _bytes_to_image(response)
 
-    async def image_to_text(
-        self, image: ContentT, *, model: Optional[str] = None
-    ) -> ImageToTextOutput:
+    async def image_to_text(self, image: ContentT, *, model: Optional[str] = None) -> ImageToTextOutput:
         """
         Takes an input image and return text.
 
@@ -1873,9 +1852,7 @@ class AsyncInferenceClient:
         response = await self._inner_post(request_parameters)
         return TableQuestionAnsweringOutputElement.parse_obj_as_instance(response)
 
-    async def tabular_classification(
-        self, table: dict[str, Any], *, model: Optional[str] = None
-    ) -> list[str]:
+    async def tabular_classification(self, table: dict[str, Any], *, model: Optional[str] = None) -> list[str]:
         """
         Classifying a target category (a group) based on a set of attributes.
 
@@ -1930,9 +1907,7 @@ class AsyncInferenceClient:
         response = await self._inner_post(request_parameters)
         return _bytes_to_list(response)
 
-    async def tabular_regression(
-        self, table: dict[str, Any], *, model: Optional[str] = None
-    ) -> list[float]:
+    async def tabular_regression(self, table: dict[str, Any], *, model: Optional[str] = None) -> list[float]:
         """
         Predicting a numerical target value given a set of attributes/features in a table.
 
@@ -2540,11 +2515,7 @@ class AsyncInferenceClient:
         if isinstance(data, list):
             data = data[0]
         response = provider_helper.get_response(data, request_parameters)
-        return (
-            TextGenerationOutput.parse_obj_as_instance(response)
-            if details
-            else response["generated_text"]
-        )
+        return TextGenerationOutput.parse_obj_as_instance(response) if details else response["generated_text"]
 
     async def text_to_image(
         self,
@@ -3320,9 +3291,7 @@ class AsyncInferenceClient:
         response = await self._inner_post(request_parameters)
         output = _bytes_to_dict(response)
         return [
-            ZeroShotClassificationOutputElement.parse_obj_as_instance(
-                {"label": label, "score": score}
-            )
+            ZeroShotClassificationOutputElement.parse_obj_as_instance({"label": label, "score": score})
             for label, score in zip(output["labels"], output["scores"])
         ]
 

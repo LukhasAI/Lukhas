@@ -539,14 +539,10 @@ class SessionManager:
         # Update user last login
         user.last_login = datetime.now()
 
-        logger.info(
-            f"✅ Created session {session_id} for user {user.user_id} (tier: T{user.current_tier.value})"
-        )
+        logger.info(f"✅ Created session {session_id} for user {user.user_id} (tier: T{user.current_tier.value})")
         return session
 
-    async def _calculate_session_risk(
-        self, user: User, source_ip: Optional[str], user_agent: Optional[str]
-    ) -> float:
+    async def _calculate_session_risk(self, user: User, source_ip: Optional[str], user_agent: Optional[str]) -> float:
         """Calculate risk score for session"""
 
         risk_score = 0.0
@@ -810,9 +806,7 @@ class AccessControlEngine:
             user.locked = False
 
             # Create session
-            session = await self.session_manager.create_session(
-                user, auth_method, source_ip, user_agent, mfa_verified
-            )
+            session = await self.session_manager.create_session(user, auth_method, source_ip, user_agent, mfa_verified)
 
             # Audit successful authentication
             await self._audit_event(
@@ -824,14 +818,10 @@ class AccessControlEngine:
             )
 
             # Update metrics
-            self.metrics["active_users"] = len(
-                {s.user_id for s in self.session_manager.active_sessions.values()}
-            )
+            self.metrics["active_users"] = len({s.user_id for s in self.session_manager.active_sessions.values()})
             self.metrics["active_sessions"] = len(self.session_manager.active_sessions)
 
-            logger.info(
-                f"✅ User {username} authenticated successfully (tier: T{user.current_tier.value})"
-            )
+            logger.info(f"✅ User {username} authenticated successfully (tier: T{user.current_tier.value})")
             return True, session, "Authentication successful"
 
         except Exception as e:
@@ -1229,9 +1219,7 @@ class AccessControlEngine:
 
             self.users[user_id] = user
 
-            await self._audit_event(
-                "user_created", user_id, None, f"Created user: {username} with tier T{tier.value}"
-            )
+            await self._audit_event("user_created", user_id, None, f"Created user: {username} with tier T{tier.value}")
 
             logger.info(f"✅ Created user: {username} (T{tier.value})")
             return True, user_id, "User created successfully"
@@ -1268,9 +1256,7 @@ class AccessControlEngine:
                 f"Tier changed from T{old_tier.value} to T{new_tier.value}",
             )
 
-            logger.info(
-                f"✅ Updated user {user.username} tier: T{old_tier.value} -> T{new_tier.value}"
-            )
+            logger.info(f"✅ Updated user {user.username} tier: T{old_tier.value} -> T{new_tier.value}")
             return True, f"Tier updated to T{new_tier.value}"
 
         except Exception as e:
@@ -1289,8 +1275,7 @@ class AccessControlEngine:
             "audit_entries": len(self.audit_trail),
             "metrics": self.metrics,
             "tier_distribution": {
-                f"T{tier.value}": len([u for u in self.users.values() if u.current_tier == tier])
-                for tier in AccessTier
+                f"T{tier.value}": len([u for u in self.users.values() if u.current_tier == tier]) for tier in AccessTier
             },
         }
 
@@ -1311,9 +1296,7 @@ class AccessControlEngine:
                 for entry in self.audit_trail[-100:]  # Last 100 events
             ],
             "security_summary": {
-                "failed_authentications": len(
-                    [e for e in self.audit_trail if e.event_type == "authentication_failed"]
-                ),
+                "failed_authentications": len([e for e in self.audit_trail if e.event_type == "authentication_failed"]),
                 "locked_accounts": len([u for u in self.users.values() if u.locked]),
                 "high_risk_sessions": len(
                     [s for s in self.session_manager.active_sessions.values() if s.risk_score > 0.5]

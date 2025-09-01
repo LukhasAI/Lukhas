@@ -112,9 +112,7 @@ class UniversalSymbolExchange:
             {"action": "exchange_initiated", "protocol": protocol.value},
         )
 
-        logger.info(
-            f"Initiated exchange session {session_id} with {len(participant_ids)} participants"
-        )
+        logger.info(f"Initiated exchange session {session_id} with {len(participant_ids)} participants")
         return session_id
 
     async def contribute_symbols(
@@ -132,16 +130,12 @@ class UniversalSymbolExchange:
             return False
 
         # Apply privacy protocol
-        processed_symbols = await self._apply_privacy_protocol(
-            symbols, session.protocol, session.privacy_budget
-        )
+        processed_symbols = await self._apply_privacy_protocol(symbols, session.protocol, session.privacy_budget)
 
         # Add to candidates
         for symbol, hash_sig in processed_symbols.items():
             if symbol not in self.symbol_candidates:
-                self.symbol_candidates[symbol] = SymbolCandidate(
-                    symbol=symbol, hash_signature=hash_sig
-                )
+                self.symbol_candidates[symbol] = SymbolCandidate(symbol=symbol, hash_signature=hash_sig)
 
             candidate = self.symbol_candidates[symbol]
             candidate.support_count += 1
@@ -187,9 +181,7 @@ class UniversalSymbolExchange:
                 # Add fake symbols for plausible deniability
                 if random.random() < self.noise_factor * privacy_budget:
                     fake_symbol = self._generate_fake_symbol()
-                    processed[fake_symbol] = hashlib.sha256(
-                        f"fake:{time.time()}".encode()
-                    ).hexdigest()[:16]
+                    processed[fake_symbol] = hashlib.sha256(f"fake:{time.time()}".encode()).hexdigest()[:16]
 
             return processed
 
@@ -245,10 +237,7 @@ class UniversalSymbolExchange:
                 discovered_symbols.append(symbol)
                 self.universal_vocabulary[symbol] = candidate.confidence
 
-                logger.info(
-                    f"Universal symbol discovered: {symbol} "
-                    f"(confidence: {candidate.confidence:.2f})"
-                )
+                logger.info(f"Universal symbol discovered: {symbol} " f"(confidence: {candidate.confidence:.2f})")
 
         if discovered_symbols:
             # Emit discovery signal
@@ -262,9 +251,7 @@ class UniversalSymbolExchange:
                 },
             )
 
-    async def get_recommendations(
-        self, user_id: str, context: Optional[str] = None
-    ) -> list[tuple[str, float]]:
+    async def get_recommendations(self, user_id: str, context: Optional[str] = None) -> list[tuple[str, float]]:
         """Get symbol recommendations for a user"""
         recommendations = []
 
@@ -296,9 +283,7 @@ class UniversalSymbolExchange:
 
         # Calculate privacy metrics
         total_symbols = len(self.symbol_candidates)
-        revealed_symbols = len(
-            [s for s, c in self.symbol_candidates.items() if len(c.origins) >= self.min_k_anonymity]
-        )
+        revealed_symbols = len([s for s, c in self.symbol_candidates.items() if len(c.origins) >= self.min_k_anonymity])
 
         return {
             "session_id": session_id,
@@ -364,9 +349,7 @@ class UniversalSymbolExchange:
         adopted_symbols = len(self.universal_vocabulary)
 
         # Calculate adoption metrics
-        avg_confidence = (
-            np.mean(list(self.universal_vocabulary.values())) if self.universal_vocabulary else 0
-        )
+        avg_confidence = np.mean(list(self.universal_vocabulary.values())) if self.universal_vocabulary else 0
 
         # Find most popular symbols
         popular_symbols = sorted(

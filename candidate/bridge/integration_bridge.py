@@ -221,9 +221,7 @@ class PluginModuleAdapter(BaseLucasModule):
         """Starts the adapted plugin, calling its 'initialize' method if present."""
         self.log.info(f"Starting plugin '{self.manifest.name}' as a LUKHΛS module.")
         try:
-            if hasattr(self.plugin, "initialize") and asyncio.iscoroutinefunction(
-                self.plugin.initialize
-            ):
+            if hasattr(self.plugin, "initialize") and asyncio.iscoroutinefunction(self.plugin.initialize):
                 await self.plugin.initialize()
             elif hasattr(self.plugin, "initialize"):
                 self.plugin.initialize()  # For non-async initialize
@@ -391,9 +389,7 @@ class IntegrationBridge:
         self.log.info("IntegrationBridge initialized.")
 
     @lukhas_tier_required(2)
-    async def load_plugins_as_modules(
-        self, plugins_directory_path: Optional[str] = None
-    ) -> dict[str, bool]:
+    async def load_plugins_as_modules(self, plugins_directory_path: Optional[str] = None) -> dict[str, bool]:
         """
         Loads all plugins from the specified directory (or a default location),
         adapts them, and registers them as modules with the core_registry.
@@ -408,9 +404,7 @@ class IntegrationBridge:
             # This assumes integration/framework/ is two levels down from project root.
             default_path = Path(__file__).resolve().parent.parent.parent / "plugins"
             plugins_directory_path = str(default_path)
-            self.log.debug(
-                f"Plugins directory not specified, using default: {plugins_directory_path}"
-            )
+            self.log.debug(f"Plugins directory not specified, using default: {plugins_directory_path}")
 
         self.log.info(f"Loading plugins from directory: {plugins_directory_path}")
         registration_results: dict[str, bool] = {}
@@ -564,9 +558,7 @@ class IntegrationBridge:
         return statuses
 
     @lukhas_tier_required(1)
-    async def send_to_plugin(
-        self, plugin_name: str, method_name: str, *args: Any, **kwargs: Any
-    ) -> dict[str, Any]:
+    async def send_to_plugin(self, plugin_name: str, method_name: str, *args: Any, **kwargs: Any) -> dict[str, Any]:
         """
         Sends a method call to a specific, named plugin.
         Args:
@@ -641,9 +633,7 @@ class IntegrationBridge:
             }
 
     @lukhas_tier_required(1)
-    async def broadcast_to_plugins(
-        self, method_name: str, *args: Any, **kwargs: Any
-    ) -> dict[str, dict[str, Any]]:
+    async def broadcast_to_plugins(self, method_name: str, *args: Any, **kwargs: Any) -> dict[str, dict[str, Any]]:
         """
         Broadcasts a method call to all currently loaded plugins.
         Args:

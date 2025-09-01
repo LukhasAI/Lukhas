@@ -120,9 +120,7 @@ class QIIntegrationHub:
         """List all registered quantum services"""
         return list(self.services.keys())
 
-    async def process_quantum_request(
-        self, request_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_quantum_request(self, request_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Process quantum-enhanced requests"""
         try:
             results = {}

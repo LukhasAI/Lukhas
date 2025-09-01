@@ -52,9 +52,7 @@ class MemoryMatrizAdapter:
         return node
 
     @staticmethod
-    def emit_fold_creation(
-        fold_id: str, fold_type: str, depth: int, emotional_valence: float = 0.0
-    ) -> dict[str, Any]:
+    def emit_fold_creation(fold_id: str, fold_type: str, depth: int, emotional_valence: float = 0.0) -> dict[str, Any]:
         """Emit a memory fold creation event"""
 
         return MemoryMatrizAdapter.create_node(
@@ -71,9 +69,7 @@ class MemoryMatrizAdapter:
         )
 
     @staticmethod
-    def emit_recall_event(
-        memory_id: str, recall_accuracy: float, latency_ms: int, fold_count: int
-    ) -> dict[str, Any]:
+    def emit_recall_event(memory_id: str, recall_accuracy: float, latency_ms: int, fold_count: int) -> dict[str, Any]:
         """Emit a memory recall event"""
 
         return MemoryMatrizAdapter.create_node(
@@ -91,9 +87,7 @@ class MemoryMatrizAdapter:
         )
 
     @staticmethod
-    def emit_cascade_prevention(
-        cascade_id: str, prevention_success: bool, affected_folds: int
-    ) -> dict[str, Any]:
+    def emit_cascade_prevention(cascade_id: str, prevention_success: bool, affected_folds: int) -> dict[str, Any]:
         """Emit a cascade prevention event (99.7% success rate)"""
 
         urgency = 0.1 if prevention_success else 0.9
@@ -117,9 +111,7 @@ class MemoryMatrizAdapter:
         )
 
     @staticmethod
-    def emit_dream_state(
-        dream_id: str, coherence: float, memory_integration: float, fold_depth: int
-    ) -> dict[str, Any]:
+    def emit_dream_state(dream_id: str, coherence: float, memory_integration: float, fold_depth: int) -> dict[str, Any]:
         """Emit a dream state memory consolidation event"""
 
         return MemoryMatrizAdapter.create_node(

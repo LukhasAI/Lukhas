@@ -243,9 +243,7 @@ class SafetyHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(
-                        service_name, self.services[service_name], "safety"
-                    )
+                    discovery.register_service_globally(service_name, self.services[service_name], "safety")
 
             logger.debug(f"Registered {len(key_services)} safety services with global discovery")
         except Exception as e:
@@ -279,9 +277,7 @@ class SafetyHub:
         orchestrator = self.get_service("ai_safety_orchestrator")
         if orchestrator and hasattr(orchestrator, "evaluate_action"):
             try:
-                safety_decision = await orchestrator.evaluate_action(
-                    action_type, action_data, user_context or {}
-                )
+                safety_decision = await orchestrator.evaluate_action(action_type, action_data, user_context or {})
 
                 return {
                     "action_type": action_type,
@@ -337,9 +333,7 @@ class SafetyHub:
 
         for handler in handlers:
             try:
-                result = (
-                    await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
-                )
+                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
                 results.append({"source": "event_handler", "result": result})
             except Exception as e:
                 logger.error(f"Safety handler error for {event_type}: {e}")
@@ -383,9 +377,7 @@ class SafetyHub:
         """Get comprehensive safety system status"""
         safety_status = {
             "hub_services": len(self.services),
-            "policies_active": len(
-                [p for p in self.safety_policies.values() if p.get("enabled", False)]
-            ),
+            "policies_active": len([p for p in self.safety_policies.values() if p.get("enabled", False)]),
             "timestamp": datetime.now().isoformat(),
         }
 

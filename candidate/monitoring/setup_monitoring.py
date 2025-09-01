@@ -183,9 +183,7 @@ class MonitoringSetup:
             "scrape_configs": [
                 {
                     "job_name": "lukhas-",
-                    "static_configs": [
-                        {"targets": [f"localhost:{config['unified_dashboard']['port']}"]}
-                    ],
+                    "static_configs": [{"targets": [f"localhost:{config['unified_dashboard']['port']}"]}],
                     "metrics_path": "/metrics",
                 }
             ],
@@ -380,9 +378,7 @@ def main():
         help="Create monitoring utility scripts",
     )
 
-    parser.add_argument(
-        "--create-systemd", action="store_true", help="Create systemd service files"
-    )
+    parser.add_argument("--create-systemd", action="store_true", help="Create systemd service files")
 
     parser.add_argument("--wait", action="store_true", help="Wait and monitor running services")
 
