@@ -32,7 +32,8 @@ except ImportError:
 
     ulid = None
 
-from .memory import AkaqMemory
+from memory import AkaqMemory
+from observability import get_observability, measure_memory_operation
 
 logger = logging.getLogger(__name__)
 
@@ -154,10 +155,13 @@ class SqlMemory(AkaqMemory):
 
         Implements privacy hashing, context sanitization, and transform auditing.
         """
-        scene_id = self._generate_scene_id()
+        obs = get_observability()
+        
+        with measure_memory_operation("save", "sql"):
+            scene_id = self._generate_scene_id()
 
-        try:
-            # Prepare scene data with privacy measures
+            try:
+                # Prepare scene data with privacy measures
             subject = self._hash_safe(scene.get("subject"))
             object_field = self._hash_safe(scene.get("object"))
             proto = scene["proto"]
@@ -223,6 +227,11 @@ class SqlMemory(AkaqMemory):
 
             self.scenes_saved += 1
             logger.debug(f"Saved scene {scene_id} with {len(glyphs)} glyphs")
+            
+            # Record observability metrics
+            obs.update_memory_storage("sql", "scenes", self.scenes_saved * 1024)  # Estimate
+            obs.record_scene_processed(status="success")
+            
             return scene_id
 
         except Exception as e:

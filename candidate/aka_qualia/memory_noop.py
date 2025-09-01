@@ -11,7 +11,7 @@ import datetime as dt
 import uuid
 from typing import Any, Dict, List, Optional
 
-from .memory import AkaqMemory
+from memory import AkaqMemory
 
 
 class NoopMemory(AkaqMemory):

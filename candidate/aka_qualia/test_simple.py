@@ -11,9 +11,9 @@ import tempfile
 from pathlib import Path
 
 import pytest
+from memory_noop import NoopMemory
 
-from candidate.aka_qualia.memory import create_memory_client
-from candidate.aka_qualia.memory_noop import NoopMemory
+from memory import create_memory_client
 
 
 def test_noop_memory_basic():

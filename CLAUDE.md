@@ -150,6 +150,11 @@ pytest --cov=lukhas --cov=bridge --cov=core --cov=serve tests/
 
 # Quick smoke test
 make smoke
+
+# Wave C Memory System Tests (Aka Qualia)
+python candidate/aka_qualia/run_c44_tests.py  # Comprehensive test runner
+pytest candidate/aka_qualia/tests/ -v         # Full test suite
+python candidate/aka_qualia/test_simple.py    # Basic validation
 ```
 
 ### Code Quality
@@ -250,6 +255,7 @@ npm start
 - `reasoning/` - Logic and causal inference
 - `identity/` - ΛiD system with tiered access control
 - `vivox/` - VIVOX consciousness system (ME, MAE, CIL, SRM)
+- `candidate/aka_qualia/` - Wave C phenomenological processing with memory persistence
 
 **Advanced Processing:**
 - `quantum/` - Quantum-inspired algorithms and collapse simulation
@@ -435,6 +441,18 @@ az containerapp logs show --name lukhas-ai --resource-group Lukhas
 - **Copilot Instructions**: `.github/copilot-instructions.md` - GitHub Copilot integration
 - **MCP Documentation**: `docs/mcp/` - MCP integration details
 - **Azure Config**: `azure-container-app.yaml` - Azure deployment configuration
+
+### Wave C Memory System (Aka Qualia)
+- **Main Module**: `candidate/aka_qualia/` - Phenomenological processing pipeline
+- **Test Suite**: `candidate/aka_qualia/tests/` - 6-category comprehensive testing (121KB total)
+  - Unit tests: Core functionality and interface compliance
+  - Integration tests: Database operations and SQL queries
+  - Security tests: SQL injection prevention and fault tolerance
+  - GDPR tests: Article 17 Right to Erasure compliance
+  - Performance tests: 1000 scenes < 3s, query latency < 10ms
+  - Contract tests: Freud-2025 specification compliance
+- **Memory Clients**: SqlMemory (production), NoopMemory (development)
+- **CLI Tools**: Database migration and GDPR erasure utilities
 
 ## Makefile Targets
 

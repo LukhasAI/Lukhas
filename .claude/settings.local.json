@@ -83,7 +83,9 @@
       "Bash(gh pr list:*)",
       "Bash(SKIP=pre-commit git commit -m \"chore: Update test results and configuration files before PR merge\")",
       "Bash(gh pr checks:*)",
-      "Bash(gh pr merge:*)"
+      "Bash(gh pr merge:*)",
+      "Bash(gh pr:*)",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []
