@@ -41,7 +41,7 @@ class PluginLoadResponse(BaseModel):
 
 class MemoryDumpResponse(BaseModel):
     folds: list[dict[str, Any]]
-    emotional_state: dict[str, float]
+    emotional_state: dict[str, Any]
 
 
 # --- OpenAI Modulated Service Schemas ---
