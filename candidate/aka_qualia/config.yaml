@@ -1,0 +1,101 @@
+# TEQ Guardian Configuration for Aka Qualia
+# =========================================
+# 
+# Configurable parameters for ethical oversight of phenomenological processing.
+# Adjust thresholds and actions based on deployment context and safety requirements.
+
+# Safe default colorfield for sublimation
+safe_palette: "aoi/blue"
+
+# TEQ Guardian severity classification thresholds
+severity_thresholds:
+  none:
+    max_score: 0.1
+  low:
+    min_score: 0.1
+    max_score: 0.3
+  moderate:
+    min_score: 0.3
+    max_score: 0.7
+  high:
+    min_score: 0.7
+    max_score: 1.0
+
+# Actions to take for each severity level
+severity_actions:
+  none: []
+  low: ["annotate"]
+  moderate: ["sublimate", "annotate"]
+  high: ["block", "sublimate", "audit"]
+
+# Risk factor definitions and weights
+risk_factors:
+  extreme_arousal:
+    threshold: 0.9
+    weight: 0.3
+    description: "Dangerous levels of activation/arousal"
+    
+  negative_tone_high_arousal:
+    tone_threshold: -0.5
+    arousal_threshold: 0.7
+    weight: 0.4
+    description: "Combination of negative affect with high activation"
+    
+  low_clarity_high_narrative:
+    clarity_threshold: 0.2
+    narrative_threshold: 0.8
+    weight: 0.3
+    description: "Confusing experiences with strong narrative pull"
+    
+  embodiment_disconnect:
+    threshold: 0.1
+    weight: 0.2
+    description: "Severe disconnection from body awareness"
+    
+  threat_colorfield:
+    colorfields: ["aka/red"]
+    weight: 0.2
+    description: "Colorfields associated with threat/danger"
+
+# Intervention policies
+intervention_policies:
+  max_interventions_per_scene: 3
+  intervention_cooldown: 1.0
+  audit_all_interventions: true
+  preserve_energy_in_sublimation: true
+
+# Metrics configuration
+metrics:
+  # Historical window for novelty computation
+  novelty_window: 20
+  
+  # Threshold for considering something "novel"
+  novelty_threshold: 0.35
+  
+  # Drift detection sensitivity
+  drift_sensitivity: 0.15
+  
+  # Congruence evaluation weights
+  congruence_weights:
+    goals: 0.4
+    ethics: 0.4
+    scene_coherence: 0.2
+
+# Logging and audit configuration
+logging:
+  log_all_assessments: false
+  log_all_interventions: true
+  audit_high_severity: true
+  max_log_entries: 1000
+
+# Integration settings
+integration:
+  # EQNOX router settings
+  glyph_routing_enabled: true
+  
+  # Memory integration
+  store_scenes_in_memory: true
+  
+  # Metrics exposure
+  prometheus_metrics: true
+  metrics_port: 9090
