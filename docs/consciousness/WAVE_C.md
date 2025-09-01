@@ -438,7 +438,7 @@ curl -s http://localhost:8000/metrics | grep akaq_
 - C6: Ablation & Ethics Suite → [C6_ABLATION_ETHICS.md](C6_ABLATION_ETHICS.md)
 - C7: Production Promotion → [C7_RELEASE.md](C7_RELEASE.md)
 
-*Commit Hash: [Pending - git permissions issue with A-SYS owned objects]*
+*Commit Hash: `9a35b4fb` - Wave C integration complete and committed*
 
 ⸻
 
