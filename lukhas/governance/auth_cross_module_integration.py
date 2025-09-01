@@ -467,7 +467,7 @@ class AuthCrossModuleIntegrator:
                 "session_id": message.session_id,
                 "glyph": message.glyph_encoding,
                 "payload": message.payload,
-                "trinity": message.trinity_context,
+                "constellation": message.trinity_context,
                 "timestamp": message.timestamp.isoformat(),
                 "priority": message.priority,
             }

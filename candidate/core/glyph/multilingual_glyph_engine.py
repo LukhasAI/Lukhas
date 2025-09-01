@@ -357,7 +357,7 @@ class MultilingualGlyphEngine:
             # Prepare export data
             export_data = {
                 "version": "1.0.0",
-                "trinity_framework": ["⚛️", "🧠", "🛡️"],
+                "constellation_framework": ["⚛️", "🧠", "🛡️"],
                 "supported_locales": self.supported_locales,
                 "mappings": self.cultural_mappings,
                 "glyph_categories": {},

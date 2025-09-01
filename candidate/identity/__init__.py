@@ -317,7 +317,7 @@ class IdentitySystem:
         return {
             "system": "LUKHAS Identity System",
             "version": "1.0.0-candidate",
-            "trinity_framework": "⚛️🧠🛡️",
+            "constellation_framework": "⚛️🧠🛡️",
             "components": {
                 "governance_identity": GOVERNANCE_IDENTITY_AVAILABLE,
                 "oauth2_oidc": OAUTH_PROVIDER_AVAILABLE,

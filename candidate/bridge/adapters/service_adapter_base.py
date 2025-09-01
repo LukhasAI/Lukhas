@@ -242,7 +242,7 @@ class TelemetryCollector:
                 "adapter": self.adapter_name,
                 "latency_ms": latency_ms,
                 "success": success,
-                "trinity_framework": "⚛️🧠🛡️",
+                "constellation_framework": "⚛️🧠🛡️",
                 "audit_entry_id": len(self.audit_trail),
                 "security_level": self._assess_security_level(action, context),
             }
@@ -512,7 +512,7 @@ class BaseServiceAdapter(ABC):
             "circuit_state": self.resilience.get_state(),
             "metrics": self.telemetry.get_metrics(),
             "dry_run_mode": self.dry_run_mode,
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_active": self.identity_core is not None,
                 "consciousness_active": self.consciousness_active,
                 "guardian_active": self.guardian is not None,

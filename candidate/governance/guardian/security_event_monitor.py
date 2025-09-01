@@ -16,7 +16,7 @@ This module provides comprehensive security event monitoring including:
 #TAG:security
 #TAG:authentication
 #TAG:monitoring
-#TAG:trinity
+#TAG:constellation
 """
 
 import asyncio
@@ -760,7 +760,7 @@ class SecurityEventMonitor:
                 "active_sessions": len(self.active_sessions),
             },
             # Trinity Framework security
-            "trinity_framework": trinity_security,
+            "constellation_framework": trinity_security,
             # System status
             "system": {
                 "security_rules_active": len(self.security_rules),

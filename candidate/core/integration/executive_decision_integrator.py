@@ -621,7 +621,7 @@ class WorkflowOrchestrator:
                 "ethical_constraints": request.metadata.get("ethical_constraints", {}),
                 "stakeholder_impact": request.metadata.get("stakeholder_impact", "unknown"),
                 "data_sensitivity": request.metadata.get("data_sensitivity", "standard"),
-                "trinity_framework": {
+                "constellation_framework": {
                     "identity_verification": True,
                     "consciousness_alignment": True,
                     "guardian_oversight": True,

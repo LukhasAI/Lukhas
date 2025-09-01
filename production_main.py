@@ -47,12 +47,7 @@ except ImportError:
     print("⚠️ NewRelic monitoring not available - install newrelic package")
     newrelic_monitor = None
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("lukhas_production.log"), logging.StreamHandler(sys.stdout)],
-)
+# Logger for this module (configured when run as a script)
 logger = logging.getLogger("LUKHAS_Production")
 
 
@@ -486,6 +481,14 @@ async def main():
 
 if __name__ == "__main__":
     # Check Python version
+
+    # Configure logging only when running as the main program to avoid
+    # opening log files (like lukhas_production.log) on import during tests.
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[logging.FileHandler("lukhas_production.log"), logging.StreamHandler(sys.stdout)],
+    )
 
     # Run the main function
     exit_code = asyncio.run(main())

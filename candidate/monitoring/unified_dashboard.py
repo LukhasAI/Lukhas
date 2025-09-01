@@ -399,7 +399,7 @@ async def dashboard_home():
                 border-bottom: 2px solid #00ff00;
                 background: rgba(0, 255, 0, 0.1);
             }
-            .trinity { font-size: 48px; margin: 10px 0; }
+            .constellation { font-size: 48px; margin: 10px 0; }
             .title { font-size: 28px; margin: 10px 0; }
             .subtitle { font-size: 14px; color: #888; }
 
@@ -505,7 +505,7 @@ async def dashboard_home():
     </head>
     <body>
         <div class="header">
-            <div class="trinity">⚛️🧠🛡️</div>
+            <div class="constellation">⚛️🧠🛡️</div>
             <div class="title">LUKHAS  Unified Dashboard</div>
             <div class="subtitle">Real-time monitoring and analytics</div>
             <div class="subtitle" id="last-update">Connecting...</div>
@@ -778,7 +778,7 @@ async def health_check():
         "status": "healthy",
         "dashboard": "LUKHAS  Unified Dashboard",
         "version": "2.0.0",
-        "trinity": "⚛️🧠🛡️",
+        "constellation": "⚛️🧠🛡️",
         "active_connections": len(active_connections),
         "metrics_available": bool(system_metrics),
     }

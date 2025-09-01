@@ -103,7 +103,7 @@ class SystemDiagnostic:
             "/api/consciousness/state": "Consciousness State",
             "/api/memory/explore": "Memory Exploration",
             "/api/guardian/drift": "Drift Monitoring",
-            "/api/trinity/status": "Trinity Status",
+            "/api/constellation/status": "Trinity Status",
         }
 
         results = {}
@@ -118,7 +118,7 @@ class SystemDiagnostic:
                 "/api/consciousness/state",
                 "/api/memory/explore",
                 "/api/guardian/drift",
-                "/api/trinity/status",
+                "/api/constellation/status",
             ]:
                 # These endpoints are now implemented in symbolic_api.py
                 status = "✅ Ready" if self.results["imports"].get("Symbolic API", False) else "❌ Missing"
@@ -207,7 +207,7 @@ class SystemDiagnostic:
             if passed:
                 self.passed_checks += 1
 
-        self.results["trinity"] = checks
+        self.results["constellation"] = checks
         return checks
 
     def generate_report(self) -> str:
@@ -262,12 +262,12 @@ Passed: {self.passed_checks}
 🔺 Trinity Framework Status
 ═══════════════════════════════════════════════════════════════
 """
-        trinity_ok = all(self.results.get("trinity", {}).values())
+        trinity_ok = all(self.results.get("constellation", {}).values())
         report += f"  Trinity Integration: {'✅ COMPLETE' if trinity_ok else '⚠️ INCOMPLETE'}\n"
-        # Individual trinity components
-        identity_ok = self.results.get("trinity", {}).get("Identity System", False)
-        consciousness_ok = self.results.get("trinity", {}).get("Consciousness System", False)
-        guardian_ok = self.results.get("trinity", {}).get("Guardian System", False)
+        # Individual constellation components
+        identity_ok = self.results.get("constellation", {}).get("Identity System", False)
+        consciousness_ok = self.results.get("constellation", {}).get("Consciousness System", False)
+        guardian_ok = self.results.get("constellation", {}).get("Guardian System", False)
         report += f"  ⚛️ Identity: {'✅' if identity_ok else '❌'}\n"
         report += f"  🧠 Consciousness: {'✅' if consciousness_ok else '❌'}\n"
         report += f"  🛡️ Guardian: {'✅' if guardian_ok else '❌'}\n"

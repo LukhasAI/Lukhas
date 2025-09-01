@@ -142,7 +142,7 @@ def generate_system_report() -> dict[str, Any]:
         "metadata": {
             "report_title": "LUKHAS System Status Report",
             "generated_at": datetime.now(timezone.utc).isoformat(),
-            "trinity_framework": "⚛️🧠🛡️",
+            "constellation_framework": "⚛️🧠🛡️",
             "version": "LUKHAS v7.0",
             "python_version": None,
             "working_directory": os.getcwd(),

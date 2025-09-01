@@ -235,7 +235,7 @@ class MemoryFoldTracker:
                         ),
                         "metrics": {
                             "entropy": curr.get("entropy", 0),
-                            "trinity": curr.get("trinity_coherence", 0),
+                            "constellation": curr.get("trinity_coherence", 0),
                             "drift": curr.get("drift_score", 0),
                         },
                     }

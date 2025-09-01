@@ -6,7 +6,7 @@
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: framework_integration.py
-║ Path: candidate/consciousness/trinity/framework_integration.py
+║ Path: candidate/consciousness/constellation/framework_integration.py
 ║ Version: 1.0.0 | Created: 2025-08-26
 ║ Authors: LUKHAS AI Trinity Framework Architecture Team
 ╠══════════════════════════════════════════════════════════════════════════════════
@@ -44,7 +44,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure Trinity Framework logging
-logger = logging.getLogger("ΛTRACE.consciousness.trinity.framework")
+logger = logging.getLogger("ΛTRACE.consciousness.constellation.framework")
 logger.info("ΛTRACE: Initializing Trinity Framework Integration System v1.0.0")
 
 

@@ -83,7 +83,7 @@ class LukhasTracer:
             {
                 "service.name": "lukhas-ai",
                 "service.version": "2.0",
-                "trinity.framework": "⚛️🧠🛡️",
+                "constellation.framework": "⚛️🧠🛡️",
             }
         )
 
@@ -134,7 +134,7 @@ class LukhasTracer:
                     span.set_attribute(key, str(value))
 
             # Add Trinity Framework tag
-            span.set_attribute("trinity.component", self._get_component(name))
+            span.set_attribute("constellation.component", self._get_component(name))
 
             try:
                 yield span

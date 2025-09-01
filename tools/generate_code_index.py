@@ -74,7 +74,7 @@ class CodeIndexer:
                 lines INTEGER,
                 has_tests BOOLEAN,
                 has_types BOOLEAN,
-                trinity_framework BOOLEAN,
+                constellation_framework BOOLEAN,
                 lane TEXT,  -- accepted/candidate/quarantine/archive
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
@@ -272,7 +272,7 @@ class CodeIndexer:
             cursor.execute(
                 """
                 INSERT OR REPLACE INTO files
-                (path, module_path, lines, has_tests, has_types, trinity_framework, lane)
+                (path, module_path, lines, has_tests, has_types, constellation_framework, lane)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             """,
                 (

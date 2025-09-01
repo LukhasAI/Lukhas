@@ -56,7 +56,7 @@ def generate_comprehensive_report():
             "report_title": "LUKHAS AGI: Comprehensive System Analysis and Multi-Model Drift Research Report",
             "report_date": datetime.now(
                 timezone.utc).isoformat(),
-            "trinity_framework": "⚛️🧠🛡️",
+            "constellation_framework": "⚛️🧠🛡️",
             "version": "1.0",
             "purpose": "Academic Research and Publishing Documentation",
             "author": "LUKHAS AGI Framework",

@@ -15,7 +15,7 @@ This module provides advanced debugging capabilities for LUKHAS AI system includ
 #TAG:guardian
 #TAG:debug
 #TAG:diagnostics
-#TAG:trinity
+#TAG:constellation
 #TAG:observability
 """
 
@@ -575,7 +575,7 @@ class DebugInterface:
                 ],
             },
             # Trinity Framework status
-            "trinity_framework": trinity_status,
+            "constellation_framework": trinity_status,
             # Performance metrics
             "performance": performance_summary,
             # System information

@@ -20,6 +20,11 @@ import logging
 import os
 from typing import Any, Optional
 
+# Pre-declare bridge-related types for static type-checkers
+BridgeWrapper: Optional[Any] = None
+MultiModelOrchestrator: Optional[Any] = None
+APIBridge: Optional[Any] = None
+
 # Try to import BridgeWrapper at module level
 try:
     from .bridge_wrapper import BridgeWrapper
@@ -38,7 +43,7 @@ MODULE_VERSION = "2.0.0"
 MODULE_NAME = "bridge"
 
 # Global instance for singleton pattern
-_bridge_wrapper_instance = None
+_bridge_wrapper_instance: Optional[Any] = None
 
 
 def get_bridge_wrapper() -> Optional[Any]:

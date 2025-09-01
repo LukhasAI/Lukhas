@@ -594,7 +594,7 @@ class VivoxWrapper:
                 "vivox_srm_active": VIVOX_SRM_ACTIVE,
                 "integration_active": VIVOX_INTEGRATION_ACTIVE,
             },
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity": True,  # ⚛️ Identity integration
                 "consciousness": True,  # 🧠 Consciousness processing
                 "guardian": True,  # 🛡️ Guardian protection
