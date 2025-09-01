@@ -1525,3 +1525,8 @@ Promote Trinity constructs to Constellation naming and ship Wave C deliverables.
 🤖 Generated with [Claude Code](https://claude.ai/code)
 
 Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
+{"timestamp":"2025-09-01T23:57:01Z","commit":"6bf1c468f5b0dbc85a5ea696cc8f2aedd3f634f7","branch":"main","author":"LukhasAI","message":"fix: Remove disallowed ΛTAG logging parameters
+
+- Convert ΛTAG parameters to formatted string fields
+- Fixed 5 instances across lambda_mirror.py and lambda_governor.py
+- Enables Jules agent PRs to pass guard CI checks","security_scan":"pending"}

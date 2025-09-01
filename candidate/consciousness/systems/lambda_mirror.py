@@ -458,9 +458,7 @@ class LambdaMirror:
                     initial_parameters={"embeddings": np.random.randn(50, 8).tolist()},
                 )
 
-                logger.info(
-                    "ΛMIRROR connected to MetaLearningSystem - ΛMETA_LEARNING_CONNECTED"
-                )
+                logger.info("ΛMIRROR connected to MetaLearningSystem - ΛMETA_LEARNING_CONNECTED")
             except Exception as e:
                 logger.warning(f"Failed to initialize MetaLearningSystem: {e}")
 
