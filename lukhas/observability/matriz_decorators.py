@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import wraps
+from typing import Any
 
 from .matriz_emit import emit, make_node
 
@@ -13,12 +15,12 @@ def instrument(
     tenant: str = "default",
     salience: float = 0.4,
     urgency: float = 0.5,
-):
+) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     _ = tenant
 
-    def deco(fn):
+    def deco(fn: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(fn)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             prov = {
                 "producer": f"{fn.__module__}.{fn.__name__}",
                 "capabilities": [capability],

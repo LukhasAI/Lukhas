@@ -2,8 +2,11 @@
 Base classes for LLM wrappers.
 """
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from enum import Enum
+from typing import Any
 
 
 class LLMProvider(Enum):
@@ -22,7 +25,9 @@ class LLMWrapper(ABC):
     """
 
     @abstractmethod
-    async def generate_response(self, prompt: str, model: str, **kwargs) -> tuple[str, str]:
+    async def generate_response(
+        self: LLMWrapper, prompt: str, model: str, **kwargs: Any
+    ) -> tuple[str, str]:
         """
         Generate a response from the LLM.
 
@@ -37,7 +42,7 @@ class LLMWrapper(ABC):
         pass
 
     @abstractmethod
-    def is_available(self) -> bool:
+    def is_available(self: LLMWrapper) -> bool:
         """
         Check if the LLM provider is available.
 

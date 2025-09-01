@@ -7,10 +7,11 @@ import uuid
 from typing import Any
 
 try:
-    from MATRIZ.utils.matriz_validate import validate_node  # adjust path if needed
-except Exception:
+    from MATRIZ.utils.matriz_validate import validate_node
+except ImportError:
 
-    def validate_node(_) -> None:
+    def validate_node(node: dict[Any, Any]) -> None:
+        """Fallback if MATRIZ is not available."""
         return None
 
 
