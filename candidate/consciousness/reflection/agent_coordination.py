@@ -565,7 +565,7 @@ class CoordinationHub(MailboxActor):
 class AutonomousAgent(MailboxActor):
     """Base class for agents that participate in coordination"""
 
-    def __init__(self, agent_id: str, skills: list[Skill] = None):
+    def __init__(self, agent_id: str, skills: Optional[list[Skill]] = None):
         super().__init__(
             agent_id,
             mailbox_type=MailboxType.PRIORITY,

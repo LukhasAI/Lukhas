@@ -13,6 +13,7 @@ A massively enriched vocabulary system combining:
 import random
 from dataclasses import dataclass
 from enum import Enum
+from typing import Optional
 
 
 class PoeticForm(Enum):
@@ -1071,7 +1072,7 @@ class ExpandedLUKHASLexicon:
             ],
         }
 
-    def get_synonyms(self, word: str, category: str = None) -> list[str]:
+    def get_synonyms(self, word: str, category: Optional[str] = None) -> list[str]:
         """Get rich synonyms for a word, optionally filtered by category."""
         # Implementation would search across all categories
         synonyms = []
@@ -1080,7 +1081,7 @@ class ExpandedLUKHASLexicon:
         if category:
             if hasattr(self, f"{category}_terms"):
                 term_dict = getattr(self, f"{category}_terms")
-                for _subcategory, words in term_dict.items():
+                for words in term_dict.values():
                     if word in words:
                         # Return related words from same subcategory
                         synonyms.extend([w for w in words if w != word])
@@ -1090,13 +1091,13 @@ class ExpandedLUKHASLexicon:
                 if attr_name.endswith("_terms"):
                     term_dict = getattr(self, attr_name)
                     if isinstance(term_dict, dict):
-                        for _subcategory, words in term_dict.items():
+                        for words in term_dict.values():
                             if isinstance(words, list) and word in words:
                                 synonyms.extend([w for w in words if w != word])
 
         return list(set(synonyms))[:10]  # Return up to 10 unique synonyms
 
-    def get_random_from_category(self, category: str, subcategory: str = None) -> str:
+    def get_random_from_category(self, category: str, subcategory: Optional[str] = None) -> str:
         """Get a random word from a specific category."""
         if hasattr(self, f"{category}_terms"):
             term_dict = getattr(self, f"{category}_terms")

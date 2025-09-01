@@ -708,9 +708,8 @@ class GlyphSentinel:
         conditions = profile.conditions
 
         # Memory association condition
-        if conditions.get("require_memory_associations", False):
-            if not glyph.memory_keys:
-                return False
+        if conditions.get("require_memory_associations", False) and not glyph.memory_keys:
+            return False
 
         # Stability condition
         min_stability = conditions.get("min_stability", 0.0)

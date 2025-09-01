@@ -24,6 +24,7 @@ import os
 import sys
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 # Add ethics module to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -54,7 +55,7 @@ class EnhancedWorkspaceGuardian:
     - Original Guardian System v1.0.0
     """
 
-    def __init__(self, workspace_root: str = None):
+    def __init__(self, workspace_root: Optional[str] = None):
         self.workspace_root = workspace_root or os.getcwd()
 
         # Initialize governance components
@@ -112,7 +113,9 @@ class EnhancedWorkspaceGuardian:
         else:
             print("🛡️  Guardian active - basic protection mode")
 
-    async def enhanced_file_operation_check(self, operation: str, file_path: str, context: dict = None) -> dict:
+    async def enhanced_file_operation_check(
+        self, operation: str, file_path: str, context: Optional[dict] = None
+    ) -> dict:
         """Enhanced file operation check using superior ethics."""
 
         context = context or {}
@@ -331,7 +334,7 @@ class EnhancedWorkspaceGuardian:
 
 
 # Enhanced convenience functions
-async def enhanced_protect_workspace(workspace_root: str = None) -> dict:
+async def enhanced_protect_workspace(workspace_root: Optional[str] = None) -> dict:
     """Full enhanced workspace protection with superior ethics."""
     guardian = EnhancedWorkspaceGuardian(workspace_root)
     await guardian.initialize()
@@ -339,7 +342,7 @@ async def enhanced_protect_workspace(workspace_root: str = None) -> dict:
     return await guardian.run_security_validation()
 
 
-async def enhanced_file_check(operation: str, file_path: str, workspace_root: str = None) -> dict:
+async def enhanced_file_check(operation: str, file_path: str, workspace_root: Optional[str] = None) -> dict:
     """Enhanced file operation check with LUKHAS ethics."""
     guardian = EnhancedWorkspaceGuardian(workspace_root)
     await guardian.initialize()

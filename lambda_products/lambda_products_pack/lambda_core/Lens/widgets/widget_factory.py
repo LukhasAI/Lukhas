@@ -125,7 +125,7 @@ class WidgetFactory:
     def __init__(self):
         self.widget_mappings = self._create_symbol_mappings()
 
-    def _create_symbol_mappings(self) -> Dict[str, List[str]]:
+    def _create_symbol_mappings(self) -> dict[str, list[str]]:
         """Create mappings from symbol types to suitable widgets"""
         return {
             SymbolType.DOCUMENT.value: ["TextBlock", "MetricCard"],
@@ -140,7 +140,7 @@ class WidgetFactory:
             SymbolType.GLYPH.value: ["TextBlock", "MetricCard"],
         }
 
-    def suggest_widgets(self, symbols: List[GlyphSymbol]) -> List[Dict[str, Any]]:
+    def suggest_widgets(self, symbols: list[GlyphSymbol]) -> list[dict[str, Any]]:
         """Suggest appropriate widgets for a list of symbols"""
         suggestions = []
 
@@ -164,7 +164,7 @@ class WidgetFactory:
 
         return unique_suggestions
 
-    def _create_widget_config(self, symbol: GlyphSymbol, widget_type: str) -> Dict[str, Any]:
+    def _create_widget_config(self, symbol: GlyphSymbol, widget_type: str) -> dict[str, Any]:
         """Create widget configuration for a symbol"""
         preset = self.WIDGET_PRESETS.get(widget_type)
         if not preset:
@@ -181,7 +181,7 @@ class WidgetFactory:
 
         return config
 
-    def _generate_properties(self, symbol: GlyphSymbol, widget_type: str) -> Dict[str, Any]:
+    def _generate_properties(self, symbol: GlyphSymbol, widget_type: str) -> dict[str, Any]:
         """Generate widget properties based on symbol content"""
         if widget_type == "MetricCard":
             return self._create_metric_card_properties(symbol)
@@ -196,7 +196,7 @@ class WidgetFactory:
         else:
             return {}
 
-    def _create_metric_card_properties(self, symbol: GlyphSymbol) -> Dict[str, Any]:
+    def _create_metric_card_properties(self, symbol: GlyphSymbol) -> dict[str, Any]:
         """Create properties for MetricCard widget"""
         content = symbol.content
 
@@ -213,11 +213,11 @@ class WidgetFactory:
             "changeType": "neutral",
         }
 
-    def _create_text_block_properties(self, symbol: GlyphSymbol) -> Dict[str, Any]:
+    def _create_text_block_properties(self, symbol: GlyphSymbol) -> dict[str, Any]:
         """Create properties for TextBlock widget"""
         return {"title": symbol.type.value, "content": symbol.content, "format": "plain"}
 
-    def _create_code_snippet_properties(self, symbol: GlyphSymbol) -> Dict[str, Any]:
+    def _create_code_snippet_properties(self, symbol: GlyphSymbol) -> dict[str, Any]:
         """Create properties for CodeSnippet widget"""
         return {
             "title": "Code",
@@ -226,7 +226,7 @@ class WidgetFactory:
             "showLineNumbers": True,
         }
 
-    def _create_bar_chart_properties(self, symbol: GlyphSymbol) -> Dict[str, Any]:
+    def _create_bar_chart_properties(self, symbol: GlyphSymbol) -> dict[str, Any]:
         """Create properties for BarCompare widget"""
         # This is a simplified implementation
         return {
@@ -235,7 +235,7 @@ class WidgetFactory:
             "orientation": "vertical",
         }
 
-    def _create_force_graph_properties(self, symbol: GlyphSymbol) -> Dict[str, Any]:
+    def _create_force_graph_properties(self, symbol: GlyphSymbol) -> dict[str, Any]:
         """Create properties for ForceGraph widget"""
         # This is a simplified implementation
         return {
@@ -244,6 +244,6 @@ class WidgetFactory:
             "links": [{"source": "1", "target": "2", "value": 1}],
         }
 
-    def get_widget_presets(self) -> Dict[str, Dict[str, Any]]:
+    def get_widget_presets(self) -> dict[str, dict[str, Any]]:
         """Get all available widget presets"""
         return self.WIDGET_PRESETS.copy()

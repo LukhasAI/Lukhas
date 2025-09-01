@@ -103,7 +103,7 @@ class PhysicsEngine:
             )
 
             # Apply physics laws to entities
-            for _entity_id, entity in new_state.entities.items():
+            for entity in new_state.entities.values():
                 if "position" in entity and "velocity" in entity:
                     # Basic kinematics
                     pos = np.array(entity["position"])

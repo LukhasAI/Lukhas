@@ -584,8 +584,8 @@ class QIMeshVisualizer:
 
             fig.add_trace(
                 go.Scatterpolar(
-                    r=values + [values[0]],  # Close the polygon
-                    theta=metrics + [metrics[0]],
+                    r=[*values, values[0]],  # Close the polygon
+                    theta=[*metrics, metrics[0]],
                     fill="toself",
                     name=module.capitalize(),
                     line_color=px.colors.qualitative.Set3[hash(module) % len(px.colors.qualitative.Set3)],

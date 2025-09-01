@@ -170,8 +170,8 @@ class AutoEscalatorEngine:
         self,
         user_metrics: UserMetrics,
         conversion_value_usd: float,
-        active_bonuses: List[str] = None,
-    ) -> Dict:
+        active_bonuses: Optional[list[str]] = None,
+    ) -> dict:
         """
         Calculate profit split for a specific conversion
 
@@ -240,7 +240,7 @@ class AutoEscalatorEngine:
             "tier_progress": self._calculate_tier_progress(user_metrics, base_tier),
         }
 
-    def check_tier_promotion(self, user_id: str, current_tier: EscalatorTier, updated_metrics: UserMetrics) -> Dict:
+    def check_tier_promotion(self, user_id: str, current_tier: EscalatorTier, updated_metrics: UserMetrics) -> dict:
         """
         Check if user qualifies for tier promotion
 
@@ -288,7 +288,7 @@ class AutoEscalatorEngine:
             "tier_progress": self._calculate_tier_progress(updated_metrics, current_tier),
         }
 
-    def check_performance_bonuses(self, user_metrics: UserMetrics, recent_activity: List[dict]) -> List[str]:
+    def check_performance_bonuses(self, user_metrics: UserMetrics, recent_activity: list[dict]) -> list[str]:
         """
         Check which performance bonuses user qualifies for
 
@@ -316,7 +316,7 @@ class AutoEscalatorEngine:
 
         return active_bonuses
 
-    def generate_tier_requirements_guide(self) -> Dict:
+    def generate_tier_requirements_guide(self) -> dict:
         """Generate user-friendly guide to tier requirements"""
 
         guide = {
@@ -379,10 +379,7 @@ class AutoEscalatorEngine:
         if metrics.merchant_satisfaction < required.get("min_merchant_rating", 0.0):
             return False
 
-        if metrics.days_active < required.get("min_days_active", 0):
-            return False
-
-        return True
+        return not metrics.days_active < required.get("min_days_active", 0)
 
     def _get_next_tier(self, current_tier: EscalatorTier) -> Optional[str]:
         """Get the next tier above current tier"""
@@ -403,7 +400,7 @@ class AutoEscalatorEngine:
 
         return None
 
-    def _calculate_tier_progress(self, metrics: UserMetrics, current_tier: EscalatorTier) -> Dict:
+    def _calculate_tier_progress(self, metrics: UserMetrics, current_tier: EscalatorTier) -> dict:
         """Calculate progress toward next tier"""
 
         next_tier_name = self._get_next_tier(current_tier)
@@ -467,7 +464,7 @@ class AutoEscalatorEngine:
             },
         }
 
-    def _get_tier_benefits(self, tier: EscalatorTier) -> List[str]:
+    def _get_tier_benefits(self, tier: EscalatorTier) -> list[str]:
         """Get list of benefits for a tier"""
         benefits_map = {
             EscalatorTier.BRONZE: [
@@ -514,21 +511,21 @@ class AutoEscalatorEngine:
 
         return f"""
         🎉 Congratulations! You've been promoted to {new_tier.value.title()} tier!
-        
+
         Your revenue share has increased from {old_share}% to {new_share}%
-        
+
         New benefits include:
         {chr(10).join("• " + benefit for benefit in self._get_tier_benefits(new_tier))}
-        
+
         Keep up the excellent work!
         """
 
-    def _check_conversion_streak(self, recent_activity: List[dict], days: int) -> bool:
+    def _check_conversion_streak(self, recent_activity: list[dict], days: int) -> bool:
         """Check if user has conversion streak"""
         # Mock implementation - in production would analyze actual activity
         return len(recent_activity) >= days
 
-    def _check_volume_spike(self, recent_activity: List[dict], multiplier: float, days: int) -> bool:
+    def _check_volume_spike(self, recent_activity: list[dict], multiplier: float, days: int) -> bool:
         """Check if user has volume spike"""
         # Mock implementation - in production would calculate volume ratios
         recent_volume = sum(activity.get("value_usd", 0) for activity in recent_activity[-days:])

@@ -353,12 +353,11 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             symptom_lower = symptom.lower()
 
             # Check emergency guidelines
-            if "chest pain" in symptom_lower:
-                if "chest_pain" in self.guidelines["emergency"]:
-                    guideline = self.guidelines["emergency"]["chest_pain"].copy()
-                    guideline["governance"] = self.guideline_governance.copy()
-                    guideline["symptom"] = symptom
-                    relevant_guidelines.append(guideline)
+            if "chest pain" in symptom_lower and "chest_pain" in self.guidelines["emergency"]:
+                guideline = self.guidelines["emergency"]["chest_pain"].copy()
+                guideline["governance"] = self.guideline_governance.copy()
+                guideline["symptom"] = symptom
+                relevant_guidelines.append(guideline)
 
         return relevant_guidelines
 
@@ -471,10 +470,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
         # Check risk assessment
         risk = analysis.get("risk_assessment", {})
-        if risk.get("level") == "high" and risk.get("score", 0) > 0.8:
-            return True
-
-        return False
+        return bool(risk.get("level") == "high" and risk.get("score", 0) > 0.8)
 
     def _get_analysis_symbolic_pattern(self, symptoms: list[str]) -> list[str]:
         """Get symbolic pattern based on analysis"""

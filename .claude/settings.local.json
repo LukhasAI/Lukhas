@@ -92,7 +92,8 @@
       "Bash(SKIP=pre-commit git commit -m \"chore: Update Claude settings permissions\")",
       "Bash(PYTHONPATH=. python candidate/aka_qualia/run_c6_tests.py)",
       "Bash(PYTHONPATH=. python candidate/aka_qualia/validate_c6_simple.py)",
-      "Bash(sudo -S git add candidate/aka_qualia/WAVE_C_*.md candidate/aka_qualia/PRODUCTION_*.md candidate/aka_qualia/tests/test_consciousness_ablation.py candidate/aka_qualia/tests/test_ethics_validation.py candidate/aka_qualia/run_c6_tests.py candidate/aka_qualia/validate_c6_simple.py pytest.ini)"
+      "Bash(sudo -S git add candidate/aka_qualia/WAVE_C_*.md candidate/aka_qualia/PRODUCTION_*.md candidate/aka_qualia/tests/test_consciousness_ablation.py candidate/aka_qualia/tests/test_ethics_validation.py candidate/aka_qualia/run_c6_tests.py candidate/aka_qualia/validate_c6_simple.py pytest.ini)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []

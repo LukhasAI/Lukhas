@@ -87,7 +87,7 @@ class PrometheusExporter:
     with standardized akaq_ prefixed metrics for monitoring and alerting.
     """
 
-    def __init__(self, system_info: Optional[Dict[str, str]] = None):
+    def __init__(self, system_info: Optional[dict[str, str]] = None):
         """
         Initialize Prometheus exporter.
 
@@ -166,7 +166,7 @@ class PrometheusExporter:
         if risk_profile.score > 0.1:  # Only count meaningful interventions
             akaq_teq_interventions_total.labels(severity=risk_profile.severity.value).inc()
 
-    def update_vivox_metrics(self, vivox_results: Dict[str, Any]) -> None:
+    def update_vivox_metrics(self, vivox_results: dict[str, Any]) -> None:
         """Update VIVOX integration metrics"""
         if "drift_analysis" in vivox_results:
             drift_data = vivox_results["drift_analysis"]
@@ -188,7 +188,7 @@ class PrometheusExporter:
         if metrics_duration is not None:
             akaq_metrics_computation_time.observe(metrics_duration)
 
-    def record_scene_processed(self, result: Dict[str, Any]) -> None:
+    def record_scene_processed(self, result: dict[str, Any]) -> None:
         """Record a complete scene processing cycle"""
         akaq_scenes_processed_total.inc()
 
@@ -228,7 +228,7 @@ class PrometheusExporter:
         self.last_export_time = time.time()
         return generate_latest(), CONTENT_TYPE_LATEST
 
-    def get_metrics_summary(self) -> Dict[str, Any]:
+    def get_metrics_summary(self) -> dict[str, Any]:
         """Get human-readable metrics summary"""
         current_time = time.time()
         uptime = current_time - self.initialization_time
@@ -262,7 +262,7 @@ class PrometheusExporter:
             },
         }
 
-    def set_vivox_integration_status(self, status: Dict[str, Any]) -> None:
+    def set_vivox_integration_status(self, status: dict[str, Any]) -> None:
         """Set VIVOX integration status info"""
         akaq_vivox_integration_info.info(
             {

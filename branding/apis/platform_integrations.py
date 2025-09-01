@@ -93,7 +93,7 @@ class PlatformAPIManager:
     Handles authentication, rate limiting, error handling, and posting
     """
 
-    def __init__(self, credentials_path: str = None):
+    def __init__(self, credentials_path: Optional[str] = None):
         self.base_path = Path(__file__).parent.parent
         self.credentials_path = credentials_path or (self.base_path / "config" / "api_credentials.json")
         self.logs_path = self.base_path / "logs"
@@ -206,11 +206,7 @@ class PlatformAPIManager:
         if platform not in required_fields:
             return False
 
-        for field in required_fields[platform]:
-            if field not in creds or not creds[field]:
-                return False
-
-        return True
+        return all(not (field not in creds or not creds[field]) for field in required_fields[platform])
 
     def _initialize_platform_clients(self):
         """Initialize platform-specific API clients"""
@@ -271,7 +267,7 @@ class PlatformAPIManager:
         if "instagram" in self.credentials:
             self.logger.info("✅ Instagram API credentials loaded (custom implementation)")
 
-    async def post_to_twitter(self, content: str, media_paths: list[str] = None) -> PostResult:
+    async def post_to_twitter(self, content: str, media_paths: Optional[list[str]] = None) -> PostResult:
         """Post to Twitter/𝕏 using API v2"""
 
         if "twitter" not in self.platform_clients:
@@ -326,7 +322,7 @@ class PlatformAPIManager:
             self.logger.error(f"❌ Failed to post to Twitter: {e}")
             return PostResult(success=False, platform="twitter", error=str(e))
 
-    async def post_to_linkedin(self, content: str, media_paths: list[str] = None) -> PostResult:
+    async def post_to_linkedin(self, content: str, media_paths: Optional[list[str]] = None) -> PostResult:
         """Post to LinkedIn using custom API implementation"""
 
         if "linkedin" not in self.credentials:
@@ -544,8 +540,8 @@ class PlatformAPIManager:
         self,
         platform: str,
         content: str,
-        title: str = None,
-        media_paths: list[str] = None,
+        title: Optional[str] = None,
+        media_paths: Optional[list[str]] = None,
         **kwargs,
     ) -> PostResult:
         """Universal posting method for any platform"""

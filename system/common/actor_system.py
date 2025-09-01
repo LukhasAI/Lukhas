@@ -6,6 +6,7 @@ Integrates with the Event Bus for system-wide coordination.
 """
 
 import asyncio
+import contextlib
 import logging
 import time
 import uuid
@@ -151,10 +152,8 @@ class Actor(ABC):
             # Cancel message processing
             if self._task and not self._task.done():
                 self._task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await self._task
-                except asyncio.CancelledError:
-                    pass
 
             # Stop all children
             if self._children:

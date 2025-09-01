@@ -454,9 +454,8 @@ class SSOBridge:
 
         # Check standard mappings
         for claim_value, glyph in self.STANDARD_GLYPH_MAPPINGS.items():
-            if self._claim_matches(user_claims, claim_value):
-                if glyph not in assigned_glyphs:
-                    assigned_glyphs.append(glyph)
+            if self._claim_matches(user_claims, claim_value) and glyph not in assigned_glyphs:
+                assigned_glyphs.append(glyph)
 
         # Default glyph if no matches
         if not assigned_glyphs:

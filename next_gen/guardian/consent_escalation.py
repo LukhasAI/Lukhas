@@ -450,7 +450,7 @@ class ConsentEscalationResolver:
 
         # Find applicable trust paths
         applicable_paths = []
-        for _path_id, path in self.trust_paths.items():
+        for path in self.trust_paths.values():
             if self._path_applies_to_request(path, request):
                 applicable_paths.append(path)
 

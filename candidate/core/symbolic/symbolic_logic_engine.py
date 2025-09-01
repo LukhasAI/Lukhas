@@ -681,11 +681,7 @@ class SymbolicLogicEngine:
             ("ΛEXPAND", "ΛCONTRACT"),
         ]
 
-        for pair in contradictory_pairs:
-            if glyph1 in pair and glyph2 in pair and glyph1 != glyph2:
-                return True
-
-        return False
+        return any(glyph1 in pair and glyph2 in pair and glyph1 != glyph2 for pair in contradictory_pairs)
 
     def _contradicts_memory(self, glyph: str, memory_snippet: str) -> bool:
         """Check if GLYPH contradicts memory snippet (placeholder logic)."""

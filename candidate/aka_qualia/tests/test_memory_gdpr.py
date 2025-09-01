@@ -116,7 +116,7 @@ class TestGDPRErasure:
         # This would require checking the vector storage directly
 
         # 5. Verify other users' data is unaffected
-        other_user_data = sql_memory.get_scene_history(user_id="other_user", limit=1)
+        sql_memory.get_scene_history(user_id="other_user", limit=1)
         # This should not crash and should not be affected by the erasure
 
     @pytest.mark.security
@@ -163,8 +163,8 @@ class TestGDPRErasure:
             from sqlalchemy import text
 
             delete_query = text("""
-                DELETE FROM akaq_scene 
-                WHERE user_id = :user_id 
+                DELETE FROM akaq_scene
+                WHERE user_id = :user_id
                 AND ts < to_timestamp(:cutoff_time)
             """)
 
@@ -190,7 +190,7 @@ class TestGDPRErasure:
 
         # Create user data
         scene_data = create_test_scene(subject="audit_test_subject")
-        scene_id = sql_memory.save(
+        sql_memory.save(
             user_id=user_id,
             scene=scene_data,
             glyphs=[create_test_glyph("audit:test")],
@@ -200,7 +200,7 @@ class TestGDPRErasure:
         )
 
         # Perform erasure with audit logging
-        erasure_timestamp = time.time()
+        time.time()
         deleted_count = sql_memory.delete_user(user_id=user_id)
 
         # In a full implementation, we would:
@@ -238,7 +238,7 @@ class TestPrivacyHashing:
         for pii_value in pii_test_cases:
             scene_data = create_test_scene(subject=pii_value, object="confidential_data")
 
-            scene_id = sql_memory_prod.save(
+            sql_memory_prod.save(
                 user_id="privacy_hash_test",
                 scene=scene_data,
                 glyphs=[create_test_glyph("privacy:test")],
@@ -274,12 +274,12 @@ class TestPrivacyHashing:
         scene_data = create_test_scene(subject=test_subject, object="test_object")
 
         # Save in development mode (no hashing)
-        dev_scene_id = sql_memory.save(
+        sql_memory.save(
             user_id="dev_prod_test", scene=scene_data, glyphs=[], policy={}, metrics={}, cfg_version="wave_c_v1.0.0"
         )
 
         # Save in production mode (with hashing)
-        prod_scene_id = sql_memory_prod.save(
+        sql_memory_prod.save(
             user_id="dev_prod_test", scene=scene_data, glyphs=[], policy={}, metrics={}, cfg_version="wave_c_v1.0.0"
         )
 
@@ -347,7 +347,7 @@ class TestContextDataSanitization:
 
         scene_data = create_test_scene(context=mixed_context)
 
-        scene_id = sql_memory.save(
+        sql_memory.save(
             user_id="context_filter_test",
             scene=scene_data,
             glyphs=[],
@@ -386,7 +386,7 @@ class TestContextDataSanitization:
 
         scene_data = create_test_scene(context=sensitive_context)
 
-        scene_id = sql_memory.save(
+        sql_memory.save(
             user_id="redaction_test", scene=scene_data, glyphs=[], policy={}, metrics={}, cfg_version="wave_c_v1.0.0"
         )
 
@@ -438,7 +438,7 @@ class TestDataMinimization:
         )
 
         # In a privacy-compliant system, excessive data would be filtered
-        scene_id = sql_memory.save(
+        sql_memory.save(
             user_id="data_minimization_test",
             scene=excessive_scene,
             glyphs=[],
@@ -476,11 +476,11 @@ class TestDataMinimization:
         )
 
         # Save both scenes
-        old_scene_id = sql_memory.save(
+        sql_memory.save(
             user_id="expiration_test", scene=old_scene, glyphs=[], policy={}, metrics={}, cfg_version="wave_c_v1.0.0"
         )
 
-        recent_scene_id = sql_memory.save(
+        sql_memory.save(
             user_id="expiration_test", scene=recent_scene, glyphs=[], policy={}, metrics={}, cfg_version="wave_c_v1.0.0"
         )
 
@@ -513,7 +513,7 @@ class TestCrossBorderCompliance:
             }
         )
 
-        scene_id = sql_memory.save(
+        sql_memory.save(
             user_id="jurisdiction_test",
             scene=jurisdictional_scene,
             glyphs=[],
@@ -553,7 +553,7 @@ class TestCrossBorderCompliance:
             }
         )
 
-        scene_id = sql_memory.save(
+        sql_memory.save(
             user_id="consent_tracking_test",
             scene=consent_scene,
             glyphs=[],

@@ -11,7 +11,6 @@ import time
 
 from memory_noop import NoopMemory
 from monitoring_dashboard import MonitoringDashboard
-
 from observability import (
     AkaqMetrics,
     get_observability,
@@ -26,7 +25,7 @@ def demo_scene_processing():
     """Demo phenomenological scene processing with observability"""
     print("🧠 Demo: Scene Processing with Observability")
 
-    obs = get_observability()
+    get_observability()
 
     # Simulate scene processing stages
     with measure_scene_processing("glyph_mapping", "complex"):
@@ -173,7 +172,7 @@ def main():
 
     # Demo scene processing
     try:
-        consciousness_metrics = demo_scene_processing()
+        demo_scene_processing()
         results["scene_processing"] = "✅ Success"
     except Exception as e:
         results["scene_processing"] = f"❌ Failed: {e}"

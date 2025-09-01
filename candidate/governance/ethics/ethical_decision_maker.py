@@ -1100,7 +1100,9 @@ class AdvancedEthicalDecisionMaker:
         if context.get("uncertainty_handling"):
             quantum_factors.append("Uncertainty and ambiguity resolution mechanisms engaged")
         if len(decision.alternative_options) > 1:
-            quantum_factors.append(f"Quantum decision space explored across {len(decision.alternative_options)} possibilities")
+            quantum_factors.append(
+                f"Quantum decision space explored across {len(decision.alternative_options)} possibilities"
+            )
         decision.quantum_implications = quantum_factors
 
     async def _calculate_drift_score(self, decision: ComprehensiveEthicalDecision) -> float:

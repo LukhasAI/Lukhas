@@ -274,7 +274,7 @@ class EncryptionProvider(ABC):
     """Abstract base class for encryption providers"""
 
     @abstractmethod
-    async def encrypt(self, data: bytes, key_id: str = None) -> tuple[bytes, dict[str, Any]]:
+    async def encrypt(self, data: bytes, key_id: Optional[str] = None) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data and return ciphertext with metadata"""
 
     @abstractmethod
@@ -282,7 +282,7 @@ class EncryptionProvider(ABC):
         """Decrypt ciphertext using key and metadata"""
 
     @abstractmethod
-    async def generate_key(self, key_id: str = None) -> str:
+    async def generate_key(self, key_id: Optional[str] = None) -> str:
         """Generate a new encryption key"""
 
     @abstractmethod
@@ -298,7 +298,7 @@ class AESGCMProvider(EncryptionProvider):
         self.key_storage_path.mkdir(parents=True, exist_ok=True)
         self.keys: dict[str, bytes] = {}
 
-    async def encrypt(self, data: bytes, key_id: str = None) -> tuple[bytes, dict[str, Any]]:
+    async def encrypt(self, data: bytes, key_id: Optional[str] = None) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data using AES-256-GCM"""
 
         if not key_id:
@@ -348,7 +348,7 @@ class AESGCMProvider(EncryptionProvider):
 
         return plaintext
 
-    async def generate_key(self, key_id: str = None) -> str:
+    async def generate_key(self, key_id: Optional[str] = None) -> str:
         """Generate a new AES-256 key"""
 
         if not key_id:
@@ -437,7 +437,7 @@ class FernetProvider(EncryptionProvider):
     def __init__(self):
         self.keys: dict[str, Fernet] = {}
 
-    async def encrypt(self, data: bytes, key_id: str = None) -> tuple[bytes, dict[str, Any]]:
+    async def encrypt(self, data: bytes, key_id: Optional[str] = None) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data using Fernet"""
 
         if not key_id:
@@ -468,7 +468,7 @@ class FernetProvider(EncryptionProvider):
 
         return plaintext
 
-    async def generate_key(self, key_id: str = None) -> str:
+    async def generate_key(self, key_id: Optional[str] = None) -> str:
         """Generate a new Fernet key"""
 
         if not key_id:
@@ -696,8 +696,8 @@ class PrivacyPreservingMemoryVault:
         memory_type: str = "general",
         privacy_policy_id: str = "personal",
         emotion_vector: Optional[EmotionVector] = None,
-        keywords: list[str] = None,
-        metadata: dict[str, Any] = None,
+        keywords: Optional[list[str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> str:
         """Store a memory with privacy protection"""
 
@@ -941,8 +941,8 @@ class PrivacyPreservingMemoryVault:
 
     async def search_memories(
         self,
-        keywords: list[str] = None,
-        memory_type: str = None,
+        keywords: Optional[list[str]] = None,
+        memory_type: Optional[str] = None,
         privacy_level: PrivacyLevel = None,
         use_differential_privacy: bool = True,
     ) -> list[str]:
@@ -1052,7 +1052,7 @@ class PrivacyPreservingMemoryVault:
                 await self._secure_delete_memory(memory)
 
             # Remove from encrypted index
-            for _keyword_hash, memory_set in self.encrypted_index.items():
+            for memory_set in self.encrypted_index.values():
                 memory_set.discard(memory_id)
 
             # Remove from memory store
@@ -1239,7 +1239,7 @@ class PrivacyPreservingMemoryVault:
         with open(audit_file, "a") as f:
             f.write(json.dumps(audit_entry) + "\n")
 
-    async def export_memory_data(self, memory_ids: list[str] = None, format: str = "json") -> dict[str, Any]:
+    async def export_memory_data(self, memory_ids: Optional[list[str]] = None, format: str = "json") -> dict[str, Any]:
         """Export memory data (GDPR Article 20 - Data portability)"""
 
         if memory_ids is None:

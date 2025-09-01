@@ -11,7 +11,7 @@ import time
 import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger("ΛGuardian.Core")
 
@@ -283,7 +283,6 @@ class LambdaGuardianEngine:
         data_dir: str = "data/lambda_guardian",
         enable_all: bool = True,
     ):
-
         self.config_path = Path(config_path)
         self.data_dir = Path(data_dir)
         self.system_id = f"λ-guardian-{uuid.uuid4().hex[:8]}"
@@ -325,9 +324,7 @@ class LambdaGuardianEngine:
                     config = yaml.safe_load(f)
                 return {**self.DEFAULT_CONFIG, **config.get("lambda_guardian", {})}
             else:
-                logger.warning(
-                    f"Config file not found: {self.config_path}. Using Lambda defaults."
-                )
+                logger.warning(f"Config file not found: {self.config_path}. Using Lambda defaults.")
                 return self.DEFAULT_CONFIG
         except Exception as e:
             logger.error(f"Failed to load config: {e}. Using Lambda defaults.")
@@ -348,17 +345,13 @@ class LambdaGuardianEngine:
                 logger.info("🔍 ΛThreat Monitor initialized")
 
             if enable_all or self.config["security"]["consent_required"]:
-                self.consent_manager = MockConsentManager(
-                    data_dir=self.data_dir / "consent_logs"
-                )
+                self.consent_manager = MockConsentManager(data_dir=self.data_dir / "consent_logs")
                 self.subsystems["λ_consent_manager"] = self.consent_manager
                 logger.info("🔐 ΛConsent Manager initialized")
 
             # Medical and emergency systems with Lambda enhancement
             if enable_all or self.config["medical"]["ocr_enabled"]:
-                self.medical_ocr = MockMedicationOCR(
-                    cache_dir=self.data_dir / "ocr_cache"
-                )
+                self.medical_ocr = MockMedicationOCR(cache_dir=self.data_dir / "ocr_cache")
                 self.subsystems["λ_medical_ocr"] = self.medical_ocr
                 logger.info("💊 ΛMedical OCR initialized")
 
@@ -380,16 +373,12 @@ class LambdaGuardianEngine:
 
             # Accessibility features with Lambda enhancement
             if enable_all or self.config["accessibility"]["vision_assist"]:
-                self.vision_assist = MockVisionAssist(
-                    cache_dir=self.data_dir / "vision_cache"
-                )
+                self.vision_assist = MockVisionAssist(cache_dir=self.data_dir / "vision_cache")
                 self.subsystems["λ_vision_assist"] = self.vision_assist
                 logger.info("👁️ ΛVision Assist initialized")
 
             if enable_all or self.config["accessibility"]["cognitive_aid"]:
-                self.cognitive_aid = MockCognitiveAid(
-                    data_dir=self.data_dir / "cognitive_data"
-                )
+                self.cognitive_aid = MockCognitiveAid(data_dir=self.data_dir / "cognitive_data")
                 self.subsystems["λ_cognitive_aid"] = self.cognitive_aid
                 logger.info("🧠 ΛCognitive Aid initialized")
 
@@ -410,16 +399,12 @@ class LambdaGuardianEngine:
                 logger.info("🔒 ΛPrivacy Guardian initialized")
 
             if enable_all or self.config["security"]["audit_logging"]:
-                self.audit_logger = MockAuditLogger(
-                    log_dir=self.data_dir / "audit_logs"
-                )
+                self.audit_logger = MockAuditLogger(log_dir=self.data_dir / "audit_logs")
                 self.subsystems["λ_audit_logger"] = self.audit_logger
                 logger.info("📋 ΛAudit Logger initialized")
 
             if enable_all:
-                self.access_controller = MockAccessController(
-                    config=self.config["security"]
-                )
+                self.access_controller = MockAccessController(config=self.config["security"])
                 self.subsystems["λ_access_controller"] = self.access_controller
                 logger.info("🚪 ΛAccess Controller initialized")
 
@@ -435,9 +420,7 @@ class LambdaGuardianEngine:
             # Update status
             self.is_running = True
             self.current_status.status = "operational"
-            self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS[
-                "operational"
-            ]
+            self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS["operational"]
 
             # Start subsystems
             startup_tasks = []
@@ -446,9 +429,7 @@ class LambdaGuardianEngine:
                 startup_tasks.append(self.threat_monitor.start_monitoring())
 
             if "λ_emergency_aid" in self.subsystems:
-                startup_tasks.append(
-                    self.emergency_aid.initialize_emergency_protocols()
-                )
+                startup_tasks.append(self.emergency_aid.initialize_emergency_protocols())
 
             if "λ_health_apis" in self.subsystems:
                 startup_tasks.append(self.health_apis.initialize_connections())
@@ -476,17 +457,13 @@ class LambdaGuardianEngine:
                 context={"modules": self.current_status.active_modules},
             )
 
-            logger.info(
-                f"✅ ΛGuardian Engine started with {len(self.subsystems)} modules"
-            )
+            logger.info(f"✅ ΛGuardian Engine started with {len(self.subsystems)} modules")
             return True
 
         except Exception as e:
             logger.error(f"Failed to start ΛGuardian Engine: {e}")
             self.current_status.status = "critical"
-            self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS[
-                "critical"
-            ]
+            self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS["critical"]
             return False
 
     async def _health_check_loop(self):
@@ -518,28 +495,20 @@ class LambdaGuardianEngine:
                     if not is_healthy:
                         unhealthy_modules.append(module_name)
                 except Exception as e:
-                    logger.warning(
-                        f"ΛGuardian health check failed for {module_name}: {e}"
-                    )
+                    logger.warning(f"ΛGuardian health check failed for {module_name}: {e}")
                     unhealthy_modules.append(module_name)
 
         # Update system status with Lambda branding
         if unhealthy_modules:
             if len(unhealthy_modules) > len(self.subsystems) // 2:
                 self.current_status.status = "critical"
-                self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS[
-                    "critical"
-                ]
+                self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS["critical"]
             else:
                 self.current_status.status = "degraded"
-                self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS[
-                    "degraded"
-                ]
+                self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS["degraded"]
         else:
             self.current_status.status = "operational"
-            self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS[
-                "operational"
-            ]
+            self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS["operational"]
 
         # Update metrics
         self.current_status.performance_metrics = health_metrics
@@ -562,9 +531,7 @@ class LambdaGuardianEngine:
 
                 # Keep only recent history (last 24 hours)
                 cutoff_time = time.time() - 86400
-                self.performance_history = [
-                    p for p in self.performance_history if p["timestamp"] > cutoff_time
-                ]
+                self.performance_history = [p for p in self.performance_history if p["timestamp"] > cutoff_time]
 
                 await asyncio.sleep(60)
 
@@ -585,16 +552,14 @@ class LambdaGuardianEngine:
     async def _process_pending_events(self):
         """Process pending ΛGuardian events"""
         cutoff_time = time.time() - (7 * 24 * 3600)
-        self.system_events = [
-            event for event in self.system_events if event.timestamp > cutoff_time
-        ]
+        self.system_events = [event for event in self.system_events if event.timestamp > cutoff_time]
 
     async def _log_system_event(
         self,
         event_type: str,
         severity: str,
         description: str,
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
         source_module: str = "λ_guardian_engine",
     ):
         """Log a ΛGuardian system event"""
@@ -619,9 +584,7 @@ class LambdaGuardianEngine:
         log_level = getattr(logging, severity.upper(), logging.INFO)
         logger.log(log_level, f"[Λ-{event_type}] {description}")
 
-    def _generate_lambda_event_symbols(
-        self, event_type: str, severity: str
-    ) -> list[str]:
+    def _generate_lambda_event_symbols(self, event_type: str, severity: str) -> list[str]:
         """Generate Lambda symbolic signature for events"""
         symbols = ["Λ", "📋"]  # Base Lambda event symbols
 
@@ -650,7 +613,7 @@ class LambdaGuardianEngine:
     # Public ΛGuardian API methods
 
     async def request_lambda_consent(
-        self, requester: str, resource: str, permission: str, context: dict = None
+        self, requester: str, resource: str, permission: str, context: Optional[dict] = None
     ) -> dict:
         """Request consent through ΛGuardian system"""
         if "λ_consent_manager" not in self.subsystems:
@@ -712,7 +675,7 @@ class LambdaGuardianEngine:
             return {"error": str(e)}
 
     async def emergency_lambda_alert(
-        self, emergency_type: str, severity: str = "high", context: dict = None
+        self, emergency_type: str, severity: str = "high", context: Optional[dict] = None
     ) -> dict:
         """Trigger emergency alert through ΛGuardian"""
         if "λ_emergency_aid" not in self.subsystems:
@@ -721,9 +684,7 @@ class LambdaGuardianEngine:
         try:
             # Set emergency flag
             self.current_status.emergency_active = True
-            self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS[
-                "emergency"
-            ]
+            self.current_status.lambda_signature = self.LAMBDA_SYSTEM_SYMBOLS["emergency"]
 
             result = await self.emergency_aid.handle_emergency(
                 emergency_type=emergency_type, severity=severity, context=context or {}
@@ -768,10 +729,8 @@ class LambdaGuardianEngine:
         return {
             "λ_uptime_hours": (time.time() - self.start_time) / 3600,
             "λ_data_points": len(recent_data),
-            "λ_avg_efficiency": sum(p.get("λ_efficiency", 0) for p in recent_data)
-            / len(recent_data),
-            "λ_avg_security": sum(p.get("λ_security_score", 0) for p in recent_data)
-            / len(recent_data),
+            "λ_avg_efficiency": sum(p.get("λ_efficiency", 0) for p in recent_data) / len(recent_data),
+            "λ_avg_security": sum(p.get("λ_security_score", 0) for p in recent_data) / len(recent_data),
             "λ_last_updated": recent_data[-1]["timestamp"] if recent_data else 0,
         }
 
@@ -809,16 +768,14 @@ class LambdaGuardianEngine:
 # Convenience functions for ΛGuardian usage
 
 
-async def create_lambda_guardian(config_path: str = None) -> LambdaGuardianEngine:
+async def create_lambda_guardian(config_path: Optional[str] = None) -> LambdaGuardianEngine:
     """Create and initialize ΛGuardian Engine"""
     guardian = LambdaGuardianEngine(config_path=config_path)
     await guardian.start_all_systems()
     return guardian
 
 
-async def lambda_emergency_medical_assist(
-    image_path: str, guardian: LambdaGuardianEngine = None
-) -> dict:
+async def lambda_emergency_medical_assist(image_path: str, guardian: LambdaGuardianEngine = None) -> dict:
     """Quick emergency medical assistance with ΛGuardian"""
     if guardian is None:
         guardian = await create_lambda_guardian()
@@ -833,9 +790,7 @@ async def lambda_emergency_medical_assist(
         # Get additional medication information
         if "λ_health_apis" in guardian.subsystems:
             try:
-                med_info = await guardian.health_apis.get_medication_info(
-                    medication["name"]
-                )
+                med_info = await guardian.health_apis.get_medication_info(medication["name"])
                 ocr_result["λ_additional_info"] = med_info
             except Exception as e:
                 ocr_result["λ_additional_info_error"] = str(e)

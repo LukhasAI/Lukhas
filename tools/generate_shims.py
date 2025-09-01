@@ -243,11 +243,7 @@ if os.getenv(flag_name, "false").lower() == "true":
             "from ",
         ]
 
-        for indicator in real_code_indicators:
-            if indicator in content and len(content) > 100:
-                return True
-
-        return False
+        return any(indicator in content and len(content) > 100 for indicator in real_code_indicators)
 
     def report(self):
         """Generate shim report"""

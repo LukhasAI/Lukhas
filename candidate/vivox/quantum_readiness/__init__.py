@@ -3,6 +3,8 @@ VIVOX.QREADY - Quantum Readiness Interface
 Prepares VIVOX for future quantum computing substrates
 """
 
+from typing import Optional
+
 from .coherence.qsync_events import (
     EntanglementBridge,
     QISynchronizer,
@@ -33,7 +35,9 @@ from .integration.vivox_bridge import QIBridgeEvent, VIVOXQIBridge
 
 
 # Main factory function
-def create_quantum_readiness_system(vivox_interfaces: dict = None, qi_config: dict = None) -> QISubstrate:
+def create_quantum_readiness_system(
+    vivox_interfaces: Optional[dict] = None, qi_config: Optional[dict] = None
+) -> QISubstrate:
     """
     Create a complete VIVOX.QREADY system
 

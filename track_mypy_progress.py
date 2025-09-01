@@ -9,6 +9,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+
 def load_enumeration():
     """Load the error enumeration file"""
     try:
@@ -18,13 +19,16 @@ def load_enumeration():
         print("❌ mypy_errors_enumeration.json not found")
         return None
 
+
 def run_mypy_check():
     """Run mypy and get current error count"""
     try:
-        result = subprocess.run([
-            sys.executable, "-m", "mypy", ".",
-            "--show-error-codes", "--ignore-missing-imports"
-        ], capture_output=True, text=True, cwd=Path("."))
+        result = subprocess.run(
+            [sys.executable, "-m", "mypy", ".", "--show-error-codes", "--ignore-missing-imports"],
+            capture_output=True,
+            text=True,
+            cwd=Path("."),
+        )
 
         # Count errors (rough estimate)
         error_lines = [line for line in result.stdout.split("\n") if ": error:" in line]
@@ -32,6 +36,7 @@ def run_mypy_check():
     except Exception as e:
         print(f"❌ Error running mypy: {e}")
         return 0, ""
+
 
 def main():
     """Main progress tracking function"""
@@ -81,6 +86,7 @@ def main():
         print("   2. Each agent works on their assigned files")
         print("   3. Run this tracker regularly to monitor progress")
         print("   4. Update enumeration.json as tasks complete")
+
 
 if __name__ == "__main__":
     main()

@@ -379,7 +379,7 @@ class LukhasEmbedding:
         for blocked in self.blocked_glyphs:
             if blocked in modified:
                 # Replace with positive alternative
-                replacement = list(self.positive_glyphs)[0] if self.positive_glyphs else "✨"
+                replacement = next(iter(self.positive_glyphs)) if self.positive_glyphs else "✨"
                 modified = modified.replace(blocked, replacement)
 
         # Add positive glyphs if too few

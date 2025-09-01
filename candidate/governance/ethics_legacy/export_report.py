@@ -42,7 +42,7 @@ class EthicsReportExporter:
     def export_multi_format(
         self,
         result: dict[str, Any],
-        formats: list[str] = None,
+        formats: Optional[list[str]] = None,
         base_filename: Optional[str] = None,
     ) -> dict[str, str]:
         """Export ethics report in multiple formats simultaneously."""
@@ -412,7 +412,7 @@ def export_ethics_report(result: dict, filepath: str = "ethics_report.json"):
 # Enhanced main export function
 def export_comprehensive_ethics_report(
     result: dict[str, Any],
-    formats: list[str] = None,
+    formats: Optional[list[str]] = None,
     include_dashboard: bool = True,
     include_audit: bool = True,
 ) -> dict[str, Any]:

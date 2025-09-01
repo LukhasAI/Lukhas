@@ -84,7 +84,10 @@ except ImportError:
             pass
 
     CollectorRegistry = None
-    generate_latest = lambda r: b"# Prometheus not available\n"
+
+    def generate_latest(r):
+        return b"# Prometheus not available\n"
+
     CONTENT_TYPE_LATEST = "text/plain"
 
 
@@ -354,7 +357,7 @@ class AkaqObservability:
         else:
             self._local_data[f"storage_{client_type}_{data_type}"] = bytes_stored
 
-    def get_metrics_summary(self) -> Dict[str, Any]:
+    def get_metrics_summary(self) -> dict[str, Any]:
         """Get summary of current metrics"""
         if self.enabled:
             return {
@@ -385,7 +388,7 @@ class AkaqObservability:
 
             return "\n".join(output).encode("utf-8")
 
-    def health_check(self) -> Dict[str, Any]:
+    def health_check(self) -> dict[str, Any]:
         """Comprehensive health check of observability system"""
         health = {
             "observability_enabled": self.enabled,

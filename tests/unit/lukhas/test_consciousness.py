@@ -121,7 +121,6 @@ class TestConsciousnessWrapper:
     @pytest.mark.unit
     def test_state_transitions(self, consciousness: ConsciousnessWrapper):
         """Test consciousness state transitions."""
-        initial_state = consciousness.state
 
         # Test state change
         consciousness.update_awareness(AwarenessLevel.ENHANCED)
@@ -250,7 +249,6 @@ class TestConsciousnessState:
         state = ConsciousnessState(awareness=AwarenessLevel.BASIC)
 
         # Timestamp should be auto-generated and immutable
-        original_timestamp = state.creation_timestamp
         with pytest.raises(AttributeError):
             state.creation_timestamp = time.time()
 
@@ -341,7 +339,7 @@ class TestConsciousnessIntegration:
         """Test integration with Guardian System."""
         from lukhas.governance.guardian import GuardianSystem
 
-        guardian = GuardianSystem()
+        GuardianSystem()
         consciousness = ConsciousnessWrapper()
 
         # Test ethical decision making

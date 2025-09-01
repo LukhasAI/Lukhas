@@ -239,7 +239,7 @@ class CognitiveOrchestrator:
     def _build_reasoning_chain(self) -> list[str]:
         """Build human-readable reasoning chain from MATRIZ nodes"""
         chain = []
-        for _node_id, node in self.matriz_graph.items():
+        for node in self.matriz_graph.values():
             if node["type"] == "INTENT":
                 chain.append(f"Understood intent: {node['state'].get('intent', 'unknown')}")
             elif node["type"] == "DECISION":

@@ -469,9 +469,8 @@ class IntelligenceEngineRegistry:
     def _matches_filter(self, engine_info: EngineInfo, filter_criteria: QueryFilter) -> bool:
         """Check if engine matches filter criteria"""
         # Type filter
-        if filter_criteria.engine_types:
-            if engine_info.engine_type not in filter_criteria.engine_types:
-                return False
+        if filter_criteria.engine_types and engine_info.engine_type not in filter_criteria.engine_types:
+            return False
 
         # Capabilities filter
         if filter_criteria.capabilities:
@@ -480,14 +479,12 @@ class IntelligenceEngineRegistry:
                 return False
 
         # Tags filter
-        if filter_criteria.tags:
-            if not any(tag in engine_info.tags for tag in filter_criteria.tags):
-                return False
+        if filter_criteria.tags and not any(tag in engine_info.tags for tag in filter_criteria.tags):
+            return False
 
         # Status filter
-        if filter_criteria.status_filter:
-            if engine_info.status not in filter_criteria.status_filter:
-                return False
+        if filter_criteria.status_filter and engine_info.status not in filter_criteria.status_filter:
+            return False
 
         # Health score filter
         if engine_info.health_score < filter_criteria.min_health_score:
@@ -560,7 +557,7 @@ class IntelligenceEngineRegistry:
             return
 
         # Submit health checks to executor
-        for _engine_id, engine_info in self.engines.items():
+        for engine_info in self.engines.values():
             if engine_info.status in [
                 EngineStatus.HEALTHY,
                 EngineStatus.DEGRADED,

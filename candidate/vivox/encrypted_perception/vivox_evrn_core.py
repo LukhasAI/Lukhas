@@ -375,10 +375,7 @@ class VIVOXEncryptedPerceptionNode:
         stride = window_size // 2
 
         for i in range(0, array.shape[0] - window_size, stride):
-            if array.ndim == 1:
-                window = filtered_array[i : i + window_size]
-            else:
-                window = filtered_array[i : i + window_size, :]
+            window = filtered_array[i : i + window_size] if array.ndim == 1 else filtered_array[i : i + window_size, :]
 
             # Apply non-reversible transformations
             features = self._extract_encrypted_features(window)
@@ -433,10 +430,7 @@ class VIVOXEncryptedPerceptionNode:
         )
 
         # 3. Texture features (if 2D)
-        if window.ndim > 1:
-            texture_features = self._compute_texture_features(window)
-        else:
-            texture_features = np.zeros(8)
+        texture_features = self._compute_texture_features(window) if window.ndim > 1 else np.zeros(8)
 
         # 4. Combine and encrypt
         combined = np.concatenate([fft_features, moments, texture_features])

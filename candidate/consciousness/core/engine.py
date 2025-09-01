@@ -222,7 +222,7 @@ class ConsciousnessPattern:  # Continuing class definition
 
         # Store or update user-specific patterns (optional, depends on desired
         # statefulness)
-        self.user_patterns[user_id] = self.user_patterns.get(user_id, []) + [patterns]
+        self.user_patterns[user_id] = [*self.user_patterns.get(user_id, []), patterns]
         if len(self.user_patterns[user_id]) > 50:  # Keep history manageable
             self.user_patterns[user_id] = self.user_patterns[user_id][-50:]
 

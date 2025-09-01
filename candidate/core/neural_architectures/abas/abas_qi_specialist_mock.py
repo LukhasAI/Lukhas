@@ -41,7 +41,7 @@ class QIBioResponse:
 class MockQuantumBiologicalAGI:
     """Mock quantum-biological AI system"""
 
-    def __init__(self, config: dict = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.session_id = f"mock_{datetime.now().timestamp()}"
         self.initialization_time = datetime.now()
@@ -72,7 +72,7 @@ class MockQuantumBiologicalAGI:
         logger.info("Mock integration with ethics engine")
         return True
 
-    async def process_with_quantum_biology(self, input_text: str, context: dict = None) -> QuantumBioResponse:
+    async def process_with_quantum_biology(self, input_text: str, context: Optional[dict] = None) -> QuantumBioResponse:
         """Mock quantum-biological processing"""
         datetime.now()
         processing_id = f"mock_proc_{datetime.now().timestamp()}"

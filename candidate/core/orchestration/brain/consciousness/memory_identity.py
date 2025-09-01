@@ -240,9 +240,8 @@ class MemoryIdentityIntegration:
             permission["shared_with"].remove(target_user_id)
 
         # Remove from target user's shared memories
-        if target_user_id in self.shared_memories:
-            if memory_key in self.shared_memories[target_user_id]:
-                self.shared_memories[target_user_id].remove(memory_key)
+        if target_user_id in self.shared_memories and memory_key in self.shared_memories[target_user_id]:
+            self.shared_memories[target_user_id].remove(memory_key)
 
         logger.debug(f"Access to memory {memory_key} revoked from {target_user_id}")
         return True

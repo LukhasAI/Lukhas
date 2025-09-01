@@ -660,12 +660,11 @@ class LambdaTierManager:
             return {"valid": False, "reason": "Maximum tier is 5"}
 
         # Check if skipping tiers is allowed
-        if new_tier - current_tier > 1:
-            if not validation_data.get("allow_tier_skip", False):
-                return {
-                    "valid": False,
-                    "reason": "Tier skipping not allowed without special permission",
-                }
+        if new_tier - current_tier > 1 and not validation_data.get("allow_tier_skip", False):
+            return {
+                "valid": False,
+                "reason": "Tier skipping not allowed without special permission",
+            }
 
         # Validate tier requirements
         tier_requirements = self._get_tier_requirements(new_tier)

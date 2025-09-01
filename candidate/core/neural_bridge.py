@@ -24,7 +24,7 @@ class NeuroplasticBridge:
         self.hormone_levels[hormone] = intensity
 
         # Notify all modules
-        for _module_name, connector in self.modules.items():
+        for connector in self.modules.values():
             if hasattr(connector, "emit_hormone"):
                 connector.emit_hormone(hormone, intensity)
 

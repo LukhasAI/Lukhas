@@ -136,10 +136,7 @@ class PatternSeparator:
         # Compute normalized dot product (orthogonality)
         norm1 = np.linalg.norm(separated1)
         norm2 = np.linalg.norm(separated2)
-        if norm1 > 0 and norm2 > 0:
-            orthogonality = 1.0 - abs(np.dot(separated1, separated2) / (norm1 * norm2))
-        else:
-            orthogonality = 1.0
+        orthogonality = 1.0 - abs(np.dot(separated1, separated2) / (norm1 * norm2)) if norm1 > 0 and norm2 > 0 else 1.0
 
         return {
             "overlap": overlap,
@@ -155,10 +152,7 @@ class PatternSeparator:
         """
 
         # Convert to string representation
-        if isinstance(content, (dict, list)):
-            content_str = json.dumps(content, sort_keys=True)
-        else:
-            content_str = str(content)
+        content_str = json.dumps(content, sort_keys=True) if isinstance(content, (dict, list)) else str(content)
 
         # Create feature vector using hashing trick
         vector = np.zeros(self.input_dimension)

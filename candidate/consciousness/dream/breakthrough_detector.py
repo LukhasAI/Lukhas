@@ -171,7 +171,7 @@ class BreakthroughDetector(CoreInterface):
         breakthrough_candidates = []
 
         # Run all detection algorithms
-        for _breakthrough_type, detection_func in self.detection_algorithms.items():
+        for detection_func in self.detection_algorithms.values():
             candidates = await detection_func(reality_exploration_results)
             breakthrough_candidates.extend(candidates)
 

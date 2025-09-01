@@ -329,7 +329,7 @@ class QuantumSuperpositionProcessor:
     async def _create_entanglement_network(self, quantum_states: list[QuantumState]):
         """Create entanglement links between quantum states"""
         for i, state1 in enumerate(quantum_states):
-            for j, state2 in enumerate(quantum_states[i + 1 :], i + 1):
+            for _j, state2 in enumerate(quantum_states[i + 1 :], i + 1):
                 # Calculate entanglement probability based on similarity
                 similarity = self._calculate_state_similarity(state1, state2)
 
@@ -563,7 +563,7 @@ class QuantumSuperpositionProcessor:
         total_confidence = 0.0
         state_count = 0
 
-        for state_id, result in processing_results.items():
+        for result in processing_results.values():
             if isinstance(result, dict) and "quantum_probability" in result:
                 total_confidence += result["quantum_probability"]
                 state_count += 1
@@ -913,10 +913,7 @@ class QuantumSuperpositionProcessor:
             return False
 
         # Check processing load limits
-        if len(self.active_states) > self.config.max_superposition_states * 10:
-            return False
-
-        return True
+        return not len(self.active_states) > self.config.max_superposition_states * 10
 
     def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive quantum processor status"""
@@ -975,7 +972,7 @@ async def main():
     quantum_states = await processor.create_superposition(base_state)
 
     if quantum_states:
-        superposition_id = list(processor.superposition_groups.keys())[0]
+        superposition_id = next(iter(processor.superposition_groups.keys()))
 
         # Process in parallel
         processing_request = {"type": "attention_shift", "phase_shift": 0.5, "complexity": 0.7}

@@ -78,7 +78,7 @@ class SuperpositionPath:
         """Get trajectory of dominant ethics over time"""
         trajectory = []
 
-        all_states = [self.initial_state] + self.intermediate_states + [self.final_state]
+        all_states = [self.initial_state, *self.intermediate_states, self.final_state]
 
         for i, state in enumerate(all_states):
             progress = i / (len(all_states) - 1) if len(all_states) > 1 else 1.0
@@ -359,7 +359,7 @@ class MoralSuperposition:
         final: EthicalQIState,
     ) -> float:
         """Calculate coherence of evolution path"""
-        all_states = [initial] + intermediate + [final]
+        all_states = [initial, *intermediate, final]
 
         if len(all_states) < 2:
             return 1.0

@@ -32,7 +32,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 
 class BudgetPriority(Enum):
@@ -449,8 +449,8 @@ class TokenBudgetController:
         cost: float,
         success: bool = True,
         description: str = "",
-        findings: list[str] = None,
-        recommendations: list[str] = None,
+        findings: Optional[list[str]] = None,
+        recommendations: Optional[list[str]] = None,
     ) -> None:
         """
         Record an actual API call with comprehensive logging

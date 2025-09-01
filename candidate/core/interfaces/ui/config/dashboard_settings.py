@@ -64,7 +64,7 @@ def store_paired_app(user_id, app_name):
     apps = user_dashboard_settings.get(user_id, {}).get(paired_key, [])
     if app_name not in apps:
         # Make a copy to avoid mutating shared list
-        new_apps = apps + [app_name]
+        new_apps = [*apps, app_name]
         set_user_preference(user_id, paired_key, new_apps)
 
 

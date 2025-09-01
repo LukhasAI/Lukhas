@@ -182,10 +182,9 @@ class SymbolicEngine:
 
             # Look for related elements
             for other_element in logical_elements:
-                if other_element != element:
-                    if self._elements_related(element, other_element):
-                        logical_chains[chain_id]["elements"].append(other_element)
-                        logical_chains[chain_id]["relation_type"] = "compound"
+                if other_element != element and self._elements_related(element, other_element):
+                    logical_chains[chain_id]["elements"].append(other_element)
+                    logical_chains[chain_id]["relation_type"] = "compound"
 
         return logical_chains
 

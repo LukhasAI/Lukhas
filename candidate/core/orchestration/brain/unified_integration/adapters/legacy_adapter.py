@@ -57,10 +57,7 @@ class LegacyComponentAdapter:
             Message: Standardized message object
         """
         # Determine message type
-        if "type" in message:
-            msg_type = MessageType(message["type"])
-        else:
-            msg_type = MessageType.COMMAND
+        msg_type = MessageType(message["type"]) if "type" in message else MessageType.COMMAND
 
         # Extract or create metadata
         metadata = message.get("metadata", {})

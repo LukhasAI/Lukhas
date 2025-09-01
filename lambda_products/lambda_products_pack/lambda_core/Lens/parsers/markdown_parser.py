@@ -13,7 +13,7 @@ from .base_parser import BaseParser
 class MarkdownParser(BaseParser):
     """Parser for Markdown files"""
 
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         """Parse Markdown file and extract structure"""
         try:
             with open(file_path, encoding="utf-8") as f:
@@ -29,7 +29,7 @@ class MarkdownParser(BaseParser):
         except Exception as e:
             raise ValueError(f"Failed to parse Markdown file {file_path}: {e!s}")
 
-    def _extract_markdown_elements(self, content: str) -> Dict[str, List[Dict[str, Any]]]:
+    def _extract_markdown_elements(self, content: str) -> dict[str, list[dict[str, Any]]]:
         """Extract headers, links, code blocks, etc. from Markdown"""
         lines = content.split("\n")
 

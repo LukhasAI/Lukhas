@@ -318,7 +318,7 @@ class AuditTrail:
         outcome: dict[str, Any],
         rationale: str,
         confidence: float,
-        alternatives_considered: list[dict[str, Any]] = None,
+        alternatives_considered: Optional[list[dict[str, Any]]] = None,
     ) -> str:
         """Log a complete decision chain for explainability"""
         # Log decision initiation

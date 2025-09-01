@@ -281,10 +281,7 @@ class MetaLearningSystem:
 
     def _matches_pattern(self, features: dict[str, Any], pattern_features: dict[str, Any]) -> bool:
         """Check if features match a pattern."""
-        for key, value in pattern_features.items():
-            if key not in features or features[key] != value:
-                return False
-        return True
+        return all(not (key not in features or features[key] != value) for key, value in pattern_features.items())
 
     def _update_knowledge(self, features: dict[str, Any], feedback: dict[str, Any]):
         """Update knowledge base with new learning."""
@@ -591,10 +588,7 @@ class CognitiveAdapter(CoreComponent):
         self.logger.info("Processing data through cognitive adapter")
 
         # Extract user context
-        if isinstance(context, SecurityContext):
-            user_context = context.get_user_context()
-        else:
-            user_context = context or {}
+        user_context = context.get_user_context() if isinstance(context, SecurityContext) else context or {}
 
         # Update cognitive state based on input
         self._update_state_from_input(data)

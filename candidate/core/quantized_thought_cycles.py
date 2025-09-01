@@ -167,7 +167,7 @@ class QuantizedThoughtProcessor:
         await self.input_queue.put(quantum)
         return qi.id
 
-    async def get_result(self, timeout: float = None) -> Optional[ThoughtQuantum]:
+    async def get_result(self, timeout: Optional[float] = None) -> Optional[ThoughtQuantum]:
         """Get processed result from output queue"""
         try:
             if timeout:

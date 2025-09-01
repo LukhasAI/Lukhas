@@ -64,8 +64,8 @@ class DecisionTrace:
         self,
         decision_id: str,
         decision_type: DecisionType,
-        user_input: str = None,
-        context: dict[str, Any] = None,
+        user_input: Optional[str] = None,
+        context: Optional[dict[str, Any]] = None,
     ):
         self.decision_id = decision_id
         self.decision_type = decision_type
@@ -86,7 +86,7 @@ class DecisionTrace:
         self.confidence_score = 0.0
         self.confidence_explanation = ""
 
-    def add_reasoning_step(self, step: str, evidence: dict[str, Any] = None, weight: float = 1.0):
+    def add_reasoning_step(self, step: str, evidence: Optional[dict[str, Any]] = None, weight: float = 1.0):
         """Add a reasoning step with evidence and weight"""
         self.reasoning_steps.append(
             {
@@ -235,8 +235,8 @@ class TransparencyOrchestrator:
     def start_decision_trace(
         self,
         decision_type: DecisionType,
-        user_input: str = None,
-        context: dict[str, Any] = None,
+        user_input: Optional[str] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> str:
         """Start a new decision trace and return trace ID"""
         trace_id = f"{decision_type.value}_{int(time.time())}_{uuid.uuid4().hex[:8]}"
@@ -298,8 +298,8 @@ transparency_orchestrator = TransparencyOrchestrator()
 
 def create_transparent_decision(
     decision_type: DecisionType,
-    user_input: str = None,
-    context: dict[str, Any] = None,
+    user_input: Optional[str] = None,
+    context: Optional[dict[str, Any]] = None,
 ):
     """
     Decorator factory for creating transparent AI decisions
@@ -355,7 +355,7 @@ def create_transparent_decision(
 # Example usage functions for integration
 
 
-async def example_transparent_content_generation(user_prompt: str, trace_id: str = None):
+async def example_transparent_content_generation(user_prompt: str, trace_id: Optional[str] = None):
     """Example of transparent content generation with full reasoning trace"""
 
     if not trace_id:
@@ -540,7 +540,7 @@ if __name__ == "__main__":
 
         # Example transparent decision
         @create_transparent_decision(DecisionType.CONTENT_GENERATION)
-        async def demo_decision(prompt: str, trace_id: str = None):
+        async def demo_decision(prompt: str, trace_id: Optional[str] = None):
             return await example_transparent_content_generation(prompt, trace_id)
 
         result = await demo_decision("Explain quantum-inspired computing simply")

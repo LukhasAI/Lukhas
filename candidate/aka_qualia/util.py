@@ -12,7 +12,7 @@ import json
 from typing import Any, Dict, List, Optional, Tuple
 
 
-def to_proto_vec(proto: Dict[str, Any]) -> List[float]:
+def to_proto_vec(proto: dict[str, Any]) -> list[float]:
     """
     Convert ProtoQualia dict to fixed 5-dimensional vector.
 
@@ -39,7 +39,7 @@ def to_proto_vec(proto: Dict[str, Any]) -> List[float]:
     ]
 
 
-def cosine_similarity(vec1: List[float], vec2: List[float]) -> float:
+def cosine_similarity(vec1: list[float], vec2: list[float]) -> float:
     """
     Compute cosine similarity between two vectors.
 
@@ -75,7 +75,7 @@ def cosine_similarity(vec1: List[float], vec2: List[float]) -> float:
     return dot_product / (magnitude1 * magnitude2)
 
 
-def euclidean_distance(vec1: List[float], vec2: List[float]) -> float:
+def euclidean_distance(vec1: list[float], vec2: list[float]) -> float:
     """
     Compute Euclidean distance between two vectors.
 
@@ -93,11 +93,11 @@ def euclidean_distance(vec1: List[float], vec2: List[float]) -> float:
 
 
 def find_similar_scenes(
-    target_proto: Dict[str, Any],
-    scene_list: List[Dict[str, Any]],
+    target_proto: dict[str, Any],
+    scene_list: list[dict[str, Any]],
     similarity_threshold: float = 0.7,
     max_results: int = 10,
-) -> List[Tuple[Dict[str, Any], float]]:
+) -> list[tuple[dict[str, Any], float]]:
     """
     Find similar scenes using proto-qualia vector similarity.
 
@@ -127,7 +127,7 @@ def find_similar_scenes(
     return results[:max_results]
 
 
-def compute_proto_hash(proto: Dict[str, Any], precision: int = 3) -> str:
+def compute_proto_hash(proto: dict[str, Any], precision: int = 3) -> str:
     """
     Compute stable hash of proto-qualia for deduplication.
 
@@ -151,7 +151,7 @@ def compute_proto_hash(proto: Dict[str, Any], precision: int = 3) -> str:
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
-def extract_affect_energy(proto: Dict[str, Any]) -> float:
+def extract_affect_energy(proto: dict[str, Any]) -> float:
     """
     Extract total affective energy from proto-qualia for conservation tracking.
 
@@ -171,7 +171,7 @@ def extract_affect_energy(proto: Dict[str, Any]) -> float:
     return tone + arousal + clarity + embodiment
 
 
-def validate_proto_bounds(proto: Dict[str, Any]) -> List[str]:
+def validate_proto_bounds(proto: dict[str, Any]) -> list[str]:
     """
     Validate proto-qualia field bounds.
 
@@ -212,7 +212,7 @@ def validate_proto_bounds(proto: Dict[str, Any]) -> List[str]:
 
 
 def compute_drift_phi(
-    current_proto: Dict[str, Any], previous_proto: Optional[Dict[str, Any]] = None, time_delta_seconds: float = 1.0
+    current_proto: dict[str, Any], previous_proto: Optional[dict[str, Any]] = None, time_delta_seconds: float = 1.0
 ) -> float:
     """
     Compute temporal coherence drift between consecutive proto-qualia states.

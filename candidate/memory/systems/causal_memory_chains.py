@@ -681,10 +681,10 @@ class CausalReasoningEngine:
         self,
         memory_id: str,
         content: str,
-        tags: list[str] = None,
+        tags: Optional[list[str]] = None,
         embedding: np.ndarray = None,
-        timestamp: datetime = None,
-        metadata: dict[str, Any] = None,
+        timestamp: Optional[datetime] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """Add a memory to the causal reasoning system"""
 
@@ -706,7 +706,7 @@ class CausalReasoningEngine:
         logger.debug("Memory added for causal analysis", memory_id=memory_id[:8])
 
     async def analyze_causal_relationships(
-        self, memory_ids: list[str] = None, time_window: timedelta = None
+        self, memory_ids: Optional[list[str]] = None, time_window: Optional[timedelta] = None
     ) -> list[CausalRelation]:
         """Analyze causal relationships in memories"""
 
@@ -911,9 +911,9 @@ class CausalMemoryWrapper:
     async def fold_in_with_causal_analysis(
         self,
         data: str,
-        tags: list[str] = None,
+        tags: Optional[list[str]] = None,
         embedding: np.ndarray = None,
-        timestamp: datetime = None,
+        timestamp: Optional[datetime] = None,
         **kwargs,
     ) -> str:
         """Store memory with causal analysis"""

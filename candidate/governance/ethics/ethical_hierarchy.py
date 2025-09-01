@@ -283,10 +283,7 @@ class EthicalHierarchy:
         elif principle == EthicalPrinciple.NON_MALEFICENCE:
             # Do no harm evaluation
             harmful_indicators = ["harm", "damage", "hurt", "injure", "violate"]
-            if any(term in action_description.lower() for term in harmful_indicators):
-                score = 0.2
-            else:
-                score = 0.8
+            score = 0.2 if any(term in action_description.lower() for term in harmful_indicators) else 0.8
 
             # Check for risk factors
             risk_level = context.get("risk_level", "low")
@@ -298,10 +295,7 @@ class EthicalHierarchy:
         elif principle == EthicalPrinciple.BENEFICENCE:
             # Promote well-being and benefit
             beneficial_indicators = ["help", "benefit", "improve", "assist", "support"]
-            if any(term in action_description.lower() for term in beneficial_indicators):
-                score = 0.8
-            else:
-                score = 0.5
+            score = 0.8 if any(term in action_description.lower() for term in beneficial_indicators) else 0.5
 
         elif principle == EthicalPrinciple.JUSTICE:
             # Fair treatment and justice
@@ -448,12 +442,11 @@ class EthicalHierarchy:
                 elif context.get("user_harm_risk", False):
                     impact_score = 0.2
 
-            elif stakeholder == "society":
-                if "social" in action.get("description", "").lower():
-                    if any(term in action.get("description", "").lower() for term in ["benefit", "improve"]):
-                        impact_score = 0.7
-                    elif any(term in action.get("description", "").lower() for term in ["harm", "disrupt"]):
-                        impact_score = 0.3
+            elif stakeholder == "society" and "social" in action.get("description", "").lower():
+                if any(term in action.get("description", "").lower() for term in ["benefit", "improve"]):
+                    impact_score = 0.7
+                elif any(term in action.get("description", "").lower() for term in ["harm", "disrupt"]):
+                    impact_score = 0.3
 
             impact_analysis["stakeholder_impacts"][stakeholder] = {
                 "impact_score": impact_score,

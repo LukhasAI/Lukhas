@@ -198,7 +198,7 @@ class ExtremePerformanceValidator:
         # Test import cache performance
         import_times = []
 
-        for i in range(100):  # 100 import operations
+        for _i in range(100):  # 100 import operations
             start_time = time.perf_counter()
 
             # Test component import with caching

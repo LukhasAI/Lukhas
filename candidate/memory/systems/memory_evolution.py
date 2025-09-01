@@ -270,32 +270,31 @@ class MemoryEvolution:
         graph_relations = self.knowledge_system.get_related_knowledge(knowledge_id)
 
         # Get semantic relations
-        if current_doc := self.version_control.documents.get(doc_id):
-            if current_doc.current_version:
-                semantic_relations = self._find_semantic_relations(current_doc.current_version.content, max_relations=5)
+        if (current_doc := self.version_control.documents.get(doc_id)) and current_doc.current_version:
+            semantic_relations = self._find_semantic_relations(current_doc.current_version.content, max_relations=5)
 
-                # Combine and score relationships
-                combined = {}
+            # Combine and score relationships
+            combined = {}
 
-                # Add graph relations
-                for rel_id in graph_relations:
-                    doc_id = rel_id.replace("node_", "")
-                    combined[doc_id] = 0.7  # Base score for graph relations
+            # Add graph relations
+            for rel_id in graph_relations:
+                doc_id = rel_id.replace("node_", "")
+                combined[doc_id] = 0.7  # Base score for graph relations
 
-                # Add/update with semantic relations
-                for rel_id, score in semantic_relations:
-                    if rel_id in combined:
-                        # Boost score if found in both
-                        combined[rel_id] = max(0.9, (combined[rel_id] + score) / 2)
-                    else:
-                        combined[rel_id] = score * 0.8  # Slightly lower weight for semantic-only
+            # Add/update with semantic relations
+            for rel_id, score in semantic_relations:
+                if rel_id in combined:
+                    # Boost score if found in both
+                    combined[rel_id] = max(0.9, (combined[rel_id] + score) / 2)
+                else:
+                    combined[rel_id] = score * 0.8  # Slightly lower weight for semantic-only
 
-                # Sort by score
-                return sorted(
-                    combined.items(),
-                    key=lambda x: x[1],
-                    reverse=True,
-                )
+            # Sort by score
+            return sorted(
+                combined.items(),
+                key=lambda x: x[1],
+                reverse=True,
+            )
 
         # Fallback to graph relations only
         return [(rel_id.replace("node_", ""), 0.7) for rel_id in graph_relations]

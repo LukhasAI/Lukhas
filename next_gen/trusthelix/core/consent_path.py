@@ -171,7 +171,7 @@ class ConsentPathLogger:
         action: str,
         outcome: str = "success",
         drift_score: float = 0.0,
-        metadata: dict = None,
+        metadata: Optional[dict] = None,
     ) -> ConsentEntry:
         """Log a consent decision to the immutable chain"""
         # Get last entry for this user

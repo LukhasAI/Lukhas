@@ -82,7 +82,7 @@ class RevenueTracker:
     async def record_conversion(
         self,
         user_id: str,
-        ad_id: str = None,
+        ad_id: Optional[str] = None,
         conversion_value: float = 0.0,
         product_category: str = "default",
         consciousness_context: Optional[dict[str, any]] = None,

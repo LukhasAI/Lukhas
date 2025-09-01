@@ -187,7 +187,7 @@ This module embodies the LUKHAS Trinity Framework:
         enhanced = content
 
         # Add glyphs to section headers if appropriate
-        for section, glyph in [
+        for _section, _glyph in [
             ("Identity", "⚛️"),
             ("Consciousness", "🧠"),
             ("Guardian", "🛡️"),

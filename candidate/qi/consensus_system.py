@@ -269,7 +269,7 @@ class QIAnnealedEthicalConsensus:
         principles = list(relevant_embeddings.keys())
         consensus_scores = {}
 
-        for principle, _embedding in relevant_embeddings.items():
+        for principle in relevant_embeddings:
             # Get the index of this principle
             idx = principles.index(principle)
             # Calculate weighted influence based on final state

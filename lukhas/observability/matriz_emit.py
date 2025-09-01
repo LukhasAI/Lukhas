@@ -4,9 +4,7 @@ import contextlib
 import json
 import time
 import uuid
-from typing import Any
-
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from MATRIZ.utils.matriz_validate import validate_node
@@ -14,6 +12,7 @@ else:
     try:
         from MATRIZ.utils.matriz_validate import validate_node
     except Exception:
+
         def validate_node(node: dict[Any, Any]) -> None:
             return None
 

@@ -344,10 +344,7 @@ class QISteganographyEngine:
         compressed_data = zlib.compress(data_bytes, level=9)
 
         # Generate encryption key
-        if self.qi_encryption:
-            encryption_key = self.qrng.generate_quantum_key(32)
-        else:
-            encryption_key = secrets.token_bytes(32)
+        encryption_key = self.qrng.generate_quantum_key(32) if self.qi_encryption else secrets.token_bytes(32)
 
         # Encrypt data
         encrypted_data = self._encrypt_payload(compressed_data, encryption_key)

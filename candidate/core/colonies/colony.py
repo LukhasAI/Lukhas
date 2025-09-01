@@ -138,7 +138,7 @@ class ColonySignalIntegration:
 class EnhancedReasoningColony(ColonySignalIntegration):
     """Enhanced reasoning colony with signal integration"""
 
-    def __init__(self, colony_id: str = None):
+    def __init__(self, colony_id: Optional[str] = None):
         super().__init__()
         self.colony_id = colony_id or str(uuid.uuid4())
         self.reasoning_agents = {}
@@ -149,7 +149,7 @@ class EnhancedReasoningColony(ColonySignalIntegration):
         # Subscribe to relevant signals
         self.subscribe_to_signals([SignalType.URGENCY, SignalType.STRESS, SignalType.AMBIGUITY])
 
-    async def process_query(self, query: str, context: dict[str, Any] = None) -> ConsensusResult:
+    async def process_query(self, query: str, context: Optional[dict[str, Any]] = None) -> ConsensusResult:
         """Process a query through the colony with signal awareness"""
         start_time = time.time()
 
@@ -301,7 +301,7 @@ class SwarmSignalNetwork:
 
         # Propagate to all agents
         propagation_tasks = []
-        for _agent_id, agent in self.agents.items():
+        for agent in self.agents.values():
             if hasattr(agent, "receive_tag"):
                 propagation_tasks.append(agent.receive_tag(signal.source, tag, value, signal.level))
 

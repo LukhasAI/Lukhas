@@ -451,7 +451,7 @@ class EliteMonitoringDashboard:
             "business": self.get_business_dashboard(),
         }
 
-        for name, _config in dashboard_configs.items():
+        for name in dashboard_configs:
             logger.info(f"📊 Creating {name} dashboard")
             # In production, would POST to Grafana API
 

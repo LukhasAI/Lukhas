@@ -25,7 +25,7 @@ class NoopMemory(AkaqMemory):
     - Development/debugging where memory overhead should be minimal
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize no-op memory client"""
         self.driver = "noop"
         self.config = config or {}
@@ -41,10 +41,10 @@ class NoopMemory(AkaqMemory):
         self,
         *,
         user_id: str,
-        scene: Dict[str, Any],
-        glyphs: List[Dict[str, Any]],
-        policy: Dict[str, Any],
-        metrics: Dict[str, Any],
+        scene: dict[str, Any],
+        glyphs: list[dict[str, Any]],
+        policy: dict[str, Any],
+        metrics: dict[str, Any],
         cfg_version: str,
     ) -> str:
         """
@@ -56,7 +56,7 @@ class NoopMemory(AkaqMemory):
         # Return a deterministic fake scene ID
         return f"noop_{uuid.uuid4().hex[:8]}"
 
-    def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[Dict[str, Any]]:
+    def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[dict[str, Any]]:
         """
         Simulate fetching previous scene (no-op).
 
@@ -65,7 +65,7 @@ class NoopMemory(AkaqMemory):
         self.fetch_calls += 1
         return None
 
-    def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> List[Dict[str, Any]]:
+    def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> list[dict[str, Any]]:
         """
         Simulate fetching scene history (no-op).
 
@@ -74,7 +74,7 @@ class NoopMemory(AkaqMemory):
         self.history_calls += 1
         return []
 
-    def search_by_glyph(self, *, user_id: str, key: str, limit: int = 50) -> List[Dict[str, Any]]:
+    def search_by_glyph(self, *, user_id: str, key: str, limit: int = 50) -> list[dict[str, Any]]:
         """
         Simulate glyph-based search (no-op).
 
@@ -83,7 +83,7 @@ class NoopMemory(AkaqMemory):
         self.search_calls += 1
         return []
 
-    def top_drift(self, *, user_id: str, limit: int = 10) -> List[Dict[str, Any]]:
+    def top_drift(self, *, user_id: str, limit: int = 10) -> list[dict[str, Any]]:
         """
         Simulate top drift analysis (no-op).
 
@@ -100,7 +100,7 @@ class NoopMemory(AkaqMemory):
         self.delete_calls += 1
         return 0
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get no-op memory client statistics"""
         return {
             "driver": self.driver,

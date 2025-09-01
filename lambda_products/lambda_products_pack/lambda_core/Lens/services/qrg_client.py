@@ -22,9 +22,9 @@ class QRGClient:
         self.session_token = f"qrg_token_{api_key[:8]}"
         return True
 
-    async def store_provenance(self, document_id: str, content: str, metadata: Optional[Dict[str, Any]] = None) -> str:
+    async def store_provenance(self, document_id: str, content: str, metadata: Optional[dict[str, Any]] = None) -> str:
         """Store document provenance in QRG"""
-        provenance_data = {
+        {
             "document_id": document_id,
             "content": content,
             "metadata": metadata or {},
@@ -38,7 +38,7 @@ class QRGClient:
         # Return a mock QRG document ID
         return f"qrg_doc_{document_id}"
 
-    async def query_relationships(self, document_id: str) -> List[Dict[str, Any]]:
+    async def query_relationships(self, document_id: str) -> list[dict[str, Any]]:
         """Query relationships for a document"""
         # Placeholder: In real implementation, query QRG
         relationships = [
@@ -47,7 +47,7 @@ class QRGClient:
 
         return relationships
 
-    async def get_document_context(self, document_id: str) -> Dict[str, Any]:
+    async def get_document_context(self, document_id: str) -> dict[str, Any]:
         """Get contextual information about a document"""
         # Placeholder context
         context = {
@@ -64,20 +64,13 @@ class QRGClient:
         self, source_id: str, target_id: str, relationship_type: str, strength: float = 1.0
     ) -> bool:
         """Create a link between two documents"""
-        link_data = {
-            "source": source_id,
-            "target": target_id,
-            "type": relationship_type,
-            "strength": strength,
-            "created_by": "ΛLens",
-        }
 
         # Placeholder: Send to QRG API
         print(f"Creating link: {source_id} -> {target_id} ({relationship_type})")
 
         return True
 
-    async def search_similar(self, content: str, limit: int = 10) -> List[Dict[str, Any]]:
+    async def search_similar(self, content: str, limit: int = 10) -> list[dict[str, Any]]:
         """Search for similar documents"""
         # Placeholder search results
         results = [

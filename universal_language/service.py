@@ -367,10 +367,7 @@ class ULChallengeService:
             return False
 
         # Check composition if required
-        if requires_composition(action) and not signature.composition_proof:
-            return False
-
-        return True
+        return not (requires_composition(action) and not signature.composition_proof)
 
 
 class UniversalLanguageService:

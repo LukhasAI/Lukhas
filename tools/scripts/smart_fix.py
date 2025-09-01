@@ -8,12 +8,13 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from typing import Optional
 
 
 class SmartFixer:
     """Intelligent fixer that preserves code functionality"""
 
-    def __init__(self, project_root: Path = None):
+    def __init__(self, project_root: Optional[Path] = None):
         self.project_root = project_root or Path.cwd()
         self.critical_issues = []
         self.warnings = []

@@ -106,7 +106,7 @@ class AGITelemetrySystem:
         name: str,
         value: float,
         metric_type: MetricType = MetricType.GAUGE,
-        labels: dict[str, str] = None,
+        labels: Optional[dict[str, str]] = None,
     ):
         """Record a metric value"""
         metric = Metric(
@@ -123,15 +123,15 @@ class AGITelemetrySystem:
         if name in self.anomaly_detectors:
             asyncio.create_task(self._check_anomaly(name, value))
 
-    def increment_counter(self, name: str, value: float = 1.0, labels: dict[str, str] = None):
+    def increment_counter(self, name: str, value: float = 1.0, labels: Optional[dict[str, str]] = None):
         """Increment a counter metric"""
         self.record_metric(name, value, MetricType.COUNTER, labels)
 
-    def set_gauge(self, name: str, value: float, labels: dict[str, str] = None):
+    def set_gauge(self, name: str, value: float, labels: Optional[dict[str, str]] = None):
         """Set a gauge metric"""
         self.record_metric(name, value, MetricType.GAUGE, labels)
 
-    def record_histogram(self, name: str, value: float, labels: dict[str, str] = None):
+    def record_histogram(self, name: str, value: float, labels: Optional[dict[str, str]] = None):
         """Record histogram observation"""
         self.histograms[name].append(value)
         self.record_metric(name, value, MetricType.HISTOGRAM, labels)
@@ -178,7 +178,7 @@ class AGITelemetrySystem:
         description: str,
         severity: AlertSeverity,
         source: str,
-        metadata: dict[str, Any] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """Create a new alert"""
         alert = Alert(

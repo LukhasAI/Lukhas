@@ -313,7 +313,7 @@ class EnergyConsumptionAnalyzer:
         operation: str,
         energy_joules: float,
         duration_ms: float,
-        metadata: dict[str, Any] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """Record an energy consumption event"""
         metric = EnergyMetric(
@@ -348,7 +348,7 @@ class EnergyConsumptionAnalyzer:
         budget_name: str,
         total_joules: float,
         time_window_seconds: float,
-        component_budgets: dict[EnergyComponent, float] = None,
+        component_budgets: Optional[dict[EnergyComponent, float]] = None,
     ) -> EnergyBudget:
         """Create a new energy budget"""
         budget = EnergyBudget(
@@ -522,20 +522,22 @@ class EnergyConsumptionAnalyzer:
             )
 
         # Profile recommendations
-        if self.current_profile in [
-            EnergyProfile.HIGH_PERFORMANCE,
-            EnergyProfile.BURST,
-        ]:
-            if stats["average_power_watts"] > 10.0:  # High sustained power
-                recommendations.append(
-                    {
-                        "type": "profile_optimization",
-                        "severity": "medium",
-                        "message": f"Sustained high power consumption at {stats['average_power_watts']:.2f}W",
-                        "suggestion": "Consider switching to NORMAL or LOW_POWER profile "
-                        "for non-critical operations",
-                    }
-                )
+        if (
+            self.current_profile
+            in [
+                EnergyProfile.HIGH_PERFORMANCE,
+                EnergyProfile.BURST,
+            ]
+            and stats["average_power_watts"] > 10.0
+        ):  # High sustained power
+            recommendations.append(
+                {
+                    "type": "profile_optimization",
+                    "severity": "medium",
+                    "message": f"Sustained high power consumption at {stats['average_power_watts']:.2f}W",
+                    "suggestion": "Consider switching to NORMAL or LOW_POWER profile " "for non-critical operations",
+                }
+            )
 
         with self._lock:
             self.recommendations.extend(recommendations)

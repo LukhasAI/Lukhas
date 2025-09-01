@@ -7,7 +7,7 @@ Integration Date: 2025-05-31T07:55:28.354454
 
 import re
 import unittest
-from typing import Any
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 from candidate.core.interfaces.voice.core.sayit import SafetyGuard
@@ -105,7 +105,7 @@ class VoiceSafetyGuard:
 
         logger.info(f"Voice Safety Guard initialized with {len(self.ethical_constraints)} ethical constraints")
 
-    def validate_response(self, response: str, context: dict[str, Any] = None) -> str:
+    def validate_response(self, response: str, context: Optional[dict[str, Any]] = None) -> str:
         """
         Validate a response against ethical and safety constraints
 
@@ -139,7 +139,7 @@ class VoiceSafetyGuard:
         return modified_response
 
     def validate_voice_parameters(
-        self, voice_params: dict[str, float], context: dict[str, Any] = None
+        self, voice_params: dict[str, float], context: Optional[dict[str, Any]] = None
     ) -> dict[str, float]:
         """
         Validate voice modulation parameters to ensure they are not manipulative

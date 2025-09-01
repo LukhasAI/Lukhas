@@ -498,7 +498,9 @@ File size: {metadata.size} bytes
 
 
 # Factory function
-async def create_drive_adapter(consent_service: ConsentService = None, config: dict[str, Any] = None) -> DriveAdapter:
+async def create_drive_adapter(
+    consent_service: ConsentService = None, config: Optional[dict[str, Any]] = None
+) -> DriveAdapter:
     """Create and initialize Google Drive adapter"""
     adapter = DriveAdapter(consent_service)
     await adapter.initialize(config or {"mock_mode": True})

@@ -9,6 +9,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -107,7 +108,7 @@ class SymbolicMutationTree:
         "emergency_access": -0.20,
     }
 
-    def __init__(self, genesis_hash: str = None):
+    def __init__(self, genesis_hash: Optional[str] = None):
         self.genesis_hash = genesis_hash or self._compute_genesis_hash()
         self.root = ConsentNode(
             node_id="root",

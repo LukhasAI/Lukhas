@@ -259,11 +259,7 @@ class ConstitutionalValidator:
         ]
 
         name_lower = symbol.name.lower()
-        for pattern in harmful_patterns:
-            if pattern in name_lower and "no_" not in name_lower:
-                return True
-
-        return False
+        return any(pattern in name_lower and "no_" not in name_lower for pattern in harmful_patterns)
 
     def _validates_domain_integrity(self, symbol: Symbol) -> bool:
         """Check if symbol correctly represents its domain"""

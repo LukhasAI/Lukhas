@@ -916,7 +916,7 @@ class SymbolicDeltaCompressionManager:
 
         # Generate timestamps with realistic distribution
         timestamps = []
-        for i in range(recent_accesses):
+        for _i in range(recent_accesses):
             hours_ago = random.exponential(12)  # Exponential distribution
             timestamp = current_time - timedelta(hours=hours_ago)
             timestamps.append(timestamp)

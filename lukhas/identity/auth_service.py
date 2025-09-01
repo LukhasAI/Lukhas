@@ -27,6 +27,7 @@ except ImportError:
 # Try importing LUKHAS identity components with real implementations
 try:
     from lukhas.identity.wallet import WalletManager
+
     WALLET_AVAILABLE = True
 except ImportError:
     WalletManager = None
@@ -80,22 +81,31 @@ logger = logging.getLogger(__name__)
 
 # Define placeholder classes for linters when dynamic imports are unavailable
 if "AccessTierManager" not in globals():
+
     class AccessTierManager:
         pass
 
+
 if "IdentityValidator" not in globals():
+
     class IdentityValidator:
         pass
 
+
 if "QIIdentityManager" not in globals():
+
     class QIIdentityManager:
         pass
 
+
 if "AuditLogger" not in globals():
+
     class AuditLogger:
         pass
 
+
 if "AuthenticationServer" not in globals():
+
     class AuthenticationServer:
         pass
 

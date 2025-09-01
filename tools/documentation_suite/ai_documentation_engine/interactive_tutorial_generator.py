@@ -208,7 +208,7 @@ class TutorialGenerator:
         tutorial_type: TutorialType,
         difficulty_level: DifficultyLevel = DifficultyLevel.INTERMEDIATE,
         learning_style: LearningStyle = LearningStyle.HANDS_ON,
-        user_preferences: dict[str, Any] = None,
+        user_preferences: Optional[dict[str, Any]] = None,
     ) -> InteractiveTutorial:
         """Generate a complete interactive tutorial"""
 
@@ -283,7 +283,7 @@ class TutorialGenerator:
             step_structure = ["explanation"] * 2 + step_structure + ["quiz"]
         elif learning_style == LearningStyle.VISUAL:
             # More visual explanations and diagrams
-            step_structure = ["explanation"] + step_structure
+            step_structure = ["explanation", *step_structure]
 
         # Generate steps up to max_steps
         for i, step_type_str in enumerate(step_structure[:max_steps]):

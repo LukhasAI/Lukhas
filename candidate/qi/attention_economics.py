@@ -437,7 +437,7 @@ class QIAttentionEconomics:
 
         # Calculate total value
         total_multiplier = 1.0
-        for _factor, mult in factors.items():
+        for mult in factors.values():
             total_multiplier *= mult
 
         final_value = base_value * total_multiplier

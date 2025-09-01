@@ -217,7 +217,7 @@ class MemoryTraumaRepair:
         }
 
         # Check for active trauma
-        for _trauma_id, trauma in self.repair_system.active_traumas.items():
+        for trauma in self.repair_system.active_traumas.values():
             if hasattr(trauma, "memory_id") and trauma.memory_id == memory_id:
                 health_status["active_trauma"] = True
                 health_status["is_healthy"] = False

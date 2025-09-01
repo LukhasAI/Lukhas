@@ -78,9 +78,8 @@ def decay_emotion(threshold_minutes=60):
         return
     last_entry = emotion_db["log"][-1]
     last_time = datetime.fromisoformat(last_entry["timestamp"])
-    if datetime.utcnow() - last_time > timedelta(minutes=threshold_minutes):
-        if emotion_db["current"] != "neutral":
-            log_emotion("neutral", source="decay")
+    if datetime.utcnow() - last_time > timedelta(minutes=threshold_minutes) and emotion_db["current"] != "neutral":
+        log_emotion("neutral", source="decay")
 
 
 # Generate a key and save it securely

@@ -8,7 +8,7 @@ import os
 import time
 from contextlib import contextmanager
 from functools import wraps
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 try:
     from opentelemetry import trace
@@ -51,7 +51,7 @@ class NoOpSpan:
         """No-op status setter"""
         pass
 
-    def add_event(self, name: str, attributes: dict[str, Any] = None):
+    def add_event(self, name: str, attributes: Optional[dict[str, Any]] = None):
         """No-op event adder"""
         pass
 
@@ -113,7 +113,7 @@ class LukhasTracer:
         self._initialized = True
 
     @contextmanager
-    def span(self, name: str, attributes: dict[str, Any] = None):
+    def span(self, name: str, attributes: Optional[dict[str, Any]] = None):
         """
         Create a span context manager with automatic timing
 

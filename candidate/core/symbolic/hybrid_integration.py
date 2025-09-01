@@ -13,7 +13,7 @@ Integration Date: 2025-05-31T07:55:28.226819
 
 import logging
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,7 @@ class NeuroSymbolicIntegrator:
         input_data: dict[str, Any],
         symbolic_engine=None,
         neural_engine=None,
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Process input using both neural and symbolic engines
@@ -83,7 +83,7 @@ class NeuroSymbolicIntegrator:
         self,
         input_data: dict[str, Any],
         symbolic_engine,
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """Process input through symbolic reasoning engine"""
         if symbolic_engine is None:
@@ -119,7 +119,7 @@ class NeuroSymbolicIntegrator:
         self,
         input_data: dict[str, Any],
         neural_engine,
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """Process input through neural engine"""
         if neural_engine is None:
@@ -155,7 +155,7 @@ class NeuroSymbolicIntegrator:
         self,
         symbolic_results: dict[str, Any],
         neural_results: dict[str, Any],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Integrate results from symbolic and neural processing
@@ -197,7 +197,7 @@ class NeuroSymbolicIntegrator:
         self,
         symbolic_results: dict[str, Any],
         neural_results: dict[str, Any],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """Integrate results using weighted combination"""
         symbolic_confidence = symbolic_results.get("confidence", 0.0)
@@ -256,7 +256,7 @@ class NeuroSymbolicIntegrator:
         self,
         symbolic_results: dict[str, Any],
         neural_results: dict[str, Any],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """Integrate results by selecting the one with highest confidence"""
         symbolic_confidence = symbolic_results.get("confidence", 0.0)
@@ -299,7 +299,7 @@ class NeuroSymbolicIntegrator:
         self,
         symbolic_results: dict[str, Any],
         neural_results: dict[str, Any],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Adaptively integrate results based on input characteristics

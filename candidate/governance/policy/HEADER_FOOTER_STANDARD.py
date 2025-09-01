@@ -35,6 +35,8 @@
 """
 
 # HEADER TEMPLATE - Copy and customize for each module
+from typing import Optional
+
 HEADER_TEMPLATE = '''"""
 ═══════════════════════════════════════════════════════════════════════════════
 ║ [EMOJI] LUKHAS AI - [MODULE TITLE]
@@ -258,9 +260,9 @@ def generate_header(
     created: str = "2025-07-26",
     modified: str = "2025-07-26",
     authors: str = "LUKHAS AI Team",
-    features: list = None,
-    dependencies: list = None,
-    tags: list = None,
+    features: Optional[list] = None,
+    dependencies: Optional[list] = None,
+    tags: Optional[list] = None,
 ) -> str:
     """Generate a standardized header with the given parameters."""
     features_text = "\n".join([f"║ • {feature}" for feature in (features or ["Add features here"])])

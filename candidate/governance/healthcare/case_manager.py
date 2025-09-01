@@ -220,10 +220,7 @@ class CaseManager(GlyphIntegrationMixin):
                 return False
 
         # Check governance compliance
-        if case.get("governance", {}).get("compliance_status") != "validated":
-            return False
-
-        return True
+        return case.get("governance", {}).get("compliance_status") == "validated"
 
     async def update_case(self, case_id: str, update_data: dict[str, Any], provider_id: str) -> dict[str, Any]:
         """

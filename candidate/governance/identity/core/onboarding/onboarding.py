@@ -144,7 +144,7 @@ class EnhancedOnboardingManager:
         # Symbolic element suggestions by category
         self.symbolic_suggestions = self._load_symbolic_suggestions()
 
-    def start_onboarding_session(self, initial_context: dict[str, Any] = None) -> dict[str, Any]:
+    def start_onboarding_session(self, initial_context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         # Start new enhanced onboarding session
         # Returns session ID and initial guidance
@@ -460,7 +460,7 @@ class EnhancedOnboardingManager:
         context.user_preferences["symbolic_vault"] = processed_elements
 
         # Update progress
-        progress = self.session_progress[list(self.active_sessions.keys())[0]]  # Get session from active sessions
+        progress = self.session_progress[next(iter(self.active_sessions.keys()))]  # Get session from active sessions
         progress.symbolic_vault_size = len(processed_elements)
         progress.entropy_progression.append(total_entropy)
 

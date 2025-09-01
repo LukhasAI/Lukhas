@@ -835,10 +835,7 @@ class SharedStateManager:
         """Get change history for a key or all changes"""
         self.logger.debug("Fetching change history", key=key, limit=limit)
 
-        if key:
-            relevant_changes = [c for c in self.change_history if c.key == key]
-        else:
-            relevant_changes = list(self.change_history)
+        relevant_changes = [c for c in self.change_history if c.key == key] if key else list(self.change_history)
 
         history_segment = relevant_changes[-limit:]
 

@@ -8,6 +8,7 @@ to provide multi-AI capabilities with consensus and context preservation.
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
 
+import contextlib
 import logging
 from typing import Any, Optional
 
@@ -220,10 +221,8 @@ async def compare_providers(request: MultiAIRequest):
         providers = []
         if request.providers:
             for provider_name in request.providers:
-                try:
+                with contextlib.suppress(ValueError):
                     providers.append(AIProvider(provider_name.lower()))
-                except ValueError:
-                    pass
         else:
             # Use all available providers for comparison
             providers = [

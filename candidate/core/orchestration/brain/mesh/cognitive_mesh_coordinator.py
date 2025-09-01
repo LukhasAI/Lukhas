@@ -355,7 +355,7 @@ class CognitiveNode(ABC):
 class CognitiveMeshCoordinator:
     """Main coordinator for the cognitive mesh"""
 
-    def __init__(self, mesh_id: str = None):
+    def __init__(self, mesh_id: Optional[str] = None):
         """
         Initialize the cognitive mesh coordinator
 
@@ -612,10 +612,7 @@ class CognitiveMeshCoordinator:
 
             # Response time factor (prefer faster nodes)
             max_time = max(n.metrics.average_response_time for n in self.nodes.values())
-            if max_time > 0:
-                time_factor = 1.0 - (node.metrics.average_response_time / max_time)
-            else:
-                time_factor = 1.0
+            time_factor = 1.0 - node.metrics.average_response_time / max_time if max_time > 0 else 1.0
 
             # Priority boost for critical tasks
             priority_factor = 1.0

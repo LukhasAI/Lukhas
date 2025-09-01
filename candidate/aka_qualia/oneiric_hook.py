@@ -31,7 +31,7 @@ class OneiricHook:
     oneiric systems, enabling phenomenological feedback loops.
     """
 
-    def __init__(self, http_client: Optional["OneiricHTTPClient"] = None, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, http_client: Optional["OneiricHTTPClient"] = None, config: Optional[dict[str, Any]] = None):
         """
         Initialize oneiric hook.
 
@@ -47,7 +47,7 @@ class OneiricHook:
         self.http_requests_sent = 0
         self.http_failures = 0
 
-    def _load_config(self, config_override: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _load_config(self, config_override: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Load oneiric hook configuration"""
         default_config = {
             "enable_palette_hints": True,
@@ -65,7 +65,7 @@ class OneiricHook:
 
         return default_config
 
-    def apply_policy(self, *, scene: PhenomenalScene, policy: RegulationPolicy) -> Dict[str, Any]:
+    def apply_policy(self, *, scene: PhenomenalScene, policy: RegulationPolicy) -> dict[str, Any]:
         """
         Apply regulation policy to generate control hints for narrative feedback.
 
@@ -116,7 +116,7 @@ class OneiricHook:
         base_tempo = policy.pace
 
         # Apply smoothing to prevent jarring tempo changes
-        smoothing = self.config["tempo_smoothing_factor"]
+        self.config["tempo_smoothing_factor"]
 
         # Adjust based on scene urgency
         urgency_factor = 1.0
@@ -161,7 +161,7 @@ class OneiricHook:
         # Default to calming blue for grounding
         return "aoi/blue"
 
-    def _compute_operation_hints(self, scene: PhenomenalScene, policy: RegulationPolicy) -> List[str]:
+    def _compute_operation_hints(self, scene: PhenomenalScene, policy: RegulationPolicy) -> list[str]:
         """Compute regulation operation hints"""
         if not self.config["enable_action_suggestions"]:
             return []
@@ -207,7 +207,7 @@ class OneiricHook:
 
     def _generate_symbolic_anchors(
         self, scene: PhenomenalScene, policy: RegulationPolicy, urgency: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate symbolic anchors for grounding when urgency is high"""
         anchors = {}
 
@@ -240,7 +240,7 @@ class OneiricHook:
 
         return anchors
 
-    def _send_http_feedback(self, scene: PhenomenalScene, policy: RegulationPolicy, hints: Dict[str, Any]) -> None:
+    def _send_http_feedback(self, scene: PhenomenalScene, policy: RegulationPolicy, hints: dict[str, Any]) -> None:
         """Send feedback to external oneiric service via HTTP"""
         if not self.http_client:
             return
@@ -255,7 +255,7 @@ class OneiricHook:
         self.http_client.send_feedback(payload)
         self.http_requests_sent += 1
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get oneiric hook statistics"""
         return {
             "policies_applied": self.policies_applied,
@@ -289,7 +289,7 @@ class OneiricHTTPClient:
         self.requests_sent = 0
         self.requests_failed = 0
 
-    def send_feedback(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+    def send_feedback(self, payload: dict[str, Any]) -> dict[str, Any]:
         """
         Send feedback payload to oneiric service.
 
@@ -318,7 +318,7 @@ class OneiricHTTPClient:
             logger.error(f"Oneiric HTTP request failed: {e}")
             raise
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get oneiric service status"""
         url = urljoin(self.base_url, "/api/v1/oneiric/status")
 
@@ -330,7 +330,7 @@ class OneiricHTTPClient:
             logger.error(f"Oneiric status request failed: {e}")
             raise
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get HTTP client statistics"""
         return {
             "requests_sent": self.requests_sent,
@@ -340,7 +340,7 @@ class OneiricHTTPClient:
 
 
 def create_oneiric_hook(
-    mode: str = "local", base_url: Optional[str] = None, config: Optional[Dict[str, Any]] = None
+    mode: str = "local", base_url: Optional[str] = None, config: Optional[dict[str, Any]] = None
 ) -> OneiricHook:
     """
     Factory function to create OneiricHook with appropriate configuration.

@@ -354,7 +354,7 @@ class GlobalComplianceEngine:
 
         # Framework conflicts
         framework_scores = {}
-        for _jurisdiction, compliance in jurisdiction_compliance.items():
+        for compliance in jurisdiction_compliance.values():
             for framework_name, framework_result in compliance.get("frameworks", {}).items():
                 if isinstance(framework_result, dict) and "score" in framework_result:
                     if framework_name not in framework_scores:

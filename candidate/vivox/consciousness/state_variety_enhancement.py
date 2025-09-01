@@ -3,6 +3,8 @@ VIVOX State Variety Enhancement
 Improves consciousness state determination for more varied states
 """
 
+from typing import Optional
+
 import numpy as np
 
 from .vivox_cil_core import ConsciousnessState
@@ -57,7 +59,7 @@ class EnhancedStateDetermination:
         self,
         dimensions: np.ndarray,
         emotional: dict[str, float],
-        context: dict[str, any] = None,
+        context: Optional[dict[str, any]] = None,
     ) -> ConsciousnessState:
         """
         Enhanced state determination with more variety
@@ -103,10 +105,7 @@ class EnhancedStateDetermination:
 
         # Renormalize
         total = sum(probs)
-        if total > 0:
-            probs = [p / total for p in probs]
-        else:
-            probs = [1 / len(states)] * len(states)
+        probs = [p / total for p in probs] if total > 0 else [1 / len(states)] * len(states)
 
         # Choose state
         selected_state = np.random.choice(states, p=probs)

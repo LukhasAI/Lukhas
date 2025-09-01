@@ -85,8 +85,8 @@ class ConceptNode:
     def calculate_similarity(self, other: "ConceptNode") -> float:
         """Calculate similarity to another concept"""
         # Find common ancestor
-        ancestors1 = set(self.get_ancestors() + [self])
-        ancestors2 = set(other.get_ancestors() + [other])
+        ancestors1 = set([*self.get_ancestors(), self])
+        ancestors2 = set([*other.get_ancestors(), other])
         common = ancestors1 & ancestors2
 
         if not common:
@@ -285,8 +285,8 @@ class ConceptHierarchy:
             return None
 
         # Get ancestor sets
-        ancestors1 = set(concept1.get_ancestors() + [concept1])
-        ancestors2 = set(concept2.get_ancestors() + [concept2])
+        ancestors1 = set([*concept1.get_ancestors(), concept1])
+        ancestors2 = set([*concept2.get_ancestors(), concept2])
 
         common = ancestors1 & ancestors2
         if not common:
@@ -323,7 +323,7 @@ class ConceptHierarchy:
         }
 
         # Extract concepts
-        for _concept_id, concept in self.concepts.items():
+        for concept in self.concepts.values():
             if len(concept.examples) >= min_examples or concept.level <= 2:
                 ontology["concepts"][concept.name] = {
                     "level": concept.level,

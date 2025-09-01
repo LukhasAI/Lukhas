@@ -314,7 +314,7 @@ class TestMultiAIOrchestration:
 
         try:
             await orchestrator.orchestrate(invalid_request)
-            assert False, "Should have raised an exception for invalid request"
+            raise AssertionError("Should have raised an exception for invalid request")
         except Exception as e:
             # Should handle invalid requests gracefully
             assert "timeout" in str(e).lower() or "invalid" in str(e).lower() or "no valid responses" in str(e).lower()
@@ -511,7 +511,7 @@ class TestPerformanceBenchmarks:
         await orchestrator.context_manager.update_context(context_id, "Initial", "Response", {"test": True})
 
         # Benchmark context retrieval
-        for i in range(20):
+        for _i in range(20):
             start_time = time.time()
             await orchestrator.context_manager.get_context(context_id)
             handoff_time = (time.time() - start_time) * 1000

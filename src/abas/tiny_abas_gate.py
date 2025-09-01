@@ -69,9 +69,8 @@ class TinyABASGate:
 
         # Quiet hours protection
         current_hour = user_state.get("hour")
-        if current_hour is not None:
-            if self._is_quiet_hours(current_hour):
-                return GateDecision(approved=False, reason="quiet_hours", confidence=0.7)
+        if current_hour is not None and self._is_quiet_hours(current_hour):
+            return GateDecision(approved=False, reason="quiet_hours", confidence=0.7)
 
         # Low alignment protection
         alignment = self._get_alignment_score(opportunity)

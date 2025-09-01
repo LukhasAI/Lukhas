@@ -443,9 +443,9 @@ class GLYPHIntegrator:
         glyph_type: GLYPHType,
         payload: dict[str, Any],
         source_module: str = "identity",
-        target_modules: list[str] = None,
+        target_modules: Optional[list[str]] = None,
         priority: str = "normal",
-        trinity_context: dict[str, Any] = None,
+        trinity_context: Optional[dict[str, Any]] = None,
     ) -> str:
         """Publish GLYPH message to the symbolic communication system"""
         try:

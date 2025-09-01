@@ -94,9 +94,8 @@ class ModuleInternalAnalyzer:
                 entry_points.add(entry)
 
         # For consciousness, add dream.py
-        if module_path.name == "consciousness":
-            if (module_path / "dream" / "dream.py").exists():
-                entry_points.add("dream/dream.py")
+        if module_path.name == "consciousness" and (module_path / "dream" / "dream.py").exists():
+            entry_points.add("dream/dream.py")
 
         return entry_points if entry_points else {"__init__.py"}
 

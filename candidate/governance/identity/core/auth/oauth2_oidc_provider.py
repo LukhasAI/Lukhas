@@ -622,10 +622,7 @@ class OAuth2OIDCProvider:
 
             # Check for suspicious patterns
             data_str = str(data)
-            if any(pattern in data_str.lower() for pattern in ["script", "eval", "javascript:"]):
-                return False
-
-            return True
+            return not any(pattern in data_str.lower() for pattern in ["script", "eval", "javascript:"])
 
         except Exception:
             return False

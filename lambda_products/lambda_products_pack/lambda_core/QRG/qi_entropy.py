@@ -151,10 +151,7 @@ class TrueQuantumRandomness:
             raw_bytes = self._extract_cryptographic_entropy(num_bytes)
 
         # Apply bias correction if requested
-        if profile.bias_correction:
-            corrected_bytes = self._apply_bias_correction(raw_bytes)
-        else:
-            corrected_bytes = raw_bytes
+        corrected_bytes = self._apply_bias_correction(raw_bytes) if profile.bias_correction else raw_bytes
 
         # Apply von Neumann extraction if requested
         if profile.von_neumann_extraction:

@@ -353,7 +353,7 @@ class MultiAgentSafetyConsensus:
         # Ensure minimum agents
         if len(voting_agents) < self.min_agents_for_decision:
             # Add more agents to meet minimum
-            for _role, agent in self.agents.items():
+            for agent in self.agents.values():
                 if agent not in voting_agents:
                     voting_agents.append(agent)
                     if len(voting_agents) >= self.min_agents_for_decision:

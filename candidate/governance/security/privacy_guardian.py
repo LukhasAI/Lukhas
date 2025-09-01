@@ -630,7 +630,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         logger.info("🛡️ Governance integration initialized")
 
-    async def classify_data(self, data: dict, data_type: str = None, context: dict = None) -> dict:
+    async def classify_data(self, data: dict, data_type: Optional[str] = None, context: Optional[dict] = None) -> dict:
         """Enhanced data classification with governance validation and Trinity Framework assessment"""
         start_time = time.time()
         context = context or {}
@@ -946,7 +946,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         return base_symbols[:5]  # Limit to 5 symbols
 
-    async def encrypt_data(self, data: Any, encryption_level: str = "standard", context: dict = None) -> dict:
+    async def encrypt_data(self, data: Any, encryption_level: str = "standard", context: Optional[dict] = None) -> dict:
         """Enhanced data encryption with governance validation and Trinity Framework protection"""
         start_time = time.time()
         context = context or {}

@@ -10,7 +10,7 @@ import logging
 import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
@@ -321,7 +321,7 @@ async def health_check():
     }
 
 
-def start_dashboard(host: str = "0.0.0.0", port: int = None):
+def start_dashboard(host: str = "0.0.0.0", port: Optional[int] = None):
     """Start the dashboard server"""
     import uvicorn
 

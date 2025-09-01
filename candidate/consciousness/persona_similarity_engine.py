@@ -160,9 +160,8 @@ class PersonaSimilarityEngine:
                     if f"threshold_{k}_{v}" in self.feature_map:
                         embedding[self.feature_map[f"threshold_{k}_{v}"]] = 1.0
 
-            if any(g in self.trinity_core for g in glyphs):
-                if "trinity_aligned" in self.feature_map:
-                    embedding[self.feature_map["trinity_aligned"]] = 1.0
+            if any(g in self.trinity_core for g in glyphs) and "trinity_aligned" in self.feature_map:
+                embedding[self.feature_map["trinity_aligned"]] = 1.0
 
             # Normalize embedding
             norm = np.linalg.norm(embedding)

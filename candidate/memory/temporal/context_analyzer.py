@@ -23,14 +23,14 @@ urgency, formality, and other contextual factors critical for human-centered int
 """
 import datetime
 import time
-from typing import Any
+from typing import Any, Optional
 from zoneinfo import ZoneInfo
 
 logger = logging.getLogger("v1_AGI.context")
 
 
 class ContextAnalyzer:
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the context analyzer with optional configuration.
 

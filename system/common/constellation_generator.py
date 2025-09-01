@@ -60,10 +60,10 @@ class ConstellationGenerator:
             "feature_name": feature_name,
             "framework_version": self.framework["lukhas_communication_framework"]["version"],
         }
-        
+
         # Generate constellation context
         constellation_context = self._generate_constellation_context(feature_name, description, benefits)
-        
+
         return ConstellationContent(layer_1, layer_2, layer_3, constellation_context, metadata)
 
     def _generate_poetic_layer(self, feature_name: str, description: str, benefits: list[str]) -> str:
@@ -150,7 +150,7 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
         # Add code examples
         if code_examples:
             technical_content += "\n## Implementation Examples\n\n"
-            for i, example in enumerate(code_examples, 1):
+            for _i, example in enumerate(code_examples, 1):
                 if example.startswith("```"):
                     example.split("\n")[0].replace("```", "")
                     example = "\n".join(example.split("\n")[1:-1])
@@ -231,10 +231,10 @@ Perfect for developers who want to add AI capabilities without the complexity.""
             "api_name": api_spec["name"],
             "documentation_type": "api",
         }
-        
+
         # Generate constellation context for API
         constellation_context = self._generate_api_constellation_context(api_spec)
-        
+
         return ConstellationContent(layer_1, layer_2, layer_3, constellation_context, metadata)
 
     def save_constellation_content(self, content: ConstellationContent, output_path: Path):
@@ -276,94 +276,96 @@ Perfect for developers who want to add AI capabilities without the complexity.""
 
         return validation
 
-    def _generate_constellation_context(self, feature_name: str, description: str, benefits: list[str]) -> dict[str, Any]:
+    def _generate_constellation_context(
+        self, feature_name: str, description: str, benefits: list[str]
+    ) -> dict[str, Any]:
         """Generate constellation context for feature documentation"""
         return {
             "identity": {  # ⚛️ Identity - The Anchor Star
                 "feature_identity": feature_name,
                 "authenticity_markers": ["verified", "consistent", "evolving"],
-                "core_essence": "maintains identity while adapting"
+                "core_essence": "maintains identity while adapting",
             },
             "memory": {  # ✦ Memory - The Trail Star
                 "learning_patterns": benefits[:2] if len(benefits) >= 2 else benefits,
                 "experience_integration": True,
-                "memory_folds": "creates lasting patterns"
+                "memory_folds": "creates lasting patterns",
             },
             "vision": {  # 🔬 Vision - The Horizon Star
                 "future_orientation": "expands user capabilities",
                 "perception_enhancement": description[:100] + "..." if len(description) > 100 else description,
-                "guidance_provided": "clear pathways forward"
+                "guidance_provided": "clear pathways forward",
             },
             "bio": {  # 🌱 Bio - The Living Star
                 "adaptive_capacity": "grows with user needs",
                 "resilience_features": ["self-healing", "error-recovery", "performance-optimization"],
-                "living_evolution": "continuously improves"
+                "living_evolution": "continuously improves",
             },
             "dream": {  # 🌙 Dream - The Drift Star
                 "creative_processing": "innovative problem-solving",
                 "symbolic_thinking": "metaphorical understanding",
-                "imaginative_solutions": "beyond conventional approaches"
+                "imaginative_solutions": "beyond conventional approaches",
             },
             "ethics": {  # ⚖️ Ethics - The North Star
                 "moral_alignment": "user benefit prioritized",
                 "safety_measures": ["privacy-preserving", "consent-based", "transparent"],
-                "ethical_guidelines": "beneficial and harmless"
+                "ethical_guidelines": "beneficial and harmless",
             },
             "guardian": {  # 🛡️ Guardian - The Watch Star
                 "protective_boundaries": "safe exploration enabled",
                 "security_validation": "continuous monitoring",
-                "guardian_presence": "watchful but non-intrusive"
+                "guardian_presence": "watchful but non-intrusive",
             },
             "quantum": {  # ⚛️ Quantum - The Ambiguity Star
                 "uncertainty_handling": "comfortable with ambiguity",
                 "possibility_space": "multiple potential outcomes",
-                "emergence_support": "new patterns can emerge"
-            }
+                "emergence_support": "new patterns can emerge",
+            },
         }
-    
+
     def _generate_api_constellation_context(self, api_spec: dict[str, Any]) -> dict[str, Any]:
         """Generate constellation context for API documentation"""
         return {
             "identity": {
                 "api_identity": api_spec.get("name", "Unknown API"),
                 "version_consistency": api_spec.get("version", "1.0.0"),
-                "authentication_provided": "Bearer token based"
+                "authentication_provided": "Bearer token based",
             },
             "memory": {
                 "persistent_state": "maintains session context",
                 "learning_capability": "adapts to usage patterns",
-                "integration_memory": "remembers successful patterns"
+                "integration_memory": "remembers successful patterns",
             },
             "vision": {
                 "api_endpoints": len(api_spec.get("endpoints", [])),
                 "capability_overview": "comprehensive service interface",
-                "future_extensibility": "designed for growth"
+                "future_extensibility": "designed for growth",
             },
             "bio": {
                 "scalability": "handles increasing load",
                 "availability": api_spec.get("availability", "99.9%"),
-                "adaptive_responses": "contextually appropriate"
+                "adaptive_responses": "contextually appropriate",
             },
             "dream": {
                 "creative_integration": "enables innovative applications",
                 "symbolic_communication": "meaningful API responses",
-                "imaginative_usage": "supports creative development"
+                "imaginative_usage": "supports creative development",
             },
             "ethics": {
                 "data_protection": "privacy by design",
                 "fair_usage": "rate limiting for equity",
-                "transparent_operations": "clear API behavior"
+                "transparent_operations": "clear API behavior",
             },
             "guardian": {
                 "security_enforcement": "input validation and sanitization",
                 "error_handling": "graceful failure management",
-                "monitoring_active": "continuous health checks"
+                "monitoring_active": "continuous health checks",
             },
             "quantum": {
                 "async_operations": "handles concurrent requests",
                 "state_superposition": "multiple request states",
-                "probabilistic_responses": "context-dependent results"
-            }
+                "probabilistic_responses": "context-dependent results",
+            },
         }
 
 

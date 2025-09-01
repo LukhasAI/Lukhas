@@ -241,7 +241,7 @@ class SymbolicPatternExtractor:
         """Extract glyph patterns from text."""
         glyphs = []
 
-        for _glyph_type, pattern in self.GLYPH_PATTERNS.items():
+        for pattern in self.GLYPH_PATTERNS.values():
             matches = re.findall(pattern, text)
             if matches:
                 glyphs.extend(matches)
@@ -736,7 +736,9 @@ class SymbolicWeaver:
 
         return fragments
 
-    def thread_memory_sequence(self, fragments: list[SymbolicFragment] = None) -> list[list[SymbolicFragment]]:
+    def thread_memory_sequence(
+        self, fragments: Optional[list[SymbolicFragment]] = None
+    ) -> list[list[SymbolicFragment]]:
         """
         Reconstruct chronologically and emotionally coherent narrative paths.
 
@@ -852,7 +854,9 @@ class SymbolicWeaver:
 
         return total_coherence
 
-    def synthesize_narrative_thread(self, fragment_sequence: list[SymbolicFragment] = None) -> NarrativeThread:
+    def synthesize_narrative_thread(
+        self, fragment_sequence: Optional[list[SymbolicFragment]] = None
+    ) -> NarrativeThread:
         """
         Generate a symbolic narrative with identifiable protagonist, conflict, evolution, and motif recurrence.
 
@@ -1136,7 +1140,7 @@ class SymbolicWeaver:
         matches = 0
         total_markers = len(identity_markers)
 
-        for _marker, pattern in identity_markers.items():
+        for pattern in identity_markers.values():
             if re.search(pattern, combined_text):
                 matches += 1
 
@@ -1676,7 +1680,7 @@ class SymbolicWeaver:
 
         return resonance
 
-    def generate_narrative_markdown(self, thread: NarrativeThread = None, output_path: str = None) -> str:
+    def generate_narrative_markdown(self, thread: NarrativeThread = None, output_path: Optional[str] = None) -> str:
         """Generate human-readable narrative in Markdown format."""
 
         if thread is None:
@@ -1770,7 +1774,9 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
 
         return markdown
 
-    def generate_thread_trace_json(self, thread: NarrativeThread = None, output_path: str = None) -> dict[str, Any]:
+    def generate_thread_trace_json(
+        self, thread: NarrativeThread = None, output_path: Optional[str] = None
+    ) -> dict[str, Any]:
         """Generate thread trace JSON with structural metadata."""
 
         if thread is None:
@@ -1863,7 +1869,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
 
         return trace_json
 
-    def generate_thread_map(self, thread: NarrativeThread = None, output_path: str = None) -> str:
+    def generate_thread_map(self, thread: NarrativeThread = None, output_path: Optional[str] = None) -> str:
         """Generate ASCII thread map showing symbolic timeline."""
 
         if thread is None:

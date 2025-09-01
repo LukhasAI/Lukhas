@@ -127,7 +127,7 @@ class LegalComplianceAssistant:
         # Check for personal data
         if self.compliance_rules["privacy"]["no_personal_data"]:
             personal_data_indicators = ["email", "phone", "address", "ssn", "name"]
-            for key, _value in data.items():
+            for key in data:
                 if any(indicator in key.lower() for indicator in personal_data_indicators):
                     privacy_issues.append(f"Potential personal data in field: {key}")
 

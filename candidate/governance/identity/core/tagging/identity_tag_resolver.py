@@ -527,7 +527,7 @@ class IdentityTagResolver:
         incoming_scores = []
 
         # Outgoing trust (how well they trust others)
-        for _, relationship in self.trust_relationships.items():
+        for relationship in self.trust_relationships.values():
             if relationship.from_identity == identity_id:
                 outgoing_scores.append(relationship.trust_score)
             elif relationship.to_identity == identity_id:
@@ -567,7 +567,7 @@ class IdentityTagResolver:
         """Count trust relationships by type."""
         counts = {"outgoing": 0, "incoming": 0, "mutual": 0}
 
-        for (from_id, to_id), _ in self.trust_relationships.items():
+        for from_id, to_id in self.trust_relationships:
             if from_id == identity_id:
                 counts["outgoing"] += 1
                 if (to_id, from_id) in self.trust_relationships:

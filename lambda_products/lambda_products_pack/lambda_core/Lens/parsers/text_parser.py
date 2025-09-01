@@ -13,7 +13,7 @@ from .base_parser import BaseParser
 class TextParser(BaseParser):
     """Parser for plain text files"""
 
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         """Parse text file and extract content"""
         try:
             with open(file_path, encoding="utf-8") as f:

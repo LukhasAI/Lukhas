@@ -339,7 +339,7 @@ class EmotionalFoldingEngine:
 
         # Identify high-salience groups
         foldable_groups = []
-        for _emotion, group in emotion_groups.items():
+        for group in emotion_groups.values():
             if len(group) >= 3:  # Minimum group size
                 # Calculate group salience
                 avg_relevance = np.mean([f.get("relevance_score", 0.5) for f in group])

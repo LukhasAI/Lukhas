@@ -9,7 +9,7 @@ import unittest
 from collections import defaultdict
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 from reasoning.adaptive_reasoning_loop import (
@@ -42,7 +42,7 @@ class DiagnosticResult:
         check_name: str,
         level: DiagnosticLevel,
         message: str,
-        details: dict[str, Any] = None,
+        details: Optional[dict[str, Any]] = None,
     ):
         self.check_name = check_name
         self.level = level
