@@ -6,9 +6,18 @@ Trinity Framework: ⚛️🧠🛡️
 
 import logging
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, Optional, TypedDict, Sequence
 
 logger = logging.getLogger(__name__)
+
+
+class AnalysisResult(TypedDict):
+    """Typed dictionary for the result of a task analysis."""
+
+    complexity: str
+    risk_level: str
+    approval: str
+    recommendations: list[str]
 
 
 class SupervisorAgent:
@@ -80,7 +89,7 @@ class SupervisorAgent:
             "timestamp": escalation["timestamp"],
         }
 
-    async def _analyze_task(self, task_data: dict[str, Any]) -> dict[str, Any]:
+    async def _analyze_task(self, task_data: dict[str, Any]) -> AnalysisResult:
         """
         Analyze the escalated task for complexity and risk.
 
@@ -90,7 +99,7 @@ class SupervisorAgent:
         Returns:
             Analysis results
         """
-        analysis = {
+        analysis: AnalysisResult = {
             "complexity": "medium",
             "risk_level": "low",
             "approval": "approved",
