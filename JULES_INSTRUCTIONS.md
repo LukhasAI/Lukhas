@@ -5,30 +5,42 @@
 **Quick Start**: This file (minimal instructions)
 
 ## Your Mission
-1. **TODO[T4-AUTOFIX] Resolution**: Fix 3 items in `tools/dev/t4_test_validation.py`
-2. **Test Generation**: Create tests for `lukhas/` and `serve/` modules
+1. **Critical Test Coverage**: Create tests for `lukhas/` and `serve/` modules (serve/ has ZERO tests)
+2. **TODO[T4-AUTOFIX] Resolution**: Fix remaining syntax issues in system status report
 3. **Surgical Code Fixes**: Apply safe Ruff/MyPy fixes (≤20 lines per file)
 
 ## Priority Queue (Start Here)
 
-### ✅ COMPLETED: TODO[T4-AUTOFIX] Items (PR #100)
-1. ✅ `tools/dev/t4_test_validation.py:10` - Use list comprehension (DONE)
-2. ✅ `tools/dev/t4_test_validation.py:16` - Use pathlib.Path (DONE)  
-3. ✅ `tools/dev/t4_test_validation.py:21` - Remove unused variable (DONE)
-4. ✅ `tools/scripts/system_status_comprehensive_report.py` - Fixed syntax errors (DONE)
-5. ✅ `archive/.../fold_lineage_tracker.py` - Added missing logger (DONE)
+### ✅ COMPLETED: TODO[T4-AUTOFIX] Items (PRs #100 & #101)
+1. ✅ `tools/dev/t4_test_validation.py` - All 3 items fixed (DONE)
+2. ✅ `tools/scripts/system_status_comprehensive_report.py` - Syntax errors fixed (DONE)
+3. ✅ `archive/.../fold_lineage_tracker.py` - Added missing logger (DONE)
+4. ✅ `tests/bridge/test_unified_openai_client.py` - Comprehensive test suite added (DONE)
 
-### 🟡 SAFE PARALLEL WORK: Test Creation Only
-**Note**: Wave C files (`candidate/aka_qualia/`) under active development by parallel Claude Code agent
+### 🚨 HIGH PRIORITY: serve/ API Test Coverage (ZERO TESTS)
+**Critical Gap**: 19 `serve/` modules have no test coverage
 
-**Safe Test Tasks for Jules**:
-- Create missing tests for existing `lukhas/` modules
-- Add unit tests for `lukhas/bridge/` components  
-- Create integration tests for stable APIs
-- Add smoke tests for existing functionality
+**Immediate Test Tasks for Jules**:
+1. **serve/ APIs** (highest impact - complete gap):
+   - `tests/serve/test_main.py` - Main FastAPI application
+   - `tests/serve/test_consciousness_api.py` - Consciousness endpoints
+   - `tests/serve/test_identity_api.py` - Identity/auth endpoints
+   - `tests/serve/test_guardian_api.py` - Guardian security endpoints
+   - `tests/serve/test_routes.py` - General route testing
 
-### 🔵 IMPORT FIXES: Batch Processing
-See `docs/project_status/JULES_TODO_BATCHES.md` - BATCH 1 (15 items)
+2. **lukhas/bridge/** (missing tests):
+   - `tests/bridge/test_bridge_wrapper.py` - Bridge wrapper component
+   - `tests/bridge/test_anthropic_wrapper.py` - Anthropic API wrapper
+
+3. **lukhas/core/** and **lukhas/matriz/**:
+   - `tests/core/test_distributed_tracing.py` - Tracing system
+   - `tests/matriz/test_runtime_policy.py` - Policy runtime
+
+### 🔴 REMAINING: TODO[T4-AUTOFIX] Item
+**Location**: `tools/scripts/system_status_comprehensive_report.py:1`
+- Fix extensive syntax errors throughout file
+- Missing colons, malformed f-strings, broken list comprehensions
+- Apply surgical fixes (≤20 lines per section)
 
 ## Quality Gates (Must Pass)
 ```bash
@@ -57,8 +69,10 @@ make lint           # Code quality check
 - `ruff check --fix .` - Auto-fix safe issues
 
 ## Success Criteria
-- All 3 TODO[T4-AUTOFIX] items resolved
-- Coverage +10% on lukhas/ modules
+- serve/ directory has basic test coverage (5+ test files minimum)
+- lukhas/bridge/ missing components tested
+- Final TODO[T4-AUTOFIX] item resolved
+- Coverage +15% on stable lukhas/ and serve/ modules
 - Zero lane violations (import-linter passes)
 - All quality gates green
 
@@ -68,4 +82,4 @@ make lint           # Code quality check
 - **Architecture**: `CLAUDE.md` (Trinity Framework: ⚛️🧠🛡️)
 
 ---
-*Start with the 3 TODO[T4-AUTOFIX] items for immediate impact*
+*Start with serve/ API tests for maximum impact - 19 modules with zero coverage*

@@ -2,44 +2,68 @@
 
 ## 🎯 Safe Focus Areas (No Conflicts)
 
-### ✅ COMPLETED: TODO[T4-AUTOFIX] Resolution (PR #100)
-**Location**: `tools/dev/t4_test_validation.py` + additional files
-- ✅ Line 10: Use list comprehension (DONE)
-- ✅ Line 16: Use pathlib.Path (DONE) 
-- ✅ Line 21: Remove unused variable (DONE)
-- ✅ `system_status_comprehensive_report.py`: Fixed syntax errors (DONE)
-- ✅ `fold_lineage_tracker.py`: Added missing logger (DONE)
+### ✅ COMPLETED: TODO[T4-AUTOFIX] Resolution (PRs #100 & #101)
+**All T4-AUTOFIX items resolved except one**:
+- ✅ `tools/dev/t4_test_validation.py`: All 3 items fixed (DONE)
+- ✅ `tools/scripts/system_status_comprehensive_report.py`: Major syntax fixes applied (DONE)
+- ✅ `archive/.../fold_lineage_tracker.py`: Added missing logger (DONE)
+- ✅ `tests/bridge/test_unified_openai_client.py`: Comprehensive test suite created (DONE)
 
-### 🟡 Priority 1: Missing Tests for Stable lukhas/ Modules
+### 🚨 CRITICAL: serve/ API Test Coverage Gap
+**ZERO tests exist for 19 serve/ modules** - This is the highest impact work Jules can do.
 
-#### `lukhas/bridge/` - Missing Test Coverage
-1. **lukhas/bridge/llm_wrappers/unified_openai_client.py**
-   - Create: `tests/lukhas/bridge/test_unified_openai_client.py`
-   - Test: API client initialization, error handling, config validation
-   
-2. **lukhas/bridge/universal_bridge.py** 
-   - Create: `tests/lukhas/bridge/test_universal_bridge.py`
-   - Test: Bridge connections, fallbacks, protocol validation
+### 🚨 Priority 1: serve/ API Test Coverage (CRITICAL GAP)
+**19 serve/ modules with ZERO test coverage**:
 
-3. **lukhas/core/distributed_tracing.py**
-   - Create: `tests/lukhas/core/test_distributed_tracing.py`
-   - Test: Correlation ID generation, trace propagation
+1. **serve/main.py** - FastAPI application entry point
+   - Create: `tests/serve/test_main.py`
+   - Test: App initialization, middleware, startup/shutdown
 
-#### `lukhas/matriz/` - Runtime Components
-4. **lukhas/matriz/runtime/policy.py**
-   - Create: `tests/lukhas/matriz/test_runtime_policy.py`
-   - Test: Constitutional engine binding, policy evaluation
+2. **serve/consciousness_api.py** - Consciousness endpoints
+   - Create: `tests/serve/test_consciousness_api.py` 
+   - Test: Consciousness API endpoints, response formats
 
-#### `serve/` - API Endpoints
-5. **serve/api/health.py** (if exists)
-   - Create: `tests/serve/api/test_health.py`
-   - Test: Health check endpoints, status reporting
+3. **serve/identity_api.py** - Identity/auth endpoints
+   - Create: `tests/serve/test_identity_api.py`
+   - Test: Authentication flows, JWT handling
 
-### ✅ Priority 3: Import Fix Batch Processing
-**Location**: `docs/project_status/JULES_TODO_BATCHES.md` - BATCH 1
-- Focus on `candidate/core/` import fixes (avoid aka_qualia/)
-- Safe import resolution for missing dependencies
-- Add proper error handling for missing modules
+4. **serve/guardian_api.py** - Guardian security endpoints
+   - Create: `tests/serve/test_guardian_api.py`
+   - Test: Security validation, ethics enforcement
+
+5. **serve/routes.py** - General routing
+   - Create: `tests/serve/test_routes.py`
+   - Test: Route registration, middleware, error handling
+
+6. **serve/openai_routes.py** - OpenAI API routes
+   - Create: `tests/serve/test_openai_routes.py`
+   - Test: OpenAI proxy endpoints, request/response handling
+
+### 🟡 Priority 2: lukhas/ Missing Test Coverage
+
+#### `lukhas/bridge/` - Additional Components
+7. **lukhas/bridge/bridge_wrapper.py**
+   - Create: `tests/bridge/test_bridge_wrapper.py`
+   - Test: Bridge wrapper functionality, error handling
+
+8. **lukhas/bridge/llm_wrappers/anthropic_wrapper.py**
+   - Create: `tests/bridge/test_anthropic_wrapper.py`
+   - Test: Anthropic API integration, response parsing
+
+#### `lukhas/core/` and `lukhas/matriz/`
+9. **lukhas/core/distributed_tracing.py**
+   - Create: `tests/core/test_distributed_tracing.py`
+   - Test: Trace correlation, context propagation
+
+10. **lukhas/matriz/runtime/policy.py**
+    - Create: `tests/matriz/test_runtime_policy.py`
+    - Test: Policy evaluation, runtime binding
+
+### 🟠 Priority 3: Final TODO[T4-AUTOFIX] Item
+**Location**: `tools/scripts/system_status_comprehensive_report.py:1`
+- **Issue**: "Extensive syntax errors throughout file"
+- **Action**: Apply surgical fixes to syntax errors (missing colons, malformed f-strings)
+- **Constraint**: ≤20 lines per fix, maintain existing functionality
 
 ### ✅ Priority 4: Smoke Tests for Existing Systems
 6. **tests/smoke/test_lukhas_core.py**
@@ -64,11 +88,12 @@
 - **All patches ≤20 lines, no behavior changes**
 
 ## ✅ Success Metrics  
-- All 3 TODO[T4-AUTOFIX] items resolved
-- +5 new test files in tests/lukhas/ or tests/serve/
-- Coverage increase on stable lukhas/ modules
-- Zero conflicts with Wave C parallel development
-- All quality gates pass (`make jules-gate`)
+- **serve/ test coverage**: Minimum 5 test files created (from current 0)
+- **lukhas/ additional coverage**: 3+ missing test files added
+- **Final TODO[T4-AUTOFIX]**: Resolved in system status report
+- **Coverage increase**: +15% on stable lukhas/ and serve/ modules
+- **Zero conflicts**: No interference with Wave C development
+- **All quality gates pass**: `make jules-gate` succeeds
 
 ---
 *This task list ensures Jules can work productively without interfering with Wave C development*
