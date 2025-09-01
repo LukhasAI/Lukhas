@@ -745,7 +745,7 @@ Please respond with awareness of the symbolic and consciousness elements embedde
         # Extract consciousness state from system message
         consciousness_state = "creative"
         if "CONSCIOUSNESS STATE:" in system_message:
-            state_line = [line for line in system_message.split("\n") if "CONSCIOUSNESS STATE:" in line][0]
+            state_line = next(line for line in system_message.split("\n") if "CONSCIOUSNESS STATE:" in line)
             consciousness_state = state_line.split("CONSCIOUSNESS STATE:")[1].strip().lower()
 
         # Generate response based on consciousness state

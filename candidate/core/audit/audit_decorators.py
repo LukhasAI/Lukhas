@@ -8,13 +8,13 @@ import functools
 import inspect
 import traceback
 from datetime import datetime
-from typing import Callable
+from typing import Callable, Optional
 
 from .audit_trail import AuditEventType, AuditSeverity, get_audit_trail
 
 
 def audit_operation(
-    operation_type: str = None,
+    operation_type: Optional[str] = None,
     capture_args: bool = True,
     capture_result: bool = True,
     severity: AuditSeverity = AuditSeverity.INFO,

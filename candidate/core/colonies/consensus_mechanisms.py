@@ -337,9 +337,8 @@ class ColonyConsensus:
                 adjusted_confidence *= 1.3
 
             # High ambiguity increases abstentions
-            if self.hormone_levels["ambiguity"] > 0.7:
-                if random.random() < 0.3:  # 30% chance to abstain
-                    vote.vote = VoteType.ABSTAIN
+            if self.hormone_levels["ambiguity"] > 0.7 and random.random() < 0.3:  # 30% chance to abstain
+                vote.vote = VoteType.ABSTAIN
 
             # High urgency speeds up decision
             if self.hormone_levels["urgency"] > 0.8:

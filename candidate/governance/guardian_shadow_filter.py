@@ -224,8 +224,8 @@ class GuardianShadowFilter:
         """Check for conflicting glyph combinations"""
         for conflict_set1, conflict_set2 in self.CONFLICTING_GLYPHS:
             if glyphs.intersection(conflict_set1) and glyphs.intersection(conflict_set2):
-                conflict1 = list(glyphs.intersection(conflict_set1))[0]
-                conflict2 = list(glyphs.intersection(conflict_set2))[0]
+                conflict1 = next(iter(glyphs.intersection(conflict_set1)))
+                conflict2 = next(iter(glyphs.intersection(conflict_set2)))
                 return f"{conflict1} conflicts with {conflict2}"
         return None
 

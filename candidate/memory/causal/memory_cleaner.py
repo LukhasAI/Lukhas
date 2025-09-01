@@ -333,7 +333,7 @@ class MemoryCleaner:
         defrag_stats["memory_blocks_analyzed"] = total_memory_blocks
 
         # Repair fragmented blocks while preserving causal chains
-        for block_id in range(fragmented_blocks):
+        for _block_id in range(fragmented_blocks):
             # Simulate causal chain analysis
             has_causal_chain = random.choice([True, False])
 
@@ -384,7 +384,7 @@ class MemoryCleaner:
         coherence_stats["coherence_violations_detected"] = coherence_violations
 
         # Repair coherence violations
-        for violation_id in range(coherence_violations):
+        for _violation_id in range(coherence_violations):
             # Check for quantum entanglement
             has_entanglement = random.choice([True, False])
 
@@ -438,14 +438,14 @@ class MemoryCleaner:
         validation_stats["orphaned_memories_detected"] = orphaned_memories
 
         # Repair integrity violations
-        for violation_id in range(integrity_violations):
+        for _violation_id in range(integrity_violations):
             # Attempt to repair violation
             if random.random() > 0.15:  # 85% success rate
                 validation_stats["integrity_violations_repaired"] += 1
             time.sleep(0.002)  # Simulate repair work
 
         # Reconnect orphaned memories
-        for orphan_id in range(orphaned_memories):
+        for _orphan_id in range(orphaned_memories):
             # Attempt to find and reconnect orphaned memory
             if random.random() > 0.2:  # 80% success rate
                 validation_stats["orphaned_memories_reconnected"] += 1
@@ -502,7 +502,7 @@ class MemoryCleaner:
             time.sleep(0.001)
 
         # Correct entropy violations
-        for violation_id in range(entropy_violations):
+        for _violation_id in range(entropy_violations):
             # 95% success rate for entropy corrections
             if random.random() > 0.05:
                 optimization_stats["entropy_violations_corrected"] += 1

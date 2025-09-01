@@ -166,7 +166,7 @@ else:
             ("Create self-diagnostic improvements", "reasoning"),
         ]
 
-        for task_desc, task_type in healing_tasks:
+        for task_desc, _task_type in healing_tasks:
             print(f"\n🎯 Healing Task: {task_desc}")
 
             try:
@@ -353,7 +353,7 @@ else:
                 )
 
                 if "Balance:" in result.stdout:
-                    balance_line = [line for line in result.stdout.split("\n") if "Balance:" in line][0]
+                    balance_line = next(line for line in result.stdout.split("\n") if "Balance:" in line)
                     print(f"💰 Final {balance_line.strip()}")
             except:
                 pass

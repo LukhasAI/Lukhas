@@ -220,7 +220,7 @@ class MorphingEngine:
         self,
         target_state: DashboardMorphState,
         strategy: MorphingStrategy = MorphingStrategy.CONTEXT_AWARE_BLEND,
-        duration_ms: int = None,
+        duration_ms: Optional[int] = None,
         force: bool = False,
     ) -> bool:
         """Trigger interface morphing to target state."""

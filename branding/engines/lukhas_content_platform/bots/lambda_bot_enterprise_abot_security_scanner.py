@@ -52,7 +52,7 @@ class ABotSecurityScanner:
             },
         }
 
-    async def scan_repository(self, repo_path: Path = None) -> dict[str, Any]:
+    async def scan_repository(self, repo_path: Optional[Path] = None) -> dict[str, Any]:
         """
         Comprehensive repository security scan with consciousness evolution
         """

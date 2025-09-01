@@ -250,9 +250,8 @@ class RippleGenerator:
         """
 
         # Check coupling constraints
-        if self.enable_coupling and not force_generation:
-            if not self._is_optimal_phase():
-                return None
+        if self.enable_coupling and not force_generation and not self._is_optimal_phase():
+            return None
 
         # Determine ripple type
         if ripple_type is None:
@@ -398,10 +397,7 @@ class RippleGenerator:
         """Select replay direction"""
 
         # Forward replay more common
-        if self.current_sleep_stage == SleepStage.NREM3:
-            probs = [0.6, 0.3, 0.08, 0.02]
-        else:
-            probs = [0.7, 0.2, 0.08, 0.02]
+        probs = [0.6, 0.3, 0.08, 0.02] if self.current_sleep_stage == SleepStage.NREM3 else [0.7, 0.2, 0.08, 0.02]
 
         directions = list(ReplayDirection)
         return np.random.choice(directions, p=probs)

@@ -300,11 +300,11 @@ class MemoryManager:
         self,
         key: str,
         data: Any,
-        metadata: dict[str, Any] = None,
+        metadata: Optional[dict[str, Any]] = None,
         memory_type: Union[MemoryType, str] = MemoryType.SEMANTIC,
         priority: Union[MemoryPriority, int] = MemoryPriority.MEDIUM,
         owner_id: Optional[str] = None,
-        tags: list[str] = None,
+        tags: Optional[list[str]] = None,
         access_policy: Optional[MemoryAccessPolicy] = None,
     ) -> bool:
         """

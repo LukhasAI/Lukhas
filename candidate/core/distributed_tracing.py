@@ -50,7 +50,7 @@ class TraceSpan:
         """Add a tag to the span"""
         self.tags[key] = value
 
-    def add_log(self, event: str, fields: dict[str, Any] = None):
+    def add_log(self, event: str, fields: Optional[dict[str, Any]] = None):
         """Add a log entry to the span"""
         log_entry = {
             "timestamp": time.time(),

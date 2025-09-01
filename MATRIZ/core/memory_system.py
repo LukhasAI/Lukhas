@@ -305,10 +305,7 @@ class MemorySystem(CognitiveNode):
                 return False
 
             # Check node type is MEMORY
-            if matriz_node.get("type") != "MEMORY":
-                return False
-
-            return True
+            return matriz_node.get("type") == "MEMORY"
 
         except Exception:
             return False

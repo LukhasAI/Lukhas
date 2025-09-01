@@ -112,7 +112,7 @@ Respond poetically and insightfully.
 def run():
     export_traits()
     profiles = load_all_traits()
-    local = [p for p in profiles if p["node"] == NODE_ID][0]["traits"]
+    local = next(p for p in profiles if p["node"] == NODE_ID)["traits"]
 
     print("\n🌐 CROSS-NODE TRAIT COMPARISON\n")
     summary = summarize_comparisons(local, profiles)

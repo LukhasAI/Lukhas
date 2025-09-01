@@ -66,11 +66,10 @@ class AIComplianceManager:
                     result["required_actions"].append(f"implement_{measure}")
 
         # Check GDPR compliance for personal data
-        if context.get("involves_personal_data", False):
-            if not context.get("lawful_basis", False):
-                result["compliant"] = False
-                result["violations"].append("No lawful basis for personal data processing")
-                result["required_actions"].append("establish_lawful_basis")
+        if context.get("involves_personal_data", False) and not context.get("lawful_basis", False):
+            result["compliant"] = False
+            result["violations"].append("No lawful basis for personal data processing")
+            result["required_actions"].append("establish_lawful_basis")
 
         return result
 
@@ -79,11 +78,10 @@ class AIComplianceManager:
         result = {"compliant": True, "violations": [], "required_actions": []}
 
         # Check algorithmic discrimination protection
-        if action.get("type") == "decision_making":
-            if not context.get("bias_testing", False):
-                result["compliant"] = False
-                result["violations"].append("No bias testing for automated decision making")
-                result["required_actions"].append("conduct_bias_testing")
+        if action.get("type") == "decision_making" and not context.get("bias_testing", False):
+            result["compliant"] = False
+            result["violations"].append("No bias testing for automated decision making")
+            result["required_actions"].append("conduct_bias_testing")
 
         # Check AI system notice requirement
         if not context.get("ai_disclosure", False):

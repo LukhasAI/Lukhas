@@ -37,9 +37,8 @@ def test_client_initialization(client, mock_openai_clients):
 
 def test_client_initialization_no_api_key():
     """Test that ValueError is raised if no API key is provided."""
-    with patch.dict(os.environ, {}, clear=True):
-        with pytest.raises(ValueError, match="OpenAI API key must be provided"):
-            UnifiedOpenAIClient()
+    with patch.dict(os.environ, {}, clear=True), pytest.raises(ValueError, match="OpenAI API key must be provided"):
+        UnifiedOpenAIClient()
 
 
 def test_create_conversation(client):

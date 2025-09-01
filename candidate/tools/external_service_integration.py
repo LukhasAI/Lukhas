@@ -438,7 +438,7 @@ class ExternalServiceIntegration:
         """Get list of available operations by service"""
         operations = {}
 
-        for service_name, adapter in self.adapters.items():
+        for service_name in self.adapters:
             service_ops = []
 
             if service_name == "gmail":

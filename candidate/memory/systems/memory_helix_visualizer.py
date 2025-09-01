@@ -96,7 +96,9 @@ class MemoryHelixVisualizer:
 
         return (x, y, z)
 
-    def get_authorized_memories(self, user_id: str = None, access_tier: AccessTier = None) -> list[dict[str, Any]]:
+    def get_authorized_memories(
+        self, user_id: Optional[str] = None, access_tier: AccessTier = None
+    ) -> list[dict[str, Any]]:
         """
         Get the list of memories that the user is authorized to view.
 
@@ -126,7 +128,7 @@ class MemoryHelixVisualizer:
 
     def visualize_memory_helix(
         self,
-        user_id: str = None,
+        user_id: Optional[str] = None,
         access_tier: AccessTier = None,
         height: int = 800,
         width: int = 1000,
@@ -295,7 +297,7 @@ class MemoryHelixVisualizer:
         logger.info(f"Generated memory helix visualization with {total_memories} memories")
         return fig
 
-    def create_interactive_visualization(self, user_id: str = None, access_tier: AccessTier = None) -> str:
+    def create_interactive_visualization(self, user_id: Optional[str] = None, access_tier: AccessTier = None) -> str:
         """
         Create and save an interactive HTML visualization of the memory helix.
 

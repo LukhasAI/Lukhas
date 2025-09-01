@@ -628,7 +628,7 @@ class ConsequentialistReasoner:
         self,
         proposed_action: str,
         context: dict[str, Any],
-        alternatives: list[str] = None,
+        alternatives: Optional[list[str]] = None,
     ) -> dict[str, Any]:
         """
         # ΛNOTE: This method applies the symbolic logic of consequentialism by predicting outcomes
@@ -749,7 +749,7 @@ class ConsequentialistReasoner:
         # ... (original logic)
         stakeholder_preferences = context.get("stakeholder_preferences", {})
         preference_satisfaction = 0.0
-        for _stakeholder, preferences in stakeholder_preferences.items():
+        for preferences in stakeholder_preferences.values():
             for preference, strength in preferences.items():
                 satisfaction_level = self._check_preference_satisfaction(preference, consequences)
                 preference_satisfaction += satisfaction_level * strength
@@ -884,7 +884,7 @@ class ConsequentialistReasoner:
         self.logger.debug("ΛTRACE: Calculating consequentialist confidence.")
         # ... (original logic)
         combined_scores = []
-        for _action, utilities in action_utilities.items():
+        for utilities in action_utilities.values():
             combined_score = (
                 utilities.get("classical_util", 0) * 0.3
                 + utilities.get("preference_util", 0) * 0.2
@@ -1900,7 +1900,7 @@ class EthicalReasoningSystem:
         self.logger.debug("ΛTRACE: Extracting principle weights.")
         # ... (original logic)
         weights = dict.fromkeys(MoralPrinciple, 0.5)  # Renamed
-        for framework, _analysis in framework_analyses.items():
+        for framework in framework_analyses:
             if framework == EthicalFramework.DEONTOLOGICAL:
                 weights[MoralPrinciple.AUTONOMY] += 0.2
                 weights[MoralPrinciple.DIGNITY] += 0.2

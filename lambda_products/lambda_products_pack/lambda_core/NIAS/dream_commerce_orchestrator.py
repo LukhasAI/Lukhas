@@ -599,7 +599,7 @@ class DreamCommerceOrchestrator:
         """Find relevant vendor seeds for user"""
         relevant_seeds = []
 
-        for _vendor_id, seeds in self.vendor_portal.dream_seeds.items():
+        for seeds in self.vendor_portal.dream_seeds.values():
             for seed in seeds:
                 if not seed.is_valid():
                     continue

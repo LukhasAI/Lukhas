@@ -111,9 +111,8 @@ class MemoryService:
         self._ensure_services()
 
         # Check access
-        if self._identity:
-            if not await self._identity.verify_access(agent_id, "memory.read"):
-                raise PermissionError(f"Agent {agent_id} lacks memory read access")
+        if self._identity and not await self._identity.verify_access(agent_id, "memory.read"):
+            raise PermissionError(f"Agent {agent_id} lacks memory read access")
 
         if agent_id not in self._storage:
             return []

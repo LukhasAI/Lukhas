@@ -109,7 +109,7 @@ class TestContractValidation:
         scene_data = high_risk_scene.model_dump()
         glyphs_data = [g.model_dump() for g in test_glyphs]
 
-        scene_id = sql_memory.save(
+        sql_memory.save(
             user_id="test_user",
             scene=scene_data,
             glyphs=glyphs_data,
@@ -140,7 +140,7 @@ class TestContractValidation:
         scene_data = low_risk_scene.model_dump()
         glyphs_data = [g.model_dump() for g in test_glyphs]
 
-        scene_id = sql_memory.save(
+        sql_memory.save(
             user_id="audit_test_user",
             scene=scene_data,
             glyphs=glyphs_data,

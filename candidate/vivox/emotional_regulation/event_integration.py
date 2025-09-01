@@ -64,11 +64,11 @@ class VIVOXEmotionalShift(VIVOXEmotionalEvent):
         user_id: str,
         previous_state: VADVector = None,
         new_state: VADVector = None,
-        triggers: list[str] = None,
-        context: dict[str, Any] = None,
+        triggers: Optional[list[str]] = None,
+        context: Optional[dict[str, Any]] = None,
         # Support legacy parameter names
         original_state: VADVector = None,
-        trigger: str = None,  # Support single trigger parameter
+        trigger: Optional[str] = None,  # Support single trigger parameter
         **kwargs,
     ):
         super().__init__(
@@ -188,10 +188,10 @@ class VIVOXEventBusIntegration:
         user_id_or_shift=None,
         previous_state: VADVector = None,
         new_state: VADVector = None,
-        triggers: list[str] = None,
-        context: dict[str, Any] = None,
+        triggers: Optional[list[str]] = None,
+        context: Optional[dict[str, Any]] = None,
         *,
-        user_id: str = None,  # Support for keyword argument
+        user_id: Optional[str] = None,  # Support for keyword argument
     ):
         """Publish emotional state shift event
 
@@ -535,8 +535,8 @@ class VIVOXERNIntegratedSystem:
         self,
         user_id: str,
         emotion_data: dict[str, Any],
-        context: dict[str, Any] = None,
-        user_preferences: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
+        user_preferences: Optional[dict[str, Any]] = None,
     ) -> RegulationResponse:
         """
         Process emotional input with full event integration

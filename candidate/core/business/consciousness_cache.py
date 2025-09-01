@@ -88,10 +88,7 @@ class ConsciousnessCacheManager:
         cache_key = f"{user_id}:{cache_type.value}:{context_hash}"
 
         # Determine expiration
-        if ttl_hours:
-            ttl = timedelta(hours=ttl_hours)
-        else:
-            ttl = self.ttl_policies.get(cache_type, timedelta(hours=24))
+        ttl = timedelta(hours=ttl_hours) if ttl_hours else self.ttl_policies.get(cache_type, timedelta(hours=24))
 
         expires_at = datetime.now() + ttl
 

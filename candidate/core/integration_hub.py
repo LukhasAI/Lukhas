@@ -173,8 +173,8 @@ class UnifiedIntegration:
         self,
         component_id: str,
         method_name: str,
-        args: list[Any] = None,
-        kwargs: dict[str, Any] = None,
+        args: Optional[list[Any]] = None,
+        kwargs: Optional[dict[str, Any]] = None,
     ) -> IntegrationResult:
         """
         Invoke a method on a registered component.
@@ -353,7 +353,7 @@ class UnifiedIntegration:
                 step_kwargs = step.get("kwargs", {})
 
                 # Add current data as first argument
-                step_args = [current_data] + step_args
+                step_args = [current_data, *step_args]
 
                 # Execute step
                 step_result = self.invoke_component(step_component_id, step_method, step_args, step_kwargs)

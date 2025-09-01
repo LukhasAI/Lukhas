@@ -233,7 +233,7 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
 
         # Analyze state transitions
         transitions = []
-        all_states = historical_states + [state]
+        all_states = [*historical_states, state]
 
         for i in range(1, len(all_states)):
             transition_score = self._calculate_transition_score(all_states[i - 1], all_states[i])
@@ -1056,7 +1056,7 @@ class ConsciousnessVerificationColony(BaseColony):
                 # Analyze collective patterns across all users
                 global_patterns = {}
 
-                for _lambda_id, knowledge in self.collective_knowledge.items():
+                for knowledge in self.collective_knowledge.values():
                     for pattern in knowledge["known_patterns"]:
                         global_patterns[pattern] = global_patterns.get(pattern, 0) + 1
 

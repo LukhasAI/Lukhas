@@ -197,7 +197,7 @@ class FoldIndex:
         """Get n oldest accessed folds"""
         with self._lock:
             result = []
-            for _timestamp, keys in self.by_time.items():
+            for keys in self.by_time.values():
                 result.extend(keys)
                 if len(result) >= n:
                     break
@@ -483,7 +483,7 @@ class OptimizedFoldEngine:
         """
         duplicates_removed = 0
 
-        for _content_hash, keys in self.index.by_hash.items():
+        for keys in self.index.by_hash.values():
             if len(keys) > 1:
                 # Keep first, remove rest
                 keys_list = list(keys)
@@ -501,7 +501,7 @@ class OptimizedFoldEngine:
         """
         optimized_count = 0
 
-        for _key, fold in self.index.by_key.items():
+        for fold in self.index.by_key.values():
             # Skip if recently accessed
             if time.time() - fold.last_accessed < 3600:  # 1 hour
                 continue
@@ -644,10 +644,7 @@ async def demo_optimized_folds():
     hot_keys = [f"fold_{i}" for i in range(20)]
 
     for _ in range(1000):
-        if np.random.random() < 0.8:
-            key = np.random.choice(hot_keys)
-        else:
-            key = f"fold_{np.random.randint(0, 100)}"
+        key = np.random.choice(hot_keys) if np.random.random() < 0.8 else f"fold_{np.random.randint(0, 100)}"
 
         fold = engine.get_fold(key)
 

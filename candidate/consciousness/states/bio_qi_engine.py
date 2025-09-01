@@ -635,11 +635,8 @@ class BioQuantumSymbolicReasoner:
         """Encode classical data to quantum-like state vector"""
         # Create quantum-like state representation using hash-based encoding
         state_components = []
-        for _key, value in data.items():
-            if isinstance(value, (dict, list)):
-                component = hash(str(value)) % 1000
-            else:
-                component = hash(str(value)) % 1000
+        for value in data.values():
+            component = hash(str(value)) % 1000 if isinstance(value, (dict, list)) else hash(str(value)) % 1000
             state_components.append(component)
 
         # Pad or truncate to standard size

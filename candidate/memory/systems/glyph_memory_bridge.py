@@ -439,9 +439,8 @@ class GlyphMemoryBridge:
                         continue
 
             # Check minimum drift anchor filter
-            if "min_drift_anchor" in filters:
-                if glyph.drift_anchor_score < filters["min_drift_anchor"]:
-                    continue
+            if "min_drift_anchor" in filters and glyph.drift_anchor_score < filters["min_drift_anchor"]:
+                continue
 
             matching_glyphs.add(glyph_id)
 

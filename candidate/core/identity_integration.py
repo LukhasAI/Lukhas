@@ -173,9 +173,8 @@ def require_identity(
             user_id = kwargs.get("user_id") or kwargs.get("lambda_id") or kwargs.get("identity_legacy")
 
             # Try to get from first positional arg if it looks like a user ID
-            if not user_id and args:
-                if isinstance(args[0], str) and args[0].startswith("Λ"):
-                    user_id = args[0]
+            if not user_id and args and isinstance(args[0], str) and args[0].startswith("Λ"):
+                user_id = args[0]
 
             # Check for Oneiric-style user object
             if not user_id and "user" in kwargs:

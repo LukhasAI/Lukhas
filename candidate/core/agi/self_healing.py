@@ -165,8 +165,8 @@ class SelfHealingSystem:
     def register_component(
         self,
         name: str,
-        dependencies: list[str] = None,
-        recovery_proc: Callable = None,
+        dependencies: Optional[list[str]] = None,
+        recovery_proc: Optional[Callable] = None,
     ):
         """Register a system component for monitoring"""
         self.component_health[name] = ComponentHealth(name)
@@ -178,7 +178,7 @@ class SelfHealingSystem:
         # Create circuit breaker
         self.circuit_breakers[name] = CircuitBreaker(name)
 
-    async def handle_failure(self, component: str, error: Exception, context: dict[str, Any] = None) -> bool:
+    async def handle_failure(self, component: str, error: Exception, context: Optional[dict[str, Any]] = None) -> bool:
         """
         Handle system failure
 
@@ -522,7 +522,7 @@ class SelfHealingSystem:
         """Predict potential failures"""
         predictions = []
 
-        for _name, health in self.component_health.items():
+        for health in self.component_health.values():
             # Simple prediction based on health trend
             if len(health.metrics_history) > 10:
                 list(health.metrics_history)[-10:]

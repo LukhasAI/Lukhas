@@ -760,8 +760,8 @@ class VIVOXEmotionalRegulationNetwork:
     async def process_emotional_input(
         self,
         emotion_data: dict[str, Any],
-        context: dict[str, Any] = None,
-        user_preferences: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
+        user_preferences: Optional[dict[str, Any]] = None,
     ) -> RegulationResponse:
         """
         Main entry point for emotional processing

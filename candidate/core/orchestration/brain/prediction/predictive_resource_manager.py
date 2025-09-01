@@ -34,7 +34,7 @@ class PredictionModel:
         self.data_points = deque(maxlen=window_size)
         self.model_accuracy = 0.0
 
-    def add_data_point(self, value: float, timestamp: str = None):
+    def add_data_point(self, value: float, timestamp: Optional[str] = None):
         """Add a new data point to the model"""
         if timestamp is None:
             timestamp = datetime.datetime.now().isoformat()
@@ -670,7 +670,7 @@ class PredictiveResourceManager:
         high_risk_count = 0
         critical_risk_count = 0
 
-        for _resource_type, prediction in predictions.items():
+        for prediction in predictions.values():
             if not prediction.get("error"):
                 risk = prediction.get("risk_level", "unknown")
                 if risk == "critical":

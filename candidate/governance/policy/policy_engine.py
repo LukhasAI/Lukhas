@@ -338,11 +338,11 @@ class PolicyRuleEngine:
                 rule.policy_type == existing_rule.policy_type
                 and rule.scope == existing_rule.scope
                 and self._conditions_similar(rule.conditions, existing_rule.conditions)
+            ) and (
+                (rule.action == PolicyAction.ALLOW and existing_rule.action == PolicyAction.DENY)
+                or (rule.action == PolicyAction.DENY and existing_rule.action == PolicyAction.ALLOW)
             ):
-                if (rule.action == PolicyAction.ALLOW and existing_rule.action == PolicyAction.DENY) or (
-                    rule.action == PolicyAction.DENY and existing_rule.action == PolicyAction.ALLOW
-                ):
-                    conflicts.append(f"Action conflict with {existing_rule_id}")
+                conflicts.append(f"Action conflict with {existing_rule_id}")
 
         return conflicts
 
@@ -415,10 +415,9 @@ class PolicyRuleEngine:
             return field_value is None
 
         # Convert to strings for string operations if needed
-        if isinstance(field_value, str) and isinstance(condition.value, str):
-            if not condition.case_sensitive:
-                field_value = field_value.lower()
-                condition.value = condition.value.lower()
+        if isinstance(field_value, str) and isinstance(condition.value, str) and not condition.case_sensitive:
+            field_value = field_value.lower()
+            condition.value = condition.value.lower()
 
         # Evaluate based on operator
         try:

@@ -113,7 +113,7 @@ class AggressiveFileConsolidator:
             if module_scores:
                 best_module = max(module_scores, key=module_scores.get)
                 best_submodule = submodule_assignment.get(
-                    best_module, list(self.submodule_keywords[best_module].keys())[0]
+                    best_module, next(iter(self.submodule_keywords[best_module].keys()))
                 )
 
                 return best_module, best_submodule, module_scores[best_module]

@@ -397,7 +397,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
         optimized_circuit = state.circuit.copy()
 
         # Apply optimization rotations based on criteria
-        for _criterion, weight in optimization_criteria.items():
+        for weight in optimization_criteria.values():
             angle = weight * np.pi / 4
             for qubit in range(min(optimized_circuit.num_qubits, 8)):
                 optimized_circuit.ry(angle, qubit)

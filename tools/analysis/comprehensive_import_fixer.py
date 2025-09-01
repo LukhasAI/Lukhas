@@ -160,10 +160,9 @@ class ImportErrorFixer:
 
         # Apply import fixes
         for old_pattern, new_pattern in self.import_fixes.items():
-            if old_pattern in stripped:
-                if stripped.startswith("from ") or stripped.startswith("import "):
-                    # Replace the pattern in import statements
-                    stripped = stripped.replace(old_pattern, new_pattern.split(" import")[0])
+            if old_pattern in stripped and (stripped.startswith("from ") or stripped.startswith("import ")):
+                # Replace the pattern in import statements
+                stripped = stripped.replace(old_pattern, new_pattern.split(" import")[0])
 
         return indent + stripped
 

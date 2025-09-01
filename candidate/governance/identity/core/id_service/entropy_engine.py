@@ -360,7 +360,7 @@ class LambdaIDEntropyEngine:
         base_score = analysis.base_entropy
 
         # Apply boost factors
-        for _boost_name, boost_value in analysis.boost_factors.items():
+        for boost_value in analysis.boost_factors.values():
             base_score *= boost_value
 
         # Add component bonuses

@@ -12,7 +12,7 @@ from .base_parser import BaseParser
 class PDFParser(BaseParser):
     """Parser for PDF files"""
 
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         """Parse PDF file and extract content"""
         try:
             # Try to import PyPDF2
@@ -49,7 +49,7 @@ class PDFParser(BaseParser):
             # Fallback to basic parsing
             return await self._parse_basic(file_path)
 
-    async def _parse_basic(self, file_path: str) -> Dict[str, Any]:
+    async def _parse_basic(self, file_path: str) -> dict[str, Any]:
         """Basic PDF parsing when PyPDF2 is not available"""
         file_info = self._get_file_info(file_path)
 

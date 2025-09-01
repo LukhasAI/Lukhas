@@ -37,10 +37,7 @@ class EthicalBoundary:
     def applies_to_context(self, context: dict[str, Any]) -> bool:
         """Check if boundary applies to current context"""
         # Check for exceptions
-        for exception in self.exceptions:
-            if context.get(exception):
-                return False
-        return True
+        return all(not context.get(exception) for exception in self.exceptions)
 
 
 class EthicalPerceptionFilter:
@@ -276,10 +273,9 @@ class EthicalPerceptionFilter:
                 # Aggregate medical data
                 return self._aggregate_medical_data(data), "medical_aggregation"
 
-        elif boundary.boundary_id == "location_privacy":
-            if data_type in ["gps", "location"]:
-                # Reduce location precision
-                return self._reduce_location_precision(data), "location_fuzzing"
+        elif boundary.boundary_id == "location_privacy" and data_type in ["gps", "location"]:
+            # Reduce location precision
+            return self._reduce_location_precision(data), "location_fuzzing"
 
         return data, None
 
@@ -646,7 +642,7 @@ class NonDecodableTransform:
     Ensures data cannot be reversed to original form
     """
 
-    def __init__(self, transform_key: bytes = None):
+    def __init__(self, transform_key: Optional[bytes] = None):
         self.transform_key = transform_key or self._generate_transform_key()
         self.transform_cache = {}
 

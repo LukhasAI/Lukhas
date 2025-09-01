@@ -4,6 +4,7 @@ Root Directory Audit and Reorganization Plan
 Analyzes root-level directories and proposes a reorganization plan.
 """
 
+import contextlib
 import json
 import os
 from datetime import datetime
@@ -141,16 +142,14 @@ class RootDirectoryAuditor:
         for dirpath, _dirnames, filenames in os.walk(path):
             for filename in filenames:
                 fp = Path(dirpath) / filename
-                try:
+                with contextlib.suppress(Exception):
                     total += fp.stat().st_size
-                except Exception:
-                    pass
         return round(total / 1024 / 1024, 2)
 
     @staticmethod
     def count_files(path: Path) -> int:
         count = 0
-        for dirpath, _dirs, files in os.walk(path):
+        for _dirpath, _dirs, files in os.walk(path):
             count += sum(1 for f in files if f.endswith(".py"))
         return count
 

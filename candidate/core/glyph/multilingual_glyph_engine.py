@@ -337,7 +337,7 @@ class MultilingualGlyphEngine:
         }
 
         # Build mappings from database
-        for _category, glyphs in self.glyph_database.items():
+        for glyphs in self.glyph_database.values():
             for glyph in glyphs:
                 self.cultural_mappings["universal_to_cultural"][glyph.universal] = glyph.cultural_variants
 
@@ -596,7 +596,7 @@ class MultilingualGlyphEngine:
             translated_count = 0
             total_count = 0
 
-            for _category, glyphs in self.glyph_database.items():
+            for glyphs in self.glyph_database.values():
                 for glyph in glyphs:
                     total_count += 1
                     if locale in glyph.cultural_variants:

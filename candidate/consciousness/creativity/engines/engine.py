@@ -14,7 +14,7 @@ Based on the audit findings, this engine provides:
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
@@ -83,7 +83,7 @@ class LukhasCreateEngine:
         }
         logger.info("🎨 LUKHAS Create Engine initialized successfully")
 
-    async def create(self, request: str, context: dict[str, Any] = None, **kwargs) -> CreateResponse:
+    async def create(self, request: str, context: Optional[dict[str, Any]] = None, **kwargs) -> CreateResponse:
         """
         🚀 Main creation interface - Generate content using AGI capabilities
 

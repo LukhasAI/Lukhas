@@ -334,10 +334,9 @@ class UserDataIntegrator:
         )
 
         # Check if sync needed
-        if not force_refresh and profile.last_sync:
-            if datetime.now() - profile.last_sync < timedelta(hours=24):
-                logger.info(f"Using cached profile for {user_id}")
-                return profile
+        if not force_refresh and profile.last_sync and datetime.now() - profile.last_sync < timedelta(hours=24):
+            logger.info(f"Using cached profile for {user_id}")
+            return profile
 
         data_points = 0
 

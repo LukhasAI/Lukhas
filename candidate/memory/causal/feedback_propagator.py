@@ -285,7 +285,7 @@ class DreamFeedbackPropagator:
         try:
             # Query fold lineage for ethical constraint violations
             ethical_links = []
-            for _fold_key, links in self.fold_lineage_tracker.lineage_graph.items():
+            for links in self.fold_lineage_tracker.lineage_graph.values():
                 for link in links:
                     if link.causation_type == CausationType.ETHICAL_CONSTRAINT:
                         ethical_links.append(link)

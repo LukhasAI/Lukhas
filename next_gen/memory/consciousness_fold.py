@@ -321,7 +321,7 @@ class ConsciousnessMemory:
                 with sqlite3.connect(self.db_path) as conn:
                     conn.execute(
                         "UPDATE memory_folds SET tags = ? WHERE fold_id = ?",
-                        (json.dumps(fold.tags + ["pruned"]), fold.fold_id),
+                        (json.dumps([*fold.tags, "pruned"]), fold.fold_id),
                     )
                 pruned_count += 1
 

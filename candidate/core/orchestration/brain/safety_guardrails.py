@@ -14,7 +14,7 @@ import json
 import logging
 import re
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger("v1_AGI.compliance.guardrails")
 
@@ -28,7 +28,7 @@ class SafetyGuardrails:
     The design is inspired by Sam Altman's principles for responsible AGI.
     """
 
-    def __init__(self, config: dict = None):
+    def __init__(self, config: Optional[dict] = None):
         """
         Initialize the safety guardrails system.
 

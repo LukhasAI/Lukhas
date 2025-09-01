@@ -25,6 +25,7 @@ import asyncio
 import os
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 try:
     from core import (
@@ -84,7 +85,7 @@ class WorkspaceGuardian:
     - Configuration corruption
     """
 
-    def __init__(self, workspace_root: str = None):
+    def __init__(self, workspace_root: Optional[str] = None):
         self.workspace_root = workspace_root or os.getcwd()
         self.governance = LucasGovernanceModule()
 
@@ -111,7 +112,7 @@ class WorkspaceGuardian:
         await self.governance.startup()
         print("🛡️  Workspace Guardian active - protecting your productivity workspace")
 
-    async def check_file_operation(self, operation: str, file_path: str, context: dict = None) -> dict:
+    async def check_file_operation(self, operation: str, file_path: str, context: Optional[dict] = None) -> dict:
         """Check if a file operation should be allowed."""
 
         context = context or {}
@@ -340,7 +341,7 @@ class WorkspaceGuardian:
 
 
 #  Convenience Functions
-async def check_file_delete(file_path: str, workspace_root: str = None) -> bool:
+async def check_file_delete(file_path: str, workspace_root: Optional[str] = None) -> bool:
     """Quick check if file deletion should be allowed."""
     guardian = WorkspaceGuardian(workspace_root)
     await guardian.initialize()
@@ -349,7 +350,7 @@ async def check_file_delete(file_path: str, workspace_root: str = None) -> bool:
     return result["allowed"]
 
 
-async def analyze_workspace(workspace_root: str = None) -> dict:
+async def analyze_workspace(workspace_root: Optional[str] = None) -> dict:
     """Quick workspace health analysis."""
     guardian = WorkspaceGuardian(workspace_root)
     await guardian.initialize()
@@ -357,7 +358,7 @@ async def analyze_workspace(workspace_root: str = None) -> dict:
     return await guardian.analyze_workspace_health()
 
 
-async def protect_my_workspace(workspace_root: str = None) -> dict:
+async def protect_my_workspace(workspace_root: Optional[str] = None) -> dict:
     """Full workspace protection analysis."""
     guardian = WorkspaceGuardian(workspace_root)
     await guardian.initialize()

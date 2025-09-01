@@ -62,7 +62,7 @@ for fn, schema_fn in FILES:
     # referential integrity for dependency matrix
     if fn == "DEPENDENCY_MATRIX.json":
         mm = data.get("module_dependency_matrix", {})
-        bad = [k for k in mm.keys() if k not in uids]
+        bad = [k for k in mm if k not in uids]
         if bad:
             errors.append(f"Unknown module_uids in DEPENDENCY_MATRIX: {bad}")
 

@@ -291,7 +291,7 @@ class GovernanceColony(BaseColony):
 
         # Check tags for ethical scope
         tags = task_data.get("tags", {})
-        for _tag_key, (_, scope, _, _, _) in tags.items():
+        for _, scope, _, _, _ in tags.values():
             if scope == TagScope.ETHICAL:
                 return True
 

@@ -79,7 +79,7 @@ class LUKHASConceptValidator:
         print(f"\nScanning {len(python_files)} Python files...")
 
         # Search for each concept
-        for concept, _description in self.core_concepts.items():
+        for concept in self.core_concepts:
             self._find_concept_usage(concept, python_files)
 
         # Analyze results

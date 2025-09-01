@@ -345,7 +345,7 @@ class AGIModuleAnalyzer:
             by_abstraction[module["abstraction"]].append(module)
 
         # Look for merge opportunities within same abstraction level
-        for _abstraction, module_group in by_abstraction.items():
+        for module_group in by_abstraction.values():
             if len(module_group) > 1:
                 # Check if modules have similar complexity and purpose
                 similar_modules = []

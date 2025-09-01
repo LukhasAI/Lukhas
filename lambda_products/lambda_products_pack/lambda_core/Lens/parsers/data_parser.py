@@ -14,7 +14,7 @@ from .base_parser import BaseParser
 class DataParser(BaseParser):
     """Parser for structured data files"""
 
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         """Parse data file and extract structure"""
         try:
             file_info = self._get_file_info(file_path)
@@ -33,7 +33,7 @@ class DataParser(BaseParser):
         except Exception as e:
             raise ValueError(f"Failed to parse data file {file_path}: {e!s}")
 
-    async def _parse_json(self, file_path: str, file_info: Dict[str, Any]) -> Dict[str, Any]:
+    async def _parse_json(self, file_path: str, file_info: dict[str, Any]) -> dict[str, Any]:
         """Parse JSON file"""
         with open(file_path, encoding="utf-8") as f:
             data = json.load(f)
@@ -43,7 +43,7 @@ class DataParser(BaseParser):
 
         return {"data": data, "format": "json", "structure": structure, "file_info": file_info}
 
-    async def _parse_yaml(self, file_path: str, file_info: Dict[str, Any]) -> Dict[str, Any]:
+    async def _parse_yaml(self, file_path: str, file_info: dict[str, Any]) -> dict[str, Any]:
         """Parse YAML file"""
         try:
             import yaml
@@ -57,7 +57,7 @@ class DataParser(BaseParser):
 
         return {"data": data, "format": "yaml", "structure": structure, "file_info": file_info}
 
-    async def _parse_xml(self, file_path: str, file_info: Dict[str, Any]) -> Dict[str, Any]:
+    async def _parse_xml(self, file_path: str, file_info: dict[str, Any]) -> dict[str, Any]:
         """Parse XML file"""
         tree = ET.parse(file_path)
         root = tree.getroot()
@@ -67,7 +67,7 @@ class DataParser(BaseParser):
 
         return {"data": data, "format": "xml", "root_tag": root.tag, "file_info": file_info}
 
-    def _analyze_structure(self, data: Any) -> Dict[str, Any]:
+    def _analyze_structure(self, data: Any) -> dict[str, Any]:
         """Analyze the structure of parsed data"""
         if isinstance(data, dict):
             return {
@@ -104,7 +104,7 @@ class DataParser(BaseParser):
         else:
             return type(obj).__name__
 
-    def _xml_to_dict(self, element: ET.Element) -> Dict[str, Any]:
+    def _xml_to_dict(self, element: ET.Element) -> dict[str, Any]:
         """Convert XML element to dictionary"""
         result = {}
 

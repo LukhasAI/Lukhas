@@ -600,14 +600,12 @@ class EpisodicMemoryColony(BaseMemoryColony):
         """Check if record matches structured query"""
 
         # Check personal significance threshold
-        if "min_significance" in query:
-            if record.personal_significance < query["min_significance"]:
-                return False
+        if "min_significance" in query and record.personal_significance < query["min_significance"]:
+            return False
 
         # Check emotional intensity
-        if "min_emotional_intensity" in query:
-            if record.emotional_intensity < query["min_emotional_intensity"]:
-                return False
+        if "min_emotional_intensity" in query and record.emotional_intensity < query["min_emotional_intensity"]:
+            return False
 
         # Check participants
         if "participants" in query:

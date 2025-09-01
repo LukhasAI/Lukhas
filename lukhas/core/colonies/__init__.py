@@ -58,6 +58,7 @@ class BaseColony(ABC):
     def __init__(self, colony_id: str, capabilities: list[str]) -> None:
         self.colony_id = colony_id
         self.capabilities = capabilities
+
     # Actors in this colony (agent_id -> agent instance)
     self.actors: dict[str, Any] = {}
 

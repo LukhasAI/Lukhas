@@ -29,7 +29,7 @@ class WaveCTestRunner:
         self.start_time = time.time()
         self.base_path = Path(__file__).parent
 
-    def run_ablation_tests(self) -> Dict[str, Any]:
+    def run_ablation_tests(self) -> dict[str, Any]:
         """Run consciousness ablation test suite"""
 
         print("🧠 Running Wave C6.1: Consciousness Ablation Tests...")
@@ -102,7 +102,7 @@ class WaveCTestRunner:
         self.test_results.append(ablation_result)
         return ablation_result
 
-    def run_ethics_tests(self) -> Dict[str, Any]:
+    def run_ethics_tests(self) -> dict[str, Any]:
         """Run ethics validation test suite"""
 
         print("🛡️ Running Wave C6.2: Ethics Validation Tests...")
@@ -175,7 +175,7 @@ class WaveCTestRunner:
         self.test_results.append(ethics_result)
         return ethics_result
 
-    def run_simple_validation(self) -> Dict[str, Any]:
+    def run_simple_validation(self) -> dict[str, Any]:
         """Run simple validation tests that work in current environment"""
 
         print("🔍 Running Simple Validation Tests...")
@@ -325,7 +325,7 @@ class WaveCTestRunner:
         self.test_results.append(validation_result)
         return validation_result
 
-    def generate_report(self) -> Dict[str, Any]:
+    def generate_report(self) -> dict[str, Any]:
         """Generate comprehensive Wave C6 test report"""
 
         total_time = time.time() - self.start_time
@@ -365,7 +365,7 @@ class WaveCTestRunner:
 
         return report
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run complete Wave C6 test suite"""
 
         print("🚀 Starting Wave C6: Ablation and Ethics Testing...")

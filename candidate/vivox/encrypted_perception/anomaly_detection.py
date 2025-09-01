@@ -74,10 +74,7 @@ class AnomalyPattern:
                         scores.append(1.0)
                     else:
                         # Calculate distance-based score
-                        if actual < min_val:
-                            distance = min_val - actual
-                        else:
-                            distance = actual - max_val
+                        distance = min_val - actual if actual < min_val else actual - max_val
                         score = max(0, 1 - distance / max(abs(min_val), abs(max_val)))
                         scores.append(score)
                 else:
@@ -265,7 +262,7 @@ class AnomalyDetector:
             vector_features.append(features)
 
         # Check each anomaly pattern
-        for _pattern_name, pattern in self.anomaly_patterns.items():
+        for pattern in self.anomaly_patterns.values():
             # Skip if modality not relevant for this pattern
             if modality not in pattern.cross_modal_requirements:
                 continue
@@ -325,7 +322,7 @@ class AnomalyDetector:
         anomalies = []
 
         # Check patterns that require multiple modalities
-        for _pattern_name, pattern in self.anomaly_patterns.items():
+        for pattern in self.anomaly_patterns.values():
             if len(pattern.cross_modal_requirements) <= 1:
                 continue
 
@@ -671,7 +668,7 @@ class SignificanceAnalyzer:
         current_significance = anomaly.significance
 
         # Check against significance rules
-        for _rule_name, rule in self.significance_rules.items():
+        for rule in self.significance_rules.values():
             if anomaly.anomaly_type in rule["indicators"]:
                 if anomaly.confidence >= rule["confidence_threshold"]:
                     # Potentially upgrade significance

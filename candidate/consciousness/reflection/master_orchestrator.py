@@ -1081,7 +1081,7 @@ class MasterOrchestrator:
         """Calculate overall system health score"""
         health_scores = []
 
-        for _name, info in self.orchestrator_registry.items():
+        for info in self.orchestrator_registry.values():
             if info["status"] == "active":
                 orchestrator = info["orchestrator"]
 

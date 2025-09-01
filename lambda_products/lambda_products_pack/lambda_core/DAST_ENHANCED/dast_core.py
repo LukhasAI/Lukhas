@@ -85,9 +85,7 @@ class SymbolicTag:
 
     def is_valid(self) -> bool:
         """Check if symbolic tag is still valid"""
-        if self.expires_at and datetime.now() > self.expires_at:
-            return False
-        return True
+        return not (self.expires_at and datetime.now() > self.expires_at)
 
     def update_confidence(self, new_evidence: float, source_weight: float = 1.0):
         """Update confidence based on new evidence"""

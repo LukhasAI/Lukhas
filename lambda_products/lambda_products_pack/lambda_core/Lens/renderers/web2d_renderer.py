@@ -17,7 +17,7 @@ class Web2DRenderer:
         self.canvas_width = 1200
         self.canvas_height = 800
 
-    async def render(self, dashboard: Any) -> Dict[str, Any]:
+    async def render(self, dashboard: Any) -> dict[str, Any]:
         """Render dashboard as 2D web format"""
         # Convert dashboard to web-compatible format
         web_dashboard = {
@@ -39,7 +39,7 @@ class Web2DRenderer:
 
         return web_dashboard
 
-    def _symbol_to_widget(self, symbol: GlyphSymbol, index: int) -> Dict[str, Any]:
+    def _symbol_to_widget(self, symbol: GlyphSymbol, index: int) -> dict[str, Any]:
         """Convert a GLYPH symbol to a web widget"""
         # Calculate position in grid layout
         col = index % 3

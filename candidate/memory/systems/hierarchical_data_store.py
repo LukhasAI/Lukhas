@@ -252,10 +252,7 @@ class HierarchicalDataStore:
         visited = set()
 
         # Start with tier-filtered nodes or all nodes
-        if context.tier_filter:
-            start_nodes = self.tier_indices[context.tier_filter]
-        else:
-            start_nodes = set(self.nodes.keys())
+        start_nodes = self.tier_indices[context.tier_filter] if context.tier_filter else set(self.nodes.keys())
 
         # Apply filters and search
         for node_id in start_nodes:
@@ -610,7 +607,7 @@ class HierarchicalDataStore:
         """Compress eligible memories based on access patterns"""
         compressed = 0
 
-        for _node_id, node in self.nodes.items():
+        for node in self.nodes.values():
             if node.is_compressed:
                 continue
 

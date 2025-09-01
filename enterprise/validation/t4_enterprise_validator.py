@@ -840,7 +840,7 @@ class T4EnterpriseValidator:
             validation_results=self.results,
         )
 
-    def export_validation_report(self, report: T4ValidationReport, filename: str = None) -> str:
+    def export_validation_report(self, report: T4ValidationReport, filename: Optional[str] = None) -> str:
         """Export validation report to JSON"""
         if not filename:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

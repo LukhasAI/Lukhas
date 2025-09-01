@@ -389,7 +389,7 @@ This is a mock email generated for development purposes.
 
 # Factory function for easy initialization
 async def create_gmail_adapter(
-    consent_service: ConsentService = None, config: dict[str, Any] = None
+    consent_service: ConsentService = None, config: Optional[dict[str, Any]] = None
 ) -> GmailHeadersAdapter:
     """Create and initialize Gmail headers adapter"""
     adapter = GmailHeadersAdapter(consent_service)

@@ -139,7 +139,7 @@ class ConsciousnessLayer:
     def __init__(
         self,
         privacy_mode: bool = True,
-        consciousness_sources: list[ConsciousnessSource] = None,
+        consciousness_sources: Optional[list[ConsciousnessSource]] = None,
     ):
         """
         Initialize Consciousness Layer

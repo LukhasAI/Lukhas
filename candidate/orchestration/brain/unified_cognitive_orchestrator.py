@@ -269,7 +269,7 @@ class UnifiedCognitiveOrchestrator:
             related = self.glyph_engine.find_related_symbols(symbol, max_depth=2)
 
             # Create cross-module links
-            for _module, symbols in related.items():
+            for symbols in related.values():
                 for related_symbol in symbols[:3]:  # Limit connections
                     self.glyph_engine.create_cross_module_link(symbol, related_symbol, link_type="semantic")
 

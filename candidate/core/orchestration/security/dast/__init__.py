@@ -8,6 +8,8 @@ This module provides the enhanced DAST (Dynamic Attention & Symbolic Tagging) sy
 with AI-powered task management, intelligent prioritization, and symbolic reasoning.
 """
 
+from typing import Optional
+
 from .adapters import DASTAdapter
 from .api import LucasDASTAPI
 from .engine import LucasDASTEngine
@@ -31,7 +33,7 @@ __author__ = "LUKHAS AGI Team"
 # Jobs-Level UX: One-line task management
 
 
-def track(task: str, context: dict = None, **kwargs):
+def track(task: str, context: Optional[dict] = None, **kwargs):
     """
     Intelligent task tracking with AI-powered optimization.
 
@@ -55,7 +57,7 @@ def track(task: str, context: dict = None, **kwargs):
 # Altman AGI Vision: Proactive AI assistance
 
 
-def optimize_workflow(workflow: str, constraints: dict = None, **kwargs):
+def optimize_workflow(workflow: str, constraints: Optional[dict] = None, **kwargs):
     """
     AI-powered workflow optimization with predictive insights.
 

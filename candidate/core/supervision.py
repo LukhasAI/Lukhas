@@ -201,11 +201,10 @@ class CircuitBreaker:
 
     def can_proceed(self) -> bool:
         """Check if operation can proceed"""
-        if self.state == "open":
-            if time.time() - self.last_failure_time > self.reset_timeout:
-                self.state = "half_open"
-                self.success_count = 0
-                logger.info("Circuit breaker entering half-open state")
+        if self.state == "open" and time.time() - self.last_failure_time > self.reset_timeout:
+            self.state = "half_open"
+            self.success_count = 0
+            logger.info("Circuit breaker entering half-open state")
 
         if self.state == "half_open":
             return self.success_count < self.half_open_requests

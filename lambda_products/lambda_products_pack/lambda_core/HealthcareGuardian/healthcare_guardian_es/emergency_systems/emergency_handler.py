@@ -140,7 +140,7 @@ class EmergencyResponseSystem:
         },
     }
 
-    def __init__(self, config: dict[str, Any] = None, guardian=None):
+    def __init__(self, config: Optional[dict[str, Any]] = None, guardian=None):
         """
         Initialize Emergency Response System
 
@@ -220,7 +220,7 @@ class EmergencyResponseSystem:
         # Sort by priority
         self.emergency_contacts.sort(key=lambda x: x.priority)
 
-    async def assess_severity(self, input_text: str, vitals: dict = None) -> str:
+    async def assess_severity(self, input_text: str, vitals: Optional[dict] = None) -> str:
         """
         Assess the severity of an emergency from user input
 
@@ -272,7 +272,7 @@ class EmergencyResponseSystem:
         self,
         description: str,
         emergency_type: EmergencyType = EmergencyType.UNKNOWN,
-        location: tuple[float, float] = None,
+        location: Optional[tuple[float, float]] = None,
     ) -> EmergencyIncident:
         """
         Handle an emergency situation

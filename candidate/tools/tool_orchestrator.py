@@ -147,7 +147,7 @@ class MultiAIConsensus:
         all_concerns = []
         all_recommendations = []
 
-        for service, evaluation in evaluations.items():
+        for evaluation in evaluations.values():
             for score_type in scores:
                 if score_type in evaluation:
                     scores[score_type].append(evaluation[score_type])

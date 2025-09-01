@@ -71,6 +71,7 @@ class UnifiedLLMBridge:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize LLM bridge with provider configuration"""
+
     self.config = config or {}
     from typing import Any
 
@@ -123,10 +124,7 @@ class UnifiedLLMBridge:
                 api_key = os.getenv(config["env_key"])
                 if api_key:
                     # Initialize provider
-                    if provider_name == "openai":
-                        provider = config["class"]()
-                    else:
-                        provider = config["class"](api_key=api_key)
+                    provider = config["class"]() if provider_name == "openai" else config["class"](api_key=api_key)
 
                     self.providers[provider_name] = {
                         "client": provider,

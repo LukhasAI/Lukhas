@@ -9,7 +9,7 @@ import asyncio
 import logging
 import time
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Optional
 
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
@@ -784,7 +784,7 @@ async def health_check():
     }
 
 
-def start_dashboard(host: str = None, port: int = None, dev: bool = False):
+def start_dashboard(host: Optional[str] = None, port: Optional[int] = None, dev: bool = False):
     """Start the unified dashboard server"""
     host = host or DASHBOARD_CONFIG["host"]
     port = port or DASHBOARD_CONFIG["port"]

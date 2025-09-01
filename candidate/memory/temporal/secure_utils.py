@@ -339,7 +339,7 @@ def secure_file_path(path: str, base_dir: str) -> str:
     return abs_path
 
 
-def get_env_var(name: str, default: str = None, required: bool = False) -> str:
+def get_env_var(name: str, default: Optional[str] = None, required: bool = False) -> str:
     """
     Safely get an environment variable
 

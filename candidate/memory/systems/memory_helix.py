@@ -113,7 +113,7 @@ class VoiceMemoryHelix:
     - Refinement (optimize based on feedback)
     """
 
-    def __init__(self, core_interface=None, config: dict[str, Any] = None):
+    def __init__(self, core_interface=None, config: Optional[dict[str, Any]] = None):
         """
         Initialize the voice memory helix.
 

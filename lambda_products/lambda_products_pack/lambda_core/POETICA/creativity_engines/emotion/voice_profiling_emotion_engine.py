@@ -40,7 +40,7 @@ class VoiceProfilingEmotionEngine:
     - Usage statistics and adaptation data
     """
 
-    def __init__(self, profile_id: str, name: str, parameters: dict[str, Any] = None):
+    def __init__(self, profile_id: str, name: str, parameters: Optional[dict[str, Any]] = None):
         self.id = profile_id
         self.name = name
         self.parameters = parameters or {}
@@ -296,7 +296,7 @@ class VoiceProfilingEmotionEngine:
             self.logger.error(f"Error saving profile {profile.id}: {e!s}")
             return False
 
-    def create_profile(self, name: str, parameters: dict[str, Any] = None) -> str:
+    def create_profile(self, name: str, parameters: Optional[dict[str, Any]] = None) -> str:
         """Create a new voice profile."""
         profile_id = str(uuid.uuid4())
         profile = VoiceProfile(profile_id, name, parameters)
@@ -380,7 +380,7 @@ class VoiceProfilingEmotionEngine:
                     return profile.id
 
         # Otherwise select the first candidate
-        return candidates[0].id if candidates else list(self.profiles.keys())[0]
+        return candidates[0].id if candidates else next(iter(self.profiles.keys()))
 
     def record_usage(self, profile_id: str, context: dict[str, Any]) -> bool:
         """

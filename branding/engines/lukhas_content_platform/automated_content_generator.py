@@ -473,14 +473,14 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
     Current: {" ".join(star_symbols)} {current_domain}
     """
 
-    def generate_all_domain_content(self, content_types: list[str] = None) -> dict:
+    def generate_all_domain_content(self, content_types: Optional[list[str]] = None) -> dict:
         """Generate content for all domains"""
         if content_types is None:
             content_types = ["homepage"]
 
         results = {}
 
-        for domain in self.platform.domain_mapping.keys():
+        for domain in self.platform.domain_mapping:
             try:
                 domain_results = {}
 

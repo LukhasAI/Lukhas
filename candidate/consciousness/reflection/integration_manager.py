@@ -560,7 +560,7 @@ class LukhasAGIIntegrationManager:
         while self.integration_active:
             try:
                 # Share insights between components
-                for _component_name, component in self.components.items():
+                for component in self.components.values():
                     if hasattr(component, "learn_from_integration"):
                         await component.learn_from_integration(self.performance_metrics)
 

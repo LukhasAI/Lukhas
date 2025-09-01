@@ -89,7 +89,7 @@ class StudioGTΨHooks:
         """Initialize GTΨ verification service"""
         await self.verification_service.initialize()
 
-    def requires_consent(self, action: str, context: dict[str, Any] = None) -> bool:
+    def requires_consent(self, action: str, context: Optional[dict[str, Any]] = None) -> bool:
         """
         Check if action requires GTΨ consent.
 

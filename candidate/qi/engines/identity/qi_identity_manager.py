@@ -446,10 +446,9 @@ class QIIdentityManager:
             context = self.identity_cache[user_id]
 
         # Quantum authentication
-        if QUANTUM_CRYPTO_AVAILABLE:
-            if not await self._verify_quantum_credentials(context, credentials):
-                self.logger.warning(f"Quantum authentication failed for {user_id}")
-                return None
+        if QUANTUM_CRYPTO_AVAILABLE and not await self._verify_quantum_credentials(context, credentials):
+            self.logger.warning(f"Quantum authentication failed for {user_id}")
+            return None
 
         # Update access time and analyze behavior
         context.last_accessed = datetime.now(timezone.utc)
@@ -491,10 +490,9 @@ class QIIdentityManager:
 
         # Check colony-specific requirements
         for colony_type, required in colony_requirements.items():
-            if colony_type in colony_id.lower():
-                if not required:
-                    self.logger.warning(f"Access denied: {user_context.user_id} lacks tier for {colony_type}")
-                    return False
+            if colony_type in colony_id.lower() and not required:
+                self.logger.warning(f"Access denied: {user_context.user_id} lacks tier for {colony_type}")
+                return False
 
         # Check resource availability
         if not await self._check_resource_availability(user_context, operation):
@@ -709,15 +707,10 @@ class QIIdentityManager:
             return False
 
         # Check operation-specific resources
-        if "quantum" in operation.lower():
-            if allocated.get("qi_operations_remaining", 0) <= 0:
-                return False
+        if "quantum" in operation.lower() and allocated.get("qi_operations_remaining", 0) <= 0:
+            return False
 
-        if "oracle" in operation.lower():
-            if allocated.get("oracle_queries_remaining", 0) <= 0:
-                return False
-
-        return True
+        return not ("oracle" in operation.lower() and allocated.get("oracle_queries_remaining", 0) <= 0)
 
     async def _load_identity_from_storage(self, user_id: str) -> Optional[QIUserContext]:
         """Load identity from persistent storage."""

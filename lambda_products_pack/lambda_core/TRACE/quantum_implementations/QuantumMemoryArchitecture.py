@@ -41,7 +41,7 @@ class QIAssociativeMemoryBank:
         # Decoherence mitigation
         self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")
 
-    async def store_quantum_state(self, memory_id: str, quantum_state: QuantumState, associations: List[str]):
+    async def store_quantum_state(self, memory_id: str, quantum_state: QuantumState, associations: list[str]):
         """
         Store information in quantum superposition
         """
@@ -60,7 +60,7 @@ class QIAssociativeMemoryBank:
 
     async def quantum_associative_recall(
         self, query: QuantumQuery, num_iterations: Optional[int] = None
-    ) -> List[QuantumMemory]:
+    ) -> list[QuantumMemory]:
         """
         Retrieve memories using quantum parallelism
         """
@@ -85,7 +85,7 @@ class QIAssociativeMemoryBank:
         # 5. Post-process to extract memories
         return self._extract_memories(results, query)
 
-    def _create_grover_oracle(self, memory_id: str, associations: List[str]) -> QuantumCircuit:
+    def _create_grover_oracle(self, memory_id: str, associations: list[str]) -> QuantumCircuit:
         """
         Create Grover oracle for specific memory pattern
         """

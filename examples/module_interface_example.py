@@ -266,7 +266,7 @@ class DataAnalyzer(CoreInterface):
 
         # Example: Find repeated values
         values = []
-        for _key, value in data.items():
+        for value in data.values():
             if isinstance(value, (str, int, float)):
                 values.append(value)
 

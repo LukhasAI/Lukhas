@@ -157,7 +157,7 @@ class LUKHASConsciousnessMCP:
             )
 
             # Module-specific resources
-            for module_name, _module_path in self.consciousness_modules.items():
+            for module_name in self.consciousness_modules:
                 resources.append(
                     Resource(
                         uri=f"lukhas://module/{module_name}",

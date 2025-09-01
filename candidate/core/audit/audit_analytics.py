@@ -432,7 +432,7 @@ class AuditAnalytics:
                 stats["error_count"] += 1
 
         # Calculate error rates
-        for _actor, stats in actor_stats.items():
+        for stats in actor_stats.values():
             stats["error_rate"] = stats["error_count"] / stats["event_count"] if stats["event_count"] > 0 else 0
 
         # Find most active actors

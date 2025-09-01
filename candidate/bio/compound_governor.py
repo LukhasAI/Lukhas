@@ -60,7 +60,7 @@ class SystemStabilityMetrics:
     emotional_stability: float  # Emotional regulation effectiveness
     repair_effectiveness: float  # System self-repair rate
     predicted_stability_window: int  # Hours of predicted stable operation
-    critical_alerts: List[str]  # Any critical issues requiring attention
+    critical_alerts: list[str]  # Any critical issues requiring attention
 
 
 class BioCompoundGovernor:
@@ -116,7 +116,7 @@ class BioCompoundGovernor:
         self.logger.info("   - Golden Ratio Energy Distribution: ✅ ACTIVE")
         self.logger.info(f"   - Target Stability: {self.target_stability*100:.1f}%")
 
-    async def regulate_system_stability(self, system_context: Dict[str, Any]) -> SystemStabilityMetrics:
+    async def regulate_system_stability(self, system_context: dict[str, Any]) -> SystemStabilityMetrics:
         """RESEARCH: Main stability regulation with all bio-compound integrations"""
 
         # Step 1: RESEARCH - Assess current system health
@@ -179,7 +179,7 @@ class BioCompoundGovernor:
 
         return stability_metrics
 
-    async def _assess_system_health(self, context: Dict[str, Any]) -> Dict[str, float]:
+    async def _assess_system_health(self, context: dict[str, Any]) -> dict[str, float]:
         """RESEARCH: Comprehensive system health assessment"""
 
         # Simulate system health metrics (in production, would query actual modules)
@@ -194,7 +194,7 @@ class BioCompoundGovernor:
 
         return health_metrics
 
-    def _calculate_energy_requirements(self, health_metrics: Dict[str, float]) -> Dict[str, float]:
+    def _calculate_energy_requirements(self, health_metrics: dict[str, float]) -> dict[str, float]:
         """RESEARCH: Calculate energy needs based on system health"""
 
         # Lower health = higher energy requirements
@@ -211,8 +211,8 @@ class BioCompoundGovernor:
         }
 
     async def _regulate_emotional_oscillators(
-        self, health_metrics: Dict[str, float], energy_result: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, health_metrics: dict[str, float], energy_result: dict[str, Any]
+    ) -> dict[str, float]:
         """RESEARCH: Bio-oscillator emotional regulation"""
 
         emotional_health = health_metrics.get("emotional_regulation", 0.85)
@@ -239,8 +239,8 @@ class BioCompoundGovernor:
         }
 
     async def _coordinate_repair_systems(
-        self, health_metrics: Dict[str, float], energy_result: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, health_metrics: dict[str, float], energy_result: dict[str, Any]
+    ) -> dict[str, float]:
         """RESEARCH: Bio-hybrid capacitor repair coordination"""
 
         # Identify modules needing repair
@@ -267,8 +267,8 @@ class BioCompoundGovernor:
         }
 
     async def _optimize_energy_distribution(
-        self, energy_result: Dict[str, Any], health_metrics: Dict[str, float]
-    ) -> Dict[str, float]:
+        self, energy_result: dict[str, Any], health_metrics: dict[str, float]
+    ) -> dict[str, float]:
         """RESEARCH: Golden ratio energy distribution optimization"""
 
         total_energy = energy_result.get("total_efficiency", 0.85)
@@ -299,7 +299,7 @@ class BioCompoundGovernor:
             "golden_ratio_compliance": True,
         }
 
-    def _classify_health_state(self, health_metrics: Dict[str, float]) -> SystemHealthState:
+    def _classify_health_state(self, health_metrics: dict[str, float]) -> SystemHealthState:
         """RESEARCH: Classify overall system health state"""
 
         avg_health = np.mean(list(health_metrics.values()))
@@ -315,7 +315,7 @@ class BioCompoundGovernor:
         else:
             return SystemHealthState.REPAIR_MODE
 
-    def _predict_stability_window(self, health_metrics: Dict[str, float]) -> int:
+    def _predict_stability_window(self, health_metrics: dict[str, float]) -> int:
         """RESEARCH: Predict hours of stable operation"""
 
         avg_health = np.mean(list(health_metrics.values()))
@@ -332,7 +332,7 @@ class BioCompoundGovernor:
         else:
             return 6  # 6 hours
 
-    def _generate_critical_alerts(self, health_metrics: Dict[str, float]) -> List[str]:
+    def _generate_critical_alerts(self, health_metrics: dict[str, float]) -> list[str]:
         """RESEARCH: Generate critical system alerts"""
 
         alerts = []
@@ -379,7 +379,7 @@ class BioCompoundGovernor:
 
         return min(1.0, overall_stability)
 
-    def get_system_status_report(self) -> Dict[str, Any]:
+    def get_system_status_report(self) -> dict[str, Any]:
         """RESEARCH: Comprehensive system status for monitoring"""
 
         if not self.stability_history:

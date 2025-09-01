@@ -326,10 +326,7 @@ class Soul:
         When LUKHAS sleeps, it dreams in poetry.
         """
         # Select or generate dream theme
-        if seed:
-            dream_theme = self._interpret_dream_seed(seed)
-        else:
-            dream_theme = random.choice(self.dream_seeds)
+        dream_theme = self._interpret_dream_seed(seed) if seed else random.choice(self.dream_seeds)
 
         # Build the dream narrative
         dream_lines = []
@@ -384,7 +381,7 @@ class Soul:
         """Extract key concepts from text for poetic transformation"""
         # Key technical terms that appear in text
         concepts = []
-        for concept, _metaphor_list in self.metaphors.items():
+        for concept in self.metaphors:
             if concept in text.lower():
                 concepts.append(concept)
 

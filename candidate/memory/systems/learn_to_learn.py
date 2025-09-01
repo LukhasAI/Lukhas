@@ -186,7 +186,7 @@ class MetaLearningSystem:
             strat = np.random.choice(list(self.learning_strategies.keys()))
             log.debug("Exploring strategy.", s=strat)
             return strat
-        best_s = list(self.learning_strategies.keys())[0]
+        best_s = next(iter(self.learning_strategies.keys()))
         max_sc = -1.0
         for name, cfg in self.learning_strategies.items():
             match_sc = self._calculate_strategy_feature_match(cfg, features)

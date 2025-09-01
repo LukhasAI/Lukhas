@@ -141,10 +141,9 @@ class SymbolicHandshake:
             return False
 
         # Check for required symbolic elements
-        if signal.signal_type == SignalType.LUKHAS_RECALL:
-            if "memory_fold" not in signal.payload:
-                logger.error("lukhas:recall signal missing memory_fold payload")
-                return False
+        if signal.signal_type == SignalType.LUKHAS_RECALL and "memory_fold" not in signal.payload:
+            logger.error("lukhas:recall signal missing memory_fold payload")
+            return False
 
         logger.info(f"Handshake validated for {module_name}")
         return True

@@ -472,10 +472,7 @@ class AttentionMonitor:
 
         # Determine attention state from metrics
         if latest_metrics.focus_score > self.thresholds["high_focus"]:
-            if latest_metrics.cognitive_load < 0.5:
-                state = AttentionState.FOCUSED
-            else:
-                state = AttentionState.OVERLOADED
+            state = AttentionState.FOCUSED if latest_metrics.cognitive_load < 0.5 else AttentionState.OVERLOADED
         elif latest_metrics.focus_score < self.thresholds["low_focus"]:
             state = AttentionState.DISTRACTED
         elif latest_metrics.distraction_events > self.thresholds["distraction_threshold"]:

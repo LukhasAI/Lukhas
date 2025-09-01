@@ -401,11 +401,10 @@ class UniversalTranslator:
 
         # List translations
         elif source_type == "list":
-            if all(isinstance(item, Symbol) for item in source):
-                if target_type == "concept":
-                    target = self.concept_mapper.symbols_to_composite_concept(source)
-                    translation_type = TranslationType.SYMBOL_TO_CONCEPT
-                    trace.append("Translated symbol list to composite concept")
+            if all(isinstance(item, Symbol) for item in source) and target_type == "concept":
+                target = self.concept_mapper.symbols_to_composite_concept(source)
+                translation_type = TranslationType.SYMBOL_TO_CONCEPT
+                trace.append("Translated symbol list to composite concept")
 
         # Cross-domain translation
         elif source_type == "symbol" and target_type == "cross_domain":

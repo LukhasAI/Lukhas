@@ -279,10 +279,7 @@ def _cli_record(args):
 
 
 def _cli_verify(args):
-    if args.sha:
-        rec = load_record_by_sha(args.sha)
-    else:
-        rec = json.load(open(args.record, encoding="utf-8"))
+    rec = load_record_by_sha(args.sha) if args.sha else json.load(open(args.record, encoding="utf-8"))
     v = verify_artifact(args.local, rec)
     print(json.dumps(v, indent=2))
     if not v["ok"]:

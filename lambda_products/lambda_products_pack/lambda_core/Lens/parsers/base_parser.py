@@ -12,11 +12,11 @@ class BaseParser(ABC):
     """Base class for file parsers"""
 
     @abstractmethod
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         """Parse file and return structured content"""
         pass
 
-    def _get_file_info(self, file_path: str) -> Dict[str, Any]:
+    def _get_file_info(self, file_path: str) -> dict[str, Any]:
         """Get basic file information"""
         from pathlib import Path
 

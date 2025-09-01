@@ -124,8 +124,9 @@ Focus on practical, secure solutions that maintain functionality.
 """
 
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
+            async with (
+                aiohttp.ClientSession() as session,
+                session.post(
                     f"{self.ollama_host}/api/generate",
                     json={
                         "model": self.model,
@@ -137,19 +138,20 @@ Focus on practical, secure solutions that maintain functionality.
                         },
                     },
                     timeout=aiohttp.ClientTimeout(total=60),
-                ) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        return {
-                            "analysis": data.get("response", "No analysis available"),
-                            "tokens_used": data.get("eval_count", 0),
-                            "success": True,
-                        }
-                    else:
-                        return {
-                            "analysis": f"Ollama request failed: {response.status}",
-                            "success": False,
-                        }
+                ) as response,
+            ):
+                if response.status == 200:
+                    data = await response.json()
+                    return {
+                        "analysis": data.get("response", "No analysis available"),
+                        "tokens_used": data.get("eval_count", 0),
+                        "success": True,
+                    }
+                else:
+                    return {
+                        "analysis": f"Ollama request failed: {response.status}",
+                        "success": False,
+                    }
 
         except Exception as e:
             return {"analysis": f"Ollama analysis failed: {e!s}", "success": False}

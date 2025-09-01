@@ -210,7 +210,7 @@ class EntropyTracker:
         transition_type: str,
         new_state: Optional[str] = None,
         notes: str = "",
-        tags: list[str] = None,
+        tags: Optional[list[str]] = None,
     ) -> EntropyEntry:
         """
         Track a state transition and calculate entropy

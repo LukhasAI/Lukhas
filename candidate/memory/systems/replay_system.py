@@ -149,7 +149,9 @@ class TemporalIndex:
         self.reverse_index = {}  # memory_fold_id -> timestamp
         self.causal_chains = defaultdict(list)  # cause_id -> [effect_ids]
 
-    def add_memory_timestamp(self, memory_fold_id: str, timestamp: str, causal_predecessors: list[str] = None) -> bool:
+    def add_memory_timestamp(
+        self, memory_fold_id: str, timestamp: str, causal_predecessors: Optional[list[str]] = None
+    ) -> bool:
         """Add memory to temporal index."""
         try:
             # Add to time index
@@ -306,9 +308,9 @@ class MemoryReplayer:
     def start_replay_session(
         self,
         sequence_id: str,
-        playback_speed: float = None,
+        playback_speed: Optional[float] = None,
         loop_mode: bool = False,
-        filters: dict[str, Any] = None,
+        filters: Optional[dict[str, Any]] = None,
     ) -> Optional[str]:
         """Start a new replay session."""
         try:
@@ -412,7 +414,9 @@ class MemoryReplayer:
             self.logger.error(f"Failed to seek to position: {e}")
             return False
 
-    def find_memories_by_content(self, search_terms: list[str], time_range: tuple[str, str] = None) -> list[str]:
+    def find_memories_by_content(
+        self, search_terms: list[str], time_range: Optional[tuple[str, str]] = None
+    ) -> list[str]:
         """Find memories containing specific content terms."""
         # This would integrate with the actual memory storage system
         # For now, return a mock implementation

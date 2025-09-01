@@ -31,7 +31,7 @@ else:
     with open(QUEUE_PATH, encoding="utf-8") as f:
         entries = [json.loads(line) for line in f if line.strip()]
 
-    for i, dream in enumerate(entries, 1):
+    for _i, dream in enumerate(entries, 1):
         st.markdown("##")
         st.markdown(f"**Text:** {dream.get('text', '—')}")
         st.markdown(f"**Emotion Vector:** `{dream.get('emotion_vector', {})}`")

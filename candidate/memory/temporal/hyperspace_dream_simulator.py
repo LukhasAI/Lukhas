@@ -504,7 +504,7 @@ class HyperspaceDreamSimulator:
         description: str,
         simulation_type: SimulationType = SimulationType.STRATEGIC_PLANNING,
         cultural_context: CulturalContext = CulturalContext.UNIVERSAL,
-        initial_context: dict[str, Any] = None,
+        initial_context: Optional[dict[str, Any]] = None,
     ) -> str:
         """Create a new simulation scenario"""
 
@@ -717,7 +717,7 @@ class HyperspaceDreamSimulator:
             alternatives_created=len(alternative_timelines),
         )
 
-        return [timeline_id] + alternative_timelines
+        return [timeline_id, *alternative_timelines]
 
     async def _generate_outcomes(
         self,

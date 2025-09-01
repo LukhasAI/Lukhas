@@ -213,7 +213,7 @@ class DreamMemoryManager(BaseMemoryManager):
 
             # Check for related dreams in sequence
             related_dreams = []
-            for _seq_id, dream_ids in self.dream_sequences.items():
+            for dream_ids in self.dream_sequences.values():
                 if memory_id in dream_ids:
                     related_dreams = [did for did in dream_ids if did != memory_id]
                     break

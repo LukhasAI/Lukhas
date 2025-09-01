@@ -118,7 +118,7 @@ class VocabularyIntegration:
         transformations_applied = 0
 
         # Apply transformation rules based on content type
-        for _module, rules in self.transformation_rules.items():
+        for rules in self.transformation_rules.values():
             rules.get("trigger_words", [])
             replacements = rules.get("replacements", {})
 

@@ -188,7 +188,7 @@ CONSTRAINTS:
                 if fix.get("type") == "unused_import" and "Remove unused import" in fix.get("suggested_fix", ""):
                     # Very conservative: only remove imports that are clearly unused
                     lines = content.split("\n")
-                    for i, line in enumerate(lines):
+                    for _i, line in enumerate(lines):
                         if line.strip().startswith("import ") and len(line.strip()) < 50:
                             # This is overly conservative - in production you'd want more sophisticated analysis
                             pass  # Skip automatic import removal for safety

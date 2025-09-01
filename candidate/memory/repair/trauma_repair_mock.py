@@ -43,8 +43,8 @@ class TraumaSignature:
         trauma_id: str,
         trauma_type: TraumaType,
         severity: float,
-        affected_memories: set = None,
-        detected_at: datetime = None,
+        affected_memories: Optional[set] = None,
+        detected_at: Optional[datetime] = None,
     ):
         self.trauma_id = trauma_id
         self.trauma_type = trauma_type
@@ -53,7 +53,7 @@ class TraumaSignature:
         self.detected_at = detected_at or datetime.now()
         # Legacy support
         if affected_memories and len(affected_memories) == 1:
-            self.memory_id = list(affected_memories)[0]
+            self.memory_id = next(iter(affected_memories))
 
 
 class TraumaRepairSystem:
@@ -279,7 +279,7 @@ class MemoryTraumaRepair:
         }
 
         # Check for active trauma
-        for _trauma_id, trauma in self.repair_system.active_traumas.items():
+        for trauma in self.repair_system.active_traumas.values():
             if trauma.memory_id == memory_id:
                 health_status["active_trauma"] = True
                 health_status["is_healthy"] = False

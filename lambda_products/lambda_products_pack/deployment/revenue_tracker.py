@@ -315,7 +315,7 @@ Week 4:
     def get_subscription_revenue(self, tier: str) -> float:
         """Get revenue from specific tier"""
         revenue = 0
-        for _domain, data in self.domains.items():
+        for data in self.domains.values():
             if "subscribers" in data and tier in data["subscribers"]:
                 if "pricing" in data and tier in data["pricing"]:
                     revenue += data["subscribers"][tier] * data["pricing"][tier]

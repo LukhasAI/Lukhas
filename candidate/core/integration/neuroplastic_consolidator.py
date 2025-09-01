@@ -242,7 +242,7 @@ except ImportError as e:
             "testing": "Testing utilities",
         }
 
-        for subdir, _desc in subdirs.items():
+        for subdir in subdirs:
             (tools_dir / subdir).mkdir(exist_ok=True)
 
         # Move root-level scripts to tools/scripts

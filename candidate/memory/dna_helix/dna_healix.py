@@ -335,7 +335,7 @@ class DNAHealixCore:
             return self._partial_heal()
 
         glyphs = []
-        max_len = max(len(s) for s in [self.origin, self.current] + quorum_strands)
+        max_len = max(len(s) for s in [self.origin, self.current, *quorum_strands])
 
         for i in range(max_len):
             # Collect votes for this position

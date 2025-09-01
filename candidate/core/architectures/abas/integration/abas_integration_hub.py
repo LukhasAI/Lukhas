@@ -707,11 +707,7 @@ class ABASIntegrationHub:
         decision_str = str(decision).lower()
         context_str = str(context).lower()
 
-        for group in protected_groups:
-            if group in context_str and "lower" in decision_str:
-                return True
-
-        return False
+        return any(group in context_str and "lower" in decision_str for group in protected_groups)
 
     async def process_quantum_biological(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Process request using quantum-biological AI"""

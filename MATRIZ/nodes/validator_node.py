@@ -317,10 +317,7 @@ class ValidatorNode(CognitiveNode):
                 "fact_verification",
                 "logical_consistency_checking",
             ]
-            if not any(cap in provenance.get("capabilities", []) for cap in expected_capabilities):
-                return False
-
-            return True
+            return any(cap in provenance.get("capabilities", []) for cap in expected_capabilities)
 
         except Exception:
             return False
@@ -800,9 +797,8 @@ class ValidatorNode(CognitiveNode):
             True if there are critical failures, False otherwise
         """
         # Structural validation is always critical
-        if "structural" in validation_results:
-            if not validation_results["structural"].get("is_valid", False):
-                return True
+        if "structural" in validation_results and not validation_results["structural"].get("is_valid", False):
+            return True
 
         # Mathematical validation is critical for COMPUTATION nodes
         if "mathematical" in validation_results:
@@ -815,9 +811,8 @@ class ValidatorNode(CognitiveNode):
         # Logical consistency failures with very low confidence are critical
         if "logical" in validation_results:
             logical_result = validation_results["logical"]
-            if not logical_result.get("is_valid", False):
-                if logical_result.get("confidence", 0) < 0.5:
-                    return True
+            if not logical_result.get("is_valid", False) and logical_result.get("confidence", 0) < 0.5:
+                return True
 
         return False
 
@@ -895,11 +890,7 @@ class ValidatorNode(CognitiveNode):
             r"how many \w+",
         ]
 
-        for pattern in factual_patterns:
-            if re.search(pattern, text, re.IGNORECASE):
-                return True
-
-        return False
+        return any(re.search(pattern, text, re.IGNORECASE) for pattern in factual_patterns)
 
     def _safe_eval_expression(self, expression: str) -> Union[float, int]:
         """Safely evaluate a mathematical expression."""

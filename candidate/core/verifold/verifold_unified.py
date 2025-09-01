@@ -47,7 +47,7 @@ from lukhas.governance.identity.interface import IdentityClient, verify_access
 logger = structlog.get_logger(__name__)
 
 
-def require_identity(required_tier: str = "LAMBDA_TIER_1", check_consent: str = None):
+def require_identity(required_tier: str = "LAMBDA_TIER_1", check_consent: Optional[str] = None):
     """
     Decorator for tier-based access control.
     This replaces the missing require_identity decorator from the identity system.

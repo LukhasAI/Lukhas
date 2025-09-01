@@ -177,7 +177,7 @@ class AWSKMSClient:
                 logger.error(f"AWS KMS connection error: {e}")
                 self.client = None
 
-    def create_key(self, description: str, tags: list[dict] = None) -> Optional[str]:
+    def create_key(self, description: str, tags: Optional[list[dict]] = None) -> Optional[str]:
         """Create new KMS key"""
         if not self.client:
             return None
@@ -245,7 +245,7 @@ class SecretScanner:
         "jwt_secret": re.compile(r'[jJ][wW][tT][-_]?[sS][eE][cC][rR][eE][tT].*[=:].*[\'"][0-9a-zA-Z]{16,}[\'"]'),
     }
 
-    def __init__(self, exclude_dirs: list[str] = None):
+    def __init__(self, exclude_dirs: Optional[list[str]] = None):
         self.exclude_dirs = exclude_dirs or [
             ".git",
             "__pycache__",
@@ -441,7 +441,7 @@ class LukhasKMSManager:
         secret_type: SecretType,
         rotation_policy: RotationPolicy = RotationPolicy.MONTHLY,
         lid: Optional[str] = None,
-        tags: dict[str, str] = None,
+        tags: Optional[dict[str, str]] = None,
     ) -> bool:
         """
         Store secret with automatic rotation policy

@@ -132,14 +132,14 @@ def analyze_vocabulary_usage(directory: Path):
                         total_files += 1
 
                         # Count clichés
-                        for _category, words in CLICHES.items():
+                        for words in CLICHES.values():
                             for word in words:
                                 count = len(re.findall(r"\b" + word + r"\b", content))
                                 if count > 0:
                                     cliche_counts[word] += count
 
                         # Count unique LUKHAS terms
-                        for _category, words in UNIQUE_LUKHAS.items():
+                        for words in UNIQUE_LUKHAS.values():
                             for word in words:
                                 count = len(re.findall(r"\b" + word.lower() + r"\b", content))
                                 if count > 0:

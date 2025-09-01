@@ -29,7 +29,7 @@ class RouterClient(Protocol):
     """
 
     @abstractmethod
-    def route(self, glyphs: List[PhenomenalGlyph], priority: float, context: Optional[Dict[str, Any]] = None) -> None:
+    def route(self, glyphs: list[PhenomenalGlyph], priority: float, context: Optional[dict[str, Any]] = None) -> None:
         """
         Route phenomenological glyphs through the symbolic mesh.
 
@@ -41,7 +41,7 @@ class RouterClient(Protocol):
         ...
 
     @abstractmethod
-    def get_routing_status(self) -> Dict[str, Any]:
+    def get_routing_status(self) -> dict[str, Any]:
         """
         Get current routing system status and statistics.
 
@@ -59,7 +59,7 @@ class SymbolicMeshRouterClient:
     phenomenological processing with LUKHAS symbolic routing.
     """
 
-    def __init__(self, router_module: Optional[Any] = None, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, router_module: Optional[Any] = None, config: Optional[dict[str, Any]] = None):
         """
         Initialize router client.
 
@@ -74,7 +74,7 @@ class SymbolicMeshRouterClient:
         self.routes_sent = 0
         self.routes_failed = 0
         self.total_priority_weight = 0.0
-        self.glyph_type_counts: Dict[str, int] = {}
+        self.glyph_type_counts: dict[str, int] = {}
 
         # Import LUKHAS symbolic signal router
         if not router_module:
@@ -95,7 +95,7 @@ class SymbolicMeshRouterClient:
             self.DiagnosticSignalType = router_module.DiagnosticSignalType
             self.has_lukhas_router = True
 
-    def _load_config(self, config_override: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _load_config(self, config_override: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Load router client configuration"""
         default_config = {
             "enable_routing": True,
@@ -112,7 +112,7 @@ class SymbolicMeshRouterClient:
 
         return default_config
 
-    def route(self, glyphs: List[PhenomenalGlyph], priority: float, context: Optional[Dict[str, Any]] = None) -> None:
+    def route(self, glyphs: list[PhenomenalGlyph], priority: float, context: Optional[dict[str, Any]] = None) -> None:
         """
         Route phenomenological glyphs through LUKHAS symbolic mesh.
 
@@ -170,7 +170,7 @@ class SymbolicMeshRouterClient:
                 raise
 
     def _convert_glyph_to_signal(
-        self, glyph: PhenomenalGlyph, priority: float, context: Optional[Dict[str, Any]]
+        self, glyph: PhenomenalGlyph, priority: float, context: Optional[dict[str, Any]]
     ) -> Any:
         """
         Convert PhenomenalGlyph to LUKHAS SymbolicSignal.
@@ -232,7 +232,7 @@ class SymbolicMeshRouterClient:
 
         return glyph_mappings.get(glyph_key, self.DiagnosticSignalType.PULSE)
 
-    def get_routing_status(self) -> Dict[str, Any]:
+    def get_routing_status(self) -> dict[str, Any]:
         """Get current routing system status and statistics"""
         avg_priority = self.total_priority_weight / self.routes_sent if self.routes_sent > 0 else 0.0
 
@@ -270,15 +270,15 @@ class MockRouterClient:
     """
 
     def __init__(self):
-        self.routed_glyphs: List[tuple[List[PhenomenalGlyph], float]] = []
+        self.routed_glyphs: list[tuple[list[PhenomenalGlyph], float]] = []
         self.routing_calls = 0
 
-    def route(self, glyphs: List[PhenomenalGlyph], priority: float, context: Optional[Dict[str, Any]] = None) -> None:
+    def route(self, glyphs: list[PhenomenalGlyph], priority: float, context: Optional[dict[str, Any]] = None) -> None:
         """Mock routing - just record the call"""
         self.routed_glyphs.append((glyphs.copy(), priority))
         self.routing_calls += 1
 
-    def get_routing_status(self) -> Dict[str, Any]:
+    def get_routing_status(self) -> dict[str, Any]:
         """Mock routing status"""
         return {
             "router_available": True,
@@ -292,7 +292,7 @@ class MockRouterClient:
             "mock_mode": True,
         }
 
-    def get_routed_glyphs(self) -> List[tuple[List[PhenomenalGlyph], float]]:
+    def get_routed_glyphs(self) -> list[tuple[list[PhenomenalGlyph], float]]:
         """Get list of routed glyphs for testing"""
         return self.routed_glyphs.copy()
 
@@ -302,7 +302,7 @@ class MockRouterClient:
         self.routing_calls = 0
 
 
-def create_router_client(router_type: str = "lukhas", config: Optional[Dict[str, Any]] = None) -> RouterClient:
+def create_router_client(router_type: str = "lukhas", config: Optional[dict[str, Any]] = None) -> RouterClient:
     """
     Factory function to create appropriate router client.
 

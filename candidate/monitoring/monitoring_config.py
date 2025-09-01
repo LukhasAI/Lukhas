@@ -464,10 +464,7 @@ class MonitoringConfigManager:
         if self.config_path.exists():
             try:
                 with open(self.config_path) as f:
-                    if self.config_path.suffix.lower() == ".yaml":
-                        file_config = yaml.safe_load(f)
-                    else:
-                        file_config = json.load(f)
+                    file_config = yaml.safe_load(f) if self.config_path.suffix.lower() == ".yaml" else json.load(f)
 
                 config = self._apply_overrides(config, file_config)
                 logger.info("Loaded monitoring configuration", config_path=str(self.config_path))

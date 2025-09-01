@@ -113,7 +113,4 @@ def is_valid_api_key_format(api_key: str) -> bool:
         return False
 
     # Character set check
-    if not re.match(r"^[a-zA-Z0-9_\-\.]+$", api_key):
-        return False
-
-    return True
+    return re.match("^[a-zA-Z0-9_\\-\\.]+$", api_key)
