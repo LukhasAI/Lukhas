@@ -272,18 +272,16 @@ class RedundancyRemover:
                     if isinstance(node, ast.Import):
                         for alias in node.names:
                             imports.add(alias.name.split(".")[0])
-                    elif isinstance(node, ast.ImportFrom):
-                        if node.module:
-                            imports.add(node.module.split(".")[0])
+                    elif isinstance(node, ast.ImportFrom) and node.module:
+                        imports.add(node.module.split(".")[0])
 
                 # Find all names used
                 used_names = set()
                 for node in ast.walk(tree):
                     if isinstance(node, ast.Name):
                         used_names.add(node.id)
-                    elif isinstance(node, ast.Attribute):
-                        if isinstance(node.value, ast.Name):
-                            used_names.add(node.value.id)
+                    elif isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+                        used_names.add(node.value.id)
 
                 # Check which imports are unused
                 unused = imports - used_names

@@ -98,7 +98,7 @@ class DistributedAISystem:
         required_capabilities = task_data.get("required_capabilities", ["reasoning"])
         suitable_colonies = []
 
-        for _colony_id, colony in self.colonies.items():
+        for colony in self.colonies.values():
             if any(cap in colony.capabilities for cap in required_capabilities):
                 suitable_colonies.append(colony)
 

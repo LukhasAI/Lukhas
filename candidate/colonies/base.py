@@ -113,7 +113,7 @@ class BaseColony(ABC):
         task_type: str,
         payload: Any,
         priority: int = 5,
-        required_capabilities: list[str] = None,
+        required_capabilities: Optional[list[str]] = None,
     ) -> ColonyTask:
         """Submit a task to the colony"""
         task = ColonyTask(
@@ -226,7 +226,7 @@ class BaseColony(ABC):
             "status": "synchronized",
         }
 
-    def add_agent(self, capabilities: list[str] = None, role: ColonyRole = ColonyRole.WORKER) -> ColonyAgent:
+    def add_agent(self, capabilities: Optional[list[str]] = None, role: ColonyRole = ColonyRole.WORKER) -> ColonyAgent:
         """Add new agent to colony"""
         if len(self.agents) >= self.max_agents:
             raise ValueError(f"Colony {self.name} at maximum capacity ({self.max_agents})")

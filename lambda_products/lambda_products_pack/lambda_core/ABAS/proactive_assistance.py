@@ -434,10 +434,9 @@ class ProactiveAssistanceSystem:
                     pattern.confidence = min(1.0, pattern.occurrences * 0.25)
 
             # Check error loop
-            elif pattern.pattern_id == "error_loop":
-                if self._check_error_loop(recent_actions):
-                    pattern.occurrences += 1
-                    pattern.confidence = min(1.0, pattern.occurrences * 0.3)
+            elif pattern.pattern_id == "error_loop" and self._check_error_loop(recent_actions):
+                pattern.occurrences += 1
+                pattern.confidence = min(1.0, pattern.occurrences * 0.3)
 
     def _check_repeated_actions(self, actions: list[UserAction]) -> bool:
         """Check for repeated same actions"""
@@ -668,7 +667,7 @@ class ProactiveAssistanceSystem:
             "help_hotspots": [],
         }
 
-        for _user_id, actions in self.action_history.items():
+        for actions in self.action_history.values():
             # Collect error types
             for action in actions:
                 if not action.success and action.error_code:
@@ -705,7 +704,7 @@ class ProactiveAssistanceSystem:
         """Identify features users frequently search for"""
         search_counts = {}
 
-        for _user_id, actions in self.action_history.items():
+        for actions in self.action_history.values():
             for action in actions:
                 if "search" in action.action_type.lower() and action.context.get("query"):
                     query = action.context["query"]
@@ -719,7 +718,7 @@ class ProactiveAssistanceSystem:
         """Identify where users abandon tasks"""
         abandonment_points = []
 
-        for _user_id, actions in self.action_history.items():
+        for actions in self.action_history.values():
             # Look for long idle periods after specific actions
             for i in range(len(actions) - 1):
                 time_gap = (actions[i + 1].timestamp - actions[i].timestamp).total_seconds()
@@ -738,7 +737,7 @@ class ProactiveAssistanceSystem:
         confusion_areas = []
 
         # Look for areas with random clicking or repeated actions
-        for _user_id, actions in self.action_history.items():
+        for actions in self.action_history.values():
             targets_with_confusion = set()
             for i in range(len(actions) - 3):
                 window = actions[i : i + 4]

@@ -19,6 +19,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -610,7 +611,7 @@ class SystemHealthAnalyzer:
 
         self.results["recommendations"] = recommendations
 
-    def save_report(self, filename: str = None):
+    def save_report(self, filename: Optional[str] = None):
         """Save the comprehensive report"""
         if not filename:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

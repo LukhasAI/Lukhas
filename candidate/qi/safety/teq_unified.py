@@ -14,7 +14,7 @@ from collections import deque
 from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import yaml
 
@@ -98,8 +98,8 @@ class UnifiedTEQCoupler:
 
     def __init__(
         self,
-        state_dir: Path = None,
-        policy_dir: str = None,
+        state_dir: Path | None = None,
+        policy_dir: str | None = None,
         jurisdiction: str = "global",
         stability_threshold: float = 0.7,
         transient_duration: float = 5.0,
@@ -146,8 +146,8 @@ class UnifiedTEQCoupler:
         action: str,
         risk_level: float,
         energy: float = 1.0,
-        context: dict[str, Any] = None,
-        metadata: dict = None,
+        context: dict[str, Any] | None = None,
+        metadata: dict | None = None,
     ) -> tuple[bool, str, dict]:
         """
         Unified evaluation through both state and policy systems

@@ -479,9 +479,8 @@ class DreamGlyphBridge:
         emotion = glyph.emotion_vector
         for archetype, mapping in self.archetypal_mappings.items():
             emphasis = mapping["emotional_emphasis"]
-            if any(getattr(emotion, em, 0) > 0.5 for em in emphasis):
-                if archetype not in archetypes:
-                    archetypes.append(archetype)
+            if any(getattr(emotion, em, 0) > 0.5 for em in emphasis) and archetype not in archetypes:
+                archetypes.append(archetype)
 
         return archetypes[:3]  # Limit to top 3 archetypes
 
@@ -667,7 +666,7 @@ class DreamGlyphBridge:
 
         # Extract from dream narrative
         narrative_lower = dream_narrative.lower()
-        for _archetype, mapping in self.archetypal_mappings.items():
+        for mapping in self.archetypal_mappings.values():
             for theme in mapping["themes"]:
                 if theme in narrative_lower:
                     themes.add(theme)

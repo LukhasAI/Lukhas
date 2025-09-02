@@ -535,10 +535,7 @@ class AuthenticationGuardian:
             return True
 
         # Alert on security anomalies
-        if metrics.metadata.get("security_risk_score", 0) > 0.8:
-            return True
-
-        return False
+        return metrics.metadata.get("security_risk_score", 0) > 0.8
 
     async def _generate_recommendations(self, metrics: AuthDriftMetrics) -> list[str]:
         """Generate recommendations based on monitoring results"""

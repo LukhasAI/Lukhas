@@ -14,7 +14,7 @@ from .base_parser import BaseParser
 class CSVParser(BaseParser):
     """Parser for CSV files"""
 
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         """Parse CSV file and extract data"""
         try:
             file_info = self._get_file_info(file_path)
@@ -102,7 +102,7 @@ class CSVParser(BaseParser):
         except ImportError:
             return "utf-8"
 
-    def _detect_headers(self, sample_rows: List[List[str]]) -> bool:
+    def _detect_headers(self, sample_rows: list[list[str]]) -> bool:
         """Detect if first row contains headers"""
         if len(sample_rows) < 2:
             return False
@@ -144,7 +144,7 @@ class CSVParser(BaseParser):
 
         return "string"
 
-    def _analyze_column_types(self, rows: List[Any], headers: List[str], has_headers: bool) -> Dict[str, str]:
+    def _analyze_column_types(self, rows: list[Any], headers: list[str], has_headers: bool) -> dict[str, str]:
         """Analyze data types for each column"""
         if not rows:
             return {}

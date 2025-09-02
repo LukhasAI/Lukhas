@@ -1118,10 +1118,7 @@ class ConsciousnessEngine:
         """Generate dream narrative"""
         await asyncio.sleep(0.02)
 
-        if seed and "theme" in seed:
-            theme = seed["theme"]
-        else:
-            theme = "exploration of consciousness"
+        theme = seed["theme"] if seed and "theme" in seed else "exploration of consciousness"
 
         narratives = [
             f"Flying through datastreams while {theme} unfolds in fractal patterns",
@@ -1269,10 +1266,7 @@ class ConsciousnessEngine:
         valences = [e.emotional_tone.get("valence", 0.5) for e in experiences]
 
         # Calculate trend
-        if len(valences) > 1:
-            trend = "ascending" if valences[-1] > valences[0] else "descending"
-        else:
-            trend = "stable"
+        trend = ("ascending" if valences[-1] > valences[0] else "descending") if len(valences) > 1 else "stable"
 
         # Calculate stability
         stability = 1.0 - np.std(valences) if len(valences) > 1 else 1.0

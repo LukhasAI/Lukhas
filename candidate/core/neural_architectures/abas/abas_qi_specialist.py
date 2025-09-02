@@ -22,6 +22,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+from typing import Optional
 
 import numpy as np
 
@@ -494,7 +495,7 @@ class CristaeTopologyManager:
         fold_density = config["fold_density"]
 
         # Create tubular connections
-        for _node_id, node_data in nodes.items():
+        for node_data in nodes.values():
             # Increase branching factor
             current_connections = len(node_data.get("connections", []))
             target_connections = int(current_connections * (1 + fold_density))
@@ -575,7 +576,7 @@ class QIBiologicalAGI:
     Main quantum-biological AI system integrating all mitochondrial-inspired components
     """
 
-    def __init__(self, config: dict = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize quantum-biological AI system"""
         logger.info("🧬 Initializing Quantum-Inspired Biological AI Specialist")
 
@@ -618,7 +619,7 @@ class QIBiologicalAGI:
         await trio.register_component("abas_qi_specialist", self)
         return True
 
-    async def process_with_qi_biology(self, input_text: str, context: dict = None) -> QIBioResponse:
+    async def process_with_qi_biology(self, input_text: str, context: Optional[dict] = None) -> QIBioResponse:
         """Process input using complete quantum-inspired biological pipeline"""
         start_time = datetime.now()
         logger.info(f"🧬 Processing with quantum-biological architecture: {input_text[:100]}...")
@@ -892,25 +893,21 @@ class QIBiologicalAGI:
 
         cycles = self.bio_metrics["total_processing_cycles"]
 
-        if avg_performance > 0.8 and cycles > 10:
-            if self.capability_level == QIBioCapabilityLevel.CELLULAR:
-                self.capability_level = QIBioCapabilityLevel.ORGANELLE
-                logger.info("🔬 Advanced to ORGANELLE capability level")
+        if avg_performance > 0.8 and cycles > 10 and self.capability_level == QIBioCapabilityLevel.CELLULAR:
+            self.capability_level = QIBioCapabilityLevel.ORGANELLE
+            logger.info("🔬 Advanced to ORGANELLE capability level")
 
-        if avg_performance > 0.9 and cycles > 25:
-            if self.capability_level == QIBioCapabilityLevel.ORGANELLE:
-                self.capability_level = QIBioCapabilityLevel.RESPIRATORY
-                logger.info("🔬 Advanced to RESPIRATORY capability level")
+        if avg_performance > 0.9 and cycles > 25 and self.capability_level == QIBioCapabilityLevel.ORGANELLE:
+            self.capability_level = QIBioCapabilityLevel.RESPIRATORY
+            logger.info("🔬 Advanced to RESPIRATORY capability level")
 
-        if avg_performance > 0.95 and cycles > 50:
-            if self.capability_level == QIBioCapabilityLevel.RESPIRATORY:
-                self.capability_level = QIBioCapabilityLevel.CRISTAE
-                logger.info("🔬 Advanced to CRISTAE capability level")
+        if avg_performance > 0.95 and cycles > 50 and self.capability_level == QIBioCapabilityLevel.RESPIRATORY:
+            self.capability_level = QIBioCapabilityLevel.CRISTAE
+            logger.info("🔬 Advanced to CRISTAE capability level")
 
-        if avg_performance > 0.98 and cycles > 100:
-            if self.capability_level == QIBioCapabilityLevel.CRISTAE:
-                self.capability_level = QIBioCapabilityLevel.QI_TUNNELING
-                logger.info("🔬 Advanced to QUANTUM_TUNNELING capability level - Maximum bio-AI achieved!")
+        if avg_performance > 0.98 and cycles > 100 and self.capability_level == QIBioCapabilityLevel.CRISTAE:
+            self.capability_level = QIBioCapabilityLevel.QI_TUNNELING
+            logger.info("🔬 Advanced to QUANTUM_TUNNELING capability level - Maximum bio-AI achieved!")
 
     def get_biological_status(self) -> dict:
         """Get comprehensive biological AI status"""

@@ -547,7 +547,7 @@ class TestTraceAPI(unittest.TestCase):
 
         # Create multiple threads
         threads = []
-        for i in range(10):
+        for _i in range(10):
             thread = threading.Thread(target=make_request)
             threads.append(thread)
 

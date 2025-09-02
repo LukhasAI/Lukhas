@@ -665,7 +665,7 @@ class ReasoningColony:
     def __init__(
         self,
         memory_system: MemoryManager,
-        agent_count: dict[ReasonerType, int] = None,
+        agent_count: Optional[dict[ReasonerType, int]] = None,
         consensus_threshold: float = 0.6,
     ):
         """Initialize the reasoning colony"""
@@ -802,7 +802,7 @@ class ReasoningColony:
         relevant = []
 
         # Always include required reasoner types
-        for _agent_id, agent in self.agents.items():
+        for agent in self.agents.values():
             if (
                 agent.reasoner_type in query.required_reasoners
                 or (query.emotional_context > 0.7 and agent.reasoner_type == ReasonerType.EMOTIONAL)
@@ -814,7 +814,7 @@ class ReasoningColony:
         # Ensure minimum diversity
         if len(relevant) < 3:
             # Add some other agents for diversity
-            for _agent_id, agent in self.agents.items():
+            for agent in self.agents.values():
                 if agent not in relevant:
                     relevant.append(agent)
                     if len(relevant) >= 3:
@@ -922,19 +922,13 @@ class ReasoningColony:
         symbols1 = insight1.supporting_symbols | insight1.derived_symbols
         symbols2 = insight2.supporting_symbols | insight2.derived_symbols
 
-        if symbols1 and symbols2:
-            symbol_overlap = len(symbols1 & symbols2) / len(symbols1 | symbols2)
-        else:
-            symbol_overlap = 0.0
+        symbol_overlap = len(symbols1 & symbols2) / len(symbols1 | symbols2) if symbols1 and symbols2 else 0.0
 
         # Content similarity (simple word overlap)
         words1 = set(insight1.content.lower().split())
         words2 = set(insight2.content.lower().split())
 
-        if words1 and words2:
-            word_overlap = len(words1 & words2) / len(words1 | words2)
-        else:
-            word_overlap = 0.0
+        word_overlap = len(words1 & words2) / len(words1 | words2) if words1 and words2 else 0.0
 
         # Type similarity
         type_similarity = 1.0 if insight1.insight_type == insight2.insight_type else 0.5

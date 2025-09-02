@@ -513,7 +513,7 @@ Actual file size: {metadata.size} bytes
 
 # Factory function
 async def create_dropbox_adapter(
-    consent_service: ConsentService = None, config: dict[str, Any] = None
+    consent_service: ConsentService = None, config: Optional[dict[str, Any]] = None
 ) -> DropboxAdapter:
     """Create and initialize Dropbox adapter"""
     adapter = DropboxAdapter(consent_service)

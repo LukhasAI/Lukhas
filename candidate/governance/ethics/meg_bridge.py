@@ -249,7 +249,7 @@ class MEGPolicyBridge:
         meg_status["bridge_metrics"] = self.metrics.copy()
         return meg_status
 
-    async def quick_meg_check(self, action: str, context: dict[str, Any] = None) -> bool:
+    async def quick_meg_check(self, action: str, context: Optional[dict[str, Any]] = None) -> bool:
         """Quick ethical check using MEG"""
         return await self.meg.quick_ethical_check(action, context)
 

@@ -99,7 +99,7 @@ class UniversalSymbolExchange:
 
         session = ExchangeSession(
             session_id=session_id,
-            participants=set([initiator_id] + participant_ids),
+            participants=set([initiator_id, *participant_ids]),
             protocol=protocol,
         )
 

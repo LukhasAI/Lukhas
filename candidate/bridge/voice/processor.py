@@ -119,18 +119,16 @@ class VoiceProcessor:
         results = {}
 
         try:
-            if mode in (VoiceMode.TEXT_TO_SPEECH, VoiceMode.BOTH):
-                if isinstance(input_data, str):
-                    success = await self.text_to_speech(input_data)
-                    results["tts_success"] = success
+            if mode in (VoiceMode.TEXT_TO_SPEECH, VoiceMode.BOTH) and isinstance(input_data, str):
+                success = await self.text_to_speech(input_data)
+                results["tts_success"] = success
 
-            if mode in (VoiceMode.SPEECH_TO_TEXT, VoiceMode.BOTH):
-                if isinstance(input_data, bytes):
-                    with open("temp_audio.wav", "wb") as f:
-                        f.write(input_data)
-                    text = await self.speech_to_text("temp_audio.wav")
-                    results["transcribed_text"] = text
-                    os.remove("temp_audio.wav")
+            if mode in (VoiceMode.SPEECH_TO_TEXT, VoiceMode.BOTH) and isinstance(input_data, bytes):
+                with open("temp_audio.wav", "wb") as f:
+                    f.write(input_data)
+                text = await self.speech_to_text("temp_audio.wav")
+                results["transcribed_text"] = text
+                os.remove("temp_audio.wav")
 
             return results
         except Exception as e:

@@ -534,11 +534,7 @@ class OnboardingConfigManager:
         """Determine if stage should be skipped based on context."""
         stage_config = self.get_stage_config(stage_name)
 
-        for condition in stage_config.skip_conditions:
-            if self._evaluate_skip_condition(condition, user_context):
-                return True
-
-        return False
+        return any(self._evaluate_skip_condition(condition, user_context) for condition in stage_config.skip_conditions)
 
     def validate_stage_completion(self, stage_name: str, stage_data: dict[str, Any]) -> dict[str, Any]:
         """Validate stage completion against configuration rules."""

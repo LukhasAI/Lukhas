@@ -1065,10 +1065,7 @@ class MATRIZGraphViewer:
                 return False
 
         state = node.get("state", {})
-        if "confidence" not in state or "salience" not in state:
-            return False
-
-        return True
+        return not ("confidence" not in state or "salience" not in state)
 
     def _add_link(self, source_id: str, link: dict[str, Any]) -> None:
         """Add a link to the graph."""

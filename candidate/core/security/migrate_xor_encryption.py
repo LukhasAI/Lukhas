@@ -120,10 +120,7 @@ class XORMigration:
         func_name = func_node.name
 
         # Determine purpose from function name
-        if "simple" in func_name or "demo" in func_name:
-            algorithm = "Fernet"
-        else:
-            algorithm = "AES-256-GCM"
+        algorithm = "Fernet" if "simple" in func_name or "demo" in func_name else "AES-256-GCM"
 
         template = f'''async def {func_name}(self, data: bytes, key: bytes) -> bytes:
     """Encrypted version of {func_name} using proper cryptography"""

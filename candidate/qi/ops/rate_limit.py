@@ -90,10 +90,7 @@ class RateLimiter(BaseHTTPMiddleware):
         if user:
             return f"user:{user}"
         ip = req.headers.get("x-forwarded-for")
-        if ip:
-            ip = ip.split(",")[0].strip()
-        else:
-            ip = req.client.host if req.client else "unknown"
+        ip = ip.split(",")[0].strip() if ip else req.client.host if req.client else "unknown"
         return f"ip:{ip}"
 
     async def dispatch(self, request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:

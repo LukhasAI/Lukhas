@@ -342,7 +342,7 @@ class DASTAdapter:
                 "description": issue.get("body", ""),
                 "priority": self._map_github_priority(labels),
                 "status": "pending",  # GitHub issues are typically open
-                "tags": ["github"] + labels,
+                "tags": ["github", *labels],
                 "context": {
                     "source": "github",
                     "external_id": issue["number"],
@@ -365,7 +365,7 @@ class DASTAdapter:
                 "description": task.get("description", ""),
                 "priority": task.get("priority", "medium"),
                 "status": task.get("status", "pending"),
-                "tags": ["legacy"] + task.get("tags", []),
+                "tags": ["legacy", *task.get("tags", [])],
                 "context": {"source": "legacy_dast", "external_id": task["id"], "migrated": True},
                 "created_at": task.get("created_date", datetime.now().isoformat()),
             }
@@ -390,7 +390,7 @@ class DASTAdapter:
             "description": item.get("description", ""),
             "priority": item.get("priority", "medium"),
             "status": item.get("status", "pending"),
-            "tags": ["external"] + item.get("tags", []),
+            "tags": ["external", *item.get("tags", [])],
             "context": {"source": "generic_api", "original_data": item},
             "created_at": item.get("created_at", datetime.now().isoformat()),
         }

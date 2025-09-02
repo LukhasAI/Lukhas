@@ -5,7 +5,7 @@ Minimal implementation to support dream and consciousness systems.
 """
 
 import logging
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ class BioOrchestrator:
         """Stop orchestrator"""
         self.active = False
         # Stop all processes
-        for _process_id, process in self.processes.items():
+        for process in self.processes.values():
             if hasattr(process, "stop"):
                 await process.stop()
         self.processes.clear()
@@ -61,7 +61,7 @@ class BioOrchestrator:
                 await oscillator.modulate_frequency(target_frequency)
         logger.debug(f"Oscillators coordinated to {target_frequency}Hz")
 
-    async def trigger_event(self, event_type: str, data: dict[str, Any] = None):
+    async def trigger_event(self, event_type: str, data: Optional[dict[str, Any]] = None):
         """Trigger orchestration event"""
         if event_type in self.event_handlers:
             handler = self.event_handlers[event_type]

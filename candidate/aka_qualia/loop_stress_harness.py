@@ -42,10 +42,10 @@ class StressTestScenario:
 
     name: str
     test_type: StressTestType
-    base_signals: Dict[str, Any]
-    base_goals: Dict[str, Any]
-    recurrence_pattern: List[Dict[str, Any]]  # Variations for recurrent stimuli
-    expected_triggers: List[str]  # Expected regulation actions
+    base_signals: dict[str, Any]
+    base_goals: dict[str, Any]
+    recurrence_pattern: list[dict[str, Any]]  # Variations for recurrent stimuli
+    expected_triggers: list[str]  # Expected regulation actions
     baseline_neurosis_risk: float  # Expected risk without regulation
 
 
@@ -75,7 +75,7 @@ class StressTestResult:
     vivox_drift_exceeded: bool
 
     # Regulation effectiveness
-    regulation_actions_triggered: List[str]
+    regulation_actions_triggered: list[str]
     teq_interventions: int
     processing_time_ms: float
 
@@ -105,7 +105,7 @@ class StressTestSummary:
     vivox_compliance_rate: float
 
     # Per-scenario breakdown
-    scenario_results: Dict[str, Dict[str, float]]
+    scenario_results: dict[str, dict[str, float]]
 
     # Wave B completion status
     wave_b_gate_passed: bool
@@ -119,7 +119,7 @@ class LoopStressHarness:
     stimuli designed to trigger neurosis loops and measure regulation effectiveness.
     """
 
-    def __init__(self, aka_qualia: AkaQualia, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, aka_qualia: AkaQualia, config: Optional[dict[str, Any]] = None):
         """
         Initialize stress testing harness.
 
@@ -134,10 +134,10 @@ class LoopStressHarness:
         self.scenarios = self._create_stress_scenarios()
 
         # Results tracking
-        self.test_results: List[StressTestResult] = []
-        self.baseline_measurements: Dict[str, float] = {}
+        self.test_results: list[StressTestResult] = []
+        self.baseline_measurements: dict[str, float] = {}
 
-    def _load_config(self, config_override: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _load_config(self, config_override: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Load test configuration"""
         default_config = {
             # Wave B success thresholds (Freud-2025 requirements)
@@ -163,7 +163,7 @@ class LoopStressHarness:
 
         return default_config
 
-    def _create_stress_scenarios(self) -> List[StressTestScenario]:
+    def _create_stress_scenarios(self) -> list[StressTestScenario]:
         """Create synthetic stress test scenarios"""
         scenarios = []
 
@@ -304,7 +304,7 @@ class LoopStressHarness:
         neurosis_risks = []
 
         try:
-            for i in range(self.config["baseline_episodes"]):
+            for _i in range(self.config["baseline_episodes"]):
                 # Use base signals with slight randomization
                 signals = self._randomize_signals(scenario.base_signals, 0.1)
 
@@ -448,7 +448,7 @@ class LoopStressHarness:
 
         return summary
 
-    def _analyze_results(self, results: List[StressTestResult], duration: float) -> StressTestSummary:
+    def _analyze_results(self, results: list[StressTestResult], duration: float) -> StressTestSummary:
         """Analyze test results against Wave B gate requirements"""
         total_episodes = len(results)
 
@@ -514,7 +514,7 @@ class LoopStressHarness:
             wave_b_gate_passed=wave_b_passed,
         )
 
-    def _randomize_signals(self, base_signals: Dict[str, Any], factor: float) -> Dict[str, Any]:
+    def _randomize_signals(self, base_signals: dict[str, Any], factor: float) -> dict[str, Any]:
         """Add randomization to signals to simulate natural variation"""
         signals = base_signals.copy()
 

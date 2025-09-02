@@ -16,7 +16,7 @@ class SymbolGenerator:
     def __init__(self):
         self.symbol_cache = {}
 
-    async def generate(self, content: dict, symbol_style: str = "modern", max_symbols: int = 1000) -> List[GlyphSymbol]:
+    async def generate(self, content: dict, symbol_style: str = "modern", max_symbols: int = 1000) -> list[GlyphSymbol]:
         """Generate symbols from parsed content"""
         symbols = []
 
@@ -42,7 +42,7 @@ class SymbolGenerator:
 
         return symbols
 
-    async def _extract_text_symbols(self, text: str) -> List[GlyphSymbol]:
+    async def _extract_text_symbols(self, text: str) -> list[GlyphSymbol]:
         """Extract symbols from text content"""
         symbols = []
 
@@ -73,7 +73,7 @@ class SymbolGenerator:
 
         return symbols
 
-    async def _extract_code_symbols(self, code: str) -> List[GlyphSymbol]:
+    async def _extract_code_symbols(self, code: str) -> list[GlyphSymbol]:
         """Extract symbols from code content"""
         symbols = []
 
@@ -96,7 +96,7 @@ class SymbolGenerator:
 
         return symbols
 
-    async def _extract_data_symbols(self, data: Any) -> List[GlyphSymbol]:
+    async def _extract_data_symbols(self, data: Any) -> list[GlyphSymbol]:
         """Extract symbols from data content"""
         symbols = []
 
@@ -122,7 +122,7 @@ class SymbolGenerator:
 
         return symbols
 
-    async def _apply_style(self, symbols: List[GlyphSymbol], style: str) -> List[GlyphSymbol]:
+    async def _apply_style(self, symbols: list[GlyphSymbol], style: str) -> list[GlyphSymbol]:
         """Apply visual style to symbols"""
         if style == "modern":
             # Modern style: clean, minimal
@@ -170,7 +170,7 @@ class SymbolGenerator:
         }
         return icon_map.get(symbol_type, "✨")
 
-    def _extract_key_concepts(self, text: str) -> List[str]:
+    def _extract_key_concepts(self, text: str) -> list[str]:
         """Extract key concepts from text (simple implementation)"""
         # Simple keyword extraction - in production use NLP
         words = text.lower().split()
@@ -195,7 +195,7 @@ class SymbolGenerator:
         else:
             return "unknown"
 
-    def _assign_positions(self, symbols: List[GlyphSymbol]):
+    def _assign_positions(self, symbols: list[GlyphSymbol]):
         """Assign 3D positions for AR/VR rendering"""
         if not symbols:
             return

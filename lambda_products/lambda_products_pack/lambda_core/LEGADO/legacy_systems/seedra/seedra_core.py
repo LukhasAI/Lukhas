@@ -218,9 +218,8 @@ class SEEDRACore:
                 }
 
         # Check processing restrictions
-        if constraints.get("on_device_only", False):
-            if user_context.get("processing_location") != "device":
-                return {"allowed": False, "reason": "on_device_processing_required"}
+        if constraints.get("on_device_only", False) and user_context.get("processing_location") != "device":
+            return {"allowed": False, "reason": "on_device_processing_required"}
 
         # Check sharing restrictions
         if constraints.get("no_third_party_sharing", False):

@@ -138,7 +138,7 @@ class ClassRegistryGenerator:
         # Find largest classes (by method count)
         largest_classes = []
         for module, classes in self.registry.items():
-            for class_name, _info in classes.items():
+            for class_name in classes:
                 method_count = (
                     len(info["methods"])
                     + len(info["properties"])

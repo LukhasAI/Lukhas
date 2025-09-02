@@ -70,7 +70,7 @@ class T4CoreBatchProcessor:
             tree = ast.parse(content)
             imports = []
             for node in ast.walk(tree):
-                if isinstance(node, ast.Import) or isinstance(node, ast.ImportFrom):
+                if isinstance(node, (ast.Import, ast.ImportFrom)):
                     for alias in node.names:
                         imports.append(alias.name)
 

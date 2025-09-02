@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 class FileOrganizer:
     """Automated file organization system for LUKHAS"""
 
-    def __init__(self, root_path: Path = None, config_file: str = ".file-organization.yaml"):
+    def __init__(self, root_path: Optional[Path] = None, config_file: str = ".file-organization.yaml"):
         self.root_path = root_path or Path.cwd()
         self.config_file = self.root_path / config_file
         self.config = self.load_config()

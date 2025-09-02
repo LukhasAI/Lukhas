@@ -208,7 +208,7 @@ class ServiceRegistry:
             except (ImportError, ConnectionError, Exception) as e:
                 logger.warning(f"Failed to initialize etcd client: {e}")
 
-    def register_service(self, name: str, host: str, port: int, metadata: dict[str, Any] = None) -> bool:
+    def register_service(self, name: str, host: str, port: int, metadata: Optional[dict[str, Any]] = None) -> bool:
         """Register a service"""
         service_info = {
             "name": name,
@@ -462,7 +462,7 @@ class CircuitBreaker:
 class TaskQueue:
     """Distributed task queue for orchestration"""
 
-    def __init__(self, redis_url: str = None):
+    def __init__(self, redis_url: Optional[str] = None):
         self.tasks: deque = deque()
         self.processing: dict[str, OrchestrationTask] = {}
 
@@ -522,7 +522,7 @@ class TaskQueue:
 
         return task
 
-    def complete_task(self, task_id: str, result: dict[str, Any] = None, error: str = None):
+    def complete_task(self, task_id: str, result: Optional[dict[str, Any]] = None, error: Optional[str] = None):
         """Mark task as completed"""
         if task_id in self.processing:
             task = self.processing[task_id]
@@ -562,7 +562,7 @@ class ContentEnterpriseOrchestrator:
     - Comprehensive audit logging
     """
 
-    def __init__(self, config_path: str = None):
+    def __init__(self, config_path: Optional[str] = None):
         self.config = self._load_config(config_path)
         self.logger = self._setup_logging()
 
@@ -886,7 +886,7 @@ class ContentEnterpriseOrchestrator:
 
         while self.running:
             try:
-                for _service_name, metrics_history in self.service_metrics.items():
+                for metrics_history in self.service_metrics.values():
                     if metrics_history:
                         latest_metrics = metrics_history[-1]
                         scaling_decision = self.auto_scaler.analyze_scaling_need(latest_metrics)

@@ -223,9 +223,8 @@ def is_allowed(
         return False
     if (now - float(ent.get("ts", 0))) > ttl:
         return False
-    if within_days is not None:
-        if (now - float(ent.get("ts", 0))) > (within_days * 86400):
-            return False
+    if within_days is not None and (now - float(ent.get("ts", 0))) > (within_days * 86400):
+        return False
     if require_fields:
         fields = set(ent.get("fields", []))
         if not set(require_fields).issubset(fields):

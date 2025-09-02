@@ -323,7 +323,7 @@ class AnomalyFilterColony(BaseColony):
         if len(self.signal_history) > 0:
             # Collect recent feature vectors
             recent_vectors = []
-            for i in range(min(100, len(list(self.signal_history.values())[0]))):
+            for i in range(min(100, len(next(iter(self.signal_history.values()))))):
                 vec = []
                 for signal in bio_data:
                     if isinstance(bio_data[signal], (int, float)):
@@ -692,9 +692,8 @@ class AnomalyFilterColony(BaseColony):
             if "coherence" in anomaly_data:
                 return f"Quantum coherence {anomaly_data['coherence']:.3f} indicates collapse event"
 
-        elif anomaly["type"] == AnomalyType.SYMBOLIC_DRIFT:
-            if "conflict" in anomaly_data:
-                return f"Conflicting GLYPHs detected: {', '.join(anomaly_data['conflict'])}"
+        elif anomaly["type"] == AnomalyType.SYMBOLIC_DRIFT and "conflict" in anomaly_data:
+            return f"Conflicting GLYPHs detected: {', '.join(anomaly_data['conflict'])}"
 
         return "Anomaly detected with insufficient detail information"
 

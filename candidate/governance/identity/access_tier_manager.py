@@ -610,10 +610,7 @@ class ComprehensiveAccessTierManager:
             return False
 
         # 🛡️ Guardian status check
-        if profile.guardian_status == "restricted":
-            return False
-
-        return True
+        return profile.guardian_status != "restricted"
 
     async def _tier_assessment_loop(self):
         """Automatic tier assessment loop"""

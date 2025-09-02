@@ -276,11 +276,7 @@ class MemorySafetySystem:
 
         # Check for direct contradictions
         negations = ["not", "isn't", "wasn't", "never", "false"]
-        for neg in negations:
-            if neg in content_lower and anchor_key.lower() in content_lower:
-                return False
-
-        return True
+        return all(not (neg in content_lower and anchor_key.lower() in content_lower) for neg in negations)
 
     def _is_logically_consistent(self, memory_data: dict[str, Any]) -> bool:
         """Check for internal logical consistency"""
@@ -344,20 +340,15 @@ class MemorySafetySystem:
     def _memories_agree(self, mem1: dict[str, Any], mem2: dict[str, Any]) -> bool:
         """Check if two memories agree on key facts"""
         # Compare emotions if present
-        if "emotion" in mem1 and "emotion" in mem2:
-            if mem1["emotion"] != mem2["emotion"]:
-                return False
+        if "emotion" in mem1 and "emotion" in mem2 and mem1["emotion"] != mem2["emotion"]:
+            return False
 
         # Compare types
         if mem1.get("type") != mem2.get("type"):
             return False
 
         # Compare outcomes if present
-        if "outcome" in mem1 and "outcome" in mem2:
-            if mem1["outcome"] != mem2["outcome"]:
-                return False
-
-        return True
+        return not ("outcome" in mem1 and "outcome" in mem2 and mem1["outcome"] != mem2["outcome"])
 
     async def quarantine_memory(
         self,

@@ -538,17 +538,13 @@ class LukhosIDManager:
                 return False
 
         # Tier 4: + Emergency Gesture/Fallback
-        if tier.value >= 4:
-            if not self._verify_emergency_gesture(
-                user_record.get("emergency_gesture"), credentials.get("emergency_gesture")
-            ):
-                return False
-
-        # Tier 5: Admin verification (additional security)
-        if tier.value >= 5 and not credentials.get("admin_token"):
+        if tier.value >= 4 and not self._verify_emergency_gesture(
+            user_record.get("emergency_gesture"), credentials.get("emergency_gesture")
+        ):
             return False
 
-        return True
+        # Tier 5: Admin verification (additional security)
+        return not (tier.value >= 5 and not credentials.get("admin_token"))
 
     def _verify_emoji_seed(self, stored_seed: str, provided_seed: str) -> bool:
         """Verify emoji seed phrase"""

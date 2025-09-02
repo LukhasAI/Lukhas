@@ -334,7 +334,7 @@ class CausalReasoningModule:
     def _extract_reasoning_path(self, valid_causes: dict) -> list[dict]:
         """Extract reasoning path from valid causes"""
         reasoning_steps = []
-        for _chain_id, chain_data in valid_causes.items():
+        for chain_data in valid_causes.values():
             for _i, element in enumerate(chain_data["elements"]):
                 reasoning_steps.append(
                     {
@@ -497,10 +497,9 @@ class SymbolicEngine:
 
             # Look for related elements
             for other_element in logical_elements:
-                if other_element != element:
-                    if self._elements_related(element, other_element):
-                        logical_chains[chain_id]["elements"].append(other_element)
-                        logical_chains[chain_id]["relation_type"] = "compound"
+                if other_element != element and self._elements_related(element, other_element):
+                    logical_chains[chain_id]["elements"].append(other_element)
+                    logical_chains[chain_id]["relation_type"] = "compound"
 
         return logical_chains
 
@@ -676,7 +675,7 @@ class MetaCognitiveOrchestrator:
 
         # Analyze confidence patterns
         confidences = []
-        for _component, result in results.items():
+        for result in results.values():
             if isinstance(result, dict) and "confidence" in result:
                 confidences.append(result["confidence"])
 

@@ -252,7 +252,7 @@ class AbstractReasoningBrainOscillator:
             return 0.0
 
         coherence_values = []
-        for _brain_name, sync_result in synchronization_results.items():
+        for sync_result in synchronization_results.values():
             achieved_coherence = sync_result.get("achieved_coherence", 0.0)
             coherence_values.append(achieved_coherence)
 

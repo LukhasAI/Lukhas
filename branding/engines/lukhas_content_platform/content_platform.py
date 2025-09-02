@@ -9,6 +9,8 @@ import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))
+from typing import Optional
+
 from database_integration import db
 
 
@@ -93,12 +95,9 @@ class ContentPlatform:
 
         return content_id
 
-    def get_recent_content(self, content_type: str = None, limit: int = 10) -> list:
+    def get_recent_content(self, content_type: Optional[str] = None, limit: int = 10) -> list:
         """Get recent content from database for content operations"""
-        if content_type:
-            content = db.get_content_by_type(content_type, limit)
-        else:
-            content = db.get_all_content(limit)
+        content = db.get_content_by_type(content_type, limit) if content_type else db.get_all_content(limit)
 
         # Log retrieval activity
         db.log_system_activity("content_platform", "content_retrieved", f"Retrieved {len(content)} items", len(content))

@@ -13,6 +13,8 @@ Features:
 - ΛTRACE integration
 """
 
+from typing import Optional
+
 from .consent_history import ConsentHistoryManager
 from .symbolic_scopes import SymbolicScopesManager
 
@@ -33,7 +35,7 @@ class LambdaConsentManager:
         self.active_consents = {}
         self.policy_versions = {}
 
-    def collect_consent(self, user_id: str, consent_scope: str, metadata: dict = None) -> dict:
+    def collect_consent(self, user_id: str, consent_scope: str, metadata: Optional[dict] = None) -> dict:
         """Collect user consent for specific scope with tier validation"""
         # Validate user tier permissions
         if self.tier_manager:

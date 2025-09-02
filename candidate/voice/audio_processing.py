@@ -299,10 +299,7 @@ class LimiterProcessor(AudioSignalProcessor):
                 peak = np.max(np.abs(padded_data[i:lookahead_end]))
 
                 # Calculate limiting gain
-                if peak > self.threshold_linear:
-                    gain = self.threshold_linear / peak
-                else:
-                    gain = 1.0
+                gain = self.threshold_linear / peak if peak > self.threshold_linear else 1.0
 
                 limited_data[i] = padded_data[i] * gain
 
@@ -327,7 +324,7 @@ class LimiterProcessor(AudioSignalProcessor):
 class EqualizerProcessor(AudioSignalProcessor):
     """Parametric equalizer"""
 
-    def __init__(self, bands: list[dict[str, float]] = None):
+    def __init__(self, bands: Optional[list[dict[str, float]]] = None):
         # Default EQ bands if none provided
         self.bands = bands or [
             {"freq": 100, "gain": 0, "q": 1.0, "type": "high_pass"},
@@ -466,7 +463,7 @@ class ReverbProcessor(AudioSignalProcessor):
 class AudioProcessingChain:
     """Chain of audio processors"""
 
-    def __init__(self, processors: list[AudioSignalProcessor] = None):
+    def __init__(self, processors: Optional[list[AudioSignalProcessor]] = None):
         self.processors = processors or []
         self.logger = get_logger(f"{__name__}.AudioProcessingChain")
 

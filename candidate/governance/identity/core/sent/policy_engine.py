@@ -495,11 +495,11 @@ class ComprehensiveEthicsPolicyEngine:
         }
 
         # Score based on virtue/vice indicators
-        for virtue, keywords in virtue_indicators.items():
+        for keywords in virtue_indicators.values():
             if any(keyword in action.lower() for keyword in keywords):
                 score += 0.1
 
-        for vice, keywords in vice_indicators.items():
+        for keywords in vice_indicators.values():
             if any(keyword in action.lower() for keyword in keywords):
                 score -= 0.15
 
@@ -518,7 +518,7 @@ class ComprehensiveEthicsPolicyEngine:
         score = 0.8  # Start with high score, deduct for violations
 
         # Check each constitutional principle
-        for principle, description in self.constitutional_principles.items():
+        for principle in self.constitutional_principles:
             principle_score = await self._evaluate_constitutional_principle(action, context, principle)
             score = min(score, principle_score)  # Take minimum (most restrictive)
 
@@ -695,10 +695,7 @@ class ComprehensiveEthicsPolicyEngine:
             principle_weighted += score * weight
             total_weight += weight
 
-        if total_weight > 0:
-            principle_avg = principle_weighted / total_weight
-        else:
-            principle_avg = 0.5
+        principle_avg = principle_weighted / total_weight if total_weight > 0 else 0.5
 
         # Combined score
         overall_score = framework_avg * framework_weight + principle_avg * principle_weight
@@ -1191,9 +1188,8 @@ class ComprehensiveEthicsPolicyEngine:
         ]
 
         for principle in key_principles:
-            if principle in evaluation.principle_scores:
-                if evaluation.principle_scores[principle] < 0.6:
-                    return False
+            if principle in evaluation.principle_scores and evaluation.principle_scores[principle] < 0.6:
+                return False
 
         return True
 

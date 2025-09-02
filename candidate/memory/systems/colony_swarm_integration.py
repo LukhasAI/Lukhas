@@ -311,7 +311,7 @@ class SwarmConsensusManager:
             # Store memory
             memory_id = await self.memory.fold_in_with_embedding(
                 data=memory_data,
-                tags=tags + [f"colony:{proposing_colony}", "consensus_validated"],
+                tags=[*tags, f"colony:{proposing_colony}", "consensus_validated"],
                 text_content=memory_data.get("content", ""),
             )
 

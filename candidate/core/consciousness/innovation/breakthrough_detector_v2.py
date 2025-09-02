@@ -600,9 +600,8 @@ class BreakthroughDetectorV2(CoreInterface):
 
         if breakthrough["type"] == "scientific_revolution":
             details = breakthrough.get("details")
-            if details and hasattr(details, "theoretical_shifts"):
-                if len(details.theoretical_shifts) > 2:
-                    return 0.95  # Strong theoretical foundation
+            if details and hasattr(details, "theoretical_shifts") and len(details.theoretical_shifts) > 2:
+                return 0.95  # Strong theoretical foundation
 
         return 0.75  # Default reasonable soundness
 

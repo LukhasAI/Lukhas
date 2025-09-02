@@ -54,10 +54,7 @@ class GlyphPair:
         measurement_hash = hashlib.blake3(measurement_seed.encode()).hexdigest()
 
         # Use hash to determine which glyph is observed
-        if int(measurement_hash[0], 16) % 2 == 0:
-            observed_glyph = self.primary_glyph
-        else:
-            observed_glyph = self.secondary_glyph
+        observed_glyph = self.primary_glyph if int(measurement_hash[0], 16) % 2 == 0 else self.secondary_glyph
 
         # Update usage statistics
         self.usage_count += 1
@@ -210,7 +207,7 @@ class QIGlyphSystem:
         with open(self.keystore_path, "w") as f:
             json.dump(data, f, indent=2)
 
-    def create_entangled_pair(self, family: str = None) -> Optional[GlyphPair]:
+    def create_entangled_pair(self, family: Optional[str] = None) -> Optional[GlyphPair]:
         """Create a new quantum-entangled glyph pair"""
         if family and family not in self.ENTANGLEMENT_RULES:
             logger.error(f"Unknown entanglement family: {family}")

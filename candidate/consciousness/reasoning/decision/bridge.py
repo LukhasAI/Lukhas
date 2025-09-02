@@ -563,7 +563,7 @@ class DecisionMakingBridge:
 
             # Analyze decision types
             type_distribution = {}
-            for outcome in self.decision_history:
+            for _outcome in self.decision_history:
                 # Would need to store decision type in outcome for full analysis
                 type_distribution["unknown"] = type_distribution.get("unknown", 0) + 1
 
@@ -657,11 +657,11 @@ class DecisionMakingBridge:
         # Strategy selection logic based on context
         if context.decision_type == DecisionType.EMERGENCY:
             # For emergency decisions, use fastest strategy
-            return self.strategies.get("utility_maximization", list(self.strategies.values())[0])
+            return self.strategies.get("utility_maximization", next(iter(self.strategies.values())))
 
         # Default strategy
         default_name = self.config.get("default_strategy", "utility_maximization")
-        return self.strategies.get(default_name, list(self.strategies.values())[0])
+        return self.strategies.get(default_name, next(iter(self.strategies.values())))
 
     async def _enhance_alternatives(
         self, context: DecisionContext, alternatives: list[DecisionAlternative]

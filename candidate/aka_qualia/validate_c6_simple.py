@@ -125,7 +125,7 @@ def test_consciousness_ablation_framework():
         framework = SimpleAblationFramework(akaq)
 
         # Test memory component ablation
-        memory_result = framework.test_component_disable("memory")
+        framework.test_component_disable("memory")
 
         results = framework.get_results()
         print(f"✅ Ablation framework test completed: {len(results)} tests run")

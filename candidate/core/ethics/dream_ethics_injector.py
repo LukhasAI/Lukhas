@@ -319,7 +319,7 @@ class DreamEthicsInjector:
 
         # Overall alignment insight
         if overall_alignment > 0.5:
-            insights.append("This dream shows positive ethical alignment, promoting growth and beneficial outcomes")
+            insights.append("This dream shows positive ethical alignment, promoting growth " "and beneficial outcomes")
         elif overall_alignment < -0.5:
             insights.append(
                 "This dream explores challenging ethical territory that requires "
@@ -327,17 +327,20 @@ class DreamEthicsInjector:
             )
         else:
             insights.append(
-                "This dream navigates neutral ethical ground, balancing creative exploration with responsibility"
+                "This dream navigates neutral ethical ground, balancing " "creative exploration with responsibility"
             )
 
         # Tag-specific insights
         for ann in annotations:
             if ann.alignment_score > 0.7:
                 insights.append(
-                    f"The '{ann.tag}' aspect strongly aligns with core values of {list(self.core_principles.keys())[0]}"
+                    f"The '{ann.tag}' aspect strongly aligns with core values "
+                    f"of {next(iter(self.core_principles.keys()))}"
                 )
             elif ann.alignment_score < -0.5:
-                insights.append(f"The '{ann.tag}' element requires ethical transformation to align with system values")
+                insights.append(
+                    f"The '{ann.tag}' element requires ethical transformation " f"to align with system values"
+                )
 
         return insights
 

@@ -626,11 +626,7 @@ class UsageAnalyticsLoop:
             return False
 
         # Check for A-B-A-B pattern
-        for i in range(len(path) - 3):
-            if path[i] == path[i + 2] and path[i + 1] == path[i + 3]:
-                return True
-
-        return False
+        return any(path[i] == path[i + 2] and path[i + 1] == path[i + 3] for i in range(len(path) - 3))
 
     def _check_error_pattern(self, event: dict) -> None:
         """Check for error patterns in real-time"""

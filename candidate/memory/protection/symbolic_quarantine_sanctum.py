@@ -144,7 +144,7 @@ class QuarantineEntry:
             "viability_assessment": (self.viability_assessment.value if self.viability_assessment else None),
         }
 
-    def add_audit_entry(self, action: str, details: dict[str, Any] = None):
+    def add_audit_entry(self, action: str, details: Optional[dict[str, Any]] = None):
         """Add entry to audit log."""
         self.audit_log.append(
             {
@@ -311,7 +311,7 @@ class SymbolicQuarantineSanctum:
         reason: str,
         source_system: str = "MANUAL",
         threat_level: ThreatLevel = ThreatLevel.MEDIUM,
-        metadata: dict[str, Any] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> bool:
         """
         Quarantine a contaminated memory entry.
@@ -423,7 +423,7 @@ class SymbolicQuarantineSanctum:
         self,
         entry_id: str,
         protocol_type: RepairProtocolType = RepairProtocolType.ENTROPY_COOLING,
-        parameters: dict[str, Any] = None,
+        parameters: Optional[dict[str, Any]] = None,
     ) -> bool:
         """
         Apply repair protocol to quarantined entry.
@@ -799,7 +799,7 @@ class SymbolicQuarantineSanctum:
         entry_id: str,
         action: str,
         justification: str,
-        metadata: dict[str, Any] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """
         Log structured ΛTAG audit metadata to sanctum manifest.

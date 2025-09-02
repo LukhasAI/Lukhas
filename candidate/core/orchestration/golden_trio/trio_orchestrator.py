@@ -477,9 +477,8 @@ class TrioOrchestrator:
         # Check for circular waits
         for msg_id1, msg1 in self.active_messages.items():
             for msg_id2, msg2 in self.active_messages.items():
-                if msg_id1 != msg_id2:
-                    if msg1.source == msg2.target and msg1.target == msg2.source:
-                        deadlocks.append((msg_id1, msg_id2))
+                if msg_id1 != msg_id2 and msg1.source == msg2.target and msg1.target == msg2.source:
+                    deadlocks.append((msg_id1, msg_id2))
 
         return deadlocks
 

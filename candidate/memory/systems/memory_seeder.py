@@ -17,6 +17,7 @@
 import hashlib
 import json
 import random
+from typing import Optional
 
 
 def generate_seed_memory(seed_phrase: str) -> dict:
@@ -46,7 +47,7 @@ def generate_seed_memory(seed_phrase: str) -> dict:
     }
 
 
-def seed_memory_store(seed_list: list[str], save_path: str = None) -> list[dict]:
+def seed_memory_store(seed_list: list[str], save_path: Optional[str] = None) -> list[dict]:
     """
     Seed a memory store with a list of symbolic phrases.
 

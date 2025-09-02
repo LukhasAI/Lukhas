@@ -323,7 +323,7 @@ class PluginSystem:
 
     async def broadcast_event(self, event: str, data: Any = None):
         """Broadcast event to all active plugins"""
-        for _plugin_id, plugin in self.plugins.items():
+        for plugin in self.plugins.values():
             if plugin.status == PluginStatus.ACTIVE:
                 await plugin.emit_event(event, data)
 

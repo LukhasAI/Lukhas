@@ -128,10 +128,7 @@ class AdaptiveVoiceSynthesis:
             provider = self.providers.get(provider_name)
 
         # Apply emotion-based text modulation if enabled
-        if self.emotion_modulation and emotion:
-            modulated_text = self._apply_emotion_modulation(text, emotion)
-        else:
-            modulated_text = text
+        modulated_text = self._apply_emotion_modulation(text, emotion) if self.emotion_modulation and emotion else text
 
         # Generate voice parameters based on context
         voice_params = self._generate_voice_parameters(voice_profile, context)

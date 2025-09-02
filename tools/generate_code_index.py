@@ -138,10 +138,7 @@ class CodeIndexer:
             return False  # Don't skip tests, we want to track them
 
         # Skip generated files
-        if any(pattern in path_str for pattern in ["_pb2.py", "_pb2_grpc.py", ".pyc"]):
-            return True
-
-        return False
+        return bool(any(pattern in path_str for pattern in ["_pb2.py", "_pb2_grpc.py", ".pyc"]))
 
     def classify_module(self, path):
         """Classify module into lane based on content and location"""
@@ -362,11 +359,7 @@ class CodeIndexer:
                 r"async\s+def",  # Async functions
             ]
 
-            for pattern in unique_patterns:
-                if re.search(pattern, content, re.DOTALL):
-                    return True
-
-            return False
+            return any(re.search(pattern, content, re.DOTALL) for pattern in unique_patterns)
 
         except Exception:
             return False

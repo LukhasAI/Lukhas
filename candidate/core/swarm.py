@@ -277,7 +277,7 @@ class SwarmHub:
         self.create_colony("creativity", ["idea_generation", "synthesis"], 2)
 
         # Start colonies (enhanced behavior)
-        for _colony_id, info in self.colonies.items():
+        for info in self.colonies.values():
             colony = info["colony"]
             if colony._enhanced_colony:
                 await colony._enhanced_colony.start()

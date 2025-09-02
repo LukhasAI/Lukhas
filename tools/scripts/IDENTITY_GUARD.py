@@ -9,6 +9,7 @@ Prevents unprotected API endpoints and missing user tracking from being committe
 import re
 import sys
 from pathlib import Path
+from typing import Optional
 
 
 class IdentityGuard:
@@ -179,7 +180,7 @@ class IdentityGuard:
 
         return violations
 
-    def validate_changes(self, changed_files: list[str] = None) -> bool:
+    def validate_changes(self, changed_files: Optional[list[str]] = None) -> bool:
         """Validate changed files for identity compliance."""
 
         if changed_files is None:

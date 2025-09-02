@@ -13,7 +13,7 @@ Integration Date: 2025-05-31T07:55:28.222538
 
 import logging
 from datetime import datetime
-from typing import Any, Union
+from typing import Any, Optional, Union
 
 logger = logging.getLogger("lukhas_agi.symbolic")
 
@@ -37,7 +37,7 @@ class SymbolicWorld:
         symbol1: "Symbol",
         symbol2: "Symbol",
         relationship_type: str,
-        properties: dict[str, Any] = None,
+        properties: Optional[dict[str, Any]] = None,
     ):
         """Create a relationship between symbols"""
         if properties is None:

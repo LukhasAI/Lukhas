@@ -166,8 +166,8 @@ class BrainIdentityConnector:
         user_identity: Optional[LucasID],
         operation: Union[MemoryOperation, str],
         memory_key: str,
-        memory_type: str = None,
-        memory_owner: str = None,
+        memory_type: Optional[str] = None,
+        memory_owner: Optional[str] = None,
         access_policy: Optional[MemoryAccessPolicy] = None,
     ) -> bool:
         """

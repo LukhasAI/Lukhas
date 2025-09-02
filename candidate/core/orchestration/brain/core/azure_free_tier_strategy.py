@@ -250,7 +250,7 @@ def main():
     # Show roadmap
     print("\n📅 12-MONTH STRATEGIC ROADMAP:")
     roadmap = strategy.create_12_month_roadmap()
-    for _period, details in roadmap.items():
+    for details in roadmap.values():
         print(f"\n   {details['title']}")
         for goal in details["goals"]:
             print(f"      • {goal}")

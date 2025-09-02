@@ -487,10 +487,7 @@ class BioSymbolicCoherenceMonitor:
         expected_memory_ops = (dopamine * 0.6 + serotonin * 0.4) * 10  # Scale to ops count
 
         # Compare with actual memory operations
-        if expected_memory_ops > 0:
-            memory_alignment = min(1.0, memory_operations / expected_memory_ops)
-        else:
-            memory_alignment = 0.5
+        memory_alignment = min(1.0, memory_operations / expected_memory_ops) if expected_memory_ops > 0 else 0.5
 
         # Base coherence on memory alignment
         coherence_score = memory_alignment

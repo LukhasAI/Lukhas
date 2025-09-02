@@ -262,7 +262,7 @@ class WidgetEngine:
     def _get_widget_template(self, tier: str, widget_type: WidgetType) -> dict[str, Any]:
         """Get widget template for tier and type"""
         tier_templates = self.widget_templates.get(tier, self.widget_templates["T3"])
-        return tier_templates.get(widget_type.value, tier_templates[list(tier_templates.keys())[0]])
+        return tier_templates.get(widget_type.value, tier_templates[next(iter(tier_templates.keys()))])
 
     async def _process_content(self, message: dict[str, Any], tier: str) -> dict[str, Any]:
         """Process and format content based on tier capabilities"""
@@ -333,10 +333,7 @@ class WidgetEngine:
         }
 
         for interaction in available_interactions:
-            if isinstance(interaction, InteractionType):
-                gesture = interaction.value
-            else:
-                gesture = interaction
+            gesture = interaction.value if isinstance(interaction, InteractionType) else interaction
 
             interaction_config["enabled_gestures"].append(gesture)
 

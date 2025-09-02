@@ -32,7 +32,7 @@ class FoldEntropyVisualizer:
             if prev_id is not None:
                 edges.append(f"    {prev_id} --> {node_id}")
             prev_id = node_id
-        graph = ["graph LR"] + nodes + edges
+        graph = ["graph LR", *nodes, *edges]
         return "\n".join(graph)
 
     def render_ascii_chart(self, timeline: Iterable[tuple[str, float]]) -> str:

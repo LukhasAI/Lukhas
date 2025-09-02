@@ -449,14 +449,13 @@ class EmotionalFilter:
                         "action": "block",
                     }
 
-            elif goal == "increase_focus" and emotional_state.focus < 0.5:
-                if message.intensity > 0.5:
-                    return {
-                        "approved": False,
-                        "reason": "High intensity message conflicts with focus improvement goal",
-                        "action": "transform",
-                        "suggested_intensity": 0.4,
-                    }
+            elif goal == "increase_focus" and emotional_state.focus < 0.5 and message.intensity > 0.5:
+                return {
+                    "approved": False,
+                    "reason": "High intensity message conflicts with focus improvement goal",
+                    "action": "transform",
+                    "suggested_intensity": 0.4,
+                }
 
         return {"approved": True}
 

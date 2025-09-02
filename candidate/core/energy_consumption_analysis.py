@@ -313,7 +313,7 @@ class EnergyConsumptionAnalyzer:
         operation: str,
         energy_joules: float,
         duration_ms: float,
-        metadata: dict[str, Any] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """Record an energy consumption event"""
         metric = EnergyMetric(
@@ -348,7 +348,7 @@ class EnergyConsumptionAnalyzer:
         budget_name: str,
         total_joules: float,
         time_window_seconds: float,
-        component_budgets: dict[EnergyComponent, float] = None,
+        component_budgets: Optional[dict[EnergyComponent, float]] = None,
     ) -> EnergyBudget:
         """Create a new energy budget"""
         budget = EnergyBudget(
@@ -362,7 +362,7 @@ class EnergyConsumptionAnalyzer:
             if not self.active_budget:
                 self.active_budget = budget_name
 
-        logger.info(f"Created energy budget '{budget_name}' with {total_joules}J over {time_window_seconds}s")
+        logger.info(f"Created energy budget '{budget_name}' with {total_joules}J " f"over {time_window_seconds}s")
         return budget
 
     def set_active_budget(self, budget_name: str):
@@ -506,7 +506,7 @@ class EnergyConsumptionAnalyzer:
                             "severity": "medium",
                             "operation": op,
                             "message": f"Operation '{op}' consuming {energy:.2f}J",
-                            "suggestion": f"Consider batching '{op}' operations or implementing caching",
+                            "suggestion": f"Consider batching '{op}' operations or " "implementing caching",
                         }
                     )
 
@@ -517,7 +517,7 @@ class EnergyConsumptionAnalyzer:
                     "type": "budget_warning",
                     "severity": "high",
                     "message": f"Energy budget {stats['budget_status']['percentage_used']:.1f}% consumed",
-                    "suggestion": "Consider deferring non-critical operations or switching to low-power mode",
+                    "suggestion": "Consider deferring non-critical operations or " "switching to low-power mode",
                 }
             )
 
@@ -525,16 +525,16 @@ class EnergyConsumptionAnalyzer:
         if self.current_profile in [
             EnergyProfile.HIGH_PERFORMANCE,
             EnergyProfile.BURST,
-        ]:
-            if stats["average_power_watts"] > 10.0:  # High sustained power
-                recommendations.append(
-                    {
-                        "type": "profile_optimization",
-                        "severity": "medium",
-                        "message": f"Sustained high power consumption at {stats['average_power_watts']:.2f}W",
-                        "suggestion": "Consider switching to NORMAL or LOW_POWER profile for non-critical operations",
-                    }
-                )
+        ] and stats["average_power_watts"] > 10.0:  # High sustained power
+            recommendations.append(
+                {
+                    "type": "profile_optimization",
+                    "severity": "medium",
+                    "message": f"Sustained high power consumption at {stats['average_power_watts']:.2f}W",
+                    "suggestion": "Consider switching to NORMAL or LOW_POWER profile "
+                    "for non-critical operations",
+                }
+            )
 
         with self._lock:
             self.recommendations.extend(recommendations)

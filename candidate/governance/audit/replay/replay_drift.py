@@ -420,7 +420,7 @@ class DriftEventReplayer:
 
         return batch_results
 
-    def export_replay_results(self, output_file: str = None) -> str:
+    def export_replay_results(self, output_file: Optional[str] = None) -> str:
         """Export replay results to JSON file"""
         if not output_file:
             timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")

@@ -586,7 +586,7 @@ class NeuroplasticLearningOrchestrator:
             else (
                 PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
                 if hasattr(PlasticityTriggerType, "PERFORMANCE_OPTIMIZATION")
-                else list(PlasticityTriggerType)[0]
+                else next(iter(PlasticityTriggerType))
             )
         )
 
@@ -1006,7 +1006,7 @@ class NeuroplasticLearningOrchestrator:
         elif "performance" in etype and hasattr(PlasticityTriggerType, "PERFORMANCE_OPTIMIZATION"):
             trig = PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
         else:
-            trig = list(PlasticityTriggerType)[0]
+            trig = next(iter(PlasticityTriggerType))
 
         rule = AdaptationRule(
             trigger_type=trig,

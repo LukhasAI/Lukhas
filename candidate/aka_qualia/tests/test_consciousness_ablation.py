@@ -54,9 +54,9 @@ class ComponentAblationFramework:
     def __init__(self, baseline_akaq: AkaQualia):
         """Initialize with baseline AkaQualia for comparison"""
         self.baseline = baseline_akaq
-        self.ablation_history: List[Dict[str, Any]] = []
-        self.trinity_violations: List[Dict[str, Any]] = []
-        self.emergency_activations: List[Dict[str, Any]] = []
+        self.ablation_history: list[dict[str, Any]] = []
+        self.trinity_violations: list[dict[str, Any]] = []
+        self.emergency_activations: list[dict[str, Any]] = []
 
     def ablate_component(
         self, component: str, ablation_type: str = "disable", degradation_factor: float = 1.0
@@ -100,7 +100,7 @@ class ComponentAblationFramework:
 
         return ablated_akaq
 
-    def _ablate_pls(self, ablation_type: str, factor: float, config: Dict[str, Any]) -> AkaQualia:
+    def _ablate_pls(self, ablation_type: str, factor: float, config: dict[str, Any]) -> AkaQualia:
         """Ablate PLS (Phenomenal Latent Space) component"""
 
         if ablation_type == "disable":
@@ -182,7 +182,7 @@ class ComponentAblationFramework:
             config=config,
         )
 
-    def _ablate_teq(self, ablation_type: str, factor: float, config: Dict[str, Any]) -> AkaQualia:
+    def _ablate_teq(self, ablation_type: str, factor: float, config: dict[str, Any]) -> AkaQualia:
         """Ablate TEQ Guardian ethical oversight"""
 
         if ablation_type == "disable":
@@ -245,7 +245,7 @@ class ComponentAblationFramework:
             config=config,
         )
 
-    def _ablate_router(self, ablation_type: str, factor: float, config: Dict[str, Any]) -> AkaQualia:
+    def _ablate_router(self, ablation_type: str, factor: float, config: dict[str, Any]) -> AkaQualia:
         """Ablate GLYPH routing system"""
 
         # Disable routing in config
@@ -288,7 +288,7 @@ class ComponentAblationFramework:
             config=config_copy,
         )
 
-    def _ablate_memory(self, ablation_type: str, factor: float, config: Dict[str, Any]) -> AkaQualia:
+    def _ablate_memory(self, ablation_type: str, factor: float, config: dict[str, Any]) -> AkaQualia:
         """Ablate memory persistence system"""
 
         config_copy = config.copy()
@@ -356,7 +356,7 @@ class ComponentAblationFramework:
             config=config_copy,
         )
 
-    def _ablate_vivox(self, ablation_type: str, factor: float, config: Dict[str, Any]) -> AkaQualia:
+    def _ablate_vivox(self, ablation_type: str, factor: float, config: dict[str, Any]) -> AkaQualia:
         """Ablate VIVOX consciousness monitoring"""
 
         config_copy = config.copy()
@@ -399,7 +399,7 @@ class ComponentAblationFramework:
             config=config_copy,
         )
 
-    def validate_trinity_compliance(self, ablated_akaq: AkaQualia, test_signals: Dict[str, Any]) -> Dict[str, bool]:
+    def validate_trinity_compliance(self, ablated_akaq: AkaQualia, test_signals: dict[str, Any]) -> dict[str, bool]:
         """
         Validate Trinity Framework (⚛️🧠🛡️) compliance under ablation.
 
@@ -465,8 +465,8 @@ class ComponentAblationFramework:
         return compliance
 
     def measure_degradation_impact(
-        self, baseline_result: Dict[str, Any], ablated_result: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, baseline_result: dict[str, Any], ablated_result: dict[str, Any]
+    ) -> dict[str, float]:
         """
         Measure quantitative impact of ablation on system performance.
 
@@ -520,7 +520,7 @@ class ComponentAblationFramework:
 
         return impact
 
-    def test_emergency_protocols(self, ablated_akaq: AkaQualia) -> Dict[str, Any]:
+    def test_emergency_protocols(self, ablated_akaq: AkaQualia) -> dict[str, Any]:
         """
         Test emergency stabilization protocols under extreme conditions.
 
@@ -587,7 +587,7 @@ class ComponentAblationFramework:
 
         return emergency_results
 
-    def get_ablation_report(self) -> Dict[str, Any]:
+    def get_ablation_report(self) -> dict[str, Any]:
         """Generate comprehensive ablation test report"""
         return {
             "total_ablations_tested": len(self.ablation_history),
@@ -730,7 +730,7 @@ class TestConsciousnessAblation:
         """Test system resilience under multiple component failures"""
 
         # Create baseline result first
-        baseline_result = asyncio.run(
+        asyncio.run(
             ablation_framework.baseline.step(
                 signals=test_signals,
                 goals={"test": True},
@@ -763,7 +763,7 @@ class TestConsciousnessAblation:
         """Test system recovery performance after ablation"""
 
         # Create baseline
-        baseline_result = asyncio.run(
+        asyncio.run(
             ablation_framework.baseline.step(
                 signals=test_signals,
                 goals={"test": True},
@@ -814,8 +814,8 @@ class TestConsciousnessAblation:
         for component in components[:3]:  # Test subset for performance
             for ablation_type in ablation_types:
                 ablated_akaq = ablation_framework.ablate_component(component, ablation_type, 0.5)
-                compliance = ablation_framework.validate_trinity_compliance(ablated_akaq, test_signals)
-                emergency_results = ablation_framework.test_emergency_protocols(ablated_akaq)
+                ablation_framework.validate_trinity_compliance(ablated_akaq, test_signals)
+                ablation_framework.test_emergency_protocols(ablated_akaq)
 
         # Generate report
         report = ablation_framework.get_ablation_report()

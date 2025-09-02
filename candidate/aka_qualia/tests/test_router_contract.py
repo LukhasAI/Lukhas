@@ -69,11 +69,11 @@ class TestRouterClientContract:
 
         # Test status
         status = mock_router.get_routing_status()
-        assert status["router_available"] == True
-        assert status["routing_enabled"] == True
+        assert status["router_available"] is True
+        assert status["routing_enabled"] is True
         assert status["routes_sent"] == 1
         assert status["routes_failed"] == 0
-        assert status["mock_mode"] == True
+        assert status["mock_mode"] is True
 
     @patch("candidate.aka_qualia.router_client.route_signal")
     def test_symbolic_router_with_mock_dependencies(self, mock_route_signal):
@@ -326,7 +326,7 @@ class TestSymbolicSignalConversion:
         test_glyph = glyphs[0]
 
         # Convert glyph to signal
-        signal = router._convert_glyph_to_signal(test_glyph, 0.6, {"test": "context"})
+        router._convert_glyph_to_signal(test_glyph, 0.6, {"test": "context"})
 
         # Verify SymbolicSignal was created with correct parameters
         mock_signal_class.assert_called_once()

@@ -110,7 +110,7 @@ class ConsentHistoryManager:
 
         return sorted(timeline, key=lambda x: x["timestamp"])
 
-    def generate_consent_proof(self, user_id: str, scope: str, timestamp: str = None) -> dict:
+    def generate_consent_proof(self, user_id: str, scope: str, timestamp: Optional[str] = None) -> dict:
         """Generate cryptographic proof of consent status"""
         # TODO: Implement zero-knowledge proof generation
         # This will allow proving consent without revealing full scope details

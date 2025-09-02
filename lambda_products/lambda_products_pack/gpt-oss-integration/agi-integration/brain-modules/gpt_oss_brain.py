@@ -270,7 +270,7 @@ class GPTOSSBrainSpecialist(SpecializedBrainCore):
 
             # Limit cache size
             if len(self.reasoning_cache) > 100:
-                oldest_key = list(self.reasoning_cache.keys())[0]
+                oldest_key = next(iter(self.reasoning_cache.keys()))
                 del self.reasoning_cache[oldest_key]
 
             return response

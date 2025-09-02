@@ -72,7 +72,7 @@ class DependencyAnalyzer:
         """Convert file path to module name"""
         try:
             rel_path = file_path.relative_to(self.root_path)
-            parts = list(rel_path.parts[:-1]) + [rel_path.stem]
+            parts = [*list(rel_path.parts[:-1]), rel_path.stem]
             # Remove __init__ from module name
             if parts[-1] == "__init__":
                 parts = parts[:-1]

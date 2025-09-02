@@ -681,7 +681,7 @@ if __name__ == "__main__":
         lexicon = {}
 
         # Extract vocabulary from config layers
-        for _layer_name, layer_config in self.layers.items():
+        for layer_config in self.layers.values():
             if "vocabulary" in layer_config:
                 lexicon.update(layer_config["vocabulary"])
 

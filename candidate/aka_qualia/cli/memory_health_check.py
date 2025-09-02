@@ -46,7 +46,7 @@ def check_schema_integrity(engine):
             for table in required_tables:
                 result = conn.execute(
                     text(f"""
-                    SELECT COUNT(*) FROM information_schema.tables 
+                    SELECT COUNT(*) FROM information_schema.tables
                     WHERE table_name = '{table}'
                 """)
                 )
@@ -54,7 +54,7 @@ def check_schema_integrity(engine):
                     # Try SQLite syntax
                     result = conn.execute(
                         text(f"""
-                        SELECT COUNT(*) FROM sqlite_master 
+                        SELECT COUNT(*) FROM sqlite_master
                         WHERE type='table' AND name='{table}'
                     """)
                     )
@@ -68,7 +68,7 @@ def check_schema_integrity(engine):
             # Check foreign key constraints
             result = conn.execute(
                 text("""
-                SELECT COUNT(*) FROM akaq_glyph g 
+                SELECT COUNT(*) FROM akaq_glyph g
                 LEFT JOIN akaq_scene s ON g.scene_id = s.scene_id
                 WHERE s.scene_id IS NULL
             """)
@@ -189,7 +189,7 @@ def measure_performance(memory_client):
         # Measure save time
         start_time = time.time()
         if isinstance(memory_client, NoopMemory):
-            scene_id = memory_client.save(
+            memory_client.save(
                 user_id="perf_test_user",
                 scene=test_scene,
                 glyphs=test_glyphs,
@@ -198,7 +198,7 @@ def measure_performance(memory_client):
                 cfg_version="perf_test_1.0",
             )
         else:
-            scene_id = memory_client.save(
+            memory_client.save(
                 user_id="perf_test_user",
                 scene=test_scene,
                 glyphs=test_glyphs,
@@ -210,9 +210,9 @@ def measure_performance(memory_client):
         # Measure retrieval time
         start_time = time.time()
         if isinstance(memory_client, NoopMemory):
-            history = memory_client.history(user_id="perf_test_user", limit=1)
+            memory_client.history(user_id="perf_test_user", limit=1)
         else:
-            history = memory_client.get_scene_history(user_id="perf_test_user", limit=1)
+            memory_client.get_scene_history(user_id="perf_test_user", limit=1)
         retrieval_time = (time.time() - start_time) * 1000  # milliseconds
 
         print(f"  📊 Save latency: {save_time:.1f}ms")
@@ -254,7 +254,7 @@ def get_system_statistics(engine):
             # Get recent activity
             recent_ops = conn.execute(
                 text("""
-                SELECT COUNT(*) FROM akaq_memory_ops 
+                SELECT COUNT(*) FROM akaq_memory_ops
                 WHERE timestamp > datetime('now', '-24 hours')
             """)
             ).scalar()
@@ -279,10 +279,10 @@ def main():
 Examples:
   # Basic health check
   python memory_health_check.py --db-url sqlite:///akaq_memory.db
-  
+
   # Full health check with performance testing
   python memory_health_check.py --db-url sqlite:///akaq_memory.db --full
-  
+
   # NoopMemory health check
   python memory_health_check.py --memory-type noop
         """,

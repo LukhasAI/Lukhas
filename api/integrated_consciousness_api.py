@@ -584,7 +584,7 @@ async def export_session_with_feedback(session_id: str):
 
         # Get related feedback
         if feedback_system:
-            for _feedback_id, feedback in feedback_system.feedback_items.items():
+            for feedback in feedback_system.feedback_items.values():
                 if feedback.context.get("session_id") == session_id:
                     export_data["feedback"].append(feedback.to_audit_entry())
 
@@ -642,7 +642,7 @@ async def get_feedback_influence(user_id: str):
         influence_data["total_feedback_given"] = len(user_feedback)
 
         # Find decisions influenced by this user's feedback
-        for _decision_id, decision in dashboard.decisions.items():
+        for decision in dashboard.decisions.values():
             feedback_refs = decision.get("feedback_references", [])
 
             for ref in feedback_refs:

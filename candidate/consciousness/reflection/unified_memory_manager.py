@@ -1222,7 +1222,7 @@ class DriftMemoryManager(BaseMemoryManager):
         }
         total_drift = 0.0
         drift_magnitudes = []
-        for _memory_id, drift_state in self.drift_states.items():
+        for drift_state in self.drift_states.values():
             magnitude = drift_state.get("drift_magnitude", 0.0)
             drift_magnitudes.append(magnitude)
             total_drift += magnitude

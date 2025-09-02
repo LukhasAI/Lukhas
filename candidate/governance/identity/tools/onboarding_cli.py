@@ -232,10 +232,7 @@ class OnboardingCLI:
 
         try:
             choice = input("Select cultural context (1-7) or press Enter for 'universal': ").strip()
-            if choice.isdigit() and 1 <= int(choice) <= 7:
-                cultural_context = cultures[int(choice) - 1]
-            else:
-                cultural_context = "universal"
+            cultural_context = cultures[int(choice) - 1] if choice.isdigit() and 1 <= int(choice) <= 7 else "universal"
 
             return {"cultural_context": cultural_context}
         except (KeyboardInterrupt, EOFError, ValueError) as e:

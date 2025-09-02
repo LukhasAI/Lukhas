@@ -697,7 +697,7 @@ class ComplianceValidator(BaseValidator):
                     content = f.read().lower()
 
                 # Check for data handling patterns
-                for _category, keywords in self.risk_keywords.items():
+                for keywords in self.risk_keywords.values():
                     for keyword in keywords:
                         if keyword in content:
                             return True

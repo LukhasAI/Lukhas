@@ -130,7 +130,7 @@ async def export_dashboard(job_id: str, format: str = "gltf"):
             return JSONResponse(content=gltf_data.decode("utf-8"))
         elif format == "json":
             # Export as JSON
-            json_data = await lens_engine.web_renderer.export_json(dashboard, f"/tmp/{job_id}.json")
+            await lens_engine.web_renderer.export_json(dashboard, f"/tmp/{job_id}.json")
             with open(f"/tmp/{job_id}.json") as f:
                 return JSONResponse(content=f.read())
         else:
@@ -153,7 +153,7 @@ async def process_file_job(job_id: str, file_path: str, request: Optional[JobReq
             options.update(request.dict())
 
         # Transform file
-        dashboard = await lens_engine.transform(file_path, options)
+        await lens_engine.transform(file_path, options)
 
         # Clean up temp file
         Path(file_path).unlink(missing_ok=True)
@@ -164,7 +164,7 @@ async def process_file_job(job_id: str, file_path: str, request: Optional[JobReq
         print(f"Job {job_id} failed: {e!s}")
 
 
-def dashboard_to_photon(dashboard) -> Dict[str, Any]:
+def dashboard_to_photon(dashboard) -> dict[str, Any]:
     """
     Convert ΛLens dashboard to Photon document format
     """
@@ -178,7 +178,7 @@ def dashboard_to_photon(dashboard) -> Dict[str, Any]:
     }
 
     # Convert symbols to nodes
-    for i, symbol in enumerate(dashboard.symbols):
+    for _i, symbol in enumerate(dashboard.symbols):
         node = {
             "id": symbol.id,
             "kind": symbol.type.value,

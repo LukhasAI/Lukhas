@@ -37,15 +37,13 @@ class GovernanceLayer:
         """
         Validates an action against the governance rules.
         """
-        if action["type"] == "symbolic_propagation":
-            if action["drift_score"] > self.drift_score_threshold:
-                print(f"GovernanceLayer: Denied action due to high drift score: {action['drift_score']}")
-                return False
+        if action["type"] == "symbolic_propagation" and action["drift_score"] > self.drift_score_threshold:
+            print(f"GovernanceLayer: Denied action due to high drift score: {action['drift_score']}")
+            return False
 
-        if action["type"] == "dream_session":
-            if action["entropy"] > self.max_dream_entropy:
-                print(f"GovernanceLayer: Denied action due to high dream entropy: {action['entropy']}")
-                return False
+        if action["type"] == "dream_session" and action["entropy"] > self.max_dream_entropy:
+            print(f"GovernanceLayer: Denied action due to high dream entropy: {action['entropy']}")
+            return False
 
         for rule in self.rules:
             if not rule(action):

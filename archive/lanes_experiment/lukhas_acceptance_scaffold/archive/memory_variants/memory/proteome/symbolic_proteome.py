@@ -877,10 +877,7 @@ class SymbolicProteome:
             functional_proteins = [p for p in self.proteins.values() if p.is_functional() and len(p.binding_sites) > 0]
 
             # Random sampling for efficiency
-            if len(functional_proteins) > 10:
-                sample = random.sample(functional_proteins, 10)
-            else:
-                sample = functional_proteins
+            sample = random.sample(functional_proteins, 10) if len(functional_proteins) > 10 else functional_proteins
 
             # Check for potential interactions
             for i in range(len(sample)):

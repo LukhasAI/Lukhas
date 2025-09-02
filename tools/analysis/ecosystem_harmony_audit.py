@@ -400,9 +400,8 @@ class EcosystemHarmonyAuditor:
         for neighbor in graph.get(node, []):
             if neighbor in path:
                 return True
-            if neighbor not in visited:
-                if self._has_cycle(neighbor, graph, visited, path + [neighbor]):
-                    return True
+            if neighbor not in visited and self._has_cycle(neighbor, graph, visited, [*path, neighbor]):
+                return True
 
         return False
 

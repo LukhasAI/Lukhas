@@ -444,7 +444,7 @@ class DashboardFallbackSystem:
         target_level: DashboardFallbackLevel,
         trigger: FallbackTrigger,
         reason: str,
-        affected_components: set[str] = None,
+        affected_components: Optional[set[str]] = None,
     ) -> bool:
         """Activate fallback to specified level."""
 

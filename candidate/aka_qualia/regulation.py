@@ -27,14 +27,14 @@ class RegulationAuditEntry:
 
     timestamp: float
     scene_id: str
-    proto_qualia_snapshot: Dict[str, Any]
-    risk_assessment: Dict[str, Any]
-    policy_decision: Dict[str, Any]
+    proto_qualia_snapshot: dict[str, Any]
+    risk_assessment: dict[str, Any]
+    policy_decision: dict[str, Any]
     energy_before: float
     energy_after: float
     conservation_ratio: float
-    decision_rationale: List[str]
-    performance_metrics: Dict[str, float]
+    decision_rationale: list[str]
+    performance_metrics: dict[str, float]
 
 
 class RegulationPolicyEngine:
@@ -45,7 +45,7 @@ class RegulationPolicyEngine:
     energy accounting, and comprehensive audit trails for compliance.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize regulation engine.
 
@@ -53,8 +53,8 @@ class RegulationPolicyEngine:
             config: Configuration overrides
         """
         self.config = self._load_config(config)
-        self.audit_log: List[RegulationAuditEntry] = []
-        self.policy_cache: Dict[str, Tuple[RegulationPolicy, float]] = {}
+        self.audit_log: list[RegulationAuditEntry] = []
+        self.policy_cache: dict[str, tuple[RegulationPolicy, float]] = {}
         self.initialization_time = time.time()
 
         # Policy rule thresholds (configurable)
@@ -67,7 +67,7 @@ class RegulationPolicyEngine:
             "energy_conservation_tolerance": self.config.get("energy_conservation_tolerance", 0.05),
         }
 
-    def _load_config(self, config_override: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _load_config(self, config_override: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Load configuration with defaults"""
         default_config = {
             "enable_audit_logging": True,
@@ -85,8 +85,8 @@ class RegulationPolicyEngine:
         return default_config
 
     def generate_policy(
-        self, scene: PhenomenalScene, guardian_state: Dict[str, Any], energy_before: float
-    ) -> Tuple[RegulationPolicy, RegulationAuditEntry]:
+        self, scene: PhenomenalScene, guardian_state: dict[str, Any], energy_before: float
+    ) -> tuple[RegulationPolicy, RegulationAuditEntry]:
         """
         Generate regulation policy with comprehensive audit logging.
 
@@ -226,7 +226,7 @@ class RegulationPolicyEngine:
             energy_delta > self.thresholds["energy_conservation_tolerance"]
         )
 
-    def _compute_gain_modulation(self, scene: PhenomenalScene, rationale: List[str]) -> float:
+    def _compute_gain_modulation(self, scene: PhenomenalScene, rationale: list[str]) -> float:
         """Compute gain modulation based on risk and proto-qualia"""
         # Base gain (inverse of risk)
         base_gain = max(0.2, 1.0 - scene.risk.score)
@@ -241,7 +241,7 @@ class RegulationPolicyEngine:
 
         return min(1.0, base_gain)
 
-    def _compute_pace_modulation(self, scene: PhenomenalScene, rationale: List[str]) -> float:
+    def _compute_pace_modulation(self, scene: PhenomenalScene, rationale: list[str]) -> float:
         """Compute pace modulation based on temporal dynamics"""
         # Base pace (inverse of arousal)
         base_pace = max(0.3, 1.0 - scene.proto.arousal)
@@ -333,7 +333,7 @@ class RegulationPolicyEngine:
             except Exception as e:
                 print(f"Warning: Failed to write audit log: {e}")
 
-    def get_audit_statistics(self) -> Dict[str, Any]:
+    def get_audit_statistics(self) -> dict[str, Any]:
         """Get audit trail statistics"""
         if not self.audit_log:
             return {"total_entries": 0}

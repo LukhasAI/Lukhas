@@ -132,7 +132,7 @@ class DreamRecorder:
         else:
             return self.recorded_dreams.copy()
 
-    def search_dreams(self, query: str, search_fields: list[str] = None) -> list[dict[str, Any]]:
+    def search_dreams(self, query: str, search_fields: Optional[list[str]] = None) -> list[dict[str, Any]]:
         """
         Search recorded dreams by query.
 

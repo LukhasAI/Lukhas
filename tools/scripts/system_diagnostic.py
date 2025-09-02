@@ -202,7 +202,7 @@ class SystemDiagnostic:
             "Meta Metrics": self.results["data_files"].get("Meta Metrics", False),
         }
 
-        for _check_name, passed in checks.items():
+        for passed in checks.values():
             self.total_checks += 1
             if passed:
                 self.passed_checks += 1

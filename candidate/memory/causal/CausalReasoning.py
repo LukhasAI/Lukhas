@@ -175,7 +175,7 @@ class CausalReasoningModule:
     def _extract_reasoning_path(self, valid_causes: dict) -> list[dict]:
         """Extract reasoning path from valid causes"""
         reasoning_steps = []
-        for _chain_id, chain_data in valid_causes.items():
+        for chain_data in valid_causes.values():
             for _i, element in enumerate(chain_data["elements"]):
                 reasoning_steps.append(
                     {

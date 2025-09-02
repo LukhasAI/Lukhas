@@ -181,8 +181,8 @@ class EnhancedGlyphEngine:
             target_modalities, target_domains = module_preferences[target_module]
 
             # Translate to preferred modality
-            primary_modality = list(target_modalities)[0]
-            translated = self.translator.translate(symbol, primary_modality, list(target_domains)[0])
+            primary_modality = next(iter(target_modalities))
+            translated = self.translator.translate(symbol, primary_modality, next(iter(target_domains)))
 
             # Add all preferred modalities and domains
             translated.modalities = target_modalities
@@ -239,7 +239,7 @@ class EnhancedGlyphEngine:
     def get_module_symbols(self, module_name: str) -> list[UniversalSymbol]:
         """Get all symbols created by a specific module"""
         module_symbols = []
-        for _, reg_entry in self.global_symbol_registry.items():
+        for reg_entry in self.global_symbol_registry.values():
             if reg_entry["source_module"] == module_name:
                 module_symbols.append(reg_entry["symbol"])
         return module_symbols

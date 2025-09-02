@@ -9,6 +9,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+
 def load_enumeration():
     """Load the error enumeration file"""
     try:

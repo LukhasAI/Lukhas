@@ -84,7 +84,7 @@ class BaseResponse(BaseModel):
     user_context: Optional[dict[str, str]] = None
 
     @classmethod
-    def create_success(cls, data: Any = None, user: AuthContext = None, message: str = None):
+    def create_success(cls, data: Any = None, user: AuthContext = None, message: Optional[str] = None):
         """Create successful response with user context."""
         response_data = {"success": True, "message": message, "data": data}
 

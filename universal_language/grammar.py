@@ -338,8 +338,8 @@ class LanguageParser:
         if GrammaticalRole.SUBJECT not in parsed.roles:
             # Insert default subject at beginning
             default_subject = Symbol(id="DEFAULT_SUBJECT", domain=SymbolicDomain.CONTEXT, name="system", value="system")
-            corrected_elements = [default_subject] + parsed.elements
-            corrected_roles = [GrammaticalRole.SUBJECT] + parsed.roles
+            corrected_elements = [default_subject, *parsed.elements]
+            corrected_roles = [GrammaticalRole.SUBJECT, *parsed.roles]
             corrections.append((corrected_elements, corrected_roles))
 
         # Check for missing verb

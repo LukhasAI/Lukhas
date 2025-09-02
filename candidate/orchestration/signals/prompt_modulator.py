@@ -149,7 +149,7 @@ class PromptModulator:
 
         return False
 
-    def _safe_eval(self, expr: str, x: float, current: Any = None, ctx: dict[str, float] = None) -> Any:
+    def _safe_eval(self, expr: str, x: float, current: Any = None, ctx: Optional[dict[str, float]] = None) -> Any:
         """
         Safely evaluate expressions like '1 - 0.85*x'.
         Only allows x, min, max, round, and basic math.

@@ -65,7 +65,7 @@ class SASHealthcareConnector:
     Provides appointment booking, prescription management, and medical records access
     """
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize SAS connector with configuration
 
@@ -122,7 +122,7 @@ class SASHealthcareConnector:
             except Exception as e:
                 logger.warning(f"Could not load SAS config: {e}")
 
-    async def connect(self, nuhsa: str, credentials: dict = None) -> bool:
+    async def connect(self, nuhsa: str, credentials: Optional[dict] = None) -> bool:
         """
         Connect to SAS system with patient NUHSA
 
@@ -289,7 +289,7 @@ class SASHealthcareConnector:
         return self.appointment_cache.get(self.current_nuhsa, [])
 
     async def book_appointment(
-        self, specialty: str, preferred_time: str = None, urgency: str = "normal"
+        self, specialty: str, preferred_time: Optional[str] = None, urgency: str = "normal"
     ) -> Optional[SASAppointment]:
         """
         Book a new appointment
@@ -447,7 +447,7 @@ class SASHealthcareConnector:
 
         return emergency_info
 
-    async def find_nearest_pharmacy(self, location: tuple[float, float] = None) -> dict:
+    async def find_nearest_pharmacy(self, location: Optional[tuple[float, float]] = None) -> dict:
         """
         Find nearest pharmacy for prescriptions
 

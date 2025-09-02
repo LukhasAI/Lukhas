@@ -385,15 +385,13 @@ class PlasticityTriggerManager:
         for hormone, threshold in conditions.items():
             if hormone.endswith("_high"):
                 hormone_name = hormone.replace("_high", "")
-                if hormone_name in hormone_levels:
-                    if hormone_levels[hormone_name] < threshold:
-                        return False
+                if hormone_name in hormone_levels and hormone_levels[hormone_name] < threshold:
+                    return False
 
             elif hormone.endswith("_low"):
                 hormone_name = hormone.replace("_low", "")
-                if hormone_name in hormone_levels:
-                    if hormone_levels[hormone_name] > threshold:
-                        return False
+                if hormone_name in hormone_levels and hormone_levels[hormone_name] > threshold:
+                    return False
 
         # Check system metrics conditions
         if "min_stress_level" in conditions:

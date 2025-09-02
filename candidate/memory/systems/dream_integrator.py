@@ -164,7 +164,7 @@ class DreamIntegrator:
         self,
         memory_fold_ids: list[str],
         dream_type: DreamType = DreamType.MEMORY_CONSOLIDATION,
-        emotional_context: dict[str, float] = None,
+        emotional_context: Optional[dict[str, float]] = None,
     ) -> Optional[str]:
         """Initiate formation of a new dream from memory sources."""
         try:
@@ -211,7 +211,7 @@ class DreamIntegrator:
         self,
         dream_id: str,
         content: dict[str, Any],
-        memory_sources: list[str] = None,
+        memory_sources: Optional[list[str]] = None,
         emotional_intensity: float = 0.5,
     ) -> bool:
         """Add a new fragment to an existing dream."""
@@ -344,7 +344,7 @@ class DreamIntegrator:
 
     # Private methods
 
-    def _calculate_link_strength(self, memory_fold_id: str, emotional_context: dict[str, float] = None) -> float:
+    def _calculate_link_strength(self, memory_fold_id: str, emotional_context: Optional[dict[str, float]] = None) -> float:
         """Calculate the strength of connection between dream and memory."""
         base_strength = 0.5
 
@@ -514,7 +514,7 @@ def get_dream_integrator() -> DreamIntegrator:
 def initiate_dream(
     memory_fold_ids: list[str],
     dream_type: str = "memory_consolidation",
-    emotional_context: dict[str, float] = None,
+    emotional_context: Optional[dict[str, float]] = None,
 ) -> Optional[str]:
     """Module-level function to initiate dream formation."""
     try:

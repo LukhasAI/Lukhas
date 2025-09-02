@@ -418,24 +418,24 @@ class EthicsHITLOBridge:
                 allowed=True,
                 reasoning=f"Human override: {review_result.reasoning}",
                 confidence=review_result.confidence,
-                risk_flags=evaluation.risk_flags + ["HUMAN_APPROVED"],
+                risk_flags=[*evaluation.risk_flags, "HUMAN_APPROVED"],
                 drift_impact=evaluation.drift_impact,
                 symbolic_alignment=evaluation.symbolic_alignment,
                 collapse_risk=evaluation.collapse_risk,
                 policy_name=f"{evaluation.policy_name}+HUMAN",
-                recommendations=evaluation.recommendations + ["Human oversight applied"],
+                recommendations=[*evaluation.recommendations, "Human oversight applied"],
             )
         else:
             updated_evaluation = EthicsEvaluation(
                 allowed=False,
                 reasoning=f"Human review denied: {review_result.reasoning}",
                 confidence=review_result.confidence,
-                risk_flags=evaluation.risk_flags + ["HUMAN_DENIED"],
+                risk_flags=[*evaluation.risk_flags, "HUMAN_DENIED"],
                 drift_impact=evaluation.drift_impact,
                 symbolic_alignment=evaluation.symbolic_alignment,
                 collapse_risk=evaluation.collapse_risk,
                 policy_name=f"{evaluation.policy_name}+HUMAN",
-                recommendations=evaluation.recommendations + ["Human oversight applied"],
+                recommendations=[*evaluation.recommendations, "Human oversight applied"],
             )
 
         return updated_evaluation, review_result

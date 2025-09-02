@@ -15,7 +15,7 @@ except ImportError:
 
     class MockInstrumentor:
         @staticmethod
-        def instrument_app(app):
+        def instrument_app(app) -> None:
             pass
 
     FastAPIInstrumentor = MockInstrumentor

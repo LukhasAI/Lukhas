@@ -90,7 +90,7 @@ class InsecureRandomFixer:
         file_str = str(file_path).lower()
         return any(critical_dir in file_str for critical_dir in self.critical_dirs)
 
-    def analyze_file(self, file_path: Path) -> Tuple[List[str], bool]:
+    def analyze_file(self, file_path: Path) -> tuple[list[str], bool]:
         """Analyze file for insecure random usage"""
         try:
             with open(file_path, encoding="utf-8") as f:
@@ -177,7 +177,7 @@ class InsecureRandomFixer:
             print(f"❌ Error fixing {file_path}: {e}")
             return False
 
-    def scan_directory(self) -> Dict[str, List[Tuple[Path, List[str], bool]]]:
+    def scan_directory(self) -> dict[str, list[tuple[Path, list[str], bool]]]:
         """Scan directory for Python files with insecure random usage"""
         results = {"critical": [], "normal": []}
 

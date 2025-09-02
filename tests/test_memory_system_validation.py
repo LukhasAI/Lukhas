@@ -79,7 +79,7 @@ class TestMemorySystemValidation:
             # Test operation timing
             operation_times = []
 
-            for i in range(10):
+            for _i in range(10):
                 start_time = time.perf_counter()
                 await core.process_memory(test_memory)
                 end_time = time.perf_counter()

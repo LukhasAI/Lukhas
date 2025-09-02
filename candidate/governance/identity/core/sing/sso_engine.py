@@ -16,6 +16,7 @@ import hashlib
 import json
 import secrets
 from datetime import datetime, timedelta
+from typing import Optional
 
 
 class LambdaSSOEngine:
@@ -46,7 +47,7 @@ class LambdaSSOEngine:
             "device_trust": "🔗",
         }
 
-    def generate_sso_token(self, user_id: str, service_scope: list[str], device_info: dict = None) -> dict:
+    def generate_sso_token(self, user_id: str, service_scope: list[str], device_info: Optional[dict] = None) -> dict:
         """Generate symbolic SSO token for service access with multi-device support"""
 
         # Validate user tier permissions for requested scope
@@ -110,7 +111,7 @@ class LambdaSSOEngine:
             "platform_support": token_data["platform_compatibility"],
         }
 
-    def validate_token(self, token_id: str, service_id: str, validation_context: dict = None) -> dict:
+    def validate_token(self, token_id: str, service_id: str, validation_context: Optional[dict] = None) -> dict:
         """Validate SSO token for service access with symbolic verification"""
 
         if token_id not in self.active_tokens:
@@ -210,12 +211,11 @@ class LambdaSSOEngine:
             return {"success": False, "error": "Biometric validation failed"}
 
         # Check if user has biometric permissions
-        if self.tier_manager:
-            if not self.tier_manager.validate_permission(user_id, "biometric_auth"):
-                return {
-                    "success": False,
-                    "error": "Biometric authentication not available for user tier",
-                }
+        if self.tier_manager and not self.tier_manager.validate_permission(user_id, "biometric_auth"):
+            return {
+                "success": False,
+                "error": "Biometric authentication not available for user tier",
+            }
 
         # Generate SSO token with biometric authentication
         token_result = self.generate_sso_token(user_id, ["biometric_authenticated"], device_info)

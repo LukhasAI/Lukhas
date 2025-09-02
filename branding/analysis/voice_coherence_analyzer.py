@@ -217,7 +217,7 @@ class VoiceCoherenceAnalyzer:
         total_keywords = sum(len(keywords) for keywords in self.brand_keywords.values())
         found_keywords = 0
 
-        for _category, keywords in self.brand_keywords.items():
+        for keywords in self.brand_keywords.values():
             for keyword in keywords:
                 if keyword.lower() in content:
                     found_keywords += 1

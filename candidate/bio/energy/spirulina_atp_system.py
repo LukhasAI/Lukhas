@@ -215,7 +215,7 @@ class BiohybridCapacitorArray:
         print(f"   - Average retention: {self.average_retention:.1%}")
         print("   - Storage density: 9.8 J/cm³ (research-validated)")
 
-    async def store_energy(self, energy_input: float) -> Dict[str, float]:
+    async def store_energy(self, energy_input: float) -> dict[str, float]:
         """RESEARCH: Store energy with 98% retention efficiency"""
 
         stored_energy = 0.0
@@ -297,7 +297,7 @@ class SpirulinaATPHybridSystem:
         print(f"   - Biohybrid capacitors: {len(self.capacitor_array.capacitors)} units")
         print("   - Research validation: Priority #5 Bio-Symbolic Architecture")
 
-    async def process_energy_cycle(self, quantum_input: float, substrate_availability: float = 0.8) -> Dict[str, Any]:
+    async def process_energy_cycle(self, quantum_input: float, substrate_availability: float = 0.8) -> dict[str, Any]:
         """RESEARCH: Complete energy processing cycle with all subsystems"""
 
         cycle_start = datetime.now(timezone.utc)
@@ -357,7 +357,7 @@ class SpirulinaATPHybridSystem:
 
         return cycle_result
 
-    async def get_system_status(self) -> Dict[str, Any]:
+    async def get_system_status(self) -> dict[str, Any]:
         """RESEARCH: Get comprehensive system status and performance metrics"""
 
         total_stored_energy = sum(cap.current_charge for cap in self.capacitor_array.capacitors)

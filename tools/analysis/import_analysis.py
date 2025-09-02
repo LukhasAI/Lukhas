@@ -76,7 +76,7 @@ class ImportAnalyzer:
     def _path_to_module(self, file_path: Path) -> str:
         """Convert file path to module name"""
         rel_path = file_path.relative_to(self.root_path)
-        parts = list(rel_path.parts[:-1]) + [rel_path.stem]
+        parts = [*list(rel_path.parts[:-1]), rel_path.stem]
         return ".".join(parts)
 
     def _resolve_relative_import(self, file_path: Path, module: Optional[str], level: int) -> str:

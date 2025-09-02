@@ -2,7 +2,7 @@ import logging
 import re
 import time
 from datetime import datetime
-from typing import Any, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 from identity.backend.app.crypto import generate_collapse_hash
@@ -21,7 +21,7 @@ class IntentNode:
     Provides a weighted integration of both approaches for robust intent classification.
     """
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the IntentNode with configuration.
 
@@ -58,7 +58,7 @@ class IntentNode:
     async def process(
         self,
         input_data: Union[str, dict[str, Any]],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Process input to determine intent using both symbolic and neural approaches.
@@ -167,7 +167,7 @@ class IntentNode:
 
         return integrated_result
 
-    async def _neural_process(self, input_data: dict[str, Any], context: dict[str, Any] = None) -> dict[str, Any]:
+    async def _neural_process(self, input_data: dict[str, Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Process input using neural network approach."""
         # The type of input determines how we extract features
         input_type = input_data.get("type", "text")
@@ -270,14 +270,11 @@ class IntentNode:
     def _symbolic_process(
         self,
         input_data: Union[str, dict[str, Any]],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """Process input using symbolic reasoning."""
         # Extract text if input is a dictionary
-        if isinstance(input_data, dict):
-            text = input_data.get("text", "")
-        else:
-            text = input_data
+        text = input_data.get("text", "") if isinstance(input_data, dict) else input_data
 
         # Default values
         primary_intent = "statement"  # Default intent

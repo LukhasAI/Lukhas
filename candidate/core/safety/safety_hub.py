@@ -269,7 +269,7 @@ class SafetyHub:
         self,
         action_type: str,
         action_data: dict[str, Any],
-        user_context: dict[str, Any] = None,
+        user_context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """Validate an action through the safety system"""
 

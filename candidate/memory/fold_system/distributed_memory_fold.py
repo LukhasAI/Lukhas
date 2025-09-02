@@ -560,7 +560,7 @@ class DistributedMemoryFold:
         self,
         node_id: str,
         port: int,
-        bootstrap_nodes: list[tuple[str, int]] = None,
+        bootstrap_nodes: Optional[list[tuple[str, int]]] = None,
         consciousness_level: float = 0.8,
     ):
         self.node_id = node_id
@@ -670,9 +670,9 @@ class DistributedMemoryFold:
     async def store_memory(
         self,
         content: str,
-        tags: list[str] = None,
+        tags: Optional[list[str]] = None,
         embedding: np.ndarray = None,
-        metadata: dict[str, Any] = None,
+        metadata: Optional[dict[str, Any]] = None,
         require_consensus: bool = True,
     ) -> str:
         """
@@ -904,7 +904,7 @@ class DistributedMemoryFold:
 async def create_distributed_memory_fold(
     node_id: str,
     port: int,
-    bootstrap_nodes: list[tuple[str, int]] = None,
+    bootstrap_nodes: Optional[list[tuple[str, int]]] = None,
     consciousness_level: float = 0.8,
 ) -> DistributedMemoryFold:
     """

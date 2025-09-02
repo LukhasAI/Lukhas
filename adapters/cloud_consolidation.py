@@ -186,7 +186,7 @@ class CloudConsolidationService:
         recommendations = []
 
         # Duplicate recommendations
-        for i, group in enumerate(duplicate_groups):
+        for _i, group in enumerate(duplicate_groups):
             if group.redundant_size > 1024 * 1024:  # > 1MB savings
                 recommendations.append(
                     {
