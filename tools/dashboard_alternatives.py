@@ -43,9 +43,7 @@ class SimpleDashboard:
     def __init__(self, title: str = "LUKHAS Dashboard", port: int = 8501):
         self.title = title
         self.port = port
-        self.data = DashboardData(
-            title=title, timestamp=time.time(), metrics={}, charts=[], logs=[]
-        )
+        self.data = DashboardData(title=title, timestamp=time.time(), metrics={}, charts=[], logs=[])
 
         # Server components
         self.server: Optional[HTTPServer] = None
@@ -58,9 +56,7 @@ class SimpleDashboard:
 
         self.logger = logging.getLogger(f"dashboard.{title.lower().replace(' ', '_')}")
 
-    def add_metric(
-        self, key: str, value: Union[int, float, str], unit: str = ""
-    ) -> None:
+    def add_metric(self, key: str, value: Union[int, float, str], unit: str = "") -> None:
         """Add or update a metric"""
         self.data.metrics[key] = {
             "value": value,
@@ -135,9 +131,7 @@ class SimpleDashboard:
             self.server_thread = threading.Thread(target=self._run_server, daemon=True)
             self.server_thread.start()
 
-            self.logger.info(
-                f"Dashboard server started at http://localhost:{self.port}"
-            )
+            self.logger.info(f"Dashboard server started at http://localhost:{self.port}")
 
         except Exception as e:
             self.logger.error(f"Failed to start server: {e}")
@@ -492,7 +486,7 @@ class SimpleDashboard:
         """Generate HTML for logs section"""
         if not self.data.logs:
             return "No logs available"
-        return "\n".join(self.data.logs[-20:]# Show last 20 logs
+        return "\n".join(self.data.logs[-20:])  # Show last 20 logs
 
 
 class StreamlitFallback:
@@ -523,31 +517,23 @@ class StreamlitFallback:
         """Write text (logged as info)"""
         self.dashboard.add_log(f"WRITE: {text}", "INFO")
 
-    def metric(
-        self, label: str, value: Union[int, float, str], delta: str = None
-    ) -> None:
+    def metric(self, label: str, value: Union[int, float, str], delta: Optional[str] = None) -> None:
         """Add metric to dashboard"""
         self.dashboard.add_metric(label, value)
         if delta:
             self.dashboard.add_log(f"METRIC: {label} = {value} (Δ {delta})", "INFO")
 
-    def line_chart(
-        self, data: list[dict[str, Any]], x: str = "x", y: str = "y"
-    ) -> None:
+    def line_chart(self, data: list[dict[str, Any]], x: str = "x", y: str = "y") -> None:
         """Add line chart"""
         self._metric_counter += 1
         chart_id = f"line_chart_{self._metric_counter}"
-        self.dashboard.add_chart(
-            chart_id, "line", data, f"Line Chart {self._metric_counter}", x, y
-        )
+        self.dashboard.add_chart(chart_id, "line", data, f"Line Chart {self._metric_counter}", x, y)
 
     def bar_chart(self, data: list[dict[str, Any]], x: str = "x", y: str = "y") -> None:
         """Add bar chart"""
         self._metric_counter += 1
         chart_id = f"bar_chart_{self._metric_counter}"
-        self.dashboard.add_chart(
-            chart_id, "bar", data, f"Bar Chart {self._metric_counter}", x, y
-        )
+        self.dashboard.add_chart(chart_id, "bar", data, f"Bar Chart {self._metric_counter}", x, y)
 
     def success(self, text: str) -> None:
         """Success message"""
@@ -650,9 +636,7 @@ if __name__ == "__main__":
             import random
 
             dashboard.add_metric("CPU Usage", f"{random.randint(20, 80)}%", "%")
-            dashboard.add_log(
-                f"Heartbeat - System healthy at {time.strftime('%H:%M:%S')}"
-            )
+            dashboard.add_log(f"Heartbeat - System healthy at {time.strftime('%H:%M:%S')}")
 
     except KeyboardInterrupt:
         dashboard.stop_server()

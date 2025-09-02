@@ -20,8 +20,7 @@ def speak_text(text: str, params: VoiceParameter):
 
 
 class VoiceSynthesisAdapter:
-
-    def __init__(self, voice_config: dict = None):
+    def __init__(self, voice_config: Optional[dict] = None):
         self.voice_config = voice_config or {
             "voice_id": "default",
             "language": "en-US",
@@ -65,9 +64,7 @@ class VoiceSynthesisAdapter:
         """Adapt voice characteristics based on user preferences."""
         new_config = {
             **self.voice_config,
-            "voice_id": user_preferences.get(
-                "preferred_voice", self.voice_config["voice_id"]
-            ),
+            "voice_id": user_preferences.get("preferred_voice", self.voice_config["voice_id"]),
             "speed": user_preferences.get("speech_rate", self.voice_config["speed"]),
             "pitch": user_preferences.get("voice_pitch", self.voice_config["pitch"]),
             "language": user_preferences.get("language", self.voice_config["language"]),
@@ -75,7 +72,7 @@ class VoiceSynthesisAdapter:
 
         # Validate new configuration
         if await self._validate_voice_config(new_config):
-            self.voice_cache.clear(# Clear cache since voice parameters changed
+            self.voice_cache.clear()  # Clear cache since voice parameters changed
             self.voice_config = new_config
             return True
         return False

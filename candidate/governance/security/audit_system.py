@@ -494,7 +494,9 @@ class AuditStorage:
         # Compliance filters
         if query.compliance_relevant_only and not event.compliance_relevant:
             return False
-        return not (query.compliance_frameworks and not query.compliance_frameworks.intersection(event.compliance_frameworks))
+        return not (
+            query.compliance_frameworks and not query.compliance_frameworks.intersection(event.compliance_frameworks)
+        )
 
 
 class AuditEventProcessor:

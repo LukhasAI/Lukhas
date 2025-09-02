@@ -44,15 +44,18 @@ class DriveAdapter(BaseServiceAdapter):
 
         if refresh_token:
             # Refresh access token
-            async with aiohttp.ClientSession() as session, session.post(
-                "https://oauth2.googleapis.com/token",
-                data={
-                    "client_id": client_id,
-                    "client_secret": client_secret,
-                    "refresh_token": refresh_token,
-                    "grant_type": "refresh_token",
-                },
-            ) as response:
+            async with (
+                aiohttp.ClientSession() as session,
+                session.post(
+                    "https://oauth2.googleapis.com/token",
+                    data={
+                        "client_id": client_id,
+                        "client_secret": client_secret,
+                        "refresh_token": refresh_token,
+                        "grant_type": "refresh_token",
+                    },
+                ) as response,
+            ):
                 token_data = await response.json()
 
                 # Store in vault (Agent 7 integration)

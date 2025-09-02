@@ -102,7 +102,8 @@
       "Bash(rg:*)",
       "Bash(for pr in 108 109 111 115 117 118 119 121)",
       "Bash(do echo \"=== PR #$pr ===\")",
-      "Bash(gh workflow run:*)"
+      "Bash(gh workflow run:*)",
+      "Bash(npm audit:*)"
     ],
     "deny": [],
     "ask": []

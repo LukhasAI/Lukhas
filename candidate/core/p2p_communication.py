@@ -313,7 +313,7 @@ class P2PNode:
         )
 
         sent_count = 0
-        for (_, writer) in self.connections.values():
+        for _, writer in self.connections.values():
             if await self._send_message(writer, message):
                 sent_count += 1
 

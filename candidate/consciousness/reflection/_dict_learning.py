@@ -1173,7 +1173,7 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         # ΛNOTE: Updates A and B matrices (sufficient statistics) for online updates.
         # ΛDREAM_LOOP: This incremental update of statistics is part of the
         # ongoing learning process.
-        theta = (step + 1) * batch_size if step < batch_size - 1 else batch_size ** 2 + step + 1 - batch_size
+        theta = (step + 1) * batch_size if step < batch_size - 1 else batch_size**2 + step + 1 - batch_size
         beta = (theta + 1 - batch_size) / (theta + 1)
 
         self._A *= beta

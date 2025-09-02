@@ -96,7 +96,9 @@ class MemoryHelixVisualizer:
 
         return (x, y, z)
 
-    def get_authorized_memories(self, user_id: Optional[str] = None, access_tier: AccessTier = None) -> list[dict[str, Any]]:
+    def get_authorized_memories(
+        self, user_id: Optional[str] = None, access_tier: AccessTier = None
+    ) -> list[dict[str, Any]]:
         """
         Get the list of memories that the user is authorized to view.
 

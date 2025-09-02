@@ -141,7 +141,9 @@ class SystematicModuleHunter:
 
         return found_locations
 
-    def test_module_with_hunting(self, module_name: str, expected_classes: Optional[list[str]] = None) -> dict[str, Any]:
+    def test_module_with_hunting(
+        self, module_name: str, expected_classes: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Test a module and hunt for missing classes"""
         self.log_info(f"Testing module: {module_name}")
 

@@ -829,7 +829,9 @@ class SystemHealthMonitor:
             return True
 
         # Check cascade prevention
-        return bool(self.current_health and self.current_health.cascade_prevention_score < self.cascade_prevention_target)
+        return bool(
+            self.current_health and self.current_health.cascade_prevention_score < self.cascade_prevention_target
+        )
 
     async def _perform_predictive_analysis(self):
         """Perform predictive health analysis"""

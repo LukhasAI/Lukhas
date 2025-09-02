@@ -15,9 +15,10 @@ from typing import Any
 
 class ErrorPriority(Enum):
     CRITICAL = "critical"  # Core functionality, imports, type safety
-    HIGH = "high"         # Method signatures, class definitions
-    MEDIUM = "medium"     # Variable annotations, return types
-    LOW = "low"          # Minor type hints, documentation
+    HIGH = "high"  # Method signatures, class definitions
+    MEDIUM = "medium"  # Variable annotations, return types
+    LOW = "low"  # Minor type hints, documentation
+
 
 class ErrorCategory(Enum):
     IMPORT = "import"
@@ -28,6 +29,7 @@ class ErrorCategory(Enum):
     UNREACHABLE = "unreachable"
     OVERLOAD = "overload"
     OTHER = "other"
+
 
 @dataclass
 class MypyError:
@@ -43,12 +45,14 @@ class MypyError:
     assigned_agent: str = "unassigned"
     status: str = "pending"
 
+
 @dataclass
 class FileErrors:
     file_path: str
     total_errors: int
     errors: list[MypyError]
     priority_breakdown: dict[str, int]
+
 
 def parse_mypy_output(output: str) -> list[MypyError]:
     """Parse mypy output into structured error objects"""
@@ -92,7 +96,7 @@ def parse_mypy_output(output: str) -> list[MypyError]:
                     category=category,
                     priority=priority,
                     context=line,
-                    suggested_fix=generate_suggested_fix(error_code, message)
+                    suggested_fix=generate_suggested_fix(error_code, message),
                 )
 
                 errors.append(error)
@@ -103,6 +107,7 @@ def parse_mypy_output(output: str) -> list[MypyError]:
                 continue
 
     return errors
+
 
 def categorize_error(error_code: str, message: str) -> ErrorCategory:
     """Categorize error by type"""
@@ -123,6 +128,7 @@ def categorize_error(error_code: str, message: str) -> ErrorCategory:
     else:
         return ErrorCategory.OTHER
 
+
 def prioritize_error(error_code: str, message: str, file_path: str) -> ErrorPriority:
     """Determine error priority based on impact"""
     # Critical errors
@@ -139,6 +145,7 @@ def prioritize_error(error_code: str, message: str, file_path: str) -> ErrorPrio
 
     # Low priority
     return ErrorPriority.LOW
+
 
 def generate_suggested_fix(error_code: str, message: str) -> str:
     """Generate suggested fix based on error type"""
@@ -157,6 +164,7 @@ def generate_suggested_fix(error_code: str, message: str) -> str:
     else:
         return "Review and fix type issue"
 
+
 def group_errors_by_file(errors: list[MypyError]) -> dict[str, FileErrors]:
     """Group errors by file"""
     file_groups = {}
@@ -167,12 +175,7 @@ def group_errors_by_file(errors: list[MypyError]) -> dict[str, FileErrors]:
                 file_path=error.file_path,
                 total_errors=0,
                 errors=[],
-                priority_breakdown={
-                    "critical": 0,
-                    "high": 0,
-                    "medium": 0,
-                    "low": 0
-                }
+                priority_breakdown={"critical": 0, "high": 0, "medium": 0, "low": 0},
             )
 
         file_groups[error.file_path].errors.append(error)
@@ -181,6 +184,7 @@ def group_errors_by_file(errors: list[MypyError]) -> dict[str, FileErrors]:
 
     return file_groups
 
+
 def create_agent_tasks(file_groups: dict[str, FileErrors], max_per_task: int = 10) -> dict[str, Any]:
     """Create agent task assignments"""
     tasks = {}
@@ -188,9 +192,7 @@ def create_agent_tasks(file_groups: dict[str, FileErrors], max_per_task: int = 1
 
     # Sort files by error count (most critical first)
     sorted_files = sorted(
-        file_groups.items(),
-        key=lambda x: (x[1].priority_breakdown["critical"], x[1].total_errors),
-        reverse=True
+        file_groups.items(), key=lambda x: (x[1].priority_breakdown["critical"], x[1].total_errors), reverse=True
     )
 
     current_task = []
@@ -205,7 +207,7 @@ def create_agent_tasks(file_groups: dict[str, FileErrors], max_per_task: int = 1
                 "total_errors": current_task_errors,
                 "files": current_task.copy(),
                 "priority_breakdown": calculate_task_priority(current_task, file_groups),
-                "estimated_complexity": estimate_complexity(current_task, file_groups)
+                "estimated_complexity": estimate_complexity(current_task, file_groups),
             }
             task_id += 1
             current_task = []
@@ -222,10 +224,11 @@ def create_agent_tasks(file_groups: dict[str, FileErrors], max_per_task: int = 1
             "total_errors": current_task_errors,
             "files": current_task,
             "priority_breakdown": calculate_task_priority(current_task, file_groups),
-            "estimated_complexity": estimate_complexity(current_task, file_groups)
+            "estimated_complexity": estimate_complexity(current_task, file_groups),
         }
 
     return tasks
+
 
 def calculate_task_priority(files: list[str], file_groups: dict[str, FileErrors]) -> dict[str, int]:
     """Calculate priority breakdown for a task"""
@@ -235,6 +238,7 @@ def calculate_task_priority(files: list[str], file_groups: dict[str, FileErrors]
             for priority, count in file_groups[file_path].priority_breakdown.items():
                 breakdown[priority] += count
     return breakdown
+
 
 def estimate_complexity(files: list[str], file_groups: dict[str, FileErrors]) -> str:
     """Estimate task complexity"""
@@ -248,16 +252,19 @@ def estimate_complexity(files: list[str], file_groups: dict[str, FileErrors]) ->
     else:
         return "low"
 
+
 def main():
     """Main function to generate mypy error enumeration"""
     print("🔍 Running mypy to collect current errors...")
 
     # Run mypy on the codebase
     try:
-        result = subprocess.run([
-            sys.executable, "-m", "mypy", ".",
-            "--show-error-codes", "--pretty", "--ignore-missing-imports"
-        ], capture_output=True, text=True, cwd=Path(__file__).parent)
+        result = subprocess.run(
+            [sys.executable, "-m", "mypy", ".", "--show-error-codes", "--pretty", "--ignore-missing-imports"],
+            capture_output=True,
+            text=True,
+            cwd=Path(__file__).parent,
+        )
 
         mypy_output = result.stdout + result.stderr
 
@@ -289,33 +296,39 @@ def main():
                 "total_errors": len(errors),
                 "total_files": len(file_groups),
                 "total_tasks": len(tasks),
-                "mypy_command": "python -m mypy . --show-error-codes --pretty --ignore-missing-imports"
+                "mypy_command": "python -m mypy . --show-error-codes --pretty --ignore-missing-imports",
             },
             "summary": {
                 "errors_by_category": {},
                 "errors_by_priority": {},
-                "files_by_error_count": sorted([
-                    {"file": f, "errors": fg.total_errors, "critical": fg.priority_breakdown["critical"]}
-                    for f, fg in file_groups.items()
-                ], key=lambda x: (x["critical"], x["errors"]), reverse=True)[:10]  # Top 10
+                "files_by_error_count": sorted(
+                    [
+                        {"file": f, "errors": fg.total_errors, "critical": fg.priority_breakdown["critical"]}
+                        for f, fg in file_groups.items()
+                    ],
+                    key=lambda x: (x["critical"], x["errors"]),
+                    reverse=True,
+                )[:10],  # Top 10
             },
             "files": {
                 file_path: {
                     "total_errors": fg.total_errors,
                     "priority_breakdown": fg.priority_breakdown,
-                    "errors": [asdict(error) for error in fg.errors]
+                    "errors": [asdict(error) for error in fg.errors],
                 }
                 for file_path, fg in file_groups.items()
             },
-            "tasks": tasks
+            "tasks": tasks,
         }
 
         # Calculate summary stats
         for error in errors:
-            error_enumeration["summary"]["errors_by_category"][error.category.value] = \
+            error_enumeration["summary"]["errors_by_category"][error.category.value] = (
                 error_enumeration["summary"]["errors_by_category"].get(error.category.value, 0) + 1
-            error_enumeration["summary"]["errors_by_priority"][error.priority.value] = \
+            )
+            error_enumeration["summary"]["errors_by_priority"][error.priority.value] = (
                 error_enumeration["summary"]["errors_by_priority"].get(error.priority.value, 0) + 1
+            )
 
         # Save to JSON file
         output_file = Path("mypy_errors_enumeration.json")
@@ -346,6 +359,7 @@ def main():
     except Exception as e:
         print(f"❌ Error running mypy: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

@@ -522,17 +522,20 @@ class EnergyConsumptionAnalyzer:
             )
 
         # Profile recommendations
-        if self.current_profile in [
-            EnergyProfile.HIGH_PERFORMANCE,
-            EnergyProfile.BURST,
-        ] and stats["average_power_watts"] > 10.0:  # High sustained power
+        if (
+            self.current_profile
+            in [
+                EnergyProfile.HIGH_PERFORMANCE,
+                EnergyProfile.BURST,
+            ]
+            and stats["average_power_watts"] > 10.0
+        ):  # High sustained power
             recommendations.append(
                 {
                     "type": "profile_optimization",
                     "severity": "medium",
                     "message": f"Sustained high power consumption at {stats['average_power_watts']:.2f}W",
-                    "suggestion": "Consider switching to NORMAL or LOW_POWER profile "
-                    "for non-critical operations",
+                    "suggestion": "Consider switching to NORMAL or LOW_POWER profile " "for non-critical operations",
                 }
             )
 

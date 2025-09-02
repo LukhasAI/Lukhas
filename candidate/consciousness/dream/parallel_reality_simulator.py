@@ -456,7 +456,10 @@ class ParallelRealitySimulator(CoreInterface):
             sub_branch = await self._create_branch(parent_branch.state, branch_id, reality_type)
 
             # Add causal chain
-            sub_branch.causal_chain = [*parent_branch.causal_chain, {"from": branch_id, "to": sub_branch.branch_id, "divergence": sub_branch.divergence_point}]
+            sub_branch.causal_chain = [
+                *parent_branch.causal_chain,
+                {"from": branch_id, "to": sub_branch.branch_id, "divergence": sub_branch.divergence_point},
+            ]
 
             simulation.branches.append(sub_branch)
             self.reality_tree[branch_id].append(sub_branch.branch_id)

@@ -151,7 +151,9 @@ class LukhasFederatedLearningManager:
         Path(self.storage_dir).mkdir(parents=True, exist_ok=True)
         self.load_models()
 
-    def register_model(self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None) -> LukhasFederatedModel:
+    def register_model(
+        self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None
+    ) -> LukhasFederatedModel:
         """
         Register a new model for federated learning in LUKHAS
 

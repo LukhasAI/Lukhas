@@ -168,7 +168,9 @@ class OrchestrationTestSuite:
         except Exception as e:
             return {"error": str(e)}
 
-    async def _test_memory_handler(self, key: str, action: str, value: Optional[str] = None, **kwargs) -> dict[str, Any]:
+    async def _test_memory_handler(
+        self, key: str, action: str, value: Optional[str] = None, **kwargs
+    ) -> dict[str, Any]:
         """Test memory storage function"""
         if not hasattr(self, "_test_memory"):
             self._test_memory = {}

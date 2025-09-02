@@ -431,9 +431,6 @@ class LUKHASBrandingBridge:
         }
 
 
-
-
-
 # Global bridge instance
 _bridge_instance: Optional[LUKHASBrandingBridge] = None
 

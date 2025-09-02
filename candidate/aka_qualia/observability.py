@@ -84,8 +84,10 @@ except ImportError:
             pass
 
     CollectorRegistry = None
+
     def generate_latest(r):
         return b"# Prometheus not available\n"
+
     CONTENT_TYPE_LATEST = "text/plain"
 
 

@@ -187,7 +187,7 @@ class BaseColony(ABC):
             return True
 
         tags = task_data.get("tags") or {}
-        for (_val, scope, _perm, _life) in tags.values():
+        for _val, scope, _perm, _life in tags.values():
             if scope == TagScope.ETHICAL:
                 return await self.governance_colony.pre_approve(task_id, task_data)
         return True

@@ -211,7 +211,12 @@ class BreakthroughSynthesisEngine(CoreInterface):
             return True
 
         # Consciousness and paradigm shifts reinforce
-        return bool("consciousness" in b1.get("type", "") and "paradigm" in b2.get("type", "") or "paradigm" in b1.get("type", "") and "consciousness" in b2.get("type", ""))
+        return bool(
+            "consciousness" in b1.get("type", "")
+            and "paradigm" in b2.get("type", "")
+            or "paradigm" in b1.get("type", "")
+            and "consciousness" in b2.get("type", "")
+        )
 
     async def shutdown(self) -> None:
         """Cleanup resources"""

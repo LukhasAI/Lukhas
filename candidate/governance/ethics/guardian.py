@@ -113,7 +113,9 @@ class EnhancedLUKHASWorkspaceGuardian:
         else:
             print("🛡️  Guardian active - basic protection mode")
 
-    async def enhanced_file_operation_check(self, operation: str, file_path: str, context: Optional[dict] = None) -> dict:
+    async def enhanced_file_operation_check(
+        self, operation: str, file_path: str, context: Optional[dict] = None
+    ) -> dict:
         """Enhanced file operation check using superior ethics."""
 
         context = context or {}

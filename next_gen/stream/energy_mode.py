@@ -331,7 +331,10 @@ class EnergyManager:
         current_metrics = self.metrics_history[-1]
 
         # Check against current profile thresholds
-        return bool(current_metrics.cpu_percent / 100.0 > self.current_profile.cpu_threshold or current_metrics.memory_percent / 100.0 > self.current_profile.memory_threshold)
+        return bool(
+            current_metrics.cpu_percent / 100.0 > self.current_profile.cpu_threshold
+            or current_metrics.memory_percent / 100.0 > self.current_profile.memory_threshold
+        )
 
     async def _execute_operation(self, operation: dict):
         """Execute an operation with energy tracking"""

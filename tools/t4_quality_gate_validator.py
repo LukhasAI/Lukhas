@@ -428,12 +428,12 @@ class T4QualityGateValidator:
             # Step 3: Security validation
             if self.mode in ["full", "security"] and not self.run_security_validation():
                 print("❌ Security validation failed")
-                    # Continue for now, as we expect some security issues during audit
+                # Continue for now, as we expect some security issues during audit
 
             # Step 4: Comprehensive test suite
             if self.mode in ["full"] and not self.run_comprehensive_test_suite():
                 print("❌ Comprehensive test suite failed")
-                    # Continue to generate metrics
+                # Continue to generate metrics
 
             # Step 5: Performance benchmarks
             if self.mode in ["full"]:

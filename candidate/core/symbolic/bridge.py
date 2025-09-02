@@ -28,7 +28,9 @@ class NeuralSymbolicBridge:
         self.dream_processor = DreamProcessor()
         self.integration_threshold = 0.7
 
-    async def process_input(self, neural_output: dict[str, Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def process_input(
+        self, neural_output: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Process neural network output through symbolic reasoning"""
         # Extract patterns from neural output
         patterns = self._extract_patterns(neural_output)

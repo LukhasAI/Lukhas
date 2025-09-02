@@ -338,9 +338,10 @@ class PolicyRuleEngine:
                 rule.policy_type == existing_rule.policy_type
                 and rule.scope == existing_rule.scope
                 and self._conditions_similar(rule.conditions, existing_rule.conditions)
-            ) and ((rule.action == PolicyAction.ALLOW and existing_rule.action == PolicyAction.DENY) or (
-                rule.action == PolicyAction.DENY and existing_rule.action == PolicyAction.ALLOW
-            )):
+            ) and (
+                (rule.action == PolicyAction.ALLOW and existing_rule.action == PolicyAction.DENY)
+                or (rule.action == PolicyAction.DENY and existing_rule.action == PolicyAction.ALLOW)
+            ):
                 conflicts.append(f"Action conflict with {existing_rule_id}")
 
         return conflicts

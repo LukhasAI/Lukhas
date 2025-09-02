@@ -223,7 +223,6 @@ except ImportError as e:
     print(f"Phase 7 ID integration not available: {e}")
 
 
-
 # Version and capability information
 __version__: str = "1.0.0"
 __phase__: str = "Phase 7 - Registry Updates and Policy Integration"
@@ -308,7 +307,7 @@ def get_governance_status():
             if PHASE_7_AVAILABLE
             else {}
         ),
-    "available_capabilities": len(caps),
+        "available_capabilities": len(caps),
         "integration_ready": PHASE_7_AVAILABLE,
     }
 

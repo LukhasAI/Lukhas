@@ -167,7 +167,9 @@ class IntentNode:
 
         return integrated_result
 
-    async def _neural_process(self, input_data: dict[str, Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def _neural_process(
+        self, input_data: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Process input using neural network approach."""
         # The type of input determines how we extract features
         input_type = input_data.get("type", "text")

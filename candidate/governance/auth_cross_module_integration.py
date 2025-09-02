@@ -148,7 +148,9 @@ class ConstellationFrameworkIntegration:
             ModuleType.CORE: "guardian",
         }
 
-    def get_constellation_context_for_module(self, module_type: ModuleType, auth_context: dict[str, Any]) -> dict[str, str]:
+    def get_constellation_context_for_module(
+        self, module_type: ModuleType, auth_context: dict[str, Any]
+    ) -> dict[str, str]:
         """Get Constellation Framework context for specific module"""
         primary_aspect = self.module_trinity_mapping.get(module_type, "identity")
 
@@ -372,7 +374,9 @@ class AuthCrossModuleIntegrator:
                 return False
 
             # Get Constellation context for module
-            constellation_context = self.constellation_integration.get_constellation_context_for_module(module_type, auth_context)
+            constellation_context = self.constellation_integration.get_constellation_context_for_module(
+                module_type, auth_context
+            )
 
             # Create GLYPH message
             glyph_message = "GLYPH[DEFAULT]"

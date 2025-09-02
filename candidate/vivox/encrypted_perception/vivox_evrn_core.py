@@ -375,7 +375,7 @@ class VIVOXEncryptedPerceptionNode:
         stride = window_size // 2
 
         for i in range(0, array.shape[0] - window_size, stride):
-            window = filtered_array[i:i + window_size] if array.ndim == 1 else filtered_array[i:i + window_size, :]
+            window = filtered_array[i : i + window_size] if array.ndim == 1 else filtered_array[i : i + window_size, :]
 
             # Apply non-reversible transformations
             features = self._extract_encrypted_features(window)

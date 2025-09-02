@@ -567,7 +567,7 @@ class IdentityTagResolver:
         """Count trust relationships by type."""
         counts = {"outgoing": 0, "incoming": 0, "mutual": 0}
 
-        for (from_id, to_id) in self.trust_relationships:
+        for from_id, to_id in self.trust_relationships:
             if from_id == identity_id:
                 counts["outgoing"] += 1
                 if (to_id, from_id) in self.trust_relationships:

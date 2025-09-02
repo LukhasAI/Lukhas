@@ -1,4 +1,5 @@
 """Common utilities for governance module"""
+
 from typing import Optional
 
 

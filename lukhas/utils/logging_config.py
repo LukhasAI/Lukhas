@@ -386,10 +386,12 @@ def get_audit_logger() -> logging.Logger:
 
 class LoggingContext:
     """Context manager for adding structured context to logs."""
+
     def __init__(self, logger: logging.Logger, **context: Any) -> None:
         self.logger = logger
         self.context = context
         self.original_extra = {}
+
     def __enter__(self) -> logging.Logger:
         # Store original context if it exists
         if hasattr(self.logger, "_context"):

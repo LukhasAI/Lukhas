@@ -57,7 +57,9 @@ async def validate_constellation_framework_integration():
 
         # Test ΛID generation with namespace awareness
         test_user = identity_service.register_user(
-            email="constellation@lukhas.ai", display_name="Constellation Test User", consent_id="constellation_validation_v1"
+            email="constellation@lukhas.ai",
+            display_name="Constellation Test User",
+            consent_id="constellation_validation_v1",
         )
 
         lid_generated = test_user["lid"].startswith("USR-")
@@ -176,9 +178,7 @@ async def validate_constellation_framework_integration():
         # Test value alignment
         value_alignment_score = 0.95  # Would calculate from actual metrics
 
-        validation_results["ethics_validation"] = (
-            ethics_status and ethical_compliance and value_alignment_score > 0.90
-        )
+        validation_results["ethics_validation"] = ethics_status and ethical_compliance and value_alignment_score > 0.90
 
         print(f"  💎 Ethics System Active: {ethics_status}")
         print(f"  🤝 Ethical Compliance: {ethical_compliance}")
@@ -292,7 +292,9 @@ async def validate_constellation_framework_integration():
     else:
         print("⚠️ PARTIAL: Some Constellation components need attention")
         failed_components = [
-            name for name, status in validation_results.items() if not status and name != "overall_constellation_compliance"
+            name
+            for name, status in validation_results.items()
+            if not status and name != "overall_constellation_compliance"
         ]
         print(f"🔧 Components needing attention: {failed_components}")
 

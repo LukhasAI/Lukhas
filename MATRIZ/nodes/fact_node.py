@@ -326,7 +326,9 @@ class FactNode(CognitiveNode):
 
             # Validate provenance
             provenance = matriz_node.get("provenance", {})
-            return not ("producer" not in provenance or "factual_knowledge_retrieval" not in provenance.get("capabilities", []))
+            return not (
+                "producer" not in provenance or "factual_knowledge_retrieval" not in provenance.get("capabilities", [])
+            )
 
         except Exception:
             return False

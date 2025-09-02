@@ -116,7 +116,9 @@ class AdaptiveDashboard:
             self.logger.error(f"Error loading widget registry: {e}")
             return {"widget_types": {}}
 
-    async def generate_dashboard(self, user_profile: UserProfile, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def generate_dashboard(
+        self, user_profile: UserProfile, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Generate a personalized, adaptive dashboard for a user
 

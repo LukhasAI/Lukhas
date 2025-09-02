@@ -124,19 +124,22 @@ Focus on practical, secure solutions that maintain functionality.
 """
 
         try:
-            async with aiohttp.ClientSession() as session, session.post(
-                f"{self.ollama_host}/api/generate",
-                json={
-                    "model": self.model,
-                    "prompt": prompt,
-                    "stream": False,
-                    "options": {
-                        "temperature": 0.1,  # Low temperature for consistent security advice
-                        "top_p": 0.9,
+            async with (
+                aiohttp.ClientSession() as session,
+                session.post(
+                    f"{self.ollama_host}/api/generate",
+                    json={
+                        "model": self.model,
+                        "prompt": prompt,
+                        "stream": False,
+                        "options": {
+                            "temperature": 0.1,  # Low temperature for consistent security advice
+                            "top_p": 0.9,
+                        },
                     },
-                },
-                timeout=aiohttp.ClientTimeout(total=60),
-            ) as response:
+                    timeout=aiohttp.ClientTimeout(total=60),
+                ) as response,
+            ):
                 if response.status == 200:
                     data = await response.json()
                     return {

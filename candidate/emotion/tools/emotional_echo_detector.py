@@ -868,7 +868,9 @@ class EmotionalEchoDetector:
             logger.warning(f"Failed to calculate time span: {e}")
             return 0.0
 
-    def generate_loop_report(self, format: str = "json", window_minutes: Optional[int] = None) -> Union[dict[str, Any], str]:
+    def generate_loop_report(
+        self, format: str = "json", window_minutes: Optional[int] = None
+    ) -> Union[dict[str, Any], str]:
         """
         Generate comprehensive loop detection report.
 

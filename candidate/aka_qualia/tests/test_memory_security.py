@@ -464,7 +464,6 @@ class TestErrorPropagation:
     def test_memory_stats_during_failures(self, noop_memory, monkeypatch):
         """Memory stats should track failures correctly"""
 
-
         def failing_save(*args, **kwargs):
             noop_memory.save_failures += 1  # Track the failure
             raise RuntimeError("Simulated save failure")

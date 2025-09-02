@@ -736,7 +736,9 @@ class SymbolicWeaver:
 
         return fragments
 
-    def thread_memory_sequence(self, fragments: Optional[list[SymbolicFragment]] = None) -> list[list[SymbolicFragment]]:
+    def thread_memory_sequence(
+        self, fragments: Optional[list[SymbolicFragment]] = None
+    ) -> list[list[SymbolicFragment]]:
         """
         Reconstruct chronologically and emotionally coherent narrative paths.
 
@@ -852,7 +854,9 @@ class SymbolicWeaver:
 
         return total_coherence
 
-    def synthesize_narrative_thread(self, fragment_sequence: Optional[list[SymbolicFragment]] = None) -> NarrativeThread:
+    def synthesize_narrative_thread(
+        self, fragment_sequence: Optional[list[SymbolicFragment]] = None
+    ) -> NarrativeThread:
         """
         Generate a symbolic narrative with identifiable protagonist, conflict, evolution, and motif recurrence.
 
@@ -1770,7 +1774,9 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
 
         return markdown
 
-    def generate_thread_trace_json(self, thread: NarrativeThread = None, output_path: Optional[str] = None) -> dict[str, Any]:
+    def generate_thread_trace_json(
+        self, thread: NarrativeThread = None, output_path: Optional[str] = None
+    ) -> dict[str, Any]:
         """Generate thread trace JSON with structural metadata."""
 
         if thread is None:

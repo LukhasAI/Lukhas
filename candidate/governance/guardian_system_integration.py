@@ -631,13 +631,13 @@ class GuardianSystemIntegration:
 
         constellation_validation = {
             "identity": False,  # ✨ Identity - Anchor star
-            "memory": False,   # 🌟 Memory - Tracing paths of past light
-            "vision": False,   # ⭐ Vision - Orientation toward horizon
-            "bio": False,      # 🔥 Bio - Resilience and adaptation
-            "dream": False,    # 💎 Dream - Symbolic drift
-            "ethics": False,   # ⚖️ Ethics - The North Star
-            "guardian": False, # 🛡️ Guardian - The Watch Star
-            "quantum": False   # 🌌 Quantum - Ambiguity and resolution
+            "memory": False,  # 🌟 Memory - Tracing paths of past light
+            "vision": False,  # ⭐ Vision - Orientation toward horizon
+            "bio": False,  # 🔥 Bio - Resilience and adaptation
+            "dream": False,  # 💎 Dream - Symbolic drift
+            "ethics": False,  # ⚖️ Ethics - The North Star
+            "guardian": False,  # 🛡️ Guardian - The Watch Star
+            "quantum": False,  # 🌌 Quantum - Ambiguity and resolution
         }
 
         try:
@@ -649,7 +649,9 @@ class GuardianSystemIntegration:
 
             # 🌟 Memory validation - Tracing paths of past light
             # Memory validation through consent history and audit trails
-            constellation_validation["memory"] = bool(response.audit_result and response.audit_result.get("status") == "completed")
+            constellation_validation["memory"] = bool(
+                response.audit_result and response.audit_result.get("status") == "completed"
+            )
 
             # ⭐ Vision validation - Orientation toward horizon
             # Vision validated through overall system coherence
@@ -657,11 +659,15 @@ class GuardianSystemIntegration:
 
             # 🔥 Bio validation - Resilience and adaptation
             # Bio systems validated through health metrics
-            constellation_validation["bio"] = bool(self.metrics.consent_system_health > 0.8 and self.metrics.drift_detector_health > 0.8)
+            constellation_validation["bio"] = bool(
+                self.metrics.consent_system_health > 0.8 and self.metrics.drift_detector_health > 0.8
+            )
 
             # 💎 Dream validation - Symbolic drift
             # Dream state validated through creative and symbolic processing
-            constellation_validation["dream"] = bool(not response.drift_result or not response.drift_result.get("threshold_exceeded", False))
+            constellation_validation["dream"] = bool(
+                not response.drift_result or not response.drift_result.get("threshold_exceeded", False)
+            )
 
             # ⚖️ Ethics validation - The North Star (responsible, transparent, accountable)
             if response.ethics_result and response.ethics_result.get("status") == "completed":
@@ -696,7 +702,9 @@ class GuardianSystemIntegration:
 
             # 🌌 Quantum validation - Ambiguity and resolution
             # Quantum processing validated through uncertainty handling
-            constellation_validation["quantum"] = bool(request.metadata and not request.metadata.get("quantum_blocked", False))
+            constellation_validation["quantum"] = bool(
+                request.metadata and not request.metadata.get("quantum_blocked", False)
+            )
 
             return constellation_validation
 
@@ -800,14 +808,14 @@ class GuardianSystemIntegration:
 
         # Check all 8 constellation stars for validation
         constellation_stars_validated = [
-            response.identity_validated,    # ✨ Identity
-            response.memory_validated,      # 🌟 Memory
-            response.vision_validated,      # ⭐ Vision
-            response.bio_validated,         # 🔥 Bio
-            response.dream_validated,       # 💎 Dream
-            response.ethics_validated,      # ⚖️ Ethics - The North Star
-            response.guardian_approved,     # 🛡️ Guardian - The Watch Star
-            response.quantum_validated      # 🌌 Quantum
+            response.identity_validated,  # ✨ Identity
+            response.memory_validated,  # 🌟 Memory
+            response.vision_validated,  # ⭐ Vision
+            response.bio_validated,  # 🔥 Bio
+            response.dream_validated,  # 💎 Dream
+            response.ethics_validated,  # ⚖️ Ethics - The North Star
+            response.guardian_approved,  # 🛡️ Guardian - The Watch Star
+            response.quantum_validated,  # 🌌 Quantum
         ]
 
         validated_count = sum(constellation_stars_validated)
@@ -819,7 +827,9 @@ class GuardianSystemIntegration:
             for i, validated in enumerate(constellation_stars_validated):
                 if not validated:
                     constellation_issues.append(star_names[i])
-            reasoning_parts.append(f"Constellation Framework issues: {', '.join(constellation_issues)} ({validated_count}/8 stars validated)")
+            reasoning_parts.append(
+                f"Constellation Framework issues: {', '.join(constellation_issues)} ({validated_count}/8 stars validated)"
+            )
 
         reasoning = ". ".join(reasoning_parts) if reasoning_parts else "No specific validation issues found"
 

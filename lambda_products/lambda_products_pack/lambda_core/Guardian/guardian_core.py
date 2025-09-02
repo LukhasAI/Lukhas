@@ -674,7 +674,9 @@ class LambdaGuardianEngine:
             )
             return {"error": str(e)}
 
-    async def emergency_lambda_alert(self, emergency_type: str, severity: str = "high", context: Optional[dict] = None) -> dict:
+    async def emergency_lambda_alert(
+        self, emergency_type: str, severity: str = "high", context: Optional[dict] = None
+    ) -> dict:
         """Trigger emergency alert through ΛGuardian"""
         if "λ_emergency_aid" not in self.subsystems:
             return {"error": "ΛEmergency aid not available"}

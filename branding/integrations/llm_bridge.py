@@ -71,6 +71,7 @@ class UnifiedLLMBridge:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize LLM bridge with provider configuration"""
+
     self.config = config or {}
     from typing import Any
 

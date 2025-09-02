@@ -54,7 +54,9 @@ async def validate_constellation_framework_integration():
 
         # Test ΛID generation with namespace awareness
         test_user = identity_service.register_user(
-            email="constellation@lukhas.ai", display_name="Constellation Test User", consent_id="constellation_validation_v1"
+            email="constellation@lukhas.ai",
+            display_name="Constellation Test User",
+            consent_id="constellation_validation_v1",
         )
 
         lid_generated = test_user["lid"].startswith("USR-")
@@ -228,7 +230,9 @@ async def validate_constellation_framework_integration():
     else:
         print("⚠️ PARTIAL: Some Constellation components need attention")
         failed_components = [
-            name for name, status in validation_results.items() if not status and name != "overall_constellation_compliance"
+            name
+            for name, status in validation_results.items()
+            if not status and name != "overall_constellation_compliance"
         ]
         print(f"🔧 Components needing attention: {failed_components}")
 

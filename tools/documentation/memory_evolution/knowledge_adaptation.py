@@ -8,7 +8,6 @@ from typing import Optional
 
 
 class KnowledgeNode:
-
     def __init__(self, content: str, metadata: dict):
         self.content = content
         self.metadata = metadata
@@ -32,7 +31,6 @@ class KnowledgeNode:
 
 
 class KnowledgeGraph:
-
     def __init__(self):
         self.nodes: dict[str, KnowledgeNode] = {}
         self.embedding_model = None  # Placeholder for embedding model
@@ -47,9 +45,7 @@ class KnowledgeGraph:
         """Retrieve a node by its ID."""
         return self.nodes.get(node_id)
 
-    def update_relationships(
-        self, node_id: str, related_ids: list[str], strengths: list[float]
-    ):
+    def update_relationships(self, node_id: str, related_ids: list[str], strengths: list[float]):
         """Update relationships for a node with related nodes."""
         if node_id not in self.nodes:
             raise KeyError(f"Node {node_id} does not exist")
@@ -61,7 +57,6 @@ class KnowledgeGraph:
 
 
 class KnowledgeAdaptation:
-
     def __init__(self):
         self.knowledge_graph = KnowledgeGraph()
         self.decay_rate = 0.1
@@ -91,7 +86,7 @@ class KnowledgeAdaptation:
         """Apply time-based decay to knowledge confidence."""
         now = datetime.now()
         for node in self.knowledge_graph.nodes.values():
-            time_diff = (now - node.last_accessed).total_seconds() / (24 * 3600# Days
+            time_diff = (now - node.last_accessed).total_seconds() / (24 * 3600)  # Days
             decay = self.decay_rate * time_diff
             node.update_confidence(node.confidence * (1 - decay))
 
@@ -101,8 +96,4 @@ class KnowledgeAdaptation:
         if node is None:
             raise KeyError(f"Node {node_id} does not exist")
 
-        return [
-            related_id
-            for related_id, strength in node.relationships.items()
-            if strength >= threshold
-        ]
+        return [related_id for related_id, strength in node.relationships.items() if strength >= threshold]

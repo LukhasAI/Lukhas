@@ -134,7 +134,9 @@ class FederatedLearningManager:
 
         self.load_models()
 
-    def register_model(self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None) -> FederatedModel:
+    def register_model(
+        self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None
+    ) -> FederatedModel:
         """
         Register a new model for federated learning
 
@@ -174,7 +176,9 @@ class FederatedLearningManager:
 
         return self.models[model_id].get_parameters(client_id)
 
-    def contribute_gradients(self, model_id: str, client_id: str, gradients: dict, metrics: Optional[dict] = None) -> bool:
+    def contribute_gradients(
+        self, model_id: str, client_id: str, gradients: dict, metrics: Optional[dict] = None
+    ) -> bool:
         """
         Contribute gradients from a client to update a model
 

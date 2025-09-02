@@ -22,6 +22,7 @@ Design Notes
 - External tools (git, semgrep) are optional. The analyzer gracefully degrades.
 
 """
+
 from __future__ import annotations
 
 import ast
@@ -43,6 +44,7 @@ try:
 except Exception:  # pragma: no cover
     np = None  # type: ignore
 
+
 # -----------------------------
 # Utility: Audit Recorder
 # -----------------------------
@@ -53,11 +55,13 @@ class Audit:
         self.events: list[dict[str, Any]] = []
 
     def log(self, action: str, **data: Any) -> None:
-        self.events.append({
-            "ts": _dt.datetime.utcnow().isoformat() + "Z",
-            "action": action,
-            **data,
-        })
+        self.events.append(
+            {
+                "ts": _dt.datetime.utcnow().isoformat() + "Z",
+                "action": action,
+                **data,
+            }
+        )
 
     def to_list(self) -> list[dict[str, Any]]:
         return self.events
@@ -146,25 +150,25 @@ def extract_module_view(py_path: Path) -> ModuleView:
             start = node.lineno
             end = getattr(node, "end_lineno", node.lineno)
             lines = code.splitlines()
-            source = "\n".join(lines[start - 1:end])
+            source = "\n".join(lines[start - 1 : end])
             doc = ast.get_docstring(node)
-            funcs.append(FunctionSig(
-                name=node.name,
-                args=args,
-                lineno=start,
-                end_lineno=end,
-                source=source,
-                docstring=doc,
-            ))
+            funcs.append(
+                FunctionSig(
+                    name=node.name,
+                    args=args,
+                    lineno=start,
+                    end_lineno=end,
+                    source=source,
+                    docstring=doc,
+                )
+            )
 
-    imports = re.findall(r"^\s*(?:from\s+([\w\.]+)\s+import|import\s+([\w\.]+))",
-                         code, flags=re.MULTILINE)
+    imports = re.findall(r"^\s*(?:from\s+([\w\.]+)\s+import|import\s+([\w\.]+))", code, flags=re.MULTILINE)
     import_names = [a or b for a, b in imports]
 
-    comments = [m.group(0) for m in re.finditer(r"# .*$", code, re.MULTILINE]
+    comments = [m.group(0) for m in re.finditer(r"# .*$", code, re.MULTILINE)]
 
-    return ModuleView(path=py_path, code=code, ast=tree,
-                      functions=funcs, imports=import_names, comments=comments)
+    return ModuleView(path=py_path, code=code, ast=tree, functions=funcs, imports=import_names, comments=comments)
 
 
 # -----------------------------
@@ -173,7 +177,9 @@ def extract_module_view(py_path: Path) -> ModuleView:
 class EmbeddingAdapter:
     """Pluggable embedding provider. Defaults to OpenAI if available."""
 
-    def __init__(self, provider: str = "openai", model: str = "text-embedding-3-small", dimensions: int | None = None) -> None:
+    def __init__(
+        self, provider: str = "openai", model: str = "text-embedding-3-small", dimensions: int | None = None
+    ) -> None:
         self.provider = provider
         self.model = model
         self.dimensions = dimensions
@@ -181,6 +187,7 @@ class EmbeddingAdapter:
         if provider == "openai":
             try:
                 from openai import OpenAI  # type: ignore
+
                 self._client = OpenAI()
             except Exception:  # pragma: no cover
                 self._client = None
@@ -227,6 +234,7 @@ class ReasonerAdapter:
         self.model = model
         try:
             from openai import OpenAI  # type: ignore
+
             self._client = OpenAI()
         except Exception:  # pragma: no cover
             self._client = None
@@ -299,6 +307,7 @@ class ReasonerAdapter:
 # Similarity
 # -----------------------------
 
+
 def cosine_similarity(a: list[float], b: list[float]) -> float:
     if np is not None:
         aa = np.array(a)
@@ -306,8 +315,8 @@ def cosine_similarity(a: list[float], b: list[float]) -> float:
         denom = (np.linalg.norm(aa) * np.linalg.norm(bb)) or 1.0
         return float(np.dot(aa, bb) / denom)
     # Minimal pure-Python fallback
-    denom = (math.sqrt(sum(x*x for x in a)) * math.sqrt(sum(x*x for x in b))) or 1.0
-    dot = sum(x*y for x, y in zip(a, b))
+    denom = (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(x * x for x in b))) or 1.0
+    dot = sum(x * y for x, y in zip(a, b))
     return dot / denom
 
 
@@ -379,7 +388,9 @@ class IntegrationAnalyzer:
 
     # ---------- Discovery ----------
     def discover_python_files(self, root: Path) -> list[Path]:
-        files = [p for p in root.rglob("*.py") if p.is_file() and ".venv" not in p.parts and "__pycache__" not in p.parts]
+        files = [
+            p for p in root.rglob("*.py") if p.is_file() and ".venv" not in p.parts and "__pycache__" not in p.parts
+        ]
         self.audit.log("discover_files", root=str(root), count=len(files))
         return files
 
@@ -440,24 +451,37 @@ class IntegrationAnalyzer:
                 start = idx_to_line(m.start())
                 end = idx_to_line(m.end())
                 lines = code.splitlines()
-                snippet = "\n".join(lines[max(0, start-2): min(len(lines), end+1)])
-                snippets.append({"issue": "SQL injection potential", "start_line": start, "end_line": end, "snippet": snippet})
+                snippet = "\n".join(lines[max(0, start - 2) : min(len(lines), end + 1)])
+                snippets.append(
+                    {"issue": "SQL injection potential", "start_line": start, "end_line": end, "snippet": snippet}
+                )
 
         # Dangerous calls
         for call in DANGEROUS_CALLS:
             for m in re.finditer(re.escape(call), code):
                 issues.append(f"Dangerous call: {call}")
                 start = idx_to_line(m.start())
-                line = code.splitlines()[start-1] if 0 <= start-1 < len(code.splitlines()) else ""
-                snippets.append({"issue": f"Dangerous call: {call}", "start_line": start, "end_line": start, "snippet": line.strip()})
+                line = code.splitlines()[start - 1] if 0 <= start - 1 < len(code.splitlines()) else ""
+                snippets.append(
+                    {
+                        "issue": f"Dangerous call: {call}",
+                        "start_line": start,
+                        "end_line": start,
+                        "snippet": line.strip(),
+                    }
+                )
 
         # Semgrep (optional)
         semgrep_available = shutil_which("semgrep") is not None
         semgrep_findings = []
         if semgrep_available:
             try:
-                proc = subprocess.run(["semgrep", "--json", "--quiet", "-l", "python", "-"],
-                                      input=code.encode(), capture_output=True, check=False)
+                proc = subprocess.run(
+                    ["semgrep", "--json", "--quiet", "-l", "python", "-"],
+                    input=code.encode(),
+                    capture_output=True,
+                    check=False,
+                )
                 data = json.loads(proc.stdout.decode() or "{}")
                 for r in data.get("results", [])[:20]:
                     semgrep_findings.append(r.get("check_id"))
@@ -465,8 +489,15 @@ class IntegrationAnalyzer:
                     end = r.get("end", {}).get("line")
                     if start and end:
                         lines = code.splitlines()
-                        snippet = "\n".join(lines[max(0, start-2): min(len(lines), end+1)])
-                        snippets.append({"issue": f"semgrep:{r.get('check_id')}", "start_line": start, "end_line": end, "snippet": snippet})
+                        snippet = "\n".join(lines[max(0, start - 2) : min(len(lines), end + 1)])
+                        snippets.append(
+                            {
+                                "issue": f"semgrep:{r.get('check_id')}",
+                                "start_line": start,
+                                "end_line": end,
+                                "snippet": snippet,
+                            }
+                        )
             except Exception:
                 pass
 
@@ -480,7 +511,11 @@ class IntegrationAnalyzer:
 
     def style_scan(self, code: str) -> dict[str, Any]:
         indent_candidates = re.findall(r"^( +)\S", code, re.MULTILINE)
-        indent = min((len(s) for s in indent_candidates), default=self.style_prefs["indent"]) if indent_candidates else self.style_prefs["indent"]
+        indent = (
+            min((len(s) for s in indent_candidates), default=self.style_prefs["indent"])
+            if indent_candidates
+            else self.style_prefs["indent"]
+        )
         bracket_style = "same-line" if re.search(r"def .+\):\n\s+\"\"\"", code) else "newline"
         anti_patterns = []
         if re.search(r"except:\s*pass", code):
@@ -539,16 +574,20 @@ class IntegrationAnalyzer:
         convention = detect_naming_convention(func.name)
         verb_pattern = ""
         if re.match(r"^(get|set|process|validate|compute|update|create)", func.name, re.IGNORECASE):
-            verb = re.match(r"^(get|set|process|validate|compute|update|create)", func.name, re.IGNORECASE).group(1# type: ignore
+            verb = re.match(r"^(get|set|process|validate|compute|update|create)", func.name, re.IGNORECASE).group(1)  # type: ignore
             verb_pattern = f"{verb.lower()} + noun"
         domain = self._infer_domain(func.name)
         preferred = func.name
         if self.style_prefs.get("naming") == "snake_case" and convention != "snake_case":
             preferred = camel_to_snake(func.name)
-        similar_existing = [n for n in lukhas_funcs if camel_to_snake(n).split("_")[0] == camel_to_snake(func.name).split("_")[0]][:3]
-        rules = ["camelCase → snake_case" if convention != "snake_case" else "keep snake_case",
-                 "add domain prefix if ambiguous",
-                 "align with existing verb patterns"]
+        similar_existing = [
+            n for n in lukhas_funcs if camel_to_snake(n).split("_")[0] == camel_to_snake(func.name).split("_")[0]
+        ][:3]
+        rules = [
+            "camelCase → snake_case" if convention != "snake_case" else "keep snake_case",
+            "add domain prefix if ambiguous",
+            "align with existing verb patterns",
+        ]
         return {
             "original_function": func.name,
             "detected_patterns": {
@@ -605,16 +644,16 @@ class IntegrationAnalyzer:
             target_line = g.lineno if g else 1
             suggested_sig = self._suggest_signature(f)
             adaptations = self._required_adaptations(f)
-            conf = (best[0] if best else 0.4# type: ignore
+            conf = best[0] if best else 0.4  # type: ignore
 
             # Source context around function header
             s = f.lineno
-            src_before = orphan_lines[max(0, s-1-context_lines): s-1]
-            src_after = orphan_lines[s-1: min(len(orphan_lines), s-1+context_lines)]
+            src_before = orphan_lines[max(0, s - 1 - context_lines) : s - 1]
+            src_after = orphan_lines[s - 1 : min(len(orphan_lines), s - 1 + context_lines)]
 
             # Target context around insertion line
-            tgt_before = target_lines[max(0, target_line-1-context_lines): target_line-1]
-            tgt_after = target_lines[target_line-1: min(len(target_lines), target_line-1+context_lines)]
+            tgt_before = target_lines[max(0, target_line - 1 - context_lines) : target_line - 1]
+            tgt_after = target_lines[target_line - 1 : min(len(target_lines), target_line - 1 + context_lines)]
 
             # Param rename mapping
             param_map: dict[str, str] = {}
@@ -622,24 +661,28 @@ class IntegrationAnalyzer:
                 a_new = camel_to_snake(a) if self.style_prefs.get("naming") == "snake_case" else a
                 param_map[a] = a_new
 
-            result.append(LineMapping(
-                source_line=f.lineno,
-                source_code=f.source.splitlines()[0][:200],
-                target_file=str(best_path),
-                target_line=target_line,
-                suggested_merge=suggested_sig,
-                confidence=float(round(conf, 2)),
-                required_adaptations=adaptations,
-                source_context_before=src_before,
-                source_context_after=src_after,
-                target_context_before=tgt_before,
-                target_context_after=tgt_after,
-                param_rename_map=param_map,
-            ))
+            result.append(
+                LineMapping(
+                    source_line=f.lineno,
+                    source_code=f.source.splitlines()[0][:200],
+                    target_file=str(best_path),
+                    target_line=target_line,
+                    suggested_merge=suggested_sig,
+                    confidence=float(round(conf, 2)),
+                    required_adaptations=adaptations,
+                    source_context_before=src_before,
+                    source_context_after=src_after,
+                    target_context_before=tgt_before,
+                    target_context_after=tgt_after,
+                    param_rename_map=param_map,
+                )
+            )
         return result
 
     def _suggest_signature(self, f: FunctionSig) -> str:
-        args = ", ".join([f"{a}: Any" for a in f.args]) if self.style_prefs.get("type_hints", True) else ", ".join(f.args)
+        args = (
+            ", ".join([f"{a}: Any" for a in f.args]) if self.style_prefs.get("type_hints", True) else ", ".join(f.args)
+        )
         name = camel_to_snake(f.name) if self.style_prefs.get("naming") == "snake_case" else f.name
         return f"def {name}({args}):"
 
@@ -659,15 +702,17 @@ class IntegrationAnalyzer:
         summaries: list[dict[str, Any]] = []
         for f in view.functions:
             loc = f.end_lineno - f.lineno + 1
-            summaries.append({
-                "name": f.name,
-                "args": f.args,
-                "lineno": f.lineno,
-                "end_lineno": f.end_lineno,
-                "loc": loc,
-                "has_docstring": bool(f.docstring),
-                "doc_chars": len(f.docstring or ""),
-            })
+            summaries.append(
+                {
+                    "name": f.name,
+                    "args": f.args,
+                    "lineno": f.lineno,
+                    "end_lineno": f.end_lineno,
+                    "loc": loc,
+                    "has_docstring": bool(f.docstring),
+                    "doc_chars": len(f.docstring or ""),
+                }
+            )
         return summaries
 
     def generate_naming_map(self, orphan_view: ModuleView, lukhas_funcs: list[str]) -> dict[str, Any]:
@@ -682,31 +727,25 @@ class IntegrationAnalyzer:
 
     def generate_patch(self, orphan_view: ModuleView, mappings: list[LineMapping]) -> str:
         lines: list[str] = []
-        lines.append(f"")
+        lines.append("")
         for m in mappings:
             lines.append(f"--- {m.target_file}")
             lines.append(f"+++ {m.target_file}")
             lines.append(f"@@ -{m.target_line},{m.target_line} +{m.target_line},{m.target_line} @@")
-            lines.append(f"- ")
+            lines.append("- ")
             lines.append(f"+ {m.suggested_merge}  ")
         return "\n".join(lines)
 
     def generate_test_scaffolding(self, orphan_view: ModuleView, naming_map: dict[str, Any]) -> list[dict[str, str]]:
         tests: list[dict[str, str]] = []
-        fwd = naming_map.get("forward", {})
+        naming_map.get("forward", {})
         for f in orphan_view.functions:
             snake = camel_to_snake(f.name)
             test_name = f"test_{snake}"
             stub = (
                 "import pytest\n\n"
                 f"def {test_name}():\n"
-                f"    "
-                f"    "
-                f"    "
-                f"    ", '.join(f.args)})\n"
-                f"    "
-                f"    "
-                f"    "
+                f"    # TODO: Implement test for {f.name}\n"
                 f"    assert True\n"
             )
             tests.append({"name": test_name, "stub": stub})
@@ -794,14 +833,18 @@ jobs:
         if shutil_which("git") is None:
             return "git unavailable"
         try:
-            proc = subprocess.run(["git", "-C", str(root), "log", "--oneline", "-n", "50"], capture_output=True, check=False)
+            proc = subprocess.run(
+                ["git", "-C", str(root), "log", "--oneline", "-n", "50"], capture_output=True, check=False
+            )
             lines = proc.stdout.decode().splitlines()
             return f"Last {len(lines)} commits (head):\n" + "\n".join(lines[:10])
         except Exception:
             return "git analysis failed"
 
     # ---------- LLM Enhancement ----------
-    def llm_enhance_swot(self, orphan_view: ModuleView, lukhas_context: str, model_override: str | None = None) -> dict[str, list[SWOTEntry]]:
+    def llm_enhance_swot(
+        self, orphan_view: ModuleView, lukhas_context: str, model_override: str | None = None
+    ) -> dict[str, list[SWOTEntry]]:
         sys_prompt = (
             "You are an expert software integration analyst for the LUKHAS symbolic AGI project. "
             "Output concise, high-signal SWOT bullets. Include severity/confidence when relevant."
@@ -820,7 +863,11 @@ jobs:
         - Threats (max 4)
         For each item, add JSON-friendly hints like severity, uniqueness, or confidence.
         """
-        raw = self.reasoner.analyze_on_model(model_override, sys_prompt, user_prompt) if model_override else self.reasoner.analyze(sys_prompt, user_prompt)
+        raw = (
+            self.reasoner.analyze_on_model(model_override, sys_prompt, user_prompt)
+            if model_override
+            else self.reasoner.analyze(sys_prompt, user_prompt)
+        )
         # Minimal parse: extract lines starting with -, then map
         strengths: list[SWOTEntry] = []
         weaknesses: list[SWOTEntry] = []
@@ -844,7 +891,7 @@ jobs:
                 if m:
                     try:
                         meta = json.loads("{" + m.group(1) + "}")
-                        entry = entry[:m.start()].strip()
+                        entry = entry[: m.start()].strip()
                     except Exception:
                         pass
                 sw = SWOTEntry(description=entry, meta=meta)
@@ -856,7 +903,12 @@ jobs:
                     opportunities.append(sw)
                 elif bucket == "T":
                     threats.append(sw)
-        self.audit.log("llm_swot_enhanced", strengths=len(strengths), weaknesses=len(weaknesses), model_override=model_override or self.reasoner.model)
+        self.audit.log(
+            "llm_swot_enhanced",
+            strengths=len(strengths),
+            weaknesses=len(weaknesses),
+            model_override=model_override or self.reasoner.model,
+        )
         return {
             "strengths": strengths,
             "weaknesses": weaknesses,
@@ -885,9 +937,9 @@ jobs:
         lukhas_embs = self.build_function_embeddings(lukhas_views)
 
         # LUKHAS context for LLM (high-level only)
-        lukhas_context = "\n".join([
-            f"{v.path.name}: {', '.join(f.name for f in v.functions[:5])}" for v in lukhas_views[:10]
-        ])
+        lukhas_context = "\n".join(
+            [f"{v.path.name}: {', '.join(f.name for f in v.functions[:5])}" for v in lukhas_views[:10]]
+        )
 
         # Semantic matching for each orphan function against LUKHAS codebase
         all_matches: list[tuple[str, str, float]] = []
@@ -905,18 +957,28 @@ jobs:
 
         # Naming harmonization (use top-100 LUKHAS function names)
         lukhas_funcs = [f.name for v in lukhas_views for f in v.functions][:100]
-        naming = self.naming_analysis(orphan_view.functions[0], lukhas_funcs) if orphan_view.functions else {
-            "original_function": "<none>",
-            "detected_patterns": {"convention": "unknown", "verb_pattern": "unknown", "domain": "generic"},
-            "target_conventions": {"lukhas_pattern": self.style_prefs.get("naming", "snake_case"), "preferred_naming": "<none>", "similar_existing": []},
-            "transformation_rules": ["camelCase → snake_case"],
-        }
+        naming = (
+            self.naming_analysis(orphan_view.functions[0], lukhas_funcs)
+            if orphan_view.functions
+            else {
+                "original_function": "<none>",
+                "detected_patterns": {"convention": "unknown", "verb_pattern": "unknown", "domain": "generic"},
+                "target_conventions": {
+                    "lukhas_pattern": self.style_prefs.get("naming", "snake_case"),
+                    "preferred_naming": "<none>",
+                    "similar_existing": [],
+                },
+                "transformation_rules": ["camelCase → snake_case"],
+            }
+        )
 
         # Integration mapping
         mappings = self.line_by_line_mapping(orphan_view, lukhas_views, all_matches[:1], context_lines=context_lines)
 
         # Heuristic SWOT baseline
-        strengths_base = [SWOTEntry("Feature-rich functions", {"uniqueness_score": 0.6})] if orphan_view.functions else []
+        strengths_base = (
+            [SWOTEntry("Feature-rich functions", {"uniqueness_score": 0.6})] if orphan_view.functions else []
+        )
         weaknesses_base = []
         if "bare-except-pass" in style.get("anti_patterns", []):
             weaknesses_base.append(SWOTEntry("Bare except-pass blocks", {"severity": "medium"}))
@@ -967,8 +1029,20 @@ jobs:
         # Primary & alternatives strategies
         primary_strategy = "gradual_migration" if dep["update_effort"] != "high" else "wrapper_service"
         alt_strategies = [
-            IntegrationStrategy("wrapper_service", "2-3 days", "low", ["Quick implementation", "Minimal LUKHAS changes"], ["Additional maintenance overhead", "Performance impact"]),
-            IntegrationStrategy("direct_integration", "1-2 weeks", "medium", ["Clean architecture", "Better performance"], ["More extensive testing needed", "Potential conflicts"]),
+            IntegrationStrategy(
+                "wrapper_service",
+                "2-3 days",
+                "low",
+                ["Quick implementation", "Minimal LUKHAS changes"],
+                ["Additional maintenance overhead", "Performance impact"],
+            ),
+            IntegrationStrategy(
+                "direct_integration",
+                "1-2 weeks",
+                "medium",
+                ["Clean architecture", "Better performance"],
+                ["More extensive testing needed", "Potential conflicts"],
+            ),
         ]
 
         # Risk assessment
@@ -990,12 +1064,17 @@ jobs:
             "analysis_timestamp": _dt.datetime.utcnow().isoformat() + "Z",
             "analyzer_version": "2.2.0",
             "confidence_threshold": self.confidence_threshold,
-            "model_versions": model_versions or {
+            "model_versions": model_versions
+            or {
                 "code_embeddings": self.embedder.model if hasattr(self.embedder, "model") else "hash-embed-256",
                 "security_scanner": "semgrep-auto" if shutil_which("semgrep") else "heuristic-0.1",
                 "style_analyzer": "custom-v2.0",
             },
-            "reasoning_model": {"default": getattr(self.reasoner, "model", None), "final_used": final_model, "cascade": cascade_audit},
+            "reasoning_model": {
+                "default": getattr(self.reasoner, "model", None),
+                "final_used": final_model,
+                "cascade": cascade_audit,
+            },
         }
 
         # Final JSON structure
@@ -1044,7 +1123,9 @@ jobs:
             report["module_analysis"]["extras"] = {
                 "orphan_function_summaries": self.function_summaries(orphan_view),
                 "imports": orphan_view.imports,
-                "top_match_candidates": [{"path": p, "function": fn, "similarity": round(s, 3)} for p, fn, s in all_matches[:10]],
+                "top_match_candidates": [
+                    {"path": p, "function": fn, "similarity": round(s, 3)} for p, fn, s in all_matches[:10]
+                ],
                 "style": style,
             }
 
@@ -1078,8 +1159,10 @@ jobs:
 # Helpers
 # -----------------------------
 
+
 def shutil_which(cmd: str) -> str | None:
     from shutil import which
+
     return which(cmd)
 
 
@@ -1125,13 +1208,25 @@ Examples:
 def _cli(argv: list[str]) -> int:
     import argparse
 
-    p = argparse.ArgumentParser(description="LUKHΛS ML-Powered Integration Analyzer", formatter_class=argparse.RawDescriptionHelpFormatter, epilog=CLI_HELP)
+    p = argparse.ArgumentParser(
+        description="LUKHΛS ML-Powered Integration Analyzer",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=CLI_HELP,
+    )
     p.add_argument("--orphan", required=True, help="Path to orphan module .py file")
     p.add_argument("--lukhas", required=True, help="Path to LUKHΛS repository root")
     p.add_argument("--out", default=None, help="Output JSON path (default: stdout)")
     p.add_argument("--no-openai", action="store_true", help="Disable OpenAI-assisted analysis")
-    p.add_argument("--cheap-first", action="store_true", help="Use model cascade (nano→mini→base) with auto-escalation by confidence")
-    p.add_argument("--cascade-models", default=os.getenv("LUKHAS_CASCADE_MODELS", "gpt-5-nano,gpt-5-mini,gpt-5"), help="Comma-separated models for cascade order")
+    p.add_argument(
+        "--cheap-first",
+        action="store_true",
+        help="Use model cascade (nano→mini→base) with auto-escalation by confidence",
+    )
+    p.add_argument(
+        "--cascade-models",
+        default=os.getenv("LUKHAS_CASCADE_MODELS", "gpt-5-nano,gpt-5-mini,gpt-5"),
+        help="Comma-separated models for cascade order",
+    )
     p.add_argument("--embed-model", default=os.getenv("LUKHAS_EMBED_MODEL", "text-embedding-3-small"))
     p.add_argument("--embed-provider", default=os.getenv("LUKHAS_EMBED_PROVIDER", "openai"))
     p.add_argument("--embed-dim", type=int, default=None)
@@ -1139,7 +1234,9 @@ def _cli(argv: list[str]) -> int:
     p.add_argument("--style-indent", type=int, default=4)
     p.add_argument("--no-type-hints", action="store_true", help="Disable type hints in suggested signatures")
     p.add_argument("--context-lines", type=int, default=3, help="±N lines of context to include around suggestions")
-    p.add_argument("--simulate", action="store_true", help="Dry-run integration and write a patch file (does not modify source)")
+    p.add_argument(
+        "--simulate", action="store_true", help="Dry-run integration and write a patch file (does not modify source)"
+    )
     p.add_argument("--simulate-out", default=None, help="Path for the generated patch file")
     p.add_argument("--export-naming-map", default=None, help="Write a JSON mapping of original→preferred names")
     p.add_argument("--extra-info", action="store_true", help="Include expanded extras in the JSON report")

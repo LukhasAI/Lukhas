@@ -344,7 +344,9 @@ class DreamIntegrator:
 
     # Private methods
 
-    def _calculate_link_strength(self, memory_fold_id: str, emotional_context: Optional[dict[str, float]] = None) -> float:
+    def _calculate_link_strength(
+        self, memory_fold_id: str, emotional_context: Optional[dict[str, float]] = None
+    ) -> float:
         """Calculate the strength of connection between dream and memory."""
         base_strength = 0.5
 

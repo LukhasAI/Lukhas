@@ -44,15 +44,18 @@ class DropboxAdapter(BaseServiceAdapter):
 
         if refresh_token:
             # Refresh access token
-            async with aiohttp.ClientSession() as session, session.post(
-                "https://api.dropbox.com/oauth2/token",
-                data={
-                    "grant_type": "refresh_token",
-                    "refresh_token": refresh_token,
-                    "client_id": client_id,
-                    "client_secret": client_secret,
-                },
-            ) as response:
+            async with (
+                aiohttp.ClientSession() as session,
+                session.post(
+                    "https://api.dropbox.com/oauth2/token",
+                    data={
+                        "grant_type": "refresh_token",
+                        "refresh_token": refresh_token,
+                        "client_id": client_id,
+                        "client_secret": client_secret,
+                    },
+                ) as response,
+            ):
                 token_data = await response.json()
 
                 # Store in vault (Agent 7 integration)
