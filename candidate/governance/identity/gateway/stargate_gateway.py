@@ -29,7 +29,7 @@ import json
 import logging
 import secrets
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -111,7 +111,7 @@ class GlyphPayload:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.utcnow()
+            self.timestamp = datetime.now(tz=timezone.utc)
 
     def to_json(self) -> str:
         """Convert to JSON with datetime handling"""

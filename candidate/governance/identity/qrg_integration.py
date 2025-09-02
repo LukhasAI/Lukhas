@@ -477,10 +477,11 @@ class LukhusQRGIntegrator:
     def generate_emergency_override_qrg(self, context: QRGContext) -> QRGResult:
         """Generate emergency override QRG"""
         print(f"🚨 Generating emergency override QRG for user {context.user_id}")
+
         # Emergency parameters
         emergency_code = secrets.token_hex(32)
         emergency_timestamp = datetime.now(tz=timezone.utc)
-        override_level = "EMERGENCY_ALPHA"  # Highest override level
+        override_level = "EMERGENCY_ALPHA"
 
         # Generate high-visibility emergency pattern
         pattern_data = self._create_emergency_pattern(emergency_code, override_level)
@@ -502,11 +503,7 @@ class LukhusQRGIntegrator:
                 "pulsing_pattern": True,
                 "size_enhancement": 1.5,
             },
-            "emergency_contacts": [
-                "system_admin",
-                "security_team",
-                "consciousness_monitor",
-            ],
+            "emergency_contacts": ["system_admin", "security_team", "consciousness_monitor"],
         }
 
         security_signature = hashlib.sha3_256(
@@ -518,11 +515,10 @@ class LukhusQRGIntegrator:
             pattern_data=pattern_data,
             metadata=metadata,
             security_signature=security_signature,
-            # Short emergency window
             expiration=emergency_timestamp + timedelta(minutes=15),
-            compliance_score=0.8,  # Relaxed for emergency
-            cultural_safety_score=0.9,  # Emergency priority
-            consciousness_resonance=1.0,  # Maximum attention
+            compliance_score=0.8,
+            cultural_safety_score=0.9,
+            consciousness_resonance=1.0,
             generation_metrics={
                 "generation_time": 0.05,
                 "visibility_score": "maximum",
@@ -531,15 +527,19 @@ class LukhusQRGIntegrator:
         )
 
         # Log emergency generation with high priority
-        self.audit_logger.log_emergency_event(
-            {
-                "event_type": "emergency_qrg_generated",
-                "user_id": context.user_id,
-                "emergency_code": emergency_code,
-                "timestamp": emergency_timestamp,
-                "context": asdict(context),
-            }
-        )
+        try:
+            self.audit_logger.log_emergency_event(
+                {
+                    "event_type": "emergency_qrg_generated",
+                    "user_id": context.user_id,
+                    "emergency_code": emergency_code,
+                    "timestamp": emergency_timestamp,
+                    "context": asdict(context),
+                }
+            )
+        except Exception:
+            # Non-blocking fallback logging
+            print(f"📝 Emergency QRG generated for {context.user_id}")
 
         self._log_generation(context, result)
         return result

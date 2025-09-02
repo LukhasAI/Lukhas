@@ -416,6 +416,19 @@ class AdvancedIdentityValidator:
             validation.confidence_score = max(factor_scores) if factor_scores else 0.0
             validation.risk_factors.append("insufficient_authentication_factors")
 
+    async def _validate_continuous(self, validation: IdentityValidation, identity_data: dict[str, Any]) -> None:
+        """Continuous validation stub for long-running authentication checks"""
+        # Mark identity_data used to silence unused-arg linters during refactor
+        _ = identity_data
+
+        # Default continuous evaluation: keep prior confidence and set continuous flag
+        if validation.confidence_score < self.validation_thresholds["continuous_threshold"]:
+            validation.is_valid = False
+            validation.risk_factors.append("continuous_validation_below_threshold")
+        else:
+            validation.is_valid = True
+        return None
+
     async def _assess_identity_risk(
         self,
         validation: IdentityValidation,
@@ -599,22 +612,22 @@ class AdvancedIdentityValidator:
         _ = (sig, stored_sig)
         return 0.75
 
-    async def _create_behavioral_baseline(self, user_id: str, identity_data: dict[str, Any]) -> dict:
-        _ = identity_data
+    async def _create_behavioral_baseline(self, user_id: str, _identity_data: dict[str, Any]) -> dict[str, Any]:
+        _ = _identity_data
         baseline = {"typing_pattern": None, "mouse_pattern": None, "usage_pattern": None}
         self.behavioral_baselines[user_id] = baseline
         return baseline
 
-    async def _compare_typing_patterns(self, a: Any, b: Any) -> float:
-        _ = (a, b)
+    async def _compare_typing_patterns(self, _a: Any, _b: Any) -> float:
+        _ = (_a, _b)
         return 0.8
 
-    async def _compare_mouse_patterns(self, a: Any, b: Any) -> float:
-        _ = (a, b)
+    async def _compare_mouse_patterns(self, _a: Any, _b: Any) -> float:
+        _ = (_a, _b)
         return 0.8
 
-    async def _compare_usage_patterns(self, a: Any, b: Any) -> float:
-        _ = (a, b)
+    async def _compare_usage_patterns(self, _a: Any, _b: Any) -> float:
+        _ = (_a, _b)
         return 0.7
 
     async def _validate_password(self, user_id: str, password: str) -> bool:
