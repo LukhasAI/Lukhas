@@ -1516,3 +1516,18 @@ This should resolve the VS Code git scanning issues and 'fatal: not a git reposi
 {"timestamp":"2025-09-01T19:12:25Z","commit":"6ad4ad955a0664ddbe7ddcdd21eea7009ff9d411","branch":"main","author":"LukhasAI","message":"TRINITY → CONSTELLATION migration: Wave C promotion and governance update
 
 Promote Trinity constructs to Constellation naming and ship Wave C deliverables. Includes branding updates, governance and guardian improvements, AKA-Qualia Wave C docs, production promotion package, and tests to validate ethics and consciousness ablations. See TRINITY_TO_CONSTELLATION_MIGRATION_REPORT.md and candidate/aka_qualia/ for details.","security_scan":"pending"}
+{"timestamp":"2025-09-01T23:46:58Z","commit":"e35bbdd8951a32d3c0a25aa41233d835126303a5","branch":"main","author":"LukhasAI","message":"fix: Add ripgrep installation to logging-tag-guard workflow
+
+- Fixes CI failures in Jules PRs due to missing 'rg' command
+- Adds apt-get install step for ripgrep in Ubuntu CI runner
+- Resolves guard workflow failures across all branches
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
+{"timestamp":"2025-09-01T23:57:01Z","commit":"6bf1c468f5b0dbc85a5ea696cc8f2aedd3f634f7","branch":"main","author":"LukhasAI","message":"fix: Remove disallowed ΛTAG logging parameters
+
+- Convert ΛTAG parameters to formatted string fields
+- Fixed 5 instances across lambda_mirror.py and lambda_governor.py
+- Enables Jules agent PRs to pass guard CI checks","security_scan":"pending"}
+{"timestamp":"2025-09-01T23:57:23Z","commit":"3e1e47d0723f5376b1f42d58d4afd7142d8ff7c4","branch":"main","author":"LukhasAI","message":"chore: Local changes","security_scan":"pending"}

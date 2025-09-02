@@ -413,7 +413,7 @@ class LambdaMirror:
         if EMOTION_AVAILABLE:
             try:
                 self.emotion_engine = EmotionEngine()
-                logger.info("ΛMIRROR connected to EmotionEngine", ΛTAG="ΛEMOTION_CONNECTED")
+                logger.info("ΛMIRROR connected to EmotionEngine - ΛEMOTION_CONNECTED")
             except Exception as e:
                 logger.warning(f"Failed to initialize EmotionEngine: {e}")
 
@@ -421,7 +421,7 @@ class LambdaMirror:
         if MEMORY_AVAILABLE:
             try:
                 self.memory_manager = EnhancedMemoryManager() if EnhancedMemoryManager else MemoryManager()
-                logger.info("ΛMIRROR connected to MemoryManager", ΛTAG="ΛMEMORY_CONNECTED")
+                logger.info("ΛMIRROR connected to MemoryManager - ΛMEMORY_CONNECTED")
             except Exception as e:
                 logger.warning(f"Failed to initialize MemoryManager: {e}")
 
@@ -429,7 +429,7 @@ class LambdaMirror:
         if HEALIX_AVAILABLE:
             try:
                 self.healix_visualizer = HealixVisualizer()
-                logger.info("ΛMIRROR connected to HealixVisualizer", ΛTAG="ΛHEALIX_CONNECTED")
+                logger.info("ΛMIRROR connected to HealixVisualizer - ΛHEALIX_CONNECTED")
             except Exception as e:
                 logger.warning(f"Failed to initialize HealixVisualizer: {e}")
 
@@ -458,10 +458,7 @@ class LambdaMirror:
                     initial_parameters={"embeddings": np.random.randn(50, 8).tolist()},
                 )
 
-                logger.info(
-                    "ΛMIRROR connected to MetaLearningSystem",
-                    ΛTAG="ΛMETA_LEARNING_CONNECTED",
-                )
+                logger.info("ΛMIRROR connected to MetaLearningSystem - ΛMETA_LEARNING_CONNECTED")
             except Exception as e:
                 logger.warning(f"Failed to initialize MetaLearningSystem: {e}")
 
@@ -477,7 +474,7 @@ class LambdaMirror:
                 # Initialize dream feedback controller
                 self.dream_feedback_controller = DreamFeedbackController() if DreamFeedbackController else None
 
-                logger.info("ΛMIRROR connected to Dream Systems", ΛTAG="ΛDREAM_CONNECTED")
+                logger.info("ΛMIRROR connected to Dream Systems - ΛDREAM_CONNECTED")
             except Exception as e:
                 logger.warning(f"Failed to initialize Dream Systems: {e}")
 

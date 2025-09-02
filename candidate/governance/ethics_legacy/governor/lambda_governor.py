@@ -904,7 +904,7 @@ async def create_lambda_governor() -> LambdaGovernor:
     """Create and initialize ΛGOVERNOR."""
     governor = LambdaGovernor()
 
-    logger.info("ΛGOVERNOR created and ready", ΛTAG="ΛGOVERNOR_READY")
+    logger.info("ΛGOVERNOR created and ready - ΛGOVERNOR_READY")
 
     return governor
 
