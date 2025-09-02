@@ -368,7 +368,7 @@ class AutoScaler:
                 action=ScalingAction.SCALE_DOWN,
                 current_instances=current_instances,
                 target_instances=max(current_instances - 1, 1),
-                reason=f"Low resource usage: CPU={metrics.cpu_usage}%, " f"Memory={metrics.memory_usage}%",
+                reason=f"Low resource usage: CPU={metrics.cpu_usage}%, Memory={metrics.memory_usage}%",
                 confidence=0.7,
             )
 
@@ -903,7 +903,7 @@ class ContentEnterpriseOrchestrator:
     async def _execute_scaling_decision(self, decision: ScalingDecision):
         """Execute auto-scaling decision"""
         try:
-            self.logger.info(f"🔄 Executing scaling decision for {decision.service_name}: " f"{decision.action.value}")
+            self.logger.info(f"🔄 Executing scaling decision for {decision.service_name}: {decision.action.value}")
 
             # Create scaling task
             scaling_task = OrchestrationTask(

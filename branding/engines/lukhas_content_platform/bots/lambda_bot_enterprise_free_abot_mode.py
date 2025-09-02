@@ -61,7 +61,7 @@ def free_abot_session():
             elapsed = int(time.time() - start_time)
             remaining = int(session_duration - elapsed)
 
-            print(f"\n⏰ Elapsed: {elapsed//60}m {elapsed%60}s | Remaining: {remaining//60}m {remaining%60}s")
+            print(f"\n⏰ Elapsed: {elapsed // 60}m {elapsed % 60}s | Remaining: {remaining // 60}m {remaining % 60}s")
 
             # Let LUKHAS AI ΛBot choose its next task
             if task_index < len(autonomous_tasks):
@@ -152,7 +152,7 @@ def free_abot_session():
     # Final status
     elapsed_total = int(time.time() - start_time)
     print("\n🏁 FREE LUKHAS AI ΛBot SESSION COMPLETE")
-    print(f"⏱️ Total time: {elapsed_total//60}m {elapsed_total%60}s")
+    print(f"⏱️ Total time: {elapsed_total // 60}m {elapsed_total % 60}s")
     print(f"🎯 Tasks attempted: {min(task_index, len(autonomous_tasks))}")
     print("\n📊 Final LUKHAS AI ΛBot Status:")
     print(get_abot_status())

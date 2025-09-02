@@ -189,9 +189,7 @@ class LukhasTrustScorer:
             if time_deviation > 8:
                 score -= 4.0
                 patterns["anomaly_count"] += 1
-                self.logger.info(
-                    f"Temporal anomaly detected for {user_id}: " f"current={current_hour}, avg={avg_hour:.1f}"
-                )
+                self.logger.info(f"Temporal anomaly detected for {user_id}: current={current_hour}, avg={avg_hour:.1f}")
             elif time_deviation > 4:
                 score -= 2.0
 
@@ -301,7 +299,7 @@ class LukhasTrustScorer:
         behavioral_score = max(0, score)
 
         self.logger.debug(
-            f"Behavioral score for {user_id}: {behavioral_score} " f"(anomalies: {patterns['anomaly_count']})"
+            f"Behavioral score for {user_id}: {behavioral_score} (anomalies: {patterns['anomaly_count']})"
         )
 
         return behavioral_score
@@ -475,7 +473,7 @@ class LukhasTrustScorer:
         contextual_score = max(0, score)
 
         self.logger.debug(
-            f"Contextual score calculated: {contextual_score} " f"(hour: {hour}, auth_freq: {auth_frequency})"
+            f"Contextual score calculated: {contextual_score} (hour: {hour}, auth_freq: {auth_frequency})"
         )
 
         return contextual_score

@@ -558,7 +558,7 @@ class ComprehensiveAccessTierManager:
         tier_dist[new_tier.value] = tier_dist.get(new_tier.value, 0) + 1
         self.metrics["tier_distribution"] = tier_dist
 
-        logger.info(f"🎯 Tier change: {user_id} {old_tier.value} → {new_tier.value} " f"({transition_type.value})")
+        logger.info(f"🎯 Tier change: {user_id} {old_tier.value} → {new_tier.value} ({transition_type.value})")
 
         return transition_type
 

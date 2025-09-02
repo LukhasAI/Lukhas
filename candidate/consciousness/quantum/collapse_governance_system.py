@@ -592,7 +592,7 @@ class CollapseGovernanceSystem:
         print(f"🌊 Ethical collapse completed: {collapse_event.event_id}")
         print(f"   - Method: {collapse_method}")
         print(f"   - Drift score: {drift_score:.1f}")
-        print(f"   - Processing time: {processing_time*1000:.1f} ms")
+        print(f"   - Processing time: {processing_time * 1000:.1f} ms")
         print(f"   - Decision hash: {ethical_hash[:12]}...")
 
         return collapse_event

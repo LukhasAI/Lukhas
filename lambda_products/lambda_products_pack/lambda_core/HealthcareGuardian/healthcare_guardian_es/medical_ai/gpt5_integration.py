@@ -185,9 +185,7 @@ class GPT5HealthcareClient:
 
         except Exception as e:
             logger.error(f"Error processing health query: {e}")
-            return (
-                "Perdone, no he podido procesar su consulta. " "Si es urgente, contacte con su médico o llame al 112."
-            )
+            return "Perdone, no he podido procesar su consulta. Si es urgente, contacte con su médico o llame al 112."
 
     def _assess_urgency(self, query: str) -> str:
         """
@@ -515,7 +513,7 @@ class GPT5HealthcareClient:
                 break
 
         if not med_name:
-            return "No he reconocido el nombre de la medicina. " "¿Puede decirme cómo se llama exactamente?"
+            return "No he reconocido el nombre de la medicina. ¿Puede decirme cómo se llama exactamente?"
 
         med_info = self.medications[med_name]
 
@@ -574,4 +572,4 @@ class GPT5HealthcareClient:
             "Siga las recomendaciones de su médico y mantenga hábitos saludables.",
         )
 
-        return advice + "\n\nRecuerde: Estos son consejos generales. " "Siempre siga las indicaciones de su médico."
+        return advice + "\n\nRecuerde: Estos son consejos generales. Siempre siga las indicaciones de su médico."

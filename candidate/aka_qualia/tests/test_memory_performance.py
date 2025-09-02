@@ -112,12 +112,14 @@ class TestBatchWritePerformance:
         p95_time = statistics.quantiles(write_times, n=20)[18]  # 95th percentile
         max_time = max(write_times)
 
-        print(f"Write performance - Avg: {avg_time*1000:.2f}ms, P95: {p95_time*1000:.2f}ms, Max: {max_time*1000:.2f}ms")
+        print(
+            f"Write performance - Avg: {avg_time * 1000:.2f}ms, P95: {p95_time * 1000:.2f}ms, Max: {max_time * 1000:.2f}ms"
+        )
 
         # Performance assertions
-        assert avg_time < 0.01, f"Average write time {avg_time*1000:.2f}ms should be < 10ms"
-        assert p95_time < 0.02, f"P95 write time {p95_time*1000:.2f}ms should be < 20ms"
-        assert max_time < 0.05, f"Max write time {max_time*1000:.2f}ms should be < 50ms"
+        assert avg_time < 0.01, f"Average write time {avg_time * 1000:.2f}ms should be < 10ms"
+        assert p95_time < 0.02, f"P95 write time {p95_time * 1000:.2f}ms should be < 20ms"
+        assert max_time < 0.05, f"Max write time {max_time * 1000:.2f}ms should be < 50ms"
 
     @pytest.mark.perf
     def test_batch_vs_individual_performance(self, sql_memory):
@@ -155,8 +157,8 @@ class TestBatchWritePerformance:
             )
         batch_time = time.perf_counter() - batch_start
 
-        print(f"Individual inserts: {individual_time:.2f}s ({individual_time/num_scenes*1000:.2f}ms each)")
-        print(f"Batch inserts: {batch_time:.2f}s ({batch_time/num_scenes*1000:.2f}ms each)")
+        print(f"Individual inserts: {individual_time:.2f}s ({individual_time / num_scenes * 1000:.2f}ms each)")
+        print(f"Batch inserts: {batch_time:.2f}s ({batch_time / num_scenes * 1000:.2f}ms each)")
 
         # Both should be reasonably fast
         assert individual_time < 5.0, "Individual inserts should complete in reasonable time"
@@ -196,11 +198,11 @@ class TestQueryPerformance:
         avg_query_time = statistics.mean(query_times)
         p95_query_time = statistics.quantiles(query_times, n=20)[18]
 
-        print(f"Query performance - Avg: {avg_query_time*1000:.2f}ms, P95: {p95_query_time*1000:.2f}ms")
+        print(f"Query performance - Avg: {avg_query_time * 1000:.2f}ms, P95: {p95_query_time * 1000:.2f}ms")
 
         # Performance assertions
-        assert avg_query_time < 0.01, f"Average query time {avg_query_time*1000:.2f}ms should be < 10ms"
-        assert p95_query_time < 0.02, f"P95 query time {p95_query_time*1000:.2f}ms should be < 20ms"
+        assert avg_query_time < 0.01, f"Average query time {avg_query_time * 1000:.2f}ms should be < 10ms"
+        assert p95_query_time < 0.02, f"P95 query time {p95_query_time * 1000:.2f}ms should be < 20ms"
 
     @pytest.mark.perf
     def test_glyph_search_performance(self, sql_memory, performance_timer):
@@ -236,7 +238,9 @@ class TestQueryPerformance:
         common_search_time = performance_timer.stop()
 
         assert len(common_results) == 200, "Should find all scenes with common glyph"
-        assert common_search_time < 0.05, f"Common glyph search took {common_search_time*1000:.2f}ms, should be < 50ms"
+        assert common_search_time < 0.05, (
+            f"Common glyph search took {common_search_time * 1000:.2f}ms, should be < 50ms"
+        )
 
         # Test unique glyph search (should find one result)
         performance_timer.start()
@@ -244,7 +248,9 @@ class TestQueryPerformance:
         unique_search_time = performance_timer.stop()
 
         assert len(unique_results) == 1, "Should find exactly one scene with unique glyph"
-        assert unique_search_time < 0.01, f"Unique glyph search took {unique_search_time*1000:.2f}ms, should be < 10ms"
+        assert unique_search_time < 0.01, (
+            f"Unique glyph search took {unique_search_time * 1000:.2f}ms, should be < 10ms"
+        )
 
         # Test rare glyph search
         performance_timer.start()
@@ -252,7 +258,7 @@ class TestQueryPerformance:
         rare_search_time = performance_timer.stop()
 
         assert len(rare_results) == 20, "Should find 20 scenes with rare glyph (every 10th)"
-        assert rare_search_time < 0.02, f"Rare glyph search took {rare_search_time*1000:.2f}ms, should be < 20ms"
+        assert rare_search_time < 0.02, f"Rare glyph search took {rare_search_time * 1000:.2f}ms, should be < 20ms"
 
     @pytest.mark.perf
     def test_large_result_set_performance(self, sql_memory):
@@ -282,7 +288,7 @@ class TestQueryPerformance:
             query_time = time.perf_counter() - start_time
 
             assert len(results) == limit, f"Should return exactly {limit} results"
-            assert query_time < 0.1, f"Query for {limit} results took {query_time*1000:.2f}ms, should be < 100ms"
+            assert query_time < 0.1, f"Query for {limit} results took {query_time * 1000:.2f}ms, should be < 100ms"
 
             # Verify results are properly ordered (newest first)
             timestamps = [scene["timestamp"] for scene in results]
@@ -380,11 +386,11 @@ class TestMemoryUsagePerformance:
         memory_after = process.memory_info().rss / 1024 / 1024
         memory_delta = memory_after - memory_before
 
-        print(f"Large scene save time: {save_time*1000:.2f}ms")
+        print(f"Large scene save time: {save_time * 1000:.2f}ms")
         print(f"Memory delta: {memory_delta:.1f} MB")
 
         # Should handle large scenes without excessive time/memory
-        assert save_time < 1.0, f"Large scene save took {save_time*1000:.2f}ms, should be < 1000ms"
+        assert save_time < 1.0, f"Large scene save took {save_time * 1000:.2f}ms, should be < 1000ms"
         assert memory_delta < 100, f"Memory increase {memory_delta:.1f} MB is too high"
 
         # Verify we can retrieve the large scene
@@ -393,7 +399,7 @@ class TestMemoryUsagePerformance:
         retrieve_time = time.perf_counter() - start_time
 
         assert len(history) == 1, "Should retrieve the large scene"
-        assert retrieve_time < 0.1, f"Large scene retrieval took {retrieve_time*1000:.2f}ms, should be < 100ms"
+        assert retrieve_time < 0.1, f"Large scene retrieval took {retrieve_time * 1000:.2f}ms, should be < 100ms"
 
 
 class TestConcurrentPerformance:
@@ -546,15 +552,15 @@ class TestConcurrentPerformance:
         avg_read_time = statistics.mean([op["time"] for op in read_ops]) if read_ops else 0
 
         print("Mixed workload performance:")
-        print(f"  Write operations: {len(write_ops)}, avg time: {avg_write_time*1000:.2f}ms")
-        print(f"  Read operations: {len(read_ops)}, avg time: {avg_read_time*1000:.2f}ms")
+        print(f"  Write operations: {len(write_ops)}, avg time: {avg_write_time * 1000:.2f}ms")
+        print(f"  Read operations: {len(read_ops)}, avg time: {avg_read_time * 1000:.2f}ms")
         print(f"  Error operations: {len(error_ops)}")
         print(f"  Overall time: {overall_time:.2f}s")
 
         # Performance assertions
         assert len(error_ops) == 0, f"Should have no errors, got {len(error_ops)}"
-        assert avg_write_time < 0.02, f"Average write time {avg_write_time*1000:.2f}ms is too high"
-        assert avg_read_time < 0.01, f"Average read time {avg_read_time*1000:.2f}ms is too high"
+        assert avg_write_time < 0.02, f"Average write time {avg_write_time * 1000:.2f}ms is too high"
+        assert avg_read_time < 0.01, f"Average read time {avg_read_time * 1000:.2f}ms is too high"
 
     @pytest.mark.perf
     def test_connection_contention_handling(self, sql_memory):

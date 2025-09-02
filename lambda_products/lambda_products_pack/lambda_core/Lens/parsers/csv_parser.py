@@ -52,7 +52,7 @@ class CSVParser(BaseParser):
                         rows.append(row)
                     # Generate generic headers
                     if rows:
-                        headers = [f"col_{i+1}" for i in range(len(rows[0]))]
+                        headers = [f"col_{i + 1}" for i in range(len(rows[0]))]
 
                 # Analyze data types
                 column_types = self._analyze_column_types(rows, headers, has_headers)

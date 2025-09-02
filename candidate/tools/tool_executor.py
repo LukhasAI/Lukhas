@@ -433,7 +433,7 @@ class ToolExecutor:
             Execution result or safe message
         """
         if not self.code_exec_enabled:
-            return "Code execution is disabled for security. " "Enable with LUKHAS_ENABLE_CODE_EXEC=true if needed."
+            return "Code execution is disabled for security. Enable with LUKHAS_ENABLE_CODE_EXEC=true if needed."
 
         language = args.get("language", "unknown")
         source = args.get("source", "")

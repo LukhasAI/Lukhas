@@ -1391,7 +1391,7 @@ class ConsciousnessEngine:
         # Wisdom summary
         if wisdom:
             narrative_parts.append(
-                f"From this reflection emerge {len(wisdom)} insights, each a facet of " "growing understanding."
+                f"From this reflection emerge {len(wisdom)} insights, each a facet of growing understanding."
             )
 
         # Closing

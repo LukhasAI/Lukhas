@@ -384,7 +384,7 @@ class ClassicalDreamEngine:
         if branches:
             best_branch = max(branches, key=lambda b: b.likelihood)
             insights.append(
-                f"Most promising approach: {best_branch.path[0]} " f"(likelihood: {best_branch.likelihood:.2f})"
+                f"Most promising approach: {best_branch.path[0]} (likelihood: {best_branch.likelihood:.2f})"
             )
 
         # Check safety

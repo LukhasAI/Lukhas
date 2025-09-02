@@ -47,9 +47,9 @@ def test_author_reference_guard_detects_violations():
         # print(f"Stderr: {result.stderr}")
 
         # Should find violations and exit with code 1
-        assert (
-            result.returncode == 1
-        ), f"Guard should detect violations. Got code {result.returncode}, output: {result.stdout}"
+        assert result.returncode == 1, (
+            f"Guard should detect violations. Got code {result.returncode}, output: {result.stdout}"
+        )
         assert "violations:" in result.stdout.lower(), "Should detect violations"
 
     finally:

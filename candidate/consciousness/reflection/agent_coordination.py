@@ -448,7 +448,7 @@ class CoordinationHub(MailboxActor):
         if task_id in self.active_announcements:
             del self.active_announcements[task_id]
 
-        logger.info(f"Working group {group.group_id} formed for task {task_id} " f"with {len(group.members)} members")
+        logger.info(f"Working group {group.group_id} formed for task {task_id} with {len(group.members)} members")
 
     async def _handle_task_complete(self, msg: ActorMessage):
         """Handle task completion"""
@@ -491,7 +491,7 @@ class CoordinationHub(MailboxActor):
                 group.status = TaskStatus.FAILED
 
                 # Could implement retry logic here
-                logger.warning(f"Task {task_id} failed in group {group_id}: " f"{msg.payload.get('reason', 'Unknown')}")
+                logger.warning(f"Task {task_id} failed in group {group_id}: {msg.payload.get('reason', 'Unknown')}")
 
                 # Clean up
                 await self._cleanup_group(task_id)

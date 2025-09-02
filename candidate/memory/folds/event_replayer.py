@@ -32,8 +32,7 @@ class EventReplayer:
         """Load events from the event store, optionally for one aggregate."""
         conn = self.event_store._get_connection()
         query = (
-            "SELECT event_id, event_type, aggregate_id, data, metadata, "
-            "timestamp, version, correlation_id FROM events"
+            "SELECT event_id, event_type, aggregate_id, data, metadata, timestamp, version, correlation_id FROM events"
         )
         params: tuple = ()
         if aggregate_id:

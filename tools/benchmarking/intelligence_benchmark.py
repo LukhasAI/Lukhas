@@ -799,7 +799,7 @@ class LukhasIntelligenceBenchmarking:
 
             if mean_response > target_response * 2:
                 recommendations.append(
-                    f"Critical: Response time ({mean_response:.3f}s) is {mean_response/target_response:.1f}x target. Consider performance optimization."
+                    f"Critical: Response time ({mean_response:.3f}s) is {mean_response / target_response:.1f}x target. Consider performance optimization."
                 )
             elif mean_response > target_response:
                 recommendations.append(

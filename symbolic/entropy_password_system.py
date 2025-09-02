@@ -290,7 +290,7 @@ class MaximumEntropyPasswordGenerator:
         )
 
         logger.info(
-            f"Generated password with {total_entropy:.2f} bits of entropy " f"({qi_entropy:.2f} quantum-resistant bits)"
+            f"Generated password with {total_entropy:.2f} bits of entropy ({qi_entropy:.2f} quantum-resistant bits)"
         )
 
         return password

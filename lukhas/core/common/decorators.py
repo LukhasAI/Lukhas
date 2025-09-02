@@ -58,8 +58,7 @@ def retry(
                             on_retry(e, attempt + 1)
 
                         logger.warning(
-                            f"Retry {attempt + 1}/{max_attempts} for {func.__name__} "
-                            f"after {type(e).__name__}: {e!s}"
+                            f"Retry {attempt + 1}/{max_attempts} for {func.__name__} after {type(e).__name__}: {e!s}"
                         )
 
                         # Add secure jitter to prevent thundering herd
@@ -91,8 +90,7 @@ def retry(
                             on_retry(e, attempt + 1)
 
                         logger.warning(
-                            f"Retry {attempt + 1}/{max_attempts} for {func.__name__} "
-                            f"after {type(e).__name__}: {e!s}"
+                            f"Retry {attempt + 1}/{max_attempts} for {func.__name__} after {type(e).__name__}: {e!s}"
                         )
 
                         # Add secure jitter
@@ -142,9 +140,7 @@ def with_timeout(timeout: float, error_message: Optional[str] = None) -> Callabl
 
         # Only works with async functions
         if not asyncio.iscoroutinefunction(func):
-            raise TypeError(
-                f"@with_timeout can only be used with async functions, " f"but {func.__name__} is synchronous"
-            )
+            raise TypeError(f"@with_timeout can only be used with async functions, but {func.__name__} is synchronous")
 
         return wrapper
 
@@ -180,7 +176,7 @@ def lukhas_tier_required(tier: Union[int, str], fallback: Optional[Callable] = N
                 return await func(*args, **kwargs)
             else:
                 logger.warning(
-                    f"Access denied to {func.__name__}: " f"requires tier {required_tier}, current tier {current_tier}"
+                    f"Access denied to {func.__name__}: requires tier {required_tier}, current tier {current_tier}"
                 )
                 if fallback:
                     return await fallback(*args, **kwargs)
@@ -196,7 +192,7 @@ def lukhas_tier_required(tier: Union[int, str], fallback: Optional[Callable] = N
                 return func(*args, **kwargs)
             else:
                 logger.warning(
-                    f"Access denied to {func.__name__}: " f"requires tier {required_tier}, current tier {current_tier}"
+                    f"Access denied to {func.__name__}: requires tier {required_tier}, current tier {current_tier}"
                 )
                 if fallback:
                     return fallback(*args, **kwargs)

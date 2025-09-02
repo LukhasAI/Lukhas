@@ -223,9 +223,9 @@ class TestMemorySystemValidation:
                 trinity_markers = ["⚛️", "🧠", "🛡️"]
                 trinity_integration = any(marker in str(result) for marker in trinity_markers)
 
-                assert (
-                    trinity_integration or "trinity" in str(result).lower()
-                ), "Trinity Framework integration not detected"
+                assert trinity_integration or "trinity" in str(result).lower(), (
+                    "Trinity Framework integration not detected"
+                )
 
                 print("Trinity Framework integration validated")
 

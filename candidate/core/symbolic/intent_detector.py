@@ -50,8 +50,7 @@ class IntentNode:
 
         # Log initialization
         logger.info(
-            f"IntentNode initialized with neural_weight={self.neural_weight}, "
-            f"symbolic_weight={self.symbolic_weight}"
+            f"IntentNode initialized with neural_weight={self.neural_weight}, symbolic_weight={self.symbolic_weight}"
         )
         # @JULES03_RENAME
         logger.info("JULES03_RENAME: Refined logging for clarity.")
@@ -163,8 +162,7 @@ class IntentNode:
         integrated_result["confidence"] = 0.0
         integrated_result["source"] = "error_handler"
         logger.info(
-            f"Intent detected: {integrated_result.get('intent')} "
-            f"with confidence {integrated_result.get('confidence')}"
+            f"Intent detected: {integrated_result.get('intent')} with confidence {integrated_result.get('confidence')}"
         )
 
         return integrated_result

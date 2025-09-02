@@ -243,9 +243,7 @@ class EthicsHITLOBridge:
             review_time = (datetime.now() - start_time).total_seconds() / 60.0
             self._update_metrics(review_result, review_time)
 
-            logger.info(
-                f"Human review completed: {review_result.decision} " f"(confidence: {review_result.confidence})"
-            )
+            logger.info(f"Human review completed: {review_result.decision} (confidence: {review_result.confidence})")
 
             return review_result
 

@@ -151,7 +151,7 @@ class BioPreprocessingColony(BaseColony):
                     clamped = max(validator["min"], min(value, validator["max"]))
                     validated[signal] = clamped
                     logger.warning(
-                        f"Signal '{signal}' out of range: {value} " f"(clamped to {clamped} {validator['unit']})"
+                        f"Signal '{signal}' out of range: {value} (clamped to {clamped} {validator['unit']})"
                     )
             else:
                 # Unknown signal - pass through with warning
@@ -331,7 +331,7 @@ class BioPreprocessingColony(BaseColony):
         self.aggregate.raise_event("bio_preprocessing_complete", event_data)
 
         # Log with ΛTRACE
-        logger.info(f"Preprocessed bio-data: quality={result['quality_score']:.2f}, " f"tag={result['quality_tag']}")
+        logger.info(f"Preprocessed bio-data: quality={result['quality_score']:.2f}, tag={result['quality_tag']}")
 
 
 # Colony instance factory

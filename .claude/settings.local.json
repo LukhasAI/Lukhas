@@ -89,6 +89,8 @@
       "Bash(make:*)",
       "Bash(bash:*)",
       "Read(/Users/A-SYS/.Trash/**)",
+      "Bash(git stash show:*)",
+      "Bash(git stash pop:*)",
       "Bash(SKIP=pre-commit git commit -m \"chore: Update Claude settings permissions\")",
       "Bash(PYTHONPATH=. python candidate/aka_qualia/run_c6_tests.py)",
       "Bash(PYTHONPATH=. python candidate/aka_qualia/validate_c6_simple.py)",
@@ -99,7 +101,8 @@
       "Bash(gh run list:*)",
       "Bash(rg:*)",
       "Bash(for pr in 108 109 111 115 117 118 119 121)",
-      "Bash(do echo \"=== PR #$pr ===\")"
+      "Bash(do echo \"=== PR #$pr ===\")",
+      "Bash(gh workflow run:*)"
     ],
     "deny": [],
     "ask": []

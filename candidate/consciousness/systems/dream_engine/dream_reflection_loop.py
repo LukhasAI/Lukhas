@@ -852,9 +852,7 @@ class DreamReflectionLoop:
         self.affect_delta = self.calculate_affect_delta(dream_content)
         self.entropy_delta = self.calculate_entropy_delta(dream_content)
 
-        logger.debug(
-            f"Dream scores updated - Drift: {self.drift_score:.3f}, " f"Convergence: {self.convergence_score:.3f}"
-        )
+        logger.debug(f"Dream scores updated - Drift: {self.drift_score:.3f}, Convergence: {self.convergence_score:.3f}")
 
     def calculate_drift(self, dream_content):
         """Calculate drift score from dream content."""

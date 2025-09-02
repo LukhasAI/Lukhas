@@ -318,7 +318,7 @@ class SystemHealthAnalyzer:
                 "exit_code": result.returncode,
             }
 
-            logger.info(f"📊 Tests: {passed_tests} passed, {failed_tests} failed, " f"{warnings} warnings")
+            logger.info(f"📊 Tests: {passed_tests} passed, {failed_tests} failed, {warnings} warnings")
 
             if failed_tests > 0:
                 self.results["issues_detected"].append(f"{failed_tests} test failures detected")

@@ -92,8 +92,7 @@ class ClaudeContextMemory:
 
         with open(filepath, "w") as f:
             f.write(
-                f"# Claude Memory Integration Export\n"
-                f"**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+                f"# Claude Memory Integration Export\n**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
             )
 
             # Session info

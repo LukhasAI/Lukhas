@@ -9,8 +9,7 @@ import warnings
 from lukhas.accepted.bio.hub import *
 
 warnings.warn(
-    "Import 'bio.bio_hub' is deprecated and will be removed on 2025-11-01. "
-    "Please update to 'lukhas.accepted.bio.hub'",
+    "Import 'bio.bio_hub' is deprecated and will be removed on 2025-11-01. Please update to 'lukhas.accepted.bio.hub'",
     DeprecationWarning,
     stacklevel=2,
 )

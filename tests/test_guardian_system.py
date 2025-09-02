@@ -733,9 +733,9 @@ class TestGuardianSystemIntegration:
             validation_time_ms = (end_time - start_time) * 1000
             validation_times.append(validation_time_ms)
 
-            assert (
-                response.validation_time_ms <= 250
-            ), f"Validation took {response.validation_time_ms}ms, exceeding 250ms requirement"
+            assert response.validation_time_ms <= 250, (
+                f"Validation took {response.validation_time_ms}ms, exceeding 250ms requirement"
+            )
 
         # Check average performance
         avg_time = sum(validation_times) / len(validation_times)

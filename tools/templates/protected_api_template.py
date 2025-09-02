@@ -128,7 +128,7 @@ async def health_check():
 
 @app.get("/protected/basic", response_model=BaseResponse, tags=["T2-Protected"])
 async def basic_protected_endpoint(
-    user: AuthContext = Depends(require_t2_or_above),
+    user: AuthContext = Depends(require_t2_or_above),  # noqa: B008
 ) -> BaseResponse:
     """
     T2+ Protected endpoint - Requires Creator tier or above.
@@ -158,7 +158,7 @@ async def basic_protected_endpoint(
 
 @app.post("/protected/create", response_model=BaseResponse, tags=["T2-Protected"])
 async def create_content_endpoint(
-    request: BaseRequest, user: AuthContext = Depends(require_t2_or_above)
+    request: BaseRequest, user: AuthContext = Depends(require_t2_or_above)  # noqa: B008
 ) -> BaseResponse:
     """T2+ Protected content creation endpoint."""
 
@@ -194,7 +194,7 @@ async def create_content_endpoint(
 
 @app.post("/protected/consciousness", response_model=BaseResponse, tags=["T3-Protected"])
 async def consciousness_endpoint(
-    request: BaseRequest, user: AuthContext = Depends(require_t3_or_above)
+    request: BaseRequest, user: AuthContext = Depends(require_t3_or_above)  # noqa: B008
 ) -> BaseResponse:
     """
     T3+ Protected consciousness endpoint.
@@ -234,7 +234,7 @@ async def consciousness_endpoint(
 
 
 @app.post("/protected/quantum", response_model=BaseResponse, tags=["T4-Protected"])
-async def qi_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)) -> BaseResponse:
+async def qi_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)) -> BaseResponse:  # noqa: B008
     """
     T4+ Protected quantum endpoint.
     Requires Quantum tier for quantum processing access.
@@ -272,7 +272,7 @@ async def qi_endpoint(request: BaseRequest, user: AuthContext = Depends(require_
 
 
 @app.post("/protected/admin", response_model=BaseResponse, tags=["T5-Protected"])
-async def admin_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t5)) -> BaseResponse:
+async def admin_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t5)) -> BaseResponse:  # noqa: B008
     """
     T5 Protected admin endpoint.
     Requires Guardian tier (T5) for administrative access.
@@ -312,14 +312,14 @@ async def admin_endpoint(request: BaseRequest, user: AuthContext = Depends(requi
 
 @app.get("/protected/custom", tags=["Custom-Protection"])
 @require_tier("T3")  # Decorator approach
-async def custom_tier_endpoint(user: AuthContext = Depends(get_current_user)):
+async def custom_tier_endpoint(user: AuthContext = Depends(get_current_user)):  # noqa: B008
     """Example using @require_tier decorator."""
     return {"message": "Custom tier protection applied", "user_tier": user.tier}
 
 
 @app.get("/protected/permission", tags=["Permission-Protection"])
 @require_permission("can_use_consciousness")  # Permission-based protection
-async def permission_based_endpoint(user: AuthContext = Depends(get_current_user)):
+async def permission_based_endpoint(user: AuthContext = Depends(get_current_user)):  # noqa: B008
     """Example using @require_permission decorator."""
     return {
         "message": "Permission-based protection applied",

@@ -418,7 +418,7 @@ class EmotionalFoldingEngine:
             compression_type,
         )
 
-        logger.info(f"Created folded memory {folded_memory['hash'][:10]}... " f"from {len(memory_group)} sources")
+        logger.info(f"Created folded memory {folded_memory['hash'][:10]}... from {len(memory_group)} sources")
 
         return folded_memory
 
@@ -607,7 +607,7 @@ class GlyphAffectCoupler:
         memory_fold["tags"].add(f"glyph_{glyph}")
 
         logger.debug(
-            f"Coupled glyph '{glyph}' with memory {memory_fold['hash'][:10]}... " f"(strength: {binding_strength:.3f})"
+            f"Coupled glyph '{glyph}' with memory {memory_fold['hash'][:10]}... (strength: {binding_strength:.3f})"
         )
 
         return binding
@@ -988,7 +988,7 @@ class GlyphMemorySystem:
         results["preserved_glyphs"] = list(results["preserved_glyphs"])
 
         logger.info(
-            f"Temporal folding complete: {results['memories_folded']} memories " f"-> {len(results['new_folds'])} folds"
+            f"Temporal folding complete: {results['memories_folded']} memories -> {len(results['new_folds'])} folds"
         )
 
         return results

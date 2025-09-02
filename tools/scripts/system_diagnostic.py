@@ -278,7 +278,7 @@ Passed: {self.passed_checks}
 📊 Summary & Recommendations
 ═══════════════════════════════════════════════════════════════
 
-System Readiness: {'🟢 READY' if functionality_percentage >= 90 else '🟡 PARTIAL' if functionality_percentage >= 70 else '🔴 NOT READY'}
+System Readiness: {"🟢 READY" if functionality_percentage >= 90 else "🟡 PARTIAL" if functionality_percentage >= 70 else "🔴 NOT READY"}
 Functionality: {functionality_percentage:.1f}%
 
 """

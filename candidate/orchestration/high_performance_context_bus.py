@@ -592,9 +592,7 @@ class HighPerformanceContextBus:
 
             # Add to transparency log
             self._add_transparency_entry(
-                f"📨 Processed: {message.message_type} "
-                f"({message.handoff_latency_ms:.2f}ms, "
-                f"{len(handlers)} handlers)",
+                f"📨 Processed: {message.message_type} ({message.handoff_latency_ms:.2f}ms, {len(handlers)} handlers)",
                 message.message_id,
             )
 

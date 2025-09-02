@@ -391,8 +391,7 @@ class BrainIdentityConnector:
 
         # Log to system logs for security auditing
         log_msg = (
-            f"Memory {'access' if authorized else 'access denied'}: "
-            f"user={user_id}, op={operation}, key={memory_key}"
+            f"Memory {'access' if authorized else 'access denied'}: user={user_id}, op={operation}, key={memory_key}"
         )
         if authorized:
             logger.debug(log_msg)

@@ -479,8 +479,7 @@ class QIMeshVisualizer:
             output.append(f"   Entanglement Strength: {conflict['strength']:.3f}")
             output.append(f"   Conflict Risk:        {conflict['risk_score']:.3f}")
             output.append(
-                f"   Phase Difference:     {conflict['phase_diff']:.3f} rad "
-                f"({np.degrees(conflict['phase_diff']):.1f}°)"
+                f"   Phase Difference:     {conflict['phase_diff']:.3f} rad ({np.degrees(conflict['phase_diff']):.1f}°)"
             )
 
             # Add recommendations

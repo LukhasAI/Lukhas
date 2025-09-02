@@ -348,9 +348,7 @@ class {interface_name.replace("_interface", "").title()}Interface(ABC):
 # Module registry for dependency injection
 _module_registry: Dict[str, {interface_name.replace("_interface", "").title()}Interface] = {{}}
 
-def register_module(name: str, module: {
-                                interface_name.replace("_interface", "").title()
-                            }Interface) -> None:
+def register_module(name: str, module: {interface_name.replace("_interface", "").title()}Interface) -> None:
     """Register module implementation"""
     _module_registry[name] = module
 

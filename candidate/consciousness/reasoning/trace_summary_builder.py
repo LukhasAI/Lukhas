@@ -263,7 +263,7 @@ class TraceSummaryBuilder:
         for i, step in enumerate(path[:5]):  # First 5 steps
             if self.current_style == "technical":
                 narrative_parts.append(
-                    f"{i + 1}. {step['type'].upper()}: {step['summary']} " f"(confidence: {step['confidence']:.2f})"
+                    f"{i + 1}. {step['type'].upper()}: {step['summary']} (confidence: {step['confidence']:.2f})"
                 )
             else:
                 narrative_parts.append(f"{i + 1}. {step['summary']}")
@@ -328,15 +328,14 @@ class TraceSummaryBuilder:
         avg_confidence = confidence_analysis.get("average", 0)
         if avg_confidence < 0.5:
             recommendations.append(
-                "Low overall confidence detected. Consider gathering more data or " "refining reasoning parameters."
+                "Low overall confidence detected. Consider gathering more data or refining reasoning parameters."
             )
 
         # Check for low confidence nodes
         low_conf_count = confidence_analysis.get("low_confidence_nodes", 0)
         if low_conf_count > 5:
             recommendations.append(
-                f"Found {low_conf_count} low-confidence decision points. "
-                "Review these areas for potential improvements."
+                f"Found {low_conf_count} low-confidence decision points. Review these areas for potential improvements."
             )
 
         # Strategy-specific recommendations
