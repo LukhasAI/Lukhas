@@ -1,0 +1,33 @@
+{
+  "presets": [
+    {
+      "id": "TableView",
+      "label": "Table",
+      "description": "Tabular data view",
+      "icon": "table",
+      "properties_schema": {
+        "type": "object",
+        "properties": {
+          "columns": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+          "pageSize": { "type": "integer", "minimum": 5, "default": 20 }
+        },
+        "required": ["columns"]
+      }
+    },
+    {
+      "id": "BarCompare",
+      "label": "Bar Chart",
+      "description": "Compare categories over a measure",
+      "icon": "bar-chart",
+      "properties_schema": {
+        "type": "object",
+        "properties": {
+          "x": { "type": "string" },
+          "y": { "type": "string" },
+          "stacked": { "type": "boolean", "default": false }
+        },
+        "required": ["x", "y"]
+      }
+    }
+  ]
+}
