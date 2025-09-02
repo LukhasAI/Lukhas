@@ -20,6 +20,7 @@ Created: 2025-08-03
 
 import asyncio
 import contextlib
+import logging
 import os
 import random
 import sys
@@ -273,7 +274,7 @@ class StargateActivator:
                 pygame.mixer.music.play()
                 print(f"\n🎵 Playing: {audio_file}")
         except Exception as e:
-            logger.error(f"Audio playback failed: {e}")
+            logging.getLogger(__name__).error(f"Audio playback failed: {e}")
 
     def _clear_screen(self):
         """Clear console screen"""

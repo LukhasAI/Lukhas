@@ -21,10 +21,11 @@ License: LUKHAS Commercial License
 """
 
 import hashlib
+import logging
 import secrets
 import time
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any
 
@@ -53,9 +54,9 @@ except ImportError:
             self.name = name
 
         def __getattr__(self, item):
-            return lambda *args, **kwargs: {"status": "mock", "module": self.name}
+            return lambda *_args, **_kwargs: {"status": "mock", "module": self.name}
 
-        def __call__(self, *args, **kwargs):
+        def __call__(self, *_args, **_kwargs):
             return self
 
     ConsciousnessEngine = MockModule("ConsciousnessEngine")
@@ -159,12 +160,15 @@ class LukhusQRGIntegrator:
             "steganographic_capacity_limit": 2048,  # bytes
             "session_timeout": 3600,  # 1 hour
         }
-
-        print("🔗 LUKHAS QRG Integrator initialized")
-        print(
+        # initialize logger for this integrator instance
+        self.logger = logging.getLogger(__name__)
+        self.logger.info("🔗 LUKHAS QRG Integrator initialized")
+        self.logger.info(
             f"🧠 Consciousness engine: {'active' if hasattr(self.consciousness_engine, 'assess_consciousness') else 'mock'}"
         )
-        print(f"🌍 Cultural manager: {'active' if hasattr(self.cultural_manager, 'get_cultural_profile') else 'mock'}")
+        self.logger.info(
+            f"🌍 Cultural manager: {'active' if hasattr(self.cultural_manager, 'get_cultural_profile') else 'mock'}"
+        )
 
     def create_qrg_context(self, user_id: str, **kwargs) -> QRGContext:
         """Create context for QRG generation"""
@@ -190,7 +194,7 @@ class LukhusQRGIntegrator:
             security_clearance=SecurityLevel(kwargs.get("security_level", "protected")),
             cognitive_load=cognitive_load,
             attention_focus=kwargs.get("attention_focus", ["security", "authentication"]),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(tz=timezone.utc),
             session_id=kwargs.get("session_id", secrets.token_hex(16)),
             device_capabilities=kwargs.get("device_capabilities", {"display": "standard", "interaction": "touch"}),
             environmental_factors=kwargs.get("environmental_factors", {"lighting": "normal", "noise": "low"}),
@@ -473,10 +477,9 @@ class LukhusQRGIntegrator:
     def generate_emergency_override_qrg(self, context: QRGContext) -> QRGResult:
         """Generate emergency override QRG"""
         print(f"🚨 Generating emergency override QRG for user {context.user_id}")
-
         # Emergency parameters
         emergency_code = secrets.token_hex(32)
-        emergency_timestamp = datetime.now()
+        emergency_timestamp = datetime.now(tz=timezone.utc)
         override_level = "EMERGENCY_ALPHA"  # Highest override level
 
         # Generate high-visibility emergency pattern

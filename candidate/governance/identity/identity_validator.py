@@ -267,6 +267,8 @@ class AdvancedIdentityValidator:
 
     async def _validate_biometric(self, validation: IdentityValidation, identity_data: dict[str, Any]):
         """Validate biometric identity data"""
+        # Mark identity_data as used to silence ARG002 during refactor
+        _ = identity_data
 
         # Get or create biometric profile
         profile = await self._get_biometric_profile(validation.user_id)
@@ -279,7 +281,7 @@ class AdvancedIdentityValidator:
             return
 
         # Compare biometric features
-        biometric_matches = []
+        biometric_matches: list[float] = []
 
         if "facial_features" in identity_data and profile.facial_features_hash:
             facial_match = await self._compare_facial_features(
@@ -354,7 +356,8 @@ class AdvancedIdentityValidator:
 
     async def _validate_credential(self, validation: IdentityValidation, identity_data: dict[str, Any]):
         """Validate credentials"""
-
+        # Mark identity_data used for linter
+        _ = identity_data
         credential_checks = []
 
         # Password validation
@@ -577,6 +580,7 @@ class AdvancedIdentityValidator:
 
     async def _create_biometric_profile(self, user_id: str, identity_data: dict[str, Any]) -> BiometricProfile:
         """Create biometric profile (stub)."""
+        _ = identity_data
         profile = BiometricProfile(
             user_id=user_id, profile_id=f"bp_{uuid.uuid4().hex[:6]}", created_at=datetime.now(tz=timezone.utc)
         )

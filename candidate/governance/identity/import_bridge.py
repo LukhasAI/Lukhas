@@ -42,8 +42,12 @@ IMPORT_MAPPINGS = {
 class IdentityModuleFinder(importlib.abc.MetaPathFinder):
     """Custom finder to redirect identity.* imports to governance.identity.*"""
 
-    def find_spec(self, fullname: str, path: Optional[Any] = None, target: Optional[Any] = None):
+    def find_spec(
+        self, fullname: str, path: Optional[Any] = None, target: Optional[Any] = None
+    ) -> Optional[importlib.machinery.ModuleSpec]:
         """Find module spec for identity.* imports"""
+        # Silence unused-arg linter for path/target in compatibility shim
+        _ = (path, target)
 
         # Only handle identity.* imports
         if not fullname.startswith("identity"):
@@ -139,6 +143,7 @@ class IdentityFallbackLoader(importlib.abc.Loader):
                 def __init__(self, *args, **kwargs):
                     import logging
 
+                    _ = (args, kwargs)
                     logging.getLogger(__name__).warning(f"Using fallback for {fullname}")
 
             module.Manager = FallbackManager
@@ -153,6 +158,7 @@ class IdentityFallbackLoader(importlib.abc.Loader):
                 def __init__(self, *args, **kwargs):
                     import logging
 
+                    _ = (args, kwargs)
                     logging.getLogger(__name__).warning(f"Using fallback for {fullname}")
 
             module.Synchronizer = FallbackSynchronizer
@@ -169,7 +175,7 @@ class IdentityFallbackLoader(importlib.abc.Loader):
                 DEFAULT = "default"
 
             module.IdentityEventType = EventType
-            module.publish_event = lambda *args, **kwargs: None
+            module.publish_event = lambda *_args, **_kwargs: None
 
         # Register in sys.modules
         sys.modules[fullname] = module

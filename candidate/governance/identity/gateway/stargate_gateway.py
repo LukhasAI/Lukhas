@@ -1006,6 +1006,9 @@ Wake up... but remember the dream. It holds the key.
 
     def _log_transmission(self, payload: GlyphPayload, response: GatewayResponse):
         """Log transmission for compliance"""
+        # Mark payload as used to satisfy linters during refactor
+        _ = payload
+
         log_entry = {
             "timestamp": datetime.utcnow().isoformat(),
             "success": response.success,
