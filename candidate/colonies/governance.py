@@ -81,20 +81,17 @@ class GovernanceColony(BaseColony):
         # Check for common ethical concerns
         concerns = []
 
-        if operation.get("involves_user_data", False):
-            if not operation.get("user_consent", False):
-                concerns.append("Missing user consent for data processing")
-                result["ethics_score"] -= 0.3
+        if operation.get("involves_user_data", False) and not operation.get("user_consent", False):
+            concerns.append("Missing user consent for data processing")
+            result["ethics_score"] -= 0.3
 
-        if operation.get("involves_decision_making", False):
-            if not operation.get("human_oversight", False):
-                concerns.append("Automated decision-making without human oversight")
-                result["ethics_score"] -= 0.2
+        if operation.get("involves_decision_making", False) and not operation.get("human_oversight", False):
+            concerns.append("Automated decision-making without human oversight")
+            result["ethics_score"] -= 0.2
 
-        if operation.get("involves_bias_risk", False):
-            if not operation.get("bias_mitigation", False):
-                concerns.append("Potential bias without mitigation measures")
-                result["ethics_score"] -= 0.25
+        if operation.get("involves_bias_risk", False) and not operation.get("bias_mitigation", False):
+            concerns.append("Potential bias without mitigation measures")
+            result["ethics_score"] -= 0.25
 
         result["violations"] = concerns
         result["approved"] = result["ethics_score"] >= 0.6 and len(concerns) == 0

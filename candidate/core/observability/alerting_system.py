@@ -26,6 +26,7 @@ Features:
 """
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
@@ -960,10 +961,7 @@ LUKHAS AI Monitoring System
             return False
 
         # System filter
-        if config.system_filter and alert.source_system not in config.system_filter:
-            return False
-
-        return True
+        return not (config.system_filter and alert.source_system not in config.system_filter)
 
     async def _check_rate_limit(self, config: NotificationConfig, alert: Alert) -> bool:
         """Check if notification is within rate limits"""
@@ -991,10 +989,7 @@ LUKHAS AI Monitoring System
             if (current_time - datetime.fromisoformat(record["timestamp"])).total_seconds() < 60
         ]
 
-        if len(recent_burst) >= config.burst_limit:
-            return False
-
-        return True
+        return not len(recent_burst) >= config.burst_limit
 
     async def _send_dashboard_notification(self, alert: Alert, config: NotificationConfig) -> bool:
         """Send dashboard notification"""
@@ -1342,10 +1337,8 @@ LUKHAS AI Monitoring System
         # Clean alert history
         old_alerts = [a for a in self.alert_history if a.created_at < cutoff_date]
         for alert in old_alerts:
-            try:
+            with contextlib.suppress(ValueError):
                 self.alert_history.remove(alert)
-            except ValueError:
-                pass
 
     async def _cleanup_old_audit_entries(self):
         """Clean up old audit entries"""
@@ -1355,10 +1348,8 @@ LUKHAS AI Monitoring System
         # Clean audit trail (keep for 7 years for compliance)
         old_entries = [e for e in self.audit_trail if e.timestamp < cutoff_date]
         for entry in old_entries:
-            try:
+            with contextlib.suppress(ValueError):
                 self.audit_trail.remove(entry)
-            except ValueError:
-                pass
 
     async def get_active_alerts(self) -> list[Alert]:
         """Get all active alerts"""

@@ -358,7 +358,7 @@ class LambdaIDController:
 
             extracted_tier_val = self._extract_tier_from_id(lambda_id)  # Logs internally
 
-            current_validation_details: Dict[str, Any] = {
+            current_validation_details: dict[str, Any] = {
                 "format_valid": basic_validation_res["valid"],
                 "tier_extracted": extracted_tier_val,
                 "tier_compliance_check": True,
@@ -498,8 +498,8 @@ class LambdaIDController:
         self,
         specific_tier: Optional[int] = None,
         include_progression: bool = False,
-        request_metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        request_metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Retrieves information about LUKHAS ΛiD tiers, either for a specific tier
         or all tiers, optionally including progression map details.
@@ -508,9 +508,8 @@ class LambdaIDController:
         self.logger.info(
             f"ΛTRACE ({req_id}): Received request for tier information. Specific Tier: {specific_tier}, Include Progression: {include_progression}"
         )
-        req_meta = request_metadata or {}
         try:
-            result_data: Dict[str, Any]
+            result_data: dict[str, Any]
             if specific_tier is not None:
                 if not self._validate_tier(specific_tier):  # Logs internally
                     self.logger.warning(f"ΛTRACE ({req_id}): Invalid specific_tier '{specific_tier}' requested.")
@@ -552,9 +551,9 @@ class LambdaIDController:
         self,
         current_lambda_id: str,
         target_tier: int,
-        validation_data: Optional[Dict[str, Any]] = None,
-        request_metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        validation_data: Optional[dict[str, Any]] = None,
+        request_metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Processes a request to upgrade a user's LUKHAS ΛiD to a target tier,
         performing necessary validations and generating a new ΛiD if successful.
@@ -695,16 +694,15 @@ class LambdaIDController:
 
     # Human-readable comment: Checks the health of core services used by this
     # controller.
-    def check_service_health(self, request_metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def check_service_health(self, request_metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Performs a health check on all core services utilized by the LambdaIDController.
         Returns a dictionary summarizing the health status of each service.
         """
         req_id = f"health_{int(time.time() * 1000)}"
         self.logger.info(f"ΛTRACE ({req_id}): Performing core services health check.")
-        req_meta = request_metadata or {}
         try:
-            service_health_statuses: Dict[str, Any] = {}
+            service_health_statuses: dict[str, Any] = {}
             services_map = {
                 "LambdaIDGenerator": self.id_generator,
                 "LambdaIDValidator": self.id_validator,
@@ -864,7 +862,7 @@ class LambdaIDController:
         self.logger.debug(
             f"ΛTRACE: Generating entropy recommendations. Score: {current_entropy_score}, Tier: {user_tier}, Symbols: {len(current_symbols)}"
         )
-        recommendations_list: List[str] = []
+        recommendations_list: list[str] = []
         tier_perms = self._identity_core.resolve_access_tier(user_tier)  # Logs internally
         max_entropy_for_tier = tier_perms.get("max_entropy", 2.0)  # Default from original
         symbols_allowed_for_tier = tier_perms.get("symbols_allowed", 2)

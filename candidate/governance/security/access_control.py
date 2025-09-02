@@ -847,10 +847,7 @@ class AccessControlEngine:
             return False
 
         # 🧠 Consciousness level check
-        if user.consciousness_level < 1:
-            return False
-
-        return True
+        return not user.consciousness_level < 1
 
     def _verify_password(self, password: str, stored_hash: Optional[str]) -> bool:
         """Verify password against stored hash"""
@@ -1039,11 +1036,7 @@ class AccessControlEngine:
         if not permission.context_conditions:
             return True
 
-        for key, expected_value in permission.context_conditions.items():
-            if context.get(key) != expected_value:
-                return False
-
-        return True
+        return all(context.get(key) == expected_value for key, expected_value in permission.context_conditions.items())
 
     async def _apply_security_policies(
         self,
@@ -1067,12 +1060,11 @@ class AccessControlEngine:
                 )
 
         # Sensitive operations
-        if access_type in [AccessType.DELETE, AccessType.ADMIN, AccessType.SYSTEM]:
-            if not session.mfa_verified:
-                return (
-                    AccessDecision.CHALLENGE,
-                    "MFA verification required for sensitive operations",
-                )
+        if access_type in [AccessType.DELETE, AccessType.ADMIN, AccessType.SYSTEM] and not session.mfa_verified:
+            return (
+                AccessDecision.CHALLENGE,
+                "MFA verification required for sensitive operations",
+            )
 
         # Rate limiting (simplified)
         # In production, implement proper rate limiting

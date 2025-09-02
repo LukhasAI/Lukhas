@@ -56,7 +56,7 @@ class SqlMemory(AkaqMemory):
         dsn: Optional[str] = None,
         rotate_salt: str = "default_salt_change_in_prod",
         is_prod: bool = False,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         """
         Initialize SQL memory client.
@@ -118,7 +118,7 @@ class SqlMemory(AkaqMemory):
         h.update((self.rotate_salt + s).encode("utf-8"))
         return h.hexdigest()
 
-    def _sanitize_context(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _sanitize_context(self, context: dict[str, Any]) -> dict[str, Any]:
         """Sanitize context to remove PII and keep safe fields"""
         # Whitelist approach - only keep known-safe fields
         safe_fields = {
@@ -144,10 +144,10 @@ class SqlMemory(AkaqMemory):
         self,
         *,
         user_id: str,
-        scene: Dict[str, Any],
-        glyphs: List[Dict[str, Any]],
-        policy: Dict[str, Any],
-        metrics: Dict[str, Any],
+        scene: dict[str, Any],
+        glyphs: list[dict[str, Any]],
+        policy: dict[str, Any],
+        metrics: dict[str, Any],
         cfg_version: str,
     ) -> str:
         """
@@ -245,7 +245,7 @@ class SqlMemory(AkaqMemory):
                 logger.error(f"Failed to save scene: {e!s}")
                 raise
 
-    def _proto_to_vector(self, proto: Dict[str, Any]) -> List[float]:
+    def _proto_to_vector(self, proto: dict[str, Any]) -> list[float]:
         """Convert proto-qualia to 5D vector [tone, arousal, clarity, embodiment, narrative_gravity]"""
         return [
             float(proto.get("tone", 0.0)),
@@ -255,7 +255,7 @@ class SqlMemory(AkaqMemory):
             float(proto.get("narrative_gravity", 0.0)),
         ]
 
-    def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[Dict[str, Any]]:
+    def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[dict[str, Any]]:
         """Get most recent scene before timestamp for drift computation"""
         try:
             if before_ts is None:
@@ -265,11 +265,11 @@ class SqlMemory(AkaqMemory):
                 result = conn.execute(
                     text(
                         """
-                        SELECT scene_id, proto, risk, drift_phi, congruence_index, 
+                        SELECT scene_id, proto, risk, drift_phi, congruence_index,
                                neurosis_risk, repair_delta, ts
-                        FROM akaq_scene 
+                        FROM akaq_scene
                         WHERE user_id = :user_id AND ts < :before_ts
-                        ORDER BY ts DESC 
+                        ORDER BY ts DESC
                         LIMIT 1
                     """
                     ),
@@ -295,7 +295,7 @@ class SqlMemory(AkaqMemory):
             logger.error(f"Failed to fetch previous scene: {e!s}")
             return None
 
-    def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> List[Dict[str, Any]]:
+    def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> list[dict[str, Any]]:
         """Get reverse-chronological scene history"""
         try:
             where_clause = "WHERE user_id = :user_id"
@@ -310,9 +310,9 @@ class SqlMemory(AkaqMemory):
                     text(
                         f"""
                         SELECT scene_id, ts, proto, risk, drift_phi, congruence_index
-                        FROM akaq_scene 
+                        FROM akaq_scene
                         {where_clause}
-                        ORDER BY ts DESC 
+                        ORDER BY ts DESC
                         LIMIT :limit
                     """
                     ),
@@ -338,7 +338,7 @@ class SqlMemory(AkaqMemory):
             logger.error(f"Failed to fetch history: {e!s}")
             return []
 
-    def search_by_glyph(self, *, user_id: str, key: str, limit: int = 50) -> List[Dict[str, Any]]:
+    def search_by_glyph(self, *, user_id: str, key: str, limit: int = 50) -> list[dict[str, Any]]:
         """Find scenes that emitted a specific glyph"""
         try:
             with self.engine.begin() as conn:
@@ -375,7 +375,7 @@ class SqlMemory(AkaqMemory):
             logger.error(f"Failed to search by glyph: {e!s}")
             return []
 
-    def top_drift(self, *, user_id: str, limit: int = 10) -> List[Dict[str, Any]]:
+    def top_drift(self, *, user_id: str, limit: int = 10) -> list[dict[str, Any]]:
         """Get scenes with highest drift_phi values"""
         try:
             with self.engine.begin() as conn:
@@ -383,9 +383,9 @@ class SqlMemory(AkaqMemory):
                     text(
                         """
                         SELECT scene_id, ts, proto, drift_phi, congruence_index
-                        FROM akaq_scene 
+                        FROM akaq_scene
                         WHERE user_id = :user_id AND drift_phi IS NOT NULL
-                        ORDER BY drift_phi DESC 
+                        ORDER BY drift_phi DESC
                         LIMIT :limit
                     """
                     ),
@@ -419,7 +419,7 @@ class SqlMemory(AkaqMemory):
                     text("SELECT COUNT(*) FROM akaq_scene WHERE user_id = :user_id"),
                     {"user_id": user_id},
                 )
-                scene_count = count_result.scalar()
+                count_result.scalar()
 
                 # Delete scenes (cascades to glyphs via foreign key)
                 delete_result = conn.execute(
@@ -437,7 +437,7 @@ class SqlMemory(AkaqMemory):
             logger.error(f"Failed to delete user data: {e!s}")
             raise
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get memory client statistics"""
         return {
             "driver": self.driver,

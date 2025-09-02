@@ -616,10 +616,7 @@ class AwarenessMonitoringSystem:
             return False
 
         # Check for emergency state
-        if snapshot.consciousness_state == ConsciousnessState.EMERGENCY:
-            return False
-
-        return True
+        return snapshot.consciousness_state != ConsciousnessState.EMERGENCY
 
     async def _detect_stress_indicators(self, snapshot: AwarenessSnapshot) -> list[str]:
         """Detect stress indicators in awareness snapshot"""

@@ -20,7 +20,7 @@ class _VoiceSymbolicVocabulary:
     def __init__(self) -> None:
         pass
 
-    def get_all_symbols(self) -> Dict:
+    def get_all_symbols(self) -> dict:
         return {}
 
 
@@ -28,7 +28,7 @@ class _VisionSymbolicVocabulary:
     def __init__(self) -> None:
         pass
 
-    def get_all_symbols(self) -> Dict:
+    def get_all_symbols(self) -> dict:
         return {}
 
 
@@ -84,7 +84,7 @@ def get_symbol(vocabulary_name: str, key: str, default: str = "❓") -> str:
     Returns:
         The emoji symbol or default
     """
-    vocabularies: Dict[str, Any] = {
+    vocabularies: dict[str, Any] = {
         "bio": BIO_SYMBOLS,
         "emotion": EMOTION_SYMBOLS,
         "device": DEVICE_SYMBOLS,

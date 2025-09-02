@@ -606,7 +606,7 @@ class AdvancedAnonymizationEngine:
         anonymized_dataset = []
         min_k_achieved = float("inf")
 
-        for _group_key, group_records in groups.items():
+        for group_records in groups.values():
             group_size = len(group_records)
             min_k_achieved = min(min_k_achieved, group_size)
 
@@ -734,7 +734,7 @@ class AdvancedAnonymizationEngine:
         diversified_dataset = []
         min_l_achieved = float("inf")
 
-        for _group_key, group_records in groups.items():
+        for group_records in groups.values():
             for sensitive_attr in sensitive_attrs:
                 sensitive_values = [
                     record.get(sensitive_attr) for record in group_records if record.get(sensitive_attr) is not None
@@ -915,7 +915,7 @@ class AdvancedAnonymizationEngine:
 
         risk_score = 0.0
 
-        for attr, _value in record.items():
+        for attr in record:
             if attr in analysis["unique_counts"]:
                 uniqueness = analysis["unique_counts"][attr] / analysis["record_count"]
                 # Higher uniqueness = higher risk

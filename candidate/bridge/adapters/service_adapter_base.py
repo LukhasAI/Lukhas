@@ -440,10 +440,7 @@ class BaseServiceAdapter(ABC):
         if not token.has_scope(required_scope):
             return False
 
-        if token.audience != self.service_name:
-            return False
-
-        return True
+        return token.audience == self.service_name
 
     async def check_consent(self, lid: str, action: str, context: Optional[dict] = None) -> bool:
         """🛡️ Check consent before accessing external service - Guardian integration"""

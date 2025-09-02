@@ -103,7 +103,7 @@ class DreamMemoryManager:
     """
 
     # ΛSEED: Configuration seeds the behavior of the dream manager.
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initializes the DreamMemoryManager.
 
@@ -111,9 +111,9 @@ class DreamMemoryManager:
             config (Optional[Dict[str, Any]]): Configuration dictionary for dream processing parameters
                                                 (e.g., cycle duration, memory selection criteria).
         """
-        self.config: Dict[str, Any] = config or {}
+        self.config: dict[str, Any] = config or {}
         self.active: bool = False  # Indicates if the dream manager is currently active.
-        self.stats: Dict[str, Any] = {  # ΛTRACE: Internal statistics for monitoring.
+        self.stats: dict[str, Any] = {  # ΛTRACE: Internal statistics for monitoring.
             "initialization_time_utc": None,  # ΛTEMPORAL_HOOK
             "last_dream_cycle_start_utc": None,  # ΛTEMPORAL_HOOK
             "last_dream_cycle_end_utc": None,  # ΛTEMPORAL_HOOK
@@ -170,7 +170,7 @@ class DreamMemoryManager:
     # #ΛTEMPORAL_HOOK (Dream cycles are temporal sequences)
     @lukhas_tier_required(2)
     # ΛRECALL (memories_for_dreaming)
-    async def process_dream_cycle(self, memories_for_dreaming: Optional[List[Any]] = None) -> Dict[str, Any]:
+    async def process_dream_cycle(self, memories_for_dreaming: Optional[list[Any]] = None) -> dict[str, Any]:
         """
         Initiates and processes a "dream cycle." This is where memory consolidation,
         pattern extraction, and symbolic manipulation would occur.
@@ -324,7 +324,7 @@ class DreamMemoryManager:
             )  # ΛCAUTION #ΛCOLLAPSE_POINT (Cycle failed)
             return {"status": "error", "message": str(e)}
 
-    def _calculate_drift_score(self, memories: Optional[List[Any]]) -> float:
+    def _calculate_drift_score(self, memories: Optional[list[Any]]) -> float:
         """
         Calculates a drift score for a given set of memories.
         This is a placeholder implementation.
@@ -335,7 +335,7 @@ class DreamMemoryManager:
         # baseline or previous snapshots.
         return 0.9
 
-    def _check_for_instability(self, memories: Optional[List[Any]], recursion_depth: int = 0):
+    def _check_for_instability(self, memories: Optional[list[Any]], recursion_depth: int = 0):
         """
         Checks for potential instability in recursive deltas.
         This is a placeholder implementation.
@@ -353,7 +353,7 @@ class DreamMemoryManager:
     # Statistics retrieval is often a low-tier, informational call.
     @lukhas_tier_required(0)
     # ΛTEMPORAL_HOOK (Stats are a snapshot in time)
-    async def get_stats(self) -> Dict[str, Any]:
+    async def get_stats(self) -> dict[str, Any]:
         """Retrieves current operational statistics for monitoring."""
         # ΛTRACE: Retrieving dream manager statistics.
         logger.debug(

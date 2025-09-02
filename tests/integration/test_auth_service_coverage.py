@@ -85,10 +85,9 @@ def test_authentication_comprehensive_flows():
                     verified = service.verify_credentials(**scenario)
                     assert isinstance(verified, (bool, dict, type(None)))
 
-                if hasattr(service, "validate_token"):
-                    if "token" in scenario:
-                        valid = service.validate_token(scenario["token"])
-                        assert isinstance(valid, (bool, dict, type(None)))
+                if hasattr(service, "validate_token") and "token" in scenario:
+                    valid = service.validate_token(scenario["token"])
+                    assert isinstance(valid, (bool, dict, type(None)))
 
                 # Test login flow
                 if hasattr(service, "login"):
@@ -224,21 +223,18 @@ def test_token_management_comprehensive():
                     assert created is not None or created is None
 
                 # Test token validation
-                if hasattr(service, "validate_token"):
-                    if isinstance(token, str):
-                        valid = service.validate_token(token)
-                        assert isinstance(valid, (bool, dict, type(None)))
+                if hasattr(service, "validate_token") and isinstance(token, str):
+                    valid = service.validate_token(token)
+                    assert isinstance(valid, (bool, dict, type(None)))
 
-                if hasattr(service, "verify_token"):
-                    if isinstance(token, str):
-                        verified = service.verify_token(token)
-                        assert verified is not None or verified is None
+                if hasattr(service, "verify_token") and isinstance(token, str):
+                    verified = service.verify_token(token)
+                    assert verified is not None or verified is None
 
                 # Test token operations
-                if hasattr(service, "refresh_token"):
-                    if scenario["token_type"] == "refresh_token":
-                        refreshed = service.refresh_token(token if isinstance(token, str) else "test_token")
-                        assert refreshed is not None or refreshed is None
+                if hasattr(service, "refresh_token") and scenario["token_type"] == "refresh_token":
+                    refreshed = service.refresh_token(token if isinstance(token, str) else "test_token")
+                    assert refreshed is not None or refreshed is None
 
                 if hasattr(service, "revoke_token"):
                     service.revoke_token(token if isinstance(token, str) else "test_token")
@@ -409,15 +405,13 @@ def test_auth_service_edge_cases_and_security():
                 if hasattr(service, "authenticate"):
                     service.authenticate(scenario)
 
-                if hasattr(service, "validate_token"):
-                    if "token" in scenario:
-                        service.validate_token(scenario["token"])
+                if hasattr(service, "validate_token") and "token" in scenario:
+                    service.validate_token(scenario["token"])
 
                 # Test rate limiting
-                if hasattr(service, "check_rate_limit"):
-                    if "attempts" in scenario:
-                        for _ in range(min(scenario["attempts"], 10)):  # Limit iterations
-                            service.check_rate_limit(scenario["username"])
+                if hasattr(service, "check_rate_limit") and "attempts" in scenario:
+                    for _ in range(min(scenario["attempts"], 10)):  # Limit iterations
+                        service.check_rate_limit(scenario["username"])
 
                 # Test security validations
                 if hasattr(service, "security_check"):

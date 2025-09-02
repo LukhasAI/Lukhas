@@ -333,7 +333,7 @@ class TestConsciousnessActorCritic:
         actor_critic = ConsciousnessActorCritic(state_dim=20, action_dim=11, hidden_dim=128, shared_backbone=True)
 
         assert isinstance(actor_critic, torch.nn.Module)
-        assert actor_critic.shared_backbone == True
+        assert actor_critic.shared_backbone is True
 
     def test_actor_critic_forward(self):
         """Test actor-critic forward pass"""

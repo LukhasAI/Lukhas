@@ -93,7 +93,7 @@ class HighEntropyPassword:
     def to_secure_string(self) -> str:
         """Convert to secure string representation"""
         # Combine all elements into a high-entropy string
-        combined: List[str] = []
+        combined: list[str] = []
 
         if ModalityType.TEXT in self.elements:
             combined.append(self.elements[ModalityType.TEXT])
@@ -128,7 +128,7 @@ class MultiModalLanguageBuilder:
         self.concepts: dict[str, UniversalConcept] = {}
 
         # Entropy tracking
-        self.entropy_sources: Dict[ModalityType, int] = {
+        self.entropy_sources: dict[ModalityType, int] = {
             ModalityType.TEXT: 94,  # ASCII printable
             ModalityType.EMOJI: 3664,  # Unicode emojis
             ModalityType.IMAGE: 2**24,  # RGB color space
@@ -140,7 +140,7 @@ class MultiModalLanguageBuilder:
         }
 
         # Feature extractors
-        self.feature_extractors: Dict[ModalityType, Callable[[Any], Awaitable[ModalityFeatures]]] = {
+        self.feature_extractors: dict[ModalityType, Callable[[Any], Awaitable[ModalityFeatures]]] = {
             ModalityType.TEXT: self._extract_text_features,
             ModalityType.EMOJI: self._extract_emoji_features,
             ModalityType.IMAGE: self._extract_image_features,
@@ -155,7 +155,7 @@ class MultiModalLanguageBuilder:
         """Build a universal concept from multi-modal inputs"""
 
         # Extract features from each modality
-        modality_features: List[ModalityFeatures] = []
+        modality_features: list[ModalityFeatures] = []
         total_entropy = 0.0
 
         for modality, data in inputs.items():
@@ -209,7 +209,7 @@ class MultiModalLanguageBuilder:
                 ModalityType.COLOR,
             ]
 
-        password_elements: Dict[ModalityType, Any] = {}
+        password_elements: dict[ModalityType, Any] = {}
         current_entropy = 0.0
 
         # Generate text component
@@ -240,7 +240,7 @@ class MultiModalLanguageBuilder:
             current_entropy += len(colors) * math.log2(16777216)
 
         # Generate visual hash
-        visual_elements: List[str] = []
+        visual_elements: list[str] = []
         if ModalityType.EMOJI in password_elements:
             visual_elements.extend(password_elements[ModalityType.EMOJI])
         if ModalityType.COLOR in password_elements:
@@ -275,7 +275,7 @@ class MultiModalLanguageBuilder:
     async def _extract_text_features(self, text: str) -> ModalityFeatures:
         """Extract features from text"""
         # Character frequency analysis
-        char_freq: Dict[str, int] = {}
+        char_freq: dict[str, int] = {}
         for char in text:
             char_freq[char] = char_freq.get(char, 0) + 1
 
@@ -488,7 +488,7 @@ class MultiModalLanguageBuilder:
             return np.zeros(128)
 
         # Concatenate all features
-        all_features: List[float] = []
+        all_features: list[float] = []
         for mf in modality_features:
             all_features.extend(mf.features)
 
@@ -515,7 +515,7 @@ class MultiModalLanguageBuilder:
         consonants = "bcdfghjklmnpqrstvwxyz"
         vowels = "aeiou"
 
-        text: List[str] = []
+        text: list[str] = []
         for i in range(length):
             if i % 2 == 0:
                 text.append(random.choice(consonants).upper() if i == 0 else random.choice(consonants))
@@ -569,7 +569,7 @@ class MultiModalLanguageBuilder:
             "spread",
         ]
 
-        gestures: List[Dict[str, Any]] = []
+        gestures: list[dict[str, Any]] = []
         for _ in range(count):
             gestures.append(
                 {
@@ -587,7 +587,7 @@ class MultiModalLanguageBuilder:
 
         # Use color harmony rules for memorability
         base_hue = random.randint(0, 360)
-        colors: List[Tuple[int, int, int]] = []
+        colors: list[tuple[int, int, int]] = []
 
         for i in range(count):
             # Complementary, triadic, or analogous colors
@@ -600,7 +600,7 @@ class MultiModalLanguageBuilder:
 
         return colors
 
-    def _hsv_to_rgb(self, h: float, s: float, v: float) -> Tuple[int, int, int]:
+    def _hsv_to_rgb(self, h: float, s: float, v: float) -> tuple[int, int, int]:
         """Convert HSV to RGB color"""
         c = v * s
         x = c * (1 - abs((h / 60) % 2 - 1))

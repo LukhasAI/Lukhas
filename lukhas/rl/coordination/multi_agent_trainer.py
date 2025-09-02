@@ -77,12 +77,12 @@ class ConsciousnessModuleAgent:
     # Training state
     episodes_trained: int = 0
     total_reward: float = 0.0
-    recent_rewards: List[float] = field(default_factory=list)
-    consciousness_metrics: Dict[str, float] = field(default_factory=dict)
+    recent_rewards: list[float] = field(default_factory=list)
+    consciousness_metrics: dict[str, float] = field(default_factory=dict)
 
     # Performance tracking
-    policy_loss_history: List[float] = field(default_factory=list)
-    value_loss_history: List[float] = field(default_factory=list)
+    policy_loss_history: list[float] = field(default_factory=list)
+    value_loss_history: list[float] = field(default_factory=list)
     consciousness_growth: float = 0.0
 
 
@@ -100,11 +100,11 @@ class MultiAgentConsciousnessTrainer:
 
     def __init__(
         self,
-        consciousness_modules: Dict[str, ConsciousnessModule],
+        consciousness_modules: dict[str, ConsciousnessModule],
         consciousness_environment: ConsciousnessEnvironment,
-        guardian_system: Optional[GuardianSystem] = None,
-        config: Optional[TrainingConfiguration] = None,
-        device: Optional[torch.device] = None,
+        guardian_system: GuardianSystem | None = None,
+        config: TrainingConfiguration | None = None,
+        device: torch.device | None = None,
     ):
         self.consciousness_modules = consciousness_modules
         self.environment = consciousness_environment
@@ -113,7 +113,7 @@ class MultiAgentConsciousnessTrainer:
         self.device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # Initialize module agents
-        self.module_agents: Dict[str, ConsciousnessModuleAgent] = {}
+        self.module_agents: dict[str, ConsciousnessModuleAgent] = {}
         self._initialize_module_agents()
 
         # Central coordination
@@ -203,8 +203,8 @@ class MultiAgentConsciousnessTrainer:
 
     @instrument("DECISION", label="rl:multi_agent_train", capability="rl:training")
     async def train(
-        self, episodes: int, save_dir: Optional[Path] = None, evaluation_callback: Optional[callable] = None
-    ) -> Dict[str, Any]:
+        self, episodes: int, save_dir: Path | None = None, evaluation_callback: callable | None = None
+    ) -> dict[str, Any]:
         """
         Train consciousness RL agents across all modules.
 
@@ -294,7 +294,7 @@ class MultiAgentConsciousnessTrainer:
 
         return training_results
 
-    async def _run_consciousness_episode(self) -> Dict[str, Any]:
+    async def _run_consciousness_episode(self) -> dict[str, Any]:
         """Run single consciousness episode with multi-agent coordination"""
 
         # Reset environment
@@ -372,7 +372,7 @@ class MultiAgentConsciousnessTrainer:
 
     async def _coordinate_module_actions(
         self, consciousness_state: torch.Tensor
-    ) -> Tuple[torch.Tensor, Dict[str, torch.Tensor], torch.Tensor]:
+    ) -> tuple[torch.Tensor, dict[str, torch.Tensor], torch.Tensor]:
         """Coordinate actions across consciousness modules"""
 
         module_actions = {}
@@ -397,7 +397,7 @@ class MultiAgentConsciousnessTrainer:
             coordination_weights = coordination_weights / coordination_weights.sum()
 
         # Coordinate actions using weighted combination
-        coordinated_action = torch.zeros_like(list(module_actions.values())[0])
+        coordinated_action = torch.zeros_like(next(iter(module_actions.values())))
 
         for i, (module_name, action) in enumerate(module_actions.items()):
             weight = coordination_weights[i]
@@ -435,7 +435,7 @@ class MultiAgentConsciousnessTrainer:
 
         return raw_action
 
-    async def _update_module_agents(self, episode_results: Dict[str, Any]) -> None:
+    async def _update_module_agents(self, episode_results: dict[str, Any]) -> None:
         """Update individual module agents based on episode results"""
 
         experiences = episode_results["experiences"]
@@ -478,7 +478,7 @@ class MultiAgentConsciousnessTrainer:
             if len(agent.replay_buffer) >= self.config.batch_size:
                 await self._train_module_agent(agent, episode_results)
 
-    async def _train_module_agent(self, agent: ConsciousnessModuleAgent, episode_results: Dict[str, Any]) -> None:
+    async def _train_module_agent(self, agent: ConsciousnessModuleAgent, episode_results: dict[str, Any]) -> None:
         """Train individual consciousness module agent"""
 
         # Sample experiences from module's replay buffer
@@ -554,7 +554,7 @@ class MultiAgentConsciousnessTrainer:
         )
 
     def _calculate_consciousness_loss(
-        self, actor_critic_outputs: Dict[str, torch.Tensor], experiences: List
+        self, actor_critic_outputs: dict[str, torch.Tensor], experiences: list
     ) -> torch.Tensor:
         """Calculate consciousness-specific loss components"""
 
@@ -582,7 +582,7 @@ class MultiAgentConsciousnessTrainer:
 
         return consciousness_loss
 
-    async def _update_coordination_network(self, episode_results: Dict[str, Any]) -> None:
+    async def _update_coordination_network(self, episode_results: dict[str, Any]) -> None:
         """Update central coordination network based on episode results"""
 
         experiences = episode_results["experiences"]
@@ -635,7 +635,7 @@ class MultiAgentConsciousnessTrainer:
 
             logger.debug("🤝 Updated coordination network: loss=%.4f", coordination_loss)
 
-    def _update_global_metrics(self, episode_results: Dict[str, Any]) -> None:
+    def _update_global_metrics(self, episode_results: dict[str, Any]) -> None:
         """Update global training metrics"""
 
         self.global_metrics["episode_rewards"].append(episode_results["total_reward"])
@@ -649,7 +649,7 @@ class MultiAgentConsciousnessTrainer:
             avg_ethics = np.mean([metrics.get("ethical_alignment", 0.95) for metrics in consciousness_metrics])
             self.global_metrics["ethical_compliance"].append(avg_ethics)
 
-    async def _evaluate_consciousness_performance(self) -> Dict[str, float]:
+    async def _evaluate_consciousness_performance(self) -> dict[str, float]:
         """Evaluate current consciousness performance"""
 
         # Run evaluation episodes without training
@@ -789,7 +789,7 @@ class MultiAgentConsciousnessTrainer:
 
         logger.info("💾 Saved training state to %s", save_path)
 
-    async def _save_final_results(self, save_dir: Path, training_results: Dict[str, Any]) -> None:
+    async def _save_final_results(self, save_dir: Path, training_results: dict[str, Any]) -> None:
         """Save final training results"""
 
         results_path = save_dir / "final_results"
@@ -806,7 +806,7 @@ class MultiAgentConsciousnessTrainer:
 
         logger.info("📊 Saved final results to %s", results_path)
 
-    def _get_final_consciousness_metrics(self) -> Dict[str, float]:
+    def _get_final_consciousness_metrics(self) -> dict[str, float]:
         """Get final consciousness metrics summary"""
 
         metrics = {}
@@ -825,7 +825,7 @@ class MultiAgentConsciousnessTrainer:
 
         return metrics
 
-    def _get_module_performance_summary(self) -> Dict[str, Dict[str, float]]:
+    def _get_module_performance_summary(self) -> dict[str, dict[str, float]]:
         """Get performance summary for all modules"""
 
         summary = {}
@@ -841,7 +841,7 @@ class MultiAgentConsciousnessTrainer:
 
         return summary
 
-    def _get_coordination_metrics(self) -> Dict[str, float]:
+    def _get_coordination_metrics(self) -> dict[str, float]:
         """Get coordination metrics summary"""
 
         # Calculate coordination effectiveness
@@ -853,7 +853,7 @@ class MultiAgentConsciousnessTrainer:
 
         return coordination_metrics
 
-    def get_training_progress(self) -> Dict[str, Any]:
+    def get_training_progress(self) -> dict[str, Any]:
         """Get current training progress"""
 
         return {

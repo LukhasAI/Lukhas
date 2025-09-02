@@ -532,13 +532,16 @@ class LUKHASAuthIntegrationSystem:
             target_modules.append(ModuleType.BIO)
 
         # Include Guardian for security events
-        if event_type in [
-            "constitutional_violation",
-            "bias_detection",
-            "login_failure",
-        ]:
-            if ModuleType.GUARDIAN not in target_modules:
-                target_modules.append(ModuleType.GUARDIAN)
+        if (
+            event_type
+            in [
+                "constitutional_violation",
+                "bias_detection",
+                "login_failure",
+            ]
+            and ModuleType.GUARDIAN not in target_modules
+        ):
+            target_modules.append(ModuleType.GUARDIAN)
 
         # Remove duplicates while preserving order
         seen = set()

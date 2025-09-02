@@ -6,12 +6,18 @@ Resolves conflicts and manages policy registration for the Golden Trio.
 import logging
 from typing import Any
 
+
 # from ethics.core import get_shared_ethics_engine  # TODO: Fix ethics integration
 def get_shared_ethics_engine():
     """Mock ethics engine for now"""
+
     class MockEthicsEngine:
-        def validate(self, data): return {"approved": True, "reason": "mock"}
+        def validate(self, data):
+            return {"approved": True, "reason": "mock"}
+
     return MockEthicsEngine()
+
+
 from symbolic.core import SymbolicVocabulary, get_symbolic_vocabulary
 
 logger = logging.getLogger(__name__)

@@ -3,7 +3,7 @@
 Consolidated products organized by functional domain:
 
 - intelligence/   - Analytics, monitoring, and tracking systems
-- communication/  - Messaging, attention, and social systems  
+- communication/  - Messaging, attention, and social systems
 - content/        - Content generation and creativity engines
 - infrastructure/ - Core systems, legacy integration, and cloud platforms
 - security/       - Security, privacy, and financial systems
@@ -16,24 +16,16 @@ All lambda_core/ and lambda_products/ layers have been eliminated for simplicity
 """
 
 # Product category imports for easier access
-from . import intelligence
-from . import communication  
-from . import content
-from . import infrastructure
-from . import security
-from . import experience
-from . import enterprise
-from . import automation
-from . import shared
+from . import automation, communication, content, enterprise, experience, infrastructure, intelligence, security, shared
 
 __all__ = [
-    'intelligence',
-    'communication', 
-    'content',
-    'infrastructure',
-    'security',
-    'experience',
-    'enterprise',
-    'automation',
-    'shared'
+    "intelligence",
+    "communication",
+    "content",
+    "infrastructure",
+    "security",
+    "experience",
+    "enterprise",
+    "automation",
+    "shared",
 ]

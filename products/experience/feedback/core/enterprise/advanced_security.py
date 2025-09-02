@@ -18,10 +18,10 @@ from typing import Any, Optional
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-
-from core.interfaces import CoreInterface
 from feedback.user_feedback_system import FeedbackItem
+
 from candidate.core.common import get_logger
+from core.interfaces import CoreInterface
 
 logger = get_logger(__name__)
 

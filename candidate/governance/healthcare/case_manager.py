@@ -25,8 +25,9 @@ except ImportError:
     logger = logging.getLogger(__name__)
     logger.warning("Authentication system not available, using development fallback")
 
-from consent.service import ConsentService
 from enterprise.compliance.data_protection_service import DataProtectionService
+
+from consent.service import ConsentService
 
 logger = logging.getLogger(__name__)
 
