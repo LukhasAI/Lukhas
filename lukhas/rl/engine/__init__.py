@@ -6,31 +6,30 @@ Core RL algorithm implementations for consciousness-aware learning.
 """
 
 from .policy_networks import (
+    ConsciousnessPolicy, 
+    ConsciousnessValueNetwork, 
     ConsciousnessActorCritic,
     ConsciousnessAttention,
-    ConsciousnessPolicy,
-    ConsciousnessValueNetwork,
-    EthicalConstraintModule,
     ReflectionModule,
+    EthicalConstraintModule
 )
 
-# Consciousness environment is in environments module
-# from .consciousness_environment import (
-#     ConsciousnessEnvironment,
-#     ConsciousnessState,
-#     ConsciousnessAction,
-#     ConsciousnessActionType
-# )
+from .consciousness_environment import (
+    ConsciousnessEnvironment,
+    ConsciousnessState,
+    ConsciousnessAction,
+    ConsciousnessActionType
+)
 
 __all__ = [
     "ConsciousnessPolicy",
-    "ConsciousnessValueNetwork",
+    "ConsciousnessValueNetwork", 
     "ConsciousnessActorCritic",
     "ConsciousnessAttention",
     "ReflectionModule",
     "EthicalConstraintModule",
     "ConsciousnessEnvironment",
-    "ConsciousnessState",
+    "ConsciousnessState", 
     "ConsciousnessAction",
-    "ConsciousnessActionType",
+    "ConsciousnessActionType"
 ]

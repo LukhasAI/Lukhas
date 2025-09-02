@@ -45,8 +45,12 @@ class DirectAIRouter:
             python_path (Optional[str]): Path to the Python interpreter.
                                          Defaults to DEFAULT_PYTHON_PATH if not provided or found in ENV.
         """
-        self.router_path = os.getenv("LUKHAS_AI_ROUTER_PATH", router_path or DEFAULT_ROUTER_PATH)
-        self.python_path = os.getenv("LUKHAS_PYTHON_PATH", python_path or DEFAULT_PYTHON_PATH)
+        self.router_path = os.getenv(
+            "LUKHAS_AI_ROUTER_PATH", router_path or DEFAULT_ROUTER_PATH
+        )
+        self.python_path = os.getenv(
+            "LUKHAS_PYTHON_PATH", python_path or DEFAULT_PYTHON_PATH
+        )
         logger.info(
             f"ΛTRACE: DirectAIRouter initialized. Router Path: '{self.router_path}', Python Path: '{self.python_path}'."
         )
@@ -55,7 +59,9 @@ class DirectAIRouter:
                 f"ΛTRACE: Using default AI router path: '{DEFAULT_ROUTER_PATH}'. Consider configuring LUKHAS_AI_ROUTER_PATH."
             )
         if not os.path.isdir(self.router_path):
-            logger.error(f"ΛTRACE: AI Router path does not exist or is not a directory: {self.router_path}")
+            logger.error(
+                f"ΛTRACE: AI Router path does not exist or is not a directory: {self.router_path}"
+            )
             # Depending on strictness, could raise an error here.
 
     # Human-readable comment: Routes a request to the external AI router.
@@ -116,7 +122,9 @@ except Exception as e:
     # Print a generic error message including the type of exception
     print(f"Router Error: An exception occurred in the router script: {{type(e).__name__}} - {{e}}")
 """
-        logger.debug(f"ΛTRACE: Executing dynamic Python script for AI routing:\n---\n{python_script[:300]}...\n---")
+        logger.debug(
+            f"ΛTRACE: Executing dynamic Python script for AI routing:\n---\n{python_script[:300]}...\n---"
+        )
 
         try:
             process = subprocess.run(
@@ -161,7 +169,9 @@ except Exception as e:
         logger.info("ΛTRACE: Checking AI router availability.")
         try:
             # Using a very simple, common task for availability check
-            test_response = self.route_request("Health check ping", "system_utility_health_check")
+            test_response = self.route_request(
+                "Health check ping", "system_utility_health_check"
+            )
             # A more robust check would be to expect a specific keyword or structure in the response.
             # For now, check if the response doesn't contain common error indicators.
             if (
@@ -170,7 +180,9 @@ except Exception as e:
                 and "timed out" not in test_response
                 and "not found" not in test_response
             ):
-                logger.info(f"ΛTRACE: AI router appears available. Test response: '{test_response[:100]}...'")
+                logger.info(
+                    f"ΛTRACE: AI router appears available. Test response: '{test_response[:100]}...'"
+                )
                 return True
             else:
                 logger.warning(
@@ -205,7 +217,6 @@ def route_ai_request(task: str, task_type: str = "general", debug: bool = False)
     logger.info("ΛTRACE: Global route_ai_request() called.")
     return _direct_router_instance.route_request(task, task_type, debug)
 
-
 # Human-readable comment: Global function to check AI router availability.
 
 
@@ -225,7 +236,9 @@ if __name__ == "__main__":
     # up externally
     if not logging.getLogger("ΛTRACE").handlers:
         main_console_handler = logging.StreamHandler(sys.stdout)  # Changed to sys
-        main_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - ΛTRACE: %(message)s")
+        main_formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - ΛTRACE: %(message)s"
+        )
         main_console_handler.setFormatter(main_formatter)
         logging.getLogger("ΛTRACE").addHandler(main_console_handler)
         logging.getLogger("ΛTRACE").setLevel(logging.INFO)
@@ -239,29 +252,43 @@ if __name__ == "__main__":
     logger.info(f"🔍 Router Available (via global func): {availability}")
 
     if availability:
-        response = route_ai_request("What is the capital of France?", "general_knowledge_query")
-        logger.info(f"📞 Router Response (via global func for 'Capital of France'): {response[:200]}...")
+        response = route_ai_request(
+            "What is the capital of France?", "general_knowledge_query"
+        )
+        logger.info(
+            f"📞 Router Response (via global func for 'Capital of France'): {response[:200]}..."
+        )
 
         response_debug = route_ai_request(
             "Explain entanglement-like correlation briefly.",
             "scientific_explanation",
             debug=True,
         )
-        logger.info(f"📞 Router Response (debug=True for 'Quantum Entanglement'): {response_debug[:200]}...")
+        logger.info(
+            f"📞 Router Response (debug=True for 'Quantum Entanglement'): {response_debug[:200]}..."
+        )
     else:
-        logger.warning("⚠️ AI Router not available, skipping further request tests using global functions.")
+        logger.warning(
+            "⚠️ AI Router not available, skipping further request tests using global functions."
+        )
 
     # Test specific instance if needed, e.g., with custom paths (if they were settable post-init)
     # For this example, we'll re-test the default instance for clarity.
     logger.info("\n--- Re-testing default instance methods ---")
-    default_router = DirectAIRouter()  # Creates another instance, or use _direct_router_instance
+    default_router = (
+        DirectAIRouter()
+    )  # Creates another instance, or use _direct_router_instance
 
     available_instance = default_router.is_available()
     logger.info(f"🔍 Router Available (instance method): {available_instance}")
 
     if available_instance:
-        response_instance = default_router.route_request("Hello! How are you today?", "greeting")
-        logger.info(f"📞 Router Response (instance method for 'Hello'): {response_instance[:200]}...")
+        response_instance = default_router.route_request(
+            "Hello! How are you today?", "greeting"
+        )
+        logger.info(
+            f"📞 Router Response (instance method for 'Hello'): {response_instance[:200]}..."
+        )
     else:
         logger.warning("⚠️ AI Router (tested via new instance) not available.")
 

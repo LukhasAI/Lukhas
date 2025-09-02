@@ -653,7 +653,7 @@ class AuthCrossModuleIntegrator:
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 "identity_integration": True,
-                "lukhas_id": auth_context.get("user_id"),
+                "lambda_id": auth_context.get("user_id"),
                 "identity_permissions": auth_context.get("scopes", []),
                 "identity_tier": auth_context.get("tier_level", "T1"),
                 "symbolic_self": auth_context.get("symbolic_identity"),

@@ -116,10 +116,10 @@ class AuthGlyphRegistry:
         # Identity GLYPHs
         self.register_glyph(
             AuthGlyph(
-                id="lukhas_id_core",
+                id="lambda_id_core",
                 category=AuthGlyphCategory.IDENTITY,
                 symbol="Λ",
-                concept="lukhas_identity",
+                concept="lambda_identity",
                 description="Core ΛiD identity representation",
                 metadata={"trinity_aspect": "identity", "core": True},
             )

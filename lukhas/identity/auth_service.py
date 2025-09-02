@@ -112,11 +112,10 @@ if "AuthenticationServer" not in globals():
 
 @dataclass
 class AuthResult:
-    """Authentication result container with LUKHAS ΛiD support"""
+    """Authentication result container"""
 
     success: bool
-    user_id: Optional[str] = None  # Database ID (UUID)
-    lid: Optional[str] = None      # LUKHAS ΛiD (canonical Λ = LUKHAS identifier)
+    user_id: Optional[str] = None
     session_token: Optional[str] = None
     permissions: Optional[list[str]] = None
     expires_at: Optional[float] = None
@@ -126,21 +125,14 @@ class AuthResult:
     def __post_init__(self):
         if self.permissions is None:
             self.permissions = []
-        
-        # Ensure backward compatibility - sync user_id and lid
-        if self.lid and not self.user_id:
-            self.user_id = self.lid  # For legacy systems expecting user_id
-        elif self.user_id and not self.lid:
-            self.lid = self.user_id  # Generate lid from user_id if missing
 
 
 @dataclass
 class UserProfile:
-    """User profile container with LUKHAS ΛiD support"""
+    """User profile container"""
 
-    user_id: str  # Database ID (UUID) - required for backward compatibility
+    user_id: str
     username: str
-    lid: Optional[str] = None  # LUKHAS ΛiD (canonical Λ = LUKHAS identifier)
     email: Optional[str] = None
     created_at: Optional[float] = None
     last_login: Optional[float] = None
@@ -154,10 +146,6 @@ class UserProfile:
             self.metadata = {}
         if self.created_at is None:
             self.created_at = time.time()
-        
-        # Ensure backward compatibility - sync user_id and lid
-        if not self.lid:
-            self.lid = self.user_id  # Generate lid from user_id if missing
 
 
 class AuthenticationService:

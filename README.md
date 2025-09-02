@@ -37,7 +37,7 @@ The LUKHAS AI Agent Army operates through a centralized coordination system for 
 ### **⚡ Active Mission: Mypy Error Resolution**
 **Current Status**: 15 specialized agents deployed across 4 priority phases
 - **Total Errors**: 150+ identified
-- **Critical Priority**: Tasks 1-3 (WebAuthn, LUKHAS ΛiD, Core Systems)
+- **Critical Priority**: Tasks 1-3 (WebAuthn, Lambda ID, Core Systems)
 - **Progress Tracking**: `python track_mypy_progress.py`
 - **Success Target**: 80% error reduction with zero critical issues
 
@@ -45,7 +45,7 @@ The LUKHAS AI Agent Army operates through a centralized coordination system for 
 | Agent | Specialization | Current Task | Status |
 |-------|---------------|--------------|--------|
 | **Agent Jules** | WebAuthn Security | Task 1 | 🔄 Active |
-| **Agent Consciousness** | LUKHAS ΛiD System | Task 2 | 🔄 Active |
+| **Agent Consciousness** | Lambda ID System | Task 2 | 🔄 Active |
 | **Agent Core** | Distributed Systems | Task 3 | 🔄 Active |
 | **+12 Specialized Agents** | Various Systems | Tasks 4-15 | ⏳ Ready |
 

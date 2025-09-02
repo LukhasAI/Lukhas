@@ -1,39 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="6" time="0.228" timestamp="2025-09-02T10:02:54.537274+01:00" hostname="g.local"><testcase classname="tests.test_lukhas_id_naming_standardization" name="test_lukhas_id_generator" time="0.056"><failure message="ImportWarning: Could not import lukhas.governance.identity: cannot import name 'auth' from partially initialized module 'lukhas.governance.identity' (most likely due to a circular import) (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)">governance/identity/__init__.py:13: in &lt;module&gt;
-    from lukhas.governance.identity import (
-E   ImportError: cannot import name 'auth' from partially initialized module 'lukhas.governance.identity' (most likely due to a circular import) (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)
-
-During handling of the above exception, another exception occurred:
-tests/test_lukhas_id_naming_standardization.py:26: in test_lukhas_id_generator
-    from candidate.governance.identity.core.id_service.lukhas_id_generator import (
-candidate/governance/identity/__init__.py:24: in &lt;module&gt;
-    from .interface import IdentityClient
-candidate/governance/identity/interface.py:51: in &lt;module&gt;
-    from governance.identity.core.sent.consent_manager import (
-governance/__init__.py:13: in &lt;module&gt;
-    from lukhas.governance import (
-lukhas/governance/identity/__init__.py:24: in &lt;module&gt;
-    from .interface import IdentityClient
-lukhas/governance/identity/interface.py:45: in &lt;module&gt;
-    from governance.identity.core.sent.consent_manager import (
-governance/identity/__init__.py:31: in &lt;module&gt;
-    warnings.warn(
-E   ImportWarning: Could not import lukhas.governance.identity: cannot import name 'auth' from partially initialized module 'lukhas.governance.identity' (most likely due to a circular import) (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)</failure></testcase><testcase classname="tests.test_lukhas_id_naming_standardization" name="test_legacy_compatibility_with_deprecation_warnings" time="0.001" /><testcase classname="tests.test_lukhas_id_naming_standardization" name="test_universal_id_normalization" time="0.032" /><testcase classname="tests.test_lukhas_id_naming_standardization" name="test_authentication_flow_standardization" time="0.002"><failure message="ImportWarning: Could not import lukhas.governance.identity: cannot import name 'auth' from partially initialized module 'lukhas.governance.identity' (most likely due to a circular import) (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)">governance/identity/__init__.py:13: in &lt;module&gt;
-    from lukhas.governance.identity import (
-E   ImportError: cannot import name 'auth' from partially initialized module 'lukhas.governance.identity' (most likely due to a circular import) (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)
-
-During handling of the above exception, another exception occurred:
-tests/test_lukhas_id_naming_standardization.py:122: in test_authentication_flow_standardization
-    from candidate.governance.identity.auth_integrations.wallet_bridge import create_wallet_bridge
-candidate/governance/identity/__init__.py:24: in &lt;module&gt;
-    from .interface import IdentityClient
-candidate/governance/identity/interface.py:51: in &lt;module&gt;
-    from governance.identity.core.sent.consent_manager import (
-governance/__init__.py:13: in &lt;module&gt;
-    from lukhas.governance import (
-lukhas/governance/identity/__init__.py:24: in &lt;module&gt;
-    from .interface import IdentityClient
-lukhas/governance/identity/interface.py:45: in &lt;module&gt;
-    from governance.identity.core.sent.consent_manager import (
-governance/identity/__init__.py:31: in &lt;module&gt;
-    warnings.warn(
-E   ImportWarning: Could not import lukhas.governance.identity: cannot import name 'auth' from partially initialized module 'lukhas.governance.identity' (most likely due to a circular import) (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/identity/__init__.py)</failure></testcase><testcase classname="tests.test_lukhas_id_naming_standardization" name="test_no_circular_imports" time="0.000" /><testcase classname="tests.test_lukhas_id_naming_standardization" name="test_comprehensive_migration_scenario" time="0.000" /></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="4" tests="9" time="0.793" timestamp="2025-09-02T07:57:39.091166+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.aka_qualia.test_c5_observability" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/aka_qualia/test_c5_observability.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/candidate/aka_qualia/test_c5_observability.py:12: in &lt;module&gt;
+    from memory_noop import NoopMemory
+E   ModuleNotFoundError: No module named 'memory_noop'</error></testcase><testcase classname="" name="tests.candidate.aka_qualia.test_router_contract" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/aka_qualia/test_router_contract.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/candidate/aka_qualia/test_router_contract.py:18: in &lt;module&gt;
+    from candidate.aka_qualia.models import AgencyFeel, PhenomenalScene, ProtoQualia, RiskGauge, RiskSeverity, TemporalFeel
+E   ImportError: cannot import name 'RiskGauge' from 'candidate.aka_qualia.models' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/models.py)</error></testcase><testcase classname="tests.candidate.bridge.test_orchestration_system" name="TestResult" time="0.000"><error message="collection failure">.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+    result: TResult | None = func()
+.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: tests/candidate/bridge/test_orchestration_system.py)</error></testcase><testcase classname="" name="tests.matriz.test_orchestrator_schema" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/matriz/test_orchestrator_schema.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/matriz/test_orchestrator_schema.py:7: in &lt;module&gt;
+    from matriz.core.node_interface import CognitiveNode
+E   ModuleNotFoundError: No module named 'matriz.core'</error></testcase><testcase classname="" name="tests.phase2.test_orchestration_integration" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_orchestration_integration.py', 43, "Skipped: Phase 2 modules not available: No module named 'uvloop'")</skipped></testcase><testcase classname="" name="tests.phase2.test_performance_benchmarks" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_performance_benchmarks.py', 49, "Skipped: Performance testing modules not available: No module named 'uvloop'")</skipped></testcase><testcase classname="" name="tests.phase2.test_security_compliance" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_security_compliance.py', 43, "Skipped: Security modules not available: cannot import name 'ComplianceEngine' from 'candidate.compliance.ai_compliance' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/compliance/ai_compliance.py)")</skipped></testcase><testcase classname="" name="tests.phase2.test_tool_execution_safety" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_tool_execution_safety.py', 34, "Skipped: Tool execution modules not available: No module named 'candidate.tools.code_executor'")</skipped></testcase><testcase classname="" name="tests.rl.test_consciousness_rl" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/rl/test_consciousness_rl.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/rl/test_consciousness_rl.py:12: in &lt;module&gt;
+    import torch
+E   ModuleNotFoundError: No module named 'torch'</error></testcase></testsuite></testsuites>

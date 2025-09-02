@@ -42,7 +42,9 @@ class EmotionAnalysisRequest(BaseModel):
         description="Content to analyze for emotional content",
         min_length=5,
     )
-    analysis_depth: str = Field("standard", description="Analysis depth (basic, standard, deep)")
+    analysis_depth: str = Field(
+        "standard", description="Analysis depth (basic, standard, deep)"
+    )
     return_vectors: bool = Field(False, description="Return emotion vectors")
 
 
@@ -62,7 +64,9 @@ class EmotionNeighborhoodRequest(BaseModel):
         example="enlightenment",
     )
     threshold: float = Field(0.6, description="Similarity threshold", ge=0.0, le=1.0)
-    max_neighbors: int = Field(10, description="Maximum neighbors to return", ge=1, le=50)
+    max_neighbors: int = Field(
+        10, description="Maximum neighbors to return", ge=1, le=50
+    )
 
 
 class APIResponse(BaseModel):
@@ -85,7 +89,9 @@ if MemoryFoldSystem:
 @router.get("/landscape", response_model=APIResponse)
 async def get_emotional_landscape(
     user_id: str = Query("lukhas_admin", description="User identifier"),
-    include_vectors: bool = Query(False, description="Include emotion vectors in response"),
+    include_vectors: bool = Query(
+        False, description="Include emotion vectors in response"
+    ),
     include_statistics: bool = Query(True, description="Include emotion statistics"),
 ):
     """Get comprehensive emotional landscape mapping"""
@@ -191,7 +197,9 @@ async def analyze_emotion(request: EmotionAnalysisRequest):
         if request.return_vectors and dominant_emotion:
             emotion_name = dominant_emotion[0]
             if emotion_name in memory_system.emotion_vectors:
-                analysis_result["emotion_vector"] = memory_system.emotion_vectors[emotion_name]
+                analysis_result["emotion_vector"] = memory_system.emotion_vectors[
+                    emotion_name
+                ]
 
         return APIResponse(
             status="success",
@@ -219,7 +227,8 @@ async def create_emotion_clusters(request: EmotionClusterRequest):
             cluster_analysis[cluster_name] = {
                 "emotion_count": len(emotions),
                 "emotions": emotions,
-                "cluster_strength": len(emotions) / sum(len(e) for e in clusters.values()),
+                "cluster_strength": len(emotions)
+                / sum(len(e) for e in clusters.values()),
                 "representative_emotion": emotions[0] if emotions else None,
             }
 
@@ -250,7 +259,9 @@ async def get_emotion_neighborhood(
         raise HTTPException(status_code=503, detail="Emotion system not available")
 
     try:
-        neighborhood = memory_system.get_emotional_neighborhood(target_emotion=emotion, threshold=threshold)
+        neighborhood = memory_system.get_emotional_neighborhood(
+            target_emotion=emotion, threshold=threshold
+        )
 
         # Limit results if requested
         if len(neighborhood) > max_neighbors:
@@ -261,9 +272,11 @@ async def get_emotion_neighborhood(
             "target_emotion": emotion,
             "neighbor_count": len(neighborhood),
             "threshold_used": threshold,
-            "neighborhood_density": (
-                len(neighborhood) / len(memory_system.emotion_vectors) if memory_system.emotion_vectors else 0
-            ),
+                "neighborhood_density": (
+                    len(neighborhood) / len(memory_system.emotion_vectors)
+                    if memory_system.emotion_vectors
+                    else 0
+                ),
         }
 
         return APIResponse(
@@ -284,7 +297,9 @@ async def get_emotion_neighborhood(
 @router.get("/vectors", response_model=APIResponse)
 async def get_emotion_vectors(
     include_coordinates: bool = Query(False, description="Include vector coordinates"),
-    emotion_filter: Optional[str] = Query(None, description="Filter by specific emotion"),
+    emotion_filter: Optional[str] = Query(
+        None, description="Filter by specific emotion"
+    ),
 ):
     """Get emotion vector space information"""
     if not memory_system:
@@ -295,7 +310,9 @@ async def get_emotion_vectors(
 
         # Filter if requested
         if emotion_filter:
-            vectors = {k: v for k, v in vectors.items() if emotion_filter.lower() in k.lower()}
+            vectors = {
+                k: v for k, v in vectors.items() if emotion_filter.lower() in k.lower()
+            }
 
         vector_info = {
             "total_emotions": len(vectors),

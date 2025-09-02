@@ -69,7 +69,7 @@ class BaseRequest(BaseModel):
                 "user_id": user.user_id,
                 "user_email": user.email,
                 "user_tier": user.tier,
-                "lukhas_id": user.lukhas_id,
+                "lambda_id": user.lambda_id,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
