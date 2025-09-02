@@ -24,7 +24,7 @@ import hashlib
 import secrets
 import time
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any
 
@@ -53,7 +53,6 @@ except ImportError:
             self.name = name
 
         def __getattr__(self, item):
-            # Accept any args/kwargs to avoid unused-arg lint warnings
             return lambda *args, **kwargs: {"status": "mock", "module": self.name}
 
         def __call__(self, *args, **kwargs):
@@ -161,11 +160,11 @@ class LukhusQRGIntegrator:
             "session_timeout": 3600,  # 1 hour
         }
 
-    print("🔗 LUKHAS QRG Integrator initialized")
-    engine_state = "active" if hasattr(self.consciousness_engine, "assess_consciousness") else "mock"
-    print(f"🧠 Consciousness engine: {engine_state}")
-    cultural_state = "active" if hasattr(self.cultural_manager, "get_cultural_profile") else "mock"
-    print(f"🌍 Cultural manager: {cultural_state}")
+        print("🔗 LUKHAS QRG Integrator initialized")
+        print(
+            f"🧠 Consciousness engine: {'active' if hasattr(self.consciousness_engine, 'assess_consciousness') else 'mock'}"
+        )
+        print(f"🌍 Cultural manager: {'active' if hasattr(self.cultural_manager, 'get_cultural_profile') else 'mock'}")
 
     def create_qrg_context(self, user_id: str, **kwargs) -> QRGContext:
         """Create context for QRG generation"""
@@ -191,7 +190,7 @@ class LukhusQRGIntegrator:
             security_clearance=SecurityLevel(kwargs.get("security_level", "protected")),
             cognitive_load=cognitive_load,
             attention_focus=kwargs.get("attention_focus", ["security", "authentication"]),
-            timestamp=datetime.now(tz=timezone.utc),
+            timestamp=datetime.now(),
             session_id=kwargs.get("session_id", secrets.token_hex(16)),
             device_capabilities=kwargs.get("device_capabilities", {"display": "standard", "interaction": "touch"}),
             environmental_factors=kwargs.get("environmental_factors", {"lighting": "normal", "noise": "low"}),
@@ -204,6 +203,8 @@ class LukhusQRGIntegrator:
 
     def generate_consciousness_qrg(self, context: QRGContext) -> QRGResult:
         """Generate consciousness-adaptive QRG"""
+        print(f"🧠 Generating consciousness-adaptive QRG for user {context.user_id}")
+
         # Assess consciousness state
         consciousness_state = {
             "level": context.consciousness_level,
@@ -475,7 +476,7 @@ class LukhusQRGIntegrator:
 
         # Emergency parameters
         emergency_code = secrets.token_hex(32)
-        emergency_timestamp = datetime.now(tz=timezone.utc)
+        emergency_timestamp = datetime.now()
         override_level = "EMERGENCY_ALPHA"  # Highest override level
 
         # Generate high-visibility emergency pattern
@@ -527,19 +528,15 @@ class LukhusQRGIntegrator:
         )
 
         # Log emergency generation with high priority
-        try:
-            self.audit_logger.log_emergency_event(
-                {
-                    "event_type": "emergency_qrg_generated",
-                    "user_id": context.user_id,
-                    "emergency_code": emergency_code,
-                    "timestamp": emergency_timestamp,
-                    "context": asdict(context),
-                }
-            )
-        except Exception:
-            # Audit logger may be a mock in some environments
-            logger.info("Emergency event logged (mock)")
+        self.audit_logger.log_emergency_event(
+            {
+                "event_type": "emergency_qrg_generated",
+                "user_id": context.user_id,
+                "emergency_code": emergency_code,
+                "timestamp": emergency_timestamp,
+                "context": asdict(context),
+            }
+        )
 
         self._log_generation(context, result)
         return result
