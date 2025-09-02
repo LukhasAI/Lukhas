@@ -22,7 +22,7 @@ Usage:
 
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 # Add lukhas-id to path for imports
@@ -99,18 +99,35 @@ class IdentityClient:
                 self.id_validator = LambdIDValidator(config_path=None)
             except Exception:
                 # Create a simple working validator as fallback
-                self.id_validator = type(
-                    "LambdIDValidator",
-                    (),
-                    {"validate_identity": lambda self, uid: True},
-                )()
+                class _StubLambdIDValidator:
+                    def validate_identity(self, _uid: str) -> bool:
+                        return True
+
+                self.id_validator = _StubLambdIDValidator()
         except Exception as e:
             print(f"Warning: Could not initialize identity components: {e}")
+
             # Fall back to stub implementations
-            self.tier_validator = type("TierValidator", (), {"validate_tier": lambda self, uid, tier: True})()
-            self.activity_logger = type("ActivityLogger", (), {"log_activity": lambda self, a, b, c: None})()
-            self.consent_manager = type("ConsentManager", (), {"check_consent": lambda self, a, b: True})()
-            self.id_validator = type("LambdIDValidator", (), {"validate_identity": lambda self, a: True})()
+            class _StubTierValidator:
+                def validate_tier(self, _user_id: str, _required_tier: str) -> bool:
+                    return True
+
+            class _StubActivityLogger:
+                def log_activity(self, _activity_type: str, _user_id: str, _metadata: dict[str, Any]) -> None:
+                    return None
+
+            class _StubConsentManager:
+                def check_consent(self, _user_id: str, _action: str) -> bool:
+                    return True
+
+            class _StubLambdIDValidator:
+                def validate_identity(self, _user_id: str) -> bool:
+                    return True
+
+            self.tier_validator = _StubTierValidator()
+            self.activity_logger = _StubActivityLogger()
+            self.consent_manager = _StubConsentManager()
+            self.id_validator = _StubLambdIDValidator()
 
     def verify_user_access(self, user_id: str, required_tier: str = "LAMBDA_TIER_1") -> bool:
         """
@@ -179,7 +196,7 @@ class IdentityClient:
         try:
             enhanced_metadata = {
                 **metadata,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(tz=timezone.utc).isoformat(),
                 "module": self._get_calling_module(),
             }
             self.activity_logger.log_activity(activity_type, user_id, enhanced_metadata)
@@ -199,7 +216,7 @@ class IdentityClient:
             **metadata,
             "security_event": True,
             "severity": "HIGH",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(tz=timezone.utc).isoformat(),
             "module": self._get_calling_module(),
         }
         self.log_activity(f"SECURITY_{event_type}", user_id, security_metadata)

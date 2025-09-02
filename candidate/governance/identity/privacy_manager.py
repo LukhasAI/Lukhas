@@ -2,7 +2,7 @@ import base64
 import hashlib
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
@@ -225,7 +225,7 @@ class PrivacyManager:
         retention_days = self.data_retention_policies.get(data_type, 30)
 
         # Calculate cutoff date
-        cutoff_date = datetime.now() - timedelta(days=retention_days)
+        cutoff_date = datetime.now(tz=timezone.utc) - timedelta(days=retention_days)
         cutoff_timestamp = cutoff_date.timestamp()
 
         # Filter data based on timestamp
@@ -236,7 +236,6 @@ class PrivacyManager:
                 if isinstance(item, dict) and "timestamp" in item:
                     try:
                         # Parse timestamp from iso_format or check if it's a float
-                        # timestamp
                         if isinstance(item["timestamp"], str):
                             item_time = datetime.fromisoformat(item["timestamp"]).timestamp()
                         else:
@@ -250,7 +249,7 @@ class PrivacyManager:
 
             return [item for item in data if should_retain(item)]
 
-        elif isinstance(data, dict):
+        if isinstance(data, dict):
             # Handle dictionary with timestamps as keys or with timestamp field
             if "timestamp" in data:
                 try:
@@ -274,7 +273,7 @@ class PrivacyManager:
         # Simplified implementation
         report = {
             "user_id": user_id,
-            "report_generated": datetime.now().isoformat(),
+            "report_generated": datetime.now(tz=timezone.utc).isoformat(),
             "data_categories": [
                 {
                     "category": "user_profile",
@@ -307,7 +306,7 @@ class PrivacyManager:
 
         # Add timestamp if not present
         if "timestamp" not in event:
-            event["timestamp"] = datetime.now().isoformat()
+            event["timestamp"] = datetime.now(tz=timezone.utc).isoformat()
 
         # Add event to log
         self.privacy_log.append(event)

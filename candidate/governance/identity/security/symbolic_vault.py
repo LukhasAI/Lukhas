@@ -7,7 +7,7 @@ Integration Date: 2025-05-31T07:55:28.092659
 
 import hashlib
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 
@@ -60,7 +60,7 @@ class SymbolicVault:
             "data": self._encrypt_data(memory_data),
             "layer": access_layer,
             "environmental_anchors": self._get_current_anchors(),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(tz=timezone.utc).isoformat(),
         }
 
         return encrypted

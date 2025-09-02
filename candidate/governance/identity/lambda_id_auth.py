@@ -18,15 +18,16 @@ import logging
 import os
 import secrets
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
-MOCK_HASH_FOR_TESTING = "mock_blake2b_hash_for_testing"
-
+# Cryptography imports should remain at module top to satisfy linters
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import ed448
+
+PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
+MOCK_HASH_FOR_TESTING = "mock_blake2b_hash_for_testing"
 
 logger = logging.getLogger(__name__)
 
@@ -161,7 +162,7 @@ class QRGLYPHGenerator:
             "uid": user_id,
             "tier": tier.value,
             "consent": consent_data,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(tz=timezone.utc).isoformat(),
             "type": "static",
         }
 
@@ -182,8 +183,8 @@ class QRGLYPHGenerator:
             "uid": user_id,
             "tier": "T5",
             "session": session_data,
-            "timestamp": datetime.utcnow().isoformat(),
-            "expires": (datetime.utcnow() + timedelta(seconds=expires_in)).isoformat(),
+            "timestamp": datetime.now(tz=timezone.utc).isoformat(),
+            "expires": (datetime.now(tz=timezone.utc) + timedelta(seconds=expires_in)).isoformat(),
             "type": "dynamic",
             "nonce": secrets.token_hex(16),
         }
@@ -308,7 +309,8 @@ class TierAuthenticator:
 
         # For testing, accept mock biometric hashes
         if stored_bio_hash.startswith("mock_") or secrets.compare_digest(biometric_hash, stored_bio_hash):
-            pass  # Verification successful
+            # Verification successful
+            pass
         else:
             return {"success": False, "error": "Biometric verification failed"}
 
@@ -443,7 +445,7 @@ class TierAuthenticator:
         # Generate new dynamic QRGLYPH for next session
         new_qrglyph = self.qrglyph_gen.generate_dynamic_qrglyph(
             credentials.primary_auth.get("user_id"),
-            {"tier": "T5", "timestamp": datetime.utcnow().isoformat()},
+            {"tier": "T5", "timestamp": datetime.now(tz=timezone.utc).isoformat()},
         )
 
         return {
@@ -491,7 +493,7 @@ class TierAuthenticator:
 
             # Check expiration
             expires = datetime.fromisoformat(payload["expires"])
-            if datetime.utcnow() > expires:
+            if datetime.now(tz=timezone.utc) > expires:
                 return False
 
             return self._validate_qrglyph(qrglyph)
@@ -568,8 +570,8 @@ class LambdaIDSystem:
             tier=tier,
             consent_hash=consent_hash,
             zk_marker=tier in [AuthTier.T4, AuthTier.T5],
-            timestamp=datetime.utcnow(),
-            expires_at=(datetime.utcnow() + timedelta(days=365) if self.compliance_mode else None),
+            timestamp=datetime.now(tz=timezone.utc),
+            expires_at=(datetime.now(tz=timezone.utc) + timedelta(days=365) if self.compliance_mode else None),
         )
 
     def health_check(self) -> dict[str, Any]:

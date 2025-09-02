@@ -31,16 +31,19 @@ import asyncio
 import logging
 import secrets
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
 # Import our revolutionary authentication system
 try:
-    from .core.unified_auth_manager import (AuthMethod, ConsciousnessState,
-                                            UnifiedAuthContext,
-                                            get_revolutionary_auth_manager)
+    from .core.unified_auth_manager import (
+        AuthMethod,
+        ConsciousnessState,
+        UnifiedAuthContext,
+        get_revolutionary_auth_manager,
+    )
     from .lambda_id_auth import AuthTier
 except ImportError:
     # Fallback for direct execution
@@ -50,8 +53,11 @@ except ImportError:
     from lambda_id_auth import AuthTier
 
     from candidate.core.unified_auth_manager import (
-        AuthMethod, ConsciousnessState, UnifiedAuthContext,
-        get_revolutionary_auth_manager)
+        AuthMethod,
+        ConsciousnessState,
+        UnifiedAuthContext,
+        get_revolutionary_auth_manager,
+    )
 
 logger = logging.getLogger(__name__)
 
@@ -122,9 +128,7 @@ class ConsciousnessDetector:
             "scroll_behavior_flow": "flow_state",
         }
 
-    async def detect_consciousness_state(
-        self, interaction_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def detect_consciousness_state(self, interaction_data: dict[str, Any]) -> dict[str, Any]:
         """Detect consciousness state from user interactions"""
 
         # Analyze interaction patterns
@@ -205,9 +209,7 @@ class ConsciousnessDetector:
         }
         return recommendations.get(state, [AuthMethod.EMOJI_CONSCIOUSNESS])
 
-    def _get_ui_adaptation(
-        self, dominant_state: ConsciousnessState, scores: dict
-    ) -> UIAdaptation:
+    def _get_ui_adaptation(self, dominant_state: ConsciousnessState, scores: dict) -> UIAdaptation:
         """Determine UI adaptation based on consciousness state"""
         if scores[ConsciousnessState.FOCUSED] > 0.7:
             return UIAdaptation.MINIMAL_FOCUS
@@ -232,9 +234,7 @@ class CulturalContextDetector:
             "interaction_style": "cultural_communication",
         }
 
-    async def detect_cultural_context(
-        self, user_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def detect_cultural_context(self, user_data: dict[str, Any]) -> dict[str, Any]:
         """Detect cultural context from user data and behavior"""
 
         # Basic cultural detection
@@ -257,9 +257,7 @@ class CulturalContextDetector:
             "symbol_preferences": symbol_preferences,
             "ui_direction": "rtl" if language in ["ar", "he", "fa"] else "ltr",
             "community_oriented": cultural_type in ["high_context", "collective"],
-            "trust_building_approach": (
-                "gradual" if cultural_type == "high_context" else "immediate"
-            ),
+            "trust_building_approach": ("gradual" if cultural_type == "high_context" else "immediate"),
         }
 
     def _infer_cultural_type(self, language: str, region: str) -> str:
@@ -317,9 +315,7 @@ class CulturalContextDetector:
             "americas": ["🦅", "🌽", "🏔️", "🌊", "🔥", "🌲"],
             "oceania": ["🌊", "🐚", "🌺", "🏄", "🐨", "🌴"],
         }
-        return regional_symbols.get(
-            region.lower(), ["🔮", "✨", "🌟", "💎", "🌈", "⚡"]
-        )
+        return regional_symbols.get(region.lower(), ["🔮", "✨", "🌟", "💎", "🌈", "⚡"])
 
 
 class RevolutionaryLoginInterface:
@@ -397,22 +393,16 @@ class RevolutionaryLoginInterface:
         # Step 1: Welcome & Consciousness Detection
         return await self._step_welcome_consciousness(state, initial_data)
 
-    async def _step_welcome_consciousness(
-        self, state: LoginState, user_data: dict[str, Any]
-    ) -> LoginResponse:
+    async def _step_welcome_consciousness(self, state: LoginState, user_data: dict[str, Any]) -> LoginResponse:
         """Step 1: Welcome screen with consciousness and cultural detection"""
 
         # Detect consciousness state from interaction data
-        consciousness_result = (
-            await self.consciousness_detector.detect_consciousness_state(
-                user_data.get("interaction_data", {})
-            )
+        consciousness_result = await self.consciousness_detector.detect_consciousness_state(
+            user_data.get("interaction_data", {})
         )
 
         # Detect cultural context
-        cultural_context = await self.cultural_detector.detect_cultural_context(
-            user_data
-        )
+        cultural_context = await self.cultural_detector.detect_cultural_context(user_data)
 
         # Update state
         state.consciousness_state = consciousness_result["consciousness_state"]
@@ -421,9 +411,7 @@ class RevolutionaryLoginInterface:
         state.attention_metrics = consciousness_result["attention_metrics"]
 
         # Get UI template
-        ui_template = self.ui_templates.get(
-            state.ui_adaptation, self.ui_templates[UIAdaptation.MINIMAL_FOCUS]
-        )
+        ui_template = self.ui_templates.get(state.ui_adaptation, self.ui_templates[UIAdaptation.MINIMAL_FOCUS])
 
         # Merge cultural preferences with consciousness-based UI
         ui_data = {
@@ -436,14 +424,9 @@ class RevolutionaryLoginInterface:
             "consciousness_indicator": {
                 "state": consciousness_result["consciousness_state"].value,
                 "confidence": consciousness_result["confidence"],
-                "visualization": self._get_consciousness_visualization(
-                    state.consciousness_state
-                ),
+                "visualization": self._get_consciousness_visualization(state.consciousness_state),
             },
-            "recommended_methods": [
-                method.value
-                for method in consciousness_result["recommended_auth_methods"]
-            ],
+            "recommended_methods": [method.value for method in consciousness_result["recommended_auth_methods"]],
         }
 
         adaptations = {
@@ -460,17 +443,13 @@ class RevolutionaryLoginInterface:
             ui_data=ui_data,
             adaptations=adaptations,
             debug_info={
-                "detected_consciousness": consciousness_result[
-                    "consciousness_state"
-                ].value,
+                "detected_consciousness": consciousness_result["consciousness_state"].value,
                 "cultural_type": cultural_context["cultural_type"],
                 "confidence": consciousness_result["confidence"],
             },
         )
 
-    async def _step_method_selection(
-        self, state: LoginState, user_input: dict[str, Any]
-    ) -> LoginResponse:
+    async def _step_method_selection(self, state: LoginState, user_input: dict[str, Any]) -> LoginResponse:
         """Step 2: Adaptive method selection based on consciousness and culture"""
 
         # Get recommended methods based on current state
@@ -509,9 +488,7 @@ class RevolutionaryLoginInterface:
                 adaptations={"awaiting_method_selection": True},
             )
 
-    async def _step_vault_access(
-        self, state: LoginState, user_input: dict[str, Any]
-    ) -> LoginResponse:
+    async def _step_vault_access(self, state: LoginState, user_input: dict[str, Any]) -> LoginResponse:
         """Step 3: Dynamic vault access and authentication"""
 
         # Prepare authentication context
@@ -572,9 +549,7 @@ class RevolutionaryLoginInterface:
             },
         )
 
-    async def _step_orb_interface(
-        self, state: LoginState, user_input: dict[str, Any]
-    ) -> LoginResponse:
+    async def _step_orb_interface(self, state: LoginState, user_input: dict[str, Any]) -> LoginResponse:
         """Step 4: Post-login consciousness orb interface"""
 
         # Generate consciousness orb visualization
@@ -584,9 +559,7 @@ class RevolutionaryLoginInterface:
             "tier_visualization": self._get_tier_visualization(state.tier_level),
             "available_actions": self._get_available_actions(state),
             "consciousness_feedback": self._generate_consciousness_feedback(state),
-            "cultural_elements": self._get_cultural_orb_elements(
-                state.cultural_context
-            ),
+            "cultural_elements": self._get_cultural_orb_elements(state.cultural_context),
         }
 
         # Check if user wants admin/research interface
@@ -610,9 +583,7 @@ class RevolutionaryLoginInterface:
             },
         )
 
-    async def _step_admin_research(
-        self, state: LoginState, user_input: dict[str, Any]
-    ) -> LoginResponse:
+    async def _step_admin_research(self, state: LoginState, user_input: dict[str, Any]) -> LoginResponse:
         """Step 5: Advanced admin/research tier interface"""
 
         tier_level = state.tier_level or 1  # Default to tier 1 if not set
@@ -683,13 +654,9 @@ class RevolutionaryLoginInterface:
             ConsciousnessState.DREAMING: "Welcome to the ethereal realm of dream authentication",
             ConsciousnessState.FLOW_STATE: "You're in flow - let's make this seamless",
         }
-        return consciousness_greetings.get(
-            state.consciousness_state, "Welcome to LUKHAS revolutionary authentication"
-        )
+        return consciousness_greetings.get(state.consciousness_state, "Welcome to LUKHAS revolutionary authentication")
 
-    def _get_consciousness_visualization(
-        self, consciousness_state: ConsciousnessState
-    ) -> dict[str, Any]:
+    def _get_consciousness_visualization(self, consciousness_state: ConsciousnessState) -> dict[str, Any]:
         """Get visualization data for consciousness state"""
         visualizations = {
             ConsciousnessState.FOCUSED: {
@@ -734,9 +701,7 @@ class RevolutionaryLoginInterface:
         base_methods = [AuthMethod.EMOJI_CONSCIOUSNESS, AuthMethod.QUANTUM_GLYPH]
 
         if state.consciousness_state == ConsciousnessState.CREATIVE:
-            base_methods.extend(
-                [AuthMethod.CULTURAL_RESONANCE, AuthMethod.BIOMETRIC_DREAM]
-            )
+            base_methods.extend([AuthMethod.CULTURAL_RESONANCE, AuthMethod.BIOMETRIC_DREAM])
         elif state.consciousness_state == ConsciousnessState.MEDITATIVE:
             base_methods.extend([AuthMethod.CONSTITUTIONAL_CHALLENGE])
         elif state.consciousness_state == ConsciousnessState.ANALYTICAL:
@@ -744,23 +709,15 @@ class RevolutionaryLoginInterface:
 
         return base_methods
 
-    async def _generate_method_ui(
-        self, state: LoginState, methods: list[AuthMethod]
-    ) -> dict[str, Any]:
+    async def _generate_method_ui(self, state: LoginState, methods: list[AuthMethod]) -> dict[str, Any]:
         """Generate UI for method selection"""
         return {
             "available_methods": [method.value for method in methods],
-            "consciousness_recommendation": (
-                state.consciousness_state.value if state.consciousness_state else None
-            ),
+            "consciousness_recommendation": (state.consciousness_state.value if state.consciousness_state else None),
             "cultural_preference": (
-                state.cultural_context.get("interaction_style")
-                if state.cultural_context
-                else None
+                state.cultural_context.get("interaction_style") if state.cultural_context else None
             ),
-            "method_descriptions": {
-                method.value: self._get_method_description(method) for method in methods
-            },
+            "method_descriptions": {method.value: self._get_method_description(method) for method in methods},
         }
 
     def _get_method_description(self, method: AuthMethod) -> str:
@@ -778,9 +735,7 @@ class RevolutionaryLoginInterface:
     def _generate_vault_visualization(self, state: LoginState) -> dict[str, Any]:
         """Generate vault visualization data"""
         return {
-            "vault_style": (
-                state.ui_adaptation.value if state.ui_adaptation else "minimal"
-            ),
+            "vault_style": (state.ui_adaptation.value if state.ui_adaptation else "minimal"),
             "consciousness_integration": bool(state.consciousness_state),
             "cultural_elements": bool(state.cultural_context),
             "tier_level": state.tier_level,
@@ -800,8 +755,8 @@ class RevolutionaryLoginInterface:
 
         return {
             "pattern_seed": hash_hex[:16],
-            "color_primary": f"",
-            "color_secondary": f"",
+            "color_primary": "",
+            "color_secondary": "",
             "geometric_pattern": hash_hex[28:32],
         }
 
@@ -831,7 +786,7 @@ class RevolutionaryLoginInterface:
 
         return {
             "tier": tier_level,
-            "color": tier_colors.get(tier_level, ")  # 666666",
+            "color": tier_colors.get(tier_level, "#666666"),
             "privileges": f"Tier {tier_level} access granted",
         }
 
@@ -869,13 +824,9 @@ class RevolutionaryLoginInterface:
             ConsciousnessState.FLOW_STATE: "Flow state detected - optimal authentication achieved",
         }
 
-        return feedback.get(
-            state.consciousness_state, "Consciousness integration active"
-        )
+        return feedback.get(state.consciousness_state, "Consciousness integration active")
 
-    def _get_cultural_orb_elements(
-        self, cultural_context: Optional[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _get_cultural_orb_elements(self, cultural_context: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Get cultural elements for orb visualization"""
         if not cultural_context:
             return {}
@@ -891,7 +842,7 @@ class RevolutionaryLoginInterface:
         """Get access logs for admin interface"""
         return [
             {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(tz=timezone.utc).isoformat(),
                 "event": "consciousness_authentication",
                 "result": "success",
             }
@@ -954,21 +905,15 @@ async def main():
 
     print("\n🔮 Login Flow Response:")
     print(f"✅ Success: {response.success}")
-    print(
-        f"📍 Next Step: {response.next_step.value if response.next_step else 'Complete'}"
-    )
+    print(f"📍 Next Step: {response.next_step.value if response.next_step else 'Complete'}")
     print(
         f"🧠 Consciousness State: {response.debug_info.get('detected_consciousness') if response.debug_info else 'Unknown'}"
     )
-    print(
-        f"🌍 Cultural Type: {response.debug_info.get('cultural_type') if response.debug_info else 'Unknown'}"
-    )
+    print(f"🌍 Cultural Type: {response.debug_info.get('cultural_type') if response.debug_info else 'Unknown'}")
     print(f"🎨 UI Adaptation: {response.adaptations.get('ui_adaptation', 'default')}")
 
     if response.ui_data.get("recommended_methods"):
-        print(
-            f"🔐 Recommended Methods: {', '.join(response.ui_data['recommended_methods'])}"
-        )
+        print(f"🔐 Recommended Methods: {', '.join(response.ui_data['recommended_methods'])}")
 
 
 if __name__ == "__main__":
