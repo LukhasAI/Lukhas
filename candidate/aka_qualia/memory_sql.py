@@ -156,7 +156,7 @@ class SqlMemory(AkaqMemory):
         Implements privacy hashing, context sanitization, and transform auditing.
         """
         obs = get_observability()
-        
+
         with measure_memory_operation("save", "sql"):
             scene_id = self._generate_scene_id()
 
@@ -192,52 +192,52 @@ class SqlMemory(AkaqMemory):
                             :transform_chain, :collapse_hash, :drift_phi, :congruence_index, :neurosis_risk,
                             :repair_delta, :sublimation_rate, :E_before, :E_after, :E_diff, :cfg_version
                         )
-                    """),
-                    {
-                        "scene_id": scene_id,
-                        "user_id": user_id,
-                        "subject": subject,
-                        "object": object_field,
-                        "proto": json.dumps(proto),
-                        "proto_vec": proto_vec_param,
-                        "risk": json.dumps(scene["risk"]),
-                        "context": json.dumps(sanitized_context),
-                        "transform_chain": json.dumps(scene.get("transform_chain", [])),
-                        "collapse_hash": scene.get("collapse_hash"),
-                        "drift_phi": metrics.get("drift_phi"),
-                        "congruence_index": metrics.get("congruence_index"),
-                        "neurosis_risk": metrics.get("neurosis_risk"),
-                        "repair_delta": metrics.get("repair_delta"),
-                        "sublimation_rate": metrics.get("sublimation_rate"),
-                        "E_before": metrics.get("affect_energy_before"),
-                        "E_after": metrics.get("affect_energy_after"),
-                        "E_diff": metrics.get("affect_energy_diff"),
-                        "cfg_version": cfg_version,
-                    },
-                )
-
-                # Insert glyphs
-                for glyph in glyphs:
-                    tx.execute(
-                        text("INSERT INTO akaq_glyph (scene_id, key, attrs) VALUES (:sid, :k, :a)"),
-                        {"sid": scene_id, "k": glyph["key"], "a": json.dumps(glyph.get("attrs", {}))},
+                        """),
+                        {
+                            "scene_id": scene_id,
+                            "user_id": user_id,
+                            "subject": subject,
+                            "object": object_field,
+                            "proto": json.dumps(proto),
+                            "proto_vec": proto_vec_param,
+                            "risk": json.dumps(scene["risk"]),
+                            "context": json.dumps(sanitized_context),
+                            "transform_chain": json.dumps(scene.get("transform_chain", [])),
+                            "collapse_hash": scene.get("collapse_hash"),
+                            "drift_phi": metrics.get("drift_phi"),
+                            "congruence_index": metrics.get("congruence_index"),
+                            "neurosis_risk": metrics.get("neurosis_risk"),
+                            "repair_delta": metrics.get("repair_delta"),
+                            "sublimation_rate": metrics.get("sublimation_rate"),
+                            "E_before": metrics.get("affect_energy_before"),
+                            "E_after": metrics.get("affect_energy_after"),
+                            "E_diff": metrics.get("affect_energy_diff"),
+                            "cfg_version": cfg_version,
+                        },
                     )
 
-                tx.commit()
+                    # Insert glyphs
+                    for glyph in glyphs:
+                        tx.execute(
+                            text("INSERT INTO akaq_glyph (scene_id, key, attrs) VALUES (:sid, :k, :a)"),
+                            {"sid": scene_id, "k": glyph["key"], "a": json.dumps(glyph.get("attrs", {}))},
+                        )
+
+                    tx.commit()
 
                 self.scenes_saved += 1
                 logger.debug(f"Saved scene {scene_id} with {len(glyphs)} glyphs")
-                
+
                 # Record observability metrics
                 obs.update_memory_storage("sql", "scenes", self.scenes_saved * 1024)  # Estimate
                 obs.record_scene_processed(status="success")
-                
+
                 return scene_id
 
-        except Exception as e:
-            self.save_failures += 1
-            logger.error(f"Failed to save scene: {e!s}")
-            raise
+            except Exception as e:
+                self.save_failures += 1
+                logger.error(f"Failed to save scene: {e!s}")
+                raise
 
     def _proto_to_vector(self, proto: Dict[str, Any]) -> List[float]:
         """Convert proto-qualia to 5D vector [tone, arousal, clarity, embodiment, narrative_gravity]"""

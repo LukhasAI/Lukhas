@@ -19,10 +19,7 @@ def test_real_consent_ledger_initialization():
             db_path = Path(temp_dir) / "test_consent.db"
 
             # Test initialization with real parameters
-            ledger = ConsentLedgerV1(
-                db_path=str(db_path),
-                enable_trinity_validation=True
-            )
+            ledger = ConsentLedgerV1(db_path=str(db_path), enable_trinity_validation=True)
 
             assert ledger is not None
             assert hasattr(ledger, "db_path")
@@ -49,7 +46,7 @@ def test_real_consent_granting():
                 lid="test_user_001",
                 resource_type="consciousness_data",
                 scopes=["processing"],
-                purpose="Trinity Framework processing"
+                purpose="Trinity Framework processing",
             )
 
             assert consent_id is not None
@@ -79,23 +76,19 @@ def test_real_consent_validation():
                 user_id="validation_user",
                 data_type="memory_data",
                 purpose="Emotional processing",
-                scope=ConsentScope.PROCESSING
+                scope=ConsentScope.PROCESSING,
             )
 
             # Test validation
             is_valid = ledger.validate_consent(
-                user_id="validation_user",
-                data_type="memory_data",
-                purpose="Emotional processing"
+                user_id="validation_user", data_type="memory_data", purpose="Emotional processing"
             )
 
             assert is_valid is True
 
             # Test validation for non-granted consent
             is_invalid = ledger.validate_consent(
-                user_id="validation_user",
-                data_type="non_existent_data",
-                purpose="Some purpose"
+                user_id="validation_user", data_type="non_existent_data", purpose="Some purpose"
             )
 
             assert is_invalid is False
@@ -115,17 +108,12 @@ def test_real_consent_revocation():
 
             # Grant consent first
             consent_id = ledger.grant_consent(
-                user_id="revocation_user",
-                data_type="personal_data",
-                purpose="Marketing",
-                scope=ConsentScope.MARKETING
+                user_id="revocation_user", data_type="personal_data", purpose="Marketing", scope=ConsentScope.MARKETING
             )
 
             # Revoke consent
             revocation_id = ledger.revoke_consent(
-                user_id="revocation_user",
-                consent_id=consent_id,
-                reason="User withdrawal"
+                user_id="revocation_user", consent_id=consent_id, reason="User withdrawal"
             )
 
             assert revocation_id is not None
@@ -136,9 +124,7 @@ def test_real_consent_revocation():
 
             # Verify validation now fails
             is_valid = ledger.validate_consent(
-                user_id="revocation_user",
-                data_type="personal_data",
-                purpose="Marketing"
+                user_id="revocation_user", data_type="personal_data", purpose="Marketing"
             )
             assert is_valid is False
 
@@ -159,10 +145,7 @@ def test_real_audit_trail():
 
             # Perform multiple operations to create audit trail
             ledger.grant_consent(
-                user_id=user_id,
-                data_type="audit_data",
-                purpose="Testing",
-                scope=ConsentScope.PROCESSING
+                user_id=user_id, data_type="audit_data", purpose="Testing", scope=ConsentScope.PROCESSING
             )
 
             ledger.validate_consent(user_id=user_id, data_type="audit_data", purpose="Testing")
@@ -195,7 +178,9 @@ def test_real_gdpr_compliance():
             user_id = "gdpr_user"
 
             # Grant multiple consents
-            ledger.grant_consent(lid=user_id, resource_type="personal_data", scopes=["read"], purpose="Service delivery")
+            ledger.grant_consent(
+                lid=user_id, resource_type="personal_data", scopes=["read"], purpose="Service delivery"
+            )
             ledger.grant_consent(lid=user_id, resource_type="analytics_data", scopes=["read"], purpose="Analytics")
             ledger.grant_consent(lid=user_id, resource_type="marketing_data", scopes=["read"], purpose="Marketing")
 
@@ -233,17 +218,14 @@ def test_real_trinity_framework_integration():
             trinity_consent_types = [
                 ("consciousness_data", "Consciousness awareness processing"),
                 ("memory_fold_data", "Memory fold cascade prevention"),
-                ("guardian_data", "Guardian System drift monitoring")
+                ("guardian_data", "Guardian System drift monitoring"),
             ]
 
             user_id = "trinity_user"
 
             for data_type, purpose in trinity_consent_types:
                 consent_id = ledger.grant_consent(
-                    user_id=user_id,
-                    data_type=data_type,
-                    purpose=purpose,
-                    scope=ConsentScope.TRINITY_FRAMEWORK
+                    user_id=user_id, data_type=data_type, purpose=purpose, scope=ConsentScope.TRINITY_FRAMEWORK
                 )
 
                 assert consent_id is not None
@@ -252,7 +234,7 @@ def test_real_trinity_framework_integration():
                 is_valid = ledger.validate_trinity_consent(
                     user_id=user_id,
                     data_type=data_type,
-                    trinity_context={"framework": "active", "consciousness_level": "aware"}
+                    trinity_context={"framework": "active", "consciousness_level": "aware"},
                 )
 
                 assert is_valid is True
@@ -286,11 +268,7 @@ def test_real_consent_ledger_edge_cases():
             # Test very long strings
             long_user_id = "x" * 1000
             try:
-                result = ledger.grant_consent(
-                    user_id=long_user_id,
-                    data_type="test_data",
-                    purpose="test_purpose"
-                )
+                result = ledger.grant_consent(user_id=long_user_id, data_type="test_data", purpose="test_purpose")
                 assert result is not None or result is None  # Should handle or reject
             except Exception:
                 pass  # Expected for overly long inputs
@@ -302,7 +280,7 @@ def test_real_consent_ledger_edge_cases():
                     user_id=f"{user_id}_{i}",
                     data_type=f"data_{i}",
                     purpose=f"purpose_{i}",
-                    scope=ConsentScope.PROCESSING
+                    scope=ConsentScope.PROCESSING,
                 )
 
             # Verify all consents were recorded

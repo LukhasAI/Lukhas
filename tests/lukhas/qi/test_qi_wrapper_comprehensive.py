@@ -29,8 +29,14 @@ def test_qi_wrapper_comprehensive_initialization():
 
                 # Test quantum-inspired method availability
                 methods = [attr for attr in dir(qi) if not attr.startswith("_")]
-                qi_methods = [m for m in methods if any(keyword in m.lower() for keyword in
-                    ["quantum", "superposition", "entangle", "collapse", "measure", "coherence"])]
+                qi_methods = [
+                    m
+                    for m in methods
+                    if any(
+                        keyword in m.lower()
+                        for keyword in ["quantum", "superposition", "entangle", "collapse", "measure", "coherence"]
+                    )
+                ]
                 assert len(qi_methods) >= 5  # Should have many quantum-inspired methods
 
             except Exception:
@@ -170,10 +176,7 @@ def test_quantum_algorithms_and_processing():
 
                 if hasattr(qi, "grover_search"):
                     if scenario["algorithm"] == "grover_search":
-                        grover = qi.grover_search(
-                            scenario["search_space"],
-                            scenario["target_items"]
-                        )
+                        grover = qi.grover_search(scenario["search_space"], scenario["target_items"])
                         assert grover is not None or grover is None
 
                 # Test quantum simulation
@@ -230,10 +233,7 @@ def test_decoherence_and_noise_modeling():
                     qi.apply_noise(scenario["noise_type"], scenario)
 
                 if hasattr(qi, "add_decoherence"):
-                    qi.add_decoherence(
-                        scenario.get("error_rate", 0.01),
-                        scenario.get("qubits", [0])
-                    )
+                    qi.add_decoherence(scenario.get("error_rate", 0.01), scenario.get("qubits", [0]))
 
                 # Test error correction
                 if hasattr(qi, "error_correction"):
@@ -311,9 +311,7 @@ def test_consciousness_quantum_integration():
 
                 # Test Trinity Framework quantum integration
                 if hasattr(qi, "trinity_quantum_integration"):
-                    trinity = qi.trinity_quantum_integration(
-                        scenario.get("trinity_context", {})
-                    )
+                    trinity = qi.trinity_quantum_integration(scenario.get("trinity_context", {}))
                     assert trinity is not None or trinity is None
 
                 if hasattr(qi, "quantum_consciousness_bridge"):
@@ -322,9 +320,7 @@ def test_consciousness_quantum_integration():
 
                 # Test consciousness-aware measurements
                 if hasattr(qi, "consciousness_aware_measurement"):
-                    measurement = qi.consciousness_aware_measurement(
-                        scenario["consciousness_state"]
-                    )
+                    measurement = qi.consciousness_aware_measurement(scenario["consciousness_state"])
                     assert measurement is not None or measurement is None
 
             except Exception:
@@ -478,15 +474,12 @@ def test_quantum_edge_cases_and_performance():
             {"qubits": 0, "operation": "hadamard"},
             {"qubits": -1, "operation": "cnot"},
             {"qubits": 1000, "operation": "simulate"},  # Large system
-
             # Invalid measurements
             {"measurement_basis": None, "qubits": [0, 1]},
             {"measurement_basis": "invalid", "qubits": [0]},
-
             # Performance stress tests
             {"operation": "stress_test", "iterations": 100},
             {"operation": "memory_test", "large_state": True},
-
             # Consciousness edge cases
             {"consciousness_level": -1, "quantum_coherence": 1.5},
             {"consciousness_level": None, "quantum_coherence": None},

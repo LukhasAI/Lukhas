@@ -30,8 +30,11 @@ def test_distributed_tracer_comprehensive_initialization():
 
                 # Test method availability
                 methods = [attr for attr in dir(tracer) if not attr.startswith("_")]
-                trace_methods = [m for m in methods if any(keyword in m.lower() for keyword in
-                    ["trace", "span", "log", "record", "export", "flush"])]
+                trace_methods = [
+                    m
+                    for m in methods
+                    if any(keyword in m.lower() for keyword in ["trace", "span", "log", "record", "export", "flush"])
+                ]
                 assert len(trace_methods) >= 8  # Should have many tracing methods
 
             except Exception:
@@ -90,10 +93,7 @@ def test_span_lifecycle_comprehensive():
                     assert span is not None or span is None
 
                 if hasattr(tracer, "create_span"):
-                    created_span = tracer.create_span(
-                        scenario["trace_id"],
-                        scenario["operation_name"]
-                    )
+                    created_span = tracer.create_span(scenario["trace_id"], scenario["operation_name"])
                     assert created_span is not None or created_span is None
 
                 # Test span tagging
@@ -155,10 +155,12 @@ def test_trace_context_propagation():
             try:
                 # Test context extraction
                 if hasattr(tracer, "extract_context"):
-                    context = tracer.extract_context({
-                        "trace_id": scenario["trace_id"],
-                        "context_type": scenario["context_type"],
-                    })
+                    context = tracer.extract_context(
+                        {
+                            "trace_id": scenario["trace_id"],
+                            "context_type": scenario["context_type"],
+                        }
+                    )
                     assert isinstance(context, (dict, type(None)))
 
                 if hasattr(tracer, "get_trace_context"):
@@ -178,10 +180,7 @@ def test_trace_context_propagation():
                 for i, service in enumerate(scenario["service_chain"]):
                     try:
                         if hasattr(tracer, "trace_service_call"):
-                            tracer.trace_service_call(
-                                service,
-                                {"trace_id": scenario["trace_id"], "sequence": i}
-                            )
+                            tracer.trace_service_call(service, {"trace_id": scenario["trace_id"], "sequence": i})
 
                         if hasattr(tracer, "start_service_span"):
                             tracer.start_service_span(service, scenario["trace_id"])
@@ -235,11 +234,7 @@ def test_metrics_and_observability():
             try:
                 # Test metric recording
                 if hasattr(tracer, "record_metric"):
-                    tracer.record_metric(
-                        scenario["name"],
-                        scenario["value"],
-                        scenario.get("labels", {})
-                    )
+                    tracer.record_metric(scenario["name"], scenario["value"], scenario.get("labels", {}))
 
                 if hasattr(tracer, "increment_counter"):
                     if scenario["metric_type"] == "counter":
@@ -277,8 +272,8 @@ def test_sampling_and_filtering():
         # Test various sampling configurations
         sampling_configs = [
             {"service_name": "high_volume_service", "sampling_rate": 0.01},  # 1%
-            {"service_name": "debug_service", "sampling_rate": 1.0},         # 100%
-            {"service_name": "consciousness_service", "sampling_rate": 0.5}, # 50%
+            {"service_name": "debug_service", "sampling_rate": 1.0},  # 100%
+            {"service_name": "consciousness_service", "sampling_rate": 0.5},  # 50%
         ]
 
         for config in sampling_configs:
@@ -425,10 +420,7 @@ def test_consciousness_aware_tracing():
             try:
                 # Test consciousness-aware span creation
                 if hasattr(tracer, "start_consciousness_span"):
-                    span = tracer.start_consciousness_span(
-                        scenario["operation"],
-                        scenario
-                    )
+                    span = tracer.start_consciousness_span(scenario["operation"], scenario)
                     assert span is not None or span is None
 
                 if hasattr(tracer, "trace_consciousness_operation"):
@@ -436,16 +428,11 @@ def test_consciousness_aware_tracing():
 
                 # Test Trinity Framework integration
                 if hasattr(tracer, "integrate_trinity_context"):
-                    tracer.integrate_trinity_context(
-                        scenario.get("trinity_context", {})
-                    )
+                    tracer.integrate_trinity_context(scenario.get("trinity_context", {}))
 
                 # Test consciousness metrics
                 if hasattr(tracer, "record_consciousness_metric"):
-                    tracer.record_consciousness_metric(
-                        scenario["operation"],
-                        scenario.get("awareness_level", 0.5)
-                    )
+                    tracer.record_consciousness_metric(scenario["operation"], scenario.get("awareness_level", 0.5))
 
             except Exception:
                 pass  # Expected without full consciousness integration
@@ -467,14 +454,11 @@ def test_error_handling_and_edge_cases():
             {"operation": None, "trace_id": "valid_id"},
             {"operation": "", "trace_id": None},
             {"operation": "valid", "trace_id": ""},
-
             # Large data scenarios
             {"operation": "large_operation", "data": "x" * 10000},
             {"operation": "unicode_test", "data": "🤖🧠⚛️🛡️"},
-
             # Concurrent access
             {"operation": "concurrent_test", "threads": 10},
-
             # Memory pressure
             {"operation": "memory_test", "span_count": 1000},
         ]
