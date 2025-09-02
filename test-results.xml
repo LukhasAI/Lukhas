@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="4" tests="9" time="0.730" timestamp="2025-09-02T12:28:29.419798+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.aka_qualia.test_c5_observability" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/aka_qualia/test_c5_observability.py'.
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="0" tests="5" time="1.240" timestamp="2025-09-02T17:14:41.762036+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.aka_qualia.test_c5_observability" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/aka_qualia/test_c5_observability.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 tests/candidate/aka_qualia/test_c5_observability.py:12: in &lt;module&gt;
@@ -16,14 +16,14 @@ E   ImportError: cannot import name 'RiskGauge' from 'candidate.aka_qualia.model
     self.warn(
 .venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
     warnings.warn_explicit(
-E   pytest.PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: tests/candidate/bridge/test_orchestration_system.py)</error></testcase><testcase classname="" name="tests.matriz.test_orchestrator_schema" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/matriz/test_orchestrator_schema.py'.
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: tests/candidate/bridge/test_orchestration_system.py)</error></testcase><testcase classname="" name="tests.candidate.bridge.test_unified_openai_client" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/bridge/test_unified_openai_client.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
-tests/matriz/test_orchestrator_schema.py:7: in &lt;module&gt;
-    from matriz.core.node_interface import CognitiveNode
-E   ModuleNotFoundError: No module named 'matriz.core'</error></testcase><testcase classname="" name="tests.phase2.test_orchestration_integration" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_orchestration_integration.py', 43, "Skipped: Phase 2 modules not available: No module named 'uvloop'")</skipped></testcase><testcase classname="" name="tests.phase2.test_performance_benchmarks" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_performance_benchmarks.py', 49, "Skipped: Performance testing modules not available: No module named 'uvloop'")</skipped></testcase><testcase classname="" name="tests.phase2.test_security_compliance" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_security_compliance.py', 43, "Skipped: Security modules not available: cannot import name 'ComplianceEngine' from 'candidate.compliance.ai_compliance' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/compliance/ai_compliance.py)")</skipped></testcase><testcase classname="" name="tests.phase2.test_tool_execution_safety" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_tool_execution_safety.py', 34, "Skipped: Tool execution modules not available: No module named 'candidate.tools.code_executor'")</skipped></testcase><testcase classname="" name="tests.rl.test_consciousness_rl" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/rl/test_consciousness_rl.py'.
+tests/candidate/bridge/test_unified_openai_client.py:8: in &lt;module&gt;
+    from lukhas.bridge.llm_wrappers.unified_openai_client import (
+E   ModuleNotFoundError: No module named 'lukhas.bridge'; 'lukhas' is not a package</error></testcase><testcase classname="" name="tests.core.test_time_tz" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/test_time_tz.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
-tests/rl/test_consciousness_rl.py:18: in &lt;module&gt;
-    import torch
-E   ModuleNotFoundError: No module named 'torch'</error></testcase></testsuite></testsuites>
+tests/core/test_time_tz.py:1: in &lt;module&gt;
+    from lukhas.core.common.logger import JSONFormatter
+E   ModuleNotFoundError: No module named 'lukhas.core'; 'lukhas' is not a package</error></testcase></testsuite></testsuites>

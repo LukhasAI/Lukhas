@@ -1,0 +1,327 @@
+/* LUKHΛS Studio - Design System */
+
+/* ===== DESIGN TOKENS ===== */
+:root {
+  /* Z-Index Contract */
+  --z-modal: 1000;
+  --z-overlay: 200;    /* menus, quick actions, dropdowns */
+  --z-header: 120;
+  --z-rails: 80;       /* left/right/top/bottom rails */
+  --z-content: 40;     /* main content pane */
+  --z-decor: 0;        /* backgrounds / hero art - non-blocking */
+  
+  /* Layout System */
+  --rail-w-left: 220px;
+  --rail-w-right: clamp(280px, 22vw, 320px);
+  --max-content-width: 1200px;
+  
+  /* Spacing Scale (4/8/12/16/24) */
+  --pad-xs: 4px;
+  --pad-sm: 8px;
+  --pad: 12px;
+  --pad-md: 16px;
+  --pad-lg: 24px;
+  
+  /* Typography Scale (12/14/16/20/28/40) */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-xl: 28px;
+  --text-hero: clamp(28px, 3.2vw, 40px);
+  
+  /* Radius & Components */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --icon-button-size: 36px;
+  --hit-target: 40px;
+  
+  /* Motion System */
+  --duration-ui: 200ms;
+  --duration-sheet: 320ms;
+  --duration-hero: 450ms;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  
+  /* Glass Tone */
+  --glass-bg: rgba(16, 18, 26, 0.45);
+  --glass-heavy: rgba(16, 18, 26, 0.75);
+  --glass-blur: 8px;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  
+  /* Solid Tone */
+  --solid-bg: #12141b;
+  --solid-heavy: #0a0c12;
+  --solid-border: #1f2328;
+  
+  /* Colors */
+  --bg: #0c1018;
+  --text: rgba(255, 255, 255, 0.9);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-tertiary: rgba(255, 255, 255, 0.4);
+  --purple: #a855f7;
+  --purple-dark: #6b46c1;
+  
+  /* Shadows */
+  --shadow-1: 0 4px 16px rgba(0, 0, 0, 0.24);
+  --shadow-2: 0 8px 32px rgba(0, 0, 0, 0.32);
+}
+
+/* ===== TYPOGRAPHY SYSTEM ===== */
+
+/* Global Typography Scale Enforcement */
+h1 { font-size: var(--text-hero); line-height: 1.1; margin: 0; }
+h2 { font-size: var(--text-xl); line-height: 1.2; margin: 0; }
+h3 { font-size: var(--text-lg); line-height: 1.3; margin: 0; }
+p { font-size: var(--text-base); line-height: 1.5; margin: 0; }
+small { font-size: var(--text-xs); line-height: 1.4; margin: 0; }
+
+/* Brand Typography */
+.lukhas-brand {
+  font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 100 !important;
+  letter-spacing: 0.2em !important;
+  font-size: var(--text-lg) !important;
+  color: white !important;
+  text-shadow: 
+    0 0 20px rgba(168, 85, 247, 0.6),
+    0 0 40px rgba(168, 85, 247, 0.3) !important;
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4)) !important;
+}
+
+.lukhas-canvas-logo {
+  font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 100 !important;
+  font-size: var(--text-hero) !important;
+  letter-spacing: 0.3em !important;
+  color: rgba(255, 255, 255, 0.15) !important;
+  text-shadow: 0 0 40px rgba(168, 85, 247, 0.2) !important;
+}
+
+/* ===== STUDIO LAYOUT SYSTEM ===== */
+
+/* Header */
+.studio-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 56px !important;
+  background: var(--glass-heavy) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  z-index: var(--z-header) !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 var(--pad-md) !important;
+  gap: var(--pad) !important;
+  transition: transform var(--duration-ui) var(--ease) !important;
+}
+
+/* Rails - Consistent behavior across modes */
+.studio-sidebar-left {
+  width: var(--rail-w-left) !important;
+  display: grid !important;
+  grid-template-rows: auto 1fr auto !important;
+  transition: width var(--duration-sheet) var(--ease) !important;
+  border-right: 1px solid var(--glass-border) !important;
+  z-index: var(--z-rails) !important;
+  overflow: auto !important;
+}
+
+.studio-sidebar-right {
+  width: var(--rail-w-right) !important;
+  display: grid !important;
+  grid-template-rows: auto auto 1fr !important;
+  transition: width var(--duration-sheet) var(--ease) !important;
+  border-left: 1px solid var(--glass-border) !important;
+  z-index: var(--z-rails) !important;
+  overflow: auto !important;
+}
+
+/* Canvas - Primary surface */
+.studio-canvas {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+  background: linear-gradient(135deg, rgba(107, 70, 193, 0.05), rgba(168, 85, 247, 0.03)) !important;
+  z-index: var(--z-content) !important;
+}
+
+.studio-canvas-content {
+  flex: 1 !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Hero - Non-blocking decorative background */
+.studio-hero {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: var(--z-decor) !important;
+  pointer-events: none !important;
+  display: grid !important;
+  place-items: center !important;
+  transition: opacity var(--duration-hero) var(--ease) !important;
+}
+
+.studio-hero-content {
+  max-width: 48rem !important;
+  width: 100% !important;
+  text-align: center !important;
+  padding: var(--pad-lg) !important;
+}
+
+/* Footer - Spans center column only */
+.studio-footer-bar {
+  margin: var(--pad) !important;
+  padding: var(--pad-md) var(--pad-lg) !important;
+  background: var(--glass-heavy) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-2) !important;
+  transition: all var(--duration-ui) var(--ease) !important;
+}
+
+/* Composer - Primary input */
+.studio-textarea {
+  width: 100% !important;
+  min-height: 60px !important;
+  max-height: 220px !important;
+  border-radius: var(--radius) !important;
+  border: 1px solid var(--glass-border) !important;
+  background: rgba(0, 0, 0, 0.2) !important;
+  color: var(--text) !important;
+  padding: var(--pad-md) var(--pad-lg) !important;
+  resize: none !important;
+  line-height: 1.4 !important;
+  font-size: var(--text-sm) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  transition: border-color var(--duration-ui) var(--ease), box-shadow var(--duration-ui) var(--ease) !important;
+  outline: none !important;
+}
+
+.studio-textarea:focus {
+  border-color: var(--purple) !important;
+  box-shadow: 
+    inset 0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 0 3px rgba(168, 85, 247, 0.15) !important;
+}
+
+/* Send Button */
+.studio-send-button {
+  height: 56px !important;
+  border-radius: var(--radius) !important;
+  padding: 0 var(--pad-lg) !important;
+  background: linear-gradient(135deg, var(--purple-dark), var(--purple)) !important;
+  border: 1px solid var(--purple) !important;
+  color: white !important;
+  font-size: var(--text-sm) !important;
+  font-weight: 500 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  cursor: pointer !important;
+  transition: all var(--duration-ui) var(--ease) !important;
+  box-shadow: var(--shadow-1) !important;
+}
+
+.studio-send-button:hover {
+  background: linear-gradient(135deg, rgba(107, 70, 193, 1), rgba(168, 85, 247, 1)) !important;
+  box-shadow: 0 6px 24px rgba(168, 85, 247, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+.studio-collapse-button {
+  padding: 4px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+  background: rgba(168, 85, 247, 0.1) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.studio-collapse-button:hover {
+  background: rgba(168, 85, 247, 0.2) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.chevron-icon {
+  width: 1rem !important;
+  height: 1rem !important;
+  transition: transform 0.2s ease !important;
+}
+
+.chevron-rotated {
+  transform: rotate(180deg) !important;
+}
+
+/* ===== TONE SYSTEM ===== */
+
+/* Glass Tone - Translucent glassmorphism */
+[data-tone="glass"] .panel {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  border: 1px solid var(--glass-border) !important;
+}
+
+[data-tone="glass"] .panel-heavy {
+  background: var(--glass-heavy) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  border: 1px solid var(--glass-border) !important;
+}
+
+/* Solid Tone - Dark panels with clear structure */
+[data-tone="solid"] .panel {
+  background: var(--solid-bg) !important;
+  backdrop-filter: none !important;
+  border: 1px solid var(--solid-border) !important;
+}
+
+[data-tone="solid"] .panel-heavy {
+  background: var(--solid-heavy) !important;
+  backdrop-filter: none !important;
+  border: 1px solid var(--solid-border) !important;
+}
+
+/* Minimal Tone - Ultra-clean transparency */
+[data-tone="minimal"] .panel {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border: 1px solid transparent !important;
+}
+
+[data-tone="minimal"] .panel-heavy {
+  background: rgba(255, 255, 255, 0.02) !important;
+  backdrop-filter: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Base Panel Classes */
+.panel {
+  /* Default fallback - will be overridden by tone */
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  transition: all var(--duration-ui) var(--ease);
+}
+
+.panel-heavy {
+  background: var(--glass-heavy);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  transition: all var(--duration-ui) var(--ease);
+}
+
+/* Quick Actions Overlay */
+.composer-actions-overlay {
+  position: absolute !important;
+  bottom: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin-bottom: var(--spacing-2) !important;
+  z-index: var(--z-overlay) !important;
+  pointer-events: auto !important;
+}

@@ -1,6 +1,7 @@
 {
   "photon_version": "1.0.0",
   "title": "Users Lens",
+  "description": "A simple users dashboard with table and chart",
   "nodes": [
     {
       "id": "n_table",
@@ -18,7 +19,18 @@
     }
   ],
   "edges": [
-    { "id": "e1", "source": "n_table", "target": "n_chart", "kind": "derives", "label": "Aggregation" }
+    {
+      "id": "e1",
+      "source": "n_table",
+      "target": "n_chart",
+      "kind": "derives",
+      "label": "Aggregation"
+    }
   ],
-  "layout": { "positions_2d": { "n_table": { "x": 80, "y": 120 }, "n_chart": { "x": 520, "y": 120 } } }
+  "layout": {
+    "positions_2d": {
+      "n_table": { "x": 80, "y": 120 },
+      "n_chart": { "x": 520, "y": 120 }
+    }
+  }
 }

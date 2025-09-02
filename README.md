@@ -42,12 +42,12 @@ The LUKHAS AI Agent Army operates through a centralized coordination system for 
 - **Success Target**: 80% error reduction with zero critical issues
 
 ### **🤖 Agent Army Composition**
-| Agent | Specialization | Current Task | Status |
-|-------|---------------|--------------|--------|
-| **Agent Jules** | WebAuthn Security | Task 1 | 🔄 Active |
-| **Agent Consciousness** | Lambda ID System | Task 2 | 🔄 Active |
-| **Agent Core** | Distributed Systems | Task 3 | 🔄 Active |
-| **+12 Specialized Agents** | Various Systems | Tasks 4-15 | ⏳ Ready |
+| Agent                      | Specialization      | Current Task | Status   |
+| -------------------------- | ------------------- | ------------ | -------- |
+| **Agent Jules**            | WebAuthn Security   | Task 1       | 🔄 Active |
+| **Agent Consciousness**    | Lambda ID System    | Task 2       | 🔄 Active |
+| **Agent Core**             | Distributed Systems | Task 3       | 🔄 Active |
+| **+12 Specialized Agents** | Various Systems     | Tasks 4-15   | ⏳ Ready  |
 
 **🎯 For All Agents**: Start here → [`AGENT_ARMY_COORDINATION.md`](AGENT_ARMY_COORDINATION.md)
 
@@ -87,6 +87,8 @@ category: "overview"
 [![CI](https://github.com/LukhasAI/Lukhas/actions/workflows/ci.yml/badge.svg)](https://github.com/LukhasAI/Lukhas/actions/workflows/ci.yml)
 
 This repository is primed for a focused Deep Search pass using ChatGPT 5 Pro. This README orients auditors and agents to the pre‑search artifacts, quick commands, and boundaries for this phase.
+
+Note: The repo includes a new top-level `products/` consolidation shim and a safe migration script at `scripts/consolidate_products.sh` to migrate legacy `lambda_products*` bundles into `products/` while preserving git history. See `products/README.md` for details.
 
 ## Quick Start
 

@@ -67,6 +67,7 @@ export default function WidgetRail({ side, defaults, half }: { side: "left"|"rig
     }}>
       {ws.map(w=>(
         <section key={w.id}
+          className="panel"
           onMouseEnter={() => trackUsage(w.id)}
           draggable={canDrag}
           onDragStart={(e)=>{ e.dataTransfer.setData("text/plain", w.id); }}
@@ -77,7 +78,7 @@ export default function WidgetRail({ side, defaults, half }: { side: "left"|"rig
             border:"1px solid var(--line2)",
             borderRadius:12,
             padding:10,
-            background:"var(--panel)",
+            background:"transparent",
             opacity: canDrag ? 1 : .85,
             cursor: canDrag ? "grab" : "default",
             transition: "all 0.2s ease"

@@ -35,24 +35,17 @@ export default function ToneToggle({ className = "" }: ToneToggleProps) {
 
   function applyToneMode(tone: ToneMode) {
     const root = document.documentElement;
+    
+    // Set the data-tone attribute for CSS to react to
+    root.setAttribute('data-tone', tone);
 
-    switch (tone) {
-      case 'glass':
-        root.style.setProperty('--panel', 'rgba(16,20,29,0.55)');
-        root.style.setProperty('--panel-heavy', 'rgba(16,20,29,0.75)');
-        root.style.setProperty('--bg', '#0c1018');
-        break;
-      case 'solid':
-        root.style.setProperty('--panel', 'rgb(16,20,29)');
-        root.style.setProperty('--panel-heavy', 'rgb(12,16,24)');
-        root.style.setProperty('--bg', '#000000');
-        break;
-      case 'minimal':
-        root.style.setProperty('--panel', 'rgba(255,255,255,0.03)');
-        root.style.setProperty('--panel-heavy', 'rgba(255,255,255,0.05)');
-        root.style.setProperty('--bg', '#050505');
-        break;
-    }
+    // The CSS system now handles tone switching via data-tone attribute
+    // No need to manually set CSS properties - the design tokens handle everything
+    console.log(`🎨 Tone switched to: ${tone}`);
+    
+    // Optional: Trigger a custom event for other components to listen to
+    const event = new CustomEvent('lukhas:tone-change', { detail: { tone } });
+    document.dispatchEvent(event);
   }
 
   const tones = [
@@ -66,14 +59,13 @@ export default function ToneToggle({ className = "" }: ToneToggleProps) {
       <button
         onClick={() => setIsOpen(!isOpen)}
         title={`Current tone: ${mode}`}
+        className="panel"
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: 6,
           padding: '6px 10px',
-          border: '1px solid var(--line)',
           borderRadius: 10,
-          background: 'var(--panel)',
           color: 'var(--text)',
           cursor: 'pointer',
           fontSize: 12,
@@ -103,15 +95,14 @@ export default function ToneToggle({ className = "" }: ToneToggleProps) {
 
           {/* Tone options menu */}
           <div
+            className="panel"
             style={{
               position: 'absolute',
               top: '100%',
               left: 0,
               marginTop: 4,
               minWidth: 180,
-              background: 'var(--panel)',
               backdropFilter: 'saturate(140%) blur(18px)',
-              border: '1px solid var(--line)',
               borderRadius: 'var(--radius-md)',
               boxShadow: 'var(--shadow-2)',
               zIndex: 1000,
