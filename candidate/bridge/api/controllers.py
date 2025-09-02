@@ -84,9 +84,7 @@ try:
 
     logger.info("ΛTRACE: Successfully imported AGI module services and IdentityClient.")
 except ImportError as e:
-    logger.warning(
-        f"ΛTRACE: Some AGI module service imports failed: {e}. Using fallback classes for development."
-    )
+    logger.warning(f"ΛTRACE: Some AGI module service imports failed: {e}. Using fallback classes for development.")
     # ΛCORE: Import fallback services from dedicated module
     from .fallback_services import (
         FallbackConsciousnessService as ConsciousnessService,
@@ -157,9 +155,7 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
             )
 
             if not user_id:
-                logger.warning(
-                    f"ΛTRACE: Auth failed for '{endpoint_name}': Missing X-User-ID header."
-                )
+                logger.warning(f"ΛTRACE: Auth failed for '{endpoint_name}': Missing X-User-ID header.")
                 identity_client.log_activity(
                     "auth_failure_missing_uid",
                     "anonymous",
@@ -169,13 +165,17 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
                         "reason": "Missing X-User-ID",
                     },
                 )
-                return (jsonify({"success": False,
-                                 "error": "Authentication required: Missing X-User-ID header.",
-                                 "error_code": "AUTH_MISSING_USER_ID",
-                                 "timestamp": datetime.utcnow().isoformat(),
-                                 }),
-                        401,
-                        )
+                return (
+                    jsonify(
+                        {
+                            "success": False,
+                            "error": "Authentication required: Missing X-User-ID header.",
+                            "error_code": "AUTH_MISSING_USER_ID",
+                            "timestamp": datetime.utcnow().isoformat(),
+                        }
+                    ),
+                    401,
+                )
 
             # Verify user access tier
             if not identity_client.verify_user_access(user_id, required_tier):
@@ -198,7 +198,8 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
                             "error": f"Access denied: Insufficient tier. Required: {required_tier}.",
                             "error_code": "AUTH_INSUFFICIENT_TIER",
                             "timestamp": datetime.utcnow().isoformat(),
-                        }),
+                        }
+                    ),
                     403,
                 )
 
@@ -222,9 +223,7 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
 # Standardized API Error Handling Function
 
 
-def handle_api_error(
-    error: Exception, endpoint: str, user_id: Optional[str]
-) -> dict[str, Any]:
+def handle_api_error(error: Exception, endpoint: str, user_id: Optional[str]) -> dict[str, Any]:
     """
     Centralized error handling for API endpoints. Logs the error using ΛTRACE
     and returns a standardized JSON error response.
@@ -263,9 +262,7 @@ def handle_api_error(
         "error": f"An internal error occurred: {error_message}",
         "error_code": "API_INTERNAL_SERVER_ERROR",
         "endpoint_errored": endpoint,
-        "error_details": {
-            "type": error_type_name
-        },  # Avoid exposing full traceback in response for security
+        "error_details": {"type": error_type_name},  # Avoid exposing full traceback in response for security
         "timestamp": datetime.utcnow().isoformat(),
     }
 
@@ -294,9 +291,7 @@ def ethics_assess_action_endpoint():  # Renamed for clarity:
     try:
         data = request.get_json()
         if not data or "action" not in data:
-            logger.warning(
-                f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'action'."
-            )
+            logger.warning(f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'action'.")
             return (
                 jsonify(
                     {
@@ -308,19 +303,14 @@ def ethics_assess_action_endpoint():  # Renamed for clarity:
                 400,
             )
 
-        logger.debug(
-            f"ΛTRACE: Calling ethics_service.assess_action for user '{user_id}', "
-            f"action: '{data['action']}'."
-        )
+        logger.debug(f"ΛTRACE: Calling ethics_service.assess_action for user '{user_id}', action: '{data['action']}'.")
         result = ethics_service.assess_action(
             user_id,
             data["action"],
             data.get("context", {}),
             data.get("assessment_type", "comprehensive"),
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -342,9 +332,7 @@ def ethics_check_compliance_endpoint():  # Renamed for clarity:
     try:
         data = request.get_json()
         if not data or "proposal" not in data:
-            logger.warning(
-                f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'proposal'."
-            )
+            logger.warning(f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'proposal'.")
             return (
                 jsonify(
                     {
@@ -356,18 +344,14 @@ def ethics_check_compliance_endpoint():  # Renamed for clarity:
                 400,
             )
 
-        logger.debug(
-            f"ΛTRACE: Calling ethics_service.check_compliance for user '{user_id}'."
-        )
+        logger.debug(f"ΛTRACE: Calling ethics_service.check_compliance for user '{user_id}'.")
         result = ethics_service.check_compliance(
             user_id,
             data["proposal"],
             data.get("guidelines", []),
             data.get("compliance_level", "standard"),
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -392,9 +376,7 @@ def memory_store_item_endpoint():  # Renamed:
     try:
         data = request.get_json()
         if not data or "content" not in data:
-            logger.warning(
-                f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'content'."
-            )
+            logger.warning(f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'content'.")
             return (
                 jsonify(
                     {
@@ -406,9 +388,7 @@ def memory_store_item_endpoint():  # Renamed:
                 400,
             )
 
-        logger.debug(
-            f"ΛTRACE: Calling memory_service.store_memory for user '{user_id}'."
-        )
+        logger.debug(f"ΛTRACE: Calling memory_service.store_memory for user '{user_id}'.")
         result = memory_service.store_memory(
             user_id,
             data["content"],
@@ -416,9 +396,7 @@ def memory_store_item_endpoint():  # Renamed:
             data.get("access_level", "user"),
             data.get("metadata", {}),
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -436,18 +414,11 @@ def memory_retrieve_item_endpoint(memory_id: str):  # Renamed:
     """Retrieve a specific memory item by its ID."""
     endpoint_path = f"/memory/retrieve/{memory_id}"
     user_id = get_request_user_id()
-    logger.info(
-        f"ΛTRACE: Request received for {endpoint_path} by user '{user_id}'. Memory ID: {memory_id}."
-    )
+    logger.info(f"ΛTRACE: Request received for {endpoint_path} by user '{user_id}'. Memory ID: {memory_id}.")
     try:
-        logger.debug(
-            f"ΛTRACE: Calling memory_service.retrieve_memory for user '{user_id}', "
-            f"memory_id '{memory_id}'."
-        )
+        logger.debug(f"ΛTRACE: Calling memory_service.retrieve_memory for user '{user_id}', memory_id '{memory_id}'.")
         result = memory_service.retrieve_memory(user_id, memory_id)
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -469,9 +440,7 @@ def memory_search_items_endpoint():  # Renamed:
     try:
         data = request.get_json()
         if not data or "query" not in data:
-            logger.warning(
-                f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'query'."
-            )
+            logger.warning(f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'query'.")
             return (
                 jsonify(
                     {
@@ -483,10 +452,7 @@ def memory_search_items_endpoint():  # Renamed:
                 400,
             )
 
-        logger.debug(
-            f"ΛTRACE: Calling memory_service.search_memory for user '{user_id}', "
-            f"query: '{data['query']}'."
-        )
+        logger.debug(f"ΛTRACE: Calling memory_service.search_memory for user '{user_id}', query: '{data['query']}'.")
         result = memory_service.search_memory(
             user_id,
             data["query"],
@@ -494,9 +460,7 @@ def memory_search_items_endpoint():  # Renamed:
             data.get("limit", 10),
             data.get("filters", {}),
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -536,8 +500,7 @@ def creativity_generate_content_endpoint():  # Renamed:
             )
 
         logger.debug(
-            f"ΛTRACE: Calling creativity_service.generate_content for user '{user_id}', "
-            f"type: '{data['content_type']}'."
+            f"ΛTRACE: Calling creativity_service.generate_content for user '{user_id}', type: '{data['content_type']}'."
         )
         result = creativity_service.generate_content(
             user_id,
@@ -546,9 +509,7 @@ def creativity_generate_content_endpoint():  # Renamed:
             data.get("style"),
             data.get("parameters", {}),
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -569,12 +530,8 @@ def creativity_synthesize_dream_endpoint():  # Renamed:
     logger.info(f"ΛTRACE: Request received for {endpoint_path} by user '{user_id}'.")
     try:
         data = request.get_json()
-        if (
-            not data or "dream_data" not in data
-        ):  # Assuming 'dream_data' is the key input
-            logger.warning(
-                f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'dream_data'."
-            )
+        if not data or "dream_data" not in data:  # Assuming 'dream_data' is the key input
+            logger.warning(f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'dream_data'.")
             return (
                 jsonify(
                     {
@@ -586,17 +543,13 @@ def creativity_synthesize_dream_endpoint():  # Renamed:
                 400,
             )
 
-        logger.debug(
-            f"ΛTRACE: Calling creativity_service.synthesize_dream for user '{user_id}'."
-        )
+        logger.debug(f"ΛTRACE: Calling creativity_service.synthesize_dream for user '{user_id}'.")
         result = creativity_service.synthesize_dream(
             user_id,
             data["dream_data"],
             data.get("synthesis_type", "narrative"),
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -621,9 +574,7 @@ def consciousness_process_awareness_endpoint():  # Renamed:
     try:
         data = request.get_json()
         if not data or "input_stream" not in data:
-            logger.warning(
-                f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'input_stream'."
-            )
+            logger.warning(f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'input_stream'.")
             return (
                 jsonify(
                     {
@@ -635,17 +586,13 @@ def consciousness_process_awareness_endpoint():  # Renamed:
                 400,
             )
 
-        logger.debug(
-            f"ΛTRACE: Calling consciousness_service.process_awareness for user '{user_id}'."
-        )
+        logger.debug(f"ΛTRACE: Calling consciousness_service.process_awareness for user '{user_id}'.")
         result = consciousness_service.process_awareness(
             user_id,
             data["input_stream"],
             data.get("awareness_level", "basic_awareness"),
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -667,9 +614,7 @@ def consciousness_perform_introspection_endpoint():  # Renamed:
     try:
         data = request.get_json()
         if not data or "focus_area" not in data:
-            logger.warning(
-                f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'focus_area'."
-            )
+            logger.warning(f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'focus_area'.")
             return (
                 jsonify(
                     {
@@ -682,8 +627,7 @@ def consciousness_perform_introspection_endpoint():  # Renamed:
             )
 
         logger.debug(
-            f"ΛTRACE: Calling consciousness_service.introspect for user '{user_id}', "
-            f"focus: '{data['focus_area']}'."
+            f"ΛTRACE: Calling consciousness_service.introspect for user '{user_id}', focus: '{data['focus_area']}'."
         )
         result = consciousness_service.introspect(
             user_id,
@@ -691,9 +635,7 @@ def consciousness_perform_introspection_endpoint():  # Renamed:
             data.get("depth", 0.5),
             data.get("introspection_type", "self_reflection"),
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -718,12 +660,8 @@ def consciousness_get_state_endpoint():  # Renamed:
         logger.debug(
             f"ΛTRACE: Calling consciousness_service.get_consciousness_state for user '{user_id}', detailed: {include_detailed}."
         )
-        result = consciousness_service.get_consciousness_state(
-            user_id, include_detailed
-        )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        result = consciousness_service.get_consciousness_state(user_id, include_detailed)
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -748,9 +686,7 @@ def learning_learn_from_data_endpoint():  # Renamed:
     try:
         data = request.get_json()
         if not data or "data_source" not in data:
-            logger.warning(
-                f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'data_source'."
-            )
+            logger.warning(f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'data_source'.")
             return (
                 jsonify(
                     {
@@ -762,18 +698,14 @@ def learning_learn_from_data_endpoint():  # Renamed:
                 400,
             )
 
-        logger.debug(
-            f"ΛTRACE: Calling learning_service.learn_from_data for user '{user_id}'."
-        )
+        logger.debug(f"ΛTRACE: Calling learning_service.learn_from_data for user '{user_id}'.")
         result = learning_service.learn_from_data(
             user_id,
             data["data_source"],
             data.get("learning_mode", "supervised"),
             data.get("learning_objectives", []),
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -794,11 +726,7 @@ def learning_adapt_behavior_endpoint():  # Renamed:
     logger.info(f"ΛTRACE: Request received for {endpoint_path} by user '{user_id}'.")
     try:
         data = request.get_json()
-        if (
-            not data
-            or "adaptation_context" not in data
-            or "behavior_targets" not in data
-        ):
+        if not data or "adaptation_context" not in data or "behavior_targets" not in data:
             logger.warning(
                 f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'adaptation_context' or 'behavior_targets'."
             )
@@ -808,22 +736,19 @@ def learning_adapt_behavior_endpoint():  # Renamed:
                         "success": False,
                         "error": "Missing 'adaptation_context' or 'behavior_targets' in request body.",
                         "error_code": "REQUEST_MISSING_ADAPTATION_FIELDS",
-                    }),
+                    }
+                ),
                 400,
             )
 
-        logger.debug(
-            f"ΛTRACE: Calling learning_service.adapt_behavior for user '{user_id}'."
-        )
+        logger.debug(f"ΛTRACE: Calling learning_service.adapt_behavior for user '{user_id}'.")
         result = learning_service.adapt_behavior(
             user_id,
             data["adaptation_context"],
             data["behavior_targets"],
             data.get("adaptation_strategy", "gradual"),
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -851,49 +776,46 @@ def qi_perform_computation_endpoint():  # Renamed:
             logger.warning(
                 f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'algorithm' or 'input_qubits'."
             )
-            return (jsonify({"success": False,
-                             "error": "Missing 'algorithm' or 'input_qubits' in request body.",
-                             "error_code": "REQUEST_MISSING_QUANTUM_COMPUTE_FIELDS",
-                             }),
-                    400,
-                    )
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "error": "Missing 'algorithm' or 'input_qubits' in request body.",
+                        "error_code": "REQUEST_MISSING_QUANTUM_COMPUTE_FIELDS",
+                    }
+                ),
+                400,
+            )
 
         # Validate and convert input_qubits to complex numbers
         try:
             # This list comprehension handles numbers directly or dicts like {'real': x, 'imag': y}
             qubits = [
-                complex(q_val)
-                if isinstance(q_val, (int, float))
-                else complex(q_val["real"], q_val["imag"])
+                complex(q_val) if isinstance(q_val, (int, float)) else complex(q_val["real"], q_val["imag"])
                 for q_val in data["input_qubits"]
             ]
             logger.debug(f"ΛTRACE: Parsed input_qubits: {qubits}")
         except (KeyError, ValueError, TypeError) as q_err:
-            logger.warning(
-                f"ΛTRACE: Invalid qubit format in request to {endpoint_path} from user '{user_id}': {q_err}"
-            )
+            logger.warning(f"ΛTRACE: Invalid qubit format in request to {endpoint_path} from user '{user_id}': {q_err}")
             return (
                 jsonify(
                     {
                         "success": False,
                         "error": "Invalid qubit format. Each qubit must be a number or a dict {'real': x, 'imag': y}.",
                         "error_code": "INVALID_QUBIT_FORMAT",
-                    }),
+                    }
+                ),
                 400,
             )
 
-        logger.debug(
-            f"ΛTRACE: Calling qi_service.qi_compute for user '{user_id}', algorithm: '{data['algorithm']}'."
-        )
+        logger.debug(f"ΛTRACE: Calling qi_service.qi_compute for user '{user_id}', algorithm: '{data['algorithm']}'.")
         result = qi_service.qi_compute(
             user_id,
             data["algorithm"],
             qubits,
             data.get("qi_gates"),  # qi_gates is optional
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -924,7 +846,8 @@ def qi_create_entanglement_endpoint():  # Renamed:
                         "success": False,
                         "error": "Missing 'entanglement_type' or 'target_systems' in request body.",
                         "error_code": "REQUEST_MISSING_ENTANGLEMENT_FIELDS",
-                    }),
+                    }
+                ),
                 400,
             )
 
@@ -937,9 +860,7 @@ def qi_create_entanglement_endpoint():  # Renamed:
             data["target_systems"],
             data.get("entanglement_strength", 1.0),  # Default strength
         )
-        logger.info(
-            f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
-        )
+        logger.info(f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}")
         return jsonify(result)
 
     except Exception as e:
@@ -1055,9 +976,7 @@ def system_api_info_endpoint():  # Renamed:
 @app.errorhandler(404)
 def handle_not_found_error(error: Exception) -> Any:  # error type is werkzeug.exceptions.NotFound
     """Handles 404 Not Found errors with a standardized JSON response."""
-    logger.warning(
-        f"ΛTRACE: 404 Not Found error at path '{request.path}'. Error: {error}"
-    )
+    logger.warning(f"ΛTRACE: 404 Not Found error at path '{request.path}'. Error: {error}")
     return (
         jsonify(
             {
@@ -1086,7 +1005,8 @@ def handle_method_not_allowed_error(error: Exception) -> Any:  # error type is w
                 "error_code": "METHOD_NOT_ALLOWED",
                 "path": request.path,
                 "timestamp": datetime.utcnow().isoformat(),
-            }),
+            }
+        ),
         405,
     )
 
@@ -1117,30 +1037,25 @@ def handle_internal_server_error(error: Exception) -> Any:  # Catches general in
                 "error": "An unexpected internal server error occurred. The LUKHAS team has been notified.",
                 "error_code": "UNHANDLED_INTERNAL_SERVER_ERROR",
                 "timestamp": datetime.utcnow().isoformat(),
-            }),
+            }
+        ),
         500,
     )
 
 
 # Main execution block for running the Flask development server
 if __name__ == "__main__":
-    logger.info(
-        "ΛTRACE: api_controllers.py is being run directly. Starting Flask development server."
-    )
+    logger.info("ΛTRACE: api_controllers.py is being run directly. Starting Flask development server.")
     # Development server settings
     host_setting = os.environ.get("LUKHAS_API_HOST", "0.0.0.0")
-    port_setting = int(
-        os.environ.get("LUKHAS_API_PORT", 5001)
-    )  # Changed default port to avoid common conflicts
+    port_setting = int(os.environ.get("LUKHAS_API_PORT", 5001))  # Changed default port to avoid common conflicts
     debug_setting = os.environ.get("LUKHAS_DEBUG_MODE", "False").lower() in [
         "true",
         "1",
         "yes",
     ]
 
-    logger.info(
-        f"🚀 LUKHAS AGI API Server starting on {host_setting}:{port_setting} (Debug: {debug_setting})..."
-    )
+    logger.info(f"🚀 LUKHAS AGI API Server starting on {host_setting}:{port_setting} (Debug: {debug_setting})...")
     logger.info(f"🔗 API Base Path: {BASE_PATH}")
     logger.info("🔑 Authentication expected via 'X-User-ID' header.")
     logger.info(f"🩺 Health Check endpoint available at: {BASE_PATH}/health")

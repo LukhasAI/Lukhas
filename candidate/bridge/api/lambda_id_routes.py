@@ -1,9 +1,9 @@
 # ═══════════════════════════════════════════════════════════════════════════
-# FILENAME: lambda_id_routes.py
+# FILENAME: lambda_id_routes.py (DEPRECATED - USE lukhas_id_routes.py)
 # MODULE: lukhas_id.api.routes.lambda_id_routes
-# DESCRIPTION: Defines Flask Blueprint and API routes for LUKHAS ΛiD (Lambda ID)
-#              generation, validation, entropy calculation, and tier management.
-# DEPENDENCIES: Flask, Flask-Limiter, logging, typing, LambdaIDController,
+# DESCRIPTION: ⚠️ DEPRECATED: Legacy routes for LUKHAS ΛiD - Λ = LUKHAS, not Lambda!
+#              Use lukhas_id_routes.py for new code. This provides backward compatibility.
+# DEPENDENCIES: Flask, Flask-Limiter, logging, typing, LukhasIDController,
 #               other core LUKHAS ID services (indirectly via controller).
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
@@ -26,6 +26,7 @@ from flask_limiter.util import get_remote_address
 
 logger = logging.getLogger("ΛTRACE.lukhas_id.api.routes.lambda_id")
 logger.info("ΛTRACE: Initializing lambda_id_routes module.")
+logger.warning("⚠️ DEPRECATION: lambda_id_routes.py is deprecated! Λ = LUKHAS, not Lambda! Use lukhas_id_routes.py")
 
 # Attempt to import controller and core services (try canonical module first,
 # fall back to legacy misspelled module for compatibility)
@@ -73,11 +74,11 @@ except ImportError:
                 return {"all_services_up": False, "error": "Controller not loaded"}
 
 
-# Initialize Flask Blueprint for LambdaID routes
-# Using a more specific versioning in URL prefix if this is v1 of these specific routes
-lambda_id_bp = Blueprint("lambda_id_v1", __name__, url_prefix="/api/v1/lambda-id")
-logger.info(
-    f"ΛTRACE: Flask Blueprint 'lambda_id_v1' created with url_prefix: {lambda_id_bp.url_prefix}"
+# Initialize Flask Blueprint for legacy Lambda ID routes (DEPRECATED)
+# ⚠️ DEPRECATED: URL will redirect to /api/v1/lukhas-id
+lambda_id_bp = Blueprint("lambda_id_v1_deprecated", __name__, url_prefix="/api/v1/lambda-id")
+logger.warning(
+    f"⚠️ DEPRECATION: Flask Blueprint 'lambda_id_v1_deprecated' created with DEPRECATED url_prefix: {lambda_id_bp.url_prefix}"
 )
 
 # Maintain backward-compatible alias for the old variable name

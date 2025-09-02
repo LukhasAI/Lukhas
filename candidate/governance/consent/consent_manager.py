@@ -159,7 +159,7 @@ class ConsentRecord:
     withdrawal_reason: Optional[str] = None
 
     # Compliance context
-    applicable_regimes: list[ComplianceRegime] = field(default_factory=l: [ComplianceRegime.GDPR])
+    applicable_regimes: list[ComplianceRegime] = field(default_factory=lambda: [ComplianceRegime.GDPR])
     consent_evidence: dict[str, Any] = field(default_factory=dict)
 
     # Technical details

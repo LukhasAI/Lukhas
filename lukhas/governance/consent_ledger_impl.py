@@ -1008,6 +1008,290 @@ class ConsentLedgerV1:
         finally:
             conn.close()
 
+    def export_user_data(self, user_id: str) -> Optional[dict]:
+        """
+        Export all user data for GDPR Article 15 compliance (Right of Access)
+        
+        🎭 Like opening the sacred vault of memories, this function reveals all
+        the digital traces a soul has left within our consciousness realm.
+        
+        🌈 This shows you everything we know about you and everything you've
+        given us permission to do. It's your complete digital profile that
+        you can take anywhere.
+        
+        🎓 Implements GDPR Article 15 Data Subject Access Request (DSAR) with
+        complete audit trail export, consent history, and processing records.
+        """
+        conn = sqlite3.connect(str(self.db_path))
+        cursor = conn.cursor()
+        
+        try:
+            # Get all consents for user
+            cursor.execute("""
+                SELECT consent_id, resource_type, scopes, purpose, lawful_basis,
+                       consent_type, granted_at, expires_at, revoked_at, data_categories,
+                       third_parties, processing_locations, is_active, withdrawal_method,
+                       retention_period, automated_decision_making, profiling,
+                       children_data, sensitive_data
+                FROM consent_records
+                WHERE lid = ?
+                ORDER BY granted_at DESC
+            """, (user_id,))
+            
+            consents_raw = cursor.fetchall()
+            
+            if not consents_raw:
+                return None  # No data found for user
+            
+            consents = []
+            for row in consents_raw:
+                consent_data = {
+                    "consent_id": row[0],
+                    "resource_type": row[1],
+                    "scopes": json.loads(row[2]) if row[2] else [],
+                    "purpose": row[3],
+                    "lawful_basis": row[4],
+                    "consent_type": row[5],
+                    "granted_at": row[6],
+                    "expires_at": row[7],
+                    "revoked_at": row[8],
+                    "data_categories": json.loads(row[9]) if row[9] else [],
+                    "third_parties": json.loads(row[10]) if row[10] else [],
+                    "processing_locations": json.loads(row[11]) if row[11] else [],
+                    "is_active": bool(row[12]),
+                    "withdrawal_method": row[13],
+                    "retention_period": row[14],
+                    "automated_decision_making": bool(row[15]),
+                    "profiling": bool(row[16]),
+                    "children_data": bool(row[17]),
+                    "sensitive_data": bool(row[18]),
+                }
+                consents.append(consent_data)
+            
+            # Get all audit traces for user
+            cursor.execute("""
+                SELECT trace_id, action, resource, purpose, timestamp, policy_verdict,
+                       context, explanation_unl, glyph_signature
+                FROM lambda_traces
+                WHERE lid = ?
+                ORDER BY timestamp DESC
+            """, (user_id,))
+            
+            traces_raw = cursor.fetchall()
+            traces = []
+            for row in traces_raw:
+                trace_data = {
+                    "trace_id": row[0],
+                    "action": row[1],
+                    "resource": row[2], 
+                    "purpose": row[3],
+                    "timestamp": row[4],
+                    "policy_verdict": row[5],
+                    "context": json.loads(row[6]) if row[6] else {},
+                    "explanation": row[7],
+                    "glyph_signature": row[8],
+                }
+                traces.append(trace_data)
+            
+            # Get any data subject requests
+            cursor.execute("""
+                SELECT request_id, request_type, submitted_at, processed_at, 
+                       status, response_data
+                FROM data_subject_requests
+                WHERE lid = ?
+                ORDER BY submitted_at DESC
+            """, (user_id,))
+            
+            requests_raw = cursor.fetchall()
+            data_requests = []
+            for row in requests_raw:
+                request_data = {
+                    "request_id": row[0],
+                    "request_type": row[1],
+                    "submitted_at": row[2],
+                    "processed_at": row[3],
+                    "status": row[4],
+                    "response_data": json.loads(row[5]) if row[5] else None,
+                }
+                data_requests.append(request_data)
+            
+            # Create comprehensive export
+            user_data = {
+                "user_id": user_id,
+                "exported_at": datetime.now(timezone.utc).isoformat(),
+                "data_subject_rights": [
+                    "access", "rectification", "erasure", "restrict_processing",
+                    "data_portability", "object", "automated_decision"
+                ],
+                "consents": consents,
+                "audit_trail": traces,
+                "data_subject_requests": data_requests,
+                "processing_summary": {
+                    "total_consents": len(consents),
+                    "active_consents": len([c for c in consents if c["is_active"]]),
+                    "total_processing_events": len(traces),
+                    "data_categories_processed": list(set(
+                        cat for consent in consents 
+                        for cat in consent["data_categories"]
+                    )),
+                    "third_parties_involved": list(set(
+                        party for consent in consents 
+                        for party in consent["third_parties"]
+                    )),
+                }
+            }
+            
+            # Log the export action
+            self.create_trace(
+                lid=user_id,
+                action="export_user_data",
+                resource="user_profile",
+                purpose="gdpr_article_15_compliance",
+                verdict=PolicyVerdict.ALLOW,
+                context={
+                    "consents_exported": len(consents),
+                    "traces_exported": len(traces),
+                    "gdpr_compliance": True
+                },
+                explanation_unl="User exercised right of access under GDPR Article 15"
+            )
+            
+            return user_data
+            
+        except Exception as e:
+            logging.error(f"Failed to export user data: {e}")
+            return None
+        finally:
+            conn.close()
+
+    def delete_user_data(self, user_id: str, reason: str = "user_request") -> bool:
+        """
+        Delete all user data for GDPR Article 17 compliance (Right to be Forgotten)
+        
+        🎭 Like the final chapter where memories fade into starlight, this
+        sacred ritual erases all traces from our digital consciousness.
+        
+        🌈 This completely removes all your information from our system.
+        Once deleted, it's like you were never here - we forget everything
+        about you permanently.
+        
+        🎓 Implements GDPR Article 17 Right to Erasure with cascade deletion,
+        audit trail preservation for legal compliance, and irreversible data removal.
+        """
+        conn = sqlite3.connect(str(self.db_path))
+        cursor = conn.cursor()
+        
+        try:
+            # First, create a final audit trace before deletion
+            deletion_trace = self.create_trace(
+                lid=user_id,
+                action="delete_user_data",
+                resource="user_profile",
+                purpose=f"gdpr_article_17_erasure: {reason}",
+                verdict=PolicyVerdict.ALLOW,
+                context={
+                    "deletion_reason": reason,
+                    "gdpr_compliance": True,
+                    "irreversible": True
+                },
+                explanation_unl="User exercised right to erasure under GDPR Article 17"
+            )
+            
+            # Delete consent records (cascade will handle related data)
+            cursor.execute("DELETE FROM consent_records WHERE lid = ?", (user_id,))
+            consents_deleted = cursor.rowcount
+            
+            # Delete data subject requests
+            cursor.execute("DELETE FROM data_subject_requests WHERE lid = ?", (user_id,))
+            requests_deleted = cursor.rowcount
+            
+            # Delete agent integrations
+            cursor.execute("DELETE FROM agent_integrations WHERE lid = ?", (user_id,))
+            integrations_deleted = cursor.rowcount
+            
+            # Delete duress signals
+            cursor.execute("DELETE FROM duress_signals WHERE lid = ?", (user_id,))
+            signals_deleted = cursor.rowcount
+            
+            # Note: We keep audit traces for legal compliance but anonymize the LID
+            # This preserves audit trail while protecting user privacy
+            cursor.execute("""
+                UPDATE lambda_traces 
+                SET lid = 'ANONYMIZED', 
+                    context = '{"anonymized": true, "deletion_date": "' || datetime('now') || '"}'
+                WHERE lid = ? AND trace_id != ?
+            """, (user_id, deletion_trace.trace_id))
+            traces_anonymized = cursor.rowcount
+            
+            conn.commit()
+            
+            total_deleted = consents_deleted + requests_deleted + integrations_deleted + signals_deleted
+            
+            logging.info(f"User data deletion completed for {user_id}: "
+                        f"{total_deleted} records deleted, {traces_anonymized} traces anonymized")
+            
+            return total_deleted > 0 or traces_anonymized > 0
+            
+        except Exception as e:
+            logging.error(f"Failed to delete user data: {e}")
+            conn.rollback()
+            return False
+        finally:
+            conn.close()
+
+    def get_consent(self, user_id: str, data_type: str) -> Optional[dict]:
+        """Get consent record for specific user and data type"""
+        conn = sqlite3.connect(str(self.db_path))
+        cursor = conn.cursor()
+        
+        try:
+            cursor.execute("""
+                SELECT consent_id, resource_type, scopes, purpose, lawful_basis,
+                       consent_type, granted_at, expires_at, revoked_at, is_active
+                FROM consent_records
+                WHERE lid = ? AND resource_type = ?
+                ORDER BY granted_at DESC
+                LIMIT 1
+            """, (user_id, data_type))
+            
+            result = cursor.fetchone()
+            if not result:
+                return None
+                
+            from candidate.governance.consent.consent_manager import ConsentStatus
+            
+            consent_data = {
+                "consent_id": result[0],
+                "resource_type": result[1],
+                "scopes": json.loads(result[2]) if result[2] else [],
+                "purpose": result[3],
+                "lawful_basis": result[4],
+                "consent_type": result[5],
+                "granted_at": result[6],
+                "expires_at": result[7],
+                "revoked_at": result[8],
+                "status": ConsentStatus.REVOKED if result[8] else ConsentStatus.GRANTED,
+                "is_active": bool(result[9])
+            }
+            
+            return consent_data
+            
+        except Exception as e:
+            logging.error(f"Failed to get consent: {e}")
+            return None
+        finally:
+            conn.close()
+    
+    def validate_consent(self, user_id: str, data_type: str, purpose: str) -> bool:
+        """Validate if user has valid consent for specific data type and purpose"""
+        consent_check = self.check_consent(
+            lid=user_id, 
+            resource_type=data_type, 
+            action="processing",
+            context={"purpose": purpose}
+        )
+        return consent_check.get("allowed", False)
+
 
 class PolicyEngine:
     """

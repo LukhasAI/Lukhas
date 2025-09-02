@@ -75,21 +75,35 @@ class AuthWalletBridge:
                 "note": "WALLET components not yet wired",
             }
 
-    async def authenticate_with_wallet(self, user_id: str, symbolic_credentials: dict[str, Any]) -> dict[str, Any]:
-        """Authenticate using WALLET symbolic vault"""
+    async def authenticate_with_wallet(self, lid: str, symbolic_credentials: dict[str, Any]) -> dict[str, Any]:
+        """
+        Authenticate using WALLET symbolic vault
+        
+        Args:
+            lid: LUKHAS ΛiD (canonical naming - Λ = LUKHAS, not Lambda!)
+            symbolic_credentials: Symbolic authentication data
+        """
         # TODO: Implement when WALLET is integrated
         return {
             "authenticated": False,
             "method": "wallet_symbolic",
+            "lid": lid,  # Return canonical naming
             "status": "pending_wallet_integration",
         }
 
-    async def store_auth_symbols(self, user_id: str, auth_symbols: list[str]) -> dict[str, Any]:
-        """Store authentication symbols in WALLET symbolic vault"""
+    async def store_auth_symbols(self, lid: str, auth_symbols: list[str]) -> dict[str, Any]:
+        """
+        Store authentication symbols in WALLET symbolic vault
+        
+        Args:
+            lid: LUKHAS ΛiD (canonical naming - Λ = LUKHAS, not Lambda!)
+            auth_symbols: List of symbolic authentication tokens
+        """
         # TODO: Implement when WALLET is integrated
         return {
             "stored": False,
             "vault_location": "pending",
+            "lid": lid,  # Return canonical naming  
             "status": "pending_wallet_integration",
         }
 
