@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import SuggestionChips from "@/components/suggestion-chips";
 import ConsentBanner from "@/components/consent-banner";
 import CanvasCarousel from "@/components/canvas-carousel";
@@ -10,8 +10,11 @@ import type { ContextCapsule } from "@lukhas/orchestrator/contextCapsule";
 import type { ResultCardData } from "@/components/result-card";
 
 export const dynamic = "force-dynamic";
-export default function StudioThreadPage({ params }: { params: { threadId: string } }) {
+export default function StudioThreadPage({ params }: { params: Promise<{ threadId: string }> }) {
+  // Unwrap params Promise for Next.js 15 compatibility
+  const { threadId } = use(params);
   const [cards, setCards] = useState<ResultCardData[]>([]);
+  const [composerFocused, setComposerFocused] = useState(false);
 
   // Demo seed for testing UI changes
   useEffect(() => {
@@ -23,7 +26,7 @@ export default function StudioThreadPage({ params }: { params: { threadId: strin
     }
   }, []);
   const capsule: ContextCapsule = {
-    threadId: params.threadId,
+    threadId: threadId,
     summary: "Research → validate → produce short video explainer",
     excerpts: ["Perplexity answer pasted here (sample excerpt)."],
     evidence: [],
@@ -57,14 +60,39 @@ export default function StudioThreadPage({ params }: { params: { threadId: strin
 
   // Mount P2P chat in the right sidebar
   useEffect(() => {
+    let root: any = null;
+    
     import('react-dom/client').then((ReactDOM) => {
       const mountPoint = document.getElementById('p2p-root');
-      if (mountPoint && !mountPoint.hasChildNodes()) {
-        const root = ReactDOM.createRoot(mountPoint);
-        root.render(<P2PChat threadId={params.threadId} />);
+      if (mountPoint) {
+        // Clear existing content and create new root
+        mountPoint.innerHTML = '';
+        root = ReactDOM.createRoot(mountPoint);
+        root.render(<P2PChat threadId={threadId} />);
       }
     });
-  }, [params.threadId]);
+
+    return () => {
+      if (root) {
+        root.unmount();
+      }
+    };
+  }, [threadId]);
+
+  // Listen for composer focus/blur events
+  useEffect(() => {
+    const onFocus = () => setComposerFocused(true);
+    const onBlur = () => setComposerFocused(false);
+    
+    document.addEventListener('lukhas:composer:focus', onFocus);
+    document.addEventListener('lukhas:composer:blur', onBlur);
+    
+    return () => {
+      document.removeEventListener('lukhas:composer:focus', onFocus);
+      document.removeEventListener('lukhas:composer:blur', onBlur);
+    };
+  }, []);
+  
   function onResult(r: { model: string; output: string; skill: string }) {
     const kind = r.skill === "validate.facts" ? "validation"
       : r.skill === "video.summarize" ? "storyboard"
@@ -83,19 +111,90 @@ export default function StudioThreadPage({ params }: { params: { threadId: strin
       },
     ]);
   }
+  
   return (
-    <ModeProvider threadId={params.threadId}>
-      <section style={{ border: "1px solid var(--line)", borderRadius: "var(--radius-lg)", padding: 16, minHeight: 480, background:"var(--panel)", boxShadow:"var(--shadow-inset)" }}>
-        <div style={{ display:"grid", gap: 10 }}>
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-            <h2>Canvas · Thread {params.threadId}</h2>
-            <div />
+    <ModeProvider threadId={threadId}>
+      {/* Canvas - Main Content Area with floating design */}
+      <div style={{ 
+        flex: 1, 
+        display: "flex", 
+        flexDirection: "column",
+        position: "relative",
+        background: "linear-gradient(135deg, rgba(107,70,193,0.05), rgba(168,85,247,0.03))"
+      }}>
+        {/* Canvas Content */}
+        <div style={{ flex: 1, position: "relative", overflow: "hidden" }}>
+          {/* Background gradient for depth */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "radial-gradient(circle at 50% 50%, rgba(168,85,247,0.08) 0%, transparent 70%)"
+          }} />
+          
+          {/* Canvas State Content */}
+          <div style={{ 
+            position: "relative", 
+            height: "100%", 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center",
+            padding: "2rem"
+          }}>
+            {/* Hero - Non-blocking decorative background */}
+            <div
+              className="studio-hero"
+              aria-hidden="true"
+              style={{
+                opacity: (cards.length === 0 && !composerFocused) ? 1 : 0
+              }}
+            >
+              <div className="studio-hero-content">
+                <div className="lukhas-canvas-logo">
+                  LUKHΛS
+                </div>
+                <p style={{ 
+                  color: "var(--text-secondary)", 
+                  fontSize: "var(--text-lg)",
+                  margin: "var(--pad-md) 0 0 0",
+                  fontWeight: 300
+                }}>
+                  Ready when you are.
+                </p>
+              </div>
+            </div>
+            
+            {cards.length > 0 && (
+              <div style={{ width: "100%", maxWidth: "56rem" }}>
+                <CanvasCarousel cards={cards} />
+              </div>
+            )}
           </div>
-          <ConsentBanner />
-          <SuggestionChips capsule={capsule} onResult={onResult} />
-          {cards.length ? <CanvasCarousel cards={cards} /> : <EmptyCanvas />}
         </div>
-      </section>
+        
+        {/* Consent Banner - floating at top */}
+        <div style={{ 
+          position: "absolute", 
+          top: "1rem", 
+          left: "1rem", 
+          right: "1rem", 
+          zIndex: 10 
+        }}>
+          <ConsentBanner />
+        </div>
+        
+        {/* Suggestion Chips - floating above input */}
+        <div style={{
+          position: "absolute",
+          bottom: "5rem",
+          left: "1rem",
+          right: "1rem",
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 10
+        }}>
+          <SuggestionChips capsule={capsule} onResult={onResult} />
+        </div>
+      </div>
     </ModeProvider>
   );
 }

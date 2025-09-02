@@ -31,15 +31,14 @@ logger.info("ΛTRACE: Initializing lambda_id_routes module.")
 # fall back to legacy misspelled module for compatibility)
 try:
     from ..controllers.lambda_id_controller import LambdaIDController
+
     logger.info("ΛTRACE: LambdaIDController (canonical) imported successfully.")
 except ImportError:
     try:
         # Backwards-compatible fallback to legacy path if present
         from ..controllers.lambd_id_controller import LambdaIDController  # type: ignore
 
-        logger.warning(
-            "ΛTRACE: Imported legacy LambdaIDController (lambd_id_controller) for compatibility."
-        )
+        logger.warning("ΛTRACE: Imported legacy LambdaIDController (lambd_id_controller) for compatibility.")
     except ImportError as e:
         logger.error(
             f"ΛTRACE: Failed to import LambdaIDController or core services: {e}. ΛiD routes may not function.",
@@ -50,7 +49,6 @@ except ImportError:
         # endpoints will fail
 
         class LambdaIDController:  # type: ignore
-
             def __init__(self):
                 logger.error("ΛTRACE: Using FALLBACK LambdaIDController.")
 
@@ -76,9 +74,7 @@ except ImportError:
 # Initialize Flask Blueprint for LambdaID routes
 # Using a more specific versioning in URL prefix if this is v1 of these specific routes
 lambda_id_bp = Blueprint("lambda_id_v1", __name__, url_prefix="/api/v1/lambda-id")
-logger.info(
-    f"ΛTRACE: Flask Blueprint 'lambda_id_v1' created with url_prefix: {lambda_id_bp.url_prefix}"
-)
+logger.info(f"ΛTRACE: Flask Blueprint 'lambda_id_v1' created with url_prefix: {lambda_id_bp.url_prefix}")
 
 # Maintain backward-compatible alias for the old variable name
 lambd_id_bp = lambda_id_bp
@@ -109,7 +105,7 @@ except Exception as e_controller:
 
 
 def _get_req_id(prefix="req"):
-    return f"{prefix}_{int(time.time()*1000)}_{random.randint(100,999)}"
+    return f"{prefix}_{int(time.time() * 1000)}_{random.randint(100, 999)}"
 
 
 # --- API Route Definitions ---
@@ -125,14 +121,10 @@ def generate_lambda_id_route():  # Renamed for clarity:
     and other optional configurations.
     """
     req_id = _get_req_id("gen_lid")
-    logger.info(
-        f"ΛTRACE ({req_id}): POST /generate request received from {request.remote_addr}."
-    )
+    logger.info(f"ΛTRACE ({req_id}): POST /generate request received from {request.remote_addr}.")
     try:
         if not request.is_json:
-            logger.warning(
-                f"ΛTRACE ({req_id}): Invalid Content-Type for /generate. Expected application/json."
-            )
+            logger.warning(f"ΛTRACE ({req_id}): Invalid Content-Type for /generate. Expected application/json.")
             return (
                 jsonify(
                     {
@@ -157,7 +149,7 @@ def generate_lambda_id_route():  # Renamed for clarity:
             request_metadata={  # Pass along request context for detailed logging by controller
                 "ip_address": get_remote_address(),
                 "user_agent": request.headers.get("User-Agent"),
-                        "request_timestamp": datetime.now(tz=timezone.utc).isoformat(),
+                "request_timestamp": datetime.now(tz=timezone.utc).isoformat(),
                 "endpoint": request.path,
             },
         )
@@ -165,11 +157,9 @@ def generate_lambda_id_route():  # Renamed for clarity:
         status_code = 201 if result.get("success") else 400  # 201 Created for success
         log_level = logger.info if status_code == 201 else logger.warning
         log_level(
-
-                f"ΛTRACE({req_id}): /generate response. Success: {result.get('success')}, "
-                f"LambdaID: {result.get('lambda_id', 'N/A')}, Error: {result.get('error')}, "
-                f"Status Code: {status_code}"
-
+            f"ΛTRACE({req_id}): /generate response. Success: {result.get('success')}, "
+            f"LambdaID: {result.get('lambda_id', 'N/A')}, Error: {result.get('error')}, "
+            f"Status Code: {status_code}"
         )
         return jsonify(result), status_code
 
@@ -201,9 +191,7 @@ def validate_lambda_id_route():  # Renamed:
     and optionally checks for collisions.
     """
     req_id = _get_req_id("val_lid")
-    logger.info(
-        f"ΛTRACE ({req_id}): POST /validate request received from {request.remote_addr}."
-    )
+    logger.info(f"ΛTRACE ({req_id}): POST /validate request received from {request.remote_addr}.")
     try:
         if not request.is_json:
             logger.warning(f"ΛTRACE ({req_id}): Invalid Content-Type for /validate.")
@@ -223,9 +211,7 @@ def validate_lambda_id_route():  # Renamed:
         lambda_id_to_validate = request_data.get("lambda_id")
 
         if not lambda_id_to_validate:
-            logger.warning(
-                f"ΛTRACE ({req_id}): Missing 'lambda_id' in /validate request."
-            )
+            logger.warning(f"ΛTRACE ({req_id}): Missing 'lambda_id' in /validate request.")
             return (
                 jsonify(
                     {
@@ -248,10 +234,8 @@ def validate_lambda_id_route():  # Renamed:
         )
 
         logger.info(
-
-                f"ΛTRACE ({req_id}): /validate response for ΛiD '{lambda_id_to_validate}'. "
-                f"Valid: {result.get('valid', False)}, Details: {result.get('validation_details')}"
-
+            f"ΛTRACE ({req_id}): /validate response for ΛiD '{lambda_id_to_validate}'. "
+            f"Valid: {result.get('valid', False)}, Details: {result.get('validation_details')}"
         )
         return (
             jsonify(result),
@@ -286,9 +270,7 @@ def calculate_entropy_route():  # Renamed:
     optionally considering user tier and calculation method.
     """
     req_id = _get_req_id("entropy")
-    logger.info(
-        f"ΛTRACE ({req_id}): POST /entropy request received from {request.remote_addr}."
-    )
+    logger.info(f"ΛTRACE ({req_id}): POST /entropy request received from {request.remote_addr}.")
     try:
         if not request.is_json:
             logger.warning(f"ΛTRACE ({req_id}): Invalid Content-Type for /entropy.")
@@ -308,9 +290,7 @@ def calculate_entropy_route():  # Renamed:
         symbolic_input_list = request_data.get("symbolic_input", [])
 
         if not symbolic_input_list:
-            logger.warning(
-                f"ΛTRACE ({req_id}): Missing 'symbolic_input' in /entropy request."
-            )
+            logger.warning(f"ΛTRACE ({req_id}): Missing 'symbolic_input' in /entropy request.")
             return (
                 jsonify(
                     {
@@ -332,9 +312,7 @@ def calculate_entropy_route():  # Renamed:
             },
         )
 
-        logger.info(
-            f"ΛTRACE({req_id}): /entropy response. Score: {result.get('entropy_score', 'N/A')}"
-        )
+        logger.info(f"ΛTRACE({req_id}): /entropy response. Score: {result.get('entropy_score', 'N/A')}")
         return jsonify(result), 200
 
     except Exception as e:
@@ -365,15 +343,10 @@ def get_tier_information_route():  # Renamed:
     or all tiers, optionally including progression maps.
     """
     req_id = _get_req_id("tiers_info")
-    logger.info(
-        f"ΛTRACE ({req_id}): GET /tiers request received from {request.remote_addr}. Args: {request.args}"
-    )
+    logger.info(f"ΛTRACE ({req_id}): GET /tiers request received from {request.remote_addr}. Args: {request.args}")
     try:
         specific_tier_req = request.args.get("tier", default=None, type=int)
-        include_prog_req = (
-            request.args.get("include_progression", default="false", type=str).lower()
-            == "true"
-        )
+        include_prog_req = request.args.get("include_progression", default="false", type=str).lower() == "true"
 
         result = controller.get_tier_information(
             specific_tier=specific_tier_req,
@@ -384,9 +357,7 @@ def get_tier_information_route():  # Renamed:
             },
         )
 
-        logger.info(
-            f"ΛTRACE ({req_id}): /tiers response. Success: {result.get('success')}"
-        )
+        logger.info(f"ΛTRACE ({req_id}): /tiers response. Success: {result.get('success')}")
         return jsonify(result), 200
 
     except Exception as e:
@@ -417,9 +388,7 @@ def request_tier_upgrade_route():  # Renamed:
     Requires validation data and current ΛiD.
     """
     req_id = _get_req_id("upgrade_tier")
-    logger.info(
-        f"ΛTRACE ({req_id}): POST /upgrade request received from {request.remote_addr}."
-    )
+    logger.info(f"ΛTRACE ({req_id}): POST /upgrade request received from {request.remote_addr}.")
     try:
         if not request.is_json:
             logger.warning(f"ΛTRACE ({req_id}): Invalid Content-Type for /upgrade.")
@@ -441,9 +410,7 @@ def request_tier_upgrade_route():  # Renamed:
 
         if not current_lambda_id_val or target_tier_val is None:
             # Check for None explicitly for target_tier=0
-            logger.warning(
-                f"ΛTRACE ({req_id}): Missing 'current_lambda_id' or 'target_tier' in /upgrade request."
-            )
+            logger.warning(f"ΛTRACE ({req_id}): Missing 'current_lambda_id' or 'target_tier' in /upgrade request.")
             return (
                 jsonify(
                     {
@@ -503,9 +470,7 @@ def request_tier_upgrade_route():  # Renamed:
 def health_check_route():  # Renamed:
     """Provides a health check for the LambdaID service, including its controller dependencies."""
     req_id = _get_req_id("health_lid")
-    logger.info(
-        f"ΛTRACE ({req_id}): GET /health request received from {request.remote_addr}."
-    )
+    logger.info(f"ΛTRACE ({req_id}): GET /health request received from {request.remote_addr}.")
     try:
         health_status_details = controller.check_service_health(
             request_metadata={
@@ -515,15 +480,9 @@ def health_check_route():  # Renamed:
         )  # Controller method logs its details
 
         response_payload = {
-            "status": (
-                "healthy"
-                if health_status_details.get("overall_status") == "healthy"
-                else "degraded"
-            ),
+            "status": ("healthy" if health_status_details.get("overall_status") == "healthy" else "degraded"),
             "version": health_status_details.get("controller_version", "N/A"),
-            "timestamp": health_status_details.get(
-                "timestamp", datetime.now(tz=timezone.utc).isoformat()
-            ),
+            "timestamp": health_status_details.get("timestamp", datetime.now(tz=timezone.utc).isoformat()),
             "services_checked": health_status_details.get("service_details", {}),
         }
         http_status = 200 if response_payload["status"] == "healthy" else 503
@@ -582,9 +541,7 @@ def handle_rate_limit_exceeded_on_bp(_e: Exception):
 def handle_not_found_on_bp(_e: Exception):
     """Handles 404 Not Found errors for routes under lambda_id_bp."""
     req_id = _get_req_id("err404")
-    logger.warning(
-        f"ΛTRACE ({req_id}): Resource not found within lambda_id_bp at {request.path}."
-    )
+    logger.warning(f"ΛTRACE ({req_id}): Resource not found within lambda_id_bp at {request.path}.")
     return (
         jsonify(
             {
@@ -601,9 +558,7 @@ def handle_not_found_on_bp(_e: Exception):
 def handle_method_not_allowed_on_bp(_e: Exception):
     """Handles 405 Method Not Allowed errors for routes under lambda_id_bp."""
     req_id = _get_req_id("err405")
-    logger.warning(
-        f"ΛTRACE ({req_id}): Method {request.method} not allowed for {request.path} within lambda_id_bp."
-    )
+    logger.warning(f"ΛTRACE ({req_id}): Method {request.method} not allowed for {request.path} within lambda_id_bp.")
     return (
         jsonify(
             {

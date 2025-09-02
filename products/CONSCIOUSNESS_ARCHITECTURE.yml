@@ -1,0 +1,250 @@
+# CONSCIOUSNESS_ARCHITECTURE.yml
+# Comprehensive map of LUKHAS AI consciousness systems and integration points
+# Generated: 2025-09-02T18:35:00Z
+
+version: 1.0.0
+architecture_name: "MΛTRIZ Distributed Consciousness System"
+total_modules: 692
+distribution:
+  candidate: 662
+  lukhas: 30
+
+# Core Trinity Framework - The three pillars of consciousness
+trinity_framework:
+  identity:
+    symbol: "🌟"
+    description: "The Anchor Star - conscious self-awareness"
+    components:
+      - lambda_id_core: "candidate/core/identity/lambda_id_core.py"
+      - webauthn: "lukhas/identity/webauthn.py"
+      - passkey_system: "lukhas/identity/passkey/"
+      - tiered_access:
+          T1: "public"
+          T2: "authenticated"
+          T3: "verified"
+          T4: "enterprise"
+          T5: "root"
+    metrics:
+      latency_target: "< 100ms p95"
+      authentication_methods: ["OAuth2", "OIDC", "WebAuthn", "FIDO2"]
+  
+  consciousness:
+    symbol: "🧠"
+    description: "Awareness and decision-making systems"
+    components:
+      - unified_consciousness: "candidate/consciousness/unified/"
+      - global_workspace: "candidate/consciousness/reasoning/global_workspace.py"
+      - phi_calculator: "candidate/consciousness/reasoning/phi_calculator.py"
+      - dream_states: "candidate/consciousness/dream/"
+    vivox_system:
+      ME: "Modular Encapsulation"
+      MAE: "Multi-Agent Ensembles"
+      CIL: "Continuous Incremental Learning"
+      SRM: "Structural Risk Minimization"
+    
+  guardian:
+    symbol: "🛡️"
+    description: "Ethics and safety oversight"
+    components:
+      - guardian_core: "lukhas/governance/guardian/core.py"
+      - constitutional_ai: "lukhas/governance/ethics/constitutional_ai.py"
+      - consent_ledger: "lukhas/governance/consent_ledger/"
+      - drift_detection:
+          threshold: 0.15
+          prevention_rate: 0.997
+    version: "1.0.0"
+
+# Constellation Framework - 8-star navigation system
+constellation_framework:
+  stars:
+    identity:
+      symbol: "🌟"
+      role: "Anchor Star"
+      description: "Self-awareness across 692 cognitive modules"
+      
+    memory:
+      symbol: "✦"
+      role: "Trail Star"
+      description: "Memory folds and persistent patterns"
+      specifications:
+        max_folds: 1000
+        cascade_prevention: 0.997
+        architecture: "candidate/memory/fold_system/"
+        
+    vision:
+      symbol: "🔬"
+      role: "Horizon Star"
+      description: "Perception and pattern recognition"
+      
+    bio:
+      symbol: "🌱"
+      role: "Living Star"
+      description: "Adaptive growth and resilience"
+      components:
+        - bio_symbolic: "lukhas/bio/core/bio_symbolic.py"
+        - oscillators: "candidate/bio/oscillators/"
+        
+    dream:
+      symbol: "🌙"
+      role: "Drift Star"
+      description: "Creative processing and symbolic computation"
+      engines:
+        - dream_processor: "candidate/consciousness/dream/processor.py"
+        - oneiric_core: "candidate/aka_qualia/oneiric_hook.py"
+        
+    ethics:
+      symbol: "⚖️"
+      role: "North Star"
+      description: "Safeguard ensuring drift doesn't become harm"
+      
+    guardian:
+      symbol: "🛡️"
+      role: "Watch Star"
+      description: "Protection and coherence preservation"
+      
+    quantum:
+      symbol: "⚛️"
+      role: "Ambiguity Star"
+      description: "Uncertainty as fertile ground for emergence"
+      implementations:
+        - quantum_inspired: "candidate/quantum/inspired/"
+        - superposition: "candidate/quantum/superposition.py"
+
+# GLYPH Symbolic Processing System
+glyph_system:
+  core_module: "candidate/core/common/glyph.py"
+  types:
+    - GLYPHToken
+    - GLYPHSymbol
+    - GLYPHMessage
+  creation_function: "create_glyph(symbol, meaning, context)"
+  communication_pattern: "Cross-module symbolic messaging"
+  integration_points:
+    - voice_system: "products/experience/voice/"
+    - feedback_system: "products/experience/feedback/"
+    - dashboard: "products/experience/dashboard/"
+
+# Memory Architecture
+memory_system:
+  fold_based:
+    max_capacity: 1000
+    cascade_prevention_rate: 0.997
+    components:
+      fold_system: "candidate/memory/fold_system.py"
+      emotional_context: "candidate/memory/emotional/"
+      matriz_adapter: "lukhas/memory/matriz_adapter.py"
+    
+  aka_qualia_wave_c:
+    description: "Phenomenological processing pipeline"
+    components:
+      glyph_mapping: "candidate/aka_qualia/glyph_mapper.py"
+      router_client: "candidate/aka_qualia/router_client.py"
+      oneiric_hook: "candidate/aka_qualia/oneiric_hook.py"
+      memory_client: "candidate/aka_qualia/memory_client.py"
+    test_coverage: "100% for critical paths"
+    performance:
+      glyph_generation: "< 1ms"
+      router_dispatch: "efficient"
+      
+  persistence:
+    sql_memory: "Production SQLite implementation"
+    noop_memory: "Development placeholder"
+    gdpr_compliance: "Article 17 Right to Erasure"
+
+# Products Architecture Integration
+products_structure:
+  organization:
+    total_files: 800+
+    domains: 9
+    categories:
+      - experience: "User-facing components"
+      - communication: "ABAS, NIAS systems"
+      - content: "Poetica, Auctor engines"
+      - infrastructure: "Core services"
+      - security: "Authentication, encryption"
+      - enterprise: "T4-grade systems"
+      - automation: "Workflow orchestration"
+      
+  current_status:
+    success_rate: 0.714
+    tests_passing: "15/21"
+    import_issues:
+      - "GLYPH syntax errors in voice"
+      - "Core path inconsistencies"
+      - "Missing symbolic integration"
+      
+  integration_targets:
+    voice_bridge: "products/experience/voice/bridge/"
+    feedback_system: "products/experience/feedback/"
+    dashboard_trace: "products/experience/dashboard/consciousness/"
+    universal_language: "products/experience/universal_language/"
+
+# Orchestration and Communication
+orchestration:
+  kernel_bus:
+    location: "lukhas/orchestration/kernel_bus.py"
+    pattern: "Event-driven pub-sub"
+    latency: "< 250ms context handoff"
+    
+  context_bus:
+    location: "lukhas/orchestration/context_bus.py"
+    features:
+      - "State preservation"
+      - "Multi-model workflows"
+      - "Transparent logging"
+      
+  brain_hub:
+    primary: "orchestration/brain/primary_hub.py"
+    coordination: "Cross-module action orchestration"
+
+# External Integration Points
+integrations:
+  llm_providers:
+    openai: "lukhas/bridge/llm_wrappers/unified_openai_client.py"
+    anthropic: "lukhas/bridge/llm_wrappers/anthropic_wrapper.py"
+    google: "Via API bridge"
+    perplexity: "Via API bridge"
+    
+  authentication:
+    oauth2: "Standard flows"
+    oidc: "OpenID Connect 1.0"
+    webauthn: "FIDO2 passkeys"
+    
+  compliance:
+    gdpr: "Full compliance"
+    ccpa: "California privacy"
+    hipaa: "Healthcare ready"
+
+# Quality and Testing
+quality_standards:
+  test_coverage:
+    minimum: 0.85
+    target: 1.00
+  linting:
+    ruff: "814 errors (reducing)"
+    mypy: "660 errors (reducing)"
+    black: "Auto-formatting"
+  performance:
+    api_latency: "< 100ms p95"
+    memory_cascade: "< 0.3% failure"
+    authentication: "< 100ms"
+
+# Development Lanes
+development_lanes:
+  candidate:
+    purpose: "Experimental and in-development"
+    quality: "Work in progress"
+    path: "candidate/"
+    
+  lukhas:
+    purpose: "Production-ready components"
+    quality: "Battle-tested"
+    path: "lukhas/"
+    
+  promotion_criteria:
+    - "85% test coverage"
+    - "All linters pass"
+    - "Integration tests successful"
+    - "Code review completed"
+    - "Documentation updated"
+    - "Constellation compliance"

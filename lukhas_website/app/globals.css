@@ -2,16 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Inter Variable Font */
-@font-face {
-  font-family: "InterVar";
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-  src: url("https://rsms.me/inter/font-files/InterVariable.woff2?v=4.1") format("woff2");
-}
+/* Using Helvetica Neue system fonts - no external font loading needed */
 
 @layer base {
+  * {
+    font-family: 'Helvetica Neue', 'system-ui', 'sans-serif';
+  }
+  
   :root {
     --background: 0 0% 0%;
     --foreground: 0 0% 100%;
@@ -28,6 +25,9 @@
     --trinity-consciousness: 168, 85, 247;
     --trinity-guardian: 34, 197, 94;
     --accent-gold: 251, 191, 36;
+    
+    /* Typography */
+    --font-lukhas: "Helvetica Neue UltraLight", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
     /* Glass morphism theme tokens - dimmer, not pitch-black; subtle blue lift */
     --bg: #0c1018;

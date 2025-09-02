@@ -130,7 +130,7 @@ export default function StateLayout({ children }: StateLayoutProps) {
 
   // Debug logging in development
   if (process.env.NODE_ENV === 'development') {
-    console.log('🎭 StateLayout:', { currentState, consentGiven })
+    console.log('🎭 StateLayout:', { pathname, isAppRoute, isStudioRoute, currentState, consentGiven })
   }
 
   return (

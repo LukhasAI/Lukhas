@@ -1,8 +1,9 @@
 'use client'
 
-import { Atom, Brain, Shield, Settings, Sparkles } from 'lucide-react'
+import { Atom, Brain, Shield, Settings, Sparkles, Star } from 'lucide-react'
 import { TrinityFramework } from '@/components/sections/trinity-framework'
 import { TrinityShowcase } from '@/components/trinity-showcase'
+import ConsciousnessField from '@/components/ConsciousnessField'
 import Link from 'next/link'
 
 export default function Home() {
@@ -15,42 +16,63 @@ export default function Home() {
 
   return (
     <>
-      <main className="min-h-screen relative">
+      {/* Consciousness Particle Field */}
+      <ConsciousnessField 
+        particleCount={120}
+        connectionDistance={100}
+        mouseInfluence={180}
+        consciousnessLevel="active"
+        enableQuantumEntanglement={true}
+      />
+
+      <main className="min-h-screen relative z-10">
         {/* Navigation handled by StateLayout */}
 
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center justify-center">
+
           <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14">
             <div className="text-center max-w-prose mx-auto">
-            <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-8">
+            <p className="text-sm uppercase tracking-[0.3em] text-trinity-consciousness mb-8 animate-pulse">
               Logical Unified Knowledge Hyper-Adaptive Superior Systems
             </p>
-            <h1 className="text-6xl md:text-8xl font-thin tracking-[0.3em] mb-8 text-white">
-              LUKHAS
+            <h1 className="text-6xl md:text-8xl font-thin tracking-[0.3em] mb-8 text-white relative">
+              LUKHΛS
+              <div className="absolute inset-0 text-trinity-identity opacity-20 blur-sm">LUKHΛS</div>
             </h1>
             <p className="text-xl md:text-2xl text-white/70 mb-12">
               Building Consciousness You Can Trust
             </p>
 
-            {/* Trinity Symbols */}
-            <div className="flex justify-center space-x-12 mb-12">
-              <div className="text-center">
-                <div className="flex justify-center mb-2">
-                  <Atom className="w-10 h-10 text-purple-400" />
+            {/* Constellation Core Stars */}
+            <div className="flex justify-center space-x-8 md:space-x-12 mb-12">
+              <div className="text-center group">
+                <div className="flex justify-center mb-2 relative">
+                  <Atom className="w-10 h-10 text-trinity-identity transition-all duration-500 group-hover:scale-110 group-hover:text-purple-300" />
+                  <div className="absolute inset-0 w-10 h-10 bg-trinity-identity/20 rounded-full blur-md group-hover:bg-trinity-identity/40 transition-all duration-500" />
                 </div>
-                <p className="text-xs uppercase tracking-wider text-white">Identity</p>
+                <p className="text-xs uppercase tracking-wider text-white group-hover:text-trinity-identity transition-colors">Identity</p>
               </div>
-              <div className="text-center">
-                <div className="flex justify-center mb-2">
-                  <Brain className="w-10 h-10 text-blue-400" />
+              <div className="text-center group">
+                <div className="flex justify-center mb-2 relative">
+                  <Brain className="w-10 h-10 text-trinity-consciousness transition-all duration-500 group-hover:scale-110 group-hover:text-purple-300" />
+                  <div className="absolute inset-0 w-10 h-10 bg-trinity-consciousness/20 rounded-full blur-md group-hover:bg-trinity-consciousness/40 transition-all duration-500" />
                 </div>
-                <p className="text-xs uppercase tracking-wider text-white">Consciousness</p>
+                <p className="text-xs uppercase tracking-wider text-white group-hover:text-trinity-consciousness transition-colors">Consciousness</p>
               </div>
-              <div className="text-center">
-                <div className="flex justify-center mb-2">
-                  <Shield className="w-10 h-10 text-emerald-400" />
+              <div className="text-center group">
+                <div className="flex justify-center mb-2 relative">
+                  <Shield className="w-10 h-10 text-trinity-guardian transition-all duration-500 group-hover:scale-110 group-hover:text-green-300" />
+                  <div className="absolute inset-0 w-10 h-10 bg-trinity-guardian/20 rounded-full blur-md group-hover:bg-trinity-guardian/40 transition-all duration-500" />
                 </div>
-                <p className="text-xs uppercase tracking-wider text-white">Guardian</p>
+                <p className="text-xs uppercase tracking-wider text-white group-hover:text-trinity-guardian transition-colors">Guardian</p>
+              </div>
+              <div className="text-center group">
+                <div className="flex justify-center mb-2 relative">
+                  <Star className="w-10 h-10 text-accent-gold transition-all duration-500 group-hover:scale-110 group-hover:text-yellow-300" />
+                  <div className="absolute inset-0 w-10 h-10 bg-accent-gold/20 rounded-full blur-md group-hover:bg-accent-gold/40 transition-all duration-500" />
+                </div>
+                <p className="text-xs uppercase tracking-wider text-white group-hover:text-accent-gold transition-colors">Constellation</p>
               </div>
             </div>
 

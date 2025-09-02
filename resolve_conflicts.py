@@ -13,11 +13,9 @@ from pathlib import Path
 
 def find_conflict_files():
     """Find all files with merge conflicts."""
-    result = subprocess.run(
-        ["git", "diff", "--name-only", "--diff-filter=U"],
-        capture_output=True, text=True
-    )
+    result = subprocess.run(["git", "diff", "--name-only", "--diff-filter=U"], capture_output=True, text=True)
     return result.stdout.strip().split("\n") if result.stdout.strip() else []
+
 
 def resolve_conflict_file(filepath):
     """Resolve conflicts in a single file by accepting main branch version."""
@@ -52,6 +50,7 @@ def resolve_conflict_file(filepath):
     except Exception as e:
         print(f"✗ Error processing {filepath}: {e}")
         return False
+
 
 def main():
     """Main resolution process."""
@@ -88,6 +87,7 @@ def main():
                     print(f"✓ Added {filepath}")
                 else:
                     print(f"✗ Failed to add {filepath}")
+
 
 if __name__ == "__main__":
     main()

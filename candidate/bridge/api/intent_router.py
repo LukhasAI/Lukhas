@@ -179,9 +179,7 @@ class IntentRouter:
         # Extract entity references
         if intent_type == IntentType.QUERY_MEMORY:
             # Look for specific topics
-            topic_match = re.search(
-                r"about\s+(.+?)(?:\s+(?:from|since|before)|$)", text.lower()
-            )
+            topic_match = re.search(r"about\s+(.+?)(?:\s+(?:from|since|before)|$)", text.lower())
             if topic_match:
                 parameters["topic"] = topic_match.group(1).strip()
 

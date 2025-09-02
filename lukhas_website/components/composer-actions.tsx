@@ -19,18 +19,12 @@ export default function ComposerActions({ onAction }: ComposerActionsProps) {
 
   return (
     <div
+      className="composer-actions-overlay panel"
       style={{
-        position: "absolute",
-        bottom: "100%",
-        left: 0,
-        right: 0,
-        marginBottom: 8,
         display: "flex",
         gap: 6,
         padding: "8px 12px",
-        background: "var(--panel)",
         backdropFilter: "saturate(140%) blur(18px)",
-        border: "1px solid var(--line)",
         borderRadius: "var(--radius-md)",
         boxShadow: "var(--shadow-1)",
       }}
