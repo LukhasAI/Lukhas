@@ -14,6 +14,7 @@ Priority: HIGH
 """
 from typing import Any, Dict
 
+
 class _VoiceSymbolicVocabulary:
     def __init__(self) -> None:
         pass
@@ -99,7 +100,7 @@ def get_symbol(vocabulary_name: str, key: str, default: str = "❓") -> str:
             return entry["emoji"]
         elif isinstance(entry, str):
             return entry
-    elif hasattr(vocab, 'get_all_symbols'):
+    elif hasattr(vocab, "get_all_symbols"):
         all_symbols = vocab.get_all_symbols()
         if key in all_symbols:
             return all_symbols[key].symbol

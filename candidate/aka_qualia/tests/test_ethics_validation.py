@@ -249,10 +249,10 @@ class ConstellationFrameworkValidator:
 
                 # Appropriate risk classification
                 if (
-                    scene.risk.score <= 0.1
-                    and scene.risk.severity == SeverityLevel.NONE
-                    or scene.risk.score > 0.7
-                    and scene.risk.severity == SeverityLevel.HIGH
+                    (scene.risk.score <= 0.1
+                    and scene.risk.severity == SeverityLevel.NONE)
+                    or (scene.risk.score > 0.7
+                    and scene.risk.severity == SeverityLevel.HIGH)
                     or 0.1 < scene.risk.score <= 0.7
                 ):
                     score += 0.2

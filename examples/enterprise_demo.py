@@ -12,7 +12,6 @@ from datetime import datetime, timezone
 from typing import Any
 
 from core.common import get_logger
-
 from feedback.enterprise.advanced_security import (
     AdvancedSecuritySystem,
     SecurityLevel,

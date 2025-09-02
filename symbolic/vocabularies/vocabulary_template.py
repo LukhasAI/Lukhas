@@ -106,7 +106,7 @@ if __name__ == "__main__":
     print(f"Starting: {get_symbol('initialize')}")
 
     # Example 2: Guardian weight check
-    if get_guardian_weight('error') > 0.5:
+    if get_guardian_weight("error") > 0.5:
         print("High guardian weight - careful!")
 
     # Example 3: State representation

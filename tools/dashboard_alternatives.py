@@ -589,11 +589,11 @@ def create_streamlit_mock():
 
 # Export key components
 __all__ = [
+    "DashboardData",
     "SimpleDashboard",
     "StreamlitFallback",
-    "DashboardData",
-    "get_streamlit_fallback",
     "create_streamlit_mock",
+    "get_streamlit_fallback",
 ]
 
 

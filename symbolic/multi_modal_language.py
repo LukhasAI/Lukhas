@@ -14,9 +14,10 @@ import io
 import logging
 import math
 import time
+from collections.abc import Awaitable
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Optional, Dict, List, Tuple, cast, Callable, Awaitable
+from typing import Any, Callable, Dict, List, Optional, Tuple, cast
 
 import numpy as np
 from PIL import Image

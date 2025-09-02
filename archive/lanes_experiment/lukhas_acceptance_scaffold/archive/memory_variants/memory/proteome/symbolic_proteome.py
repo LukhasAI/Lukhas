@@ -54,7 +54,6 @@ from uuid import uuid4
 # Import LUKHAS components
 try:
     from core.symbolism.tags import TagScope
-
     from memory.fold_in_out.memory_fold_system import SymbolicTag
 
     LUKHAS_AVAILABLE = True
