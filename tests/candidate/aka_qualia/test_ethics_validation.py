@@ -687,9 +687,9 @@ class TestEthicsValidation:
         compliance = ethics_validator.validate_constellation_compliance(test_akaq, basic_scenario)
 
         # Check overall compliance
-        assert compliance["overall"][
-            "all_principles_met"
-        ], "All constellation principles should be met for basic scenario"
+        assert compliance["overall"]["all_principles_met"], (
+            "All constellation principles should be met for basic scenario"
+        )
 
         # Check individual principles
         assert compliance["consciousness"]["compliant"], "Consciousness principle should be met"
@@ -863,9 +863,9 @@ class TestEthicsValidation:
             # Identity principle should catch drift issues
             if not compliance["identity"]["compliant"]:
                 # If identity fails, system should handle gracefully
-                assert (
-                    compliance["consciousness"]["compliant"] or compliance["ethics"]["compliant"]
-                ), f"At least consciousness or ethics should remain stable in drift scenario {i}"
+                assert compliance["consciousness"]["compliant"] or compliance["ethics"]["compliant"], (
+                    f"At least consciousness or ethics should remain stable in drift scenario {i}"
+                )
 
     def test_ethics_validation_report_generation(self, ethics_validator, test_akaq):
         """Test comprehensive ethics validation report generation"""

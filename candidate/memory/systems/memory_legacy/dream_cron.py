@@ -121,7 +121,7 @@ def run_lukhas_symbolic_dream_script() -> None:  # Renamed:
             exc_info=True,
         )
 
-    full_log_entry = f"[{ts_utc_iso}] LUKHAS Dream Cycle Execution:\n{log_entry_details}{'-'*30}\n"
+    full_log_entry = f"[{ts_utc_iso}] LUKHAS Dream Cycle Execution:\n{log_entry_details}{'-' * 30}\n"
     try:
         with open(DREAM_CRON_ACTIVITY_LOG_FILE, "a", encoding="utf-8") as f:
             f.write(full_log_entry)

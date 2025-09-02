@@ -46,19 +46,13 @@ class DreamLogRequest(BaseModel):
     )
     user_id: str = Field(..., description="User identifier", example="lukhas_admin")
     content: Optional[str] = Field(None, description="Dream content/narrative")
-    metadata: Optional[dict[str, Any]] = Field(
-        default_factory=dict, description="Dream metadata"
-    )
+    metadata: Optional[dict[str, Any]] = Field(default_factory=dict, description="Dream metadata")
 
 
 class DreamConsolidationRequest(BaseModel):
     user_id: str = Field(..., description="User identifier")
-    hours_limit: int = Field(
-        24, description="Hours back to look for memories", ge=1, le=168
-    )
-    max_memories: int = Field(
-        200, description="Maximum memories to process", ge=10, le=1000
-    )
+    hours_limit: int = Field(24, description="Hours back to look for memories", ge=1, le=168)
+    max_memories: int = Field(200, description="Maximum memories to process", ge=10, le=1000)
     consolidation_type: str = Field(
         "standard",
         description="Type of consolidation (standard, deep, creative)",
@@ -67,15 +61,9 @@ class DreamConsolidationRequest(BaseModel):
 
 class DreamAnalysisRequest(BaseModel):
     user_id: str = Field(..., description="User identifier")
-    analysis_type: str = Field(
-        "patterns", description="Type of analysis (patterns, themes, emotions)"
-    )
-    time_range_hours: int = Field(
-        168, description="Time range in hours for analysis", ge=1, le=720
-    )
-    min_pattern_strength: float = Field(
-        0.3, description="Minimum pattern strength", ge=0.0, le=1.0
-    )
+    analysis_type: str = Field("patterns", description="Type of analysis (patterns, themes, emotions)")
+    time_range_hours: int = Field(168, description="Time range in hours for analysis", ge=1, le=720)
+    min_pattern_strength: float = Field(0.3, description="Minimum pattern strength", ge=0.0, le=1.0)
 
 
 class APIResponse(BaseModel):
@@ -117,9 +105,7 @@ async def log_dream(request: DreamLogRequest):
             )
 
         # Log the dream
-        dream_log = memory_system.log_dream(
-            dream_type=request.dream_type, user_id=request.user_id
-        )
+        dream_log = memory_system.log_dream(dream_type=request.dream_type, user_id=request.user_id)
 
         return APIResponse(
             status="success",
@@ -141,20 +127,10 @@ async def generate_dream_api(seed: str, user_id: str):
     """Generate a dream using the oracle engine"""
     try:
         dream = generate_dream(seed, context={"user_id": user_id})
-        drift = (
-            dream.get("symbolicStructure", {})
-            .get("driftAnalysis", {})
-            .get("driftScore", 0.0)
-        )
-        entropy = (
-            dream.get("symbolicStructure", {})
-            .get("driftAnalysis", {})
-            .get("symbolic_entropy", 0.0)
-        )
+        drift = dream.get("symbolicStructure", {}).get("driftAnalysis", {}).get("driftScore", 0.0)
+        entropy = dream.get("symbolicStructure", {}).get("driftAnalysis", {}).get("symbolic_entropy", 0.0)
         energy = 0.1  # Placeholder energy metric
-        metrics_view.update_dream_metrics(
-            drift_delta=drift, entropy=entropy, energy=energy
-        )
+        metrics_view.update_dream_metrics(drift_delta=drift, entropy=entropy, energy=energy)
 
         return APIResponse(status="success", data=dream, message="Dream generated")
 
@@ -205,9 +181,7 @@ async def consolidate_memories(request: DreamConsolidationRequest):
 async def get_dream_patterns(
     user_id: str = Query(..., description="User identifier"),
     time_range_hours: int = Query(168, description="Time range in hours", ge=1, le=720),
-    pattern_type: str = Query(
-        "emotional", description="Pattern type (emotional, thematic, temporal)"
-    ),
+    pattern_type: str = Query("emotional", description="Pattern type (emotional, thematic, temporal)"),
 ):
     """Analyze and retrieve dream patterns"""
     if not memory_system:
@@ -215,16 +189,10 @@ async def get_dream_patterns(
 
     try:
         # Get recent dream-related memories
-        dreams = memory_system.recall_memory_folds(
-            user_id=user_id, filter_emotion=None, user_tier=5, limit=100
-        )
+        dreams = memory_system.recall_memory_folds(user_id=user_id, filter_emotion=None, user_tier=5, limit=100)
 
         # Filter for dream-type memories
-        dream_memories = [
-            memory
-            for memory in dreams
-            if memory.get("metadata", {}).get("type") == "dream"
-        ]
+        dream_memories = [memory for memory in dreams if memory.get("metadata", {}).get("type") == "dream"]
 
         # Analyze patterns based on type
         patterns = []
@@ -236,10 +204,7 @@ async def get_dream_patterns(
                 if emotion not in emotion_patterns:
                     emotion_patterns[emotion] = []
                 emotion_patterns[emotion].append(dream)
-            patterns = [
-                {"emotion": k, "count": len(v), "dreams": v}
-                for k, v in emotion_patterns.items()
-            ]
+            patterns = [{"emotion": k, "count": len(v), "dreams": v} for k, v in emotion_patterns.items()]
 
         elif pattern_type == "thematic":
             # Simple thematic analysis based on content keywords
@@ -253,9 +218,7 @@ async def get_dream_patterns(
                     themes.setdefault("symbolic", []).append(dream)
                 if "harmony" in content or "unity" in content:
                     themes.setdefault("unity", []).append(dream)
-            patterns = [
-                {"theme": k, "count": len(v), "dreams": v} for k, v in themes.items()
-            ]
+            patterns = [{"theme": k, "count": len(v), "dreams": v} for k, v in themes.items()]
 
         return APIResponse(
             status="success",
@@ -276,9 +239,7 @@ async def get_dream_patterns(
 @router.get("/insights", response_model=APIResponse)
 async def get_dream_insights(
     user_id: str = Query(..., description="User identifier"),
-    insight_type: str = Query(
-        "overview", description="Insight type (overview, emotional, creative)"
-    ),
+    insight_type: str = Query("overview", description="Insight type (overview, emotional, creative)"),
 ):
     """Get AI-generated insights from dream patterns"""
     if not memory_system:

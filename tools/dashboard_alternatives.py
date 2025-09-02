@@ -351,12 +351,12 @@ class SimpleDashboard:
     </style>
 </head>
 <body>
-    <div class="auto-refresh">Auto-refresh: <span id="countdown">{self.auto_refresh_interval//1000}</span>s</div>
+    <div class="auto-refresh">Auto-refresh: <span id="countdown">{self.auto_refresh_interval // 1000}</span>s</div>
 
     <div class="header">
         <h1>{self.title}</h1>
         <span class="status" id="status">{self.data.status}</span>
-        <div class="timestamp" id="timestamp">Last updated: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(self.data.timestamp))}</div>
+        <div class="timestamp" id="timestamp">Last updated: {time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(self.data.timestamp))}</div>
     </div>
 
     <div class="grid">

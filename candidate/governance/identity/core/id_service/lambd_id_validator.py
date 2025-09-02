@@ -107,6 +107,7 @@ class LambdaIDValidator:
     def _get_default_config_path(self) -> str:
         """Get the default configuration file path"""
         import os
+
         # Prefer the canonical filename, but accept legacy misspelling for compatibility.
         dir_path = os.path.dirname(__file__)
         canonical_name = "lambda_id_config.json"

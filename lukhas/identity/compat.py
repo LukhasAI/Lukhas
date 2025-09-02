@@ -77,4 +77,3 @@ def normalize_output_ids(obj: dict[str, Any]) -> None:
     # Ensure legacy key exists for compatibility
     if "lambda_id" not in obj and "lid" in obj:
         obj["lambda_id"] = obj["lid"]
-

@@ -403,14 +403,10 @@ class NIASRewardEngine:
         """Check if user meets requirements"""
         for req_type, req_value in requirements.items():
             if (
-                (
-                    (req_type == "credits" and profile.total_credits < req_value)
-                    or (req_type == "points" and profile.total_points < req_value)
-                    or (req_type == "level" and profile.experience_level < req_value)
-                )
-                or (req_type == "achievements"
-                and not all(ach in profile.achievements for ach in req_value))
-            ):
+                (req_type == "credits" and profile.total_credits < req_value)
+                or (req_type == "points" and profile.total_points < req_value)
+                or (req_type == "level" and profile.experience_level < req_value)
+            ) or (req_type == "achievements" and not all(ach in profile.achievements for ach in req_value)):
                 return False
         return True
 

@@ -158,7 +158,8 @@ async def basic_protected_endpoint(
 
 @app.post("/protected/create", response_model=BaseResponse, tags=["T2-Protected"])
 async def create_content_endpoint(
-    request: BaseRequest, user: AuthContext = Depends(require_t2_or_above)  # noqa: B008
+    request: BaseRequest,
+    user: AuthContext = Depends(require_t2_or_above),  # noqa: B008
 ) -> BaseResponse:
     """T2+ Protected content creation endpoint."""
 
@@ -194,7 +195,8 @@ async def create_content_endpoint(
 
 @app.post("/protected/consciousness", response_model=BaseResponse, tags=["T3-Protected"])
 async def consciousness_endpoint(
-    request: BaseRequest, user: AuthContext = Depends(require_t3_or_above)  # noqa: B008
+    request: BaseRequest,
+    user: AuthContext = Depends(require_t3_or_above),  # noqa: B008
 ) -> BaseResponse:
     """
     T3+ Protected consciousness endpoint.

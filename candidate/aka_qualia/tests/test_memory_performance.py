@@ -238,9 +238,9 @@ class TestQueryPerformance:
         common_search_time = performance_timer.stop()
 
         assert len(common_results) == 200, "Should find all scenes with common glyph"
-        assert (
-            common_search_time < 0.05
-        ), f"Common glyph search took {common_search_time * 1000:.2f}ms, should be < 50ms"
+        assert common_search_time < 0.05, (
+            f"Common glyph search took {common_search_time * 1000:.2f}ms, should be < 50ms"
+        )
 
         # Test unique glyph search (should find one result)
         performance_timer.start()
@@ -248,9 +248,9 @@ class TestQueryPerformance:
         unique_search_time = performance_timer.stop()
 
         assert len(unique_results) == 1, "Should find exactly one scene with unique glyph"
-        assert (
-            unique_search_time < 0.01
-        ), f"Unique glyph search took {unique_search_time * 1000:.2f}ms, should be < 10ms"
+        assert unique_search_time < 0.01, (
+            f"Unique glyph search took {unique_search_time * 1000:.2f}ms, should be < 10ms"
+        )
 
         # Test rare glyph search
         performance_timer.start()

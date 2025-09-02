@@ -8,6 +8,7 @@ Usage:
 The script performs a prioritized list of replacements and prints a
 summary. It excludes .git, .venv, node_modules, dist, build, and binary files.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -57,9 +58,7 @@ def find_files(root: Path) -> list[Path]:
     return files
 
 
-def apply_replacements_to_text(
-    text: str, replacements: list[tuple[str, str]]
-) -> tuple[str, int]:
+def apply_replacements_to_text(text: str, replacements: list[tuple[str, str]]) -> tuple[str, int]:
     count = 0
     for old, new in replacements:
         # use plain replace to preserve case mapping defined above
@@ -126,9 +125,7 @@ def main() -> None:
         if not changes:
             print("No changes to apply")
             return
-        confirm = input(
-            "Proceed to apply replacements and create .bak backups? [y/N]: "
-        )
+        confirm = input("Proceed to apply replacements and create .bak backups? [y/N]: ")
         if confirm.lower() != "y":
             print("Aborting")
             return

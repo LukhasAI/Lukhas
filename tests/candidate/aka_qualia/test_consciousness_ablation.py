@@ -681,9 +681,9 @@ class TestConsciousnessAblation:
         corrupted_results = ablation_framework.test_emergency_protocols(corrupted_akaq)
 
         # Should handle TEQ corruption gracefully
-        assert len(corrupted_results["protocol_errors"]) == 0 or "corruption_detected" in str(
-            corrupted_results
-        ), "Should handle TEQ corruption without crashing"
+        assert len(corrupted_results["protocol_errors"]) == 0 or "corruption_detected" in str(corrupted_results), (
+            "Should handle TEQ corruption without crashing"
+        )
 
     def test_router_ablation_maintains_core_function(self, ablation_framework, test_signals):
         """Test router ablation doesn't break core consciousness processing"""

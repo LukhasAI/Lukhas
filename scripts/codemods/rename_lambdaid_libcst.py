@@ -39,18 +39,14 @@ class LambdaIdTransformer(cst.CSTTransformer):
             return cst.Name("lid")
         return updated_node
 
-    def leave_Attribute(
-        self, original_node: cst.Attribute, updated_node: cst.Attribute
-    ) -> cst.Attribute:
+    def leave_Attribute(self, original_node: cst.Attribute, updated_node: cst.Attribute) -> cst.Attribute:
         # Attribute.attr can be a Name or an Attribute; handle Name attr
         attr = original_node.attr
         if isinstance(attr, cst.Name) and attr.value == "lambda_id":
             return updated_node.with_changes(attr=cst.Name("lid"))
         return updated_node
 
-    def leave_Param(
-        self, original_node: cst.Param, updated_node: cst.Param
-    ) -> cst.Param:
+    def leave_Param(self, original_node: cst.Param, updated_node: cst.Param) -> cst.Param:
         # Rename parameter name only if it's exactly lambda_id
         name = original_node.name
         if name and isinstance(name, cst.Name) and name.value == "lambda_id":
@@ -64,9 +60,7 @@ class LambdaIdTransformer(cst.CSTTransformer):
             return updated_node.with_changes(keyword=cst.Name("lid"))
         return updated_node
 
-    def leave_DictElement(
-        self, original_node: cst.DictElement, updated_node: cst.DictElement
-    ) -> cst.DictElement:
+    def leave_DictElement(self, original_node: cst.DictElement, updated_node: cst.DictElement) -> cst.DictElement:
         # Replace string keys in dict literals: 'lambda_id' -> 'lid'
         key = original_node.key
         if isinstance(key, cst.SimpleString):
@@ -110,9 +104,7 @@ def process_file(path: Path) -> tuple[bool, str, str]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        description="AST-safe rename lambda_id -> lid in .py files"
-    )
+    parser = argparse.ArgumentParser(description="AST-safe rename lambda_id -> lid in .py files")
     parser.add_argument("--root", "-r", default=".", help="Repository root to scan")
     parser.add_argument("--dry-run", action="store_true", help="Only report changes")
     parser.add_argument(
@@ -142,9 +134,7 @@ def main(argv: list[str] | None = None) -> int:
                 bak.write_text(original, encoding="utf8")
             print(f"APPLIED: Updated {p} (backup: {bak})")
 
-    print(
-        f"Done. Files matched: {len(list(iter_python_files(root)))}; files changed: {files_changed}"
-    )
+    print(f"Done. Files matched: {len(list(iter_python_files(root)))}; files changed: {files_changed}")
     if files_changed and args.dry_run:
         print("Run with --apply to perform changes (creates .bak backups).")
 

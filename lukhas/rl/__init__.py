@@ -19,7 +19,7 @@ from .coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer
 __version__ = "0.1.0"
 __all__ = [
     "ConsciousnessEnvironment",
-    "ConsciousnessPolicy", 
+    "ConsciousnessPolicy",
     "ConsciousnessValueNetwork",
     "ConsciousnessActorCritic",
     "ConsciousnessReplayBuffer",
@@ -34,5 +34,5 @@ RL_METADATA = {
     "ethical_constraints": True,
     "temporal_coherence": True,
     "reflection_enabled": True,
-    "trinity_compliant": True
+    "trinity_compliant": True,
 }
