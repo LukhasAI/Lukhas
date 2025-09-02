@@ -8,6 +8,7 @@ Produces three files in the repo root:
 
 This script is safe to run repeatedly.
 """
+
 import json
 import os
 from collections import Counter, defaultdict

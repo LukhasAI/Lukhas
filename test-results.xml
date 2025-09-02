@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="4" tests="9" time="2.016" timestamp="2025-09-02T06:26:13.781047+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.aka_qualia.test_c5_observability" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/aka_qualia/test_c5_observability.py'.
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="4" tests="9" time="0.793" timestamp="2025-09-02T07:57:39.091166+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.aka_qualia.test_c5_observability" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/aka_qualia/test_c5_observability.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 tests/candidate/aka_qualia/test_c5_observability.py:12: in &lt;module&gt;
@@ -21,25 +21,9 @@ Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 tests/matriz/test_orchestrator_schema.py:7: in &lt;module&gt;
     from matriz.core.node_interface import CognitiveNode
-E   ModuleNotFoundError: No module named 'matriz.core'</error></testcase><testcase classname="" name="tests.phase2.test_orchestration_integration" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_orchestration_integration.py', 43, "Skipped: Phase 2 modules not available: No module named 'uvloop'")</skipped></testcase><testcase classname="" name="tests.phase2.test_performance_benchmarks" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_performance_benchmarks.py', 49, "Skipped: Performance testing modules not available: No module named 'uvloop'")</skipped></testcase><testcase classname="" name="tests.phase2.test_security_compliance" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_security_compliance.py', 43, "Skipped: Security modules not available: cannot import name 'ComplianceEngine' from 'candidate.compliance.ai_compliance' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/compliance/ai_compliance.py)")</skipped></testcase><testcase classname="" name="tests.phase2.test_tool_execution_safety" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_tool_execution_safety.py', 34, "Skipped: Tool execution modules not available: No module named 'candidate.tools.code_executor'")</skipped></testcase><testcase classname="" name="tests.test_guardian_system" time="0.000"><error message="collection failure">.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
-    mod = import_path(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
-    mod = _import_module_using_spec(
-.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
-    exec(co, module.__dict__)
-tests/test_guardian_system.py:27: in &lt;module&gt;
-    from candidate.governance.guardian_system_integration import (
-candidate/governance/guardian_system_integration.py:67: in &lt;module&gt;
-    from candidate.governance.identity.core.sent.policy_engine import (
-candidate/governance/identity/core/sent/__init__.py:39: in &lt;module&gt;
-    from .policy_engine import ComprehensiveEthicsPolicyEngine
-candidate/governance/identity/core/sent/policy_engine.py:44: in &lt;module&gt;
-    from candidate.governance.security.audit_system import (
-candidate/governance/security/__init__.py:8: in &lt;module&gt;
-    from .consent_manager import ConsentManager, ConsentRequest, ConsentStatus
-E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/security/consent_manager.py", line 188
-E       l: {
-E        ^
-E   SyntaxError: invalid syntax</error></testcase></testsuite></testsuites>
+E   ModuleNotFoundError: No module named 'matriz.core'</error></testcase><testcase classname="" name="tests.phase2.test_orchestration_integration" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_orchestration_integration.py', 43, "Skipped: Phase 2 modules not available: No module named 'uvloop'")</skipped></testcase><testcase classname="" name="tests.phase2.test_performance_benchmarks" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_performance_benchmarks.py', 49, "Skipped: Performance testing modules not available: No module named 'uvloop'")</skipped></testcase><testcase classname="" name="tests.phase2.test_security_compliance" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_security_compliance.py', 43, "Skipped: Security modules not available: cannot import name 'ComplianceEngine' from 'candidate.compliance.ai_compliance' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/compliance/ai_compliance.py)")</skipped></testcase><testcase classname="" name="tests.phase2.test_tool_execution_safety" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_tool_execution_safety.py', 34, "Skipped: Tool execution modules not available: No module named 'candidate.tools.code_executor'")</skipped></testcase><testcase classname="" name="tests.rl.test_consciousness_rl" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/rl/test_consciousness_rl.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/rl/test_consciousness_rl.py:12: in &lt;module&gt;
+    import torch
+E   ModuleNotFoundError: No module named 'torch'</error></testcase></testsuite></testsuites>

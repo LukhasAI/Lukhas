@@ -187,10 +187,10 @@ class LambdaIDController:
 
     # Human-readable comment: Generates a new Lambda ID.
     def generate_id(self, user_tier: int, symbolic_preferences:
-                    Optional[List[str]] = None,
-                    entropy_requirements: Optional[Dict[str, Any]] = None,
-                    commercial_options: Optional[Dict[str, Any]] = None,
-                    request_metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                    Optional[list[str]] = None,
+                    entropy_requirements: Optional[dict[str, Any]] = None,
+                    commercial_options: Optional[dict[str, Any]] = None,
+                    request_metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Generates a new LUKHAS ΛiD with comprehensive validation and business logic,
         considering user tier, symbolic preferences, and entropy requirements.
@@ -302,9 +302,9 @@ class LambdaIDController:
     # will follow the pattern.
 
     # Human-readable comment: Validates a Lambda ID.
-    def validate_id(self, lambda_id: str, validation_level: str = 'standard',
+    def validate_id(self, lambda_id: str, validation_level: str = "standard",
                     check_collision: bool = False,
-                    request_metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                    request_metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Validates a given LUKHAS ΛiD based on specified level ('basic', 'standard', 'full'),
         optionally checking for collisions.
@@ -417,11 +417,11 @@ class LambdaIDController:
 
     # Human-readable comment: Calculates entropy for a given symbolic input.
     def calculate_entropy(self,
-                          symbolic_input: List[str],
+                          symbolic_input: list[str],
                           tier: int = 0,
-                          calculation_method: str = 'shannon',
-                          request_metadata: Optional[Dict[str,
-                                                          Any]] = None) -> Dict[str,
+                          calculation_method: str = "shannon",
+                          request_metadata: Optional[dict[str,
+                                                          Any]] = None) -> dict[str,
                                                                                 Any]:
         """
         Calculates the entropy score for a list of symbolic inputs,
@@ -663,7 +663,7 @@ class LambdaIDController:
                     'timestamp': datetime.now().isoformat(),
                     'entropy_score_new_id': new_id_generation_result.get('entropy_score'),
                     # Simplified
-                    'new_tier_permissions_summary': self._identity_core.resolve_access_tier(target_tier).get('description', 'N/A'),
+                            'new_tier_permissions_summary': self._resolve_access_tier(target_tier).get("description", "N/A"),
                     'new_symbolic_representation': new_id_generation_result.get('symbolic_representation')
                 }
             }
@@ -772,7 +772,7 @@ class LambdaIDController:
 
     # Human-readable comment: Retrieves permissions for a specific tier from
     # configuration.
-    def _identity_core.resolve_access_tier(self, tier_level: int) -> Dict[str, Any]:
+    def _resolve_access_tier(self, tier_level: int) -> dict[str, Any]:
         """Retrieves permissions and limits for a specific tier from the loaded configuration."""
         self.logger.debug(f"ΛTRACE: Getting permissions for tier {tier_level}.")
         # Default permissions if specific tier not found or config missing parts
@@ -788,9 +788,9 @@ class LambdaIDController:
 
     # Human-readable comment: Validates symbolic preferences against tier limits.
     def _validate_symbolic_preferences(self,
-                                       symbols_list: List[str],
-                                       tier_permissions_dict: Dict[str,
-                                                                   Any]) -> Dict[str,
+                                       symbols_list: list[str],
+                                       tier_permissions_dict: dict[str,
+                                                                   Any]) -> dict[str,
                                                                                  Any]:
         """Validates if the provided list of symbols conforms to the limits of the given tier permissions."""
         max_symbols_allowed = tier_permissions_dict.get(
@@ -831,7 +831,7 @@ class LambdaIDController:
 
     # Human-readable comment: Creates a symbolic visual representation of a Lambda ID.
     def _create_symbolic_representation(self, lambda_id_str: str, tier_level: int,
-                                        symbols_list: List[str]) -> str:
+                                        symbols_list: list[str]) -> str:
         """Creates a compact symbolic string representation of a ΛiD, tier, and key symbols."""
         self.logger.debug(
             f"ΛTRACE: Creating symbolic representation for ΛiD '{lambda_id_str}', Tier {tier_level}.")
@@ -845,7 +845,7 @@ class LambdaIDController:
         return representation
 
     # Human-readable comment: Placeholder for Lambda ID collision check.
-    def _check_collision(self, lambda_id_str: str) -> Dict[str, Any]:
+    def _check_collision(self, lambda_id_str: str) -> dict[str, Any]:
         """Placeholder for checking ΛiD collisions against a persistent store. (Not implemented)."""
         self.logger.warning(
             f"ΛTRACE: Collision check for ΛiD '{lambda_id_str}' is a STUB (not implemented). Returning no collision.")
@@ -855,7 +855,7 @@ class LambdaIDController:
                 'check_timestamp': datetime.now().isoformat()}
 
     # Human-readable comment: Placeholder for Lambda ID pattern analysis.
-    def _analyze_id_patterns(self, lambda_id_str: str) -> Dict[str, Any]:
+    def _analyze_id_patterns(self, lambda_id_str: str) -> dict[str, Any]:
         """Placeholder for analyzing patterns or characteristics of a ΛiD. (Not implemented)."""
         self.logger.debug(
             f"ΛTRACE: Pattern analysis for ΛiD '{lambda_id_str}' is a STUB.")
@@ -871,7 +871,7 @@ class LambdaIDController:
     # based on score and tier.
     def _generate_entropy_recommendations(
             self, current_entropy_score: float, user_tier: int,
-            current_symbols: List[str]) -> List[str]:
+            current_symbols: list[str]) -> list[str]:
         """Generates actionable recommendations for improving symbolic input entropy based on current score and tier limits."""
         self.logger.debug(
             f"ΛTRACE: Generating entropy recommendations. Score: {current_entropy_score}, Tier: {user_tier}, Symbols: {len(current_symbols)}")
