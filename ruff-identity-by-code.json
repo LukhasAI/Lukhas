@@ -1,0 +1,1250 @@
+{
+  "DTZ005": {
+    "count": 156,
+    "suggested_action": "Use datetime.now(tz=timezone.utc) instead of datetime.now()",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/id_service/portability_system.py",
+        16
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/websocket_server.py",
+        15
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_web/websocket_server.py",
+        15
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/audit_logger.py",
+        11
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/auth_integration_system.py",
+        11
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/trust_scorer.py",
+        10
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/brain_identity_integration.py",
+        10
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        7
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/sent/policy_engine.py",
+        6
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/integrations/consciousness_bridge.py",
+        5
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 216,
+        "col": 29,
+        "message": "`datetime.datetime.now()` called without a `tz` argument"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 436,
+        "col": 24,
+        "message": "`datetime.datetime.now()` called without a `tz` argument"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 545,
+        "col": 36,
+        "message": "`datetime.datetime.now()` called without a `tz` argument"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 549,
+        "col": 26,
+        "message": "`datetime.datetime.now()` called without a `tz` argument"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 642,
+        "col": 46,
+        "message": "`datetime.datetime.now()` called without a `tz` argument"
+      }
+    ]
+  },
+  "RUF006": {
+    "count": 19,
+    "suggested_action": "Store asyncio.create_task return value in a variable/attribute",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        4
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/health/identity_health_monitor.py",
+        4
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py",
+        3
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/tagging/identity_tag_resolver.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/audit_logger.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/auth_integration_system.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/authentication_server.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/colonies/biometric_verification_colony.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/colonies/consciousness_verification_colony.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/colonies/dream_verification_colony.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 220,
+        "col": 9,
+        "message": "Store a reference to the return value of `asyncio.create_task`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 234,
+        "col": 9,
+        "message": "Store a reference to the return value of `asyncio.create_task`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 235,
+        "col": 9,
+        "message": "Store a reference to the return value of `asyncio.create_task`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 236,
+        "col": 9,
+        "message": "Store a reference to the return value of `asyncio.create_task`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/audit_logger.py",
+        "row": 167,
+        "col": 13,
+        "message": "Store a reference to the return value of `asyncio.create_task`"
+      }
+    ]
+  },
+  "SIM116": {
+    "count": 1,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 472,
+        "col": 9,
+        "message": "Use a dictionary instead of consecutive `if` statements"
+      }
+    ]
+  },
+  "SIM103": {
+    "count": 3,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/webauthn_manager.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/tier/tier_validator.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 628,
+        "col": 9,
+        "message": "Return the condition `profile.guardian_status != \"restricted\"` directly"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/webauthn_manager.py",
+        "row": 566,
+        "col": 13,
+        "message": "Return the negated condition directly"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/tier/tier_validator.py",
+        "row": 444,
+        "col": 13,
+        "message": "Return the negated condition directly"
+      }
+    ]
+  },
+  "PERF203": {
+    "count": 48,
+    "suggested_action": "Move try/except out of loops or narrow the try block",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/websocket_server.py",
+        7
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_web/websocket_server.py",
+        7
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/audit_logger.py",
+        3
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/constellation_glyph_integration.py",
+        3
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/health/identity_health_monitor.py",
+        3
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/tagging/identity_tag_resolver.py",
+        3
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/webauthn_manager.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/qrg_coverage_integration.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/qrg_showcase.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/access_tier_manager.py",
+        "row": 651,
+        "col": 13,
+        "message": "`try`-`except` within a loop incurs performance overhead"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth/adaptive_ui_controller.py",
+        "row": 276,
+        "col": 17,
+        "message": "`try`-`except` within a loop incurs performance overhead"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth/entropy_synchronizer.py",
+        "row": 287,
+        "col": 13,
+        "message": "`try`-`except` within a loop incurs performance overhead"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/audit_logger.py",
+        "row": 584,
+        "col": 13,
+        "message": "`try`-`except` within a loop incurs performance overhead"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/audit_logger.py",
+        "row": 616,
+        "col": 25,
+        "message": "`try`-`except` within a loop incurs performance overhead"
+      }
+    ]
+  },
+  "E501": {
+    "count": 67,
+    "suggested_action": "Reflow long lines or run Black formatter to wrap",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        22
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/gateway/stargate_gateway.py",
+        14
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/enhancements/llm_assisted_entry.py",
+        10
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/qrg_showcase.py",
+        4
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/dream_auth.py",
+        3
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/consent/consent_receipt_generator.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/integrations/inference_adapter.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/performance/auth_optimizer.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/cross_device_handshake.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/id_service/entropy_engine.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        "row": 37,
+        "col": 121,
+        "message": "Line too long (135 > 120)"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        "row": 173,
+        "col": 121,
+        "message": "Line too long (124 > 120)"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        "row": 200,
+        "col": 121,
+        "message": "Line too long (180 > 120)"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        "row": 252,
+        "col": 121,
+        "message": "Line too long (126 > 120)"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        "row": 314,
+        "col": 121,
+        "message": "Line too long (147 > 120)"
+      }
+    ]
+  },
+  "invalid-syntax": {
+    "count": 15,
+    "suggested_action": "Fix file syntax around indicated location",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        7
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/unified_auth_manager.py",
+        5
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/sing/cross_device_manager.py",
+        3
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        "row": 775,
+        "col": 23,
+        "message": "Expected '(', found '.'"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        "row": 775,
+        "col": 43,
+        "message": "Expected ')', found '('"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        "row": 775,
+        "col": 60,
+        "message": "Expected ',', found ':'"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        "row": 775,
+        "col": 67,
+        "message": "Expected newline, found '->'"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/api/controllers/lambd_id_controller.py",
+        "row": 775,
+        "col": 85,
+        "message": "Expected an expression"
+      }
+    ]
+  },
+  "DTZ003": {
+    "count": 177,
+    "suggested_action": "Replace datetime.datetime.utcnow() with datetime.now(tz=timezone.utc)",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/oauth2_oidc_provider.py",
+        18
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/health/identity_health_monitor.py",
+        18
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/enterprise/auth.py",
+        15
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/webauthn_manager.py",
+        11
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/tagging/identity_tag_resolver.py",
+        11
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/qr_entropy_generator.py",
+        10
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/zkproof/multimodal_zk_engine.py",
+        10
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/glyph/distributed_glyph_generation.py",
+        9
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py",
+        9
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/consent/consent_chain_validator.py",
+        8
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/audit/glyph_timeline_generator.py",
+        "row": 75,
+        "col": 21,
+        "message": "`datetime.datetime.utcnow()` used"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/qr_entropy_generator.py",
+        "row": 86,
+        "col": 30,
+        "message": "`datetime.datetime.utcnow()` used"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/qr_entropy_generator.py",
+        "row": 87,
+        "col": 32,
+        "message": "`datetime.datetime.utcnow()` used"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/qr_entropy_generator.py",
+        "row": 115,
+        "col": 31,
+        "message": "`datetime.datetime.utcnow()` used"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/qr_entropy_generator.py",
+        "row": 223,
+        "col": 16,
+        "message": "`datetime.datetime.utcnow()` used"
+      }
+    ]
+  },
+  "ARG002": {
+    "count": 168,
+    "suggested_action": "Prefix unused args with underscore or reference them (_ = arg)",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/brain_identity_integration.py",
+        15
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/integrations/consciousness_bridge.py",
+        8
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/lambd_id_service.py",
+        7
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/sing/sso_engine.py",
+        7
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/unified_login_interface.py",
+        7
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_integrations/qrg_bridge.py",
+        6
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/bio_symbolic_fusion.py",
+        6
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/glyph/glyph_pipeline.py",
+        6
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth/qrg_generators.py",
+        5
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_integrations/wallet_bridge.py",
+        5
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth/cultural_profile_manager.py",
+        "row": 353,
+        "col": 53,
+        "message": "Unused method argument: `context`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth/cultural_profile_manager.py",
+        "row": 412,
+        "col": 50,
+        "message": "Unused method argument: `category_hint`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth/entropy_synchronizer.py",
+        "row": 109,
+        "col": 58,
+        "message": "Unused method argument: `path`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth/qrg_generators.py",
+        "row": 321,
+        "col": 41,
+        "message": "Unused method argument: `data`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth/qrg_generators.py",
+        "row": 321,
+        "col": 52,
+        "message": "Unused method argument: `theme`"
+      }
+    ]
+  },
+  "DTZ007": {
+    "count": 1,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/audit_logger.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/audit_logger.py",
+        "row": 643,
+        "col": 33,
+        "message": "Naive datetime constructed using `datetime.datetime.strptime()` without %z"
+      }
+    ]
+  },
+  "SIM102": {
+    "count": 13,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/biometric/biometric_fusion_engine.py",
+        3
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/sing/sso_engine.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/auth_integration_system.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/websocket_server.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_web/websocket_server.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/colonies/biometric_verification_colony.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/glyph/steganographic_id.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/qrg/qrg_manager.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/lambda_id_auth.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/auth_integration_system.py",
+        "row": 535,
+        "col": 9,
+        "message": "Use a single `if` statement instead of nested `if` statements"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/websocket_server.py",
+        "row": 481,
+        "col": 25,
+        "message": "Use a single `if` statement instead of nested `if` statements"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_web/websocket_server.py",
+        "row": 481,
+        "col": 25,
+        "message": "Use a single `if` statement instead of nested `if` statements"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/biometric/biometric_fusion_engine.py",
+        "row": 671,
+        "col": 9,
+        "message": "Use a single `if` statement instead of nested `if` statements"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/biometric/biometric_fusion_engine.py",
+        "row": 715,
+        "col": 9,
+        "message": "Use a single `if` statement instead of nested `if` statements"
+      }
+    ]
+  },
+  "F821": {
+    "count": 44,
+    "suggested_action": "Import or define missing symbol or add guard",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/authentication_server.py",
+        23
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/user_tier_mapping.py",
+        7
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/cross_device_handshake.py",
+        5
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/webrtc_peer_sync.py",
+        3
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/multi_user_sync.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/replay_protection.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/shared_logging.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/colonies/dream_verification_colony.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/glyph/glyph_pipeline.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/qrg_showcase.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/authentication_server.py",
+        "row": 137,
+        "col": 9,
+        "message": "Undefined name `logger`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/authentication_server.py",
+        "row": 143,
+        "col": 9,
+        "message": "Undefined name `logger`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/authentication_server.py",
+        "row": 168,
+        "col": 21,
+        "message": "Undefined name `logger`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/authentication_server.py",
+        "row": 170,
+        "col": 21,
+        "message": "Undefined name `logger`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/authentication_server.py",
+        "row": 225,
+        "col": 25,
+        "message": "Undefined name `logger`"
+      }
+    ]
+  },
+  "PERF401": {
+    "count": 16,
+    "suggested_action": "Use list comprehensions or extend instead of append-in-loop",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/onboarding/onboarding.py",
+        3
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/consent/consent_chain_validator.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/qr_entropy_generator.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/grid_size_calculator.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/biometric/biometric_fusion_engine.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/biometric_integration.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/dream_auth.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/webauthn_manager.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/colonies/dream_verification_colony.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/id_service/lambd_id_validator.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/qr_entropy_generator.py",
+        "row": 296,
+        "col": 17,
+        "message": "Use `list.extend` to create a transformed list"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/grid_size_calculator.py",
+        "row": 400,
+        "col": 17,
+        "message": "Use a list comprehension to create a transformed list"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/biometric/biometric_fusion_engine.py",
+        "row": 629,
+        "col": 13,
+        "message": "Use a list comprehension to create a transformed list"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/consent/consent_chain_validator.py",
+        "row": 525,
+        "col": 17,
+        "message": "Use a list comprehension to create a transformed list"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/consent/consent_chain_validator.py",
+        "row": 717,
+        "col": 13,
+        "message": "Use a list comprehension to create a transformed list"
+      }
+    ]
+  },
+  "B007": {
+    "count": 3,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/trust_scorer.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/colonies/consciousness_verification_colony.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/colonies/dream_verification_colony.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_backend/trust_scorer.py",
+        "row": 667,
+        "col": 13,
+        "message": "Loop control variable `user_id` not used within loop body"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/colonies/consciousness_verification_colony.py",
+        "row": 996,
+        "col": 13,
+        "message": "Loop control variable `agent_id` not used within loop body"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/colonies/dream_verification_colony.py",
+        "row": 984,
+        "col": 13,
+        "message": "Loop control variable `vote_id` not used within loop body"
+      }
+    ]
+  },
+  "RUF003": {
+    "count": 2,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/grid_size_calculator.py",
+        2
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/grid_size_calculator.py",
+        "row": 25,
+        "col": 27,
+        "message": "Comment contains ambiguous `\u00d7` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/grid_size_calculator.py",
+        "row": 26,
+        "col": 33,
+        "message": "Comment contains ambiguous `\u00d7` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?"
+      }
+    ]
+  },
+  "RUF046": {
+    "count": 1,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/grid_size_calculator.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/grid_size_calculator.py",
+        "row": 209,
+        "col": 32,
+        "message": "Value being cast to `int` is already an integer"
+      }
+    ]
+  },
+  "RUF001": {
+    "count": 4,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/gateway/stargate_activation.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/grid_size_calculator.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/bio_symbolic_fusion.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/grid_size_calculator.py",
+        "row": 319,
+        "col": 51,
+        "message": "String contains ambiguous `\u00d7` (MULTIPLICATION SIGN). Did you mean `x` (LATIN SMALL LETTER X)?"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/auth/bio_symbolic_fusion.py",
+        "row": 451,
+        "col": 21,
+        "message": "String contains ambiguous `\u223c` (TILDE OPERATOR). Did you mean `~` (TILDE)?"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/gateway/stargate_activation.py",
+        "row": 74,
+        "col": 18,
+        "message": "String contains ambiguous `\u2571` (BOX DRAWINGS LIGHT DIAGONAL UPPER RIGHT TO LOWER LEFT). Did you mean `/` (SOLIDUS)?"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/gateway/stargate_activation.py",
+        "row": 75,
+        "col": 17,
+        "message": "String contains ambiguous `\u2571` (BOX DRAWINGS LIGHT DIAGONAL UPPER RIGHT TO LOWER LEFT). Did you mean `/` (SOLIDUS)?"
+      }
+    ]
+  },
+  "F706": {
+    "count": 1,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/shared_logging.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/auth_utils/shared_logging.py",
+        "row": 12,
+        "col": 1,
+        "message": "`return` statement outside of a function/method"
+      }
+    ]
+  },
+  "ARG005": {
+    "count": 3,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/constellation_glyph_integration.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/consent/consent_chain_validator.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/consent/consent_chain_validator.py",
+        "row": 550,
+        "col": 62,
+        "message": "Unused lambda argument: `n`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/constellation_glyph_integration.py",
+        "row": 894,
+        "col": 50,
+        "message": "Unused lambda argument: `args`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/constellation_glyph_integration.py",
+        "row": 894,
+        "col": 58,
+        "message": "Unused lambda argument: `kwargs`"
+      }
+    ]
+  },
+  "B904": {
+    "count": 3,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/constellation_glyph_integration.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/sent/policy_engine.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/utils/qrg_parser.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/constellation_glyph_integration.py",
+        "row": 604,
+        "col": 13,
+        "message": "Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/sent/policy_engine.py",
+        "row": 772,
+        "col": 13,
+        "message": "Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/utils/qrg_parser.py",
+        "row": 35,
+        "col": 13,
+        "message": "Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling"
+      }
+    ]
+  },
+  "ARG001": {
+    "count": 4,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/tier/tier_system.py",
+        2
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/constellation_glyph_integration.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/qrg_showcase.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/constellation_glyph_integration.py",
+        "row": 849,
+        "col": 5,
+        "message": "Unused function argument: `config`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/tier/tier_system.py",
+        "row": 48,
+        "col": 19,
+        "message": "Unused function argument: `user_id`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/tier/tier_system.py",
+        "row": 66,
+        "col": 44,
+        "message": "Unused function argument: `permission`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/qrg_showcase.py",
+        "row": 36,
+        "col": 67,
+        "message": "Unused function argument: `style`"
+      }
+    ]
+  },
+  "SIM105": {
+    "count": 1,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/events/__init__.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/events/__init__.py",
+        "row": 55,
+        "col": 13,
+        "message": "Use `contextlib.suppress(Exception)` instead of `try`-`except`-`pass`"
+      }
+    ]
+  },
+  "E402": {
+    "count": 17,
+    "suggested_action": "Move imports to module top or keep guarded in function",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/id_service/lambd_id_entropy.py",
+        7
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/id_service/lambd_id_generator.py",
+        7
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/enterprise/auth.py",
+        3
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/id_service/lambd_id_entropy.py",
+        "row": 32,
+        "col": 1,
+        "message": "Module level import not at top of file"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/id_service/lambd_id_entropy.py",
+        "row": 33,
+        "col": 1,
+        "message": "Module level import not at top of file"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/id_service/lambd_id_entropy.py",
+        "row": 34,
+        "col": 1,
+        "message": "Module level import not at top of file"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/id_service/lambd_id_entropy.py",
+        "row": 35,
+        "col": 1,
+        "message": "Module level import not at top of file"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/id_service/lambd_id_entropy.py",
+        "row": 36,
+        "col": 1,
+        "message": "Module level import not at top of file"
+      }
+    ]
+  },
+  "DTZ006": {
+    "count": 2,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/integrations/consciousness_bridge.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/enterprise/auth.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/integrations/consciousness_bridge.py",
+        "row": 326,
+        "col": 20,
+        "message": "`datetime.datetime.fromtimestamp()` called without a `tz` argument"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/enterprise/auth.py",
+        "row": 527,
+        "col": 16,
+        "message": "`datetime.datetime.fromtimestamp()` called without a `tz` argument"
+      }
+    ]
+  },
+  "SIM108": {
+    "count": 2,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/integrations/inference_adapter.py",
+        1
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/visualization/consciousness_mapper.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/integrations/inference_adapter.py",
+        "row": 616,
+        "col": 9,
+        "message": "Use ternary operator `confidence_score = sum(confidence_factors) / len(confidence_factors) if confidence_factors else 0.3` instead of `if`-`else`-block"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/visualization/consciousness_mapper.py",
+        "row": 257,
+        "col": 9,
+        "message": "Use ternary operator `consciousness_level = sum(f * w for f, w in zip(factors, weights)) / sum(weights) if factors else 0.5` instead of `if`-`else`-block"
+      }
+    ]
+  },
+  "RUF012": {
+    "count": 4,
+    "suggested_action": "Review Ruff docs",
+    "top_files": [
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/deployment_package.py",
+        3
+      ],
+      [
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/tier/tier_validator.py",
+        1
+      ]
+    ],
+    "examples": [
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/core/tier/tier_validator.py",
+        "row": 612,
+        "col": 25,
+        "message": "Mutable class attributes should be annotated with `typing.ClassVar`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/deployment_package.py",
+        "row": 53,
+        "col": 24,
+        "message": "Mutable class attributes should be annotated with `typing.ClassVar`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/deployment_package.py",
+        "row": 60,
+        "col": 28,
+        "message": "Mutable class attributes should be annotated with `typing.ClassVar`"
+      },
+      {
+        "file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/governance/identity/deployment_package.py",
+        "row": 70,
+        "col": 22,
+        "message": "Mutable class attributes should be annotated with `typing.ClassVar`"
+      }
+    ]
+  }
+}

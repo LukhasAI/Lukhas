@@ -10,8 +10,7 @@ This script is safe to run repeatedly.
 """
 import json
 import os
-from collections import defaultdict, Counter
-
+from collections import Counter, defaultdict
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
 INPUT = os.path.join(ROOT, "ruff-all-errors.json")
@@ -43,7 +42,7 @@ def main():
         return 1
 
     print(f"Reading {INPUT} ...")
-    with open(INPUT, "r", encoding="utf-8") as fh:
+    with open(INPUT, encoding="utf-8") as fh:
         data = json.load(fh)
 
     total = len(data)
