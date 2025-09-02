@@ -29,14 +29,7 @@ Trinity Framework: Identity-Consciousness-Guardian
 Phase: Phase 7 - Registry Updates and Policy Integration
 """
 
-from typing import TYPE_CHECKING, Any, Optional, Type
-
 # Core Guardian System imports
-# Pre-declare symbols to make static type-checkers happy when optional imports fail
-GuardianSystem: Optional[Any] = None
-GuardianSentinel: Optional[Any] = None
-GuardianShadowFilter: Optional[Any] = None
-Guardian: Optional[Any] = None
 try:
     from .guardian import Guardian
     from .guardian_sentinel import GuardianSentinel
@@ -49,23 +42,6 @@ except ImportError:
     Guardian = None
 
 # Promoted Guardian System (lukhas/governance/guardian)
-# Pre-declare promoted symbols
-detect_drift: Optional[Any] = None
-evaluate_ethics: Optional[Any] = None
-check_safety: Optional[Any] = None
-get_guardian_status: Optional[Any] = None
-GUARDIAN_ACTIVE: bool = False
-GUARDIAN_PROMOTED: bool = False
-
-# Types exposed by the Guardian module. Pre-declare as Optional to allow
-# import-time fallbacks where the module or symbols may be unavailable
-# (keeps runtime behavior the same while making static type-checkers happy).
-DriftResult: Optional[Any] = None
-EthicalDecision: Optional[Any] = None
-EthicalSeverity: Optional[Any] = None
-GovernanceAction: Optional[Any] = None
-SafetyResult: Optional[Any] = None
-
 try:
     from .guardian import (
         GUARDIAN_ACTIVE,
@@ -95,10 +71,6 @@ except ImportError:
     GUARDIAN_PROMOTED = False
 
 # Ethics and compliance imports
-ComplianceDriftMonitor: Optional[Any] = None
-ConstitutionalAI: Optional[Any] = None
-EthicalEvaluator: Optional[Any] = None
-EthicsGuardian: Optional[Any] = None
 try:
     from .compliance_drift_monitor import ComplianceDriftMonitor
     from .ethics.constitutional_ai import ConstitutionalAI
@@ -119,36 +91,6 @@ except ImportError:
     AuditTrail = None
 
 # Phase 7 ID Authentication Integration imports
-# Pre-declare Phase 7 integration symbols
-AuthCrossModuleIntegrator: Optional[Any] = None
-AuthMessageType: Optional[Any] = None
-AuthModuleMessage: Optional[Any] = None
-ModuleAuthContext: Optional[Any] = None
-ModuleType: Optional[Any] = None
-TrinityFrameworkIntegration: Optional[Any] = None
-auth_cross_module_integrator: Optional[Any] = None
-AuthGlyph: Optional[Any] = None
-AuthGlyphCategory: Optional[Any] = None
-AuthGlyphRegistry: Optional[Any] = None
-SymbolicIdentity: Optional[Any] = None
-auth_glyph_registry: Optional[Any] = None
-AuthGovernancePolicyEngine: Optional[Any] = None
-PolicyAssessment: Optional[Any] = None
-PolicyCategory: Optional[Any] = None
-PolicyRule: Optional[Any] = None
-PolicySeverity: Optional[Any] = None
-PolicyViolation: Optional[Any] = None
-auth_governance_policy_engine: Optional[Any] = None
-AuthDriftMetrics: Optional[Any] = None
-AuthenticationGuardian: Optional[Any] = None
-AuthEventType: Optional[Any] = None
-ConstitutionalAuthPrinciples: Optional[Any] = None
-AuthIntegrationMetrics: Optional[Any] = None
-IntegrationHealthStatus: Optional[Any] = None
-LUKHASAuthIntegrationSystem: Optional[Any] = None
-lukhas_auth_integration_system: Optional[Any] = None
-PHASE_7_AVAILABLE: bool = False
-
 try:
     from .auth_cross_module_integration import (
         AuthCrossModuleIntegrator,
@@ -224,14 +166,14 @@ except ImportError as e:
 
 
 # Version and capability information
-__version__: str = "1.0.0"
-__phase__: str = "Phase 7 - Registry Updates and Policy Integration"
-__trinity_framework__: str = "Identity-Consciousness-Guardian"
+__version__ = "1.0.0"
+__phase__ = "Phase 7 - Registry Updates and Policy Integration"
+__trinity_framework__ = "Identity-Consciousness-Guardian"
 
-GOVERNANCE_INFO: dict[str, Any] = {
+GOVERNANCE_INFO = {
     "version": __version__,
     "phase": __phase__,
-    "constellation_framework": __trinity_framework__,
+    "trinity_framework": __trinity_framework__,
     "guardian_system_version": "1.0.0",
     "drift_threshold": 0.15,
     "constitutional_ai": True,
@@ -284,12 +226,10 @@ GOVERNANCE_INFO: dict[str, Any] = {
 
 def get_governance_status():
     """Get current governance system status"""
-    caps = GOVERNANCE_INFO.get("capabilities", [])
-
     status = {
         "version": __version__,
         "phase": __phase__,
-        "constellation_framework": __trinity_framework__,
+        "trinity_framework": __trinity_framework__,
         "components": {
             "guardian_system": GuardianSystem is not None,
             "constitutional_ai": ConstitutionalAI is not None,
@@ -307,18 +247,16 @@ def get_governance_status():
             if PHASE_7_AVAILABLE
             else {}
         ),
-        "available_capabilities": len(caps),
+        "available_capabilities": len(GOVERNANCE_INFO["capabilities"]),
         "integration_ready": PHASE_7_AVAILABLE,
     }
 
     return status
 
 
-def initialize_governance_system(config: Optional[Any] = None) -> Optional[Any]:
-    """Initialize the complete governance system
-
-    Returns the governance system instance when available, else None.
-    """
+def initialize_governance_system(config=None):
+    _ = config
+    """Initialize the complete governance system"""
     try:
         if not PHASE_7_AVAILABLE:
             print("Phase 7 integration not available. Using basic governance only.")

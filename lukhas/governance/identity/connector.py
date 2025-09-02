@@ -220,7 +220,13 @@ class IdentityConnector:
 
                 self.users["system_admin"] = system_admin
 
-            async def check_access(self, session_id: str, resource: str, access_type, context: Optional[dict] = None):
+            async def check_access(
+                self,
+                session_id: str,
+                resource: str,
+                access_type,
+                context: Optional[dict] = None,
+            ):
                 """Check access with real tier validation"""
                 _ = access_type, context
                 try:
@@ -439,7 +445,13 @@ class IdentityConnector:
                 user_id=None,
                 session_id=None,
             ) -> str:
-                _ = (policy_type, violation_details, enforcement_action, user_id, session_id)
+                _ = (
+                    policy_type,
+                    violation_details,
+                    enforcement_action,
+                    user_id,
+                    session_id,
+                )
                 return "stub_event_id"
 
             def log_event(self, source, event_type, data=None) -> None:

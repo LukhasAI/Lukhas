@@ -32,16 +32,11 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 from .auth_cross_module_integration import ModuleType, auth_cross_module_integrator
-from .auth_glyph_registry import (
-    auth_glyph_registry,
-)
+from .auth_glyph_registry import auth_glyph_registry
 from .auth_governance_policies import auth_governance_policy_engine
 
 # LUKHAS governance imports
-from .auth_guardian_integration import (
-    AuthenticationGuardian,
-    AuthEventType,
-)
+from .auth_guardian_integration import AuthenticationGuardian, AuthEventType
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -277,7 +272,15 @@ class LUKHASAuthIntegrationSystem:
             await self._phase_guardian(result, auth_event, user_id, tier_level, outcome, auth_context)
             await self._phase_policies(result, tier_level, auth_context)
             self._phase_glyph(result, user_id, tier_level, auth_context, outcome)
-            await self._phase_cross_module(result, user_id, auth_event, auth_context, event_type, outcome, tier_level)
+            await self._phase_cross_module(
+                result,
+                user_id,
+                auth_event,
+                auth_context,
+                event_type,
+                outcome,
+                tier_level,
+            )
 
             # Session management + finalize
             await self._phase_session_and_finalize(
@@ -520,7 +523,7 @@ class LUKHASAuthIntegrationSystem:
             "configuration": self.config,
             "version": "1.0.0",
             "phase": "Phase 7 - Registry Updates and Policy Integration",
-            "constellation_framework": "⚛️🧠🛡️",
+            "trinity_framework": "⚛️🧠🛡️",
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 

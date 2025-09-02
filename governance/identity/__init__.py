@@ -28,7 +28,9 @@ except ImportError as e:
     # If lukhas.governance.identity is not available, provide error message
     import warnings
 
-    warnings.warn(f"Could not import lukhas.governance.identity: {e}", ImportWarning, stacklevel=2)
+    warnings.warn(
+        f"Could not import lukhas.governance.identity: {e}", ImportWarning, stacklevel=2
+    )
 
     # Provide minimal stub interface for development
     class IdentityStub:

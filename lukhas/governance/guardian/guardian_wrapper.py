@@ -20,9 +20,7 @@ import os
 import uuid
 from typing import Any
 
-from lukhas.governance.guardian.core import (
-    GovernanceAction,
-)
+from lukhas.governance.guardian.core import GovernanceAction
 from lukhas.observability.matriz_decorators import instrument
 
 # Feature flag for Guardian system

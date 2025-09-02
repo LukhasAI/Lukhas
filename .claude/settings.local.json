@@ -103,7 +103,11 @@
       "Bash(for pr in 108 109 111 115 117 118 119 121)",
       "Bash(do echo \"=== PR #$pr ===\")",
       "Bash(gh workflow run:*)",
-      "Bash(npm audit:*)"
+      "Bash(npm audit:*)",
+      "Bash(PYTHONPATH=. python -c \"from candidate.core.identity.lambda_id_core import LukhasIdentityService; print(''✅ Identity imports work'')\")",
+      "Bash(PYTHONPATH=. python -m pytest tests/candidate/identity/ --collect-only -q)",
+      "Bash(PYTHONPATH=. python -m pytest tests/branding/test_content_generation.py --collect-only -q)",
+      "Bash(PYTHONPATH=. python -m pytest tests/branding/test_content_generation.py::test_single_domain_content -v)"
     ],
     "deny": [],
     "ask": []

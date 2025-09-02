@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Optional
 
 # Import the content platform
-from content_platform import ContentPlatform
+from .content_platform import ContentPlatform
 
 
 class AutomatedContentGenerator:

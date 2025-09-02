@@ -128,7 +128,10 @@ class ConstitutionalFramework:
         logger.info("🛡️ Production Constitutional AI Framework initialized")
 
     async def assess_constitutional_compliance(
-        self, content: str, context: Optional[dict[str, Any]] = None, user_intent: Optional[str] = None
+        self,
+        content: str,
+        context: Optional[dict[str, Any]] = None,
+        user_intent: Optional[str] = None,
     ) -> SafetyAssessment:
         """Assess constitutional compliance of content/action"""
         start_time = datetime.now(timezone.utc)
@@ -590,7 +593,10 @@ class SafetyMonitor:
         return SafetyMonitorContext(self.constitutional_framework, agent_id, operation)
 
     async def assess_safety(
-        self, content: str, context: Optional[dict[str, Any]] = None, user_intent: Optional[str] = None
+        self,
+        content: str,
+        context: Optional[dict[str, Any]] = None,
+        user_intent: Optional[str] = None,
     ) -> SafetyAssessment:
         """Assess safety using constitutional framework"""
         return await self.constitutional_framework.assess_constitutional_compliance(

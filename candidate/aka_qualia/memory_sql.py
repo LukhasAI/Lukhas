@@ -32,8 +32,8 @@ except ImportError:
 
     ulid = None
 
-from memory import AkaqMemory
-from observability import get_observability, measure_memory_operation
+from .memory import AkaqMemory
+from .observability import get_observability, measure_memory_operation
 
 logger = logging.getLogger(__name__)
 

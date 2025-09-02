@@ -39,6 +39,8 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
 
+from lukhas.identity.compat import canonicalize_id_from_kwargs, ensure_both_id_keys
+
 # Trinity Framework and LUKHAS integrations
 try:
     from lukhas.core.common.glyph import GLYPH as GlyphEngine
@@ -46,12 +48,26 @@ except ImportError:
     # Fallback for testing/development
     GlyphEngine = None
 
+
 # Fallback stub for testing/development - avoids circular imports
 class LambdIDValidator:
-    def __init__(self): pass
-    def validate_lambda_id(self, lambda_id): return True
-    def validate_id(self, lid): return True  # Alternative method name
-    def get_tier_from_lambda_id(self, lambda_id): return "T1"
+    def __init__(self) -> None:
+        pass
+
+    def validate_lambda_id(self, _l_id: str) -> bool:
+        """Validate a ΛID (compat shim).
+
+        Kept as `validate_lambda_id` for backwards compatibility; parameter
+        name exposed by callers is `l_id` but unused in this stub implementation.
+        """
+        return True
+
+    def validate_id(self, _l_id: str) -> bool:
+        return True  # Alternative method name (alias)
+
+    def get_tier_from_lambda_id(self, _l_id: str) -> str:
+        return "T1"
+
 
 # Configure logging for Trinity Framework compliance
 logging.basicConfig(
@@ -434,7 +450,15 @@ class ConsentLedgerV1:
         # Basic validation - can be extended with real Trinity validation
         return lid is not None and resource_type is not None and len(lid) > 0
 
-    def _validate_gdpr_compliance(self, lawful_basis: str, consent_type, children_data: bool, sensitive_data: bool, automated_decision_making: bool, third_country_transfer: bool = False) -> bool:
+    def _validate_gdpr_compliance(
+        self,
+        lawful_basis: str,
+        _consent_type: Any,
+        _children_data: bool,
+        _sensitive_data: bool,
+        _automated_decision_making: bool,
+        _processing_locations: Optional[list[str]] = None,
+    ) -> bool:
         """Validate GDPR Article 6 lawful basis requirements"""
         # Basic GDPR validation - can be extended with real compliance checks
         return lawful_basis is not None
@@ -799,6 +823,10 @@ class ConsentLedgerV1:
                     sensitive_data=sensitive_data,
                 )
 
+                # Ensure backward-compatible response keys
+                response_payload: dict[str, Any] = {}
+                ensure_both_id_keys(response_payload, lid)
+
                 # Store consent with full compliance data
                 conn = sqlite3.connect(str(self.db_path), timeout=30)
                 cursor = conn.cursor()
@@ -848,7 +876,10 @@ class ConsentLedgerV1:
                 finally:
                     conn.close()
 
-                return consent
+                # Return consent record with backward-compatible id keys
+                consent_map = asdict(consent)
+                ensure_both_id_keys(consent_map, lid)
+                return consent_map
 
             except Exception as e:
                 logging.error(f"Failed to grant consent: {e}")
