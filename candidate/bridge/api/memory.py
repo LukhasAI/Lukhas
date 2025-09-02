@@ -54,7 +54,8 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
 try:
-    from lukhas.consciousness.reflection.unified_memory_manager import MemoryFoldSystem
+    from lukhas.consciousness.reflection.unified_memory_manager import \
+        MemoryFoldSystem
 except ImportError:
     MemoryFoldSystem = None
 

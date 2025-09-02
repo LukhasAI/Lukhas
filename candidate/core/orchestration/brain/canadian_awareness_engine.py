@@ -35,22 +35,15 @@ import json
 import logging
 import uuid
 from dataclasses import dataclass
-from datetime import datetime
-from datetime import timedelta
-from datetime import timezone
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any
-from typing import Optional
-
-from pydantic import Field
+from typing import Any, Optional
 
 # Import global framework
-from identity.backend.app.institution_manager import DataCategory
-from identity.backend.app.institution_manager import global_timestamp
-from identity.backend.app.institution_manager import GlobalInstitutionalInput
-from identity.backend.app.institution_manager import GlobalInstitutionalOutput
-from identity.backend.app.institution_manager import Jurisdiction
-from identity.backend.app.institution_manager import LegalBasis
+from identity.backend.app.institution_manager import (
+    DataCategory, GlobalInstitutionalInput, GlobalInstitutionalOutput,
+    Jurisdiction, LegalBasis, global_timestamp)
+from pydantic import Field
 
 # ——— Canadian-Specific Regulatory Framework ——————————————————————— #
 

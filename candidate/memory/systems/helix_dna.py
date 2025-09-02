@@ -19,7 +19,9 @@ from typing import Any, Optional
 from cryptography.fernet import Fernet
 
 DEFAULT_KEY_PATH = os.environ.get("HELIX_MEMORY_KEY_PATH", "helix_memory.key")
-DEFAULT_STORE_PATH = os.environ.get("HELIX_MEMORY_STORE_PATH", "helix_memory_store.jsonl")
+DEFAULT_STORE_PATH = os.environ.get(
+    "HELIX_MEMORY_STORE_PATH", "helix_memory_store.jsonl"
+)
 
 # LUKHAS Core Imports
 # from ..core.decorators import core_tier_required # Conceptual
@@ -139,7 +141,9 @@ class HelixMemory:
         """Create SHA-256 hash for integrity verification."""
         return hashlib.sha256(data.encode("utf-8")).hexdigest()
 
-    async def _create_memory_bonds(self, decision_data: dict[str, Any], context: dict[str, Any]) -> set[str]:
+    async def _create_memory_bonds(
+        self, decision_data: dict[str, Any], context: dict[str, Any]
+    ) -> set[str]:
         log.warning("_create_memory_bonds is STUB.", status="needs_implementation")
         bonds: set[str] = set()
         if context.get("user_id"):
@@ -158,7 +162,9 @@ class HelixMemory:
         if strand_name not in self.strands:
             log.error("Invalid strand for integration.", strand=strand_name)
             return False
-        self.strands[strand_name].append({"id": memory_item_id, **memory_strand_payload})
+        self.strands[strand_name].append(
+            {"id": memory_item_id, **memory_strand_payload}
+        )
         log.debug("Memory integrated (stub).", id=memory_item_id, strand=strand_name)
         return True
 
@@ -218,7 +224,9 @@ class HelixMemory:
                 dec_decision = self._decrypt_data(entry["decision_enc_str"])
                 dec_context = self._decrypt_data(entry["context_enc_str"])
                 if dec_decision is not None and dec_context is not None:
-                    plain = json.dumps({"decision": dec_decision, "context": dec_context})
+                    plain = json.dumps(
+                        {"decision": dec_decision, "context": dec_context}
+                    )
                     if self._hash_payload(plain) != entry.get("integrity_hash"):
                         log.error("Integrity check failed.", id=decision_id)
                         return None

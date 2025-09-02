@@ -55,7 +55,9 @@ except ImportError:
     MEMORY_CORE_AVAILABLE = False
 
 # Set up detailed logging
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 
 
 def test_memory_lifecycle(orchestrator):
@@ -147,7 +149,9 @@ def test_error_conditions(orchestrator):
                 }
             )
         except Exception as e:
-            test_results.append({"test": "get_statistics", "status": "fail", "error": str(e)})
+            test_results.append(
+                {"test": "get_statistics", "status": "fail", "error": str(e)}
+            )
 
         # Test 2: Check if orchestrator is properly initialized
         try:
@@ -161,7 +165,9 @@ def test_error_conditions(orchestrator):
                 }
             )
         except Exception as e:
-            test_results.append({"test": "initialization_check", "status": "fail", "error": str(e)})
+            test_results.append(
+                {"test": "initialization_check", "status": "fail", "error": str(e)}
+            )
 
         # Test 3: Check memory type handling
         try:
@@ -174,7 +180,9 @@ def test_error_conditions(orchestrator):
                 }
             )
         except Exception as e:
-            test_results.append({"test": "memory_type_validation", "status": "fail", "error": str(e)})
+            test_results.append(
+                {"test": "memory_type_validation", "status": "fail", "error": str(e)}
+            )
 
         passed_tests = sum(1 for t in test_results if t["status"] == "pass")
         total_tests = len(test_results)

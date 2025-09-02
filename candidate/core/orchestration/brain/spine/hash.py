@@ -50,7 +50,9 @@ def main():
     parser.add_argument("--version", action="store_true", help="Show LUKHAS version ID")
     parser.add_argument("--manifest", action="store_true", help="Hash of manifest.json")
     parser.add_argument("--license", action="store_true", help="Hash of LICENSE.txt")
-    parser.add_argument("--all", action="store_true", help="Show full symbolic fingerprint")
+    parser.add_argument(
+        "--all", action="store_true", help="Show full symbolic fingerprint"
+    )
 
     args = parser.parse_args()
 

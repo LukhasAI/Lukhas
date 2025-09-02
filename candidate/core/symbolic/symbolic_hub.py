@@ -79,7 +79,9 @@ class SymbolicHub:
 
         for service_name, class_name in services:
             try:
-                module = __import__(f"symbolic.bio.{service_name}", fromlist=[class_name])
+                module = __import__(
+                    f"symbolic.bio.{service_name}", fromlist=[class_name]
+                )
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -95,7 +97,9 @@ class SymbolicHub:
 
             qi_attention = create_mito_quantum_attention()
             self.register_service("mito_quantum_attention", qi_attention)
-            logger.info("Successfully integrated mitochondrial quantum attention system")
+            logger.info(
+                "Successfully integrated mitochondrial quantum attention system"
+            )
         except Exception as e:
             logger.warning(f"Could not register quantum attention system: {e}")
 
@@ -109,9 +113,13 @@ class SymbolicHub:
         for service_name, class_name in services:
             try:
                 if service_name == "symbolic_drift_tracker":
-                    module = __import__(f"symbolic.drift.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"symbolic.drift.{service_name}", fromlist=[class_name]
+                    )
                 else:
-                    module = __import__(f"symbolic.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"symbolic.{service_name}", fromlist=[class_name]
+                    )
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -153,7 +161,9 @@ class SymbolicHub:
 
         for service_name, class_name in services:
             try:
-                module = __import__(f"symbolic.neural.{service_name}", fromlist=[class_name])
+                module = __import__(
+                    f"symbolic.neural.{service_name}", fromlist=[class_name]
+                )
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -176,7 +186,9 @@ class SymbolicHub:
             self.event_handlers[event_type] = []
         self.event_handlers[event_type].append(handler)
 
-    async def process_symbolic_data(self, symbolic_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
+    async def process_symbolic_data(
+        self, symbolic_data: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process symbolic data through the symbolic system"""
 
         # Process through glyph engine first
@@ -194,7 +206,9 @@ class SymbolicHub:
         loop_result = None
         if loop_engine and hasattr(loop_engine, "process_loop"):
             try:
-                loop_result = await loop_engine.process_loop(glyph_result or symbolic_data)
+                loop_result = await loop_engine.process_loop(
+                    glyph_result or symbolic_data
+                )
             except Exception as e:
                 logger.error(f"Loop processing error: {e}")
                 loop_result = {"error": str(e)}
@@ -214,7 +228,9 @@ class SymbolicHub:
         bio_symbolic = self.get_service("bio_symbolic")
         if bio_symbolic and hasattr(bio_symbolic, "integrate_bio_symbolic"):
             try:
-                result = await bio_symbolic.integrate_bio_symbolic(bio_data, symbolic_context)
+                result = await bio_symbolic.integrate_bio_symbolic(
+                    bio_data, symbolic_context
+                )
                 return {
                     "bio_symbolic_integration": result,
                     "timestamp": datetime.now().isoformat(),
@@ -226,14 +242,20 @@ class SymbolicHub:
 
         return {"error": "Bio-symbolic integration not available"}
 
-    async def process_event(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def process_event(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process an event through registered handlers"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
 
         for handler in handlers:
             try:
-                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
+                result = (
+                    await handler(data)
+                    if asyncio.iscoroutinefunction(handler)
+                    else handler(data)
+                )
                 results.append(result)
             except Exception as e:
                 logger.error(f"Symbolic handler error for {event_type}: {e}")

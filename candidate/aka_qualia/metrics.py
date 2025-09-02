@@ -68,7 +68,11 @@ class AkaQualiaMetrics:
         self.config = config or MetricsConfig()
 
         # Validate weights sum to 1.0
-        total_weight = self.config.weight_arousal + self.config.weight_tone + self.config.weight_clarity
+        total_weight = (
+            self.config.weight_arousal
+            + self.config.weight_tone
+            + self.config.weight_clarity
+        )
         if abs(total_weight - 1.0) > 0.001:
             raise ValueError(f"Weights must sum to 1.0, got {total_weight}")
 
@@ -118,7 +122,10 @@ class AkaQualiaMetrics:
         )
 
     def compute_repair_delta(
-        self, energy_before: EnergySnapshot, energy_after: EnergySnapshot, policy_work: float = 0.0
+        self,
+        energy_before: EnergySnapshot,
+        energy_after: EnergySnapshot,
+        policy_work: float = 0.0,
     ) -> tuple[float, bool]:
         """
         Compute repair delta with energy conservation check:
@@ -186,20 +193,30 @@ class AkaQualiaMetrics:
 
         return max(0.0, min(1.0, drift_phi))
 
-    def compute_congruence_index(self, scene: PhenomenalScene, goals: dict[str, Any]) -> float:
+    def compute_congruence_index(
+        self, scene: PhenomenalScene, goals: dict[str, Any]
+    ) -> float:
         """
         Compute congruence as 1 - MSE(v, v̂) normalized to [0,1]
 
         Maps goals to desired PQ target (e.g., calm-focus → specific ranges)
         """
         pq = scene.proto
-        current_vector = [pq.tone, pq.arousal, pq.clarity, pq.embodiment, pq.narrative_gravity]
+        current_vector = [
+            pq.tone,
+            pq.arousal,
+            pq.clarity,
+            pq.embodiment,
+            pq.narrative_gravity,
+        ]
 
         # Map goals to target PQ vector
         target_vector = self._goals_to_target_pq(goals)
 
         # Compute MSE
-        mse = sum((curr - target) ** 2 for curr, target in zip(current_vector, target_vector)) / len(current_vector)
+        mse = sum(
+            (curr - target) ** 2 for curr, target in zip(current_vector, target_vector)
+        ) / len(current_vector)
 
         # Convert to congruence (lower MSE = higher congruence)
         # Normalize MSE by maximum possible (when vectors are at opposite extremes)
@@ -211,7 +228,13 @@ class AkaQualiaMetrics:
     def _goals_to_target_pq(self, goals: dict[str, Any]) -> list[float]:
         """Map goals to target proto-qualia vector"""
         # Default neutral target
-        target = [0.0, 0.5, 0.6, 0.6, 0.3]  # [tone, arousal, clarity, embodiment, narrative_gravity]
+        target = [
+            0.0,
+            0.5,
+            0.6,
+            0.6,
+            0.3,
+        ]  # [tone, arousal, clarity, embodiment, narrative_gravity]
 
         # Goal-specific mappings
         if "calm_focus" in goals:
@@ -316,7 +339,9 @@ class AkaQualiaMetrics:
             )
 
             # Rate as proportion of transforms that were sublimations
-            rate = sublimation_transforms / transform_count if transform_count > 0 else 0.0
+            rate = (
+                sublimation_transforms / transform_count if transform_count > 0 else 0.0
+            )
 
         # Check for over-sublimation
         if rate > self.config.over_sublimation_rate_threshold:
@@ -367,7 +392,9 @@ class AkaQualiaMetrics:
 
         # Repair delta with energy conservation
         if energy_before:
-            repair_delta, conservation_valid = self.compute_repair_delta(energy_before, energy_after, policy_work)
+            repair_delta, conservation_valid = self.compute_repair_delta(
+                energy_before, energy_after, policy_work
+            )
         else:
             repair_delta = 0.0
 
@@ -394,12 +421,14 @@ class AkaQualiaMetrics:
         """Get current alert status for monitoring"""
         return {
             "consecutive_over_sublimation": self.consecutive_over_sublimation,
-            "over_sublimation_alert": self.consecutive_over_sublimation >= self.config.over_sublimation_consecutive,
+            "over_sublimation_alert": self.consecutive_over_sublimation
+            >= self.config.over_sublimation_consecutive,
             "drift_alerts": self.drift_alert_count,
             "energy_conservation_violations": sum(
                 1
                 for energy in self.energy_history
-                if hasattr(energy, "conservation_valid") and not energy.conservation_valid
+                if hasattr(energy, "conservation_valid")
+                and not energy.conservation_valid
             ),
         }
 

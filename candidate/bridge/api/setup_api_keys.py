@@ -74,7 +74,9 @@ def setup_api_keys():
     keys["ANTHROPIC_API_KEY"] = input("   Enter key: ").strip()
 
     print("\n🎭 Claude API Key (if different from Anthropic):")
-    keys["CLAUDE_API_KEY"] = input("   Enter key (or press Enter to use Anthropic key): ").strip()
+    keys["CLAUDE_API_KEY"] = input(
+        "   Enter key (or press Enter to use Anthropic key): "
+    ).strip()
 
     if not keys["CLAUDE_API_KEY"] and keys["ANTHROPIC_API_KEY"]:
         keys["CLAUDE_API_KEY"] = keys["ANTHROPIC_API_KEY"]

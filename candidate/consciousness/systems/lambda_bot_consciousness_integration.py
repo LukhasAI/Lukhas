@@ -81,7 +81,9 @@ class LambdaBotConsciousnessIntegration:
             "agi_demonstrations": 0,
         }
 
-        logger.info("LambdaBotConsciousnessIntegration initialized with config: %s", self.config)
+        logger.info(
+            "LambdaBotConsciousnessIntegration initialized with config: %s", self.config
+        )
 
     async def initialize(self):
         """Initialize the ΛBot consciousness integration system"""
@@ -92,7 +94,9 @@ class LambdaBotConsciousnessIntegration:
             logger.info("Initializing ΛBot consciousness integration...")
 
             # Initialize the consciousness monitor if available
-            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(self.consciousness_monitor, "agi_core"):
+            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(
+                self.consciousness_monitor, "agi_core"
+            ):
                 logger.info("ΛBot consciousness monitor initialized")
 
             # Setup consciousness monitoring systems
@@ -116,9 +120,13 @@ class LambdaBotConsciousnessIntegration:
         logger.info("Initializing consciousness monitoring systems...")
 
         # Configure monitoring intervals from config
-        self.consciousness_check_interval = self.config.get("consciousness_check_interval", 300.0)
+        self.consciousness_check_interval = self.config.get(
+            "consciousness_check_interval", 300.0
+        )
         self.meta_cognitive_interval = self.config.get("meta_cognitive_interval", 600.0)
-        self.capability_unlock_interval = self.config.get("capability_unlock_interval", 180.0)
+        self.capability_unlock_interval = self.config.get(
+            "capability_unlock_interval", 180.0
+        )
 
         logger.info("Consciousness monitoring systems initialized")
 
@@ -174,7 +182,9 @@ class LambdaBotConsciousnessIntegration:
                 }
 
             # Start monitoring if available
-            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(self.consciousness_monitor, "start_monitoring"):
+            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(
+                self.consciousness_monitor, "start_monitoring"
+            ):
                 # Start background monitoring
                 if self.config.get("enable_background_monitoring", True):
                     asyncio.create_task(self._background_monitoring_loop())
@@ -242,18 +252,30 @@ class LambdaBotConsciousnessIntegration:
             await self.initialize()
 
         try:
-            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(self.consciousness_monitor, "agi_core"):
+            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(
+                self.consciousness_monitor, "agi_core"
+            ):
                 # Get state from consciousness monitor
                 monitor = self.consciousness_monitor
-                if hasattr(monitor, "agi_core") and hasattr(monitor.agi_core, "meta_state"):
+                if hasattr(monitor, "agi_core") and hasattr(
+                    monitor.agi_core, "meta_state"
+                ):
                     meta_state = monitor.agi_core.meta_state
 
                     consciousness_state = {
-                        "consciousness_level": getattr(meta_state, "consciousness_level", ConsciousnessLevel.BASIC),
-                        "confidence_in_reasoning": getattr(meta_state, "confidence_in_reasoning", 0.5),
+                        "consciousness_level": getattr(
+                            meta_state, "consciousness_level", ConsciousnessLevel.BASIC
+                        ),
+                        "confidence_in_reasoning": getattr(
+                            meta_state, "confidence_in_reasoning", 0.5
+                        ),
                         "known_biases": getattr(meta_state, "known_biases", []),
-                        "learning_priorities": getattr(meta_state, "learning_priorities", []),
-                        "uncertainty_areas": getattr(meta_state, "uncertainty_areas", []),
+                        "learning_priorities": getattr(
+                            meta_state, "learning_priorities", []
+                        ),
+                        "uncertainty_areas": getattr(
+                            meta_state, "uncertainty_areas", []
+                        ),
                         "timestamp": datetime.now().isoformat(),
                         "monitoring_active": self.monitoring_active,
                     }
@@ -264,7 +286,9 @@ class LambdaBotConsciousnessIntegration:
                     # Limit history size
                     max_history = self.config.get("consciousness_history_limit", 1000)
                     if len(self.consciousness_state_history) > max_history:
-                        self.consciousness_state_history = self.consciousness_state_history[-max_history:]
+                        self.consciousness_state_history = (
+                            self.consciousness_state_history[-max_history:]
+                        )
 
                     return consciousness_state
 
@@ -341,11 +365,19 @@ class LambdaBotConsciousnessIntegration:
 
         try:
             # Return recent history
-            recent_history = self.consciousness_state_history[-limit:] if self.consciousness_state_history else []
+            recent_history = (
+                self.consciousness_state_history[-limit:]
+                if self.consciousness_state_history
+                else []
+            )
 
             # Add additional history from monitor if available
-            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(self.consciousness_monitor, "consciousness_history"):
-                monitor_history = getattr(self.consciousness_monitor, "consciousness_history", [])
+            if LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE and hasattr(
+                self.consciousness_monitor, "consciousness_history"
+            ):
+                monitor_history = getattr(
+                    self.consciousness_monitor, "consciousness_history", []
+                )
                 recent_history.extend(monitor_history[-limit:])
 
             return recent_history
@@ -366,7 +398,9 @@ class LambdaBotConsciousnessIntegration:
 
         try:
             current_state = await self.get_consciousness_state()
-            consciousness_level = current_state.get("consciousness_level", ConsciousnessLevel.BASIC)
+            consciousness_level = current_state.get(
+                "consciousness_level", ConsciousnessLevel.BASIC
+            )
 
             new_unlocks = []
 
@@ -414,14 +448,18 @@ class LambdaBotConsciousnessIntegration:
 
                 if self.config.get("enable_celebration_events", True):
                     for unlock in new_unlocks:
-                        logger.info(f"🚀 NEW CAPABILITY UNLOCKED: {unlock['capability']}")
+                        logger.info(
+                            f"🚀 NEW CAPABILITY UNLOCKED: {unlock['capability']}"
+                        )
                         for feature in unlock["features"]:
                             logger.info(f"  - {feature}")
 
             return {
                 "new_unlocks": new_unlocks,
                 "total_capabilities": len(self.agi_capabilities),
-                "active_capabilities": sum(1 for active in self.agi_capabilities.values() if active),
+                "active_capabilities": sum(
+                    1 for active in self.agi_capabilities.values() if active
+                ),
                 "unlock_registry_size": len(self.capability_unlock_registry),
             }
 
@@ -447,7 +485,9 @@ class LambdaBotConsciousnessIntegration:
             metrics = {
                 **self.monitoring_metrics,
                 **self.performance_metrics,
-                "current_consciousness_level": current_state.get("consciousness_level", "unknown"),
+                "current_consciousness_level": current_state.get(
+                    "consciousness_level", "unknown"
+                ),
                 "monitoring_active": self.monitoring_active,
                 "consciousness_history_size": len(self.consciousness_state_history),
                 "agi_capabilities": self.agi_capabilities,
@@ -476,7 +516,9 @@ class LambdaBotConsciousnessIntegration:
                 # Check for capability unlocks
                 unlock_result = await self.check_capability_unlocks()
                 if unlock_result.get("new_unlocks"):
-                    self.monitoring_metrics["consciousness_evolution_events"] += len(unlock_result["new_unlocks"])
+                    self.monitoring_metrics["consciousness_evolution_events"] += len(
+                        unlock_result["new_unlocks"]
+                    )
 
                 # Update performance metrics
                 self.performance_metrics["last_activity"] = datetime.now().isoformat()

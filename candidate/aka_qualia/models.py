@@ -55,10 +55,14 @@ class ProtoQualia(BaseModel):
     embodiment: float = Field(ge=0.0, le=1.0, description="Body awareness")
 
     # Symbolic and temporal qualities
-    colorfield: str = Field(description="Symbolic palette (e.g., 'aka/red', 'aoi/blue')")
+    colorfield: str = Field(
+        description="Symbolic palette (e.g., 'aka/red', 'aoi/blue')"
+    )
     temporal_feel: TemporalFeel = Field(description="Temporal experience quality")
     agency_feel: AgencyFeel = Field(description="Agency experience quality")
-    narrative_gravity: float = Field(ge=0.0, le=1.0, description="Story attractor strength")
+    narrative_gravity: float = Field(
+        ge=0.0, le=1.0, description="Story attractor strength"
+    )
 
     @validator("colorfield")
     def validate_colorfield(cls, v):
@@ -76,7 +80,9 @@ class RiskProfile(BaseModel):
     """TEQ Guardian risk assessment result"""
 
     score: float = Field(ge=0.0, le=1.0, description="Risk score 0-1")
-    reasons: list[str] = Field(default_factory=list, description="Risk factors identified")
+    reasons: list[str] = Field(
+        default_factory=list, description="Risk factors identified"
+    )
     severity: SeverityLevel = Field(description="Severity classification")
 
     @validator("severity")
@@ -107,7 +113,9 @@ class PhenomenalScene(BaseModel):
     risk: RiskProfile = Field(description="TEQ Guardian risk assessment")
 
     # Audit trail for transforms
-    transform_chain: list[str] = Field(default_factory=list, description="Applied transforms")
+    transform_chain: list[str] = Field(
+        default_factory=list, description="Applied transforms"
+    )
     timestamp: Optional[float] = Field(None, description="Scene generation timestamp")
 
 
@@ -141,7 +149,9 @@ class RegulationPolicy(BaseModel):
         approved_actions = {"pause", "reframe", "breathing", "focus-shift", "sublimate"}
         invalid_actions = set(v) - approved_actions
         if invalid_actions:
-            raise ValueError(f"Invalid actions: {invalid_actions}. Use: {approved_actions}")
+            raise ValueError(
+                f"Invalid actions: {invalid_actions}. Use: {approved_actions}"
+            )
         return v
 
 
@@ -150,10 +160,18 @@ class Metrics(BaseModel):
 
     # Core success metrics
     drift_phi: float = Field(description="Scene temporal coherence")
-    congruence_index: float = Field(ge=0.0, le=1.0, description="Goals↔ethics↔scene alignment")
-    sublimation_rate: float = Field(ge=0.0, le=1.0, description="Transformed/total energy")
-    neurosis_risk: float = Field(ge=0.0, le=1.0, description="Loop recurrence probability")
-    qualia_novelty: float = Field(ge=0.0, le=1.0, description="1 - similarity(PQ_t, PQ_hist)")
+    congruence_index: float = Field(
+        ge=0.0, le=1.0, description="Goals↔ethics↔scene alignment"
+    )
+    sublimation_rate: float = Field(
+        ge=0.0, le=1.0, description="Transformed/total energy"
+    )
+    neurosis_risk: float = Field(
+        ge=0.0, le=1.0, description="Loop recurrence probability"
+    )
+    qualia_novelty: float = Field(
+        ge=0.0, le=1.0, description="1 - similarity(PQ_t, PQ_hist)"
+    )
     repair_delta: float = Field(description="Stress reduction post-regulation")
 
     # Timestamps and context
@@ -173,7 +191,9 @@ class PLSLatent(BaseModel):
     agency_signals: float = Field(ge=0.0, le=1.0, description="Control/agency cues")
 
     # Temperature for stochastic decoding
-    temperature: float = Field(default=0.4, ge=0.0, le=2.0, description="Decode randomness")
+    temperature: float = Field(
+        default=0.4, ge=0.0, le=2.0, description="Decode randomness"
+    )
 
 
 class SublimatioNResult(BaseModel):
@@ -181,6 +201,8 @@ class SublimatioNResult(BaseModel):
 
     original_scene: PhenomenalScene = Field(description="Pre-transform scene")
     transformed_scene: PhenomenalScene = Field(description="Post-transform scene")
-    energy_preserved: float = Field(ge=0.0, le=1.0, description="Energy conservation ratio")
+    energy_preserved: float = Field(
+        ge=0.0, le=1.0, description="Energy conservation ratio"
+    )
     transform_type: str = Field(description="Type of sublimation applied")
     transform_success: bool = Field(description="Transform completed successfully")

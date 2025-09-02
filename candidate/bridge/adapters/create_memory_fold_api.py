@@ -23,10 +23,18 @@ class MemoryInput(BaseModel):
     """Input for creating a memory fold"""
 
     content: str = Field(..., description="The memory content to store")
-    emotional_state: dict[str, float] = Field(..., description="Emotional vector at time of memory")
-    context_tags: list[str] = Field(default_factory=list, description="Tags for memory categorization")
-    causal_links: list[str] = Field(default_factory=list, description="IDs of causally related memories")
-    importance: float = Field(0.5, ge=0, le=1, description="Importance weight of memory")
+    emotional_state: dict[str, float] = Field(
+        ..., description="Emotional vector at time of memory"
+    )
+    context_tags: list[str] = Field(
+        default_factory=list, description="Tags for memory categorization"
+    )
+    causal_links: list[str] = Field(
+        default_factory=list, description="IDs of causally related memories"
+    )
+    importance: float = Field(
+        0.5, ge=0, le=1, description="Importance weight of memory"
+    )
 
 
 class MemoryFold(BaseModel):
@@ -47,9 +55,15 @@ class MemoryQuery(BaseModel):
     """Query parameters for memory retrieval"""
 
     query: str = Field(..., description="Search query")
-    emotional_context: Optional[dict[str, float]] = Field(None, description="Current emotional state")
-    time_range: Optional[dict[str, str]] = Field(None, description="Time range for search")
-    causal_depth: int = Field(3, ge=1, le=10, description="How many causal links to follow")
+    emotional_context: Optional[dict[str, float]] = Field(
+        None, description="Current emotional state"
+    )
+    time_range: Optional[dict[str, str]] = Field(
+        None, description="Time range for search"
+    )
+    causal_depth: int = Field(
+        3, ge=1, le=10, description="How many causal links to follow"
+    )
     qi_coherence: float = Field(0.7, ge=0, le=1, description="Quantum search coherence")
 
 
@@ -57,10 +71,16 @@ class MemoryRecallResponse(BaseModel):
     """Response from memory recall"""
 
     memories: list[MemoryFold]
-    emotional_resonance: float = Field(..., description="How well memories match emotional query")
+    emotional_resonance: float = Field(
+        ..., description="How well memories match emotional query"
+    )
     causal_paths: list[list[str]] = Field(..., description="Causal chains discovered")
-    qi_entanglement: dict[str, float] = Field(..., description="Quantum correlations between memories")
-    temporal_drift: float = Field(..., description="Time-based memory modification factor")
+    qi_entanglement: dict[str, float] = Field(
+        ..., description="Quantum correlations between memories"
+    )
+    temporal_drift: float = Field(
+        ..., description="Time-based memory modification factor"
+    )
 
 
 class HelixState(BaseModel):
@@ -98,13 +118,17 @@ class QIMemoryEngine:
         fold_id = f"fold_{uuid.uuid4().hex[:8]}_{int(datetime.now().timestamp())}"
 
         # Calculate quantum state based on emotional vector
-        qi_state = self._calculate_quantum_state(memory_input.emotional_state, memory_input.importance)
+        qi_state = self._calculate_quantum_state(
+            memory_input.emotional_state, memory_input.importance
+        )
 
         # Determine helix position (3D spiral)
         helix_position = self._calculate_helix_position(len(self.memory_helix))
 
         # Calculate decay rate based on importance and emotion
-        decay_rate = self._calculate_decay_rate(memory_input.importance, memory_input.emotional_state)
+        decay_rate = self._calculate_decay_rate(
+            memory_input.importance, memory_input.emotional_state
+        )
 
         # Resonance frequency for memory retrieval
         resonance = self._calculate_resonance(memory_input.emotional_state)
@@ -134,13 +158,17 @@ class QIMemoryEngine:
         """Recall memories using quantum search"""
 
         # Quantum-inspired similarity search
-        relevant_memories = await self._quantum_search(query.query, query.emotional_context, query.qi_coherence)
+        relevant_memories = await self._quantum_search(
+            query.query, query.emotional_context, query.qi_coherence
+        )
 
         # Follow causal chains
         causal_paths = self._trace_causal_chains(relevant_memories, query.causal_depth)
 
         # Calculate emotional resonance
-        resonance = self._calculate_emotional_resonance(relevant_memories, query.emotional_context)
+        resonance = self._calculate_emotional_resonance(
+            relevant_memories, query.emotional_context
+        )
 
         # Apply temporal drift
         temporal_drift = self._apply_temporal_drift(relevant_memories)
@@ -156,7 +184,9 @@ class QIMemoryEngine:
             temporal_drift=temporal_drift,
         )
 
-    def _calculate_quantum_state(self, emotions: dict[str, float], importance: float) -> dict[str, float]:
+    def _calculate_quantum_state(
+        self, emotions: dict[str, float], importance: float
+    ) -> dict[str, float]:
         """Calculate quantum state from emotional vector"""
         qi_state = {}
 
@@ -186,7 +216,9 @@ class QIMemoryEngine:
 
         return (x, y, z)
 
-    def _calculate_decay_rate(self, importance: float, emotions: dict[str, float]) -> float:
+    def _calculate_decay_rate(
+        self, importance: float, emotions: dict[str, float]
+    ) -> float:
         """Calculate memory decay rate"""
         # Important memories decay slower
         base_decay = 0.1 * (1 - importance)
@@ -225,7 +257,9 @@ class QIMemoryEngine:
             # Emotional similarity if context provided
             emotional_similarity = 1.0
             if emotional_context:
-                emotional_similarity = self._calculate_emotional_similarity(emotional_context, fold.emotional_vector)
+                emotional_similarity = self._calculate_emotional_similarity(
+                    emotional_context, fold.emotional_vector
+                )
 
             # Quantum interference pattern
             interference = np.cos(fold.resonance_frequency * coherence)
@@ -259,7 +293,9 @@ class QIMemoryEngine:
         intersection = query_words.intersection(content_words)
         return len(intersection) / len(query_words)
 
-    def _calculate_emotional_similarity(self, emotions1: dict[str, float], emotions2: dict[str, float]) -> float:
+    def _calculate_emotional_similarity(
+        self, emotions1: dict[str, float], emotions2: dict[str, float]
+    ) -> float:
         """Calculate similarity between emotional states"""
         similarity = 0.0
         count = 0
@@ -272,7 +308,9 @@ class QIMemoryEngine:
 
         return similarity / count if count > 0 else 0.0
 
-    def _trace_causal_chains(self, memories: list[MemoryFold], depth: int) -> list[list[str]]:
+    def _trace_causal_chains(
+        self, memories: list[MemoryFold], depth: int
+    ) -> list[list[str]]:
         """Trace causal chains through memories"""
         chains = []
 
@@ -309,7 +347,9 @@ class QIMemoryEngine:
         total_resonance = 0.0
 
         for memory in memories:
-            memory_resonance = self._calculate_emotional_similarity(current_emotions, memory.emotional_vector)
+            memory_resonance = self._calculate_emotional_similarity(
+                current_emotions, memory.emotional_vector
+            )
             # Weight by memory importance (from qi state)
             importance = memory.qi_state.get("coherence", 0.5)
             total_resonance += memory_resonance * importance
@@ -332,7 +372,9 @@ class QIMemoryEngine:
 
         return total_drift / len(memories)
 
-    def _measure_quantum_entanglements(self, memories: list[MemoryFold]) -> dict[str, float]:
+    def _measure_quantum_entanglements(
+        self, memories: list[MemoryFold]
+    ) -> dict[str, float]:
         """Measure quantum entanglements between memories"""
         entanglements = {}
 
@@ -356,7 +398,9 @@ class QIMemoryEngine:
 
         return entanglements
 
-    def _calculate_quantum_correlation(self, fold1: MemoryFold, fold2: MemoryFold) -> float:
+    def _calculate_quantum_correlation(
+        self, fold1: MemoryFold, fold2: MemoryFold
+    ) -> float:
         """Calculate quantum correlation between two memory folds"""
         # Phase correlation
         phase_correlation = 0.0
@@ -373,7 +417,9 @@ class QIMemoryEngine:
         phase_correlation /= len(self.emotional_dimensions)
 
         # Spatial correlation in helix
-        dist = np.linalg.norm(np.array(fold1.helix_position) - np.array(fold2.helix_position))
+        dist = np.linalg.norm(
+            np.array(fold1.helix_position) - np.array(fold2.helix_position)
+        )
         spatial_correlation = np.exp(-dist / 10.0)
 
         return (phase_correlation + spatial_correlation) / 2
@@ -388,7 +434,9 @@ class QIMemoryEngine:
                 continue
 
             # Distance in helix
-            dist = np.linalg.norm(np.array(fold.helix_position) - np.array(new_fold.helix_position))
+            dist = np.linalg.norm(
+                np.array(fold.helix_position) - np.array(new_fold.helix_position)
+            )
 
             if dist < 5.0:  # Nearby in helix
                 nearby.append(fold)
@@ -444,10 +492,15 @@ class QIMemoryEngine:
 
         # Normalize
         total_folds = len(self.memory_helix)
-        emotional_balance = {emotion: sum_val / total_folds for emotion, sum_val in emotional_sums.items()}
+        emotional_balance = {
+            emotion: sum_val / total_folds
+            for emotion, sum_val in emotional_sums.items()
+        }
 
         # Calculate coherence
-        qi_states = [fold.qi_state.get("coherence", 0.5) for fold in self.memory_helix.values()]
+        qi_states = [
+            fold.qi_state.get("coherence", 0.5) for fold in self.memory_helix.values()
+        ]
         helix_coherence = np.mean(qi_states)
 
         # Quantum stability (inverse of variance)
@@ -459,7 +512,9 @@ class QIMemoryEngine:
         newest = max(timestamps)
 
         # Compression ratio (how efficiently memories are stored)
-        total_content_size = sum(len(fold.content) for fold in self.memory_helix.values())
+        total_content_size = sum(
+            len(fold.content) for fold in self.memory_helix.values()
+        )
         helix_size = len(self.memory_helix) * 100  # Approximate fold size
         compression = helix_size / total_content_size if total_content_size > 0 else 0.0
 
@@ -491,7 +546,9 @@ async def create_memory_fold(memory_input: MemoryInput):
         return fold
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Memory fold creation failed: {e!s}")
+        raise HTTPException(
+            status_code=500, detail=f"Memory fold creation failed: {e!s}"
+        )
 
 
 @app.post("/api/v1/memory-recall", response_model=MemoryRecallResponse)

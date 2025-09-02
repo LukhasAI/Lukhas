@@ -31,7 +31,9 @@ VOICES = {
         "style": "news",
     },
     "reflective_lukhas": {
-        "id": os.getenv("REFLECTIVE_LUCAS_VOICE_ID", ""),  # British, melancholic, articulate
+        "id": os.getenv(
+            "REFLECTIVE_LUCAS_VOICE_ID", ""
+        ),  # British, melancholic, articulate
         "style": "conversational",
     },
 }
@@ -111,7 +113,9 @@ def speak(text, traits=None):
         try:
             with open(audio_file, "wb") as f:
                 f.write(response.content)
-            logger.info(f"🔉 Audio saved at: {audio_file} ({len(response.content)} bytes)")
+            logger.info(
+                f"🔉 Audio saved at: {audio_file} ({len(response.content)} bytes)"
+            )
 
             script_path = "/tmp/play_last_audio.sh"
             with open(script_path, "w") as script:
@@ -128,7 +132,9 @@ def speak(text, traits=None):
                 except FileNotFoundError:
                     logger.warning("⚠️ pbcopy command not found (macOS only)")
             else:
-                logger.error("❌ Audio file was not created despite successful response.")
+                logger.error(
+                    "❌ Audio file was not created despite successful response."
+                )
         except Exception as e:
             logger.error("❌ Error saving audio file:", e)
     else:

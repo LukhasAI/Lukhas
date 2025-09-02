@@ -25,7 +25,9 @@ def run_voice_narrator():
 
 def inject_test_dream():
     print("🌀 Injecting test dream...")
-    subprocess.run(["python3", "core/modules/nias/inject_message_simulator.py", "--dream"])
+    subprocess.run(
+        ["python3", "core/modules/nias/inject_message_simulator.py", "--dream"]
+    )
 
 
 def run_all():
@@ -36,7 +38,9 @@ def run_all():
 
 def main():
     parser = argparse.ArgumentParser(description="Dream CLI for LUCΛS")
-    parser.add_argument("--inject", action="store_true", help="Inject a symbolic test dream")
+    parser.add_argument(
+        "--inject", action="store_true", help="Inject a symbolic test dream"
+    )
     parser.add_argument("--queue", action="store_true", help="Queue narratable dreams")
     parser.add_argument("--narrate", action="store_true", help="Run the voice narrator")
     parser.add_argument("--all", action="store_true", help="Run full dream loop")

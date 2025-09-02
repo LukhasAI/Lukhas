@@ -54,7 +54,9 @@ class RiskOverlayManager:
         with self._lock:
             self._load()
 
-    def get_policies(self, jurisdiction: Optional[str] = None, context: Optional[str] = None) -> dict[str, Any]:
+    def get_policies(
+        self, jurisdiction: Optional[str] = None, context: Optional[str] = None
+    ) -> dict[str, Any]:
         """
         Returns the merged policy dict for the given jurisdiction and context.
         Order of precedence:
@@ -69,14 +71,18 @@ class RiskOverlayManager:
             merged = copy.deepcopy(self._overlays.global_policies)
 
             if jurisdiction and jurisdiction in self._overlays.jurisdictions:
-                merged = self._deep_merge(merged, self._overlays.jurisdictions[jurisdiction])
+                merged = self._deep_merge(
+                    merged, self._overlays.jurisdictions[jurisdiction]
+                )
 
             if context and context in self._overlays.contexts:
                 merged = self._deep_merge(merged, self._overlays.contexts[context])
 
             return merged
 
-    def _deep_merge(self, base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
+    def _deep_merge(
+        self, base: dict[str, Any], override: dict[str, Any]
+    ) -> dict[str, Any]:
         for k, v in override.items():
             if isinstance(v, dict) and k in base and isinstance(base[k], dict):
                 base[k] = self._deep_merge(base[k], v)

@@ -79,7 +79,9 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = get_logger(__name__)
 
 
@@ -149,7 +151,9 @@ class SymbolicVaultScanner:
             logger.error(f"❌ Error loading memory snapshots: {e}")
             return {}
 
-        logger.info(f"✅ Loaded {snapshot_count} memory entries from {sum(file_types.values())} files")
+        logger.info(
+            f"✅ Loaded {snapshot_count} memory entries from {sum(file_types.values())} files"
+        )
         logger.info(f"📊 File distribution: {dict(file_types)}")
 
         return {
@@ -172,7 +176,9 @@ class SymbolicVaultScanner:
                             self._process_memory_entry(entry, str(file_path), line_num)
                             count += 1
                         except json.JSONDecodeError:
-                            logger.warning(f"⚠️ Invalid JSON on line {line_num} in {file_path}")
+                            logger.warning(
+                                f"⚠️ Invalid JSON on line {line_num} in {file_path}"
+                            )
         except Exception as e:
             logger.error(f"❌ Error reading JSONL file {file_path}: {e}")
         return count
@@ -252,7 +258,9 @@ class SymbolicVaultScanner:
         entry_text = json.dumps(entry).lower()
         for keyword in emotional_keywords:
             if keyword in entry_text:
-                self.emotional_anchors[keyword].append({"entry_id": entry_id, "source": source, "context": entry})
+                self.emotional_anchors[keyword].append(
+                    {"entry_id": entry_id, "source": source, "context": entry}
+                )
 
         # Store in snapshots
         self.memory_snapshots[entry_id] = entry
@@ -265,7 +273,11 @@ class SymbolicVaultScanner:
                 {
                     "entry_id": f"{source}:text",
                     "source": source,
-                    "context": {"raw_content": (content[:200] + "..." if len(content) > 200 else content)},
+                    "context": {
+                        "raw_content": (
+                            content[:200] + "..." if len(content) > 200 else content
+                        )
+                    },
                 }
             )
 
@@ -287,7 +299,9 @@ class SymbolicVaultScanner:
 
         return symbols
 
-    def detect_stale_symbols(self, days_threshold: int = 30, frequency_threshold: int = 2) -> dict[str, Any]:
+    def detect_stale_symbols(
+        self, days_threshold: int = 30, frequency_threshold: int = 2
+    ) -> dict[str, Any]:
         """
         Detect stale or low-frequency symbols that may indicate decay
 
@@ -314,7 +328,9 @@ class SymbolicVaultScanner:
                 timestamp_str = occurrence.get("timestamp", "")
                 if timestamp_str:
                     try:
-                        timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
+                        timestamp = datetime.fromisoformat(
+                            timestamp_str.replace("Z", "+00:00")
+                        )
                         if timestamp > cutoff_date:
                             recent_count += 1
                         if latest_timestamp is None or timestamp > latest_timestamp:
@@ -331,22 +347,30 @@ class SymbolicVaultScanner:
                 "frequency": frequency,
                 "recent_usage": recent_count,
                 "staleness_score": staleness_score,
-                "latest_timestamp": (latest_timestamp.isoformat() if latest_timestamp else None),
+                "latest_timestamp": (
+                    latest_timestamp.isoformat() if latest_timestamp else None
+                ),
                 "sources": list({occ["source"] for occ in occurrences}),
             }
 
             # Flag as stale if score is high
-            if staleness_score > 0.7 or (frequency < frequency_threshold and recent_count == 0):
+            if staleness_score > 0.7 or (
+                frequency < frequency_threshold and recent_count == 0
+            ):
                 stale_symbols[symbol] = symbol_stats[symbol]
                 stale_symbols[symbol]["classification"] = "STALE"
 
-        logger.info(f"🚨 Found {len(stale_symbols)} stale symbols out of {len(self.symbol_registry)} total")
+        logger.info(
+            f"🚨 Found {len(stale_symbols)} stale symbols out of {len(self.symbol_registry)} total"
+        )
 
         return {
             "stale_symbols": stale_symbols,
             "total_symbols": len(self.symbol_registry),
             "stale_count": len(stale_symbols),
-            "stale_percentage": len(stale_symbols) / max(len(self.symbol_registry), 1) * 100,
+            "stale_percentage": len(stale_symbols)
+            / max(len(self.symbol_registry), 1)
+            * 100,
             "analysis_parameters": {
                 "days_threshold": days_threshold,
                 "frequency_threshold": frequency_threshold,
@@ -435,7 +459,9 @@ class SymbolicVaultScanner:
             "missing_links": missing_links,
             "total_actual_links": len(actual_links),
             "missing_count": len(missing_links),
-            "link_health_score": max(0, 1.0 - (len(missing_links) / max(len(expected_links), 1))),
+            "link_health_score": max(
+                0, 1.0 - (len(missing_links) / max(len(expected_links), 1))
+            ),
         }
 
     def assess_vault_health(self) -> dict[str, Any]:
@@ -456,11 +482,15 @@ class SymbolicVaultScanner:
         link_integrity = link_analysis.get("link_health_score", 0.5)
 
         # Emotional stability score
-        emotional_coverage = len(self.emotional_anchors) / max(len(self.symbol_registry), 1)
+        emotional_coverage = len(self.emotional_anchors) / max(
+            len(self.symbol_registry), 1
+        )
         emotional_stability = min(emotional_coverage * 2, 1.0)  # Cap at 1.0
 
         # Entropy coherence (symbol distribution balance)
-        symbol_frequencies = [len(occurrences) for occurrences in self.symbol_registry.values()]
+        symbol_frequencies = [
+            len(occurrences) for occurrences in self.symbol_registry.values()
+        ]
         if symbol_frequencies:
             entropy = -sum(
                 (f / sum(symbol_frequencies)) * math.log2(f / sum(symbol_frequencies))
@@ -473,8 +503,12 @@ class SymbolicVaultScanner:
             entropy_coherence = 0.0
 
         # Coverage efficiency (memory utilization)
-        total_files_scanned = sum(self.load_memory_snapshots().get("file_distribution", {}).values())
-        files_with_symbols = len({occ["source"] for occs in self.symbol_registry.values() for occ in occs})
+        total_files_scanned = sum(
+            self.load_memory_snapshots().get("file_distribution", {}).values()
+        )
+        files_with_symbols = len(
+            {occ["source"] for occs in self.symbol_registry.values() for occ in occs}
+        )
         coverage_efficiency = files_with_symbols / max(total_files_scanned, 1)
 
         # Calculate composite health score
@@ -521,7 +555,9 @@ class SymbolicVaultScanner:
                 "files_scanned": total_files_scanned,
                 "files_with_symbols": files_with_symbols,
             },
-            "recommendations": self._generate_health_recommendations(health_score, stale_analysis, link_analysis),
+            "recommendations": self._generate_health_recommendations(
+                health_score, stale_analysis, link_analysis
+            ),
         }
 
     def _generate_health_recommendations(
@@ -546,14 +582,20 @@ class SymbolicVaultScanner:
             )
 
         if len(self.emotional_anchors) < 3:
-            recommendations.append("💭 Insufficient emotional anchoring detected - review memory emotional contexts")
+            recommendations.append(
+                "💭 Insufficient emotional anchoring detected - review memory emotional contexts"
+            )
 
         if not recommendations:
-            recommendations.append("✅ Vault health is good - continue regular monitoring")
+            recommendations.append(
+                "✅ Vault health is good - continue regular monitoring"
+            )
 
         return recommendations
 
-    def export_vault_report(self, output_format: str = "markdown", output_file: Optional[str] = None) -> str:
+    def export_vault_report(
+        self, output_format: str = "markdown", output_file: Optional[str] = None
+    ) -> str:
         """
         Export comprehensive vault health report
 
@@ -585,7 +627,9 @@ class SymbolicVaultScanner:
             report_content = json.dumps(report_data, indent=2, ensure_ascii=False)
 
         else:  # Markdown format
-            report_content = self._generate_markdown_report(health_assessment, stale_analysis, link_analysis)
+            report_content = self._generate_markdown_report(
+                health_assessment, stale_analysis, link_analysis
+            )
 
         # Write to file if specified
         if output_file:
@@ -596,7 +640,9 @@ class SymbolicVaultScanner:
 
         return report_content
 
-    def _generate_markdown_report(self, health_assessment: dict, stale_analysis: dict, link_analysis: dict) -> str:
+    def _generate_markdown_report(
+        self, health_assessment: dict, stale_analysis: dict, link_analysis: dict
+    ) -> str:
         """Generate markdown format report"""
         health_emoji = health_assessment["health_emoji"]
         health_score = health_assessment["ΛVAULT_HEALTH_SCORE"]
@@ -652,7 +698,11 @@ Scanner Version: `v1.0.0`
             )
 
             for symbol, data in stale_items[:10]:  # Top 10 stale symbols
-                latest = data["latest_timestamp"][:10] if data["latest_timestamp"] else "Never"
+                latest = (
+                    data["latest_timestamp"][:10]
+                    if data["latest_timestamp"]
+                    else "Never"
+                )
                 sources_count = len(data["sources"])
                 report += f"| `{symbol}` | {data['frequency']} | {latest} | {data['staleness_score']:.2f} | {sources_count} |\n"
         else:
@@ -665,7 +715,9 @@ Scanner Version: `v1.0.0`
             report += "| Link | Reason | Symbol 1 Freq | Symbol 2 Freq | Expected | Actual |\n"
             report += "|------|--------|---------------|---------------|----------|--------|\n"
 
-            for link_name, link_data in list(link_analysis["missing_links"].items())[:10]:
+            for link_name, link_data in list(link_analysis["missing_links"].items())[
+                :10
+            ]:
                 reason = (
                     link_data["missing_reason"][:30] + "..."
                     if len(link_data["missing_reason"]) > 30
@@ -685,7 +737,9 @@ Scanner Version: `v1.0.0`
         if self.emotional_anchors:
             report += "| Emotional Keyword | Occurrences | Coverage |\n"
             report += "|-------------------|-------------|----------|\n"
-            for keyword, occurrences in sorted(self.emotional_anchors.items(), key=lambda x: len(x[1]), reverse=True):
+            for keyword, occurrences in sorted(
+                self.emotional_anchors.items(), key=lambda x: len(x[1]), reverse=True
+            ):
                 coverage = len(occurrences) / max(len(self.memory_snapshots), 1) * 100
                 report += f"| `{keyword}` | {len(occurrences)} | {coverage:.1f}% |\n"
         else:
@@ -765,8 +819,12 @@ Examples:
 
         # Log summary
         health_assessment = scanner.assess_vault_health()
-        logger.info(f"\n🎯 ΛVAULT_HEALTH_SCORE: {health_assessment['ΛVAULT_HEALTH_SCORE']:.3f}")
-        logger.info(f"📊 Status: {health_assessment['health_status']} {health_assessment['health_emoji']}")
+        logger.info(
+            f"\n🎯 ΛVAULT_HEALTH_SCORE: {health_assessment['ΛVAULT_HEALTH_SCORE']:.3f}"
+        )
+        logger.info(
+            f"📊 Status: {health_assessment['health_status']} {health_assessment['health_emoji']}"
+        )
 
         if args.out:
             logger.info(f"📁 Full report saved to: {args.out}")

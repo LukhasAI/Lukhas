@@ -35,7 +35,9 @@ def main():
     report = healer.heal_all(strategy="smart")
 
     # Save report
-    report_path = f"healing/auto_healing_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    report_path = (
+        f"healing/auto_healing_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    )
     with open(report_path, "w") as f:
         json.dump(report, f, indent=2)
 

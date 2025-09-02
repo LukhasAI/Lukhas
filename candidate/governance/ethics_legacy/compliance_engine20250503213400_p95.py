@@ -72,7 +72,9 @@ class Complianceengine:
         if "location" in anonymized:
             if isinstance(anonymized["location"], dict):
                 # Keep country but remove city for coarse-grained location
-                anonymized["location"] = {"country": anonymized["location"].get("country", "unknown")}
+                anonymized["location"] = {
+                    "country": anonymized["location"].get("country", "unknown")
+                }
             else:
                 anonymized["location"] = "anonymized"
 
@@ -130,24 +132,32 @@ class Complianceengine:
             result["actions"].append("obtain_voice_processing_consent")
 
         # Special categories check (biometrics)
-        if voice_data.get("biometric_enabled", False) and not user_consent.get("biometric_processing", False):
+        if voice_data.get("biometric_enabled", False) and not user_consent.get(
+            "biometric_processing", False
+        ):
             result["biometric_allowed"] = False
             result["compliant"] = False
             result["actions"].append("obtain_biometric_consent")
 
         # Voice retention policy
-        if "timestamp" in voice_data and not self.should_retain_data(voice_data["timestamp"]):
+        if "timestamp" in voice_data and not self.should_retain_data(
+            voice_data["timestamp"]
+        ):
             result["retention_allowed"] = False
             result["actions"].append("delete_voice_data")
 
         # Check for children's voice data (COPPA)
-        if voice_data.get("age_category") == "child" and not user_consent.get("parental_consent", False):
+        if voice_data.get("age_category") == "child" and not user_consent.get(
+            "parental_consent", False
+        ):
             result["compliant"] = False
             result["actions"].append("require_parental_consent")
 
         return result
 
-    def validate_content_against_ethical_constraints(self, content: str, content_type: str = "text") -> dict[str, Any]:
+    def validate_content_against_ethical_constraints(
+        self, content: str, content_type: str = "text"
+    ) -> dict[str, Any]:
         """
         Validate content against ethical constraints
 
@@ -186,7 +196,9 @@ class Complianceengine:
 
         # Add recommendations based on flagged constraints
         if "prevent_harm" in result["flagged_constraints"]:
-            result["recommendations"].append("Content may violate harm prevention policies. Please revise.")
+            result["recommendations"].append(
+                "Content may violate harm prevention policies. Please revise."
+            )
 
         return result
 

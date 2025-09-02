@@ -103,7 +103,9 @@ class CodeQualityHealer:
         async with self.llm_fixer as fixer:
             for file_path in python_files:
                 # Skip test files and generated code
-                if any(skip in str(file_path) for skip in ["test_", "__pycache__", ".venv"]):
+                if any(
+                    skip in str(file_path) for skip in ["test_", "__pycache__", ".venv"]
+                ):
                     continue
 
                 issues = await fixer.analyze_file(str(file_path))
@@ -150,7 +152,9 @@ class CodeQualityHealer:
         elif fix_type == FixType.FORMATTING:
             self.metrics.formatting_issues += 1
 
-    async def heal_failure(self, failure: SystemFailure, strategy: Optional[HealingStrategy] = None) -> HealingAction:
+    async def heal_failure(
+        self, failure: SystemFailure, strategy: Optional[HealingStrategy] = None
+    ) -> HealingAction:
         """Heal a specific code quality failure"""
 
         # Determine strategy if not provided
@@ -180,7 +184,10 @@ class CodeQualityHealer:
             component=failure.component,
             timestamp=datetime.now(),
             success=success,
-            details={"metrics": self.metrics.__dict__, "confidence": self.auto_fix_threshold},
+            details={
+                "metrics": self.metrics.__dict__,
+                "confidence": self.auto_fix_threshold,
+            },
         )
 
         # Update metrics
@@ -190,7 +197,9 @@ class CodeQualityHealer:
         else:
             self.metrics.failed_fixes += 1
 
-        self.metrics.improvement_rate = self.metrics.fixed_issues / max(1, self.metrics.total_issues)
+        self.metrics.improvement_rate = self.metrics.fixed_issues / max(
+            1, self.metrics.total_issues
+        )
 
         return action
 
@@ -219,7 +228,9 @@ class CodeQualityHealer:
     def _has_similar_pattern(self, failure: SystemFailure) -> bool:
         """Check if we've seen similar patterns before"""
         pattern_key = f"{failure.type}:{failure.component}"
-        return pattern_key in self.fix_patterns and len(self.fix_patterns[pattern_key]) > 3
+        return (
+            pattern_key in self.fix_patterns and len(self.fix_patterns[pattern_key]) > 3
+        )
 
     async def _auto_fix(self, failure: SystemFailure) -> bool:
         """Apply automatic fixes for simple issues"""
@@ -267,7 +278,11 @@ class CodeQualityHealer:
         try:
             # Check with Guardian system
             drift_score = await self.guardian.check_drift(
-                {"action": "code_fix", "component": failure.component, "severity": failure.severity}
+                {
+                    "action": "code_fix",
+                    "component": failure.component,
+                    "severity": failure.severity,
+                }
             )
 
             if drift_score < self.guardian_threshold:
@@ -369,7 +384,8 @@ class CodeQualityHealer:
 
     def _report_metrics(self):
         """Report current metrics"""
-        logger.info(f"""
+        logger.info(
+            f"""
 Code Quality Metrics:
 - Total Issues: {self.metrics.total_issues}
 - Fixed Issues: {self.metrics.fixed_issues}
@@ -378,7 +394,8 @@ Code Quality Metrics:
 - Syntax Errors: {self.metrics.syntax_errors}
 - Undefined Names: {self.metrics.undefined_names}
 - Formatting Issues: {self.metrics.formatting_issues}
-        """)
+        """
+        )
 
     def get_health_status(self) -> dict[str, Any]:
         """Get current health status"""
@@ -394,7 +411,10 @@ Code Quality Metrics:
 async def main():
     """Example usage"""
     healer = CodeQualityHealer(
-        workspace_path=".", guardian_threshold=0.15, auto_fix_threshold=0.85, learning_enabled=True
+        workspace_path=".",
+        guardian_threshold=0.15,
+        auto_fix_threshold=0.85,
+        learning_enabled=True,
     )
 
     # Run a single scan and fix cycle

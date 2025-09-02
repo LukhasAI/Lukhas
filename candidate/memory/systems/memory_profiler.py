@@ -157,7 +157,11 @@ class TensorKey(Key):
         allocation_id: Optional[int],
         device: torch.device,
     ) -> Optional["TensorKey"]:
-        if tensor_id is not None and storage_ptr is not None and allocation_id is not None:
+        if (
+            tensor_id is not None
+            and storage_ptr is not None
+            and allocation_id is not None
+        ):
             return TensorKey(device, tensor_id, _Storage(storage_ptr, allocation_id))
         return None
 
@@ -294,7 +298,8 @@ class SchemaMatcher:
 
         def matches(schema) -> bool:
             return len(schema.arguments) == len(signature) and all(
-                cls._types_match(observed, schema_arg.type) for observed, schema_arg in zip(signature, schema.arguments)
+                cls._types_match(observed, schema_arg.type)
+                for observed, schema_arg in zip(signature, schema.arguments)
             )
 
         return tuple(s for s in cls.lookup_schemas(t.name) or () if matches(s))
@@ -309,7 +314,9 @@ class SchemaMatcher:
             return True
 
         if schema_type.isSubtypeOf(torch._C.ListType.ofTensors()):
-            return isinstance(observed, list) and all(isinstance(i, TensorKey) for i in observed)
+            return isinstance(observed, list) and all(
+                isinstance(i, TensorKey) for i in observed
+            )
 
         type_map: tuple[tuple[Any, Union[type, tuple[type, ...]]], ...] = (
             (torch._C.TensorType, TensorKey),
@@ -467,7 +474,9 @@ class DataFlowNode:
         # Start by populating edges from op inputs and outputs.
         mutable_by_key: dict[Optional[TensorKey], set[Optional[bool]]] = {}
         for op in (i.typed[1] for i in subtree if i.typed[0] == _EventType.TorchOp):
-            for op_input, mutable in zip(op.inputs, SchemaMatcher.inputs_are_mutable(op)):
+            for op_input, mutable in zip(
+                op.inputs, SchemaMatcher.inputs_are_mutable(op)
+            ):
                 # Tensor
                 if isinstance(op_input, _TensorMetadata):
                     key = TensorKey.from_tensor(op_input)
@@ -530,7 +539,9 @@ class DataFlowNode:
 
     @property
     def intermediates(self) -> tuple[TensorKey, ...]:
-        return tuple(k for k, v in self._edges.items() if v.is_allocation and v.is_deletion)
+        return tuple(
+            k for k, v in self._edges.items() if v.is_allocation and v.is_deletion
+        )
 
     @property
     def start_time(self) -> int:
@@ -612,7 +623,8 @@ class DataFlowGraph:
 
         def leaf_op(e: _ProfilerEvent) -> bool:
             return e.typed[0] == _EventType.TorchOp and (
-                e.typed[1].scope == RecordScope.BACKWARD_FUNCTION or bool(SchemaMatcher.match_schemas(e.typed[1]))
+                e.typed[1].scope == RecordScope.BACKWARD_FUNCTION
+                or bool(SchemaMatcher.match_schemas(e.typed[1]))
             )
 
         def children_fn(e: _ProfilerEvent):
@@ -669,14 +681,20 @@ class CategoryDict:
     def set_by_version(self, key: TensorKey, version: int, category: Category) -> None:
         self._values[key.id].by_version[(key, version)] = category
 
-    def setdefault_by_version(self, key: TensorKey, version: int, category: Category) -> None:
+    def setdefault_by_version(
+        self, key: TensorKey, version: int, category: Category
+    ) -> None:
         self._values[key.id].by_version.setdefault((key, version), category)
 
     def get(self, key: Key, version: int) -> Optional[Category]:
         if isinstance(key, Key) and not isinstance(key, TensorKey):
             return None
         element = self._values[key.id]
-        return element.by_id or element.by_key.get(key, None) or element.by_version.get((key, version), None)
+        return (
+            element.by_id
+            or element.by_key.get(key, None)
+            or element.by_version.get((key, version), None)
+        )
 
 
 class MemoryProfile:
@@ -715,14 +733,18 @@ class MemoryProfile:
                     ptr_and_device = (alloc_fields.ptr, key.device)
                     if is_allocation:
                         if ptr_and_device in live_unknown:
-                            output.append((t, Action.INCREMENT_VERSION, (key, 0), alloc_size))
+                            output.append(
+                                (t, Action.INCREMENT_VERSION, (key, 0), alloc_size)
+                            )
                         else:
                             live_unknown[ptr_and_device] = True
                             output.append((t, Action.CREATE, (key, 0), alloc_size))
                     else:
                         output.append((t, Action.DESTROY, (key, 0), -alloc_size))
                         if not live_unknown.pop(ptr_and_device, False):
-                            output.append((-1, Action.PREEXISTING, (key, 0), -alloc_size))
+                            output.append(
+                                (-1, Action.PREEXISTING, (key, 0), -alloc_size)
+                            )
 
         snapshot = self._category_snapshot()
         last_version = dict(sorted(snapshot.keys()))
@@ -749,7 +771,10 @@ class MemoryProfile:
                     t = allocation_times[(key, False)]
                     events.append((t, Action.DESTROY, (key, last_version[key])))
 
-        output.extend((time, action, (key, version), self._size_map[key]) for time, action, (key, version) in events)
+        output.extend(
+            (time, action, (key, version), self._size_map[key])
+            for time, action, (key, version) in events
+        )
 
         output.sort(key=lambda x: (x[0], x[1].value))
         return tuple(output)
@@ -768,7 +793,10 @@ class MemoryProfile:
         for i in self._categories._values.values():
             all_tensor_versions.update((key, 0) for key in i._by_id_keyset)
 
-        return {(key, version): self._categories.get(key, version) for key, version in sorted(all_tensor_versions)}
+        return {
+            (key, version): self._categories.get(key, version)
+            for key, version in sorted(all_tensor_versions)
+        }
 
     def _any_version_depends_on_gradient(self) -> set[int]:
         """Extract IDs of Tensors which depend or will depend on a gradient.
@@ -788,7 +816,8 @@ class MemoryProfile:
                 ids = tuple(
                     key.id
                     for key, (_, version) in node.inputs.items()
-                    if self._categories.get(key, version) in (Category.GRADIENT, Category.PARAMETER)
+                    if self._categories.get(key, version)
+                    in (Category.GRADIENT, Category.PARAMETER)
                     or key.id in depends_on_gradient
                 )
 
@@ -861,7 +890,8 @@ class MemoryProfile:
             tensors = {(key, version) for key, (_, version) in node.inputs.items()}
             tensors |= node.outputs.items()
             if any(
-                self._categories.get(*i) in (Category.GRADIENT, Category.PARAMETER) or i in produces_gradient
+                self._categories.get(*i) in (Category.GRADIENT, Category.PARAMETER)
+                or i in produces_gradient
                 for i in tensors
             ):
                 produces_gradient |= tensors
@@ -913,7 +943,9 @@ class MemoryProfile:
         # we know are part of the backward pass but that doesn't guarantee that
         # they are part of the forward pass.
         candidate_parameters: set[TensorAndID] = set()
-        candidate_fwd_tensors: set[TensorAndID] = {i for i, category in snapshot.items() if category == Category.INPUT}
+        candidate_fwd_tensors: set[TensorAndID] = {
+            i for i, category in snapshot.items() if category == Category.INPUT
+        }
 
         for node in self._data_flow_graph.flow_nodes:
             inputs = {(key, value) for key, (_, value) in node.inputs.items()}
@@ -932,8 +964,13 @@ class MemoryProfile:
         # Require that each parameter eventually contributes to the value of a gradient
         used_for_gradient: set[TensorAndID] = set()
         for node in reversed(self._data_flow_graph.flow_nodes):
-            if any(self._is_gradient(*i) or i in used_for_gradient for i in node.outputs.items()):
-                used_for_gradient.update((key, version) for key, (_, version) in node.inputs.items())
+            if any(
+                self._is_gradient(*i) or i in used_for_gradient
+                for i in node.outputs.items()
+            ):
+                used_for_gradient.update(
+                    (key, version) for key, (_, version) in node.inputs.items()
+                )
         candidate_parameters.intersection_update(used_for_gradient)
 
         # and depends on a gradient.
@@ -967,7 +1004,9 @@ class MemoryProfile:
         for event in self._op_tree.dfs():
             if event.typed[0] == _EventType.PyCall and event.typed[1].optimizer:
                 parameters = event.typed[1].optimizer.parameters
-                for _, t in it.chain.from_iterable((state for _, _, state in parameters)):
+                for _, t in it.chain.from_iterable(
+                    (state for _, _, state in parameters)
+                ):
                     key = TensorKey.from_tensor(t)
                     if key is not None:
                         self._categories.set_by_id(key, Category.OPTIMIZER_STATE)
@@ -978,7 +1017,9 @@ class MemoryProfile:
             if RecordScope.BACKWARD_FUNCTION in get_scopes(node._event):
                 for key, version in node.outputs.items():
                     if version == 0 or self._categories.get(key, version - 1) in prior:
-                        self._categories.setdefault_by_version(key, version, Category.AUTOGRAD_DETAIL)
+                        self._categories.setdefault_by_version(
+                            key, version, Category.AUTOGRAD_DETAIL
+                        )
 
 
 class MemoryProfileTimeline:
@@ -1006,7 +1047,11 @@ class MemoryProfileTimeline:
         sizes: list[list[int]] = []
 
         def update(key, version, delta):
-            category = self.categories.get(key, version) if isinstance(key, TensorKey) else None
+            category = (
+                self.categories.get(key, version)
+                if isinstance(key, TensorKey)
+                else None
+            )
             index = _CATEGORY_TO_INDEX[category] + 1
             sizes[-1][index] += int(delta)
 
@@ -1069,7 +1114,11 @@ class MemoryProfileTimeline:
         raw_events: list[tuple[int, int, int, int]] = []
 
         def get_category_index(key, version):
-            category = self.categories.get(key, version) if isinstance(key, TensorKey) else None
+            category = (
+                self.categories.get(key, version)
+                if isinstance(key, TensorKey)
+                else None
+            )
             return _CATEGORY_TO_INDEX[category]
 
         for t, action, (key, version), numbytes in self.timeline:
@@ -1122,7 +1171,9 @@ class MemoryProfileTimeline:
         with open(path, "w") as f:
             json.dump(raw_events, f)
 
-    def export_memory_timeline_html(self, path, device_str, figsize=(20, 12), title=None) -> None:
+    def export_memory_timeline_html(
+        self, path, device_str, figsize=(20, 12), title=None
+    ) -> None:
         """Exports the memory timeline as an HTML file which contains
         the memory timeline plot embedded as a PNG file."""
         # Check if user has matplotlib installed, return gracefully if not.
@@ -1130,7 +1181,9 @@ class MemoryProfileTimeline:
 
         matplotlib_spec = importlib.util.find_spec("matplotlib")
         if matplotlib_spec is None:
-            print("export_memory_timeline_html failed because matplotlib was not found.")
+            print(
+                "export_memory_timeline_html failed because matplotlib was not found."
+            )
             return
 
         from base64 import b64encode
@@ -1155,7 +1208,9 @@ class MemoryProfileTimeline:
         axes = fig.gca()
         for category, color in _CATEGORY_TO_COLORS.items():
             i = _CATEGORY_TO_INDEX[category]
-            axes.fill_between(times / 1e3, stacked[:, i], stacked[:, i + 1], color=color, alpha=0.7)
+            axes.fill_between(
+                times / 1e3, stacked[:, i], stacked[:, i + 1], color=color, alpha=0.7
+            )
         fig.legend(["Unknown" if i is None else i.name for i in _CATEGORY_TO_COLORS])
         # Usually training steps are in magnitude of ms.
         axes.set_xlabel("Time (ms)")

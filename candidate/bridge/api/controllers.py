@@ -8,21 +8,18 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
+import logging
 import os
 import traceback
 from datetime import datetime
 from functools import wraps
 from typing import Any  # Added Callable
-from typing import Callable
-from typing import Optional
+from typing import Callable, Optional
 
-from flask import Flask
-from flask import jsonify
-from flask import request
+from flask import Flask, jsonify, request
 
 # Import service registry to get learning service without circular dependency
-from candidate.orchestration.service_registry import get_service
-from candidate.orchestration.service_registry import ServiceNames
+from candidate.orchestration.service_registry import ServiceNames, get_service
 
 # Initialize logger for ΛTRACE using structlog
 # Assumes structlog is configured in a higher-level __init__.py (e.g., core/__init__.py)
@@ -32,7 +29,6 @@ from candidate.orchestration.service_registry import ServiceNames
 # TAG:neuroplastic
 # TAG:colony
 
-import logging
 
 logger = logging.getLogger("ΛTRACE.bridge.api.controllers")
 
@@ -73,12 +69,13 @@ try:
     # or installed as part of a larger package.
     # For example: from core_modules.ethics.ethics_service import EthicsService
     # For now, using the provided relative-like import paths.
-    from lukhas.consciousness.consciousness_service import ConsciousnessService
     from creativity.creativity_service import CreativityService
-    from ethics.ethics_service import EthicsService
-    from lukhas.governance.identity.interface import IdentityClient  # Needs to be a defined interface
-    from lukhas.memory.memory_service import MemoryService
 
+    from ethics.ethics_service import EthicsService
+    from lukhas.consciousness.consciousness_service import ConsciousnessService
+    from lukhas.governance.identity.interface import \
+        IdentityClient  # Needs to be a defined interface
+    from lukhas.memory.memory_service import MemoryService
     # Learning service is now obtained through the service registry
     from qi.qi_service import QIService
 
@@ -88,8 +85,10 @@ except ImportError as e:
         f"ΛTRACE: Some AGI module service imports failed: {e}. Using fallback classes for development."
     )
     # ΛCORE: Import fallback services from dedicated module
-    from .fallback_services import FallbackConsciousnessService as ConsciousnessService
-    from .fallback_services import FallbackCreativityService as CreativityService
+    from .fallback_services import \
+        FallbackConsciousnessService as ConsciousnessService
+    from .fallback_services import \
+        FallbackCreativityService as CreativityService
     from .fallback_services import FallbackEthicsService as EthicsService
     from .fallback_services import FallbackIdentityClient as IdentityClient
     from .fallback_services import FallbackMemoryService as MemoryService

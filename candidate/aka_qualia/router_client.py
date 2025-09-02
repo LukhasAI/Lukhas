@@ -29,7 +29,12 @@ class RouterClient(Protocol):
     """
 
     @abstractmethod
-    def route(self, glyphs: list[PhenomenalGlyph], priority: float, context: Optional[dict[str, Any]] = None) -> None:
+    def route(
+        self,
+        glyphs: list[PhenomenalGlyph],
+        priority: float,
+        context: Optional[dict[str, Any]] = None,
+    ) -> None:
         """
         Route phenomenological glyphs through the symbolic mesh.
 
@@ -59,7 +64,11 @@ class SymbolicMeshRouterClient:
     phenomenological processing with LUKHAS symbolic routing.
     """
 
-    def __init__(self, router_module: Optional[Any] = None, config: Optional[dict[str, Any]] = None):
+    def __init__(
+        self,
+        router_module: Optional[Any] = None,
+        config: Optional[dict[str, Any]] = None,
+    ):
         """
         Initialize router client.
 
@@ -79,8 +88,13 @@ class SymbolicMeshRouterClient:
         # Import LUKHAS symbolic signal router
         if not router_module:
             try:
-                from candidate.core.orchestration.core_modules.symbolic_signal_router import route_signal
-                from candidate.orchestration.signals import DiagnosticSignalType, SymbolicSignal
+                from candidate.core.orchestration.core_modules.symbolic_signal_router import (
+                    route_signal,
+                )
+                from candidate.orchestration.signals import (
+                    DiagnosticSignalType,
+                    SymbolicSignal,
+                )
 
                 self.route_signal_func = route_signal
                 self.SymbolicSignal = SymbolicSignal
@@ -112,7 +126,12 @@ class SymbolicMeshRouterClient:
 
         return default_config
 
-    def route(self, glyphs: list[PhenomenalGlyph], priority: float, context: Optional[dict[str, Any]] = None) -> None:
+    def route(
+        self,
+        glyphs: list[PhenomenalGlyph],
+        priority: float,
+        context: Optional[dict[str, Any]] = None,
+    ) -> None:
         """
         Route phenomenological glyphs through LUKHAS symbolic mesh.
 
@@ -144,7 +163,9 @@ class SymbolicMeshRouterClient:
 
         # Limit glyphs per route for performance
         if len(glyphs) > self.config["max_glyphs_per_route"]:
-            logger.warning(f"Limiting {len(glyphs)} glyphs to {self.config['max_glyphs_per_route']} per route")
+            logger.warning(
+                f"Limiting {len(glyphs)} glyphs to {self.config['max_glyphs_per_route']} per route"
+            )
             glyphs = glyphs[: self.config["max_glyphs_per_route"]]
 
         try:
@@ -153,14 +174,18 @@ class SymbolicMeshRouterClient:
                 signal = self._convert_glyph_to_signal(glyph, priority, context)
 
                 if self.config["log_routing_decisions"]:
-                    logger.info(f"Routing glyph {glyph.key} with priority {priority:.3f}")
+                    logger.info(
+                        f"Routing glyph {glyph.key} with priority {priority:.3f}"
+                    )
 
                 self.route_signal_func(signal)
 
                 # Update statistics
                 self.routes_sent += 1
                 self.total_priority_weight += priority
-                self.glyph_type_counts[glyph.key] = self.glyph_type_counts.get(glyph.key, 0) + 1
+                self.glyph_type_counts[glyph.key] = (
+                    self.glyph_type_counts.get(glyph.key, 0) + 1
+                )
 
         except Exception as e:
             self.routes_failed += 1
@@ -234,7 +259,11 @@ class SymbolicMeshRouterClient:
 
     def get_routing_status(self) -> dict[str, Any]:
         """Get current routing system status and statistics"""
-        avg_priority = self.total_priority_weight / self.routes_sent if self.routes_sent > 0 else 0.0
+        avg_priority = (
+            self.total_priority_weight / self.routes_sent
+            if self.routes_sent > 0
+            else 0.0
+        )
 
         failure_rate = (
             self.routes_failed / (self.routes_sent + self.routes_failed)
@@ -273,7 +302,12 @@ class MockRouterClient:
         self.routed_glyphs: list[tuple[list[PhenomenalGlyph], float]] = []
         self.routing_calls = 0
 
-    def route(self, glyphs: list[PhenomenalGlyph], priority: float, context: Optional[dict[str, Any]] = None) -> None:
+    def route(
+        self,
+        glyphs: list[PhenomenalGlyph],
+        priority: float,
+        context: Optional[dict[str, Any]] = None,
+    ) -> None:
         """Mock routing - just record the call"""
         self.routed_glyphs.append((glyphs.copy(), priority))
         self.routing_calls += 1
@@ -286,9 +320,11 @@ class MockRouterClient:
             "routes_sent": self.routing_calls,
             "routes_failed": 0,
             "failure_rate": 0.0,
-            "average_priority": sum(p for _, p in self.routed_glyphs) / len(self.routed_glyphs)
-            if self.routed_glyphs
-            else 0.0,
+            "average_priority": (
+                sum(p for _, p in self.routed_glyphs) / len(self.routed_glyphs)
+                if self.routed_glyphs
+                else 0.0
+            ),
             "mock_mode": True,
         }
 
@@ -302,7 +338,9 @@ class MockRouterClient:
         self.routing_calls = 0
 
 
-def create_router_client(router_type: str = "lukhas", config: Optional[dict[str, Any]] = None) -> RouterClient:
+def create_router_client(
+    router_type: str = "lukhas", config: Optional[dict[str, Any]] = None
+) -> RouterClient:
     """
     Factory function to create appropriate router client.
 

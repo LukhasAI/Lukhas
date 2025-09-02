@@ -347,11 +347,15 @@ class GlobalInstitutionalReasoner(Protocol):
         """Process with global institutional compliance."""
         ...
 
-    def explain_decision(self, inputs: GlobalInstitutionalInput, results: dict[str, Any]) -> str:
+    def explain_decision(
+        self, inputs: GlobalInstitutionalInput, results: dict[str, Any]
+    ) -> str:
         """Provide institutional-grade explanation."""
         ...
 
-    def assess_bias(self, inputs: GlobalInstitutionalInput, results: dict[str, Any]) -> dict[str, Any]:
+    def assess_bias(
+        self, inputs: GlobalInstitutionalInput, results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess algorithmic bias across jurisdictions."""
         ...
 
@@ -391,7 +395,9 @@ class GlobalInstitutionalModule(ABC):
         # Pre-processing institutional validation
         validation_result = self._validate_institutional_compliance(inputs)
         if not validation_result["compliant"]:
-            raise ValueError(f"Institutional compliance violation: {validation_result['violations']}")
+            raise ValueError(
+                f"Institutional compliance violation: {validation_result['violations']}"
+            )
 
         try:
             # Core processing
@@ -407,16 +413,22 @@ class GlobalInstitutionalModule(ABC):
             jurisdictional_compliance = {}
 
             for jurisdiction in inputs.applicable_jurisdictions:
-                score = self._evaluate_jurisdictional_compliance(jurisdiction, result, inputs)
+                score = self._evaluate_jurisdictional_compliance(
+                    jurisdiction, result, inputs
+                )
                 compliance_scores[jurisdiction.value] = score
-                jurisdictional_compliance[jurisdiction.value] = compliance_validation.get(jurisdiction.value, {})
+                jurisdictional_compliance[jurisdiction.value] = (
+                    compliance_validation.get(jurisdiction.value, {})
+                )
 
             # Determine overall compliance level
             min_score = min(compliance_scores.values()) if compliance_scores else 0
             overall_level = self._determine_overall_compliance_level(min_score)
 
             # Calculate processing time
-            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
+            processing_time = (
+                datetime.now(timezone.utc) - start_time
+            ).total_seconds() * 1000
 
             # Build institutional output
             output = GlobalInstitutionalOutput(
@@ -431,18 +443,28 @@ class GlobalInstitutionalModule(ABC):
                 bias_assessment=bias_assessment,
                 algorithmic_transparency=ai_explanation,
                 processing_lawfulness={
-                    jurisdiction.value: validation_result["lawful_per_jurisdiction"].get(jurisdiction.value, False)
+                    jurisdiction.value: validation_result[
+                        "lawful_per_jurisdiction"
+                    ].get(jurisdiction.value, False)
                     for jurisdiction in inputs.applicable_jurisdictions
                 },
                 data_quality_score=self._assess_institutional_data_quality(result),
                 retention_compliance=self._validate_retention_compliance(inputs),
-                subject_rights_available=self._map_subject_rights(inputs.applicable_jurisdictions),
-                cross_border_transfer_compliant=self._validate_cross_border_transfers(inputs),
+                subject_rights_available=self._map_subject_rights(
+                    inputs.applicable_jurisdictions
+                ),
+                cross_border_transfer_compliant=self._validate_cross_border_transfers(
+                    inputs
+                ),
                 security_classification=inputs.processing_record.security_classification,
                 audit_trail=self._build_institutional_audit_trail(inputs, result),
                 processing_time_ms=processing_time,
-                institutional_certification=self._generate_institutional_certification(inputs, result),
-                compliance_attestation=self._generate_compliance_attestation(compliance_scores),
+                institutional_certification=self._generate_institutional_certification(
+                    inputs, result
+                ),
+                compliance_attestation=self._generate_compliance_attestation(
+                    compliance_scores
+                ),
             )
 
             # Institutional audit logging
@@ -545,7 +567,9 @@ class GlobalInstitutionalModule(ABC):
             "enterprise_ready": True,
         }
 
-    def _validate_institutional_compliance(self, inputs: GlobalInstitutionalInput) -> dict[str, Any]:
+    def _validate_institutional_compliance(
+        self, inputs: GlobalInstitutionalInput
+    ) -> dict[str, Any]:
         """Validate institutional compliance across all jurisdictions."""
         violations = []
         lawful_per_jurisdiction = {}
@@ -556,18 +580,35 @@ class GlobalInstitutionalModule(ABC):
             if jurisdiction == Jurisdiction.EU:
                 if not inputs.consent.legal_basis:
                     jurisdiction_violations.append("EU: No legal basis specified")
-                if inputs.consent.legal_basis == LegalBasis.CONSENT and not inputs.consent.consent_given:
-                    jurisdiction_violations.append("EU: GDPR consent required but not given")
+                if (
+                    inputs.consent.legal_basis == LegalBasis.CONSENT
+                    and not inputs.consent.consent_given
+                ):
+                    jurisdiction_violations.append(
+                        "EU: GDPR consent required but not given"
+                    )
 
             elif jurisdiction == Jurisdiction.US:
-                if self.config.healthcare_mode and not inputs.processing_record.healthcare_phi:
-                    jurisdiction_violations.append("US: HIPAA classification missing for healthcare data")
-                if self.config.financial_mode and not inputs.processing_record.financial_pii:
-                    jurisdiction_violations.append("US: Financial data classification missing")
+                if (
+                    self.config.healthcare_mode
+                    and not inputs.processing_record.healthcare_phi
+                ):
+                    jurisdiction_violations.append(
+                        "US: HIPAA classification missing for healthcare data"
+                    )
+                if (
+                    self.config.financial_mode
+                    and not inputs.processing_record.financial_pii
+                ):
+                    jurisdiction_violations.append(
+                        "US: Financial data classification missing"
+                    )
 
             # Add more jurisdiction-specific validations...
 
-            lawful_per_jurisdiction[jurisdiction.value] = len(jurisdiction_violations) == 0
+            lawful_per_jurisdiction[jurisdiction.value] = (
+                len(jurisdiction_violations) == 0
+            )
             violations.extend(jurisdiction_violations)
 
         return {
@@ -595,7 +636,9 @@ class GlobalInstitutionalModule(ABC):
         """Validate data retention compliance across jurisdictions."""
         return True  # Placeholder
 
-    def _map_subject_rights(self, jurisdictions: list[Jurisdiction]) -> dict[str, list[str]]:
+    def _map_subject_rights(
+        self, jurisdictions: list[Jurisdiction]
+    ) -> dict[str, list[str]]:
         """Map available data subject rights per jurisdiction."""
         rights_map = {}
 
@@ -626,15 +669,22 @@ class GlobalInstitutionalModule(ABC):
 
         return rights_map
 
-    def _validate_cross_border_transfers(self, inputs: GlobalInstitutionalInput) -> bool:
+    def _validate_cross_border_transfers(
+        self, inputs: GlobalInstitutionalInput
+    ) -> bool:
         """Validate cross-border data transfer compliance."""
         if not inputs.consent.cross_border_consent:
             return False
 
         # Check adequacy decisions
-        adequacy_countries = self.config.adequacy_decisions.get(inputs.primary_jurisdiction.value, [])
+        adequacy_countries = self.config.adequacy_decisions.get(
+            inputs.primary_jurisdiction.value, []
+        )
 
-        return all(transfer in adequacy_countries for transfer in inputs.processing_record.cross_border_transfers)
+        return all(
+            transfer in adequacy_countries
+            for transfer in inputs.processing_record.cross_border_transfers
+        )
 
     def _build_institutional_audit_trail(
         self, inputs: GlobalInstitutionalInput, result: dict[str, Any]
@@ -651,7 +701,9 @@ class GlobalInstitutionalModule(ABC):
                 "step": "multi_jurisdictional_processing",
                 "timestamp": global_timestamp(),
                 "status": "completed",
-                "compliance_frameworks_applied": list(self.compliance_frameworks.keys()),
+                "compliance_frameworks_applied": list(
+                    self.compliance_frameworks.keys()
+                ),
             },
             {
                 "step": "institutional_audit_complete",
@@ -678,10 +730,16 @@ class GlobalInstitutionalModule(ABC):
             "certification_timestamp": global_timestamp(),
         }
 
-    def _generate_compliance_attestation(self, compliance_scores: dict[str, float]) -> str:
+    def _generate_compliance_attestation(
+        self, compliance_scores: dict[str, float]
+    ) -> str:
         """Generate compliance attestation statement."""
         min_score = min(compliance_scores.values()) if compliance_scores else 0
-        avg_score = sum(compliance_scores.values()) / len(compliance_scores) if compliance_scores else 0
+        avg_score = (
+            sum(compliance_scores.values()) / len(compliance_scores)
+            if compliance_scores
+            else 0
+        )
 
         return (
             f"This processing has achieved institutional-grade compliance with "
@@ -690,7 +748,9 @@ class GlobalInstitutionalModule(ABC):
             f"Ready for enterprise and government deployment."
         )
 
-    def _handle_institutional_error(self, error: Exception, inputs: GlobalInstitutionalInput):
+    def _handle_institutional_error(
+        self, error: Exception, inputs: GlobalInstitutionalInput
+    ):
         """Handle institutional processing errors."""
         institutional_audit_log(
             "institutional_processing_error",

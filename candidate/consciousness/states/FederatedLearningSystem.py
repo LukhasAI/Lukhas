@@ -29,7 +29,9 @@ class LukhasFederatedModel:
     collective learning across the LUKHAS network.
     """
 
-    def __init__(self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None):
+    def __init__(
+        self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None
+    ):
         self.model_id = model_id
         self.model_type = model_type
         self.parameters = initial_parameters or {}
@@ -38,9 +40,13 @@ class LukhasFederatedModel:
         self.contribution_count = 0
         self.client_contributions = set()
         self.performance_metrics = {}
-        self.lukhas_signature = f"LUKHAS_{model_id}_{datetime.datetime.now().strftime('%Y%m%d')}"
+        self.lukhas_signature = (
+            f"LUKHAS_{model_id}_{datetime.datetime.now().strftime('%Y%m%d')}"
+        )
 
-    def update_with_gradients(self, gradients: dict, client_id: str, weight: float = 1.0):
+    def update_with_gradients(
+        self, gradients: dict, client_id: str, weight: float = 1.0
+    ):
         """
         Update model parameters with gradients from a client
 
@@ -68,7 +74,9 @@ class LukhasFederatedModel:
         self.contribution_count += 1
         self.client_contributions.add(client_id)
 
-        logger.info(f"Model {self.model_id} updated to v{self.version} with contribution from {client_id}")
+        logger.info(
+            f"Model {self.model_id} updated to v{self.version} with contribution from {client_id}"
+        )
         return True
 
     def get_parameters(self, client_id: Optional[str] = None) -> dict:
@@ -134,8 +142,12 @@ class LukhasFederatedLearningManager:
     def __init__(self, storage_dir: Optional[str] = None):
         self.models = {}  # model_id -> LukhasFederatedModel
         self.client_models = defaultdict(set)  # client_id -> set(model_ids)
-        self.aggregation_threshold = 3  # Min clients before aggregation (reduced for LUKHAS)
-        self.storage_dir = storage_dir or os.path.join(os.getcwd(), "lukhas_federated_models")
+        self.aggregation_threshold = (
+            3  # Min clients before aggregation (reduced for LUKHAS)
+        )
+        self.storage_dir = storage_dir or os.path.join(
+            os.getcwd(), "lukhas_federated_models"
+        )
         self.lukhas_metadata = {
             "system": "LUKHAS",
             "transferred_from": "Lucas-Portfolio Pre-Final 2",
@@ -176,7 +188,9 @@ class LukhasFederatedLearningManager:
         logger.info(f"Registered new LUKHAS federated model: {model_id} ({model_type})")
         return model
 
-    def get_model(self, model_id: str, client_id: Optional[str] = None) -> Optional[dict]:
+    def get_model(
+        self, model_id: str, client_id: Optional[str] = None
+    ) -> Optional[dict]:
         """
         Get model parameters for a LUKHAS client
 
@@ -251,7 +265,9 @@ class LukhasFederatedLearningManager:
 
         # Reduce weight for very frequent contributors to prevent domination
         model = self.models[model_id]
-        client_contribution_ratio = model.contribution_count / max(len(model.client_contributions), 1)
+        client_contribution_ratio = model.contribution_count / max(
+            len(model.client_contributions), 1
+        )
 
         # Apply diminishing returns for frequent contributors
         if client_contribution_ratio > 2.0:

@@ -200,7 +200,9 @@ class GlobalSystemInitializer:
             all_services = discovery.get_all_services()
             self.services_registered = len(all_services)
 
-            logger.info(f"Cross-registered {self.services_registered} services across all hubs")
+            logger.info(
+                f"Cross-registered {self.services_registered} services across all hubs"
+            )
         except Exception as e:
             logger.error(f"Failed to cross-register services: {e}")
 

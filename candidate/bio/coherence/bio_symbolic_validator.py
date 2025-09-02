@@ -138,7 +138,9 @@ class BioRhythm:
         phase_diff = min(phase_diff, 2 * math.pi - phase_diff)
 
         # Calculate synchronization strength
-        sync_strength = min(self.entrainment_strength, other_rhythm.entrainment_strength)
+        sync_strength = min(
+            self.entrainment_strength, other_rhythm.entrainment_strength
+        )
 
         # Apply phase adjustment
         adjustment_factor = sync_strength * 0.1
@@ -284,7 +286,9 @@ class BioSymbolicCoherenceValidator:
         self._initialize_bio_rhythmic_systems()
         self._start_validation_loop()
 
-        logger.info(f"ΛTRACE: Bio-Symbolic Coherence Validator initialized: {self.validator_id}")
+        logger.info(
+            f"ΛTRACE: Bio-Symbolic Coherence Validator initialized: {self.validator_id}"
+        )
 
     def _initialize_bio_rhythmic_systems(self):
         """Initialize bio-rhythmic oscillator systems"""
@@ -328,7 +332,9 @@ class BioSymbolicCoherenceValidator:
             self.consciousness_monitor.initialize()
             self.guardian_safety_validator.initialize()
 
-            logger.info(f"ΛTRACE: Initialized {len(self.bio_rhythms)} bio-rhythmic oscillators")
+            logger.info(
+                f"ΛTRACE: Initialized {len(self.bio_rhythms)} bio-rhythmic oscillators"
+            )
 
         except Exception as e:
             logger.error(f"ΛTRACE: Failed to initialize bio-rhythmic systems: {e}")
@@ -381,16 +387,24 @@ class BioSymbolicCoherenceValidator:
 
         try:
             # Neural oscillator coherence validation
-            report.neural_oscillator_coherence = await self._validate_neural_oscillator_coherence()
+            report.neural_oscillator_coherence = (
+                await self._validate_neural_oscillator_coherence()
+            )
 
             # Biological rhythm coherence validation
-            report.biological_rhythm_coherence = await self._validate_biological_rhythm_coherence()
+            report.biological_rhythm_coherence = (
+                await self._validate_biological_rhythm_coherence()
+            )
 
             # Symbolic pattern coherence validation
-            report.symbolic_pattern_coherence = await self._validate_symbolic_pattern_coherence()
+            report.symbolic_pattern_coherence = (
+                await self._validate_symbolic_pattern_coherence()
+            )
 
             # Metabolic efficiency assessment
-            report.metabolic_efficiency_score = await self._assess_metabolic_efficiency()
+            report.metabolic_efficiency_score = (
+                await self._assess_metabolic_efficiency()
+            )
 
             # Trinity Framework validation
             trinity_scores = await self._validate_trinity_framework_coherence()
@@ -402,7 +416,9 @@ class BioSymbolicCoherenceValidator:
             report.overall_coherence = self._calculate_overall_coherence(report)
 
             # Determine coherence state
-            report.coherence_state = self._determine_coherence_state(report.overall_coherence)
+            report.coherence_state = self._determine_coherence_state(
+                report.overall_coherence
+            )
 
             # Detailed oscillator metrics
             sync_metrics = self._calculate_synchronization_metrics()
@@ -440,7 +456,9 @@ class BioSymbolicCoherenceValidator:
             validation_time = (time.time() - validation_start) * 1000
 
             if validation_time > 10:  # Log slow validations
-                logger.debug(f"ΛTRACE: Coherence validation took {validation_time:.1f}ms")
+                logger.debug(
+                    f"ΛTRACE: Coherence validation took {validation_time:.1f}ms"
+                )
 
             return report
 
@@ -506,7 +524,9 @@ class BioSymbolicCoherenceValidator:
         # Calculate overall biological rhythm coherence
         if sync_scores:
             avg_sync = statistics.mean(sync_scores)
-            sync_variance = statistics.variance(sync_scores) if len(sync_scores) > 1 else 0
+            sync_variance = (
+                statistics.variance(sync_scores) if len(sync_scores) > 1 else 0
+            )
 
             # Penalize high variance (inconsistent synchronization)
             coherence = avg_sync * (1 - sync_variance * 0.5)
@@ -547,7 +567,10 @@ class BioSymbolicCoherenceValidator:
                     expected_freq = self._get_expected_frequency(osc_type)
 
                     # Check if frequencies are within expected range
-                    freq_deviation = abs(statistics.mean(frequencies) - expected_freq) / expected_freq
+                    freq_deviation = (
+                        abs(statistics.mean(frequencies) - expected_freq)
+                        / expected_freq
+                    )
                     if freq_deviation > 0.2:  # 20% deviation threshold
                         disruption_indicators.append(freq_deviation)
 
@@ -570,11 +593,14 @@ class BioSymbolicCoherenceValidator:
             return 1.0
 
         # Calculate total metabolic cost
-        total_metabolic_cost = sum(rhythm.metabolic_cost for rhythm in self.bio_rhythms.values())
+        total_metabolic_cost = sum(
+            rhythm.metabolic_cost for rhythm in self.bio_rhythms.values()
+        )
 
         # Calculate consciousness output (weighted by contribution)
         consciousness_output = sum(
-            rhythm.consciousness_contribution * rhythm.amplitude for rhythm in self.bio_rhythms.values()
+            rhythm.consciousness_contribution * rhythm.amplitude
+            for rhythm in self.bio_rhythms.values()
         )
 
         # Calculate efficiency ratio
@@ -592,7 +618,9 @@ class BioSymbolicCoherenceValidator:
             if rhythm.metabolic_cost > 0.5:  # High cost threshold
                 rhythm.homeostatic_pressure += 0.01  # Increase pressure to reduce cost
             else:
-                rhythm.homeostatic_pressure = max(0, rhythm.homeostatic_pressure - 0.005)
+                rhythm.homeostatic_pressure = max(
+                    0, rhythm.homeostatic_pressure - 0.005
+                )
 
         return normalized_efficiency
 
@@ -613,7 +641,9 @@ class BioSymbolicCoherenceValidator:
         consciousness_weights = []
 
         for rhythm in self.bio_rhythms.values():
-            consciousness_weights.append(rhythm.consciousness_contribution * rhythm.amplitude)
+            consciousness_weights.append(
+                rhythm.consciousness_contribution * rhythm.amplitude
+            )
 
         if consciousness_weights:
             consciousness_score = min(1.0, statistics.mean(consciousness_weights))
@@ -708,7 +738,9 @@ class BioSymbolicCoherenceValidator:
                     beta_rhythm = self.bio_rhythms[beta_id]
 
                     # Calculate phase-amplitude coupling
-                    coupling = self._calculate_phase_amplitude_coupling(gamma_rhythm, beta_rhythm)
+                    coupling = self._calculate_phase_amplitude_coupling(
+                        gamma_rhythm, beta_rhythm
+                    )
                     coupling_scores.append(coupling)
 
         # Check theta-gamma coupling (important for memory)
@@ -720,12 +752,16 @@ class BioSymbolicCoherenceValidator:
                     theta_rhythm = self.bio_rhythms[theta_id]
                     gamma_rhythm = self.bio_rhythms[gamma_id]
 
-                    coupling = self._calculate_phase_amplitude_coupling(theta_rhythm, gamma_rhythm)
+                    coupling = self._calculate_phase_amplitude_coupling(
+                        theta_rhythm, gamma_rhythm
+                    )
                     coupling_scores.append(coupling)
 
         return statistics.mean(coupling_scores) if coupling_scores else 0.5
 
-    def _calculate_phase_amplitude_coupling(self, low_freq: BioRhythm, high_freq: BioRhythm) -> float:
+    def _calculate_phase_amplitude_coupling(
+        self, low_freq: BioRhythm, high_freq: BioRhythm
+    ) -> float:
         """Calculate phase-amplitude coupling between two rhythms"""
         # Simplified phase-amplitude coupling calculation
         phase_diff = abs(low_freq.phase - high_freq.phase)
@@ -795,10 +831,18 @@ class BioSymbolicCoherenceValidator:
                 adaptation_values.append(0.5)
 
         return {
-            "metabolic_load": statistics.mean(metabolic_loads) if metabolic_loads else 0.0,
-            "neuroplasticity": statistics.mean(plasticity_values) if plasticity_values else 0.0,
-            "homeostatic_balance": 1.0 - statistics.mean(homeostatic_values) if homeostatic_values else 1.0,
-            "adaptation_capacity": statistics.mean(adaptation_values) if adaptation_values else 0.0,
+            "metabolic_load": (
+                statistics.mean(metabolic_loads) if metabolic_loads else 0.0
+            ),
+            "neuroplasticity": (
+                statistics.mean(plasticity_values) if plasticity_values else 0.0
+            ),
+            "homeostatic_balance": (
+                1.0 - statistics.mean(homeostatic_values) if homeostatic_values else 1.0
+            ),
+            "adaptation_capacity": (
+                statistics.mean(adaptation_values) if adaptation_values else 0.0
+            ),
         }
 
     def _analyze_coherence_trends(self) -> dict[str, Any]:
@@ -806,7 +850,9 @@ class BioSymbolicCoherenceValidator:
         if len(self.coherence_history) < self.config.trend_analysis_window:
             return {"trend": "stable", "strength": 0.0}
 
-        recent_values = list(self.coherence_history)[-self.config.trend_analysis_window :]
+        recent_values = list(self.coherence_history)[
+            -self.config.trend_analysis_window :
+        ]
 
         # Calculate linear trend
         x = list(range(len(recent_values)))
@@ -819,7 +865,11 @@ class BioSymbolicCoherenceValidator:
         sum_xy = sum(xi * yi for xi, yi in zip(x, y))
         sum_x2 = sum(xi * xi for xi in x)
 
-        slope = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x) if n * sum_x2 - sum_x * sum_x != 0 else 0
+        slope = (
+            (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x)
+            if n * sum_x2 - sum_x * sum_x != 0
+            else 0
+        )
 
         # Determine trend direction and strength
         if slope > 0.001:
@@ -868,13 +918,17 @@ class BioSymbolicCoherenceValidator:
         recommendations = []
 
         if report.neural_oscillator_coherence < 0.7:
-            recommendations.append("Increase gamma-band oscillator entrainment strength")
+            recommendations.append(
+                "Increase gamma-band oscillator entrainment strength"
+            )
 
         if report.biological_rhythm_coherence < 0.7:
             recommendations.append("Apply bio-rhythmic synchronization protocols")
 
         if report.metabolic_efficiency_score < 0.5:
-            recommendations.append("Optimize consciousness processes to reduce metabolic load")
+            recommendations.append(
+                "Optimize consciousness processes to reduce metabolic load"
+            )
 
         if report.phase_coherence_variance > 0.8:
             recommendations.append("Apply phase-locking techniques to reduce variance")
@@ -883,7 +937,9 @@ class BioSymbolicCoherenceValidator:
             recommendations.append("Increase oscillator coupling strength")
 
         if len(report.coherence_issues) > 3:
-            recommendations.append("Implement comprehensive coherence restoration protocol")
+            recommendations.append(
+                "Implement comprehensive coherence restoration protocol"
+            )
 
         return recommendations
 
@@ -895,7 +951,9 @@ class BioSymbolicCoherenceValidator:
             alerts.append("CRITICAL: Overall coherence below critical threshold")
 
         if report.guardian_safety_score < 0.5:
-            alerts.append("CRITICAL: Guardian safety violations require immediate attention")
+            alerts.append(
+                "CRITICAL: Guardian safety violations require immediate attention"
+            )
 
         if report.neural_oscillator_coherence < 0.2:
             alerts.append("CRITICAL: Neural oscillator coherence critically low")
@@ -907,7 +965,9 @@ class BioSymbolicCoherenceValidator:
 
     async def _handle_critical_coherence_loss(self, report: CoherenceReport):
         """Handle critical coherence loss conditions"""
-        logger.critical(f"ΛTRACE: Critical coherence loss detected: {report.overall_coherence:.3f}")
+        logger.critical(
+            f"ΛTRACE: Critical coherence loss detected: {report.overall_coherence:.3f}"
+        )
 
         self.critical_interventions += 1
 
@@ -971,7 +1031,9 @@ class BioSymbolicCoherenceValidator:
 
     def get_real_time_status(self) -> dict[str, Any]:
         """Get real-time coherence status"""
-        current_report = self.validation_reports[-1] if self.validation_reports else None
+        current_report = (
+            self.validation_reports[-1] if self.validation_reports else None
+        )
 
         status = {
             "validator_id": self.validator_id,

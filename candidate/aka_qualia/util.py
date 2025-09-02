@@ -212,7 +212,9 @@ def validate_proto_bounds(proto: dict[str, Any]) -> list[str]:
 
 
 def compute_drift_phi(
-    current_proto: dict[str, Any], previous_proto: Optional[dict[str, Any]] = None, time_delta_seconds: float = 1.0
+    current_proto: dict[str, Any],
+    previous_proto: Optional[dict[str, Any]] = None,
+    time_delta_seconds: float = 1.0,
 ) -> float:
     """
     Compute temporal coherence drift between consecutive proto-qualia states.

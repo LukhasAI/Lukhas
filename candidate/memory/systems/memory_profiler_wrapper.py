@@ -39,11 +39,15 @@ class MemoryProfiler:
         self.size_map = SizeMap()
         self.data_flow_nodes: dict[str, DataFlowNode] = {}
         self.memory_events: list[dict[str, Any]] = []
-        self.category_stats: dict[Category, dict[str, Any]] = {cat: {"count": 0, "total_size": 0} for cat in Category}
+        self.category_stats: dict[Category, dict[str, Any]] = {
+            cat: {"count": 0, "total_size": 0} for cat in Category
+        }
 
         logger.info("MemoryProfiler initialized")
 
-    def record_allocation(self, tensor_id: str, size: int, category: Optional[Category] = None) -> None:
+    def record_allocation(
+        self, tensor_id: str, size: int, category: Optional[Category] = None
+    ) -> None:
         """Record a memory allocation event"""
         event = {
             "timestamp": datetime.now(),
@@ -98,8 +102,12 @@ class MemoryProfiler:
     def analyze_memory_patterns(self) -> dict[str, Any]:
         """Analyze memory usage patterns"""
         analysis = {
-            "total_allocations": sum(1 for e in self.memory_events if e.get("action") == Action.CREATE),
-            "total_deallocations": sum(1 for e in self.memory_events if e.get("action") == Action.DELETE),
+            "total_allocations": sum(
+                1 for e in self.memory_events if e.get("action") == Action.CREATE
+            ),
+            "total_deallocations": sum(
+                1 for e in self.memory_events if e.get("action") == Action.DELETE
+            ),
             "peak_memory_usage": 0,
             "fragmentation_score": 0,
             "category_distribution": self.get_memory_usage_by_category(),
@@ -122,13 +130,19 @@ class MemoryProfiler:
 
         # Generate recommendations
         if analysis["total_deallocations"] < analysis["total_allocations"] * 0.8:
-            analysis["recommendations"].append("Consider more aggressive memory cleanup")
+            analysis["recommendations"].append(
+                "Consider more aggressive memory cleanup"
+            )
 
-        temp_usage = self.category_stats.get(Category.TEMPORARY, {}).get("total_size", 0)
+        temp_usage = self.category_stats.get(Category.TEMPORARY, {}).get(
+            "total_size", 0
+        )
         total_usage = sum(s["total_size"] for s in self.category_stats.values())
 
         if total_usage > 0 and temp_usage / total_usage > 0.5:
-            analysis["recommendations"].append("High temporary memory usage detected - consider optimization")
+            analysis["recommendations"].append(
+                "High temporary memory usage detected - consider optimization"
+            )
 
         logger.info(
             f"Memory analysis complete: {analysis['total_allocations']} allocations, peak {analysis['peak_memory_usage_mb']:.2f} MB"

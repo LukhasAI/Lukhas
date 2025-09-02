@@ -111,7 +111,10 @@ def generate_cl_signature(system_state):
         hashlib.shake_128(str(time.time()).encode()).digest(4),
         hashlib.shake_128(str(random.getrandbits(256)).encode()).digest(4),
     ]
-    signature = b"".join(bytes([chains[i][j] ^ chains[(i + 1) % 4][j] for j in range(4)]) for i in range(4))
+    signature = b"".join(
+        bytes([chains[i][j] ^ chains[(i + 1) % 4][j] for j in range(4)])
+        for i in range(4)
+    )
     return signature.hex()
 
 
@@ -154,7 +157,9 @@ class MitochondrialConductor:
 
     def perform(self, input_score):
         topology = self._calculate_cristae_topology(input_score)
-        return self._synchronize([self._route_to_instrument(n).play(n) for n in topology])
+        return self._synchronize(
+            [self._route_to_instrument(n).play(n) for n in topology]
+        )
 
 
 # ──────────────────────────────────────────────────────────────────────────────

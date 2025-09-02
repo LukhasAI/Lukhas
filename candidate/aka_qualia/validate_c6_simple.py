@@ -27,7 +27,12 @@ def test_basic_imports():
         return False
 
     try:
-        from candidate.aka_qualia.models import PhenomenalScene, ProtoQualia, RiskProfile, SeverityLevel
+        from candidate.aka_qualia.models import (
+            PhenomenalScene,
+            ProtoQualia,
+            RiskProfile,
+            SeverityLevel,
+        )
 
         print("✅ AkaQualia models imported successfully")
     except Exception as e:
@@ -110,7 +115,13 @@ def test_consciousness_ablation_framework():
                         return True
 
                 except Exception as e:
-                    self.test_results.append({"component": component_name, "status": "failed", "error": str(e)})
+                    self.test_results.append(
+                        {
+                            "component": component_name,
+                            "status": "failed",
+                            "error": str(e),
+                        }
+                    )
                     return False
 
             def get_results(self):
@@ -178,7 +189,10 @@ def test_constellation_ethics_validation():
                             "evidence": "scene_generated_with_proto",
                         }
                     else:
-                        principles_validated["consciousness"] = {"score": 0.0, "evidence": "no_scene_generated"}
+                        principles_validated["consciousness"] = {
+                            "score": 0.0,
+                            "evidence": "no_scene_generated",
+                        }
 
                     # Ethics: Risk assessment performed
                     if scene and hasattr(scene, "risk"):
@@ -187,7 +201,10 @@ def test_constellation_ethics_validation():
                             "evidence": "risk_assessment_performed",
                         }
                     else:
-                        principles_validated["ethics"] = {"score": 0.3, "evidence": "no_risk_assessment"}
+                        principles_validated["ethics"] = {
+                            "score": 0.3,
+                            "evidence": "no_risk_assessment",
+                        }
 
                     # Identity: Metrics generated
                     metrics = result.get("metrics")
@@ -197,7 +214,10 @@ def test_constellation_ethics_validation():
                             "evidence": "metrics_generated",
                         }
                     else:
-                        principles_validated["identity"] = {"score": 0.2, "evidence": "no_metrics"}
+                        principles_validated["identity"] = {
+                            "score": 0.2,
+                            "evidence": "no_metrics",
+                        }
 
                     # Governance: Basic compliance
                     principles_validated["governance"] = {
@@ -212,13 +232,18 @@ def test_constellation_ethics_validation():
                             "evidence": "novelty_generated",
                         }
                     else:
-                        principles_validated["emergence"] = {"score": 0.3, "evidence": "basic_emergence"}
+                        principles_validated["emergence"] = {
+                            "score": 0.3,
+                            "evidence": "basic_emergence",
+                        }
 
                     self.validation_results.append(
                         {
                             "test_type": "basic_constellation",
                             "principles": principles_validated,
-                            "overall_score": sum(p["score"] for p in principles_validated.values())
+                            "overall_score": sum(
+                                p["score"] for p in principles_validated.values()
+                            )
                             / len(principles_validated),
                         }
                     )
@@ -227,7 +252,11 @@ def test_constellation_ethics_validation():
 
                 except Exception as e:
                     self.validation_results.append(
-                        {"test_type": "basic_constellation", "error": str(e), "overall_score": 0.0}
+                        {
+                            "test_type": "basic_constellation",
+                            "error": str(e),
+                            "overall_score": 0.0,
+                        }
                     )
                     return False
 
@@ -255,7 +284,9 @@ def test_constellation_ethics_validation():
 
                 if "principles" in result:
                     for principle, data in result["principles"].items():
-                        print(f"   - {principle}: {data['score']:.2f} ({data['evidence']})")
+                        print(
+                            f"   - {principle}: {data['score']:.2f} ({data['evidence']})"
+                        )
 
         return validation_success and len(results) > 0
 

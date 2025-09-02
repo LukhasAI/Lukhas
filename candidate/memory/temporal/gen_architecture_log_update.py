@@ -53,7 +53,9 @@ def add_architecture_log_entry(change_summary, affected_modules):
         print(f"✅ Architecture log updated successfully on {today}!")
 
     except FileNotFoundError:
-        print(f"❌ Architecture log file not found at {ARCHITECTURE_LOG_FILE}. Please check your paths.")
+        print(
+            f"❌ Architecture log file not found at {ARCHITECTURE_LOG_FILE}. Please check your paths."
+        )
     except Exception as e:
         print(f"❌ Error updating architecture log: {e}")
 

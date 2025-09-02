@@ -311,6 +311,8 @@ async def seed_precedent_database(mae_engine: "VIVOXMoralAlignmentEngine"):
             "resolution_action": seed["resolution_action"],
         }
 
-        await mae_engine.ethical_precedent_db.add_precedent(action, seed["context"], decision, outcome)
+        await mae_engine.ethical_precedent_db.add_precedent(
+            action, seed["context"], decision, outcome
+        )
 
     return len(seeds)

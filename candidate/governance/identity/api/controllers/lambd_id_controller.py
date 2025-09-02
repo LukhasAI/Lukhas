@@ -9,10 +9,11 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import json
-from candidate.core.common import get_logger
 from datetime import datetime
-from typing import Dict, List, Any, Optional
 from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+from candidate.core.common import get_logger
 
 # Initialize ΛTRACE logger for this controller
 # Note: The class will create a child logger for its instance.
@@ -21,9 +22,9 @@ logger.info("ΛTRACE: Initializing lambd_id_controller module.")
 
 # Attempt to import core LUKHAS services
 try:
+    from ...core.id_service.lambd_id_entropy import EntropyCalculator
     from ...core.id_service.lambd_id_generator import LambdaIDGenerator
     from ...core.id_service.lambd_id_validator import LambdaIDValidator
-    from ...core.id_service.lambd_id_entropy import EntropyCalculator
     # Renamed for clarity if TierManager is generic
     from ...core.tier.tier_manager import LambdaTierManager
     # Assuming this is the ΛTRACE compatible logger

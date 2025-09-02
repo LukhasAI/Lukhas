@@ -79,7 +79,9 @@ class IrisScanData:
         base_stability = self.eye_openness
 
         # Emotional variance affects stability
-        emotional_variance = sum(self.emotional_markers.values()) / len(self.emotional_markers)
+        emotional_variance = sum(self.emotional_markers.values()) / len(
+            self.emotional_markers
+        )
         stability_modifier = 1.0 - (emotional_variance * 0.2)  # Max 20% reduction
 
         return min(base_stability * stability_modifier, 1.0)
@@ -139,20 +141,30 @@ class StargateIrisLock:
         templates = {}
 
         # Generate template for t5_user_000
-        templates["t5_user_000"] = hashlib.blake2b(b"perfect_iris_match_t5_user_000", digest_size=64).hexdigest()
+        templates["t5_user_000"] = hashlib.blake2b(
+            b"perfect_iris_match_t5_user_000", digest_size=64
+        ).hexdigest()
 
         # Generate template for demo_user (slightly different)
-        templates["demo_user"] = hashlib.blake2b(b"demo_user_iris_pattern", digest_size=64).hexdigest()
+        templates["demo_user"] = hashlib.blake2b(
+            b"demo_user_iris_pattern", digest_size=64
+        ).hexdigest()
 
         # Generate template for qi_master
-        templates["qi_master"] = hashlib.blake2b(b"qi_master_perfect_iris", digest_size=64).hexdigest()
+        templates["qi_master"] = hashlib.blake2b(
+            b"qi_master_perfect_iris", digest_size=64
+        ).hexdigest()
 
         # Additional T5 user
-        templates["t5_user_001"] = hashlib.blake2b(b"t5_user_001_iris_pattern", digest_size=64).hexdigest()
+        templates["t5_user_001"] = hashlib.blake2b(
+            b"t5_user_001_iris_pattern", digest_size=64
+        ).hexdigest()
 
         return templates
 
-    async def authenticate_iris(self, user_id: str, iris_scan_data: IrisScanData) -> IrisAuthResult:
+    async def authenticate_iris(
+        self, user_id: str, iris_scan_data: IrisScanData
+    ) -> IrisAuthResult:
         """
         Perform iris authentication with Stargate sequence
         """
@@ -174,7 +186,9 @@ class StargateIrisLock:
         cultural_glyph = self._select_cultural_glyph(iris_scan_data.cultural_region)
 
         # Check for symbolic warnings
-        symbolic_warnings = self._check_symbolic_conditions(iris_scan_data, match_score, stability_score)
+        symbolic_warnings = self._check_symbolic_conditions(
+            iris_scan_data, match_score, stability_score
+        )
 
         # Determine if authentication passes
         success = (
@@ -236,7 +250,9 @@ class StargateIrisLock:
         base_match = self._basic_hash_match(stored_template, scan_data.raw_hash)
 
         # Consciousness state affects matching precision
-        consciousness_modifier = self._get_consciousness_modifier(scan_data.consciousness_state)
+        consciousness_modifier = self._get_consciousness_modifier(
+            scan_data.consciousness_state
+        )
 
         # Emotional drift affects match score
         emotional_drift = self._calculate_emotional_drift(scan_data.emotional_markers)
@@ -333,11 +349,15 @@ class StargateIrisLock:
         # Time-based warning (late night/early morning)
         current_hour = datetime.now().hour
         if current_hour < 6 or current_hour > 22:
-            warnings.append("🌙 Off-peak scan - additional verification may be required")
+            warnings.append(
+                "🌙 Off-peak scan - additional verification may be required"
+            )
 
         return warnings
 
-    async def _execute_stargate_sequence(self, user_id: str, cultural_glyph: CulturalGlyph):
+    async def _execute_stargate_sequence(
+        self, user_id: str, cultural_glyph: CulturalGlyph
+    ):
         """Execute the Stargate iris lock sequence animation"""
         logger.info(f"🔐 Initiating Stargate sequence for {user_id}")
 
@@ -402,7 +422,9 @@ class StargateIrisLock:
         # Use BLAKE2b for better performance and quantum resistance
         return hashlib.blake2b(iris_input, digest_size=64).hexdigest()
 
-    async def simulate_iris_scan(self, user_id: str, base64_iris_data: str) -> IrisScanData:
+    async def simulate_iris_scan(
+        self, user_id: str, base64_iris_data: str
+    ) -> IrisScanData:
         """Simulate iris scanning process"""
         # Decode base64 (in production, this would be actual biometric data)
         try:

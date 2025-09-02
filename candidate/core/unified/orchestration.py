@@ -61,7 +61,9 @@ class BioOrchestrator:
                 await oscillator.modulate_frequency(target_frequency)
         logger.debug(f"Oscillators coordinated to {target_frequency}Hz")
 
-    async def trigger_event(self, event_type: str, data: Optional[dict[str, Any]] = None):
+    async def trigger_event(
+        self, event_type: str, data: Optional[dict[str, Any]] = None
+    ):
         """Trigger orchestration event"""
         if event_type in self.event_handlers:
             handler = self.event_handlers[event_type]

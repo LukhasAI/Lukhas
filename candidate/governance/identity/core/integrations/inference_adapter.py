@@ -202,7 +202,9 @@ class InferenceAdapter:
 
             # Check tier permissions
             if not self._check_inference_permissions(request):
-                logger.error(f"Insufficient permissions for inference request: {request.request_id}")
+                logger.error(
+                    f"Insufficient permissions for inference request: {request.request_id}"
+                )
                 return ""
 
             # Store request
@@ -212,12 +214,16 @@ class InferenceAdapter:
             self.request_queue.append(request)
 
             # Sort queue by priority
-            self.request_queue.sort(key=lambda r: self._get_priority_weight(r.priority), reverse=True)
+            self.request_queue.sort(
+                key=lambda r: self._get_priority_weight(r.priority), reverse=True
+            )
 
             # Update metrics
             self.performance_metrics["total_requests"] += 1
 
-            logger.info(f"Submitted inference request {request.request_id} for {request.lambda_id}")
+            logger.info(
+                f"Submitted inference request {request.request_id} for {request.lambda_id}"
+            )
             return request.request_id
 
         except Exception as e:
@@ -266,20 +272,30 @@ class InferenceAdapter:
             # Update average processing time
             current_avg = self.performance_metrics["average_processing_time"]
             total_requests = self.performance_metrics["total_requests"]
-            new_avg = ((current_avg * (total_requests - 1)) + processing_time) / total_requests
+            new_avg = (
+                (current_avg * (total_requests - 1)) + processing_time
+            ) / total_requests
             self.performance_metrics["average_processing_time"] = new_avg
 
             # Remove from queue
-            self.request_queue = [r for r in self.request_queue if r.request_id != request_id]
+            self.request_queue = [
+                r for r in self.request_queue if r.request_id != request_id
+            ]
 
-            logger.info(f"Processed inference request {request_id} in {processing_time:.3f}s")
+            logger.info(
+                f"Processed inference request {request_id} in {processing_time:.3f}s"
+            )
             return result
 
         except Exception as e:
             logger.error(f"Error processing inference request {request_id}: {e}")
-            return InferenceResult(request_id=request_id, success=False, error_message=str(e))
+            return InferenceResult(
+                request_id=request_id, success=False, error_message=str(e)
+            )
 
-    def verify_identity_inference(self, lambda_id: str, verification_data: dict[str, Any]) -> InferenceResult:
+    def verify_identity_inference(
+        self, lambda_id: str, verification_data: dict[str, Any]
+    ) -> InferenceResult:
         """
         Perform identity verification using inference engine
 
@@ -321,7 +337,9 @@ class InferenceAdapter:
 
             # Enhance result with identity-specific analysis
             if result.success:
-                result = self._enhance_identity_verification_result(result, lambda_id, verification_data)
+                result = self._enhance_identity_verification_result(
+                    result, lambda_id, verification_data
+                )
 
             return result
 
@@ -329,7 +347,9 @@ class InferenceAdapter:
             logger.error(f"Identity verification inference error: {e}")
             return InferenceResult(request_id="", success=False, error_message=str(e))
 
-    def analyze_authentication_patterns(self, lambda_id: str, pattern_data: dict[str, Any]) -> InferenceResult:
+    def analyze_authentication_patterns(
+        self, lambda_id: str, pattern_data: dict[str, Any]
+    ) -> InferenceResult:
         """
         Analyze authentication patterns using inference engine
 
@@ -369,7 +389,9 @@ class InferenceAdapter:
 
             # Update identity context with analysis results
             if result.success and result.inference_output:
-                self._update_identity_context(lambda_id, "pattern_analysis", result.inference_output)
+                self._update_identity_context(
+                    lambda_id, "pattern_analysis", result.inference_output
+                )
 
             return result
 
@@ -377,7 +399,9 @@ class InferenceAdapter:
             logger.error(f"Pattern analysis inference error: {e}")
             return InferenceResult(request_id="", success=False, error_message=str(e))
 
-    def detect_authentication_anomalies(self, lambda_id: str, current_data: dict[str, Any]) -> InferenceResult:
+    def detect_authentication_anomalies(
+        self, lambda_id: str, current_data: dict[str, Any]
+    ) -> InferenceResult:
         """
         Detect authentication anomalies using inference engine
 
@@ -397,12 +421,18 @@ class InferenceAdapter:
                 tier_level=current_data.get("tier_level", 0),
                 input_data={
                     "current_data": current_data,
-                    "baseline_patterns": self.identity_contexts.get(lambda_id, {}).get("baseline_patterns", {}),
-                    "recent_history": self.identity_contexts.get(lambda_id, {}).get("recent_activity", []),
+                    "baseline_patterns": self.identity_contexts.get(lambda_id, {}).get(
+                        "baseline_patterns", {}
+                    ),
+                    "recent_history": self.identity_contexts.get(lambda_id, {}).get(
+                        "recent_activity", []
+                    ),
                 },
                 context={
                     "detection_type": "authentication_anomaly",
-                    "sensitivity_level": current_data.get("sensitivity_level", "normal"),
+                    "sensitivity_level": current_data.get(
+                        "sensitivity_level", "normal"
+                    ),
                 },
             )
 
@@ -420,7 +450,9 @@ class InferenceAdapter:
             if result.success and result.inference_output:
                 anomalies = result.inference_output.get("anomalies", [])
                 if anomalies:
-                    logger.warning(f"Authentication anomalies detected for {lambda_id}: {len(anomalies)} anomalies")
+                    logger.warning(
+                        f"Authentication anomalies detected for {lambda_id}: {len(anomalies)} anomalies"
+                    )
 
             return result
 
@@ -428,7 +460,9 @@ class InferenceAdapter:
             logger.error(f"Anomaly detection inference error: {e}")
             return InferenceResult(request_id="", success=False, error_message=str(e))
 
-    def assess_authentication_risk(self, lambda_id: str, context_data: dict[str, Any]) -> InferenceResult:
+    def assess_authentication_risk(
+        self, lambda_id: str, context_data: dict[str, Any]
+    ) -> InferenceResult:
         """
         Assess authentication risk using inference engine
 
@@ -486,7 +520,9 @@ class InferenceAdapter:
             logger.error(f"Risk assessment inference error: {e}")
             return InferenceResult(request_id="", success=False, error_message=str(e))
 
-    def get_inference_statistics(self, lambda_id: Optional[str] = None) -> dict[str, Any]:
+    def get_inference_statistics(
+        self, lambda_id: Optional[str] = None
+    ) -> dict[str, Any]:
         """
         Get inference statistics
 
@@ -498,9 +534,13 @@ class InferenceAdapter:
         """
         if lambda_id:
             # User-specific statistics
-            user_requests = [r for r in self.request_history.values() if r.lambda_id == lambda_id]
+            user_requests = [
+                r for r in self.request_history.values() if r.lambda_id == lambda_id
+            ]
             user_results = [
-                r for r in self.result_history.values() if r.request_id in [req.request_id for req in user_requests]
+                r
+                for r in self.result_history.values()
+                if r.request_id in [req.request_id for req in user_requests]
             ]
 
             if not user_requests:
@@ -517,15 +557,24 @@ class InferenceAdapter:
                 "lambda_id": lambda_id,
                 "total_requests": len(user_requests),
                 "successful_requests": len(successful_results),
-                "success_rate": (len(successful_results) / len(user_requests) if user_requests else 0),
+                "success_rate": (
+                    len(successful_results) / len(user_requests) if user_requests else 0
+                ),
                 "average_confidence": (
-                    sum(r.confidence_score for r in successful_results) / len(successful_results)
+                    sum(r.confidence_score for r in successful_results)
+                    / len(successful_results)
                     if successful_results
                     else 0
                 ),
-                "inference_types": list({r.inference_type.value for r in user_requests}),
+                "inference_types": list(
+                    {r.inference_type.value for r in user_requests}
+                ),
                 "most_recent_request": (
-                    max(user_requests, key=lambda r: r.created_at).created_at.isoformat() if user_requests else None
+                    max(
+                        user_requests, key=lambda r: r.created_at
+                    ).created_at.isoformat()
+                    if user_requests
+                    else None
                 ),
             }
         else:
@@ -536,8 +585,12 @@ class InferenceAdapter:
                 "successful_requests": self.performance_metrics["successful_requests"],
                 "success_rate": self.performance_metrics["successful_requests"]
                 / max(1, self.performance_metrics["total_requests"]),
-                "average_processing_time": self.performance_metrics["average_processing_time"],
-                "high_confidence_results": self.performance_metrics["high_confidence_results"],
+                "average_processing_time": self.performance_metrics[
+                    "average_processing_time"
+                ],
+                "high_confidence_results": self.performance_metrics[
+                    "high_confidence_results"
+                ],
                 "queue_length": len(self.request_queue),
                 "active_identities": len(self.identity_contexts),
             }
@@ -546,7 +599,10 @@ class InferenceAdapter:
         """Validate inference request"""
         required_fields = ["request_id", "lambda_id", "inference_type", "input_data"]
 
-        return all(not (not hasattr(request, field) or getattr(request, field) is None) for field in required_fields)
+        return all(
+            not (not hasattr(request, field) or getattr(request, field) is None)
+            for field in required_fields
+        )
 
     def _check_inference_permissions(self, request: InferenceRequest) -> bool:
         """Check if user has permission for inference type"""
@@ -587,7 +643,9 @@ class InferenceAdapter:
                 error_message=f"Routing error: {e!s}",
             )
 
-    def _process_identity_verification(self, request: InferenceRequest) -> InferenceResult:
+    def _process_identity_verification(
+        self, request: InferenceRequest
+    ) -> InferenceResult:
         """Process identity verification inference"""
         verification_data = request.input_data.get("verification_data", {})
 
@@ -602,13 +660,19 @@ class InferenceAdapter:
 
         # Check consciousness state
         if "consciousness_state" in verification_data:
-            consciousness_coherence = verification_data["consciousness_state"].get("coherence", 0.5)
+            consciousness_coherence = verification_data["consciousness_state"].get(
+                "coherence", 0.5
+            )
             confidence_factors.append(consciousness_coherence)
-            reasoning_steps.append(f"Consciousness coherence: {consciousness_coherence:.2f}")
+            reasoning_steps.append(
+                f"Consciousness coherence: {consciousness_coherence:.2f}"
+            )
 
         # Check authentication history
         if "authentication_history" in verification_data:
-            history_score = min(1.0, len(verification_data["authentication_history"]) / 10)
+            history_score = min(
+                1.0, len(verification_data["authentication_history"]) / 10
+            )
             confidence_factors.append(history_score)
             reasoning_steps.append(f"Authentication history score: {history_score:.2f}")
 
@@ -713,11 +777,17 @@ class InferenceAdapter:
             inference_output={
                 "anomalies": anomalies,
                 "anomaly_count": len(anomalies),
-                "risk_level": ("high" if len(anomalies) > 1 else "medium" if anomalies else "low"),
-                "recommendations": (["additional_verification"] if anomalies else ["normal_access"]),
+                "risk_level": (
+                    "high" if len(anomalies) > 1 else "medium" if anomalies else "low"
+                ),
+                "recommendations": (
+                    ["additional_verification"] if anomalies else ["normal_access"]
+                ),
             },
             confidence_score=confidence_score,
-            reasoning_steps=[f"Analyzed {len(current_data)} current data points against baseline"],
+            reasoning_steps=[
+                f"Analyzed {len(current_data)} current data points against baseline"
+            ],
             explanation=f"Detected {len(anomalies)} anomalies in current authentication attempt",
         )
 
@@ -765,14 +835,18 @@ class InferenceAdapter:
                 "risk_score": risk_score,
                 "risk_level": risk_level,
                 "risk_factors": risk_factors,
-                "mitigation_recommendations": self._get_risk_mitigations(risk_level, risk_factors),
+                "mitigation_recommendations": self._get_risk_mitigations(
+                    risk_level, risk_factors
+                ),
             },
             confidence_score=0.8,
             reasoning_steps=[f"Evaluated {len(context_data)} risk factors"],
             explanation=f"Risk assessment: {risk_level} risk (score: {risk_score:.2f})",
         )
 
-    def _process_authentication_decision(self, request: InferenceRequest) -> InferenceResult:
+    def _process_authentication_decision(
+        self, request: InferenceRequest
+    ) -> InferenceResult:
         """Process authentication decision inference"""
         input_data = request.input_data
 
@@ -782,7 +856,9 @@ class InferenceAdapter:
         anomaly_count = len(input_data.get("anomalies", []))
 
         # Decision logic
-        decision_score = verification_confidence * 0.6 - risk_score * 0.3 - (anomaly_count * 0.1)
+        decision_score = (
+            verification_confidence * 0.6 - risk_score * 0.3 - (anomaly_count * 0.1)
+        )
         decision_score = max(0.0, min(1.0, decision_score))
 
         # Make decision
@@ -844,7 +920,9 @@ class InferenceAdapter:
 
         return result
 
-    def _update_identity_context(self, lambda_id: str, context_type: str, context_data: dict[str, Any]):
+    def _update_identity_context(
+        self, lambda_id: str, context_type: str, context_data: dict[str, Any]
+    ):
         """Update identity context with new data"""
         if lambda_id not in self.identity_contexts:
             self.identity_contexts[lambda_id] = {}
@@ -856,7 +934,9 @@ class InferenceAdapter:
         """Generate unique request ID"""
         return f"INF_{hashlib.sha256(f'{time.time()}'.encode()).hexdigest()[:16]}"
 
-    def _get_risk_mitigations(self, risk_level: str, risk_factors: list[str]) -> list[str]:
+    def _get_risk_mitigations(
+        self, risk_level: str, risk_factors: list[str]
+    ) -> list[str]:
         """Get risk mitigation recommendations"""
         mitigations = []
 

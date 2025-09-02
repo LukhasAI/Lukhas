@@ -28,9 +28,7 @@ class QIServiceAdapter(IQuantumService):
             try:
                 # Try to import qim_components
                 from qi.engines.consciousness.engine import QIEngine
-                from qi.processing.qi_bio_coordinator import (
-                    MockQuantumBioCoordinator,
-                )
+                from qi.processing.qi_bio_coordinator import MockQuantumBioCoordinator
                 from qi.qi_states.processor import QIProcessor
 
                 self._quantum_coordinator = MockQuantumBioCoordinator()

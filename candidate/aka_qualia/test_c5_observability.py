@@ -43,8 +43,18 @@ def demo_scene_processing():
 
     # Record events
     record_scene_processed(user_tier="premium", status="success")
-    record_glyph_mapped(glyph_type="vigilance", cache_status="hit", accuracy=0.95, palette_bias="aka_bias")
-    record_glyph_mapped(glyph_type="grounding_hint", cache_status="miss", accuracy=0.87, palette_bias="neutral")
+    record_glyph_mapped(
+        glyph_type="vigilance",
+        cache_status="hit",
+        accuracy=0.95,
+        palette_bias="aka_bias",
+    )
+    record_glyph_mapped(
+        glyph_type="grounding_hint",
+        cache_status="miss",
+        accuracy=0.87,
+        palette_bias="neutral",
+    )
 
     # Update consciousness metrics
     consciousness_metrics = AkaqMetrics(
@@ -73,9 +83,21 @@ def demo_memory_operations():
 
     # Simulate memory operations with observability
     test_scenes = [
-        {"subject": "demo_scene_1", "object": "test_object", "affect": {"vigilance": 0.6}},
-        {"subject": "demo_scene_2", "object": "test_object", "affect": {"vigilance": 0.4}},
-        {"subject": "demo_scene_3", "object": "test_object", "affect": {"vigilance": 0.8}},
+        {
+            "subject": "demo_scene_1",
+            "object": "test_object",
+            "affect": {"vigilance": 0.6},
+        },
+        {
+            "subject": "demo_scene_2",
+            "object": "test_object",
+            "affect": {"vigilance": 0.4},
+        },
+        {
+            "subject": "demo_scene_3",
+            "object": "test_object",
+            "affect": {"vigilance": 0.8},
+        },
     ]
 
     for i, scene in enumerate(test_scenes):
@@ -198,7 +220,9 @@ def main():
     # Demo dashboard (optional)
     try:
         dashboard_success = demo_monitoring_dashboard()
-        results["monitoring_dashboard"] = "✅ Success" if dashboard_success else "❌ Failed"
+        results["monitoring_dashboard"] = (
+            "✅ Success" if dashboard_success else "❌ Failed"
+        )
     except Exception as e:
         results["monitoring_dashboard"] = f"❌ Failed: {e}"
     print()

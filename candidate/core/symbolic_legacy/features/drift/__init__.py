@@ -13,7 +13,9 @@ import logging
 
 # Initialize logger
 log = logging.getLogger(__name__)
-log.info("core.symbolic.drift module initialized - consciousness stability monitoring active")
+log.info(
+    "core.symbolic.drift module initialized - consciousness stability monitoring active"
+)
 
 # Import drift detection components
 try:

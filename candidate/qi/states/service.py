@@ -53,13 +53,17 @@ try:
 except ImportError:
     # Fallback for development
     class IdentityClient:
-        def verify_user_access(self, user_id: str, required_tier: str = "LAMBDA_TIER_1") -> bool:
+        def verify_user_access(
+            self, user_id: str, required_tier: str = "LAMBDA_TIER_1"
+        ) -> bool:
             return True
 
         def check_consent(self, user_id: str, action: str) -> bool:
             return True
 
-        def log_activity(self, activity_type: str, user_id: str, metadata: dict[str, Any]) -> None:
+        def log_activity(
+            self, activity_type: str, user_id: str, metadata: dict[str, Any]
+        ) -> None:
             print(f"QUANTUM_LOG: {activity_type} by {user_id}: {metadata}")
 
 
@@ -139,12 +143,16 @@ class QIService:
 
         try:
             # Execute quantum computation
-            computation_results = self._execute_quantum_computation(qi_algorithm, input_qubits, qi_inspired_gates)
+            computation_results = self._execute_quantum_computation(
+                qi_algorithm, input_qubits, qi_inspired_gates
+            )
 
             # Update quantum-like state
             self._update_quantum_like_state(computation_results)
 
-            computation_id = f"qcomp_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            computation_id = (
+                f"qcomp_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            )
 
             # Log quantum computation
             self.identity_client.log_activity(
@@ -222,7 +230,9 @@ class QIService:
             )
 
             # Register entangled pair
-            entanglement_id = f"entangle_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            entanglement_id = (
+                f"entangle_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            )
             entangled_pair = {
                 "entanglement_id": entanglement_id,
                 "systems": target_systems,
@@ -302,9 +312,13 @@ class QIService:
 
         try:
             # Create consciousness-quantum bridge
-            bridge_results = self._create_consciousness_quantum_bridge(consciousness_state, qi_interface)
+            bridge_results = self._create_consciousness_quantum_bridge(
+                consciousness_state, qi_interface
+            )
 
-            bridge_id = f"qbridge_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            bridge_id = (
+                f"qbridge_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            )
 
             # Log quantum consciousness bridge
             self.identity_client.log_activity(
@@ -313,7 +327,9 @@ class QIService:
                 {
                     "bridge_id": bridge_id,
                     "qi_interface": qi_interface,
-                    "consciousness_elements": len(consciousness_state.get("elements", [])),
+                    "consciousness_elements": len(
+                        consciousness_state.get("elements", [])
+                    ),
                     "bridge_coherence": bridge_results.get("coherence", 0.0),
                     "qi_awareness": bridge_results.get("qi_awareness", 0.0),
                 },
@@ -370,9 +386,13 @@ class QIService:
 
         try:
             # Create superposition-like state
-            superposition_results = self._create_quantum_superposition(superposition_states, collapse_probability)
+            superposition_results = self._create_quantum_superposition(
+                superposition_states, collapse_probability
+            )
 
-            superposition_id = f"qsuper_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            superposition_id = (
+                f"qsuper_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            )
 
             # Store superposition state
             self.qi_like_state["superposition_states"][superposition_id] = {
@@ -390,8 +410,12 @@ class QIService:
                     "superposition_id": superposition_id,
                     "state_count": len(superposition_states),
                     "collapse_probability": collapse_probability,
-                    "superposition_coherence": superposition_results.get("coherence", 0.0),
-                    "decoherence_time": superposition_results.get("decoherence_time", 0.0),
+                    "superposition_coherence": superposition_results.get(
+                        "coherence", 0.0
+                    ),
+                    "decoherence_time": superposition_results.get(
+                        "decoherence_time", 0.0
+                    ),
                 },
             )
 
@@ -445,12 +469,16 @@ class QIService:
 
         try:
             # Perform quantum observation
-            observation_results = self._perform_quantum_observation(observation_type, target_qubits)
+            observation_results = self._perform_quantum_observation(
+                observation_type, target_qubits
+            )
 
             # Update quantum-like state based on observation
             self._apply_observation_effects(observation_results)
 
-            observation_id = f"qobs_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            observation_id = (
+                f"qobs_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            )
 
             # Log quantum observation
             self.identity_client.log_activity(
@@ -460,8 +488,12 @@ class QIService:
                     "observation_id": observation_id,
                     "observation_type": observation_type,
                     "qubits_observed": len(target_qubits) if target_qubits else "all",
-                    "state_collapsed": observation_results.get("state_collapsed", False),
-                    "measurement_basis": observation_results.get("measurement_basis", "computational"),
+                    "state_collapsed": observation_results.get(
+                        "state_collapsed", False
+                    ),
+                    "measurement_basis": observation_results.get(
+                        "measurement_basis", "computational"
+                    ),
                 },
             )
 
@@ -482,7 +514,9 @@ class QIService:
             )
             return {"success": False, "error": error_msg}
 
-    def get_quantum_metrics(self, user_id: str, include_detailed: bool = False) -> dict[str, Any]:
+    def get_quantum_metrics(
+        self, user_id: str, include_detailed: bool = False
+    ) -> dict[str, Any]:
         """
         Get quantum system metrics and performance data.
 
@@ -510,7 +544,9 @@ class QIService:
         try:
             metrics_data = self._get_quantum_like_state_summary()
 
-            if include_detailed and self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_4"):
+            if include_detailed and self.identity_client.verify_user_access(
+                user_id, "LAMBDA_TIER_4"
+            ):
                 metrics_data.update(
                     {
                         "detailed_entanglement": self._get_detailed_entanglement_metrics(),
@@ -545,14 +581,20 @@ class QIService:
             )
             return {"success": False, "error": error_msg}
 
-    def _execute_quantum_computation(self, algorithm: str, qubits: list[complex], gates: list[str]) -> dict[str, Any]:
+    def _execute_quantum_computation(
+        self, algorithm: str, qubits: list[complex], gates: list[str]
+    ) -> dict[str, Any]:
         """Execute quantum computation algorithm."""
         # Simulate quantum computation
         qi_advantage = random.uniform(1.2, 10.0)  # Quantum speedup
-        coherence = max(0.1, self.qi_like_state["qi_coherence"] - random.uniform(0.0, 0.1))
+        coherence = max(
+            0.1, self.qi_like_state["qi_coherence"] - random.uniform(0.0, 0.1)
+        )
 
         return {
-            "output_qubits": [complex(random.uniform(-1, 1), random.uniform(-1, 1)) for _ in qubits],
+            "output_qubits": [
+                complex(random.uniform(-1, 1), random.uniform(-1, 1)) for _ in qubits
+            ],
             "qi_advantage": qi_advantage,
             "coherence": coherence,
             "gate_fidelity": random.uniform(0.95, 0.999),
@@ -562,7 +604,9 @@ class QIService:
 
     def _update_quantum_like_state(self, computation_results: dict[str, Any]) -> None:
         """Update quantum-like state based on computation."""
-        self.qi_like_state["active_qubits"] = len(computation_results.get("output_qubits", []))
+        self.qi_like_state["active_qubits"] = len(
+            computation_results.get("output_qubits", [])
+        )
         self.qi_like_state["qi_coherence"] = computation_results.get("coherence", 0.9)
         self.qi_like_state["last_quantum_update"] = datetime.utcnow()
 
@@ -586,7 +630,9 @@ class QIService:
         return {
             "bell_state": random.choice(bell_states),
             "fidelity": strength * random.uniform(0.9, 0.999),
-            "entanglement_entropy": (-strength * math.log(strength) if strength > 0 else 0),
+            "entanglement_entropy": (
+                -strength * math.log(strength) if strength > 0 else 0
+            ),
             "systems_entangled": systems,
             "entanglement_type": entanglement_type,
             "concurrence": strength * random.uniform(0.8, 1.0),
@@ -620,17 +666,26 @@ class QIService:
             "decoherence_time": decoherence_time,
             "superposition_complexity": len(states),
             "collapse_probability": collapse_prob or (1.0 / len(states)),
-            "interference_pattern": ("constructive" if random.random() > 0.5 else "destructive"),
+            "interference_pattern": (
+                "constructive" if random.random() > 0.5 else "destructive"
+            ),
         }
 
-    def _perform_quantum_observation(self, observation_type: str, target_qubits: Optional[list[int]]) -> dict[str, Any]:
+    def _perform_quantum_observation(
+        self, observation_type: str, target_qubits: Optional[list[int]]
+    ) -> dict[str, Any]:
         """Perform quantum-like state observation."""
         state_collapsed = random.random() < 0.7  # 70% chance of collapse
 
         return {
             "state_collapsed": state_collapsed,
-            "measurement_basis": ("computational" if observation_type == "measurement" else "hadamard"),
-            "observed_values": [random.choice([0, 1]) for _ in range(len(target_qubits) if target_qubits else 3)],
+            "measurement_basis": (
+                "computational" if observation_type == "measurement" else "hadamard"
+            ),
+            "observed_values": [
+                random.choice([0, 1])
+                for _ in range(len(target_qubits) if target_qubits else 3)
+            ],
             "measurement_uncertainty": random.uniform(0.01, 0.1),
             "observation_type": observation_type,
         }
@@ -673,13 +728,17 @@ def qi_compute(user_id: str, algorithm: str, qubits: list[complex]) -> dict[str,
     return service.qi_compute(user_id, algorithm, qubits)
 
 
-def qi_entangle(user_id: str, entanglement_type: str, systems: list[str]) -> dict[str, Any]:
+def qi_entangle(
+    user_id: str, entanglement_type: str, systems: list[str]
+) -> dict[str, Any]:
     """Simplified API for entanglement-like correlation."""
     service = QIService()
     return service.qi_entangle(user_id, entanglement_type, systems)
 
 
-def consciousness_quantum_bridge(user_id: str, consciousness_state: dict[str, Any]) -> dict[str, Any]:
+def consciousness_quantum_bridge(
+    user_id: str, consciousness_state: dict[str, Any]
+) -> dict[str, Any]:
     """Simplified API for quantum consciousness bridge."""
     service = QIService()
     return service.consciousness_quantum_bridge(user_id, consciousness_state)
@@ -700,7 +759,9 @@ if __name__ == "__main__":
     print(f"Quantum computation: {computation_result.get('success', False)}")
 
     # Test entanglement-like correlation
-    entanglement_result = qi.qi_entangle(test_user, "Bell_state", ["consciousness_module", "memory_module"], 0.95)
+    entanglement_result = qi.qi_entangle(
+        test_user, "Bell_state", ["consciousness_module", "memory_module"], 0.95
+    )
     print(f"Quantum entanglement: {entanglement_result.get('success', False)}")
 
     # Test quantum consciousness bridge

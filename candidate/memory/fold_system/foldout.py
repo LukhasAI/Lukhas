@@ -258,7 +258,9 @@ def create_fold_bundle(
 
 
 # Factory function
-def create_memory_exporter(codec: str = DEFAULT_CODEC, compression_level: Optional[int] = None):
+def create_memory_exporter(
+    codec: str = DEFAULT_CODEC, compression_level: Optional[int] = None
+):
     """
     Create a configured memory fold exporter.
 

@@ -166,13 +166,17 @@ class SymbolicDriftTracker:
 
         try:
             # 1. Symbol Set Analysis (30% weight)
-            symbol_drift = self._calculate_symbol_set_drift(current_symbols, prior_symbols)
+            symbol_drift = self._calculate_symbol_set_drift(
+                current_symbols, prior_symbols
+            )
 
             # 2. Emotional Vector Drift (25% weight)
             emotional_drift = self._calculate_emotional_drift(context)
 
             # 3. Entropy Delta Analysis (20% weight)
-            entropy_drift = self._calculate_entropy_drift(current_symbols, prior_symbols)
+            entropy_drift = self._calculate_entropy_drift(
+                current_symbols, prior_symbols
+            )
 
             # 4. Ethical Alignment Drift (15% weight)
             ethical_drift = self._calculate_ethical_drift(context)
@@ -216,7 +220,9 @@ class SymbolicDriftTracker:
             )
             return 0.0
 
-    def register_symbolic_state(self, session_id: str, symbols: list[str], metadata: dict[str, Any]) -> None:
+    def register_symbolic_state(
+        self, session_id: str, symbols: list[str], metadata: dict[str, Any]
+    ) -> None:
         """
         Stores symbolic state snapshot for future drift comparison.
 
@@ -244,7 +250,9 @@ class SymbolicDriftTracker:
             ethical_alignment = 0.5
 
         # Generate state hash for comparison
-        state_hash = self._generate_state_hash(symbols, emotional_vector, ethical_alignment)
+        state_hash = self._generate_state_hash(
+            symbols, emotional_vector, ethical_alignment
+        )
 
         # Create symbolic state snapshot
         symbolic_state = SymbolicState(
@@ -263,7 +271,9 @@ class SymbolicDriftTracker:
 
         # Maintain session history limits
         if len(self.symbolic_states[session_id]) > self.max_session_history:
-            self.symbolic_states[session_id] = self.symbolic_states[session_id][-self.max_session_history :]
+            self.symbolic_states[session_id] = self.symbolic_states[session_id][
+                -self.max_session_history :
+            ]
 
         logger.info(
             "Symbolic state registered",
@@ -316,7 +326,9 @@ class SymbolicDriftTracker:
             # 4. Cascade pattern detection
             cascade_patterns = self._detect_cascade_patterns(symbol_sequences)
 
-            has_recursion = any([exact_loops, similar_patterns, frequency_loops, cascade_patterns])
+            has_recursion = any(
+                [exact_loops, similar_patterns, frequency_loops, cascade_patterns]
+            )
 
             if has_recursion:
                 loop_indicators = []
@@ -412,7 +424,9 @@ class SymbolicDriftTracker:
 
     # ΛDRIFT_POINT: Implementation of core drift calculation methods
 
-    def _calculate_symbol_set_drift(self, current: list[str], prior: list[str]) -> float:
+    def _calculate_symbol_set_drift(
+        self, current: list[str], prior: list[str]
+    ) -> float:
         """Calculate drift based on symbol set overlap and divergence."""
         if not current and not prior:
             return 0.0
@@ -459,7 +473,11 @@ class SymbolicDriftTracker:
             return 0.0
 
         # Euclidean distance in VAD space
-        emotional_distance = math.sqrt(sum((curr - prev) ** 2 for curr, prev in zip(current_emotion, prior_emotion)))
+        emotional_distance = math.sqrt(
+            sum(
+                (curr - prev) ** 2 for curr, prev in zip(current_emotion, prior_emotion)
+            )
+        )
 
         # Normalize by maximum possible distance in VAD space (sqrt(3) for [-1,1] range)
         max_distance = math.sqrt(3)
@@ -476,7 +494,9 @@ class SymbolicDriftTracker:
 
         # Normalize by maximum possible entropy change
         max_entropy = math.log2(max(len(set(current + prior)), 1))
-        entropy_drift = min(1.0, entropy_delta / max_entropy) if max_entropy > 0 else 0.0
+        entropy_drift = (
+            min(1.0, entropy_delta / max_entropy) if max_entropy > 0 else 0.0
+        )
 
         return entropy_drift
 
@@ -485,7 +505,9 @@ class SymbolicDriftTracker:
         current_ethics = context.get("current_ethical_alignment", 0.5)
         prior_ethics = context.get("prior_ethical_alignment", 0.5)
 
-        if not isinstance(current_ethics, (int, float)) or not isinstance(prior_ethics, (int, float)):
+        if not isinstance(current_ethics, (int, float)) or not isinstance(
+            prior_ethics, (int, float)
+        ):
             return 0.0
 
         ethical_drift = abs(current_ethics - prior_ethics)
@@ -504,7 +526,9 @@ class SymbolicDriftTracker:
             if isinstance(timestamp, str):
                 timestamp = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
             if isinstance(prior_timestamp, str):
-                prior_timestamp = datetime.fromisoformat(prior_timestamp.replace("Z", "+00:00"))
+                prior_timestamp = datetime.fromisoformat(
+                    prior_timestamp.replace("Z", "+00:00")
+                )
 
             time_delta = timestamp - prior_timestamp
             hours_elapsed = time_delta.total_seconds() / 3600
@@ -524,7 +548,9 @@ class SymbolicDriftTracker:
         scaled = 1.0 / (1.0 + math.exp(-10 * (weighted_score - 0.5)))
         return scaled
 
-    def _calculate_state_entropy(self, symbols: list[str], metadata: dict[str, Any]) -> float:
+    def _calculate_state_entropy(
+        self, symbols: list[str], metadata: dict[str, Any]
+    ) -> float:
         """Calculate comprehensive state entropy including symbols and metadata."""
         # Symbol entropy
         symbol_entropy = self._calculate_shannon_entropy(symbols)
@@ -537,7 +563,9 @@ class SymbolicDriftTracker:
             total_magnitude = sum(abs(x) for x in emotional_vector)
             if total_magnitude > 0:
                 probabilities = [abs(x) / total_magnitude for x in emotional_vector]
-                emotional_entropy = -sum(p * math.log2(p + 1e-9) for p in probabilities if p > 0)
+                emotional_entropy = -sum(
+                    p * math.log2(p + 1e-9) for p in probabilities if p > 0
+                )
 
         # Combine entropies
         combined_entropy = (symbol_entropy * 0.7) + (emotional_entropy * 0.3)
@@ -603,7 +631,9 @@ class SymbolicDriftTracker:
         }
 
         # Calculate drift score
-        drift_score = self.calculate_symbolic_drift(current_state.symbols, prior_state.symbols, context)
+        drift_score = self.calculate_symbolic_drift(
+            current_state.symbols, prior_state.symbols, context
+        )
 
         # Check for alerts
         if drift_score >= self.drift_thresholds["caution"]:
@@ -621,7 +651,9 @@ class SymbolicDriftTracker:
         for pattern_length in range(2, min(6, len(sequences) // 2 + 1)):
             for start_idx in range(len(sequences) - 2 * pattern_length + 1):
                 pattern = sequence_strings[start_idx : start_idx + pattern_length]
-                next_pattern = sequence_strings[start_idx + pattern_length : start_idx + 2 * pattern_length]
+                next_pattern = sequence_strings[
+                    start_idx + pattern_length : start_idx + 2 * pattern_length
+                ]
 
                 if pattern == next_pattern:
                     return True
@@ -677,7 +709,9 @@ class SymbolicDriftTracker:
 
         return False
 
-    def _is_oscillating_pattern(self, values: list[float], threshold: float = 0.3) -> bool:
+    def _is_oscillating_pattern(
+        self, values: list[float], threshold: float = 0.3
+    ) -> bool:
         """Check if a list of values shows oscillating pattern."""
         if len(values) < 4:
             return False
@@ -703,7 +737,10 @@ class SymbolicDriftTracker:
 
         # Check for rapid diversity increase
         for i in range(len(diversities) - 2):
-            if diversities[i + 1] > diversities[i] * 1.5 and diversities[i + 2] > diversities[i + 1] * 1.5:
+            if (
+                diversities[i + 1] > diversities[i] * 1.5
+                and diversities[i + 2] > diversities[i + 1] * 1.5
+            ):
                 return True
 
         # Look for cascade-related symbols
@@ -715,13 +752,17 @@ class SymbolicDriftTracker:
             "ΛOVERLOAD",
         ]
         for seq in sequences[-3:]:  # Check recent sequences
-            cascade_count = sum(1 for symbol in seq if any(cs in symbol for cs in cascade_symbols))
+            cascade_count = sum(
+                1 for symbol in seq if any(cs in symbol for cs in cascade_symbols)
+            )
             if cascade_count >= 2:
                 return True
 
         return False
 
-    def _trigger_cascade_safety_measures(self, score: float, context: dict[str, Any]) -> None:
+    def _trigger_cascade_safety_measures(
+        self, score: float, context: dict[str, Any]
+    ) -> None:
         """Trigger safety measures for CASCADE phase drift."""
         logger.critical(
             "CASCADE PHASE DRIFT DETECTED - Triggering safety measures",
@@ -793,14 +834,18 @@ class SymbolicDriftTracker:
             }
 
             # In production, this would emit to actual mesh/UI systems
-            logger.info("Mesh telemetry emission", telemetry=telemetry_data, tag="ΛTRACE")
+            logger.info(
+                "Mesh telemetry emission", telemetry=telemetry_data, tag="ΛTRACE"
+            )
 
         except Exception as e:
             logger.error("Failed to emit telemetry data", error=str(e), tag="ΛTRACE")
 
     # Legacy compatibility methods (maintaining interface)
 
-    def record_drift(self, symbol_id: str, current_state: dict, reference_state: dict, context: str):
+    def record_drift(
+        self, symbol_id: str, current_state: dict, reference_state: dict, context: str
+    ):
         """Legacy compatibility method for record_drift interface."""
         # Convert legacy format to new format
         current_symbols = current_state.get("symbols", [])
@@ -819,15 +864,21 @@ class SymbolicDriftTracker:
         # Calculate drift score
         drift_context = {
             "session_id": symbol_id,
-            "current_emotional_vector": current_state.get("emotional_vector", [0.0, 0.0, 0.0]),
-            "prior_emotional_vector": reference_state.get("emotional_vector", [0.0, 0.0, 0.0]),
+            "current_emotional_vector": current_state.get(
+                "emotional_vector", [0.0, 0.0, 0.0]
+            ),
+            "prior_emotional_vector": reference_state.get(
+                "emotional_vector", [0.0, 0.0, 0.0]
+            ),
             "current_ethical_alignment": current_state.get("ethical_alignment", 0.5),
             "prior_ethical_alignment": reference_state.get("ethical_alignment", 0.5),
             "timestamp": datetime.now(),
             "prior_timestamp": datetime.now() - timedelta(hours=1),
         }
 
-        drift_score = self.calculate_symbolic_drift(current_symbols, reference_symbols, drift_context)
+        drift_score = self.calculate_symbolic_drift(
+            current_symbols, reference_symbols, drift_context
+        )
 
         # Check for alerts
         if drift_score >= self.drift_thresholds["caution"]:
@@ -863,7 +914,9 @@ class SymbolicDriftTracker:
         latest_state = states[-1]
         return latest_state.entropy
 
-    def log_phase_mismatch(self, symbol_id: str, phase_a: str, phase_b: str, mismatch_details: dict):
+    def log_phase_mismatch(
+        self, symbol_id: str, phase_a: str, phase_b: str, mismatch_details: dict
+    ):
         """Log mismatch between symbolic phases with detailed analysis."""
         logger.warning(
             "Symbolic phase mismatch detected",
@@ -875,7 +928,9 @@ class SymbolicDriftTracker:
         )
 
         # Analyze phase mismatch severity
-        mismatch_score = self._calculate_phase_mismatch_score(phase_a, phase_b, mismatch_details)
+        mismatch_score = self._calculate_phase_mismatch_score(
+            phase_a, phase_b, mismatch_details
+        )
 
         if mismatch_score > 0.7:
             # High severity phase mismatch
@@ -890,7 +945,9 @@ class SymbolicDriftTracker:
                 },
             )
 
-    def _calculate_phase_mismatch_score(self, phase_a: str, phase_b: str, details: dict) -> float:
+    def _calculate_phase_mismatch_score(
+        self, phase_a: str, phase_b: str, details: dict
+    ) -> float:
         """Calculate severity score for phase mismatches."""
         # Basic scoring based on phase difference and details
         phase_severity = {
@@ -975,7 +1032,9 @@ class SymbolicDriftTracker:
             },
             "recursive_patterns": len(self.recursive_patterns),
             "active_quarantines": self._count_active_quarantines(),
-            "system_health": ("stable" if risk_level in ["LOW", "MEDIUM"] else "unstable"),
+            "system_health": (
+                "stable" if risk_level in ["LOW", "MEDIUM"] else "unstable"
+            ),
             "recommendations": self._generate_recommendations(alert_counts, risk_level),
         }
 
@@ -994,16 +1053,23 @@ class SymbolicDriftTracker:
         """Count sessions with active quarantine status."""
         quarantine_count = 0
         for states in self.symbolic_states.values():
-            if states and states[-1].context_metadata.get("quarantine_status") == "ACTIVE":
+            if (
+                states
+                and states[-1].context_metadata.get("quarantine_status") == "ACTIVE"
+            ):
                 quarantine_count += 1
         return quarantine_count
 
-    def _generate_recommendations(self, alert_counts: dict[str, int], risk_level: str) -> list[str]:
+    def _generate_recommendations(
+        self, alert_counts: dict[str, int], risk_level: str
+    ) -> list[str]:
         """Generate recommendations based on drift analysis."""
         recommendations = []
 
         if risk_level == "CRITICAL":
-            recommendations.append("IMMEDIATE: Review CASCADE phase sessions for instability")
+            recommendations.append(
+                "IMMEDIATE: Review CASCADE phase sessions for instability"
+            )
             recommendations.append("IMMEDIATE: Implement additional safety constraints")
 
         if alert_counts.get("CASCADE", 0) > 0:
@@ -1077,7 +1143,9 @@ if __name__ == "__main__":
         "prior_timestamp": datetime.now() - timedelta(hours=2),
     }
 
-    drift_score = tracker.calculate_symbolic_drift(evolved_symbols, initial_symbols, drift_context)
+    drift_score = tracker.calculate_symbolic_drift(
+        evolved_symbols, initial_symbols, drift_context
+    )
 
     print(f"Calculated Drift Score: {drift_score:.3f}")
 

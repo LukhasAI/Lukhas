@@ -194,9 +194,15 @@ class GuardianAuditExporter:
         # System metrics
         system_metrics = {
             "total_interventions": len(interventions),
-            "successful_interventions": len([i for i in interventions if i["outcome"] == "successful"]),
-            "average_severity": sum(i["severity"] for i in interventions) / len(interventions),
-            "average_stabilization_time": sum(i["stabilization_time"] for i in interventions) / len(interventions),
+            "successful_interventions": len(
+                [i for i in interventions if i["outcome"] == "successful"]
+            ),
+            "average_severity": sum(i["severity"] for i in interventions)
+            / len(interventions),
+            "average_stabilization_time": sum(
+                i["stabilization_time"] for i in interventions
+            )
+            / len(interventions),
             "threat_type_distribution": {
                 "drift_spike": 1,
                 "pattern_anomaly": 1,
@@ -289,7 +295,9 @@ class GuardianAuditExporter:
     def _export_graphql_schema(self, audit_data: dict[str, Any]) -> Path:
         """Export GraphQL schema and sample queries"""
         timestamp_str = self.export_timestamp.strftime("%Y%m%d_%H%M%S")
-        graphql_file = self.output_dir / f"guardian_audit_schema_{timestamp_str}.graphql"
+        graphql_file = (
+            self.output_dir / f"guardian_audit_schema_{timestamp_str}.graphql"
+        )
 
         schema = """
 # LUKHAS Guardian System Audit Schema
@@ -481,7 +489,9 @@ Based on this audit period:
 **Trinity Framework**: ⚛️🧠🛡️ **PROTECTING**
 
 *Audit complete - System under continuous protection*
-""".format(metrics["average_stabilization_time"])
+""".format(
+            metrics["average_stabilization_time"]
+        )
 
         with open(summary_file, "w", encoding="utf-8") as f:
             f.write(report)

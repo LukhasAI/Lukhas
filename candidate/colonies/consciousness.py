@@ -42,7 +42,9 @@ class ConsciousnessColony(BaseColony):
             self.reflection_history.append(reflection)
             return reflection
         elif task_type == "state_update":
-            self.consciousness_state = payload.get("new_state", self.consciousness_state)
+            self.consciousness_state = payload.get(
+                "new_state", self.consciousness_state
+            )
             return {"updated_state": self.consciousness_state}
         else:
             return {"status": "unknown_task_type", "task_type": task_type}

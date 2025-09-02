@@ -125,7 +125,9 @@ class IEmotionService(IService):
         """Analyze emotional content (returns VAD values)"""
 
     @abstractmethod
-    async def generate_emotional_response(self, context: dict[str, Any]) -> dict[str, Any]:
+    async def generate_emotional_response(
+        self, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate emotional response"""
 
     @abstractmethod
@@ -142,7 +144,9 @@ class IIdentityService(IService):
     """Interface for identity and authentication operations"""
 
     @abstractmethod
-    async def authenticate(self, credentials: dict[str, Any]) -> Optional[dict[str, Any]]:
+    async def authenticate(
+        self, credentials: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """Authenticate user with credentials"""
 
     @abstractmethod
@@ -196,7 +200,9 @@ class IBridgeService(IService):
         """Receive data from external system"""
 
     @abstractmethod
-    async def translate_protocol(self, data: Any, from_protocol: str, to_protocol: str) -> Any:
+    async def translate_protocol(
+        self, data: Any, from_protocol: str, to_protocol: str
+    ) -> Any:
         """Translate between protocols"""
 
 

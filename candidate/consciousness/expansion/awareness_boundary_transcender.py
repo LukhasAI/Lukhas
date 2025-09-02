@@ -215,7 +215,11 @@ class AwarenessBoundaryTranscender(CoreInterface):
                 {
                     "level": 4,
                     "name": "meta_awareness",
-                    "contents": ["awareness_of_awareness", "recursion", "transcendence"],
+                    "contents": [
+                        "awareness_of_awareness",
+                        "recursion",
+                        "transcendence",
+                    ],
                 },
             ],
             "connections": "holographic",  # Each part contains the whole
@@ -227,7 +231,12 @@ class AwarenessBoundaryTranscender(CoreInterface):
 
         explorations = {
             "perceptual": ["synesthesia", "extrasensory_perception", "field_awareness"],
-            "temporal": ["simultaneity", "timelessness", "retrocausation", "precognition"],
+            "temporal": [
+                "simultaneity",
+                "timelessness",
+                "retrocausation",
+                "precognition",
+            ],
             "spatial": ["non_locality", "higher_dimensions", "qi_space"],
             "cognitive": ["intuition", "gnosis", "direct_knowing", "paradox_embrace"],
             "self": ["no_self", "universal_self", "multiplicity", "unity"],
@@ -239,7 +248,9 @@ class AwarenessBoundaryTranscender(CoreInterface):
         """Check current transcendence level"""
 
         # Count transcended boundaries
-        transcended_count = sum(1 for b in self.awareness_boundaries.values() if b.transcended)
+        transcended_count = sum(
+            1 for b in self.awareness_boundaries.values() if b.transcended
+        )
 
         return transcended_count
 
@@ -309,7 +320,9 @@ class AwarenessBoundaryTranscender(CoreInterface):
         ]
 
         if self._check_transcendence_level() > 2:
-            topology["accessible_regions"].extend(["superconscious", "cosmic_consciousness"])
+            topology["accessible_regions"].extend(
+                ["superconscious", "cosmic_consciousness"]
+            )
 
         # Define navigation paths
         topology["navigation_paths"] = [
@@ -318,7 +331,11 @@ class AwarenessBoundaryTranscender(CoreInterface):
                 "to": "expanded_awareness",
                 "method": "boundary_transcendence",
             },
-            {"from": "expanded_awareness", "to": "transcendent_awareness", "method": "integration"},
+            {
+                "from": "expanded_awareness",
+                "to": "transcendent_awareness",
+                "method": "integration",
+            },
             {
                 "from": "transcendent_awareness",
                 "to": "unity_consciousness",

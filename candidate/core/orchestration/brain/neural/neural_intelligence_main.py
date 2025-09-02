@@ -42,7 +42,9 @@ class LukhasNeuralIntelligence:
 
         logger.info("✅ Lukhas Neural Intelligence System ready")
 
-    async def process_request(self, request: str, context: Optional[dict] = None) -> dict:
+    async def process_request(
+        self, request: str, context: Optional[dict] = None
+    ) -> dict:
         """
         Process an intelligence request using the full Lukhas system
 
@@ -61,7 +63,9 @@ class LukhasNeuralIntelligence:
             "timestamp": asyncio.get_event_loop().time(),
         }
 
-        response = await self.neural_intelligence.process_intelligence_request(input_data)
+        response = await self.neural_intelligence.process_intelligence_request(
+            input_data
+        )
 
         return {
             "response": response.content,
@@ -124,14 +128,22 @@ async def main():
 
         print(f"   Response: {response_data['response'][:150]}...")
         print(f"   Confidence: {response_data['confidence']:.2f}")
-        print(f"   Dreams Active: {response_data['lukhas_innovations']['dreams']['active']}")
-        print(f"   Healix Active: {response_data['lukhas_innovations']['healix']['active']}")
+        print(
+            f"   Dreams Active: {response_data['lukhas_innovations']['dreams']['active']}"
+        )
+        print(
+            f"   Healix Active: {response_data['lukhas_innovations']['healix']['active']}"
+        )
 
     # Final status
     final_status = lukhas.get_system_status()
     print("\n📊 Final Metrics:")
-    print(f"   Total Interactions: {final_status['performance_metrics']['total_interactions']}")
-    print(f"   Average Confidence: {final_status['performance_metrics']['average_confidence']:.3f}")
+    print(
+        f"   Total Interactions: {final_status['performance_metrics']['total_interactions']}"
+    )
+    print(
+        f"   Average Confidence: {final_status['performance_metrics']['average_confidence']:.3f}"
+    )
     print(f"   Learning Patterns: {final_status['learning_patterns']}")
 
     print("\n✨ Lukhas Neural Intelligence System Demo Complete")

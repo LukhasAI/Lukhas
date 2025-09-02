@@ -52,7 +52,9 @@ class BridgeMatrizAdapter:
         return node
 
     @staticmethod
-    def emit_api_call(api_id: str, provider: str, endpoint: str, latency_ms: int, success: bool) -> dict[str, Any]:
+    def emit_api_call(
+        api_id: str, provider: str, endpoint: str, latency_ms: int, success: bool
+    ) -> dict[str, Any]:
         """Emit an external API call event"""
 
         urgency = 0.1 if success else 0.8
@@ -77,7 +79,9 @@ class BridgeMatrizAdapter:
         )
 
     @staticmethod
-    def emit_llm_interaction(llm_id: str, model: str, tokens_used: int, response_quality: float) -> dict[str, Any]:
+    def emit_llm_interaction(
+        llm_id: str, model: str, tokens_used: int, response_quality: float
+    ) -> dict[str, Any]:
         """Emit an LLM interaction event"""
 
         return BridgeMatrizAdapter.create_node(
@@ -90,12 +94,20 @@ class BridgeMatrizAdapter:
                 "tokens": float(tokens_used),
                 "quality": response_quality,
             },
-            labels=[f"llm:{llm_id}", f"model:{model}", f"tokens:{tokens_used}", "bridge:llm"],
+            labels=[
+                f"llm:{llm_id}",
+                f"model:{model}",
+                f"tokens:{tokens_used}",
+                "bridge:llm",
+            ],
         )
 
     @staticmethod
     def emit_orchestration_event(
-        orchestration_id: str, services: list[str], coordination_type: str, success_rate: float
+        orchestration_id: str,
+        services: list[str],
+        coordination_type: str,
+        success_rate: float,
     ) -> dict[str, Any]:
         """Emit a multi-service orchestration event"""
 
@@ -120,7 +132,10 @@ class BridgeMatrizAdapter:
 
     @staticmethod
     def emit_consensus_event(
-        consensus_id: str, models: list[str], agreement_score: float, final_decision: str
+        consensus_id: str,
+        models: list[str],
+        agreement_score: float,
+        final_decision: str,
     ) -> dict[str, Any]:
         """Emit a multi-model consensus event"""
 
@@ -152,7 +167,13 @@ class BridgeMatrizAdapter:
                 return False
 
         # Check required provenance fields
-        required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
+        required_prov = [
+            "producer",
+            "capabilities",
+            "tenant",
+            "trace_id",
+            "consent_scopes",
+        ]
         return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod

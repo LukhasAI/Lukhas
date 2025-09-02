@@ -74,7 +74,9 @@ class Summary(TypedDict, total=False):
     # Human-readable comment: Fixed literal type ensures type safety for this parameter.
 
 
-logger.debug("Summary TypedDict for parameters defined.", typed_dict_name="Summary")  # Removed manual ΛTRACE prefix
+logger.debug(
+    "Summary TypedDict for parameters defined.", typed_dict_name="Summary"
+)  # Removed manual ΛTRACE prefix
 
 
 # ΛNOTE: The `ResponseReasoningItemParam` TypedDict defines the symbolic structure

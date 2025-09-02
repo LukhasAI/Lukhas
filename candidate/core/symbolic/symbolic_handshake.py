@@ -84,7 +84,9 @@ class SymbolicHandshake:
             "symbolic_tags": module_info.get("symbolic_tags", []),
         }
 
-        logger.info(f"Module registered: {module_name} with tags: {module_info.get('symbolic_tags', [])}")
+        logger.info(
+            f"Module registered: {module_name} with tags: {module_info.get('symbolic_tags', [])}"
+        )
 
     def create_signal(
         self,
@@ -141,21 +143,30 @@ class SymbolicHandshake:
             return False
 
         # Check for required symbolic elements
-        if signal.signal_type == SignalType.LUKHAS_RECALL and "memory_fold" not in signal.payload:
+        if (
+            signal.signal_type == SignalType.LUKHAS_RECALL
+            and "memory_fold" not in signal.payload
+        ):
             logger.error("lukhas:recall signal missing memory_fold payload")
             return False
 
         logger.info(f"Handshake validated for {module_name}")
         return True
 
-    def get_signal_history(self, module_name: Optional[str] = None) -> list[SymbolicSignal]:
+    def get_signal_history(
+        self, module_name: Optional[str] = None
+    ) -> list[SymbolicSignal]:
         """
         ΛTAG: orchestration, signal_tracing
 
         Get signal history for debugging symbolic interactions.
         """
         if module_name:
-            return [s for s in self.signal_history if s.source_module == module_name or s.target_module == module_name]
+            return [
+                s
+                for s in self.signal_history
+                if s.source_module == module_name or s.target_module == module_name
+            ]
         return self.signal_history.copy()
 
     def get_emotion_state_history(self) -> list[dict[str, Any]]:

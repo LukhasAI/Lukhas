@@ -22,13 +22,7 @@ import time
 import uuid
 from datetime import datetime
 from enum import Enum
-from typing import Any
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Set
-from typing import Tuple
-from typing import Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 # Configure logging
 logger = logging.getLogger("Enhanced.BrainIntegration")
@@ -40,10 +34,10 @@ logger.setLevel(logging.INFO)
 
 # Import MultiBrainSymphony components with fallback paths
 try:
-    from .MultiBrainSymphony import DreamBrainSpecialist
-    from .MultiBrainSymphony import LearningBrainSpecialist
-    from .MultiBrainSymphony import MemoryBrainSpecialist
-    from .MultiBrainSymphony import MultiBrainSymphonyOrchestrator
+    from .MultiBrainSymphony import (DreamBrainSpecialist,
+                                     LearningBrainSpecialist,
+                                     MemoryBrainSpecialist,
+                                     MultiBrainSymphonyOrchestrator)
     SYMPHONY_AVAILABLE = True
 # TODO[CONSCIOUSNESS:specialist] Fix syntax error - malformed try/except structure
 # This brain integration consciousness needs proper exception handling for multi-brain coordination
@@ -66,20 +60,20 @@ except ImportError:
     from .ethics.ethical_hierarchy import EthicalHierarchy
     from .governance.dao_governance_node import DAOGovernanceNode
     from .memory.enhanced_memory_manager import EnhancedMemoryManager
-    from .meta_cognitive.reflective_introspection_system import (
-        ReflectiveIntrospectionSystem,
-    )
-    from .prediction.predictive_resource_manager import PredictiveResourceManager
+    from .meta_cognitive.reflective_introspection_system import \
+        ReflectiveIntrospectionSystem
+    from .prediction.predictive_resource_manager import \
+        PredictiveResourceManager
     from .reasoning.causal_reasoning_module import CausalReasoningModule
     ADVANCED_AGI_COMPONENTS = True
                     except ImportError:
                         try:
-        from meta_cognitive.reflective_introspection_system import (
-            ReflectiveIntrospectionSystem,
-        )
-        from prediction.predictive_resource_manager import PredictiveResourceManager
-
         from compliance.ai_compliance_manager import AIComplianceManager
+        from meta_cognitive.reflective_introspection_system import \
+            ReflectiveIntrospectionSystem
+        from prediction.predictive_resource_manager import \
+            PredictiveResourceManager
+
         from ethics.ethical_hierarchy import EthicalHierarchy
         from lukhas.governance.dao_governance_node import DAOGovernanceNode
         from lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
@@ -91,10 +85,8 @@ except ImportError:
 
                                 # Import core components with fallbacks
                                 try:
-    from candidate.core.spine.fold_engine import AGIMemory
-    from candidate.core.spine.fold_engine import MemoryFold
-    from candidate.core.spine.fold_engine import MemoryPriority
-    from candidate.core.spine.fold_engine import MemoryType
+    from candidate.core.spine.fold_engine import (AGIMemory, MemoryFold,
+                                                  MemoryPriority, MemoryType)
                                     except ImportError:
                                         try:
                                             pass
@@ -127,11 +119,8 @@ except ImportError:
 
                                                     # Import Lukhas_ID identity system
                                                     try:
-    from ..Lukhas_ID import AccessTier
-    from ..Lukhas_ID import ConsentLevel
-    from ..Lukhas_ID import get_current_user
-    from ..Lukhas_ID import unified_identity_manager
-    from ..Lukhas_ID import verify_tier_access
+    from ..Lukhas_ID import (AccessTier, ConsentLevel, get_current_user,
+                             unified_identity_manager, verify_tier_access)
     IDENTITY_AVAILABLE = True
     logger.info("Lukhas_ID Identity system loaded successfully")
                                                         except ImportError as e:

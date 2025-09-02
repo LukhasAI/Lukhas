@@ -15,14 +15,16 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-# Module imports
-from candidate.core.common import LukhasError, GuardianRejectionError, MemoryDriftError
-from from from from candidate.core.common import get_logger
-import structlog
-from dataclasses import dataclass  # For placeholder OpenAI response objects
-from typing import Optional, Dict, List, Any
 import os
-from typing import Optional, Dict, Any
+from dataclasses import dataclass  # For placeholder OpenAI response objects
+from typing import Any, Dict, List, Optional
+
+import structlog
+from fromfromfromcandidate.core.common import get_logger
+
+# Module imports
+from candidate.core.common import (GuardianRejectionError, LukhasError,
+                                   MemoryDriftError)
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -37,7 +39,7 @@ logger = get_logger(__name__)
 
 # Third-Party Imports
 try:
-    from openai import OpenAI, APIError
+    from openai import APIError, OpenAI
     OPENAI_AVAILABLE = True
 except ImportError:
    log_init_fallback.warning(

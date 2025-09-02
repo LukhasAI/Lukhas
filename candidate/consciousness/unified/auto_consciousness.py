@@ -118,13 +118,16 @@ class AutoConsciousness:
             base_awareness = min(importance * source_reliability, 1.0)
 
             # Adjust for attention focus
-            attention_boost = 0.1 if stimulus in self.current_state.attention_focus else 0.0
+            attention_boost = (
+                0.1 if stimulus in self.current_state.attention_focus else 0.0
+            )
             awareness_level = min(base_awareness + attention_boost, 1.0)
 
             # Update consciousness state
             self.current_state = ConsciousnessState(
                 awareness_level=awareness_level,
-                attention_focus=[stimulus] + self.current_state.attention_focus[:4],  # Keep last 5
+                attention_focus=[stimulus]
+                + self.current_state.attention_focus[:4],  # Keep last 5
                 decision_confidence=self.current_state.decision_confidence,
                 reasoning_depth=self.current_state.reasoning_depth,
                 timestamp=datetime.now(),

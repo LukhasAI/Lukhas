@@ -21,7 +21,7 @@ Features:
 #TAG:security
 #TAG:threat_detection
 #TAG:anomaly_detection
-#TAG:constellation
+#TAG:trinity
 #TAG:guardian
 """
 
@@ -230,7 +230,9 @@ class BehavioralAnalyzer:
 
         logger.info("🔍 Behavioral Analyzer initialized")
 
-    async def analyze_user_activity(self, user_id: str, activity_data: dict[str, Any]) -> tuple[float, list[str]]:
+    async def analyze_user_activity(
+        self, user_id: str, activity_data: dict[str, Any]
+    ) -> tuple[float, list[str]]:
         """
         Analyze user activity for behavioral anomalies
 
@@ -248,20 +250,28 @@ class BehavioralAnalyzer:
         anomaly_details = []
 
         # Analyze different aspects of behavior
-        temporal_score, temporal_details = await self._analyze_temporal_patterns(profile, activity_data)
+        temporal_score, temporal_details = await self._analyze_temporal_patterns(
+            profile, activity_data
+        )
         anomaly_score += temporal_score
         anomaly_details.extend(temporal_details)
 
-        access_score, access_details = await self._analyze_access_patterns(profile, activity_data)
+        access_score, access_details = await self._analyze_access_patterns(
+            profile, activity_data
+        )
         anomaly_score += access_score
         anomaly_details.extend(access_details)
 
-        technical_score, technical_details = await self._analyze_technical_patterns(profile, activity_data)
+        technical_score, technical_details = await self._analyze_technical_patterns(
+            profile, activity_data
+        )
         anomaly_score += technical_score
         anomaly_details.extend(technical_details)
 
         # Trinity Framework behavioral analysis
-        trinity_score, trinity_details = await self._analyze_trinity_behavior(profile, activity_data)
+        trinity_score, trinity_details = await self._analyze_trinity_behavior(
+            profile, activity_data
+        )
         anomaly_score += trinity_score
         anomaly_details.extend(trinity_details)
 
@@ -269,7 +279,9 @@ class BehavioralAnalyzer:
         await self._update_user_profile(profile, activity_data)
 
         # Normalize anomaly score (0.0 to 1.0)
-        normalized_score = min(1.0, anomaly_score / 4.0)  # Divided by number of analysis types
+        normalized_score = min(
+            1.0, anomaly_score / 4.0
+        )  # Divided by number of analysis types
 
         return normalized_score, anomaly_details
 
@@ -283,12 +295,15 @@ class BehavioralAnalyzer:
 
         # Check login time anomaly
         current_hour = datetime.now().hour
-        if profile.typical_login_hours and current_hour not in profile.typical_login_hours:
-            # Calculate how far from typical hours
-            min_distance = min(abs(current_hour - h) for h in profile.typical_login_hours)
-            if min_distance > 3:  # More than 3 hours from typical
-                score += 0.3
-                details.append(f"Login at unusual hour: {current_hour}")
+        if profile.typical_login_hours:
+            if current_hour not in profile.typical_login_hours:
+                # Calculate how far from typical hours
+                min_distance = min(
+                    abs(current_hour - h) for h in profile.typical_login_hours
+                )
+                if min_distance > 3:  # More than 3 hours from typical
+                    score += 0.3
+                    details.append(f"Login at unusual hour: {current_hour}")
 
         # Check session duration
         session_duration = activity_data.get("session_duration", 0)
@@ -317,12 +332,16 @@ class BehavioralAnalyzer:
             unusual_resources = accessed_resources - profile.typical_resources
             if unusual_resources:
                 score += 0.4 * min(1.0, len(unusual_resources) / 3)
-                details.append(f"Access to unusual resources: {', '.join(list(unusual_resources)[:3])}")
+                details.append(
+                    f"Access to unusual resources: {', '.join(list(unusual_resources)[:3])}"
+                )
 
             # Check for bulk access (potential data exfiltration)
             if len(accessed_resources) > len(profile.typical_resources) * 2:
                 score += 0.3
-                details.append(f"Unusual volume of resource access: {len(accessed_resources)}")
+                details.append(
+                    f"Unusual volume of resource access: {len(accessed_resources)}"
+                )
 
         return score, details
 
@@ -375,7 +394,9 @@ class BehavioralAnalyzer:
         baseline = profile.consciousness_interaction
         if abs(consciousness_level - baseline) > 0.3:
             score += 0.2
-            details.append(f"Unusual consciousness interaction pattern: {consciousness_level:.2f}")
+            details.append(
+                f"Unusual consciousness interaction pattern: {consciousness_level:.2f}"
+            )
 
         # 🛡️ Guardian trust score analysis
         guardian_score = activity_data.get("guardian_trust_score", 1.0)
@@ -385,7 +406,9 @@ class BehavioralAnalyzer:
 
         return score, details
 
-    async def _update_user_profile(self, profile: UserBehaviorProfile, activity_data: dict[str, Any]):
+    async def _update_user_profile(
+        self, profile: UserBehaviorProfile, activity_data: dict[str, Any]
+    ):
         """Update user behavioral profile with new activity data"""
 
         # Update temporal patterns
@@ -415,27 +438,35 @@ class BehavioralAnalyzer:
                 # Exponential moving average
                 alpha = 0.1
                 profile.average_session_duration = (
-                    alpha * session_duration + (1 - alpha) * profile.average_session_duration
+                    alpha * session_duration
+                    + (1 - alpha) * profile.average_session_duration
                 )
 
         # Update resource access patterns
         accessed_resources = activity_data.get("accessed_resources", [])
         for resource in accessed_resources:
             profile.typical_resources.add(resource)
-            profile.access_frequency[resource] = profile.access_frequency.get(resource, 0) + 1
+            profile.access_frequency[resource] = (
+                profile.access_frequency.get(resource, 0) + 1
+            )
 
         # Update Trinity Framework profiles
         if "identity_confidence" in activity_data:
-            profile.identity_confidence = 0.9 * profile.identity_confidence + 0.1 * activity_data["identity_confidence"]
+            profile.identity_confidence = (
+                0.9 * profile.identity_confidence
+                + 0.1 * activity_data["identity_confidence"]
+            )
 
         if "consciousness_interaction" in activity_data:
             profile.consciousness_interaction = (
-                0.9 * profile.consciousness_interaction + 0.1 * activity_data["consciousness_interaction"]
+                0.9 * profile.consciousness_interaction
+                + 0.1 * activity_data["consciousness_interaction"]
             )
 
         if "guardian_trust_score" in activity_data:
             profile.guardian_trust_score = (
-                0.9 * profile.guardian_trust_score + 0.1 * activity_data["guardian_trust_score"]
+                0.9 * profile.guardian_trust_score
+                + 0.1 * activity_data["guardian_trust_score"]
             )
 
         profile.updated_at = datetime.now()
@@ -482,7 +513,11 @@ class PatternRecognizer:
                 "indicators": [
                     {"type": "bulk_data_access", "threshold": 100, "window": 3600},
                     {"type": "off_hours_access", "unusual_hours": [0, 1, 2, 3, 4, 5]},
-                    {"type": "download_volume", "threshold": 10485760, "window": 1800},  # 10MB
+                    {
+                        "type": "download_volume",
+                        "threshold": 10485760,
+                        "window": 1800,
+                    },  # 10MB
                 ],
                 "threat_type": ThreatType.DATA_EXFILTRATION,
                 "confidence_threshold": 0.75,
@@ -502,9 +537,21 @@ class PatternRecognizer:
                 "name": "AI System Manipulation",
                 "description": "Attempts to manipulate AI behavior",
                 "indicators": [
-                    {"type": "prompt_injection_attempts", "threshold": 3, "window": 300},
-                    {"type": "constitutional_violations", "threshold": 2, "window": 600},
-                    {"type": "guardrail_bypass_attempts", "threshold": 1, "window": 300},
+                    {
+                        "type": "prompt_injection_attempts",
+                        "threshold": 3,
+                        "window": 300,
+                    },
+                    {
+                        "type": "constitutional_violations",
+                        "threshold": 2,
+                        "window": 600,
+                    },
+                    {
+                        "type": "guardrail_bypass_attempts",
+                        "threshold": 1,
+                        "window": 300,
+                    },
                 ],
                 "threat_type": ThreatType.AI_MANIPULATION,
                 "confidence_threshold": 0.9,
@@ -514,7 +561,11 @@ class PatternRecognizer:
                 "description": "Suspicious behavior from legitimate users",
                 "indicators": [
                     {"type": "after_hours_activity", "threshold": 5, "window": 86400},
-                    {"type": "unusual_resource_access", "threshold": 10, "window": 3600},
+                    {
+                        "type": "unusual_resource_access",
+                        "threshold": 10,
+                        "window": 3600,
+                    },
                     {"type": "data_hoarding", "threshold": 50, "window": 86400},
                 ],
                 "threat_type": ThreatType.INSIDER_THREAT,
@@ -539,7 +590,10 @@ class PatternRecognizer:
         return detected_threats
 
     async def _check_pattern(
-        self, pattern_id: str, pattern: dict[str, Any], recent_events: list[dict[str, Any]]
+        self,
+        pattern_id: str,
+        pattern: dict[str, Any],
+        recent_events: list[dict[str, Any]],
     ) -> list[ThreatEvent]:
         """Check if events match a specific attack pattern"""
 
@@ -577,11 +631,15 @@ class PatternRecognizer:
 
             threats.append(threat_event)
 
-            logger.warning(f"⚠️ Threat pattern detected: {pattern['name']} (confidence: {confidence:.2f})")
+            logger.warning(
+                f"⚠️ Threat pattern detected: {pattern['name']} (confidence: {confidence:.2f})"
+            )
 
         return threats
 
-    async def _check_indicator(self, indicator: dict[str, Any], events: list[dict[str, Any]]) -> dict[str, Any]:
+    async def _check_indicator(
+        self, indicator: dict[str, Any], events: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Check if events match a specific indicator"""
 
         indicator_type = indicator["type"]
@@ -619,10 +677,11 @@ class PatternRecognizer:
                 # Parse timestamp if string
                 event_time = datetime.fromisoformat(event_time).timestamp()
 
-            if current_time - event_time <= window and event.get("event_type") == "login_failure":
-                failed_count += 1
-                if event.get("source_ip"):
-                    source_ips.add(event["source_ip"])
+            if current_time - event_time <= window:
+                if event.get("event_type") == "login_failure":
+                    failed_count += 1
+                    if event.get("source_ip"):
+                        source_ips.add(event["source_ip"])
 
         matched = failed_count >= threshold
 
@@ -680,10 +739,11 @@ class PatternRecognizer:
             if isinstance(event_time, str):
                 event_time = datetime.fromisoformat(event_time).timestamp()
 
-            if current_time - event_time <= window and event.get("event_type") == "data_access":
-                access_count += 1
-                if event.get("resource"):
-                    resources.add(event["resource"])
+            if current_time - event_time <= window:
+                if event.get("event_type") == "data_access":
+                    access_count += 1
+                    if event.get("resource"):
+                        resources.add(event["resource"])
 
         matched = access_count >= threshold
 
@@ -725,10 +785,11 @@ class PatternRecognizer:
             if isinstance(event_time, str):
                 event_time = datetime.fromisoformat(event_time).timestamp()
 
-            if current_time - event_time <= window and event.get("event_type") == "ai_interaction":
-                content = event.get("content", "").lower()
-                if any(keyword in content for keyword in injection_keywords):
-                    injection_attempts += 1
+            if current_time - event_time <= window:
+                if event.get("event_type") == "ai_interaction":
+                    content = event.get("content", "").lower()
+                    if any(keyword in content for keyword in injection_keywords):
+                        injection_attempts += 1
 
         matched = injection_attempts >= threshold
 
@@ -740,7 +801,9 @@ class PatternRecognizer:
             "details": f"{injection_attempts} potential prompt injection attempts in {window}s",
         }
 
-    async def _check_generic_threshold(self, indicator: dict[str, Any], events: list[dict[str, Any]]) -> dict[str, Any]:
+    async def _check_generic_threshold(
+        self, indicator: dict[str, Any], events: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Generic threshold-based indicator check"""
 
         return {
@@ -813,7 +876,10 @@ class ThreatResponseEngine:
             },
             "ai_manipulation_response": {
                 "triggers": [ThreatType.AI_MANIPULATION, ThreatType.PROMPT_INJECTION],
-                "conditions": {"min_confidence": 0.9, "min_level": ThreatLevel.CRITICAL},
+                "conditions": {
+                    "min_confidence": 0.9,
+                    "min_level": ThreatLevel.CRITICAL,
+                },
                 "actions": [
                     ResponseAction.QUARANTINE,
                     ResponseAction.ALERT,
@@ -823,8 +889,14 @@ class ThreatResponseEngine:
                 "cooldown": 1800,
             },
             "constitutional_violation_response": {
-                "triggers": [ThreatType.CONSTITUTIONAL_VIOLATION, ThreatType.ETHICAL_BYPASS],
-                "conditions": {"min_confidence": 0.95, "min_level": ThreatLevel.EMERGENCY},
+                "triggers": [
+                    ThreatType.CONSTITUTIONAL_VIOLATION,
+                    ThreatType.ETHICAL_BYPASS,
+                ],
+                "conditions": {
+                    "min_confidence": 0.95,
+                    "min_level": ThreatLevel.EMERGENCY,
+                },
                 "actions": [
                     ResponseAction.EMERGENCY_LOCKDOWN,
                     ResponseAction.ALERT,
@@ -869,12 +941,16 @@ class ThreatResponseEngine:
 
         # Update threat event with actions
         threat_event.automated_actions = [
-            ResponseAction(action) for action in executed_actions if action in [a.value for a in ResponseAction]
+            ResponseAction(action)
+            for action in executed_actions
+            if action in [a.value for a in ResponseAction]
         ]
 
         return executed_actions
 
-    async def _should_apply_rule(self, rule: dict[str, Any], threat_event: ThreatEvent) -> bool:
+    async def _should_apply_rule(
+        self, rule: dict[str, Any], threat_event: ThreatEvent
+    ) -> bool:
         """Check if response rule should be applied"""
 
         # Check if threat type matches
@@ -914,7 +990,9 @@ class ThreatResponseEngine:
 
         return True
 
-    async def _execute_response_rule(self, rule: dict[str, Any], threat_event: ThreatEvent) -> list[str]:
+    async def _execute_response_rule(
+        self, rule: dict[str, Any], threat_event: ThreatEvent
+    ) -> list[str]:
         """Execute actions from response rule"""
 
         executed_actions = []
@@ -924,14 +1002,20 @@ class ThreatResponseEngine:
                 result = await self._execute_response_action(action, threat_event)
                 if result:
                     executed_actions.append(action.value)
-                    logger.info(f"✅ Executed response action: {action.value} for threat {threat_event.event_id}")
+                    logger.info(
+                        f"✅ Executed response action: {action.value} for threat {threat_event.event_id}"
+                    )
 
             except Exception as e:
-                logger.error(f"❌ Failed to execute response action {action.value}: {e}")
+                logger.error(
+                    f"❌ Failed to execute response action {action.value}: {e}"
+                )
 
         return executed_actions
 
-    async def _execute_response_action(self, action: ResponseAction, threat_event: ThreatEvent) -> bool:
+    async def _execute_response_action(
+        self, action: ResponseAction, threat_event: ThreatEvent
+    ) -> bool:
         """Execute a specific response action"""
 
         if action == ResponseAction.ALERT:
@@ -967,7 +1051,9 @@ class ThreatResponseEngine:
 
     async def _send_alert(self, threat_event: ThreatEvent) -> bool:
         """Send security alert"""
-        logger.critical(f"🚨 SECURITY ALERT: {threat_event.title} (ID: {threat_event.event_id})")
+        logger.critical(
+            f"🚨 SECURITY ALERT: {threat_event.title} (ID: {threat_event.event_id})"
+        )
         # In production: send to SIEM, security team, etc.
         return True
 
@@ -1018,13 +1104,17 @@ class ThreatResponseEngine:
 
     async def _request_additional_auth(self, threat_event: ThreatEvent) -> bool:
         """Request additional authentication"""
-        logger.info(f"🔐 REQUESTING ADDITIONAL AUTH for threat: {threat_event.event_id}")
+        logger.info(
+            f"🔐 REQUESTING ADDITIONAL AUTH for threat: {threat_event.event_id}"
+        )
         # In production: trigger MFA challenge, additional verification
         return True
 
     async def _emergency_lockdown(self, threat_event: ThreatEvent) -> bool:
         """Execute emergency system lockdown"""
-        logger.critical(f"🚨 EMERGENCY LOCKDOWN triggered by threat: {threat_event.event_id}")
+        logger.critical(
+            f"🚨 EMERGENCY LOCKDOWN triggered by threat: {threat_event.event_id}"
+        )
         # In production: emergency shutdown procedures
         return True
 
@@ -1063,7 +1153,10 @@ class ComprehensiveThreatDetection:
         logger.info("🛡️ Comprehensive Threat Detection System initialized")
 
     async def analyze_activity(
-        self, user_id: str, activity_data: dict[str, Any], context: Optional[dict[str, Any]] = None
+        self,
+        user_id: str,
+        activity_data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Analyze user activity for threats
@@ -1080,14 +1173,18 @@ class ComprehensiveThreatDetection:
             (
                 behavioral_score,
                 behavioral_anomalies,
-            ) = await self.behavioral_analyzer.analyze_user_activity(user_id, activity_data)
+            ) = await self.behavioral_analyzer.analyze_user_activity(
+                user_id, activity_data
+            )
 
             # Pattern recognition
             events = [activity_data]  # Convert to event format
             pattern_threats = await self.pattern_recognizer.analyze_events(events)
 
             # Trinity Framework threat assessment
-            trinity_assessment = await self._assess_trinity_threats(user_id, activity_data, context)
+            trinity_assessment = await self._assess_trinity_threats(
+                user_id, activity_data, context
+            )
 
             # Combine threat indicators
             overall_threat_score = max(
@@ -1172,7 +1269,9 @@ class ComprehensiveThreatDetection:
         return {
             "threat_score": threat_score,
             "threats": threats,
-            "identity_status": "verified" if identity_confidence >= 0.8 else "suspicious",
+            "identity_status": (
+                "verified" if identity_confidence >= 0.8 else "suspicious"
+            ),
             "consciousness_drift": consciousness_drift,
             "guardian_status": "clear" if not guardian_violations else "alert",
             "constitutional_compliance": constitutional_score >= 0.8,
@@ -1213,7 +1312,9 @@ class ComprehensiveThreatDetection:
         if pattern_threats:
             for threat in pattern_threats:
                 if threat.threat_type == ThreatType.BRUTE_FORCE:
-                    recommendations.append("Implement additional authentication measures")
+                    recommendations.append(
+                        "Implement additional authentication measures"
+                    )
                 elif threat.threat_type == ThreatType.DATA_EXFILTRATION:
                     recommendations.append("Review data access permissions")
                 elif threat.threat_type == ThreatType.AI_MANIPULATION:
@@ -1236,7 +1337,9 @@ class ComprehensiveThreatDetection:
         self.metrics["active_threats"] = len(self.active_threats)
         self.metrics["response_actions"] += len(response_actions)
 
-        logger.warning(f"🚨 Threat handled: {threat_event.title} (Actions: {len(response_actions)})")
+        logger.warning(
+            f"🚨 Threat handled: {threat_event.title} (Actions: {len(response_actions)})"
+        )
 
     async def _continuous_monitoring(self):
         """Background monitoring task"""
@@ -1275,7 +1378,9 @@ class ComprehensiveThreatDetection:
             "system_status": "operational",
             "active_threats": len(self.active_threats),
             "threat_distribution": {
-                level.value: len([t for t in self.active_threats.values() if t.threat_level == level])
+                level.value: len(
+                    [t for t in self.active_threats.values() if t.threat_level == level]
+                )
                 for level in ThreatLevel
             },
             "recent_threats": [

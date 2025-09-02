@@ -44,7 +44,9 @@ try:
         CognitiveUpdater,
     )
 
-    orchestration_bridge.register_brain_component("cognitive_updater", CognitiveUpdater())
+    orchestration_bridge.register_brain_component(
+        "cognitive_updater", CognitiveUpdater()
+    )
 except ImportError:
     pass
 

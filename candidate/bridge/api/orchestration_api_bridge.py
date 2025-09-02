@@ -85,7 +85,9 @@ class OrchestrationRequest:
     context: Optional[dict[str, Any]] = None
 
     # Model selection
-    preferred_providers: list[APIProvider] = field(default_factory=lambda: [APIProvider.ALL])
+    preferred_providers: list[APIProvider] = field(
+        default_factory=lambda: [APIProvider.ALL]
+    )
     strategy: OrchestrationStrategy = OrchestrationStrategy.CONSENSUS
 
     # Function calling
@@ -171,7 +173,9 @@ class ComprehensiveAPIOrchestrator:
 
         # Initialize provider bridges
         self.bridges = {}
-        self._initialize_bridges(openai_api_key, anthropic_api_key, google_api_key, perplexity_api_key)
+        self._initialize_bridges(
+            openai_api_key, anthropic_api_key, google_api_key, perplexity_api_key
+        )
 
         # Initialize orchestration components
         self.orchestrator = MultiModelOrchestrator() if BRIDGES_AVAILABLE else None
@@ -203,7 +207,9 @@ class ComprehensiveAPIOrchestrator:
         logger.info(f"   Available providers: {list(self.bridges.keys())}")
         logger.info(f"   Orchestration enabled: {self.orchestrator is not None}")
 
-    def _initialize_bridges(self, openai_key, anthropic_key, google_key, perplexity_key):
+    def _initialize_bridges(
+        self, openai_key, anthropic_key, google_key, perplexity_key
+    ):
         """Initialize bridges to different API providers"""
 
         # OpenAI Bridge
@@ -249,7 +255,9 @@ class ComprehensiveAPIOrchestrator:
                 logger.error(f"❌ Perplexity bridge initialization failed: {e}")
 
         if not self.bridges:
-            logger.warning("⚠️ No API bridges initialized - orchestrator will use mock responses")
+            logger.warning(
+                "⚠️ No API bridges initialized - orchestrator will use mock responses"
+            )
 
     def _get_env_key(self, key_name: str) -> Optional[str]:
         """Get API key from environment"""
@@ -299,17 +307,29 @@ class ComprehensiveAPIOrchestrator:
 
             # Execute orchestration based on strategy
             if request.strategy == OrchestrationStrategy.SINGLE_BEST:
-                response = await self._single_best_orchestration(request, selected_providers)
+                response = await self._single_best_orchestration(
+                    request, selected_providers
+                )
             elif request.strategy == OrchestrationStrategy.CONSENSUS:
-                response = await self._consensus_orchestration(request, selected_providers)
+                response = await self._consensus_orchestration(
+                    request, selected_providers
+                )
             elif request.strategy == OrchestrationStrategy.FALLBACK:
-                response = await self._fallback_orchestration(request, selected_providers)
+                response = await self._fallback_orchestration(
+                    request, selected_providers
+                )
             elif request.strategy == OrchestrationStrategy.PARALLEL:
-                response = await self._parallel_orchestration(request, selected_providers)
+                response = await self._parallel_orchestration(
+                    request, selected_providers
+                )
             elif request.strategy == OrchestrationStrategy.COMPETITIVE:
-                response = await self._competitive_orchestration(request, selected_providers)
+                response = await self._competitive_orchestration(
+                    request, selected_providers
+                )
             elif request.strategy == OrchestrationStrategy.ENSEMBLE:
-                response = await self._ensemble_orchestration(request, selected_providers)
+                response = await self._ensemble_orchestration(
+                    request, selected_providers
+                )
             else:
                 raise ValueError(f"Unknown orchestration strategy: {request.strategy}")
 
@@ -347,7 +367,9 @@ class ComprehensiveAPIOrchestrator:
                 decision_rationale=f"Error occurred during orchestration: {e!s}",
             )
 
-    async def stream_orchestration(self, request: OrchestrationRequest) -> AsyncGenerator[dict[str, Any], None]:
+    async def stream_orchestration(
+        self, request: OrchestrationRequest
+    ) -> AsyncGenerator[dict[str, Any], None]:
         """Stream orchestration results in real-time"""
 
         logger.info(f"📡 Starting streaming orchestration: {request.request_id}")
@@ -366,10 +388,16 @@ class ComprehensiveAPIOrchestrator:
             # Convert request to provider-specific format
             messages = [{"role": "user", "content": request.prompt}]
 
-            if provider == APIProvider.OPENAI and hasattr(bridge, "stream_with_functions"):
+            if provider == APIProvider.OPENAI and hasattr(
+                bridge, "stream_with_functions"
+            ):
                 async for chunk in bridge.stream_with_functions(
                     messages=messages,
-                    function_mode=FunctionCallMode.AUTO if request.enable_functions else FunctionCallMode.NONE,
+                    function_mode=(
+                        FunctionCallMode.AUTO
+                        if request.enable_functions
+                        else FunctionCallMode.NONE
+                    ),
                 ):
                     yield {
                         "type": chunk.get("type", "content"),
@@ -379,10 +407,16 @@ class ComprehensiveAPIOrchestrator:
                         **chunk,
                     }
 
-            elif provider == APIProvider.ANTHROPIC and hasattr(bridge, "stream_with_tools"):
+            elif provider == APIProvider.ANTHROPIC and hasattr(
+                bridge, "stream_with_tools"
+            ):
                 async for chunk in bridge.stream_with_tools(
                     messages=messages,
-                    tool_mode=ToolUseMode.ENABLED if request.enable_functions else ToolUseMode.DISABLED,
+                    tool_mode=(
+                        ToolUseMode.ENABLED
+                        if request.enable_functions
+                        else ToolUseMode.DISABLED
+                    ),
                 ):
                     yield {
                         "type": chunk.get("type", "content"),
@@ -462,14 +496,20 @@ class ComprehensiveAPIOrchestrator:
                 if current_cost + request.max_cost_threshold > daily_limit:
                     raise ValueError(f"Daily cost limit exceeded for {provider.value}")
 
-    def _select_providers(self, request: OrchestrationRequest, max_count: Optional[int] = None) -> list[APIProvider]:
+    def _select_providers(
+        self, request: OrchestrationRequest, max_count: Optional[int] = None
+    ) -> list[APIProvider]:
         """Select providers based on request preferences and availability"""
         available_providers = list(self.bridges.keys())
 
         if APIProvider.ALL in request.preferred_providers:
             selected = available_providers
         else:
-            selected = [p for p in request.preferred_providers if p in available_providers and p != APIProvider.ALL]
+            selected = [
+                p
+                for p in request.preferred_providers
+                if p in available_providers and p != APIProvider.ALL
+            ]
 
         if max_count:
             selected = selected[:max_count]
@@ -488,7 +528,9 @@ class ComprehensiveAPIOrchestrator:
             APIProvider.GOOGLE,
             APIProvider.PERPLEXITY,
         ]
-        best_provider = next((p for p in provider_priority if p in providers), providers[0])
+        best_provider = next(
+            (p for p in provider_priority if p in providers), providers[0]
+        )
 
         bridge = self.bridges[best_provider]
         messages = [{"role": "user", "content": request.prompt}]
@@ -496,13 +538,19 @@ class ComprehensiveAPIOrchestrator:
         if best_provider == APIProvider.OPENAI:
             result = await bridge.complete_with_functions(
                 messages=messages,
-                function_mode=FunctionCallMode.AUTO if request.enable_functions else FunctionCallMode.NONE,
+                function_mode=(
+                    FunctionCallMode.AUTO
+                    if request.enable_functions
+                    else FunctionCallMode.NONE
+                ),
                 execute_functions=True,
             )
 
             return OrchestrationResponse(
                 content=result.content,
-                confidence_score=result.usage.get("confidence_score", 0.8),  # Default confidence
+                confidence_score=result.usage.get(
+                    "confidence_score", 0.8
+                ),  # Default confidence
                 primary_provider=best_provider,
                 participating_providers=[best_provider],
                 function_calls=[fc.__dict__ for fc in result.function_calls],
@@ -523,7 +571,11 @@ class ComprehensiveAPIOrchestrator:
         elif best_provider == APIProvider.ANTHROPIC:
             result = await bridge.complete_with_tools(
                 messages=messages,
-                tool_mode=ToolUseMode.ENABLED if request.enable_functions else ToolUseMode.DISABLED,
+                tool_mode=(
+                    ToolUseMode.ENABLED
+                    if request.enable_functions
+                    else ToolUseMode.DISABLED
+                ),
                 execute_tools=True,
             )
 
@@ -575,7 +627,9 @@ class ComprehensiveAPIOrchestrator:
         provider_results = []
         for provider, task in tasks:
             try:
-                result = await asyncio.wait_for(task, timeout=request.max_latency_ms / 1000)
+                result = await asyncio.wait_for(
+                    task, timeout=request.max_latency_ms / 1000
+                )
                 provider_results.append((provider, result))
             except asyncio.TimeoutError:
                 logger.warning(f"Provider {provider.value} timed out")
@@ -609,7 +663,9 @@ class ComprehensiveAPIOrchestrator:
             performance_score = max(0, 1 - (latency_ms / request.max_latency_ms))
 
             # Combined score: confidence (40%), reliability (35%), performance (25%)
-            combined_score = (confidence * 0.4) + (reliability * 0.35) + (performance_score * 0.25)
+            combined_score = (
+                (confidence * 0.4) + (reliability * 0.35) + (performance_score * 0.25)
+            )
 
             provider_scores.append((provider, result, combined_score))
 
@@ -618,29 +674,44 @@ class ComprehensiveAPIOrchestrator:
         primary_provider, primary_result, primary_score = provider_scores[0]
 
         # If high agreement and multiple high-scoring providers, create ensemble response
-        if agreement_level > 0.8 and len([p for p in provider_scores if p[2] > 0.7]) > 1:
+        if (
+            agreement_level > 0.8
+            and len([p for p in provider_scores if p[2] > 0.7]) > 1
+        ):
             # Create ensemble response by combining top responses
             top_responses = [p[1]["content"] for p in provider_scores[:2] if p[2] > 0.7]
-            if len(top_responses) > 1 and len(top_responses[0]) > 0 and len(top_responses[1]) > 0:
+            if (
+                len(top_responses) > 1
+                and len(top_responses[0]) > 0
+                and len(top_responses[1]) > 0
+            ):
                 # Simple ensemble: use primary but note consensus
                 ensemble_content = primary_result.get("content", "")
-                decision_rationale = (
-                    f"High consensus ({agreement_level:.3f}) ensemble from {len(provider_results)} providers"
-                )
+                decision_rationale = f"High consensus ({agreement_level:.3f}) ensemble from {len(provider_results)} providers"
             else:
                 ensemble_content = primary_result.get("content", "")
-                decision_rationale = f"Primary provider selected with score {primary_score:.3f}"
+                decision_rationale = (
+                    f"Primary provider selected with score {primary_score:.3f}"
+                )
         else:
             ensemble_content = primary_result.get("content", "")
-            decision_rationale = f"Best individual response (agreement: {agreement_level:.3f})"
+            decision_rationale = (
+                f"Best individual response (agreement: {agreement_level:.3f})"
+            )
 
         # Aggregate costs and latencies
-        total_cost = sum(self._estimate_cost(p, r.get("usage", {})) for p, r in provider_results)
-        provider_latencies = {p.value: r.get("latency_ms", 0.0) for p, r in provider_results}
+        total_cost = sum(
+            self._estimate_cost(p, r.get("usage", {})) for p, r in provider_results
+        )
+        provider_latencies = {
+            p.value: r.get("latency_ms", 0.0) for p, r in provider_results
+        }
 
         return OrchestrationResponse(
             content=ensemble_content,
-            confidence_score=min(1.0, primary_score + (agreement_level * 0.1)),  # Boost confidence with agreement
+            confidence_score=min(
+                1.0, primary_score + (agreement_level * 0.1)
+            ),  # Boost confidence with agreement
             primary_provider=primary_provider,
             participating_providers=[p for p, _ in provider_results],
             agreement_level=agreement_level,
@@ -724,8 +795,12 @@ class ComprehensiveAPIOrchestrator:
                         confidence_score=result.get("confidence", 0.0),
                         primary_provider=provider,
                         participating_providers=[provider],
-                        provider_latencies={provider.value: result.get("latency_ms", 0.0)},
-                        total_cost=self._estimate_cost(provider, result.get("usage", {})),
+                        provider_latencies={
+                            provider.value: result.get("latency_ms", 0.0)
+                        },
+                        total_cost=self._estimate_cost(
+                            provider, result.get("usage", {})
+                        ),
                         decision_rationale=f"Parallel execution won by {provider.value}",
                     )
 
@@ -739,15 +814,21 @@ class ComprehensiveAPIOrchestrator:
         self, request: OrchestrationRequest, providers: list[APIProvider]
     ) -> OrchestrationResponse:
         """Run all providers, select best response based on quality metrics"""
-        return await self._consensus_orchestration(request, providers)  # Similar to consensus
+        return await self._consensus_orchestration(
+            request, providers
+        )  # Similar to consensus
 
     async def _ensemble_orchestration(
         self, request: OrchestrationRequest, providers: list[APIProvider]
     ) -> OrchestrationResponse:
         """Combine all provider responses into comprehensive ensemble"""
-        return await self._consensus_orchestration(request, providers)  # Similar to consensus
+        return await self._consensus_orchestration(
+            request, providers
+        )  # Similar to consensus
 
-    async def _execute_provider(self, provider: APIProvider, request: OrchestrationRequest) -> dict[str, Any]:
+    async def _execute_provider(
+        self, provider: APIProvider, request: OrchestrationRequest
+    ) -> dict[str, Any]:
         """Execute request on specific provider"""
         bridge = self.bridges[provider]
         start_time = time.perf_counter()
@@ -756,7 +837,11 @@ class ComprehensiveAPIOrchestrator:
             messages = [{"role": "user", "content": request.prompt}]
             result = await bridge.complete_with_functions(
                 messages=messages,
-                function_mode=FunctionCallMode.AUTO if request.enable_functions else FunctionCallMode.NONE,
+                function_mode=(
+                    FunctionCallMode.AUTO
+                    if request.enable_functions
+                    else FunctionCallMode.NONE
+                ),
             )
             return {
                 "content": result.content,
@@ -770,7 +855,11 @@ class ComprehensiveAPIOrchestrator:
             messages = [{"role": "user", "content": request.prompt}]
             result = await bridge.complete_with_tools(
                 messages=messages,
-                tool_mode=ToolUseMode.ENABLED if request.enable_functions else ToolUseMode.DISABLED,
+                tool_mode=(
+                    ToolUseMode.ENABLED
+                    if request.enable_functions
+                    else ToolUseMode.DISABLED
+                ),
             )
             return {
                 "content": result.content,
@@ -782,7 +871,9 @@ class ComprehensiveAPIOrchestrator:
 
         elif provider == APIProvider.GOOGLE:
             # Use Gemini wrapper
-            content = bridge.generate_response(prompt=request.prompt, model="gemini-pro")
+            content = bridge.generate_response(
+                prompt=request.prompt, model="gemini-pro"
+            )
             latency_ms = (time.perf_counter() - start_time) * 1000
 
             # Estimate token usage (approximate)
@@ -796,7 +887,9 @@ class ComprehensiveAPIOrchestrator:
                 "usage": {
                     "input_tokens": int(estimated_input_tokens),
                     "output_tokens": int(estimated_output_tokens),
-                    "total_tokens": int(estimated_input_tokens + estimated_output_tokens),
+                    "total_tokens": int(
+                        estimated_input_tokens + estimated_output_tokens
+                    ),
                 },
                 "function_calls": [],  # Gemini wrapper doesn't support function calls yet
             }
@@ -820,7 +913,9 @@ class ComprehensiveAPIOrchestrator:
                 "usage": {
                     "input_tokens": int(estimated_input_tokens),
                     "output_tokens": int(estimated_output_tokens),
-                    "total_tokens": int(estimated_input_tokens + estimated_output_tokens),
+                    "total_tokens": int(
+                        estimated_input_tokens + estimated_output_tokens
+                    ),
                 },
                 "function_calls": [],
                 "web_search": True,  # Indicate web search was used
@@ -828,7 +923,9 @@ class ComprehensiveAPIOrchestrator:
             }
 
         else:
-            raise NotImplementedError(f"Provider {provider.value} execution not implemented")
+            raise NotImplementedError(
+                f"Provider {provider.value} execution not implemented"
+            )
 
     def _calculate_simple_agreement(self, contents: list[str]) -> float:
         """Calculate simple agreement level between responses"""
@@ -849,13 +946,17 @@ class ComprehensiveAPIOrchestrator:
                 # Word-level similarity (Jaccard index)
                 word_intersection = len(word_sets[i].intersection(word_sets[j]))
                 word_union = len(word_sets[i].union(word_sets[j]))
-                word_similarity = word_intersection / word_union if word_union > 0 else 0.0
+                word_similarity = (
+                    word_intersection / word_union if word_union > 0 else 0.0
+                )
                 total_word_similarity += word_similarity
 
                 # Sentence-level similarity
                 sent_intersection = len(sentence_sets[i].intersection(sentence_sets[j]))
                 sent_union = len(sentence_sets[i].union(sentence_sets[j]))
-                sent_similarity = sent_intersection / sent_union if sent_union > 0 else 0.0
+                sent_similarity = (
+                    sent_intersection / sent_union if sent_union > 0 else 0.0
+                )
                 total_sentence_similarity += sent_similarity
 
                 # Length similarity (normalized difference)
@@ -874,7 +975,9 @@ class ComprehensiveAPIOrchestrator:
         avg_length_sim = total_length_similarity / pair_count
 
         # Weight: word similarity (0.5), sentence similarity (0.3), length similarity (0.2)
-        weighted_similarity = (avg_word_sim * 0.5) + (avg_sent_sim * 0.3) + (avg_length_sim * 0.2)
+        weighted_similarity = (
+            (avg_word_sim * 0.5) + (avg_sent_sim * 0.3) + (avg_length_sim * 0.2)
+        )
 
         return weighted_similarity
 
@@ -902,7 +1005,9 @@ class ComprehensiveAPIOrchestrator:
         else:
             return 0.01  # Default estimate
 
-    def _update_metrics(self, request: OrchestrationRequest, response: OrchestrationResponse):
+    def _update_metrics(
+        self, request: OrchestrationRequest, response: OrchestrationResponse
+    ):
         """Update performance and cost metrics"""
         self.metrics["total_requests"] += 1
 
@@ -912,7 +1017,9 @@ class ComprehensiveAPIOrchestrator:
         # Update average latency
         current_avg = self.metrics["average_latency_ms"]
         total_requests = self.metrics["total_requests"]
-        new_avg = ((current_avg * (total_requests - 1)) + response.total_latency_ms) / total_requests
+        new_avg = (
+            (current_avg * (total_requests - 1)) + response.total_latency_ms
+        ) / total_requests
         self.metrics["average_latency_ms"] = new_avg
 
         # Update cost tracking
@@ -937,7 +1044,9 @@ class ComprehensiveAPIOrchestrator:
         if response.consensus_achieved:
             # Update consensus success rate
             current_rate = self.metrics["consensus_success_rate"]
-            self.metrics["consensus_success_rate"] = ((current_rate * (total_requests - 1)) + 1.0) / total_requests
+            self.metrics["consensus_success_rate"] = (
+                (current_rate * (total_requests - 1)) + 1.0
+            ) / total_requests
 
     def get_metrics(self) -> dict[str, Any]:
         """Get comprehensive orchestration metrics"""
@@ -945,8 +1054,10 @@ class ComprehensiveAPIOrchestrator:
 
         return {
             **self.metrics,
-            "success_rate": self.metrics["successful_requests"] / max(total_requests, 1),
-            "average_cost_per_request": self.metrics["total_cost"] / max(total_requests, 1),
+            "success_rate": self.metrics["successful_requests"]
+            / max(total_requests, 1),
+            "average_cost_per_request": self.metrics["total_cost"]
+            / max(total_requests, 1),
             "available_providers": [p.value for p in self.bridges],
             "global_functions_registered": len(self.global_functions),
             "daily_costs": dict(self.daily_costs),
@@ -959,8 +1070,12 @@ class ComprehensiveAPIOrchestrator:
 
         # Factor in success rate, latency, and cost efficiency
         success_rate = self.metrics["successful_requests"] / total_requests
-        latency_score = max(0, 1 - (self.metrics["average_latency_ms"] / 2000))  # 2s = 0 score
-        cost_efficiency = min(1.0, 0.10 / max(self.metrics["total_cost"] / total_requests, 0.001))  # $0.10 target
+        latency_score = max(
+            0, 1 - (self.metrics["average_latency_ms"] / 2000)
+        )  # 2s = 0 score
+        cost_efficiency = min(
+            1.0, 0.10 / max(self.metrics["total_cost"] / total_requests, 0.001)
+        )  # $0.10 target
 
         return success_rate * 0.5 + latency_score * 0.3 + cost_efficiency * 0.2
 
@@ -1002,7 +1117,9 @@ class AdvancedConsensusStrategies:
         return max(scored_responses, key=lambda x: x[1])[0]
 
     @staticmethod
-    def semantic_clustering(responses: list[dict], similarity_threshold: float = 0.7) -> dict:
+    def semantic_clustering(
+        responses: list[dict], similarity_threshold: float = 0.7
+    ) -> dict:
         """Group responses by semantic similarity and choose cluster representative"""
         if not responses:
             return {}
@@ -1020,7 +1137,9 @@ class AdvancedConsensusStrategies:
             matched_cluster = None
             for cluster in clusters:
                 cluster_words = set(cluster[0].get("content", "").lower().split())
-                similarity = len(words.intersection(cluster_words)) / len(words.union(cluster_words))
+                similarity = len(words.intersection(cluster_words)) / len(
+                    words.union(cluster_words)
+                )
 
                 if similarity > similarity_threshold:
                     matched_cluster = cluster
@@ -1065,7 +1184,9 @@ async def orchestrate_request(
         prompt=prompt,
         context=context,
         strategy=OrchestrationStrategy(strategy),
-        preferred_providers=[APIProvider(p) for p in providers] if providers else [APIProvider.ALL],
+        preferred_providers=(
+            [APIProvider(p) for p in providers] if providers else [APIProvider.ALL]
+        ),
         enable_functions=enable_functions,
     )
 

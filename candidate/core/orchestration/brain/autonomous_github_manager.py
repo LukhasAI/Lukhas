@@ -29,11 +29,8 @@ from typing import Any, Optional
 import requests
 
 # Import ΛBot components
-from lukhas.core.budget.token_controller import (
-    APICallContext,
-    CallUrgency,
-    TokenBudgetController,
-)
+from lukhas.core.budget.token_controller import (APICallContext, CallUrgency,
+                                                 TokenBudgetController)
 from lukhas.core.common.config import settings
 
 

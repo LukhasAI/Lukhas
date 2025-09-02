@@ -29,7 +29,9 @@ class SymbolicContract:
 
     # Propagation rules
     max_propagation_depth: int = -1  # -1 for infinite
-    allowed_colonies: list[str] = field(default_factory=list)  # Empty list means all colonies
+    allowed_colonies: list[str] = field(
+        default_factory=list
+    )  # Empty list means all colonies
 
     # Meaning and interpretation
     schema: dict[str, Any] = field(default_factory=dict)
@@ -41,7 +43,10 @@ class SymbolicContract:
         """
         Checks if a tag can be propagated further.
         """
-        if self.max_propagation_depth != -1 and current_depth >= self.max_propagation_depth:
+        if (
+            self.max_propagation_depth != -1
+            and current_depth >= self.max_propagation_depth
+        ):
             return False
         return not (self.allowed_colonies and colony_id not in self.allowed_colonies)
 

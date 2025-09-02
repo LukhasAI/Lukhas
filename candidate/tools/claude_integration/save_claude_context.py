@@ -142,7 +142,9 @@ function extractClaudeContext() {
 extractClaudeContext();
 """
 
-    script_path = Path("/Users/agi_dev/Lukhas/tools/scripts/claude_context_extractor.js")
+    script_path = Path(
+        "/Users/agi_dev/Lukhas/tools/scripts/claude_context_extractor.js"
+    )
     with open(script_path, "w") as f:
         f.write(script_content)
 

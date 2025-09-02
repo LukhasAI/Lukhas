@@ -112,7 +112,9 @@ def import_folds(
         # Verify spec version
         spec_version = header.get("spec", "unknown")
         if spec_version not in SUPPORTED_SPECS:
-            raise LKFPackVersionError(f"Unsupported spec version: {spec_version} (supported: {SUPPORTED_SPECS})")
+            raise LKFPackVersionError(
+                f"Unsupported spec version: {spec_version} (supported: {SUPPORTED_SPECS})"
+            )
 
         # Extract metadata
         codec = header.get("codec", "none")
@@ -141,7 +143,9 @@ def import_folds(
         if verify_crc:
             calculated_crc = binascii.crc32(payload) & 0xFFFFFFFF
             if calculated_crc != crc_given:
-                raise LKFPackIntegrityError(f"CRC mismatch - expected: {crc_given}, calculated: {calculated_crc}")
+                raise LKFPackIntegrityError(
+                    f"CRC mismatch - expected: {crc_given}, calculated: {calculated_crc}"
+                )
 
             # Also verify against header CRC if present
             if header_crc is not None and header_crc != crc_given:
@@ -189,7 +193,9 @@ def import_folds(
 
         # Verify entry count
         if entries_read != expected_entries:
-            logger.warning("Entry count mismatch", expected=expected_entries, actual=entries_read)
+            logger.warning(
+                "Entry count mismatch", expected=expected_entries, actual=entries_read
+            )
 
         logger.info("LKF-Pack import completed", entries_read=entries_read, codec=codec)
 
@@ -286,7 +292,9 @@ def verify_lkf_pack(path: Path) -> dict[str, Any]:
         # Check entry count
         expected = header.get("entries", 0)
         if entry_count != expected:
-            report["warnings"].append(f"Entry count mismatch: expected {expected}, found {entry_count}")
+            report["warnings"].append(
+                f"Entry count mismatch: expected {expected}, found {entry_count}"
+            )
 
     except LKFPackError as e:
         report["errors"].append(str(e))
@@ -350,6 +358,8 @@ def create_memory_importer(verify_crc: bool = True, validate_schema: bool = True
                 **kwargs,
             )
         else:
-            return import_folds(path, verify_crc=kwargs.get("verify_crc", verify_crc), **kwargs)
+            return import_folds(
+                path, verify_crc=kwargs.get("verify_crc", verify_crc), **kwargs
+            )
 
     return importer

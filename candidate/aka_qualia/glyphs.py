@@ -160,7 +160,9 @@ def normalize_glyph_keys(glyphs: list[PhenomenalGlyph]) -> list[PhenomenalGlyph]
     for glyph in glyphs:
         # Normalize key by removing common variations
         normalized_key = glyph.key.lower()
-        normalized_key = normalized_key.replace("_", "").replace("-", "").replace(" ", "")
+        normalized_key = (
+            normalized_key.replace("_", "").replace("-", "").replace(" ", "")
+        )
 
         # Map common variants to canonical forms
         key_mappings = {
@@ -184,7 +186,9 @@ def normalize_glyph_keys(glyphs: list[PhenomenalGlyph]) -> list[PhenomenalGlyph]
     return normalized_glyphs
 
 
-def compute_glyph_priority(glyphs: list[PhenomenalGlyph], scene: PhenomenalScene) -> float:
+def compute_glyph_priority(
+    glyphs: list[PhenomenalGlyph], scene: PhenomenalScene
+) -> float:
     """
     Compute routing priority for glyph set based on narrative gravity and risk.
 
@@ -210,7 +214,11 @@ def compute_glyph_priority(glyphs: list[PhenomenalGlyph], scene: PhenomenalScene
 
     # Grounding hints get urgency boost
     if any(g.key == GLYPH_KEYS["grounding_hint"] for g in glyphs):
-        urgency = max(g.attrs.get("grounding_urgency", 0.0) for g in glyphs if g.key == GLYPH_KEYS["grounding_hint"])
+        urgency = max(
+            g.attrs.get("grounding_urgency", 0.0)
+            for g in glyphs
+            if g.key == GLYPH_KEYS["grounding_hint"]
+        )
         glyph_modifier = max(glyph_modifier, 1.0 + urgency * 0.2)
 
     final_priority = base_priority * glyph_modifier

@@ -44,7 +44,9 @@ from .dream_limiter import DreamLimiter
 DREAM_LOG_PATH = Path("core/logs/dream_log.jsonl")
 
 
-def replay_recent_dreams(limit=5, filter_by_tag=None, only_replay_candidates=False, sort_by_emotion=None):
+def replay_recent_dreams(
+    limit=5, filter_by_tag=None, only_replay_candidates=False, sort_by_emotion=None
+):
     if not DREAM_LOG_PATH.exists():
         print("⚠️ No dream log file found.")
         return
@@ -54,7 +56,11 @@ def replay_recent_dreams(limit=5, filter_by_tag=None, only_replay_candidates=Fal
         dreams = [json.loads(line.strip()) for line in lines]
 
         if filter_by_tag:
-            dreams = [d for d in dreams if any(tag in d.get("tags", []) for tag in filter_by_tag)]
+            dreams = [
+                d
+                for d in dreams
+                if any(tag in d.get("tags", []) for tag in filter_by_tag)
+            ]
 
         if only_replay_candidates:
             dreams = [d for d in dreams if d.get("replay_candidate") is True]
@@ -76,11 +82,15 @@ def replay_recent_dreams(limit=5, filter_by_tag=None, only_replay_candidates=Fal
     for dream in dreams:
         try:
             print(f"\n🌀 {dream['timestamp']} | ID: {dream['message_id']}")
-            print(f"   Widget: {dream.get('source_widget', 'unknown')} | Tier: {dream.get('context_tier', '?')}")
+            print(
+                f"   Widget: {dream.get('source_widget', 'unknown')} | Tier: {dream.get('context_tier', '?')}"
+            )
             print(f"   Tags: {', '.join(dream.get('tags', []))}")
 
             emotion = dream.get("emotion_vector", {})
-            summary = ", ".join([f"{k.capitalize()}: {v:.2f}" for k, v in emotion.items()])
+            summary = ", ".join(
+                [f"{k.capitalize()}: {v:.2f}" for k, v in emotion.items()]
+            )
             print(f"   Emotion Vector → {summary}")
             if dream.get("emoji"):
                 print(f"   Symbolic Emoji: {dream['emoji']}")

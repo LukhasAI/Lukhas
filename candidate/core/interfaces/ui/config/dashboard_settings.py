@@ -52,7 +52,9 @@ def list_active_widgets(user_id):
     Returns a dict of widget_type: True.
     """
     return {
-        k.split(":")[1]: v for k, v in user_dashboard_settings.get(user_id, {}).items() if k.startswith("widget:") and v
+        k.split(":")[1]: v
+        for k, v in user_dashboard_settings.get(user_id, {}).items()
+        if k.startswith("widget:") and v
     }
 
 

@@ -316,7 +316,9 @@ class ComprehensiveMonitoringConfig:
     config_version: str = "1.0.0"
 
     # Component configurations
-    endocrine: EndocrineMonitoringConfig = field(default_factory=EndocrineMonitoringConfig)
+    endocrine: EndocrineMonitoringConfig = field(
+        default_factory=EndocrineMonitoringConfig
+    )
     metrics: MetricsCollectionConfig = field(default_factory=MetricsCollectionConfig)
     plasticity: PlasticityConfig = field(default_factory=PlasticityConfig)
     dashboard: DashboardConfig = field(default_factory=DashboardConfig)
@@ -359,7 +361,9 @@ class MonitoringConfigManager:
     """Manager for monitoring system configuration"""
 
     def __init__(self, config_path: Optional[str] = None):
-        self.config_path = Path(config_path) if config_path else Path("config/monitoring.yaml")
+        self.config_path = (
+            Path(config_path) if config_path else Path("config/monitoring.yaml")
+        )
         self.config: Optional[ComprehensiveMonitoringConfig] = None
         self.profile_configs: dict[MonitoringProfile, dict[str, Any]] = {}
 
@@ -378,7 +382,10 @@ class MonitoringConfigManager:
                 "plasticity_sensitivity": 0.6,
             },
             "metrics": {
-                "collection_intervals": {k: v * 0.5 for k, v in MetricsCollectionConfig().collection_intervals.items()},
+                "collection_intervals": {
+                    k: v * 0.5
+                    for k, v in MetricsCollectionConfig().collection_intervals.items()
+                },
                 "anomaly_sensitivity": 1.5,
             },
             "features": {"experimental_features": True},
@@ -442,13 +449,18 @@ class MonitoringConfigManager:
             "log_level": "INFO",
             "dashboard": {
                 "refresh_interval": 0.5,
-                "widget_update_intervals": {k: v * 0.5 for k, v in DashboardConfig().widget_update_intervals.items()},
+                "widget_update_intervals": {
+                    k: v * 0.5
+                    for k, v in DashboardConfig().widget_update_intervals.items()
+                },
             },
             "endocrine": {"hormone_sampling_interval": 1.0},
             "plasticity": {"risk_tolerance": 0.4},
         }
 
-    def load_config(self, profile: Optional[MonitoringProfile] = None) -> ComprehensiveMonitoringConfig:
+    def load_config(
+        self, profile: Optional[MonitoringProfile] = None
+    ) -> ComprehensiveMonitoringConfig:
         """Load configuration from file or create default"""
 
         # Start with default configuration
@@ -464,10 +476,16 @@ class MonitoringConfigManager:
         if self.config_path.exists():
             try:
                 with open(self.config_path) as f:
-                    file_config = yaml.safe_load(f) if self.config_path.suffix.lower() == ".yaml" else json.load(f)
+                    file_config = (
+                        yaml.safe_load(f)
+                        if self.config_path.suffix.lower() == ".yaml"
+                        else json.load(f)
+                    )
 
                 config = self._apply_overrides(config, file_config)
-                logger.info("Loaded monitoring configuration", config_path=str(self.config_path))
+                logger.info(
+                    "Loaded monitoring configuration", config_path=str(self.config_path)
+                )
 
             except Exception as e:
                 logger.error("Failed to load configuration file", error=str(e))
@@ -500,7 +518,9 @@ class MonitoringConfigManager:
                 else:
                     json.dump(config_dict, f, indent=2, default=str)
 
-            logger.info("Saved monitoring configuration", config_path=str(self.config_path))
+            logger.info(
+                "Saved monitoring configuration", config_path=str(self.config_path)
+            )
 
         except Exception as e:
             logger.error("Failed to save configuration", error=str(e))
@@ -549,7 +569,9 @@ class MonitoringConfigManager:
 
         return component_configs[component_name]
 
-    def validate_config(self, config: Optional[ComprehensiveMonitoringConfig] = None) -> list[str]:
+    def validate_config(
+        self, config: Optional[ComprehensiveMonitoringConfig] = None
+    ) -> list[str]:
         """Validate configuration and return list of issues"""
 
         if config is None:
@@ -592,11 +614,15 @@ class MonitoringConfigManager:
                 < thresholds["high"]
                 < thresholds["critical"]
             ):
-                issues.append(f"Hormone thresholds for {hormone} are not properly ordered")
+                issues.append(
+                    f"Hormone thresholds for {hormone} are not properly ordered"
+                )
 
         return issues
 
-    def create_profile_config(self, profile: MonitoringProfile) -> ComprehensiveMonitoringConfig:
+    def create_profile_config(
+        self, profile: MonitoringProfile
+    ) -> ComprehensiveMonitoringConfig:
         """Create configuration for a specific profile"""
 
         config = ComprehensiveMonitoringConfig()
@@ -627,7 +653,9 @@ def load_monitoring_config(
     return manager.load_config(profile)
 
 
-def save_monitoring_config(config: ComprehensiveMonitoringConfig, config_path: Optional[str] = None):
+def save_monitoring_config(
+    config: ComprehensiveMonitoringConfig, config_path: Optional[str] = None
+):
     """Save monitoring configuration to file"""
 
     manager = MonitoringConfigManager(config_path)

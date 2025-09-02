@@ -101,7 +101,9 @@ def main():
     parser.add_argument("--text-file", help="File containing text to convert")
     parser.add_argument("--output", help="Output audio file path")
     parser.add_argument("--voice", help="Voice ID to use")
-    parser.add_argument("--play", action="store_true", help="Play audio after generation")
+    parser.add_argument(
+        "--play", action="store_true", help="Play audio after generation"
+    )
 
     args = parser.parse_args()
 
@@ -121,7 +123,11 @@ def main():
         return 1
 
     # Run async function
-    success = asyncio.run(generate_speech(text, voice_id=args.voice, output_path=args.output, play=args.play))
+    success = asyncio.run(
+        generate_speech(
+            text, voice_id=args.voice, output_path=args.output, play=args.play
+        )
+    )
 
     return 0 if success else 1
 

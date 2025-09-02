@@ -27,7 +27,9 @@ async def legacy_register(request: Request):
     This endpoint is maintained for backward compatibility.
     New integrations should use /identity/register directly.
     """
-    logger.info("Legacy /api/v2/auth/register called - redirecting to /identity/register")
+    logger.info(
+        "Legacy /api/v2/auth/register called - redirecting to /identity/register"
+    )
 
     # Get request body
     with contextlib.suppress(builtins.BaseException):
@@ -106,7 +108,9 @@ async def legacy_verify(request: Request):
     """
     Legacy token verification endpoint - redirects to new identity system.
     """
-    logger.info("Legacy /api/v2/auth/token/verify called - redirecting to /identity/verify")
+    logger.info(
+        "Legacy /api/v2/auth/token/verify called - redirecting to /identity/verify"
+    )
 
     return JSONResponse(
         status_code=301,

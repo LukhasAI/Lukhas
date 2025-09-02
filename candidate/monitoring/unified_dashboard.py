@@ -9,7 +9,7 @@ import asyncio
 import logging
 import time
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
@@ -107,7 +107,9 @@ class MetricsCollector:
                 "dream": dream_stats,
                 "flags": flags_stats,
                 "performance": perf_stats,
-                "health_score": self._calculate_health_score(system_stats, api_stats, consciousness_stats),
+                "health_score": self._calculate_health_score(
+                    system_stats, api_stats, consciousness_stats
+                ),
             }
 
             # Update global metrics
@@ -137,7 +139,9 @@ class MetricsCollector:
             "disk_percent": psutil.disk_usage("/").percent,
             "active_processes": len(psutil.pids()),
             "uptime": time.time() - psutil.boot_time(),
-            "load_average": (psutil.getloadavg()[0] if hasattr(psutil, "getloadavg") else 0),
+            "load_average": (
+                psutil.getloadavg()[0] if hasattr(psutil, "getloadavg") else 0
+            ),
         }
 
     async def _collect_api_metrics(self) -> dict[str, Any]:
@@ -238,14 +242,20 @@ class MetricsCollector:
             "db_connections": 8,
         }
 
-    def _calculate_health_score(self, system: dict, api: dict, consciousness: dict) -> float:
+    def _calculate_health_score(
+        self, system: dict, api: dict, consciousness: dict
+    ) -> float:
         """Calculate overall system health score"""
         factors = [
             min(1.0, (100 - system.get("cpu_percent", 0)) / 100),  # Lower CPU is better
-            min(1.0, (100 - system.get("memory_percent", 0)) / 100),  # Lower memory is better
+            min(
+                1.0, (100 - system.get("memory_percent", 0)) / 100
+            ),  # Lower memory is better
             min(1.0, 1.0 - api.get("error_rate", 0)),  # Lower error rate is better
             consciousness.get("awareness_level", 0.5),  # Higher awareness is better
-            min(1.0, 1000 / max(api.get("average_response_time", 1000), 1)),  # Lower response time is better
+            min(
+                1.0, 1000 / max(api.get("average_response_time", 1000), 1)
+            ),  # Lower response time is better
         ]
         return sum(factors) / len(factors)
 
@@ -345,7 +355,12 @@ async def process_alerts():
 
     # Keep only recent alerts
     cutoff = current_time.timestamp() - 3600  # 1 hour
-    alerts = [a for a in alerts if datetime.fromisoformat(a["timestamp"].replace("Z", "+00:00")).timestamp() > cutoff]
+    alerts = [
+        a
+        for a in alerts
+        if datetime.fromisoformat(a["timestamp"].replace("Z", "+00:00")).timestamp()
+        > cutoff
+    ]
 
 
 async def notify_websocket_clients():
@@ -399,7 +414,7 @@ async def dashboard_home():
                 border-bottom: 2px solid #00ff00;
                 background: rgba(0, 255, 0, 0.1);
             }
-            .constellation { font-size: 48px; margin: 10px 0; }
+            .trinity { font-size: 48px; margin: 10px 0; }
             .title { font-size: 28px; margin: 10px 0; }
             .subtitle { font-size: 14px; color: #888; }
 
@@ -505,7 +520,7 @@ async def dashboard_home():
     </head>
     <body>
         <div class="header">
-            <div class="constellation">⚛️🧠🛡️</div>
+            <div class="trinity">⚛️🧠🛡️</div>
             <div class="title">LUKHAS  Unified Dashboard</div>
             <div class="subtitle">Real-time monitoring and analytics</div>
             <div class="subtitle" id="last-update">Connecting...</div>
@@ -778,13 +793,13 @@ async def health_check():
         "status": "healthy",
         "dashboard": "LUKHAS  Unified Dashboard",
         "version": "2.0.0",
-        "constellation": "⚛️🧠🛡️",
+        "trinity": "⚛️🧠🛡️",
         "active_connections": len(active_connections),
         "metrics_available": bool(system_metrics),
     }
 
 
-def start_dashboard(host: Optional[str] = None, port: Optional[int] = None, dev: bool = False):
+def start_dashboard(host: str = None, port: int = None, dev: bool = False):
     """Start the unified dashboard server"""
     host = host or DASHBOARD_CONFIG["host"]
     port = port or DASHBOARD_CONFIG["port"]

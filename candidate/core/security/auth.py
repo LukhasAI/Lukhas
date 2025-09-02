@@ -40,7 +40,9 @@ except ImportError:
                 self.secret = secret
 
             def provisioning_uri(self, name, issuer_name):
-                return f"otpauth://totp/{name}?secret={self.secret}&issuer={issuer_name}"
+                return (
+                    f"otpauth://totp/{name}?secret={self.secret}&issuer={issuer_name}"
+                )
 
             def verify(self, code, valid_window=1):
                 return code == "123456"  # Mock verification
@@ -245,7 +247,9 @@ class EnhancedAuthenticationSystem:
 
     # JWT Management
 
-    def generate_jwt(self, user_id: str, claims: Optional[dict[str, Any]] = None) -> str:
+    def generate_jwt(
+        self, user_id: str, claims: Optional[dict[str, Any]] = None
+    ) -> str:
         """Generate JWT token"""
         now = datetime.now(timezone.utc)
         now_ts = int(now.timestamp())
@@ -267,7 +271,9 @@ class EnhancedAuthenticationSystem:
     def verify_jwt(self, token: str) -> Optional[dict[str, Any]]:
         """Verify and decode JWT token"""
         try:
-            payload = jwt.decode(token, self.jwt_secret, algorithms=[self.jwt_algorithm])
+            payload = jwt.decode(
+                token, self.jwt_secret, algorithms=[self.jwt_algorithm]
+            )
             # Manual expiry check to support environments without full JWT lib behavior
             try:
                 exp = payload.get("exp")
@@ -315,7 +321,9 @@ class EnhancedAuthenticationSystem:
         return jti in self._revoked_jtis
 
     # Session Management
-    async def create_session(self, user_id: str, ip_address: str, user_agent: str) -> AuthSession:
+    async def create_session(
+        self, user_id: str, ip_address: str, user_agent: str
+    ) -> AuthSession:
         """Create new authentication session"""
         # Check concurrent sessions
         user_sessions = self._get_user_sessions(user_id)
@@ -378,7 +386,9 @@ class EnhancedAuthenticationSystem:
 
         # Check timeout
         now = datetime.now(timezone.utc)
-        if now - session.last_activity > timedelta(minutes=self.session_timeout_minutes):
+        if now - session.last_activity > timedelta(
+            minutes=self.session_timeout_minutes
+        ):
             await self.terminate_session(session_id)
             return None
 
@@ -413,7 +423,9 @@ class EnhancedAuthenticationSystem:
 
         # Create provisional URI
         totp = pyotp.TOTP(secret)
-        provisioning_uri = totp.provisioning_uri(name=user_id, issuer_name=self.totp_issuer)
+        provisioning_uri = totp.provisioning_uri(
+            name=user_id, issuer_name=self.totp_issuer
+        )
 
         # Generate QR code
         qr = qrcode.QRCode(version=1, box_size=10, border=5)
@@ -428,7 +440,9 @@ class EnhancedAuthenticationSystem:
         # Generate unique backup codes
         backup_set: set[str] = set()
         while len(backup_set) < self.backup_code_count:
-            code = secrets.token_urlsafe(self.backup_code_length)[: self.backup_code_length]
+            code = secrets.token_urlsafe(self.backup_code_length)[
+                : self.backup_code_length
+            ]
             backup_set.add(code)
         backup_codes = list(backup_set)
 
@@ -575,7 +589,9 @@ class EnhancedAuthenticationSystem:
         """Verify backup code"""
         # Normalize and check if already used (global or per-user)
         code = str(code).strip()
-        if code in self.used_backup_codes or code in self.mfa_used_codes.get(user_id, set()):
+        if code in self.used_backup_codes or code in self.mfa_used_codes.get(
+            user_id, set()
+        ):
             return False
 
         # Check all MFA setups for this user
@@ -620,7 +636,9 @@ class EnhancedAuthenticationSystem:
         if self.redis_client:
             key = f"failed_attempts:{identifier}"
             self.redis_client.rpush(key, datetime.now(timezone.utc).isoformat())
-            self.redis_client.expire(key, timedelta(minutes=self.lockout_duration_minutes))
+            self.redis_client.expire(
+                key, timedelta(minutes=self.lockout_duration_minutes)
+            )
 
     async def clear_failed_attempts(self, identifier: str):
         """Clear failed attempts after successful auth"""
@@ -657,7 +675,9 @@ class EnhancedAuthenticationSystem:
 
         return key_id, key_secret
 
-    async def verify_api_key(self, key_id: str, key_secret: str) -> Optional[dict[str, Any]]:
+    async def verify_api_key(
+        self, key_id: str, key_secret: str
+    ) -> Optional[dict[str, Any]]:
         """Verify API key"""
         # Get key data
         key_data = None

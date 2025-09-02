@@ -46,9 +46,7 @@ from typing_extensions import Literal
 # If `_models.BaseModel` is part of a core LUKHAS framework library, an absolute import
 # (e.g., `from core_framework.core.models import BaseModel`) would be more robust.
 # ΛCAUTION: Fragile import path can lead to runtime errors and maintenance issues.
-from candidate.core.models import (
-    BaseModel,  # Assuming this path is correct within the project structure.
-)
+from candidate.core.models import BaseModel
 
 logger.info(
     "ΛTRACE: Initializing response_reasoning_summary_text_delta_event.py module (Data Model Definition).",

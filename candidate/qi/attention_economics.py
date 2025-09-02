@@ -97,16 +97,22 @@ class QIAttentionEconomics:
 
         # Market state
         self.bid_queue: list[AttentionBid] = []
-        self.market_price: dict[AttentionTokenType, float] = dict.fromkeys(AttentionTokenType, 1.0)
+        self.market_price: dict[AttentionTokenType, float] = dict.fromkeys(
+            AttentionTokenType, 1.0
+        )
 
         # Configuration
         self.min_ethical_score = 0.6
-        self.max_attention_drain_rate = 0.3  # Max 30% of attention can be consumed per hour
+        self.max_attention_drain_rate = (
+            0.3  # Max 30% of attention can be consumed per hour
+        )
         self.qi_coherence_threshold = 0.85
 
         logger.info("Quantum Attention Economics initialized")
 
-    async def mint_attention_tokens(self, user_id: str, attention_state: dict[str, Any]) -> list[AttentionToken]:
+    async def mint_attention_tokens(
+        self, user_id: str, attention_state: dict[str, Any]
+    ) -> list[AttentionToken]:
         """Mint new attention tokens based on user's current state"""
         tokens_minted = []
 
@@ -162,7 +168,9 @@ class QIAttentionEconomics:
                     function_call={"name": "mint_tokens"},
                 )
 
-                mint_params = json.loads(analysis.choices[0].message.function_call.arguments)
+                mint_params = json.loads(
+                    analysis.choices[0].message.function_call.arguments
+                )
 
                 # Create tokens based on AI analysis
                 for token_type_str, amount in mint_params["token_distribution"].items():
@@ -175,21 +183,28 @@ class QIAttentionEconomics:
                             value=amount * mint_params["quality_multiplier"],
                             consent_constraints={
                                 "level": mint_params.get("consent_level", "limited"),
-                                "allowed_uses": self._get_allowed_uses(mint_params.get("consent_level", "limited")),
+                                "allowed_uses": self._get_allowed_uses(
+                                    mint_params.get("consent_level", "limited")
+                                ),
                             },
-                            expires_at=datetime.now() + timedelta(hours=4),  # Tokens expire after 4 hours
+                            expires_at=datetime.now()
+                            + timedelta(hours=4),  # Tokens expire after 4 hours
                         )
 
                         self.tokens[token.token_id] = token
                         tokens_minted.append(token)
 
                         # Update user balance
-                        self.user_balances[user_id] = self.user_balances.get(user_id, 0) + token.value
+                        self.user_balances[user_id] = (
+                            self.user_balances.get(user_id, 0) + token.value
+                        )
 
             except Exception as e:
                 logger.error(f"AI token minting failed: {e}")
                 # Fallback to basic minting
-                tokens_minted = await self._basic_token_minting(user_id, attention_state)
+                tokens_minted = await self._basic_token_minting(
+                    user_id, attention_state
+                )
         else:
             tokens_minted = await self._basic_token_minting(user_id, attention_state)
 
@@ -210,7 +225,9 @@ class QIAttentionEconomics:
         else:  # minimal
             return ["essential"]
 
-    async def _basic_token_minting(self, user_id: str, attention_state: dict[str, Any]) -> list[AttentionToken]:
+    async def _basic_token_minting(
+        self, user_id: str, attention_state: dict[str, Any]
+    ) -> list[AttentionToken]:
         """Basic token minting without AI"""
         base_capacity = attention_state.get("base_capacity", 100)
         stress_level = attention_state.get("stress", 0.5)
@@ -228,7 +245,9 @@ class QIAttentionEconomics:
         )
 
         self.tokens[token.token_id] = token
-        self.user_balances[user_id] = self.user_balances.get(user_id, 0) + adjusted_capacity
+        self.user_balances[user_id] = (
+            self.user_balances.get(user_id, 0) + adjusted_capacity
+        )
 
         return [token]
 
@@ -251,9 +270,12 @@ class QIAttentionEconomics:
             token_id=f"quantum_{user_id}_{datetime.now().timestamp()}",
             owner_id=user_id,
             token_type=AttentionTokenType.QUANTUM,
-            value=sum(self.market_price[t] for t in attention_types),  # Sum of component values
+            value=sum(
+                self.market_price[t] for t in attention_types
+            ),  # Sum of component values
             qi_state={t.value: w for t, w in zip(attention_types, weights)},
-            expires_at=datetime.now() + timedelta(hours=2),  # Quantum states are more fragile
+            expires_at=datetime.now()
+            + timedelta(hours=2),  # Quantum states are more fragile
         )
 
         self.tokens[qi_token.token_id] = qi_token
@@ -277,14 +299,18 @@ class QIAttentionEconomics:
                 )
 
                 # Could parse and apply optimization suggestions
-                logger.info(f"Quantum optimization suggestion: {optimization.choices[0].message.content}")
+                logger.info(
+                    f"Quantum optimization suggestion: {optimization.choices[0].message.content}"
+                )
 
             except Exception as e:
                 logger.error(f"Quantum optimization failed: {e}")
 
         return qi_token
 
-    async def entangle_attention_tokens(self, token_ids: list[str], entanglement_type: str = "bell_state") -> bool:
+    async def entangle_attention_tokens(
+        self, token_ids: list[str], entanglement_type: str = "bell_state"
+    ) -> bool:
         """Create quantum entanglement between attention tokens"""
         tokens = [self.tokens.get(tid) for tid in token_ids if tid in self.tokens]
 
@@ -296,9 +322,13 @@ class QIAttentionEconomics:
 
         # Create entanglement
         for token in tokens:
-            token.entangled_with = [t.token_id for t in tokens if t.token_id != token.token_id]
+            token.entangled_with = [
+                t.token_id for t in tokens if t.token_id != token.token_id
+            ]
 
-        logger.info(f"Created {entanglement_type} entanglement between {len(tokens)} tokens")
+        logger.info(
+            f"Created {entanglement_type} entanglement between {len(tokens)} tokens"
+        )
 
         # Notify users of entanglement
         for _user_id in user_ids:
@@ -378,10 +408,13 @@ class QIAttentionEconomics:
             "success": True,
             "bid_id": bid.bid_id,
             "position": self.bid_queue.index(bid) + 1,
-            "estimated_processing_time": (self.bid_queue.index(bid) + 1) * 30,  # seconds
+            "estimated_processing_time": (self.bid_queue.index(bid) + 1)
+            * 30,  # seconds
         }
 
-    async def process_attention_transaction(self, bid_id: str, user_consent: bool) -> dict[str, Any]:
+    async def process_attention_transaction(
+        self, bid_id: str, user_consent: bool
+    ) -> dict[str, Any]:
         """Process an attention transaction with user consent"""
         # Find bid
         bid = next((b for b in self.bid_queue if b.bid_id == bid_id), None)
@@ -422,7 +455,9 @@ class QIAttentionEconomics:
         else:
             return {"success": False, "reason": "Insufficient balance"}
 
-    async def calculate_attention_value(self, user_id: str, context: dict[str, Any]) -> dict[str, Any]:
+    async def calculate_attention_value(
+        self, user_id: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Calculate fair market value for user's attention"""
         base_value = 100.0  # Base attention value
 
@@ -430,7 +465,9 @@ class QIAttentionEconomics:
         factors = {
             "time_of_day": self._time_of_day_multiplier(datetime.now()),
             "cognitive_load": 1.0 - context.get("cognitive_load", 0.5),
-            "emotional_state": self._emotional_value_multiplier(context.get("emotional_state", {})),
+            "emotional_state": self._emotional_value_multiplier(
+                context.get("emotional_state", {})
+            ),
             "rarity": self._calculate_rarity_multiplier(user_id),
             "expertise": context.get("expertise_multiplier", 1.0),
         }
@@ -506,7 +543,9 @@ class QIAttentionEconomics:
         """Calculate rarity multiplier based on user's attention scarcity"""
         # Check how many tokens this user has minted recently
         user_tokens = [t for t in self.tokens.values() if t.owner_id == user_id]
-        active_tokens = [t for t in user_tokens if t.expires_at and t.expires_at > datetime.now()]
+        active_tokens = [
+            t for t in user_tokens if t.expires_at and t.expires_at > datetime.now()
+        ]
 
         # Fewer active tokens = higher rarity
         if len(active_tokens) == 0:
@@ -521,7 +560,13 @@ class QIAttentionEconomics:
     async def get_market_report(self) -> dict[str, Any]:
         """Generate comprehensive market report"""
         total_tokens = len(self.tokens)
-        active_tokens = len([t for t in self.tokens.values() if t.expires_at and t.expires_at > datetime.now()])
+        active_tokens = len(
+            [
+                t
+                for t in self.tokens.values()
+                if t.expires_at and t.expires_at > datetime.now()
+            ]
+        )
 
         report = {
             "market_overview": {
@@ -544,9 +589,13 @@ class QIAttentionEconomics:
         # Get top bidders
         bidder_totals = {}
         for bid in self.bid_queue:
-            bidder_totals[bid.bidder_id] = bidder_totals.get(bid.bidder_id, 0) + bid.bid_amount
+            bidder_totals[bid.bidder_id] = (
+                bidder_totals.get(bid.bidder_id, 0) + bid.bid_amount
+            )
 
-        report["top_bidders"] = sorted(bidder_totals.items(), key=lambda x: x[1], reverse=True)[:5]
+        report["top_bidders"] = sorted(
+            bidder_totals.items(), key=lambda x: x[1], reverse=True
+        )[:5]
 
         # Generate AI market analysis if available
         if self.openai:
@@ -571,7 +620,9 @@ class QIAttentionEconomics:
         """Get user's attention token balance and details"""
         balance = self.user_balances.get(user_id, 0)
         user_tokens = [t for t in self.tokens.values() if t.owner_id == user_id]
-        active_tokens = [t for t in user_tokens if t.expires_at and t.expires_at > datetime.now()]
+        active_tokens = [
+            t for t in user_tokens if t.expires_at and t.expires_at > datetime.now()
+        ]
 
         return {
             "user_id": user_id,
@@ -583,12 +634,18 @@ class QIAttentionEconomics:
                     "type": t.token_type.value,
                     "value": t.value,
                     "qi_value": t.calculate_quantum_value(),
-                    "expires_in": ((t.expires_at - datetime.now()).total_seconds() if t.expires_at else None),
+                    "expires_in": (
+                        (t.expires_at - datetime.now()).total_seconds()
+                        if t.expires_at
+                        else None
+                    ),
                     "entangled": len(t.entangled_with) > 0,
                 }
                 for t in active_tokens
             ],
-            "market_value": balance * sum(self.market_price.values()) / len(self.market_price),
+            "market_value": balance
+            * sum(self.market_price.values())
+            / len(self.market_price),
         }
 
 

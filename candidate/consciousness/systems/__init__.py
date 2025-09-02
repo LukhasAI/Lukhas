@@ -47,14 +47,15 @@ logger.info("ΛTRACE: Initializing 'consciousness.core_consciousness' package.")
     get_consciousness_integrator,
 ) = (None,) * 6
 try:
-    from .integrator import (
-        ConsciousnessEvent,  # ΛEVENT_DRIVEN: Data structure for cognitive events.
-        ConsciousnessIntegrator,  # ΛARBITRATOR: Main class for symbolic arbitration.
+    # ΛEVENT_DRIVEN: Data structure for cognitive events.
+    # ΛARBITRATOR: Main class for symbolic arbitration.
+    # ΛPRIORITY_QUEUE: Enum for prioritizing cognitive events.
+    from .integrator import (  # ΛSTATE_HOLDER: Represents the AGI's current conscious state.; ΛCONTEXT_OBJECT: Holds contextual data for integration tasks.
+        ConsciousnessEvent,
+        ConsciousnessIntegrator,
         ConsciousnessState,
-        # ΛSTATE_HOLDER: Represents the AGI's current conscious state.
         IntegrationContext,
-        # ΛCONTEXT_OBJECT: Holds contextual data for integration tasks.
-        IntegrationPriority,  # ΛPRIORITY_QUEUE: Enum for prioritizing cognitive events.
+        IntegrationPriority,
         get_consciousness_integrator,
     )
 
@@ -71,11 +72,14 @@ except ImportError as e:
 # Import ΛMIRROR self-reflection components
 LambdaMirror, ReflectionType, EmotionalTone, AlignmentStatus = (None,) * 4
 try:
+    # ΛALIGNMENT_STATUS: Alignment status categories
+    # ΛEMOTIONAL_TONES: Emotional tone classifications
+    # ΛMIRROR: Symbolic self-reflection synthesizer
     from .lambda_mirror import (
-        AlignmentStatus,  # ΛALIGNMENT_STATUS: Alignment status categories
-        EmotionalTone,  # ΛEMOTIONAL_TONES: Emotional tone classifications
-        LambdaMirror,  # ΛMIRROR: Symbolic self-reflection synthesizer
-        ReflectionType,  # ΛREFLECTION_TYPES: Types of reflection entries
+        AlignmentStatus,
+        EmotionalTone,
+        LambdaMirror,
+        ReflectionType,
     )
 
     logger.info("ΛTRACE: Successfully imported ΛMIRROR components from .lambda_mirror.")
@@ -102,7 +106,9 @@ __all__ = [
 # runtime errors on `import *`
 __all__ = [name for name in __all__ if globals().get(name) is not None]
 
-logger.info(f"ΛTRACE: 'consciousness.core_consciousness' package initialized. Exposed symbols in __all__: {__all__}")
+logger.info(
+    f"ΛTRACE: 'consciousness.core_consciousness' package initialized. Exposed symbols in __all__: {__all__}"
+)
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

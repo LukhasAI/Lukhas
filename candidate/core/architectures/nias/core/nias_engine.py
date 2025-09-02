@@ -30,7 +30,10 @@ class PositiveGatingFilter:
             {"content": content, **user_context},
             "NIAS",
         )
-        if decision.decision_type.value == "allow" and decision.confidence > self.positive_threshold:
+        if (
+            decision.decision_type.value == "allow"
+            and decision.confidence > self.positive_threshold
+        ):
             return "APPROVED"
         return "BLOCKED"
 
@@ -50,7 +53,9 @@ class ContextAwareRecommendation:
         self.symbolic: SymbolicVocabulary = get_symbolic_vocabulary()
         self.seedra = get_seedra()
 
-    async def generate_recommendations(self, user_context: dict[str, Any]) -> list[Symbol]:
+    async def generate_recommendations(
+        self, user_context: dict[str, Any]
+    ) -> list[Symbol]:
         if not self.orchestrator:
             return []
 

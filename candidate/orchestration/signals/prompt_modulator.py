@@ -131,7 +131,9 @@ class PromptModulator:
 
     def _cooldown_ok(self, signal: Signal) -> bool:
         """Check if signal is outside cooldown period"""
-        signal_config = next((s for s in self.policy["signals"] if s["name"] == signal.name.value), None)
+        signal_config = next(
+            (s for s in self.policy["signals"] if s["name"] == signal.name.value), None
+        )
 
         if not signal_config:
             return True
@@ -149,7 +151,13 @@ class PromptModulator:
 
         return False
 
-    def _safe_eval(self, expr: str, x: float, current: Any = None, ctx: Optional[dict[str, float]] = None) -> Any:
+    def _safe_eval(
+        self,
+        expr: str,
+        x: float,
+        current: Any = None,
+        ctx: Optional[dict[str, float]] = None,
+    ) -> Any:
         """
         Safely evaluate expressions like '1 - 0.85*x'.
         Only allows x, min, max, round, and basic math.
@@ -311,16 +319,26 @@ class PromptModulator:
         explanations = []
 
         # Explain dominant signals
-        for signal_name, level in sorted(signals.items(), key=lambda x: x[1], reverse=True):
+        for signal_name, level in sorted(
+            signals.items(), key=lambda x: x[1], reverse=True
+        ):
             if level > 0.5:
                 if signal_name == "alignment_risk":
-                    explanations.append(f"High risk ({level:.1%}) → stricter safety, deeper reasoning")
+                    explanations.append(
+                        f"High risk ({level:.1%}) → stricter safety, deeper reasoning"
+                    )
                 elif signal_name == "stress":
-                    explanations.append(f"High stress ({level:.1%}) → focused, conservative output")
+                    explanations.append(
+                        f"High stress ({level:.1%}) → focused, conservative output"
+                    )
                 elif signal_name == "ambiguity":
-                    explanations.append(f"High ambiguity ({level:.1%}) → more retrieval and reasoning")
+                    explanations.append(
+                        f"High ambiguity ({level:.1%}) → more retrieval and reasoning"
+                    )
                 elif signal_name == "novelty":
-                    explanations.append(f"High novelty ({level:.1%}) → increased creativity")
+                    explanations.append(
+                        f"High novelty ({level:.1%}) → increased creativity"
+                    )
 
         # Add parameter summary
         explanations.append(
@@ -329,7 +347,9 @@ class PromptModulator:
 
         return "; ".join(explanations)
 
-    def apply_to_openai_kwargs(self, base_kwargs: dict[str, Any], params: dict[str, Any]) -> dict[str, Any]:
+    def apply_to_openai_kwargs(
+        self, base_kwargs: dict[str, Any], params: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Apply modulated parameters to OpenAI API kwargs.
 
@@ -360,7 +380,11 @@ class PromptModulator:
                 if kwargs.get("messages"):
                     system_msg = kwargs["messages"][0]
                     if system_msg.get("role") == "system":
-                        system_msg["content"] = style["system_preamble"] + "\n\n" + system_msg.get("content", "")
+                        system_msg["content"] = (
+                            style["system_preamble"]
+                            + "\n\n"
+                            + system_msg.get("content", "")
+                        )
 
         # Add stop sequences
         if "prompt_style" in params:

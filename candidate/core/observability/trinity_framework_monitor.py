@@ -1169,7 +1169,7 @@ class TrinityFrameworkMonitor:
                 avg_time = statistics.mean(times)
                 slowest_endpoints.append({"endpoint": endpoint, "average_response_time": avg_time})
 
-            slowest_endpoints.sort(key=lambda x: x["average_response_time"], reverse=True)
+            slowest_endpoints.sort(key=l x: x["average_response_time"], reverse=True)
 
             report.api_performance_summary = {
                 "average_response_time": api_avg_response,

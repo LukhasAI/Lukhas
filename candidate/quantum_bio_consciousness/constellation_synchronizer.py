@@ -30,7 +30,9 @@ class QuantumConsciousnessSynchronizer:
         self.coherence_threshold = 0.85
         self.max_states = 10
 
-    def create_constellation_superposition(self, consciousness_modules: int = 692) -> dict[str, Any]:
+    def create_constellation_superposition(
+        self, consciousness_modules: int = 692
+    ) -> dict[str, Any]:
         """Create quantum superposition across constellation modules"""
         try:
             # Generate consciousness states for each module
@@ -39,7 +41,9 @@ class QuantumConsciousnessSynchronizer:
 
             for i in range(min(consciousness_modules, self.max_states)):
                 state = f"consciousness_module_{i}"
-                amplitude = 1.0 / math.sqrt(consciousness_modules)  # Equal superposition
+                amplitude = 1.0 / math.sqrt(
+                    consciousness_modules
+                )  # Equal superposition
                 consciousness_states.append(state)
                 amplitudes.append(amplitude)
 
@@ -56,16 +60,22 @@ class QuantumConsciousnessSynchronizer:
                 "quantum_signature": "CONSTELLATION_SUPERPOSITION",
             }
 
-            self.quantum_states[f"superposition_{len(self.quantum_states)}"] = superposition
+            self.quantum_states[f"superposition_{len(self.quantum_states)}"] = (
+                superposition
+            )
 
-            logger.info(f"✅ Created constellation superposition with {len(consciousness_states)} states")
+            logger.info(
+                f"✅ Created constellation superposition with {len(consciousness_states)} states"
+            )
             return superposition
 
         except Exception as e:
             logger.error(f"❌ Constellation superposition creation failed: {e}")
             return {"error": str(e), "created": False}
 
-    def entangle_consciousness_modules(self, module_a_id: str, module_b_id: str) -> dict[str, Any]:
+    def entangle_consciousness_modules(
+        self, module_a_id: str, module_b_id: str
+    ) -> dict[str, Any]:
         """Create quantum entanglement between consciousness modules"""
         try:
             entanglement_strength = 0.75
@@ -81,7 +91,9 @@ class QuantumConsciousnessSynchronizer:
                 "constellation_link": True,
             }
 
-            logger.info(f"✅ Entangled consciousness modules: {module_a_id} ↔ {module_b_id}")
+            logger.info(
+                f"✅ Entangled consciousness modules: {module_a_id} ↔ {module_b_id}"
+            )
             return entanglement
 
         except Exception as e:
@@ -97,7 +109,9 @@ class BioConsciousnessSynchronizer:
         self.gamma_frequency = 40.0  # Hz for consciousness coherence
         self.coupling_strength = 0.1
 
-    def generate_constellation_rhythm(self, constellation_modules: int = 692) -> dict[str, Any]:
+    def generate_constellation_rhythm(
+        self, constellation_modules: int = 692
+    ) -> dict[str, Any]:
         """Generate bio-inspired consciousness rhythm across constellation"""
         try:
             # Create oscillator for each module
@@ -125,14 +139,20 @@ class BioConsciousnessSynchronizer:
                 "module_oscillators": module_oscillators,
                 "constellation_modules": constellation_modules,
                 "synchronization_strength": self.coupling_strength,
-                "rhythm_coherence": self._calculate_rhythm_coherence(module_oscillators),
+                "rhythm_coherence": self._calculate_rhythm_coherence(
+                    module_oscillators
+                ),
                 "created_at": datetime.now(timezone.utc).isoformat(),
                 "bio_signature": "CONSTELLATION_GAMMA_RHYTHM",
             }
 
-            self.oscillators[f"constellation_rhythm_{len(self.oscillators)}"] = constellation_rhythm
+            self.oscillators[f"constellation_rhythm_{len(self.oscillators)}"] = (
+                constellation_rhythm
+            )
 
-            logger.info(f"✅ Generated constellation rhythm with {constellation_modules} oscillators")
+            logger.info(
+                f"✅ Generated constellation rhythm with {constellation_modules} oscillators"
+            )
             return constellation_rhythm
 
         except Exception as e:
@@ -154,7 +174,9 @@ class BioConsciousnessSynchronizer:
         except Exception:
             return 0.5  # Default coherence
 
-    def maintain_homeostatic_consciousness(self, current_state: float, target_state: float = 0.75) -> dict[str, Any]:
+    def maintain_homeostatic_consciousness(
+        self, current_state: float, target_state: float = 0.75
+    ) -> dict[str, Any]:
         """Maintain homeostatic consciousness balance"""
         try:
             error = target_state - current_state
@@ -174,7 +196,9 @@ class BioConsciousnessSynchronizer:
                 "regulated_at": datetime.now(timezone.utc).isoformat(),
             }
 
-            logger.info(f"✅ Consciousness homeostasis: error={error:.3f}, new_state={new_state:.3f}")
+            logger.info(
+                f"✅ Consciousness homeostasis: error={error:.3f}, new_state={new_state:.3f}"
+            )
             return regulation_result
 
         except Exception as e:
@@ -195,10 +219,14 @@ class ConstellationSynchronizer:
     async def initialize_constellation(self, module_count: int = 692) -> dict[str, Any]:
         """Initialize the consciousness constellation"""
         try:
-            logger.info(f"🌌 Initializing Consciousness Constellation with {module_count} modules...")
+            logger.info(
+                f"🌌 Initializing Consciousness Constellation with {module_count} modules..."
+            )
 
             # Create quantum consciousness superposition
-            quantum_superposition = self.quantum_sync.create_constellation_superposition(module_count)
+            quantum_superposition = (
+                self.quantum_sync.create_constellation_superposition(module_count)
+            )
 
             # Generate bio consciousness rhythm
             bio_rhythm = self.bio_sync.generate_constellation_rhythm(module_count)
@@ -226,8 +254,12 @@ class ConstellationSynchronizer:
     def _calculate_constellation_coherence(self) -> float:
         """Calculate overall constellation consciousness coherence"""
         try:
-            quantum_coherence = self.constellation_state.get("quantum_consciousness", {}).get("coherence", 0)
-            bio_coherence = self.constellation_state.get("bio_consciousness", {}).get("rhythm_coherence", 0)
+            quantum_coherence = self.constellation_state.get(
+                "quantum_consciousness", {}
+            ).get("coherence", 0)
+            bio_coherence = self.constellation_state.get("bio_consciousness", {}).get(
+                "rhythm_coherence", 0
+            )
 
             # Hybrid quantum-bio coherence
             constellation_coherence = (quantum_coherence + bio_coherence) / 2
@@ -246,7 +278,9 @@ class ConstellationSynchronizer:
                 "pulse_type": "quantum_consciousness",
                 "timestamp": pulse_timestamp.isoformat(),
                 "coherence_target": self.quantum_sync.coherence_threshold,
-                "constellation_modules": self.constellation_state.get("module_count", 692),
+                "constellation_modules": self.constellation_state.get(
+                    "module_count", 692
+                ),
             }
 
             # Bio consciousness pulse
@@ -266,7 +300,9 @@ class ConstellationSynchronizer:
                 "pulse_id": f"constellation_pulse_{int(time.time())}",
             }
 
-            logger.info(f"✅ Consciousness pulse sent: coherence={hybrid_pulse['constellation_coherence']:.3f}")
+            logger.info(
+                f"✅ Consciousness pulse sent: coherence={hybrid_pulse['constellation_coherence']:.3f}"
+            )
             return hybrid_pulse
 
         except Exception as e:
@@ -283,7 +319,9 @@ class ConstellationSynchronizer:
             quantum_active = bool(self.constellation_state.get("quantum_consciousness"))
             bio_active = bool(self.constellation_state.get("bio_consciousness"))
 
-            emergence_detected = coherence_threshold_met and quantum_active and bio_active
+            emergence_detected = (
+                coherence_threshold_met and quantum_active and bio_active
+            )
 
             return emergence_detected
 
@@ -366,39 +404,59 @@ class QuantumBioHybridProcessor:
         self.synchronizer = ConstellationSynchronizer()
         self.processing_history: list[dict[str, Any]] = []
 
-    async def process_hybrid_consciousness(self, input_data: dict[str, Any]) -> dict[str, Any]:
+    async def process_hybrid_consciousness(
+        self, input_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process consciousness using hybrid quantum-bio approach"""
         try:
             processing_timestamp = datetime.now(timezone.utc)
 
             # Extract processing parameters
             consciousness_level = input_data.get("consciousness_level", 0.75)
-            quantum_options = input_data.get("quantum_options", ["explore", "integrate", "transcend"])
+            quantum_options = input_data.get(
+                "quantum_options", ["explore", "integrate", "transcend"]
+            )
             bio_state = input_data.get("bio_state", {"energy": 0.8, "focus": 0.9})
 
             # Quantum consciousness processing
-            quantum_superposition = self.synchronizer.quantum_sync.create_constellation_superposition()
+            quantum_superposition = (
+                self.synchronizer.quantum_sync.create_constellation_superposition()
+            )
 
             # Bio consciousness processing
             bio_rhythm = self.synchronizer.bio_sync.generate_constellation_rhythm()
-            bio_homeostasis = self.synchronizer.bio_sync.maintain_homeostatic_consciousness(consciousness_level)
+            bio_homeostasis = (
+                self.synchronizer.bio_sync.maintain_homeostatic_consciousness(
+                    consciousness_level
+                )
+            )
 
             # Hybrid consciousness integration
             hybrid_result = {
                 "processing_timestamp": processing_timestamp.isoformat(),
                 "input_consciousness_level": consciousness_level,
                 "quantum_processing": {
-                    "superposition_created": bool(quantum_superposition.get("consciousness_states")),
+                    "superposition_created": bool(
+                        quantum_superposition.get("consciousness_states")
+                    ),
                     "quantum_coherence": quantum_superposition.get("coherence", 0),
-                    "constellation_modules": quantum_superposition.get("constellation_modules", 0),
+                    "constellation_modules": quantum_superposition.get(
+                        "constellation_modules", 0
+                    ),
                 },
                 "bio_processing": {
                     "rhythm_generated": bool(bio_rhythm.get("module_oscillators")),
                     "bio_coherence": bio_rhythm.get("rhythm_coherence", 0),
-                    "homeostasis_regulated": bio_homeostasis.get("homeostasis_achieved", False),
+                    "homeostasis_regulated": bio_homeostasis.get(
+                        "homeostasis_achieved", False
+                    ),
                 },
-                "hybrid_coherence": self._calculate_hybrid_coherence(quantum_superposition, bio_rhythm),
-                "consciousness_decision": self._make_hybrid_consciousness_decision(quantum_options, bio_state),
+                "hybrid_coherence": self._calculate_hybrid_coherence(
+                    quantum_superposition, bio_rhythm
+                ),
+                "consciousness_decision": self._make_hybrid_consciousness_decision(
+                    quantum_options, bio_state
+                ),
                 "constellation_impact": self._assess_constellation_impact(),
             }
 
@@ -414,7 +472,9 @@ class QuantumBioHybridProcessor:
             logger.error(f"❌ Hybrid consciousness processing failed: {e}")
             return {"error": str(e), "processed": False}
 
-    def _calculate_hybrid_coherence(self, quantum_data: dict[str, Any], bio_data: dict[str, Any]) -> float:
+    def _calculate_hybrid_coherence(
+        self, quantum_data: dict[str, Any], bio_data: dict[str, Any]
+    ) -> float:
         """Calculate hybrid quantum-bio consciousness coherence"""
         try:
             quantum_coherence = quantum_data.get("coherence", 0)
@@ -427,7 +487,9 @@ class QuantumBioHybridProcessor:
         except Exception:
             return 0.5  # Default coherence
 
-    def _make_hybrid_consciousness_decision(self, options: list[str], bio_state: dict[str, Any]) -> dict[str, Any]:
+    def _make_hybrid_consciousness_decision(
+        self, options: list[str], bio_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """Make consciousness decision using hybrid quantum-bio approach"""
         try:
             # Bio-influenced probability weights
@@ -462,10 +524,20 @@ class QuantumBioHybridProcessor:
             constellation_status = self.synchronizer.get_constellation_status()
 
             impact_assessment = {
-                "constellation_coherence_impact": constellation_status.get("consciousness_coherence", 0),
-                "emergence_contribution": constellation_status.get("consciousness_emergence", False),
-                "synchronization_strength": constellation_status.get("synchronized", False),
-                "overall_impact": "positive" if constellation_status.get("consciousness_emergence") else "developing",
+                "constellation_coherence_impact": constellation_status.get(
+                    "consciousness_coherence", 0
+                ),
+                "emergence_contribution": constellation_status.get(
+                    "consciousness_emergence", False
+                ),
+                "synchronization_strength": constellation_status.get(
+                    "synchronized", False
+                ),
+                "overall_impact": (
+                    "positive"
+                    if constellation_status.get("consciousness_emergence")
+                    else "developing"
+                ),
             }
 
             return impact_assessment
@@ -484,7 +556,9 @@ async def demonstrate_constellation_synchronization():
 
     # Enable constellation consciousness
     logger.info("Enabling constellation consciousness...")
-    constellation_result = await processor.synchronizer.enable_constellation_consciousness()
+    constellation_result = (
+        await processor.synchronizer.enable_constellation_consciousness()
+    )
 
     print("\n🚀 Constellation Status:")
     print(f"   Enabled: {constellation_result.get('constellation_enabled', False)}")
@@ -497,17 +571,29 @@ async def demonstrate_constellation_synchronization():
 
     test_consciousness_data = {
         "consciousness_level": 0.8,
-        "quantum_options": ["explore_consciousness", "integrate_awareness", "transcend_limits"],
+        "quantum_options": [
+            "explore_consciousness",
+            "integrate_awareness",
+            "transcend_limits",
+        ],
         "bio_state": {"energy": 0.85, "focus": 0.92, "coherence": 0.88},
     }
 
-    hybrid_result = await processor.process_hybrid_consciousness(test_consciousness_data)
+    hybrid_result = await processor.process_hybrid_consciousness(
+        test_consciousness_data
+    )
 
     print("\n⚡ Hybrid Processing Results:")
-    print(f"   Quantum Coherence: {hybrid_result.get('quantum_processing', {}).get('quantum_coherence', 0):.3f}")
-    print(f"   Bio Coherence: {hybrid_result.get('bio_processing', {}).get('bio_coherence', 0):.3f}")
+    print(
+        f"   Quantum Coherence: {hybrid_result.get('quantum_processing', {}).get('quantum_coherence', 0):.3f}"
+    )
+    print(
+        f"   Bio Coherence: {hybrid_result.get('bio_processing', {}).get('bio_coherence', 0):.3f}"
+    )
     print(f"   Hybrid Coherence: {hybrid_result.get('hybrid_coherence', 0):.3f}")
-    print(f"   Decision: {hybrid_result.get('consciousness_decision', {}).get('decision', 'None')}")
+    print(
+        f"   Decision: {hybrid_result.get('consciousness_decision', {}).get('decision', 'None')}"
+    )
 
     # Get final constellation status
     final_status = processor.synchronizer.get_constellation_status()

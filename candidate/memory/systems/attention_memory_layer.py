@@ -140,7 +140,9 @@ class MultiHeadAttention:
 
         # Apply mask if provided
         if mask is not None:
-            attention_scores = np.where(mask.reshape(batch_size, 1, seq_len, seq_len), attention_scores, -1e9)
+            attention_scores = np.where(
+                mask.reshape(batch_size, 1, seq_len, seq_len), attention_scores, -1e9
+            )
 
         # Temperature scaling
         attention_scores /= self.config.temperature
@@ -150,7 +152,9 @@ class MultiHeadAttention:
 
         # Apply dropout (simplified - just zeros out some weights)
         if self.config.dropout_rate > 0:
-            dropout_mask = np.random.binomial(1, 1 - self.config.dropout_rate, attention_weights.shape)
+            dropout_mask = np.random.binomial(
+                1, 1 - self.config.dropout_rate, attention_weights.shape
+            )
             attention_weights *= dropout_mask
             attention_weights /= 1 - self.config.dropout_rate
 
@@ -198,7 +202,9 @@ class TemporalAttention:
         self.decay_rate = 0.001  # Decay per day
         self.min_weight = 0.1  # Minimum temporal weight
 
-    def compute_temporal_bias(self, query_time: datetime, memory_times: list[datetime]) -> np.ndarray:
+    def compute_temporal_bias(
+        self, query_time: datetime, memory_times: list[datetime]
+    ) -> np.ndarray:
         """
         Compute temporal bias based on time differences.
 
@@ -246,7 +252,9 @@ class TemporalAttention:
         memories = memory_embeddings.reshape(1, num_memories, -1)
 
         # Apply attention without position bias (temporal weights handled differently)
-        output, attention_weights = self.base_attention.forward(query_batch, memories, memories)
+        output, attention_weights = self.base_attention.forward(
+            query_batch, memories, memories
+        )
 
         # Apply temporal weights to attention scores
         temporal_weights = np.exp(temporal_bias.squeeze())
@@ -276,7 +284,9 @@ class HierarchicalAttention:
         # Pooling sizes for each level
         self.pool_sizes = [2**i for i in range(num_levels)]
 
-    def create_hierarchical_representations(self, memories: np.ndarray) -> list[np.ndarray]:
+    def create_hierarchical_representations(
+        self, memories: np.ndarray
+    ) -> list[np.ndarray]:
         """
         Create multi-scale representations of memories.
 
@@ -324,7 +334,9 @@ class HierarchicalAttention:
         level_weights = []
 
         # Apply attention at each level
-        for _level, (level_memories, attention) in enumerate(zip(hierarchical_memories, self.level_attentions)):
+        for _level, (level_memories, attention) in enumerate(
+            zip(hierarchical_memories, self.level_attentions)
+        ):
             if len(level_memories) == 0:
                 continue
 
@@ -345,7 +357,9 @@ class HierarchicalAttention:
             combined_output = query
 
         # Prepare attention info
-        attention_info = {f"level_{i}_weights": weights for i, weights in enumerate(level_weights)}
+        attention_info = {
+            f"level_{i}_weights": weights for i, weights in enumerate(level_weights)
+        }
 
         if return_all_levels:
             attention_info["level_outputs"] = level_outputs
@@ -503,13 +517,17 @@ class MemoryAttentionOrchestrator:
             memory_times = [m["timestamp"] for m in memories if "embedding" in m]
             query_time = context.get("query_time", datetime.now(timezone.utc))
 
-            _, attention_weights = self.temporal.forward(query_embedding, memory_array, query_time, memory_times)
+            _, attention_weights = self.temporal.forward(
+                query_embedding, memory_array, query_time, memory_times
+            )
 
         elif mode == "hierarchical":
             # Use hierarchical attention
             _, attention_info = self.hierarchical.forward(query_embedding, memory_array)
             # Use finest level weights
-            attention_weights = attention_info.get("level_0_weights", np.ones(len(memory_array)))
+            attention_weights = attention_info.get(
+                "level_0_weights", np.ones(len(memory_array))
+            )
 
         elif mode == "cross_modal" and context and "modalities" in context:
             # Use cross-modal attention
@@ -523,7 +541,9 @@ class MemoryAttentionOrchestrator:
             query_batch = query_embedding.reshape(1, 1, -1)
             memory_batch = memory_array.reshape(1, len(memory_array), -1)
 
-            _, attention_weights = self.multi_head.forward(query_batch, memory_batch, memory_batch)
+            _, attention_weights = self.multi_head.forward(
+                query_batch, memory_batch, memory_batch
+            )
             attention_weights = attention_weights.squeeze()
 
         # Convert to relevance scores
@@ -531,7 +551,9 @@ class MemoryAttentionOrchestrator:
         # Handle different shapes of attention_weights
         if attention_weights.ndim > 1:
             # Average across dimensions if needed
-            weights = attention_weights.mean(axis=tuple(range(attention_weights.ndim - 1)))
+            weights = attention_weights.mean(
+                axis=tuple(range(attention_weights.ndim - 1))
+            )
         else:
             weights = attention_weights
 
@@ -551,7 +573,9 @@ class MemoryAttentionOrchestrator:
         embedding = np.random.randn(self.config.hidden_dim)
         return embedding / np.linalg.norm(embedding)
 
-    def explain_attention(self, attention_weights: np.ndarray, memory_items: list[dict[str, Any]]) -> dict[str, Any]:
+    def explain_attention(
+        self, attention_weights: np.ndarray, memory_items: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Generate human-readable explanation of attention patterns.
 
@@ -570,7 +594,11 @@ class MemoryAttentionOrchestrator:
         }
 
         # Get top attended memories
-        weights = attention_weights if len(attention_weights.shape) == 1 else attention_weights.mean(axis=0)
+        weights = (
+            attention_weights
+            if len(attention_weights.shape) == 1
+            else attention_weights.mean(axis=0)
+        )
 
         top_indices = np.argsort(weights)[-5:][::-1]
 

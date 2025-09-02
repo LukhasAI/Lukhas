@@ -183,7 +183,9 @@ class ConsentReceiptGenerator:
 </svg>"""
 
         # Save SVG file
-        filename = f"consent_receipt_{user_id}_{timestamp.strftime('%Y%m%d_%H%M%S')}.svg"
+        filename = (
+            f"consent_receipt_{user_id}_{timestamp.strftime('%Y%m%d_%H%M%S')}.svg"
+        )
         filepath = self.output_dir / filename
 
         with open(filepath, "w", encoding="utf-8") as f:
@@ -233,7 +235,9 @@ class ConsentReceiptGenerator:
             logger.error(f"QR code generation failed: {e}")
             return ""
 
-    def generate_batch_receipt(self, user_id: str, consent_events: list[dict[str, Any]]) -> str:
+    def generate_batch_receipt(
+        self, user_id: str, consent_events: list[dict[str, Any]]
+    ) -> str:
         """Generate a batch receipt for multiple consent events"""
 
         if not consent_events:
@@ -350,7 +354,9 @@ def main():
         },
     ]
 
-    batch_receipt = generator.generate_batch_receipt(user_id="qi_master", consent_events=consent_events)
+    batch_receipt = generator.generate_batch_receipt(
+        user_id="qi_master", consent_events=consent_events
+    )
 
     print(f"✅ Batch receipt generated: {batch_receipt}")
 

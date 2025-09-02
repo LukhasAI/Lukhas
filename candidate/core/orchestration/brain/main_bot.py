@@ -25,7 +25,6 @@ from typing import Optional
 
 from .attention.qi_attention import QIInspiredAttention
 from .compliance.ethical_engine import ComplianceEngine
-
 # Import our organized components
 from .core.capability_levels import AGICapabilityLevel
 from .core.response_types import AGIResponse

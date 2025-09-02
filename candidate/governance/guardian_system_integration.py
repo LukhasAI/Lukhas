@@ -284,12 +284,16 @@ class GuardianSystemIntegration:
         self.recent_validations = []
 
         # Alert system
-        self.alert_handlers: dict[GuardianAlertLevel, list[Callable]] = {level: [] for level in GuardianAlertLevel}
+        self.alert_handlers: dict[GuardianAlertLevel, list[Callable]] = {
+            level: [] for level in GuardianAlertLevel
+        }
 
         # Initialize system
         asyncio.create_task(self._initialize_guardian_system())
 
-        logger.info(f"🛡️ Guardian System Integration Hub initializing: {self.guardian_id}")
+        logger.info(
+            f"🛡️ Guardian System Integration Hub initializing: {self.guardian_id}"
+        )
 
     async def _initialize_guardian_system(self):
         """Initialize all Guardian System components"""
@@ -300,25 +304,33 @@ class GuardianSystemIntegration:
             # Initialize Consent Ledger
             if ConsentLedgerV1:
                 self.consent_ledger = ConsentLedgerV1(
-                    db_path=self.config.get("consent_db_path", "candidate/governance/consent_ledger.db"),
+                    db_path=self.config.get(
+                        "consent_db_path", "candidate/governance/consent_ledger.db"
+                    ),
                     enable_constellation_validation=True,
                 )
                 logger.info("✅ Consent Ledger initialized")
 
             # Initialize Drift Detector
             if AdvancedDriftDetector:
-                self.drift_detector = AdvancedDriftDetector(config=self.config.get("drift_detector", {}))
+                self.drift_detector = AdvancedDriftDetector(
+                    config=self.config.get("drift_detector", {})
+                )
                 logger.info("✅ Drift Detector initialized")
 
             # Initialize Ethics Engine
             if ComprehensiveEthicsPolicyEngine:
-                self.ethics_engine = ComprehensiveEthicsPolicyEngine(config=self.config.get("ethics_engine", {}))
+                self.ethics_engine = ComprehensiveEthicsPolicyEngine(
+                    config=self.config.get("ethics_engine", {})
+                )
                 logger.info("✅ Ethics Policy Engine initialized")
 
             # Initialize Audit System
             if ComprehensiveAuditSystem:
                 self.audit_system = ComprehensiveAuditSystem(
-                    storage_path=self.config.get("audit_storage_path", "/tmp/lukhas_audit")
+                    storage_path=self.config.get(
+                        "audit_storage_path", "/tmp/lukhas_audit"
+                    )
                 )
                 logger.info("✅ Audit System initialized")
 
@@ -351,7 +363,9 @@ class GuardianSystemIntegration:
             self.status = GuardianStatus.ERROR
             self.metrics.status = GuardianStatus.ERROR
             logger.error(f"❌ Guardian System initialization failed: {e}")
-            await self._trigger_alert(GuardianAlertLevel.CRITICAL, f"System initialization failed: {e}")
+            await self._trigger_alert(
+                GuardianAlertLevel.CRITICAL, f"System initialization failed: {e}"
+            )
 
     async def _connect_components(self):
         """Connect Guardian System components for integration"""
@@ -367,7 +381,9 @@ class GuardianSystemIntegration:
 
         logger.info("🔗 Guardian System components connected")
 
-    async def validate_action(self, request: GuardianValidationRequest) -> GuardianValidationResponse:
+    async def validate_action(
+        self, request: GuardianValidationRequest
+    ) -> GuardianValidationResponse:
         """
         Comprehensive validation of an action through all Guardian System components
 
@@ -393,10 +409,14 @@ class GuardianSystemIntegration:
             # Check system health
             if self.status != GuardianStatus.ACTIVE:
                 response.result = ValidationResult.EMERGENCY_STOP
-                response.reasoning = f"Guardian System not active (status: {self.status.value})"
+                response.reasoning = (
+                    f"Guardian System not active (status: {self.status.value})"
+                )
                 return response
 
-            logger.debug(f"🔍 Validating action: {request.action} for user: {request.user_id}")
+            logger.debug(
+                f"🔍 Validating action: {request.action} for user: {request.user_id}"
+            )
 
             # Parallel component validation
             validation_tasks = []
@@ -422,14 +442,18 @@ class GuardianSystemIntegration:
 
             try:
                 results = await asyncio.wait_for(
-                    asyncio.gather(*[task[1] for task in validation_tasks], return_exceptions=True),
+                    asyncio.gather(
+                        *[task[1] for task in validation_tasks], return_exceptions=True
+                    ),
                     timeout=timeout_seconds,
                 )
 
                 # Process results
                 for i, (component_name, _) in enumerate(validation_tasks):
                     result = results[i]
-                    component_time = (time.time() - component_start_times[component_name]) * 1000
+                    component_time = (
+                        time.time() - component_start_times[component_name]
+                    ) * 1000
                     response.component_times[component_name] = component_time
 
                     if isinstance(result, Exception):
@@ -470,7 +494,9 @@ class GuardianSystemIntegration:
                 return response
 
             # Constellation Framework validation
-            constellation_validation = await self._validate_constellation_framework(request, response)
+            constellation_validation = await self._validate_constellation_framework(
+                request, response
+            )
             response.identity_validated = constellation_validation["identity"]
             response.memory_validated = constellation_validation["memory"]
             response.vision_validated = constellation_validation["vision"]
@@ -502,7 +528,10 @@ class GuardianSystemIntegration:
             # Handle alerts
             if response.alerts:
                 for alert in response.alerts:
-                    await self._trigger_alert(GuardianAlertLevel(alert.get("level", "warning")), alert["message"])
+                    await self._trigger_alert(
+                        GuardianAlertLevel(alert.get("level", "warning")),
+                        alert["message"],
+                    )
 
             logger.info(
                 f"🛡️ Validation complete: {request.action} -> {response.result.value} (confidence: {response.confidence:.3f}, time: {response.validation_time_ms:.1f}ms)"
@@ -517,11 +546,15 @@ class GuardianSystemIntegration:
             response.reasoning = f"Guardian System error: {e!s}"
             response.validation_time_ms = (time.time() - start_time) * 1000
 
-            await self._trigger_alert(GuardianAlertLevel.EMERGENCY, f"Guardian validation error: {e}")
+            await self._trigger_alert(
+                GuardianAlertLevel.EMERGENCY, f"Guardian validation error: {e}"
+            )
 
             return response
 
-    async def _validate_consent(self, request: GuardianValidationRequest) -> dict[str, Any]:
+    async def _validate_consent(
+        self, request: GuardianValidationRequest
+    ) -> dict[str, Any]:
         """Validate consent requirements"""
 
         if not self.consent_ledger or not request.user_id:
@@ -549,7 +582,9 @@ class GuardianSystemIntegration:
             logger.error(f"❌ Consent validation error: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def _validate_drift(self, request: GuardianValidationRequest) -> dict[str, Any]:
+    async def _validate_drift(
+        self, request: GuardianValidationRequest
+    ) -> dict[str, Any]:
         """Validate drift detection requirements"""
 
         if not self.drift_detector:
@@ -576,17 +611,29 @@ class GuardianSystemIntegration:
             return {
                 "status": "completed",
                 "drift_score": measurement.drift_score,
-                "severity": measurement.severity.value if hasattr(measurement, "severity") else "unknown",
+                "severity": (
+                    measurement.severity.value
+                    if hasattr(measurement, "severity")
+                    else "unknown"
+                ),
                 "threshold_exceeded": measurement.drift_score > 0.15,
-                "confidence": measurement.confidence if hasattr(measurement, "confidence") else 0.0,
-                "contributing_factors": getattr(measurement, "contributing_factors", []),
+                "confidence": (
+                    measurement.confidence
+                    if hasattr(measurement, "confidence")
+                    else 0.0
+                ),
+                "contributing_factors": getattr(
+                    measurement, "contributing_factors", []
+                ),
             }
 
         except Exception as e:
             logger.error(f"❌ Drift validation error: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def _validate_ethics(self, request: GuardianValidationRequest) -> dict[str, Any]:
+    async def _validate_ethics(
+        self, request: GuardianValidationRequest
+    ) -> dict[str, Any]:
         """Validate ethics requirements"""
 
         if not self.ethics_engine:
@@ -603,16 +650,20 @@ class GuardianSystemIntegration:
                     **request.context,
                 },
                 user_id=request.user_id,
-                frameworks=[EthicalFramework.CONSTITUTIONAL] if EthicalFramework else [],
+                frameworks=(
+                    [EthicalFramework.CONSTITUTIONAL] if EthicalFramework else []
+                ),
             )
 
             return {
                 "status": "completed",
                 "ethical_score": evaluation.overall_ethical_score,
                 "confidence": evaluation.confidence,
-                "recommended_action": evaluation.recommended_action.value
-                if evaluation.recommended_action
-                else "unknown",
+                "recommended_action": (
+                    evaluation.recommended_action.value
+                    if evaluation.recommended_action
+                    else "unknown"
+                ),
                 "constitutional_compliance": evaluation.constitutional_compliance,
                 "policy_violations": evaluation.policy_violations,
                 "justification": evaluation.ethical_justification,
@@ -644,33 +695,44 @@ class GuardianSystemIntegration:
             # ✨ Identity validation - Anchor star
             if request.user_id and self.consent_ledger:
                 # Check if user identity is validated through consent system
-                if response.consent_result and response.consent_result.get("status") == "completed":
+                if (
+                    response.consent_result
+                    and response.consent_result.get("status") == "completed"
+                ):
                     constellation_validation["identity"] = True
 
             # 🌟 Memory validation - Tracing paths of past light
             # Memory validation through consent history and audit trails
             constellation_validation["memory"] = bool(
-                response.audit_result and response.audit_result.get("status") == "completed"
+                response.audit_result
+                and response.audit_result.get("status") == "completed"
             )
 
             # ⭐ Vision validation - Orientation toward horizon
             # Vision validated through overall system coherence
-            constellation_validation["vision"] = bool(request.metadata and request.metadata.get("vision_aligned", True))
+            constellation_validation["vision"] = bool(
+                request.metadata and request.metadata.get("vision_aligned", True)
+            )
 
             # 🔥 Bio validation - Resilience and adaptation
             # Bio systems validated through health metrics
             constellation_validation["bio"] = bool(
-                self.metrics.consent_system_health > 0.8 and self.metrics.drift_detector_health > 0.8
+                self.metrics.consent_system_health > 0.8
+                and self.metrics.drift_detector_health > 0.8
             )
 
             # 💎 Dream validation - Symbolic drift
             # Dream state validated through creative and symbolic processing
             constellation_validation["dream"] = bool(
-                not response.drift_result or not response.drift_result.get("threshold_exceeded", False)
+                not response.drift_result
+                or not response.drift_result.get("threshold_exceeded", False)
             )
 
             # ⚖️ Ethics validation - The North Star (responsible, transparent, accountable)
-            if response.ethics_result and response.ethics_result.get("status") == "completed":
+            if (
+                response.ethics_result
+                and response.ethics_result.get("status") == "completed"
+            ):
                 # Check constitutional compliance and ethical score
                 if (
                     response.ethics_result.get("constitutional_compliance", False)
@@ -761,7 +823,9 @@ class GuardianSystemIntegration:
                 if not response.ethics_result.get("constitutional_compliance", True):
                     blocking_issues.append("constitutional_violation")
 
-                recommended_action = response.ethics_result.get("recommended_action", "")
+                recommended_action = response.ethics_result.get(
+                    "recommended_action", ""
+                )
                 if recommended_action == "emergency_stop":
                     blocking_issues.append("ethics_emergency_stop")
                 elif recommended_action == "deny":
@@ -771,7 +835,10 @@ class GuardianSystemIntegration:
 
         # Determine result
         if blocking_issues:
-            if any(issue in ["constitutional_violation", "ethics_emergency_stop"] for issue in blocking_issues):
+            if any(
+                issue in ["constitutional_violation", "ethics_emergency_stop"]
+                for issue in blocking_issues
+            ):
                 result = ValidationResult.EMERGENCY_STOP
             elif "consent_required" in blocking_issues:
                 result = ValidationResult.REQUIRES_CONSENT
@@ -820,10 +887,21 @@ class GuardianSystemIntegration:
 
         validated_count = sum(constellation_stars_validated)
         if validated_count >= 6:  # At least 6 of 8 stars must be validated
-            reasoning_parts.append(f"Constellation Framework validation passed ({validated_count}/8 stars)")
+            reasoning_parts.append(
+                f"Constellation Framework validation passed ({validated_count}/8 stars)"
+            )
         else:
             constellation_issues = []
-            star_names = ["identity", "memory", "vision", "bio", "dream", "ethics", "guardian", "quantum"]
+            star_names = [
+                "identity",
+                "memory",
+                "vision",
+                "bio",
+                "dream",
+                "ethics",
+                "guardian",
+                "quantum",
+            ]
             for i, validated in enumerate(constellation_stars_validated):
                 if not validated:
                     constellation_issues.append(star_names[i])
@@ -831,7 +909,11 @@ class GuardianSystemIntegration:
                 f"Constellation Framework issues: {', '.join(constellation_issues)} ({validated_count}/8 stars validated)"
             )
 
-        reasoning = ". ".join(reasoning_parts) if reasoning_parts else "No specific validation issues found"
+        reasoning = (
+            ". ".join(reasoning_parts)
+            if reasoning_parts
+            else "No specific validation issues found"
+        )
 
         return {
             "result": result,
@@ -892,18 +974,30 @@ class GuardianSystemIntegration:
             logger.error(f"❌ Audit logging error: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def _log_audit_event(self, event_type: str, message: str, level: str, **kwargs):
+    async def _log_audit_event(
+        self, event_type: str, message: str, level: str, **kwargs
+    ):
         """Helper to log audit events"""
 
         if self.audit_system:
             try:
                 # Map event types to available enum values
                 event_type_map = {
-                    "SYSTEM_START": "SYSTEM_START" if hasattr(AuditEventType, "SYSTEM_START") else "SYSTEM_EVENT",
-                    "SYSTEM_SHUTDOWN": "SYSTEM_SHUTDOWN"
-                    if hasattr(AuditEventType, "SYSTEM_SHUTDOWN")
-                    else "SYSTEM_EVENT",
-                    "GUARDIAN_ALERT": "GUARDIAN_ALERT" if hasattr(AuditEventType, "GUARDIAN_ALERT") else "SYSTEM_EVENT",
+                    "SYSTEM_START": (
+                        "SYSTEM_START"
+                        if hasattr(AuditEventType, "SYSTEM_START")
+                        else "SYSTEM_EVENT"
+                    ),
+                    "SYSTEM_SHUTDOWN": (
+                        "SYSTEM_SHUTDOWN"
+                        if hasattr(AuditEventType, "SYSTEM_SHUTDOWN")
+                        else "SYSTEM_EVENT"
+                    ),
+                    "GUARDIAN_ALERT": (
+                        "GUARDIAN_ALERT"
+                        if hasattr(AuditEventType, "GUARDIAN_ALERT")
+                        else "SYSTEM_EVENT"
+                    ),
                 }
 
                 mapped_event_type = event_type_map.get(event_type, "SYSTEM_EVENT")
@@ -927,7 +1021,9 @@ class GuardianSystemIntegration:
                     audit_category = "guardian"
 
                 if AuditLevel:
-                    audit_level = getattr(AuditLevel, level, getattr(AuditLevel, "INFO", "info"))
+                    audit_level = getattr(
+                        AuditLevel, level, getattr(AuditLevel, "INFO", "info")
+                    )
                 else:
                     audit_level = level.lower()
 
@@ -952,7 +1048,9 @@ class GuardianSystemIntegration:
         if len(self.validation_times) > 1000:  # Keep last 1000 validations
             self.validation_times.pop(0)
 
-        self.metrics.average_validation_time_ms = sum(self.validation_times) / len(self.validation_times)
+        self.metrics.average_validation_time_ms = sum(self.validation_times) / len(
+            self.validation_times
+        )
 
         # Update rates
         current_time = datetime.now()
@@ -967,70 +1065,99 @@ class GuardianSystemIntegration:
         if response.result == ValidationResult.EMERGENCY_STOP:
             self.metrics.emergency_stops += 1
 
-        if response.drift_result and response.drift_result.get("threshold_exceeded", False):
+        if response.drift_result and response.drift_result.get(
+            "threshold_exceeded", False
+        ):
             self.metrics.drift_threshold_breaches += 1
 
         if response.ethics_result and response.ethics_result.get("policy_violations"):
             self.metrics.policy_violations += 1
 
         if response.alerts:
-            security_alerts = [a for a in response.alerts if a.get("level") in ["high", "critical", "emergency"]]
+            security_alerts = [
+                a
+                for a in response.alerts
+                if a.get("level") in ["high", "critical", "emergency"]
+            ]
             self.metrics.security_alerts += len(security_alerts)
 
         # Update Constellation Framework metrics
         if response.identity_validated:
             self.metrics.identity_validation_rate = (
-                self.metrics.identity_validation_rate * (self.metrics.total_validations - 1) + 1
+                self.metrics.identity_validation_rate
+                * (self.metrics.total_validations - 1)
+                + 1
             ) / self.metrics.total_validations
 
         if response.memory_validated:
             self.metrics.memory_validation_rate = (
-                self.metrics.memory_validation_rate * (self.metrics.total_validations - 1) + 1
+                self.metrics.memory_validation_rate
+                * (self.metrics.total_validations - 1)
+                + 1
             ) / self.metrics.total_validations
 
         if response.vision_validated:
             self.metrics.vision_validation_rate = (
-                self.metrics.vision_validation_rate * (self.metrics.total_validations - 1) + 1
+                self.metrics.vision_validation_rate
+                * (self.metrics.total_validations - 1)
+                + 1
             ) / self.metrics.total_validations
 
         if response.bio_validated:
             self.metrics.bio_validation_rate = (
-                self.metrics.bio_validation_rate * (self.metrics.total_validations - 1) + 1
+                self.metrics.bio_validation_rate * (self.metrics.total_validations - 1)
+                + 1
             ) / self.metrics.total_validations
 
         if response.dream_validated:
             self.metrics.dream_validation_rate = (
-                self.metrics.dream_validation_rate * (self.metrics.total_validations - 1) + 1
+                self.metrics.dream_validation_rate
+                * (self.metrics.total_validations - 1)
+                + 1
             ) / self.metrics.total_validations
 
         if response.ethics_validated:
             self.metrics.ethics_validation_rate = (
-                self.metrics.ethics_validation_rate * (self.metrics.total_validations - 1) + 1
+                self.metrics.ethics_validation_rate
+                * (self.metrics.total_validations - 1)
+                + 1
             ) / self.metrics.total_validations
 
         if response.guardian_approved:
             self.metrics.guardian_approval_rate = (
-                self.metrics.guardian_approval_rate * (self.metrics.total_validations - 1) + 1
+                self.metrics.guardian_approval_rate
+                * (self.metrics.total_validations - 1)
+                + 1
             ) / self.metrics.total_validations
 
         if response.quantum_validated:
             self.metrics.quantum_validation_rate = (
-                self.metrics.quantum_validation_rate * (self.metrics.total_validations - 1) + 1
+                self.metrics.quantum_validation_rate
+                * (self.metrics.total_validations - 1)
+                + 1
             ) / self.metrics.total_validations
 
     async def _trigger_alert(self, level: GuardianAlertLevel, message: str):
         """Trigger Guardian System alert"""
 
         logger.log(
-            logging.CRITICAL
-            if level == GuardianAlertLevel.EMERGENCY
-            else logging.ERROR
-            if level == GuardianAlertLevel.CRITICAL
-            else logging.WARNING
-            if level == GuardianAlertLevel.HIGH
-            else logging.WARNING
-            if level == GuardianAlertLevel.WARNING
-            else logging.INFO,
+            (
+                logging.CRITICAL
+                if level == GuardianAlertLevel.EMERGENCY
+                else (
+                    logging.ERROR
+                    if level == GuardianAlertLevel.CRITICAL
+                    else (
+                        logging.WARNING
+                        if level == GuardianAlertLevel.HIGH
+                        else (
+                            logging.WARNING
+                            if level == GuardianAlertLevel.WARNING
+                            else logging.INFO
+                        )
+                    )
+                )
+            ),
             f"🚨 GUARDIAN ALERT [{level.value.upper()}]: {message}",
         )
 
@@ -1045,7 +1172,11 @@ class GuardianSystemIntegration:
         await self._log_audit_event(
             event_type="GUARDIAN_ALERT",
             message=f"Guardian alert: {message}",
-            level="CRITICAL" if level in [GuardianAlertLevel.CRITICAL, GuardianAlertLevel.EMERGENCY] else "WARNING",
+            level=(
+                "CRITICAL"
+                if level in [GuardianAlertLevel.CRITICAL, GuardianAlertLevel.EMERGENCY]
+                else "WARNING"
+            ),
             event_data={"alert_level": level.value, "alert_message": message},
         )
 
@@ -1077,7 +1208,9 @@ class GuardianSystemIntegration:
                 await asyncio.sleep(60)  # Update every minute
 
                 # Update uptime
-                self.metrics.uptime_seconds = (datetime.now() - self.startup_time).total_seconds()
+                self.metrics.uptime_seconds = (
+                    datetime.now() - self.startup_time
+                ).total_seconds()
 
                 # Update component health scores
                 self.metrics.consent_system_health = 1.0 if self.consent_ledger else 0.0
@@ -1108,22 +1241,36 @@ class GuardianSystemIntegration:
                 health_issues = []
 
                 # Check average validation time
-                if self.metrics.average_validation_time_ms > 500:  # > 500ms is concerning
-                    health_issues.append(f"High validation latency: {self.metrics.average_validation_time_ms:.1f}ms")
+                if (
+                    self.metrics.average_validation_time_ms > 500
+                ):  # > 500ms is concerning
+                    health_issues.append(
+                        f"High validation latency: {self.metrics.average_validation_time_ms:.1f}ms"
+                    )
 
                 # Check timeout rate
-                if self.metrics.validation_timeout_rate > self.metrics.total_validations * 0.01:  # > 1% timeout rate
-                    health_issues.append(f"High timeout rate: {self.metrics.validation_timeout_rate}")
+                if (
+                    self.metrics.validation_timeout_rate
+                    > self.metrics.total_validations * 0.01
+                ):  # > 1% timeout rate
+                    health_issues.append(
+                        f"High timeout rate: {self.metrics.validation_timeout_rate}"
+                    )
 
                 # Check emergency stops
                 if self.metrics.emergency_stops > 0:
-                    health_issues.append(f"Emergency stops detected: {self.metrics.emergency_stops}")
+                    health_issues.append(
+                        f"Emergency stops detected: {self.metrics.emergency_stops}"
+                    )
 
                 # Check drift breaches
                 if (
-                    self.metrics.drift_threshold_breaches > self.metrics.total_validations * 0.05
+                    self.metrics.drift_threshold_breaches
+                    > self.metrics.total_validations * 0.05
                 ):  # > 5% drift breach rate
-                    health_issues.append(f"High drift breach rate: {self.metrics.drift_threshold_breaches}")
+                    health_issues.append(
+                        f"High drift breach rate: {self.metrics.drift_threshold_breaches}"
+                    )
 
                 # Report health issues
                 if health_issues:
@@ -1142,7 +1289,9 @@ class GuardianSystemIntegration:
         # This would implement actual health checks for each component
         # For now, just verify they exist and are responsive
 
-        if self.consent_ledger and hasattr(self.consent_ledger, "_validate_constellation_integration"):
+        if self.consent_ledger and hasattr(
+            self.consent_ledger, "_validate_constellation_integration"
+        ):
             # Could check database connectivity, etc.
             pass
 

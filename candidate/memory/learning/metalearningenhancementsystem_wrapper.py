@@ -70,31 +70,50 @@ class MetaLearningEnhancementWrapper:
         """Initialize and discover existing meta-learning systems"""
         try:
             # Discover and enhance existing systems
-            discovery_results = await self.enhancement_system.discover_and_enhance_meta_learning_systems()
-
-            # Update stats from discovery
-            self.integration_stats["total_enhancements"] = len(discovery_results.get("enhancement_results", []))
-            self.integration_stats["successful_enhancements"] = sum(
-                1 for r in discovery_results.get("enhancement_results", []) if r.get("success", False)
+            discovery_results = (
+                await self.enhancement_system.discover_and_enhance_meta_learning_systems()
             )
 
-            logger.info(f"Enhanced {self.integration_stats['successful_enhancements']} meta-learning systems")
+            # Update stats from discovery
+            self.integration_stats["total_enhancements"] = len(
+                discovery_results.get("enhancement_results", [])
+            )
+            self.integration_stats["successful_enhancements"] = sum(
+                1
+                for r in discovery_results.get("enhancement_results", [])
+                if r.get("success", False)
+            )
+
+            logger.info(
+                f"Enhanced {self.integration_stats['successful_enhancements']} meta-learning systems"
+            )
             return True
 
         except Exception as e:
             logger.error(f"Failed to initialize meta-learning enhancement: {e}")
             return False
 
-    async def enhance_learning_process(self, learning_context: dict[str, Any]) -> dict[str, Any]:
+    async def enhance_learning_process(
+        self, learning_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Enhance a learning process with monitoring and optimization"""
         try:
             # Create enhanced learning configuration
-            enhanced_config = await self.enhancement_system.create_enhanced_learning_config(learning_context)
+            enhanced_config = (
+                await self.enhancement_system.create_enhanced_learning_config(
+                    learning_context
+                )
+            )
 
             # Apply dynamic optimization if enabled
-            if self.enhancement_system.enhancement_mode == EnhancementMode.OPTIMIZATION_ACTIVE:
-                optimization_result = await self.enhancement_system.apply_dynamic_optimization(
-                    enhanced_config, learning_context
+            if (
+                self.enhancement_system.enhancement_mode
+                == EnhancementMode.OPTIMIZATION_ACTIVE
+            ):
+                optimization_result = (
+                    await self.enhancement_system.apply_dynamic_optimization(
+                        enhanced_config, learning_context
+                    )
                 )
                 enhanced_config["optimization"] = optimization_result
                 self.integration_stats["optimization_events"] += 1
@@ -111,7 +130,8 @@ class MetaLearningEnhancementWrapper:
                 "success": True,
                 "enhanced_config": enhanced_config,
                 "monitoring_active": True,
-                "optimization_applied": self.enhancement_system.enhancement_mode == EnhancementMode.OPTIMIZATION_ACTIVE,
+                "optimization_applied": self.enhancement_system.enhancement_mode
+                == EnhancementMode.OPTIMIZATION_ACTIVE,
             }
 
         except Exception as e:
@@ -122,13 +142,19 @@ class MetaLearningEnhancementWrapper:
     async def get_learning_metrics(self) -> dict[str, Any]:
         """Get current learning metrics from monitor dashboard"""
         if hasattr(self.enhancement_system, "monitor_dashboard"):
-            return await self.enhancement_system.monitor_dashboard.get_aggregated_metrics()
+            return (
+                await self.enhancement_system.monitor_dashboard.get_aggregated_metrics()
+            )
         return {}
 
-    async def apply_symbolic_feedback(self, feedback_data: dict[str, Any]) -> dict[str, Any]:
+    async def apply_symbolic_feedback(
+        self, feedback_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply symbolic feedback to learning process"""
         if hasattr(self.enhancement_system, "symbolic_feedback"):
-            return await self.enhancement_system.symbolic_feedback.process_feedback(feedback_data)
+            return await self.enhancement_system.symbolic_feedback.process_feedback(
+                feedback_data
+            )
         return {"error": "Symbolic feedback not available"}
 
     async def enable_federation(self, federation_config: dict[str, Any]) -> bool:
@@ -141,9 +167,11 @@ class MetaLearningEnhancementWrapper:
                     FederationStrategy,
                 )
 
-                self.enhancement_system.federated_integration = FederatedLearningIntegration(
-                    node_id=self.enhancement_system.node_id,
-                    federation_strategy=FederationStrategy.BALANCED_HYBRID,
+                self.enhancement_system.federated_integration = (
+                    FederatedLearningIntegration(
+                        node_id=self.enhancement_system.node_id,
+                        federation_strategy=FederationStrategy.BALANCED_HYBRID,
+                    )
                 )
 
                 # Connect with other components

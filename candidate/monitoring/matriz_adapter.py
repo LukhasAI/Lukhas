@@ -38,7 +38,11 @@ class MonitoringMatrizAdapter:
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
                 "producer": "lukhas.monitoring",
-                "capabilities": ["monitoring:metrics", "monitoring:drift", "monitoring:alert"],
+                "capabilities": [
+                    "monitoring:metrics",
+                    "monitoring:drift",
+                    "monitoring:alert",
+                ],
                 "tenant": "system",
                 "trace_id": f"LT-MON-{int(time.time())}",
                 "consent_scopes": ["system:monitoring"],
@@ -52,7 +56,9 @@ class MonitoringMatrizAdapter:
         return node
 
     @staticmethod
-    def emit_drift_detection(drift_score: float, component: str, threshold: float = 0.15) -> dict[str, Any]:
+    def emit_drift_detection(
+        drift_score: float, component: str, threshold: float = 0.15
+    ) -> dict[str, Any]:
         """Emit a drift detection node"""
 
         urgency = min(1.0, drift_score / threshold) if drift_score > threshold else 0.0
@@ -102,10 +108,17 @@ class MonitoringMatrizAdapter:
         )
 
     @staticmethod
-    def emit_health_check(component: str, status: str, details: Optional[dict] = None) -> dict[str, Any]:
+    def emit_health_check(
+        component: str, status: str, details: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Emit a health check node"""
 
-        status_urgency = {"healthy": 0.0, "degraded": 0.5, "unhealthy": 0.9, "critical": 1.0}
+        status_urgency = {
+            "healthy": 0.0,
+            "degraded": 0.5,
+            "unhealthy": 0.9,
+            "critical": 1.0,
+        }
 
         return MonitoringMatrizAdapter.create_node(
             node_type="AWARENESS",
@@ -129,7 +142,13 @@ class MonitoringMatrizAdapter:
                 return False
 
         # Check required provenance fields
-        required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
+        required_prov = [
+            "producer",
+            "capabilities",
+            "tenant",
+            "trace_id",
+            "consent_scopes",
+        ]
         return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod
@@ -159,7 +178,8 @@ def wrap_drift_detection(original_func):
         # Extract drift score from result (adapt based on actual function)
         if isinstance(result, dict) and "drift_score" in result:
             node = MonitoringMatrizAdapter.emit_drift_detection(
-                drift_score=result["drift_score"], component=result.get("component", "unknown")
+                drift_score=result["drift_score"],
+                component=result.get("component", "unknown"),
             )
             MonitoringMatrizAdapter.save_node(node)
 
@@ -178,7 +198,9 @@ def wrap_metric_collection(original_func):
         if isinstance(result, dict):
             for metric_name, value in result.items():
                 if isinstance(value, (int, float)):
-                    node = MonitoringMatrizAdapter.emit_performance_metric(metric_name=metric_name, value=value)
+                    node = MonitoringMatrizAdapter.emit_performance_metric(
+                        metric_name=metric_name, value=value
+                    )
                     MonitoringMatrizAdapter.save_node(node)
 
         return result

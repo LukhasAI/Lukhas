@@ -29,7 +29,9 @@ def _now() -> float:
 
 
 def _sha(obj: Any) -> str:
-    return hashlib.sha256(json.dumps(obj, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(obj, sort_keys=True, ensure_ascii=False).encode()
+    ).hexdigest()
 
 
 @dataclass
@@ -98,20 +100,36 @@ class HumanAdaptEngine:
             for tag in i.get("tone_tags", []):
                 by_tone.setdefault(tag, []).append(i)
 
-        stats = {"by_user": {}, "by_task": {}, "by_tone": {}, "window": window, "ts": _now()}
+        stats = {
+            "by_user": {},
+            "by_task": {},
+            "by_tone": {},
+            "window": window,
+            "ts": _now(),
+        }
 
         for user, arr in by_user.items():
-            scores = [x["satisfaction_score"] for x in arr if x.get("satisfaction_score") is not None]
+            scores = [
+                x["satisfaction_score"]
+                for x in arr
+                if x.get("satisfaction_score") is not None
+            ]
             if scores:
                 stats["by_user"][user] = {
                     "n": len(arr),
                     "sat_mean": round(statistics.mean(scores), 2),
-                    "sat_trend": self._compute_trend([x["satisfaction_score"] for x in arr[-20:]]),
+                    "sat_trend": self._compute_trend(
+                        [x["satisfaction_score"] for x in arr[-20:]]
+                    ),
                     "common_corrections": self._extract_correction_patterns(arr),
                 }
 
         for task, arr in by_task.items():
-            scores = [x["satisfaction_score"] for x in arr if x.get("satisfaction_score") is not None]
+            scores = [
+                x["satisfaction_score"]
+                for x in arr
+                if x.get("satisfaction_score") is not None
+            ]
             if scores:
                 stats["by_task"][task] = {
                     "n": len(arr),
@@ -120,7 +138,11 @@ class HumanAdaptEngine:
                 }
 
         for tone, arr in by_tone.items():
-            scores = [x["satisfaction_score"] for x in arr if x.get("satisfaction_score") is not None]
+            scores = [
+                x["satisfaction_score"]
+                for x in arr
+                if x.get("satisfaction_score") is not None
+            ]
             if scores:
                 stats["by_tone"][tone] = {
                     "n": len(arr),
@@ -129,7 +151,9 @@ class HumanAdaptEngine:
 
         return stats
 
-    def propose_tone_adaptations(self, *, target_file: str, user_focus: str | None = None) -> list[dict]:
+    def propose_tone_adaptations(
+        self, *, target_file: str, user_focus: str | None = None
+    ) -> list[dict]:
         """
         Generate proposals for tone/style adjustments based on satisfaction analysis.
         """
@@ -144,10 +168,19 @@ class HumanAdaptEngine:
                 if "too_verbose" in corrections:
                     patch = {
                         "router": {
-                            "user_specific": {user_focus: {"response_style": {"max_tokens": 150, "conciseness": 0.8}}}
+                            "user_specific": {
+                                user_focus: {
+                                    "response_style": {
+                                        "max_tokens": 150,
+                                        "conciseness": 0.8,
+                                    }
+                                }
+                            }
                         }
                     }
-                    pid = _sha({"user": user_focus, "adaptation": "concise", "ts": int(_now())})
+                    pid = _sha(
+                        {"user": user_focus, "adaptation": "concise", "ts": int(_now())}
+                    )
                     proposals.append(
                         {
                             "id": pid,
@@ -172,7 +205,13 @@ class HumanAdaptEngine:
                             }
                         }
                     }
-                    pid = _sha({"user": user_focus, "adaptation": "simplify", "ts": int(_now())})
+                    pid = _sha(
+                        {
+                            "user": user_focus,
+                            "adaptation": "simplify",
+                            "ts": int(_now()),
+                        }
+                    )
                     proposals.append(
                         {
                             "id": pid,
@@ -189,9 +228,20 @@ class HumanAdaptEngine:
             if task_stats["sat_mean"] < 3.0 and task_stats["low_sat_count"] >= 3:
                 # Global task adaptation
                 patch = {
-                    "router": {"task_specific": {task: {"response_style": {"formality": 0.6, "empathy_level": 0.7}}}}
+                    "router": {
+                        "task_specific": {
+                            task: {
+                                "response_style": {
+                                    "formality": 0.6,
+                                    "empathy_level": 0.7,
+                                }
+                            }
+                        }
+                    }
                 }
-                pid = _sha({"task": task, "adaptation": "empathy_boost", "ts": int(_now())})
+                pid = _sha(
+                    {"task": task, "adaptation": "empathy_boost", "ts": int(_now())}
+                )
                 proposals.append(
                     {
                         "id": pid,
@@ -214,8 +264,17 @@ class HumanAdaptEngine:
             worst_tone, worst_score = tone_rankings[-1]
 
             if best_score - worst_score > 1.0:  # Significant difference
-                patch = {"router": {"global": {"preferred_tones": [best_tone], "avoid_tones": [worst_tone]}}}
-                pid = _sha({"tone_shift": f"{worst_tone}_to_{best_tone}", "ts": int(_now())})
+                patch = {
+                    "router": {
+                        "global": {
+                            "preferred_tones": [best_tone],
+                            "avoid_tones": [worst_tone],
+                        }
+                    }
+                }
+                pid = _sha(
+                    {"tone_shift": f"{worst_tone}_to_{best_tone}", "ts": int(_now())}
+                )
                 proposals.append(
                     {
                         "id": pid,
@@ -305,17 +364,37 @@ class HumanAdaptEngine:
 
     def _extract_correction_patterns(self, interactions: list[dict]) -> list[str]:
         patterns = []
-        corrections = [i for i in interactions if i.get("interaction_kind") == "correction"]
+        corrections = [
+            i for i in interactions if i.get("interaction_kind") == "correction"
+        ]
 
         feedback_texts = [c["user_feedback"].lower() for c in corrections]
 
-        if sum("verbose" in f or "long" in f or "wordy" in f for f in feedback_texts) >= 2:
+        if (
+            sum("verbose" in f or "long" in f or "wordy" in f for f in feedback_texts)
+            >= 2
+        ):
             patterns.append("too_verbose")
-        if sum("technical" in f or "jargon" in f or "complex" in f for f in feedback_texts) >= 2:
+        if (
+            sum(
+                "technical" in f or "jargon" in f or "complex" in f
+                for f in feedback_texts
+            )
+            >= 2
+        ):
             patterns.append("too_technical")
-        if sum("formal" in f or "stiff" in f or "robotic" in f for f in feedback_texts) >= 2:
+        if (
+            sum("formal" in f or "stiff" in f or "robotic" in f for f in feedback_texts)
+            >= 2
+        ):
             patterns.append("too_formal")
-        if sum("short" in f or "brief" in f or "more detail" in f for f in feedback_texts) >= 2:
+        if (
+            sum(
+                "short" in f or "brief" in f or "more detail" in f
+                for f in feedback_texts
+            )
+            >= 2
+        ):
             patterns.append("too_brief")
 
         return patterns
@@ -343,7 +422,11 @@ class HumanAdaptEngine:
     def _read_proposals(self) -> list[dict]:
         if not os.path.exists(PROPOSALS):
             return []
-        return [json.loads(ln) for ln in _ORIG_OPEN(PROPOSALS, "r", encoding="utf-8").read().splitlines() if ln.strip()]
+        return [
+            json.loads(ln)
+            for ln in _ORIG_OPEN(PROPOSALS, "r", encoding="utf-8").read().splitlines()
+            if ln.strip()
+        ]
 
     def _write_proposals(self, proposals: list[dict]):
         tmp = PROPOSALS + ".tmp"
@@ -360,8 +443,14 @@ def main():
     ap = argparse.ArgumentParser(description="Human Adaptation Engine")
     ap.add_argument("command", choices=["analyze", "propose", "submit"])
     ap.add_argument("--user-focus")
-    ap.add_argument("--target-file", default="qi/safety/policy_packs/global/mappings.yaml")
-    ap.add_argument("--config-targets", nargs="*", default=["qi/safety/policy_packs/global/mappings.yaml"])
+    ap.add_argument(
+        "--target-file", default="qi/safety/policy_packs/global/mappings.yaml"
+    )
+    ap.add_argument(
+        "--config-targets",
+        nargs="*",
+        default=["qi/safety/policy_packs/global/mappings.yaml"],
+    )
     args = ap.parse_args()
 
     engine = HumanAdaptEngine()
@@ -370,8 +459,15 @@ def main():
         stats = engine.analyze_satisfaction_patterns()
         print(json.dumps(stats, indent=2))
     elif args.command == "propose":
-        proposals = engine.propose_tone_adaptations(target_file=args.target_file, user_focus=args.user_focus)
-        print(json.dumps({"proposals": len(proposals), "ids": [p["id"] for p in proposals]}, indent=2))
+        proposals = engine.propose_tone_adaptations(
+            target_file=args.target_file, user_focus=args.user_focus
+        )
+        print(
+            json.dumps(
+                {"proposals": len(proposals), "ids": [p["id"] for p in proposals]},
+                indent=2,
+            )
+        )
     elif args.command == "submit":
         submitted = engine.submit_for_approval(config_targets=args.config_targets)
         print(json.dumps({"submitted": len(submitted), "ids": submitted}, indent=2))

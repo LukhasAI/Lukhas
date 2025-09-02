@@ -214,7 +214,9 @@ except ImportError as e:
 
     def _update_connector(self, module, filename):
         """Update the module connector to import the new component"""
-        connector_path = Path(self.core_modules[module]["path"]) / "neuroplastic_connector.py"
+        connector_path = (
+            Path(self.core_modules[module]["path"]) / "neuroplastic_connector.py"
+        )
 
         if connector_path.exists():
             with open(connector_path) as f:

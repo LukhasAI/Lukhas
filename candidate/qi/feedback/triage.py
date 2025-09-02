@@ -69,9 +69,13 @@ class FeedbackTriage:
                 continue  # Skip small clusters
 
             # Calculate statistics
-            satisfactions = [fc.get("feedback", {}).get("satisfaction", 0.5) for fc in fcs]
+            satisfactions = [
+                fc.get("feedback", {}).get("satisfaction", 0.5) for fc in fcs
+            ]
             sat_mean = statistics.mean(satisfactions)
-            sat_var = statistics.variance(satisfactions) if len(satisfactions) > 1 else 0.0
+            sat_var = (
+                statistics.variance(satisfactions) if len(satisfactions) > 1 else 0.0
+            )
 
             # Collect common issues
             issue_counter = Counter()

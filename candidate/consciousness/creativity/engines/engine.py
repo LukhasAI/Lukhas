@@ -83,7 +83,9 @@ class LukhasCreateEngine:
         }
         logger.info("🎨 LUKHAS Create Engine initialized successfully")
 
-    async def create(self, request: str, context: Optional[dict[str, Any]] = None, **kwargs) -> CreateResponse:
+    async def create(
+        self, request: str, context: Optional[dict[str, Any]] = None, **kwargs
+    ) -> CreateResponse:
         """
         🚀 Main creation interface - Generate content using AGI capabilities
 
@@ -109,12 +111,16 @@ class LukhasCreateEngine:
         response = await self._generate_content(create_request, enhanced_context)
 
         # Store creation in history for learning
-        self.creation_history.append({"request": create_request, "response": response, "timestamp": time.time()})
+        self.creation_history.append(
+            {"request": create_request, "response": response, "timestamp": time.time()}
+        )
 
         logger.info(f"✅ Content created: {create_request.type.value}")
         return response
 
-    def _parse_request(self, request: str, context: dict[str, Any], **kwargs) -> CreateRequest:
+    def _parse_request(
+        self, request: str, context: dict[str, Any], **kwargs
+    ) -> CreateRequest:
         """Parse natural language request into structured format"""
         return CreateRequest(
             prompt=request,
@@ -203,11 +209,15 @@ class LukhasCreateEngine:
 
         return enhanced_context
 
-    async def _generate_content(self, request: CreateRequest, context: dict[str, Any]) -> CreateResponse:
+    async def _generate_content(
+        self, request: CreateRequest, context: dict[str, Any]
+    ) -> CreateResponse:
         """Generate content using appropriate creator module"""
 
         # Select appropriate creator
-        creator = self.capabilities.get(request.type.value, self.capabilities["text_content"])
+        creator = self.capabilities.get(
+            request.type.value, self.capabilities["text_content"]
+        )
 
         # Generate base content
         content = await creator.create(request, context)
@@ -235,7 +245,9 @@ class LukhasCreateEngine:
             suggestions=suggestions,
         )
 
-    async def _generate_alternatives(self, request: CreateRequest, content: str) -> list[str]:
+    async def _generate_alternatives(
+        self, request: CreateRequest, content: str
+    ) -> list[str]:
         """Generate alternative versions of the content"""
         # Placeholder for alternative generation logic
         return [
@@ -244,7 +256,9 @@ class LukhasCreateEngine:
             f"Alternative 3: {content[:100]}... (creative variation)",
         ]
 
-    def _calculate_confidence(self, request: CreateRequest, content: str, context: dict[str, Any]) -> float:
+    def _calculate_confidence(
+        self, request: CreateRequest, content: str, context: dict[str, Any]
+    ) -> float:
         """Calculate confidence score for generated content"""
         base_confidence = 0.8
 
@@ -305,7 +319,9 @@ This content addresses the request with a focus on {request.style} style and {re
 The content provides comprehensive coverage of the requested topic with appropriate depth and clarity.
 """
 
-    def _generate_main_content(self, request: CreateRequest, context: dict[str, Any]) -> str:
+    def _generate_main_content(
+        self, request: CreateRequest, context: dict[str, Any]
+    ) -> str:
         """Generate the main content section"""
         return f"""
 Based on your request "{request.prompt}", here is comprehensive content that addresses your needs:
@@ -422,7 +438,9 @@ class CreativeWritingCreator:
 - Emotional resonance
 """
 
-    def _generate_creative_content(self, request: CreateRequest, context: dict[str, Any]) -> str:
+    def _generate_creative_content(
+        self, request: CreateRequest, context: dict[str, Any]
+    ) -> str:
         """Generate creative narrative content"""
         return f"""
 The story begins with an intriguing premise that captures the imagination and draws the reader into a world where {request.prompt} becomes the central focus of an extraordinary journey.

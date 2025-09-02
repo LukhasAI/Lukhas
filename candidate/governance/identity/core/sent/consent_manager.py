@@ -35,7 +35,9 @@ class LambdaConsentManager:
         self.active_consents = {}
         self.policy_versions = {}
 
-    def collect_consent(self, user_id: str, consent_scope: str, metadata: Optional[dict] = None) -> dict:
+    def collect_consent(
+        self, user_id: str, consent_scope: str, metadata: Optional[dict] = None
+    ) -> dict:
         """Collect user consent for specific scope with tier validation"""
         # Validate user tier permissions
         if self.tier_manager:
@@ -47,7 +49,9 @@ class LambdaConsentManager:
                 }
 
         # Validate scope requirements
-        scope_requirements = self.scopes_manager.get_scope_requirements(consent_scope, user_tier)
+        scope_requirements = self.scopes_manager.get_scope_requirements(
+            consent_scope, user_tier
+        )
 
         # Create consent record
         consent_data = {
@@ -142,7 +146,9 @@ class LambdaConsentManager:
             "symbolic_representation": symbolic_status,
             "symbolic_history": symbolic_history,
             "history_integrity": self.history_manager.verify_consent_chain(user_id),
-            "last_updated": max([c.get("timestamp", "") for c in active_consents.values()], default=""),
+            "last_updated": max(
+                [c.get("timestamp", "") for c in active_consents.values()], default=""
+            ),
         }
 
     def get_symbolic_consent_status(self, user_id: str) -> str:

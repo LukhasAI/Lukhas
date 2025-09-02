@@ -11,7 +11,9 @@ from typing import Any
 
 # Placeholder classes for external consciousness research APIs
 class ConsciousnessScienceAPI:
-    async def analyze_consciousness_blockers(self, profile: dict[str, Any]) -> list[str]:
+    async def analyze_consciousness_blockers(
+        self, profile: dict[str, Any]
+    ) -> list[str]:
         return [random.choice(["ego_rigidity", "emotional_suppression"])]
 
     async def measure_consciousness_evolution(self, params: dict[str, Any]) -> Any:
@@ -60,7 +62,9 @@ class ConsciousnessAscensionCatalystEngine:
         self.consciousness_technologies = ConsciousnessTechnologiesSDK()
 
     async def design_consciousness_catalyst_experience(
-        self, user_consciousness_profile: dict[str, Any], catalyst_product: dict[str, Any]
+        self,
+        user_consciousness_profile: dict[str, Any],
+        catalyst_product: dict[str, Any],
     ) -> dict[str, Any]:
         """
         Designs an experience that actually accelerates consciousness evolution.
@@ -70,7 +74,9 @@ class ConsciousnessAscensionCatalystEngine:
             await self.flow_state_research.design_flow_activation_sequence(),
         ]
 
-        consciousness_tech_integration = await self.consciousness_technologies.integrate_experience({})
+        consciousness_tech_integration = (
+            await self.consciousness_technologies.integrate_experience({})
+        )
 
         return {
             "consciousness_catalyst_experience": {
@@ -91,7 +97,9 @@ class ConsciousnessAscensionCatalystEngine:
         """
         Measures actual consciousness evolution results.
         """
-        evolution_metrics = await self.consciousness_science.measure_consciousness_evolution({})
+        evolution_metrics = (
+            await self.consciousness_science.measure_consciousness_evolution({})
+        )
 
         return {
             "measurable_consciousness_evolution": evolution_metrics.evolution_score,

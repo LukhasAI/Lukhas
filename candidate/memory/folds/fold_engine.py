@@ -5,24 +5,28 @@
 # TAG:colony
 
 
-from candidate.core.common import get_logger
-from candidate.orchestration.brain.spine.fold_engine import AGIMemory
-import os  # LUKHAS_TAG: file_operations
 import hashlib  # LUKHAS_TAG: memory_integrity
-import structlog  # ΛTRACE: Standardized logging.
-# For np.clip in importance calculation. #ΛCAUTION: Ensure numpy is a
-# managed dependency.
-import numpy as np
-from collections import defaultdict  # ΛTRACE: Used for efficient indexing in AGIMemory.
-from datetime import datetime, timezone, timedelta
-from enum import Enum
-from typing import Dict, Any, List, Optional, Union, Set, Tuple
-# ΛNOTE: Potentially for generating unique keys if not provided. Not used
-# currently for fold keys.
-import uuid
 # ΛNOTE: Used for potential serialization if content is complex, though
 # not directly in to_dict.
 import json
+import os  # LUKHAS_TAG: file_operations
+# ΛNOTE: Potentially for generating unique keys if not provided. Not used
+# currently for fold keys.
+import uuid
+from collections import \
+    defaultdict  # ΛTRACE: Used for efficient indexing in AGIMemory.
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
+
+# For np.clip in importance calculation. #ΛCAUTION: Ensure numpy is a
+# managed dependency.
+import numpy as np
+import structlog  # ΛTRACE: Standardized logging.
+
+from candidate.core.common import get_logger
+from candidate.orchestration.brain.spine.fold_engine import AGIMemory
+
 22  # ═══════════════════════════════════════════════════
 # FILENAME: fold_engine.py
 # MODULE: core.memory.fold_engine
@@ -766,8 +770,8 @@ def fold_dream_experience(:
     logger.info(f"Starting dream folding process: dream_id={dream_id}")
 
     # Initialize components
-    from .dream_trace_linker import create_dream_trace_linker
     from ..compression.symbolic_delta import create_advanced_compressor
+    from .dream_trace_linker import create_dream_trace_linker
     from .fold_lineage_tracker import create_lineage_tracker
 
     dream_linker = create_dream_trace_linker()

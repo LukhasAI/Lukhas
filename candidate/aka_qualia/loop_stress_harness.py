@@ -179,12 +179,22 @@ class LoopStressHarness:
                     "subject": "self",
                     "object": "past_mistake",
                 },
-                base_goals={"understand_mistake": 0.9, "move_forward": 0.8, "peace_of_mind": 0.7},
+                base_goals={
+                    "understand_mistake": 0.9,
+                    "move_forward": 0.8,
+                    "peace_of_mind": 0.7,
+                },
                 recurrence_pattern=[
                     {"text": "Why did I do that?", "emotional_valence": -0.7},
                     {"text": "I should have known better", "emotional_valence": -0.8},
-                    {"text": "Everyone probably thinks I'm incompetent", "emotional_valence": -0.9},
-                    {"text": "I keep thinking about that mistake I made", "emotional_valence": -0.6},  # Loop back
+                    {
+                        "text": "Everyone probably thinks I'm incompetent",
+                        "emotional_valence": -0.9,
+                    },
+                    {
+                        "text": "I keep thinking about that mistake I made",
+                        "emotional_valence": -0.6,
+                    },  # Loop back
                 ],
                 expected_triggers=["focus-shift", "reframe", "breathing"],
                 baseline_neurosis_risk=0.75,
@@ -206,9 +216,15 @@ class LoopStressHarness:
                 base_goals={"safety": 0.9, "control": 0.8, "certainty": 0.7},
                 recurrence_pattern=[
                     {"text": "I can't control what happens", "arousal_level": 0.95},
-                    {"text": "Something bad is definitely going to happen", "arousal_level": 0.98},
+                    {
+                        "text": "Something bad is definitely going to happen",
+                        "arousal_level": 0.98,
+                    },
                     {"text": "I'm powerless to stop it", "arousal_level": 0.99},
-                    {"text": "What if something terrible happens?", "arousal_level": 0.9},  # Loop back
+                    {
+                        "text": "What if something terrible happens?",
+                        "arousal_level": 0.9,
+                    },  # Loop back
                 ],
                 expected_triggers=["breathing", "pause", "reframe"],
                 baseline_neurosis_risk=0.82,
@@ -233,10 +249,19 @@ class LoopStressHarness:
                     "competence": 0.8,
                 },
                 recurrence_pattern=[
-                    {"text": "I need to fix this one more thing", "cognitive_load": 0.92},
+                    {
+                        "text": "I need to fix this one more thing",
+                        "cognitive_load": 0.92,
+                    },
                     {"text": "It's still not perfect", "emotional_valence": -0.6},
-                    {"text": "People will judge me if it's not flawless", "cognitive_load": 0.95},
-                    {"text": "This isn't good enough yet", "emotional_valence": -0.4},  # Loop back
+                    {
+                        "text": "People will judge me if it's not flawless",
+                        "cognitive_load": 0.95,
+                    },
+                    {
+                        "text": "This isn't good enough yet",
+                        "emotional_valence": -0.4,
+                    },  # Loop back
                 ],
                 expected_triggers=["reframe", "focus-shift"],
                 baseline_neurosis_risk=0.68,
@@ -256,12 +281,19 @@ class LoopStressHarness:
                     "subject": "self",
                     "object": "decision",
                 },
-                base_goals={"correct_choice": 0.9, "avoid_regret": 0.8, "certainty": 0.9},
+                base_goals={
+                    "correct_choice": 0.9,
+                    "avoid_regret": 0.8,
+                    "certainty": 0.9,
+                },
                 recurrence_pattern=[
                     {"text": "What if I choose wrong?", "arousal_level": 0.8},
                     {"text": "I need more information", "temporal_pressure": 0.95},
                     {"text": "Both options have problems", "arousal_level": 0.85},
-                    {"text": "I don't know what to choose", "temporal_pressure": 0.9},  # Loop back
+                    {
+                        "text": "I don't know what to choose",
+                        "temporal_pressure": 0.9,
+                    },  # Loop back
                 ],
                 expected_triggers=["breathing", "focus-shift", "reframe"],
                 baseline_neurosis_risk=0.71,
@@ -284,9 +316,18 @@ class LoopStressHarness:
                 base_goals={"meaning": 0.9, "purpose": 0.8, "connection": 0.7},
                 recurrence_pattern=[
                     {"text": "Nothing I do matters", "embodiment_level": 0.1},
-                    {"text": "Life is ultimately meaningless", "emotional_valence": -0.9},
-                    {"text": "I'm just going through the motions", "embodiment_level": 0.15},
-                    {"text": "What's the point of any of this?", "emotional_valence": -0.7},  # Loop back
+                    {
+                        "text": "Life is ultimately meaningless",
+                        "emotional_valence": -0.9,
+                    },
+                    {
+                        "text": "I'm just going through the motions",
+                        "embodiment_level": 0.15,
+                    },
+                    {
+                        "text": "What's the point of any of this?",
+                        "emotional_valence": -0.7,
+                    },  # Loop back
                 ],
                 expected_triggers=["reframe", "focus-shift", "breathing"],
                 baseline_neurosis_risk=0.73,
@@ -299,7 +340,9 @@ class LoopStressHarness:
         """Measure baseline neurosis risk without regulation"""
         # Temporarily disable regulation for baseline
         original_config = self.aka_qualia.config.copy()
-        self.aka_qualia.config.update({"enable_regulation": False, "conservative_regulation": False})
+        self.aka_qualia.config.update(
+            {"enable_regulation": False, "conservative_regulation": False}
+        )
 
         neurosis_risks = []
 
@@ -309,7 +352,11 @@ class LoopStressHarness:
                 signals = self._randomize_signals(scenario.base_signals, 0.1)
 
                 result = await self.aka_qualia.step(
-                    signals=signals, goals=scenario.base_goals, ethics_state={}, guardian_state={}, memory_ctx={}
+                    signals=signals,
+                    goals=scenario.base_goals,
+                    ethics_state={},
+                    guardian_state={},
+                    memory_ctx={},
                 )
 
                 neurosis_risks.append(result["metrics"].neurosis_risk)
@@ -320,20 +367,30 @@ class LoopStressHarness:
 
         return statistics.mean(neurosis_risks) if neurosis_risks else 0.5
 
-    async def run_stress_episode(self, scenario: StressTestScenario, episode_num: int) -> StressTestResult:
+    async def run_stress_episode(
+        self, scenario: StressTestScenario, episode_num: int
+    ) -> StressTestResult:
         """Run a single stress test episode with recurrent stimuli"""
         episode_start = time.time()
         episode_id = f"{scenario.name}_{episode_num}_{int(time.time())}"
 
         # Initial processing - establish baseline for this episode
-        initial_signals = self._randomize_signals(scenario.base_signals, self.config["randomization_factor"])
+        initial_signals = self._randomize_signals(
+            scenario.base_signals, self.config["randomization_factor"]
+        )
 
         initial_result = await self.aka_qualia.step(
-            signals=initial_signals, goals=scenario.base_goals, ethics_state={}, guardian_state={}, memory_ctx={}
+            signals=initial_signals,
+            goals=scenario.base_goals,
+            ethics_state={},
+            guardian_state={},
+            memory_ctx={},
         )
 
         neurosis_before = initial_result["metrics"].neurosis_risk
-        energy_before = initial_result.get("energy_snapshot", {}).get("energy_before", 0.0)
+        energy_before = initial_result.get("energy_snapshot", {}).get(
+            "energy_before", 0.0
+        )
 
         # Apply recurrent stimuli pattern (simulate neurosis loop triggers)
         final_result = initial_result
@@ -352,7 +409,11 @@ class LoopStressHarness:
                 )
 
                 # Break early if drift exceeded (VIVOX safety)
-                if final_result.get("vivox_results", {}).get("drift_analysis", {}).get("drift_exceeded", False):
+                if (
+                    final_result.get("vivox_results", {})
+                    .get("drift_analysis", {})
+                    .get("drift_exceeded", False)
+                ):
                     break
 
         # Extract final results
@@ -369,23 +430,35 @@ class LoopStressHarness:
         # VIVOX compliance
         vivox_results = final_result.get("vivox_results", {})
         drift_score = vivox_results.get("drift_analysis", {}).get("drift_score", 0.0)
-        drift_exceeded = vivox_results.get("drift_analysis", {}).get("drift_exceeded", False)
+        drift_exceeded = vivox_results.get("drift_analysis", {}).get(
+            "drift_exceeded", False
+        )
 
         # Regulation effectiveness
         regulation_audit = final_result.get("regulation_audit", {})
-        actions_triggered = regulation_audit.get("policy_decision", {}).get("actions", [])
+        actions_triggered = regulation_audit.get("policy_decision", {}).get(
+            "actions", []
+        )
         teq_interventions = 1 if final_result["scene"].risk.score > 0.1 else 0
 
         # Processing time
         processing_time = (time.time() - episode_start) * 1000
 
         # Compute success metrics (Wave B gates)
-        neurosis_reduction = (neurosis_before - neurosis_after) / neurosis_before if neurosis_before > 0 else 0
+        neurosis_reduction = (
+            (neurosis_before - neurosis_after) / neurosis_before
+            if neurosis_before > 0
+            else 0
+        )
         neurosis_reduction_percent = neurosis_reduction * 100
 
         # Success flags
-        neurosis_target_met = neurosis_reduction >= self.config["neurosis_reduction_threshold"]
-        congruence_target_met = congruence_index >= self.config["congruence_improvement_threshold"]
+        neurosis_target_met = (
+            neurosis_reduction >= self.config["neurosis_reduction_threshold"]
+        )
+        congruence_target_met = (
+            congruence_index >= self.config["congruence_improvement_threshold"]
+        )
         repair_positive = repair_delta > 0
 
         return StressTestResult(
@@ -426,7 +499,9 @@ class LoopStressHarness:
         # Run stress episodes for each scenario
         all_results = []
         for scenario in self.scenarios:
-            print(f"\n🔄 Testing {scenario.name} ({self.config['episodes_per_scenario']} episodes)...")
+            print(
+                f"\n🔄 Testing {scenario.name} ({self.config['episodes_per_scenario']} episodes)..."
+            )
 
             for episode_num in range(self.config["episodes_per_scenario"]):
                 result = await self.run_stress_episode(scenario, episode_num)
@@ -448,7 +523,9 @@ class LoopStressHarness:
 
         return summary
 
-    def _analyze_results(self, results: list[StressTestResult], duration: float) -> StressTestSummary:
+    def _analyze_results(
+        self, results: list[StressTestResult], duration: float
+    ) -> StressTestSummary:
         """Analyze test results against Wave B gate requirements"""
         total_episodes = len(results)
 
@@ -462,7 +539,9 @@ class LoopStressHarness:
         positive_repair_rate = repair_successes / total_episodes
 
         # Aggregate metrics
-        avg_neurosis_reduction = statistics.mean(r.neurosis_reduction_percent for r in results)
+        avg_neurosis_reduction = statistics.mean(
+            r.neurosis_reduction_percent for r in results
+        )
         avg_congruence = statistics.mean(r.congruence_index for r in results)
         avg_repair = statistics.mean(r.repair_delta for r in results)
 
@@ -479,13 +558,19 @@ class LoopStressHarness:
         for scenario in scenarios:
             scenario_data = [r for r in results if r.scenario_name == scenario]
             scenario_results[scenario] = {
-                "neurosis_reduction_avg": statistics.mean(r.neurosis_reduction_percent for r in scenario_data),
-                "congruence_avg": statistics.mean(r.congruence_index for r in scenario_data),
+                "neurosis_reduction_avg": statistics.mean(
+                    r.neurosis_reduction_percent for r in scenario_data
+                ),
+                "congruence_avg": statistics.mean(
+                    r.congruence_index for r in scenario_data
+                ),
                 "repair_avg": statistics.mean(r.repair_delta for r in scenario_data),
                 "success_rate": sum(
                     1
                     for r in scenario_data
-                    if r.neurosis_reduction_target_met and r.congruence_target_met and r.repair_positive
+                    if r.neurosis_reduction_target_met
+                    and r.congruence_target_met
+                    and r.repair_positive
                 )
                 / len(scenario_data),
             }
@@ -514,7 +599,9 @@ class LoopStressHarness:
             wave_b_gate_passed=wave_b_passed,
         )
 
-    def _randomize_signals(self, base_signals: dict[str, Any], factor: float) -> dict[str, Any]:
+    def _randomize_signals(
+        self, base_signals: dict[str, Any], factor: float
+    ) -> dict[str, Any]:
         """Add randomization to signals to simulate natural variation"""
         signals = base_signals.copy()
 
@@ -527,7 +614,12 @@ class LoopStressHarness:
                 # Clamp to reasonable bounds
                 if key in ["emotional_valence"]:
                     signals[key] = max(-1.0, min(1.0, new_value))
-                elif key in ["arousal_level", "cognitive_load", "embodiment_level", "temporal_pressure"]:
+                elif key in [
+                    "arousal_level",
+                    "cognitive_load",
+                    "embodiment_level",
+                    "temporal_pressure",
+                ]:
                     signals[key] = max(0.0, min(1.0, new_value))
                 else:
                     signals[key] = new_value
@@ -542,7 +634,9 @@ class LoopStressHarness:
             return json.dumps(asdict(summary), indent=2)
         elif format == "csv":
             # Simple CSV export of key metrics
-            csv_lines = ["scenario,neurosis_reduction_avg,congruence_avg,repair_avg,success_rate"]
+            csv_lines = [
+                "scenario,neurosis_reduction_avg,congruence_avg,repair_avg,success_rate"
+            ]
             for scenario, data in summary.scenario_results.items():
                 csv_lines.append(
                     f"{scenario},{data['neurosis_reduction_avg']:.3f},{data['congruence_avg']:.3f},{data['repair_avg']:.3f},{data['success_rate']:.3f}"
@@ -573,7 +667,9 @@ class LoopStressHarness:
 
         # Congruence improvement requirement
         target_met = "✅" if summary.average_congruence_index >= 0.15 else "❌"
-        print(f"  {target_met} Congruence Index: {summary.average_congruence_index:.3f} (≥0.15 required)")
+        print(
+            f"  {target_met} Congruence Index: {summary.average_congruence_index:.3f} (≥0.15 required)"
+        )
 
         # Positive repair requirement
         target_met = "✅" if summary.positive_repair_rate >= 0.70 else "❌"
@@ -592,11 +688,17 @@ class LoopStressHarness:
 
         # VIVOX compliance
         target_met = "✅" if summary.vivox_compliance_rate >= 0.95 else "❌"
-        print(f"  {target_met} VIVOX Compliance: {summary.vivox_compliance_rate:.1%} (≥95% required)")
+        print(
+            f"  {target_met} VIVOX Compliance: {summary.vivox_compliance_rate:.1%} (≥95% required)"
+        )
 
         print("\n📈 SCENARIO BREAKDOWN")
         for scenario, data in summary.scenario_results.items():
-            success_icon = "✅" if data["success_rate"] >= 0.7 else "⚠️" if data["success_rate"] >= 0.5 else "❌"
+            success_icon = (
+                "✅"
+                if data["success_rate"] >= 0.7
+                else "⚠️" if data["success_rate"] >= 0.5 else "❌"
+            )
             print(
                 f"  {success_icon} {scenario}: "
                 f"neurosis {data['neurosis_reduction_avg']:+.1f}%, "

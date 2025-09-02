@@ -76,7 +76,9 @@ class TestAPIExtractor(ast.NodeVisitor):
     def visit_Call(self, node):
         """Visit function calls to find API usage"""
         # Look for patterns like actor_ref.send_message(), fabric.total_messages, etc.
-        if isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name):
+        if isinstance(node.func, ast.Attribute) and isinstance(
+            node.func.value, ast.Name
+        ):
             obj_name = node.func.value.id
             method_name = node.func.attr
 
@@ -93,7 +95,11 @@ class TestAPIExtractor(ast.NodeVisitor):
                 ]
             ):
                 # Get the full line for context
-                line_content = self.lines[node.lineno - 1] if node.lineno <= len(self.lines) else ""
+                line_content = (
+                    self.lines[node.lineno - 1]
+                    if node.lineno <= len(self.lines)
+                    else ""
+                )
 
                 api_call = APICall(
                     file_path=self.file_path,
@@ -114,7 +120,10 @@ class TestAPIExtractor(ast.NodeVisitor):
             attr_name = node.attr
 
             # Look for attribute access patterns in assertions
-            if any(pattern in obj_name.lower() for pattern in ["stats", "fabric", "agent", "result"]):
+            if any(
+                pattern in obj_name.lower()
+                for pattern in ["stats", "fabric", "agent", "result"]
+            ):
                 api_call = APICall(
                     file_path=self.file_path,
                     line_number=node.lineno,
@@ -237,7 +246,9 @@ class APIDiffAnalyzer:
         # Step 2: Extract implementation signatures
         self._extract_implementations()
         total_methods = sum(len(methods) for methods in self.implementations.values())
-        print(f"📚 Found {total_methods} methods in {len(self.implementations)} classes\n")
+        print(
+            f"📚 Found {total_methods} methods in {len(self.implementations)} classes\n"
+        )
 
         # Step 3: Find mismatches
         self._find_mismatches()
@@ -312,7 +323,9 @@ class APIDiffAnalyzer:
             for method_name, calls in method_calls.items():
                 if method_name not in impl_method_names:
                     # Find the best match
-                    suggested_method, confidence = self._find_best_match(method_name, impl_method_names)
+                    suggested_method, confidence = self._find_best_match(
+                        method_name, impl_method_names
+                    )
 
                     mismatch = APIMismatch(
                         test_call=calls[0],  # Representative call
@@ -323,7 +336,9 @@ class APIDiffAnalyzer:
                     )
                     self.mismatches.append(mismatch)
 
-    def _find_best_match(self, expected: str, actual_methods: set[str]) -> tuple[str, float]:
+    def _find_best_match(
+        self, expected: str, actual_methods: set[str]
+    ) -> tuple[str, float]:
         """Find the best matching method name"""
         if not actual_methods:
             return "NO_METHODS_FOUND", 0.0
@@ -371,9 +386,13 @@ class APIDiffAnalyzer:
                 for mismatch in class_mismatches:
                     f.write(f"- **{mismatch.expected_method}** → ")
                     if mismatch.confidence > 0.8:
-                        f.write(f"✅ `{mismatch.suggested_fix}` (confidence: {mismatch.confidence:.0%})\n")
+                        f.write(
+                            f"✅ `{mismatch.suggested_fix}` (confidence: {mismatch.confidence:.0%})\n"
+                        )
                     else:
-                        f.write(f"❓ `{mismatch.suggested_fix}` (low confidence: {mismatch.confidence:.0%})\n")
+                        f.write(
+                            f"❓ `{mismatch.suggested_fix}` (low confidence: {mismatch.confidence:.0%})\n"
+                        )
                 f.write("\n")
 
             # Detailed section
@@ -384,9 +403,13 @@ class APIDiffAnalyzer:
                 f.write(f"**Test File:** `{mismatch.test_call.file_path}`\n")
                 f.write(f"**Line:** {mismatch.test_call.line_number}\n")
                 f.write(f"**Context:** `{mismatch.test_call.context}`\n")
-                f.write(f"**Suggested Fix:** `{mismatch.expected_method}` → `{mismatch.suggested_fix}`\n")
+                f.write(
+                    f"**Suggested Fix:** `{mismatch.expected_method}` → `{mismatch.suggested_fix}`\n"
+                )
                 f.write(f"**Confidence:** {mismatch.confidence:.0%}\n")
-                f.write(f"**Available Methods:** {', '.join(sorted(mismatch.actual_methods)[:5])}...\n\n")
+                f.write(
+                    f"**Available Methods:** {', '.join(sorted(mismatch.actual_methods)[:5])}...\n\n"
+                )
 
         print(f"📝 Report saved to: {report_path}")
 

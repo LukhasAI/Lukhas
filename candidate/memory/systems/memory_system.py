@@ -33,7 +33,9 @@ class MemorySystem:
         self.drift_threshold = self.config.get("drift_threshold", 0.8)
         logger.info("Memory system initialized")
 
-    def store_trace(self, trace_id: str, data: dict, user_id: Optional[str] = None) -> bool:
+    def store_trace(
+        self, trace_id: str, data: dict, user_id: Optional[str] = None
+    ) -> bool:
         """
         Store a symbolic trace in memory.
 
@@ -122,7 +124,9 @@ class MemorySystem:
         # Basic pattern extraction - would be more sophisticated in production
         if isinstance(data, dict):
             for key, value in data.items():
-                if isinstance(value, str) and any(symbol in value for symbol in ["Λ", "⟐", "◊", "○"]):
+                if isinstance(value, str) and any(
+                    symbol in value for symbol in ["Λ", "⟐", "◊", "○"]
+                ):
                     patterns.append(f"{key}:{value}")
         return patterns
 
@@ -131,7 +135,9 @@ class MemorySystem:
         for pattern in new_patterns:
             if pattern in self.patterns:
                 self.patterns[pattern]["count"] += 1
-                self.patterns[pattern]["stability"] = min(1.0, self.patterns[pattern]["stability"] + 0.1)
+                self.patterns[pattern]["stability"] = min(
+                    1.0, self.patterns[pattern]["stability"] + 0.1
+                )
             else:
                 self.patterns[pattern] = {
                     "count": 1,

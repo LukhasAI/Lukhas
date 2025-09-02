@@ -111,7 +111,9 @@ class ExponentialLearningSystem:
 
         patterns = self._extract_patterns(experience_data)
         # ΛTRACE: Patterns extracted from experience
-        logger.debug("patterns_extracted", num_patterns=len(patterns) if patterns else 0)
+        logger.debug(
+            "patterns_extracted", num_patterns=len(patterns) if patterns else 0
+        )
 
         weight = self.learning_rate * (self.growth_factor**self.adaptation_cycles)
         self._update_knowledge(patterns, weight)
@@ -136,7 +138,9 @@ class ExponentialLearningSystem:
             )
 
         # ΛTRACE: Experience incorporation complete
-        logger.info("incorporate_experience_end", adaptation_cycles=self.adaptation_cycles)
+        logger.info(
+            "incorporate_experience_end", adaptation_cycles=self.adaptation_cycles
+        )
 
     # # Extract patterns from experience data (placeholder)
     def _extract_patterns(self, experience_data):
@@ -180,7 +184,9 @@ class ExponentialLearningSystem:
                         "total_weight": 0,
                         "updates": 0,
                     }
-                self.knowledge_base[pid]["total_weight"] += weight * pattern.get("strength", 1.0)
+                self.knowledge_base[pid]["total_weight"] += weight * pattern.get(
+                    "strength", 1.0
+                )
                 self.knowledge_base[pid]["updates"] += 1
                 self.knowledge_base[pid]["last_updated_cycle"] = self.adaptation_cycles
 
@@ -199,7 +205,8 @@ class ExponentialLearningSystem:
         keys_to_remove = [
             k
             for k, v in self.knowledge_base.items()
-            if v.get("total_weight", 0) < 0.001 * (self.growth_factor**self.adaptation_cycles)
+            if v.get("total_weight", 0)
+            < 0.001 * (self.growth_factor**self.adaptation_cycles)
         ]
         for k in keys_to_remove:
             del self.knowledge_base[k]

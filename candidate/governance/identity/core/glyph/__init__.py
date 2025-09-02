@@ -12,10 +12,7 @@ from .distributed_glyph_generation import (
     GLYPHGenerationTask,
 )
 from .glyph_pipeline import GLYPHGenerationResult, GLYPHPipeline, GLYPHType
-from .steganographic_id import (
-    IdentityEmbedData,
-    SteganographicIdentityEmbedder,
-)
+from .steganographic_id import IdentityEmbedData, SteganographicIdentityEmbedder
 
 __all__ = [
     "DistributedGLYPHColony",

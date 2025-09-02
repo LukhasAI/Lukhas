@@ -39,7 +39,9 @@ class EntropyBeacon:
 
     def generate_entropy_fingerprint(self, session_id):
         """Generate a cryptographically unique signature tied to the session."""
-        return hashlib.sha256(f"{session_id}-{self.get_current_time()}".encode()).hexdigest()
+        return hashlib.sha256(
+            f"{session_id}-{self.get_current_time()}".encode()
+        ).hexdigest()
 
     def assign_entropy_weight(self, session_id, relevance):
         """Assign session-specific entropy weights based on relevance."""

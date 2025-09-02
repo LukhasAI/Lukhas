@@ -24,7 +24,9 @@ __all__ = [
 # Modules herein should facilitate the AGI's ability to monitor, understand,
 # and regulate its own cognitive processes.
 
-logger.info("ΛTRACE: core.integration.meta_cognitive package initialized.", exports=__all__)
+logger.info(
+    "ΛTRACE: core.integration.meta_cognitive package initialized.", exports=__all__
+)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py

@@ -16,7 +16,9 @@ class LucasLLM:
 
     def generate(self, prompt, max_tokens=500):
         inputs = self.tokenizer(prompt, return_tensors="pt")
-        outputs = self.model.generate(inputs["input_ids"], max_new_tokens=max_tokens, temperature=0.7)
+        outputs = self.model.generate(
+            inputs["input_ids"], max_new_tokens=max_tokens, temperature=0.7
+        )
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
 
     def batch_generate(self, prompts):

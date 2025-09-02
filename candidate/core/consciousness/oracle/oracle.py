@@ -42,7 +42,9 @@ class ConsciousnessOracle:
         """
         # In a real implementation, these calls could be made in parallel.
         forecast = await self.prediction_engine.forecast_consciousness_state(user_id)
-        receptivity_windows = await self.receptivity_calculator.calculate_receptivity_windows(user_id)
+        receptivity_windows = (
+            await self.receptivity_calculator.calculate_receptivity_windows(user_id)
+        )
         journey_map = await self.journey_mapper.map_consciousness_journey(user_id)
 
         profile = {

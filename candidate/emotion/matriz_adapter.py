@@ -53,7 +53,10 @@ class EmotionMatrizAdapter:
 
     @staticmethod
     def emit_emotion_state(
-        valence: float, arousal: float, dominance: float, emotion_label: Optional[str] = None
+        valence: float,
+        arousal: float,
+        dominance: float,
+        emotion_label: Optional[str] = None,
     ) -> dict[str, Any]:
         """Emit a VAD emotion state node"""
 
@@ -81,7 +84,9 @@ class EmotionMatrizAdapter:
 
     @staticmethod
     def emit_mood_drift(
-        current_mood: dict[str, float], target_mood: dict[str, float], drift_score: float
+        current_mood: dict[str, float],
+        target_mood: dict[str, float],
+        drift_score: float,
     ) -> dict[str, Any]:
         """Emit a mood drift detection node"""
 
@@ -102,7 +107,9 @@ class EmotionMatrizAdapter:
         )
 
     @staticmethod
-    def emit_emotion_intent(intent: str, confidence: float, context: Optional[dict] = None) -> dict[str, Any]:
+    def emit_emotion_intent(
+        intent: str, confidence: float, context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Emit an emotion-intent mapping node"""
 
         return EmotionMatrizAdapter.create_node(
@@ -118,7 +125,9 @@ class EmotionMatrizAdapter:
         )
 
     @staticmethod
-    def emit_stagnation_detection(emotion: str, duration_ms: int, threshold_ms: int = 5000) -> dict[str, Any]:
+    def emit_stagnation_detection(
+        emotion: str, duration_ms: int, threshold_ms: int = 5000
+    ) -> dict[str, Any]:
         """Emit an affect stagnation detection node"""
 
         stagnation_ratio = duration_ms / threshold_ms
@@ -150,7 +159,13 @@ class EmotionMatrizAdapter:
                 return False
 
         # Check required provenance fields
-        required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
+        required_prov = [
+            "producer",
+            "capabilities",
+            "tenant",
+            "trace_id",
+            "consent_scopes",
+        ]
         return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod
@@ -177,7 +192,9 @@ def wrap_vad_detection(original_func):
     def wrapper(*args, **kwargs):
         result = original_func(*args, **kwargs)
 
-        if isinstance(result, dict) and all(k in result for k in ["valence", "arousal", "dominance"]):
+        if isinstance(result, dict) and all(
+            k in result for k in ["valence", "arousal", "dominance"]
+        ):
             node = EmotionMatrizAdapter.emit_emotion_state(
                 valence=result["valence"],
                 arousal=result["arousal"],

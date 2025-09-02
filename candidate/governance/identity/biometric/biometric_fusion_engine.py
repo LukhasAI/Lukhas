@@ -144,7 +144,9 @@ class BiometricFusionEngine:
             "fusion_threshold": 0.75,
         }
 
-        logger.info("🧬 Biometric Fusion Engine initialized with consciousness awareness")
+        logger.info(
+            "🧬 Biometric Fusion Engine initialized with consciousness awareness"
+        )
 
     async def authenticate_tier3(
         self,
@@ -156,14 +158,18 @@ class BiometricFusionEngine:
         """
         Perform T3 biometric authentication with intelligent fallback
         """
-        logger.info(f"🔐 T3 Authentication initiated with {len(biometric_samples)} samples")
+        logger.info(
+            f"🔐 T3 Authentication initiated with {len(biometric_samples)} samples"
+        )
 
         # Check sample quality and availability
         quality_check = self._assess_sample_quality(biometric_samples)
 
         if quality_check["high_quality_count"] >= 2:
             # Primary path: Multi-modal fusion
-            return await self._perform_biometric_fusion(biometric_samples, consciousness_state, cultural_context)
+            return await self._perform_biometric_fusion(
+                biometric_samples, consciousness_state, cultural_context
+            )
         else:
             # Fallback path: Graceful degradation
             return await self._execute_fallback_authentication(
@@ -181,7 +187,9 @@ class BiometricFusionEngine:
 
         available_modalities = {sample.modality for sample in samples}
         all_modalities = set(BiometricModality)
-        quality_assessment["missing_modalities"] = list(all_modalities - available_modalities)
+        quality_assessment["missing_modalities"] = list(
+            all_modalities - available_modalities
+        )
 
         quality_scores = []
         for sample in samples:
@@ -192,7 +200,9 @@ class BiometricFusionEngine:
                 quality_assessment["low_quality_samples"].append(sample.modality.value)
 
         if quality_scores:
-            quality_assessment["average_quality"] = sum(quality_scores) / len(quality_scores)
+            quality_assessment["average_quality"] = sum(quality_scores) / len(
+                quality_scores
+            )
 
         return quality_assessment
 
@@ -205,7 +215,9 @@ class BiometricFusionEngine:
         """Perform multi-modal biometric fusion"""
 
         # Calculate consciousness boost
-        consciousness_boost = self.consciousness_multipliers.get(consciousness_state, 1.0)
+        consciousness_boost = self.consciousness_multipliers.get(
+            consciousness_state, 1.0
+        )
 
         # Compute weighted fusion score
         fusion_scores = []
@@ -216,20 +228,35 @@ class BiometricFusionEngine:
                 weight = self.modality_weights.get(sample.modality, 0.1)
 
                 # Apply consciousness-aware weighting
-                if consciousness_state == "focused" and sample.modality == BiometricModality.BEHAVIORAL:
+                if (
+                    consciousness_state == "focused"
+                    and sample.modality == BiometricModality.BEHAVIORAL
+                ):
                     weight *= 1.2  # Behavioral patterns more reliable when focused
-                elif consciousness_state == "creative" and sample.modality == BiometricModality.VOICE:
+                elif (
+                    consciousness_state == "creative"
+                    and sample.modality == BiometricModality.VOICE
+                ):
                     weight *= 1.15  # Voice patterns reflect creative state
 
                 # Apply cultural adaptation
-                cultural_factor = self._calculate_cultural_factor(sample, cultural_context)
+                cultural_factor = self._calculate_cultural_factor(
+                    sample, cultural_context
+                )
 
-                score = sample.quality_score * weight * consciousness_boost * cultural_factor
+                score = (
+                    sample.quality_score
+                    * weight
+                    * consciousness_boost
+                    * cultural_factor
+                )
                 fusion_scores.append(score)
                 modalities_used.append(sample.modality)
 
         # Calculate final fusion confidence
-        fusion_confidence = sum(fusion_scores) / len(fusion_scores) if fusion_scores else 0.0
+        fusion_confidence = (
+            sum(fusion_scores) / len(fusion_scores) if fusion_scores else 0.0
+        )
 
         # Generate session vector
         session_vector = self._generate_session_vector(samples, consciousness_state)
@@ -245,7 +272,9 @@ class BiometricFusionEngine:
             fallback_triggered=False,
             fallback_strategy=None,
             consciousness_boost=consciousness_boost,
-            cultural_alignment=self._calculate_overall_cultural_alignment(cultural_context),
+            cultural_alignment=self._calculate_overall_cultural_alignment(
+                cultural_context
+            ),
             session_vector=session_vector,
             metadata={
                 "fusion_timestamp": datetime.utcnow().isoformat(),
@@ -267,11 +296,15 @@ class BiometricFusionEngine:
         logger.info("🔄 Executing fallback authentication strategy")
 
         # Determine best fallback strategy based on available data
-        fallback_strategy = self._select_fallback_strategy(samples, consciousness_state, fallback_data)
+        fallback_strategy = self._select_fallback_strategy(
+            samples, consciousness_state, fallback_data
+        )
 
         # Execute selected fallback
         if fallback_strategy == FallbackStrategy.VOICE_PLUS_EMOJI:
-            return await self._fallback_voice_emoji(samples, consciousness_state, cultural_context, fallback_data)
+            return await self._fallback_voice_emoji(
+                samples, consciousness_state, cultural_context, fallback_data
+            )
 
         elif fallback_strategy == FallbackStrategy.BEHAVIORAL_PLUS_KEYWORD:
             return await self._fallback_behavioral_keyword(
@@ -279,17 +312,25 @@ class BiometricFusionEngine:
             )
 
         elif fallback_strategy == FallbackStrategy.EMOJI_CONSCIOUSNESS_BOOST:
-            return await self._fallback_emoji_consciousness(consciousness_state, cultural_context, fallback_data)
+            return await self._fallback_emoji_consciousness(
+                consciousness_state, cultural_context, fallback_data
+            )
 
         elif fallback_strategy == FallbackStrategy.DREAM_RECALL_CHALLENGE:
-            return await self._fallback_dream_recall(consciousness_state, cultural_context, fallback_data)
+            return await self._fallback_dream_recall(
+                consciousness_state, cultural_context, fallback_data
+            )
 
         elif fallback_strategy == FallbackStrategy.CULTURAL_PATTERN_MATCH:
-            return await self._fallback_cultural_pattern(cultural_context, fallback_data)
+            return await self._fallback_cultural_pattern(
+                cultural_context, fallback_data
+            )
 
         else:
             # Ultimate fallback
-            return await self._ultimate_fallback(consciousness_state, cultural_context, fallback_data)
+            return await self._ultimate_fallback(
+                consciousness_state, cultural_context, fallback_data
+            )
 
     def _select_fallback_strategy(
         self,
@@ -299,7 +340,9 @@ class BiometricFusionEngine:
     ) -> FallbackStrategy:
         """Intelligently select best fallback strategy"""
 
-        available_modalities = {sample.modality for sample in samples if sample.quality_score > 0.3}
+        available_modalities = {
+            sample.modality for sample in samples if sample.quality_score > 0.3
+        }
 
         # Check what fallback data is available
         has_emoji = fallback_data and "emoji_sequence" in fallback_data
@@ -334,7 +377,9 @@ class BiometricFusionEngine:
         """Voice print + emoji sequence fallback"""
 
         # Extract voice sample if available
-        voice_sample = next((s for s in samples if s.modality == BiometricModality.VOICE), None)
+        voice_sample = next(
+            (s for s in samples if s.modality == BiometricModality.VOICE), None
+        )
         emoji_sequence = fallback_data.get("emoji_sequence", "")
 
         confidence = 0.0
@@ -344,11 +389,15 @@ class BiometricFusionEngine:
 
         if emoji_sequence:
             # Verify emoji matches consciousness state
-            emoji_consciousness_match = self._verify_emoji_consciousness(emoji_sequence, consciousness_state)
+            emoji_consciousness_match = self._verify_emoji_consciousness(
+                emoji_sequence, consciousness_state
+            )
             confidence += emoji_consciousness_match * 0.5
 
         # Apply consciousness boost
-        consciousness_boost = self.consciousness_multipliers.get(consciousness_state, 1.0)
+        consciousness_boost = self.consciousness_multipliers.get(
+            consciousness_state, 1.0
+        )
         confidence *= consciousness_boost
 
         return FusionResult(
@@ -359,8 +408,12 @@ class BiometricFusionEngine:
             fallback_triggered=True,
             fallback_strategy=FallbackStrategy.VOICE_PLUS_EMOJI,
             consciousness_boost=consciousness_boost,
-            cultural_alignment=self._calculate_overall_cultural_alignment(cultural_context),
-            session_vector=self._generate_fallback_session_vector("voice_emoji", consciousness_state),
+            cultural_alignment=self._calculate_overall_cultural_alignment(
+                cultural_context
+            ),
+            session_vector=self._generate_fallback_session_vector(
+                "voice_emoji", consciousness_state
+            ),
             metadata={
                 "fallback_reason": "primary_biometrics_unavailable",
                 "emoji_provided": bool(emoji_sequence),
@@ -377,7 +430,9 @@ class BiometricFusionEngine:
     ) -> FusionResult:
         """Behavioral pattern + keyword fallback"""
 
-        behavioral_sample = next((s for s in samples if s.modality == BiometricModality.BEHAVIORAL), None)
+        behavioral_sample = next(
+            (s for s in samples if s.modality == BiometricModality.BEHAVIORAL), None
+        )
         keyword = fallback_data.get("keyword", "")
 
         confidence = 0.0
@@ -394,7 +449,9 @@ class BiometricFusionEngine:
             keyword_strength = self._assess_keyword_strength(keyword, cultural_context)
             confidence += keyword_strength * 0.4
 
-        consciousness_boost = self.consciousness_multipliers.get(consciousness_state, 1.0)
+        consciousness_boost = self.consciousness_multipliers.get(
+            consciousness_state, 1.0
+        )
         confidence *= consciousness_boost
 
         return FusionResult(
@@ -405,10 +462,16 @@ class BiometricFusionEngine:
             fallback_triggered=True,
             fallback_strategy=FallbackStrategy.BEHAVIORAL_PLUS_KEYWORD,
             consciousness_boost=consciousness_boost,
-            cultural_alignment=self._calculate_overall_cultural_alignment(cultural_context),
-            session_vector=self._generate_fallback_session_vector("behavioral_keyword", consciousness_state),
+            cultural_alignment=self._calculate_overall_cultural_alignment(
+                cultural_context
+            ),
+            session_vector=self._generate_fallback_session_vector(
+                "behavioral_keyword", consciousness_state
+            ),
             metadata={
-                "behavioral_quality": (behavioral_sample.quality_score if behavioral_sample else 0.0),
+                "behavioral_quality": (
+                    behavioral_sample.quality_score if behavioral_sample else 0.0
+                ),
                 "keyword_provided": bool(keyword),
             },
         )
@@ -428,16 +491,22 @@ class BiometricFusionEngine:
 
         if emoji_sequence:
             # Deep consciousness-emoji correlation
-            emoji_match = self._verify_emoji_consciousness(emoji_sequence, consciousness_state)
+            emoji_match = self._verify_emoji_consciousness(
+                emoji_sequence, consciousness_state
+            )
             confidence += emoji_match * 0.7
 
         if consciousness_proof:
             # Additional consciousness validation
-            proof_score = self._validate_consciousness_proof(consciousness_proof, consciousness_state)
+            proof_score = self._validate_consciousness_proof(
+                consciousness_proof, consciousness_state
+            )
             confidence += proof_score * 0.3
 
         # Maximum consciousness boost for this method
-        consciousness_boost = self.consciousness_multipliers.get(consciousness_state, 1.0) * 1.5
+        consciousness_boost = (
+            self.consciousness_multipliers.get(consciousness_state, 1.0) * 1.5
+        )
         confidence *= consciousness_boost
 
         return FusionResult(
@@ -448,8 +517,12 @@ class BiometricFusionEngine:
             fallback_triggered=True,
             fallback_strategy=FallbackStrategy.EMOJI_CONSCIOUSNESS_BOOST,
             consciousness_boost=consciousness_boost,
-            cultural_alignment=self._calculate_overall_cultural_alignment(cultural_context),
-            session_vector=self._generate_fallback_session_vector("emoji_consciousness", consciousness_state),
+            cultural_alignment=self._calculate_overall_cultural_alignment(
+                cultural_context
+            ),
+            session_vector=self._generate_fallback_session_vector(
+                "emoji_consciousness", consciousness_state
+            ),
             metadata={
                 "consciousness_validation": "deep_correlation",
                 "emoji_complexity": len(set(emoji_sequence)),
@@ -483,7 +556,9 @@ class BiometricFusionEngine:
             confidence *= 1.3
 
         # Cultural dream interpretation
-        cultural_factor = self._apply_cultural_dream_interpretation(dream_recall, cultural_context)
+        cultural_factor = self._apply_cultural_dream_interpretation(
+            dream_recall, cultural_context
+        )
         confidence *= cultural_factor
 
         return FusionResult(
@@ -495,7 +570,9 @@ class BiometricFusionEngine:
             fallback_strategy=FallbackStrategy.DREAM_RECALL_CHALLENGE,
             consciousness_boost=1.0,
             cultural_alignment=cultural_factor,
-            session_vector=self._generate_fallback_session_vector("dream_recall", consciousness_state),
+            session_vector=self._generate_fallback_session_vector(
+                "dream_recall", consciousness_state
+            ),
             metadata={
                 "dream_symbols_count": len(dream_symbols),
                 "dream_coherence": dream_coherence,
@@ -516,16 +593,22 @@ class BiometricFusionEngine:
 
         # Verify cultural pattern knowledge
         if pattern_response:
-            pattern_match = self._verify_cultural_pattern(pattern_response, cultural_context)
+            pattern_match = self._verify_cultural_pattern(
+                pattern_response, cultural_context
+            )
             confidence += pattern_match * 0.6
 
         # Verify cultural symbol understanding
         if cultural_symbols:
-            symbol_match = self._verify_cultural_symbols(cultural_symbols, cultural_context)
+            symbol_match = self._verify_cultural_symbols(
+                cultural_symbols, cultural_context
+            )
             confidence += symbol_match * 0.4
 
         # Strong cultural alignment boost
-        cultural_alignment = self._calculate_overall_cultural_alignment(cultural_context)
+        cultural_alignment = self._calculate_overall_cultural_alignment(
+            cultural_context
+        )
         confidence *= 1.0 + cultural_alignment * 0.5
 
         return FusionResult(
@@ -537,7 +620,9 @@ class BiometricFusionEngine:
             fallback_strategy=FallbackStrategy.CULTURAL_PATTERN_MATCH,
             consciousness_boost=1.0,
             cultural_alignment=cultural_alignment,
-            session_vector=self._generate_fallback_session_vector("cultural_pattern", "neutral"),
+            session_vector=self._generate_fallback_session_vector(
+                "cultural_pattern", "neutral"
+            ),
             metadata={
                 "cultural_verification": "deep_pattern_match",
                 "symbol_count": len(cultural_symbols),
@@ -566,7 +651,9 @@ class BiometricFusionEngine:
                 confidence += 0.1
 
         # Apply consciousness state understanding
-        consciousness_boost = self.consciousness_multipliers.get(consciousness_state, 1.0)
+        consciousness_boost = self.consciousness_multipliers.get(
+            consciousness_state, 1.0
+        )
         confidence *= consciousness_boost
 
         # Require explicit user consent for ultimate fallback
@@ -580,17 +667,25 @@ class BiometricFusionEngine:
             fallback_triggered=True,
             fallback_strategy=None,
             consciousness_boost=consciousness_boost,
-            cultural_alignment=self._calculate_overall_cultural_alignment(cultural_context),
-            session_vector=self._generate_fallback_session_vector("ultimate", consciousness_state),
+            cultural_alignment=self._calculate_overall_cultural_alignment(
+                cultural_context
+            ),
+            session_vector=self._generate_fallback_session_vector(
+                "ultimate", consciousness_state
+            ),
             metadata={
                 "fallback_level": "ultimate",
                 "requires_additional_verification": requires_consent,
-                "available_signals": (list(fallback_data.keys()) if fallback_data else []),
+                "available_signals": (
+                    list(fallback_data.keys()) if fallback_data else []
+                ),
             },
         )
 
     # Helper methods
-    def _calculate_cultural_factor(self, sample: BiometricSample, cultural_context: dict[str, Any]) -> float:
+    def _calculate_cultural_factor(
+        self, sample: BiometricSample, cultural_context: dict[str, Any]
+    ) -> float:
         """Calculate cultural adaptation factor for biometric sample"""
         if not sample.cultural_markers:
             return 1.0
@@ -598,14 +693,22 @@ class BiometricFusionEngine:
         # Cultural biometric processing adaptation
         cultural_type = cultural_context.get("cultural_type", "neutral")
 
-        if cultural_type == "high_context" and sample.modality == BiometricModality.BEHAVIORAL:
+        if (
+            cultural_type == "high_context"
+            and sample.modality == BiometricModality.BEHAVIORAL
+        ):
             return 1.2  # Behavioral patterns more significant in high-context cultures
-        elif cultural_type == "individual" and sample.modality == BiometricModality.FACIAL:
+        elif (
+            cultural_type == "individual"
+            and sample.modality == BiometricModality.FACIAL
+        ):
             return 1.15  # Individual cultures may prefer facial recognition
 
         return 1.0
 
-    def _calculate_overall_cultural_alignment(self, cultural_context: dict[str, Any]) -> float:
+    def _calculate_overall_cultural_alignment(
+        self, cultural_context: dict[str, Any]
+    ) -> float:
         """Calculate overall cultural alignment score"""
         if not cultural_context:
             return 0.5
@@ -621,7 +724,9 @@ class BiometricFusionEngine:
 
         return min(alignment_score, 1.0)
 
-    def _generate_session_vector(self, samples: list[BiometricSample], consciousness_state: str) -> str:
+    def _generate_session_vector(
+        self, samples: list[BiometricSample], consciousness_state: str
+    ) -> str:
         """Generate unique session vector from fusion data"""
         vector_components = []
 
@@ -634,12 +739,18 @@ class BiometricFusionEngine:
         vector_string = "|".join(vector_components)
         return hashlib.blake2b(vector_string.encode(), digest_size=32).hexdigest()
 
-    def _generate_fallback_session_vector(self, fallback_type: str, consciousness_state: str) -> str:
+    def _generate_fallback_session_vector(
+        self, fallback_type: str, consciousness_state: str
+    ) -> str:
         """Generate session vector for fallback authentication"""
-        vector_data = f"{fallback_type}|{consciousness_state}|{datetime.utcnow().isoformat()}"
+        vector_data = (
+            f"{fallback_type}|{consciousness_state}|{datetime.utcnow().isoformat()}"
+        )
         return hashlib.blake2b(vector_data.encode(), digest_size=32).hexdigest()
 
-    def _verify_emoji_consciousness(self, emoji_sequence: str, consciousness_state: str) -> float:
+    def _verify_emoji_consciousness(
+        self, emoji_sequence: str, consciousness_state: str
+    ) -> float:
         """Verify emoji sequence matches consciousness state"""
         consciousness_emojis = {
             "focused": ["🎯", "🔍", "⚡", "💡", "🎪"],
@@ -655,7 +766,9 @@ class BiometricFusionEngine:
 
         return min(matches / 3.0, 1.0)  # Expect at least 3 matches
 
-    def _assess_keyword_strength(self, keyword: str, cultural_context: dict[str, Any]) -> float:
+    def _assess_keyword_strength(
+        self, keyword: str, cultural_context: dict[str, Any]
+    ) -> float:
         """Assess keyword strength with cultural awareness"""
         strength = 0.5  # Base strength
 
@@ -675,7 +788,9 @@ class BiometricFusionEngine:
 
         return min(strength, 1.0)
 
-    def _validate_consciousness_proof(self, proof: dict[str, Any], consciousness_state: str) -> float:
+    def _validate_consciousness_proof(
+        self, proof: dict[str, Any], consciousness_state: str
+    ) -> float:
         """Validate consciousness proof data"""
         score = 0.0
 
@@ -695,7 +810,9 @@ class BiometricFusionEngine:
 
         return score
 
-    def _verify_dream_symbols(self, symbols: list[str], cultural_context: dict[str, Any]) -> float:
+    def _verify_dream_symbols(
+        self, symbols: list[str], cultural_context: dict[str, Any]
+    ) -> float:
         """Verify dream symbols with cultural interpretation"""
         # Universal dream symbols
         universal_symbols = [
@@ -708,7 +825,11 @@ class BiometricFusionEngine:
             "light",
         ]
 
-        matches = sum(1 for symbol in symbols if any(u in symbol.lower() for u in universal_symbols))
+        matches = sum(
+            1
+            for symbol in symbols
+            if any(u in symbol.lower() for u in universal_symbols)
+        )
         base_score = min(matches / 3.0, 1.0)
 
         # Cultural dream interpretation bonus
@@ -737,7 +858,9 @@ class BiometricFusionEngine:
 
         return cultural_factor
 
-    def _verify_cultural_pattern(self, pattern_response: str, cultural_context: dict[str, Any]) -> float:
+    def _verify_cultural_pattern(
+        self, pattern_response: str, cultural_context: dict[str, Any]
+    ) -> float:
         """Verify cultural pattern understanding"""
         cultural_patterns = {
             "high_context": ["harmony", "respect", "indirect", "collective"],
@@ -749,10 +872,14 @@ class BiometricFusionEngine:
         cultural_type = cultural_context.get("cultural_type", "neutral")
         expected_patterns = cultural_patterns.get(cultural_type, [])
 
-        matches = sum(1 for pattern in expected_patterns if pattern in pattern_response.lower())
+        matches = sum(
+            1 for pattern in expected_patterns if pattern in pattern_response.lower()
+        )
         return min(matches / 2.0, 1.0)
 
-    def _verify_cultural_symbols(self, symbols: list[str], cultural_context: dict[str, Any]) -> float:
+    def _verify_cultural_symbols(
+        self, symbols: list[str], cultural_context: dict[str, Any]
+    ) -> float:
         """Verify understanding of cultural symbols"""
         region = cultural_context.get("region", "").lower()
 
@@ -843,7 +970,9 @@ async def main():
     print(f"✅ Success: {result2.success}")
     print(f"🎯 Confidence: {result2.confidence_score:.2f}")
     print(f"🔄 Fallback: {result2.fallback_triggered}")
-    print(f"📱 Strategy: {result2.fallback_strategy.value if result2.fallback_strategy else 'None'}")
+    print(
+        f"📱 Strategy: {result2.fallback_strategy.value if result2.fallback_strategy else 'None'}"
+    )
 
     # Scenario 3: Dream recall fallback
     print("\n📍 Scenario 3: Dream-state authentication fallback")

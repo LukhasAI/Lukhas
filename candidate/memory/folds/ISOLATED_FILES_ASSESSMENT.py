@@ -127,14 +127,20 @@ class IsolatedFilesAssessor:
                 }
 
         # Check for valuable keywords
-        valuable_score = sum(1 for keyword in self.valuable_keywords if keyword in path_str)
+        valuable_score = sum(
+            1 for keyword in self.valuable_keywords if keyword in path_str
+        )
 
         # Check for archive indicators
-        archive_score = sum(1 for indicator in self.archive_indicators if indicator in path_str)
+        archive_score = sum(
+            1 for indicator in self.archive_indicators if indicator in path_str
+        )
 
         # Special cases
         if "tools/" in str(file_path):
-            if any(k in file_name for k in ["analyzer", "auditor", "scanner", "resolver"]):
+            if any(
+                k in file_name for k in ["analyzer", "auditor", "scanner", "resolver"]
+            ):
                 return {
                     "category": "valuable",
                     "reason": "Analysis/audit tool prototype",

@@ -388,7 +388,9 @@ class IntegratedMonitoringSystem:
 
         except Exception as e:
             self.state = IntegrationState.ERROR
-            logger.error("Failed to initialize integrated monitoring system", error=str(e))
+            logger.error(
+                "Failed to initialize integrated monitoring system", error=str(e)
+            )
             raise
 
     async def _initialize_monitoring_components(self):
@@ -401,7 +403,9 @@ class IntegratedMonitoringSystem:
         await self.endocrine_engine.initialize()
 
         # Create plasticity trigger manager
-        self.plasticity_manager = PlasticityTriggerManager(self.config.get("plasticity_config", {}))
+        self.plasticity_manager = PlasticityTriggerManager(
+            self.config.get("plasticity_config", {})
+        )
 
         # Create bio-symbolic coherence monitor
         self.coherence_monitor = create_bio_symbolic_coherence_monitor(
@@ -415,7 +419,9 @@ class IntegratedMonitoringSystem:
 
         # Create hormone-driven dashboard
         if self.dashboard_enabled:
-            self.dashboard = create_hormone_driven_dashboard(self.signal_bus, self.config.get("dashboard_config", {}))
+            self.dashboard = create_hormone_driven_dashboard(
+                self.signal_bus, self.config.get("dashboard_config", {})
+            )
 
         # Create neuroplastic learning orchestrator
         if self.learning_enabled:
@@ -456,7 +462,9 @@ class IntegratedMonitoringSystem:
                 self.homeostasis_controller = HomeostasisController()
 
             # Register for homeostasis state changes
-            self.homeostasis_controller.register_state_callback(self._on_homeostasis_change)
+            self.homeostasis_controller.register_state_callback(
+                self._on_homeostasis_change
+            )
 
             self.existing_systems_connected = True
             logger.info("Connected to existing LUKHAS systems")
@@ -525,10 +533,14 @@ class IntegratedMonitoringSystem:
         """Register handlers for different signal types"""
 
         # Homeostasis signals
-        self.signal_handlers[SignalType.HOMEOSTASIS].append(self._handle_homeostasis_signal)
+        self.signal_handlers[SignalType.HOMEOSTASIS].append(
+            self._handle_homeostasis_signal
+        )
 
         # Adaptation signals
-        self.signal_handlers[SignalType.ADAPTATION].append(self._handle_adaptation_signal)
+        self.signal_handlers[SignalType.ADAPTATION].append(
+            self._handle_adaptation_signal
+        )
 
         # Alert signals
         self.signal_handlers[SignalType.ALERT].append(self._handle_alert_signal)
@@ -537,10 +549,14 @@ class IntegratedMonitoringSystem:
         self.signal_handlers[SignalType.COHERENCE].append(self._handle_coherence_signal)
 
         # Metric update signals
-        self.signal_handlers[SignalType.METRIC_UPDATE].append(self._handle_metric_update_signal)
+        self.signal_handlers[SignalType.METRIC_UPDATE].append(
+            self._handle_metric_update_signal
+        )
 
         # Learning phase signals
-        self.signal_handlers[SignalType.LEARNING_PHASE].append(self._handle_learning_phase_signal)
+        self.signal_handlers[SignalType.LEARNING_PHASE].append(
+            self._handle_learning_phase_signal
+        )
 
         # Subscribe to signal bus
         for signal_type, handlers in self.signal_handlers.items():
@@ -679,7 +695,11 @@ class IntegratedMonitoringSystem:
             total_adaptations = adaptation_stats["total_adaptations"]
             if total_adaptations > 0:
                 success_rates = adaptation_stats["success_rates"]
-                avg_success = sum(success_rates.values()) / len(success_rates) if success_rates else 0.0
+                avg_success = (
+                    sum(success_rates.values()) / len(success_rates)
+                    if success_rates
+                    else 0.0
+                )
                 health.adaptation_effectiveness = avg_success
                 health.plasticity_health = avg_success
 
@@ -705,13 +725,17 @@ class IntegratedMonitoringSystem:
         # Calculate system stability
         if len(self.health_history) >= 10:
             recent_health = [h.overall_health for h in list(self.health_history)[-10:]]
-            variance = sum((h - health.overall_health) ** 2 for h in recent_health) / len(recent_health)
+            variance = sum(
+                (h - health.overall_health) ** 2 for h in recent_health
+            ) / len(recent_health)
             health.system_stability = 1.0 - min(1.0, variance * 2.0)
         else:
             health.system_stability = 0.5
 
         # Predictive indicators (simplified)
-        health.predicted_stability_1h = health.system_stability * 0.9  # Assume slight degradation
+        health.predicted_stability_1h = (
+            health.system_stability * 0.9
+        )  # Assume slight degradation
         health.predicted_performance_1h = health.overall_health * 0.95
 
         # Risk assessment
@@ -768,10 +792,15 @@ class IntegratedMonitoringSystem:
                 symbolic_data = {
                     "glyph_processing_rate": current_metrics.get("response_time", 0.0),
                     "consciousness_level": current_metrics.get("attention_focus", 0.0),
-                    "decision_making_active": current_metrics.get("decision_confidence", 0.0) > 0.7,
+                    "decision_making_active": current_metrics.get(
+                        "decision_confidence", 0.0
+                    )
+                    > 0.7,
                     "memory_operations": 10,  # Mock value
                     "reasoning_depth": current_metrics.get("decision_confidence", 0.0),
-                    "symbolic_complexity": current_metrics.get("communication_clarity", 0.0),
+                    "symbolic_complexity": current_metrics.get(
+                        "communication_clarity", 0.0
+                    ),
                     "processing_load": current_metrics.get("cpu_utilization", 0.0),
                 }
                 await self.coherence_monitor.update_symbolic_system_state(symbolic_data)
@@ -894,7 +923,9 @@ class IntegratedMonitoringSystem:
             await self._set_monitoring_level(MonitoringLevel.STANDARD)
 
     # Callback for homeostasis controller
-    async def _on_homeostasis_change(self, old_state: HomeostasisState, new_state: HomeostasisState):
+    async def _on_homeostasis_change(
+        self, old_state: HomeostasisState, new_state: HomeostasisState
+    ):
         """Called when homeostasis state changes"""
 
         logger.info(
@@ -1010,7 +1041,9 @@ class IntegratedMonitoringSystem:
 
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
 
-        return [health for health in self.health_history if health.timestamp > cutoff_time]
+        return [
+            health for health in self.health_history if health.timestamp > cutoff_time
+        ]
 
 
 # Factory function
@@ -1030,7 +1063,9 @@ async def start_complete_monitoring_system(
     This is the main entry point for the enhanced monitoring system.
     """
 
-    logger.info("Starting complete LUKHAS monitoring system with endocrine-triggered plasticity")
+    logger.info(
+        "Starting complete LUKHAS monitoring system with endocrine-triggered plasticity"
+    )
 
     # Create the integrated system
     monitoring_system = create_integrated_monitoring_system(signal_bus, config)

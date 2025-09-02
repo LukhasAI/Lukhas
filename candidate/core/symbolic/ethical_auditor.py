@@ -153,11 +153,15 @@ class EliteEthicalAuditor:
         self.max_tokens = max_tokens
         self.enable_notion = enable_notion
         self.enable_github_sync = enable_github_sync
-        self.lambda_id = lambda_id or os.getenv("AGI_LAMBDA_ID", "LUKHAS-Elite-lukhasuditor")
+        self.lambda_id = lambda_id or os.getenv(
+            "AGI_LAMBDA_ID", "LUKHAS-Elite-lukhasuditor"
+        )
 
         # Initialize elite modules if available
         self.trust_scorer = SymbolicTrustScorer() if SymbolicTrustScorer else None
-        self.constitution_checker = AIConstitutionChecker() if AIConstitutionChecker else None
+        self.constitution_checker = (
+            AIConstitutionChecker() if AIConstitutionChecker else None
+        )
         self.secure_logger = EmotionalSecureLogger() if EmotionalSecureLogger else None
 
         # Audit storage
@@ -236,7 +240,9 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
 5. Provide actionable recommendations with code examples if needed
 """
 
-    def _parse_audit_response(self, response: str, context: AuditContext) -> dict[str, Any]:
+    def _parse_audit_response(
+        self, response: str, context: AuditContext
+    ) -> dict[str, Any]:
         """Parse OpenAI response into structured audit data"""
         try:
             # Extract structured information from response
@@ -321,7 +327,9 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
 
     def _sign_with_lambda_id(self, audit_result: AuditResult) -> str:
         """Sign audit result with AI Lambda ID"""
-        signature_data = f"{audit_result.audit_hash}{self.lambda_id}{audit_result.timestamp}"
+        signature_data = (
+            f"{audit_result.audit_hash}{self.lambda_id}{audit_result.timestamp}"
+        )
         return hashlib.sha256(signature_data.encode()).hexdigest()[:32]
 
     async def audit_module(
@@ -487,7 +495,10 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             )
 
         # Save to audit directory
-        audit_file = self.audit_dir / f"{result.module.replace('/', '_')}_{result.audit_hash}.json"
+        audit_file = (
+            self.audit_dir
+            / f"{result.module.replace('/', '_')}_{result.audit_hash}.json"
+        )
         audit_data = {
             "result": asdict(result),
             "full_response": full_response,
@@ -518,7 +529,9 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
         return {
             "total_audits": self.audit_count,
             "total_cost_usd": round(self.total_cost, 4),
-            "average_cost_per_audit": round(self.total_cost / max(self.audit_count, 1), 4),
+            "average_cost_per_audit": round(
+                self.total_cost / max(self.audit_count, 1), 4
+            ),
             "auditor_id": self.lambda_id,
             "model": self.model,
             "elite_features_enabled": {

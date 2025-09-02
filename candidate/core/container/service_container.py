@@ -139,7 +139,9 @@ class ServiceContainer(IServiceProvider):
 
         # Circular dependency check
         if service_type in self._resolving:
-            raise ValueError(f"Circular dependency detected for {service_type.__name__}")
+            raise ValueError(
+                f"Circular dependency detected for {service_type.__name__}"
+            )
 
         descriptor = self._services[service_type]
 
@@ -157,7 +159,9 @@ class ServiceContainer(IServiceProvider):
             if service_type not in self._scoped_instances:
                 self._resolving.add(service_type)
                 try:
-                    self._scoped_instances[service_type] = self._create_instance(descriptor)
+                    self._scoped_instances[service_type] = self._create_instance(
+                        descriptor
+                    )
                 finally:
                     self._resolving.remove(service_type)
             return self._scoped_instances[service_type]
@@ -199,7 +203,9 @@ class ServiceContainer(IServiceProvider):
                 if service is not None:
                     kwargs[param_name] = service
                 elif param.default == param.empty:
-                    raise ValueError(f"Cannot resolve required parameter {param_name} of type {param.annotation}")
+                    raise ValueError(
+                        f"Cannot resolve required parameter {param_name} of type {param.annotation}"
+                    )
 
         return cls(**kwargs)
 
@@ -223,7 +229,9 @@ class ServiceScope(IServiceProvider):
 
         if descriptor.lifetime == ServiceLifetime.SCOPED:
             if service_type not in self._scoped_instances:
-                self._scoped_instances[service_type] = self._parent._create_instance(descriptor)
+                self._scoped_instances[service_type] = self._parent._create_instance(
+                    descriptor
+                )
             return self._scoped_instances[service_type]
 
         return self._parent.get_service(service_type)

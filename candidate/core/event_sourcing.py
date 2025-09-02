@@ -94,9 +94,13 @@ class EventStore:
                 )
                 conn.commit()
                 # Verify table exists
-                cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='events'")
+                cursor.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table' AND name='events'"
+                )
                 if cursor.fetchone():
-                    logger.info(f"Event store database initialized successfully at {self.db_path}")
+                    logger.info(
+                        f"Event store database initialized successfully at {self.db_path}"
+                    )
                 else:
                     raise Exception("Failed to create events table")
             except Exception as e:
@@ -134,7 +138,9 @@ class EventStore:
             except sqlite3.IntegrityError:
                 return False  # Event already exists
 
-    def get_events_for_aggregate(self, aggregate_id: str, from_version: int = 0) -> list[Event]:
+    def get_events_for_aggregate(
+        self, aggregate_id: str, from_version: int = 0
+    ) -> list[Event]:
         """
         Retrieve all events for a specific aggregate
         Enables state reconstruction through event replay
@@ -200,7 +206,9 @@ class EventStore:
 
             return events
 
-    def get_events_in_time_range(self, start_time: float, end_time: float) -> list[Event]:
+    def get_events_in_time_range(
+        self, start_time: float, end_time: float
+    ) -> list[Event]:
         """
         Temporal queries: Get events within a specific time range
         Enables "as-of" reporting and historical analysis
@@ -340,7 +348,9 @@ class AIAgentAggregate(EventSourcedAggregate):
             if capability not in self.capabilities:
                 self.capabilities.append(capability)
 
-    def create_agent(self, capabilities: list[str], correlation_id: Optional[str] = None):
+    def create_agent(
+        self, capabilities: list[str], correlation_id: Optional[str] = None
+    ):
         """Create a new agent with specified capabilities"""
         self.raise_event("AgentCreated", {"capabilities": capabilities}, correlation_id)
 
@@ -376,7 +386,9 @@ class AIAgentAggregate(EventSourcedAggregate):
         correlation_id: Optional[str] = None,
     ):
         """Update agent's memory"""
-        self.raise_event("MemoryUpdated", {"memory_update": memory_update}, correlation_id)
+        self.raise_event(
+            "MemoryUpdated", {"memory_update": memory_update}, correlation_id
+        )
 
     def add_capability(self, capability: str, correlation_id: Optional[str] = None):
         """Add a new capability to the agent"""
@@ -392,7 +404,9 @@ class EventReplayService:
     def __init__(self, event_store: EventStore):
         self.event_store = event_store
 
-    def replay_aggregate_to_point_in_time(self, aggregate_id: str, target_time: float) -> AIAgentAggregate:
+    def replay_aggregate_to_point_in_time(
+        self, aggregate_id: str, target_time: float
+    ) -> AIAgentAggregate:
         """
         Replay an aggregate to a specific point in time
         Enables powerful temporal debugging
@@ -418,14 +432,18 @@ class EventReplayService:
         """
         return self.event_store.get_events_by_correlation_id(correlation_id)
 
-    def analyze_agent_behavior(self, agent_id: str, time_window: Optional[tuple] = None) -> dict[str, Any]:
+    def analyze_agent_behavior(
+        self, agent_id: str, time_window: Optional[tuple] = None
+    ) -> dict[str, Any]:
         """
         Analyze agent behavior patterns from event history
         """
         if time_window:
             start_time, end_time = time_window
             events = [
-                e for e in self.event_store.get_events_for_aggregate(agent_id) if start_time <= e.timestamp <= end_time
+                e
+                for e in self.event_store.get_events_for_aggregate(agent_id)
+                if start_time <= e.timestamp <= end_time
             ]
         else:
             events = self.event_store.get_events_for_aggregate(agent_id)
@@ -445,7 +463,9 @@ class EventReplayService:
 
         for event in events:
             event_type = event.event_type
-            analysis["event_types"][event_type] = analysis["event_types"].get(event_type, 0) + 1
+            analysis["event_types"][event_type] = (
+                analysis["event_types"].get(event_type, 0) + 1
+            )
 
             if event_type == "TaskAssigned":
                 task_assignments += 1
@@ -466,7 +486,9 @@ class EventReplayService:
             analysis["task_completion_rate"] = task_completions / task_assignments
 
         if task_durations:
-            analysis["average_task_duration"] = sum(task_durations) / len(task_durations)
+            analysis["average_task_duration"] = sum(task_durations) / len(
+                task_durations
+            )
 
         return analysis
 
@@ -495,7 +517,9 @@ if __name__ == "__main__":
     agent.create_agent(["reasoning", "memory", "learning"], correlation_id)
 
     # Assign and complete tasks
-    agent.assign_task("task-001", {"type": "reasoning", "complexity": "high"}, correlation_id)
+    agent.assign_task(
+        "task-001", {"type": "reasoning", "complexity": "high"}, correlation_id
+    )
     agent.update_memory({"last_task": "reasoning"}, correlation_id)
     agent.complete_task(
         "task-001",

@@ -1,6 +1,8 @@
-from candidate.core.common import get_logger
 import asyncio
+
 import structlog
+
+from candidate.core.common import get_logger
 
 
 class IntrinsicEthicalGovernor:

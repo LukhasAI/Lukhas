@@ -28,7 +28,9 @@ class RedirectTraceReplayer:
         # This is a placeholder implementation.
         # A real implementation would involve a more sophisticated mechanism
         # for reconstructing the episode and generating visual overlays.
-        episode_entries = [entry for entry in self.log_entries if entry.get("episode_id") == episode_id]
+        episode_entries = [
+            entry for entry in self.log_entries if entry.get("episode_id") == episode_id
+        ]
         if not episode_entries:
             return {"error": "Episode not found."}
 

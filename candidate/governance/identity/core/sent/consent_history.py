@@ -27,7 +27,9 @@ class ConsentHistoryManager:
         self.consent_chain = {}
         self.hash_algorithm = "sha256"
 
-    def record_consent_event(self, user_id: str, event_type: str, scope_data: dict, metadata: dict) -> str:
+    def record_consent_event(
+        self, user_id: str, event_type: str, scope_data: dict, metadata: dict
+    ) -> str:
         """Record a consent event in immutable history"""
         timestamp = datetime.utcnow().isoformat()
 
@@ -97,7 +99,9 @@ class ConsentHistoryManager:
 
         return True
 
-    def get_consent_timeline(self, user_id: str, scope: Optional[str] = None) -> list[dict]:
+    def get_consent_timeline(
+        self, user_id: str, scope: Optional[str] = None
+    ) -> list[dict]:
         """Get chronological consent timeline for user"""
         if user_id not in self.consent_chain:
             return []
@@ -110,7 +114,9 @@ class ConsentHistoryManager:
 
         return sorted(timeline, key=lambda x: x["timestamp"])
 
-    def generate_consent_proof(self, user_id: str, scope: str, timestamp: Optional[str] = None) -> dict:
+    def generate_consent_proof(
+        self, user_id: str, scope: str, timestamp: Optional[str] = None
+    ) -> dict:
         """Generate cryptographic proof of consent status"""
         # TODO: Implement zero-knowledge proof generation
         # This will allow proving consent without revealing full scope details

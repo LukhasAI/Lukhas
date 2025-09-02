@@ -91,14 +91,18 @@ class FullyAutonomousAGI:
             ):
                 self.logger.info("🔍 Scanning repositories for vulnerabilities...")
                 scan_results = self.vulnerability_manager.scan_all_repositories()
-                cycle_results["vulnerabilities_found"] = scan_results["total_vulnerabilities"]
+                cycle_results["vulnerabilities_found"] = scan_results[
+                    "total_vulnerabilities"
+                ]
 
             # Step 2: Process vulnerabilities in batches
             if self.vulnerability_manager.vulnerabilities:
                 self.logger.info("🔄 Processing vulnerabilities in batches...")
                 vuln_results = self.vulnerability_manager.fix_vulnerabilities_batch()
 
-                cycle_results["vulnerabilities_processed"] = vuln_results["fixes_applied"]
+                cycle_results["vulnerabilities_processed"] = vuln_results[
+                    "fixes_applied"
+                ]
                 cycle_results["batches_created"] += vuln_results["batches_processed"]
                 cycle_results["prs_created"] += vuln_results["prs_created"]
                 cycle_results["cost"] += vuln_results["total_cost"]
@@ -106,15 +110,21 @@ class FullyAutonomousAGI:
             # Step 3: Process GitHub notifications in batches
             notification_results = self._process_github_notifications_batch()
             cycle_results["workflows_fixed"] = notification_results["fixes_applied"]
-            cycle_results["batches_created"] += notification_results["batches_processed"]
+            cycle_results["batches_created"] += notification_results[
+                "batches_processed"
+            ]
             cycle_results["prs_created"] += notification_results["prs_created"]
             cycle_results["cost"] += notification_results["cost"]
 
             # Step 4: Process any pending batches
             pending_results = self.batch_processor.process_ready_batches()
             if pending_results:
-                additional_fixes = sum(len(batch["fixes_applied"]) for batch in pending_results)
-                additional_prs = sum(len(batch["prs_created"]) for batch in pending_results)
+                additional_fixes = sum(
+                    len(batch["fixes_applied"]) for batch in pending_results
+                )
+                additional_prs = sum(
+                    len(batch["prs_created"]) for batch in pending_results
+                )
                 additional_cost = sum(batch["total_cost"] for batch in pending_results)
 
                 cycle_results["vulnerabilities_processed"] += additional_fixes
@@ -122,7 +132,10 @@ class FullyAutonomousAGI:
                 cycle_results["cost"] += additional_cost
 
             # Update totals
-            self.total_issues_processed += cycle_results["vulnerabilities_processed"] + cycle_results["workflows_fixed"]
+            self.total_issues_processed += (
+                cycle_results["vulnerabilities_processed"]
+                + cycle_results["workflows_fixed"]
+            )
             self.total_prs_created += cycle_results["prs_created"]
             self.total_cost += cycle_results["cost"]
 
@@ -206,7 +219,10 @@ class FullyAutonomousAGI:
                     "workflow_name": workflow,
                     "type": "workflow_failure",
                     "severity": (
-                        "high" if "security" in workflow.lower() or "critical" in workflow.lower() else "medium"
+                        "high"
+                        if "security" in workflow.lower()
+                        or "critical" in workflow.lower()
+                        else "medium"
                     ),
                     "description": f"{workflow} workflow run failed for master branch",
                     "url": f"https://github.com/{repo}/actions/runs/{1000 + i}",
@@ -215,7 +231,9 @@ class FullyAutonomousAGI:
 
         return notifications
 
-    def _notification_to_batchable_issue(self, notification: dict[str, Any]) -> Optional[BatchableIssue]:
+    def _notification_to_batchable_issue(
+        self, notification: dict[str, Any]
+    ) -> Optional[BatchableIssue]:
         """Convert a GitHub notification to a batchable issue"""
         if notification["type"] == "workflow_failure":
             return BatchableIssue(
@@ -254,7 +272,9 @@ class FullyAutonomousAGI:
                 and cycle_result["workflows_fixed"] == 0
                 and self.batch_processor.get_batch_statistics()["pending_issues"] == 0
             ):
-                self.logger.info("✅ No more issues to process - autonomous cycle complete")
+                self.logger.info(
+                    "✅ No more issues to process - autonomous cycle complete"
+                )
                 break
 
             # Brief pause between cycles to prevent overwhelming APIs
@@ -268,7 +288,9 @@ class FullyAutonomousAGI:
 
         return final_report
 
-    def _generate_final_report(self, start_time: datetime, all_cycles: list[dict[str, Any]]) -> dict[str, Any]:
+    def _generate_final_report(
+        self, start_time: datetime, all_cycles: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Generate comprehensive final report"""
         end_time = datetime.now()
         total_duration = (end_time - start_time).total_seconds()
@@ -286,7 +308,8 @@ class FullyAutonomousAGI:
                 "total_issues_processed": self.total_issues_processed,
                 "total_prs_created": self.total_prs_created,
                 "total_cost": self.total_cost,
-                "issues_per_second": self.total_issues_processed / max(total_duration, 1),
+                "issues_per_second": self.total_issues_processed
+                / max(total_duration, 1),
                 "cost_per_issue": self.total_cost / max(self.total_issues_processed, 1),
                 "average_cycle_duration": total_duration / max(len(all_cycles), 1),
             },
@@ -299,8 +322,12 @@ class FullyAutonomousAGI:
             "budget_management": {
                 "total_spent": self.total_cost,
                 "budget_remaining": self.budget_controller.get_daily_budget_remaining(),
-                "emergency_overrides_used": getattr(self.budget_controller, "emergency_calls", 0),
-                "efficiency_score": getattr(self.budget_controller, "efficiency_score", 100),
+                "emergency_overrides_used": getattr(
+                    self.budget_controller, "emergency_calls", 0
+                ),
+                "efficiency_score": getattr(
+                    self.budget_controller, "efficiency_score", 100
+                ),
             },
             "cycles": all_cycles,
             "success": len([c for c in all_cycles if c["success"]]) == len(all_cycles),
@@ -333,12 +360,20 @@ def main():
         print("\n" + "=" * 60)
         print("🎉 AUTONOMOUS PROCESSING COMPLETE!")
         print("=" * 60)
-        print(f"📊 Issues Processed: {results['performance_metrics']['total_issues_processed']}")
+        print(
+            f"📊 Issues Processed: {results['performance_metrics']['total_issues_processed']}"
+        )
         print(f"🔧 PRs Created: {results['performance_metrics']['total_prs_created']}")
         print(f"💰 Total Cost: ${results['performance_metrics']['total_cost']:.4f}")
-        print(f"⚡ Processing Rate: {results['performance_metrics']['issues_per_second']:.2f} issues/sec")
-        print(f"🔄 Batch Efficiency: ${results['batch_processing']['batch_efficiency']:.4f} per issue")
-        print(f"⏱️  Total Duration: {results['autonomous_session']['total_duration_seconds']:.1f} seconds")
+        print(
+            f"⚡ Processing Rate: {results['performance_metrics']['issues_per_second']:.2f} issues/sec"
+        )
+        print(
+            f"🔄 Batch Efficiency: ${results['batch_processing']['batch_efficiency']:.4f} per issue"
+        )
+        print(
+            f"⏱️  Total Duration: {results['autonomous_session']['total_duration_seconds']:.1f} seconds"
+        )
         print("=" * 60)
 
     else:

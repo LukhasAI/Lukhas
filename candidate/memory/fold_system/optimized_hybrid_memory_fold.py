@@ -29,31 +29,19 @@ import numpy as np
 
 # Import optimized memory components
 try:
-    from .hybrid_memory_fold import (
-        HybridMemoryFold,
-        VectorStorageLayer,
-    )
+    from .hybrid_memory_fold import HybridMemoryFold, VectorStorageLayer
     from .lazy_loading_embeddings import (
         LazyEmbeddingLoader,
         LazyMemoryItem,
         create_lazy_embedding_system,
     )
     from .memory_fold_system import MemoryItem
-    from .optimized_memory_item import (
-        OptimizedMemoryItem,
-        create_optimized_memory,
-    )
+    from .optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
 except ImportError:
     # Fallback for direct execution
-    from hybrid_memory_fold import (
-        HybridMemoryFold,
-        VectorStorageLayer,
-    )
+    from hybrid_memory_fold import HybridMemoryFold, VectorStorageLayer
     from memory_fold_system import MemoryItem
-    from optimized_memory_item import (
-        OptimizedMemoryItem,
-        create_optimized_memory,
-    )
+    from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
 
     try:
         from lazy_loading_embeddings import (
@@ -100,7 +88,9 @@ class OptimizedVectorStorageLayer(VectorStorageLayer):
     def get_memory_usage_stats(self) -> dict[str, Any]:
         """Get detailed memory usage statistics"""
         num_vectors = len(self.vectors)
-        avg_size_per_vector = self.memory_usage_bytes / num_vectors if num_vectors > 0 else 0
+        avg_size_per_vector = (
+            self.memory_usage_bytes / num_vectors if num_vectors > 0 else 0
+        )
 
         return {
             "total_vectors": num_vectors,
@@ -108,7 +98,11 @@ class OptimizedVectorStorageLayer(VectorStorageLayer):
             "total_memory_mb": self.memory_usage_bytes / (1024 * 1024),
             "avg_bytes_per_vector": avg_size_per_vector,
             "quantization_enabled": self.enable_quantization,
-            "compression_ratio": ((self.dimension * 4) / avg_size_per_vector if avg_size_per_vector > 0 else 1.0),
+            "compression_ratio": (
+                (self.dimension * 4) / avg_size_per_vector
+                if avg_size_per_vector > 0
+                else 1.0
+            ),
         }
 
 
@@ -167,7 +161,9 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
                 cache_memory_mb=lazy_loading_cache_memory_mb,
             )
         elif enable_lazy_loading:
-            logger.warning("Lazy loading requested but not available (missing dependencies)")
+            logger.warning(
+                "Lazy loading requested but not available (missing dependencies)"
+            )
             self.enable_lazy_loading = False
 
         # Memory usage tracking
@@ -204,7 +200,9 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         """
         # Generate embeddings if not provided
         if embedding is None:
-            embedding = await self._generate_embedding(data, text_content, image_content, audio_content)
+            embedding = await self._generate_embedding(
+                data, text_content, image_content, audio_content
+            )
 
         # Create memory ID
         memory_id = self._generate_memory_id()
@@ -432,7 +430,14 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         # System overhead (indexes, etc.)
         system_overhead = 1000
 
-        return content_size + tags_size + embedding_size + metadata_size + python_overhead + system_overhead
+        return (
+            content_size
+            + tags_size
+            + embedding_size
+            + metadata_size
+            + python_overhead
+            + system_overhead
+        )
 
     def get_optimization_statistics(self) -> dict[str, Any]:
         """Get detailed optimization statistics"""
@@ -441,8 +446,12 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         # Calculate averages
         if stats["memories_optimized"] > 0:
             stats["avg_compression_ratio"] = np.mean(stats["compression_ratios"])
-            stats["avg_size_before_kb"] = stats["total_size_before"] / stats["memories_optimized"] / 1024
-            stats["avg_size_after_kb"] = stats["total_size_after"] / stats["memories_optimized"] / 1024
+            stats["avg_size_before_kb"] = (
+                stats["total_size_before"] / stats["memories_optimized"] / 1024
+            )
+            stats["avg_size_after_kb"] = (
+                stats["total_size_after"] / stats["memories_optimized"] / 1024
+            )
             stats["total_memory_saved_mb"] = self.total_memory_saved / (1024 * 1024)
 
         # Add vector storage stats
@@ -450,8 +459,12 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
 
         # Memory efficiency metrics
         if stats["total_size_before"] > 0:
-            stats["overall_compression_ratio"] = stats["total_size_before"] / stats["total_size_after"]
-            stats["memory_efficiency_improvement"] = f"{stats['overall_compression_ratio']:.1f}x"
+            stats["overall_compression_ratio"] = (
+                stats["total_size_before"] / stats["total_size_after"]
+            )
+            stats["memory_efficiency_improvement"] = (
+                f"{stats['overall_compression_ratio']:.1f}x"
+            )
             stats["storage_capacity_multiplier"] = stats["overall_compression_ratio"]
 
         return stats
@@ -466,7 +479,8 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         # Memory capacity projections
         if self.optimization_stats["memories_optimized"] > 0:
             avg_optimized_size = (
-                self.optimization_stats["total_size_after"] / self.optimization_stats["memories_optimized"]
+                self.optimization_stats["total_size_after"]
+                / self.optimization_stats["memories_optimized"]
             )
 
             # Capacity calculations
@@ -512,7 +526,9 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             # Realistic content
             content_length = random.randint(50, 500)
             content = "Memory content: " + "".join(
-                random.choices(string.ascii_letters + string.digits + " ", k=content_length)
+                random.choices(
+                    string.ascii_letters + string.digits + " ", k=content_length
+                )
             )
 
             # Random tags
@@ -520,7 +536,11 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             tags = [f"tag_{random.randint(1, 100)}" for _ in range(num_tags)]
 
             # Embedding
-            embedding = np.random.randn(self.embedding_dim).astype(np.float32) if include_embeddings else None
+            embedding = (
+                np.random.randn(self.embedding_dim).astype(np.float32)
+                if include_embeddings
+                else None
+            )
 
             test_memories.append((content, tags, embedding))
 
@@ -529,7 +549,9 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         memory_ids = []
 
         for content, tags, embedding in test_memories:
-            memory_id = await self.fold_in_with_embedding(data=content, tags=tags, embedding=embedding)
+            memory_id = await self.fold_in_with_embedding(
+                data=content, tags=tags, embedding=embedding
+            )
             memory_ids.append(memory_id)
 
         insertion_time = time.time() - start_time
@@ -646,9 +668,7 @@ def create_optimized_hybrid_memory_fold_with_lazy_loading(
     # Create structural conscience if requested
     if enable_conscience:
         try:
-            from memory.structural_conscience import (
-                create_structural_conscience,
-            )
+            from memory.structural_conscience import create_structural_conscience
 
             conscience = create_structural_conscience()
             kwargs["structural_conscience"] = conscience
@@ -711,9 +731,7 @@ def create_optimized_hybrid_memory_fold(
     # Create structural conscience if requested
     if enable_conscience:
         try:
-            from memory.structural_conscience import (
-                create_structural_conscience,
-            )
+            from memory.structural_conscience import create_structural_conscience
 
             conscience = create_structural_conscience()
             kwargs["structural_conscience"] = conscience
@@ -818,7 +836,9 @@ async def migrate_to_optimized(
                 embedding = source_memory_fold.embedding_cache.get(memory_id)
 
                 # Estimate source size
-                source_size = target_memory_fold._estimate_legacy_size(source_memory.data, tags, embedding, {})
+                source_size = target_memory_fold._estimate_legacy_size(
+                    source_memory.data, tags, embedding, {}
+                )
                 migration_stats["size_before_bytes"] += source_size
 
                 # Migrate to optimized format
@@ -837,17 +857,23 @@ async def migrate_to_optimized(
                 migration_stats["migrated_memories"] += 1
 
             except Exception as e:
-                logger.error("Failed to migrate memory", memory_id=memory_id, error=str(e))
+                logger.error(
+                    "Failed to migrate memory", memory_id=memory_id, error=str(e)
+                )
                 migration_stats["failed_migrations"] += 1
 
         # Log progress
-        logger.info(f"Migration progress: {min(i + batch_size, len(memory_ids))}/{len(memory_ids)}")
+        logger.info(
+            f"Migration progress: {min(i + batch_size, len(memory_ids))}/{len(memory_ids)}"
+        )
 
     migration_stats["migration_time_seconds"] = time.time() - start_time
 
     # Calculate final statistics
     if migration_stats["size_before_bytes"] > 0:
-        compression_ratio = migration_stats["size_before_bytes"] / migration_stats["size_after_bytes"]
+        compression_ratio = (
+            migration_stats["size_before_bytes"] / migration_stats["size_after_bytes"]
+        )
         migration_stats["compression_ratio"] = compression_ratio
         migration_stats["memory_saved_mb"] = (
             migration_stats["size_before_bytes"] - migration_stats["size_after_bytes"]

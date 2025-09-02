@@ -107,7 +107,11 @@ class LukhasFlagshipSecurityEngine:
                 logger.warning(f"⚠️ NIAS initialization failed: {e}")
 
         # Initialize lukhas_assist (if available)
-        if self.config.get("modules", {}).get("lukhas_assist", {}).get("enabled", False):
+        if (
+            self.config.get("modules", {})
+            .get("lukhas_assist", {})
+            .get("enabled", False)
+        ):
             try:
                 # lukhas_assist implementation would go here
                 logger.info("✅ Lukhas Assist ready for implementation")

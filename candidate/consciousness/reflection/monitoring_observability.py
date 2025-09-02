@@ -74,10 +74,18 @@ MODEL_INFERENCE_DURATION = Histogram(
     "Time spent on model inference",
     ["model_id", "environment"],
 )
-MODEL_ACCURACY_SCORE = Gauge("model_accuracy_score", "Current model accuracy score", ["model_id", "metric_type"])
-REQUEST_RATE = Counter("requests_total", "Total number of requests", ["endpoint", "status", "model_id"])
-ERROR_RATE = Counter("errors_total", "Total number of errors", ["error_type", "service", "severity"])
-DRIFT_DETECTION_SCORE = Gauge("model_drift_score", "Model drift detection score", ["model_id", "drift_type"])
+MODEL_ACCURACY_SCORE = Gauge(
+    "model_accuracy_score", "Current model accuracy score", ["model_id", "metric_type"]
+)
+REQUEST_RATE = Counter(
+    "requests_total", "Total number of requests", ["endpoint", "status", "model_id"]
+)
+ERROR_RATE = Counter(
+    "errors_total", "Total number of errors", ["error_type", "service", "severity"]
+)
+DRIFT_DETECTION_SCORE = Gauge(
+    "model_drift_score", "Model drift detection score", ["model_id", "drift_type"]
+)
 
 
 class AlertSeverity(Enum):
@@ -203,14 +211,18 @@ class ModelDriftDetector:
 
     def __init__(self, reference_window_size: int = 1000):
         self.reference_window_size = reference_window_size
-        self.reference_data: dict[str, deque] = defaultdict(lambda: deque(maxlen=reference_window_size))
+        self.reference_data: dict[str, deque] = defaultdict(
+            lambda: deque(maxlen=reference_window_size)
+        )
         self.drift_scores: dict[str, float] = {}
 
         # Anomaly detection models
         self.isolation_forests: dict[str, IsolationForest] = {}
         self.scalers: dict[str, StandardScaler] = {}
 
-    async def initialize_reference_baseline(self, model_id: str, baseline_data: list[dict[str, float]]) -> None:
+    async def initialize_reference_baseline(
+        self, model_id: str, baseline_data: list[dict[str, float]]
+    ) -> None:
         """Initialize reference baseline for drift detection."""
         logger.info(
             "Initializing drift detection baseline",
@@ -226,7 +238,9 @@ class ModelDriftDetector:
         # Train anomaly detection models
         await self._train_anomaly_detectors(model_id, baseline_data)
 
-    async def _train_anomaly_detectors(self, model_id: str, training_data: list[dict[str, float]]) -> None:
+    async def _train_anomaly_detectors(
+        self, model_id: str, training_data: list[dict[str, float]]
+    ) -> None:
         """Train isolation forest models for anomaly detection."""
         if len(training_data) < 100:
             logger.warning(
@@ -255,7 +269,9 @@ class ModelDriftDetector:
 
         logger.info("Anomaly detection models trained", model_id=model_id)
 
-    async def detect_drift(self, model_id: str, current_metrics: dict[str, float]) -> dict[DriftType, float]:
+    async def detect_drift(
+        self, model_id: str, current_metrics: dict[str, float]
+    ) -> dict[DriftType, float]:
         """
         Detect various types of drift for a model.
 
@@ -265,23 +281,33 @@ class ModelDriftDetector:
         drift_scores = {}
 
         # Data drift detection using statistical tests
-        drift_scores[DriftType.DATA_DRIFT] = await self._detect_data_drift(model_id, current_metrics)
+        drift_scores[DriftType.DATA_DRIFT] = await self._detect_data_drift(
+            model_id, current_metrics
+        )
 
         # Performance drift detection
-        drift_scores[DriftType.PERFORMANCE_DRIFT] = await self._detect_performance_drift(model_id, current_metrics)
+        drift_scores[DriftType.PERFORMANCE_DRIFT] = (
+            await self._detect_performance_drift(model_id, current_metrics)
+        )
 
         # Prediction drift detection using anomaly detection
-        drift_scores[DriftType.PREDICTION_DRIFT] = await self._detect_prediction_drift(model_id, current_metrics)
+        drift_scores[DriftType.PREDICTION_DRIFT] = await self._detect_prediction_drift(
+            model_id, current_metrics
+        )
 
         # Update Prometheus metrics
         for drift_type, score in drift_scores.items():
-            DRIFT_DETECTION_SCORE.labels(model_id=model_id, drift_type=drift_type.value).set(score)
+            DRIFT_DETECTION_SCORE.labels(
+                model_id=model_id, drift_type=drift_type.value
+            ).set(score)
 
         self.drift_scores[model_id] = drift_scores
 
         return drift_scores
 
-    async def _detect_data_drift(self, model_id: str, current_metrics: dict[str, float]) -> float:
+    async def _detect_data_drift(
+        self, model_id: str, current_metrics: dict[str, float]
+    ) -> float:
         """Detect data drift using Kolmogorov-Smirnov test."""
         drift_scores = []
 
@@ -308,7 +334,9 @@ class ModelDriftDetector:
 
         return np.mean(drift_scores) if drift_scores else 0.0
 
-    async def _detect_performance_drift(self, model_id: str, current_metrics: dict[str, float]) -> float:
+    async def _detect_performance_drift(
+        self, model_id: str, current_metrics: dict[str, float]
+    ) -> float:
         """Detect performance drift by comparing key performance metrics."""
         performance_metrics = [
             "creativity_score",
@@ -340,7 +368,9 @@ class ModelDriftDetector:
 
         return np.mean(drift_scores) if drift_scores else 0.0
 
-    async def _detect_prediction_drift(self, model_id: str, current_metrics: dict[str, float]) -> float:
+    async def _detect_prediction_drift(
+        self, model_id: str, current_metrics: dict[str, float]
+    ) -> float:
         """Detect prediction drift using trained anomaly detection models."""
         if model_id not in self.isolation_forests:
             return 0.0
@@ -364,7 +394,9 @@ class ModelDriftDetector:
             return drift_score
 
         except Exception as e:
-            logger.error("Prediction drift detection failed", model_id=model_id, error=str(e))
+            logger.error(
+                "Prediction drift detection failed", model_id=model_id, error=str(e)
+            )
             return 0.0
 
 
@@ -421,7 +453,9 @@ class AlertManager:
 
         return generated_alerts
 
-    def _check_threshold_violation(self, current_value: float, threshold: MetricThreshold) -> Optional[AlertSeverity]:
+    def _check_threshold_violation(
+        self, current_value: float, threshold: MetricThreshold
+    ) -> Optional[AlertSeverity]:
         """Check if a threshold is violated and return severity level."""
         operator = threshold.comparison_operator
 
@@ -467,7 +501,9 @@ class AlertManager:
             metric_name=threshold.metric_name,
             current_value=current_value,
             threshold=(
-                threshold.critical_threshold if severity == AlertSeverity.CRITICAL else threshold.warning_threshold
+                threshold.critical_threshold
+                if severity == AlertSeverity.CRITICAL
+                else threshold.warning_threshold
             ),
             service="creative_agi",
             model_id=model_id,
@@ -494,7 +530,9 @@ class AlertManager:
         )
 
         if len(self.alert_counts[rate_key]) >= 5:
-            logger.debug("Alert rate limited", alert_id=alert.id, metric=alert.metric_name)
+            logger.debug(
+                "Alert rate limited", alert_id=alert.id, metric=alert.metric_name
+            )
             return False
 
         # Record alert timestamp
@@ -557,7 +595,9 @@ class AlertManager:
             async with aiohttp.ClientSession() as session:
                 async with session.post(self.webhook_url, json=payload) as response:
                     if response.status == 200:
-                        logger.debug("Webhook alert sent successfully", alert_id=alert.id)
+                        logger.debug(
+                            "Webhook alert sent successfully", alert_id=alert.id
+                        )
                     else:
                         logger.error(
                             "Webhook alert failed",
@@ -595,7 +635,9 @@ class AlertManager:
 
         del self.active_alerts[alert_id]
 
-        logger.info("Alert resolved", alert_id=alert_id, resolution_time=alert.resolution_time)
+        logger.info(
+            "Alert resolved", alert_id=alert_id, resolution_time=alert.resolution_time
+        )
 
         return True
 
@@ -634,7 +676,9 @@ class PerformanceProfiler:
             self.gpu_usage[operation_name].append(gpu_delta)
 
             # Update Prometheus metrics
-            MODEL_INFERENCE_DURATION.labels(model_id="unknown", environment="unknown").observe(execution_time)
+            MODEL_INFERENCE_DURATION.labels(
+                model_id="unknown", environment="unknown"
+            ).observe(execution_time)
 
     def _get_memory_usage(self) -> float:
         """Get current memory usage in MB."""
@@ -670,9 +714,15 @@ class PerformanceProfiler:
                 "p99_execution_time_ms": np.percentile(times_list, 99) * 1000,
                 "total_calls": len(times_list),
                 "avg_memory_delta_mb": (
-                    np.mean(list(self.memory_usage[operation])) if self.memory_usage[operation] else 0
+                    np.mean(list(self.memory_usage[operation]))
+                    if self.memory_usage[operation]
+                    else 0
                 ),
-                "avg_gpu_delta_mb": (np.mean(list(self.gpu_usage[operation])) if self.gpu_usage[operation] else 0),
+                "avg_gpu_delta_mb": (
+                    np.mean(list(self.gpu_usage[operation]))
+                    if self.gpu_usage[operation]
+                    else 0
+                ),
             }
 
         return summary
@@ -729,14 +779,18 @@ class ObservabilitySystem:
 
         # Initialize Redis
         try:
-            self.redis_client = await aioredis.from_url(f"redis://{self.config.redis_host}")
+            self.redis_client = await aioredis.from_url(
+                f"redis://{self.config.redis_host}"
+            )
             logger.info("Redis connection established")
         except Exception as e:
             logger.error("Failed to connect to Redis", error=str(e))
 
         # Start Prometheus metrics server
         prometheus_client.start_http_server(self.config.prometheus_port)
-        logger.info("Prometheus metrics server started", port=self.config.prometheus_port)
+        logger.info(
+            "Prometheus metrics server started", port=self.config.prometheus_port
+        )
 
     async def monitor_model_inference(
         self,
@@ -756,7 +810,9 @@ class ObservabilitySystem:
                 environment=request_data.get("environment", "unknown"),
             ).observe(execution_time_ms / 1000)
 
-            REQUEST_RATE.labels(endpoint="inference", status="success", model_id=model_id).inc()
+            REQUEST_RATE.labels(
+                endpoint="inference", status="success", model_id=model_id
+            ).inc()
 
             # Extract metrics from response
             if "metrics" in response_data:
@@ -764,7 +820,9 @@ class ObservabilitySystem:
 
                 # Update Prometheus gauges
                 for metric_name, value in metrics.items():
-                    MODEL_ACCURACY_SCORE.labels(model_id=model_id, metric_type=metric_name).set(value)
+                    MODEL_ACCURACY_SCORE.labels(
+                        model_id=model_id, metric_type=metric_name
+                    ).set(value)
 
                 # Check for drift
                 drift_scores = await self.drift_detector.detect_drift(model_id, metrics)
@@ -779,13 +837,19 @@ class ObservabilitySystem:
                     )
 
                 # Evaluate alert thresholds
-                alerts = await self.alert_manager.evaluate_thresholds(metrics, self.thresholds, model_id)
+                alerts = await self.alert_manager.evaluate_thresholds(
+                    metrics, self.thresholds, model_id
+                )
 
                 if alerts:
-                    self.tracer.add_span_event(span, "alerts_generated", alert_count=len(alerts))
+                    self.tracer.add_span_event(
+                        span, "alerts_generated", alert_count=len(alerts)
+                    )
 
             # Log to Elasticsearch
-            await self._log_inference_event(model_id, request_data, response_data, execution_time_ms)
+            await self._log_inference_event(
+                model_id, request_data, response_data, execution_time_ms
+            )
 
     async def _log_inference_event(
         self,
@@ -820,9 +884,13 @@ class ObservabilitySystem:
         except Exception as e:
             logger.error("Failed to log to Elasticsearch", error=str(e))
 
-    async def register_model_baseline(self, model_id: str, baseline_metrics: list[dict[str, float]]) -> None:
+    async def register_model_baseline(
+        self, model_id: str, baseline_metrics: list[dict[str, float]]
+    ) -> None:
         """Register baseline metrics for a model."""
-        await self.drift_detector.initialize_reference_baseline(model_id, baseline_metrics)
+        await self.drift_detector.initialize_reference_baseline(
+            model_id, baseline_metrics
+        )
         logger.info(
             "Model baseline registered",
             model_id=model_id,
@@ -858,7 +926,9 @@ class ObservabilitySystem:
             return False
 
         try:
-            health = await asyncio.get_event_loop().run_in_executor(None, self.elasticsearch.cluster.health)
+            health = await asyncio.get_event_loop().run_in_executor(
+                None, self.elasticsearch.cluster.health
+            )
             return health["status"] in ["green", "yellow"]
         except Exception:
             return False
@@ -936,7 +1006,10 @@ async def main():
     await obs_system.initialize()
 
     # Register model baseline
-    baseline_metrics = [{"creativity_score": 0.85, "generation_time_ms": 450, "error_rate": 0.02} for _ in range(1000)]
+    baseline_metrics = [
+        {"creativity_score": 0.85, "generation_time_ms": 450, "error_rate": 0.02}
+        for _ in range(1000)
+    ]
     await obs_system.register_model_baseline("model_123", baseline_metrics)
 
     # Simulate monitoring model inference

@@ -29,7 +29,9 @@ app = FastAPI(
 )
 
 # Initialize Lukhas system
-lukhas_system = LukhasNeuralIntelligence({"enable_dreams": True, "enable_healix": True, "api_mode": True})
+lukhas_system = LukhasNeuralIntelligence(
+    {"enable_dreams": True, "enable_healix": True, "api_mode": True}
+)
 
 
 class IntelligenceRequest(BaseModel):
@@ -96,7 +98,9 @@ async def process_intelligence_request(request: IntelligenceRequest):
         lukhas_system.config.update(config)
 
         # Process request
-        response_data = await lukhas_system.process_request(request.query, request.context)
+        response_data = await lukhas_system.process_request(
+            request.query, request.context
+        )
 
         # Get system status for session info
         status = lukhas_system.get_system_status()
@@ -188,7 +192,9 @@ async def process_with_dreams(request: IntelligenceRequest):
 
         return {
             "response": response_data["response"],
-            "dreams_enhancement": response_data["metadata"].get("dream_enhancement", {}),
+            "dreams_enhancement": response_data["metadata"].get(
+                "dream_enhancement", {}
+            ),
             "innovation_focus": "Dreams - Sleep-state cognitive processing",
         }
 
@@ -212,7 +218,9 @@ async def process_with_healix(request: IntelligenceRequest):
 
         return {
             "response": response_data["response"],
-            "healix_optimization": response_data["metadata"].get("healix_optimization", {}),
+            "healix_optimization": response_data["metadata"].get(
+                "healix_optimization", {}
+            ),
             "innovation_focus": "Healix - Golden ratio optimization",
         }
 

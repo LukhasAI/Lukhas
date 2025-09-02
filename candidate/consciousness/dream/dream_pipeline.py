@@ -43,9 +43,7 @@ from .openai_dream_integration import OpenAIDreamIntegration
 
 # Try to import lukhas.memory and emotion systems
 try:
-    from consciousness.reflection.unified_memory_manager import (
-        EnhancedMemoryManager,
-    )
+    from consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
 
     MEMORY_AVAILABLE = True
 except ImportError:
@@ -118,7 +116,9 @@ class UnifiedDreamPipeline:
 
         logger.info(f"Unified Dream Pipeline initialized for user: {user_id}")
 
-    async def generate_dream_from_voice(self, audio_file: str, dream_type: str = "narrative") -> dict[str, Any]:
+    async def generate_dream_from_voice(
+        self, audio_file: str, dream_type: str = "narrative"
+    ) -> dict[str, Any]:
         """
         Generate a dream from voice input.
 
@@ -142,7 +142,9 @@ class UnifiedDreamPipeline:
         try:
             # Transcribe voice to text
             if self.openai_integration:
-                voice_result = await self.openai_integration.voice_to_dream_prompt(audio_file)
+                voice_result = await self.openai_integration.voice_to_dream_prompt(
+                    audio_file
+                )
                 dream["voice_transcription"] = voice_result
                 prompt = voice_result.get("dream_prompt", "a mysterious dream")
             else:
@@ -229,7 +231,9 @@ class UnifiedDreamPipeline:
             dream["error"] = str(e)
             return dream
 
-    async def _generate_narrative_dream(self, prompt: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def _generate_narrative_dream(
+        self, prompt: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Generate a narrative dream with full enhancements."""
         if self.use_openai and self.openai_integration:
             # Use OpenAI-enhanced generation
@@ -247,7 +251,9 @@ class UnifiedDreamPipeline:
 
         return result
 
-    async def _generate_oracle_dream(self, prompt: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def _generate_oracle_dream(
+        self, prompt: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Generate an oracle-style dream."""
 
         # Create mock consent profile and memory sampler
@@ -276,7 +282,9 @@ class UnifiedDreamPipeline:
         result["generation_method"] = "oracle"
         return result
 
-    async def _generate_symbolic_dream(self, prompt: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def _generate_symbolic_dream(
+        self, prompt: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Generate a symbolic dream with GLYPHs and quantum elements."""
         # Generate base narrative
         narrative_dream = await self._generate_narrative_dream(prompt, context)
@@ -336,7 +344,9 @@ class UnifiedDreamPipeline:
                     "user_id": self.user_id,
                 }
 
-                result = await self.memory_manager.store_memory(memory_data, memory_id=dream["dream_id"])
+                result = await self.memory_manager.store_memory(
+                    memory_data, memory_id=dream["dream_id"]
+                )
 
                 logger.info(f"Dream stored in memory: {result}")
             except Exception as e:
@@ -376,7 +386,9 @@ class UnifiedDreamPipeline:
 
                         # Display image if available
                         if "generated_image" in dream:
-                            print(f"🎨 Showing image: {dream['generated_image']['path']}")
+                            print(
+                                f"🎨 Showing image: {dream['generated_image']['path']}"
+                            )
 
                         return dream
 
@@ -402,11 +414,15 @@ class UnifiedDreamPipeline:
 
                     # Count by type
                     dream_type = dream.get("type", "unknown")
-                    analytics["by_type"][dream_type] = analytics["by_type"].get(dream_type, 0) + 1
+                    analytics["by_type"][dream_type] = (
+                        analytics["by_type"].get(dream_type, 0) + 1
+                    )
 
                     # Count by source
                     source = dream.get("source", "unknown")
-                    analytics["by_source"][source] = analytics["by_source"].get(source, 0) + 1
+                    analytics["by_source"][source] = (
+                        analytics["by_source"].get(source, 0) + 1
+                    )
 
                     # Count features
                     if "narration" in dream:
@@ -449,7 +465,9 @@ async def demo_pipeline():
 
         # Generate a symbolic dream
         print("\n🧬 Generating symbolic dream...")
-        dream3 = await pipeline.generate_dream_from_text("quantum consciousness exploration", dream_type="symbolic")
+        dream3 = await pipeline.generate_dream_from_text(
+            "quantum consciousness exploration", dream_type="symbolic"
+        )
         print(f"Symbolic elements: {dream3.get('symbolic_elements', {})}")
 
         # Get analytics

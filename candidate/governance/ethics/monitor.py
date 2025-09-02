@@ -29,7 +29,9 @@ def ethics_drift_detect(decision_data, ethical_threshold=0.85):
     Returns:
         dict: Drift detection summary.
     """
-    drift_count = sum(1 for d in decision_data if d["alignment_score"] < ethical_threshold)
+    drift_count = sum(
+        1 for d in decision_data if d["alignment_score"] < ethical_threshold
+    )
     total_decisions = len(decision_data)
     drift_ratio = drift_count / total_decisions if total_decisions else 0
 
@@ -79,7 +81,9 @@ def log_self_reflection(report: dict) -> None:
 def self_reflection_report(decisions: list, compliance_threshold: float = 0.9) -> dict:
     """Generate and log a simple DEI self-reflection report."""
     total = len(decisions)
-    compliant = sum(1 for d in decisions if d.get("alignment_score", 1.0) >= compliance_threshold)
+    compliant = sum(
+        1 for d in decisions if d.get("alignment_score", 1.0) >= compliance_threshold
+    )
     demographics = {}
     for d in decisions:
         demo = d.get("demographic")

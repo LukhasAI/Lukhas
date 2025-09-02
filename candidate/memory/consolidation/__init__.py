@@ -9,11 +9,7 @@ from .consolidation_orchestrator import (
     SleepStage,
 )
 from .ripple_generator import ReplayDirection, RippleGenerator, RippleType
-from .sleep_cycle_manager import (
-    CircadianPhase,
-    SleepCycleManager,
-    SleepPressure,
-)
+from .sleep_cycle_manager import CircadianPhase, SleepCycleManager, SleepPressure
 
 __all__ = [
     "CircadianPhase",

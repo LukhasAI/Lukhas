@@ -60,7 +60,9 @@ class MemorySessionStorage(SessionStorage):
             inaccessible and will be removed eventually.
         """
 
-        self._cache: MutableMapping[str, SessionInfo] = TTLCache(maxsize=maxsize, ttl=ttl_seconds)
+        self._cache: MutableMapping[str, SessionInfo] = TTLCache(
+            maxsize=maxsize, ttl=ttl_seconds
+        )
 
     def get(self, session_id: str) -> SessionInfo | None:
         return self._cache.get(session_id, None)

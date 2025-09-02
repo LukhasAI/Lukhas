@@ -119,7 +119,9 @@ class GlyphTimelineGenerator:
             fallback_triggered = match_score < 0.85 and not success
 
             # Select glyphs based on outcome
-            cultural_glyph = self.glyph_categories["cultural"][cultures.index(random.choice(cultures))]
+            cultural_glyph = self.glyph_categories["cultural"][
+                cultures.index(random.choice(cultures))
+            ]
             consciousness_glyph = random.choice(self.glyph_categories["consciousness"])
 
             glyphs_used = [cultural_glyph, consciousness_glyph]
@@ -141,9 +143,13 @@ class GlyphTimelineGenerator:
                 match_score=match_score,
                 success=success,
                 fallback_triggered=fallback_triggered,
-                fallback_type=(random.choice(fallback_types) if fallback_triggered else None),
+                fallback_type=(
+                    random.choice(fallback_types) if fallback_triggered else None
+                ),
                 glyphs_used=glyphs_used,
-                ethical_score=(random.uniform(0.7, 1.0) if success else random.uniform(0.3, 0.7)),
+                ethical_score=(
+                    random.uniform(0.7, 1.0) if success else random.uniform(0.3, 0.7)
+                ),
                 audit_notes=f"{'SUSPICIOUS' if is_attacker else 'Normal'} authentication attempt",
             )
 
@@ -589,9 +595,12 @@ class GlyphTimelineGenerator:
         analysis = {
             "total_events": len(self.events),
             "success_rate": sum(1 for e in self.events if e.success) / len(self.events),
-            "fallback_rate": sum(1 for e in self.events if e.fallback_triggered) / len(self.events),
-            "avg_match_score": sum(e.match_score for e in self.events) / len(self.events),
-            "avg_ethical_score": sum(e.ethical_score for e in self.events) / len(self.events),
+            "fallback_rate": sum(1 for e in self.events if e.fallback_triggered)
+            / len(self.events),
+            "avg_match_score": sum(e.match_score for e in self.events)
+            / len(self.events),
+            "avg_ethical_score": sum(e.ethical_score for e in self.events)
+            / len(self.events),
             "tier_distribution": {},
             "consciousness_distribution": {},
             "cultural_distribution": {},
@@ -604,7 +613,8 @@ class GlyphTimelineGenerator:
             if tier_events:
                 analysis["tier_distribution"][tier] = {
                     "count": len(tier_events),
-                    "success_rate": sum(1 for e in tier_events if e.success) / len(tier_events),
+                    "success_rate": sum(1 for e in tier_events if e.success)
+                    / len(tier_events),
                 }
 
         # Find suspicious patterns

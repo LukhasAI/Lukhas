@@ -69,7 +69,9 @@ class NeuroSymbolicIntegration:
             self.attention_module = QIInspiredAttention(self.lukhas_id_manager)
             self.reasoning_module = CausalReasoningModule(self.lukhas_id_manager)
         else:
-            logger.warning("Using mock implementations for quantum neuro symbolic components")
+            logger.warning(
+                "Using mock implementations for quantum neuro symbolic components"
+            )
             self.engine = QINeuroSymbolicEngine()
             self.attention_module = QIInspiredAttention()
             self.reasoning_module = CausalReasoningModule()
@@ -165,7 +167,9 @@ class NeuroSymbolicIntegration:
 
         # Configure reasoning parameters
         if hasattr(self.reasoning_module, "confidence_threshold"):
-            self.reasoning_module.confidence_threshold = self.config["confidence_threshold"]
+            self.reasoning_module.confidence_threshold = self.config[
+                "confidence_threshold"
+            ]
 
         if hasattr(self.reasoning_module, "max_causal_depth"):
             self.reasoning_module.max_causal_depth = self.config["max_causal_depth"]
@@ -240,7 +244,9 @@ class NeuroSymbolicIntegration:
 
             # Process through engine if available
             if NEURO_SYMBOLIC_AVAILABLE and hasattr(self.engine, "process_text"):
-                result = await self.engine.process_text(text, user_id, session_token, context)
+                result = await self.engine.process_text(
+                    text, user_id, session_token, context
+                )
             else:
                 # Fallback processing
                 result = await self._fallback_text_processing(text, user_id, context)
@@ -307,7 +313,9 @@ class NeuroSymbolicIntegration:
     def _cleanup_cache(self):
         """Clean up old cache entries"""
         # Remove oldest entries
-        sorted_entries = sorted(self.processing_cache.items(), key=lambda x: x[1]["timestamp"])
+        sorted_entries = sorted(
+            self.processing_cache.items(), key=lambda x: x[1]["timestamp"]
+        )
 
         # Keep only the newest 80% of entries
         keep_count = int(self.cache_settings["max_cache_size"] * 0.8)
@@ -326,11 +334,16 @@ class NeuroSymbolicIntegration:
         word_count = len(text.split())
         char_count = len(text)
         has_question = "?" in text
-        has_emotion_words = any(word in text.lower() for word in ["happy", "sad", "angry", "confused", "excited"])
+        has_emotion_words = any(
+            word in text.lower()
+            for word in ["happy", "sad", "angry", "confused", "excited"]
+        )
 
         # Generate simple response
         if has_question:
-            response_text = "I understand you have a question. How can I help you further?"
+            response_text = (
+                "I understand you have a question. How can I help you further?"
+            )
             response_type = "question_response"
             confidence = 0.6
         elif has_emotion_words:
@@ -385,7 +398,9 @@ class NeuroSymbolicIntegration:
 
         try:
             if NEURO_SYMBOLIC_AVAILABLE and hasattr(self.attention_module, "attend"):
-                result = await self.attention_module.attend(input_data, context or {}, user_id, session_token)
+                result = await self.attention_module.attend(
+                    input_data, context or {}, user_id, session_token
+                )
             else:
                 # Fallback attention processing
                 result = self._fallback_attention_processing(input_data, context)
@@ -444,7 +459,9 @@ class NeuroSymbolicIntegration:
 
         try:
             if NEURO_SYMBOLIC_AVAILABLE and hasattr(self.reasoning_module, "reason"):
-                result = await self.reasoning_module.reason(attended_data, user_id, session_token)
+                result = await self.reasoning_module.reason(
+                    attended_data, user_id, session_token
+                )
             else:
                 # Fallback reasoning
                 result = self._fallback_causal_reasoning(attended_data, user_id)
@@ -459,12 +476,16 @@ class NeuroSymbolicIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    def _fallback_causal_reasoning(self, attended_data: dict[str, Any], user_id: str) -> dict[str, Any]:
+    def _fallback_causal_reasoning(
+        self, attended_data: dict[str, Any], user_id: str
+    ) -> dict[str, Any]:
         """Fallback causal reasoning"""
         return {
             "causal_chains": {
                 "primary_cause": {
-                    "elements": [{"type": "semantic", "content": "General input processing"}],
+                    "elements": [
+                        {"type": "semantic", "content": "General input processing"}
+                    ],
                     "confidence": 0.5,
                     "summary": "Basic input analysis performed",
                 }
@@ -496,7 +517,9 @@ class NeuroSymbolicIntegration:
         active_sessions = len(self.session_registry)
 
         # Calculate cache hit rate
-        cache_hits = sum(1 for entry in self.processing_cache.values() if self._is_cache_valid(entry))
+        cache_hits = sum(
+            1 for entry in self.processing_cache.values() if self._is_cache_valid(entry)
+        )
         cache_hit_rate = cache_hits / total_processes if total_processes > 0 else 0
 
         return {

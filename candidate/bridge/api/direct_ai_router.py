@@ -11,18 +11,10 @@ import json
 import os
 import subprocess
 import sys
-from typing import Any
-from typing import but
-from typing import context
-from typing import directly
-from typing import for
-from typing import function
-from typing import in
-from typing import not
-from typing import Optional  # TAG:bridge; TAG:api; TAG:neuroplastic; TAG:colony; Dict,
-from typing import signatures
-from typing import used
-from typing import useful
+from typing import \
+    Optional  # TAG:bridge; TAG:api; TAG:neuroplastic; TAG:colony; Dict,
+from typing import (Any, but, context, directly, for, function, in, not,
+                    signatures, used, useful)
 
 # ΛTAG: core, router, config
 from candidate.core.common.config import config

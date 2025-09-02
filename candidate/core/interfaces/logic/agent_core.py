@@ -39,6 +39,7 @@ Integration Date: 2025-05-31T07:55:30.363461
 # Agent_Logic_Architecture
 
 from config_legacy import TIER_PERMISSIONS
+
 initialize_agent, sync_user_mood, verify_access_level,
 
     generate_response, store_memory_echo, generate_dream_digest,

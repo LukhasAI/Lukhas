@@ -17,7 +17,9 @@ from typing import Any
 MAGIC = b"LKF\x01"
 
 
-async def export_folds(folds: Iterable[dict[str, Any]], path: str, codec: str = "gzip") -> dict[str, Any]:
+async def export_folds(
+    folds: Iterable[dict[str, Any]], path: str, codec: str = "gzip"
+) -> dict[str, Any]:
     """Export memory folds using built-in compression"""
 
     # Convert to list to count

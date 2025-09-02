@@ -32,16 +32,11 @@ from datetime import datetime
 from typing import Any, Optional
 
 from .auth_cross_module_integration import ModuleType, auth_cross_module_integrator
-from .auth_glyph_registry import (
-    auth_glyph_registry,
-)
+from .auth_glyph_registry import auth_glyph_registry
 from .auth_governance_policies import auth_governance_policy_engine
 
 # LUKHAS governance imports
-from .auth_guardian_integration import (
-    AuthenticationGuardian,
-    AuthEventType,
-)
+from .auth_guardian_integration import AuthenticationGuardian, AuthEventType
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -118,7 +113,9 @@ class LUKHASAuthIntegrationSystem:
         # Initialize components
         self.guardian = (
             AuthenticationGuardian(
-                drift_threshold=self.config.get("guardian", {}).get("drift_threshold", 0.15),
+                drift_threshold=self.config.get("guardian", {}).get(
+                    "drift_threshold", 0.15
+                ),
                 enable_bias_detection=True,
                 enable_constitutional_ai=True,
             )
@@ -128,7 +125,9 @@ class LUKHASAuthIntegrationSystem:
 
         self.glyph_registry = auth_glyph_registry if enable_glyph_registry else None
         self.policy_engine = auth_governance_policy_engine if enable_policies else None
-        self.cross_module_integrator = auth_cross_module_integrator if enable_cross_module else None
+        self.cross_module_integrator = (
+            auth_cross_module_integrator if enable_cross_module else None
+        )
 
         # Integration state
         self.active_sessions: dict[str, dict[str, Any]] = {}
@@ -167,7 +166,9 @@ class LUKHASAuthIntegrationSystem:
             "policy_violations": 10,
         }
 
-        logger.info(f"LUKHAS Authentication Integration System initialized: {self.system_id}")
+        logger.info(
+            f"LUKHAS Authentication Integration System initialized: {self.system_id}"
+        )
 
     def _get_default_config(self) -> dict[str, Any]:
         """Get default integration configuration"""
@@ -222,7 +223,9 @@ class LUKHASAuthIntegrationSystem:
             asyncio.create_task(self._background_monitoring())
 
             self.health_status.overall_status = "healthy"
-            logger.info(f"Integration system initialized successfully: {self.system_id}")
+            logger.info(
+                f"Integration system initialized successfully: {self.system_id}"
+            )
 
             return True
 
@@ -293,7 +296,11 @@ class LUKHASAuthIntegrationSystem:
                             "type": "guardian_alert",
                             "message": "Guardian System detected ethical concern",
                             "drift_score": guardian_result.get("drift_score", 0.0),
-                            "severity": "high" if guardian_result.get("drift_score", 0.0) >= 0.8 else "medium",
+                            "severity": (
+                                "high"
+                                if guardian_result.get("drift_score", 0.0) >= 0.8
+                                else "medium"
+                            ),
                         }
                     )
 
@@ -305,7 +312,9 @@ class LUKHASAuthIntegrationSystem:
                 if guardian_result.get("bias_flags"):
                     self.integration_metrics.bias_detections += 1
 
-                result["recommendations"].extend(guardian_result.get("recommendations", []))
+                result["recommendations"].extend(
+                    guardian_result.get("recommendations", [])
+                )
 
             # Phase 2: Policy Compliance Assessment
             if self.policies_enabled and self.policy_engine:
@@ -314,9 +323,15 @@ class LUKHASAuthIntegrationSystem:
                 if "guardian" in result["components"]:
                     enhanced_context.update(
                         {
-                            "constitutional_valid": result["components"]["guardian"].get("constitutional_valid", True),
-                            "bias_flags": result["components"]["guardian"].get("bias_flags", []),
-                            "drift_score": result["components"]["guardian"].get("drift_score", 0.0),
+                            "constitutional_valid": result["components"][
+                                "guardian"
+                            ].get("constitutional_valid", True),
+                            "bias_flags": result["components"]["guardian"].get(
+                                "bias_flags", []
+                            ),
+                            "drift_score": result["components"]["guardian"].get(
+                                "drift_score", 0.0
+                            ),
                             "guardian_monitoring": True,
                         }
                     )
@@ -336,7 +351,9 @@ class LUKHASAuthIntegrationSystem:
 
                 # Handle policy violations
                 if not policy_assessment.compliant:
-                    self.integration_metrics.policy_violations += len(policy_assessment.violations)
+                    self.integration_metrics.policy_violations += len(
+                        policy_assessment.violations
+                    )
                     for violation in policy_assessment.violations:
                         result["alerts"].append(
                             {
@@ -355,14 +372,20 @@ class LUKHASAuthIntegrationSystem:
                 access_context = {
                     "granted": outcome == "success",
                     "scopes": auth_context.get("scopes", []),
-                    "constitutional_valid": result["components"].get("guardian", {}).get("constitutional_valid", True),
-                    "requires_guardian_oversight": any(alert["type"] == "guardian_alert" for alert in result["alerts"]),
+                    "constitutional_valid": result["components"]
+                    .get("guardian", {})
+                    .get("constitutional_valid", True),
+                    "requires_guardian_oversight": any(
+                        alert["type"] == "guardian_alert" for alert in result["alerts"]
+                    ),
                 }
 
                 session_context = {
                     "active": outcome == "success",
                     "session_id": auth_context.get("session_id", str(uuid.uuid4())),
-                    "consciousness_integration": auth_context.get("consciousness_integration", False),
+                    "consciousness_integration": auth_context.get(
+                        "consciousness_integration", False
+                    ),
                 }
 
                 symbolic_identity = self.glyph_registry.create_symbolic_identity(
@@ -381,8 +404,15 @@ class LUKHASAuthIntegrationSystem:
                     metadata={
                         "guardian_monitoring": "guardian" in result["components"],
                         "constitutional_valid": access_context["constitutional_valid"],
-                        "drift_detected": result["components"].get("guardian", {}).get("drift_score", 0.0) >= 0.15,
-                        "bias_detected": bool(result["components"].get("guardian", {}).get("bias_flags", [])),
+                        "drift_detected": result["components"]
+                        .get("guardian", {})
+                        .get("drift_score", 0.0)
+                        >= 0.15,
+                        "bias_detected": bool(
+                            result["components"]
+                            .get("guardian", {})
+                            .get("bias_flags", [])
+                        ),
                     },
                 )
 
@@ -407,31 +437,43 @@ class LUKHASAuthIntegrationSystem:
                     **auth_context,
                     "integration_results": result["components"],
                     "symbolic_identity": result["glyph_data"].get("composite_glyph"),
-                    "constitutional_valid": result["components"].get("guardian", {}).get("constitutional_valid", True),
+                    "constitutional_valid": result["components"]
+                    .get("guardian", {})
+                    .get("constitutional_valid", True),
                     "guardian_monitoring": "guardian" in result["components"],
-                    "policy_compliant": result["components"].get("policies", {}).get("compliant", True),
+                    "policy_compliant": result["components"]
+                    .get("policies", {})
+                    .get("compliant", True),
                     "tier_level": tier_level,
                     "outcome": outcome,
                 }
 
                 # Propagate to relevant modules based on event type and outcome
-                target_modules = self._determine_target_modules(event_type, outcome, auth_context)
+                target_modules = self._determine_target_modules(
+                    event_type, outcome, auth_context
+                )
 
-                propagation_results = await self.cross_module_integrator.propagate_auth_context(
-                    user_id=user_id,
-                    auth_event=auth_event,
-                    auth_context=cross_module_context,
-                    target_modules=target_modules,
+                propagation_results = (
+                    await self.cross_module_integrator.propagate_auth_context(
+                        user_id=user_id,
+                        auth_event=auth_event,
+                        auth_context=cross_module_context,
+                        target_modules=target_modules,
+                    )
                 )
 
                 result["components"]["cross_module"] = {
                     "target_modules": [m.value for m in target_modules],
                     "propagation_results": propagation_results,
-                    "successful_propagations": sum(1 for success in propagation_results.values() if success),
+                    "successful_propagations": sum(
+                        1 for success in propagation_results.values() if success
+                    ),
                 }
 
                 result["cross_module_results"] = propagation_results
-                self.integration_metrics.cross_module_communications += len(target_modules)
+                self.integration_metrics.cross_module_communications += len(
+                    target_modules
+                )
 
             # Phase 5: Session Management
             if outcome == "success":
@@ -455,8 +497,12 @@ class LUKHASAuthIntegrationSystem:
             integration_duration = (datetime.now() - integration_start).total_seconds()
 
             # Calculate overall status
-            has_critical_alerts = any(alert.get("severity") == "critical" for alert in result["alerts"])
-            has_high_alerts = any(alert.get("severity") == "high" for alert in result["alerts"])
+            has_critical_alerts = any(
+                alert.get("severity") == "critical" for alert in result["alerts"]
+            )
+            has_high_alerts = any(
+                alert.get("severity") == "high" for alert in result["alerts"]
+            )
 
             if has_critical_alerts:
                 result["overall_status"] = "critical"
@@ -479,7 +525,9 @@ class LUKHASAuthIntegrationSystem:
                 "recommendations_count": len(result["recommendations"]),
             }
 
-            logger.info(f"Authentication event processed: {user_id} - {result['overall_status']}")
+            logger.info(
+                f"Authentication event processed: {user_id} - {result['overall_status']}"
+            )
 
             return result
 
@@ -517,7 +565,9 @@ class LUKHASAuthIntegrationSystem:
 
         # Always include core modules for successful authentication
         if outcome == "success":
-            target_modules.extend([ModuleType.CONSCIOUSNESS, ModuleType.MEMORY, ModuleType.GUARDIAN])
+            target_modules.extend(
+                [ModuleType.CONSCIOUSNESS, ModuleType.MEMORY, ModuleType.GUARDIAN]
+            )
 
         # Include specific modules based on scopes
         scopes = auth_context.get("scopes", [])
@@ -537,7 +587,11 @@ class LUKHASAuthIntegrationSystem:
             target_modules.append(ModuleType.BIO)
 
         # Include Guardian for security events
-        if event_type in ["constitutional_violation", "bias_detection", "login_failure"]:
+        if event_type in [
+            "constitutional_violation",
+            "bias_detection",
+            "login_failure",
+        ]:
             if ModuleType.GUARDIAN not in target_modules:
                 target_modules.append(ModuleType.GUARDIAN)
 
@@ -556,18 +610,27 @@ class LUKHASAuthIntegrationSystem:
         # Update compliance rate
         total_auth = self.integration_metrics.total_authentications
         if total_auth > 0:
-            violations = self.integration_metrics.policy_violations + self.integration_metrics.constitutional_violations
-            self.integration_metrics.compliance_rate = max(0.0, 1.0 - (violations / total_auth))
+            violations = (
+                self.integration_metrics.policy_violations
+                + self.integration_metrics.constitutional_violations
+            )
+            self.integration_metrics.compliance_rate = max(
+                0.0, 1.0 - (violations / total_auth)
+            )
 
         # Update average drift score
         if "guardian" in result.get("components", {}):
             drift_score = result["components"]["guardian"].get("drift_score", 0.0)
             current_avg = self.integration_metrics.drift_score_average
-            self.integration_metrics.drift_score_average = (current_avg * (total_auth - 1) + drift_score) / total_auth
+            self.integration_metrics.drift_score_average = (
+                current_avg * (total_auth - 1) + drift_score
+            ) / total_auth
 
         # Update uptime
         uptime_seconds = (datetime.now() - self.startup_time).total_seconds()
-        self.integration_metrics.integration_uptime = uptime_seconds / 3600  # Convert to hours
+        self.integration_metrics.integration_uptime = (
+            uptime_seconds / 3600
+        )  # Convert to hours
 
         self.integration_metrics.last_updated = datetime.now()
 
@@ -606,14 +669,18 @@ class LUKHASAuthIntegrationSystem:
             # Check Guardian status
             if self.guardian_enabled and self.guardian:
                 guardian_summary = self.guardian.get_drift_summary()
-                self.health_status.guardian_status = guardian_summary.get("status", "unknown")
+                self.health_status.guardian_status = guardian_summary.get(
+                    "status", "unknown"
+                )
             else:
                 self.health_status.guardian_status = "disabled"
 
             # Check GLYPH registry status
             if self.glyph_enabled and self.glyph_registry:
                 glyph_stats = self.glyph_registry.get_registry_stats()
-                self.health_status.glyph_status = "healthy" if glyph_stats["total_glyphs"] > 0 else "unhealthy"
+                self.health_status.glyph_status = (
+                    "healthy" if glyph_stats["total_glyphs"] > 0 else "unhealthy"
+                )
             else:
                 self.health_status.glyph_status = "disabled"
 
@@ -623,19 +690,27 @@ class LUKHASAuthIntegrationSystem:
                 violation_rate = policy_summary["total_violations"] / max(
                     1, self.integration_metrics.total_authentications
                 )
-                self.health_status.policy_status = "healthy" if violation_rate < 0.1 else "degraded"
+                self.health_status.policy_status = (
+                    "healthy" if violation_rate < 0.1 else "degraded"
+                )
             else:
                 self.health_status.policy_status = "disabled"
 
             # Check cross-module integration status
             if self.cross_module_enabled and self.cross_module_integrator:
-                integration_status = self.cross_module_integrator.get_integration_status()
-                self.health_status.cross_module_status = integration_status.get("status", "unknown")
+                integration_status = (
+                    self.cross_module_integrator.get_integration_status()
+                )
+                self.health_status.cross_module_status = integration_status.get(
+                    "status", "unknown"
+                )
             else:
                 self.health_status.cross_module_status = "disabled"
 
             # Calculate compliance score
-            self.health_status.compliance_score = self.integration_metrics.compliance_rate
+            self.health_status.compliance_score = (
+                self.integration_metrics.compliance_rate
+            )
 
             # Determine overall status
             component_statuses = [
@@ -645,7 +720,9 @@ class LUKHASAuthIntegrationSystem:
                 self.health_status.cross_module_status,
             ]
 
-            enabled_statuses = [status for status in component_statuses if status != "disabled"]
+            enabled_statuses = [
+                status for status in component_statuses if status != "disabled"
+            ]
 
             if any(status == "unhealthy" for status in enabled_statuses):
                 self.health_status.overall_status = "unhealthy"
@@ -671,22 +748,45 @@ class LUKHASAuthIntegrationSystem:
             current_alerts = []
 
             # Check thresholds
-            if self.integration_metrics.drift_score_average >= self.alert_thresholds["drift_score"]:
-                current_alerts.append(f"High average drift score: {self.integration_metrics.drift_score_average:.3f}")
+            if (
+                self.integration_metrics.drift_score_average
+                >= self.alert_thresholds["drift_score"]
+            ):
+                current_alerts.append(
+                    f"High average drift score: {self.integration_metrics.drift_score_average:.3f}"
+                )
 
-            if self.integration_metrics.compliance_rate < self.alert_thresholds["compliance_rate"]:
-                current_alerts.append(f"Low compliance rate: {self.integration_metrics.compliance_rate:.3f}")
+            if (
+                self.integration_metrics.compliance_rate
+                < self.alert_thresholds["compliance_rate"]
+            ):
+                current_alerts.append(
+                    f"Low compliance rate: {self.integration_metrics.compliance_rate:.3f}"
+                )
 
-            if self.integration_metrics.constitutional_violations >= self.alert_thresholds["constitutional_violations"]:
+            if (
+                self.integration_metrics.constitutional_violations
+                >= self.alert_thresholds["constitutional_violations"]
+            ):
                 current_alerts.append(
                     f"High constitutional violations: {self.integration_metrics.constitutional_violations}"
                 )
 
-            if self.integration_metrics.bias_detections >= self.alert_thresholds["bias_detections"]:
-                current_alerts.append(f"Multiple bias detections: {self.integration_metrics.bias_detections}")
+            if (
+                self.integration_metrics.bias_detections
+                >= self.alert_thresholds["bias_detections"]
+            ):
+                current_alerts.append(
+                    f"Multiple bias detections: {self.integration_metrics.bias_detections}"
+                )
 
-            if self.integration_metrics.policy_violations >= self.alert_thresholds["policy_violations"]:
-                current_alerts.append(f"High policy violations: {self.integration_metrics.policy_violations}")
+            if (
+                self.integration_metrics.policy_violations
+                >= self.alert_thresholds["policy_violations"]
+            ):
+                current_alerts.append(
+                    f"High policy violations: {self.integration_metrics.policy_violations}"
+                )
 
             self.health_status.active_alerts = current_alerts
 
@@ -710,7 +810,7 @@ class LUKHASAuthIntegrationSystem:
             "configuration": self.config,
             "version": "1.0.0",
             "phase": "Phase 7 - Registry Updates and Policy Integration",
-            "constellation_framework": "⚛️🧠🛡️",
+            "trinity_framework": "⚛️🧠🛡️",
             "last_updated": datetime.now().isoformat(),
         }
 
@@ -752,10 +852,14 @@ class LUKHASAuthIntegrationSystem:
             report["glyph_registry_stats"] = self.glyph_registry.get_registry_stats()
 
         if self.policy_engine and self.policies_enabled:
-            report["policy_violations_summary"] = self.policy_engine.get_violation_summary()
+            report["policy_violations_summary"] = (
+                self.policy_engine.get_violation_summary()
+            )
 
         if self.cross_module_integrator and self.cross_module_enabled:
-            report["cross_module_status"] = self.cross_module_integrator.get_integration_status()
+            report["cross_module_status"] = (
+                self.cross_module_integrator.get_integration_status()
+            )
 
         return report
 

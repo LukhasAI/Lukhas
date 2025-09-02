@@ -137,7 +137,10 @@ class EmotionVector:
             "trust",
             "anticipation",
         ]
-        diff_sum = sum((getattr(self, emotion) - getattr(other, emotion)) ** 2 for emotion in primary_emotions)
+        diff_sum = sum(
+            (getattr(self, emotion) - getattr(other, emotion)) ** 2
+            for emotion in primary_emotions
+        )
         return np.sqrt(diff_sum)
 
 
@@ -183,7 +186,9 @@ class CausalLink:
 
     # Task 15 enhancements
     temporal_link: Optional[str] = None  # Temporal link to parent glyph
-    emotional_context_delta: dict[str, float] = field(default_factory=dict)  # Emotional change delta
+    emotional_context_delta: dict[str, float] = field(
+        default_factory=dict
+    )  # Emotional change delta
     intent_tag: str = "unknown"  # Intent tag for trajectory tracing
 
     def add_child(self, child_id: str):
@@ -196,9 +201,13 @@ class CausalLink:
 
     def set_temporal_link(self, parent_timestamp: str, link_type: str = "sequential"):
         """Set temporal link to parent glyph with Task 15 requirements."""
-        self.temporal_link = f"{link_type}:{parent_timestamp}:{datetime.now().isoformat()}"
+        self.temporal_link = (
+            f"{link_type}:{parent_timestamp}:{datetime.now().isoformat()}"
+        )
 
-    def calculate_emotional_delta(self, parent_emotion: EmotionVector, current_emotion: EmotionVector):
+    def calculate_emotional_delta(
+        self, parent_emotion: EmotionVector, current_emotion: EmotionVector
+    ):
         """Calculate emotional context delta from parent glyph."""
         self.emotional_context_delta = {
             "valence_delta": current_emotion.valence - parent_emotion.valence,
@@ -338,7 +347,9 @@ class Glyph:
     def update_drift_anchor(self, new_score: float):
         """Update drift anchor score."""
         self.drift_anchor_score = max(0.0, min(1.0, new_score))
-        logger.debug(f"Glyph {self.id} drift anchor updated: {self.drift_anchor_score:.3f}")
+        logger.debug(
+            f"Glyph {self.id} drift anchor updated: {self.drift_anchor_score:.3f}"
+        )
 
     def assess_collapse_risk(self) -> float:
         """Assess collapse risk based on glyph state."""
@@ -366,7 +377,11 @@ class Glyph:
 
     def is_stable(self) -> bool:
         """Check if glyph is in stable state."""
-        return self.stability_index > 0.7 and self.collapse_risk_level < 0.3 and self.emotion_vector.stability > 0.5
+        return (
+            self.stability_index > 0.7
+            and self.collapse_risk_level < 0.3
+            and self.emotion_vector.stability > 0.5
+        )
 
     def is_expired(self) -> bool:
         """Check if glyph has expired."""
@@ -391,7 +406,11 @@ class Glyph:
             "temporal_stamp": {
                 "created_at": self.temporal_stamp.created_at.isoformat(),
                 "last_accessed": self.temporal_stamp.last_accessed.isoformat(),
-                "expires_at": (self.temporal_stamp.expires_at.isoformat() if self.temporal_stamp.expires_at else None),
+                "expires_at": (
+                    self.temporal_stamp.expires_at.isoformat()
+                    if self.temporal_stamp.expires_at
+                    else None
+                ),
                 "activation_count": self.temporal_stamp.activation_count,
                 "persistence_score": self.temporal_stamp.persistence_score,
                 "temporal_weight": self.temporal_stamp.temporal_weight,
@@ -420,10 +439,16 @@ class Glyph:
         # Parse temporal stamp
         temporal_data = data.get("temporal_stamp", {})
         temporal_stamp = TemporalStamp(
-            created_at=datetime.fromisoformat(temporal_data.get("created_at", datetime.now().isoformat())),
-            last_accessed=datetime.fromisoformat(temporal_data.get("last_accessed", datetime.now().isoformat())),
+            created_at=datetime.fromisoformat(
+                temporal_data.get("created_at", datetime.now().isoformat())
+            ),
+            last_accessed=datetime.fromisoformat(
+                temporal_data.get("last_accessed", datetime.now().isoformat())
+            ),
             expires_at=(
-                datetime.fromisoformat(temporal_data["expires_at"]) if temporal_data.get("expires_at") else None
+                datetime.fromisoformat(temporal_data["expires_at"])
+                if temporal_data.get("expires_at")
+                else None
             ),
             activation_count=temporal_data.get("activation_count", 0),
             persistence_score=temporal_data.get("persistence_score", 1.0),
@@ -469,7 +494,9 @@ class GlyphFactory:
     """Factory for creating specialized glyphs."""
 
     @staticmethod
-    def create_memory_glyph(memory_key: str, emotion_vector: Optional[EmotionVector] = None) -> Glyph:
+    def create_memory_glyph(
+        memory_key: str, emotion_vector: Optional[EmotionVector] = None
+    ) -> Glyph:
         """Create a memory-indexing glyph."""
         glyph = Glyph(
             glyph_type=GlyphType.MEMORY,
@@ -556,7 +583,9 @@ class GlyphFactory:
             priority=GlyphPriority.HIGH,
         )
         glyph.causal_link.parent_glyph_id = parent_id
-        glyph.causal_link.event_chain_hash = hashlib.sha256(event_chain.encode()).hexdigest()[:16]
+        glyph.causal_link.event_chain_hash = hashlib.sha256(
+            event_chain.encode()
+        ).hexdigest()[:16]
         glyph.add_semantic_tag("causal_link")
         glyph.add_semantic_tag("lineage_tracker")
         return glyph
@@ -595,7 +624,11 @@ class GlyphFactory:
             content={
                 "action": action,
                 "params": params or {},
-                **({"required_tier": required_tier} if required_tier is not None else {}),
+                **(
+                    {"required_tier": required_tier}
+                    if required_tier is not None
+                    else {}
+                ),
             },
         )
         glyph.add_semantic_tag("action")

@@ -55,7 +55,9 @@ class AkaqMemory(ABC):
         pass
 
     @abstractmethod
-    def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[dict[str, Any]]:
+    def fetch_prev_scene(
+        self, *, user_id: str, before_ts: Optional[dt.datetime] = None
+    ) -> Optional[dict[str, Any]]:
         """
         Get most recent scene for user strictly before timestamp.
 
@@ -71,7 +73,9 @@ class AkaqMemory(ABC):
         pass
 
     @abstractmethod
-    def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> list[dict[str, Any]]:
+    def history(
+        self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None
+    ) -> list[dict[str, Any]]:
         """
         Get reverse-chronological slice of scenes for user.
 
@@ -86,7 +90,9 @@ class AkaqMemory(ABC):
         pass
 
     @abstractmethod
-    def search_by_glyph(self, *, user_id: str, key: str, limit: int = 50) -> list[dict[str, Any]]:
+    def search_by_glyph(
+        self, *, user_id: str, key: str, limit: int = 50
+    ) -> list[dict[str, Any]]:
         """
         Find scenes that emitted a specific glyph key.
 

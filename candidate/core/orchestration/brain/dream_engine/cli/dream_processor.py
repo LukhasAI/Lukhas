@@ -16,9 +16,13 @@ class DreamProcessor:
 
     def __init__(self):
         self.memory_engine = SymbolicMemoryEngine()
-        self.pattern_confidence_threshold = 0.65  # Lower threshold during dreams for creative connections
+        self.pattern_confidence_threshold = (
+            0.65  # Lower threshold during dreams for creative connections
+        )
 
-    async def process_dream_state(self, recent_memories: list[dict[str, Any]]) -> dict[str, Any]:
+    async def process_dream_state(
+        self, recent_memories: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Process memories during dream state to find deeper patterns"""
         dream_patterns = []
         cross_memory_relationships = []
@@ -50,9 +54,13 @@ class DreamProcessor:
 
         return dream_insights
 
-    def _find_memory_relationship(self, memory1: dict[str, Any], memory2: dict[str, Any]) -> dict[str, Any]:
+    def _find_memory_relationship(
+        self, memory1: dict[str, Any], memory2: dict[str, Any]
+    ) -> dict[str, Any]:
         """Find relationships between two memories during dream state"""
-        confidence = self.memory_engine.pattern_engine._calculate_pattern_match(memory1["data"], memory2["data"])
+        confidence = self.memory_engine.pattern_engine._calculate_pattern_match(
+            memory1["data"], memory2["data"]
+        )
 
         if confidence >= self.pattern_confidence_threshold:
             return {
@@ -79,7 +87,9 @@ class DreamProcessor:
 
         return consolidated
 
-    def _group_similar_patterns(self, patterns: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    def _group_similar_patterns(
+        self, patterns: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Group similar patterns found across memories"""
         groups = []
         for pattern in patterns:
@@ -88,7 +98,9 @@ class DreamProcessor:
                 if self._patterns_match(pattern, group["representative"]):
                     group["patterns"].append(pattern)
                     group["confidence"] *= 0.9  # Decay confidence slightly
-                    group["confidence"] += pattern["confidence"] * 0.1  # Blend in new confidence
+                    group["confidence"] += (
+                        pattern["confidence"] * 0.1
+                    )  # Blend in new confidence
                     added = True
                     break
             if not added:

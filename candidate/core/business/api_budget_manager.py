@@ -52,7 +52,11 @@ class APIBudgetManager:
             "premium": BudgetTier(
                 name="premium",
                 daily_limit=2.00,
-                features=["advanced_profiling", "biometric_integration", "10_ads_per_day"],
+                features=[
+                    "advanced_profiling",
+                    "biometric_integration",
+                    "10_ads_per_day",
+                ],
             ),
             "enterprise": BudgetTier(
                 name="enterprise",
@@ -95,7 +99,9 @@ class APIBudgetManager:
         """
         usage = self.user_budgets.get(user_id)
         if not usage:
-            raise ValueError(f"No budget found for user {user_id}. Call check_budget first.")
+            raise ValueError(
+                f"No budget found for user {user_id}. Call check_budget first."
+            )
 
         # Record the usage
         usage.current_usage += cost
@@ -129,7 +135,9 @@ class APIBudgetManager:
         # Calculate daily averages over last 7 days
         seven_days_ago = datetime.now() - timedelta(days=7)
         recent_usage = [
-            entry for entry in usage.usage_history if datetime.fromisoformat(entry["timestamp"]) > seven_days_ago
+            entry
+            for entry in usage.usage_history
+            if datetime.fromisoformat(entry["timestamp"]) > seven_days_ago
         ]
 
         total_recent_cost = sum(entry["cost"] for entry in recent_usage)
@@ -148,8 +156,14 @@ class APIBudgetManager:
             "current_usage": usage.current_usage,
             "avg_daily_cost_7d": round(avg_daily_cost, 4),
             "total_operations_7d": len(recent_usage),
-            "top_operations": sorted(operation_costs.items(), key=lambda x: x[1], reverse=True)[:5],
-            "budget_utilization_rate": round(avg_daily_cost / usage.daily_limit, 2) if usage.daily_limit > 0 else 0,
+            "top_operations": sorted(
+                operation_costs.items(), key=lambda x: x[1], reverse=True
+            )[:5],
+            "budget_utilization_rate": (
+                round(avg_daily_cost / usage.daily_limit, 2)
+                if usage.daily_limit > 0
+                else 0
+            ),
         }
 
     async def get_aggregate_metrics(self) -> dict[str, any]:
@@ -168,7 +182,9 @@ class APIBudgetManager:
             "total_users": len(self.user_budgets),
             "total_allocated": round(total_allocated, 2),
             "total_used": round(total_used, 2),
-            "utilization_rate": round(total_used / total_allocated if total_allocated > 0 else 0, 2),
+            "utilization_rate": round(
+                total_used / total_allocated if total_allocated > 0 else 0, 2
+            ),
             "tier_distribution": tier_distribution,
             "avg_user_budget": round(total_allocated / len(self.user_budgets), 2),
         }
@@ -196,7 +212,9 @@ class APIBudgetManager:
             "features": tier_config.features,
         }
 
-    async def _get_or_create_user_budget(self, user_id: str, tier: str) -> UserBudgetUsage:
+    async def _get_or_create_user_budget(
+        self, user_id: str, tier: str
+    ) -> UserBudgetUsage:
         """Get existing user budget or create new one."""
         if user_id not in self.user_budgets:
             tier_config = self.tier_configs.get(tier, self.tier_configs["free"])

@@ -110,9 +110,7 @@ except ImportError as e:
 
 # Import event bus
 try:
-    from candidate.orchestration.symbolic_kernel_bus import (
-        get_global_event_bus,
-    )
+    from candidate.orchestration.symbolic_kernel_bus import get_global_event_bus
 
     EVENT_BUS_AVAILABLE = True
 except ImportError as e:
@@ -153,7 +151,9 @@ class ColonyDreamTask:
     task_type: DreamTaskType
     dream_data: dict[str, Any]
     target_colonies: list[str] = field(default_factory=list)
-    distribution_strategy: DreamDistributionStrategy = DreamDistributionStrategy.SPECIALIZED
+    distribution_strategy: DreamDistributionStrategy = (
+        DreamDistributionStrategy.SPECIALIZED
+    )
     priority: ColonyPriority = ColonyPriority.NORMAL
     user_context: Optional[Any] = None
     consensus_threshold: float = 0.67
@@ -264,7 +264,9 @@ class ColonyDreamCoordinator:
                 self.logger.info("Event bus integration initialized")
 
             # Verify colony orchestrator availability
-            if self.colony_orchestrator and hasattr(self.colony_orchestrator, "initialize"):
+            if self.colony_orchestrator and hasattr(
+                self.colony_orchestrator, "initialize"
+            ):
                 await self.colony_orchestrator.initialize()
                 self.logger.info("Colony orchestrator integration verified")
 
@@ -290,9 +292,15 @@ class ColonyDreamCoordinator:
 
         # Subscribe to dream-related events
         self.kernel_bus.subscribe("dream_task_created", self._handle_dream_task_event)
-        self.kernel_bus.subscribe("dream_processing_complete", self._handle_dream_completion_event)
-        self.kernel_bus.subscribe("colony_dream_insight", self._handle_colony_insight_event)
-        self.kernel_bus.subscribe("swarm_consensus_reached", self._handle_consensus_event)
+        self.kernel_bus.subscribe(
+            "dream_processing_complete", self._handle_dream_completion_event
+        )
+        self.kernel_bus.subscribe(
+            "colony_dream_insight", self._handle_colony_insight_event
+        )
+        self.kernel_bus.subscribe(
+            "swarm_consensus_reached", self._handle_consensus_event
+        )
 
         self.logger.info("Dream event channels configured")
 
@@ -318,7 +326,9 @@ class ColonyDreamCoordinator:
             Comprehensive results from colony dream processing
         """
         try:
-            self.logger.info(f"Processing dream {dream_id} with {len(task_types)} task types")
+            self.logger.info(
+                f"Processing dream {dream_id} with {len(task_types)} task types"
+            )
 
             # Create colony dream tasks
             tasks = []
@@ -370,16 +380,22 @@ class ColonyDreamCoordinator:
                     },
                 )
 
-            self.logger.info(f"Dream processing completed for {dream_id}: success={result.success}")
+            self.logger.info(
+                f"Dream processing completed for {dream_id}: success={result.success}"
+            )
             return result
 
         except Exception as e:
             self.logger.error(f"Dream processing failed for {dream_id}: {e}")
-            error_result = ColonyDreamResult(task_id="error", dream_id=dream_id, success=False, error=str(e))
+            error_result = ColonyDreamResult(
+                task_id="error", dream_id=dream_id, success=False, error=str(e)
+            )
             self.failed_tasks.append(error_result)
             return error_result
 
-    async def _execute_specialized_dream_tasks(self, tasks: list[ColonyDreamTask]) -> ColonyDreamResult:
+    async def _execute_specialized_dream_tasks(
+        self, tasks: list[ColonyDreamTask]
+    ) -> ColonyDreamResult:
         """Execute dream tasks using specialized colony routing"""
         start_time = asyncio.get_event_loop().time()
         colony_results = []
@@ -387,11 +403,15 @@ class ColonyDreamCoordinator:
         try:
             for task in tasks:
                 # Determine appropriate colonies for this task type
-                target_colony_types = self.colony_specializations.get(task.task_type, [ColonyType.REASONING])
+                target_colony_types = self.colony_specializations.get(
+                    task.task_type, [ColonyType.REASONING]
+                )
 
                 # Execute on each target colony type
                 for colony_type in target_colony_types:
-                    colony_result = await self._execute_single_colony_task(task, colony_type)
+                    colony_result = await self._execute_single_colony_task(
+                        task, colony_type
+                    )
                     colony_results.append(colony_result)
 
             # Synthesize results from all colonies
@@ -419,7 +439,9 @@ class ColonyDreamCoordinator:
                 error=str(e),
             )
 
-    async def _execute_parallel_dream_tasks(self, tasks: list[ColonyDreamTask]) -> ColonyDreamResult:
+    async def _execute_parallel_dream_tasks(
+        self, tasks: list[ColonyDreamTask]
+    ) -> ColonyDreamResult:
         """Execute all dream tasks in parallel across colonies"""
         start_time = asyncio.get_event_loop().time()
 
@@ -427,21 +449,29 @@ class ColonyDreamCoordinator:
             # Create parallel execution tasks
             parallel_tasks = []
             for task in tasks:
-                target_colony_types = self.colony_specializations.get(task.task_type, [ColonyType.REASONING])
+                target_colony_types = self.colony_specializations.get(
+                    task.task_type, [ColonyType.REASONING]
+                )
 
                 for colony_type in target_colony_types:
-                    parallel_task = asyncio.create_task(self._execute_single_colony_task(task, colony_type))
+                    parallel_task = asyncio.create_task(
+                        self._execute_single_colony_task(task, colony_type)
+                    )
                     parallel_tasks.append(parallel_task)
 
             # Wait for all parallel tasks to complete
-            colony_results = await asyncio.gather(*parallel_tasks, return_exceptions=True)
+            colony_results = await asyncio.gather(
+                *parallel_tasks, return_exceptions=True
+            )
 
             # Filter out exceptions and convert to proper results
             valid_results = []
             for result in colony_results:
                 if isinstance(result, Exception):
                     self.logger.error(f"Parallel task failed: {result}")
-                    valid_results.append({"success": False, "error": str(result), "colony_id": "unknown"})
+                    valid_results.append(
+                        {"success": False, "error": str(result), "colony_id": "unknown"}
+                    )
                 else:
                     valid_results.append(result)
 
@@ -469,7 +499,9 @@ class ColonyDreamCoordinator:
                 error=str(e),
             )
 
-    async def _execute_swarm_consensus_dream_tasks(self, tasks: list[ColonyDreamTask]) -> ColonyDreamResult:
+    async def _execute_swarm_consensus_dream_tasks(
+        self, tasks: list[ColonyDreamTask]
+    ) -> ColonyDreamResult:
         """Execute dream tasks using swarm consensus mechanisms"""
         start_time = asyncio.get_event_loop().time()
 
@@ -518,7 +550,9 @@ class ColonyDreamCoordinator:
                 error=str(e),
             )
 
-    async def _execute_sequential_dream_tasks(self, tasks: list[ColonyDreamTask]) -> ColonyDreamResult:
+    async def _execute_sequential_dream_tasks(
+        self, tasks: list[ColonyDreamTask]
+    ) -> ColonyDreamResult:
         """Execute dream tasks sequentially through colonies"""
         start_time = asyncio.get_event_loop().time()
         colony_results = []
@@ -532,7 +566,9 @@ class ColonyDreamCoordinator:
                     "accumulated_insights": accumulated_insights,
                 }
 
-                target_colony_types = self.colony_specializations.get(task.task_type, [ColonyType.REASONING])
+                target_colony_types = self.colony_specializations.get(
+                    task.task_type, [ColonyType.REASONING]
+                )
 
                 for colony_type in target_colony_types:
                     # Create enhanced task with accumulated insights
@@ -544,7 +580,9 @@ class ColonyDreamCoordinator:
                         user_context=task.user_context,
                     )
 
-                    result = await self._execute_single_colony_task(enhanced_task, colony_type)
+                    result = await self._execute_single_colony_task(
+                        enhanced_task, colony_type
+                    )
                     colony_results.append(result)
 
                     # Accumulate insights for next task
@@ -576,7 +614,9 @@ class ColonyDreamCoordinator:
                 error=str(e),
             )
 
-    async def _execute_single_colony_task(self, task: ColonyDreamTask, colony_type: ColonyType) -> dict[str, Any]:
+    async def _execute_single_colony_task(
+        self, task: ColonyDreamTask, colony_type: ColonyType
+    ) -> dict[str, Any]:
         """Execute a single dream task on a specific colony type"""
         try:
             if not COLONY_SYSTEM_AVAILABLE or not self.colony_orchestrator:
@@ -625,7 +665,9 @@ class ColonyDreamCoordinator:
                 "task_id": task.task_id,
             }
 
-    async def _synthesize_colony_results(self, colony_results: list[dict[str, Any]]) -> dict[str, Any]:
+    async def _synthesize_colony_results(
+        self, colony_results: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Synthesize results from multiple colony executions"""
         try:
             successful_results = [r for r in colony_results if r.get("success", False)]
@@ -647,7 +689,10 @@ class ColonyDreamCoordinator:
                 # Extract insights from colony result
                 if "colony_results" in result:
                     for colony_result in result["colony_results"]:
-                        if "result" in colony_result and "insights" in colony_result["result"]:
+                        if (
+                            "result" in colony_result
+                            and "insights" in colony_result["result"]
+                        ):
                             all_insights.extend(colony_result["result"]["insights"])
 
                 # Direct insights
@@ -666,7 +711,9 @@ class ColonyDreamCoordinator:
                 "total_insights": len(all_insights),
                 "insight_synthesis": insight_synthesis,
                 "consensus_metrics": consensus_metrics,
-                "synthesis_confidence": consensus_metrics.get("overall_confidence", 0.0),
+                "synthesis_confidence": consensus_metrics.get(
+                    "overall_confidence", 0.0
+                ),
                 "successful_colonies": len(successful_results),
                 "total_colonies": len(colony_results),
             }
@@ -697,7 +744,9 @@ class ColonyDreamCoordinator:
         for insight_type, insights in insight_types.items():
             if len(insights) > 1:  # Appeared in multiple results
                 # Calculate average confidence
-                avg_confidence = sum(i.get("confidence", 0.0) for i in insights) / len(insights)
+                avg_confidence = sum(i.get("confidence", 0.0) for i in insights) / len(
+                    insights
+                )
                 convergent_insights.append(
                     {
                         "type": insight_type,
@@ -714,7 +763,9 @@ class ColonyDreamCoordinator:
             "synthesis_strength": len(convergent_insights) / max(1, len(insight_types)),
         }
 
-    def _calculate_synthesis_consensus(self, successful_results: list[dict]) -> dict[str, Any]:
+    def _calculate_synthesis_consensus(
+        self, successful_results: list[dict]
+    ) -> dict[str, Any]:
         """Calculate consensus metrics across colony results"""
         if not successful_results:
             return {"overall_confidence": 0.0}
@@ -731,8 +782,12 @@ class ColonyDreamCoordinator:
 
         # Calculate consensus metrics
         avg_confidence = sum(confidence_scores) / len(confidence_scores)
-        confidence_variance = sum((c - avg_confidence) ** 2 for c in confidence_scores) / len(confidence_scores)
-        consensus_strength = 1.0 - min(confidence_variance, 1.0)  # Lower variance = higher consensus
+        confidence_variance = sum(
+            (c - avg_confidence) ** 2 for c in confidence_scores
+        ) / len(confidence_scores)
+        consensus_strength = 1.0 - min(
+            confidence_variance, 1.0
+        )  # Lower variance = higher consensus
 
         return {
             "overall_confidence": avg_confidence,
@@ -741,7 +796,9 @@ class ColonyDreamCoordinator:
             "participating_colonies": len(successful_results),
         }
 
-    async def _apply_swarm_consensus(self, colony_results: list[dict[str, Any]]) -> dict[str, Any]:
+    async def _apply_swarm_consensus(
+        self, colony_results: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Apply swarm consensus algorithm to colony results"""
         try:
             # Extract decisions/insights from each colony
@@ -798,7 +855,9 @@ class ColonyDreamCoordinator:
 
                 if not consensus_achieved:
                     # Use highest scoring recommendation
-                    winning_recommendation = max(recommendation_votes.items(), key=lambda x: x[1])[0]
+                    winning_recommendation = max(
+                        recommendation_votes.items(), key=lambda x: x[1]
+                    )[0]
                     winning_confidence = recommendation_votes[winning_recommendation]
             else:
                 consensus_achieved = False
@@ -838,10 +897,14 @@ class ColonyDreamCoordinator:
                     "error": "Quantum dream adapter not available for multiverse integration",
                 }
 
-            self.logger.info(f"Integrating multiverse dreams with colony processing: {parallel_paths} paths")
+            self.logger.info(
+                f"Integrating multiverse dreams with colony processing: {parallel_paths} paths"
+            )
 
             # Execute multiverse dream simulation
-            multiverse_result = await self.qi_dream_adapter.simulate_multiverse_dreams(dream_seed, parallel_paths)
+            multiverse_result = await self.qi_dream_adapter.simulate_multiverse_dreams(
+                dream_seed, parallel_paths
+            )
 
             if not multiverse_result.get("success", False):
                 return multiverse_result
@@ -857,7 +920,9 @@ class ColonyDreamCoordinator:
                         "path_config": dream_path["config"],
                         "path_result": dream_path["result"],
                         "qi_state": dream_path["result"].get("qi_state"),
-                        "dream_insights": dream_path["result"].get("dream_insights", []),
+                        "dream_insights": dream_path["result"].get(
+                            "dream_insights", []
+                        ),
                     }
 
                     # Process through colonies
@@ -919,13 +984,15 @@ class ColonyDreamCoordinator:
                     colony_syntheses.append(colony_processing.synthesis_result)
 
             # Cross-validate insights between multiverse and colony results
-            cross_validated_insights = self._cross_validate_insights(multiverse_insights, colony_syntheses)
+            cross_validated_insights = self._cross_validate_insights(
+                multiverse_insights, colony_syntheses
+            )
 
             # Calculate integrated confidence
             multiverse_coherence = multiverse_result.get("overall_coherence", 0.0)
-            colony_confidence = sum(s.get("synthesis_confidence", 0.0) for s in colony_syntheses) / max(
-                1, len(colony_syntheses)
-            )
+            colony_confidence = sum(
+                s.get("synthesis_confidence", 0.0) for s in colony_syntheses
+            ) / max(1, len(colony_syntheses))
 
             integrated_confidence = (multiverse_coherence + colony_confidence) / 2.0
 
@@ -937,7 +1004,8 @@ class ColonyDreamCoordinator:
                 "integrated_confidence": integrated_confidence,
                 "multiverse_coherence": multiverse_coherence,
                 "colony_confidence": colony_confidence,
-                "synthesis_strength": len(cross_validated_insights) / max(1, len(colony_syntheses)),
+                "synthesis_strength": len(cross_validated_insights)
+                / max(1, len(colony_syntheses)),
             }
 
         except Exception as e:
@@ -979,8 +1047,12 @@ class ColonyDreamCoordinator:
                     cross_validated.append(
                         {
                             "pattern": mv_pattern_name,
-                            "multiverse_confidence": mv_pattern.get("average_confidence", 0.0),
-                            "colony_confidence": colony_insight.get("average_confidence", 0.0),
+                            "multiverse_confidence": mv_pattern.get(
+                                "average_confidence", 0.0
+                            ),
+                            "colony_confidence": colony_insight.get(
+                                "average_confidence", 0.0
+                            ),
                             "cross_validation_strength": min(
                                 mv_pattern.get("convergence_count", 1),
                                 colony_insight.get("convergence_count", 1),

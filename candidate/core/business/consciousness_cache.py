@@ -88,7 +88,11 @@ class ConsciousnessCacheManager:
         cache_key = f"{user_id}:{cache_type.value}:{context_hash}"
 
         # Determine expiration
-        ttl = timedelta(hours=ttl_hours) if ttl_hours else self.ttl_policies.get(cache_type, timedelta(hours=24))
+        ttl = (
+            timedelta(hours=ttl_hours)
+            if ttl_hours
+            else self.ttl_policies.get(cache_type, timedelta(hours=24))
+        )
 
         expires_at = datetime.now() + ttl
 
@@ -180,7 +184,8 @@ class ConsciousnessCacheManager:
                     {
                         "cache_key": cache_key,
                         "cache_type": entry.cache_type.value,
-                        "age_hours": (datetime.now() - entry.created_at).total_seconds() / 3600,
+                        "age_hours": (datetime.now() - entry.created_at).total_seconds()
+                        / 3600,
                     }
                 )
 
@@ -285,17 +290,25 @@ class ConsciousnessCacheManager:
         # Check cache utilization
         utilization = len(self.cache) / self.max_cache_size
         if utilization > 0.9:
-            recommendations.append("Cache utilization high (>90%) - consider increasing max_cache_size")
+            recommendations.append(
+                "Cache utilization high (>90%) - consider increasing max_cache_size"
+            )
         elif utilization < 0.3:
-            recommendations.append("Cache utilization low (<30%) - could reduce max_cache_size")
+            recommendations.append(
+                "Cache utilization low (<30%) - could reduce max_cache_size"
+            )
 
         # Check for frequently evicted types
         if self.hit_stats["evictions"] > self.hit_stats["hits"] * 0.1:
-            recommendations.append("High eviction rate suggests cache size may be too small")
+            recommendations.append(
+                "High eviction rate suggests cache size may be too small"
+            )
 
         return recommendations
 
-    async def warm_consciousness_cache(self, user_id: str, consciousness_data: dict[str, Any]) -> dict[str, Any]:
+    async def warm_consciousness_cache(
+        self, user_id: str, consciousness_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Pre-warm cache with consciousness data for better performance.
 

@@ -98,7 +98,9 @@ class HubCoordinator:
             await self._processor_task
         logger.info("Hub Coordinator stopped")
 
-    def register_handler(self, module: ModuleType, operation: str, handler: Callable) -> None:
+    def register_handler(
+        self, module: ModuleType, operation: str, handler: Callable
+    ) -> None:
         """
         Register a handler for a specific module operation.
 
@@ -152,7 +154,9 @@ class HubCoordinator:
             start_time = datetime.now()
 
             if request.timeout:
-                result = await asyncio.wait_for(handler(request.data), timeout=request.timeout)
+                result = await asyncio.wait_for(
+                    handler(request.data), timeout=request.timeout
+                )
             else:
                 result = await handler(request.data)
 
@@ -173,7 +177,9 @@ class HubCoordinator:
             )
         except Exception as e:
             logger.error(f"Coordination error: {e}")
-            return CoordinationResponse(request_id=request_id, success=False, error=str(e))
+            return CoordinationResponse(
+                request_id=request_id, success=False, error=str(e)
+            )
 
     async def coordinate_async(self, request: CoordinationRequest) -> str:
         """
@@ -185,7 +191,9 @@ class HubCoordinator:
         await self._request_queue.put((request_id, request))
         return request_id
 
-    async def get_result(self, request_id: str, timeout: float = 30.0) -> CoordinationResponse:
+    async def get_result(
+        self, request_id: str, timeout: float = 30.0
+    ) -> CoordinationResponse:
         """Get the result of an async request"""
         start_time = datetime.now()
 
@@ -200,14 +208,18 @@ class HubCoordinator:
                 )
             await asyncio.sleep(0.1)
 
-        return CoordinationResponse(request_id=request_id, success=False, error="Request timed out")
+        return CoordinationResponse(
+            request_id=request_id, success=False, error="Request timed out"
+        )
 
     async def _process_requests(self):
         """Background processor for async requests"""
         while self._running:
             try:
                 # Get next request with timeout to allow checking _running
-                request_id, request = await asyncio.wait_for(self._request_queue.get(), timeout=1.0)
+                request_id, request = await asyncio.wait_for(
+                    self._request_queue.get(), timeout=1.0
+                )
 
                 # Process the request
                 await self.coordinate(request)

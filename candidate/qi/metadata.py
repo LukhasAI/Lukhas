@@ -111,7 +111,10 @@ class QIMetadataManager:
         self.logger.info("🔮 Quantum Metadata Manager initialized")
 
     async def generate_quantum_metadata(
-        self, content: str, content_id: Optional[str] = None, manual_tags: Optional[list[str]] = None
+        self,
+        content: str,
+        content_id: Optional[str] = None,
+        manual_tags: Optional[list[str]] = None,
     ) -> QIMetadata:
         """
         Generate comprehensive quantum metadata for content.
@@ -261,7 +264,9 @@ class QIMetadataManager:
             "information",
             "data",
         ]
-        knowledge_score = sum(1 for term in knowledge_indicators if term in content_lower) / len(knowledge_indicators)
+        knowledge_score = sum(
+            1 for term in knowledge_indicators if term in content_lower
+        ) / len(knowledge_indicators)
         dimensions[SymbolicDimension.KNOWLEDGE.value] = min(1.0, knowledge_score)
 
         # Creativity dimension
@@ -272,19 +277,23 @@ class QIMetadataManager:
             "imagination",
             "artistic",
         ]
-        creativity_score = sum(1 for term in creativity_indicators if term in content_lower) / len(
-            creativity_indicators
-        )
+        creativity_score = sum(
+            1 for term in creativity_indicators if term in content_lower
+        ) / len(creativity_indicators)
         dimensions[SymbolicDimension.CREATIVITY.value] = min(1.0, creativity_score)
 
         # Ethics dimension
         ethics_indicators = ["ethical", "moral", "responsible", "fair", "justice"]
-        ethics_score = sum(1 for term in ethics_indicators if term in content_lower) / len(ethics_indicators)
+        ethics_score = sum(
+            1 for term in ethics_indicators if term in content_lower
+        ) / len(ethics_indicators)
         dimensions[SymbolicDimension.ETHICS.value] = min(1.0, ethics_score)
 
         # Technical dimension
         technical_indicators = ["technical", "system", "algorithm", "code", "software"]
-        technical_score = sum(1 for term in technical_indicators if term in content_lower) / len(technical_indicators)
+        technical_score = sum(
+            1 for term in technical_indicators if term in content_lower
+        ) / len(technical_indicators)
         dimensions[SymbolicDimension.TECHNICAL.value] = min(1.0, technical_score)
 
         # Social dimension
@@ -295,7 +304,9 @@ class QIMetadataManager:
             "interaction",
             "collaboration",
         ]
-        social_score = sum(1 for term in social_indicators if term in content_lower) / len(social_indicators)
+        social_score = sum(
+            1 for term in social_indicators if term in content_lower
+        ) / len(social_indicators)
         dimensions[SymbolicDimension.SOCIAL.value] = min(1.0, social_score)
 
         # Set minimum baseline for all dimensions
@@ -325,7 +336,9 @@ class QIMetadataManager:
 
         return vector[:target_size]
 
-    async def _find_quantum_entanglements(self, content: str, content_id: str) -> list[str]:
+    async def _find_quantum_entanglements(
+        self, content: str, content_id: str
+    ) -> list[str]:
         """Find entanglement-like correlations (semantic similarities) with existing content."""
         entanglements = []
 
@@ -337,14 +350,18 @@ class QIMetadataManager:
                 continue
 
             # Calculate simplified similarity
-            similarity = await self._calculate_similarity(current_vector, metadata.semantic_vector)
+            similarity = await self._calculate_similarity(
+                current_vector, metadata.semantic_vector
+            )
 
             if similarity > 0.7:  # High similarity threshold
                 entanglements.append(existing_id)
 
         return entanglements
 
-    async def _calculate_similarity(self, vector1: list[float], vector2: list[float]) -> float:
+    async def _calculate_similarity(
+        self, vector1: list[float], vector2: list[float]
+    ) -> float:
         """Calculate cosine similarity between vectors."""
         if len(vector1) != len(vector2):
             return 0.0
@@ -390,7 +407,9 @@ class QIMetadataManager:
             return [self.metadata_store[content_id] for content_id in matching_ids]
         return []
 
-    async def search_by_dimension(self, dimension: SymbolicDimension, min_weight: float = 0.5) -> list[QIMetadata]:
+    async def search_by_dimension(
+        self, dimension: SymbolicDimension, min_weight: float = 0.5
+    ) -> list[QIMetadata]:
         """Search content by symbolic dimension."""
         content_ids = self.dimension_index.get(dimension.value, set())
         results = []
@@ -439,10 +458,13 @@ class QIMetadataManager:
             "total_content": total_content,
             "total_unique_tags": total_tags,
             "dimension_distribution": dimension_stats,
-            "top_tags": sorted(tag_frequency.items(), key=lambda x: x[1], reverse=True)[:10],
+            "top_tags": sorted(tag_frequency.items(), key=lambda x: x[1], reverse=True)[
+                :10
+            ],
             "qi_enabled": self.qi_enabled,
             "average_entanglements": (
-                sum(len(m.qi_entanglement_refs) for m in self.metadata_store.values()) / total_content
+                sum(len(m.qi_entanglement_refs) for m in self.metadata_store.values())
+                / total_content
                 if total_content > 0
                 else 0
             ),

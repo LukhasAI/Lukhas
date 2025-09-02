@@ -65,7 +65,9 @@ def _validate(cfg: dict[str, Any]) -> None:
             raise ConfigError(f"{ctx}.temperature must be number")
         if "tools" in plan and not isinstance(plan["tools"], (list, tuple)):
             raise ConfigError(f"{ctx}.tools must be list")
-        if "allow_models" in plan and not isinstance(plan["allow_models"], (list, tuple)):
+        if "allow_models" in plan and not isinstance(
+            plan["allow_models"], (list, tuple)
+        ):
             raise ConfigError(f"{ctx}.allow_models must be list")
         if "deny_models" in plan and not isinstance(plan["deny_models"], (list, tuple)):
             raise ConfigError(f"{ctx}.deny_models must be list")
@@ -97,7 +99,9 @@ class TaskRouter:
         presets_path: str | None = None,
         conf_thresholds: tuple[float, float, float] = (0.8, 0.6, 0.4),
     ):
-        self.presets_path = os.environ.get(PRESETS_PATH_ENV) or presets_path or DEFAULT_PRESETS_PATH
+        self.presets_path = (
+            os.environ.get(PRESETS_PATH_ENV) or presets_path or DEFAULT_PRESETS_PATH
+        )
         self.cfg = _load_yaml(self.presets_path)
         _validate(self.cfg)
         self.conf_router = ConfidenceRouter(conf_thresholds)
@@ -134,13 +138,21 @@ class TaskRouter:
             allow = out.get("allow_models")
             deny = out.get("deny_models")
             if allow and model_id not in allow:
-                out.setdefault("warnings", []).append(f"model '{model_id}' not in allow_models")
+                out.setdefault("warnings", []).append(
+                    f"model '{model_id}' not in allow_models"
+                )
             if deny and model_id in deny:
-                out.setdefault("warnings", []).append(f"model '{model_id}' is in deny_models")
+                out.setdefault("warnings", []).append(
+                    f"model '{model_id}' is in deny_models"
+                )
 
         # 5) caps & guards
         cap_tokens = out.pop("cap_tokens", None)
-        if cap_tokens is not None and isinstance(cap_tokens, int) and out.get("gen_tokens", 0) > cap_tokens:
+        if (
+            cap_tokens is not None
+            and isinstance(cap_tokens, int)
+            and out.get("gen_tokens", 0) > cap_tokens
+        ):
             out["gen_tokens"] = cap_tokens
             out.setdefault("notes", "")
             out["notes"] += " | capped gen_tokens"
@@ -153,9 +165,15 @@ class TaskRouter:
 
         # 6) min confidence fast path override
         min_fast = out.pop("min_conf_for_fast", None)
-        if min_fast is not None and out.get("path") == "fast" and calibrated_conf < float(min_fast):
+        if (
+            min_fast is not None
+            and out.get("path") == "fast"
+            and calibrated_conf < float(min_fast)
+        ):
             # drop to normal settings but keep other overrides
-            fallback = self.conf_router.decide(calibrated_conf=self.conf_router.t_norm + 0.001)
+            fallback = self.conf_router.decide(
+                calibrated_conf=self.conf_router.t_norm + 0.001
+            )
             # keep temperature from overrides if present
             for k in ("gen_tokens", "retrieval", "passes", "temperature"):
                 out[k] = out.get(k, fallback.get(k, out.get(k)))
@@ -198,14 +216,20 @@ class TaskRouter:
 
 # ---------------- CLI ----------------
 def main():
-    ap = argparse.ArgumentParser(description="Task-specific router (YAML presets + confidence-aware)")
+    ap = argparse.ArgumentParser(
+        description="Task-specific router (YAML presets + confidence-aware)"
+    )
     ap.add_argument(
         "--presets",
         help=f"Path to presets YAML (default: {DEFAULT_PRESETS_PATH} or ${PRESETS_PATH_ENV})",
     )
     ap.add_argument("--task", required=True)
-    ap.add_argument("--conf", type=float, required=True, help="Calibrated confidence (0-1)")
-    ap.add_argument("--last-path", help="Previous path (fast|normal|deliberate|handoff)")
+    ap.add_argument(
+        "--conf", type=float, required=True, help="Calibrated confidence (0-1)"
+    )
+    ap.add_argument(
+        "--last-path", help="Previous path (fast|normal|deliberate|handoff)"
+    )
     ap.add_argument("--model-id")
     ap.add_argument("--input-tokens", type=int)
     args = ap.parse_args()

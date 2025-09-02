@@ -39,7 +39,9 @@ class ComplianceRegistry:
 
         self.component_registry = {}
 
-    async def register_component(self, component_id: str, compliance_data: dict[str, Any]) -> None:
+    async def register_component(
+        self, component_id: str, compliance_data: dict[str, Any]
+    ) -> None:
         """Register a component's compliance information"""
         self.component_registry[component_id] = {
             "registration_date": datetime.now().isoformat(),
@@ -90,7 +92,9 @@ class ComplianceRegistry:
 
         component_type = component_id.split("_")[0]
         if component_type == "llm":
-            base_requirements.extend(["content_filtering", "bias_mitigation", "ethical_constraints"])
+            base_requirements.extend(
+                ["content_filtering", "bias_mitigation", "ethical_constraints"]
+            )
         elif component_type == "intent":
             base_requirements.extend(["consent_management", "pii_protection"])
 

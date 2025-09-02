@@ -27,12 +27,10 @@ Last Updated: July 5, 2025
 """
 
 from dataclasses import dataclass
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 from ..id_service.entropy_engine import EntropyEngine
 from ..id_service.lambd_id_validator import LambdaIDValidator
-
 # Import core modules
 from ..lambd_id_service import LambdaIDService
 

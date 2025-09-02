@@ -53,7 +53,9 @@ def launch():
     print(f"📅 Session started: {datetime.now().isoformat()}")  # Keep UI output
     display_system_status()
     logger.info("Auto-triggering visual prompt generation")
-    print("\n🔁 Auto-Trigger: Generating visual prompt from most recent flashback...")  # Keep UI output
+    print(
+        "\n🔁 Auto-Trigger: Generating visual prompt from most recent flashback..."
+    )  # Keep UI output
     os.system("python3 visualizer.py")
     display_flashback_preview()
     voice_welcome()
@@ -84,7 +86,9 @@ def launch():
             os.system("python3 dream_mutator.py")
         elif command in ("genaudit", "audit", "trace"):
             logger.info("Generating alignment trace report")
-            print("📊 Generating alignment trace report (placeholder)")  # Keep UI output
+            print(
+                "📊 Generating alignment trace report (placeholder)"
+            )  # Keep UI output
         elif command == "express":
             os.system("python3 lukhas_expression.py")
         elif command in ("help", "?"):

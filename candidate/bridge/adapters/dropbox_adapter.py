@@ -36,7 +36,11 @@ class DropboxAdapter(BaseServiceAdapter):
     async def authenticate(self, credentials: dict) -> dict:
         """OAuth2 authentication flow for Dropbox"""
         if self.dry_run_mode:
-            return {"access_token": "dry_run_token", "token_type": "Bearer", "expires_in": 14400}
+            return {
+                "access_token": "dry_run_token",
+                "token_type": "Bearer",
+                "expires_in": 14400,
+            }
 
         client_id = credentials.get("app_key")
         client_secret = credentials.get("app_secret")
@@ -63,7 +67,8 @@ class DropboxAdapter(BaseServiceAdapter):
                 if lid and "access_token" in token_data:
                     self.oauth_tokens[lid] = {
                         "access_token": token_data["access_token"],
-                        "expires_at": datetime.now(timezone.utc).timestamp() + token_data["expires_in"],
+                        "expires_at": datetime.now(timezone.utc).timestamp()
+                        + token_data["expires_in"],
                     }
 
                 return token_data
@@ -85,7 +90,9 @@ class DropboxAdapter(BaseServiceAdapter):
         """
 
         # Validate capability token
-        if capability_token and not self.validate_capability_token(capability_token, "list"):
+        if capability_token and not self.validate_capability_token(
+            capability_token, "list"
+        ):
             return {"error": "invalid_capability_token"}
 
         # Check consent
@@ -120,9 +127,15 @@ class DropboxAdapter(BaseServiceAdapter):
                 "Content-Type": "application/json",
             }
 
-            payload = {"path": path if path else "", "recursive": recursive, "limit": limit}
+            payload = {
+                "path": path if path else "",
+                "recursive": recursive,
+                "limit": limit,
+            }
 
-            async with session.post(f"{self.base_url}/files/list_folder", headers=headers, json=payload) as response:
+            async with session.post(
+                f"{self.base_url}/files/list_folder", headers=headers, json=payload
+            ) as response:
                 if response.status == 200:
                     data = await response.json()
 
@@ -151,11 +164,15 @@ class DropboxAdapter(BaseServiceAdapter):
                     return {"error": f"api_error_{response.status}"}
 
     @with_resilience
-    async def download_file(self, lid: str, path: str, capability_token: Optional[CapabilityToken] = None) -> dict:
+    async def download_file(
+        self, lid: str, path: str, capability_token: Optional[CapabilityToken] = None
+    ) -> dict:
         """Download file content from Dropbox"""
 
         # Validate capability token
-        if capability_token and not self.validate_capability_token(capability_token, "read"):
+        if capability_token and not self.validate_capability_token(
+            capability_token, "read"
+        ):
             return {"error": "invalid_capability_token"}
 
         # Check consent
@@ -185,10 +202,14 @@ class DropboxAdapter(BaseServiceAdapter):
                 "Dropbox-API-Arg": json.dumps({"path": path}),
             }
 
-            async with session.post(f"{self.content_url}/files/download", headers=headers) as response:
+            async with session.post(
+                f"{self.content_url}/files/download", headers=headers
+            ) as response:
                 if response.status == 200:
                     # Get metadata from response header
-                    metadata = json.loads(response.headers.get("Dropbox-API-Result", "{}"))
+                    metadata = json.loads(
+                        response.headers.get("Dropbox-API-Result", "{}")
+                    )
 
                     # Get content (limit size for MVP)
                     content = await response.read(1024 * 1024)  # Max 1MB
@@ -201,7 +222,11 @@ class DropboxAdapter(BaseServiceAdapter):
                             "size": metadata.get("size"),
                             "modified": metadata.get("server_modified"),
                             "content_hash": hashlib.sha256(content).hexdigest(),
-                            "content_preview": content[:1000].decode("utf-8", errors="ignore") if content else "",
+                            "content_preview": (
+                                content[:1000].decode("utf-8", errors="ignore")
+                                if content
+                                else ""
+                            ),
                         },
                         "trace_id": self.telemetry.metrics.get("last_trace_id"),
                     }
@@ -219,7 +244,9 @@ class DropboxAdapter(BaseServiceAdapter):
         """Search files in Dropbox"""
 
         # Validate capability token
-        if capability_token and not self.validate_capability_token(capability_token, "read"):
+        if capability_token and not self.validate_capability_token(
+            capability_token, "read"
+        ):
             return {"error": "invalid_capability_token"}
 
         # Check consent
@@ -227,7 +254,9 @@ class DropboxAdapter(BaseServiceAdapter):
             return {"error": "consent_required", "action": "search_files"}
 
         if self.dry_run_mode:
-            plan = self.dry_run_planner.plan_operation("search_files", {"query": query, "max_results": max_results})
+            plan = self.dry_run_planner.plan_operation(
+                "search_files", {"query": query, "max_results": max_results}
+            )
             return {"dry_run": True, "plan": plan}
 
         # Get OAuth token
@@ -247,7 +276,9 @@ class DropboxAdapter(BaseServiceAdapter):
                 "options": {"max_results": max_results, "file_status": "active"},
             }
 
-            async with session.post(f"{self.base_url}/files/search_v2", headers=headers, json=payload) as response:
+            async with session.post(
+                f"{self.base_url}/files/search_v2", headers=headers, json=payload
+            ) as response:
                 if response.status == 200:
                     data = await response.json()
 
@@ -285,7 +316,9 @@ class DropboxAdapter(BaseServiceAdapter):
         """Upload file to Dropbox"""
 
         # Validate capability token
-        if capability_token and not self.validate_capability_token(capability_token, "write"):
+        if capability_token and not self.validate_capability_token(
+            capability_token, "write"
+        ):
             return {"error": "invalid_capability_token"}
 
         # Check consent
@@ -293,7 +326,9 @@ class DropboxAdapter(BaseServiceAdapter):
             return {"error": "consent_required", "action": "upload_file"}
 
         if self.dry_run_mode:
-            plan = self.dry_run_planner.plan_operation("upload_file", {"path": path, "size": len(content)})
+            plan = self.dry_run_planner.plan_operation(
+                "upload_file", {"path": path, "size": len(content)}
+            )
             return {"dry_run": True, "plan": plan}
 
         # Get OAuth token
@@ -305,11 +340,15 @@ class DropboxAdapter(BaseServiceAdapter):
         async with aiohttp.ClientSession() as session:
             headers = {
                 "Authorization": f"Bearer {access_token}",
-                "Dropbox-API-Arg": json.dumps({"path": path, "mode": "add", "autorename": autorename}),
+                "Dropbox-API-Arg": json.dumps(
+                    {"path": path, "mode": "add", "autorename": autorename}
+                ),
                 "Content-Type": "application/octet-stream",
             }
 
-            async with session.post(f"{self.content_url}/files/upload", headers=headers, data=content) as response:
+            async with session.post(
+                f"{self.content_url}/files/upload", headers=headers, data=content
+            ) as response:
                 if response.status == 200:
                     file_data = await response.json()
                     return {
@@ -435,7 +474,9 @@ if __name__ == "__main__":
         adapter.set_dry_run(True)
         print("🔍 Testing dry-run mode...")
 
-        result = await adapter.list_folder(lid="USR-123456", path="/travel", recursive=False)
+        result = await adapter.list_folder(
+            lid="USR-123456", path="/travel", recursive=False
+        )
 
         if result.get("dry_run"):
             print("✅ Dry-run plan created")
@@ -460,7 +501,9 @@ if __name__ == "__main__":
         integration = DropboxContextIntegration(adapter)
         print("\n🔄 Testing workflow integration...")
 
-        await integration.workflow_fetch_travel_files(lid="USR-123456", context={"stage": "file_retrieval"})
+        await integration.workflow_fetch_travel_files(
+            lid="USR-123456", context={"stage": "file_retrieval"}
+        )
 
         print("✅ Workflow step ready for Agent 4 integration")
 

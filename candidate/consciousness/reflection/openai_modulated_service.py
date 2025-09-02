@@ -163,7 +163,9 @@ class OpenAIModulatedService:
                 OpenAIRequest(module=module, capability=capability, data=data)
             )
 
-    def _create_signal_context(self, homeostasis_state: dict[str, Any]) -> dict[str, float]:
+    def _create_signal_context(
+        self, homeostasis_state: dict[str, Any]
+    ) -> dict[str, float]:
         """Create signal context from current system state"""
         context = {
             "urgency": 0.0,
@@ -187,7 +189,9 @@ class OpenAIModulatedService:
 
         return context
 
-    async def _modulate_text_request(self, data: dict[str, Any], signal_context: dict[str, float]) -> dict[str, Any]:
+    async def _modulate_text_request(
+        self, data: dict[str, Any], signal_context: dict[str, float]
+    ) -> dict[str, Any]:
         """Modulate text generation request based on signals"""
         # Get original prompt
         original_prompt = data.get("prompt", "")
@@ -199,7 +203,9 @@ class OpenAIModulatedService:
                     break
 
         # Modulate the prompt
-        modulated_prompt = self.modulator.modulate_prompt(original_prompt, signal_context)
+        modulated_prompt = self.modulator.modulate_prompt(
+            original_prompt, signal_context
+        )
 
         # Update request data
         if "prompt" in data:
@@ -287,7 +293,9 @@ class OpenAIModulatedService:
 
         return response
 
-    async def _update_homeostasis(self, response: OpenAIResponse, signal_context: dict[str, float]):
+    async def _update_homeostasis(
+        self, response: OpenAIResponse, signal_context: dict[str, float]
+    ):
         """Update homeostasis based on response"""
         # Create feedback signal
         feedback_signal = Signal(
@@ -319,7 +327,11 @@ class OpenAIModulatedService:
             "module": request.module,
             "capability": request.capability.value,
             "signal_context": signal_context,
-            "model_used": (request.model_preference.value if request.model_preference else "default"),
+            "model_used": (
+                request.model_preference.value
+                if request.model_preference
+                else "default"
+            ),
             "priority": request.priority,
             "success": response.success,
             "latency_ms": response.latency_ms,
@@ -352,7 +364,9 @@ class OpenAIModulatedService:
         avg_signals = {}
         signal_types = ["urgency", "clarity", "ambiguity", "complexity"]
         for signal_type in signal_types:
-            values = [r["signal_context"].get(signal_type, 0) for r in self.modulation_history]
+            values = [
+                r["signal_context"].get(signal_type, 0) for r in self.modulation_history
+            ]
             avg_signals[signal_type] = sum(values) / len(values) if values else 0
 
         # Model usage
@@ -411,7 +425,9 @@ async def modulated_text_generation(
 
     # Emit relevant signals
     if urgency > 0:
-        await service.emit_signal(Signal(name=SignalType.URGENCY, source=module, level=urgency))
+        await service.emit_signal(
+            Signal(name=SignalType.URGENCY, source=module, level=urgency)
+        )
 
     # Process request
     response = await service.process_modulated_request(

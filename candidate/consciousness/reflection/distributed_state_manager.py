@@ -61,7 +61,8 @@ from typing import Any, Optional
 
 from candidate.core.cluster_sharding import ShardManager
 from candidate.core.common import get_logger
-from candidate.core.event_sourcing import Event, EventStore, get_global_event_store
+from candidate.core.event_sourcing import (Event, EventStore,
+                                           get_global_event_store)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

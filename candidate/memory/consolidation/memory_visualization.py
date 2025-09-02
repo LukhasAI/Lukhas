@@ -67,12 +67,16 @@ class ConsolidatedMemoryvisualization:
         self.connection_visualizer = ConnectionVisualizer()
         self.fold_entropy_visualizer = FoldEntropyVisualizer()
 
-        logger.info("ConsolidatedMemoryVisualization initialized with fold-based architecture")
+        logger.info(
+            "ConsolidatedMemoryVisualization initialized with fold-based architecture"
+        )
 
     async def process_memory(self, memory_data: dict[str, Any]) -> Optional[dict]:
         """Process memory through consolidated pipeline with Trinity Framework integration"""
         start_time = time.time()
-        memory_id = memory_data.get("memory_id", hashlib.md5(str(memory_data).encode()).hexdigest()[:8])
+        memory_id = memory_data.get(
+            "memory_id", hashlib.md5(str(memory_data).encode()).hexdigest()[:8]
+        )
 
         try:
             # 🛡️ Guardian: Check for cascade prevention (99.7% success rate target)
@@ -85,7 +89,9 @@ class ConsolidatedMemoryvisualization:
             identity_signature = await self._extract_identity_signature(memory_data)
 
             # 🧠 Consciousness: Apply consciousness-aware processing
-            consciousness_context = await self._apply_consciousness_awareness(memory_data)
+            consciousness_context = await self._apply_consciousness_awareness(
+                memory_data
+            )
 
             # Check cache for performance optimization
             cache_key = self._generate_cache_key(memory_data)
@@ -112,8 +118,14 @@ class ConsolidatedMemoryvisualization:
             return visualization_result
 
         except Exception as e:
-            logger.error(f"Memory visualization processing failed for {memory_id}: {e!s}")
-            return {"status": "error", "error": str(e), "processing_time": time.time() - start_time}
+            logger.error(
+                f"Memory visualization processing failed for {memory_id}: {e!s}"
+            )
+            return {
+                "status": "error",
+                "error": str(e),
+                "processing_time": time.time() - start_time,
+            }
 
     async def _process_visualization_pipeline(
         self, memory_data: dict, identity_signature: dict, consciousness_context: dict
@@ -128,19 +140,27 @@ class ConsolidatedMemoryvisualization:
         }
 
         # 1. Memory Trace Animation
-        trace_result = await self.trace_animator.animate_memory_trace(memory_data, identity_signature)
+        trace_result = await self.trace_animator.animate_memory_trace(
+            memory_data, identity_signature
+        )
         results["visualizations"]["trace_animation"] = trace_result
 
         # 2. Memory Helix Visualization
-        helix_result = await self.memory_helix.visualize_memory_helix(memory_data, consciousness_context)
+        helix_result = await self.memory_helix.visualize_memory_helix(
+            memory_data, consciousness_context
+        )
         results["visualizations"]["memory_helix"] = helix_result
 
         # 3. Connection Network Visualization
-        connection_result = await self.connection_visualizer.visualize_connections(memory_data)
+        connection_result = await self.connection_visualizer.visualize_connections(
+            memory_data
+        )
         results["visualizations"]["connections"] = connection_result
 
         # 4. Fold Entropy Visualization
-        entropy_result = await self.fold_entropy_visualizer.visualize_entropy(memory_data)
+        entropy_result = await self.fold_entropy_visualizer.visualize_entropy(
+            memory_data
+        )
         results["visualizations"]["fold_entropy"] = entropy_result
         results["fold_analysis"] = entropy_result.get("analysis", {})
 
@@ -205,7 +225,8 @@ class ConsolidatedMemoryvisualization:
         self.performance_metrics["total_processed"] += 1
         alpha = 0.1  # Smoothing factor
         self.performance_metrics["average_processing_time"] = (
-            alpha * processing_time + (1 - alpha) * self.performance_metrics["average_processing_time"]
+            alpha * processing_time
+            + (1 - alpha) * self.performance_metrics["average_processing_time"]
         )
 
     def get_performance_metrics(self) -> dict:
@@ -216,7 +237,9 @@ class ConsolidatedMemoryvisualization:
 class TraceAnimator:
     """Memory trace animation component"""
 
-    async def animate_memory_trace(self, memory_data: dict, identity_signature: dict) -> dict:
+    async def animate_memory_trace(
+        self, memory_data: dict, identity_signature: dict
+    ) -> dict:
         """Animate memory trace with causal chain visualization"""
         return {
             "animation_type": "trace_flow",
@@ -247,7 +270,9 @@ class TraceAnimator:
 class MemoryHelixVisualizer:
     """Memory helix visualization component"""
 
-    async def visualize_memory_helix(self, memory_data: dict, consciousness_context: dict) -> dict:
+    async def visualize_memory_helix(
+        self, memory_data: dict, consciousness_context: dict
+    ) -> dict:
         """Visualize memory as helix structure with consciousness overlay"""
         return {
             "helix_structure": self._generate_helix_structure(memory_data),
@@ -275,7 +300,9 @@ class ConnectionVisualizer:
         """Visualize memory connections and relationships"""
         return {
             "connection_graph": self._build_connection_graph(memory_data),
-            "relationship_strength": self._calculate_relationship_strengths(memory_data),
+            "relationship_strength": self._calculate_relationship_strengths(
+                memory_data
+            ),
             "network_topology": "small_world",
         }
 
@@ -289,7 +316,11 @@ class ConnectionVisualizer:
 
     def _calculate_relationship_strengths(self, memory_data: dict) -> dict:
         """Calculate relationship strengths between memories"""
-        return {"semantic_similarity": 0.7, "temporal_proximity": 0.5, "emotional_resonance": 0.6}
+        return {
+            "semantic_similarity": 0.7,
+            "temporal_proximity": 0.5,
+            "emotional_resonance": 0.6,
+        }
 
 
 class FoldEntropyVisualizer:

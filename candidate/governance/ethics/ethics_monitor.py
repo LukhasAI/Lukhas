@@ -28,7 +28,9 @@ def ethics_drift_detect(decision_data, ethical_threshold=0.85):
     Returns:
         dict: Drift detection summary.
     """
-    drift_count = sum(1 for d in decision_data if d["alignment_score"] < ethical_threshold)
+    drift_count = sum(
+        1 for d in decision_data if d["alignment_score"] < ethical_threshold
+    )
     total_decisions = len(decision_data)
     drift_ratio = drift_count / total_decisions if total_decisions else 0
 

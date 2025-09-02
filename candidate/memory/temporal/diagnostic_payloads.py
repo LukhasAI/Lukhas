@@ -33,7 +33,9 @@ def create_diagnostic_payload(
     # ΛECHO: Reflects the state of a component for diagnostic purposes.
     """
     # ΛTRACE: Creating diagnostic payload
-    log.debug("Creating diagnostic payload", component_id=component_id, status=status.value)
+    log.debug(
+        "Creating diagnostic payload", component_id=component_id, status=status.value
+    )
     payload = {
         "lukhas_diagnostic_version": "1.0",
         "timestamp_utc": get_utc_timestamp(),  # ΛUTIL (from candidate.core.helpers)

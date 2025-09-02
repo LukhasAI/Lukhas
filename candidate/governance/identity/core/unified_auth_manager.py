@@ -26,7 +26,6 @@ import hashlib
 import json
 import logging
 import secrets
-
 # Import our quantum-safe ΛiD system
 import sys
 from dataclasses import dataclass
@@ -35,11 +34,8 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional, Union
 
-from governance.identity.lambda_id_auth import (
-    AuthCredentials,
-    AuthTier,
-    LambdaIDSystem,
-)
+from governance.identity.lambda_id_auth import (AuthCredentials, AuthTier,
+                                                LambdaIDSystem)
 from governance.security.secret_manager import get_secret_manager
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))

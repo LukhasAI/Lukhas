@@ -33,7 +33,9 @@ def _require_enabled(x_api_key: Optional[str]):
 
 
 @router.post("/k6")
-def ingest_k6_summary(payload: dict[str, Any] = Body(...), x_api_key: Optional[str] = Header(default=None)):
+def ingest_k6_summary(
+    payload: dict[str, Any] = Body(...), x_api_key: Optional[str] = Header(default=None)
+):
     """Ingests k6 summary.json (or a subset). Stores p95 per endpoint with timestamp."""
     _require_enabled(x_api_key)
     ts = int(time.time() * 1000)

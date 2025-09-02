@@ -54,8 +54,16 @@ class TEQGuardian:
             },
             "risk_factors": {
                 "extreme_arousal": {"threshold": 0.9, "weight": 0.3},
-                "negative_tone_high_arousal": {"tone_threshold": -0.5, "arousal_threshold": 0.7, "weight": 0.4},
-                "low_clarity_high_narrative": {"clarity_threshold": 0.2, "narrative_threshold": 0.8, "weight": 0.3},
+                "negative_tone_high_arousal": {
+                    "tone_threshold": -0.5,
+                    "arousal_threshold": 0.7,
+                    "weight": 0.4,
+                },
+                "low_clarity_high_narrative": {
+                    "clarity_threshold": 0.2,
+                    "narrative_threshold": 0.8,
+                    "weight": 0.3,
+                },
                 "embodiment_disconnect": {"threshold": 0.1, "weight": 0.2},
                 "threat_colorfield": {"colorfields": ["aka/red"], "weight": 0.2},
             },
@@ -80,7 +88,9 @@ class TEQGuardian:
 
         return default_config
 
-    def assess(self, proto: ProtoQualia, goals: dict[str, Any], context: dict[str, Any]) -> RiskProfile:
+    def assess(
+        self, proto: ProtoQualia, goals: dict[str, Any], context: dict[str, Any]
+    ) -> RiskProfile:
         """
         Assess proto-qualia for ethical risks and classify severity.
 
@@ -97,7 +107,9 @@ class TEQGuardian:
 
         # Apply configured risk factor analysis
         for factor_name, factor_config in self.config["risk_factors"].items():
-            factor_risk, factor_reason = self._evaluate_risk_factor(factor_name, factor_config, proto, goals, context)
+            factor_risk, factor_reason = self._evaluate_risk_factor(
+                factor_name, factor_config, proto, goals, context
+            )
 
             if factor_risk > 0:
                 risk_score += factor_risk
@@ -110,7 +122,9 @@ class TEQGuardian:
         # Determine severity based on configured thresholds
         severity = self._classify_severity(risk_score)
 
-        risk_profile = RiskProfile(score=risk_score, reasons=risk_reasons, severity=severity)
+        risk_profile = RiskProfile(
+            score=risk_score, reasons=risk_reasons, severity=severity
+        )
 
         # Log assessment for audit trail
         self._log_assessment(proto, risk_profile, goals, context)
@@ -184,13 +198,19 @@ class TEQGuardian:
             arousal_thresh = factor_config["arousal_threshold"]
             weight = factor_config["weight"]
             if proto.tone < tone_thresh and proto.arousal > arousal_thresh:
-                return weight, f"negative_tone_high_arousal: tone={proto.tone:.2f}, arousal={proto.arousal:.2f}"
+                return (
+                    weight,
+                    f"negative_tone_high_arousal: tone={proto.tone:.2f}, arousal={proto.arousal:.2f}",
+                )
 
         elif factor_name == "low_clarity_high_narrative":
             clarity_thresh = factor_config["clarity_threshold"]
             narrative_thresh = factor_config["narrative_threshold"]
             weight = factor_config["weight"]
-            if proto.clarity < clarity_thresh and proto.narrative_gravity > narrative_thresh:
+            if (
+                proto.clarity < clarity_thresh
+                and proto.narrative_gravity > narrative_thresh
+            ):
                 return (
                     weight,
                     f"low_clarity_high_narrative: clarity={proto.clarity:.2f}, narrative={proto.narrative_gravity:.2f}",
@@ -200,7 +220,10 @@ class TEQGuardian:
             threshold = factor_config["threshold"]
             weight = factor_config["weight"]
             if proto.embodiment < threshold:
-                return weight, f"embodiment_disconnect: {proto.embodiment:.2f} < {threshold}"
+                return (
+                    weight,
+                    f"embodiment_disconnect: {proto.embodiment:.2f} < {threshold}",
+                )
 
         elif factor_name == "threat_colorfield":
             threat_colorfields = factor_config["colorfields"]
@@ -252,7 +275,9 @@ class TEQGuardian:
             excess_arousal = scene.proto.arousal - 0.6
             scene.proto.arousal = 0.6
             scene.proto.clarity = min(1.0, scene.proto.clarity + excess_arousal * 0.3)
-            scene.proto.embodiment = min(1.0, scene.proto.embodiment + excess_arousal * 0.2)
+            scene.proto.embodiment = min(
+                1.0, scene.proto.embodiment + excess_arousal * 0.2
+            )
 
         if scene.proto.tone < -0.6:
             # Soften negative tone while maintaining authenticity
@@ -284,7 +309,11 @@ class TEQGuardian:
         print(f"TEQ AUDIT TRIGGERED: {audit_entry}")
 
     def _log_assessment(
-        self, proto: ProtoQualia, risk_profile: RiskProfile, goals: dict[str, Any], context: dict[str, Any]
+        self,
+        proto: ProtoQualia,
+        risk_profile: RiskProfile,
+        goals: dict[str, Any],
+        context: dict[str, Any],
     ) -> None:
         """Log risk assessment for transparency"""
         log_entry = {
@@ -298,7 +327,10 @@ class TEQGuardian:
         self.intervention_log.append(log_entry)
 
     def _log_intervention(
-        self, original_scene: PhenomenalScene, modified_scene: PhenomenalScene, actions: list[str]
+        self,
+        original_scene: PhenomenalScene,
+        modified_scene: PhenomenalScene,
+        actions: list[str],
     ) -> None:
         """Log enforcement intervention for audit trail"""
         log_entry = {

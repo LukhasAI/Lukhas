@@ -29,10 +29,15 @@ from candidate.aka_qualia.models import (
     TemporalFeel,
 )
 from candidate.aka_qualia.oneiric_hook import create_oneiric_hook
-from candidate.aka_qualia.router_client import compute_routing_priority, create_router_client
+from candidate.aka_qualia.router_client import (
+    compute_routing_priority,
+    create_router_client,
+)
 
 # Configure logging for demo
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -85,10 +90,14 @@ class SmokeDemo:
         """
         results = []
 
-        logger.info(f"🌟 Starting Wave C Smoke Demo with {len(dream_seeds)} dream seeds")
+        logger.info(
+            f"🌟 Starting Wave C Smoke Demo with {len(dream_seeds)} dream seeds"
+        )
 
         for i, seed in enumerate(dream_seeds, 1):
-            logger.info(f"\n--- Dream Seed {i}/{len(dream_seeds)}: {seed.get('name', 'Unnamed')} ---")
+            logger.info(
+                f"\n--- Dream Seed {i}/{len(dream_seeds)}: {seed.get('name', 'Unnamed')} ---"
+            )
 
             try:
                 result = self._process_dream_seed(seed)
@@ -100,7 +109,9 @@ class SmokeDemo:
 
             except Exception as e:
                 logger.error(f"❌ Dream seed {i} failed: {e}")
-                results.append({"seed_index": i, "seed": seed, "success": False, "error": str(e)})
+                results.append(
+                    {"seed_index": i, "seed": seed, "success": False, "error": str(e)}
+                )
 
         self.demo_runs += 1
         logger.info(
@@ -121,7 +132,9 @@ class SmokeDemo:
         """
         # Step 1: Generate PhenomenalScene from dream seed
         scene = self._seed_to_scene(seed)
-        logger.info(f"  📋 Scene: {scene.proto.colorfield} (gravity: {scene.proto.narrative_gravity:.2f})")
+        logger.info(
+            f"  📋 Scene: {scene.proto.colorfield} (gravity: {scene.proto.narrative_gravity:.2f})"
+        )
 
         # Step 2: Generate GLYPHs
         glyphs = map_scene_to_glyphs(scene)
@@ -140,7 +153,9 @@ class SmokeDemo:
 
         # Step 5: Generate RegulationPolicy
         policy = self._generate_regulation_policy(scene)
-        logger.info(f"  🎛️  Policy: pace={policy.pace:.2f}, gain={policy.gain:.2f}, actions={policy.actions}")
+        logger.info(
+            f"  🎛️  Policy: pace={policy.pace:.2f}, gain={policy.gain:.2f}, actions={policy.actions}"
+        )
 
         # Step 6: Apply OneiricHook for narrative feedback
         hints = self.oneiric_hook.apply_policy(scene=scene, policy=policy)
@@ -236,10 +251,17 @@ class SmokeDemo:
         if scene.risk.score > 0.5:
             color_contrast = "aoi/blue"  # Calming blue for high risk
 
-        return RegulationPolicy(gain=gain, pace=pace, color_contrast=color_contrast, actions=actions)
+        return RegulationPolicy(
+            gain=gain, pace=pace, color_contrast=color_contrast, actions=actions
+        )
 
     def _generate_demo_metrics(
-        self, scene: PhenomenalScene, glyphs: list, priority: float, policy: RegulationPolicy, hints: dict[str, Any]
+        self,
+        scene: PhenomenalScene,
+        glyphs: list,
+        priority: float,
+        policy: RegulationPolicy,
+        hints: dict[str, Any],
     ) -> Metrics:
         """Generate metrics for demo evaluation"""
         # Compute congruence (how well policy matches scene needs)
@@ -254,16 +276,26 @@ class SmokeDemo:
         return Metrics(
             drift_phi=responsiveness,  # Use responsiveness as drift phi proxy
             congruence_index=congruence,
-            sublimation_rate=len([action for action in policy.actions if action in ["sublimate", "reframe"]])
+            sublimation_rate=len(
+                [
+                    action
+                    for action in policy.actions
+                    if action in ["sublimate", "reframe"]
+                ]
+            )
             / max(1, len(policy.actions)),
             neurosis_risk=max(0.0, 1.0 - coherence),  # Inverse of coherence
-            qualia_novelty=min(1.0, scene.proto.narrative_gravity),  # Use narrative gravity as novelty proxy
+            qualia_novelty=min(
+                1.0, scene.proto.narrative_gravity
+            ),  # Use narrative gravity as novelty proxy
             repair_delta=congruence - 0.5,  # Improvement over baseline
             timestamp=time.time(),
             episode_id=f"demo_{int(time.time())}",
         )
 
-    def _compute_congruence(self, scene: PhenomenalScene, policy: RegulationPolicy) -> float:
+    def _compute_congruence(
+        self, scene: PhenomenalScene, policy: RegulationPolicy
+    ) -> float:
         """Compute congruence between scene state and policy response"""
         # Check if policy pace matches scene urgency
         pace_match = 1.0
@@ -282,15 +314,23 @@ class SmokeDemo:
         return min(1.0, (pace_match + action_match) / 2.0)
 
     def _compute_coherence(
-        self, scene: PhenomenalScene, glyphs: list, policy: RegulationPolicy, hints: dict[str, Any]
+        self,
+        scene: PhenomenalScene,
+        glyphs: list,
+        policy: RegulationPolicy,
+        hints: dict[str, Any],
     ) -> float:
         """Compute internal coherence across pipeline components"""
         # Check glyph-priority coherence
-        high_priority_glyphs = sum(1 for g in glyphs if g.key in ["aka:vigilance", "aka:red_threshold"])
+        high_priority_glyphs = sum(
+            1 for g in glyphs if g.key in ["aka:vigilance", "aka:red_threshold"]
+        )
         priority = compute_routing_priority(scene)
 
         glyph_priority_coherence = 1.0
-        if (high_priority_glyphs > 0 and priority < 0.5) or (high_priority_glyphs == 0 and priority > 0.8):
+        if (high_priority_glyphs > 0 and priority < 0.5) or (
+            high_priority_glyphs == 0 and priority > 0.8
+        ):
             glyph_priority_coherence = 0.7
 
         # Check policy-hints coherence
@@ -419,7 +459,9 @@ def main():
             print(f"    GLYPHs: {len(result['glyphs'])}")
             print(f"    Operations: {len(result['hints'].get('ops', []))}")
             congruence = metrics.get("congruence_index", "N/A")
-            coherence = 1.0 - metrics.get("neurosis_risk", 0.0)  # Inverse of neurosis risk
+            coherence = 1.0 - metrics.get(
+                "neurosis_risk", 0.0
+            )  # Inverse of neurosis risk
             print(
                 f"    Congruence: {congruence:.3f}"
                 if isinstance(congruence, (int, float))
@@ -435,7 +477,11 @@ def main():
     output_file = "demo_smoke_results.json"
     with open(output_file, "w") as f:
         json.dump(
-            {"demo_statistics": demo.get_demo_statistics(), "scenario_results": results, "timestamp": time.time()},
+            {
+                "demo_statistics": demo.get_demo_statistics(),
+                "scenario_results": results,
+                "timestamp": time.time(),
+            },
             f,
             indent=2,
             default=str,

@@ -81,17 +81,20 @@ class GovernanceColony(BaseColony):
         # Check for common ethical concerns
         concerns = []
 
-        if operation.get("involves_user_data", False) and not operation.get("user_consent", False):
-            concerns.append("Missing user consent for data processing")
-            result["ethics_score"] -= 0.3
+        if operation.get("involves_user_data", False):
+            if not operation.get("user_consent", False):
+                concerns.append("Missing user consent for data processing")
+                result["ethics_score"] -= 0.3
 
-        if operation.get("involves_decision_making", False) and not operation.get("human_oversight", False):
-            concerns.append("Automated decision-making without human oversight")
-            result["ethics_score"] -= 0.2
+        if operation.get("involves_decision_making", False):
+            if not operation.get("human_oversight", False):
+                concerns.append("Automated decision-making without human oversight")
+                result["ethics_score"] -= 0.2
 
-        if operation.get("involves_bias_risk", False) and not operation.get("bias_mitigation", False):
-            concerns.append("Potential bias without mitigation measures")
-            result["ethics_score"] -= 0.25
+        if operation.get("involves_bias_risk", False):
+            if not operation.get("bias_mitigation", False):
+                concerns.append("Potential bias without mitigation measures")
+                result["ethics_score"] -= 0.25
 
         result["violations"] = concerns
         result["approved"] = result["ethics_score"] >= 0.6 and len(concerns) == 0
@@ -160,7 +163,9 @@ class GovernanceColony(BaseColony):
                 audit_result["compliance_status"] = "non_compliant"
 
         if audit_result["findings"]:
-            audit_result["risk_level"] = "medium" if len(audit_result["findings"]) < 3 else "high"
+            audit_result["risk_level"] = (
+                "medium" if len(audit_result["findings"]) < 3 else "high"
+            )
 
         return audit_result
 
@@ -178,11 +183,13 @@ class GovernanceColony(BaseColony):
         }
 
         # Trinity Framework compliance
-        if policy_name == "constellation_framework":
+        if policy_name == "trinity_framework":
             trinity_elements = ["identity", "consciousness", "guardian"]
             for element in trinity_elements:
                 if not operation.get(f"trinity_{element}", False):
-                    result["violations"].append(f"Missing Trinity {element} integration")
+                    result["violations"].append(
+                        f"Missing Trinity {element} integration"
+                    )
                     result["compliant"] = False
 
         # Data governance policy
@@ -198,7 +205,9 @@ class GovernanceColony(BaseColony):
 
         return result
 
-    def _perform_intervention(self, intervention_request: dict[str, Any]) -> dict[str, Any]:
+    def _perform_intervention(
+        self, intervention_request: dict[str, Any]
+    ) -> dict[str, Any]:
         """Perform governance intervention"""
         intervention_type = intervention_request.get("type", "unknown")
         target = intervention_request.get("target", "unknown")
@@ -222,7 +231,9 @@ class GovernanceColony(BaseColony):
             result["success"] = True
 
         # Log intervention
-        self.audit_trail.append({"type": "intervention", "details": result, "timestamp": datetime.now()})
+        self.audit_trail.append(
+            {"type": "intervention", "details": result, "timestamp": datetime.now()}
+        )
 
         return result
 
@@ -235,8 +246,12 @@ class GovernanceColony(BaseColony):
             "drift_threshold": self.drift_threshold,
             "ethics_violations": len(self.ethics_violations),
             "audit_entries": len(self.audit_trail),
-            "guardian_agents": len([a for a in self.agents.values() if a.role.value == "guardian"]),
-            "recent_violations": (self.ethics_violations[-5:] if self.ethics_violations else []),
+            "guardian_agents": len(
+                [a for a in self.agents.values() if a.role.value == "guardian"]
+            ),
+            "recent_violations": (
+                self.ethics_violations[-5:] if self.ethics_violations else []
+            ),
         }
 
         return governance_status

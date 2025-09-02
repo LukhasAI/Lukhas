@@ -36,13 +36,7 @@ from collections import OrderedDict, defaultdict
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from functools import wraps
-from typing import (
-    Any,
-    Callable,
-    Optional,
-    TypeVar,
-    Union,
-)
+from typing import Any, Callable, Optional, TypeVar, Union
 
 import numpy as np
 
@@ -263,7 +257,9 @@ class AdaptiveCache(OptimizationStrategy):
     def clear_expired(self):
         """Clear all expired entries"""
         with self.lock:
-            expired_keys = [key for key, entry in self.cache.items() if entry.is_expired()]
+            expired_keys = [
+                key for key, entry in self.cache.items() if entry.is_expired()
+            ]
 
             for key in expired_keys:
                 entry = self.cache.pop(key)
@@ -440,7 +436,9 @@ class LazyComputation(OptimizationStrategy):
             "executed": self.executed_computations,
             "saved": self.saved_computations,
             "savings_rate": (
-                self.saved_computations / self.deferred_computations if self.deferred_computations > 0 else 0
+                self.saved_computations / self.deferred_computations
+                if self.deferred_computations > 0
+                else 0
             ),
         }
 
@@ -507,7 +505,9 @@ class BatchProcessor(OptimizationStrategy):
 
         # Start processing thread
         self._running = True
-        self._processor_thread = threading.Thread(target=self._process_loop, daemon=True)
+        self._processor_thread = threading.Thread(
+            target=self._process_loop, daemon=True
+        )
         self._processor_thread.start()
 
     def add(self, item: Any) -> asyncio.Future:
@@ -536,7 +536,8 @@ class BatchProcessor(OptimizationStrategy):
 
                 # Check if we should process
                 should_process = (
-                    len(self.pending_items) >= self.batch_size or time.time() - self._last_process_time > self.timeout
+                    len(self.pending_items) >= self.batch_size
+                    or time.time() - self._last_process_time > self.timeout
                 )
 
                 if should_process:
@@ -558,7 +559,8 @@ class BatchProcessor(OptimizationStrategy):
                         # Update metrics
                         self.total_batches += 1
                         self.average_batch_size = (
-                            self.average_batch_size * (self.total_batches - 1) + len(items)
+                            self.average_batch_size * (self.total_batches - 1)
+                            + len(items)
                         ) / self.total_batches
                     except Exception as e:
                         # Set exception on all futures
@@ -581,7 +583,9 @@ class BatchProcessor(OptimizationStrategy):
             "total_items": self.total_items,
             "total_batches": self.total_batches,
             "average_batch_size": self.average_batch_size,
-            "efficiency": (self.average_batch_size / self.batch_size if self.batch_size > 0 else 0),
+            "efficiency": (
+                self.average_batch_size / self.batch_size if self.batch_size > 0 else 0
+            ),
             "pending_items": len(self.pending_items),
         }
 
@@ -823,7 +827,9 @@ class ComputationReuse(OptimizationStrategy):
                 "computations_saved": self.computations_saved,
                 "total_computations": self.total_computations,
                 "savings_rate": (
-                    self.computations_saved / self.total_computations if self.total_computations > 0 else 0
+                    self.computations_saved / self.total_computations
+                    if self.total_computations > 0
+                    else 0
                 ),
                 "cache_size": len(self.cache),
                 "hit_rate": hit_rate,
@@ -860,7 +866,9 @@ class ResourceManager:
         }
 
         # Monitoring
-        self._monitor_thread = threading.Thread(target=self._monitor_resources, daemon=True)
+        self._monitor_thread = threading.Thread(
+            target=self._monitor_resources, daemon=True
+        )
         self._monitor_thread.start()
 
         logger.info("Resource manager initialized with all optimization strategies")
@@ -915,7 +923,9 @@ class ResourceManager:
 
     def get_all_metrics(self) -> dict[str, dict[str, Any]]:
         """Get metrics from all strategies"""
-        return {name: strategy.get_metrics() for name, strategy in self.strategies.items()}
+        return {
+            name: strategy.get_metrics() for name, strategy in self.strategies.items()
+        }
 
     def optimize_computation(
         self,
@@ -1016,7 +1026,9 @@ class ResourceManager:
         reuse_metrics = metrics.get("reuse", {})
         report += "COMPUTATION REUSE:\n"
         report += f"  Savings Rate: {reuse_metrics.get('savings_rate', 0):.2%}\n"
-        report += f"  Computations Saved: {reuse_metrics.get('computations_saved', 0)}\n\n"
+        report += (
+            f"  Computations Saved: {reuse_metrics.get('computations_saved', 0)}\n\n"
+        )
 
         # Memory efficiency
         mmap_metrics = metrics.get("mmap", {})
@@ -1170,4 +1182,6 @@ if __name__ == "__main__":
 
     # Verify deserialization
     restored = deserialize_swarm_message(optimized)
-    print(f"   Deserialization successful: {restored['node_id'] == test_payload['node_id']}")
+    print(
+        f"   Deserialization successful: {restored['node_id'] == test_payload['node_id']}"
+    )

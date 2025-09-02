@@ -94,7 +94,9 @@ class WhisperClient:
                     # Assume audio_data is a file-like object
                     fd, temp_path = tempfile.mkstemp(suffix=".wav")
                     file_to_close = os.fdopen(fd, "wb")
-                    file_to_close.write(audio_data.read() if hasattr(audio_data, "read") else audio_data)
+                    file_to_close.write(
+                        audio_data.read() if hasattr(audio_data, "read") else audio_data
+                    )
                     file_to_close.close()
                     file_to_close = None  # Prevent double close
                     audio_path = temp_path
@@ -119,10 +121,14 @@ class WhisperClient:
 
                 logger.info("Sending audio data to Whisper API...")
 
-                async with self.session.post(f"{self.api_base}/audio/transcriptions", data=form_data) as response:
+                async with self.session.post(
+                    f"{self.api_base}/audio/transcriptions", data=form_data
+                ) as response:
                     if response.status != 200:
                         error_text = await response.text()
-                        logger.error(f"Whisper API error: {response.status} - {error_text}")
+                        logger.error(
+                            f"Whisper API error: {response.status} - {error_text}"
+                        )
                         return {
                             "error": f"API error: {response.status}",
                             "text": "",

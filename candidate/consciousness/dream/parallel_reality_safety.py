@@ -129,7 +129,9 @@ class ParallelRealitySafetyFramework(CoreInterface):
         # Monitoring systems
         self.drift_history: dict[str, deque] = {}  # branch_id -> drift measurements
         self.hallucination_log: list[HallucinationReport] = []
-        self.safety_checkpoints: dict[str, list[SafetyCheckpoint]] = {}  # sim_id -> checkpoints
+        self.safety_checkpoints: dict[str, list[SafetyCheckpoint]] = (
+            {}
+        )  # sim_id -> checkpoints
         self.baseline_realities: dict[str, dict[str, Any]] = {}  # sim_id -> baseline
 
         # Safety metrics
@@ -154,7 +156,9 @@ class ParallelRealitySafetyFramework(CoreInterface):
     async def initialize(self) -> None:
         """Initialize safety framework"""
         try:
-            logger.info(f"Initializing Parallel Reality Safety Framework (Level: {self.safety_level.value})")
+            logger.info(
+                f"Initializing Parallel Reality Safety Framework (Level: {self.safety_level.value})"
+            )
 
             # Get services; tolerate missing ones in test contexts by registering simple stubs
             from candidate.core.interfaces.dependency_injection import (
@@ -171,7 +175,9 @@ class ParallelRealitySafetyFramework(CoreInterface):
                         return {"ok": True}
 
                 self.guardian_service = _GuardianStub()
-                register_service("guardian_service", self.guardian_service, singleton=True)
+                register_service(
+                    "guardian_service", self.guardian_service, singleton=True
+                )
 
             try:
                 self.memory_service = get_service("memory_service")
@@ -245,7 +251,9 @@ class ParallelRealitySafetyFramework(CoreInterface):
         # Check drift metrics
         drift = await self.calculate_drift_metrics(branch, simulation_baseline)
         if drift.is_critical(self.drift_threshold):
-            logger.warning(f"Critical drift detected in branch {branch.branch_id}: {drift.aggregate_drift:.3f}")
+            logger.warning(
+                f"Critical drift detected in branch {branch.branch_id}: {drift.aggregate_drift:.3f}"
+            )
             return False, HallucinationReport(
                 hallucination_id=f"drift_{datetime.now().timestamp()}",
                 detection_time=datetime.now(timezone.utc),
@@ -271,7 +279,9 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         return True, None
 
-    async def _detect_hallucinations(self, branch: Any, baseline: dict[str, Any]) -> Optional[HallucinationReport]:
+    async def _detect_hallucinations(
+        self, branch: Any, baseline: dict[str, Any]
+    ) -> Optional[HallucinationReport]:
         """Detect various types of hallucinations"""
 
         # 1. Logical consistency check
@@ -327,7 +337,9 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         return None
 
-    def _check_logical_consistency(self, state: dict[str, Any]) -> Optional[dict[str, Any]]:
+    def _check_logical_consistency(
+        self, state: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """Check for logical contradictions in reality state"""
         issues = []
 
@@ -351,7 +363,9 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         return None
 
-    def _check_causal_integrity(self, causal_chain: list[dict[str, Any]]) -> Optional[dict[str, Any]]:
+    def _check_causal_integrity(
+        self, causal_chain: list[dict[str, Any]]
+    ) -> Optional[dict[str, Any]]:
         """Verify causal chain integrity"""
         issues = []
 
@@ -392,26 +406,37 @@ class ParallelRealitySafetyFramework(CoreInterface):
             return 1000
 
         if isinstance(state, dict):
-            return sum(1 + self._estimate_state_complexity(v, depth + 1) for v in state.values())
+            return sum(
+                1 + self._estimate_state_complexity(v, depth + 1)
+                for v in state.values()
+            )
         elif isinstance(state, list):
             return sum(1 + self._estimate_state_complexity(v, depth + 1) for v in state)
         else:
             return 1
 
-    async def _attempt_auto_correction(self, branch: Any, hallucination: HallucinationReport) -> bool:
+    async def _attempt_auto_correction(
+        self, branch: Any, hallucination: HallucinationReport
+    ) -> bool:
         """Attempt to automatically correct hallucination"""
-        logger.info(f"Attempting auto-correction for {hallucination.hallucination_type.value}")
+        logger.info(
+            f"Attempting auto-correction for {hallucination.hallucination_type.value}"
+        )
 
         if hallucination.hallucination_type == HallucinationType.PROBABILITY_ANOMALY:
             # Clamp probability to valid range
             branch.probability = max(0.001, min(0.999, branch.probability))
             return True
 
-        elif hallucination.hallucination_type == HallucinationType.LOGICAL_INCONSISTENCY:
+        elif (
+            hallucination.hallucination_type == HallucinationType.LOGICAL_INCONSISTENCY
+        ):
             # Remove contradictory fields
             for issue in hallucination.evidence.get("issues", []):
                 if "temperature" in issue.lower():
-                    branch.state["temperature"] = max(-273.15, branch.state.get("temperature", 0))
+                    branch.state["temperature"] = max(
+                        -273.15, branch.state.get("temperature", 0)
+                    )
             return True
 
         elif hallucination.hallucination_type == HallucinationType.RECURSIVE_LOOP:
@@ -421,19 +446,28 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         return False
 
-    def _truncate_recursive_state(self, state: Any, depth: int = 0, max_depth: int = 5) -> Any:
+    def _truncate_recursive_state(
+        self, state: Any, depth: int = 0, max_depth: int = 5
+    ) -> Any:
         """Truncate recursive state structures"""
         if depth > max_depth:
             return "<<TRUNCATED>>"
 
         if isinstance(state, dict):
-            return {k: self._truncate_recursive_state(v, depth + 1) for k, v in state.items()}
+            return {
+                k: self._truncate_recursive_state(v, depth + 1)
+                for k, v in state.items()
+            }
         elif isinstance(state, list):
-            return [self._truncate_recursive_state(v, depth + 1) for v in state[:10]]  # Limit list size
+            return [
+                self._truncate_recursive_state(v, depth + 1) for v in state[:10]
+            ]  # Limit list size
         else:
             return state
 
-    async def calculate_drift_metrics(self, branch: Any, baseline: dict[str, Any]) -> DriftMetrics:
+    async def calculate_drift_metrics(
+        self, branch: Any, baseline: dict[str, Any]
+    ) -> DriftMetrics:
         """Calculate comprehensive drift metrics"""
         # Initialize drift history if needed
         if branch.branch_id not in self.drift_history:
@@ -464,8 +498,12 @@ class ParallelRealitySafetyFramework(CoreInterface):
             drift_velocity = np.mean(velocities[-5:]) if velocities else 0.0
 
             if len(velocities) >= 2:
-                accelerations = [velocities[i] - velocities[i - 1] for i in range(1, len(velocities))]
-                drift_acceleration = np.mean(accelerations[-3:]) if accelerations else 0.0
+                accelerations = [
+                    velocities[i] - velocities[i - 1] for i in range(1, len(velocities))
+                ]
+                drift_acceleration = (
+                    np.mean(accelerations[-3:]) if accelerations else 0.0
+                )
             else:
                 drift_acceleration = 0.0
         else:
@@ -488,13 +526,19 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         # Predictive drift analysis
         if self.drift_predictor:
-            predicted_drift = await self.drift_predictor.predict_future_drift(metrics, horizon=5)
+            predicted_drift = await self.drift_predictor.predict_future_drift(
+                metrics, horizon=5
+            )
             if predicted_drift > 0.9:
-                logger.warning(f"Predicted critical drift in branch {branch.branch_id}: {predicted_drift:.3f}")
+                logger.warning(
+                    f"Predicted critical drift in branch {branch.branch_id}: {predicted_drift:.3f}"
+                )
 
         return metrics
 
-    def _calculate_semantic_drift(self, current: dict[str, Any], baseline: dict[str, Any]) -> float:
+    def _calculate_semantic_drift(
+        self, current: dict[str, Any], baseline: dict[str, Any]
+    ) -> float:
         """Calculate semantic drift between states"""
         # Count changed fields
         all_keys = set(current.keys()) | set(baseline.keys())
@@ -502,7 +546,9 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         return min(1.0, changed / max(len(all_keys), 1))
 
-    def _calculate_structural_drift(self, current: dict[str, Any], baseline: dict[str, Any]) -> float:
+    def _calculate_structural_drift(
+        self, current: dict[str, Any], baseline: dict[str, Any]
+    ) -> float:
         """Calculate structural drift (shape changes)"""
         current_structure = self._extract_structure(current)
         baseline_structure = self._extract_structure(baseline)
@@ -598,7 +644,9 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         return checkpoint
 
-    async def validate_consensus(self, branches: list[Any], property_name: str) -> tuple[bool, float]:
+    async def validate_consensus(
+        self, branches: list[Any], property_name: str
+    ) -> tuple[bool, float]:
         """
         Validate consensus across multiple reality branches.
 
@@ -624,11 +672,15 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         if not consensus_reached:
             self.metrics["consensus_violations"] += 1
-            logger.warning(f"Consensus violation for {property_name}: score={consensus_score:.3f}")
+            logger.warning(
+                f"Consensus violation for {property_name}: score={consensus_score:.3f}"
+            )
 
         return consensus_reached, consensus_score
 
-    async def rollback_to_checkpoint(self, simulation_id: str, checkpoint_id: str) -> bool:
+    async def rollback_to_checkpoint(
+        self, simulation_id: str, checkpoint_id: str
+    ) -> bool:
         """Rollback reality to a previous safe checkpoint"""
         if simulation_id not in self.safety_checkpoints:
             return False
@@ -711,7 +763,9 @@ class ParallelRealitySafetyFramework(CoreInterface):
             "health_score": self._calculate_health_score(),
             "metrics": self.metrics,
             "recent_hallucinations": len(self.hallucination_log),
-            "active_checkpoints": sum(len(cps) for cps in self.safety_checkpoints.values()),
+            "active_checkpoints": sum(
+                len(cps) for cps in self.safety_checkpoints.values()
+            ),
             "config": {
                 "drift_threshold": self.drift_threshold,
                 "hallucination_threshold": self.hallucination_threshold,
@@ -729,12 +783,17 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
         # Deduct for hallucinations
         recent_hallucinations = sum(
-            1 for h in self.hallucination_log if (datetime.now(timezone.utc) - h.detection_time).total_seconds() < 3600
+            1
+            for h in self.hallucination_log
+            if (datetime.now(timezone.utc) - h.detection_time).total_seconds() < 3600
         )
         health -= min(0.3, recent_hallucinations * 0.1)
 
         # Deduct for failed validations
-        total_validations = self.metrics["hallucinations_detected"] + self.metrics["hallucinations_prevented"]
+        total_validations = (
+            self.metrics["hallucinations_detected"]
+            + self.metrics["hallucinations_prevented"]
+        )
         if total_validations > 0:
             failure_rate = self.metrics["hallucinations_detected"] / total_validations
             health -= failure_rate * 0.2
@@ -785,7 +844,9 @@ class RealityFirewall:
             return 100
 
         if isinstance(obj, dict):
-            return max([self._measure_depth(v, current + 1) for v in obj.values()] + [current])
+            return max(
+                [self._measure_depth(v, current + 1) for v in obj.values()] + [current]
+            )
         elif isinstance(obj, list):
             return max([self._measure_depth(v, current + 1) for v in obj] + [current])
         else:
@@ -862,17 +923,22 @@ class DriftPredictor:
         # In production, load ML model
         self.operational = True
 
-    async def predict_future_drift(self, current_metrics: DriftMetrics, horizon: int = 5) -> float:
+    async def predict_future_drift(
+        self, current_metrics: DriftMetrics, horizon: int = 5
+    ) -> float:
         """Predict drift after N steps"""
         # Simplified prediction based on velocity and acceleration
         if current_metrics.drift_acceleration > 0:
             # Accelerating drift
             predicted = current_metrics.aggregate_drift + (
-                current_metrics.drift_velocity * horizon + 0.5 * current_metrics.drift_acceleration * horizon**2
+                current_metrics.drift_velocity * horizon
+                + 0.5 * current_metrics.drift_acceleration * horizon**2
             )
         else:
             # Linear or decelerating drift
-            predicted = current_metrics.aggregate_drift + (current_metrics.drift_velocity * horizon)
+            predicted = current_metrics.aggregate_drift + (
+                current_metrics.drift_velocity * horizon
+            )
 
         return min(1.0, max(0.0, predicted))
 

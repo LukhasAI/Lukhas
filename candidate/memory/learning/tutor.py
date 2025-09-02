@@ -11,10 +11,7 @@ from pydantic import BaseModel
 
 from candidate.core.common import get_logger
 
-from ..symbolic_knowledge_core.knowledge_graph import (
-    SKGNode,
-    SystemKnowledgeGraph,
-)
+from ..symbolic_knowledge_core.knowledge_graph import SKGNode, SystemKnowledgeGraph
 
 logger = get_logger(__name__)
 
@@ -133,7 +130,9 @@ class TutorEngine:
 
         return session
 
-    def _generate_learning_objectives(self, topic: str, difficulty: DifficultyLevel) -> list[LearningObjective]:
+    def _generate_learning_objectives(
+        self, topic: str, difficulty: DifficultyLevel
+    ) -> list[LearningObjective]:
         """Generate learning objectives from the knowledge graph."""
         objectives = []
 
@@ -161,7 +160,9 @@ class TutorEngine:
 
         return objectives
 
-    def _estimate_learning_time(self, node: SKGNode, difficulty: DifficultyLevel) -> int:
+    def _estimate_learning_time(
+        self, node: SKGNode, difficulty: DifficultyLevel
+    ) -> int:
         """Estimate time needed to learn a concept."""
         base_time = 15  # Base time in minutes
 
@@ -205,7 +206,9 @@ class TutorEngine:
             voice_style={"emotion": "welcoming", "pace": "moderate"},
         )
 
-    async def handle_user_response(self, session_id: str, response: str) -> list[TutorMessage]:
+    async def handle_user_response(
+        self, session_id: str, response: str
+    ) -> list[TutorMessage]:
         """Handle user's response and provide appropriate feedback."""
         session = self.active_sessions.get(session_id)
         if not session:
@@ -265,13 +268,17 @@ class TutorEngine:
 
         return responses
 
-    async def _generate_responses(self, session: LearningSession, user_response: str) -> list[TutorMessage]:
+    async def _generate_responses(
+        self, session: LearningSession, user_response: str
+    ) -> list[TutorMessage]:
         """Generate appropriate responses based on user's input."""
         current_objective = session.objectives[session.current_objective_index]
         responses = []
 
         # Analyze response using SKG
-        understanding_level = self._analyze_understanding(user_response, current_objective)
+        understanding_level = self._analyze_understanding(
+            user_response, current_objective
+        )
 
         if understanding_level > 0.8:
             # User demonstrates good understanding
@@ -320,7 +327,9 @@ class TutorEngine:
 
         return responses
 
-    def _analyze_understanding(self, response: str, objective: LearningObjective) -> float:
+    def _analyze_understanding(
+        self, response: str, objective: LearningObjective
+    ) -> float:
         """
         Analyze user's understanding level using the SKG.
         Returns a score between 0 and 1.

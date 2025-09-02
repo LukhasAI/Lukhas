@@ -15,7 +15,9 @@ from pathlib import Path
 from typing import Any, Callable, Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -358,7 +360,9 @@ class LukhλsTaskManager:
         logger.info(f"🔄 Processing queue: {queue.name}")
 
         # Get pending tasks for this queue
-        pending_tasks = [task for task in self.tasks.values() if task.status == TaskStatus.PENDING]
+        pending_tasks = [
+            task for task in self.tasks.values() if task.status == TaskStatus.PENDING
+        ]
 
         # Sort by priority
         pending_tasks.sort(key=lambda t: t.priority.value, reverse=True)
@@ -373,7 +377,9 @@ class LukhλsTaskManager:
         # Execute tasks concurrently
         tasks_to_run = pending_tasks[: queue.max_concurrent]
         if tasks_to_run:
-            await asyncio.gather(*[process_with_semaphore(task.id) for task in tasks_to_run])
+            await asyncio.gather(
+                *[process_with_semaphore(task.id) for task in tasks_to_run]
+            )
 
     def get_task_status(self, task_id: str) -> Optional[dict[str, Any]]:
         """Get status information for a task."""
@@ -388,7 +394,9 @@ class LukhλsTaskManager:
             "priority": task.priority.value,
             "created_at": task.created_at.isoformat(),
             "started_at": (task.started_at.isoformat() if task.started_at else None),
-            "completed_at": (task.completed_at.isoformat() if task.completed_at else None),
+            "completed_at": (
+                task.completed_at.isoformat() if task.completed_at else None
+            ),
             "result": task.result,
             "error": task.error,
             "retry_count": task.retry_count,
@@ -398,7 +406,9 @@ class LukhλsTaskManager:
         """Get overall system status."""
         task_counts = {}
         for status in TaskStatus:
-            task_counts[status.value] = len([t for t in self.tasks.values() if t.status == status])
+            task_counts[status.value] = len(
+                [t for t in self.tasks.values() if t.status == status]
+            )
 
         agent_status = {
             agent_id: {
@@ -406,7 +416,11 @@ class LukhλsTaskManager:
                 "status": agent.status,
                 "capabilities": agent.capabilities,
                 "active_tasks": len(
-                    [t for t in self.tasks.values() if t.agent_id == agent_id and t.status == TaskStatus.RUNNING]
+                    [
+                        t
+                        for t in self.tasks.values()
+                        if t.agent_id == agent_id and t.status == TaskStatus.RUNNING
+                    ]
                 ),
             }
             for agent_id, agent in self.agents.items()

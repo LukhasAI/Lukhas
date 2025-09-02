@@ -28,7 +28,9 @@ def generate_connectivity_json():
         "system_name": "LUKHAS AI - Neuroplastic Architecture",
         "total_modules": 7,
         "total_hybrid_components": (
-            hybrid_data["summary"]["total_hybrid_components"] if "summary" in hybrid_data else 203
+            hybrid_data["summary"]["total_hybrid_components"]
+            if "summary" in hybrid_data
+            else 203
         ),
         "modules": {
             "CORE": {

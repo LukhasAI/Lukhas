@@ -129,17 +129,26 @@ class WAVDecoder(AudioDecoder):
 
             # Convert to numpy array
             if sample_width == 1:
-                audio_data = np.frombuffer(raw_data, dtype=np.uint8).astype(np.float32) / 128.0 - 1.0
+                audio_data = (
+                    np.frombuffer(raw_data, dtype=np.uint8).astype(np.float32) / 128.0
+                    - 1.0
+                )
             elif sample_width == 2:
-                audio_data = np.frombuffer(raw_data, dtype=np.int16).astype(np.float32) / 32768.0
+                audio_data = (
+                    np.frombuffer(raw_data, dtype=np.int16).astype(np.float32) / 32768.0
+                )
             elif sample_width == 3:
                 # 24-bit is tricky, convert to 32-bit first
                 padded = np.zeros(len(raw_data) // 3 * 4, dtype=np.uint8)
                 for i in range(len(raw_data) // 3):
                     padded[i * 4 : i * 4 + 3] = raw_data[i * 3 : i * 3 + 3]
-                audio_data = np.frombuffer(padded, dtype=np.int32).astype(np.float32) / (2**23)
+                audio_data = np.frombuffer(padded, dtype=np.int32).astype(
+                    np.float32
+                ) / (2**23)
             elif sample_width == 4:
-                audio_data = np.frombuffer(raw_data, dtype=np.int32).astype(np.float32) / (2**31)
+                audio_data = np.frombuffer(raw_data, dtype=np.int32).astype(
+                    np.float32
+                ) / (2**31)
             else:
                 raise ValueError(f"Unsupported sample width: {sample_width}")
 
@@ -314,7 +323,9 @@ class LUKHASAudioCodecManager:
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected encoding: {validation_result.get('reason')}")
+                raise ValueError(
+                    f"Guardian rejected encoding: {validation_result.get('reason')}"
+                )
 
             if codec not in self.encoders:
                 raise ValueError(f"Encoder for {codec.value} not available")
@@ -324,7 +335,9 @@ class LUKHASAudioCodecManager:
 
             # Update statistics
             self.stats["encodings_performed"] += 1
-            self.stats["codecs_used"][codec.value] = self.stats["codecs_used"].get(codec.value, 0) + 1
+            self.stats["codecs_used"][codec.value] = (
+                self.stats["codecs_used"].get(codec.value, 0) + 1
+            )
             self.stats["total_data_processed"] += len(audio_data)
 
             # Emit GLYPH event
@@ -335,7 +348,11 @@ class LUKHASAudioCodecManager:
                     "quality": params.quality.value,
                     "input_size": len(audio_data),
                     "output_size": len(encoded_data),
-                    "compression_ratio": len(audio_data) / len(encoded_data) if len(encoded_data) > 0 else 0,
+                    "compression_ratio": (
+                        len(audio_data) / len(encoded_data)
+                        if len(encoded_data) > 0
+                        else 0
+                    ),
                 },
             )
 
@@ -343,11 +360,16 @@ class LUKHASAudioCodecManager:
 
         except Exception as e:
             self.logger.error(f"Audio encoding failed: {e!s}")
-            await GLYPH.emit("audio.encoding.error", {"codec": codec.value, "error": str(e)})
+            await GLYPH.emit(
+                "audio.encoding.error", {"codec": codec.value, "error": str(e)}
+            )
             raise
 
     async def decode_audio(
-        self, encoded_data: bytes, codec: AudioCodec, context: Optional[dict[str, Any]] = None
+        self,
+        encoded_data: bytes,
+        codec: AudioCodec,
+        context: Optional[dict[str, Any]] = None,
     ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Decode audio data from specified codec
@@ -372,7 +394,9 @@ class LUKHASAudioCodecManager:
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected decoding: {validation_result.get('reason')}")
+                raise ValueError(
+                    f"Guardian rejected decoding: {validation_result.get('reason')}"
+                )
 
             if codec not in self.decoders:
                 raise ValueError(f"Decoder for {codec.value} not available")
@@ -399,12 +423,17 @@ class LUKHASAudioCodecManager:
 
         except Exception as e:
             self.logger.error(f"Audio decoding failed: {e!s}")
-            await GLYPH.emit("audio.decoding.error", {"codec": codec.value, "error": str(e)})
+            await GLYPH.emit(
+                "audio.decoding.error", {"codec": codec.value, "error": str(e)}
+            )
             raise
 
     def get_supported_codecs(self) -> dict[str, list[AudioCodec]]:
         """Get supported codecs for encoding and decoding"""
-        return {"encoders": list(self.encoders.keys()), "decoders": list(self.decoders.keys())}
+        return {
+            "encoders": list(self.encoders.keys()),
+            "decoders": list(self.decoders.keys()),
+        }
 
     def get_codec_info(self, codec: AudioCodec) -> dict[str, Any]:
         """Get information about a specific codec"""
@@ -432,7 +461,9 @@ class LUKHASAudioCodecManager:
             },
         }
 
-        return codec_info.get(codec, {"name": codec.value, "description": "Unknown codec"})
+        return codec_info.get(
+            codec, {"name": codec.value, "description": "Unknown codec"}
+        )
 
     def get_stats(self) -> dict[str, Any]:
         """Get codec usage statistics"""
@@ -441,7 +472,10 @@ class LUKHASAudioCodecManager:
 
 # Convenience functions
 async def encode_to_wav(
-    audio_data: np.ndarray, sample_rate: int = 44100, bit_depth: int = 16, channels: int = 1
+    audio_data: np.ndarray,
+    sample_rate: int = 44100,
+    bit_depth: int = 16,
+    channels: int = 1,
 ) -> bytes:
     """Simple WAV encoding"""
     codec_manager = LUKHASAudioCodecManager()

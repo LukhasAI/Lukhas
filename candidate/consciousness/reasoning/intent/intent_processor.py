@@ -35,7 +35,9 @@ class IntentNode:
         # Simple intent detection
         if any(q in text_lower for q in ["what", "who", "when", "where", "why", "how"]):
             intent_type = "query"
-        elif any(cmd in text_lower for cmd in ["do", "create", "make", "build", "execute"]):
+        elif any(
+            cmd in text_lower for cmd in ["do", "create", "make", "build", "execute"]
+        ):
             intent_type = "task"
         else:
             intent_type = "dialogue"
@@ -66,23 +68,37 @@ class IntentNode:
         entities = {}
         return entities
 
-    def _create_action_plan(self, intent_type: str, input_data: Union[str, dict[str, Any]]) -> dict[str, Any]:
+    def _create_action_plan(
+        self, intent_type: str, input_data: Union[str, dict[str, Any]]
+    ) -> dict[str, Any]:
         """Create an action plan based on the detected intent."""
         if intent_type == "query":
             return {
                 "type": "query",
                 "query_type": "informational",
-                "parameters": {"text": (input_data if isinstance(input_data, str) else str(input_data))},
+                "parameters": {
+                    "text": (
+                        input_data if isinstance(input_data, str) else str(input_data)
+                    )
+                },
             }
         elif intent_type == "task":
             return {
                 "type": "task",
                 "task_type": "general",
-                "parameters": {"instruction": (input_data if isinstance(input_data, str) else str(input_data))},
+                "parameters": {
+                    "instruction": (
+                        input_data if isinstance(input_data, str) else str(input_data)
+                    )
+                },
             }
         else:  # dialogue
             return {
                 "type": "dialogue",
                 "dialogue_type": "conversational",
-                "parameters": {"context": (input_data if isinstance(input_data, str) else str(input_data))},
+                "parameters": {
+                    "context": (
+                        input_data if isinstance(input_data, str) else str(input_data)
+                    )
+                },
             }

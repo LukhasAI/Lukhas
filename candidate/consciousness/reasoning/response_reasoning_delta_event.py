@@ -49,9 +49,7 @@ from typing_extensions import Literal
 # ΛCAUTION: An incorrect or fragile import path for a base model can lead to runtime errors
 # and hinder maintainability, especially if this auto-generated code is
 # part of a larger system.
-from candidate.core.models import (
-    BaseModel,  # Assuming this path is correct within the project structure.
-)
+from candidate.core.models import BaseModel
 
 logger.info(
     "ΛTRACE: Initializing response_reasoning_delta_event.py module (Data Model Definition).",

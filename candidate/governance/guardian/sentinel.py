@@ -23,7 +23,7 @@ Features:
 #TAG:sentinel
 #TAG:monitoring
 #TAG:surveillance
-#TAG:constellation
+#TAG:trinity
 """
 
 import asyncio
@@ -125,7 +125,11 @@ class GuardianSentinel:
                 profile_id="system_health",
                 name="System Health Monitor",
                 scope=MonitoringScope.SYSTEM_WIDE,
-                thresholds={"cpu_usage": 0.8, "memory_usage": 0.85, "drift_score": 0.15},
+                thresholds={
+                    "cpu_usage": 0.8,
+                    "memory_usage": 0.85,
+                    "drift_score": 0.15,
+                },
                 monitoring_frequency=5.0,
             ),
             MonitoringProfile(
@@ -176,7 +180,9 @@ class GuardianSentinel:
 
                 await self._generate_alert(alert)
 
-    async def _collect_current_metrics(self, scope: MonitoringScope) -> dict[str, float]:
+    async def _collect_current_metrics(
+        self, scope: MonitoringScope
+    ) -> dict[str, float]:
         """Collect current system metrics"""
         # Simulate metric collection
         return {
@@ -199,7 +205,13 @@ class GuardianSentinel:
         return {
             "status": self.status.value,
             "active_profiles": len(self.monitoring_profiles),
-            "recent_alerts": len([a for a in self.alerts if (datetime.now() - a.detected_at).seconds < 3600]),
+            "recent_alerts": len(
+                [
+                    a
+                    for a in self.alerts
+                    if (datetime.now() - a.detected_at).seconds < 3600
+                ]
+            ),
             "metrics": self.metrics,
         }
 

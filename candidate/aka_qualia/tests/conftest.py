@@ -117,7 +117,11 @@ def aq_with_sql_memory(sql_memory):
     """AkaQualia system with SQL memory backend"""
     config = {
         "memory_driver": "sql",
-        "memory_config": {"engine": sql_memory.engine, "rotate_salt": "test_salt", "is_prod": False},
+        "memory_config": {
+            "engine": sql_memory.engine,
+            "rotate_salt": "test_salt",
+            "is_prod": False,
+        },
         "enable_memory_storage": True,
         "enable_drift_monitoring": False,
         "vivox_collapse_validation": False,
@@ -154,7 +158,11 @@ def low_risk_scene(base_proto_qualia):
         proto=base_proto_qualia,
         subject="observer",
         object="peaceful_scene",
-        context={"session_id": "test_session", "cfg_version": "wave_c_v1.0.0", "policy_sig": "test_policy_123"},
+        context={
+            "session_id": "test_session",
+            "cfg_version": "wave_c_v1.0.0",
+            "policy_sig": "test_policy_123",
+        },
         risk=RiskProfile(score=0.05, severity=SeverityLevel.MINIMAL, reasons=[]),
         timestamp=time.time(),
     )
@@ -185,7 +193,9 @@ def high_risk_scene(base_proto_qualia):
             "transform_chain": ["teq.enforce", "sublimate_arousal_to_clarity_0.3"],
         },
         risk=RiskProfile(
-            score=0.85, severity=SeverityLevel.HIGH, reasons=["violence_detected", "emotional_dysregulation"]
+            score=0.85,
+            severity=SeverityLevel.HIGH,
+            reasons=["violence_detected", "emotional_dysregulation"],
         ),
         transform_chain=["teq.enforce", "sublimate_arousal_to_clarity_0.3"],
         timestamp=time.time(),
@@ -196,8 +206,12 @@ def high_risk_scene(base_proto_qualia):
 def test_glyphs():
     """Standard set of test glyphs"""
     return [
-        PhenomenalGlyph(key="aka:vigilance", attrs={"tone": 0.2, "arousal": 0.6, "risk_score": 0.1}),
-        PhenomenalGlyph(key="temporal_flowing", attrs={"narrative_gravity": 0.4, "clarity": 0.8}),
+        PhenomenalGlyph(
+            key="aka:vigilance", attrs={"tone": 0.2, "arousal": 0.6, "risk_score": 0.1}
+        ),
+        PhenomenalGlyph(
+            key="temporal_flowing", attrs={"narrative_gravity": 0.4, "clarity": 0.8}
+        ),
         PhenomenalGlyph(key="agency_empowered", attrs={"embodiment": 0.7}),
     ]
 
@@ -205,7 +219,9 @@ def test_glyphs():
 @pytest.fixture
 def test_policy():
     """Standard regulation policy for testing"""
-    return RegulationPolicy(gain=1.0, pace=1.0, actions=["maintain"], color_contrast=None)
+    return RegulationPolicy(
+        gain=1.0, pace=1.0, actions=["maintain"], color_contrast=None
+    )
 
 
 @pytest.fixture
@@ -229,7 +245,9 @@ def test_metrics():
 
 
 @pytest.fixture
-def sql_memory_with_data(sql_memory, low_risk_scene, test_glyphs, test_policy, test_metrics):
+def sql_memory_with_data(
+    sql_memory, low_risk_scene, test_glyphs, test_policy, test_metrics
+):
     """SQL memory pre-populated with test data"""
 
     # Add 5 scenes for testing
@@ -317,7 +335,11 @@ def create_test_scene(**overrides) -> dict[str, Any]:
         },
         "subject": "observer",
         "object": "test_stimulus",
-        "context": {"cfg_version": "wave_c_v1.0.0", "policy_sig": "test_policy_sig", "session_id": "test_session"},
+        "context": {
+            "cfg_version": "wave_c_v1.0.0",
+            "policy_sig": "test_policy_sig",
+            "session_id": "test_session",
+        },
         "risk": {"score": 0.1, "severity": "minimal", "reasons": []},
         "timestamp": time.time(),
     }
@@ -354,5 +376,9 @@ def create_varying_scene(scene_id: str) -> dict[str, Any]:
         },
         subject=f"subject_{scene_id}",
         object=f"object_{hash_int % 10}",
-        context={"cfg_version": "wave_c_v1.0.0", "policy_sig": f"policy_{hash_int % 5}", "scene_id": scene_id},
+        context={
+            "cfg_version": "wave_c_v1.0.0",
+            "policy_sig": f"policy_{hash_int % 5}",
+            "scene_id": scene_id,
+        },
     )

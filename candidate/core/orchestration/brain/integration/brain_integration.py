@@ -22,13 +22,7 @@ import time
 import uuid
 from datetime import datetime
 from enum import Enum
-from typing import Any
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Set
-from typing import Tuple
-from typing import Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 # Configure logging
 logger = logging.getLogger("Enhanced.BrainIntegration")
@@ -40,10 +34,10 @@ logger.setLevel(logging.INFO)
 
 # Import MultiBrainSymphony components with fallback paths
 try:
-    from .MultiBrainSymphony import DreamBrainSpecialist
-    from .MultiBrainSymphony import LearningBrainSpecialist
-    from .MultiBrainSymphony import MemoryBrainSpecialist
-    from .MultiBrainSymphony import MultiBrainSymphonyOrchestrator
+    from .MultiBrainSymphony import (DreamBrainSpecialist,
+                                     LearningBrainSpecialist,
+                                     MemoryBrainSpecialist,
+                                     MultiBrainSymphonyOrchestrator)
     SYMPHONY_AVAILABLE = True
     except ImportError:
         try:
@@ -61,10 +55,8 @@ try:
 
                 # Import core components with fallbacks
                 try:
-    from candidate.orchestration.brain.spine.fold_engine import AGIMemory
-    from candidate.orchestration.brain.spine.fold_engine import MemoryFold
-    from candidate.orchestration.brain.spine.fold_engine import MemoryPriority
-    from candidate.orchestration.brain.spine.fold_engine import MemoryType
+    from candidate.orchestration.brain.spine.fold_engine import (
+        AGIMemory, MemoryFold, MemoryPriority, MemoryType)
                     except ImportError:
     logger.warning("Core memory components not available - using fallbacks")
     AGIMemory = None
@@ -85,9 +77,8 @@ try:
     VoiceIntegrator = None
 
                                         try:
-    from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
-        DreamReflectionLoop,
-    )
+    from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop import \
+        DreamReflectionLoop
                                             except ImportError:
     DreamReflectionLoop = None
 

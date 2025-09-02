@@ -55,7 +55,9 @@ def _s3():
 
 
 def _stable_key(d: dict[str, Any]) -> str:
-    return hashlib.sha256(json.dumps({"id": d.get("id")}, sort_keys=True).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps({"id": d.get("id")}, sort_keys=True).encode()
+    ).hexdigest()
 
 
 def emit_receipt(**kwargs) -> dict[str, Any]:
@@ -110,7 +112,11 @@ def _generate_grafana(path: str):
         "timezone": "",
         "schemaVersion": 38,
         "panels": [
-            {"type": "row", "title": "Volume", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0}},
+            {
+                "type": "row",
+                "title": "Volume",
+                "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0},
+            },
             {
                 "type": "timeseries",
                 "title": "Receipts per second",
@@ -169,7 +175,9 @@ def _generate_grafana(path: str):
 def main():
     import argparse
 
-    ap = argparse.ArgumentParser(description="Lukhas Receipts Hub (Altman–Amodei–Hassabis)")
+    ap = argparse.ArgumentParser(
+        description="Lukhas Receipts Hub (Altman–Amodei–Hassabis)"
+    )
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     e = sub.add_parser("emit", help="Emit a single receipt from args (for testing)")
@@ -226,7 +234,10 @@ def main():
     e.set_defaults(func=_run_emit)
 
     g = sub.add_parser("export-grafana", help="Write a starter Grafana dashboard JSON")
-    g.add_argument("--out", default=os.path.join("ops", "grafana", "lukhas_exec_receipts_dashboard.json"))
+    g.add_argument(
+        "--out",
+        default=os.path.join("ops", "grafana", "lukhas_exec_receipts_dashboard.json"),
+    )
     g.set_defaults(func=lambda a: print(_generate_grafana(a.out)))
 
     args = ap.parse_args()

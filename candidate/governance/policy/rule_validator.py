@@ -210,9 +210,15 @@ class AdvancedRuleValidator:
         self.operators = {
             RuleOperator.EQUALS: lambda x, y: x == y,
             RuleOperator.NOT_EQUALS: lambda x, y: x != y,
-            RuleOperator.GREATER_THAN: lambda x, y: x > y if isinstance(x, (int, float)) else False,
-            RuleOperator.LESS_THAN: lambda x, y: x < y if isinstance(x, (int, float)) else False,
-            RuleOperator.CONTAINS: lambda x, y: y in x if hasattr(x, "__contains__") else False,
+            RuleOperator.GREATER_THAN: lambda x, y: (
+                x > y if isinstance(x, (int, float)) else False
+            ),
+            RuleOperator.LESS_THAN: lambda x, y: (
+                x < y if isinstance(x, (int, float)) else False
+            ),
+            RuleOperator.CONTAINS: lambda x, y: (
+                y in x if hasattr(x, "__contains__") else False
+            ),
             RuleOperator.MATCHES: self._regex_match,
         }
 
@@ -246,7 +252,9 @@ class AdvancedRuleValidator:
             # Check for rule conflicts
             conflicts = await self._check_rule_conflicts(rule)
             if conflicts:
-                logger.warning(f"⚠️ Rule conflicts detected for {rule.rule_id}: {conflicts}")
+                logger.warning(
+                    f"⚠️ Rule conflicts detected for {rule.rule_id}: {conflicts}"
+                )
 
             # Register the rule
             self.rules[rule.rule_id] = rule
@@ -309,7 +317,9 @@ class AdvancedRuleValidator:
             if use_cache:
                 cached_result = await self._check_cache(rule_id, target_data, context)
                 if cached_result:
-                    cached_result.validation_id = validation_id  # Update ID for new request
+                    cached_result.validation_id = (
+                        validation_id  # Update ID for new request
+                    )
                     self.metrics["cache_hits"] += 1
                     return cached_result
 
@@ -328,18 +338,30 @@ class AdvancedRuleValidator:
                     confidence=0.5,
                     execution_time=(datetime.now() - start_time).total_seconds(),
                     missing_context=context_validation["missing"],
-                    suggestions=[f"Provide missing context: {', '.join(context_validation['missing'])}"],
+                    suggestions=[
+                        f"Provide missing context: {', '.join(context_validation['missing'])}"
+                    ],
                 )
 
             # Perform validation
-            validation_report = await self._perform_validation(validation_id, rule, target_data, context, start_time)
+            validation_report = await self._perform_validation(
+                validation_id, rule, target_data, context, start_time
+            )
 
             # Cache result if appropriate
-            if use_cache and rule.cache_duration and validation_report.result != ValidationResult.ERROR:
-                await self._cache_result(rule_id, target_data, context, validation_report)
+            if (
+                use_cache
+                and rule.cache_duration
+                and validation_report.result != ValidationResult.ERROR
+            ):
+                await self._cache_result(
+                    rule_id, target_data, context, validation_report
+                )
 
             # Update metrics
-            await self._update_validation_metrics(rule_id, validation_report, start_time)
+            await self._update_validation_metrics(
+                rule_id, validation_report, start_time
+            )
 
             # Store in history
             self.validation_history.append(validation_report)
@@ -387,9 +409,13 @@ class AdvancedRuleValidator:
         results = {}
 
         # Run validations concurrently
-        validation_tasks = [self.validate(rule_id, target_data, context) for rule_id in rule_ids]
+        validation_tasks = [
+            self.validate(rule_id, target_data, context) for rule_id in rule_ids
+        ]
 
-        validation_reports = await asyncio.gather(*validation_tasks, return_exceptions=True)
+        validation_reports = await asyncio.gather(
+            *validation_tasks, return_exceptions=True
+        )
 
         for i, report_or_exception in enumerate(validation_reports):
             rule_id = rule_ids[i]
@@ -404,7 +430,9 @@ class AdvancedRuleValidator:
                     result=ValidationResult.ERROR,
                     overall_score=0.0,
                     confidence=0.0,
-                    failed_conditions=[f"Validation exception: {report_or_exception!s}"],
+                    failed_conditions=[
+                        f"Validation exception: {report_or_exception!s}"
+                    ],
                 )
             else:
                 results[rule_id] = report_or_exception
@@ -430,10 +458,16 @@ class AdvancedRuleValidator:
         # Evaluate each condition
         for condition in rule.conditions:
             try:
-                condition_result = await self._evaluate_condition(condition, target_data, context)
+                condition_result = await self._evaluate_condition(
+                    condition, target_data, context
+                )
 
                 condition_results.append(
-                    (condition.condition_id, condition_result["passed"], condition_result["score"])
+                    (
+                        condition.condition_id,
+                        condition_result["passed"],
+                        condition_result["score"],
+                    )
                 )
 
                 if condition_result["passed"]:
@@ -441,27 +475,37 @@ class AdvancedRuleValidator:
                     if condition_result.get("pattern_matched"):
                         matched_patterns.append(condition.pattern or condition.field)
                 else:
-                    failed_conditions.append(f"Condition {condition.condition_id}: {condition_result['reason']}")
+                    failed_conditions.append(
+                        f"Condition {condition.condition_id}: {condition_result['reason']}"
+                    )
 
                 total_weight += condition.weight
 
             except Exception as e:
                 logger.error(f"Condition evaluation failed: {e}")
                 condition_results.append((condition.condition_id, False, 0.0))
-                failed_conditions.append(f"Condition {condition.condition_id}: evaluation error")
+                failed_conditions.append(
+                    f"Condition {condition.condition_id}: evaluation error"
+                )
 
         # Apply rule logic operator
-        overall_result, overall_score = await self._apply_rule_logic(rule, condition_results, total_score, total_weight)
+        overall_result, overall_score = await self._apply_rule_logic(
+            rule, condition_results, total_score, total_weight
+        )
 
         # Calculate confidence
         confidence = self._calculate_confidence(rule, condition_results, context)
 
         # Generate suggestions and actions
         suggestions = await self._generate_suggestions(rule, failed_conditions, context)
-        required_actions = await self._generate_required_actions(rule, failed_conditions)
+        required_actions = await self._generate_required_actions(
+            rule, failed_conditions
+        )
 
         # Trinity Framework integration
-        trinity_factors = await self._analyze_trinity_factors(rule, target_data, context, overall_result)
+        trinity_factors = await self._analyze_trinity_factors(
+            rule, target_data, context, overall_result
+        )
 
         execution_time = (datetime.now() - start_time).total_seconds()
 
@@ -487,7 +531,10 @@ class AdvancedRuleValidator:
         )
 
     async def _evaluate_condition(
-        self, condition: RuleCondition, target_data: dict[str, Any], context: dict[str, Any]
+        self,
+        condition: RuleCondition,
+        target_data: dict[str, Any],
+        context: dict[str, Any],
     ) -> dict[str, Any]:
         """Evaluate a single rule condition"""
 
@@ -502,7 +549,11 @@ class AdvancedRuleValidator:
             }
 
         if field_value is None and condition.optional:
-            return {"passed": True, "score": 1.0, "reason": "Optional field is missing but allowed"}
+            return {
+                "passed": True,
+                "score": 1.0,
+                "reason": "Optional field is missing but allowed",
+            }
 
         # Apply operator
         try:
@@ -531,7 +582,11 @@ class AdvancedRuleValidator:
             }
 
         except Exception as e:
-            return {"passed": False, "score": 0.0, "reason": f"Condition evaluation error: {e!s}"}
+            return {
+                "passed": False,
+                "score": 0.0,
+                "reason": f"Condition evaluation error: {e!s}",
+            }
 
     def _get_nested_field_value(self, data: dict[str, Any], field_path: str) -> Any:
         """Get value from nested dictionary using dot notation"""
@@ -590,7 +645,9 @@ class AdvancedRuleValidator:
                 overall_score = passed_conditions[0][2]
                 return ValidationResult.VALID, overall_score
             elif len(passed_conditions) > 1:
-                overall_score = sum(r[2] for r in passed_conditions) / len(passed_conditions)
+                overall_score = sum(r[2] for r in passed_conditions) / len(
+                    passed_conditions
+                )
                 return ValidationResult.PARTIAL, overall_score
             else:
                 return ValidationResult.INVALID, 0.0
@@ -616,13 +673,17 @@ class AdvancedRuleValidator:
 
         # Adjust based on condition success rate
         if condition_results:
-            success_rate = len([r for r in condition_results if r[1]]) / len(condition_results)
+            success_rate = len([r for r in condition_results if r[1]]) / len(
+                condition_results
+            )
             base_confidence += (success_rate - 0.5) * 0.2  # Adjust ±0.1
 
         # Adjust based on context completeness
         required_context = len(rule.applicable_contexts)
         if required_context > 0:
-            available_context = len([ctx for ctx in rule.applicable_contexts if ctx in context])
+            available_context = len(
+                [ctx for ctx in rule.applicable_contexts if ctx in context]
+            )
             context_completeness = available_context / required_context
             base_confidence += (context_completeness - 0.5) * 0.1  # Adjust ±0.05
 
@@ -634,7 +695,10 @@ class AdvancedRuleValidator:
         return max(0.0, min(1.0, base_confidence))
 
     async def _generate_suggestions(
-        self, rule: RuleDefinition, failed_conditions: list[str], context: dict[str, Any]
+        self,
+        rule: RuleDefinition,
+        failed_conditions: list[str],
+        context: dict[str, Any],
     ) -> list[str]:
         """Generate suggestions for validation improvement"""
 
@@ -647,18 +711,26 @@ class AdvancedRuleValidator:
             if rule.rule_type == RuleType.PATTERN:
                 suggestions.append("Verify data format matches expected patterns")
             elif rule.rule_type == RuleType.CONTEXTUAL:
-                suggestions.append("Ensure all required context information is provided")
+                suggestions.append(
+                    "Ensure all required context information is provided"
+                )
             elif rule.rule_type == RuleType.HIERARCHICAL:
                 suggestions.append("Check parent rule requirements are satisfied")
 
         # Context-based suggestions
-        missing_contexts = [ctx for ctx in rule.applicable_contexts if ctx not in context]
+        missing_contexts = [
+            ctx for ctx in rule.applicable_contexts if ctx not in context
+        ]
         if missing_contexts:
-            suggestions.append(f"Provide missing context: {', '.join(missing_contexts[:3])}")
+            suggestions.append(
+                f"Provide missing context: {', '.join(missing_contexts[:3])}"
+            )
 
         return suggestions
 
-    async def _generate_required_actions(self, rule: RuleDefinition, failed_conditions: list[str]) -> list[str]:
+    async def _generate_required_actions(
+        self, rule: RuleDefinition, failed_conditions: list[str]
+    ) -> list[str]:
         """Generate required actions for validation compliance"""
 
         actions = []
@@ -693,9 +765,13 @@ class AdvancedRuleValidator:
 
         # 🧠 Consciousness factors
         if rule.rule_type in [RuleType.COMPLEX, RuleType.DYNAMIC]:
-            factors["consciousness"].append("Complex consciousness-level rule processing")
+            factors["consciousness"].append(
+                "Complex consciousness-level rule processing"
+            )
         if "learning" in context or "adaptation" in context:
-            factors["consciousness"].append("Consciousness learning adaptation considered")
+            factors["consciousness"].append(
+                "Consciousness learning adaptation considered"
+            )
 
         # 🛡️ Guardian factors
         factors["guardian"].append(f"Guardian rule validation: {result.value}")
@@ -748,14 +824,23 @@ class AdvancedRuleValidator:
                 continue
 
             # Check for priority conflicts in same context
-            common_contexts = set(rule.applicable_contexts) & set(existing_rule.applicable_contexts)
+            common_contexts = set(rule.applicable_contexts) & set(
+                existing_rule.applicable_contexts
+            )
             if common_contexts and rule.priority != existing_rule.priority:
-                if rule.priority == RulePriority.CRITICAL or existing_rule.priority == RulePriority.CRITICAL:
-                    conflicts.append(f"Priority conflict with rule {existing_id} in contexts {common_contexts}")
+                if (
+                    rule.priority == RulePriority.CRITICAL
+                    or existing_rule.priority == RulePriority.CRITICAL
+                ):
+                    conflicts.append(
+                        f"Priority conflict with rule {existing_id} in contexts {common_contexts}"
+                    )
 
         return conflicts
 
-    async def _validate_context(self, rule: RuleDefinition, context: dict[str, Any]) -> dict[str, Any]:
+    async def _validate_context(
+        self, rule: RuleDefinition, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate that required context is available"""
 
         required_contexts = set()
@@ -814,10 +899,14 @@ class AdvancedRuleValidator:
 
         # Maintain cache size (keep last 1000 entries)
         if len(self.rule_cache) > 1000:
-            oldest_key = min(self.rule_cache.keys(), key=lambda k: self.rule_cache[k][1])
+            oldest_key = min(
+                self.rule_cache.keys(), key=lambda k: self.rule_cache[k][1]
+            )
             del self.rule_cache[oldest_key]
 
-    def _generate_cache_key(self, rule_id: str, target_data: dict[str, Any], context: dict[str, Any]) -> str:
+    def _generate_cache_key(
+        self, rule_id: str, target_data: dict[str, Any], context: dict[str, Any]
+    ) -> str:
         """Generate a cache key for validation results"""
 
         # Create deterministic hash of inputs
@@ -829,7 +918,9 @@ class AdvancedRuleValidator:
 
         return f"cache_{hash(json.dumps(cache_data, sort_keys=True))}"
 
-    async def _update_validation_metrics(self, rule_id: str, report: ValidationReport, start_time: datetime):
+    async def _update_validation_metrics(
+        self, rule_id: str, report: ValidationReport, start_time: datetime
+    ):
         """Update validation metrics"""
 
         execution_time = (datetime.now() - start_time).total_seconds()
@@ -839,7 +930,9 @@ class AdvancedRuleValidator:
         # Update average execution time
         total_validations = self.metrics["total_validations"]
         current_avg = self.metrics["average_execution_time"]
-        new_avg = ((current_avg * (total_validations - 1)) + execution_time) / total_validations
+        new_avg = (
+            (current_avg * (total_validations - 1)) + execution_time
+        ) / total_validations
         self.metrics["average_execution_time"] = new_avg
 
         # Update rule-specific stats
@@ -849,10 +942,15 @@ class AdvancedRuleValidator:
             stats["last_used"] = datetime.now().isoformat()
 
             # Update success rate
-            is_success = report.result in [ValidationResult.VALID, ValidationResult.PARTIAL]
+            is_success = report.result in [
+                ValidationResult.VALID,
+                ValidationResult.PARTIAL,
+            ]
             old_rate = stats["success_rate"]
             old_count = stats["usage_count"] - 1
-            new_rate = ((old_rate * old_count) + (1.0 if is_success else 0.0)) / stats["usage_count"]
+            new_rate = ((old_rate * old_count) + (1.0 if is_success else 0.0)) / stats[
+                "usage_count"
+            ]
             stats["success_rate"] = new_rate
 
             # Update average execution time
@@ -879,7 +977,11 @@ class AdvancedRuleValidator:
         # Calculate additional statistics from history
         rule_validations = [v for v in self.validation_history if v.rule_id == rule_id]
 
-        recent_validations = [v for v in rule_validations if (datetime.now() - v.validation_timestamp).days <= 7]
+        recent_validations = [
+            v
+            for v in rule_validations
+            if (datetime.now() - v.validation_timestamp).days <= 7
+        ]
 
         return {
             "rule_id": rule_id,
@@ -889,19 +991,27 @@ class AdvancedRuleValidator:
             "usage_statistics": stats,
             "total_historical_validations": len(rule_validations),
             "recent_validations_7_days": len(recent_validations),
-            "average_score": sum(v.overall_score for v in rule_validations) / len(rule_validations)
-            if rule_validations
-            else 0.0,
-            "average_confidence": sum(v.confidence for v in rule_validations) / len(rule_validations)
-            if rule_validations
-            else 0.0,
+            "average_score": (
+                sum(v.overall_score for v in rule_validations) / len(rule_validations)
+                if rule_validations
+                else 0.0
+            ),
+            "average_confidence": (
+                sum(v.confidence for v in rule_validations) / len(rule_validations)
+                if rule_validations
+                else 0.0
+            ),
             "common_failure_patterns": self._analyze_failure_patterns(rule_validations),
         }
 
-    def _analyze_failure_patterns(self, validations: list[ValidationReport]) -> list[str]:
+    def _analyze_failure_patterns(
+        self, validations: list[ValidationReport]
+    ) -> list[str]:
         """Analyze common failure patterns from validation history"""
 
-        failed_validations = [v for v in validations if v.result == ValidationResult.INVALID]
+        failed_validations = [
+            v for v in validations if v.result == ValidationResult.INVALID
+        ]
 
         if not failed_validations:
             return []
@@ -913,7 +1023,9 @@ class AdvancedRuleValidator:
                 failure_counts[condition] = failure_counts.get(condition, 0) + 1
 
         # Return top failure patterns
-        sorted_failures = sorted(failure_counts.items(), key=lambda x: x[1], reverse=True)
+        sorted_failures = sorted(
+            failure_counts.items(), key=lambda x: x[1], reverse=True
+        )
         return [f"{reason} ({count} times)" for reason, count in sorted_failures[:5]]
 
     async def get_system_metrics(self) -> dict[str, Any]:

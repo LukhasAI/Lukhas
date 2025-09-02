@@ -42,7 +42,9 @@ class HITLOBridge:
             self.configure_oversight(scenario, config)
 
             # Log configuration
-            logger.info(f"Configured human oversight for scenario: {scenario} with config: {config}")
+            logger.info(
+                f"Configured human oversight for scenario: {scenario} with config: {config}"
+            )
 
     def configure_oversight(self, scenario: str, config: dict[str, Any]) -> None:
         """Configure oversight for a specific scenario"""

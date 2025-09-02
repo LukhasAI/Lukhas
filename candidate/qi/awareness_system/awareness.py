@@ -25,9 +25,7 @@ logger = structlog.get_logger("ΛTRACE.core.integration.bio_awareness.Awareness"
 # AIMPORT_TODO: Review deep relative imports for robustness and potential refactoring
 # into more accessible shared libraries or services.
 try:
-    from ...bio_core.oscillator.qi_inspired_layer import (
-        QIBioOscillator,
-    )
+    from ...bio_core.oscillator.qi_inspired_layer import QIBioOscillator
 
     # ΛNOTE: The following imports indicate dependencies on potentially
     # complex or distant modules.
@@ -83,7 +81,9 @@ class EnhancedSystemAwareness:
     """
 
     def __init__(self):
-        self.logger = logger.bind(awareness_system_id=f"esa_{datetime.now().strftime('%Y%m%d%H%M%S')}")
+        self.logger = logger.bind(
+            awareness_system_id=f"esa_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        )
         self.logger.info("Initializing EnhancedSystemAwareness.")
 
         # Initialize quantum components
@@ -92,7 +92,9 @@ class EnhancedSystemAwareness:
             self.bio_oscillator = QIBioOscillator()
             self.logger.debug("Quantum and Bio oscillators initialized.")
         except Exception as e:
-            self.logger.error("Error initializing core oscillators.", error=str(e), exc_info=True)
+            self.logger.error(
+                "Error initializing core oscillators.", error=str(e), exc_info=True
+            )
             # ΛCAUTION: Core oscillator initialization failed. System may be unstable.
             self.qi_oscillator = None  # type: ignore
             self.bio_oscillator = None  # type: ignore
@@ -100,8 +102,12 @@ class EnhancedSystemAwareness:
         # Initialize bio components
         # ΛNOTE: Bio-component initialization relies on successful oscillator init.
         try:
-            self.proton_gradient = ProtonGradient(self.qi_oscillator) if self.qi_oscillator else None
-            self.attention_gate = QIAttentionGate(self.bio_oscillator) if self.bio_oscillator else None
+            self.proton_gradient = (
+                ProtonGradient(self.qi_oscillator) if self.qi_oscillator else None
+            )
+            self.attention_gate = (
+                QIAttentionGate(self.bio_oscillator) if self.bio_oscillator else None
+            )
             self.crista_filter = CristaFilter()
             self.identity_encoder = CardiolipinEncoder()
             self.logger.debug(
@@ -110,7 +116,9 @@ class EnhancedSystemAwareness:
                 attention_gate_init=bool(self.attention_gate),
             )
         except Exception as e:
-            self.logger.error("Error initializing bio-components.", error=str(e), exc_info=True)
+            self.logger.error(
+                "Error initializing bio-components.", error=str(e), exc_info=True
+            )
             # ΛCAUTION: Bio-component initialization failed. Awareness processing will
             # be impaired.
             self.proton_gradient = None
@@ -160,14 +168,24 @@ class EnhancedSystemAwareness:
             "Starting system monitoring cycle.",
             context_keys=list(context.keys()) if context else [],
         )
-        start_time_dt = datetime.now()  # Use datetime for duration calculation consistency
+        start_time_dt = (
+            datetime.now()
+        )  # Use datetime for duration calculation consistency
 
         try:
             # ΛCAUTION: Relies on potentially uninitialized components if __init__
             # faced errors.
-            if not self.attention_gate or not self.crista_filter or not self.proton_gradient:
-                self.logger.error("Cannot monitor system: one or more core components not initialized.")
-                raise RuntimeError("EnhancedSystemAwareness core components not initialized.")
+            if (
+                not self.attention_gate
+                or not self.crista_filter
+                or not self.proton_gradient
+            ):
+                self.logger.error(
+                    "Cannot monitor system: one or more core components not initialized."
+                )
+                raise RuntimeError(
+                    "EnhancedSystemAwareness core components not initialized."
+                )
 
             # Apply quantum attention
             self.logger.debug(
@@ -218,7 +236,9 @@ class EnhancedSystemAwareness:
             return result
 
         except Exception as e:
-            self.logger.error("Error in system monitoring cycle", error=str(e), exc_info=True)
+            self.logger.error(
+                "Error in system monitoring cycle", error=str(e), exc_info=True
+            )
             self._handle_monitoring_error(e)  # Internal logging
             # Re-raise or return error state. For now, re-raising.
             # ΛCAUTION: Errors in monitoring can leave system state unobserved or lead

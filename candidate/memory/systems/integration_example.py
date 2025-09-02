@@ -27,9 +27,7 @@ from typing import Any
 
 # Existing systems to integrate with
 from candidate.core.integration.connectivity_engine import ConnectivityEngine
-from lukhas.consciousness.reflection.unified_memory_manager import (
-    EnhancedMemoryManager,
-)
+from lukhas.consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
 
 # New memory systems
 from memory.core import create_hybrid_memory_fold
@@ -75,14 +73,20 @@ class EnhancedMemoryIntegration:
             text_content = str(data) if not isinstance(data, str) else data
 
             # Store in hybrid memory
-            memory_id = await self.hybrid_memory.fold_in_with_embedding(data=data, tags=tags, text_content=text_content)
+            memory_id = await self.hybrid_memory.fold_in_with_embedding(
+                data=data, tags=tags, text_content=text_content
+            )
 
             # Update importance based on category
             category = data.get("category", "generic")
             feedback = 0.5 if category in ["consciousness", "identity"] else 0.1
-            await self.hybrid_memory.update_memory_importance(memory_id, feedback, {"source": "connectivity_engine"})
+            await self.hybrid_memory.update_memory_importance(
+                memory_id, feedback, {"source": "connectivity_engine"}
+            )
 
-            logger.info("Memory processed via enhanced system", memory_id=memory_id, tags=tags)
+            logger.info(
+                "Memory processed via enhanced system", memory_id=memory_id, tags=tags
+            )
 
             return {"memory_id": memory_id, "status": "stored", "method": "hybrid_fold"}
 
@@ -145,18 +149,24 @@ class EnhancedMemoryIntegration:
                     tags = self._auto_tag(data)
 
                 # Store with embeddings
-                memory_id = await self.hybrid_memory.fold_in_with_embedding(data=data, tags=tags, **kwargs)
+                memory_id = await self.hybrid_memory.fold_in_with_embedding(
+                    data=data, tags=tags, **kwargs
+                )
 
                 return memory_id
 
             async def recall(self, query: str, mode: str = "semantic") -> list:
                 """Recall memories using various strategies"""
                 if mode == "semantic":
-                    return await self.hybrid_memory.fold_out_semantic(query=query, top_k=10, use_attention=True)
+                    return await self.hybrid_memory.fold_out_semantic(
+                        query=query, top_k=10, use_attention=True
+                    )
                 elif mode == "temporal":
                     # Use temporal attention
                     memories = await self._get_all_memories()
-                    relevance = self.attention.compute_memory_relevance(query=query, memories=memories, mode="temporal")
+                    relevance = self.attention.compute_memory_relevance(
+                        query=query, memories=memories, mode="temporal"
+                    )
                     return relevance[:10]
                 elif mode == "causal":
                     # Trace causal chains

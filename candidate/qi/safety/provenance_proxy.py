@@ -38,7 +38,9 @@ def healthz():
 
 
 @app.get("/provenance/{sha}/link")
-def get_presigned_link(sha: str, request: Request, expires: int = 600, filename: str | None = None):
+def get_presigned_link(
+    sha: str, request: Request, expires: int = 600, filename: str | None = None
+):
     try:
         rec = load_record_by_sha(sha)
     except Exception as e:
@@ -62,7 +64,9 @@ def get_presigned_link(sha: str, request: Request, expires: int = 600, filename:
 
 
 @app.get("/provenance/{sha}/download")
-def download(sha: str, request: Request, expires: int = 600, filename: str | None = None):
+def download(
+    sha: str, request: Request, expires: int = 600, filename: str | None = None
+):
     try:
         rec = load_record_by_sha(sha)
     except Exception as e:

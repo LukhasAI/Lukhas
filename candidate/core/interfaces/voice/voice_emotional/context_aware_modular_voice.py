@@ -76,7 +76,9 @@ class ContextAnalyzer:
             "intent": nlp_analysis["intent"],
             "sentiment": nlp_analysis["sentiment"],
             "emotion": nlp_analysis["emotion"],
-            "urgency": self._determine_urgency(nlp_analysis, time_context, device_context),
+            "urgency": self._determine_urgency(
+                nlp_analysis, time_context, device_context
+            ),
             "formality": self._determine_formality(nlp_analysis, historical_context),
             "time_context": time_context,
             "location_context": location_context,
@@ -87,7 +89,9 @@ class ContextAnalyzer:
 
         return combined_context
 
-    def _analyze_memory(self, memory: list[dict[str, Any]], current_intent: str) -> dict[str, Any]:
+    def _analyze_memory(
+        self, memory: list[dict[str, Any]], current_intent: str
+    ) -> dict[str, Any]:
         """Analyze past interactions to inform current context"""
         if not memory:
             return {"familiarity": 0.1, "patterns": {}}
@@ -100,7 +104,9 @@ class ContextAnalyzer:
         # Implementation would analyze for recurring topics, preferences, etc.
 
         # Find related past interactions
-        related_interactions = [m for m in memory if m.get("context", {}).get("intent") == current_intent]
+        related_interactions = [
+            m for m in memory if m.get("context", {}).get("intent") == current_intent
+        ]
 
         return {
             "familiarity": familiarity,
@@ -131,7 +137,9 @@ class ContextAnalyzer:
 
         return min(1.0, urgency)
 
-    def _determine_formality(self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]) -> float:
+    def _determine_formality(
+        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
+    ) -> float:
         """Determine appropriate formality level"""
         # Start with medium formality
         formality = 0.5
@@ -146,7 +154,9 @@ class ContextAnalyzer:
 
         return max(0.1, min(0.9, formality))
 
-    def _calculate_confidence(self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]) -> float:
+    def _calculate_confidence(
+        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
+    ) -> float:
         """Calculate confidence in our context understanding"""
         # Base confidence on NLP understanding
         confidence = nlp_analysis.get("confidence", 0.5)
@@ -254,7 +264,9 @@ class MemoryManager:
                 reverse=True,
             )[: self.max_memories]
 
-    def get_relevant_memories(self, user_id: str, limit: int = 20) -> list[dict[str, Any]]:
+    def get_relevant_memories(
+        self, user_id: str, limit: int = 20
+    ) -> list[dict[str, Any]]:
         """Get relevant memories for a user"""
         if not user_id or user_id not in self.memories:
             return []
@@ -318,7 +330,9 @@ class ComplianceEngine:
         if "device_info" in anonymized:
             if isinstance(anonymized["device_info"], dict):
                 safe_keys = ["type", "os", "battery_level"]
-                anonymized["device_info"] = {k: v for k, v in anonymized["device_info"].items() if k in safe_keys}
+                anonymized["device_info"] = {
+                    k: v for k, v in anonymized["device_info"].items() if k in safe_keys
+                }
             else:
                 anonymized["device_info"] = {"type": "anonymized"}
 
@@ -388,7 +402,9 @@ class SafetyGuard:
 
         return response
 
-    def _log_ethical_concerns(self, issues: list[dict[str, Any]], context: dict[str, Any]) -> None:
+    def _log_ethical_concerns(
+        self, issues: list[dict[str, Any]], context: dict[str, Any]
+    ) -> None:
         """Log ethical concerns for review"""
         # Implementation would log issues for human review
 
@@ -410,7 +426,9 @@ class LucasVoiceSystem:
         )
         self.safety_guard = SafetyGuard()
 
-    async def process_input(self, user_input: str, metadata: dict[str, Any]) -> dict[str, Any]:
+    async def process_input(
+        self, user_input: str, metadata: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process user input and generate appropriate voice response"""
         # Log the interaction with privacy safeguards
         self.logger.info(

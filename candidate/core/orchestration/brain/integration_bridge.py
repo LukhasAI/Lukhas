@@ -33,7 +33,9 @@ class LUKHASBrainBridge:
         brain_result = await self.brain.process(input_data, context)
 
         # Meta-cognitive orchestration
-        orchestrated_result = await self.meta_cognitive.orchestrate(symbolic_result, brain_result, context)
+        orchestrated_result = await self.meta_cognitive.orchestrate(
+            symbolic_result, brain_result, context
+        )
 
         return orchestrated_result
 

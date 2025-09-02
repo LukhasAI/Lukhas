@@ -151,7 +151,9 @@ class AnomalyFilterColony(BaseColony):
 
         logger.info(f"🛡️ AnomalyFilterColony '{colony_id}' initialized")
 
-    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Detect and handle anomalies in bio-symbolic data.
 
@@ -171,13 +173,19 @@ class AnomalyFilterColony(BaseColony):
             processed_data = task_data.get("processed_data", bio_data)
 
             # Run all detectors
-            detection_results = await self._run_all_detectors(bio_data, processed_data, context)
+            detection_results = await self._run_all_detectors(
+                bio_data, processed_data, context
+            )
 
             # Classify anomalies
-            classified_anomalies = self._classify_anomalies(detection_results, bio_data, context)
+            classified_anomalies = self._classify_anomalies(
+                detection_results, bio_data, context
+            )
 
             # Generate explanations
-            explanations = self._generate_explanations(classified_anomalies, bio_data, context)
+            explanations = self._generate_explanations(
+                classified_anomalies, bio_data, context
+            )
 
             # Determine recovery actions
             recovery_actions = self._determine_recovery_actions(classified_anomalies)
@@ -191,7 +199,9 @@ class AnomalyFilterColony(BaseColony):
             confidence = self._calculate_detection_confidence(detection_results)
 
             # Update learning from results
-            await self._update_learning(detection_results, classified_anomalies, context)
+            await self._update_learning(
+                detection_results, classified_anomalies, context
+            )
 
             # Prepare result
             result = {
@@ -227,23 +237,33 @@ class AnomalyFilterColony(BaseColony):
 
         # Statistical detector
         if self.detectors["statistical"]["enabled"]:
-            results["statistical"] = await self._statistical_detector(bio_data, processed_data, context)
+            results["statistical"] = await self._statistical_detector(
+                bio_data, processed_data, context
+            )
 
         # Machine learning detector
         if self.detectors["machine_learning"]["enabled"]:
-            results["machine_learning"] = await self._ml_detector(bio_data, processed_data, context)
+            results["machine_learning"] = await self._ml_detector(
+                bio_data, processed_data, context
+            )
 
         # Quantum detector
         if self.detectors["quantum"]["enabled"]:
-            results["quantum"] = await self._quantum_detector(bio_data, processed_data, context)
+            results["quantum"] = await self._quantum_detector(
+                bio_data, processed_data, context
+            )
 
         # Symbolic detector
         if self.detectors["symbolic"]["enabled"]:
-            results["symbolic"] = await self._symbolic_detector(bio_data, processed_data, context)
+            results["symbolic"] = await self._symbolic_detector(
+                bio_data, processed_data, context
+            )
 
         # Colony consensus detector
         if self.detectors["colony_consensus"]["enabled"]:
-            results["colony_consensus"] = await self._colony_consensus_detector(bio_data, processed_data, context)
+            results["colony_consensus"] = await self._colony_consensus_detector(
+                bio_data, processed_data, context
+            )
 
         return results
 
@@ -294,8 +314,16 @@ class AnomalyFilterColony(BaseColony):
                                 "value": value,
                                 "bounds": [lower_bound, upper_bound],
                                 "severity": max(
-                                    ((lower_bound - value) / iqr if value < lower_bound else 0),
-                                    ((value - upper_bound) / iqr if value > upper_bound else 0),
+                                    (
+                                        (lower_bound - value) / iqr
+                                        if value < lower_bound
+                                        else 0
+                                    ),
+                                    (
+                                        (value - upper_bound) / iqr
+                                        if value > upper_bound
+                                        else 0
+                                    ),
                                 ),
                             }
 
@@ -348,7 +376,9 @@ class AnomalyFilterColony(BaseColony):
                         std_distance = np.std(distances)
 
                         if std_distance > 0:
-                            anomaly_score = (avg_distance - np.mean(distances[-10:])) / std_distance
+                            anomaly_score = (
+                                avg_distance - np.mean(distances[-10:])
+                            ) / std_distance
 
                             if abs(anomaly_score) > 2.0:  # 2 standard deviations
                                 anomalies["isolation_forest"] = {
@@ -369,14 +399,21 @@ class AnomalyFilterColony(BaseColony):
                         older_pattern = history[-20:-10]
 
                         if len(recent_pattern) == len(older_pattern):
-                            pattern_similarity = np.corrcoef(recent_pattern, older_pattern)[0, 1]
+                            pattern_similarity = np.corrcoef(
+                                recent_pattern, older_pattern
+                            )[0, 1]
 
-                            if not np.isnan(pattern_similarity) and pattern_similarity < config["lstm_threshold"]:
+                            if (
+                                not np.isnan(pattern_similarity)
+                                and pattern_similarity < config["lstm_threshold"]
+                            ):
                                 anomalies[f"{signal}_pattern"] = {
                                     "signal": signal,
                                     "pattern_similarity": pattern_similarity,
                                     "threshold": config["lstm_threshold"],
-                                    "severity": (config["lstm_threshold"] - pattern_similarity)
+                                    "severity": (
+                                        config["lstm_threshold"] - pattern_similarity
+                                    )
                                     / config["lstm_threshold"],
                                 }
 
@@ -407,7 +444,8 @@ class AnomalyFilterColony(BaseColony):
                 anomalies["coherence_collapse"] = {
                     "coherence": coherence,
                     "threshold": config["collapse_threshold"],
-                    "severity": (coherence - config["collapse_threshold"]) / (1 - config["collapse_threshold"]),
+                    "severity": (coherence - config["collapse_threshold"])
+                    / (1 - config["collapse_threshold"]),
                 }
 
             # Entanglement anomalies
@@ -432,7 +470,9 @@ class AnomalyFilterColony(BaseColony):
                         change_variance = np.var(value_changes)
                         if change_variance > 0:
                             current_change = value - history[-1]
-                            normalized_change = abs(current_change) / np.sqrt(change_variance)
+                            normalized_change = abs(current_change) / np.sqrt(
+                                change_variance
+                            )
 
                             if normalized_change > 3.0:  # Sudden quantum jump
                                 anomalies[f"{signal}_quantum_jump"] = {
@@ -469,7 +509,9 @@ class AnomalyFilterColony(BaseColony):
                 ("ΛHOMEO_PERFECT", "ΛHOMEO_STRESSED"),
             ]
 
-            active_glyph_names = [glyph[0] if isinstance(glyph, tuple) else glyph for glyph in glyphs]
+            active_glyph_names = [
+                glyph[0] if isinstance(glyph, tuple) else glyph for glyph in glyphs
+            ]
 
             for glyph1, glyph2 in conflicting_pairs:
                 if glyph1 in active_glyph_names and glyph2 in active_glyph_names:
@@ -524,10 +566,14 @@ class AnomalyFilterColony(BaseColony):
 
         # Simulate asking other colonies for their opinion
         # In production, this would query actual colonies
-        colony_opinions = await self._gather_colony_opinions(bio_data, processed_data, context)
+        colony_opinions = await self._gather_colony_opinions(
+            bio_data, processed_data, context
+        )
 
         # Check for consensus violations
-        agreements = sum(1 for opinion in colony_opinions.values() if opinion.get("normal", True))
+        agreements = sum(
+            1 for opinion in colony_opinions.values() if opinion.get("normal", True)
+        )
         total_colonies = len(colony_opinions)
 
         if total_colonies > 0:
@@ -538,9 +584,12 @@ class AnomalyFilterColony(BaseColony):
                     "consensus_rate": consensus_rate,
                     "threshold": config["consensus_threshold"],
                     "disagreeing_colonies": [
-                        colony for colony, opinion in colony_opinions.items() if not opinion.get("normal", True)
+                        colony
+                        for colony, opinion in colony_opinions.items()
+                        if not opinion.get("normal", True)
                     ],
-                    "severity": (config["consensus_threshold"] - consensus_rate) / config["consensus_threshold"],
+                    "severity": (config["consensus_threshold"] - consensus_rate)
+                    / config["consensus_threshold"],
                 }
 
         return {
@@ -600,7 +649,9 @@ class AnomalyFilterColony(BaseColony):
         for detector_name, results in detection_results.items():
             for anomaly_id, anomaly_data in results.get("anomalies", {}).items():
                 # Classify anomaly type
-                anomaly_type = self._determine_anomaly_type(detector_name, anomaly_id, anomaly_data, bio_data, context)
+                anomaly_type = self._determine_anomaly_type(
+                    detector_name, anomaly_id, anomaly_data, bio_data, context
+                )
 
                 classified.append(
                     {
@@ -692,12 +743,16 @@ class AnomalyFilterColony(BaseColony):
             if "coherence" in anomaly_data:
                 return f"Quantum coherence {anomaly_data['coherence']:.3f} indicates collapse event"
 
-        elif anomaly["type"] == AnomalyType.SYMBOLIC_DRIFT and "conflict" in anomaly_data:
+        elif (
+            anomaly["type"] == AnomalyType.SYMBOLIC_DRIFT and "conflict" in anomaly_data
+        ):
             return f"Conflicting GLYPHs detected: {', '.join(anomaly_data['conflict'])}"
 
         return "Anomaly detected with insufficient detail information"
 
-    def _determine_recovery_actions(self, anomalies: list[dict[str, Any]]) -> dict[str, list[AnomalyAction]]:
+    def _determine_recovery_actions(
+        self, anomalies: list[dict[str, Any]]
+    ) -> dict[str, list[AnomalyAction]]:
         """Determine recovery actions for each anomaly."""
         actions = {}
 
@@ -706,7 +761,9 @@ class AnomalyFilterColony(BaseColony):
             severity = anomaly["severity"]
 
             # Get base actions for anomaly type
-            base_actions = self.recovery_strategies.get(anomaly_type, [AnomalyAction.SOFT_FILTER])
+            base_actions = self.recovery_strategies.get(
+                anomaly_type, [AnomalyAction.SOFT_FILTER]
+            )
 
             # Modify based on severity
             if severity > 2.0:
@@ -741,15 +798,21 @@ class AnomalyFilterColony(BaseColony):
                 elif action == AnomalyAction.INTERPOLATE:
                     recovered_data = self._apply_interpolation(recovered_data, anomaly)
                 elif action == AnomalyAction.COLONY_CONSENSUS:
-                    recovered_data = await self._apply_colony_consensus(recovered_data, anomaly)
+                    recovered_data = await self._apply_colony_consensus(
+                        recovered_data, anomaly
+                    )
                 elif action == AnomalyAction.QUANTUM_HEAL:
-                    recovered_data = self._apply_quantum_healing(recovered_data, anomaly)
+                    recovered_data = self._apply_quantum_healing(
+                        recovered_data, anomaly
+                    )
                 elif action == AnomalyAction.LEARN_FROM:
                     await self._learn_from_anomaly(anomaly, bio_data)
 
         return recovered_data
 
-    def _apply_soft_filter(self, data: dict[str, Any], anomaly: dict[str, Any]) -> dict[str, Any]:
+    def _apply_soft_filter(
+        self, data: dict[str, Any], anomaly: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply soft filtering (weight reduction)."""
         if "signal" in anomaly["data"]:
             signal = anomaly["data"]["signal"]
@@ -760,7 +823,9 @@ class AnomalyFilterColony(BaseColony):
 
         return data
 
-    def _apply_hard_filter(self, data: dict[str, Any], anomaly: dict[str, Any]) -> dict[str, Any]:
+    def _apply_hard_filter(
+        self, data: dict[str, Any], anomaly: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply hard filtering (removal)."""
         if "signal" in anomaly["data"]:
             signal = anomaly["data"]["signal"]
@@ -769,7 +834,9 @@ class AnomalyFilterColony(BaseColony):
 
         return data
 
-    def _apply_interpolation(self, data: dict[str, Any], anomaly: dict[str, Any]) -> dict[str, Any]:
+    def _apply_interpolation(
+        self, data: dict[str, Any], anomaly: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply interpolation for anomalous values."""
         if "signal" in anomaly["data"]:
             signal = anomaly["data"]["signal"]
@@ -782,18 +849,26 @@ class AnomalyFilterColony(BaseColony):
 
         return data
 
-    async def _apply_colony_consensus(self, data: dict[str, Any], anomaly: dict[str, Any]) -> dict[str, Any]:
+    async def _apply_colony_consensus(
+        self, data: dict[str, Any], anomaly: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply colony consensus for recovery."""
         # Get consensus value from other colonies
         if "signal" in anomaly["data"]:
             signal = anomaly["data"]["signal"]
             # Simulate consensus (in production, query colonies)
-            consensus_value = np.mean(list(self.signal_history[signal])[-5:]) if self.signal_history[signal] else 0.5
+            consensus_value = (
+                np.mean(list(self.signal_history[signal])[-5:])
+                if self.signal_history[signal]
+                else 0.5
+            )
             data[f"{signal}_consensus"] = consensus_value
 
         return data
 
-    def _apply_quantum_healing(self, data: dict[str, Any], anomaly: dict[str, Any]) -> dict[str, Any]:
+    def _apply_quantum_healing(
+        self, data: dict[str, Any], anomaly: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply quantum healing for anomalies."""
         # Simulate quantum state correction
         if "quantum" in data:
@@ -802,7 +877,9 @@ class AnomalyFilterColony(BaseColony):
 
         return data
 
-    async def _learn_from_anomaly(self, anomaly: dict[str, Any], bio_data: dict[str, Any]):
+    async def _learn_from_anomaly(
+        self, anomaly: dict[str, Any], bio_data: dict[str, Any]
+    ):
         """Learn from anomaly for future detection."""
         # Add to known patterns if it's a valid anomaly
         pattern = {
@@ -856,14 +933,18 @@ class AnomalyFilterColony(BaseColony):
 
         return features
 
-    def _calculate_detection_confidence(self, detection_results: dict[str, dict[str, Any]]) -> float:
+    def _calculate_detection_confidence(
+        self, detection_results: dict[str, dict[str, Any]]
+    ) -> float:
         """Calculate confidence in anomaly detection."""
         if not detection_results:
             return 0.5
 
         # Count agreements between detectors
         total_detectors = len(detection_results)
-        detectors_with_anomalies = sum(1 for result in detection_results.values() if result.get("anomalies"))
+        detectors_with_anomalies = sum(
+            1 for result in detection_results.values() if result.get("anomalies")
+        )
 
         # Base confidence on detector agreement
         if detectors_with_anomalies == 0:

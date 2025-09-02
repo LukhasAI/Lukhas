@@ -111,7 +111,9 @@ class VoiceQualityReport:
         return {
             "overall_score": self.overall_score,
             "overall_grade": self.overall_grade.value,
-            "scores": {metric.value: score.to_dict() for metric, score in self.scores.items()},
+            "scores": {
+                metric.value: score.to_dict() for metric, score in self.scores.items()
+            },
             "duration_seconds": self.duration_seconds,
             "sample_rate": self.sample_rate,
             "channels": self.channels,
@@ -177,7 +179,10 @@ class SNRAnalyzer(VoiceQualityAnalyzer):
             value=float(snr_db),
             unit="dB",
             grade=grade,
-            metadata={"signal_energy": float(signal_energy), "noise_energy": float(noise_energy)},
+            metadata={
+                "signal_energy": float(signal_energy),
+                "noise_energy": float(noise_energy),
+            },
         )
 
     def get_metric_type(self) -> VoiceQualityMetric:
@@ -244,7 +249,11 @@ class THDAnalyzer(VoiceQualityAnalyzer):
             grade=grade,
             metadata={
                 "fundamental_frequency": float(f0) if "f0" in locals() else None,
-                "fundamental_energy": float(fundamental_energy) if "fundamental_energy" in locals() else None,
+                "fundamental_energy": (
+                    float(fundamental_energy)
+                    if "fundamental_energy" in locals()
+                    else None
+                ),
             },
         )
 
@@ -390,7 +399,10 @@ class ZeroCrossingRateAnalyzer(VoiceQualityAnalyzer):
             value=float(zcr),
             unit="Hz",
             grade=grade,
-            metadata={"total_zero_crossings": int(zero_crossings), "samples": len(data)},
+            metadata={
+                "total_zero_crossings": int(zero_crossings),
+                "samples": len(data),
+            },
         )
 
     def get_metric_type(self) -> VoiceQualityMetric:
@@ -550,17 +562,27 @@ class LUKHASVoiceAnalytics:
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected analysis: {validation_result.get('reason')}")
+                raise ValueError(
+                    f"Guardian rejected analysis: {validation_result.get('reason')}"
+                )
 
             # Convert audio data to AudioBuffer
             if format == AudioFormat.PCM_16:
-                audio_array = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
+                audio_array = (
+                    np.frombuffer(audio_data, dtype=np.int16).astype(np.float32)
+                    / 32768.0
+                )
             elif format == AudioFormat.FLOAT_32:
                 audio_array = np.frombuffer(audio_data, dtype=np.float32)
             else:
                 raise ValueError(f"Unsupported audio format: {format}")
 
-            buffer = AudioBuffer(data=audio_array, sample_rate=sample_rate, channels=channels, format=format)
+            buffer = AudioBuffer(
+                data=audio_array,
+                sample_rate=sample_rate,
+                channels=channels,
+                format=format,
+            )
 
             # Select metrics to analyze
             if metrics is None:
@@ -607,7 +629,9 @@ class LUKHASVoiceAnalytics:
             # Update statistics
             self.stats["quality_distribution"][overall_grade.value] += 1
             self.stats["average_analysis_time"] = (
-                self.stats["average_analysis_time"] * (self.stats["analyses_performed"] - 1) + report.analysis_time_ms
+                self.stats["average_analysis_time"]
+                * (self.stats["analyses_performed"] - 1)
+                + report.analysis_time_ms
             ) / self.stats["analyses_performed"]
 
             # Emit GLYPH event
@@ -681,7 +705,9 @@ class LUKHASVoiceAnalytics:
 
         return overall_score, overall_grade
 
-    def _generate_recommendations(self, scores: dict[VoiceQualityMetric, VoiceQualityScore]) -> list[str]:
+    def _generate_recommendations(
+        self, scores: dict[VoiceQualityMetric, VoiceQualityScore]
+    ) -> list[str]:
         """Generate quality improvement recommendations"""
         recommendations = []
 
@@ -692,15 +718,23 @@ class LUKHASVoiceAnalytics:
                 elif metric == VoiceQualityMetric.TOTAL_HARMONIC_DISTORTION:
                     recommendations.append("Check for audio clipping and reduce gain")
                 elif metric == VoiceQualityMetric.DYNAMIC_RANGE:
-                    recommendations.append("Improve microphone positioning and room acoustics")
+                    recommendations.append(
+                        "Improve microphone positioning and room acoustics"
+                    )
                 elif metric == VoiceQualityMetric.SPECTRAL_CENTROID:
-                    recommendations.append("Adjust EQ settings for better voice clarity")
+                    recommendations.append(
+                        "Adjust EQ settings for better voice clarity"
+                    )
                 elif metric == VoiceQualityMetric.PITCH_STABILITY:
-                    recommendations.append("Consider voice training for pitch consistency")
+                    recommendations.append(
+                        "Consider voice training for pitch consistency"
+                    )
 
         return recommendations
 
-    def _detect_issues(self, scores: dict[VoiceQualityMetric, VoiceQualityScore]) -> list[str]:
+    def _detect_issues(
+        self, scores: dict[VoiceQualityMetric, VoiceQualityScore]
+    ) -> list[str]:
         """Detect specific audio quality issues"""
         issues = []
 
@@ -770,7 +804,9 @@ class LUKHASVoiceAnalytics:
 
 # Convenience function
 async def analyze_voice_quality(
-    audio_data: bytes, sample_rate: int = 44100, format: AudioFormat = AudioFormat.PCM_16
+    audio_data: bytes,
+    sample_rate: int = 44100,
+    format: AudioFormat = AudioFormat.PCM_16,
 ) -> VoiceQualityReport:
     """
     Simple voice quality analysis

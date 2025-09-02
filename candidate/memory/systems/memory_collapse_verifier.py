@@ -8,9 +8,7 @@ Ensures symbolic memory collapses maintain structural and semantic integrity.
 
 from dataclasses import dataclass
 
-from candidate.core.symbolic.symbolic_tracer import (
-    SymbolicTracer,  # CLAUDE_EDIT_v0.1: Updated import path
-)
+from candidate.core.symbolic.symbolic_tracer import SymbolicTracer
 
 
 @dataclass
@@ -36,10 +34,14 @@ class MemoryCollapseVerifier:
     def verify_collapse_integrity(self, collapse_operation: dict) -> bool:
         """Verify that memory collapse maintains DAG integrity."""
         # #ΛTRACE_VERIFIER
-        self.tracer.trace("MemoryCollapseVerifier", "verify_collapse_integrity", collapse_operation)
+        self.tracer.trace(
+            "MemoryCollapseVerifier", "verify_collapse_integrity", collapse_operation
+        )
         # TODO: Implement collapse integrity verification
 
-    def validate_semantic_preservation(self, original_memories: list[MemoryNode], collapsed_memory: MemoryNode) -> bool:
+    def validate_semantic_preservation(
+        self, original_memories: list[MemoryNode], collapsed_memory: MemoryNode
+    ) -> bool:
         """Validate that semantic meaning is preserved during collapse."""
         # TODO: Implement semantic preservation validation
 

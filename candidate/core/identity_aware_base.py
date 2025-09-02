@@ -84,7 +84,9 @@ class IdentityAwareService(ABC):
                 return True
 
             def log_activity(self, activity, user_id, metadata):
-                logger.debug(f"FALLBACK: {activity}", user_id=user_id, metadata=metadata)
+                logger.debug(
+                    f"FALLBACK: {activity}", user_id=user_id, metadata=metadata
+                )
 
         return FallbackIdentityClient()
 
@@ -117,7 +119,9 @@ class IdentityAwareService(ABC):
             )
             return False
 
-    def check_user_consent(self, user_id: str, action: str, scope: str = "default") -> bool:
+    def check_user_consent(
+        self, user_id: str, action: str, scope: str = "default"
+    ) -> bool:
         """
         Check if user has given consent for an action.
 
@@ -256,7 +260,9 @@ class TieredOperationMixin:
             "LAMBDA_TIER_0",
         ]
 
-        user_tier_index = tier_levels.index(user_tier) if user_tier in tier_levels else -1
+        user_tier_index = (
+            tier_levels.index(user_tier) if user_tier in tier_levels else -1
+        )
 
         for tier in tier_levels[user_tier_index:]:
             if tier in operation_map:
@@ -313,7 +319,9 @@ class ResourceLimitedService(IdentityAwareService):
         },
     }
 
-    def __init__(self, service_name: str, custom_limits: Optional[dict] = None, **kwargs):
+    def __init__(
+        self, service_name: str, custom_limits: Optional[dict] = None, **kwargs
+    ):
         super().__init__(service_name, **kwargs)
         self.resource_limits = custom_limits or self.DEFAULT_RESOURCE_LIMITS
         self._user_usage: dict[str, dict[str, Any]] = {}
@@ -325,9 +333,13 @@ class ResourceLimitedService(IdentityAwareService):
             return self.resource_limits.get("LAMBDA_TIER_0", {})
 
         user_tier = user_context.get("current_tier", "LAMBDA_TIER_0")
-        return self.resource_limits.get(user_tier, self.resource_limits["LAMBDA_TIER_0"])
+        return self.resource_limits.get(
+            user_tier, self.resource_limits["LAMBDA_TIER_0"]
+        )
 
-    def check_resource_availability(self, user_id: str, resource_type: str, amount: float = 1.0) -> bool:
+    def check_resource_availability(
+        self, user_id: str, resource_type: str, amount: float = 1.0
+    ) -> bool:
         """
         Check if user has available resources.
 
@@ -349,7 +361,9 @@ class ResourceLimitedService(IdentityAwareService):
         current_usage = self._user_usage.get(user_id, {}).get(resource_type, 0)
         return (current_usage + amount) <= limit
 
-    def consume_resource(self, user_id: str, resource_type: str, amount: float = 1.0) -> bool:
+    def consume_resource(
+        self, user_id: str, resource_type: str, amount: float = 1.0
+    ) -> bool:
         """
         Consume user resources if available.
 
@@ -401,7 +415,9 @@ def tier_required(required_tier: str):
         @wraps(func)
         def wrapper(self, user_id: str, *args, **kwargs):
             if not isinstance(self, IdentityAwareService):
-                raise TypeError("tier_required can only be used on IdentityAwareService methods")
+                raise TypeError(
+                    "tier_required can only be used on IdentityAwareService methods"
+                )
 
             if not self.validate_user_tier(user_id, required_tier):
                 self.log_user_activity(

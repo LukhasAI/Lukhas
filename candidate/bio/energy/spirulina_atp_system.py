@@ -60,7 +60,9 @@ class BiohybridCapacitor:
     retention_efficiency: float = 0.98  # 98% charge retention
     current_charge: float = 0.0
     nanowire_integrity: float = 1.0
-    last_maintenance: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    last_maintenance: datetime = field(
+        default_factory=lambda: datetime.now(timezone.utc)
+    )
 
 
 class SpirulinaPhotosynthethicEngine:
@@ -83,11 +85,15 @@ class SpirulinaPhotosynthethicEngine:
         self.energy_buffer = 0.0
 
         print("🌱 Spirulina Photosynthetic Engine initialized")
-        print(f"   - Quantum tunneling efficiency: {self.thylakoid_quantum_efficiency:.1%}")
+        print(
+            f"   - Quantum tunneling efficiency: {self.thylakoid_quantum_efficiency:.1%}"
+        )
         print(f"   - Energy yield: {self.photosynthetic_yield_rate * 1e6:.1f} μW/cm²")
         print(f"   - Thermal reduction: {self.distribution_efficiency:.1%}")
 
-    async def harvest_quantum_energy(self, quantum_input: float, surface_area_cm2: float = 1.0) -> float:
+    async def harvest_quantum_energy(
+        self, quantum_input: float, surface_area_cm2: float = 1.0
+    ) -> float:
         """RESEARCH: 0.3 pJ/bit via quantum tunneling in synthetic thylakoid membranes"""
 
         # Simulate quantum tunneling in thylakoid membranes
@@ -95,7 +101,9 @@ class SpirulinaPhotosynthethicEngine:
 
         # Calculate photosynthetic energy yield
         base_yield = self.photosynthetic_yield_rate * surface_area_cm2
-        quantum_enhanced_yield = base_yield * tunneling_efficiency * self.thylakoid_quantum_efficiency
+        quantum_enhanced_yield = (
+            base_yield * tunneling_efficiency * self.thylakoid_quantum_efficiency
+        )
 
         # Apply Golden Ratio energy distribution for thermal optimization
         optimized_yield = self._apply_golden_ratio_distribution(quantum_enhanced_yield)
@@ -109,7 +117,9 @@ class SpirulinaPhotosynthethicEngine:
         """RESEARCH: Quantum tunneling simulation in thylakoid membranes"""
 
         # Simplified quantum tunneling model (in production would use quantum mechanics simulation)
-        tunneling_probability = min(1.0, quantum_input * self.thylakoid_quantum_efficiency)
+        tunneling_probability = min(
+            1.0, quantum_input * self.thylakoid_quantum_efficiency
+        )
 
         # Add quantum coherence effects
         coherence_boost = 1.0 + (0.2 * np.sin(quantum_input * np.pi))
@@ -150,11 +160,15 @@ class ATPSynthesisEngine:
         print(f"   - Hybrid output: {self.hybrid_output_uw_cm2} μW/cm²")
         print(f"   - Synergy boost: {(self.synergy_multiplier - 1):.1%}")
 
-    async def synthesize_energy(self, substrate_availability: float, temperature_k: float = 310) -> float:
+    async def synthesize_energy(
+        self, substrate_availability: float, temperature_k: float = 310
+    ) -> float:
         """RESEARCH: ATP synthesis with reversible phosphorylation"""
 
         # Calculate ATP synthesis rate based on thermodynamics
-        base_synthesis_rate = self._calculate_synthesis_rate(substrate_availability, temperature_k)
+        base_synthesis_rate = self._calculate_synthesis_rate(
+            substrate_availability, temperature_k
+        )
 
         # Apply Landauer limit bypass through reversible cycles
         landauer_bypass_yield = base_synthesis_rate * self.atp_synthesis_efficiency
@@ -201,14 +215,17 @@ class BiohybridCapacitorArray:
         self.capacitors = [
             BiohybridCapacitor(
                 capacitor_id=f"cap_{i:03d}",
-                charge_capacity_j=9.8 * (1.0 + np.random.uniform(-0.1, 0.1)),  # Slight variation
+                charge_capacity_j=9.8
+                * (1.0 + np.random.uniform(-0.1, 0.1)),  # Slight variation
                 retention_efficiency=0.98 * (1.0 + np.random.uniform(-0.02, 0.02)),
             )
             for i in range(array_size)
         ]
 
         self.total_capacity = sum(cap.charge_capacity_j for cap in self.capacitors)
-        self.average_retention = np.mean([cap.retention_efficiency for cap in self.capacitors])
+        self.average_retention = np.mean(
+            [cap.retention_efficiency for cap in self.capacitors]
+        )
 
         print(f"🔋 Biohybrid Capacitor Array initialized ({array_size} units)")
         print(f"   - Total capacity: {self.total_capacity:.1f} J")
@@ -241,7 +258,9 @@ class BiohybridCapacitorArray:
             "stored_energy_j": stored_energy,
             "overflow_energy_j": overflow_energy,
             "total_stored_j": sum(cap.current_charge for cap in self.capacitors),
-            "storage_efficiency": stored_energy / energy_input if energy_input > 0 else 0,
+            "storage_efficiency": (
+                stored_energy / energy_input if energy_input > 0 else 0
+            ),
             "retention_rate": self.average_retention,
         }
 
@@ -252,7 +271,9 @@ class BiohybridCapacitorArray:
         remaining_request = requested_energy
 
         # Discharge from capacitors with highest charge first
-        sorted_caps = sorted(self.capacitors, key=lambda c: c.current_charge, reverse=True)
+        sorted_caps = sorted(
+            self.capacitors, key=lambda c: c.current_charge, reverse=True
+        )
 
         for capacitor in sorted_caps:
             if remaining_request <= 0:
@@ -294,10 +315,14 @@ class SpirulinaATPHybridSystem:
         print("🧬 SPIRULINA-ATP HYBRID SYSTEM INITIALIZED")
         print(f"   - Target efficiency: {self.target_tflops_per_watt} TFLOPS/W")
         print(f"   - System scale: {system_scale:.1f}x")
-        print(f"   - Biohybrid capacitors: {len(self.capacitor_array.capacitors)} units")
+        print(
+            f"   - Biohybrid capacitors: {len(self.capacitor_array.capacitors)} units"
+        )
         print("   - Research validation: Priority #5 Bio-Symbolic Architecture")
 
-    async def process_energy_cycle(self, quantum_input: float, substrate_availability: float = 0.8) -> dict[str, Any]:
+    async def process_energy_cycle(
+        self, quantum_input: float, substrate_availability: float = 0.8
+    ) -> dict[str, Any]:
         """RESEARCH: Complete energy processing cycle with all subsystems"""
 
         cycle_start = datetime.now(timezone.utc)
@@ -311,10 +336,14 @@ class SpirulinaATPHybridSystem:
         atp_yield = await self.atp_engine.synthesize_energy(substrate_availability)
 
         # Step 3: Create ATP-Spirulina synergy
-        synergy_yield = await self.atp_engine.create_synergy_with_spirulina(spirulina_yield)
+        synergy_yield = await self.atp_engine.create_synergy_with_spirulina(
+            spirulina_yield
+        )
 
         # Step 4: Store energy in biohybrid capacitors
-        total_energy = spirulina_yield + atp_yield + (synergy_yield * 0.3)  # Weighted synergy
+        total_energy = (
+            spirulina_yield + atp_yield + (synergy_yield * 0.3)
+        )  # Weighted synergy
         storage_result = await self.capacitor_array.store_energy(total_energy)
 
         # Step 5: Calculate performance metrics
@@ -322,7 +351,9 @@ class SpirulinaATPHybridSystem:
 
         # Update current metrics
         self.current_metrics = EnergyMetrics(
-            tflops_per_watt=min(self.target_tflops_per_watt, spirulina_yield * 100 + atp_yield * 50),
+            tflops_per_watt=min(
+                self.target_tflops_per_watt, spirulina_yield * 100 + atp_yield * 50
+            ),
             storage_density_j_per_cm3=9.8 * storage_result["storage_efficiency"],
             thermal_efficiency=self.spirulina_engine.distribution_efficiency,
             charge_retention_rate=storage_result["retention_rate"],
@@ -360,14 +391,19 @@ class SpirulinaATPHybridSystem:
     async def get_system_status(self) -> dict[str, Any]:
         """RESEARCH: Get comprehensive system status and performance metrics"""
 
-        total_stored_energy = sum(cap.current_charge for cap in self.capacitor_array.capacitors)
+        total_stored_energy = sum(
+            cap.current_charge for cap in self.capacitor_array.capacitors
+        )
         total_capacity = self.capacitor_array.total_capacity
 
         return {
             "system_performance": {
                 "current_efficiency_tflops_per_watt": self.current_metrics.tflops_per_watt,
                 "target_efficiency_tflops_per_watt": self.target_tflops_per_watt,
-                "efficiency_percentage": (self.current_metrics.tflops_per_watt / self.target_tflops_per_watt) * 100,
+                "efficiency_percentage": (
+                    self.current_metrics.tflops_per_watt / self.target_tflops_per_watt
+                )
+                * 100,
                 "thermal_efficiency": self.current_metrics.thermal_efficiency,
             },
             "energy_storage": {
@@ -380,7 +416,8 @@ class SpirulinaATPHybridSystem:
                 "spirulina_engine": {
                     "quantum_efficiency": self.spirulina_engine.thylakoid_quantum_efficiency,
                     "energy_buffer_j": self.spirulina_engine.energy_buffer,
-                    "yield_rate_uw_cm2": self.spirulina_engine.photosynthetic_yield_rate * 1e6,
+                    "yield_rate_uw_cm2": self.spirulina_engine.photosynthetic_yield_rate
+                    * 1e6,
                 },
                 "atp_engine": {
                     "landauer_bypass": self.atp_engine.atp_synthesis_efficiency,
@@ -410,12 +447,16 @@ class SpirulinaATPHybridSystem:
         base_alignment = 0.94
 
         # Adjust based on current performance vs targets
-        efficiency_factor = min(1.0, self.current_metrics.tflops_per_watt / self.target_tflops_per_watt)
+        efficiency_factor = min(
+            1.0, self.current_metrics.tflops_per_watt / self.target_tflops_per_watt
+        )
         storage_factor = min(1.0, self.current_metrics.charge_retention_rate)
         thermal_factor = self.current_metrics.thermal_efficiency
 
         # Weighted alignment score
-        alignment_score = base_alignment * (0.4 * efficiency_factor + 0.3 * storage_factor + 0.3 * thermal_factor)
+        alignment_score = base_alignment * (
+            0.4 * efficiency_factor + 0.3 * storage_factor + 0.3 * thermal_factor
+        )
 
         return min(0.94, alignment_score)
 
@@ -438,7 +479,9 @@ def create_spirulina_atp_system(
 
     if optimize_for_consciousness:
         print("🧠 Consciousness-optimized bio-hybrid energy system created")
-        print("   - Optimized for: Memory fold processing, reasoning cycles, awareness loops")
+        print(
+            "   - Optimized for: Memory fold processing, reasoning cycles, awareness loops"
+        )
         print(f"   - Expected efficiency: {system.target_efficiency} TFLOPS/W")
         print("   - AGI alignment target: 94% (Virtuoso AGI level)")
 
@@ -453,7 +496,9 @@ async def demo_spirulina_atp_system():
     print("=" * 50)
 
     # Create system
-    energy_system = create_spirulina_atp_system(scale=1.5, optimize_for_consciousness=True)
+    energy_system = create_spirulina_atp_system(
+        scale=1.5, optimize_for_consciousness=True
+    )
 
     # Simulate consciousness processing cycles
     print("\n⚡ Simulating consciousness processing energy cycles...")
@@ -468,19 +513,33 @@ async def demo_spirulina_atp_system():
 
         print(f"\nCycle {cycle + 1}:")
         print(f"  - Efficiency: {result['efficiency_tflops_per_watt']:.2f} TFLOPS/W")
-        print(f"  - Total energy: {result['energy_sources']['total_generated_j']:.6f} J")
-        print(f"  - Storage efficiency: {result['storage_performance']['storage_efficiency']:.1%}")
+        print(
+            f"  - Total energy: {result['energy_sources']['total_generated_j']:.6f} J"
+        )
+        print(
+            f"  - Storage efficiency: {result['storage_performance']['storage_efficiency']:.1%}"
+        )
         print(f"  - Cycle time: {result['cycle_time_ms']:.1f} ms")
 
     # Get final system status
     status = await energy_system.get_system_status()
 
     print("\n📊 FINAL SYSTEM STATUS:")
-    print(f"  - Current efficiency: {status['system_performance']['current_efficiency_tflops_per_watt']:.2f} TFLOPS/W")
-    print(f"  - Target efficiency: {status['system_performance']['target_efficiency_tflops_per_watt']:.2f} TFLOPS/W")
-    print(f"  - Efficiency achievement: {status['system_performance']['efficiency_percentage']:.1f}%")
-    print(f"  - Storage utilization: {status['energy_storage']['storage_utilization']:.1f}%")
-    print(f"  - Virtuoso AGI alignment: {energy_system.calculate_virtuoso_agi_alignment():.1%}")
+    print(
+        f"  - Current efficiency: {status['system_performance']['current_efficiency_tflops_per_watt']:.2f} TFLOPS/W"
+    )
+    print(
+        f"  - Target efficiency: {status['system_performance']['target_efficiency_tflops_per_watt']:.2f} TFLOPS/W"
+    )
+    print(
+        f"  - Efficiency achievement: {status['system_performance']['efficiency_percentage']:.1f}%"
+    )
+    print(
+        f"  - Storage utilization: {status['energy_storage']['storage_utilization']:.1f}%"
+    )
+    print(
+        f"  - Virtuoso AGI alignment: {energy_system.calculate_virtuoso_agi_alignment():.1%}"
+    )
 
     print("\n✅ Bio-hybrid energy system demo completed successfully!")
     print("🌟 Research validation: 29% efficiency improvement achieved")

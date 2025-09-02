@@ -38,7 +38,9 @@ class ServiceRegistry:
 
         logger.debug(f"Registered service: {name}")
 
-    def register_factory(self, name: str, factory: Callable, singleton: bool = True) -> None:
+    def register_factory(
+        self, name: str, factory: Callable, singleton: bool = True
+    ) -> None:
         """Register a service factory function"""
         self._factories[name] = (factory, singleton)
         logger.debug(f"Registered factory: {name}")
@@ -79,7 +81,11 @@ class ServiceRegistry:
 
     def has_service(self, name: str) -> bool:
         """Check if service is registered"""
-        return name in self._singletons or name in self._services or name in self._factories
+        return (
+            name in self._singletons
+            or name in self._services
+            or name in self._factories
+        )
 
     def clear(self) -> None:
         """Clear all registered services"""
@@ -174,9 +180,15 @@ def inject(service_name: Optional[str] = None, interface: Optional[type] = None)
                 if len(args) < len(param_names) or param_names[-1] not in kwargs:
                     try:
                         service = get_service(service_name)
-                        kwargs[service_name.replace("_service", "_interface" if interface else "")] = service
+                        kwargs[
+                            service_name.replace(
+                                "_service", "_interface" if interface else ""
+                            )
+                        ] = service
                     except ValueError:
-                        logger.warning(f"Service '{service_name}' not found for injection")
+                        logger.warning(
+                            f"Service '{service_name}' not found for injection"
+                        )
 
             if interface and not any(isinstance(v, interface) for v in kwargs.values()):
                 try:
@@ -207,9 +219,15 @@ def inject(service_name: Optional[str] = None, interface: Optional[type] = None)
                 if len(args) < len(param_names) or param_names[-1] not in kwargs:
                     try:
                         service = get_service(service_name)
-                        kwargs[service_name.replace("_service", "_interface" if interface else "")] = service
+                        kwargs[
+                            service_name.replace(
+                                "_service", "_interface" if interface else ""
+                            )
+                        ] = service
                     except ValueError:
-                        logger.warning(f"Service '{service_name}' not found for injection")
+                        logger.warning(
+                            f"Service '{service_name}' not found for injection"
+                        )
 
             if interface and not any(isinstance(v, interface) for v in kwargs.values()):
                 try:

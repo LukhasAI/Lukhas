@@ -31,9 +31,15 @@ class MemoryDriftTracker:
             A dictionary containing the drift vector.
         """
         if entropy_delta is None:
-            entropy_delta = self._calculate_entropy_delta(current_snapshot, prior_snapshot)
-        emotional_delta = self._calculate_emotional_delta(current_snapshot, prior_snapshot)
-        symbolic_vector_shift = self._calculate_symbolic_vector_shift(current_snapshot, prior_snapshot)
+            entropy_delta = self._calculate_entropy_delta(
+                current_snapshot, prior_snapshot
+            )
+        emotional_delta = self._calculate_emotional_delta(
+            current_snapshot, prior_snapshot
+        )
+        symbolic_vector_shift = self._calculate_symbolic_vector_shift(
+            current_snapshot, prior_snapshot
+        )
 
         memory_drift_vector = {
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
@@ -48,14 +54,18 @@ class MemoryDriftTracker:
 
         return memory_drift_vector
 
-    def _calculate_entropy_delta(self, current_snapshot: dict[str, Any], prior_snapshot: dict[str, Any]) -> float:
+    def _calculate_entropy_delta(
+        self, current_snapshot: dict[str, Any], prior_snapshot: dict[str, Any]
+    ) -> float:
         """
         Calculates the change in entropy between two snapshots.
         This is a placeholder for a more sophisticated entropy calculation.
         """
         return np.random.rand()
 
-    def _calculate_emotional_delta(self, current_snapshot: dict[str, Any], prior_snapshot: dict[str, Any]) -> float:
+    def _calculate_emotional_delta(
+        self, current_snapshot: dict[str, Any], prior_snapshot: dict[str, Any]
+    ) -> float:
         """
         Calculates the change in emotional state between two snapshots.
         This is a placeholder for a more sophisticated emotional state comparison.

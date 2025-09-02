@@ -63,7 +63,9 @@ class QuantumBiometricsEngine:
             "heart_rate_variability": hrv,
             "circadian_phase": circadian_phase,
             "glucose_consciousness_impact": random.uniform(0.1, 0.9),  # Placeholder
-            "quantum_entanglement_potential": await self.hive_mind_sensors.get_collective_resonance(user_id),
+            "quantum_entanglement_potential": await self.hive_mind_sensors.get_collective_resonance(
+                user_id
+            ),
         }
 
     async def predict_biological_receptivity(self, user_id: str) -> dict[str, float]:
@@ -74,8 +76,12 @@ class QuantumBiometricsEngine:
 
         # Placeholder logic for calculating receptivity from biostate
         creative_window = biostate["neural_coherence"] * random.uniform(0.5, 1.2)
-        decision_peak = biostate["heart_rate_variability"] / 100 * random.uniform(0.8, 1.1)
-        empathy_max = biostate["quantum_entanglement_potential"] * random.uniform(0.7, 1.3)
+        decision_peak = (
+            biostate["heart_rate_variability"] / 100 * random.uniform(0.8, 1.1)
+        )
+        empathy_max = biostate["quantum_entanglement_potential"] * random.uniform(
+            0.7, 1.3
+        )
         transcendence_prob = (creative_window + decision_peak + empathy_max) / 3
 
         return {

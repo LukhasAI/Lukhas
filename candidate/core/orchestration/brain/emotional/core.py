@@ -156,7 +156,9 @@ class EmotionModule(BaseModule):
             }
 
         except Exception as e:
-            await self.log_symbolic("A harmonic disruption in emotion seeks resolution...")
+            await self.log_symbolic(
+                "A harmonic disruption in emotion seeks resolution..."
+            )
             return {
                 "status": "error",
                 "error": str(e),
@@ -184,9 +186,13 @@ class EmotionModule(BaseModule):
         # Simple emotion analysis simulation
         emotions = {
             "joy": (0.7 if "happy" in text.lower() or "joy" in text.lower() else 0.2),
-            "sadness": (0.8 if "sad" in text.lower() or "sorrow" in text.lower() else 0.1),
+            "sadness": (
+                0.8 if "sad" in text.lower() or "sorrow" in text.lower() else 0.1
+            ),
             "anger": (0.6 if "angry" in text.lower() or "mad" in text.lower() else 0.1),
-            "fear": (0.5 if "scared" in text.lower() or "afraid" in text.lower() else 0.1),
+            "fear": (
+                0.5 if "scared" in text.lower() or "afraid" in text.lower() else 0.1
+            ),
             "love": (0.9 if "love" in text.lower() or "care" in text.lower() else 0.3),
         }
 
@@ -212,7 +218,9 @@ class EmotionModule(BaseModule):
         }
 
         return {
-            "empathetic_response": empathy_responses.get(emotion, empathy_responses["neutral"]),
+            "empathetic_response": empathy_responses.get(
+                emotion, empathy_responses["neutral"]
+            ),
             "symbolic_bridge": self._vocabulary.get("empathy", ""),
             "emotional_support": True,
         }
@@ -255,7 +263,9 @@ class EmotionModule(BaseModule):
             "resonance": "🎼 Emotional frequencies dance in perfect synchrony...",
             "harmony": "🌈 Discord transforms into symphonic unity...",
         }
-        return expressions.get(request.intent, "✨ Emotional wisdom flows like starlight...")
+        return expressions.get(
+            request.intent, "✨ Emotional wisdom flows like starlight..."
+        )
 
     async def get_health_status(self) -> dict[str, Any]:
         """Return comprehensive health status."""

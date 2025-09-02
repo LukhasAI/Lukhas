@@ -116,7 +116,9 @@ class AuditLogEntry:
             "component": self.component,
             "action": self.action,
             "decision_logic": self.decision_logic,
-            "emotional_state": self.emotional_state.to_dict() if self.emotional_state else None,
+            "emotional_state": (
+                self.emotional_state.to_dict() if self.emotional_state else None
+            ),
             "compliance_region": self.compliance_region.value,
             "qi_signature": {
                 "signature": self.qi_signature.signature_data,
@@ -139,7 +141,9 @@ class TraumaLockedMemory:
         self.decay_rate = 0.05
         self.locked_memories = {}
 
-    def lock_memory(self, memory_data: Any, emotional_vector: EmotionalMemoryVector, user_id: str) -> str:
+    def lock_memory(
+        self, memory_data: Any, emotional_vector: EmotionalMemoryVector, user_id: str
+    ) -> str:
         """
         Lock memory using emotional state as key component.
         High emotional intensity creates stronger encryption.
@@ -171,7 +175,10 @@ class TraumaLockedMemory:
         return memory_id
 
     def unlock_memory(
-        self, memory_id: str, current_emotional_state: EmotionalMemoryVector, user_id: str
+        self,
+        memory_id: str,
+        current_emotional_state: EmotionalMemoryVector,
+        user_id: str,
     ) -> Optional[Any]:
         """
         Unlock memory by matching emotional state pattern.
@@ -189,15 +196,23 @@ class TraumaLockedMemory:
 
         # Calculate emotional similarity
         stored_vector = EmotionalMemoryVector(
-            **{k: v for k, v in memory_record["emotional_vector"].items() if k != "timestamp"}
+            **{
+                k: v
+                for k, v in memory_record["emotional_vector"].items()
+                if k != "timestamp"
+            }
         )
 
-        similarity = self._calculate_emotional_similarity(stored_vector, current_emotional_state)
+        similarity = self._calculate_emotional_similarity(
+            stored_vector, current_emotional_state
+        )
         # Stricter for stronger locks
         required_similarity = memory_record["lock_strength"] * 0.8
 
         if similarity < required_similarity:
-            logger.info(f"Emotional state mismatch for memory unlock: {similarity:.2f} < {required_similarity:.2f}")
+            logger.info(
+                f"Emotional state mismatch for memory unlock: {similarity:.2f} < {required_similarity:.2f}"
+            )
             return None
 
         # Reconstruct decryption key
@@ -208,14 +223,18 @@ class TraumaLockedMemory:
 
         # Decrypt and return memory
         try:
-            decrypted_data = self._decrypt_data(memory_record["encrypted_data"], decryption_key)
+            decrypted_data = self._decrypt_data(
+                memory_record["encrypted_data"], decryption_key
+            )
             logger.info(f"Memory {memory_id} unlocked successfully")
             return decrypted_data
         except Exception as e:
             logger.error(f"Failed to decrypt memory {memory_id}: {e}")
             return None
 
-    def _generate_emotional_key(self, emotional_vector: EmotionalMemoryVector, user_id: str) -> bytes:
+    def _generate_emotional_key(
+        self, emotional_vector: EmotionalMemoryVector, user_id: str
+    ) -> bytes:
         """Generate encryption key based on emotional state"""
         # Combine emotional dimensions with user ID
         key_components = [
@@ -291,7 +310,9 @@ class TraumaLockedMemory:
         data_string = data_bytes.decode()
         return json.loads(data_string)
 
-    def _calculate_emotional_similarity(self, vector1: EmotionalMemoryVector, vector2: EmotionalMemoryVector) -> float:
+    def _calculate_emotional_similarity(
+        self, vector1: EmotionalMemoryVector, vector2: EmotionalMemoryVector
+    ) -> float:
         """Calculate similarity between two emotional vectors"""
         # Euclidean distance in 4D emotional space
         distance = (
@@ -358,24 +379,42 @@ class ComplianceMonitor:
         violations = []
 
         # Check data minimization
-        if self.compliance_rules.get("data_minimization") and context.get("data_excessive"):
+        if self.compliance_rules.get("data_minimization") and context.get(
+            "data_excessive"
+        ):
             violations.append("Data minimization violation: Collecting excessive data")
 
         # Check purpose limitation
-        if self.compliance_rules.get("purpose_limitation") and context.get("purpose_drift"):
-            violations.append("Purpose limitation violation: Using data beyond stated purpose")
+        if self.compliance_rules.get("purpose_limitation") and context.get(
+            "purpose_drift"
+        ):
+            violations.append(
+                "Purpose limitation violation: Using data beyond stated purpose"
+            )
 
         # Check user consent
-        if self.compliance_rules.get("user_consent_required") and not context.get("user_consent"):
-            violations.append("User consent violation: No explicit consent for data processing")
+        if self.compliance_rules.get("user_consent_required") and not context.get(
+            "user_consent"
+        ):
+            violations.append(
+                "User consent violation: No explicit consent for data processing"
+            )
 
         # EU AI Act specific checks
         if self.region == ComplianceRegion.EU:
-            if action in ["facial_recognition", "emotion_recognition", "social_scoring"]:
-                violations.append(f"EU AI Act Article 5 violation: Prohibited practice {action}")
+            if action in [
+                "facial_recognition",
+                "emotion_recognition",
+                "social_scoring",
+            ]:
+                violations.append(
+                    f"EU AI Act Article 5 violation: Prohibited practice {action}"
+                )
 
             if context.get("high_risk_ai") and not context.get("human_oversight"):
-                violations.append("EU AI Act Article 9 violation: High-risk AI without human oversight")
+                violations.append(
+                    "EU AI Act Article 9 violation: High-risk AI without human oversight"
+                )
 
         # Log compliance check
         self.audit_log.append(
@@ -411,9 +450,13 @@ class LukhosIDManager:
         # Initialize quantum security (mock for development)
         self.qi_signer_id = "lukhas_core_system"
 
-        logger.info(f"LUKHAS_ID Manager initialized with {compliance_region.value} compliance")
+        logger.info(
+            f"LUKHAS_ID Manager initialized with {compliance_region.value} compliance"
+        )
 
-    async def register_user(self, user_data: dict, initial_tier: AccessTier = AccessTier.TIER_1_BASIC) -> str:
+    async def register_user(
+        self, user_data: dict, initial_tier: AccessTier = AccessTier.TIER_1_BASIC
+    ) -> str:
         """
         Register a new user with LUKHAS_ID system
         """
@@ -461,7 +504,9 @@ class LukhosIDManager:
             privacy_impact="User data encrypted and stored with consent",
         )
 
-        logger.info(f"User {user_id} registered successfully with tier {initial_tier.value}")
+        logger.info(
+            f"User {user_id} registered successfully with tier {initial_tier.value}"
+        )
         return user_id
 
     async def authenticate_user(
@@ -481,8 +526,12 @@ class LukhosIDManager:
         access_tier = user_record["access_tier"]
 
         # Tier-based authentication
-        if not await self._verify_tier_credentials(user_record, credentials, access_tier):
-            logger.warning(f"Authentication failed for user {user_id} at tier {access_tier.value}")
+        if not await self._verify_tier_credentials(
+            user_record, credentials, access_tier
+        ):
+            logger.warning(
+                f"Authentication failed for user {user_id} at tier {access_tier.value}"
+            )
             return None
 
         # Create session token
@@ -516,25 +565,35 @@ class LukhosIDManager:
             privacy_impact="Session created with appropriate tier permissions",
         )
 
-        logger.info(f"User {user_id} authenticated successfully at tier {access_tier.value}")
+        logger.info(
+            f"User {user_id} authenticated successfully at tier {access_tier.value}"
+        )
         return session_data
 
-    async def _verify_tier_credentials(self, user_record: dict, credentials: dict, tier: AccessTier) -> bool:
+    async def _verify_tier_credentials(
+        self, user_record: dict, credentials: dict, tier: AccessTier
+    ) -> bool:
         """Verify credentials based on access tier requirements"""
 
         # Tier 1: Emoji + Seed Phrase Grid
         if tier.value >= 1:
-            if not self._verify_emoji_seed(user_record.get("emoji_seed"), credentials.get("emoji_seed")):
+            if not self._verify_emoji_seed(
+                user_record.get("emoji_seed"), credentials.get("emoji_seed")
+            ):
                 return False
 
         # Tier 2: + Biometrics (Face/Voice ID)
         if tier.value >= 2:
-            if not self._verify_biometrics(user_record.get("biometric_hash"), credentials.get("biometric_data")):
+            if not self._verify_biometrics(
+                user_record.get("biometric_hash"), credentials.get("biometric_data")
+            ):
                 return False
 
         # Tier 3: + SID Puzzle Fill-In
         if tier.value >= 3:
-            if not self._verify_sid_puzzle(user_record.get("sid_puzzle"), credentials.get("sid_solution")):
+            if not self._verify_sid_puzzle(
+                user_record.get("sid_puzzle"), credentials.get("sid_solution")
+            ):
                 return False
 
         # Tier 4: + Emergency Gesture/Fallback
@@ -567,7 +626,9 @@ class LukhosIDManager:
         # In real implementation, this would validate puzzle solution
         return stored_puzzle == provided_solution
 
-    def _verify_emergency_gesture(self, stored_gesture: str, provided_gesture: str) -> bool:
+    def _verify_emergency_gesture(
+        self, stored_gesture: str, provided_gesture: str
+    ) -> bool:
         """Verify emergency gesture/fallback"""
         if not stored_gesture or not provided_gesture:
             return False
@@ -640,7 +701,9 @@ class LukhosIDManager:
             f"{user_id}|{component}|{action}|{datetime.now().isoformat()}"
         )
 
-        qi_signature = QISignature(signature_data=signature_data, signer_id=self.qi_signer_id)
+        qi_signature = QISignature(
+            signature_data=signature_data, signer_id=self.qi_signer_id
+        )
 
         audit_entry = AuditLogEntry(
             timestamp=datetime.now(),
@@ -685,7 +748,9 @@ class LukhosIDManager:
         self, user_id: str, memory_data: Any, emotional_state: EmotionalMemoryVector
     ) -> str:
         """Store memory with emotional protection"""
-        memory_id = self.trauma_memory.lock_memory(memory_data, emotional_state, user_id)
+        memory_id = self.trauma_memory.lock_memory(
+            memory_data, emotional_state, user_id
+        )
 
         await self._create_audit_log(
             user_id=user_id,
@@ -700,10 +765,15 @@ class LukhosIDManager:
         return memory_id
 
     async def retrieve_emotional_memory(
-        self, user_id: str, memory_id: str, current_emotional_state: EmotionalMemoryVector
+        self,
+        user_id: str,
+        memory_id: str,
+        current_emotional_state: EmotionalMemoryVector,
     ) -> Optional[Any]:
         """Retrieve emotionally protected memory"""
-        memory_data = self.trauma_memory.unlock_memory(memory_id, current_emotional_state, user_id)
+        memory_data = self.trauma_memory.unlock_memory(
+            memory_id, current_emotional_state, user_id
+        )
 
         await self._create_audit_log(
             user_id=user_id,
@@ -729,7 +799,8 @@ class LukhosIDManager:
                 entry
                 for entry in self.compliance_monitor.audit_log
                 if not entry["compliant"]
-                and datetime.fromisoformat(entry["timestamp"]) > datetime.now() - timedelta(hours=24)
+                and datetime.fromisoformat(entry["timestamp"])
+                > datetime.now() - timedelta(hours=24)
             ],
         }
 
@@ -753,14 +824,20 @@ if __name__ == "__main__":
                 "personalization": True,
                 "analytics": False,
             },
-            "privacy_preferences": {"data_retention_days": 365, "share_anonymous_stats": False},
+            "privacy_preferences": {
+                "data_retention_days": 365,
+                "share_anonymous_stats": False,
+            },
         }
 
         user_id = await lukhas_id.register_user(user_data, AccessTier.TIER_2_ENHANCED)
         logger.info(f"User registered: {user_id}")
 
         # Authenticate user
-        credentials = {"emoji_seed": "🔥🌟💎🚀", "biometric_data": "mock_biometric_data"}
+        credentials = {
+            "emoji_seed": "🔥🌟💎🚀",
+            "biometric_data": "mock_biometric_data",
+        }
 
         emotional_state = EmotionalMemoryVector(
             valence=0.7,
@@ -771,9 +848,13 @@ if __name__ == "__main__":
             context="User feeling confident and happy",
         )
 
-        session = await lukhas_id.authenticate_user(user_id, credentials, emotional_state)
+        session = await lukhas_id.authenticate_user(
+            user_id, credentials, emotional_state
+        )
         if session:
-            logger.info(f"Authentication successful. Session: {session['session_token'][:8]}...")
+            logger.info(
+                f"Authentication successful. Session: {session['session_token'][:8]}..."
+            )
             logger.info(f"Permissions: {session['permissions']}")
 
             # Store an emotional memory
@@ -784,7 +865,9 @@ if __name__ == "__main__":
                 "outcome": "positive",
             }
 
-            memory_id = await lukhas_id.store_emotional_memory(user_id, memory_data, emotional_state)
+            memory_id = await lukhas_id.store_emotional_memory(
+                user_id, memory_data, emotional_state
+            )
             logger.info(f"Memory stored: {memory_id}")
 
             # Retrieve memory with similar emotional state
@@ -797,9 +880,13 @@ if __name__ == "__main__":
                 context="User in similar emotional state",
             )
 
-            retrieved_memory = await lukhas_id.retrieve_emotional_memory(user_id, memory_id, similar_state)
+            retrieved_memory = await lukhas_id.retrieve_emotional_memory(
+                user_id, memory_id, similar_state
+            )
             if retrieved_memory:
-                logger.info(f"Memory retrieved successfully: {retrieved_memory['type']}")
+                logger.info(
+                    f"Memory retrieved successfully: {retrieved_memory['type']}"
+                )
             else:
                 logger.warning("Memory retrieval failed - emotional state mismatch")
 

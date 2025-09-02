@@ -16,7 +16,9 @@ class VoiceMemoryBridge:
         # Your bio-symbolic processing magic happens here
         return {
             "enhanced_understanding": True,
-            "emotional_resonance": self._calculate_resonance(voice_input, memory_context),
+            "emotional_resonance": self._calculate_resonance(
+                voice_input, memory_context
+            ),
             "symbolic_mapping": self._create_symbolic_map(voice_input),
         }
 

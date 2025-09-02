@@ -48,16 +48,12 @@ sys.path.append(str(Path(__file__).parent))
 
 try:
     # Try to import the full quantum system first
-    from creative_q_expression import (
-        LukhasCreativeExpressionEngine as FullQIEngine,
-    )
+    from creative_q_expression import LukhasCreativeExpressionEngine as FullQIEngine
 
     QUANTUM_MODE = "full"
 except ImportError:
     # Fall back to development mock
-    from coreQICreativeMock import (
-        MockLukhasCreativeExpressionEngine as MockEngine,
-    )
+    from coreQICreativeMock import MockLukhasCreativeExpressionEngine as MockEngine
 
     QUANTUM_MODE = "mock"
     print("🧪 Using mock quantum engine for development")

@@ -13,7 +13,7 @@ This module provides real-time monitoring of system health with focus on:
 #TAG:guardian
 #TAG:monitoring
 #TAG:health
-#TAG:constellation
+#TAG:trinity
 #TAG:performance
 """
 
@@ -333,7 +333,9 @@ class SystemHealthMonitor:
 
         while self.monitoring_active:
             try:
-                if datetime.now() - self.last_report_time >= timedelta(seconds=self.report_interval):
+                if datetime.now() - self.last_report_time >= timedelta(
+                    seconds=self.report_interval
+                ):
                     await self._generate_health_report()
                     self.last_report_time = datetime.now()
 
@@ -418,7 +420,9 @@ class SystemHealthMonitor:
                     memory_trend > 5.0  # Rising rapidly
                     and current_memory_percent > 85.0
                 ):  # High memory usage
-                    cascade_risk = self._assess_cascade_risk(current_memory_percent, memory_trend)
+                    cascade_risk = self._assess_cascade_risk(
+                        current_memory_percent, memory_trend
+                    )
 
                     if cascade_risk != CascadeRisk.MINIMAL:
                         await self._handle_cascade_event(
@@ -450,7 +454,9 @@ class SystemHealthMonitor:
             error_rate = self._simulate_error_rate(endpoint)
             throughput = self._simulate_throughput(endpoint)
 
-            performance_tier = self._assess_api_performance(response_time, error_rate, throughput)
+            performance_tier = self._assess_api_performance(
+                response_time, error_rate, throughput
+            )
 
             snapshot = APIPerformanceSnapshot(
                 timestamp=timestamp,
@@ -461,7 +467,8 @@ class SystemHealthMonitor:
                 cpu_usage=psutil.cpu_percent(),
                 memory_usage=psutil.virtual_memory().percent,
                 performance_tier=performance_tier,
-                sla_compliance=response_time < self.performance_baselines["api_response_time"],
+                sla_compliance=response_time
+                < self.performance_baselines["api_response_time"],
                 concurrent_requests=self._estimate_concurrent_requests(),
                 queue_depth=self._estimate_queue_depth(),
                 cache_hit_rate=self._simulate_cache_hit_rate(),
@@ -493,7 +500,10 @@ class SystemHealthMonitor:
                     value=health_score,
                     unit="score",
                     timestamp=timestamp,
-                    tags={"trinity_component": framework_component, "subcomponent": component},
+                    tags={
+                        "trinity_component": framework_component,
+                        "subcomponent": component,
+                    },
                 )
 
                 total_health += health_score
@@ -504,7 +514,7 @@ class SystemHealthMonitor:
                 framework_health = total_health / component_count
 
                 await self._record_metric(
-                    component="constellation",
+                    component="trinity",
                     metric_type=f"{framework_component}_health",
                     value=framework_health,
                     unit="score",
@@ -514,7 +524,9 @@ class SystemHealthMonitor:
 
                 # Check for Trinity health issues
                 if framework_health < 0.7:
-                    await self._generate_trinity_alert(framework_component, framework_health)
+                    await self._generate_trinity_alert(
+                        framework_component, framework_health
+                    )
 
     async def _record_metric(
         self,
@@ -535,8 +547,12 @@ class SystemHealthMonitor:
 
         # Calculate Trinity Framework impacts
         identity_impact = self._calculate_identity_impact(component, metric_type, value)
-        consciousness_impact = self._calculate_consciousness_impact(component, metric_type, value)
-        guardian_priority = self._determine_guardian_priority(component, metric_type, value)
+        consciousness_impact = self._calculate_consciousness_impact(
+            component, metric_type, value
+        )
+        guardian_priority = self._determine_guardian_priority(
+            component, metric_type, value
+        )
 
         metric = HealthMetric(
             metric_id=metric_id,
@@ -546,7 +562,9 @@ class SystemHealthMonitor:
             value=value,
             unit=unit,
             status=health_status,
-            threshold_breached=self._check_threshold_breach(component, metric_type, value),
+            threshold_breached=self._check_threshold_breach(
+                component, metric_type, value
+            ),
             cascade_risk=cascade_risk,
             identity_impact=identity_impact,
             consciousness_impact=consciousness_impact,
@@ -563,7 +581,9 @@ class SystemHealthMonitor:
         if metric.threshold_breached or cascade_risk != CascadeRisk.MINIMAL:
             await self._generate_metric_alert(metric)
 
-    def _assess_metric_health(self, component: str, metric_type: str, value: float) -> HealthStatus:
+    def _assess_metric_health(
+        self, component: str, metric_type: str, value: float
+    ) -> HealthStatus:
         """Assess health status for a metric."""
 
         # Define health ranges for different metric types
@@ -599,7 +619,9 @@ class SystemHealthMonitor:
 
         return HealthStatus.CRITICAL
 
-    def _assess_metric_cascade_risk(self, component: str, metric_type: str, value: float) -> CascadeRisk:
+    def _assess_metric_cascade_risk(
+        self, component: str, metric_type: str, value: float
+    ) -> CascadeRisk:
         """Assess cascade risk for a metric."""
 
         # Memory metrics have higher cascade risk
@@ -623,7 +645,11 @@ class SystemHealthMonitor:
         current_time = datetime.now()
 
         # Recent metrics (last 24 hours)
-        recent_metrics = [m for m in self.health_metrics if current_time - m.timestamp < timedelta(hours=24)]
+        recent_metrics = [
+            m
+            for m in self.health_metrics
+            if current_time - m.timestamp < timedelta(hours=24)
+        ]
 
         # Component health summary
         component_health = defaultdict(list)
@@ -638,40 +664,54 @@ class SystemHealthMonitor:
                 component_scores[component] = sum(scores) / len(scores)
 
         # Overall health calculation
-        overall_score = sum(component_scores.values()) / len(component_scores) if component_scores else 0.0
+        overall_score = (
+            sum(component_scores.values()) / len(component_scores)
+            if component_scores
+            else 0.0
+        )
         overall_status = self._score_to_health_status(overall_score)
 
         # Cascade prevention rate
-        total_potential_cascades = len([e for e in self.cascade_events if not e.prevented]) + len(
-            [e for e in self.cascade_events if e.prevented]
-        )
+        total_potential_cascades = len(
+            [e for e in self.cascade_events if not e.prevented]
+        ) + len([e for e in self.cascade_events if e.prevented])
         prevented_cascades = len([e for e in self.cascade_events if e.prevented])
         cascade_prevention_rate = (
-            (prevented_cascades / total_potential_cascades) if total_potential_cascades > 0 else 1.0
+            (prevented_cascades / total_potential_cascades)
+            if total_potential_cascades > 0
+            else 1.0
         )
 
         # API performance summary
-        recent_api_snapshots = [s for s in self.api_snapshots if current_time - s.timestamp < timedelta(hours=1)]
+        recent_api_snapshots = [
+            s
+            for s in self.api_snapshots
+            if current_time - s.timestamp < timedelta(hours=1)
+        ]
 
         avg_response_time = (
-            sum(s.response_time_ms for s in recent_api_snapshots) / len(recent_api_snapshots)
+            sum(s.response_time_ms for s in recent_api_snapshots)
+            / len(recent_api_snapshots)
             if recent_api_snapshots
             else 0.0
         )
         sla_compliance_rate = (
-            sum(1 for s in recent_api_snapshots if s.sla_compliance) / len(recent_api_snapshots)
+            sum(1 for s in recent_api_snapshots if s.sla_compliance)
+            / len(recent_api_snapshots)
             if recent_api_snapshots
             else 1.0
         )
 
         # Trinity Framework health
         trinity_health = {}
-        for framework in self.trinity_components:
-            framework_metrics = [m for m in recent_metrics if f"trinity_{framework}" in m.component]
+        for framework in self.trinity_components.keys():
+            framework_metrics = [
+                m for m in recent_metrics if f"trinity_{framework}" in m.component
+            ]
             if framework_metrics:
-                framework_score = sum(self._health_status_to_score(m.status) for m in framework_metrics) / len(
-                    framework_metrics
-                )
+                framework_score = sum(
+                    self._health_status_to_score(m.status) for m in framework_metrics
+                ) / len(framework_metrics)
                 trinity_health[framework] = framework_score
 
         return {
@@ -693,17 +733,21 @@ class SystemHealthMonitor:
             "memory_cascade_status": {
                 "prevention_rate": cascade_prevention_rate,
                 "target_rate": self.cascade_prevention_target,
-                "meets_target": cascade_prevention_rate >= self.cascade_prevention_target,
+                "meets_target": cascade_prevention_rate
+                >= self.cascade_prevention_target,
                 "total_events": len(self.cascade_events),
                 "prevented_events": prevented_cascades,
             },
             "api_performance": {
                 "average_response_time_ms": avg_response_time,
                 "sla_compliance_rate": sla_compliance_rate,
-                "baseline_response_time_ms": self.performance_baselines["api_response_time"],
-                "meets_sla": avg_response_time <= self.performance_baselines["api_response_time"],
+                "baseline_response_time_ms": self.performance_baselines[
+                    "api_response_time"
+                ],
+                "meets_sla": avg_response_time
+                <= self.performance_baselines["api_response_time"],
             },
-            "constellation_framework": {
+            "trinity_framework": {
                 "identity_health": trinity_health.get("identity", 0.0),  # ⚛️
                 "consciousness_health": trinity_health.get("consciousness", 0.0),  # 🧠
                 "guardian_health": trinity_health.get("guardian", 0.0),  # 🛡️
@@ -764,7 +808,9 @@ class SystemHealthMonitor:
         slope = (n * xy_sum - x_sum * y_sum) / (n * x2_sum - x_sum * x_sum)
         return slope
 
-    def _calculate_performance_trends(self, metrics: list[HealthMetric]) -> dict[str, Any]:
+    def _calculate_performance_trends(
+        self, metrics: list[HealthMetric]
+    ) -> dict[str, Any]:
         """Calculate performance trends from recent metrics."""
 
         trends = {}
@@ -779,7 +825,11 @@ class SystemHealthMonitor:
             if len(values) >= 3:
                 trend_slope = self._calculate_trend(values)
                 trends[metric_type] = {
-                    "trend": "increasing" if trend_slope > 0.1 else ("decreasing" if trend_slope < -0.1 else "stable"),
+                    "trend": (
+                        "increasing"
+                        if trend_slope > 0.1
+                        else ("decreasing" if trend_slope < -0.1 else "stable")
+                    ),
                     "slope": trend_slope,
                     "current": values[-1] if values else 0.0,
                     "average": sum(values) / len(values),
@@ -832,7 +882,9 @@ class SystemHealthMonitor:
         """Assess overall system health."""
         pass  # Implementation placeholder
 
-    async def _handle_cascade_event(self, cascade_risk: CascadeRisk, memory_usage: float, trend: float):
+    async def _handle_cascade_event(
+        self, cascade_risk: CascadeRisk, memory_usage: float, trend: float
+    ):
         """Handle detected cascade event."""
         pass  # Implementation placeholder
 
@@ -840,7 +892,9 @@ class SystemHealthMonitor:
         """Generate performance alert."""
         pass  # Implementation placeholder
 
-    async def _generate_trinity_alert(self, framework_component: str, health_score: float):
+    async def _generate_trinity_alert(
+        self, framework_component: str, health_score: float
+    ):
         """Generate Trinity Framework alert."""
         pass  # Implementation placeholder
 
@@ -873,7 +927,9 @@ class SystemHealthMonitor:
         else:
             return CascadeRisk.LOW
 
-    def _assess_api_performance(self, response_time: float, error_rate: float, throughput: float) -> PerformanceTier:
+    def _assess_api_performance(
+        self, response_time: float, error_rate: float, throughput: float
+    ) -> PerformanceTier:
         """Assess API performance tier."""
         if response_time < 100 and error_rate < 0.5:
             return PerformanceTier.OPTIMAL
@@ -886,7 +942,9 @@ class SystemHealthMonitor:
         else:
             return PerformanceTier.FAILING
 
-    def _check_threshold_breach(self, component: str, metric_type: str, value: float) -> bool:
+    def _check_threshold_breach(
+        self, component: str, metric_type: str, value: float
+    ) -> bool:
         """Check if metric breaches defined thresholds."""
         threshold_key = f"{component}_{metric_type}"
         if threshold_key in self.performance_baselines:
@@ -898,19 +956,29 @@ class SystemHealthMonitor:
 
         return False
 
-    def _calculate_identity_impact(self, component: str, metric_type: str, value: float) -> float:
+    def _calculate_identity_impact(
+        self, component: str, metric_type: str, value: float
+    ) -> float:
         """Calculate impact on identity systems (⚛️)."""
         if "auth" in component or "identity" in component:
             return value / 100.0
         return 0.0
 
-    def _calculate_consciousness_impact(self, component: str, metric_type: str, value: float) -> float:
+    def _calculate_consciousness_impact(
+        self, component: str, metric_type: str, value: float
+    ) -> float:
         """Calculate impact on consciousness systems (🧠)."""
-        if "consciousness" in component or "memory" in component or "awareness" in component:
+        if (
+            "consciousness" in component
+            or "memory" in component
+            or "awareness" in component
+        ):
             return value / 100.0
         return 0.0
 
-    def _determine_guardian_priority(self, component: str, metric_type: str, value: float) -> str:
+    def _determine_guardian_priority(
+        self, component: str, metric_type: str, value: float
+    ) -> str:
         """Determine Guardian system priority (🛡️)."""
         if value > 90:
             return "critical"

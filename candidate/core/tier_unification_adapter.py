@@ -86,7 +86,9 @@ class OneiricTierAdapter(TierSystemAdapter):
                 if not user:
                     raise ValueError("User object required for Oneiric middleware")
 
-                user_id = getattr(user, "identity_legacy", None) or getattr(user, "id", None)
+                user_id = getattr(user, "identity_legacy", None) or getattr(
+                    user, "id", None
+                )
                 if not user_id:
                     raise ValueError("User ID not found in user object")
 
@@ -144,7 +146,9 @@ class EmotionalTierAdapter(TierSystemAdapter):
         mapping = TierMappingConfig.LAMBDA_TO_EMOTIONAL
         return mapping.get(lambda_tier, "T1")
 
-    def validate_access(self, user_id: str, required_tier: Union[str, "EmotionalTier"]) -> bool:
+    def validate_access(
+        self, user_id: str, required_tier: Union[str, "EmotionalTier"]
+    ) -> bool:
         """Validate user access using central identity system."""
         if not self.client:
             logger.warning("Identity client not available, granting access by default")
@@ -262,7 +266,9 @@ class UnifiedTierAdapter:
         # Otherwise use general normalization
         return TierMappingConfig.normalize_tier(tier)
 
-    def create_unified_decorator(self, required_tier: Any, system: Optional[str] = None):
+    def create_unified_decorator(
+        self, required_tier: Any, system: Optional[str] = None
+    ):
         """
         Create a unified decorator that works with any tier system.
 
@@ -293,18 +299,31 @@ class UnifiedTierAdapter:
                 # Strategy 2: User object (Oneiric style)
                 if not user_id and "user" in kwargs:
                     user_obj = kwargs["user"]
-                    user_id = getattr(user_obj, "identity_legacy", None) or getattr(user_obj, "id", None)
+                    user_id = getattr(user_obj, "identity_legacy", None) or getattr(
+                        user_obj, "id", None
+                    )
 
                 # Strategy 3: First positional arg
-                if not user_id and args and isinstance(args[0], str) and args[0].startswith("Λ"):
+                if (
+                    not user_id
+                    and args
+                    and isinstance(args[0], str)
+                    and args[0].startswith("Λ")
+                ):
                     user_id = args[0]
 
                 if not user_id:
-                    raise ValueError("Could not extract user ID from function arguments")
+                    raise ValueError(
+                        "Could not extract user ID from function arguments"
+                    )
 
                 # Use central identity validation
-                if self.client and not self.client.verify_user_access(user_id, normalized_tier):
-                    raise PermissionError(f"Insufficient tier level. Required: {normalized_tier}")
+                if self.client and not self.client.verify_user_access(
+                    user_id, normalized_tier
+                ):
+                    raise PermissionError(
+                        f"Insufficient tier level. Required: {normalized_tier}"
+                    )
 
                 # Log activity
                 if self.client:
@@ -370,11 +389,15 @@ class TierUnificationAdapter:
         """Normalize a tier from any system to LAMBDA_TIER format"""
         return self.unified_adapter.normalize_tier(tier, source_system)
 
-    def validate_access(self, user_id: str, required_tier: Any, system: str = "lambda") -> bool:
+    def validate_access(
+        self, user_id: str, required_tier: Any, system: str = "lambda"
+    ) -> bool:
         """Validate user access for a given tier requirement"""
         try:
             normalized_tier = self.normalize_tier(required_tier, system)
-            return self.unified_adapter.client.verify_user_access(user_id, normalized_tier)
+            return self.unified_adapter.client.verify_user_access(
+                user_id, normalized_tier
+            )
         except Exception as e:
             logger.error(f"Access validation failed: {e}")
             return False

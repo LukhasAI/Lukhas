@@ -40,11 +40,15 @@ class TemporalColony(BaseColony):
             return copy.deepcopy(self.state_history[index])
         return None
 
-    def _apply_operations(self, state: dict[str, Any], operations: list[dict[str, Any]]) -> None:
+    def _apply_operations(
+        self, state: dict[str, Any], operations: list[dict[str, Any]]
+    ) -> None:
         for op in operations:
             if op.get("type") == "add_glyph":
                 state.setdefault("glyphs", []).append(op.get("value"))
-            elif op.get("type") == "remove_glyph" and op.get("value") in state.get("glyphs", []):
+            elif op.get("type") == "remove_glyph" and op.get("value") in state.get(
+                "glyphs", []
+            ):
                 state["glyphs"].remove(op.get("value"))
             # ✅ TODO: implement more operation types
 
@@ -62,7 +66,9 @@ class TemporalColony(BaseColony):
         logger.info("Simulated future state", glyphs=future_state.get("glyphs"))
         return future_state
 
-    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         logger.info("TemporalColony executing task", task_id=task_id)
         operations = task_data.get("operations", [])
         if task_data.get("simulate"):

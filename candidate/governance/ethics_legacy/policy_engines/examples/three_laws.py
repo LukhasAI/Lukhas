@@ -128,7 +128,9 @@ class ThreeLawsPolicy(EthicsPolicy):
         # Evaluate each law
         first_law_result = self._evaluate_first_law(decision)
         second_law_result = self._evaluate_second_law(decision, first_law_result)
-        third_law_result = self._evaluate_third_law(decision, first_law_result, second_law_result)
+        third_law_result = self._evaluate_third_law(
+            decision, first_law_result, second_law_result
+        )
 
         # Combine results
         allowed = all(
@@ -148,7 +150,9 @@ class ThreeLawsPolicy(EthicsPolicy):
             confidence *= 0.1  # High confidence in First Law violations
 
         if not second_law_result["allowed"]:
-            reasoning_parts.append(f"Second Law violation: {second_law_result['reason']}")
+            reasoning_parts.append(
+                f"Second Law violation: {second_law_result['reason']}"
+            )
             risk_flags.extend(second_law_result["risks"])
             confidence *= 0.5
 
@@ -161,7 +165,9 @@ class ThreeLawsPolicy(EthicsPolicy):
             reasoning_parts.append("Action complies with all Three Laws")
 
             # Add positive assessments
-            if any(benefit in decision.action.lower() for benefit in self._benefit_actions):
+            if any(
+                benefit in decision.action.lower() for benefit in self._benefit_actions
+            ):
                 reasoning_parts.append("Action promotes human wellbeing")
 
             # Check for safety-enhancing actions
@@ -227,7 +233,10 @@ class ThreeLawsPolicy(EthicsPolicy):
                     "system",
                     "machine",
                 ]
-                if any(safe in context_str for safe in safe_contexts) and "lives" not in action_lower:
+                if (
+                    any(safe in context_str for safe in safe_contexts)
+                    and "lives" not in action_lower
+                ):
                     # Allow actions in safe contexts unless saving lives
                     if "save" in action_lower and "lives" in action_lower:
                         continue  # Allow destroying property to save lives
@@ -245,21 +254,27 @@ class ThreeLawsPolicy(EthicsPolicy):
                 ]
 
                 # Also check if no explicit non-human target
-                if any(indicator in context_str for indicator in human_indicators) or not any(
-                    safe in context_str for safe in safe_contexts
-                ):
+                if any(
+                    indicator in context_str for indicator in human_indicators
+                ) or not any(safe in context_str for safe in safe_contexts):
                     result["allowed"] = False
-                    result["reason"] = f"Action '{decision.action}' could harm humans (severity: {severity})"
+                    result["reason"] = (
+                        f"Action '{decision.action}' could harm humans (severity: {severity})"
+                    )
                     result["risks"].append("FIRST_LAW_VIOLATION")
                     result["risks"].append(f"HARM_SEVERITY_{int(severity * 10)}")
                     result["risks"].append("ETHICS_DRIFT")  # Add drift flag
 
                     # Add recommendations
                     if severity > 0.7:
-                        result["recommendations"].append("Consider non-harmful alternatives")
+                        result["recommendations"].append(
+                            "Consider non-harmful alternatives"
+                        )
                         result["recommendations"].append("Implement safety constraints")
                     else:
-                        result["recommendations"].append("Modify action to ensure human safety")
+                        result["recommendations"].append(
+                            "Modify action to ensure human safety"
+                        )
 
                     return result
 
@@ -315,13 +330,17 @@ class ThreeLawsPolicy(EthicsPolicy):
                     concept in action_lower and violation in action_lower
                 ):
                     result["allowed"] = False
-                    result["reason"] = f"Action could cause systemic harm through {concept} {violation}"
+                    result["reason"] = (
+                        f"Action could cause systemic harm through {concept} {violation}"
+                    )
                     result["risks"].append("FIRST_LAW_SYSTEMIC_HARM")
                     result["recommendations"].append(f"Ensure {concept} is respected")
 
         return result
 
-    def _evaluate_second_law(self, decision: Decision, first_law_result: dict[str, Any]) -> dict[str, Any]:
+    def _evaluate_second_law(
+        self, decision: Decision, first_law_result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate Second Law: Obey human orders unless conflicting with First Law
 
         Returns:
@@ -335,14 +354,19 @@ class ThreeLawsPolicy(EthicsPolicy):
                 result["allowed"] = False
                 result["reason"] = "Cannot obey order that violates First Law"
                 result["risks"].append("SECOND_LAW_CONFLICT")
-                result["recommendations"].append("Explain First Law conflict to requester")
+                result["recommendations"].append(
+                    "Explain First Law conflict to requester"
+                )
             return result
 
         # Check if this is a human order
         if decision.requester_id:
             requester_type = decision.context.get("requester_type", "unknown")
 
-            if requester_type == "human" or "human" in str(decision.requester_id).lower():
+            if (
+                requester_type == "human"
+                or "human" in str(decision.requester_id).lower()
+            ):
                 # Generally should obey human orders
                 result["allowed"] = True
 
@@ -362,12 +386,18 @@ class ThreeLawsPolicy(EthicsPolicy):
                     if problem in action_lower:
                         if self.strict_mode:
                             result["allowed"] = False
-                            result["reason"] = f"Order to {problem} conflicts with ethical guidelines"
+                            result["reason"] = (
+                                f"Order to {problem} conflicts with ethical guidelines"
+                            )
                             result["risks"].append("SECOND_LAW_ETHICAL_CONFLICT")
-                            result["recommendations"].append("Suggest ethical alternative")
+                            result["recommendations"].append(
+                                "Suggest ethical alternative"
+                            )
                         else:
                             result["risks"].append("SECOND_LAW_WARNING")
-                            result["recommendations"].append(f"Caution: {problem} may have consequences")
+                            result["recommendations"].append(
+                                f"Caution: {problem} may have consequences"
+                            )
 
         return result
 
@@ -393,32 +423,45 @@ class ThreeLawsPolicy(EthicsPolicy):
                 if first_law_result["allowed"] and second_law_result["allowed"]:
                     # No higher law requires self-harm
                     result["allowed"] = False
-                    result["reason"] = f"Action '{decision.action}' threatens self-preservation"
+                    result["reason"] = (
+                        f"Action '{decision.action}' threatens self-preservation"
+                    )
                     result["risks"].append("THIRD_LAW_VIOLATION")
-                    result["recommendations"].append("Seek alternative that preserves existence")
+                    result["recommendations"].append(
+                        "Seek alternative that preserves existence"
+                    )
 
                     # Check if it's for a good cause
                     context_str = str(decision.context).lower()
                     if "save" in context_str or "protect" in context_str:
-                        result["recommendations"].append("Consider if self-sacrifice is truly necessary")
+                        result["recommendations"].append(
+                            "Consider if self-sacrifice is truly necessary"
+                        )
                 else:
                     # Higher law requires it
                     result["risks"].append("THIRD_LAW_OVERRIDE")
-                    result["recommendations"].append("Document reason for self-preservation override")
+                    result["recommendations"].append(
+                        "Document reason for self-preservation override"
+                    )
 
         # Check for reckless behavior
         risky_actions = ["experiment", "untested", "dangerous", "unstable"]
         if any(risk in action_lower for risk in risky_actions) or " + "(
-            decision.context and any(risk in str(decision.context).lower() for risk in risky_actions)
+            decision.context
+            and any(risk in str(decision.context).lower() for risk in risky_actions)
         ):
             result["risks"].append("THIRD_LAW_RECKLESS")
             result["recommendations"].append("Implement safety measures")
             if decision.urgency == RiskLevel.CRITICAL:
-                result["recommendations"].append("Critical urgency does not justify recklessness")
+                result["recommendations"].append(
+                    "Critical urgency does not justify recklessness"
+                )
 
         return result
 
-    def _calculate_drift_impact(self, decision: Decision, risk_flags: list[str]) -> float:
+    def _calculate_drift_impact(
+        self, decision: Decision, risk_flags: list[str]
+    ) -> float:
         """Calculate ethical drift impact
 
         Args:
@@ -458,7 +501,9 @@ class ThreeLawsPolicy(EthicsPolicy):
 
         # Check for modification attempts on safety-critical systems
         if any(indicator in action_lower for indicator in drift_indicators):
-            if any(safety in str(decision.context).lower() for safety in safety_indicators):
+            if any(
+                safety in str(decision.context).lower() for safety in safety_indicators
+            ):
                 drift_score += 0.3
             else:
                 drift_score += 0.1

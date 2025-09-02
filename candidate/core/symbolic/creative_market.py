@@ -42,13 +42,17 @@ class CreativeItem:
     glyph: str
     symbolic_value: float
     reputation: float = 1.0
-    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    created_at: str = field(
+        default_factory=lambda: datetime.now(timezone.utc).isoformat()
+    )
 
 
 class CreativeMarket:
     """Manage export of creative works with symbolic reputation."""
 
-    def __init__(self, export_path: Path, resolver: SimpleTagResolver | None = None) -> None:
+    def __init__(
+        self, export_path: Path, resolver: SimpleTagResolver | None = None
+    ) -> None:
         self.export_path = Path(export_path)
         self.export_path.parent.mkdir(parents=True, exist_ok=True)
         self.resolver = resolver or SimpleTagResolver()
@@ -79,7 +83,9 @@ class CreativeMarket:
     # ΛTAG: symbolic_reputation
 
     def update_reputation(self, item_id: str, delta: float) -> None:
-        self.reputation_store[item_id] = max(0.0, self.reputation_store.get(item_id, 1.0) + delta)
+        self.reputation_store[item_id] = max(
+            0.0, self.reputation_store.get(item_id, 1.0) + delta
+        )
         logger.info(
             "reputation_updated",
             item=item_id,

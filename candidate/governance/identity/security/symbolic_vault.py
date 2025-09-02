@@ -24,7 +24,9 @@ class SymbolicVault:
         self.current_layer = 0
         self.environmental_triggers = {}
 
-    def register_environmental_trigger(self, trigger_type: str, trigger_data: dict[str, Any]):
+    def register_environmental_trigger(
+        self, trigger_type: str, trigger_data: dict[str, Any]
+    ):
         """Register environmental trigger for symbolic access"""
         trigger_hash = self._hash_trigger_data(trigger_data)
         self.environmental_triggers[trigger_type] = {
@@ -50,7 +52,9 @@ class SymbolicVault:
 
         return False
 
-    def encrypt_memory(self, memory_data: dict[str, Any], access_layer: int) -> dict[str, Any]:
+    def encrypt_memory(
+        self, memory_data: dict[str, Any], access_layer: int
+    ) -> dict[str, Any]:
         """Encrypt memory with symbolic environmental anchoring"""
         if access_layer not in self.access_layers:
             raise ValueError(f"Invalid access layer: {access_layer}")

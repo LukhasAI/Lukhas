@@ -42,14 +42,8 @@ from dream.quantum_dream_adapter import DreamQuantumConfig, QuantumDreamAdapter
 
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
 from candidate.core.unified_integration import UnifiedIntegration
-from qi.awareness_system import (
-    AwarenessQuantumConfig,
-    QuantumAwarenessSystem,
-)
-from qi.dast_orchestrator import (
-    DASTQuantumConfig,
-    QuantumDASTOrchestrator,
-)
+from qi.awareness_system import AwarenessQuantumConfig, QuantumAwarenessSystem
+from qi.dast_orchestrator import DASTQuantumConfig, QuantumDASTOrchestrator
 
 logger = logging.getLogger("quantum_unified")
 
@@ -93,7 +87,9 @@ class UnifiedQuantumSystem:
         self.awareness_system = None
 
         if self.config.enable_dream_processing:
-            self.dream_adapter = QuantumDreamAdapter(orchestrator=self.orchestrator, config=self.config.dream_config)
+            self.dream_adapter = QuantumDreamAdapter(
+                orchestrator=self.orchestrator, config=self.config.dream_config
+            )
 
         if self.config.enable_dast_orchestration:
             self.dast_orchestrator = QuantumDASTOrchestrator(

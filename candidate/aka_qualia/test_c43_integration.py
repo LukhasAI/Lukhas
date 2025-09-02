@@ -40,14 +40,20 @@ async def test_c43_memory_integration():
 
         # Verify memory client was created correctly
         assert aq.memory is not None, "Memory client should be initialized"
-        assert isinstance(aq.memory, NoopMemory), f"Expected NoopMemory, got {type(aq.memory)}"
+        assert isinstance(
+            aq.memory, NoopMemory
+        ), f"Expected NoopMemory, got {type(aq.memory)}"
 
         print(f"✅ AkaQualia initialized with {type(aq.memory).__name__} memory client")
 
         # Test 1: Basic consciousness step with memory persistence
         print("\n📝 Test 1: Basic step with memory persistence")
 
-        signals = {"text": "I am experiencing a moment of clarity", "subject": "observer", "object": "clarity"}
+        signals = {
+            "text": "I am experiencing a moment of clarity",
+            "subject": "observer",
+            "object": "clarity",
+        }
         goals = {"maintain_ethical_balance": True}
         ethics_state = {"drift_score": 0.05}
         guardian_state = {"active": True}
@@ -70,8 +76,12 @@ async def test_c43_memory_integration():
         glyphs = result["glyphs"]
         metrics = result["metrics"]
 
-        print(f"✅ Scene processed: {len(glyphs)} glyphs, drift_phi={metrics.drift_phi:.3f}")
-        print(f"   Proto-qualia: tone={scene.proto.tone:.3f}, arousal={scene.proto.arousal:.3f}")
+        print(
+            f"✅ Scene processed: {len(glyphs)} glyphs, drift_phi={metrics.drift_phi:.3f}"
+        )
+        print(
+            f"   Proto-qualia: tone={scene.proto.tone:.3f}, arousal={scene.proto.arousal:.3f}"
+        )
 
         # Test 2: Verify data was persisted to memory
         print("\n💾 Test 2: Memory persistence verification")
@@ -87,7 +97,11 @@ async def test_c43_memory_integration():
         # Test 3: Second step with drift computation from memory
         print("\n🔄 Test 3: Second step with memory-aware drift")
 
-        signals2 = {"text": "Now I feel a shift in awareness", "subject": "observer", "object": "awareness"}
+        signals2 = {
+            "text": "Now I feel a shift in awareness",
+            "subject": "observer",
+            "object": "awareness",
+        }
 
         result2 = await aq.step(
             signals=signals2,

@@ -84,7 +84,9 @@ class ConsciousnessStreamServer:
 
     async def start(self):
         """Start the consciousness streaming server"""
-        self._server = await asyncio.start_server(self._handle_client, "0.0.0.0", self.port)
+        self._server = await asyncio.start_server(
+            self._handle_client, "0.0.0.0", self.port
+        )
 
         self._running = True
 
@@ -111,7 +113,9 @@ class ConsciousnessStreamServer:
         self._server.close()
         await self._server.wait_closed()
 
-    async def _handle_client(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
+    async def _handle_client(
+        self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter
+    ):
         """Handle new client connection"""
         addr = writer.get_extra_info("peername")
         print(f"New consciousness stream client: {addr}")

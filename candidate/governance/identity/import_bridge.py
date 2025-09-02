@@ -42,7 +42,9 @@ IMPORT_MAPPINGS = {
 class IdentityModuleFinder(importlib.abc.MetaPathFinder):
     """Custom finder to redirect identity.* imports to governance.identity.*"""
 
-    def find_spec(self, fullname: str, path: Optional[Any] = None, target: Optional[Any] = None):
+    def find_spec(
+        self, fullname: str, path: Optional[Any] = None, target: Optional[Any] = None
+    ):
         """Find module spec for identity.* imports"""
 
         # Only handle identity.* imports
@@ -139,7 +141,9 @@ class IdentityFallbackLoader(importlib.abc.Loader):
                 def __init__(self, *args, **kwargs):
                     import logging
 
-                    logging.getLogger(__name__).warning(f"Using fallback for {fullname}")
+                    logging.getLogger(__name__).warning(
+                        f"Using fallback for {fullname}"
+                    )
 
             module.Manager = FallbackManager
             parts = fullname.split(".")
@@ -153,7 +157,9 @@ class IdentityFallbackLoader(importlib.abc.Loader):
                 def __init__(self, *args, **kwargs):
                     import logging
 
-                    logging.getLogger(__name__).warning(f"Using fallback for {fullname}")
+                    logging.getLogger(__name__).warning(
+                        f"Using fallback for {fullname}"
+                    )
 
             module.Synchronizer = FallbackSynchronizer
             parts = fullname.split(".")
@@ -194,7 +200,9 @@ def install_identity_bridge():
 
 def uninstall_identity_bridge():
     """Uninstall the identity import bridge"""
-    sys.meta_path = [f for f in sys.meta_path if not isinstance(f, IdentityModuleFinder)]
+    sys.meta_path = [
+        f for f in sys.meta_path if not isinstance(f, IdentityModuleFinder)
+    ]
 
     # Clean up sys.modules
     to_remove = [name for name in sys.modules if name.startswith("identity.")]

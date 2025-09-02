@@ -43,7 +43,9 @@ class LUKHASAIClient:
             if azure_endpoint and azure_key:
                 self.azure_client = AzureOpenAI(
                     api_key=azure_key,
-                    api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
+                    api_version=os.getenv(
+                        "AZURE_OPENAI_API_VERSION", "2024-02-15-preview"
+                    ),
                     azure_endpoint=azure_endpoint,
                 )
 
@@ -74,7 +76,9 @@ class LUKHASAIClient:
             logger.warning(f"⚠️ Regular OpenAI unavailable: {e}")
 
         # No clients available
-        logger.error("❌ No AI clients available. Please configure OpenAI or Azure OpenAI.")
+        logger.error(
+            "❌ No AI clients available. Please configure OpenAI or Azure OpenAI."
+        )
         self.active_client = None
         self.client_type = None
 
@@ -96,7 +100,9 @@ class LUKHASAIClient:
         """Test if regular OpenAI is working"""
         try:
             self.openai_client.chat.completions.create(
-                model="gpt-3.5-turbo", messages=[{"role": "user", "content": "test"}], max_tokens=1
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": "test"}],
+                max_tokens=1,
             )
             return True
         except Exception as e:
@@ -193,7 +199,7 @@ You are not just processing text - you are engaging in conscious interaction wit
                 "metadata": {
                     "session_id": session_id,
                     "processing_time_ms": 200,  # Estimated
-                    "constellation_framework": "⚛️🧠🛡️",
+                    "trinity_framework": "⚛️🧠🛡️",
                 },
             }
 
@@ -272,7 +278,9 @@ The dream should be 2-3 paragraphs of vivid, symbolic content."""
             "openai_available": self.openai_client is not None,
             "available_models": self.get_available_models(),
             "endpoint": {
-                "azure": os.getenv("AZURE_OPENAI_ENDPOINT") if self.azure_client else None,
+                "azure": (
+                    os.getenv("AZURE_OPENAI_ENDPOINT") if self.azure_client else None
+                ),
                 "openai": "https://api.openai.com/v1" if self.openai_client else None,
             },
         }

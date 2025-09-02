@@ -18,17 +18,14 @@ Based on successful Tier 5 testing with 4 emotion clusters and 23-dimensional sp
 """
 
 from datetime import datetime
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
-from fastapi import APIRouter
-from fastapi import HTTPException
-from fastapi import Query
-from pydantic import BaseModel
-from pydantic import Field
+from fastapi import APIRouter, HTTPException, Query
+from pydantic import BaseModel, Field
 
 try:
-    from lukhas.consciousness.reflection.unified_memory_manager import MemoryFoldSystem
+    from lukhas.consciousness.reflection.unified_memory_manager import \
+        MemoryFoldSystem
 except ImportError:
     MemoryFoldSystem = None
 

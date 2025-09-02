@@ -13,33 +13,43 @@ from typing import Any
 class AppleHealthKitAPI:
     async def get_heart_rate_variability(
         self, user_id: str
-    ) -> float:  # TODO[QUANTUM-BIO:specialist] - User ID for biometric consciousness tracking
+    ) -> (
+        float
+    ):  # TODO[QUANTUM-BIO:specialist] - User ID for biometric consciousness tracking
         return random.uniform(20, 100)
 
     async def get_circadian_rhythm(
         self, user_id: str
-    ) -> str:  # TODO[QUANTUM-BIO:specialist] - User ID for circadian consciousness mapping
+    ) -> (
+        str
+    ):  # TODO[QUANTUM-BIO:specialist] - User ID for circadian consciousness mapping
         return random.choice(["peak_focus", "trough", "creative_window"])
 
 
 class OuraRingAPI:
     async def get_sleep_chronotype(
         self, user_id: str
-    ) -> str:  # TODO[QUANTUM-BIO:specialist] - User ID for sleep consciousness profiling
+    ) -> (
+        str
+    ):  # TODO[QUANTUM-BIO:specialist] - User ID for sleep consciousness profiling
         return random.choice(["lion", "bear", "wolf", "dolphin"])
 
 
 class NeuralinkAPI:
     async def get_neural_coherence_score(
         self, user_id: str
-    ) -> float:  # TODO[QUANTUM-BIO:specialist] - User ID for neural consciousness coherence
+    ) -> (
+        float
+    ):  # TODO[QUANTUM-BIO:specialist] - User ID for neural consciousness coherence
         return random.uniform(0.1, 0.9)
 
 
 class HiveMindSensorNetwork:
     async def get_collective_resonance(
         self, user_id: str
-    ) -> float:  # TODO[QUANTUM-BIO:specialist] - User ID for hive mind consciousness resonance
+    ) -> (
+        float
+    ):  # TODO[QUANTUM-BIO:specialist] - User ID for hive mind consciousness resonance
         return random.uniform(0.1, 0.9)
 
 
@@ -73,7 +83,9 @@ class QiBiometricsEngine:
             "heart_rate_variability": hrv,
             "circadian_phase": circadian_phase,
             "glucose_consciousness_impact": random.uniform(0.1, 0.9),  # Placeholder
-            "qi_entanglement_potential": await self.hive_mind_sensors.get_collective_resonance(user_id),
+            "qi_entanglement_potential": await self.hive_mind_sensors.get_collective_resonance(
+                user_id
+            ),
         }
 
     async def predict_biological_receptivity(self, user_id: str) -> dict[str, float]:
@@ -84,7 +96,9 @@ class QiBiometricsEngine:
 
         # Placeholder logic for calculating receptivity from biostate
         creative_window = biostate["neural_coherence"] * random.uniform(0.5, 1.2)
-        decision_peak = biostate["heart_rate_variability"] / 100 * random.uniform(0.8, 1.1)
+        decision_peak = (
+            biostate["heart_rate_variability"] / 100 * random.uniform(0.8, 1.1)
+        )
         empathy_max = biostate["qi_entanglement_potential"] * random.uniform(0.7, 1.3)
         transcendence_prob = (creative_window + decision_peak + empathy_max) / 3
 

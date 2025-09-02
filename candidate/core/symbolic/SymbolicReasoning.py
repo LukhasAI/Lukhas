@@ -88,7 +88,11 @@ class SymbolicEngine:
         logical_chains = self._build_symbolic_logical_chains(logical_elements)
         weighted_logic = self._calculate_symbolic_confidences(logical_chains)
 
-        valid_logic = {k: v for k, v in weighted_logic.items() if v.get("confidence", 0) >= self.confidence_threshold}
+        valid_logic = {
+            k: v
+            for k, v in weighted_logic.items()
+            if v.get("confidence", 0) >= self.confidence_threshold
+        }
 
         return {
             "symbolic_reasoning": weighted_logic,
@@ -182,7 +186,9 @@ class SymbolicEngine:
 
             # Look for related elements
             for other_element in logical_elements:
-                if other_element != element and self._elements_related(element, other_element):
+                if other_element != element and self._elements_related(
+                    element, other_element
+                ):
                     logical_chains[chain_id]["elements"].append(other_element)
                     logical_chains[chain_id]["relation_type"] = "compound"
 
@@ -219,24 +225,33 @@ class SymbolicEngine:
             type_count = len(elements_by_type)
             type_diversity_bonus = min(0.1, 0.03 * type_count)
 
-            symbolic_types = sum(1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t)
+            symbolic_types = sum(
+                1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t
+            )
             symbolic_bonus = min(0.15, 0.05 * symbolic_types)
 
             evidence_strength = 0
             for elem_type, elems in elements_by_type.items():
-                if ("symbolic" in elem_type or "formal_logic" in elem_type) and len(elems) > 1:
+                if ("symbolic" in elem_type or "formal_logic" in elem_type) and len(
+                    elems
+                ) > 1:
                     evidence_strength += 0.05 * min(3, len(elems))
 
             final_confidence = min(
                 0.99,
-                base_confidence + type_diversity_bonus + symbolic_bonus + evidence_strength,
+                base_confidence
+                + type_diversity_bonus
+                + symbolic_bonus
+                + evidence_strength,
             )
 
             weighted_logic[chain_id] = {
                 "elements": chain["elements"][:3],
                 "confidence": final_confidence,
                 "relation_type": chain.get("relation_type", "unknown"),
-                "summary": self._create_symbolic_summary(chain["elements"], chain.get("relation_type", "unknown")),
+                "summary": self._create_symbolic_summary(
+                    chain["elements"], chain.get("relation_type", "unknown")
+                ),
             }
 
         return weighted_logic

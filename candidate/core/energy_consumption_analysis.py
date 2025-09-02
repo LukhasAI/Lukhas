@@ -341,7 +341,9 @@ class EnergyConsumptionAnalyzer:
 
             # Update predictive model
             input_size = metadata.get("input_size", 1) if metadata else 1
-            self.energy_model.record_observation(operation, input_size, energy_joules, duration_ms)
+            self.energy_model.record_observation(
+                operation, input_size, energy_joules, duration_ms
+            )
 
     def create_budget(
         self,
@@ -362,7 +364,10 @@ class EnergyConsumptionAnalyzer:
             if not self.active_budget:
                 self.active_budget = budget_name
 
-        logger.info(f"Created energy budget '{budget_name}' with {total_joules}J " f"over {time_window_seconds}s")
+        logger.info(
+            f"Created energy budget '{budget_name}' with {total_joules}J "
+            f"over {time_window_seconds}s"
+        )
         return budget
 
     def set_active_budget(self, budget_name: str):
@@ -374,9 +379,13 @@ class EnergyConsumptionAnalyzer:
             else:
                 raise ValueError(f"Budget '{budget_name}' not found")
 
-    def predict_operation_energy(self, operation: str, input_size: int) -> dict[str, Any]:
+    def predict_operation_energy(
+        self, operation: str, input_size: int
+    ) -> dict[str, Any]:
         """Predict energy consumption for an operation"""
-        predicted_energy, confidence = self.energy_model.predict_energy(operation, input_size)
+        predicted_energy, confidence = self.energy_model.predict_energy(
+            operation, input_size
+        )
 
         # Check against budget
         can_afford = True
@@ -397,7 +406,9 @@ class EnergyConsumptionAnalyzer:
             "budget_impact_percent": budget_impact,
         }
 
-    def get_energy_statistics(self, time_window_seconds: Optional[float] = None) -> dict[str, Any]:
+    def get_energy_statistics(
+        self, time_window_seconds: Optional[float] = None
+    ) -> dict[str, Any]:
         """Get comprehensive energy statistics"""
         with self._lock:
             current_time = time.time()
@@ -420,7 +431,9 @@ class EnergyConsumptionAnalyzer:
 
             # Calculate statistics
             total_energy = sum(m.energy_joules for m in recent_metrics)
-            time_span = max(m.timestamp for m in recent_metrics) - min(m.timestamp for m in recent_metrics)
+            time_span = max(m.timestamp for m in recent_metrics) - min(
+                m.timestamp for m in recent_metrics
+            )
 
             avg_power = total_energy / time_span if time_span > 0 else 0.0
 
@@ -454,7 +467,11 @@ class EnergyConsumptionAnalyzer:
             return {
                 "total_energy_joules": total_energy,
                 "average_power_watts": avg_power,
-                "peak_power_watts": (max(m.power_watts for m in recent_metrics) if recent_metrics else 0.0),
+                "peak_power_watts": (
+                    max(m.power_watts for m in recent_metrics)
+                    if recent_metrics
+                    else 0.0
+                ),
                 "component_breakdown": dict(component_energy),
                 "operation_breakdown": dict(operation_energy),
                 "carbon_footprint_kg": carbon_kg,
@@ -497,7 +514,9 @@ class EnergyConsumptionAnalyzer:
         # Operation-based recommendations
         operation_breakdown = stats["operation_breakdown"]
         if operation_breakdown:
-            top_operations = sorted(operation_breakdown.items(), key=lambda x: x[1], reverse=True)[:3]
+            top_operations = sorted(
+                operation_breakdown.items(), key=lambda x: x[1], reverse=True
+            )[:3]
             for op, energy in top_operations:
                 if energy > stats["total_energy_joules"] * 0.2:
                     recommendations.append(
@@ -506,7 +525,8 @@ class EnergyConsumptionAnalyzer:
                             "severity": "medium",
                             "operation": op,
                             "message": f"Operation '{op}' consuming {energy:.2f}J",
-                            "suggestion": f"Consider batching '{op}' operations or " "implementing caching",
+                            "suggestion": f"Consider batching '{op}' operations or "
+                            "implementing caching",
                         }
                     )
 
@@ -517,7 +537,8 @@ class EnergyConsumptionAnalyzer:
                     "type": "budget_warning",
                     "severity": "high",
                     "message": f"Energy budget {stats['budget_status']['percentage_used']:.1f}% consumed",
-                    "suggestion": "Consider deferring non-critical operations or " "switching to low-power mode",
+                    "suggestion": "Consider deferring non-critical operations or "
+                    "switching to low-power mode",
                 }
             )
 
@@ -535,7 +556,8 @@ class EnergyConsumptionAnalyzer:
                     "type": "profile_optimization",
                     "severity": "medium",
                     "message": f"Sustained high power consumption at {stats['average_power_watts']:.2f}W",
-                    "suggestion": "Consider switching to NORMAL or LOW_POWER profile " "for non-critical operations",
+                    "suggestion": "Consider switching to NORMAL or LOW_POWER profile "
+                    "for non-critical operations",
                 }
             )
 
@@ -570,8 +592,12 @@ class EnergyConsumptionAnalyzer:
                     memory_info = psutil.virtual_memory()
 
                     # Estimate energy based on utilization
-                    cpu_energy = self._estimate_component_energy(EnergyComponent.CPU, cpu_percent / 100.0)
-                    memory_energy = self._estimate_component_energy(EnergyComponent.MEMORY, memory_info.percent / 100.0)
+                    cpu_energy = self._estimate_component_energy(
+                        EnergyComponent.CPU, cpu_percent / 100.0
+                    )
+                    memory_energy = self._estimate_component_energy(
+                        EnergyComponent.MEMORY, memory_info.percent / 100.0
+                    )
 
                     # Record system energy consumption
                     self.record_energy_consumption(
@@ -596,7 +622,9 @@ class EnergyConsumptionAnalyzer:
                     if budget.time_elapsed() > budget.time_window_seconds:
                         # Reset budget for new time window
                         budget.reset()
-                        logger.info(f"Budget '{self.active_budget}' reset for new time window")
+                        logger.info(
+                            f"Budget '{self.active_budget}' reset for new time window"
+                        )
 
                 await asyncio.sleep(self.monitoring_interval)
 
@@ -604,12 +632,16 @@ class EnergyConsumptionAnalyzer:
                 logger.error(f"Error in monitoring loop: {e}")
                 await asyncio.sleep(self.monitoring_interval)
 
-    def _estimate_component_energy(self, component: EnergyComponent, utilization: float) -> float:
+    def _estimate_component_energy(
+        self, component: EnergyComponent, utilization: float
+    ) -> float:
         """Estimate energy consumption based on component utilization"""
         if component not in self.component_profiles:
             return 0.0
 
-        profile_energy = self.component_profiles[component].get(self.current_profile, 0.1)
+        profile_energy = self.component_profiles[component].get(
+            self.current_profile, 0.1
+        )
 
         # Energy scales with utilization
         return profile_energy * utilization * self.monitoring_interval
@@ -648,13 +680,17 @@ class EnergyAwareComponent:
         self.energy_analyzer = energy_analyzer
         self._operation_count = 0
 
-    async def execute_with_energy_tracking(self, operation: str, operation_func: Callable, *args, **kwargs) -> Any:
+    async def execute_with_energy_tracking(
+        self, operation: str, operation_func: Callable, *args, **kwargs
+    ) -> Any:
         """Execute an operation with automatic energy tracking"""
         start_time = time.time()
 
         # Predict energy consumption
         input_size = kwargs.get("input_size", 1)
-        prediction = self.energy_analyzer.predict_operation_energy(f"{self.component_name}.{operation}", input_size)
+        prediction = self.energy_analyzer.predict_operation_energy(
+            f"{self.component_name}.{operation}", input_size
+        )
 
         if not prediction["can_afford"]:
             logger.warning(f"Operation {operation} exceeds energy budget")
@@ -666,7 +702,9 @@ class EnergyAwareComponent:
 
             # Calculate actual energy (simplified estimation)
             duration_ms = (time.time() - start_time) * 1000
-            actual_energy = self._estimate_operation_energy(operation, duration_ms, input_size)
+            actual_energy = self._estimate_operation_energy(
+                operation, duration_ms, input_size
+            )
 
             # Record consumption
             self.energy_analyzer.record_energy_consumption(
@@ -687,7 +725,9 @@ class EnergyAwareComponent:
             logger.error(f"Operation {operation} failed: {e}")
             raise
 
-    def _estimate_operation_energy(self, operation: str, duration_ms: float, input_size: int) -> float:
+    def _estimate_operation_energy(
+        self, operation: str, duration_ms: float, input_size: int
+    ) -> float:
         """Estimate energy consumption for an operation"""
         # Simple model: energy = base + computation + data
         base_energy = 0.001  # 1mJ base

@@ -13,7 +13,9 @@ class EmotionVector:
     disgust: float = 0.0
 
     def as_array(self):
-        return np.array([self.joy, self.sadness, self.anger, self.fear, self.surprise, self.disgust])
+        return np.array(
+            [self.joy, self.sadness, self.anger, self.fear, self.surprise, self.disgust]
+        )
 
     def get_dominant(self) -> str:
         values = self.as_array()

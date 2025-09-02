@@ -58,16 +58,13 @@ try:
     # Alias for compatibility
     EnhancedMemoryFold = MemoryFoldSystem
 
-    from qi.systems.qi_engine import (
-        Quantumoscillator as QIOscillator,
-    )
+    from qi.systems.qi_engine import Quantumoscillator as QIOscillator
 
-    from .systems.memory_visualizer import (
-        EnhancedMemoryVisualizer,
-        VisualizationConfig,
-    )
+    from .systems.memory_visualizer import EnhancedMemoryVisualizer, VisualizationConfig
 
-    logger.info("Successfully imported MemoryManager dependencies from production memory fold system.")
+    logger.info(
+        "Successfully imported MemoryManager dependencies from production memory fold system."
+    )
 except ImportError as e:
     logger.error(
         "Failed to import critical dependencies for EnhancedMemoryManager.",
@@ -104,12 +101,16 @@ class EnhancedMemoryManager:
     """
 
     def __init__(self, base_path: Optional[str] = None):
-        self.logger = logger.bind(manager_id=f"mem_mgr_{datetime.now().strftime('%H%M%S')}")
+        self.logger = logger.bind(
+            manager_id=f"mem_mgr_{datetime.now().strftime('%H%M%S')}"
+        )
 
         # ΛSEED: Default configurations for memory fold and visualization.
         self.memory_fold_config = MemoryFoldConfig()
         self.visualization_config = VisualizationConfig()
-        self.logger.debug("Default MemoryFoldConfig and VisualizationConfig initialized.")
+        self.logger.debug(
+            "Default MemoryFoldConfig and VisualizationConfig initialized."
+        )
 
         try:
             self.qi_oscillator = QIOscillator()
@@ -127,11 +128,15 @@ class EnhancedMemoryManager:
         # ΛNOTE: Base path for memory storage is configurable, defaults to ~/Lukhas/memory.
         # Ensure this path is writable and appropriate for the deployment environment.
         self.base_path = (
-            Path(base_path) if base_path else Path.home() / "LUKHAS_Memory/core_integration"
+            Path(base_path)
+            if base_path
+            else Path.home() / "LUKHAS_Memory/core_integration"
         )  # Harmonized path
         try:
             self.base_path.mkdir(parents=True, exist_ok=True)
-            self.logger.info("Memory storage base path ensured.", path=str(self.base_path))
+            self.logger.info(
+                "Memory storage base path ensured.", path=str(self.base_path)
+            )
         except Exception as e_dir:
             self.logger.error(
                 "Failed to create memory storage base path.",
@@ -155,20 +160,25 @@ class EnhancedMemoryManager:
             )
             self.visualizer = None  # type: ignore
 
-        self.logger.info("EnhancedMemoryManager initialized.", base_storage_path=str(self.base_path))
+        self.logger.info(
+            "EnhancedMemoryManager initialized.", base_storage_path=str(self.base_path)
+        )
 
     async def store_memory(
         self,
         memory_data: dict[str, Any],
         memory_id: Optional[str] = None,
-        context: Optional[dict[str, Any]] = None,  # Context not used in current store logic but good for API
+        context: Optional[
+            dict[str, Any]
+        ] = None,  # Context not used in current store logic but good for API
     ) -> dict[str, Any]:
         """
         Store memory with quantum enhancement using an EnhancedMemoryFold.
         """
         # ΛPHASE_NODE: Store Memory Operation Start
         effective_memory_id = (
-            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
+            memory_id
+            or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
         )  # Ensure filename safe ID
         self.logger.info(
             "Attempting to store memory.",
@@ -178,11 +188,17 @@ class EnhancedMemoryManager:
 
         try:
             # ΛNOTE: Each memory is stored in its own EnhancedMemoryFold.
-            memory_fold = EnhancedMemoryFold(effective_memory_id, self.memory_fold_config)
+            memory_fold = EnhancedMemoryFold(
+                effective_memory_id, self.memory_fold_config
+            )
 
-            stored_package = await memory_fold.store(memory_data)  # This now returns a package with metadata
+            stored_package = await memory_fold.store(
+                memory_data
+            )  # This now returns a package with metadata
 
-            await self._save_to_disk(effective_memory_id, stored_package)  # Save the whole package
+            await self._save_to_disk(
+                effective_memory_id, stored_package
+            )  # Save the whole package
 
             self.active_folds[effective_memory_id] = memory_fold
             self.logger.info(
@@ -195,7 +211,9 @@ class EnhancedMemoryManager:
             return {
                 "status": "success",
                 "memory_id": effective_memory_id,
-                "qi_like_state_summary": stored_package.get("metadata", {}).get("qi_like_state", "N/A"),
+                "qi_like_state_summary": stored_package.get("metadata", {}).get(
+                    "qi_like_state", "N/A"
+                ),
             }
 
         except Exception as e:
@@ -212,7 +230,9 @@ class EnhancedMemoryManager:
                 "error": str(e),
             }
 
-    async def retrieve_memory(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def retrieve_memory(
+        self, memory_id: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve memory with coherence-inspired processing.
         """
@@ -221,7 +241,9 @@ class EnhancedMemoryManager:
         try:
             memory_fold: Optional[EnhancedMemoryFold] = None
             if memory_id in self.active_folds:
-                self.logger.debug("Retrieving memory from active fold.", memory_id=memory_id)
+                self.logger.debug(
+                    "Retrieving memory from active fold.", memory_id=memory_id
+                )
                 memory_fold = self.active_folds[memory_id]
             else:
                 self.logger.debug(
@@ -246,7 +268,9 @@ class EnhancedMemoryManager:
                 # minimal state.
 
                 # Attempt to load the classical_state for the fold if it's not active
-                disk_data_package = await self._load_from_disk(memory_id)  # This is the stored_package
+                disk_data_package = await self._load_from_disk(
+                    memory_id
+                )  # This is the stored_package
 
                 memory_fold = EnhancedMemoryFold(memory_id, self.memory_fold_config)
                 # Manually setting the state from what was loaded - this is a patch.
@@ -254,18 +278,30 @@ class EnhancedMemoryManager:
                 # The fold's internal `classical_state` should be
                 # `disk_data_package['data']`.
                 memory_fold.state["classical_state"] = disk_data_package.get("data")
-                memory_fold.state["qi_like_state"] = disk_data_package.get("metadata", {}).get("qi_like_state")
-                memory_fold.state["entanglements"] = set(disk_data_package.get("metadata", {}).get("entanglements", []))
-                memory_fold.state["fold_time"] = disk_data_package.get("metadata", {}).get(
-                    "created_at", datetime.now(timezone.utc).isoformat()
+                memory_fold.state["qi_like_state"] = disk_data_package.get(
+                    "metadata", {}
+                ).get("qi_like_state")
+                memory_fold.state["entanglements"] = set(
+                    disk_data_package.get("metadata", {}).get("entanglements", [])
                 )
-                self.active_folds[memory_id] = memory_fold  # Add to active after loading attempt
-                self.logger.info("Memory fold loaded from disk and activated.", memory_id=memory_id)
+                memory_fold.state["fold_time"] = disk_data_package.get(
+                    "metadata", {}
+                ).get("created_at", datetime.now(timezone.utc).isoformat())
+                self.active_folds[memory_id] = (
+                    memory_fold  # Add to active after loading attempt
+                )
+                self.logger.info(
+                    "Memory fold loaded from disk and activated.", memory_id=memory_id
+                )
 
             if not memory_fold:  # Should not happen if logic above is correct
-                raise FileNotFoundError(f"Memory fold {memory_id} could not be activated or loaded.")
+                raise FileNotFoundError(
+                    f"Memory fold {memory_id} could not be activated or loaded."
+                )
 
-            retrieved_package = await memory_fold.retrieve(context)  # This returns data and retrieval_metadata
+            retrieved_package = await memory_fold.retrieve(
+                context
+            )  # This returns data and retrieval_metadata
 
             self.logger.info("Memory retrieved successfully.", memory_id=memory_id)
             # ΛPHASE_NODE: Retrieve Memory Operation End
@@ -292,7 +328,9 @@ class EnhancedMemoryManager:
             )
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def visualize_memory(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def visualize_memory(
+        self, memory_id: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Create visualization of memory.
         """
@@ -303,7 +341,9 @@ class EnhancedMemoryManager:
             return {"status": "error", "error": "Visualizer not available."}
 
         try:
-            retrieved_memory_package = await self.retrieve_memory(memory_id, context)  # This returns full package
+            retrieved_memory_package = await self.retrieve_memory(
+                memory_id, context
+            )  # This returns full package
 
             if retrieved_memory_package["status"] == "error":
                 self.logger.warning(
@@ -325,7 +365,9 @@ class EnhancedMemoryManager:
                     "error": "No memory data content to visualize.",
                 }
 
-            self.logger.debug("Creating visualization for memory fold.", memory_id=memory_id)
+            self.logger.debug(
+                "Creating visualization for memory fold.", memory_id=memory_id
+            )
             visualization = await self.visualizer.visualize_memory_fold(  # type: ignore
                 memory_id,  # Pass memory_id for context
                 memory_content_to_visualize,  # Pass the actual data
@@ -333,13 +375,17 @@ class EnhancedMemoryManager:
                 context,
             )
 
-            self.logger.info("Memory visualization created successfully.", memory_id=memory_id)
+            self.logger.info(
+                "Memory visualization created successfully.", memory_id=memory_id
+            )
             # ΛPHASE_NODE: Visualize Memory Operation End
             return {
                 "status": "success",
                 "memory_id": memory_id,
                 "visualization_data": visualization,  # Visualization result
-                "retrieval_metadata": retrieved_memory_package.get("retrieval_metadata"),
+                "retrieval_metadata": retrieved_memory_package.get(
+                    "retrieval_metadata"
+                ),
             }
 
         except Exception as e:
@@ -351,7 +397,9 @@ class EnhancedMemoryManager:
             )
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def entangle_memories(self, memory_id1: str, memory_id2: str) -> dict[str, Any]:
+    async def entangle_memories(
+        self, memory_id1: str, memory_id2: str
+    ) -> dict[str, Any]:
         """
         Create entanglement-like correlation between memories.
         #ΛNOTE: Conceptual entanglement. Actual entanglement-like correlation is not implemented.

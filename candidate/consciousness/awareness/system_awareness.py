@@ -128,13 +128,19 @@ class SystemAwareness:
 
         try:
             # Apply quantum attention to system state
-            attended_state = self.attention_gate.attend(system_state, self.awareness_state["attention_focus"])
+            attended_state = self.attention_gate.attend(
+                system_state, self.awareness_state["attention_focus"]
+            )
 
             # Filter through cristae topology
-            filtered_state = self.crista_filter.filter(attended_state, self.awareness_state)
+            filtered_state = self.crista_filter.filter(
+                attended_state, self.awareness_state
+            )
 
             # Process through proton gradient
-            gradient_processed = self.proton_gradient.process(filtered_state, self.awareness_state)
+            gradient_processed = self.proton_gradient.process(
+                filtered_state, self.awareness_state
+            )
 
             # Update awareness state
             self._update_awareness(gradient_processed)
@@ -149,7 +155,9 @@ class SystemAwareness:
             self.reflections.append(reflection)
 
             # Generate recommendations
-            recommendations = self._generate_recommendations(gradient_processed, health_status, reflection)
+            recommendations = self._generate_recommendations(
+                gradient_processed, health_status, reflection
+            )
 
             # Record metrics
             self._record_metrics(start_time)
@@ -159,7 +167,11 @@ class SystemAwareness:
                 "health_status": health_status,
                 "reflection": reflection,
                 "recommendations": recommendations,
-                "metrics": {key: np.mean(values[-10:]) for key, values in self.metrics.items() if values},
+                "metrics": {
+                    key: np.mean(values[-10:])
+                    for key, values in self.metrics.items()
+                    if values
+                },
             }
 
         except Exception as e:
@@ -189,7 +201,9 @@ class SystemAwareness:
             error_reflection = self._reflect_on_error(error_data, error_context)
 
             # Generate recovery plan
-            recovery_plan = self._generate_recovery_plan(error_data, error_context, error_reflection)
+            recovery_plan = self._generate_recovery_plan(
+                error_data, error_context, error_reflection
+            )
 
             return {
                 "error_state": self.awareness_state["error_state"],
@@ -212,20 +226,28 @@ class SystemAwareness:
 
         # Update attention focus
         if "attention_updates" in processed_data:
-            self.awareness_state["attention_focus"].update(processed_data["attention_updates"])
+            self.awareness_state["attention_focus"].update(
+                processed_data["attention_updates"]
+            )
 
         # Update health metrics
         if "health_updates" in processed_data:
-            self.awareness_state["health_metrics"].update(processed_data["health_updates"])
+            self.awareness_state["health_metrics"].update(
+                processed_data["health_updates"]
+            )
 
         # Update resource state
         if "resource_updates" in processed_data:
-            self.awareness_state["resource_state"].update(processed_data["resource_updates"])
+            self.awareness_state["resource_state"].update(
+                processed_data["resource_updates"]
+            )
 
         # Update active processes
         if "process_updates" in processed_data:
             # Add new processes
-            self.awareness_state["active_processes"].update(processed_data["process_updates"].get("added", set()))
+            self.awareness_state["active_processes"].update(
+                processed_data["process_updates"].get("added", set())
+            )
             # Remove completed processes
             self.awareness_state["active_processes"].difference_update(
                 processed_data["process_updates"].get("removed", set())
@@ -246,12 +268,19 @@ class SystemAwareness:
             },
             "response_time": {
                 "status": "healthy",
-                "value": (np.mean(self.metrics["response_times"][-10:]) if self.metrics["response_times"] else 0.0),
+                "value": (
+                    np.mean(self.metrics["response_times"][-10:])
+                    if self.metrics["response_times"]
+                    else 0.0
+                ),
             },
         }
 
         # Check consciousness health
-        if self.awareness_state["consciousness_level"] < self.health_thresholds["consciousness"]:
+        if (
+            self.awareness_state["consciousness_level"]
+            < self.health_thresholds["consciousness"]
+        ):
             health_status["consciousness"]["status"] = "degraded"
 
         # Check resource health
@@ -265,18 +294,26 @@ class SystemAwareness:
             health_status["errors"]["status"] = "degraded"
 
         # Check response time health
-        if health_status["response_time"]["value"] > self.health_thresholds["response_time"]:
+        if (
+            health_status["response_time"]["value"]
+            > self.health_thresholds["response_time"]
+        ):
             health_status["response_time"]["status"] = "degraded"
 
         return health_status
 
-    def _reflect_on_state(self, processed_data: dict[str, Any], health_status: dict[str, Any]) -> dict[str, Any]:
+    def _reflect_on_state(
+        self, processed_data: dict[str, Any], health_status: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate system reflection"""
         reflection = {
             "timestamp": datetime.now().isoformat(),
             "consciousness_level": self.awareness_state["consciousness_level"],
             "focus_areas": list(self.awareness_state["attention_focus"].keys()),
-            "health_summary": {component: status["status"] for component, status in health_status.items()},
+            "health_summary": {
+                component: status["status"]
+                for component, status in health_status.items()
+            },
             "active_process_count": len(self.awareness_state["active_processes"]),
             "error_count": len(self.awareness_state["error_state"]),
         }
@@ -335,8 +372,12 @@ class SystemAwareness:
         """Record performance metrics"""
         response_time = (datetime.now() - start_time).total_seconds()
 
-        self.metrics["consciousness_stability"].append(self.awareness_state["consciousness_level"])
-        self.metrics["resource_efficiency"].append(1.0 - max(self.awareness_state["resource_state"].values()))
+        self.metrics["consciousness_stability"].append(
+            self.awareness_state["consciousness_level"]
+        )
+        self.metrics["resource_efficiency"].append(
+            1.0 - max(self.awareness_state["resource_state"].values())
+        )
         self.metrics["error_rate"].append(len(self.awareness_state["error_state"]))
         self.metrics["response_times"].append(response_time)
 
@@ -355,7 +396,11 @@ class SystemAwareness:
                 "attention": self.awareness_state["attention_focus"],
                 "health": self.awareness_state["health_metrics"],
             },
-            "error_history": [error for error in self.awareness_state["error_state"].values() if error != error_data],
+            "error_history": [
+                error
+                for error in self.awareness_state["error_state"].values()
+                if error != error_data
+            ],
         }
 
         if context:
@@ -363,7 +408,9 @@ class SystemAwareness:
 
         return error_context
 
-    def _reflect_on_error(self, error_data: dict[str, Any], error_context: dict[str, Any]) -> dict[str, Any]:
+    def _reflect_on_error(
+        self, error_data: dict[str, Any], error_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate reflection on error"""
         return {
             "timestamp": datetime.now().isoformat(),
@@ -371,7 +418,11 @@ class SystemAwareness:
             "severity": error_data.get("severity"),
             "system_state": error_context["system_state"],
             "similar_errors": len(
-                [e for e in error_context["error_history"] if e.get("type") == error_data.get("type")]
+                [
+                    e
+                    for e in error_context["error_history"]
+                    if e.get("type") == error_data.get("type")
+                ]
             ),
         }
 

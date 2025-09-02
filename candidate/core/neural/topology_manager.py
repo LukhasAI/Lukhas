@@ -9,12 +9,10 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import time  # For timestamping in record_optimization
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field
 from enum import Enum
-from typing import (
-    Any,  # Set, Optional not directly used by this file but good for consistency
-)
+from typing import \
+    Any  # Set, Optional not directly used by this file but good for consistency
 
 import numpy as np
 import structlog
@@ -36,9 +34,8 @@ import structlog
 
 try:
     from .crista_optimizer import OptimizationMode
-    from .symbolic_network import (
-        SymbolicNetwork,  # This class uses SymbolicNode internally
-    )
+    from .symbolic_network import \
+        SymbolicNetwork  # This class uses SymbolicNode internally
 except ImportError:
     logger_temp = structlog.get_logger(
         "ΛTRACE.core.adaptive_systems.crista_optimizer.topology_manager_import_fallback"

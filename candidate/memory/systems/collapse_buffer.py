@@ -27,7 +27,9 @@ class CollapseBuffer:
         """
         Buffers a memory collapse event.
         """
-        logger.info(f"Buffering memory collapse event: {event_data.get('event_id', 'N/A')}")
+        logger.info(
+            f"Buffering memory collapse event: {event_data.get('event_id', 'N/A')}"
+        )
         self.collapse_events.append(event_data)
 
 

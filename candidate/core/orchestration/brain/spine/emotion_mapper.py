@@ -57,5 +57,7 @@ if __name__ == "__main__":
     mapper = EmotionMapper()
     intent = "Preserve dignity."
     emoji = mapper.map_intent_to_emoji(intent)
-    feeling = mapper.map_ethics_to_emotion(True, "Intent poses no ethical conflict. Default approval granted.")
+    feeling = mapper.map_ethics_to_emotion(
+        True, "Intent poses no ethical conflict. Default approval granted."
+    )
     print(f"Intent: {intent} {emoji} | Feeling: {feeling}")

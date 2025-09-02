@@ -39,10 +39,7 @@
 import asyncio
 import logging
 from datetime import datetime
-from typing import (  # List not used in signatures but kept
-    Any,
-    Optional,
-)
+from typing import Any, Optional  # List not used in signatures but kept
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_engine")
@@ -110,7 +107,9 @@ class AwarenessEngine:
             user_id_context (Optional[str]): User ID for contextual logging.
         """
         self.user_id_context = user_id_context
-        self.instance_logger = logger.getChild(f"AwarenessEngine.{self.user_id_context or 'system'}")
+        self.instance_logger = logger.getChild(
+            f"AwarenessEngine.{self.user_id_context or 'system'}"
+        )
         self.instance_logger.info("ΛTRACE: Initializing AwarenessEngine instance.")
 
         self.config = config or {}
@@ -131,7 +130,9 @@ class AwarenessEngine:
             bool: True if initialization was successful, False otherwise.
         """
         log_user_id = user_id or self.user_id_context
-        self.instance_logger.info(f"ΛTRACE: Initializing AwarenessEngine for user context '{log_user_id}'.")
+        self.instance_logger.info(
+            f"ΛTRACE: Initializing AwarenessEngine for user context '{log_user_id}'."
+        )
         try:
             await self._setup_consciousness_system()  # Logs internally
             self.is_initialized = True
@@ -151,10 +152,14 @@ class AwarenessEngine:
     # Human-readable comment: Internal method to set up the core consciousness system.
     async def _setup_consciousness_system(self):
         """Placeholder for setting up the core consciousness system."""
-        self.instance_logger.debug("ΛTRACE: Internal: Setting up core consciousness system (placeholder).")
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Setting up core consciousness system (placeholder)."
+        )
         # TODO: Implement actual consciousness-specific setup logic here.
         await asyncio.sleep(0.01)  # Simulate async setup operation
-        self.instance_logger.debug("ΛTRACE: Internal: Core consciousness system setup complete.")
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Core consciousness system setup complete."
+        )
 
     # Human-readable comment: Processes input data through the awareness engine.
     @lukhas_tier_required(level=3)
@@ -172,10 +177,14 @@ class AwarenessEngine:
             f"ΛTRACE: Processing data with AwarenessEngine for user '{log_user_id}'. Data type: {type(data)}"
         )
         if not self.is_initialized:
-            self.instance_logger.warning("ΛTRACE: AwarenessEngine not initialized. Attempting to initialize now.")
+            self.instance_logger.warning(
+                "ΛTRACE: AwarenessEngine not initialized. Attempting to initialize now."
+            )
             await self.initialize(user_id=log_user_id)  # Pass user_id
             if not self.is_initialized:
-                self.instance_logger.error("ΛTRACE: Initialization failed during process call. Cannot process data.")
+                self.instance_logger.error(
+                    "ΛTRACE: Initialization failed during process call. Cannot process data."
+                )
                 return {
                     "status": "error",
                     "error": "Component not initialized",
@@ -187,10 +196,16 @@ class AwarenessEngine:
             if isinstance(data, dict):
                 category = data.get("category")
 
-            self.instance_logger.debug(f"ΛTRACE: Core consciousness processing for category '{category}'.")
-            result = await self._core_consciousness_processing(data, category)  # Pass category, logs internally
+            self.instance_logger.debug(
+                f"ΛTRACE: Core consciousness processing for category '{category}'."
+            )
+            result = await self._core_consciousness_processing(
+                data, category
+            )  # Pass category, logs internally
 
-            self.instance_logger.info(f"ΛTRACE: AwarenessEngine processing successful for user '{log_user_id}'.")
+            self.instance_logger.info(
+                f"ΛTRACE: AwarenessEngine processing successful for user '{log_user_id}'."
+            )
             return {
                 "status": "success",
                 "component": self.__class__.__name__,
@@ -212,9 +227,13 @@ class AwarenessEngine:
             }
 
     # Human-readable comment: Core internal processing logic dispatch based on category.
-    async def _core_consciousness_processing(self, data: Any, category: Optional[str]) -> Any:
+    async def _core_consciousness_processing(
+        self, data: Any, category: Optional[str]
+    ) -> Any:
         """Core consciousness processing logic, dispatched by category."""
-        self.instance_logger.debug(f"ΛTRACE: Internal: _core_consciousness_processing for category '{category}'.")
+        self.instance_logger.debug(
+            f"ΛTRACE: Internal: _core_consciousness_processing for category '{category}'."
+        )
         # TODO: This dispatch logic should be more robust, potentially using a
         # handler map.
         if category == "consciousness_stream":  # Example more specific category
@@ -230,36 +249,54 @@ class AwarenessEngine:
 
     # Specific processing methods (placeholders, to be implemented)
     async def _process_consciousness_data(self, data: Any) -> dict[str, Any]:
-        self.instance_logger.debug("ΛTRACE: Internal: Processing consciousness-related data (placeholder).")
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Processing consciousness-related data (placeholder)."
+        )
         return {
             "consciousness_level_assessed": "active",
             "awareness_focus": "enhanced_simulation",
         }
 
     async def _process_governance_data(self, data: Any) -> dict[str, Any]:
-        self.instance_logger.debug("ΛTRACE: Internal: Processing governance-related data (placeholder).")
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Processing governance-related data (placeholder)."
+        )
         return {
             "policy_compliance_status": True,
             "ethics_check_result": "passed_auto_review",
         }
 
-    async def _process_voice_data(self, data: Any) -> dict[str, Any]:  # Added from original logic, if used
-        self.instance_logger.debug("ΛTRACE: Internal: Processing voice-related data (placeholder).")
+    async def _process_voice_data(
+        self, data: Any
+    ) -> dict[str, Any]:  # Added from original logic, if used
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Processing voice-related data (placeholder)."
+        )
         return {"voice_data_processed": True, "audio_clarity_score": "high"}
 
-    async def _process_identity_data(self, data: Any) -> dict[str, Any]:  # Added from original logic, if used
-        self.instance_logger.debug("ΛTRACE: Internal: Processing identity-related data (placeholder).")
+    async def _process_identity_data(
+        self, data: Any
+    ) -> dict[str, Any]:  # Added from original logic, if used
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Processing identity-related data (placeholder)."
+        )
         return {
             "identity_verification_status": True,
             "active_persona": "default_lukhas",
         }
 
-    async def _process_quantum_data(self, data: Any) -> dict[str, Any]:  # Added from original logic, if used
-        self.instance_logger.debug("ΛTRACE: Internal: Processing quantum-related data (placeholder).")
+    async def _process_quantum_data(
+        self, data: Any
+    ) -> dict[str, Any]:  # Added from original logic, if used
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Processing quantum-related data (placeholder)."
+        )
         return {"qi_entanglement_status": "stable", "coherence_level": "high"}
 
     async def _process_generic_data(self, data: Any) -> dict[str, Any]:
-        self.instance_logger.debug("ΛTRACE: Internal: Processing generic data (placeholder).")
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Processing generic data (placeholder)."
+        )
         return {
             "data_processed_generically": True,
             "input_summary": str(data)[:100],
@@ -276,12 +313,18 @@ class AwarenessEngine:
             bool: True if validation passed, False otherwise.
         """
         log_user_id = user_id or self.user_id_context
-        self.instance_logger.info(f"ΛTRACE: Validating AwarenessEngine for user context '{log_user_id}'.")
+        self.instance_logger.info(
+            f"ΛTRACE: Validating AwarenessEngine for user context '{log_user_id}'."
+        )
         try:
             if not self.is_initialized:
-                self.instance_logger.warning("ΛTRACE: Validation failed: Component not initialized.")
+                self.instance_logger.warning(
+                    "ΛTRACE: Validation failed: Component not initialized."
+                )
                 return False
-            validation_result = await self._perform_internal_validation()  # Renamed, logs internally
+            validation_result = (
+                await self._perform_internal_validation()
+            )  # Renamed, logs internally
             self.instance_logger.info(
                 f"ΛTRACE: Validation {'passed' if validation_result else 'failed'} for user context '{log_user_id}'."
             )
@@ -296,14 +339,18 @@ class AwarenessEngine:
     # Human-readable comment: Internal method to perform component-specific validation.
     async def _perform_internal_validation(self) -> bool:
         """Perform component-specific validation checks (Placeholder)."""
-        self.instance_logger.debug("ΛTRACE: Internal: Performing internal validation checks (placeholder).")
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Performing internal validation checks (placeholder)."
+        )
         # TODO: Implement actual validation logic (e.g., check dependencies,
         # internal state consistency).
         return True  # Placeholder
 
     # Human-readable comment: Retrieves the current status of the component.
     @lukhas_tier_required(level=0)  # Basic status check
-    def get_status(self, user_id: Optional[str] = None) -> dict[str, Any]:  # Made sync as it reads attributes
+    def get_status(
+        self, user_id: Optional[str] = None
+    ) -> dict[str, Any]:  # Made sync as it reads attributes
         """
         Get current component status, including initialization state.
         Args:
@@ -312,7 +359,9 @@ class AwarenessEngine:
             Dict[str, Any]: Dictionary containing component status.
         """
         log_user_id = user_id or self.user_id_context
-        self.instance_logger.debug(f"ΛTRACE: Getting status for AwarenessEngine (user context '{log_user_id}').")
+        self.instance_logger.debug(
+            f"ΛTRACE: Getting status for AwarenessEngine (user context '{log_user_id}')."
+        )
         return {
             "component_name": self.__class__.__name__,  # Renamed
             "module_category": "consciousness_engine",  # Renamed
@@ -330,11 +379,15 @@ class AwarenessEngine:
             user_id (Optional[str]): User ID for tier checking.
         """
         log_user_id = user_id or self.user_id_context
-        self.instance_logger.info(f"ΛTRACE: Shutting down AwarenessEngine for user context '{log_user_id}'.")
+        self.instance_logger.info(
+            f"ΛTRACE: Shutting down AwarenessEngine for user context '{log_user_id}'."
+        )
         # TODO: Add actual resource cleanup logic here.
         self.status = "inactive"
         self.is_initialized = False
-        self.instance_logger.info(f"ΛTRACE: AwarenessEngine for user context '{log_user_id}' shut down.")
+        self.instance_logger.info(
+            f"ΛTRACE: AwarenessEngine for user context '{log_user_id}' shut down."
+        )
 
 
 # Human-readable comment: Factory function for creating AwarenessEngine instances.
@@ -352,7 +405,9 @@ def create_awareness_component(
     Returns:
         AwarenessEngine: A new instance of the AwarenessEngine.
     """
-    logger.info(f"ΛTRACE: Factory create_awareness_component called by user '{user_id}'.")
+    logger.info(
+        f"ΛTRACE: Factory create_awareness_component called by user '{user_id}'."
+    )
     return AwarenessEngine(config, user_id_context=user_id)  # Pass user_id as context
 
 
@@ -370,9 +425,13 @@ async def create_and_initialize_awareness_component(
     Returns:
         AwarenessEngine: A new, initialized instance of the AwarenessEngine.
     """
-    logger.info(f"ΛTRACE: Factory create_and_initialize_awareness_component called by user '{user_id}'.")
+    logger.info(
+        f"ΛTRACE: Factory create_and_initialize_awareness_component called by user '{user_id}'."
+    )
     component = AwarenessEngine(config, user_id_context=user_id)  # Pass context
-    await component.initialize(user_id=user_id)  # Pass user_id for initialize's tier check
+    await component.initialize(
+        user_id=user_id
+    )  # Pass user_id for initialize's tier check
     return component
 
 
@@ -391,9 +450,13 @@ if __name__ == "__main__":
         logger.info("ΛTRACE: --- AwarenessEngine Demo Starting ---")
         # Use the factory function, passing a user_id for context
         test_user = "demo_user_awareness"
-        awareness_component = await create_and_initialize_awareness_component(user_id=test_user)
+        awareness_component = await create_and_initialize_awareness_component(
+            user_id=test_user
+        )
 
-        print(f"ΛTRACE Demo - Initialization: {'success' if awareness_component.is_initialized else 'failed'}")
+        print(
+            f"ΛTRACE Demo - Initialization: {'success' if awareness_component.is_initialized else 'failed'}"
+        )
 
         if awareness_component.is_initialized:
             # Process some data
@@ -402,7 +465,9 @@ if __name__ == "__main__":
                 "payload": "example sensory data",
             }
             logger.info(f"ΛTRACE: Demo: Processing test data: {test_data}")
-            processing_result = await awareness_component.process(test_data, user_id=test_user)
+            processing_result = await awareness_component.process(
+                test_data, user_id=test_user
+            )
             print(f"ΛTRACE Demo - Processing result: {processing_result}")
 
             # Validate
@@ -418,7 +483,9 @@ if __name__ == "__main__":
             # Shutdown
             logger.info("ΛTRACE: Demo: Shutting down component.")
             await awareness_component.shutdown(user_id=test_user)
-            print(f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_component.get_status(user_id=test_user)}")
+            print(
+                f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_component.get_status(user_id=test_user)}"
+            )
         logger.info("ΛTRACE: --- AwarenessEngine Demo Finished ---")
 
     asyncio.run(demo_main())

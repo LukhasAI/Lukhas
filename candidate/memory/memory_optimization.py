@@ -77,14 +77,7 @@ import zlib
 from collections import OrderedDict, defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import (
-    Any,
-    Callable,
-    Generic,
-    Optional,
-    TypeVar,
-    Union,
-)
+from typing import Any, Callable, Generic, Optional, TypeVar, Union
 
 from candidate.core.common import get_logger
 
@@ -207,7 +200,8 @@ class ObjectPool(Generic[T]):
         return {
             "pool_size": len(self._pool),
             "allocated": self._allocated,
-            "hit_rate": self._stats["hits"] / max(1, self._stats["hits"] + self._stats["misses"]),
+            "hit_rate": self._stats["hits"]
+            / max(1, self._stats["hits"] + self._stats["misses"]),
             **self._stats,
         }
 
@@ -232,7 +226,9 @@ class CompressedStorage:
             CompressionStrategy.HEAVY: gzip.decompress,
         }
 
-    def compress(self, data: bytes, strategy: CompressionStrategy) -> tuple[bytes, float]:
+    def compress(
+        self, data: bytes, strategy: CompressionStrategy
+    ) -> tuple[bytes, float]:
         """
         Compress data using specified strategy
         Returns: (compressed_data, compression_ratio)
@@ -248,7 +244,9 @@ class CompressedStorage:
         """Decompress data using specified strategy"""
         return self.decompression_strategies[strategy](data)
 
-    def select_strategy(self, size_bytes: int, access_frequency: float) -> CompressionStrategy:
+    def select_strategy(
+        self, size_bytes: int, access_frequency: float
+    ) -> CompressionStrategy:
         """Select compression strategy based on object characteristics"""
         # Large, rarely accessed objects get heavy compression
         if size_bytes > 1_000_000 and access_frequency < 0.1:
@@ -566,7 +564,9 @@ class MemoryOptimizer:
 
             return freed
 
-        self.optimization_callbacks.extend([clear_empty_collections, compress_large_objects, force_gc])
+        self.optimization_callbacks.extend(
+            [clear_empty_collections, compress_large_objects, force_gc]
+        )
 
     async def start_monitoring(self) -> None:
         """Start memory monitoring and optimization"""
@@ -591,7 +591,9 @@ class MemoryOptimizer:
                 memory_usage = self._get_memory_usage()
 
                 if memory_usage > self.target_memory_bytes * self.memory_threshold:
-                    logger.warning(f"Memory usage {memory_usage / 1024 / 1024:.1f}MB exceeds threshold, optimizing...")
+                    logger.warning(
+                        f"Memory usage {memory_usage / 1024 / 1024:.1f}MB exceeds threshold, optimizing..."
+                    )
                     self._trigger_optimization()
 
                 await asyncio.sleep(5.0)  # Check every 5 seconds
@@ -638,7 +640,9 @@ class MemoryOptimizer:
             "optimization_stats": self.stats,
         }
 
-    def create_memory_efficient_collection(self, collection_type: str, initial_data: Optional[Any] = None) -> Any:
+    def create_memory_efficient_collection(
+        self, collection_type: str, initial_data: Optional[Any] = None
+    ) -> Any:
         """
         Create a memory-efficient collection that automatically returns to pool
         """
@@ -906,7 +910,9 @@ async def demonstrate_memory_optimization():
         regular.append(i)
 
     print(f"Compact list memory: {compact.memory_usage()} bytes")
-    print(f"Regular list memory: {sys.getsizeof(regular) + sum(sys.getsizeof(i) for i in regular)} bytes")
+    print(
+        f"Regular list memory: {sys.getsizeof(regular) + sum(sys.getsizeof(i) for i in regular)} bytes"
+    )
 
     # Bloom filter for membership testing
     bloom = BloomFilter(expected_items=10000, false_positive_rate=0.01)

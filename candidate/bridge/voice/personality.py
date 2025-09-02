@@ -105,7 +105,9 @@ class VoicePersonalityIntegrator:
 
         return modulation
 
-    def enhance_text_expression(self, text: str, emotion: str, context: Optional[dict[str, Any]] = None) -> str:
+    def enhance_text_expression(
+        self, text: str, emotion: str, context: Optional[dict[str, Any]] = None
+    ) -> str:
         """Enhance text for better emotional expression
 
         Args:

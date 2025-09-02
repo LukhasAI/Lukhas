@@ -59,10 +59,14 @@ class FeedbackStore:
         if "user_id" in feedback_data:
             feedback_data["user_hash"] = self.hmac_id(feedback_data.pop("user_id"))
         if "session_id" in feedback_data:
-            feedback_data["session_hash"] = self.hmac_id(feedback_data.pop("session_id"))
+            feedback_data["session_hash"] = self.hmac_id(
+                feedback_data.pop("session_id")
+            )
         if "note" in feedback_data.get("feedback", {}):
             note = feedback_data["feedback"].pop("note")
-            feedback_data["feedback"]["note_hash"] = self.hmac_id(note) if note else None
+            feedback_data["feedback"]["note_hash"] = (
+                self.hmac_id(note) if note else None
+            )
 
         # Write with lock and fsync
         with _ORIG_OPEN(self.feedback_file, "a", encoding="utf-8") as f:
@@ -98,7 +102,11 @@ class FeedbackStore:
                     # Apply filters
                     if task_filter and fc.get("context", {}).get("task") != task_filter:
                         continue
-                    if jurisdiction_filter and fc.get("context", {}).get("jurisdiction") != jurisdiction_filter:
+                    if (
+                        jurisdiction_filter
+                        and fc.get("context", {}).get("jurisdiction")
+                        != jurisdiction_filter
+                    ):
                         continue
 
                     feedback.append(fc)

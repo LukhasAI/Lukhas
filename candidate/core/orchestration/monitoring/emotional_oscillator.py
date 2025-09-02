@@ -58,7 +58,9 @@ class EmotionalOscillator:
             float: The oscillation value.
         """
         oscillation = (
-            self.amplitude * modulation_factor * np.sin(2 * np.pi * self.frequency * time_step + self.phase_shift)
+            self.amplitude
+            * modulation_factor
+            * np.sin(2 * np.pi * self.frequency * time_step + self.phase_shift)
         )
         return oscillation
 

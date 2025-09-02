@@ -80,7 +80,9 @@ class AzureOpenaiWrapper:
 
                 self.client = AzureOpenAI(**client_kwargs)
 
-                print(f"✅ Azure OpenAI initialized with endpoint: {self.config['endpoint']}")
+                print(
+                    f"✅ Azure OpenAI initialized with endpoint: {self.config['endpoint']}"
+                )
                 if self.config["org_id"]:
                     print(f"   Organization ID: {self.config['org_id']}")
                 if self.config["project_id"]:

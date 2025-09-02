@@ -54,7 +54,9 @@ class ConsciousnessService:
             raise PermissionError(f"Agent {agent_id} lacks consciousness access")
 
         # Store stimulus in memory
-        memory_result = await memory.store_experience(agent_id, {"type": "awareness_stimulus", "data": stimulus})
+        memory_result = await memory.store_experience(
+            agent_id, {"type": "awareness_stimulus", "data": stimulus}
+        )
 
         # Process through learning if patterns detected
         if stimulus.get("pattern_detected", False):
@@ -69,7 +71,9 @@ class ConsciousnessService:
             "timestamp": memory_result.get("timestamp"),
         }
 
-    async def integrate_experience(self, agent_id: str, experience: dict[str, Any]) -> dict[str, Any]:
+    async def integrate_experience(
+        self, agent_id: str, experience: dict[str, Any]
+    ) -> dict[str, Any]:
         """Integrate experience across consciousness systems"""
         self._ensure_services()
 

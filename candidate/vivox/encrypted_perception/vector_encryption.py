@@ -64,7 +64,9 @@ class PerceptualEncryptor:
     def _generate_master_key(self) -> bytes:
         """Generate secure master key"""
         # In production, this would use proper key generation
-        return hashlib.pbkdf2_hmac("sha256", b"VIVOX_EVRN_MASTER_2024", b"ethical_perception_salt", 100000)
+        return hashlib.pbkdf2_hmac(
+            "sha256", b"VIVOX_EVRN_MASTER_2024", b"ethical_perception_salt", 100000
+        )
 
     def _initialize_transform_matrices(self) -> dict[str, np.ndarray]:
         """Initialize non-reversible transformation matrices"""
@@ -73,7 +75,9 @@ class PerceptualEncryptor:
         matrices = {}
 
         # Random projection matrix
-        matrices["projection"] = np.random.randn(self.vector_dimension, self.vector_dimension * 2)
+        matrices["projection"] = np.random.randn(
+            self.vector_dimension, self.vector_dimension * 2
+        )
 
         # Rotation matrices for different angles
         for angle in [30, 60, 90, 120]:
@@ -164,7 +168,9 @@ class PerceptualEncryptor:
         """
         # Normalize input dimension
         if len(raw_vector) < self.vector_dimension:
-            raw_vector = np.pad(raw_vector, (0, self.vector_dimension - len(raw_vector)))
+            raw_vector = np.pad(
+                raw_vector, (0, self.vector_dimension - len(raw_vector))
+            )
         elif len(raw_vector) > self.vector_dimension:
             raw_vector = raw_vector[: self.vector_dimension]
 
@@ -192,7 +198,9 @@ class PerceptualEncryptor:
     def _apply_transform_encryption(self, vector: np.ndarray) -> np.ndarray:
         """Apply non-reversible transformation"""
         # Project to higher dimension
-        expanded = self.transform_matrices["projection"] @ np.concatenate([vector, vector])
+        expanded = self.transform_matrices["projection"] @ np.concatenate(
+            [vector, vector]
+        )
 
         # Apply non-linear activation
         activated = np.tanh(expanded / np.std(expanded))
@@ -284,7 +292,9 @@ class PerceptualEncryptor:
 
         return results
 
-    def compute_encrypted_similarity(self, encrypted1: np.ndarray, encrypted2: np.ndarray) -> float:
+    def compute_encrypted_similarity(
+        self, encrypted1: np.ndarray, encrypted2: np.ndarray
+    ) -> float:
         """Compute similarity between encrypted vectors"""
         # Works in encrypted space without decryption
 
@@ -346,13 +356,17 @@ class PerceptualEncryptor:
         elif feature_type == "frequency":
             # Frequency domain features
             fft = np.fft.fft(encrypted_vector)
-            features["dominant_frequency"] = float(np.argmax(np.abs(fft[: len(fft) // 2])))
+            features["dominant_frequency"] = float(
+                np.argmax(np.abs(fft[: len(fft) // 2]))
+            )
             features["spectral_energy"] = float(np.sum(np.abs(fft) ** 2))
             features["spectral_entropy"] = float(self._compute_spectral_entropy(fft))
 
         elif feature_type == "pattern":
             # Pattern-based features
-            features["zero_crossings"] = float(np.sum(np.diff(np.sign(encrypted_vector)) != 0))
+            features["zero_crossings"] = float(
+                np.sum(np.diff(np.sign(encrypted_vector)) != 0)
+            )
             features["peak_count"] = float(self._count_peaks(encrypted_vector))
             features["regularity"] = float(self._compute_regularity(encrypted_vector))
 
@@ -399,7 +413,9 @@ class PerceptualEncryptor:
         autocorr = np.corrcoef(vector[:-1], vector[1:])[0, 1]
         return float(np.abs(autocorr))
 
-    def verify_encryption_integrity(self, encrypted_vector: np.ndarray, signature: VectorSignature) -> bool:
+    def verify_encryption_integrity(
+        self, encrypted_vector: np.ndarray, signature: VectorSignature
+    ) -> bool:
         """Verify encrypted vector hasn't been tampered with"""
         return signature.verify(encrypted_vector)
 
@@ -427,7 +443,9 @@ class PerceptualEncryptor:
             "threshold": threshold,
             "valid": proof_valid,
             "timestamp": np.datetime64("now").astype(float),
-            "proof_hash": hashlib.sha256(f"{property_name}_{threshold}_{proof_valid}".encode()).hexdigest(),
+            "proof_hash": hashlib.sha256(
+                f"{property_name}_{threshold}_{proof_valid}".encode()
+            ).hexdigest(),
         }
 
         return proof

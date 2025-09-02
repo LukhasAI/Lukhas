@@ -30,7 +30,9 @@ class InternationalComplianceEngine(CoreInterface):
         self._initialized = True
         logger.info("International Compliance Engine initialized")
 
-    async def assess_compliance(self, framework: str, requirements: dict[str, Any]) -> dict[str, Any]:
+    async def assess_compliance(
+        self, framework: str, requirements: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess compliance with a specific framework"""
 
         assessment = {
@@ -57,7 +59,9 @@ class InternationalComplianceEngine(CoreInterface):
 
         return assessment
 
-    async def implement_requirement(self, requirement: str, action: dict[str, Any]) -> dict[str, Any]:
+    async def implement_requirement(
+        self, requirement: str, action: dict[str, Any]
+    ) -> dict[str, Any]:
         """Implement a specific compliance requirement"""
 
         result = {
@@ -112,7 +116,11 @@ class InternationalComplianceEngine(CoreInterface):
             "CHINA_AI_GOVERNANCE": {
                 "jurisdiction": "China",
                 "state_directed": True,
-                "focus_areas": ["national_security", "data_sovereignty", "algorithm_transparency"],
+                "focus_areas": [
+                    "national_security",
+                    "data_sovereignty",
+                    "algorithm_transparency",
+                ],
             },
         }
 

@@ -31,7 +31,9 @@ from governance_extended.audit_logger import log_audit_event
 COMPLIANCE_LOG_PATH = Path("../../logs/compliance/compliance_log_2025_04_28.json")
 
 
-def compliance_drift_detect(current_entropy, target_range=(1.2, 2.5), subsystem="core", user_location="GLOBAL"):
+def compliance_drift_detect(
+    current_entropy, target_range=(1.2, 2.5), subsystem="core", user_location="GLOBAL"
+):
     """
     Detects compliance drift based on entropy levels and logs active regulations.
 

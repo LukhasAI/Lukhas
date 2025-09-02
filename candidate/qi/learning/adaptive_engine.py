@@ -30,7 +30,9 @@ def _now() -> float:
 
 
 def _sha(obj: Any) -> str:
-    return hashlib.sha256(json.dumps(obj, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(obj, sort_keys=True, ensure_ascii=False).encode()
+    ).hexdigest()
 
 
 @dataclass
@@ -131,8 +133,12 @@ class AdaptiveLearningEngine:
         cands: list[CandidateConfig] = []
         for t, _ in low:
             for delta in (-0.05, -0.02, 0.02, 0.05):
-                patch = {"router": {"task_specific": {t: {"threshold": ("$add", delta)}}}}
-                cid = _sha({"t": t, "delta": delta, "file": target_file, "ts": int(_now())})
+                patch = {
+                    "router": {"task_specific": {t: {"threshold": ("$add", delta)}}}
+                }
+                cid = _sha(
+                    {"t": t, "delta": delta, "file": target_file, "ts": int(_now())}
+                )
                 cands.append(
                     CandidateConfig(
                         id=cid,
@@ -160,8 +166,14 @@ class AdaptiveLearningEngine:
         cands = []
         for t, _ in low:
             for tool in ("reranker", "web_search", "policy_explain"):
-                patch = {"router": {"task_specific": {t: {"tools": {"enable": {tool: True}}}}}}
-                cid = _sha({"t": t, "tool": tool, "file": target_file, "ts": int(_now())})
+                patch = {
+                    "router": {
+                        "task_specific": {t: {"tools": {"enable": {tool: True}}}}
+                    }
+                }
+                cid = _sha(
+                    {"t": t, "tool": tool, "file": target_file, "ts": int(_now())}
+                )
                 cands.append(
                     CandidateConfig(
                         id=cid,
@@ -234,7 +246,9 @@ class AdaptiveLearningEngine:
                     rationale=f"Adaptive candidate {cand.id} (offline={cand.score_offline})",
                 )
                 prop.attestation = (
-                    _attest([{"phase": "adaptive", "candidate": asdict(cand)}]) if "_attest" in globals() else None
+                    _attest([{"phase": "adaptive", "candidate": asdict(cand)}])
+                    if "_attest" in globals()
+                    else None
                 )
                 _queue_proposal(prop)
                 planned.append(pid)
@@ -265,7 +279,9 @@ class AdaptiveLearningEngine:
         if not os.path.exists(CANDIDATES):
             return []
         return [
-            json.loads(ln) for ln in _ORIG_OPEN(CANDIDATES, "r", encoding="utf-8").read().splitlines() if ln.strip()
+            json.loads(ln)
+            for ln in _ORIG_OPEN(CANDIDATES, "r", encoding="utf-8").read().splitlines()
+            if ln.strip()
         ]
 
     def _write_candidates(self, arr: list[dict]):

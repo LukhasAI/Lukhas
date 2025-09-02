@@ -15,7 +15,10 @@ class KernelBusMigration:
 
     def __init__(self):
         self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
-        self.backup_dir = self.workspace / f".event_bus_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = (
+            self.workspace
+            / f".event_bus_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        )
         self.changes = []
 
         # Patterns to replace
@@ -84,7 +87,10 @@ class KernelBusMigration:
         removed_count = 0
 
         for py_file in self.workspace.rglob("*.py"):
-            if any(skip in str(py_file) for skip in [".backup", "__pycache__", "migrate_to_kernel"]):
+            if any(
+                skip in str(py_file)
+                for skip in [".backup", "__pycache__", "migrate_to_kernel"]
+            ):
                 continue
 
             try:
@@ -130,7 +136,10 @@ class KernelBusMigration:
         updated_files = 0
 
         for py_file in self.workspace.rglob("*.py"):
-            if any(skip in str(py_file) for skip in [".backup", "__pycache__", "symbolic_kernel_bus.py"]):
+            if any(
+                skip in str(py_file)
+                for skip in [".backup", "__pycache__", "symbolic_kernel_bus.py"]
+            ):
                 continue
 
             try:
@@ -147,7 +156,9 @@ class KernelBusMigration:
                     with open(py_file, "w", encoding="utf-8") as f:
                         f.write(content)
                     updated_files += 1
-                    self.changes.append(("updated", str(py_file.relative_to(self.workspace))))
+                    self.changes.append(
+                        ("updated", str(py_file.relative_to(self.workspace)))
+                    )
 
             except Exception as e:
                 print(f"  ⚠️ Error updating {py_file.name}: {e}")
@@ -323,7 +334,9 @@ Generated: {datetime.now().isoformat()}
 5. Optimize priority queue sizes
 """
 
-        report_path = self.workspace / "orchestration" / "KERNEL_BUS_MIGRATION_REPORT.md"
+        report_path = (
+            self.workspace / "orchestration" / "KERNEL_BUS_MIGRATION_REPORT.md"
+        )
         with open(report_path, "w") as f:
             f.write(report)
 

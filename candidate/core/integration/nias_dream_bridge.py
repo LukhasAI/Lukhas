@@ -70,7 +70,9 @@ class NIASDreamBridge:
             "dream_narrative": "nias_voice_integration",
         }
 
-    async def nias_to_dream(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def nias_to_dream(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from nias_to Dream system"""
         if not self.is_connected:
             await self.connect()
@@ -84,7 +86,9 @@ class NIASDreamBridge:
 
             # Send to dream system
             if self.dream_hub:
-                result = await self.dream_hub.process_event(mapped_event, transformed_data)
+                result = await self.dream_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from nias_to Dream")
                 return result
 
@@ -94,7 +98,9 @@ class NIASDreamBridge:
             logger.error(f"Error forwarding from nias_to Dream: {e}")
             return {"error": str(e)}
 
-    async def dream_to_nias(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def dream_to_nias(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from Dream to NIAS system"""
         if not self.is_connected:
             await self.connect()
@@ -108,7 +114,9 @@ class NIASDreamBridge:
 
             # Send to NIAS system
             if self.nias_hub:
-                result = await self.nias_hub.process_event(mapped_event, transformed_data)
+                result = await self.nias_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from Dream to NIAS")
                 return result
 
@@ -138,7 +146,9 @@ class NIASDreamBridge:
             "bridge_version": "1.0",
         }
 
-    async def handle_message_deferral(self, message_data: dict[str, Any]) -> dict[str, Any]:
+    async def handle_message_deferral(
+        self, message_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle NIAS message deferral to Dream system"""
         dream_data = {
             "message_content": message_data.get("content"),
@@ -150,7 +160,9 @@ class NIASDreamBridge:
 
         return await self.nias_to_dream("message_deferred", dream_data)
 
-    async def handle_dream_completion(self, dream_result: dict[str, Any]) -> dict[str, Any]:
+    async def handle_dream_completion(
+        self, dream_result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle Dream processing completion back to NIAS"""
         nias_data = {
             "dream_id": dream_result.get("dream_id"),
@@ -168,7 +180,9 @@ class NIASDreamBridge:
             # Get symbolic data from NIAS
             if self.nias_hub:
                 symbolic_matcher = self.nias_hub.get_service("symbolic_matcher")
-                if symbolic_matcher and hasattr(symbolic_matcher, "get_current_symbols"):
+                if symbolic_matcher and hasattr(
+                    symbolic_matcher, "get_current_symbols"
+                ):
                     symbols = symbolic_matcher.get_current_symbols()
 
                     # Send to Dream for processing

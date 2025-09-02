@@ -57,7 +57,9 @@ class ConsciousnessMatrizAdapter:
 
     @staticmethod
     def emit_awareness_state(
-        awareness_level: float, focus_target: str, attention_distribution: dict[str, float]
+        awareness_level: float,
+        focus_target: str,
+        attention_distribution: dict[str, float],
     ) -> dict[str, Any]:
         """Emit a consciousness awareness state node"""
 
@@ -102,7 +104,9 @@ class ConsciousnessMatrizAdapter:
         )
 
     @staticmethod
-    def emit_dream_state(dream_id: str, lucidity: float, coherence: float, emotional_tone: float) -> dict[str, Any]:
+    def emit_dream_state(
+        dream_id: str, lucidity: float, coherence: float, emotional_tone: float
+    ) -> dict[str, Any]:
         """Emit a dream consciousness state node"""
 
         return ConsciousnessMatrizAdapter.create_node(
@@ -116,7 +120,11 @@ class ConsciousnessMatrizAdapter:
                 "coherence": coherence,
                 "emotional_tone": emotional_tone,
             },
-            labels=[f"dream:{dream_id}", f"lucidity:{lucidity:.2f}", "consciousness:dream"],
+            labels=[
+                f"dream:{dream_id}",
+                f"lucidity:{lucidity:.2f}",
+                "consciousness:dream",
+            ],
         )
 
     @staticmethod
@@ -159,7 +167,11 @@ class ConsciousnessMatrizAdapter:
                 "coherence": coherence,
                 "thought_count": float(thought_count),
             },
-            labels=[f"stream:{stream_id}", f"thoughts:{thought_count}", "consciousness:stream"],
+            labels=[
+                f"stream:{stream_id}",
+                f"thoughts:{thought_count}",
+                "consciousness:stream",
+            ],
         )
 
     @staticmethod
@@ -172,7 +184,13 @@ class ConsciousnessMatrizAdapter:
                 return False
 
         # Check required provenance fields
-        required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
+        required_prov = [
+            "producer",
+            "capabilities",
+            "tenant",
+            "trace_id",
+            "consent_scopes",
+        ]
         return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod

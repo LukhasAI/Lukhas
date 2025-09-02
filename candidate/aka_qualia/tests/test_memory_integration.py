@@ -36,7 +36,9 @@ class TestSQLQueryCorrectness:
 
         # Verify chronological ordering (newest first)
         timestamps = [r["timestamp"] for r in results]
-        assert timestamps == sorted(timestamps, reverse=True), "Results should be newest first"
+        assert timestamps == sorted(
+            timestamps, reverse=True
+        ), "Results should be newest first"
 
         # Verify all results are for correct user
         for scene in results:
@@ -50,12 +52,20 @@ class TestSQLQueryCorrectness:
 
         # Test different limits
         for limit in [1, 3, 10]:
-            results = sql_memory_with_data.get_scene_history(user_id="test_user", limit=limit)
+            results = sql_memory_with_data.get_scene_history(
+                user_id="test_user", limit=limit
+            )
             assert len(results) <= limit, f"Results should not exceed limit {limit}"
 
     @pytest.mark.integration
     def test_risk_severity_filtering(
-        self, sql_memory, high_risk_scene, low_risk_scene, test_glyphs, test_policy, test_metrics
+        self,
+        sql_memory,
+        high_risk_scene,
+        low_risk_scene,
+        test_glyphs,
+        test_policy,
+        test_metrics,
     ):
         """Should be able to filter scenes by risk severity"""
 
@@ -73,13 +83,15 @@ class TestSQLQueryCorrectness:
 
         # Test custom SQL query for high-risk scenes
         with sql_memory.engine.begin() as conn:
-            query = text("""
+            query = text(
+                """
                 SELECT scene_id, risk->>'severity' as severity
                 FROM akaq_scene
                 WHERE user_id = :user_id
                 AND risk->>'severity' = 'high'
                 ORDER BY ts DESC
-            """)
+            """
+            )
 
             results = conn.execute(query, {"user_id": "risk_filter_test"}).fetchall()
 
@@ -114,12 +126,16 @@ class TestSQLQueryCorrectness:
             )
 
         # Search for common glyph
-        results = sql_memory.search_by_glyph(user_id="glyph_search_test", glyph_key="aka:vigilance")
+        results = sql_memory.search_by_glyph(
+            user_id="glyph_search_test", glyph_key="aka:vigilance"
+        )
 
         assert len(results) == 3, "Should find all 3 scenes with vigilance glyph"
 
         # Search for specific glyph
-        specific_results = sql_memory.search_by_glyph(user_id="glyph_search_test", glyph_key="test:glyph_1")
+        specific_results = sql_memory.search_by_glyph(
+            user_id="glyph_search_test", glyph_key="test:glyph_1"
+        )
 
         assert len(specific_results) == 1, "Should find exactly one scene with glyph_1"
         assert "subject_1" in str(specific_results[0])
@@ -147,7 +163,8 @@ class TestSQLQueryCorrectness:
 
         # Test complex join query
         with sql_memory.engine.begin() as conn:
-            query = text("""
+            query = text(
+                """
                 SELECT
                     s.scene_id,
                     s.subject,
@@ -158,7 +175,8 @@ class TestSQLQueryCorrectness:
                 WHERE s.user_id = :user_id
                 GROUP BY s.scene_id, s.subject, s.drift_phi
                 ORDER BY s.ts DESC
-            """)
+            """
+            )
 
             results = conn.execute(query, {"user_id": "integrity_test"}).fetchall()
 
@@ -184,12 +202,14 @@ class TestDatabaseSchemaValidation:
         with sql_memory.engine.begin() as conn:
             # Check akaq_scene table structure
             scene_columns = conn.execute(
-                text("""
+                text(
+                    """
                 SELECT column_name, data_type, is_nullable
                 FROM information_schema.columns
                 WHERE table_name = 'akaq_scene'
                 ORDER BY ordinal_position
-            """)
+            """
+                )
             )
 
             scene_cols = {row.column_name: row for row in scene_columns}
@@ -215,12 +235,14 @@ class TestDatabaseSchemaValidation:
 
             # Check akaq_glyph table structure
             glyph_columns = conn.execute(
-                text("""
+                text(
+                    """
                 SELECT column_name, data_type, is_nullable
                 FROM information_schema.columns
                 WHERE table_name = 'akaq_glyph'
                 ORDER BY ordinal_position
-            """)
+            """
+                )
             )
 
             glyph_cols = {row.column_name: row for row in glyph_columns}
@@ -235,13 +257,15 @@ class TestDatabaseSchemaValidation:
 
         with sql_memory.engine.begin() as conn:
             # Check that user_id + timestamp index exists
-            index_query = text("""
+            index_query = text(
+                """
                 SELECT indexname, indexdef
                 FROM pg_indexes
                 WHERE tablename = 'akaq_scene'
                 AND indexdef LIKE '%user_id%'
                 AND indexdef LIKE '%ts%'
-            """)
+            """
+            )
 
             try:
                 indexes = conn.execute(index_query).fetchall()
@@ -249,13 +273,15 @@ class TestDatabaseSchemaValidation:
                 # For SQLite, we'd need a different query
             except:
                 # SQLite doesn't have pg_indexes, use sqlite_master
-                sqlite_index_query = text("""
+                sqlite_index_query = text(
+                    """
                     SELECT name, sql
                     FROM sqlite_master
                     WHERE type='index'
                     AND tbl_name='akaq_scene'
                     AND sql LIKE '%user_id%'
-                """)
+                """
+                )
                 indexes = conn.execute(sqlite_index_query).fetchall()
 
             # Should have at least one compound index on user_id
@@ -269,10 +295,12 @@ class TestDatabaseSchemaValidation:
         with sql_memory.engine.begin() as conn:
             try:
                 conn.execute(
-                    text("""
+                    text(
+                        """
                     INSERT INTO akaq_glyph (scene_id, key, attrs)
                     VALUES ('nonexistent_scene_id', 'test:key', '{}')
-                """)
+                """
+                    )
                 )
 
                 # If we get here, foreign key constraint is not enforced
@@ -330,7 +358,9 @@ class TestConcurrentOperations:
 
         # Check results
         assert error_queue.empty(), f"Errors occurred: {list(error_queue.queue)}"
-        assert results_queue.qsize() == 10, "All saves should have completed successfully"
+        assert (
+            results_queue.qsize() == 10
+        ), "All saves should have completed successfully"
 
         # Verify all scene IDs are unique
         scene_ids = [results_queue.get()[1] for _ in range(10)]
@@ -389,7 +419,11 @@ class TestAkaQualiaIntegration:
     async def test_memory_aware_drift_computation(self, aq_with_sql_memory):
         """Second scene should use memory for drift computation"""
 
-        base_signals = {"text": "First contemplative moment", "subject": "observer", "object": "first_thought"}
+        base_signals = {
+            "text": "First contemplative moment",
+            "subject": "observer",
+            "object": "first_thought",
+        }
 
         # First scene
         result1 = await aq_with_sql_memory.step(
@@ -401,7 +435,9 @@ class TestAkaQualiaIntegration:
         )
 
         metrics1 = result1["metrics"]
-        assert metrics1.drift_phi == 1.0, "First scene should have perfect drift (no history)"
+        assert (
+            metrics1.drift_phi == 1.0
+        ), "First scene should have perfect drift (no history)"
 
         # Second scene - different signals
         changed_signals = {
@@ -420,7 +456,9 @@ class TestAkaQualiaIntegration:
 
         metrics2 = result2["metrics"]
         assert 0.0 <= metrics2.drift_phi <= 1.0, "Drift phi should be valid range"
-        assert metrics2.drift_phi < 1.0, "Second scene should show some drift from first"
+        assert (
+            metrics2.drift_phi < 1.0
+        ), "Second scene should show some drift from first"
 
         # Verify both scenes are in memory
         memory = aq_with_sql_memory.memory
@@ -455,7 +493,8 @@ class TestComplexQueries:
 
         # Test aggregation query
         with sql_memory.engine.begin() as conn:
-            query = text("""
+            query = text(
+                """
                 SELECT
                     COUNT(*) as scene_count,
                     AVG(drift_phi) as avg_drift,
@@ -464,9 +503,12 @@ class TestComplexQueries:
                     STDDEV(drift_phi) as stddev_drift
                 FROM akaq_scene
                 WHERE user_id = :user_id
-            """)
+            """
+            )
 
-            result = conn.execute(query, {"user_id": "drift_aggregation_test"}).fetchone()
+            result = conn.execute(
+                query, {"user_id": "drift_aggregation_test"}
+            ).fetchone()
 
             assert result.scene_count == 5
             assert abs(result.avg_drift - sum(drift_values) / len(drift_values)) < 0.001
@@ -495,7 +537,8 @@ class TestComplexQueries:
                 scene_id = f"temporal_{i}_{int(scene_time)}"
 
                 conn.execute(
-                    text("""
+                    text(
+                        """
                     INSERT INTO akaq_scene (
                         scene_id, user_id, ts, subject, object, proto, proto_vec,
                         risk, context, drift_phi, congruence_index, neurosis_risk,
@@ -506,7 +549,8 @@ class TestComplexQueries:
                         :congruence_index, :neurosis_risk, :repair_delta,
                         :sublimation_rate, :cfg_version
                     )
-                """),
+                """
+                    ),
                     {
                         "scene_id": scene_id,
                         "user_id": "temporal_test",
@@ -530,15 +574,19 @@ class TestComplexQueries:
         cutoff_time = base_time - 1200  # 20 minutes ago
 
         with sql_memory.engine.begin() as conn:
-            query = text("""
+            query = text(
+                """
                 SELECT scene_id, subject, EXTRACT(EPOCH FROM ts) as timestamp
                 FROM akaq_scene
                 WHERE user_id = :user_id
                 AND ts >= to_timestamp(:cutoff_time)
                 ORDER BY ts DESC
-            """)
+            """
+            )
 
-            results = conn.execute(query, {"user_id": "temporal_test", "cutoff_time": cutoff_time}).fetchall()
+            results = conn.execute(
+                query, {"user_id": "temporal_test", "cutoff_time": cutoff_time}
+            ).fetchall()
 
             # Should get the last 3 scenes (15 min, 5 min, now)
             assert len(results) == 3, f"Should find 3 recent scenes, got {len(results)}"

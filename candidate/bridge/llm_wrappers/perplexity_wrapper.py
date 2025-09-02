@@ -97,7 +97,9 @@ class PerplexityWrapper:
                 "temperature": kwargs.get("temperature", 0.7),
             }
 
-            response = requests.post(self.base_url, headers=headers, json=data, timeout=30)
+            response = requests.post(
+                self.base_url, headers=headers, json=data, timeout=30
+            )
             response.raise_for_status()
 
             content = response.json()["choices"][0]["message"].get("content")

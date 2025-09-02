@@ -49,7 +49,11 @@ class ResourceAllocationOptimizer(CoreInterface):
         Returns:
             Optimized resource allocation plan
         """
-        allocation_plan = {"allocations": [], "total_resources_used": {}, "efficiency_score": 0.0}
+        allocation_plan = {
+            "allocations": [],
+            "total_resources_used": {},
+            "efficiency_score": 0.0,
+        }
 
         # Score each engine-opportunity pair
         scored_pairs = []
@@ -58,8 +62,12 @@ class ResourceAllocationOptimizer(CoreInterface):
                 continue
 
             for opportunity in opportunities:
-                score = await self._score_engine_opportunity_fit(engine_name, opportunity)
-                scored_pairs.append({"engine": engine_name, "opportunity": opportunity, "score": score})
+                score = await self._score_engine_opportunity_fit(
+                    engine_name, opportunity
+                )
+                scored_pairs.append(
+                    {"engine": engine_name, "opportunity": opportunity, "score": score}
+                )
 
         # Sort by score (highest first)
         scored_pairs.sort(key=lambda x: x["score"], reverse=True)
@@ -73,7 +81,10 @@ class ResourceAllocationOptimizer(CoreInterface):
             # Check if we have enough resources
             can_allocate = True
             for resource_type, amount in required.items():
-                if resource_type in remaining_resources and remaining_resources[resource_type] < amount:
+                if (
+                    resource_type in remaining_resources
+                    and remaining_resources[resource_type] < amount
+                ):
                     can_allocate = False
                     break
 
@@ -102,11 +113,15 @@ class ResourceAllocationOptimizer(CoreInterface):
         # Calculate efficiency score
         if allocation_plan["allocations"]:
             total_score = sum(a["expected_roi"] for a in allocation_plan["allocations"])
-            allocation_plan["efficiency_score"] = total_score / len(allocation_plan["allocations"])
+            allocation_plan["efficiency_score"] = total_score / len(
+                allocation_plan["allocations"]
+            )
 
         return allocation_plan
 
-    async def _score_engine_opportunity_fit(self, engine_name: str, opportunity: dict[str, Any]) -> float:
+    async def _score_engine_opportunity_fit(
+        self, engine_name: str, opportunity: dict[str, Any]
+    ) -> float:
         """Score how well an engine fits an opportunity"""
 
         score = 0.5  # Base score

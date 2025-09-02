@@ -30,8 +30,12 @@ class IdentityConnector:
                 # Check tier access
                 tier = await self.access_control.get_agent_tier(agent_id)
                 if tier < min_tier:
-                    self.audit_logger.log_access_denied(agent_id, func.__name__, tier, min_tier)
-                    raise PermissionError(f"Requires tier {min_tier}, agent has tier {tier}")
+                    self.audit_logger.log_access_denied(
+                        agent_id, func.__name__, tier, min_tier
+                    )
+                    raise PermissionError(
+                        f"Requires tier {min_tier}, agent has tier {tier}"
+                    )
 
                 # Log access
                 self.audit_logger.log_access_granted(agent_id, func.__name__, tier)
@@ -51,7 +55,9 @@ class IdentityConnector:
         module_instance._log_audit = self.audit_logger.log_event
         module_instance._monitor_safety = self.safety_monitor.monitor_operation
 
-        self.audit_logger.log_event("system", "module_connected", {"module": module_name})
+        self.audit_logger.log_event(
+            "system", "module_connected", {"module": module_name}
+        )
 
     def setup_cross_module_auth(self):
         """Setup authentication for cross-module communication"""
@@ -64,7 +70,9 @@ class IdentityConnector:
 
         for module, config in auth_config.items():
             self.configure_auth(module, config)
-            self.audit_logger.log_event("system", "auth_configured", {"module": module, "config": config})
+            self.audit_logger.log_event(
+                "system", "auth_configured", {"module": module, "config": config}
+            )
 
     def configure_auth(self, module: str, config: dict[str, str]):
         """Configure authentication for a specific module"""

@@ -231,7 +231,9 @@ class TelemetryCollector:
             "resource": resource,
             "success": success,
             "latency_ms": latency_ms,
-            "capability_token_id": capability_token.token_id if capability_token else None,
+            "capability_token_id": (
+                capability_token.token_id if capability_token else None
+            ),
             "context": context or {},
             "trace_id": None,  # Will be filled by Λ-trace
         }
@@ -242,7 +244,7 @@ class TelemetryCollector:
                 "adapter": self.adapter_name,
                 "latency_ms": latency_ms,
                 "success": success,
-                "constellation_framework": "⚛️🧠🛡️",
+                "trinity_framework": "⚛️🧠🛡️",
                 "audit_entry_id": len(self.audit_trail),
                 "security_level": self._assess_security_level(action, context),
             }
@@ -255,7 +257,9 @@ class TelemetryCollector:
                 resource=resource,
                 purpose="adapter_operation",
                 verdict=PolicyVerdict.ALLOW if success else PolicyVerdict.DENY,
-                capability_token_id=capability_token.token_id if capability_token else None,
+                capability_token_id=(
+                    capability_token.token_id if capability_token else None
+                ),
                 context=trace_context,
             )
             self.metrics["last_trace_id"] = trace.trace_id
@@ -281,12 +285,16 @@ class TelemetryCollector:
 
     def get_metrics(self) -> dict:
         """Get current metrics"""
-        avg_latency = self.metrics["total_latency_ms"] / max(self.metrics["request_count"], 1)
+        avg_latency = self.metrics["total_latency_ms"] / max(
+            self.metrics["request_count"], 1
+        )
 
         return {
             "adapter": self.adapter_name,
             "requests": self.metrics["request_count"],
-            "success_rate": (self.metrics["success_count"] / max(self.metrics["request_count"], 1)),
+            "success_rate": (
+                self.metrics["success_count"] / max(self.metrics["request_count"], 1)
+            ),
             "avg_latency_ms": avg_latency,
             "unique_tokens": len(set(self.metrics["capability_tokens_used"])),
         }
@@ -298,7 +306,10 @@ def with_resilience(func):
     @wraps(func)
     async def wrapper(self, *args, **kwargs):
         if not self.resilience.can_attempt_request():
-            return {"error": "service_unavailable", "circuit_state": self.resilience.get_state()}
+            return {
+                "error": "service_unavailable",
+                "circuit_state": self.resilience.get_state(),
+            }
 
         max_retries = 3
         backoff = 1
@@ -319,7 +330,9 @@ def with_resilience(func):
                     resource = kwargs.get("resource", "unknown")
                     token = kwargs.get("capability_token")
 
-                    self.telemetry.record_request(lid, action, resource, token, latency_ms, True)
+                    self.telemetry.record_request(
+                        lid, action, resource, token, latency_ms, True
+                    )
 
                 return result
 
@@ -429,7 +442,9 @@ class BaseServiceAdapter(ABC):
         """Enable/disable dry-run mode"""
         self.dry_run_mode = enabled
 
-    def validate_capability_token(self, token: CapabilityToken, required_scope: str) -> bool:
+    def validate_capability_token(
+        self, token: CapabilityToken, required_scope: str
+    ) -> bool:
         """Validate capability token"""
         if not token.is_valid():
             return False
@@ -437,16 +452,24 @@ class BaseServiceAdapter(ABC):
         if not token.has_scope(required_scope):
             return False
 
-        return token.audience == self.service_name
+        if token.audience != self.service_name:
+            return False
 
-    async def check_consent(self, lid: str, action: str, context: Optional[dict] = None) -> bool:
+        return True
+
+    async def check_consent(
+        self, lid: str, action: str, context: Optional[dict] = None
+    ) -> bool:
         """🛡️ Check consent before accessing external service - Guardian integration"""
 
         # Guardian system validation
         if self.guardian:
             try:
                 guardian_check = await self.guardian.validate_operation(
-                    lid=lid, service=self.service_name, action=action, context=context or {}
+                    lid=lid,
+                    service=self.service_name,
+                    action=action,
+                    context=context or {},
                 )
                 if not guardian_check.get("allowed", False):
                     return False
@@ -458,7 +481,9 @@ class BaseServiceAdapter(ABC):
         if not self.ledger:
             return True  # Allow if ledger not available (testing)
 
-        consent_check = self.ledger.check_consent(lid=lid, resource_type=self.service_name, action=action)
+        consent_check = self.ledger.check_consent(
+            lid=lid, resource_type=self.service_name, action=action
+        )
         return consent_check["allowed"]
 
     async def authenticate_with_identity(self, lid: str, credentials: dict) -> dict:
@@ -498,7 +523,9 @@ class BaseServiceAdapter(ABC):
         pass
 
     @abstractmethod
-    async def fetch_resource(self, lid: str, resource_id: str, capability_token: CapabilityToken) -> dict:
+    async def fetch_resource(
+        self, lid: str, resource_id: str, capability_token: CapabilityToken
+    ) -> dict:
         """Fetch resource from external service"""
         pass
 
@@ -509,7 +536,7 @@ class BaseServiceAdapter(ABC):
             "circuit_state": self.resilience.get_state(),
             "metrics": self.telemetry.get_metrics(),
             "dry_run_mode": self.dry_run_mode,
-            "constellation_framework": {
+            "trinity_framework": {
                 "identity_active": self.identity_core is not None,
                 "consciousness_active": self.consciousness_active,
                 "guardian_active": self.guardian is not None,
@@ -521,7 +548,9 @@ class BaseServiceAdapter(ABC):
         # Add consciousness system status if available
         if self.kernel_bus and self.consciousness_active:
             with contextlib.suppress(Exception):
-                status["consciousness_status"] = self.kernel_bus.get_service_status(f"adapter.{self.service_name}")
+                status["consciousness_status"] = self.kernel_bus.get_service_status(
+                    f"adapter.{self.service_name}"
+                )
 
         return status
 
@@ -529,7 +558,9 @@ class BaseServiceAdapter(ABC):
         """Persist adapter state using Memory service"""
         if self.memory_service:
             try:
-                await self.memory_service.store_adapter_state(adapter_name=self.service_name, state=state_data)
+                await self.memory_service.store_adapter_state(
+                    adapter_name=self.service_name, state=state_data
+                )
                 return True
             except Exception:
                 return False
@@ -545,7 +576,9 @@ class BaseServiceAdapter(ABC):
                 return None
         return None
 
-    async def detect_duress_signal(self, lid: str, request_data: dict) -> dict[str, Any]:
+    async def detect_duress_signal(
+        self, lid: str, request_data: dict
+    ) -> dict[str, Any]:
         """🚨 Detect duress/shadow gestures (Canary Pack 5)"""
 
         duress_indicators = {
@@ -642,7 +675,13 @@ class DryRunPlanner:
 
     def _estimate_time(self, operation: str) -> int:
         """Estimate operation time"""
-        estimates = {"list": 200, "fetch": 500, "upload": 1000, "delete": 300, "search": 800}
+        estimates = {
+            "list": 200,
+            "fetch": 500,
+            "upload": 1000,
+            "delete": 300,
+            "search": 800,
+        }
         return estimates.get(operation, 500)
 
     def _get_required_scopes(self, operation: str) -> list[str]:
@@ -692,7 +731,11 @@ class RateLimiter:
             self.requests[lid] = []
 
         # Clean old requests outside window
-        self.requests[lid] = [(ts, act) for ts, act in self.requests[lid] if now - ts < self.window_seconds]
+        self.requests[lid] = [
+            (ts, act)
+            for ts, act in self.requests[lid]
+            if now - ts < self.window_seconds
+        ]
 
         # Check if over limit
         current_count = len(self.requests[lid])

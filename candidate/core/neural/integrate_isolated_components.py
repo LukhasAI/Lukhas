@@ -204,7 +204,9 @@ except ImportError as e:
             with open(memory_init, "a") as f:
                 f.write("\n" + memory_init_addition)
 
-            self.integration_log.append("Updated memory __init__.py with isolated components")
+            self.integration_log.append(
+                "Updated memory __init__.py with isolated components"
+            )
 
     def integrate_api_components(self):
         """Fix and integrate API components"""
@@ -416,7 +418,9 @@ def get_neural_network():
                 content = f.read()
 
             # Add neural network import after other imports
-            import_line = "from candidate.core.master_integration import get_neural_network"
+            import_line = (
+                "from candidate.core.master_integration import get_neural_network"
+            )
             if import_line not in content:
                 # Find imports section
                 lines = content.split("\n")
@@ -455,7 +459,9 @@ def get_neural_network():
                 with open(main_py, "w") as f:
                     f.write(content)
 
-                self.integration_log.append("Updated main.py with neural network integration")
+                self.integration_log.append(
+                    "Updated main.py with neural network integration"
+                )
 
     def generate_report(self):
         """Generate integration report"""

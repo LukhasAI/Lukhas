@@ -24,10 +24,18 @@ class ClassicalDreamScenario(BaseModel):
     """Input for classical dream exploration"""
 
     scenario: str = Field(..., description="The scenario to explore")
-    branch_count: int = Field(5, ge=1, le=10, description="Number of branches to explore")
-    emotional_context: dict[str, float] = Field(default_factory=dict, description="Emotional state values 0-1")
-    deterministic_seed: Optional[int] = Field(None, description="Seed for reproducible results")
-    safety_level: float = Field(0.8, ge=0, le=1, description="Safety threshold for exploration")
+    branch_count: int = Field(
+        5, ge=1, le=10, description="Number of branches to explore"
+    )
+    emotional_context: dict[str, float] = Field(
+        default_factory=dict, description="Emotional state values 0-1"
+    )
+    deterministic_seed: Optional[int] = Field(
+        None, description="Seed for reproducible results"
+    )
+    safety_level: float = Field(
+        0.8, ge=0, le=1, description="Safety threshold for exploration"
+    )
 
 
 class ClassicalOutcome(BaseModel):
@@ -73,7 +81,9 @@ class ClassicalDreamEngine:
         self.decision_trees = {}
         self.safety_threshold = 0.7
 
-    async def explore_scenario(self, scenario: ClassicalDreamScenario) -> ClassicalDreamResponse:
+    async def explore_scenario(
+        self, scenario: ClassicalDreamScenario
+    ) -> ClassicalDreamResponse:
         """Explore scenario using classical branching algorithms"""
 
         # Initialize deterministic random if seed provided
@@ -101,7 +111,9 @@ class ClassicalDreamEngine:
         insights = self._extract_insights(branches, scenario)
 
         # Validate safety
-        safety_validated = all(b.safety_score >= scenario.safety_level for b in branches)
+        safety_validated = all(
+            b.safety_score >= scenario.safety_level for b in branches
+        )
 
         return ClassicalDreamResponse(
             session_id=session_id,
@@ -197,7 +209,9 @@ class ClassicalDreamEngine:
         # Traverse decision tree
         for depth in range(3):  # Max depth of 3
             # Select option based on weighted probability
-            option_index = self._select_option(current_node.probabilities, branch_index, depth)
+            option_index = self._select_option(
+                current_node.probabilities, branch_index, depth
+            )
 
             selected_option = current_node.options[option_index]
             path.append(selected_option)
@@ -207,7 +221,11 @@ class ClassicalDreamEngine:
                 {
                     "depth": depth,
                     "chosen": selected_option,
-                    "alternatives": [opt for i, opt in enumerate(current_node.options) if i != option_index],
+                    "alternatives": [
+                        opt
+                        for i, opt in enumerate(current_node.options)
+                        if i != option_index
+                    ],
                     "confidence": current_node.probabilities[option_index],
                 }
             )
@@ -239,7 +257,9 @@ class ClassicalDreamEngine:
             safety_score=total_safety,
         )
 
-    def _select_option(self, probabilities: list[float], branch_index: int, depth: int) -> int:
+    def _select_option(
+        self, probabilities: list[float], branch_index: int, depth: int
+    ) -> int:
         """Deterministically select option based on probabilities"""
         # Use branch index and depth to create variation
         # This ensures different branches explore different paths
@@ -323,7 +343,9 @@ class ClassicalDreamEngine:
                 safety_scores=[0.95, 0.85, 0.9],
             )
 
-    def _calculate_path_likelihood(self, path: list[str], emotions: dict[str, list[float]]) -> float:
+    def _calculate_path_likelihood(
+        self, path: list[str], emotions: dict[str, list[float]]
+    ) -> float:
         """Calculate likelihood of path success"""
 
         # Base likelihood on path coherence
@@ -389,7 +411,9 @@ class ClassicalDreamEngine:
 
         # Check safety
         safe_branches = [b for b in branches if b.safety_score >= scenario.safety_level]
-        insights.append(f"{len(safe_branches)}/{len(branches)} branches meet safety threshold")
+        insights.append(
+            f"{len(safe_branches)}/{len(branches)} branches meet safety threshold"
+        )
 
         # Emotional patterns
         emotion_trends = {}
@@ -430,7 +454,9 @@ async def explore_classical_dream(scenario: ClassicalDreamScenario):
         return response
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Classical exploration failed: {e!s}")
+        raise HTTPException(
+            status_code=500, detail=f"Classical exploration failed: {e!s}"
+        )
 
 
 @app.get("/")

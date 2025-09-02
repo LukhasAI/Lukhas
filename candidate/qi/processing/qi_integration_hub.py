@@ -120,12 +120,17 @@ class QIIntegrationHub:
         """List all registered quantum services"""
         return list(self.services.keys())
 
-    async def process_quantum_request(self, request_type: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def process_quantum_request(
+        self, request_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process quantum-enhanced requests"""
         try:
             results = {}
 
-            if request_type == "bio_optimization" and "bio_optimization" in self.services:
+            if (
+                request_type == "bio_optimization"
+                and "bio_optimization" in self.services
+            ):
                 bio_service = self.services["bio_optimization"]
                 if hasattr(bio_service, "optimize"):
                     results["bio_result"] = await bio_service.optimize(data)

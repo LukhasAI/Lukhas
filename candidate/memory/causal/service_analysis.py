@@ -20,7 +20,9 @@ from collections.abc import Sequence
 # ΛTAG: digital_friction
 
 
-def compute_digital_friction(num_calls: int, serialization_cost: float, average_latency: float) -> float:
+def compute_digital_friction(
+    num_calls: int, serialization_cost: float, average_latency: float
+) -> float:
     """Estimate digital friction from network communication.
 
     Parameters
@@ -49,7 +51,9 @@ def compute_digital_friction(num_calls: int, serialization_cost: float, average_
 # ΛTAG: modularity_score
 
 
-def compute_modularity_score(num_services: int, coupling_matrix: Sequence[Sequence[float]]) -> float:
+def compute_modularity_score(
+    num_services: int, coupling_matrix: Sequence[Sequence[float]]
+) -> float:
     """Compute a modularity score based on service coupling.
 
     A lower average coupling results in a higher modularity score.

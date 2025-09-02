@@ -69,7 +69,9 @@ class LucasGovernanceModule:
                 recommendations=["Consider backing up the file first"],
             )
 
-        return EthicalDecision(allowed=True, reason="Action appears safe", severity=EthicalSeverity.LOW)
+        return EthicalDecision(
+            allowed=True, reason="Action appears safe", severity=EthicalSeverity.LOW
+        )
 
     def get_status(self) -> dict[str, Any]:
         """Get current governance status"""

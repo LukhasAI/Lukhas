@@ -43,8 +43,16 @@ def initialize_consciousness_services():
         class MockMemoryService:
             async def search(self, query=None, limit=5):
                 return [
-                    {"id": "mem1", "summary": "Mock memory entry", "timestamp": "2025-08-10"},
-                    {"id": "mem2", "summary": "Another memory", "timestamp": "2025-08-10"},
+                    {
+                        "id": "mem1",
+                        "summary": "Mock memory entry",
+                        "timestamp": "2025-08-10",
+                    },
+                    {
+                        "id": "mem2",
+                        "summary": "Another memory",
+                        "timestamp": "2025-08-10",
+                    },
                 ]
 
         class MockEmotionService:
@@ -97,7 +105,9 @@ def initialize_consciousness_services():
 
         register_service("memory_service", MockMemoryService(), singleton=True)
         register_service("emotion_service", MockEmotionService(), singleton=True)
-        register_service("parallel_reality_simulator", MockParallelRealitySimulator(), singleton=True)
+        register_service(
+            "parallel_reality_simulator", MockParallelRealitySimulator(), singleton=True
+        )
 
         logger.info("Consciousness services initialized and registered")
         return True

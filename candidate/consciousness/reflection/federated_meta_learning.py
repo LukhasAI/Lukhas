@@ -23,7 +23,9 @@ class FederatedModel:
     preserving privacy by keeping user data local.
     """
 
-    def __init__(self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None):
+    def __init__(
+        self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None
+    ):
         self.model_id = model_id
         self.model_type = model_type
         self.parameters = initial_parameters or {}
@@ -33,7 +35,9 @@ class FederatedModel:
         self.client_contributions = set()
         self.performance_metrics = {}
 
-    def update_with_gradients(self, gradients: dict, client_id: str, weight: float = 1.0):
+    def update_with_gradients(
+        self, gradients: dict, client_id: str, weight: float = 1.0
+    ):
         """
         Update model parameters with gradients from a client
 
@@ -146,7 +150,9 @@ class FederatedLearningManager:
         self.save_model(model)
         return model
 
-    def get_model(self, model_id: str, client_id: Optional[str] = None) -> Optional[dict]:
+    def get_model(
+        self, model_id: str, client_id: Optional[str] = None
+    ) -> Optional[dict]:
         """
         Get model parameters for a client
 
@@ -167,7 +173,11 @@ class FederatedLearningManager:
         return self.models[model_id].get_parameters(client_id)
 
     def contribute_gradients(
-        self, model_id: str, client_id: str, gradients: dict, metrics: Optional[dict] = None
+        self,
+        model_id: str,
+        client_id: str,
+        gradients: dict,
+        metrics: Optional[dict] = None,
     ) -> bool:
         """
         Contribute gradients from a client to update a model
@@ -227,7 +237,9 @@ class FederatedLearningManager:
 
         return True
 
-    def _update_metrics(self, model: FederatedModel, client_id: str, metrics: dict) -> None:
+    def _update_metrics(
+        self, model: FederatedModel, client_id: str, metrics: dict
+    ) -> None:
         """
         Update model metrics with client feedback
 
@@ -243,7 +255,9 @@ class FederatedLearningManager:
             for key, value in metrics.items():
                 if key in model.performance_metrics:
                     # Exponential moving average to favor recent metrics
-                    model.performance_metrics[key] = 0.8 * value + 0.2 * model.performance_metrics[key]
+                    model.performance_metrics[key] = (
+                        0.8 * value + 0.2 * model.performance_metrics[key]
+                    )
                 else:
                     model.performance_metrics[key] = value
 
@@ -268,7 +282,9 @@ class FederatedLearningManager:
                         model_data = json.load(f)
                         model = FederatedModel.deserialize(model_data)
                         self.models[model.model_id] = model
-                        logger.info(f"Loaded federated model: {model.model_id} (version {model.version})")
+                        logger.info(
+                            f"Loaded federated model: {model.model_id} (version {model.version})"
+                        )
         except Exception as e:
             logger.error(f"Error loading federated models: {e!s}")
 
@@ -287,7 +303,11 @@ class FederatedLearningManager:
                     {
                         "model_id": model_id,
                         "version": model.version,
-                        "last_updated": (model.last_updated.isoformat() if model.last_updated else None),
+                        "last_updated": (
+                            model.last_updated.isoformat()
+                            if model.last_updated
+                            else None
+                        ),
                     }
                 )
                 if client_id in model.client_contributions:
@@ -357,7 +377,9 @@ class ReflectiveIntrospectionSystem:
 
         self.reflection_cycle += 1
         self.last_reflection_time = datetime.datetime.now()
-        logger.info(f"Performing reflective introspection cycle {self.reflection_cycle}")
+        logger.info(
+            f"Performing reflective introspection cycle {self.reflection_cycle}"
+        )
 
         # Analyze recent interactions
         insights = self._analyze_interactions()
@@ -461,7 +483,9 @@ class ReflectiveIntrospectionSystem:
 
             for query, count in query_count.items():
                 if count >= 3:  # Repeated at least 3 times
-                    patterns.append({"type": "repeated_query", "query": query, "count": count})
+                    patterns.append(
+                        {"type": "repeated_query", "query": query, "count": count}
+                    )
 
         return patterns
 
@@ -619,15 +643,23 @@ class ReflectiveIntrospectionSystem:
         # Calculate improvement metrics
         total_insights = len(self.insight_history)
         total_improvements = len(self.improvement_plans)
-        active_improvements = len([imp for imp in self.improvement_plans if imp.get("status") == "active"])
-        completed_improvements = len([imp for imp in self.improvement_plans if imp.get("status") == "completed"])
+        active_improvements = len(
+            [imp for imp in self.improvement_plans if imp.get("status") == "active"]
+        )
+        completed_improvements = len(
+            [imp for imp in self.improvement_plans if imp.get("status") == "completed"]
+        )
 
         # Latest insights
         latest_insights = self.insight_history[-5:] if self.insight_history else []
 
         return {
             "reflection_cycles": self.reflection_cycle,
-            "last_reflection": (self.last_reflection_time.isoformat() if self.last_reflection_time else None),
+            "last_reflection": (
+                self.last_reflection_time.isoformat()
+                if self.last_reflection_time
+                else None
+            ),
             "total_insights_generated": total_insights,
             "total_improvements_proposed": total_improvements,
             "active_improvements": active_improvements,
@@ -715,7 +747,9 @@ class MetaLearningSystem:
         duration = (datetime.datetime.now() - start_time).total_seconds()
 
         # Evaluate strategy performance
-        performance_metrics = self._evaluate_performance(strategy_name, learning_result, duration)
+        performance_metrics = self._evaluate_performance(
+            strategy_name, learning_result, duration
+        )
         self._update_strategy_performance(strategy_name, performance_metrics)
 
         # Log interaction for reflective introspection
@@ -764,11 +798,15 @@ class MetaLearningSystem:
         if strategy_name and strategy_name in self.learning_strategies:
             # Update performance with feedback
             if "performance_rating" in feedback:
-                self._update_strategy_performance(strategy_name, {"user_rating": feedback["performance_rating"]})
+                self._update_strategy_performance(
+                    strategy_name, {"user_rating": feedback["performance_rating"]}
+                )
 
             # Update strategy parameters if provided
             if "parameter_adjustments" in feedback:
-                self._adjust_strategy_parameters(strategy_name, feedback["parameter_adjustments"])
+                self._adjust_strategy_parameters(
+                    strategy_name, feedback["parameter_adjustments"]
+                )
 
         # Process federated learning contributions
         if "model_contributions" in feedback:
@@ -778,7 +816,9 @@ class MetaLearningSystem:
                 metrics = model_contrib.get("metrics")
 
                 if model_id and gradients:
-                    self.federated_learning.contribute_gradients(model_id, client_id, gradients, metrics)
+                    self.federated_learning.contribute_gradients(
+                        model_id, client_id, gradients, metrics
+                    )
 
     def generate_learning_report(self) -> dict:
         """
@@ -797,7 +837,8 @@ class MetaLearningSystem:
             "learning_cycles": self.learning_cycle,
             "top_strategies": [name for name, _ in strategies_by_performance[:3]],
             "strategy_distribution": {
-                name: perf.get("usage_count", 0) for name, perf in self.strategy_performance.items()
+                name: perf.get("usage_count", 0)
+                for name, perf in self.strategy_performance.items()
             },
             "adaptation_progress": self._calculate_adaptation_progress(),
             "meta_parameters": self.meta_parameters,
@@ -876,7 +917,9 @@ class MetaLearningSystem:
 
         # Add derived features
         features["data_sparsity"] = self._calculate_sparsity(available_data)
-        features["complexity_estimate"] = self._estimate_complexity(available_data, context)
+        features["complexity_estimate"] = self._estimate_complexity(
+            available_data, context
+        )
 
         # Add privacy sensitivity feature
         features["privacy_sensitivity"] = context.get("privacy_sensitivity", 0.5)
@@ -899,7 +942,9 @@ class MetaLearningSystem:
 
             # Adjust by past performance if available
             if name in self.strategy_performance:
-                perf_adjustment = self.strategy_performance[name].get("overall_score", 0.5)
+                perf_adjustment = self.strategy_performance[name].get(
+                    "overall_score", 0.5
+                )
                 final_score = base_score * 0.7 + perf_adjustment * 0.3
             else:
                 final_score = base_score
@@ -937,7 +982,9 @@ class MetaLearningSystem:
 
         return result
 
-    def _evaluate_performance(self, strategy_name: str, learning_result: dict, duration: float) -> dict:
+    def _evaluate_performance(
+        self, strategy_name: str, learning_result: dict, duration: float
+    ) -> dict:
         """Evaluate the performance of the applied learning strategy"""
         # Placeholder - this would implement evaluation metrics
         metrics = {
@@ -950,7 +997,9 @@ class MetaLearningSystem:
 
         # Add privacy preservation metric for federated learning
         if strategy_name == "federated":
-            metrics["privacy_preservation"] = 1.0  # Perfect privacy in federated learning
+            metrics["privacy_preservation"] = (
+                1.0  # Perfect privacy in federated learning
+            )
 
         # Calculate overall performance score
         metrics["overall_score"] = (
@@ -962,7 +1011,9 @@ class MetaLearningSystem:
 
         return metrics
 
-    def _update_strategy_performance(self, strategy_name: str, new_metrics: dict) -> None:
+    def _update_strategy_performance(
+        self, strategy_name: str, new_metrics: dict
+    ) -> None:
         """Update the performance record for a strategy"""
         if strategy_name not in self.strategy_performance:
             self.strategy_performance[strategy_name] = {
@@ -977,12 +1028,16 @@ class MetaLearningSystem:
 
         # Add new metrics to history if complete
         if "overall_score" in new_metrics:
-            self.strategy_performance[strategy_name]["performance_history"].append(new_metrics)
+            self.strategy_performance[strategy_name]["performance_history"].append(
+                new_metrics
+            )
 
             # Update overall metrics
             history = [
                 entry.get("overall_score", 0)
-                for entry in self.strategy_performance[strategy_name]["performance_history"]
+                for entry in self.strategy_performance[strategy_name][
+                    "performance_history"
+                ]
             ]
 
             # Calculate exponentially weighted average (recent more important)
@@ -1001,22 +1056,30 @@ class MetaLearningSystem:
         """Update meta-parameters based on learning history"""
         # Adjust exploration rate based on learning progress
         if len(self.performance_history) >= 10:
-            recent_variance = np.var([p.get("overall_score", 0) for p in self.performance_history[-10:]])
+            recent_variance = np.var(
+                [p.get("overall_score", 0) for p in self.performance_history[-10:]]
+            )
             # More variance = more exploration needed
             self.exploration_rate = min(0.3, max(0.05, recent_variance * 2))
 
         # Adjust other meta-parameters based on performance trends
         # Placeholder implementation
-        self.meta_parameters["adaptation_rate"] = max(0.01, min(0.2, self.meta_parameters["adaptation_rate"]))
+        self.meta_parameters["adaptation_rate"] = max(
+            0.01, min(0.2, self.meta_parameters["adaptation_rate"])
+        )
 
-    def _adjust_strategy_parameters(self, strategy_name: str, adjustments: dict) -> None:
+    def _adjust_strategy_parameters(
+        self, strategy_name: str, adjustments: dict
+    ) -> None:
         """Adjust parameters of a specific strategy"""
         if strategy_name not in self.learning_strategies:
             return
 
         for param_name, adjustment in adjustments.items():
             if param_name in self.learning_strategies[strategy_name]["parameters"]:
-                current = self.learning_strategies[strategy_name]["parameters"][param_name]
+                current = self.learning_strategies[strategy_name]["parameters"][
+                    param_name
+                ]
                 # Apply adjustment within bounds
                 self.learning_strategies[strategy_name]["parameters"][param_name] = max(
                     0.001,  # Minimum value to prevent zeros
@@ -1039,7 +1102,9 @@ class MetaLearningSystem:
             if earlier and recent:
                 avg_recent = sum(recent) / len(recent)
                 avg_earlier = sum(earlier) / len(earlier)
-                improvement = max(0, (avg_recent - avg_earlier) / max(0.001, avg_earlier))
+                improvement = max(
+                    0, (avg_recent - avg_earlier) / max(0.001, avg_earlier)
+                )
                 return min(1.0, improvement)
 
         return 0.5  # Default middle value
@@ -1069,7 +1134,9 @@ class MetaLearningSystem:
 
         # Check for data volume match
         if "data_volume" in features:
-            if features["data_volume"] < 100 and "limited_data" in strategy.get("suitable_for", []):
+            if features["data_volume"] < 100 and "limited_data" in strategy.get(
+                "suitable_for", []
+            ):
                 match_score += 0.2
 
         # Check for privacy sensitivity match
@@ -1096,12 +1163,16 @@ class MetaLearningSystem:
 
             if strategy_counts:
                 best_strategy = max(strategy_counts.items(), key=lambda x: x[1])[0]
-                insights.append(f"Strategy '{best_strategy}' shows consistently strong performance")
+                insights.append(
+                    f"Strategy '{best_strategy}' shows consistently strong performance"
+                )
 
         # Generate insight about adaptation progress
         adaptation = self._calculate_adaptation_progress()
         if adaptation > 0.2:
-            insights.append(f"System shows {adaptation:.1%} improvement in learning effectiveness")
+            insights.append(
+                f"System shows {adaptation:.1%} improvement in learning effectiveness"
+            )
 
         # Add any insights from reflective system
         reflection_status = self.reflective_system.get_status_report()

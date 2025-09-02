@@ -157,15 +157,23 @@ class GridSizeCalculator:
         reasoning.append(f"Base grid size {base_grid_size} for {content_count} items")
 
         # Step 2: Apply cognitive load adjustments
-        cognitive_adjusted_size = self._apply_cognitive_load_adjustment(base_grid_size, cognitive_load_level)
-        reasoning.append(f"Cognitive load ({cognitive_load_level}) adjusted to {cognitive_adjusted_size}")
+        cognitive_adjusted_size = self._apply_cognitive_load_adjustment(
+            base_grid_size, cognitive_load_level
+        )
+        reasoning.append(
+            f"Cognitive load ({cognitive_load_level}) adjusted to {cognitive_adjusted_size}"
+        )
 
         # Step 3: Apply screen size constraints
-        screen_adjusted_size = self._apply_screen_constraints(cognitive_adjusted_size, screen)
+        screen_adjusted_size = self._apply_screen_constraints(
+            cognitive_adjusted_size, screen
+        )
         reasoning.append(f"Screen constraints applied: {screen_adjusted_size}")
 
         # Step 4: Apply accessibility requirements
-        final_grid_size = self._apply_accessibility_adjustments(screen_adjusted_size, accessibility_requirements)
+        final_grid_size = self._apply_accessibility_adjustments(
+            screen_adjusted_size, accessibility_requirements
+        )
         reasoning.append(f"Accessibility adjustments: {final_grid_size}")
 
         # Step 5: Calculate optimal layout
@@ -231,11 +239,21 @@ class GridSizeCalculator:
 
         return adjusted_size
 
-    def _apply_screen_constraints(self, grid_size: int, screen: ScreenDimensions) -> int:
+    def _apply_screen_constraints(
+        self, grid_size: int, screen: ScreenDimensions
+    ) -> int:
         """Apply screen size constraints to grid size."""
         # Calculate available screen space
-        available_width = screen.width - screen.safe_area_insets["left"] - screen.safe_area_insets["right"]
-        available_height = screen.height - screen.safe_area_insets["top"] - screen.safe_area_insets["bottom"]
+        available_width = (
+            screen.width
+            - screen.safe_area_insets["left"]
+            - screen.safe_area_insets["right"]
+        )
+        available_height = (
+            screen.height
+            - screen.safe_area_insets["top"]
+            - screen.safe_area_insets["bottom"]
+        )
 
         # Reserve space for UI elements (roughly 40% of screen for grid)
         grid_area_width = available_width * 0.9
@@ -247,13 +265,19 @@ class GridSizeCalculator:
         min_spacing = self.constraints.min_spacing
 
         # Check if current grid size fits
-        required_width = cells_per_row * min_cell_size + (cells_per_row - 1) * min_spacing
+        required_width = (
+            cells_per_row * min_cell_size + (cells_per_row - 1) * min_spacing
+        )
         required_height = required_width  # Assume square cells
 
         if required_width > grid_area_width or required_height > grid_area_height:
             # Reduce grid size to fit
-            max_cells_width = int((grid_area_width + min_spacing) / (min_cell_size + min_spacing))
-            max_cells_height = int((grid_area_height + min_spacing) / (min_cell_size + min_spacing))
+            max_cells_width = int(
+                (grid_area_width + min_spacing) / (min_cell_size + min_spacing)
+            )
+            max_cells_height = int(
+                (grid_area_height + min_spacing) / (min_cell_size + min_spacing)
+            )
             max_total_cells = max_cells_width * max_cells_height
 
             # Find largest perfect square that fits
@@ -314,7 +338,9 @@ class GridSizeCalculator:
             cells_per_column = cells_per_row
         else:
             # For non-square patterns, calculate optimal rectangle
-            cells_per_row, cells_per_column = self._calculate_rectangular_layout(grid_size, screen)
+            cells_per_row, cells_per_column = self._calculate_rectangular_layout(
+                grid_size, screen
+            )
 
         reasoning.append(f"Layout: {cells_per_row}×{cells_per_column}")
 
@@ -323,20 +349,30 @@ class GridSizeCalculator:
         available_height = screen.height * 0.4  # 40% of screen height for grid
 
         # Calculate optimal cell size
-        max_cell_width = (available_width - (cells_per_row - 1) * self.constraints.min_spacing) / cells_per_row
-        max_cell_height = (available_height - (cells_per_column - 1) * self.constraints.min_spacing) / cells_per_column
+        max_cell_width = (
+            available_width - (cells_per_row - 1) * self.constraints.min_spacing
+        ) / cells_per_row
+        max_cell_height = (
+            available_height - (cells_per_column - 1) * self.constraints.min_spacing
+        ) / cells_per_column
 
         # Use square cells (smallest dimension)
         optimal_cell_size = min(max_cell_width, max_cell_height)
 
         # Apply cognitive load adjustments to cell size
         if cognitive_load_level in self.cognitive_load_factors:
-            size_factor = self.cognitive_load_factors[cognitive_load_level]["size_multiplier"]
+            size_factor = self.cognitive_load_factors[cognitive_load_level][
+                "size_multiplier"
+            ]
             optimal_cell_size *= size_factor
 
         # Apply accessibility adjustments
-        if accessibility_requirements and accessibility_requirements.get("large_touch_targets", False):
-            optimal_cell_size = max(optimal_cell_size, self.accessibility_guidelines["min_touch_target"])
+        if accessibility_requirements and accessibility_requirements.get(
+            "large_touch_targets", False
+        ):
+            optimal_cell_size = max(
+                optimal_cell_size, self.accessibility_guidelines["min_touch_target"]
+            )
 
         # Constrain cell size
         optimal_cell_size = max(
@@ -354,8 +390,13 @@ class GridSizeCalculator:
         reasoning.append(f"Optimal spacing: {optimal_spacing:.1f}pt")
 
         # Calculate total dimensions
-        total_width = cells_per_row * optimal_cell_size + (cells_per_row - 1) * optimal_spacing
-        total_height = cells_per_column * optimal_cell_size + (cells_per_column - 1) * optimal_spacing
+        total_width = (
+            cells_per_row * optimal_cell_size + (cells_per_row - 1) * optimal_spacing
+        )
+        total_height = (
+            cells_per_column * optimal_cell_size
+            + (cells_per_column - 1) * optimal_spacing
+        )
 
         # Calculate confidence based on how well constraints are satisfied
         confidence = self._calculate_layout_confidence(
@@ -380,7 +421,9 @@ class GridSizeCalculator:
     ) -> GridPattern:
         """Determine optimal grid pattern."""
         # For accessibility, prefer square patterns
-        if accessibility_requirements and accessibility_requirements.get("simple_layout", True):
+        if accessibility_requirements and accessibility_requirements.get(
+            "simple_layout", True
+        ):
             return GridPattern.SQUARE
 
         # For perfect squares, use square pattern
@@ -391,7 +434,9 @@ class GridSizeCalculator:
         # For other sizes, use adaptive pattern
         return GridPattern.ADAPTIVE
 
-    def _calculate_rectangular_layout(self, grid_size: int, screen: ScreenDimensions) -> tuple[int, int]:
+    def _calculate_rectangular_layout(
+        self, grid_size: int, screen: ScreenDimensions
+    ) -> tuple[int, int]:
         """Calculate optimal rectangular layout for non-square grid sizes."""
         # Find factors of grid_size
         factors = []
@@ -430,11 +475,15 @@ class GridSizeCalculator:
 
         # Apply cognitive load adjustments
         if cognitive_load_level in self.cognitive_load_factors:
-            spacing_factor = self.cognitive_load_factors[cognitive_load_level]["spacing_multiplier"]
+            spacing_factor = self.cognitive_load_factors[cognitive_load_level][
+                "spacing_multiplier"
+            ]
             base_spacing *= spacing_factor
 
         # Apply accessibility adjustments
-        if accessibility_requirements and accessibility_requirements.get("large_spacing", False):
+        if accessibility_requirements and accessibility_requirements.get(
+            "large_spacing", False
+        ):
             base_spacing *= self.accessibility_guidelines["spacing_multiplier"]
 
         # Constrain spacing
@@ -484,7 +533,9 @@ class GridSizeCalculator:
         # Calculate overall confidence
         return sum(confidence_factors) / len(confidence_factors)
 
-    def _validate_grid_calculation(self, layout_result: dict[str, Any], screen: ScreenDimensions) -> dict[str, Any]:
+    def _validate_grid_calculation(
+        self, layout_result: dict[str, Any], screen: ScreenDimensions
+    ) -> dict[str, Any]:
         """Validate and potentially adjust the grid calculation."""
         result = layout_result.copy()
 
@@ -492,7 +543,10 @@ class GridSizeCalculator:
         available_width = screen.width * 0.9
         available_height = screen.height * 0.4
 
-        if result["total_width"] > available_width or result["total_height"] > available_height:
+        if (
+            result["total_width"] > available_width
+            or result["total_height"] > available_height
+        ):
             # Scale down proportionally
             scale_factor = (
                 min(
@@ -513,10 +567,12 @@ class GridSizeCalculator:
             result["cell_size"] = self.constraints.min_cell_size
             # Recalculate total dimensions
             result["total_width"] = (
-                result["cells_per_row"] * result["cell_size"] + (result["cells_per_row"] - 1) * result["spacing"]
+                result["cells_per_row"] * result["cell_size"]
+                + (result["cells_per_row"] - 1) * result["spacing"]
             )
             result["total_height"] = (
-                result["cells_per_column"] * result["cell_size"] + (result["cells_per_column"] - 1) * result["spacing"]
+                result["cells_per_column"] * result["cell_size"]
+                + (result["cells_per_column"] - 1) * result["spacing"]
             )
             result["confidence"] *= 0.9
 

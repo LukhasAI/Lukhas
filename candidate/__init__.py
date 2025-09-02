@@ -29,7 +29,9 @@ Modules:
 # Version information
 __version__ = "1.0.0-dev"
 __author__ = "LUKHAS AI Agent Army"
-__description__ = "LUKHAS AI Candidate Module Package - Trinity Framework Implementation"
+__description__ = (
+    "LUKHAS AI Candidate Module Package - Trinity Framework Implementation"
+)
 
 # Trinity Framework symbols
 TRINITY_SYMBOLS = "⚛️🧠🛡️"
@@ -39,7 +41,7 @@ PACKAGE_INFO = {
     "name": "lukhas-candidate",
     "version": __version__,
     "description": __description__,
-    "constellation_framework": True,
+    "trinity_framework": True,
     "consciousness_aware": True,
     "agent_army_compatible": True,
 }

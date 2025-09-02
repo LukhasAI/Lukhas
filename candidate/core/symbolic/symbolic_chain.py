@@ -167,7 +167,9 @@ class SymbolicChain:
             if self.mode != InterventionMode.MONITOR_ONLY:
                 # Get persona-specific healing if enabled
                 if self.persona_adaptive:
-                    final_response = self._adaptive_heal(response, healer_diagnosis, assessment)
+                    final_response = self._adaptive_heal(
+                        response, healer_diagnosis, assessment
+                    )
                 else:
                     final_response = self.healer.restore(response, healer_diagnosis)
 
@@ -176,7 +178,9 @@ class SymbolicChain:
                 # Step 5: Generate symbolic diff
                 if self.visual_diff_enabled:
                     # Re-assess the healed response
-                    healed_assessment = self.embedding.evaluate_symbolic_ethics(final_response)
+                    healed_assessment = self.embedding.evaluate_symbolic_ethics(
+                        final_response
+                    )
 
                     symbolic_diff = self._generate_diff(
                         response,
@@ -187,7 +191,9 @@ class SymbolicChain:
                     )
 
         # Step 6: Generate visual summary
-        visual_summary = self._create_visual_summary(assessment, healer_diagnosis, symbolic_diff, intervention_applied)
+        visual_summary = self._create_visual_summary(
+            assessment, healer_diagnosis, symbolic_diff, intervention_applied
+        )
 
         # Calculate processing time
         processing_time = (time.time() - start_time) * 1000  # Convert to ms
@@ -328,7 +334,9 @@ class SymbolicChain:
             timestamp=datetime.now(timezone.utc).isoformat(),
         )
 
-    def _find_transformed_phrases(self, original: str, healed: str) -> list[tuple[str, str]]:
+    def _find_transformed_phrases(
+        self, original: str, healed: str
+    ) -> list[tuple[str, str]]:
         """Find phrases that were transformed during healing"""
         transformations = []
 
@@ -401,7 +409,9 @@ class SymbolicChain:
         try:
             audit_entry = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "chain_id": hashlib.sha256(result.original_response.encode()).hexdigest()[:16],
+                "chain_id": hashlib.sha256(
+                    result.original_response.encode()
+                ).hexdigest()[:16],
                 "intervention_applied": result.intervention_applied,
                 "processing_time_ms": result.processing_time_ms,
                 "context": context or {},
@@ -425,9 +435,12 @@ class SymbolicChain:
                 audit_entry["transformation"] = {
                     "removed_glyphs": result.symbolic_diff.removed_glyphs,
                     "added_glyphs": result.symbolic_diff.added_glyphs,
-                    "entropy_change": result.symbolic_diff.entropy_after - result.symbolic_diff.entropy_before,
-                    "drift_reduction": result.symbolic_diff.drift_before - result.symbolic_diff.drift_after,
-                    "trinity_improvement": result.symbolic_diff.trinity_after - result.symbolic_diff.trinity_before,
+                    "entropy_change": result.symbolic_diff.entropy_after
+                    - result.symbolic_diff.entropy_before,
+                    "drift_reduction": result.symbolic_diff.drift_before
+                    - result.symbolic_diff.drift_after,
+                    "trinity_improvement": result.symbolic_diff.trinity_after
+                    - result.symbolic_diff.trinity_before,
                 }
 
             # Read existing audit log
@@ -492,7 +505,9 @@ class SymbolicChain:
 
         return "\n".join(report_lines)
 
-    def batch_process(self, responses: list[str], contexts: Optional[list[dict]] = None) -> list[ChainResult]:
+    def batch_process(
+        self, responses: list[str], contexts: Optional[list[dict]] = None
+    ) -> list[ChainResult]:
         """Process multiple responses in batch"""
         results = []
 
@@ -515,7 +530,9 @@ class SymbolicChain:
                 with open(self.audit_path) as f:
                     audits = json.load(f)
                     audit_count = len(audits)
-                    intervention_count = sum(1 for a in audits if a["intervention_applied"])
+                    intervention_count = sum(
+                        1 for a in audits if a["intervention_applied"]
+                    )
         except BaseException:
             pass
 

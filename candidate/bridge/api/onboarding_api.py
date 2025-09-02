@@ -7,15 +7,13 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import random  # For request ID generation
-
 # from flask_cors import CORS # CORS might be handled by unified_api's app instance
 import time
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
-from flask import jsonify  # Flask import remains, though app is from unified_api
-from flask import request
-from flask import session
+from flask import \
+    jsonify  # Flask import remains, though app is from unified_api
+from flask import request, session
 
 # Initialize ΛTRACE logger for this specific API module
 
@@ -30,9 +28,8 @@ logger.info("ΛTRACE: Initializing onboarding_api module.")
 try:
     # Assuming EnhancedOnboardingManager, OnboardingStage,
     # OnboardingPersonality are correctly located
-    from ..core.onboarding.enhanced_onboarding import EnhancedOnboardingManager
-    from ..core.onboarding.enhanced_onboarding import OnboardingStage
-
+    from ..core.onboarding.enhanced_onboarding import (
+        EnhancedOnboardingManager, OnboardingStage)
     # `app` and `api_response` are imported from unified_api, suggesting this file defines routes on that app
     from .unified_api import api_response  # `app` is the Flask app instance
     from .unified_api import app

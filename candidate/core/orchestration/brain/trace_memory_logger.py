@@ -73,7 +73,9 @@ class TraceMemoryLogger:
         self.recent_traces = []
         self.recent_traces_limit = self.config.get("recent_traces_limit", 100)
 
-        logger.info(f"TraceMemoryLogger initialized with base directory: {self.base_log_dir}")
+        logger.info(
+            f"TraceMemoryLogger initialized with base directory: {self.base_log_dir}"
+        )
 
     def _ensure_log_directories(self):
         """Create necessary log directories if they don't exist."""
@@ -172,7 +174,9 @@ class TraceMemoryLogger:
         level_name = self._level_to_name(level).lower()
 
         # Determine log file path
-        log_file = os.path.join(self.base_log_dir, level_name, f"trace_{level_name}.jsonl")
+        log_file = os.path.join(
+            self.base_log_dir, level_name, f"trace_{level_name}.jsonl"
+        )
 
         # Write to file with thread safety
         with self.log_lock, open(log_file, "a", encoding="utf-8") as f:
@@ -243,7 +247,9 @@ class TraceMemoryLogger:
         # Determine which log file to read from
         if level is not None:
             level_name = self._level_to_name(level).lower()
-            log_file = os.path.join(self.base_log_dir, level_name, f"trace_{level_name}.jsonl")
+            log_file = os.path.join(
+                self.base_log_dir, level_name, f"trace_{level_name}.jsonl"
+            )
             if not os.path.exists(log_file):
                 return []
             files_to_read = [log_file]
@@ -272,7 +278,9 @@ class TraceMemoryLogger:
                             continue
 
                         # Apply tag filters
-                        if tags and not any(tag in trace.get("tags", []) for tag in tags):
+                        if tags and not any(
+                            tag in trace.get("tags", []) for tag in tags
+                        ):
                             continue
 
                         traces.append(trace)
@@ -297,7 +305,9 @@ class TraceMemoryLogger:
         """Convenience method to log symbolic processing."""
         return self.log_trace(self.TraceLevel.SYMBOLIC, message, **kwargs)
 
-    def log_emotional(self, message: str, emotional_valence: dict[str, float], **kwargs) -> str:
+    def log_emotional(
+        self, message: str, emotional_valence: dict[str, float], **kwargs
+    ) -> str:
         """Convenience method to log emotional processing."""
         kwargs["emotional_valence"] = emotional_valence
         return self.log_trace(self.TraceLevel.EMOTIONAL, message, **kwargs)

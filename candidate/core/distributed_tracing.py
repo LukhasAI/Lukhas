@@ -310,7 +310,9 @@ class DistributedTracer:
         self.collector = collector or TraceCollector()
         self._current_context: threading.local = threading.local()
 
-    def start_trace(self, operation_name: str, trace_id: Optional[str] = None) -> TraceContext:
+    def start_trace(
+        self, operation_name: str, trace_id: Optional[str] = None
+    ) -> TraceContext:
         """Start a new trace"""
         if trace_id is None:
             trace_id = str(uuid.uuid4())
@@ -454,14 +456,18 @@ class AIAgentTracer(DistributedTracer):
 
                 if task_data:
                     self.add_tag(context, "task.type", task_data.get("type"))
-                    self.add_tag(context, "task.complexity", task_data.get("complexity"))
+                    self.add_tag(
+                        context, "task.complexity", task_data.get("complexity")
+                    )
 
                 context.set_baggage_item("agent_id", agent_id)
                 yield context
 
         return _trace()
 
-    def trace_agent_collaboration(self, initiator_id: str, target_id: str, collaboration_type: str):
+    def trace_agent_collaboration(
+        self, initiator_id: str, target_id: str, collaboration_type: str
+    ):
         """Trace collaboration between agents"""
         operation_name = f"collaboration.{collaboration_type}"
 
@@ -478,7 +484,9 @@ class AIAgentTracer(DistributedTracer):
 
         return _trace()
 
-    def trace_memory_operation(self, agent_id: str, operation: str, memory_size: Optional[int] = None):
+    def trace_memory_operation(
+        self, agent_id: str, operation: str, memory_size: Optional[int] = None
+    ):
         """Trace memory operations"""
         operation_name = f"memory.{operation}"
 
@@ -543,9 +551,13 @@ def demo_distributed_tracing():
             time.sleep(0.1)  # Simulate work
 
         # Simulate collaboration with another agent
-        with agent1_tracer.trace_agent_collaboration("reasoning-001", "memory-001", "knowledge_sharing"):
+        with agent1_tracer.trace_agent_collaboration(
+            "reasoning-001", "memory-001", "knowledge_sharing"
+        ):
             # Memory agent operations (simulated)
-            with agent2_tracer.trace_memory_operation("memory-001", "retrieve", memory_size=500) as mem_ctx:
+            with agent2_tracer.trace_memory_operation(
+                "memory-001", "retrieve", memory_size=500
+            ) as mem_ctx:
                 agent2_tracer.add_tag(mem_ctx, "query.type", "semantic_search")
                 time.sleep(0.05)
 
@@ -597,7 +609,9 @@ class StateSnapshotter:
             timestamp=time.time(),
             state_data=state_data,
         )
-        filepath = os.path.join(self.storage_path, f"{agent_id}-{snapshot.timestamp}.json")
+        filepath = os.path.join(
+            self.storage_path, f"{agent_id}-{snapshot.timestamp}.json"
+        )
         with open(filepath, "w") as f:
             json.dump(asdict(snapshot), f, indent=2)
         logger.info(f"State snapshot for agent {agent_id} saved to {filepath}")
@@ -606,7 +620,11 @@ class StateSnapshotter:
     def restore_latest_snapshot(self, agent_id: str) -> Optional[AgentState]:
         """Restores the most recent snapshot for an agent."""
         try:
-            files = [f for f in os.listdir(self.storage_path) if f.startswith(f"{agent_id}-") and f.endswith(".json")]
+            files = [
+                f
+                for f in os.listdir(self.storage_path)
+                if f.startswith(f"{agent_id}-") and f.endswith(".json")
+            ]
             if not files:
                 return None
             latest_file = max(
@@ -629,7 +647,9 @@ class EventReplayer:
         self.trace_collector = trace_collector
         self.snapshotter = snapshotter
 
-    def replay_trace(self, trace_id: str, to_timestamp: Optional[float] = None) -> dict[str, Any]:
+    def replay_trace(
+        self, trace_id: str, to_timestamp: Optional[float] = None
+    ) -> dict[str, Any]:
         """
         Replays a trace to reconstruct the state of agents involved.
         - Starts from the nearest snapshot before the trace began.
@@ -648,7 +668,9 @@ class EventReplayer:
 
         reconstructed_states = {}
         for agent_id in agent_ids:
-            reconstructed_states[agent_id] = self.replay_agent_state(agent_id, trace_data, to_timestamp)
+            reconstructed_states[agent_id] = self.replay_agent_state(
+                agent_id, trace_data, to_timestamp
+            )
 
         return reconstructed_states
 
@@ -668,7 +690,9 @@ class EventReplayer:
         for span_data in trace_data["spans"]:
             is_agent_span = False
             for tag_key, tag_value in span_data.get("tags", {}).items():
-                if ("agent.id" in tag_key or "agent_id" in tag_key) and tag_value == agent_id:
+                if (
+                    "agent.id" in tag_key or "agent_id" in tag_key
+                ) and tag_value == agent_id:
                     is_agent_span = True
                     break
 

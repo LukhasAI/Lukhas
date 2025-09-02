@@ -110,13 +110,17 @@ class BioCompoundGovernor:
         self.target_stability = 0.998  # Research target: 99.8% stability
 
         self.logger.info("🧬 BIO-COMPOUND GOVERNOR SYSTEM INITIALIZED")
-        self.logger.info("   - Spirulina-ATP Energy Integration: ✅ ACTIVE (27.4 TFLOPS/W)")
+        self.logger.info(
+            "   - Spirulina-ATP Energy Integration: ✅ ACTIVE (27.4 TFLOPS/W)"
+        )
         self.logger.info("   - Emotional Bio-Oscillators: ✅ ACTIVE")
         self.logger.info("   - System Repair Mechanisms: ✅ ACTIVE")
         self.logger.info("   - Golden Ratio Energy Distribution: ✅ ACTIVE")
         self.logger.info(f"   - Target Stability: {self.target_stability * 100:.1f}%")
 
-    async def regulate_system_stability(self, system_context: dict[str, Any]) -> SystemStabilityMetrics:
+    async def regulate_system_stability(
+        self, system_context: dict[str, Any]
+    ) -> SystemStabilityMetrics:
         """RESEARCH: Main stability regulation with all bio-compound integrations"""
 
         # Step 1: RESEARCH - Assess current system health
@@ -130,13 +134,19 @@ class BioCompoundGovernor:
         )
 
         # Step 3: RESEARCH - Apply emotional regulation via bio-oscillators
-        emotional_stability = await self._regulate_emotional_oscillators(current_health, energy_result)
+        emotional_stability = await self._regulate_emotional_oscillators(
+            current_health, energy_result
+        )
 
         # Step 4: RESEARCH - Coordinate system repair mechanisms
-        repair_effectiveness = await self._coordinate_repair_systems(current_health, energy_result)
+        repair_effectiveness = await self._coordinate_repair_systems(
+            current_health, energy_result
+        )
 
         # Step 5: RESEARCH - Optimize energy distribution via golden ratio
-        distribution_efficiency = await self._optimize_energy_distribution(energy_result, current_health)
+        distribution_efficiency = await self._optimize_energy_distribution(
+            energy_result, current_health
+        )
 
         # RESEARCH: Calculate comprehensive stability metrics
         stability_metrics = SystemStabilityMetrics(
@@ -154,7 +164,9 @@ class BioCompoundGovernor:
             energy_level=min(1.0, energy_result.get("total_efficiency", 0.85)),
             emotional_resonance=emotional_stability.get("stability_score", 0.92),
             repair_capacity=repair_effectiveness.get("capacity", 0.78),
-            thermal_load=energy_result.get("thermal_metrics", {}).get("load_factor", 0.23),
+            thermal_load=energy_result.get("thermal_metrics", {}).get(
+                "load_factor", 0.23
+            ),
             oscillation_frequency=emotional_stability.get("frequency", 0.95),
             timestamp=datetime.now(timezone.utc),
         )
@@ -163,7 +175,9 @@ class BioCompoundGovernor:
         self.stability_history.append(
             {
                 "timestamp": self.current_state.timestamp,
-                "overall_stability": self._calculate_overall_stability(stability_metrics),
+                "overall_stability": self._calculate_overall_stability(
+                    stability_metrics
+                ),
                 "metrics": stability_metrics,
             }
         )
@@ -172,10 +186,18 @@ class BioCompoundGovernor:
         if len(self.stability_history) > 200:
             self.stability_history = self.stability_history[-200:]
 
-        self.logger.info(f"🧬 System Stability: {self._calculate_overall_stability(stability_metrics) * 100:.1f}%")
-        self.logger.info(f"   Energy Efficiency: {stability_metrics.energy_efficiency:.1f}%")
-        self.logger.info(f"   Emotional Stability: {stability_metrics.emotional_stability * 100:.1f}%")
-        self.logger.info(f"   Module Coherence: {stability_metrics.module_coherence * 100:.1f}%")
+        self.logger.info(
+            f"🧬 System Stability: {self._calculate_overall_stability(stability_metrics) * 100:.1f}%"
+        )
+        self.logger.info(
+            f"   Energy Efficiency: {stability_metrics.energy_efficiency:.1f}%"
+        )
+        self.logger.info(
+            f"   Emotional Stability: {stability_metrics.emotional_stability * 100:.1f}%"
+        )
+        self.logger.info(
+            f"   Module Coherence: {stability_metrics.module_coherence * 100:.1f}%"
+        )
 
         return stability_metrics
 
@@ -194,7 +216,9 @@ class BioCompoundGovernor:
 
         return health_metrics
 
-    def _calculate_energy_requirements(self, health_metrics: dict[str, float]) -> dict[str, float]:
+    def _calculate_energy_requirements(
+        self, health_metrics: dict[str, float]
+    ) -> dict[str, float]:
         """RESEARCH: Calculate energy needs based on system health"""
 
         # Lower health = higher energy requirements
@@ -206,7 +230,9 @@ class BioCompoundGovernor:
 
         return {
             "quantum_input": min(1.0, base_quantum_input * quantum_scaling),
-            "substrate": max(0.6, avg_health * 0.9),  # Higher substrate for better health
+            "substrate": max(
+                0.6, avg_health * 0.9
+            ),  # Higher substrate for better health
             "priority_modules": [k for k, v in health_metrics.items() if v < 0.8],
         }
 
@@ -248,8 +274,12 @@ class BioCompoundGovernor:
         available_energy = energy_result.get("total_efficiency", 0.85)
 
         # RESEARCH: Bio-hybrid capacitor charge retention for repair energy
-        capacitor_charge = energy_result.get("biohybrid_capacitors", {}).get("charge_retention", 0.98)
-        repair_energy_available = available_energy * capacitor_charge * 0.3  # 30% for repairs
+        capacitor_charge = energy_result.get("biohybrid_capacitors", {}).get(
+            "charge_retention", 0.98
+        )
+        repair_energy_available = (
+            available_energy * capacitor_charge * 0.3
+        )  # 30% for repairs
 
         # Calculate repair effectiveness
         if not repair_needed:
@@ -261,7 +291,9 @@ class BioCompoundGovernor:
 
         return {
             "repair_rate": repair_rate,
-            "capacity": min(1.0, repair_energy_available * 3),  # Available repair capacity
+            "capacity": min(
+                1.0, repair_energy_available * 3
+            ),  # Available repair capacity
             "modules_under_repair": len(repair_needed),
             "estimated_repair_time": max(1, len(repair_needed) * 2),  # Hours
         }
@@ -290,7 +322,9 @@ class BioCompoundGovernor:
                 distribution[system] += boost
 
         # Calculate coherence score based on distribution efficiency
-        coherence_score = min(1.0, np.mean(list(distribution.values())) / 0.2)  # Normalized
+        coherence_score = min(
+            1.0, np.mean(list(distribution.values())) / 0.2
+        )  # Normalized
 
         return {
             "distribution": distribution,
@@ -299,7 +333,9 @@ class BioCompoundGovernor:
             "golden_ratio_compliance": True,
         }
 
-    def _classify_health_state(self, health_metrics: dict[str, float]) -> SystemHealthState:
+    def _classify_health_state(
+        self, health_metrics: dict[str, float]
+    ) -> SystemHealthState:
         """RESEARCH: Classify overall system health state"""
 
         avg_health = np.mean(list(health_metrics.values()))
@@ -344,7 +380,9 @@ class BioCompoundGovernor:
                 alerts.append(f"WARNING: {system} degraded to {health * 100:.1f}%")
 
         if np.mean(list(health_metrics.values())) < 0.75:
-            alerts.append("SYSTEM: Overall stability below 75% - repair mode recommended")
+            alerts.append(
+                "SYSTEM: Overall stability below 75% - repair mode recommended"
+            )
 
         return alerts
 
@@ -385,10 +423,14 @@ class BioCompoundGovernor:
         if not self.stability_history:
             return {"status": "no_data", "message": "No stability history available"}
 
-        recent_stability = [record["overall_stability"] for record in self.stability_history[-20:]]
+        recent_stability = [
+            record["overall_stability"] for record in self.stability_history[-20:]
+        ]
         avg_stability = np.mean(recent_stability)
         stability_trend = (
-            "improving" if len(recent_stability) > 1 and recent_stability[-1] > recent_stability[0] else "stable"
+            "improving"
+            if len(recent_stability) > 1 and recent_stability[-1] > recent_stability[0]
+            else "stable"
         )
 
         return {

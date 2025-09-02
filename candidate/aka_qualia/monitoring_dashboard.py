@@ -125,7 +125,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
     <title>Wave C Aka Qualia - Monitoring Dashboard</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
@@ -133,7 +133,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
             min-height: 100vh;
             padding: 20px;
         }
-
+        
         .header {
             text-align: center;
             margin-bottom: 30px;
@@ -142,7 +142,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
             border-radius: 12px;
             backdrop-filter: blur(10px);
         }
-
+        
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
@@ -151,31 +151,31 @@ class DashboardHandler(BaseHTTPRequestHandler):
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
+        
         .subtitle {
             font-size: 1.2rem;
             opacity: 0.8;
             margin-bottom: 10px;
         }
-
-        .constellation-badges {
+        
+        .trinity-badges {
             display: flex;
             justify-content: center;
             gap: 15px;
             margin-top: 15px;
         }
-
+        
         .badge {
             padding: 5px 15px;
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 600;
         }
-
+        
         .badge-identity { background: rgba(255, 165, 0, 0.2); border: 1px solid #ffa500; }
         .badge-consciousness { background: rgba(0, 191, 255, 0.2); border: 1px solid #00bfff; }
         .badge-guardian { background: rgba(50, 205, 50, 0.2); border: 1px solid #32cd32; }
-
+        
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -183,7 +183,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
             max-width: 1600px;
             margin: 0 auto;
         }
-
+        
         .metric-card {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
@@ -192,30 +192,30 @@ class DashboardHandler(BaseHTTPRequestHandler):
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: transform 0.2s ease;
         }
-
+        
         .metric-card:hover {
             transform: translateY(-5px);
         }
-
+        
         .metric-card h3 {
             font-size: 1.3rem;
             margin-bottom: 15px;
             color: #4facfe;
         }
-
+        
         .metric-value {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 10px;
         }
-
+        
         .metric-label {
             font-size: 0.9rem;
             opacity: 0.7;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
+        
         .status-indicator {
             display: inline-block;
             width: 12px;
@@ -223,11 +223,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
             border-radius: 50%;
             margin-right: 8px;
         }
-
+        
         .status-healthy { background-color: #32cd32; }
         .status-warning { background-color: #ffa500; }
         .status-error { background-color: #ff4444; }
-
+        
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -236,19 +236,19 @@ class DashboardHandler(BaseHTTPRequestHandler):
             margin-top: 10px;
             overflow: hidden;
         }
-
+        
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
             border-radius: 4px;
             transition: width 0.3s ease;
         }
-
+        
         .links {
             margin-top: 30px;
             text-align: center;
         }
-
+        
         .links a {
             color: #4facfe;
             text-decoration: none;
@@ -258,25 +258,25 @@ class DashboardHandler(BaseHTTPRequestHandler):
             border-radius: 20px;
             transition: all 0.2s ease;
         }
-
+        
         .links a:hover {
             background: #4facfe;
             color: #1e3c72;
         }
-
+        
         .timestamp {
             text-align: center;
             margin-top: 20px;
             opacity: 0.6;
             font-size: 0.9rem;
         }
-
+        
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.5; }
             100% { opacity: 1; }
         }
-
+        
         .live-indicator {
             animation: pulse 2s infinite;
         }
@@ -286,20 +286,20 @@ class DashboardHandler(BaseHTTPRequestHandler):
     <div class="header">
         <h1>⚛️ Wave C Aka Qualia Dashboard</h1>
         <div class="subtitle">Phenomenological Processing Pipeline Monitoring</div>
-        <div class="constellation-badges">
+        <div class="trinity-badges">
             <div class="badge badge-identity">⚛️ Identity</div>
             <div class="badge badge-consciousness">🧠 Consciousness</div>
             <div class="badge badge-guardian">🛡️ Guardian</div>
         </div>
     </div>
-
+    
     <div class="dashboard-grid">
         <div class="metric-card">
             <h3><span class="status-indicator status-healthy live-indicator"></span>System Status</h3>
             <div class="metric-value" id="system-status">HEALTHY</div>
             <div class="metric-label">Overall System Health</div>
         </div>
-
+        
         <div class="metric-card">
             <h3>🧠 Active Processing</h3>
             <div class="metric-value" id="scenes-per-minute">156</div>
@@ -308,7 +308,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 <div class="progress-fill" style="width: 78%"></div>
             </div>
         </div>
-
+        
         <div class="metric-card">
             <h3>🎯 GLYPH Accuracy</h3>
             <div class="metric-value" id="glyph-accuracy">94.2%</div>
@@ -317,13 +317,13 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 <div class="progress-fill" style="width: 94%"></div>
             </div>
         </div>
-
+        
         <div class="metric-card">
             <h3>⚡ Response Time</h3>
             <div class="metric-value" id="avg-latency">12.3<span style="font-size: 1rem;">ms</span></div>
             <div class="metric-label">Average Latency</div>
         </div>
-
+        
         <div class="metric-card">
             <h3>🌊 Consciousness Drift</h3>
             <div class="metric-value" id="drift-phi">0.05</div>
@@ -332,37 +332,37 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 <div class="progress-fill" style="width: 33%"></div>
             </div>
         </div>
-
+        
         <div class="metric-card">
             <h3>🚦 Router Queue</h3>
             <div class="metric-value" id="queue-depth">3</div>
             <div class="metric-label">Pending Dispatches</div>
         </div>
-
+        
         <div class="metric-card">
             <h3>💾 Memory Usage</h3>
             <div class="metric-value" id="memory-usage">234.5<span style="font-size: 1rem;">MB</span></div>
             <div class="metric-label">Total Storage</div>
         </div>
-
+        
         <div class="metric-card">
             <h3>🌙 Dream Generation</h3>
             <div class="metric-value" id="dream-rate">2.1</div>
             <div class="metric-label">Dreams per Hour</div>
         </div>
     </div>
-
+    
     <div class="links">
         <a href="/metrics">📊 Prometheus Metrics</a>
         <a href="/api/health">🏥 Health Check</a>
         <a href="/api/summary">📋 Metrics Summary</a>
         <a href="https://github.com/anthropics/lukhas">📖 Documentation</a>
     </div>
-
+    
     <div class="timestamp" id="last-updated">
         Last updated: <span class="live-indicator">●</span> <span id="update-time">Loading...</span>
     </div>
-
+    
     <script>
         // Auto-refresh dashboard data
         function updateDashboard() {
@@ -370,23 +370,23 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 .then(response => response.json())
                 .then(data => {
                     // Update metric values
-                    document.getElementById('system-status').textContent =
+                    document.getElementById('system-status').textContent = 
                         data.system_status.toUpperCase();
-                    document.getElementById('scenes-per-minute').textContent =
+                    document.getElementById('scenes-per-minute').textContent = 
                         data.scenes_per_minute;
-                    document.getElementById('glyph-accuracy').textContent =
+                    document.getElementById('glyph-accuracy').textContent = 
                         (data.glyph_accuracy * 100).toFixed(1) + '%';
-                    document.getElementById('avg-latency').innerHTML =
+                    document.getElementById('avg-latency').innerHTML = 
                         data.average_latency_ms + '<span style="font-size: 1rem;">ms</span>';
-                    document.getElementById('drift-phi').textContent =
+                    document.getElementById('drift-phi').textContent = 
                         data.consciousness_drift.toFixed(3);
-                    document.getElementById('queue-depth').textContent =
+                    document.getElementById('queue-depth').textContent = 
                         data.router_queue_depth;
-                    document.getElementById('memory-usage').innerHTML =
+                    document.getElementById('memory-usage').innerHTML = 
                         data.memory_usage_mb + '<span style="font-size: 1rem;">MB</span>';
-                    document.getElementById('dream-rate').textContent =
+                    document.getElementById('dream-rate').textContent = 
                         data.dream_generation_rate.toFixed(1);
-
+                    
                     // Update timestamp
                     const updateTime = new Date(data.timestamp).toLocaleString();
                     document.getElementById('update-time').textContent = updateTime;
@@ -395,11 +395,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
                     console.log('Dashboard update failed:', error);
                 });
         }
-
+        
         // Update immediately and then every 5 seconds
         updateDashboard();
         setInterval(updateDashboard, 5000);
-
+        
         // Add some visual flair
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.metric-card');
@@ -408,7 +408,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
                     card.style.opacity = '0';
                     card.style.transform = 'translateY(20px)';
                     card.style.transition = 'all 0.6s ease';
-
+                    
                     setTimeout(() => {
                         card.style.opacity = '1';
                         card.style.transform = 'translateY(0)';
@@ -445,7 +445,9 @@ class MonitoringDashboard:
 
         try:
             self.server = HTTPServer((self.host, self.port), DashboardHandler)
-            self.server_thread = threading.Thread(target=self.server.serve_forever, daemon=True)
+            self.server_thread = threading.Thread(
+                target=self.server.serve_forever, daemon=True
+            )
             self.running = True
             self.server_thread.start()
 
@@ -481,7 +483,7 @@ class MonitoringDashboard:
         """Check if the dashboard server is running"""
         return self.running and self.server_thread and self.server_thread.is_alive()
 
-    def get_status(self) -> dict[str, Any]:
+    def get_status(self) -> Dict[str, Any]:
         """Get dashboard server status"""
         return {
             "running": self.running,
@@ -493,7 +495,9 @@ class MonitoringDashboard:
         }
 
 
-def start_monitoring_dashboard(host: str = "localhost", port: int = 8088) -> MonitoringDashboard:
+def start_monitoring_dashboard(
+    host: str = "localhost", port: int = 8088
+) -> MonitoringDashboard:
     """Start monitoring dashboard with default configuration"""
     dashboard = MonitoringDashboard(host=host, port=port)
     dashboard.start()

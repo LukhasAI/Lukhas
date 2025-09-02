@@ -137,7 +137,9 @@ class P2PNode:
 
         # Peer management
         self.peers: dict[str, PeerInfo] = {}
-        self.connections: dict[str, tuple[asyncio.StreamReader, asyncio.StreamWriter]] = {}
+        self.connections: dict[
+            str, tuple[asyncio.StreamReader, asyncio.StreamWriter]
+        ] = {}
 
         # Message handling
         self.message_handlers: dict[MessageType, list[Callable]] = defaultdict(list)
@@ -166,7 +168,9 @@ class P2PNode:
             return
 
         # Start server
-        self._server = await asyncio.start_server(self._handle_connection, self.host, self.port)
+        self._server = await asyncio.start_server(
+            self._handle_connection, self.host, self.port
+        )
 
         # Get actual port if auto-assigned
         if self.port == 0:
@@ -252,7 +256,9 @@ class P2PNode:
 
         return None
 
-    async def send_to_peer(self, peer_id: str, payload: Any, require_ack: bool = False) -> bool:
+    async def send_to_peer(
+        self, peer_id: str, payload: Any, require_ack: bool = False
+    ) -> bool:
         """
         Send data directly to a specific peer.
         Returns True if sent successfully.
@@ -338,11 +344,15 @@ class P2PNode:
                 discovered += 1
 
                 # Request peer list
-                await self.send_to_peer(peer_id, {"request": "peer_list"}, require_ack=False)
+                await self.send_to_peer(
+                    peer_id, {"request": "peer_list"}, require_ack=False
+                )
 
         return discovered
 
-    async def _handle_connection(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
+    async def _handle_connection(
+        self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter
+    ) -> None:
         """Handle incoming peer connection"""
         peer_address = writer.get_extra_info("peername")
         logger.debug(f"New connection from {peer_address}")
@@ -390,7 +400,9 @@ class P2PNode:
             writer.close()
             await writer.wait_closed()
 
-    async def _handle_peer_messages(self, peer_id: str, reader: asyncio.StreamReader) -> None:
+    async def _handle_peer_messages(
+        self, peer_id: str, reader: asyncio.StreamReader
+    ) -> None:
         """Handle messages from a connected peer"""
         while self._running and peer_id in self.connections:
             try:
@@ -440,7 +452,11 @@ class P2PNode:
 
                 elif message.message_type == MessageType.DISCOVERY:
                     # Share peer list
-                    peer_list = [peer.to_dict() for peer in self.peers.values() if peer.status == PeerStatus.CONNECTED]
+                    peer_list = [
+                        peer.to_dict()
+                        for peer in self.peers.values()
+                        if peer.status == PeerStatus.CONNECTED
+                    ]
                     await self.send_to_peer(peer_id, {"peers": peer_list})
 
             except Exception as e:
@@ -453,7 +469,9 @@ class P2PNode:
         if peer_id in self.peers:
             self.peers[peer_id].status = PeerStatus.DISCONNECTED
 
-    async def _send_message(self, writer: asyncio.StreamWriter, message: P2PMessage) -> bool:
+    async def _send_message(
+        self, writer: asyncio.StreamWriter, message: P2PMessage
+    ) -> bool:
         """Send a message to a peer"""
         try:
             data = message.to_bytes()
@@ -468,7 +486,9 @@ class P2PNode:
             logger.error(f"Failed to send message: {e}")
             return False
 
-    async def _receive_message(self, reader: asyncio.StreamReader) -> Optional[P2PMessage]:
+    async def _receive_message(
+        self, reader: asyncio.StreamReader
+    ) -> Optional[P2PMessage]:
         """Receive a message from a peer"""
         try:
             # Read message length
@@ -610,9 +630,15 @@ class P2PNode:
 
     def get_network_stats(self) -> dict[str, Any]:
         """Get network statistics"""
-        connected_peers = [p for p in self.peers.values() if p.status == PeerStatus.CONNECTED]
+        connected_peers = [
+            p for p in self.peers.values() if p.status == PeerStatus.CONNECTED
+        ]
 
-        avg_latency = sum(p.latency_ms for p in connected_peers) / len(connected_peers) if connected_peers else 0
+        avg_latency = (
+            sum(p.latency_ms for p in connected_peers) / len(connected_peers)
+            if connected_peers
+            else 0
+        )
 
         return {
             "node_id": self.node_id,

@@ -15,7 +15,9 @@ except ImportError:
     from typing import Any
 
     logger = logging.getLogger(__name__)
-    logger.warning("GLYPH consciousness communication: Using BaseColony stub for development")
+    logger.warning(
+        "GLYPH consciousness communication: Using BaseColony stub for development"
+    )
 
     class BaseColony:
         """Temporary BaseColony stub for GLYPH consciousness development"""
@@ -67,7 +69,10 @@ class SymbolicReasoningColony(BaseColony):
         # TODO[GLYPH:specialist] - Initialize consciousness agents for mesh formation
         # For now, create test consciousness nodes for validation
         self.agents = {
-            f"consciousness_node_{i}": {"id": f"node_{i}", "consciousness_type": "symbolic_reasoning"}
+            f"consciousness_node_{i}": {
+                "id": f"node_{i}",
+                "consciousness_type": "symbolic_reasoning",
+            }
             for i in range(3)  # Test with 3 consciousness nodes
         }
 
@@ -91,7 +96,9 @@ class SymbolicReasoningColony(BaseColony):
             participation_rate=1.0,
         )
 
-    async def propagate_belief(self, initial_belief: dict[str, Any]) -> dict[str, float]:
+    async def propagate_belief(
+        self, initial_belief: dict[str, Any]
+    ) -> dict[str, float]:
         belief_states = dict.fromkeys(self.agents, 0.0)
         if self.agents:
             seed_agent = next(iter(self.agents.keys()))
@@ -114,7 +121,9 @@ class SymbolicReasoningColony(BaseColony):
                     distance = self._get_agent_distance(agent_id, n)
                     total_influence += belief_states.get(n, 0) / (1 + distance)
                 decay = 0.9
-                new_belief = decay * belief_states[agent_id] + (1 - decay) * total_influence
+                new_belief = (
+                    decay * belief_states[agent_id] + (1 - decay) * total_influence
+                )
                 new_states[agent_id] = min(1.0, new_belief)
                 if belief_tag and new_belief > 0.1:
                     pass  # placeholder for adoption

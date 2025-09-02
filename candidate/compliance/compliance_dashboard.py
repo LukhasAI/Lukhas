@@ -50,7 +50,9 @@ if trace_path.exists():
 
     try:
         df = pd.read_csv(trace_path)
-        filter_cols = st.multiselect("Filter Columns", df.columns.tolist(), default=df.columns.tolist())
+        filter_cols = st.multiselect(
+            "Filter Columns", df.columns.tolist(), default=df.columns.tolist()
+        )
         st.dataframe(df[filter_cols] if filter_cols else df)
 
         # Optional Summary Tools

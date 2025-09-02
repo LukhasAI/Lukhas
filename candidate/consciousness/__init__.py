@@ -46,7 +46,7 @@ try:
     from lukhas.branding_bridge import (
         BrandContext,
         get_brand_voice,
-        get_constellation_context,
+        get_trinity_context,
     )
 
     CONSCIOUSNESS_BRANDING_AVAILABLE = True
@@ -62,7 +62,7 @@ __all__ = [
     "ExpansionEngine",
     # Branding integration
     "get_brand_voice",
-    "get_constellation_context",
+    "get_trinity_context",
     "BrandContext",
     "CONSCIOUSNESS_BRANDING_AVAILABLE",
 ]

@@ -71,7 +71,9 @@ class MemoryOrchestrator:
             logger.error(f"Failed to store memory: {e}")
             return False
 
-    def retrieve_memory(self, session_id: str, memory_type: Optional[str] = None) -> list[dict]:
+    def retrieve_memory(
+        self, session_id: str, memory_type: Optional[str] = None
+    ) -> list[dict]:
         """Retrieve memory data from session"""
         session = self.active_sessions.get(session_id)
         if not session:

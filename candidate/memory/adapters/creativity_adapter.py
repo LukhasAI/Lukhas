@@ -58,7 +58,9 @@ class CreativityMemoryAdapter:
         """Get emotional modulator for dream delivery."""
         return self.emotional_modulator
 
-    def store_creative_memory(self, content: dict[str, Any], metadata: Optional[dict] = None) -> str:
+    def store_creative_memory(
+        self, content: dict[str, Any], metadata: Optional[dict] = None
+    ) -> str:
         """Store a creative memory (dream, inspiration, etc)."""
         # Implementation would connect to main memory system
 

@@ -10,17 +10,17 @@ and branding compliance for symbolic communication.
 try:
     from lukhas.branding_bridge import (
         CONSCIOUSNESS_SYMBOL,
-        CONSTELLATION_FRAMEWORK,
         GUARDIAN_SYMBOL,
         IDENTITY_SYMBOL,
-        get_constellation_context,
+        TRINITY_FRAMEWORK,
+        get_trinity_context,
     )
 
     CORE_BRANDING_AVAILABLE = True
 except ImportError:
     CORE_BRANDING_AVAILABLE = False
     # Fallback Trinity symbols
-    CONSTELLATION_FRAMEWORK = "⚛️🧠🛡️"
+    TRINITY_FRAMEWORK = "⚛️🧠🛡️"
     IDENTITY_SYMBOL = "⚛️"
     CONSCIOUSNESS_SYMBOL = "🧠"
     GUARDIAN_SYMBOL = "🛡️"
@@ -30,8 +30,8 @@ from . import business
 
 __all__ = [
     # Trinity Framework integration
-    "get_constellation_context",
-    "CONSTELLATION_FRAMEWORK",
+    "get_trinity_context",
+    "TRINITY_FRAMEWORK",
     "IDENTITY_SYMBOL",
     "CONSCIOUSNESS_SYMBOL",
     "GUARDIAN_SYMBOL",

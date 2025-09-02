@@ -52,7 +52,9 @@ class CoreMatrizAdapter:
         return node
 
     @staticmethod
-    def emit_glyph_event(glyph: str, operation: str, context: Optional[dict] = None) -> dict[str, Any]:
+    def emit_glyph_event(
+        glyph: str, operation: str, context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Emit a GLYPH processing event node"""
 
         return CoreMatrizAdapter.create_node(
@@ -93,7 +95,10 @@ class CoreMatrizAdapter:
 
     @staticmethod
     def emit_symbolic_reasoning(
-        symbol: str, inference_type: str, confidence: float, conclusion: Optional[str] = None
+        symbol: str,
+        inference_type: str,
+        confidence: float,
+        conclusion: Optional[str] = None,
     ) -> dict[str, Any]:
         """Emit a symbolic reasoning event node"""
 
@@ -104,12 +109,19 @@ class CoreMatrizAdapter:
 
         return CoreMatrizAdapter.create_node(
             node_type="CAUSAL",
-            state={"confidence": confidence, "salience": 0.8, "urgency": 0.3, "novelty": 0.5},
+            state={
+                "confidence": confidence,
+                "salience": 0.8,
+                "urgency": 0.3,
+                "novelty": 0.5,
+            },
             labels=labels,
         )
 
     @staticmethod
-    def emit_actor_event(actor_id: str, event_type: str, message_type: Optional[str] = None) -> dict[str, Any]:
+    def emit_actor_event(
+        actor_id: str, event_type: str, message_type: Optional[str] = None
+    ) -> dict[str, Any]:
         """Emit an actor system event node"""
 
         return CoreMatrizAdapter.create_node(
@@ -124,7 +136,9 @@ class CoreMatrizAdapter:
         )
 
     @staticmethod
-    def emit_integration_event(source_module: str, target_module: str, operation: str, success: bool) -> dict[str, Any]:
+    def emit_integration_event(
+        source_module: str, target_module: str, operation: str, success: bool
+    ) -> dict[str, Any]:
         """Emit an integration event between modules"""
 
         return CoreMatrizAdapter.create_node(
@@ -155,7 +169,13 @@ class CoreMatrizAdapter:
                 return False
 
         # Check required provenance fields
-        required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
+        required_prov = [
+            "producer",
+            "capabilities",
+            "tenant",
+            "trace_id",
+            "consent_scopes",
+        ]
         return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod

@@ -62,7 +62,9 @@ class AgentMemory:
 
 
 # For backward compatibility
-def append_to_shared_memory(agent_id: str, event_type: str, data: dict[str, Any]) -> bool:
+def append_to_shared_memory(
+    agent_id: str, event_type: str, data: dict[str, Any]
+) -> bool:
     """Legacy function for backward compatibility"""
     try:
         memory = AgentMemory(agent_id)
@@ -72,7 +74,9 @@ def append_to_shared_memory(agent_id: str, event_type: str, data: dict[str, Any]
         return False
 
 
-def read_from_shared_memory(agent_id: str, event_type: Optional[str] = None, limit: int = 100) -> list[dict]:
+def read_from_shared_memory(
+    agent_id: str, event_type: Optional[str] = None, limit: int = 100
+) -> list[dict]:
     """Legacy function for backward compatibility"""
     try:
         memory = AgentMemory(agent_id)

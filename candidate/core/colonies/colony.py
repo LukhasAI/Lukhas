@@ -78,7 +78,9 @@ class ColonySignalIntegration:
         success = self.signal_bus.publish(signal)
 
         # Track in history
-        self.signal_history.append({"timestamp": time.time(), "signal": signal, "success": success})
+        self.signal_history.append(
+            {"timestamp": time.time(), "signal": signal, "success": success}
+        )
 
         # Check homeostasis
         if success:
@@ -147,9 +149,13 @@ class EnhancedReasoningColony(ColonySignalIntegration):
         self.resilience_mode = False
 
         # Subscribe to relevant signals
-        self.subscribe_to_signals([SignalType.URGENCY, SignalType.STRESS, SignalType.AMBIGUITY])
+        self.subscribe_to_signals(
+            [SignalType.URGENCY, SignalType.STRESS, SignalType.AMBIGUITY]
+        )
 
-    async def process_query(self, query: str, context: Optional[dict[str, Any]] = None) -> ConsensusResult:
+    async def process_query(
+        self, query: str, context: Optional[dict[str, Any]] = None
+    ) -> ConsensusResult:
         """Process a query through the colony with signal awareness"""
         start_time = time.time()
 
@@ -205,7 +211,9 @@ class EnhancedReasoningColony(ColonySignalIntegration):
 
         # Log processing time
         processing_time = time.time() - start_time
-        logger.info(f"Colony processed query in {processing_time:.2f}s with confidence {result.confidence:.2f}")
+        logger.info(
+            f"Colony processed query in {processing_time:.2f}s with confidence {result.confidence:.2f}"
+        )
 
         return result
 
@@ -234,7 +242,9 @@ class EnhancedReasoningColony(ColonySignalIntegration):
             "reached": confidence >= self.consensus_threshold,
             "decision": majority_decision[0],
             "confidence": confidence,
-            "dissent_reasons": [f"Agent voted for {d}" for d in decisions if d != majority_decision[0]],
+            "dissent_reasons": [
+                f"Agent voted for {d}" for d in decisions if d != majority_decision[0]
+            ],
         }
 
     async def reorganize_for_emergency(self):
@@ -250,7 +260,9 @@ class EnhancedReasoningColony(ColonySignalIntegration):
 
         if fast_agents:
             self.reasoning_agents = fast_agents
-            logger.info(f"Colony reduced to {len(fast_agents)} fast agents for emergency")
+            logger.info(
+                f"Colony reduced to {len(fast_agents)} fast agents for emergency"
+            )
 
         # Lower consensus threshold for faster decisions
         self.consensus_threshold = 0.5
@@ -285,7 +297,9 @@ class SwarmSignalNetwork:
         if tag not in self.tag_propagation:
             self.tag_propagation[tag] = []
 
-        self.tag_propagation[tag].append({"timestamp": time.time(), "value": value, "source": signal.source})
+        self.tag_propagation[tag].append(
+            {"timestamp": time.time(), "value": value, "source": signal.source}
+        )
 
         # Detect oscillations
         if self._detect_oscillation(tag):
@@ -303,7 +317,9 @@ class SwarmSignalNetwork:
         propagation_tasks = []
         for agent in self.agents.values():
             if hasattr(agent, "receive_tag"):
-                propagation_tasks.append(agent.receive_tag(signal.source, tag, value, signal.level))
+                propagation_tasks.append(
+                    agent.receive_tag(signal.source, tag, value, signal.level)
+                )
 
         if propagation_tasks:
             await asyncio.gather(*propagation_tasks, return_exceptions=True)

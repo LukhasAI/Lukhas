@@ -104,7 +104,9 @@ class AuditAnalytics:
             },
         }
 
-    async def analyze_time_period(self, start_time: datetime, end_time: datetime) -> dict[str, Any]:
+    async def analyze_time_period(
+        self, start_time: datetime, end_time: datetime
+    ) -> dict[str, Any]:
         """Analyze audit events for a specific time period"""
         # Query events
         query = AuditQuery(start_time=start_time, end_time=end_time, limit=10000)
@@ -202,7 +204,11 @@ class AuditAnalytics:
             component_events[event.actor].append(event)
 
         for component, comp_events in component_events.items():
-            error_count = sum(1 for e in comp_events if e.severity in [AuditSeverity.ERROR, AuditSeverity.CRITICAL])
+            error_count = sum(
+                1
+                for e in comp_events
+                if e.severity in [AuditSeverity.ERROR, AuditSeverity.CRITICAL]
+            )
             error_rate = error_count / len(comp_events) if comp_events else 0
 
             if error_rate > self.error_rate_threshold:
@@ -213,7 +219,10 @@ class AuditAnalytics:
                         description=f"Component {component} has {error_rate:.1%} error rate",
                         detected_at=datetime.now(),
                         events=[
-                            e.id for e in comp_events if e.severity in [AuditSeverity.ERROR, AuditSeverity.CRITICAL]
+                            e.id
+                            for e in comp_events
+                            if e.severity
+                            in [AuditSeverity.ERROR, AuditSeverity.CRITICAL]
                         ][:10],
                         confidence=0.9,
                         recommended_action=f"Review and fix errors in {component}",
@@ -222,7 +231,9 @@ class AuditAnalytics:
 
         return anomalies
 
-    def _detect_consciousness_anomalies(self, events: list[AuditEvent]) -> list[Anomaly]:
+    def _detect_consciousness_anomalies(
+        self, events: list[AuditEvent]
+    ) -> list[Anomaly]:
         """Detect consciousness instability"""
         anomalies = []
 
@@ -241,7 +252,10 @@ class AuditAnalytics:
         if len(consciousness_events) > 10:
             # Check for rapid state changes
             for i in range(1, len(consciousness_events)):
-                time_diff = (consciousness_events[i].timestamp - consciousness_events[i - 1].timestamp).total_seconds()
+                time_diff = (
+                    consciousness_events[i].timestamp
+                    - consciousness_events[i - 1].timestamp
+                ).total_seconds()
 
                 if time_diff < 60:  # Less than 1 minute between changes
                     anomalies.append(
@@ -266,7 +280,10 @@ class AuditAnalytics:
                     coherence = event.details["to_state"].get("coherence", 0)
                     coherence_values.append(coherence)
 
-            if coherence_values and min(coherence_values) < self.consciousness_stability_threshold:
+            if (
+                coherence_values
+                and min(coherence_values) < self.consciousness_stability_threshold
+            ):
                 anomalies.append(
                     Anomaly(
                         anomaly_type=AnomalyType.CONSCIOUSNESS_INSTABILITY,
@@ -292,11 +309,18 @@ class AuditAnalytics:
 
         # Get decision events
         decision_events = [
-            e for e in events if e.event_type in [AuditEventType.DECISION_MADE, AuditEventType.DECISION_REVERSED]
+            e
+            for e in events
+            if e.event_type
+            in [AuditEventType.DECISION_MADE, AuditEventType.DECISION_REVERSED]
         ]
 
         # Check for decision reversals
-        reversal_count = sum(1 for e in decision_events if e.event_type == AuditEventType.DECISION_REVERSED)
+        reversal_count = sum(
+            1
+            for e in decision_events
+            if e.event_type == AuditEventType.DECISION_REVERSED
+        )
         if decision_events and reversal_count / len(decision_events) > 0.1:
             anomalies.append(
                 Anomaly(
@@ -304,7 +328,11 @@ class AuditAnalytics:
                     severity="MEDIUM",
                     description=f"High decision reversal rate: {reversal_count} reversals out of {len(decision_events)} decisions",
                     detected_at=datetime.now(),
-                    events=[e.id for e in decision_events if e.event_type == AuditEventType.DECISION_REVERSED],
+                    events=[
+                        e.id
+                        for e in decision_events
+                        if e.event_type == AuditEventType.DECISION_REVERSED
+                    ],
                     confidence=0.75,
                     recommended_action="Review decision-making logic",
                 )
@@ -357,7 +385,9 @@ class AuditAnalytics:
                 )
 
         # Check for security violations
-        security_violations = [e for e in events if e.event_type == AuditEventType.SECURITY_VIOLATION]
+        security_violations = [
+            e for e in events if e.event_type == AuditEventType.SECURITY_VIOLATION
+        ]
         if security_violations:
             anomalies.append(
                 Anomaly(
@@ -400,15 +430,23 @@ class AuditAnalytics:
             daily_distribution[day] += 1
 
         # Find peak hours
-        peak_hours = sorted(hourly_distribution.items(), key=lambda x: x[1], reverse=True)[:3]
+        peak_hours = sorted(
+            hourly_distribution.items(), key=lambda x: x[1], reverse=True
+        )[:3]
 
         # Calculate daily average
-        daily_avg = statistics.mean(daily_distribution.values()) if daily_distribution else 0
+        daily_avg = (
+            statistics.mean(daily_distribution.values()) if daily_distribution else 0
+        )
 
         return {
             "peak_hours": peak_hours,
             "daily_average": daily_avg,
-            "busiest_day": (max(daily_distribution.items(), key=lambda x: x[1]) if daily_distribution else None),
+            "busiest_day": (
+                max(daily_distribution.items(), key=lambda x: x[1])
+                if daily_distribution
+                else None
+            ),
             "total_days": len(daily_distribution),
         }
 
@@ -433,7 +471,11 @@ class AuditAnalytics:
 
         # Calculate error rates
         for stats in actor_stats.values():
-            stats["error_rate"] = stats["error_count"] / stats["event_count"] if stats["event_count"] > 0 else 0
+            stats["error_rate"] = (
+                stats["error_count"] / stats["event_count"]
+                if stats["event_count"] > 0
+                else 0
+            )
 
         # Find most active actors
         most_active = sorted(
@@ -467,7 +509,9 @@ class AuditAnalytics:
             sequences[seq3] += 1
 
         # Find most common sequences
-        common_sequences = sorted(sequences.items(), key=lambda x: x[1], reverse=True)[:10]
+        common_sequences = sorted(sequences.items(), key=lambda x: x[1], reverse=True)[
+            :10
+        ]
 
         return {
             "common_sequences": common_sequences,
@@ -476,7 +520,11 @@ class AuditAnalytics:
 
     def _analyze_error_patterns(self, events: list[AuditEvent]) -> dict[str, Any]:
         """Analyze error patterns"""
-        errors = [e for e in events if e.severity in [AuditSeverity.ERROR, AuditSeverity.CRITICAL]]
+        errors = [
+            e
+            for e in events
+            if e.severity in [AuditSeverity.ERROR, AuditSeverity.CRITICAL]
+        ]
 
         if not errors:
             return {"error_count": 0}
@@ -494,10 +542,14 @@ class AuditAnalytics:
             "error_rate": len(errors) / len(events) if events else 0,
             "common_error_types": error_types.most_common(5),
             "error_prone_components": error_components.most_common(5),
-            "critical_errors": sum(1 for e in errors if e.severity == AuditSeverity.CRITICAL),
+            "critical_errors": sum(
+                1 for e in errors if e.severity == AuditSeverity.CRITICAL
+            ),
         }
 
-    async def check_compliance(self, events: list[AuditEvent]) -> dict[str, list[ComplianceViolation]]:
+    async def check_compliance(
+        self, events: list[AuditEvent]
+    ) -> dict[str, list[ComplianceViolation]]:
         """Check for compliance violations"""
         violations = defaultdict(list)
 
@@ -518,7 +570,9 @@ class AuditAnalytics:
 
         return dict(violations)
 
-    def _check_gdpr_compliance(self, events: list[AuditEvent]) -> list[ComplianceViolation]:
+    def _check_gdpr_compliance(
+        self, events: list[AuditEvent]
+    ) -> list[ComplianceViolation]:
         """Check GDPR compliance"""
         violations = []
 
@@ -530,12 +584,16 @@ class AuditAnalytics:
 
         return violations
 
-    def _check_ai_ethics_compliance(self, events: list[AuditEvent]) -> list[ComplianceViolation]:
+    def _check_ai_ethics_compliance(
+        self, events: list[AuditEvent]
+    ) -> list[ComplianceViolation]:
         """Check AI ethics compliance"""
         violations = []
 
         # Check for unexplained decisions
-        decision_events = [e for e in events if e.event_type == AuditEventType.DECISION_MADE]
+        decision_events = [
+            e for e in events if e.event_type == AuditEventType.DECISION_MADE
+        ]
         unexplained = [e for e in decision_events if not e.details.get("rationale")]
 
         if unexplained:
@@ -552,7 +610,9 @@ class AuditAnalytics:
 
         return violations
 
-    def _check_security_compliance(self, events: list[AuditEvent]) -> list[ComplianceViolation]:
+    def _check_security_compliance(
+        self, events: list[AuditEvent]
+    ) -> list[ComplianceViolation]:
         """Check security compliance"""
         violations = []
 
@@ -570,12 +630,17 @@ class AuditAnalytics:
             return {}
 
         # Time-based metrics
-        time_span = (events[-1].timestamp - events[0].timestamp).total_seconds() / 3600  # hours
+        time_span = (
+            events[-1].timestamp - events[0].timestamp
+        ).total_seconds() / 3600  # hours
         event_rate = len(events) / time_span if time_span > 0 else 0
 
         # Severity metrics
         severity_counts = Counter(e.severity for e in events)
-        error_rate = (severity_counts[AuditSeverity.ERROR] + severity_counts[AuditSeverity.CRITICAL]) / len(events)
+        error_rate = (
+            severity_counts[AuditSeverity.ERROR]
+            + severity_counts[AuditSeverity.CRITICAL]
+        ) / len(events)
 
         # Event type metrics
         event_type_counts = Counter(e.event_type for e in events)
@@ -587,7 +652,9 @@ class AuditAnalytics:
             "error_rate": error_rate,
             "critical_events": severity_counts[AuditSeverity.CRITICAL],
             "severity_distribution": dict(severity_counts),
-            "event_type_distribution": {k.value: v for k, v in event_type_counts.most_common()},
+            "event_type_distribution": {
+                k.value: v for k, v in event_type_counts.most_common()
+            },
             "unique_actors": len({e.actor for e in events}),
         }
 
@@ -656,7 +723,9 @@ class ComplianceChecker:
 
         return violations
 
-    def _check_regulation(self, event: AuditEvent, regulation: str) -> list[ComplianceViolation]:
+    def _check_regulation(
+        self, event: AuditEvent, regulation: str
+    ) -> list[ComplianceViolation]:
         """Check event against specific regulation"""
         # Apply regulation-specific rules
         return []

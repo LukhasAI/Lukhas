@@ -93,7 +93,9 @@ class SqlMemory(AkaqMemory):
 
         if parsed.scheme == "postgresql":
             # PostgreSQL with connection pooling
-            return create_engine(dsn, pool_size=10, max_overflow=20, pool_timeout=30, pool_recycle=3600)
+            return create_engine(
+                dsn, pool_size=10, max_overflow=20, pool_timeout=30, pool_recycle=3600
+            )
         elif parsed.scheme == "sqlite":
             # SQLite with WAL mode for better concurrency
             engine = create_engine(dsn, connect_args={"check_same_thread": False})
@@ -181,7 +183,8 @@ class SqlMemory(AkaqMemory):
                 with self.engine.begin() as tx:
                     # Insert scene with all metrics
                     tx.execute(
-                        text("""
+                        text(
+                            """
                         INSERT INTO akaq_scene (
                             scene_id, user_id, subject, object, proto, proto_vec, risk, context,
                             transform_chain, collapse_hash, drift_phi, congruence_index, neurosis_risk,
@@ -192,7 +195,8 @@ class SqlMemory(AkaqMemory):
                             :transform_chain, :collapse_hash, :drift_phi, :congruence_index, :neurosis_risk,
                             :repair_delta, :sublimation_rate, :E_before, :E_after, :E_diff, :cfg_version
                         )
-                        """),
+                        """
+                        ),
                         {
                             "scene_id": scene_id,
                             "user_id": user_id,
@@ -202,7 +206,9 @@ class SqlMemory(AkaqMemory):
                             "proto_vec": proto_vec_param,
                             "risk": json.dumps(scene["risk"]),
                             "context": json.dumps(sanitized_context),
-                            "transform_chain": json.dumps(scene.get("transform_chain", [])),
+                            "transform_chain": json.dumps(
+                                scene.get("transform_chain", [])
+                            ),
                             "collapse_hash": scene.get("collapse_hash"),
                             "drift_phi": metrics.get("drift_phi"),
                             "congruence_index": metrics.get("congruence_index"),
@@ -219,8 +225,14 @@ class SqlMemory(AkaqMemory):
                     # Insert glyphs
                     for glyph in glyphs:
                         tx.execute(
-                            text("INSERT INTO akaq_glyph (scene_id, key, attrs) VALUES (:sid, :k, :a)"),
-                            {"sid": scene_id, "k": glyph["key"], "a": json.dumps(glyph.get("attrs", {}))},
+                            text(
+                                "INSERT INTO akaq_glyph (scene_id, key, attrs) VALUES (:sid, :k, :a)"
+                            ),
+                            {
+                                "sid": scene_id,
+                                "k": glyph["key"],
+                                "a": json.dumps(glyph.get("attrs", {})),
+                            },
                         )
 
                     tx.commit()
@@ -229,7 +241,9 @@ class SqlMemory(AkaqMemory):
                 logger.debug(f"Saved scene {scene_id} with {len(glyphs)} glyphs")
 
                 # Record observability metrics
-                obs.update_memory_storage("sql", "scenes", self.scenes_saved * 1024)  # Estimate
+                obs.update_memory_storage(
+                    "sql", "scenes", self.scenes_saved * 1024
+                )  # Estimate
                 obs.record_scene_processed(status="success")
 
                 return scene_id
@@ -249,7 +263,9 @@ class SqlMemory(AkaqMemory):
             float(proto.get("narrative_gravity", 0.0)),
         ]
 
-    def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[Dict[str, Any]]:
+    def fetch_prev_scene(
+        self, *, user_id: str, before_ts: Optional[dt.datetime] = None
+    ) -> Optional[Dict[str, Any]]:
         """Get most recent scene before timestamp for drift computation"""
         try:
             if before_ts is None:
@@ -257,14 +273,16 @@ class SqlMemory(AkaqMemory):
 
             with self.engine.begin() as conn:
                 result = conn.execute(
-                    text("""
+                    text(
+                        """
                         SELECT scene_id, proto, risk, drift_phi, congruence_index, 
                                neurosis_risk, repair_delta, ts
                         FROM akaq_scene 
                         WHERE user_id = :user_id AND ts < :before_ts
                         ORDER BY ts DESC 
                         LIMIT 1
-                    """),
+                    """
+                    ),
                     {"user_id": user_id, "before_ts": before_ts},
                 )
 
@@ -287,7 +305,9 @@ class SqlMemory(AkaqMemory):
             logger.error(f"Failed to fetch previous scene: {e!s}")
             return None
 
-    def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> List[Dict[str, Any]]:
+    def history(
+        self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None
+    ) -> List[Dict[str, Any]]:
         """Get reverse-chronological scene history"""
         try:
             where_clause = "WHERE user_id = :user_id"
@@ -299,13 +319,15 @@ class SqlMemory(AkaqMemory):
 
             with self.engine.begin() as conn:
                 result = conn.execute(
-                    text(f"""
+                    text(
+                        f"""
                         SELECT scene_id, ts, proto, risk, drift_phi, congruence_index
                         FROM akaq_scene 
                         {where_clause}
                         ORDER BY ts DESC 
                         LIMIT :limit
-                    """),
+                    """
+                    ),
                     params,
                 )
 
@@ -328,19 +350,23 @@ class SqlMemory(AkaqMemory):
             logger.error(f"Failed to fetch history: {e!s}")
             return []
 
-    def search_by_glyph(self, *, user_id: str, key: str, limit: int = 50) -> List[Dict[str, Any]]:
+    def search_by_glyph(
+        self, *, user_id: str, key: str, limit: int = 50
+    ) -> List[Dict[str, Any]]:
         """Find scenes that emitted a specific glyph"""
         try:
             with self.engine.begin() as conn:
                 result = conn.execute(
-                    text("""
+                    text(
+                        """
                         SELECT s.scene_id, s.ts, s.proto, s.risk, g.attrs
                         FROM akaq_glyph g
                         JOIN akaq_scene s ON g.scene_id = s.scene_id
                         WHERE s.user_id = :user_id AND g.key = :key
                         ORDER BY s.ts DESC
                         LIMIT :limit
-                    """),
+                    """
+                    ),
                     {"user_id": user_id, "key": key, "limit": limit},
                 )
 
@@ -368,13 +394,15 @@ class SqlMemory(AkaqMemory):
         try:
             with self.engine.begin() as conn:
                 result = conn.execute(
-                    text("""
+                    text(
+                        """
                         SELECT scene_id, ts, proto, drift_phi, congruence_index
                         FROM akaq_scene 
                         WHERE user_id = :user_id AND drift_phi IS NOT NULL
                         ORDER BY drift_phi DESC 
                         LIMIT :limit
-                    """),
+                    """
+                    ),
                     {"user_id": user_id, "limit": limit},
                 )
 
@@ -402,13 +430,15 @@ class SqlMemory(AkaqMemory):
             with self.engine.begin() as conn:
                 # Count before deletion for audit
                 count_result = conn.execute(
-                    text("SELECT COUNT(*) FROM akaq_scene WHERE user_id = :user_id"), {"user_id": user_id}
+                    text("SELECT COUNT(*) FROM akaq_scene WHERE user_id = :user_id"),
+                    {"user_id": user_id},
                 )
                 scene_count = count_result.scalar()
 
                 # Delete scenes (cascades to glyphs via foreign key)
                 delete_result = conn.execute(
-                    text("DELETE FROM akaq_scene WHERE user_id = :user_id"), {"user_id": user_id}
+                    text("DELETE FROM akaq_scene WHERE user_id = :user_id"),
+                    {"user_id": user_id},
                 )
 
                 rows_deleted = delete_result.rowcount

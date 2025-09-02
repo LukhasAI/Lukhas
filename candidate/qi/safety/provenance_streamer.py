@@ -45,7 +45,9 @@ from qi.ops.rate_limit import BucketConfig, RateLimiter
 
 def is_prov(req):
     p = req.url.path
-    return p.startswith("/provenance/") and any(seg in p for seg in ("/stream", "/download", "/link"))
+    return p.startswith("/provenance/") and any(
+        seg in p for seg in ("/stream", "/download", "/link")
+    )
 
 
 buckets = {
@@ -68,7 +70,12 @@ def healthz():
 
 
 @app.get("/provenance/{sha}/stream")
-def stream_artifact(sha: str, request: Request, filename: str | None = None, chunk_bytes: int = 1024 * 256):
+def stream_artifact(
+    sha: str,
+    request: Request,
+    filename: str | None = None,
+    chunk_bytes: int = 1024 * 256,
+):
     """
     Streams the artifact to the client from S3/GCS/local **without** redirect.
     Emits a signed receipt and Prometheus metrics, and sets Content-Disposition if filename provided.
@@ -101,14 +108,18 @@ def stream_artifact(sha: str, request: Request, filename: str | None = None, chu
             purpose=request.query_params.get("purpose"),
             extras={"backend": "file"},
         )
-        return FileResponse(path, filename=filename or os.path.basename(path), media_type=media_type)
+        return FileResponse(
+            path, filename=filename or os.path.basename(path), media_type=media_type
+        )
 
     # S3/GCS: stream by reading from the backend in chunks
     if backend == "s3":
         try:
             import boto3  # type: ignore
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"S3 support requires boto3: {e}")
+            raise HTTPException(
+                status_code=500, detail=f"S3 support requires boto3: {e}"
+            )
         s3 = boto3.client("s3")
         obj = s3.get_object(Bucket=a, Key=b)
         body = obj["Body"]  # botocore.response.StreamingBody
@@ -144,7 +155,10 @@ def stream_artifact(sha: str, request: Request, filename: str | None = None, chu
         try:
             from google.cloud import storage  # type: ignore
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"GCS support requires google-cloud-storage: {e}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"GCS support requires google-cloud-storage: {e}",
+            )
         client = storage.Client()
         bucket = client.bucket(a)
         blob = bucket.blob(b)

@@ -132,11 +132,15 @@ class ComplianceAssessment:
     assessment_id: str
     timestamp: datetime
     overall_status: ComplianceStatus
-    framework_statuses: dict[ComplianceFramework, ComplianceStatus] = field(default_factory=dict)
+    framework_statuses: dict[ComplianceFramework, ComplianceStatus] = field(
+        default_factory=dict
+    )
     compliance_score: float = 0.0  # 0-100
     violations: list[ComplianceViolation] = field(default_factory=list)
     recommendations: list[str] = field(default_factory=list)
-    next_review_date: datetime = field(default_factory=lambda: datetime.now() + timedelta(days=30))
+    next_review_date: datetime = field(
+        default_factory=lambda: datetime.now() + timedelta(days=30)
+    )
     risk_factors: list[str] = field(default_factory=list)
 
     # Trinity Framework integration
@@ -170,7 +174,11 @@ class ComplianceRuleEngine:
                     "Document consent records with timestamp",
                 ],
                 data_categories=[DataCategory.PERSONAL_DATA],
-                monitoring_points=["data_collection", "consent_capture", "consent_withdrawal"],
+                monitoring_points=[
+                    "data_collection",
+                    "consent_capture",
+                    "consent_withdrawal",
+                ],
                 severity=ViolationSeverity.HIGH,
                 remediation_actions=[
                     "Implement consent management system",
@@ -193,8 +201,15 @@ class ComplianceRuleEngine:
                     "Delete data when no longer needed",
                     "Document data retention policies",
                 ],
-                data_categories=[DataCategory.PERSONAL_DATA, DataCategory.SENSITIVE_DATA],
-                monitoring_points=["data_collection", "data_retention", "data_deletion"],
+                data_categories=[
+                    DataCategory.PERSONAL_DATA,
+                    DataCategory.SENSITIVE_DATA,
+                ],
+                monitoring_points=[
+                    "data_collection",
+                    "data_retention",
+                    "data_deletion",
+                ],
                 severity=ViolationSeverity.MEDIUM,
                 remediation_actions=[
                     "Audit data collection practices",
@@ -247,7 +262,10 @@ class ComplianceRuleEngine:
                     "Disclose business purposes for collection",
                     "Provide disclosure upon request",
                 ],
-                data_categories=[DataCategory.PERSONAL_DATA, DataCategory.BEHAVIORAL_DATA],
+                data_categories=[
+                    DataCategory.PERSONAL_DATA,
+                    DataCategory.BEHAVIORAL_DATA,
+                ],
                 monitoring_points=["privacy_notice", "data_disclosure_requests"],
                 severity=ViolationSeverity.MEDIUM,
                 remediation_actions=[
@@ -297,7 +315,10 @@ class ComplianceRuleEngine:
                     "Strong authentication mechanisms",
                     "Monitor and log access activities",
                 ],
-                data_categories=[DataCategory.PERSONAL_DATA, DataCategory.FINANCIAL_DATA],
+                data_categories=[
+                    DataCategory.PERSONAL_DATA,
+                    DataCategory.FINANCIAL_DATA,
+                ],
                 monitoring_points=["user_access", "authentication", "access_logging"],
                 severity=ViolationSeverity.HIGH,
                 remediation_actions=[
@@ -322,8 +343,15 @@ class ComplianceRuleEngine:
                     "Document bias testing and mitigation efforts",
                     "Provide explainability for AI decisions",
                 ],
-                data_categories=[DataCategory.BEHAVIORAL_DATA, DataCategory.PERSONAL_DATA],
-                monitoring_points=["ai_decision_making", "bias_testing", "model_performance"],
+                data_categories=[
+                    DataCategory.BEHAVIORAL_DATA,
+                    DataCategory.PERSONAL_DATA,
+                ],
+                monitoring_points=[
+                    "ai_decision_making",
+                    "bias_testing",
+                    "model_performance",
+                ],
                 severity=ViolationSeverity.HIGH,
                 remediation_actions=[
                     "Conduct bias audits",
@@ -343,13 +371,19 @@ class ComplianceRuleEngine:
         self.rules[rule.rule_id] = rule
         logger.debug(f"Added compliance rule: {rule.rule_id} ({rule.framework.value})")
 
-    def get_rules_for_framework(self, framework: ComplianceFramework) -> list[ComplianceRule]:
+    def get_rules_for_framework(
+        self, framework: ComplianceFramework
+    ) -> list[ComplianceRule]:
         """Get all rules for a specific compliance framework"""
         return [rule for rule in self.rules.values() if rule.framework == framework]
 
-    def get_rules_for_data_category(self, category: DataCategory) -> list[ComplianceRule]:
+    def get_rules_for_data_category(
+        self, category: DataCategory
+    ) -> list[ComplianceRule]:
         """Get all rules applicable to a specific data category"""
-        return [rule for rule in self.rules.values() if category in rule.data_categories]
+        return [
+            rule for rule in self.rules.values() if category in rule.data_categories
+        ]
 
 
 class ComplianceMonitor:
@@ -485,10 +519,14 @@ class ComplianceMonitor:
                 risk_factors.extend(framework_result["risk_factors"])
 
             # Calculate overall compliance score
-            overall_score = await self._calculate_overall_compliance_score(framework_statuses, all_violations)
+            overall_score = await self._calculate_overall_compliance_score(
+                framework_statuses, all_violations
+            )
 
             # Determine overall status
-            overall_status = await self._determine_overall_status(framework_statuses, overall_score)
+            overall_status = await self._determine_overall_status(
+                framework_statuses, overall_score
+            )
 
             # Trinity Framework integration
             trinity_results = await self._assess_trinity_compliance()
@@ -536,7 +574,9 @@ class ComplianceMonitor:
                 risk_factors=["Assessment system error"],
             )
 
-    async def _assess_framework_compliance(self, framework: ComplianceFramework) -> dict[str, Any]:
+    async def _assess_framework_compliance(
+        self, framework: ComplianceFramework
+    ) -> dict[str, Any]:
         """Assess compliance for a specific framework"""
 
         framework_rules = self.rule_engine.get_rules_for_framework(framework)
@@ -554,16 +594,23 @@ class ComplianceMonitor:
                 compliant_rules += 1
             else:
                 # Create violation if not compliant
-                violation = await self._create_violation_from_rule(rule, rule_compliance)
+                violation = await self._create_violation_from_rule(
+                    rule, rule_compliance
+                )
                 violations.append(violation)
 
                 recommendations.extend(rule.remediation_actions)
 
-                if rule.severity in [ViolationSeverity.HIGH, ViolationSeverity.CRITICAL]:
+                if rule.severity in [
+                    ViolationSeverity.HIGH,
+                    ViolationSeverity.CRITICAL,
+                ]:
                     risk_factors.append(f"{framework.value}_high_risk_violation")
 
         # Calculate framework compliance percentage
-        compliance_percentage = compliant_rules / total_rules * 100 if total_rules > 0 else 100.0
+        compliance_percentage = (
+            compliant_rules / total_rules * 100 if total_rules > 0 else 100.0
+        )
 
         # Determine framework status
         threshold = self.compliance_thresholds.get(framework, 85.0)
@@ -576,7 +623,9 @@ class ComplianceMonitor:
             status = ComplianceStatus.NON_COMPLIANT
 
         # Check for critical violations
-        critical_violations = [v for v in violations if v.severity == ViolationSeverity.CRITICAL]
+        critical_violations = [
+            v for v in violations if v.severity == ViolationSeverity.CRITICAL
+        ]
         if critical_violations:
             status = ComplianceStatus.CRITICAL_VIOLATION
 
@@ -596,7 +645,12 @@ class ComplianceMonitor:
         # This is a simplified compliance check
         # In a real system, this would integrate with actual data processing systems
 
-        compliance_result = {"compliant": True, "evidence": [], "issues": [], "confidence": 0.8}
+        compliance_result = {
+            "compliant": True,
+            "evidence": [],
+            "issues": [],
+            "confidence": 0.8,
+        }
 
         # Simulate rule-specific compliance checks
         if rule.framework == ComplianceFramework.GDPR:
@@ -649,7 +703,9 @@ class ComplianceMonitor:
             "confidence": 0.9,
         }
 
-    async def _check_data_minimization_compliance(self, rule: ComplianceRule) -> dict[str, Any]:
+    async def _check_data_minimization_compliance(
+        self, rule: ComplianceRule
+    ) -> dict[str, Any]:
         """Check GDPR data minimization compliance"""
 
         issues = []
@@ -803,7 +859,9 @@ class ComplianceMonitor:
             total_weighted_score += base_score * weight
             total_weight += weight
 
-        base_compliance_score = total_weighted_score / total_weight if total_weight > 0 else 0.0
+        base_compliance_score = (
+            total_weighted_score / total_weight if total_weight > 0 else 0.0
+        )
 
         # Apply violation penalties
         violation_penalties = {
@@ -845,14 +903,20 @@ class ComplianceMonitor:
 
         # Check for non-compliance in any framework
         non_compliant_count = sum(
-            1 for status in framework_statuses.values() if status == ComplianceStatus.NON_COMPLIANT
+            1
+            for status in framework_statuses.values()
+            if status == ComplianceStatus.NON_COMPLIANT
         )
 
         if non_compliant_count > 0:
             return ComplianceStatus.NON_COMPLIANT
 
         # Check for at-risk status
-        at_risk_count = sum(1 for status in framework_statuses.values() if status == ComplianceStatus.AT_RISK)
+        at_risk_count = sum(
+            1
+            for status in framework_statuses.values()
+            if status == ComplianceStatus.AT_RISK
+        )
 
         if at_risk_count > len(framework_statuses) * 0.3:  # More than 30% at risk
             return ComplianceStatus.AT_RISK
@@ -929,9 +993,13 @@ class ComplianceMonitor:
                 time_to_deadline = violation.remediation_deadline - datetime.now()
 
                 if time_to_deadline.total_seconds() < 3600:  # Less than 1 hour
-                    logger.warning(f"⚠️ Remediation deadline approaching for violation {violation.violation_id}")
+                    logger.warning(
+                        f"⚠️ Remediation deadline approaching for violation {violation.violation_id}"
+                    )
                 elif time_to_deadline.total_seconds() < 0:  # Overdue
-                    logger.error(f"❌ Remediation deadline exceeded for violation {violation.violation_id}")
+                    logger.error(
+                        f"❌ Remediation deadline exceeded for violation {violation.violation_id}"
+                    )
 
     async def _process_assessment_results(self, assessment: ComplianceAssessment):
         """Process and act on assessment results"""
@@ -950,26 +1018,38 @@ class ComplianceMonitor:
     async def _send_critical_alert(self, assessment: ComplianceAssessment):
         """Send critical compliance alert"""
 
-        logger.critical(f"🚨 CRITICAL COMPLIANCE VIOLATION DETECTED - Assessment: {assessment.assessment_id}")
+        logger.critical(
+            f"🚨 CRITICAL COMPLIANCE VIOLATION DETECTED - Assessment: {assessment.assessment_id}"
+        )
 
         # In practice, this would send alerts via email, Slack, etc.
-        critical_violations = [v for v in assessment.violations if v.severity == ViolationSeverity.CRITICAL]
+        critical_violations = [
+            v for v in assessment.violations if v.severity == ViolationSeverity.CRITICAL
+        ]
 
         for violation in critical_violations:
-            logger.critical(f"Critical violation: {violation.title} (Framework: {violation.framework.value})")
+            logger.critical(
+                f"Critical violation: {violation.title} (Framework: {violation.framework.value})"
+            )
 
-    async def _generate_improvement_recommendations(self, assessment: ComplianceAssessment):
+    async def _generate_improvement_recommendations(
+        self, assessment: ComplianceAssessment
+    ):
         """Generate improvement recommendations"""
 
         # This would typically use ML/AI to generate specific recommendations
         # For now, provide basic recommendations based on violations
 
-        logger.info(f"📊 Generating improvement recommendations for assessment {assessment.assessment_id}")
+        logger.info(
+            f"📊 Generating improvement recommendations for assessment {assessment.assessment_id}"
+        )
 
     async def _update_compliance_dashboard(self, assessment: ComplianceAssessment):
         """Update compliance dashboard with latest assessment"""
 
-        logger.debug(f"📊 Updating compliance dashboard with assessment {assessment.assessment_id}")
+        logger.debug(
+            f"📊 Updating compliance dashboard with assessment {assessment.assessment_id}"
+        )
 
         # Store assessment data for dashboard
         # This would typically update a database or cache
@@ -980,17 +1060,24 @@ class ComplianceMonitor:
         self.metrics["total_assessments"] += 1
         self.metrics["total_violations"] += len(assessment.violations)
 
-        critical_count = sum(1 for v in assessment.violations if v.severity == ViolationSeverity.CRITICAL)
+        critical_count = sum(
+            1 for v in assessment.violations if v.severity == ViolationSeverity.CRITICAL
+        )
         self.metrics["critical_violations"] += critical_count
 
         # Update compliance score trend
         self.metrics["compliance_score_trend"].append(
-            {"timestamp": assessment.timestamp.isoformat(), "score": assessment.compliance_score}
+            {
+                "timestamp": assessment.timestamp.isoformat(),
+                "score": assessment.compliance_score,
+            }
         )
 
         # Keep only last 100 trend points
         if len(self.metrics["compliance_score_trend"]) > 100:
-            self.metrics["compliance_score_trend"] = self.metrics["compliance_score_trend"][-100:]
+            self.metrics["compliance_score_trend"] = self.metrics[
+                "compliance_score_trend"
+            ][-100:]
 
         self.metrics["last_updated"] = datetime.now().isoformat()
 
@@ -1018,9 +1105,12 @@ class ComplianceMonitor:
             "overall_status": latest_assessment.overall_status.value,
             "compliance_score": latest_assessment.compliance_score,
             "last_assessment": latest_assessment.timestamp.isoformat(),
-            "active_violations": len([v for v in self.violation_history if v.status == "open"]),
+            "active_violations": len(
+                [v for v in self.violation_history if v.status == "open"]
+            ),
             "framework_statuses": {
-                framework.value: status.value for framework, status in latest_assessment.framework_statuses.items()
+                framework.value: status.value
+                for framework, status in latest_assessment.framework_statuses.items()
             },
             "recommendations": latest_assessment.recommendations[:5],  # Top 5
             "next_review": latest_assessment.next_review_date.isoformat(),
@@ -1049,15 +1139,23 @@ class ComplianceMonitor:
             "open_violations": len(open_violations),
             "resolved_violations": len(resolved_violations),
             "by_severity": {
-                severity.value: len([v for v in open_violations if v.severity == severity])
+                severity.value: len(
+                    [v for v in open_violations if v.severity == severity]
+                )
                 for severity in ViolationSeverity
             },
             "by_framework": {
-                framework.value: len([v for v in open_violations if v.framework == framework])
+                framework.value: len(
+                    [v for v in open_violations if v.framework == framework]
+                )
                 for framework in ComplianceFramework
             },
             "oldest_open_violation": (
-                min(open_violations, key=lambda x: x.detected_at).detected_at.isoformat() if open_violations else None
+                min(
+                    open_violations, key=lambda x: x.detected_at
+                ).detected_at.isoformat()
+                if open_violations
+                else None
             ),
         }
 
@@ -1078,7 +1176,11 @@ class ComplianceMonitor:
             "report_id": f"comp_report_{uuid.uuid4().hex[:8]}",
             "generated_at": datetime.now().isoformat(),
             "assessment_period": {
-                "from": (self.assessment_history[0].timestamp.isoformat() if self.assessment_history else None),
+                "from": (
+                    self.assessment_history[0].timestamp.isoformat()
+                    if self.assessment_history
+                    else None
+                ),
                 "to": latest_assessment.timestamp.isoformat(),
             },
             "overall_compliance": {
@@ -1112,7 +1214,11 @@ class ComplianceMonitor:
                         "title": v.title,
                         "status": v.status,
                         "detected_at": v.detected_at.isoformat(),
-                        "deadline": (v.remediation_deadline.isoformat() if v.remediation_deadline else None),
+                        "deadline": (
+                            v.remediation_deadline.isoformat()
+                            if v.remediation_deadline
+                            else None
+                        ),
                     }
                     for v in self.violation_history[-50:]  # Last 50 violations
                 ],

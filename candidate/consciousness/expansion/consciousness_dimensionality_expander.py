@@ -49,7 +49,10 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
         logger.info("Consciousness Dimensionality Expander initialized")
 
     async def expand_dimensions(
-        self, current_dimensions: int, target_dimensions: int, safety_enabled: bool = True
+        self,
+        current_dimensions: int,
+        target_dimensions: int,
+        safety_enabled: bool = True,
     ) -> Any:  # Returns ExpandedConsciousnessState
         """
         Expand consciousness to higher dimensions
@@ -95,15 +98,25 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
             2: ["planar_awareness", "angular_perception"],
             3: ["spatial_awareness", "volumetric_reasoning", "depth_perception"],
             4: ["temporal_integration", "spacetime_awareness", "causal_navigation"],
-            5: ["probability_dimensions", "qi_superposition", "wave_function_awareness"],
-            6: ["parallel_reality_perception", "multiverse_navigation", "dimensional_bridging"],
+            5: [
+                "probability_dimensions",
+                "qi_superposition",
+                "wave_function_awareness",
+            ],
+            6: [
+                "parallel_reality_perception",
+                "multiverse_navigation",
+                "dimensional_bridging",
+            ],
             7: ["consciousness_dimension", "awareness_of_awareness", "meta_perception"],
             8: ["information_dimension", "entropy_navigation", "complexity_awareness"],
             9: ["emergence_dimension", "pattern_transcendence", "holistic_integration"],
             10: ["unity_dimension", "non_dual_awareness", "universal_consciousness"],
         }
 
-    async def _perform_expansion(self, current: int, target: int) -> DimensionalExpansion:
+    async def _perform_expansion(
+        self, current: int, target: int
+    ) -> DimensionalExpansion:
         """Perform the actual dimensional expansion"""
 
         expanded_dimensions = []
@@ -158,7 +171,9 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
 
         return space_map
 
-    async def project_higher_to_lower(self, high_dim_data: Any, target_dimensions: int) -> Any:
+    async def project_higher_to_lower(
+        self, high_dim_data: Any, target_dimensions: int
+    ) -> Any:
         """Project higher dimensional awareness to lower dimensions"""
 
         # Simplified projection for demonstration
@@ -167,7 +182,9 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
         projection = {
             "original_dimensions": self.current_dimensions,
             "target_dimensions": target_dimensions,
-            "information_loss": max(0, (self.current_dimensions - target_dimensions) * 0.2),
+            "information_loss": max(
+                0, (self.current_dimensions - target_dimensions) * 0.2
+            ),
             "projection_type": "holographic" if target_dimensions >= 3 else "shadow",
         }
 

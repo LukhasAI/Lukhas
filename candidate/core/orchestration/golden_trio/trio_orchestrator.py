@@ -161,7 +161,9 @@ class SharedContextManager:
             self.context["user_state"].update(updates)
             self.version += 1
 
-    async def update_system_state(self, system: SystemType, updates: dict[str, Any]) -> None:
+    async def update_system_state(
+        self, system: SystemType, updates: dict[str, Any]
+    ) -> None:
         """Update system state in context"""
         async with self._lock:
             self.context["system_state"][system.value].update(updates)
@@ -278,7 +280,9 @@ class TrioOrchestrator:
 
         # Check for circular dependencies
         if self._would_create_circular_dependency(message):
-            logger.warning(f"Circular dependency detected: {source.value} -> {target.value}")
+            logger.warning(
+                f"Circular dependency detected: {source.value} -> {target.value}"
+            )
             return TrioResponse(
                 message_id=message.id,
                 system=target,
@@ -341,7 +345,9 @@ class TrioOrchestrator:
                     result = await handler.process(message)
 
                     # Calculate processing time
-                    processing_time = (datetime.now() - start_time).total_seconds() * 1000
+                    processing_time = (
+                        datetime.now() - start_time
+                    ).total_seconds() * 1000
 
                     # Create response
                     response = TrioResponse(
@@ -404,7 +410,9 @@ class TrioOrchestrator:
     async def _process_message_optimized(self, message: TrioMessage) -> TrioResponse:
         """Process message with optimization"""
         # Check cache first
-        cache_key = f"{message.source.value}:{message.target.value}:{message.message_type}"
+        cache_key = (
+            f"{message.source.value}:{message.target.value}:{message.message_type}"
+        )
         if cache_key in self.performance_cache:
             cached_result = self.performance_cache[cache_key]
             if self._is_cache_valid(cached_result):
@@ -428,7 +436,10 @@ class TrioOrchestrator:
         """Check if message would create circular dependency"""
         # Simple check - prevent A->B->A patterns
         for active_msg in self.active_messages.values():
-            if active_msg.source == message.target and active_msg.target == message.source:
+            if (
+                active_msg.source == message.target
+                and active_msg.target == message.source
+            ):
                 return True
         return False
 
@@ -477,7 +488,11 @@ class TrioOrchestrator:
         # Check for circular waits
         for msg_id1, msg1 in self.active_messages.items():
             for msg_id2, msg2 in self.active_messages.items():
-                if msg_id1 != msg_id2 and msg1.source == msg2.target and msg1.target == msg2.source:
+                if (
+                    msg_id1 != msg_id2
+                    and msg1.source == msg2.target
+                    and msg1.target == msg2.source
+                ):
                     deadlocks.append((msg_id1, msg_id2))
 
         return deadlocks
@@ -535,7 +550,10 @@ class TrioOrchestrator:
                 "is_running": self.is_running,
             },
             "systems": context["system_state"],
-            "queues": {system.value: self.message_queue[system].qsize() for system in SystemType},
+            "queues": {
+                system.value: self.message_queue[system].qsize()
+                for system in SystemType
+            },
             "context_version": await self.context_manager.get_version(),
         }
 
@@ -550,7 +568,9 @@ class TrioOrchestrator:
         }
 
     # Additional methods for DAST/ABAS/NIAS integration
-    async def register_component(self, component_name: str, component_instance: Any) -> None:
+    async def register_component(
+        self, component_name: str, component_instance: Any
+    ) -> None:
         """Register a component (hub) with the orchestrator"""
         # Determine system type from component name
         if "dast" in component_name.lower():
@@ -565,14 +585,19 @@ class TrioOrchestrator:
 
         # Register as system handler
         self.register_system_handler(system_type, component_instance)
-        logger.info(f"Registered component {component_name} as {system_type.value} handler")
+        logger.info(
+            f"Registered component {component_name} as {system_type.value} handler"
+        )
 
-    async def notify_task_created(self, system: str, task_id: str, task_data: dict[str, Any]) -> None:
+    async def notify_task_created(
+        self, system: str, task_id: str, task_data: dict[str, Any]
+    ) -> None:
         """Notify orchestrator of task creation"""
         # Update context with new task
         await self.context_manager.set(
             f"system_state.{system}.active_tasks",
-            await self.context_manager.get(f"system_state.{system}.active_tasks", []) + [task_id],
+            await self.context_manager.get(f"system_state.{system}.active_tasks", [])
+            + [task_id],
         )
 
         # Log event
@@ -586,13 +611,19 @@ class TrioOrchestrator:
             "status": "created",
         }
 
-    async def notify_task_completed(self, system: str, task_id: str, result: dict[str, Any]) -> None:
+    async def notify_task_completed(
+        self, system: str, task_id: str, result: dict[str, Any]
+    ) -> None:
         """Notify orchestrator of task completion"""
         # Update context
-        active_tasks = await self.context_manager.get(f"system_state.{system}.active_tasks", [])
+        active_tasks = await self.context_manager.get(
+            f"system_state.{system}.active_tasks", []
+        )
         if task_id in active_tasks:
             active_tasks.remove(task_id)
-            await self.context_manager.set(f"system_state.{system}.active_tasks", active_tasks)
+            await self.context_manager.set(
+                f"system_state.{system}.active_tasks", active_tasks
+            )
 
         # Update task metadata
         if f"task_{task_id}" in self.performance_cache:
@@ -609,10 +640,14 @@ class TrioOrchestrator:
     async def notify_task_failed(self, system: str, task_id: str, error: str) -> None:
         """Notify orchestrator of task failure"""
         # Update context
-        active_tasks = await self.context_manager.get(f"system_state.{system}.active_tasks", [])
+        active_tasks = await self.context_manager.get(
+            f"system_state.{system}.active_tasks", []
+        )
         if task_id in active_tasks:
             active_tasks.remove(task_id)
-            await self.context_manager.set(f"system_state.{system}.active_tasks", active_tasks)
+            await self.context_manager.set(
+                f"system_state.{system}.active_tasks", active_tasks
+            )
 
         # Update task metadata
         if f"task_{task_id}" in self.performance_cache:
@@ -644,7 +679,9 @@ class TrioOrchestrator:
             audit_events = audit_events[-100:]
 
         await self.context_manager.set("audit_events", audit_events)
-        logger.info(f"Processed audit event: {getattr(audit_entry, 'audit_id', 'unknown')}")
+        logger.info(
+            f"Processed audit event: {getattr(audit_entry, 'audit_id', 'unknown')}"
+        )
 
 
 # Global instance

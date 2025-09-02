@@ -117,7 +117,8 @@ class DreamBrainSpecialist(SpecializedBrainCore):
         """Extract symbolic patterns from input data"""
         text_content = str(data.get("content", ""))
         return {
-            "metaphorical_content": "symbolic" in text_content.lower() or "dream" in text_content.lower(),
+            "metaphorical_content": "symbolic" in text_content.lower()
+            or "dream" in text_content.lower(),
             "symbolic_density": min(0.9, len(text_content) / 100.0),
             "creative_potential": 0.8,
         }
@@ -152,9 +153,13 @@ class MemoryBrainSpecialist(SpecializedBrainCore):
 
         # Integration with existing memory emotional integrator
         memory_analysis = {}
-        if self.memory_integrator and hasattr(self.memory_integrator, "store_with_emotional_context"):
+        if self.memory_integrator and hasattr(
+            self.memory_integrator, "store_with_emotional_context"
+        ):
             try:
-                memory_analysis = self.memory_integrator.store_with_emotional_context(data)
+                memory_analysis = self.memory_integrator.store_with_emotional_context(
+                    data
+                )
             except Exception as e:
                 logger.warning(f"Memory integration failed: {e}")
                 memory_analysis = {"status": "fallback", "error": str(e)}
@@ -216,7 +221,9 @@ class LearningBrainSpecialist(SpecializedBrainCore):
             "brain_id": self.brain_id,
             "processing_type": "adaptive_learning",
             "learning_analysis": self._analyze_learning_patterns(data),
-            "adaptation_recommendations": self._generate_adaptation_recommendations(data),
+            "adaptation_recommendations": self._generate_adaptation_recommendations(
+                data
+            ),
             "meta_cognitive_insights": self._extract_meta_cognitive_insights(data),
             "timestamp": datetime.now().isoformat(),
         }
@@ -317,7 +324,9 @@ class MultiBrainSymphonyOrchestrator:
 
         # Emotional processing (from existing system)
         emotional_context = {}
-        if self.emotional_oscillator and hasattr(self.emotional_oscillator, "get_current_state"):
+        if self.emotional_oscillator and hasattr(
+            self.emotional_oscillator, "get_current_state"
+        ):
             emotional_context = self.emotional_oscillator.get_current_state()
         elif self.emotional_oscillator:
             emotional_context = {"status": "emotional_oscillator_available"}
@@ -327,7 +336,9 @@ class MultiBrainSymphonyOrchestrator:
             results = await asyncio.gather(*processing_tasks, return_exceptions=True)
 
             # Synthesize results from all brains
-            symphony_result = self._synthesize_brain_outputs(results, emotional_context, input_data)
+            symphony_result = self._synthesize_brain_outputs(
+                results, emotional_context, input_data
+            )
 
             # Record processing for learning
             self.processing_history.append(
@@ -368,7 +379,9 @@ class MultiBrainSymphonyOrchestrator:
             self.symphony_active = True
             logger.info("🎼 Multi-Brain Symphony ready for coordinated processing")
         else:
-            logger.warning("🎼 Multi-Brain Symphony partially initialized - degraded mode")
+            logger.warning(
+                "🎼 Multi-Brain Symphony partially initialized - degraded mode"
+            )
 
     def _synchronize_brains(self):
         """Synchronize all brains with master biological rhythm"""
@@ -430,17 +443,27 @@ class MultiBrainSymphonyOrchestrator:
 
                 # Extract insights for synthesis
                 if brain_name == "dreams" and "creative_insights" in result:
-                    symphony_synthesis["synthesized_insights"].extend(result["creative_insights"])
+                    symphony_synthesis["synthesized_insights"].extend(
+                        result["creative_insights"]
+                    )
                 elif brain_name == "memory" and "associative_patterns" in result:
-                    memory_relevance = result["associative_patterns"].get("memory_relevance", 0.5)
+                    memory_relevance = result["associative_patterns"].get(
+                        "memory_relevance", 0.5
+                    )
                     symphony_synthesis["synthesized_insights"].append(
                         f"Memory analysis shows {memory_relevance:.2f} relevance score"
                     )
-                elif brain_name == "learning" and "adaptation_recommendations" in result:
-                    symphony_synthesis["synthesized_insights"].extend(result["adaptation_recommendations"])
+                elif (
+                    brain_name == "learning" and "adaptation_recommendations" in result
+                ):
+                    symphony_synthesis["synthesized_insights"].extend(
+                        result["adaptation_recommendations"]
+                    )
 
         # Calculate coordination quality
-        symphony_synthesis["coordination_quality"] = successful_results / len(brain_results) if brain_results else 0.0
+        symphony_synthesis["coordination_quality"] = (
+            successful_results / len(brain_results) if brain_results else 0.0
+        )
 
         # Add overall symphony assessment
         if symphony_synthesis["coordination_quality"] > 0.8:
@@ -485,7 +508,9 @@ def create_enhanced_brain_integration(brain_integration_instance):
         MultiBrainSymphonyOrchestrator configured for integration
     """
     # Extract components from existing brain integration
-    emotional_oscillator = getattr(brain_integration_instance, "emotional_oscillator", None)
+    emotional_oscillator = getattr(
+        brain_integration_instance, "emotional_oscillator", None
+    )
     dream_engine = getattr(brain_integration_instance, "dream_engine", None)
     memory_integrator = getattr(brain_integration_instance, "memory_emotional", None)
 

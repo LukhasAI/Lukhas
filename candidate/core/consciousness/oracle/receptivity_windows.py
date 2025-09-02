@@ -28,7 +28,9 @@ class ReceptivityWindowCalculator:
         # self.abas_client = ABASClient()
         pass
 
-    async def calculate_receptivity_windows(self, user_id: str, next_hours: int = 2) -> list[dict[str, Any]]:
+    async def calculate_receptivity_windows(
+        self, user_id: str, next_hours: int = 2
+    ) -> list[dict[str, Any]]:
         """
         Calculates windows of optimal receptivity for the user.
 

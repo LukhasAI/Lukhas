@@ -24,27 +24,33 @@ def count_user_data(engine, user_id_hash):
     with engine.connect() as conn:
         # Count scenes
         scene_count = conn.execute(
-            text("""
+            text(
+                """
             SELECT COUNT(*) FROM akaq_scene WHERE user_id = :user_id
-        """),
+        """
+            ),
             {"user_id": user_id_hash},
         ).scalar()
 
         # Count glyphs (via scenes)
         glyph_count = conn.execute(
-            text("""
+            text(
+                """
             SELECT COUNT(*) FROM akaq_glyph g
             JOIN akaq_scene s USING(scene_id)
             WHERE s.user_id = :user_id
-        """),
+        """
+            ),
             {"user_id": user_id_hash},
         ).scalar()
 
         # Count memory operations
         ops_count = conn.execute(
-            text("""
+            text(
+                """
             SELECT COUNT(*) FROM akaq_memory_ops WHERE user_id = :user_id
-        """),
+        """
+            ),
             {"user_id": user_id_hash},
         ).scalar()
 
@@ -60,17 +66,22 @@ def get_sample_scene_ids(engine, user_id_hash, limit=5):
     """Get sample scene IDs for verification."""
     with engine.connect() as conn:
         result = conn.execute(
-            text("""
+            text(
+                """
             SELECT scene_id, subject, created_at
             FROM akaq_scene
             WHERE user_id = :user_id
             ORDER BY created_at DESC
             LIMIT :limit
-        """),
+        """
+            ),
             {"user_id": user_id_hash, "limit": limit},
         )
 
-        return [{"scene_id": row[0], "subject": row[1], "created_at": row[2]} for row in result.fetchall()]
+        return [
+            {"scene_id": row[0], "subject": row[1], "created_at": row[2]}
+            for row in result.fetchall()
+        ]
 
 
 def erase_user_data(memory_client, user_id, dry_run=False):
@@ -107,10 +118,12 @@ def log_erasure_audit(engine, user_id, user_id_hash, deleted_count, success):
     """Log the erasure operation for audit trail."""
     with engine.connect() as conn:
         conn.execute(
-            text("""
+            text(
+                """
             INSERT INTO akaq_memory_ops (operation, user_id, metadata, timestamp)
             VALUES ('gdpr_erasure', :user_id_hash, :metadata, :timestamp)
-        """),
+        """
+            ),
             {
                 "user_id_hash": user_id_hash,
                 "metadata": f"{{'original_user_id': '{user_id}', 'deleted_count': {deleted_count}, 'success': {success}}}",
@@ -139,11 +152,27 @@ Examples:
         """,
     )
 
-    parser.add_argument("--user-id", required=True, help="User ID to erase (will be hashed in production mode)")
+    parser.add_argument(
+        "--user-id",
+        required=True,
+        help="User ID to erase (will be hashed in production mode)",
+    )
     parser.add_argument("--db-url", required=True, help="Database connection URL")
-    parser.add_argument("--dry-run", action="store_true", help="Show what would be deleted without deleting")
-    parser.add_argument("--salt", default="dev_salt", help="Salt for user ID hashing (default: dev_salt)")
-    parser.add_argument("--prod-mode", action="store_true", help="Enable production mode (user ID hashing)")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be deleted without deleting",
+    )
+    parser.add_argument(
+        "--salt",
+        default="dev_salt",
+        help="Salt for user ID hashing (default: dev_salt)",
+    )
+    parser.add_argument(
+        "--prod-mode",
+        action="store_true",
+        help="Enable production mode (user ID hashing)",
+    )
 
     args = parser.parse_args()
 
@@ -151,7 +180,9 @@ Examples:
     print(f"👤 User ID: {args.user_id}")
     print(f"📡 Database: {args.db_url}")
     print(f"🎯 Mode: {'DRY RUN' if args.dry_run else 'EXECUTE ERASURE'}")
-    print(f"🔒 Production mode: {'ON (user ID will be hashed)' if args.prod_mode else 'OFF (plain user ID)'}")
+    print(
+        f"🔒 Production mode: {'ON (user ID will be hashed)' if args.prod_mode else 'OFF (plain user ID)'}"
+    )
     print()
 
     try:
@@ -165,7 +196,9 @@ Examples:
         print("✅ Database connection successful")
 
         # Get user ID hash for direct queries
-        user_id_hash = memory._hash_user_id(args.user_id) if args.prod_mode else args.user_id
+        user_id_hash = (
+            memory._hash_user_id(args.user_id) if args.prod_mode else args.user_id
+        )
         print(f"🔑 User identifier: {'<hashed>' if args.prod_mode else args.user_id}")
 
         # Count existing data
@@ -187,13 +220,17 @@ Examples:
             print("  📄 Sample scenes:")
             sample_scenes = get_sample_scene_ids(engine, user_id_hash)
             for scene in sample_scenes:
-                print(f"    - {scene['scene_id']}: '{scene['subject']}' ({scene['created_at']})")
+                print(
+                    f"    - {scene['scene_id']}: '{scene['subject']}' ({scene['created_at']})"
+                )
 
         print()
 
         if not args.dry_run:
             # Confirm erasure
-            confirm = input("⚠️  This will PERMANENTLY DELETE all user data. Continue? (yes/no): ")
+            confirm = input(
+                "⚠️  This will PERMANENTLY DELETE all user data. Continue? (yes/no): "
+            )
             if confirm.lower() not in ["yes", "y"]:
                 print("🚫 Erasure cancelled by user")
                 return 1
@@ -207,7 +244,9 @@ Examples:
             success = verify_erasure(engine, user_id_hash)
 
             # Log audit trail
-            log_erasure_audit(engine, args.user_id, user_id_hash, deleted_count, success)
+            log_erasure_audit(
+                engine, args.user_id, user_id_hash, deleted_count, success
+            )
 
             if success:
                 print()

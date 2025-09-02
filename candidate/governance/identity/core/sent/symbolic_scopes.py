@@ -34,7 +34,9 @@ class SymbolicScopesManager:
         }
         self.scope_hierarchy = {}
 
-    def define_scope(self, scope_name: str, symbol: str, description: str, tier_requirements: dict):
+    def define_scope(
+        self, scope_name: str, symbol: str, description: str, tier_requirements: dict
+    ):
         """Define a new consent scope with symbolic representation"""
         # TODO: Implement scope definition logic
 

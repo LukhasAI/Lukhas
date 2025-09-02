@@ -31,9 +31,7 @@ class EventReplayer:
     def _load_events(self, aggregate_id: str | None = None) -> list[Event]:
         """Load events from the event store, optionally for one aggregate."""
         conn = self.event_store._get_connection()
-        query = (
-            "SELECT event_id, event_type, aggregate_id, data, metadata, timestamp, version, correlation_id FROM events"
-        )
+        query = "SELECT event_id, event_type, aggregate_id, data, metadata, timestamp, version, correlation_id FROM events"
         params: tuple = ()
         if aggregate_id:
             query += " WHERE aggregate_id = ?"
@@ -57,7 +55,9 @@ class EventReplayer:
             )
         return events
 
-    def filter_events_by_tag(self, tag: str, aggregate_id: str | None = None) -> list[Event]:
+    def filter_events_by_tag(
+        self, tag: str, aggregate_id: str | None = None
+    ) -> list[Event]:
         """Return all events that include the given symbolic tag."""
         events = self._load_events(aggregate_id)
         return [e for e in events if tag in e.metadata.get("tags", [])]
@@ -75,7 +75,9 @@ class EventReplayer:
     # ✅ TODO: extend with CLI interface for governance dashboard
 
 
-def replay_ethical_events(event_store: EventStore, aggregate_id: str | None = None) -> AIAgentAggregate | list[Event]:
+def replay_ethical_events(
+    event_store: EventStore, aggregate_id: str | None = None
+) -> AIAgentAggregate | list[Event]:
     """Filter and replay events tagged with ``ETHICAL``."""
     replayer = EventReplayer(event_store)
     ethical_events = replayer.filter_events_by_tag("ETHICAL", aggregate_id)

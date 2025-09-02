@@ -97,7 +97,9 @@ class PostQuantumCryptoEngine:
         self.zkp_system = ZKProof(security_level=SecurityLevel.NIST_5)
 
         # Quantum-verifiable timestamp service
-        self.timestamp_service = QIVerifiableTimestamp(federation_nodes=config.get("timestamp_nodes", 3))
+        self.timestamp_service = QIVerifiableTimestamp(
+            federation_nodes=config.get("timestamp_nodes", 3)
+        )
 
         # Hybrid classical-PQC for transition period
         self.hybrid_mode = config.get("enable_hybrid_crypto", True)
@@ -113,10 +115,14 @@ class PostQuantumCryptoEngine:
         Establish quantum-secure communication session
         """
         # 1. Negotiate algorithms based on peer capabilities
-        negotiated_algorithms = await self._negotiate_algorithms(peer_identity, session_requirements)
+        negotiated_algorithms = await self._negotiate_algorithms(
+            peer_identity, session_requirements
+        )
 
         # 2. Generate ephemeral keys with quantum randomness
-        ephemeral_keys = await self._generate_ephemeral_keys(negotiated_algorithms, entropy_source="qi_rng")
+        ephemeral_keys = await self._generate_ephemeral_keys(
+            negotiated_algorithms, entropy_source="qi_rng"
+        )
 
         # 3. Perform key encapsulation
         shared_secret = await self._perform_kem_exchange(
@@ -141,7 +147,9 @@ class PostQuantumCryptoEngine:
             session_id=self._generate_session_id(),
             cipher=cipher,
             signing_key=session_keys.signing_key,
-            key_rotation_schedule=self.key_rotation_scheduler.create_schedule(session_requirements),
+            key_rotation_schedule=self.key_rotation_scheduler.create_schedule(
+                session_requirements
+            ),
             security_level=negotiated_algorithms.security_level,
         )
 
@@ -162,15 +170,23 @@ class PostQuantumCryptoEngine:
             data_to_sign = data
 
         # 2. Apply domain separation
-        domain_separated = self._apply_domain_separation(data_to_sign, domain="bio_symbolic_agi_v1")
+        domain_separated = self._apply_domain_separation(
+            data_to_sign, domain="bio_symbolic_agi_v1"
+        )
 
         # 3. Generate signature with primary algorithm
-        primary_signature = await self.signature_algorithms["primary"].sign(domain_separated, signing_key.primary_key)
+        primary_signature = await self.signature_algorithms["primary"].sign(
+            domain_separated, signing_key.primary_key
+        )
 
         # 4. In hybrid mode, also sign with classical algorithm
         if self.hybrid_mode:
-            classical_signature = await self._classical_sign(domain_separated, signing_key.classical_key)
-            signature_data = self._combine_signatures(primary_signature, classical_signature)
+            classical_signature = await self._classical_sign(
+                domain_separated, signing_key.classical_key
+            )
+            signature_data = self._combine_signatures(
+                primary_signature, classical_signature
+            )
         else:
             signature_data = primary_signature
 
@@ -197,7 +213,9 @@ class PostQuantumCryptoEngine:
         """
         # Verify the timestamp if provided
         if timestamp:
-            timestamp_valid = self.timestamp_service.verify_timestamp(timestamp, qi_resistant=True)
+            timestamp_valid = self.timestamp_service.verify_timestamp(
+                timestamp, qi_resistant=True
+            )
             if not timestamp_valid:
                 return False, {"error": "Invalid or expired timestamp"}
 
@@ -243,7 +261,9 @@ class PostQuantumCryptoEngine:
 
         # Add quantum-verifiable timestamp if requested
         if include_timestamp:
-            timestamp = self.timestamp_service.create_timestamp(data=zkp.commitment, qi_resistant=True)
+            timestamp = self.timestamp_service.create_timestamp(
+                data=zkp.commitment, qi_resistant=True
+            )
             zkp.add_timestamp(timestamp)
 
         # If in hybrid mode, add classical proofs
@@ -253,7 +273,9 @@ class PostQuantumCryptoEngine:
 
         return zkp
 
-    def derive_session_keys(self, shared_secret: bytes, context: Optional[dict[str, Any]] = None) -> dict[str, bytes]:
+    def derive_session_keys(
+        self, shared_secret: bytes, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, bytes]:
         """
         Derive session keys using quantum-resistant KDF with side-channel protection
 
@@ -265,7 +287,9 @@ class PostQuantumCryptoEngine:
             Dictionary containing derived keys
         """
         # Use SHAKE256 (SHA3) for key derivation
-        kdf = self.qi_kdf.initialize(algorithm="SHAKE256", constant_time=True, memory_protection=True)
+        kdf = self.qi_kdf.initialize(
+            algorithm="SHAKE256", constant_time=True, memory_protection=True
+        )
 
         derived_keys = kdf.derive_keys(
             secret=shared_secret,
@@ -308,7 +332,9 @@ class PostQuantumCryptoEngine:
         Implement memory protection for sensitive cryptographic material
         """
         for key, value in sensitive_data.items():
-            self.secure_memory.protect(data=value, identifier=key, constant_time=True, prevent_swap=True)
+            self.secure_memory.protect(
+                data=value, identifier=key, constant_time=True, prevent_swap=True
+            )
 
     def _secure_cleanup(self) -> None:
         """

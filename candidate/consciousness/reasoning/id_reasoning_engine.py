@@ -11,23 +11,25 @@ Version: v1.0.0-integration
 Compliance: EU AI Act, GDPR, US NIST AI Framework
 """
 
+import asyncio
+import base64
 import hashlib
 import json
-from candidate.core.common import get_logger
-import asyncio
-import uuid
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple, Union
-from dataclasses import dataclass
-from enum import Enum
 import secrets
-import base64
+import uuid
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+from candidate.core.common import get_logger
 
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:
     from cryptography.hazmat.primitives import hashes, serialization
-    from cryptography.hazmat.primitives.asymmetric import rsa, padding
-    from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+    from cryptography.hazmat.primitives.asymmetric import padding, rsa
+    from cryptography.hazmat.primitives.ciphers import (Cipher, algorithms,
+                                                        modes)
     CRYPTO_AVAILABLE = True
 except ImportError:
     CRYPTO_AVAILABLE = False

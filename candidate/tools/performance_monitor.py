@@ -318,7 +318,9 @@ class PerformanceAnalyzer:
             },
         }
 
-    def analyze_metrics(self, metrics: list[PerformanceMetric]) -> list[PerformanceAlert]:
+    def analyze_metrics(
+        self, metrics: list[PerformanceMetric]
+    ) -> list[PerformanceAlert]:
         """Analyze metrics and generate alerts"""
         alerts = []
 
@@ -330,7 +332,9 @@ class PerformanceAnalyzer:
 
         return alerts
 
-    def _check_thresholds(self, metric: PerformanceMetric) -> Optional[PerformanceAlert]:
+    def _check_thresholds(
+        self, metric: PerformanceMetric
+    ) -> Optional[PerformanceAlert]:
         """Check if metric exceeds thresholds"""
         component_thresholds = None
 
@@ -372,7 +376,9 @@ class PerformanceAnalyzer:
 
         return None
 
-    def get_performance_summary(self, metrics: list[PerformanceMetric]) -> dict[str, Any]:
+    def get_performance_summary(
+        self, metrics: list[PerformanceMetric]
+    ) -> dict[str, Any]:
         """Generate performance summary from metrics"""
         summary = {
             "timestamp": datetime.now().isoformat(),
@@ -430,34 +436,42 @@ class PerformanceOptimizer:
         return [
             {
                 "name": "high_cpu_usage",
-                "condition": lambda metrics: any(m.metric_name == "cpu_usage" and m.value > 80 for m in metrics),
+                "condition": lambda metrics: any(
+                    m.metric_name == "cpu_usage" and m.value > 80 for m in metrics
+                ),
                 "recommendation": "Consider reducing concurrent operations or optimizing CPU-intensive tasks",
                 "priority": "high",
             },
             {
                 "name": "high_memory_usage",
-                "condition": lambda metrics: any(m.metric_name == "memory_usage" and m.value > 85 for m in metrics),
+                "condition": lambda metrics: any(
+                    m.metric_name == "memory_usage" and m.value > 85 for m in metrics
+                ),
                 "recommendation": "Implement memory management strategies, clear caches, or increase available memory",
                 "priority": "high",
             },
             {
                 "name": "slow_tool_execution",
                 "condition": lambda metrics: any(
-                    m.metric_name == "avg_execution_time" and m.value > 5.0 for m in metrics
+                    m.metric_name == "avg_execution_time" and m.value > 5.0
+                    for m in metrics
                 ),
                 "recommendation": "Optimize slow tool implementations, consider caching, or implement parallel execution",
                 "priority": "medium",
             },
             {
                 "name": "high_error_rate",
-                "condition": lambda metrics: any(m.metric_name == "error_rate" and m.value > 0.15 for m in metrics),
+                "condition": lambda metrics: any(
+                    m.metric_name == "error_rate" and m.value > 0.15 for m in metrics
+                ),
                 "recommendation": "Investigate error causes, improve error handling, and enhance validation",
                 "priority": "high",
             },
             {
                 "name": "excessive_disk_io",
                 "condition": lambda metrics: any(
-                    m.metric_name in ["disk_read_mb_per_sec", "disk_write_mb_per_sec"] and m.value > 100
+                    m.metric_name in ["disk_read_mb_per_sec", "disk_write_mb_per_sec"]
+                    and m.value > 100
                     for m in metrics
                 ),
                 "recommendation": "Optimize file operations, implement caching, or consider using faster storage",
@@ -465,7 +479,9 @@ class PerformanceOptimizer:
             },
         ]
 
-    def generate_recommendations(self, metrics: list[PerformanceMetric]) -> list[dict[str, Any]]:
+    def generate_recommendations(
+        self, metrics: list[PerformanceMetric]
+    ) -> list[dict[str, Any]]:
         """Generate optimization recommendations based on metrics"""
         recommendations = []
 
@@ -502,8 +518,12 @@ class PerformanceMonitor:
         self.config = config or {}
 
         # Components
-        self.collector = PerformanceCollector(collection_interval=self.config.get("collection_interval", 1.0))
-        self.analyzer = PerformanceAnalyzer(alert_thresholds=self.config.get("alert_thresholds"))
+        self.collector = PerformanceCollector(
+            collection_interval=self.config.get("collection_interval", 1.0)
+        )
+        self.analyzer = PerformanceAnalyzer(
+            alert_thresholds=self.config.get("alert_thresholds")
+        )
         self.optimizer = PerformanceOptimizer()
 
         # State
@@ -512,7 +532,9 @@ class PerformanceMonitor:
         self.performance_history = deque(maxlen=1000)
 
         # Export configuration
-        self.export_directory = Path(self.config.get("export_directory", "data/performance"))
+        self.export_directory = Path(
+            self.config.get("export_directory", "data/performance")
+        )
         self.export_directory.mkdir(parents=True, exist_ok=True)
 
         logger.info("Performance Monitor initialized")
@@ -552,7 +574,9 @@ class PerformanceMonitor:
         while self.monitoring:
             try:
                 # Get recent metrics
-                metrics = self.collector.get_recent_metrics(time_window=300)  # 5 minutes
+                metrics = self.collector.get_recent_metrics(
+                    time_window=300
+                )  # 5 minutes
 
                 if metrics:
                     # Analyze metrics
@@ -580,11 +604,15 @@ class PerformanceMonitor:
                     # Log significant alerts
                     critical_alerts = [a for a in alerts if a.severity == "critical"]
                     if critical_alerts:
-                        logger.critical(f"Performance critical alerts: {len(critical_alerts)}")
+                        logger.critical(
+                            f"Performance critical alerts: {len(critical_alerts)}"
+                        )
 
                     warning_alerts = [a for a in alerts if a.severity == "warning"]
                     if warning_alerts:
-                        logger.warning(f"Performance warning alerts: {len(warning_alerts)}")
+                        logger.warning(
+                            f"Performance warning alerts: {len(warning_alerts)}"
+                        )
 
                 await asyncio.sleep(analysis_interval)
 
@@ -592,7 +620,9 @@ class PerformanceMonitor:
                 logger.error(f"Performance analysis error: {e}")
                 await asyncio.sleep(10)
 
-    def _calculate_health_score(self, metrics: list[PerformanceMetric], alerts: list[PerformanceAlert]) -> float:
+    def _calculate_health_score(
+        self, metrics: list[PerformanceMetric], alerts: list[PerformanceAlert]
+    ) -> float:
         """Calculate overall system health score (0.0 to 1.0)"""
         if not metrics:
             return 0.5  # Neutral score with no data
@@ -638,9 +668,15 @@ class PerformanceMonitor:
         if self.last_analysis:
             status["health_score"] = self.last_analysis.get("health_score", 0.5)
             status["critical_alerts"] = len(
-                [a for a in self.last_analysis.get("alerts", []) if a.get("severity") == "critical"]
+                [
+                    a
+                    for a in self.last_analysis.get("alerts", [])
+                    if a.get("severity") == "critical"
+                ]
             )
-            status["recommendations_count"] = len(self.last_analysis.get("recommendations", []))
+            status["recommendations_count"] = len(
+                self.last_analysis.get("recommendations", [])
+            )
 
         return status
 
@@ -659,7 +695,9 @@ class PerformanceMonitor:
             "summary": self.analyzer.get_performance_summary(metrics),
             "alerts": [asdict(a) for a in self.analyzer.analyze_metrics(metrics)],
             "recommendations": self.optimizer.generate_recommendations(metrics),
-            "health_score": self._calculate_health_score(metrics, self.analyzer.analyze_metrics(metrics)),
+            "health_score": self._calculate_health_score(
+                metrics, self.analyzer.analyze_metrics(metrics)
+            ),
             "monitoring_config": self.config,
             "raw_metrics": [asdict(m) for m in metrics[-1000:]],  # Last 1000 metrics
         }
@@ -679,7 +717,9 @@ class PerformanceMonitor:
 _monitor: Optional[PerformanceMonitor] = None
 
 
-def get_performance_monitor(config: Optional[dict[str, Any]] = None) -> PerformanceMonitor:
+def get_performance_monitor(
+    config: Optional[dict[str, Any]] = None,
+) -> PerformanceMonitor:
     """Get or create the global performance monitor instance"""
     global _monitor
     if _monitor is None:
@@ -689,8 +729,13 @@ def get_performance_monitor(config: Optional[dict[str, Any]] = None) -> Performa
 
 # Integration function for tool executors
 def record_tool_execution(
-    tool_name: str, execution_time: float, success: bool, context: Optional[dict[str, Any]] = None
+    tool_name: str,
+    execution_time: float,
+    success: bool,
+    context: Optional[dict[str, Any]] = None,
 ):
     """Record tool execution metrics (convenience function)"""
     monitor = get_performance_monitor()
-    monitor.collector.tool_collector.record_execution(tool_name, execution_time, success, context)
+    monitor.collector.tool_collector.record_execution(
+        tool_name, execution_time, success, context
+    )

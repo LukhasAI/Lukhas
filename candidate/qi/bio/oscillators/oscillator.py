@@ -140,7 +140,9 @@ class BioOscillator:
         """Synchronize all connected components"""
         # ΛTAG: bio
         # ΛTAG: pulse
-        logger.info(f"Synchronizing to {self.oscillation_type} at {self.target_frequency}Hz")
+        logger.info(
+            f"Synchronizing to {self.oscillation_type} at {self.target_frequency}Hz"
+        )
 
         self.current_frequency = self.target_frequency
         self.state = OscillatorState.ACTIVE
@@ -158,7 +160,9 @@ class BioOscillator:
             return
 
         # Calculate phase relation
-        self.phase_relations[component_id] = self._calculate_phase_relation(component_id)
+        self.phase_relations[component_id] = self._calculate_phase_relation(
+            component_id
+        )
 
     def _calculate_phase_relation(self, component_id: str) -> float:
         """Calculate phase relationship for a component"""
@@ -176,7 +180,9 @@ class BioOscillator:
         }
         return frequencies[oscillation_type]
 
-    async def register_component(self, component_id: str, sync_factor: float = 1.0) -> bool:
+    async def register_component(
+        self, component_id: str, sync_factor: float = 1.0
+    ) -> bool:
         """Register a component for oscillation synchronization"""
         # ΛTAG: bio
         if not self._check_verification():
@@ -218,8 +224,14 @@ class BioOscillator:
             "qi_sync": self.qi_sync,
             "timestamp": datetime.utcnow().isoformat(),
             "verification": {
-                "identity_legacy": (self._security_context.lukhas_id if self._security_context else None),
-                "access_level": (self._security_context.access_level if self._security_context else None),
+                "identity_legacy": (
+                    self._security_context.lukhas_id if self._security_context else None
+                ),
+                "access_level": (
+                    self._security_context.access_level
+                    if self._security_context
+                    else None
+                ),
             },
         }
 
@@ -233,7 +245,9 @@ class BioOscillator:
 
             # Verify access level
             if security_context.access_level < 2:  # Require level 2+
-                logger.error(f"Insufficient access level: {security_context.access_level}")
+                logger.error(
+                    f"Insufficient access level: {security_context.access_level}"
+                )
                 return False
 
             # Verify session token
@@ -279,7 +293,9 @@ class BioOscillator:
             "type": "bio_oscillator",
         }
 
-        return hashlib.sha256(json.dumps(token_data, sort_keys=True).encode()).hexdigest()
+        return hashlib.sha256(
+            json.dumps(token_data, sort_keys=True).encode()
+        ).hexdigest()
 
     def _check_verification(self) -> bool:
         """Check if oscillator has valid verification"""
@@ -326,7 +342,9 @@ class MoodOscillator(BioOscillator):
             drift_score: The current drift score.
         """
         # #ΛTAG: endocrine_debug
-        logger.info(f"Updating mood with affect_delta: {affect_delta} and drift_score: {drift_score}")
+        logger.info(
+            f"Updating mood with affect_delta: {affect_delta} and drift_score: {drift_score}"
+        )
         self.affect_delta = affect_delta
         self.driftScore = drift_score
 
@@ -357,7 +375,9 @@ class MoodOscillator(BioOscillator):
 
         if self.auto_regulate_neuroplasticity:
             self.sync_threshold = 0.85 - (self.driftScore * 0.1)
-            logger.info(f"Neuroplasticity adjusted sync_threshold to {self.sync_threshold}")
+            logger.info(
+                f"Neuroplasticity adjusted sync_threshold to {self.sync_threshold}"
+            )
 
         # #ΛTAG: endocrine_debug
         logger.info(f"New mood: {self.mood_state} with intensity {self.mood_intensity}")
@@ -382,7 +402,9 @@ class MoodOscillator(BioOscillator):
 
     # LUKHAS_TAG: bio_drift_response
     # ΛTAG: hormone_tuning
-    def bio_drift_response(self, emotional_signals: dict[str, float]) -> dict[str, float]:
+    def bio_drift_response(
+        self, emotional_signals: dict[str, float]
+    ) -> dict[str, float]:
         """
         Receives emotional signals and returns drift-adjusted pulse data.
 
@@ -399,7 +421,11 @@ class MoodOscillator(BioOscillator):
                 "variability": 0.0,
             }
 
-        affect_delta = sum(emotional_signals.values()) / len(emotional_signals) if emotional_signals else 0.0
+        affect_delta = (
+            sum(emotional_signals.values()) / len(emotional_signals)
+            if emotional_signals
+            else 0.0
+        )
         self.update_mood(affect_delta, self.driftScore)
 
         return {

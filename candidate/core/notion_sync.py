@@ -139,7 +139,9 @@ def make_toggle_block(module_name, header_text, usage_text):
         "object": "block",
         "type": "toggle",
         "toggle": {
-            "rich_text": [{"type": "text", "text": {"content": f"📦 {module_name}.py"}}],
+            "rich_text": [
+                {"type": "text", "text": {"content": f"📦 {module_name}.py"}}
+            ],
             "children": [
                 make_code_block(header_text, lang="text"),
                 make_code_block(usage_text, lang="python"),
@@ -186,7 +188,9 @@ def make_flat_block(module_name, header_text, usage_text):
                 "rich_text": [
                     {
                         "type": "text",
-                        "text": {"content": f"🕒 Synced on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"},
+                        "text": {
+                            "content": f"🕒 Synced on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                        },
                     }
                 ]
             },
@@ -200,7 +204,11 @@ def make_minimal_block(module_name, usage_text):
         {
             "object": "block",
             "type": "heading_3",
-            "heading_3": {"rich_text": [{"type": "text", "text": {"content": f"{module_name}.py"}}]},
+            "heading_3": {
+                "rich_text": [
+                    {"type": "text", "text": {"content": f"{module_name}.py"}}
+                ]
+            },
         },
         make_code_block(usage_text, lang="python"),
     ]
@@ -280,7 +288,10 @@ def log_audit_with_lid(action: str, metadata: Optional[dict[str, Any]] = None):
     }
     audit_path = Path("reflection/audits")
     audit_path.mkdir(parents=True, exist_ok=True)
-    log_file_path = audit_path / f"audit_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
+    log_file_path = (
+        audit_path
+        / f"audit_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
+    )
     with log_file_path.open("w") as f:
         json.dump(audit_entry, f, indent=2)
 
@@ -307,7 +318,9 @@ def run_legacy_streamlit_mode():
 
         # Sidebar controls
         dark_mode = st.sidebar.checkbox("🌙 Enable Dark Mode", value=default_dark)
-        auto_summary_enabled = st.sidebar.checkbox("🧠 Enable GPT Auto Summary", value=False)
+        auto_summary_enabled = st.sidebar.checkbox(
+            "🧠 Enable GPT Auto Summary", value=False
+        )
 
         # Save settings
         stored_config["dark_mode"] = dark_mode
@@ -350,13 +363,19 @@ def run_legacy_streamlit_mode():
             modules = [(modules[i], modules[i + 1]) for i in range(0, len(modules), 2)]
 
             # Layout selection
-            layout_template = st.sidebar.selectbox("📋 Layout Style", ["toggle", "flat", "minimal"], index=0)
+            layout_template = st.sidebar.selectbox(
+                "📋 Layout Style", ["toggle", "flat", "minimal"], index=0
+            )
 
             # Prepare blocks
             blocks = []
             for mod_name, mod_text in modules:
-                header_match = re.search(r"#### Header Info\n```text\n(.*?)```", mod_text, re.DOTALL)
-                usage_match = re.search(r"#### Usage Guide\n```text\n(.*?)```", mod_text, re.DOTALL)
+                header_match = re.search(
+                    r"#### Header Info\n```text\n(.*?)```", mod_text, re.DOTALL
+                )
+                usage_match = re.search(
+                    r"#### Usage Guide\n```text\n(.*?)```", mod_text, re.DOTALL
+                )
 
                 header = header_match.group(1) if header_match else "No header found"
                 usage = usage_match.group(1) if usage_match else "No usage guide found"
@@ -429,7 +448,9 @@ def run_legacy_streamlit_mode():
             # GPT Assistant
             if OPENAI_AVAILABLE:
                 st.markdown("### 🤖 Ask ChatGPT about this module")
-                user_question = st.text_input("💬 Enter your question about this module:", "")
+                user_question = st.text_input(
+                    "💬 Enter your question about this module:", ""
+                )
 
                 if user_question and modules:
                     try:
@@ -445,8 +466,14 @@ def run_legacy_streamlit_mode():
                             re.DOTALL,
                         )
 
-                        header = header_match.group(1) if header_match else "No header found"
-                        usage = usage_match.group(1) if usage_match else "No usage guide found"
+                        header = (
+                            header_match.group(1) if header_match else "No header found"
+                        )
+                        usage = (
+                            usage_match.group(1)
+                            if usage_match
+                            else "No usage guide found"
+                        )
 
                         module_text = f"MODULE: {first_mod_name}.py\n\nHeader Info:\n{header}\n\nUsage Guide:\n{usage}"
 
@@ -485,7 +512,9 @@ def run_legacy_streamlit_mode():
 
                             # Try new OpenAI API format first, fall back to legacy
                             try:
-                                client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+                                client = openai.OpenAI(
+                                    api_key=os.getenv("OPENAI_API_KEY")
+                                )
                                 concept_response = client.chat.completions.create(
                                     model="gpt-4",
                                     messages=[
@@ -495,7 +524,9 @@ def run_legacy_streamlit_mode():
                                         }
                                     ],
                                 )
-                                concept_text = concept_response.choices[0].message.content
+                                concept_text = concept_response.choices[
+                                    0
+                                ].message.content
                             except AttributeError:
                                 # Fallback to legacy API
                                 concept_response = openai.ChatCompletion.create(
@@ -507,14 +538,22 @@ def run_legacy_streamlit_mode():
                                         }
                                     ],
                                 )
-                                concept_text = concept_response["choices"][0]["message"]["content"]
+                                concept_text = concept_response["choices"][0][
+                                    "message"
+                                ]["content"]
 
-                            extracted_concepts = [c.strip() for c in concept_text.split(",") if len(c.strip()) > 2]
+                            extracted_concepts = [
+                                c.strip()
+                                for c in concept_text.split(",")
+                                if len(c.strip()) > 2
+                            ]
 
                             st.markdown("### 🔍 Explore GPT-Generated Concepts:")
                             for concept in extracted_concepts:
                                 if st.button(f"🔹 {concept}"):
-                                    st.info(f"🧠 GPT says: **{concept}** is worth exploring.")
+                                    st.info(
+                                        f"🧠 GPT says: **{concept}** is worth exploring."
+                                    )
 
                         except Exception:
                             st.warning("Could not generate concept list.")
@@ -525,7 +564,9 @@ def run_legacy_streamlit_mode():
                 st.warning("OpenAI API key not found in .env file.")
 
         else:
-            st.warning("manual.md not found - please create it with module documentation")
+            st.warning(
+                "manual.md not found - please create it with module documentation"
+            )
 
         # Background scheduler
         if st.sidebar.button("Enable Notion Watchdog"):
@@ -607,7 +648,9 @@ async def run_sync_engine(args):
         if args.sync_type:
             # Run immediate sync
             logger.info(f"Running {args.sync_type} sync")
-            result = await engine.run_sync(sync_type=args.sync_type, files=args.files, force=args.force)
+            result = await engine.run_sync(
+                sync_type=args.sync_type, files=args.files, force=args.force
+            )
 
             if result.get("success"):
                 print("✅ Sync completed successfully!")
@@ -753,10 +796,14 @@ Examples:
         choices=["manual", "auto", "daily"],
         help="Run sync operation",
     )
-    parser.add_argument("--daemon", action="store_true", help="Run as background daemon")
+    parser.add_argument(
+        "--daemon", action="store_true", help="Run as background daemon"
+    )
     parser.add_argument("--config", type=str, help="Path to configuration file")
     parser.add_argument("--files", nargs="+", help="Specific files to sync")
-    parser.add_argument("--force", action="store_true", help="Force sync (ignore cache)")
+    parser.add_argument(
+        "--force", action="store_true", help="Force sync (ignore cache)"
+    )
     parser.add_argument("--test", action="store_true", help="Run system tests")
     parser.add_argument("--quiet", action="store_true", help="Suppress banner output")
     parser.add_argument("--debug", action="store_true", help="Enable debug logging")

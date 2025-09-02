@@ -75,7 +75,9 @@ class ConsciousnessPlatformAPI:
     Provides consciousness simulation without exposing LUKHAS personality
     """
 
-    def __init__(self, consciousness_level: ConsciousnessLevel = ConsciousnessLevel.BASIC):
+    def __init__(
+        self, consciousness_level: ConsciousnessLevel = ConsciousnessLevel.BASIC
+    ):
         """
         Initialize Consciousness Platform
 
@@ -114,9 +116,7 @@ class ConsciousnessPlatformAPI:
 
         # Initialize awareness and reflection
         from consciousness.awareness.awareness_engine import AwarenessEngine
-        from consciousness.reflection.self_reflection_engine import (
-            ReflectionEngine,
-        )
+        from consciousness.reflection.self_reflection_engine import ReflectionEngine
 
         self._awareness_tracker = AwarenessEngine()
         self._reflection_engine = ReflectionEngine()
@@ -182,11 +182,15 @@ class ConsciousnessPlatformAPI:
 
         # Add history if requested
         if query.include_history and query.time_window:
-            result["history"] = self._get_awareness_history(query.awareness_types, query.time_window)
+            result["history"] = self._get_awareness_history(
+                query.awareness_types, query.time_window
+            )
 
         # Add predictions if requested
         if query.include_predictions:
-            result["predictions"] = await self._predict_awareness_changes(query.awareness_types)
+            result["predictions"] = await self._predict_awareness_changes(
+                query.awareness_types
+            )
 
         return result
 
@@ -203,7 +207,9 @@ class ConsciousnessPlatformAPI:
         await self.initialize()
 
         # Perform reflection at requested depth
-        reflection_data = await self._perform_reflection(topic=request.topic, depth=request.depth)
+        reflection_data = await self._perform_reflection(
+            topic=request.topic, depth=request.depth
+        )
 
         result = {
             "topic": request.topic,
@@ -214,14 +220,21 @@ class ConsciousnessPlatformAPI:
 
         # Add emotional context if requested
         if request.include_emotions:
-            result["emotional_context"] = await self._get_emotional_reflection(request.topic)
+            result["emotional_context"] = await self._get_emotional_reflection(
+                request.topic
+            )
 
         # Add memory connections if requested
         if request.include_memories:
-            result["memory_connections"] = await self._get_memory_connections(request.topic)
+            result["memory_connections"] = await self._get_memory_connections(
+                request.topic
+            )
 
         # Use quantum reflection if requested and available
-        if request.use_quantum_reflection and self.consciousness_level == ConsciousnessLevel.QUANTUM:
+        if (
+            request.use_quantum_reflection
+            and self.consciousness_level == ConsciousnessLevel.QUANTUM
+        ):
             result["qi_insights"] = await self._quantum_reflect(request.topic)
 
         return result
@@ -245,7 +258,9 @@ class ConsciousnessPlatformAPI:
         except Exception:
             return False
 
-    async def process_input(self, input_data: Any, input_type: str = "text") -> dict[str, Any]:
+    async def process_input(
+        self, input_data: Any, input_type: str = "text"
+    ) -> dict[str, Any]:
         """
         Process input through consciousness system
 
@@ -259,7 +274,9 @@ class ConsciousnessPlatformAPI:
         await self.initialize()
 
         # Process through consciousness engine
-        processed = await self._consciousness_engine.process(input_data, input_type=input_type)
+        processed = await self._consciousness_engine.process(
+            input_data, input_type=input_type
+        )
 
         return {
             "processed": True,
@@ -316,7 +333,9 @@ class ConsciousnessPlatformAPI:
         """Calculate consciousness coherence"""
         return 0.85
 
-    async def _get_awareness_data(self, awareness_type: AwarenessType) -> dict[str, Any]:
+    async def _get_awareness_data(
+        self, awareness_type: AwarenessType
+    ) -> dict[str, Any]:
         """Get detailed awareness data"""
         return {
             "score": await self._calculate_awareness_score(awareness_type),
@@ -324,12 +343,16 @@ class ConsciousnessPlatformAPI:
             "last_update": datetime.utcnow().isoformat(),
         }
 
-    def _get_awareness_history(self, types: list[AwarenessType], window: int) -> list[dict]:
+    def _get_awareness_history(
+        self, types: list[AwarenessType], window: int
+    ) -> list[dict]:
         """Get historical awareness data"""
         # Simplified - real implementation would query history
         return []
 
-    async def _predict_awareness_changes(self, types: list[AwarenessType]) -> dict[str, Any]:
+    async def _predict_awareness_changes(
+        self, types: list[AwarenessType]
+    ) -> dict[str, Any]:
         """Predict future awareness changes"""
         return {"predictions": {}, "confidence": 0.7}
 
@@ -392,7 +415,9 @@ async def example_consciousness_usage():
     """Example of using the Consciousness Platform API"""
 
     # Initialize with enhanced consciousness
-    consciousness_api = ConsciousnessPlatformAPI(consciousness_level=ConsciousnessLevel.ENHANCED)
+    consciousness_api = ConsciousnessPlatformAPI(
+        consciousness_level=ConsciousnessLevel.ENHANCED
+    )
 
     # Get current state
     state = await consciousness_api.get_state()
@@ -422,7 +447,9 @@ async def example_consciousness_usage():
     print(f"Reflection Insights: {reflection_result['insights']}")
 
     # Process input
-    processing_result = await consciousness_api.process_input("What does it mean to be conscious?", input_type="text")
+    processing_result = await consciousness_api.process_input(
+        "What does it mean to be conscious?", input_type="text"
+    )
     print(f"Understanding Level: {processing_result['understanding_level']}")
 
     # Get metrics

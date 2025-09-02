@@ -59,18 +59,12 @@ IDEA: Implement symbolic genealogy tracking for motif evolution analysis
 import hashlib
 import json
 import re
-from collections import Counter
-from collections import defaultdict
-from dataclasses import asdict
-from dataclasses import dataclass
-from dataclasses import field
-from datetime import datetime
-from datetime import timedelta
-from datetime import timezone
+from collections import Counter, defaultdict
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
 import structlog
@@ -233,9 +227,8 @@ class SymbolicAnomalyExplorer:
         self.drift_tracker = None
         if drift_integration:
             try:
-                from candidate.core.symbolic.drift.symbolic_drift_tracker import (
-                    SymbolicDriftTracker,
-                )
+                from candidate.core.symbolic.drift.symbolic_drift_tracker import \
+                    SymbolicDriftTracker
 
                 self.drift_tracker = SymbolicDriftTracker()
                 logger.info("Drift tracker integration enabled")

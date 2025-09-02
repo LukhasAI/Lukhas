@@ -167,7 +167,9 @@ class QuantizedThoughtProcessor:
         await self.input_queue.put(quantum)
         return qi.id
 
-    async def get_result(self, timeout: Optional[float] = None) -> Optional[ThoughtQuantum]:
+    async def get_result(
+        self, timeout: Optional[float] = None
+    ) -> Optional[ThoughtQuantum]:
         """Get processed result from output queue"""
         try:
             if timeout:
@@ -192,7 +194,9 @@ class QuantizedThoughtProcessor:
 
                 # Regenerate energy (only if we processed something)
                 if self.cycle_counter % 10 == 0:  # Regenerate every 10 cycles
-                    self.energy_pool = min(100, self.energy_pool + self.energy_regeneration_rate)
+                    self.energy_pool = min(
+                        100, self.energy_pool + self.energy_regeneration_rate
+                    )
 
                 # Calculate timing
                 cycle_duration = (time.time() - cycle_start) * 1000
@@ -364,7 +368,9 @@ class QuantizedThoughtProcessor:
             "successful_cycles": self.metrics.successful_cycles,
             "failed_cycles": self.metrics.failed_cycles,
             "success_rate": (
-                self.metrics.successful_cycles / self.metrics.total_cycles if self.metrics.total_cycles > 0 else 0
+                self.metrics.successful_cycles / self.metrics.total_cycles
+                if self.metrics.total_cycles > 0
+                else 0
             ),
             "average_cycle_time_ms": round(self.metrics.average_cycle_time_ms, 2),
             "current_frequency_hz": round(self.metrics.current_frequency_hz, 2),
@@ -392,7 +398,9 @@ async def demo_quantized_cycles():
     # Submit some thoughts
     thought_ids = []
     for i in range(5):
-        thought_id = await processor.submit_thought(f"Test thought {i}", energy_required=1)
+        thought_id = await processor.submit_thought(
+            f"Test thought {i}", energy_required=1
+        )
         thought_ids.append(thought_id)
         logger.info(f"Submitted thought: {thought_id}")
 

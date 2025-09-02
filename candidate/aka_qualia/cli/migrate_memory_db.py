@@ -22,10 +22,12 @@ def get_current_schema_version(engine):
     try:
         with engine.connect() as conn:
             result = conn.execute(
-                text("""
+                text(
+                    """
                 SELECT version FROM akaq_schema_metadata
                 ORDER BY applied_at DESC LIMIT 1
-            """)
+            """
+                )
             )
             row = result.fetchone()
             return row[0] if row else None
@@ -45,20 +47,24 @@ def apply_migration_v1(engine):
     # Add schema metadata
     with engine.connect() as conn:
         conn.execute(
-            text("""
+            text(
+                """
             CREATE TABLE IF NOT EXISTS akaq_schema_metadata (
                 version INTEGER PRIMARY KEY,
                 applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 description TEXT
             )
-        """)
+        """
+            )
         )
 
         conn.execute(
-            text("""
+            text(
+                """
             INSERT INTO akaq_schema_metadata (version, description)
             VALUES (1, 'Core tables: akaq_scene, akaq_glyph, akaq_memory_ops')
-        """)
+        """
+            )
         )
 
         conn.commit()
@@ -73,7 +79,12 @@ def verify_schema_integrity(engine):
     inspector = inspect(engine)
     tables = inspector.get_table_names()
 
-    required_tables = ["akaq_scene", "akaq_glyph", "akaq_memory_ops", "akaq_schema_metadata"]
+    required_tables = [
+        "akaq_scene",
+        "akaq_glyph",
+        "akaq_memory_ops",
+        "akaq_schema_metadata",
+    ]
     missing_tables = [table for table in required_tables if table not in tables]
 
     if missing_tables:
@@ -84,11 +95,13 @@ def verify_schema_integrity(engine):
     with engine.connect() as conn:
         # Verify scene-glyph relationship
         result = conn.execute(
-            text("""
+            text(
+                """
             SELECT COUNT(*) FROM akaq_glyph g
             LEFT JOIN akaq_scene s ON g.scene_id = s.scene_id
             WHERE s.scene_id IS NULL
-        """)
+        """
+            )
         )
         orphaned_glyphs = result.scalar()
 
@@ -149,11 +162,23 @@ Examples:
     )
 
     parser.add_argument(
-        "--db-url", required=True, help="Database connection URL (sqlite:///path.db or postgresql://...)"
+        "--db-url",
+        required=True,
+        help="Database connection URL (sqlite:///path.db or postgresql://...)",
     )
-    parser.add_argument("--apply", action="store_true", help="Apply migrations (default: dry run)")
-    parser.add_argument("--reset", action="store_true", help="Reset database by dropping all tables first")
-    parser.add_argument("--verify-only", action="store_true", help="Only verify schema integrity, no migrations")
+    parser.add_argument(
+        "--apply", action="store_true", help="Apply migrations (default: dry run)"
+    )
+    parser.add_argument(
+        "--reset",
+        action="store_true",
+        help="Reset database by dropping all tables first",
+    )
+    parser.add_argument(
+        "--verify-only",
+        action="store_true",
+        help="Only verify schema integrity, no migrations",
+    )
 
     args = parser.parse_args()
 

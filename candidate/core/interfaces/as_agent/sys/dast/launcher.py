@@ -33,10 +33,14 @@ def startup_sequence():
     # Example: Schedule a DST check-in
     from datetime import datetime, timedelta
 
-    lukhas_scheduler.schedule_task("DST Check", datetime.utcnow() + timedelta(minutes=2))
+    lukhas_scheduler.schedule_task(
+        "DST Check", datetime.utcnow() + timedelta(minutes=2)
+    )
 
     # Example: Create a preview widget
-    widget = lukhas_widget_engine.create_symbolic_widget("travel", user_tier=4, context_data={"vendor": "Uber"})
+    widget = lukhas_widget_engine.create_symbolic_widget(
+        "travel", user_tier=4, context_data={"vendor": "Uber"}
+    )
     if widget.get("status") != "locked":
         print(f"[Launcher] Widget initialized: {widget['title']}")
 

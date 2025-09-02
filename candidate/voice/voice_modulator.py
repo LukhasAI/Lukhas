@@ -215,7 +215,9 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected voice modulation: {validation_result.get('reason')}")
+                raise ValueError(
+                    f"Guardian rejected voice modulation: {validation_result.get('reason')}"
+                )
 
             # Convert audio data to numpy array
             audio_array = self._bytes_to_audio_array(audio_data, sample_rate)
@@ -240,8 +242,12 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
             # 3. Volume adjustment
             if parameters.volume_gain != 1.0:
-                modulated_audio = self._apply_volume_adjustment(modulated_audio, parameters.volume_gain)
-                processing_metadata["volume_adjustment"] = {"gain": parameters.volume_gain}
+                modulated_audio = self._apply_volume_adjustment(
+                    modulated_audio, parameters.volume_gain
+                )
+                processing_metadata["volume_adjustment"] = {
+                    "gain": parameters.volume_gain
+                }
 
             # 4. Formant shifting
             if parameters.formant_shift != 1.0:
@@ -252,18 +258,25 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
             # 5. Breathiness effect
             if parameters.breathiness > 0.0:
-                modulated_audio = await self._apply_breathiness(modulated_audio, parameters.breathiness, sample_rate)
+                modulated_audio = await self._apply_breathiness(
+                    modulated_audio, parameters.breathiness, sample_rate
+                )
                 processing_metadata["breathiness"] = {"level": parameters.breathiness}
 
             # 6. Roughness effect
             if parameters.roughness > 0.0:
-                modulated_audio = await self._apply_roughness(modulated_audio, parameters.roughness, sample_rate)
+                modulated_audio = await self._apply_roughness(
+                    modulated_audio, parameters.roughness, sample_rate
+                )
                 processing_metadata["roughness"] = {"level": parameters.roughness}
 
             # 7. Vibrato effect
             if parameters.vibrato_rate > 0.0 and parameters.vibrato_depth > 0.0:
                 modulated_audio = await self._apply_vibrato(
-                    modulated_audio, parameters.vibrato_rate, parameters.vibrato_depth, sample_rate
+                    modulated_audio,
+                    parameters.vibrato_rate,
+                    parameters.vibrato_depth,
+                    sample_rate,
                 )
                 processing_metadata["vibrato"] = {
                     "rate": parameters.vibrato_rate,
@@ -278,7 +291,9 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
                 "type": "VOICE_MODULATION",
                 "parameters": parameters.to_dict(),
                 "processing_metadata": processing_metadata,
-                "quality_metrics": await self._calculate_quality_metrics(audio_array, modulated_audio, sample_rate),
+                "quality_metrics": await self._calculate_quality_metrics(
+                    audio_array, modulated_audio, sample_rate
+                ),
                 "guardian_approved": True,
             }
 
@@ -293,9 +308,16 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
         except Exception as e:
             self.logger.error(f"Voice modulation failed: {e!s}")
-            await GLYPH.emit("voice.modulation.error", {"error": str(e), "parameters": parameters.to_dict()})
+            await GLYPH.emit(
+                "voice.modulation.error",
+                {"error": str(e), "parameters": parameters.to_dict()},
+            )
 
-            return audio_data, {"success": False, "error": str(e), "original_returned": True}
+            return audio_data, {
+                "success": False,
+                "error": str(e),
+                "original_returned": True,
+            }
 
     def get_supported_formats(self) -> list[AudioFormat]:
         """Get supported audio formats"""
@@ -445,7 +467,9 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             "algorithm": "spectral_envelope",
         }
 
-    async def _apply_breathiness(self, audio: np.ndarray, breathiness: float, sample_rate: int) -> np.ndarray:
+    async def _apply_breathiness(
+        self, audio: np.ndarray, breathiness: float, sample_rate: int
+    ) -> np.ndarray:
         """Add breathiness effect to voice"""
         # Add filtered noise to simulate breathiness
         noise = np.random.normal(0, 0.1, len(audio))
@@ -461,7 +485,9 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
         return breathy_audio
 
-    async def _apply_roughness(self, audio: np.ndarray, roughness: float, sample_rate: int) -> np.ndarray:
+    async def _apply_roughness(
+        self, audio: np.ndarray, roughness: float, sample_rate: int
+    ) -> np.ndarray:
         """Add roughness effect to voice"""
         # Add low-frequency modulation to simulate roughness
         t = np.arange(len(audio)) / sample_rate
@@ -475,7 +501,9 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
         return rough_audio
 
-    async def _apply_vibrato(self, audio: np.ndarray, rate: float, depth: float, sample_rate: int) -> np.ndarray:
+    async def _apply_vibrato(
+        self, audio: np.ndarray, rate: float, depth: float, sample_rate: int
+    ) -> np.ndarray:
         """Add vibrato effect to voice"""
         t = np.arange(len(audio)) / sample_rate
 
@@ -501,14 +529,17 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
         processed_rms = np.sqrt(np.mean(processed**2))
 
         # Dynamic range
-        dynamic_range = 20 * np.log10(np.max(np.abs(processed)) / (np.std(processed) + 1e-10))
+        dynamic_range = 20 * np.log10(
+            np.max(np.abs(processed)) / (np.std(processed) + 1e-10)
+        )
 
         return {
             "snr_db": float(snr),
             "original_rms": float(original_rms),
             "processed_rms": float(processed_rms),
             "dynamic_range_db": float(dynamic_range),
-            "processing_gain_db": 20 * np.log10((processed_rms + 1e-10) / (original_rms + 1e-10)),
+            "processing_gain_db": 20
+            * np.log10((processed_rms + 1e-10) / (original_rms + 1e-10)),
         }
 
 
@@ -573,7 +604,9 @@ class VoiceModulator:
                 parameters = await self.determine_parameters(mode, context or {})
 
             # Apply modulation
-            modulated_audio, metadata = await self.engine.modulate_audio(audio_data, parameters)
+            modulated_audio, metadata = await self.engine.modulate_audio(
+                audio_data, parameters
+            )
 
             # Add mode information to metadata
             metadata["modulation_mode"] = mode.value
@@ -589,7 +622,9 @@ class VoiceModulator:
                 "mode": mode.value if hasattr(mode, "value") else str(mode),
             }
 
-    def determine_parameters(self, mode: VoiceModulationMode, context: dict[str, Any]) -> VoiceParameters:
+    def determine_parameters(
+        self, mode: VoiceModulationMode, context: dict[str, Any]
+    ) -> VoiceParameters:
         """
         Determine voice parameters based on mode and context
         Implements context-aware parameter selection
@@ -621,7 +656,10 @@ class VoiceModulator:
         emotion = context.get("emotion", "neutral")
 
         # Use emotion mappings from engine
-        if hasattr(self.engine, "emotion_mappings") and emotion in self.engine.emotion_mappings:
+        if (
+            hasattr(self.engine, "emotion_mappings")
+            and emotion in self.engine.emotion_mappings
+        ):
             base_params = self.engine.emotion_mappings[emotion]
         else:
             base_params = VoiceParameters()
@@ -707,7 +745,9 @@ class VoiceModulator:
             arousal=-0.2,
         )
 
-    def _adapt_to_context(self, base_parameters: VoiceParameters, context: dict[str, Any]) -> VoiceParameters:
+    def _adapt_to_context(
+        self, base_parameters: VoiceParameters, context: dict[str, Any]
+    ) -> VoiceParameters:
         """Adapt parameters based on context"""
         adapted = VoiceParameters(
             pitch_shift=base_parameters.pitch_shift,
@@ -784,7 +824,9 @@ class LucasVoiceSystem:
                 "success": True,
                 "text": text,
                 "voice_mode": mode,
-                "parameters": self.voice_modulator.determine_parameters(VoiceModulationMode(mode), context).to_dict(),
+                "parameters": self.voice_modulator.determine_parameters(
+                    VoiceModulationMode(mode), context
+                ).to_dict(),
                 "context": context,
                 "gdpr_compliant": self.gdpr_enabled,
             }

@@ -56,7 +56,9 @@ def get_vivox_logger(name: str) -> logging.Logger:
         )
     else:
         # Detailed format for development
-        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s")
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s"
+        )
 
     handler.setFormatter(formatter)
     logger.addHandler(handler)
@@ -67,7 +69,9 @@ def get_vivox_logger(name: str) -> logging.Logger:
     return logger
 
 
-def log_performance(logger: logging.Logger, operation: str, elapsed: float, count: Optional[int] = None):
+def log_performance(
+    logger: logging.Logger, operation: str, elapsed: float, count: Optional[int] = None
+):
     """
     Log performance metrics at appropriate level
 

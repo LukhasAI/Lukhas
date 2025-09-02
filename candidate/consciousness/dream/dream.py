@@ -81,7 +81,11 @@ class DreamSystem:
                 logger.error(f"Oneiric dream generation failed: {e}")
 
         # Fallback
-        return {"type": "fallback_dream", "content": f"Dream seed: {seed}", "engine": "none"}
+        return {
+            "type": "fallback_dream",
+            "content": f"Dream seed: {seed}",
+            "engine": "none",
+        }
 
     def get_status(self) -> dict[str, Any]:
         """Get dream system status"""

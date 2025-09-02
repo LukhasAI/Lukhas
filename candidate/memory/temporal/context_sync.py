@@ -16,11 +16,7 @@ import json
 import os
 from datetime import datetime
 
-from memory_log_filter import (
-    filter_by_date_range,
-    filter_by_tag,
-    summarize_recent,
-)
+from memory_log_filter import filter_by_date_range, filter_by_tag, summarize_recent
 
 lukhas_context_sync.py
 # ════════════════════════════════════════════════════════════════════════
@@ -60,7 +56,11 @@ def generate_daily_context(user_id="Commander"):
             context["inferred_mood"] = "reflective"
 
         # Check for anniversary match
-        one_year_ago = (datetime.utcnow().replace(year=datetime.utcnow().year - 1)).date().isoformat()
+        one_year_ago = (
+            (datetime.utcnow().replace(year=datetime.utcnow().year - 1))
+            .date()
+            .isoformat()
+        )
         anniversary_memories = filter_by_date_range(one_year_ago, one_year_ago)
         if anniversary_memories:
             context["tags"].append("memory_anniversary")

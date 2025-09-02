@@ -105,7 +105,9 @@ class LucasDASTAPI:
             else:
                 # Manual filtering
                 all_tasks = list(self.dast_engine.tasks.values())
-                filtered_tasks = self._apply_filters(all_tasks, query, priority_filter, status_filter)
+                filtered_tasks = self._apply_filters(
+                    all_tasks, query, priority_filter, status_filter
+                )
                 tasks = self._format_tasks_for_api(filtered_tasks[:limit])
 
             response = {
@@ -155,7 +157,9 @@ class LucasDASTAPI:
         except Exception as e:
             return self._error_response(f"Task retrieval failed: {e!s}", 500)
 
-    async def put_task_progress(self, task_id: str, request_data: dict) -> dict[str, Any]:
+    async def put_task_progress(
+        self, task_id: str, request_data: dict
+    ) -> dict[str, Any]:
         """
         PUT /api/v2/tasks/{task_id}/progress
         Update task progress with AI insights
@@ -259,7 +263,9 @@ class LucasDASTAPI:
             response = {
                 "focus_tasks": focus_tasks,
                 "ai_recommendation": "Focus on these tasks for maximum impact",
-                "estimated_focus_time": sum(task.get("estimated_time", 60) for task in focus_tasks),
+                "estimated_focus_time": sum(
+                    task.get("estimated_time", 60) for task in focus_tasks
+                ),
                 "optimization_score": 8.5,  # AI-calculated score
             }
 
@@ -293,7 +299,9 @@ class LucasDASTAPI:
 
             # Generate analytics based on type
             if analytics_type == "performance":
-                analytics = self._generate_performance_analytics(performance_stats, timeframe)
+                analytics = self._generate_performance_analytics(
+                    performance_stats, timeframe
+                )
             elif analytics_type == "workflow":
                 analytics = self._generate_workflow_analytics(timeframe)
             elif analytics_type == "trends":
@@ -356,13 +364,18 @@ class LucasDASTAPI:
                 },
                 "api_health": {
                     "endpoints_operational": True,
-                    "response_time_target_met": performance_stats.get("performance_target_met", True),
+                    "response_time_target_met": performance_stats.get(
+                        "performance_target_met", True
+                    ),
                     "error_rate": self._calculate_error_rate(),
                 },
             }
 
             # Determine overall health
-            if not performance_stats.get("performance_target_met", True) or self._calculate_error_rate() > 0.05:
+            if (
+                not performance_stats.get("performance_target_met", True)
+                or self._calculate_error_rate() > 0.05
+            ):
                 health_status["status"] = "degraded"
 
             self._record_api_call("GET /health", time.time() - start_time)
@@ -429,7 +442,9 @@ class LucasDASTAPI:
             ]
 
         if priority_filter:
-            filtered = [task for task in filtered if task.priority.value == priority_filter]
+            filtered = [
+                task for task in filtered if task.priority.value == priority_filter
+            ]
 
         if status_filter:
             filtered = [task for task in filtered if task.status.value == status_filter]
@@ -498,7 +513,9 @@ class LucasDASTAPI:
                 "total_tasks": len(tasks),
             },
             "workflow_efficiency": {
-                "completion_rate": (status_distribution.get("completed", 0) / len(tasks) if tasks else 0),
+                "completion_rate": (
+                    status_distribution.get("completed", 0) / len(tasks) if tasks else 0
+                ),
                 "average_task_age": 3.5,  # days
                 "bottleneck_indicators": [],
             },
@@ -523,7 +540,9 @@ class LucasDASTAPI:
 
     def _generate_comprehensive_analytics(self, timeframe: int) -> dict:
         """Generate comprehensive analytics"""
-        performance = self._generate_performance_analytics(self.dast_engine.get_performance_stats(), timeframe)
+        performance = self._generate_performance_analytics(
+            self.dast_engine.get_performance_stats(), timeframe
+        )
         workflow = self._generate_workflow_analytics(timeframe)
         trends = self._generate_trend_analytics(timeframe)
 
@@ -622,14 +641,18 @@ class LucasDASTAPI:
 
         # Keep only recent metrics
         if len(self.performance_metrics[endpoint]) > 100:
-            self.performance_metrics[endpoint] = self.performance_metrics[endpoint][-100:]
+            self.performance_metrics[endpoint] = self.performance_metrics[endpoint][
+                -100:
+            ]
 
     def _calculate_average_api_response_time(self) -> float:
         """Calculate average API response time"""
         if not self.request_log:
             return 0.0
 
-        recent_requests = [req for req in self.request_log if time.time() - req["timestamp"] < 3600]
+        recent_requests = [
+            req for req in self.request_log if time.time() - req["timestamp"] < 3600
+        ]
         if not recent_requests:
             return 0.0
 

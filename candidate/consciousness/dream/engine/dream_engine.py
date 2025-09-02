@@ -49,7 +49,9 @@ class DreamEngine:
         self.memory = HelixMapper()
         self.cognitive = CognitiveVoiceEngine()
 
-    async def generate_dream_sequence(self, daily_data: list[dict[str, Any]]) -> dict[str, Any]:
+    async def generate_dream_sequence(
+        self, daily_data: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Generate and process dream sequences"""
         dream_patterns = self._extract_dream_patterns(daily_data)
         learning_outcomes = self._process_dream_learning(dream_patterns)
@@ -86,7 +88,10 @@ class DreamEngine:
             return False
 
         # Simple pattern detection
-        sequences = [tuple(dream_symbols[i : i + min_pattern]) for i in range(len(dream_symbols) - min_pattern + 1)]
+        sequences = [
+            tuple(dream_symbols[i : i + min_pattern])
+            for i in range(len(dream_symbols) - min_pattern + 1)
+        ]
         counts = Counter(sequences)
         repeated = [seq for seq, c in counts.items() if c > 1]
 

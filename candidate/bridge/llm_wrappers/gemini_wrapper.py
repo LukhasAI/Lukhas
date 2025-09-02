@@ -70,9 +70,13 @@ class GeminiWrapper(LLMWrapper):
                 self.model = genai.GenerativeModel("gemini-pro")
                 print(f"✅ Gemini initialized with key: {self.api_key[:20]}...")
             except ImportError:
-                print("Google AI package not installed. Install with: pip install google-generativeai")
+                print(
+                    "Google AI package not installed. Install with: pip install google-generativeai"
+                )
 
-    async def generate_response(self, prompt: str, model: str = "gemini-pro", **kwargs) -> tuple[str, str]:
+    async def generate_response(
+        self, prompt: str, model: str = "gemini-pro", **kwargs
+    ) -> tuple[str, str]:
         """Generate response using Gemini API"""
         guidance = (
             "When describing methods, prefer 'quantum-inspired' and 'bio-inspired'. "
@@ -84,7 +88,9 @@ class GeminiWrapper(LLMWrapper):
             return (normalize_output(fb) or fb), model
 
         try:
-            response = await self.model.generate_content_async(f"{guidance}\n\n{prompt}")
+            response = await self.model.generate_content_async(
+                f"{guidance}\n\n{prompt}"
+            )
             text = getattr(response, "text", None)
             return (normalize_output(text) or text or ""), model
         except Exception as e:

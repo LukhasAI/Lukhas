@@ -1038,7 +1038,9 @@ class VocabularyCreativityEngine:
 
         return list(set(symbolic_elements))  # Remove duplicates
 
-    def get_quality_indicators(self, success: bool, confidence: float, processing_time: float) -> str:
+    def get_quality_indicators(
+        self, success: bool, confidence: float, processing_time: float
+    ) -> str:
         """Get quality indicator symbols based on analysis results."""
         symbols = []
 

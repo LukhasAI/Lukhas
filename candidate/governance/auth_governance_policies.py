@@ -116,7 +116,9 @@ class AuthGovernancePolicyEngine:
         """Initialize the governance policy engine"""
         self.policy_rules: dict[str, PolicyRule] = {}
         self.policy_violations: list[PolicyViolation] = []
-        self.category_index: dict[PolicyCategory, set[str]] = {category: set() for category in PolicyCategory}
+        self.category_index: dict[PolicyCategory, set[str]] = {
+            category: set() for category in PolicyCategory
+        }
 
         # Initialize core policies
         self._initialize_core_policies()
@@ -554,13 +556,19 @@ class AuthGovernancePolicyEngine:
         applicable_policies = []
 
         for policy in self.policy_rules.values():
-            if "ALL" in policy.tier_applicability or tier_level in policy.tier_applicability:
+            if (
+                "ALL" in policy.tier_applicability
+                or tier_level in policy.tier_applicability
+            ):
                 applicable_policies.append(policy)
 
         return applicable_policies
 
     async def assess_compliance(
-        self, auth_context: dict[str, Any], tier_level: str, include_recommendations: bool = True
+        self,
+        auth_context: dict[str, Any],
+        tier_level: str,
+        include_recommendations: bool = True,
     ) -> PolicyAssessment:
         """Assess authentication compliance against governance policies"""
         violations = []
@@ -573,7 +581,9 @@ class AuthGovernancePolicyEngine:
 
             for policy in applicable_policies:
                 # Check policy compliance
-                compliance_result = await self._check_policy_compliance(policy, auth_context)
+                compliance_result = await self._check_policy_compliance(
+                    policy, auth_context
+                )
 
                 if not compliance_result["compliant"]:
                     violation = PolicyViolation(
@@ -607,7 +617,9 @@ class AuthGovernancePolicyEngine:
 
             # Generate additional recommendations
             if include_recommendations:
-                recommendations.extend(self._generate_compliance_recommendations(violations, auth_context))
+                recommendations.extend(
+                    self._generate_compliance_recommendations(violations, auth_context)
+                )
 
             return PolicyAssessment(
                 compliant=len(violations) == 0,
@@ -627,7 +639,9 @@ class AuthGovernancePolicyEngine:
                 assessment_timestamp=datetime.now(),
             )
 
-    async def _check_policy_compliance(self, policy: PolicyRule, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_policy_compliance(
+        self, policy: PolicyRule, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check compliance for a specific policy rule"""
         try:
             result = {
@@ -672,7 +686,9 @@ class AuthGovernancePolicyEngine:
                 "recommendations": ["Review policy implementation"],
             }
 
-    async def _check_identity_autonomy(self, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_identity_autonomy(
+        self, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check identity autonomy compliance"""
         # Check if user has control over authentication methods
         user_control = auth_context.get("user_control_enabled", True)
@@ -691,7 +707,9 @@ class AuthGovernancePolicyEngine:
 
         return {"compliant": True}
 
-    async def _check_access_fairness(self, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_access_fairness(
+        self, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check access fairness compliance"""
         bias_flags = auth_context.get("bias_flags", [])
         discriminatory_factors = auth_context.get("discriminatory_factors", [])
@@ -701,12 +719,17 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "access_discrimination",
                 "description": f"Potential bias detected: {bias_flags + discriminatory_factors}",
-                "recommendations": ["Review access decision criteria", "Implement bias correction"],
+                "recommendations": [
+                    "Review access decision criteria",
+                    "Implement bias correction",
+                ],
             }
 
         return {"compliant": True}
 
-    async def _check_access_transparency(self, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_access_transparency(
+        self, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check access transparency compliance"""
         has_reasoning = auth_context.get("reasoning") is not None
         outcome = auth_context.get("outcome")
@@ -716,12 +739,17 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "transparency_violation",
                 "description": "Access decision lacks clear reasoning",
-                "recommendations": ["Provide decision reasoning", "Implement explanation system"],
+                "recommendations": [
+                    "Provide decision reasoning",
+                    "Implement explanation system",
+                ],
             }
 
         return {"compliant": True}
 
-    async def _check_bias_detection(self, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_bias_detection(
+        self, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check bias detection compliance"""
         bias_monitoring = auth_context.get("bias_monitoring_enabled", False)
         bias_check_performed = auth_context.get("bias_check_performed", False)
@@ -739,7 +767,9 @@ class AuthGovernancePolicyEngine:
 
         return {"compliant": True}
 
-    async def _check_data_minimization(self, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_data_minimization(
+        self, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check data minimization compliance"""
         collected_data = auth_context.get("collected_data", {})
         necessary_fields = auth_context.get("necessary_fields", set())
@@ -759,22 +789,32 @@ class AuthGovernancePolicyEngine:
 
         return {"compliant": True}
 
-    async def _check_encryption_compliance(self, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_encryption_compliance(
+        self, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check encryption compliance"""
         encryption_enabled = auth_context.get("encryption_enabled", True)
         encryption_strength = auth_context.get("encryption_strength", "AES-256")
 
-        if not encryption_enabled or encryption_strength not in ["AES-256", "ChaCha20-Poly1305"]:
+        if not encryption_enabled or encryption_strength not in [
+            "AES-256",
+            "ChaCha20-Poly1305",
+        ]:
             return {
                 "compliant": False,
                 "violation_type": "encryption_violation",
                 "description": "Insufficient encryption for personal data",
-                "recommendations": ["Enable strong encryption", "Upgrade encryption protocols"],
+                "recommendations": [
+                    "Enable strong encryption",
+                    "Upgrade encryption protocols",
+                ],
             }
 
         return {"compliant": True}
 
-    async def _check_constitutional_validation(self, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_constitutional_validation(
+        self, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check constitutional AI validation compliance"""
         constitutional_valid = auth_context.get("constitutional_valid", False)
         constitutional_checked = auth_context.get("constitutional_checked", False)
@@ -792,7 +832,9 @@ class AuthGovernancePolicyEngine:
 
         return {"compliant": True}
 
-    async def _check_tier_fairness(self, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_tier_fairness(
+        self, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check tier assignment fairness"""
         tier_assignment_bias = auth_context.get("tier_assignment_bias", False)
         tier_criteria_documented = auth_context.get("tier_criteria_documented", True)
@@ -810,7 +852,9 @@ class AuthGovernancePolicyEngine:
 
         return {"compliant": True}
 
-    async def _check_t5_sso_requirement(self, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_t5_sso_requirement(
+        self, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check T5 SSO requirement compliance"""
         tier_level = auth_context.get("tier_level")
         sso_used = auth_context.get("sso_authentication", False)
@@ -820,12 +864,17 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "t5_sso_violation",
                 "description": "T5 tier user not using required SSO authentication",
-                "recommendations": ["Enforce SSO for T5 users", "Block non-SSO T5 access"],
+                "recommendations": [
+                    "Enforce SSO for T5 users",
+                    "Block non-SSO T5 access",
+                ],
             }
 
         return {"compliant": True}
 
-    async def _check_audit_logging(self, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_audit_logging(
+        self, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check audit logging compliance"""
         audit_logged = auth_context.get("audit_logged", False)
         audit_complete = auth_context.get("audit_complete", False)
@@ -843,7 +892,9 @@ class AuthGovernancePolicyEngine:
 
         return {"compliant": True}
 
-    async def _generic_policy_check(self, policy: PolicyRule, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _generic_policy_check(
+        self, policy: PolicyRule, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generic policy compliance check"""
         # Basic check for policy-specific flags in context
         policy_flag = f"{policy.id}_compliant"
@@ -868,14 +919,23 @@ class AuthGovernancePolicyEngine:
         # High-level recommendations based on violation patterns
         violation_types = [v.violation_type for v in violations]
 
-        if "bias_monitoring_failure" in violation_types or "access_discrimination" in violation_types:
-            recommendations.append("Implement comprehensive bias detection and prevention system")
+        if (
+            "bias_monitoring_failure" in violation_types
+            or "access_discrimination" in violation_types
+        ):
+            recommendations.append(
+                "Implement comprehensive bias detection and prevention system"
+            )
 
         if "constitutional_violation" in violation_types:
-            recommendations.append("Review and strengthen constitutional AI compliance framework")
+            recommendations.append(
+                "Review and strengthen constitutional AI compliance framework"
+            )
 
         if "transparency_violation" in violation_types:
-            recommendations.append("Enhance decision explanation and user communication systems")
+            recommendations.append(
+                "Enhance decision explanation and user communication systems"
+            )
 
         if len(violations) > 5:
             recommendations.append("Conduct comprehensive authentication system audit")
@@ -886,10 +946,14 @@ class AuthGovernancePolicyEngine:
         """Record a policy violation"""
         self.policy_violations.append(violation)
 
-    def get_violation_summary(self, days: int = 30, by_category: bool = True) -> dict[str, Any]:
+    def get_violation_summary(
+        self, days: int = 30, by_category: bool = True
+    ) -> dict[str, Any]:
         """Get summary of policy violations"""
         cutoff_date = datetime.now() - timedelta(days=days)
-        recent_violations = [v for v in self.policy_violations if v.detected_at >= cutoff_date]
+        recent_violations = [
+            v for v in self.policy_violations if v.detected_at >= cutoff_date
+        ]
 
         summary = {
             "total_violations": len(recent_violations),
@@ -918,20 +982,32 @@ class AuthGovernancePolicyEngine:
         # Most common violations
         violation_counts = {}
         for violation in recent_violations:
-            violation_counts[violation.policy_rule_id] = violation_counts.get(violation.policy_rule_id, 0) + 1
+            violation_counts[violation.policy_rule_id] = (
+                violation_counts.get(violation.policy_rule_id, 0) + 1
+            )
 
-        summary["most_common_violations"] = dict(sorted(violation_counts.items(), key=lambda x: x[1], reverse=True)[:5])
+        summary["most_common_violations"] = dict(
+            sorted(violation_counts.items(), key=lambda x: x[1], reverse=True)[:5]
+        )
 
         # Resolution rate
-        resolved_count = len([v for v in recent_violations if v.resolved_at is not None])
+        resolved_count = len(
+            [v for v in recent_violations if v.resolved_at is not None]
+        )
         if recent_violations:
             summary["resolution_rate"] = resolved_count / len(recent_violations)
 
         return summary
 
-    def export_policies(self, category: Optional[PolicyCategory] = None) -> dict[str, Any]:
+    def export_policies(
+        self, category: Optional[PolicyCategory] = None
+    ) -> dict[str, Any]:
         """Export governance policies for documentation"""
-        policies = self.get_policies_by_category(category) if category else list(self.policy_rules.values())
+        policies = (
+            self.get_policies_by_category(category)
+            if category
+            else list(self.policy_rules.values())
+        )
 
         return {
             "export_timestamp": datetime.now().isoformat(),

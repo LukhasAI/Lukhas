@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-
 # Use original open to avoid sandbox recursion
 import builtins
 import json

@@ -105,7 +105,9 @@ class AdaptiveInterfaceGenerator:
         # Default to desktop
         return self.device_profiles["desktop"]
 
-    def _select_components(self, prioritized_needs: list[dict], available_functions: list[str]) -> list[dict]:
+    def _select_components(
+        self, prioritized_needs: list[dict], available_functions: list[str]
+    ) -> list[dict]:
         """Select appropriate interface components"""
         selected = []
 
@@ -121,7 +123,10 @@ class AdaptiveInterfaceGenerator:
         for function in available_functions:
             if function in function_map:
                 selected.extend(
-                    [{"type": component_type, "priority": 0.5} for component_type in function_map[function]]
+                    [
+                        {"type": component_type, "priority": 0.5}
+                        for component_type in function_map[function]
+                    ]
                 )
 
         # Adjust priorities based on user needs
@@ -183,7 +188,9 @@ class AdaptiveInterfaceGenerator:
         # Define standard interactions
         for component in components:
             component_type = component["type"]
-            interactions[component_type] = self._get_standard_interactions(component_type)
+            interactions[component_type] = self._get_standard_interactions(
+                component_type
+            )
 
         return interactions
 
@@ -282,7 +289,9 @@ class AdaptiveInterfaceGenerator:
         """Get component specification by type"""
         return self.interface_components.get(component_type)
 
-    def _find_optimal_placement(self, component_spec: dict, grid: dict) -> Optional[dict]:
+    def _find_optimal_placement(
+        self, component_spec: dict, grid: dict
+    ) -> Optional[dict]:
         """Find optimal placement for component in grid"""
         # Placeholder - this would implement a layout algorithm
         # For now, return a simple placement
@@ -331,7 +340,9 @@ class AdaptiveInterfaceGenerator:
 
         # Adjust for text size
         text_size_map = {"small": "14px", "medium": "16px", "large": "18px"}
-        style["typography"]["base_size"] = text_size_map.get(user_profile.get("text_size", "medium"), "16px")
+        style["typography"]["base_size"] = text_size_map.get(
+            user_profile.get("text_size", "medium"), "16px"
+        )
 
         return style
 

@@ -13,7 +13,7 @@ Trinity Framework Integration: ⚛️🧠🛡️
 
 Usage:
     from lukhas.branding_bridge import (
-        get_brand_voice, validate_output, get_constellation_context,
+        get_brand_voice, validate_output, get_trinity_context,
         initialize_branding, get_system_signature
     )
 """
@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 # Core System Constants
 SYSTEM_NAME = "LUKHAS AI"
 SYSTEM_VERSION = "2.0"
-CONSTELLATION_FRAMEWORK = "⚛️🧠🛡️"
+TRINITY_FRAMEWORK = "⚛️🧠🛡️"
 
 # Trinity Framework Symbols
 IDENTITY_SYMBOL = "⚛️"
@@ -87,13 +87,13 @@ TRINITY_DESCRIPTIONS = {
 
 def _get_system_signature() -> str:
     """Get the official LUKHAS AI system signature with Trinity Framework"""
-    return f"{SYSTEM_NAME} {CONSTELLATION_FRAMEWORK} v{SYSTEM_VERSION}"
+    return f"{SYSTEM_NAME} {TRINITY_FRAMEWORK} v{SYSTEM_VERSION}"
 
 
 def get_trinity_description() -> dict[str, Any]:
     """Get comprehensive Trinity Framework description"""
     return {
-        "framework": CONSTELLATION_FRAMEWORK,
+        "framework": TRINITY_FRAMEWORK,
         "system": SYSTEM_NAME,
         "version": SYSTEM_VERSION,
         "components": TRINITY_DESCRIPTIONS,
@@ -122,7 +122,9 @@ def validate_branding_compliance(text: str) -> list[str]:
     import re
 
     if re.search(r"\bquantum\b(?!\s*[-]?(?:inspired|metaphor))", text_lower):
-        issues.append("Standalone 'quantum' should be 'quantum-inspired' unless specifically 'quantum metaphor'")
+        issues.append(
+            "Standalone 'quantum' should be 'quantum-inspired' unless specifically 'quantum metaphor'"
+        )
 
     return issues
 
@@ -234,7 +236,9 @@ class LUKHASBrandingBridge:
                     logger.warning(f"⚠️ Creative branding initialization failed: {e}")
 
             self.is_initialized = True
-            logger.info(f"🎨 Branding Bridge initialized with {SYSTEM_NAME} {CONSTELLATION_FRAMEWORK}")
+            logger.info(
+                f"🎨 Branding Bridge initialized with {SYSTEM_NAME} {TRINITY_FRAMEWORK}"
+            )
             return True
 
         except Exception as e:
@@ -245,12 +249,12 @@ class LUKHASBrandingBridge:
         """Get the official LUKHAS AI system signature with Trinity Framework"""
         if BRANDING_AVAILABLE:
             return _get_system_signature()
-        return f"{SYSTEM_NAME} {CONSTELLATION_FRAMEWORK} v{SYSTEM_VERSION}"
+        return f"{SYSTEM_NAME} {TRINITY_FRAMEWORK} v{SYSTEM_VERSION}"
 
-    def get_constellation_context(self, emphasis: str = "balanced") -> dict[str, Any]:
+    def get_trinity_context(self, emphasis: str = "balanced") -> dict[str, Any]:
         """Get Trinity Framework context for operations"""
         context = {
-            "framework": CONSTELLATION_FRAMEWORK,
+            "framework": TRINITY_FRAMEWORK,
             "identity": {
                 "symbol": IDENTITY_SYMBOL,
                 "description": "Authenticity, consciousness, symbolic self",
@@ -273,7 +277,9 @@ class LUKHASBrandingBridge:
 
         return context
 
-    def validate_output(self, text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:
+    def validate_output(
+        self, text: str, context: Optional[BrandContext] = None
+    ) -> dict[str, Any]:
         """Validate text output for brand compliance"""
         if not isinstance(text, str):
             return {"valid": True, "issues": [], "text": text}
@@ -304,7 +310,9 @@ class LUKHASBrandingBridge:
             "compliance_level": context.compliance_level,
         }
 
-    def normalize_output(self, text: str, context: Optional[BrandContext] = None) -> str:
+    def normalize_output(
+        self, text: str, context: Optional[BrandContext] = None
+    ) -> str:
         """Normalize text output for brand compliance"""
         if not isinstance(text, str):
             return text
@@ -327,7 +335,9 @@ class LUKHASBrandingBridge:
             logger.warning(f"Output normalization error: {e}")
             return text
 
-    def get_brand_voice(self, content: str, context: Optional[BrandContext] = None) -> str:
+    def get_brand_voice(
+        self, content: str, context: Optional[BrandContext] = None
+    ) -> str:
         """Apply brand voice to content"""
         context = context or self.default_context
 
@@ -350,7 +360,9 @@ class LUKHASBrandingBridge:
 
         return content
 
-    def generate_branded_content(self, prompt: str, context: Optional[BrandContext] = None) -> str:
+    def generate_branded_content(
+        self, prompt: str, context: Optional[BrandContext] = None
+    ) -> str:
         """Generate brand-compliant content from prompt"""
         context = context or self.default_context
 
@@ -369,8 +381,8 @@ class LUKHASBrandingBridge:
                 logger.warning(f"Wordsmith generation error: {e}")
 
         # Fallback to prompt with Trinity context
-        constellation = self.get_constellation_context(context.trinity_emphasis)
-        return f"{prompt}\n\nIntegrating {constellation['framework']} principles: {constellation['identity']['description']}, {constellation['consciousness']['description']}, {constellation['guardian']['description']}"
+        trinity = self.get_trinity_context(context.trinity_emphasis)
+        return f"{prompt}\n\nIntegrating {trinity['framework']} principles: {trinity['identity']['description']}, {trinity['consciousness']['description']}, {trinity['guardian']['description']}"
 
     def monitor_brand_drift(self, content: str) -> dict[str, Any]:
         """Monitor content for brand drift"""
@@ -401,7 +413,7 @@ class LUKHASBrandingBridge:
             "advanced_branding": ADVANCED_BRANDING_AVAILABLE,
             "creative_branding": CREATIVE_BRANDING_AVAILABLE,
             "system_name": SYSTEM_NAME,
-            "constellation_framework": CONSTELLATION_FRAMEWORK,
+            "trinity_framework": TRINITY_FRAMEWORK,
             "components": {
                 "voice_adapter": self.voice_adapter is not None,
                 "validator": self.validator is not None,
@@ -438,12 +450,14 @@ def get_system_signature() -> str:
     return get_bridge().get_system_signature()
 
 
-def get_constellation_context(emphasis: str = "balanced") -> dict[str, Any]:
+def get_trinity_context(emphasis: str = "balanced") -> dict[str, Any]:
     """Get Trinity Framework context"""
-    return get_bridge().get_constellation_context(emphasis)
+    return get_bridge().get_trinity_context(emphasis)
 
 
-def validate_output(text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:
+def validate_output(
+    text: str, context: Optional[BrandContext] = None
+) -> dict[str, Any]:
     """Validate text for brand compliance"""
     return get_bridge().validate_output(text, context)
 
@@ -458,7 +472,9 @@ def get_brand_voice(content: str, context: Optional[BrandContext] = None) -> str
     return get_bridge().get_brand_voice(content, context)
 
 
-def generate_branded_content(prompt: str, context: Optional[BrandContext] = None) -> str:
+def generate_branded_content(
+    prompt: str, context: Optional[BrandContext] = None
+) -> str:
     """Generate brand-compliant content"""
     return get_bridge().generate_branded_content(prompt, context)
 
@@ -480,7 +496,7 @@ __all__ = [
     "initialize_branding",
     "get_bridge",
     "get_system_signature",
-    "get_constellation_context",
+    "get_trinity_context",
     "validate_output",
     "normalize_output_text",
     "get_brand_voice",
@@ -490,7 +506,7 @@ __all__ = [
     # Constants
     "SYSTEM_NAME",
     "SYSTEM_VERSION",
-    "CONSTELLATION_FRAMEWORK",
+    "TRINITY_FRAMEWORK",
     "IDENTITY_SYMBOL",
     "CONSCIOUSNESS_SYMBOL",
     "GUARDIAN_SYMBOL",

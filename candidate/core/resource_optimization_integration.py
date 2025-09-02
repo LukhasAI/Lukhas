@@ -87,7 +87,9 @@ class ResourceMetrics:
             "memory_used_mb": self.memory_used_mb,
             "memory_total_mb": self.memory_total_mb,
             "memory_utilization": (
-                (self.memory_used_mb / self.memory_total_mb * 100) if self.memory_total_mb > 0 else 0
+                (self.memory_used_mb / self.memory_total_mb * 100)
+                if self.memory_total_mb > 0
+                else 0
             ),
             "network_bandwidth_mbps": self.network_bandwidth_mbps,
             "cpu_utilization": self.cpu_utilization,
@@ -137,7 +139,9 @@ class ResourceOptimizationCoordinator:
         # Register cross-system optimizations
         self._register_integrated_optimizations()
 
-        logger.info(f"Resource Optimization Coordinator initialized with strategy: {optimization_strategy.name}")
+        logger.info(
+            f"Resource Optimization Coordinator initialized with strategy: {optimization_strategy.name}"
+        )
 
     async def initialize_communication(self, node_id: str):
         """Initialize communication fabric for a node"""
@@ -146,7 +150,9 @@ class ResourceOptimizationCoordinator:
             self.comm_fabric = get_service("communication_fabric")
             await self.comm_fabric.start()
         except ValueError:
-            logger.warning("Communication fabric not available through dependency injection")
+            logger.warning(
+                "Communication fabric not available through dependency injection"
+            )
             self.comm_fabric = None
 
         # Set up energy tracking for communication
@@ -172,7 +178,9 @@ class ResourceOptimizationCoordinator:
                 "message_send",
                 energy_joules=0.001 * len(str(message_size)),  # Estimate
                 duration_ms=duration_ms,
-                metadata={"priority": kwargs.get("priority", MessagePriority.NORMAL).name},
+                metadata={
+                    "priority": kwargs.get("priority", MessagePriority.NORMAL).name
+                },
             )
 
             return result
@@ -198,7 +206,9 @@ class ResourceOptimizationCoordinator:
                     tier_cache = cache.tiers[tier]
                     to_demote = []
 
-                    for key, mem_obj in list(tier_cache.items())[:10]:  # Demote up to 10 items
+                    for key, mem_obj in list(tier_cache.items())[
+                        :10
+                    ]:  # Demote up to 10 items
                         if mem_obj.access_frequency() < 1.0:
                             to_demote.append((key, mem_obj))
 
@@ -219,7 +229,9 @@ class ResourceOptimizationCoordinator:
             if self.comm_fabric and self.resource_state == ResourceState.CRITICAL:
                 # Switch to low-power communication profile
                 self.comm_fabric.router.energy_budget *= 0.5  # Reduce budget
-                logger.info("Reduced communication energy budget due to critical resources")
+                logger.info(
+                    "Reduced communication energy budget due to critical resources"
+                )
             return 0
 
         self.memory_optimizer.register_optimization(resource_aware_communication)
@@ -281,19 +293,29 @@ class ResourceOptimizationCoordinator:
     async def _collect_metrics(self) -> ResourceMetrics:
         """Collect unified resource metrics"""
         # Get energy stats
-        energy_stats = self.energy_analyzer.get_energy_statistics(time_window_seconds=self._optimization_interval)
+        energy_stats = self.energy_analyzer.get_energy_statistics(
+            time_window_seconds=self._optimization_interval
+        )
 
         # Get memory stats
         memory_stats = self.memory_optimizer.get_memory_stats()
 
         # Get communication stats if available
-        comm_stats = self.comm_fabric.get_communication_stats() if self.comm_fabric else {}
+        comm_stats = (
+            self.comm_fabric.get_communication_stats() if self.comm_fabric else {}
+        )
 
         # Calculate network bandwidth (simplified)
         network_bandwidth = 0.0
         if comm_stats:
-            bytes_sent = comm_stats.get("p2p_stats", {}).get("transfer_stats", {}).get("bytes_sent", 0)
-            network_bandwidth = (bytes_sent * 8 / 1_000_000) / self._optimization_interval  # Mbps
+            bytes_sent = (
+                comm_stats.get("p2p_stats", {})
+                .get("transfer_stats", {})
+                .get("bytes_sent", 0)
+            )
+            network_bandwidth = (
+                bytes_sent * 8 / 1_000_000
+            ) / self._optimization_interval  # Mbps
 
         # Get CPU utilization (simplified estimate)
         cpu_utilization = min(100.0, energy_stats.get("average_power_watts", 0) * 10)
@@ -312,11 +334,22 @@ class ResourceOptimizationCoordinator:
     def _update_resource_state(self, metrics: ResourceMetrics):
         """Update overall resource state based on metrics"""
         # Calculate resource utilization ratios
-        energy_ratio = metrics.energy_used_joules / self.target_energy_budget if self.target_energy_budget > 0 else 0
-        memory_ratio = metrics.memory_used_mb / metrics.memory_total_mb if metrics.memory_total_mb > 0 else 0
+        energy_ratio = (
+            metrics.energy_used_joules / self.target_energy_budget
+            if self.target_energy_budget > 0
+            else 0
+        )
+        memory_ratio = (
+            metrics.memory_used_mb / metrics.memory_total_mb
+            if metrics.memory_total_mb > 0
+            else 0
+        )
 
         # Determine state based on worst constraint
-        if energy_ratio >= self.thresholds["energy_critical"] or memory_ratio >= self.thresholds["memory_critical"]:
+        if (
+            energy_ratio >= self.thresholds["energy_critical"]
+            or memory_ratio >= self.thresholds["memory_critical"]
+        ):
             self.resource_state = ResourceState.CRITICAL
         elif (
             energy_ratio >= self.thresholds["energy_constrained"]
@@ -356,7 +389,9 @@ class ResourceOptimizationCoordinator:
 
         # Use fastest communication modes
         if self.comm_fabric:
-            self.comm_fabric.router.energy_budget = self.target_energy_budget * 0.5  # Allow more energy for comm
+            self.comm_fabric.router.energy_budget = (
+                self.target_energy_budget * 0.5
+            )  # Allow more energy for comm
 
         self.optimization_decisions["strategy"] = "performance"
 
@@ -445,14 +480,18 @@ class ResourceOptimizationCoordinator:
         trends = {}
         if len(self.metrics_history) >= 10:
             recent = self.metrics_history[-10:]
-            old = self.metrics_history[-20:-10] if len(self.metrics_history) >= 20 else self.metrics_history[:10]
+            old = (
+                self.metrics_history[-20:-10]
+                if len(self.metrics_history) >= 20
+                else self.metrics_history[:10]
+            )
 
-            trends["energy_trend"] = sum(m.energy_used_joules for m in recent) / len(recent) - sum(
-                m.energy_used_joules for m in old
-            ) / len(old)
-            trends["memory_trend"] = sum(m.memory_used_mb for m in recent) / len(recent) - sum(
-                m.memory_used_mb for m in old
-            ) / len(old)
+            trends["energy_trend"] = sum(m.energy_used_joules for m in recent) / len(
+                recent
+            ) - sum(m.energy_used_joules for m in old) / len(old)
+            trends["memory_trend"] = sum(m.memory_used_mb for m in recent) / len(
+                recent
+            ) - sum(m.memory_used_mb for m in old) / len(old)
 
         # Get subsystem details
         energy_stats = self.energy_analyzer.get_energy_statistics()
@@ -465,16 +504,23 @@ class ResourceOptimizationCoordinator:
             "trends": trends,
             "energy_details": {
                 "total_consumed": energy_stats.get("total_energy_joules", 0),
-                "budget_remaining": self.target_energy_budget - energy_stats.get("total_energy_joules", 0),
+                "budget_remaining": self.target_energy_budget
+                - energy_stats.get("total_energy_joules", 0),
                 "carbon_footprint_kg": energy_stats.get("carbon_footprint_kg", 0),
                 "recommendations": energy_stats.get("recommendations", []),
             },
             "memory_details": {
                 "utilization_percent": (
-                    (latest.memory_used_mb / latest.memory_total_mb * 100) if latest.memory_total_mb > 0 else 0
+                    (latest.memory_used_mb / latest.memory_total_mb * 100)
+                    if latest.memory_total_mb > 0
+                    else 0
                 ),
-                "tier_distribution": memory_stats.get("cache_stats", {}).get("tier_stats", {}),
-                "optimization_count": memory_stats.get("optimization_stats", {}).get("optimizations_triggered", 0),
+                "tier_distribution": memory_stats.get("cache_stats", {}).get(
+                    "tier_stats", {}
+                ),
+                "optimization_count": memory_stats.get("optimization_stats", {}).get(
+                    "optimizations_triggered", 0
+                ),
             },
             "active_optimizations": self.optimization_decisions,
             "metrics_history_size": len(self.metrics_history),
@@ -509,7 +555,9 @@ class ResourceOptimizationCoordinator:
             await asyncio.sleep(wait_time)
             # Re-check after wait
             if self.resource_state == ResourceState.CRITICAL and priority != "critical":
-                raise ResourceError(f"Cannot execute {operation_name}: resources critically low")
+                raise ResourceError(
+                    f"Cannot execute {operation_name}: resources critically low"
+                )
 
         # Track operation
         start_time = time.time()
@@ -555,7 +603,9 @@ async def demonstrate_integrated_optimization():
     await coordinator.start_monitoring()
 
     # Create energy budget
-    coordinator.energy_analyzer.create_budget("demo_budget", total_joules=1000.0, time_window_seconds=3600.0)
+    coordinator.energy_analyzer.create_budget(
+        "demo_budget", total_joules=1000.0, time_window_seconds=3600.0
+    )
 
     # Simulate various operations
     print("Simulating resource-intensive operations...")
@@ -619,7 +669,9 @@ async def demonstrate_integrated_optimization():
 
     # Try operations under pressure
     try:
-        await coordinator.execute_with_resource_awareness("low_priority_op", lambda: "result", priority="low")
+        await coordinator.execute_with_resource_awareness(
+            "low_priority_op", lambda: "result", priority="low"
+        )
     except ResourceError as e:
         print(f"Operation blocked: {e}")
 
@@ -635,7 +687,9 @@ async def demonstrate_integrated_optimization():
     # Final statistics
     print("\nFinal Statistics:")
     print(f"Energy consumed: {summary['energy_details']['total_consumed']:.1f}J")
-    print(f"Memory utilization: {summary['memory_details']['utilization_percent']:.1f}%")
+    print(
+        f"Memory utilization: {summary['memory_details']['utilization_percent']:.1f}%"
+    )
     print(f"Optimizations triggered: {summary['memory_details']['optimization_count']}")
 
 

@@ -30,17 +30,15 @@ import logging
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 # LUKHAS ΛiD Core Integration
 try:
     from ..utils.entropy_calculator import EntropyCalculator
     from ..utils.symbolic_parser import SymbolicParser
     from .id_service.lambd_id_generator import LambdaIDGenerator
-    from .qrg.qrg_manager import LambdaIDQRGConfig
-    from .qrg.qrg_manager import LambdaIDQRGGenerator
-    from .qrg.qrg_manager import QRGType
+    from .qrg.qrg_manager import (LambdaIDQRGConfig, LambdaIDQRGGenerator,
+                                  QRGType)
     from .tier.tier_manager import TierManager
 except ImportError as e:
     logging.warning(f"LUKHAS core components not fully available: {e}")

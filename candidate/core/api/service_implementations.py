@@ -56,7 +56,9 @@ except ImportError:
 
         EMOTION_ENGINE_AVAILABLE = True
     except ImportError as e:
-        warnings.warn(f"Real EmotionEngine not available: {e}, using fallback", UserWarning)
+        warnings.warn(
+            f"Real EmotionEngine not available: {e}, using fallback", UserWarning
+        )
         EMOTION_ENGINE_AVAILABLE = False
 
 try:
@@ -100,7 +102,9 @@ if not SYMBOLIC_ENGINE_AVAILABLE:
         async def encode(self, text: str) -> dict[str, Any]:
             """Encode text to GLYPHs"""
             words = text.split()
-            glyphs = [self.glyph_map.get(word.lower(), f"λ{word[:3]}") for word in words]
+            glyphs = [
+                self.glyph_map.get(word.lower(), f"λ{word[:3]}") for word in words
+            ]
             return {"glyphs": glyphs, "entropy": 0.5, "resonance": 0.7}
 
 
@@ -136,7 +140,9 @@ if not GUARDIAN_SYSTEM_AVAILABLE:
             self.initialized = True
             log.info("Fallback GuardianSystem initialized")
 
-        async def evaluate_action(self, action_proposal: dict[str, Any]) -> dict[str, Any]:
+        async def evaluate_action(
+            self, action_proposal: dict[str, Any]
+        ) -> dict[str, Any]:
             return {"approved": True, "risk_score": 0.1, "ethical_score": 0.9}
 
 
@@ -158,7 +164,9 @@ def log_service_status():
     real_count = sum(status.values())
     total_count = len(status)
 
-    log.info(f"Service Implementation Status: {real_count}/{total_count} real implementations available")
+    log.info(
+        f"Service Implementation Status: {real_count}/{total_count} real implementations available"
+    )
 
     for service, available in status.items():
         if available:

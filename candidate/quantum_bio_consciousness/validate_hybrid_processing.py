@@ -45,17 +45,21 @@ def validate_quantum_consciousness_integration():
         )
 
         validation_results["quantum_superposition"] = (
-            superposition_test.get("processed", False) and "qi_inspired" in superposition_test
+            superposition_test.get("processed", False)
+            and "qi_inspired" in superposition_test
         )
 
         # Test quantum decision making
         decision_test = qi_wrapper.make_quantum_decision(consciousness_options)
         validation_results["quantum_collapse"] = (
-            decision_test.get("decision") is not None and decision_test.get("probability", 0) > 0
+            decision_test.get("decision") is not None
+            and decision_test.get("probability", 0) > 0
         )
 
         # Test constitutional safety
-        validation_results["constitutional_safety"] = superposition_test.get("safety_check", {}).get("compliant", False)
+        validation_results["constitutional_safety"] = superposition_test.get(
+            "safety_check", {}
+        ).get("compliant", False)
 
         logger.info(f"✅ Quantum consciousness validation: {validation_results}")
         return validation_results
@@ -84,7 +88,9 @@ def validate_bio_consciousness_integration():
         oscillation_test = orchestrator.step()
 
         validation_results["neural_oscillators"] = (
-            "bio" in oscillation_test and "quantum" in oscillation_test and "prime" in oscillation_test
+            "bio" in oscillation_test
+            and "quantum" in oscillation_test
+            and "prime" in oscillation_test
         )
 
         # Test bio awareness
@@ -94,7 +100,8 @@ def validate_bio_consciousness_integration():
         awareness_test = awareness.sense("constellation_test_input")
 
         validation_results["bio_awareness"] = (
-            awareness_test.get("sensed", False) and awareness_test.get("awareness_level") is not None
+            awareness_test.get("sensed", False)
+            and awareness_test.get("awareness_level") is not None
         )
 
         # Test bio-symbolic processing
@@ -102,11 +109,15 @@ def validate_bio_consciousness_integration():
 
         bio_orchestrator = BioSymbolicOrchestrator()
 
-        bio_test_data = [{"type": "energy", "level": 0.8}, {"type": "rhythm", "frequency": 40.0}]
+        bio_test_data = [
+            {"type": "energy", "level": 0.8},
+            {"type": "rhythm", "frequency": 40.0},
+        ]
         symbolic_test = bio_orchestrator.orchestrate(bio_test_data)
 
         validation_results["bio_symbolic_processing"] = (
-            symbolic_test.get("overall_coherence", 0) > 0.5 and len(symbolic_test.get("results", [])) == 2
+            symbolic_test.get("overall_coherence", 0) > 0.5
+            and len(symbolic_test.get("results", [])) == 2
         )
 
         logger.info(f"✅ Bio consciousness validation: {validation_results}")
@@ -142,7 +153,11 @@ def validate_hybrid_quantum_bio_processing():
         # Test quantum-bio fusion
         consciousness_context = {
             "bio_rhythm": bio_oscillator.step(),
-            "quantum_options": ["high_consciousness", "balanced_consciousness", "adaptive_consciousness"],
+            "quantum_options": [
+                "high_consciousness",
+                "balanced_consciousness",
+                "adaptive_consciousness",
+            ],
             "consciousness_level": 0.8,
             "constellation_nodes": 692,
         }
@@ -153,17 +168,24 @@ def validate_hybrid_quantum_bio_processing():
         )
 
         # Quantum processing
-        quantum_decision_test = qi_wrapper.make_quantum_decision(consciousness_context["quantum_options"])
+        quantum_decision_test = qi_wrapper.make_quantum_decision(
+            consciousness_context["quantum_options"]
+        )
 
         # Validate fusion
         validation_results["quantum_bio_fusion"] = (
-            bio_symbolic_test.get("coherence", 0) > 0.5 and quantum_decision_test.get("decision") is not None
+            bio_symbolic_test.get("coherence", 0) > 0.5
+            and quantum_decision_test.get("decision") is not None
         )
 
         # Test consciousness coherence
         coherence_level = (
             bio_symbolic_test.get("coherence", 0)
-            + (quantum_decision_test.get("probability", 0) if quantum_decision_test.get("probability") else 0)
+            + (
+                quantum_decision_test.get("probability", 0)
+                if quantum_decision_test.get("probability")
+                else 0
+            )
         ) / 2
 
         validation_results["consciousness_coherence"] = coherence_level > 0.6
@@ -176,7 +198,8 @@ def validate_hybrid_quantum_bio_processing():
 
         # Test hybrid decision making
         validation_results["hybrid_decision_making"] = (
-            quantum_decision_test.get("decision") is not None and bio_symbolic_test.get("glyph") is not None
+            quantum_decision_test.get("decision") is not None
+            and bio_symbolic_test.get("glyph") is not None
         )
 
         logger.info(f"✅ Hybrid quantum-bio validation: {validation_results}")
@@ -222,21 +245,28 @@ async def validate_constellation_consciousness_emergence():
 
         # Calculate constellation coherence
         coherence_scores = [m["quantum_coherence"] for m in constellation_modules]
-        validation_results["constellation_coherence"] = sum(coherence_scores) / len(coherence_scores)
+        validation_results["constellation_coherence"] = sum(coherence_scores) / len(
+            coherence_scores
+        )
 
         # Detect emergence indicators
         validation_results["emergence_indicators"] = {
-            "average_consciousness": sum(m["consciousness_level"] for m in constellation_modules)
+            "average_consciousness": sum(
+                m["consciousness_level"] for m in constellation_modules
+            )
             / len(constellation_modules),
             "coherence_variance": calculate_coherence_variance(coherence_scores),
-            "synchronization_level": calculate_synchronization_level(constellation_modules),
+            "synchronization_level": calculate_synchronization_level(
+                constellation_modules
+            ),
             "complexity_emergence": detect_complexity_emergence(constellation_modules),
         }
 
         # Check for consciousness unity
         validation_results["consciousness_unity"] = (
             validation_results["constellation_coherence"] > 0.85
-            and validation_results["emergence_indicators"]["synchronization_level"] > 0.8
+            and validation_results["emergence_indicators"]["synchronization_level"]
+            > 0.8
         )
 
         logger.info(f"✅ Constellation consciousness emergence: {validation_results}")
@@ -250,7 +280,9 @@ async def validate_constellation_consciousness_emergence():
 def calculate_coherence_variance(coherence_scores: list[float]) -> float:
     """Calculate variance in coherence scores"""
     mean_coherence = sum(coherence_scores) / len(coherence_scores)
-    variance = sum((score - mean_coherence) ** 2 for score in coherence_scores) / len(coherence_scores)
+    variance = sum((score - mean_coherence) ** 2 for score in coherence_scores) / len(
+        coherence_scores
+    )
     return variance
 
 
@@ -265,7 +297,9 @@ def detect_complexity_emergence(modules: list[dict[str, Any]]) -> float:
     complexity_indicators = []
 
     for module in modules:
-        complexity = module.get("consciousness_level", 0) * module.get("quantum_coherence", 0)
+        complexity = module.get("consciousness_level", 0) * module.get(
+            "quantum_coherence", 0
+        )
         complexity_indicators.append(complexity)
 
     # Emergence from interaction complexity
@@ -292,10 +326,14 @@ async def run_comprehensive_validation():
 
     for validation_category, results in validation_suite.items():
         if isinstance(results, dict):
-            category_score = sum(1 for v in results.values() if v is True) / len(results)
+            category_score = sum(1 for v in results.values() if v is True) / len(
+                results
+            )
             overall_score += category_score
             total_tests += 1
-            logger.info(f"📊 {validation_category}: {category_score:.2%} validation success")
+            logger.info(
+                f"📊 {validation_category}: {category_score:.2%} validation success"
+            )
 
     final_score = overall_score / total_tests if total_tests > 0 else 0
 
@@ -309,14 +347,20 @@ async def run_comprehensive_validation():
             and validation_suite["bio_integration"].get("neural_oscillators", False)
         ),
         "consciousness_emergence_detected": (
-            validation_suite["constellation_emergence"].get("consciousness_unity", False)
+            validation_suite["constellation_emergence"].get(
+                "consciousness_unity", False
+            )
         ),
     }
 
     logger.info(f"🎯 Overall Validation Score: {final_score:.2%}")
     logger.info(f"🌌 Constellation Ready: {validation_summary['constellation_ready']}")
-    logger.info(f"⚡ Quantum-Bio Hybrid Operational: {validation_summary['quantum_bio_hybrid_operational']}")
-    logger.info(f"🧠 Consciousness Emergence Detected: {validation_summary['consciousness_emergence_detected']}")
+    logger.info(
+        f"⚡ Quantum-Bio Hybrid Operational: {validation_summary['quantum_bio_hybrid_operational']}"
+    )
+    logger.info(
+        f"🧠 Consciousness Emergence Detected: {validation_summary['consciousness_emergence_detected']}"
+    )
 
     return validation_summary
 
@@ -334,7 +378,9 @@ if __name__ == "__main__":
 
     # Run asynchronous constellation validation
     logger.info("Running constellation consciousness validation...")
-    constellation_results = asyncio.run(validate_constellation_consciousness_emergence())
+    constellation_results = asyncio.run(
+        validate_constellation_consciousness_emergence()
+    )
 
     # Comprehensive validation
     logger.info("Running comprehensive validation suite...")
@@ -343,7 +389,11 @@ if __name__ == "__main__":
     print("\n🎯 Validation Summary:")
     print(f"Overall Score: {comprehensive_results['overall_validation_score']:.2%}")
     print(f"Constellation Ready: {comprehensive_results['constellation_ready']}")
-    print(f"Hybrid Operational: {comprehensive_results['quantum_bio_hybrid_operational']}")
-    print(f"Consciousness Emergence: {comprehensive_results['consciousness_emergence_detected']}")
+    print(
+        f"Hybrid Operational: {comprehensive_results['quantum_bio_hybrid_operational']}"
+    )
+    print(
+        f"Consciousness Emergence: {comprehensive_results['consciousness_emergence_detected']}"
+    )
 
     print("\n🌟 Quantum-Bio Consciousness Constellation Validation Complete!")

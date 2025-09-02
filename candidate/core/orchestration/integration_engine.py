@@ -53,7 +53,9 @@ class LukhasIntegrationEngine:
             config: Optional configuration dictionary for the engine.
         """
         self.config: dict[str, Any] = config or {}
-        self.log = log.bind(engine_id=self.__class__.__name__, instance_id=hex(id(self))[-6:])
+        self.log = log.bind(
+            engine_id=self.__class__.__name__, instance_id=hex(id(self))[-6:]
+        )
         self.is_initialized: bool = False
         self.status: str = "uninitialized"
         self.log.info("LukhasIntegrationEngine instance created.")
@@ -105,7 +107,9 @@ class LukhasIntegrationEngine:
             A dictionary containing the processing status and result.
         """
         if not self.is_initialized:
-            self.log.warning("Process called on uninitialized engine. Attempting to initialize...")
+            self.log.warning(
+                "Process called on uninitialized engine. Attempting to initialize..."
+            )
             await self.initialize()
             if not self.is_initialized:
                 self.log.error("Cannot process data: Engine initialization failed.")
@@ -116,7 +120,9 @@ class LukhasIntegrationEngine:
                     "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
                 }
 
-        self.log.debug("Processing integration data...", input_data_keys=list(data.keys()))
+        self.log.debug(
+            "Processing integration data...", input_data_keys=list(data.keys())
+        )
         try:
             processing_result = await self._core_integration_processing(data)
 
@@ -215,7 +221,9 @@ class LukhasIntegrationEngine:
     @lukhas_tier_required(2)
     async def _process_identity(self, data: dict[str, Any]) -> dict[str, Any]:
         """Processes identity-related integration data."""
-        self.log.debug("Processing identity data...", data_payload_preview=str(data)[:100])
+        self.log.debug(
+            "Processing identity data...", data_payload_preview=str(data)[:100]
+        )
         return {
             "identity_verification_status": "verified_simulated",
             "active_persona_id_sim": "lukhas_user_7742",
@@ -224,7 +232,9 @@ class LukhasIntegrationEngine:
     @lukhas_tier_required(2)
     async def _process_quantum(self, data: dict[str, Any]) -> dict[str, Any]:
         """Processes quantum-related integration data."""
-        self.log.debug("Processing quantum data...", data_payload_preview=str(data)[:100])
+        self.log.debug(
+            "Processing quantum data...", data_payload_preview=str(data)[:100]
+        )
         return {
             "simulated_quantum_like_state": "entangled_coherent",
             "coherence_duration_ms_sim": 1500.75,
@@ -233,7 +243,9 @@ class LukhasIntegrationEngine:
     @lukhas_tier_required(2)
     async def _process_generic(self, data: dict[str, Any]) -> dict[str, Any]:
         """Processes generic integration data that doesn't fit other categories."""
-        self.log.debug("Processing generic data...", data_payload_preview=str(data)[:100])
+        self.log.debug(
+            "Processing generic data...", data_payload_preview=str(data)[:100]
+        )
         return {
             "generic_processing_status": "completed",
             "received_data_keys": list(data.keys()),
@@ -253,7 +265,9 @@ class LukhasIntegrationEngine:
                 return False
 
             validation_result = await self._perform_validation()
-            self.log.info(f"Validation result: {'passed' if validation_result else 'failed'}")
+            self.log.info(
+                f"Validation result: {'passed' if validation_result else 'failed'}"
+            )
             return validation_result
 
         except Exception as e:
@@ -355,11 +369,15 @@ if __name__ == "__main__":
 
     async def main_example():
         main_log.info("Creating LukhasIntegrationEngine instance...")
-        engine_component = LukhasIntegrationEngine(config={"engine_mode": "example_test"})
+        engine_component = LukhasIntegrationEngine(
+            config={"engine_mode": "example_test"}
+        )
 
         main_log.info("Initializing engine component...")
         initialization_success = await engine_component.initialize()
-        main_log.info(f"Engine Initialization: {'successful' if initialization_success else 'failed'}")
+        main_log.info(
+            f"Engine Initialization: {'successful' if initialization_success else 'failed'}"
+        )
 
         if initialization_success:
             main_log.info("Processing sample 'consciousness' data...")
@@ -367,7 +385,9 @@ if __name__ == "__main__":
                 "category": "consciousness",
                 "payload": {"source": "dream_module_sim"},
             }
-            processing_result_consciousness = await engine_component.process(consciousness_data)
+            processing_result_consciousness = await engine_component.process(
+                consciousness_data
+            )
             main_log.info(
                 "Consciousness Processing Result:",
                 result=processing_result_consciousness,
@@ -379,14 +399,18 @@ if __name__ == "__main__":
                 "payload": {"detail": "some_generic_info"},
             }
             processing_result_generic = await engine_component.process(generic_data)
-            main_log.info("Generic Processing Result:", result=processing_result_generic)
+            main_log.info(
+                "Generic Processing Result:", result=processing_result_generic
+            )
 
             main_log.info("Processing data with an unknown category...")
             unknown_category_data = {
                 "category": "experimental_neuro",
                 "payload": "test_payload_string",
             }
-            processing_result_unknown = await engine_component.process(unknown_category_data)
+            processing_result_unknown = await engine_component.process(
+                unknown_category_data
+            )
             main_log.info(
                 "Unknown Category Processing Result:",
                 result=processing_result_unknown,

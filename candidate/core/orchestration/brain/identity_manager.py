@@ -117,7 +117,9 @@ class IdentityManager:
 
         self.logger.info(f"Identity Manager initialized with ID: {self.identity['id']}")
 
-    def process_experience(self, experience: dict[str, Any], security_level: str = "standard") -> dict[str, Any]:
+    def process_experience(
+        self, experience: dict[str, Any], security_level: str = "standard"
+    ) -> dict[str, Any]:
         """
         Process an experience and update identity components
 
@@ -141,7 +143,9 @@ class IdentityManager:
             # Take a snapshot if significant identity change
             significance = experience.get("identity_significance", 0.0)
             if significance > 0.7:
-                self._take_identity_snapshot(f"significant_experience_{int(time.time())}")
+                self._take_identity_snapshot(
+                    f"significant_experience_{int(time.time())}"
+                )
 
         # Determine if this memory should be encrypted
         if security_level != "standard" or experience.get("sensitive", False):
@@ -155,7 +159,9 @@ class IdentityManager:
             }
 
             # Encrypt the enriched experience
-            encrypted_memory = self.trauma_lock.encrypt_memory(enriched_experience, access_level=security_level)
+            encrypted_memory = self.trauma_lock.encrypt_memory(
+                enriched_experience, access_level=security_level
+            )
 
             # Store reference to encrypted memory
             memory_id = encrypted_memory.get("vector_id")
@@ -178,7 +184,9 @@ class IdentityManager:
         # For standard experiences, just return emotional processing result
         return emotional_result
 
-    def retrieve_memory(self, memory_id: str, access_context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    def retrieve_memory(
+        self, memory_id: str, access_context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve a memory by ID, handling decryption if needed
 
@@ -201,7 +209,9 @@ class IdentityManager:
                 # Here we assume the encrypted memory would be retrieved by vector_id
                 {
                     "vector_id": memory_id,
-                    "access_level": self.memory_access_patterns[memory_id]["access_level"],
+                    "access_level": self.memory_access_patterns[memory_id][
+                        "access_level"
+                    ],
                     # The actual encrypted data would be retrieved from storage
                 }
 
@@ -240,7 +250,9 @@ class IdentityManager:
             "last_updated": time.time(),
         }
 
-    def update_identity(self, updates: dict[str, Any], reason: str = "manual_update") -> dict[str, Any]:
+    def update_identity(
+        self, updates: dict[str, Any], reason: str = "manual_update"
+    ) -> dict[str, Any]:
         """
         Update identity attributes manually
 
@@ -263,10 +275,14 @@ class IdentityManager:
                     # Update traits individually
                     for trait, trait_value in value.items():
                         if trait in self.identity["traits"]:
-                            self.identity["traits"][trait] = max(0.0, min(1.0, trait_value))
+                            self.identity["traits"][trait] = max(
+                                0.0, min(1.0, trait_value)
+                            )
                 elif field == "core_values":
                     # Replace core values while maintaining format
-                    if isinstance(value, list) and all(isinstance(v, str) for v in value):
+                    if isinstance(value, list) and all(
+                        isinstance(v, str) for v in value
+                    ):
                         self.identity["core_values"] = value
                 else:
                     # Direct update for simple fields
@@ -285,7 +301,9 @@ class IdentityManager:
                 "timestamp": snapshot["timestamp"],
                 "reason": snapshot["reason"],
                 "name": snapshot["identity"].get("name"),
-                "primary_emotion": snapshot.get("emotional_state", {}).get("primary_emotion"),
+                "primary_emotion": snapshot.get("emotional_state", {}).get(
+                    "primary_emotion"
+                ),
                 "snapshot_id": snapshot.get("id"),
             }
             for snapshot in self.identity_snapshots
@@ -317,7 +335,10 @@ class IdentityManager:
                 return True
 
         # Check for feedback about the system itself
-        if experience.get("type") == "feedback" and experience.get("target") == "system":
+        if (
+            experience.get("type") == "feedback"
+            and experience.get("target") == "system"
+        ):
             return True
 
         # Check for high emotional intensity
@@ -342,7 +363,10 @@ class IdentityManager:
             self.identity["traits"]["agreeableness"] = min(1.0, current + 0.02)
 
         # Example: If experience shows problem-solving, increase conscientiousness
-        if experience.get("type") == "task_completion" and experience.get("success", False) is True:
+        if (
+            experience.get("type") == "task_completion"
+            and experience.get("success", False) is True
+        ):
             current = self.identity["traits"]["conscientiousness"]
             self.identity["traits"]["conscientiousness"] = min(1.0, current + 0.01)
 

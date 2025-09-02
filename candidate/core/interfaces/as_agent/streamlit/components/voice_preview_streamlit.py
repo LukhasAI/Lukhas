@@ -54,7 +54,9 @@ else:
             top_emoji = emoji_map.get(top_emotion, "🔮")
             st.markdown(f"**Dominant Emotion:** {top_emotion} {top_emoji}")
 
-        st.markdown(f"**Tier:** {dream.get('tier', '—')} | **Replay:** {dream.get('replay_candidate', False)}")
+        st.markdown(
+            f"**Tier:** {dream.get('tier', '—')} | **Replay:** {dream.get('replay_candidate', False)}"
+        )
         st.markdown(f"**Suggest Voice:** {dream.get('suggest_voice', False)}")
         st.divider()
 

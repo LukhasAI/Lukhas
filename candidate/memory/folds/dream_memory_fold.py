@@ -86,7 +86,9 @@ class DreamMemoryFold:
 
     def __init__(self, storage_path: Optional[str] = None):
         """Initialize the Dream Memory Fold system."""
-        self.storage_path = Path(storage_path) if storage_path else Path("dream_memory_folds")
+        self.storage_path = (
+            Path(storage_path) if storage_path else Path("dream_memory_folds")
+        )
         self.storage_path.mkdir(parents=True, exist_ok=True)
 
         self.active_folds: dict[str, MemoryFoldState] = {}
@@ -96,9 +98,7 @@ class DreamMemoryFold:
         # Initialize drift tracker integration
         self.drift_tracker_available = False
         try:
-            from oneiric.oneiric_core.utils.drift_tracker import (
-                SymbolicDriftTracker,
-            )
+            from oneiric.oneiric_core.utils.drift_tracker import SymbolicDriftTracker
 
             self.drift_tracker = SymbolicDriftTracker()
             self.drift_tracker_available = True
@@ -106,7 +106,9 @@ class DreamMemoryFold:
         except ImportError:
             logger.warning("Drift tracker not available for memory folding")
 
-    async def create_fold(self, fold_id: str, initial_tags: Optional[list[str]] = None) -> MemoryFoldState:
+    async def create_fold(
+        self, fold_id: str, initial_tags: Optional[list[str]] = None
+    ) -> MemoryFoldState:
         """Create a new memory fold."""
         if fold_id in self.active_folds:
             raise ValueError(f"Fold {fold_id} already exists")
@@ -217,7 +219,9 @@ class DreamMemoryFold:
                 await self._persist_snapshot(snapshot)
 
             fold.last_sync = datetime.now()
-            logger.info(f"Synchronized fold {fold_id} with {len(fold.snapshots)} snapshots")
+            logger.info(
+                f"Synchronized fold {fold_id} with {len(fold.snapshots)} snapshots"
+            )
             return True
 
         except Exception as e:
@@ -297,7 +301,9 @@ class DreamMemoryFold:
 
         if self.drift_tracker_available:
             # Use drift metrics for convergence calculation
-            drift_scores = [s.drift_metrics.get("drift_score", 0.0) for s in recent_snapshots]
+            drift_scores = [
+                s.drift_metrics.get("drift_score", 0.0) for s in recent_snapshots
+            ]
             avg_drift = sum(drift_scores) / len(drift_scores) if drift_scores else 0.0
 
             # Lower drift = higher convergence
@@ -315,7 +321,9 @@ class DreamMemoryFold:
                     consistency = len(set(snapshot.tags) & all_tags) / len(all_tags)
                     consistency_scores.append(consistency)
 
-                fold.convergence_score = sum(consistency_scores) / len(consistency_scores)
+                fold.convergence_score = sum(consistency_scores) / len(
+                    consistency_scores
+                )
             else:
                 fold.convergence_score = 0.0
 

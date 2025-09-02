@@ -26,7 +26,9 @@ class Modulator:
         self.last_emit_ts = {s["name"]: 0 for s in self.policy["signals"]}
 
     def _cooldown_ok(self, sig: Signal) -> bool:
-        cd = next(s["cooldown_ms"] for s in self.policy["signals"] if s["name"] == sig.name)
+        cd = next(
+            s["cooldown_ms"] for s in self.policy["signals"] if s["name"] == sig.name
+        )
         return (sig.ts - self.last_emit_ts[sig.name]) * 1000 >= cd
 
     def _eval(
@@ -102,10 +104,18 @@ class Modulator:
 
         params["temperature"] = clamp(float(params["temperature"]), *b["temperature"])
         params["top_p"] = clamp(float(params["top_p"]), *b["top_p"])
-        params["max_output_tokens"] = int(clamp(int(params["max_output_tokens"]), *b["max_output_tokens"]))
-        params["retrieval_k"] = int(clamp(int(params["retrieval_k"]), *b["retrieval_k"]))
-        params["planner_beam"] = int(clamp(int(params["planner_beam"]), *b["planner_beam"]))
-        params["memory_write"] = clamp(float(params["memory_write"]), *b["memory_write"])
+        params["max_output_tokens"] = int(
+            clamp(int(params["max_output_tokens"]), *b["max_output_tokens"])
+        )
+        params["retrieval_k"] = int(
+            clamp(int(params["retrieval_k"]), *b["retrieval_k"])
+        )
+        params["planner_beam"] = int(
+            clamp(int(params["planner_beam"]), *b["planner_beam"])
+        )
+        params["memory_write"] = clamp(
+            float(params["memory_write"]), *b["memory_write"]
+        )
 
         # 5) prompt style
         style = params["safety_mode"]

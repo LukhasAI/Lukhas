@@ -29,10 +29,7 @@ adapts to changing conditions, and continuously learns from its experiences.
 
 from typing import Optional
 
-from .adaptive_metrics_collector import (
-    AdaptiveMetricsCollector,
-    MetricContext,
-)
+from .adaptive_metrics_collector import AdaptiveMetricsCollector, MetricContext
 from .bio_symbolic_coherence_monitor import (
     BioSymbolicCoherenceMonitor,
     CoherenceLevel,
@@ -44,10 +41,7 @@ from .endocrine_observability_engine import (
     PlasticityEvent,
     PlasticityTriggerType,
 )
-from .hormone_driven_dashboard import (
-    DashboardMode,
-    HormoneDrivenDashboard,
-)
+from .hormone_driven_dashboard import DashboardMode, HormoneDrivenDashboard
 from .integrated_monitoring_system import (
     IntegratedMonitoringSystem,
     IntegrationState,
@@ -67,14 +61,14 @@ from .neuroplastic_learning_orchestrator import (
     LearningPhase,
     NeuroplasticLearningOrchestrator,
 )
-from .plasticity_trigger_manager import (
-    PlasticityTriggerManager,
-)
+from .plasticity_trigger_manager import PlasticityTriggerManager
 
 # Version information
 __version__ = "1.0.0"
 __author__ = "LUKHAS AI"
-__description__ = "Enhanced monitoring and observability with endocrine-triggered plasticity"
+__description__ = (
+    "Enhanced monitoring and observability with endocrine-triggered plasticity"
+)
 
 # Main entry points
 __all__ = [
@@ -111,7 +105,9 @@ __all__ = [
 ]
 
 
-def create_monitoring_system_from_config(config_path: Optional[str] = None, profile: MonitoringProfile = None):
+def create_monitoring_system_from_config(
+    config_path: Optional[str] = None, profile: MonitoringProfile = None
+):
     """
     Convenience function to create a complete monitoring system from configuration.
 

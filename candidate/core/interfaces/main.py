@@ -84,8 +84,12 @@ def main():
     parser = argparse.ArgumentParser(description="Symbolic AGI entry hub.")
     parser.add_argument("--gui", action="store_true", help="Launch GUI dashboard")
     parser.add_argument("--cli", action="store_true", help="Launch symbolic CLI")
-    parser.add_argument("--socket", action="store_true", help="Start symbolic socket listener")
-    parser.add_argument("--narrate", action="store_true", help="Narrate last symbolic post")
+    parser.add_argument(
+        "--socket", action="store_true", help="Start symbolic socket listener"
+    )
+    parser.add_argument(
+        "--narrate", action="store_true", help="Narrate last symbolic post"
+    )
 
     args = parser.parse_args()
 

@@ -23,7 +23,11 @@ def _semantic_hash(vector: list[float] | None) -> str | None:
     if not vector:
         return None
     # simple stable hash (don't store vector by default)
-    return _sha256(json.dumps([round(x, 6) for x in vector], separators=(",", ":"), ensure_ascii=False).encode())
+    return _sha256(
+        json.dumps(
+            [round(x, 6) for x in vector], separators=(",", ":"), ensure_ascii=False
+        ).encode()
+    )
 
 
 @dataclass
@@ -73,7 +77,9 @@ class Receipt:
     tokens_out: int | None = None
 
     # Calibration & confidence metadata
-    metrics: dict[str, Any] | None = None  # raw_conf, calibrated_conf, temperature, etc.
+    metrics: dict[str, Any] | None = (
+        None  # raw_conf, calibrated_conf, temperature, etc.
+    )
 
     # Integrity
     attestation: dict[str, Any] | None = None
@@ -142,7 +148,12 @@ def build_receipt(
     att: dict[str, Any] | None = None
     if _HAS_PROV:
         steps = [
-            {"phase": "entity", "sha": artifact_sha, "mime": artifact_mime, "size": artifact_size},
+            {
+                "phase": "entity",
+                "sha": artifact_sha,
+                "mime": artifact_mime,
+                "size": artifact_size,
+            },
             {
                 "phase": "activity",
                 "run_id": run_id,
@@ -170,7 +181,9 @@ def build_receipt(
         capability_lease_ids=capability_lease_ids or [],
         risk_flags=risk_flags or [],
         embedding_hash=_semantic_hash(embedding_vector),
-        latency_ms=int((ended_at - started_at) * 1000) if ended_at and started_at else None,
+        latency_ms=(
+            int((ended_at - started_at) * 1000) if ended_at and started_at else None
+        ),
         tokens_in=tokens_in,
         tokens_out=tokens_out,
         metrics=metrics,

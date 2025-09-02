@@ -97,7 +97,9 @@ class MemoryTrace:
     nodes: list[MemoryNode]  # This list of nodes is the recalled memory data.
     start_time: datetime
     end_time: Optional[datetime] = None
-    qi_signature: Optional[str] = None  # NOTE: Could be related to #AIDENTITY if unique.
+    qi_signature: Optional[str] = (
+        None  # NOTE: Could be related to #AIDENTITY if unique.
+    )
     symbolic_metadata: Optional[dict[str, Any]] = field(default_factory=dict)
 
 
@@ -127,9 +129,9 @@ class AgentMemoryTraceAnimator:
 
         self.active_traces: dict[str, MemoryTrace] = {}
         self.completed_traces: dict[str, Any] = {}
-        self.visualization_cache: dict[
-            str, str
-        ] = {}  # NOTE: Caching could be a #DRIFT_POINT if cache invalidation is imperfect.
+        self.visualization_cache: dict[str, str] = (
+            {}
+        )  # NOTE: Caching could be a #DRIFT_POINT if cache invalidation is imperfect.
 
         # DRIFT_POINT: Changes to color schemes will alter visual output over time.
         self.color_schemes: dict[MemoryTraceType, dict[str, str]] = {
@@ -198,7 +200,9 @@ class AgentMemoryTraceAnimator:
     # RECALL: This method processes a MemoryTrace (recalled data) to create a visual.
     # GLYPH: Generates agent workflow animation (a visual glyph).
     @lukhas_tier_required(1)
-    async def create_agent_workflow_animation(self, trace: MemoryTrace) -> dict[str, Any]:
+    async def create_agent_workflow_animation(
+        self, trace: MemoryTrace
+    ) -> dict[str, Any]:
         """Creates an animation for an agent workflow memory trace."""
         # TRACE: Creating agent workflow animation.
         log.info(
@@ -245,7 +249,9 @@ class AgentMemoryTraceAnimator:
     # GLYPH: Generates symbolic reasoning graph (a visual glyph).
     # CAUTION: HTML generation is a STUB.
     @lukhas_tier_required(1)
-    async def create_symbolic_reasoning_animation(self, trace: MemoryTrace) -> dict[str, Any]:
+    async def create_symbolic_reasoning_animation(
+        self, trace: MemoryTrace
+    ) -> dict[str, Any]:
         """Creates an animation for a symbolic reasoning memory trace."""
         # TRACE: Creating symbolic reasoning animation.
         log.info(
@@ -256,7 +262,9 @@ class AgentMemoryTraceAnimator:
         )
         try:
             graph_data = await self._generate_symbolic_graph(trace)
-            animation_html = await self._create_symbolic_html_stub(trace, graph_data)  # Stubbed
+            animation_html = await self._create_symbolic_html_stub(
+                trace, graph_data
+            )  # Stubbed
 
             metadata = {
                 "trace_id": trace.id,
@@ -296,7 +304,9 @@ class AgentMemoryTraceAnimator:
     # COLLAPSE_POINT: Visualization of qi_like_state could represent
     # collapse if states change.
     @lukhas_tier_required(1)
-    async def create_quantum_entanglement_animation(self, trace: MemoryTrace) -> dict[str, Any]:
+    async def create_quantum_entanglement_animation(
+        self, trace: MemoryTrace
+    ) -> dict[str, Any]:
         """Creates an animation for entanglement-like correlation patterns."""
         # TRACE: Creating entanglement-like correlation animation.
         log.info(
@@ -307,12 +317,16 @@ class AgentMemoryTraceAnimator:
         )
         try:
             wave_data = await self._generate_quantum_waves(trace)
-            animation_html = await self._create_quantum_html_stub(trace, wave_data)  # Stubbed
+            animation_html = await self._create_quantum_html_stub(
+                trace, wave_data
+            )  # Stubbed
 
             metadata = {
                 "trace_id": trace.id,
                 "animation_type": AnimationType.QUANTUM_WAVES.value,
-                "entanglement_pairs": len([n for n in trace.nodes if n.qi_like_state == "entangled"]),
+                "entanglement_pairs": len(
+                    [n for n in trace.nodes if n.qi_like_state == "entangled"]
+                ),
                 "wave_frequency_avg": 2.4,
                 "coherence_level_avg": 0.87,  # NOTE: Example fixed values.
                 "color_scheme": self._get_color_scheme(trace.trace_type),
@@ -343,7 +357,9 @@ class AgentMemoryTraceAnimator:
     # --- Frame Generation Methods (Internal) ---
     # RECALL: Iterates through trace nodes to generate frames.
     # AIDENTITY: Uses node.agent_id if present in frame data.
-    async def _generate_workflow_frames(self, trace: MemoryTrace) -> list[dict[str, Any]]:
+    async def _generate_workflow_frames(
+        self, trace: MemoryTrace
+    ) -> list[dict[str, Any]]:
         # TRACE: Generating workflow frames.
         log.debug(
             "Generating workflow frames.",
@@ -394,7 +410,8 @@ class AgentMemoryTraceAnimator:
                     "symbolic_tags": node.symbolic_tags or [],
                     "importance": node.importance_score,
                     "agent_id": node.agent_id,
-                    "x": (hash(node.id) % (self.canvas_width - 100)) + 50,  # NOTE: Simple hash-based positioning.
+                    "x": (hash(node.id) % (self.canvas_width - 100))
+                    + 50,  # NOTE: Simple hash-based positioning.
                     "y": (hash(node.id + "_y_val") % (self.canvas_height - 100)) + 50,
                 }
             )
@@ -457,11 +474,15 @@ class AgentMemoryTraceAnimator:
     # --- HTML Generation Methods ---
     # GLYPH: This method generates the actual HTML visual glyph.
     # CAUTION: Embedded JavaScript can be hard to maintain. Consider templating.
-    async def _create_workflow_html(self, trace: MemoryTrace, frames: list[dict[str, Any]]) -> str:
+    async def _create_workflow_html(
+        self, trace: MemoryTrace, frames: list[dict[str, Any]]
+    ) -> str:
         colors = self._get_color_scheme(trace.trace_type)
         js_frames = json.dumps(frames)
         # TRACE: Generating workflow HTML content.
-        log.debug("Generating workflow HTML.", for_trace_id=trace.id, frame_count=len(frames))
+        log.debug(
+            "Generating workflow HTML.", for_trace_id=trace.id, frame_count=len(frames)
+        )
         html_content = f"""
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Workflow: {trace.id}</title>
 <style>
@@ -529,15 +550,23 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
         return html_content
 
     # CAUTION: This HTML generation is a STUB.
-    async def _create_symbolic_html_stub(self, trace: MemoryTrace, graph_data: dict[str, Any]) -> str:
+    async def _create_symbolic_html_stub(
+        self, trace: MemoryTrace, graph_data: dict[str, Any]
+    ) -> str:
         # TRACE: Generating symbolic HTML stub.
-        log.warning("Symbolic reasoning HTML generation is a STUB.", for_trace_id=trace.id)
+        log.warning(
+            "Symbolic reasoning HTML generation is a STUB.", for_trace_id=trace.id
+        )
         return f"<html><body><h1>Symbolic Reasoning Animation - {trace.id} (Stub)</h1><pre>{json.dumps(graph_data, indent=2)}</pre></body></html>"
 
     # CAUTION: This HTML generation is a STUB.
-    async def _create_quantum_html_stub(self, trace: MemoryTrace, wave_data: dict[str, Any]) -> str:
+    async def _create_quantum_html_stub(
+        self, trace: MemoryTrace, wave_data: dict[str, Any]
+    ) -> str:
         # TRACE: Generating quantum HTML stub.
-        log.warning("Quantum entanglement HTML generation is a STUB.", for_trace_id=trace.id)
+        log.warning(
+            "Quantum entanglement HTML generation is a STUB.", for_trace_id=trace.id
+        )
         return f"<html><body><h1>Quantum Entanglement Animation - {trace.id} (Stub)</h1><pre>{json.dumps(wave_data, indent=2)}</pre></body></html>"
 
     @lukhas_tier_required(0)
@@ -579,17 +608,24 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
                 type="decision" if i % 2 == 0 else "analysis",
                 content={"detail": f"Sample content for node {i}", "value": i * 100},
                 timestamp=node_ts,
-                connections=[f"sample_node_{j}_{trace_type.value}" for j in range(max(0, i - 1), i)],
+                connections=[
+                    f"sample_node_{j}_{trace_type.value}"
+                    for j in range(max(0, i - 1), i)
+                ],
                 importance_score=min(1.0, 0.3 + (i * 0.15)),
                 qi_like_state=(
-                    "entangled" if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT and i % 2 == 0 else None
+                    "entangled"
+                    if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT and i % 2 == 0
+                    else None
                 ),
                 symbolic_tags=["sample", trace_type.value, f"step_{i}"],
                 agent_id=f"agent_{i % 2}",  # AIDENTITY
             )
             nodes.append(node)
 
-        trace_id = f"sample_trace_{trace_type.value}_{start_time.strftime('%Y%m%d%H%M%S')}"
+        trace_id = (
+            f"sample_trace_{trace_type.value}_{start_time.strftime('%Y%m%d%H%M%S')}"
+        )
         sample_trace = MemoryTrace(
             id=trace_id,
             trace_type=trace_type,
@@ -597,7 +633,9 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
             start_time=start_time,
             end_time=start_time + timedelta(seconds=(len(nodes) - 1) * 10 + 5),
             qi_signature=(
-                f"Q-Sample-{start_time.timestamp()}" if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT else None
+                f"Q-Sample-{start_time.timestamp()}"
+                if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT
+                else None
             ),
             symbolic_metadata={"source": "sample_generator", "version": "1.0"},
         )
@@ -628,29 +666,45 @@ async def main_demo():
     animator = AgentMemoryTraceAnimator(config=animator_config)
 
     # RECALL: Using generated sample trace (recalled/constructed data) for animation.
-    sample_workflow_trace = await animator.generate_sample_trace(MemoryTraceType.AGENT_WORKFLOW)
+    sample_workflow_trace = await animator.generate_sample_trace(
+        MemoryTraceType.AGENT_WORKFLOW
+    )
     # GLYPH: Creating workflow animation.
-    workflow_animation_data = await animator.create_agent_workflow_animation(sample_workflow_trace)
+    workflow_animation_data = await animator.create_agent_workflow_animation(
+        sample_workflow_trace
+    )
 
     output_dir = Path("./temp_visualizations")
     output_dir.mkdir(parents=True, exist_ok=True)
     workflow_output_path = output_dir / f"{sample_workflow_trace.id}_animation.html"
 
     if workflow_animation_data.get("html"):
-        animator.save_animation_to_file(workflow_animation_data["html"], workflow_output_path)
+        animator.save_animation_to_file(
+            workflow_animation_data["html"], workflow_output_path
+        )
         # TRACE: Workflow animation saved to file in demo.
         log.info(f"Workflow animation saved to: {workflow_output_path.resolve()}")
     else:
         log.error("Failed to generate HTML for workflow animation.")
 
-    sample_symbolic_trace = await animator.generate_sample_trace(MemoryTraceType.SYMBOLIC_REASONING)
+    sample_symbolic_trace = await animator.generate_sample_trace(
+        MemoryTraceType.SYMBOLIC_REASONING
+    )
     # GLYPH: Creating symbolic reasoning animation (stub).
-    symbolic_animation_data = await animator.create_symbolic_reasoning_animation(sample_symbolic_trace)
-    symbolic_output_path = output_dir / f"{sample_symbolic_trace.id}_animation_stub.html"
+    symbolic_animation_data = await animator.create_symbolic_reasoning_animation(
+        sample_symbolic_trace
+    )
+    symbolic_output_path = (
+        output_dir / f"{sample_symbolic_trace.id}_animation_stub.html"
+    )
     if symbolic_animation_data.get("html"):
-        animator.save_animation_to_file(symbolic_animation_data["html"], symbolic_output_path)
+        animator.save_animation_to_file(
+            symbolic_animation_data["html"], symbolic_output_path
+        )
         # TRACE: Symbolic reasoning animation stub saved in demo.
-        log.info(f"Symbolic reasoning animation (stub) saved to: {symbolic_output_path.resolve()}")
+        log.info(
+            f"Symbolic reasoning animation (stub) saved to: {symbolic_output_path.resolve()}"
+        )
 
     # TRACE: AgentMemoryTraceAnimator Demo Finished.
     log.info(" AgentMemoryTraceAnimator Demo Finished ")

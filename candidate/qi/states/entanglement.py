@@ -109,7 +109,9 @@ class QIEntanglement:
         # This is a placeholder that should be enhanced based on requirements
 
         # Extract category from data if available
-        category = data.get("category", "generic") if isinstance(data, dict) else "generic"
+        category = (
+            data.get("category", "generic") if isinstance(data, dict) else "generic"
+        )
 
         if category == "consciousness":
             return await self._process_consciousness(data)

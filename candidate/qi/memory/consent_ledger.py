@@ -12,11 +12,15 @@ from typing import Any
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 LEDGER_DIR = os.path.join(STATE, "consent")
 RECS = os.path.join(LEDGER_DIR, "consent_ledger.jsonl")
-IDX = os.path.join(LEDGER_DIR, "consent_index.json")  # quick lookups (user->purpose->latest)
+IDX = os.path.join(
+    LEDGER_DIR, "consent_index.json"
+)  # quick lookups (user->purpose->latest)
 os.makedirs(LEDGER_DIR, exist_ok=True)
 
 # Optional fan-out
-WEBHOOK_URL = os.environ.get("CONSENT_WEBHOOK_URL")  # e.g., https://audit.yourapp/consent
+WEBHOOK_URL = os.environ.get(
+    "CONSENT_WEBHOOK_URL"
+)  # e.g., https://audit.yourapp/consent
 KAFKA_BROKERS = os.environ.get("CONSENT_KAFKA_BROKERS")  # e.g., localhost:9092
 KAFKA_TOPIC = os.environ.get("CONSENT_KAFKA_TOPIC")  # e.g., lukhas.consent.events
 
@@ -42,7 +46,9 @@ class ConsentEvent:
 
 
 def _sha(d: dict[str, Any]) -> str:
-    return hashlib.sha256(json.dumps(d, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+    return hashlib.sha256(
+        json.dumps(d, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
 
 
 def _read_index() -> dict[str, dict[str, dict[str, Any]]]:
@@ -95,7 +101,11 @@ def _sign_receipt(grant: dict[str, Any]) -> dict[str, Any]:
             "user": grant["user"],
             "purpose": grant["purpose"],
         },
-        {"phase": "details", "fields": grant["fields"], "duration_days": grant["duration_days"]},
+        {
+            "phase": "details",
+            "fields": grant["fields"],
+            "duration_days": grant["duration_days"],
+        },
         {"phase": "meta", "meta": grant.get("meta", {})},
     ]
     ch = merkle_chain(steps)
@@ -223,7 +233,9 @@ def is_allowed(
         return False
     if (now - float(ent.get("ts", 0))) > ttl:
         return False
-    if within_days is not None and (now - float(ent.get("ts", 0))) > (within_days * 86400):
+    if within_days is not None and (now - float(ent.get("ts", 0))) > (
+        within_days * 86400
+    ):
         return False
     if require_fields:
         fields = set(ent.get("fields", []))
@@ -238,7 +250,9 @@ def list_user(user: str) -> dict[str, Any]:
 
 # ---------------- CLI ----------------
 def main():
-    ap = argparse.ArgumentParser(description="Lukhas Consent Ledger (signed receipts + fan-out)")
+    ap = argparse.ArgumentParser(
+        description="Lukhas Consent Ledger (signed receipts + fan-out)"
+    )
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p1 = sub.add_parser("grant")
@@ -263,11 +277,23 @@ def main():
 
     args = ap.parse_args()
     if args.cmd == "grant":
-        print(json.dumps(asdict(record(args.user, args.purpose, args.fields, args.days)), indent=2))
+        print(
+            json.dumps(
+                asdict(record(args.user, args.purpose, args.fields, args.days)),
+                indent=2,
+            )
+        )
     elif args.cmd == "revoke":
-        print(json.dumps(asdict(revoke(args.user, args.purpose, args.reason)), indent=2))
+        print(
+            json.dumps(asdict(revoke(args.user, args.purpose, args.reason)), indent=2)
+        )
     elif args.cmd == "check":
-        ok = is_allowed(args.user, args.purpose, require_fields=args.need_fields, within_days=args.within_days)
+        ok = is_allowed(
+            args.user,
+            args.purpose,
+            require_fields=args.need_fields,
+            within_days=args.within_days,
+        )
         print(json.dumps({"allowed": ok}, indent=2))
         raise SystemExit(0 if ok else 2)
     else:

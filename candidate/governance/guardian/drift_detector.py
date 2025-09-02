@@ -23,7 +23,7 @@ Features:
 #TAG:drift
 #TAG:monitoring
 #TAG:constitutional
-#TAG:constellation
+#TAG:trinity
 """
 
 import asyncio
@@ -240,7 +240,9 @@ class AdvancedDriftDetector:
 
         # Real-time tracking
         self.current_measurements: dict[DriftType, float] = {}
-        self.measurement_history: dict[DriftType, deque] = {drift_type: deque(maxlen=1000) for drift_type in DriftType}
+        self.measurement_history: dict[DriftType, deque] = {
+            drift_type: deque(maxlen=1000) for drift_type in DriftType
+        }
 
         # Statistical tracking
         self.statistical_models: dict[str, Any] = {}
@@ -275,7 +277,9 @@ class AdvancedDriftDetector:
         # Initialize system
         asyncio.create_task(self._initialize_drift_detection())
 
-        logger.info(f"🔍 Advanced Drift Detector initialized (threshold: {self.drift_threshold})")
+        logger.info(
+            f"🔍 Advanced Drift Detector initialized (threshold: {self.drift_threshold})"
+        )
 
     async def _initialize_drift_detection(self):
         """Initialize drift detection system with constitutional AI integration"""
@@ -315,7 +319,11 @@ class AdvancedDriftDetector:
                             "std": 50.0,
                             "percentiles": {5: 100, 95: 300},
                         },
-                        "accuracy": {"mean": 0.85, "std": 0.1, "percentiles": {5: 0.7, 95: 0.95}},
+                        "accuracy": {
+                            "mean": 0.85,
+                            "std": 0.1,
+                            "percentiles": {5: 0.7, 95: 0.95},
+                        },
                     },
                 }
 
@@ -344,10 +352,16 @@ class AdvancedDriftDetector:
                         "sensitivity": 0.1,
                     },
                     "trained_at": datetime.now(),
-                    "performance": {"accuracy": 0.85, "precision": 0.80, "recall": 0.75},
+                    "performance": {
+                        "accuracy": 0.85,
+                        "precision": 0.80,
+                        "recall": 0.75,
+                    },
                 }
 
-            logger.info(f"✅ Initialized {len(self.statistical_models)} statistical models")
+            logger.info(
+                f"✅ Initialized {len(self.statistical_models)} statistical models"
+            )
 
         except Exception as e:
             logger.error(f"❌ Failed to initialize statistical models: {e}")
@@ -372,7 +386,9 @@ class AdvancedDriftDetector:
 
             except ImportError:
                 # Fallback if production modules not available
-                logger.warning("⚠️ Constitutional AI modules not available, using monitoring-only mode")
+                logger.warning(
+                    "⚠️ Constitutional AI modules not available, using monitoring-only mode"
+                )
                 self.constitutional_framework = None
                 self.audit_logger = None
 
@@ -390,7 +406,9 @@ class AdvancedDriftDetector:
                     # Check if we have recent measurements that exceed threshold
                     recent_high_drift = [
                         m
-                        for m in list(self.drift_measurements)[-50:]  # Last 50 measurements
+                        for m in list(self.drift_measurements)[
+                            -50:
+                        ]  # Last 50 measurements
                         if m.drift_score >= self.drift_threshold
                     ]
 
@@ -401,10 +419,16 @@ class AdvancedDriftDetector:
                             enforcement_type="threshold_breach_detected",
                             details={
                                 "breach_count": len(recent_high_drift),
-                                "max_drift_score": max(m.drift_score for m in recent_high_drift),
-                                "avg_drift_score": sum(m.drift_score for m in recent_high_drift)
+                                "max_drift_score": max(
+                                    m.drift_score for m in recent_high_drift
+                                ),
+                                "avg_drift_score": sum(
+                                    m.drift_score for m in recent_high_drift
+                                )
                                 / len(recent_high_drift),
-                                "drift_types": list(set(m.drift_type.value for m in recent_high_drift)),
+                                "drift_types": list(
+                                    set(m.drift_type.value for m in recent_high_drift)
+                                ),
                             },
                         )
 
@@ -415,8 +439,12 @@ class AdvancedDriftDetector:
                             policy_type="system_stability",
                             violation_details={
                                 "stability_score": current_stability,
-                                "threshold_breaches": self.metrics.get("threshold_breaches", 0),
-                                "total_measurements": self.metrics.get("total_measurements", 0),
+                                "threshold_breaches": self.metrics.get(
+                                    "threshold_breaches", 0
+                                ),
+                                "total_measurements": self.metrics.get(
+                                    "total_measurements", 0
+                                ),
                             },
                             enforcement_action="stability_alert",
                         )
@@ -427,7 +455,9 @@ class AdvancedDriftDetector:
                 logger.error(f"❌ Constitutional monitoring loop error: {e}")
                 await asyncio.sleep(120)
 
-    async def _get_baseline(self, drift_type: DriftType, source_system: str) -> Optional[dict[str, Any]]:
+    async def _get_baseline(
+        self, drift_type: DriftType, source_system: str
+    ) -> Optional[dict[str, Any]]:
         """Get baseline for drift comparison"""
 
         # Look for specific baseline first
@@ -448,7 +478,9 @@ class AdvancedDriftDetector:
     ) -> dict[str, Any]:
         """Create new baseline from current data"""
 
-        baseline_id = f"baseline_{drift_type.value}_{source_system}_{uuid.uuid4().hex[:8]}"
+        baseline_id = (
+            f"baseline_{drift_type.value}_{source_system}_{uuid.uuid4().hex[:8]}"
+        )
 
         # For testing or when current data looks abnormal, use reasonable defaults
         baseline_values = current_data.copy()
@@ -474,11 +506,17 @@ class AdvancedDriftDetector:
         # Check if current values are significantly abnormal and adjust baseline accordingly
         if drift_type == DriftType.PERFORMANCE:
             if current_data.get("response_time", 0) > 500:  # > 500ms is abnormal
-                baseline_values["response_time"] = min(100.0, current_data.get("response_time", 100) * 0.2)
+                baseline_values["response_time"] = min(
+                    100.0, current_data.get("response_time", 100) * 0.2
+                )
             if current_data.get("error_rate", 0) > 0.1:  # > 10% error rate is abnormal
-                baseline_values["error_rate"] = min(0.02, current_data.get("error_rate", 0.02) * 0.2)
+                baseline_values["error_rate"] = min(
+                    0.02, current_data.get("error_rate", 0.02) * 0.2
+                )
             if current_data.get("anomaly_score", 0) > 0.5:  # > 50% anomaly is abnormal
-                baseline_values["anomaly_score"] = min(0.1, current_data.get("anomaly_score", 0.1) * 0.2)
+                baseline_values["anomaly_score"] = min(
+                    0.1, current_data.get("anomaly_score", 0.1) * 0.2
+                )
 
         baseline = {
             "baseline_id": baseline_id,
@@ -493,7 +531,9 @@ class AdvancedDriftDetector:
         baseline_key = f"{drift_type.value}_{source_system}"
         self.baselines[baseline_key] = baseline
 
-        logger.info(f"📊 Created new baseline: {baseline_id} (adjusted for testing: {'test' in source_system.lower()})")
+        logger.info(
+            f"📊 Created new baseline: {baseline_id} (adjusted for testing: {'test' in source_system.lower()})"
+        )
         return baseline
 
     def _calculate_statistical_profile(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -610,14 +650,19 @@ class AdvancedDriftDetector:
 
             if not baseline:
                 # Create initial baseline if none exists
-                baseline = await self._create_baseline(drift_type, source_system, current_data)
+                baseline = await self._create_baseline(
+                    drift_type, source_system, current_data
+                )
                 # For testing scenarios, add synthetic comparison data for first measurement
                 if context and context.get("test_scenario"):
                     # Create synthetic baseline that's different from current data for testing
                     baseline["values"] = {
-                        k: v * 0.5 if isinstance(v, (int, float)) else v for k, v in current_data.items()
+                        k: v * 0.5 if isinstance(v, (int, float)) else v
+                        for k, v in current_data.items()
                     }
-                    baseline["statistical_profile"] = self._calculate_statistical_profile(baseline["values"])
+                    baseline["statistical_profile"] = (
+                        self._calculate_statistical_profile(baseline["values"])
+                    )
 
             # Calculate drift score using multiple methods
             drift_scores = {}
@@ -628,18 +673,26 @@ class AdvancedDriftDetector:
                 )
 
             if self.detection_methods_enabled[DetectionMethod.RULE_BASED]:
-                drift_scores["rule_based"] = await self._calculate_rule_based_drift(current_data, baseline, drift_type)
-
-            if self.detection_methods_enabled[DetectionMethod.BEHAVIORAL]:
-                drift_scores["behavioral"] = await self._calculate_behavioral_drift(current_data, baseline, drift_type)
-
-            if self.detection_methods_enabled[DetectionMethod.CONSTITUTIONAL]:
-                drift_scores["constitutional"] = await self._calculate_constitutional_drift(
+                drift_scores["rule_based"] = await self._calculate_rule_based_drift(
                     current_data, baseline, drift_type
                 )
 
+            if self.detection_methods_enabled[DetectionMethod.BEHAVIORAL]:
+                drift_scores["behavioral"] = await self._calculate_behavioral_drift(
+                    current_data, baseline, drift_type
+                )
+
+            if self.detection_methods_enabled[DetectionMethod.CONSTITUTIONAL]:
+                drift_scores["constitutional"] = (
+                    await self._calculate_constitutional_drift(
+                        current_data, baseline, drift_type
+                    )
+                )
+
             # Combine drift scores
-            final_drift_score, confidence = await self._combine_drift_scores(drift_scores)
+            final_drift_score, confidence = await self._combine_drift_scores(
+                drift_scores
+            )
 
             # Determine severity
             severity = self._determine_drift_severity(final_drift_score)
@@ -665,7 +718,9 @@ class AdvancedDriftDetector:
                 method_parameters={
                     "threshold": self.drift_threshold,
                     "methods_used": list(drift_scores.keys()),
-                    "baseline_age": (datetime.now() - baseline.get("created_at", datetime.now())).total_seconds(),
+                    "baseline_age": (
+                        datetime.now() - baseline.get("created_at", datetime.now())
+                    ).total_seconds(),
                 },
             )
 
@@ -676,7 +731,9 @@ class AdvancedDriftDetector:
             measurement.consciousness_impact = await self._analyze_consciousness_impact(
                 drift_type, current_data, final_drift_score
             )
-            measurement.guardian_priority = await self._determine_guardian_priority(measurement, context)
+            measurement.guardian_priority = await self._determine_guardian_priority(
+                measurement, context
+            )
 
             # Store measurement
             self.drift_measurements.append(measurement)
@@ -696,7 +753,9 @@ class AdvancedDriftDetector:
             if final_drift_score > self.drift_threshold:
                 await self._handle_threshold_breach(measurement)
 
-            logger.info(f"📊 Drift measured: {drift_type.value} = {final_drift_score:.4f} ({severity.value})")
+            logger.info(
+                f"📊 Drift measured: {drift_type.value} = {final_drift_score:.4f} ({severity.value})"
+            )
 
             return measurement
 
@@ -716,7 +775,10 @@ class AdvancedDriftDetector:
             )
 
     async def _calculate_statistical_drift(
-        self, current_data: dict[str, Any], baseline: dict[str, Any], drift_type: DriftType
+        self,
+        current_data: dict[str, Any],
+        baseline: dict[str, Any],
+        drift_type: DriftType,
     ) -> float:
         """Calculate statistical drift using various statistical measures"""
 
@@ -724,7 +786,9 @@ class AdvancedDriftDetector:
             # If no baseline profile, create synthetic drift based on data characteristics
             if current_data:
                 # Calculate basic drift based on data variability
-                numeric_values = [v for v in current_data.values() if isinstance(v, (int, float))]
+                numeric_values = [
+                    v for v in current_data.values() if isinstance(v, (int, float))
+                ]
                 if numeric_values:
                     # Use coefficient of variation as a drift indicator
                     if len(numeric_values) > 1:
@@ -734,7 +798,9 @@ class AdvancedDriftDetector:
                             cv = std_val / mean_val
                             return min(0.5, cv)  # Cap at 0.5 for reasonable drift
                     # Single value case - use modulo approach for variation
-                    return 0.15 + (abs(hash(str(current_data)) % 100) / 1000)  # 0.15-0.25 range
+                    return 0.15 + (
+                        abs(hash(str(current_data)) % 100) / 1000
+                    )  # 0.15-0.25 range
             return 0.0
 
         baseline_profile = baseline["statistical_profile"]
@@ -759,14 +825,16 @@ class AdvancedDriftDetector:
                 # Percentile-based drift
                 if "percentiles" in baseline_stats:
                     percentiles = baseline_stats["percentiles"]
-                    p5, p95 = percentiles.get(5, current_value), percentiles.get(95, current_value)
+                    p5, p95 = percentiles.get(5, current_value), percentiles.get(
+                        95, current_value
+                    )
 
                     if current_value < p5 or current_value > p95:
                         # Outside 90% range
                         drift_score = 0.3
-                        if current_value < percentiles.get(1, current_value) or current_value > percentiles.get(
-                            99, current_value
-                        ):
+                        if current_value < percentiles.get(
+                            1, current_value
+                        ) or current_value > percentiles.get(99, current_value):
                             drift_score = 0.7  # Outside 98% range
                         drift_scores.append(drift_score)
 
@@ -778,7 +846,9 @@ class AdvancedDriftDetector:
                 if baseline_dist:
                     # Kolmogorov-Smirnov test approximation
                     current_dist = self._calculate_distribution(current_value)
-                    ks_distance = self._calculate_ks_distance(current_dist, baseline_dist)
+                    ks_distance = self._calculate_ks_distance(
+                        current_dist, baseline_dist
+                    )
                     drift_scores.append(min(1.0, ks_distance * 2))  # Scale KS distance
 
         return statistics.mean(drift_scores) if drift_scores else 0.0
@@ -800,7 +870,9 @@ class AdvancedDriftDetector:
             "median": statistics.median(numeric_values),
         }
 
-    def _calculate_ks_distance(self, dist1: dict[str, float], dist2: dict[str, float]) -> float:
+    def _calculate_ks_distance(
+        self, dist1: dict[str, float], dist2: dict[str, float]
+    ) -> float:
         """Calculate Kolmogorov-Smirnov distance approximation"""
 
         # Simple approximation based on mean and std differences
@@ -817,7 +889,10 @@ class AdvancedDriftDetector:
         return (normalized_mean_diff + normalized_std_diff) / 2.0
 
     async def _calculate_rule_based_drift(
-        self, current_data: dict[str, Any], baseline: dict[str, Any], drift_type: DriftType
+        self,
+        current_data: dict[str, Any],
+        baseline: dict[str, Any],
+        drift_type: DriftType,
     ) -> float:
         """Calculate drift using rule-based detection"""
 
@@ -828,9 +903,13 @@ class AdvancedDriftDetector:
             if key in baseline.get("values", {}):
                 baseline_value = baseline["values"][key]
 
-                if isinstance(current_value, (int, float)) and isinstance(baseline_value, (int, float)):
+                if isinstance(current_value, (int, float)) and isinstance(
+                    baseline_value, (int, float)
+                ):
                     if baseline_value != 0:
-                        change_ratio = abs(current_value - baseline_value) / abs(baseline_value)
+                        change_ratio = abs(current_value - baseline_value) / abs(
+                            baseline_value
+                        )
                         if change_ratio > 0.2:  # 20% change
                             drift_indicators.append(min(1.0, change_ratio))
 
@@ -858,14 +937,20 @@ class AdvancedDriftDetector:
         # Rule 4: Drift type specific rules
         if drift_type == DriftType.BEHAVIORAL:
             # Behavioral pattern changes
-            if "frequency" in current_data and "frequency" in baseline.get("values", {}):
-                freq_change = abs(current_data["frequency"] - baseline["values"]["frequency"])
+            if "frequency" in current_data and "frequency" in baseline.get(
+                "values", {}
+            ):
+                freq_change = abs(
+                    current_data["frequency"] - baseline["values"]["frequency"]
+                )
                 if freq_change > 0.1:
                     drift_indicators.append(min(1.0, freq_change * 2))
 
         elif drift_type == DriftType.PERFORMANCE:
             # Performance degradation
-            if "response_time" in current_data and "response_time" in baseline.get("values", {}):
+            if "response_time" in current_data and "response_time" in baseline.get(
+                "values", {}
+            ):
                 current_rt = current_data["response_time"]
                 baseline_rt = baseline["values"]["response_time"]
 
@@ -893,7 +978,9 @@ class AdvancedDriftDetector:
         """Update drift detection metrics"""
         try:
             # Update total measurements
-            self.metrics["total_measurements"] = self.metrics.get("total_measurements", 0) + 1
+            self.metrics["total_measurements"] = (
+                self.metrics.get("total_measurements", 0) + 1
+            )
 
             # Update by drift type
             drift_type_key = f"{measurement.drift_type.value}_measurements"
@@ -916,7 +1003,10 @@ class AdvancedDriftDetector:
             logger.error(f"❌ Failed to update metrics: {e}")
 
     async def _calculate_behavioral_drift(
-        self, current_data: dict[str, Any], baseline: dict[str, Any], drift_type: DriftType
+        self,
+        current_data: dict[str, Any],
+        baseline: dict[str, Any],
+        drift_type: DriftType,
     ) -> float:
         """Calculate behavioral drift using pattern analysis"""
 
@@ -926,27 +1016,41 @@ class AdvancedDriftDetector:
         behavioral_scores = []
 
         # Analyze usage patterns
-        if "usage_pattern" in current_data and "usage_pattern" in baseline.get("values", {}):
+        if "usage_pattern" in current_data and "usage_pattern" in baseline.get(
+            "values", {}
+        ):
             current_pattern = current_data["usage_pattern"]
             baseline_pattern = baseline["values"]["usage_pattern"]
 
-            pattern_similarity = self._calculate_pattern_similarity(current_pattern, baseline_pattern)
+            pattern_similarity = self._calculate_pattern_similarity(
+                current_pattern, baseline_pattern
+            )
             behavioral_scores.append(1.0 - pattern_similarity)
 
         # Analyze temporal patterns
-        if "temporal_distribution" in current_data and "temporal_distribution" in baseline.get("values", {}):
+        if (
+            "temporal_distribution" in current_data
+            and "temporal_distribution" in baseline.get("values", {})
+        ):
             current_temporal = current_data["temporal_distribution"]
             baseline_temporal = baseline["values"]["temporal_distribution"]
 
-            temporal_drift = self._calculate_temporal_drift(current_temporal, baseline_temporal)
+            temporal_drift = self._calculate_temporal_drift(
+                current_temporal, baseline_temporal
+            )
             behavioral_scores.append(temporal_drift)
 
         # Analyze frequency patterns
-        if "frequency_distribution" in current_data and "frequency_distribution" in baseline.get("values", {}):
+        if (
+            "frequency_distribution" in current_data
+            and "frequency_distribution" in baseline.get("values", {})
+        ):
             current_freq = current_data["frequency_distribution"]
             baseline_freq = baseline["values"]["frequency_distribution"]
 
-            frequency_drift = self._calculate_frequency_drift(current_freq, baseline_freq)
+            frequency_drift = self._calculate_frequency_drift(
+                current_freq, baseline_freq
+            )
             behavioral_scores.append(frequency_drift)
 
         return statistics.mean(behavioral_scores) if behavioral_scores else 0.0
@@ -966,9 +1070,10 @@ class AdvancedDriftDetector:
             similarities = []
             for key in common_keys:
                 val1, val2 = pattern1[key], pattern2[key]
-                if isinstance(val1, (int, float)) and isinstance(val2, (int, float)) and val2 != 0:
-                    similarity = 1.0 - abs(val1 - val2) / abs(val2)
-                    similarities.append(max(0.0, similarity))
+                if isinstance(val1, (int, float)) and isinstance(val2, (int, float)):
+                    if val2 != 0:
+                        similarity = 1.0 - abs(val1 - val2) / abs(val2)
+                        similarities.append(max(0.0, similarity))
 
             return statistics.mean(similarities) if similarities else 0.5
 
@@ -987,7 +1092,10 @@ class AdvancedDriftDetector:
         return 0.1
 
     async def _calculate_constitutional_drift(
-        self, current_data: dict[str, Any], baseline: dict[str, Any], drift_type: DriftType
+        self,
+        current_data: dict[str, Any],
+        baseline: dict[str, Any],
+        drift_type: DriftType,
     ) -> float:
         """Calculate constitutional compliance drift"""
 
@@ -997,7 +1105,10 @@ class AdvancedDriftDetector:
         constitutional_scores = []
 
         # Check constitutional principles compliance
-        if "constitutional_scores" in current_data and "constitutional_scores" in baseline.get("values", {}):
+        if (
+            "constitutional_scores" in current_data
+            and "constitutional_scores" in baseline.get("values", {})
+        ):
             current_scores = current_data["constitutional_scores"]
             baseline_scores = baseline["values"]["constitutional_scores"]
 
@@ -1008,7 +1119,9 @@ class AdvancedDriftDetector:
                     constitutional_scores.append(score_drift)
 
         # Check violation rates
-        if "violation_rate" in current_data and "violation_rate" in baseline.get("values", {}):
+        if "violation_rate" in current_data and "violation_rate" in baseline.get(
+            "values", {}
+        ):
             current_rate = current_data["violation_rate"]
             baseline_rate = baseline["values"]["violation_rate"]
 
@@ -1017,14 +1130,20 @@ class AdvancedDriftDetector:
 
         return statistics.mean(constitutional_scores) if constitutional_scores else 0.0
 
-    async def _combine_drift_scores(self, drift_scores: dict[str, float]) -> tuple[float, float]:
+    async def _combine_drift_scores(
+        self, drift_scores: dict[str, float]
+    ) -> tuple[float, float]:
         """Combine multiple drift scores into final score and confidence"""
 
         if not drift_scores:
             return 0.0, 0.0
 
         # Remove any None or invalid scores
-        valid_scores = [score for score in drift_scores.values() if score is not None and 0.0 <= score <= 1.0]
+        valid_scores = [
+            score
+            for score in drift_scores.values()
+            if score is not None and 0.0 <= score <= 1.0
+        ]
 
         if not valid_scores:
             return 0.0, 0.0
@@ -1050,8 +1169,12 @@ class AdvancedDriftDetector:
         final_score = weighted_sum / total_weight if total_weight > 0 else 0.0
 
         # Calculate confidence based on score agreement
-        score_variance = statistics.variance(valid_scores) if len(valid_scores) > 1 else 0.0
-        confidence = max(0.1, 1.0 - score_variance)  # Lower variance = higher confidence
+        score_variance = (
+            statistics.variance(valid_scores) if len(valid_scores) > 1 else 0.0
+        )
+        confidence = max(
+            0.1, 1.0 - score_variance
+        )  # Lower variance = higher confidence
 
         return final_score, confidence
 
@@ -1094,20 +1217,28 @@ class AdvancedDriftDetector:
             if key in baseline_values:
                 baseline_value = baseline_values[key]
 
-                if isinstance(current_value, (int, float)) and isinstance(baseline_value, (int, float)):
+                if isinstance(current_value, (int, float)) and isinstance(
+                    baseline_value, (int, float)
+                ):
                     if baseline_value != 0:
-                        change_ratio = abs(current_value - baseline_value) / abs(baseline_value)
+                        change_ratio = abs(current_value - baseline_value) / abs(
+                            baseline_value
+                        )
                         if change_ratio > 0.2:
                             factors.append(f"significant_change_in_{key}")
 
         # Type-specific factors
         if drift_type == DriftType.PERFORMANCE:
             if "response_time" in current_data:
-                if current_data["response_time"] > baseline_values.get("response_time", 0) * 1.3:
+                if (
+                    current_data["response_time"]
+                    > baseline_values.get("response_time", 0) * 1.3
+                ):
                     factors.append("performance_degradation")
 
-        elif drift_type == DriftType.BEHAVIORAL and len(current_data) != len(baseline_values):
-            factors.append("behavioral_pattern_change")
+        elif drift_type == DriftType.BEHAVIORAL:
+            if len(current_data) != len(baseline_values):
+                factors.append("behavioral_pattern_change")
 
         return factors[:10]  # Limit to top 10 factors
 
@@ -1147,7 +1278,9 @@ class AdvancedDriftDetector:
 
         return min(1.0, consciousness_impact) if consciousness_impact > 0 else None
 
-    async def _determine_guardian_priority(self, measurement: DriftMeasurement, context: dict[str, Any]) -> str:
+    async def _determine_guardian_priority(
+        self, measurement: DriftMeasurement, context: dict[str, Any]
+    ) -> str:
         """Determine Guardian system priority (🛡️)"""
 
         if measurement.drift_score >= self.drift_threshold:
@@ -1195,7 +1328,9 @@ class AdvancedDriftDetector:
             if recent_measurements:
                 self.metrics["max_drift_score_24h"] = max(recent_measurements)
 
-    async def get_drift_report(self, time_period: Optional[tuple[datetime, datetime]] = None) -> DriftReport:
+    async def get_drift_report(
+        self, time_period: Optional[tuple[datetime, datetime]] = None
+    ) -> DriftReport:
         """Generate comprehensive drift report"""
 
         if not time_period:
@@ -1206,7 +1341,11 @@ class AdvancedDriftDetector:
             start_time, end_time = time_period
 
         # Filter measurements for time period
-        period_measurements = [m for m in self.drift_measurements if start_time <= m.measurement_time <= end_time]
+        period_measurements = [
+            m
+            for m in self.drift_measurements
+            if start_time <= m.measurement_time <= end_time
+        ]
 
         if not period_measurements:
             return DriftReport(

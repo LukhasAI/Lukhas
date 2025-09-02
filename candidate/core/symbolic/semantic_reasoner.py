@@ -30,7 +30,9 @@ class SymbolicReasoningEngine:
     ethical AI alignment.
     """
 
-    def __init__(self, symbolic_world: Optional[SymbolicWorld] = None):  # Modified __init__
+    def __init__(
+        self, symbolic_world: Optional[SymbolicWorld] = None
+    ):  # Modified __init__
         self.reasoning_graph = {}
         self.confidence_threshold = 0.8  # Higher threshold for precision
         self.max_reasoning_depth = 3  # Limited depth for efficiency
@@ -75,7 +77,9 @@ class SymbolicReasoningEngine:
         if not text:
             return ""
         # Replace common separators with underscore, remove problematic chars
-        name = text.replace(" ", "_").replace(":", "").replace("→", "to").replace("-", "_")
+        name = (
+            text.replace(" ", "_").replace(":", "").replace("→", "to").replace("-", "_")
+        )
         # Keep only alphanumeric characters and underscores
         name = "".join(e for e in name if e.isalnum() or e == "_")
         # Convert to lowercase and truncate
@@ -97,7 +101,9 @@ class SymbolicReasoningEngine:
         contextual_content = self._extract_contextual_content(data)
 
         # Identify logical elements with priority on symbolic patterns
-        logical_elements = self._extract_logical_elements(semantic_content, symbolic_content, contextual_content)
+        logical_elements = self._extract_logical_elements(
+            semantic_content, symbolic_content, contextual_content
+        )
 
         # Build logical chains using symbolic structures
         logical_chains = self._build_symbolic_logical_chains(logical_elements)
@@ -106,7 +112,11 @@ class SymbolicReasoningEngine:
         weighted_logic = self._calculate_symbolic_confidences(logical_chains)
 
         # Filter by confidence threshold
-        valid_logic = {k: v for k, v in weighted_logic.items() if v["confidence"] >= self.confidence_threshold}
+        valid_logic = {
+            k: v
+            for k, v in weighted_logic.items()
+            if v["confidence"] >= self.confidence_threshold
+        }
 
         # Update internal reasoning graph
         if valid_logic:
@@ -115,8 +125,14 @@ class SymbolicReasoningEngine:
         # Prepare reasoning results with symbolic structure
         reasoning_results = {
             "logical_chains": valid_logic,
-            "primary_conclusion": (self._identify_primary_conclusion(valid_logic) if valid_logic else None),
-            "confidence": (max([v["confidence"] for v in valid_logic.values()]) if valid_logic else 0.0),
+            "primary_conclusion": (
+                self._identify_primary_conclusion(valid_logic) if valid_logic else None
+            ),
+            "confidence": (
+                max([v["confidence"] for v in valid_logic.values()])
+                if valid_logic
+                else 0.0
+            ),
             "reasoning_path": self._extract_symbolic_reasoning_path(valid_logic),
             "symbolic_structure": self._extract_symbolic_structure(valid_logic),
             "timestamp": datetime.now().isoformat(),
@@ -135,9 +151,13 @@ class SymbolicReasoningEngine:
                     props = {
                         "type": "derived_conclusion",
                         "source_engine": self.__class__.__name__,
-                        "original_summary": conclusion_data["summary"],  # Store original summary
+                        "original_summary": conclusion_data[
+                            "summary"
+                        ],  # Store original summary
                         "confidence": conclusion_data["confidence"],
-                        "relation_type_hint": conclusion_data.get("relation_type", "unknown"),
+                        "relation_type_hint": conclusion_data.get(
+                            "relation_type", "unknown"
+                        ),
                         "last_derived_timestamp": reasoning_results["timestamp"],
                     }
 
@@ -173,12 +193,14 @@ class SymbolicReasoningEngine:
 
         # Detect categorical structures
         patterns["categorical"] = any(
-            cat in text.lower() for cat in ["is a", "type of", "category", "class", "belongs to"]
+            cat in text.lower()
+            for cat in ["is a", "type of", "category", "class", "belongs to"]
         )
 
         # Detect quantifiers
         patterns["quantifiers"] = any(
-            q in text.lower() for op in ["all", "some", "none", "every", "any", "few", "many"]
+            q in text.lower()
+            for op in ["all", "some", "none", "every", "any", "few", "many"]
         )
 
         # Check for formal logic structures
@@ -197,7 +219,9 @@ class SymbolicReasoningEngine:
         # Check for universal/existential quantifiers
         if any(q in text.lower() for q in ["all", "every", "any", "for all"]):
             logic["universal"] = True
-        if any(q in text.lower() for q in ["some", "exists", "there is", "at least one"]):
+        if any(
+            q in text.lower() for q in ["some", "exists", "there is", "at least one"]
+        ):
             logic["existential"] = True
 
         # Check for negation
@@ -360,7 +384,10 @@ class SymbolicReasoningEngine:
                         # Check for semantic overlap between first item in this chain
                         # and other items
                         for other_item in other_items:
-                            if any(self._check_semantic_overlap(item, other_item) for item in items):
+                            if any(
+                                self._check_semantic_overlap(item, other_item)
+                                for item in items
+                            ):
                                 logical_chains[chain_id]["elements"].append(other_item)
                                 # Strengthen confidence due to cross-domain evidence
                                 logical_chains[chain_id]["base_confidence"] = min(
@@ -372,7 +399,9 @@ class SymbolicReasoningEngine:
 
     def _check_semantic_overlap(self, item1: dict, item2: dict) -> bool:
         """Check for semantic overlap between two items"""
-        if not isinstance(item1.get("content"), str) or not isinstance(item2.get("content"), str):
+        if not isinstance(item1.get("content"), str) or not isinstance(
+            item2.get("content"), str
+        ):
             return False
 
         content1 = item1["content"].lower()
@@ -413,26 +442,37 @@ class SymbolicReasoningEngine:
             type_diversity_bonus = min(0.1, 0.03 * type_count)
 
             # Rule 2: Symbolic types have higher weight
-            symbolic_types = sum(1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t)
+            symbolic_types = sum(
+                1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t
+            )
             symbolic_bonus = min(0.15, 0.05 * symbolic_types)
 
             # Rule 3: More elements in high-confidence types increase confidence
             evidence_strength = 0
             for elem_type, elems in elements_by_type.items():
-                if ("symbolic" in elem_type or "formal_logic" in elem_type) and len(elems) > 1:
+                if ("symbolic" in elem_type or "formal_logic" in elem_type) and len(
+                    elems
+                ) > 1:
                     evidence_strength += 0.05 * min(3, len(elems))
 
             # Calculate final confidence with caps
             final_confidence = min(
                 0.99,
-                base_confidence + type_diversity_bonus + symbolic_bonus + evidence_strength,
+                base_confidence
+                + type_diversity_bonus
+                + symbolic_bonus
+                + evidence_strength,
             )
 
             weighted_logic[chain_id] = {
-                "elements": chain["elements"][:3],  # Limit elements stored for efficiency
+                "elements": chain["elements"][
+                    :3
+                ],  # Limit elements stored for efficiency
                 "confidence": final_confidence,
                 "relation_type": chain.get("relation_type", "unknown"),
-                "summary": self._create_symbolic_summary(chain["elements"], chain.get("relation_type", "unknown")),
+                "summary": self._create_symbolic_summary(
+                    chain["elements"], chain.get("relation_type", "unknown")
+                ),
             }
 
         return weighted_logic
@@ -445,7 +485,9 @@ class SymbolicReasoningEngine:
         # Different summary formats based on relation type
         if relation_type == "logical":
             # Format like a logical statement
-            return "Logical relationship: " + " AND ".join([e["content"] for e in elements[:2]])
+            return "Logical relationship: " + " AND ".join(
+                [e["content"] for e in elements[:2]]
+            )
         elif relation_type == "formal_logic":
             # Format with formal logic notation
             contents = [e["content"] for e in elements[:2]]
@@ -491,9 +533,9 @@ class SymbolicReasoningEngine:
                 entry["frequency"] += 1
                 entry["last_seen"] = timestamp
                 # Running average of confidence
-                entry["avg_confidence"] = (entry["avg_confidence"] * (entry["frequency"] - 1) + confidence) / entry[
-                    "frequency"
-                ]
+                entry["avg_confidence"] = (
+                    entry["avg_confidence"] * (entry["frequency"] - 1) + confidence
+                ) / entry["frequency"]
 
         # Limit reasoning graph size by pruning oldest and least frequent entries
         if len(self.reasoning_graph) > 30:  # Reduced size limit for efficiency
@@ -632,12 +674,14 @@ class SymbolicReasoningEngine:
         self.reasoning_history.append(
             {
                 "timestamp": reasoning_results["timestamp"],
-                "primary_conclusion_type": reasoning_results.get("primary_conclusion", {}).get(
-                    "relation_type", "unknown"
-                ),
+                "primary_conclusion_type": reasoning_results.get(
+                    "primary_conclusion", {}
+                ).get("relation_type", "unknown"),
                 "confidence": reasoning_results.get("confidence", 0),
             }
         )
 
         # Limit history size
-        self.reasoning_history = self.reasoning_history[-30:]  # Limited to last 30 for efficiency
+        self.reasoning_history = self.reasoning_history[
+            -30:
+        ]  # Limited to last 30 for efficiency

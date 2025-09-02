@@ -63,7 +63,9 @@ class MultimodalMemoryIntegration:
         self.is_initialized = False
         self.memory_cache = {}
 
-        logger.info("MultimodalMemoryIntegration initialized with config: %s", self.config)
+        logger.info(
+            "MultimodalMemoryIntegration initialized with config: %s", self.config
+        )
 
     async def initialize(self):
         """Initialize the multimodal memory system and its components"""
@@ -192,7 +194,9 @@ class MultimodalMemoryIntegration:
 
         return {
             "memory_id": memory_id,
-            "modalities": self._get_present_modalities(text, image_bytes, audio_bytes, video_bytes),
+            "modalities": self._get_present_modalities(
+                text, image_bytes, audio_bytes, video_bytes
+            ),
             "tags": tags or [],
             "created_at": datetime.now().isoformat(),
         }
@@ -205,7 +209,9 @@ class MultimodalMemoryIntegration:
                 return path.read_bytes()
         return data
 
-    def _get_present_modalities(self, text: Any, image: Any, audio: Any, video: Any) -> list[str]:
+    def _get_present_modalities(
+        self, text: Any, image: Any, audio: Any, video: Any
+    ) -> list[str]:
         """Get list of modalities present in the memory"""
         modalities = []
         if text:
@@ -218,7 +224,9 @@ class MultimodalMemoryIntegration:
             modalities.append("video")
         return modalities
 
-    async def process_multimodal_data(self, data: MultiModalMemoryData) -> dict[str, Any]:
+    async def process_multimodal_data(
+        self, data: MultiModalMemoryData
+    ) -> dict[str, Any]:
         """
         Process multimodal memory data
 
@@ -318,7 +326,9 @@ class MultimodalMemoryIntegration:
         # In production, this would be more sophisticated
 
         after_size = len(self.memory_cache)
-        logger.info(f"Memory optimization complete. Removed {before_size - after_size} memories")
+        logger.info(
+            f"Memory optimization complete. Removed {before_size - after_size} memories"
+        )
 
     async def update_awareness(self, awareness_state: dict[str, Any]):
         """

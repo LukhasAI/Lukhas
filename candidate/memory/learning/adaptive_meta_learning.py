@@ -142,7 +142,9 @@ class AdaptiveMetaLearningSystem:
             result_keys=list(learning_result.keys()),
         )
 
-        performance_metrics = self._evaluate_performance(strategy_name, learning_result, duration)
+        performance_metrics = self._evaluate_performance(
+            strategy_name, learning_result, duration
+        )
         self._update_strategy_performance(strategy_name, performance_metrics)
         # ΛTRACE: Performance evaluated and updated
         logger.info(
@@ -202,10 +204,14 @@ class AdaptiveMetaLearningSystem:
         )
 
         if "performance_rating" in feedback:
-            self._update_strategy_performance(strategy_name, {"user_rating": feedback["performance_rating"]})
+            self._update_strategy_performance(
+                strategy_name, {"user_rating": feedback["performance_rating"]}
+            )
 
         if "parameter_adjustments" in feedback:
-            self._adjust_strategy_parameters(strategy_name, feedback["parameter_adjustments"])
+            self._adjust_strategy_parameters(
+                strategy_name, feedback["parameter_adjustments"]
+            )
         # ΛTRACE: Feedback incorporated
         logger.info("feedback_incorporated_successfully", strategy_name=strategy_name)
 
@@ -220,7 +226,9 @@ class AdaptiveMetaLearningSystem:
         logger.info("generating_learning_report_start")
         strategies_by_performance = sorted(
             self.strategy_performance.items(),
-            key=lambda x: x[1].get("overall_score", 0),  # Original code had 'λ' instead of 'lambda'
+            key=lambda x: x[1].get(
+                "overall_score", 0
+            ),  # Original code had 'λ' instead of 'lambda'
             reverse=True,
         )
 
@@ -228,7 +236,8 @@ class AdaptiveMetaLearningSystem:
             "learning_cycles": self.learning_cycle,
             "top_strategies": [name for name, _ in strategies_by_performance[:3]],
             "strategy_distribution": {
-                name: perf.get("usage_count", 0) for name, perf in self.strategy_performance.items()
+                name: perf.get("usage_count", 0)
+                for name, perf in self.strategy_performance.items()
             },
             "adaptation_progress": self._calculate_adaptation_progress(),
             "meta_parameters": self.meta_parameters,
@@ -311,7 +320,9 @@ class AdaptiveMetaLearningSystem:
             "quality_requirements": context.get("quality_requirements", "moderate"),
         }
         features["data_sparsity"] = self._calculate_sparsity(available_data)
-        features["complexity_estimate"] = self._estimate_complexity(available_data, context)
+        features["complexity_estimate"] = self._estimate_complexity(
+            available_data, context
+        )
         features["noise_level"] = self._estimate_noise_level(available_data)
         features["label_availability"] = self._check_label_availability(available_data)
         # ΛTRACE: Learning features extracted
@@ -342,13 +353,17 @@ class AdaptiveMetaLearningSystem:
         ) in self.learning_strategies.items():  # Renamed strategy to strategy_config
             base_score = self._calculate_strategy_match(strategy_config, features)
             if name in self.strategy_performance:
-                perf_adjustment = self.strategy_performance[name].get("overall_score", 0.5)
+                perf_adjustment = self.strategy_performance[name].get(
+                    "overall_score", 0.5
+                )
                 final_score = base_score * 0.7 + perf_adjustment * 0.3
             else:
                 final_score = base_score
             strategy_scores[name] = final_score
 
-        best_strategy = max(strategy_scores.items(), key=lambda x: x[1])[0]  # Original: λ
+        best_strategy = max(strategy_scores.items(), key=lambda x: x[1])[
+            0
+        ]  # Original: λ
         # ΛTRACE: Exploitation: Best strategy chosen
         logger.info(
             "exploitation_strategy_selected",
@@ -413,7 +428,9 @@ class AdaptiveMetaLearningSystem:
             }
         else:
             # ΛTRACE: Unknown algorithm encountered
-            logger.error("unknown_algorithm_in_apply_strategy", algorithm_name=algorithm)
+            logger.error(
+                "unknown_algorithm_in_apply_strategy", algorithm_name=algorithm
+            )
             result = {
                 "status": "unknown_algorithm",
                 "error": f"Algorithm {algorithm} not implemented",
@@ -427,7 +444,9 @@ class AdaptiveMetaLearningSystem:
         return result
 
     # # Evaluate performance of the applied strategy
-    def _evaluate_performance(self, strategy_name: str, learning_result: dict, duration: float) -> dict:
+    def _evaluate_performance(
+        self, strategy_name: str, learning_result: dict, duration: float
+    ) -> dict:
         """Evaluate the performance of the applied learning strategy"""
         # ΛNOTE: Calculates performance metrics based on the learning outcome.
         # ΛTRACE: Evaluating performance
@@ -446,7 +465,9 @@ class AdaptiveMetaLearningSystem:
             accuracy = 0.7
 
         efficiency = 1.0 / (1.0 + duration)
-        generalization = accuracy * np.random.uniform(0.85, 1.0)  # ΛCAUTION: Generalization is estimated randomly.
+        generalization = accuracy * np.random.uniform(
+            0.85, 1.0
+        )  # ΛCAUTION: Generalization is estimated randomly.
         confidence = self._calculate_confidence(learning_result)
 
         metrics = {
@@ -472,7 +493,9 @@ class AdaptiveMetaLearningSystem:
         return metrics
 
     # # Update performance record for a strategy
-    def _update_strategy_performance(self, strategy_name: str, new_metrics: dict) -> None:
+    def _update_strategy_performance(
+        self, strategy_name: str, new_metrics: dict
+    ) -> None:
         """Update the performance record for a strategy"""
         # ΛNOTE: Maintains and updates historical performance data for each strategy.
         # ΛDREAM_LOOP: This update contributes to the system's memory of strategy effectiveness, influencing future choices.
@@ -490,10 +513,14 @@ class AdaptiveMetaLearningSystem:
 
         self.strategy_performance[strategy_name]["usage_count"] += 1
         if "overall_score" in new_metrics:
-            self.strategy_performance[strategy_name]["performance_history"].append(new_metrics)
+            self.strategy_performance[strategy_name]["performance_history"].append(
+                new_metrics
+            )
             history = [
                 entry.get("overall_score", 0)
-                for entry in self.strategy_performance[strategy_name]["performance_history"]
+                for entry in self.strategy_performance[strategy_name][
+                    "performance_history"
+                ]
             ]
             if history:
                 weights = np.exp(np.linspace(0, 1, len(history)))
@@ -523,7 +550,9 @@ class AdaptiveMetaLearningSystem:
         # ΛNOTE: Needs self.performance_history to be populated; currently it's
         # not explicitly added to.
         if len(self.performance_history) >= 10:
-            recent_scores = [p.get("overall_score", 0) for p in self.performance_history[-10:]]
+            recent_scores = [
+                p.get("overall_score", 0) for p in self.performance_history[-10:]
+            ]
             recent_variance = np.var(recent_scores)
             self.exploration_rate = min(0.4, max(0.05, recent_variance * 3))
             if len(recent_scores) >= 5:
@@ -532,7 +561,9 @@ class AdaptiveMetaLearningSystem:
                     self.meta_parameters["adaptation_rate"] *= 1.1
                 else:
                     self.meta_parameters["adaptation_rate"] *= 0.9
-        self.meta_parameters["adaptation_rate"] = max(0.01, min(0.2, self.meta_parameters["adaptation_rate"]))
+        self.meta_parameters["adaptation_rate"] = max(
+            0.01, min(0.2, self.meta_parameters["adaptation_rate"])
+        )
         # ΛTRACE: Meta-parameters updated
         logger.info(
             "meta_parameters_updated_complete",
@@ -541,7 +572,9 @@ class AdaptiveMetaLearningSystem:
         )
 
     # # Adjust parameters of a specific strategy
-    def _adjust_strategy_parameters(self, strategy_name: str, adjustments: dict) -> None:
+    def _adjust_strategy_parameters(
+        self, strategy_name: str, adjustments: dict
+    ) -> None:
         """Adjust parameters of a specific strategy based on feedback"""
         # ΛNOTE: Allows fine-tuning of individual strategy parameters.
         # ΛDREAM_LOOP: Adjusting strategy parameters based on feedback is a direct learning mechanism.
@@ -555,9 +588,13 @@ class AdaptiveMetaLearningSystem:
             return
         for param_name, adjustment in adjustments.items():
             if param_name in self.learning_strategies[strategy_name]["parameters"]:
-                current = self.learning_strategies[strategy_name]["parameters"][param_name]
+                current = self.learning_strategies[strategy_name]["parameters"][
+                    param_name
+                ]
                 new_value = current + adjustment
-                self.learning_strategies[strategy_name]["parameters"][param_name] = max(0.001, min(10.0, new_value))
+                self.learning_strategies[strategy_name]["parameters"][param_name] = max(
+                    0.001, min(10.0, new_value)
+                )
                 # ΛTRACE: Strategy parameter adjusted
                 logger.info(
                     "strategy_parameter_adjusted",
@@ -577,11 +614,15 @@ class AdaptiveMetaLearningSystem:
             return 0.0  # Needs self.performance_history
         if len(self.performance_history) >= 10:
             recent = [p.get("overall_score", 0) for p in self.performance_history[-5:]]
-            earlier = [p.get("overall_score", 0) for p in self.performance_history[-10:-5]]
+            earlier = [
+                p.get("overall_score", 0) for p in self.performance_history[-10:-5]
+            ]
             if earlier and recent:
                 avg_recent = np.mean(recent)
                 avg_earlier = np.mean(earlier)
-                improvement = max(0, (avg_recent - avg_earlier) / max(0.001, avg_earlier))
+                improvement = max(
+                    0, (avg_recent - avg_earlier) / max(0.001, avg_earlier)
+                )
                 # ΛTRACE: Adaptation progress calculated
                 logger.debug("adaptation_progress_calculated", improvement=improvement)
                 return min(1.0, improvement)
@@ -606,7 +647,9 @@ class AdaptiveMetaLearningSystem:
                     "trend_coefficient": trend_coef,
                     "recent_average": np.mean(scores[-3:]),
                     "improvement": (
-                        "increasing" if trend_coef > 0.01 else "decreasing" if trend_coef < -0.01 else "stable"
+                        "increasing"
+                        if trend_coef > 0.01
+                        else "decreasing" if trend_coef < -0.01 else "stable"
                     ),
                 }
         # ΛTRACE: Performance trends analyzed
@@ -669,7 +712,9 @@ class AdaptiveMetaLearningSystem:
         ):
             match_score += 0.2
         complexity = features.get("complexity_estimate", 0.5)
-        if (complexity > 0.7 and "complex" in suitable_for) or (complexity < 0.3 and "simple" in suitable_for):
+        if (complexity > 0.7 and "complex" in suitable_for) or (
+            complexity < 0.3 and "simple" in suitable_for
+        ):
             match_score += 0.15
         # ΛTRACE: Strategy match calculated
         logger.debug(
@@ -684,7 +729,9 @@ class AdaptiveMetaLearningSystem:
         """Calculate confidence in learning result based on result characteristics"""
         # ΛNOTE: Heuristic for confidence based on output metrics.
         # ΛTRACE: Calculating confidence
-        logger.debug("calculating_confidence_start", result_keys=list(learning_result.keys()))
+        logger.debug(
+            "calculating_confidence_start", result_keys=list(learning_result.keys())
+        )
         confidence = 0.5
         if "accuracy" in learning_result and learning_result["accuracy"] > 0.8:
             confidence += 0.2
@@ -705,7 +752,10 @@ class AdaptiveMetaLearningSystem:
         insights = []
         if self.strategy_performance:
             best_strategies = sorted(
-                [(name, perf.get("overall_score", 0)) for name, perf in self.strategy_performance.items()],
+                [
+                    (name, perf.get("overall_score", 0))
+                    for name, perf in self.strategy_performance.items()
+                ],
                 key=lambda x: x[1],  # Original: λ
                 reverse=True,
             )[:2]
@@ -715,19 +765,27 @@ class AdaptiveMetaLearningSystem:
                 )
         adaptation = self._calculate_adaptation_progress()
         if adaptation > 0.2:
-            insights.append(f"System shows {adaptation:.1%} improvement in learning effectiveness")
+            insights.append(
+                f"System shows {adaptation:.1%} improvement in learning effectiveness"
+            )
         elif adaptation < -0.1:
             # ΛNOTE: This check uses `adaptation` which is a progress metric, not
             # direct performance.
-            insights.append("Learning performance declining - may need strategy diversification")
+            insights.append(
+                "Learning performance declining - may need strategy diversification"
+            )
         if self.exploration_rate > 0.3:
             insights.append(
                 "High exploration rate indicates volatile performance - system still learning optimal strategies"
             )
         elif self.exploration_rate < 0.1:
-            insights.append("Low exploration rate indicates stable performance - system has found effective strategies")
+            insights.append(
+                "Low exploration rate indicates stable performance - system has found effective strategies"
+            )
         if self.learning_cycle > 50:
-            insights.append(f"System maturity: {self.learning_cycle} learning cycles completed")
+            insights.append(
+                f"System maturity: {self.learning_cycle} learning cycles completed"
+            )
         # ΛTRACE: Meta-insights generated
         logger.debug("meta_insights_generated", num_insights=len(insights))
         return insights
@@ -773,7 +831,9 @@ if __name__ == "__main__":
                 task_type=scenario["context"]["task_type"],
             )
             print(f"\n📊 Scenario {i}: {scenario['context']['task_type']}")
-            result = meta_learner.optimize_learning_approach(scenario["context"], scenario["data"])
+            result = meta_learner.optimize_learning_approach(
+                scenario["context"], scenario["data"]
+            )
             print(f"   Strategy: {result['strategy_used']}")
             print(f"   Performance: {result['performance_score']:.3f}")
             print(f"   Confidence: {result['confidence']:.3f}")

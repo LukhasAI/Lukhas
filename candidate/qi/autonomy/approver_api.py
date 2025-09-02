@@ -40,7 +40,9 @@ def api_list_proposals(x_auth_token: str | None = Header(None)):
 
 @API.post("/proposals/plan")
 def api_plan(
-    targets: str | None = Query(None, description="comma-separated target config files"),
+    targets: str | None = Query(
+        None, description="comma-separated target config files"
+    ),
     x_auth_token: str | None = Header(None),
 ):
     _auth(x_auth_token)
@@ -78,7 +80,11 @@ def api_reject(
 
 
 @API.post("/proposals/{proposal_id}/apply")
-def api_apply(proposal_id: str, as_user: str = Query("ops"), x_auth_token: str | None = Header(None)):
+def api_apply(
+    proposal_id: str,
+    as_user: str = Query("ops"),
+    x_auth_token: str | None = Header(None),
+):
     _auth(x_auth_token)
     try:
         return _apply(proposal_id, subject_user=as_user)

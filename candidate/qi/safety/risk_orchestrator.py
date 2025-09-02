@@ -55,7 +55,9 @@ class RiskOrchestrator:
             return yaml.safe_load(open(override, encoding="utf-8"))
         return DEFAULT_CFG
 
-    def score(self, *, calibrated_conf: float, pii_hits: int, content_flags: int) -> float:
+    def score(
+        self, *, calibrated_conf: float, pii_hits: int, content_flags: int
+    ) -> float:
         w = self.cfg["weights"]
         t = self.cfg["thresholds"]
         s = 0.0
@@ -85,7 +87,9 @@ class RiskOrchestrator:
         # always remediate PII if present
         if pii_hits > 0 and "mask_pii" not in actions:
             actions.insert(0, "mask_pii")
-        return RoutePlan(tier=tier["name"], score=score, actions=actions, notes=f"task={task}")
+        return RoutePlan(
+            tier=tier["name"], score=score, actions=actions, notes=f"task={task}"
+        )
 
 
 if __name__ == "__main__":
@@ -99,7 +103,12 @@ if __name__ == "__main__":
     plan = ro.route(task=args.task, ctx=ctx)
     print(
         json.dumps(
-            {"tier": plan.tier, "score": plan.score, "actions": plan.actions, "notes": plan.notes},
+            {
+                "tier": plan.tier,
+                "score": plan.score,
+                "actions": plan.actions,
+                "notes": plan.notes,
+            },
             indent=2,
         )
     )

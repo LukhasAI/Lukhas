@@ -66,7 +66,9 @@ def plot_heatmap(df):
         print("📭 No data to visualize.")
         return
 
-    pivot = df.pivot_table(index="emotion", columns="tier", aggfunc="size", fill_value=0)
+    pivot = df.pivot_table(
+        index="emotion", columns="tier", aggfunc="size", fill_value=0
+    )
 
     plt.figure(figsize=(10, 6))
     sns.heatmap(pivot, annot=True, cmap="coolwarm", linewidths=0.5)

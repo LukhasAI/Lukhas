@@ -47,7 +47,9 @@ except ImportError:
 """
 
 
-def generate_symbolic_image(prompt_key="default_dream", output_file="symbolic_output.png"):
+def generate_symbolic_image(
+    prompt_key="default_dream", output_file="symbolic_output.png"
+):
     """
     Uses the render engine to generate an image based on a symbolic prompt.
 

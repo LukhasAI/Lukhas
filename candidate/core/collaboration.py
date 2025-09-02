@@ -24,15 +24,25 @@ class ReactiveDataPipeline:
         print("\n--- Running Reactive Data Pipeline ---")
         # 1. Ingestion
         validated_data = self.ingestion_colony.create_agent("ingestor-01").receive(data)
-        self.swarm_manager.broadcast_event({"type": "ValidatedDataReady", "data": validated_data})
+        self.swarm_manager.broadcast_event(
+            {"type": "ValidatedDataReady", "data": validated_data}
+        )
 
         # 2. Feature Engineering
-        features = self.feature_colony.create_agent("feature-extractor-01").receive(validated_data)
-        self.swarm_manager.broadcast_event({"type": "FeaturesReady", "features": features})
+        features = self.feature_colony.create_agent("feature-extractor-01").receive(
+            validated_data
+        )
+        self.swarm_manager.broadcast_event(
+            {"type": "FeaturesReady", "features": features}
+        )
 
         # 3. Inference
-        prediction = self.inference_colony.create_agent("predictor-01").receive(features)
-        self.swarm_manager.broadcast_event({"type": "PredictionResult", "prediction": prediction})
+        prediction = self.inference_colony.create_agent("predictor-01").receive(
+            features
+        )
+        self.swarm_manager.broadcast_event(
+            {"type": "PredictionResult", "prediction": prediction}
+        )
         print("--- Pipeline Complete ---")
         return prediction
 
@@ -61,7 +71,9 @@ class DynamicTaskNegotiation:
         if proposal1:
             initiator.receive_proposal(proposal1)
 
-        participant2 = ContractNetParticipant("analysis-2", ["sentiment-analysis", "forecasting"])
+        participant2 = ContractNetParticipant(
+            "analysis-2", ["sentiment-analysis", "forecasting"]
+        )
         proposal2 = participant2.handle_call_for_proposals(task)
         if proposal2:
             initiator.receive_proposal(proposal2)
@@ -92,12 +104,17 @@ class SelfOrganizingSwarm:
         self.swarm_manager.broadcast_event({"type": "CallForCompute"})
 
         # 3. Swarm Formation (Simulated)
-        compute_colonies = [self.swarm_manager.create_colony(f"compute-{i}") for i in range(num_sub_tasks)]
+        compute_colonies = [
+            self.swarm_manager.create_colony(f"compute-{i}")
+            for i in range(num_sub_tasks)
+        ]
         print(f"Swarm: Formed a swarm of {len(compute_colonies)} compute colonies.")
 
         # 4. P2P Mesh Training (Simulated)
         print("Swarm: Starting P2P mesh training...")
         for colony in compute_colonies:
-            colony.create_agent(f"trainer-in-{colony.colony_id}").receive({"data_size": sub_task_size})
+            colony.create_agent(f"trainer-in-{colony.colony_id}").receive(
+                {"data_size": sub_task_size}
+            )
 
         print("--- Training Simulation Complete ---")

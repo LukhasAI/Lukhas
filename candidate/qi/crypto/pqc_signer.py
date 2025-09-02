@@ -58,8 +58,12 @@ class PQCSigner:
             # Generate Dilithium3 keys (placeholder - real implementation would use actual lib)
             return {
                 "algorithm": "dilithium3",
-                "public_key": base64.b64encode(os.urandom(1952)).decode(),  # Dilithium3 public key size
-                "private_key": base64.b64encode(os.urandom(4000)).decode(),  # Dilithium3 private key size
+                "public_key": base64.b64encode(
+                    os.urandom(1952)
+                ).decode(),  # Dilithium3 public key size
+                "private_key": base64.b64encode(
+                    os.urandom(4000)
+                ).decode(),  # Dilithium3 private key size
                 "key_id": hashlib.sha256(os.urandom(32)).hexdigest()[:16],
             }
         elif HAS_ED25519:
@@ -99,12 +103,16 @@ class PQCSigner:
 
         if self.key_data["algorithm"] == "dilithium3" and HAS_DILITHIUM:
             # Use Dilithium3 (placeholder)
-            signature = base64.b64encode(os.urandom(3293)).decode()  # Dilithium3 signature size
+            signature = base64.b64encode(
+                os.urandom(3293)
+            ).decode()  # Dilithium3 signature size
             alg = "dilithium3"
         elif self.key_data["algorithm"] == "ed25519" and HAS_ED25519:
             # Use Ed25519
             private_bytes = base64.b64decode(self.key_data["private_key"])
-            private_key = serialization.load_pem_private_key(private_bytes, password=None)
+            private_key = serialization.load_pem_private_key(
+                private_bytes, password=None
+            )
             signature_bytes = private_key.sign(data)
             signature = base64.b64encode(signature_bytes).decode()
             alg = "ed25519"
@@ -157,13 +165,17 @@ class PQCSigner:
 # Helper functions for convenience
 def sign_dilithium(data: bytes) -> dict[str, str]:
     """Sign data with Dilithium3 (production) or Ed25519 (dev)."""
-    profile = "production" if os.environ.get("LUKHAS_ENV") == "production" else "development"
+    profile = (
+        "production" if os.environ.get("LUKHAS_ENV") == "production" else "development"
+    )
     signer = PQCSigner(profile)
     return signer.sign(data)
 
 
 def verify_signature(data: bytes, signature_info: dict[str, str]) -> bool:
     """Verify signature."""
-    profile = "production" if os.environ.get("LUKHAS_ENV") == "production" else "development"
+    profile = (
+        "production" if os.environ.get("LUKHAS_ENV") == "production" else "development"
+    )
     signer = PQCSigner(profile)
     return signer.verify(data, signature_info)

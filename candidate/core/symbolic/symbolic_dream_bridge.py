@@ -98,7 +98,9 @@ class SymbolicDreamBridge:
             bool: Success status of handshake establishment
         """
         # PLACEHOLDER: Implement symbolic handshake protocol
-        logger.info(f"Establishing symbolic handshake for dream_id: {dream_context.dream_id}")
+        logger.info(
+            f"Establishing symbolic handshake for dream_id: {dream_context.dream_id}"
+        )
 
         # TODO: Implement phase resonance validation
         # TODO: Establish symbolic mapping protocols

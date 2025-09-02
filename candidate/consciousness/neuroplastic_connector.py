@@ -27,12 +27,16 @@ class NeuroplasticConnector:
         self.connection_strength: dict[str, float] = {}
         self.adaptation_history: list[dict[str, Any]] = []
 
-    def form_synapse(self, from_neuron: str, to_neuron: str, initial_weight: float = 0.5):
+    def form_synapse(
+        self, from_neuron: str, to_neuron: str, initial_weight: float = 0.5
+    ):
         """Form new synaptic connection between neurons."""
         connection_id = f"{from_neuron}->{to_neuron}"
         self.synaptic_weights[connection_id] = initial_weight
         self.connection_strength[connection_id] = initial_weight
-        logger.info(f"Formed neuroplastic synapse: {connection_id} (weight: {initial_weight})")
+        logger.info(
+            f"Formed neuroplastic synapse: {connection_id} (weight: {initial_weight})"
+        )
 
     def strengthen_pathway(self, pathway_id: str, reinforcement: float = 0.1):
         """Strengthen neural pathway through Hebbian learning."""
@@ -51,7 +55,9 @@ class NeuroplasticConnector:
             }
             self.adaptation_history.append(adaptation)
 
-            logger.info(f"Strengthened pathway {pathway_id}: {old_strength:.3f} -> {new_strength:.3f}")
+            logger.info(
+                f"Strengthened pathway {pathway_id}: {old_strength:.3f} -> {new_strength:.3f}"
+            )
 
     def weaken_pathway(self, pathway_id: str, decay: float = 0.05):
         """Weaken unused neural pathway through synaptic pruning."""
@@ -65,7 +71,9 @@ class NeuroplasticConnector:
                 del self.connection_strength[pathway_id]
                 logger.info(f"Pruned weak pathway: {pathway_id}")
             else:
-                logger.info(f"Weakened pathway {pathway_id}: {old_strength:.3f} -> {new_strength:.3f}")
+                logger.info(
+                    f"Weakened pathway {pathway_id}: {old_strength:.3f} -> {new_strength:.3f}"
+                )
 
     def get_pathway_strength(self, pathway_id: str) -> float:
         """Get current strength of neural pathway."""
@@ -89,9 +97,11 @@ class NeuroplasticConnector:
             "total_synapses": len(self.synaptic_weights),
             "active_pathways": len(self.connection_strength),
             "adaptations": len(self.adaptation_history),
-            "strongest_pathway": max(self.connection_strength.items(), key=lambda x: x[1])
-            if self.connection_strength
-            else None,
+            "strongest_pathway": (
+                max(self.connection_strength.items(), key=lambda x: x[1])
+                if self.connection_strength
+                else None
+            ),
             "plasticity_threshold": self.plasticity_threshold,
         }
 

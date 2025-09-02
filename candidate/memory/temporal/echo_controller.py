@@ -77,7 +77,9 @@ class EchoController:
             if not history:
                 continue
             time_since_last_ping = (now - history[-1]).total_seconds()
-            if time_since_last_ping > self.config.get("silent_drop_threshold_seconds", 300):
+            if time_since_last_ping > self.config.get(
+                "silent_drop_threshold_seconds", 300
+            ):
                 self._output_alert(f"Silent drop detected for agent {agent_id}.")
 
     def _output_alert(self, message: str) -> None:

@@ -74,7 +74,9 @@ class BioSymbolicFallbackManager:
         self.component_health = defaultdict(lambda: 1.0)
         self.fallback_strategies = self._initialize_fallback_strategies()
         self.emergency_values = self._initialize_emergency_values()
-        self.circuit_breakers = defaultdict(lambda: {"failures": 0, "last_failure": None})
+        self.circuit_breakers = defaultdict(
+            lambda: {"failures": 0, "last_failure": None}
+        )
 
         # Fallback thresholds
         self.thresholds = {
@@ -196,7 +198,9 @@ class BioSymbolicFallbackManager:
         fallback_level = self._determine_fallback_level(component, error, context)
         reason = self._determine_fallback_reason(error)
 
-        logger.warning(f"🛡️ Activating {fallback_level.value} fallback for {component}: {str(error)[:100]}")
+        logger.warning(
+            f"🛡️ Activating {fallback_level.value} fallback for {component}: {str(error)[:100]}"
+        )
 
         # Check circuit breaker
         if self._should_circuit_break(component):
@@ -237,7 +241,9 @@ class BioSymbolicFallbackManager:
                 "original_error": str(error),
             }
 
-            logger.info(f"✅ Fallback recovery successful for {component} in {recovery_time:.1f}ms")
+            logger.info(
+                f"✅ Fallback recovery successful for {component} in {recovery_time:.1f}ms"
+            )
 
             return fallback_result
 
@@ -261,9 +267,13 @@ class BioSymbolicFallbackManager:
             self.fallback_history.append(fallback_event)
 
             # Escalate to critical fallback
-            return await self._critical_system_fallback(component, context, original_task)
+            return await self._critical_system_fallback(
+                component, context, original_task
+            )
 
-    def _determine_fallback_level(self, component: str, error: Exception, context: dict[str, Any]) -> FallbackLevel:
+    def _determine_fallback_level(
+        self, component: str, error: Exception, context: dict[str, Any]
+    ) -> FallbackLevel:
         """Determine appropriate fallback level based on error and component health."""
         component_health = self.component_health[component]
 
@@ -312,7 +322,9 @@ class BioSymbolicFallbackManager:
 
         return False
 
-    def _update_component_health(self, component: str, fallback_level: FallbackLevel, success: bool):
+    def _update_component_health(
+        self, component: str, fallback_level: FallbackLevel, success: bool
+    ):
         """Update component health based on fallback outcome."""
         current_health = self.component_health[component]
 
@@ -325,7 +337,9 @@ class BioSymbolicFallbackManager:
                 FallbackLevel.CRITICAL: 0.7,
             }[fallback_level]
 
-            self.component_health[component] = min(current_health + 0.1, recovery_factor)
+            self.component_health[component] = min(
+                current_health + 0.1, recovery_factor
+            )
 
             # Reset circuit breaker on success
             if self.component_health[component] > 0.8:
@@ -364,7 +378,9 @@ class BioSymbolicFallbackManager:
                 else:
                     validated_data[key] = value
             else:
-                validated_data[key] = self.emergency_values["bio_data_defaults"].get(key, 0.5)
+                validated_data[key] = self.emergency_values["bio_data_defaults"].get(
+                    key, 0.5
+                )
 
         return {
             "task_id": task_id,
@@ -395,7 +411,9 @@ class BioSymbolicFallbackManager:
         for key, value in validated_data.items():
             # Simplified outlier detection
             expected = self.emergency_values["bio_data_defaults"][key]
-            deviation = abs(value - expected) / expected if expected != 0 else abs(value)
+            deviation = (
+                abs(value - expected) / expected if expected != 0 else abs(value)
+            )
             outlier_scores[key] = min(deviation, 1.0)
 
         return {
@@ -464,7 +482,9 @@ class BioSymbolicFallbackManager:
         """Moderate threshold fallback - conservative thresholds."""
         return {
             "task_id": task_id,
-            "thresholds": {"tier1": {"heart_rate": {"low": 0.4, "high": 0.6, "critical": 0.8}}},
+            "thresholds": {
+                "tier1": {"heart_rate": {"low": 0.4, "high": 0.6, "critical": 0.8}}
+            },
             "confidence": 0.4,
             "context_modifiers": {},
             "timestamp": datetime.utcnow().isoformat(),
@@ -477,7 +497,9 @@ class BioSymbolicFallbackManager:
         """Severe threshold fallback - very conservative."""
         return {
             "task_id": task_id,
-            "thresholds": {"tier1": {"heart_rate": {"low": 0.5, "high": 0.5, "critical": 0.7}}},
+            "thresholds": {
+                "tier1": {"heart_rate": {"low": 0.5, "high": 0.5, "critical": 0.7}}
+            },
             "confidence": 0.2,
             "context_modifiers": {},
             "timestamp": datetime.utcnow().isoformat(),
@@ -540,7 +562,9 @@ class BioSymbolicFallbackManager:
             "colony_id": "mapping_fallback",
         }
 
-    async def _fallback_mapping_severe(self, context: dict[str, Any], task_id: str, error: Exception) -> dict[str, Any]:
+    async def _fallback_mapping_severe(
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Severe mapping fallback - minimal GLYPH."""
         return {
             "task_id": task_id,
@@ -693,7 +717,9 @@ class BioSymbolicFallbackManager:
         self, context: dict[str, Any], task_id: str, error: Exception
     ) -> dict[str, Any]:
         """Severe orchestrator fallback - emergency mode."""
-        coherence_values = dict.fromkeys(self.emergency_values["coherence_metrics"], 0.2)
+        coherence_values = dict.fromkeys(
+            self.emergency_values["coherence_metrics"], 0.2
+        )
 
         class FallbackCoherenceMetrics:
             def __init__(self, values):
@@ -736,12 +762,16 @@ class BioSymbolicFallbackManager:
             "processing_time_ms": 30.0,
             "pipeline_config": {"fallback_mode": True, "critical_failure": True},
             "quality_assessment": "SYSTEM_FAILURE",
-            "recommendations": ["CRITICAL SYSTEM FAILURE - IMMEDIATE INTERVENTION REQUIRED"],
+            "recommendations": [
+                "CRITICAL SYSTEM FAILURE - IMMEDIATE INTERVENTION REQUIRED"
+            ],
             "timestamp": datetime.utcnow().isoformat(),
             "orchestrator_id": "orchestrator_fallback_critical",
         }
 
-    async def _critical_system_fallback(self, component: str, context: dict[str, Any], task_id: str) -> dict[str, Any]:
+    async def _critical_system_fallback(
+        self, component: str, context: dict[str, Any], task_id: str
+    ) -> dict[str, Any]:
         """Last resort system fallback when all else fails."""
         logger.critical(f"🚨 CRITICAL SYSTEM FALLBACK activated for {component}")
 
@@ -763,7 +793,9 @@ class BioSymbolicFallbackManager:
         """Generate comprehensive system health report."""
         total_fallbacks = len(self.fallback_history)
         recent_fallbacks = [
-            event for event in self.fallback_history if event.timestamp > datetime.utcnow() - timedelta(hours=1)
+            event
+            for event in self.fallback_history
+            if event.timestamp > datetime.utcnow() - timedelta(hours=1)
         ]
 
         fallback_by_level = defaultdict(int)
@@ -775,14 +807,18 @@ class BioSymbolicFallbackManager:
 
         return {
             "timestamp": datetime.utcnow().isoformat(),
-            "overall_health": (min(self.component_health.values()) if self.component_health else 1.0),
+            "overall_health": (
+                min(self.component_health.values()) if self.component_health else 1.0
+            ),
             "component_health": dict(self.component_health),
             "total_fallbacks": total_fallbacks,
             "recent_fallbacks_1h": len(recent_fallbacks),
             "fallbacks_by_level": dict(fallback_by_level),
             "fallbacks_by_component": dict(fallback_by_component),
             "circuit_breakers": {
-                component: data["failures"] for component, data in self.circuit_breakers.items() if data["failures"] > 0
+                component: data["failures"]
+                for component, data in self.circuit_breakers.items()
+                if data["failures"] > 0
             },
             "recommendations": self._generate_health_recommendations(),
         }
@@ -794,22 +830,32 @@ class BioSymbolicFallbackManager:
         # Check component health
         for component, health in self.component_health.items():
             if health < 0.3:
-                recommendations.append(f"URGENT: {component} component health critical ({health:.1%})")
+                recommendations.append(
+                    f"URGENT: {component} component health critical ({health:.1%})"
+                )
             elif health < 0.5:
-                recommendations.append(f"WARNING: {component} component health degraded ({health:.1%})")
+                recommendations.append(
+                    f"WARNING: {component} component health degraded ({health:.1%})"
+                )
 
         # Check circuit breakers
         for component, data in self.circuit_breakers.items():
             if data["failures"] >= self.thresholds["circuit_breaker_threshold"]:
-                recommendations.append(f"ALERT: Circuit breaker activated for {component}")
+                recommendations.append(
+                    f"ALERT: Circuit breaker activated for {component}"
+                )
 
         # Check recent fallback activity
         recent_fallbacks = [
-            event for event in self.fallback_history if event.timestamp > datetime.utcnow() - timedelta(minutes=30)
+            event
+            for event in self.fallback_history
+            if event.timestamp > datetime.utcnow() - timedelta(minutes=30)
         ]
 
         if len(recent_fallbacks) > 10:
-            recommendations.append("HIGH ALERT: Excessive fallback activity in last 30 minutes")
+            recommendations.append(
+                "HIGH ALERT: Excessive fallback activity in last 30 minutes"
+            )
 
         if not recommendations:
             recommendations.append("System health appears normal")

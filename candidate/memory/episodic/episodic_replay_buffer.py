@@ -121,7 +121,9 @@ class EpisodicMemory:
         consciousness_boost = 1.0 + (consciousness_level * 0.5)
 
         # Update experience priority
-        new_experience = self.experience._replace(priority=base_priority * consciousness_boost)
+        new_experience = self.experience._replace(
+            priority=base_priority * consciousness_boost
+        )
         self.experience = new_experience
 
         # Update consciousness impact
@@ -136,7 +138,9 @@ class EpisodicMemory:
         # Diminishing returns on replay count
         replay_factor = 1.0 / (1.0 + self.replay_count * 0.1)
 
-        self.learning_value = base_priority * consciousness_boost * recency_factor * replay_factor
+        self.learning_value = (
+            base_priority * consciousness_boost * recency_factor * replay_factor
+        )
 
     def mark_replayed(self):
         """Mark this memory as having been replayed"""
@@ -172,7 +176,9 @@ class EpisodicMemory:
                 "consciousness_level": float(self.experience.consciousness_level),
             },
             "replay_count": self.replay_count,
-            "last_replayed": (self.last_replayed.isoformat() if self.last_replayed else None),
+            "last_replayed": (
+                self.last_replayed.isoformat() if self.last_replayed else None
+            ),
             "consolidation_strength": self.consolidation_strength,
             "surprise_value": self.surprise_value,
             "consciousness_impact": self.consciousness_impact,
@@ -241,7 +247,9 @@ class PrioritizedReplayBuffer:
         """Add a new experience to the replay buffer"""
 
         # Generate memory ID
-        memory_id = f"exp_{self.total_samples}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        memory_id = (
+            f"exp_{self.total_samples}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        )
 
         # Create experience
         experience = Experience(
@@ -280,7 +288,9 @@ class PrioritizedReplayBuffer:
             self.memories[memory_id] = episodic_memory
 
             # Update priority tree
-            heapq.heappush(self.priority_tree, (-episodic_memory.learning_value, memory_id))
+            heapq.heappush(
+                self.priority_tree, (-episodic_memory.learning_value, memory_id)
+            )
 
         self.total_samples += 1
         self.consolidation_stats[ConsolidationPhase.ACQUISITION.value] += 1
@@ -340,7 +350,9 @@ class PrioritizedReplayBuffer:
             memory.mark_replayed()
 
         self.total_replays += len(sampled_memories)
-        self.consolidation_stats[ConsolidationPhase.CONSOLIDATION.value] += len(sampled_memories)
+        self.consolidation_stats[ConsolidationPhase.CONSOLIDATION.value] += len(
+            sampled_memories
+        )
 
         logger.debug(
             "Batch sampled for replay",
@@ -361,7 +373,9 @@ class PrioritizedReplayBuffer:
         """Sample experiences based on priority/learning value"""
 
         # Get all memories sorted by learning value
-        sorted_memories = sorted(self.memories.values(), key=lambda m: m.learning_value, reverse=True)
+        sorted_memories = sorted(
+            self.memories.values(), key=lambda m: m.learning_value, reverse=True
+        )
 
         # Prioritized sampling with alpha scaling
         priorities = np.array([m.learning_value**self.alpha for m in sorted_memories])
@@ -384,7 +398,9 @@ class PrioritizedReplayBuffer:
     def _sample_consciousness_weighted(self, batch_size: int) -> list[EpisodicMemory]:
         """Sample experiences weighted by consciousness impact"""
 
-        consciousness_weights = np.array([m.consciousness_impact + 1e-6 for m in self.memories.values()])
+        consciousness_weights = np.array(
+            [m.consciousness_impact + 1e-6 for m in self.memories.values()]
+        )
 
         probabilities = consciousness_weights / np.sum(consciousness_weights)
 
@@ -401,7 +417,9 @@ class PrioritizedReplayBuffer:
     def _sample_surprise_based(self, batch_size: int) -> list[EpisodicMemory]:
         """Sample experiences based on surprise value"""
 
-        surprise_weights = np.array([m.surprise_value + 1e-6 for m in self.memories.values()])
+        surprise_weights = np.array(
+            [m.surprise_value + 1e-6 for m in self.memories.values()]
+        )
 
         probabilities = surprise_weights / np.sum(surprise_weights)
 
@@ -422,7 +440,9 @@ class PrioritizedReplayBuffer:
         priority_count = int(batch_size * 0.4)
         consciousness_count = int(batch_size * 0.3)
         surprise_count = int(batch_size * 0.2)
-        random_count = batch_size - priority_count - consciousness_count - surprise_count
+        random_count = (
+            batch_size - priority_count - consciousness_count - surprise_count
+        )
 
         sampled_memories = []
 
@@ -430,7 +450,9 @@ class PrioritizedReplayBuffer:
             sampled_memories.extend(self._sample_priority_based(priority_count))
 
         if consciousness_count > 0:
-            sampled_memories.extend(self._sample_consciousness_weighted(consciousness_count))
+            sampled_memories.extend(
+                self._sample_consciousness_weighted(consciousness_count)
+            )
 
         if surprise_count > 0:
             sampled_memories.extend(self._sample_surprise_based(surprise_count))
@@ -440,7 +462,9 @@ class PrioritizedReplayBuffer:
 
         return sampled_memories
 
-    def _calculate_importance_weights(self, sampled_memories: list[EpisodicMemory], beta: float) -> np.ndarray:
+    def _calculate_importance_weights(
+        self, sampled_memories: list[EpisodicMemory], beta: float
+    ) -> np.ndarray:
         """Calculate importance sampling weights for bias correction"""
 
         if not sampled_memories:
@@ -479,11 +503,14 @@ class PrioritizedReplayBuffer:
             recent_memories = [
                 m
                 for m in self.memories.values()
-                if (datetime.now() - m.experience.timestamp).total_seconds() < 300  # 5 minutes
+                if (datetime.now() - m.experience.timestamp).total_seconds()
+                < 300  # 5 minutes
             ]
 
             if recent_memories:
-                avg_recent_reward = np.mean([m.experience.reward for m in recent_memories])
+                avg_recent_reward = np.mean(
+                    [m.experience.reward for m in recent_memories]
+                )
                 temporal_surprise = abs(experience.reward - avg_recent_reward)
 
         # Combine surprise components
@@ -508,7 +535,9 @@ class PrioritizedReplayBuffer:
         del self.memories[oldest_memory_id]
 
         # Rebuild priority tree (simple approach for now)
-        self.priority_tree = [(-m.learning_value, mid) for mid, m in self.memories.items()]
+        self.priority_tree = [
+            (-m.learning_value, mid) for mid, m in self.memories.items()
+        ]
         heapq.heapify(self.priority_tree)
 
     def update_priorities(self, memory_ids: list[str], td_errors: np.ndarray):
@@ -521,22 +550,32 @@ class PrioritizedReplayBuffer:
                     memory.update_priority(td_error, memory.consciousness_impact)
 
         # Rebuild priority tree
-        self.priority_tree = [(-m.learning_value, mid) for mid, m in self.memories.items()]
+        self.priority_tree = [
+            (-m.learning_value, mid) for mid, m in self.memories.items()
+        ]
         heapq.heapify(self.priority_tree)
 
-        self.consolidation_stats[ConsolidationPhase.RECONSOLIDATION.value] += len(memory_ids)
+        self.consolidation_stats[ConsolidationPhase.RECONSOLIDATION.value] += len(
+            memory_ids
+        )
 
     def get_episode_trajectory(self, episode_id: str) -> list[EpisodicMemory]:
         """Get all memories from a specific episode in sequence"""
 
-        episode_memories = [memory for memory in self.memories.values() if memory.episode_id == episode_id]
+        episode_memories = [
+            memory
+            for memory in self.memories.values()
+            if memory.episode_id == episode_id
+        ]
 
         # Sort by sequence position
         episode_memories.sort(key=lambda m: m.sequence_position)
 
         return episode_memories
 
-    def consolidate_memories(self, consolidation_phase: ConsolidationPhase = ConsolidationPhase.CONSOLIDATION):
+    def consolidate_memories(
+        self, consolidation_phase: ConsolidationPhase = ConsolidationPhase.CONSOLIDATION
+    ):
         """Perform memory consolidation similar to sleep replay"""
 
         with self._consolidation_lock:
@@ -559,12 +598,16 @@ class PrioritizedReplayBuffer:
         """Strengthen memories with high learning value"""
 
         # Identify top memories for strengthening
-        top_memories = sorted(self.memories.values(), key=lambda m: m.learning_value, reverse=True)[
+        top_memories = sorted(
+            self.memories.values(), key=lambda m: m.learning_value, reverse=True
+        )[
             : int(len(self.memories) * 0.1)
         ]  # Top 10%
 
         for memory in top_memories:
-            memory.consolidation_strength = min(1.0, memory.consolidation_strength + 0.2)
+            memory.consolidation_strength = min(
+                1.0, memory.consolidation_strength + 0.2
+            )
 
     def _integrate_related_memories(self):
         """Find and link related memories for integration"""
@@ -584,7 +627,9 @@ class PrioritizedReplayBuffer:
                     if memory_a.memory_id not in memory_b.related_memories:
                         memory_b.related_memories.append(memory_a.memory_id)
 
-    def _calculate_memory_similarity(self, memory_a: EpisodicMemory, memory_b: EpisodicMemory) -> float:
+    def _calculate_memory_similarity(
+        self, memory_a: EpisodicMemory, memory_b: EpisodicMemory
+    ) -> float:
         """Calculate similarity between two memories"""
 
         # State similarity
@@ -593,7 +638,9 @@ class PrioritizedReplayBuffer:
 
         if isinstance(state_a, np.ndarray) and isinstance(state_b, np.ndarray):
             if state_a.shape == state_b.shape:
-                state_similarity = np.corrcoef(state_a.flatten(), state_b.flatten())[0, 1]
+                state_similarity = np.corrcoef(state_a.flatten(), state_b.flatten())[
+                    0, 1
+                ]
                 state_similarity = max(0, state_similarity)  # Handle NaN
             else:
                 state_similarity = 0.0
@@ -601,18 +648,33 @@ class PrioritizedReplayBuffer:
             state_similarity = 1.0 if state_a == state_b else 0.0
 
         # Action similarity
-        action_similarity = 1.0 if np.array_equal(memory_a.experience.action, memory_b.experience.action) else 0.0
+        action_similarity = (
+            1.0
+            if np.array_equal(memory_a.experience.action, memory_b.experience.action)
+            else 0.0
+        )
 
         # Reward similarity
         reward_diff = abs(memory_a.experience.reward - memory_b.experience.reward)
-        reward_similarity = max(0, 1.0 - reward_diff / 10.0)  # Normalize by max expected reward
+        reward_similarity = max(
+            0, 1.0 - reward_diff / 10.0
+        )  # Normalize by max expected reward
 
         # Temporal similarity
-        time_diff = abs((memory_a.experience.timestamp - memory_b.experience.timestamp).total_seconds())
+        time_diff = abs(
+            (
+                memory_a.experience.timestamp - memory_b.experience.timestamp
+            ).total_seconds()
+        )
         temporal_similarity = max(0, 1.0 - time_diff / 3600.0)  # 1 hour window
 
         # Combined similarity
-        return state_similarity * 0.4 + action_similarity * 0.2 + reward_similarity * 0.2 + temporal_similarity * 0.2
+        return (
+            state_similarity * 0.4
+            + action_similarity * 0.2
+            + reward_similarity * 0.2
+            + temporal_similarity * 0.2
+        )
 
     def _extract_patterns(self):
         """Extract common patterns across memories for generalization"""
@@ -648,7 +710,9 @@ class PrioritizedReplayBuffer:
         # Basic statistics
         total_memories = len(self.memories)
         avg_priority = np.mean([m.learning_value for m in self.memories.values()])
-        avg_consolidation = np.mean([m.consolidation_strength for m in self.memories.values()])
+        avg_consolidation = np.mean(
+            [m.consolidation_strength for m in self.memories.values()]
+        )
         avg_replay_count = np.mean([m.replay_count for m in self.memories.values()])
 
         # Reward statistics
@@ -665,7 +729,9 @@ class PrioritizedReplayBuffer:
         consciousness_stats = {
             "mean": np.mean(consciousness_levels),
             "std": np.std(consciousness_levels),
-            "high_consciousness_memories": sum(1 for c in consciousness_levels if c > 0.7),
+            "high_consciousness_memories": sum(
+                1 for c in consciousness_levels if c > 0.7
+            ),
         }
 
         # Episode statistics
@@ -736,7 +802,9 @@ class DreamStateReplay:
             dream_results["memories_replayed"] += cycle_results["memories_replayed"]
             dream_results["insights_generated"] += cycle_results["insights_generated"]
             dream_results["novel_combinations"] += cycle_results["novel_combinations"]
-            dream_results["consolidation_improvements"].extend(cycle_results["improvements"])
+            dream_results["consolidation_improvements"].extend(
+                cycle_results["improvements"]
+            )
 
             # Brief pause between cycles (simulating sleep stages)
             await asyncio.sleep(0.1)
@@ -766,7 +834,9 @@ class DreamStateReplay:
             # Odd cycles: explore surprising or novel combinations
             strategy = ReplayStrategy.SURPRISE_BASED
 
-        sampled_memories, _ = self.replay_buffer.sample_batch(batch_size=self.memories_per_cycle, strategy=strategy)
+        sampled_memories, _ = self.replay_buffer.sample_batch(
+            batch_size=self.memories_per_cycle, strategy=strategy
+        )
 
         cycle_results = {
             "memories_replayed": len(sampled_memories),
@@ -789,7 +859,9 @@ class DreamStateReplay:
 
         return cycle_results
 
-    def _analyze_memory_combinations(self, memories: list[EpisodicMemory]) -> list[dict[str, Any]]:
+    def _analyze_memory_combinations(
+        self, memories: list[EpisodicMemory]
+    ) -> list[dict[str, Any]]:
         """Analyze combinations of memories for potential insights"""
 
         insights = []
@@ -803,24 +875,34 @@ class DreamStateReplay:
                         "type": "memory_combination",
                         "memory_a": memory_a.memory_id,
                         "memory_b": memory_b.memory_id,
-                        "insight_value": self._calculate_insight_value(memory_a, memory_b),
+                        "insight_value": self._calculate_insight_value(
+                            memory_a, memory_b
+                        ),
                         "description": f"Novel combination of {memory_a.memory_id[:8]} and {memory_b.memory_id[:8]}",
                     }
                     insights.append(insight)
 
         return insights
 
-    def _is_insightful_combination(self, memory_a: EpisodicMemory, memory_b: EpisodicMemory) -> bool:
+    def _is_insightful_combination(
+        self, memory_a: EpisodicMemory, memory_b: EpisodicMemory
+    ) -> bool:
         """Check if two memories form an insightful combination"""
 
         # Different actions but similar states might reveal strategy insights
         state_similar = self._calculate_state_similarity(memory_a, memory_b) > 0.8
-        action_different = not np.array_equal(memory_a.experience.action, memory_b.experience.action)
-        reward_different = abs(memory_a.experience.reward - memory_b.experience.reward) > 1.0
+        action_different = not np.array_equal(
+            memory_a.experience.action, memory_b.experience.action
+        )
+        reward_different = (
+            abs(memory_a.experience.reward - memory_b.experience.reward) > 1.0
+        )
 
         return state_similar and action_different and reward_different
 
-    def _calculate_state_similarity(self, memory_a: EpisodicMemory, memory_b: EpisodicMemory) -> float:
+    def _calculate_state_similarity(
+        self, memory_a: EpisodicMemory, memory_b: EpisodicMemory
+    ) -> float:
         """Calculate state similarity between two memories"""
 
         state_a = memory_a.experience.state
@@ -832,21 +914,29 @@ class DreamStateReplay:
 
         return 1.0 if np.array_equal(state_a, state_b) else 0.0
 
-    def _calculate_insight_value(self, memory_a: EpisodicMemory, memory_b: EpisodicMemory) -> float:
+    def _calculate_insight_value(
+        self, memory_a: EpisodicMemory, memory_b: EpisodicMemory
+    ) -> float:
         """Calculate the value of an insight from memory combination"""
 
         # Higher value for memories with different outcomes
         reward_diff = abs(memory_a.experience.reward - memory_b.experience.reward)
 
         # Higher value for high-consciousness memories
-        consciousness_avg = (memory_a.consciousness_impact + memory_b.consciousness_impact) / 2
+        consciousness_avg = (
+            memory_a.consciousness_impact + memory_b.consciousness_impact
+        ) / 2
 
         # Higher value for well-consolidated memories
-        consolidation_avg = (memory_a.consolidation_strength + memory_b.consolidation_strength) / 2
+        consolidation_avg = (
+            memory_a.consolidation_strength + memory_b.consolidation_strength
+        ) / 2
 
         return reward_diff * 0.5 + consciousness_avg * 0.3 + consolidation_avg * 0.2
 
-    def _find_novel_combinations(self, memories: list[EpisodicMemory]) -> list[dict[str, Any]]:
+    def _find_novel_combinations(
+        self, memories: list[EpisodicMemory]
+    ) -> list[dict[str, Any]]:
         """Find novel combinations of memories that haven't been explored"""
 
         novel_combinations = []
@@ -873,13 +963,17 @@ class DreamStateReplay:
                             "type": "cross_episode",
                             "episode_a": episode_a,
                             "episode_b": episode_b,
-                            "novelty_score": self._calculate_novelty_score(memories_a, memories_b),
+                            "novelty_score": self._calculate_novelty_score(
+                                memories_a, memories_b
+                            ),
                         }
                     )
 
         return novel_combinations
 
-    def _is_novel_episode_combination(self, memories_a: list[EpisodicMemory], memories_b: list[EpisodicMemory]) -> bool:
+    def _is_novel_episode_combination(
+        self, memories_a: list[EpisodicMemory], memories_b: list[EpisodicMemory]
+    ) -> bool:
         """Check if combination of episodes is novel"""
 
         # Simple novelty check: episodes with different reward patterns
@@ -891,7 +985,9 @@ class DreamStateReplay:
 
         return abs(mean_a - mean_b) > 0.5  # Significant difference in outcomes
 
-    def _calculate_novelty_score(self, memories_a: list[EpisodicMemory], memories_b: list[EpisodicMemory]) -> float:
+    def _calculate_novelty_score(
+        self, memories_a: list[EpisodicMemory], memories_b: list[EpisodicMemory]
+    ) -> float:
         """Calculate novelty score for memory combination"""
 
         # Reward difference component
@@ -908,7 +1004,9 @@ class DreamStateReplay:
 
         return reward_novelty * 0.7 + consciousness_novelty * 0.3
 
-    def _improve_memory_consolidation(self, memories: list[EpisodicMemory]) -> list[str]:
+    def _improve_memory_consolidation(
+        self, memories: list[EpisodicMemory]
+    ) -> list[str]:
         """Improve memory consolidation based on dream replay"""
 
         improvements = []
@@ -917,11 +1015,15 @@ class DreamStateReplay:
             original_strength = memory.consolidation_strength
 
             # Strengthen memories replayed during dreams
-            memory.consolidation_strength = min(1.0, memory.consolidation_strength + 0.1)
+            memory.consolidation_strength = min(
+                1.0, memory.consolidation_strength + 0.1
+            )
 
             # Strengthen memories with high consciousness impact
             if memory.consciousness_impact > 0.7:
-                memory.consolidation_strength = min(1.0, memory.consolidation_strength + 0.05)
+                memory.consolidation_strength = min(
+                    1.0, memory.consolidation_strength + 0.05
+                )
 
             if memory.consolidation_strength > original_strength:
                 improvements.append(
@@ -1029,12 +1131,20 @@ class EpisodicReplayMemoryWrapper:
         """
 
         # Sample batch for replay
-        sampled_memories, importance_weights = self.replay_buffer.sample_batch(batch_size=batch_size, strategy=strategy)
+        sampled_memories, importance_weights = self.replay_buffer.sample_batch(
+            batch_size=batch_size, strategy=strategy
+        )
 
         replay_results = {
             "memories_replayed": len(sampled_memories),
-            "avg_importance_weight": (np.mean(importance_weights) if len(importance_weights) > 0 else 0.0),
-            "avg_priority": (np.mean([m.learning_value for m in sampled_memories]) if sampled_memories else 0.0),
+            "avg_importance_weight": (
+                np.mean(importance_weights) if len(importance_weights) > 0 else 0.0
+            ),
+            "avg_priority": (
+                np.mean([m.learning_value for m in sampled_memories])
+                if sampled_memories
+                else 0.0
+            ),
             "learning_applied": False,
         }
 
@@ -1045,7 +1155,9 @@ class EpisodicReplayMemoryWrapper:
                 experiences = [m.experience for m in sampled_memories]
 
                 # Apply learning callback
-                learning_results = await learning_callback(experiences, importance_weights)
+                learning_results = await learning_callback(
+                    experiences, importance_weights
+                )
 
                 replay_results["learning_applied"] = True
                 replay_results["learning_results"] = learning_results
@@ -1053,7 +1165,9 @@ class EpisodicReplayMemoryWrapper:
                 # Update priorities based on learning results if TD errors provided
                 if "td_errors" in learning_results:
                     memory_ids = [m.memory_id for m in sampled_memories]
-                    self.replay_buffer.update_priorities(memory_ids, learning_results["td_errors"])
+                    self.replay_buffer.update_priorities(
+                        memory_ids, learning_results["td_errors"]
+                    )
 
             except Exception as e:
                 logger.error("Learning callback failed", error=str(e))
@@ -1151,7 +1265,9 @@ async def example_episodic_replay():
 
     print(f"📥 Adding {len(experiences)} experiences to replay buffer...")
 
-    for i, (state, action, reward, next_state, done, consciousness) in enumerate(experiences):
+    for i, (state, action, reward, next_state, done, consciousness) in enumerate(
+        experiences
+    ):
         memory_id = replay_buffer.add_experience(
             state=state,
             action=action,
@@ -1163,7 +1279,9 @@ async def example_episodic_replay():
             sequence_position=i,
         )
 
-        print(f"  Added experience {i + 1}: reward={reward}, consciousness={consciousness}")
+        print(
+            f"  Added experience {i + 1}: reward={reward}, consciousness={consciousness}"
+        )
 
     # Sample experiences with different strategies
     print("\n🎯 Testing different replay strategies...")
@@ -1176,7 +1294,9 @@ async def example_episodic_replay():
     ]
 
     for strategy in strategies:
-        sampled_memories, weights = replay_buffer.sample_batch(batch_size=3, strategy=strategy)
+        sampled_memories, weights = replay_buffer.sample_batch(
+            batch_size=3, strategy=strategy
+        )
 
         print(f"\n{strategy.value}:")
         print(f"  Sampled {len(sampled_memories)} memories")
@@ -1184,17 +1304,26 @@ async def example_episodic_replay():
             print(f"  Avg importance weight: {np.mean(weights):.3f}")
 
         for i, memory in enumerate(sampled_memories):
-            print(f"    Memory {i + 1}: reward={memory.experience.reward}, priority={memory.learning_value:.3f}")
+            print(
+                f"    Memory {i + 1}: reward={memory.experience.reward}, priority={memory.learning_value:.3f}"
+            )
 
     # Simulate learning and priority updates
     print("\n📚 Simulating learning with TD error updates...")
 
     # Sample for learning
-    sampled_memories, _ = replay_buffer.sample_batch(batch_size=2, strategy=ReplayStrategy.PRIORITY_BASED)
+    sampled_memories, _ = replay_buffer.sample_batch(
+        batch_size=2, strategy=ReplayStrategy.PRIORITY_BASED
+    )
 
     if sampled_memories:
         # Simulate TD errors (larger errors for more surprising experiences)
-        td_errors = np.array([abs(m.experience.reward) + np.random.normal(0, 0.1) for m in sampled_memories])
+        td_errors = np.array(
+            [
+                abs(m.experience.reward) + np.random.normal(0, 0.1)
+                for m in sampled_memories
+            ]
+        )
         memory_ids = [m.memory_id for m in sampled_memories]
 
         print(f"  Updating priorities for {len(memory_ids)} memories")
@@ -1205,7 +1334,9 @@ async def example_episodic_replay():
         # Show updated priorities
         for i, memory_id in enumerate(memory_ids):
             updated_memory = replay_buffer.memories[memory_id]
-            print(f"    {memory_id[:8]}: new priority = {updated_memory.learning_value:.3f}")
+            print(
+                f"    {memory_id[:8]}: new priority = {updated_memory.learning_value:.3f}"
+            )
 
     # Perform memory consolidation
     print("\n🧠 Performing memory consolidation...")

@@ -198,9 +198,9 @@ class MoralSuperposition:
 
         # Add quantum noise for uncertainty
         if uncertainty > 0:
-            noise = np.random.normal(0, uncertainty / 4, self.dimension) + 1j * np.random.normal(
+            noise = np.random.normal(
                 0, uncertainty / 4, self.dimension
-            )
+            ) + 1j * np.random.normal(0, uncertainty / 4, self.dimension)
             superposition += noise
 
         # Normalize
@@ -209,7 +209,9 @@ class MoralSuperposition:
             superposition /= norm
         else:
             # Fallback to equal superposition
-            superposition = np.ones(self.dimension, dtype=complex) / np.sqrt(self.dimension)
+            superposition = np.ones(self.dimension, dtype=complex) / np.sqrt(
+                self.dimension
+            )
 
         # Create quantum state
         state = EthicalQIState(
@@ -255,7 +257,9 @@ class MoralSuperposition:
             )
 
             # Reduce uncertainty over time
-            new_uncertainty = current_state.uncertainty_level * (1 - self.uncertainty_decay * step / time_steps)
+            new_uncertainty = current_state.uncertainty_level * (
+                1 - self.uncertainty_decay * step / time_steps
+            )
 
             # Create evolved state
             evolved_state = EthicalQIState(
@@ -271,7 +275,9 @@ class MoralSuperposition:
 
         # Calculate path metrics
         decision_confidence = 1.0 - current_state.uncertainty_level
-        path_coherence = self._calculate_path_coherence(state, intermediate_states, current_state)
+        path_coherence = self._calculate_path_coherence(
+            state, intermediate_states, current_state
+        )
 
         return SuperpositionPath(
             initial_state=state,
@@ -486,7 +492,9 @@ class SuperpositionResolver:
             }
 
         # Perform measurement
-        measured_dimension, strength = self.superposition_engine.measure_ethical_state(final_state)
+        measured_dimension, strength = self.superposition_engine.measure_ethical_state(
+            final_state
+        )
 
         # Check constraints
         if constraints and measured_dimension not in constraints:
@@ -525,7 +533,9 @@ class SuperpositionResolver:
             "confidence": superposition_path.decision_confidence,
             "coherence": superposition_path.path_coherence,
             "uncertainty_final": final_state.uncertainty_level,
-            "ethical_weights": {d.value: w for d, w in final_state.ethical_weights.items()},
+            "ethical_weights": {
+                d.value: w for d, w in final_state.ethical_weights.items()
+            },
             "trajectory": [
                 {"progress": p, "dominant": [d.value for d in doms]}
                 for p, doms in superposition_path.get_ethical_trajectory()

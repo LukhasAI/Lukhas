@@ -34,12 +34,11 @@ try:
         ConsciousnessMapper,
         ConsciousnessState,
     )
-    from .biometric_integration import (
-        BiometricIntegrationManager,
-        BiometricType,
-    )
+    from .biometric_integration import BiometricIntegrationManager, BiometricType
 except ImportError:
-    print("Warning: LUKHAS core components not fully available. Some features may be limited.")
+    print(
+        "Warning: LUKHAS core components not fully available. Some features may be limited."
+    )
 
 logger = logging.getLogger("LUKHAS_BIO_SYMBOLIC")
 
@@ -126,7 +125,9 @@ class BioSymbolicFusionEngine:
         self.pqc_engine = PQCCryptoEngine()
 
         # Emotional anchors storage
-        self.emotional_anchors: dict[str, list[EmotionalAnchor]] = {}  # lambda_id -> anchors
+        self.emotional_anchors: dict[str, list[EmotionalAnchor]] = (
+            {}
+        )  # lambda_id -> anchors
 
         # Symbolic pattern storage
         # lambda_id -> patterns
@@ -185,7 +186,9 @@ class BioSymbolicFusionEngine:
 
         logger.info("Bio-Symbolic Fusion Engine initialized")
 
-    def create_emotional_anchor(self, lambda_id: str, anchor_data: dict[str, Any]) -> EmotionalAnchor:
+    def create_emotional_anchor(
+        self, lambda_id: str, anchor_data: dict[str, Any]
+    ) -> EmotionalAnchor:
         """
         Create an emotional anchor for bio-symbolic authentication
 
@@ -197,7 +200,9 @@ class BioSymbolicFusionEngine:
             Created EmotionalAnchor
         """
         anchor = EmotionalAnchor(
-            anchor_id=hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[:16],
+            anchor_id=hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[
+                :16
+            ],
             anchor_type=EmotionalAnchorType(anchor_data["type"]),
             symbolic_representation=anchor_data["symbol"],
             emotional_signature=anchor_data["emotional_signature"],
@@ -232,10 +237,14 @@ class BioSymbolicFusionEngine:
             Created SymbolicBiometricPattern
         """
         # Generate symbolic encoding from biometric pattern
-        symbolic_encoding = self._generate_symbolic_encoding(biometric_data, consciousness_state)
+        symbolic_encoding = self._generate_symbolic_encoding(
+            biometric_data, consciousness_state
+        )
 
         # Extract emotional correlations
-        emotional_correlations = self._extract_emotional_correlations(biometric_data, consciousness_state)
+        emotional_correlations = self._extract_emotional_correlations(
+            biometric_data, consciousness_state
+        )
 
         # Calculate pattern stability
         pattern_stability = self._calculate_pattern_stability(lambda_id, biometric_data)
@@ -250,7 +259,9 @@ class BioSymbolicFusionEngine:
         qi_signature = hashlib.sha3_256(pattern_data.encode()).hexdigest()
 
         pattern = SymbolicBiometricPattern(
-            pattern_id=hashlib.sha256(f"{lambda_id}_{symbolic_encoding}".encode()).hexdigest()[:16],
+            pattern_id=hashlib.sha256(
+                f"{lambda_id}_{symbolic_encoding}".encode()
+            ).hexdigest()[:16],
             biometric_type=BiometricType(biometric_data["type"]),
             symbolic_encoding=symbolic_encoding,
             consciousness_markers={
@@ -273,7 +284,9 @@ class BioSymbolicFusionEngine:
         logger.info(f"Created symbolic pattern {pattern.pattern_id} for {lambda_id}")
         return pattern
 
-    def perform_fusion_authentication(self, lambda_id: str, auth_data: dict[str, Any]) -> FusionResult:
+    def perform_fusion_authentication(
+        self, lambda_id: str, auth_data: dict[str, Any]
+    ) -> FusionResult:
         """
         Perform bio-symbolic fusion authentication
 
@@ -303,21 +316,33 @@ class BioSymbolicFusionEngine:
             )
 
             # Calculate emotional match score
-            emotional_match_score = self._calculate_emotional_match(lambda_id, consciousness_state)
+            emotional_match_score = self._calculate_emotional_match(
+                lambda_id, consciousness_state
+            )
 
             # Calculate symbolic alignment score
-            symbolic_alignment_score = self._calculate_symbolic_alignment(lambda_id, auth_data, consciousness_state)
+            symbolic_alignment_score = self._calculate_symbolic_alignment(
+                lambda_id, auth_data, consciousness_state
+            )
 
             # Calculate consciousness coherence
-            consciousness_coherence = self._calculate_consciousness_coherence(consciousness_state)
+            consciousness_coherence = self._calculate_consciousness_coherence(
+                consciousness_state
+            )
 
             # Determine adaptive threshold based on stress level
-            adaptive_threshold = self._get_adaptive_threshold(consciousness_state.stress_level)
+            adaptive_threshold = self._get_adaptive_threshold(
+                consciousness_state.stress_level
+            )
 
             # Perform fusion calculation
             fusion_score = self._calculate_fusion_score(
                 {
-                    "biometric_score": (biometric_result.confidence_score if biometric_result.success else 0.0),
+                    "biometric_score": (
+                        biometric_result.confidence_score
+                        if biometric_result.success
+                        else 0.0
+                    ),
                     "emotional_match": emotional_match_score,
                     "symbolic_alignment": symbolic_alignment_score,
                     "consciousness_coherence": consciousness_coherence,
@@ -325,7 +350,9 @@ class BioSymbolicFusionEngine:
             )
 
             # Check cultural compatibility
-            cultural_compatibility = self._check_cultural_compatibility(lambda_id, consciousness_state)
+            cultural_compatibility = self._check_cultural_compatibility(
+                lambda_id, consciousness_state
+            )
 
             # Verify quantum signature if available
             qi_verified = self._verify_quantum_signatures(lambda_id, auth_data)
@@ -345,7 +372,8 @@ class BioSymbolicFusionEngine:
                 confidence_score=fusion_score,
                 fusion_type="bio_symbolic_emotional",
                 biometric_scores={
-                    bt.value: biometric_result.confidence_score for bt in [biometric_result.biometric_type]
+                    bt.value: biometric_result.confidence_score
+                    for bt in [biometric_result.biometric_type]
                 },
                 emotional_match_score=emotional_match_score,
                 symbolic_alignment_score=symbolic_alignment_score,
@@ -393,11 +421,15 @@ class BioSymbolicFusionEngine:
             pattern_elements.append(hr_category)
 
         # Emotional state symbol
-        emotion_symbol = self._get_emotion_symbol(consciousness_state.emotional_state.value)
+        emotion_symbol = self._get_emotion_symbol(
+            consciousness_state.emotional_state.value
+        )
         pattern_elements.append(emotion_symbol)
 
         # Consciousness level symbol
-        consciousness_symbol = self._get_consciousness_symbol(consciousness_state.consciousness_level)
+        consciousness_symbol = self._get_consciousness_symbol(
+            consciousness_state.consciousness_level
+        )
         pattern_elements.append(consciousness_symbol)
 
         # Neural synchrony pattern
@@ -466,13 +498,19 @@ class BioSymbolicFusionEngine:
             correlations["arousal"] = min(1.0, biometric_data["heart_rate"] / 100.0)
 
         # Map consciousness state to emotional dimensions
-        correlations["valence"] = 0.5 + (consciousness_state.relaxation_level - consciousness_state.stress_level) * 0.5
+        correlations["valence"] = (
+            0.5
+            + (consciousness_state.relaxation_level - consciousness_state.stress_level)
+            * 0.5
+        )
         correlations["dominance"] = consciousness_state.consciousness_level
         correlations["authenticity"] = consciousness_state.authenticity_score
 
         return correlations
 
-    def _calculate_pattern_stability(self, lambda_id: str, biometric_data: dict[str, Any]) -> float:
+    def _calculate_pattern_stability(
+        self, lambda_id: str, biometric_data: dict[str, Any]
+    ) -> float:
         """Calculate how stable this biometric pattern is over time"""
         # Get user's historical patterns
         user_patterns = self.symbolic_patterns.get(lambda_id, [])
@@ -487,7 +525,9 @@ class BioSymbolicFusionEngine:
         # Calculate similarity to recent patterns
         similarities = []
         for pattern in recent_patterns:
-            similarity = self._calculate_pattern_similarity(current_encoding, pattern.symbolic_encoding)
+            similarity = self._calculate_pattern_similarity(
+                current_encoding, pattern.symbolic_encoding
+            )
             similarities.append(similarity)
 
         # Average similarity is stability measure
@@ -501,7 +541,9 @@ class BioSymbolicFusionEngine:
         matches = sum(1 for c1, c2 in zip(pattern1, pattern2) if c1 == c2)
         return matches / len(pattern1)
 
-    def _apply_cultural_adaptations(self, biometric_data: dict[str, Any], emotional_state: str) -> dict[str, Any]:
+    def _apply_cultural_adaptations(
+        self, biometric_data: dict[str, Any], emotional_state: str
+    ) -> dict[str, Any]:
         """Apply cultural adaptations to biometric patterns"""
         # This would integrate with cultural context detection
         # For now, return basic adaptations
@@ -511,7 +553,9 @@ class BioSymbolicFusionEngine:
             "confidence": 1.0,
         }
 
-    def _calculate_emotional_match(self, lambda_id: str, consciousness_state: ConsciousnessState) -> float:
+    def _calculate_emotional_match(
+        self, lambda_id: str, consciousness_state: ConsciousnessState
+    ) -> float:
         """Calculate emotional match score against stored anchors"""
         user_anchors = self.emotional_anchors.get(lambda_id, [])
 
@@ -524,7 +568,8 @@ class BioSymbolicFusionEngine:
             # Calculate emotional signature match
             anchor_emotions = anchor.emotional_signature
             current_emotions = {
-                "arousal": consciousness_state.stress_level + consciousness_state.consciousness_level * 0.5,
+                "arousal": consciousness_state.stress_level
+                + consciousness_state.consciousness_level * 0.5,
                 "valence": consciousness_state.relaxation_level,
                 "dominance": consciousness_state.consciousness_level,
             }
@@ -559,22 +604,30 @@ class BioSymbolicFusionEngine:
             return 0.5  # Neutral for new users
 
         # Generate current symbolic encoding
-        current_encoding = self._generate_symbolic_encoding(auth_data.get("biometrics", {}), consciousness_state)
+        current_encoding = self._generate_symbolic_encoding(
+            auth_data.get("biometrics", {}), consciousness_state
+        )
 
         # Find best matching pattern
         best_similarity = 0.0
         for pattern in user_patterns:
-            similarity = self._calculate_pattern_similarity(current_encoding, pattern.symbolic_encoding)
+            similarity = self._calculate_pattern_similarity(
+                current_encoding, pattern.symbolic_encoding
+            )
 
             # Weight by pattern stability and authenticity
-            weighted_similarity = similarity * pattern.pattern_stability * pattern.authenticity_confidence
+            weighted_similarity = (
+                similarity * pattern.pattern_stability * pattern.authenticity_confidence
+            )
 
             if weighted_similarity > best_similarity:
                 best_similarity = weighted_similarity
 
         return best_similarity
 
-    def _calculate_consciousness_coherence(self, consciousness_state: ConsciousnessState) -> float:
+    def _calculate_consciousness_coherence(
+        self, consciousness_state: ConsciousnessState
+    ) -> float:
         """Calculate consciousness coherence score"""
         # Check for coherence between different consciousness metrics
         coherence_factors = []
@@ -583,15 +636,21 @@ class BioSymbolicFusionEngine:
         coherence_factors.append(consciousness_state.neural_synchrony)
 
         # Balance between stress and relaxation
-        stress_balance = 1.0 - abs(consciousness_state.stress_level - consciousness_state.relaxation_level)
+        stress_balance = 1.0 - abs(
+            consciousness_state.stress_level - consciousness_state.relaxation_level
+        )
         coherence_factors.append(stress_balance)
 
         # Authenticity score
         coherence_factors.append(consciousness_state.authenticity_score)
 
         # Consciousness level stability (should be consistent with emotional state)
-        expected_consciousness = self._expected_consciousness_for_emotion(consciousness_state.emotional_state.value)
-        consciousness_consistency = 1.0 - abs(consciousness_state.consciousness_level - expected_consciousness)
+        expected_consciousness = self._expected_consciousness_for_emotion(
+            consciousness_state.emotional_state.value
+        )
+        consciousness_consistency = 1.0 - abs(
+            consciousness_state.consciousness_level - expected_consciousness
+        )
         coherence_factors.append(consciousness_consistency)
 
         return sum(coherence_factors) / len(coherence_factors)
@@ -636,13 +695,17 @@ class BioSymbolicFusionEngine:
 
         return total_score / total_weight if total_weight > 0 else 0.0
 
-    def _check_cultural_compatibility(self, lambda_id: str, consciousness_state: ConsciousnessState) -> bool:
+    def _check_cultural_compatibility(
+        self, lambda_id: str, consciousness_state: ConsciousnessState
+    ) -> bool:
         """Check cultural compatibility of authentication patterns"""
         # This would check against user's cultural profile
         # For now, always return True (universal compatibility)
         return True
 
-    def _verify_quantum_signatures(self, lambda_id: str, auth_data: dict[str, Any]) -> bool:
+    def _verify_quantum_signatures(
+        self, lambda_id: str, auth_data: dict[str, Any]
+    ) -> bool:
         """Verify quantum signatures for pattern integrity"""
         # This would verify PQC signatures on stored patterns
         # For now, return True if PQC engine is available
@@ -658,15 +721,24 @@ class BioSymbolicFusionEngine:
             "symbolic_patterns_count": len(user_patterns),
             "anchor_types": [anchor.anchor_type.value for anchor in user_anchors],
             "pattern_stability_avg": (
-                sum(p.pattern_stability for p in user_patterns) / len(user_patterns) if user_patterns else 0.0
+                sum(p.pattern_stability for p in user_patterns) / len(user_patterns)
+                if user_patterns
+                else 0.0
             ),
             "authenticity_confidence_avg": (
-                sum(p.authenticity_confidence for p in user_patterns) / len(user_patterns) if user_patterns else 0.0
+                sum(p.authenticity_confidence for p in user_patterns)
+                / len(user_patterns)
+                if user_patterns
+                else 0.0
             ),
             "most_recent_anchor": (
-                max(user_anchors, key=lambda a: a.created_at).created_at.isoformat() if user_anchors else None
+                max(user_anchors, key=lambda a: a.created_at).created_at.isoformat()
+                if user_anchors
+                else None
             ),
             "most_recent_pattern": (
-                max(user_patterns, key=lambda p: p.pattern_id).pattern_id if user_patterns else None
+                max(user_patterns, key=lambda p: p.pattern_id).pattern_id
+                if user_patterns
+                else None
             ),
         }

@@ -65,7 +65,9 @@ class BrainAdapter:
         except Exception as e:
             logger.error(f"Error handling message: {e}")
 
-    async def process_input(self, input_data: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def process_input(
+        self, input_data: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Process input through brain
 
         Args:
@@ -97,7 +99,9 @@ class BrainAdapter:
             self.cognitive_states["current_task"] = None
             self.cognitive_states["last_activity"] = datetime.now().isoformat()
 
-    async def consolidate_memories(self, hours_limit: float = 24.0, max_memories: int = 100) -> dict[str, Any]:
+    async def consolidate_memories(
+        self, hours_limit: float = 24.0, max_memories: int = 100
+    ) -> dict[str, Any]:
         """Consolidate recent memories
 
         Args:
@@ -152,7 +156,9 @@ class BrainAdapter:
         hours = content.get("hours_limit", 24.0)
         max_count = content.get("max_memories", 100)
 
-        logger.info(f"Starting memory consolidation: {hours}h limit, max {max_count}...")
+        logger.info(
+            f"Starting memory consolidation: {hours}h limit, max {max_count}..."
+        )
         asyncio.create_task(self.consolidate_memories(hours, max_count))
 
     def _handle_dream_cycle(self, content: dict[str, Any]) -> None:

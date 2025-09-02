@@ -42,7 +42,9 @@ except Exception:
 
         @dataclass
         class EndocrineSnapshot:
-            timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+            timestamp: datetime = field(
+                default_factory=lambda: datetime.now(timezone.utc)
+            )
             hormone_levels: dict[str, float] = field(default_factory=dict)
             system_metrics: dict[str, float] = field(default_factory=dict)
             coherence_score: float = 0.6
@@ -50,7 +52,9 @@ except Exception:
         @dataclass
         class PlasticityEvent:
             trigger_type: Any
-            timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+            timestamp: datetime = field(
+                default_factory=lambda: datetime.now(timezone.utc)
+            )
             hormone_context: dict[str, float] = field(default_factory=dict)
             reason: str = ""
 
@@ -269,12 +273,16 @@ class NeuroplasticLearningOrchestrator:
 
         # Experimentation
         self.experiment_queue: deque = deque()
-        self.max_concurrent_experiments = self.config.get("max_concurrent_experiments", 3)
+        self.max_concurrent_experiments = self.config.get(
+            "max_concurrent_experiments", 3
+        )
         self.experiment_safety_threshold = self.config.get("safety_threshold", 0.8)
 
         # Meta-learning
         self.meta_learning_enabled = self.config.get("meta_learning", True)
-        self.learning_strategy_effectiveness: dict[LearningStrategy, float] = defaultdict(float)
+        self.learning_strategy_effectiveness: dict[LearningStrategy, float] = (
+            defaultdict(float)
+        )
         self.adaptation_success_patterns: dict[str, float] = defaultdict(float)
 
         # Safety and constraints
@@ -444,7 +452,8 @@ class NeuroplasticLearningOrchestrator:
             1.0,
             max(
                 0.0,
-                sum(g.progress for g in self.learning_goals.values()) / (len(self.learning_goals) or 1),
+                sum(g.progress for g in self.learning_goals.values())
+                / (len(self.learning_goals) or 1),
             ),
         )
 
@@ -578,7 +587,9 @@ class NeuroplasticLearningOrchestrator:
     async def _is_hypothesis_safe_to_test(self, hypothesis: str) -> bool:
         return True
 
-    async def _create_experiment_from_hypothesis(self, hypothesis: str) -> "AdaptationExperiment":
+    async def _create_experiment_from_hypothesis(
+        self, hypothesis: str
+    ) -> "AdaptationExperiment":
         # Choose a plausible trigger based on simple keyword heuristics
         trigger_type = (
             PlasticityTriggerType.STRESS_ADAPTATION
@@ -593,7 +604,9 @@ class NeuroplasticLearningOrchestrator:
         rule = AdaptationRule(
             trigger_type=trigger_type,
             priority=getattr(AdaptationPriority, "MEDIUM", AdaptationPriority(3)),
-            strategy=getattr(AdaptationStrategy, "EXPERIMENTAL", AdaptationStrategy("experimental")),
+            strategy=getattr(
+                AdaptationStrategy, "EXPERIMENTAL", AdaptationStrategy("experimental")
+            ),
             conditions={"hypothesis": hypothesis},
         )
         trigger_event = PlasticityEvent(trigger_type=trigger_type, reason=hypothesis)
@@ -618,7 +631,9 @@ class NeuroplasticLearningOrchestrator:
         # Find applicable insights for current situation
         current_context = MetricContext.NORMAL_OPERATION  # Would get from system
         applicable_insights = [
-            insight for insight in self.learning_insights.values() if current_context in insight.applicable_contexts
+            insight
+            for insight in self.learning_insights.values()
+            if current_context in insight.applicable_contexts
         ]
 
         # Apply high-confidence insights
@@ -633,7 +648,8 @@ class NeuroplasticLearningOrchestrator:
         recent_completions = [
             exp
             for exp in self.completed_experiments
-            if exp.end_time and exp.end_time > datetime.now(timezone.utc) - timedelta(hours=1)
+            if exp.end_time
+            and exp.end_time > datetime.now(timezone.utc) - timedelta(hours=1)
         ]
 
         for experiment in recent_completions:
@@ -665,7 +681,10 @@ class NeuroplasticLearningOrchestrator:
     async def _start_queued_experiments(self):
         """Start experiments from the queue"""
 
-        while len(self.active_experiments) < self.max_concurrent_experiments and self.experiment_queue:
+        while (
+            len(self.active_experiments) < self.max_concurrent_experiments
+            and self.experiment_queue
+        ):
             experiment = self.experiment_queue.popleft()
 
             if await self._is_experiment_safe_to_start(experiment):
@@ -685,7 +704,9 @@ class NeuroplasticLearningOrchestrator:
 
         # Apply the experimental adaptation
         if self.plasticity_manager:
-            success = await self.plasticity_manager.apply_adaptation(experiment.adaptation_plan)
+            success = await self.plasticity_manager.apply_adaptation(
+                experiment.adaptation_plan
+            )
             if not success:
                 # Experiment failed to start
                 await self._abort_experiment(experiment, "Failed to apply adaptation")
@@ -706,16 +727,24 @@ class NeuroplasticLearningOrchestrator:
             # Update experiment metrics
             await self._update_experiment_metrics(experiment)
 
-    async def _is_experiment_safe_to_start(self, experiment: "AdaptationExperiment") -> bool:
+    async def _is_experiment_safe_to_start(
+        self, experiment: "AdaptationExperiment"
+    ) -> bool:
         return True
 
-    async def _should_terminate_experiment_early(self, experiment: "AdaptationExperiment") -> bool:
+    async def _should_terminate_experiment_early(
+        self, experiment: "AdaptationExperiment"
+    ) -> bool:
         return False
 
-    async def _terminate_experiment_early(self, experiment: "AdaptationExperiment") -> None:
+    async def _terminate_experiment_early(
+        self, experiment: "AdaptationExperiment"
+    ) -> None:
         experiment.end_time = datetime.now(timezone.utc)
 
-    async def _update_experiment_metrics(self, experiment: "AdaptationExperiment") -> None:
+    async def _update_experiment_metrics(
+        self, experiment: "AdaptationExperiment"
+    ) -> None:
         return None
 
     async def _complete_finished_experiments(self):
@@ -724,7 +753,10 @@ class NeuroplasticLearningOrchestrator:
         now = datetime.now(timezone.utc)
 
         for experiment_id, experiment in list(self.active_experiments.items()):
-            if experiment.start_time and now - experiment.start_time >= experiment.test_duration:
+            if (
+                experiment.start_time
+                and now - experiment.start_time >= experiment.test_duration
+            ):
                 await self._complete_experiment(experiment)
                 del self.active_experiments[experiment_id]
 
@@ -736,13 +768,17 @@ class NeuroplasticLearningOrchestrator:
         experiment.actual_outcomes = await self._collect_experiment_outcomes(experiment)
 
         # Calculate statistical significance
-        experiment.statistical_significance = await self._calculate_statistical_significance(experiment)
+        experiment.statistical_significance = (
+            await self._calculate_statistical_significance(experiment)
+        )
 
         # Generate conclusions
         experiment.conclusions = await self._generate_experiment_conclusions(experiment)
 
         # Assess generalization potential
-        experiment.generalization_potential = await self._assess_generalization_potential(experiment)
+        experiment.generalization_potential = (
+            await self._assess_generalization_potential(experiment)
+        )
 
         # Store completed experiment
         self.completed_experiments.append(experiment)
@@ -754,26 +790,40 @@ class NeuroplasticLearningOrchestrator:
             conclusions=len(experiment.conclusions),
         )
 
-    async def _collect_experiment_outcomes(self, experiment: "AdaptationExperiment") -> dict[str, float]:
+    async def _collect_experiment_outcomes(
+        self, experiment: "AdaptationExperiment"
+    ) -> dict[str, float]:
         return {"system_performance": 0.6}
 
-    async def _calculate_statistical_significance(self, experiment: "AdaptationExperiment") -> float:
+    async def _calculate_statistical_significance(
+        self, experiment: "AdaptationExperiment"
+    ) -> float:
         return 0.75
 
-    async def _generate_experiment_conclusions(self, experiment: "AdaptationExperiment") -> list[str]:
+    async def _generate_experiment_conclusions(
+        self, experiment: "AdaptationExperiment"
+    ) -> list[str]:
         return ["Adaptation improved performance"]
 
-    async def _assess_generalization_potential(self, experiment: "AdaptationExperiment") -> float:
+    async def _assess_generalization_potential(
+        self, experiment: "AdaptationExperiment"
+    ) -> float:
         return 0.5
 
     async def _finalize_active_experiments(self):
         return True
 
-    async def _setup_experiment_monitoring(self, experiment: "AdaptationExperiment") -> None:
+    async def _setup_experiment_monitoring(
+        self, experiment: "AdaptationExperiment"
+    ) -> None:
         return None
 
-    async def _abort_experiment(self, experiment: "AdaptationExperiment", reason: str) -> None:
-        logger.warning("Experiment aborted", experiment_id=experiment.experiment_id, reason=reason)
+    async def _abort_experiment(
+        self, experiment: "AdaptationExperiment", reason: str
+    ) -> None:
+        logger.warning(
+            "Experiment aborted", experiment_id=experiment.experiment_id, reason=reason
+        )
         experiment.end_time = datetime.now(timezone.utc)
 
     # Learning goal management
@@ -855,7 +905,9 @@ class NeuroplasticLearningOrchestrator:
 
                 # Calculate improvement from baseline
                 baseline = self.performance_baselines.get(metric_name, 0.5)
-                improvement = (current_value - baseline) / baseline if baseline > 0 else 0.0
+                improvement = (
+                    (current_value - baseline) / baseline if baseline > 0 else 0.0
+                )
 
                 # Normalize to 0-1 scale
                 normalized_progress = max(0.0, min(1.0, improvement + 0.5))
@@ -878,7 +930,9 @@ class NeuroplasticLearningOrchestrator:
         pattern_key = f"{pattern.context}_{pattern.relationship_type}"
         self.adaptation_patterns[pattern_key] = pattern_signature
 
-    async def _extract_insight_from_experiment(self, experiment: AdaptationExperiment) -> Optional[LearningInsight]:
+    async def _extract_insight_from_experiment(
+        self, experiment: AdaptationExperiment
+    ) -> Optional[LearningInsight]:
         """Extract learning insight from completed experiment"""
 
         if experiment.statistical_significance < 0.5:
@@ -910,7 +964,9 @@ class NeuroplasticLearningOrchestrator:
     def add_learning_goal(self, goal: LearningGoal):
         """Add a new learning goal"""
         self.learning_goals[goal.goal_id] = goal
-        logger.info("Added learning goal", goal_id=goal.goal_id, description=goal.description)
+        logger.info(
+            "Added learning goal", goal_id=goal.goal_id, description=goal.description
+        )
 
     def get_learning_status(self) -> dict[str, Any]:
         """Get current learning status"""
@@ -940,7 +996,9 @@ class NeuroplasticLearningOrchestrator:
             "patterns_discovered": len(self.adaptation_patterns),
         }
 
-    def get_learning_insights(self, category: Optional[str] = None) -> list[LearningInsight]:
+    def get_learning_insights(
+        self, category: Optional[str] = None
+    ) -> list[LearningInsight]:
         """Get learning insights, optionally filtered by category"""
         insights = list(self.learning_insights.values())
 
@@ -997,13 +1055,17 @@ class NeuroplasticLearningOrchestrator:
 
         return None  # Would return actual plan
 
-    async def create_learning_experiment(self, experiment_type: str, context: dict[str, Any]) -> "AdaptationExperiment":
+    async def create_learning_experiment(
+        self, experiment_type: str, context: dict[str, Any]
+    ) -> "AdaptationExperiment":
         """Compatibility: create a simple learning experiment object."""
         # Map experiment_type to a trigger
         etype = experiment_type.lower()
         if "stress" in etype and hasattr(PlasticityTriggerType, "STRESS_ADAPTATION"):
             trig = PlasticityTriggerType.STRESS_ADAPTATION
-        elif "performance" in etype and hasattr(PlasticityTriggerType, "PERFORMANCE_OPTIMIZATION"):
+        elif "performance" in etype and hasattr(
+            PlasticityTriggerType, "PERFORMANCE_OPTIMIZATION"
+        ):
             trig = PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
         else:
             trig = next(iter(PlasticityTriggerType))
@@ -1011,10 +1073,14 @@ class NeuroplasticLearningOrchestrator:
         rule = AdaptationRule(
             trigger_type=trig,
             priority=getattr(AdaptationPriority, "MEDIUM", AdaptationPriority(3)),
-            strategy=getattr(AdaptationStrategy, "EXPERIMENTAL", AdaptationStrategy("experimental")),
+            strategy=getattr(
+                AdaptationStrategy, "EXPERIMENTAL", AdaptationStrategy("experimental")
+            ),
             conditions={"context_keys": list(context.keys())[:3]},
         )
-        trigger_event = PlasticityEvent(trigger_type=trig, reason=f"experiment_type={experiment_type}")
+        trigger_event = PlasticityEvent(
+            trigger_type=trig, reason=f"experiment_type={experiment_type}"
+        )
         plan = AdaptationPlan(rule=rule, trigger_event=trigger_event)
 
         exp = AdaptationExperiment(
@@ -1043,17 +1109,27 @@ class NeuroplasticLearningOrchestrator:
             await asyncio.sleep(0)
         return status
 
-    async def consolidate_learning(self, learning_data: dict[str, Any]) -> dict[str, Any]:
+    async def consolidate_learning(
+        self, learning_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Compatibility: consolidate provided learning data and return summary."""
         experiments = learning_data.get("experiment_results", [])
         items = len(experiments) + len(learning_data.get("pattern_discoveries", []))
-        success_rate = sum(1 for e in experiments if e.get("success")) / len(experiments) if experiments else 0.0
+        success_rate = (
+            sum(1 for e in experiments if e.get("success")) / len(experiments)
+            if experiments
+            else 0.0
+        )
         return {"items_consolidated": items, "success_rate": success_rate}
 
-    async def apply_transfer_learning(self, source_context: str, target_context: str) -> dict[str, Any]:
+    async def apply_transfer_learning(
+        self, source_context: str, target_context: str
+    ) -> dict[str, Any]:
         """Compatibility: simulate transfer learning between contexts."""
         success = source_context != target_context
-        transfers = self.transfer_learner.transfer_knowledge(MetricContext.LEARNING_MODE, MetricContext.PROBLEM_SOLVING)
+        transfers = self.transfer_learner.transfer_knowledge(
+            MetricContext.LEARNING_MODE, MetricContext.PROBLEM_SOLVING
+        )
         return {"success": success or bool(transfers)}
 
     async def optimize_meta_learning(self) -> dict[str, Any]:
@@ -1201,7 +1277,9 @@ class PatternDetector:
 class KnowledgeConsolidator:
     """Consolidates learning experiences into stable knowledge"""
 
-    def consolidate(self, experiments: list[AdaptationExperiment]) -> list[LearningInsight]:
+    def consolidate(
+        self, experiments: list[AdaptationExperiment]
+    ) -> list[LearningInsight]:
         """Consolidate experiments into insights"""
         insights = []
 
@@ -1227,7 +1305,9 @@ class KnowledgeConsolidator:
         """Generate insight from a group of similar experiments"""
 
         # Calculate average success rate
-        successful_experiments = [exp for exp in experiments if exp.statistical_significance > 0.5]
+        successful_experiments = [
+            exp for exp in experiments if exp.statistical_significance > 0.5
+        ]
         success_rate = len(successful_experiments) / len(experiments)
 
         if success_rate < 0.6:
@@ -1250,7 +1330,9 @@ class TransferLearner:
     def __init__(self):
         self.context_similarities: dict[tuple[MetricContext, MetricContext], float] = {}
 
-    def calculate_context_similarity(self, context1: MetricContext, context2: MetricContext) -> float:
+    def calculate_context_similarity(
+        self, context1: MetricContext, context2: MetricContext
+    ) -> float:
         """Calculate similarity between contexts"""
 
         # Simple similarity calculation (would be more sophisticated)
@@ -1268,13 +1350,17 @@ class TransferLearner:
 
         return similarity_map.get((context1, context2), 0.1)
 
-    def transfer_knowledge(self, source_context: MetricContext, target_context: MetricContext) -> list[str]:
+    def transfer_knowledge(
+        self, source_context: MetricContext, target_context: MetricContext
+    ) -> list[str]:
         """Transfer knowledge from source to target context"""
 
         similarity = self.calculate_context_similarity(source_context, target_context)
 
         if similarity > 0.6:
-            return [f"Pattern from {source_context.value} applicable to {target_context.value}"]
+            return [
+                f"Pattern from {source_context.value} applicable to {target_context.value}"
+            ]
 
         return []
 

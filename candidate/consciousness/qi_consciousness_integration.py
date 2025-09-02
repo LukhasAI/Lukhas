@@ -99,11 +99,8 @@ ElevatedConsciousnessModule, ConsciousnessLevel, QualiaType, ConsciousExperience
 try:
     # Corrected import path (assuming lukhasElevatedConsciousnessModule.py exists)
     from consciousness.consciousness_service import (
-        ConsciousExperience,
-        ConsciousnessLevel,
-        ElevatedConsciousnessModule,
-        QualiaType,
-    )
+        ConsciousExperience, ConsciousnessLevel, ElevatedConsciousnessModule,
+        QualiaType)
 
     CONSCIOUSNESS_AVAILABLE = True
     logger.info(

@@ -8,7 +8,7 @@ import os
 import time
 from contextlib import contextmanager
 from functools import wraps
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 try:
     from opentelemetry import trace
@@ -51,7 +51,7 @@ class NoOpSpan:
         """No-op status setter"""
         pass
 
-    def add_event(self, name: str, attributes: Optional[dict[str, Any]] = None):
+    def add_event(self, name: str, attributes: dict[str, Any] = None):
         """No-op event adder"""
         pass
 
@@ -83,7 +83,7 @@ class LukhasTracer:
             {
                 "service.name": "lukhas-ai",
                 "service.version": "2.0",
-                "constellation.framework": "⚛️🧠🛡️",
+                "trinity.framework": "⚛️🧠🛡️",
             }
         )
 
@@ -113,7 +113,7 @@ class LukhasTracer:
         self._initialized = True
 
     @contextmanager
-    def span(self, name: str, attributes: Optional[dict[str, Any]] = None):
+    def span(self, name: str, attributes: dict[str, Any] = None):
         """
         Create a span context manager with automatic timing
 
@@ -134,7 +134,7 @@ class LukhasTracer:
                     span.set_attribute(key, str(value))
 
             # Add Trinity Framework tag
-            span.set_attribute("constellation.component", self._get_component(name))
+            span.set_attribute("trinity.component", self._get_component(name))
 
             try:
                 yield span
@@ -155,7 +155,9 @@ class LukhasTracer:
         """Map span name to Trinity component"""
         if "auth" in span_name or "identity" in span_name or "lid" in span_name.lower():
             return "⚛️ Identity"
-        elif "consent" in span_name or "policy" in span_name or "governance" in span_name:
+        elif (
+            "consent" in span_name or "policy" in span_name or "governance" in span_name
+        ):
             return "🛡️ Guardian"
         else:
             return "🧠 Consciousness"
@@ -281,7 +283,9 @@ class AgentSpans:
     @contextmanager
     def consent_check(user_id: str, purpose: str):
         """A2: Consent checking span"""
-        with span("consent_ledger.check", {"user_id": user_id, "purpose": purpose}) as s:
+        with span(
+            "consent_ledger.check", {"user_id": user_id, "purpose": purpose}
+        ) as s:
             yield s
 
     @staticmethod
@@ -302,19 +306,25 @@ class AgentSpans:
     @contextmanager
     def bus_publish(topic: str, message_size: int = 0):
         """A4: Context bus publish span"""
-        with span("context_bus.publish", {"topic": topic, "message_size": message_size}) as s:
+        with span(
+            "context_bus.publish", {"topic": topic, "message_size": message_size}
+        ) as s:
             yield s
 
     @staticmethod
     @contextmanager
     def bus_handoff(from_agent: str, to_agent: str):
         """A4: Context bus handoff span"""
-        with span("context_bus.handoff", {"from_agent": from_agent, "to_agent": to_agent}) as s:
+        with span(
+            "context_bus.handoff", {"from_agent": from_agent, "to_agent": to_agent}
+        ) as s:
             yield s
 
     @staticmethod
     @contextmanager
     def pipeline_execute(pipeline_id: str, steps: int):
         """A4: Pipeline execution span"""
-        with span("pipeline.execute", {"pipeline_id": pipeline_id, "steps": steps}) as s:
+        with span(
+            "pipeline.execute", {"pipeline_id": pipeline_id, "steps": steps}
+        ) as s:
             yield s

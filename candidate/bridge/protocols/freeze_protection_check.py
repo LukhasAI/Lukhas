@@ -15,7 +15,9 @@ def is_locked(obj):
     """
     Checks if an object is locked.
     """
-    return bool(hasattr(obj, "__doc__") and obj.__doc__ and "LOCKED: true" in obj.__doc__)
+    return bool(
+        hasattr(obj, "__doc__") and obj.__doc__ and "LOCKED: true" in obj.__doc__
+    )
 
 
 def freeze_protection_check(module):

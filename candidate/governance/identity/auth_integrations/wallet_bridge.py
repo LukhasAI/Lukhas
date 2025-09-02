@@ -75,7 +75,9 @@ class AuthWalletBridge:
                 "note": "WALLET components not yet wired",
             }
 
-    async def authenticate_with_wallet(self, user_id: str, symbolic_credentials: dict[str, Any]) -> dict[str, Any]:
+    async def authenticate_with_wallet(
+        self, user_id: str, symbolic_credentials: dict[str, Any]
+    ) -> dict[str, Any]:
         """Authenticate using WALLET symbolic vault"""
         # TODO: Implement when WALLET is integrated
         return {
@@ -84,7 +86,9 @@ class AuthWalletBridge:
             "status": "pending_wallet_integration",
         }
 
-    async def store_auth_symbols(self, user_id: str, auth_symbols: list[str]) -> dict[str, Any]:
+    async def store_auth_symbols(
+        self, user_id: str, auth_symbols: list[str]
+    ) -> dict[str, Any]:
         """Store authentication symbols in WALLET symbolic vault"""
         # TODO: Implement when WALLET is integrated
         return {
@@ -100,7 +104,9 @@ class AuthWalletBridge:
 
 
 # Integration factory
-def create_wallet_bridge(config: Optional[WalletAuthIntegration] = None) -> AuthWalletBridge:
+def create_wallet_bridge(
+    config: Optional[WalletAuthIntegration] = None,
+) -> AuthWalletBridge:
     """Create WALLET authentication bridge"""
     if config is None:
         config = WalletAuthIntegration()

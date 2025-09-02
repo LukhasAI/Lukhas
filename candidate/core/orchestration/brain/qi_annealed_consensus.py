@@ -40,7 +40,9 @@ class QIAnnealedEthicalConsensus:
         self.batch_size = int(os.environ.get("QUANTUM_BATCH_SIZE", "16"))
         self.precision = os.environ.get("QUANTUM_PRECISION", "float32")
 
-        logger.info(f"Quantum-Annealed Ethical Consensus initialized with {annealing_steps} steps")
+        logger.info(
+            f"Quantum-Annealed Ethical Consensus initialized with {annealing_steps} steps"
+        )
 
     def _initialize_ethical_embeddings(self) -> dict[str, np.ndarray]:
         """Initialize embeddings for ethical principles in a high-dimensional latent space"""
@@ -65,21 +67,41 @@ class QIAnnealedEthicalConsensus:
         }
 
         # Create ethical principle embeddings as weighted combinations
-        embeddings["beneficence"] = 0.8 * base_vectors["care"] + 0.2 * base_vectors["fairness"]
-        embeddings["non_maleficence"] = 0.9 * base_vectors["care"] + 0.1 * base_vectors["authority"]
-        embeddings["autonomy"] = 0.7 * base_vectors["liberty"] + 0.3 * base_vectors["fairness"]
-        embeddings["justice"] = 0.6 * base_vectors["fairness"] + 0.4 * base_vectors["authority"]
-        embeddings["privacy"] = 0.5 * base_vectors["liberty"] + 0.5 * base_vectors["care"]
-        embeddings["transparency"] = 0.7 * base_vectors["fairness"] + 0.3 * base_vectors["care"]
-        embeddings["responsibility"] = 0.4 * base_vectors["care"] + 0.6 * base_vectors["authority"]
-        embeddings["human_oversight"] = 0.6 * base_vectors["authority"] + 0.4 * base_vectors["fairness"]
+        embeddings["beneficence"] = (
+            0.8 * base_vectors["care"] + 0.2 * base_vectors["fairness"]
+        )
+        embeddings["non_maleficence"] = (
+            0.9 * base_vectors["care"] + 0.1 * base_vectors["authority"]
+        )
+        embeddings["autonomy"] = (
+            0.7 * base_vectors["liberty"] + 0.3 * base_vectors["fairness"]
+        )
+        embeddings["justice"] = (
+            0.6 * base_vectors["fairness"] + 0.4 * base_vectors["authority"]
+        )
+        embeddings["privacy"] = (
+            0.5 * base_vectors["liberty"] + 0.5 * base_vectors["care"]
+        )
+        embeddings["transparency"] = (
+            0.7 * base_vectors["fairness"] + 0.3 * base_vectors["care"]
+        )
+        embeddings["responsibility"] = (
+            0.4 * base_vectors["care"] + 0.6 * base_vectors["authority"]
+        )
+        embeddings["human_oversight"] = (
+            0.6 * base_vectors["authority"] + 0.4 * base_vectors["fairness"]
+        )
         embeddings["cultural_respect"] = (
-            0.5 * base_vectors["care"] + 0.3 * base_vectors["fairness"] + 0.2 * base_vectors["authority"]
+            0.5 * base_vectors["care"]
+            + 0.3 * base_vectors["fairness"]
+            + 0.2 * base_vectors["authority"]
         )
 
         # Normalize all embeddings to unit length
         for principle in embeddings:
-            embeddings[principle] = embeddings[principle] / np.linalg.norm(embeddings[principle])
+            embeddings[principle] = embeddings[principle] / np.linalg.norm(
+                embeddings[principle]
+            )
 
         return embeddings
 
@@ -101,7 +123,9 @@ class QIAnnealedEthicalConsensus:
         Returns:
             Dictionary containing the consensus solution and metadata
         """
-        logger.info(f"Finding ethical consensus for scenario: {scenario_description[:50]}...")
+        logger.info(
+            f"Finding ethical consensus for scenario: {scenario_description[:50]}..."
+        )
 
         start_time = time.time()
 
@@ -153,7 +177,9 @@ class QIAnnealedEthicalConsensus:
             "energy_trace": energy_trace,
         }
 
-    def _prepare_constraint_penalties(self, constraints: Optional[list[dict[str, Any]]]) -> list[dict[str, Any]]:
+    def _prepare_constraint_penalties(
+        self, constraints: Optional[list[dict[str, Any]]]
+    ) -> list[dict[str, Any]]:
         """Prepare constraint penalties for the annealing process"""
         if not constraints:
             return []
@@ -206,7 +232,9 @@ class QIAnnealedEthicalConsensus:
         current_state = initial_state.copy()
 
         # Calculate initial energy
-        current_energy = self._calculate_system_energy(current_state, constraint_penalties)
+        current_energy = self._calculate_system_energy(
+            current_state, constraint_penalties
+        )
 
         # Create temperature schedule
         if self.temperature_schedule == "exponential":
@@ -223,13 +251,17 @@ class QIAnnealedEthicalConsensus:
             temperature = schedule[step]
 
             # Propose a new state with quantum fluctuations
-            proposed_state = self._propose_quantum_like_state(current_state, temperature)
+            proposed_state = self._propose_quantum_like_state(
+                current_state, temperature
+            )
 
             # Normalize proposed state (must sum to 1.0)
             proposed_state = proposed_state / np.sum(proposed_state)
 
             # Calculate energy of proposed state
-            proposed_energy = self._calculate_system_energy(proposed_state, constraint_penalties)
+            proposed_energy = self._calculate_system_energy(
+                proposed_state, constraint_penalties
+            )
 
             # Decide whether to accept the new state
             # In quantum annealing, transitions occur according to quantum dynamics
@@ -246,7 +278,9 @@ class QIAnnealedEthicalConsensus:
         # Return final state and energy trace
         return current_state, energy_trace
 
-    def _propose_quantum_like_state(self, current_state: np.ndarray, temperature: float) -> np.ndarray:
+    def _propose_quantum_like_state(
+        self, current_state: np.ndarray, temperature: float
+    ) -> np.ndarray:
         """
         Propose a new quantum-like state using simulated quantum fluctuations
 
@@ -272,7 +306,9 @@ class QIAnnealedEthicalConsensus:
 
         return proposed_state
 
-    def _calculate_system_energy(self, state: np.ndarray, constraints: list[dict[str, Any]]) -> float:
+    def _calculate_system_energy(
+        self, state: np.ndarray, constraints: list[dict[str, Any]]
+    ) -> float:
         """
         Calculate the system energy (lower is better)
 
@@ -289,7 +325,9 @@ class QIAnnealedEthicalConsensus:
 
         for constraint in constraints:
             if constraint["type"] == "minimum_weight":
-                principle_idx = list(self.ethical_embeddings.keys()).index(constraint["principle"])
+                principle_idx = list(self.ethical_embeddings.keys()).index(
+                    constraint["principle"]
+                )
                 weight = state[principle_idx]
 
                 if weight < constraint["min_value"]:
@@ -297,7 +335,9 @@ class QIAnnealedEthicalConsensus:
                     constraint_energy += violation * constraint["penalty_factor"]
 
             elif constraint["type"] == "maximum_weight":
-                principle_idx = list(self.ethical_embeddings.keys()).index(constraint["principle"])
+                principle_idx = list(self.ethical_embeddings.keys()).index(
+                    constraint["principle"]
+                )
                 weight = state[principle_idx]
 
                 if weight > constraint["max_value"]:
@@ -305,8 +345,12 @@ class QIAnnealedEthicalConsensus:
                     constraint_energy += violation * constraint["penalty_factor"]
 
             elif constraint["type"] == "relative_importance":
-                principle_a_idx = list(self.ethical_embeddings.keys()).index(constraint["principle_a"])
-                principle_b_idx = list(self.ethical_embeddings.keys()).index(constraint["principle_b"])
+                principle_a_idx = list(self.ethical_embeddings.keys()).index(
+                    constraint["principle_a"]
+                )
+                principle_b_idx = list(self.ethical_embeddings.keys()).index(
+                    constraint["principle_b"]
+                )
 
                 weight_a = state[principle_a_idx]
                 weight_b = state[principle_b_idx]
@@ -346,7 +390,9 @@ class QIAnnealedEthicalConsensus:
         total_similarity = 0.0
         for i, principle in enumerate(principles):
             if state[i] > 0.01:  # Only consider principles with non-negligible weight
-                similarity = np.dot(combined_embedding, self.ethical_embeddings[principle])
+                similarity = np.dot(
+                    combined_embedding, self.ethical_embeddings[principle]
+                )
                 total_similarity += state[i] * similarity  # Weight by state value
 
         # Normalize by sum of weights (which should be 1.0)
@@ -354,7 +400,9 @@ class QIAnnealedEthicalConsensus:
 
         return coherence
 
-    def _calculate_alignment_with_principles(self, state: np.ndarray) -> dict[str, float]:
+    def _calculate_alignment_with_principles(
+        self, state: np.ndarray
+    ) -> dict[str, float]:
         """
         Calculate how well the solution aligns with each ethical principle
         """

@@ -85,7 +85,9 @@ class UnifiedPatternRecognition:
 
         for pattern_id, pattern_info in self.pattern_registry.items():
             if pattern_info["type"] != "neural":
-                confidence = self._calculate_pattern_match(input_data, pattern_info["template"])
+                confidence = self._calculate_pattern_match(
+                    input_data, pattern_info["template"]
+                )
 
                 if confidence >= self.confidence_threshold:
                     matches.append(
@@ -113,7 +115,9 @@ class UnifiedPatternRecognition:
             }
         )
 
-    def _calculate_pattern_match(self, input_data: Any, template: dict[str, Any]) -> float:
+    def _calculate_pattern_match(
+        self, input_data: Any, template: dict[str, Any]
+    ) -> float:
         """
         Calculate confidence score for pattern match using multiple metrics
         """

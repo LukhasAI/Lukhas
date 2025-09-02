@@ -108,10 +108,16 @@ class AdvancedAGIController:
                     "interaction_data": interaction_data,
                     "reasoning_confidence": reasoning_results.get("confidence", 0.0),
                     "memory_stored": memory_stored,
-                    "resource_risk": resource_predictions.get("overall_risk", "unknown"),
-                    "processing_time": (datetime.datetime.now() - start_time).total_seconds(),
+                    "resource_risk": resource_predictions.get(
+                        "overall_risk", "unknown"
+                    ),
+                    "processing_time": (
+                        datetime.datetime.now() - start_time
+                    ).total_seconds(),
                     "metrics": {
-                        "response_time": (datetime.datetime.now() - start_time).total_seconds(),
+                        "response_time": (
+                            datetime.datetime.now() - start_time
+                        ).total_seconds(),
                         "accuracy": reasoning_results.get("confidence", 0.0),
                         "memory_efficiency": 1.0 if memory_stored else 0.0,
                     },
@@ -122,7 +128,9 @@ class AdvancedAGIController:
             self.metrics["total_interactions"] += 1
             self.metrics["reasoning_cycles"] += 1
             self.metrics["memory_operations"] += 1
-            self.metrics["predictions_made"] += len(resource_predictions.get("predictions", {}))
+            self.metrics["predictions_made"] += len(
+                resource_predictions.get("predictions", {})
+            )
 
             # Generate comprehensive response
             response = {
@@ -134,7 +142,9 @@ class AdvancedAGIController:
                 },
                 "resource_predictions": resource_predictions,
                 "system_metrics": self.get_system_metrics(),
-                "processing_time": (datetime.datetime.now() - start_time).total_seconds(),
+                "processing_time": (
+                    datetime.datetime.now() - start_time
+                ).total_seconds(),
                 "timestamp": datetime.datetime.now().isoformat(),
             }
 
@@ -214,7 +224,9 @@ class AdvancedAGIController:
                 optimizations[resource_type] = optimization
 
                 if optimization.get("actions_taken"):
-                    self.metrics["optimizations_applied"] += len(optimization["actions_taken"])
+                    self.metrics["optimizations_applied"] += len(
+                        optimization["actions_taken"]
+                    )
 
         return optimizations
 
@@ -228,7 +240,9 @@ class AdvancedAGIController:
         # Calculate system efficiency
         if self.metrics["total_interactions"] > 0:
             self.metrics["system_efficiency"] = (
-                self.metrics["reasoning_cycles"] + self.metrics["memory_operations"] + self.metrics["predictions_made"]
+                self.metrics["reasoning_cycles"]
+                + self.metrics["memory_operations"]
+                + self.metrics["predictions_made"]
             ) / (self.metrics["total_interactions"] * 3)
 
         return {
@@ -280,7 +294,9 @@ class AdvancedAGIController:
         Returns:
             List of similar memories
         """
-        return self.memory_manager.find_emotionally_similar_memories(target_emotion=emotion, threshold=threshold)
+        return self.memory_manager.find_emotionally_similar_memories(
+            target_emotion=emotion, threshold=threshold
+        )
 
     async def adaptive_learning_cycle(self) -> dict:
         """
@@ -331,7 +347,8 @@ class AdvancedAGIController:
         return {
             "total_memories": memory_stats.get("total_memories", 0),
             "emotional_clusters": memory_stats.get("emotional_clusters", {}),
-            "memory_efficiency": memory_stats.get("total_memories", 0) / max(1, memory_stats.get("retrieval_count", 1)),
+            "memory_efficiency": memory_stats.get("total_memories", 0)
+            / max(1, memory_stats.get("retrieval_count", 1)),
         }
 
     def _update_causal_models(self) -> dict:

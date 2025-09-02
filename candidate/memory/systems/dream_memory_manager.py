@@ -54,21 +54,26 @@
 ```
 """
 
-from from from from candidate.core.common import LukhasError, GuardianRejectionError, MemoryDriftError
 import asyncio  # For asynchronous operations, simulating work.
 from datetime import datetime, timezone  # For timestamping events.
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, List, Optional
 
 # Third-Party Imports
 import structlog  # ΛTRACE: Standardized logging.
+from fromfromfromcandidate.core.common import (
+    GuardianRejectionError,
+    LukhasError,
+    MemoryDriftError,
+)
+
+# ΛTRACE: Initialize logger for this module. #ΛTEMPORAL_HOOK (Logger init
+# time) #AIDENTITY_BRIDGE (Module identity as 'dream_memory_manager')
+from candidate.core.common import get_logger
 
 # LUKHAS Core Imports
 # from ..core.decorators import core_tier_required # Conceptual
 # placeholder for tier system.
 
-# ΛTRACE: Initialize logger for this module. #ΛTEMPORAL_HOOK (Logger init
-# time) #AIDENTITY_BRIDGE (Module identity as 'dream_memory_manager')
-from candidate.core.common import get_logger
 
 # --- LUKHAS Tier System Placeholder ---
 # ΛNOTE: Placeholder for LUKHAS tier system decorator.
@@ -76,10 +81,13 @@ from candidate.core.common import get_logger
 
 def lukhas_tier_required(level: int):  # ΛSIM_TRACE: Placeholder decorator.:
     """Placeholder for LUKHAS tier system decorator."""
+
     def decorator(func):
         func._lukhas_tier = level
         return func
+
     return decorator
+
 
 # ΛEXPOSE: Manages dream-related memory processing.
 
@@ -117,8 +125,11 @@ class DreamMemoryManager:
             "errors_encountered": 0,
             "shutdown_timestamp_utc": None,  # ΛTEMPORAL_HOOK
         }
-        logger.info("DreamMemoryManager_instance_created", config_preview=str(
-            self.config)[:100], tag="init")  # ΛTEMPORAL_HOOK (Instance creation time)
+        logger.info(
+            "DreamMemoryManager_instance_created",
+            config_preview=str(self.config)[:100],
+            tag="init",
+        )  # ΛTEMPORAL_HOOK (Instance creation time)
         # ΛDRIFT
         # ΛRECALL
         # ΛLOOP_FIX
@@ -133,26 +144,29 @@ class DreamMemoryManager:
         """
         # ΛTRACE: Attempting to initialize DreamMemoryManager.
         logger.info(
-            "DreamMemoryManager_initializing",
-            current_status_active=self.active)
+            "DreamMemoryManager_initializing", current_status_active=self.active
+        )
         try:
             # Simulate asynchronous initialization work (e.g., loading resources).
             await asyncio.sleep(0.01)
             self.active = True
-            self.stats['initialization_time_utc'] = datetime.now(
-                timezone.utc).isoformat()  # ΛTEMPORAL_HOOK
+            self.stats["initialization_time_utc"] = datetime.now(
+                timezone.utc
+            ).isoformat()  # ΛTEMPORAL_HOOK
             logger.info(
                 "DreamMemoryManager_initialized_successfully",
-                init_time_utc=self.stats['initialization_time_utc'],
-                tag="lifecycle")  # ΛTEMPORAL_HOOK
+                init_time_utc=self.stats["initialization_time_utc"],
+                tag="lifecycle",
+            )  # ΛTEMPORAL_HOOK
             return True
         except Exception as e:
-            self.stats['errors_encountered'] += 1
+            self.stats["errors_encountered"] += 1
             logger.error(
                 "DreamMemoryManager_initialization_failed",
                 error=str(e),
                 exc_info=True,
-                tag="lifecycle_error")  # ΛCAUTION
+                tag="lifecycle_error",
+            )  # ΛCAUTION
             return False
 
     # ΛEXPOSE: Main method to initiate and process a dream cycle.
@@ -161,7 +175,8 @@ class DreamMemoryManager:
     @lukhas_tier_required(2)
     # ΛRECALL (memories_for_dreaming)
     async def process_dream_cycle(
-            self, memories_for_dreaming: Optional[List[Any]] = None) -> Dict[str, Any]:
+        self, memories_for_dreaming: Optional[List[Any]] = None
+    ) -> Dict[str, Any]:
         """
         Initiates and processes a "dream cycle." This is where memory consolidation,
         pattern extraction, and symbolic manipulation would occur.
@@ -181,25 +196,30 @@ class DreamMemoryManager:
         if not self.active:
             logger.warning(
                 "DreamMemoryManager_process_dream_cycle_on_inactive_manager",
-                tag="state_warning")  # ΛCAUTION
+                tag="state_warning",
+            )  # ΛCAUTION
             return {
-                'status': 'error',
-                'message': 'DreamMemoryManager is not active.',
-                'timestamp_utc': datetime.now(
-                    timezone.utc).isoformat()}  # ΛTEMPORAL_HOOK
+                "status": "error",
+                "message": "DreamMemoryManager is not active.",
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+            }  # ΛTEMPORAL_HOOK
 
         # ΛTEMPORAL_HOOK (Dream cycle start time)
         start_time_utc_iso = datetime.now(timezone.utc).isoformat()
-        self.stats['last_dream_cycle_start_utc'] = start_time_utc_iso  # ΛTEMPORAL_HOOK
-        num_input_memories = len(
-            memories_for_dreaming) if memories_for_dreaming is not None else "auto_selected"
+        self.stats["last_dream_cycle_start_utc"] = start_time_utc_iso  # ΛTEMPORAL_HOOK
+        num_input_memories = (
+            len(memories_for_dreaming)
+            if memories_for_dreaming is not None
+            else "auto_selected"
+        )
 
         # ΛTRACE: Starting a new dream cycle.
         logger.info(
             "DreamMemoryManager_dream_cycle_started",
             input_memory_count=num_input_memories,
             start_time_utc=start_time_utc_iso,
-            tag="dream_phase_start")  # ΛTEMPORAL_HOOK
+            tag="dream_phase_start",
+        )  # ΛTEMPORAL_HOOK
 
         try:
             # --- TODO (future): Implement actual dream processing logic --- #ΛCOLLAPSE_POINT (Core logic is placeholder)
@@ -209,25 +229,27 @@ class DreamMemoryManager:
             # {ΛPERSIST}
             if self._check_for_instability(memories_for_dreaming):
                 return {
-                    'status': 'error',
-                    'message': 'Instability detected, aborting dream cycle.',
-                    'timestamp_utc': datetime.now(
-                        timezone.utc).isoformat()}
+                    "status": "error",
+                    "message": "Instability detected, aborting dream cycle.",
+                    "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+                }
             drift_score = self._calculate_drift_score(memories_for_dreaming)
             if drift_score > self.config.get("drift_threshold", 0.8):
                 logger.warning(
                     "DreamMemoryManager_drift_threshold_exceeded",
                     drift_score=drift_score,
-                    tag="drift_detected")
+                    tag="drift_detected",
+                )
 
                 from .memory_drift_stabilizer import MemoryDriftStabilizer
+
                 stabilizer = MemoryDriftStabilizer()
                 stabilizer.stabilize_memory(memories_for_dreaming)
                 return {
-                    'status': 'error',
-                    'message': 'Drift threshold exceeded, rerouting to stabilizer.',
-                    'timestamp_utc': datetime.now(
-                        timezone.utc).isoformat()}
+                    "status": "error",
+                    "message": "Drift threshold exceeded, rerouting to stabilizer.",
+                    "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+                }
             # Conceptual recovery/stabilization points for the STUB nature:
             # #ΛSTABILIZE: Implement a basic, deterministic version here. E.g., log inputs, return fixed "no new insights" status.
             #              This prevents entropic fork from random/undefined behavior from a pure stub.
@@ -244,7 +266,8 @@ class DreamMemoryManager:
                 # or recent learning foci. This tag would mark that alignment logic.
                 logger.info(
                     "DreamMemoryManager_no_explicit_memories_provided_for_dreaming",
-                    policy="using_internal_criteria_stub")
+                    policy="using_internal_criteria_stub",
+                )
 
             # This would involve:
             # 1. Retrieving full content of `memories_for_dreaming` from a main memory store (e.g., AGIMemory). (#ΛRECALL)
@@ -260,47 +283,56 @@ class DreamMemoryManager:
             logger.warning(
                 "DreamMemoryManager_process_dream_cycle_stub_executed",
                 status="needs_implementation",
-                tag="placeholder_logic")  # ΛCAUTION: STUB #ΛCOLLAPSE_POINT
+                tag="placeholder_logic",
+            )  # ΛCAUTION: STUB #ΛCOLLAPSE_POINT
 
             # Update statistics (conceptual)
             # ΛTEMPORAL_HOOK (Cycle counter)
-            self.stats['total_dream_cycles_completed'] += 1
-            self.stats['memories_processed_in_last_cycle'] = len(
-                memories_for_dreaming) if memories_for_dreaming is not None else 10  # Placeholder
+            self.stats["total_dream_cycles_completed"] += 1
+            self.stats["memories_processed_in_last_cycle"] = (
+                len(memories_for_dreaming) if memories_for_dreaming is not None else 10
+            )  # Placeholder
             # Placeholder #ΛNOTE: Conceptual insights
-            self.stats['insights_generated_in_last_cycle'] = 2
+            self.stats["insights_generated_in_last_cycle"] = 2
             # ΛTEMPORAL_HOOK (Dream cycle end time)
             end_time_utc_iso = datetime.now(timezone.utc).isoformat()
-            self.stats['last_dream_cycle_end_utc'] = end_time_utc_iso  # ΛTEMPORAL_HOOK
+            self.stats["last_dream_cycle_end_utc"] = end_time_utc_iso  # ΛTEMPORAL_HOOK
 
             dream_outcome = {
-                'summary': 'Dream cycle stub completed successfully.',
-                'insights_count': self.stats['insights_generated_in_last_cycle'],
-                'collapse_hash': 'conceptual_hash_placeholder',
-                'drift_score': 0.0
+                "summary": "Dream cycle stub completed successfully.",
+                "insights_count": self.stats["insights_generated_in_last_cycle"],
+                "collapse_hash": "conceptual_hash_placeholder",
+                "drift_score": 0.0,
             }  # ΛSEED: Insights are new seeds.
             # ΛTEMPORAL_HOOK (timestamp_utc in return)
             logger.info(
                 "DreamMemoryManager_dream_cycle_finished",
-                outcome_summary=dream_outcome['summary'],
-                insights=dream_outcome['insights_count'],
+                outcome_summary=dream_outcome["summary"],
+                insights=dream_outcome["insights_count"],
                 duration_simulated_ms=100,
                 end_time_utc=end_time_utc_iso,
-                tag="dream_phase_end")
+                tag="dream_phase_end",
+            )
             return {
-                'status': 'success',
-                'dream_outcome': dream_outcome,
-                'timestamp_utc': end_time_utc_iso}
+                "status": "success",
+                "dream_outcome": dream_outcome,
+                "timestamp_utc": end_time_utc_iso,
+            }
 
         except Exception as e:
             # ΛDRIFT_HOOK (Error during dream cycle) #ΛCORRUPT (Potential for
             # corruption if errors mishandled)
-            self.stats['errors_encountered'] += 1
-            self.stats['last_dream_cycle_end_utc'] = datetime.now(
-                timezone.utc).isoformat()  # Mark end time even on error #ΛTEMPORAL_HOOK
-            logger.error("DreamMemoryManager_dream_cycle_error", error_message=str(
-                e), exc_info=True, tag="processing_error")  # ΛCAUTION #ΛCOLLAPSE_POINT (Cycle failed)
-            return {'status': 'error', 'message': str(e)}
+            self.stats["errors_encountered"] += 1
+            self.stats["last_dream_cycle_end_utc"] = datetime.now(
+                timezone.utc
+            ).isoformat()  # Mark end time even on error #ΛTEMPORAL_HOOK
+            logger.error(
+                "DreamMemoryManager_dream_cycle_error",
+                error_message=str(e),
+                exc_info=True,
+                tag="processing_error",
+            )  # ΛCAUTION #ΛCOLLAPSE_POINT (Cycle failed)
+            return {"status": "error", "message": str(e)}
 
     def _calculate_drift_score(self, memories: Optional[List[Any]]) -> float:
         """
@@ -313,9 +345,9 @@ class DreamMemoryManager:
         # baseline or previous snapshots.
         return 0.9
 
-    def _check_for_instability(self,
-                               memories: Optional[List[Any]],
-                               recursion_depth: int = 0):
+    def _check_for_instability(
+        self, memories: Optional[List[Any]], recursion_depth: int = 0
+    ):
         """
         Checks for potential instability in recursive deltas.
         This is a placeholder implementation.
@@ -324,7 +356,8 @@ class DreamMemoryManager:
             logger.warning(
                 "DreamMemoryManager_max_recursion_depth_exceeded",
                 recursion_depth=recursion_depth,
-                tag="instability_detected")
+                tag="instability_detected",
+            )
             return True
         return False
 
@@ -335,8 +368,9 @@ class DreamMemoryManager:
     async def get_stats(self) -> Dict[str, Any]:
         """Retrieves current operational statistics for monitoring."""
         # ΛTRACE: Retrieving dream manager statistics.
-        logger.debug("DreamMemoryManager_retrieving_stats", stats_keys=list(
-            self.stats.keys()))  # ΛTEMPORAL_HOOK (Implicitly time of call)
+        logger.debug(
+            "DreamMemoryManager_retrieving_stats", stats_keys=list(self.stats.keys())
+        )  # ΛTEMPORAL_HOOK (Implicitly time of call)
         return self.stats.copy()  # Return a copy to prevent external modification.
 
     # ΛEXPOSE: Shuts down the DreamMemoryManager.
@@ -347,15 +381,18 @@ class DreamMemoryManager:
         logger.info(
             "DreamMemoryManager_shutting_down",
             current_status_active=self.active,
-            tag="lifecycle")  # ΛTEMPORAL_HOOK (Shutdown is a temporal event)
+            tag="lifecycle",
+        )  # ΛTEMPORAL_HOOK (Shutdown is a temporal event)
         self.active = False
         await asyncio.sleep(0.01)  # Simulate asynchronous shutdown procedures.
         shutdown_time_iso = datetime.now(timezone.utc).isoformat()  # ΛTEMPORAL_HOOK
-        self.stats['shutdown_timestamp_utc'] = shutdown_time_iso  # ΛTEMPORAL_HOOK
+        self.stats["shutdown_timestamp_utc"] = shutdown_time_iso  # ΛTEMPORAL_HOOK
         logger.info(
             "DreamMemoryManager_shutdown_successfully",
             shutdown_time_utc=shutdown_time_iso,
-            tag="lifecycle_end")  # ΛTEMPORAL_HOOK
+            tag="lifecycle_end",
+        )  # ΛTEMPORAL_HOOK
+
 
 # ═══════════════════════════════════════════════════
 # FILENAME: dream_memory_manager.py

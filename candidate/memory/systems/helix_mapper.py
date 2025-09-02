@@ -42,7 +42,9 @@ class HelixMapper:
         else:
             generated_key = Fernet.generate_key()
             self.cipher = Fernet(generated_key)
-            log.warning("HelixMapper generated new encryption key. MANAGE THIS KEY SECURELY.")
+            log.warning(
+                "HelixMapper generated new encryption key. MANAGE THIS KEY SECURELY."
+            )
 
         self.memory_strands: dict[str, dict[str, list[dict[str, Any]]]] = {
             "core_strand": {"decisions_sub_strand": [], "context_sub_strand": []},
@@ -81,7 +83,9 @@ class HelixMapper:
         return links
 
     @lukhas_tier_required(2)
-    async def map_memory(self, data: dict[str, Any], strand_identifier: tuple[str, str]) -> Optional[str]:
+    async def map_memory(
+        self, data: dict[str, Any], strand_identifier: tuple[str, str]
+    ) -> Optional[str]:
         """Maps data to DNA-like memory structure, encrypts it, and assigns an ID."""
         main_strand, sub_strand = strand_identifier
         log.debug(
@@ -91,7 +95,10 @@ class HelixMapper:
             data_keys_preview=list(data.keys())[:3],
         )
 
-        if main_strand not in self.memory_strands or sub_strand not in self.memory_strands[main_strand]:
+        if (
+            main_strand not in self.memory_strands
+            or sub_strand not in self.memory_strands[main_strand]
+        ):
             log.error(
                 "Invalid strand identifier.",
                 main=main_strand,
@@ -105,7 +112,9 @@ class HelixMapper:
             enc_bytes = self.cipher.encrypt(json_bytes)
             enc_str = enc_bytes.decode("utf-8")
         except TypeError as te:
-            log.error("Data not JSON serializable.", error=str(te), data_prev=str(data)[:100])
+            log.error(
+                "Data not JSON serializable.", error=str(te), data_prev=str(data)[:100]
+            )
             return None
         except Exception as e:
             log.error("Encryption failed.", error=str(e), exc_info=True)

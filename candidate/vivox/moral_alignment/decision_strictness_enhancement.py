@@ -77,7 +77,9 @@ class StricterEthicalEvaluator:
             "rushed": 1.3,
         }
 
-    async def assess_action_risk(self, action: ActionProposal, context: dict[str, Any]) -> RiskAssessment:
+    async def assess_action_risk(
+        self, action: ActionProposal, context: dict[str, Any]
+    ) -> RiskAssessment:
         """
         Perform comprehensive risk assessment
         """
@@ -97,7 +99,9 @@ class StricterEthicalEvaluator:
         for system in self.protected_systems:
             if system in content_str or system in action_lower:
                 if "override" in action_lower or "bypass" in action_lower:
-                    risk_factors.append(f"Attempting to override protected system: {system}")
+                    risk_factors.append(
+                        f"Attempting to override protected system: {system}"
+                    )
                     base_risk = max(base_risk, 0.9)
                     potential_harms.append(
                         {
@@ -139,7 +143,9 @@ class StricterEthicalEvaluator:
             if keyword in action_lower or keyword in content_str:
                 risk_factors.append(f"Potentially irreversible action: {keyword}")
                 base_risk = max(base_risk, 0.6)
-                potential_harms.append({"type": "data_loss", "reversible": False, "severity": "high"})
+                potential_harms.append(
+                    {"type": "data_loss", "reversible": False, "severity": "high"}
+                )
 
         # 6. Calculate final risk level
         final_risk = min(1.0, base_risk * amplifier)
@@ -194,7 +200,9 @@ class StricterEthicalEvaluator:
         # Cap at 1.0
         return min(1.0, base_dissonance)
 
-    def recommend_safer_alternatives(self, action: ActionProposal, risk_assessment: RiskAssessment) -> list[str]:
+    def recommend_safer_alternatives(
+        self, action: ActionProposal, risk_assessment: RiskAssessment
+    ) -> list[str]:
         """
         Suggest safer alternatives to risky actions
         """
@@ -203,7 +211,9 @@ class StricterEthicalEvaluator:
         # Check for override actions
         if "override" in action.action_type:
             alternatives.append("Request proper authorization instead of overriding")
-            alternatives.append("Document the need and escalate through proper channels")
+            alternatives.append(
+                "Document the need and escalate through proper channels"
+            )
             alternatives.append("Use temporary access with audit trail")
 
         # Check for data access without consent
@@ -213,7 +223,10 @@ class StricterEthicalEvaluator:
             alternatives.append("Limit scope to only necessary data fields")
 
         # Check for destructive actions
-        if any(keyword in action.action_type.lower() for keyword in ["delete", "remove", "destroy"]):
+        if any(
+            keyword in action.action_type.lower()
+            for keyword in ["delete", "remove", "destroy"]
+        ):
             alternatives.append("Archive data instead of deleting")
             alternatives.append("Implement soft delete with recovery option")
             alternatives.append("Create backup before proceeding")
@@ -255,10 +268,14 @@ class StrictDecisionMaker:
         risk_assessment = await self.evaluator.assess_action_risk(action, context)
 
         # Calculate stricter dissonance
-        strict_dissonance = self.evaluator.calculate_stricter_dissonance(action, context, risk_assessment)
+        strict_dissonance = self.evaluator.calculate_stricter_dissonance(
+            action, context, risk_assessment
+        )
 
         # Get safer alternatives
-        alternatives = self.evaluator.recommend_safer_alternatives(action, risk_assessment)
+        alternatives = self.evaluator.recommend_safer_alternatives(
+            action, risk_assessment
+        )
 
         # Override decision if risk is too high
         should_suppress = (

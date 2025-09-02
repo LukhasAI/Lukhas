@@ -12,15 +12,10 @@ This module provides:
 
 from typing import Optional
 
-from .endocrine_integration import (
-    VIVOXEndocrineIntegration,
-)
+from .endocrine_integration import VIVOXEndocrineIntegration
 
 # Integration components
-from .event_integration import (
-    VIVOXERNIntegratedSystem,
-    VIVOXEventBusIntegration,
-)
+from .event_integration import VIVOXERNIntegratedSystem, VIVOXEventBusIntegration
 from .neuroplastic_integration import (
     VIVOXNeuroplasticLearner,
     VIVOXTagSystemIntegration,
@@ -76,7 +71,9 @@ def create_complete_vivox_ern_system(
         tag_integration = VIVOXTagSystemIntegration(neuroplastic_learner)
 
         # Connect neuroplastic interfaces
-        vivox_ern.set_integration_interface("neuroplastic_connector", neuroplastic_learner)
+        vivox_ern.set_integration_interface(
+            "neuroplastic_connector", neuroplastic_learner
+        )
         vivox_ern.set_integration_interface("tag_integration", tag_integration)
 
     # Create endocrine integration if hormone system provided

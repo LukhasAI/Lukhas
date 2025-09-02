@@ -124,7 +124,9 @@ class LUKHASSystem:
             # Use the env_validator but don't fail on missing optional vars
             result = validate_environment()
             if not result:
-                self.logger.warning("Some environment variables missing, using defaults")
+                self.logger.warning(
+                    "Some environment variables missing, using defaults"
+                )
             return True  # Continue even with warnings
         except Exception as e:
             self.logger.error(f"Environment validation error: {e}")
@@ -157,11 +159,16 @@ class LUKHASSystem:
         fallback = sum(1 for r in results.values() if r.status == ModuleStatus.FALLBACK)
         failed = sum(1 for r in results.values() if r.status == ModuleStatus.FAILED)
 
-        self.logger.info(f"Modules: {loaded} loaded, {fallback} fallback, {failed} failed")
+        self.logger.info(
+            f"Modules: {loaded} loaded, {fallback} fallback, {failed} failed"
+        )
 
         # Log critical failures
         for name, info in results.items():
-            if info.status == ModuleStatus.FAILED and info.config.priority == ModulePriority.CRITICAL:
+            if (
+                info.status == ModuleStatus.FAILED
+                and info.config.priority == ModulePriority.CRITICAL
+            ):
                 self.logger.error(f"Critical module {name} failed: {info.error}")
 
         return self.module_manager.get_status_report()

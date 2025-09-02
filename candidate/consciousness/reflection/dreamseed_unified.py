@@ -50,24 +50,16 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.core.identity_integration import (
-    TierMappingConfig,
-    get_identity_client,
-    require_identity,
-)
-
+from candidate.core.identity_integration import (TierMappingConfig,
+                                                 get_identity_client,
+                                                 require_identity)
 # Unified tier system imports
-from candidate.core.tier_unification_adapter import (
-    EmotionalTierAdapter,
-    get_unified_adapter,
-)
-
+from candidate.core.tier_unification_adapter import (EmotionalTierAdapter,
+                                                     get_unified_adapter)
 # LUKHAS Core Imports
 from lukhas.memory.emotional import EmotionalMemory
 from lukhas.memory.governance.ethical_drift_governor import (
-    EthicalDriftGovernor,
-    create_ethical_governor,
-)
+    EthicalDriftGovernor, create_ethical_governor)
 
 
 # Backward compatibility enum (will be deprecated)
@@ -287,7 +279,8 @@ class UnifiedDreamSeedEmotionEngine:
         if self.identity_client:
             try:
                 # Get from central tier mapping service
-                from lukhas.governance.identity.core.user_tier_mapping import get_user_tier
+                from lukhas.governance.identity.core.user_tier_mapping import \
+                    get_user_tier
 
                 lambda_tier = get_user_tier(user_id) or "LAMBDA_TIER_1"
             except BaseException:
@@ -635,7 +628,8 @@ class UnifiedDreamSeedEmotionEngine:
 
         if self.identity_client:
             try:
-                from lukhas.governance.identity.core.user_tier_mapping import get_user_tier
+                from lukhas.governance.identity.core.user_tier_mapping import \
+                    get_user_tier
 
                 lambda_tier = get_user_tier(user_id) or "LAMBDA_TIER_1"
             except BaseException:

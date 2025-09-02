@@ -35,7 +35,11 @@ def run_command(cmd, description):
             if result.stdout.strip():
                 # Show key output lines
                 lines = result.stdout.strip().split("\n")
-                summary_lines = [l for l in lines if any(x in l for x in ["passed", "failed", "error", "==="])]
+                summary_lines = [
+                    l
+                    for l in lines
+                    if any(x in l for x in ["passed", "failed", "error", "==="])
+                ]
                 for line in summary_lines[-3:]:  # Last 3 summary lines
                     print(f"      {line}")
             return True
@@ -61,7 +65,11 @@ def main():
 
     # Test categories with their commands
     test_categories = [
-        {"name": "Simple Validation Tests", "cmd": ["python", "candidate/aka_qualia/test_simple.py"], "critical": True},
+        {
+            "name": "Simple Validation Tests",
+            "cmd": ["python", "candidate/aka_qualia/test_simple.py"],
+            "critical": True,
+        },
         {
             "name": "Unit Tests - Fast Feedback",
             "cmd": [
@@ -77,7 +85,16 @@ def main():
         },
         {
             "name": "Contract Tests - Business Rules",
-            "cmd": ["python", "-m", "pytest", "candidate/aka_qualia/tests/", "-m", "contract", "-v", "--tb=short"],
+            "cmd": [
+                "python",
+                "-m",
+                "pytest",
+                "candidate/aka_qualia/tests/",
+                "-m",
+                "contract",
+                "-v",
+                "--tb=short",
+            ],
             "critical": True,
         },
         {
@@ -143,7 +160,13 @@ def main():
     # Run each test category
     for category in test_categories:
         success = run_command(category["cmd"], category["name"])
-        results.append({"name": category["name"], "success": success, "critical": category["critical"]})
+        results.append(
+            {
+                "name": category["name"],
+                "success": success,
+                "critical": category["critical"],
+            }
+        )
 
         if not success and category["critical"]:
             critical_failures += 1
@@ -176,7 +199,9 @@ def main():
             print("   🌟 EXCELLENT: All tests passed - ready for production!")
             exit_code = 0
         else:
-            print("   ✅ GOOD: Core functionality validated - minor issues in optional tests")
+            print(
+                "   ✅ GOOD: Core functionality validated - minor issues in optional tests"
+            )
             exit_code = 0
     else:
         print("   ❌ NOT READY: Critical test failures must be resolved")

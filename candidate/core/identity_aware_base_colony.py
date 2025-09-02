@@ -135,7 +135,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         self._setup_tier_capability_matrix()
         self._initialize_oracle_ethics_integration()
 
-        self.logger.info(f"Identity-aware colony {colony_id} initialized with quantum security")
+        self.logger.info(
+            f"Identity-aware colony {colony_id} initialized with quantum security"
+        )
 
     def _initialize_identity_integration(self):
         """Initialize quantum identity management integration."""
@@ -231,7 +233,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
                 self.tier_capability_matrix[tier] = list(set(available_caps))
 
-        self.logger.debug(f"Tier capability matrix configured for {len(self.tier_capability_matrix)} tiers")
+        self.logger.debug(
+            f"Tier capability matrix configured for {len(self.tier_capability_matrix)} tiers"
+        )
 
     def _initialize_oracle_ethics_integration(self):
         """Initialize Oracle & Ethics nervous system integration."""
@@ -241,7 +245,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
                 # For now, we'll indicate they're available for integration
                 self.logger.info("Oracle & Ethics integration enabled")
             except Exception as e:
-                self.logger.error(f"Failed to initialize Oracle & Ethics integration: {e}")
+                self.logger.error(
+                    f"Failed to initialize Oracle & Ethics integration: {e}"
+                )
 
     async def execute_task(
         self,
@@ -274,7 +280,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             if user_id and user_id in self.active_user_contexts:
                 user_context = self.active_user_contexts[user_id]
             else:
-                raise IdentityValidationError("No user context provided for identity-aware colony")
+                raise IdentityValidationError(
+                    "No user context provided for identity-aware colony"
+                )
 
         # Validate quantum identity
         await self._validate_quantum_identity(user_context)
@@ -294,7 +302,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         ethics_approval = await self._validate_ethics(user_context, task_data)
 
         # Consciousness-aware processing (if available)
-        consciousness_context = await self._get_consciousness_context(user_context, task_data)
+        consciousness_context = await self._get_consciousness_context(
+            user_context, task_data
+        )
 
         try:
             # Execute the actual task with identity context
@@ -308,7 +318,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             )
 
             # Post-quantum audit logging
-            await self._log_identity_audit(user_context, task_id, operation, "success", result)
+            await self._log_identity_audit(
+                user_context, task_id, operation, "success", result
+            )
 
             # Update user behavior patterns
             await self._update_user_patterns(user_context, task_data, result)
@@ -317,7 +329,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
         except Exception as e:
             # Log failed execution
-            await self._log_identity_audit(user_context, task_id, operation, "error", {"error": str(e)})
+            await self._log_identity_audit(
+                user_context, task_id, operation, "error", {"error": str(e)}
+            )
             raise
 
         finally:
@@ -345,7 +359,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
                 pass
 
             # Check identity expiration
-            if user_context.expires_at and user_context.expires_at < datetime.now(timezone.utc):
+            if user_context.expires_at and user_context.expires_at < datetime.now(
+                timezone.utc
+            ):
                 raise IdentityValidationError("User identity has expired")
 
             # Update active contexts
@@ -354,7 +370,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         except Exception as e:
             raise QISecurityError(f"Quantum identity validation failed: {e}")
 
-    async def _authorize_task_execution(self, user_context: QIUserContext, operation: str) -> bool:
+    async def _authorize_task_execution(
+        self, user_context: QIUserContext, operation: str
+    ) -> bool:
         """Authorize task execution based on tier and capabilities."""
         # Check cache first
         cache_key = f"{user_context.user_id}:{operation}"
@@ -362,7 +380,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             return self.tier_authorization_cache[cache_key].get(operation, False)
 
         # Get allowed capabilities for user's tier
-        allowed_capabilities = self.tier_capability_matrix.get(user_context.tier_level, [])
+        allowed_capabilities = self.tier_capability_matrix.get(
+            user_context.tier_level, []
+        )
 
         # Check if operation is allowed
         authorized = False
@@ -381,7 +401,8 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             if not authorized:
                 for capability in self.capabilities:
                     if (
-                        operation in capability.lower() or capability.lower() in operation.lower()
+                        operation in capability.lower()
+                        or capability.lower() in operation.lower()
                     ) and capability in allowed_capabilities:
                         authorized = True
                         break
@@ -389,7 +410,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         # Use quantum identity manager for additional authorization
         if self.qi_identity_manager:
             try:
-                qi_authorized = await authorize_quantum_access(user_context, self.colony_id, operation)
+                qi_authorized = await authorize_quantum_access(
+                    user_context, self.colony_id, operation
+                )
                 authorized = authorized and qi_authorized
             except Exception as e:
                 self.logger.error(f"Quantum authorization failed: {e}")
@@ -439,7 +462,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             self.logger.error(f"Failed to get Oracle insights: {e}")
             return None
 
-    async def _validate_ethics(self, user_context: QIUserContext, task_data: dict[str, Any]) -> bool:
+    async def _validate_ethics(
+        self, user_context: QIUserContext, task_data: dict[str, Any]
+    ) -> bool:
         """Validate task ethics using Ethics Swarm Colony (if available)."""
         if not ORACLE_ETHICS_AVAILABLE or not self.ethics_colony:
             return True  # Default to allow if ethics validation unavailable
@@ -519,7 +544,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         Returns:
             Task execution result
         """
-        raise NotImplementedError("Concrete colonies must implement _execute_identity_aware_task")
+        raise NotImplementedError(
+            "Concrete colonies must implement _execute_identity_aware_task"
+        )
 
     async def _log_identity_audit(
         self,
@@ -547,9 +574,13 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         }
 
         # Generate collapse hash for audit entry (if quantum crypto available)
-        if self.qi_identity_manager and hasattr(self.qi_identity_manager, "collapse_hash_manager"):
+        if self.qi_identity_manager and hasattr(
+            self.qi_identity_manager, "collapse_hash_manager"
+        ):
             try:
-                collapse_hash = self.qi_identity_manager.collapse_hash_manager.generate_collapse_hash(audit_entry)
+                collapse_hash = self.qi_identity_manager.collapse_hash_manager.generate_collapse_hash(
+                    audit_entry
+                )
                 audit_entry["collapse_hash"] = collapse_hash
             except Exception as e:
                 self.logger.error(f"Failed to generate collapse hash for audit: {e}")
@@ -597,7 +628,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             task_complexity = task_data.get("complexity", 0.5)
             if success:
                 intelligence_boost = task_complexity * 0.01
-                user_context.intelligence_score = min(1.0, user_context.intelligence_score + intelligence_boost)
+                user_context.intelligence_score = min(
+                    1.0, user_context.intelligence_score + intelligence_boost
+                )
 
             # Update last access time
             user_context.last_accessed = datetime.now(timezone.utc)
@@ -617,7 +650,11 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             del self.active_user_contexts[user_id]
 
         # Clear authorization cache for user
-        keys_to_remove = [key for key in self.tier_authorization_cache if key.startswith(f"{user_id}:")]
+        keys_to_remove = [
+            key
+            for key in self.tier_authorization_cache
+            if key.startswith(f"{user_id}:")
+        ]
         for key in keys_to_remove:
             del self.tier_authorization_cache[key]
 
@@ -640,12 +677,16 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             identity_type = context.identity_type.name
 
             tier_distribution[tier] = tier_distribution.get(tier, 0) + 1
-            identity_type_distribution[identity_type] = identity_type_distribution.get(identity_type, 0) + 1
+            identity_type_distribution[identity_type] = (
+                identity_type_distribution.get(identity_type, 0) + 1
+            )
 
         # Performance metrics
         avg_validation_time = 0.0
         if self.identity_validation_times:
-            avg_validation_time = sum(self.identity_validation_times) / len(self.identity_validation_times)
+            avg_validation_time = sum(self.identity_validation_times) / len(
+                self.identity_validation_times
+            )
 
         return {
             "colony_id": self.colony_id,
@@ -657,7 +698,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             "qi_identity_enabled": self.qi_identity_manager is not None,
             "oracle_integration_enabled": ORACLE_ETHICS_AVAILABLE,
             "consciousness_integration_enabled": CONSCIOUSNESS_AVAILABLE,
-            "supported_tier_levels": [tier.name for tier in self.tier_capability_matrix],
+            "supported_tier_levels": [
+                tier.name for tier in self.tier_capability_matrix
+            ],
             "total_capabilities": len(self.capabilities),
         }
 
@@ -691,7 +734,9 @@ class DefaultIdentityAwareColony(IdentityAwareBaseColony):
             "oracle_insights_used": oracle_insights is not None,
             "ethics_approved": ethics_approval,
             "consciousness_aware": consciousness_context is not None,
-            "capabilities_used": self.get_supported_capabilities_for_tier(user_context.tier_level),
+            "capabilities_used": self.get_supported_capabilities_for_tier(
+                user_context.tier_level
+            ),
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 

@@ -20,16 +20,18 @@ DEPENDENCIES:
 - voice_memory_helix.py
 """
 
-import hashlib
 import base64
+import hashlib
 import logging
 import random
 import re
 from datetime import datetime
 from typing import Any, Optional
-from lukhas.core.identity.vault.lukhas_id import get_encryption_key, has_access, log_access
+
 from cryptography.fernet import Fernet
 
+from lukhas.core.identity.vault.lukhas_id import (get_encryption_key,
+                                                  has_access, log_access)
 
 # Initialize logger
 logger = logging.getLogger("accent_adapter")

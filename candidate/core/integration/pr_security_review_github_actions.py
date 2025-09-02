@@ -23,14 +23,18 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler(f"pr_security_review_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.log"),
+        logging.FileHandler(
+            f"pr_security_review_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        ),
     ],
 )
 logger = logging.getLogger("pr_security_review")
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="PR Security Review for GitHub Actions")
+    parser = argparse.ArgumentParser(
+        description="PR Security Review for GitHub Actions"
+    )
     parser.add_argument("--github-token", type=str, help="GitHub Token for API access")
     parser.add_argument(
         "--ci-mode",
@@ -54,7 +58,9 @@ def main():
     github_event_name = os.environ.get("GITHUB_EVENT_NAME")
     github_event_path = os.environ.get("GITHUB_EVENT_PATH")
 
-    logger.info(f"Starting PR Security Review in GitHub Actions for {github_repository}")
+    logger.info(
+        f"Starting PR Security Review in GitHub Actions for {github_repository}"
+    )
     logger.info(f"Triggered by {github_event_name} event")
 
     # If this is a PR event, we can get the PR number directly
@@ -94,7 +100,9 @@ def main():
             "status": "success",
         }
 
-        report_file = f"security_report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        report_file = (
+            f"security_report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        )
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 

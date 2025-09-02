@@ -82,13 +82,17 @@ class TTSRequest:
             "pitch": self.pitch,
             "volume": self.volume,
             "quality": self.quality.value,
-            "provider_preference": self.provider_preference.value if self.provider_preference else None,
+            "provider_preference": (
+                self.provider_preference.value if self.provider_preference else None
+            ),
             "user_id": self.user_id,
             "session_id": self.session_id,
             "context": self.context,
             "apply_audio_processing": self.apply_audio_processing,
             "audio_processing_quality": self.audio_processing_quality.value,
-            "modulation_mode": self.modulation_mode.value if self.modulation_mode else None,
+            "modulation_mode": (
+                self.modulation_mode.value if self.modulation_mode else None
+            ),
         }
 
 
@@ -168,7 +172,9 @@ class TTSProviderAdapter(ABC):
 class LegacyTTSProviderAdapter(TTSProviderAdapter):
     """Adapter for legacy VoiceSynthesisProvider classes"""
 
-    def __init__(self, provider: VoiceSynthesisProvider, provider_type: TTSProviderType):
+    def __init__(
+        self, provider: VoiceSynthesisProvider, provider_type: TTSProviderType
+    ):
         self.provider = provider
         self.provider_type = provider_type
         self.logger = get_logger(f"{__name__}.{provider_type.value.title()}Adapter")
@@ -179,11 +185,18 @@ class LegacyTTSProviderAdapter(TTSProviderAdapter):
 
         try:
             # Convert request to legacy format
-            params = {"speed": request.speed, "pitch": request.pitch, "volume": request.volume}
+            params = {
+                "speed": request.speed,
+                "pitch": request.pitch,
+                "volume": request.volume,
+            }
 
             # Call legacy provider
             result = self.provider.synthesize(
-                text=request.text, voice_id=request.voice_id, emotion=request.emotion, params=params
+                text=request.text,
+                voice_id=request.voice_id,
+                emotion=request.emotion,
+                params=params,
             )
 
             processing_time = (time.time() - start_time) * 1000
@@ -282,7 +295,11 @@ class OpenAITTSAdapter(TTSProviderAdapter):
                 voice = "nova"
 
             # Select model based on quality
-            model = "tts-1-hd" if request.quality in [TTSQuality.HIGH, TTSQuality.PREMIUM] else "tts-1"
+            model = (
+                "tts-1-hd"
+                if request.quality in [TTSQuality.HIGH, TTSQuality.PREMIUM]
+                else "tts-1"
+            )
 
             # Make TTS request
             response = await client.audio.speech.create(
@@ -364,19 +381,25 @@ class TTSProviderManager:
         elevenlabs_config = self.config.get("elevenlabs", {})
         if elevenlabs_config.get("enabled", False):
             provider = ElevenLabsProvider(elevenlabs_config)
-            self.providers[TTSProviderType.ELEVENLABS] = LegacyTTSProviderAdapter(provider, TTSProviderType.ELEVENLABS)
+            self.providers[TTSProviderType.ELEVENLABS] = LegacyTTSProviderAdapter(
+                provider, TTSProviderType.ELEVENLABS
+            )
 
         # Edge TTS
         edge_config = self.config.get("edge_tts", {})
         if edge_config.get("enabled", True):  # Enabled by default
             provider = EdgeTTSProvider(edge_config)
-            self.providers[TTSProviderType.EDGE_TTS] = LegacyTTSProviderAdapter(provider, TTSProviderType.EDGE_TTS)
+            self.providers[TTSProviderType.EDGE_TTS] = LegacyTTSProviderAdapter(
+                provider, TTSProviderType.EDGE_TTS
+            )
 
         # Coqui TTS
         coqui_config = self.config.get("coqui", {})
         if coqui_config.get("enabled", False):
             provider = CoquiProvider(coqui_config)
-            self.providers[TTSProviderType.COQUI] = LegacyTTSProviderAdapter(provider, TTSProviderType.COQUI)
+            self.providers[TTSProviderType.COQUI] = LegacyTTSProviderAdapter(
+                provider, TTSProviderType.COQUI
+            )
 
         # OpenAI TTS
         openai_config = self.config.get("openai", {})
@@ -396,7 +419,10 @@ class TTSProviderManager:
     def select_provider(self, request: TTSRequest) -> Optional[TTSProviderAdapter]:
         """Select best provider for request"""
         # If specific provider requested and available
-        if request.provider_preference and request.provider_preference in self.providers:
+        if (
+            request.provider_preference
+            and request.provider_preference in self.providers
+        ):
             provider = self.providers[request.provider_preference]
             if provider.is_available():
                 return provider
@@ -419,7 +445,9 @@ class TTSProviderManager:
                     voices = provider.get_supported_voices()
                     all_voices[provider_type.value] = voices
                 except Exception as e:
-                    self.logger.error(f"Failed to get voices from {provider_type.value}: {e}")
+                    self.logger.error(
+                        f"Failed to get voices from {provider_type.value}: {e}"
+                    )
         return all_voices
 
 
@@ -434,7 +462,9 @@ class LUKHASTTSService:
         # Initialize components
         self.provider_manager = TTSProviderManager(self.config.get("providers", {}))
         self.voice_modulator = VoiceModulator(self.config.get("modulator", {}))
-        self.audio_processor = LUKHASAudioProcessor(self.config.get("audio_processor", {}))
+        self.audio_processor = LUKHASAudioProcessor(
+            self.config.get("audio_processor", {})
+        )
 
         # Service statistics
         self.stats = {
@@ -509,7 +539,9 @@ class LUKHASTTSService:
             if request.modulation_mode and tts_response.audio_data:
                 try:
                     modulated_audio, mod_metadata = await self.voice_modulator.modulate(
-                        tts_response.audio_data, request.modulation_mode, request.context
+                        tts_response.audio_data,
+                        request.modulation_mode,
+                        request.context,
                     )
 
                     if mod_metadata.get("success", False):
@@ -524,12 +556,14 @@ class LUKHASTTSService:
             # Apply audio processing if requested
             if request.apply_audio_processing and tts_response.audio_data:
                 try:
-                    processed_audio, proc_metadata = await self.audio_processor.process_audio(
-                        tts_response.audio_data,
-                        tts_response.sample_rate,
-                        1,  # Assume mono for now
-                        quality=request.audio_processing_quality,
-                        context=request.context,
+                    processed_audio, proc_metadata = (
+                        await self.audio_processor.process_audio(
+                            tts_response.audio_data,
+                            tts_response.sample_rate,
+                            1,  # Assume mono for now
+                            quality=request.audio_processing_quality,
+                            context=request.context,
+                        )
                     )
 
                     if proc_metadata.get("success", False):
@@ -548,11 +582,15 @@ class LUKHASTTSService:
             # Update statistics
             self.stats["requests_successful"] += 1
             provider_type = provider.get_provider_type().value
-            self.stats["providers_used"][provider_type] = self.stats["providers_used"].get(provider_type, 0) + 1
+            self.stats["providers_used"][provider_type] = (
+                self.stats["providers_used"].get(provider_type, 0) + 1
+            )
 
             # Update average processing time
             self.stats["average_processing_time"] = (
-                self.stats["average_processing_time"] * (self.stats["requests_successful"] - 1) + total_time
+                self.stats["average_processing_time"]
+                * (self.stats["requests_successful"] - 1)
+                + total_time
             ) / self.stats["requests_successful"]
 
             # Cache response
@@ -578,7 +616,10 @@ class LUKHASTTSService:
             self.logger.error(f"TTS synthesis failed: {e!s}")
             self.stats["requests_failed"] += 1
 
-            await GLYPH.emit("tts.synthesis.error", {"error": str(e), "text_length": len(request.text)})
+            await GLYPH.emit(
+                "tts.synthesis.error",
+                {"error": str(e), "text_length": len(request.text)},
+            )
 
             return TTSResponse(
                 success=False,
@@ -598,7 +639,11 @@ class LUKHASTTSService:
             "pitch": request.pitch,
             "volume": request.volume,
             "quality": request.quality.value,
-            "provider": request.provider_preference.value if request.provider_preference else None,
+            "provider": (
+                request.provider_preference.value
+                if request.provider_preference
+                else None
+            ),
         }
         return str(hash(json.dumps(key_params, sort_keys=True)))
 
@@ -623,7 +668,9 @@ class LUKHASTTSService:
         self.response_cache.clear()
         self.logger.info("TTS response cache cleared")
 
-    async def preload_voices(self, provider_types: Optional[list[TTSProviderType]] = None):
+    async def preload_voices(
+        self, provider_types: Optional[list[TTSProviderType]] = None
+    ):
         """Preload voice information from providers"""
         if provider_types is None:
             provider_types = list(self.provider_manager.providers.keys())
@@ -634,9 +681,13 @@ class LUKHASTTSService:
                     provider = self.provider_manager.providers[provider_type]
                     if provider.is_available():
                         voices = provider.get_supported_voices()
-                        self.logger.info(f"Preloaded {len(voices)} voices from {provider_type.value}")
+                        self.logger.info(
+                            f"Preloaded {len(voices)} voices from {provider_type.value}"
+                        )
                 except Exception as e:
-                    self.logger.error(f"Failed to preload voices from {provider_type.value}: {e}")
+                    self.logger.error(
+                        f"Failed to preload voices from {provider_type.value}: {e}"
+                    )
 
 
 # Convenience functions for common use cases
@@ -663,7 +714,13 @@ async def text_to_speech(
     # Create default service (would normally be singleton)
     service = LUKHASTTSService()
 
-    request = TTSRequest(text=text, voice_id=voice_id, emotion=emotion, quality=quality, provider_preference=provider)
+    request = TTSRequest(
+        text=text,
+        voice_id=voice_id,
+        emotion=emotion,
+        quality=quality,
+        provider_preference=provider,
+    )
 
     return await service.synthesize_speech(request)
 

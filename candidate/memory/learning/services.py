@@ -69,7 +69,9 @@ class LearningService:
             context = []
 
         # Perform training
-        result = await self._perform_training(agent_id=agent_id, data=training_data, context=context, config=config)
+        result = await self._perform_training(
+            agent_id=agent_id, data=training_data, context=context, config=config
+        )
 
         # Store training results in memory
         if memory:
@@ -95,7 +97,9 @@ class LearningService:
         }
 
     @inject_services(consciousness="consciousness_service")
-    async def conscious_learning(self, agent_id: str, experience: dict[str, Any], consciousness=None) -> dict[str, Any]:
+    async def conscious_learning(
+        self, agent_id: str, experience: dict[str, Any], consciousness=None
+    ) -> dict[str, Any]:
         """
         Learning that integrates with consciousness for meta-cognitive awareness.
         """
@@ -126,7 +130,9 @@ class LearningService:
 
         return result
 
-    async def federated_learning(self, agent_ids: list[str], global_model: dict[str, Any]) -> dict[str, Any]:
+    async def federated_learning(
+        self, agent_ids: list[str], global_model: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Coordinate federated learning across multiple agents.
         """

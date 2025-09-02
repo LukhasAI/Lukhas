@@ -92,7 +92,9 @@ class ContextualMappingColony(BaseColony):
 
         logger.info(f"🗺️ ContextualMappingColony '{colony_id}' initialized")
 
-    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Map biological data to GLYPHs with deep context understanding.
 
@@ -115,22 +117,30 @@ class ContextualMappingColony(BaseColony):
             context_features = await self._process_context_layers(context, bio_data)
 
             # Calculate fuzzy GLYPH activations
-            glyph_activations = self._calculate_fuzzy_activations(bio_data, context_features, thresholds)
+            glyph_activations = self._calculate_fuzzy_activations(
+                bio_data, context_features, thresholds
+            )
 
             # Apply temporal evolution
             evolved_glyphs = self._apply_temporal_evolution(glyph_activations)
 
             # Get colony consensus on mappings
-            consensus_glyphs = await self._get_colony_consensus(evolved_glyphs, context_features)
+            consensus_glyphs = await self._get_colony_consensus(
+                evolved_glyphs, context_features
+            )
 
             # Handle quantum superposition
-            qi_glyphs = self._process_quantum_superposition(consensus_glyphs, context_features)
+            qi_glyphs = self._process_quantum_superposition(
+                consensus_glyphs, context_features
+            )
 
             # Select final GLYPHs (top N by activation)
             final_glyphs = self._select_final_glyphs(qi_glyphs)
 
             # Calculate mapping confidence
-            confidence = self._calculate_mapping_confidence(final_glyphs, context_features)
+            confidence = self._calculate_mapping_confidence(
+                final_glyphs, context_features
+            )
 
             # Prepare result
             result = {
@@ -217,7 +227,9 @@ class ContextualMappingColony(BaseColony):
 
         return layer_features
 
-    async def _process_environmental_context(self, context: dict[str, Any], bio_data: dict[str, Any]) -> dict[str, Any]:
+    async def _process_environmental_context(
+        self, context: dict[str, Any], bio_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process environmental context layer."""
         features = {}
 
@@ -248,7 +260,9 @@ class ContextualMappingColony(BaseColony):
 
         return features
 
-    async def _process_personal_context(self, context: dict[str, Any], bio_data: dict[str, Any]) -> dict[str, Any]:
+    async def _process_personal_context(
+        self, context: dict[str, Any], bio_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process personal context layer."""
         features = {}
 
@@ -276,7 +290,9 @@ class ContextualMappingColony(BaseColony):
 
         return features
 
-    async def _process_social_context(self, context: dict[str, Any], bio_data: dict[str, Any]) -> dict[str, Any]:
+    async def _process_social_context(
+        self, context: dict[str, Any], bio_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process social context layer."""
         features = {}
 
@@ -296,7 +312,9 @@ class ContextualMappingColony(BaseColony):
 
         return features
 
-    async def _process_quantum_context(self, context: dict[str, Any], bio_data: dict[str, Any]) -> dict[str, Any]:
+    async def _process_quantum_context(
+        self, context: dict[str, Any], bio_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process quantum context layer."""
         features = {}
 
@@ -314,7 +332,9 @@ class ContextualMappingColony(BaseColony):
 
         return features
 
-    async def _process_symbolic_context(self, context: dict[str, Any], bio_data: dict[str, Any]) -> dict[str, Any]:
+    async def _process_symbolic_context(
+        self, context: dict[str, Any], bio_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process symbolic context layer."""
         features = {}
 
@@ -326,7 +346,9 @@ class ContextualMappingColony(BaseColony):
         if hasattr(self, "symbolic_carryover"):
             features["active_tags"] = list(self.symbolic_carryover.keys())
             features["tag_strength"] = (
-                np.mean([tag[3] for tag in self.symbolic_carryover.values()]) if self.symbolic_carryover else 0
+                np.mean([tag[3] for tag in self.symbolic_carryover.values()])
+                if self.symbolic_carryover
+                else 0
             )
 
         # Symbolic momentum
@@ -358,17 +380,23 @@ class ContextualMappingColony(BaseColony):
                 "ΛPOWER_CRITICAL",
             ]:
                 if glyph in self.fuzzy_boundaries:
-                    activation = self._fuzzy_membership(energy, self.fuzzy_boundaries[glyph])
+                    activation = self._fuzzy_membership(
+                        energy, self.fuzzy_boundaries[glyph]
+                    )
 
                     # Modify based on context
-                    activation = self._apply_context_modulation(activation, glyph, context_features)
+                    activation = self._apply_context_modulation(
+                        activation, glyph, context_features
+                    )
 
                     if activation > 0.1:  # Threshold for consideration
                         activations[glyph] = activation
 
         # Stress-based GLYPHs
         if "cortisol" in bio_data or "stress" in bio_data:
-            stress = bio_data.get("stress", bio_data.get("cortisol", 0.5) / 30)  # Normalize cortisol
+            stress = bio_data.get(
+                "stress", bio_data.get("cortisol", 0.5) / 30
+            )  # Normalize cortisol
 
             for glyph in [
                 "ΛSTRESS_TRANSFORM",
@@ -377,10 +405,14 @@ class ContextualMappingColony(BaseColony):
                 "ΛSTRESS_FLOW",
             ]:
                 if glyph in self.fuzzy_boundaries:
-                    activation = self._fuzzy_membership(stress, self.fuzzy_boundaries[glyph])
+                    activation = self._fuzzy_membership(
+                        stress, self.fuzzy_boundaries[glyph]
+                    )
 
                     # Context modulation
-                    activation = self._apply_context_modulation(activation, glyph, context_features)
+                    activation = self._apply_context_modulation(
+                        activation, glyph, context_features
+                    )
 
                     if activation > 0.1:
                         activations[glyph] = activation
@@ -476,7 +508,9 @@ class ContextualMappingColony(BaseColony):
 
         return np.clip(modulated, 0, 1)
 
-    def _apply_temporal_evolution(self, activations: dict[str, float]) -> dict[str, float]:
+    def _apply_temporal_evolution(
+        self, activations: dict[str, float]
+    ) -> dict[str, float]:
         """Apply temporal evolution to GLYPH activations."""
         evolved = {}
 
@@ -490,7 +524,9 @@ class ContextualMappingColony(BaseColony):
                 )
             else:
                 # New GLYPH - apply evolution rate
-                evolved_activation = new_activation * self.temporal_config["evolution_rate"]
+                evolved_activation = (
+                    new_activation * self.temporal_config["evolution_rate"]
+                )
 
             evolved[glyph] = evolved_activation
 
@@ -610,7 +646,9 @@ class ContextualMappingColony(BaseColony):
 
         return np.mean(confidence_factors)
 
-    def _summarize_context(self, context_features: dict[ContextLayer, dict[str, Any]]) -> dict[str, Any]:
+    def _summarize_context(
+        self, context_features: dict[ContextLayer, dict[str, Any]]
+    ) -> dict[str, Any]:
         """Create summary of context features."""
         summary = {}
 
@@ -636,7 +674,9 @@ class ContextualMappingColony(BaseColony):
         timestamp = datetime.utcnow()
 
         for glyph, activation in glyphs:
-            self.glyph_evolution_history[glyph].append({"timestamp": timestamp, "activation": activation})
+            self.glyph_evolution_history[glyph].append(
+                {"timestamp": timestamp, "activation": activation}
+            )
 
             # Keep only recent history (last 100 entries)
             if len(self.glyph_evolution_history[glyph]) > 100:
@@ -675,7 +715,9 @@ class ContextualMappingColony(BaseColony):
         }
         return features
 
-    def _extract_environmental_features(self, context: dict[str, Any]) -> dict[str, float]:
+    def _extract_environmental_features(
+        self, context: dict[str, Any]
+    ) -> dict[str, float]:
         """Extract environmental features."""
         env = context.get("environment", {})
         return {

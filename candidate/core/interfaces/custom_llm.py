@@ -25,11 +25,7 @@ import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 
 from ..core.pydantic_utilities import IS_PYDANTIC_V2  # ΛDEP: project-specific
 from ..core.unchecked_base_model import UncheckedBaseModel  # ΛDEP: project-specific
-from .conv_ai_secret_locator import (
-    # ΛDEP: project-specific # AIO_NODE (potentially, if ConvAiSecretLocator;
-    # involves I/O)
-    ConvAiSecretLocator,
-)
+from .conv_ai_secret_locator import ConvAiSecretLocator
 
 # AIMPORTS_END
 
@@ -49,7 +45,9 @@ class CustomLlm(UncheckedBaseModel):
     #   api_key (typing.Optional[ConvAiSecretLocator]): Locator for the API key for authentication. (ΛEXPOSE, ΛCAUTION - sensitive data locator)
     """
 
-    url: str = pydantic.Field(description="The URL of the Chat Completions compatible endpoint")
+    url: str = pydantic.Field(
+        description="The URL of the Chat Completions compatible endpoint"
+    )
     model_id: typing.Optional[str] = pydantic.Field(
         default=None,
         description="The model ID to be used if URL serves multiple models",

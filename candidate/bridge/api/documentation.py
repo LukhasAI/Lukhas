@@ -144,10 +144,19 @@ All endpoints include cost estimation and tracking:
 
         # Add tags with descriptions
         spec["tags"] = [
-            {"name": "orchestration", "description": "Multi-model AI orchestration endpoints"},
-            {"name": "healthcare", "description": "HIPAA-compliant healthcare AI endpoints"},
+            {
+                "name": "orchestration",
+                "description": "Multi-model AI orchestration endpoints",
+            },
+            {
+                "name": "healthcare",
+                "description": "HIPAA-compliant healthcare AI endpoints",
+            },
             {"name": "streaming", "description": "Real-time streaming endpoints"},
-            {"name": "functions", "description": "Function registration and management"},
+            {
+                "name": "functions",
+                "description": "Function registration and management",
+            },
             {"name": "onboarding", "description": "User onboarding and account setup"},
             {"name": "monitoring", "description": "API metrics and health monitoring"},
         ]
@@ -295,7 +304,9 @@ All endpoints include cost estimation and tracking:
                     "url": "https://lukhas.ai/license",
                 },
             },
-            "servers": [{"url": "https://api.lukhas.ai/v1", "description": "Production API"}],
+            "servers": [
+                {"url": "https://api.lukhas.ai/v1", "description": "Production API"}
+            ],
             "paths": {},
             "components": {
                 "schemas": {},
@@ -532,4 +543,8 @@ if __name__ == "__main__":
     print(f"SDK examples for {len(docs['sdk_info']['sdk_languages'])} languages")
 
 # Export main components
-__all__ = ["APIDocumentationGenerator", "export_openapi_spec", "generate_api_documentation"]
+__all__ = [
+    "APIDocumentationGenerator",
+    "export_openapi_spec",
+    "generate_api_documentation",
+]

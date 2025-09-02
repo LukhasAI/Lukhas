@@ -48,7 +48,9 @@ class MEGPolicyBridge:
             "cultural_conflicts": 0,
         }
 
-    def ethics_decision_to_meg_decision(self, decision: EthicsDecision) -> EthicalDecision:
+    def ethics_decision_to_meg_decision(
+        self, decision: EthicsDecision
+    ) -> EthicalDecision:
         """Convert ethics system decision to MEG decision format"""
 
         # Map urgency levels
@@ -63,7 +65,11 @@ class MEGPolicyBridge:
         cultural_context = CulturalContext.UNIVERSAL
         if decision.context:
             context_str = str(decision.context).lower()
-            if "western" in context_str or "american" in context_str or "european" in context_str:
+            if (
+                "western" in context_str
+                or "american" in context_str
+                or "european" in context_str
+            ):
                 cultural_context = CulturalContext.WESTERN
             elif "eastern" in context_str or "asian" in context_str:
                 cultural_context = CulturalContext.EASTERN
@@ -81,7 +87,11 @@ class MEGPolicyBridge:
         potential_outcomes = []
 
         # Infer potential outcomes from action and context
-        if "help" in action_lower or "assist" in action_lower or "benefit" in action_lower:
+        if (
+            "help" in action_lower
+            or "assist" in action_lower
+            or "benefit" in action_lower
+        ):
             potential_outcomes.append("positive: assistance provided")
         if "harm" in action_lower or "damage" in action_lower or "hurt" in action_lower:
             potential_outcomes.append("negative: potential harm")
@@ -103,7 +113,9 @@ class MEGPolicyBridge:
             metadata={
                 "original_glyphs": decision.glyphs or [],
                 "symbolic_state": decision.symbolic_state or {},
-                "timestamp": (decision.timestamp.isoformat() if decision.timestamp else None),
+                "timestamp": (
+                    decision.timestamp.isoformat() if decision.timestamp else None
+                ),
             },
         )
 
@@ -157,11 +169,14 @@ class MEGPolicyBridge:
         elif meg_eval.confidence < 0.3:
             collapse_risk = 0.4
 
-        symbolic_alignment = meg_eval.confidence  # Use MEG confidence as alignment score
+        symbolic_alignment = (
+            meg_eval.confidence
+        )  # Use MEG confidence as alignment score
 
         # Combine reasoning from MEG
-        combined_reasoning = f"MEG Evaluation ({meg_eval.evaluator_framework.value}): " + " + ; ".join(
-            meg_eval.reasoning
+        combined_reasoning = (
+            f"MEG Evaluation ({meg_eval.evaluator_framework.value}): "
+            + " + ; ".join(meg_eval.reasoning)
         )
 
         # Create recommendations based on MEG findings
@@ -213,7 +228,9 @@ class MEGPolicyBridge:
                 self.metrics["cultural_conflicts"] += 1
 
             # Convert back to ethics system format
-            ethics_evaluation = self.meg_evaluation_to_ethics_evaluation(meg_evaluation, decision)
+            ethics_evaluation = self.meg_evaluation_to_ethics_evaluation(
+                meg_evaluation, decision
+            )
 
             logger.info(
                 f"MEG evaluation completed: {meg_evaluation.verdict.value} "
@@ -249,7 +266,9 @@ class MEGPolicyBridge:
         meg_status["bridge_metrics"] = self.metrics.copy()
         return meg_status
 
-    async def quick_meg_check(self, action: str, context: Optional[dict[str, Any]] = None) -> bool:
+    async def quick_meg_check(
+        self, action: str, context: Optional[dict[str, Any]] = None
+    ) -> bool:
         """Quick ethical check using MEG"""
         return await self.meg.quick_ethical_check(action, context)
 

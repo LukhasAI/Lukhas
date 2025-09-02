@@ -11,7 +11,9 @@ def read_memory(*, legacy: LegacyStore, dna: HelixMemory, key: str) -> Optional[
     def _cmp(a, b):  # minimalist compare
         if not a or not b:
             return (a is None) == (b is None)
-        return (a.get("value") == b.get("value")) and (a.get("version") == b.get("version"))
+        return (a.get("value") == b.get("value")) and (
+            a.get("version") == b.get("version")
+        )
 
     if cutover == "dna":
         primary = dna.read(key)
@@ -19,7 +21,9 @@ def read_memory(*, legacy: LegacyStore, dna: HelixMemory, key: str) -> Optional[
             legacy_row = legacy.read(key)
             if not _cmp(legacy_row, primary):
                 # TODO: replace with your audit/metrics logger
-                print(f"[READ-SHADOW] drift key={key} legacy={legacy_row} dna={primary}")
+                print(
+                    f"[READ-SHADOW] drift key={key} legacy={legacy_row} dna={primary}"
+                )
         return primary
     else:
         primary = legacy.read(key)

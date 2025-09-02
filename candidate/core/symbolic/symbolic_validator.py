@@ -97,13 +97,19 @@ class ValidationResult:
         ]:
             self.success = False
 
-    def get_issues_by_severity(self, severity: ValidationSeverity) -> list[ValidationIssue]:
+    def get_issues_by_severity(
+        self, severity: ValidationSeverity
+    ) -> list[ValidationIssue]:
         """Get issues filtered by severity"""
         return [issue for issue in self.issues if issue.severity == severity]
 
-    def get_issues_by_type(self, validation_type: ValidationType) -> list[ValidationIssue]:
+    def get_issues_by_type(
+        self, validation_type: ValidationType
+    ) -> list[ValidationIssue]:
         """Get issues filtered by validation type"""
-        return [issue for issue in self.issues if issue.validation_type == validation_type]
+        return [
+            issue for issue in self.issues if issue.validation_type == validation_type
+        ]
 
 
 class BaseValidator(ABC):
@@ -114,7 +120,9 @@ class BaseValidator(ABC):
         self.logger = logging.getLogger(f"{__name__}.{name}")
 
     @abstractmethod
-    async def validate(self, manifest: PluginManifest, plugin_dir: Path) -> list[ValidationIssue]:
+    async def validate(
+        self, manifest: PluginManifest, plugin_dir: Path
+    ) -> list[ValidationIssue]:
         """Perform validation and return issues"""
 
 
@@ -140,7 +148,9 @@ class SymbolicIntegrationValidator(BaseValidator):
             "lukhas_integration": r"lukhas[_\s]*(?:integrate|connect|bind)",
         }
 
-    async def validate(self, manifest: PluginManifest, plugin_dir: Path) -> list[ValidationIssue]:
+    async def validate(
+        self, manifest: PluginManifest, plugin_dir: Path
+    ) -> list[ValidationIssue]:
         """Validate symbolic integration"""
         issues = []
 
@@ -157,17 +167,23 @@ class SymbolicIntegrationValidator(BaseValidator):
             )
         else:
             # Validate symbolic metadata content
-            issues.extend(await self._validate_symbolic_metadata(manifest.symbolic_metadata))
+            issues.extend(
+                await self._validate_symbolic_metadata(manifest.symbolic_metadata)
+            )
 
         # Analyze plugin code for symbolic patterns
         issues.extend(await self._analyze_symbolic_code_patterns(plugin_dir))
 
         # Check for required symbolic methods
-        issues.extend(await self._check_symbolic_methods(plugin_dir, manifest.entry_point))
+        issues.extend(
+            await self._check_symbolic_methods(plugin_dir, manifest.entry_point)
+        )
 
         return issues
 
-    async def _validate_symbolic_metadata(self, metadata: SymbolicMetadata) -> list[ValidationIssue]:
+    async def _validate_symbolic_metadata(
+        self, metadata: SymbolicMetadata
+    ) -> list[ValidationIssue]:
         """Validate symbolic metadata content"""
         issues = []
 
@@ -209,7 +225,9 @@ class SymbolicIntegrationValidator(BaseValidator):
 
         return issues
 
-    async def _analyze_symbolic_code_patterns(self, plugin_dir: Path) -> list[ValidationIssue]:
+    async def _analyze_symbolic_code_patterns(
+        self, plugin_dir: Path
+    ) -> list[ValidationIssue]:
         """Analyze code for symbolic integration patterns"""
         issues = []
         pattern_found = dict.fromkeys(self.symbolic_patterns, False)
@@ -253,7 +271,9 @@ class SymbolicIntegrationValidator(BaseValidator):
 
         return issues
 
-    async def _check_symbolic_methods(self, plugin_dir: Path, entry_point: str) -> list[ValidationIssue]:
+    async def _check_symbolic_methods(
+        self, plugin_dir: Path, entry_point: str
+    ) -> list[ValidationIssue]:
         """Check for required symbolic methods in plugin class"""
         issues = []
 
@@ -274,15 +294,22 @@ class SymbolicIntegrationValidator(BaseValidator):
                 if isinstance(node, ast.ClassDef):
                     # Check if it has BaseLucasPlugin as base
                     for base in node.bases:
-                        if (isinstance(base, ast.Name) and base.id == "BaseLucasPlugin") or " + "(
-                            isinstance(base, ast.Attribute) and base.attr == "BaseLucasPlugin"
+                        if (
+                            isinstance(base, ast.Name) and base.id == "BaseLucasPlugin"
+                        ) or " + "(
+                            isinstance(base, ast.Attribute)
+                            and base.attr == "BaseLucasPlugin"
                         ):
                             plugin_class = node
                             break
 
             if plugin_class:
                 # Get method names
-                method_names = {node.name for node in plugin_class.body if isinstance(node, ast.FunctionDef)}
+                method_names = {
+                    node.name
+                    for node in plugin_class.body
+                    if isinstance(node, ast.FunctionDef)
+                }
 
                 # Check for required symbolic methods
                 missing_methods = self.required_symbolic_methods - method_names
@@ -361,7 +388,9 @@ class EthicsValidator(BaseValidator):
             "user_benefit_focused",
         }
 
-    async def validate(self, manifest: PluginManifest, plugin_dir: Path) -> list[ValidationIssue]:
+    async def validate(
+        self, manifest: PluginManifest, plugin_dir: Path
+    ) -> list[ValidationIssue]:
         """Validate ethics compliance"""
         issues = []
 
@@ -376,7 +405,9 @@ class EthicsValidator(BaseValidator):
 
         return issues
 
-    async def _check_ethical_declarations(self, manifest: PluginManifest) -> list[ValidationIssue]:
+    async def _check_ethical_declarations(
+        self, manifest: PluginManifest
+    ) -> list[ValidationIssue]:
         """Check for ethical declarations in manifest"""
         issues = []
 
@@ -459,7 +490,9 @@ class EthicsValidator(BaseValidator):
 
         return issues
 
-    async def _check_consent_mechanisms(self, plugin_dir: Path) -> list[ValidationIssue]:
+    async def _check_consent_mechanisms(
+        self, plugin_dir: Path
+    ) -> list[ValidationIssue]:
         """Check for user consent mechanisms"""
         issues = []
 
@@ -613,7 +646,9 @@ class ComplianceValidator(BaseValidator):
             ],
         }
 
-    async def validate(self, manifest: PluginManifest, plugin_dir: Path) -> list[ValidationIssue]:
+    async def validate(
+        self, manifest: PluginManifest, plugin_dir: Path
+    ) -> list[ValidationIssue]:
         """Validate compliance with various standards"""
         issues = []
 
@@ -625,7 +660,11 @@ class ComplianceValidator(BaseValidator):
         # Validate each declared standard
         for standard in compliance_standards:
             if standard in self.compliance_requirements:
-                issues.extend(await self._validate_compliance_standard(standard, plugin_dir, manifest))
+                issues.extend(
+                    await self._validate_compliance_standard(
+                        standard, plugin_dir, manifest
+                    )
+                )
 
         # Check for data handling without compliance declarations
         if await self._detects_data_handling(plugin_dir) and not compliance_standards:
@@ -650,7 +689,9 @@ class ComplianceValidator(BaseValidator):
 
         for category, controls in requirements.items():
             # Check if plugin has implemented required controls
-            implemented_controls = await self._check_implemented_controls(plugin_dir, controls)
+            implemented_controls = await self._check_implemented_controls(
+                plugin_dir, controls
+            )
 
             missing_controls = set(controls) - implemented_controls
             if missing_controls:
@@ -666,7 +707,9 @@ class ComplianceValidator(BaseValidator):
 
         return issues
 
-    async def _check_implemented_controls(self, plugin_dir: Path, controls: list[str]) -> set[str]:
+    async def _check_implemented_controls(
+        self, plugin_dir: Path, controls: list[str]
+    ) -> set[str]:
         """Check which controls are implemented in the plugin"""
         implemented = set()
 
@@ -751,7 +794,9 @@ class SecurityValidator(BaseValidator):
             "error_handling",
         }
 
-    async def validate(self, manifest: PluginManifest, plugin_dir: Path) -> list[ValidationIssue]:
+    async def validate(
+        self, manifest: PluginManifest, plugin_dir: Path
+    ) -> list[ValidationIssue]:
         """Validate security aspects"""
         issues = []
 
@@ -766,7 +811,9 @@ class SecurityValidator(BaseValidator):
 
         return issues
 
-    async def _check_security_declarations(self, manifest: PluginManifest) -> list[ValidationIssue]:
+    async def _check_security_declarations(
+        self, manifest: PluginManifest
+    ) -> list[ValidationIssue]:
         """Check security declarations in manifest"""
         issues = []
 
@@ -836,7 +883,9 @@ class SecurityValidator(BaseValidator):
 
         return issues
 
-    async def _check_security_practices(self, plugin_dir: Path) -> list[ValidationIssue]:
+    async def _check_security_practices(
+        self, plugin_dir: Path
+    ) -> list[ValidationIssue]:
         """Check for security best practices"""
         issues = []
 
@@ -925,7 +974,9 @@ class ConsciousnessValidator(BaseValidator):
             ],
         }
 
-    async def validate(self, manifest: PluginManifest, plugin_dir: Path) -> list[ValidationIssue]:
+    async def validate(
+        self, manifest: PluginManifest, plugin_dir: Path
+    ) -> list[ValidationIssue]:
         """Validate consciousness integration"""
         issues = []
 
@@ -940,11 +991,16 @@ class ConsciousnessValidator(BaseValidator):
 
         return issues
 
-    async def _check_consciousness_declarations(self, manifest: PluginManifest) -> list[ValidationIssue]:
+    async def _check_consciousness_declarations(
+        self, manifest: PluginManifest
+    ) -> list[ValidationIssue]:
         """Check consciousness-related declarations"""
         issues = []
 
-        if manifest.symbolic_metadata and manifest.symbolic_metadata.consciousness_integration:
+        if (
+            manifest.symbolic_metadata
+            and manifest.symbolic_metadata.consciousness_integration
+        ):
             # Plugin claims consciousness integration - validate it
             if not manifest.symbolic_metadata.consciousness_aware:
                 issues.append(
@@ -969,7 +1025,9 @@ class ConsciousnessValidator(BaseValidator):
 
         return issues
 
-    async def _scan_consciousness_patterns(self, plugin_dir: Path) -> list[ValidationIssue]:
+    async def _scan_consciousness_patterns(
+        self, plugin_dir: Path
+    ) -> list[ValidationIssue]:
         """Scan for consciousness-aware patterns"""
         issues = []
         pattern_scores = dict.fromkeys(self.consciousness_patterns, 0)
@@ -1015,7 +1073,9 @@ class ConsciousnessValidator(BaseValidator):
 
         return issues
 
-    async def _validate_consciousness_mapping(self, plugin_dir: Path) -> list[ValidationIssue]:
+    async def _validate_consciousness_mapping(
+        self, plugin_dir: Path
+    ) -> list[ValidationIssue]:
         """Validate consciousness mapping implementation"""
         issues = []
 
@@ -1133,7 +1193,9 @@ class LucasSymbolicValidator:
                     score = await self._calculate_validation_score(issues)
                     result.compliance_scores[validator_name] = score
 
-                    self.logger.debug(f"{validator_name} validation complete: {score:.2f}")
+                    self.logger.debug(
+                        f"{validator_name} validation complete: {score:.2f}"
+                    )
 
                 except Exception as e:
                     self.logger.error(f"Validation {validator_name} failed: {e}")
@@ -1206,7 +1268,9 @@ class LucasSymbolicValidator:
 
         # Calculate specific scores
         result.symbolic_resonance = result.compliance_scores.get("symbolic", 0.0)
-        result.consciousness_compatibility = result.compliance_scores.get("consciousness", 0.0)
+        result.consciousness_compatibility = result.compliance_scores.get(
+            "consciousness", 0.0
+        )
         result.security_score = result.compliance_scores.get("security", 0.0)
         result.ethics_score = result.compliance_scores.get("ethics", 0.0)
 

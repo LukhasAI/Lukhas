@@ -86,7 +86,9 @@ try:
     )
 except ImportError:
     # Fallback implementations for standalone operation
-    logger.warning("Quantum-bio components not available, using fallback implementations")
+    logger.warning(
+        "Quantum-bio components not available, using fallback implementations"
+    )
 
     class MitochondrialQIBridge:
         async def process_quantum_signal(self, signal, context=None):
@@ -210,18 +212,26 @@ class EnhancedQIEngine:
         """
         try:
             # Process through mitochondrial bridge
-            bridge_output, bridge_meta = await self.mitochondrial_bridge.process_quantum_signal(input_signal, context)
+            bridge_output, bridge_meta = (
+                await self.mitochondrial_bridge.process_quantum_signal(
+                    input_signal, context
+                )
+            )
 
             # Generate pre/post synaptic signals
             pre_synaptic = bridge_output
             post_synaptic = self.qi_like_state
 
             # Process through synaptic gate
-            gate_output, gate_meta = await self.synaptic_gate.process_signal(pre_synaptic, post_synaptic, context)
+            gate_output, gate_meta = await self.synaptic_gate.process_signal(
+                pre_synaptic, post_synaptic, context
+            )
 
             # Modulate plasticity
-            new_state, plasticity_meta = await self.plasticity_modulator.modulate_plasticity(
-                self.qi_like_state, gate_output, context
+            new_state, plasticity_meta = (
+                await self.plasticity_modulator.modulate_plasticity(
+                    self.qi_like_state, gate_output, context
+                )
             )
 
             # Update quantum-like state
@@ -316,7 +326,9 @@ class EnhancedQIEngine:
             logger.error(f"Error in entanglement-like correlation: {e}")
             raise
 
-    def _process_entanglement(self, state1: np.ndarray, state2: np.ndarray) -> np.ndarray:
+    def _process_entanglement(
+        self, state1: np.ndarray, state2: np.ndarray
+    ) -> np.ndarray:
         """Process entangled quantum-like states"""
         # Create superposition
         superposition = (state1 + state2) / np.sqrt(2)
@@ -414,7 +426,9 @@ if __name__ != "__main__":
     if is_valid:
         __quantum_bootstrap__()
     else:
-        logger.warning("⚠️  Quantum engine validation failed - operating in degraded mode")
+        logger.warning(
+            "⚠️  Quantum engine validation failed - operating in degraded mode"
+        )
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 📜 Academic References and Theoretical Foundations 📜

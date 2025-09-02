@@ -61,7 +61,9 @@ class VoiceCulturalIntegrator:
 
         # Settings
         self.reminiscence_chance = self.config.get("reminiscence_chance", 0.2)
-        self.cultural_learning_enabled = self.config.get("cultural_learning_enabled", True)
+        self.cultural_learning_enabled = self.config.get(
+            "cultural_learning_enabled", True
+        )
 
         logger.info("Voice Cultural Integrator initialized")
 
@@ -95,7 +97,9 @@ class VoiceCulturalIntegrator:
                 return None
         return None
 
-    async def process_cultural_context(self, user_text: str, user_id: str, context: dict[str, Any]) -> dict[str, Any]:
+    async def process_cultural_context(
+        self, user_text: str, user_id: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Process cultural context from user input and update the context.
 
@@ -114,7 +118,9 @@ class VoiceCulturalIntegrator:
         user_history = await self._get_user_history(user_id)
 
         # Detect cultural context
-        cultural_context = self.accent_adapter.detect_cultural_context(user_text, user_history)
+        cultural_context = self.accent_adapter.detect_cultural_context(
+            user_text, user_history
+        )
         context["cultural_context"] = cultural_context
 
         # Get appropriate voice mode
@@ -133,7 +139,11 @@ class VoiceCulturalIntegrator:
                 with contextlib.suppress(builtins.BaseException):
                     words_learned = await self.memory_helix.detect_new_words(user_text)
 
-            accent_detected = context.get("accent_info", {}).get("name") if context.get("accent_info") else None
+            accent_detected = (
+                context.get("accent_info", {}).get("name")
+                if context.get("accent_info")
+                else None
+            )
 
             self.accent_adapter.remember_location(
                 user_id=user_id,
@@ -144,7 +154,9 @@ class VoiceCulturalIntegrator:
 
         return context
 
-    async def _extract_location(self, text: str, context: dict[str, Any]) -> Optional[str]:
+    async def _extract_location(
+        self, text: str, context: dict[str, Any]
+    ) -> Optional[str]:
         """Extract location mentions from text."""
         # Simple extraction - in production, would use NER
         location_indicators = ["in ", "at ", "from ", "visiting ", "to "]
@@ -179,7 +191,9 @@ class VoiceCulturalIntegrator:
 
         return []
 
-    async def generate_cultural_response(self, base_response: str, user_id: str, context: dict[str, Any]) -> str:
+    async def generate_cultural_response(
+        self, base_response: str, user_id: str, context: dict[str, Any]
+    ) -> str:
         """
         Enhance response with cultural awareness features like reminiscence.
 
@@ -215,11 +229,17 @@ class VoiceCulturalIntegrator:
         cultural_context = context.get("cultural_context", "casual")
 
         # Extract unusual words (longer words are more likely to be interesting)
-        words = [w for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", "")) if len(w) > 5]
+        words = [
+            w
+            for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", ""))
+            if len(w) > 5
+        ]
 
         for word in words:
             if self.accent_adapter.should_express_curiosity(word, cultural_context):
-                curiosity_question = self.accent_adapter.generate_curiosity_question(word, cultural_context)
+                curiosity_question = self.accent_adapter.generate_curiosity_question(
+                    word, cultural_context
+                )
 
                 # Add curiosity question
                 updated_response = f"{updated_response}\n\n{curiosity_question}"

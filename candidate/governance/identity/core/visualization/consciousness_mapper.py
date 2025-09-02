@@ -176,7 +176,9 @@ class ConsciousnessMapper:
         consciousness_level = self._calculate_consciousness_level(biometrics, cognitive)
 
         # Determine emotional state
-        emotional_state, emotional_intensity = self._determine_emotional_state(biometrics, cognitive)
+        emotional_state, emotional_intensity = self._determine_emotional_state(
+            biometrics, cognitive
+        )
 
         # Calculate neural synchrony
         neural_synchrony = self._calculate_neural_synchrony(biometrics)
@@ -215,7 +217,9 @@ class ConsciousnessMapper:
 
         return state
 
-    def _calculate_consciousness_level(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
+    def _calculate_consciousness_level(
+        self, biometrics: BiometricData, cognitive: CognitiveMetrics
+    ) -> float:
         """Calculate overall consciousness level from inputs"""
         factors = []
         weights = []
@@ -234,9 +238,14 @@ class ConsciousnessMapper:
             weights.append(1.5)
 
         # EEG factors (if available)
-        if biometrics.eeg_alpha_power is not None and biometrics.eeg_beta_power is not None:
+        if (
+            biometrics.eeg_alpha_power is not None
+            and biometrics.eeg_beta_power is not None
+        ):
             # Alpha/Beta ratio indicates relaxed awareness
-            alpha_beta_ratio = biometrics.eeg_alpha_power / (biometrics.eeg_beta_power + 0.1)
+            alpha_beta_ratio = biometrics.eeg_alpha_power / (
+                biometrics.eeg_beta_power + 0.1
+            )
             normalized_ratio = min(1.0, alpha_beta_ratio / 2.0)  # Normalize to 0-1
             factors.append(normalized_ratio)
             weights.append(1.0)
@@ -255,7 +264,9 @@ class ConsciousnessMapper:
 
         # Calculate weighted average
         if factors:
-            consciousness_level = sum(f * w for f, w in zip(factors, weights)) / sum(weights)
+            consciousness_level = sum(f * w for f, w in zip(factors, weights)) / sum(
+                weights
+            )
         else:
             consciousness_level = 0.5  # Default to moderate consciousness
 
@@ -277,14 +288,22 @@ class ConsciousnessMapper:
         # Map to emotional state using circumplex model
         if arousal > 0.6:
             if valence > 0.6:
-                emotion = EmotionalState.JOY if arousal > 0.8 else EmotionalState.EXCITEMENT
+                emotion = (
+                    EmotionalState.JOY if arousal > 0.8 else EmotionalState.EXCITEMENT
+                )
             else:
-                emotion = EmotionalState.STRESS if valence < 0.4 else EmotionalState.FOCUS
+                emotion = (
+                    EmotionalState.STRESS if valence < 0.4 else EmotionalState.FOCUS
+                )
         else:
             if valence > 0.6:
                 emotion = EmotionalState.CALM if arousal < 0.3 else EmotionalState.TRUST
             else:
-                emotion = EmotionalState.CONTEMPLATION if valence > 0.4 else EmotionalState.NEUTRAL
+                emotion = (
+                    EmotionalState.CONTEMPLATION
+                    if valence > 0.4
+                    else EmotionalState.NEUTRAL
+                )
 
         # Special cases based on cognitive metrics
         if cognitive.flow_state > 0.8:
@@ -303,7 +322,9 @@ class ConsciousnessMapper:
 
         # Heart rate elevation
         if biometrics.heart_rate is not None:
-            hr_elevation = (biometrics.heart_rate - self.baseline_heart_rate) / self.baseline_heart_rate
+            hr_elevation = (
+                biometrics.heart_rate - self.baseline_heart_rate
+            ) / self.baseline_heart_rate
             arousal_factors.append(min(1.0, max(0.0, hr_elevation + 0.5)))
 
         # Skin conductance (strong arousal indicator)
@@ -323,7 +344,9 @@ class ConsciousnessMapper:
 
         return sum(arousal_factors) / len(arousal_factors) if arousal_factors else 0.5
 
-    def _calculate_valence(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
+    def _calculate_valence(
+        self, biometrics: BiometricData, cognitive: CognitiveMetrics
+    ) -> float:
         """Calculate emotional valence (positive/negative)"""
         valence_factors = []
 
@@ -386,7 +409,9 @@ class ConsciousnessMapper:
         synchrony = 1.0 - (variance / (max_variance + 0.1))
         return max(0.0, min(1.0, synchrony))
 
-    def _determine_attention_focus(self, cognitive: CognitiveMetrics, context: dict[str, Any]) -> list[str]:
+    def _determine_attention_focus(
+        self, cognitive: CognitiveMetrics, context: dict[str, Any]
+    ) -> list[str]:
         """Determine current attention focus areas"""
         focus_areas = []
 
@@ -420,7 +445,9 @@ class ConsciousnessMapper:
 
         return focus_areas if focus_areas else ["neutral"]
 
-    def _calculate_stress_level(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
+    def _calculate_stress_level(
+        self, biometrics: BiometricData, cognitive: CognitiveMetrics
+    ) -> float:
         """Calculate stress level from multiple indicators"""
         stress_factors = []
 
@@ -447,7 +474,9 @@ class ConsciousnessMapper:
 
         return sum(stress_factors) / len(stress_factors) if stress_factors else 0.3
 
-    def _calculate_relaxation_level(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
+    def _calculate_relaxation_level(
+        self, biometrics: BiometricData, cognitive: CognitiveMetrics
+    ) -> float:
         """Calculate relaxation level"""
         relax_factors = []
 
@@ -462,8 +491,13 @@ class ConsciousnessMapper:
             relax_factors.append(min(1.0, hrv_relax))
 
         # Alpha wave dominance
-        if biometrics.eeg_alpha_power is not None and biometrics.eeg_beta_power is not None:
-            alpha_dominance = biometrics.eeg_alpha_power / (biometrics.eeg_beta_power + 1.0)
+        if (
+            biometrics.eeg_alpha_power is not None
+            and biometrics.eeg_beta_power is not None
+        ):
+            alpha_dominance = biometrics.eeg_alpha_power / (
+                biometrics.eeg_beta_power + 1.0
+            )
             relax_factors.append(min(1.0, alpha_dominance / 2.0))
 
         # Low cognitive load
@@ -474,18 +508,24 @@ class ConsciousnessMapper:
 
         return sum(relax_factors) / len(relax_factors) if relax_factors else 0.5
 
-    def _calculate_authenticity_score(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
+    def _calculate_authenticity_score(
+        self, biometrics: BiometricData, cognitive: CognitiveMetrics
+    ) -> float:
         """Calculate authenticity score for spoofing detection"""
         authenticity_factors = []
 
         # Micro-variations in heart rate (real humans have natural variability)
         if biometrics.heart_rate_variability is not None:
-            hrv_authenticity = 1.0 if 20 < biometrics.heart_rate_variability < 100 else 0.5
+            hrv_authenticity = (
+                1.0 if 20 < biometrics.heart_rate_variability < 100 else 0.5
+            )
             authenticity_factors.append(hrv_authenticity)
 
         # Natural eye movement patterns
         if biometrics.eye_movement_velocity is not None:
-            eye_authenticity = 1.0 if 10 < biometrics.eye_movement_velocity < 500 else 0.3
+            eye_authenticity = (
+                1.0 if 10 < biometrics.eye_movement_velocity < 500 else 0.3
+            )
             authenticity_factors.append(eye_authenticity)
 
         # Coherent emotional-physiological coupling
@@ -499,9 +539,15 @@ class ConsciousnessMapper:
             breath_authenticity = 1.0 if 12 < biometrics.breathing_rate < 20 else 0.5
             authenticity_factors.append(breath_authenticity)
 
-        return sum(authenticity_factors) / len(authenticity_factors) if authenticity_factors else 0.8
+        return (
+            sum(authenticity_factors) / len(authenticity_factors)
+            if authenticity_factors
+            else 0.8
+        )
 
-    def _smooth_state_transition(self, new_state: ConsciousnessState) -> ConsciousnessState:
+    def _smooth_state_transition(
+        self, new_state: ConsciousnessState
+    ) -> ConsciousnessState:
         """Smooth state transitions using history"""
         if not self.state_history:
             return new_state
@@ -512,15 +558,19 @@ class ConsciousnessMapper:
         # Smooth numerical values
         smoothed_consciousness = (
             new_state.consciousness_level * 0.5
-            + sum(s.consciousness_level for s in recent_states) / len(recent_states) * 0.5
+            + sum(s.consciousness_level for s in recent_states)
+            / len(recent_states)
+            * 0.5
         )
 
         smoothed_neural_synchrony = (
-            new_state.neural_synchrony * 0.6 + sum(s.neural_synchrony for s in recent_states) / len(recent_states) * 0.4
+            new_state.neural_synchrony * 0.6
+            + sum(s.neural_synchrony for s in recent_states) / len(recent_states) * 0.4
         )
 
         smoothed_stress = (
-            new_state.stress_level * 0.7 + sum(s.stress_level for s in recent_states) / len(recent_states) * 0.3
+            new_state.stress_level * 0.7
+            + sum(s.stress_level for s in recent_states) / len(recent_states) * 0.3
         )
 
         # Check if emotional state should transition

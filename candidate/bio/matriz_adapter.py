@@ -53,7 +53,10 @@ class BioMatrizAdapter:
 
     @staticmethod
     def emit_oscillator_state(
-        frequency: float, amplitude: float, phase: float, oscillator_type: str = "neural"
+        frequency: float,
+        amplitude: float,
+        phase: float,
+        oscillator_type: str = "neural",
     ) -> dict[str, Any]:
         """Emit an oscillator state node"""
 
@@ -68,7 +71,10 @@ class BioMatrizAdapter:
                 "amplitude": amplitude,
                 "phase": phase,
             },
-            labels=[f"bio:oscillator:{oscillator_type}", f"frequency:{frequency:.2f}Hz"],
+            labels=[
+                f"bio:oscillator:{oscillator_type}",
+                f"frequency:{frequency:.2f}Hz",
+            ],
         )
 
     @staticmethod
@@ -87,7 +93,11 @@ class BioMatrizAdapter:
                 "coherence": coherence_score,
                 "entanglement": entanglement_level,
             },
-            labels=["bio:quantum", f"coherence:{coherence_score:.2f}", f"system:{system}"],
+            labels=[
+                "bio:quantum",
+                f"coherence:{coherence_score:.2f}",
+                f"system:{system}",
+            ],
         )
 
     @staticmethod
@@ -120,10 +130,14 @@ class BioMatrizAdapter:
         )
 
     @staticmethod
-    def emit_awareness_pulse(awareness_level: float, sensory_inputs: dict[str, float]) -> dict[str, Any]:
+    def emit_awareness_pulse(
+        awareness_level: float, sensory_inputs: dict[str, float]
+    ) -> dict[str, Any]:
         """Emit a bio-awareness pulse node"""
 
-        avg_sensory = sum(sensory_inputs.values()) / len(sensory_inputs) if sensory_inputs else 0
+        avg_sensory = (
+            sum(sensory_inputs.values()) / len(sensory_inputs) if sensory_inputs else 0
+        )
 
         return BioMatrizAdapter.create_node(
             node_type="AWARENESS",
@@ -149,7 +163,13 @@ class BioMatrizAdapter:
                 return False
 
         # Check required provenance fields
-        required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
+        required_prov = [
+            "producer",
+            "capabilities",
+            "tenant",
+            "trace_id",
+            "consent_scopes",
+        ]
         return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod

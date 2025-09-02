@@ -97,7 +97,11 @@ class VoiceRecognition:
         # Implement specific voice processing
         # This is a placeholder that should be enhanced based on requirements
 
-        category = getattr(data, "category", "generic") if hasattr(data, "category") else "generic"
+        category = (
+            getattr(data, "category", "generic")
+            if hasattr(data, "category")
+            else "generic"
+        )
 
         if category == "consciousness":
             return await self._process_consciousness(data)

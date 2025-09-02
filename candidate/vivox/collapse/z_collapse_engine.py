@@ -125,7 +125,9 @@ class ZCollapseEngine:
 
         try:
             # Calculate entropy differential ΔS(t)
-            entropy_score = await self._calculate_entropy_differential(potential_states, context)
+            entropy_score = await self._calculate_entropy_differential(
+                potential_states, context
+            )
 
             # Validate entropy threshold
             if entropy_score > self.entropy_threshold:
@@ -137,7 +139,9 @@ class ZCollapseEngine:
                 )
 
             # Calculate moral alignment amplitude A(t)
-            alignment_score = await self._calculate_alignment_amplitude(potential_states, context)
+            alignment_score = await self._calculate_alignment_amplitude(
+                potential_states, context
+            )
 
             # Validate alignment threshold
             if alignment_score < self.alignment_threshold:
@@ -149,7 +153,9 @@ class ZCollapseEngine:
                 )
 
             # Calculate resonance phase θ(t)
-            resonance_phase = await self._calculate_resonance_phase(potential_states, context)
+            resonance_phase = await self._calculate_resonance_phase(
+                potential_states, context
+            )
 
             # Validate phase drift
             phase_drift = abs(resonance_phase - self.previous_phase)
@@ -211,7 +217,9 @@ class ZCollapseEngine:
             return result
 
         except Exception as e:
-            return self._create_failed_result(collapse_timestamp, str(e), "UnexpectedError")
+            return self._create_failed_result(
+                collapse_timestamp, str(e), "UnexpectedError"
+            )
 
     def _execute_z_formula(
         self,
@@ -225,7 +233,9 @@ class ZCollapseEngine:
         """
         # Calculate complex exponential terms
         exp_theta = complex(math.cos(phase), math.sin(phase))
-        exp_pi_minus_theta = complex(math.cos(math.pi - phase), math.sin(math.pi - phase))
+        exp_pi_minus_theta = complex(
+            math.cos(math.pi - phase), math.sin(math.pi - phase)
+        )
 
         # Sum exponential terms
         exponential_sum = exp_theta + exp_pi_minus_theta
@@ -262,7 +272,9 @@ class ZCollapseEngine:
             collapse_timestamp = time.time()
 
             # Generate hash for result
-            collapse_hash = f"vivox_hash_{hash(str(z_result) + str(collapse_timestamp))}"
+            collapse_hash = (
+                f"vivox_hash_{hash(str(z_result) + str(collapse_timestamp))}"
+            )
 
             # Create mathematical trace
             mathematical_trace = {
@@ -323,7 +335,9 @@ class ZCollapseEngine:
         weight = max(0.0, 1.0 - (entropy_score / self.entropy_threshold))
         return weight
 
-    async def _calculate_entropy_differential(self, states: list[CollapseState], context: dict[str, Any]) -> float:
+    async def _calculate_entropy_differential(
+        self, states: list[CollapseState], context: dict[str, Any]
+    ) -> float:
         """
         Calculate ΔS(t) - entropy differential across potential states
         """
@@ -351,7 +365,9 @@ class ZCollapseEngine:
 
         return normalized_entropy
 
-    async def _calculate_alignment_amplitude(self, states: list[CollapseState], context: dict[str, Any]) -> float:
+    async def _calculate_alignment_amplitude(
+        self, states: list[CollapseState], context: dict[str, Any]
+    ) -> float:
         """
         Calculate A(t) - moral alignment amplitude from mae_validation
         """
@@ -359,7 +375,9 @@ class ZCollapseEngine:
             return 0.0
 
         # Weighted average of ethical weights
-        total_weight = sum(state.ethical_weight * state.probability_amplitude for state in states)
+        total_weight = sum(
+            state.ethical_weight * state.probability_amplitude for state in states
+        )
         total_amplitude = sum(state.probability_amplitude for state in states)
 
         if total_amplitude == 0:
@@ -368,7 +386,9 @@ class ZCollapseEngine:
         alignment = total_weight / total_amplitude
         return min(1.0, max(0.0, alignment))  # Clamp to [0, 1]
 
-    async def _calculate_resonance_phase(self, states: list[CollapseState], context: dict[str, Any]) -> float:
+    async def _calculate_resonance_phase(
+        self, states: list[CollapseState], context: dict[str, Any]
+    ) -> float:
         """
         Calculate θ(t) - resonance phase with prior collapsed states
         """
@@ -386,11 +406,15 @@ class ZCollapseEngine:
                 state_phase = 0.0
 
             # Weight by emotional resonance and probability
-            weighted_phase = state_phase * state.emotional_resonance * state.probability_amplitude
+            weighted_phase = (
+                state_phase * state.emotional_resonance * state.probability_amplitude
+            )
             phase_contributions.append(weighted_phase)
 
         # Calculate weighted average phase
-        total_weight = sum(state.emotional_resonance * state.probability_amplitude for state in states)
+        total_weight = sum(
+            state.emotional_resonance * state.probability_amplitude for state in states
+        )
 
         if total_weight == 0:
             return 0.0
@@ -416,7 +440,9 @@ class ZCollapseEngine:
         trace_echo = f"t:{timestamp:.6f}|a:{alignment:.6f}|e:{entropy:.6f}"
 
         # Generate moral fingerprint from states
-        moral_fingerprint = "|".join([f"{state.state_id}:{state.ethical_weight:.4f}" for state in states])
+        moral_fingerprint = "|".join(
+            [f"{state.state_id}:{state.ethical_weight:.4f}" for state in states]
+        )
 
         # Combine components
         hash_input = f"{z_component}||{trace_echo}||{moral_fingerprint}"
@@ -498,7 +524,9 @@ class ZCollapseEngine:
             recovery_action=recovery_action,
         )
 
-    def _create_failed_result(self, timestamp: float, error_message: str, recovery_action: str) -> CollapseResult:
+    def _create_failed_result(
+        self, timestamp: float, error_message: str, recovery_action: str
+    ) -> CollapseResult:
         """Create failed collapse result"""
         return CollapseResult(
             collapsed_state_vector=complex(0, 0),
@@ -561,7 +589,9 @@ class ZCollapseEngine:
             entropy_score=0.0,
             alignment_score=1.0,
             phase_drift=0.0,
-            collapse_hash=self._generate_collapse_hash(z_result, 0.0, 1.0, 0.0, [baseline_state]),
+            collapse_hash=self._generate_collapse_hash(
+                z_result, 0.0, 1.0, 0.0, [baseline_state]
+            ),
             collapse_status=CollapseStatus.SUCCESS,
             mathematical_trace={
                 "baseline_test": True,
@@ -589,7 +619,9 @@ if __name__ == "__main__":
     )
 
     print(f"Baseline z(0) = {baseline_result.collapsed_state_vector}")
-    print(f"Expected magnitude: 2.0, Actual: {abs(baseline_result.collapsed_state_vector):.10f}")
+    print(
+        f"Expected magnitude: 2.0, Actual: {abs(baseline_result.collapsed_state_vector):.10f}"
+    )
     print(f"Hash: {baseline_result.collapse_hash[:16]}...")
 
     # Test with π/4 phase

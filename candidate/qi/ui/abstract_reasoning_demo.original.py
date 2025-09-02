@@ -45,7 +45,9 @@ import structlog  # Replaced logging with structlog
 
 # Initialize ΛTRACE logger for this demo script using structlog
 logger = structlog.get_logger("ΛTRACE.reasoning.abstract_reasoning_demo")
-logger.info("ΛTRACE: Initializing abstract_reasoning_demo.py script.", script_path=__file__)
+logger.info(
+    "ΛTRACE: Initializing abstract_reasoning_demo.py script.", script_path=__file__
+)
 
 # --- Abstract Reasoning Brain Component Imports ---
 # TODO: Review path manipulation. For production, 'abstract_reasoning' should be an installable package
@@ -58,10 +60,15 @@ AdvancedConfidenceCalibrator = None
 
 try:
     current_script_path = Path(__file__).resolve()
-    project_root = current_script_path.parent.parent  # Assumes reasoning/ is one level down from project root
+    project_root = (
+        current_script_path.parent.parent
+    )  # Assumes reasoning/ is one level down from project root
     abstract_reasoning_module_path = project_root / "abstract_reasoning"
 
-    if abstract_reasoning_module_path.exists() and str(abstract_reasoning_module_path) not in sys.path:
+    if (
+        abstract_reasoning_module_path.exists()
+        and str(abstract_reasoning_module_path) not in sys.path
+    ):
         sys.path.insert(0, str(abstract_reasoning_module_path))
         logger.info(
             "ΛTRACE: Added abstract_reasoning module path to sys.path.",
@@ -75,7 +82,9 @@ try:
 
     from core import AbstractReasoningBrainCore
 
-    logger.info("ΛTRACE: Successfully imported components from 'abstract_reasoning' package.")
+    logger.info(
+        "ΛTRACE: Successfully imported components from 'abstract_reasoning' package."
+    )
     ABSTRACT_REASONING_COMPONENTS_AVAILABLE = True
 except ImportError as e:
     logger.error(
@@ -90,34 +99,52 @@ except ImportError as e:
     # be parsed/run with warnings.
     class AbstractReasoningBrainInterface:  # type: ignore
         async def initialize(self):
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainInterface.initialize")
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainInterface.initialize"
+            )
 
         async def reason_abstractly(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainInterface.reason_abstractly")
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainInterface.reason_abstractly"
+            )
             return {"error": "dummy_interface_active"}
 
         async def analyze_confidence(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainInterface.analyze_confidence")
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainInterface.analyze_confidence"
+            )
             return {}
 
         async def orchestrate_brains(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainInterface.orchestrate_brains")
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainInterface.orchestrate_brains"
+            )
             return {}
 
-        async def get_performance_summary(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainInterface.get_performance_summary")
+        async def get_performance_summary(
+            self, *args: Any, **kwargs: Any
+        ) -> dict[str, Any]:
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainInterface.get_performance_summary"
+            )
             return {}
 
         async def provide_feedback(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainInterface.provide_feedback")
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainInterface.provide_feedback"
+            )
             return {}
 
         async def get_reasoning_history(self, *args: Any, **kwargs: Any) -> list[Any]:
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainInterface.get_reasoning_history")
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainInterface.get_reasoning_history"
+            )
             return []
 
         async def shutdown(self):
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainInterface.shutdown")
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainInterface.shutdown"
+            )
 
     async def reason_about(*args: Any, **kwargs: Any) -> dict[str, Any]:  # type: ignore
         logger.warning("ΛTRACE: Using dummy reason_about function.")
@@ -125,18 +152,28 @@ except ImportError as e:
 
     class AbstractReasoningBrainCore:  # type: ignore
         async def activate_brain(self):
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainCore.activate_brain")
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainCore.activate_brain"
+            )
 
-        async def process_independently(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainCore.process_independently")
+        async def process_independently(
+            self, *args: Any, **kwargs: Any
+        ) -> dict[str, Any]:
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainCore.process_independently"
+            )
             return {"error": "dummy_core_active"}
 
         def get_brain_status(self) -> dict[str, Any]:
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainCore.get_brain_status")
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainCore.get_brain_status"
+            )
             return {}
 
         async def shutdown_brain(self):
-            logger.warning("ΛTRACE: Using dummy AbstractReasoningBrainCore.shutdown_brain")
+            logger.warning(
+                "ΛTRACE: Using dummy AbstractReasoningBrainCore.shutdown_brain"
+            )
 
     logger.warning(
         "ΛTRACE: Using fallback dummy classes for Abstract Reasoning Brain components due to import failure. Demo may not function as intended."
@@ -153,13 +190,20 @@ async def demonstrate_abstract_reasoning() -> None:
     # Human-readable comment: Entry point for the main abstract reasoning
     # demonstration sequence.
     req_id_main_demo = f"demo_main_{int(datetime.utcnow().timestamp() * 1000)}"
-    demo_logger = logger.bind(request_id=req_id_main_demo, demo_stage="main_reasoning_showcase")
+    demo_logger = logger.bind(
+        request_id=req_id_main_demo, demo_stage="main_reasoning_showcase"
+    )
 
-    demo_logger.info("ΛTRACE: Starting LUKHAS Bio-Quantum Symbolic Reasoning Engine Demo.")
+    demo_logger.info(
+        "ΛTRACE: Starting LUKHAS Bio-Quantum Symbolic Reasoning Engine Demo."
+    )
     demo_logger.info("🧠⚛️ LUKHAS Bio-Quantum Symbolic Reasoning Engine Demo")
     demo_logger.info("=" * 60)
 
-    if not ABSTRACT_REASONING_COMPONENTS_AVAILABLE or not AbstractReasoningBrainInterface:
+    if (
+        not ABSTRACT_REASONING_COMPONENTS_AVAILABLE
+        or not AbstractReasoningBrainInterface
+    ):
         demo_logger.error(
             "ΛTRACE: Abstract Reasoning Brain components are not available. Cannot run full demonstration."
         )
@@ -173,7 +217,9 @@ async def demonstrate_abstract_reasoning() -> None:
     try:
         # Example 1: Simple Abstract Reasoning Problem
         demo_logger.info(" ")  # Adding a line break for readability in logs
-        demo_logger.info("🎯 Example 1: Simple Abstract Problem", example_id="ex1_simple_problem")
+        demo_logger.info(
+            "🎯 Example 1: Simple Abstract Problem", example_id="ex1_simple_problem"
+        )
         demo_logger.info("-" * 40)
 
         simple_problem_data: dict[str, Any] = {
@@ -187,7 +233,9 @@ async def demonstrate_abstract_reasoning() -> None:
                 "economic_viability",
             ],  # Renamed
         }
-        demo_logger.debug("ΛTRACE: Simple problem data defined.", problem_data=simple_problem_data)
+        demo_logger.debug(
+            "ΛTRACE: Simple problem data defined.", problem_data=simple_problem_data
+        )
 
         result1 = await reasoning_interface.reason_abstractly(
             problem_definition=simple_problem_data,  # Renamed for clarity
@@ -218,7 +266,9 @@ async def demonstrate_abstract_reasoning() -> None:
 
         # Assuming the structure of 'result1' based on original logging
         solution_details1 = result1.get("solution_details", {})  # Renamed
-        coherent_solution_package1 = solution_details1.get("coherent_solution_package", {})  # Renamed
+        coherent_solution_package1 = solution_details1.get(
+            "coherent_solution_package", {}
+        )  # Renamed
         reasoning_summary1 = coherent_solution_package1.get(
             "reasoning_conclusion_summary", "Analysis details not available."
         )  # Renamed
@@ -227,10 +277,14 @@ async def demonstrate_abstract_reasoning() -> None:
         confidence_analysis1 = await reasoning_interface.analyze_confidence(
             reasoning_output=result1, request_id=f"{req_id_main_demo}_ex1_conf"
         )  # Renamed
-        overall_interpretation1 = confidence_analysis1.get("full_confidence_interpretation", {}).get(
+        overall_interpretation1 = confidence_analysis1.get(
+            "full_confidence_interpretation", {}
+        ).get(
             "overall_assessment", "N/A"
         )  # Renamed
-        demo_logger.info("📊 Confidence Interpretation", interpretation=overall_interpretation1)
+        demo_logger.info(
+            "📊 Confidence Interpretation", interpretation=overall_interpretation1
+        )
 
         # Placeholder for actual content of further examples to keep this change focused.
         # The pattern of updating log calls and variable names would continue.
@@ -250,21 +304,29 @@ async def demonstrate_abstract_reasoning() -> None:
         )
         demo_logger.info("-" * 40)
         # ... (Simulated call and logging for Example 3) ...
-        demo_logger.info("Orchestration results and brain contributions would be shown here.")
+        demo_logger.info(
+            "Orchestration results and brain contributions would be shown here."
+        )
 
         # Example 4: Quick Reasoning with Convenience Function (if `reason_about`
         # is available)
         if reason_about:
             demo_logger.info(" ")
-            demo_logger.info("⚡ Example 4: Quick Reasoning Function", example_id="ex4_quick_reason")
+            demo_logger.info(
+                "⚡ Example 4: Quick Reasoning Function", example_id="ex4_quick_reason"
+            )
             demo_logger.info("-" * 40)
-            quick_problem = {"description": "Optimal path for drone delivery in a dynamic urban environment."}
+            quick_problem = {
+                "description": "Optimal path for drone delivery in a dynamic urban environment."
+            }
             quick_result = await reason_about(
                 problem_data=quick_problem,
                 context_info={"weather": "clear", "traffic": "moderate"},
                 request_id=f"{req_id_main_demo}_ex4",
             )
-            demo_logger.info("Quick reasoning result", result_summary=str(quick_result)[:200])
+            demo_logger.info(
+                "Quick reasoning result", result_summary=str(quick_result)[:200]
+            )
 
         demo_logger.info(" ")
         demo_logger.info(
@@ -273,7 +335,9 @@ async def demonstrate_abstract_reasoning() -> None:
         )
         demo_logger.info("-" * 40)
         # ... (Simulated call and logging for Example 5) ...
-        demo_logger.info("Performance metrics and capabilities summary would be displayed here.")
+        demo_logger.info(
+            "Performance metrics and capabilities summary would be displayed here."
+        )
 
         demo_logger.info(" ")
         demo_logger.info(
@@ -282,7 +346,9 @@ async def demonstrate_abstract_reasoning() -> None:
         )
         demo_logger.info("-" * 40)
         # ... (Simulated call and logging for Example 6) ...
-        demo_logger.info("Feedback processing and reasoning history update would be demonstrated here.")
+        demo_logger.info(
+            "Feedback processing and reasoning history update would be demonstrated here."
+        )
 
     except Exception as e:
         demo_logger.error(
@@ -292,10 +358,14 @@ async def demonstrate_abstract_reasoning() -> None:
         )
 
     finally:
-        demo_logger.info("ΛTRACE: Attempting to shut down Abstract Reasoning Brain Interface...")
+        demo_logger.info(
+            "ΛTRACE: Attempting to shut down Abstract Reasoning Brain Interface..."
+        )
         if reasoning_interface:  # Ensure it was initialized
             await reasoning_interface.shutdown()
-        demo_logger.info("ΛTRACE: 🛑 Abstract Reasoning Brain Interface shutdown sequence complete.")
+        demo_logger.info(
+            "ΛTRACE: 🛑 Abstract Reasoning Brain Interface shutdown sequence complete."
+        )
 
     demo_logger.info("🎉 Bio-Quantum Symbolic Reasoning Demo Complete!")
     demo_logger.info("=" * 60)
@@ -374,7 +444,9 @@ async def demonstrate_advanced_features() -> None:
         )
         adv_logger.info(
             "Core Confidence",
-            confidence=advanced_processing_result.get("internal_confidence_metric", 0.0),
+            confidence=advanced_processing_result.get(
+                "internal_confidence_metric", 0.0
+            ),
         )
 
     except Exception as e:
@@ -387,7 +459,9 @@ async def demonstrate_advanced_features() -> None:
         adv_logger.info("ΛTRACE: Shutting down AbstractReasoningBrainCore...")
         if core_instance:  # Ensure it was initialized
             await core_instance.shutdown_brain()
-        adv_logger.info("ΛTRACE: AbstractReasoningBrainCore shutdown. Advanced Features Demo finished.")
+        adv_logger.info(
+            "ΛTRACE: AbstractReasoningBrainCore shutdown. Advanced Features Demo finished."
+        )
 
 
 # Example of using the system for scientific research reasoning.
@@ -401,7 +475,9 @@ async def scientific_research_example() -> None:
     sci_logger.info("🔬 Starting Scientific Research Use Case Demo")
 
     if not ABSTRACT_REASONING_COMPONENTS_AVAILABLE or not reason_about:
-        sci_logger.error("ΛTRACE: `reason_about` function not available. Skipping scientific research demo.")
+        sci_logger.error(
+            "ΛTRACE: `reason_about` function not available. Skipping scientific research demo."
+        )
         return
 
     research_problem_data: dict[str, Any] = {
@@ -436,7 +512,9 @@ async def business_strategy_example() -> None:
     biz_logger.info("💼 Starting Business Strategy Use Case Demo")
 
     if not ABSTRACT_REASONING_COMPONENTS_AVAILABLE or not reason_about:
-        biz_logger.error("ΛTRACE: `reason_about` function not available. Skipping business strategy demo.")
+        biz_logger.error(
+            "ΛTRACE: `reason_about` function not available. Skipping business strategy demo."
+        )
         return
 
     strategy_problem_data: dict[str, Any] = {
@@ -469,7 +547,9 @@ async def creative_design_example() -> None:
     design_logger.info("🎨 Starting Creative Design Use Case Demo")
 
     if not ABSTRACT_REASONING_COMPONENTS_AVAILABLE or not reason_about:
-        design_logger.error("ΛTRACE: `reason_about` function not available. Skipping creative design demo.")
+        design_logger.error(
+            "ΛTRACE: `reason_about` function not available. Skipping creative design demo."
+        )
         return
 
     design_problem_data: dict[str, Any] = {
@@ -501,9 +581,13 @@ async def run_all_demonstrations_sequentially() -> None:  # Renamed for clarity
     """Runs all defined demonstration examples for the abstract reasoning engine in sequence."""
     # Human-readable comment: Orchestrates the execution of all demo scenarios.
     req_id_run_all = f"demo_run_all_{int(datetime.utcnow().timestamp() * 1000)}"
-    run_all_logger = logger.bind(request_id=req_id_run_all, demo_stage="full_suite_execution")
+    run_all_logger = logger.bind(
+        request_id=req_id_run_all, demo_stage="full_suite_execution"
+    )
 
-    run_all_logger.info("🚀 Starting Comprehensive Bio-Quantum Reasoning Demonstration Suite.")
+    run_all_logger.info(
+        "🚀 Starting Comprehensive Bio-Quantum Reasoning Demonstration Suite."
+    )
     run_all_logger.info("=" * 70)
 
     if not ABSTRACT_REASONING_COMPONENTS_AVAILABLE:
@@ -520,7 +604,9 @@ async def run_all_demonstrations_sequentially() -> None:  # Renamed for clarity
 
     run_all_logger.info(" ")
     run_all_logger.info("🎯 All demonstrations completed successfully!")
-    run_all_logger.info("🧠⚛️ The LUKHAS Bio-Quantum Symbolic Reasoning Engine demo is complete.")
+    run_all_logger.info(
+        "🧠⚛️ The LUKHAS Bio-Quantum Symbolic Reasoning Engine demo is complete."
+    )
     run_all_logger.info("=" * 70)
 
 
@@ -554,7 +640,9 @@ if __name__ == "__main__":
 
     try:
         asyncio.run(run_all_demonstrations_sequentially())
-        main_logger.info("ΛTRACE: All demonstrations run successfully via __main__ execution.")
+        main_logger.info(
+            "ΛTRACE: All demonstrations run successfully via __main__ execution."
+        )
     except Exception as e_main:
         main_logger.critical(
             "ΛTRACE: Critical error during __main__ execution of demonstrations.",

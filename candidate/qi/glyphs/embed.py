@@ -148,7 +148,9 @@ def extract_from_png(png_bytes: bytes) -> dict[str, Any] | None:
     return None
 
 
-def embed_in_text(text_bytes: bytes, seal: dict[str, Any], sig: dict[str, Any]) -> bytes:
+def embed_in_text(
+    text_bytes: bytes, seal: dict[str, Any], sig: dict[str, Any]
+) -> bytes:
     """
     Embed GLYPH seal in text using front-matter.
 
@@ -164,7 +166,9 @@ def embed_in_text(text_bytes: bytes, seal: dict[str, Any], sig: dict[str, Any]) 
     seal_data = {"seal": seal, "sig": sig}
 
     # Encode as base64 for clean embedding
-    seal_b64 = base64.b64encode(json.dumps(seal_data, separators=(",", ":")).encode("utf-8")).decode("ascii")
+    seal_b64 = base64.b64encode(
+        json.dumps(seal_data, separators=(",", ":")).encode("utf-8")
+    ).decode("ascii")
 
     # Create front-matter block
     front_matter = f"""---

@@ -32,7 +32,9 @@ DRIFT_LOG_PATH = Path("ΛDRIFT_LOG.md")
 def _append_log(event: str, drift: float, entropy: float) -> None:
     DRIFT_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
     with DRIFT_LOG_PATH.open("a", encoding="utf-8") as fh:
-        fh.write(f"{datetime.utcnow().isoformat()} event={event} drift={drift} entropy={entropy}\n")
+        fh.write(
+            f"{datetime.utcnow().isoformat()} event={event} drift={drift} entropy={entropy}\n"
+        )
 
 
 def record_collapse(event: str, drift: float, entropy: float) -> None:

@@ -192,7 +192,9 @@ class VisionaryAGIOrchestrator:
         self.is_running = False
         self.current_consciousness_level = ConsciousnessLevel.NASCENT
 
-        self.logger.info(f"🚀 Visionary AI Orchestrator initialized in {mode.name} mode")
+        self.logger.info(
+            f"🚀 Visionary AI Orchestrator initialized in {mode.name} mode"
+        )
         self.logger.info(f"🎯 Target consciousness level: {consciousness_target.name}")
 
     def _setup_visionary_logging(self) -> logging.Logger:
@@ -288,12 +290,20 @@ class VisionaryAGIOrchestrator:
         if config_path and config_path.exists():
             try:
                 with open(config_path) as f:
-                    user_config = yaml.safe_load(f) if config_path.suffix.lower() == ".yaml" else json.load(f)
+                    user_config = (
+                        yaml.safe_load(f)
+                        if config_path.suffix.lower() == ".yaml"
+                        else json.load(f)
+                    )
 
                 # Merge with defaults
                 def deep_merge(default, user):
                     for key, value in user.items():
-                        if key in default and isinstance(default[key], dict) and isinstance(value, dict):
+                        if (
+                            key in default
+                            and isinstance(default[key], dict)
+                            and isinstance(value, dict)
+                        ):
                             deep_merge(default[key], value)
                         else:
                             default[key] = value
@@ -342,7 +352,9 @@ class VisionaryAGIOrchestrator:
             # Final validation
             if await self._validate_initialization():
                 self.is_initialized = True
-                self.logger.info("✅ Visionary AI Orchestrator successfully initialized")
+                self.logger.info(
+                    "✅ Visionary AI Orchestrator successfully initialized"
+                )
                 await self._log_initialization_success()
                 return True
             else:
@@ -377,7 +389,9 @@ class VisionaryAGIOrchestrator:
 
         try:
             # Initialize core integrator
-            self.core_integrator = EnhancedCoreIntegrator(config=self.config, safety_mode=True)
+            self.core_integrator = EnhancedCoreIntegrator(
+                config=self.config, safety_mode=True
+            )
 
             # Initialize main agent
             self.lukhas_agent = lukhasAgent(
@@ -389,7 +403,9 @@ class VisionaryAGIOrchestrator:
             self.memory_manager = MemoryManager(config=self.config["consciousness"])
             self.voice_engine = VoiceEngine(config=self.config["user_experience"])
             self.dream_engine = DreamEngine(config=self.config["consciousness"])
-            self.emotional_engine = EmotionalResonanceEngine(config=self.config["consciousness"])
+            self.emotional_engine = EmotionalResonanceEngine(
+                config=self.config["consciousness"]
+            )
             self.identity_system = IdentitySystem(config=self.config["consciousness"])
             self.qi_engine = QIEngine(config=self.config["consciousness"])
 
@@ -413,7 +429,9 @@ class VisionaryAGIOrchestrator:
         # Aesthetic and experience optimization
         await self._optimize_aesthetic_experience()
 
-        self.logger.info("👤 User experience systems initialized with Jobs-level obsession")
+        self.logger.info(
+            "👤 User experience systems initialized with Jobs-level obsession"
+        )
 
     async def _initialize_consciousness_systems(self):
         """Initialize consciousness and self-awareness systems"""
@@ -573,7 +591,9 @@ class VisionaryAGIOrchestrator:
         # Memory retrieval
         relevant_memories = None
         if self.memory_manager:
-            relevant_memories = await self.memory_manager.retrieve_relevant(context["query"], context["user_id"])
+            relevant_memories = await self.memory_manager.retrieve_relevant(
+                context["query"], context["user_id"]
+            )
 
         # Emotional context
         emotional_context = None
@@ -585,7 +605,9 @@ class VisionaryAGIOrchestrator:
         # Quantum processing (if available)
         qi_insights = None
         if self.qi_engine:
-            qi_insights = await self.qi_engine.process_quantum_thoughts(context["query"])
+            qi_insights = await self.qi_engine.process_quantum_thoughts(
+                context["query"]
+            )
 
         # Main agent reasoning
         if self.lukhas_agent:
@@ -606,21 +628,29 @@ class VisionaryAGIOrchestrator:
 
         # Dream integration (creative insights)
         if self.dream_engine:
-            creative_insights = await self.dream_engine.generate_creative_insights(context["query"], agent_response)
+            creative_insights = await self.dream_engine.generate_creative_insights(
+                context["query"], agent_response
+            )
             agent_response["creative_insights"] = creative_insights
 
         # Memory formation
         if self.memory_manager:
-            await self.memory_manager.form_memory(query=context["query"], response=agent_response, context=context)
+            await self.memory_manager.form_memory(
+                query=context["query"], response=agent_response, context=context
+            )
 
         return agent_response
 
-    async def _optimize_user_experience(self, response: dict[str, Any], user_id: Optional[str]) -> dict[str, Any]:
+    async def _optimize_user_experience(
+        self, response: dict[str, Any], user_id: Optional[str]
+    ) -> dict[str, Any]:
         """Optimize response for maximum user delight (Jobs principle)"""
 
         # Simplicity optimization
         if len(response.get("response", "")) > 500:
-            response["summary"] = await self._create_elegant_summary(response["response"])
+            response["summary"] = await self._create_elegant_summary(
+                response["response"]
+            )
 
         # Personalization
         if user_id:
@@ -649,7 +679,9 @@ class VisionaryAGIOrchestrator:
         target_level = self.consciousness_target
 
         if current_level.value >= target_level.value:
-            self.logger.info(f"🧠 Already at or above target consciousness level: {current_level.name}")
+            self.logger.info(
+                f"🧠 Already at or above target consciousness level: {current_level.name}"
+            )
             return True
 
         # Safety check for consciousness evolution
@@ -658,7 +690,9 @@ class VisionaryAGIOrchestrator:
             return False
 
         try:
-            self.logger.info(f"🧠 Evolving consciousness from {current_level.name} to next level...")
+            self.logger.info(
+                f"🧠 Evolving consciousness from {current_level.name} to next level..."
+            )
 
             # Gradual evolution with safety monitoring
             next_level = ConsciousnessLevel(current_level.value + 1)
@@ -974,7 +1008,9 @@ async def main():
 
             # Get status
             status = await ai.get_visionary_status()
-            print(f"📊 Vision Score: {status['visionary_metrics']['overall_vision_score']:.2f}")
+            print(
+                f"📊 Vision Score: {status['visionary_metrics']['overall_vision_score']:.2f}"
+            )
 
             # Graceful shutdown
             await ai.shutdown("Demo complete")

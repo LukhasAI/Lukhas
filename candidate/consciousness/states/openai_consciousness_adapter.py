@@ -44,7 +44,9 @@ class ConsciousnessOpenAIAdapter:
         self.module_name = "consciousness"
         logger.info("Consciousness OpenAI Adapter initialized")
 
-    async def analyze_awareness_state(self, current_state: dict[str, Any]) -> dict[str, Any]:
+    async def analyze_awareness_state(
+        self, current_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Use GPT-4 to analyze current consciousness state.
 
@@ -92,7 +94,9 @@ Format as JSON with detailed insights."""
             logger.error(f"Awareness analysis failed: {response.error}")
             return {"error": "Analysis failed"}
 
-    async def generate_introspection_narrative(self, reflection_data: dict[str, Any]) -> str:
+    async def generate_introspection_narrative(
+        self, reflection_data: dict[str, Any]
+    ) -> str:
         """
         Generate introspective narrative about current state.
 
@@ -132,7 +136,9 @@ Keep it under 300 words."""
         else:
             return "I observe my thoughts flowing like a stream..."
 
-    async def narrate_consciousness_state(self, state_data: dict[str, Any], voice: str = "nova") -> Optional[str]:
+    async def narrate_consciousness_state(
+        self, state_data: dict[str, Any], voice: str = "nova"
+    ) -> Optional[str]:
         """
         Create audio narration of consciousness state.
 
@@ -166,7 +172,9 @@ Keep it under 300 words."""
             logger.error(f"Narration generation failed: {response.error}")
             return None
 
-    async def analyze_attention_patterns(self, attention_history: list[dict[str, Any]]) -> dict[str, Any]:
+    async def analyze_attention_patterns(
+        self, attention_history: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Analyze patterns in attention focus over time.
 
@@ -274,7 +282,9 @@ Format as JSON array with: name, description, duration, instructions, expected_o
         else:
             return []
 
-    async def map_consciousness_landscape(self, multi_state_data: list[dict[str, Any]]) -> str:
+    async def map_consciousness_landscape(
+        self, multi_state_data: list[dict[str, Any]]
+    ) -> str:
         """
         Create a descriptive map of consciousness landscape.
 
@@ -323,7 +333,9 @@ Write in a vivid, metaphorical style. Make it beautiful and insightful."""
         else:
             return "The landscape of consciousness stretches before me..."
 
-    async def facilitate_meta_reflection(self, thought_stream: list[str], depth_level: int = 1) -> dict[str, Any]:
+    async def facilitate_meta_reflection(
+        self, thought_stream: list[str], depth_level: int = 1
+    ) -> dict[str, Any]:
         """
         Facilitate deep meta-reflection on thought processes.
 

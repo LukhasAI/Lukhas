@@ -9,7 +9,9 @@ from pathlib import Path
 # TAG:colony
 
 
-POLICY_PATH = Path(__file__).resolve().parents[1] / "config" / "ethics" / "community_rules.json"
+POLICY_PATH = (
+    Path(__file__).resolve().parents[1] / "config" / "ethics" / "community_rules.json"
+)
 
 
 def load_rules() -> dict:

@@ -28,24 +28,26 @@ and Compliance Monitoring System. This module provides critical identity and
 security functionalities for the LUKHAS AI platform.
 """
 
+import asyncio
+import base64
 import hashlib
 import json
-import structlog  # ΛTRACE: Standardized logging.
-import asyncio
+import secrets
+import time  # Used for unique request IDs in some methods.
 import uuid
+from dataclasses import dataclass, field  # For default_factory.
 # Added timezone for UTC consistency.
 from datetime import datetime, timedelta, timezone
-from typing import Dict, List, Any, Optional, Tuple, Union
-from dataclasses import dataclass, field  # For default_factory.
 from enum import Enum
-import secrets
-import base64
-import time  # Used for unique request IDs in some methods.
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import structlog  # ΛTRACE: Standardized logging.
 
 # ΛTRACE: Initialize logger for this module. #ΛTEMPORAL_HOOK (Logger init
 # time - Event) #AIDENTITY_BRIDGE (Module identity) #ΛECHO (Logger
 # configuration echoes global settings)
 from candidate.core.common import get_logger
+
 # Standardized init log. #ΛTEMPORAL_HOOK (Log event at init time)
 logger.info("ΛTRACE_MODULE_INIT", module_path=__file__, status="initializing")
 
@@ -56,8 +58,9 @@ CRYPTO_AVAILABLE = False  # ΛSIM_TRACE: Mocking crypto availability.
 try:
     # Attempt to import actual cryptography libraries if they were being used
     from cryptography.hazmat.primitives import hashes, serialization
-    from cryptography.hazmat.primitives.asymmetric import rsa, padding
-    from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+    from cryptography.hazmat.primitives.asymmetric import padding, rsa
+    from cryptography.hazmat.primitives.ciphers import (Cipher, algorithms,
+                                                        modes)
     CRYPTO_AVAILABLE = True
     logger.info("ΛTRACE_CRYPTO_LOADED", library="cryptography", status="success")
 except ImportError:

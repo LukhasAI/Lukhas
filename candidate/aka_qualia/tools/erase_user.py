@@ -33,29 +33,38 @@ def count_user_data(engine: Engine, user_id: str) -> dict[str, int]:
         with engine.begin() as conn:
             # Count scenes
             scene_result = conn.execute(
-                text("SELECT COUNT(*) FROM akaq_scene WHERE user_id = :user_id"), {"user_id": user_id}
+                text("SELECT COUNT(*) FROM akaq_scene WHERE user_id = :user_id"),
+                {"user_id": user_id},
             )
             scene_count = scene_result.scalar()
 
             # Count glyphs (via scenes)
             glyph_result = conn.execute(
-                text("""
+                text(
+                    """
                     SELECT COUNT(*) FROM akaq_glyph g
                     JOIN akaq_scene s ON g.scene_id = s.scene_id
                     WHERE s.user_id = :user_id
-                """),
+                """
+                ),
                 {"user_id": user_id},
             )
             glyph_count = glyph_result.scalar()
 
-            return {"scenes": scene_count, "glyphs": glyph_count, "total_records": scene_count + glyph_count}
+            return {
+                "scenes": scene_count,
+                "glyphs": glyph_count,
+                "total_records": scene_count + glyph_count,
+            }
 
     except SQLAlchemyError as e:
         logger.error(f"Failed to count user data: {e}")
         raise
 
 
-def delete_user_data(engine: Engine, user_id: str, dry_run: bool = False) -> dict[str, Any]:
+def delete_user_data(
+    engine: Engine, user_id: str, dry_run: bool = False
+) -> dict[str, Any]:
     """Delete all user data with cascade (scenes -> glyphs)"""
     try:
         with engine.begin() as conn:
@@ -73,7 +82,10 @@ def delete_user_data(engine: Engine, user_id: str, dry_run: bool = False) -> dic
             pre_count = count_user_data(engine, user_id)
 
             # Perform actual deletion (cascades to glyphs via foreign key)
-            delete_result = conn.execute(text("DELETE FROM akaq_scene WHERE user_id = :user_id"), {"user_id": user_id})
+            delete_result = conn.execute(
+                text("DELETE FROM akaq_scene WHERE user_id = :user_id"),
+                {"user_id": user_id},
+            )
 
             rows_deleted = delete_result.rowcount
             conn.commit()
@@ -102,7 +114,9 @@ def verify_deletion(engine: Engine, user_id: str) -> bool:
         return False
 
 
-def log_audit_entry(audit_result: dict[str, Any], audit_file: Optional[str] = None) -> None:
+def log_audit_entry(
+    audit_result: dict[str, Any], audit_file: Optional[str] = None
+) -> None:
     """Log audit entry for GDPR compliance"""
     if audit_file:
         try:
@@ -117,20 +131,34 @@ def log_audit_entry(audit_result: dict[str, Any], audit_file: Optional[str] = No
 
 def main():
     """CLI entry point for user data erasure"""
-    parser = argparse.ArgumentParser(description="GDPR-Compliant User Data Erasure Tool")
+    parser = argparse.ArgumentParser(
+        description="GDPR-Compliant User Data Erasure Tool"
+    )
     parser.add_argument("--dsn", required=True, help="Database connection string")
     parser.add_argument("--user-id", required=True, help="User ID to erase data for")
-    parser.add_argument("--dry-run", action="store_true", help="Show what would be deleted without actually deleting")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be deleted without actually deleting",
+    )
     parser.add_argument("--audit", action="store_true", help="Enable audit logging")
-    parser.add_argument("--audit-file", help="Audit log file path (default: print to console)")
-    parser.add_argument("--confirm", action="store_true", help="Skip confirmation prompt")
-    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
+    parser.add_argument(
+        "--audit-file", help="Audit log file path (default: print to console)"
+    )
+    parser.add_argument(
+        "--confirm", action="store_true", help="Skip confirmation prompt"
+    )
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Enable verbose logging"
+    )
 
     args = parser.parse_args()
 
     # Configure logging
     log_level = logging.DEBUG if args.verbose else logging.INFO
-    logging.basicConfig(level=log_level, format="%(asctime)s - %(levelname)s - %(message)s")
+    logging.basicConfig(
+        level=log_level, format="%(asctime)s - %(levelname)s - %(message)s"
+    )
 
     # Create database engine
     engine = create_engine(args.dsn)
@@ -155,7 +183,9 @@ def main():
 
         # Confirmation for live deletion
         if not args.dry_run and not args.confirm:
-            response = input(f"\n⚠️  This will PERMANENTLY delete all data for user {args.user_id}. Continue? [y/N]: ")
+            response = input(
+                f"\n⚠️  This will PERMANENTLY delete all data for user {args.user_id}. Continue? [y/N]: "
+            )
             if response.lower() != "y":
                 logger.info("❌ Deletion cancelled by user")
                 return
@@ -174,7 +204,9 @@ def main():
             result["verification_passed"] = verification_passed
 
             if verification_passed:
-                logger.info(f"✅ Successfully deleted {result['scenes_deleted']} scenes")
+                logger.info(
+                    f"✅ Successfully deleted {result['scenes_deleted']} scenes"
+                )
                 logger.info("✅ Verification passed - no remaining data")
             else:
                 logger.error("❌ Verification failed - some data may remain")
@@ -185,7 +217,9 @@ def main():
             log_audit_entry(result, args.audit_file)
 
         if not args.dry_run and result.get("verification_passed", False):
-            logger.info(f"🎯 GDPR erasure completed successfully for user {args.user_id}")
+            logger.info(
+                f"🎯 GDPR erasure completed successfully for user {args.user_id}"
+            )
 
     except Exception as e:
         logger.error(f"❌ Erasure failed: {e}")

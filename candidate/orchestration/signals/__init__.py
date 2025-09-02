@@ -11,12 +11,7 @@ from .homeostasis import (
     OscillationDetector,
     SystemEvent,
 )
-from .modulator import (
-    AdaptiveModulator,
-    PromptModulation,
-    PromptModulator,
-    PromptStyle,
-)
+from .modulator import AdaptiveModulator, PromptModulation, PromptModulator, PromptStyle
 from .signal_bus import (
     Signal,
     SignalBus,

@@ -27,7 +27,9 @@ FEEDBACK_LOG_PATH = Path("core/logs/feedback_log.jsonl")
 FEEDBACK_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 
-def record_feedback(message_id, user_id, score, notes=None, emoji=None, user_context=None):
+def record_feedback(
+    message_id, user_id, score, notes=None, emoji=None, user_context=None
+):
     """
     Store a symbolic feedback event with tier-safe attributes.
 

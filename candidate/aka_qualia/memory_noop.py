@@ -56,7 +56,9 @@ class NoopMemory(AkaqMemory):
         # Return a deterministic fake scene ID
         return f"noop_{uuid.uuid4().hex[:8]}"
 
-    def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[dict[str, Any]]:
+    def fetch_prev_scene(
+        self, *, user_id: str, before_ts: Optional[dt.datetime] = None
+    ) -> Optional[dict[str, Any]]:
         """
         Simulate fetching previous scene (no-op).
 
@@ -65,7 +67,9 @@ class NoopMemory(AkaqMemory):
         self.fetch_calls += 1
         return None
 
-    def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> list[dict[str, Any]]:
+    def history(
+        self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None
+    ) -> list[dict[str, Any]]:
         """
         Simulate fetching scene history (no-op).
 
@@ -74,7 +78,9 @@ class NoopMemory(AkaqMemory):
         self.history_calls += 1
         return []
 
-    def search_by_glyph(self, *, user_id: str, key: str, limit: int = 50) -> list[dict[str, Any]]:
+    def search_by_glyph(
+        self, *, user_id: str, key: str, limit: int = 50
+    ) -> list[dict[str, Any]]:
         """
         Simulate glyph-based search (no-op).
 

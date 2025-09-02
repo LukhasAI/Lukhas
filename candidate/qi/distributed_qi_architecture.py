@@ -76,7 +76,9 @@ class DistributedQuantumSafeOrchestrator:
             """
             # Option 1: Homomorphic processing
             if processing_plan.allows_homomorphic:
-                return await self.homomorphic_engine.process(encrypted_shard, operations=processing_plan.operations)
+                return await self.homomorphic_engine.process(
+                    encrypted_shard, operations=processing_plan.operations
+                )
 
             # Option 2: Secure enclave processing
             with self.secure_enclave as enclave:
@@ -84,7 +86,9 @@ class DistributedQuantumSafeOrchestrator:
 
                 # Quantum acceleration for suitable problems
                 if processing_plan.qi_eligible:
-                    result = await self.qi_accelerator.process(decrypted, algorithm=processing_plan.qi_algorithm)
+                    result = await self.qi_accelerator.process(
+                        decrypted, algorithm=processing_plan.qi_algorithm
+                    )
                 else:
                     result = await self._classical_process(decrypted)
 
@@ -99,16 +103,22 @@ class DistributedQuantumSafeOrchestrator:
         Federated learning with quantum enhancement and privacy
         """
         # 1. Initialize quantum variational circuit
-        qi_model = QIVariationalModel(num_qubits=learning_task.model_complexity, depth=learning_task.circuit_depth)
+        qi_model = QIVariationalModel(
+            num_qubits=learning_task.model_complexity, depth=learning_task.circuit_depth
+        )
 
         # 2. Distribute initial model with secure aggregation setup
-        aggregator = SecureAggregator(protocol="qi_secure_multiparty", threshold=len(participant_nodes) * 0.7)
+        aggregator = SecureAggregator(
+            protocol="qi_secure_multiparty", threshold=len(participant_nodes) * 0.7
+        )
 
         for _epoch in range(learning_task.num_epochs):
             # 3. Local quantum training on encrypted data
             local_updates = []
             for node in participant_nodes:
-                update_future = self._train_local_quantum_model.remote(node, qi_model, learning_task)
+                update_future = self._train_local_quantum_model.remote(
+                    node, qi_model, learning_task
+                )
                 local_updates.append(update_future)
 
             # 4. Secure aggregation with differential privacy

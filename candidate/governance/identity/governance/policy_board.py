@@ -30,8 +30,15 @@ class PolicyProposal:
         for agent, vote in self.votes.items():
             if vote is True:
                 approvals += DAO_CONFIG["agent_vote_weights"].get(agent, 1)
-        if self.metadata.get("risk_level", "medium") == "high" and DAO_CONFIG["tier5_required_for_high_risk"]:
-            return "SJ" in self.votes and self.votes["SJ"] is True and approvals >= DAO_CONFIG["default_quorum"]
+        if (
+            self.metadata.get("risk_level", "medium") == "high"
+            and DAO_CONFIG["tier5_required_for_high_risk"]
+        ):
+            return (
+                "SJ" in self.votes
+                and self.votes["SJ"] is True
+                and approvals >= DAO_CONFIG["default_quorum"]
+            )
         return approvals >= DAO_CONFIG["default_quorum"]
 
     def status_report(self) -> dict[str, Any]:
@@ -47,8 +54,12 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Symbolic Policy Proposal Evaluator")
-    parser.add_argument("--compound", type=str, required=True, help="Name of the compound (e.g., NAD⁺)")
-    parser.add_argument("--zone", type=str, default="trace/", help="Application zone (default: trace/)")
+    parser.add_argument(
+        "--compound", type=str, required=True, help="Name of the compound (e.g., NAD⁺)"
+    )
+    parser.add_argument(
+        "--zone", type=str, default="trace/", help="Application zone (default: trace/)"
+    )
     parser.add_argument(
         "--dose",
         type=str,

@@ -36,14 +36,18 @@ async def handle_message(websocket):
             tier = int(data.get("tier", 0))
             origin = data.get("origin", "unverified")
 
-            logger.info(f"Incoming message from {origin} [Tier {tier}]: {symbolic_message}")
+            logger.info(
+                f"Incoming message from {origin} [Tier {tier}]: {symbolic_message}"
+            )
 
             if symbolic_message and tier >= 4:
                 with open(PUBLISH_QUEUE_PATH, "a") as f:
                     f.write(
                         json.dumps(
                             {
-                                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                                "timestamp": time.strftime(
+                                    "%Y-%m-%dT%H:%M:%SZ", time.gmtime()
+                                ),
                                 "message": symbolic_message,
                                 "origin": origin,
                                 "tier": tier,

@@ -46,9 +46,15 @@ from dna_link import LucasDNALink
 st.sidebar.title("⚙️ Settings & Compliance")
 
 with st.sidebar.expander("🛡️ Compliance Settings", expanded=True):
-    enforce_gdpr = st.checkbox("Enable GDPR/International Compliance Logging", value=True)
-    default_tone = st.selectbox("Default Tone", ["formal", "casual", "symbolic", "poetic"], index=2)
-    default_language = st.selectbox("Default Language", ["en", "es", "fr", "de", "pt", "it"], index=0)
+    enforce_gdpr = st.checkbox(
+        "Enable GDPR/International Compliance Logging", value=True
+    )
+    default_tone = st.selectbox(
+        "Default Tone", ["formal", "casual", "symbolic", "poetic"], index=2
+    )
+    default_language = st.selectbox(
+        "Default Language", ["en", "es", "fr", "de", "pt", "it"], index=0
+    )
     st.markdown("_These defaults apply when tone/language not explicitly set._")
 
 st.title("💬 Lukhas Symbolic Message Hub")
@@ -73,7 +79,9 @@ with tabs[0]:
         index=["en", "es", "fr", "de", "pt", "it"].index(default_language),
     )
     if st.button("✉️ Generate Email"):
-        result = lukhas.generate_email_draft(topic=topic, recipient=recipient, language=language, tone=tone)
+        result = lukhas.generate_email_draft(
+            topic=topic, recipient=recipient, language=language, tone=tone
+        )
         st.code(result)
         selected_type = "email"
 
@@ -81,7 +89,9 @@ with tabs[0]:
 with tabs[1]:
     st.subheader("Create Social Media Post")
     topic = st.text_area("Topic", height=100)
-    platform = st.selectbox("Platform", ["twitter", "linkedin", "instagram", "facebook"])
+    platform = st.selectbox(
+        "Platform", ["twitter", "linkedin", "instagram", "facebook"]
+    )
     tone = st.selectbox(
         "Tone",
         ["symbolic", "casual", "philosophical", "humorous"],
@@ -103,7 +113,9 @@ with tabs[2]:
     emotion = st.selectbox("Emotion", ["friendly", "gentle", "reassuring", "uplifting"])
     purpose = st.selectbox("Purpose", ["check-in", "gratitude", "apology", "invite"])
     if st.button("📱 Generate Message"):
-        result = lukhas.generate_text_message(recipient=recipient, emotion=emotion, purpose=purpose)
+        result = lukhas.generate_text_message(
+            recipient=recipient, emotion=emotion, purpose=purpose
+        )
         st.code(result)
         selected_type = "text_message"
 
@@ -138,9 +150,13 @@ if "result" in locals() and result:
         import hashlib
 
         memory_entry = {
-            "type": (selected_type if "selected_type" in locals() else "symbolic_message"),
+            "type": (
+                selected_type if "selected_type" in locals() else "symbolic_message"
+            ),
             "content": result,
-            "qrg_stamp": (hashlib.sha256(result.encode()).hexdigest()[:16] if mark_qrg else None),
+            "qrg_stamp": (
+                hashlib.sha256(result.encode()).hexdigest()[:16] if mark_qrg else None
+            ),
             "forgettable": forgettable,
             "visible_to_user": True,
         }

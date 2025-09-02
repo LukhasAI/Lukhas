@@ -42,7 +42,9 @@ def test_module_imports():
         except Exception as e:
             print(f"⚠️  Error importing {module_name}.py: {e}")
 
-    print(f"\n📊 Import Results: {success_count}/{len(modules_to_test)} modules imported successfully")
+    print(
+        f"\n📊 Import Results: {success_count}/{len(modules_to_test)} modules imported successfully"
+    )
     return success_count == len(modules_to_test)
 
 
@@ -168,7 +170,9 @@ def main():
     print(f"   Basic Functionality:{'✅ PASS' if functionality_success else '❌ FAIL'}")
     print(f"   Design Compliance:  {'✅ PASS' if design_success else '❌ FAIL'}")
 
-    overall_success = all([import_success, class_success, functionality_success, design_success])
+    overall_success = all(
+        [import_success, class_success, functionality_success, design_success]
+    )
 
     if overall_success:
         print("\n🎉 LUKHAS DAST SYSTEM VERIFICATION COMPLETE!")

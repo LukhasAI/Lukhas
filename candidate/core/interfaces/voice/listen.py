@@ -24,7 +24,9 @@ def listen_to_human(timeout=5, phrase_time_limit=10):
     with sr.Microphone() as source:
         print("🎧 [LUKHAS] Listening...")  # Keep UI output
         recognizer.adjust_for_ambient_noise(source)
-        audio = recognizer.listen(source, timeout=timeout, phrase_time_limit=phrase_time_limit)
+        audio = recognizer.listen(
+            source, timeout=timeout, phrase_time_limit=phrase_time_limit
+        )
 
     try:
         text = recognizer.recognize_google(audio)
@@ -68,7 +70,9 @@ Respond symbolically, with empathy and intelligence.
 
 def loop_symbolic_conversation():
     logger.info("Starting symbolic conversation loop")
-    print("🔁 LUKHAS is now listening + responding symbolically. Ctrl+C to stop.\n")  # Keep UI output
+    print(
+        "🔁 LUKHAS is now listening + responding symbolically. Ctrl+C to stop.\n"
+    )  # Keep UI output
     while True:
         input_text = listen_to_human()
         if input_text:

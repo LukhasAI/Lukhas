@@ -202,7 +202,9 @@ class OracleNervousSystem:
 
         except Exception as e:
             self.health_status = "error"
-            self.logger.error("Oracle Nervous System initialization failed", error=str(e))
+            self.logger.error(
+                "Oracle Nervous System initialization failed", error=str(e)
+            )
             raise
 
     async def _initialize_oracle_colony(self):
@@ -232,7 +234,9 @@ class OracleNervousSystem:
             self.logger.info("OpenAI Oracle Adapter integrated")
 
         except Exception as e:
-            self.logger.warning("OpenAI Oracle Adapter integration failed", error=str(e))
+            self.logger.warning(
+                "OpenAI Oracle Adapter integration failed", error=str(e)
+            )
 
     async def _initialize_enhanced_predictor(self):
         """Initialize the Enhanced Oracle Predictor."""
@@ -245,7 +249,9 @@ class OracleNervousSystem:
             self.logger.info("Enhanced Oracle Predictor integrated")
 
         except Exception as e:
-            self.logger.warning("Enhanced Oracle Predictor integration failed", error=str(e))
+            self.logger.warning(
+                "Enhanced Oracle Predictor integration failed", error=str(e)
+            )
 
     async def _initialize_enhanced_dream_oracle(self):
         """Initialize the Enhanced Dream Oracle."""
@@ -258,7 +264,9 @@ class OracleNervousSystem:
             self.logger.info("Enhanced Dream Oracle integrated")
 
         except Exception as e:
-            self.logger.warning("Enhanced Dream Oracle integration failed", error=str(e))
+            self.logger.warning(
+                "Enhanced Dream Oracle integration failed", error=str(e)
+            )
 
     async def _register_capabilities(self):
         """Register all available Oracle capabilities."""
@@ -325,7 +333,9 @@ class OracleNervousSystem:
 
         self.logger.info("Oracle capabilities registered", count=len(self.capabilities))
 
-    async def process_request(self, request: NervousSystemRequest) -> NervousSystemResponse:
+    async def process_request(
+        self, request: NervousSystemRequest
+    ) -> NervousSystemResponse:
         """
         Process a unified request through the Oracle nervous system.
         This is the main entry point for all Oracle operations.
@@ -339,7 +349,9 @@ class OracleNervousSystem:
 
         # Check if capability is available
         if request.capability_type not in self.capabilities:
-            raise ValueError(f"Oracle capability {request.capability_type.value} not available")
+            raise ValueError(
+                f"Oracle capability {request.capability_type.value} not available"
+            )
 
         capability = self.capabilities[request.capability_type]
         providers_used = []
@@ -375,7 +387,9 @@ class OracleNervousSystem:
 
             # Handle cross-colony events if requested
             if request.cross_colony_context:
-                cross_colony_events = await self._generate_cross_colony_events(request, response_data)
+                cross_colony_events = await self._generate_cross_colony_events(
+                    request, response_data
+                )
 
             processing_time = time.time() - start_time
 
@@ -429,7 +443,9 @@ class OracleNervousSystem:
             )
             raise
 
-    async def _process_prediction(self, request: NervousSystemRequest) -> dict[str, Any]:
+    async def _process_prediction(
+        self, request: NervousSystemRequest
+    ) -> dict[str, Any]:
         """Process a prediction request."""
         if not self.enhanced_predictor:
             raise RuntimeError("Enhanced Predictor not available")
@@ -475,7 +491,9 @@ class OracleNervousSystem:
         if not self.enhanced_dream_oracle:
             raise RuntimeError("Enhanced Dream Oracle not available")
 
-        result = await self.enhanced_dream_oracle.generate_nervous_system_dream(request.context)
+        result = await self.enhanced_dream_oracle.generate_nervous_system_dream(
+            request.context
+        )
 
         return {
             "dream_type": "nervous_system_integrated",
@@ -488,7 +506,9 @@ class OracleNervousSystem:
         if not self.openai_adapter:
             raise RuntimeError("OpenAI Adapter not available")
 
-        result = await self.openai_adapter.perform_deep_analysis(context=request.context, analysis_type="comprehensive")
+        result = await self.openai_adapter.perform_deep_analysis(
+            context=request.context, analysis_type="comprehensive"
+        )
 
         return {
             "analysis_type": "openai_enhanced_nervous_system",
@@ -499,10 +519,14 @@ class OracleNervousSystem:
     async def _process_temporal(self, request: NervousSystemRequest) -> dict[str, Any]:
         """Process a temporal reasoning request."""
         if not (self.oracle_colony and self.openai_adapter):
-            raise RuntimeError("Temporal processing requires both Colony and OpenAI integration")
+            raise RuntimeError(
+                "Temporal processing requires both Colony and OpenAI integration"
+            )
 
         # Get multi-horizon insights from Colony
-        temporal_insights = await self.oracle_colony.get_temporal_insights(request.context)
+        temporal_insights = await self.oracle_colony.get_temporal_insights(
+            request.context
+        )
 
         # Enhanced temporal reasoning from OpenAI adapter
         temporal_analysis = await self.openai_adapter.temporal_reasoning(
@@ -517,7 +541,9 @@ class OracleNervousSystem:
             "nervous_system_processing": True,
         }
 
-    def _calculate_confidence(self, response_data: dict[str, Any], capability: OracleCapability) -> float:
+    def _calculate_confidence(
+        self, response_data: dict[str, Any], capability: OracleCapability
+    ) -> float:
         """Calculate confidence score for the response."""
         base_confidence = 0.7
 
@@ -581,7 +607,9 @@ class OracleNervousSystem:
 
         return events
 
-    async def _emit_nervous_system_event(self, event_type: str, event_data: dict[str, Any]):
+    async def _emit_nervous_system_event(
+        self, event_type: str, event_data: dict[str, Any]
+    ):
         """Emit an event through the nervous system."""
         event = {
             "event_type": event_type,
@@ -597,7 +625,9 @@ class OracleNervousSystem:
             try:
                 await self.oracle_colony.emit_event(event_type, event_data)
             except Exception as e:
-                self.logger.error("Failed to emit event through Oracle Colony", error=str(e))
+                self.logger.error(
+                    "Failed to emit event through Oracle Colony", error=str(e)
+                )
 
     def _update_performance_metrics(self, processing_time: float, success: bool):
         """Update system performance metrics."""
@@ -653,7 +683,11 @@ class OracleNervousSystem:
                     capability.health_status = "operational"  # Would do actual checks
 
                 # Update overall system health
-                unhealthy_count = sum(1 for cap in self.capabilities.values() if cap.health_status != "operational")
+                unhealthy_count = sum(
+                    1
+                    for cap in self.capabilities.values()
+                    if cap.health_status != "operational"
+                )
 
                 if unhealthy_count == 0:
                     self.health_status = "optimal"
@@ -700,7 +734,11 @@ class OracleNervousSystem:
                     "openai_enhanced": cap.openai_enhanced,
                     "colony_integrated": cap.colony_integrated,
                     "health_status": cap.health_status,
-                    "last_health_check": (cap.last_health_check.isoformat() if cap.last_health_check else None),
+                    "last_health_check": (
+                        cap.last_health_check.isoformat()
+                        if cap.last_health_check
+                        else None
+                    ),
                 }
                 for cap_type, cap in self.capabilities.items()
             },
@@ -772,7 +810,9 @@ async def prophecy(
     return await system.process_request(request)
 
 
-async def dream(context: dict[str, Any], user_id: Optional[str] = None, **kwargs) -> NervousSystemResponse:
+async def dream(
+    context: dict[str, Any], user_id: Optional[str] = None, **kwargs
+) -> NervousSystemResponse:
     """Direct dream generation through the Oracle nervous system."""
     system = await get_oracle_nervous_system()
 
@@ -801,7 +841,9 @@ async def analyze(context: dict[str, Any], **kwargs) -> NervousSystemResponse:
     return await system.process_request(request)
 
 
-async def temporal_reasoning(context: dict[str, Any], **kwargs) -> NervousSystemResponse:
+async def temporal_reasoning(
+    context: dict[str, Any], **kwargs
+) -> NervousSystemResponse:
     """Direct temporal reasoning through the Oracle nervous system."""
     system = await get_oracle_nervous_system()
 
@@ -815,7 +857,9 @@ async def temporal_reasoning(context: dict[str, Any], **kwargs) -> NervousSystem
     return await system.process_request(request)
 
 
-logger.info("ΛORACLE: Nervous System Integration Hub loaded. Unified Oracle intelligence available.")
+logger.info(
+    "ΛORACLE: Nervous System Integration Hub loaded. Unified Oracle intelligence available."
+)
 
 """
 ══════════════════════════════════════════════════════════════════════════════════

@@ -80,7 +80,9 @@ class NeuroSymbolicEngine:
         self.neural_weights = {}
         self.context_memory = []
 
-    async def process_intent(self, input_data: str, context: UserContext) -> dict[str, Any]:
+    async def process_intent(
+        self, input_data: str, context: UserContext
+    ) -> dict[str, Any]:
         """Process user intent with neural-symbolic reasoning"""
         # Extract symbolic representation
         symbols = self._extract_symbols(input_data)
@@ -109,7 +111,9 @@ class NeuroSymbolicEngine:
                 symbols.append(f"ACTION_{keyword.upper()}")
         return symbols
 
-    async def _neural_process(self, symbols: list[str], context: UserContext) -> dict[str, Any]:
+    async def _neural_process(
+        self, symbols: list[str], context: UserContext
+    ) -> dict[str, Any]:
         """Neural processing of symbolic input"""
         await asyncio.sleep(0.01)  # Simulate processing
 
@@ -168,7 +172,9 @@ class CognitiveDNA:
 
     def _estimate_fatigue(self, context: UserContext) -> float:
         """Estimate user fatigue"""
-        session_duration = (datetime.now(timezone.utc) - context.session_start).seconds / 3600
+        session_duration = (
+            datetime.now(timezone.utc) - context.session_start
+        ).seconds / 3600
         fatigue = min(1.0, session_duration / 4.0)  # Max fatigue after 4 hours
         return fatigue
 
@@ -284,7 +290,9 @@ class AdaptiveUXEngine:
             export_options=export_options,
         )
 
-    def _determine_interface_mode(self, cognitive_state: dict[str, float], intent: dict[str, Any]) -> InterfaceMode:
+    def _determine_interface_mode(
+        self, cognitive_state: dict[str, float], intent: dict[str, Any]
+    ) -> InterfaceMode:
         """Determine optimal interface mode"""
 
         # High cognitive load -> simpler interface
@@ -302,7 +310,9 @@ class AdaptiveUXEngine:
         # Default to standard
         return InterfaceMode.STANDARD
 
-    def _generate_layout(self, mode: InterfaceMode, cognitive_state: dict[str, float]) -> dict[str, Any]:
+    def _generate_layout(
+        self, mode: InterfaceMode, cognitive_state: dict[str, float]
+    ) -> dict[str, Any]:
         """Generate adaptive layout"""
 
         template = self.interface_templates[mode]
@@ -319,14 +329,18 @@ class AdaptiveUXEngine:
             },
             "visual_adjustments": {
                 "contrast": ("high" if cognitive_state["fatigue"] > 0.5 else "normal"),
-                "font_size": ("large" if cognitive_state["fatigue"] > 0.6 else "medium"),
+                "font_size": (
+                    "large" if cognitive_state["fatigue"] > 0.6 else "medium"
+                ),
                 "spacing": ("relaxed" if cognitive_state["load"] > 0.6 else "normal"),
             },
         }
 
         return layout
 
-    def _generate_suggestions(self, intent: dict[str, Any], cognitive_state: dict[str, float]) -> list[str]:
+    def _generate_suggestions(
+        self, intent: dict[str, Any], cognitive_state: dict[str, float]
+    ) -> list[str]:
         """Generate contextual suggestions"""
 
         suggestions = []
@@ -372,7 +386,9 @@ class AdaptiveUXEngine:
 
         return json.dumps(content, indent=2)
 
-    async def export_interface(self, response: AdaptiveResponse, format: ExportFormat) -> str:
+    async def export_interface(
+        self, response: AdaptiveResponse, format: ExportFormat
+    ) -> str:
         """Export interface in specified format"""
 
         if format == ExportFormat.JSON:

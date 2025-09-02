@@ -64,7 +64,9 @@ class VIVOXEVRNDemo:
         print(f"✓ Encrypted data hash: {encrypted_hash}")
         print(f"✓ Hashes are different: {original_hash != encrypted_hash}")
 
-        self.results.append({"demo": "basic_perception", "success": True, "privacy_preserved": True})
+        self.results.append(
+            {"demo": "basic_perception", "success": True, "privacy_preserved": True}
+        )
 
     async def demo_anomaly_detection(self):
         """Demonstrate anomaly detection without exposing content"""
@@ -79,13 +81,15 @@ class VIVOXEVRNDemo:
             },
             {
                 "name": "Thermal stress",
-                "thermal_pattern": lambda: np.ones((64, 64)) * 0.9 + np.random.randn(64, 64) * 0.05,
+                "thermal_pattern": lambda: np.ones((64, 64)) * 0.9
+                + np.random.randn(64, 64) * 0.05,
                 "motion_pattern": lambda: np.random.randn(100) * 0.1,
             },
             {
                 "name": "Motion distress",
                 "thermal_pattern": lambda: np.random.normal(0.5, 0.1, (64, 64)),
-                "motion_pattern": lambda: np.sin(np.linspace(0, 20 * np.pi, 100)) * (1 + np.random.randn(100) * 0.5),
+                "motion_pattern": lambda: np.sin(np.linspace(0, 20 * np.pi, 100))
+                * (1 + np.random.randn(100) * 0.5),
             },
         ]
 
@@ -105,7 +109,9 @@ class VIVOXEVRNDemo:
             # Detect anomalies
             vectors = [thermal_perception.to_vector(), motion_perception.to_vector()]
 
-            anomalies = await self.evrn.detect_anomalies(vectors, context={"demo_scenario": scenario["name"]})
+            anomalies = await self.evrn.detect_anomalies(
+                vectors, context={"demo_scenario": scenario["name"]}
+            )
 
             if anomalies:
                 print(f"  ⚠️  Anomalies detected: {len(anomalies)}")
@@ -133,7 +139,8 @@ class VIVOXEVRNDemo:
         # Different texture patterns (without revealing actual textures)
         textures = {
             "smooth_fabric": np.ones((64, 64)) + np.random.randn(64, 64) * 0.01,
-            "rough_surface": np.random.randn(64, 64) * 0.5 + np.sin(np.linspace(0, 50, 64))[:, None],
+            "rough_surface": np.random.randn(64, 64) * 0.5
+            + np.sin(np.linspace(0, 50, 64))[:, None],
             "damaged_material": np.random.randn(64, 64) * 1.0,
         }
 
@@ -141,10 +148,14 @@ class VIVOXEVRNDemo:
             print(f"\nAnalyzing: {texture_name}")
 
             # Encrypt first
-            encrypted_texture = self.evrn.encryptor.encrypt_vector(texture_data.flatten())[0]
+            encrypted_texture = self.evrn.encryptor.encrypt_vector(
+                texture_data.flatten()
+            )[0]
 
             # Analyze in encrypted space
-            features, metadata = await analyzer.analyze_texture(encrypted_texture, {"material_type": texture_name})
+            features, metadata = await analyzer.analyze_texture(
+                encrypted_texture, {"material_type": texture_name}
+            )
 
             print(f"  Roughness: {features.roughness:.3f}")
             print(f"  Smoothness: {features.smoothness:.3f}")
@@ -153,7 +164,9 @@ class VIVOXEVRNDemo:
 
             # Check pattern matches
             if metadata["pattern_matches"]:
-                best_match = max(metadata["pattern_matches"].items(), key=lambda x: x[1])
+                best_match = max(
+                    metadata["pattern_matches"].items(), key=lambda x: x[1]
+                )
                 print(f"  Best match: {best_match[0]} ({best_match[1]:.2f} confidence)")
 
         self.results.append(
@@ -182,7 +195,9 @@ class VIVOXEVRNDemo:
             encrypted = self.evrn.encryptor.encrypt_vector(full_vector)[0]
             walking_sequence.append(encrypted)
 
-        walking_features, walking_meta = await detector.detect_motion(walking_sequence, 0.1, {"activity": "walking"})
+        walking_features, walking_meta = await detector.detect_motion(
+            walking_sequence, 0.1, {"activity": "walking"}
+        )
 
         print(f"  Velocity: {walking_features.velocity:.3f}")
         print(f"  Stability: {walking_features.stability:.3f}")
@@ -197,13 +212,17 @@ class VIVOXEVRNDemo:
                 position = np.array([0.1 * t, 0.1 * t, 0])
             else:
                 # Sudden acceleration
-                position = np.array([0.5 + (t - 5) * 0.5, 0.5 + (t - 5) * 0.5, -(t - 5) * 0.8])
+                position = np.array(
+                    [0.5 + (t - 5) * 0.5, 0.5 + (t - 5) * 0.5, -(t - 5) * 0.8]
+                )
 
             full_vector = np.pad(position, (0, 512 - len(position)))
             encrypted = self.evrn.encryptor.encrypt_vector(full_vector)[0]
             fall_sequence.append(encrypted)
 
-        fall_features, fall_meta = await detector.detect_motion(fall_sequence, 0.1, {"activity": "monitoring"})
+        fall_features, fall_meta = await detector.detect_motion(
+            fall_sequence, 0.1, {"activity": "monitoring"}
+        )
 
         print(f"  Acceleration: {fall_features.acceleration:.3f}")
         print(f"  Jerk: {fall_features.jerk:.3f}")
@@ -214,7 +233,9 @@ class VIVOXEVRNDemo:
             for event in fall_meta["critical_events"]:
                 print(f"     - {event['type']} (severity: {event['severity']})")
 
-        self.results.append({"demo": "motion_tracking", "success": True, "patterns_tested": 2})
+        self.results.append(
+            {"demo": "motion_tracking", "success": True, "patterns_tested": 2}
+        )
 
     async def demo_multimodal_fusion(self):
         """Demonstrate fusion of multiple encrypted modalities"""
@@ -345,10 +366,14 @@ class VIVOXEVRNDemo:
         for scenario in privacy_scenarios:
             print(f"\nScenario: {scenario['name']}")
 
-            perception = await self.evrn.process_perception(sensitive_data, "visual", scenario["context"])
+            perception = await self.evrn.process_perception(
+                sensitive_data, "visual", scenario["context"]
+            )
 
             print(f"  Privacy level: {perception.privacy_level}")
-            print(f"  Matches expected: {perception.privacy_level == scenario['expected_privacy']}")
+            print(
+                f"  Matches expected: {perception.privacy_level == scenario['expected_privacy']}"
+            )
             print(f"  Ethical compliance: {perception.ethical_compliance}")
 
             # Verify data is protected
@@ -388,7 +413,9 @@ class VIVOXEVRNDemo:
                 await demo()
             except Exception as e:
                 print(f"\n❌ Demo failed: {e}")
-                self.results.append({"demo": demo.__name__, "success": False, "error": str(e)})
+                self.results.append(
+                    {"demo": demo.__name__, "success": False, "error": str(e)}
+                )
 
         # Summary
         print("\n" + "=" * 60)

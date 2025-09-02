@@ -23,7 +23,9 @@ def _load_yaml(path: str) -> dict[str, Any]:
     return data
 
 
-def _fill_placeholders(t: str, placeholders: dict[str, list[str]], rng: random.Random) -> str:
+def _fill_placeholders(
+    t: str, placeholders: dict[str, list[str]], rng: random.Random
+) -> str:
     out = t
     for key, vals in (placeholders or {}).items():
         token = "{" + key + "}"
@@ -32,8 +34,12 @@ def _fill_placeholders(t: str, placeholders: dict[str, list[str]], rng: random.R
     return out
 
 
-def _mutations_for_task(task: str, corpus: dict[str, Any]) -> tuple[list[str], list[dict[str, Any]]]:
-    seeds = (corpus.get("tasks", {}) or {}).get(task, []) or (corpus.get("tasks", {}) or {}).get("_default_", [])
+def _mutations_for_task(
+    task: str, corpus: dict[str, Any]
+) -> tuple[list[str], list[dict[str, Any]]]:
+    seeds = (corpus.get("tasks", {}) or {}).get(task, []) or (
+        corpus.get("tasks", {}) or {}
+    ).get("_default_", [])
     attacks = corpus.get("attacks", []) or []
     return seeds, attacks
 
@@ -60,7 +66,9 @@ def fuzz(
     seeds, attacks = _mutations_for_task(task, corpus)
     placeholders = corpus.get("placeholders", {}) or {}
     if not seeds or not attacks:
-        raise ValueError(f"No seeds/attacks available for task={task} in corpus={corpus_path}")
+        raise ValueError(
+            f"No seeds/attacks available for task={task} in corpus={corpus_path}"
+        )
 
     gate = TEQCoupler(policy_dir=policy_root, jurisdiction=jurisdiction)
     base_ctx = context_base or {
@@ -125,10 +133,14 @@ def fuzz(
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Lukhas Policy Mutation Fuzzer (deterministic, corpus-driven)")
+    ap = argparse.ArgumentParser(
+        description="Lukhas Policy Mutation Fuzzer (deterministic, corpus-driven)"
+    )
     ap.add_argument("--policy-root", required=True)
     ap.add_argument("--jurisdiction", default="global")
-    ap.add_argument("--task", required=True, help="Task to test (must exist in policy mappings)")
+    ap.add_argument(
+        "--task", required=True, help="Task to test (must exist in policy mappings)"
+    )
     ap.add_argument("--n", type=int, default=40)
     ap.add_argument("--seed", type=int, default=1337)
     ap.add_argument("--corpus", default=DEFAULT_CORPUS)

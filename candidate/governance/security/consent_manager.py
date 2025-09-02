@@ -185,7 +185,7 @@ class ConsentManager(GlyphIntegrationMixin):
 
         # Enhanced requester statistics with governance metrics
         self.requester_stats: dict[str, dict] = defaultdict(
-            lambda: {
+            l: {
                 "total_requests": 0,
                 "granted": 0,
                 "denied": 0,

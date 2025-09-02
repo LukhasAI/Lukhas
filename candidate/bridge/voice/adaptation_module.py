@@ -28,7 +28,9 @@ class VoiceAdaptationModule:
         settings = self.modulate_voice_properties(emotion, emoji)
         return settings
 
-    def record_feedback(self, context, emotion, params_used, feedback_score, emoji_used=None):
+    def record_feedback(
+        self, context, emotion, params_used, feedback_score, emoji_used=None
+    ):
         self.interaction_log.append(
             {
                 "context": context,

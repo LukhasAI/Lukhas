@@ -31,7 +31,8 @@ class SymbolicShellArchiver:
         for colony in self.colonies:
             state["colonies"][colony.colony_id] = {
                 "symbolic_carryover": {
-                    k: (v[0], v[1].value, v[2].value, v[3], v[4]) for k, v in colony.symbolic_carryover.items()
+                    k: (v[0], v[1].value, v[2].value, v[3], v[4])
+                    for k, v in colony.symbolic_carryover.items()
                 },
                 "tag_propagation_log": colony.tag_propagation_log,
             }

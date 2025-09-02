@@ -356,7 +356,9 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
             import asyncio
 
             async def run_edge_tts():
-                communicate = self.edge_tts.Communicate(text, voice_id, rate=rate, volume=volume, pitch=pitch)
+                communicate = self.edge_tts.Communicate(
+                    text, voice_id, rate=rate, volume=volume, pitch=pitch
+                )
                 await communicate.save(output_file)
 
             # Run the async function

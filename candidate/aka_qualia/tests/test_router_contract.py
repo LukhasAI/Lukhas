@@ -15,7 +15,14 @@ from unittest.mock import Mock, patch
 import pytest
 
 from candidate.aka_qualia.glyphs import GLYPH_KEYS, map_scene_to_glyphs
-from candidate.aka_qualia.models import AgencyFeel, PhenomenalScene, ProtoQualia, RiskGauge, RiskSeverity, TemporalFeel
+from candidate.aka_qualia.models import (
+    AgencyFeel,
+    PhenomenalScene,
+    ProtoQualia,
+    RiskGauge,
+    RiskSeverity,
+    TemporalFeel,
+)
 from candidate.aka_qualia.router_client import (
     MockRouterClient,
     SymbolicMeshRouterClient,
@@ -122,9 +129,9 @@ class TestPriorityWeightingContract:
             scene = self._create_test_scene(narrative_gravity, risk_score)
             computed_priority = compute_routing_priority(scene)
 
-            assert abs(computed_priority - expected_priority) < 0.001, (
-                f"Expected {expected_priority}, got {computed_priority} for ng={narrative_gravity}, rs={risk_score}"
-            )
+            assert (
+                abs(computed_priority - expected_priority) < 0.001
+            ), f"Expected {expected_priority}, got {computed_priority} for ng={narrative_gravity}, rs={risk_score}"
 
     def test_priority_monotonicity_narrative_gravity(self):
         """Test higher narrative_gravity ⇒ higher priority (key Wave C requirement)"""
@@ -139,9 +146,9 @@ class TestPriorityWeightingContract:
 
         # Verify monotonicity: each priority should be >= previous
         for i in range(1, len(priorities)):
-            assert priorities[i] >= priorities[i - 1], (
-                f"Priority monotonicity violated: {priorities[i]} < {priorities[i - 1]} at index {i}"
-            )
+            assert (
+                priorities[i] >= priorities[i - 1]
+            ), f"Priority monotonicity violated: {priorities[i]} < {priorities[i - 1]} at index {i}"
 
     def test_priority_monotonicity_risk_score(self):
         """Test higher risk_score ⇒ higher priority"""
@@ -156,9 +163,9 @@ class TestPriorityWeightingContract:
 
         # Verify monotonicity: each priority should be >= previous
         for i in range(1, len(priorities)):
-            assert priorities[i] >= priorities[i - 1], (
-                f"Risk monotonicity violated: {priorities[i]} < {priorities[i - 1]} at index {i}"
-            )
+            assert (
+                priorities[i] >= priorities[i - 1]
+            ), f"Risk monotonicity violated: {priorities[i]} < {priorities[i - 1]} at index {i}"
 
     def test_priority_bounds_enforcement(self):
         """Test priority is clamped to [0.0, 1.0] range"""
@@ -174,21 +181,25 @@ class TestPriorityWeightingContract:
             scene = self._create_test_scene(narrative_gravity, risk_score)
             priority = compute_routing_priority(scene)
 
-            assert 0.0 <= priority <= 1.0, (
-                f"Priority {priority} out of bounds for ng={narrative_gravity}, rs={risk_score}"
-            )
+            assert (
+                0.0 <= priority <= 1.0
+            ), f"Priority {priority} out of bounds for ng={narrative_gravity}, rs={risk_score}"
 
     def test_priority_weighting_coefficients(self):
         """Test that narrative_gravity has 0.7 weight and risk_score has 0.3 weight"""
         # Test with only narrative_gravity = 1.0, risk_score = 0.0
         scene1 = self._create_test_scene(1.0, 0.0)
         priority1 = compute_routing_priority(scene1)
-        assert abs(priority1 - 0.7) < 0.001, f"Expected 0.7 for pure narrative gravity, got {priority1}"
+        assert (
+            abs(priority1 - 0.7) < 0.001
+        ), f"Expected 0.7 for pure narrative gravity, got {priority1}"
 
         # Test with only risk_score = 1.0, narrative_gravity = 0.0
         scene2 = self._create_test_scene(0.0, 1.0)
         priority2 = compute_routing_priority(scene2)
-        assert abs(priority2 - 0.3) < 0.001, f"Expected 0.3 for pure risk score, got {priority2}"
+        assert (
+            abs(priority2 - 0.3) < 0.001
+        ), f"Expected 0.3 for pure risk score, got {priority2}"
 
 
 class TestGlyphRoutingIntegration:
@@ -216,7 +227,9 @@ class TestGlyphRoutingIntegration:
         assert GLYPH_KEYS["red_threshold"] in glyph_keys
 
         # Verify high priority
-        assert priority > 0.7  # Should be high due to narrative_gravity=0.8, risk_score=0.7
+        assert (
+            priority > 0.7
+        )  # Should be high due to narrative_gravity=0.8, risk_score=0.7
 
         # Route glyphs
         mock_router.route(glyphs, priority)
@@ -233,7 +246,11 @@ class TestGlyphRoutingIntegration:
 
         # Create low-priority scene (positive tone, low arousal)
         scene = self._create_test_scene(
-            narrative_gravity=0.2, risk_score=0.1, arousal=0.3, tone=0.5, colorfield="aoi/blue"
+            narrative_gravity=0.2,
+            risk_score=0.1,
+            arousal=0.3,
+            tone=0.5,
+            colorfield="aoi/blue",
         )
 
         glyphs = map_scene_to_glyphs(scene)
@@ -244,7 +261,9 @@ class TestGlyphRoutingIntegration:
         assert GLYPH_KEYS["soothe_anchor"] in glyph_keys
 
         # Verify low priority
-        assert priority < 0.3  # Should be low due to narrative_gravity=0.2, risk_score=0.1
+        assert (
+            priority < 0.3
+        )  # Should be low due to narrative_gravity=0.2, risk_score=0.1
 
         # Route glyphs
         mock_router.route(glyphs, priority)
@@ -300,7 +319,10 @@ class TestGlyphRoutingIntegration:
             agency_feel=AgencyFeel.EFFORTLESS,
         )
 
-        risk = RiskGauge(score=risk_score, severity=RiskSeverity.MODERATE if risk_score > 0.5 else RiskSeverity.LOW)
+        risk = RiskGauge(
+            score=risk_score,
+            severity=RiskSeverity.MODERATE if risk_score > 0.5 else RiskSeverity.LOW,
+        )
 
         return PhenomenalScene(proto=proto, risk=risk, context={"test_context": True})
 
@@ -366,13 +388,17 @@ class TestSymbolicSignalConversion:
 
         for glyph_key in glyph_keys:
             diagnostic_event = router._map_glyph_to_diagnostic_event(glyph_key)
-            assert diagnostic_event == "PULSE", f"Expected PULSE for {glyph_key}, got {diagnostic_event}"
+            assert (
+                diagnostic_event == "PULSE"
+            ), f"Expected PULSE for {glyph_key}, got {diagnostic_event}"
 
         # Test unknown glyph key
         unknown_diagnostic = router._map_glyph_to_diagnostic_event("unknown:glyph")
         assert unknown_diagnostic == "PULSE"
 
-    def _create_test_scene(self, narrative_gravity: float, risk_score: float) -> PhenomenalScene:
+    def _create_test_scene(
+        self, narrative_gravity: float, risk_score: float
+    ) -> PhenomenalScene:
         """Helper to create test PhenomenalScene"""
         proto = ProtoQualia(
             narrative_gravity=narrative_gravity,
@@ -385,7 +411,10 @@ class TestSymbolicSignalConversion:
             agency_feel=AgencyFeel.EFFORTLESS,
         )
 
-        risk = RiskGauge(score=risk_score, severity=RiskSeverity.MODERATE if risk_score > 0.5 else RiskSeverity.LOW)
+        risk = RiskGauge(
+            score=risk_score,
+            severity=RiskSeverity.MODERATE if risk_score > 0.5 else RiskSeverity.LOW,
+        )
 
         return PhenomenalScene(proto=proto, risk=risk, context={"test_context": True})
 
@@ -397,10 +426,16 @@ def mock_lukhas_router():
     with (
         patch("candidate.aka_qualia.router_client.route_signal") as mock_route,
         patch("candidate.aka_qualia.router_client.SymbolicSignal") as mock_signal,
-        patch("candidate.aka_qualia.router_client.DiagnosticSignalType") as mock_diagnostic,
+        patch(
+            "candidate.aka_qualia.router_client.DiagnosticSignalType"
+        ) as mock_diagnostic,
     ):
         mock_diagnostic.PULSE = "PULSE"
-        yield {"route_signal": mock_route, "SymbolicSignal": mock_signal, "DiagnosticSignalType": mock_diagnostic}
+        yield {
+            "route_signal": mock_route,
+            "SymbolicSignal": mock_signal,
+            "DiagnosticSignalType": mock_diagnostic,
+        }
 
 
 @pytest.fixture

@@ -23,7 +23,9 @@ class IntegrationConfig:
 
     def __post_init__(self):
         """Validate configuration."""
-        self.max_concurrent_operations = max(1, min(100, self.max_concurrent_operations))
+        self.max_concurrent_operations = max(
+            1, min(100, self.max_concurrent_operations)
+        )
         self.timeout_seconds = max(1, min(300, self.timeout_seconds))
         self.retry_attempts = max(0, min(10, self.retry_attempts))
 
@@ -73,7 +75,9 @@ class UnifiedIntegration:
             # Create console handler if not already exists
             if not logger.handlers:
                 handler = logging.StreamHandler()
-                formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+                formatter = logging.Formatter(
+                    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+                )
                 handler.setFormatter(formatter)
                 logger.addHandler(handler)
         else:
@@ -277,7 +281,9 @@ class UnifiedIntegration:
 
         return results
 
-    def create_data_pipeline(self, pipeline_config: dict[str, Any]) -> IntegrationResult:
+    def create_data_pipeline(
+        self, pipeline_config: dict[str, Any]
+    ) -> IntegrationResult:
         """
         Create a data processing pipeline.
 
@@ -288,7 +294,9 @@ class UnifiedIntegration:
             Integration result
         """
         try:
-            pipeline_id = pipeline_config.get("id", f"pipeline_{len(self.integration_handlers)}")
+            pipeline_id = pipeline_config.get(
+                "id", f"pipeline_{len(self.integration_handlers)}"
+            )
             steps = pipeline_config.get("steps", [])
 
             if not steps:
@@ -356,7 +364,9 @@ class UnifiedIntegration:
                 step_args = [current_data, *step_args]
 
                 # Execute step
-                step_result = self.invoke_component(step_component_id, step_method, step_args, step_kwargs)
+                step_result = self.invoke_component(
+                    step_component_id, step_method, step_args, step_kwargs
+                )
                 step_results.append(step_result)
 
                 if not step_result.success:
@@ -370,7 +380,9 @@ class UnifiedIntegration:
                     )
 
                 # Update current data for next step
-                current_data = step_result.result_data.get("method_result", current_data)
+                current_data = step_result.result_data.get(
+                    "method_result", current_data
+                )
 
             execution_time = (datetime.now() - start_time).total_seconds()
 
@@ -397,7 +409,9 @@ class UnifiedIntegration:
                 component_id=pipeline_id,
             )
 
-    def get_component_status(self, component_id: Optional[str] = None) -> dict[str, Any]:
+    def get_component_status(
+        self, component_id: Optional[str] = None
+    ) -> dict[str, Any]:
         """
         Get status information for components.
 
@@ -422,7 +436,9 @@ class UnifiedIntegration:
         else:
             return {
                 "total_components": len(self.components),
-                "active_components": sum(1 for c in self.components.values() if c["active"]),
+                "active_components": sum(
+                    1 for c in self.components.values() if c["active"]
+                ),
                 "components": {
                     cid: {
                         "active": info["active"],
@@ -441,14 +457,22 @@ class UnifiedIntegration:
             Metrics dictionary
         """
         total_operations = len(self.integration_history)
-        successful_operations = sum(1 for h in self.integration_history if h["result"].success)
+        successful_operations = sum(
+            1 for h in self.integration_history if h["result"].success
+        )
 
         return {
             "total_components": len(self.components),
-            "active_components": sum(1 for c in self.components.values() if c["active"]),
+            "active_components": sum(
+                1 for c in self.components.values() if c["active"]
+            ),
             "total_operations": total_operations,
             "successful_operations": successful_operations,
-            "success_rate": (successful_operations / total_operations if total_operations > 0 else 0.0),
+            "success_rate": (
+                successful_operations / total_operations
+                if total_operations > 0
+                else 0.0
+            ),
             "active_pipelines": len(self.integration_handlers),
             "config": {
                 "max_concurrent_operations": self.config.max_concurrent_operations,

@@ -74,9 +74,7 @@ TRAIT PROFILES:
     for r in reflections[-5:]:
         prompt += f"\n[{r['timestamp']}] {r['text'][:200]}..."
 
-    prompt += (
-        "\n\nPlease respond with 3 sections:\n(1) Core Identity\n(2) Divergences & Advice\n(3) Unified Self-Narrative"
-    )
+    prompt += "\n\nPlease respond with 3 sections:\n(1) Core Identity\n(2) Divergences & Advice\n(3) Unified Self-Narrative"
     return prompt
 
 

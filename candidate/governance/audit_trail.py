@@ -90,7 +90,11 @@ class AuditEntry:
         """Compute SHA-256 checksum for integrity verification"""
         # Create deterministic representation
         # Handle both enum and string types for decision_type
-        decision_type_value = self.decision_type.value if hasattr(self.decision_type, "value") else self.decision_type
+        decision_type_value = (
+            self.decision_type.value
+            if hasattr(self.decision_type, "value")
+            else self.decision_type
+        )
         data = {
             "audit_id": self.audit_id,
             "timestamp": self.timestamp,
@@ -193,11 +197,19 @@ class AuditTrail:
         )
 
         # Create indexes for efficient queries
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_timestamp ON audit_entries(timestamp)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_session ON audit_entries(session_id)")
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_timestamp ON audit_entries(timestamp)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_session ON audit_entries(session_id)"
+        )
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_user ON audit_entries(user_id)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_type ON audit_entries(decision_type)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_parent ON audit_entries(parent_id)")
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_type ON audit_entries(decision_type)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_parent ON audit_entries(parent_id)"
+        )
 
         # Explanations table
         cursor.execute(
@@ -346,11 +358,17 @@ class AuditTrail:
 
         # Human explanation
         if entry.decision_type == DecisionType.RESPONSE:
-            explanations["human"] = f"Generated response based on user input with {entry.confidence:.0%} confidence."
+            explanations["human"] = (
+                f"Generated response based on user input with {entry.confidence:.0%} confidence."
+            )
             if entry.signals:
-                active_signals = [f"{k}: {v:.1f}" for k, v in entry.signals.items() if v > 0.3]
+                active_signals = [
+                    f"{k}: {v:.1f}" for k, v in entry.signals.items() if v > 0.3
+                ]
                 if active_signals:
-                    explanations["human"] += f" System state: {', '.join(active_signals)}."
+                    explanations[
+                        "human"
+                    ] += f" System state: {', '.join(active_signals)}."
 
         elif entry.decision_type == DecisionType.SAFETY:
             explanations["human"] = f"Safety intervention: {entry.decision}"
@@ -517,7 +535,9 @@ class AuditTrail:
             if entry:
                 self._generate_explanation(entry)
                 # Retry
-                cursor.execute("SELECT * FROM explanations WHERE audit_id = ?", (audit_id,))
+                cursor.execute(
+                    "SELECT * FROM explanations WHERE audit_id = ?", (audit_id,)
+                )
                 row = cursor.fetchone()
                 if row:
                     explanation = {
@@ -658,7 +678,9 @@ class AuditTrail:
         by_type = {row[0]: row[1] for row in cursor.fetchall()}
 
         # Average confidence
-        cursor.execute(f"SELECT AVG(confidence) FROM audit_entries WHERE {where}", params)
+        cursor.execute(
+            f"SELECT AVG(confidence) FROM audit_entries WHERE {where}", params
+        )
         avg_conf = cursor.fetchone()[0] or 0.0
 
         # Safety interventions

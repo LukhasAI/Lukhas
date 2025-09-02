@@ -190,7 +190,9 @@ class APIAnalyzer:
                     # Check for FastAPI decorators
                     for decorator in node.decorator_list:
                         if isinstance(decorator, ast.Call):
-                            endpoint = await self._parse_fastapi_decorator(node, decorator, content)
+                            endpoint = await self._parse_fastapi_decorator(
+                                node, decorator, content
+                            )
                             if endpoint:
                                 endpoints.append(endpoint)
 
@@ -208,7 +210,9 @@ class APIAnalyzer:
         method = None
         path = None
 
-        if isinstance(decorator.func, ast.Attribute) and hasattr(decorator.func, "attr"):
+        if isinstance(decorator.func, ast.Attribute) and hasattr(
+            decorator.func, "attr"
+        ):
             method_name = decorator.func.attr.upper()
             if method_name in [m.value for m in HTTPMethod]:
                 method = HTTPMethod(method_name)
@@ -224,7 +228,9 @@ class APIAnalyzer:
 
         # Extract function information
         summary = func_node.name.replace("_", " ").title()
-        description = ast.get_docstring(func_node) or f"API endpoint: {method.value} {path}"
+        description = (
+            ast.get_docstring(func_node) or f"API endpoint: {method.value} {path}"
+        )
 
         # Extract parameters from function signature
         parameters = await self._extract_fastapi_parameters(func_node)
@@ -245,7 +251,9 @@ class APIAnalyzer:
 
         return endpoint
 
-    async def _extract_fastapi_parameters(self, func_node: ast.FunctionDef) -> list[APIParameter]:
+    async def _extract_fastapi_parameters(
+        self, func_node: ast.FunctionDef
+    ) -> list[APIParameter]:
         """Extract parameters from FastAPI function"""
 
         parameters = []
@@ -296,12 +304,18 @@ class APIAnalyzer:
             content = f.read()
 
         # Look for Flask route decorators
-        route_pattern = r"@app\.route\([\'\"](.*?)[\'\"](?:,\s*methods\s*=\s*\[(.*?)\])?\)"
+        route_pattern = (
+            r"@app\.route\([\'\"](.*?)[\'\"](?:,\s*methods\s*=\s*\[(.*?)\])?\)"
+        )
         routes = re.findall(route_pattern, content)
 
         for route_info in routes:
             path = route_info[0]
-            methods = route_info[1].replace("'", "").replace('"', "").split(",") if route_info[1] else ["GET"]
+            methods = (
+                route_info[1].replace("'", "").replace('"', "").split(",")
+                if route_info[1]
+                else ["GET"]
+            )
 
             for method_str in methods:
                 method_str = method_str.strip().upper()
@@ -357,7 +371,9 @@ class APIAnalyzer:
                     summary=match.replace("_", " ").title(),
                     description=f"Generic API endpoint: {method} /{match}",
                     parameters=[],
-                    responses=await self._generate_default_responses(HTTPMethod(method)),
+                    responses=await self._generate_default_responses(
+                        HTTPMethod(method)
+                    ),
                     authentication=AuthenticationType.BEARER_TOKEN,
                     tags=["generic"],
                 )
@@ -365,7 +381,9 @@ class APIAnalyzer:
 
         return endpoints
 
-    async def _generate_default_responses(self, method: HTTPMethod) -> list[APIResponse]:
+    async def _generate_default_responses(
+        self, method: HTTPMethod
+    ) -> list[APIResponse]:
         """Generate default responses for HTTP method"""
 
         responses = []
@@ -379,7 +397,9 @@ class APIAnalyzer:
                         {},
                         [{"message": "Success"}],
                     ),
-                    APIResponse(404, "Resource not found", {}, [{"error": "Not found"}]),
+                    APIResponse(
+                        404, "Resource not found", {}, [{"error": "Not found"}]
+                    ),
                 ]
             )
         elif method == HTTPMethod.POST:
@@ -398,14 +418,18 @@ class APIAnalyzer:
             responses.extend(
                 [
                     APIResponse(200, "Resource updated", {}, [{"message": "Updated"}]),
-                    APIResponse(404, "Resource not found", {}, [{"error": "Not found"}]),
+                    APIResponse(
+                        404, "Resource not found", {}, [{"error": "Not found"}]
+                    ),
                 ]
             )
         elif method == HTTPMethod.DELETE:
             responses.extend(
                 [
                     APIResponse(204, "Resource deleted", {}, []),
-                    APIResponse(404, "Resource not found", {}, [{"error": "Not found"}]),
+                    APIResponse(
+                        404, "Resource not found", {}, [{"error": "Not found"}]
+                    ),
                 ]
             )
 
@@ -646,7 +670,9 @@ class APIDocumentationGenerator:
             "certifications": ["EU AI Act Compliance", "GDPR Certification"],
         }
 
-    async def _generate_output_files(self, documentation: APIDocumentation, output_format: str):
+    async def _generate_output_files(
+        self, documentation: APIDocumentation, output_format: str
+    ):
         """Generate output files in specified format"""
 
         output_dir = Path("docs/generated/api")
@@ -661,7 +687,9 @@ class APIDocumentationGenerator:
         elif output_format == "html":
             await self._generate_html_docs(documentation, output_dir)
 
-    async def _generate_openapi_spec(self, documentation: APIDocumentation, output_dir: Path):
+    async def _generate_openapi_spec(
+        self, documentation: APIDocumentation, output_dir: Path
+    ):
         """Generate OpenAPI 3.0 specification"""
 
         openapi_spec = {
@@ -711,7 +739,8 @@ class APIDocumentationGenerator:
                             {
                                 "application/json": {
                                     "examples": {
-                                        f"example_{i}": {"value": ex} for i, ex in enumerate(response.examples)
+                                        f"example_{i}": {"value": ex}
+                                        for i, ex in enumerate(response.examples)
                                     }
                                 }
                             }
@@ -726,7 +755,9 @@ class APIDocumentationGenerator:
             if endpoint.authentication != AuthenticationType.NONE:
                 operation["security"] = [{"bearer_token": []}]
 
-            openapi_spec["paths"][endpoint.path][endpoint.method.value.lower()] = operation
+            openapi_spec["paths"][endpoint.path][
+                endpoint.method.value.lower()
+            ] = operation
 
         # Write OpenAPI spec
         spec_file = output_dir / "openapi.json"
@@ -735,7 +766,9 @@ class APIDocumentationGenerator:
 
         print(f"   📄 Generated OpenAPI spec: {spec_file}")
 
-    async def _generate_postman_collection(self, documentation: APIDocumentation, output_dir: Path):
+    async def _generate_postman_collection(
+        self, documentation: APIDocumentation, output_dir: Path
+    ):
         """Generate Postman collection"""
 
         collection = {
@@ -798,7 +831,9 @@ class APIDocumentationGenerator:
 
         print(f"   📮 Generated Postman collection: {collection_file}")
 
-    async def _generate_markdown_docs(self, documentation: APIDocumentation, output_dir: Path):
+    async def _generate_markdown_docs(
+        self, documentation: APIDocumentation, output_dir: Path
+    ):
         """Generate Markdown API documentation"""
 
         content = f"""# {documentation.title}
@@ -862,7 +897,9 @@ class APIDocumentationGenerator:
 
         print(f"   📝 Generated Markdown docs: {markdown_file}")
 
-    async def _generate_html_docs(self, documentation: APIDocumentation, output_dir: Path):
+    async def _generate_html_docs(
+        self, documentation: APIDocumentation, output_dir: Path
+    ):
         """Generate HTML API documentation"""
 
         html_content = f"""
@@ -926,9 +963,7 @@ class APIDocumentationGenerator:
         <ul>
 """
             for response in endpoint.responses:
-                html_content += (
-                    f"            <li><strong>{response.status_code}:</strong> {response.description}</li>\n"
-                )
+                html_content += f"            <li><strong>{response.status_code}:</strong> {response.description}</li>\n"
 
             html_content += "        </ul>\n    </div>\n"
 

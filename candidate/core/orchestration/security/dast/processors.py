@@ -94,7 +94,9 @@ class TaskProcessor:
         highest_score = 0.0
 
         for template_name, template in self.task_templates.items():
-            score = self._calculate_template_match_score(combined_text, template["pattern"])
+            score = self._calculate_template_match_score(
+                combined_text, template["pattern"]
+            )
             if score > highest_score and score > 0.3:  # Minimum threshold
                 highest_score = score
                 best_match = {
@@ -143,13 +145,17 @@ class TaskProcessor:
         # Intelligent tag suggestions
         suggested_tags = self._ai_suggest_tags(task_data)
         current_tags = set(task_data.get("tags", []))
-        enhancements["suggested_additional_tags"] = list(set(suggested_tags) - current_tags)
+        enhancements["suggested_additional_tags"] = list(
+            set(suggested_tags) - current_tags
+        )
 
         # Risk assessment
         enhancements["risk_assessment"] = self._ai_assess_risks(task_data)
 
         # Success criteria suggestions
-        enhancements["suggested_success_criteria"] = self._ai_suggest_success_criteria(task_data)
+        enhancements["suggested_success_criteria"] = self._ai_suggest_success_criteria(
+            task_data
+        )
 
         # AI confidence score
         enhancements["ai_confidence"] = 0.85  # Would be calculated by actual AI models
@@ -163,7 +169,9 @@ class TaskProcessor:
         # Complexity indicators
         if any(word in description for word in ["quick", "simple", "minor"]):
             return 30
-        elif any(word in description for word in ["refactor", "redesign", "architecture"]):
+        elif any(
+            word in description for word in ["refactor", "redesign", "architecture"]
+        ):
             return 480
         elif any(word in description for word in ["complex", "major", "system"]):
             return 360
@@ -248,7 +256,9 @@ class TaskProcessor:
 
         # Dependency risk
         if task_data.get("dependencies", []):
-            risks["dependency_risk"] = "high" if len(task_data["dependencies"]) > 2 else "medium"
+            risks["dependency_risk"] = (
+                "high" if len(task_data["dependencies"]) > 2 else "medium"
+            )
 
         return risks
 
@@ -298,7 +308,9 @@ class TagProcessor:
             "team": ["engineering", "design", "product", "qa", "devops"],
         }
 
-    def process_tags(self, tags: list[str], context: Optional[dict] = None) -> dict[str, Any]:
+    def process_tags(
+        self, tags: list[str], context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Process and enhance tags with intelligent categorization"""
         processed = {
             "original_tags": tags,
@@ -340,7 +352,9 @@ class TagProcessor:
 
         return normalized
 
-    def _suggest_additional_tags(self, current_tags: list[str], context: dict) -> list[str]:
+    def _suggest_additional_tags(
+        self, current_tags: list[str], context: dict
+    ) -> list[str]:
         """Suggest additional relevant tags"""
         suggestions = []
         current_set = {tag.lower() for tag in current_tags}
@@ -351,11 +365,17 @@ class TagProcessor:
             if "frontend" in repo_name or "ui" in repo_name:
                 if "frontend" not in current_set:
                     suggestions.append("frontend")
-            elif ("api" in repo_name or "backend" in repo_name) and "backend" not in current_set:
+            elif (
+                "api" in repo_name or "backend" in repo_name
+            ) and "backend" not in current_set:
                 suggestions.append("backend")
 
         # Tag combination suggestions
-        if "bug" in current_set and "critical" not in current_set and "high" not in current_set:
+        if (
+            "bug" in current_set
+            and "critical" not in current_set
+            and "high" not in current_set
+        ):
             suggestions.append("high")
         if "feature" in current_set and "testing" not in current_set:
             suggestions.append("testing")
@@ -367,7 +387,11 @@ class TagProcessor:
         categorized = {}
 
         for category, category_tags in self.tag_hierarchy.items():
-            matching_tags = [tag for tag in tags if tag.lower() in [ct.lower() for ct in category_tags]]
+            matching_tags = [
+                tag
+                for tag in tags
+                if tag.lower() in [ct.lower() for ct in category_tags]
+            ]
             if matching_tags:
                 categorized[category] = matching_tags
 
@@ -376,7 +400,9 @@ class TagProcessor:
         for category_tags in self.tag_hierarchy.values():
             all_hierarchical_tags.update(tag.lower() for tag in category_tags)
 
-        uncategorized = [tag for tag in tags if tag.lower() not in all_hierarchical_tags]
+        uncategorized = [
+            tag for tag in tags if tag.lower() not in all_hierarchical_tags
+        ]
         if uncategorized:
             categorized["custom"] = uncategorized
 
@@ -388,7 +414,9 @@ class TagProcessor:
         tags_lower = [tag.lower() for tag in tags]
 
         # Priority conflicts
-        priority_tags = [tag for tag in tags_lower if tag in ["critical", "high", "medium", "low"]]
+        priority_tags = [
+            tag for tag in tags_lower if tag in ["critical", "high", "medium", "low"]
+        ]
         if len(priority_tags) > 1:
             conflicts.append(
                 {
@@ -399,7 +427,11 @@ class TagProcessor:
             )
 
         # Status conflicts
-        status_tags = [tag for tag in tags_lower if tag in ["new", "in-progress", "review", "testing", "done"]]
+        status_tags = [
+            tag
+            for tag in tags_lower
+            if tag in ["new", "in-progress", "review", "testing", "done"]
+        ]
         if len(status_tags) > 1:
             conflicts.append(
                 {
@@ -455,7 +487,9 @@ class AttentionProcessor:
         self.attention_patterns: dict[str, Any] = {}
         self.focus_sessions: list[dict] = []
 
-    def process_attention_request(self, request: str, context: Optional[dict] = None) -> dict[str, Any]:
+    def process_attention_request(
+        self, request: str, context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Process attention/focus requests with AI optimization"""
         attention_analysis = {
             "focus_type": self._classify_focus_type(request),
@@ -471,13 +505,19 @@ class AttentionProcessor:
         """Classify the type of focus needed"""
         request_lower = request.lower()
 
-        if any(word in request_lower for word in ["deep", "complex", "thinking", "design"]):
+        if any(
+            word in request_lower for word in ["deep", "complex", "thinking", "design"]
+        ):
             return "deep_work"
-        elif any(word in request_lower for word in ["quick", "small", "minor", "simple"]):
+        elif any(
+            word in request_lower for word in ["quick", "small", "minor", "simple"]
+        ):
             return "quick_tasks"
         elif any(word in request_lower for word in ["review", "check", "verify"]):
             return "review_mode"
-        elif any(word in request_lower for word in ["creative", "brainstorm", "ideate"]):
+        elif any(
+            word in request_lower for word in ["creative", "brainstorm", "ideate"]
+        ):
             return "creative_mode"
         else:
             return "standard_focus"
@@ -556,7 +596,9 @@ class SolutionProcessor:
         self.solution_database: dict[str, Any] = {}
         self.pattern_library: dict[str, list[dict]] = {}
 
-    def process_solution(self, problem: str, solution: str, context: Optional[dict] = None) -> dict[str, Any]:
+    def process_solution(
+        self, problem: str, solution: str, context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Process and store solution with intelligent categorization"""
         solution_record = {
             "problem": problem,
@@ -646,8 +688,12 @@ class SolutionProcessor:
             self.pattern_library[category].append(
                 {
                     "solution_id": solution_record["solution_id"],
-                    "problem_pattern": self._extract_problem_pattern(solution_record["problem"]),
-                    "solution_pattern": self._extract_solution_pattern(solution_record["solution"]),
+                    "problem_pattern": self._extract_problem_pattern(
+                        solution_record["problem"]
+                    ),
+                    "solution_pattern": self._extract_solution_pattern(
+                        solution_record["solution"]
+                    ),
                 }
             )
 

@@ -31,7 +31,9 @@ class LukhasServiceServicer:
             "orchestration": True,
         }
 
-    def Process(self, request: lukhas_pb2.ProcessRequest, context) -> lukhas_pb2.ProcessResponse:
+    def Process(
+        self, request: lukhas_pb2.ProcessRequest, context
+    ) -> lukhas_pb2.ProcessResponse:
         """Process a single request"""
         try:
             # Basic processing logic
@@ -66,7 +68,9 @@ class LukhasServiceServicer:
                 context.set_details(f"Internal processing error: {e!s}")
             return lukhas_pb2.ProcessResponse()
 
-    def StreamProcess(self, request_iterator, context) -> Iterator[lukhas_pb2.ProcessResponse]:
+    def StreamProcess(
+        self, request_iterator, context
+    ) -> Iterator[lukhas_pb2.ProcessResponse]:
         """Process a stream of requests"""
         for request in request_iterator:
             try:
@@ -79,7 +83,9 @@ class LukhasServiceServicer:
                     context.set_details(f"Stream processing error: {e!s}")
                 return
 
-    def CheckHealth(self, request: lukhas_pb2.HealthRequest, context) -> lukhas_pb2.HealthResponse:
+    def CheckHealth(
+        self, request: lukhas_pb2.HealthRequest, context
+    ) -> lukhas_pb2.HealthResponse:
         """Health check endpoint"""
         try:
             response = lukhas_pb2.HealthResponse()
@@ -104,7 +110,9 @@ class AwarenessServiceServicer:
     def __init__(self, awareness_engine=None):
         self.awareness_engine = awareness_engine
 
-    def AssessAwareness(self, request: lukhas_pb2.AwarenessRequest, context) -> lukhas_pb2.AwarenessResponse:
+    def AssessAwareness(
+        self, request: lukhas_pb2.AwarenessRequest, context
+    ) -> lukhas_pb2.AwarenessResponse:
         """Assess user awareness and assign tier"""
         try:
             response = lukhas_pb2.AwarenessResponse()
@@ -184,7 +192,9 @@ class IntelligenceRegistryServicer:
                 context.set_details(f"Engine registration error: {e!s}")
             return lukhas_pb2.EngineRegistrationResponse()
 
-    def QueryEngines(self, request: lukhas_pb2.EngineQueryRequest, context) -> lukhas_pb2.EngineQueryResponse:
+    def QueryEngines(
+        self, request: lukhas_pb2.EngineQueryRequest, context
+    ) -> lukhas_pb2.EngineQueryResponse:
         """Query available intelligence engines"""
         try:
             response = lukhas_pb2.EngineQueryResponse()
@@ -194,7 +204,9 @@ class IntelligenceRegistryServicer:
                 # Apply filters
                 if request.capability_filter:
                     capabilities = engine_data["capabilities"]
-                    if not any(cap in capabilities for cap in request.capability_filter):
+                    if not any(
+                        cap in capabilities for cap in request.capability_filter
+                    ):
                         continue
 
                 if request.engine_type_filter:
@@ -203,7 +215,10 @@ class IntelligenceRegistryServicer:
 
                 if request.availability_only:
                     # Check if engine is available (placeholder logic)
-                    engine_available = engine_id in self.engine_health and self.engine_health[engine_id]
+                    engine_available = (
+                        engine_id in self.engine_health
+                        and self.engine_health[engine_id]
+                    )
                     if not engine_available:
                         continue
 
@@ -275,7 +290,9 @@ def add_AwarenessServiceServicer_to_server(servicer: AwarenessServiceServicer, s
         logger.error(f"Error adding awareness servicer to server: {e}")
 
 
-def add_IntelligenceRegistryServicer_to_server(servicer: IntelligenceRegistryServicer, server):
+def add_IntelligenceRegistryServicer_to_server(
+    servicer: IntelligenceRegistryServicer, server
+):
     """Add the Intelligence Registry service to a gRPC server"""
     try:
         if hasattr(server, "_servicers"):

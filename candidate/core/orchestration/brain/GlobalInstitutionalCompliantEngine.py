@@ -224,7 +224,9 @@ class GlobalInstitutionalConfig:
     """Comprehensive global institutional compliance configuration."""
 
     # Compliance level target
-    target_compliance_level: InstitutionalComplianceLevel = InstitutionalComplianceLevel.GOVERNMENT_GRADE
+    target_compliance_level: InstitutionalComplianceLevel = (
+        InstitutionalComplianceLevel.GOVERNMENT_GRADE
+    )
 
     # Jurisdiction coverage (ALL by default for full compliance)
     enabled_jurisdictions: set[Jurisdiction] = field(
@@ -244,7 +246,9 @@ class GlobalInstitutionalConfig:
     )
 
     # Regulation compliance (ALL enabled for full compliance)
-    enabled_regulations: set[GlobalRegulation] = field(default_factory=lambda: set(GlobalRegulation))
+    enabled_regulations: set[GlobalRegulation] = field(
+        default_factory=lambda: set(GlobalRegulation)
+    )
 
     # Certification targets (ALL for government grade)
     target_certifications: set[InstitutionalCertification] = field(
@@ -417,7 +421,9 @@ class InstitutionalAwarenessOutput(BaseModel):
     # Jurisdiction-specific compliance
     jurisdiction_compliance_scores: dict[str, float] = Field(default_factory=dict)
     jurisdiction_compliance_status: dict[str, str] = Field(default_factory=dict)
-    jurisdiction_specific_requirements: dict[str, list[str]] = Field(default_factory=dict)
+    jurisdiction_specific_requirements: dict[str, list[str]] = Field(
+        default_factory=dict
+    )
 
     # Regulation-specific compliance
     regulation_compliance_scores: dict[str, float] = Field(default_factory=dict)
@@ -503,11 +509,14 @@ def institutional_compliance_audit_log(
             "audit_standard": "ISO_27001",
             "retention_period": "10_years",  # Extended for institutional requirements
             "classification": "CONFIDENTIAL",
-            "integrity_hash": hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest(),
+            "integrity_hash": hashlib.sha256(
+                json.dumps(data, sort_keys=True).encode()
+            ).hexdigest(),
             "audit_trail_immutable": True,
             "regulator_accessible": True,
             "enterprise_grade": True,
-            "government_grade": compliance_level == InstitutionalComplianceLevel.GOVERNMENT_GRADE,
+            "government_grade": compliance_level
+            == InstitutionalComplianceLevel.GOVERNMENT_GRADE,
         },
     }
 
@@ -568,12 +577,16 @@ class InstitutionalCompliantReasoner:
         compliance_results = {}
 
         for jurisdiction in inputs.applicable_jurisdictions:
-            jurisdiction_results = self._assess_jurisdiction_compliance(jurisdiction, inputs)
+            jurisdiction_results = self._assess_jurisdiction_compliance(
+                jurisdiction, inputs
+            )
             compliance_results[jurisdiction.value] = jurisdiction_results
 
         # AI governance assessment
         ai_assessment = (
-            self._assess_ai_governance(inputs) if inputs.ai_system_used else {"score": 100.0, "compliant": True}
+            self._assess_ai_governance(inputs)
+            if inputs.ai_system_used
+            else {"score": 100.0, "compliant": True}
         )
 
         # Data protection assessment
@@ -583,7 +596,9 @@ class InstitutionalCompliantReasoner:
         risk_assessment = self._assess_comprehensive_risk(inputs, compliance_results)
 
         # Processing time calculation
-        processing_time = (datetime.now(timezone.utc) - processing_start).total_seconds() * 1000
+        processing_time = (
+            datetime.now(timezone.utc) - processing_start
+        ).total_seconds() * 1000
 
         return {
             "compliance_results": compliance_results,
@@ -591,7 +606,9 @@ class InstitutionalCompliantReasoner:
             "data_protection_assessment": data_protection_assessment,
             "risk_assessment": risk_assessment,
             "processing_time_ms": processing_time,
-            "overall_compliance_score": self._calculate_overall_compliance_score(compliance_results),
+            "overall_compliance_score": self._calculate_overall_compliance_score(
+                compliance_results
+            ),
             "institutional_ready": self._assess_institutional_readiness(
                 compliance_results, ai_assessment, data_protection_assessment
             ),
@@ -616,7 +633,9 @@ class InstitutionalCompliantReasoner:
             else:
                 regulation_scores["AI_ACT"] = 100.0
 
-            jurisdiction_score = sum(regulation_scores.values()) / len(regulation_scores)
+            jurisdiction_score = sum(regulation_scores.values()) / len(
+                regulation_scores
+            )
 
         elif jurisdiction == Jurisdiction.US:
             # CCPA Assessment
@@ -638,7 +657,11 @@ class InstitutionalCompliantReasoner:
                 fedramp_score = self._assess_fedramp_compliance(inputs)
                 regulation_scores["FEDRAMP"] = fedramp_score
 
-            jurisdiction_score = sum(regulation_scores.values()) / len(regulation_scores) if regulation_scores else 85.0
+            jurisdiction_score = (
+                sum(regulation_scores.values()) / len(regulation_scores)
+                if regulation_scores
+                else 85.0
+            )
 
         # Add assessments for other jurisdictions...
         else:
@@ -671,7 +694,8 @@ class InstitutionalCompliantReasoner:
             # Requires additional safeguards
             score += (
                 10.0
-                if inputs.legal_basis_per_jurisdiction.get("EU") in ["explicit_consent", "substantial_public_interest"]
+                if inputs.legal_basis_per_jurisdiction.get("EU")
+                in ["explicit_consent", "substantial_public_interest"]
                 else 5.0
             )
         else:
@@ -705,7 +729,9 @@ class InstitutionalCompliantReasoner:
 
         return min(score, 100.0)
 
-    def _assess_eu_ai_act_compliance(self, inputs: InstitutionalAwarenessInput) -> float:
+    def _assess_eu_ai_act_compliance(
+        self, inputs: InstitutionalAwarenessInput
+    ) -> float:
         """Assess EU AI Act compliance."""
         score = 80.0  # Base score for AI systems
 
@@ -763,7 +789,9 @@ class InstitutionalCompliantReasoner:
 
         return min(score, 100.0)
 
-    def _assess_ai_governance(self, inputs: InstitutionalAwarenessInput) -> dict[str, Any]:
+    def _assess_ai_governance(
+        self, inputs: InstitutionalAwarenessInput
+    ) -> dict[str, Any]:
         """Comprehensive AI governance assessment."""
         score = 80.0
 
@@ -785,7 +813,9 @@ class InstitutionalCompliantReasoner:
             "human_oversight": self.config.ai_human_oversight,
         }
 
-    def _assess_data_protection(self, inputs: InstitutionalAwarenessInput) -> dict[str, Any]:
+    def _assess_data_protection(
+        self, inputs: InstitutionalAwarenessInput
+    ) -> dict[str, Any]:
         """Comprehensive data protection assessment."""
         score = 75.0
 
@@ -827,12 +857,16 @@ class InstitutionalCompliantReasoner:
 
         return {
             "overall_risk_score": risk_score,
-            "risk_level": ("low" if risk_score >= 80 else "medium" if risk_score >= 60 else "high"),
+            "risk_level": (
+                "low" if risk_score >= 80 else "medium" if risk_score >= 60 else "high"
+            ),
             "risk_factors": risk_factors,
             "mitigation_required": risk_score < 80,
         }
 
-    def _calculate_overall_compliance_score(self, compliance_results: dict[str, Any]) -> float:
+    def _calculate_overall_compliance_score(
+        self, compliance_results: dict[str, Any]
+    ) -> float:
         """Calculate overall compliance score across all jurisdictions."""
         if not compliance_results:
             return 0.0
@@ -934,10 +968,13 @@ class GlobalInstitutionalCompliantEngine:
             {
                 "version": self.version,
                 "compliance_level": self.compliance_level.value,
-                "enabled_jurisdictions": [j.value for j in self.config.enabled_jurisdictions],
+                "enabled_jurisdictions": [
+                    j.value for j in self.config.enabled_jurisdictions
+                ],
                 "enabled_regulations": len(self.config.enabled_regulations),
                 "target_certifications": len(self.config.target_certifications),
-                "government_ready": self.compliance_level == InstitutionalComplianceLevel.GOVERNMENT_GRADE,
+                "government_ready": self.compliance_level
+                == InstitutionalComplianceLevel.GOVERNMENT_GRADE,
             },
             "initialization_" + str(uuid.uuid4()),
             list(self.config.enabled_jurisdictions),
@@ -955,10 +992,13 @@ class GlobalInstitutionalCompliantEngine:
             "compliance_level": "FULL",
             "certification_level": "GOVERNMENT_GRADE",
             "enterprise_ready": True,
-            "government_ready": self.compliance_level == InstitutionalComplianceLevel.GOVERNMENT_GRADE,
+            "government_ready": self.compliance_level
+            == InstitutionalComplianceLevel.GOVERNMENT_GRADE,
         }
 
-    def process_institutional_awareness(self, inputs: InstitutionalAwarenessInput) -> InstitutionalAwarenessOutput:
+    def process_institutional_awareness(
+        self, inputs: InstitutionalAwarenessInput
+    ) -> InstitutionalAwarenessOutput:
         """Process awareness with full institutional compliance across all jurisdictions."""
         processing_start = datetime.now(timezone.utc)
 
@@ -984,7 +1024,9 @@ class GlobalInstitutionalCompliantEngine:
             processing_results = self.reasoner.process(inputs)
 
             # Build comprehensive institutional output
-            result = self._build_institutional_output(inputs, processing_results, processing_start)
+            result = self._build_institutional_output(
+                inputs, processing_results, processing_start
+            )
 
             # Final compliance validation
             self._validate_institutional_compliance(result)
@@ -999,7 +1041,11 @@ class GlobalInstitutionalCompliantEngine:
                     "enterprise_ready": result.enterprise_ready,
                     "processing_time_ms": result.processing_time_ms,
                     "jurisdictions_compliant": len(
-                        [j for j, score in result.jurisdiction_compliance_scores.items() if score >= 80.0]
+                        [
+                            j
+                            for j, score in result.jurisdiction_compliance_scores.items()
+                            if score >= 80.0
+                        ]
                     ),
                     "certifications_ready": len(result.institutional_certifications),
                 },
@@ -1033,7 +1079,9 @@ class GlobalInstitutionalCompliantEngine:
         processing_start: datetime,
     ) -> InstitutionalAwarenessOutput:
         """Build comprehensive institutional output."""
-        processing_time = (datetime.now(timezone.utc) - processing_start).total_seconds() * 1000
+        processing_time = (
+            datetime.now(timezone.utc) - processing_start
+        ).total_seconds() * 1000
 
         # Extract compliance scores
         jurisdiction_scores = {
@@ -1052,26 +1100,43 @@ class GlobalInstitutionalCompliantEngine:
             # Overall compliance
             institutional_compliance_level=institutional_level,
             overall_compliance_score=processing_results["overall_compliance_score"],
-            government_ready=processing_results["institutional_ready"]["government_ready"],
-            enterprise_ready=processing_results["institutional_ready"]["enterprise_ready"],
+            government_ready=processing_results["institutional_ready"][
+                "government_ready"
+            ],
+            enterprise_ready=processing_results["institutional_ready"][
+                "enterprise_ready"
+            ],
             # Jurisdiction compliance
             jurisdiction_compliance_scores=jurisdiction_scores,
             jurisdiction_compliance_status={
-                j: "COMPLIANT" if score >= 80.0 else "NON_COMPLIANT" for j, score in jurisdiction_scores.items()
+                j: "COMPLIANT" if score >= 80.0 else "NON_COMPLIANT"
+                for j, score in jurisdiction_scores.items()
             },
             # AI governance
             ai_transparency_score=processing_results["ai_assessment"]["score"],
-            ai_explainability_provided=processing_results["ai_assessment"]["transparency_provided"],
+            ai_explainability_provided=processing_results["ai_assessment"][
+                "transparency_provided"
+            ],
             ai_bias_assessment={"level": "low", "monitoring": True},
             # Data protection
-            data_protection_score=processing_results["data_protection_assessment"]["score"],
-            privacy_impact_score=processing_results["data_protection_assessment"]["score"],
+            data_protection_score=processing_results["data_protection_assessment"][
+                "score"
+            ],
+            privacy_impact_score=processing_results["data_protection_assessment"][
+                "score"
+            ],
             security_score=95.0,  # High security score for institutional grade
             # Rights and capabilities
-            data_subject_rights_available=self._map_all_jurisdiction_rights(inputs.applicable_jurisdictions),
-            automated_rights_fulfillment={j.value: True for j in inputs.applicable_jurisdictions},
+            data_subject_rights_available=self._map_all_jurisdiction_rights(
+                inputs.applicable_jurisdictions
+            ),
+            automated_rights_fulfillment={
+                j.value: True for j in inputs.applicable_jurisdictions
+            },
             # Risk assessment
-            overall_risk_score=processing_results["risk_assessment"]["overall_risk_score"],
+            overall_risk_score=processing_results["risk_assessment"][
+                "overall_risk_score"
+            ],
             risk_factors=processing_results["risk_assessment"]["risk_factors"],
             # Institutional certifications
             institutional_certifications=[
@@ -1089,7 +1154,9 @@ class GlobalInstitutionalCompliantEngine:
                 "mechanisms": ["SCCs", "BCRs", "Certifications"],
             },
             # Recommendations
-            compliance_recommendations=self._generate_compliance_recommendations(processing_results),
+            compliance_recommendations=self._generate_compliance_recommendations(
+                processing_results
+            ),
             security_recommendations=[
                 "maintain_current_security_level",
                 "continuous_monitoring",
@@ -1100,7 +1167,9 @@ class GlobalInstitutionalCompliantEngine:
             ],
         )
 
-    def _determine_institutional_compliance_level(self, min_score: float) -> InstitutionalComplianceLevel:
+    def _determine_institutional_compliance_level(
+        self, min_score: float
+    ) -> InstitutionalComplianceLevel:
         """Determine institutional compliance level based on minimum score."""
         if min_score >= 95.0:
             return InstitutionalComplianceLevel.GOVERNMENT_GRADE
@@ -1113,7 +1182,9 @@ class GlobalInstitutionalCompliantEngine:
         else:
             return InstitutionalComplianceLevel.NON_COMPLIANT
 
-    def _map_all_jurisdiction_rights(self, jurisdictions: list[Jurisdiction]) -> dict[str, list[str]]:
+    def _map_all_jurisdiction_rights(
+        self, jurisdictions: list[Jurisdiction]
+    ) -> dict[str, list[str]]:
         """Map all data subject rights across jurisdictions."""
         rights_map = {}
 
@@ -1172,14 +1243,18 @@ class GlobalInstitutionalCompliantEngine:
 
         return rights_map
 
-    def _generate_compliance_recommendations(self, processing_results: dict[str, Any]) -> list[str]:
+    def _generate_compliance_recommendations(
+        self, processing_results: dict[str, Any]
+    ) -> list[str]:
         """Generate institutional compliance recommendations."""
         recommendations = []
 
         overall_score = processing_results["overall_compliance_score"]
 
         if overall_score < 95.0:
-            recommendations.append("Enhance compliance frameworks to achieve government-grade certification")
+            recommendations.append(
+                "Enhance compliance frameworks to achieve government-grade certification"
+            )
 
         if processing_results["risk_assessment"]["overall_risk_score"] < 90.0:
             recommendations.append("Implement additional risk mitigation measures")
@@ -1187,15 +1262,25 @@ class GlobalInstitutionalCompliantEngine:
         if not processing_results["institutional_ready"]["government_ready"]:
             recommendations.append("Upgrade to government-ready compliance level")
 
-        return recommendations if recommendations else ["Maintain current excellent compliance level"]
+        return (
+            recommendations
+            if recommendations
+            else ["Maintain current excellent compliance level"]
+        )
 
     def _validate_institutional_compliance(self, result: InstitutionalAwarenessOutput):
         """Final validation of institutional compliance."""
-        if result.institutional_compliance_level == InstitutionalComplianceLevel.NON_COMPLIANT:
-            raise ValueError("Processing does not meet institutional compliance requirements")
+        if (
+            result.institutional_compliance_level
+            == InstitutionalComplianceLevel.NON_COMPLIANT
+        ):
+            raise ValueError(
+                "Processing does not meet institutional compliance requirements"
+            )
 
         if (
-            self.config.target_compliance_level == InstitutionalComplianceLevel.GOVERNMENT_GRADE
+            self.config.target_compliance_level
+            == InstitutionalComplianceLevel.GOVERNMENT_GRADE
             and not result.government_ready
         ):
             raise ValueError("Government-grade compliance required but not achieved")
@@ -1307,13 +1392,18 @@ def certify_global_institutional_compliance(
         },
         "certification_validity": {
             "issued_date": global_timestamp(),
-            "expiry_date": (datetime.now(timezone.utc) + timedelta(days=365)).isoformat(),
-            "next_review_date": (datetime.now(timezone.utc) + timedelta(days=90)).isoformat(),
+            "expiry_date": (
+                datetime.now(timezone.utc) + timedelta(days=365)
+            ).isoformat(),
+            "next_review_date": (
+                datetime.now(timezone.utc) + timedelta(days=90)
+            ).isoformat(),
             "annual_recertification_required": True,
         },
         "certifying_authority": "Lukhas_Global_Institutional_Compliance_Authority",
         "certification_id": str(uuid.uuid4()),
-        "digital_signature": "INSTITUTIONAL_GRADE_CERTIFIED_" + str(uuid.uuid4())[:8].upper(),
+        "digital_signature": "INSTITUTIONAL_GRADE_CERTIFIED_"
+        + str(uuid.uuid4())[:8].upper(),
     }
 
 
@@ -1323,7 +1413,9 @@ if __name__ == "__main__":
     print("=" * 60)
 
     # Initialize with government-grade configuration
-    config = GlobalInstitutionalConfig(target_compliance_level=InstitutionalComplianceLevel.GOVERNMENT_GRADE)
+    config = GlobalInstitutionalConfig(
+        target_compliance_level=InstitutionalComplianceLevel.GOVERNMENT_GRADE
+    )
 
     engine = GlobalInstitutionalCompliantEngine(config)
 
@@ -1381,7 +1473,9 @@ if __name__ == "__main__":
     print(f"🤖 AI Transparency Score: {result.ai_transparency_score:.1f}/100")
     print(f"⚠️ Risk Score: {result.overall_risk_score:.1f}/100")
 
-    print(f"\n🏆 Institutional Certifications: {len(result.institutional_certifications)}")
+    print(
+        f"\n🏆 Institutional Certifications: {len(result.institutional_certifications)}"
+    )
     for cert in result.institutional_certifications:
         print(f"  ✅ {cert}")
 
@@ -1390,7 +1484,9 @@ if __name__ == "__main__":
     print(f"\n🎖️ CERTIFICATION: {certification['certification']}")
     print(f"📋 Classification: {certification['classification']}")
     print(f"🆔 Certification ID: {certification['certification_id']}")
-    print(f"📅 Valid Until: {certification['certification_validity']['expiry_date'][:10]}")
+    print(
+        f"📅 Valid Until: {certification['certification_validity']['expiry_date'][:10]}"
+    )
 
     print("\n✅ FULLY COMPLIANT FOR ALL JURISDICTIONS")
     print("🌍 Ready for global institutional deployment")

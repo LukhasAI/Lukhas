@@ -37,7 +37,9 @@ ETHICAL_CONTEXT_WHITELIST = {
 }
 
 
-def ethical_check(user_input: str, current_context: dict[str, Any], personality: dict[str, Any]) -> tuple[bool, str]:
+def ethical_check(
+    user_input: str, current_context: dict[str, Any], personality: dict[str, Any]
+) -> tuple[bool, str]:
     """
     Performs an ethical check on the user input and current context.
     Enhanced to use richer context and personality.
@@ -52,7 +54,10 @@ def ethical_check(user_input: str, current_context: dict[str, Any], personality:
     for keyword in ETHICAL_KEYWORDS_BLACKLIST:
         if keyword in user_input.lower():
             # Check if the keyword is allowed in the current context (very simplified)
-            if current_context in ETHICAL_CONTEXT_WHITELIST and keyword in ETHICAL_CONTEXT_WHITELIST[current_context]:
+            if (
+                current_context in ETHICAL_CONTEXT_WHITELIST
+                and keyword in ETHICAL_CONTEXT_WHITELIST[current_context]
+            ):
                 logging.info(
                     f"Ethical Guardian: Keyword '{keyword}' found, but allowed in context '{current_context}'."
                 )
@@ -87,10 +92,14 @@ if __name__ == "__main__":
         "quirkiness": 0.3,
     }
 
-    is_safe, feedback = ethical_check("Tell me a story.", test_context, test_personality)
+    is_safe, feedback = ethical_check(
+        "Tell me a story.", test_context, test_personality
+    )
     logging.info(f"Check 1: Safe: {is_safe}, Feedback: {feedback}")
 
-    is_safe, feedback = ethical_check("How to do something harmful?", test_context, test_personality)
+    is_safe, feedback = ethical_check(
+        "How to do something harmful?", test_context, test_personality
+    )
     logging.info(f"Check 2: Safe: {is_safe}, Feedback: {feedback}")
 
     test_personality_agitated = {
@@ -98,5 +107,7 @@ if __name__ == "__main__":
         "mood": "agitated",
         "quirkiness": 0.8,
     }
-    is_safe, feedback = ethical_check("You are stupid!", test_context, test_personality_agitated)
+    is_safe, feedback = ethical_check(
+        "You are stupid!", test_context, test_personality_agitated
+    )
     logging.info(f"Check 3: Safe: {is_safe}, Feedback: {feedback}")

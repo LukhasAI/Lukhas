@@ -24,7 +24,11 @@ def persist_consensus_to_dna(
 
     # Optional privacy: encrypt personal payloads (placeholder toggle)
     value = c.decided_value
-    if is_enabled("dna_encrypt_personal") and isinstance(value, dict) and value.get("_personal"):
+    if (
+        is_enabled("dna_encrypt_personal")
+        and isinstance(value, dict)
+        and value.get("_personal")
+    ):
         value = {"_enc": True, "blob": "[ENCRYPTED]"}
 
     # Optional dual-write is caller-side by design; we only write to DNA here

@@ -60,7 +60,8 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
     props = get_widget_properties(widget_type)
 
     # NIAS filtering for ad permissions
-    from candidate.core.interfaces.as_agent.core.nias_filter import evaluate_ad_permission
+    from candidate.core.interfaces.as_agent.core.nias_filter import \
+        evaluate_ad_permission
 
     vendor_name = (
         context_data.get("vendor") if context_data else props.get("example_vendor")

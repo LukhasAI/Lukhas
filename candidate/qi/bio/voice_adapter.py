@@ -50,7 +50,9 @@ class VoiceBioAdapter:
         # This would be extended with actual voice modules
         logger.info("Voice adapter initialized with high-priority configuration")
 
-    def process_audio_chunk(self, audio_data: bytes, metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    def process_audio_chunk(
+        self, audio_data: bytes, metadata: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Process an audio chunk through the bio orchestrator.
 
@@ -82,7 +84,9 @@ class VoiceBioAdapter:
 
         if allocated_tasks:
             # Process through orchestrator
-            success, result = self.orchestrator.invoke_module("voice_processor", "process", audio_data, metadata)
+            success, result = self.orchestrator.invoke_module(
+                "voice_processor", "process", audio_data, metadata
+            )
 
             return {
                 "success": success,

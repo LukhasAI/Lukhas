@@ -46,9 +46,7 @@ from typing_extensions import Literal
 # If `_models.BaseModel` is part of a core LUKHAS framework library, an absolute import
 # (e.g., `from core_framework.core.models import BaseModel`) would be more robust.
 # ΛCAUTION: Fragile import path can lead to runtime errors and maintenance issues.
-from candidate.core.models import (
-    BaseModel,  # Assuming this path is correct within the project structure.
-)
+from candidate.core.models import BaseModel
 
 logger.info(
     "ΛTRACE: Initializing response_reasoning_summary_part_added_event.py module (Data Model Definition).",
@@ -76,7 +74,9 @@ class Part(BaseModel):
     # Human-readable comment: Fixed literal type for discriminating this model part.
 
 
-logger.debug("Part data model class (for summary part) defined.", class_name="Part")  # Removed manual ΛTRACE prefix
+logger.debug(
+    "Part data model class (for summary part) defined.", class_name="Part"
+)  # Removed manual ΛTRACE prefix
 
 
 # ΛNOTE: This class, `ResponseReasoningSummaryPartAddedEvent`, defines the symbolic structure

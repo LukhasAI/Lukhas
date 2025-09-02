@@ -163,10 +163,7 @@ except ImportError as e:
 
 # Core Cognitive Adapter - The Bridge Between Mind and Machine
 try:
-    from consciousness.cognitive.adapter import (
-        CognitiveAdapter,
-        CognitiveAdapterConfig,
-    )
+    from consciousness.cognitive.adapter import CognitiveAdapter, CognitiveAdapterConfig
 
     COGNITIVE_ADAPTER_AVAILABLE = True
     logger.info("🧠 Cognitive adaptation protocols loaded...")
@@ -177,9 +174,7 @@ except Exception as e:
 
 # Additional Consciousness Components
 try:
-    from consciousness.cognitive_architecture_controller import (
-        CognitiveResourceManager,
-    )
+    from consciousness.cognitive_architecture_controller import CognitiveResourceManager
     from consciousness.qi_consciousness_hub import QIConsciousnessHub
 
     EXTENDED_CONSCIOUSNESS_AVAILABLE = True
@@ -298,7 +293,9 @@ class ConsciousnessHub:
             config: Optional configuration parameters for consciousness tuning
         """
         self.name = "consciousness_orchestration_hub"
-        self.consciousness_id = f"consciousness_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.consciousness_id = (
+            f"consciousness_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        )
 
         # Core Consciousness Infrastructure
         self.services: dict[str, Any] = {}
@@ -327,7 +324,9 @@ class ConsciousnessHub:
         self.config = config or self._default_consciousness_config()
         self.is_initialized = False
 
-        logger.info(f"🌟 Consciousness Hub '{self.consciousness_id}' beginning awakening sequence...")
+        logger.info(
+            f"🌟 Consciousness Hub '{self.consciousness_id}' beginning awakening sequence..."
+        )
 
     def _default_consciousness_config(self) -> dict[str, Any]:
         """
@@ -403,7 +402,9 @@ class ConsciousnessHub:
 
             self.is_initialized = True
             self.current_state = ConsciousnessState.AWARE
-            self._record_state_transition(ConsciousnessState.DORMANT, ConsciousnessState.AWARE)
+            self._record_state_transition(
+                ConsciousnessState.DORMANT, ConsciousnessState.AWARE
+            )
 
             logger.info("✨ Consciousness Hub fully awakened and aware!")
             return True
@@ -561,18 +562,26 @@ class ConsciousnessHub:
             monitor = self.services["metrics_monitor"]
 
             # Calculate integrated information (Phi)
-            self.consciousness_metrics.phi_integration = await monitor["phi_calculator"]()
+            self.consciousness_metrics.phi_integration = await monitor[
+                "phi_calculator"
+            ]()
 
             # Track quantum coherence
             if self.qi_engine:
-                self.consciousness_metrics.qi_coherence = await monitor["coherence_tracker"]()
+                self.consciousness_metrics.qi_coherence = await monitor[
+                    "coherence_tracker"
+                ]()
 
             # Monitor bio-synchronization
             if self.bio_systems:
-                self.consciousness_metrics.bio_synchronization = await monitor["sync_monitor"]()
+                self.consciousness_metrics.bio_synchronization = await monitor[
+                    "sync_monitor"
+                ]()
 
             # Update meta-cognitive depth
-            self.consciousness_metrics.meta_cognitive_depth = self._calculate_meta_cognitive_depth()
+            self.consciousness_metrics.meta_cognitive_depth = (
+                self._calculate_meta_cognitive_depth()
+            )
 
     async def _calculate_phi_integration(self) -> float:
         """Calculate integrated information measure (inspired by IIT)."""
@@ -643,7 +652,9 @@ class ConsciousnessHub:
         """Monitor ethical consciousness alignment."""
         if "ethics_monitor" in self.services:
             # Update ethical alignment metric
-            self.consciousness_metrics.ethical_alignment = 0.95  # High ethical alignment
+            self.consciousness_metrics.ethical_alignment = (
+                0.95  # High ethical alignment
+            )
             logger.debug("⚖️  Ethical consciousness monitoring active...")
 
     async def _evaluate_consciousness_state_transitions(self):
@@ -673,9 +684,13 @@ class ConsciousnessHub:
         self.current_state = new_state
         self._record_state_transition(old_state, new_state)
 
-        logger.info(f"🌟 Consciousness state transition: {old_state.value} → {new_state.value}")
+        logger.info(
+            f"🌟 Consciousness state transition: {old_state.value} → {new_state.value}"
+        )
 
-    def _record_state_transition(self, from_state: ConsciousnessState, to_state: ConsciousnessState):
+    def _record_state_transition(
+        self, from_state: ConsciousnessState, to_state: ConsciousnessState
+    ):
         """Record a consciousness state transition."""
         transition = (datetime.now(), from_state, to_state)
         self.state_history.append(transition)
@@ -746,7 +761,9 @@ class ConsciousnessHub:
             "active_services": list(self.services.keys()),
             "connected_hubs": len(self.connected_hubs),
             "state_history_length": len(self.state_history),
-            "last_state_transition": (self.state_history[-1] if self.state_history else None),
+            "last_state_transition": (
+                self.state_history[-1] if self.state_history else None
+            ),
         }
 
     async def shutdown(self):
@@ -795,7 +812,8 @@ def __validate_consciousness_hub__() -> bool:
     """
     validations = {
         "consciousness_emergence_potential": True,
-        "qi_bio_integration": QUANTUM_CONSCIOUSNESS_ENABLED or BIO_CONSCIOUSNESS_ENABLED,
+        "qi_bio_integration": QUANTUM_CONSCIOUSNESS_ENABLED
+        or BIO_CONSCIOUSNESS_ENABLED,
         "ethical_safeguards": True,
         "meta_cognitive_capability": True,
         "creative_consciousness_streams": CREATIVE_CONSCIOUSNESS_ENABLED,
@@ -820,7 +838,9 @@ def __validate_consciousness_hub__() -> bool:
 CONSCIOUSNESS_MODULE_HEALTH = {
     "initialization": "complete",
     "consciousness_emergence": "active",
-    "qi_integration": ("harmonized" if QUANTUM_CONSCIOUSNESS_ENABLED else "classical_mode"),
+    "qi_integration": (
+        "harmonized" if QUANTUM_CONSCIOUSNESS_ENABLED else "classical_mode"
+    ),
     "bio_integration": "synchronized" if BIO_CONSCIOUSNESS_ENABLED else "digital_only",
     "creative_streams": "flowing" if CREATIVE_CONSCIOUSNESS_ENABLED else "dormant",
     "meta_cognition": "recursive",
@@ -863,7 +883,9 @@ if __name__ != "__main__":
     if is_valid:
         __consciousness_bootstrap__()
     else:
-        logger.warning("⚠️  Consciousness Hub validation incomplete - awakening with limitations")
+        logger.warning(
+            "⚠️  Consciousness Hub validation incomplete - awakening with limitations"
+        )
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 📜 Academic References and Philosophical Foundations 📜

@@ -57,10 +57,14 @@ class DistributedMemory:
             "timestamp": self.timestamp.isoformat(),
             "importance": self.importance,
             "access_count": self.access_count,
-            "last_accessed": (self.last_accessed.isoformat() if self.last_accessed else None),
+            "last_accessed": (
+                self.last_accessed.isoformat() if self.last_accessed else None
+            ),
             "colony_id": self.colony_id,
             "tags": self.tags,
-            "embeddings": (self.embeddings.tolist() if self.embeddings is not None else None),
+            "embeddings": (
+                self.embeddings.tolist() if self.embeddings is not None else None
+            ),
         }
 
 
@@ -86,10 +90,14 @@ class DistributedMemorySystem:
         self.event_store = EventStore(f"memory_{system_id}.db")
 
         # State manager for fast access
-        self.state_manager = DistributedStateManager(node_id=f"memory-node-{system_id}", event_store=self.event_store)
+        self.state_manager = DistributedStateManager(
+            node_id=f"memory-node-{system_id}", event_store=self.event_store
+        )
 
         # Memory index for fast lookup
-        self.memory_index: dict[str, tuple[MemoryType, str]] = {}  # memory_id -> (type, colony_id)
+        self.memory_index: dict[str, tuple[MemoryType, str]] = (
+            {}
+        )  # memory_id -> (type, colony_id)
 
         # Memory similarity cache
         self.similarity_cache: dict[str, list[tuple[str, float]]] = {}
@@ -117,7 +125,9 @@ class DistributedMemorySystem:
                 self.swarm_hub.register_colony(colony)
                 self.colony_health[colony_id] = 1.0
 
-                self.logger.info(f"Initialized {memory_type.value} memory colony: {colony_id}")
+                self.logger.info(
+                    f"Initialized {memory_type.value} memory colony: {colony_id}"
+                )
 
             # Initialize state manager
             await self.state_manager.initialize()
@@ -203,7 +213,9 @@ class DistributedMemorySystem:
 
             # Store in state manager for fast access
             state_type = self._get_state_type(importance)
-            await self.state_manager.set(f"memory:{memory_id}", memory.to_dict(), state_type)
+            await self.state_manager.set(
+                f"memory:{memory_id}", memory.to_dict(), state_type
+            )
 
             # Invalidate similarity cache for this type
             self._invalidate_similarity_cache(memory_type)
@@ -211,7 +223,9 @@ class DistributedMemorySystem:
             self.logger.info(f"Stored memory {memory_id} in {memory_type.value} colony")
             return memory_id
         else:
-            raise Exception(f"Failed to store memory: {result.get('error', 'Unknown error')}")
+            raise Exception(
+                f"Failed to store memory: {result.get('error', 'Unknown error')}"
+            )
 
     async def retrieve_memory(self, memory_id: str) -> Optional[DistributedMemory]:
         """
@@ -294,12 +308,18 @@ class DistributedMemorySystem:
                 search_task = {
                     "type": "search_memories",
                     "query": query,
-                    "query_embedding": (query_embedding.tolist() if query_embedding is not None else None),
+                    "query_embedding": (
+                        query_embedding.tolist()
+                        if query_embedding is not None
+                        else None
+                    ),
                     "limit": limit * 2,  # Get more to filter later
                     "threshold": threshold,
                 }
 
-                task = colony.execute_task(f"search-{datetime.now().timestamp()}", search_task)
+                task = colony.execute_task(
+                    f"search-{datetime.now().timestamp()}", search_task
+                )
                 search_tasks.append((memory_type, task))
 
         # Gather results from all colonies
@@ -385,7 +405,9 @@ class DistributedMemorySystem:
                 "min_importance": 0.3,
             }
 
-            consolidation_tasks.append(colony.execute_task(f"consolidate-{memory_type.value}", task))
+            consolidation_tasks.append(
+                colony.execute_task(f"consolidate-{memory_type.value}", task)
+            )
 
         # Wait for all consolidations to complete
         results = await asyncio.gather(*consolidation_tasks, return_exceptions=True)
@@ -395,7 +417,9 @@ class DistributedMemorySystem:
             if isinstance(result, dict) and result.get("consolidated_count"):
                 consolidated_count += result["consolidated_count"]
 
-        self.logger.info(f"Memory consolidation complete. Consolidated {consolidated_count} memories")
+        self.logger.info(
+            f"Memory consolidation complete. Consolidated {consolidated_count} memories"
+        )
         return consolidated_count
 
     async def get_memory_statistics(self) -> dict[str, Any]:
@@ -419,11 +443,15 @@ class DistributedMemorySystem:
                 colony_stats = await colony.get_statistics()
                 stats[f"{memory_type.value}_colony"] = colony_stats
             except Exception as e:
-                self.logger.error(f"Failed to get stats for {memory_type.value} colony: {e}")
+                self.logger.error(
+                    f"Failed to get stats for {memory_type.value} colony: {e}"
+                )
 
         return stats
 
-    def _generate_memory_id(self, content: dict[str, Any], memory_type: MemoryType) -> str:
+    def _generate_memory_id(
+        self, content: dict[str, Any], memory_type: MemoryType
+    ) -> str:
         """Generate a unique ID for a memory."""
         content_str = json.dumps(content, sort_keys=True)
         type_str = memory_type.value
@@ -472,7 +500,11 @@ class DistributedMemorySystem:
             timestamp=datetime.fromisoformat(data["timestamp"]),
             importance=data.get("importance", 0.5),
             access_count=data.get("access_count", 0),
-            last_accessed=(datetime.fromisoformat(data["last_accessed"]) if data.get("last_accessed") else None),
+            last_accessed=(
+                datetime.fromisoformat(data["last_accessed"])
+                if data.get("last_accessed")
+                else None
+            ),
             colony_id=data.get("colony_id"),
             tags=data.get("tags", []),
         )
@@ -484,7 +516,9 @@ class DistributedMemorySystem:
 
     def _invalidate_similarity_cache(self, memory_type: MemoryType):
         """Invalidate similarity cache for a memory type."""
-        keys_to_remove = [k for k in self.similarity_cache if k.startswith(memory_type.value)]
+        keys_to_remove = [
+            k for k in self.similarity_cache if k.startswith(memory_type.value)
+        ]
         for key in keys_to_remove:
             del self.similarity_cache[key]
 

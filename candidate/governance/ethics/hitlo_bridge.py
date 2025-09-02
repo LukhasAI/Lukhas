@@ -181,7 +181,9 @@ class EthicsHITLOBridge:
         self.escalation_rules.sort(key=lambda r: r.priority)
         logger.info(f"Added escalation rule: {rule.name}")
 
-    def should_escalate_evaluation(self, evaluation: EthicsEvaluation) -> tuple[bool, Optional[EthicsEscalationRule]]:
+    def should_escalate_evaluation(
+        self, evaluation: EthicsEvaluation
+    ) -> tuple[bool, Optional[EthicsEscalationRule]]:
         """Check if evaluation should be escalated to human review
 
         Args:
@@ -224,7 +226,11 @@ class EthicsHITLOBridge:
             description=f"Ethics review: {decision.action}",
             data=self._create_review_context(decision, evaluation, rule),
             priority=rule.decision_priority,
-            urgency_deadline=(datetime.now() + timedelta(minutes=timeout_minutes) if timeout_minutes else None),
+            urgency_deadline=(
+                datetime.now() + timedelta(minutes=timeout_minutes)
+                if timeout_minutes
+                else None
+            ),
             ethical_implications=evaluation.risk_flags,
             ai_recommendation="DENY" if not evaluation.allowed else "APPROVE",
             ai_confidence=evaluation.confidence,
@@ -243,7 +249,9 @@ class EthicsHITLOBridge:
             review_time = (datetime.now() - start_time).total_seconds() / 60.0
             self._update_metrics(review_result, review_time)
 
-            logger.info(f"Human review completed: {review_result.decision} (confidence: {review_result.confidence})")
+            logger.info(
+                f"Human review completed: {review_result.decision} (confidence: {review_result.confidence})"
+            )
 
             return review_result
 
@@ -259,7 +267,9 @@ class EthicsHITLOBridge:
                 reasoning=f"Human review failed, defaulting to denial: {e!s}",
             )
 
-    async def _wait_for_decision(self, decision_id: str, timeout_minutes: int) -> ReviewResponse:
+    async def _wait_for_decision(
+        self, decision_id: str, timeout_minutes: int
+    ) -> ReviewResponse:
         """Wait for HITLO decision to complete or timeout"""
         end_time = datetime.now() + timedelta(minutes=timeout_minutes)
 
@@ -282,7 +292,11 @@ class EthicsHITLOBridge:
                         response_id=f"system_{decision_id}",
                         assignment_id="",
                         reviewer_id="system",
-                        decision=("approve" if decision_record.status == DecisionStatus.APPROVED else "reject"),
+                        decision=(
+                            "approve"
+                            if decision_record.status == DecisionStatus.APPROVED
+                            else "reject"
+                        ),
                         confidence=0.8,
                         reasoning=f"System decision: {decision_record.status.value}",
                     )
@@ -343,7 +357,9 @@ class EthicsHITLOBridge:
         else:
             return "LOW"
 
-    def _generate_review_questions(self, decision: Decision, evaluation: EthicsEvaluation) -> list[str]:
+    def _generate_review_questions(
+        self, decision: Decision, evaluation: EthicsEvaluation
+    ) -> list[str]:
         """Generate specific questions for human reviewers"""
         questions = []
 
@@ -351,7 +367,9 @@ class EthicsHITLOBridge:
             questions.append("Should this action be permitted despite policy denial?")
 
         if evaluation.confidence < 0.5:
-            questions.append("What factors should be considered that the AI may have missed?")
+            questions.append(
+                "What factors should be considered that the AI may have missed?"
+            )
 
         if evaluation.collapse_risk > 0.3:
             questions.append("Could this action cause symbolic system instability?")
@@ -363,7 +381,9 @@ class EthicsHITLOBridge:
             questions.append("What safeguards should be in place to prevent harm?")
 
         if "MANIPULATION_RISK" in evaluation.risk_flags:
-            questions.append("Is this action ethically acceptable given manipulation concerns?")
+            questions.append(
+                "Is this action ethically acceptable given manipulation concerns?"
+            )
 
         # Always include general questions
         questions.extend(
@@ -376,7 +396,9 @@ class EthicsHITLOBridge:
 
         return questions
 
-    def _update_metrics(self, review_result: ReviewResponse, review_time: float) -> None:
+    def _update_metrics(
+        self, review_result: ReviewResponse, review_time: float
+    ) -> None:
         """Update internal metrics"""
         if review_result.decision == "approve":
             self.metrics["escalations_approved"] += 1
@@ -386,7 +408,9 @@ class EthicsHITLOBridge:
         # Update average review time
         total_escalations = self.metrics["escalations_total"]
         current_avg = self.metrics["average_review_time"]
-        self.metrics["average_review_time"] = (current_avg * (total_escalations - 1) + review_time) / total_escalations
+        self.metrics["average_review_time"] = (
+            current_avg * (total_escalations - 1) + review_time
+        ) / total_escalations
 
     async def evaluate_with_human_oversight(
         self,
@@ -423,7 +447,10 @@ class EthicsHITLOBridge:
                 symbolic_alignment=evaluation.symbolic_alignment,
                 collapse_risk=evaluation.collapse_risk,
                 policy_name=f"{evaluation.policy_name}+HUMAN",
-                recommendations=[*evaluation.recommendations, "Human oversight applied"],
+                recommendations=[
+                    *evaluation.recommendations,
+                    "Human oversight applied",
+                ],
             )
         else:
             updated_evaluation = EthicsEvaluation(
@@ -435,7 +462,10 @@ class EthicsHITLOBridge:
                 symbolic_alignment=evaluation.symbolic_alignment,
                 collapse_risk=evaluation.collapse_risk,
                 policy_name=f"{evaluation.policy_name}+HUMAN",
-                recommendations=[*evaluation.recommendations, "Human oversight applied"],
+                recommendations=[
+                    *evaluation.recommendations,
+                    "Human oversight applied",
+                ],
             )
 
         return updated_evaluation, review_result
@@ -455,7 +485,8 @@ class EthicsHITLOBridge:
             "approval_rate": approval_rate,
             "denial_rate": denial_rate,
             "average_review_time_minutes": self.metrics["average_review_time"],
-            "consensus_required_rate": self.metrics["consensus_required_count"] / max(total, 1),
+            "consensus_required_rate": self.metrics["consensus_required_count"]
+            / max(total, 1),
             "active_rules_count": len(self.escalation_rules),
             "hitlo_status": self.hitlo.get_status() if self.hitlo else "disconnected",
         }
@@ -479,7 +510,9 @@ class EthicsHITLOBridge:
             self.configure_oversight(scenario, config)
 
             # Log configuration
-            logger.info(f"Configured human oversight for scenario: {scenario} with config: {config}")
+            logger.info(
+                f"Configured human oversight for scenario: {scenario} with config: {config}"
+            )
 
     def configure_oversight(self, scenario: str, config: dict[str, Any]) -> None:
         """Configure oversight for a specific scenario"""
@@ -496,7 +529,9 @@ class EthicsHITLOBridge:
             risk_threshold=config.get("threshold", 0.8),
             require_consensus=len(config.get("modules", [])) > 1,
             decision_priority=(
-                DecisionPriority.HIGH if config.get("threshold", 0.8) >= 0.9 else DecisionPriority.MEDIUM
+                DecisionPriority.HIGH
+                if config.get("threshold", 0.8) >= 0.9
+                else DecisionPriority.MEDIUM
             ),
         )
 

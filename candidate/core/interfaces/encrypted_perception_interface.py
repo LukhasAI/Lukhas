@@ -64,7 +64,9 @@ class AnomalyDetectorInterface(ABC):
     """Interface for anomaly detection"""
 
     @abstractmethod
-    async def detect_anomalies(self, vectors: list[PerceptualVector]) -> list[AnomalySignature]:
+    async def detect_anomalies(
+        self, vectors: list[PerceptualVector]
+    ) -> list[AnomalySignature]:
         """Detect anomalies in perceptual vectors"""
 
     @abstractmethod

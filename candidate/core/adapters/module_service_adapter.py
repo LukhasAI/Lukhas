@@ -43,7 +43,9 @@ class MemoryServiceAdapter(IMemoryService):
                 from memory import AGIMemory, MemoryFoldManager
 
                 self._fold_manager = MemoryFoldManager() if MemoryFoldManager else None
-                self._fold_system = MemoryFoldSystem() if not self._fold_manager else None
+                self._fold_system = (
+                    MemoryFoldSystem() if not self._fold_manager else None
+                )
                 self._agi_memory = AGIMemory() if AGIMemory else None
 
                 self._initialized = True
@@ -65,8 +67,10 @@ class MemoryServiceAdapter(IMemoryService):
             "initialized": self._initialized,
             "components": {
                 "fold_manager": self._fold_manager is not None,
-                "fold_system": hasattr(self, "_fold_system") and self._fold_system is not None,
-                "agi_memory": hasattr(self, "_agi_memory") and self._agi_memory is not None,
+                "fold_system": hasattr(self, "_fold_system")
+                and self._fold_system is not None,
+                "agi_memory": hasattr(self, "_agi_memory")
+                and self._agi_memory is not None,
             },
         }
 
@@ -79,7 +83,9 @@ class MemoryServiceAdapter(IMemoryService):
             fold = await self._fold_manager.create_fold(content, metadata or {})
             fold_id = fold.get("id", str(id(fold)))
         elif hasattr(self, "_fold_system") and self._fold_system:
-            fold_id = await self._fold_system.store({"content": content, "metadata": metadata})
+            fold_id = await self._fold_system.store(
+                {"content": content, "metadata": metadata}
+            )
         else:
             # Fallback implementation
             fold_id = f"fold_{datetime.now().timestamp()}"
@@ -93,7 +99,9 @@ class MemoryServiceAdapter(IMemoryService):
                 source_module="memory",
                 fold_id=fold_id,
                 content_hash=str(hash(str(content))),
-                emotional_context=(metadata.get("emotional_context", {}) if metadata else {}),
+                emotional_context=(
+                    metadata.get("emotional_context", {}) if metadata else {}
+                ),
             )
             await kernel_bus.emit("memory.fold.created", serialize_event(event))
         except BaseException:
@@ -105,9 +113,17 @@ class MemoryServiceAdapter(IMemoryService):
         """Retrieve fold using existing system"""
         await self.initialize()
 
-        if hasattr(self, "_fold_manager") and self._fold_manager and hasattr(self._fold_manager, "get_fold"):
+        if (
+            hasattr(self, "_fold_manager")
+            and self._fold_manager
+            and hasattr(self._fold_manager, "get_fold")
+        ):
             return await self._fold_manager.get_fold(fold_id)
-        elif hasattr(self, "_fold_system") and self._fold_system and hasattr(self._fold_system, "retrieve"):
+        elif (
+            hasattr(self, "_fold_system")
+            and self._fold_system
+            and hasattr(self._fold_system, "retrieve")
+        ):
             return await self._fold_system.retrieve(fold_id)
 
         return None
@@ -116,9 +132,17 @@ class MemoryServiceAdapter(IMemoryService):
         """Query folds using existing system"""
         await self.initialize()
 
-        if hasattr(self, "_fold_manager") and self._fold_manager and hasattr(self._fold_manager, "query"):
+        if (
+            hasattr(self, "_fold_manager")
+            and self._fold_manager
+            and hasattr(self._fold_manager, "query")
+        ):
             return await self._fold_manager.query(criteria)
-        elif hasattr(self, "_agi_memory") and self._agi_memory and hasattr(self._agi_memory, "search"):
+        elif (
+            hasattr(self, "_agi_memory")
+            and self._agi_memory
+            and hasattr(self._agi_memory, "search")
+        ):
             return await self._agi_memory.search(**criteria)
 
         return []
@@ -127,7 +151,11 @@ class MemoryServiceAdapter(IMemoryService):
         """Compress fold using existing system"""
         await self.initialize()
 
-        if hasattr(self, "_fold_manager") and self._fold_manager and hasattr(self._fold_manager, "compress_fold"):
+        if (
+            hasattr(self, "_fold_manager")
+            and self._fold_manager
+            and hasattr(self._fold_manager, "compress_fold")
+        ):
             return await self._fold_manager.compress_fold(fold_id)
 
         return False
@@ -169,8 +197,10 @@ class ConsciousnessServiceAdapter(IConsciousnessService):
             "status": "healthy" if self._initialized else "initializing",
             "initialized": self._initialized,
             "components": {
-                "unified_consciousness": hasattr(self, "_unified") and self._unified is not None,
-                "awareness_module": hasattr(self, "_awareness") and self._awareness is not None,
+                "unified_consciousness": hasattr(self, "_unified")
+                and self._unified is not None,
+                "awareness_module": hasattr(self, "_awareness")
+                and self._awareness is not None,
             },
         }
 
@@ -340,7 +370,8 @@ class QIServiceAdapter(IQuantumService):
         return {
             "status": "healthy" if self._initialized else "initializing",
             "initialized": self._initialized,
-            "qi_oscillator": hasattr(self, "_oscillator") and self._oscillator is not None,
+            "qi_oscillator": hasattr(self, "_oscillator")
+            and self._oscillator is not None,
         }
 
     async def create_superposition(self, states: list[Any]) -> Any:
@@ -425,8 +456,10 @@ class EmotionServiceAdapter(IEmotionService):
             "status": "healthy" if self._initialized else "initializing",
             "initialized": self._initialized,
             "components": {
-                "vad_system": hasattr(self, "_vad_system") and self._vad_system is not None,
-                "emotional_engine": hasattr(self, "_emotional_engine") and self._emotional_engine is not None,
+                "vad_system": hasattr(self, "_vad_system")
+                and self._vad_system is not None,
+                "emotional_engine": hasattr(self, "_emotional_engine")
+                and self._emotional_engine is not None,
             },
         }
 
@@ -440,11 +473,15 @@ class EmotionServiceAdapter(IEmotionService):
         # Default VAD values
         return {"valence": 0.5, "arousal": 0.5, "dominance": 0.5}
 
-    async def generate_emotional_response(self, context: dict[str, Any]) -> dict[str, Any]:
+    async def generate_emotional_response(
+        self, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate emotional response"""
         await self.initialize()
 
-        if hasattr(self, "_emotional_engine") and hasattr(self._emotional_engine, "generate_response"):
+        if hasattr(self, "_emotional_engine") and hasattr(
+            self._emotional_engine, "generate_response"
+        ):
             return await self._emotional_engine.generate_response(context)
 
         vad = await self.analyze_emotion(context)
@@ -461,7 +498,9 @@ class EmotionServiceAdapter(IEmotionService):
         """Regulate emotional state"""
         await self.initialize()
 
-        if hasattr(self, "_emotional_engine") and hasattr(self._emotional_engine, "regulate"):
+        if hasattr(self, "_emotional_engine") and hasattr(
+            self._emotional_engine, "regulate"
+        ):
             return await self._emotional_engine.regulate(current_state, target_state)
 
         # Simple regulation
@@ -512,7 +551,8 @@ class GovernanceServiceAdapter(IGovernanceService):
             "initialized": self._initialized,
             "components": {
                 "guardian_system": self._guardian is not None,
-                "reflector": hasattr(self, "_reflector") and self._reflector is not None,
+                "reflector": hasattr(self, "_reflector")
+                and self._reflector is not None,
             },
         }
 
@@ -601,8 +641,10 @@ class BridgeServiceAdapter(IBridgeService):
             "status": "healthy" if self._initialized else "initializing",
             "initialized": self._initialized,
             "components": {
-                "api_connector": hasattr(self, "_api_connector") and self._api_connector is not None,
-                "protocol_translator": hasattr(self, "_translator") and self._translator is not None,
+                "api_connector": hasattr(self, "_api_connector")
+                and self._api_connector is not None,
+                "protocol_translator": hasattr(self, "_translator")
+                and self._translator is not None,
             },
         }
 
@@ -629,7 +671,9 @@ class BridgeServiceAdapter(IBridgeService):
 
         return None
 
-    async def translate_protocol(self, data: Any, from_protocol: str, to_protocol: str) -> Any:
+    async def translate_protocol(
+        self, data: Any, from_protocol: str, to_protocol: str
+    ) -> Any:
         """Translate between protocols"""
         await self.initialize()
 

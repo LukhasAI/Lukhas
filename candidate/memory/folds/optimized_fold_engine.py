@@ -294,11 +294,15 @@ class OptimizedFoldEngine:
         self.mmap = mmap.mmap(self.mmap_file.fileno(), 0)
         self.mmap_offset = 0
 
-    def create_fold(self, key: str, content: Any, tags: Optional[list[str]] = None, **metadata) -> OptimizedMemoryFold:
+    def create_fold(
+        self, key: str, content: Any, tags: Optional[list[str]] = None, **metadata
+    ) -> OptimizedMemoryFold:
         """
         Create optimized memory fold
         """
-        fold = OptimizedMemoryFold(key=key, content_hash="", metadata={"tags": tags or [], **metadata})
+        fold = OptimizedMemoryFold(
+            key=key, content_hash="", metadata={"tags": tags or [], **metadata}
+        )
 
         # Set and compress content
         fold.content = content
@@ -418,7 +422,9 @@ class OptimizedFoldEngine:
 
         return fold
 
-    async def batch_create(self, items: list[tuple[str, Any, dict[str, Any]]]) -> list[OptimizedMemoryFold]:
+    async def batch_create(
+        self, items: list[tuple[str, Any, dict[str, Any]]]
+    ) -> list[OptimizedMemoryFold]:
         """
         Create multiple folds in parallel
         """
@@ -446,7 +452,9 @@ class OptimizedFoldEngine:
         # Split folds into chunks
         all_keys = list(self.index.by_key.keys())
         chunk_size = max(1, len(all_keys) // 4)
-        chunks = [all_keys[i : i + chunk_size] for i in range(0, len(all_keys), chunk_size)]
+        chunks = [
+            all_keys[i : i + chunk_size] for i in range(0, len(all_keys), chunk_size)
+        ]
 
         async def search_chunk(keys: list[str]) -> list[OptimizedMemoryFold]:
             chunk_results = []
@@ -465,7 +473,10 @@ class OptimizedFoldEngine:
             # Synchronous wrapper around the async search to run in executor
             return asyncio.run(search_chunk(keys))
 
-        tasks = [loop.run_in_executor(self.thread_pool, _search_chunk_sync, chunk) for chunk in chunks]
+        tasks = [
+            loop.run_in_executor(self.thread_pool, _search_chunk_sync, chunk)
+            for chunk in chunks
+        ]
 
         chunk_results = await asyncio.gather(*tasks)
 
@@ -569,9 +580,12 @@ class OptimizedFoldEngine:
             "cache_size": len(self.lru_cache),
             "total_size_mb": self.index.compressed_size / (1024 * 1024),
             "avg_compression_ratio": (
-                np.mean([fold.compression_ratio for fold in self.index.by_key.values()]) if total_folds > 0 else 0
+                np.mean([fold.compression_ratio for fold in self.index.by_key.values()])
+                if total_folds > 0
+                else 0
             ),
-            "cache_hit_rate": self.stats["hits"] / max(1, self.stats["hits"] + self.stats["misses"]),
+            "cache_hit_rate": self.stats["hits"]
+            / max(1, self.stats["hits"] + self.stats["misses"]),
             "unique_content": len(self.index.by_hash),
             "deduplication_ratio": total_folds / max(1, len(self.index.by_hash)),
         }
@@ -625,7 +639,9 @@ async def demo_optimized_folds():
             "vector": np.random.randn(100).tolist(),  # High compression potential
         }
 
-        fold = engine.create_fold(key=f"fold_{i}", content=content, tags=["test", f"batch_{i // 10}"])
+        fold = engine.create_fold(
+            key=f"fold_{i}", content=content, tags=["test", f"batch_{i // 10}"]
+        )
         folds.append(fold)
 
     create_time = time.time() - start_time
@@ -644,7 +660,11 @@ async def demo_optimized_folds():
     hot_keys = [f"fold_{i}" for i in range(20)]
 
     for _ in range(1000):
-        key = np.random.choice(hot_keys) if np.random.random() < 0.8 else f"fold_{np.random.randint(0, 100)}"
+        key = (
+            np.random.choice(hot_keys)
+            if np.random.random() < 0.8
+            else f"fold_{np.random.randint(0, 100)}"
+        )
 
         fold = engine.get_fold(key)
 
@@ -662,7 +682,9 @@ async def demo_optimized_folds():
     duplicate_content = {"duplicate": True, "data": "same"}
 
     for i in range(10):
-        engine.create_fold(key=f"dup_{i}", content=duplicate_content, tags=["duplicate"])
+        engine.create_fold(
+            key=f"dup_{i}", content=duplicate_content, tags=["duplicate"]
+        )
 
     before_dedup = len(engine.index.by_key)
     removed = engine.deduplicate()

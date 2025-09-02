@@ -57,7 +57,9 @@ _exported_components_list: list[str] = []
 try:
     pass
 
-    _exported_components_list.extend(["generate_dream", "extract_visual_prompts", "save_dream_log"])
+    _exported_components_list.extend(
+        ["generate_dream", "extract_visual_prompts", "save_dream_log"]
+    )
 
     _exported_components_list.extend(["load_dream_memories", "reflect_on_dreams"])
 

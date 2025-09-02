@@ -70,7 +70,9 @@ class SemanticRelation:
 
     def update_strength(self, new_evidence: float, learning_rate: float = 0.1):
         """Update relationship strength with new evidence"""
-        self.strength = (1 - learning_rate) * self.strength + learning_rate * new_evidence
+        self.strength = (
+            1 - learning_rate
+        ) * self.strength + learning_rate * new_evidence
         self.last_updated = time.time()
 
 
@@ -160,12 +162,20 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         # Semantic-specific storage
         self.semantic_memories: dict[str, SemanticMemoryContent] = {}
         self.concept_network: dict[str, ConceptNode] = {}  # concept_id -> node
-        self.relation_network: dict[str, list[SemanticRelation]] = {}  # concept_id -> relations
+        self.relation_network: dict[str, list[SemanticRelation]] = (
+            {}
+        )  # concept_id -> relations
 
         # Indices
-        self.concept_index: dict[str, set[str]] = defaultdict(set)  # concept -> memory_ids
-        self.category_index: dict[str, set[str]] = defaultdict(set)  # category -> memory_ids
-        self.feature_index: dict[str, set[str]] = defaultdict(set)  # feature -> concept_ids
+        self.concept_index: dict[str, set[str]] = defaultdict(
+            set
+        )  # concept -> memory_ids
+        self.category_index: dict[str, set[str]] = defaultdict(
+            set
+        )  # category -> memory_ids
+        self.feature_index: dict[str, set[str]] = defaultdict(
+            set
+        )  # feature -> concept_ids
 
         # Consolidation tracking
         self.consolidation_candidates: list[str] = []
@@ -211,7 +221,9 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         if concept_definitions:
             for concept_id, definition in concept_definitions.items():
                 if concept_id not in semantic_content.concept_nodes:
-                    semantic_content.concept_nodes[concept_id] = ConceptNode(concept_id=concept_id, label=concept_id)
+                    semantic_content.concept_nodes[concept_id] = ConceptNode(
+                        concept_id=concept_id, label=concept_id
+                    )
                 semantic_content.concept_nodes[concept_id].definition = definition
 
         # Add relationships
@@ -251,7 +263,9 @@ class SemanticMemoryInterface(BaseMemoryInterface):
             metadata=metadata,
         )
 
-    async def read_memory(self, memory_id: str, include_relations: bool = True, **kwargs) -> MemoryResponse:
+    async def read_memory(
+        self, memory_id: str, include_relations: bool = True, **kwargs
+    ) -> MemoryResponse:
         """Read semantic memory with optional relationship expansion"""
 
         if memory_id not in self.semantic_memories:
@@ -300,8 +314,13 @@ class SemanticMemoryInterface(BaseMemoryInterface):
             if isinstance(content, dict):
                 for key, value in content.items():
                     # Update concept attributes
-                    if semantic_content.primary_concept in semantic_content.concept_nodes:
-                        concept_node = semantic_content.concept_nodes[semantic_content.primary_concept]
+                    if (
+                        semantic_content.primary_concept
+                        in semantic_content.concept_nodes
+                    ):
+                        concept_node = semantic_content.concept_nodes[
+                            semantic_content.primary_concept
+                        ]
                         concept_node.attributes[key] = value
 
         # Add new relationships
@@ -345,7 +364,10 @@ class SemanticMemoryInterface(BaseMemoryInterface):
             # Check if concept is used elsewhere
             still_used = False
             for other_memory in self.semantic_memories.values():
-                if other_memory != semantic_content and concept_id in other_memory.concept_nodes:
+                if (
+                    other_memory != semantic_content
+                    and concept_id in other_memory.concept_nodes
+                ):
                     still_used = True
                     break
 
@@ -382,7 +404,9 @@ class SemanticMemoryInterface(BaseMemoryInterface):
                     content = self.semantic_memories[memory_id]
                     results.append(
                         MemoryResponse(
-                            operation_id=kwargs.get("operation_id", f"search_{memory_id}"),
+                            operation_id=kwargs.get(
+                                "operation_id", f"search_{memory_id}"
+                            ),
                             success=True,
                             memory_id=memory_id,
                             content=content,
@@ -406,7 +430,9 @@ class SemanticMemoryInterface(BaseMemoryInterface):
                     if match_found:
                         results.append(
                             MemoryResponse(
-                                operation_id=kwargs.get("operation_id", f"search_{memory_id}"),
+                                operation_id=kwargs.get(
+                                    "operation_id", f"search_{memory_id}"
+                                ),
                                 success=True,
                                 memory_id=memory_id,
                                 content=content,
@@ -445,7 +471,9 @@ class SemanticMemoryInterface(BaseMemoryInterface):
                 if match:
                     results.append(
                         MemoryResponse(
-                            operation_id=kwargs.get("operation_id", f"search_{memory_id}"),
+                            operation_id=kwargs.get(
+                                "operation_id", f"search_{memory_id}"
+                            ),
                             success=True,
                             memory_id=memory_id,
                             content=content,
@@ -499,26 +527,36 @@ class SemanticMemoryInterface(BaseMemoryInterface):
                     if key in ["type", "category", "concept", "event"]:
                         concept_id = str(value)
                         if concept_id not in extracted_concepts:
-                            extracted_concepts[concept_id] = ConceptNode(concept_id=concept_id, label=concept_id)
+                            extracted_concepts[concept_id] = ConceptNode(
+                                concept_id=concept_id, label=concept_id
+                            )
 
                         # Add this episode as source
                         extracted_concepts[concept_id].source_episodes.add(episode_id)
-                        extracted_concepts[concept_id].consolidation_strength += consolidation_strength
+                        extracted_concepts[
+                            concept_id
+                        ].consolidation_strength += consolidation_strength
 
         # Create semantic memory from extracted knowledge
         semantic_content = SemanticMemoryContent(
             concept_nodes=extracted_concepts,
             relations=extracted_relations,
-            consolidated_from={ep.get("memory_id", "unknown") for ep in episodic_memories},
+            consolidated_from={
+                ep.get("memory_id", "unknown") for ep in episodic_memories
+            },
         )
 
         # Determine primary concept
         if extracted_concepts:
             # Use most consolidated concept
-            primary = max(extracted_concepts.values(), key=lambda c: c.consolidation_strength)
+            primary = max(
+                extracted_concepts.values(), key=lambda c: c.consolidation_strength
+            )
             semantic_content.primary_concept = primary.concept_id
 
-        return await self.create_memory(content=semantic_content, consolidation_source="episodic_memories")
+        return await self.create_memory(
+            content=semantic_content, consolidation_source="episodic_memories"
+        )
 
     async def infer_relationships(
         self,
@@ -583,7 +621,9 @@ class SemanticMemoryInterface(BaseMemoryInterface):
             hierarchy[category] = {
                 "concept_count": len(concepts),
                 "concepts": [c.concept_id for c in concepts],
-                "average_activation": (np.mean([c.activation_count for c in concepts]) if concepts else 0),
+                "average_activation": (
+                    np.mean([c.activation_count for c in concepts]) if concepts else 0
+                ),
                 "subcategories": self._find_subcategories(concepts),
             }
 
@@ -608,22 +648,30 @@ class SemanticMemoryInterface(BaseMemoryInterface):
                 if active_concept in self.relation_network:
                     for relation in self.relation_network[active_concept]:
                         target = relation.target_concept
-                        spread_activation = activation * relation.strength * 0.7  # Decay
+                        spread_activation = (
+                            activation * relation.strength * 0.7
+                        )  # Decay
 
                         if target in new_activations:
-                            new_activations[target] = max(new_activations[target], spread_activation)
+                            new_activations[target] = max(
+                                new_activations[target], spread_activation
+                            )
                         else:
                             new_activations[target] = spread_activation
 
                         # Record co-activation
                         if target in self.concept_network:
-                            self.concept_network[active_concept].co_activate_with(target)
+                            self.concept_network[active_concept].co_activate_with(
+                                target
+                            )
 
             activations = new_activations
 
         return activations
 
-    def _expand_with_relations(self, content: SemanticMemoryContent) -> SemanticMemoryContent:
+    def _expand_with_relations(
+        self, content: SemanticMemoryContent
+    ) -> SemanticMemoryContent:
         """Expand semantic content with current relation network state"""
 
         expanded = SemanticMemoryContent(
@@ -659,7 +707,9 @@ class SemanticMemoryInterface(BaseMemoryInterface):
             rec_stack.add(node)
 
             for neighbor in graph[node]:
-                if (neighbor not in visited and has_cycle(neighbor)) or neighbor in rec_stack:
+                if (
+                    neighbor not in visited and has_cycle(neighbor)
+                ) or neighbor in rec_stack:
                     return True
 
             rec_stack.remove(node)
@@ -710,7 +760,9 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         semantic_metrics = {
             "total_semantic_memories": len(self.semantic_memories),
             "total_concepts": len(self.concept_network),
-            "total_relations": sum(len(relations) for relations in self.relation_network.values()),
+            "total_relations": sum(
+                len(relations) for relations in self.relation_network.values()
+            ),
             "concept_categories": len(self.category_index),
             "consolidation_candidates": len(self.consolidation_candidates),
             "inference_cache_size": len(self.inference_cache),

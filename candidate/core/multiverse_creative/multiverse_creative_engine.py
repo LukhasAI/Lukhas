@@ -12,22 +12,30 @@ from typing import Any
 # Placeholder classes for external creative AI APIs
 class SoraVideoAPI:
     async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {"video_url": f"https://sora.example.com/video_{random.randint(1000, 9999)}.mp4"}
+        return {
+            "video_url": f"https://sora.example.com/video_{random.randint(1000, 9999)}.mp4"
+        }
 
 
 class MidjourneyAPI:
     async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {"image_url": f"https://midjourney.example.com/image_{random.randint(1000, 9999)}.png"}
+        return {
+            "image_url": f"https://midjourney.example.com/image_{random.randint(1000, 9999)}.png"
+        }
 
 
 class RunwayMLAPI:
     async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {"video_url": f"https://runwayml.example.com/video_{random.randint(1000, 9999)}.mp4"}
+        return {
+            "video_url": f"https://runwayml.example.com/video_{random.randint(1000, 9999)}.mp4"
+        }
 
 
 class ElevenLabsAPI:
     async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {"audio_url": f"https://elevenlabs.example.com/audio_{random.randint(1000, 9999)}.mp3"}
+        return {
+            "audio_url": f"https://elevenlabs.example.com/audio_{random.randint(1000, 9999)}.mp3"
+        }
 
 
 class AnthropicAPI:
@@ -46,7 +54,11 @@ class MockCompletions:
         return type(
             "Completion",
             (),
-            {"choices": [MockChoice("A visual metaphor of cosmic interconnectedness.")]},
+            {
+                "choices": [
+                    MockChoice("A visual metaphor of cosmic interconnectedness.")
+                ]
+            },
         )()
 
 
@@ -60,7 +72,9 @@ class MockImages:
                     type(
                         "Image",
                         (),
-                        {"url": f"https://openai.example.com/image_{random.randint(1000, 9999)}.png"},
+                        {
+                            "url": f"https://openai.example.com/image_{random.randint(1000, 9999)}.png"
+                        },
                     )()
                 ]
             },
@@ -72,7 +86,9 @@ class MockAudio:
         return type(
             "AudioResponse",
             (),
-            {"url": f"https://openai.example.com/audio_{random.randint(1000, 9999)}.mp3"},
+            {
+                "url": f"https://openai.example.com/audio_{random.randint(1000, 9999)}.mp3"
+            },
         )()
 
 
@@ -138,7 +154,9 @@ class MultiverseCreativeEngine:
 
         # VIDEO MULTIVERSE
         for emotion in ["wonder", "peace", "empowerment"]:
-            sora_video = await self.sora.generate({"prompt": f"A video evoking {emotion}."})
+            sora_video = await self.sora.generate(
+                {"prompt": f"A video evoking {emotion}."}
+            )
             variations.append(
                 {
                     "modality": "video",

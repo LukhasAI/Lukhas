@@ -85,7 +85,9 @@ class TierValidator:
                 return result
 
             # Validate upgrade requirements
-            tier_config = self.tier_permissions.get("tier_permissions", {}).get(str(target_tier))
+            tier_config = self.tier_permissions.get("tier_permissions", {}).get(
+                str(target_tier)
+            )
             if not tier_config:
                 result.errors.append(f"No configuration found for tier {target_tier}")
                 return result
@@ -98,18 +100,26 @@ class TierValidator:
                 user_activity_days = self._calculate_activity_days(user_data)
                 min_days = upgrade_reqs["min_activity_days"]
                 if user_activity_days < min_days:
-                    result.requirements_missing.append(f"Activity days: {user_activity_days}/{min_days}")
+                    result.requirements_missing.append(
+                        f"Activity days: {user_activity_days}/{min_days}"
+                    )
                 else:
-                    result.requirements_met.append(f"Activity days: {user_activity_days}/{min_days} ✓")
+                    result.requirements_met.append(
+                        f"Activity days: {user_activity_days}/{min_days} ✓"
+                    )
 
             # Entropy score requirement
             if "min_entropy_score" in upgrade_reqs:
                 user_entropy = user_data.get("entropy_score", 0.0)
                 min_entropy = upgrade_reqs["min_entropy_score"]
                 if user_entropy < min_entropy:
-                    result.requirements_missing.append(f"Entropy score: {user_entropy:.1f}/{min_entropy}")
+                    result.requirements_missing.append(
+                        f"Entropy score: {user_entropy:.1f}/{min_entropy}"
+                    )
                 else:
-                    result.requirements_met.append(f"Entropy score: {user_entropy:.1f}/{min_entropy} ✓")
+                    result.requirements_met.append(
+                        f"Entropy score: {user_entropy:.1f}/{min_entropy} ✓"
+                    )
 
             # Verification requirement
             if upgrade_reqs.get("verification_required", False):
@@ -130,33 +140,45 @@ class TierValidator:
                 user_referrals = user_data.get("referral_count", 0)
                 min_referrals = upgrade_reqs["referrals_required"]
                 if user_referrals < min_referrals:
-                    result.requirements_missing.append(f"Referrals: {user_referrals}/{min_referrals}")
+                    result.requirements_missing.append(
+                        f"Referrals: {user_referrals}/{min_referrals}"
+                    )
                 else:
-                    result.requirements_met.append(f"Referrals: {user_referrals}/{min_referrals} ✓")
+                    result.requirements_met.append(
+                        f"Referrals: {user_referrals}/{min_referrals} ✓"
+                    )
 
             # Community contribution requirement
             if upgrade_reqs.get("community_contribution", False):
                 if not user_data.get("community_contributor", False):
-                    result.requirements_missing.append("Community contribution required")
+                    result.requirements_missing.append(
+                        "Community contribution required"
+                    )
                 else:
                     result.requirements_met.append("Community contribution ✓")
 
             # Enterprise sponsor requirement (Tier 5)
             if upgrade_reqs.get("enterprise_sponsor", False):
                 if not user_data.get("enterprise_sponsored", False):
-                    result.requirements_missing.append("Enterprise sponsorship required")
+                    result.requirements_missing.append(
+                        "Enterprise sponsorship required"
+                    )
                 else:
                     result.requirements_met.append("Enterprise sponsorship ✓")
 
             # Developer certification (Tier 5)
             if upgrade_reqs.get("developer_certification", False):
                 if not user_data.get("developer_certified", False):
-                    result.requirements_missing.append("Developer certification required")
+                    result.requirements_missing.append(
+                        "Developer certification required"
+                    )
                 else:
                     result.requirements_met.append("Developer certification ✓")
 
             # 🛡️ Constitutional validation
-            constitutional_result = self._constitutional_validation(user_id, target_tier, user_data)
+            constitutional_result = self._constitutional_validation(
+                user_id, target_tier, user_data
+            )
             result.guardian_approved = constitutional_result
 
             if not constitutional_result:
@@ -169,7 +191,9 @@ class TierValidator:
 
             # Generate next tier requirements if current upgrade not eligible
             if not result.eligible_for_upgrade and target_tier < 5:
-                result.next_tier_requirements = self._get_next_tier_requirements(target_tier + 1, user_data)
+                result.next_tier_requirements = self._get_next_tier_requirements(
+                    target_tier + 1, user_data
+                )
 
         except Exception as e:
             result.errors.append(f"Validation error: {e!s}")
@@ -179,7 +203,9 @@ class TierValidator:
 
         return result
 
-    def check_tier_eligibility(self, user_data: dict, tier_level: int) -> tuple[bool, list[str]]:
+    def check_tier_eligibility(
+        self, user_data: dict, tier_level: int
+    ) -> tuple[bool, list[str]]:
         """🧠 Check if user is eligible for tier level with consciousness analysis"""
         try:
             # Quick tier bounds check
@@ -193,7 +219,9 @@ class TierValidator:
                 return True, ["Current tier or downgrade - allowed"]
 
             # Get tier configuration
-            tier_config = self.tier_permissions.get("tier_permissions", {}).get(str(tier_level))
+            tier_config = self.tier_permissions.get("tier_permissions", {}).get(
+                str(tier_level)
+            )
             if not tier_config:
                 return False, [f"No configuration for tier {tier_level}"]
 
@@ -201,11 +229,15 @@ class TierValidator:
 
             # Check entropy threshold
             entropy_thresholds = self.tier_permissions.get("entropy_thresholds", {})
-            min_entropy = entropy_thresholds.get("minimum_per_tier", {}).get(str(tier_level), 0.0)
+            min_entropy = entropy_thresholds.get("minimum_per_tier", {}).get(
+                str(tier_level), 0.0
+            )
             user_entropy = user_data.get("entropy_score", 0.0)
 
             if user_entropy < min_entropy:
-                eligibility_issues.append(f"Entropy too low: {user_entropy:.1f} < {min_entropy}")
+                eligibility_issues.append(
+                    f"Entropy too low: {user_entropy:.1f} < {min_entropy}"
+                )
 
             # Check rate limits
             rate_limits = tier_config.get("rate_limits", {})
@@ -214,13 +246,19 @@ class TierValidator:
 
             # Check feature compatibility
             features = tier_config.get("features", {})
-            if features.get("biometric_auth", False) and not user_data.get("biometric_capable", False):
+            if features.get("biometric_auth", False) and not user_data.get(
+                "biometric_capable", False
+            ):
                 eligibility_issues.append("Biometric authentication not available")
 
             # 🧠 Consciousness pattern analysis
             consciousness_score = self._analyze_consciousness_patterns(user_data)
-            if consciousness_score < (tier_level * 0.15):  # Progressive consciousness requirement
-                eligibility_issues.append(f"Consciousness pattern insufficient: {consciousness_score:.2f}")
+            if consciousness_score < (
+                tier_level * 0.15
+            ):  # Progressive consciousness requirement
+                eligibility_issues.append(
+                    f"Consciousness pattern insufficient: {consciousness_score:.2f}"
+                )
 
             return len(eligibility_issues) == 0, eligibility_issues
 
@@ -254,13 +292,17 @@ class TierValidator:
             # Analyze progression to next tier
             if current_tier < 5:
                 next_tier = current_tier + 1
-                validation_result = self.validate_tier_requirements(user_id, next_tier, user_data)
+                validation_result = self.validate_tier_requirements(
+                    user_id, next_tier, user_data
+                )
 
                 report["progression_analysis"] = {
                     "eligible_for_upgrade": validation_result.eligible_for_upgrade,
                     "requirements_met": validation_result.requirements_met,
                     "requirements_missing": validation_result.requirements_missing,
-                    "completion_percentage": self._calculate_progression_percentage(validation_result),
+                    "completion_percentage": self._calculate_progression_percentage(
+                        validation_result
+                    ),
                 }
 
             # Usage statistics
@@ -342,12 +384,16 @@ class TierValidator:
                     has_access = False
 
                 # Check rate limits haven't been exceeded
-                if not self._check_rate_limits(user_id, self._get_tier_rate_limits(tier_num)):
+                if not self._check_rate_limits(
+                    user_id, self._get_tier_rate_limits(tier_num)
+                ):
                     has_access = False
 
             # 🛡️ Guardian final check
             if has_access:
-                has_access = self._constitutional_validation(user_id, tier_num, user_data)
+                has_access = self._constitutional_validation(
+                    user_id, tier_num, user_data
+                )
 
             # Cache result for performance (cache for 5 minutes)
             self.validation_cache[cache_key] = {
@@ -372,7 +418,9 @@ class TierValidator:
 
     def _get_default_config_path(self) -> str:
         """Get default tier permissions config path"""
-        return os.path.join(os.path.dirname(__file__), "../../config/tier_permissions.json")
+        return os.path.join(
+            os.path.dirname(__file__), "../../config/tier_permissions.json"
+        )
 
     def _load_tier_permissions(self) -> dict:
         """Load tier permissions configuration"""
@@ -418,12 +466,16 @@ class TierValidator:
     def _calculate_activity_days(self, user_data: dict) -> int:
         """Calculate user activity days"""
         try:
-            start_date = datetime.fromisoformat(user_data.get("activity_start_date", "2024-01-01"))
+            start_date = datetime.fromisoformat(
+                user_data.get("activity_start_date", "2024-01-01")
+            )
             return (datetime.utcnow() - start_date).days
         except (ValueError, TypeError):
             return 0
 
-    def _constitutional_validation(self, user_id: str, tier: int, user_data: dict) -> bool:
+    def _constitutional_validation(
+        self, user_id: str, tier: int, user_data: dict
+    ) -> bool:
         """🛡️ Guardian constitutional validation"""
         try:
             # Basic safety checks
@@ -507,27 +559,37 @@ class TierValidator:
 
     def _get_tier_name(self, tier: int) -> str:
         """Get tier name"""
-        tier_config = self.tier_permissions.get("tier_permissions", {}).get(str(tier), {})
+        tier_config = self.tier_permissions.get("tier_permissions", {}).get(
+            str(tier), {}
+        )
         return tier_config.get("name", f"Tier {tier}")
 
     def _get_tier_symbol(self, tier: int) -> str:
         """Get tier symbol"""
-        tier_config = self.tier_permissions.get("tier_permissions", {}).get(str(tier), {})
+        tier_config = self.tier_permissions.get("tier_permissions", {}).get(
+            str(tier), {}
+        )
         return tier_config.get("symbol", "⚪")
 
     def _get_tier_features(self, tier: int) -> dict:
         """Get tier features"""
-        tier_config = self.tier_permissions.get("tier_permissions", {}).get(str(tier), {})
+        tier_config = self.tier_permissions.get("tier_permissions", {}).get(
+            str(tier), {}
+        )
         return tier_config.get("features", {})
 
     def _get_tier_rate_limits(self, tier: int) -> dict:
         """Get tier rate limits"""
-        tier_config = self.tier_permissions.get("tier_permissions", {}).get(str(tier), {})
+        tier_config = self.tier_permissions.get("tier_permissions", {}).get(
+            str(tier), {}
+        )
         return tier_config.get("rate_limits", {})
 
     def _get_next_tier_requirements(self, tier: int, user_data: dict) -> list[str]:
         """Get requirements for next tier"""
-        tier_config = self.tier_permissions.get("tier_permissions", {}).get(str(tier), {})
+        tier_config = self.tier_permissions.get("tier_permissions", {}).get(
+            str(tier), {}
+        )
         requirements = tier_config.get("upgrade_requirements", {})
 
         formatted_reqs = []
@@ -539,9 +601,13 @@ class TierValidator:
 
         return formatted_reqs
 
-    def _calculate_progression_percentage(self, validation_result: TierValidationResult) -> float:
+    def _calculate_progression_percentage(
+        self, validation_result: TierValidationResult
+    ) -> float:
         """Calculate tier progression percentage"""
-        total_reqs = len(validation_result.requirements_met) + len(validation_result.requirements_missing)
+        total_reqs = len(validation_result.requirements_met) + len(
+            validation_result.requirements_missing
+        )
         if total_reqs == 0:
             return 100.0
         return (len(validation_result.requirements_met) / total_reqs) * 100.0
@@ -554,14 +620,20 @@ class TierValidator:
         if current_tier < 5:
             entropy_score = user_data.get("entropy_score", 0.0)
             if entropy_score < 3.0:
-                recommendations.append("🔮 Increase entropy score through varied symbolic character usage")
+                recommendations.append(
+                    "🔮 Increase entropy score through varied symbolic character usage"
+                )
 
             if not user_data.get("verified", False):
-                recommendations.append("✅ Complete identity verification to unlock higher tiers")
+                recommendations.append(
+                    "✅ Complete identity verification to unlock higher tiers"
+                )
 
             activity_days = self._calculate_activity_days(user_data)
             if activity_days < 30:
-                recommendations.append("📅 Continue daily activity to build tier progression")
+                recommendations.append(
+                    "📅 Continue daily activity to build tier progression"
+                )
 
         return recommendations
 
@@ -580,7 +652,9 @@ class TierValidator:
 class WebAuthnTierValidator(TierValidator):
     """🔐 WebAuthn/FIDO2-specific tier validation extensions"""
 
-    def validate_webauthn_tier_access(self, user_id: str, requested_tier: int, webauthn_credential: dict) -> bool:
+    def validate_webauthn_tier_access(
+        self, user_id: str, requested_tier: int, webauthn_credential: dict
+    ) -> bool:
         """Validate tier access with WebAuthn credential validation"""
         try:
             # Basic tier validation first
@@ -633,7 +707,9 @@ class OIDCTierMapper:
         return max_tier
 
     @classmethod
-    def filter_scopes_by_tier(cls, requested_scopes: list[str], user_tier: int) -> list[str]:
+    def filter_scopes_by_tier(
+        cls, requested_scopes: list[str], user_tier: int
+    ) -> list[str]:
         """Filter scopes based on user's tier level"""
         allowed_scopes = []
         for scope in requested_scopes:

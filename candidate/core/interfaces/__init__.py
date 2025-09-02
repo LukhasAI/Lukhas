@@ -12,11 +12,7 @@ Components:
 - Additional protocol interfaces
 """
 
-from .core_interface import (
-    CoreInterface,
-    get_module as get_core_module,
-    register_module as register_core_module,
-)
+from .core_interface import CoreInterface, get_module as get_core_module, register_module as register_core_module
 
 # Import dependency injection system
 from .dependency_injection import (

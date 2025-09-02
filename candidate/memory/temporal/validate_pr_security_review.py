@@ -75,14 +75,20 @@ def validate_pr_security_review():
             summary = report_data.get("summary", {})
 
             print("\nSummary from latest report:")
-            print(f"- Repositories processed: {summary.get('repositories_processed', 0)}")
+            print(
+                f"- Repositories processed: {summary.get('repositories_processed', 0)}"
+            )
             print(f"- PRs scanned: {summary.get('stats', {}).get('prs_scanned', 0)}")
-            print(f"- Security issues found: {summary.get('stats', {}).get('security_issues_found', 0)}")
+            print(
+                f"- Security issues found: {summary.get('stats', {}).get('security_issues_found', 0)}"
+            )
             print(f"- Security PRs identified: {summary.get('total_security_prs', 0)}")
             print(f"- Critical security PRs: {summary.get('critical_security_prs', 0)}")
             print(f"- PRs reviewed: {summary.get('stats', {}).get('prs_reviewed', 0)}")
 
-            unresolved = summary.get("total_security_prs", 0) - summary.get("stats", {}).get("prs_reviewed", 0)
+            unresolved = summary.get("total_security_prs", 0) - summary.get(
+                "stats", {}
+            ).get("prs_reviewed", 0)
 
             if unresolved == 0:
                 print("✅ All security PRs have been reviewed!")
@@ -97,7 +103,9 @@ def validate_pr_security_review():
                 if issues_remaining <= 0:
                     print("✅ All 264 security issues have been addressed!")
                 else:
-                    print(f"⚠️ {issues_remaining} of 264 security issues still need to be addressed")
+                    print(
+                        f"⚠️ {issues_remaining} of 264 security issues still need to be addressed"
+                    )
 
         except Exception as e:
             print(f"❌ Error parsing report: {e}")

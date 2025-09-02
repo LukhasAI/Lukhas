@@ -647,7 +647,7 @@ class SecurityEventMonitor:
             if event.ip_address:
                 ip_counts[event.ip_address] += 1
 
-        top_ips = sorted(ip_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+        top_ips = sorted(ip_counts.items(), key=l x: x[1], reverse=True)[:10]
 
         # Recent threats
         recent_threats = [

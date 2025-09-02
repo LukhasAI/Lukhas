@@ -116,13 +116,17 @@ class AkaqObservability:
     def __init__(self, registry: Optional[CollectorRegistry] = None):
         """Initialize observability system"""
         self.enabled = PROMETHEUS_AVAILABLE
-        self.registry = registry or (CollectorRegistry() if PROMETHEUS_AVAILABLE else None)
+        self.registry = registry or (
+            CollectorRegistry() if PROMETHEUS_AVAILABLE else None
+        )
         self._local_data = {}  # For when Prometheus is not available
 
         if self.enabled:
             self._init_prometheus_metrics()
         else:
-            print("⚠️  Prometheus not available - metrics will be collected locally only")
+            print(
+                "⚠️  Prometheus not available - metrics will be collected locally only"
+            )
 
     def _init_prometheus_metrics(self):
         """Initialize all Prometheus metrics"""
@@ -191,12 +195,18 @@ class AkaqObservability:
         )
 
         self.router_queue_depth = Gauge(
-            "akaq_router_queue_depth", "Current depth of router queue", ["priority_tier"], registry=self.registry
+            "akaq_router_queue_depth",
+            "Current depth of router queue",
+            ["priority_tier"],
+            registry=self.registry,
         )
 
         # Consciousness Quality Metrics
         self.consciousness_drift_phi = Gauge(
-            "akaq_consciousness_drift_phi", "Current consciousness drift phi value", ["user_id"], registry=self.registry
+            "akaq_consciousness_drift_phi",
+            "Current consciousness drift phi value",
+            ["user_id"],
+            registry=self.registry,
         )
 
         self.consciousness_congruence = Gauge(
@@ -207,7 +217,10 @@ class AkaqObservability:
         )
 
         self.neurosis_risk_level = Gauge(
-            "akaq_neurosis_risk_level", "Current neurosis risk assessment", ["risk_category"], registry=self.registry
+            "akaq_neurosis_risk_level",
+            "Current neurosis risk assessment",
+            ["risk_category"],
+            registry=self.registry,
         )
 
         # Oneiric Processing Metrics
@@ -235,7 +248,11 @@ class AkaqObservability:
         )
 
         # Component Information
-        self.component_info = Info("akaq_component_info", "Information about Wave C components", registry=self.registry)
+        self.component_info = Info(
+            "akaq_component_info",
+            "Information about Wave C components",
+            registry=self.registry,
+        )
 
         # Set component information
         self.component_info.info(
@@ -260,7 +277,9 @@ class AkaqObservability:
             yield
         finally:
             duration = time.time() - start_time
-            self.scene_processing_duration.labels(stage=stage, complexity=complexity).observe(duration)
+            self.scene_processing_duration.labels(
+                stage=stage, complexity=complexity
+            ).observe(duration)
 
     @contextmanager
     def measure_memory_operation(self, operation: str, client_type: str = "unknown"):
@@ -278,11 +297,18 @@ class AkaqObservability:
             raise
         finally:
             duration = time.time() - start_time
-            self.memory_operation_duration.labels(operation=operation, client_type=client_type).observe(duration)
-            self.memory_operations_total.labels(operation=operation, client_type=client_type, status=status).inc()
+            self.memory_operation_duration.labels(
+                operation=operation, client_type=client_type
+            ).observe(duration)
+            self.memory_operations_total.labels(
+                operation=operation, client_type=client_type, status=status
+            ).inc()
 
     def record_scene_processed(
-        self, user_tier: str = "standard", processing_mode: str = "normal", status: str = "success"
+        self,
+        user_tier: str = "standard",
+        processing_mode: str = "normal",
+        status: str = "success",
     ):
         """Record that a phenomenological scene was processed"""
         if self.enabled:
@@ -294,30 +320,46 @@ class AkaqObservability:
             self._local_data[key] = self._local_data.get(key, 0) + 1
 
     def record_glyph_mapped(
-        self, glyph_type: str, cache_status: str = "miss", accuracy: float = 1.0, palette_bias: str = "neutral"
+        self,
+        glyph_type: str,
+        cache_status: str = "miss",
+        accuracy: float = 1.0,
+        palette_bias: str = "neutral",
     ):
         """Record GLYPH mapping with accuracy"""
         if self.enabled:
-            self.glyphs_mapped_total.labels(glyph_type=glyph_type, cache_status=cache_status).inc()
-            self.glyph_mapping_accuracy.labels(palette_bias=palette_bias).observe(accuracy)
+            self.glyphs_mapped_total.labels(
+                glyph_type=glyph_type, cache_status=cache_status
+            ).inc()
+            self.glyph_mapping_accuracy.labels(palette_bias=palette_bias).observe(
+                accuracy
+            )
         else:
             key = f"glyphs_{glyph_type}_{cache_status}"
             self._local_data[key] = self._local_data.get(key, 0) + 1
             self._local_data[f"glyph_accuracy_{palette_bias}"] = accuracy
 
     def record_router_dispatch(
-        self, priority_tier: str, route_type: str = "standard", status: str = "success", queue_depth: int = 0
+        self,
+        priority_tier: str,
+        route_type: str = "standard",
+        status: str = "success",
+        queue_depth: int = 0,
     ):
         """Record router dispatch event"""
         if self.enabled:
-            self.router_dispatches_total.labels(priority_tier=priority_tier, route_type=route_type, status=status).inc()
+            self.router_dispatches_total.labels(
+                priority_tier=priority_tier, route_type=route_type, status=status
+            ).inc()
             self.router_queue_depth.labels(priority_tier=priority_tier).set(queue_depth)
         else:
             key = f"router_{priority_tier}_{route_type}_{status}"
             self._local_data[key] = self._local_data.get(key, 0) + 1
             self._local_data[f"router_queue_{priority_tier}"] = queue_depth
 
-    def update_consciousness_metrics(self, metrics: AkaqMetrics, user_id: str = "anonymous"):
+    def update_consciousness_metrics(
+        self, metrics: AkaqMetrics, user_id: str = "anonymous"
+    ):
         """Update consciousness quality metrics"""
         if self.enabled:
             # Hash user_id for privacy in metrics
@@ -325,19 +367,34 @@ class AkaqObservability:
 
             user_hash = hashlib.sha256(user_id.encode()).hexdigest()[:8]
 
-            self.consciousness_drift_phi.labels(user_id=user_hash).set(metrics.drift_phi)
-            self.consciousness_congruence.labels(processing_stage="current").set(metrics.congruence_index)
-            self.neurosis_risk_level.labels(risk_category="general").set(metrics.neurosis_risk)
+            self.consciousness_drift_phi.labels(user_id=user_hash).set(
+                metrics.drift_phi
+            )
+            self.consciousness_congruence.labels(processing_stage="current").set(
+                metrics.congruence_index
+            )
+            self.neurosis_risk_level.labels(risk_category="general").set(
+                metrics.neurosis_risk
+            )
         else:
             self._local_data["drift_phi"] = metrics.drift_phi
             self._local_data["congruence_index"] = metrics.congruence_index
             self._local_data["neurosis_risk"] = metrics.neurosis_risk
 
-    def record_dream_generated(self, dream_type: str, trigger_source: str = "regulation", coherence_score: float = 1.0):
+    def record_dream_generated(
+        self,
+        dream_type: str,
+        trigger_source: str = "regulation",
+        coherence_score: float = 1.0,
+    ):
         """Record dream generation event"""
         if self.enabled:
-            self.dreams_generated_total.labels(dream_type=dream_type, trigger_source=trigger_source).inc()
-            self.dream_coherence_score.labels(dream_type=dream_type).observe(coherence_score)
+            self.dreams_generated_total.labels(
+                dream_type=dream_type, trigger_source=trigger_source
+            ).inc()
+            self.dream_coherence_score.labels(dream_type=dream_type).observe(
+                coherence_score
+            )
         else:
             key = f"dreams_{dream_type}_{trigger_source}"
             self._local_data[key] = self._local_data.get(key, 0) + 1
@@ -346,14 +403,20 @@ class AkaqObservability:
     def update_system_health(self, component: str, healthy: bool):
         """Update system health status for a component"""
         if self.enabled:
-            self.system_health_status.labels(component=component).set(1 if healthy else 0)
+            self.system_health_status.labels(component=component).set(
+                1 if healthy else 0
+            )
         else:
             self._local_data[f"health_{component}"] = 1 if healthy else 0
 
-    def update_memory_storage(self, client_type: str, data_type: str, bytes_stored: int):
+    def update_memory_storage(
+        self, client_type: str, data_type: str, bytes_stored: int
+    ):
         """Update memory storage metrics"""
         if self.enabled:
-            self.memory_storage_bytes.labels(client_type=client_type, data_type=data_type).set(bytes_stored)
+            self.memory_storage_bytes.labels(
+                client_type=client_type, data_type=data_type
+            ).set(bytes_stored)
         else:
             self._local_data[f"storage_{client_type}_{data_type}"] = bytes_stored
 
@@ -400,11 +463,18 @@ class AkaqObservability:
             health.update(
                 {
                     "registry_active": self.registry is not None,
-                    "metrics_count": len(list(self.registry.collect())) if self.registry else 0,
+                    "metrics_count": (
+                        len(list(self.registry.collect())) if self.registry else 0
+                    ),
                 }
             )
         else:
-            health.update({"local_metrics_count": len(self._local_data), "fallback_mode": "local_storage"})
+            health.update(
+                {
+                    "local_metrics_count": len(self._local_data),
+                    "fallback_mode": "local_storage",
+                }
+            )
 
         return health
 
@@ -426,7 +496,9 @@ def get_observability() -> AkaqObservability:
     return _observability_instance
 
 
-def configure_observability(registry: Optional[CollectorRegistry] = None) -> AkaqObservability:
+def configure_observability(
+    registry: Optional[CollectorRegistry] = None,
+) -> AkaqObservability:
     """Configure global observability instance"""
     global _observability_instance
 

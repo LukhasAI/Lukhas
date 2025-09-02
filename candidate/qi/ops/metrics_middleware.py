@@ -56,7 +56,9 @@ PROV_STREAM_LAT = Histogram(
 
 
 class PrometheusMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
+    async def dispatch(
+        self, request: Request, call_next: Callable[[Request], Awaitable[Response]]
+    ) -> Response:
         # Normalize path (avoid cardinality explosion; trim numeric/sha-like segments)
         path = request.url.path
         for marker in ("/provenance/", "/metrics"):

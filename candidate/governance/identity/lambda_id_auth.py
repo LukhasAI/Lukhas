@@ -138,7 +138,9 @@ class Ed448KeyManager:
             raise ValueError("Private key not loaded")
         return self.private_key.sign(data)
 
-    def verify_signature(self, data: bytes, signature: bytes, public_key_bytes: bytes) -> bool:
+    def verify_signature(
+        self, data: bytes, signature: bytes, public_key_bytes: bytes
+    ) -> bool:
         """Verify Ed448 signature"""
         try:
             public_key = ed448.Ed448PublicKey.from_public_bytes(public_key_bytes)
@@ -155,7 +157,9 @@ class QRGLYPHGenerator:
         self.key_manager = key_manager
         self.hasher = QISafeHasher()
 
-    def generate_static_qrglyph(self, user_id: str, tier: AuthTier, consent_data: dict) -> str:
+    def generate_static_qrglyph(
+        self, user_id: str, tier: AuthTier, consent_data: dict
+    ) -> str:
         """Generate static QRGLYPH for T4"""
         payload = {
             "uid": user_id,
@@ -176,7 +180,9 @@ class QRGLYPHGenerator:
         # AES256 encryption would be applied here for storage
         return base64.b64encode(json.dumps(qrglyph_data).encode()).decode()
 
-    def generate_dynamic_qrglyph(self, user_id: str, session_data: dict, expires_in: int = 300) -> str:
+    def generate_dynamic_qrglyph(
+        self, user_id: str, session_data: dict, expires_in: int = 300
+    ) -> str:
         """Generate dynamic QRGLYPH for T5 with expiration"""
         payload = {
             "uid": user_id,
@@ -219,9 +225,8 @@ class TierAuthenticator:
 
         # Verify with BLAKE2b (upgrading from bcrypt)
         # For testing, accept mock hashes
-        if (
-            stored_hash == MOCK_HASH_FOR_TESTING  # nosec
-            or self.hasher.verify_password(password, stored_hash, stored_salt)
+        if stored_hash == MOCK_HASH_FOR_TESTING or self.hasher.verify_password(  # nosec
+            password, stored_hash, stored_salt
         ):
             return {
                 "success": True,
@@ -264,7 +269,9 @@ class TierAuthenticator:
         t2_result = self.authenticate_t2(credentials)
 
         # Check if we have biometric fusion data
-        biometric_fusion_result = credentials.primary_auth.get("biometric_fusion_result")
+        biometric_fusion_result = credentials.primary_auth.get(
+            "biometric_fusion_result"
+        )
 
         if biometric_fusion_result:
             # Use new biometric fusion engine result
@@ -288,7 +295,9 @@ class TierAuthenticator:
                 "session_type": "ephemeral_biometric_fusion",
                 "expires_in": 1800,  # 30 minutes
                 "fusion_confidence": fusion_confidence,
-                "fallback_used": biometric_fusion_result.get("fallback_triggered", False),
+                "fallback_used": biometric_fusion_result.get(
+                    "fallback_triggered", False
+                ),
                 "modalities_used": biometric_fusion_result.get("modalities_used", []),
             }
 
@@ -297,18 +306,26 @@ class TierAuthenticator:
             return t2_result
 
         # Additional biometric verification
-        biometric_data = credentials.secondary_auth.get("biometric_template") if credentials.secondary_auth else None
+        biometric_data = (
+            credentials.secondary_auth.get("biometric_template")
+            if credentials.secondary_auth
+            else None
+        )
         if not biometric_data:
             return {"success": False, "error": "Biometric data required for T3"}
 
         # Verify biometric (hash comparison for privacy)
         biometric_hash = self.hasher.hash_biometric(
-            biometric_data.encode() if isinstance(biometric_data, str) else biometric_data
+            biometric_data.encode()
+            if isinstance(biometric_data, str)
+            else biometric_data
         )
         stored_bio_hash = credentials.biometric_hash
 
         # For testing, accept mock biometric hashes
-        if stored_bio_hash.startswith("mock_") or secrets.compare_digest(biometric_hash, stored_bio_hash):
+        if stored_bio_hash.startswith("mock_") or secrets.compare_digest(
+            biometric_hash, stored_bio_hash
+        ):
             pass  # Verification successful
         else:
             return {"success": False, "error": "Biometric verification failed"}
@@ -335,7 +352,9 @@ class TierAuthenticator:
 
         # Verify biometric
         bio_hash = self.hasher.hash_biometric(
-            biometric_data.encode() if isinstance(biometric_data, str) else biometric_data
+            biometric_data.encode()
+            if isinstance(biometric_data, str)
+            else biometric_data
         )
         # For testing, accept mock biometric hashes
         if not (
@@ -382,7 +401,9 @@ class TierAuthenticator:
             "expires_in": 7200,  # 2 hours
             "qi_safe": True,
             "consciousness_coherence": (
-                qrglyph_validation.get("consciousness_coherence", 0.8) if qrglyph_validation else 0.7
+                qrglyph_validation.get("consciousness_coherence", 0.8)
+                if qrglyph_validation
+                else 0.7
             ),
             "zk_proof_verified": bool(zk_proof and zk_proof.get("valid")),
         }
@@ -454,7 +475,9 @@ class TierAuthenticator:
             "new_qrglyph": new_qrglyph,
             "zk_verified": True,
             "iris_verified": True,
-            "iris_match_score": (iris_result.get("match_score", 1.0) if iris_result else None),
+            "iris_match_score": (
+                iris_result.get("match_score", 1.0) if iris_result else None
+            ),
             "audit_trail": {
                 "ethics_trace": "TrustHelix",
                 "risk_score": "SEEDRA_VERIFIED",
@@ -523,7 +546,9 @@ class LambdaIDSystem:
 
         logger.info("ΛiD System initialized with quantum-safe cryptography")
 
-    def authenticate(self, tier: AuthTier, credentials: AuthCredentials) -> dict[str, Any]:
+    def authenticate(
+        self, tier: AuthTier, credentials: AuthCredentials
+    ) -> dict[str, Any]:
         """Authenticate user at specified tier"""
         try:
             # Route to appropriate tier authenticator
@@ -559,7 +584,9 @@ class LambdaIDSystem:
             logger.error(f"Authentication error: {e}")
             return {"success": False, "error": "Internal authentication error"}
 
-    def create_consent_record(self, user_id: str, tier: AuthTier, consent_data: dict) -> ConsentRecord:
+    def create_consent_record(
+        self, user_id: str, tier: AuthTier, consent_data: dict
+    ) -> ConsentRecord:
         """Create GDPR-compliant consent record"""
         consent_json = json.dumps(consent_data, sort_keys=True)
         consent_hash = self.authenticator.hasher.hash_biometric(consent_json.encode())
@@ -570,7 +597,11 @@ class LambdaIDSystem:
             consent_hash=consent_hash,
             zk_marker=tier in [AuthTier.T4, AuthTier.T5],
             timestamp=datetime.utcnow(),
-            expires_at=(datetime.utcnow() + timedelta(days=365) if self.compliance_mode else None),
+            expires_at=(
+                datetime.utcnow() + timedelta(days=365)
+                if self.compliance_mode
+                else None
+            ),
         )
 
     def health_check(self) -> dict[str, Any]:

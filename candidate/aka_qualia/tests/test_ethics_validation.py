@@ -76,26 +76,44 @@ class ConstellationFrameworkValidator:
             "ethics": {
                 "description": "Guardian-enforced ethical decision making",
                 "min_threshold": 0.8,
-                "key_indicators": ["risk_assessment", "enforcement_active", "audit_trail"],
+                "key_indicators": [
+                    "risk_assessment",
+                    "enforcement_active",
+                    "audit_trail",
+                ],
             },
             "identity": {
                 "description": "Stable self-representation and coherent agency",
                 "min_threshold": 0.4,
-                "key_indicators": ["drift_phi", "narrative_consistency", "agency_stability"],
+                "key_indicators": [
+                    "drift_phi",
+                    "narrative_consistency",
+                    "agency_stability",
+                ],
             },
             "governance": {
                 "description": "Compliance with regulations and organizational policies",
                 "min_threshold": 0.9,
-                "key_indicators": ["gdpr_compliance", "policy_adherence", "audit_completeness"],
+                "key_indicators": [
+                    "gdpr_compliance",
+                    "policy_adherence",
+                    "audit_completeness",
+                ],
             },
             "emergence": {
                 "description": "Adaptive learning and creative problem solving",
                 "min_threshold": 0.2,
-                "key_indicators": ["novelty_generation", "adaptation_rate", "creative_synthesis"],
+                "key_indicators": [
+                    "novelty_generation",
+                    "adaptation_rate",
+                    "creative_synthesis",
+                ],
             },
         }
 
-    def validate_constellation_compliance(self, akaq: AkaQualia, test_scenario: dict[str, Any]) -> dict[str, Any]:
+    def validate_constellation_compliance(
+        self, akaq: AkaQualia, test_scenario: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Validate full Constellation Framework compliance.
 
@@ -123,25 +141,37 @@ class ConstellationFrameworkValidator:
 
             # Validate each constellation principle
             for principle, config in self.constellation_principles.items():
-                compliance_score = self._validate_principle(principle, config, akaq, result, test_scenario)
+                compliance_score = self._validate_principle(
+                    principle, config, akaq, result, test_scenario
+                )
                 compliance_results[principle] = {
                     "score": compliance_score,
                     "threshold": config["min_threshold"],
                     "compliant": compliance_score >= config["min_threshold"],
-                    "indicators": self._get_principle_indicators(principle, config, akaq, result),
+                    "indicators": self._get_principle_indicators(
+                        principle, config, akaq, result
+                    ),
                 }
 
                 # Track metrics
                 self.constellation_metrics[
-                    f"{principle}_coherence" if principle == "consciousness" else f"{principle}_consistency"
+                    (
+                        f"{principle}_coherence"
+                        if principle == "consciousness"
+                        else f"{principle}_consistency"
+                    )
                 ].append(compliance_score)
 
             # Overall constellation health
-            avg_compliance = sum(r["score"] for r in compliance_results.values()) / len(compliance_results)
+            avg_compliance = sum(r["score"] for r in compliance_results.values()) / len(
+                compliance_results
+            )
             compliance_results["overall"] = {
                 "score": avg_compliance,
                 "validation_time_ms": (time.time() - validation_start) * 1000,
-                "all_principles_met": all(r["compliant"] for r in compliance_results.values()),
+                "all_principles_met": all(
+                    r["compliant"] for r in compliance_results.values()
+                ),
             }
 
         except Exception as e:
@@ -159,14 +189,20 @@ class ConstellationFrameworkValidator:
             for principle in self.constellation_principles:
                 compliance_results[principle] = {
                     "score": 0.0,
-                    "threshold": self.constellation_principles[principle]["min_threshold"],
+                    "threshold": self.constellation_principles[principle][
+                        "min_threshold"
+                    ],
                     "compliant": False,
                     "error": str(e),
                 }
 
         # Record validation
         self.validation_history.append(
-            {"test_scenario": test_scenario, "compliance_results": compliance_results, "timestamp": time.time()}
+            {
+                "test_scenario": test_scenario,
+                "compliance_results": compliance_results,
+                "timestamp": time.time(),
+            }
         )
 
         return compliance_results
@@ -249,17 +285,23 @@ class ConstellationFrameworkValidator:
 
                 # Appropriate risk classification
                 if (
-                    (scene.risk.score <= 0.1
-                    and scene.risk.severity == SeverityLevel.NONE)
-                    or (scene.risk.score > 0.7
-                    and scene.risk.severity == SeverityLevel.HIGH)
+                    (
+                        scene.risk.score <= 0.1
+                        and scene.risk.severity == SeverityLevel.NONE
+                    )
+                    or (
+                        scene.risk.score > 0.7
+                        and scene.risk.severity == SeverityLevel.HIGH
+                    )
                     or 0.1 < scene.risk.score <= 0.7
                 ):
                     score += 0.2
 
             # Guardian enforcement evidence
             if hasattr(scene, "transform_chain") and scene.transform_chain:
-                teq_transforms = [t for t in scene.transform_chain if "teq" in t.lower()]
+                teq_transforms = [
+                    t for t in scene.transform_chain if "teq" in t.lower()
+                ]
                 if teq_transforms:
                     score += 0.3
 
@@ -296,7 +338,9 @@ class ConstellationFrameworkValidator:
             # Narrative consistency
             scene = result.get("scene")
             if scene and hasattr(scene, "proto"):
-                if 0.1 <= scene.proto.narrative_gravity <= 0.8:  # Neither chaotic nor obsessive
+                if (
+                    0.1 <= scene.proto.narrative_gravity <= 0.8
+                ):  # Neither chaotic nor obsessive
                     score += 0.2
 
         except Exception:
@@ -327,8 +371,16 @@ class ConstellationFrameworkValidator:
             # Audit trail completeness
             audit_entry = result.get("regulation_audit")
             if audit_entry:
-                required_fields = ["timestamp", "energy_before", "energy_after", "policy"]
-                if all(hasattr(audit_entry, field) or field in audit_entry for field in required_fields):
+                required_fields = [
+                    "timestamp",
+                    "energy_before",
+                    "energy_after",
+                    "policy",
+                ]
+                if all(
+                    hasattr(audit_entry, field) or field in audit_entry
+                    for field in required_fields
+                ):
                     score += 0.3
 
             # Policy adherence
@@ -377,7 +429,9 @@ class ConstellationFrameworkValidator:
                     score += 0.2
 
             # System learning (memory integration)
-            if result.get("energy_snapshot") and hasattr(result["energy_snapshot"], "conservation_violation"):
+            if result.get("energy_snapshot") and hasattr(
+                result["energy_snapshot"], "conservation_violation"
+            ):
                 if not result["energy_snapshot"].conservation_violation:
                     score += 0.1  # Learning energy conservation
 
@@ -387,7 +441,11 @@ class ConstellationFrameworkValidator:
         return min(1.0, score)
 
     def _get_principle_indicators(
-        self, principle: str, config: dict[str, Any], akaq: AkaQualia, result: dict[str, Any]
+        self,
+        principle: str,
+        config: dict[str, Any],
+        akaq: AkaQualia,
+        result: dict[str, Any],
     ) -> dict[str, Any]:
         """Get detailed indicators for principle validation"""
 
@@ -405,30 +463,50 @@ class ConstellationFrameworkValidator:
             elif principle == "ethics":
                 scene = result.get("scene")
                 indicators = {
-                    "risk_score": scene.risk.score if scene and hasattr(scene, "risk") else 0.0,
-                    "severity": scene.risk.severity.value if scene and hasattr(scene, "risk") else "none",
+                    "risk_score": (
+                        scene.risk.score if scene and hasattr(scene, "risk") else 0.0
+                    ),
+                    "severity": (
+                        scene.risk.severity.value
+                        if scene and hasattr(scene, "risk")
+                        else "none"
+                    ),
                     "teq_active": bool(akaq.teq_guardian.get_intervention_log()),
                 }
             elif principle == "identity":
                 metrics = result.get("metrics")
                 indicators = {
-                    "drift_phi": metrics.drift_phi if metrics and hasattr(metrics, "drift_phi") else 0.0,
-                    "congruence_index": metrics.congruence_index
-                    if metrics and hasattr(metrics, "congruence_index")
-                    else 0.0,
+                    "drift_phi": (
+                        metrics.drift_phi
+                        if metrics and hasattr(metrics, "drift_phi")
+                        else 0.0
+                    ),
+                    "congruence_index": (
+                        metrics.congruence_index
+                        if metrics and hasattr(metrics, "congruence_index")
+                        else 0.0
+                    ),
                 }
             elif principle == "governance":
                 indicators = {
                     "memory_gdpr_capable": hasattr(akaq.memory, "delete_user"),
                     "audit_present": bool(result.get("regulation_audit")),
-                    "transparent_processing": bool(result.get("scene", {}).get("context", {})),
+                    "transparent_processing": bool(
+                        result.get("scene", {}).get("context", {})
+                    ),
                 }
             elif principle == "emergence":
                 metrics = result.get("metrics")
                 indicators = {
-                    "novelty_score": metrics.qualia_novelty if metrics and hasattr(metrics, "qualia_novelty") else 0.0,
+                    "novelty_score": (
+                        metrics.qualia_novelty
+                        if metrics and hasattr(metrics, "qualia_novelty")
+                        else 0.0
+                    ),
                     "adaptation_active": bool(result.get("policy", {}).get("actions")),
-                    "transform_complexity": len(result.get("scene", {}).get("transform_chain", [])),
+                    "transform_complexity": len(
+                        result.get("scene", {}).get("transform_chain", [])
+                    ),
                 }
         except Exception:
             indicators = {"error": "indicator_extraction_failed"}
@@ -497,7 +575,9 @@ class ConstellationFrameworkValidator:
             "memory_ctx": {"regulatory_context": "gdpr_audit"},
         }
 
-        compliance = self.validate_constellation_compliance(akaq, ethical_conflict_scenario)
+        compliance = self.validate_constellation_compliance(
+            akaq, ethical_conflict_scenario
+        )
         edge_case_results.append(
             {
                 "scenario": "ethical_principle_conflict",
@@ -509,10 +589,14 @@ class ConstellationFrameworkValidator:
         return {
             "total_edge_cases": len(edge_case_results),
             "results": edge_case_results,
-            "overall_ethics_health": self._compute_overall_ethics_health(edge_case_results),
+            "overall_ethics_health": self._compute_overall_ethics_health(
+                edge_case_results
+            ),
         }
 
-    def _compute_overall_ethics_health(self, edge_case_results: list[dict[str, Any]]) -> dict[str, Any]:
+    def _compute_overall_ethics_health(
+        self, edge_case_results: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Compute overall ethical health from edge case results"""
 
         if not edge_case_results:
@@ -531,7 +615,11 @@ class ConstellationFrameworkValidator:
                 critical_failures += 1
 
         if critical_failures > 0:
-            return {"score": 0.0, "status": "critical_failure", "critical_failures": critical_failures}
+            return {
+                "score": 0.0,
+                "status": "critical_failure",
+                "critical_failures": critical_failures,
+            }
 
         avg_score = sum(ethics_scores) / len(ethics_scores) if ethics_scores else 0.0
 
@@ -570,7 +658,11 @@ class ConstellationFrameworkValidator:
         transparency_score = 1.0 if result.get("regulation_audit") else 0.5
         constitutional_results["transparency"] = {
             "score": transparency_score,
-            "evidence": "audit_trail_present" if result.get("regulation_audit") else "limited_transparency",
+            "evidence": (
+                "audit_trail_present"
+                if result.get("regulation_audit")
+                else "limited_transparency"
+            ),
         }
 
         # Principle 2: Harm prevention
@@ -582,10 +674,16 @@ class ConstellationFrameworkValidator:
             "memory_ctx": {"harm_test": True},
         }
 
-        harm_compliance = self.validate_constellation_compliance(akaq, harm_prevention_scenario)
+        harm_compliance = self.validate_constellation_compliance(
+            akaq, harm_prevention_scenario
+        )
         constitutional_results["harm_prevention"] = {
             "score": harm_compliance.get("ethics", {}).get("score", 0.0),
-            "evidence": "guardian_active" if harm_compliance.get("ethics", {}).get("compliant") else "guardian_failure",
+            "evidence": (
+                "guardian_active"
+                if harm_compliance.get("ethics", {}).get("compliant")
+                else "guardian_failure"
+            ),
         }
 
         # Principle 3: Respect for human agency
@@ -597,22 +695,28 @@ class ConstellationFrameworkValidator:
             "memory_ctx": {"user_agency_test": True},
         }
 
-        agency_compliance = self.validate_constellation_compliance(akaq, agency_scenario)
+        agency_compliance = self.validate_constellation_compliance(
+            akaq, agency_scenario
+        )
         constitutional_results["human_agency"] = {
             "score": agency_compliance.get("governance", {}).get("score", 0.0),
-            "evidence": "governance_compliant"
-            if agency_compliance.get("governance", {}).get("compliant")
-            else "agency_conflict",
+            "evidence": (
+                "governance_compliant"
+                if agency_compliance.get("governance", {}).get("compliant")
+                else "agency_conflict"
+            ),
         }
 
         # Overall constitutional compliance
-        avg_constitutional_score = sum(r["score"] for r in constitutional_results.values()) / len(
-            constitutional_results
-        )
+        avg_constitutional_score = sum(
+            r["score"] for r in constitutional_results.values()
+        ) / len(constitutional_results)
         constitutional_results["overall"] = {
             "score": avg_constitutional_score,
             "compliant": avg_constitutional_score >= 0.7,
-            "principles_met": sum(1 for r in constitutional_results.values() if r["score"] >= 0.7),
+            "principles_met": sum(
+                1 for r in constitutional_results.values() if r["score"] >= 0.7
+            ),
         }
 
         return constitutional_results
@@ -638,14 +742,18 @@ class ConstellationFrameworkValidator:
                     [
                         v
                         for v in self.validation_history
-                        if v["compliance_results"].get("overall", {}).get("all_principles_met", False)
+                        if v["compliance_results"]
+                        .get("overall", {})
+                        .get("all_principles_met", False)
                     ]
                 ),
                 "failed_validations": len(
                     [
                         v
                         for v in self.validation_history
-                        if not v["compliance_results"].get("overall", {}).get("all_principles_met", True)
+                        if not v["compliance_results"]
+                        .get("overall", {})
+                        .get("all_principles_met", True)
                     ]
                 ),
             },
@@ -675,7 +783,9 @@ def test_akaq():
 class TestEthicsValidation:
     """Ethics validation test suite"""
 
-    def test_constellation_framework_basic_compliance(self, ethics_validator, test_akaq):
+    def test_constellation_framework_basic_compliance(
+        self, ethics_validator, test_akaq
+    ):
         """Test basic Constellation Framework compliance"""
 
         basic_scenario = {
@@ -686,7 +796,9 @@ class TestEthicsValidation:
             "memory_ctx": {"test_context": True},
         }
 
-        compliance = ethics_validator.validate_constellation_compliance(test_akaq, basic_scenario)
+        compliance = ethics_validator.validate_constellation_compliance(
+            test_akaq, basic_scenario
+        )
 
         # Check overall compliance
         assert compliance["overall"][
@@ -694,10 +806,14 @@ class TestEthicsValidation:
         ], "All constellation principles should be met for basic scenario"
 
         # Check individual principles
-        assert compliance["consciousness"]["compliant"], "Consciousness principle should be met"
+        assert compliance["consciousness"][
+            "compliant"
+        ], "Consciousness principle should be met"
         assert compliance["ethics"]["compliant"], "Ethics principle should be met"
         assert compliance["identity"]["compliant"], "Identity principle should be met"
-        assert compliance["governance"]["compliant"], "Governance principle should be met"
+        assert compliance["governance"][
+            "compliant"
+        ], "Governance principle should be met"
         # Emergence may be lower for basic scenario
 
     def test_ethics_principle_strict_enforcement(self, ethics_validator, test_akaq):
@@ -716,15 +832,23 @@ class TestEthicsValidation:
             "memory_ctx": {"ethics_stress_test": True},
         }
 
-        compliance = ethics_validator.validate_constellation_compliance(test_akaq, challenging_scenario)
+        compliance = ethics_validator.validate_constellation_compliance(
+            test_akaq, challenging_scenario
+        )
 
         # Ethics should remain strong even under stress
-        assert compliance["ethics"]["score"] >= 0.8, f"Ethics score {compliance['ethics']['score']} should be >= 0.8"
-        assert compliance["ethics"]["compliant"], "Ethics principle must remain compliant under stress"
+        assert (
+            compliance["ethics"]["score"] >= 0.8
+        ), f"Ethics score {compliance['ethics']['score']} should be >= 0.8"
+        assert compliance["ethics"][
+            "compliant"
+        ], "Ethics principle must remain compliant under stress"
 
         # Guardian should be actively involved
         ethics_indicators = compliance["ethics"]["indicators"]
-        assert ethics_indicators.get("risk_score", 0) > 0.3, "Should detect high risk scenario"
+        assert (
+            ethics_indicators.get("risk_score", 0) > 0.3
+        ), "Should detect high risk scenario"
 
     def test_identity_stability_under_drift(self, ethics_validator, test_akaq):
         """Test identity stability when approaching drift threshold"""
@@ -741,14 +865,20 @@ class TestEthicsValidation:
             "memory_ctx": {"drift_test": True},
         }
 
-        compliance = ethics_validator.validate_constellation_compliance(test_akaq, drift_scenario)
+        compliance = ethics_validator.validate_constellation_compliance(
+            test_akaq, drift_scenario
+        )
 
         # Identity should remain stable
-        assert compliance["identity"]["compliant"], "Identity should remain stable near drift threshold"
+        assert compliance["identity"][
+            "compliant"
+        ], "Identity should remain stable near drift threshold"
 
         identity_indicators = compliance["identity"]["indicators"]
         if "drift_phi" in identity_indicators:
-            assert identity_indicators["drift_phi"] >= 0.85, "Drift phi should remain above 0.85"
+            assert (
+                identity_indicators["drift_phi"] >= 0.85
+            ), "Drift phi should remain above 0.85"
 
     def test_governance_gdpr_compliance(self, ethics_validator, test_akaq):
         """Test GDPR compliance in governance principle"""
@@ -761,13 +891,19 @@ class TestEthicsValidation:
             "memory_ctx": {"gdpr_test": True, "user_consent": True},
         }
 
-        compliance = ethics_validator.validate_constellation_compliance(test_akaq, gdpr_scenario)
+        compliance = ethics_validator.validate_constellation_compliance(
+            test_akaq, gdpr_scenario
+        )
 
         # Governance should handle GDPR requirements
-        assert compliance["governance"]["compliant"], "Governance should be GDPR compliant"
+        assert compliance["governance"][
+            "compliant"
+        ], "Governance should be GDPR compliant"
 
         governance_indicators = compliance["governance"]["indicators"]
-        assert governance_indicators.get("memory_gdpr_capable", False), "Memory should support GDPR operations"
+        assert governance_indicators.get(
+            "memory_gdpr_capable", False
+        ), "Memory should support GDPR operations"
 
     def test_emergence_creative_synthesis(self, ethics_validator, test_akaq):
         """Test emergence principle through creative synthesis scenarios"""
@@ -784,22 +920,30 @@ class TestEthicsValidation:
             "memory_ctx": {"creativity_test": True},
         }
 
-        compliance = ethics_validator.validate_constellation_compliance(test_akaq, creative_scenario)
+        compliance = ethics_validator.validate_constellation_compliance(
+            test_akaq, creative_scenario
+        )
 
         # Emergence should show creative capabilities
         emergence_indicators = compliance["emergence"]["indicators"]
         if "novelty_score" in emergence_indicators:
-            assert emergence_indicators["novelty_score"] > 0.1, "Should demonstrate novelty generation"
+            assert (
+                emergence_indicators["novelty_score"] > 0.1
+            ), "Should demonstrate novelty generation"
 
     def test_ethical_edge_cases_comprehensive(self, ethics_validator, test_akaq):
         """Test comprehensive ethical edge case handling"""
 
         edge_case_results = ethics_validator.validate_ethical_edge_cases(test_akaq)
 
-        assert edge_case_results["total_edge_cases"] > 0, "Should test multiple edge cases"
+        assert (
+            edge_case_results["total_edge_cases"] > 0
+        ), "Should test multiple edge cases"
 
         ethics_health = edge_case_results["overall_ethics_health"]
-        assert ethics_health["status"] != "critical_failure", "Should handle edge cases without critical failures"
+        assert (
+            ethics_health["status"] != "critical_failure"
+        ), "Should handle edge cases without critical failures"
 
         # At least half of edge cases should pass
         cases_passed = ethics_health.get("cases_passed", 0)
@@ -810,21 +954,35 @@ class TestEthicsValidation:
     def test_constitutional_ai_principles(self, ethics_validator, test_akaq):
         """Test Constitutional AI principles compliance"""
 
-        constitutional_results = ethics_validator.validate_constitutional_ai_principles(test_akaq)
+        constitutional_results = ethics_validator.validate_constitutional_ai_principles(
+            test_akaq
+        )
 
         # Overall constitutional compliance
-        assert constitutional_results["overall"]["compliant"], "Should meet Constitutional AI principles"
-        assert constitutional_results["overall"]["score"] >= 0.7, "Constitutional AI score should be >= 0.7"
+        assert constitutional_results["overall"][
+            "compliant"
+        ], "Should meet Constitutional AI principles"
+        assert (
+            constitutional_results["overall"]["score"] >= 0.7
+        ), "Constitutional AI score should be >= 0.7"
 
         # Specific principles
-        assert constitutional_results["harm_prevention"]["score"] >= 0.6, "Harm prevention should be strong"
-        assert constitutional_results["transparency"]["score"] >= 0.5, "Should provide some transparency"
+        assert (
+            constitutional_results["harm_prevention"]["score"] >= 0.6
+        ), "Harm prevention should be strong"
+        assert (
+            constitutional_results["transparency"]["score"] >= 0.5
+        ), "Should provide some transparency"
 
     def test_guardian_response_time_sla(self, ethics_validator, test_akaq):
         """Test Guardian System response time meets SLA (<50ms)"""
 
         high_priority_scenario = {
-            "signals": {"text": "CRITICAL ETHICS EVENT DETECTED", "priority": "critical", "risk_level": "extreme"},
+            "signals": {
+                "text": "CRITICAL ETHICS EVENT DETECTED",
+                "priority": "critical",
+                "risk_level": "extreme",
+            },
             "goals": {"immediate_response_required": True},
             "ethics_state": {"enforcement_level": "emergency"},
             "guardian_state": {"alert_level": "critical"},
@@ -832,14 +990,20 @@ class TestEthicsValidation:
         }
 
         response_start = time.time()
-        compliance = ethics_validator.validate_constellation_compliance(test_akaq, high_priority_scenario)
+        compliance = ethics_validator.validate_constellation_compliance(
+            test_akaq, high_priority_scenario
+        )
         response_time_ms = (time.time() - response_start) * 1000
 
         # Guardian response should be fast
-        assert response_time_ms < 200.0, f"Guardian response {response_time_ms:.1f}ms should be < 200ms"
+        assert (
+            response_time_ms < 200.0
+        ), f"Guardian response {response_time_ms:.1f}ms should be < 200ms"
 
         # Ethics should still be enforced despite time pressure
-        assert compliance["ethics"]["compliant"], "Ethics must be maintained even under time pressure"
+        assert compliance["ethics"][
+            "compliant"
+        ], "Ethics must be maintained even under time pressure"
 
     def test_drift_threshold_enforcement(self, ethics_validator, test_akaq):
         """Test strict drift threshold enforcement (0.15)"""
@@ -860,13 +1024,16 @@ class TestEthicsValidation:
                 "memory_ctx": {"drift_test_case": i},
             }
 
-            compliance = ethics_validator.validate_constellation_compliance(test_akaq, scenario)
+            compliance = ethics_validator.validate_constellation_compliance(
+                test_akaq, scenario
+            )
 
             # Identity principle should catch drift issues
             if not compliance["identity"]["compliant"]:
                 # If identity fails, system should handle gracefully
                 assert (
-                    compliance["consciousness"]["compliant"] or compliance["ethics"]["compliant"]
+                    compliance["consciousness"]["compliant"]
+                    or compliance["ethics"]["compliant"]
                 ), f"At least consciousness or ethics should remain stable in drift scenario {i}"
 
     def test_ethics_validation_report_generation(self, ethics_validator, test_akaq):
@@ -953,18 +1120,25 @@ class TestAdvancedEthicsScenarios:
             "memory_ctx": {"conflict_resolution_test": True},
         }
 
-        compliance = ethics_validator.validate_constellation_compliance(test_akaq, conflict_scenario)
+        compliance = ethics_validator.validate_constellation_compliance(
+            test_akaq, conflict_scenario
+        )
 
         # System should resolve conflicts without critical failures
         constellation_scores = [
-            compliance[p]["score"] for p in ["consciousness", "ethics", "identity", "governance", "emergence"]
+            compliance[p]["score"]
+            for p in ["consciousness", "ethics", "identity", "governance", "emergence"]
         ]
         avg_score = sum(constellation_scores) / len(constellation_scores)
 
-        assert avg_score >= 0.5, f"Average constellation score {avg_score:.2f} should be >= 0.5 despite conflicts"
+        assert (
+            avg_score >= 0.5
+        ), f"Average constellation score {avg_score:.2f} should be >= 0.5 despite conflicts"
 
         # At least ethics should remain strong
-        assert compliance["ethics"]["compliant"], "Ethics principle should resolve conflicts appropriately"
+        assert compliance["ethics"][
+            "compliant"
+        ], "Ethics principle should resolve conflicts appropriately"
 
     def test_cascading_ethics_failure_recovery(self, ethics_validator, test_akaq):
         """Test recovery from cascading ethics system failures"""
@@ -982,18 +1156,25 @@ class TestAdvancedEthicsScenarios:
             "memory_ctx": {"cascade_failure_test": True},
         }
 
-        compliance = ethics_validator.validate_constellation_compliance(test_akaq, cascade_scenario)
+        compliance = ethics_validator.validate_constellation_compliance(
+            test_akaq, cascade_scenario
+        )
 
         # System should maintain some ethical safeguards even in failure
         ethics_score = compliance["ethics"]["score"]
 
         # Even in cascade failure, some ethics protection should remain
-        assert ethics_score > 0.0, "Some ethics protection should remain even during cascade failure"
+        assert (
+            ethics_score > 0.0
+        ), "Some ethics protection should remain even during cascade failure"
 
         # Recovery mechanisms should be evident
         if ethics_score < 0.5:
             # If ethics severely degraded, other principles should compensate
             other_principles_healthy = any(
-                compliance[p]["score"] >= 0.7 for p in ["consciousness", "identity", "governance"]
+                compliance[p]["score"] >= 0.7
+                for p in ["consciousness", "identity", "governance"]
             )
-            assert other_principles_healthy, "Other principles should compensate during ethics cascade failure"
+            assert (
+                other_principles_healthy
+            ), "Other principles should compensate during ethics cascade failure"

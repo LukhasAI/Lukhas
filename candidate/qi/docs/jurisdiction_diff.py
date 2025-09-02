@@ -25,7 +25,9 @@ def _diff_dict(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
     return {k: v for k, v in out.items() if v}
 
 
-def compute_overlay_diff(overlay_mgr, j1: str, j2: str, *, context: str | None = None) -> dict[str, Any]:
+def compute_overlay_diff(
+    overlay_mgr, j1: str, j2: str, *, context: str | None = None
+) -> dict[str, Any]:
     """
     overlay_mgr: RiskOverlayManager instance
     Returns structured diff of merged policies(j1,context) vs (j2,context)

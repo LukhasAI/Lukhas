@@ -531,7 +531,7 @@ class PolicyRuleEngine:
             PolicyPriority.INFORMATIONAL: 5,
         }
 
-        applicable_rules.sort(key=lambda r: priority_order.get(r.priority, 999))
+        applicable_rules.sort(key=l r: priority_order.get(r.priority, 999))
         return applicable_rules
 
 

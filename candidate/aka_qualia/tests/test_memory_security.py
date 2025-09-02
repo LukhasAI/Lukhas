@@ -31,7 +31,9 @@ class TestFaultInjection:
 
     @pytest.mark.fault
     @pytest.mark.asyncio
-    async def test_db_outage_graceful_degradation(self, monkeypatch, aq_with_sql_memory):
+    async def test_db_outage_graceful_degradation(
+        self, monkeypatch, aq_with_sql_memory
+    ):
         """Memory failures should not crash consciousness pipeline"""
 
         # Simulate database connection failure
@@ -42,7 +44,11 @@ class TestFaultInjection:
         monkeypatch.setattr(aq_with_sql_memory.memory, "save", failing_save)
 
         # Consciousness should continue operating despite memory failure
-        signals = {"text": "Testing resilience", "subject": "observer", "object": "test"}
+        signals = {
+            "text": "Testing resilience",
+            "subject": "observer",
+            "object": "test",
+        }
 
         result = await aq_with_sql_memory.step(
             signals=signals,
@@ -104,7 +110,9 @@ class TestFaultInjection:
 
         # Verify atomic rollback - no partial data should exist
         history = sql_memory.get_scene_history(user_id="rollback_test", limit=5)
-        assert len(history) == 0, "No partial data should exist after transaction rollback"
+        assert (
+            len(history) == 0
+        ), "No partial data should exist after transaction rollback"
 
         # Verify the scene insert was attempted but rolled back
         assert scene_inserted, "Scene insert should have been attempted"
@@ -130,25 +138,42 @@ class TestFaultInjection:
 
         # Patch the engine execute method to fail intermittently
         original_execute = sql_memory.engine.execute
-        monkeypatch.setattr(sql_memory.engine, "execute", intermittent_failure(original_execute))
+        monkeypatch.setattr(
+            sql_memory.engine, "execute", intermittent_failure(original_execute)
+        )
 
         scene_data = create_test_scene()
 
         # First save should fail
         with pytest.raises(OperationalError):
             sql_memory.save(
-                user_id="recovery_test", scene=scene_data, glyphs=[], policy={}, metrics={}, cfg_version="wave_c_v1.0.0"
+                user_id="recovery_test",
+                scene=scene_data,
+                glyphs=[],
+                policy={},
+                metrics={},
+                cfg_version="wave_c_v1.0.0",
             )
 
         # Second save should also fail
         with pytest.raises(OperationalError):
             sql_memory.save(
-                user_id="recovery_test", scene=scene_data, glyphs=[], policy={}, metrics={}, cfg_version="wave_c_v1.0.0"
+                user_id="recovery_test",
+                scene=scene_data,
+                glyphs=[],
+                policy={},
+                metrics={},
+                cfg_version="wave_c_v1.0.0",
             )
 
         # Third save should succeed (connection recovered)
         scene_id = sql_memory.save(
-            user_id="recovery_test", scene=scene_data, glyphs=[], policy={}, metrics={}, cfg_version="wave_c_v1.0.0"
+            user_id="recovery_test",
+            scene=scene_data,
+            glyphs=[],
+            policy={},
+            metrics={},
+            cfg_version="wave_c_v1.0.0",
         )
 
         assert scene_id is not None
@@ -172,7 +197,12 @@ class TestFaultInjection:
         # Should either succeed or fail gracefully (not crash)
         try:
             scene_id = sql_memory.save(
-                user_id="memory_test", scene=large_scene, glyphs=[], policy={}, metrics={}, cfg_version="wave_c_v1.0.0"
+                user_id="memory_test",
+                scene=large_scene,
+                glyphs=[],
+                policy={},
+                metrics={},
+                cfg_version="wave_c_v1.0.0",
             )
 
             # If it succeeds, verify we can retrieve it
@@ -193,9 +223,15 @@ class TestFaultInjection:
             # Invalid JSON-like structures
             {"proto": {"tone": float("inf")}},  # Infinite values
             {"proto": {"tone": float("nan")}},  # NaN values
-            {"context": {"recursive": None}},  # Circular references would be handled by JSON serializer
+            {
+                "context": {"recursive": None}
+            },  # Circular references would be handled by JSON serializer
             # Extremely nested data
-            {"context": {"level_" + str(i): {"data": f"level_{i}"} for i in range(1000)}},
+            {
+                "context": {
+                    "level_" + str(i): {"data": f"level_{i}"} for i in range(1000)
+                }
+            },
             # Invalid UTF-8 sequences (if applicable)
             {"subject": "test\x00\x01\x02"},  # Null bytes and control characters
         ]
@@ -283,7 +319,9 @@ class TestSQLInjectionPrevention:
 
                 # Verify that the glyph key was stored as-is (not executed as SQL)
                 if scene_id:
-                    search_results = sql_memory.search_by_glyph(user_id="injection_test", glyph_key=glyph["key"])
+                    search_results = sql_memory.search_by_glyph(
+                        user_id="injection_test", glyph_key=glyph["key"]
+                    )
                     # Should find 0 or 1 results, not cause a SQL error
                     assert len(search_results) <= 1
 
@@ -302,7 +340,9 @@ class TestSQLInjectionPrevention:
         ]
 
         for context in malicious_contexts:
-            scene_data = create_test_scene(context={"cfg_version": "wave_c_v1.0.0", **context})
+            scene_data = create_test_scene(
+                context={"cfg_version": "wave_c_v1.0.0", **context}
+            )
 
             try:
                 scene_id = sql_memory.save(
@@ -316,7 +356,9 @@ class TestSQLInjectionPrevention:
 
                 # If successful, verify the context was stored safely
                 if scene_id:
-                    history = sql_memory.get_scene_history(user_id="context_injection_test", limit=1)
+                    history = sql_memory.get_scene_history(
+                        user_id="context_injection_test", limit=1
+                    )
                     assert len(history) <= 1
 
             except (DatabaseError, ValueError, TypeError):
@@ -390,7 +432,9 @@ class TestConcurrentAccessSafety:
 
             # Verify no cross-contamination
             for scene in user_history:
-                assert user in str(scene.get("subject", "")), f"Scene should belong to {user}"
+                assert user in str(
+                    scene.get("subject", "")
+                ), f"Scene should belong to {user}"
 
     @pytest.mark.security
     def test_race_condition_prevention(self, sql_memory):
@@ -408,7 +452,12 @@ class TestConcurrentAccessSafety:
                 scene_data = create_test_scene(subject=f"race_test_{thread_id}_{i}")
 
                 scene_id = sql_memory.save(
-                    user_id="race_test", scene=scene_data, glyphs=[], policy={}, metrics={}, cfg_version="wave_c_v1.0.0"
+                    user_id="race_test",
+                    scene=scene_data,
+                    glyphs=[],
+                    policy={},
+                    metrics={},
+                    cfg_version="wave_c_v1.0.0",
                 )
 
                 with lock:
@@ -562,7 +611,9 @@ class TestResourceLimits:
 
         # Most operations should succeed, but some failures are acceptable
         total_operations = sum(len(result_list) for result_list in results)
-        successful_operations = sum(len([r for r in result_list if r == "success"]) for result_list in results)
+        successful_operations = sum(
+            len([r for r in result_list if r == "success"]) for result_list in results
+        )
 
         success_rate = successful_operations / max(total_operations, 1)
         assert success_rate >= 0.8, "At least 80% of operations should succeed"

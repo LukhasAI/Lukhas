@@ -57,7 +57,9 @@ class DASTIntegrationHub:
         self.trio_orchestrator = TrioOrchestrator() if TrioOrchestrator else None
         self.dast_engine = DASTEngine() if DASTEngine else None
         self.audit_engine = DecisionAuditEngine() if DecisionAuditEngine else None
-        self.symbolic_framework = SymbolicLanguageFramework() if SymbolicLanguageFramework else None
+        self.symbolic_framework = (
+            SymbolicLanguageFramework() if SymbolicLanguageFramework else None
+        )
         self.seedra = SEEDRACore() if SEEDRACore else None
 
         # Component registry
@@ -81,7 +83,9 @@ class DASTIntegrationHub:
         logger.info("DAST Integration Hub fully initialized")
         return True
 
-    async def register_component(self, component_name: str, component_path: str, component_instance: Any):
+    async def register_component(
+        self, component_name: str, component_path: str, component_instance: Any
+    ):
         """Register a DAST component for integration"""
         self.registered_components[component_name] = {
             "path": component_path,
@@ -103,7 +107,9 @@ class DASTIntegrationHub:
         """Integrate component with audit system"""
         # Wrap component methods with audit trails
         for method_name in dir(component_instance):
-            if not method_name.startswith("_") and callable(getattr(component_instance, method_name)):
+            if not method_name.startswith("_") and callable(
+                getattr(component_instance, method_name)
+            ):
                 original_method = getattr(component_instance, method_name)
 
                 async def audited_method(*args, **kwargs):
@@ -138,12 +144,16 @@ class DASTIntegrationHub:
                 # Replace method with audited version
                 setattr(component_instance, method_name, audited_method)
 
-    async def _integrate_with_symbolic(self, component_name: str, component_instance: Any):
+    async def _integrate_with_symbolic(
+        self, component_name: str, component_instance: Any
+    ):
         """Integrate component with symbolic language framework"""
         # Register component's symbolic patterns
         symbolic_patterns = getattr(component_instance, "symbolic_patterns", {})
         if symbolic_patterns:
-            await self.symbolic_framework.register_patterns(f"dast.{component_name}", symbolic_patterns)
+            await self.symbolic_framework.register_patterns(
+                f"dast.{component_name}", symbolic_patterns
+            )
 
     async def track_task(self, task_id: str, task_data: dict[str, Any]):
         """Track DAST task execution"""
@@ -217,9 +227,15 @@ class DASTIntegrationHub:
         """Get integration hub status"""
         return {
             "registered_components": len(self.registered_components),
-            "active_tasks": len([t for t in self.task_tracking.values() if t["status"] == "executing"]),
-            "completed_tasks": len([t for t in self.task_tracking.values() if t["status"] == "completed"]),
-            "failed_tasks": len([t for t in self.task_tracking.values() if t["status"] == "failed"]),
+            "active_tasks": len(
+                [t for t in self.task_tracking.values() if t["status"] == "executing"]
+            ),
+            "completed_tasks": len(
+                [t for t in self.task_tracking.values() if t["status"] == "completed"]
+            ),
+            "failed_tasks": len(
+                [t for t in self.task_tracking.values() if t["status"] == "failed"]
+            ),
         }
 
 

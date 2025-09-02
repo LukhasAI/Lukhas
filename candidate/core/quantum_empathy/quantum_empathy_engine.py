@@ -59,7 +59,9 @@ class MockChoice:
 
 class MockCompletions:
     async def create(self, messages: list[dict[str, str]]) -> Any:
-        return type("Completion", (), {"choices": [MockChoice("Deep feeling of peace.")]})()
+        return type(
+            "Completion", (), {"choices": [MockChoice("Deep feeling of peace.")]}
+        )()
 
 
 class MockOpenAI:
@@ -84,7 +86,9 @@ class QuantumEmpathyEngine:
         self.text_sentiment = MockOpenAI().chat.completions
         self.mirror_neurons = MirrorNeuronSimulator()
 
-    async def map_consciousness_resonance(self, user_interactions: list[dict]) -> dict[str, Any]:
+    async def map_consciousness_resonance(
+        self, user_interactions: list[dict]
+    ) -> dict[str, Any]:
         """
         Map what truly resonates with this specific human consciousness.
         """
@@ -100,7 +104,9 @@ class QuantumEmpathyEngine:
         return resonance_map
 
     async def generate_empathic_response(
-        self, user_consciousness_state: dict[str, Any], resonance_history: dict[str, Any]
+        self,
+        user_consciousness_state: dict[str, Any],
+        resonance_history: dict[str, Any],
     ) -> dict[str, Any]:
         """
         Generate response that creates genuine human connection.

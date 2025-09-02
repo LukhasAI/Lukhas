@@ -216,10 +216,18 @@ class ProductionOrchestratorConfig:
             # Simple parsing - in production, use urllib.parse
             if db_url.startswith("postgresql://"):
                 config.database.host = os.getenv("DB_HOST", config.database.host)
-                config.database.port = int(os.getenv("DB_PORT", str(config.database.port)))
-                config.database.database = os.getenv("DB_NAME", config.database.database)
-                config.database.username = os.getenv("DB_USER", config.database.username)
-                config.database.password = os.getenv("DB_PASSWORD", config.database.password)
+                config.database.port = int(
+                    os.getenv("DB_PORT", str(config.database.port))
+                )
+                config.database.database = os.getenv(
+                    "DB_NAME", config.database.database
+                )
+                config.database.username = os.getenv(
+                    "DB_USER", config.database.username
+                )
+                config.database.password = os.getenv(
+                    "DB_PASSWORD", config.database.password
+                )
 
         # Redis configuration
         config.redis.host = os.getenv("REDIS_HOST", config.redis.host)
@@ -227,22 +235,32 @@ class ProductionOrchestratorConfig:
         config.redis.password = os.getenv("REDIS_PASSWORD", config.redis.password)
 
         # Security configuration
-        config.security.jwt_secret_key = os.getenv("JWT_SECRET_KEY", config.security.jwt_secret_key)
-        config.security.encryption_key = os.getenv("ENCRYPTION_KEY", config.security.encryption_key)
+        config.security.jwt_secret_key = os.getenv(
+            "JWT_SECRET_KEY", config.security.jwt_secret_key
+        )
+        config.security.encryption_key = os.getenv(
+            "ENCRYPTION_KEY", config.security.encryption_key
+        )
 
         # Performance configuration
         config.performance.worker_processes = int(
             os.getenv("WORKER_PROCESSES", str(config.performance.worker_processes))
         )
-        config.performance.worker_threads = int(os.getenv("WORKER_THREADS", str(config.performance.worker_threads)))
+        config.performance.worker_threads = int(
+            os.getenv("WORKER_THREADS", str(config.performance.worker_threads))
+        )
 
         # Monitoring configuration
-        config.monitoring.enable_metrics = os.getenv("ENABLE_METRICS", "true").lower() in (
+        config.monitoring.enable_metrics = os.getenv(
+            "ENABLE_METRICS", "true"
+        ).lower() in (
             "true",
             "1",
             "yes",
         )
-        config.monitoring.metrics_port = int(os.getenv("METRICS_PORT", str(config.monitoring.metrics_port)))
+        config.monitoring.metrics_port = int(
+            os.getenv("METRICS_PORT", str(config.monitoring.metrics_port))
+        )
 
         log_level_name = os.getenv("LOG_LEVEL", "INFO").upper()
         try:
@@ -252,7 +270,9 @@ class ProductionOrchestratorConfig:
             config.monitoring.log_level = LogLevel.INFO
 
         # Orchestration configuration
-        config.orchestration.enable_orchestration = os.getenv("ENABLE_ORCHESTRATION", "true").lower() in (
+        config.orchestration.enable_orchestration = os.getenv(
+            "ENABLE_ORCHESTRATION", "true"
+        ).lower() in (
             "true",
             "1",
             "yes",
@@ -273,7 +293,9 @@ class ProductionOrchestratorConfig:
         return config
 
     @classmethod
-    def load_from_file(cls, config_path: Union[str, Path]) -> "ProductionOrchestratorConfig":
+    def load_from_file(
+        cls, config_path: Union[str, Path]
+    ) -> "ProductionOrchestratorConfig":
         """Load configuration from JSON file"""
         config_path = Path(config_path)
 
@@ -470,7 +492,9 @@ class ProductionOrchestratorConfig:
             try:
                 Path(path_value).mkdir(parents=True, exist_ok=True)
             except Exception as e:
-                issues.append(f"Cannot create {path_name} directory '{path_value}': {e}")
+                issues.append(
+                    f"Cannot create {path_name} directory '{path_value}': {e}"
+                )
 
         # Validate port numbers
         ports = [
@@ -482,7 +506,9 @@ class ProductionOrchestratorConfig:
 
         for port_name, port_value in ports:
             if not (1 <= port_value <= 65535):
-                issues.append(f"{port_name} must be between 1 and 65535, got {port_value}")
+                issues.append(
+                    f"{port_name} must be between 1 and 65535, got {port_value}"
+                )
 
         return issues
 

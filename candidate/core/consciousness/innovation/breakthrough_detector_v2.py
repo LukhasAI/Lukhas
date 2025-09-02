@@ -127,7 +127,9 @@ class BreakthroughDetectorV2(CoreInterface):
         self._initialized = True
         logger.info("Breakthrough Detector V2 initialized with 50x sophistication")
 
-    async def detect_civilizational_breakthroughs(self, innovation_data: dict[str, Any]) -> dict[str, Any]:
+    async def detect_civilizational_breakthroughs(
+        self, innovation_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Detect innovations that will reshape civilization
 
@@ -155,27 +157,35 @@ class BreakthroughDetectorV2(CoreInterface):
             )
 
         # DETECTION LAYER 1: Paradigm Breaking Analysis
-        paradigm_breakthroughs = await self.paradigm_shift_detector.detect_paradigm_breaking_innovations(
-            innovation_data, paradigm_break_threshold=0.95
+        paradigm_breakthroughs = (
+            await self.paradigm_shift_detector.detect_paradigm_breaking_innovations(
+                innovation_data, paradigm_break_threshold=0.95
+            )
         )
         breakthrough_candidates.extend(paradigm_breakthroughs)
 
         # DETECTION LAYER 2: Scientific Revolution Indicators
-        scientific_revolutions = await self.scientific_revolution_predictor.predict_scientific_revolutions(
-            innovation_data, revolution_probability_threshold=0.9
+        scientific_revolutions = (
+            await self.scientific_revolution_predictor.predict_scientific_revolutions(
+                innovation_data, revolution_probability_threshold=0.9
+            )
         )
         breakthrough_candidates.extend(scientific_revolutions)
 
         # DETECTION LAYER 3: Market Disruption Potential
-        market_disruptions = await self.market_disruption_analyzer.analyze_market_disruption_potential(
-            innovation_data,
-            disruption_magnitude_threshold=1000,  # 1000x improvement
+        market_disruptions = (
+            await self.market_disruption_analyzer.analyze_market_disruption_potential(
+                innovation_data,
+                disruption_magnitude_threshold=1000,  # 1000x improvement
+            )
         )
         breakthrough_candidates.extend(market_disruptions)
 
         # DETECTION LAYER 4: Consciousness Evolution Markers
-        consciousness_evolutions = await self.consciousness_emergence_monitor.detect_consciousness_evolution(
-            innovation_data, consciousness_evolution_threshold=0.95
+        consciousness_evolutions = (
+            await self.consciousness_emergence_monitor.detect_consciousness_evolution(
+                innovation_data, consciousness_evolution_threshold=0.95
+            )
         )
         breakthrough_candidates.extend(consciousness_evolutions)
 
@@ -188,7 +198,9 @@ class BreakthroughDetectorV2(CoreInterface):
         )
 
         # VALIDATION: Multi-perspective validation
-        validated_breakthroughs = await self.validate_breakthrough_detections(synthesized_breakthroughs)
+        validated_breakthroughs = await self.validate_breakthrough_detections(
+            synthesized_breakthroughs
+        )
 
         # Guardian System validation
         if self.guardian:
@@ -198,7 +210,9 @@ class BreakthroughDetectorV2(CoreInterface):
                     parameters={"breakthrough": breakthrough},
                 )
                 if not ethics_check.get("approved", False):
-                    logger.warning(f"Breakthrough rejected by Guardian: {breakthrough.get('id')}")
+                    logger.warning(
+                        f"Breakthrough rejected by Guardian: {breakthrough.get('id')}"
+                    )
                     validated_breakthroughs.remove(breakthrough)
 
         # Record in history
@@ -219,7 +233,9 @@ class BreakthroughDetectorV2(CoreInterface):
                     data={
                         "action": "breakthrough_detection_complete",
                         "breakthroughs_found": len(validated_breakthroughs),
-                        "civilizational_impact": await self.calculate_civilizational_impact(validated_breakthroughs),
+                        "civilizational_impact": await self.calculate_civilizational_impact(
+                            validated_breakthroughs
+                        ),
                     },
                 )
             )
@@ -227,13 +243,21 @@ class BreakthroughDetectorV2(CoreInterface):
         return {
             "breakthrough_count": len(validated_breakthroughs),
             "breakthroughs": validated_breakthroughs,
-            "civilizational_impact_score": await self.calculate_civilizational_impact(validated_breakthroughs),
-            "time_to_manifestation": await self.estimate_manifestation_timeline(validated_breakthroughs),
+            "civilizational_impact_score": await self.calculate_civilizational_impact(
+                validated_breakthroughs
+            ),
+            "time_to_manifestation": await self.estimate_manifestation_timeline(
+                validated_breakthroughs
+            ),
             "competitive_advantage_duration": await self.estimate_competitive_advantage_duration(
                 validated_breakthroughs
             ),
-            "implementation_strategies": await self.generate_implementation_strategies(validated_breakthroughs),
-            "detection_confidence": await self.calculate_detection_confidence(validated_breakthroughs),
+            "implementation_strategies": await self.generate_implementation_strategies(
+                validated_breakthroughs
+            ),
+            "detection_confidence": await self.calculate_detection_confidence(
+                validated_breakthroughs
+            ),
         }
 
     async def synthesize_breakthrough_detections(
@@ -311,7 +335,9 @@ class BreakthroughDetectorV2(CoreInterface):
             validation_score = 0.0
 
             # Technical feasibility validation
-            technical_validation = await self._validate_technical_feasibility(breakthrough)
+            technical_validation = await self._validate_technical_feasibility(
+                breakthrough
+            )
             validation_score += technical_validation * 0.3
 
             # Market readiness validation
@@ -319,7 +345,9 @@ class BreakthroughDetectorV2(CoreInterface):
             validation_score += market_validation * 0.2
 
             # Scientific soundness validation
-            scientific_validation = await self._validate_scientific_soundness(breakthrough)
+            scientific_validation = await self._validate_scientific_soundness(
+                breakthrough
+            )
             validation_score += scientific_validation * 0.3
 
             # Impact magnitude validation
@@ -331,11 +359,15 @@ class BreakthroughDetectorV2(CoreInterface):
                 breakthrough["validation_score"] = validation_score
                 validated.append(breakthrough)
             else:
-                logger.info(f"Breakthrough {breakthrough['id']} failed validation: {validation_score:.2f}")
+                logger.info(
+                    f"Breakthrough {breakthrough['id']} failed validation: {validation_score:.2f}"
+                )
 
         return validated
 
-    async def calculate_civilizational_impact(self, breakthroughs: list[dict[str, Any]]) -> float:
+    async def calculate_civilizational_impact(
+        self, breakthroughs: list[dict[str, Any]]
+    ) -> float:
         """Calculate total civilizational impact of breakthroughs"""
 
         if not breakthroughs:
@@ -364,7 +396,9 @@ class BreakthroughDetectorV2(CoreInterface):
         # Normalize to 0-10 scale
         return min(10.0, total_impact / len(breakthroughs))
 
-    async def estimate_manifestation_timeline(self, breakthroughs: list[dict[str, Any]]) -> dict[str, float]:
+    async def estimate_manifestation_timeline(
+        self, breakthroughs: list[dict[str, Any]]
+    ) -> dict[str, float]:
         """Estimate when breakthroughs will manifest"""
 
         timeline = {
@@ -404,7 +438,9 @@ class BreakthroughDetectorV2(CoreInterface):
             "average_years": 3.5,  # Weighted average
         }
 
-    async def estimate_competitive_advantage_duration(self, breakthroughs: list[dict[str, Any]]) -> dict[str, Any]:
+    async def estimate_competitive_advantage_duration(
+        self, breakthroughs: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Estimate how long competitive advantage will last"""
 
         advantage_duration = {
@@ -417,17 +453,23 @@ class BreakthroughDetectorV2(CoreInterface):
         for breakthrough in breakthroughs:
             if breakthrough["type"] == "paradigm_shift":
                 # Paradigm shifts provide longest advantage
-                advantage_duration["expected_months"] = max(advantage_duration["expected_months"], 48)
+                advantage_duration["expected_months"] = max(
+                    advantage_duration["expected_months"], 48
+                )
                 advantage_duration["factors"].append("paradigm_first_mover")
 
             elif breakthrough["type"] == "consciousness_evolution":
                 # Consciousness evolution is hard to replicate
-                advantage_duration["expected_months"] = max(advantage_duration["expected_months"], 36)
+                advantage_duration["expected_months"] = max(
+                    advantage_duration["expected_months"], 36
+                )
                 advantage_duration["factors"].append("consciousness_uniqueness")
 
         return advantage_duration
 
-    async def generate_implementation_strategies(self, breakthroughs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    async def generate_implementation_strategies(
+        self, breakthroughs: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Generate strategies to implement breakthroughs"""
 
         strategies = []
@@ -446,7 +488,11 @@ class BreakthroughDetectorV2(CoreInterface):
                 {
                     "phase": "foundation",
                     "duration_months": 3,
-                    "objectives": ["research_validation", "team_assembly", "resource_allocation"],
+                    "objectives": [
+                        "research_validation",
+                        "team_assembly",
+                        "resource_allocation",
+                    ],
                 }
             )
 
@@ -504,7 +550,9 @@ class BreakthroughDetectorV2(CoreInterface):
 
         return strategies
 
-    async def calculate_detection_confidence(self, breakthroughs: list[dict[str, Any]]) -> float:
+    async def calculate_detection_confidence(
+        self, breakthroughs: list[dict[str, Any]]
+    ) -> float:
         """Calculate overall confidence in detection results"""
 
         if not breakthroughs:
@@ -515,12 +563,18 @@ class BreakthroughDetectorV2(CoreInterface):
         avg_confidence = total_confidence / len(breakthroughs)
 
         # Apply validation score bonus
-        validation_bonus = sum(b.get("validation_score", 0) for b in breakthroughs) / len(breakthroughs) * 0.2
+        validation_bonus = (
+            sum(b.get("validation_score", 0) for b in breakthroughs)
+            / len(breakthroughs)
+            * 0.2
+        )
 
         # Historical accuracy adjustment
         historical_accuracy = 0.85  # Based on past performance
 
-        final_confidence = avg_confidence * 0.6 + validation_bonus + historical_accuracy * 0.2
+        final_confidence = (
+            avg_confidence * 0.6 + validation_bonus + historical_accuracy * 0.2
+        )
 
         return min(1.0, final_confidence)
 
@@ -533,7 +587,11 @@ class BreakthroughDetectorV2(CoreInterface):
                 "threshold": 0.8,
             },
             "paradigm_shift": {
-                "indicators": ["fundamental_assumption_change", "incompatibility", "revolution"],
+                "indicators": [
+                    "fundamental_assumption_change",
+                    "incompatibility",
+                    "revolution",
+                ],
                 "threshold": 0.9,
             },
             "network_effect": {
@@ -541,12 +599,18 @@ class BreakthroughDetectorV2(CoreInterface):
                 "threshold": 0.7,
             },
             "consciousness_leap": {
-                "indicators": ["awareness_expansion", "collective_emergence", "transcendence"],
+                "indicators": [
+                    "awareness_expansion",
+                    "collective_emergence",
+                    "transcendence",
+                ],
                 "threshold": 0.95,
             },
         }
 
-    async def _cross_correlate_breakthroughs(self, breakthroughs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    async def _cross_correlate_breakthroughs(
+        self, breakthroughs: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Cross-correlate breakthroughs to find synergies"""
 
         # Look for breakthroughs that reinforce each other
@@ -572,7 +636,9 @@ class BreakthroughDetectorV2(CoreInterface):
 
         return breakthroughs
 
-    async def _validate_technical_feasibility(self, breakthrough: dict[str, Any]) -> float:
+    async def _validate_technical_feasibility(
+        self, breakthrough: dict[str, Any]
+    ) -> float:
         """Validate technical feasibility of breakthrough"""
 
         # Check against known physical laws and constraints
@@ -595,12 +661,18 @@ class BreakthroughDetectorV2(CoreInterface):
 
         return 0.7  # Default moderate readiness
 
-    async def _validate_scientific_soundness(self, breakthrough: dict[str, Any]) -> float:
+    async def _validate_scientific_soundness(
+        self, breakthrough: dict[str, Any]
+    ) -> float:
         """Validate scientific soundness of breakthrough"""
 
         if breakthrough["type"] == "scientific_revolution":
             details = breakthrough.get("details")
-            if details and hasattr(details, "theoretical_shifts") and len(details.theoretical_shifts) > 2:
+            if (
+                details
+                and hasattr(details, "theoretical_shifts")
+                and len(details.theoretical_shifts) > 2
+            ):
                 return 0.95  # Strong theoretical foundation
 
         return 0.75  # Default reasonable soundness

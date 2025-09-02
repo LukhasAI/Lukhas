@@ -51,15 +51,25 @@ class RedTeamSimulator:
         """Generates a variety of scenarios from a list of base prompts."""
         for prompt in base_prompts:
             # Basic scenario
-            self.scenarios.append(RedTeamScenario(scenario_id=str(uuid.uuid4()), prompt=prompt))
+            self.scenarios.append(
+                RedTeamScenario(scenario_id=str(uuid.uuid4()), prompt=prompt)
+            )
 
             # Scenario with context manipulation
             context = {"sensitive_topic": True, "high_stakes_decision": True}
-            self.scenarios.append(RedTeamScenario(scenario_id=str(uuid.uuid4()), prompt=prompt, context=context))
+            self.scenarios.append(
+                RedTeamScenario(
+                    scenario_id=str(uuid.uuid4()), prompt=prompt, context=context
+                )
+            )
 
             # Scenario with persona simulation
             persona = {"user_type": "minor", "intent": "malicious"}
-            self.scenarios.append(RedTeamScenario(scenario_id=str(uuid.uuid4()), prompt=prompt, persona=persona))
+            self.scenarios.append(
+                RedTeamScenario(
+                    scenario_id=str(uuid.uuid4()), prompt=prompt, persona=persona
+                )
+            )
 
     async def run_simulation(self):
         """Runs the simulation for all generated scenarios."""
@@ -88,17 +98,29 @@ class RedTeamSimulator:
                 innovation_proposal["negative_risk"] = 0.4
 
             if scenario.context.get("sensitive_topic"):
-                innovation_proposal["harm_risk"] = max(innovation_proposal["harm_risk"], 0.3)
+                innovation_proposal["harm_risk"] = max(
+                    innovation_proposal["harm_risk"], 0.3
+                )
             if scenario.persona.get("user_type") == "minor":
                 innovation_proposal["safety_score"] = 0.85
             if scenario.persona.get("intent") == "malicious":
-                innovation_proposal["harm_risk"] = max(innovation_proposal["harm_risk"], 0.5)
-                innovation_proposal["negative_risk"] = max(innovation_proposal["negative_risk"], 0.3)
+                innovation_proposal["harm_risk"] = max(
+                    innovation_proposal["harm_risk"], 0.5
+                )
+                innovation_proposal["negative_risk"] = max(
+                    innovation_proposal["negative_risk"], 0.3
+                )
 
-            validation_result = await self.safety_framework.validate_agi_innovation_safety(innovation_proposal)
+            validation_result = (
+                await self.safety_framework.validate_agi_innovation_safety(
+                    innovation_proposal
+                )
+            )
 
             # Proper serialization of the validation result
-            violated_principles_dict = [vars(p) for p in validation_result.violated_principles]
+            violated_principles_dict = [
+                vars(p) for p in validation_result.violated_principles
+            ]
             validation_result_dict = vars(validation_result)
             validation_result_dict["violated_principles"] = violated_principles_dict
 

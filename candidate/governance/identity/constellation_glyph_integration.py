@@ -79,7 +79,9 @@ class GLYPHMessage:
         self.payload = message_data.get("payload", {})
         self.constellation_context = message_data.get("constellation_context", {})
         self.timestamp = message_data.get("timestamp", datetime.utcnow().isoformat())
-        self.priority = message_data.get("priority", "normal")  # low, normal, high, critical
+        self.priority = message_data.get(
+            "priority", "normal"
+        )  # low, normal, high, critical
         self.ttl_seconds = message_data.get("ttl_seconds", 3600)
         self.symbolic_encoding = message_data.get("symbolic_encoding", {})
 
@@ -120,51 +122,148 @@ class ConstellationValidator:
     def __init__(self):
         self.coherence_rules = {
             ConstellationStar.IDENTITY: {
-                "required_methods": ["authenticate", "verify_identity", "maintain_rhythm"],
-                "required_properties": ["user_id", "tier_level", "namespace", "identity_continuity"],
+                "required_methods": [
+                    "authenticate",
+                    "verify_identity",
+                    "maintain_rhythm",
+                ],
+                "required_properties": [
+                    "user_id",
+                    "tier_level",
+                    "namespace",
+                    "identity_continuity",
+                ],
                 "performance_targets": {"latency_ms": 100, "throughput_rps": 1000},
-                "security_requirements": ["input_validation", "output_sanitization", "audit_logging"],
+                "security_requirements": [
+                    "input_validation",
+                    "output_sanitization",
+                    "audit_logging",
+                ],
             },
             ConstellationStar.MEMORY: {
-                "required_methods": ["store_experience", "retrieve_patterns", "fold_memories"],
-                "required_properties": ["memory_folds", "experience_fields", "pattern_recognition"],
-                "integration_points": ["identity_system", "vision_system", "experience_tracker"],
+                "required_methods": [
+                    "store_experience",
+                    "retrieve_patterns",
+                    "fold_memories",
+                ],
+                "required_properties": [
+                    "memory_folds",
+                    "experience_fields",
+                    "pattern_recognition",
+                ],
+                "integration_points": [
+                    "identity_system",
+                    "vision_system",
+                    "experience_tracker",
+                ],
                 "efficiency_threshold": 0.997,  # 99.7% efficiency target
             },
             ConstellationStar.VISION: {
-                "required_methods": ["perceive_patterns", "orient_direction", "expand_awareness"],
-                "required_properties": ["perception_scope", "guidance_clarity", "horizon_visibility"],
-                "analysis_capabilities": ["pattern_detection", "future_orientation", "context_analysis"],
+                "required_methods": [
+                    "perceive_patterns",
+                    "orient_direction",
+                    "expand_awareness",
+                ],
+                "required_properties": [
+                    "perception_scope",
+                    "guidance_clarity",
+                    "horizon_visibility",
+                ],
+                "analysis_capabilities": [
+                    "pattern_detection",
+                    "future_orientation",
+                    "context_analysis",
+                ],
                 "accuracy_threshold": 0.94,  # 94% accuracy target
             },
             ConstellationStar.BIO: {
-                "required_methods": ["adapt_behavior", "self_repair", "evolve_capabilities"],
-                "required_properties": ["growth_metrics", "resilience_indicators", "adaptation_state"],
-                "living_characteristics": ["self_healing", "continuous_learning", "adaptive_responses"],
+                "required_methods": [
+                    "adapt_behavior",
+                    "self_repair",
+                    "evolve_capabilities",
+                ],
+                "required_properties": [
+                    "growth_metrics",
+                    "resilience_indicators",
+                    "adaptation_state",
+                ],
+                "living_characteristics": [
+                    "self_healing",
+                    "continuous_learning",
+                    "adaptive_responses",
+                ],
                 "vitality_threshold": 0.85,  # 85% system vitality target
             },
             ConstellationStar.DREAM: {
-                "required_methods": ["creative_processing", "symbolic_thinking", "innovative_solutions"],
-                "required_properties": ["creativity_score", "symbolic_depth", "innovation_capacity"],
-                "creative_modes": ["metaphorical_reasoning", "pattern_recombination", "emergent_insights"],
+                "required_methods": [
+                    "creative_processing",
+                    "symbolic_thinking",
+                    "innovative_solutions",
+                ],
+                "required_properties": [
+                    "creativity_score",
+                    "symbolic_depth",
+                    "innovation_capacity",
+                ],
+                "creative_modes": [
+                    "metaphorical_reasoning",
+                    "pattern_recombination",
+                    "emergent_insights",
+                ],
                 "creativity_threshold": 0.75,  # 75% creativity score target
             },
             ConstellationStar.ETHICS: {
-                "required_methods": ["validate_ethics", "align_values", "ensure_beneficence"],
-                "required_properties": ["moral_compass", "value_alignment", "ethical_reasoning"],
-                "ethical_controls": ["constitutional_ai", "value_alignment", "harm_prevention"],
+                "required_methods": [
+                    "validate_ethics",
+                    "align_values",
+                    "ensure_beneficence",
+                ],
+                "required_properties": [
+                    "moral_compass",
+                    "value_alignment",
+                    "ethical_reasoning",
+                ],
+                "ethical_controls": [
+                    "constitutional_ai",
+                    "value_alignment",
+                    "harm_prevention",
+                ],
                 "alignment_threshold": 0.95,  # 95% ethical alignment target
             },
             ConstellationStar.GUARDIAN: {
-                "required_methods": ["protect_boundaries", "detect_threats", "enable_exploration"],
-                "required_properties": ["protection_level", "threat_awareness", "safety_margins"],
-                "protection_modes": ["proactive_safety", "threat_mitigation", "recovery_systems"],
+                "required_methods": [
+                    "protect_boundaries",
+                    "detect_threats",
+                    "enable_exploration",
+                ],
+                "required_properties": [
+                    "protection_level",
+                    "threat_awareness",
+                    "safety_margins",
+                ],
+                "protection_modes": [
+                    "proactive_safety",
+                    "threat_mitigation",
+                    "recovery_systems",
+                ],
                 "safety_threshold": 0.99,  # 99% safety assurance target
             },
             ConstellationStar.QUANTUM: {
-                "required_methods": ["handle_ambiguity", "maintain_superposition", "enable_emergence"],
-                "required_properties": ["uncertainty_tolerance", "possibility_space", "emergence_capacity"],
-                "quantum_behaviors": ["ambiguity_comfort", "multiple_possibilities", "state_superposition"],
+                "required_methods": [
+                    "handle_ambiguity",
+                    "maintain_superposition",
+                    "enable_emergence",
+                ],
+                "required_properties": [
+                    "uncertainty_tolerance",
+                    "possibility_space",
+                    "emergence_capacity",
+                ],
+                "quantum_behaviors": [
+                    "ambiguity_comfort",
+                    "multiple_possibilities",
+                    "state_superposition",
+                ],
                 "emergence_threshold": 0.80,  # 80% emergence capability target
             },
         }
@@ -198,14 +297,18 @@ class ConstellationValidator:
             required_methods = rules.get("required_methods", [])
             for method_name in required_methods:
                 if not hasattr(component_instance, method_name):
-                    compliance_result["violations"].append(f"Missing required method: {method_name}")
+                    compliance_result["violations"].append(
+                        f"Missing required method: {method_name}"
+                    )
                     compliance_result["compliant"] = False
 
             # Check required properties
             required_properties = rules.get("required_properties", [])
             for prop_name in required_properties:
                 if not hasattr(component_instance, prop_name):
-                    compliance_result["warnings"].append(f"Missing recommended property: {prop_name}")
+                    compliance_result["warnings"].append(
+                        f"Missing recommended property: {prop_name}"
+                    )
 
             # Performance validation
             performance_targets = rules.get("performance_targets", {})
@@ -223,15 +326,21 @@ class ConstellationValidator:
 
             # Component-specific validations
             if component == TrinityComponent.CONSCIOUSNESS:
-                consciousness_validation = self._validate_consciousness_specific(component_instance, operation_context)
+                consciousness_validation = self._validate_consciousness_specific(
+                    component_instance, operation_context
+                )
                 compliance_result["consciousness_specific"] = consciousness_validation
 
             elif component == TrinityComponent.GUARDIAN:
-                guardian_validation = self._validate_guardian_specific(component_instance, operation_context)
+                guardian_validation = self._validate_guardian_specific(
+                    component_instance, operation_context
+                )
                 compliance_result["guardian_specific"] = guardian_validation
 
             elif component == TrinityComponent.IDENTITY:
-                identity_validation = self._validate_identity_specific(component_instance, operation_context)
+                identity_validation = self._validate_identity_specific(
+                    component_instance, operation_context
+                )
                 compliance_result["identity_specific"] = identity_validation
 
             # Update compliance status
@@ -278,14 +387,18 @@ class ConstellationValidator:
                     measured_latency = metrics["latency_ms"]
                     target_latency = targets["latency_ms"]
                     performance_metrics["measured_latency_ms"] = measured_latency
-                    performance_metrics["latency_target_met"] = measured_latency <= target_latency
+                    performance_metrics["latency_target_met"] = (
+                        measured_latency <= target_latency
+                    )
 
                 # Throughput check
                 if "throughput_rps" in targets and "throughput_rps" in metrics:
                     measured_throughput = metrics["throughput_rps"]
                     target_throughput = targets["throughput_rps"]
                     performance_metrics["measured_throughput_rps"] = measured_throughput
-                    performance_metrics["throughput_target_met"] = measured_throughput >= target_throughput
+                    performance_metrics["throughput_target_met"] = (
+                        measured_throughput >= target_throughput
+                    )
 
             except Exception as e:
                 performance_metrics["error"] = str(e)
@@ -305,7 +418,9 @@ class ConstellationValidator:
         for requirement in requirements:
             if requirement == "input_validation":
                 # Check if component validates inputs
-                if hasattr(component_instance, "_validate_input") or hasattr(component_instance, "validate_input"):
+                if hasattr(component_instance, "_validate_input") or hasattr(
+                    component_instance, "validate_input"
+                ):
                     security_compliance["requirements_met"].append(requirement)
                 else:
                     security_compliance["requirements_missing"].append(requirement)
@@ -313,21 +428,27 @@ class ConstellationValidator:
 
             elif requirement == "output_sanitization":
                 # Check if component sanitizes outputs
-                if hasattr(component_instance, "_sanitize_output") or hasattr(component_instance, "sanitize_output"):
+                if hasattr(component_instance, "_sanitize_output") or hasattr(
+                    component_instance, "sanitize_output"
+                ):
                     security_compliance["requirements_met"].append(requirement)
                 else:
                     security_compliance["requirements_missing"].append(requirement)
 
             elif requirement == "audit_logging":
                 # Check if component supports audit logging
-                if hasattr(component_instance, "_log_audit") or hasattr(component_instance, "audit_log"):
+                if hasattr(component_instance, "_log_audit") or hasattr(
+                    component_instance, "audit_log"
+                ):
                     security_compliance["requirements_met"].append(requirement)
                 else:
                     security_compliance["requirements_missing"].append(requirement)
 
         return security_compliance
 
-    def _validate_consciousness_specific(self, component_instance: Any, context: dict[str, Any]) -> dict[str, Any]:
+    def _validate_consciousness_specific(
+        self, component_instance: Any, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """🧠 Validate consciousness-specific requirements"""
         validation = {
             "awareness_tracking": False,
@@ -337,20 +458,28 @@ class ConstellationValidator:
         }
 
         # Check awareness tracking
-        if hasattr(component_instance, "track_awareness") or hasattr(component_instance, "consciousness_tracker"):
+        if hasattr(component_instance, "track_awareness") or hasattr(
+            component_instance, "consciousness_tracker"
+        ):
             validation["awareness_tracking"] = True
 
         # Check memory integration
-        if hasattr(component_instance, "memory_integration") or hasattr(component_instance, "update_memory"):
+        if hasattr(component_instance, "memory_integration") or hasattr(
+            component_instance, "update_memory"
+        ):
             validation["memory_integration"] = True
 
         # Check drift monitoring
-        if hasattr(component_instance, "drift_score") or hasattr(component_instance, "detect_drift"):
+        if hasattr(component_instance, "drift_score") or hasattr(
+            component_instance, "detect_drift"
+        ):
             validation["drift_monitoring"] = True
 
         return validation
 
-    def _validate_guardian_specific(self, component_instance: Any, context: dict[str, Any]) -> dict[str, Any]:
+    def _validate_guardian_specific(
+        self, component_instance: Any, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """🛡️ Validate guardian-specific requirements"""
         validation = {
             "constitutional_ai_compliance": False,
@@ -366,20 +495,28 @@ class ConstellationValidator:
             validation["constitutional_ai_compliance"] = True
 
         # Check drift detection
-        if hasattr(component_instance, "detect_drift") or hasattr(component_instance, "drift_threshold"):
+        if hasattr(component_instance, "detect_drift") or hasattr(
+            component_instance, "drift_threshold"
+        ):
             validation["drift_detection_active"] = True
 
         # Check security enforcement
-        if hasattr(component_instance, "enforce_security") or hasattr(component_instance, "security_policy"):
+        if hasattr(component_instance, "enforce_security") or hasattr(
+            component_instance, "security_policy"
+        ):
             validation["security_enforcement"] = True
 
         # Check audit trail
-        if hasattr(component_instance, "audit_trail") or hasattr(component_instance, "_log_audit"):
+        if hasattr(component_instance, "audit_trail") or hasattr(
+            component_instance, "_log_audit"
+        ):
             validation["audit_trail_complete"] = True
 
         return validation
 
-    def _validate_identity_specific(self, component_instance: Any, context: dict[str, Any]) -> dict[str, Any]:
+    def _validate_identity_specific(
+        self, component_instance: Any, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """⚛️ Validate identity-specific requirements"""
         validation = {
             "authentication_methods": [],
@@ -400,19 +537,27 @@ class ConstellationValidator:
         validation["authentication_methods"] = auth_methods
 
         # Check identity verification
-        if hasattr(component_instance, "verify_identity") or hasattr(component_instance, "identity_verifier"):
+        if hasattr(component_instance, "verify_identity") or hasattr(
+            component_instance, "identity_verifier"
+        ):
             validation["identity_verification"] = True
 
         # Check tier system integration
-        if hasattr(component_instance, "tier_manager") or hasattr(component_instance, "verify_tier_access"):
+        if hasattr(component_instance, "tier_manager") or hasattr(
+            component_instance, "verify_tier_access"
+        ):
             validation["tier_system_integration"] = True
 
         # Check λID support
-        if hasattr(component_instance, "lambda_id_generator") or hasattr(component_instance, "generate_lambda_id"):
+        if hasattr(component_instance, "lambda_id_generator") or hasattr(
+            component_instance, "generate_lambda_id"
+        ):
             validation["lambda_id_support"] = True
 
         # Check namespace awareness
-        if hasattr(component_instance, "namespace_manager") or hasattr(component_instance, "resolve_namespace"):
+        if hasattr(component_instance, "namespace_manager") or hasattr(
+            component_instance, "resolve_namespace"
+        ):
             validation["namespace_awareness"] = True
 
         return validation
@@ -452,14 +597,18 @@ class GLYPHIntegrator:
             message_data = {
                 "glyph_type": glyph_type.value,
                 "source_module": source_module,
-                "target_modules": target_modules or ["*"],  # Broadcast to all if not specified
+                "target_modules": target_modules
+                or ["*"],  # Broadcast to all if not specified
                 "payload": payload,
                 "priority": priority,
-                "trinity_context": trinity_context or self._generate_trinity_context(payload),
+                "trinity_context": trinity_context
+                or self._generate_trinity_context(payload),
             }
 
             # Add symbolic encoding
-            message_data["symbolic_encoding"] = self._generate_symbolic_encoding(glyph_type, payload)
+            message_data["symbolic_encoding"] = self._generate_symbolic_encoding(
+                glyph_type, payload
+            )
 
             glyph_message = GLYPHMessage(message_data)
 
@@ -467,7 +616,9 @@ class GLYPHIntegrator:
             if trinity_context:
                 compliance_validation = self._validate_trinity_compliance(glyph_message)
                 if not compliance_validation["compliant"]:
-                    raise Exception(f"Trinity compliance violation: {compliance_validation['violations']}")
+                    raise Exception(
+                        f"Trinity compliance violation: {compliance_validation['violations']}"
+                    )
 
             # Add to queue for processing
             self.message_queue.append(glyph_message)
@@ -486,7 +637,9 @@ class GLYPHIntegrator:
             self.message_stats["processing_errors"] += 1
             raise Exception(f"Failed to publish GLYPH message: {e!s}")
 
-    def subscribe_to_glyph_type(self, glyph_type: GLYPHType, handler_function: callable, module_name: str) -> bool:
+    def subscribe_to_glyph_type(
+        self, glyph_type: GLYPHType, handler_function: callable, module_name: str
+    ) -> bool:
         """Subscribe to specific GLYPH message types"""
         try:
             if glyph_type not in self.subscribers:
@@ -518,18 +671,24 @@ class GLYPHIntegrator:
 
         try:
             # Remove expired messages first
-            active_messages = [msg for msg in self.message_queue if not msg.is_expired()]
+            active_messages = [
+                msg for msg in self.message_queue if not msg.is_expired()
+            ]
             expired_count = len(self.message_queue) - len(active_messages)
             self.message_queue = active_messages
 
             # Process messages by priority
             self.message_queue.sort(
-                key=lambda msg: {"critical": 0, "high": 1, "normal": 2, "low": 3}.get(msg.priority, 2)
+                key=lambda msg: {"critical": 0, "high": 1, "normal": 2, "low": 3}.get(
+                    msg.priority, 2
+                )
             )
 
             processed_messages = []
 
-            for message in self.message_queue[:100]:  # Process up to 100 messages per batch
+            for message in self.message_queue[
+                :100
+            ]:  # Process up to 100 messages per batch
                 try:
                     result = self._process_message(message)
                     if result:
@@ -551,7 +710,9 @@ class GLYPHIntegrator:
             processing_results["remaining_in_queue"] = len(self.message_queue)
 
             # Update stats
-            self.message_stats["messages_processed"] += processing_results["processed_count"]
+            self.message_stats["messages_processed"] += processing_results[
+                "processed_count"
+            ]
             self.message_stats["processing_errors"] += processing_results["error_count"]
 
             return processing_results
@@ -574,7 +735,10 @@ class GLYPHIntegrator:
             for subscriber in subscribers:
                 try:
                     # Check if message is targeted to this module
-                    if "*" in message.target_modules or subscriber["module"] in message.target_modules:
+                    if (
+                        "*" in message.target_modules
+                        or subscriber["module"] in message.target_modules
+                    ):
                         # Call subscriber handler
                         subscriber["handler"](message)
 
@@ -611,7 +775,9 @@ class GLYPHIntegrator:
             },
         }
 
-    def _generate_symbolic_encoding(self, glyph_type: GLYPHType, payload: dict[str, Any]) -> dict[str, Any]:
+    def _generate_symbolic_encoding(
+        self, glyph_type: GLYPHType, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate symbolic encoding for GLYPH message"""
         encoding = {
             "primary_symbol": self._get_primary_symbol(glyph_type),
@@ -676,17 +842,23 @@ class GLYPHIntegrator:
             component_context = trinity_context.get(component.value, {})
 
             if not component_context.get("component_active", False):
-                validation_result["warnings"].append(f"Trinity component {component.value} is not active")
+                validation_result["warnings"].append(
+                    f"Trinity component {component.value} is not active"
+                )
 
             # Component-specific validations
             if component == TrinityComponent.GUARDIAN:
                 if not component_context.get("security_validated", False):
-                    validation_result["violations"].append("Guardian security validation failed")
+                    validation_result["violations"].append(
+                        "Guardian security validation failed"
+                    )
                     validation_result["compliant"] = False
 
                 drift_score = component_context.get("drift_score", 0.0)
                 if drift_score > 0.15:  # Drift threshold
-                    validation_result["violations"].append(f"Drift score {drift_score} exceeds threshold 0.15")
+                    validation_result["violations"].append(
+                        f"Drift score {drift_score} exceeds threshold 0.15"
+                    )
                     validation_result["compliant"] = False
 
         return validation_result
@@ -700,7 +872,9 @@ class GLYPHIntegrator:
             "message_statistics": self.message_stats,
             "queue_status": {
                 "pending_messages": len(self.message_queue),
-                "subscribers_count": sum(len(subs) for subs in self.subscribers.values()),
+                "subscribers_count": sum(
+                    len(subs) for subs in self.subscribers.values()
+                ),
                 "message_types_supported": len(GLYPHType),
                 "published_messages_total": len(self.published_messages),
             },
@@ -710,9 +884,12 @@ class GLYPHIntegrator:
                 "supported_components": [comp.value for comp in TrinityComponent],
             },
             "performance_metrics": {
-                "avg_processing_time_ms": self.message_stats.get("avg_processing_time_ms", 0),
+                "avg_processing_time_ms": self.message_stats.get(
+                    "avg_processing_time_ms", 0
+                ),
                 "error_rate": (
-                    self.message_stats["processing_errors"] / max(self.message_stats["messages_processed"], 1)
+                    self.message_stats["processing_errors"]
+                    / max(self.message_stats["messages_processed"], 1)
                 )
                 * 100,
                 "throughput_messages_per_second": self._calculate_throughput(),
@@ -723,7 +900,9 @@ class GLYPHIntegrator:
         """Calculate message processing throughput"""
         # Simplified calculation - in production would track over time windows
         if self.message_stats["messages_processed"] > 0:
-            return min(self.message_stats["messages_processed"] / 60.0, 1000.0)  # Messages per second, capped at 1000
+            return min(
+                self.message_stats["messages_processed"] / 60.0, 1000.0
+            )  # Messages per second, capped at 1000
         return 0.0
 
 
@@ -758,14 +937,18 @@ def create_trinity_compliant_identity_system(
                         "component": component.value,
                         "compliant": compliance_result["compliant"],
                         "violations": compliance_result.get("violations", []),
-                        "validation_time_ms": compliance_result.get("validation_time_ms", 0),
+                        "validation_time_ms": compliance_result.get(
+                            "validation_time_ms", 0
+                        ),
                     },
                     source_module="identity_trinity_validator",
                     priority="high",
                 )
 
             except Exception as e:
-                print(f"Trinity compliance validation failed for {component.value}: {e}")
+                print(
+                    f"Trinity compliance validation failed for {component.value}: {e}"
+                )
 
         return identity_system, trinity_validator, glyph_integrator
 

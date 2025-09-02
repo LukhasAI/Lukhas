@@ -106,8 +106,12 @@ class EndocrineObservabilityEngine:
 
         # Monitoring state
         self.is_running = False
-        self.monitoring_interval = self.config.get("monitoring_interval", 5.0)  # seconds
-        self.snapshot_retention = self.config.get("snapshot_retention", 1000)  # snapshots
+        self.monitoring_interval = self.config.get(
+            "monitoring_interval", 5.0
+        )  # seconds
+        self.snapshot_retention = self.config.get(
+            "snapshot_retention", 1000
+        )  # snapshots
 
         # Data storage
         self.snapshots: deque = deque(maxlen=self.snapshot_retention)
@@ -190,11 +194,15 @@ class EndocrineObservabilityEngine:
             snapshot.coherence_score = 0.6
         return snapshot
 
-    async def analyze_plasticity_triggers(self, snapshot: "EndocrineSnapshot") -> list["PlasticityEvent"]:
+    async def analyze_plasticity_triggers(
+        self, snapshot: "EndocrineSnapshot"
+    ) -> list["PlasticityEvent"]:
         """Public wrapper used by tests to analyze triggers from a snapshot."""
         return await self._analyze_plasticity_triggers(snapshot)
 
-    async def assess_homeostasis(self, snapshot: "EndocrineSnapshot") -> dict[str, float]:
+    async def assess_homeostasis(
+        self, snapshot: "EndocrineSnapshot"
+    ) -> dict[str, float]:
         """Provide a simple homeostasis assessment used by tests."""
         hormones = snapshot.hormone_levels or {}
         if not hormones:
@@ -238,7 +246,9 @@ class EndocrineObservabilityEngine:
             return True
 
         except Exception as e:
-            logger.error("Failed to initialize EndocrineObservabilityEngine", error=str(e))
+            logger.error(
+                "Failed to initialize EndocrineObservabilityEngine", error=str(e)
+            )
             return False
 
     async def start_monitoring(self):
@@ -296,7 +306,9 @@ class EndocrineObservabilityEngine:
 
             # Get homeostasis state
             if self.homeostasis_controller:
-                snapshot.homeostasis_state = str(self.homeostasis_controller.current_state)
+                snapshot.homeostasis_state = str(
+                    self.homeostasis_controller.current_state
+                )
 
             # Collect system metrics
             snapshot.system_metrics = await self._collect_system_metrics()
@@ -343,14 +355,19 @@ class EndocrineObservabilityEngine:
 
         return metrics
 
-    async def _analyze_plasticity_triggers(self, snapshot: EndocrineSnapshot) -> list[PlasticityEvent]:
+    async def _analyze_plasticity_triggers(
+        self, snapshot: EndocrineSnapshot
+    ) -> list[PlasticityEvent]:
         """Analyze current state for plasticity trigger conditions"""
         triggers = []
 
         hormone_levels = snapshot.hormone_levels
         system_metrics = snapshot.system_metrics
         # Compatibility: map generic performance metric to processing_efficiency if provided
-        if "processing_efficiency" not in system_metrics and "performance" in system_metrics:
+        if (
+            "processing_efficiency" not in system_metrics
+            and "performance" in system_metrics
+        ):
             try:
                 perf = float(system_metrics.get("performance", 0.8))
             except Exception:
@@ -380,7 +397,9 @@ class EndocrineObservabilityEngine:
         dopamine = hormone_levels.get("dopamine", 0.5)
         processing_efficiency = system_metrics.get("processing_efficiency", 0.8)
 
-        perf_thresholds = self.trigger_thresholds[PlasticityTriggerType.PERFORMANCE_OPTIMIZATION]
+        perf_thresholds = self.trigger_thresholds[
+            PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
+        ]
         if (
             dopamine <= perf_thresholds["dopamine_low"]
             or processing_efficiency < perf_thresholds["processing_efficiency_low"]
@@ -395,7 +414,9 @@ class EndocrineObservabilityEngine:
 
         # Social enhancement triggers
         oxytocin = hormone_levels.get("oxytocin", 0.5)
-        social_thresholds = self.trigger_thresholds[PlasticityTriggerType.SOCIAL_ENHANCEMENT]
+        social_thresholds = self.trigger_thresholds[
+            PlasticityTriggerType.SOCIAL_ENHANCEMENT
+        ]
 
         if oxytocin < social_thresholds["oxytocin_low"]:
             triggers.append(
@@ -410,8 +431,13 @@ class EndocrineObservabilityEngine:
         melatonin = hormone_levels.get("melatonin", 0.5)
         system_idle = 1.0 - (system_metrics.get("cpu_percent", 50) / 100)
 
-        recovery_thresholds = self.trigger_thresholds[PlasticityTriggerType.RECOVERY_CONSOLIDATION]
-        if melatonin > recovery_thresholds["melatonin_high"] and system_idle > recovery_thresholds["system_idle"]:
+        recovery_thresholds = self.trigger_thresholds[
+            PlasticityTriggerType.RECOVERY_CONSOLIDATION
+        ]
+        if (
+            melatonin > recovery_thresholds["melatonin_high"]
+            and system_idle > recovery_thresholds["system_idle"]
+        ):
             triggers.append(
                 PlasticityEvent(
                     trigger_type=PlasticityTriggerType.RECOVERY_CONSOLIDATION,
@@ -422,7 +448,9 @@ class EndocrineObservabilityEngine:
 
         # Emotional regulation triggers
         emotional_coherence = system_metrics.get("emotional_coherence", 0.7)
-        emotion_thresholds = self.trigger_thresholds[PlasticityTriggerType.EMOTIONAL_REGULATION]
+        emotion_thresholds = self.trigger_thresholds[
+            PlasticityTriggerType.EMOTIONAL_REGULATION
+        ]
 
         if emotional_coherence < emotion_thresholds["emotional_coherence_low"]:
             triggers.append(
@@ -435,7 +463,9 @@ class EndocrineObservabilityEngine:
 
         return triggers
 
-    async def _process_plasticity_trigger(self, trigger: PlasticityEvent, snapshot: EndocrineSnapshot):
+    async def _process_plasticity_trigger(
+        self, trigger: PlasticityEvent, snapshot: EndocrineSnapshot
+    ):
         """Process a plasticity trigger and apply appropriate adaptations"""
         logger.info(
             "Processing plasticity trigger",
@@ -479,7 +509,9 @@ class EndocrineObservabilityEngine:
             )
             trigger.success = False
 
-    async def _apply_default_adaptation(self, trigger: PlasticityEvent, snapshot: EndocrineSnapshot) -> bool:
+    async def _apply_default_adaptation(
+        self, trigger: PlasticityEvent, snapshot: EndocrineSnapshot
+    ) -> bool:
         """Apply default adaptation strategies for different trigger types"""
         adaptation_applied = ""
 
@@ -487,17 +519,23 @@ class EndocrineObservabilityEngine:
             if trigger.trigger_type == PlasticityTriggerType.STRESS_ADAPTATION:
                 # Activate stress response protocols
                 await self._activate_stress_response(trigger.hormone_context)
-                adaptation_applied = "Activated stress response protocols, increased resource allocation"
+                adaptation_applied = (
+                    "Activated stress response protocols, increased resource allocation"
+                )
 
             elif trigger.trigger_type == PlasticityTriggerType.PERFORMANCE_OPTIMIZATION:
                 # Optimize processing parameters
                 await self._optimize_processing_parameters(snapshot.system_metrics)
-                adaptation_applied = "Optimized processing parameters, adjusted resource distribution"
+                adaptation_applied = (
+                    "Optimized processing parameters, adjusted resource distribution"
+                )
 
             elif trigger.trigger_type == PlasticityTriggerType.SOCIAL_ENHANCEMENT:
                 # Enhance interaction capabilities
                 await self._enhance_social_features()
-                adaptation_applied = "Enhanced social interaction features, improved empathy responses"
+                adaptation_applied = (
+                    "Enhanced social interaction features, improved empathy responses"
+                )
 
             elif trigger.trigger_type == PlasticityTriggerType.RECOVERY_CONSOLIDATION:
                 # Consolidate learning and optimize memory
@@ -507,7 +545,9 @@ class EndocrineObservabilityEngine:
             elif trigger.trigger_type == PlasticityTriggerType.EMOTIONAL_REGULATION:
                 # Adjust emotional processing
                 await self._regulate_emotional_processing(snapshot.hormone_levels)
-                adaptation_applied = "Regulated emotional processing, balanced mood responses"
+                adaptation_applied = (
+                    "Regulated emotional processing, balanced mood responses"
+                )
 
             trigger.adaptation_applied = adaptation_applied
             logger.info(
@@ -538,7 +578,10 @@ class EndocrineObservabilityEngine:
             hormone_levels = self.endocrine_system.get_hormone_levels()
 
             # Calculate balance across hormone systems
-            stress_hormones = (hormone_levels.get("cortisol", 0.5) + hormone_levels.get("adrenaline", 0.5)) / 2
+            stress_hormones = (
+                hormone_levels.get("cortisol", 0.5)
+                + hormone_levels.get("adrenaline", 0.5)
+            ) / 2
             positive_hormones = (
                 hormone_levels.get("dopamine", 0.5)
                 + hormone_levels.get("serotonin", 0.5)
@@ -551,7 +594,9 @@ class EndocrineObservabilityEngine:
             # Factor in system performance
             if self.snapshots:
                 recent_snapshot = self.snapshots[-1]
-                performance_factor = recent_snapshot.system_metrics.get("processing_efficiency", 0.8)
+                performance_factor = recent_snapshot.system_metrics.get(
+                    "processing_efficiency", 0.8
+                )
                 coherence_score = (balance_score * 0.6) + (performance_factor * 0.4)
             else:
                 coherence_score = balance_score
@@ -680,7 +725,9 @@ class EndocrineObservabilityEngine:
         return MockEndocrineSystem()
 
     # Public API methods
-    def register_adaptation_handler(self, trigger_type: PlasticityTriggerType, handler: Callable):
+    def register_adaptation_handler(
+        self, trigger_type: PlasticityTriggerType, handler: Callable
+    ):
         """Register a custom adaptation handler for a trigger type"""
         self.adaptation_handlers[trigger_type] = handler
         logger.info("Registered adaptation handler", trigger_type=trigger_type.value)
@@ -689,14 +736,18 @@ class EndocrineObservabilityEngine:
         """Get the most recent endocrine snapshot"""
         return self.snapshots[-1] if self.snapshots else None
 
-    def get_trend_data(self, metric_name: str, lookback_points: int = 50) -> list[float]:
+    def get_trend_data(
+        self, metric_name: str, lookback_points: int = 50
+    ) -> list[float]:
         """Get trend data for a specific metric"""
         return list(self.trend_history[metric_name])[-lookback_points:]
 
     def get_plasticity_history(self, lookback_hours: int = 24) -> list[PlasticityEvent]:
         """Get recent plasticity events"""
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=lookback_hours)
-        return [event for event in self.plasticity_events if event.timestamp > cutoff_time]
+        return [
+            event for event in self.plasticity_events if event.timestamp > cutoff_time
+        ]
 
     def get_coherence_trend(self, lookback_points: int = 50) -> list[float]:
         """Get bio-symbolic coherence trend"""

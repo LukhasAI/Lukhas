@@ -76,7 +76,9 @@ class EnhancedStateDetermination:
         dominance = emotional.get("dominance", 0.5)
 
         # Calculate base probabilities for each state
-        state_probs = self._calculate_base_probabilities(magnitude, valence, arousal, dominance)
+        state_probs = self._calculate_base_probabilities(
+            magnitude, valence, arousal, dominance
+        )
 
         # Apply transition matrix from previous state
         if self.previous_state in self.transition_matrix:
@@ -105,7 +107,9 @@ class EnhancedStateDetermination:
 
         # Renormalize
         total = sum(probs)
-        probs = [p / total for p in probs] if total > 0 else [1 / len(states)] * len(states)
+        probs = (
+            [p / total for p in probs] if total > 0 else [1 / len(states)] * len(states)
+        )
 
         # Choose state
         selected_state = np.random.choice(states, p=probs)

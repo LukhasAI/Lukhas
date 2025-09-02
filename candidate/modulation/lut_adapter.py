@@ -10,9 +10,13 @@ def apply_lut(params: dict[str, Any]) -> dict[str, Any]:
     lut = get_lut()
     style = (lut or {}).get("style", {})
     out = dict(params)
-    out["temperature"] = float(out.get("temperature", 0.6)) + float(style.get("temperature_delta", 0.0))
+    out["temperature"] = float(out.get("temperature", 0.6)) + float(
+        style.get("temperature_delta", 0.0)
+    )
     out["top_p"] = float(out.get("top_p", 0.9)) + float(style.get("top_p_delta", 0.0))
-    out["memory_write"] = float(out.get("memory_write", 0.4)) + float(style.get("memory_write_boost", 0.0))
+    out["memory_write"] = float(out.get("memory_write", 0.4)) + float(
+        style.get("memory_write_boost", 0.0)
+    )
 
     def clamp(v, lo, hi):
         return max(lo, min(hi, v))

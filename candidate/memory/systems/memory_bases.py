@@ -44,7 +44,12 @@ class MemoryManager(ABC):
 class MemoryAccessPolicy:
     """Base class for memory access policies."""
 
-    def __init__(self, owner_id: str, public: bool = False, allowed_users: Optional[list[str]] = None):
+    def __init__(
+        self,
+        owner_id: str,
+        public: bool = False,
+        allowed_users: Optional[list[str]] = None,
+    ):
         self.owner_id = owner_id
         self.public = public
         self.allowed_users = allowed_users or []

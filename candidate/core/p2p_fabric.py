@@ -31,7 +31,9 @@ class P2PNode:
             with self.lock:
                 self.peers.add(addr)
             print(f"P2PNode: Accepted connection from {addr}")
-            handler_thread = threading.Thread(target=self._handle_connection, args=(conn, addr))
+            handler_thread = threading.Thread(
+                target=self._handle_connection, args=(conn, addr)
+            )
             handler_thread.daemon = True
             handler_thread.start()
 

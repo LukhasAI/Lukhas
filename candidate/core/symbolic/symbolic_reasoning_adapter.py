@@ -95,7 +95,9 @@ class SymbolicReasoningAdapter:
 
         logger.info("SymbolicReasoningAdapter initialized - SCAFFOLD MODE")
 
-    def adapt_symbolic_reasoning(self, symbolic_input: dict[str, Any], target_mode: ReasoningMode) -> dict[str, Any]:
+    def adapt_symbolic_reasoning(
+        self, symbolic_input: dict[str, Any], target_mode: ReasoningMode
+    ) -> dict[str, Any]:
         """
         Adapt symbolic reasoning to target reasoning mode
 

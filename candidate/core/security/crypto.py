@@ -141,7 +141,9 @@ class EnhancedEncryptionManager:
         """Generate cryptographically secure key"""
         return secrets.token_bytes(length)
 
-    def _create_key(self, purpose: str, algorithm: str = "AES-256-GCM") -> EncryptionKey:
+    def _create_key(
+        self, purpose: str, algorithm: str = "AES-256-GCM"
+    ) -> EncryptionKey:
         """Create new encryption key"""
         key_id = f"{purpose}_{secrets.token_hex(8)}"
         key_material = self._generate_key(32)  # 256 bits
@@ -310,7 +312,9 @@ class EnhancedEncryptionManager:
 
     # Key derivation functions
 
-    def derive_key_pbkdf2(self, password: str, salt: bytes, iterations: int = 100000) -> bytes:
+    def derive_key_pbkdf2(
+        self, password: str, salt: bytes, iterations: int = 100000
+    ) -> bytes:
         """Derive key from password using PBKDF2"""
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
@@ -343,7 +347,9 @@ class EnhancedEncryptionManager:
         """Constant-time comparison to prevent timing attacks"""
         return secrets.compare_digest(a, b)
 
-    async def encrypt_json(self, data: dict[str, Any], purpose: str = "data") -> tuple[str, str]:
+    async def encrypt_json(
+        self, data: dict[str, Any], purpose: str = "data"
+    ) -> tuple[str, str]:
         """Encrypt JSON data"""
         json_bytes = json.dumps(data).encode("utf-8")
         ciphertext, key_id = await self.encrypt(json_bytes, purpose)

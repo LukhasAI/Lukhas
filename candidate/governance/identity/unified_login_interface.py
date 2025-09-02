@@ -38,12 +38,9 @@ from typing import Any, Optional
 
 # Import our revolutionary authentication system
 try:
-    from .core.unified_auth_manager import (
-        AuthMethod,
-        ConsciousnessState,
-        UnifiedAuthContext,
-        get_revolutionary_auth_manager,
-    )
+    from .core.unified_auth_manager import (AuthMethod, ConsciousnessState,
+                                            UnifiedAuthContext,
+                                            get_revolutionary_auth_manager)
     from .lambda_id_auth import AuthTier
 except ImportError:
     # Fallback for direct execution
@@ -53,11 +50,8 @@ except ImportError:
     from lambda_id_auth import AuthTier
 
     from candidate.core.unified_auth_manager import (
-        AuthMethod,
-        ConsciousnessState,
-        UnifiedAuthContext,
-        get_revolutionary_auth_manager,
-    )
+        AuthMethod, ConsciousnessState, UnifiedAuthContext,
+        get_revolutionary_auth_manager)
 
 logger = logging.getLogger(__name__)
 

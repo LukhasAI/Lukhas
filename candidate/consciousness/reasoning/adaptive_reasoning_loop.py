@@ -28,7 +28,12 @@ class ReasoningStrategy(Enum):
 class ReasoningContext:
     """Context for reasoning operations"""
 
-    def __init__(self, query: str, domain: str = "general", constraints: Optional[dict[str, Any]] = None):
+    def __init__(
+        self,
+        query: str,
+        domain: str = "general",
+        constraints: Optional[dict[str, Any]] = None,
+    ):
         self.query = query
         self.domain = domain
         self.constraints = constraints or {}
@@ -131,7 +136,9 @@ class AdaptiveReasoningLoop:
         context.metadata["strategies_used"].append(selected.value)
         return selected
 
-    async def _apply_strategy(self, strategy: ReasoningStrategy, context: ReasoningContext) -> dict[str, Any]:
+    async def _apply_strategy(
+        self, strategy: ReasoningStrategy, context: ReasoningContext
+    ) -> dict[str, Any]:
         """Apply a specific reasoning strategy"""
         step_result = {
             "strategy": strategy.value,
@@ -161,7 +168,9 @@ class AdaptiveReasoningLoop:
 
         return step_result
 
-    async def _deductive_reasoning(self, context: ReasoningContext, result: dict[str, Any]) -> dict[str, Any]:
+    async def _deductive_reasoning(
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply deductive reasoning: general principles to specific conclusions"""
         result["process"].append("Applying general rules to specific case")
 
@@ -175,7 +184,9 @@ class AdaptiveReasoningLoop:
 
         return result
 
-    async def _inductive_reasoning(self, context: ReasoningContext, result: dict[str, Any]) -> dict[str, Any]:
+    async def _inductive_reasoning(
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply inductive reasoning: specific observations to general principles"""
         result["process"].append("Generalizing from specific examples")
 
@@ -189,7 +200,9 @@ class AdaptiveReasoningLoop:
 
         return result
 
-    async def _abductive_reasoning(self, context: ReasoningContext, result: dict[str, Any]) -> dict[str, Any]:
+    async def _abductive_reasoning(
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply abductive reasoning: best explanation for observations"""
         result["process"].append("Finding best explanation for observations")
 
@@ -203,7 +216,9 @@ class AdaptiveReasoningLoop:
 
         return result
 
-    async def _analogical_reasoning(self, context: ReasoningContext, result: dict[str, Any]) -> dict[str, Any]:
+    async def _analogical_reasoning(
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply analogical reasoning: reasoning by comparison"""
         result["process"].append("Finding similar cases for comparison")
 
@@ -217,7 +232,9 @@ class AdaptiveReasoningLoop:
 
         return result
 
-    async def _causal_reasoning(self, context: ReasoningContext, result: dict[str, Any]) -> dict[str, Any]:
+    async def _causal_reasoning(
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply causal reasoning: understanding cause and effect"""
         result["process"].append("Analyzing causal relationships")
 
@@ -231,7 +248,9 @@ class AdaptiveReasoningLoop:
 
         return result
 
-    async def _probabilistic_reasoning(self, context: ReasoningContext, result: dict[str, Any]) -> dict[str, Any]:
+    async def _probabilistic_reasoning(
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply probabilistic reasoning: reasoning under uncertainty"""
         result["process"].append("Calculating probabilities and uncertainties")
 
@@ -245,7 +264,9 @@ class AdaptiveReasoningLoop:
 
         return result
 
-    async def _symbolic_reasoning(self, context: ReasoningContext, result: dict[str, Any]) -> dict[str, Any]:
+    async def _symbolic_reasoning(
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply symbolic reasoning: formal logic and symbol manipulation"""
         result["process"].append("Applying formal symbolic logic")
 
@@ -259,7 +280,9 @@ class AdaptiveReasoningLoop:
 
         return result
 
-    async def _hybrid_reasoning(self, context: ReasoningContext, result: dict[str, Any]) -> dict[str, Any]:
+    async def _hybrid_reasoning(
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply hybrid reasoning: combining multiple strategies"""
         result["process"].append("Combining multiple reasoning strategies")
 
@@ -298,11 +321,17 @@ class AdaptiveReasoningLoop:
         """Adapt reasoning strategy based on performance"""
         if performance < 0.3:
             # Poor performance - try a different strategy
-            unused_strategies = [s for s in ReasoningStrategy if s.value not in context.metadata["strategies_used"]]
+            unused_strategies = [
+                s
+                for s in ReasoningStrategy
+                if s.value not in context.metadata["strategies_used"]
+            ]
             if unused_strategies:
                 new_strategy = unused_strategies[0]
                 context.metadata["strategies_used"].append(new_strategy.value)
-                logger.info(f"Adapting strategy from {current_strategy.value} to {new_strategy.value}")
+                logger.info(
+                    f"Adapting strategy from {current_strategy.value} to {new_strategy.value}"
+                )
                 return new_strategy
 
         elif performance < 0.6:
@@ -318,7 +347,9 @@ class AdaptiveReasoningLoop:
         if strategy in self.strategy_weights:
             # Increase weight for better performing strategies
             adjustment = (performance - 0.5) * 0.1
-            self.strategy_weights[strategy] = max(0.05, min(0.4, self.strategy_weights[strategy] + adjustment))
+            self.strategy_weights[strategy] = max(
+                0.05, min(0.4, self.strategy_weights[strategy] + adjustment)
+            )
 
             # Normalize weights
             total = sum(self.strategy_weights.values())
@@ -337,7 +368,9 @@ class AdaptiveReasoningLoop:
             "active": self.active,
             "current_strategy": self.current_strategy.value,
             "strategy_weights": {k.value: v for k, v in self.strategy_weights.items()},
-            "performance_history": self.performance_history[-10:],  # Last 10 performances
+            "performance_history": self.performance_history[
+                -10:
+            ],  # Last 10 performances
             "adaptation_threshold": self.adaptation_threshold,
         }
 

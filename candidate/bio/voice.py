@@ -61,14 +61,19 @@ class VoiceBioAdapter:
                 "chunk_size": chunk_size,
                 "bio_enhancement": bio_enhancement,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "input_length": len(audio_data) if hasattr(audio_data, "__len__") else 0,
+                "input_length": (
+                    len(audio_data) if hasattr(audio_data, "__len__") else 0
+                ),
             }
 
             # Bio-inspired processing stages
             processed_data = audio_data
 
             # Stage 1: Breath pattern analysis
-            if bio_enhancement and "breath_pattern_analyzer" in self._registered_modules:
+            if (
+                bio_enhancement
+                and "breath_pattern_analyzer" in self._registered_modules
+            ):
                 breath_info = self._analyze_breath_patterns(processed_data)
                 processing_context["breath_analysis"] = breath_info
 
@@ -78,7 +83,10 @@ class VoiceBioAdapter:
                 processing_context["vocal_simulation"] = vocal_params
 
             # Stage 3: Emotional resonance modulation
-            if bio_enhancement and "emotional_resonance_modulator" in self._registered_modules:
+            if (
+                bio_enhancement
+                and "emotional_resonance_modulator" in self._registered_modules
+            ):
                 emotion_data = self._modulate_emotional_resonance(processed_data)
                 processing_context["emotional_modulation"] = emotion_data
 
@@ -116,7 +124,10 @@ class VoiceBioAdapter:
                 {
                     "chunk_size": 512,
                     "bio_enhancement": False,
-                    "skip_modules": ["emotional_resonance_modulator", "harmonic_bio_adapter"],
+                    "skip_modules": [
+                        "emotional_resonance_modulator",
+                        "harmonic_bio_adapter",
+                    ],
                     "processing_threads": 1,
                 }
             )
@@ -154,7 +165,9 @@ class VoiceBioAdapter:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "registered_modules": len(getattr(self, "_registered_modules", {})),
             "active_modules": sum(
-                1 for m in getattr(self, "_registered_modules", {}).values() if m.get("active", False)
+                1
+                for m in getattr(self, "_registered_modules", {}).values()
+                if m.get("active", False)
             ),
             "optimization_active": hasattr(self, "_optimization_config"),
             "processing_history": getattr(self, "_processing_count", 0),

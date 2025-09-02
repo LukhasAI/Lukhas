@@ -8,12 +8,10 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import time
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field
 from enum import Enum
-from typing import (
-    Any,  # Set and json not directly used, but kept for potential future use.
-)
+from typing import \
+    Any  # Set and json not directly used, but kept for potential future use.
 from typing import Optional
 
 import numpy as np

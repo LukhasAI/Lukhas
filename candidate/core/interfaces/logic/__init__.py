@@ -29,7 +29,9 @@ log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog
 
 # ΛMAIN_LOGIC_START
 # # Auto-generated __init__.py (Original comment)
-log.debug("core.interfaces.logic package initialized.")  # ΛMODIFICATION: Logging package initialization
+log.debug(
+    "core.interfaces.logic package initialized."
+)  # ΛMODIFICATION: Logging package initialization
 # ΛMAIN_LOGIC_END
 
 # ΛFOOTER_START

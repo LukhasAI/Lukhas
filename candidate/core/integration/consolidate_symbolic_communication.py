@@ -74,7 +74,11 @@ def create_matriz_node_from_symbolic_world(symbolic_world: SymbolicWorld) -> dic
         # Provenance tracks the origin and capabilities of the node producer.
         "provenance": {
             "producer": "candidate.core.integration.consolidate_symbolic_communication",
-            "capabilities": ["symbolic-consolidation", "matriz-bridge", "glyph-generation"],
+            "capabilities": [
+                "symbolic-consolidation",
+                "matriz-bridge",
+                "glyph-generation",
+            ],
             "tenant": "lukhas-internal",
             "trace_id": trace_id,
             "consent_scopes": ["internal-system-analysis"],
@@ -101,7 +105,11 @@ def create_matriz_node_from_symbolic_world(symbolic_world: SymbolicWorld) -> dic
                     {
                         "target_node_id": f"symbol:{rel.symbol2.name}",  # Placeholder ID for the target symbol.
                         "link_type": "semantic",  # Mapping can be refined based on rel.type.
-                        "direction": "bidirectional" if rel.is_bidirectional() else "unidirectional",
+                        "direction": (
+                            "bidirectional"
+                            if rel.is_bidirectional()
+                            else "unidirectional"
+                        ),
                         "explanation": f"Relationship of type '{rel.type}'",
                     }
                 )
@@ -116,12 +124,20 @@ if __name__ == "__main__":
     # 1. Create an example SymbolicWorld instance
     print("\n[1] Creating an example SymbolicWorld...")
     world = SymbolicWorld()
-    s1 = world.create_symbol("concept:consciousness", {"type": "abstract", "domain": "philosophy"})
-    s2 = world.create_symbol("concept:machine", {"type": "concrete", "domain": "engineering"})
-    s3 = world.create_symbol("property:sentience", {"type": "attribute", "domain": "philosophy"})
+    s1 = world.create_symbol(
+        "concept:consciousness", {"type": "abstract", "domain": "philosophy"}
+    )
+    s2 = world.create_symbol(
+        "concept:machine", {"type": "concrete", "domain": "engineering"}
+    )
+    s3 = world.create_symbol(
+        "property:sentience", {"type": "attribute", "domain": "philosophy"}
+    )
     world.link_symbols(s1, s2, "potential_host_of")
     world.link_symbols(s1, s3, "has_property")
-    print(f"    - World created with {len(world.symbols)} symbols and {len(world.relationships)} relationships.")
+    print(
+        f"    - World created with {len(world.symbols)} symbols and {len(world.relationships)} relationships."
+    )
 
     # 2. Call the bridge function to generate a MΛTRIZ node
     print("\n[2] Calling the bridge function...")

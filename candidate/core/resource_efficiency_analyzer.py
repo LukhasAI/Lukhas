@@ -191,7 +191,9 @@ class ResourceEfficiencyAnalyzer:
             return
 
         self._monitoring = True
-        self._monitor_thread = threading.Thread(target=self._monitoring_loop, daemon=True)
+        self._monitor_thread = threading.Thread(
+            target=self._monitoring_loop, daemon=True
+        )
         self._monitor_thread.start()
         logger.info("Resource monitoring started")
 
@@ -269,7 +271,10 @@ class ResourceEfficiencyAnalyzer:
         energy_estimate = self._estimate_energy_consumption(cpu_percent)
 
         # Garbage collection stats
-        gc_stats = {f"gen{i}_collections": gc.get_stats()[i]["collections"] for i in range(len(gc.get_stats()))}
+        gc_stats = {
+            f"gen{i}_collections": gc.get_stats()[i]["collections"]
+            for i in range(len(gc.get_stats()))
+        }
 
         return ResourceSnapshot(
             timestamp=time.time(),
@@ -333,7 +338,9 @@ class ResourceEfficiencyAnalyzer:
         energy_analysis = self._analyze_energy_consumption(snapshots)
 
         # Calculate overall efficiency score
-        efficiency_score = self._calculate_efficiency_score(trends, bottlenecks, memory_analysis, cpu_analysis)
+        efficiency_score = self._calculate_efficiency_score(
+            trends, bottlenecks, memory_analysis, cpu_analysis
+        )
 
         # Resource utilization summary
         resource_utilization = {
@@ -359,7 +366,9 @@ class ResourceEfficiencyAnalyzer:
             energy_analysis=energy_analysis,
         )
 
-    def _analyze_trends(self, snapshots: list[ResourceSnapshot]) -> dict[str, ResourceTrend]:
+    def _analyze_trends(
+        self, snapshots: list[ResourceSnapshot]
+    ) -> dict[str, ResourceTrend]:
         """Analyze resource usage trends"""
         if not snapshots:
             return {}
@@ -372,15 +381,21 @@ class ResourceEfficiencyAnalyzer:
 
         # Memory trend
         memory_values = [s.memory_percent for s in snapshots]
-        trends["memory"] = self._calculate_trend(ResourceType.MEMORY, memory_values, snapshots)
+        trends["memory"] = self._calculate_trend(
+            ResourceType.MEMORY, memory_values, snapshots
+        )
 
         # Thread trend
         thread_values = [float(s.thread_count) for s in snapshots]
-        trends["threads"] = self._calculate_trend(ResourceType.THREADS, thread_values, snapshots)
+        trends["threads"] = self._calculate_trend(
+            ResourceType.THREADS, thread_values, snapshots
+        )
 
         # Energy trend
         energy_values = [s.energy_estimate for s in snapshots]
-        trends["energy"] = self._calculate_trend(ResourceType.ENERGY, energy_values, snapshots)
+        trends["energy"] = self._calculate_trend(
+            ResourceType.ENERGY, energy_values, snapshots
+        )
 
         return trends
 
@@ -482,7 +497,9 @@ class ResourceEfficiencyAnalyzer:
                 bottlenecks.append(
                     {
                         "type": "memory_pressure",
-                        "severity": ("high" if memory_trend.current_value > 90 else "medium"),
+                        "severity": (
+                            "high" if memory_trend.current_value > 90 else "medium"
+                        ),
                         "impact": "Risk of OOM, increased GC pressure",
                         "details": {
                             "current_usage": f"{memory_trend.current_value:.1f}%",
@@ -493,7 +510,10 @@ class ResourceEfficiencyAnalyzer:
                 )
 
             # Memory leak detection
-            if memory_trend.trend_direction == "increasing" and memory_trend.trend_rate > 0.01:  # 1% per second
+            if (
+                memory_trend.trend_direction == "increasing"
+                and memory_trend.trend_rate > 0.01
+            ):  # 1% per second
                 bottlenecks.append(
                     {
                         "type": "potential_memory_leak",
@@ -508,7 +528,10 @@ class ResourceEfficiencyAnalyzer:
 
         # Thread explosion
         thread_trend = trends.get("threads")
-        if thread_trend and thread_trend.current_value > self.thresholds["thread_excessive"]:
+        if (
+            thread_trend
+            and thread_trend.current_value > self.thresholds["thread_excessive"]
+        ):
             bottlenecks.append(
                 {
                     "type": "thread_explosion",
@@ -542,7 +565,9 @@ class ResourceEfficiencyAnalyzer:
         else:
             return f"{seconds_to_oom / 86400:.1f} days"
 
-    def _check_io_bottlenecks(self, snapshots: list[ResourceSnapshot]) -> list[dict[str, Any]]:
+    def _check_io_bottlenecks(
+        self, snapshots: list[ResourceSnapshot]
+    ) -> list[dict[str, Any]]:
         """Check for I/O bottlenecks"""
         bottlenecks = []
 
@@ -608,7 +633,11 @@ class ResourceEfficiencyAnalyzer:
                 {
                     "category": "memory_optimization",
                     "priority": (
-                        "high" if any(b["type"] == "potential_memory_leak" for b in bottlenecks) else "medium"
+                        "high"
+                        if any(
+                            b["type"] == "potential_memory_leak" for b in bottlenecks
+                        )
+                        else "medium"
                     ),
                     "title": "Reduce Memory Consumption",
                     "description": "Memory usage is high or growing",
@@ -681,7 +710,9 @@ class ResourceEfficiencyAnalyzer:
 
         return recommendations
 
-    def _analyze_memory_usage(self, snapshots: list[ResourceSnapshot]) -> dict[str, Any]:
+    def _analyze_memory_usage(
+        self, snapshots: list[ResourceSnapshot]
+    ) -> dict[str, Any]:
         """Detailed memory usage analysis"""
         if not snapshots:
             return {}
@@ -715,10 +746,14 @@ class ResourceEfficiencyAnalyzer:
             "peak_vms": max(memory_vms),
             "average_utilization": np.mean(memory_percent),
             "peak_utilization": max(memory_percent),
-            "fragmentation_ratio": (np.mean(memory_vms) / np.mean(memory_rss) if memory_rss else 1),
+            "fragmentation_ratio": (
+                np.mean(memory_vms) / np.mean(memory_rss) if memory_rss else 1
+            ),
             "top_allocations": memory_blocks,
             "gc_pressure": gc_pressure,
-            "memory_efficiency": self._calculate_memory_efficiency(memory_rss, memory_vms),
+            "memory_efficiency": self._calculate_memory_efficiency(
+                memory_rss, memory_vms
+            ),
         }
 
     def _analyze_gc_pressure(self, snapshots: list[ResourceSnapshot]) -> dict[str, Any]:
@@ -752,10 +787,14 @@ class ResourceEfficiencyAnalyzer:
         return {
             "status": pressure_level,
             "collection_rates": gc_rates,
-            "recommendation": ("Consider object pooling" if pressure_level == "high" else "Normal"),
+            "recommendation": (
+                "Consider object pooling" if pressure_level == "high" else "Normal"
+            ),
         }
 
-    def _calculate_memory_efficiency(self, rss_values: list[int], vms_values: list[int]) -> float:
+    def _calculate_memory_efficiency(
+        self, rss_values: list[int], vms_values: list[int]
+    ) -> float:
         """Calculate memory efficiency score (0-100)"""
         if not rss_values or not vms_values:
             return 0
@@ -798,8 +837,12 @@ class ResourceEfficiencyAnalyzer:
             "peak_utilization": max(cpu_values),
             "min_utilization": min(cpu_values),
             "std_deviation": np.std(cpu_values),
-            "idle_percentage": len([v for v in cpu_values if v < 5]) / len(cpu_values) * 100,
-            "saturated_percentage": len([v for v in cpu_values if v > 90]) / len(cpu_values) * 100,
+            "idle_percentage": len([v for v in cpu_values if v < 5])
+            / len(cpu_values)
+            * 100,
+            "saturated_percentage": len([v for v in cpu_values if v > 90])
+            / len(cpu_values)
+            * 100,
             "efficiency_score": self._calculate_cpu_efficiency(cpu_values),
         }
 
@@ -836,19 +879,31 @@ class ResourceEfficiencyAnalyzer:
         net_recv = [s.network_recv_bytes for s in snapshots]
 
         # Calculate rates (bytes per second)
-        time_span = snapshots[-1].timestamp - snapshots[0].timestamp if len(snapshots) > 1 else 1
+        time_span = (
+            snapshots[-1].timestamp - snapshots[0].timestamp
+            if len(snapshots) > 1
+            else 1
+        )
 
         return {
             "disk_read_rate": sum(disk_reads) / time_span,
             "disk_write_rate": sum(disk_writes) / time_span,
             "network_send_rate": sum(net_sent) / time_span,
             "network_recv_rate": sum(net_recv) / time_span,
-            "disk_utilization": self._estimate_disk_utilization(disk_reads, disk_writes, time_span),
-            "network_utilization": self._estimate_network_utilization(net_sent, net_recv, time_span),
-            "io_pattern": self._classify_io_pattern(disk_reads, disk_writes, net_sent, net_recv),
+            "disk_utilization": self._estimate_disk_utilization(
+                disk_reads, disk_writes, time_span
+            ),
+            "network_utilization": self._estimate_network_utilization(
+                net_sent, net_recv, time_span
+            ),
+            "io_pattern": self._classify_io_pattern(
+                disk_reads, disk_writes, net_sent, net_recv
+            ),
         }
 
-    def _estimate_disk_utilization(self, reads: list[int], writes: list[int], time_span: float) -> float:
+    def _estimate_disk_utilization(
+        self, reads: list[int], writes: list[int], time_span: float
+    ) -> float:
         """Estimate disk utilization percentage"""
         # Assume 500 MB/s as typical SSD throughput
         max_throughput = 500 * 1024 * 1024
@@ -858,7 +913,9 @@ class ResourceEfficiencyAnalyzer:
 
         return min(100, (actual_throughput / max_throughput) * 100)
 
-    def _estimate_network_utilization(self, sent: list[int], recv: list[int], time_span: float) -> float:
+    def _estimate_network_utilization(
+        self, sent: list[int], recv: list[int], time_span: float
+    ) -> float:
         """Estimate network utilization percentage"""
         # Assume 1 Gbps network
         max_throughput = 1024 * 1024 * 1024 / 8  # 1 Gbps in bytes
@@ -888,7 +945,9 @@ class ResourceEfficiencyAnalyzer:
         else:
             return "low_io"
 
-    def _analyze_energy_consumption(self, snapshots: list[ResourceSnapshot]) -> dict[str, Any]:
+    def _analyze_energy_consumption(
+        self, snapshots: list[ResourceSnapshot]
+    ) -> dict[str, Any]:
         """Analyze energy consumption patterns"""
         if not snapshots:
             return {}
@@ -1032,7 +1091,9 @@ if __name__ == "__main__":
         # Print quick stats every 5 seconds
         if i % 5 == 0:
             stats = analyzer.get_quick_stats()
-            print(f"Quick stats: CPU={stats['cpu_percent']:.1f}%, Memory={stats['memory_mb']:.1f}MB")
+            print(
+                f"Quick stats: CPU={stats['cpu_percent']:.1f}%, Memory={stats['memory_mb']:.1f}MB"
+            )
 
     # Generate efficiency report
     print("\nGenerating efficiency report...")

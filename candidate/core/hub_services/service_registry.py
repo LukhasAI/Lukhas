@@ -130,7 +130,11 @@ class ServiceRegistry:
             result[name] = {
                 "initialized": self._initialized.get(name, False),
                 "metadata": self._metadata.get(name, {}),
-                "type": (type(self._services[name]).__name__ if name in self._services else "factory"),
+                "type": (
+                    type(self._services[name]).__name__
+                    if name in self._services
+                    else "factory"
+                ),
             }
 
         return result
@@ -184,7 +188,9 @@ def get_service_registry() -> ServiceRegistry:
 # Convenience functions
 
 
-def register_service(name: str, service: Any, metadata: Optional[dict[str, Any]] = None):
+def register_service(
+    name: str, service: Any, metadata: Optional[dict[str, Any]] = None
+):
     """Register a service with the global registry"""
     _global_registry.register_service(name, service, metadata)
 

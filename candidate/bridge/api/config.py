@@ -31,7 +31,9 @@ class LukhasConfig(BaseSettings):
 
     # Security
     secret_key: str = Field(
-        default_factory=lambda: os.getenv("LUKHAS_ID_SECRET", secrets.token_urlsafe(32)),
+        default_factory=lambda: os.getenv(
+            "LUKHAS_ID_SECRET", secrets.token_urlsafe(32)
+        ),
         description="Main secret key for cryptographic operations",
     )
 
@@ -50,12 +52,16 @@ class LukhasConfig(BaseSettings):
     )
 
     memory_api_url: str = Field(
-        default_factory=lambda: os.getenv("MEMORY_API_URL", "http://localhost:8080/api/v1/memory"),
+        default_factory=lambda: os.getenv(
+            "MEMORY_API_URL", "http://localhost:8080/api/v1/memory"
+        ),
         description="Memory service endpoint",
     )
 
     qi_api_url: str = Field(
-        default_factory=lambda: os.getenv("QUANTUM_API_URL", "http://localhost:8080/api/v1/quantum"),
+        default_factory=lambda: os.getenv(
+            "QUANTUM_API_URL", "http://localhost:8080/api/v1/quantum"
+        ),
         description="Quantum service endpoint",
     )
 
@@ -77,7 +83,9 @@ class LukhasConfig(BaseSettings):
     )
 
     # OpenAI Configuration
-    openai_api_key: Optional[str] = Field(default=None, env="OPENAI_API_KEY", description="OpenAI API key")
+    openai_api_key: Optional[str] = Field(
+        default=None, env="OPENAI_API_KEY", description="OpenAI API key"
+    )
 
     # CORS Settings
     cors_origins: str = Field(

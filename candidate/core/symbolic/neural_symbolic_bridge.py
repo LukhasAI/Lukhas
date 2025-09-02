@@ -55,7 +55,9 @@ class NeuralSymbolicIntegration:
         # In a real implementation, this would use actual neural models
 
         # For simulation, return a placeholder result
-        confidence = 0.7 + (np.random.random() * 0.2)  # Random confidence between 0.7 and 0.9
+        confidence = 0.7 + (
+            np.random.random() * 0.2
+        )  # Random confidence between 0.7 and 0.9
 
         return {
             "type": "neural",
@@ -73,7 +75,9 @@ class NeuralSymbolicIntegration:
         # In a real implementation, this would use actual symbolic reasoning
 
         # For simulation, return a placeholder result
-        confidence = 0.6 + (np.random.random() * 0.3)  # Random confidence between 0.6 and 0.9
+        confidence = 0.6 + (
+            np.random.random() * 0.3
+        )  # Random confidence between 0.6 and 0.9
 
         return {
             "type": "symbolic",
@@ -82,14 +86,17 @@ class NeuralSymbolicIntegration:
             "rules_applied": ["rule1", "rule2"],
         }
 
-    def _integrate_results(self, neural_result: dict[str, Any], symbolic_result: dict[str, Any]) -> dict[str, Any]:
+    def _integrate_results(
+        self, neural_result: dict[str, Any], symbolic_result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Integrate neural and symbolic results."""
         # Calculate weighted confidence
         neural_confidence = neural_result["confidence"]
         symbolic_confidence = symbolic_result["confidence"]
 
         weighted_confidence = (
-            (neural_confidence * self.neural_weight) + (symbolic_confidence * self.symbolic_weight)
+            (neural_confidence * self.neural_weight)
+            + (symbolic_confidence * self.symbolic_weight)
         ) / (self.neural_weight + self.symbolic_weight)
 
         # Determine which prediction to use based on confidence

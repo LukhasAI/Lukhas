@@ -126,7 +126,9 @@ class DASTAggregator:
         return {
             "active_tags_count": len(self.active_tags),
             "aggregation_count": len(self.aggregation_history),
-            "last_aggregation": (self.aggregation_history[-1] if self.aggregation_history else None),
+            "last_aggregation": (
+                self.aggregation_history[-1] if self.aggregation_history else None
+            ),
             "trio_connected": self.trio_orchestrator is not None,
             "dast_engine_available": self.dast_engine is not None,
             "hub_connected": self.dast_hub is not None,

@@ -184,7 +184,9 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
         similarities.sort(key=lambda x: x["similarity"], reverse=True)
         return similarities[:top_k]
 
-    async def synthesize_memory_narrative(self, memories: list[dict[str, Any]], context: Optional[str] = None) -> str:
+    async def synthesize_memory_narrative(
+        self, memories: list[dict[str, Any]], context: Optional[str] = None
+    ) -> str:
         """
         Create a narrative synthesis of multiple memories.
 
@@ -231,7 +233,9 @@ Write in first person, as if reflecting on these experiences."""
         else:
             return "Unable to synthesize memories at this time."
 
-    async def analyze_memory_patterns(self, memories: list[dict[str, Any]]) -> dict[str, Any]:
+    async def analyze_memory_patterns(
+        self, memories: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Analyze patterns across memories using GPT-4.
 
@@ -323,7 +327,9 @@ Write only the DALL-E prompt, nothing else."""
         else:
             return "Abstract memory landscape with flowing shapes and ethereal colors"
 
-    async def create_memory_visualization(self, memory: dict[str, Any]) -> Optional[str]:
+    async def create_memory_visualization(
+        self, memory: dict[str, Any]
+    ) -> Optional[str]:
         """
         Create visual representation of memory using DALL-E.
 

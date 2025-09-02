@@ -162,7 +162,9 @@ class DreamDeliveryManager:
             channels = self.output_channels
 
         # Extract information from dream content
-        dream_id = dream_content.get("dream_id", f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
+        dream_id = dream_content.get(
+            "dream_id", f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        )
         dream_text = dream_content.get("content", "")
         dream_emotions = dream_content.get("emotional_context", {})
         intent = dream_content.get("intent", "share_dream")
@@ -212,7 +214,9 @@ class DreamDeliveryManager:
             elif channel == "email":
                 delivery_results["email"] = self._deliver_email(dream_content)
             elif channel == "notification":
-                delivery_results["notification"] = self._deliver_notification(dream_content)
+                delivery_results["notification"] = self._deliver_notification(
+                    dream_content
+                )
 
         # Update delivery history
         self.delivery_history.append(
@@ -259,7 +263,9 @@ class DreamDeliveryManager:
         # Apply safety check
         region = self.config.get("region", "EU")
         if not self.safety_filter.is_safe(message, region=region):
-            logger.warning("[⚠️] Message flagged by safety guard. Voice delivery blocked.")
+            logger.warning(
+                "[⚠️] Message flagged by safety guard. Voice delivery blocked."
+            )
             return {
                 "status": "blocked",
                 "reason": "safety_filter",
@@ -328,13 +334,19 @@ class DreamDeliveryManager:
             selected_style = voice_style or params.get("voice_id", "default")
 
             # Get basic voice parameters based on emotion
-            voice_params = self._get_basic_voice_parameters(emotion["name"], emotion["intensity"])
+            voice_params = self._get_basic_voice_parameters(
+                emotion["name"], emotion["intensity"]
+            )
 
         # Apply symbolic relationship patterns if available
         if self.symbolic_world and emotion["name"] != "neutral":
             try:
-                voice_params = self._enhance_voice_with_symbolic_patterns(voice_params, emotion["name"], message)
-                logger.debug(f"Applied symbolic patterns to voice parameters for {emotion['name']}")
+                voice_params = self._enhance_voice_with_symbolic_patterns(
+                    voice_params, emotion["name"], message
+                )
+                logger.debug(
+                    f"Applied symbolic patterns to voice parameters for {emotion['name']}"
+                )
             except Exception as e:
                 logger.warning(f"Failed to apply symbolic patterns: {e}")
 
@@ -362,7 +374,9 @@ class DreamDeliveryManager:
             logger.error(f"Error in voice synthesis: {e}")
             return {"status": "error", "error": str(e)}
 
-    def _get_basic_voice_parameters(self, emotion: str, intensity: float) -> VoiceParameter:
+    def _get_basic_voice_parameters(
+        self, emotion: str, intensity: float
+    ) -> VoiceParameter:
         """
         Get basic voice parameters based on emotion
 
@@ -509,7 +523,9 @@ class DreamDeliveryManager:
                 # Get baseline parameters from pattern
                 pitch_baseline = pattern_symbol.get_property("pitch_baseline")
                 if pitch_baseline is not None:
-                    voice_params.pitch = (voice_params.pitch + pitch_baseline) / 2  # Average with existing
+                    voice_params.pitch = (
+                        voice_params.pitch + pitch_baseline
+                    ) / 2  # Average with existing
 
                 speed_baseline = pattern_symbol.get_property("speed_baseline")
                 if speed_baseline is not None:
@@ -519,21 +535,33 @@ class DreamDeliveryManager:
                 if timbre_baseline is not None:
                     voice_params.timbre = (voice_params.timbre + timbre_baseline) / 2
 
-                breathiness_baseline = pattern_symbol.get_property("breathiness_baseline")
+                breathiness_baseline = pattern_symbol.get_property(
+                    "breathiness_baseline"
+                )
                 if breathiness_baseline is not None:
-                    voice_params.breathiness = (voice_params.breathiness + breathiness_baseline) / 2
+                    voice_params.breathiness = (
+                        voice_params.breathiness + breathiness_baseline
+                    ) / 2
 
                 resonance_baseline = pattern_symbol.get_property("resonance_baseline")
                 if resonance_baseline is not None:
-                    voice_params.resonance = (voice_params.resonance + resonance_baseline) / 2
+                    voice_params.resonance = (
+                        voice_params.resonance + resonance_baseline
+                    ) / 2
 
-                articulation_baseline = pattern_symbol.get_property("articulation_baseline")
+                articulation_baseline = pattern_symbol.get_property(
+                    "articulation_baseline"
+                )
                 if articulation_baseline is not None:
-                    voice_params.articulation = (voice_params.articulation + articulation_baseline) / 2
+                    voice_params.articulation = (
+                        voice_params.articulation + articulation_baseline
+                    ) / 2
 
                 inflection_baseline = pattern_symbol.get_property("inflection_baseline")
                 if inflection_baseline is not None:
-                    voice_params.inflection = (voice_params.inflection + inflection_baseline) / 2
+                    voice_params.inflection = (
+                        voice_params.inflection + inflection_baseline
+                    ) / 2
 
             # Find related emotions that might influence this emotion
             # This creates more nuanced emotional blending
@@ -550,7 +578,10 @@ class DreamDeliveryManager:
                         rel_pitch = rel_pattern.get_property("pitch_baseline")
                         if rel_pitch is not None:
                             influence = blend_factor * rel_strength
-                            voice_params.pitch = voice_params.pitch * (1 - influence) + rel_pitch * influence
+                            voice_params.pitch = (
+                                voice_params.pitch * (1 - influence)
+                                + rel_pitch * influence
+                            )
 
                         # Blend other parameters similarly
                         # (Code condensed for brevity - would apply to all voice parameters)
@@ -562,15 +593,21 @@ class DreamDeliveryManager:
 
                 # Apply content adjustment with a small weight
                 content_weight = 0.2
-                voice_params.inflection += content_adjustment.get("inflection_adjustment", 0) * content_weight
-                voice_params.speed += content_adjustment.get("speed_adjustment", 0) * content_weight
+                voice_params.inflection += (
+                    content_adjustment.get("inflection_adjustment", 0) * content_weight
+                )
+                voice_params.speed += (
+                    content_adjustment.get("speed_adjustment", 0) * content_weight
+                )
 
                 # Ensure parameters stay in valid ranges
                 voice_params.pitch = max(0.5, min(1.5, voice_params.pitch))
                 voice_params.speed = max(0.5, min(1.5, voice_params.speed))
                 voice_params.timbre = max(0.0, min(1.0, voice_params.timbre))
                 voice_params.breathiness = max(0.0, min(1.0, voice_params.breathiness))
-                voice_params.articulation = max(0.0, min(1.0, voice_params.articulation))
+                voice_params.articulation = max(
+                    0.0, min(1.0, voice_params.articulation)
+                )
                 voice_params.resonance = max(0.0, min(1.0, voice_params.resonance))
                 voice_params.inflection = max(0.0, min(1.0, voice_params.inflection))
 
@@ -743,7 +780,9 @@ class DreamDeliveryManager:
 
         return {"status": "success", "notification_type": "dream_insight"}
 
-    def _register_in_symbolic_world(self, dream_content: dict[str, Any], delivery_context: dict[str, Any]) -> None:
+    def _register_in_symbolic_world(
+        self, dream_content: dict[str, Any], delivery_context: dict[str, Any]
+    ) -> None:
         """
         Register dream delivery in symbolic world for integrated awareness
 
@@ -774,7 +813,9 @@ class DreamDeliveryManager:
                 "emotional_intensity": emotional_context.get("intensity", 0.5),
             }
 
-            delivery_symbol = self.symbolic_world.create_symbol(delivery_id, delivery_properties)
+            delivery_symbol = self.symbolic_world.create_symbol(
+                delivery_id, delivery_properties
+            )
 
             # Link to dream symbol if it exists
             if self.symbolic_world.symbol_exists(dream_id):

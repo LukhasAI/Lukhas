@@ -74,7 +74,9 @@ class AnomalyPattern:
                         scores.append(1.0)
                     else:
                         # Calculate distance-based score
-                        distance = min_val - actual if actual < min_val else actual - max_val
+                        distance = (
+                            min_val - actual if actual < min_val else actual - max_val
+                        )
                         score = max(0, 1 - distance / max(abs(min_val), abs(max_val)))
                         scores.append(score)
                 else:
@@ -220,27 +222,37 @@ class AnomalyDetector:
 
         # Single-modality detection
         for modality, modality_vectors in modality_groups.items():
-            anomalies = await self._detect_single_modality_anomalies(modality_vectors, modality, context)
+            anomalies = await self._detect_single_modality_anomalies(
+                modality_vectors, modality, context
+            )
             detected_anomalies.extend(anomalies)
 
         # Cross-modal detection
         if len(modality_groups) > 1:
-            cross_modal_anomalies = await self._detect_cross_modal_anomalies(modality_groups, context)
+            cross_modal_anomalies = await self._detect_cross_modal_anomalies(
+                modality_groups, context
+            )
             detected_anomalies.extend(cross_modal_anomalies)
 
         # Apply adaptive thresholds
         if self.adaptive_learning:
-            detected_anomalies = self._apply_adaptive_filtering(detected_anomalies, context)
+            detected_anomalies = self._apply_adaptive_filtering(
+                detected_anomalies, context
+            )
 
         # Sort by significance and confidence
-        detected_anomalies.sort(key=lambda a: (a.significance.value, a.confidence), reverse=True)
+        detected_anomalies.sort(
+            key=lambda a: (a.significance.value, a.confidence), reverse=True
+        )
 
         # Update detection history
         self._update_detection_history(detected_anomalies)
 
         return detected_anomalies
 
-    def _group_by_modality(self, vectors: list[PerceptualVector]) -> dict[str, list[PerceptualVector]]:
+    def _group_by_modality(
+        self, vectors: list[PerceptualVector]
+    ) -> dict[str, list[PerceptualVector]]:
         """Group vectors by modality"""
         groups = {}
         for vector in vectors:
@@ -341,7 +353,9 @@ class AnomalyDetector:
                 # Average features across vectors in modality
                 avg_features = {}
                 for feature_name in features_list[0]:
-                    values = [f[feature_name] for f in features_list if feature_name in f]
+                    values = [
+                        f[feature_name] for f in features_list if feature_name in f
+                    ]
                     avg_features[feature_name] = np.mean(values) if values else 0.0
                 modality_features[modality] = avg_features
 
@@ -408,7 +422,9 @@ class AnomalyDetector:
         features["dominant_frequency"] = float(np.argmax(np.abs(fft[: len(fft) // 2])))
 
         # Pattern features
-        features["zero_crossings"] = float(np.sum(np.diff(np.sign(encrypted_data)) != 0))
+        features["zero_crossings"] = float(
+            np.sum(np.diff(np.sign(encrypted_data)) != 0)
+        )
         features["peak_count"] = float(self._count_peaks(encrypted_data))
         features["regularity"] = float(self._compute_regularity(encrypted_data))
 
@@ -457,7 +473,9 @@ class AnomalyDetector:
         autocorr = np.corrcoef(data_norm[:-1], data_norm[1:])[0, 1]
         return float(np.abs(autocorr))
 
-    def _compute_cross_modal_correlations(self, modality_groups: dict[str, list[PerceptualVector]]) -> dict[str, float]:
+    def _compute_cross_modal_correlations(
+        self, modality_groups: dict[str, list[PerceptualVector]]
+    ) -> dict[str, float]:
         """Compute correlations between modalities"""
         correlations = {}
 
@@ -477,10 +495,14 @@ class AnomalyDetector:
 
         return correlations
 
-    def _determine_significance(self, score: float, pattern: AnomalyPattern) -> Optional[EthicalSignificance]:
+    def _determine_significance(
+        self, score: float, pattern: AnomalyPattern
+    ) -> Optional[EthicalSignificance]:
         """Determine ethical significance based on score and pattern"""
 
-        for level, threshold in sorted(pattern.threshold_values.items(), key=lambda x: x[1], reverse=True):
+        for level, threshold in sorted(
+            pattern.threshold_values.items(), key=lambda x: x[1], reverse=True
+        ):
             if score >= threshold:
                 return pattern.significance_mapping.get(level)
 
@@ -507,7 +529,9 @@ class AnomalyDetector:
                 }
 
             threshold_info = self.adaptive_thresholds[anomaly_type]
-            adjusted_threshold = threshold_info["base_threshold"] + threshold_info["adjustment"]
+            adjusted_threshold = (
+                threshold_info["base_threshold"] + threshold_info["adjustment"]
+            )
 
             if anomaly.confidence >= adjusted_threshold:
                 filtered.append(anomaly)
@@ -540,7 +564,9 @@ class AnomalyDetector:
             stats["total_confidence"] += anomaly.confidence
 
             sig_level = anomaly.significance.value
-            stats["significance_counts"][sig_level] = stats["significance_counts"].get(sig_level, 0) + 1
+            stats["significance_counts"][sig_level] = (
+                stats["significance_counts"].get(sig_level, 0) + 1
+            )
 
     def update_adaptive_thresholds(self, anomaly_type: str, was_correct: bool):
         """Update adaptive thresholds based on feedback"""
@@ -579,17 +605,23 @@ class AnomalyDetector:
 
         for anomaly in self.detection_history:
             # Type counts
-            type_counts[anomaly.anomaly_type] = type_counts.get(anomaly.anomaly_type, 0) + 1
+            type_counts[anomaly.anomaly_type] = (
+                type_counts.get(anomaly.anomaly_type, 0) + 1
+            )
 
             # Significance distribution
             sig_level = anomaly.significance.value
-            significance_distribution[sig_level] = significance_distribution.get(sig_level, 0) + 1
+            significance_distribution[sig_level] = (
+                significance_distribution.get(sig_level, 0) + 1
+            )
 
         # Average confidence by type
         avg_confidence_by_type = {}
         for anomaly_type, stats in self.pattern_statistics.items():
             if stats["count"] > 0:
-                avg_confidence_by_type[anomaly_type] = stats["total_confidence"] / stats["count"]
+                avg_confidence_by_type[anomaly_type] = (
+                    stats["total_confidence"] / stats["count"]
+                )
 
         return {
             "total_anomalies_detected": total_detections,
@@ -685,7 +717,9 @@ class SignificanceAnalyzer:
             # Consider upgrading
             if current_significance == EthicalSignificance.LOW and modifier >= 1.2:
                 current_significance = EthicalSignificance.MODERATE
-            elif current_significance == EthicalSignificance.MODERATE and modifier >= 1.3:
+            elif (
+                current_significance == EthicalSignificance.MODERATE and modifier >= 1.3
+            ):
                 current_significance = EthicalSignificance.HIGH
             elif current_significance == EthicalSignificance.HIGH and modifier >= 1.5:
                 current_significance = EthicalSignificance.CRITICAL
@@ -695,16 +729,22 @@ class SignificanceAnalyzer:
             "original_significance": anomaly.significance.value,
             "adjusted_significance": current_significance.value,
             "applied_rules": [
-                r for r, rule in self.significance_rules.items() if anomaly.anomaly_type in rule["indicators"]
+                r
+                for r, rule in self.significance_rules.items()
+                if anomaly.anomaly_type in rule["indicators"]
             ],
             "context_modifier": modifier,
             "confidence_factor": anomaly.confidence,
-            "final_assessment": self._generate_assessment_text(current_significance, anomaly),
+            "final_assessment": self._generate_assessment_text(
+                current_significance, anomaly
+            ),
         }
 
         return current_significance, analysis
 
-    def _generate_assessment_text(self, significance: EthicalSignificance, anomaly: AnomalySignature) -> str:
+    def _generate_assessment_text(
+        self, significance: EthicalSignificance, anomaly: AnomalySignature
+    ) -> str:
         """Generate human-readable assessment"""
 
         assessments = {

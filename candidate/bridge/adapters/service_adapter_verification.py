@@ -18,19 +18,22 @@ def test_imports():
     print("🔍 Testing imports...")
 
     try:
+        # Critical alias
         from candidate.bridge.adapters.service_adapter_base import (
             AdapterState,
             BaseServiceAdapter,
             CapabilityToken,
             DryRunPlanner,
             ResilienceManager,
-            ServiceAdapterBase,  # Critical alias
+            ServiceAdapterBase,
             TelemetryCollector,
             with_resilience,
         )
 
         print("✅ All imports successful")
-        print(f"   ServiceAdapterBase is BaseServiceAdapter: {ServiceAdapterBase is BaseServiceAdapter}")
+        print(
+            f"   ServiceAdapterBase is BaseServiceAdapter: {ServiceAdapterBase is BaseServiceAdapter}"
+        )
         return True
     except ImportError as e:
         print(f"❌ Import failed: {e}")
@@ -56,11 +59,19 @@ def test_adapter_creation():
         print("✅ Adapter created successfully")
         print(f"   Service name: {adapter.service_name}")
         print("   Trinity Framework integrations:")
-        print(f"     - Identity: {'Active' if adapter.identity_core else 'Not available'}")
-        print(f"     - Consciousness: {'Active' if adapter.consciousness_active else 'Not connected'}")
+        print(
+            f"     - Identity: {'Active' if adapter.identity_core else 'Not available'}"
+        )
+        print(
+            f"     - Consciousness: {'Active' if adapter.consciousness_active else 'Not connected'}"
+        )
         print(f"     - Guardian: {'Active' if adapter.guardian else 'Not available'}")
-        print(f"     - Memory: {'Active' if adapter.memory_service else 'Not available'}")
-        print(f"     - Consent Ledger: {'Active' if adapter.ledger else 'Not available'}")
+        print(
+            f"     - Memory: {'Active' if adapter.memory_service else 'Not available'}"
+        )
+        print(
+            f"     - Consent Ledger: {'Active' if adapter.ledger else 'Not available'}"
+        )
         return True
     except Exception as e:
         print(f"❌ Adapter creation failed: {e}")
@@ -87,7 +98,7 @@ def test_health_status():
         print("✅ Health status retrieved successfully")
         print(f"   Service: {status['service']}")
         print(f"   Circuit State: {status['circuit_state']}")
-        print(f"   Trinity Framework Status: {status['constellation_framework']}")
+        print(f"   Trinity Framework Status: {status['trinity_framework']}")
         return True
     except Exception as e:
         print(f"❌ Health status test failed: {e}")

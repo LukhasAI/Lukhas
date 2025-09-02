@@ -81,7 +81,9 @@ class MemoryLearningBridge:
             "knowledge_retained": "long_term_memory_strengthen",
         }
 
-    async def memory_to_learning(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def memory_to_learning(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from Memory to Learning system"""
         if not self.is_connected:
             await self.connect()
@@ -95,7 +97,9 @@ class MemoryLearningBridge:
 
             # Send to learning system
             if self.learning_hub:
-                result = await self.learning_hub.process_event(mapped_event, transformed_data)
+                result = await self.learning_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from Memory to Learning")
                 return result
 
@@ -105,7 +109,9 @@ class MemoryLearningBridge:
             logger.error(f"Error forwarding from Memory to Learning: {e}")
             return {"error": str(e)}
 
-    async def learning_to_memory(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def learning_to_memory(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from Learning to Memory system"""
         if not self.is_connected:
             await self.connect()
@@ -119,7 +125,9 @@ class MemoryLearningBridge:
 
             # Send to memory system
             if self.memory_hub:
-                result = await self.memory_hub.process_event(mapped_event, transformed_data)
+                result = await self.memory_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from Learning to Memory")
                 return result
 
@@ -151,7 +159,9 @@ class MemoryLearningBridge:
             "bridge_version": "1.0",
         }
 
-    async def register_learning_feedback(self, memory_event: str, learning_data: dict[str, Any]):
+    async def register_learning_feedback(
+        self, memory_event: str, learning_data: dict[str, Any]
+    ):
         """Register memory events for learning feedback"""
         if not self.learning_feedback_enabled:
             return

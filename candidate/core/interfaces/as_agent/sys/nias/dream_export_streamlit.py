@@ -43,7 +43,9 @@ tiers = sorted({d.get("tier") for d in dreams if "tier" in d})
 selected_tiers = st.sidebar.multiselect("Filter by Tier", tiers)
 selected_tags = st.sidebar.multiselect("Filter by Tags", all_tags)
 selected_emojis = st.sidebar.multiselect("Filter by Emoji", all_emojis)
-filter_voice = st.sidebar.checkbox("Only dreams marked for narration (suggest_voice)", value=True)
+filter_voice = st.sidebar.checkbox(
+    "Only dreams marked for narration (suggest_voice)", value=True
+)
 
 # Apply filters
 filtered = [

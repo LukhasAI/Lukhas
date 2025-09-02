@@ -10,9 +10,8 @@
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
-from typing import Optional
 from typing import TYPE_CHECKING  # Added Any
+from typing import Any, Optional
 
 import numpy as np
 import structlog
@@ -29,9 +28,8 @@ logger = structlog.get_logger("ΛTRACE.core.adaptive_systems.crista_optimizer")
 logger.info("ΛTRACE: Initializing crista_optimizer module.")
 
 if TYPE_CHECKING:
-    from .symbolic_network import (
-        SymbolicNetwork,  # Assuming symbolic_network.py is in the same directory
-    )
+    from .symbolic_network import \
+        SymbolicNetwork  # Assuming symbolic_network.py is in the same directory
 
 # Enum for Optimization Modes
 # Specifies the different optimization modes the CristaOptimizer can operate in.

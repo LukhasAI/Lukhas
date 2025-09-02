@@ -90,7 +90,9 @@ class HealthCheck:
 
         try:
             # Run check with timeout
-            result = await asyncio.wait_for(self._run_check_async(), timeout=self.timeout_seconds)
+            result = await asyncio.wait_for(
+                self._run_check_async(), timeout=self.timeout_seconds
+            )
 
             response_time_ms = (time.time() - start_time) * 1000
 
@@ -130,7 +132,9 @@ class HealthCheck:
                     status = HealthStatus.CRITICAL
                     message += f" (critical component failed {self.consecutive_failures} times)"
                 elif status == HealthStatus.UNHEALTHY:
-                    message += f" (failed {self.consecutive_failures} consecutive times)"
+                    message += (
+                        f" (failed {self.consecutive_failures} consecutive times)"
+                    )
 
             self.last_run = datetime.now()
 
@@ -150,7 +154,9 @@ class HealthCheck:
 
             return ComponentHealth(
                 component_name=self.name,
-                status=(HealthStatus.CRITICAL if self.critical else HealthStatus.UNHEALTHY),
+                status=(
+                    HealthStatus.CRITICAL if self.critical else HealthStatus.UNHEALTHY
+                ),
                 message=f"{self.name} check timed out after {self.timeout_seconds}s",
                 last_check=datetime.now(),
                 response_time_ms=response_time_ms,
@@ -164,7 +170,9 @@ class HealthCheck:
 
             return ComponentHealth(
                 component_name=self.name,
-                status=(HealthStatus.CRITICAL if self.critical else HealthStatus.UNHEALTHY),
+                status=(
+                    HealthStatus.CRITICAL if self.critical else HealthStatus.UNHEALTHY
+                ),
                 message=f"{self.name} check failed: {e!s}",
                 last_check=datetime.now(),
                 response_time_ms=response_time_ms,
@@ -375,7 +383,9 @@ class HealthChecker:
             overall_status = HealthStatus.HEALTHY
             message = "All components healthy"
 
-        avg_response_time = total_response_time / len(self.health_status) if self.health_status else 0.0
+        avg_response_time = (
+            total_response_time / len(self.health_status) if self.health_status else 0.0
+        )
 
         return {
             "status": overall_status.value,
@@ -402,7 +412,9 @@ class HealthChecker:
         """Export complete health report"""
         return {
             "overall_health": self.get_overall_health(),
-            "components": {name: health.to_dict() for name, health in self.health_status.items()},
+            "components": {
+                name: health.to_dict() for name, health in self.health_status.items()
+            },
             "report_timestamp": datetime.now().isoformat(),
             "monitoring_active": self.running,
         }
@@ -495,9 +507,15 @@ def create_orchestrator_health_checks(health_checker: HealthChecker) -> None:
 
     # Register health checks
     try:
-        health_checker.register_check("memory", memory_check, interval_seconds=30, critical=True)
-        health_checker.register_check("cpu", cpu_check, interval_seconds=30, critical=False)
-        health_checker.register_check("disk", disk_check, interval_seconds=60, critical=True)
+        health_checker.register_check(
+            "memory", memory_check, interval_seconds=30, critical=True
+        )
+        health_checker.register_check(
+            "cpu", cpu_check, interval_seconds=30, critical=False
+        )
+        health_checker.register_check(
+            "disk", disk_check, interval_seconds=60, critical=True
+        )
     except ImportError:
         logger.warning("psutil not available, skipping system health checks")
 

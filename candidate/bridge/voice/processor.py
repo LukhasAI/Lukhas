@@ -61,7 +61,9 @@ class VoiceProcessor:
                 self.engine.setProperty("voice", voice.id)
                 break
 
-    async def text_to_speech(self, text: str, output_path: Optional[str] = None) -> bool:
+    async def text_to_speech(
+        self, text: str, output_path: Optional[str] = None
+    ) -> bool:
         """Convert text to speech
 
         Args:
@@ -106,7 +108,9 @@ class VoiceProcessor:
             logger.error(f"Speech-to-text failed: {e}")
             return None
 
-    async def process_voice(self, input_data: Union[str, bytes], mode: VoiceMode = VoiceMode.BOTH) -> dict[str, Any]:
+    async def process_voice(
+        self, input_data: Union[str, bytes], mode: VoiceMode = VoiceMode.BOTH
+    ) -> dict[str, Any]:
         """Process voice data
 
         Args:
@@ -119,11 +123,15 @@ class VoiceProcessor:
         results = {}
 
         try:
-            if mode in (VoiceMode.TEXT_TO_SPEECH, VoiceMode.BOTH) and isinstance(input_data, str):
+            if mode in (VoiceMode.TEXT_TO_SPEECH, VoiceMode.BOTH) and isinstance(
+                input_data, str
+            ):
                 success = await self.text_to_speech(input_data)
                 results["tts_success"] = success
 
-            if mode in (VoiceMode.SPEECH_TO_TEXT, VoiceMode.BOTH) and isinstance(input_data, bytes):
+            if mode in (VoiceMode.SPEECH_TO_TEXT, VoiceMode.BOTH) and isinstance(
+                input_data, bytes
+            ):
                 with open("temp_audio.wav", "wb") as f:
                     f.write(input_data)
                 text = await self.speech_to_text("temp_audio.wav")

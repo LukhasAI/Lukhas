@@ -226,13 +226,17 @@ class ResearchAwarenessInput(BaseModel):
     bio_symbolic_features: dict[str, Any] = Field(default_factory=dict)
 
     # Data characteristics
-    data_modalities: list[str] = Field(default_factory=list)  # text, image, audio, video, sensor
+    data_modalities: list[str] = Field(
+        default_factory=list
+    )  # text, image, audio, video, sensor
     data_sensitivity: str = "medium"  # low, medium, high, critical
     temporal_data: bool = False
     streaming_data: bool = False
 
     # Innovation parameters
-    exploration_factor: float = Field(default=0.3, ge=0.0, le=1.0)  # Exploration vs exploitation
+    exploration_factor: float = Field(
+        default=0.3, ge=0.0, le=1.0
+    )  # Exploration vs exploitation
     adaptation_rate: float = Field(default=0.1, ge=0.0, le=1.0)
     novelty_threshold: float = Field(default=0.5, ge=0.0, le=1.0)
 
@@ -315,7 +319,9 @@ class ResearchAwarenessOutput(BaseModel):
     collaboration_opportunities: list[str] = Field(default_factory=list)
 
 
-def research_audit_log(event: str, data: dict[str, Any], research_id: str, level: str = "INFO"):
+def research_audit_log(
+    event: str, data: dict[str, Any], research_id: str, level: str = "INFO"
+):
     """Research-specific audit logging with experiment tracking."""
     audit_record = {
         "audit_id": str(uuid.uuid4()),
@@ -389,7 +395,9 @@ class BioSymbolicReasoner:
             "patterns_detected": patterns,
             "symbolic_rules_applied": rules_applied,
             "bio_symbolic_confidence": random.uniform(0.7, 0.9),
-            "emergent_properties": self._identify_emergent_properties(patterns, rules_applied),
+            "emergent_properties": self._identify_emergent_properties(
+                patterns, rules_applied
+            ),
         }
 
     def _detect_patterns(self, data: dict[str, Any]) -> list[dict[str, Any]]:
@@ -407,7 +415,9 @@ class BioSymbolicReasoner:
                 )
         return patterns
 
-    def _apply_symbolic_rules(self, patterns: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    def _apply_symbolic_rules(
+        self, patterns: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Apply symbolic reasoning rules."""
         rules = []
         for pattern in patterns:
@@ -422,7 +432,9 @@ class BioSymbolicReasoner:
                 )
         return rules
 
-    def _identify_emergent_properties(self, patterns: list[dict[str, Any]], rules: list[dict[str, Any]]) -> list[str]:
+    def _identify_emergent_properties(
+        self, patterns: list[dict[str, Any]], rules: list[dict[str, Any]]
+    ) -> list[str]:
         """Identify emergent properties from bio-symbolic interaction."""
         emergent = []
         if len(patterns) > 2 and len(rules) > 1:
@@ -437,7 +449,10 @@ class SwarmIntelligenceCoordinator:
 
     def __init__(self, swarm_size: int = 10):
         self.swarm_size = swarm_size
-        self.agents = [{"id": i, "position": random.uniform(0, 1), "fitness": 0.5} for i in range(swarm_size)]
+        self.agents = [
+            {"id": i, "position": random.uniform(0, 1), "fitness": 0.5}
+            for i in range(swarm_size)
+        ]
 
     def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Coordinate swarm intelligence processing."""
@@ -491,14 +506,19 @@ class ResearchAwarenessReasoner:
 
         # Initialize experimental techniques
         self.qi_inspired_processor = (
-            QIInspiredProcessor() if ExperimentalTechnique.QUANTUM_INSPIRED in config.experimental_techniques else None
+            QIInspiredProcessor()
+            if ExperimentalTechnique.QUANTUM_INSPIRED in config.experimental_techniques
+            else None
         )
         self.bio_symbolic = (
-            BioSymbolicReasoner() if ExperimentalTechnique.BIO_INSPIRED in config.experimental_techniques else None
+            BioSymbolicReasoner()
+            if ExperimentalTechnique.BIO_INSPIRED in config.experimental_techniques
+            else None
         )
         self.swarm_coordinator = (
             SwarmIntelligenceCoordinator()
-            if ExperimentalTechnique.SWARM_INTELLIGENCE in config.experimental_techniques
+            if ExperimentalTechnique.SWARM_INTELLIGENCE
+            in config.experimental_techniques
             else None
         )
 
@@ -520,20 +540,28 @@ class ResearchAwarenessReasoner:
 
         # Apply experimental techniques
         if self.qi_inspired_processor:
-            results["experimental_results"]["quantum"] = self.qi_inspired_processor.process(inputs.research_data)
+            results["experimental_results"]["quantum"] = (
+                self.qi_inspired_processor.process(inputs.research_data)
+            )
 
         if self.bio_symbolic:
-            results["experimental_results"]["bio_symbolic"] = self.bio_symbolic.process(inputs.research_data)
+            results["experimental_results"]["bio_symbolic"] = self.bio_symbolic.process(
+                inputs.research_data
+            )
 
         if self.swarm_coordinator:
-            results["experimental_results"]["swarm"] = self.swarm_coordinator.process(inputs.research_data)
+            results["experimental_results"]["swarm"] = self.swarm_coordinator.process(
+                inputs.research_data
+            )
 
         # Advanced analytics
         if self.config.advanced_analytics:
             results["analytics_results"] = self._advanced_analytics(inputs)
 
         # Innovation metrics
-        results["innovation_metrics"] = self._calculate_innovation_metrics(inputs, results)
+        results["innovation_metrics"] = self._calculate_innovation_metrics(
+            inputs, results
+        )
 
         # Research insights
         results["research_insights"] = self._generate_research_insights(inputs, results)
@@ -541,18 +569,24 @@ class ResearchAwarenessReasoner:
         # Update learning progress
         self._update_learning_progress(inputs, results)
 
-        processing_time = (datetime.now(timezone.utc) - processing_start).total_seconds() * 1000
+        processing_time = (
+            datetime.now(timezone.utc) - processing_start
+        ).total_seconds() * 1000
         results["processing_time_ms"] = processing_time
 
         return results
 
-    def _core_research_processing(self, inputs: ResearchAwarenessInput) -> dict[str, Any]:
+    def _core_research_processing(
+        self, inputs: ResearchAwarenessInput
+    ) -> dict[str, Any]:
         """Core research processing logic."""
         return {
             "research_phase": inputs.research_phase.value,
             "data_quality_score": random.uniform(0.7, 0.95),
             "statistical_power": (
-                random.uniform(0.8, 0.95) if inputs.research_type in [ResearchType.EXPERIMENTAL_RESEARCH] else None
+                random.uniform(0.8, 0.95)
+                if inputs.research_type in [ResearchType.EXPERIMENTAL_RESEARCH]
+                else None
             ),
             "sample_adequacy": random.uniform(0.75, 0.9),
             "methodology_score": random.uniform(0.8, 0.95),
@@ -590,21 +624,29 @@ class ResearchAwarenessReasoner:
 
         return analytics
 
-    def _calculate_innovation_metrics(self, inputs: ResearchAwarenessInput, results: dict[str, Any]) -> dict[str, Any]:
+    def _calculate_innovation_metrics(
+        self, inputs: ResearchAwarenessInput, results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Calculate innovation and research quality metrics."""
         return {
-            "novelty_score": min(inputs.exploration_factor + random.uniform(0, 0.3), 1.0),
+            "novelty_score": min(
+                inputs.exploration_factor + random.uniform(0, 0.3), 1.0
+            ),
             "exploration_efficiency": self._calculate_exploration_efficiency(inputs),
             "learning_progress": self.learning_progress,
             "adaptation_success": random.uniform(0.6, 0.9),
             "research_impact_potential": random.uniform(0.5, 0.9),
             "reproducibility_score": random.uniform(0.8, 0.95),
             "interdisciplinary_score": (
-                len(inputs.techniques_used) / len(ExperimentalTechnique) if inputs.techniques_used else 0.1
+                len(inputs.techniques_used) / len(ExperimentalTechnique)
+                if inputs.techniques_used
+                else 0.1
             ),
         }
 
-    def _calculate_exploration_efficiency(self, inputs: ResearchAwarenessInput) -> float:
+    def _calculate_exploration_efficiency(
+        self, inputs: ResearchAwarenessInput
+    ) -> float:
         """Calculate how efficiently the research explores the problem space."""
         base_efficiency = 0.5
 
@@ -619,7 +661,9 @@ class ResearchAwarenessReasoner:
         # Add some randomness for experimental variation
         return min(base_efficiency + random.uniform(-0.1, 0.1), 1.0)
 
-    def _generate_research_insights(self, inputs: ResearchAwarenessInput, results: dict[str, Any]) -> dict[str, Any]:
+    def _generate_research_insights(
+        self, inputs: ResearchAwarenessInput, results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate research insights and recommendations."""
         insights = {
             "key_findings": [],
@@ -629,18 +673,34 @@ class ResearchAwarenessReasoner:
         }
 
         # Generate findings based on results
-        if results.get("analytics_results", {}).get("hypothesis_test", {}).get("p_value", 1.0) < 0.05:
+        if (
+            results.get("analytics_results", {})
+            .get("hypothesis_test", {})
+            .get("p_value", 1.0)
+            < 0.05
+        ):
             insights["key_findings"].append("Statistically significant effect detected")
 
-        if results.get("experimental_results", {}).get("quantum", {}).get("qi_advantage", 1.0) > 1.3:
-            insights["key_findings"].append("Quantum-inspired processing shows significant advantage")
+        if (
+            results.get("experimental_results", {})
+            .get("quantum", {})
+            .get("qi_advantage", 1.0)
+            > 1.3
+        ):
+            insights["key_findings"].append(
+                "Quantum-inspired processing shows significant advantage"
+            )
 
         # Generate recommendations
         if self.learning_progress < 0.7:
-            insights["research_recommendations"].append("Increase exploration factor to improve learning")
+            insights["research_recommendations"].append(
+                "Increase exploration factor to improve learning"
+            )
 
         if len(inputs.techniques_used) < 2:
-            insights["research_recommendations"].append("Consider hybrid approaches combining multiple techniques")
+            insights["research_recommendations"].append(
+                "Consider hybrid approaches combining multiple techniques"
+            )
 
         # Methodology insights
         insights["methodology_insights"] = [
@@ -659,13 +719,23 @@ class ResearchAwarenessReasoner:
 
         return insights
 
-    def _update_learning_progress(self, inputs: ResearchAwarenessInput, results: dict[str, Any]):
+    def _update_learning_progress(
+        self, inputs: ResearchAwarenessInput, results: dict[str, Any]
+    ):
         """Update overall learning progress based on results."""
         # Simulate learning progress update
-        innovation_score = results.get("innovation_metrics", {}).get("novelty_score", 0.5)
-        performance_score = results.get("analytics_results", {}).get("ml_performance", {}).get("accuracy", 0.5)
+        innovation_score = results.get("innovation_metrics", {}).get(
+            "novelty_score", 0.5
+        )
+        performance_score = (
+            results.get("analytics_results", {})
+            .get("ml_performance", {})
+            .get("accuracy", 0.5)
+        )
 
-        new_progress = (self.learning_progress * 0.9) + (0.1 * (innovation_score + performance_score) / 2)
+        new_progress = (self.learning_progress * 0.9) + (
+            0.1 * (innovation_score + performance_score) / 2
+        )
         self.learning_progress = min(new_progress, 1.0)
 
         # Store experiment in history
@@ -717,14 +787,18 @@ class ResearchAwarenessEngine:
             {
                 "version": self.version,
                 "research_type": self.config.research_type.value,
-                "experimental_techniques": [t.value for t in self.config.experimental_techniques],
+                "experimental_techniques": [
+                    t.value for t in self.config.experimental_techniques
+                ],
                 "ethics_level": self.config.ethics_level.value,
                 "data_sharing_level": self.config.data_sharing_level.value,
             },
             f"init_{uuid.uuid4().hex[:8]}",
         )
 
-    def conduct_research(self, inputs: ResearchAwarenessInput) -> ResearchAwarenessOutput:
+    def conduct_research(
+        self, inputs: ResearchAwarenessInput
+    ) -> ResearchAwarenessOutput:
         """Conduct research with experimental awareness techniques."""
         processing_start = datetime.now(timezone.utc)
 
@@ -748,7 +822,9 @@ class ResearchAwarenessEngine:
             processing_results = self.reasoner.process(inputs)
 
             # Build research output
-            result = self._build_research_output(inputs, processing_results, processing_start)
+            result = self._build_research_output(
+                inputs, processing_results, processing_start
+            )
 
             # Update research tracking
             self._update_research_tracking(inputs, result)
@@ -786,11 +862,19 @@ class ResearchAwarenessEngine:
         if self.config.ethics_approval_required and not inputs.ethics_approval:
             raise ValueError("Ethics approval required but not provided")
 
-        if self.config.informed_consent_required and not inputs.informed_consent_obtained:
+        if (
+            self.config.informed_consent_required
+            and not inputs.informed_consent_obtained
+        ):
             raise ValueError("Informed consent required but not obtained")
 
-        if inputs.vulnerable_population and self.config.ethics_level != ResearchEthicsLevel.HIGH_RISK_REVIEW:
-            raise ValueError("High-risk ethics review required for vulnerable populations")
+        if (
+            inputs.vulnerable_population
+            and self.config.ethics_level != ResearchEthicsLevel.HIGH_RISK_REVIEW
+        ):
+            raise ValueError(
+                "High-risk ethics review required for vulnerable populations"
+            )
 
     def _build_research_output(
         self,
@@ -799,7 +883,9 @@ class ResearchAwarenessEngine:
         processing_start: datetime,
     ) -> ResearchAwarenessOutput:
         """Build comprehensive research output."""
-        processing_time = (datetime.now(timezone.utc) - processing_start).total_seconds() * 1000
+        processing_time = (
+            datetime.now(timezone.utc) - processing_start
+        ).total_seconds() * 1000
 
         # Extract key results
         innovation_metrics = processing_results.get("innovation_metrics", {})
@@ -812,7 +898,9 @@ class ResearchAwarenessEngine:
             processing_time_ms=processing_time,
             # Innovation metrics
             novelty_score=innovation_metrics.get("novelty_score", 0.5),
-            exploration_efficiency=innovation_metrics.get("exploration_efficiency", 0.5),
+            exploration_efficiency=innovation_metrics.get(
+                "exploration_efficiency", 0.5
+            ),
             learning_progress=innovation_metrics.get("learning_progress", 0.5),
             adaptation_success=innovation_metrics.get("adaptation_success", 0.5),
             # Experimental results
@@ -829,10 +917,14 @@ class ResearchAwarenessEngine:
             swarm_coordination_metrics=experimental_results.get("swarm", {}),
             # Research insights
             discovered_patterns=research_insights.get("key_findings", []),
-            research_recommendations=research_insights.get("research_recommendations", []),
+            research_recommendations=research_insights.get(
+                "research_recommendations", []
+            ),
             next_experiments=research_insights.get("future_directions", []),
             # Analytics
-            statistical_significance=analytics_results.get("hypothesis_test", {}).get("p_value"),
+            statistical_significance=analytics_results.get("hypothesis_test", {}).get(
+                "p_value"
+            ),
             effect_size=analytics_results.get("hypothesis_test", {}).get("effect_size"),
             classification_metrics=analytics_results.get("ml_performance", {}),
             # Research quality
@@ -844,12 +936,18 @@ class ResearchAwarenessEngine:
             data_protection_applied=True,
             anonymization_successful=self.config.data_anonymization,
             # Publication readiness
-            publication_ready=self._assess_publication_readiness(inputs, processing_results),
-            peer_review_suggestions=self._generate_peer_review_suggestions(processing_results),
+            publication_ready=self._assess_publication_readiness(
+                inputs, processing_results
+            ),
+            peer_review_suggestions=self._generate_peer_review_suggestions(
+                processing_results
+            ),
             open_science_compliance=self.config.open_science_compliance,
         )
 
-    def _assess_publication_readiness(self, inputs: ResearchAwarenessInput, results: dict[str, Any]) -> bool:
+    def _assess_publication_readiness(
+        self, inputs: ResearchAwarenessInput, results: dict[str, Any]
+    ) -> bool:
         """Assess if research results are ready for publication."""
         criteria = [
             inputs.ethics_approval,
@@ -859,7 +957,8 @@ class ResearchAwarenessEngine:
                 ResearchPhase.VALIDATION,
                 ResearchPhase.PUBLICATION,
             ],
-            results.get("innovation_metrics", {}).get("reproducibility_score", 0.0) > 0.8,
+            results.get("innovation_metrics", {}).get("reproducibility_score", 0.0)
+            > 0.8,
             len(results.get("research_insights", {}).get("key_findings", [])) > 0,
         ]
         return sum(criteria) >= 3
@@ -868,18 +967,33 @@ class ResearchAwarenessEngine:
         """Generate suggestions for peer review improvement."""
         suggestions = []
 
-        if results.get("innovation_metrics", {}).get("reproducibility_score", 1.0) < 0.9:
+        if (
+            results.get("innovation_metrics", {}).get("reproducibility_score", 1.0)
+            < 0.9
+        ):
             suggestions.append("Improve reproducibility documentation")
 
-        if results.get("analytics_results", {}).get("hypothesis_test", {}).get("power", 1.0) < 0.8:
-            suggestions.append("Consider increasing sample size for better statistical power")
+        if (
+            results.get("analytics_results", {})
+            .get("hypothesis_test", {})
+            .get("power", 1.0)
+            < 0.8
+        ):
+            suggestions.append(
+                "Consider increasing sample size for better statistical power"
+            )
 
-        if len(results.get("research_insights", {}).get("methodology_insights", [])) < 2:
+        if (
+            len(results.get("research_insights", {}).get("methodology_insights", []))
+            < 2
+        ):
             suggestions.append("Expand methodology discussion and limitations")
 
         return suggestions if suggestions else ["Research meets publication standards"]
 
-    def _update_research_tracking(self, inputs: ResearchAwarenessInput, result: ResearchAwarenessOutput):
+    def _update_research_tracking(
+        self, inputs: ResearchAwarenessInput, result: ResearchAwarenessOutput
+    ):
         """Update internal research tracking metrics."""
         self.experiments_conducted += 1
 
@@ -933,9 +1047,12 @@ def certify_research_compliance(engine: ResearchAwarenessEngine) -> dict[str, An
             "vulnerable_populations": "high_risk_review_required",
         },
         "experimental_capabilities": {
-            "qi_inspired": ExperimentalTechnique.QUANTUM_INSPIRED in engine.config.experimental_techniques,
-            "bio_symbolic": ExperimentalTechnique.BIO_INSPIRED in engine.config.experimental_techniques,
-            "swarm_intelligence": ExperimentalTechnique.SWARM_INTELLIGENCE in engine.config.experimental_techniques,
+            "qi_inspired": ExperimentalTechnique.QUANTUM_INSPIRED
+            in engine.config.experimental_techniques,
+            "bio_symbolic": ExperimentalTechnique.BIO_INSPIRED
+            in engine.config.experimental_techniques,
+            "swarm_intelligence": ExperimentalTechnique.SWARM_INTELLIGENCE
+            in engine.config.experimental_techniques,
             "advanced_analytics": engine.config.advanced_analytics,
             "real_time_processing": engine.config.real_time_processing,
         },
@@ -955,7 +1072,8 @@ def certify_research_compliance(engine: ResearchAwarenessEngine) -> dict[str, An
         "collaboration_support": {
             "multi_institutional": engine.config.multi_institutional,
             "international_collaboration": engine.config.international_collaboration,
-            "federated_learning": ExperimentalTechnique.FEDERATED_LEARNING in engine.config.experimental_techniques,
+            "federated_learning": ExperimentalTechnique.FEDERATED_LEARNING
+            in engine.config.experimental_techniques,
             "data_sharing": engine.config.data_sharing_level.value,
         },
         "certification_validity": {
@@ -1035,8 +1153,12 @@ if __name__ == "__main__":
 
     print("\n🔮 Quantum Results:")
     if result.qi_results:
-        print(f"  • Quantum Advantage: {result.qi_results.get('qi_advantage', 'N/A'):.3f}")
-        print(f"  • Coherence Time: {result.qi_results.get('decoherence_time', 'N/A'):.1f}")
+        print(
+            f"  • Quantum Advantage: {result.qi_results.get('qi_advantage', 'N/A'):.3f}"
+        )
+        print(
+            f"  • Coherence Time: {result.qi_results.get('decoherence_time', 'N/A'):.1f}"
+        )
 
     print("\n🧠 Bio-Symbolic Insights:")
     if result.bio_symbolic_insights:
@@ -1078,7 +1200,9 @@ if __name__ == "__main__":
     print(f"  • Total Experiments: {summary['total_experiments']}")
     print(f"  • Discoveries Made: {summary['discoveries_made']}")
     print(f"  • Learning Progress: {summary['learning_progress']:.3f}")
-    print(f"  • Collaboration Network: {summary['collaboration_network_size']} connections")
+    print(
+        f"  • Collaboration Network: {summary['collaboration_network_size']} connections"
+    )
 
     # Generate certification
     certification = certify_research_compliance(engine)

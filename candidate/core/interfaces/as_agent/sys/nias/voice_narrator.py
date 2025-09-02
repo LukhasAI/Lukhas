@@ -21,10 +21,11 @@ DESCRIPTION:
 
 """
 
-from lukhas.core.utils.symbolic_utils import summarize_emotion_vector, tier_label
 import json
 from pathlib import Path
 
+from lukhas.core.utils.symbolic_utils import (summarize_emotion_vector,
+                                              tier_label)
 
 REPLAY_PATH = Path("core/logs/replay_queue.jsonl")
 SUMMARY_PATH = Path("core/logs/dream_summary_log.jsonl")

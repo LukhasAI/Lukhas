@@ -37,7 +37,9 @@ class RecurringEmotionTracker:
         self.history_window = self.config.get("history_window_days", 7)
         self.recurrence_threshold = self.config.get("recurrence_threshold", 3)
         self.similarity_threshold = self.config.get("similarity_threshold", 0.9)
-        self.stagnation_detector = AffectStagnationDetector(self.emotional_memory, config)
+        self.stagnation_detector = AffectStagnationDetector(
+            self.emotional_memory, config
+        )
 
     def check_for_recurrence(self) -> Optional[dict[str, Any]]:
         """
@@ -53,11 +55,15 @@ class RecurringEmotionTracker:
         if stagnation_detected:
             return stagnation_detected
 
-        emotional_history = self.emotional_memory.get_emotional_history(hours_ago=self.history_window * 24)
+        emotional_history = self.emotional_memory.get_emotional_history(
+            hours_ago=self.history_window * 24
+        )
         if not emotional_history:
             return None
 
-        current_emotion = self.emotional_memory.get_current_emotional_state()["current_emotion_vector"]
+        current_emotion = self.emotional_memory.get_current_emotional_state()[
+            "current_emotion_vector"
+        ]
         recurrence_detected = self._check_recurrence(current_emotion, emotional_history)
         if recurrence_detected:
             return recurrence_detected
@@ -75,7 +81,10 @@ class RecurringEmotionTracker:
 
         for entry in emotional_history:
             history_vector = np.array(list(entry["emotion_vec"]["dimensions"].values()))
-            if np.linalg.norm(current_vector) > 0 and np.linalg.norm(history_vector) > 0:
+            if (
+                np.linalg.norm(current_vector) > 0
+                and np.linalg.norm(history_vector) > 0
+            ):
                 similarity = np.dot(current_vector, history_vector) / (
                     np.linalg.norm(current_vector) * np.linalg.norm(history_vector)
                 )
@@ -88,9 +97,13 @@ class RecurringEmotionTracker:
 
             # Check if this is stagnation (same emotion for a long time) vs recurrence
             # (repeating pattern)
-            is_stagnation = len(similar_emotions) >= 10  # More occurrences indicate stagnation
+            is_stagnation = (
+                len(similar_emotions) >= 10
+            )  # More occurrences indicate stagnation
             symbol = "⏳" if is_stagnation else "🔄"
-            trigger_type = "Emotional stagnation" if is_stagnation else "Recurring emotion"
+            trigger_type = (
+                "Emotional stagnation" if is_stagnation else "Recurring emotion"
+            )
 
             # Find the dream associated with the first occurrence
             origin_dream = self._find_origin_dream(similar_emotions[0])
@@ -125,7 +138,9 @@ class RecurringEmotionTracker:
 
         # Map emotional state to oscillator parameters
         # This is a conceptual mapping and can be refined
-        frequency = 10 + (current_emotion_vector.arousal * 20)  # Beta range for active processing
+        frequency = 10 + (
+            current_emotion_vector.arousal * 20
+        )  # Beta range for active processing
 
         if hasattr(self.bio_oscillator, "adjust_frequency"):
             self.bio_oscillator.adjust_frequency(frequency)

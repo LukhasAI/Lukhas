@@ -57,7 +57,10 @@ class OrchestrationMatrizAdapter:
 
     @staticmethod
     def emit_brain_decision(
-        decision_id: str, decision_type: str, components_involved: list[str], confidence: float
+        decision_id: str,
+        decision_type: str,
+        components_involved: list[str],
+        confidence: float,
     ) -> dict[str, Any]:
         """Emit a brain-level decision event"""
 
@@ -108,7 +111,9 @@ class OrchestrationMatrizAdapter:
         )
 
     @staticmethod
-    def emit_routing_event(route_id: str, event_type: str, route_path: list[str], success: bool) -> dict[str, Any]:
+    def emit_routing_event(
+        route_id: str, event_type: str, route_path: list[str], success: bool
+    ) -> dict[str, Any]:
         """Emit an event routing decision"""
 
         return OrchestrationMatrizAdapter.create_node(
@@ -164,7 +169,13 @@ class OrchestrationMatrizAdapter:
                 return False
 
         # Check required provenance fields
-        required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
+        required_prov = [
+            "producer",
+            "capabilities",
+            "tenant",
+            "trace_id",
+            "consent_scopes",
+        ]
         return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod

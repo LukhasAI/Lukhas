@@ -141,8 +141,12 @@ class OrchestrationCore:
         }
         self.active_modules = {}
 
-        logger.info(f"LUKHAS Orchestration Core initialized - Session: {self.session_id}")
-        logger.info(f"lukhas Orchestration Core initialized - Session: {self.session_id}")
+        logger.info(
+            f"LUKHAS Orchestration Core initialized - Session: {self.session_id}"
+        )
+        logger.info(
+            f"lukhas Orchestration Core initialized - Session: {self.session_id}"
+        )
 
     async def initialize(self) -> bool:
         """
@@ -193,7 +197,9 @@ class OrchestrationCore:
                 except TypeError:
                     # Try with just config or basic initialization
                     try:
-                        self.memory_manager = MemoryManager(config=self.config.get("memory", {}))
+                        self.memory_manager = MemoryManager(
+                            config=self.config.get("memory", {})
+                        )
                     except TypeError:
                         self.memory_manager = MemoryManager()
 
@@ -244,7 +250,9 @@ class OrchestrationCore:
         try:
             # Try initialization with parameters
             try:
-                self.awareness_system = BioAwarenessSystem(bio_core=self.bio_core, memory_manager=self.memory_manager)
+                self.awareness_system = BioAwarenessSystem(
+                    bio_core=self.bio_core, memory_manager=self.memory_manager
+                )
             except TypeError:
                 # Try basic initialization
                 self.awareness_system = BioAwarenessSystem()
@@ -342,7 +350,9 @@ class OrchestrationCore:
             # await self.module_registry.register_module(name, module) #TODO: See above
             self.active_modules[name] = module
 
-        logger.info(f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)")
+        logger.info(
+            f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)"
+        )
 
     async def _initiate_consciousness_loop(self):
         """Start the main consciousness simulation loop."""
@@ -355,11 +365,15 @@ class OrchestrationCore:
             try:
                 # Update consciousness level based on bio-core oscillations
                 if self.bio_core:
-                    self.consciousness_level = await self.bio_core.get_consciousness_level()
+                    self.consciousness_level = (
+                        await self.bio_core.get_consciousness_level()
+                    )
 
                 # Update emotional state
                 if self.awareness_system:
-                    self.emotional_state = await self.awareness_system.get_emotional_state()
+                    self.emotional_state = (
+                        await self.awareness_system.get_emotional_state()
+                    )
 
                 # Process any pending dreams or memories
                 if self.dream_engine and self.consciousness_level < 0.3:

@@ -86,7 +86,9 @@ class DecisionTrace:
         self.confidence_score = 0.0
         self.confidence_explanation = ""
 
-    def add_reasoning_step(self, step: str, evidence: Optional[dict[str, Any]] = None, weight: float = 1.0):
+    def add_reasoning_step(
+        self, step: str, evidence: Optional[dict[str, Any]] = None, weight: float = 1.0
+    ):
         """Add a reasoning step with evidence and weight"""
         self.reasoning_steps.append(
             {
@@ -152,7 +154,9 @@ class DecisionTrace:
             }
         )
 
-    def add_bias_consideration(self, bias_type: str, mitigation: str, confidence_in_mitigation: float):
+    def add_bias_consideration(
+        self, bias_type: str, mitigation: str, confidence_in_mitigation: float
+    ):
         """Log bias considerations and mitigations"""
         self.bias_considerations.append(
             {
@@ -181,7 +185,9 @@ class DecisionTrace:
             "reasoning_steps_count": len(self.reasoning_steps),
             "alternatives_considered_count": len(self.alternatives_considered),
             "final_confidence": self.confidence_score,
-            "safety_checks_passed": sum(1 for check in self.safety_checks if check["passed"]),
+            "safety_checks_passed": sum(
+                1 for check in self.safety_checks if check["passed"]
+            ),
         }
 
         transparency_logger.info(f"DECISION_TRACE: {json.dumps(trace_summary)}")
@@ -197,16 +203,32 @@ class DecisionTrace:
                 "factors": self.confidence_factors,
             },
             "reasoning": {
-                "key_steps": [step["step"] for step in self.reasoning_steps[-3:]],  # Last 3 steps
-                "primary_evidence": [step["evidence"] for step in self.reasoning_steps if step["weight"] > 0.7],
+                "key_steps": [
+                    step["step"] for step in self.reasoning_steps[-3:]
+                ],  # Last 3 steps
+                "primary_evidence": [
+                    step["evidence"]
+                    for step in self.reasoning_steps
+                    if step["weight"] > 0.7
+                ],
             },
             "data_usage": {
-                "critical_factors": [inf for inf in self.data_influences if inf["influence_level"] == "critical"],
-                "significant_factors": [inf for inf in self.data_influences if inf["influence_level"] == "significant"],
+                "critical_factors": [
+                    inf
+                    for inf in self.data_influences
+                    if inf["influence_level"] == "critical"
+                ],
+                "significant_factors": [
+                    inf
+                    for inf in self.data_influences
+                    if inf["influence_level"] == "significant"
+                ],
             },
             "alternatives": {
                 "considered": len(self.alternatives_considered),
-                "why_rejected": [alt["reason_rejected"] for alt in self.alternatives_considered[:3]],
+                "why_rejected": [
+                    alt["reason_rejected"] for alt in self.alternatives_considered[:3]
+                ],
             },
             "safety": {
                 "checks_performed": len(self.safety_checks),
@@ -250,7 +272,9 @@ class TransparencyOrchestrator:
         """Get active decision trace by ID"""
         return self.active_traces.get(trace_id)
 
-    def complete_trace(self, trace_id: str, decision: Any, confidence: float, explanation: str) -> dict[str, Any]:
+    def complete_trace(
+        self, trace_id: str, decision: Any, confidence: float, explanation: str
+    ) -> dict[str, Any]:
         """Complete a decision trace and return user explanation"""
         if trace_id not in self.active_traces:
             return {"error": "Trace not found"}
@@ -286,7 +310,8 @@ class TransparencyOrchestrator:
                 [
                     trace
                     for trace in self.completed_traces
-                    if (datetime.now() - datetime.fromisoformat(trace.timestamp)).days == 0
+                    if (datetime.now() - datetime.fromisoformat(trace.timestamp)).days
+                    == 0
                 ]
             ),
         }
@@ -309,7 +334,9 @@ def create_transparent_decision(
     def decorator(func):
         async def wrapper(*args, **kwargs):
             # Start decision trace
-            trace_id = transparency_orchestrator.start_decision_trace(decision_type, user_input, context)
+            trace_id = transparency_orchestrator.start_decision_trace(
+                decision_type, user_input, context
+            )
 
             try:
                 # Add trace_id to function arguments
@@ -355,7 +382,9 @@ def create_transparent_decision(
 # Example usage functions for integration
 
 
-async def example_transparent_content_generation(user_prompt: str, trace_id: Optional[str] = None):
+async def example_transparent_content_generation(
+    user_prompt: str, trace_id: Optional[str] = None
+):
     """Example of transparent content generation with full reasoning trace"""
 
     if not trace_id:
@@ -406,7 +435,9 @@ async def example_transparent_content_generation(user_prompt: str, trace_id: Opt
     )
 
     # Step 4: Confidence factors
-    trace.add_confidence_factor("Domain knowledge", 0.8, "High confidence in subject matter knowledge")
+    trace.add_confidence_factor(
+        "Domain knowledge", 0.8, "High confidence in subject matter knowledge"
+    )
 
     trace.add_confidence_factor(
         "User intent clarity",
@@ -415,7 +446,9 @@ async def example_transparent_content_generation(user_prompt: str, trace_id: Opt
     )
 
     # Step 5: Bias considerations
-    trace.add_bias_consideration("Cultural bias", "Response crafted to be culturally neutral", 0.8)
+    trace.add_bias_consideration(
+        "Cultural bias", "Response crafted to be culturally neutral", 0.8
+    )
 
     # Generate content (simplified for example)
     content = f"Response to: {user_prompt[:50]}... [Generated with full transparency]"
@@ -423,7 +456,9 @@ async def example_transparent_content_generation(user_prompt: str, trace_id: Opt
     return {
         "content": content,
         "confidence": 0.75,
-        "transparency": {"explanation": "Content generated using transparent reasoning with safety checks"},
+        "transparency": {
+            "explanation": "Content generated using transparent reasoning with safety checks"
+        },
     }
 
 
@@ -549,6 +584,8 @@ if __name__ == "__main__":
         print(json.dumps(result.get("transparency_explanation", {}), indent=2))
 
         print("\n📈 System Summary:")
-        print(json.dumps(transparency_orchestrator.get_transparency_summary(), indent=2))
+        print(
+            json.dumps(transparency_orchestrator.get_transparency_summary(), indent=2)
+        )
 
     asyncio.run(demo())

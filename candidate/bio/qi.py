@@ -57,7 +57,11 @@ class QIVoiceEnhancer:
             return enhanced_voice
 
         except Exception as e:
-            return {"error": str(e), "original_data": voice_data, "enhancement_applied": False}
+            return {
+                "error": str(e),
+                "original_data": voice_data,
+                "enhancement_applied": False,
+            }
 
 
 class MitochondrialQIBridge:
@@ -80,7 +84,10 @@ class NeuroplasticityModulator:
 
 def __validate_module__():
     """Bio quantum function - __validate_module__"""
-    from datetime import datetime, timezone  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement
+    from datetime import (  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement
+        datetime,
+        timezone,
+    )
 
     """
     Bio-QI Module Validation
@@ -107,7 +114,10 @@ def __validate_module__():
             "type": "configuration_class",
         }
     except Exception as e:
-        validation_results["test_results"]["VoiceQIConfig"] = {"status": "fail", "error": str(e)}
+        validation_results["test_results"]["VoiceQIConfig"] = {
+            "status": "fail",
+            "error": str(e),
+        }
 
     # Test QIVoiceEnhancer
     try:
@@ -119,11 +129,16 @@ def __validate_module__():
         validation_results["test_results"]["QIVoiceEnhancer"] = {
             "status": "pass",
             "enhancement_test": "successful",
-            "enhancement_applied": enhancement_result.get("qi_processing_applied", False),
+            "enhancement_applied": enhancement_result.get(
+                "qi_processing_applied", False
+            ),
             "enhancements_count": len(enhancement_result.get("enhancements", {})),
         }
     except Exception as e:
-        validation_results["test_results"]["QIVoiceEnhancer"] = {"status": "fail", "error": str(e)}
+        validation_results["test_results"]["QIVoiceEnhancer"] = {
+            "status": "fail",
+            "error": str(e),
+        }
 
     # Test other components (basic instantiation)
     components_to_test = [
@@ -142,10 +157,17 @@ def __validate_module__():
                 "type": "bio_qi_component",
             }
         except Exception as e:
-            validation_results["test_results"][name] = {"status": "fail", "error": str(e)}
+            validation_results["test_results"][name] = {
+                "status": "fail",
+                "error": str(e),
+            }
 
     # Calculate overall health
-    passed_tests = sum(1 for result in validation_results["test_results"].values() if result.get("status") == "pass")
+    passed_tests = sum(
+        1
+        for result in validation_results["test_results"].values()
+        if result.get("status") == "pass"
+    )
     total_tests = len(validation_results["test_results"])
 
     if total_tests > 0:

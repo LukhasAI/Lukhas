@@ -165,7 +165,9 @@ class CognitiveLoadEstimator:
             },
         }
 
-    async def initialize_baseline(self, calibration_data: Optional[dict[str, Any]] = None) -> bool:
+    async def initialize_baseline(
+        self, calibration_data: Optional[dict[str, Any]] = None
+    ) -> bool:
         """
         Initialize baseline cognitive metrics for this user.
 
@@ -258,7 +260,9 @@ class CognitiveLoadEstimator:
         confidence = self._calculate_confidence(indicators, context)
 
         # Generate adaptation recommendations
-        recommendations = self._generate_recommendations(load_level, indicators, context)
+        recommendations = self._generate_recommendations(
+            load_level, indicators, context
+        )
 
         # Create assessment
         assessment = CognitiveLoadAssessment(
@@ -284,7 +288,9 @@ class CognitiveLoadEstimator:
 
         return assessment
 
-    def _extract_cognitive_indicators(self, performance_data: dict[str, Any]) -> CognitiveIndicators:
+    def _extract_cognitive_indicators(
+        self, performance_data: dict[str, Any]
+    ) -> CognitiveIndicators:
         """
         Extract cognitive indicators from performance data.
 
@@ -301,8 +307,14 @@ class CognitiveLoadEstimator:
 
         # Extract error rate
         error_rate = performance_data.get("error_rate", 0)
-        if error_rate == 0 and "errors" in performance_data and "total_attempts" in performance_data:
-            error_rate = performance_data["errors"] / max(performance_data["total_attempts"], 1)
+        if (
+            error_rate == 0
+            and "errors" in performance_data
+            and "total_attempts" in performance_data
+        ):
+            error_rate = performance_data["errors"] / max(
+                performance_data["total_attempts"], 1
+            )
 
         # Extract task completion time
         completion_time = performance_data.get("completion_time", 0)
@@ -311,13 +323,18 @@ class CognitiveLoadEstimator:
 
         # Calculate input variability
         input_variability = 0
-        if "input_times" in performance_data and len(performance_data["input_times"]) > 1:
+        if (
+            "input_times" in performance_data
+            and len(performance_data["input_times"]) > 1
+        ):
             times = performance_data["input_times"]
             intervals = [times[i + 1] - times[i] for i in range(len(times) - 1)]
             if intervals:
                 mean_interval = statistics.mean(intervals)
                 if mean_interval > 0:
-                    variability = statistics.stdev(intervals) if len(intervals) > 1 else 0
+                    variability = (
+                        statistics.stdev(intervals) if len(intervals) > 1 else 0
+                    )
                     input_variability = variability / mean_interval
 
         # Extract attention focus (from attention monitor if available)
@@ -345,11 +362,17 @@ class CognitiveLoadEstimator:
 
         # High error rate indicates stress
         error_rate = performance_data.get("error_rate", 0)
-        if self.baseline_metrics and error_rate > self.baseline_metrics.error_rate * 1.5:
+        if (
+            self.baseline_metrics
+            and error_rate > self.baseline_metrics.error_rate * 1.5
+        ):
             stress_indicators.append(0.7)
 
         # Erratic input timing indicates stress
-        if "input_variability" in performance_data and performance_data["input_variability"] > 0.3:
+        if (
+            "input_variability" in performance_data
+            and performance_data["input_variability"] > 0.3
+        ):
             stress_indicators.append(0.6)
 
         # Fast but inaccurate responses indicate stress
@@ -373,19 +396,27 @@ class CognitiveLoadEstimator:
 
         # Slow reaction times indicate fatigue
         reaction_time = performance_data.get("reaction_time_ms", 0)
-        if self.baseline_metrics and reaction_time > self.baseline_metrics.reaction_time_ms * 1.3:
+        if (
+            self.baseline_metrics
+            and reaction_time > self.baseline_metrics.reaction_time_ms * 1.3
+        ):
             fatigue_indicators.append(0.6)
 
         # Declining performance over time indicates fatigue
         if len(self.performance_metrics["accuracy"]) > 10:
             recent_accuracy = statistics.mean(self.performance_metrics["accuracy"][-5:])
-            earlier_accuracy = statistics.mean(self.performance_metrics["accuracy"][-10:-5])
+            earlier_accuracy = statistics.mean(
+                self.performance_metrics["accuracy"][-10:-5]
+            )
             if recent_accuracy < earlier_accuracy * 0.9:
                 fatigue_indicators.append(0.7)
 
         # Long completion times indicate fatigue
         completion_time = performance_data.get("completion_time", 0)
-        if self.baseline_metrics and completion_time > self.baseline_metrics.task_completion_time * 1.5:
+        if (
+            self.baseline_metrics
+            and completion_time > self.baseline_metrics.task_completion_time * 1.5
+        ):
             fatigue_indicators.append(0.5)
 
         # Calculate overall fatigue level
@@ -407,9 +438,11 @@ class CognitiveLoadEstimator:
         if not self.baseline_metrics:
             # Use relative scoring without baseline
             score_components = [
-                min(indicators.reaction_time_ms / 2000, 1.0) * 0.2,  # Normalize to 2000ms max
+                min(indicators.reaction_time_ms / 2000, 1.0)
+                * 0.2,  # Normalize to 2000ms max
                 indicators.error_rate * 0.25,  # Error rate component
-                min(indicators.task_completion_time / 20, 1.0) * 0.15,  # Completion time
+                min(indicators.task_completion_time / 20, 1.0)
+                * 0.15,  # Completion time
                 indicators.input_variability * 0.15,  # Input variability
                 (1.0 - indicators.attention_focus) * 0.1,  # Inverted attention
                 indicators.stress_level * 0.1,  # Stress level
@@ -419,17 +452,20 @@ class CognitiveLoadEstimator:
             # Use baseline-relative scoring
             base = self.baseline_metrics
             score_components = [
-                min(indicators.reaction_time_ms / (base.reaction_time_ms * 2), 1.0) * 0.2,
+                min(indicators.reaction_time_ms / (base.reaction_time_ms * 2), 1.0)
+                * 0.2,
                 min(indicators.error_rate / (base.error_rate * 3), 1.0) * 0.25,
                 min(
                     indicators.task_completion_time / (base.task_completion_time * 2),
                     1.0,
                 )
                 * 0.15,
-                min(indicators.input_variability / (base.input_variability * 2), 1.0) * 0.15,
+                min(indicators.input_variability / (base.input_variability * 2), 1.0)
+                * 0.15,
                 max(
                     0,
-                    (base.attention_focus - indicators.attention_focus) / base.attention_focus,
+                    (base.attention_focus - indicators.attention_focus)
+                    / base.attention_focus,
                 )
                 * 0.1,
                 (indicators.stress_level / 1.0) * 0.1,
@@ -441,7 +477,9 @@ class CognitiveLoadEstimator:
 
         # Apply smoothing if we have history
         if len(self.load_history) > 0:
-            recent_scores = [assessment.load_score for assessment in self.load_history[-5:]]
+            recent_scores = [
+                assessment.load_score for assessment in self.load_history[-5:]
+            ]
             recent_scores.append(load_score)
             load_score = statistics.mean(recent_scores)
 
@@ -460,7 +498,9 @@ class CognitiveLoadEstimator:
         else:
             return CognitiveLoadLevel.OVERLOAD
 
-    def _identify_load_factors(self, indicators: CognitiveIndicators, load_score: float) -> list[str]:
+    def _identify_load_factors(
+        self, indicators: CognitiveIndicators, load_score: float
+    ) -> list[str]:
         """Identify primary factors contributing to cognitive load."""
         factors = []
 
@@ -494,7 +534,9 @@ class CognitiveLoadEstimator:
 
         return factors
 
-    def _calculate_confidence(self, indicators: CognitiveIndicators, context: Optional[dict[str, Any]]) -> float:
+    def _calculate_confidence(
+        self, indicators: CognitiveIndicators, context: Optional[dict[str, Any]]
+    ) -> float:
         """Calculate confidence in the cognitive load assessment."""
         confidence_factors = []
 
@@ -574,7 +616,9 @@ class CognitiveLoadEstimator:
 
         return list(set(recommendations))  # Remove duplicates
 
-    def get_ui_adaptations(self, load_level: Optional[CognitiveLoadLevel] = None) -> dict[str, Any]:
+    def get_ui_adaptations(
+        self, load_level: Optional[CognitiveLoadLevel] = None
+    ) -> dict[str, Any]:
         """
         Get specific UI adaptation parameters for current or specified load level.
 
@@ -598,7 +642,9 @@ class CognitiveLoadEstimator:
         if "speed" in performance_metrics:
             self.performance_metrics["speed"].append(performance_metrics["speed"])
         if "consistency" in performance_metrics:
-            self.performance_metrics["consistency"].append(performance_metrics["consistency"])
+            self.performance_metrics["consistency"].append(
+                performance_metrics["consistency"]
+            )
 
         # Limit history size
         for key in self.performance_metrics:
@@ -611,19 +657,29 @@ class CognitiveLoadEstimator:
 
         return {
             "current_load_level": self.current_load.value,
-            "current_load_score": (latest_assessment.load_score if latest_assessment else 0.5),
-            "assessment_confidence": (latest_assessment.confidence if latest_assessment else 0.5),
+            "current_load_score": (
+                latest_assessment.load_score if latest_assessment else 0.5
+            ),
+            "assessment_confidence": (
+                latest_assessment.confidence if latest_assessment else 0.5
+            ),
             "baseline_available": self.baseline_metrics is not None,
             "assessments_count": len(self.load_history),
-            "primary_factors": (latest_assessment.primary_factors if latest_assessment else []),
-            "recommendations": (latest_assessment.recommendations if latest_assessment else []),
+            "primary_factors": (
+                latest_assessment.primary_factors if latest_assessment else []
+            ),
+            "recommendations": (
+                latest_assessment.recommendations if latest_assessment else []
+            ),
             "performance_trends": {
                 "accuracy_trend": len(self.performance_metrics["accuracy"]),
                 "speed_trend": len(self.performance_metrics["speed"]),
                 "consistency_trend": len(self.performance_metrics["consistency"]),
             },
             "thresholds": self.personal_thresholds.copy(),
-            "adaptation_rules": {level.value: rules for level, rules in self.adaptation_rules.items()},
+            "adaptation_rules": {
+                level.value: rules for level, rules in self.adaptation_rules.items()
+            },
         }
 
 

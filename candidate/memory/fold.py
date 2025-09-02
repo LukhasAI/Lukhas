@@ -34,7 +34,9 @@ class FoldManager:
         self.active_folds: list[str] = []
         self.cascade_prevention_active = True
 
-    def create_fold(self, content: Any, causal_chain: Optional[list[str]] = None) -> MemoryFold:
+    def create_fold(
+        self, content: Any, causal_chain: Optional[list[str]] = None
+    ) -> MemoryFold:
         """Create a new memory fold"""
         fold = MemoryFold(content=content, causal_chain=causal_chain or [])
 
@@ -53,7 +55,9 @@ class FoldManager:
             return
 
         # Remove least important folds
-        sorted_folds = sorted(self.folds.values(), key=lambda f: (f.importance, f.accessed_count))
+        sorted_folds = sorted(
+            self.folds.values(), key=lambda f: (f.importance, f.accessed_count)
+        )
 
         # Keep most important 90%
         keep_count = int(self.MAX_FOLDS * 0.9)

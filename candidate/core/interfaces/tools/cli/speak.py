@@ -27,7 +27,9 @@ LOG_PATH = "symbolic_output_log.jsonl"
 logger = logging.getLogger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
@@ -45,7 +47,9 @@ async def speak(text, voice=DEFAULT_VOICE, preview=False):
     communicate = Communicate(text=text, voice=voice)
     await communicate.save("lukhas_output.mp3")
     if not preview:
-        os.system("afplay lukhas_output.mp3")  # For macOS. Use another player for Linux/Win.
+        os.system(
+            "afplay lukhas_output.mp3"
+        )  # For macOS. Use another player for Linux/Win.
 
 
 def log_output(text, tier, voice):
@@ -65,7 +69,9 @@ def main():
     print("\n LUKHAS VOICE MODE - Speak With Intention")
     print("")
 
-    parser = argparse.ArgumentParser(description=" Speak via symbolic voice system (Lukhas voice)")
+    parser = argparse.ArgumentParser(
+        description=" Speak via symbolic voice system (Lukhas voice)"
+    )
     parser.add_argument(
         "text",
         type=str,

@@ -199,10 +199,14 @@ class SymbolicLogicEngine:
         self.qi_branch_limit = self.config.get("qi_branch_limit", 5)
 
         # ΛMEMORY_TIER: Engine state and knowledge storage
-        self.glyph_registry: dict[str, dict[str, Any]] = {}  # Known GLYPHs and their properties
+        self.glyph_registry: dict[str, dict[str, Any]] = (
+            {}
+        )  # Known GLYPHs and their properties
         self.path_history: list[dict[str, Any]] = []  # History of evaluated paths
         self.contradiction_patterns: set[str] = set()  # Known contradiction patterns
-        self.attractor_network: dict[str, list[tuple[str, float]]] = {}  # GLYPH attractor relationships
+        self.attractor_network: dict[str, list[tuple[str, float]]] = (
+            {}
+        )  # GLYPH attractor relationships
 
         # ΛDRIFT_HOOK: Metrics that evolve with engine operation
         self.metrics = {
@@ -224,7 +228,9 @@ class SymbolicLogicEngine:
     # ΛEXPOSE: Primary symbolic path evaluation method
     # ΛTAG: symbolic_evaluation
 
-    def evaluate_symbolic_path(self, glyph_path: list[str], context: dict[str, Any]) -> SymbolicEvaluation:
+    def evaluate_symbolic_path(
+        self, glyph_path: list[str], context: dict[str, Any]
+    ) -> SymbolicEvaluation:
         """
         Determines if a symbolic logic path is stable, entropic, or collapsible.
         Emits attractor/repeller signals based on GLYPH dynamics.
@@ -252,7 +258,9 @@ class SymbolicLogicEngine:
             symbolic_pressure = context.get("symbolic_pressure", 0.5)
 
             # Step 2: Evaluate attractor/repeller dynamics
-            attractor_strength, glyph_signals = self._evaluate_attractor_dynamics(glyph_path, eval_logger)
+            attractor_strength, glyph_signals = self._evaluate_attractor_dynamics(
+                glyph_path, eval_logger
+            )
 
             # Step 3: Detect contradictions in the path
             contradictions = self._detect_path_contradictions(
@@ -260,13 +268,19 @@ class SymbolicLogicEngine:
             )
 
             # Step 4: Calculate collapse probability
-            collapse_probability = self.calculate_entropy_drift(path_entropy, symbolic_pressure)
+            collapse_probability = self.calculate_entropy_drift(
+                path_entropy, symbolic_pressure
+            )
 
             # Step 5: Determine overall path state
-            path_state = self._determine_path_state(path_entropy, collapse_probability, contradictions, eval_logger)
+            path_state = self._determine_path_state(
+                path_entropy, collapse_probability, contradictions, eval_logger
+            )
 
             # Step 6: Assess quantum branching potential
-            qi_branches = self._assess_quantum_branches(glyph_path, path_entropy, eval_logger)
+            qi_branches = self._assess_quantum_branches(
+                glyph_path, path_entropy, eval_logger
+            )
 
             # Step 7: Calculate overall confidence
             confidence_score = self._calculate_path_confidence(
@@ -277,7 +291,9 @@ class SymbolicLogicEngine:
             )
 
             # Step 8: Generate feedback GLYPHs
-            feedback_glyphs = self.emit_feedback_glyphs_internal(path_state, attractor_strength, glyph_signals)
+            feedback_glyphs = self.emit_feedback_glyphs_internal(
+                path_state, attractor_strength, glyph_signals
+            )
 
             # Create comprehensive evaluation
             evaluation = SymbolicEvaluation(
@@ -333,7 +349,9 @@ class SymbolicLogicEngine:
 
     # AINTERNAL: Entropy and drift calculation
 
-    def calculate_entropy_drift(self, path_entropy: float, symbolic_pressure: float) -> float:
+    def calculate_entropy_drift(
+        self, path_entropy: float, symbolic_pressure: float
+    ) -> float:
         """
         Computes collapse likelihood based on entropy delta and symbolic pressure.
         Higher entropy + higher pressure = higher collapse probability.
@@ -374,7 +392,9 @@ class SymbolicLogicEngine:
 
     # AINTERNAL: Contradiction detection across reasoning traces
 
-    def detect_contradictions(self, path: list[str], memory_snippets: list[str]) -> Optional[str]:
+    def detect_contradictions(
+        self, path: list[str], memory_snippets: list[str]
+    ) -> Optional[str]:
         """
         Searches for direct or symbolic contradiction in reasoning trace.
 
@@ -385,7 +405,9 @@ class SymbolicLogicEngine:
         Returns:
             Optional[str]: Description of first contradiction found, or None
         """
-        contradictions = self._detect_path_contradictions(path, memory_snippets, self.logger)
+        contradictions = self._detect_path_contradictions(
+            path, memory_snippets, self.logger
+        )
         return contradictions[0] if contradictions else None
 
     # ΛEXPOSE: GLYPH feedback emission to mesh layers
@@ -400,12 +422,16 @@ class SymbolicLogicEngine:
         Returns:
             Dict[str, Any]: GLYPH feedback signals for system integration
         """
-        return self.emit_feedback_glyphs_internal(result.path_state, result.attractor_strength, result.glyph_signals)
+        return self.emit_feedback_glyphs_internal(
+            result.path_state, result.attractor_strength, result.glyph_signals
+        )
 
     # ΛEXPOSE: Recursive reasoning chain construction
     # ΛTAG: reasoning_construction
 
-    def reason_chain_builder(self, start: str, target: str, constraints: dict[str, Any]) -> ReasoningChain:
+    def reason_chain_builder(
+        self, start: str, target: str, constraints: dict[str, Any]
+    ) -> ReasoningChain:
         """
         Builds a symbolic reasoning path using recursive attractor logic,
         guarded by drift/entropy thresholds.
@@ -446,7 +472,9 @@ class SymbolicLogicEngine:
                 step_count += 1
 
                 # Find next step using attractor dynamics
-                next_candidates = self._find_attractor_candidates(current_glyph, target, constraints, chain_logger)
+                next_candidates = self._find_attractor_candidates(
+                    current_glyph, target, constraints, chain_logger
+                )
 
                 if not next_candidates:
                     chain_logger.warning(
@@ -457,21 +485,28 @@ class SymbolicLogicEngine:
                     break
 
                 # Select best candidate based on attractor strength and entropy
-                next_glyph, attractor_strength = self._select_best_candidate(next_candidates, constraints, chain_logger)
+                next_glyph, attractor_strength = self._select_best_candidate(
+                    next_candidates, constraints, chain_logger
+                )
 
                 # Update path
                 path_elements.append(next_glyph)
                 attractor_path.append((next_glyph, attractor_strength))
 
                 # Calculate step entropy and confidence
-                step_entropy = self._calculate_step_entropy(current_glyph, next_glyph, attractor_strength)
+                step_entropy = self._calculate_step_entropy(
+                    current_glyph, next_glyph, attractor_strength
+                )
                 step_confidence = max(0.1, 1.0 - step_entropy - (current_drift * 0.1))
 
                 entropy_evolution.append(step_entropy)
                 confidence_evolution.append(step_confidence)
 
                 # Check for quantum branch points
-                if step_entropy > self.entropy_threshold * 0.8 and len(next_candidates) > 1:
+                if (
+                    step_entropy > self.entropy_threshold * 0.8
+                    and len(next_candidates) > 1
+                ):
                     branch_points.append(step_count - 1)
                     chain_logger.debug(
                         "ΛTRACE: Quantum branch point identified.",
@@ -494,12 +529,21 @@ class SymbolicLogicEngine:
 
             # Construct final reasoning chain
             construction_metadata = {
-                "construction_time_ms": (datetime.now(timezone.utc) - start_time).total_seconds() * 1000,
+                "construction_time_ms": (
+                    datetime.now(timezone.utc) - start_time
+                ).total_seconds()
+                * 1000,
                 "steps_taken": step_count,
                 "target_reached": current_glyph == target,
-                "termination_reason": ("target_reached" if current_glyph == target else "threshold_exceeded"),
+                "termination_reason": (
+                    "target_reached"
+                    if current_glyph == target
+                    else "threshold_exceeded"
+                ),
                 "final_entropy": (entropy_evolution[-1] if entropy_evolution else 0.0),
-                "final_confidence": (confidence_evolution[-1] if confidence_evolution else 0.0),
+                "final_confidence": (
+                    confidence_evolution[-1] if confidence_evolution else 0.0
+                ),
             }
 
             reasoning_chain = ReasoningChain(
@@ -567,7 +611,9 @@ class SymbolicLogicEngine:
         transition_complexity = 0.0
         for i in range(len(glyph_path) - 1):
             # Simple transition complexity based on GLYPH similarity (placeholder)
-            transition_complexity += self._calculate_glyph_distance(glyph_path[i], glyph_path[i + 1])
+            transition_complexity += self._calculate_glyph_distance(
+                glyph_path[i], glyph_path[i + 1]
+            )
 
         transition_entropy = min(1.0, transition_complexity / (len(glyph_path) - 1))
 
@@ -597,7 +643,9 @@ class SymbolicLogicEngine:
 
         return 1.0 - (intersection / union if union > 0 else 0.0)
 
-    def _evaluate_attractor_dynamics(self, glyph_path: list[str], eval_logger: Any) -> tuple[float, list[GlyphSignal]]:
+    def _evaluate_attractor_dynamics(
+        self, glyph_path: list[str], eval_logger: Any
+    ) -> tuple[float, list[GlyphSignal]]:
         """Evaluate attractor/repeller dynamics for the GLYPH path."""
         if not glyph_path:
             return 0.0, []
@@ -643,7 +691,9 @@ class SymbolicLogicEngine:
             }
         return self.glyph_registry[glyph]
 
-    def _detect_path_contradictions(self, path: list[str], memory_snippets: list[str], eval_logger: Any) -> list[str]:
+    def _detect_path_contradictions(
+        self, path: list[str], memory_snippets: list[str], eval_logger: Any
+    ) -> list[str]:
         """Detect contradictions in a symbolic path."""
         contradictions = []
 
@@ -651,13 +701,17 @@ class SymbolicLogicEngine:
         for i, glyph1 in enumerate(path):
             for j, glyph2 in enumerate(path[i + 1 :], i + 1):
                 if self._are_contradictory_glyphs(glyph1, glyph2):
-                    contradictions.append(f"Direct contradiction between {glyph1} and {glyph2} at positions {i}, {j}")
+                    contradictions.append(
+                        f"Direct contradiction between {glyph1} and {glyph2} at positions {i}, {j}"
+                    )
 
         # Check contradictions with memory
         for glyph in path:
             for snippet in memory_snippets:
                 if self._contradicts_memory(glyph, snippet):
-                    contradictions.append(f"Memory contradiction: {glyph} contradicts {snippet[:50]}...")
+                    contradictions.append(
+                        f"Memory contradiction: {glyph} contradicts {snippet[:50]}..."
+                    )
 
         # Check for known contradiction patterns
         for pattern in self.contradiction_patterns:
@@ -681,7 +735,10 @@ class SymbolicLogicEngine:
             ("ΛEXPAND", "ΛCONTRACT"),
         ]
 
-        return any(glyph1 in pair and glyph2 in pair and glyph1 != glyph2 for pair in contradictory_pairs)
+        return any(
+            glyph1 in pair and glyph2 in pair and glyph1 != glyph2
+            for pair in contradictory_pairs
+        )
 
     def _contradicts_memory(self, glyph: str, memory_snippet: str) -> bool:
         """Check if GLYPH contradicts memory snippet (placeholder logic)."""
@@ -694,7 +751,9 @@ class SymbolicLogicEngine:
 
         if glyph in contradiction_keywords:
             snippet_lower = memory_snippet.lower()
-            return any(keyword in snippet_lower for keyword in contradiction_keywords[glyph])
+            return any(
+                keyword in snippet_lower for keyword in contradiction_keywords[glyph]
+            )
 
         return False
 
@@ -717,7 +776,9 @@ class SymbolicLogicEngine:
             return SymbolicPathState.COLLAPSED
 
         if collapse_prob >= self.collapse_threshold:
-            eval_logger.debug("ΛTRACE: Path marked as COLLAPSIBLE due to high collapse probability.")
+            eval_logger.debug(
+                "ΛTRACE: Path marked as COLLAPSIBLE due to high collapse probability."
+            )
             return SymbolicPathState.COLLAPSIBLE
 
         if entropy >= self.entropy_threshold:
@@ -727,7 +788,9 @@ class SymbolicLogicEngine:
         eval_logger.debug("ΛTRACE: Path marked as STABLE.")
         return SymbolicPathState.STABLE
 
-    def _assess_quantum_branches(self, glyph_path: list[str], entropy: float, eval_logger: Any) -> int:
+    def _assess_quantum_branches(
+        self, glyph_path: list[str], entropy: float, eval_logger: Any
+    ) -> int:
         """Assess potential for quantum branching in the path."""
         # Quantum branches possible when entropy is moderate-high and path has
         # decision points
@@ -884,7 +947,9 @@ class SymbolicLogicEngine:
 
         return best_candidate
 
-    def _calculate_step_entropy(self, current_glyph: str, next_glyph: str, attractor_strength: float) -> float:
+    def _calculate_step_entropy(
+        self, current_glyph: str, next_glyph: str, attractor_strength: float
+    ) -> float:
         """Calculate entropy for a single reasoning step."""
         # Base entropy from glyph_transition
         transition_entropy = self._calculate_glyph_distance(current_glyph, next_glyph)
@@ -895,7 +960,9 @@ class SymbolicLogicEngine:
 
         return max(0.0, min(1.0, step_entropy))
 
-    def _update_evaluation_metrics(self, evaluation: SymbolicEvaluation, start_time: datetime) -> None:
+    def _update_evaluation_metrics(
+        self, evaluation: SymbolicEvaluation, start_time: datetime
+    ) -> None:
         """Update engine metrics based on evaluation results."""
         self.metrics["paths_evaluated"] += 1
 
@@ -914,7 +981,9 @@ class SymbolicLogicEngine:
         # Update average entropy (running average)
         prev_avg = self.metrics["average_entropy"]
         n = self.metrics["paths_evaluated"]
-        self.metrics["average_entropy"] = ((prev_avg * (n - 1)) + evaluation.entropy_score) / n
+        self.metrics["average_entropy"] = (
+            (prev_avg * (n - 1)) + evaluation.entropy_score
+        ) / n
 
         # Update total reasoning time
         reasoning_time = (datetime.now(timezone.utc) - start_time).total_seconds()

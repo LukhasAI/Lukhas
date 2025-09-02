@@ -8,14 +8,11 @@ Implements MATADA cognitive DNA framework for AGI memory.
 """
 
 from .dna_healix import (
-    DNAHealixCore,
+    DNAHealixCore,  # Data classes; Enums; Core classes
     MemoryHelix,
-    # Data classes
     RepairMetadata,
-    # Enums
     RepairMethod,
     SymbolicRepairLoop,
-    # Core classes
     SymbolicStrand,
 )
 from .dna_memory_architecture import (
@@ -33,7 +30,9 @@ __version__ = "2.0.0"
 
 # Module metadata
 __author__ = "LUKHAS AGI Framework"
-__description__ = "DNA-inspired immutable memory architecture with MATADA cognitive framework"
+__description__ = (
+    "DNA-inspired immutable memory architecture with MATADA cognitive framework"
+)
 
 __all__ = [
     # Original DNA helix classes

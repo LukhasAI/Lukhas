@@ -250,7 +250,11 @@ class RippleGenerator:
         """
 
         # Check coupling constraints
-        if self.enable_coupling and not force_generation and not self._is_optimal_phase():
+        if (
+            self.enable_coupling
+            and not force_generation
+            and not self._is_optimal_phase()
+        ):
             return None
 
         # Determine ripple type
@@ -324,7 +328,9 @@ class RippleGenerator:
                 ripple_type = RippleType.DOUBLET
 
             # Generate ripple
-            ripple = await self.generate_ripple(memory_sequence=mem_seq, ripple_type=ripple_type, force_generation=True)
+            ripple = await self.generate_ripple(
+                memory_sequence=mem_seq, ripple_type=ripple_type, force_generation=True
+            )
 
             if ripple:
                 sequence.add_ripple(ripple)
@@ -397,7 +403,11 @@ class RippleGenerator:
         """Select replay direction"""
 
         # Forward replay more common
-        probs = [0.6, 0.3, 0.08, 0.02] if self.current_sleep_stage == SleepStage.NREM3 else [0.7, 0.2, 0.08, 0.02]
+        probs = (
+            [0.6, 0.3, 0.08, 0.02]
+            if self.current_sleep_stage == SleepStage.NREM3
+            else [0.7, 0.2, 0.08, 0.02]
+        )
 
         directions = list(ReplayDirection)
         return np.random.choice(directions, p=probs)
@@ -408,7 +418,9 @@ class RippleGenerator:
         base_amplitude = 1.0
 
         # Higher amplitude for priority memories
-        priority_count = sum(1 for mid in memory_sequence if mid in self.priority_memories)
+        priority_count = sum(
+            1 for mid in memory_sequence if mid in self.priority_memories
+        )
         importance_factor = 1.0 + (priority_count / max(len(memory_sequence), 1)) * 0.5
 
         # Add noise
@@ -483,14 +495,17 @@ class RippleGenerator:
 
                 # Select memories for replay
                 if self.available_memories:
-                    num_memories = np.random.randint(1, min(5, len(self.available_memories)))
+                    num_memories = np.random.randint(
+                        1, min(5, len(self.available_memories))
+                    )
 
                     # Prioritize important memories
                     if self.priority_memories:
                         priority_mems = [
                             m
                             for m in self.available_memories
-                            if hasattr(m, "memory_id") and m.memory_id in self.priority_memories
+                            if hasattr(m, "memory_id")
+                            and m.memory_id in self.priority_memories
                         ]
                         if priority_mems:
                             selected = np.random.choice(
@@ -505,9 +520,14 @@ class RippleGenerator:
                                 replace=False,
                             )
                     else:
-                        selected = np.random.choice(self.available_memories, size=num_memories, replace=False)
+                        selected = np.random.choice(
+                            self.available_memories, size=num_memories, replace=False
+                        )
 
-                    memory_ids = [m.memory_id if hasattr(m, "memory_id") else str(i) for i, m in enumerate(selected)]
+                    memory_ids = [
+                        m.memory_id if hasattr(m, "memory_id") else str(i)
+                        for i, m in enumerate(selected)
+                    ]
 
                     # Generate ripple
                     await self.generate_ripple(memory_ids)
@@ -562,7 +582,9 @@ class RippleGenerator:
             # Type distribution
             type_counts = {}
             for r in recent:
-                type_counts[r.ripple_type.value] = type_counts.get(r.ripple_type.value, 0) + 1
+                type_counts[r.ripple_type.value] = (
+                    type_counts.get(r.ripple_type.value, 0) + 1
+                )
             metrics["ripple_types"] = type_counts
 
         return metrics
@@ -589,10 +611,14 @@ async def demonstrate_ripple_generator():
 
     # Register callbacks
     async def on_ripple(ripple):
-        print(f"Ripple: {ripple.frequency:.1f}Hz, {len(ripple.memory_sequence)} memories")
+        print(
+            f"Ripple: {ripple.frequency:.1f}Hz, {len(ripple.memory_sequence)} memories"
+        )
 
     async def on_sequence(sequence):
-        print(f"Sequence completed: {len(sequence.ripples)} ripples, {len(sequence.unique_memories)} unique memories")
+        print(
+            f"Sequence completed: {len(sequence.ripples)} ripples, {len(sequence.unique_memories)} unique memories"
+        )
 
     generator.register_ripple_callback(on_ripple)
     generator.register_sequence_callback(on_sequence)
@@ -602,7 +628,9 @@ async def demonstrate_ripple_generator():
 
     # Single ripple
     print("--- Generating Single Ripple ---")
-    ripple = await generator.generate_ripple(memory_sequence=test_memories[:3], ripple_type=RippleType.SINGLE)
+    ripple = await generator.generate_ripple(
+        memory_sequence=test_memories[:3], ripple_type=RippleType.SINGLE
+    )
     if ripple:
         print(f"Generated: {ripple.ripple_id[:8]}...")
         print(f"  Power: {ripple.calculate_power():.2f}")

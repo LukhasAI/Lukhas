@@ -79,11 +79,15 @@ class NeuralSymbolicBridge:
                     symbolic_result["relationships"].append(relationship)
 
         # Make logical inferences
-        symbolic_result["inferences"] = self._make_inferences(patterns, symbolic_result["relationships"], context)
+        symbolic_result["inferences"] = self._make_inferences(
+            patterns, symbolic_result["relationships"], context
+        )
 
         return symbolic_result
 
-    def _integrate_results(self, neural_output: dict[str, Any], symbolic_result: dict[str, Any]) -> dict[str, Any]:
+    def _integrate_results(
+        self, neural_output: dict[str, Any], symbolic_result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Integrate neural and symbolic results"""
         # Calculate combined confidence
         neural_conf = neural_output.get("confidence", 0.5)
@@ -102,7 +106,9 @@ class NeuralSymbolicBridge:
     def _calculate_symbolic_confidence(self, result: dict[str, Any]) -> float:
         """Calculate confidence score for symbolic reasoning results"""
         pattern_conf = np.mean([p.get("confidence", 0) for p in result["patterns"]])
-        relationship_conf = np.mean([r.get("confidence", 0) for r in result["relationships"]])
+        relationship_conf = np.mean(
+            [r.get("confidence", 0) for r in result["relationships"]]
+        )
         inference_conf = np.mean([i.get("confidence", 0) for i in result["inferences"]])
 
         # Weight the different components

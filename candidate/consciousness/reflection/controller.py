@@ -94,14 +94,10 @@ from lukhas.governance.identity.auth_backend.audit_logger import AuditLogger
 try:
     from personas.persona_manager import PersonaManager
 
-    from .consciousness.consciousness_integrator import (
-        ConsciousnessIntegrator,
-    )
+    from .consciousness.consciousness_integrator import ConsciousnessIntegrator
     from .emotion.emotion_engine import EmotionEngine
     from .identity.identity_manager import IdentityManager
-    from .integration.system_coordinator import (
-        SystemCoordinator,
-    )
+    from .integration.system_coordinator import SystemCoordinator
     from .memory.enhanced_memory_manager import EnhancedMemoryManager
     from .neural_architectures.neural_integrator import (
         NeuralContext,
@@ -357,20 +353,34 @@ class AGIController:
                 logger.info("✅ Audit logger initialized")
 
                 # Verify compliance status
-                self.compliance_verified = await self.compliance_engine.verify_compliance()
-                self.gdpr_compliant = await self.compliance_engine.check_gdpr_compliance()
-                self.ccpa_compliant = await self.compliance_engine.check_ccpa_compliance()
+                self.compliance_verified = (
+                    await self.compliance_engine.verify_compliance()
+                )
+                self.gdpr_compliant = (
+                    await self.compliance_engine.check_gdpr_compliance()
+                )
+                self.ccpa_compliant = (
+                    await self.compliance_engine.check_ccpa_compliance()
+                )
                 self.audit_trail_active = await self.audit_logger.is_active()
-                self.consent_management_active = await self.privacy_manager.is_consent_system_active()
+                self.consent_management_active = (
+                    await self.privacy_manager.is_consent_system_active()
+                )
 
-                if not all([self.compliance_verified, self.gdpr_compliant, self.ccpa_compliant]):
-                    logger.warning("⚠️ Some compliance checks failed - proceeding with restricted mode")
+                if not all(
+                    [self.compliance_verified, self.gdpr_compliant, self.ccpa_compliant]
+                ):
+                    logger.warning(
+                        "⚠️ Some compliance checks failed - proceeding with restricted mode"
+                    )
                 else:
                     logger.info("✅ Full compliance verified - enterprise mode active")
 
             except Exception as e:
                 logger.error(f"❌ Failed to initialize compliance layer: {e}")
-                logger.error("⚠️ Proceeding without full compliance - INSTITUTIONAL DEPLOYMENT NOT RECOMMENDED")
+                logger.error(
+                    "⚠️ Proceeding without full compliance - INSTITUTIONAL DEPLOYMENT NOT RECOMMENDED"
+                )
 
             # Initialize system coordinator
             self.system_coordinator = SystemCoordinator()
@@ -384,14 +394,18 @@ class AGIController:
                 self.consciousness_integrator = ConsciousnessIntegrator()
                 logger.info("Consciousness integrator initialized")
             except Exception as e:
-                logger.error(f"Failed to initialize consciousness integrator: {e}", exc_info=True)
+                logger.error(
+                    f"Failed to initialize consciousness integrator: {e}", exc_info=True
+                )
                 raise
 
             try:
                 self.neural_integrator = NeuralIntegrator()
                 logger.info("Neural integrator initialized")
             except Exception as e:
-                logger.error(f"Failed to initialize neural integrator: {e}", exc_info=True)
+                logger.error(
+                    f"Failed to initialize neural integrator: {e}", exc_info=True
+                )
                 raise
 
             try:
@@ -405,14 +419,24 @@ class AGIController:
                 self.persona_manager = PersonaManager()
                 logger.info("Persona manager initialized")
             except Exception as e:
-                logger.error(f"Failed to initialize persona manager: {e}", exc_info=True)
+                logger.error(
+                    f"Failed to initialize persona manager: {e}", exc_info=True
+                )
                 raise
 
             # Register components with system coordinator
-            await self.system_coordinator.register_component("consciousness", self.consciousness_integrator)
-            await self.system_coordinator.register_component("neural", self.neural_integrator)
-            await self.system_coordinator.register_component("memory", self.memory_manager)
-            await self.system_coordinator.register_component("persona", self.persona_manager)
+            await self.system_coordinator.register_component(
+                "consciousness", self.consciousness_integrator
+            )
+            await self.system_coordinator.register_component(
+                "neural", self.neural_integrator
+            )
+            await self.system_coordinator.register_component(
+                "memory", self.memory_manager
+            )
+            await self.system_coordinator.register_component(
+                "persona", self.persona_manager
+            )
 
             # Start processing threads
             await self._start_processing_threads()
@@ -432,11 +456,15 @@ class AGIController:
     async def _start_processing_threads(self):
         """Start background processing threads"""
         # Start request processing thread
-        self.processing_thread = threading.Thread(target=self._request_processing_loop, daemon=True)
+        self.processing_thread = threading.Thread(
+            target=self._request_processing_loop, daemon=True
+        )
         self.processing_thread.start()
 
         # Start interaction processing thread
-        self.interaction_thread = threading.Thread(target=self._interaction_processing_loop, daemon=True)
+        self.interaction_thread = threading.Thread(
+            target=self._interaction_processing_loop, daemon=True
+        )
         self.interaction_thread.start()
 
         logger.info("Background processing threads started")
@@ -460,7 +488,9 @@ class AGIController:
                 # Process requests from queue
                 for _ in range(10):  # Process up to 10 requests per cycle
                     try:
-                        request = await asyncio.wait_for(self.request_queue.get(), timeout=0.1)
+                        request = await asyncio.wait_for(
+                            self.request_queue.get(), timeout=0.1
+                        )
                         await self._process_request(request)
                     except asyncio.TimeoutError:
                         break
@@ -485,7 +515,9 @@ class AGIController:
                 response_data = await handler(request, session)
 
                 # Process emotional context
-                emotional_context = await self._process_emotional_context(request, response_data)
+                emotional_context = await self._process_emotional_context(
+                    request, response_data
+                )
 
                 # Update memory
                 memory_references = await self._update_memory(request, response_data)
@@ -523,7 +555,9 @@ class AGIController:
                 }
             )
 
-            logger.info(f"Processed request {request.id} in {response.processing_time:.3f}s")
+            logger.info(
+                f"Processed request {request.id} in {response.processing_time:.3f}s"
+            )
 
         except Exception as e:
             response = AGIResponse(
@@ -553,7 +587,9 @@ class AGIController:
 
         return handlers.get(request_type)
 
-    async def _handle_conversation(self, request: AGIRequest, session: AGISession) -> dict[str, Any]:
+    async def _handle_conversation(
+        self, request: AGIRequest, session: AGISession
+    ) -> dict[str, Any]:
         """Handle conversation requests"""
         user_input = request.input_data.get("text", "")
         context = request.context
@@ -572,12 +608,16 @@ class AGIController:
 
             # Convert text to features (simplified)
             input_features = self._text_to_features(user_input)
-            neural_result = await self.neural_integrator.process_input(input_features, neural_context)
+            neural_result = await self.neural_integrator.process_input(
+                input_features, neural_context
+            )
 
         # Generate response using persona
         if self.persona_manager:
             current_persona = await self.persona_manager.get_current_persona()
-            response_text = await self.persona_manager.generate_response(user_input, current_persona, context)
+            response_text = await self.persona_manager.generate_response(
+                user_input, current_persona, context
+            )
         else:
             response_text = f"I understand you said: {user_input}"
 
@@ -587,7 +627,9 @@ class AGIController:
             "persona_used": current_persona if self.persona_manager else "default",
         }
 
-    async def _handle_voice_interaction(self, request: AGIRequest, session: AGISession) -> dict[str, Any]:
+    async def _handle_voice_interaction(
+        self, request: AGIRequest, session: AGISession
+    ) -> dict[str, Any]:
         """Handle voice interaction requests"""
         audio_data = request.input_data.get("audio_data")
         interaction_type = request.input_data.get("type", "speech_to_text")
@@ -610,12 +652,16 @@ class AGIController:
                 context=request.context,
             )
 
-            conversation_response = await self._handle_conversation(conversation_request, session)
+            conversation_response = await self._handle_conversation(
+                conversation_request, session
+            )
 
             # Convert response back to speech
             response_audio = await self.voice_processor.text_to_speech(
                 conversation_response["response_text"],
-                voice_characteristics=session.current_context.get("voice_preferences", {}),
+                voice_characteristics=session.current_context.get(
+                    "voice_preferences", {}
+                ),
             )
 
             return {
@@ -636,7 +682,9 @@ class AGIController:
         else:
             raise Exception(f"Unknown voice interaction type: {interaction_type}")
 
-    async def _handle_memory_query(self, request: AGIRequest, session: AGISession) -> dict[str, Any]:
+    async def _handle_memory_query(
+        self, request: AGIRequest, session: AGISession
+    ) -> dict[str, Any]:
         """Handle memory query requests"""
         query = request.input_data.get("query", "")
         memory_type = request.input_data.get("memory_type")
@@ -645,11 +693,15 @@ class AGIController:
         if not self.memory_manager:
             raise Exception("Memory manager not available")
 
-        memories = await self.memory_manager.retrieve_memories(query=query, memory_type=memory_type, limit=limit)
+        memories = await self.memory_manager.retrieve_memories(
+            query=query, memory_type=memory_type, limit=limit
+        )
 
         return {"memories": memories, "query": query, "count": len(memories)}
 
-    async def _handle_personality_change(self, request: AGIRequest, session: AGISession) -> dict[str, Any]:
+    async def _handle_personality_change(
+        self, request: AGIRequest, session: AGISession
+    ) -> dict[str, Any]:
         """Handle personality change requests"""
         persona_config = request.input_data.get("persona_config", {})
 
@@ -659,7 +711,9 @@ class AGIController:
         success = await self.persona_manager.set_persona(persona_config)
 
         # Update session context
-        session.current_context["current_persona"] = persona_config.get("name", "default")
+        session.current_context["current_persona"] = persona_config.get(
+            "name", "default"
+        )
 
         return {
             "success": success,
@@ -667,7 +721,9 @@ class AGIController:
             "persona_config": persona_config,
         }
 
-    async def _handle_system_command(self, request: AGIRequest, session: AGISession) -> dict[str, Any]:
+    async def _handle_system_command(
+        self, request: AGIRequest, session: AGISession
+    ) -> dict[str, Any]:
         """Handle system command requests"""
         command = request.input_data.get("command", "")
         request.input_data.get("parameters", {})
@@ -689,7 +745,9 @@ class AGIController:
         else:
             raise Exception(f"Unknown system command: {command}")
 
-    async def _handle_learning_request(self, request: AGIRequest, session: AGISession) -> dict[str, Any]:
+    async def _handle_learning_request(
+        self, request: AGIRequest, session: AGISession
+    ) -> dict[str, Any]:
         """Handle learning requests"""
         learning_data = request.input_data.get("learning_data", {})
         learning_type = request.input_data.get("learning_type", "general")
@@ -706,7 +764,9 @@ class AGIController:
 
         # Trigger neural learning
         if self.neural_integrator:
-            await self.neural_integrator.processing_queue.put({"type": "learning", "data": learning_data})
+            await self.neural_integrator.processing_queue.put(
+                {"type": "learning", "data": learning_data}
+            )
 
         return {
             "success": True,
@@ -714,7 +774,9 @@ class AGIController:
             "memory_id": memory_id if self.memory_manager else None,
         }
 
-    async def _handle_emotional_analysis(self, request: AGIRequest, session: AGISession) -> dict[str, Any]:
+    async def _handle_emotional_analysis(
+        self, request: AGIRequest, session: AGISession
+    ) -> dict[str, Any]:
         """Handle emotional analysis requests"""
         text = request.input_data.get("text", "")
 
@@ -731,7 +793,9 @@ class AGIController:
             "session_emotional_state": session.emotional_state,
         }
 
-    async def _process_emotional_context(self, request: AGIRequest, response_data: dict[str, Any]) -> dict[str, float]:
+    async def _process_emotional_context(
+        self, request: AGIRequest, response_data: dict[str, Any]
+    ) -> dict[str, float]:
         """Process emotional context for request and response"""
         if not self.emotion_engine:
             return {}
@@ -741,11 +805,15 @@ class AGIController:
         response_text = str(response_data)
 
         combined_text = f"{request_text} {response_text}"
-        emotional_context = await self.emotion_engine.analyze_text_emotion(combined_text)
+        emotional_context = await self.emotion_engine.analyze_text_emotion(
+            combined_text
+        )
 
         return emotional_context
 
-    async def _update_memory(self, request: AGIRequest, response_data: dict[str, Any]) -> list[str]:
+    async def _update_memory(
+        self, request: AGIRequest, response_data: dict[str, Any]
+    ) -> list[str]:
         """Update memory with request and response"""
         if not self.memory_manager:
             return []
@@ -862,7 +930,8 @@ class AGIController:
 
         # Check cross-border transfer compliance
         if (
-            request.compliance_context and request.compliance_context.cross_border_transfer
+            request.compliance_context
+            and request.compliance_context.cross_border_transfer
         ) and not await self._validate_cross_border_transfer(request):
             compliance_issues.append("Cross-border data transfer not authorized")
 
@@ -905,11 +974,16 @@ class AGIController:
 
     async def _validate_retention(self, request: AGIRequest) -> bool:
         """Validate data retention compliance"""
-        if not request.compliance_context or not request.compliance_context.retention_period:
+        if (
+            not request.compliance_context
+            or not request.compliance_context.retention_period
+        ):
             return True  # No retention limit set
 
         # Check if data is within retention period
-        retention_end = request.timestamp + timedelta(days=request.compliance_context.retention_period)
+        retention_end = request.timestamp + timedelta(
+            days=request.compliance_context.retention_period
+        )
         return datetime.now() <= retention_end
 
     async def _validate_cross_border_transfer(self, request: AGIRequest) -> bool:
@@ -964,7 +1038,9 @@ class AGIController:
             logger.error(f"Error implementing data subject right {right_type}: {e}")
             return {"success": False, "error": str(e)}
 
-    async def _handle_data_access_request(self, user_id: str, request_data: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_data_access_request(
+        self, user_id: str, request_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle GDPR Article 15 - Right of access"""
         user_data = {}
 
@@ -993,26 +1069,40 @@ class AGIController:
 
         return {"success": True, "data": user_data}
 
-    async def _handle_data_erasure(self, user_id: str, request_data: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_data_erasure(
+        self, user_id: str, request_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle GDPR Article 17 - Right to erasure ('right to be forgotten')"""
         erasure_results = {}
 
         # Erase data from all components
         if self.memory_manager:
-            erasure_results["memory"] = await self.memory_manager.erase_user_data(user_id)
+            erasure_results["memory"] = await self.memory_manager.erase_user_data(
+                user_id
+            )
         if self.persona_manager:
-            erasure_results["persona"] = await self.persona_manager.erase_user_data(user_id)
+            erasure_results["persona"] = await self.persona_manager.erase_user_data(
+                user_id
+            )
         if self.identity_manager:
-            erasure_results["identity"] = await self.identity_manager.erase_user_data(user_id)
+            erasure_results["identity"] = await self.identity_manager.erase_user_data(
+                user_id
+            )
 
         # Remove active sessions
-        sessions_to_remove = [sid for sid, session in self.active_sessions.items() if session.user_id == user_id]
+        sessions_to_remove = [
+            sid
+            for sid, session in self.active_sessions.items()
+            if session.user_id == user_id
+        ]
         for session_id in sessions_to_remove:
             await self.end_session(session_id)
 
         return {"success": True, "erasure_results": erasure_results}
 
-    async def log_ai_decision(self, request: AGIRequest, response: AGIResponse, decision_logic: str):
+    async def log_ai_decision(
+        self, request: AGIRequest, response: AGIResponse, decision_logic: str
+    ):
         """Log AI decision for transparency (AI Act Article 13)"""
         if not self.audit_logger:
             return
@@ -1035,7 +1125,9 @@ class AGIController:
             "ccpa_compliant": self.ccpa_compliant,
             "audit_trail_active": self.audit_trail_active,
             "consent_management_active": self.consent_management_active,
-            "compliance_engine_status": ("active" if self.compliance_engine else "inactive"),
+            "compliance_engine_status": (
+                "active" if self.compliance_engine else "inactive"
+            ),
             "privacy_manager_status": "active" if self.privacy_manager else "inactive",
             "audit_logger_status": "active" if self.audit_logger else "inactive",
         }
@@ -1052,7 +1144,9 @@ if __name__ == "__main__":
         await controller.start_agi_system()
 
         # Create test session
-        session_id = await controller.create_session(user_id="test_user", interaction_mode=InteractionMode.TEXT)
+        session_id = await controller.create_session(
+            user_id="test_user", interaction_mode=InteractionMode.TEXT
+        )
 
         # Create test request with compliance context
         compliance_context = ComplianceContext(
@@ -1063,7 +1157,9 @@ if __name__ == "__main__":
             audit_required=True,
         )
 
-        privacy_controls = PrivacyControls(opt_out_data_sale=True, transparency_level="full")
+        privacy_controls = PrivacyControls(
+            opt_out_data_sale=True, transparency_level="full"
+        )
 
         request = AGIRequest(
             id=str(uuid.uuid4()),
@@ -1102,10 +1198,14 @@ if __name__ == "__main__":
 
         # Get compliance status
         compliance_status = await controller.get_compliance_status()
-        print(f"Compliance Status: {json.dumps(compliance_status, indent=2, default=str)}")
+        print(
+            f"Compliance Status: {json.dumps(compliance_status, indent=2, default=str)}"
+        )
 
         # Test data subject rights
-        access_result = await controller.implement_data_subject_rights("test_user", "access", {})
+        access_result = await controller.implement_data_subject_rights(
+            "test_user", "access", {}
+        )
         print(f"Data Access Result: {json.dumps(access_result, indent=2, default=str)}")
 
         # End session

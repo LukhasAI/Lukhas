@@ -46,7 +46,9 @@ class NamespacePolicy:
         self.namespace_id = policy_data.get("namespace_id", "")
         self.access_control = policy_data.get("access_control", "strict")
         self.cross_namespace_allowed = policy_data.get("cross_namespace_allowed", False)
-        self.authentication_requirements = policy_data.get("authentication_requirements", {})
+        self.authentication_requirements = policy_data.get(
+            "authentication_requirements", {}
+        )
         self.data_retention_days = policy_data.get("data_retention_days", 365)
         self.audit_level = policy_data.get("audit_level", "full")
         self.encryption_required = policy_data.get("encryption_required", True)
@@ -80,14 +82,20 @@ class IdentityNamespace:
     def __init__(self, namespace_data: dict[str, Any]):
         self.namespace_id = namespace_data.get("namespace_id", "")
         self.parent_namespace = namespace_data.get("parent_namespace", "")
-        self.namespace_type = NamespaceType(namespace_data.get("namespace_type", "tenant"))
+        self.namespace_type = NamespaceType(
+            namespace_data.get("namespace_type", "tenant")
+        )
         self.display_name = namespace_data.get("display_name", "")
         self.description = namespace_data.get("description", "")
         self.owner_id = namespace_data.get("owner_id", "")
         self.tenant_id = namespace_data.get("tenant_id", "")
         self.active = namespace_data.get("active", True)
-        self.created_at = namespace_data.get("created_at", datetime.utcnow().isoformat())
-        self.updated_at = namespace_data.get("updated_at", datetime.utcnow().isoformat())
+        self.created_at = namespace_data.get(
+            "created_at", datetime.utcnow().isoformat()
+        )
+        self.updated_at = namespace_data.get(
+            "updated_at", datetime.utcnow().isoformat()
+        )
         self.metadata = namespace_data.get("metadata", {})
 
         # Security properties
@@ -198,14 +206,28 @@ class NamespaceManager:
             # Create default policy
             policy_data = {
                 "namespace_id": namespace.namespace_id,
-                "access_control": "strict" if namespace.namespace_type != NamespaceType.DEVELOPMENT else "relaxed",
-                "cross_namespace_allowed": namespace.namespace_type == NamespaceType.ROOT,
+                "access_control": (
+                    "strict"
+                    if namespace.namespace_type != NamespaceType.DEVELOPMENT
+                    else "relaxed"
+                ),
+                "cross_namespace_allowed": namespace.namespace_type
+                == NamespaceType.ROOT,
                 "authentication_requirements": {
-                    "minimum_tier": 0 if namespace.namespace_type == NamespaceType.DEVELOPMENT else 1,
-                    "require_mfa": namespace.namespace_type in [NamespaceType.ROOT, NamespaceType.ENTERPRISE],
+                    "minimum_tier": (
+                        0
+                        if namespace.namespace_type == NamespaceType.DEVELOPMENT
+                        else 1
+                    ),
+                    "require_mfa": namespace.namespace_type
+                    in [NamespaceType.ROOT, NamespaceType.ENTERPRISE],
                     "session_timeout": 3600,
                 },
-                "audit_level": "full" if namespace.namespace_type == NamespaceType.ROOT else "standard",
+                "audit_level": (
+                    "full"
+                    if namespace.namespace_type == NamespaceType.ROOT
+                    else "standard"
+                ),
             }
 
             policy = NamespacePolicy(policy_data)
@@ -328,18 +350,28 @@ class NamespaceManager:
             # Create default policy
             policy_data = {
                 "namespace_id": namespace_id,
-                "access_control": "strict" if namespace_type != NamespaceType.SANDBOX else "relaxed",
-                "cross_namespace_allowed": namespace_type in [NamespaceType.ROOT, NamespaceType.ENTERPRISE],
+                "access_control": (
+                    "strict" if namespace_type != NamespaceType.SANDBOX else "relaxed"
+                ),
+                "cross_namespace_allowed": namespace_type
+                in [NamespaceType.ROOT, NamespaceType.ENTERPRISE],
                 "authentication_requirements": {
                     "minimum_tier": self._get_minimum_tier_for_type(namespace_type),
-                    "require_mfa": namespace_type in [NamespaceType.ROOT, NamespaceType.ENTERPRISE],
-                    "session_timeout": 3600 if namespace_type != NamespaceType.SANDBOX else 1800,
+                    "require_mfa": namespace_type
+                    in [NamespaceType.ROOT, NamespaceType.ENTERPRISE],
+                    "session_timeout": (
+                        3600 if namespace_type != NamespaceType.SANDBOX else 1800
+                    ),
                 },
                 "data_retention_days": self._get_data_retention_days(namespace_type),
-                "audit_level": "full" if namespace_type == NamespaceType.ROOT else "standard",
+                "audit_level": (
+                    "full" if namespace_type == NamespaceType.ROOT else "standard"
+                ),
                 "encryption_required": True,
                 "tier_restrictions": [],
-                "allowed_origins": ["*"] if namespace_type == NamespaceType.SANDBOX else [],
+                "allowed_origins": (
+                    ["*"] if namespace_type == NamespaceType.SANDBOX else []
+                ),
                 "rate_limits": {
                     "requests_per_minute": namespace.rate_limit_per_minute,
                     "identity_operations_per_hour": 100,
@@ -417,8 +449,14 @@ class NamespaceManager:
         """🔗 Create cross-namespace identity mapping"""
         try:
             # Validate both namespaces exist
-            if source_namespace not in self.namespaces or target_namespace not in self.namespaces:
-                return {"success": False, "error": "One or both namespaces do not exist"}
+            if (
+                source_namespace not in self.namespaces
+                or target_namespace not in self.namespaces
+            ):
+                return {
+                    "success": False,
+                    "error": "One or both namespaces do not exist",
+                }
 
             # Check if cross-namespace mapping is allowed
             source_policy = self.policies.get(source_namespace)
@@ -462,7 +500,10 @@ class NamespaceManager:
             }
 
         except Exception as e:
-            return {"success": False, "error": f"Cross-namespace mapping creation failed: {e!s}"}
+            return {
+                "success": False,
+                "error": f"Cross-namespace mapping creation failed: {e!s}",
+            }
 
     def map_identity_across_namespaces(
         self, source_identity: str, source_namespace: str, target_namespace: str
@@ -472,11 +513,14 @@ class NamespaceManager:
             # Check if mapping exists
             if (
                 source_namespace not in self.cross_namespace_mappings
-                or target_namespace not in self.cross_namespace_mappings[source_namespace]
+                or target_namespace
+                not in self.cross_namespace_mappings[source_namespace]
             ):
                 return None
 
-            mapping_data = self.cross_namespace_mappings[source_namespace][target_namespace]
+            mapping_data = self.cross_namespace_mappings[source_namespace][
+                target_namespace
+            ]
 
             if not mapping_data.get("active", False):
                 return None
@@ -488,7 +532,9 @@ class NamespaceManager:
             return None
 
     def list_namespaces(
-        self, namespace_type: Optional[NamespaceType] = None, parent_namespace: Optional[str] = None
+        self,
+        namespace_type: Optional[NamespaceType] = None,
+        parent_namespace: Optional[str] = None,
     ) -> list[dict[str, Any]]:
         """📋 List namespaces with optional filtering"""
         namespaces = []
@@ -529,8 +575,12 @@ class NamespaceManager:
             type_distribution[ns_type] = type_distribution.get(ns_type, 0) + 1
 
         # Policy statistics
-        strict_policies = sum(1 for policy in self.policies.values() if policy.access_control == "strict")
-        cross_namespace_enabled = sum(1 for policy in self.policies.values() if policy.cross_namespace_allowed)
+        strict_policies = sum(
+            1 for policy in self.policies.values() if policy.access_control == "strict"
+        )
+        cross_namespace_enabled = sum(
+            1 for policy in self.policies.values() if policy.cross_namespace_allowed
+        )
 
         return {
             "system": "LUKHAS Namespace Manager",
@@ -574,7 +624,9 @@ class NamespaceManager:
 
         return identifier
 
-    def _resolve_by_pattern(self, identifier: str, context: Optional[dict] = None) -> Optional[IdentityNamespace]:
+    def _resolve_by_pattern(
+        self, identifier: str, context: Optional[dict] = None
+    ) -> Optional[IdentityNamespace]:
         """Resolve namespace by pattern matching"""
         # Try exact match first
         for namespace_id, namespace in self.namespaces.items():
@@ -672,7 +724,9 @@ class NamespaceManager:
         }
         return retention_map.get(namespace_type, 365)
 
-    def _constitutional_validation(self, namespace_id: str, operation: str, data: Any) -> bool:
+    def _constitutional_validation(
+        self, namespace_id: str, operation: str, data: Any
+    ) -> bool:
         """🛡️ Guardian constitutional validation"""
         try:
             # Basic safety checks
@@ -690,7 +744,10 @@ class NamespaceManager:
 
             # Check for suspicious patterns
             data_str = str(data)
-            if any(pattern in data_str.lower() for pattern in ["script", "eval", "javascript:", "__proto__"]):
+            if any(
+                pattern in data_str.lower()
+                for pattern in ["script", "eval", "javascript:", "__proto__"]
+            ):
                 return False
 
             # Validate namespace ID format

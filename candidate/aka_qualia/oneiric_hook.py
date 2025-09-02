@@ -31,7 +31,11 @@ class OneiricHook:
     oneiric systems, enabling phenomenological feedback loops.
     """
 
-    def __init__(self, http_client: Optional["OneiricHTTPClient"] = None, config: Optional[dict[str, Any]] = None):
+    def __init__(
+        self,
+        http_client: Optional["OneiricHTTPClient"] = None,
+        config: Optional[dict[str, Any]] = None,
+    ):
         """
         Initialize oneiric hook.
 
@@ -65,7 +69,9 @@ class OneiricHook:
 
         return default_config
 
-    def apply_policy(self, *, scene: PhenomenalScene, policy: RegulationPolicy) -> dict[str, Any]:
+    def apply_policy(
+        self, *, scene: PhenomenalScene, policy: RegulationPolicy
+    ) -> dict[str, Any]:
         """
         Apply regulation policy to generate control hints for narrative feedback.
 
@@ -95,7 +101,9 @@ class OneiricHook:
         if self.config["enable_symbolic_anchors"]:
             grounding_urgency = self._compute_grounding_urgency(scene)
             if grounding_urgency >= self.config["grounding_urgency_threshold"]:
-                hints["anchors"] = self._generate_symbolic_anchors(scene, policy, grounding_urgency)
+                hints["anchors"] = self._generate_symbolic_anchors(
+                    scene, policy, grounding_urgency
+                )
 
         # Optional HTTP integration for external oneiric services
         if self.http_client:
@@ -108,7 +116,9 @@ class OneiricHook:
         logger.debug(f"Applied policy to scene: {len(hints)} hints generated")
         return hints
 
-    def _compute_tempo_hint(self, scene: PhenomenalScene, policy: RegulationPolicy) -> float:
+    def _compute_tempo_hint(
+        self, scene: PhenomenalScene, policy: RegulationPolicy
+    ) -> float:
         """Compute tempo adjustment hint from regulation policy"""
         if not self.config["enable_tempo_modulation"]:
             return 1.0
@@ -133,7 +143,9 @@ class OneiricHook:
 
         return max(0.1, min(2.0, smoothed_tempo))
 
-    def _compute_palette_hint(self, scene: PhenomenalScene, policy: RegulationPolicy) -> Optional[str]:
+    def _compute_palette_hint(
+        self, scene: PhenomenalScene, policy: RegulationPolicy
+    ) -> Optional[str]:
         """Compute palette hint for visual/colorfield guidance"""
         if not self.config["enable_palette_hints"]:
             return None
@@ -148,20 +160,26 @@ class OneiricHook:
             # Check if current colorfield has high threat bias
             from candidate.aka_qualia.palette import map_colorfield
 
-            bias = map_colorfield(current_colorfield, self.config["palette_culture_profile"])
+            bias = map_colorfield(
+                current_colorfield, self.config["palette_culture_profile"]
+            )
 
             # If threat bias is high, recommend safer alternative
             if bias.threat_bias > 0.6:
                 safe_palette = get_safe_palette_recommendation(
                     current_colorfield, self.config["palette_culture_profile"]
                 )
-                logger.debug(f"Recommending safe palette {safe_palette} (current threat_bias: {bias.threat_bias})")
+                logger.debug(
+                    f"Recommending safe palette {safe_palette} (current threat_bias: {bias.threat_bias})"
+                )
                 return safe_palette
 
         # Default to calming blue for grounding
         return "aoi/blue"
 
-    def _compute_operation_hints(self, scene: PhenomenalScene, policy: RegulationPolicy) -> list[str]:
+    def _compute_operation_hints(
+        self, scene: PhenomenalScene, policy: RegulationPolicy
+    ) -> list[str]:
         """Compute regulation operation hints"""
         if not self.config["enable_action_suggestions"]:
             return []
@@ -187,7 +205,11 @@ class OneiricHook:
                 ops.append("reframe")
 
         # Sublimation for creative transformation of difficult emotions
-        if scene.proto.tone < -0.2 and scene.proto.arousal > 0.5 and scene.proto.narrative_gravity > 0.6:
+        if (
+            scene.proto.tone < -0.2
+            and scene.proto.arousal > 0.5
+            and scene.proto.narrative_gravity > 0.6
+        ):
             if "sublimate" not in ops:
                 ops.append("sublimate")
 
@@ -240,13 +262,16 @@ class OneiricHook:
 
         return anchors
 
-    def _send_http_feedback(self, scene: PhenomenalScene, policy: RegulationPolicy, hints: dict[str, Any]) -> None:
+    def _send_http_feedback(
+        self, scene: PhenomenalScene, policy: RegulationPolicy, hints: dict[str, Any]
+    ) -> None:
         """Send feedback to external oneiric service via HTTP"""
         if not self.http_client:
             return
 
         payload = {
-            "scene_id": getattr(scene, "id", None) or f"scene_{scene.proto.narrative_gravity:.3f}",
+            "scene_id": getattr(scene, "id", None)
+            or f"scene_{scene.proto.narrative_gravity:.3f}",
             "policy": policy.model_dump(),
             "hints": hints,
             "timestamp": scene.timestamp,
@@ -261,7 +286,9 @@ class OneiricHook:
             "policies_applied": self.policies_applied,
             "http_requests_sent": self.http_requests_sent,
             "http_failures": self.http_failures,
-            "http_success_rate": (1.0 - self.http_failures / max(1, self.http_requests_sent)),
+            "http_success_rate": (
+                1.0 - self.http_failures / max(1, self.http_requests_sent)
+            ),
         }
 
 
@@ -306,7 +333,10 @@ class OneiricHTTPClient:
 
         try:
             response = self.session.post(
-                url, json=payload, timeout=self.timeout, headers={"Content-Type": "application/json"}
+                url,
+                json=payload,
+                timeout=self.timeout,
+                headers={"Content-Type": "application/json"},
             )
             response.raise_for_status()
 
@@ -340,7 +370,9 @@ class OneiricHTTPClient:
 
 
 def create_oneiric_hook(
-    mode: str = "local", base_url: Optional[str] = None, config: Optional[dict[str, Any]] = None
+    mode: str = "local",
+    base_url: Optional[str] = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> OneiricHook:
     """
     Factory function to create OneiricHook with appropriate configuration.

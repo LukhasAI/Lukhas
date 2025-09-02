@@ -18,7 +18,9 @@ class GovernanceColony(BaseColony):
         logger.info(f"GovernanceColony pre-approving task {task_id}")
         return True
 
-    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         approved = await self.pre_approve(task_id, task_data)
         status = "approved" if approved else "rejected"
         return {"status": status, "task_id": task_id}

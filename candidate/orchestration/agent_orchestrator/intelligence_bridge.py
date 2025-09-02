@@ -138,7 +138,9 @@ class LukhasAgentBridge:
         self._initialized = True
         logger.info("🚀 Agent-Intelligence Bridge ready for coordination")
 
-    async def process_agent_request(self, request: AgentRequest) -> IntelligenceResponse:
+    async def process_agent_request(
+        self, request: AgentRequest
+    ) -> IntelligenceResponse:
         """
         Process an intelligence request from a LUKHAS AI agent
 
@@ -154,7 +156,9 @@ class LukhasAgentBridge:
         start_time = time.time()
         request_id = f"{request.agent_id}_{int(start_time * 1000)}"
 
-        logger.info(f"🤖 Processing {request.request_type.value} request from {request.agent_type.value}")
+        logger.info(
+            f"🤖 Processing {request.request_type.value} request from {request.agent_type.value}"
+        )
 
         try:
             # Store active request
@@ -173,7 +177,9 @@ class LukhasAgentBridge:
                 success=True,
                 result=result,
                 processing_time=processing_time,
-                confidence=(result.get("confidence", 0.8) if isinstance(result, dict) else 0.8),
+                confidence=(
+                    result.get("confidence", 0.8) if isinstance(result, dict) else 0.8
+                ),
             )
 
             # Update performance metrics
@@ -242,7 +248,9 @@ class LukhasAgentBridge:
         else:
             raise ValueError(f"Unknown request type: {request_type}")
 
-    async def _handle_meta_cognitive_request(self, payload: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_meta_cognitive_request(
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle meta-cognitive analysis requests"""
         engine = self.intelligence_engines["meta_cognitive"]
 
@@ -257,14 +265,18 @@ class LukhasAgentBridge:
             "confidence": analysis.get("meta_confidence", 0.8),
         }
 
-    async def _handle_causal_reasoning_request(self, payload: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_causal_reasoning_request(
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle causal reasoning requests"""
         engine = self.intelligence_engines["causal"]
 
         request_text = payload.get("request", "")
         subsystem_responses = payload.get("subsystem_responses", {})
 
-        analysis = await engine.analyze_request_causality(request_text, subsystem_responses)
+        analysis = await engine.analyze_request_causality(
+            request_text, subsystem_responses
+        )
 
         return {
             "analysis": analysis,
@@ -272,7 +284,9 @@ class LukhasAgentBridge:
             "confidence": analysis.get("causal_confidence", 0.7),
         }
 
-    async def _handle_goal_formation_request(self, payload: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_goal_formation_request(
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle autonomous goal formation requests"""
         engine = self.intelligence_engines["autonomous_goals"]
 
@@ -280,7 +294,9 @@ class LukhasAgentBridge:
         meta_analysis = payload.get("meta_analysis", {})
         subsystem_responses = payload.get("subsystem_responses", {})
 
-        goals = await engine.evaluate_goal_formation(request_text, meta_analysis, subsystem_responses)
+        goals = await engine.evaluate_goal_formation(
+            request_text, meta_analysis, subsystem_responses
+        )
 
         return {
             "goals": goals,
@@ -288,7 +304,9 @@ class LukhasAgentBridge:
             "confidence": 0.8,
         }
 
-    async def _handle_curiosity_request(self, payload: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_curiosity_request(
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle curiosity exploration requests"""
         engine = self.intelligence_engines["curiosity"]
 
@@ -302,7 +320,9 @@ class LukhasAgentBridge:
             "confidence": 0.9,
         }
 
-    async def _handle_theory_of_mind_request(self, payload: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_theory_of_mind_request(
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle theory of mind requests"""
         engine = self.intelligence_engines["theory_of_mind"]
 
@@ -317,7 +337,9 @@ class LukhasAgentBridge:
             "confidence": 0.85,
         }
 
-    async def _handle_narrative_request(self, payload: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_narrative_request(
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle narrative creation requests"""
         engine = self.intelligence_engines["narrative"]
 
@@ -336,7 +358,9 @@ class LukhasAgentBridge:
             "confidence": 0.9,
         }
 
-    async def _handle_dimensional_analysis_request(self, payload: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_dimensional_analysis_request(
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle multi-dimensional analysis requests"""
         engine = self.intelligence_engines["dimensional"]
 
@@ -350,7 +374,9 @@ class LukhasAgentBridge:
             "confidence": 0.85,
         }
 
-    async def _handle_orchestration_request(self, payload: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_orchestration_request(
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle orchestration coordination requests"""
         engine = self.intelligence_engines["orchestrator"]
 
@@ -365,7 +391,9 @@ class LukhasAgentBridge:
             "confidence": 0.8,
         }
 
-    async def _update_agent_metrics(self, agent_type: AgentType, processing_time: float, success: bool):
+    async def _update_agent_metrics(
+        self, agent_type: AgentType, processing_time: float, success: bool
+    ):
         """Update performance metrics for an agent"""
         metrics = self.agent_performance_metrics[agent_type.value]
 
@@ -376,11 +404,15 @@ class LukhasAgentBridge:
         # Update average response time
         current_avg = metrics["average_response_time"]
         total_requests = metrics["total_requests"]
-        metrics["average_response_time"] = (current_avg * (total_requests - 1) + processing_time) / total_requests
+        metrics["average_response_time"] = (
+            current_avg * (total_requests - 1) + processing_time
+        ) / total_requests
 
         metrics["last_request_time"] = datetime.now()
 
-    async def get_agent_performance_metrics(self, agent_type: Optional[AgentType] = None) -> dict[str, Any]:
+    async def get_agent_performance_metrics(
+        self, agent_type: Optional[AgentType] = None
+    ) -> dict[str, Any]:
         """Get performance metrics for agents"""
         if agent_type:
             return self.agent_performance_metrics.get(agent_type.value, {})
@@ -389,17 +421,27 @@ class LukhasAgentBridge:
     async def get_system_status(self) -> dict[str, Any]:
         """Get overall system status"""
         active_requests_count = len(self.active_requests)
-        total_requests = sum(metrics["total_requests"] for metrics in self.agent_performance_metrics.values())
-        successful_requests = sum(metrics["successful_requests"] for metrics in self.agent_performance_metrics.values())
+        total_requests = sum(
+            metrics["total_requests"]
+            for metrics in self.agent_performance_metrics.values()
+        )
+        successful_requests = sum(
+            metrics["successful_requests"]
+            for metrics in self.agent_performance_metrics.values()
+        )
 
-        success_rate = (successful_requests / total_requests) if total_requests > 0 else 0.0
+        success_rate = (
+            (successful_requests / total_requests) if total_requests > 0 else 0.0
+        )
 
         return {
             "initialized": self._initialized,
             "active_requests": active_requests_count,
             "total_requests_processed": total_requests,
             "success_rate": success_rate,
-            "intelligence_engines_status": dict.fromkeys(self.intelligence_engines.keys(), "active"),
+            "intelligence_engines_status": dict.fromkeys(
+                self.intelligence_engines.keys(), "active"
+            ),
             "request_history_size": len(self.request_history),
         }
 
@@ -442,7 +484,9 @@ class AgentHelpers:
     """Helper functions for specific agent types"""
 
     @staticmethod
-    async def consciousness_architect_analyze(request: str, context: Optional[dict] = None) -> IntelligenceResponse:
+    async def consciousness_architect_analyze(
+        request: str, context: Optional[dict] = None
+    ) -> IntelligenceResponse:
         """Helper for Consciousness Architect meta-cognitive analysis"""
         bridge = await get_agent_bridge()
 
@@ -536,7 +580,9 @@ if __name__ == "__main__":
         print(f"Processing Time: {response.processing_time:.3f}s")
         print(f"Confidence: {response.confidence:.2f}")
         if response.result:
-            print(f"Analysis: {response.result.get('analysis', {}).get('reasoning_strategy', 'N/A')}")
+            print(
+                f"Analysis: {response.result.get('analysis', {}).get('reasoning_strategy', 'N/A')}"
+            )
 
         # Example: Guardian Engineer requesting safety validation
         safety_response = await AgentHelpers.guardian_engineer_validate(

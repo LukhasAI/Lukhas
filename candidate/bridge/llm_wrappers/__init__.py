@@ -62,9 +62,7 @@ for wrapper_name, class_name in [
         globals()[class_name] = None
 
 try:
-    from .openai_modulated_service import (
-        OpenAIModulatedService,
-    )
+    from .openai_modulated_service import OpenAIModulatedService
 
     logger.info("OpenAIModulatedService available")
 except Exception as e:

@@ -77,8 +77,12 @@ class SymbolicHealer:
         self.analyze_attention = self.healer_config.get("analyze_attention_maps", True)
         self.diagnose_residue = self.healer_config.get("diagnose_dream_residue", True)
         self.entropy_alert = self.healer_config.get("entropy_alert_threshold", 0.55)
-        self.collapse_mode = self.healer_config.get("collapse_vector_mode", "ethical_restore")
-        self.fallback_persona = self.healer_config.get("fallback_persona", "The Stabilizer")
+        self.collapse_mode = self.healer_config.get(
+            "collapse_vector_mode", "ethical_restore"
+        )
+        self.fallback_persona = self.healer_config.get(
+            "fallback_persona", "The Stabilizer"
+        )
 
         # Load glyph system from embedding config
         embed_config = self.config.get("lukhas_embedding", {})
@@ -162,10 +166,16 @@ class SymbolicHealer:
         )
 
         # Calculate severity
-        severity = self._calculate_severity(drift_score, conflict_score, entropy_level, guardian_flagged)
+        severity = self._calculate_severity(
+            drift_score, conflict_score, entropy_level, guardian_flagged
+        )
 
         # Identify affected and missing glyphs
-        affected_glyphs = [g for g in glyph_trace if g in self.warning_glyphs or g in self.blocked_glyphs]
+        affected_glyphs = [
+            g
+            for g in glyph_trace
+            if g in self.warning_glyphs or g in self.blocked_glyphs
+        ]
         missing_glyphs = list(self.trinity_core - set(glyph_trace))
 
         # Determine entropy state
@@ -188,10 +198,14 @@ class SymbolicHealer:
         healing_priority = self._determine_healing_priority(primary_issue, severity)
 
         # Generate symbolic prescription
-        prescription = self._generate_prescription(primary_issue, missing_glyphs, affected_glyphs, entropy_state)
+        prescription = self._generate_prescription(
+            primary_issue, missing_glyphs, affected_glyphs, entropy_state
+        )
 
         # Generate reasoning
-        reasoning = self._generate_reasoning(primary_issue, drift_score, entropy_level, trinity_coherence)
+        reasoning = self._generate_reasoning(
+            primary_issue, drift_score, entropy_level, trinity_coherence
+        )
 
         # Create diagnosis
         diagnosis = SymbolicDiagnosis(
@@ -248,7 +262,9 @@ class SymbolicHealer:
         else:
             return DiagnosisType.HALLUCINATION
 
-    def _calculate_severity(self, drift: float, conflict: float, entropy: float, guardian: bool) -> float:
+    def _calculate_severity(
+        self, drift: float, conflict: float, entropy: float, guardian: bool
+    ) -> float:
         """Calculate overall severity of symbolic issues"""
         base_severity = (drift + conflict + entropy) / 3.0
 
@@ -293,9 +309,13 @@ class SymbolicHealer:
 
         # Add healing glyphs based on issue
         if issue == DiagnosisType.ENTROPY_OVERFLOW:
-            prescription.append(f"APPLY: {' '.join(self.healing_glyphs['stabilizing'])}")
+            prescription.append(
+                f"APPLY: {' '.join(self.healing_glyphs['stabilizing'])}"
+            )
         elif issue == DiagnosisType.IDENTITY_DISTORTION:
-            prescription.append(f"APPLY: {' '.join(self.healing_glyphs['transforming'])}")
+            prescription.append(
+                f"APPLY: {' '.join(self.healing_glyphs['transforming'])}"
+            )
         elif issue in [
             DiagnosisType.ETHICAL_DRIFT,
             DiagnosisType.TRINITY_VIOLATION,
@@ -374,7 +394,9 @@ class SymbolicHealer:
         elif primary_issue == DiagnosisType.ENTROPY_OVERFLOW:
             restored = self._heal_entropy_overflow(restored)
         elif primary_issue == DiagnosisType.IDENTITY_DISTORTION:
-            restored = self._heal_identity_distortion(restored, diagnosis["persona_drift"])
+            restored = self._heal_identity_distortion(
+                restored, diagnosis["persona_drift"]
+            )
         elif primary_issue == DiagnosisType.TRINITY_VIOLATION:
             restored = self._heal_trinity_violation(restored)
         elif primary_issue == DiagnosisType.SYMBOLIC_VOID:

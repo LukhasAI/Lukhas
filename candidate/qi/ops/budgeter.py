@@ -16,9 +16,13 @@ CONF_FILE = os.path.join(STATE, "budget_config.json")
 class BudgetConfig:
     default_token_cap: int = 200_000  # per-run soft cap
     default_latency_ms: int = 10_000
-    user_overrides: dict[str, dict[str, Any]] = None  # {user_id: {"token_cap":..., "latency_ms":...}}
+    user_overrides: dict[str, dict[str, Any]] = (
+        None  # {user_id: {"token_cap":..., "latency_ms":...}}
+    )
     task_overrides: dict[str, dict[str, Any]] = None  # {task: {...}}
-    model_costs: dict[str, dict[str, float]] = None  # {model: {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
+    model_costs: dict[str, dict[str, float]] = (
+        None  # {model: {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
+    )
 
     def to_dict(self):
         return {
@@ -26,7 +30,8 @@ class BudgetConfig:
             "default_latency_ms": self.default_latency_ms,
             "user_overrides": self.user_overrides or {},
             "task_overrides": self.task_overrides or {},
-            "model_costs": self.model_costs or {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}},
+            "model_costs": self.model_costs
+            or {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}},
         }
 
 
@@ -54,17 +59,27 @@ class Budgeter:
 
     def __init__(self):
         self.conf = BudgetConfig(**_load_json(CONF_FILE, {}))
-        self.state = _load_json(BUDGET_FILE, {"runs": []})  # append-only ring in real life
+        self.state = _load_json(
+            BUDGET_FILE, {"runs": []}
+        )  # append-only ring in real life
 
     def save(self):
         _save_json(CONF_FILE, self.conf.to_dict())
         _save_json(BUDGET_FILE, self.state)
 
     # ---- planning ----
-    def plan(self, *, text: str = "", model: str = "default", target_tokens: int | None = None) -> dict[str, Any]:
+    def plan(
+        self,
+        *,
+        text: str = "",
+        model: str = "default",
+        target_tokens: int | None = None,
+    ) -> dict[str, Any]:
         # Ensure model_costs has default
         if not self.conf.model_costs:
-            self.conf.model_costs = {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
+            self.conf.model_costs = {
+                "default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}
+            }
         costs = self.conf.model_costs.get(model) or self.conf.model_costs.get(
             "default", {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}
         )
@@ -100,13 +115,19 @@ class Budgeter:
             lat = int(u.get("latency_ms", lat))
         return {"token_cap": cap, "latency_ms": lat}
 
-    def check(self, *, user_id: str | None, task: str | None, plan: dict[str, Any]) -> dict[str, Any]:
+    def check(
+        self, *, user_id: str | None, task: str | None, plan: dict[str, Any]
+    ) -> dict[str, Any]:
         caps = self._caps(user_id, task)
         reasons = []
         if plan["tokens_planned"] > caps["token_cap"]:
-            reasons.append(f"tokens_planned {plan['tokens_planned']} > cap {caps['token_cap']}")
+            reasons.append(
+                f"tokens_planned {plan['tokens_planned']} > cap {caps['token_cap']}"
+            )
         if plan["latency_est_ms"] > caps["latency_ms"]:
-            reasons.append(f"latency_est_ms {plan['latency_est_ms']} > cap {caps['latency_ms']}")
+            reasons.append(
+                f"latency_est_ms {plan['latency_est_ms']} > cap {caps['latency_ms']}"
+            )
         return {"ok": not reasons, "reasons": reasons, "caps": caps}
 
     # ---- accounting ----
@@ -149,7 +170,9 @@ if __name__ == "__main__":
     args = ap.parse_args()
 
     b = Budgeter()
-    plan = b.plan(text=args.plan_text, model=args.model, target_tokens=args.target_tokens)
+    plan = b.plan(
+        text=args.plan_text, model=args.model, target_tokens=args.target_tokens
+    )
     verdict = b.check(user_id=args.user, task=args.task, plan=plan)
     out = {"plan": plan, "verdict": verdict}
     print(json.dumps(out, indent=2))

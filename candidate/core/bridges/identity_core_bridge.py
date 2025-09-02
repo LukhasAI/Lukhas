@@ -61,7 +61,9 @@ class IdentityCoreBridge:
             "core_data_update": "identity_data_sync",
         }
 
-    async def identity_to_core(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def identity_to_core(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from identity to core"""
         if not self.is_connected:
             await self.connect()
@@ -75,7 +77,9 @@ class IdentityCoreBridge:
 
             # Send to core
             if self.core_hub:
-                result = await self.core_hub.process_event(mapped_event, transformed_data)
+                result = await self.core_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from identity to core")
                 return result
 
@@ -85,7 +89,9 @@ class IdentityCoreBridge:
             logger.error(f"Error forwarding from identity to core: {e}")
             return {"error": str(e)}
 
-    async def core_to_identity(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def core_to_identity(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from core to identity"""
         if not self.is_connected:
             await self.connect()
@@ -99,7 +105,9 @@ class IdentityCoreBridge:
 
             # Send to identity
             if self.identity_hub:
-                result = await self.identity_hub.process_event(mapped_event, transformed_data)
+                result = await self.identity_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from core to identity")
                 return result
 
@@ -169,7 +177,9 @@ class IdentityCoreBridge:
     def compare_states(
         self,
         state1: dict[str, Any],
-        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison
+        state2: dict[
+            str, Any
+        ],  # TODO[TRINITY:specialist] Implement Trinity identity-consciousness state comparison
     ) -> list[dict[str, Any]]:
         """Compare states and return differences"""
         differences = []

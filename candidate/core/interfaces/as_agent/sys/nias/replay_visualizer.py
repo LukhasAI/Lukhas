@@ -67,12 +67,16 @@ def visualize_replays(limit=10):
             dream = json.loads(line.strip())
             emoji = TIER_EMOJI.get(str(dream.get("tier")), "•")
             print(f"\n🌀 {dream.get('timestamp')} | ID: {dream.get('message_id')}")
-            print(f"   Tier: {dream.get('tier')} {emoji} | Widget: {dream.get('source_widget')}")
+            print(
+                f"   Tier: {dream.get('tier')} {emoji} | Widget: {dream.get('source_widget')}"
+            )
             print(f"   Tags: {', '.join(dream.get('tags', []))}")
             ev = dream.get("emotion_vector", {})
             print(
                 "   Emotions →",
-                " | ".join(f"{k.capitalize()}: {color_emotion(v, k)}" for k, v in ev.items()),
+                " | ".join(
+                    f"{k.capitalize()}: {color_emotion(v, k)}" for k, v in ev.items()
+                ),
             )
             print(f"   Emoji: {dream.get('emoji')} | Notes: {dream.get('notes')}")
             tag_counter.update(dream.get("tags", []))

@@ -26,7 +26,9 @@ class MemoryHelixVisualizer:
     the v1_AGI memory system, Lukhas_ID for access control, and Seedra components.
     """
 
-    def __init__(self, memory_manager: MemoryManager, id_system: Optional[LucasID] = None):
+    def __init__(
+        self, memory_manager: MemoryManager, id_system: Optional[LucasID] = None
+    ):
         """
         Initialize the memory helix visualizer.
 
@@ -67,7 +69,9 @@ class MemoryHelixVisualizer:
 
         logger.info("Memory Helix Visualizer initialized")
 
-    def get_memory_coordinates(self, memory_id: str, index: int, total_memories: int) -> tuple[float, float, float]:
+    def get_memory_coordinates(
+        self, memory_id: str, index: int, total_memories: int
+    ) -> tuple[float, float, float]:
         """
         Calculate the 3D coordinates for a memory along the helix.
 
@@ -188,7 +192,9 @@ class MemoryHelixVisualizer:
             sizes.append(10 * self.priority_size.get(memory_priority, 1.0))
 
             # Create hover text
-            created = datetime.fromtimestamp(memory.get("timestamp", 0)).strftime("%Y-%m-%d %H:%M:%S")
+            created = datetime.fromtimestamp(memory.get("timestamp", 0)).strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
             text = (
                 f"ID: {memory['id'][:8]}...<br>"
                 f"Type: {memory_type}<br>"
@@ -204,7 +210,9 @@ class MemoryHelixVisualizer:
                 for j, rel_memory in enumerate(memories):
                     if rel_memory["id"] == related_id:
                         # Get coordinates for related memory
-                        rx, ry, rz = self.get_memory_coordinates(rel_memory["id"], j, total_memories)
+                        rx, ry, rz = self.get_memory_coordinates(
+                            rel_memory["id"], j, total_memories
+                        )
 
                         # Add edge between memories
                         edges_x.extend([x, rx, None])  # None creates a break
@@ -294,10 +302,14 @@ class MemoryHelixVisualizer:
                 )
             )
 
-        logger.info(f"Generated memory helix visualization with {total_memories} memories")
+        logger.info(
+            f"Generated memory helix visualization with {total_memories} memories"
+        )
         return fig
 
-    def create_interactive_visualization(self, user_id: Optional[str] = None, access_tier: AccessTier = None) -> str:
+    def create_interactive_visualization(
+        self, user_id: Optional[str] = None, access_tier: AccessTier = None
+    ) -> str:
         """
         Create and save an interactive HTML visualization of the memory helix.
 

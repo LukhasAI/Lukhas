@@ -32,7 +32,9 @@ async def ingest_feedback(
     issues: list[str] = Body(default=[], description="Issue types"),
     note: str | None = Body(None, description="User note (will be HMACed)"),
     style: str | None = Body(None, description="Proposed style"),
-    threshold_delta: float | None = Body(None, description="Proposed threshold adjustment"),
+    threshold_delta: float | None = Body(
+        None, description="Proposed threshold adjustment"
+    ),
 ) -> dict[str, Any]:
     """Ingest a feedback card with HMAC redaction and validation."""
     try:
@@ -98,11 +100,15 @@ async def list_feedback(
     """List recent feedback cards with optional filters."""
     try:
         store = get_store()
-        feedback = store.read_feedback(limit=limit, task_filter=task, jurisdiction_filter=jurisdiction)
+        feedback = store.read_feedback(
+            limit=limit, task_filter=task, jurisdiction_filter=jurisdiction
+        )
 
         # Compute summary statistics
         if feedback:
-            satisfactions = [fc.get("feedback", {}).get("satisfaction", 0.5) for fc in feedback]
+            satisfactions = [
+                fc.get("feedback", {}).get("satisfaction", 0.5) for fc in feedback
+            ]
             avg_satisfaction = sum(satisfactions) / len(satisfactions)
 
             issue_counts = {}
@@ -117,7 +123,10 @@ async def list_feedback(
             "feedback": feedback,
             "count": len(feedback),
             "filters": {"task": task, "jurisdiction": jurisdiction},
-            "summary": {"avg_satisfaction": avg_satisfaction, "issue_distribution": issue_counts},
+            "summary": {
+                "avg_satisfaction": avg_satisfaction,
+                "issue_distribution": issue_counts,
+            },
         }
 
     except Exception as e:
@@ -129,7 +138,8 @@ async def list_feedback(
 
 @app.post("/feedback/cluster")
 async def run_clustering(
-    background_tasks: BackgroundTasks, limit: int = Query(1000, description="Feedback to process")
+    background_tasks: BackgroundTasks,
+    limit: int = Query(1000, description="Feedback to process"),
 ) -> dict[str, Any]:
     """Run clustering job (can be triggered as offline job)."""
     try:
@@ -176,7 +186,9 @@ async def promote_to_proposal(
     """Promote a feedback card or cluster to a change proposal."""
     try:
         if not fc_id and not cluster_id:
-            raise HTTPException(status_code=400, detail="Either fc_id or cluster_id required")
+            raise HTTPException(
+                status_code=400, detail="Either fc_id or cluster_id required"
+            )
 
         mapper = ProposalMapper()
 
@@ -186,7 +198,9 @@ async def promote_to_proposal(
             proposal_id = mapper.promote_feedback_card(fc_id, target_file)
 
         if not proposal_id:
-            raise HTTPException(status_code=400, detail="Could not create proposal from feedback")
+            raise HTTPException(
+                status_code=400, detail="Could not create proposal from feedback"
+            )
 
         return {
             "proposal_id": proposal_id,

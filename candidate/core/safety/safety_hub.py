@@ -72,7 +72,9 @@ class SafetyHub:
                         fromlist=[class_name],
                     )
                 else:
-                    module = __import__(f"core.safety.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"core.safety.{service_name}", fromlist=[class_name]
+                    )
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -98,7 +100,9 @@ class SafetyHub:
                         fromlist=[class_name],
                     )
                 else:
-                    module = __import__(f"core.safety.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"core.safety.{service_name}", fromlist=[class_name]
+                    )
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -124,7 +128,9 @@ class SafetyHub:
                         fromlist=[class_name],
                     )
                 else:
-                    module = __import__(f"core.safety.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"core.safety.{service_name}", fromlist=[class_name]
+                    )
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -150,7 +156,9 @@ class SafetyHub:
                         fromlist=[class_name],
                     )
                 else:
-                    module = __import__(f"core.safety.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"core.safety.{service_name}", fromlist=[class_name]
+                    )
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -243,9 +251,13 @@ class SafetyHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(service_name, self.services[service_name], "safety")
+                    discovery.register_service_globally(
+                        service_name, self.services[service_name], "safety"
+                    )
 
-            logger.debug(f"Registered {len(key_services)} safety services with global discovery")
+            logger.debug(
+                f"Registered {len(key_services)} safety services with global discovery"
+            )
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -277,7 +289,9 @@ class SafetyHub:
         orchestrator = self.get_service("ai_safety_orchestrator")
         if orchestrator and hasattr(orchestrator, "evaluate_action"):
             try:
-                safety_decision = await orchestrator.evaluate_action(action_type, action_data, user_context or {})
+                safety_decision = await orchestrator.evaluate_action(
+                    action_type, action_data, user_context or {}
+                )
 
                 return {
                     "action_type": action_type,
@@ -308,7 +322,9 @@ class SafetyHub:
             "timestamp": datetime.now().isoformat(),
         }
 
-    async def process_event(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def process_event(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process an event through registered handlers with safety validation"""
 
         # Pre-validate the event for safety
@@ -318,7 +334,9 @@ class SafetyHub:
             "data_processing",
         ]:
             validation_result = await self.validate_action(event_type, data)
-            if not validation_result.get("validation_result", {}).get("approved", False):
+            if not validation_result.get("validation_result", {}).get(
+                "approved", False
+            ):
                 return {
                     "event_type": event_type,
                     "blocked": True,
@@ -333,7 +351,11 @@ class SafetyHub:
 
         for handler in handlers:
             try:
-                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
+                result = (
+                    await handler(data)
+                    if asyncio.iscoroutinefunction(handler)
+                    else handler(data)
+                )
                 results.append({"source": "event_handler", "result": result})
             except Exception as e:
                 logger.error(f"Safety handler error for {event_type}: {e}")
@@ -377,7 +399,9 @@ class SafetyHub:
         """Get comprehensive safety system status"""
         safety_status = {
             "hub_services": len(self.services),
-            "policies_active": len([p for p in self.safety_policies.values() if p.get("enabled", False)]),
+            "policies_active": len(
+                [p for p in self.safety_policies.values() if p.get("enabled", False)]
+            ),
             "timestamp": datetime.now().isoformat(),
         }
 
@@ -385,7 +409,9 @@ class SafetyHub:
         orchestrator = self.get_service("ai_safety_orchestrator")
         if orchestrator and hasattr(orchestrator, "get_safety_metrics"):
             try:
-                safety_status["orchestrator_metrics"] = orchestrator.get_safety_metrics()
+                safety_status["orchestrator_metrics"] = (
+                    orchestrator.get_safety_metrics()
+                )
             except Exception as e:
                 safety_status["orchestrator_error"] = str(e)
 

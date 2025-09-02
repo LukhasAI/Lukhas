@@ -67,13 +67,19 @@ class TraumaLockSystem:
 
         # Initialize secure vector space
         self.secure_memory_vectors = {}
-        self.vector_dim = 64 if encryption_level == "low" else (128 if encryption_level == "medium" else 256)
+        self.vector_dim = (
+            64
+            if encryption_level == "low"
+            else (128 if encryption_level == "medium" else 256)
+        )
 
         # Track access attempts
         self.access_log = []
         self.max_log_entries = 1000
 
-        self.logger.info(f"Trauma Lock System initialized with {encryption_level} encryption level")
+        self.logger.info(
+            f"Trauma Lock System initialized with {encryption_level} encryption level"
+        )
 
     def _generate_system_key(self) -> bytes:
         """Generate a secure system key for encryption"""
@@ -114,7 +120,9 @@ class TraumaLockSystem:
             },
         }
 
-    def encrypt_memory(self, memory_data: dict[str, Any], access_level: str = "standard") -> dict[str, Any]:
+    def encrypt_memory(
+        self, memory_data: dict[str, Any], access_level: str = "standard"
+    ) -> dict[str, Any]:
         """
         Encrypt memory data with trauma-lock protection.
 
@@ -181,7 +189,9 @@ class TraumaLockSystem:
 
         # Get access level and policy
         access_level = encrypted_memory.get("access_level", "standard")
-        policy = self.access_policies.get(access_level, self.access_policies["standard"])
+        policy = self.access_policies.get(
+            access_level, self.access_policies["standard"]
+        )
 
         # Context validation if required
         if policy["context_validation"] and access_context:
@@ -194,13 +204,19 @@ class TraumaLockSystem:
 
             # Calculate similarity with stored vector
             stored_vector = self.secure_memory_vectors[vector_id]
-            similarity = self._calculate_vector_similarity(stored_vector, context_vector)
+            similarity = self._calculate_vector_similarity(
+                stored_vector, context_vector
+            )
 
             # Check if similarity meets threshold
             threshold = policy.get("context_match_threshold", 0.7)
             if similarity < threshold:
-                self._log_access_attempt(vector_id, access_level, "context_mismatch", False)
-                raise ValueError(f"Context validation failed: similarity {similarity:.2f} below threshold {threshold}")
+                self._log_access_attempt(
+                    vector_id, access_level, "context_mismatch", False
+                )
+                raise ValueError(
+                    f"Context validation failed: similarity {similarity:.2f} below threshold {threshold}"
+                )
 
         # Check expiry if applicable
         creation_time = encrypted_memory.get("creation_time", 0)
@@ -216,10 +232,14 @@ class TraumaLockSystem:
 
         try:
             # Get the encrypted data
-            encrypted_data = base64.urlsafe_b64decode(encrypted_memory["encrypted_data"].encode())
+            encrypted_data = base64.urlsafe_b64decode(
+                encrypted_memory["encrypted_data"].encode()
+            )
 
             # Re-derive the memory key
-            memory_id = encrypted_memory.get("original_id", f"vec_{encrypted_memory.get('vector_id', '')}")
+            memory_id = encrypted_memory.get(
+                "original_id", f"vec_{encrypted_memory.get('vector_id', '')}"
+            )
             memory_key = self._derive_memory_key(memory_id)
 
             # Decrypt the data
@@ -296,7 +316,9 @@ class TraumaLockSystem:
         vector += np.random.normal(0, 1, self.vector_dim)
 
         # Add time component
-        time_component = np.sin(np.arange(self.vector_dim) * (time.time() % 1000) / 1000)
+        time_component = np.sin(
+            np.arange(self.vector_dim) * (time.time() % 1000) / 1000
+        )
         vector += time_component * 0.05
 
         # Add memory type influence
@@ -331,7 +353,9 @@ class TraumaLockSystem:
         vector += np.random.normal(0, 1, self.vector_dim)
 
         # Add time component
-        time_component = np.sin(np.arange(self.vector_dim) * (time.time() % 1000) / 1000)
+        time_component = np.sin(
+            np.arange(self.vector_dim) * (time.time() % 1000) / 1000
+        )
         vector += time_component * 0.05
 
         # Add context type influences
@@ -357,7 +381,9 @@ class TraumaLockSystem:
         similarity = dot_product / norm_product if norm_product > 0 else 0
         return (similarity + 1) / 2  # Scale from [-1, 1] to [0, 1]
 
-    def _log_access_attempt(self, vector_id: str, access_level: str, reason: str, success: bool) -> None:
+    def _log_access_attempt(
+        self, vector_id: str, access_level: str, reason: str, success: bool
+    ) -> None:
         """Log memory access attempts for security auditing"""
         entry = {
             "timestamp": time.time(),
@@ -375,7 +401,9 @@ class TraumaLockSystem:
 
         # Log suspicious activity
         if not success:
-            self.logger.warning(f"Memory access denied: vector={vector_id}, level={access_level}, reason={reason}")
+            self.logger.warning(
+                f"Memory access denied: vector={vector_id}, level={access_level}, reason={reason}"
+            )
 
     def get_access_stats(self) -> dict[str, Any]:
         """Get statistics about memory access attempts"""
@@ -399,7 +427,9 @@ class TraumaLockSystem:
         # Calculate success rates
         for level_stats in by_level.values():
             level_stats["success_rate"] = (
-                level_stats["successful"] / level_stats["attempts"] if level_stats["attempts"] > 0 else 0
+                level_stats["successful"] / level_stats["attempts"]
+                if level_stats["attempts"] > 0
+                else 0
             )
 
         return {

@@ -21,15 +21,12 @@ import os
 import sys
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 import requests
 from github_vulnerability_manager import GitHubVulnerabilityManager
 from lambdabot_autonomous_fixer import ΛBotAutonomousVulnerabilityFixer
-from security_pr_analyzer import PRAnalyzer
-from security_pr_analyzer import SecurityIssue
-from security_pr_analyzer import SecurityScanner
+from security_pr_analyzer import PRAnalyzer, SecurityIssue, SecurityScanner
 
 # Import required components
 from lukhas.core.budget.token_controller import TokenBudgetController

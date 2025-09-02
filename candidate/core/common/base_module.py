@@ -203,7 +203,9 @@ class BaseModule(ABC):
             "state": self.state,
             "healthy": self.state == ModuleState.READY,
             "uptime_seconds": uptime,
-            "last_activity": (self.last_activity.isoformat() if self.last_activity else None),
+            "last_activity": (
+                self.last_activity.isoformat() if self.last_activity else None
+            ),
             "metrics": self.metrics,
             "dependencies": list(self._dependencies),
             "capabilities": list(self._capabilities),
@@ -338,7 +340,9 @@ class StatefulModule(BaseModule):
     async def import_state(self, state_export: dict[str, Any]) -> None:
         """Import state from export"""
         if state_export.get("module_name") != self.module_name:
-            raise ValueError(f"State export is for different module: {state_export.get('module_name')}")
+            raise ValueError(
+                f"State export is for different module: {state_export.get('module_name')}"
+            )
 
         self._state_data = state_export.get("state_data", {}).copy()
         self._state_version = state_export.get("state_version", 0)

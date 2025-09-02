@@ -30,13 +30,21 @@ class SwarmVisualizer:
             if status == "unhealthy":
                 style = "style " + colony_id + " fill:#f9f,stroke:#333,stroke-width:4px"
             elif ethical_status == "red":
-                style = "style " + colony_id + " fill:#ff9999,stroke:#333,stroke-width:2px"
+                style = (
+                    "style " + colony_id + " fill:#ff9999,stroke:#333,stroke-width:2px"
+                )
             elif ethical_status == "yellow":
-                style = "style " + colony_id + " fill:#ffff99,stroke:#333,stroke-width:2px"
+                style = (
+                    "style " + colony_id + " fill:#ffff99,stroke:#333,stroke-width:2px"
+                )
             elif ethical_status == "green":
-                style = "style " + colony_id + " fill:#99ff99,stroke:#333,stroke-width:2px"
+                style = (
+                    "style " + colony_id + " fill:#99ff99,stroke:#333,stroke-width:2px"
+                )
 
-            graph_str += f"    {colony_id}[{colony_id} - {status} - {ethical_status}];\n"
+            graph_str += (
+                f"    {colony_id}[{colony_id} - {status} - {ethical_status}];\n"
+            )
             if style:
                 graph_str += f"    {style};\n"
 

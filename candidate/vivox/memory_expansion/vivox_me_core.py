@@ -23,11 +23,7 @@ import numpy as np
 
 # Import optimized logging
 try:
-    from ..utils.logging_config import (
-        VIVOXLoggers,
-        debug_trace,
-        log_performance,
-    )
+    from ..utils.logging_config import VIVOXLoggers, debug_trace, log_performance
 
     logger = VIVOXLoggers.ME
 except ImportError:
@@ -63,7 +59,9 @@ class MemoryHelixEntry:
     timestamp_utc: datetime
     cryptographic_hash: str
     previous_hash: str
-    helix_coordinates: tuple[float, float, float] = field(default_factory=lambda: (0.0, 0.0, 0.0))
+    helix_coordinates: tuple[float, float, float] = field(
+        default_factory=lambda: (0.0, 0.0, 0.0)
+    )
     resonance_score: float = 0.0
 
     def to_dict(self) -> dict[str, Any]:
@@ -92,7 +90,9 @@ class EmotionalDNA:
 
     def __post_init__(self):
         # Calculate resonance frequency based on VAD values
-        self.resonance_frequency = np.sqrt(self.valence**2 + self.arousal**2 + self.dominance**2) / np.sqrt(3)
+        self.resonance_frequency = np.sqrt(
+            self.valence**2 + self.arousal**2 + self.dominance**2
+        ) / np.sqrt(3)
 
     def to_dict(self) -> dict[str, float]:
         return {
@@ -146,7 +146,9 @@ class MemoryHelix3D:
         self.coordinate_index: dict[tuple[int, int, int], list[str]] = defaultdict(list)
         self.latest_hash = "genesis_block"
 
-    async def append_entry(self, entry: MemoryHelixEntry, coordinates: tuple[float, float, float]):
+    async def append_entry(
+        self, entry: MemoryHelixEntry, coordinates: tuple[float, float, float]
+    ):
         """Add entry to helix at specified coordinates"""
         entry.helix_coordinates = coordinates
         self.entries.append(entry)
@@ -180,7 +182,9 @@ class SymbolicProteome:
     def __init__(self):
         self.protein_folds: dict[str, ProteinFold] = {}
 
-    async def fold_memory_protein(self, entry: MemoryHelixEntry, emotional_context: dict[str, Any]) -> "ProteinFold":
+    async def fold_memory_protein(
+        self, entry: MemoryHelixEntry, emotional_context: dict[str, Any]
+    ) -> "ProteinFold":
         """Fold memory into protein structure (placeholder for full implementation)"""
         # This would implement the full AlphaFold2-inspired folding
         # For now, return a simple fold structure
@@ -211,7 +215,9 @@ class ImmutableEthicalTimeline:
         self.timeline: list[dict[str, Any]] = []
         self.decision_index: dict[str, list[int]] = defaultdict(list)
 
-    async def append_ethical_record(self, decision: dict[str, Any], moral_fingerprint: str, sequence_id: str):
+    async def append_ethical_record(
+        self, decision: dict[str, Any], moral_fingerprint: str, sequence_id: str
+    ):
         """Add ethical decision to timeline"""
         record = {
             "timestamp": datetime.utcnow().isoformat(),
@@ -352,15 +358,21 @@ class VIVOXMemoryExpansion:
         )
 
         # Store in 3D helix structure
-        helix_coordinates = await self._calculate_helix_position(emotional_context, decision)
+        helix_coordinates = await self._calculate_helix_position(
+            emotional_context, decision
+        )
 
         await self.memory_helix.append_entry(memory_entry, helix_coordinates)
 
         # Update symbolic proteome
-        await self.symbolic_proteome.fold_memory_protein(memory_entry, emotional_context)
+        await self.symbolic_proteome.fold_memory_protein(
+            memory_entry, emotional_context
+        )
 
         # Log to immutable ethical timeline
-        await self.ethical_timeline.append_ethical_record(decision, moral_fingerprint, memory_entry.sequence_id)
+        await self.ethical_timeline.append_ethical_record(
+            decision, moral_fingerprint, memory_entry.sequence_id
+        )
 
         # Performance logging
         elapsed = time.time() - start_time
@@ -385,7 +397,9 @@ class VIVOXMemoryExpansion:
         async for memory_entry in self.memory_helix.iterate_entries():
             memory_frequency = memory_entry.emotional_dna.resonance_frequency
 
-            resonance = await self._calculate_resonance(current_frequency, memory_frequency)
+            resonance = await self._calculate_resonance(
+                current_frequency, memory_frequency
+            )
 
             if resonance >= resonance_threshold:
                 # Check if memory is veiled
@@ -395,7 +409,9 @@ class VIVOXMemoryExpansion:
 
         return sorted(resonant_memories, key=lambda m: m.resonance_score, reverse=True)
 
-    async def memory_veiling_operation(self, memory_ids: list[str], veiling_reason: str, ethical_approval: str) -> bool:
+    async def memory_veiling_operation(
+        self, memory_ids: list[str], veiling_reason: str, ethical_approval: str
+    ) -> bool:
         """
         GDPR-compliant memory veiling through Soma Layer
         Instead of deletion, memories are disengaged from active cognition
@@ -433,11 +449,15 @@ class VIVOXMemoryExpansion:
         for decision in relevant_decisions:
             if "memory_sequence_id" in decision:
                 # Reconstruct decision context
-                memory_entry = await self.memory_helix.get_entry(decision["memory_sequence_id"])
+                memory_entry = await self.memory_helix.get_entry(
+                    decision["memory_sequence_id"]
+                )
 
                 if memory_entry:
                     # Analyze moral reasoning chain
-                    moral_chain = await self._reconstruct_moral_reasoning(memory_entry, decision)
+                    moral_chain = await self._reconstruct_moral_reasoning(
+                        memory_entry, decision
+                    )
 
                     audit_result.add_decision_trace(
                         what_known=memory_entry.decision_data,
@@ -448,7 +468,9 @@ class VIVOXMemoryExpansion:
 
         return audit_result
 
-    async def record_conscious_moment(self, experience: dict[str, Any], collapse_details: dict[str, Any]):
+    async def record_conscious_moment(
+        self, experience: dict[str, Any], collapse_details: dict[str, Any]
+    ):
         """Record conscious experience moment"""
         # Integration point for VIVOX.CIL
         await self.collapse_logger.log_z_collapse_event(
@@ -468,7 +490,9 @@ class VIVOXMemoryExpansion:
         # Create memory entry for reflection
         sequence_id = await self.record_decision_mutation(
             decision={"type": "reflection", "data": reflection_data},
-            emotional_context=reflection_data.get("emotional_context", {"valence": 0, "arousal": 0.5}),
+            emotional_context=reflection_data.get(
+                "emotional_context", {"valence": 0, "arousal": 0.5}
+            ),
             moral_fingerprint=f"reflection_{reflection_data.get('moment_id', 'unknown')}",
         )
         return sequence_id
@@ -532,7 +556,9 @@ class VIVOXMemoryExpansion:
 
         return (x, y, z)
 
-    async def _emotional_state_to_frequency(self, emotional_state: dict[str, Any]) -> float:
+    async def _emotional_state_to_frequency(
+        self, emotional_state: dict[str, Any]
+    ) -> float:
         """Convert emotional state to resonance frequency"""
         emotional_dna = self._encode_emotional_dna(emotional_state)
         return emotional_dna.resonance_frequency
@@ -545,7 +571,9 @@ class VIVOXMemoryExpansion:
         resonance = 1.0 - (diff / max_diff)
         return max(0.0, min(1.0, resonance))
 
-    async def _reconstruct_moral_reasoning(self, memory_entry: MemoryHelixEntry, decision: dict[str, Any]) -> list[str]:
+    async def _reconstruct_moral_reasoning(
+        self, memory_entry: MemoryHelixEntry, decision: dict[str, Any]
+    ) -> list[str]:
         """Reconstruct moral reasoning chain"""
         reasoning_chain = []
 

@@ -33,7 +33,9 @@ class MemoryConsolidator:
             "last_consolidation": None,
         }
 
-    def schedule_consolidation(self, memory_ids: list[str], consolidation_type: str = "compress"):
+    def schedule_consolidation(
+        self, memory_ids: list[str], consolidation_type: str = "compress"
+    ):
         """Schedule memories for consolidation"""
         task = ConsolidationTask(
             source_memories=memory_ids,

@@ -321,7 +321,9 @@ class Orchestra:
 '''
         self.write_file(module_path / "oscillator.py", oscillator_content)
 
-        self.modules_created.extend([str(module_path / "bio_core.py"), str(module_path / "oscillator.py")])
+        self.modules_created.extend(
+            [str(module_path / "bio_core.py"), str(module_path / "oscillator.py")]
+        )
 
     def standardize_voice_synthesis(self):
         """Standardize voice synthesis module."""
@@ -560,7 +562,9 @@ voice_modulator = VoiceModulator()
 
             for pattern in import_patterns:
                 if re.search(pattern, content, re.MULTILINE):
-                    content = re.sub(pattern, fixes[broken_import], content, flags=re.MULTILINE)
+                    content = re.sub(
+                        pattern, fixes[broken_import], content, flags=re.MULTILINE
+                    )
                     break
 
         return content

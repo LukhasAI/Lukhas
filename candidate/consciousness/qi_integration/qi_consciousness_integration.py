@@ -49,9 +49,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 # Import consciousness module if available
 try:
-    from consciousness.consciousness_service import (
-        ElevatedConsciousnessModule,
-    )
+    from consciousness.consciousness_service import ElevatedConsciousnessModule
 
     CONSCIOUSNESS_AVAILABLE = True
 except ImportError:

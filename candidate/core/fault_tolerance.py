@@ -40,7 +40,9 @@ class Supervisor:
         child_info = self.children[actor_id]
         if child_info["restarts"] < self.max_restarts:
             child_info["restarts"] += 1
-            print(f"Supervisor: Restarting actor {actor_id} (Attempt {child_info['restarts']}/{self.max_restarts})")
+            print(
+                f"Supervisor: Restarting actor {actor_id} (Attempt {child_info['restarts']}/{self.max_restarts})"
+            )
             time.sleep(self.restart_delay)
             # In a real implementation, we would restart the actor process or object
             # For now, we'll just print a message

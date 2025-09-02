@@ -57,7 +57,11 @@ class FederatedLearningColony(BaseColony):
         return {
             "round": self.learning_rounds,
             "participants": len(local_results),
-            "avg_loss": (float(np.mean([r["avg_loss"] for r in local_results])) if local_results else 0.0),
+            "avg_loss": (
+                float(np.mean([r["avg_loss"] for r in local_results]))
+                if local_results
+                else 0.0
+            ),
             "model_version": self.learning_rounds,
         }
 
@@ -67,7 +71,11 @@ class FederatedLearningColony(BaseColony):
             param_sum = None
             for result in local_results:
                 local_param = result["model_state"][key]
-                param_sum = local_param.clone() if param_sum is None else param_sum + local_param
+                param_sum = (
+                    local_param.clone()
+                    if param_sum is None
+                    else param_sum + local_param
+                )
             if param_sum is not None:
                 aggregated_state[key] = param_sum / len(local_results)
         return aggregated_state

@@ -10,7 +10,12 @@ PROMO = os.path.join(STATE, "promotions.jsonl")
 
 
 def propose(change_id: str, metrics: dict) -> dict:
-    rec = {"ts": time.time(), "change_id": change_id, "status": "shadow", "metrics": metrics}
+    rec = {
+        "ts": time.time(),
+        "change_id": change_id,
+        "status": "shadow",
+        "metrics": metrics,
+    }
     with open(PROMO, "a") as f:
         f.write(json.dumps(rec) + "\n")
         return rec

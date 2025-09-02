@@ -99,7 +99,11 @@ class TraceInjector:
 
     def get_trace_chain(self, memory_address: str) -> list[MemoryTrace]:
         """Get all traces for a specific memory address."""
-        return [trace for trace in self.trace_stack if trace.memory_address == memory_address]
+        return [
+            trace
+            for trace in self.trace_stack
+            if trace.memory_address == memory_address
+        ]
 
     def get_active_traces(self) -> dict[str, MemoryTrace]:
         """Get all currently active traces."""
@@ -156,7 +160,9 @@ def inject_memory_trace(
     metadata: Optional[dict[str, Any]] = None,
 ) -> MemoryTrace:
     """Convenience function to inject a trace using global injector."""
-    return _global_injector.inject_trace(operation_type, memory_address, symbolic_tag, metadata)
+    return _global_injector.inject_trace(
+        operation_type, memory_address, symbolic_tag, metadata
+    )
 
 
 def start_memory_trace(operation_type: str, memory_address: str) -> str:

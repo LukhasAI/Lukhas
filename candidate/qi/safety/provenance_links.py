@@ -39,7 +39,14 @@ def _load_record_by_sha(sha: str) -> dict[str, Any]:
 
 
 # ---------- S3 presign ----------
-def _s3_presign(bucket: str, key: str, expires: int, *, filename: str | None, content_type: str | None) -> str:
+def _s3_presign(
+    bucket: str,
+    key: str,
+    expires: int,
+    *,
+    filename: str | None,
+    content_type: str | None,
+) -> str:
     try:
         import boto3  # type: ignore
     except Exception as e:
@@ -58,11 +65,20 @@ def _s3_presign(bucket: str, key: str, expires: int, *, filename: str | None, co
 
 
 # ---------- GCS presign (V4) ----------
-def _gcs_presign(bucket: str, key: str, expires: int, *, filename: str | None, content_type: str | None) -> str:
+def _gcs_presign(
+    bucket: str,
+    key: str,
+    expires: int,
+    *,
+    filename: str | None,
+    content_type: str | None,
+) -> str:
     try:
         from google.cloud import storage  # type: ignore
     except Exception as e:
-        raise RuntimeError("GCS presign requires google-cloud-storage. pip install google-cloud-storage") from e
+        raise RuntimeError(
+            "GCS presign requires google-cloud-storage. pip install google-cloud-storage"
+        ) from e
     client = storage.Client()
     b = client.bucket(bucket)
     blob = b.blob(key)
@@ -96,10 +112,22 @@ def presign_url(
     """
     scheme, bucket_or_root, key_or_path = _parse_storage_url(storage_url)
     if scheme == "s3":
-        url = _s3_presign(bucket_or_root, key_or_path, expires, filename=filename, content_type=content_type)
+        url = _s3_presign(
+            bucket_or_root,
+            key_or_path,
+            expires,
+            filename=filename,
+            content_type=content_type,
+        )
         return {"backend": "s3", "url": url, "expires_in": int(expires)}
     if scheme == "gs":
-        url = _gcs_presign(bucket_or_root, key_or_path, expires, filename=filename, content_type=content_type)
+        url = _gcs_presign(
+            bucket_or_root,
+            key_or_path,
+            expires,
+            filename=filename,
+            content_type=content_type,
+        )
         return {"backend": "gcs", "url": url, "expires_in": int(expires)}
     if scheme == "file":
         url = _file_link(bucket_or_root, key_or_path)
@@ -124,7 +152,11 @@ def presign_for_record(
       - record dict (from provenance_uploader)
     Returns dict with url + metadata. Content-Type derived from record when available.
     """
-    rec = _load_record_by_sha(record_or_sha) if isinstance(record_or_sha, str) else record_or_sha
+    rec = (
+        _load_record_by_sha(record_or_sha)
+        if isinstance(record_or_sha, str)
+        else record_or_sha
+    )
 
     storage_url = rec.get("storage_url")
     if not storage_url:
@@ -138,12 +170,19 @@ def presign_for_record(
         ext = os.path.splitext(parsed.path)[1] if parsed.path else ""
         filename = f"{sha}{ext}"
 
-    return presign_url(storage_url, expires=expires, filename=filename, content_type=rec.get("mime_type"))
+    return presign_url(
+        storage_url,
+        expires=expires,
+        filename=filename,
+        content_type=rec.get("mime_type"),
+    )
 
 
 # ---------- CLI ----------
 def main():
-    ap = argparse.ArgumentParser(description="Provenance presigned URL fetcher (S3/GCS/file)")
+    ap = argparse.ArgumentParser(
+        description="Provenance presigned URL fetcher (S3/GCS/file)"
+    )
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p1 = sub.add_parser("sign-url", help="Presign a raw storage_url")
@@ -154,7 +193,12 @@ def main():
     p1.set_defaults(
         func=lambda a: print(
             json.dumps(
-                presign_url(a.url, expires=a.expires, filename=a.filename, content_type=a.content_type),
+                presign_url(
+                    a.url,
+                    expires=a.expires,
+                    filename=a.filename,
+                    content_type=a.content_type,
+                ),
                 indent=2,
             )
         )
@@ -168,8 +212,17 @@ def main():
     p2.add_argument("--filename")
 
     def _run_sign(a):
-        rec = _load_record_by_sha(a.sha) if a.sha else json.load(open(a.record, encoding="utf-8"))
-        print(json.dumps(presign_for_record(rec, expires=a.expires, filename=a.filename), indent=2))
+        rec = (
+            _load_record_by_sha(a.sha)
+            if a.sha
+            else json.load(open(a.record, encoding="utf-8"))
+        )
+        print(
+            json.dumps(
+                presign_for_record(rec, expires=a.expires, filename=a.filename),
+                indent=2,
+            )
+        )
 
     p2.set_defaults(func=_run_sign)
 

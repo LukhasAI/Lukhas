@@ -110,7 +110,9 @@ class EndocrineAwareModule:
 
         return {"success": False, "error": "Unknown operation"}
 
-    async def _handle_endocrine_state(self, operation: dict[str, Any]) -> dict[str, Any]:
+    async def _handle_endocrine_state(
+        self, operation: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle endocrine state notifications"""
         state = operation.get("state")
         action = operation.get("action")
@@ -144,15 +146,21 @@ class EndocrineAwareModule:
                 # Get hormonal modulation if available
                 speed_modulation = 1.0
                 if self.endocrine_integration:
-                    speed_modulation = self.endocrine_integration.get_modulation_factor(self.name, "processing_speed")
+                    speed_modulation = self.endocrine_integration.get_modulation_factor(
+                        self.name, "processing_speed"
+                    )
 
                 # Calculate actual processing delay
                 base_delay = 1.0  # 1 second base
-                actual_delay = base_delay / (self.processing_multiplier * speed_modulation)
+                actual_delay = base_delay / (
+                    self.processing_multiplier * speed_modulation
+                )
 
                 # Process task if available
                 try:
-                    task = await asyncio.wait_for(self.task_queue.get(), timeout=actual_delay)
+                    task = await asyncio.wait_for(
+                        self.task_queue.get(), timeout=actual_delay
+                    )
 
                     # Simulate processing
                     await self._process_single_task(task)
@@ -163,7 +171,9 @@ class EndocrineAwareModule:
 
                 # Update stress based on queue size
                 queue_size = self.task_queue.qsize()
-                self.stress_level = min(1.0, queue_size / 100)  # Stress increases with queue
+                self.stress_level = min(
+                    1.0, queue_size / 100
+                )  # Stress increases with queue
 
                 # Simulate occasional errors based on stress
                 if random.random() < self.stress_level * 0.1:
@@ -173,7 +183,9 @@ class EndocrineAwareModule:
 
                 # Send feedback to endocrine system if stress is high
                 if self.stress_level > 0.7 and self.endocrine_integration:
-                    self.endocrine_integration.inject_system_feedback(self.name, "overload", self.stress_level)
+                    self.endocrine_integration.inject_system_feedback(
+                        self.name, "overload", self.stress_level
+                    )
 
                 await asyncio.sleep(actual_delay)
 

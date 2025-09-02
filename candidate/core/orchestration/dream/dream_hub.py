@@ -95,7 +95,9 @@ class DreamHub:
             self.event_handlers[event_type] = []
         self.event_handlers[event_type].append(handler)
 
-    async def process_dream_message(self, message: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
+    async def process_dream_message(
+        self, message: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process a message for dream integration"""
 
         dream_recorder = self.get_service("dream_recorder")
@@ -114,14 +116,20 @@ class DreamHub:
 
         return {"error": "Dream recorder not available"}
 
-    async def process_event(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def process_event(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process an event through registered handlers"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
 
         for handler in handlers:
             try:
-                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
+                result = (
+                    await handler(data)
+                    if asyncio.iscoroutinefunction(handler)
+                    else handler(data)
+                )
                 results.append(result)
             except Exception as e:
                 logger.error(f"Dream handler error for {event_type}: {e}")

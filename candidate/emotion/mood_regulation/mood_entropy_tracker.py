@@ -21,7 +21,9 @@ class MoodEntropyTracker:
         history_array = np.array(self.mood_history)
 
         # Normalize the mood vectors
-        normalized_history = history_array / np.sum(history_array, axis=1, keepdims=True)
+        normalized_history = history_array / np.sum(
+            history_array, axis=1, keepdims=True
+        )
 
         # Calculate the average mood vector
         avg_mood = np.mean(normalized_history, axis=0)
@@ -69,7 +71,10 @@ class MoodEntropyTracker:
             return 0.0  # Single value has zero entropy
 
         # For simple float values stored as {"mood": value}
-        if all(isinstance(mv, dict) and len(mv) == 1 and "mood" in mv for mv in self.mood_history):
+        if all(
+            isinstance(mv, dict) and len(mv) == 1 and "mood" in mv
+            for mv in self.mood_history
+        ):
             values = [mv["mood"] for mv in self.mood_history]
             # Calculate Shannon entropy for discrete values
             unique_values = list(set(values))

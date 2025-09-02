@@ -79,7 +79,9 @@ class VoiceHub:
         """List all registered voice services"""
         return list(self.services.keys())
 
-    async def process_voice_request(self, request_data: dict[str, Any]) -> dict[str, Any]:
+    async def process_voice_request(
+        self, request_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process voice request through registered services"""
         try:
             results = {}
@@ -97,7 +99,9 @@ class VoiceHub:
             if "recognition" in self.services and "audio" in request_data:
                 recognition_service = self.services["recognition"]
                 if hasattr(recognition_service, "transcribe"):
-                    results["recognition"] = await recognition_service.transcribe(request_data["audio"])
+                    results["recognition"] = await recognition_service.transcribe(
+                        request_data["audio"]
+                    )
 
             results["timestamp"] = asyncio.get_event_loop().time()
             return results

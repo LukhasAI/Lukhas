@@ -62,7 +62,9 @@ except ImportError:
         component="MemoryEncryptor",
     )
 
-    def encrypt_user_file(filepath_to_encrypt: str, seed_phrase: list[str], filename_in_vault: str) -> bool:
+    def encrypt_user_file(
+        filepath_to_encrypt: str, seed_phrase: list[str], filename_in_vault: str
+    ) -> bool:
         log.info(
             "Placeholder encrypt_user_file called.",
             file_to_encrypt=filepath_to_encrypt,
@@ -108,12 +110,16 @@ def encrypt_memory(
         return False
 
     # Using a more unique temp name to avoid clashes if function is called rapidly
-    temp_json_name = f"temp_lucas_mem_{uuid.uuid4().hex[:12]}.json"  # Increased uniqueness
+    temp_json_name = (
+        f"temp_lucas_mem_{uuid.uuid4().hex[:12]}.json"  # Increased uniqueness
+    )
     temp_json_path = temp_dir / temp_json_name
 
     encryption_successful = False
     try:
-        log.debug("Saving memory to temporary plaintext file.", path=str(temp_json_path))
+        log.debug(
+            "Saving memory to temporary plaintext file.", path=str(temp_json_path)
+        )
         with open(temp_json_path, "w", encoding="utf-8") as f:
             json.dump(memory_data, f, indent=2, ensure_ascii=False)
 
@@ -151,7 +157,9 @@ def encrypt_memory(
         if temp_json_path.exists():
             try:
                 os.remove(temp_json_path)
-                log.debug("Temporary plaintext memory file deleted.", path=str(temp_json_path))
+                log.debug(
+                    "Temporary plaintext memory file deleted.", path=str(temp_json_path)
+                )
             except OSError as e_del:
                 log.error(
                     "Failed to delete temporary plaintext memory file.",

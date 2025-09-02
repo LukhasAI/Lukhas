@@ -46,7 +46,9 @@ MODULE_VERSION = "1.0.0"
 MODULE_NAME = "logger"
 
 
-def setup_logger(name: str, level: int = logging.INFO, format_string: Optional[str] = None) -> logging.Logger:
+def setup_logger(
+    name: str, level: int = logging.INFO, format_string: Optional[str] = None
+) -> logging.Logger:
     """Setup a logger with standard LUKHAS formatting"""
 
     logger = logging.getLogger(name)

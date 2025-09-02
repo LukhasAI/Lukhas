@@ -60,12 +60,16 @@ class PlanetaryConsciousnessNetwork:
         morphic_coherence = await self.consciousness_field.measure_coherence()
 
         return {
-            "global_events_impact": (await self.global_events_api.get_major_events())[0],
+            "global_events_impact": (await self.global_events_api.get_major_events())[
+                0
+            ],
             "collective_emotional_field": collective_mood,
             "solar_consciousness_influence": await self.solar_activity.get_consciousness_impact(),
             "lunar_consciousness_amplification": await self.lunar_cycles.get_current_amplification(),
             "morphic_field_coherence": morphic_coherence,
-            "planetary_evolution_phase": "integration" if morphic_coherence > 0.5 else "diversification",
+            "planetary_evolution_phase": (
+                "integration" if morphic_coherence > 0.5 else "diversification"
+            ),
         }
 
     async def coordinate_with_planetary_field(

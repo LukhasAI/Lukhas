@@ -38,7 +38,11 @@ class GovernanceMatrizAdapter:
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
                 "producer": "lukhas.governance",
-                "capabilities": ["governance:ethics", "governance:drift", "governance:guardian"],
+                "capabilities": [
+                    "governance:ethics",
+                    "governance:drift",
+                    "governance:guardian",
+                ],
                 "tenant": "system",
                 "trace_id": f"LT-GOV-{int(time.time())}",
                 "consent_scopes": ["system:governance", "system:ethics"],
@@ -52,7 +56,9 @@ class GovernanceMatrizAdapter:
         return node
 
     @staticmethod
-    def emit_ethics_decision(decision_id: str, ethical_score: float, action: str, allowed: bool) -> dict[str, Any]:
+    def emit_ethics_decision(
+        decision_id: str, ethical_score: float, action: str, allowed: bool
+    ) -> dict[str, Any]:
         """Emit an ethical decision node"""
 
         urgency = 0.2 if allowed else 0.9
@@ -77,7 +83,10 @@ class GovernanceMatrizAdapter:
 
     @staticmethod
     def emit_drift_detection(
-        drift_id: str, drift_score: float, threshold: float = 0.15, component: str = "unknown"
+        drift_id: str,
+        drift_score: float,
+        threshold: float = 0.15,
+        component: str = "unknown",
     ) -> dict[str, Any]:
         """Emit a drift detection event (threshold: 0.15)"""
 
@@ -165,7 +174,9 @@ class GovernanceMatrizAdapter:
         )
 
     @staticmethod
-    def emit_constitutional_check(check_id: str, principle: str, aligned: bool, confidence: float) -> dict[str, Any]:
+    def emit_constitutional_check(
+        check_id: str, principle: str, aligned: bool, confidence: float
+    ) -> dict[str, Any]:
         """Emit a constitutional AI principle check"""
 
         return GovernanceMatrizAdapter.create_node(
@@ -195,7 +206,13 @@ class GovernanceMatrizAdapter:
                 return False
 
         # Check required provenance fields
-        required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
+        required_prov = [
+            "producer",
+            "capabilities",
+            "tenant",
+            "trace_id",
+            "consent_scopes",
+        ]
         return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod

@@ -41,7 +41,10 @@ class ProposalMapper:
         threshold_delta = None
         if drift_delta is not None:
             # Limit to max allowed shift
-            threshold_delta = max(-self.max_threshold_shift, min(self.max_threshold_shift, drift_delta * 0.1))
+            threshold_delta = max(
+                -self.max_threshold_shift,
+                min(self.max_threshold_shift, drift_delta * 0.1),
+            )
 
         # Determine explanation depth
         explain_depth = None
@@ -55,7 +58,11 @@ class ProposalMapper:
             return None
 
         try:
-            patch = PolicySafePatch(style=style, threshold_delta=threshold_delta, explain_depth=explain_depth)
+            patch = PolicySafePatch(
+                style=style,
+                threshold_delta=threshold_delta,
+                explain_depth=explain_depth,
+            )
             return patch
         except ValueError:
             # Validation failed (e.g., threshold too large)
@@ -64,7 +71,10 @@ class ProposalMapper:
     def validate_guardrails(self, patch: PolicySafePatch) -> bool:
         """Validate patch against safety guardrails."""
         # Check threshold bounds
-        if patch.threshold_delta is not None and abs(patch.threshold_delta) > self.max_threshold_shift:
+        if (
+            patch.threshold_delta is not None
+            and abs(patch.threshold_delta) > self.max_threshold_shift
+        ):
             return False
 
         # Check allowed styles
@@ -72,7 +82,9 @@ class ProposalMapper:
             return False
 
         # Check explanation depth
-        return not (patch.explain_depth is not None and not 1 <= patch.explain_depth <= 5)
+        return not (
+            patch.explain_depth is not None and not 1 <= patch.explain_depth <= 5
+        )
 
     def to_change_proposal(
         self,
@@ -107,7 +119,9 @@ class ProposalMapper:
         return proposal.dict()
 
     def promote_cluster(
-        self, cluster_id: str, target_file: str = "qi/safety/policy_packs/global/mappings.yaml"
+        self,
+        cluster_id: str,
+        target_file: str = "qi/safety/policy_packs/global/mappings.yaml",
     ) -> str | None:
         """Promote a cluster to a change proposal."""
         # Get cluster
@@ -138,7 +152,9 @@ class ProposalMapper:
         return proposal_id
 
     def promote_feedback_card(
-        self, fc_id: str, target_file: str = "qi/safety/policy_packs/global/mappings.yaml"
+        self,
+        fc_id: str,
+        target_file: str = "qi/safety/policy_packs/global/mappings.yaml",
     ) -> str | None:
         """Promote a single feedback card to a proposal."""
         # For single cards, create a minimal cluster
@@ -181,7 +197,10 @@ class ProposalMapper:
 
         # Create proposal
         proposal = self.to_change_proposal(
-            patch=patch, cluster_id=f"single_{fc_id}", target_file=target_file, risk="low"
+            patch=patch,
+            cluster_id=f"single_{fc_id}",
+            target_file=target_file,
+            risk="low",
         )
 
         # Add feedback reference

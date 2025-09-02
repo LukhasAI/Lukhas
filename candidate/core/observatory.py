@@ -48,7 +48,9 @@ class Observatory:
             return await self.memory_manager.retrieve_memory(query)
         else:
             # This part should not be accessible in a real observatory
-            raise PermissionError("Write operations are not allowed in the Observatory.")
+            raise PermissionError(
+                "Write operations are not allowed in the Observatory."
+            )
 
     def get_system_status(self) -> dict[str, Any]:
         """

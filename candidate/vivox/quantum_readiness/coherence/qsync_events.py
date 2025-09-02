@@ -187,7 +187,11 @@ class EntanglementBridge:
                 edge_strength = self.entangled_pairs.get(pair_key, 0)
 
                 # Calculate propagated strength
-                propagated_strength = current_strength * edge_strength * (1 - self.decoherence_rate * distance)
+                propagated_strength = (
+                    current_strength
+                    * edge_strength
+                    * (1 - self.decoherence_rate * distance)
+                )
 
                 if propagated_strength > self.min_entanglement_strength and (
                     partner not in reachable or propagated_strength > reachable[partner]
@@ -267,13 +271,19 @@ class QISynchronizer:
 
         logger.info("QISynchronizer initialized")
 
-    def register_agent(self, agent_id: str, initial_state: np.ndarray, resonance_frequency: float = 1.0):
+    def register_agent(
+        self, agent_id: str, initial_state: np.ndarray, resonance_frequency: float = 1.0
+    ):
         """Register an agent for quantum synchronization"""
         self.agent_states[agent_id] = initial_state
         self.resonance_frequencies[agent_id] = resonance_frequency
-        logger.debug(f"Agent {agent_id} registered with resonance frequency {resonance_frequency}")
+        logger.debug(
+            f"Agent {agent_id} registered with resonance frequency {resonance_frequency}"
+        )
 
-    def create_sync_event(self, agent_ids: list[str], sync_type: SyncType = SyncType.EMERGENT) -> Optional[QSyncEvent]:
+    def create_sync_event(
+        self, agent_ids: list[str], sync_type: SyncType = SyncType.EMERGENT
+    ) -> Optional[QSyncEvent]:
         """
         Create a quantum synchronization event
 
@@ -348,7 +358,9 @@ class QISynchronizer:
         # Determine target state
         if target_state is None:
             # Use average state as target
-            states = [self.agent_states[aid] for aid in agent_ids if aid in self.agent_states]
+            states = [
+                self.agent_states[aid] for aid in agent_ids if aid in self.agent_states
+            ]
             if not states:
                 return {}
             target_state = np.mean(states, axis=0)
@@ -364,7 +376,9 @@ class QISynchronizer:
             current_state = self.agent_states[agent_id]
 
             # Partial synchronization
-            synchronized = (1 - sync_strength) * current_state + sync_strength * target_state
+            synchronized = (
+                1 - sync_strength
+            ) * current_state + sync_strength * target_state
             synchronized /= np.linalg.norm(synchronized)
 
             # Update state
@@ -424,7 +438,9 @@ class QISynchronizer:
 
         return detected_events
 
-    def _calculate_entanglement_sync(self, agent_ids: list[str], states: dict[str, np.ndarray]) -> float:
+    def _calculate_entanglement_sync(
+        self, agent_ids: list[str], states: dict[str, np.ndarray]
+    ) -> float:
         """Calculate synchronization through entanglement"""
         if len(agent_ids) < 2:
             return 0.0
@@ -446,7 +462,9 @@ class QISynchronizer:
 
         return total_correlation / pair_count if pair_count > 0 else 0.0
 
-    def _calculate_phase_sync(self, agent_ids: list[str], states: dict[str, np.ndarray]) -> float:
+    def _calculate_phase_sync(
+        self, agent_ids: list[str], states: dict[str, np.ndarray]
+    ) -> float:
         """Calculate phase synchronization"""
         if len(agent_ids) < 2:
             return 0.0
@@ -548,7 +566,9 @@ class QISynchronizer:
         for sync_type in SyncType:
             events_of_type = [e for e in self.sync_events if e.sync_type == sync_type]
             if events_of_type:
-                avg_correlation_by_type[sync_type.value] = np.mean([e.correlation_strength for e in events_of_type])
+                avg_correlation_by_type[sync_type.value] = np.mean(
+                    [e.correlation_strength for e in events_of_type]
+                )
 
         # Find entanglement clusters
         clusters = self.bridge.find_entanglement_clusters()
@@ -557,10 +577,13 @@ class QISynchronizer:
             "total_sync_events": len(self.sync_events),
             "sync_type_distribution": dict(sync_types),
             "quality_distribution": dict(quality_distribution),
-            "average_correlation": np.mean([e.correlation_strength for e in self.sync_events]),
+            "average_correlation": np.mean(
+                [e.correlation_strength for e in self.sync_events]
+            ),
             "avg_correlation_by_type": avg_correlation_by_type,
             "agent_participation": dict(agent_participation),
             "active_agents": len(self.agent_states),
             "entanglement_clusters": [list(cluster) for cluster in clusters],
-            "strong_sync_rate": len([e for e in self.sync_events if e.is_strong_sync()]) / len(self.sync_events),
+            "strong_sync_rate": len([e for e in self.sync_events if e.is_strong_sync()])
+            / len(self.sync_events),
         }

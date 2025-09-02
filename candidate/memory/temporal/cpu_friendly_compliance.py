@@ -44,7 +44,9 @@ def wait_for_low_cpu(max_wait=300):  # 5 minutes max
         cpu_usage = get_cpu_usage()
         vscode_high = check_vscode_cpu()
 
-        print(f"⏱️ CPU: {cpu_usage:.1f}% | VS Code High: {'Yes' if vscode_high else 'No'}")
+        print(
+            f"⏱️ CPU: {cpu_usage:.1f}% | VS Code High: {'Yes' if vscode_high else 'No'}"
+        )
 
         if cpu_usage < 50 and not vscode_high:
             print("✅ CPU usage is low - safe to run compliance scan!")

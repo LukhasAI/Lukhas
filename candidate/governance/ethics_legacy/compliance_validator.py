@@ -95,7 +95,9 @@ class ComplianceValidator:
         # This is a placeholder that should be enhanced based on requirements
 
         # Extract category from data if it's a dict
-        category = data.get("category", "generic") if isinstance(data, dict) else "generic"
+        category = (
+            data.get("category", "generic") if isinstance(data, dict) else "generic"
+        )
 
         if category == "consciousness":
             return await self._process_consciousness(data)

@@ -41,12 +41,18 @@ class NIASIntegrationHub:
         logger.info(f"NIAS hub connected to: {hub_name}")
 
     def get_transparency_level(self, user_tier: str) -> dict[str, Any]:
-        return self.transparency_layers.get(user_tier, self.transparency_layers["guest"])
+        return self.transparency_layers.get(
+            user_tier, self.transparency_layers["guest"]
+        )
 
     def filter_content(self, content: dict[str, Any], user_tier: str) -> dict[str, Any]:
         transparency = self.get_transparency_level(user_tier)
         if transparency["level"] < 3:
-            filtered = {k: v for k, v in content.items() if k not in ["internal_metrics", "debug_info", "audit_trail"]}
+            filtered = {
+                k: v
+                for k, v in content.items()
+                if k not in ["internal_metrics", "debug_info", "audit_trail"]
+            }
         elif transparency["level"] < 5:
             filtered = {k: v for k, v in content.items() if k not in ["debug_info"]}
         else:

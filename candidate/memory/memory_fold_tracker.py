@@ -60,7 +60,9 @@ class MemoryFoldTracker:
 
         logger.info("🌀 Memory Fold Tracker initialized")
 
-    def detect_symbolic_recursion(self, sessions: Optional[list[dict]] = None) -> dict[str, Any]:
+    def detect_symbolic_recursion(
+        self, sessions: Optional[list[dict]] = None
+    ) -> dict[str, Any]:
         """
         Detect recurring symbolic patterns that may indicate loops or instabilities.
 
@@ -220,9 +222,14 @@ class MemoryFoldTracker:
                 and curr.get("entropy", 0) > prev.get("entropy", 0) + 0.3
             )
 
-            trinity_collapse = curr.get("trinity_coherence", 1) < self.collapse_indicators["trinity_void"]
+            trinity_collapse = (
+                curr.get("trinity_coherence", 1)
+                < self.collapse_indicators["trinity_void"]
+            )
 
-            drift_critical = curr.get("drift_score", 0) > self.collapse_indicators["drift_critical"]
+            drift_critical = (
+                curr.get("drift_score", 0) > self.collapse_indicators["drift_critical"]
+            )
 
             if entropy_spike or trinity_collapse or drift_critical:
                 collapses.append(
@@ -231,7 +238,11 @@ class MemoryFoldTracker:
                         "type": (
                             "entropy_spike"
                             if entropy_spike
-                            else ("trinity_collapse" if trinity_collapse else "drift_critical")
+                            else (
+                                "trinity_collapse"
+                                if trinity_collapse
+                                else "drift_critical"
+                            )
                         ),
                         "metrics": {
                             "entropy": curr.get("entropy", 0),
@@ -393,7 +404,9 @@ class MemoryFoldTracker:
 
         return applications.get(risk_level, applications["unknown"])
 
-    def analyze_glyph_evolution(self, sessions: Optional[list[dict]] = None) -> dict[str, Any]:
+    def analyze_glyph_evolution(
+        self, sessions: Optional[list[dict]] = None
+    ) -> dict[str, Any]:
         """Analyze how glyph usage evolves over time"""
         if sessions is None:
             if not self.memory_manager:
@@ -429,7 +442,9 @@ class MemoryFoldTracker:
                     "window": f"sessions_{i}-{min(i + window_size - 1, len(sessions) - 1)}",
                     "total_glyphs": total_glyphs,
                     "unique_glyphs": unique_glyphs,
-                    "trinity_ratio": (trinity_count / total_glyphs if total_glyphs > 0 else 0),
+                    "trinity_ratio": (
+                        trinity_count / total_glyphs if total_glyphs > 0 else 0
+                    ),
                     "top_glyphs": [g for g, _ in glyph_counts.most_common(3)],
                 }
             )

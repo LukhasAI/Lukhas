@@ -67,14 +67,18 @@ except ImportError as e:
     # Define mock fallbacks if necessary for the script to parse or run in a
     # limited mode
     class MockEnhancedQIEngine:
-        async def process_quantum_signal(self, signal: Any, context: Any) -> dict[str, Any]:
+        async def process_quantum_signal(
+            self, signal: Any, context: Any
+        ) -> dict[str, Any]:
             return {
                 "output": np.array([0.0]),
                 "metadata": {"coherence": 0.0, "status": "mocked_qi_engine"},
             }
 
     class MockMitochondrialQIBridge:
-        async def process_quantum_signal(self, signal: Any, context: Any) -> tuple[np.ndarray, dict[str, Any]]:
+        async def process_quantum_signal(
+            self, signal: Any, context: Any
+        ) -> tuple[np.ndarray, dict[str, Any]]:
             return np.array([0.0]), {"coherence": 0.0, "status": "mocked_mito_bridge"}
 
     class MockQuantumSynapticGate:
@@ -204,10 +208,14 @@ class QIBioCoordinator:
                 coherence=qi_engine_result["metadata"]["coherence"],
             )
 
-            bio_quantum_pathway_result = await self._process_bio_quantum_pathway(qi_engine_result["output"], context)
+            bio_quantum_pathway_result = await self._process_bio_quantum_pathway(
+                qi_engine_result["output"], context
+            )
             self.log.debug("Bio-quantum pathway processing complete.", task_id=task_id)
 
-            self._update_system_state_metrics(qi_engine_result, bio_quantum_pathway_result)
+            self._update_system_state_metrics(
+                qi_engine_result, bio_quantum_pathway_result
+            )
 
             final_result = {
                 "task_id": task_id,
@@ -241,7 +249,9 @@ class QIBioCoordinator:
                     self.system_state["current_bio_stability_metric"],
                 ]
             ).item()
-            self.system_state["last_update_timestamp_utc"] = datetime.now(timezone.utc).timestamp()
+            self.system_state["last_update_timestamp_utc"] = datetime.now(
+                timezone.utc
+            ).timestamp()
             raise
 
     @lukhas_tier_required(3)
@@ -261,7 +271,9 @@ class QIBioCoordinator:
             (
                 bridge_output_signal,
                 bridge_metadata,
-            ) = await self.mitochondrial_bridge.process_quantum_signal(qi_signal_output, context)
+            ) = await self.mitochondrial_bridge.process_quantum_signal(
+                qi_signal_output, context
+            )
             self.log.debug(
                 "MitochondrialQIBridge processing complete.",
                 output_shape_str=str(bridge_output_signal.shape),
@@ -296,11 +308,15 @@ class QIBioCoordinator:
                     "mitochondrial_bridge_meta": bridge_metadata,
                     "qi_synaptic_gate_meta": gate_metadata,
                     "neuroplasticity_modulator_meta": plasticity_metadata,
-                    "pathway_completion_utc_iso": datetime.now(timezone.utc).isoformat(),
+                    "pathway_completion_utc_iso": datetime.now(
+                        timezone.utc
+                    ).isoformat(),
                 },
             }
         except Exception as e:
-            self.log.error("Error within bio-quantum pathway.", error_message=str(e), exc_info=True)
+            self.log.error(
+                "Error within bio-quantum pathway.", error_message=str(e), exc_info=True
+            )
             raise
 
     @lukhas_tier_required(1)
@@ -381,9 +397,9 @@ class QIBioCoordinator:
         """Updates the coordinator's system state based on recent processing results."""
         self.log.debug("Updating system state metrics.")
 
-        self.system_state["current_quantum_coherence"] = qi_engine_result.get("metadata", {}).get(
-            "coherence", self.system_state["current_quantum_coherence"]
-        )
+        self.system_state["current_quantum_coherence"] = qi_engine_result.get(
+            "metadata", {}
+        ).get("coherence", self.system_state["current_quantum_coherence"])
 
         bio_component_coherences: list[float] = []
         for component_meta_key in [
@@ -391,7 +407,9 @@ class QIBioCoordinator:
             "qi_synaptic_gate_meta",
             "neuroplasticity_modulator_meta",
         ]:
-            component_meta = bio_quantum_pathway_result.get("metadata", {}).get(component_meta_key, {})
+            component_meta = bio_quantum_pathway_result.get("metadata", {}).get(
+                component_meta_key, {}
+            )
             if isinstance(component_meta, dict) and "coherence" in component_meta:
                 bio_component_coherences.append(float(component_meta["coherence"]))
 
@@ -406,7 +424,9 @@ class QIBioCoordinator:
                 ]
             )
         )
-        self.system_state["last_update_timestamp_utc"] = datetime.now(timezone.utc).timestamp()
+        self.system_state["last_update_timestamp_utc"] = datetime.now(
+            timezone.utc
+        ).timestamp()
         self.log.info(
             "System state metrics updated.",
             qi_coherence=self.system_state["current_quantum_coherence"],

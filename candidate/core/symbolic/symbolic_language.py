@@ -147,7 +147,9 @@ class SymbolicExpression:
         if relation.source_id in self.symbols and relation.target_id in self.symbols:
             self.relations.append(relation)
         else:
-            raise ValueError("Both symbols must be in the expression before adding relation")
+            raise ValueError(
+                "Both symbols must be in the expression before adding relation"
+            )
 
     def evaluate(self, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Evaluate the expression in a given context"""
@@ -181,9 +183,13 @@ class SymbolicExpression:
             return True
 
         # Check each condition
-        return all(self._check_condition(condition, context) for condition in conditions)
+        return all(
+            self._check_condition(condition, context) for condition in conditions
+        )
 
-    def _check_condition(self, condition: dict[str, Any], context: dict[str, Any]) -> bool:
+    def _check_condition(
+        self, condition: dict[str, Any], context: dict[str, Any]
+    ) -> bool:
         """Check a single condition"""
         # Simple condition checking logic
         field = condition.get("field")
@@ -322,7 +328,9 @@ class SymbolicTranslator:
             }
         }
 
-    def translate(self, symbol: Symbol, source_system: str, target_system: str) -> Symbol:
+    def translate(
+        self, symbol: Symbol, source_system: str, target_system: str
+    ) -> Symbol:
         """Translate a symbol from one system format to another"""
         rule_key = f"{source_system}_to_{target_system}"
 
@@ -356,7 +364,9 @@ class SymbolicTranslator:
 
         return translated
 
-    def batch_translate(self, symbols: list[Symbol], source_system: str, target_system: str) -> list[Symbol]:
+    def batch_translate(
+        self, symbols: list[Symbol], source_system: str, target_system: str
+    ) -> list[Symbol]:
         """Translate multiple symbols at once"""
         return [self.translate(s, source_system, target_system) for s in symbols]
 
@@ -374,7 +384,9 @@ class SymbolicLanguageFramework:
         self.decision_traces: dict[str, list[Symbol]] = {}
         logger.info("SymbolicLanguageFramework initialized")
 
-    async def register_patterns(self, component_name: str, patterns: dict[str, Any]) -> None:
+    async def register_patterns(
+        self, component_name: str, patterns: dict[str, Any]
+    ) -> None:
         """Register symbolic patterns for a component"""
         self.registered_patterns[component_name] = patterns
         logger.info(f"Registered {len(patterns)} patterns for {component_name}")
@@ -427,7 +439,11 @@ class SymbolicLanguageFramework:
                 value=constraint,
             )
             expression.add_symbol(constraint_symbol)
-            expression.add_relation(SymbolicRelation(decision_symbol.id, constraint_symbol.id, "constrained_by"))
+            expression.add_relation(
+                SymbolicRelation(
+                    decision_symbol.id, constraint_symbol.id, "constrained_by"
+                )
+            )
 
         # Store trace
         if context.decision_id not in self.decision_traces:

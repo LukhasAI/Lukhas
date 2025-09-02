@@ -32,9 +32,13 @@ class MetaLearningSystem:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config: dict[str, Any] = config or {}
-        self.learning_strategies: dict[str, dict[str, Any]] = self._initialize_strategies()
+        self.learning_strategies: dict[str, dict[str, Any]] = (
+            self._initialize_strategies()
+        )
         self.strategy_performance: dict[str, dict[str, Any]] = {}
-        self.exploration_rate: float = self.config.get("initial_exploration_rate", 0.15)  # Reduced default exploration
+        self.exploration_rate: float = self.config.get(
+            "initial_exploration_rate", 0.15
+        )  # Reduced default exploration
         self.learning_cycle_count: int = 0
         self.overall_performance_history: list[dict[str, Any]] = []
         self.meta_parameters: dict[str, float] = self.config.get(
@@ -52,7 +56,9 @@ class MetaLearningSystem:
         )
 
     @lukhas_tier_required(3)
-    def optimize_learning_approach(self, context: dict[str, Any], available_data: dict[str, Any]) -> dict[str, Any]:
+    def optimize_learning_approach(
+        self, context: dict[str, Any], available_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyzes context/data, selects/applies learning strategy, evaluates, and adapts."""
         self.learning_cycle_count += 1
         log.info(
@@ -73,7 +79,9 @@ class MetaLearningSystem:
         outcome = self._apply_learning_strategy(strategy_cfg, available_data, context)
         duration_s = (datetime.now(timezone.utc) - start_utc).total_seconds()
 
-        perf_metrics = self._evaluate_strategy_performance(strategy_name, outcome, duration_s)
+        perf_metrics = self._evaluate_strategy_performance(
+            strategy_name, outcome, duration_s
+        )
         self._update_strategy_performance_record(strategy_name, perf_metrics)
         self.overall_performance_history.append(
             {
@@ -82,10 +90,16 @@ class MetaLearningSystem:
                 **perf_metrics,
             }
         )
-        if len(self.overall_performance_history) > self.config.get("max_perf_history", 200):
+        if len(self.overall_performance_history) > self.config.get(
+            "max_perf_history", 200
+        ):
             self.overall_performance_history.pop(0)
 
-        if self.learning_cycle_count % self.config.get("meta_param_update_interval", 20) == 0:
+        if (
+            self.learning_cycle_count
+            % self.config.get("meta_param_update_interval", 20)
+            == 0
+        ):
             self._adapt_meta_parameters()  # Increased interval
 
         insights = self._generate_meta_learning_insights()
@@ -109,10 +123,16 @@ class MetaLearningSystem:
         if not name or name not in self.learning_strategies:
             log.warning("Feedback for unknown strategy.", name=name)
             return
-        log.info("Incorporating feedback.", strategy=name, keys=list(feedback_data.keys()))
+        log.info(
+            "Incorporating feedback.", strategy=name, keys=list(feedback_data.keys())
+        )
         if "performance_rating" in feedback_data:
-            self._update_strategy_performance_record(name, {"user_rating": float(feedback_data["performance_rating"])})
-        if "parameter_adjustments" in feedback_data and isinstance(feedback_data["parameter_adjustments"], dict):
+            self._update_strategy_performance_record(
+                name, {"user_rating": float(feedback_data["performance_rating"])}
+            )
+        if "parameter_adjustments" in feedback_data and isinstance(
+            feedback_data["parameter_adjustments"], dict
+        ):
             self._tune_strategy_parameters(name, feedback_data["parameter_adjustments"])
 
     @lukhas_tier_required(1)
@@ -128,7 +148,9 @@ class MetaLearningSystem:
             "ts_utc_iso": datetime.now(timezone.utc).isoformat(),
             "cycles": self.learning_cycle_count,
             "top_strategies": [n for n, d in sorted_strategies[:3]],
-            "usage_counts": {n: d.get("usage_count", 0) for n, d in self.strategy_performance.items()},
+            "usage_counts": {
+                n: d.get("usage_count", 0) for n, d in self.strategy_performance.items()
+            },
             "exploration_rate": self.exploration_rate,
             "meta_params": self.meta_parameters.copy(),
             "adaptation_metric": self._calculate_adaptation_progress_metric(),
@@ -136,7 +158,9 @@ class MetaLearningSystem:
         log.info(
             "Meta-learning report generated.",
             cycles=report["cycles"],
-            top_strat=(report["top_strategies"][0] if report["top_strategies"] else "N/A"),
+            top_strat=(
+                report["top_strategies"][0] if report["top_strategies"] else "N/A"
+            ),
         )
         return report
 
@@ -200,10 +224,14 @@ class MetaLearningSystem:
 
     def _apply_learning_strategy(self, strat_cfg: dict, data: dict, ctx: dict) -> dict:
         algo = strat_cfg["type"]
-        log.warning("STUB: _apply_learning_strategy", algo=algo, component_status="stub")
+        log.warning(
+            "STUB: _apply_learning_strategy", algo=algo, component_status="stub"
+        )
         return {"status": f"{algo}_applied_stub", "metric": np.random.rand()}
 
-    def _evaluate_strategy_performance(self, name: str, outcome: dict, duration_s: float) -> dict:
+    def _evaluate_strategy_performance(
+        self, name: str, outcome: dict, duration_s: float
+    ) -> dict:
         log.warning("STUB: _evaluate_strategy_performance", component_status="stub")
         acc = outcome.get("accuracy", np.random.uniform(0.5, 0.9))
         eff = 1.0 / (1.0 + max(0.1, duration_s))
@@ -245,16 +273,31 @@ class MetaLearningSystem:
     def _adapt_meta_parameters(self) -> None:
         log.warning("STUB: _adapt_meta_parameters", component_status="stub")
         if len(self.overall_performance_history) >= 10:
-            scores = [p.get("overall_score", 0.0) for p in self.overall_performance_history[-10:]]
+            scores = [
+                p.get("overall_score", 0.0)
+                for p in self.overall_performance_history[-10:]
+            ]
             if len(scores) >= 5:
-                trend = np.polyfit(range(len(scores)), scores, 1)[0] if len(scores) > 1 else 0  # Slope
+                trend = (
+                    np.polyfit(range(len(scores)), scores, 1)[0]
+                    if len(scores) > 1
+                    else 0
+                )  # Slope
                 if trend < 0.005:
-                    self.exploration_rate = np.clip(self.exploration_rate * 1.05, 0.05, 0.5)
-                    log.info("Increased exploration.", new_rate=self.exploration_rate)  # Increased max exploration
+                    self.exploration_rate = np.clip(
+                        self.exploration_rate * 1.05, 0.05, 0.5
+                    )
+                    log.info(
+                        "Increased exploration.", new_rate=self.exploration_rate
+                    )  # Increased max exploration
                 else:
-                    self.exploration_rate = np.clip(self.exploration_rate * 0.98, 0.05, 0.5)
+                    self.exploration_rate = np.clip(
+                        self.exploration_rate * 0.98, 0.05, 0.5
+                    )
 
-    def _tune_strategy_parameters(self, name: str, adjustments: dict[str, float]) -> None:
+    def _tune_strategy_parameters(
+        self, name: str, adjustments: dict[str, float]
+    ) -> None:
         log.warning("STUB: _tune_strategy_parameters", component_status="stub")
         if name in self.learning_strategies:
             for param, adj in adjustments.items():
@@ -265,11 +308,20 @@ class MetaLearningSystem:
                     log.debug("Strategy param tuned.", s=name, p=param, val=new_v)
 
     def _calculate_adaptation_progress_metric(self) -> float:
-        log.warning("STUB: _calculate_adaptation_progress_metric", component_status="stub")
-        if not self.overall_performance_history or len(self.overall_performance_history) < 10:
+        log.warning(
+            "STUB: _calculate_adaptation_progress_metric", component_status="stub"
+        )
+        if (
+            not self.overall_performance_history
+            or len(self.overall_performance_history) < 10
+        ):
             return 0.0  # Need more history
-        first_5 = [p.get("overall_score", 0) for p in self.overall_performance_history[:5]]
-        last_5 = [p.get("overall_score", 0) for p in self.overall_performance_history[-5:]]
+        first_5 = [
+            p.get("overall_score", 0) for p in self.overall_performance_history[:5]
+        ]
+        last_5 = [
+            p.get("overall_score", 0) for p in self.overall_performance_history[-5:]
+        ]
         return np.mean(last_5) - np.mean(first_5) if first_5 and last_5 else 0.0
 
     def _calculate_data_sparsity(self, data: dict) -> float:
@@ -278,7 +330,9 @@ class MetaLearningSystem:
     def _estimate_problem_complexity(self, data: dict, ctx: dict) -> float:
         return 0.6  # STUB
 
-    def _calculate_strategy_feature_match(self, strat_cfg: dict, features: dict) -> float:  # STUB
+    def _calculate_strategy_feature_match(
+        self, strat_cfg: dict, features: dict
+    ) -> float:  # STUB
         score = 0.5
         s_tags = set(strat_cfg.get("tags", []))
         f_tags = {features.get(k, v) for k, v in features.items() if isinstance(v, str)}

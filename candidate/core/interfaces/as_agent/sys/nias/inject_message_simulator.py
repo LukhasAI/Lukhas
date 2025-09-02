@@ -21,7 +21,9 @@ NARRATION_QUEUE_PATH = "core/narration_queue.jsonl"
 
 queue_file = Path(NARRATION_QUEUE_PATH)
 if not queue_file.exists():
-    print(f"⚠️ Narration queue not found at {NARRATION_QUEUE_PATH}. Creating empty queue.")
+    print(
+        f"⚠️ Narration queue not found at {NARRATION_QUEUE_PATH}. Creating empty queue."
+    )
     queue_file.parent.mkdir(parents=True, exist_ok=True)
     queue_file.write_text("")
 narrated_dreams = []
@@ -84,4 +86,6 @@ with open(NARRATION_LOG_PATH, "a") as log_file:
     for entry in narrated_dreams:
         log_file.write(json.dumps(entry) + "\n")
 
-print(f"✅ Narration complete for {len(narrated_dreams)} dreams. Log saved to narration_log.jsonl")
+print(
+    f"✅ Narration complete for {len(narrated_dreams)} dreams. Log saved to narration_log.jsonl"
+)

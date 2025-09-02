@@ -16,13 +16,12 @@ This component handles consciousness data processing functionality in the LUKHAS
 
 import asyncio
 from datetime import datetime
-from typing import (  # List not used in signatures but kept
-    Any,
-    Optional,
-)
+from typing import Any, Optional  # List not used in signatures but kept
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_processor")
+logger = logging.getLogger(
+    "ΛTRACE.consciousness.core_consciousness.awareness_processor"
+)
 logger.info("ΛTRACE: Initializing awareness_processor module.")
 
 
@@ -87,7 +86,9 @@ class AwarenessProcessor:
             user_id_context (Optional[str]): User ID for contextual logging.
         """
         self.user_id_context = user_id_context
-        self.instance_logger = logger.getChild(f"AwarenessProcessor.{self.user_id_context or 'system'}")
+        self.instance_logger = logger.getChild(
+            f"AwarenessProcessor.{self.user_id_context or 'system'}"
+        )
         self.instance_logger.info("ΛTRACE: Initializing AwarenessProcessor instance.")
 
         self.config = config or {}
@@ -109,7 +110,9 @@ class AwarenessProcessor:
             bool: True if initialization was successful, False otherwise.
         """
         log_user_id = user_id or self.user_id_context
-        self.instance_logger.info(f"ΛTRACE: Initializing AwarenessProcessor for user context '{log_user_id}'.")
+        self.instance_logger.info(
+            f"ΛTRACE: Initializing AwarenessProcessor for user context '{log_user_id}'."
+        )
         try:
             await self._setup_awareness_processing_system()  # Renamed for clarity, logs internally
             self.is_initialized = True
@@ -130,13 +133,17 @@ class AwarenessProcessor:
     # processing systems.
     async def _setup_awareness_processing_system(self):  # Renamed
         """Placeholder for setting up the core awareness processing system."""
-        self.instance_logger.debug("ΛTRACE: Internal: Setting up core awareness processing system (placeholder).")
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Setting up core awareness processing system (placeholder)."
+        )
         # Initialize awareness monitoring systems
         await self._setup_awareness_monitoring()
         await self._setup_consciousness_metrics()
         await self._setup_alerting_system()
         await asyncio.sleep(0.01)  # Simulate async setup operation
-        self.instance_logger.debug("ΛTRACE: Internal: Core awareness processing system setup complete.")
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Core awareness processing system setup complete."
+        )
 
     # Human-readable comment: Processes input data using awareness-specific logic.
     @lukhas_tier_required(level=3)
@@ -154,10 +161,14 @@ class AwarenessProcessor:
             f"ΛTRACE: Processing data with AwarenessProcessor for user '{log_user_id}'. Data type: {type(data)}"
         )
         if not self.is_initialized:
-            self.instance_logger.warning("ΛTRACE: AwarenessProcessor not initialized. Attempting to initialize now.")
+            self.instance_logger.warning(
+                "ΛTRACE: AwarenessProcessor not initialized. Attempting to initialize now."
+            )
             await self.initialize(user_id=log_user_id)
             if not self.is_initialized:
-                self.instance_logger.error("ΛTRACE: Initialization failed during process call. Cannot process data.")
+                self.instance_logger.error(
+                    "ΛTRACE: Initialization failed during process call. Cannot process data."
+                )
                 return {
                     "status": "error",
                     "error": "Component not initialized",
@@ -169,12 +180,16 @@ class AwarenessProcessor:
             if isinstance(data, dict):
                 category = data.get("category")  # Try to extract category from data
 
-            self.instance_logger.debug(f"ΛTRACE: Core awareness processing for category '{category}'.")
+            self.instance_logger.debug(
+                f"ΛTRACE: Core awareness processing for category '{category}'."
+            )
             result = await self._core_awareness_data_processing(
                 data, category
             )  # Renamed, Pass category, logs internally
 
-            self.instance_logger.info(f"ΛTRACE: AwarenessProcessor processing successful for user '{log_user_id}'.")
+            self.instance_logger.info(
+                f"ΛTRACE: AwarenessProcessor processing successful for user '{log_user_id}'."
+            )
             return {
                 "status": "success",
                 "component": self.__class__.__name__,
@@ -197,9 +212,13 @@ class AwarenessProcessor:
 
     # Human-readable comment: Core internal processing logic dispatch based on
     # category. Renamed for clarity.
-    async def _core_awareness_data_processing(self, data: Any, category: Optional[str]) -> Any:  # Renamed
+    async def _core_awareness_data_processing(
+        self, data: Any, category: Optional[str]
+    ) -> Any:  # Renamed
         """Core awareness data processing logic, dispatched by category."""
-        self.instance_logger.debug(f"ΛTRACE: Internal: _core_awareness_data_processing for category '{category}'.")
+        self.instance_logger.debug(
+            f"ΛTRACE: Internal: _core_awareness_data_processing for category '{category}'."
+        )
         # TODO: This dispatch logic should be more robust and specific to
         # AwarenessProcessor's role.
         if category == "sensor_fusion":  # Example more specific category
@@ -211,23 +230,33 @@ class AwarenessProcessor:
             self.instance_logger.debug(
                 f"ΛTRACE: No specific handler for category '{category}'. Using generic data processing."
             )
-            return await self._process_generic_awareness_data(data)  # Renamed for clarity
+            return await self._process_generic_awareness_data(
+                data
+            )  # Renamed for clarity
 
     # Specific processing method placeholders, to be implemented based on
     # AwarenessProcessor's actual role.
     async def _process_sensor_data(self, data: Any) -> dict[str, Any]:
-        self.instance_logger.debug("ΛTRACE: Internal: Processing sensor data (placeholder).")
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Processing sensor data (placeholder)."
+        )
         return {"sensor_data_processed": True, "fusion_quality": "high_placeholder"}
 
     async def _process_internal_state_data(self, data: Any) -> dict[str, Any]:
-        self.instance_logger.debug("ΛTRACE: Internal: Processing internal state data (placeholder).")
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Processing internal state data (placeholder)."
+        )
         return {
             "internal_state_coherence": "good_placeholder",
             "anomaly_detected": False,
         }
 
-    async def _process_generic_awareness_data(self, data: Any) -> dict[str, Any]:  # Renamed for clarity
-        self.instance_logger.debug("ΛTRACE: Internal: Processing generic awareness data (placeholder).")
+    async def _process_generic_awareness_data(
+        self, data: Any
+    ) -> dict[str, Any]:  # Renamed for clarity
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Processing generic awareness data (placeholder)."
+        )
         return {
             "awareness_data_processed_generically": True,
             "input_summary": str(data)[:100],
@@ -244,12 +273,18 @@ class AwarenessProcessor:
             bool: True if validation passed, False otherwise.
         """
         log_user_id = user_id or self.user_id_context
-        self.instance_logger.info(f"ΛTRACE: Validating AwarenessProcessor for user context '{log_user_id}'.")
+        self.instance_logger.info(
+            f"ΛTRACE: Validating AwarenessProcessor for user context '{log_user_id}'."
+        )
         try:
             if not self.is_initialized:
-                self.instance_logger.warning("ΛTRACE: Validation failed: Component not initialized.")
+                self.instance_logger.warning(
+                    "ΛTRACE: Validation failed: Component not initialized."
+                )
                 return False
-            validation_result = await self._perform_internal_validation_checks()  # Renamed, logs internally
+            validation_result = (
+                await self._perform_internal_validation_checks()
+            )  # Renamed, logs internally
             self.instance_logger.info(
                 f"ΛTRACE: Validation {'passed' if validation_result else 'failed'} for user context '{log_user_id}'."
             )
@@ -265,7 +300,9 @@ class AwarenessProcessor:
     # validation checks.
     async def _perform_internal_validation_checks(self) -> bool:  # Renamed
         """Perform component-specific validation checks (Placeholder)."""
-        self.instance_logger.debug("ΛTRACE: Internal: Performing internal validation checks (placeholder).")
+        self.instance_logger.debug(
+            "ΛTRACE: Internal: Performing internal validation checks (placeholder)."
+        )
         # Validate monitoring systems are functional
         monitoring_checks = [
             await self._validate_awareness_monitoring(),
@@ -285,7 +322,9 @@ class AwarenessProcessor:
             Dict[str, Any]: Dictionary containing component status.
         """
         log_user_id = user_id or self.user_id_context
-        self.instance_logger.debug(f"ΛTRACE: Getting status for AwarenessProcessor (user context '{log_user_id}').")
+        self.instance_logger.debug(
+            f"ΛTRACE: Getting status for AwarenessProcessor (user context '{log_user_id}')."
+        )
         return {
             "component_name": self.__class__.__name__,
             "module_category": "awareness_processor",  # More specific category
@@ -377,14 +416,20 @@ class AwarenessProcessor:
                 return False
 
             # Verify metric keys are present
-            required_metrics = ["consciousness_coherence", "identity_stability", "cognitive_load"]
+            required_metrics = [
+                "consciousness_coherence",
+                "identity_stability",
+                "cognitive_load",
+            ]
             if not all(key in self.awareness_metrics for key in required_metrics):
                 return False
 
             self.instance_logger.debug("ΛTRACE: Awareness monitoring validation passed")
             return True
         except Exception as e:
-            self.instance_logger.error(f"ΛTRACE: Awareness monitoring validation failed: {e}")
+            self.instance_logger.error(
+                f"ΛTRACE: Awareness monitoring validation failed: {e}"
+            )
             return False
 
     async def _validate_consciousness_metrics(self) -> bool:
@@ -399,14 +444,22 @@ class AwarenessProcessor:
                 return False
 
             # Check required Trinity metrics
-            trinity_keys = ["identity_coherence", "consciousness_depth", "guardian_protection"]
+            trinity_keys = [
+                "identity_coherence",
+                "consciousness_depth",
+                "guardian_protection",
+            ]
             if not all(key in self.trinity_metrics for key in trinity_keys):
                 return False
 
-            self.instance_logger.debug("ΛTRACE: Consciousness metrics validation passed")
+            self.instance_logger.debug(
+                "ΛTRACE: Consciousness metrics validation passed"
+            )
             return True
         except Exception as e:
-            self.instance_logger.error(f"ΛTRACE: Consciousness metrics validation failed: {e}")
+            self.instance_logger.error(
+                f"ΛTRACE: Consciousness metrics validation failed: {e}"
+            )
             return False
 
     async def _validate_alerting_system(self) -> bool:
@@ -427,7 +480,9 @@ class AwarenessProcessor:
             self.instance_logger.debug("ΛTRACE: Alerting system validation passed")
             return True
         except Exception as e:
-            self.instance_logger.error(f"ΛTRACE: Alerting system validation failed: {e}")
+            self.instance_logger.error(
+                f"ΛTRACE: Alerting system validation failed: {e}"
+            )
             return False
 
     async def update_awareness_metrics(self, metrics_update: dict[str, Any]) -> bool:
@@ -449,7 +504,9 @@ class AwarenessProcessor:
                 if metric_name in self.awareness_metrics:
                     old_value = self.awareness_metrics[metric_name]
                     self.awareness_metrics[metric_name] = value
-                    self.awareness_metrics["last_updated"] = datetime.utcnow().isoformat()
+                    self.awareness_metrics["last_updated"] = (
+                        datetime.utcnow().isoformat()
+                    )
 
                     # Check thresholds and generate alerts if needed
                     await self._check_metric_threshold(metric_name, value, old_value)
@@ -460,10 +517,14 @@ class AwarenessProcessor:
 
             return True
         except Exception as e:
-            self.instance_logger.error(f"ΛTRACE: Failed to update awareness metrics: {e}")
+            self.instance_logger.error(
+                f"ΛTRACE: Failed to update awareness metrics: {e}"
+            )
             return False
 
-    async def _check_metric_threshold(self, metric_name: str, current_value: float, previous_value: float):
+    async def _check_metric_threshold(
+        self, metric_name: str, current_value: float, previous_value: float
+    ):
         """Check if metric exceeds thresholds and generate alerts."""
         if not hasattr(self, "monitoring_thresholds"):
             return
@@ -479,7 +540,9 @@ class AwarenessProcessor:
         # Check minimum thresholds
         if "min" in thresholds and current_value < thresholds["min"]:
             alert_severity = "WARNING"
-            alert_message = f"{metric_name} below threshold: {current_value} < {thresholds['min']}"
+            alert_message = (
+                f"{metric_name} below threshold: {current_value} < {thresholds['min']}"
+            )
 
         if "critical" in thresholds and current_value < thresholds["critical"]:
             alert_severity = "CRITICAL"
@@ -488,7 +551,9 @@ class AwarenessProcessor:
         # Check maximum thresholds
         if "max" in thresholds and current_value > thresholds["max"]:
             alert_severity = "WARNING"
-            alert_message = f"{metric_name} above threshold: {current_value} > {thresholds['max']}"
+            alert_message = (
+                f"{metric_name} above threshold: {current_value} > {thresholds['max']}"
+            )
 
         if "critical" in thresholds and current_value > thresholds["critical"]:
             alert_severity = "CRITICAL"
@@ -496,9 +561,13 @@ class AwarenessProcessor:
 
         # Generate alert if threshold violated
         if alert_severity and alert_message:
-            await self._generate_alert(metric_name, alert_severity, alert_message, current_value)
+            await self._generate_alert(
+                metric_name, alert_severity, alert_message, current_value
+            )
 
-    async def _generate_alert(self, source: str, severity: str, message: str, metric_value: float):
+    async def _generate_alert(
+        self, source: str, severity: str, message: str, metric_value: float
+    ):
         """Generate and store awareness alert."""
         alert_id = f"AWARE_{int(datetime.utcnow().timestamp() * 1000)}"
 
@@ -526,16 +595,25 @@ class AwarenessProcessor:
         self.alert_history.append(alert)
 
         # Maintain history limit
-        if hasattr(self, "alert_retention_limit") and len(self.alert_history) > self.alert_retention_limit:
+        if (
+            hasattr(self, "alert_retention_limit")
+            and len(self.alert_history) > self.alert_retention_limit
+        ):
             self.alert_history = self.alert_history[-self.alert_retention_limit :]
 
         # Log alert based on severity
         if severity == "CRITICAL" or severity == "EMERGENCY":
-            self.instance_logger.error(f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}")
+            self.instance_logger.error(
+                f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}"
+            )
         elif severity == "WARNING":
-            self.instance_logger.warning(f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}")
+            self.instance_logger.warning(
+                f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}"
+            )
         else:
-            self.instance_logger.info(f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}")
+            self.instance_logger.info(
+                f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}"
+            )
 
     def get_monitoring_status(self) -> dict[str, Any]:
         """Get comprehensive monitoring status including Trinity Framework metrics."""
@@ -555,13 +633,15 @@ class AwarenessProcessor:
 
         # Add Trinity Framework metrics if available
         if hasattr(self, "trinity_metrics"):
-            status["constellation_framework"] = self.trinity_metrics.copy()
+            status["trinity_framework"] = self.trinity_metrics.copy()
 
         # Add alert summary
         if hasattr(self, "active_alerts"):
             status["alerts"] = {
                 "active_count": len(self.active_alerts),
-                "recent_alerts": list(self.active_alerts.values())[-5:],  # Last 5 alerts
+                "recent_alerts": list(self.active_alerts.values())[
+                    -5:
+                ],  # Last 5 alerts
             }
 
         # Add thresholds
@@ -579,11 +659,15 @@ class AwarenessProcessor:
             user_id (Optional[str]): User ID for tier checking.
         """
         log_user_id = user_id or self.user_id_context
-        self.instance_logger.info(f"ΛTRACE: Shutting down AwarenessProcessor for user context '{log_user_id}'.")
+        self.instance_logger.info(
+            f"ΛTRACE: Shutting down AwarenessProcessor for user context '{log_user_id}'."
+        )
         # TODO: Add actual resource cleanup logic here if any resources are held.
         self.status = "inactive"
         self.is_initialized = False
-        self.instance_logger.info(f"ΛTRACE: AwarenessProcessor for user context '{log_user_id}' shut down.")
+        self.instance_logger.info(
+            f"ΛTRACE: AwarenessProcessor for user context '{log_user_id}' shut down."
+        )
 
 
 # Human-readable comment: Factory function for creating AwarenessProcessor instances.
@@ -599,7 +683,9 @@ def create_awareness_processor(
     Returns:
         AwarenessProcessor: A new instance of the AwarenessProcessor.
     """
-    logger.info(f"ΛTRACE: Factory create_awareness_processor called by user '{user_id}'.")
+    logger.info(
+        f"ΛTRACE: Factory create_awareness_processor called by user '{user_id}'."
+    )
     return AwarenessProcessor(config, user_id_context=user_id)
 
 
@@ -617,9 +703,13 @@ async def create_and_initialize_awareness_processor(
     Returns:
         AwarenessProcessor: A new, initialized instance of the AwarenessProcessor.
     """
-    logger.info(f"ΛTRACE: Factory create_and_initialize_awareness_processor called by user '{user_id}'.")
+    logger.info(
+        f"ΛTRACE: Factory create_and_initialize_awareness_processor called by user '{user_id}'."
+    )
     component = AwarenessProcessor(config, user_id_context=user_id)
-    await component.initialize(user_id=user_id)  # Pass user_id for initialize's tier check
+    await component.initialize(
+        user_id=user_id
+    )  # Pass user_id for initialize's tier check
     return component
 
 
@@ -631,14 +721,20 @@ if __name__ == "__main__":
             format="%(asctime)s - %(name)s - %(levelname)s - ΛTRACE: %(message)s",
         )
 
-    logger.info("ΛTRACE: awareness_processor.py executed as __main__ for demonstration.")
+    logger.info(
+        "ΛTRACE: awareness_processor.py executed as __main__ for demonstration."
+    )
 
     async def demo_main_processor():  # Renamed
         logger.info("ΛTRACE: --- AwarenessProcessor Demo Starting ---")
         test_user = "demo_user_processor"
-        awareness_proc = await create_and_initialize_awareness_processor(user_id=test_user)
+        awareness_proc = await create_and_initialize_awareness_processor(
+            user_id=test_user
+        )
 
-        print(f"ΛTRACE Demo - Initialization: {'success' if awareness_proc.is_initialized else 'failed'}")
+        print(
+            f"ΛTRACE Demo - Initialization: {'success' if awareness_proc.is_initialized else 'failed'}"
+        )
 
         if awareness_proc.is_initialized:
             test_data_proc = {
@@ -646,12 +742,16 @@ if __name__ == "__main__":
                 "payload": "simulated sensor data array",
             }
             logger.info(f"ΛTRACE: Demo: Processing test data: {test_data_proc}")
-            proc_result = await awareness_proc.process(test_data_proc, user_id=test_user)
+            proc_result = await awareness_proc.process(
+                test_data_proc, user_id=test_user
+            )
             print(f"ΛTRACE Demo - Processing result: {proc_result}")
 
             logger.info("ΛTRACE: Demo: Validating component.")
             is_valid_proc = await awareness_proc.validate(user_id=test_user)
-            print(f"ΛTRACE Demo - Validation: {'passed' if is_valid_proc else 'failed'}")
+            print(
+                f"ΛTRACE Demo - Validation: {'passed' if is_valid_proc else 'failed'}"
+            )
 
             logger.info("ΛTRACE: Demo: Getting component status.")
             proc_status = awareness_proc.get_status(user_id=test_user)
@@ -659,7 +759,9 @@ if __name__ == "__main__":
 
             logger.info("ΛTRACE: Demo: Shutting down component.")
             await awareness_proc.shutdown(user_id=test_user)
-            print(f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_proc.get_status(user_id=test_user)}")
+            print(
+                f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_proc.get_status(user_id=test_user)}"
+            )
         logger.info("ΛTRACE: --- AwarenessProcessor Demo Finished ---")
 
     asyncio.run(demo_main_processor())

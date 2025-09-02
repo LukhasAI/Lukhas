@@ -15,20 +15,22 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-# Module imports
-from candidate.core.common import LukhasError, GuardianRejectionError, MemoryDriftError
-from from from from candidate.core.common import get_logger
+import json
+import os
+import sys
+import uuid
+from dataclasses import dataclass, field  # For OpenAI placeholder
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 import numpy as np
 import structlog
-from dataclasses import dataclass, field  # For OpenAI placeholder
-import uuid
-import json
-from typing import List, Dict, Any, Optional
-from pathlib import Path
-from datetime import datetime, timezone
-import sys
-import os
-from typing import Optional, Dict, Any
+from fromfromfromcandidate.core.common import get_logger
+
+# Module imports
+from candidate.core.common import (GuardianRejectionError, LukhasError,
+                                   MemoryDriftError)
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -43,7 +45,7 @@ logger = get_logger(__name__)
 # Third-Party Imports
 
 try:
-    from openai import OpenAI, APIError
+    from openai import APIError, OpenAI
 
     OPENAI_AVAILABLE_DREAMS = True
 except ImportError:

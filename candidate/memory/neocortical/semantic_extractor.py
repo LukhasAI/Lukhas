@@ -37,11 +37,17 @@ class SemanticExtractor:
         # Pattern storage
         self.observed_patterns: dict[str, int] = Counter()
         self.semantic_clusters: dict[str, set[str]] = defaultdict(set)
-        self.abstraction_hierarchy: dict[int, dict[str, set[str]]] = {level: {} for level in range(abstraction_levels)}
+        self.abstraction_hierarchy: dict[int, dict[str, set[str]]] = {
+            level: {} for level in range(abstraction_levels)
+        }
 
         # Relationship extraction
-        self.entity_relations: dict[str, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))
-        self.causal_chains: list[tuple[str, str, float]] = []  # (cause, effect, confidence)
+        self.entity_relations: dict[str, dict[str, set[str]]] = defaultdict(
+            lambda: defaultdict(set)
+        )
+        self.causal_chains: list[tuple[str, str, float]] = (
+            []
+        )  # (cause, effect, confidence)
 
         # Statistics
         self.total_episodes_processed = 0
@@ -110,7 +116,9 @@ class SemanticExtractor:
 
         return concept, attributes
 
-    def find_semantic_similarity(self, episode1: dict[str, Any], episode2: dict[str, Any]) -> float:
+    def find_semantic_similarity(
+        self, episode1: dict[str, Any], episode2: dict[str, Any]
+    ) -> float:
         """Calculate semantic similarity between two episodes"""
 
         features1 = self._extract_episode_features(episode1)
@@ -126,13 +134,19 @@ class SemanticExtractor:
         entity_similarity = len(common_features) / len(total_features)
 
         # Compare actions
-        action_similarity = self._compare_sequences(features1.get("actions", []), features2.get("actions", []))
+        action_similarity = self._compare_sequences(
+            features1.get("actions", []), features2.get("actions", [])
+        )
 
         # Compare attributes
-        attr_similarity = self._compare_attributes(features1.get("attributes", {}), features2.get("attributes", {}))
+        attr_similarity = self._compare_attributes(
+            features1.get("attributes", {}), features2.get("attributes", {})
+        )
 
         # Weighted combination
-        similarity = 0.4 * entity_similarity + 0.3 * action_similarity + 0.3 * attr_similarity
+        similarity = (
+            0.4 * entity_similarity + 0.3 * action_similarity + 0.3 * attr_similarity
+        )
 
         return similarity
 
@@ -180,7 +194,9 @@ class SemanticExtractor:
 
         return features
 
-    def _find_common_patterns(self, feature_sets: list[dict[str, Any]]) -> dict[str, list[Any]]:
+    def _find_common_patterns(
+        self, feature_sets: list[dict[str, Any]]
+    ) -> dict[str, list[Any]]:
         """Find patterns that occur frequently across episodes"""
 
         patterns = defaultdict(list)
@@ -194,7 +210,11 @@ class SemanticExtractor:
                     entity_pairs.append((entities[i], entities[j]))
 
         pair_counts = Counter(entity_pairs)
-        frequent_pairs = [pair for pair, count in pair_counts.items() if count >= self.min_pattern_frequency]
+        frequent_pairs = [
+            pair
+            for pair, count in pair_counts.items()
+            if count >= self.min_pattern_frequency
+        ]
         patterns["entity_pairs"] = frequent_pairs
 
         # Action sequences
@@ -206,7 +226,11 @@ class SemanticExtractor:
                     action_sequences.append(seq)
 
         seq_counts = Counter(action_sequences)
-        frequent_sequences = [seq for seq, count in seq_counts.items() if count >= self.min_pattern_frequency]
+        frequent_sequences = [
+            seq
+            for seq, count in seq_counts.items()
+            if count >= self.min_pattern_frequency
+        ]
         patterns["action_sequences"] = frequent_sequences
 
         # Attribute patterns
@@ -218,7 +242,11 @@ class SemanticExtractor:
         # Find common attribute values
         for key, values in attr_patterns.items():
             value_counts = Counter(values)
-            common_values = [v for v, count in value_counts.most_common(3) if count >= self.min_pattern_frequency]
+            common_values = [
+                v
+                for v, count in value_counts.most_common(3)
+                if count >= self.min_pattern_frequency
+            ]
             if common_values:
                 patterns[f"common_{key}"] = common_values
 
@@ -230,7 +258,9 @@ class SemanticExtractor:
 
         return dict(patterns)
 
-    def _cluster_semantically(self, patterns: dict[str, list[Any]]) -> dict[str, set[str]]:
+    def _cluster_semantically(
+        self, patterns: dict[str, list[Any]]
+    ) -> dict[str, set[str]]:
         """Cluster patterns into semantic groups"""
 
         clusters = defaultdict(set)
@@ -282,7 +312,9 @@ class SemanticExtractor:
                 effect = ep2.get("outcome", "unknown")
                 confidence = 0.5  # Would calculate based on frequency
 
-                relationships["causal"].append({"cause": cause, "effect": effect, "confidence": confidence})
+                relationships["causal"].append(
+                    {"cause": cause, "effect": effect, "confidence": confidence}
+                )
 
                 self.causal_chains.append((cause, effect, confidence))
 
@@ -296,7 +328,9 @@ class SemanticExtractor:
 
         temporal_events.sort()
         for i in range(len(temporal_events) - 1):
-            relationships["temporal"].append({"before": temporal_events[i][1], "after": temporal_events[i + 1][1]})
+            relationships["temporal"].append(
+                {"before": temporal_events[i][1], "after": temporal_events[i + 1][1]}
+            )
 
         # Extract hierarchical relationships (is-a, part-of)
         for ep in episodes:
@@ -321,7 +355,9 @@ class SemanticExtractor:
 
         return relationships
 
-    def _build_abstractions(self, clusters: dict[str, set[str]]) -> dict[int, dict[str, set[str]]]:
+    def _build_abstractions(
+        self, clusters: dict[str, set[str]]
+    ) -> dict[int, dict[str, set[str]]]:
         """Build multi-level abstraction hierarchy"""
 
         hierarchy = {level: {} for level in range(self.abstraction_levels)}
@@ -335,20 +371,32 @@ class SemanticExtractor:
                 for cluster2_key, cluster2_members in clusters.items():
                     if cluster1_key != cluster2_key:
                         overlap = cluster1_members & cluster2_members
-                        if len(overlap) / max(len(cluster1_members), len(cluster2_members)) > 0.5:
+                        if (
+                            len(overlap)
+                            / max(len(cluster1_members), len(cluster2_members))
+                            > 0.5
+                        ):
                             merged_key = f"{cluster1_key}__{cluster2_key}"
-                            hierarchy[1][merged_key] = cluster1_members | cluster2_members
+                            hierarchy[1][merged_key] = (
+                                cluster1_members | cluster2_members
+                            )
 
         # Level 2: Abstract categories
         if self.abstraction_levels > 2:
             # Group by pattern type
             for key in hierarchy[1]:
                 if "action" in key:
-                    hierarchy[2].setdefault("behavioral_patterns", set()).update(hierarchy[1][key])
+                    hierarchy[2].setdefault("behavioral_patterns", set()).update(
+                        hierarchy[1][key]
+                    )
                 elif "related" in key:
-                    hierarchy[2].setdefault("relational_patterns", set()).update(hierarchy[1][key])
+                    hierarchy[2].setdefault("relational_patterns", set()).update(
+                        hierarchy[1][key]
+                    )
                 else:
-                    hierarchy[2].setdefault("attribute_patterns", set()).update(hierarchy[1][key])
+                    hierarchy[2].setdefault("attribute_patterns", set()).update(
+                        hierarchy[1][key]
+                    )
 
         # Update stored hierarchy
         for level, level_clusters in hierarchy.items():
@@ -381,7 +429,9 @@ class SemanticExtractor:
 
         return "unknown"
 
-    def _extract_attributes(self, features: dict[str, Any], concept: str) -> dict[str, Any]:
+    def _extract_attributes(
+        self, features: dict[str, Any], concept: str
+    ) -> dict[str, Any]:
         """Extract relevant attributes for a concept"""
 
         attributes = {}
@@ -451,7 +501,9 @@ class SemanticExtractor:
         for key in common_keys:
             if attrs1[key] == attrs2[key]:
                 value_similarity += 1.0
-            elif isinstance(attrs1[key], (int, float)) and isinstance(attrs2[key], (int, float)):
+            elif isinstance(attrs1[key], (int, float)) and isinstance(
+                attrs2[key], (int, float)
+            ):
                 # Numeric similarity
                 diff = abs(attrs1[key] - attrs2[key])
                 max_val = max(abs(attrs1[key]), abs(attrs2[key]))
@@ -473,7 +525,9 @@ class SemanticExtractor:
             "semantic_clusters": len(self.semantic_clusters),
             "causal_chains": len(self.causal_chains),
             "abstraction_levels": self.abstraction_levels,
-            "most_common_patterns": [pattern for pattern, _ in self.observed_patterns.most_common(5)],
+            "most_common_patterns": [
+                pattern for pattern, _ in self.observed_patterns.most_common(5)
+            ],
         }
 
 

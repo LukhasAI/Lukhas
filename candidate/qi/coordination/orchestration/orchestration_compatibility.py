@@ -33,7 +33,8 @@ IMPORT_REDIRECTS = {
     "lukhas.core.bio.bio_orchestrator": NEW_MODULE,
     "lukhas.bio.symbolic.bio_orchestrator": NEW_MODULE,
     "lukhas.voice.bio_core.oscillator.bio_orchestrator": NEW_MODULE,
-    "lukhas.orchestration.specialized.bio_orchestrator": NEW_MODULE + ".oscillator_orchestrator",
+    "lukhas.orchestration.specialized.bio_orchestrator": NEW_MODULE
+    + ".oscillator_orchestrator",
 }
 
 

@@ -28,11 +28,15 @@ class SealRequest(BaseModel):
     media_type: str = Field(..., description="MIME type of content")
     issuer: str = Field(..., description="Issuer ID (lukhas://org/<tenant>)")
     model_id: str = Field(..., description="Model identifier")
-    policy_fingerprint: str | None = Field(None, description="Policy fingerprint (auto-computed if not provided)")
+    policy_fingerprint: str | None = Field(
+        None, description="Policy fingerprint (auto-computed if not provided)"
+    )
     jurisdiction: str = Field("global", description="Jurisdiction")
     proof_bundle: str = Field(..., description="URL to proof bundle")
     ttl_days: int = Field(365, description="Seal validity in days", ge=1, le=3650)
-    calib_ref: dict[str, float] | None = Field(None, description="Calibration reference")
+    calib_ref: dict[str, float] | None = Field(
+        None, description="Calibration reference"
+    )
     prev: str | None = Field(None, description="Previous seal ID for chaining")
 
 
@@ -64,7 +68,9 @@ class JWKSResponse(BaseModel):
 
 # Configuration
 SIGNER_CONFIG = {
-    "issuer_whitelist": os.environ.get("GLYPH_ISSUER_WHITELIST", "lukhas://org/lukhas-ai").split(","),
+    "issuer_whitelist": os.environ.get(
+        "GLYPH_ISSUER_WHITELIST", "lukhas://org/lukhas-ai"
+    ).split(","),
     "require_auth": os.environ.get("GLYPH_REQUIRE_AUTH", "false").lower() == "true",
     "auth_token": os.environ.get("GLYPH_AUTH_TOKEN"),
     "hsm_config": {
@@ -187,17 +193,24 @@ async def create_seal(request: SealRequest, _: bool = Depends(verify_auth)):
 
     # Validate issuer
     if not validate_issuer(request.issuer):
-        raise HTTPException(status_code=403, detail=f"Issuer not authorized: {request.issuer}")
+        raise HTTPException(
+            status_code=403, detail=f"Issuer not authorized: {request.issuer}"
+        )
 
     # Validate content hash format
     if not request.content_hash.startswith("sha3-512:"):
-        raise HTTPException(status_code=400, detail="content_hash must be SHA3-512 in format 'sha3-512:<hex>'")
+        raise HTTPException(
+            status_code=400,
+            detail="content_hash must be SHA3-512 in format 'sha3-512:<hex>'",
+        )
 
     try:
         # Compute policy fingerprint if not provided
         policy_fp = request.policy_fingerprint
         if not policy_fp:
-            policy_fp = policy_fingerprint_from_files(SIGNER_CONFIG["policy_root"], SIGNER_CONFIG["policy_overlays"])
+            policy_fp = policy_fingerprint_from_files(
+                SIGNER_CONFIG["policy_root"], SIGNER_CONFIG["policy_overlays"]
+            )
 
         # Create mock content bytes from hash for signing
         # In practice, the signer service never sees the original content
@@ -235,7 +248,9 @@ async def create_seal(request: SealRequest, _: bool = Depends(verify_auth)):
 
 
 @app.post("/seal/batch")
-async def create_seal_batch(requests: list[SealRequest], _: bool = Depends(verify_auth)):
+async def create_seal_batch(
+    requests: list[SealRequest], _: bool = Depends(verify_auth)
+):
     """Create multiple seals in a batch operation"""
     if len(requests) > 100:
         raise HTTPException(status_code=400, detail="Batch size limited to 100 seals")
@@ -252,14 +267,21 @@ async def create_seal_batch(requests: list[SealRequest], _: bool = Depends(verif
         except Exception as e:
             errors.append({"index": i, "error": str(e), "status": 500})
 
-    return {"successful": len(results), "failed": len(errors), "results": results, "errors": errors}
+    return {
+        "successful": len(results),
+        "failed": len(errors),
+        "results": results,
+        "errors": errors,
+    }
 
 
 @app.get("/policy/fingerprint")
 async def get_policy_fingerprint():
     """Get current policy fingerprint"""
     try:
-        fingerprint = policy_fingerprint_from_files(SIGNER_CONFIG["policy_root"], SIGNER_CONFIG["policy_overlays"])
+        fingerprint = policy_fingerprint_from_files(
+            SIGNER_CONFIG["policy_root"], SIGNER_CONFIG["policy_overlays"]
+        )
         return {
             "policy_fingerprint": fingerprint,
             "policy_root": SIGNER_CONFIG["policy_root"],
@@ -267,7 +289,9 @@ async def get_policy_fingerprint():
             "computed_at": time.time(),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Policy fingerprint computation failed: {e!s}")
+        raise HTTPException(
+            status_code=500, detail=f"Policy fingerprint computation failed: {e!s}"
+        )
 
 
 @app.get("/")

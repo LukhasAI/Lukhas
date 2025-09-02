@@ -75,12 +75,16 @@ class LUKHASClient:
     ) -> dict[str, Any]:
         """Make HTTP request to API"""
         if not self.session:
-            raise RuntimeError("Client not initialized. Use 'async with' context manager.")
+            raise RuntimeError(
+                "Client not initialized. Use 'async with' context manager."
+            )
 
         url = f"{self.base_url}{endpoint}"
         headers = self._get_headers()
 
-        async with self.session.request(method=method, url=url, headers=headers, json=data, params=params) as response:
+        async with self.session.request(
+            method=method, url=url, headers=headers, json=data, params=params
+        ) as response:
             response_data = await response.json()
 
             if response.status >= 400:
@@ -130,7 +134,9 @@ class ConsciousnessClient:
             "include_emotional_context": include_emotional_context,
         }
 
-        response = await self.client._request("POST", "/api/v2/consciousness/query", data=data)
+        response = await self.client._request(
+            "POST", "/api/v2/consciousness/query", data=data
+        )
 
         return response.get("result", response)
 
@@ -153,7 +159,9 @@ class MemoryClient:
 
         return response.get("result", {}).get("memory_id")
 
-    async def retrieve(self, query: str, memory_type: str = "general") -> list[dict[str, Any]]:
+    async def retrieve(
+        self, query: str, memory_type: str = "general"
+    ) -> list[dict[str, Any]]:
         """Retrieve memories"""
         data = {
             "action": "retrieve",
@@ -161,19 +169,27 @@ class MemoryClient:
             "memory_type": memory_type,
         }
 
-        response = await self.client._request("POST", "/api/v2/memory/retrieve", data=data)
+        response = await self.client._request(
+            "POST", "/api/v2/memory/retrieve", data=data
+        )
 
         return response.get("result", {}).get("results", [])
 
-    async def search(self, query: str, memory_type: Optional[str] = None) -> list[dict[str, Any]]:
+    async def search(
+        self, query: str, memory_type: Optional[str] = None
+    ) -> list[dict[str, Any]]:
         """Search memories"""
         data = {"action": "search", "query": query, "memory_type": memory_type}
 
-        response = await self.client._request("POST", "/api/v2/memory/search", data=data)
+        response = await self.client._request(
+            "POST", "/api/v2/memory/search", data=data
+        )
 
         return response.get("result", {}).get("results", [])
 
-    async def update(self, query: str, content: dict[str, Any], memory_type: str = "general") -> int:
+    async def update(
+        self, query: str, content: dict[str, Any], memory_type: str = "general"
+    ) -> int:
         """Update memories"""
         data = {
             "action": "update",
@@ -182,7 +198,9 @@ class MemoryClient:
             "memory_type": memory_type,
         }
 
-        response = await self.client._request("POST", "/api/v2/memory/update", data=data)
+        response = await self.client._request(
+            "POST", "/api/v2/memory/update", data=data
+        )
 
         return response.get("result", {}).get("updated_count", 0)
 
@@ -206,7 +224,9 @@ class GovernanceClient:
             "urgency": urgency,
         }
 
-        response = await self.client._request("POST", "/api/v2/governance/check", data=data)
+        response = await self.client._request(
+            "POST", "/api/v2/governance/check", data=data
+        )
 
         return response.get("result", response)
 
@@ -230,7 +250,9 @@ class DreamClient:
             "dream_type": dream_type,
         }
 
-        response = await self.client._request("POST", "/api/v2/dream/generate", data=data)
+        response = await self.client._request(
+            "POST", "/api/v2/dream/generate", data=data
+        )
 
         return response.get("result", response)
 
@@ -256,7 +278,9 @@ class AuthClient:
             "user_agent": user_agent or "LUKHAS-Client/1.0",
         }
 
-        response = await self.client._request("POST", "/api/v2/auth/login", data=credentials)
+        response = await self.client._request(
+            "POST", "/api/v2/auth/login", data=credentials
+        )
 
         # Update client token if successful
         if "jwt_token" in response:
@@ -264,14 +288,18 @@ class AuthClient:
 
         return response
 
-    async def verify_mfa(self, session_id: str, method: str, code: str) -> dict[str, Any]:
+    async def verify_mfa(
+        self, session_id: str, method: str, code: str
+    ) -> dict[str, Any]:
         """Verify MFA code"""
         data = {
             "session_id": session_id,
             "mfa_data": {"method": method, "code": code},
         }
 
-        response = await self.client._request("POST", "/api/v2/auth/mfa/verify", data=data)
+        response = await self.client._request(
+            "POST", "/api/v2/auth/mfa/verify", data=data
+        )
 
         # Update token if new one provided
         if "jwt_token" in response:
@@ -340,7 +368,9 @@ async def example_usage():
         print(f"Logged in: {auth_response}")
 
         # Query consciousness
-        consciousness_response = await client.consciousness.query("What is the nature of artificial consciousness?")
+        consciousness_response = await client.consciousness.query(
+            "What is the nature of artificial consciousness?"
+        )
         print(f"Consciousness says: {consciousness_response}")
 
         # Store a memory
@@ -354,7 +384,9 @@ async def example_usage():
         print(f"Stored memory: {memory_id}")
 
         # Generate creative content
-        dream = await client.dream.generate("A future where AI and humans collaborate seamlessly")
+        dream = await client.dream.generate(
+            "A future where AI and humans collaborate seamlessly"
+        )
         print(f"Dream generated: {dream}")
 
         # Check system health

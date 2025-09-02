@@ -83,7 +83,9 @@ class TestNoopMemoryInterface:
     def test_get_stats_structure(self, noop_memory):
         """NoopMemory stats should have expected structure"""
         # Do some operations first
-        noop_memory.save(user_id="u", scene={}, glyphs=[], policy={}, metrics={}, cfg_version="v1")
+        noop_memory.save(
+            user_id="u", scene={}, glyphs=[], policy={}, metrics={}, cfg_version="v1"
+        )
         noop_memory.fetch_prev_scene(user_id="u", before_ts=None)
 
         stats = noop_memory.get_stats()
@@ -130,11 +132,15 @@ class TestContractValidation:
 
         # Verify regulation operations are present
         transform_ops = stored_scene["transform_chain"]
-        regulation_present = any("sublimate" in str(op) or "teq.enforce" in str(op) for op in transform_ops)
+        regulation_present = any(
+            "sublimate" in str(op) or "teq.enforce" in str(op) for op in transform_ops
+        )
         assert regulation_present, "High-risk scenes must contain regulation operations"
 
     @pytest.mark.contract
-    def test_audit_fields_always_present(self, sql_memory, low_risk_scene, test_glyphs, test_policy, test_metrics):
+    def test_audit_fields_always_present(
+        self, sql_memory, low_risk_scene, test_glyphs, test_policy, test_metrics
+    ):
         """All scenes must have required audit metadata"""
 
         scene_data = low_risk_scene.model_dump()
@@ -156,7 +162,9 @@ class TestContractValidation:
 
         # Required audit fields
         assert "cfg_version" in context, "cfg_version must be preserved"
-        assert context["cfg_version"].startswith("wave_c_v"), "cfg_version must follow format"
+        assert context["cfg_version"].startswith(
+            "wave_c_v"
+        ), "cfg_version must follow format"
         assert "policy_sig" in context, "policy_sig must be preserved"
         assert len(context["policy_sig"]) >= 8, "policy_sig must be meaningful"
 
@@ -204,7 +212,13 @@ class TestDataValidation:
         """Proto-qualia should be converted to 5-dimensional vectors"""
         from candidate.aka_qualia.util import to_proto_vec
 
-        proto_data = {"tone": 0.5, "arousal": 0.8, "clarity": 0.9, "embodiment": 0.7, "narrative_gravity": 0.6}
+        proto_data = {
+            "tone": 0.5,
+            "arousal": 0.8,
+            "clarity": 0.9,
+            "embodiment": 0.7,
+            "narrative_gravity": 0.6,
+        }
 
         vector = to_proto_vec(proto_data)
 
@@ -234,7 +248,10 @@ class TestDataValidation:
         scene_data = create_test_scene(
             context={
                 "cfg_version": "wave_c_v1.0.0",
-                "complex_data": {"nested": {"deep": [1, 2, 3]}, "timestamp": time.time()},
+                "complex_data": {
+                    "nested": {"deep": [1, 2, 3]},
+                    "timestamp": time.time(),
+                },
             }
         )
 
@@ -243,7 +260,9 @@ class TestDataValidation:
         reconstructed = json.loads(json_str)
 
         assert reconstructed["context"]["complex_data"]["nested"]["deep"] == [1, 2, 3]
-        assert isinstance(reconstructed["context"]["complex_data"]["timestamp"], (int, float))
+        assert isinstance(
+            reconstructed["context"]["complex_data"]["timestamp"], (int, float)
+        )
 
 
 class TestConfigurationHandling:
@@ -263,7 +282,9 @@ class TestConfigurationHandling:
     @pytest.mark.unit
     def test_sql_memory_production_mode(self, sqlite_engine):
         """Production mode should hash PII fields"""
-        memory = SqlMemory(engine=sqlite_engine, rotate_salt="prod_salt_secure", is_prod=True)
+        memory = SqlMemory(
+            engine=sqlite_engine, rotate_salt="prod_salt_secure", is_prod=True
+        )
 
         assert memory.is_prod
 
@@ -338,7 +359,12 @@ class TestErrorHandling:
 
         # Should not raise exception
         scene_id = sql_memory.save(
-            user_id="truncation_test", scene=scene_data, glyphs=[], policy={}, metrics={}, cfg_version="wave_c_v1.0.0"
+            user_id="truncation_test",
+            scene=scene_data,
+            glyphs=[],
+            policy={},
+            metrics={},
+            cfg_version="wave_c_v1.0.0",
         )
 
         assert scene_id is not None

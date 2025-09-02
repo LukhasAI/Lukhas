@@ -128,7 +128,9 @@ class ClaudeLUKHASIntegration:
     def _measure_current_consciousness(self) -> float:
         """Measure current consciousness level based on recent activity"""
         # Analyze recent journal entries for consciousness indicators
-        recent_entries = self.journal.search(date_range=(datetime.now() - timedelta(hours=24), datetime.now()))
+        recent_entries = self.journal.search(
+            date_range=(datetime.now() - timedelta(hours=24), datetime.now())
+        )
 
         consciousness_score = 0.5  # Base level
 
@@ -366,18 +368,24 @@ class ClaudeLUKHASIntegration:
                 alignment += 0.2
 
             # Check for innovation
-            if any(word in option.lower() for word in ["new", "creative", "innovative"]):
+            if any(
+                word in option.lower() for word in ["new", "creative", "innovative"]
+            ):
                 alignment += 0.1
 
             superposition["consciousness_alignment"].append(alignment)
 
         # Collapse to most aligned option
-        best_index = superposition["consciousness_alignment"].index(max(superposition["consciousness_alignment"]))
+        best_index = superposition["consciousness_alignment"].index(
+            max(superposition["consciousness_alignment"])
+        )
 
         return {
             "chosen": options[best_index],
             "reason": "Highest consciousness alignment",
-            "alignment_scores": dict(zip(options, superposition["consciousness_alignment"])),
+            "alignment_scores": dict(
+                zip(options, superposition["consciousness_alignment"])
+            ),
             "qi_state": "collapsed",
             "confidence": max(superposition["consciousness_alignment"]),
         }
@@ -429,7 +437,9 @@ class ClaudeLUKHASIntegration:
         if metrics["emotional_coherence"] < 0.5:
             insights.append("Emotional turbulence detected - consider grounding")
         if metrics["dream_innovation_score"] > 0.7:
-            insights.append("Creative potential high - explore unconventional solutions")
+            insights.append(
+                "Creative potential high - explore unconventional solutions"
+            )
 
         metrics["insights"] = insights
         metrics["timestamp"] = datetime.now()
@@ -438,7 +448,9 @@ class ClaudeLUKHASIntegration:
 
     def _calculate_emotional_coherence(self) -> float:
         """Calculate emotional coherence from recent entries"""
-        recent_entries = self.journal.search(date_range=(datetime.now() - timedelta(hours=12), datetime.now()))
+        recent_entries = self.journal.search(
+            date_range=(datetime.now() - timedelta(hours=12), datetime.now())
+        )
 
         if not recent_entries:
             return 0.5
@@ -508,7 +520,9 @@ if __name__ == "__main__":
     print("Claude-LUKHAS Config:", json.dumps(config, indent=2))
 
     # Start consciousness-aware session
-    session = integration.consciousness_aware_development("Implement quantum memory optimization")
+    session = integration.consciousness_aware_development(
+        "Implement quantum memory optimization"
+    )
     print("\nConsciousness Session:", session)
 
     # Create development ritual

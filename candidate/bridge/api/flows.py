@@ -39,7 +39,9 @@ except ImportError:
 # ═══════════════════════════════════════════════════════════════════════════
 
 # Security configuration
-JWT_SECRET_KEY = os.getenv("LUKHAS_ID_SECRET", "default-unsafe-secret-change-in-production")
+JWT_SECRET_KEY = os.getenv(
+    "LUKHAS_ID_SECRET", "default-unsafe-secret-change-in-production"
+)
 JWT_ALGORITHM = "HS256"
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
 JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
@@ -77,16 +79,24 @@ if LUKHAS_IDENTITY_AVAILABLE:
 else:
     identity_connector = None
     auth_service = None
-    logger.warning("ΛTRACE: LUKHAS identity system not available - using local authentication only")
+    logger.warning(
+        "ΛTRACE: LUKHAS identity system not available - using local authentication only"
+    )
 
 # Create a Blueprint for authentication routes.
 # This Blueprint would typically be registered with the main Flask app instance.
-auth_bp = Blueprint("auth_lukhas_id", __name__, url_prefix="/api/v2/auth")  # Added versioned prefix
-logger.info("ΛTRACE: Flask Blueprint 'auth_lukhas_id' created with prefix /api/v2/auth.")
+auth_bp = Blueprint(
+    "auth_lukhas_id", __name__, url_prefix="/api/v2/auth"
+)  # Added versioned prefix
+logger.info(
+    "ΛTRACE: Flask Blueprint 'auth_lukhas_id' created with prefix /api/v2/auth."
+)
 
 
 # Security helper functions
-def _validate_password_strength(password: str, policy: Optional[dict] = None) -> tuple[bool, str]:
+def _validate_password_strength(
+    password: str, policy: Optional[dict] = None
+) -> tuple[bool, str]:
     """Validate password meets security requirements based on a given policy."""
     if policy is None:
         policy = {
@@ -99,7 +109,10 @@ def _validate_password_strength(password: str, policy: Optional[dict] = None) ->
         }
 
     if len(password) < policy.get("min_length", 8):
-        return False, f"Password must be at least {policy.get('min_length', 8)} characters"
+        return (
+            False,
+            f"Password must be at least {policy.get('min_length', 8)} characters",
+        )
 
     if policy.get("require_uppercase") and not any(c.isupper() for c in password):
         return False, "Password must contain at least one uppercase letter"
@@ -164,11 +177,14 @@ def _check_account_lockout(username: str) -> tuple[bool, Optional[str]]:
     recent_attempts = [
         attempt
         for attempt in attempts
-        if datetime.fromtimestamp(attempt, timezone.utc) > (datetime.now(timezone.utc) - LOCKOUT_DURATION)
+        if datetime.fromtimestamp(attempt, timezone.utc)
+        > (datetime.now(timezone.utc) - LOCKOUT_DURATION)
     ]
 
     if len(recent_attempts) >= MAX_LOGIN_ATTEMPTS:
-        lockout_end = datetime.fromtimestamp(recent_attempts[0], timezone.utc) + LOCKOUT_DURATION
+        lockout_end = (
+            datetime.fromtimestamp(recent_attempts[0], timezone.utc) + LOCKOUT_DURATION
+        )
         return True, f"Account locked until {lockout_end.isoformat()}"
 
     return False, None
@@ -219,7 +235,9 @@ def _enhance_authentication_with_lukhas(username: str, request_context: dict) ->
         # Attempt identity connector integration
         if identity_connector:
             # Validate user through governance system
-            governance_result = identity_connector.validate_user_governance(user_id=username, context=request_context)
+            governance_result = identity_connector.validate_user_governance(
+                user_id=username, context=request_context
+            )
             enhancement_result["governance_checked"] = True
 
             if governance_result.get("approved", True):
@@ -251,7 +269,9 @@ def _enhance_authentication_with_lukhas(username: str, request_context: dict) ->
     return enhancement_result
 
 
-def _validate_with_lukhas_security(username: str, password: str, request_data: dict) -> tuple[bool, str, dict]:
+def _validate_with_lukhas_security(
+    username: str, password: str, request_data: dict
+) -> tuple[bool, str, dict]:
     """
     Validate credentials using LUKHAS security protocols.
     Returns (is_valid, message, security_context)
@@ -267,7 +287,9 @@ def _validate_with_lukhas_security(username: str, password: str, request_data: d
     if not user:
         return False, "Invalid credentials", security_context
 
-    if not bcrypt.checkpw(password.encode("utf-8"), user["password_hash"].encode("utf-8")):
+    if not bcrypt.checkpw(
+        password.encode("utf-8"), user["password_hash"].encode("utf-8")
+    ):
         return False, "Invalid credentials", security_context
 
     # Enhance with LUKHAS security if available
@@ -313,13 +335,16 @@ def register_user_endpoint():
         # Input validation
         if not request.is_json:
             logger.warning(f"ΛTRACE ({request_id}): Invalid content type")
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Content-Type must be application/json",
-                    "request_id": request_id,
-                }
-            ), 400
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Content-Type must be application/json",
+                        "request_id": request_id,
+                    }
+                ),
+                400,
+            )
 
         data = request.get_json()
 
@@ -327,7 +352,12 @@ def register_user_endpoint():
         valid, message = _validate_input_data(data)
         if not valid:
             logger.warning(f"ΛTRACE ({request_id}): Input validation failed: {message}")
-            return jsonify({"success": False, "message": message, "request_id": request_id}), 400
+            return (
+                jsonify(
+                    {"success": False, "message": message, "request_id": request_id}
+                ),
+                400,
+            )
 
         username = data["username"].strip()
         password = data["password"]
@@ -335,23 +365,46 @@ def register_user_endpoint():
 
         # Username validation
         if len(username) < 3 or len(username) > 50:
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Username must be between 3 and 50 characters",
-                    "request_id": request_id,
-                }
-            ), 400
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Username must be between 3 and 50 characters",
+                        "request_id": request_id,
+                    }
+                ),
+                400,
+            )
 
         # Check if user already exists
         if username in users_db:
-            logger.warning(f"ΛTRACE ({request_id}): Registration attempt for existing user {username}")
-            return jsonify({"success": False, "message": "Username already exists", "request_id": request_id}), 409
+            logger.warning(
+                f"ΛTRACE ({request_id}): Registration attempt for existing user {username}"
+            )
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Username already exists",
+                        "request_id": request_id,
+                    }
+                ),
+                409,
+            )
 
         # Password strength validation
         valid_password, password_message = _validate_password_strength(password)
         if not valid_password:
-            return jsonify({"success": False, "message": password_message, "request_id": request_id}), 400
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": password_message,
+                        "request_id": request_id,
+                    }
+                ),
+                400,
+            )
 
         # Generate secure password hash
         password_hash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
@@ -388,38 +441,46 @@ def register_user_endpoint():
             "user_agent": request.headers.get("User-Agent", "unknown"),
         }
 
-        logger.info(f"ΛTRACE ({request_id}): User {username} registered successfully with ΛiD {lambda_id}")
+        logger.info(
+            f"ΛTRACE ({request_id}): User {username} registered successfully with ΛiD {lambda_id}"
+        )
 
-        return jsonify(
-            {
-                "success": True,
-                "message": "User registered successfully",
-                "request_id": request_id,
-                "user": {
-                    "user_id": username,
-                    "lambda_id": lambda_id,
-                    "email": email,
-                    "created_at": user_record["created_at"],
-                },
-                "tokens": {
-                    "access_token": access_token,
-                    "refresh_token": refresh_token,
-                    "token_type": "Bearer",
-                    "expires_in": int(JWT_ACCESS_TOKEN_EXPIRES.total_seconds()),
-                },
-                "session_id": session_id,
-            }
-        ), 201
+        return (
+            jsonify(
+                {
+                    "success": True,
+                    "message": "User registered successfully",
+                    "request_id": request_id,
+                    "user": {
+                        "user_id": username,
+                        "lambda_id": lambda_id,
+                        "email": email,
+                        "created_at": user_record["created_at"],
+                    },
+                    "tokens": {
+                        "access_token": access_token,
+                        "refresh_token": refresh_token,
+                        "token_type": "Bearer",
+                        "expires_in": int(JWT_ACCESS_TOKEN_EXPIRES.total_seconds()),
+                    },
+                    "session_id": session_id,
+                }
+            ),
+            201,
+        )
 
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Registration error: {e!s}")
-        return jsonify(
-            {
-                "success": False,
-                "message": "Internal server error during registration",
-                "request_id": request_id,
-            }
-        ), 500
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Internal server error during registration",
+                    "request_id": request_id,
+                }
+            ),
+            500,
+        )
 
 
 # Human-readable comment: Endpoint for user login.
@@ -437,13 +498,16 @@ def login_user_endpoint():
         # Input validation
         if not request.is_json:
             logger.warning(f"ΛTRACE ({request_id}): Invalid content type")
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Content-Type must be application/json",
-                    "request_id": request_id,
-                }
-            ), 400
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Content-Type must be application/json",
+                        "request_id": request_id,
+                    }
+                ),
+                400,
+            )
 
         data = request.get_json()
 
@@ -452,13 +516,16 @@ def login_user_endpoint():
         for field in required_fields:
             if field not in data or not data[field]:
                 logger.warning(f"ΛTRACE ({request_id}): Missing field {field}")
-                return jsonify(
-                    {
-                        "success": False,
-                        "message": f"Missing required field: {field}",
-                        "request_id": request_id,
-                    }
-                ), 400
+                return (
+                    jsonify(
+                        {
+                            "success": False,
+                            "message": f"Missing required field: {field}",
+                            "request_id": request_id,
+                        }
+                    ),
+                    400,
+                )
 
         username = data["username"].strip()
         password = data["password"]
@@ -466,42 +533,78 @@ def login_user_endpoint():
         # Check account lockout
         is_locked, lockout_message = _check_account_lockout(username)
         if is_locked:
-            logger.warning(f"ΛTRACE ({request_id}): Login attempt on locked account {username}")
-            return jsonify({"success": False, "message": lockout_message, "request_id": request_id}), 423  # Locked
+            logger.warning(
+                f"ΛTRACE ({request_id}): Login attempt on locked account {username}"
+            )
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": lockout_message,
+                        "request_id": request_id,
+                    }
+                ),
+                423,
+            )  # Locked
 
         # Check if user exists
         if username not in users_db:
             _record_failed_login(username)
-            logger.warning(f"ΛTRACE ({request_id}): Login attempt for non-existent user {username}")
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Invalid username or password",
-                    "request_id": request_id,
-                }
-            ), 401
+            logger.warning(
+                f"ΛTRACE ({request_id}): Login attempt for non-existent user {username}"
+            )
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Invalid username or password",
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         user_record = users_db[username]
 
         # Check if account is active
         if not user_record.get("is_active", True):
-            logger.warning(f"ΛTRACE ({request_id}): Login attempt for inactive account {username}")
-            return jsonify({"success": False, "message": "Account is inactive", "request_id": request_id}), 403
+            logger.warning(
+                f"ΛTRACE ({request_id}): Login attempt for inactive account {username}"
+            )
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Account is inactive",
+                        "request_id": request_id,
+                    }
+                ),
+                403,
+            )
 
         # Verify password
         stored_password_hash = user_record["password_hash"]
-        if not bcrypt.checkpw(password.encode("utf-8"), stored_password_hash.encode("utf-8")):
+        if not bcrypt.checkpw(
+            password.encode("utf-8"), stored_password_hash.encode("utf-8")
+        ):
             _record_failed_login(username)
-            users_db[username]["failed_login_count"] = user_record.get("failed_login_count", 0) + 1
+            users_db[username]["failed_login_count"] = (
+                user_record.get("failed_login_count", 0) + 1
+            )
 
-            logger.warning(f"ΛTRACE ({request_id}): Failed login attempt for user {username}")
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Invalid username or password",
-                    "request_id": request_id,
-                }
-            ), 401
+            logger.warning(
+                f"ΛTRACE ({request_id}): Failed login attempt for user {username}"
+            )
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Invalid username or password",
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         # Clear failed login attempts on successful authentication
         failed_login_attempts.pop(username, None)
@@ -524,41 +627,49 @@ def login_user_endpoint():
             "last_active": datetime.now(timezone.utc).isoformat(),
             "ip_address": request.remote_addr,
             "user_agent": request.headers.get("User-Agent", "unknown"),
-            "access_token_jti": jwt.decode(access_token, options={"verify_signature": False})["iat"],
+            "access_token_jti": jwt.decode(
+                access_token, options={"verify_signature": False}
+            )["iat"],
         }
 
         logger.info(f"ΛTRACE ({request_id}): User {username} logged in successfully")
 
-        return jsonify(
-            {
-                "success": True,
-                "message": "Login successful",
-                "request_id": request_id,
-                "user": {
-                    "user_id": username,
-                    "lambda_id": lambda_id,
-                    "email": user_record.get("email", ""),
-                    "last_login": user_record["last_login"],
-                },
-                "tokens": {
-                    "access_token": access_token,
-                    "refresh_token": refresh_token,
-                    "token_type": "Bearer",
-                    "expires_in": int(JWT_ACCESS_TOKEN_EXPIRES.total_seconds()),
-                },
-                "session_id": session_id,
-            }
-        ), 200
+        return (
+            jsonify(
+                {
+                    "success": True,
+                    "message": "Login successful",
+                    "request_id": request_id,
+                    "user": {
+                        "user_id": username,
+                        "lambda_id": lambda_id,
+                        "email": user_record.get("email", ""),
+                        "last_login": user_record["last_login"],
+                    },
+                    "tokens": {
+                        "access_token": access_token,
+                        "refresh_token": refresh_token,
+                        "token_type": "Bearer",
+                        "expires_in": int(JWT_ACCESS_TOKEN_EXPIRES.total_seconds()),
+                    },
+                    "session_id": session_id,
+                }
+            ),
+            200,
+        )
 
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Login error: {e!s}")
-        return jsonify(
-            {
-                "success": False,
-                "message": "Internal server error during login",
-                "request_id": request_id,
-            }
-        ), 500
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Internal server error during login",
+                    "request_id": request_id,
+                }
+            ),
+            500,
+        )
 
 
 # Token validation helper functions
@@ -582,7 +693,10 @@ def _validate_jwt_token(token: str) -> tuple[bool, Optional[dict], str]:
         # Check expiration (JWT library handles this, but we can add custom logic)
         current_time = datetime.now(timezone.utc)
         exp_timestamp = payload.get("exp")
-        if exp_timestamp and datetime.fromtimestamp(exp_timestamp, timezone.utc) < current_time:
+        if (
+            exp_timestamp
+            and datetime.fromtimestamp(exp_timestamp, timezone.utc) < current_time
+        ):
             return False, None, "Token has expired"
 
         return True, payload, ""
@@ -632,14 +746,28 @@ def logout_user_endpoint():
 
         if not token:
             logger.warning(f"ΛTRACE ({request_id}): Logout attempt without valid token")
-            return jsonify({"success": False, "message": token_error, "request_id": request_id}), 401
+            return (
+                jsonify(
+                    {"success": False, "message": token_error, "request_id": request_id}
+                ),
+                401,
+            )
 
         # Validate token
         is_valid, payload, validation_error = _validate_jwt_token(token)
 
         if not is_valid:
             logger.warning(f"ΛTRACE ({request_id}): Logout attempt with invalid token")
-            return jsonify({"success": False, "message": validation_error, "request_id": request_id}), 401
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": validation_error,
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         user_id = payload.get("user_id")
 
@@ -664,24 +792,30 @@ def logout_user_endpoint():
             f"ΛTRACE ({request_id}): User {user_id} logged out successfully, {sessions_terminated} sessions terminated"
         )
 
-        return jsonify(
-            {
-                "success": True,
-                "message": "Logout successful",
-                "request_id": request_id,
-                "sessions_terminated": sessions_terminated,
-            }
-        ), 200
+        return (
+            jsonify(
+                {
+                    "success": True,
+                    "message": "Logout successful",
+                    "request_id": request_id,
+                    "sessions_terminated": sessions_terminated,
+                }
+            ),
+            200,
+        )
 
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Logout error: {e!s}")
-        return jsonify(
-            {
-                "success": False,
-                "message": "Internal server error during logout",
-                "request_id": request_id,
-            }
-        ), 500
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Internal server error during logout",
+                    "request_id": request_id,
+                }
+            ),
+            500,
+        )
 
 
 # Human-readable comment: Endpoint for verifying an authentication token.
@@ -700,22 +834,37 @@ def verify_authentication_token_endpoint():
         token, token_error = _extract_token_from_request(request)
 
         if not token:
-            logger.warning(f"ΛTRACE ({request_id}): Token verification attempt without valid token")
-            return jsonify({"success": False, "valid": False, "message": token_error, "request_id": request_id}), 401
+            logger.warning(
+                f"ΛTRACE ({request_id}): Token verification attempt without valid token"
+            )
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "valid": False,
+                        "message": token_error,
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         # Validate token
         is_valid, payload, validation_error = _validate_jwt_token(token)
 
         if not is_valid:
             logger.warning(f"ΛTRACE ({request_id}): Invalid token verification attempt")
-            return jsonify(
-                {
-                    "success": False,
-                    "valid": False,
-                    "message": validation_error,
-                    "request_id": request_id,
-                }
-            ), 401
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "valid": False,
+                        "message": validation_error,
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         user_id = payload.get("user_id")
         lambda_id = payload.get("lambda_id")
@@ -723,28 +872,38 @@ def verify_authentication_token_endpoint():
 
         # Check if user still exists and is active
         if user_id not in users_db:
-            logger.warning(f"ΛTRACE ({request_id}): Token valid but user {user_id} not found")
-            return jsonify(
-                {
-                    "success": False,
-                    "valid": False,
-                    "message": "User associated with token no longer exists",
-                    "request_id": request_id,
-                }
-            ), 401
+            logger.warning(
+                f"ΛTRACE ({request_id}): Token valid but user {user_id} not found"
+            )
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "valid": False,
+                        "message": "User associated with token no longer exists",
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         user_record = users_db[user_id]
 
         if not user_record.get("is_active", True):
-            logger.warning(f"ΛTRACE ({request_id}): Token valid but user {user_id} is inactive")
-            return jsonify(
-                {
-                    "success": False,
-                    "valid": False,
-                    "message": "User account is inactive",
-                    "request_id": request_id,
-                }
-            ), 401
+            logger.warning(
+                f"ΛTRACE ({request_id}): Token valid but user {user_id} is inactive"
+            )
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "valid": False,
+                        "message": "User account is inactive",
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         # Check if user has active sessions (for access tokens)
         active_sessions = []
@@ -765,8 +924,12 @@ def verify_authentication_token_endpoint():
             "user_id": user_id,
             "lambda_id": lambda_id,
             "token_type": token_type,
-            "issued_at": datetime.fromtimestamp(payload.get("iat"), timezone.utc).isoformat(),
-            "expires_at": datetime.fromtimestamp(payload.get("exp"), timezone.utc).isoformat(),
+            "issued_at": datetime.fromtimestamp(
+                payload.get("iat"), timezone.utc
+            ).isoformat(),
+            "expires_at": datetime.fromtimestamp(
+                payload.get("exp"), timezone.utc
+            ).isoformat(),
             "time_until_expiry": payload.get("exp") - time.time(),
         }
 
@@ -781,30 +944,40 @@ def verify_authentication_token_endpoint():
             "active_sessions_count": len(active_sessions),
         }
 
-        logger.info(f"ΛTRACE ({request_id}): Token verification successful for user {user_id}")
+        logger.info(
+            f"ΛTRACE ({request_id}): Token verification successful for user {user_id}"
+        )
 
-        return jsonify(
-            {
-                "success": True,
-                "valid": True,
-                "message": "Token is valid",
-                "request_id": request_id,
-                "token_claims": token_claims,
-                "user": user_info,
-                "active_sessions": active_sessions if token_type == "access" else [],
-            }
-        ), 200
+        return (
+            jsonify(
+                {
+                    "success": True,
+                    "valid": True,
+                    "message": "Token is valid",
+                    "request_id": request_id,
+                    "token_claims": token_claims,
+                    "user": user_info,
+                    "active_sessions": (
+                        active_sessions if token_type == "access" else []
+                    ),
+                }
+            ),
+            200,
+        )
 
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Token verification error: {e!s}")
-        return jsonify(
-            {
-                "success": False,
-                "valid": False,
-                "message": "Internal server error during token verification",
-                "request_id": request_id,
-            }
-        ), 500
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "valid": False,
+                    "message": "Internal server error during token verification",
+                    "request_id": request_id,
+                }
+            ),
+            500,
+        )
 
 
 # Additional endpoint: Token refresh
@@ -820,48 +993,75 @@ def refresh_token_endpoint():
     try:
         # Extract refresh token
         if not request.is_json:
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Content-Type must be application/json",
-                    "request_id": request_id,
-                }
-            ), 400
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Content-Type must be application/json",
+                        "request_id": request_id,
+                    }
+                ),
+                400,
+            )
 
         data = request.get_json()
         refresh_token = data.get("refresh_token")
 
         if not refresh_token:
-            return jsonify({"success": False, "message": "Missing refresh_token", "request_id": request_id}), 400
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Missing refresh_token",
+                        "request_id": request_id,
+                    }
+                ),
+                400,
+            )
 
         # Validate refresh token
         is_valid, payload, validation_error = _validate_jwt_token(refresh_token)
 
         if not is_valid:
             logger.warning(f"ΛTRACE ({request_id}): Invalid refresh token")
-            return jsonify({"success": False, "message": validation_error, "request_id": request_id}), 401
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": validation_error,
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         # Verify token type
         if payload.get("token_type") != "refresh":
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Invalid token type for refresh",
-                    "request_id": request_id,
-                }
-            ), 401
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Invalid token type for refresh",
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         user_id = payload.get("user_id")
 
         # Check user exists and is active
         if user_id not in users_db or not users_db[user_id].get("is_active", True):
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "User account is invalid or inactive",
-                    "request_id": request_id,
-                }
-            ), 401
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "User account is invalid or inactive",
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         user_record = users_db[user_id]
         lambda_id = user_record["lambda_id"]
@@ -875,31 +1075,39 @@ def refresh_token_endpoint():
         # Blacklist old refresh token
         blacklisted_tokens.add(refresh_token)
 
-        logger.info(f"ΛTRACE ({request_id}): Token refresh successful for user {user_id}")
+        logger.info(
+            f"ΛTRACE ({request_id}): Token refresh successful for user {user_id}"
+        )
 
-        return jsonify(
-            {
-                "success": True,
-                "message": "Token refreshed successfully",
-                "request_id": request_id,
-                "tokens": {
-                    "access_token": new_access_token,
-                    "refresh_token": new_refresh_token,
-                    "token_type": "Bearer",
-                    "expires_in": int(JWT_ACCESS_TOKEN_EXPIRES.total_seconds()),
-                },
-            }
-        ), 200
+        return (
+            jsonify(
+                {
+                    "success": True,
+                    "message": "Token refreshed successfully",
+                    "request_id": request_id,
+                    "tokens": {
+                        "access_token": new_access_token,
+                        "refresh_token": new_refresh_token,
+                        "token_type": "Bearer",
+                        "expires_in": int(JWT_ACCESS_TOKEN_EXPIRES.total_seconds()),
+                    },
+                }
+            ),
+            200,
+        )
 
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Token refresh error: {e!s}")
-        return jsonify(
-            {
-                "success": False,
-                "message": "Internal server error during token refresh",
-                "request_id": request_id,
-            }
-        ), 500
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Internal server error during token refresh",
+                    "request_id": request_id,
+                }
+            ),
+            500,
+        )
 
 
 # Additional security endpoints
@@ -918,17 +1126,40 @@ def get_user_profile():
         token, token_error = _extract_token_from_request(request)
 
         if not token:
-            return jsonify({"success": False, "message": token_error, "request_id": request_id}), 401
+            return (
+                jsonify(
+                    {"success": False, "message": token_error, "request_id": request_id}
+                ),
+                401,
+            )
 
         is_valid, payload, validation_error = _validate_jwt_token(token)
 
         if not is_valid:
-            return jsonify({"success": False, "message": validation_error, "request_id": request_id}), 401
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": validation_error,
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         user_id = payload.get("user_id")
 
         if user_id not in users_db:
-            return jsonify({"success": False, "message": "User not found", "request_id": request_id}), 404
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "User not found",
+                        "request_id": request_id,
+                    }
+                ),
+                404,
+            )
 
         user_record = users_db[user_id]
 
@@ -943,11 +1174,23 @@ def get_user_profile():
             "failed_login_count": user_record.get("failed_login_count", 0),
         }
 
-        return jsonify({"success": True, "profile": profile, "request_id": request_id}), 200
+        return (
+            jsonify({"success": True, "profile": profile, "request_id": request_id}),
+            200,
+        )
 
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Profile fetch error: {e!s}")
-        return jsonify({"success": False, "message": "Internal server error", "request_id": request_id}), 500
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Internal server error",
+                    "request_id": request_id,
+                }
+            ),
+            500,
+        )
 
 
 @auth_bp.route("/user/change-password", methods=["POST"])
@@ -956,17 +1199,22 @@ def change_password():
     Change user password (requires valid access token and current password).
     """
     request_id = f"changepw_{int(time.time() * 1000)}"
-    logger.info(f"ΛTRACE ({request_id}): Received POST request to /user/change-password.")
+    logger.info(
+        f"ΛTRACE ({request_id}): Received POST request to /user/change-password."
+    )
 
     try:
         if not request.is_json:
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Content-Type must be application/json",
-                    "request_id": request_id,
-                }
-            ), 400
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Content-Type must be application/json",
+                        "request_id": request_id,
+                    }
+                ),
+                400,
+            )
 
         data = request.get_json()
 
@@ -974,58 +1222,123 @@ def change_password():
         token, token_error = _extract_token_from_request(request)
 
         if not token:
-            return jsonify({"success": False, "message": token_error, "request_id": request_id}), 401
+            return (
+                jsonify(
+                    {"success": False, "message": token_error, "request_id": request_id}
+                ),
+                401,
+            )
 
         is_valid, payload, validation_error = _validate_jwt_token(token)
 
         if not is_valid:
-            return jsonify({"success": False, "message": validation_error, "request_id": request_id}), 401
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": validation_error,
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         user_id = payload.get("user_id")
         current_password = data.get("current_password")
         new_password = data.get("new_password")
 
         if not current_password or not new_password:
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Both current_password and new_password are required",
-                    "request_id": request_id,
-                }
-            ), 400
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Both current_password and new_password are required",
+                        "request_id": request_id,
+                    }
+                ),
+                400,
+            )
 
         if user_id not in users_db:
-            return jsonify({"success": False, "message": "User not found", "request_id": request_id}), 404
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "User not found",
+                        "request_id": request_id,
+                    }
+                ),
+                404,
+            )
 
         user_record = users_db[user_id]
 
         # Verify current password
-        if not bcrypt.checkpw(current_password.encode("utf-8"), user_record["password_hash"].encode("utf-8")):
-            logger.warning(f"ΛTRACE ({request_id}): Invalid current password for user {user_id}")
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Current password is incorrect",
-                    "request_id": request_id,
-                }
-            ), 401
+        if not bcrypt.checkpw(
+            current_password.encode("utf-8"),
+            user_record["password_hash"].encode("utf-8"),
+        ):
+            logger.warning(
+                f"ΛTRACE ({request_id}): Invalid current password for user {user_id}"
+            )
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Current password is incorrect",
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         # Validate new password strength
         valid_password, password_message = _validate_password_strength(new_password)
         if not valid_password:
-            return jsonify({"success": False, "message": password_message, "request_id": request_id}), 400
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": password_message,
+                        "request_id": request_id,
+                    }
+                ),
+                400,
+            )
 
         # Update password
-        new_password_hash = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt())
+        new_password_hash = bcrypt.hashpw(
+            new_password.encode("utf-8"), bcrypt.gensalt()
+        )
         users_db[user_id]["password_hash"] = new_password_hash.decode("utf-8")
 
-        logger.info(f"ΛTRACE ({request_id}): Password changed successfully for user {user_id}")
+        logger.info(
+            f"ΛTRACE ({request_id}): Password changed successfully for user {user_id}"
+        )
 
-        return jsonify({"success": True, "message": "Password changed successfully", "request_id": request_id}), 200
+        return (
+            jsonify(
+                {
+                    "success": True,
+                    "message": "Password changed successfully",
+                    "request_id": request_id,
+                }
+            ),
+            200,
+        )
 
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Password change error: {e!s}")
-        return jsonify({"success": False, "message": "Internal server error", "request_id": request_id}), 500
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Internal server error",
+                    "request_id": request_id,
+                }
+            ),
+            500,
+        )
 
 
 @auth_bp.route("/user/sessions", methods=["GET"])
@@ -1041,12 +1354,26 @@ def get_user_sessions():
         token, token_error = _extract_token_from_request(request)
 
         if not token:
-            return jsonify({"success": False, "message": token_error, "request_id": request_id}), 401
+            return (
+                jsonify(
+                    {"success": False, "message": token_error, "request_id": request_id}
+                ),
+                401,
+            )
 
         is_valid, payload, validation_error = _validate_jwt_token(token)
 
         if not is_valid:
-            return jsonify({"success": False, "message": validation_error, "request_id": request_id}), 401
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": validation_error,
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         user_id = payload.get("user_id")
 
@@ -1064,18 +1391,30 @@ def get_user_sessions():
                     }
                 )
 
-        return jsonify(
-            {
-                "success": True,
-                "sessions": active_sessions,
-                "total_sessions": len(active_sessions),
-                "request_id": request_id,
-            }
-        ), 200
+        return (
+            jsonify(
+                {
+                    "success": True,
+                    "sessions": active_sessions,
+                    "total_sessions": len(active_sessions),
+                    "request_id": request_id,
+                }
+            ),
+            200,
+        )
 
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Sessions fetch error: {e!s}")
-        return jsonify({"success": False, "message": "Internal server error", "request_id": request_id}), 500
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Internal server error",
+                    "request_id": request_id,
+                }
+            ),
+            500,
+        )
 
 
 @auth_bp.route("/user/revoke-session", methods=["POST"])
@@ -1084,17 +1423,22 @@ def revoke_session():
     Revoke a specific session by session ID.
     """
     request_id = f"revoke_{int(time.time() * 1000)}"
-    logger.info(f"ΛTRACE ({request_id}): Received POST request to /user/revoke-session.")
+    logger.info(
+        f"ΛTRACE ({request_id}): Received POST request to /user/revoke-session."
+    )
 
     try:
         if not request.is_json:
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Content-Type must be application/json",
-                    "request_id": request_id,
-                }
-            ), 400
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Content-Type must be application/json",
+                        "request_id": request_id,
+                    }
+                ),
+                400,
+            )
 
         data = request.get_json()
 
@@ -1102,50 +1446,99 @@ def revoke_session():
         token, token_error = _extract_token_from_request(request)
 
         if not token:
-            return jsonify({"success": False, "message": token_error, "request_id": request_id}), 401
+            return (
+                jsonify(
+                    {"success": False, "message": token_error, "request_id": request_id}
+                ),
+                401,
+            )
 
         is_valid, payload, validation_error = _validate_jwt_token(token)
 
         if not is_valid:
-            return jsonify({"success": False, "message": validation_error, "request_id": request_id}), 401
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": validation_error,
+                        "request_id": request_id,
+                    }
+                ),
+                401,
+            )
 
         user_id = payload.get("user_id")
         session_to_revoke = data.get("session_id")
 
         if not session_to_revoke:
-            return jsonify({"success": False, "message": "session_id is required", "request_id": request_id}), 400
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "session_id is required",
+                        "request_id": request_id,
+                    }
+                ),
+                400,
+            )
 
         # Check if session exists and belongs to user
         if session_to_revoke not in user_sessions:
-            return jsonify({"success": False, "message": "Session not found", "request_id": request_id}), 404
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Session not found",
+                        "request_id": request_id,
+                    }
+                ),
+                404,
+            )
 
         session_data = user_sessions[session_to_revoke]
         if session_data.get("user_id") != user_id:
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Session does not belong to authenticated user",
-                    "request_id": request_id,
-                }
-            ), 403
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Session does not belong to authenticated user",
+                        "request_id": request_id,
+                    }
+                ),
+                403,
+            )
 
         # Revoke session
         del user_sessions[session_to_revoke]
 
-        logger.info(f"ΛTRACE ({request_id}): Session {session_to_revoke} revoked for user {user_id}")
+        logger.info(
+            f"ΛTRACE ({request_id}): Session {session_to_revoke} revoked for user {user_id}"
+        )
 
-        return jsonify(
-            {
-                "success": True,
-                "message": "Session revoked successfully",
-                "revoked_session_id": session_to_revoke,
-                "request_id": request_id,
-            }
-        ), 200
+        return (
+            jsonify(
+                {
+                    "success": True,
+                    "message": "Session revoked successfully",
+                    "revoked_session_id": session_to_revoke,
+                    "request_id": request_id,
+                }
+            ),
+            200,
+        )
 
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Session revocation error: {e!s}")
-        return jsonify({"success": False, "message": "Internal server error", "request_id": request_id}), 500
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Internal server error",
+                    "request_id": request_id,
+                }
+            ),
+            500,
+        )
 
 
 # Security middleware decorator for protected endpoints
@@ -1164,12 +1557,30 @@ def require_auth(f):
             token, token_error = _extract_token_from_request(request)
 
             if not token:
-                return jsonify({"success": False, "message": token_error, "request_id": request_id}), 401
+                return (
+                    jsonify(
+                        {
+                            "success": False,
+                            "message": token_error,
+                            "request_id": request_id,
+                        }
+                    ),
+                    401,
+                )
 
             is_valid, payload, validation_error = _validate_jwt_token(token)
 
             if not is_valid:
-                return jsonify({"success": False, "message": validation_error, "request_id": request_id}), 401
+                return (
+                    jsonify(
+                        {
+                            "success": False,
+                            "message": validation_error,
+                            "request_id": request_id,
+                        }
+                    ),
+                    401,
+                )
 
             # Add user info to request context
             request.current_user = {
@@ -1182,12 +1593,23 @@ def require_auth(f):
 
         except Exception as e:
             logger.error(f"ΛTRACE ({request_id}): Auth middleware error: {e!s}")
-            return jsonify({"success": False, "message": "Authentication error", "request_id": request_id}), 500
+            return (
+                jsonify(
+                    {
+                        "success": False,
+                        "message": "Authentication error",
+                        "request_id": request_id,
+                    }
+                ),
+                500,
+            )
 
     return decorated_function
 
 
-logger.info("ΛTRACE: auth_flows module loaded with comprehensive authentication system.")
+logger.info(
+    "ΛTRACE: auth_flows module loaded with comprehensive authentication system."
+)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: auth_flows.py

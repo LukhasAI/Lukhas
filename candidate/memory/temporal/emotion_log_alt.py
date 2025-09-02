@@ -42,7 +42,9 @@ last_logged_time = None
 
 def log_emotion(state, source="manual", intensity=1):
     global last_logged_time
-    if last_logged_time and datetime.utcnow() - last_logged_time < timedelta(seconds=10):
+    if last_logged_time and datetime.utcnow() - last_logged_time < timedelta(
+        seconds=10
+    ):
         logging.warning("Emotion logging rate limit exceeded.")
         return None
     last_logged_time = datetime.utcnow()
@@ -78,7 +80,10 @@ def decay_emotion(threshold_minutes=60):
         return
     last_entry = emotion_db["log"][-1]
     last_time = datetime.fromisoformat(last_entry["timestamp"])
-    if datetime.utcnow() - last_time > timedelta(minutes=threshold_minutes) and emotion_db["current"] != "neutral":
+    if (
+        datetime.utcnow() - last_time > timedelta(minutes=threshold_minutes)
+        and emotion_db["current"] != "neutral"
+    ):
         log_emotion("neutral", source="decay")
 
 
@@ -116,7 +121,9 @@ def blend_emotions():
     """
     from collections import Counter
 
-    recent_emotions = [entry["state"] for entry in emotion_db["log"][-5:]]  # Last 5 emotions
+    recent_emotions = [
+        entry["state"] for entry in emotion_db["log"][-5:]
+    ]  # Last 5 emotions
     if not recent_emotions:
         return "neutral"
     emotion_counts = Counter(recent_emotions)
@@ -133,7 +140,11 @@ def search_emotions(criteria: dict[str, str]) -> list[dict]:
     Returns:
         list: A list of matching emotion log entries.
     """
-    return [entry for entry in emotion_db["log"] if all(entry.get(key) == value for key, value in criteria.items())]
+    return [
+        entry
+        for entry in emotion_db["log"]
+        if all(entry.get(key) == value for key, value in criteria.items())
+    ]
 
 
 def summarize_emotions():

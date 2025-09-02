@@ -134,7 +134,9 @@ class SecretManager:
             ),
         }
 
-    def get_secret(self, secret_name: str, default: Optional[str] = None) -> Optional[str]:
+    def get_secret(
+        self, secret_name: str, default: Optional[str] = None
+    ) -> Optional[str]:
         """
         Get a secret value securely
 
@@ -230,7 +232,9 @@ class SecretManager:
                     decrypted_data = self._encryption_key.decrypt(encrypted_data)
                     secrets_dict = json.loads(decrypted_data.decode())
                 except Exception:
-                    logger.warning("Failed to decrypt existing secrets, creating new file")
+                    logger.warning(
+                        "Failed to decrypt existing secrets, creating new file"
+                    )
 
             # Update with new secret
             secrets_dict[secret_name] = value

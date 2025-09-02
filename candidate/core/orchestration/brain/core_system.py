@@ -53,13 +53,13 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 # Core AGI imports (consolidated logic)
 try:
     from .attention.qi_attention import QIInspiredAttention
-    from .compliance.ethical_engine import ComplianceEngine as AGIComplianceEngine
+    from .compliance.ethical_engine import \
+        ComplianceEngine as AGIComplianceEngine
     from .metacognition.orchestrator import MetaCognitiveOrchestrator
     from .reasoning.causal_reasoning_engine import CausalReasoningEngine
     from .reasoning.symbolic_reasoning import SymbolicEngine
@@ -77,8 +77,7 @@ logger = logging.getLogger("LUKHAS_AGI")
 
 # Import tier system
 try:
-    from .orchestration.orchestrator import ConsciousnessState
-    from .orchestration.orchestrator import LukhasTier
+    from .orchestration.orchestrator import ConsciousnessState, LukhasTier
 except ImportError:
     # Fallback for development/testing
     from enum import Enum

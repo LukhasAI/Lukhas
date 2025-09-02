@@ -152,7 +152,9 @@ class MorphingEngine:
 
     def __init__(self, tab_system: DynamicTabSystem):
         self.tab_system = tab_system
-        self.logger = logger.bind(engine_id=f"morph_engine_{int(datetime.now().timestamp())}")
+        self.logger = logger.bind(
+            engine_id=f"morph_engine_{int(datetime.now().timestamp())}"
+        )
 
         # Morphing state
         self.current_morph_state = DashboardMorphState.OPTIMAL
@@ -250,7 +252,9 @@ class MorphingEngine:
 
         try:
             # Get morphing transition
-            transition = await self._get_morphing_transition(self.current_morph_state, target_state)
+            transition = await self._get_morphing_transition(
+                self.current_morph_state, target_state
+            )
             if duration_ms:
                 transition.duration_ms = duration_ms
 
@@ -308,7 +312,9 @@ class MorphingEngine:
         finally:
             self.morphing_in_progress = False
 
-    async def predict_morph_needs(self, prediction_horizon: int = 300) -> list[dict[str, Any]]:
+    async def predict_morph_needs(
+        self, prediction_horizon: int = 300
+    ) -> list[dict[str, Any]]:
         """Predict upcoming morphing needs based on context and patterns."""
 
         predictions = []
@@ -341,7 +347,9 @@ class MorphingEngine:
 
         return predictions[:5]  # Return top 5 predictions
 
-    async def prepare_predictive_morph(self, predicted_state: DashboardMorphState, confidence: float):
+    async def prepare_predictive_morph(
+        self, predicted_state: DashboardMorphState, confidence: float
+    ):
         """Prepare for a predicted morphing state."""
 
         if confidence < 0.7:  # Confidence threshold
@@ -357,7 +365,9 @@ class MorphingEngine:
         await self._preload_morph_resources(predicted_state)
 
         # Pre-calculate transition parameters
-        transition = await self._get_morphing_transition(self.current_morph_state, predicted_state)
+        transition = await self._get_morphing_transition(
+            self.current_morph_state, predicted_state
+        )
 
         # Notify prediction handlers
         for handler in self.prediction_handlers:
@@ -409,7 +419,9 @@ class MorphingEngine:
         performance_analysis = await self._analyze_morphing_performance()
 
         # Optimize transition timings
-        timing_optimizations = await self._optimize_transition_timings(performance_analysis)
+        timing_optimizations = await self._optimize_transition_timings(
+            performance_analysis
+        )
         optimization_results["transition_optimizations"] = timing_optimizations
 
         # Optimize color schemes
@@ -423,7 +435,9 @@ class MorphingEngine:
         # Calculate overall improvement
         current_performance = self.performance_data["resource_efficiency"]
         new_performance = await self._calculate_morphing_performance()
-        optimization_results["performance_improvement"] = new_performance - current_performance
+        optimization_results["performance_improvement"] = (
+            new_performance - current_performance
+        )
 
         self.logger.info(
             "Morphing performance optimized",
@@ -655,7 +669,9 @@ class MorphingEngine:
                     transition_id = f"{from_state.value}_to_{to_state.value}"
 
                     # Determine transition characteristics based on state types
-                    duration, strategy, components = self._calculate_transition_parameters(from_state, to_state)
+                    duration, strategy, components = (
+                        self._calculate_transition_parameters(from_state, to_state)
+                    )
 
                     transition = MorphingTransition(
                         transition_id=transition_id,
@@ -665,7 +681,9 @@ class MorphingEngine:
                         strategy=strategy,
                         components_affected=components,
                         transition_curve="cubic-bezier(0.4, 0.0, 0.2, 1)",
-                        priority=self._calculate_transition_priority(from_state, to_state),
+                        priority=self._calculate_transition_priority(
+                            from_state, to_state
+                        ),
                         confidence_threshold=0.7,
                     )
 
@@ -707,7 +725,9 @@ class MorphingEngine:
                 component_modifications={
                     MorphingComponent.COLOR_SCHEME: {"scheme": "ethics_complex"},
                     MorphingComponent.LAYOUT_STRUCTURE: {"layout": "ethics_decision"},
-                    MorphingComponent.INFORMATION_HIERARCHY: {"mode": "decision_support"},
+                    MorphingComponent.INFORMATION_HIERARCHY: {
+                        "mode": "decision_support"
+                    },
                 },
                 duration_ms=1000,
                 confidence_required=0.8,
@@ -808,7 +828,9 @@ class MorphingEngine:
             ],
         )
 
-    def _calculate_transition_priority(self, from_state: DashboardMorphState, to_state: DashboardMorphState) -> int:
+    def _calculate_transition_priority(
+        self, from_state: DashboardMorphState, to_state: DashboardMorphState
+    ) -> int:
         """Calculate transition priority (1 = highest, 10 = lowest)."""
 
         # Emergency states have highest priority
@@ -915,7 +937,9 @@ class MorphingEngine:
             "metrics": {"duration_actual": transition.duration_ms},
         }
 
-    async def _evaluate_morphing_rules(self, context: DashboardContext) -> list[MorphingRule]:
+    async def _evaluate_morphing_rules(
+        self, context: DashboardContext
+    ) -> list[MorphingRule]:
         """Evaluate morphing rules against current context."""
         applicable_rules = []
         # Implementation would check each rule against context
@@ -926,7 +950,9 @@ class MorphingEngine:
         # Implementation would analyze morph_history for patterns
         return []
 
-    async def _determine_emotional_adaptation(self, emotional_state: dict[str, float]) -> Optional[dict[str, Any]]:
+    async def _determine_emotional_adaptation(
+        self, emotional_state: dict[str, float]
+    ) -> Optional[dict[str, Any]]:
         """Determine appropriate emotional adaptation."""
         # Implementation would analyze emotional state and determine adaptations
         return None

@@ -197,9 +197,8 @@ class SecurityComplianceChecker:
         """Check status of hardcoded secrets remediation"""
         # Run actual scan to get current status
         try:
-            from tools.security.hardcoded_secrets_fixer import (
-                HardcodedSecretsFixer,
-            )
+            from tools.security.hardcoded_secrets_fixer import \
+                HardcodedSecretsFixer
 
             fixer = HardcodedSecretsFixer()
             issues = fixer.scan_codebase()

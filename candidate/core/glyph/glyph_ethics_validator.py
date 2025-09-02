@@ -43,13 +43,10 @@ import re
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 # Internal imports
-from ..core.symbolic.glyphs.glyph import Glyph
-from ..core.symbolic.glyphs.glyph import GlyphPriority
-from ..core.symbolic.glyphs.glyph import GlyphType
+from ..core.symbolic.glyphs.glyph import Glyph, GlyphPriority, GlyphType
 
 # Configure logger
 logger = logging.getLogger(__name__)

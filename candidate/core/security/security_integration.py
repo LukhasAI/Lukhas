@@ -67,10 +67,16 @@ class SecurityIntegration:
     def _create_memory_encryption_hook(self) -> Callable:
         """Create encryption hook for memory module"""
 
-        async def encrypt_memory_data(data: Any, memory_type: str = "general") -> tuple[bytes, str]:
+        async def encrypt_memory_data(
+            data: Any, memory_type: str = "general"
+        ) -> tuple[bytes, str]:
             """Encrypt memory data with proper crypto"""
             # Serialize data
-            data_bytes = json.dumps(data).encode("utf-8") if isinstance(data, dict) else str(data).encode("utf-8")
+            data_bytes = (
+                json.dumps(data).encode("utf-8")
+                if isinstance(data, dict)
+                else str(data).encode("utf-8")
+            )
 
             # Use appropriate encryption based on memory type
             if memory_type == "personality":
@@ -125,7 +131,9 @@ class SecurityIntegration:
     def _create_glyph_encryption_hook(self) -> Callable:
         """Create encryption hook for GLYPH tokens"""
 
-        async def encrypt_glyph_token(token: str, recipient_module: str) -> tuple[str, str]:
+        async def encrypt_glyph_token(
+            token: str, recipient_module: str
+        ) -> tuple[str, str]:
             """Encrypt GLYPH token for secure module communication"""
             token_data = {
                 "token": token,
@@ -175,7 +183,9 @@ class SecurityIntegration:
             log_entry["node_id"] = "lukhas-main"
 
             # Encrypt
-            encrypted, key_id = await self.crypto.encrypt_json(log_entry, purpose="data")
+            encrypted, key_id = await self.crypto.encrypt_json(
+                log_entry, purpose="data"
+            )
 
             # Create signed package
             package = {
@@ -196,18 +206,26 @@ class SecurityIntegration:
         return hashlib.sha256(data.encode()).hexdigest()
 
     # Public API for modules
-    async def encrypt_module_data(self, module: str, data: Any, data_type: str = "general") -> tuple[bytes, str]:
+    async def encrypt_module_data(
+        self, module: str, data: Any, data_type: str = "general"
+    ) -> tuple[bytes, str]:
         """Encrypt data for a specific module"""
         if module in self.module_hooks:
             hook = self.module_hooks[module]
             return await hook(data, data_type)
         else:
             # Default encryption
-            data_bytes = json.dumps(data).encode() if isinstance(data, dict) else str(data).encode()
+            data_bytes = (
+                json.dumps(data).encode()
+                if isinstance(data, dict)
+                else str(data).encode()
+            )
 
             return await self.crypto.encrypt(data_bytes, purpose="data")
 
-    async def create_secure_session(self, user_id: str, credentials: dict[str, Any]) -> Optional[dict[str, Any]]:
+    async def create_secure_session(
+        self, user_id: str, credentials: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """Create secure session with MFA"""
         # Check rate limiting
         if not await self.auth.check_rate_limit(user_id):
@@ -267,7 +285,9 @@ class SecurityIntegration:
             "mfa_verified": session.mfa_verified,
         }
 
-    async def verify_mfa(self, session_id: str, mfa_method: str, mfa_code: str) -> Optional[dict[str, Any]]:
+    async def verify_mfa(
+        self, session_id: str, mfa_method: str, mfa_code: str
+    ) -> Optional[dict[str, Any]]:
         """Verify MFA for session"""
         session = await self.auth.validate_session(session_id)
         if not session:
@@ -303,7 +323,9 @@ class SecurityIntegration:
 
         return None
 
-    async def validate_request(self, request_data: dict[str, Any]) -> tuple[bool, Optional[str]]:
+    async def validate_request(
+        self, request_data: dict[str, Any]
+    ) -> tuple[bool, Optional[str]]:
         """Validate incoming request with full security checks"""
         # Extract auth info
         auth_header = request_data.get("authorization", "")
@@ -318,7 +340,9 @@ class SecurityIntegration:
 
             # Check MFA for sensitive operations
             operation = request_data.get("operation", "")
-            if self._is_sensitive_operation(operation) and not payload.get("mfa_verified"):
+            if self._is_sensitive_operation(operation) and not payload.get(
+                "mfa_verified"
+            ):
                 return False, "MFA required for this operation"
 
             # Create security context
@@ -333,7 +357,9 @@ class SecurityIntegration:
             context.permissions = {"*"}
 
             # Validate with AGI security
-            return await self.agi_security.validate_operation(operation, request_data.get("data"), context)
+            return await self.agi_security.validate_operation(
+                operation, request_data.get("data"), context
+            )
 
         # Check API key
         elif auth_header.startswith("ApiKey "):
@@ -351,7 +377,10 @@ class SecurityIntegration:
             operation = request_data.get("operation", "")
             required_scope = self._get_required_scope(operation)
 
-            if required_scope not in key_data["scopes"] and "*" not in key_data["scopes"]:
+            if (
+                required_scope not in key_data["scopes"]
+                and "*" not in key_data["scopes"]
+            ):
                 return (
                     False,
                     f"API key missing required scope: {required_scope}",

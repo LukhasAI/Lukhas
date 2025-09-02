@@ -47,7 +47,9 @@ from lukhas.governance.identity.interface import IdentityClient, verify_access
 logger = structlog.get_logger(__name__)
 
 
-def require_identity(required_tier: str = "LAMBDA_TIER_1", check_consent: Optional[str] = None):
+def require_identity(
+    required_tier: str = "LAMBDA_TIER_1", check_consent: Optional[str] = None
+):
     """
     Decorator for tier-based access control.
     This replaces the missing require_identity decorator from the identity system.
@@ -57,7 +59,9 @@ def require_identity(required_tier: str = "LAMBDA_TIER_1", check_consent: Option
         def wrapper(*args, **kwargs):
             # For now, we'll extract user_id from the function arguments
             # In a real implementation, this would integrate with the session system
-            if len(args) >= 2 and isinstance(args[1], str):  # Assuming user_id is second arg
+            if len(args) >= 2 and isinstance(
+                args[1], str
+            ):  # Assuming user_id is second arg
                 user_id = args[1]
                 if not verify_access(user_id, required_tier):
                     logger.warning(
@@ -65,11 +69,17 @@ def require_identity(required_tier: str = "LAMBDA_TIER_1", check_consent: Option
                         user_id=user_id,
                         required_tier=required_tier,
                     )
-                    raise PermissionError(f"User {user_id} lacks required tier {required_tier}")
+                    raise PermissionError(
+                        f"User {user_id} lacks required tier {required_tier}"
+                    )
 
                 if check_consent and not check_consent(user_id, check_consent):
-                    logger.warning("Consent denied", user_id=user_id, action=check_consent)
-                    raise PermissionError(f"User {user_id} has not consented to {check_consent}")
+                    logger.warning(
+                        "Consent denied", user_id=user_id, action=check_consent
+                    )
+                    raise PermissionError(
+                        f"User {user_id} has not consented to {check_consent}"
+                    )
 
             return func(*args, **kwargs)
 
@@ -201,17 +211,23 @@ class UnifiedVeriFoldSystem:
         )
 
         # Create collapse snapshot
-        snapshot = self._create_collapse_snapshot(collapse_data, user_id, lambda_tier, collapse_type)
+        snapshot = self._create_collapse_snapshot(
+            collapse_data, user_id, lambda_tier, collapse_type
+        )
 
         # Generate cryptographic hash
         verifold_hash = self._compute_verifold_hash(snapshot)
 
         # Create record
-        record = VeriFoldRecord(snapshot=snapshot, verifold_hash=verifold_hash, verified=False)
+        record = VeriFoldRecord(
+            snapshot=snapshot, verifold_hash=verifold_hash, verified=False
+        )
 
         # Add cryptographic signature if available
         if PQ_AVAILABLE:
-            record.signature, record.public_key = self._sign_verifold_hash(verifold_hash)
+            record.signature, record.public_key = self._sign_verifold_hash(
+                verifold_hash
+            )
             record.verified = True
 
         # Store and monitor
@@ -257,7 +273,9 @@ class UnifiedVeriFoldSystem:
 
         # Verify cryptographic signature if present
         if record.signature and record.public_key and PQ_AVAILABLE:
-            signature_valid = self._verify_signature(record.verifold_hash, record.signature, record.public_key)
+            signature_valid = self._verify_signature(
+                record.verifold_hash, record.signature, record.public_key
+            )
             if not signature_valid:
                 logger.warning(
                     "VeriFold signature invalid",
@@ -271,8 +289,12 @@ class UnifiedVeriFoldSystem:
         )
         return True
 
-    @require_identity(required_tier="LAMBDA_TIER_3", check_consent="collapse_monitoring")
-    async def monitor_collapse_cascade(self, user_id: str, threshold: float = 0.8) -> dict[str, Any]:
+    @require_identity(
+        required_tier="LAMBDA_TIER_3", check_consent="collapse_monitoring"
+    )
+    async def monitor_collapse_cascade(
+        self, user_id: str, threshold: float = 0.8
+    ) -> dict[str, Any]:
         """
         Monitor for collapse cascade events across the system.
 
@@ -294,7 +316,11 @@ class UnifiedVeriFoldSystem:
         active_collapses = len(self.active_collapses)
 
         # Analyze collapse patterns
-        recent_collapses = [record for record in self.collapse_history[-10:] if record.snapshot.entropy_score > 0.6]
+        recent_collapses = [
+            record
+            for record in self.collapse_history[-10:]
+            if record.snapshot.entropy_score > 0.6
+        ]
 
         # Check for tier-specific risks
         tier_risks = self._analyze_tier_risks(user_id)
@@ -325,8 +351,12 @@ class UnifiedVeriFoldSystem:
 
         return status
 
-    @require_identity(required_tier="LAMBDA_TIER_4", check_consent="system_intervention")
-    async def trigger_collapse_intervention(self, user_id: str, intervention_type: str = "moderate") -> dict[str, Any]:
+    @require_identity(
+        required_tier="LAMBDA_TIER_4", check_consent="system_intervention"
+    )
+    async def trigger_collapse_intervention(
+        self, user_id: str, intervention_type: str = "moderate"
+    ) -> dict[str, Any]:
         """
         Trigger intervention to prevent system-wide collapse.
 
@@ -450,7 +480,9 @@ class UnifiedVeriFoldSystem:
             logger.error("Failed to sign VeriFold hash", error=str(e))
             return "", ""
 
-    def _verify_signature(self, verifold_hash: str, signature_hex: str, public_key_hex: str) -> bool:
+    def _verify_signature(
+        self, verifold_hash: str, signature_hex: str, public_key_hex: str
+    ) -> bool:
         """Verify post-quantum signature."""
         if not PQ_AVAILABLE:
             return False
@@ -474,7 +506,9 @@ class UnifiedVeriFoldSystem:
         system_load = len(self.active_collapses) / 100.0
         temporal_factor = abs(time.time() % 1000) / 1000.0
 
-        entropy_score = min(1.0, base_entropy + system_load * 0.1 + temporal_factor * 0.05)
+        entropy_score = min(
+            1.0, base_entropy + system_load * 0.1 + temporal_factor * 0.05
+        )
         return entropy_score
 
     def _determine_collapse_phase(self, entropy_score: float) -> VeriFoldPhase:
@@ -488,7 +522,9 @@ class UnifiedVeriFoldSystem:
         """Update system entropy based on new collapse."""
         # Weighted average of system entropy
         weight = 0.1  # New record weight
-        self.system_entropy = (1 - weight) * self.system_entropy + weight * record.snapshot.entropy_score
+        self.system_entropy = (
+            1 - weight
+        ) * self.system_entropy + weight * record.snapshot.entropy_score
 
         # Add to history
         self.collapse_history.append(record)
@@ -604,7 +640,9 @@ def get_global_verifold_system() -> UnifiedVeriFoldSystem:
 # Convenience functions for backward compatibility with CollapseHash
 
 
-def generate_verifold_hash(collapse_data: dict[str, Any], user_id: str, lambda_tier: str) -> VeriFoldRecord:
+def generate_verifold_hash(
+    collapse_data: dict[str, Any], user_id: str, lambda_tier: str
+) -> VeriFoldRecord:
     """
     Generate VeriFold hash (replaces generate_collapse_hash).
 

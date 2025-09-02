@@ -74,7 +74,9 @@ class NIASHub:
 
         for service_name, class_name in services:
             try:
-                module = __import__(f"core.modules.nias.{service_name}", fromlist=[class_name])
+                module = __import__(
+                    f"core.modules.nias.{service_name}", fromlist=[class_name]
+                )
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -116,9 +118,13 @@ class NIASHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(service_name, self.services[service_name], "nias")
+                    discovery.register_service_globally(
+                        service_name, self.services[service_name], "nias"
+                    )
 
-            logger.debug(f"Registered {len(key_services)} NIAS services with global discovery")
+            logger.debug(
+                f"Registered {len(key_services)} NIAS services with global discovery"
+            )
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -137,7 +143,9 @@ class NIASHub:
             self.event_handlers[event_type] = []
         self.event_handlers[event_type].append(handler)
 
-    async def process_symbolic_message(self, message: dict[str, Any], user_context: dict[str, Any]) -> dict[str, Any]:
+    async def process_symbolic_message(
+        self, message: dict[str, Any], user_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process a symbolic message through NIAS system"""
 
         nias_core = self.get_service("nias_core")
@@ -156,14 +164,20 @@ class NIASHub:
 
         return {"error": "NIAS core not available"}
 
-    async def process_event(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def process_event(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process an event through registered handlers"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
 
         for handler in handlers:
             try:
-                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
+                result = (
+                    await handler(data)
+                    if asyncio.iscoroutinefunction(handler)
+                    else handler(data)
+                )
                 results.append(result)
             except Exception as e:
                 logger.error(f"NIAS handler error for {event_type}: {e}")

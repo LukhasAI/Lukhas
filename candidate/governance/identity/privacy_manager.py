@@ -38,7 +38,9 @@ class PrivacyManager:
         self.privacy_settings[key] = value
 
         # Log the change
-        self.log_privacy_event({"action": "privacy_setting_changed", "setting": key, "new_value": value})
+        self.log_privacy_event(
+            {"action": "privacy_setting_changed", "setting": key, "new_value": value}
+        )
 
     def get_privacy_setting(self, key):
         """Get a privacy setting"""
@@ -102,7 +104,10 @@ class PrivacyManager:
                     d[key] = anonymize_dict(d[key])
                 elif isinstance(d[key], list):
                     # Recurse into lists
-                    d[key] = [anonymize_dict(item) if isinstance(item, dict) else item for item in d[key]]
+                    d[key] = [
+                        anonymize_dict(item) if isinstance(item, dict) else item
+                        for item in d[key]
+                    ]
             return d
 
         return anonymize_dict(anonymized_data)
@@ -140,7 +145,10 @@ class PrivacyManager:
                     d[key] = encrypt_dict(d[key])
                 elif isinstance(d[key], list):
                     # Recurse into lists
-                    d[key] = [encrypt_dict(item) if isinstance(item, dict) else item for item in d[key]]
+                    d[key] = [
+                        encrypt_dict(item) if isinstance(item, dict) else item
+                        for item in d[key]
+                    ]
             return d
 
         return encrypt_dict(encrypted_data)
@@ -190,7 +198,11 @@ class PrivacyManager:
             return {"allowed": False, "reason": f"Action '{action}' explicitly denied"}
 
         # Check resource-specific permissions if resource provided
-        if resource and "resources" in permissions and resource in permissions["resources"]:
+        if (
+            resource
+            and "resources" in permissions
+            and resource in permissions["resources"]
+        ):
             # Check if action is allowed for this resource
             resource_permissions = permissions["resources"][resource]
             if action in resource_permissions.get("allowed_actions", []):
@@ -214,7 +226,9 @@ class PrivacyManager:
         self.user_permissions[user_id] = permissions
 
         # Log the change
-        self.log_privacy_event({"action": "user_permissions_updated", "user_id": user_id})
+        self.log_privacy_event(
+            {"action": "user_permissions_updated", "user_id": user_id}
+        )
 
     def apply_retention_policy(self, data_type, data):
         """Apply data retention policy to the given data"""
@@ -238,7 +252,9 @@ class PrivacyManager:
                         # Parse timestamp from iso_format or check if it's a float
                         # timestamp
                         if isinstance(item["timestamp"], str):
-                            item_time = datetime.fromisoformat(item["timestamp"]).timestamp()
+                            item_time = datetime.fromisoformat(
+                                item["timestamp"]
+                            ).timestamp()
                         else:
                             item_time = float(item["timestamp"])
 
@@ -255,7 +271,9 @@ class PrivacyManager:
             if "timestamp" in data:
                 try:
                     if isinstance(data["timestamp"], str):
-                        item_time = datetime.fromisoformat(data["timestamp"]).timestamp()
+                        item_time = datetime.fromisoformat(
+                            data["timestamp"]
+                        ).timestamp()
                     else:
                         item_time = float(data["timestamp"])
 
@@ -364,7 +382,9 @@ class PrivacyManager:
         # and possibly derived from a master key
 
         # Create a key derivation function
-        password = b"adaptive-agi-secure-key"  # This would be a secure secret in production
+        password = (
+            b"adaptive-agi-secure-key"  # This would be a secure secret in production
+        )
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,

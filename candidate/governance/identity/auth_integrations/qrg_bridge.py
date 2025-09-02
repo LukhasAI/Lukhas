@@ -102,7 +102,9 @@ class AuthQRGBridge:
             "status": "pending_qrg_integration",
         }
 
-    async def validate_auth_qr(self, qr_data: str, user_context: dict[str, Any]) -> dict[str, Any]:
+    async def validate_auth_qr(
+        self, qr_data: str, user_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate authentication QR code"""
         # TODO: Implement when QRG is integrated
         return {
@@ -112,7 +114,9 @@ class AuthQRGBridge:
             "status": "pending_qrg_integration",
         }
 
-    async def create_animated_auth_flow(self, session_id: str, consciousness_data: dict[str, Any]) -> dict[str, Any]:
+    async def create_animated_auth_flow(
+        self, session_id: str, consciousness_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create animated QR authentication flow"""
         # TODO: Implement when QRG animation engine is integrated
         return {

@@ -65,7 +65,11 @@ def _frame_filter(name, filename):
 def _frames_fmt(frames, full_filename=False, reverse=False):
     if reverse:
         frames = reversed(frames)
-    return [_frame_fmt(f, full_filename) for f in frames if _frame_filter(f["name"], f["filename"])]
+    return [
+        _frame_fmt(f, full_filename)
+        for f in frames
+        if _frame_filter(f["name"], f["filename"])
+    ]
 
 
 def _block_extra_legacy(b):
@@ -101,7 +105,9 @@ def format_flamegraph(flamegraph_lines, flamegraph_script=None):
         )
         subprocess.check_call(["chmod", "+x", flamegraph_script])
     args = [flamegraph_script, "--countname", "bytes"]
-    p = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding="utf-8")
+    p = subprocess.Popen(
+        args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding="utf-8"
+    )
     assert p.stdin is not None
     assert p.stdout is not None
     p.stdin.write(flamegraph_lines)
@@ -122,7 +128,9 @@ def _write_blocks(f, prefix, blocks):
     for b in blocks:
         if "history" not in b:
             frames, accounted_for_size = _block_extra(b)
-            f.write(f"{prefix};{b['state']};{frames_fragment(frames)} {accounted_for_size}\n")
+            f.write(
+                f"{prefix};{b['state']};{frames_fragment(frames)} {accounted_for_size}\n"
+            )
         else:
             accounted_for_size = 0
             for h in b["history"]:
@@ -243,7 +251,9 @@ def segsum(data):
     total_allocated = 0
     free_external = 0
     free_internal = 0
-    for seg in sorted(data["segments"], key=lambda x: (x["total_size"], calc_active(x))):
+    for seg in sorted(
+        data["segments"], key=lambda x: (x["total_size"], calc_active(x))
+    ):
         total_reserved += seg["total_size"]
 
         seg_free_external = 0
@@ -287,7 +297,9 @@ def segsum(data):
                     occupied[j] = m
         stream = "" if seg["stream"] == 0 else f", stream_{seg['stream']}"
         body = "".join(occupied)
-        assert seg_free_external + seg_free_internal + seg_allocated == seg["total_size"]
+        assert (
+            seg_free_external + seg_free_internal + seg_allocated == seg["total_size"]
+        )
         stream = f" stream_{seg['stream']}" if seg["stream"] != 0 else ""
         if seg["total_size"] >= PAGE_SIZE:
             out.write(
@@ -421,7 +433,9 @@ def _format_viz(data, viz_kind, device):
     encoded_buffer = base64.b64encode(buffer).decode("utf-8")
 
     json_format = json.dumps([{"name": "snapshot.pickle", "base64": encoded_buffer}])
-    return _memory_viz_template.replace("$VIZ_KIND", repr(viz_kind)).replace("$SNAPSHOT", json_format)
+    return _memory_viz_template.replace("$VIZ_KIND", repr(viz_kind)).replace(
+        "$SNAPSHOT", json_format
+    )
 
 
 def trace_plot(data, device=None, plot_segments=False):
@@ -438,7 +452,11 @@ def trace_plot(data, device=None, plot_segments=False):
     """
     return _format_viz(
         data,
-        ("Active Memory Timeline" if not plot_segments else "Active Cached Memory Timeline"),
+        (
+            "Active Memory Timeline"
+            if not plot_segments
+            else "Active Cached Memory Timeline"
+        ),
         device,
     )
 
@@ -538,9 +556,13 @@ def _profile_to_snapshot(profile):
             free(kv_to_elem.pop((tensor_key, version)), to_device(tensor_key.device))
         elif action == Action.INCREMENT_VERSION:
             free(kv_to_elem.pop((tensor_key, version)), to_device(tensor_key.device))
-            kv_to_elem[(tensor_key, version + 1)] = allocate(size, tensor_key, version + 1)
+            kv_to_elem[(tensor_key, version + 1)] = allocate(
+                size, tensor_key, version + 1
+            )
         elif action == Action.PREEXISTING:
-            kv_to_elem[(tensor_key, version)] = allocate(size, tensor_key, version, during_trace=False)
+            kv_to_elem[(tensor_key, version)] = allocate(
+                size, tensor_key, version, during_trace=False
+            )
 
     # create the final snapshot state
     blocks_at_end = [
@@ -563,7 +585,9 @@ def _profile_to_snapshot(profile):
             )
             last_addr = addr + size
         if last_addr < seg["total_size"]:
-            seg["blocks"].append({"size": seg["total_size"] - last_addr, "state": "inactive"})
+            seg["blocks"].append(
+                {"size": seg["total_size"] - last_addr, "state": "inactive"}
+            )
 
     snapshot["segments"] = [seg for seg in snapshot["segments"] if seg["blocks"]]  # type: ignore[attr-defined]
     for seg in snapshot["segments"]:  # type: ignore[attr-defined, name-defined, no-redef]
@@ -603,7 +627,9 @@ if __name__ == "__main__":
 
     fn_name = "torch.cuda.memory._snapshot()"
     pickled = f"pickled memory statistics from {fn_name}"
-    parser = argparse.ArgumentParser(description=f"Visualize memory dumps produced by {fn_name}")
+    parser = argparse.ArgumentParser(
+        description=f"Visualize memory dumps produced by {fn_name}"
+    )
 
     subparsers = parser.add_subparsers(dest="action")
 
@@ -615,9 +641,7 @@ if __name__ == "__main__":
             help="flamegraph svg (default: output.svg)",
         )
 
-    description = (
-        "Prints overall allocation statistics and a visualization of how the allocators segments are currently filled."
-    )
+    description = "Prints overall allocation statistics and a visualization of how the allocators segments are currently filled."
     stats_a = subparsers.add_parser("stats", description=description)
     stats_a.add_argument("input", help=pickled)
 
@@ -630,7 +654,9 @@ if __name__ == "__main__":
     segments_a.add_argument("input", help=pickled)
     _output(segments_a)
 
-    description = "Generate a flamegraph the program locations contributing to CUDA memory usage."
+    description = (
+        "Generate a flamegraph the program locations contributing to CUDA memory usage."
+    )
     memory_a = subparsers.add_parser("memory", description=description)
     memory_a.add_argument("input", help=pickled)
     _output(memory_a)
@@ -663,7 +689,9 @@ if __name__ == "__main__":
         trace_plot_a.add_argument("-o", "--output", default="output.html", help=help)
         if cmd == "trace_plot":
             help = "visualize change to segments rather than individual allocations"
-            trace_plot_a.add_argument("-s", "--segments", action="store_true", help=help)
+            trace_plot_a.add_argument(
+                "-s", "--segments", action="store_true", help=help
+            )
 
     args = parser.parse_args()
 

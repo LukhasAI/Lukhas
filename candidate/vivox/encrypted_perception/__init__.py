@@ -5,26 +5,14 @@ Handles encrypted perception with ethical privacy preservation
 
 from typing import Optional
 
-from .anomaly_detection import (
-    AnomalyDetector,
-    AnomalyType,
-    SignificanceAnalyzer,
-)
+from .anomaly_detection import AnomalyDetector, AnomalyType, SignificanceAnalyzer
 from .ethical_perception import (
     EthicalPerceptionFilter,
     NonDecodableTransform,
     PrivacyPreservingVision,
 )
-from .sensory_integration import (
-    MotionDetector,
-    MultimodalFusion,
-    TextureAnalyzer,
-)
-from .vector_encryption import (
-    EncryptionProtocol,
-    PerceptualEncryptor,
-    VectorSignature,
-)
+from .sensory_integration import MotionDetector, MultimodalFusion, TextureAnalyzer
+from .vector_encryption import EncryptionProtocol, PerceptualEncryptor, VectorSignature
 from .vivox_evrn_core import (
     AnomalySignature,
     EncryptedPerception,

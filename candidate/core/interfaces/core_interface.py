@@ -76,7 +76,9 @@ class ResourceOptimizerInterface(ABC):
     """Interface for resource optimization"""
 
     @abstractmethod
-    async def optimize(self, strategy: OptimizationStrategy = OptimizationStrategy.BALANCED) -> dict[str, Any]:
+    async def optimize(
+        self, strategy: OptimizationStrategy = OptimizationStrategy.BALANCED
+    ) -> dict[str, Any]:
         """Optimize resources with given strategy"""
 
     @abstractmethod

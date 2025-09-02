@@ -29,7 +29,7 @@ Access Tiers:
 #TAG:access_control
 #TAG:tiers
 #TAG:privileges
-#TAG:constellation
+#TAG:trinity
 """
 
 import asyncio
@@ -307,7 +307,11 @@ class ComprehensiveAccessTierManager:
         """Initialize permissions for each tier"""
 
         self.tier_permissions = {
-            AccessTier.T1_BASIC: {"read_public_content", "basic_interaction", "public_forums"},
+            AccessTier.T1_BASIC: {
+                "read_public_content",
+                "basic_interaction",
+                "public_forums",
+            },
             AccessTier.T2_AUTHENTICATED: {
                 "read_public_content",
                 "basic_interaction",
@@ -412,7 +416,9 @@ class ComprehensiveAccessTierManager:
 
         return eligibility
 
-    async def _check_tier_requirements(self, profile: UserAccessProfile, requirements: TierRequirements) -> bool:
+    async def _check_tier_requirements(
+        self, profile: UserAccessProfile, requirements: TierRequirements
+    ) -> bool:
         """Check if user meets tier requirements"""
 
         # Basic metric requirements
@@ -447,7 +453,10 @@ class ComprehensiveAccessTierManager:
         if requirements.security_clearance and not profile.security_clearance:
             return False
 
-        if requirements.constitutional_compliance and not profile.constitutional_compliance:
+        if (
+            requirements.constitutional_compliance
+            and not profile.constitutional_compliance
+        ):
             return False
 
         # Special conditions
@@ -462,7 +471,9 @@ class ComprehensiveAccessTierManager:
 
         return True
 
-    async def _check_special_condition(self, profile: UserAccessProfile, condition: str) -> bool:
+    async def _check_special_condition(
+        self, profile: UserAccessProfile, condition: str
+    ) -> bool:
         """Check special tier conditions"""
 
         if condition == "background_check":
@@ -524,7 +535,11 @@ class ComprehensiveAccessTierManager:
         return None
 
     async def _execute_tier_change(
-        self, user_id: str, new_tier: AccessTier, transition_type: TierTransition, reason: str
+        self,
+        user_id: str,
+        new_tier: AccessTier,
+        transition_type: TierTransition,
+        reason: str,
     ) -> TierTransition:
         """Execute a tier change"""
 
@@ -558,12 +573,18 @@ class ComprehensiveAccessTierManager:
         tier_dist[new_tier.value] = tier_dist.get(new_tier.value, 0) + 1
         self.metrics["tier_distribution"] = tier_dist
 
-        logger.info(f"🎯 Tier change: {user_id} {old_tier.value} → {new_tier.value} ({transition_type.value})")
+        logger.info(
+            f"🎯 Tier change: {user_id} {old_tier.value} → {new_tier.value} "
+            f"({transition_type.value})"
+        )
 
         return transition_type
 
     async def check_resource_access(
-        self, user_id: str, resource: str, required_permissions: Optional[list[str]] = None
+        self,
+        user_id: str,
+        resource: str,
+        required_permissions: Optional[list[str]] = None,
     ) -> AccessDecision:
         """Check if user can access a specific resource"""
 
@@ -597,7 +618,9 @@ class ComprehensiveAccessTierManager:
 
         return AccessDecision.ALLOW
 
-    async def _check_trinity_framework_access(self, profile: UserAccessProfile, resource: str) -> bool:
+    async def _check_trinity_framework_access(
+        self, profile: UserAccessProfile, resource: str
+    ) -> bool:
         """Check Trinity Framework access requirements"""
 
         # ⚛️ Identity coherence check
@@ -605,12 +628,19 @@ class ComprehensiveAccessTierManager:
             return False
 
         # 🧠 Consciousness level check for advanced resources
-        advanced_resources = ["system_configuration", "user_management", "security_tools"]
+        advanced_resources = [
+            "system_configuration",
+            "user_management",
+            "security_tools",
+        ]
         if resource in advanced_resources and profile.consciousness_level == "basic":
             return False
 
         # 🛡️ Guardian status check
-        return profile.guardian_status != "restricted"
+        if profile.guardian_status == "restricted":
+            return False
+
+        return True
 
     async def _tier_assessment_loop(self):
         """Automatic tier assessment loop"""
@@ -621,7 +651,9 @@ class ComprehensiveAccessTierManager:
                     profile = self.user_profiles[user_id]
 
                     # Check if assessment is due
-                    time_since_assessment = (datetime.now() - profile.last_assessment).total_seconds()
+                    time_since_assessment = (
+                        datetime.now() - profile.last_assessment
+                    ).total_seconds()
                     if time_since_assessment >= self.assessment_interval:
                         if self.auto_tier_assessment:
                             await self.process_tier_progression(user_id)
@@ -658,15 +690,19 @@ class ComprehensiveAccessTierManager:
                 "risk_score": profile.risk_score,
                 "verification_level": profile.verification_level,
             },
-            "eligibility": {tier.value: eligible for tier, eligible in eligibility.items()},
+            "eligibility": {
+                tier.value: eligible for tier, eligible in eligibility.items()
+            },
             "next_tier_requirements": next_tier_requirements,
             "tier_history_count": len(profile.tier_history),
-            "constellation_framework": {
+            "trinity_framework": {
                 "identity_coherence": profile.identity_coherence,
                 "consciousness_level": profile.consciousness_level,
                 "guardian_status": profile.guardian_status,
             },
-            "permissions": list(self.tier_permissions.get(profile.effective_tier, set())),
+            "permissions": list(
+                self.tier_permissions.get(profile.effective_tier, set())
+            ),
             "temporary_grants": len(profile.temporary_grants),
             "temporary_restrictions": len(profile.temporary_restrictions),
         }

@@ -55,7 +55,9 @@ try:
 
     logger.info("ΛTRACE: Core awareness components imported.")
 except ImportError as e:
-    logger.error(f"ΛTRACE: Failed to import core awareness components: {e}", exc_info=True)
+    logger.error(
+        f"ΛTRACE: Failed to import core awareness components: {e}", exc_info=True
+    )
     # Define placeholders if needed for graceful degradation, though usually
     # not for __init__.py
     LucasAwarenessProtocol = None  # type: ignore
@@ -71,7 +73,9 @@ __all__ = [
     # Add other names to be exported by 'from candidate.core.advanced.brain.awareness import *'
 ]
 
-logger.info(f"ΛTRACE: 'core.advanced.brain.awareness' package initialized. Exposed symbols in __all__: {__all__}")
+logger.info(
+    f"ΛTRACE: 'core.advanced.brain.awareness' package initialized. Exposed symbols in __all__: {__all__}"
+)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py

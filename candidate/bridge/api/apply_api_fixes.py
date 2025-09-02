@@ -49,7 +49,9 @@ def apply_fixes():
                 count = len(re.findall(old_pattern, content))
                 if count > 0:
                     content = re.sub(old_pattern, new_method, content)
-                    print(f"  ✅ Replaced {count} instances of {fix['old_method']} with {new_method}")
+                    print(
+                        f"  ✅ Replaced {count} instances of {fix['old_method']} with {new_method}"
+                    )
 
             # Write back if changed
             if content != original_content:

@@ -175,7 +175,9 @@ class APIHub:
         """List all registered API endpoints"""
         return list(self.endpoints.keys())
 
-    async def process_api_request(self, method: str, path: str, data: dict[str, Any]) -> dict[str, Any]:
+    async def process_api_request(
+        self, method: str, path: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process API requests through registered handlers"""
         try:
             # Find endpoint handler

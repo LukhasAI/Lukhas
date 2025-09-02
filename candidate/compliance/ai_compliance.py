@@ -25,7 +25,9 @@ class AIComplianceManager:
             },
         }
 
-    async def validate_ai_action(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
+    async def validate_ai_action(
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate AI action against all applicable regulations"""
         result = {"compliant": True, "validations": [], "required_actions": []}
 
@@ -52,7 +54,9 @@ class AIComplianceManager:
             "data_processing_purposes": self._get_processing_purposes(),
         }
 
-    def _check_eu_compliance(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
+    def _check_eu_compliance(
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check EU AI Act and GDPR compliance"""
         result = {"compliant": True, "violations": [], "required_actions": []}
 
@@ -62,23 +66,31 @@ class AIComplianceManager:
             for measure in required_measures:
                 if not context.get(measure, False):
                     result["compliant"] = False
-                    result["violations"].append(f"Missing {measure} for high-risk AI system")
+                    result["violations"].append(
+                        f"Missing {measure} for high-risk AI system"
+                    )
                     result["required_actions"].append(f"implement_{measure}")
 
         # Check GDPR compliance for personal data
-        if context.get("involves_personal_data", False) and not context.get("lawful_basis", False):
+        if context.get("involves_personal_data", False) and not context.get(
+            "lawful_basis", False
+        ):
             result["compliant"] = False
             result["violations"].append("No lawful basis for personal data processing")
             result["required_actions"].append("establish_lawful_basis")
 
         return result
 
-    def _check_us_compliance(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
+    def _check_us_compliance(
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check US AI Bill of Rights and state law compliance"""
         result = {"compliant": True, "violations": [], "required_actions": []}
 
         # Check algorithmic discrimination protection
-        if action.get("type") == "decision_making" and not context.get("bias_testing", False):
+        if action.get("type") == "decision_making" and not context.get(
+            "bias_testing", False
+        ):
             result["compliant"] = False
             result["violations"].append("No bias testing for automated decision making")
             result["required_actions"].append("conduct_bias_testing")

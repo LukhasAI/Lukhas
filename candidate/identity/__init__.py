@@ -109,7 +109,10 @@ except ImportError as e:
             logger.warning("Using fallback WebAuthnManager")
 
         def register_passkey(self, *args, **kwargs):
-            return {"error": "not_implemented", "error_description": "WebAuthn not available"}
+            return {
+                "error": "not_implemented",
+                "error_description": "WebAuthn not available",
+            }
 
     class PasskeyRegistration:
         """Fallback passkey registration"""
@@ -236,7 +239,10 @@ class IdentitySystem:
         logger.info(f"  - Namespaces: {NAMESPACE_AVAILABLE}")
 
     def authenticate_user(
-        self, credentials: dict[str, Any], tier: str = "T1", namespace: Optional[str] = None
+        self,
+        credentials: dict[str, Any],
+        tier: str = "T1",
+        namespace: Optional[str] = None,
     ) -> dict[str, Any]:
         """⚛️ Authenticate user with tiered approach"""
         try:
@@ -285,7 +291,12 @@ class IdentitySystem:
         password = credentials.get("password")
 
         if user_id and password and len(password) >= 6:
-            return {"success": True, "user_id": user_id, "tier": "T1", "method": "basic"}
+            return {
+                "success": True,
+                "user_id": user_id,
+                "tier": "T1",
+                "method": "basic",
+            }
 
         return {"success": False, "error": "Invalid credentials"}
 
@@ -295,19 +306,31 @@ class IdentitySystem:
 
         # Check for passkey or biometric data
         if credentials.get("passkey_response") or credentials.get("biometric_data"):
-            return {"success": True, "user_id": user_id, "tier": "T2", "method": "enhanced"}
+            return {
+                "success": True,
+                "user_id": user_id,
+                "tier": "T2",
+                "method": "enhanced",
+            }
 
         # Fallback to basic auth
         return self._basic_auth(credentials)
 
-    def _consciousness_auth(self, credentials: dict[str, Any], tier: str) -> dict[str, Any]:
+    def _consciousness_auth(
+        self, credentials: dict[str, Any], tier: str
+    ) -> dict[str, Any]:
         """T3+: Consciousness-based authentication"""
         user_id = credentials.get("user_id")
 
         # Mock consciousness verification
         consciousness_signature = credentials.get("consciousness_signature")
         if consciousness_signature:
-            return {"success": True, "user_id": user_id, "tier": tier, "method": "consciousness"}
+            return {
+                "success": True,
+                "user_id": user_id,
+                "tier": tier,
+                "method": "consciousness",
+            }
 
         # Fallback to enhanced auth
         return self._enhanced_auth(credentials)
@@ -375,7 +398,9 @@ def generate_lambda_id(user_id: str, tier: str = "T1") -> str:
             tier_enum = tier_mapping.get(tier, TierLevel.FRIEND)
             user_context = {"user_id": user_id}
 
-            return default_system.lambda_id_generator.generate_lambda_id(tier=tier_enum, user_context=user_context)
+            return default_system.lambda_id_generator.generate_lambda_id(
+                tier=tier_enum, user_context=user_context
+            )
         except Exception:
             pass
 

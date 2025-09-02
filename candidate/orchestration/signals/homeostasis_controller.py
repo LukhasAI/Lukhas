@@ -190,7 +190,9 @@ class HomeostasisController:
 
         logger.info("Homeostasis controller stopped")
 
-    def process_event(self, event_type: str, event_data: dict[str, Any], source: str = "unknown") -> list[Signal]:
+    def process_event(
+        self, event_type: str, event_data: dict[str, Any], source: str = "unknown"
+    ) -> list[Signal]:
         """
         Process a system event and emit appropriate hormones.
 
@@ -227,26 +229,36 @@ class HomeostasisController:
         """Update system metrics based on event"""
         # Update based on event type
         if event_type == "request":
-            self.metrics.request_rate = event_data.get("rate", self.metrics.request_rate)
-            self.metrics.response_time_ms = event_data.get("response_time", self.metrics.response_time_ms)
+            self.metrics.request_rate = event_data.get(
+                "rate", self.metrics.request_rate
+            )
+            self.metrics.response_time_ms = event_data.get(
+                "response_time", self.metrics.response_time_ms
+            )
 
         elif event_type == "error":
             self.metrics.error_rate = event_data.get("rate", self.metrics.error_rate)
 
         elif event_type == "resource":
             self.metrics.cpu_usage = event_data.get("cpu", self.metrics.cpu_usage)
-            self.metrics.memory_usage = event_data.get("memory", self.metrics.memory_usage)
+            self.metrics.memory_usage = event_data.get(
+                "memory", self.metrics.memory_usage
+            )
 
         elif event_type == "drift":
             self.metrics.drift_score = event_data.get("score", self.metrics.drift_score)
 
         elif event_type == "session":
-            self.metrics.active_sessions = event_data.get("count", self.metrics.active_sessions)
+            self.metrics.active_sessions = event_data.get(
+                "count", self.metrics.active_sessions
+            )
 
         elif event_type == "queue":
             self.metrics.queue_depth = event_data.get("depth", self.metrics.queue_depth)
 
-    def _evaluate_hormone_needs(self, event_type: str, event_data: dict[str, Any]) -> list[tuple[str, float, str]]:
+    def _evaluate_hormone_needs(
+        self, event_type: str, event_data: dict[str, Any]
+    ) -> list[tuple[str, float, str]]:
         """
         Evaluate which hormones need to be emitted.
 
@@ -267,7 +279,10 @@ class HomeostasisController:
             )
 
         # Alignment risk evaluation
-        if self.metrics.drift_score > self.policy.hormone_policies["alignment_risk"]["threshold"]:
+        if (
+            self.metrics.drift_score
+            > self.policy.hormone_policies["alignment_risk"]["threshold"]
+        ):
             hormones.append(
                 (
                     "alignment_risk",
@@ -304,13 +319,17 @@ class HomeostasisController:
         if event_type in ["timeout", "deadline", "critical"]:
             urgency = event_data.get("urgency", 0.8)
             if urgency > self.policy.hormone_policies["urgency"]["threshold"]:
-                hormones.append(("urgency", min(urgency, 1.0), f"Urgent event: {event_type}"))
+                hormones.append(
+                    ("urgency", min(urgency, 1.0), f"Urgent event: {event_type}")
+                )
 
         # Ambiguity detection
         if event_type in ["unclear_intent", "multiple_interpretations", "conflict"]:
             ambiguity = event_data.get("ambiguity_score", 0.6)
             if ambiguity > self.policy.hormone_policies["ambiguity"]["threshold"]:
-                hormones.append(("ambiguity", min(ambiguity, 1.0), f"Ambiguous input: {event_type}"))
+                hormones.append(
+                    ("ambiguity", min(ambiguity, 1.0), f"Ambiguous input: {event_type}")
+                )
 
         return hormones
 
@@ -334,7 +353,9 @@ class HomeostasisController:
 
         # Response time stress (normalized)
         target_response = 100.0  # Target ms
-        stress += min(self.metrics.response_time_ms / (target_response * 10), 1.0) * 0.15
+        stress += (
+            min(self.metrics.response_time_ms / (target_response * 10), 1.0) * 0.15
+        )
 
         # Queue depth stress (normalized)
         max_queue = 1000
@@ -342,7 +363,9 @@ class HomeostasisController:
 
         return min(stress, 1.0)
 
-    def _apply_rate_limits(self, hormones: list[tuple[str, float, str]]) -> list[tuple[str, float, str]]:
+    def _apply_rate_limits(
+        self, hormones: list[tuple[str, float, str]]
+    ) -> list[tuple[str, float, str]]:
         """Apply rate limiting and cooldowns to hormone emissions"""
         current_time = time.time()
         allowed = []
@@ -353,7 +376,9 @@ class HomeostasisController:
             self.minute_start = current_time
 
         if self.emissions_this_minute >= self.policy.max_emissions_per_minute:
-            logger.warning(f"Rate limit reached: {self.emissions_this_minute} emissions this minute")
+            logger.warning(
+                f"Rate limit reached: {self.emissions_this_minute} emissions this minute"
+            )
             return []
 
         # Check individual hormone cooldowns
@@ -419,7 +444,9 @@ class HomeostasisController:
             # Audit
             self._audit_emission(emission)
 
-            logger.info(f"Emitted {hormone_name} hormone at level {level:.2f}: {reason}")
+            logger.info(
+                f"Emitted {hormone_name} hormone at level {level:.2f}: {reason}"
+            )
 
             return signal
 
@@ -449,7 +476,9 @@ class HomeostasisController:
 
         # Log state changes
         if self.state != previous_state:
-            logger.info(f"Homeostasis state changed: {previous_state.value} -> {self.state.value}")
+            logger.info(
+                f"Homeostasis state changed: {previous_state.value} -> {self.state.value}"
+            )
 
             # Emit state change signal if critical
             if self.state == HomeostasisState.CRITICAL:
@@ -498,7 +527,9 @@ class HomeostasisController:
                 ]:
                     sustained_duration = self._get_state_duration()
                     if sustained_duration > 30:  # 30 seconds
-                        logger.warning(f"Sustained {self.state.value} for {sustained_duration}s")
+                        logger.warning(
+                            f"Sustained {self.state.value} for {sustained_duration}s"
+                        )
 
                         # Emit warning signal
                         self._emit_hormone(
@@ -599,12 +630,16 @@ class HomeostasisController:
         if feedback_score < 0.3:  # Poor feedback
             # Increase thresholds (be more conservative)
             for hormone_policy in self.policy.hormone_policies.values():
-                hormone_policy["threshold"] = min(1.0, hormone_policy["threshold"] * (1 + sensitivity * 0.1))
+                hormone_policy["threshold"] = min(
+                    1.0, hormone_policy["threshold"] * (1 + sensitivity * 0.1)
+                )
 
         elif feedback_score > 0.7:  # Good feedback
             # Decrease thresholds (be more responsive)
             for hormone_policy in self.policy.hormone_policies.values():
-                hormone_policy["threshold"] = max(0.1, hormone_policy["threshold"] * (1 - sensitivity * 0.05))
+                hormone_policy["threshold"] = max(
+                    0.1, hormone_policy["threshold"] * (1 - sensitivity * 0.05)
+                )
 
     def get_status(self) -> dict[str, Any]:
         """Get current homeostasis status"""
@@ -625,7 +660,8 @@ class HomeostasisController:
             "feedback": {
                 "recent_scores": [f["score"] for f in list(self.feedback_scores)[-10:]],
                 "average": (
-                    sum(f["score"] for f in self.feedback_scores) / len(self.feedback_scores)
+                    sum(f["score"] for f in self.feedback_scores)
+                    / len(self.feedback_scores)
                     if self.feedback_scores
                     else 0.5
                 ),
@@ -662,11 +698,15 @@ if __name__ == "__main__":
         print("=" * 40)
 
         # Normal operation
-        signals = controller.process_event("request", {"rate": 10, "response_time": 50}, "api")
+        signals = controller.process_event(
+            "request", {"rate": 10, "response_time": 50}, "api"
+        )
         print(f"Normal request -> {len(signals)} signals emitted")
 
         # High load
-        signals = controller.process_event("resource", {"cpu": 0.85, "memory": 0.75}, "monitor")
+        signals = controller.process_event(
+            "resource", {"cpu": 0.85, "memory": 0.75}, "monitor"
+        )
         print(f"High load -> {len(signals)} signals emitted")
 
         # Drift detected
@@ -674,7 +714,9 @@ if __name__ == "__main__":
         print(f"Drift detected -> {len(signals)} signals emitted")
 
         # Novel input
-        signals = controller.process_event("new_pattern", {"novelty_score": 0.8}, "classifier")
+        signals = controller.process_event(
+            "new_pattern", {"novelty_score": 0.8}, "classifier"
+        )
         print(f"Novel pattern -> {len(signals)} signals emitted")
 
         # Get status

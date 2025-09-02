@@ -35,7 +35,9 @@ def collapse_handler(collapse_manager: BrainCollapseManager) -> None:
     """
     logger.critical("Collapse handler activated!")
     if collapse_manager.recovery_attempts > 5:
-        logger.critical("Maximum recovery attempts reached. Escalating to human operator.")
+        logger.critical(
+            "Maximum recovery attempts reached. Escalating to human operator."
+        )
 
 
 class BrainCollapseManager:
@@ -57,9 +59,13 @@ class BrainCollapseManager:
         self.recovery_attempts: int = 0
         self.symbolic_trace_logger: SymbolicTraceLogger = SymbolicTraceLogger()
         self.collapse_mesh: CollapseMesh = CollapseMesh()
-        self.collapse_chain_integrity: CollapseChainIntegrity = CollapseChainIntegrity(brain_integrator)
+        self.collapse_chain_integrity: CollapseChainIntegrity = CollapseChainIntegrity(
+            brain_integrator
+        )
         self.collapse_bridge: CollapseBridge = CollapseBridge(brain_integrator)
-        self.memory_collapse_verifier: MemoryCollapseVerifier = MemoryCollapseVerifier(brain_integrator)
+        self.memory_collapse_verifier: MemoryCollapseVerifier = MemoryCollapseVerifier(
+            brain_integrator
+        )
         self.integrity_probe: IntegrityProbe = IntegrityProbe(brain_integrator)
 
     async def detect_collapse(self) -> bool:
@@ -76,7 +82,10 @@ class BrainCollapseManager:
         analysis: dict[str, Any] = self.symbolic_trace_logger.get_pattern_analysis()
         if analysis.get("bio_metrics_trends", {}).get("proton_gradient", 1.0) < 0.1:
             return True
-        return analysis.get("qi_like_state_trends", {}).get("avg_coherence_trend", 1.0) < 0.1
+        return (
+            analysis.get("qi_like_state_trends", {}).get("avg_coherence_trend", 1.0)
+            < 0.1
+        )
 
     async def handle_collapse(self) -> None:
         """
@@ -97,7 +106,9 @@ class BrainCollapseManager:
                 "timestamp": self.collapse_time.isoformat(),
             }
         )
-        await self.collapse_bridge.report_collapse({"collapse_time": self.collapse_time.isoformat()})
+        await self.collapse_bridge.report_collapse(
+            {"collapse_time": self.collapse_time.isoformat()}
+        )
         await self.brain_integrator.broadcast_event(
             "brain_collapse",
             {"collapse_time": self.collapse_time.isoformat()},
@@ -207,7 +218,9 @@ class CollapseBridge:
             brain_integrator (Any): The main brain integrator instance.
         """
         self.brain_integrator: Any = brain_integrator
-        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(brain_integrator)
+        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(
+            brain_integrator
+        )
 
     async def report_collapse(self, collapse_details: dict[str, Any]) -> None:
         """
@@ -216,5 +229,7 @@ class CollapseBridge:
         Args:
             collapse_details (Dict[str, Any]): Details of the collapse.
         """
-        logger.info("Reporting collapse to collapse manager.", collapse_details=collapse_details)
+        logger.info(
+            "Reporting collapse to collapse manager.", collapse_details=collapse_details
+        )
         await self.collapse_manager.handle_collapse()

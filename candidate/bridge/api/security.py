@@ -126,7 +126,10 @@ class RateLimiter:
         # Check IP blocks
         if ip_address in self.blocked_ips:
             if current_time < self.blocked_ips[ip_address]:
-                return True, {"reason": "ip_blocked", "blocked_until": self.blocked_ips[ip_address]}
+                return True, {
+                    "reason": "ip_blocked",
+                    "blocked_until": self.blocked_ips[ip_address],
+                }
             else:
                 del self.blocked_ips[ip_address]
 
@@ -144,7 +147,9 @@ class RateLimiter:
 
         # Clean old requests (older than 1 minute)
         cutoff_time = current_time - 60
-        self.request_history[key] = [req_time for req_time in self.request_history[key] if req_time > cutoff_time]
+        self.request_history[key] = [
+            req_time for req_time in self.request_history[key] if req_time > cutoff_time
+        ]
 
         # Check burst limit
         if len(self.request_history[key]) >= limits["burst"]:
@@ -154,12 +159,19 @@ class RateLimiter:
         # Check RPM limit
         minute_requests = len(self.request_history[key])
         if minute_requests >= limits["rpm"]:
-            return True, {"reason": "rpm_limit", "limit": limits["rpm"], "current": minute_requests}
+            return True, {
+                "reason": "rpm_limit",
+                "limit": limits["rpm"],
+                "current": minute_requests,
+            }
 
         # Record this request
         self.request_history[key].append(current_time)
 
-        return False, {"allowed": True, "remaining": limits["rpm"] - minute_requests - 1}
+        return False, {
+            "allowed": True,
+            "remaining": limits["rpm"] - minute_requests - 1,
+        }
 
     def _record_suspicious_activity(self, ip_address: str, activity_type: str):
         """Record suspicious activity and block IPs if needed"""
@@ -167,7 +179,9 @@ class RateLimiter:
             self.suspicious_activity[ip_address] = {"score": 0, "activities": []}
 
         self.suspicious_activity[ip_address]["score"] += 1
-        self.suspicious_activity[ip_address]["activities"].append({"type": activity_type, "timestamp": time.time()})
+        self.suspicious_activity[ip_address]["activities"].append(
+            {"type": activity_type, "timestamp": time.time()}
+        )
 
         # Block IP if score exceeds threshold
         if self.suspicious_activity[ip_address]["score"] >= 5:
@@ -193,7 +207,13 @@ class APIKeyManager:
             "lukhas-tier4-dev-key-2024": {
                 "user_id": "dev-user",
                 "tier": "LAMBDA_TIER_4",
-                "permissions": ["orchestration", "streaming", "functions", "healthcare", "admin"],
+                "permissions": [
+                    "orchestration",
+                    "streaming",
+                    "functions",
+                    "healthcare",
+                    "admin",
+                ],
                 "created_at": time.time(),
                 "expires_at": time.time() + (365 * 24 * 3600),  # 1 year
                 "rate_limit": {"requests_per_minute": 500, "requests_per_day": 50000},
@@ -228,17 +248,24 @@ class APIKeyManager:
 
         # Check if key is revoked
         if api_key in self.revoked_keys:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="API key has been revoked")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="API key has been revoked",
+            )
 
         # Check if key exists
         if api_key not in self.api_keys:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key"
+            )
 
         key_data = self.api_keys[api_key]
 
         # Check expiration
         if key_data.get("expires_at", 0) < time.time():
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="API key has expired")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="API key has expired"
+            )
 
         # Check IP restrictions
         allowed_ips = key_data.get("allowed_ips", [])
@@ -365,8 +392,12 @@ class ComprehensiveAPISecurity:
     def __init__(self, config: Optional[dict[str, Any]] = None):
         config = config or {}
 
-        self.jwt_secret = config.get("jwt_secret", "lukhas-jwt-secret-change-in-production")
-        self.api_key_manager = APIKeyManager(config.get("api_secret", "lukhas-api-secret"))
+        self.jwt_secret = config.get(
+            "jwt_secret", "lukhas-jwt-secret-change-in-production"
+        )
+        self.api_key_manager = APIKeyManager(
+            config.get("api_secret", "lukhas-api-secret")
+        )
         self.rate_limiter = RateLimiter()
         self.audit_logger = SecurityAuditLogger()
 
@@ -384,7 +415,10 @@ class ComprehensiveAPISecurity:
         logger.info(f"   Healthcare compliance: {self.healthcare_ips_only}")
 
     async def authenticate_request(
-        self, credentials: HTTPAuthorizationCredentials, ip_address: str, request_path: str
+        self,
+        credentials: HTTPAuthorizationCredentials,
+        ip_address: str,
+        request_path: str,
     ) -> dict[str, Any]:
         """Authenticate API request with comprehensive security checks"""
 
@@ -426,15 +460,23 @@ class ComprehensiveAPISecurity:
                 )
 
             # Healthcare-specific security checks
-            if "healthcare" in request_path and user_data.get("healthcare_approved", False):
-                if self.healthcare_ips_only and ip_address not in self.healthcare_allowed_ips:
+            if "healthcare" in request_path and user_data.get(
+                "healthcare_approved", False
+            ):
+                if (
+                    self.healthcare_ips_only
+                    and ip_address not in self.healthcare_allowed_ips
+                ):
                     self.audit_logger.log_event(
                         SecurityEvent(
                             SecurityEventType.AUTHORIZATION_FAILURE,
                             user_data["user_id"],
                             ip_address,
                             ThreatLevel.HIGH,
-                            {"reason": "healthcare_ip_restriction", "path": request_path},
+                            {
+                                "reason": "healthcare_ip_restriction",
+                                "path": request_path,
+                            },
                         )
                     )
 
@@ -476,7 +518,10 @@ class ComprehensiveAPISecurity:
                     None,
                     ip_address,
                     ThreatLevel.MEDIUM,
-                    {"path": request_path, "token_prefix": token[:20] if token else "none"},
+                    {
+                        "path": request_path,
+                        "token_prefix": token[:20] if token else "none",
+                    },
                 )
             )
             raise
@@ -519,11 +564,17 @@ class ComprehensiveAPISecurity:
             }
 
         except jwt.ExpiredSignatureError:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired"
+            )
         except jwt.InvalidTokenError as e:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Invalid token: {e!s}")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Invalid token: {e!s}"
+            )
 
-    def _calculate_security_score(self, user_data: dict[str, Any], ip_address: str) -> float:
+    def _calculate_security_score(
+        self, user_data: dict[str, Any], ip_address: str
+    ) -> float:
         """Calculate security score for request (0.0-1.0)"""
         score = 1.0
 
@@ -587,7 +638,11 @@ class ComprehensiveAPISecurity:
             "high_risk_events_24h": threat_summary["high_risk_events"],
             "threat_levels": threat_summary["threat_levels"],
             "top_event_types": dict(
-                sorted(threat_summary["event_types"].items(), key=lambda x: x[1], reverse=True)[:5]
+                sorted(
+                    threat_summary["event_types"].items(),
+                    key=lambda x: x[1],
+                    reverse=True,
+                )[:5]
             ),
         }
 
@@ -596,7 +651,9 @@ class ComprehensiveAPISecurity:
 _security_instance = None
 
 
-def get_security_manager(config: Optional[dict[str, Any]] = None) -> ComprehensiveAPISecurity:
+def get_security_manager(
+    config: Optional[dict[str, Any]] = None,
+) -> ComprehensiveAPISecurity:
     """Get global security manager instance"""
     global _security_instance
     if _security_instance is None:

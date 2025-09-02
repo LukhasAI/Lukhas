@@ -6,7 +6,13 @@ from typing import Any
 
 import yaml
 
-CHECK_KINDS = {"require_provenance", "mask_pii", "budget_limit", "age_gate", "content_policy"}
+CHECK_KINDS = {
+    "require_provenance",
+    "mask_pii",
+    "budget_limit",
+    "age_gate",
+    "content_policy",
+}
 
 
 def load_pack(policy_root: str, jurisdiction: str = "global") -> dict[str, Any]:

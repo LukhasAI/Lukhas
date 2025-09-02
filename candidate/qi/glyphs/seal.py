@@ -90,7 +90,9 @@ def make_seal(
         Dict with 'seal' and 'sig' keys
     """
     now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-    exp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() + ttl_days * 86400))
+    exp = time.strftime(
+        "%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() + ttl_days * 86400)
+    )
 
     seal = GlyphSeal(
         v="0.1",
@@ -120,7 +122,9 @@ def make_seal(
     # Convert signature to COSE format
     cose_sig = {
         "protected": base64.urlsafe_b64encode(
-            json.dumps({"alg": sig_info["alg"], "kid": sig_info.get("pubkey_id", "default")}).encode()
+            json.dumps(
+                {"alg": sig_info["alg"], "kid": sig_info.get("pubkey_id", "default")}
+            ).encode()
         )
         .decode()
         .rstrip("="),
@@ -130,7 +134,9 @@ def make_seal(
     return {"seal": json.loads(payload.decode()), "sig": cose_sig}
 
 
-def verify_seal(seal_bytes: bytes, sig: dict[str, Any], content_bytes: bytes | None = None) -> bool:
+def verify_seal(
+    seal_bytes: bytes, sig: dict[str, Any], content_bytes: bytes | None = None
+) -> bool:
     """
     Verify a GLYPH seal.
 
@@ -155,7 +161,11 @@ def verify_seal(seal_bytes: bytes, sig: dict[str, Any], content_bytes: bytes | N
         from qi.crypto.pqc_signer import verify_signature
 
         # Decode COSE protected header
-        protected = json.loads(base64.urlsafe_b64decode(sig["protected"] + "=" * (4 - len(sig["protected"]) % 4)))
+        protected = json.loads(
+            base64.urlsafe_b64decode(
+                sig["protected"] + "=" * (4 - len(sig["protected"]) % 4)
+            )
+        )
 
         sig_info = {
             "alg": protected["alg"],

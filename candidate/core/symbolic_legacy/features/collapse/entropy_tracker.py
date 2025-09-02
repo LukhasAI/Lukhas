@@ -275,7 +275,9 @@ class CollapseEntropyTracker:
 
         return field
 
-    def calculate_entropy_slope(self, field_id: str, time_window: Optional[timedelta] = None) -> float:
+    def calculate_entropy_slope(
+        self, field_id: str, time_window: Optional[timedelta] = None
+    ) -> float:
         """
         Calculate the rate of entropy change (slope) for a field.
 
@@ -301,7 +303,8 @@ class CollapseEntropyTracker:
 
         # Calculate linear regression slope
         times = [
-            (m["timestamp"] - recent_measurements[0]["timestamp"]).total_seconds() / 60 for m in recent_measurements
+            (m["timestamp"] - recent_measurements[0]["timestamp"]).total_seconds() / 60
+            for m in recent_measurements
         ]
         values = [m["value"] for m in recent_measurements]
 
@@ -323,7 +326,9 @@ class CollapseEntropyTracker:
 
         return slope
 
-    def assess_collapse_risk(self, include_predictions: bool = True) -> CollapseRiskAssessment:
+    def assess_collapse_risk(
+        self, include_predictions: bool = True
+    ) -> CollapseRiskAssessment:
         """
         Perform comprehensive collapse risk assessment.
 
@@ -380,26 +385,36 @@ class CollapseEntropyTracker:
         )
 
         # Identify risk factors
-        risk_factors = self._identify_risk_factors(active_fields, entropy_slopes, overall_phase)
+        risk_factors = self._identify_risk_factors(
+            active_fields, entropy_slopes, overall_phase
+        )
 
         # Predict time to cascade if applicable
         time_to_cascade = None
         if include_predictions and avg_slope > 0 and max_entropy < 0.9:
-            remaining_entropy = self.phase_thresholds[CollapsePhase.CASCADE] - max_entropy
+            remaining_entropy = (
+                self.phase_thresholds[CollapsePhase.CASCADE] - max_entropy
+            )
             if avg_slope > 0:
                 minutes_to_cascade = remaining_entropy / avg_slope
                 time_to_cascade = timedelta(minutes=minutes_to_cascade)
 
         # Generate recommendations
-        recommendations = self._generate_recommendations(overall_phase, risk_factors, entropy_trend, active_fields)
+        recommendations = self._generate_recommendations(
+            overall_phase, risk_factors, entropy_trend, active_fields
+        )
 
         # Calculate confidence
-        confidence = self._calculate_assessment_confidence(len(active_fields), len(self.entropy_history))
+        confidence = self._calculate_assessment_confidence(
+            len(active_fields), len(self.entropy_history)
+        )
 
         assessment = CollapseRiskAssessment(
             overall_risk=overall_risk,
             phase=overall_phase,
-            active_fields=sorted(active_fields, key=lambda f: f.collapse_score, reverse=True),
+            active_fields=sorted(
+                active_fields, key=lambda f: f.collapse_score, reverse=True
+            ),
             entropy_trend=entropy_trend,
             time_to_cascade=time_to_cascade,
             risk_factors=risk_factors,
@@ -423,9 +438,13 @@ class CollapseEntropyTracker:
 
         return assessment
 
-    def _generate_field_id(self, field_type: CollapseType, affected_nodes: set[str]) -> str:
+    def _generate_field_id(
+        self, field_type: CollapseType, affected_nodes: set[str]
+    ) -> str:
         """Generate unique field ID based on type and affected nodes."""
-        node_hash = hashlib.sha256("".join(sorted(affected_nodes)).encode()).hexdigest()[:8]
+        node_hash = hashlib.sha256(
+            "".join(sorted(affected_nodes)).encode()
+        ).hexdigest()[:8]
         return f"{field_type.value}_{node_hash}"
 
     def _calculate_collapse_score(self, field: CollapseField) -> float:
@@ -438,7 +457,9 @@ class CollapseEntropyTracker:
         slope_score = min(1.0, abs(slope) * 10) * self.slope_weight
 
         # Field density contribution (affected nodes)
-        density_score = min(1.0, len(field.affected_nodes) / 10) * self.field_density_weight
+        density_score = (
+            min(1.0, len(field.affected_nodes) / 10) * self.field_density_weight
+        )
 
         # Temporal contribution (field age)
         age = (datetime.now() - field.creation_time).total_seconds() / 3600  # Hours
@@ -460,9 +481,13 @@ class CollapseEntropyTracker:
                 return phase
         return CollapsePhase.STABLE
 
-    def _generate_trace(self, field: CollapseField, phase: CollapsePhase) -> CollapseTrace:
+    def _generate_trace(
+        self, field: CollapseField, phase: CollapsePhase
+    ) -> CollapseTrace:
         """Generate collapse trace for audit trail."""
-        trace_id = f"collapse_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{field.field_id}"
+        trace_id = (
+            f"collapse_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{field.field_id}"
+        )
 
         # Calculate entropy slope
         entropy_slope = self.calculate_entropy_slope(field.field_id)
@@ -503,7 +528,10 @@ class CollapseEntropyTracker:
             metadata={
                 "field_type": field.field_type.value,
                 "affected_node_count": len(field.affected_nodes),
-                "field_age_hours": (datetime.now() - field.creation_time).total_seconds() / 3600,
+                "field_age_hours": (
+                    datetime.now() - field.creation_time
+                ).total_seconds()
+                / 3600,
             },
         )
 
@@ -601,7 +629,9 @@ class CollapseEntropyTracker:
         # Slope-based risks
         rapid_increase_count = sum(1 for s in entropy_slopes if s > self.critical_slope)
         if rapid_increase_count > 0:
-            risk_factors.append(f"{rapid_increase_count} fields with rapid entropy increase")
+            risk_factors.append(
+                f"{rapid_increase_count} fields with rapid entropy increase"
+            )
 
         # Phase-based risks
         if overall_phase in [CollapsePhase.CRITICAL, CollapsePhase.CASCADE]:
@@ -659,17 +689,23 @@ class CollapseEntropyTracker:
             recommendations.append("Apply entropy damping algorithms")
 
         # Field-specific recommendations
-        memory_fields = [f for f in active_fields if f.field_type == CollapseType.MEMORY]
+        memory_fields = [
+            f for f in active_fields if f.field_type == CollapseType.MEMORY
+        ]
         if memory_fields:
             recommendations.append("Optimize memory fold compression")
 
-        symbolic_fields = [f for f in active_fields if f.field_type == CollapseType.SYMBOLIC]
+        symbolic_fields = [
+            f for f in active_fields if f.field_type == CollapseType.SYMBOLIC
+        ]
         if symbolic_fields:
             recommendations.append("Stabilize symbolic vocabulary")
 
         return recommendations[:5]  # Limit to top 5
 
-    def _calculate_assessment_confidence(self, field_count: int, history_size: int) -> float:
+    def _calculate_assessment_confidence(
+        self, field_count: int, history_size: int
+    ) -> float:
         """Calculate confidence in risk assessment."""
         # Base confidence on data availability
         field_confidence = min(1.0, field_count / 5)
@@ -678,7 +714,9 @@ class CollapseEntropyTracker:
         # Weight by recency of data
         recency_factor = 1.0  # Could be enhanced with time-based decay
 
-        confidence = (field_confidence * 0.4 + history_confidence * 0.6) * recency_factor
+        confidence = (
+            field_confidence * 0.4 + history_confidence * 0.6
+        ) * recency_factor
 
         return confidence
 
@@ -715,8 +753,14 @@ class CollapseEntropyTracker:
             "assessments_performed": self.metrics["assessments_performed"],
             "current_state": {
                 "max_entropy": max((f.entropy for f in active_fields), default=0.0),
-                "avg_entropy": (np.mean([f.entropy for f in active_fields]) if active_fields else 0.0),
-                "max_collapse_score": max((f.collapse_score for f in active_fields), default=0.0),
+                "avg_entropy": (
+                    np.mean([f.entropy for f in active_fields])
+                    if active_fields
+                    else 0.0
+                ),
+                "max_collapse_score": max(
+                    (f.collapse_score for f in active_fields), default=0.0
+                ),
                 "phase_distribution": self._get_phase_distribution(active_fields),
             },
         }

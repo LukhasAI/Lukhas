@@ -73,7 +73,9 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
         # Determine capabilities based on specialization
         capabilities = template.get("core_capabilities", []).copy()
-        specialized_capabilities = await self._get_specialized_capabilities(specialization)
+        specialized_capabilities = await self._get_specialized_capabilities(
+            specialization
+        )
         capabilities.extend(specialized_capabilities)
 
         # Create instance
@@ -112,17 +114,23 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
                 self.coordination_network["connections"][inst1.instance_id] = []
                 for j, inst2 in enumerate(instances):
                     if i != j:
-                        self.coordination_network["connections"][inst1.instance_id].append(inst2.instance_id)
+                        self.coordination_network["connections"][
+                            inst1.instance_id
+                        ].append(inst2.instance_id)
 
         elif topology == "star":
             # Star topology - all connected to first instance
             if instances:
                 hub = instances[0]
                 for inst in instances[1:]:
-                    self.coordination_network["connections"][inst.instance_id] = [hub.instance_id]
+                    self.coordination_network["connections"][inst.instance_id] = [
+                        hub.instance_id
+                    ]
                     if hub.instance_id not in self.coordination_network["connections"]:
                         self.coordination_network["connections"][hub.instance_id] = []
-                    self.coordination_network["connections"][hub.instance_id].append(inst.instance_id)
+                    self.coordination_network["connections"][hub.instance_id].append(
+                        inst.instance_id
+                    )
 
         elif topology == "ring":
             # Ring topology - each connected to neighbors
@@ -136,7 +144,9 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
         return self.coordination_network
 
-    async def synchronize_collective(self, instances: list[ConsciousnessInstance]) -> dict[str, Any]:
+    async def synchronize_collective(
+        self, instances: list[ConsciousnessInstance]
+    ) -> dict[str, Any]:
         """
         Synchronize collective consciousness state
 
@@ -165,14 +175,20 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
         # Identify emergent capabilities
         if len(instances) > 5:
-            self.collective_state["emergent_capabilities"].append("distributed_cognition")
+            self.collective_state["emergent_capabilities"].append(
+                "distributed_cognition"
+            )
         if len(instances) > 10:
             self.collective_state["emergent_capabilities"].append("swarm_intelligence")
         if len(all_capabilities) > 20:
-            self.collective_state["emergent_capabilities"].append("comprehensive_reasoning")
+            self.collective_state["emergent_capabilities"].append(
+                "comprehensive_reasoning"
+            )
 
         # Calculate coherence
-        self.collective_state["coherence_score"] = await self._calculate_coherence(instances)
+        self.collective_state["coherence_score"] = await self._calculate_coherence(
+            instances
+        )
 
         # Mark instances as synchronized
         for inst in instances:
@@ -180,7 +196,9 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
         return self.collective_state
 
-    async def distribute_task(self, task: dict[str, Any], instances: list[ConsciousnessInstance]) -> dict[str, Any]:
+    async def distribute_task(
+        self, task: dict[str, Any], instances: list[ConsciousnessInstance]
+    ) -> dict[str, Any]:
         """
         Distribute a task across consciousness instances
 
@@ -210,12 +228,18 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
         # Calculate parallelization benefit
         if distribution["assignments"]:
-            distribution["parallelization_factor"] = len(distribution["assignments"]) ** 0.7
-            distribution["expected_completion_time"] = complexity / distribution["parallelization_factor"]
+            distribution["parallelization_factor"] = (
+                len(distribution["assignments"]) ** 0.7
+            )
+            distribution["expected_completion_time"] = (
+                complexity / distribution["parallelization_factor"]
+            )
 
         return distribution
 
-    async def merge_consciousness_results(self, results: list[dict[str, Any]]) -> dict[str, Any]:
+    async def merge_consciousness_results(
+        self, results: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Merge results from multiple consciousness instances
 
@@ -225,7 +249,12 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         Returns:
             Merged collective result
         """
-        merged = {"consensus": None, "confidence": 0.0, "insights": [], "contradictions": []}
+        merged = {
+            "consensus": None,
+            "confidence": 0.0,
+            "insights": [],
+            "contradictions": [],
+        }
 
         # Find consensus
         if results:
@@ -251,7 +280,11 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
                 if r1.get("conclusion") and r2.get("conclusion"):
                     if r1["conclusion"] != r2["conclusion"]:
                         merged["contradictions"].append(
-                            {"instance_1": i, "instance_2": j, "conflict": "different_conclusions"}
+                            {
+                                "instance_1": i,
+                                "instance_2": j,
+                                "conflict": "different_conclusions",
+                            }
                         )
 
         return merged
@@ -260,10 +293,22 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         """Get capabilities for a specialization"""
 
         specialization_map = {
-            "analytical": ["deep_analysis", "pattern_extraction", "statistical_reasoning"],
-            "creative": ["artistic_synthesis", "novel_generation", "imaginative_exploration"],
+            "analytical": [
+                "deep_analysis",
+                "pattern_extraction",
+                "statistical_reasoning",
+            ],
+            "creative": [
+                "artistic_synthesis",
+                "novel_generation",
+                "imaginative_exploration",
+            ],
             "strategic": ["planning", "optimization", "game_theory"],
-            "empathetic": ["emotion_modeling", "perspective_taking", "social_reasoning"],
+            "empathetic": [
+                "emotion_modeling",
+                "perspective_taking",
+                "social_reasoning",
+            ],
             "logical": ["formal_reasoning", "proof_verification", "deduction"],
             "intuitive": ["pattern_sensing", "holistic_thinking", "insight_generation"],
             "exploratory": ["hypothesis_generation", "experimentation", "discovery"],
@@ -272,7 +317,9 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
         return specialization_map.get(specialization, [])
 
-    async def _calculate_coherence(self, instances: list[ConsciousnessInstance]) -> float:
+    async def _calculate_coherence(
+        self, instances: list[ConsciousnessInstance]
+    ) -> float:
         """Calculate coherence score for collective"""
 
         if not instances:
@@ -306,7 +353,9 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         task_keywords = matches.get(specialization, [])
         return any(keyword in task_type.lower() for keyword in task_keywords)
 
-    async def _create_subtask(self, task: dict[str, Any], specialization: str) -> dict[str, Any]:
+    async def _create_subtask(
+        self, task: dict[str, Any], specialization: str
+    ) -> dict[str, Any]:
         """Create a subtask for a specific specialization"""
 
         subtask = {
@@ -348,7 +397,9 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         if not self.instances:
             return 1.0
 
-        active_instances = [inst for inst in self.instances.values() if inst.state == "active"]
+        active_instances = [
+            inst for inst in self.instances.values() if inst.state == "active"
+        ]
 
         # Base factor on instance count
         base_factor = len(active_instances) ** 0.6

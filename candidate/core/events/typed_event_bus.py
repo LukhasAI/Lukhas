@@ -33,7 +33,9 @@ class TypedEventBus:
     """Enhanced event bus with strong typing and domain event support"""
 
     def __init__(self):
-        self._subscribers: dict[type[DomainEvent], list[EventSubscription]] = defaultdict(list)
+        self._subscribers: dict[type[DomainEvent], list[EventSubscription]] = (
+            defaultdict(list)
+        )
         self._event_queue: asyncio.Queue[DomainEvent] = asyncio.Queue()
         self._priority_queue: asyncio.PriorityQueue = asyncio.PriorityQueue()
         self._worker_task: Optional[asyncio.Task] = None
@@ -54,7 +56,9 @@ class TypedEventBus:
         if not self._is_running:
             self._is_running = True
             self._worker_task = asyncio.create_task(self._process_events())
-            self._priority_worker_task = asyncio.create_task(self._process_priority_events())
+            self._priority_worker_task = asyncio.create_task(
+                self._process_priority_events()
+            )
             logger.info("Typed event bus started")
 
     async def stop(self) -> None:
@@ -108,7 +112,9 @@ class TypedEventBus:
         """Publish a typed domain event"""
         # Set metadata if not already set
         if not event.event_id:
-            event.event_id = f"evt_{event.__class__.__name__}_{datetime.now().timestamp()}"
+            event.event_id = (
+                f"evt_{event.__class__.__name__}_{datetime.now().timestamp()}"
+            )
         if not event.timestamp:
             event.timestamp = datetime.now()
 
@@ -147,7 +153,9 @@ class TypedEventBus:
         """Process high priority events"""
         while self._is_running:
             try:
-                _, event = await asyncio.wait_for(self._priority_queue.get(), timeout=1.0)
+                _, event = await asyncio.wait_for(
+                    self._priority_queue.get(), timeout=1.0
+                )
                 await self._dispatch_event(event)
             except asyncio.TimeoutError:
                 continue
@@ -208,7 +216,8 @@ class TypedEventBus:
             "events_published": self._events_published,
             "events_processed": self._events_processed,
             "events_failed": self._events_failed,
-            "success_rate": self._events_processed / max(1, self._events_processed + self._events_failed),
+            "success_rate": self._events_processed
+            / max(1, self._events_processed + self._events_failed),
             "subscriber_count": sum(len(subs) for subs in self._subscribers.values()),
             "event_types_subscribed": len(self._subscribers),
             "correlation_groups": len(self._correlation_tracking),
@@ -311,7 +320,9 @@ def auto_subscribe_handlers(obj: Any, event_bus: EventBusService) -> list[str]:
             handler = cast(Callable[[DomainEvent], Union[None, asyncio.Future]], attr)
             subscription_id = event_bus.subscribe(typed_event_type, handler)
             subscription_ids.append(subscription_id)
-            logger.info(f"Auto-subscribed {obj.__class__.__name__}.{attr_name} to {typed_event_type.__name__}")
+            logger.info(
+                f"Auto-subscribed {obj.__class__.__name__}.{attr_name} to {typed_event_type.__name__}"
+            )
 
     return subscription_ids
 

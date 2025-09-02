@@ -45,18 +45,22 @@ def check_schema_integrity(engine):
 
             for table in required_tables:
                 result = conn.execute(
-                    text(f"""
+                    text(
+                        f"""
                     SELECT COUNT(*) FROM information_schema.tables
                     WHERE table_name = '{table}'
-                """)
+                """
+                    )
                 )
                 if result.scalar() == 0:
                     # Try SQLite syntax
                     result = conn.execute(
-                        text(f"""
+                        text(
+                            f"""
                         SELECT COUNT(*) FROM sqlite_master
                         WHERE type='table' AND name='{table}'
-                    """)
+                    """
+                        )
                     )
 
                 if result.scalar() == 0:
@@ -67,11 +71,13 @@ def check_schema_integrity(engine):
 
             # Check foreign key constraints
             result = conn.execute(
-                text("""
+                text(
+                    """
                 SELECT COUNT(*) FROM akaq_glyph g
                 LEFT JOIN akaq_scene s ON g.scene_id = s.scene_id
                 WHERE s.scene_id IS NULL
-            """)
+            """
+                )
             )
             orphaned = result.scalar()
 
@@ -140,12 +146,16 @@ def test_memory_operations(memory_client):
             history = memory_client.history(user_id="health_check_user", limit=1)
         else:
             # SqlMemory uses get_scene_history
-            history = memory_client.get_scene_history(user_id="health_check_user", limit=1)
+            history = memory_client.get_scene_history(
+                user_id="health_check_user", limit=1
+            )
 
         if isinstance(memory_client, NoopMemory):
             # NoopMemory returns empty history by design
             if len(history) == 0:
-                print("  ✅ Scene retrieval successful (NoopMemory returns empty as expected)")
+                print(
+                    "  ✅ Scene retrieval successful (NoopMemory returns empty as expected)"
+                )
             else:
                 print("  ❌ NoopMemory should return empty history")
                 return False
@@ -249,14 +259,18 @@ def get_system_statistics(engine):
             # Count total records
             scene_count = conn.execute(text("SELECT COUNT(*) FROM akaq_scene")).scalar()
             glyph_count = conn.execute(text("SELECT COUNT(*) FROM akaq_glyph")).scalar()
-            ops_count = conn.execute(text("SELECT COUNT(*) FROM akaq_memory_ops")).scalar()
+            ops_count = conn.execute(
+                text("SELECT COUNT(*) FROM akaq_memory_ops")
+            ).scalar()
 
             # Get recent activity
             recent_ops = conn.execute(
-                text("""
+                text(
+                    """
                 SELECT COUNT(*) FROM akaq_memory_ops
                 WHERE timestamp > datetime('now', '-24 hours')
-            """)
+            """
+                )
             ).scalar()
 
             print(f"  📊 Total scenes: {scene_count:,}")
@@ -288,13 +302,28 @@ Examples:
         """,
     )
 
-    parser.add_argument("--db-url", help="Database connection URL (required for SqlMemory)")
     parser.add_argument(
-        "--memory-type", choices=["sql", "noop"], default="sql", help="Memory client type to test (default: sql)"
+        "--db-url", help="Database connection URL (required for SqlMemory)"
     )
-    parser.add_argument("--salt", default="health_check_salt", help="Salt for user ID hashing")
-    parser.add_argument("--full", action="store_true", help="Run full health check including performance tests")
-    parser.add_argument("--prod-mode", action="store_true", help="Test in production mode (user ID hashing)")
+    parser.add_argument(
+        "--memory-type",
+        choices=["sql", "noop"],
+        default="sql",
+        help="Memory client type to test (default: sql)",
+    )
+    parser.add_argument(
+        "--salt", default="health_check_salt", help="Salt for user ID hashing"
+    )
+    parser.add_argument(
+        "--full",
+        action="store_true",
+        help="Run full health check including performance tests",
+    )
+    parser.add_argument(
+        "--prod-mode",
+        action="store_true",
+        help="Test in production mode (user ID hashing)",
+    )
 
     args = parser.parse_args()
 
@@ -327,7 +356,9 @@ Examples:
                 health_checks.append(("Schema Integrity", schema_ok))
 
                 # Create memory client
-                memory = SqlMemory(engine=engine, rotate_salt=args.salt, is_prod=args.prod_mode)
+                memory = SqlMemory(
+                    engine=engine, rotate_salt=args.salt, is_prod=args.prod_mode
+                )
 
                 # Test memory operations
                 operations_ok = test_memory_operations(memory)
@@ -374,7 +405,9 @@ Examples:
             print("⚠️  Overall Status: ISSUES DETECTED")
             print("🔧 Some health checks failed - investigation recommended")
 
-        print(f"⏰ Completed: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}")
+        print(
+            f"⏰ Completed: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}"
+        )
 
         return 0 if all_ok else 1
 

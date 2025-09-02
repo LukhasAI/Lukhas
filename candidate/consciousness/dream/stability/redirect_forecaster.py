@@ -47,7 +47,9 @@ class RedirectForecaster:
         mean_drift = np.mean(historical_drift)
         drift_volatility = np.std(historical_drift)
 
-        forecast_score = (self.history_weight * mean_drift) + (self.volatility_weight * drift_volatility)
+        forecast_score = (self.history_weight * mean_drift) + (
+            self.volatility_weight * drift_volatility
+        )
         predicted_redirect = forecast_score > 0.5
 
         cause_weights = {

@@ -64,7 +64,9 @@ class OpenAIDreamIntegration:
         # Initialize direct OpenAI clients for specialized operations
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         if not self.api_key:
-            raise ValueError("OpenAI API key not found. Set OPENAI_API_KEY environment variable.")
+            raise ValueError(
+                "OpenAI API key not found. Set OPENAI_API_KEY environment variable."
+            )
 
         self.async_client = AsyncOpenAI(api_key=self.api_key)
         self.sync_client = OpenAI(api_key=self.api_key)
@@ -138,7 +140,9 @@ The narrative should be immersive and poetic, suitable for both reading and visu
             image_prompt = await self._create_image_prompt(response)
             base_dream["image_prompt"] = image_prompt
 
-            logger.info(f"Enhanced dream narrative created: {base_dream.get('dream_id', 'unknown')}")
+            logger.info(
+                f"Enhanced dream narrative created: {base_dream.get('dream_id', 'unknown')}"
+            )
             return base_dream
 
         except Exception as e:
@@ -161,7 +165,9 @@ Focus on:
 
 Make it vivid and specific for image generation."""
 
-        response = await self.text_client.chat_completion(prompt, task="creativity", temperature=0.7, max_tokens=150)
+        response = await self.text_client.chat_completion(
+            prompt, task="creativity", temperature=0.7, max_tokens=150
+        )
 
         return response["choices"][0]["message"]["content"]
 
@@ -189,7 +195,9 @@ Make it vivid and specific for image generation."""
             Updated dream with image information
         """
         # Get image prompt
-        image_prompt = dream.get("image_prompt") or dream.get("narrative", {}).get("visual_prompt")
+        image_prompt = dream.get("image_prompt") or dream.get("narrative", {}).get(
+            "visual_prompt"
+        )
 
         if not image_prompt:
             logger.error("No image prompt found in dream")
@@ -259,7 +267,9 @@ Make it vivid and specific for image generation."""
             Updated dream with audio information
         """
         # Get text to narrate
-        text = dream.get("enhanced_narrative", {}).get("full_text") or dream.get("narrative", {}).get("description")
+        text = dream.get("enhanced_narrative", {}).get("full_text") or dream.get(
+            "narrative", {}
+        ).get("description")
 
         if not text:
             logger.error("No text found for narration")
@@ -304,7 +314,9 @@ Make it vivid and specific for image generation."""
     # VOICE RECOGNITION - Whisper Integration
     # ═══════════════════════════════════════════════════════════════════
 
-    async def voice_to_dream_prompt(self, audio_file: str, language: Optional[str] = None) -> dict[str, Any]:
+    async def voice_to_dream_prompt(
+        self, audio_file: str, language: Optional[str] = None
+    ) -> dict[str, Any]:
         """
         Convert voice input to dream prompt using Whisper.
 
@@ -337,7 +349,9 @@ Make it vivid and specific for image generation."""
                 "timestamp": datetime.utcnow().isoformat(),
             }
 
-            logger.info(f"Voice transcribed to dream prompt: {len(transcribed_text)} chars")
+            logger.info(
+                f"Voice transcribed to dream prompt: {len(transcribed_text)} chars"
+            )
             return result
 
         except Exception as e:
@@ -461,7 +475,9 @@ Create a cinematic description that includes:
 
 Keep it under 150 words and focus on motion and cinematography."""
 
-        response = await self.text_client.chat_completion(prompt, task="creativity", temperature=0.8, max_tokens=200)
+        response = await self.text_client.chat_completion(
+            prompt, task="creativity", temperature=0.8, max_tokens=200
+        )
 
         return response["choices"][0]["message"]["content"]
 
@@ -493,7 +509,9 @@ async def demo_dream_creation():
         )
 
         print(f"Dream created: {dream['dream_id']}")
-        print(f"Narrative: {dream.get('enhanced_narrative', {}).get('full_text', 'N/A')[:200]}...")
+        print(
+            f"Narrative: {dream.get('enhanced_narrative', {}).get('full_text', 'N/A')[:200]}..."
+        )
 
         if "generated_image" in dream:
             print(f"Image saved: {dream['generated_image']['path']}")

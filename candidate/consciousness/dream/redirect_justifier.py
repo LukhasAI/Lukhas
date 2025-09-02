@@ -32,9 +32,7 @@ class RedirectJustifier:
         Returns:
             Dict[str, Any]: A symbolic summary of the redirect.
         """
-        summary = (
-            f"Redirect triggered due to high drift ({drift_delta:.2f}) and emotion conflict ({emotion_conflict:.2f})."
-        )
+        summary = f"Redirect triggered due to high drift ({drift_delta:.2f}) and emotion conflict ({emotion_conflict:.2f})."
         tags = ["redirect", "drift", "emotion_conflict"]
         insight_level = int((drift_delta + emotion_conflict) * 5)
 

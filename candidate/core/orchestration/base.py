@@ -139,10 +139,14 @@ class BaseOrchestrator(ABC):
 
         if not logger.handlers:
             handler = logging.StreamHandler()
-            formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+            formatter = logging.Formatter(
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+            )
             handler.setFormatter(formatter)
             logger.addHandler(handler)
-            logger.setLevel(logging.DEBUG if self.config.enable_detailed_logging else logging.INFO)
+            logger.setLevel(
+                logging.DEBUG if self.config.enable_detailed_logging else logging.INFO
+            )
 
         return logger
 
@@ -276,7 +280,9 @@ class BaseOrchestrator(ABC):
         metadata: Optional[dict[str, Any]] = None,
     ) -> None:
         """Register a component for management"""
-        self.components[name] = ComponentInfo(name=name, type=component_type, metadata=metadata or {})
+        self.components[name] = ComponentInfo(
+            name=name, type=component_type, metadata=metadata or {}
+        )
         self.logger.debug(f"Registered component: {name} ({component_type})")
 
     def unregister_component(self, name: str) -> None:
@@ -341,7 +347,9 @@ class BaseOrchestrator(ABC):
     async def _process_operation(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Process a specific operation. Must be implemented by subclasses."""
 
-    async def _handle_operation_error(self, operation: dict[str, Any], error: Exception) -> bool:
+    async def _handle_operation_error(
+        self, operation: dict[str, Any], error: Exception
+    ) -> bool:
         """Handle operation errors. Override for custom error handling."""
         return False  # Default: no recovery
 
@@ -370,8 +378,12 @@ class BaseOrchestrator(ABC):
     async def _update_orchestrator_health(self) -> None:
         """Update overall orchestrator health metrics"""
         # Calculate current load
-        active_operations = self.config.max_concurrent_operations - self._operation_semaphore._value
-        self.metrics.current_load = active_operations / self.config.max_concurrent_operations
+        active_operations = (
+            self.config.max_concurrent_operations - self._operation_semaphore._value
+        )
+        self.metrics.current_load = (
+            active_operations / self.config.max_concurrent_operations
+        )
 
     def _update_average_operation_time(self, operation_time: float) -> None:
         """Update rolling average of operation time"""
@@ -399,7 +411,9 @@ class BaseOrchestrator(ABC):
                 "average_operation_time": f"{self.metrics.average_operation_time:.3f}s",
                 "current_load": f"{self.metrics.current_load:.1%}",
             },
-            "components": {name: info.status.value for name, info in self.components.items()},
+            "components": {
+                name: info.status.value for name, info in self.components.items()
+            },
         }
 
     def __repr__(self) -> str:

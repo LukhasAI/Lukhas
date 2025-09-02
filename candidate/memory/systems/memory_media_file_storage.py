@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 # Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022-2025)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +24,7 @@ import os.path
 from typing import Final, NamedTuple
 
 from candidate.core.common import get_logger
+
 # from streamlit.runtime.media_file_storage import (  # TODO: Install or
 # implement streamlit
     MediaFileKind,

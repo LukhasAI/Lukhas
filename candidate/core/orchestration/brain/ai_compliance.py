@@ -40,7 +40,9 @@ class AIComplianceManager:
             },
         }
 
-    async def validate_ai_action(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
+    async def validate_ai_action(
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate AI action against all applicable regulations"""
         result = {"compliant": True, "validations": [], "required_actions": []}
 

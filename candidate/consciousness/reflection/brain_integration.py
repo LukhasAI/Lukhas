@@ -24,15 +24,16 @@
    - BIO_SYMBOLIC.qi_attention
 """
 
-from candidate.core.common import get_logger
-import time
-from typing import Dict, Any, List, Optional, Union, Set, Tuple
-from datetime import datetime
-import os
 import json
-import uuid
+import os
 import threading
+import time
+import uuid
+from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
+
+from candidate.core.common import get_logger
 
 # Configure logging
 logger = logging.getLogger("lucas.brain")
@@ -82,7 +83,7 @@ except ImportError:
 
 # Import additional components with error handling
 try:
-    from LUCAS_ID.vault.lucas_id import LucasID, AccessTier
+    from LUCAS_ID.vault.lucas_id import AccessTier, LucasID
 except ImportError:
     logger.warning("Could not import LUCAS_ID components. Identity integration will be limited.")
     LucasID = None

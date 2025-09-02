@@ -44,11 +44,15 @@ class ConsciousnessCore:
 
     def __init__(self, config: LukhasConfig):
         self.config = config
-        self.current_state = ConsciousnessState(level=ConsciousnessLevel.DORMANT, activated_at=datetime.now())
+        self.current_state = ConsciousnessState(
+            level=ConsciousnessLevel.DORMANT, activated_at=datetime.now()
+        )
         self.evolution_history: list[ConsciousnessState] = []
         self.active_processes: dict[str, Any] = {}
 
-        logger.info(f"🧠 Consciousness Core initialized (max level: {config.max_consciousness})")
+        logger.info(
+            f"🧠 Consciousness Core initialized (max level: {config.max_consciousness})"
+        )
 
     def awaken(self) -> dict[str, Any]:
         """Initialize consciousness system"""

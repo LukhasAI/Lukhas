@@ -116,7 +116,9 @@ class TierAwareColonyProxy:
         self._analyze_target_colony()
         self._setup_method_interception()
 
-        self.logger.info(f"Tier-aware proxy initialized for {type(target_colony).__name__}")
+        self.logger.info(
+            f"Tier-aware proxy initialized for {type(target_colony).__name__}"
+        )
 
     def _initialize_proxy_configuration(self):
         """Initialize proxy configuration and access rules."""
@@ -185,7 +187,8 @@ class TierAwareColonyProxy:
         public_methods = [
             method
             for method in dir(self.target_colony)
-            if not method.startswith("_") and callable(getattr(self.target_colony, method))
+            if not method.startswith("_")
+            and callable(getattr(self.target_colony, method))
         ]
 
         # Categorize methods based on naming patterns
@@ -211,15 +214,21 @@ class TierAwareColonyProxy:
                     return category
 
         # Check for common patterns
-        if any(prefix in method_lower for prefix in ["get", "retrieve", "fetch", "read"]):
-            return "query_operations"
-        elif any(prefix in method_lower for prefix in ["create", "add", "insert", "generate"]):
-            return "advanced_operations"
-        elif any(prefix in method_lower for prefix in ["update", "modify", "edit", "change"]) or any(
-            prefix in method_lower for prefix in ["delete", "remove", "destroy"]
+        if any(
+            prefix in method_lower for prefix in ["get", "retrieve", "fetch", "read"]
         ):
+            return "query_operations"
+        elif any(
+            prefix in method_lower for prefix in ["create", "add", "insert", "generate"]
+        ):
+            return "advanced_operations"
+        elif any(
+            prefix in method_lower for prefix in ["update", "modify", "edit", "change"]
+        ) or any(prefix in method_lower for prefix in ["delete", "remove", "destroy"]):
             return "admin_operations"
-        elif any(prefix in method_lower for prefix in ["predict", "forecast", "anticipate"]):
+        elif any(
+            prefix in method_lower for prefix in ["predict", "forecast", "anticipate"]
+        ):
             return "oracle_operations"
         else:
             return "basic_operations"  # Default to basic
@@ -228,15 +237,21 @@ class TierAwareColonyProxy:
         """Setup method interception for identity-aware access control."""
         # Get all methods from the target colony
         for method_name in dir(self.target_colony):
-            if not method_name.startswith("_") and callable(getattr(self.target_colony, method_name)):
+            if not method_name.startswith("_") and callable(
+                getattr(self.target_colony, method_name)
+            ):
                 # Create wrapped version of the method
                 original_method = getattr(self.target_colony, method_name)
-                wrapped_method = self._create_identity_aware_wrapper(method_name, original_method)
+                wrapped_method = self._create_identity_aware_wrapper(
+                    method_name, original_method
+                )
 
                 # Replace the method on this proxy
                 setattr(self, method_name, wrapped_method)
 
-    def _create_identity_aware_wrapper(self, method_name: str, original_method: Callable) -> Callable:
+    def _create_identity_aware_wrapper(
+        self, method_name: str, original_method: Callable
+    ) -> Callable:
         """Create an identity-aware wrapper for a colony method."""
 
         # Determine if method is async
@@ -246,14 +261,20 @@ class TierAwareColonyProxy:
 
             @wraps(original_method)
             async def async_wrapper(*args, **kwargs):
-                return await self._execute_with_identity_check(method_name, original_method, args, kwargs)
+                return await self._execute_with_identity_check(
+                    method_name, original_method, args, kwargs
+                )
 
             return async_wrapper
         else:
 
             @wraps(original_method)
             def sync_wrapper(*args, **kwargs):
-                return asyncio.run(self._execute_with_identity_check(method_name, original_method, args, kwargs))
+                return asyncio.run(
+                    self._execute_with_identity_check(
+                        method_name, original_method, args, kwargs
+                    )
+                )
 
             return sync_wrapper
 
@@ -270,7 +291,9 @@ class TierAwareColonyProxy:
         # Extract user context from arguments
         user_context = self._extract_user_context(args, kwargs)
         if not user_context:
-            raise IdentityValidationError(f"No user context provided for method {method_name}")
+            raise IdentityValidationError(
+                f"No user context provided for method {method_name}"
+            )
 
         # Validate identity and authorize access
         await self._validate_method_access(user_context, method_name)
@@ -316,9 +339,13 @@ class TierAwareColonyProxy:
 
             # Keep only last 1000 measurements
             if len(self.performance_metrics[method_name]) > 1000:
-                self.performance_metrics[method_name] = self.performance_metrics[method_name][-1000:]
+                self.performance_metrics[method_name] = self.performance_metrics[
+                    method_name
+                ][-1000:]
 
-    def _extract_user_context(self, args: tuple, kwargs: dict) -> Optional[QIUserContext]:
+    def _extract_user_context(
+        self, args: tuple, kwargs: dict
+    ) -> Optional[QIUserContext]:
         """Extract user context from method arguments."""
         # Check kwargs first
         if "user_context" in kwargs:
@@ -345,7 +372,9 @@ class TierAwareColonyProxy:
 
         return None
 
-    async def _validate_method_access(self, user_context: QIUserContext, method_name: str):
+    async def _validate_method_access(
+        self, user_context: QIUserContext, method_name: str
+    ):
         """Validate that user has access to the requested method."""
         # Categorize the method
         method_category = self._categorize_method(method_name)
@@ -365,9 +394,13 @@ class TierAwareColonyProxy:
 
         # Use quantum identity manager for additional authorization
         if self.identity_manager:
-            authorized = await self.identity_manager.authorize_colony_access(user_context, self.proxy_id, method_name)
+            authorized = await self.identity_manager.authorize_colony_access(
+                user_context, self.proxy_id, method_name
+            )
             if not authorized:
-                raise QISecurityError(f"Quantum authorization failed for method {method_name}")
+                raise QISecurityError(
+                    f"Quantum authorization failed for method {method_name}"
+                )
 
     async def _check_rate_limits(self, user_context: QIUserContext, method_name: str):
         """Check rate limits for the user and method."""
@@ -384,7 +417,9 @@ class TierAwareColonyProxy:
         requests_remaining = allocated.get("requests_remaining", 0)
 
         if requests_remaining <= 0:
-            raise TierAccessDeniedError(f"Rate limit exceeded for user {user_context.user_id}")
+            raise TierAccessDeniedError(
+                f"Rate limit exceeded for user {user_context.user_id}"
+            )
 
         # Decrement request count
         user_context.allocated_resources["requests_remaining"] = requests_remaining - 1
@@ -428,13 +463,17 @@ class TierAwareColonyProxy:
     async def register_user_context(self, user_context: QIUserContext):
         """Register a user context for proxy access."""
         self.active_user_contexts[user_context.user_id] = user_context
-        self.logger.debug(f"Registered user context for {user_context.user_id} in proxy {self.proxy_id}")
+        self.logger.debug(
+            f"Registered user context for {user_context.user_id} in proxy {self.proxy_id}"
+        )
 
     async def unregister_user_context(self, user_id: str):
         """Unregister a user context."""
         if user_id in self.active_user_contexts:
             del self.active_user_contexts[user_id]
-            self.logger.debug(f"Unregistered user context for {user_id} in proxy {self.proxy_id}")
+            self.logger.debug(
+                f"Unregistered user context for {user_id} in proxy {self.proxy_id}"
+            )
 
     def get_proxy_statistics(self) -> dict[str, Any]:
         """Get comprehensive proxy statistics."""
@@ -459,7 +498,9 @@ class TierAwareColonyProxy:
                 }
 
         # Analyze recent activity
-        recent_logs = [log for log in self.proxy_audit_log[-100:] if log["status"] == "success"]
+        recent_logs = [
+            log for log in self.proxy_audit_log[-100:] if log["status"] == "success"
+        ]
         stats["recent_activity"] = {
             "successful_calls": len(recent_logs),
             "unique_users": len({log["user_id"] for log in recent_logs}),
@@ -468,7 +509,9 @@ class TierAwareColonyProxy:
 
         return stats
 
-    def _get_most_used_methods(self, logs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    def _get_most_used_methods(
+        self, logs: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Get most frequently used methods from logs."""
         method_counts = {}
         for log in logs:
@@ -477,7 +520,9 @@ class TierAwareColonyProxy:
 
         # Sort by count and return top 5
         sorted_methods = sorted(method_counts.items(), key=lambda x: x[1], reverse=True)
-        return [{"method": method, "count": count} for method, count in sorted_methods[:5]]
+        return [
+            {"method": method, "count": count} for method, count in sorted_methods[:5]
+        ]
 
     def __getattr__(self, name: str) -> Any:
         """Delegate attribute access to the target colony if not found on proxy."""
@@ -490,7 +535,9 @@ class TierAwareColonyProxy:
                 # Return non-callable attributes directly
                 return attr
 
-        raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
+        raise AttributeError(
+            f"'{type(self).__name__}' object has no attribute '{name}'"
+        )
 
     def __str__(self) -> str:
         return f"TierAwareColonyProxy({self.proxy_id}, wrapping {type(self.target_colony).__name__})"
@@ -513,7 +560,9 @@ class ColonyProxyManager:
         self.proxies: dict[str, TierAwareColonyProxy] = {}
         self.logger = logging.getLogger(f"{__name__}.ColonyProxyManager")
 
-    def create_proxy(self, colony: Union[BaseColony, object], proxy_id: Optional[str] = None) -> TierAwareColonyProxy:
+    def create_proxy(
+        self, colony: Union[BaseColony, object], proxy_id: Optional[str] = None
+    ) -> TierAwareColonyProxy:
         """
         Create a tier-aware proxy for a colony.
 
@@ -553,14 +602,18 @@ class ColonyProxyManager:
         for proxy in self.proxies.values():
             await proxy.register_user_context(user_context)
 
-        self.logger.debug(f"Registered user context {user_context.user_id} across {len(self.proxies)} proxies")
+        self.logger.debug(
+            f"Registered user context {user_context.user_id} across {len(self.proxies)} proxies"
+        )
 
     async def unregister_user_context_all(self, user_id: str):
         """Unregister user context across all proxies."""
         for proxy in self.proxies.values():
             await proxy.unregister_user_context(user_id)
 
-        self.logger.debug(f"Unregistered user context {user_id} across {len(self.proxies)} proxies")
+        self.logger.debug(
+            f"Unregistered user context {user_id} across {len(self.proxies)} proxies"
+        )
 
     def get_manager_statistics(self) -> dict[str, Any]:
         """Get comprehensive manager statistics."""
@@ -581,11 +634,17 @@ class ColonyProxyManager:
             stats["proxy_details"][proxy_id] = proxy_stats
 
             # Aggregate metrics
-            stats["aggregate_metrics"]["total_active_users"] += proxy_stats["active_users"]
-            stats["aggregate_metrics"]["total_audit_entries"] += proxy_stats["total_audit_entries"]
+            stats["aggregate_metrics"]["total_active_users"] += proxy_stats[
+                "active_users"
+            ]
+            stats["aggregate_metrics"]["total_audit_entries"] += proxy_stats[
+                "total_audit_entries"
+            ]
 
             for method_stats in proxy_stats["performance_metrics"].values():
-                stats["aggregate_metrics"]["total_method_calls"] += method_stats["calls"]
+                stats["aggregate_metrics"]["total_method_calls"] += method_stats[
+                    "calls"
+                ]
 
         return stats
 

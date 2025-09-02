@@ -54,7 +54,14 @@ def test_noop_memory_get_stats():
     assert stats["scenes_saved"] == 0
 
     # After save operation
-    memory.save(user_id="stats_test", scene={}, glyphs=[], policy={}, metrics={}, cfg_version="v1")
+    memory.save(
+        user_id="stats_test",
+        scene={},
+        glyphs=[],
+        policy={},
+        metrics={},
+        cfg_version="v1",
+    )
 
     stats = memory.get_stats()
     assert stats["scenes_saved"] == 1
