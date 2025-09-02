@@ -5,20 +5,19 @@ LUKHAS RL Engine Components
 Core RL algorithm implementations for consciousness-aware learning.
 """
 
-from .policy_networks import (
-    ConsciousnessPolicy,
-    ConsciousnessValueNetwork,
-    ConsciousnessActorCritic,
-    ConsciousnessAttention,
-    ReflectionModule,
-    EthicalConstraintModule,
-)
-
 from .consciousness_environment import (
-    ConsciousnessEnvironment,
-    ConsciousnessState,
     ConsciousnessAction,
     ConsciousnessActionType,
+    ConsciousnessEnvironment,
+    ConsciousnessState,
+)
+from .policy_networks import (
+    ConsciousnessActorCritic,
+    ConsciousnessAttention,
+    ConsciousnessPolicy,
+    ConsciousnessValueNetwork,
+    EthicalConstraintModule,
+    ReflectionModule,
 )
 
 __all__ = [

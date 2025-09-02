@@ -13,19 +13,20 @@ from __future__ import annotations
 
 import logging
 import time
-from typing import Any, Dict, List, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import gymnasium as gym
 import numpy as np
 import torch
-from torch import nn
-import gymnasium as gym
 from gymnasium import spaces
+from torch import nn
 
 from lukhas.consciousness import ConsciousnessModule
-from lukhas.memory import MemoryFoldSystem
 from lukhas.emotion import EmotionalAwareness
 from lukhas.governance import GuardianSystem
+from lukhas.memory import MemoryFoldSystem
 from lukhas.observability.matriz_decorators import instrument
 
 logger = logging.getLogger(__name__)

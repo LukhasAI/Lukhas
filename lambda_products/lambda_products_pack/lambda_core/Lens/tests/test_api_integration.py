@@ -9,13 +9,13 @@ REPO_ROOT = os.path.abspath(os.path.join(THIS_DIR, "..", "..", "..", "..", "..")
 sys.path.insert(0, REPO_ROOT)
 
 try:
-    from lambda_products.lambda_products_pack.lambda_core.Lens.api_new.main import app
+    from lambda_products.lambda_products_pack.lambda_core.Lens.api.main import app
 except Exception:
     # Fallback: import by file path if package import fails
     import importlib.util
 
     module_path = os.path.join(
-        REPO_ROOT, "lambda_products", "lambda_products_pack", "lambda_core", "Lens", "api_new", "main.py"
+        REPO_ROOT, "lambda_products", "lambda_products_pack", "lambda_core", "Lens", "api", "main.py"
     )
     spec = importlib.util.spec_from_file_location("lens_api_main", module_path)
     mod = importlib.util.module_from_spec(spec)

@@ -6,10 +6,10 @@ Gym-compatible environments for consciousness training.
 """
 
 from .consciousness_environment import (
-    ConsciousnessEnvironment,
-    ConsciousnessState,
     ConsciousnessAction,
     ConsciousnessActionType,
+    ConsciousnessEnvironment,
+    ConsciousnessState,
 )
 
 __all__ = ["ConsciousnessEnvironment", "ConsciousnessState", "ConsciousnessAction", "ConsciousnessActionType"]

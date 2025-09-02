@@ -13,11 +13,12 @@ from __future__ import annotations
 
 import logging
 import math
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Any, Dict, List, Optional, Tuple
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.distributions import Categorical, Normal, MultivariateNormal
+from torch.distributions import Categorical, MultivariateNormal, Normal
 
 from lukhas.observability.matriz_decorators import instrument
 

@@ -6,10 +6,10 @@ Experience replay and memory systems for consciousness learning.
 """
 
 from .consciousness_buffer import (
-    ConsciousnessReplayBuffer,
-    EpisodicConsciousnessBuffer,
     ConsciousnessExperience,
     ConsciousnessMemoryPriorities,
+    ConsciousnessReplayBuffer,
+    EpisodicConsciousnessBuffer,
 )
 
 __all__ = [

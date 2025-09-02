@@ -122,9 +122,9 @@ class TestPriorityWeightingContract:
             scene = self._create_test_scene(narrative_gravity, risk_score)
             computed_priority = compute_routing_priority(scene)
 
-            assert abs(computed_priority - expected_priority) < 0.001, (
-                f"Expected {expected_priority}, got {computed_priority} for ng={narrative_gravity}, rs={risk_score}"
-            )
+            assert (
+                abs(computed_priority - expected_priority) < 0.001
+            ), f"Expected {expected_priority}, got {computed_priority} for ng={narrative_gravity}, rs={risk_score}"
 
     def test_priority_monotonicity_narrative_gravity(self):
         """Test higher narrative_gravity ⇒ higher priority (key Wave C requirement)"""
@@ -139,9 +139,9 @@ class TestPriorityWeightingContract:
 
         # Verify monotonicity: each priority should be >= previous
         for i in range(1, len(priorities)):
-            assert priorities[i] >= priorities[i - 1], (
-                f"Priority monotonicity violated: {priorities[i]} < {priorities[i - 1]} at index {i}"
-            )
+            assert (
+                priorities[i] >= priorities[i - 1]
+            ), f"Priority monotonicity violated: {priorities[i]} < {priorities[i - 1]} at index {i}"
 
     def test_priority_monotonicity_risk_score(self):
         """Test higher risk_score ⇒ higher priority"""
@@ -156,9 +156,9 @@ class TestPriorityWeightingContract:
 
         # Verify monotonicity: each priority should be >= previous
         for i in range(1, len(priorities)):
-            assert priorities[i] >= priorities[i - 1], (
-                f"Risk monotonicity violated: {priorities[i]} < {priorities[i - 1]} at index {i}"
-            )
+            assert (
+                priorities[i] >= priorities[i - 1]
+            ), f"Risk monotonicity violated: {priorities[i]} < {priorities[i - 1]} at index {i}"
 
     def test_priority_bounds_enforcement(self):
         """Test priority is clamped to [0.0, 1.0] range"""
@@ -174,9 +174,9 @@ class TestPriorityWeightingContract:
             scene = self._create_test_scene(narrative_gravity, risk_score)
             priority = compute_routing_priority(scene)
 
-            assert 0.0 <= priority <= 1.0, (
-                f"Priority {priority} out of bounds for ng={narrative_gravity}, rs={risk_score}"
-            )
+            assert (
+                0.0 <= priority <= 1.0
+            ), f"Priority {priority} out of bounds for ng={narrative_gravity}, rs={risk_score}"
 
     def test_priority_weighting_coefficients(self):
         """Test that narrative_gravity has 0.7 weight and risk_score has 0.3 weight"""

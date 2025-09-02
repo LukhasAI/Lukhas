@@ -10,11 +10,11 @@ This module implements RL specifically designed for consciousness architecture,
 enabling 692 distributed modules to learn, coordinate, and evolve together.
 """
 
+from .coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer
+from .engine.actor_critic import ConsciousnessActorCritic
 from .engine.consciousness_environment import ConsciousnessEnvironment
 from .engine.policy_networks import ConsciousnessPolicy, ConsciousnessValueNetwork
-from .engine.actor_critic import ConsciousnessActorCritic
 from .experience.consciousness_buffer import ConsciousnessReplayBuffer
-from .coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer
 
 __version__ = "0.1.0"
 __all__ = [

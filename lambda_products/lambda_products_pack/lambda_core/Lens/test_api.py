@@ -6,16 +6,16 @@ Test script for ΛLens API functionality
 import os
 import sys
 
-# Add the current directory and api_new to the path
+# Add the current directory and api to the path
 current_dir = os.path.dirname(__file__)
-api_dir = os.path.join(current_dir, "api_new")
+api_dir = os.path.join(current_dir, "api")
 sys.path.insert(0, current_dir)
 sys.path.insert(0, api_dir)
 
 try:
-    from api_new.endpoints import router
-    from api_new.main import app
-    from api_new.schemas import JobRequest, JobResponse, PhotonDocument
+    from api.endpoints import router
+    from api.main import app
+    from api.schemas import JobRequest, JobResponse, PhotonDocument
 
     print("✅ API imports successful!")
     print(f"📡 FastAPI app: {app.title}")
@@ -28,7 +28,7 @@ try:
 
     print("\n🎉 ΛLens API is ready to use!")
     print("\nTo start the server:")
-    print("cd api_new && python main.py")
+    print("cd api && python main.py")
     print("\nAPI will be available at: http://localhost:8000")
     print("Documentation at: http://localhost:8000/docs")
 

@@ -162,7 +162,7 @@ class LambdaIDController:
             self.logger.debug(f"ΛTRACE: Attempting to load tier config from: {config_path}")
 
             if config_path.exists():
-                with open(config_path, "r", encoding="utf-8") as f:
+                with open(config_path, encoding="utf-8") as f:
                     self.tier_config = json.load(f)
                 self.logger.info(f"ΛTRACE: Tier permissions configuration loaded successfully from {config_path}.")
             else:

@@ -1,4 +1,7 @@
-ΛLens API (api_new)
+ΛLens API (api_new) - ARCHIVED
+
+This directory has been superseded by `../api/` and is retained for history.
+Please use `lambda_products.lambda_products_pack.lambda_core.Lens.api` as the canonical package.
 =====================
 
 Quick start for developers.

@@ -12,23 +12,24 @@ import asyncio
 import logging
 import sys
 from pathlib import Path
-from typing import Dict, Any, Optional
-import torch
+from typing import Any, Dict, Optional
+
 import numpy as np
+import torch
 
 # Add LUKHAS to path
 sys.path.append(str(Path(__file__).parent.parent))
 
+from lukhas.consciousness import ConsciousnessModule
+from lukhas.emotion import EmotionalAwareness
+from lukhas.governance import GuardianSystem
+from lukhas.memory import MemoryFoldSystem
 from lukhas.rl import (
     ConsciousnessEnvironment,
     ConsciousnessReplayBuffer,
     MultiAgentConsciousnessTrainer,
     TrainingConfiguration,
 )
-from lukhas.consciousness import ConsciousnessModule
-from lukhas.memory import MemoryFoldSystem
-from lukhas.emotion import EmotionalAwareness
-from lukhas.governance import GuardianSystem
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -363,7 +364,7 @@ async def interactive_training_demo():
             print("\n👋 Demo interrupted. Exiting...")
             break
         except Exception as e:
-            print(f"❌ Error: {str(e)}")
+            print(f"❌ Error: {e!s}")
 
 
 if __name__ == "__main__":

@@ -7,27 +7,27 @@ Comprehensive tests for consciousness RL framework.
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-import pytest
 import asyncio
-import torch
-import numpy as np
-from unittest.mock import Mock, AsyncMock, patch
-from typing import Dict, Any
-
 import sys
 from pathlib import Path
+from typing import Any, Dict
+from unittest.mock import AsyncMock, Mock, patch
+
+import numpy as np
+import pytest
+import torch
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
+from lukhas.rl.coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer, TrainingConfiguration
+from lukhas.rl.engine.policy_networks import ConsciousnessActorCritic, ConsciousnessPolicy, ConsciousnessValueNetwork
 from lukhas.rl.environments.consciousness_environment import (
-    ConsciousnessEnvironment,
-    ConsciousnessState,
     ConsciousnessAction,
     ConsciousnessActionType,
+    ConsciousnessEnvironment,
+    ConsciousnessState,
 )
-from lukhas.rl.engine.policy_networks import ConsciousnessPolicy, ConsciousnessValueNetwork, ConsciousnessActorCritic
 from lukhas.rl.experience.consciousness_buffer import ConsciousnessReplayBuffer, EpisodicConsciousnessBuffer
-from lukhas.rl.coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer, TrainingConfiguration
 
 
 class MockConsciousnessModule:
