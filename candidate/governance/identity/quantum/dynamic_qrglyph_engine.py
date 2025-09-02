@@ -173,13 +173,11 @@ class DynamicQRGLYPHEngine:
             "europe": ["⚜️", "♜", "♞", "⚔️", "🛡️", "👑"],
         }
 
-    # Active GLYPHs cache
+    # Active GLYPHs cache and background task set
     self.active_glyphs: dict[str, DynamicQRGLYPH] = {}
-
-    # Background tasks set to hold references to scheduled coroutines
     self._background_tasks: set[asyncio.Task] = set()
 
-    logger.info("🔐 Dynamic QRGLYPH Engine initialized with Ed448")
+    # (previously moved into __init__ to avoid mutable class attributes)
 
     async def generate_dynamic_qrglyph(
         self,

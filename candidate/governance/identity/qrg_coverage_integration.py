@@ -7,7 +7,7 @@ import asyncio
 import threading
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
@@ -235,7 +235,7 @@ class QRGCoverageIntegration:
                     "edge_case_validation",
                     "boundary_conditions",
                 ],
-                timestamp=datetime.now(),
+                timestamp=datetime.now(tz=timezone.utc),
             )
 
             # Store in history
@@ -368,7 +368,7 @@ class QRGCoverageIntegration:
                 "tests_passed": 9,  # Placeholder
                 "coverage": 90.0,  # Placeholder
                 "runtime": 2.5,  # Placeholder
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(tz=timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -377,7 +377,7 @@ class QRGCoverageIntegration:
                 "category": test_category,
                 "status": "failed",
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(tz=timezone.utc).isoformat(),
             }
 
     async def get_coverage_statistics(self) -> dict[str, Any]:
@@ -447,7 +447,7 @@ class QRGCoverageIntegration:
             "ready_for_production": overall_ready,
             "criteria": readiness_criteria,
             "coverage_percentage": validation_result.coverage_percentage,
-            "validation_timestamp": datetime.now().isoformat(),
+            "validation_timestamp": datetime.now(tz=timezone.utc).isoformat(),
             "recommendations": self._generate_readiness_recommendations(readiness_criteria),
         }
 

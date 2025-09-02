@@ -165,15 +165,18 @@ class AdvancedIdentityValidator:
 
     async def _initialize_validator(self):
         """Initialize the identity validator"""
+        try:
+            # Load existing profiles and start background monitoring
+            await self._load_existing_profiles()
 
-    # Load existing profiles and start background monitoring
-    await self._load_existing_profiles()
-
-    # Start continuous monitoring loop and keep task reference
-    task = asyncio.create_task(self._continuous_monitoring_loop())
-    self._background_tasks.add(task)
-    task.add_done_callback(lambda t: self._background_tasks.discard(t))
-    return None
+            # Start continuous monitoring loop and keep task reference
+            task = asyncio.create_task(self._continuous_monitoring_loop())
+            self._background_tasks.add(task)
+            task.add_done_callback(lambda t: self._background_tasks.discard(t))
+        except Exception as e:
+            # Ensure background initialization failures don't crash import-time code
+            logger.exception("Failed to initialize validator background tasks: %s", e)
+        return None
 
     async def validate_identity(
         self,
