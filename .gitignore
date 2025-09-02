@@ -112,6 +112,12 @@ env/
 .env/
 lambda_venv/
 *_venv/
+.venv_ruff/
+.venv_mypy/
+.venv_count/
+.venv_count
+.venv_ruff
+.venv_metrics
 
 # Environment variables file
 .env
