@@ -36,6 +36,8 @@ IMPORT_MAPPINGS = {
     "identity.mobile.qr_code_animator": "governance.identity.mobile.qr_code_animator",
     # Interface mapping
     "identity.interface": "governance.identity.interface",
+    # Short canonical lambda id helper
+    "identity.lid": "governance.identity.lid",
 }
 
 

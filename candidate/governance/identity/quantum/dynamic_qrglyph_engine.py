@@ -470,12 +470,12 @@ class DynamicQRGLYPHEngine:
         regional_symbols = self.cultural_symbols.get(region, self.cultural_symbols["universal"])
         universal_symbols = self.cultural_symbols["universal"]
 
-    # Mix regional and universal symbols using list comprehensions for speed
-    regional_selected = [secrets.choice(regional_symbols) for _ in range(min(3, len(regional_symbols)))]
-    universal_selected = [secrets.choice(universal_symbols) for _ in range(min(2, len(universal_symbols)))]
+        # Mix regional and universal symbols using list comprehensions for speed
+        regional_selected = [secrets.choice(regional_symbols) for _ in range(min(3, len(regional_symbols)))]
+        universal_selected = [secrets.choice(universal_symbols) for _ in range(min(2, len(universal_symbols)))]
 
-    selected = regional_selected + universal_selected
-    return selected[:5]  # Return up to 5 symbols
+        selected = regional_selected + universal_selected
+        return selected[:5]  # Return up to 5 symbols
 
     def _generate_quantum_entropy(self) -> str:
         """Generate quantum-inspired entropy"""

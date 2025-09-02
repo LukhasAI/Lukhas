@@ -432,11 +432,15 @@ class AdvancedIdentityValidator:
     async def _assess_identity_risk(
         self,
         validation: IdentityValidation,
-        identity_data: dict[str, Any],
-        context: dict[str, Any],
+        _identity_data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
     ) -> IdentityRisk:
         """Assess identity-related risks"""
 
+        # Mark identity_data as used to silence ARG002 during incremental refactor
+        _ = _identity_data
+
+        context = context or {}
         risk_score = 0.0
 
         # Low confidence increases risk

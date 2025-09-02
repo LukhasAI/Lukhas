@@ -31,10 +31,12 @@ except ImportError as e:
             logger.warning("Using fallback IdentityClient")
 
         def verify_user_access(self, user_id: str, tier: str) -> bool:
+            _ = (user_id, tier)
             return True
 
         def log_activity(self, **kwargs):
-            pass
+            _ = kwargs
+            return None
 
 
 # Import mapping for backward compatibility
@@ -95,7 +97,7 @@ class IdentityImportBridge:
                 return self._cache[new_path]
             except ImportError as e:
                 logger.error(f"Failed to import {new_path}: {e}")
-                raise ImportError(f"Cannot import {old_path} (mapped to {new_path})")
+                raise ImportError(f"Cannot import {old_path} (mapped to {new_path})") from e
 
         # For submodules, create a bridge
         return IdentitySubmoduleBridge(f"identity.{name}")
@@ -152,6 +154,7 @@ class IdentitySubmoduleBridge:
 
             class FallbackClass:
                 def __init__(self, *args, **kwargs):
+                    _ = (args, kwargs)
                     logger.warning(f"Using fallback for {name}")
 
             return FallbackClass
@@ -217,8 +220,20 @@ __all__ = [
     "IdentityClient",
     "IdentityImportBridge",
     "get_identity_client",
+    "lid",
     "verify_tier_access",
 ]
 
 # Log successful initialization
 logger.info("Identity namespace bridge initialized successfully")
+
+# Provide a lazy loader for canonical `lid` helper
+try:
+    from . import lid as _lid  # type: ignore
+except Exception:
+    _lid = None
+
+
+def lid():
+    """Return the canonical lid helper module or None if unavailable."""
+    return _lid
