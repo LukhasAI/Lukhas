@@ -109,11 +109,7 @@ class EthicsComplianceEngine:
                 result.risk_score = 0.8
 
             # Check for sensitive data patterns
-            if (
-                data
-                and isinstance(data, (str, dict))
-                and self._contains_sensitive_data(data)
-            ):
+            if data and isinstance(data, (str, dict)) and self._contains_sensitive_data(data):
                 result.warnings.append("Action involves potentially sensitive data")
                 result.risk_score = max(result.risk_score, 0.3)
 
@@ -141,9 +137,7 @@ class EthicsComplianceEngine:
                 ],
             )
 
-    async def validate_plugin_manifest(
-        self, manifest: PluginManifest
-    ) -> EthicsValidationResult:
+    async def validate_plugin_manifest(self, manifest: PluginManifest) -> EthicsValidationResult:
         """Validate a plugin manifest for compliance"""
         result = EthicsValidationResult(passed=True)
 
@@ -155,9 +149,7 @@ class EthicsComplianceEngine:
         if manifest.capabilities and manifest.capabilities.permissions:
             dangerous_perms = {"admin", "root", "system", "unrestricted"}
             for permission in manifest.capabilities.permissions:
-                if any(
-                    dangerous in permission.lower() for dangerous in dangerous_perms
-                ):
+                if any(dangerous in permission.lower() for dangerous in dangerous_perms):
                     violation = ComplianceViolation(
                         violation_type=EthicsViolationType.UNSAFE_OPERATION,
                         framework=ComplianceFramework.LUKHAS_ETHICS,
@@ -177,9 +169,7 @@ class EthicsComplianceEngine:
         """Get the current risk score for a plugin"""
         return self.plugin_risk_scores.get(plugin_id, 0.0)
 
-    def get_violation_history(
-        self, plugin_id: Optional[str] = None
-    ) -> list[ComplianceViolation]:
+    def get_violation_history(self, plugin_id: Optional[str] = None) -> list[ComplianceViolation]:
         """Get violation history with optional filters"""
         violations = self.violation_history
 
@@ -210,9 +200,7 @@ class EthicsComplianceEngine:
             for key, value in data.items():
                 if any(pattern in str(key).lower() for pattern in sensitive_patterns):
                     return True
-                if isinstance(value, str) and any(
-                    pattern in value.lower() for pattern in sensitive_patterns
-                ):
+                if isinstance(value, str) and any(pattern in value.lower() for pattern in sensitive_patterns):
                     return True
 
         return False

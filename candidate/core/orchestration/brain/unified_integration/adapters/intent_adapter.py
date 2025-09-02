@@ -90,19 +90,13 @@ class IntentNodeAdapter:
             attended_data = self.attention_gate.attend(input_data, self.qi_like_state)
 
             # Filter through cristae
-            filtered_data = self.crista_filter.filter(
-                attended_data, self.unified_node.state
-            )
+            filtered_data = self.crista_filter.filter(attended_data, self.unified_node.state)
 
             # Process through proton gradient
-            gradient_processed = self.proton_gradient.process(
-                filtered_data, self.qi_like_state
-            )
+            gradient_processed = self.proton_gradient.process(filtered_data, self.qi_like_state)
 
             # Detect intent through superposition-like state
-            intent_result = await self._quantum_intent_detection(
-                gradient_processed, context
-            )
+            intent_result = await self._quantum_intent_detection(gradient_processed, context)
 
             # Update quantum-like state
             self._update_quantum_like_state(intent_result)
@@ -147,10 +141,7 @@ class IntentNodeAdapter:
 
         # Calculate quantum probabilities
         total_probability = sum(abs(amp) ** 2 for amp in superposition.values())
-        probabilities = {
-            intent: abs(amp) ** 2 / total_probability
-            for intent, amp in superposition.items()
-        }
+        probabilities = {intent: abs(amp) ** 2 / total_probability for intent, amp in superposition.items()}
 
         # Select primary intent (quantum collapse)
         primary_intent = max(probabilities.items(), key=lambda x: x[1])[0]
@@ -174,11 +165,7 @@ class IntentNodeAdapter:
         text = data.get("text", "").lower()
 
         # Base amplitude for query words
-        base = sum(
-            0.2
-            for word in ["what", "who", "when", "where", "why", "how"]
-            if word in text
-        )
+        base = sum(0.2 for word in ["what", "who", "when", "where", "why", "how"] if word in text)
 
         # Add phase based on context
         phase = np.pi / 4  # 45 degrees
@@ -190,9 +177,7 @@ class IntentNodeAdapter:
         text = data.get("text", "").lower()
 
         # Base amplitude for task words
-        base = sum(
-            0.2 for word in ["do", "create", "make", "build", "execute"] if word in text
-        )
+        base = sum(0.2 for word in ["do", "create", "make", "build", "execute"] if word in text)
 
         # Add phase based on context
         phase = np.pi / 2  # 90 degrees
@@ -231,9 +216,7 @@ class IntentNodeAdapter:
     def _update_quantum_like_state(self, intent_result: dict[str, Any]) -> None:
         """Update quantum-like state based on intent detection"""
         # Update coherence based on confidence
-        self.qi_like_state["coherence"] = (
-            self.qi_like_state["coherence"] * 0.7 + intent_result["confidence"] * 0.3
-        )
+        self.qi_like_state["coherence"] = self.qi_like_state["coherence"] * 0.7 + intent_result["confidence"] * 0.3
 
         # Update entanglement based on context links
         self.qi_like_state["entanglement"] = {
@@ -250,13 +233,9 @@ class IntentNodeAdapter:
             "processing_time": processing_time,
             "qi_coherence": self.qi_like_state["coherence"],
             "attention_quality": (
-                np.mean(self.metrics["attention_quality"][-10:])
-                if self.metrics["attention_quality"]
-                else 0.0
+                np.mean(self.metrics["attention_quality"][-10:]) if self.metrics["attention_quality"] else 0.0
             ),
             "energy_efficiency": (
-                np.mean(self.metrics["energy_efficiency"][-10:])
-                if self.metrics["energy_efficiency"]
-                else 0.0
+                np.mean(self.metrics["energy_efficiency"][-10:]) if self.metrics["energy_efficiency"] else 0.0
             ),
         }

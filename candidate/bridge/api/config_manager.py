@@ -48,13 +48,9 @@ def set_config(new_config: LukhasConfig) -> None:
         new_config (LukhasConfig): The new configuration object to set globally.
     """
     global config
-    logger.warning(
-        "ΛTRACE: set_config() called. Overwriting global 'config' instance. This is generally discouraged."
-    )
+    logger.warning("ΛTRACE: set_config() called. Overwriting global 'config' instance. This is generally discouraged.")
     if not isinstance(new_config, LukhasConfig):
-        logger.error(
-            f"ΛTRACE: set_config() failed. Expected LukhasConfig instance, got {type(new_config)}."
-        )
+        logger.error(f"ΛTRACE: set_config() failed. Expected LukhasConfig instance, got {type(new_config)}.")
         raise TypeError(f"Expected LukhasConfig instance, got {type(new_config)}")
     config = new_config
     logger.info(
@@ -69,9 +65,7 @@ def set_config(new_config: LukhasConfig) -> None:
 # .config_manager import *`.
 __all__ = ["config", "get_config", "set_config"]
 
-logger.info(
-    f"ΛTRACE: config_manager module initialized. Exposed symbols in __all__: {__all__}"
-)
+logger.info(f"ΛTRACE: config_manager module initialized. Exposed symbols in __all__: {__all__}")
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: config_manager.py

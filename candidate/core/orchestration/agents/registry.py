@@ -28,9 +28,7 @@ class AgentRegistry:
         """Retrieve an agent by its ID."""
         return self._agents.get(agent_id)
 
-    def find_agents_by_capability(
-        self, capability: AgentCapability
-    ) -> list[OrchestrationAgent]:
+    def find_agents_by_capability(self, capability: AgentCapability) -> list[OrchestrationAgent]:
         """Find all agents that support a capability."""
         agent_ids = self._capability_map.get(capability, [])
         return [self._agents[aid] for aid in agent_ids]

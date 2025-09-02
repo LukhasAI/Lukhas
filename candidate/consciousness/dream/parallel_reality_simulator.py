@@ -105,9 +105,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         # Simulation state
         self.active_simulations: dict[str, RealitySimulation] = {}
-        self.reality_tree: dict[str, list[str]] = defaultdict(
-            list
-        )  # parent -> children
+        self.reality_tree: dict[str, list[str]] = defaultdict(list)  # parent -> children
         self.qi_seed = random.Random(self.config.get("qi_seed", 42))
 
         # Configuration
@@ -142,9 +140,7 @@ class ParallelRealitySimulator(CoreInterface):
                 config={
                     "safety_level": safety_level.value,
                     "drift_threshold": self.config.get("drift_threshold", 0.7),
-                    "hallucination_threshold": self.config.get(
-                        "hallucination_threshold", 0.6
-                    ),
+                    "hallucination_threshold": self.config.get("hallucination_threshold", 0.6),
                     "auto_correct": self.config.get("auto_correct", True),
                 }
             )
@@ -219,9 +215,7 @@ class ParallelRealitySimulator(CoreInterface):
         if self.memory_service:
             await self._store_simulation_memory(simulation, "created")
 
-        logger.info(
-            f"Created simulation {simulation.simulation_id} with {len(simulation.branches)} branches"
-        )
+        logger.info(f"Created simulation {simulation.simulation_id} with {len(simulation.branches)} branches")
         return simulation
 
     async def _create_branch(
@@ -248,9 +242,7 @@ class ParallelRealitySimulator(CoreInterface):
             validation = await self.guardian_service.validate_action(
                 {"type": "reality_branch", "state": new_state}, {"simulation": True}
             )
-            ethical_score = (
-                validation.get("confidence", 1.0) if validation.get("approved") else 0.0
-            )
+            ethical_score = validation.get("confidence", 1.0) if validation.get("approved") else 0.0
 
         branch = RealityBranch(
             branch_id=branch_id,
@@ -265,9 +257,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         # Safety validation
         if self.safety_framework:
-            is_safe, hallucination = (
-                await self.safety_framework.validate_reality_branch(branch, base_state)
-            )
+            is_safe, hallucination = await self.safety_framework.validate_reality_branch(branch, base_state)
 
             if not is_safe:
                 logger.warning(
@@ -275,21 +265,15 @@ class ParallelRealitySimulator(CoreInterface):
                 )
                 if hallucination and hallucination.severity > 0.8:
                     # Reject high-severity hallucinations
-                    raise ValidationError(
-                        f"Reality branch rejected: {hallucination.recommended_action}"
-                    )
+                    raise ValidationError(f"Reality branch rejected: {hallucination.recommended_action}")
                 # For lower severity, continue but mark
                 branch.state["_safety_warning"] = (
-                    hallucination.evidence
-                    if hallucination
-                    else {"warning": "safety check failed"}
+                    hallucination.evidence if hallucination else {"warning": "safety check failed"}
                 )
 
         return branch
 
-    async def _generate_divergence(
-        self, base_state: dict[str, Any], reality_type: RealityType
-    ) -> dict[str, Any]:
+    async def _generate_divergence(self, base_state: dict[str, Any], reality_type: RealityType) -> dict[str, Any]:
         """Generate divergence point based on reality type"""
         divergence = {}
 
@@ -376,9 +360,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         return events
 
-    def _calculate_branch_probability(
-        self, divergence: dict[str, Any], reality_type: RealityType
-    ) -> float:
+    def _calculate_branch_probability(self, divergence: dict[str, Any], reality_type: RealityType) -> float:
         """Calculate probability of reality branch"""
         base_probability = 0.5
 
@@ -410,9 +392,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         return max(self.min_probability, min(1.0, base_probability))
 
-    async def _apply_divergence(
-        self, base_state: dict[str, Any], divergence: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _apply_divergence(self, base_state: dict[str, Any], divergence: dict[str, Any]) -> dict[str, Any]:
         """Apply divergence to create new reality state"""
         new_state = base_state.copy()
 
@@ -436,9 +416,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         return new_state
 
-    async def explore_branch(
-        self, simulation_id: str, branch_id: str, depth: int = 1
-    ) -> list[RealityBranch]:
+    async def explore_branch(self, simulation_id: str, branch_id: str, depth: int = 1) -> list[RealityBranch]:
         """
         Explore a reality branch by creating sub-branches.
 
@@ -475,9 +453,7 @@ class ParallelRealitySimulator(CoreInterface):
             # Vary reality type for diversity
             reality_type = self.qi_seed.choice(list(RealityType))
 
-            sub_branch = await self._create_branch(
-                parent_branch.state, branch_id, reality_type
-            )
+            sub_branch = await self._create_branch(parent_branch.state, branch_id, reality_type)
 
             # Add causal chain
             sub_branch.causal_chain = [
@@ -497,9 +473,7 @@ class ParallelRealitySimulator(CoreInterface):
         if depth > 1:
             for sub_branch in new_branches:
                 if sub_branch.is_viable():
-                    await self.explore_branch(
-                        simulation_id, sub_branch.branch_id, depth - 1
-                    )
+                    await self.explore_branch(simulation_id, sub_branch.branch_id, depth - 1)
 
         # Update metrics
         self.metrics["branches_explored"] += len(new_branches)
@@ -510,9 +484,7 @@ class ParallelRealitySimulator(CoreInterface):
             # Calculate average drift for new branches
             drift_scores = []
             for new_branch in new_branches:
-                drift_metrics = await self.safety_framework.calculate_drift_metrics(
-                    new_branch, parent_branch.state
-                )
+                drift_metrics = await self.safety_framework.calculate_drift_metrics(new_branch, parent_branch.state)
                 drift_scores.append(drift_metrics.aggregate_drift)
 
             avg_drift = sum(drift_scores) / len(drift_scores) if drift_scores else 0.0
@@ -573,11 +545,7 @@ class ParallelRealitySimulator(CoreInterface):
             # Check consensus on key properties
             consensus_properties = ["probability", "ethical_score"]
             for prop in consensus_properties:
-                consensus_reached, score = (
-                    await self.safety_framework.validate_consensus(
-                        viable_branches, prop
-                    )
-                )
+                consensus_reached, score = await self.safety_framework.validate_consensus(viable_branches, prop)
                 if not consensus_reached:
                     logger.warning(f"Low consensus on {prop}: {score:.3f}")
 
@@ -587,14 +555,8 @@ class ParallelRealitySimulator(CoreInterface):
         elif selection_criteria.get("maximize") == "ethical_score":
             selected = max(viable_branches, key=lambda b: b.ethical_score)
         elif selection_criteria.get("maximize") == "creativity":
-            creative_branches = [
-                b for b in viable_branches if b.reality_type == RealityType.CREATIVE
-            ]
-            selected = (
-                max(creative_branches, key=lambda b: b.probability)
-                if creative_branches
-                else viable_branches[0]
-            )
+            creative_branches = [b for b in viable_branches if b.reality_type == RealityType.CREATIVE]
+            selected = max(creative_branches, key=lambda b: b.probability) if creative_branches else viable_branches[0]
         else:
             # Random weighted selection
             weights = [b.probability for b in viable_branches]
@@ -615,9 +577,7 @@ class ParallelRealitySimulator(CoreInterface):
         if self.memory_service:
             await self._store_simulation_memory(simulation, "collapsed", selected)
 
-        logger.info(
-            f"Collapsed simulation {simulation_id} to branch {selected.branch_id}"
-        )
+        logger.info(f"Collapsed simulation {simulation_id} to branch {selected.branch_id}")
         return selected
 
     async def _generate_collapse_insights(
@@ -627,26 +587,17 @@ class ParallelRealitySimulator(CoreInterface):
         insights = []
 
         # Compare selected to other branches
-        other_branches = [
-            b for b in simulation.branches if b.branch_id != selected.branch_id
-        ]
+        other_branches = [b for b in simulation.branches if b.branch_id != selected.branch_id]
 
         # Probability insight
-        avg_probability = sum(b.probability for b in simulation.branches) / len(
-            simulation.branches
-        )
+        avg_probability = sum(b.probability for b in simulation.branches) / len(simulation.branches)
         insights.append(
             {
                 "type": "probability_analysis",
                 "selected_probability": selected.probability,
                 "average_probability": avg_probability,
                 "percentile": (
-                    sum(
-                        1
-                        for b in other_branches
-                        if b.probability < selected.probability
-                    )
-                    / len(other_branches)
+                    sum(1 for b in other_branches if b.probability < selected.probability) / len(other_branches)
                     if other_branches
                     else 1.0
                 ),
@@ -683,9 +634,7 @@ class ParallelRealitySimulator(CoreInterface):
                 {
                     "type": "causal_analysis",
                     "chain_length": len(selected.causal_chain),
-                    "key_divergences": self._extract_key_divergences(
-                        selected.causal_chain
-                    ),
+                    "key_divergences": self._extract_key_divergences(selected.causal_chain),
                 }
             )
 
@@ -707,9 +656,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         return compromises
 
-    def _extract_key_divergences(
-        self, causal_chain: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _extract_key_divergences(self, causal_chain: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Extract key divergence points from causal chain"""
         key_divergences = []
 
@@ -735,9 +682,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         return key_divergences
 
-    async def merge_realities(
-        self, simulation_id: str, branch_ids: list[str]
-    ) -> RealityBranch:
+    async def merge_realities(self, simulation_id: str, branch_ids: list[str]) -> RealityBranch:
         """
         Merge multiple reality branches into hybrid reality.
 
@@ -772,9 +717,7 @@ class ParallelRealitySimulator(CoreInterface):
         merged_probability = merged_probability ** (1.0 / len(branches_to_merge))
 
         # Average ethical scores
-        merged_ethical = sum(b.ethical_score for b in branches_to_merge) / len(
-            branches_to_merge
-        )
+        merged_ethical = sum(b.ethical_score for b in branches_to_merge) / len(branches_to_merge)
 
         # Create merged branch
         merged_branch = RealityBranch(
@@ -1003,9 +946,7 @@ class ParallelRealitySimulator(CoreInterface):
             "operational": self.operational,
             "health_score": 1.0 if self.operational else 0.0,
             "active_simulations": len(self.active_simulations),
-            "total_branches": sum(
-                len(s.branches) for s in self.active_simulations.values()
-            ),
+            "total_branches": sum(len(s.branches) for s in self.active_simulations.values()),
             "metrics": self.metrics,
             "config": {
                 "max_branches": self.max_branches_per_reality,
@@ -1019,9 +960,7 @@ class ParallelRealitySimulator(CoreInterface):
 async def demonstrate_parallel_reality():
     """Demonstrate parallel reality simulation"""
     # Initialize simulator
-    simulator = ParallelRealitySimulator(
-        config={"max_branches": 10, "ethical_threshold": 0.4}
-    )
+    simulator = ParallelRealitySimulator(config={"max_branches": 10, "ethical_threshold": 0.4})
 
     # Mock services for demo
     from unittest.mock import AsyncMock, Mock
@@ -1030,9 +969,7 @@ async def demonstrate_parallel_reality():
     mock_memory.store = AsyncMock(return_value="mem_123")
 
     mock_guardian = Mock()
-    mock_guardian.validate_action = AsyncMock(
-        return_value={"approved": True, "confidence": 0.9}
-    )
+    mock_guardian.validate_action = AsyncMock(return_value={"approved": True, "confidence": 0.9})
 
     from candidate.core.interfaces.dependency_injection import register_service
 
@@ -1064,9 +1001,7 @@ async def demonstrate_parallel_reality():
         print(f"Reality type: {branch_to_explore.reality_type.value}")
         print(f"Probability: {branch_to_explore.probability:.3f}")
 
-        new_branches = await simulator.explore_branch(
-            simulation.simulation_id, branch_to_explore.branch_id, depth=2
-        )
+        new_branches = await simulator.explore_branch(simulation.simulation_id, branch_to_explore.branch_id, depth=2)
         print(f"Created {len(new_branches)} sub-branches")
 
     # Collapse reality

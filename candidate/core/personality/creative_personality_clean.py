@@ -130,21 +130,15 @@ class LucasAGI:
 
         # Ethical Decision Pathway
         elif context.get("task_type") == "protest_planning":
-            output["protest_plan"] = self.protest_module.plan_protest(
-                processed["late_fusion"]
-            )
+            output["protest_plan"] = self.protest_module.plan_protest(processed["late_fusion"])
 
         # Learning Pathway
         elif context.get("task_type") == "learning":
-            output["learning_insights"] = self.meta_learner.generate_insights(
-                processed["model_outputs"]
-            )
+            output["learning_insights"] = self.meta_learner.generate_insights(processed["model_outputs"])
 
         # Default: Balanced response
         else:
-            output["balanced_response"] = self.harmony_engine.synthesize_response(
-                processed["late_fusion"]
-            )
+            output["balanced_response"] = self.harmony_engine.synthesize_response(processed["late_fusion"])
 
         # Update metrics
         self._update_metrics(output, context)
@@ -156,9 +150,7 @@ class LucasAGI:
 
     def _attention_fusion(self, model_outputs):
         """Transformer-based fusion (Late Fusion)"""
-        attention_weights = self.meta_learner.get_model(
-            "attention_weights", "fusion_controller"
-        )
+        attention_weights = self.meta_learner.get_model("attention_weights", "fusion_controller")
         return sum(w * out for w, out in zip(attention_weights, model_outputs))
 
     def _update_metrics(self, output: dict, context: dict):

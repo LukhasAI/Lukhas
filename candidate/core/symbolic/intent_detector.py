@@ -87,19 +87,11 @@ class IntentNode:
         # Accent and curiosity integration
         accent_adapter = context.get("accent_adapter") if context else None
         context.get("user_id", "unknown") if context else "unknown"
-        user_text = (
-            input_data["text"]
-            if isinstance(input_data, dict) and "text" in input_data
-            else str(input_data)
-        )
+        user_text = input_data["text"] if isinstance(input_data, dict) and "text" in input_data else str(input_data)
 
         # Safeguard for formal/professional context
-        if accent_adapter and not accent_adapter.safeguard_formal_context(
-            context or {}
-        ):
-            logger.info(
-                "Curiosity and slang suppressed due to formal/professional context."
-            )
+        if accent_adapter and not accent_adapter.safeguard_formal_context(context or {}):
+            logger.info("Curiosity and slang suppressed due to formal/professional context.")
         else:
             # Detect new words and accents
             if accent_adapter:
@@ -114,9 +106,7 @@ class IntentNode:
                         break  # Only ask about one word at a time
                 # Accent detection (if audio provided)
                 audio_sample = context.get("audio_sample") if context else None
-                detected_accent = accent_adapter.detect_accent(
-                    audio_sample, context or {}
-                )
+                detected_accent = accent_adapter.detect_accent(audio_sample, context or {})
                 if detected_accent:
                     logger.info(f"Accent detected: {detected_accent}")
                     context["detected_accent"] = detected_accent
@@ -155,9 +145,7 @@ class IntentNode:
                 "source": integrated_result.get("source"),
                 "input_type": input_data.get("type", "unknown"),
             }
-            integrated_result["collapse_hash"] = generate_collapse_hash(
-                collapse_hash_data
-            )
+            integrated_result["collapse_hash"] = generate_collapse_hash(collapse_hash_data)
         except Exception as e:
             logger.error(f"Error generating collapse_hash: {e}")
             integrated_result["collapse_hash"] = None
@@ -222,18 +210,11 @@ class IntentNode:
             intent_scores["query"] += 0.6
 
         # Command detection
-        if text.startswith(
-            ("show", "find", "get", "search", "tell", "give", "look", "open")
-        ):
+        if text.startswith(("show", "find", "get", "search", "tell", "give", "look", "open")):
             intent_scores["command"] += 0.5
 
         # Request detection
-        if (
-            "please" in text
-            or "could you" in text
-            or "would you" in text
-            or "can you" in text
-        ):
+        if "please" in text or "could you" in text or "would you" in text or "can you" in text:
             intent_scores["request"] += 0.5
 
         # Emotion detection
@@ -265,9 +246,7 @@ class IntentNode:
         # Extract second best intent
         temp_scores = normalized_scores.copy()
         del temp_scores[primary_intent]
-        secondary_intent = (
-            max(temp_scores, key=temp_scores.get) if temp_scores else None
-        )
+        secondary_intent = max(temp_scores, key=temp_scores.get) if temp_scores else None
 
         # Calculate confidence (highest score)
         confidence = normalized_scores[primary_intent]
@@ -284,9 +263,7 @@ class IntentNode:
 
         # Add some parameter estimation based on intent
         if primary_intent == "query":
-            result["parameters"] = {
-                "query_type": ("information" if "what" in text else "clarification")
-            }
+            result["parameters"] = {"query_type": ("information" if "what" in text else "clarification")}
         elif primary_intent == "command":
             result["parameters"] = {"target_system": "self"}
 
@@ -299,9 +276,7 @@ class IntentNode:
     ) -> dict[str, Any]:
         """Process input using symbolic reasoning."""
         # Extract text if input is a dictionary
-        text = (
-            input_data.get("text", "") if isinstance(input_data, dict) else input_data
-        )
+        text = input_data.get("text", "") if isinstance(input_data, dict) else input_data
 
         # Default values
         primary_intent = "statement"  # Default intent
@@ -327,9 +302,7 @@ class IntentNode:
             rules_applied.append("command_verb_rule")
 
         # Request detection
-        elif "please" in text.lower() or re.search(
-            r"(could|would|can)(\s+you|\s+i|\s+we)", text.lower()
-        ):
+        elif "please" in text.lower() or re.search(r"(could|would|can)(\s+you|\s+i|\s+we)", text.lower()):
             primary_intent = "request"
             confidence += 0.2
             rules_applied.append("request_marker_rule")
@@ -339,9 +312,7 @@ class IntentNode:
             rules_applied.append("help_keyword_rule")
 
         # Emotion detection
-        elif re.search(
-            r"(feel|love|hate|happy|sad|angry|excited|worried)", text.lower()
-        ):
+        elif re.search(r"(feel|love|hate|happy|sad|angry|excited|worried)", text.lower()):
             primary_intent = "emotion"
             confidence += 0.2
             rules_applied.append("emotion_keyword_rule")
@@ -359,9 +330,7 @@ class IntentNode:
             "rules_applied": rules_applied,
         }
 
-    def _extract_features(
-        self, input_data: dict[str, Any], input_type: str
-    ) -> dict[str, Any]:
+    def _extract_features(self, input_data: dict[str, Any], input_type: str) -> dict[str, Any]:
         """Extract relevant features from input data based on type."""
         features = {}
 
@@ -373,8 +342,7 @@ class IntentNode:
                     "has_question_mark": "?" in text,
                     "word_count": len(text.split()),
                     "contains_command_verb": any(
-                        cmd in text.lower()
-                        for cmd in ["show", "find", "get", "search", "tell"]
+                        cmd in text.lower() for cmd in ["show", "find", "get", "search", "tell"]
                     ),
                     "contains_request_marker": any(
                         req in text.lower()
@@ -410,17 +378,13 @@ class IntentNode:
 
         return features
 
-    def _integrate_results(
-        self, neural_result: dict[str, Any], symbolic_result: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _integrate_results(self, neural_result: dict[str, Any], symbolic_result: dict[str, Any]) -> dict[str, Any]:
         """Integrate neural and symbolic results."""
         # Calculate weighted confidence
         neural_confidence = neural_result["confidence"]
         symbolic_confidence = symbolic_result["confidence"]
 
-        weighted_confidence = (neural_confidence * self.neural_weight) + (
-            symbolic_confidence * self.symbolic_weight
-        )
+        weighted_confidence = (neural_confidence * self.neural_weight) + (symbolic_confidence * self.symbolic_weight)
 
         # Determine primary intent based on weighted confidence
         neural_weighted = neural_confidence * self.neural_weight
@@ -459,9 +423,7 @@ class IntentNode:
 
         return result
 
-    def _update_history(
-        self, input_data: dict[str, Any], result: dict[str, Any]
-    ) -> None:
+    def _update_history(self, input_data: dict[str, Any], result: dict[str, Any]) -> None:
         """Update processing history with latest result."""
         history_entry = {
             "timestamp": datetime.now().isoformat(),
@@ -476,6 +438,4 @@ class IntentNode:
 
         # Limit history size
         if len(self.processing_history) > self.config["max_history_size"]:
-            self.processing_history = self.processing_history[
-                -self.config["max_history_size"] :
-            ]
+            self.processing_history = self.processing_history[-self.config["max_history_size"] :]

@@ -147,9 +147,7 @@ class RateLimiter:
 
         # Clean old requests (older than 1 minute)
         cutoff_time = current_time - 60
-        self.request_history[key] = [
-            req_time for req_time in self.request_history[key] if req_time > cutoff_time
-        ]
+        self.request_history[key] = [req_time for req_time in self.request_history[key] if req_time > cutoff_time]
 
         # Check burst limit
         if len(self.request_history[key]) >= limits["burst"]:
@@ -179,9 +177,7 @@ class RateLimiter:
             self.suspicious_activity[ip_address] = {"score": 0, "activities": []}
 
         self.suspicious_activity[ip_address]["score"] += 1
-        self.suspicious_activity[ip_address]["activities"].append(
-            {"type": activity_type, "timestamp": time.time()}
-        )
+        self.suspicious_activity[ip_address]["activities"].append({"type": activity_type, "timestamp": time.time()})
 
         # Block IP if score exceeds threshold
         if self.suspicious_activity[ip_address]["score"] >= 5:
@@ -255,17 +251,13 @@ class APIKeyManager:
 
         # Check if key exists
         if api_key not in self.api_keys:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key"
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key")
 
         key_data = self.api_keys[api_key]
 
         # Check expiration
         if key_data.get("expires_at", 0) < time.time():
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="API key has expired"
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="API key has expired")
 
         # Check IP restrictions
         allowed_ips = key_data.get("allowed_ips", [])
@@ -392,12 +384,8 @@ class ComprehensiveAPISecurity:
     def __init__(self, config: Optional[dict[str, Any]] = None):
         config = config or {}
 
-        self.jwt_secret = config.get(
-            "jwt_secret", "lukhas-jwt-secret-change-in-production"
-        )
-        self.api_key_manager = APIKeyManager(
-            config.get("api_secret", "lukhas-api-secret")
-        )
+        self.jwt_secret = config.get("jwt_secret", "lukhas-jwt-secret-change-in-production")
+        self.api_key_manager = APIKeyManager(config.get("api_secret", "lukhas-api-secret"))
         self.rate_limiter = RateLimiter()
         self.audit_logger = SecurityAuditLogger()
 
@@ -460,13 +448,8 @@ class ComprehensiveAPISecurity:
                 )
 
             # Healthcare-specific security checks
-            if "healthcare" in request_path and user_data.get(
-                "healthcare_approved", False
-            ):
-                if (
-                    self.healthcare_ips_only
-                    and ip_address not in self.healthcare_allowed_ips
-                ):
+            if "healthcare" in request_path and user_data.get("healthcare_approved", False):
+                if self.healthcare_ips_only and ip_address not in self.healthcare_allowed_ips:
                     self.audit_logger.log_event(
                         SecurityEvent(
                             SecurityEventType.AUTHORIZATION_FAILURE,
@@ -564,17 +547,11 @@ class ComprehensiveAPISecurity:
             }
 
         except jwt.ExpiredSignatureError:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired"
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
         except jwt.InvalidTokenError as e:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Invalid token: {e!s}"
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Invalid token: {e!s}")
 
-    def _calculate_security_score(
-        self, user_data: dict[str, Any], ip_address: str
-    ) -> float:
+    def _calculate_security_score(self, user_data: dict[str, Any], ip_address: str) -> float:
         """Calculate security score for request (0.0-1.0)"""
         score = 1.0
 

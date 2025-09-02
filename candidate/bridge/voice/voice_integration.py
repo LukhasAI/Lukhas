@@ -89,9 +89,7 @@ class SpeechEmotionRecognizer:
         # RESEARCH: Sparse attention mechanism for critical vocal features
         self.attention_threshold = 0.3
 
-    def analyze_speech_emotion(
-        self, audio_data: np.ndarray, sample_rate: int = 16000
-    ) -> EmotionAnalysisResult:
+    def analyze_speech_emotion(self, audio_data: np.ndarray, sample_rate: int = 16000) -> EmotionAnalysisResult:
         """RESEARCH: Analyze emotional state with 94% accuracy"""
 
         # Extract prosodic features
@@ -101,9 +99,7 @@ class SpeechEmotionRecognizer:
         attention_weights = self._compute_sparse_attention(prosody_features)
 
         # Classify emotion using weighted features
-        emotion, confidence = self._classify_emotion(
-            prosody_features, attention_weights
-        )
+        emotion, confidence = self._classify_emotion(prosody_features, attention_weights)
 
         return EmotionAnalysisResult(
             emotion=emotion,
@@ -113,9 +109,7 @@ class SpeechEmotionRecognizer:
             timestamp=datetime.now(timezone.utc),
         )
 
-    def _extract_prosodic_features(
-        self, audio_data: np.ndarray, sample_rate: int
-    ) -> dict[str, float]:
+    def _extract_prosodic_features(self, audio_data: np.ndarray, sample_rate: int) -> dict[str, float]:
         """RESEARCH: Extract vocal cues - tone, pitch, rhythm, intensity, prosody"""
 
         # Simplified prosodic feature extraction (in production would use librosa/torchaudio)
@@ -154,9 +148,7 @@ class SpeechEmotionRecognizer:
 
         return attention_weights
 
-    def _classify_emotion(
-        self, features: dict[str, float], attention_weights: dict[str, float]
-    ) -> tuple[str, float]:
+    def _classify_emotion(self, features: dict[str, float], attention_weights: dict[str, float]) -> tuple[str, float]:
         """RESEARCH: Emotion classification using weighted prosodic features"""
 
         # Simplified emotion classification (in production would use trained neural network)
@@ -173,18 +165,11 @@ class SpeechEmotionRecognizer:
                     + features.get("intensity_profile", 0) * 0.3
                 )
             elif emotion == "sadness":
-                score = (1.0 - features.get("pitch_mean", 0)) * 0.5 + features.get(
-                    "pause_patterns", 0
-                ) * 0.5
+                score = (1.0 - features.get("pitch_mean", 0)) * 0.5 + features.get("pause_patterns", 0) * 0.5
             elif emotion == "anger":
-                score = (
-                    features.get("pitch_variance", 0) * 0.6
-                    + features.get("intensity_profile", 0) * 0.4
-                )
+                score = features.get("pitch_variance", 0) * 0.6 + features.get("intensity_profile", 0) * 0.4
             elif emotion == "calmness":
-                score = (1.0 - features.get("pitch_variance", 0)) * 0.7 + (
-                    1.0 - features.get("speech_rate", 0)
-                ) * 0.3
+                score = (1.0 - features.get("pitch_variance", 0)) * 0.7 + (1.0 - features.get("speech_rate", 0)) * 0.3
             else:
                 score = np.random.uniform(0.1, 0.4)  # Baseline for other emotions
 
@@ -222,37 +207,23 @@ class DynamicVoiceModulator:
     ) -> VoiceModulationParams:
         """RESEARCH: Generate empathetic voice modulation for user's emotional state"""
 
-        base_params = self.emotion_modulation_map.get(
-            user_emotion, self.emotion_modulation_map["neutral"]
-        )
+        base_params = self.emotion_modulation_map.get(user_emotion, self.emotion_modulation_map["neutral"])
 
         # RESEARCH: Contextual adjustment for empathetic matching
         if user_emotion in ["sadness", "fear", "frustration"]:
             # For negative emotions, use soothing tone
             adjusted_params = VoiceModulationParams(
-                pitch_adjustment=max(
-                    0.85, base_params.pitch_adjustment * 0.95
-                ),  # Lower pitch for comfort
-                pace_adjustment=max(
-                    0.85, base_params.pace_adjustment * 0.92
-                ),  # Slower pace for clarity
-                volume_adjustment=min(
-                    0.9, base_params.volume_adjustment
-                ),  # Softer volume
+                pitch_adjustment=max(0.85, base_params.pitch_adjustment * 0.95),  # Lower pitch for comfort
+                pace_adjustment=max(0.85, base_params.pace_adjustment * 0.92),  # Slower pace for clarity
+                volume_adjustment=min(0.9, base_params.volume_adjustment),  # Softer volume
                 tone_warmth=min(1.0, base_params.tone_warmth + 0.1),  # Warmer tone
-                empathy_level=min(
-                    1.0, base_params.empathy_level + 0.1
-                ),  # Higher empathy
+                empathy_level=min(1.0, base_params.empathy_level + 0.1),  # Higher empathy
             )
         elif user_emotion in ["happiness", "excitement"]:
             # For positive emotions, match energy appropriately
             adjusted_params = VoiceModulationParams(
-                pitch_adjustment=min(
-                    1.2, base_params.pitch_adjustment * 1.05
-                ),  # Slightly higher pitch
-                pace_adjustment=min(
-                    1.15, base_params.pace_adjustment * 1.02
-                ),  # Matched energy
+                pitch_adjustment=min(1.2, base_params.pitch_adjustment * 1.05),  # Slightly higher pitch
+                pace_adjustment=min(1.15, base_params.pace_adjustment * 1.02),  # Matched energy
                 volume_adjustment=base_params.volume_adjustment,
                 tone_warmth=base_params.tone_warmth,
                 empathy_level=base_params.empathy_level,
@@ -262,9 +233,7 @@ class DynamicVoiceModulator:
 
         return adjusted_params
 
-    def apply_modulation(
-        self, text: str, params: VoiceModulationParams
-    ) -> dict[str, Any]:
+    def apply_modulation(self, text: str, params: VoiceModulationParams) -> dict[str, Any]:
         """RESEARCH: Apply voice modulation parameters to generate emotional speech"""
 
         # In production, would interface with TTS engine (ElevenLabs, OpenAI, etc.)
@@ -313,9 +282,7 @@ class VoiceIntegrationLayer:
         print("   - Empathetic Response Generation: ✅ ACTIVE")
         print("   - Sparse Attention Mechanisms: ✅ ACTIVE")
 
-    async def process_voice_with_emotion(
-        self, input_data: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_voice_with_emotion(self, input_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """RESEARCH: Process voice with advanced emotion recognition and dynamic modulation"""
 
         start_time = datetime.now(timezone.utc)
@@ -338,15 +305,9 @@ class VoiceIntegrationLayer:
         enhanced_context = {
             **context,
             "voice_profile": profile.to_dict(),
-            "detected_emotion": (
-                user_emotion_analysis.emotion if user_emotion_analysis else "neutral"
-            ),
-            "emotion_confidence": (
-                user_emotion_analysis.confidence if user_emotion_analysis else 0.5
-            ),
-            "emotional_features": (
-                user_emotion_analysis.vocal_features if user_emotion_analysis else {}
-            ),
+            "detected_emotion": (user_emotion_analysis.emotion if user_emotion_analysis else "neutral"),
+            "emotion_confidence": (user_emotion_analysis.confidence if user_emotion_analysis else 0.5),
+            "emotional_features": (user_emotion_analysis.vocal_features if user_emotion_analysis else {}),
         }
 
         # Process through voice system
@@ -356,19 +317,13 @@ class VoiceIntegrationLayer:
         )
 
         # RESEARCH: Generate empathetic voice modulation
-        user_emotion = (
-            user_emotion_analysis.emotion
-            if user_emotion_analysis
-            else context.get("emotion", "neutral")
-        )
+        user_emotion = user_emotion_analysis.emotion if user_emotion_analysis else context.get("emotion", "neutral")
         empathetic_params = self.dynamic_modulator.generate_empathetic_response(
             user_emotion, input_data.get("text", ""), enhanced_context
         )
 
         # Apply research-enhanced modulation
-        modulation_result = self.dynamic_modulator.apply_modulation(
-            input_data.get("text", ""), empathetic_params
-        )
+        modulation_result = self.dynamic_modulator.apply_modulation(input_data.get("text", ""), empathetic_params)
 
         # Record usage and feedback with emotion data
         processing_record = {
@@ -376,10 +331,7 @@ class VoiceIntegrationLayer:
             "emotion_analysis": user_emotion_analysis,
             "voice_result": voice_result,
             "empathetic_modulation": modulation_result,
-            "processing_time_ms": (
-                datetime.now(timezone.utc) - start_time
-            ).total_seconds()
-            * 1000,
+            "processing_time_ms": (datetime.now(timezone.utc) - start_time).total_seconds() * 1000,
             "accuracy_rate": self.emotion_accuracy_rate,
         }
 
@@ -400,9 +352,7 @@ class VoiceIntegrationLayer:
             "emotion_accuracy": self.emotion_accuracy_rate,
         }
 
-    async def process_voice(
-        self, input_data: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_voice(self, input_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Legacy compatibility wrapper - routes to research-enhanced processing"""
         return await self.process_voice_with_emotion(input_data, context)
 

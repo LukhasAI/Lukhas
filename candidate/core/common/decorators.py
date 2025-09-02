@@ -65,9 +65,7 @@ def retry(
                         await asyncio.sleep(jittered_delay)
                         current_delay *= backoff
                     else:
-                        logger.error(
-                            f"Max retries ({max_attempts}) exceeded for {func.__name__}"
-                        )
+                        logger.error(f"Max retries ({max_attempts}) exceeded for {func.__name__}")
 
             raise last_exception
 
@@ -95,9 +93,7 @@ def retry(
                         time.sleep(jittered_delay)
                         current_delay *= backoff
                     else:
-                        logger.error(
-                            f"Max retries ({max_attempts}) exceeded for {func.__name__}"
-                        )
+                        logger.error(f"Max retries ({max_attempts}) exceeded for {func.__name__}")
 
             raise last_exception
 
@@ -136,18 +132,14 @@ def with_timeout(timeout: float, error_message: Optional[str] = None) -> Callabl
 
         # Only works with async functions
         if not asyncio.iscoroutinefunction(func):
-            raise TypeError(
-                f"@with_timeout can only be used with async functions, but {func.__name__} is synchronous"
-            )
+            raise TypeError(f"@with_timeout can only be used with async functions, but {func.__name__} is synchronous")
 
         return wrapper
 
     return decorator
 
 
-def lukhas_tier_required(
-    tier: Union[int, str], fallback: Optional[Callable] = None
-) -> Callable:
+def lukhas_tier_required(tier: Union[int, str], fallback: Optional[Callable] = None) -> Callable:
     """
     Require specific LUKHAS tier for function access.
 
@@ -181,9 +173,7 @@ def lukhas_tier_required(
                 if fallback:
                     return await fallback(*args, **kwargs)
                 else:
-                    raise PermissionError(
-                        f"Function {func.__name__} requires LUKHAS tier {required_tier}"
-                    )
+                    raise PermissionError(f"Function {func.__name__} requires LUKHAS tier {required_tier}")
 
         @functools.wraps(func)
         def sync_wrapper(*args, **kwargs):
@@ -199,9 +189,7 @@ def lukhas_tier_required(
                 if fallback:
                     return fallback(*args, **kwargs)
                 else:
-                    raise PermissionError(
-                        f"Function {func.__name__} requires LUKHAS tier {required_tier}"
-                    )
+                    raise PermissionError(f"Function {func.__name__} requires LUKHAS tier {required_tier}")
 
         if asyncio.iscoroutinefunction(func):
             return async_wrapper
@@ -241,9 +229,7 @@ def _get_current_tier_sync(args, kwargs) -> int:
     return 1
 
 
-def cached(
-    ttl: Optional[float] = None, key_func: Optional[Callable] = None
-) -> Callable:
+def cached(ttl: Optional[float] = None, key_func: Optional[Callable] = None) -> Callable:
     """
     Simple caching decorator with TTL support.
 
@@ -272,9 +258,7 @@ def cached(
             key = cache_key_func(*args, **kwargs)
 
             # Check cache
-            if key in cache and (
-                ttl is None or (datetime.now() - cache_times[key]).total_seconds() < ttl
-            ):
+            if key in cache and (ttl is None or (datetime.now() - cache_times[key]).total_seconds() < ttl):
                 return cache[key]
 
             # Cache miss or expired
@@ -289,9 +273,7 @@ def cached(
             key = cache_key_func(*args, **kwargs)
 
             # Check cache
-            if key in cache and (
-                ttl is None or (datetime.now() - cache_times[key]).total_seconds() < ttl
-            ):
+            if key in cache and (ttl is None or (datetime.now() - cache_times[key]).total_seconds() < ttl):
                 return cache[key]
 
             # Cache miss or expired
@@ -355,9 +337,7 @@ def log_execution(
 
             except Exception as e:
                 duration = time.time() - start_time
-                logger.error(
-                    f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}"
-                )
+                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}")
                 raise
 
         @functools.wraps(func)
@@ -389,9 +369,7 @@ def log_execution(
 
             except Exception as e:
                 duration = time.time() - start_time
-                logger.error(
-                    f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}"
-                )
+                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}")
                 raise
 
         if asyncio.iscoroutinefunction(func):

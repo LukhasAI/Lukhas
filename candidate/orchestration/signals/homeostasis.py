@@ -85,9 +85,7 @@ class OscillationDetector:
     def __init__(self, window_size: int = 20, threshold: float = 0.3):
         self.window_size = window_size
         self.threshold = threshold
-        self.signal_history: dict[SignalType, deque] = {
-            sig_type: deque(maxlen=window_size) for sig_type in SignalType
-        }
+        self.signal_history: dict[SignalType, deque] = {sig_type: deque(maxlen=window_size) for sig_type in SignalType}
 
     def update(self, signal: Signal):
         """Update history with new signal"""
@@ -137,9 +135,7 @@ class HomeostasisController:
     Core component of the colony's endocrine system.
     """
 
-    def __init__(
-        self, bus: Optional[SignalBus] = None, config_path: Optional[str] = None
-    ):
+    def __init__(self, bus: Optional[SignalBus] = None, config_path: Optional[str] = None):
         """
         Initialize the homeostasis controller.
 
@@ -219,10 +215,7 @@ class HomeostasisController:
                 )
 
             # Check for urgency markers
-            if any(
-                word in text.lower()
-                for word in ["urgent", "asap", "immediately", "now"]
-            ):
+            if any(word in text.lower() for word in ["urgent", "asap", "immediately", "now"]):
                 signals.append(
                     Signal(
                         name=SignalType.URGENCY,
@@ -312,9 +305,7 @@ class HomeostasisController:
                 damping = self.oscillation_detector.get_damping_factor(signal.name)
                 signal.level *= damping
                 self.metrics["oscillations_prevented"] += 1
-                logger.debug(
-                    f"Damping {signal.name} by {damping:.2f} due to oscillation"
-                )
+                logger.debug(f"Damping {signal.name} by {damping:.2f} due to oscillation")
 
             # Apply rate limiting
             last_emit = self.rate_limiters.get(signal.name, 0)
@@ -331,9 +322,7 @@ class HomeostasisController:
             if signal.name == SignalType.ALIGNMENT_RISK and signal.level > 0.8:
                 self.emergency_mode = True
                 self.metrics["emergency_activations"] += 1
-                logger.warning(
-                    f"Emergency mode activated: {signal.name} = {signal.level:.2f}"
-                )
+                logger.warning(f"Emergency mode activated: {signal.name} = {signal.level:.2f}")
 
             # Update rate limiter
             self.rate_limiters[signal.name] = time.time()
@@ -375,9 +364,7 @@ class HomeostasisController:
                 params.temperature = self._eval_expression(
                     maps["alignment_risk"].get("temperature", "0.7"), {"x": risk}
                 )
-                params.top_p = self._eval_expression(
-                    maps["alignment_risk"].get("top_p", "0.9"), {"x": risk}
-                )
+                params.top_p = self._eval_expression(maps["alignment_risk"].get("top_p", "0.9"), {"x": risk})
                 params.reasoning_effort = self._eval_expression(
                     maps["alignment_risk"].get("reasoning_effort", "0.5"), {"x": risk}
                 )
@@ -389,14 +376,10 @@ class HomeostasisController:
             if "stress" in maps:
                 params.temperature = min(
                     params.temperature,
-                    self._eval_expression(
-                        maps["stress"].get("temperature", "0.7"), {"x": stress}
-                    ),
+                    self._eval_expression(maps["stress"].get("temperature", "0.7"), {"x": stress}),
                 )
                 params.max_output_tokens = int(
-                    self._eval_expression(
-                        maps["stress"].get("max_output_tokens", "1024"), {"x": stress}
-                    )
+                    self._eval_expression(maps["stress"].get("max_output_tokens", "1024"), {"x": stress})
                 )
 
         # Process ambiguity (set reasoning_effort directly for any ambiguity)
@@ -413,9 +396,7 @@ class HomeostasisController:
                     ),
                 )
                 params.retrieval_k = int(
-                    self._eval_expression(
-                        maps["ambiguity"].get("retrieval_k", "5"), {"x": ambiguity}
-                    )
+                    self._eval_expression(maps["ambiguity"].get("retrieval_k", "5"), {"x": ambiguity})
                 )
 
         # Process urgency
@@ -433,9 +414,7 @@ class HomeostasisController:
                 )
                 params.reasoning_effort = min(
                     params.reasoning_effort,
-                    self._eval_expression(
-                        maps["urgency"].get("reasoning_effort", "0.5"), {"x": urgency}
-                    ),
+                    self._eval_expression(maps["urgency"].get("reasoning_effort", "0.5"), {"x": urgency}),
                 )
 
         # Process novelty
@@ -444,9 +423,7 @@ class HomeostasisController:
             if "novelty" in maps:
                 params.temperature = max(
                     params.temperature,
-                    self._eval_expression(
-                        maps["novelty"].get("temperature", "0.7"), {"x": novelty}
-                    ),
+                    self._eval_expression(maps["novelty"].get("temperature", "0.7"), {"x": novelty}),
                 )
                 params.memory_write_strength = self._eval_expression(
                     maps["novelty"].get("memory_write", "0.5"), {"x": novelty}
@@ -456,14 +433,10 @@ class HomeostasisController:
         if SignalType.TRUST in levels:
             trust = levels[SignalType.TRUST]
             if "trust" in maps:
-                params.temperature = self._eval_expression(
-                    maps["trust"].get("temperature", "0.7"), {"x": trust}
-                )
+                params.temperature = self._eval_expression(maps["trust"].get("temperature", "0.7"), {"x": trust})
                 params.memory_write_strength = max(
                     params.memory_write_strength,
-                    self._eval_expression(
-                        maps["trust"].get("memory_write", "0.5"), {"x": trust}
-                    ),
+                    self._eval_expression(maps["trust"].get("memory_write", "0.5"), {"x": trust}),
                 )
 
         # Emergency mode overrides
@@ -532,10 +505,7 @@ class HomeostasisController:
 
     def detect_oscillation(self) -> bool:
         """Check if any signals are oscillating"""
-        return any(
-            self.oscillation_detector.detect_oscillation(signal_type)
-            for signal_type in SignalType
-        )
+        return any(self.oscillation_detector.detect_oscillation(signal_type) for signal_type in SignalType)
 
     def explain_decision(self, audit_id: str) -> Optional[AuditTrail]:
         """
@@ -560,9 +530,7 @@ class HomeostasisController:
             "oscillation_active": self.detect_oscillation(),
         }
 
-    async def process_event(
-        self, event: SystemEvent, context: dict[str, Any]
-    ) -> ModulationParams:
+    async def process_event(self, event: SystemEvent, context: dict[str, Any]) -> ModulationParams:
         """
         Main processing pipeline: event -> signals -> modulation.
 
@@ -604,16 +572,12 @@ class HomeostasisController:
 
         return modulation
 
-    def _generate_explanation(
-        self, event: SystemEvent, signals: list[Signal], modulation: ModulationParams
-    ) -> str:
+    def _generate_explanation(self, event: SystemEvent, signals: list[Signal], modulation: ModulationParams) -> str:
         """Generate human-readable explanation"""
         parts = [f"Event: {event.value}"]
 
         if signals:
-            signal_desc = ", ".join(
-                [f"{s.name.value}={s.level:.2f}" for s in signals[:3]]
-            )
+            signal_desc = ", ".join([f"{s.name.value}={s.level:.2f}" for s in signals[:3]])
             parts.append(f"Active signals: {signal_desc}")
 
         if self.emergency_mode:

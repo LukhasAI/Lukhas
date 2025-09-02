@@ -31,9 +31,7 @@ def test_imports():
         )
 
         print("✅ All imports successful")
-        print(
-            f"   ServiceAdapterBase is BaseServiceAdapter: {ServiceAdapterBase is BaseServiceAdapter}"
-        )
+        print(f"   ServiceAdapterBase is BaseServiceAdapter: {ServiceAdapterBase is BaseServiceAdapter}")
         return True
     except ImportError as e:
         print(f"❌ Import failed: {e}")
@@ -59,19 +57,11 @@ def test_adapter_creation():
         print("✅ Adapter created successfully")
         print(f"   Service name: {adapter.service_name}")
         print("   Trinity Framework integrations:")
-        print(
-            f"     - Identity: {'Active' if adapter.identity_core else 'Not available'}"
-        )
-        print(
-            f"     - Consciousness: {'Active' if adapter.consciousness_active else 'Not connected'}"
-        )
+        print(f"     - Identity: {'Active' if adapter.identity_core else 'Not available'}")
+        print(f"     - Consciousness: {'Active' if adapter.consciousness_active else 'Not connected'}")
         print(f"     - Guardian: {'Active' if adapter.guardian else 'Not available'}")
-        print(
-            f"     - Memory: {'Active' if adapter.memory_service else 'Not available'}"
-        )
-        print(
-            f"     - Consent Ledger: {'Active' if adapter.ledger else 'Not available'}"
-        )
+        print(f"     - Memory: {'Active' if adapter.memory_service else 'Not available'}")
+        print(f"     - Consent Ledger: {'Active' if adapter.ledger else 'Not available'}")
         return True
     except Exception as e:
         print(f"❌ Adapter creation failed: {e}")

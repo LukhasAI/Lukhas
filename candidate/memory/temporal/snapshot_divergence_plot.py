@@ -54,9 +54,7 @@ def plot_snapshot_drift_overlay(
 
     for redirect in redirects:
         if redirect["snapshot_id"] == dream_id:
-            plt.axvline(
-                x=redirect["timestamp"], color="r", linestyle="--", label="Redirect"
-            )
+            plt.axvline(x=redirect["timestamp"], color="r", linestyle="--", label="Redirect")
             plt.text(
                 redirect["timestamp"],
                 redirect["drift_score"],

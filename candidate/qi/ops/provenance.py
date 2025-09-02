@@ -35,9 +35,7 @@ class Attestation:
 
 
 def _sha256_json(v: Any) -> str:
-    b = json.dumps(v, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode(
-        "utf-8"
-    )
+    b = json.dumps(v, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     return hashlib.sha256(b).hexdigest()
 
 
@@ -58,9 +56,7 @@ def _safe_body(d: dict[str, Any]) -> dict[str, Any]:
             files_h = []
             for p in v:
                 try:
-                    files_h.append(
-                        {"path": os.path.basename(p), "sha256": _file_sha256(p)}
-                    )
+                    files_h.append({"path": os.path.basename(p), "sha256": _file_sha256(p)})
                 except Exception:
                     files_h.append({"path": os.path.basename(str(p)), "sha256": None})
             body[k] = files_h

@@ -115,9 +115,7 @@ class BioEngine:
         asyncio.create_task(self._homeostatic_loop())
         asyncio.create_task(self._circadian_loop())
 
-    async def process_stimulus(
-        self, stimulus_type: str, intensity: float, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_stimulus(self, stimulus_type: str, intensity: float, context: dict[str, Any]) -> dict[str, Any]:
         """
         Process external stimulus through bio-symbolic pathways.
 
@@ -143,9 +141,7 @@ class BioEngine:
         mito_response = await self._process_through_mitochondria(stimulus_type, context)
 
         # Attention focusing through mito-quantum attention
-        attention_pattern = self.mito_attention.focus_attention(
-            stimulus_type, intensity
-        )
+        attention_pattern = self.mito_attention.focus_attention(stimulus_type, intensity)
 
         # Adaptation response
         adaptation = self._calculate_adaptation(stimulus_type, intensity)
@@ -164,9 +160,7 @@ class BioEngine:
 
         return response
 
-    def _calculate_hormonal_response(
-        self, stimulus_type: str, intensity: float
-    ) -> dict[HormoneType, float]:
+    def _calculate_hormonal_response(self, stimulus_type: str, intensity: float) -> dict[HormoneType, float]:
         """Calculate hormonal response to stimulus"""
         response = {}
 
@@ -209,9 +203,7 @@ class BioEngine:
 
             self.hormone_levels[hormone] = new_level
 
-    async def _process_through_mitochondria(
-        self, stimulus_type: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_through_mitochondria(self, stimulus_type: str, context: dict[str, Any]) -> dict[str, Any]:
         """Process stimulus through mitochondrial pathways"""
         # Simulate ATP production based on current state
         atp_production = self.mitochondria.calculate_atp_production(
@@ -220,9 +212,7 @@ class BioEngine:
 
         # Quantum processing if available
         if self.qi_bridge:
-            qi_enhancement = await self.qi_bridge.process_bio_signal(
-                stimulus_type, context
-            )
+            qi_enhancement = await self.qi_bridge.process_bio_signal(stimulus_type, context)
             atp_production *= 1 + qi_enhancement.get("efficiency_boost", 0)
 
         # Update energy based on production
@@ -234,9 +224,7 @@ class BioEngine:
             "qi_enhanced": self.qi_bridge is not None,
         }
 
-    def _calculate_adaptation(
-        self, stimulus_type: str, intensity: float
-    ) -> dict[str, float]:
+    def _calculate_adaptation(self, stimulus_type: str, intensity: float) -> dict[str, float]:
         """Calculate system adaptation to stimulus"""
         # Increase plasticity for novel stimuli
         novelty = np.random.random() * 0.3  # Simplified novelty detection
@@ -258,9 +246,7 @@ class BioEngine:
         while True:
             try:
                 # Calculate overall hormonal balance
-                avg_hormone = sum(self.hormone_levels.values()) / len(
-                    self.hormone_levels
-                )
+                avg_hormone = sum(self.hormone_levels.values()) / len(self.hormone_levels)
 
                 # Determine state based on hormones
                 if self.hormone_levels[HormoneType.CORTISOL] > 0.7:
@@ -326,9 +312,7 @@ class BioEngine:
         while True:
             try:
                 # Update circadian phase
-                self.circadian_phase = (
-                    self.circadian_phase + 1
-                ) % self.circadian_period
+                self.circadian_phase = (self.circadian_phase + 1) % self.circadian_period
 
                 # Calculate time of day (0-1, where 0.5 is noon)
                 time_of_day = self.circadian_phase / self.circadian_period
@@ -338,9 +322,7 @@ class BioEngine:
                 self.hormone_levels[HormoneType.MELATONIN] = night_factor * 0.8
 
                 # Cortisol rhythm (peak in morning)
-                morning_factor = 0.5 * (
-                    1 + math.sin(2 * math.pi * (time_of_day - 0.25))
-                )
+                morning_factor = 0.5 * (1 + math.sin(2 * math.pi * (time_of_day - 0.25)))
                 self.hormone_levels[HormoneType.CORTISOL] = max(
                     self.hormone_levels[HormoneType.CORTISOL], morning_factor * 0.6
                 )
@@ -357,16 +339,12 @@ class BioEngine:
             "stress_level": self.stress_level,
             "temperature": self.temperature,
             "current_state": self.current_state.value,
-            "hormone_levels": {
-                h.value: level for h, level in self.hormone_levels.items()
-            },
+            "hormone_levels": {h.value: level for h, level in self.hormone_levels.items()},
             "growth_rate": self.growth_rate,
             "plasticity": self.plasticity,
         }
 
-    async def inject_hormone(
-        self, hormone: HormoneType, amount: float
-    ) -> dict[str, Any]:
+    async def inject_hormone(self, hormone: HormoneType, amount: float) -> dict[str, Any]:
         """Manually inject hormone for therapeutic intervention"""
         old_level = self.hormone_levels[hormone]
         self.hormone_levels[hormone] = max(0, min(1.0, old_level + amount))
@@ -385,11 +363,7 @@ class BioEngine:
         self.mito_sync.update_phase("bio_engine", current_time)
 
         # Calculate system fitness
-        fitness = (
-            self.energy_level * 0.4
-            + (1 - self.stress_level) * 0.3
-            + self.plasticity * 0.3
-        )
+        fitness = self.energy_level * 0.4 + (1 - self.stress_level) * 0.3 + self.plasticity * 0.3
 
         return {
             "vitals": self._get_vitals(),
@@ -414,9 +388,7 @@ class BioEngine:
 
         total_time = sum(state_times.values())
         if total_time > 0:
-            return {
-                state.value: time / total_time for state, time in state_times.items()
-            }
+            return {state.value: time / total_time for state, time in state_times.items()}
         else:
             return {state.value: 0.0 for state in SystemState}
 

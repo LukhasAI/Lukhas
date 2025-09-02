@@ -100,9 +100,7 @@ class CoreMemoryComponent:
         if self.use_quantum_mind:
             self.logger.info("CoreMemory initialized with quantum mind integration")
         else:
-            self.logger.info(
-                "CoreMemory initialized with fallback consciousness tracking"
-            )
+            self.logger.info("CoreMemory initialized with fallback consciousness tracking")
 
     def record_consciousness_phase(self) -> str:
         """Enhanced consciousness phase recording with quantum mind integration"""
@@ -125,9 +123,7 @@ class CoreMemoryComponent:
 
         # Enhanced logging
         if hasattr(self.logger, "debug"):
-            self.logger.debug(
-                f"Recorded consciousness phase: {phase} (operational: {operational})"
-            )
+            self.logger.debug(f"Recorded consciousness phase: {phase} (operational: {operational})")
 
         return phase
 

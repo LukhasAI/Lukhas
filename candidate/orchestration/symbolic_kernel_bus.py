@@ -335,10 +335,7 @@ class SymbolicKernelBus:
                         self._metrics["events_failed"] += 1
 
                     # Retry logic for critical events
-                    if (
-                        event.priority == EventPriority.CRITICAL
-                        and event.retries < event.max_retries
-                    ):
+                    if event.priority == EventPriority.CRITICAL and event.retries < event.max_retries:
                         event.retries += 1
                         await self._requeue_event(event)
 
@@ -349,9 +346,7 @@ class SymbolicKernelBus:
             with self._metrics_lock:
                 self._metrics["events_dispatched"] += 1
 
-            logger.debug(
-                f"📨 Dispatched: {event.event_type} to {len(handlers)} handlers"
-            )
+            logger.debug(f"📨 Dispatched: {event.event_type} to {len(handlers)} handlers")
 
         except Exception as e:
             logger.error(f"Dispatch error: {e}")
@@ -446,18 +441,14 @@ class SymbolicKernelBus:
         try:
             # Apply branding to text content in payload
             for key, value in event.payload.items():
-                if (
-                    isinstance(value, str) and len(value) > 10
-                ):  # Only brand substantial text
+                if isinstance(value, str) and len(value) > 10:  # Only brand substantial text
                     # Normalize terminology
                     branded_value = normalize_output_text(value, self._brand_context)
 
                     # Validate compliance
                     validation = validate_output(branded_value, self._brand_context)
                     if not validation["valid"]:
-                        logger.debug(
-                            f"Event payload branding issue in {key}: {validation['issues']}"
-                        )
+                        logger.debug(f"Event payload branding issue in {key}: {validation['issues']}")
 
                     event.payload[key] = branded_value
 
@@ -671,9 +662,7 @@ class SymbolicKernelBus:
         boundary = event.payload.get("boundary")
         distance = event.payload.get("distance", 1.0)
 
-        logger.warning(
-            f"🛡️ Safety boundary approached: {boundary} (distance: {distance})"
-        )
+        logger.warning(f"🛡️ Safety boundary approached: {boundary} (distance: {distance})")
 
         if distance < 0.1:  # Critical proximity
             self.emit(

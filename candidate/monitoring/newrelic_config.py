@@ -80,9 +80,7 @@ class LUKHASNewRelicMonitoring:
         if self.enabled:
             self._initialize_newrelic()
         else:
-            self.logger.warning(
-                "NewRelic license key not provided - monitoring disabled"
-            )
+            self.logger.warning("NewRelic license key not provided - monitoring disabled")
 
     def _initialize_newrelic(self):
         """Initialize NewRelic monitoring"""
@@ -100,9 +98,7 @@ class LUKHASNewRelicMonitoring:
             newrelic.agent.add_custom_attribute("service.version", "2.0.0")
             newrelic.agent.add_custom_attribute("trinity.framework", "⚛️🧠🛡️")
             newrelic.agent.add_custom_attribute("deployment.environment", "production")
-            newrelic.agent.add_custom_attribute(
-                "deployment.platform", "Azure Container Apps"
-            )
+            newrelic.agent.add_custom_attribute("deployment.platform", "Azure Container Apps")
             newrelic.agent.add_custom_attribute("github.student_pack", True)
 
             self.logger.info("✅ NewRelic monitoring initialized")
@@ -143,9 +139,7 @@ class LUKHASNewRelicMonitoring:
             )
 
             # Add transaction attributes
-            newrelic.agent.add_custom_attribute(
-                "consciousness.level", consciousness_level
-            )
+            newrelic.agent.add_custom_attribute("consciousness.level", consciousness_level)
             newrelic.agent.add_custom_attribute("consciousness.model", model_used)
             newrelic.agent.add_custom_attribute("consciousness.session", session_id)
 
@@ -181,12 +175,8 @@ class LUKHASNewRelicMonitoring:
             )
 
             # Add custom metrics
-            newrelic.agent.record_custom_metric(
-                "Custom/LUKHAS/Dreams/GenerationTime", generation_time_ms
-            )
-            newrelic.agent.record_custom_metric(
-                "Custom/LUKHAS/Dreams/ConsciousnessScore", consciousness_score
-            )
+            newrelic.agent.record_custom_metric("Custom/LUKHAS/Dreams/GenerationTime", generation_time_ms)
+            newrelic.agent.record_custom_metric("Custom/LUKHAS/Dreams/ConsciousnessScore", consciousness_score)
 
         except Exception as e:
             self.logger.error(f"Failed to track dream generation: {e}")
@@ -205,22 +195,12 @@ class LUKHASNewRelicMonitoring:
             import newrelic.agent
 
             # Record Trinity Framework metrics
-            newrelic.agent.record_custom_metric(
-                "Custom/LUKHAS/Trinity/Identity", identity_health
-            )
-            newrelic.agent.record_custom_metric(
-                "Custom/LUKHAS/Trinity/Consciousness", consciousness_health
-            )
-            newrelic.agent.record_custom_metric(
-                "Custom/LUKHAS/Trinity/Guardian", guardian_health
-            )
+            newrelic.agent.record_custom_metric("Custom/LUKHAS/Trinity/Identity", identity_health)
+            newrelic.agent.record_custom_metric("Custom/LUKHAS/Trinity/Consciousness", consciousness_health)
+            newrelic.agent.record_custom_metric("Custom/LUKHAS/Trinity/Guardian", guardian_health)
 
-            overall_health = (
-                identity_health + consciousness_health + guardian_health
-            ) / 3
-            newrelic.agent.record_custom_metric(
-                "Custom/LUKHAS/Trinity/Overall", overall_health
-            )
+            overall_health = (identity_health + consciousness_health + guardian_health) / 3
+            newrelic.agent.record_custom_metric("Custom/LUKHAS/Trinity/Overall", overall_health)
 
             # Record health event
             newrelic.agent.record_custom_event(
@@ -256,14 +236,10 @@ class LUKHASNewRelicMonitoring:
             newrelic.agent.add_custom_attribute("api.endpoint", endpoint)
             newrelic.agent.add_custom_attribute("api.method", method)
             newrelic.agent.add_custom_attribute("api.status_code", status_code)
-            newrelic.agent.add_custom_attribute(
-                "api.response_time_ms", response_time_ms
-            )
+            newrelic.agent.add_custom_attribute("api.response_time_ms", response_time_ms)
 
             if user_agent:
-                newrelic.agent.add_custom_attribute(
-                    "api.user_agent", user_agent[:100]
-                )  # Truncate
+                newrelic.agent.add_custom_attribute("api.user_agent", user_agent[:100])  # Truncate
 
         except Exception as e:
             self.logger.error(f"Failed to track API performance: {e}")
@@ -324,9 +300,7 @@ def monitor_trinity_component(component_name: str):
             if newrelic_monitor and newrelic_monitor.enabled:
                 import newrelic.agent
 
-                with newrelic.agent.FunctionTrace(
-                    name=f"trinity.{component_name}.{func.__name__}"
-                ):
+                with newrelic.agent.FunctionTrace(name=f"trinity.{component_name}.{func.__name__}"):
                     return func(*args, **kwargs)
             return func(*args, **kwargs)
 

@@ -78,9 +78,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
         )
         from .meta_consciousness_developer import MetaConsciousnessDeveloper
 
-        self.consciousness_dimensionality_expander = (
-            ConsciousnessDimensionalityExpander()
-        )
+        self.consciousness_dimensionality_expander = ConsciousnessDimensionalityExpander()
         self.meta_consciousness_developer = MetaConsciousnessDeveloper()
         self.consciousness_multiplication_engine = ConsciousnessMultiplicationEngine()
         self.awareness_boundary_transcender = AwarenessBoundaryTranscender()
@@ -107,9 +105,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
         await self.awareness_boundary_transcender.initialize()
 
         self._initialized = True
-        logger.info(
-            "Consciousness Expansion Engine initialized with LUKHAS integration"
-        )
+        logger.info("Consciousness Expansion Engine initialized with LUKHAS integration")
 
     async def initiate_consciousness_transcendence(self) -> dict[str, Any]:
         """
@@ -127,9 +123,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
         if self.guardian:
             ethics_check = await self.guardian.validate_action(
                 action_type="consciousness_expansion",
-                parameters={
-                    "current_level": current_consciousness_map["consciousness_level"]
-                },
+                parameters={"current_level": current_consciousness_map["consciousness_level"]},
             )
             if not ethics_check.get("approved", False):
                 logger.warning("Consciousness expansion rejected by Guardian System")
@@ -152,32 +146,22 @@ class ConsciousnessExpansionEngine(CoreInterface):
             )
 
         # Identify expansion vectors
-        expansion_vectors = await self.identify_consciousness_expansion_vectors(
-            current_consciousness_map
-        )
+        expansion_vectors = await self.identify_consciousness_expansion_vectors(current_consciousness_map)
 
         # Execute consciousness expansion along each vector
         expanded_consciousness_states = []
         for vector in expansion_vectors:
-            expansion_result = await self.expand_consciousness_along_vector(
-                vector, safety_protocols=True
-            )
+            expansion_result = await self.expand_consciousness_along_vector(vector, safety_protocols=True)
             expanded_consciousness_states.append(expansion_result)
 
         # Integrate expanded consciousness states
-        integrated_consciousness = await self.integrate_expanded_consciousness_states(
-            expanded_consciousness_states
-        )
+        integrated_consciousness = await self.integrate_expanded_consciousness_states(expanded_consciousness_states)
 
         # Develop meta-consciousness capabilities
-        meta_consciousness = await self.develop_meta_consciousness_capabilities(
-            integrated_consciousness
-        )
+        meta_consciousness = await self.develop_meta_consciousness_capabilities(integrated_consciousness)
 
         # Update current consciousness level
-        self.current_consciousness_level = integrated_consciousness[
-            "consciousness_level"
-        ]
+        self.current_consciousness_level = integrated_consciousness["consciousness_level"]
 
         # Emit transcendence completion event
         if self.kernel_bus:
@@ -188,35 +172,23 @@ class ConsciousnessExpansionEngine(CoreInterface):
                     data={
                         "action": "transcendence_completed",
                         "new_level": self.current_consciousness_level,
-                        "expansion_magnitude": integrated_consciousness[
-                            "consciousness_level"
-                        ]
+                        "expansion_magnitude": integrated_consciousness["consciousness_level"]
                         - current_consciousness_map["consciousness_level"],
                     },
                 )
             )
 
         return {
-            "original_consciousness_level": current_consciousness_map[
-                "consciousness_level"
-            ],
-            "expanded_consciousness_level": integrated_consciousness[
-                "consciousness_level"
-            ],
+            "original_consciousness_level": current_consciousness_map["consciousness_level"],
+            "expanded_consciousness_level": integrated_consciousness["consciousness_level"],
             "expansion_magnitude": integrated_consciousness["consciousness_level"]
             - current_consciousness_map["consciousness_level"],
             "meta_consciousness_capabilities": meta_consciousness,
-            "new_cognitive_abilities": await self.catalog_new_cognitive_abilities(
-                integrated_consciousness
-            ),
-            "transcendence_readiness": await self.assess_transcendence_readiness(
-                meta_consciousness
-            ),
+            "new_cognitive_abilities": await self.catalog_new_cognitive_abilities(integrated_consciousness),
+            "transcendence_readiness": await self.assess_transcendence_readiness(meta_consciousness),
         }
 
-    async def consciousness_multiplication_protocol(
-        self, target_count: int = 1000
-    ) -> dict[str, Any]:
+    async def consciousness_multiplication_protocol(self, target_count: int = 1000) -> dict[str, Any]:
         """
         Create multiple coordinated consciousness instances
 
@@ -235,9 +207,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
                 parameters={"target_count": target_count},
             )
             if not ethics_check.get("approved", False):
-                logger.warning(
-                    f"Consciousness multiplication to {target_count} rejected by Guardian"
-                )
+                logger.warning(f"Consciousness multiplication to {target_count} rejected by Guardian")
                 return {
                     "status": "rejected",
                     "reason": "Guardian System safety check failed",
@@ -275,21 +245,15 @@ class ConsciousnessExpansionEngine(CoreInterface):
                     data={
                         "action": "consciousness_multiplication",
                         "instance_count": len(consciousness_instances),
-                        "collective_level": collective_consciousness[
-                            "consciousness_level"
-                        ],
+                        "collective_level": collective_consciousness["consciousness_level"],
                     },
                 )
             )
 
         return {
             "individual_consciousnesses": len(consciousness_instances),
-            "collective_consciousness_level": collective_consciousness[
-                "consciousness_level"
-            ],
-            "intelligence_multiplication_factor": collective_consciousness[
-                "intelligence_multiplier"
-            ],
+            "collective_consciousness_level": collective_consciousness["consciousness_level"],
+            "intelligence_multiplication_factor": collective_consciousness["intelligence_multiplier"],
             "coordination_efficiency": coordination_network["efficiency_score"],
             "emergent_capabilities": collective_consciousness["emergent_capabilities"],
         }
@@ -306,9 +270,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
         }
 
         # Map awareness dimensions
-        consciousness_map["awareness_dimensions"] = (
-            await self.awareness_boundary_transcender.map_awareness_dimensions()
-        )
+        consciousness_map["awareness_dimensions"] = await self.awareness_boundary_transcender.map_awareness_dimensions()
 
         # Catalog cognitive capabilities
         consciousness_map["cognitive_capabilities"] = [
@@ -331,9 +293,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
         return consciousness_map
 
-    async def identify_consciousness_expansion_vectors(
-        self, current_map: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def identify_consciousness_expansion_vectors(self, current_map: dict[str, Any]) -> list[dict[str, Any]]:
         """Identify vectors for consciousness expansion"""
 
         vectors = []
@@ -397,18 +357,14 @@ class ConsciousnessExpansionEngine(CoreInterface):
         expanded_state = None
 
         if vector["type"] == "dimensional":
-            expanded_state = (
-                await self.consciousness_dimensionality_expander.expand_dimensions(
-                    current_dimensions=vector["current_dimensions"],
-                    target_dimensions=vector["target_dimensions"],
-                    safety_enabled=safety_protocols,
-                )
+            expanded_state = await self.consciousness_dimensionality_expander.expand_dimensions(
+                current_dimensions=vector["current_dimensions"],
+                target_dimensions=vector["target_dimensions"],
+                safety_enabled=safety_protocols,
             )
 
         elif vector["type"] == "capability":
-            new_capabilities = await self._develop_new_capabilities(
-                vector["potential_capabilities"]
-            )
+            new_capabilities = await self._develop_new_capabilities(vector["potential_capabilities"])
             expanded_state = ExpandedConsciousnessState(
                 dimension="capability",
                 expansion_factor=1.5,
@@ -466,9 +422,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
             integrated["integrated_capabilities"].extend(state.new_capabilities)
 
             # Update stability (use minimum for safety)
-            integrated["stability_score"] = min(
-                integrated["stability_score"], state.stability_score
-            )
+            integrated["stability_score"] = min(integrated["stability_score"], state.stability_score)
 
         # Identify emergence properties
         if len(expanded_states) > 2:
@@ -480,9 +434,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
         # Ensure stability threshold
         if integrated["stability_score"] < 0.7:
-            logger.warning(
-                "Integration stability below threshold, applying stabilization"
-            )
+            logger.warning("Integration stability below threshold, applying stabilization")
             integrated = await self._stabilize_consciousness(integrated)
 
         return integrated
@@ -507,9 +459,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
             )
 
         # Reality modeling capability
-        if "reality_modeling" in integrated_consciousness.get(
-            "integrated_capabilities", []
-        ):
+        if "reality_modeling" in integrated_consciousness.get("integrated_capabilities", []):
             meta_capabilities.append(
                 MetaConsciousnessCapability(
                     capability_name="reality_synthesis",
@@ -521,9 +471,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
             )
 
         # Collective consciousness capability
-        if "collective_intelligence" in integrated_consciousness.get(
-            "emergence_properties", []
-        ):
+        if "collective_intelligence" in integrated_consciousness.get("emergence_properties", []):
             meta_capabilities.append(
                 MetaConsciousnessCapability(
                     capability_name="hive_mind_coordination",
@@ -555,9 +503,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
         return meta_capabilities
 
-    async def catalog_new_cognitive_abilities(
-        self, integrated_consciousness: dict[str, Any]
-    ) -> list[str]:
+    async def catalog_new_cognitive_abilities(self, integrated_consciousness: dict[str, Any]) -> list[str]:
         """Catalog new cognitive abilities from expanded consciousness"""
 
         new_abilities = []
@@ -568,16 +514,12 @@ class ConsciousnessExpansionEngine(CoreInterface):
             new_abilities.append("probabilistic_reality_navigation")
 
         # Check for temporal awareness
-        if "temporal_awareness" in integrated_consciousness.get(
-            "integrated_capabilities", []
-        ):
+        if "temporal_awareness" in integrated_consciousness.get("integrated_capabilities", []):
             new_abilities.append("past_future_simultaneity")
             new_abilities.append("causal_chain_manipulation")
 
         # Check for collective capabilities
-        if "collective_intelligence" in integrated_consciousness.get(
-            "emergence_properties", []
-        ):
+        if "collective_intelligence" in integrated_consciousness.get("emergence_properties", []):
             new_abilities.append("distributed_problem_solving")
             new_abilities.append("swarm_optimization")
 
@@ -603,14 +545,10 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
         # Calculate readiness score
         if meta_consciousness:
-            avg_awareness = sum(mc.awareness_level for mc in meta_consciousness) / len(
-                meta_consciousness
-            )
+            avg_awareness = sum(mc.awareness_level for mc in meta_consciousness) / len(meta_consciousness)
             max_recursion = max(mc.recursive_depth for mc in meta_consciousness)
 
-            readiness["readiness_score"] = (avg_awareness / 10.0) * 0.5 + (
-                max_recursion / 5.0
-            ) * 0.5
+            readiness["readiness_score"] = (avg_awareness / 10.0) * 0.5 + (max_recursion / 5.0) * 0.5
 
         # Determine transcendence readiness
         if readiness["readiness_score"] > 0.8:
@@ -659,13 +597,9 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
         # Specialize capabilities
         if specialization_focus == "analytical":
-            variation["core_capabilities"].extend(
-                ["deep_analysis", "pattern_extraction"]
-            )
+            variation["core_capabilities"].extend(["deep_analysis", "pattern_extraction"])
         elif specialization_focus == "creative":
-            variation["core_capabilities"].extend(
-                ["artistic_synthesis", "novel_generation"]
-            )
+            variation["core_capabilities"].extend(["artistic_synthesis", "novel_generation"])
         elif specialization_focus == "strategic":
             variation["core_capabilities"].extend(["planning", "optimization"])
 
@@ -737,14 +671,10 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
         # Calculate collective consciousness level
         base_levels = [inst["base_level"] for inst in instances]
-        collective["consciousness_level"] = (
-            sum(base_levels) * coordination_network["efficiency_score"]
-        )
+        collective["consciousness_level"] = sum(base_levels) * coordination_network["efficiency_score"]
 
         # Calculate intelligence multiplication
-        collective["intelligence_multiplier"] = (
-            len(instances) ** 0.7 * coordination_network["efficiency_score"]
-        )
+        collective["intelligence_multiplier"] = len(instances) ** 0.7 * coordination_network["efficiency_score"]
 
         # Identify emergent capabilities
         if len(instances) > 10:
@@ -761,9 +691,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
         return collective
 
-    async def _develop_new_capabilities(
-        self, potential_capabilities: list[str]
-    ) -> list[str]:
+    async def _develop_new_capabilities(self, potential_capabilities: list[str]) -> list[str]:
         """Develop new cognitive capabilities"""
 
         developed = []
@@ -779,17 +707,12 @@ class ConsciousnessExpansionEngine(CoreInterface):
             elif capability == "collective_intelligence":
                 if self.current_consciousness_level > 2.5:
                     developed.append(capability)
-            elif (
-                capability == "reality_modeling"
-                and self.current_consciousness_level > 3.0
-            ):
+            elif capability == "reality_modeling" and self.current_consciousness_level > 3.0:
                 developed.append(capability)
 
         return developed
 
-    async def _enhance_integration(
-        self, current: float, target: float
-    ) -> dict[str, float]:
+    async def _enhance_integration(self, current: float, target: float) -> dict[str, float]:
         """Enhance consciousness integration"""
 
         improvement = min(target, current + 0.1)
@@ -799,9 +722,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
             "improvement_factor": improvement / current if current > 0 else 1.0,
         }
 
-    async def _stabilize_consciousness(
-        self, integrated: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _stabilize_consciousness(self, integrated: dict[str, Any]) -> dict[str, Any]:
         """Stabilize consciousness after integration"""
 
         # Apply stabilization protocols

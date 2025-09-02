@@ -220,22 +220,16 @@ class BioSimulationController:
 
             # Legacy compatibility: affect modulation
             if self.affect_delta > 0.5:
-                self.hormones[HormoneType.DOPAMINE.value].update_level(
-                    self.affect_delta * 0.1
-                )
+                self.hormones[HormoneType.DOPAMINE.value].update_level(self.affect_delta * 0.1)
             elif self.affect_delta < -0.5:
-                self.hormones[HormoneType.SEROTONIN.value].update_level(
-                    abs(self.affect_delta) * 0.1
-                )
+                self.hormones[HormoneType.SEROTONIN.value].update_level(abs(self.affect_delta) * 0.1)
 
             # Check system states and trigger callbacks
             self._check_system_states()
 
             # Log current state (reduced frequency)
             if int(datetime.now().timestamp()) % 10 == 0:  # Log every 10 seconds
-                logger.info(
-                    f"Endocrine state: {self._calculate_overall_state(self.get_hormone_state())}"
-                )
+                logger.info(f"Endocrine state: {self._calculate_overall_state(self.get_hormone_state())}")
                 logger.debug(f"Hormone levels: {self.get_hormone_state()}")
 
             await asyncio.sleep(simulation_interval)
@@ -269,9 +263,7 @@ class BioSimulationController:
         """
         oscillator.driftScore = 0.0
         oscillator.affect_delta = 0.0
-        oscillator.target_frequency = oscillator._get_default_frequency(
-            OscillationType.ALPHA
-        )
+        oscillator.target_frequency = oscillator._get_default_frequency(OscillationType.ALPHA)
         asyncio.create_task(oscillator._synchronize())
 
     def _initialize_default_hormones(self):
@@ -371,9 +363,7 @@ class BioSimulationController:
         )
 
         # Dopamine enhances acetylcholine (focus)
-        self.interactions.append(
-            HormoneInteraction("dopamine", "acetylcholine", 0.2, 0.4)
-        )
+        self.interactions.append(HormoneInteraction("dopamine", "acetylcholine", 0.2, 0.4))
 
         # Serotonin enhances GABA (stability)
         self.interactions.append(HormoneInteraction("serotonin", "gaba", 0.15, 0.5))
@@ -400,9 +390,7 @@ class BioSimulationController:
     def _apply_circadian_effects(self):
         """Apply circadian rhythm effects to hormone production."""
         # Melatonin peaks at night (phase 22-6)
-        night_factor = (
-            1.0 if self.current_phase >= 22 or self.current_phase < 6 else 0.0
-        )
+        night_factor = 1.0 if self.current_phase >= 22 or self.current_phase < 6 else 0.0
         day_factor = 1.0 - night_factor
 
         for hormone in self.hormones.values():
@@ -420,14 +408,8 @@ class BioSimulationController:
             source_hormone = self.hormones.get(interaction.source)
             target_hormone = self.hormones.get(interaction.target)
 
-            if (
-                source_hormone
-                and target_hormone
-                and source_hormone.level >= interaction.threshold
-            ):
-                effect = interaction.effect * (
-                    source_hormone.level - interaction.threshold
-                )
+            if source_hormone and target_hormone and source_hormone.level >= interaction.threshold:
+                effect = interaction.effect * (source_hormone.level - interaction.threshold)
                 target_hormone.update_level(effect * 0.05)
 
     def _check_system_states(self):
@@ -457,12 +439,7 @@ class BioSimulationController:
             self._trigger_callbacks("rest_needed")
 
         # Optimal performance
-        if (
-            0.2 < cortisol < 0.5
-            and dopamine > 0.6
-            and serotonin > 0.5
-            and acetylcholine > 0.6
-        ):
+        if 0.2 < cortisol < 0.5 and dopamine > 0.6 and serotonin > 0.5 and acetylcholine > 0.6:
             self._trigger_callbacks("optimal_performance")
 
     def _trigger_callbacks(self, state: str):
@@ -583,9 +560,7 @@ class BioSimulationController:
 
         return {
             "current_state": state["overall_state"],
-            "suggestions": sorted(
-                suggestions, key=lambda x: x["priority"], reverse=True
-            ),
+            "suggestions": sorted(suggestions, key=lambda x: x["priority"], reverse=True),
         }
 
 

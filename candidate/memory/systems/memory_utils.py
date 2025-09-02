@@ -59,10 +59,7 @@ class MemoryUtils:
         """Encrypt memory data."""
         # Simple encryption for demonstration
         data_str = json.dumps(data)
-        encrypted = "".join(
-            chr(ord(c) ^ ord(k))
-            for c, k in zip(data_str, key * (len(data_str) // len(key) + 1))
-        )
+        encrypted = "".join(chr(ord(c) ^ ord(k)) for c, k in zip(data_str, key * (len(data_str) // len(key) + 1)))
         return encrypted
 
     @staticmethod
@@ -70,15 +67,12 @@ class MemoryUtils:
         """Decrypt memory data."""
         # Simple decryption for demonstration
         decrypted = "".join(
-            chr(ord(c) ^ ord(k))
-            for c, k in zip(encrypted_data, key * (len(encrypted_data) // len(key) + 1))
+            chr(ord(c) ^ ord(k)) for c, k in zip(encrypted_data, key * (len(encrypted_data) // len(key) + 1))
         )
         return json.loads(decrypted)
 
     @staticmethod
-    def validate_memory_access(
-        user_id: str, memory_id: str, access_policy: dict[str, Any]
-    ) -> bool:
+    def validate_memory_access(user_id: str, memory_id: str, access_policy: dict[str, Any]) -> bool:
         """Validate memory access permissions."""
         if access_policy.get("public", False):
             return True

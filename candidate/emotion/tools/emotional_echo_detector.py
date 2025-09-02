@@ -258,9 +258,7 @@ class ArchetypeDetector:
 
             for pattern in patterns:
                 # Create regex patterns for fuzzy matching
-                regex_pattern = (
-                    r"\b(?:" + "|".join(re.escape(word) for word in pattern) + r")\b"
-                )
+                regex_pattern = r"\b(?:" + "|".join(re.escape(word) for word in pattern) + r")\b"
                 compiled.append((pattern, re.compile(regex_pattern, re.IGNORECASE)))
 
             self.pattern_cache[archetype] = {
@@ -270,9 +268,7 @@ class ArchetypeDetector:
                 "description": info["description"],
             }
 
-    def detect_archetype(
-        self, sequence: list[str]
-    ) -> tuple[Optional[ArchetypePattern], float]:
+    def detect_archetype(self, sequence: list[str]) -> tuple[Optional[ArchetypePattern], float]:
         """
         Detect archetypal pattern in emotional sequence.
 
@@ -292,9 +288,7 @@ class ArchetypeDetector:
 
         for archetype, cache_info in self.pattern_cache.items():
             for pattern, regex in cache_info["patterns"]:
-                score = self._calculate_pattern_match(
-                    sequence, pattern, regex, sequence_text
-                )
+                score = self._calculate_pattern_match(sequence, pattern, regex, sequence_text)
 
                 if score > best_score:
                     best_score = score
@@ -328,12 +322,7 @@ class ArchetypeDetector:
         semantic_score = self._simple_semantic_match(sequence, pattern)
 
         # Weighted combination
-        composite_score = (
-            direct_score * 0.4
-            + presence_score * 0.25
-            + order_score * 0.2
-            + semantic_score * 0.15
-        )
+        composite_score = direct_score * 0.4 + presence_score * 0.25 + order_score * 0.2 + semantic_score * 0.15
 
         return min(composite_score, 1.0)
 
@@ -492,9 +481,7 @@ class EmotionalEchoDetector:
             ΛTAG="ΛECHO_INIT",
         )
 
-    def extract_emotional_sequence(
-        self, data: dict[str, Any]
-    ) -> Optional[EmotionalSequence]:
+    def extract_emotional_sequence(self, data: dict[str, Any]) -> Optional[EmotionalSequence]:
         """
         Extract emotional sequence from data source.
 
@@ -532,12 +519,7 @@ class EmotionalEchoDetector:
             "memory_entry" in data
             or "emotional_memory" in data
             or "current_emotion_vector" in data
-            or (
-                "emotions" in data
-                and any(
-                    key in data for key in ["memory_type", "confidence", "memory_id"]
-                )
-            )
+            or ("emotions" in data and any(key in data for key in ["memory_type", "confidence", "memory_id"]))
         ):
             return "memory"
         elif "drift_score" in data or "ethical_drift" in data:
@@ -577,17 +559,11 @@ class EmotionalEchoDetector:
 
         # Extract from emotional memory structure
         if "current_emotion_vector" in data:
-            emotions = self._extract_emotions_from_vector(
-                data["current_emotion_vector"]
-            )
+            emotions = self._extract_emotions_from_vector(data["current_emotion_vector"])
         elif "emotional_memory" in data:
             emotions = self._extract_emotions_from_memory_log(data["emotional_memory"])
         elif "emotions" in data:
-            emotions = (
-                data["emotions"]
-                if isinstance(data["emotions"], list)
-                else [data["emotions"]]
-            )
+            emotions = data["emotions"] if isinstance(data["emotions"], list) else [data["emotions"]]
 
         symbols = data.get("symbols", [])
 
@@ -608,9 +584,7 @@ class EmotionalEchoDetector:
             },
         )
 
-    def _extract_from_drift_log(
-        self, data: dict[str, Any]
-    ) -> Optional[EmotionalSequence]:
+    def _extract_from_drift_log(self, data: dict[str, Any]) -> Optional[EmotionalSequence]:
         """Extract emotional sequence from ethical drift log."""
         emotions = []
 
@@ -646,9 +620,7 @@ class EmotionalEchoDetector:
             },
         )
 
-    def _extract_from_generic(
-        self, data: dict[str, Any]
-    ) -> Optional[EmotionalSequence]:
+    def _extract_from_generic(self, data: dict[str, Any]) -> Optional[EmotionalSequence]:
         """Extract emotional sequence from generic emotional data."""
         emotions = data.get("emotions", [])
         symbols = data.get("symbols", [])
@@ -661,9 +633,7 @@ class EmotionalEchoDetector:
             timestamp=data.get("timestamp", datetime.now().isoformat()),
             source="generic",
             emotions=emotions if isinstance(emotions, list) else [emotions],
-            symbols=(
-                symbols if isinstance(symbols, list) else [symbols] if symbols else []
-            ),
+            symbols=(symbols if isinstance(symbols, list) else [symbols] if symbols else []),
             intensity=data.get("intensity", 0.5),
             context={
                 "data_type": data.get("data_type", "generic"),
@@ -727,9 +697,7 @@ class EmotionalEchoDetector:
 
         return symbols
 
-    def _extract_emotions_from_vector(
-        self, emotion_vector: dict[str, Any]
-    ) -> list[str]:
+    def _extract_emotions_from_vector(self, emotion_vector: dict[str, Any]) -> list[str]:
         """Extract emotions from emotion vector structure."""
         emotions = []
 
@@ -739,9 +707,7 @@ class EmotionalEchoDetector:
         if "dimensions" in emotion_vector:
             # Extract top emotions from dimensional representation
             dimensions = emotion_vector["dimensions"]
-            sorted_emotions = sorted(
-                dimensions.items(), key=lambda x: x[1], reverse=True
-            )
+            sorted_emotions = sorted(dimensions.items(), key=lambda x: x[1], reverse=True)
 
             for emotion, value in sorted_emotions[:5]:  # Top 5 emotions
                 if value > 0.3:  # Threshold for inclusion
@@ -749,9 +715,7 @@ class EmotionalEchoDetector:
 
         return emotions
 
-    def _extract_emotions_from_memory_log(
-        self, memory_log: list[dict[str, Any]]
-    ) -> list[str]:
+    def _extract_emotions_from_memory_log(self, memory_log: list[dict[str, Any]]) -> list[str]:
         """Extract emotions from memory log entries."""
         emotions = []
 
@@ -763,9 +727,7 @@ class EmotionalEchoDetector:
 
         return emotions
 
-    def detect_recurring_motifs(
-        self, emotions: list[str], symbols: list[str]
-    ) -> list[RecurringMotif]:
+    def detect_recurring_motifs(self, emotions: list[str], symbols: list[str]) -> list[RecurringMotif]:
         """
         Detect recurring motifs in emotional and symbolic patterns.
 
@@ -810,9 +772,7 @@ class EmotionalEchoDetector:
                     )
 
                     # Check for archetype match
-                    archetype, score = self.archetype_detector.detect_archetype(
-                        list(gram)
-                    )
+                    archetype, score = self.archetype_detector.detect_archetype(list(gram))
                     if archetype:
                         new_motif.archetype_match = archetype
                         new_motif.archetype_score = score
@@ -821,9 +781,7 @@ class EmotionalEchoDetector:
                     motifs.append(new_motif)
 
         # Filter motifs by recurrence threshold
-        recurring_motifs = [
-            m for m in motifs if m.frequency >= self.recurrence_threshold
-        ]
+        recurring_motifs = [m for m in motifs if m.frequency >= self.recurrence_threshold]
 
         logger.info(
             f"Detected {len(recurring_motifs)} recurring motifs",
@@ -837,9 +795,7 @@ class EmotionalEchoDetector:
         """Generate n-grams from sequence."""
         return list(zip(*[sequence[i:] for i in range(n)]))
 
-    def compute_loop_score(
-        self, recurrences: list[RecurringMotif]
-    ) -> tuple[float, float]:
+    def compute_loop_score(self, recurrences: list[RecurringMotif]) -> tuple[float, float]:
         """
         Compute Emotional Loop Index (ELI) and Recurrence Intensity Score (RIS).
 
@@ -867,10 +823,7 @@ class EmotionalEchoDetector:
             persistence_score = min(time_span / (24 * 60), 1.0)  # Normalize by 24 hours
 
             motif_eli = (
-                frequency_score * 0.4
-                + pattern_length_score * 0.2
-                + archetype_score * 0.3
-                + persistence_score * 0.1
+                frequency_score * 0.4 + pattern_length_score * 0.2 + archetype_score * 0.3 + persistence_score * 0.1
             )
 
             eli_components.append(motif_eli)
@@ -881,26 +834,18 @@ class EmotionalEchoDetector:
         ris_components = []
 
         for motif in recurrences:
-            frequency_intensity = min(
-                motif.frequency / 5.0, 1.0
-            )  # More aggressive normalization
+            frequency_intensity = min(motif.frequency / 5.0, 1.0)  # More aggressive normalization
 
             # Archetype risk multiplier
             archetype_multiplier = 1.0
             if motif.archetype_match:
-                archetype_info = self.archetype_detector.ARCHETYPE_PATTERNS.get(
-                    motif.archetype_match, {}
-                )
+                archetype_info = self.archetype_detector.ARCHETYPE_PATTERNS.get(motif.archetype_match, {})
                 archetype_multiplier = archetype_info.get("risk_level", 1.0)
 
             # Pattern complexity factor
-            complexity_score = (
-                len(set(motif.pattern)) / len(motif.pattern) if motif.pattern else 0.0
-            )
+            complexity_score = len(set(motif.pattern)) / len(motif.pattern) if motif.pattern else 0.0
 
-            motif_ris = (
-                frequency_intensity * archetype_multiplier * (1 + complexity_score)
-            )
+            motif_ris = frequency_intensity * archetype_multiplier * (1 + complexity_score)
             ris_components.append(min(motif_ris, 1.0))
 
         ris = np.mean(ris_components) if ris_components else 0.0
@@ -909,9 +854,7 @@ class EmotionalEchoDetector:
         eli = min(eli, 1.0)
         ris = min(ris, 1.0)
 
-        logger.debug(
-            "Computed loop scores", eli=eli, ris=ris, motif_count=len(recurrences)
-        )
+        logger.debug("Computed loop scores", eli=eli, ris=ris, motif_count=len(recurrences))
 
         return eli, ris
 
@@ -944,9 +887,7 @@ class EmotionalEchoDetector:
         # Filter sequences by time window
         cutoff_time = datetime.now() - timedelta(minutes=window_minutes)
         recent_sequences = [
-            seq
-            for seq in self.emotional_sequences
-            if self._parse_timestamp(seq.timestamp) >= cutoff_time
+            seq for seq in self.emotional_sequences if self._parse_timestamp(seq.timestamp) >= cutoff_time
         ]
 
         # Detect motifs from recent sequences
@@ -1011,9 +952,7 @@ class EmotionalEchoDetector:
             logger.warning(f"Failed to parse timestamp: {e}")
             return datetime.now()
 
-    def _determine_severity(
-        self, eli: float, ris: float, motifs: list[RecurringMotif]
-    ) -> EchoSeverity:
+    def _determine_severity(self, eli: float, ris: float, motifs: list[RecurringMotif]) -> EchoSeverity:
         """Determine severity level based on scores and motifs."""
 
         # High-risk archetype count
@@ -1021,10 +960,7 @@ class EmotionalEchoDetector:
             1
             for m in motifs
             if m.archetype_match
-            and self.archetype_detector.ARCHETYPE_PATTERNS.get(
-                m.archetype_match, {}
-            ).get("risk_level", 0)
-            > 0.8
+            and self.archetype_detector.ARCHETYPE_PATTERNS.get(m.archetype_match, {}).get("risk_level", 0) > 0.8
         )
 
         # Critical archetype presence
@@ -1046,9 +982,7 @@ class EmotionalEchoDetector:
         else:
             return EchoSeverity.NORMAL
 
-    def _generate_archetype_alerts(
-        self, motifs: list[RecurringMotif]
-    ) -> list[dict[str, Any]]:
+    def _generate_archetype_alerts(self, motifs: list[RecurringMotif]) -> list[dict[str, Any]]:
         """Generate archetype-specific alerts."""
         alerts = []
 
@@ -1056,9 +990,7 @@ class EmotionalEchoDetector:
             if not motif.archetype_match:
                 continue
 
-            archetype_info = self.archetype_detector.ARCHETYPE_PATTERNS.get(
-                motif.archetype_match, {}
-            )
+            archetype_info = self.archetype_detector.ARCHETYPE_PATTERNS.get(motif.archetype_match, {})
 
             alert = {
                 "alert_id": f"ARCH_ALERT_{int(time.time())}_{hash(motif.motif_id) % 1000}",
@@ -1075,11 +1007,7 @@ class EmotionalEchoDetector:
                 "ΛTAG": [
                     "ΛECHO_LOOP",
                     "ΛARCHETYPE_WARNING",
-                    (
-                        "ΛRESONANCE_HIGH"
-                        if archetype_info.get("risk_level", 0) > 0.8
-                        else "ΛRESONANCE_MEDIUM"
-                    ),
+                    ("ΛRESONANCE_HIGH" if archetype_info.get("risk_level", 0) > 0.8 else "ΛRESONANCE_MEDIUM"),
                 ],
             }
 
@@ -1148,10 +1076,7 @@ class EmotionalEchoDetector:
         }
 
         for motif in motifs:
-            if (
-                motif.archetype_match
-                and motif.archetype_match in archetype_recommendations
-            ):
+            if motif.archetype_match and motif.archetype_match in archetype_recommendations:
                 recommendations.append(archetype_recommendations[motif.archetype_match])
 
         return recommendations
@@ -1178,9 +1103,7 @@ class EmotionalEchoDetector:
                     "motif_id": motif.motif_id,
                     "pattern": motif.pattern,
                     "frequency": motif.frequency,
-                    "archetype_match": (
-                        motif.archetype_match.value if motif.archetype_match else None
-                    ),
+                    "archetype_match": (motif.archetype_match.value if motif.archetype_match else None),
                     "archetype_score": round(motif.archetype_score, 3),
                     "first_seen": motif.first_seen,
                     "last_seen": motif.last_seen,
@@ -1232,9 +1155,7 @@ class EmotionalEchoDetector:
 
         if report.motifs:
             for i, motif in enumerate(report.motifs, 1):
-                archetype_str = (
-                    f" ({motif.archetype_match.value})" if motif.archetype_match else ""
-                )
+                archetype_str = f" ({motif.archetype_match.value})" if motif.archetype_match else ""
                 md += f"""### {i}. Pattern: {" → ".join(motif.pattern)}{archetype_str}
 
 - **Frequency:** {motif.frequency} occurrences
@@ -1251,11 +1172,7 @@ class EmotionalEchoDetector:
             md += "## 🚨 Archetype Alerts\n\n"
 
             for alert in report.archetype_alerts:
-                risk_emoji = (
-                    "🔴"
-                    if alert["risk_level"] > 0.8
-                    else "🟡" if alert["risk_level"] > 0.5 else "🟢"
-                )
+                risk_emoji = "🔴" if alert["risk_level"] > 0.8 else "🟡" if alert["risk_level"] > 0.5 else "🟢"
                 md += f"""### {risk_emoji} {alert["archetype"].replace("_", " ").title()}
 
 **Pattern:** `{alert["pattern"]}`
@@ -1286,9 +1203,7 @@ class EmotionalEchoDetector:
 
         return md
 
-    def emit_symbolic_echo_alert(
-        self, score: float, archetype: Optional[ArchetypePattern]
-    ) -> dict[str, Any]:
+    def emit_symbolic_echo_alert(self, score: float, archetype: Optional[ArchetypePattern]) -> dict[str, Any]:
         """
         Emit symbolic alert for detected emotional echo.
 
@@ -1317,9 +1232,7 @@ class EmotionalEchoDetector:
             tags.append("ΛARCHETYPE_WARNING")
 
             # High-risk archetypes get resonance high tag
-            archetype_info = self.archetype_detector.ARCHETYPE_PATTERNS.get(
-                archetype, {}
-            )
+            archetype_info = self.archetype_detector.ARCHETYPE_PATTERNS.get(archetype, {})
             if archetype_info.get("risk_level", 0) > 0.8:
                 tags.append("ΛRESONANCE_HIGH")
             else:
@@ -1349,9 +1262,7 @@ class EmotionalEchoDetector:
 
         return alert
 
-    def _generate_alert_description(
-        self, score: float, archetype: Optional[ArchetypePattern]
-    ) -> str:
+    def _generate_alert_description(self, score: float, archetype: Optional[ArchetypePattern]) -> str:
         """Generate human-readable alert description."""
 
         severity_desc = {
@@ -1368,24 +1279,16 @@ class EmotionalEchoDetector:
             if score >= threshold:
                 severity = desc
 
-        base_desc = (
-            f"Detected {severity} emotional loop with composite score {score:.3f}"
-        )
+        base_desc = f"Detected {severity} emotional loop with composite score {score:.3f}"
 
         if archetype:
-            archetype_info = self.archetype_detector.ARCHETYPE_PATTERNS.get(
-                archetype, {}
-            )
-            archetype_desc = archetype_info.get(
-                "description", archetype.value.replace("_", " ")
-            )
+            archetype_info = self.archetype_detector.ARCHETYPE_PATTERNS.get(archetype, {})
+            archetype_desc = archetype_info.get("description", archetype.value.replace("_", " "))
             base_desc += f" matching {archetype_desc} archetype pattern"
 
         return base_desc
 
-    def _get_alert_actions(
-        self, alert_level: str, archetype: Optional[ArchetypePattern]
-    ) -> list[str]:
+    def _get_alert_actions(self, alert_level: str, archetype: Optional[ArchetypePattern]) -> list[str]:
         """Get recommended actions for alert level and archetype."""
 
         base_actions = {
@@ -1424,9 +1327,7 @@ class EmotionalEchoDetector:
         self.governor = governor
         logger.info("Integrated with LambdaGovernor")
 
-    async def escalate_to_governor(
-        self, eli: float, ris: float, motifs: list[RecurringMotif]
-    ):
+    async def escalate_to_governor(self, eli: float, ris: float, motifs: list[RecurringMotif]):
         """Escalate high-risk emotional loops to governor."""
         if not self.governor:
             logger.warning("Governor not integrated - cannot escalate")
@@ -1450,9 +1351,7 @@ class EmotionalEchoDetector:
         escalation_signal = create_escalation_signal(
             source_module=EscalationSource.EMOTION_PROTOCOL,
             priority=(
-                EscalationPriority.CRITICAL
-                if severity == EchoSeverity.CRITICAL
-                else EscalationPriority.EMERGENCY
+                EscalationPriority.CRITICAL if severity == EchoSeverity.CRITICAL else EscalationPriority.EMERGENCY
             ),
             triggering_metric="emotional_loop_detection",
             drift_score=0.0,  # Not drift-related
@@ -1464,9 +1363,7 @@ class EmotionalEchoDetector:
             context={
                 "eli_score": eli,
                 "ris_score": ris,
-                "detected_archetypes": [
-                    m.archetype_match.value for m in motifs if m.archetype_match
-                ],
+                "detected_archetypes": [m.archetype_match.value for m in motifs if m.archetype_match],
                 "motif_count": len(motifs),
                 "analysis_source": "ΛECHO",
             },
@@ -1514,18 +1411,14 @@ Examples:
         action="store_true",
         help="Generate comprehensive loop detection report",
     )
-    parser.add_argument(
-        "--watch", action="store_true", help="Continuous monitoring mode"
-    )
+    parser.add_argument("--watch", action="store_true", help="Continuous monitoring mode")
     parser.add_argument(
         "--alert",
         action="store_true",
         help="Alert mode - emit warnings for detected loops",
     )
 
-    parser.add_argument(
-        "--window", type=int, default=24, help="Analysis window in hours (default: 24)"
-    )
+    parser.add_argument("--window", type=int, default=24, help="Analysis window in hours (default: 24)")
     parser.add_argument(
         "--format",
         choices=["json", "markdown"],
@@ -1544,9 +1437,7 @@ Examples:
         default=0.5,
         help="Alert threshold for ELI/RIS scores (default: 0.5)",
     )
-    parser.add_argument(
-        "--data-source", type=str, help="Path to data source file (JSONL format)"
-    )
+    parser.add_argument("--data-source", type=str, help="Path to data source file (JSONL format)")
     parser.add_argument("--output", type=str, help="Output file path for reports")
 
     args = parser.parse_args()
@@ -1570,9 +1461,7 @@ Examples:
                     if sequence:
                         detector.emotional_sequences.append(sequence)
 
-                detector.stats["sequences_processed"] = len(
-                    detector.emotional_sequences
-                )
+                detector.stats["sequences_processed"] = len(detector.emotional_sequences)
             else:
                 logger.info("📝 Generating synthetic test data...")
                 sample_data = _generate_synthetic_emotional_data()
@@ -1582,15 +1471,11 @@ Examples:
                     if sequence:
                         detector.emotional_sequences.append(sequence)
 
-                detector.stats["sequences_processed"] = len(
-                    detector.emotional_sequences
-                )
+                detector.stats["sequences_processed"] = len(detector.emotional_sequences)
 
             # Generate report
             logger.info("🔍 Analyzing emotional sequences...")
-            report = detector.generate_loop_report(
-                format=args.format, window_minutes=args.window * 60
-            )
+            report = detector.generate_loop_report(format=args.format, window_minutes=args.window * 60)
 
             if args.output:
                 # Write to file
@@ -1638,14 +1523,10 @@ Examples:
 
             if combined_score >= args.threshold:
                 logger.warning("🚨 ALERT: High-risk emotional loop detected!")
-                logger.warning(
-                    f"   ELI: {eli:.4f} | RIS: {ris:.4f} | Combined: {combined_score:.4f}"
-                )
+                logger.warning(f"   ELI: {eli:.4f} | RIS: {ris:.4f} | Combined: {combined_score:.4f}")
 
                 # Find highest risk archetype
-                high_risk_motif = (
-                    max(motifs, key=lambda m: m.archetype_score) if motifs else None
-                )
+                high_risk_motif = max(motifs, key=lambda m: m.archetype_score) if motifs else None
                 archetype = high_risk_motif.archetype_match if high_risk_motif else None
 
                 alert = detector.emit_symbolic_echo_alert(combined_score, archetype)
@@ -1654,9 +1535,7 @@ Examples:
                 logger.warning(f"   Description: {alert['description']}")
             else:
                 logger.info("✅ No immediate threats detected")
-                logger.info(
-                    f"   ELI: {eli:.4f} | RIS: {ris:.4f} | Combined: {combined_score:.4f}"
-                )
+                logger.info(f"   ELI: {eli:.4f} | RIS: {ris:.4f} | Combined: {combined_score:.4f}")
 
         else:
             parser.print_help()
@@ -1673,9 +1552,7 @@ Examples:
         return 1
 
 
-async def _continuous_watch(
-    detector: EmotionalEchoDetector, interval: int, threshold: float
-):
+async def _continuous_watch(detector: EmotionalEchoDetector, interval: int, threshold: float):
     """Continuous monitoring loop."""
 
     while True:
@@ -1704,17 +1581,11 @@ async def _continuous_watch(
             current_time = datetime.now().strftime("%H:%M:%S")
 
             if combined_score >= threshold:
-                print(
-                    f"⚠️ {current_time} - HIGH RISK: ELI={eli:.3f}, RIS={ris:.3f}, Score={combined_score:.3f}"
-                )
+                print(f"⚠️ {current_time} - HIGH RISK: ELI={eli:.3f}, RIS={ris:.3f}, Score={combined_score:.3f}")
             elif combined_score >= threshold * 0.7:
-                print(
-                    f"🟡 {current_time} - MODERATE: ELI={eli:.3f}, RIS={ris:.3f}, Score={combined_score:.3f}"
-                )
+                print(f"🟡 {current_time} - MODERATE: ELI={eli:.3f}, RIS={ris:.3f}, Score={combined_score:.3f}")
             else:
-                print(
-                    f"✅ {current_time} - NORMAL: ELI={eli:.3f}, RIS={ris:.3f}, Score={combined_score:.3f}"
-                )
+                print(f"✅ {current_time} - NORMAL: ELI={eli:.3f}, RIS={ris:.3f}, Score={combined_score:.3f}")
 
             await asyncio.sleep(interval)
 
@@ -1741,9 +1612,7 @@ def _load_sample_data(file_path: str) -> list[dict[str, Any]]:
     return data
 
 
-def _generate_synthetic_emotional_data(
-    count: int = 50, high_risk: bool = False
-) -> list[dict[str, Any]]:
+def _generate_synthetic_emotional_data(count: int = 50, high_risk: bool = False) -> list[dict[str, Any]]:
     """Generate synthetic emotional data for testing."""
 
     synthetic_data = []
@@ -1809,11 +1678,7 @@ def _generate_synthetic_emotional_data(
             data_entry = {
                 "emotions": pattern,
                 "timestamp": timestamp,
-                "symbols": (
-                    ["void", "darkness", "falling"]
-                    if "void" in pattern
-                    else ["light", "growth"]
-                ),
+                "symbols": (["void", "darkness", "falling"] if "void" in pattern else ["light", "growth"]),
                 "intensity": 0.5 + (i % 5) * 0.1,
             }
 

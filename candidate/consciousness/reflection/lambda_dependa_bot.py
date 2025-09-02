@@ -145,22 +145,12 @@ except ImportError:
             modularity = 0.0
             for cluster in qi_clusters:
                 internal_edges = sum(
-                    1
-                    for edge in self.edges_data
-                    if edge["source"] in cluster and edge["target"] in cluster
+                    1 for edge in self.edges_data if edge["source"] in cluster and edge["target"] in cluster
                 )
                 cluster_size = len(cluster)
-                expected_internal = (
-                    (cluster_size * (cluster_size - 1)) / (2 * total_edges)
-                    if total_edges > 0
-                    else 0
-                )
+                expected_internal = (cluster_size * (cluster_size - 1)) / (2 * total_edges) if total_edges > 0 else 0
 
-                modularity += (
-                    (internal_edges - expected_internal) / total_edges
-                    if total_edges > 0
-                    else 0
-                )
+                modularity += (internal_edges - expected_internal) / total_edges if total_edges > 0 else 0
 
             return modularity
 
@@ -240,10 +230,7 @@ try:
                 code_models = [
                     m
                     for m in models
-                    if any(
-                        keyword in m["name"]
-                        for keyword in ["code", "deepseek", "qwen", "codellama"]
-                    )
+                    if any(keyword in m["name"] for keyword in ["code", "deepseek", "qwen", "codellama"])
                 ]
                 if code_models:
                     LLM_ENGINE = "ollama"
@@ -276,9 +263,7 @@ try:
                     if tokenizer:
                         LLM_ENGINE = "transformers"
                         SELF_HEALING_LLM = True
-                        print(
-                            f"🤖 Transformers LLM integration active - Model: {model_name}"
-                        )
+                        print(f"🤖 Transformers LLM integration active - Model: {model_name}")
                         break
                 except (ImportError, AttributeError, ValueError) as e:
                     print(f"⚠️  Failed to load model {model_name}: {e}")
@@ -316,9 +301,7 @@ try:
     print("🛠️ Code formatters available (autopep8, black)")
 except ImportError:
     CODE_FORMATTERS = False
-    print(
-        "⚠️  Code formatters not available. Install autopep8 and black for enhanced self-healing"
-    )
+    print("⚠️  Code formatters not available. Install autopep8 and black for enhanced self-healing")
 
 # Integration with existing systems
 try:
@@ -443,9 +426,7 @@ class ΛDependaBoT(BotProtocol):
         self.reasoning_context = None
 
         # Dependency analysis state
-        self.dependency_network = (
-            nx.DiGraph() if QUANTUM_ANALYSIS_AVAILABLE else nx.DiGraph()
-        )
+        self.dependency_network = nx.DiGraph() if QUANTUM_ANALYSIS_AVAILABLE else nx.DiGraph()
         self.module_profiles = {}
         self.architectural_insights = []
         self.analysis_history = []
@@ -527,13 +508,9 @@ class ΛDependaBoT(BotProtocol):
 
             if diagnostic_result:
                 self.logger.info("✅ ΛDependaBoT initialization complete")
-                print(
-                    f"🤖 ΛDependaBoT '{self.config.name}' online - Quantum-inspired capabilities active"
-                )
+                print(f"🤖 ΛDependaBoT '{self.config.name}' online - Quantum-inspired capabilities active")
             else:
-                self.logger.warning(
-                    "⚠️  ΛDependaBoT initialization completed with warnings"
-                )
+                self.logger.warning("⚠️  ΛDependaBoT initialization completed with warnings")
 
         except Exception as e:
             self.logger.error(f"❌ ΛDependaBoT initialization failed: {e}")
@@ -580,19 +557,13 @@ class ΛDependaBoT(BotProtocol):
 
             # Update performance metrics
             self.performance_metrics["analysis_count"] += 1
-            self.performance_metrics["optimization_suggestions"] = len(
-                roadmap.get("recommendations", [])
-            )
+            self.performance_metrics["optimization_suggestions"] = len(roadmap.get("recommendations", []))
 
             # Store analysis for evolution
             self.analysis_history.append(report)
 
-            self.logger.info(
-                f"✅ ΛDependaBoT analysis complete. Modularity: {qi_modularity:.3f}"
-            )
-            print(
-                f"🎯 Analysis complete! Quantum modularity score: {qi_modularity:.3f}"
-            )
+            self.logger.info(f"✅ ΛDependaBoT analysis complete. Modularity: {qi_modularity:.3f}")
+            print(f"🎯 Analysis complete! Quantum modularity score: {qi_modularity:.3f}")
 
             return report
 
@@ -622,9 +593,7 @@ class ΛDependaBoT(BotProtocol):
             "analysis_history": {
                 "total_analyses": len(self.analysis_history),
                 "average_modularity": self._calculate_average_modularity(),
-                "optimization_accuracy": self.performance_metrics.get(
-                    "accuracy_score", 0.0
-                ),
+                "optimization_accuracy": self.performance_metrics.get("accuracy_score", 0.0),
             },
             "qi_like_state": {
                 "coherence_level": self._calculate_quantum_coherence(),
@@ -640,28 +609,20 @@ class ΛDependaBoT(BotProtocol):
             "self_healing_capabilities": {
                 "llm_engine": LLM_ENGINE,
                 "healing_enabled": SELF_HEALING_LLM,
-                "total_healing_attempts": self.healing_statistics.get(
-                    "total_fixes_attempted", 0
-                ),
+                "total_healing_attempts": self.healing_statistics.get("total_fixes_attempted", 0),
                 "successful_heals": self.healing_statistics.get("successful_fixes", 0),
-                "healing_success_rate": self.healing_statistics.get(
-                    "successful_fixes", 0
-                )
+                "healing_success_rate": self.healing_statistics.get("successful_fixes", 0)
                 / max(self.healing_statistics.get("total_fixes_attempted", 1), 1),
                 "files_healed": len(self.healing_statistics.get("files_healed", set())),
                 "llm_fixes": self.healing_statistics.get("llm_fixes", 0),
                 "rule_based_fixes": self.healing_statistics.get("rule_based_fixes", 0),
             },
             "robustness_metrics": {
-                "files_successfully_analyzed": self.performance_metrics.get(
-                    "files_analyzed", 0
-                ),
+                "files_successfully_analyzed": self.performance_metrics.get("files_analyzed", 0),
                 "analysis_failure_rate": self._calculate_failure_rate(),
                 "encoding_success_rate": self._calculate_encoding_success_rate(),
                 "syntax_error_tolerance": self._calculate_syntax_tolerance(),
-                "auto_healing_coverage": len(
-                    self.healing_statistics.get("files_healed", set())
-                )
+                "auto_healing_coverage": len(self.healing_statistics.get("files_healed", set()))
                 / max(len(getattr(self, "analysis_failures", [])), 1),
             },
         }
@@ -702,14 +663,10 @@ class ΛDependaBoT(BotProtocol):
             success_rate = sum(diagnostics.values()) / len(diagnostics)
 
             if success_rate >= 0.8:
-                self.logger.info(
-                    f"✅ Self-diagnostics passed: {success_rate:.1%} systems operational"
-                )
+                self.logger.info(f"✅ Self-diagnostics passed: {success_rate:.1%} systems operational")
                 return True
             else:
-                self.logger.warning(
-                    f"⚠️  Self-diagnostics completed with issues: {success_rate:.1%} operational"
-                )
+                self.logger.warning(f"⚠️  Self-diagnostics completed with issues: {success_rate:.1%} operational")
                 return False
 
         except Exception as e:
@@ -797,9 +754,7 @@ class ΛDependaBoT(BotProtocol):
             # Analyze imports with quantum weighting
             for node in ast.walk(tree):
                 if isinstance(node, (ast.Import, ast.ImportFrom)):
-                    await self._process_quantum_import(
-                        module_name, node, coherence_level
-                    )
+                    await self._process_quantum_import(module_name, node, coherence_level)
 
         except Exception as e:
             self.logger.warning(f"Error in quantum analysis of {file_path}: {e}")
@@ -808,20 +763,14 @@ class ΛDependaBoT(BotProtocol):
 
             # Attempt self-healing if enabled
             if SELF_HEALING_LLM:
-                healing_success = await self._attempt_self_healing(
-                    file_path, "analysis_error", str(e)
-                )
+                healing_success = await self._attempt_self_healing(file_path, "analysis_error", str(e))
                 if healing_success:
                     # Retry analysis after healing
                     try:
                         await self._analyze_file_quantum_dependencies(file_path)
-                        self.logger.info(
-                            f"🔧 Successfully healed and re-analyzed {file_path}"
-                        )
+                        self.logger.info(f"🔧 Successfully healed and re-analyzed {file_path}")
                     except Exception as e:
-                        self.logger.warning(
-                            f"Re-analysis failed even after healing: {file_path} - {e}"
-                        )
+                        self.logger.warning(f"Re-analysis failed even after healing: {file_path} - {e}")
 
     async def _safe_read_file(self, file_path: Path) -> Optional[str]:
         """Safely read file with multiple encoding attempts."""
@@ -838,9 +787,7 @@ class ΛDependaBoT(BotProtocol):
 
                 # Check for problematic characters
                 if await self._contains_problematic_characters(content):
-                    self.logger.warning(
-                        f"File {file_path} contains problematic characters"
-                    )
+                    self.logger.warning(f"File {file_path} contains problematic characters")
                     # Try to clean the content
                     content = await self._clean_file_content(content)
 
@@ -860,9 +807,7 @@ class ΛDependaBoT(BotProtocol):
         try:
             # Check file size (skip very large files)
             if len(content) > 500000:  # 500KB limit
-                self.logger.warning(
-                    f"Skipping large file {file_path} ({len(content)} characters)"
-                )
+                self.logger.warning(f"Skipping large file {file_path} ({len(content)} characters)")
                 return False
 
             # Check for binary content
@@ -917,9 +862,7 @@ class ΛDependaBoT(BotProtocol):
             self.logger.warning(f"AST parsing error for {file_path}: {e}")
             return None
 
-    async def _handle_syntax_error(
-        self, file_path: Path, content: str, error: SyntaxError
-    ) -> None:
+    async def _handle_syntax_error(self, file_path: Path, content: str, error: SyntaxError) -> None:
         """Handle and categorize syntax errors."""
         error_type = "unknown"
 
@@ -935,9 +878,7 @@ class ΛDependaBoT(BotProtocol):
             error_type = "unmatched_delimiter"
 
         # Record error for analysis
-        await self._record_syntax_error(
-            file_path, error_type, str(error), error.lineno or 0
-        )
+        await self._record_syntax_error(file_path, error_type, str(error), error.lineno or 0)
 
     async def _contains_problematic_characters(self, content: str) -> bool:
         """Check for problematic Unicode characters."""
@@ -1010,29 +951,21 @@ class ΛDependaBoT(BotProtocol):
             }
         )
 
-    async def _process_quantum_import(
-        self, source_module: str, import_node: ast.AST, coherence_level: float
-    ) -> None:
+    async def _process_quantum_import(self, source_module: str, import_node: ast.AST, coherence_level: float) -> None:
         """Process import with quantum enhancement."""
         if isinstance(import_node, ast.Import):
             for alias in import_node.names:
                 target_module = self._resolve_module_name(alias.name)
                 if target_module:
-                    await self._add_quantum_edge(
-                        source_module, target_module, coherence_level
-                    )
+                    await self._add_quantum_edge(source_module, target_module, coherence_level)
 
         elif isinstance(import_node, ast.ImportFrom):
             module = import_node.module or ""
             target_module = self._resolve_module_name(module)
             if target_module:
-                await self._add_quantum_edge(
-                    source_module, target_module, coherence_level
-                )
+                await self._add_quantum_edge(source_module, target_module, coherence_level)
 
-    async def _add_quantum_edge(
-        self, source: str, target: str, coherence_level: float
-    ) -> None:
+    async def _add_quantum_edge(self, source: str, target: str, coherence_level: float) -> None:
         """Add quantum-enhanced dependency edge."""
         if hasattr(self.dependency_network, "add_edge"):
             # Calculate entanglement-like correlation strength
@@ -1067,9 +1000,7 @@ class ΛDependaBoT(BotProtocol):
                     impact_assessment=f"Detected {len(pattern_data)} instances of {pattern_type}",
                     recommended_actions=[f"Optimize {pattern_type} organization"],
                     qi_rationale=f"Bio-symbolic analysis reveals {pattern_type} optimization potential",
-                    stakeholder_implications={
-                        "developers": f"Consider {pattern_type} refactoring"
-                    },
+                    stakeholder_implications={"developers": f"Consider {pattern_type} refactoring"},
                 )
                 self.architectural_insights.append(insight)
 
@@ -1082,16 +1013,8 @@ class ΛDependaBoT(BotProtocol):
             return self.dependency_network.calculate_quantum_modularity()
         else:
             # Fallback quantum calculation
-            (
-                self.dependency_network.nodes()
-                if hasattr(self.dependency_network, "nodes")
-                else []
-            )
-            edges = (
-                self.dependency_network.edges()
-                if hasattr(self.dependency_network, "edges")
-                else []
-            )
+            (self.dependency_network.nodes() if hasattr(self.dependency_network, "nodes") else [])
+            edges = self.dependency_network.edges() if hasattr(self.dependency_network, "edges") else []
 
             if not edges:
                 return 0.0
@@ -1105,22 +1028,11 @@ class ΛDependaBoT(BotProtocol):
                 internal_edges = sum(
                     1
                     for edge in edges
-                    if (
-                        hasattr(edge, "__len__")
-                        and len(edge) >= 2
-                        and edge[0] in cluster
-                        and edge[1] in cluster
-                    )
+                    if (hasattr(edge, "__len__") and len(edge) >= 2 and edge[0] in cluster and edge[1] in cluster)
                 )
                 cluster_size = len(cluster)
-                expected = (
-                    (cluster_size * (cluster_size - 1)) / (2 * total_edges)
-                    if total_edges > 0
-                    else 0
-                )
-                modularity += (
-                    (internal_edges - expected) / total_edges if total_edges > 0 else 0
-                )
+                expected = (cluster_size * (cluster_size - 1)) / (2 * total_edges) if total_edges > 0 else 0
+                modularity += (internal_edges - expected) / total_edges if total_edges > 0 else 0
 
             return modularity
 
@@ -1129,20 +1041,14 @@ class ΛDependaBoT(BotProtocol):
         insights = []
 
         high_coupling_modules = []
-        nodes = (
-            self.dependency_network.nodes()
-            if hasattr(self.dependency_network, "nodes")
-            else []
-        )
+        nodes = self.dependency_network.nodes() if hasattr(self.dependency_network, "nodes") else []
         for node in nodes:
             if hasattr(self.dependency_network, "degree"):
                 try:
                     if self.dependency_network.degree(node) > 5:
                         high_coupling_modules.append(node)
                 except (AttributeError, KeyError) as e:
-                    self.logger.warning(
-                        f"Failed to analyze node degree for {node}: {e}"
-                    )
+                    self.logger.warning(f"Failed to analyze node degree for {node}: {e}")
 
         if high_coupling_modules:
             insights.append(
@@ -1237,11 +1143,7 @@ class ΛDependaBoT(BotProtocol):
             return None
 
         # Check for exact matches in current modules
-        current_modules = (
-            self.dependency_network.nodes()
-            if hasattr(self.dependency_network, "nodes")
-            else []
-        )
+        current_modules = self.dependency_network.nodes() if hasattr(self.dependency_network, "nodes") else []
 
         for module in current_modules:
             if imported_module.endswith(module.split(".")[-1]):
@@ -1289,11 +1191,7 @@ class ΛDependaBoT(BotProtocol):
 
     async def _detect_quantum_clusters(self) -> list[set[str]]:
         """Detect quantum-coherent module clusters."""
-        nodes = (
-            self.dependency_network.nodes()
-            if hasattr(self.dependency_network, "nodes")
-            else []
-        )
+        nodes = self.dependency_network.nodes() if hasattr(self.dependency_network, "nodes") else []
 
         if not nodes:
             return []
@@ -1325,9 +1223,7 @@ class ΛDependaBoT(BotProtocol):
         """Calculate average modularity from analysis history."""
         if not self.analysis_history:
             return 0.0
-        return sum(
-            report.qi_modularity_score for report in self.analysis_history
-        ) / len(self.analysis_history)
+        return sum(report.qi_modularity_score for report in self.analysis_history) / len(self.analysis_history)
 
     def _calculate_quantum_coherence(self) -> float:
         """Calculate current coherence-inspired processing level."""
@@ -1385,14 +1281,10 @@ class ΛDependaBoT(BotProtocol):
         except Exception as e:
             self.logger.warning(f"Failed to initialize LLM engine: {e}")
 
-    async def _attempt_self_healing(
-        self, file_path: Path, error_type: str, error_message: str
-    ) -> bool:
+    async def _attempt_self_healing(self, file_path: Path, error_type: str, error_message: str) -> bool:
         """Attempt to self-heal a problematic file."""
         try:
-            self.logger.info(
-                f"🔧 Attempting self-healing for {file_path}: {error_type}"
-            )
+            self.logger.info(f"🔧 Attempting self-healing for {file_path}: {error_type}")
 
             # Record healing attempt
             self.healing_statistics["total_fixes_attempted"] += 1
@@ -1419,24 +1311,18 @@ class ΛDependaBoT(BotProtocol):
                             original_error=error_message,
                             fix_applied="Auto-healed",
                             success_rate=1.0,
-                            healing_method=strategy.__name__.replace(
-                                "_try_", ""
-                            ).replace("_healing", ""),
+                            healing_method=strategy.__name__.replace("_try_", "").replace("_healing", ""),
                             confidence_level=0.8,
                             timestamp=datetime.now().isoformat(),
                             verification_status="verified",
                         )
                         self.healing_actions.append(healing_action)
 
-                        self.logger.info(
-                            f"✅ Self-healing successful: {strategy.__name__}"
-                        )
+                        self.logger.info(f"✅ Self-healing successful: {strategy.__name__}")
                         return True
 
                 except Exception as e:
-                    self.logger.warning(
-                        f"Healing strategy {strategy.__name__} failed: {e}"
-                    )
+                    self.logger.warning(f"Healing strategy {strategy.__name__} failed: {e}")
                     continue
 
             self.logger.warning(f"❌ All healing strategies failed for {file_path}")
@@ -1446,9 +1332,7 @@ class ΛDependaBoT(BotProtocol):
             self.logger.error(f"Self-healing system error: {e}")
             return False
 
-    async def _try_llm_healing(
-        self, file_path: Path, error_type: str, error_message: str
-    ) -> bool:
+    async def _try_llm_healing(self, file_path: Path, error_type: str, error_message: str) -> bool:
         """Try LLM-assisted code healing."""
         if not self.llm_engine:
             return False
@@ -1460,9 +1344,7 @@ class ΛDependaBoT(BotProtocol):
                 return False
 
             # Generate fix using LLM
-            fix_suggestion = await self.llm_engine.generate_fix(
-                content, error_type, error_message
-            )
+            fix_suggestion = await self.llm_engine.generate_fix(content, error_type, error_message)
 
             if fix_suggestion and fix_suggestion.confidence_score > 0.7:
                 # Apply fix
@@ -1477,9 +1359,7 @@ class ΛDependaBoT(BotProtocol):
 
         return False
 
-    async def _try_rule_based_healing(
-        self, file_path: Path, error_type: str, error_message: str
-    ) -> bool:
+    async def _try_rule_based_healing(self, file_path: Path, error_type: str, error_message: str) -> bool:
         """Try rule-based code healing."""
         try:
             content = await self._safe_read_file(file_path)
@@ -1489,10 +1369,7 @@ class ΛDependaBoT(BotProtocol):
             fixed_content = content
 
             # Apply rule-based fixes
-            if (
-                "f-string" in error_message.lower()
-                or "backslash" in error_message.lower()
-            ):
+            if "f-string" in error_message.lower() or "backslash" in error_message.lower():
                 fixed_content = await self._fix_fstring_issues(fixed_content)
 
             if "invalid character" in error_message.lower():
@@ -1517,9 +1394,7 @@ class ΛDependaBoT(BotProtocol):
 
         return False
 
-    async def _try_pattern_matching_healing(
-        self, file_path: Path, error_type: str, error_message: str
-    ) -> bool:
+    async def _try_pattern_matching_healing(self, file_path: Path, error_type: str, error_message: str) -> bool:
         """Try pattern-matching based healing."""
         try:
             content = await self._safe_read_file(file_path)
@@ -1533,9 +1408,7 @@ class ΛDependaBoT(BotProtocol):
             # Apply learned fixes
             if self.error_patterns[pattern_key] > 2:
                 # We've seen this pattern before, apply known fix
-                fixed_content = await self._apply_learned_pattern_fix(
-                    content, pattern_key
-                )
+                fixed_content = await self._apply_learned_pattern_fix(content, pattern_key)
                 if fixed_content != content:
                     test_success = await self._test_syntax_fix(fixed_content)
                     if test_success:
@@ -1547,9 +1420,7 @@ class ΛDependaBoT(BotProtocol):
 
         return False
 
-    async def _try_formatter_healing(
-        self, file_path: Path, error_type: str, error_message: str
-    ) -> bool:
+    async def _try_formatter_healing(self, file_path: Path, error_type: str, error_message: str) -> bool:
         """Try using code formatters for healing."""
         if not CODE_FORMATTERS:
             return False
@@ -1588,9 +1459,7 @@ class ΛDependaBoT(BotProtocol):
 
         return False
 
-    async def _apply_code_fix(
-        self, file_path: Path, fix_suggestion: ΛCodeFixSuggestion
-    ) -> bool:
+    async def _apply_code_fix(self, file_path: Path, fix_suggestion: ΛCodeFixSuggestion) -> bool:
         """Apply a code fix suggestion."""
         try:
             # Validate fix before applying
@@ -1685,9 +1554,7 @@ class ΛDependaBoT(BotProtocol):
         total_attempts = self.healing_statistics["total_fixes_attempted"]
         successful_fixes = self.healing_statistics["successful_fixes"]
 
-        success_rate = (
-            (successful_fixes / total_attempts) if total_attempts > 0 else 0.0
-        )
+        success_rate = (successful_fixes / total_attempts) if total_attempts > 0 else 0.0
 
         return ΛSelfHealingReport(
             healing_actions_taken=self.healing_actions,
@@ -1710,11 +1577,7 @@ class ΛDependaBoT(BotProtocol):
             "total_analysis_failures": len(getattr(self, "analysis_failures", [])),
             "syntax_errors_by_type": getattr(self, "syntax_errors", {}),
             "encoding_issues": len(
-                [
-                    f
-                    for f in getattr(self, "analysis_failures", [])
-                    if "encoding" in f.get("error", "").lower()
-                ]
+                [f for f in getattr(self, "analysis_failures", []) if "encoding" in f.get("error", "").lower()]
             ),
             "self_healing_report": asdict(await self._generate_self_healing_report()),
         }
@@ -1729,23 +1592,15 @@ class ΛDependaBoT(BotProtocol):
         """Calculate encoding success rate."""
         total_files = self.performance_metrics.get("files_analyzed", 1)
         encoding_failures = len(
-            [
-                f
-                for f in getattr(self, "analysis_failures", [])
-                if "encoding" in f.get("error", "").lower()
-            ]
+            [f for f in getattr(self, "analysis_failures", []) if "encoding" in f.get("error", "").lower()]
         )
         return 1.0 - (encoding_failures / total_files) if total_files > 0 else 1.0
 
     def _calculate_syntax_tolerance(self) -> float:
         """Calculate syntax error tolerance."""
-        total_syntax_errors = sum(
-            len(errors) for errors in getattr(self, "syntax_errors", {}).values()
-        )
+        total_syntax_errors = sum(len(errors) for errors in getattr(self, "syntax_errors", {}).values())
         successful_heals = self.healing_statistics.get("successful_fixes", 0)
-        return (
-            successful_heals / total_syntax_errors if total_syntax_errors > 0 else 1.0
-        )
+        return successful_heals / total_syntax_errors if total_syntax_errors > 0 else 1.0
 
 
 # LLM Code Fixing Engines
@@ -1755,9 +1610,7 @@ class CodeFixerBase:
     async def initialize(self):
         pass
 
-    async def generate_fix(
-        self, code: str, error_type: str, error_message: str
-    ) -> ΛCodeFixSuggestion:
+    async def generate_fix(self, code: str, error_type: str, error_message: str) -> ΛCodeFixSuggestion:
         raise NotImplementedError
 
 
@@ -1780,19 +1633,14 @@ class OllamaCodeFixer(CodeFixerBase):
                 code_models = [
                     m
                     for m in models
-                    if any(
-                        keyword in m["name"]
-                        for keyword in ["code", "deepseek", "qwen", "codellama"]
-                    )
+                    if any(keyword in m["name"] for keyword in ["code", "deepseek", "qwen", "codellama"])
                 ]
                 if code_models:
                     self.model = code_models[0]["name"]
         except (requests.RequestException, requests.Timeout, KeyError) as e:
             self.logger.warning(f"Failed to connect to Ollama for model selection: {e}")
 
-    async def generate_fix(
-        self, code: str, error_type: str, error_message: str
-    ) -> ΛCodeFixSuggestion:
+    async def generate_fix(self, code: str, error_type: str, error_message: str) -> ΛCodeFixSuggestion:
         try:
             prompt = f"""Fix this Python code that has a {error_type} error:
 
@@ -1864,9 +1712,7 @@ class TransformersCodeFixer(CodeFixerBase):
         except Exception as e:
             print(f"Failed to initialize Transformers model: {e}")
 
-    async def generate_fix(
-        self, code: str, error_type: str, error_message: str
-    ) -> ΛCodeFixSuggestion:
+    async def generate_fix(self, code: str, error_type: str, error_message: str) -> ΛCodeFixSuggestion:
         if not self.model:
             return None
 
@@ -1920,9 +1766,7 @@ class OpenAICodeFixer(CodeFixerBase):
         except (ImportError, Exception) as e:
             self.logger.warning(f"Failed to initialize OpenAI client: {e}")
 
-    async def generate_fix(
-        self, code: str, error_type: str, error_message: str
-    ) -> ΛCodeFixSuggestion:
+    async def generate_fix(self, code: str, error_type: str, error_message: str) -> ΛCodeFixSuggestion:
         if not self.client:
             return None
 
@@ -1978,19 +1822,11 @@ async def main():
     """Command-line interface for ΛDependaBoT."""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="ΛDependaBoT - Elite Dependency Analysis Agent"
-    )
+    parser = argparse.ArgumentParser(description="ΛDependaBoT - Elite Dependency Analysis Agent")
     parser.add_argument("--repo-path", default=".", help="Repository path")
-    parser.add_argument(
-        "--bot-name", default="ΛDependaBoT-Elite", help="Bot instance name"
-    )
-    parser.add_argument(
-        "--output-dir", default="lambda_analysis", help="Output directory"
-    )
-    parser.add_argument(
-        "--autonomy-level", type=float, default=0.85, help="Bot autonomy level (0-1)"
-    )
+    parser.add_argument("--bot-name", default="ΛDependaBoT-Elite", help="Bot instance name")
+    parser.add_argument("--output-dir", default="lambda_analysis", help="Output directory")
+    parser.add_argument("--autonomy-level", type=float, default=0.85, help="Bot autonomy level (0-1)")
 
     args = parser.parse_args()
 
@@ -2057,9 +1893,7 @@ async def main():
         print(f"🔬 Quantum Modularity Score: {report.qi_modularity_score:.3f}")
         print(f"🧠 Architectural Insights: {len(report.architectural_insights)}")
         print(f"📊 Dependency Profiles: {len(report.dependency_profiles)}")
-        print(
-            f"🛣️  Optimization Actions: {len(report.optimization_roadmap.get('immediate_actions', []))}"
-        )
+        print(f"🛣️  Optimization Actions: {len(report.optimization_roadmap.get('immediate_actions', []))}")
         print()
 
         # Show key insights

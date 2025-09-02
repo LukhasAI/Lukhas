@@ -89,9 +89,7 @@ class DALLEClient:
 
             logger.info(f"Generating image with DALL-E: {prompt[:50]}...")
 
-            async with self.session.post(
-                f"{self.api_base}/images/generations", json=payload
-            ) as response:
+            async with self.session.post(f"{self.api_base}/images/generations", json=payload) as response:
                 if response.status != 200:
                     error_text = await response.text()
                     logger.error(f"DALL-E API error: {response.status} - {error_text}")
@@ -149,9 +147,7 @@ class DALLEClient:
                             f.write(await response.read())
                         saved_paths.append(filepath)
                     else:
-                        logger.error(
-                            f"Failed to download image from {url}: {response.status}"
-                        )
+                        logger.error(f"Failed to download image from {url}: {response.status}")
 
             except Exception as e:
                 logger.error(f"Error saving image: {e!s}")
@@ -211,9 +207,7 @@ class DALLEClient:
 
             logger.info(f"Editing image with DALL-E: {prompt[:50]}...")
 
-            async with self.session.post(
-                f"{self.api_base}/images/edits", data=form_data
-            ) as response:
+            async with self.session.post(f"{self.api_base}/images/edits", data=form_data) as response:
                 if response.status != 200:
                     error_text = await response.text()
                     logger.error(f"DALL-E API error: {response.status} - {error_text}")
@@ -230,9 +224,7 @@ class DALLEClient:
                 # Save images locally
                 saved_paths = []
                 if image_urls:
-                    saved_paths = await self._save_images_from_urls(
-                        image_urls, f"edit_{prompt}"
-                    )
+                    saved_paths = await self._save_images_from_urls(image_urls, f"edit_{prompt}")
 
                 return {
                     "urls": image_urls,

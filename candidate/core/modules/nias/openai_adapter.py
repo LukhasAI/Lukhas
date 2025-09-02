@@ -90,18 +90,12 @@ class NIASOpenAIAdapter:
             if self.fusion_strategy == "late":
                 fusion_result = await self._late_fusion(processed_streams, user_context)
             elif self.fusion_strategy == "intermediate":
-                fusion_result = await self._intermediate_fusion(
-                    processed_streams, user_context
-                )
+                fusion_result = await self._intermediate_fusion(processed_streams, user_context)
             else:  # early
-                fusion_result = await self._early_fusion(
-                    processed_streams, user_context
-                )
+                fusion_result = await self._early_fusion(processed_streams, user_context)
 
             # Step 3: Generate unified interpretation
-            interpretation = await self._generate_unified_interpretation(
-                fusion_result, user_context
-            )
+            interpretation = await self._generate_unified_interpretation(fusion_result, user_context)
 
             return {
                 "fusion_result": fusion_result,
@@ -114,9 +108,7 @@ class NIASOpenAIAdapter:
             logger.error(f"Multimodal fusion failed: {e}")
             return await self._fallback_fusion(data_streams, user_context)
 
-    async def _process_individual_modalities(
-        self, data_streams: list[MultimodalData]
-    ) -> list[MultimodalData]:
+    async def _process_individual_modalities(self, data_streams: list[MultimodalData]) -> list[MultimodalData]:
         """Process each modality with appropriate OpenAI model"""
         processed = []
 
@@ -190,16 +182,12 @@ class NIASOpenAIAdapter:
                 stream.processed_data = {
                     "visual_analysis": analysis,
                     "attention_metrics": self._extract_attention_metrics(analysis),
-                    "emotional_indicators": self._extract_emotional_indicators(
-                        analysis
-                    ),
+                    "emotional_indicators": self._extract_emotional_indicators(analysis),
                 }
 
             # Process eye tracking data
             elif "gaze_path" in stream.raw_data:
-                gaze_analysis = await self._analyze_gaze_patterns(
-                    stream.raw_data["gaze_path"]
-                )
+                gaze_analysis = await self._analyze_gaze_patterns(stream.raw_data["gaze_path"])
                 stream.processed_data = gaze_analysis
 
         except Exception as e:
@@ -208,9 +196,7 @@ class NIASOpenAIAdapter:
 
         return stream
 
-    async def _analyze_gaze_patterns(
-        self, gaze_path: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _analyze_gaze_patterns(self, gaze_path: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze eye tracking gaze patterns"""
         if not gaze_path:
             return {"error": "No gaze data"}
@@ -224,9 +210,7 @@ class NIASOpenAIAdapter:
             curr = gaze_path[i]
 
             # Calculate movement
-            distance = np.sqrt(
-                (curr["x"] - prev["x"]) ** 2 + (curr["y"] - prev["y"]) ** 2
-            )
+            distance = np.sqrt((curr["x"] - prev["x"]) ** 2 + (curr["y"] - prev["y"]) ** 2)
             duration = curr["timestamp"] - prev["timestamp"]
 
             if distance < 50:  # Fixation threshold
@@ -264,9 +248,7 @@ class NIASOpenAIAdapter:
                 "saccade_count": len(saccades),
                 "interpretation": interpretation.choices[0].message.content,
                 "attention_score": (
-                    len(fixations) / (len(fixations) + len(saccades))
-                    if (fixations or saccades)
-                    else 0.5
+                    len(fixations) / (len(fixations) + len(saccades)) if (fixations or saccades) else 0.5
                 ),
             }
 
@@ -342,9 +324,7 @@ class NIASOpenAIAdapter:
 
         return stream
 
-    async def _process_contextual_stream(
-        self, stream: MultimodalData
-    ) -> MultimodalData:
+    async def _process_contextual_stream(self, stream: MultimodalData) -> MultimodalData:
         """Process contextual data (weather, location, time, etc.)"""
         try:
             context_data = stream.raw_data
@@ -365,12 +345,8 @@ class NIASOpenAIAdapter:
 
             stream.processed_data = {
                 "context_analysis": response.choices[0].message.content,
-                "receptivity_modifier": self._calculate_context_receptivity(
-                    context_data
-                ),
-                "suggested_adaptations": self._suggest_context_adaptations(
-                    context_data
-                ),
+                "receptivity_modifier": self._calculate_context_receptivity(context_data),
+                "suggested_adaptations": self._suggest_context_adaptations(context_data),
             }
 
         except Exception as e:
@@ -426,9 +402,7 @@ class NIASOpenAIAdapter:
 
         return suggestions
 
-    async def _process_behavioral_stream(
-        self, stream: MultimodalData
-    ) -> MultimodalData:
+    async def _process_behavioral_stream(self, stream: MultimodalData) -> MultimodalData:
         """Process behavioral data (clicks, navigation, history)"""
         try:
             behavioral_data = stream.raw_data
@@ -472,9 +446,7 @@ class NIASOpenAIAdapter:
             parts.append(f"Click patterns: {behavioral_data['clicks']}")
 
         if "navigation" in behavioral_data:
-            parts.append(
-                f"Navigation path: {' -> '.join(behavioral_data['navigation'])}"
-            )
+            parts.append(f"Navigation path: {' -> '.join(behavioral_data['navigation'])}")
 
         if "dwell_times" in behavioral_data:
             parts.append(f"Dwell times: {behavioral_data['dwell_times']}")
@@ -496,15 +468,11 @@ class NIASOpenAIAdapter:
         else:
             return "browsing"
 
-    def _build_preference_profile(
-        self, behavioral_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _build_preference_profile(self, behavioral_data: dict[str, Any]) -> dict[str, Any]:
         """Build user preference profile from behavior"""
         return {
             "categories_viewed": behavioral_data.get("categories", []),
-            "price_sensitivity": behavioral_data.get(
-                "price_range_preference", "medium"
-            ),
+            "price_sensitivity": behavioral_data.get("price_range_preference", "medium"),
             "brand_loyalty": behavioral_data.get("brand_repeat_rate", 0.5),
             "decision_speed": behavioral_data.get("avg_decision_time", "moderate"),
         }
@@ -529,11 +497,7 @@ class NIASOpenAIAdapter:
                     },
                     {
                         "role": "user",
-                        "content": (
-                            text_data
-                            if isinstance(text_data, str)
-                            else json.dumps(text_data)
-                        ),
+                        "content": (text_data if isinstance(text_data, str) else json.dumps(text_data)),
                     },
                 ],
                 functions=[
@@ -632,9 +596,7 @@ class NIASOpenAIAdapter:
             return self.embedding_cache[cache_key]
 
         try:
-            response = await self.client.embeddings.create(
-                model=self.embedding_model, input=text
-            )
+            response = await self.client.embeddings.create(model=self.embedding_model, input=text)
             embeddings = response.data[0].embedding
 
             # Cache result
@@ -732,9 +694,7 @@ class NIASOpenAIAdapter:
                 function_call={"name": "fuse_modalities"},
             )
 
-            fusion_result = json.loads(
-                response.choices[0].message.function_call.arguments
-            )
+            fusion_result = json.loads(response.choices[0].message.function_call.arguments)
             return fusion_result
 
         except Exception as e:
@@ -772,9 +732,7 @@ class NIASOpenAIAdapter:
             if stream.processed_data and isinstance(stream.processed_data, dict):
                 # Extract relevant metrics
                 data = stream.processed_data
-                fusion_result["attention_level"] += weight * data.get(
-                    "attention_score", 0.5
-                )
+                fusion_result["attention_level"] += weight * data.get("attention_score", 0.5)
                 fusion_result["stress_level"] += weight * data.get("stress_level", 0.5)
                 fusion_result["engagement"] += weight * data.get("engagement", 0.5)
 
@@ -852,18 +810,14 @@ class NIASOpenAIAdapter:
             logger.error(f"Interpretation generation failed: {e}")
             return "Multimodal fusion complete"
 
-    def _calculate_fusion_confidence(
-        self, processed_streams: list[MultimodalData]
-    ) -> float:
+    def _calculate_fusion_confidence(self, processed_streams: list[MultimodalData]) -> float:
         """Calculate overall confidence in fusion results"""
         if not processed_streams:
             return 0.0
 
         # Check how many modalities were successfully processed
         successful = sum(
-            1
-            for stream in processed_streams
-            if stream.processed_data and "error" not in stream.processed_data
+            1 for stream in processed_streams if stream.processed_data and "error" not in stream.processed_data
         )
 
         # Base confidence on success rate and modality importance
@@ -946,9 +900,7 @@ class NIASOpenAIAdapter:
 
         return indicators
 
-    async def generate_personalization_recommendations(
-        self, fusion_result: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def generate_personalization_recommendations(self, fusion_result: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate personalization recommendations based on fusion results"""
         if not self.client:
             return []
@@ -1048,9 +1000,7 @@ class NIASOpenAIAdapter:
             logger.error(f"Content moderation failed: {e}")
             return {"flagged": False, "error": str(e)}
 
-    async def visualize_attention_state(
-        self, fusion_result: dict[str, Any], style: str = "abstract"
-    ) -> Optional[str]:
+    async def visualize_attention_state(self, fusion_result: dict[str, Any], style: str = "abstract") -> Optional[str]:
         """Generate visual representation of attention state using DALL-E"""
         if not self.client:
             return None

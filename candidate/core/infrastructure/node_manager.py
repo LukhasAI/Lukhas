@@ -28,9 +28,7 @@ class NodeManager:
 
         # Register with core
         if core_interface:
-            core_interface.register_component(
-                "node_manager", self, self.process_message
-            )
+            core_interface.register_component("node_manager", self, self.process_message)
 
             # Subscribe to node events
             core_interface.subscribe_to_events(
@@ -153,9 +151,7 @@ class NodeManager:
                     if self._load_node(node_id, file_path):
                         discovered_nodes.append(node_id)
 
-        logger.info(
-            f"Discovered {len(discovered_nodes)} nodes: {', '.join(discovered_nodes)}"
-        )
+        logger.info(f"Discovered {len(discovered_nodes)} nodes: {', '.join(discovered_nodes)}")
         return discovered_nodes
 
     def _is_node_file(self, file_path: str) -> bool:
@@ -205,11 +201,7 @@ class NodeManager:
             node_class = None
             for attr_name in dir(node_module):
                 attr = getattr(node_module, attr_name)
-                if (
-                    isinstance(attr, type)
-                    and hasattr(attr, "process_message")
-                    and callable(attr.process_message)
-                ):
+                if isinstance(attr, type) and hasattr(attr, "process_message") and callable(attr.process_message):
                     node_class = attr
                     break
 
@@ -262,9 +254,7 @@ class NodeManager:
 
         # Check if node is connected
         if self.node_status[target_node_id] != "connected":
-            logger.warning(
-                f"Cannot dispatch message to disconnected node: {target_node_id}"
-            )
+            logger.warning(f"Cannot dispatch message to disconnected node: {target_node_id}")
             # Queue message for later delivery
             self.message_queues[target_node_id].append((message, priority, time.time()))
             return {
@@ -324,9 +314,7 @@ class NodeManager:
             status = response.get("status", "")
 
             if status == "error":
-                results["failed"].append(
-                    {"node_id": node_id, "error": response.get("error")}
-                )
+                results["failed"].append({"node_id": node_id, "error": response.get("error")})
             elif status == "queued":
                 results["queued"].append({"node_id": node_id})
             else:
@@ -436,9 +424,7 @@ class NodeManager:
                 queue.remove((message, priority, timestamp))
                 processed += 1
 
-        logger.info(
-            f"Processed {processed}/{len(queue)} queued messages for node {node_id}"
-        )
+        logger.info(f"Processed {processed}/{len(queue)} queued messages for node {node_id}")
 
         # Update queue
         self.message_queues[node_id] = queue

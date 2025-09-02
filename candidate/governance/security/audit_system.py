@@ -376,9 +376,7 @@ class AuditStorage:
                         stored_count += 1
 
             except Exception as e:
-                logger.error(
-                    f"Failed to store event batch for {retention}/{category}: {e}"
-                )
+                logger.error(f"Failed to store event batch for {retention}/{category}: {e}")
 
         return stored_count
 
@@ -398,9 +396,7 @@ class AuditStorage:
                     continue
 
                 for filename in os.listdir(retention_dir):
-                    if not filename.startswith("audit_") or not filename.endswith(
-                        ".jsonl"
-                    ):
+                    if not filename.startswith("audit_") or not filename.endswith(".jsonl"):
                         continue
 
                     filepath = os.path.join(retention_dir, filename)
@@ -449,9 +445,7 @@ class AuditStorage:
 
         # Convert sets
         event_data["tags"] = set(event_data.get("tags", []))
-        event_data["compliance_frameworks"] = set(
-            event_data.get("compliance_frameworks", [])
-        )
+        event_data["compliance_frameworks"] = set(event_data.get("compliance_frameworks", []))
         event_data["threat_indicators"] = event_data.get("threat_indicators", [])
 
         return AuditEvent(**event_data)
@@ -484,10 +478,7 @@ class AuditStorage:
             return False
 
         # Content filters
-        if (
-            query.message_contains
-            and query.message_contains.lower() not in event.message.lower()
-        ):
+        if query.message_contains and query.message_contains.lower() not in event.message.lower():
             return False
         if query.tags and not query.tags.intersection(event.tags):
             return False
@@ -504,10 +495,7 @@ class AuditStorage:
         if query.compliance_relevant_only and not event.compliance_relevant:
             return False
         return not (
-            query.compliance_frameworks
-            and not query.compliance_frameworks.intersection(
-                event.compliance_frameworks
-            )
+            query.compliance_frameworks and not query.compliance_frameworks.intersection(event.compliance_frameworks)
         )
 
 
@@ -570,21 +558,15 @@ class AuditEventProcessor:
 
         # Update by level
         level_key = event.level.value
-        self.statistics.events_by_level[level_key] = (
-            self.statistics.events_by_level.get(level_key, 0) + 1
-        )
+        self.statistics.events_by_level[level_key] = self.statistics.events_by_level.get(level_key, 0) + 1
 
         # Update by category
         category_key = event.category.value
-        self.statistics.events_by_category[category_key] = (
-            self.statistics.events_by_category.get(category_key, 0) + 1
-        )
+        self.statistics.events_by_category[category_key] = self.statistics.events_by_category.get(category_key, 0) + 1
 
         # Update by type
         type_key = event.event_type.value
-        self.statistics.events_by_type[type_key] = (
-            self.statistics.events_by_type.get(type_key, 0) + 1
-        )
+        self.statistics.events_by_type[type_key] = self.statistics.events_by_type.get(type_key, 0) + 1
 
         # Time-based statistics (simplified - would use proper time windows in production)
         now = datetime.now()
@@ -596,10 +578,7 @@ class AuditEventProcessor:
             self.statistics.events_last_week += 1
 
         # Security statistics
-        if (
-            event.category == AuditCategory.SECURITY
-            or event.level == AuditLevel.SECURITY
-        ):
+        if event.category == AuditCategory.SECURITY or event.level == AuditLevel.SECURITY:
             self.statistics.security_events += 1
 
         if event.threat_indicators:
@@ -624,16 +603,10 @@ class AuditEventProcessor:
             self.statistics.guardian_events += 1
 
         # Update timestamp bounds
-        if (
-            not self.statistics.oldest_event
-            or event.timestamp < self.statistics.oldest_event
-        ):
+        if not self.statistics.oldest_event or event.timestamp < self.statistics.oldest_event:
             self.statistics.oldest_event = event.timestamp
 
-        if (
-            not self.statistics.newest_event
-            or event.timestamp > self.statistics.newest_event
-        ):
+        if not self.statistics.newest_event or event.timestamp > self.statistics.newest_event:
             self.statistics.newest_event = event.timestamp
 
     async def _check_alert_rules(self, event: AuditEvent) -> list[dict[str, Any]]:
@@ -738,9 +711,7 @@ class AuditEventProcessor:
         recommendations = []
 
         if event.level in [AuditLevel.ERROR, AuditLevel.CRITICAL]:
-            recommendations.append(
-                "Investigate error cause and implement preventive measures"
-            )
+            recommendations.append("Investigate error cause and implement preventive measures")
 
         if event.event_type == AuditEventType.SECURITY_VIOLATION:
             recommendations.append("Review security policies and access controls")
@@ -756,9 +727,7 @@ class AuditEventProcessor:
             recommendations.append("Review Guardian System configuration")
 
         if event.consciousness_context.get("drift_detected"):
-            recommendations.append(
-                "Investigate consciousness drift and apply corrections"
-            )
+            recommendations.append("Investigate consciousness drift and apply corrections")
 
         return recommendations
 
@@ -890,9 +859,7 @@ class ComprehensiveAuditSystem:
     async def _handle_critical_alert(self, event: AuditEvent, alert: dict[str, Any]):
         """Handle critical security alerts"""
 
-        logger.critical(
-            f"🚨 CRITICAL AUDIT ALERT: {alert['message']} (Event: {event.event_id})"
-        )
+        logger.critical(f"🚨 CRITICAL AUDIT ALERT: {alert['message']} (Event: {event.event_id})")
 
         # In production, this would:
         # - Send notifications to security team
@@ -908,17 +875,13 @@ class ComprehensiveAuditSystem:
 
         try:
             # Store events in batch
-            stored_count = await self.storage.store_events_batch(
-                self.event_buffer.copy()
-            )
+            stored_count = await self.storage.store_events_batch(self.event_buffer.copy())
 
             if stored_count == len(self.event_buffer):
                 logger.debug(f"✅ Flushed {stored_count} audit events to storage")
                 self.event_buffer.clear()
             else:
-                logger.warning(
-                    f"⚠️ Only stored {stored_count}/{len(self.event_buffer)} events"
-                )
+                logger.warning(f"⚠️ Only stored {stored_count}/{len(self.event_buffer)} events")
 
         except Exception as e:
             logger.error(f"❌ Failed to flush audit buffer: {e}")
@@ -970,9 +933,7 @@ class ComprehensiveAuditSystem:
 
             # In production, would implement proper cleanup logic
             # For now, just log what would be cleaned up
-            logger.info(
-                f"Would clean up {policy.value} events older than {cutoff_time}"
-            )
+            logger.info(f"Would clean up {policy.value} events older than {cutoff_time}")
 
     async def query_events(self, query: AuditQuery) -> list[AuditEvent]:
         """Query audit events"""
@@ -1077,22 +1038,10 @@ class ComprehensiveAuditSystem:
             "generated_at": datetime.now().isoformat(),
             "summary": {
                 "total_events": len(events),
-                "compliance_violations": len(
-                    [
-                        e
-                        for e in events
-                        if e.event_type == AuditEventType.POLICY_VIOLATION
-                    ]
-                ),
-                "privacy_events": len(
-                    [e for e in events if e.category == AuditCategory.PRIVACY]
-                ),
-                "security_events": len(
-                    [e for e in events if e.category == AuditCategory.SECURITY]
-                ),
-                "data_access_events": len(
-                    [e for e in events if e.category == AuditCategory.DATA_ACCESS]
-                ),
+                "compliance_violations": len([e for e in events if e.event_type == AuditEventType.POLICY_VIOLATION]),
+                "privacy_events": len([e for e in events if e.category == AuditCategory.PRIVACY]),
+                "security_events": len([e for e in events if e.category == AuditCategory.SECURITY]),
+                "data_access_events": len([e for e in events if e.category == AuditCategory.DATA_ACCESS]),
             },
             "events_by_type": {},
             "high_risk_events": [
@@ -1111,36 +1060,24 @@ class ComprehensiveAuditSystem:
         # Count events by type
         for event in events:
             event_type = event.event_type.value
-            report["events_by_type"][event_type] = (
-                report["events_by_type"].get(event_type, 0) + 1
-            )
+            report["events_by_type"][event_type] = report["events_by_type"].get(event_type, 0) + 1
 
         # Add recommendations if requested
         if include_recommendations:
-            report["recommendations"] = await self._generate_compliance_recommendations(
-                events, framework
-            )
+            report["recommendations"] = await self._generate_compliance_recommendations(events, framework)
 
-        logger.info(
-            f"✅ Generated compliance report: {report_id} ({len(events)} events)"
-        )
+        logger.info(f"✅ Generated compliance report: {report_id} ({len(events)} events)")
         return report
 
-    async def _generate_compliance_recommendations(
-        self, events: list[AuditEvent], framework: str
-    ) -> list[str]:
+    async def _generate_compliance_recommendations(self, events: list[AuditEvent], framework: str) -> list[str]:
         """Generate compliance recommendations based on audit events"""
 
         recommendations = []
 
         # Analyze patterns and violations
-        violations = [
-            e for e in events if e.event_type == AuditEventType.POLICY_VIOLATION
-        ]
+        violations = [e for e in events if e.event_type == AuditEventType.POLICY_VIOLATION]
         if violations:
-            recommendations.append(
-                f"Address {len(violations)} policy violations identified in the audit period"
-            )
+            recommendations.append(f"Address {len(violations)} policy violations identified in the audit period")
 
         high_risk_events = [e for e in events if e.risk_score > 0.7]
         if high_risk_events:
@@ -1152,25 +1089,17 @@ class ComprehensiveAuditSystem:
         if framework.lower() == "gdpr":
             privacy_events = [e for e in events if e.category == AuditCategory.PRIVACY]
             if privacy_events:
-                recommendations.append(
-                    "Review privacy event handling procedures for GDPR compliance"
-                )
+                recommendations.append("Review privacy event handling procedures for GDPR compliance")
 
         elif framework.lower() == "soc2":
-            access_events = [
-                e for e in events if e.category == AuditCategory.AUTHORIZATION
-            ]
+            access_events = [e for e in events if e.category == AuditCategory.AUTHORIZATION]
             if access_events:
-                recommendations.append(
-                    "Strengthen access control monitoring for SOC 2 compliance"
-                )
+                recommendations.append("Strengthen access control monitoring for SOC 2 compliance")
 
         # Trinity Framework recommendations
         identity_events = [e for e in events if e.identity_context]
         if identity_events:
-            recommendations.append(
-                "Review identity verification processes within Trinity Framework"
-            )
+            recommendations.append("Review identity verification processes within Trinity Framework")
 
         return recommendations
 
@@ -1205,15 +1134,11 @@ class ComprehensiveAuditSystem:
 
 
 # Convenience functions for common audit operations
-async def audit_login(
-    user_id: str, success: bool, source_ip: Optional[str] = None
-) -> str:
+async def audit_login(user_id: str, success: bool, source_ip: Optional[str] = None) -> str:
     """Audit user login event"""
     audit_system = ComprehensiveAuditSystem()
 
-    event_type = (
-        AuditEventType.LOGIN_SUCCESS if success else AuditEventType.LOGIN_FAILURE
-    )
+    event_type = AuditEventType.LOGIN_SUCCESS if success else AuditEventType.LOGIN_FAILURE
     level = AuditLevel.INFO if success else AuditLevel.WARNING
     message = f"User login {'successful' if success else 'failed'}"
 
@@ -1229,15 +1154,11 @@ async def audit_login(
     )
 
 
-async def audit_data_access(
-    user_id: str, resource: str, access_type: str, granted: bool
-) -> str:
+async def audit_data_access(user_id: str, resource: str, access_type: str, granted: bool) -> str:
     """Audit data access event"""
     audit_system = ComprehensiveAuditSystem()
 
-    event_type = (
-        AuditEventType.ACCESS_GRANTED if granted else AuditEventType.ACCESS_DENIED
-    )
+    event_type = AuditEventType.ACCESS_GRANTED if granted else AuditEventType.ACCESS_DENIED
     message = f"Data access {'granted' if granted else 'denied'} for {resource}"
 
     return await audit_system.log_event(
@@ -1252,9 +1173,7 @@ async def audit_data_access(
     )
 
 
-async def audit_security_violation(
-    violation_type: str, details: str, risk_score: float = 0.8
-) -> str:
+async def audit_security_violation(violation_type: str, details: str, risk_score: float = 0.8) -> str:
     """Audit security violation"""
     audit_system = ComprehensiveAuditSystem()
 
@@ -1270,9 +1189,7 @@ async def audit_security_violation(
     )
 
 
-async def audit_trinity_event(
-    component: str, event_details: dict[str, Any], user_id: Optional[str] = None
-) -> str:
+async def audit_trinity_event(component: str, event_details: dict[str, Any], user_id: Optional[str] = None) -> str:
     """Audit Trinity Framework event"""
     audit_system = ComprehensiveAuditSystem()
 

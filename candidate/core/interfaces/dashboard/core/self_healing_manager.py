@@ -231,9 +231,7 @@ class SelfHealingManager:
             self.logger.info("Self-Healing Manager fully initialized")
 
         except Exception as e:
-            self.logger.error(
-                "Self-healing manager initialization failed", error=str(e)
-            )
+            self.logger.error("Self-healing manager initialization failed", error=str(e))
             await self._emergency_fallback()
             raise
 
@@ -325,9 +323,7 @@ class SelfHealingManager:
         component.status = self._calculate_health_status(component.health_score)
 
         # Add failure indicator
-        component.failure_indicators.append(
-            f"{issue_type}:{datetime.now().isoformat()}"
-        )
+        component.failure_indicators.append(f"{issue_type}:{datetime.now().isoformat()}")
         component.last_check = datetime.now()
 
         self.logger.warning(
@@ -343,9 +339,7 @@ class SelfHealingManager:
             ComponentHealthStatus.CRITICAL,
             ComponentHealthStatus.FAILED,
         ]:
-            await self._trigger_component_healing(
-                component_id, HealingPriority.CRITICAL
-            )
+            await self._trigger_component_healing(component_id, HealingPriority.CRITICAL)
         elif component.status == ComponentHealthStatus.DEGRADED:
             await self._trigger_component_healing(component_id, HealingPriority.HIGH)
 
@@ -377,16 +371,10 @@ class SelfHealingManager:
             component_id=component_id,
             healing_strategy=strategy,
             priority=priority,
-            estimated_duration=await self._estimate_healing_duration(
-                component_id, strategy
-            ),
-            required_resources=await self._determine_required_resources(
-                component_id, strategy
-            ),
+            estimated_duration=await self._estimate_healing_duration(component_id, strategy),
+            required_resources=await self._determine_required_resources(component_id, strategy),
             dependencies=self.component_health[component_id].dependencies,
-            colony_coordination_required=await self._requires_colony_coordination(
-                component_id, strategy
-            ),
+            colony_coordination_required=await self._requires_colony_coordination(component_id, strategy),
             created_at=datetime.now(),
         )
 
@@ -422,9 +410,7 @@ class SelfHealingManager:
                 component = self.component_health[component_id]
 
                 if component.status != ComponentHealthStatus.OPTIMAL:
-                    strategy = await self._determine_optimal_healing_strategy(
-                        component_id
-                    )
+                    strategy = await self._determine_optimal_healing_strategy(component_id)
                     priority = self._determine_healing_priority(component.status)
 
                     task = HealingTask(
@@ -432,16 +418,10 @@ class SelfHealingManager:
                         component_id=component_id,
                         healing_strategy=strategy,
                         priority=priority,
-                        estimated_duration=await self._estimate_healing_duration(
-                            component_id, strategy
-                        ),
-                        required_resources=await self._determine_required_resources(
-                            component_id, strategy
-                        ),
+                        estimated_duration=await self._estimate_healing_duration(component_id, strategy),
+                        required_resources=await self._determine_required_resources(component_id, strategy),
                         dependencies=component.dependencies,
-                        colony_coordination_required=await self._requires_colony_coordination(
-                            component_id, strategy
-                        ),
+                        colony_coordination_required=await self._requires_colony_coordination(component_id, strategy),
                         created_at=datetime.now(),
                     )
 
@@ -452,9 +432,7 @@ class SelfHealingManager:
 
         # Calculate plan metrics
         total_duration = sum(task.estimated_duration for task in optimized_tasks)
-        success_probability = await self._calculate_plan_success_probability(
-            optimized_tasks
-        )
+        success_probability = await self._calculate_plan_success_probability(optimized_tasks)
         risk_assessment = await self._assess_plan_risks(optimized_tasks)
 
         # Create colony coordination plan
@@ -519,33 +497,22 @@ class SelfHealingManager:
                 execution_results["task_results"][task.task_id] = task_result
 
                 # Check if task failed and fallback needed
-                if (
-                    not task_result.get("success", False)
-                    and task.priority == HealingPriority.CRITICAL
-                ):
+                if not task_result.get("success", False) and task.priority == HealingPriority.CRITICAL:
                     self.logger.warning(
                         "Critical healing task failed, activating fallback",
                         task_id=task.task_id,
                     )
 
-                    fallback_result = await self._activate_fallback_plan(
-                        healing_plan.fallback_plan
-                    )
+                    fallback_result = await self._activate_fallback_plan(healing_plan.fallback_plan)
                     execution_results["fallback_activated"] = True
                     execution_results["fallback_result"] = fallback_result
                     break
 
             # Calculate overall success
             successful_tasks = sum(
-                1
-                for result in execution_results["task_results"].values()
-                if result.get("success", False)
+                1 for result in execution_results["task_results"].values() if result.get("success", False)
             )
-            success_rate = (
-                successful_tasks / len(healing_plan.healing_tasks)
-                if healing_plan.healing_tasks
-                else 0
-            )
+            success_rate = successful_tasks / len(healing_plan.healing_tasks) if healing_plan.healing_tasks else 0
             execution_results["overall_success"] = success_rate >= 0.8
 
             # Update healing metrics
@@ -605,9 +572,7 @@ class SelfHealingManager:
             )
 
         # Calculate overall health score
-        total_health_score = sum(
-            comp.health_score for comp in self.component_health.values()
-        )
+        total_health_score = sum(comp.health_score for comp in self.component_health.values())
         average_health_score = total_health_score / total_components
 
         # Determine overall status
@@ -751,9 +716,7 @@ class SelfHealingManager:
         else:
             return ComponentHealthStatus.FAILED
 
-    def _determine_healing_priority(
-        self, status: ComponentHealthStatus
-    ) -> HealingPriority:
+    def _determine_healing_priority(self, status: ComponentHealthStatus) -> HealingPriority:
         """Determine healing priority based on component status."""
         priority_map = {
             ComponentHealthStatus.FAILED: HealingPriority.CRITICAL,
@@ -764,14 +727,10 @@ class SelfHealingManager:
         }
         return priority_map.get(status, HealingPriority.NORMAL)
 
-    async def _trigger_component_healing(
-        self, component_id: str, priority: HealingPriority
-    ):
+    async def _trigger_component_healing(self, component_id: str, priority: HealingPriority):
         """Trigger healing for a specific component."""
         try:
-            healing_task_id = await self.trigger_healing(
-                component_id, priority=priority
-            )
+            healing_task_id = await self.trigger_healing(component_id, priority=priority)
             self.logger.info(
                 "Component healing triggered",
                 component_id=component_id,
@@ -787,16 +746,12 @@ class SelfHealingManager:
 
     # Utility methods (implementations would be added based on specific requirements)
 
-    async def _determine_optimal_healing_strategy(
-        self, component_id: str
-    ) -> HealingStrategy:
+    async def _determine_optimal_healing_strategy(self, component_id: str) -> HealingStrategy:
         """Determine optimal healing strategy for component."""
         # Implementation would analyze component type, failure pattern, etc.
         return HealingStrategy.GRADUAL_RECOVERY
 
-    async def _estimate_healing_duration(
-        self, component_id: str, strategy: HealingStrategy
-    ) -> int:
+    async def _estimate_healing_duration(self, component_id: str, strategy: HealingStrategy) -> int:
         """Estimate healing duration in seconds."""
         # Implementation would use historical data and component complexity
         return 30  # Default 30 seconds

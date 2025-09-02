@@ -292,17 +292,13 @@ async def example_memory_usage():
     print(f"Stored embedding: {embedding_id}")
 
     # Search memories
-    search_query = MemoryQuery(
-        query="architecture meeting", filters={"tags": "meeting"}, limit=5
-    )
+    search_query = MemoryQuery(query="architecture meeting", filters={"tags": "meeting"}, limit=5)
 
     results = await memory_api.retrieve(search_query)
     print(f"Found {len(results)} memories")
 
     # Update memory
-    success = await memory_api.update(
-        memory_id, {"metadata": {"summary": "Discussed modular design"}}
-    )
+    success = await memory_api.update(memory_id, {"metadata": {"summary": "Discussed modular design"}})
     print(f"Update success: {success}")
 
     # Get statistics

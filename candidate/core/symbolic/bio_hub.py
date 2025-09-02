@@ -57,9 +57,7 @@ class BioHub:
 
         for service_name, class_name in processing_services:
             try:
-                module = __import__(
-                    f"bio.processing.{service_name}", fromlist=[class_name]
-                )
+                module = __import__(f"bio.processing.{service_name}", fromlist=[class_name])
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -81,13 +79,9 @@ class BioHub:
                 if service_name == "bio_symbolic_processor":
                     module = __import__("bio.symbolic.processor", fromlist=[class_name])
                 elif service_name == "bio_symbolic_fallback_manager":
-                    module = __import__(
-                        "bio.symbolic.fallback_systems", fromlist=[class_name]
-                    )
+                    module = __import__("bio.symbolic.fallback_systems", fromlist=[class_name])
                 else:
-                    module = __import__(
-                        f"bio.symbolic.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"bio.symbolic.{service_name}", fromlist=[class_name])
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -106,9 +100,7 @@ class BioHub:
 
         for service_name, class_name in analysis_services:
             try:
-                module = __import__(
-                    f"bio.analysis.{service_name}", fromlist=[class_name]
-                )
+                module = __import__(f"bio.analysis.{service_name}", fromlist=[class_name])
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -140,13 +132,9 @@ class BioHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(
-                        service_name, self.services[service_name], "bio"
-                    )
+                    discovery.register_service_globally(service_name, self.services[service_name], "bio")
 
-            logger.debug(
-                f"Registered {len(key_services)} bio services with global discovery"
-            )
+            logger.debug(f"Registered {len(key_services)} bio services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -165,9 +153,7 @@ class BioHub:
             self.event_handlers[event_type] = []
         self.event_handlers[event_type].append(handler)
 
-    async def process_bio_symbolic_event(
-        self, bio_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_bio_symbolic_event(self, bio_data: dict[str, Any]) -> dict[str, Any]:
         """Process bio data through symbolic reasoning"""
 
         # Bio processing first
@@ -185,9 +171,7 @@ class BioHub:
         symbolic_result = None
         if symbolic_processor and hasattr(symbolic_processor, "interpret_bio_data"):
             try:
-                symbolic_result = await symbolic_processor.interpret_bio_data(
-                    bio_result or bio_data
-                )
+                symbolic_result = await symbolic_processor.interpret_bio_data(bio_result or bio_data)
             except Exception as e:
                 logger.error(f"Symbolic processing error: {e}")
                 symbolic_result = {"error": str(e)}
@@ -199,20 +183,14 @@ class BioHub:
             "processed_by": "bio_hub",
         }
 
-    async def process_event(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_event(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Process an event through registered handlers"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
 
         for handler in handlers:
             try:
-                result = (
-                    await handler(data)
-                    if asyncio.iscoroutinefunction(handler)
-                    else handler(data)
-                )
+                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
                 results.append(result)
             except Exception as e:
                 logger.error(f"Bio handler error for {event_type}: {e}")

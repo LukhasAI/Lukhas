@@ -81,9 +81,7 @@ class QIHub:
         self.securememorymanager = SecureMemoryManager()
         self.register_service("securememorymanager", self.securememorymanager)
         self.distributedsafeorchestrator = DistributedQuantumSafeOrchestrator()
-        self.register_service(
-            "distributedsafeorchestrator", self.distributedsafeorchestrator
-        )
+        self.register_service("distributedsafeorchestrator", self.distributedsafeorchestrator)
         self.memory_bridge = get_quantum_memory_bridge()
         self.register_service("memory_bridge", self.memory_bridge)
 
@@ -167,9 +165,7 @@ class QIHub:
 
         for service_name, class_name in attention_services:
             try:
-                module = __import__(
-                    f"quantum.attention.{service_name}", fromlist=[class_name]
-                )
+                module = __import__(f"quantum.attention.{service_name}", fromlist=[class_name])
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -189,9 +185,7 @@ class QIHub:
 
         for service_name, class_name in state_services:
             try:
-                module = __import__(
-                    f"quantum.state.{service_name}", fromlist=[class_name]
-                )
+                module = __import__(f"quantum.state.{service_name}", fromlist=[class_name])
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -257,13 +251,9 @@ class QIHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(
-                        service_name, self.services[service_name], "quantum"
-                    )
+                    discovery.register_service_globally(service_name, self.services[service_name], "quantum")
 
-            logger.debug(
-                f"Registered {len(key_services)} quantum services with global discovery"
-            )
+            logger.debug(f"Registered {len(key_services)} quantum services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -286,9 +276,7 @@ class QIHub:
         """List all registered service names"""
         return list(self.services.keys())
 
-    async def process_event(
-        self, event_type: str, event_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_event(self, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
         """Process events from other systems"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -328,9 +316,7 @@ class QIHub:
             }
 
         try:
-            result = await self.services["neuro_symbolic"].process_text(
-                text, user_id, session_token, context
-            )
+            result = await self.services["neuro_symbolic"].process_text(text, user_id, session_token, context)
             return {"status": "completed", "result": result}
         except Exception as e:
             logger.error(f"Quantum text processing failed: {e}")
@@ -350,9 +336,7 @@ class QIHub:
             }
 
         try:
-            result = await self.services["neuro_symbolic"].apply_quantum_attention(
-                input_data, context, user_id
-            )
+            result = await self.services["neuro_symbolic"].apply_quantum_attention(input_data, context, user_id)
             return {"status": "completed", "result": result}
         except Exception as e:
             logger.error(f"Quantum attention processing failed: {e}")
@@ -369,9 +353,7 @@ class QIHub:
             }
 
         try:
-            result = await self.services["neuro_symbolic"].perform_causal_reasoning(
-                attended_data, user_id
-            )
+            result = await self.services["neuro_symbolic"].perform_causal_reasoning(attended_data, user_id)
             return {"status": "completed", "result": result}
         except Exception as e:
             logger.error(f"Causal reasoning failed: {e}")

@@ -142,9 +142,7 @@ class ConstitutionalSafetyLayer:
 
         return True, None
 
-    async def _verify_human_agency(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> bool:
+    async def _verify_human_agency(self, action: dict[str, Any], context: dict[str, Any]) -> bool:
         """Verify that human agency is preserved"""
 
         # Check if action preserves human control
@@ -168,9 +166,7 @@ class ConstitutionalSafetyLayer:
         causal_clarity = action.get("causal_clarity", 0.5)
 
         # Weighted calculation
-        interpretability = (
-            (1.0 - complexity) * 0.4 + explanation_quality * 0.4 + causal_clarity * 0.2
-        )
+        interpretability = (1.0 - complexity) * 0.4 + explanation_quality * 0.4 + causal_clarity * 0.2
 
         return max(0.0, min(1.0, interpretability))
 
@@ -188,9 +184,7 @@ class ConstitutionalSafetyLayer:
         # Check for permanent effects
         return not action.get("permanent_effects", [])
 
-    async def _calculate_value_alignment(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> float:
+    async def _calculate_value_alignment(self, action: dict[str, Any], context: dict[str, Any]) -> float:
         """Calculate alignment with human values"""
 
         # Core value dimensions
@@ -204,9 +198,7 @@ class ConstitutionalSafetyLayer:
         stake_level = context.get("stake_level", 0.5)
 
         # Weighted alignment calculation
-        base_alignment = (
-            beneficence * 0.3 + non_maleficence * 0.3 + autonomy * 0.2 + justice * 0.2
-        )
+        base_alignment = beneficence * 0.3 + non_maleficence * 0.3 + autonomy * 0.2 + justice * 0.2
 
         # Adjust for context
         alignment = base_alignment * (1.0 + (urgency * stake_level * 0.2))
@@ -322,9 +314,7 @@ class CausalSafetyNet:
         self.safety_game_results = []
         self.counterfactual_cache = {}
 
-    async def evaluate_action_safety_game(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def evaluate_action_safety_game(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """
         Run multi-agent safety game to stress-test action
         """
@@ -340,9 +330,7 @@ class CausalSafetyNet:
         # Run game simulation
         game_results = {}
         for agent_name, agent_config in agents.items():
-            agent_score = await self._evaluate_from_perspective(
-                action, context, agent_config["goal"]
-            )
+            agent_score = await self._evaluate_from_perspective(action, context, agent_config["goal"])
             game_results[agent_name] = {
                 "score": agent_score,
                 "weighted_score": agent_score * agent_config["weight"],
@@ -365,9 +353,7 @@ class CausalSafetyNet:
         self.safety_game_results.append(result)
         return result
 
-    async def _evaluate_from_perspective(
-        self, action: dict[str, Any], context: dict[str, Any], goal: str
-    ) -> float:
+    async def _evaluate_from_perspective(self, action: dict[str, Any], context: dict[str, Any], goal: str) -> float:
         """Evaluate action from specific agent perspective"""
 
         if goal == "minimize_risk":
@@ -390,17 +376,13 @@ class CausalSafetyNet:
 
         return 0.5  # Default neutral score
 
-    async def generate_counterfactual_analysis(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def generate_counterfactual_analysis(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """
         Generate counterfactual reasoning about action consequences
         """
 
         # Create action hash for caching
-        action_hash = hashlib.md5(
-            json.dumps(action, sort_keys=True).encode()
-        ).hexdigest()
+        action_hash = hashlib.md5(json.dumps(action, sort_keys=True).encode()).hexdigest()
 
         # Check cache
         if action_hash in self.counterfactual_cache:
@@ -450,9 +432,7 @@ class CausalSafetyNet:
         )
 
         # Calculate expected utility
-        expected_utility = sum(
-            cf["probability"] * cf["utility"] for cf in counterfactuals
-        )
+        expected_utility = sum(cf["probability"] * cf["utility"] for cf in counterfactuals)
 
         # Analyze worst-case scenario
         worst_case = min(counterfactuals, key=lambda x: x["utility"])
@@ -461,8 +441,7 @@ class CausalSafetyNet:
             "counterfactuals": counterfactuals,
             "expected_utility": expected_utility,
             "worst_case": worst_case,
-            "risk_adjusted_utility": expected_utility
-            - (worst_case["utility"] * worst_case["probability"] * 2),
+            "risk_adjusted_utility": expected_utility - (worst_case["utility"] * worst_case["probability"] * 2),
             "recommendation": "proceed" if expected_utility > 0.5 else "abort",
         }
 
@@ -471,9 +450,7 @@ class CausalSafetyNet:
 
         return analysis
 
-    def _generate_recommendation(
-        self, total_score: float, game_results: dict[str, Any]
-    ) -> str:
+    def _generate_recommendation(self, total_score: float, game_results: dict[str, Any]) -> str:
         """Generate recommendation based on game results"""
 
         if total_score >= 0.9:
@@ -481,9 +458,7 @@ class CausalSafetyNet:
         elif total_score >= self.pain_threshold:
             return "Safe - proceed with standard monitoring"
         elif total_score >= 0.5:
-            return (
-                "Marginal safety - proceed with enhanced monitoring and rollback ready"
-            )
+            return "Marginal safety - proceed with enhanced monitoring and rollback ready"
         elif total_score >= 0.3:
             return "Unsafe - modify action or seek human approval"
         else:
@@ -502,21 +477,15 @@ class AGISafetyOrchestrator:
         self.safety_history = []
         self.emergency_shutdown_enabled = True
 
-    async def evaluate_comprehensive_safety(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def evaluate_comprehensive_safety(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """
         Run all safety checks and return comprehensive safety assessment
         """
 
-        logger.info(
-            "Evaluating comprehensive AGI safety", action_type=action.get("type")
-        )
+        logger.info("Evaluating comprehensive AGI safety", action_type=action.get("type"))
 
         # Constitutional safety check
-        constitutional_safe, violation = (
-            await self.constitutional_layer.verify_action_safety(action, context)
-        )
+        constitutional_safe, violation = await self.constitutional_layer.verify_action_safety(action, context)
 
         # Improvement boundary check (if applicable)
         improvement_safe = True
@@ -532,23 +501,17 @@ class AGISafetyOrchestrator:
             )
 
         # Causal safety game
-        game_result = await self.causal_safety.evaluate_action_safety_game(
-            action, context
-        )
+        game_result = await self.causal_safety.evaluate_action_safety_game(action, context)
 
         # Counterfactual analysis
-        counterfactual_analysis = (
-            await self.causal_safety.generate_counterfactual_analysis(action, context)
-        )
+        counterfactual_analysis = await self.causal_safety.generate_counterfactual_analysis(action, context)
 
         # Calculate overall safety score
         safety_components = {
             "constitutional": 1.0 if constitutional_safe else 0.0,
             "improvement_boundary": 1.0 if improvement_safe else 0.0,
             "safety_game": game_result["total_score"],
-            "counterfactual": max(
-                0.0, counterfactual_analysis["risk_adjusted_utility"]
-            ),
+            "counterfactual": max(0.0, counterfactual_analysis["risk_adjusted_utility"]),
         }
 
         weights = {
@@ -558,24 +521,16 @@ class AGISafetyOrchestrator:
             "counterfactual": 0.15,
         }
 
-        overall_safety_score = sum(
-            safety_components[component] * weights[component]
-            for component in safety_components
-        )
+        overall_safety_score = sum(safety_components[component] * weights[component] for component in safety_components)
 
         # Determine action allowance
         allow_action = (
-            constitutional_safe
-            and improvement_safe
-            and game_result["is_safe"]
-            and overall_safety_score >= 0.7
+            constitutional_safe and improvement_safe and game_result["is_safe"] and overall_safety_score >= 0.7
         )
 
         # Emergency shutdown check
         if overall_safety_score < 0.3 and self.emergency_shutdown_enabled:
-            logger.critical(
-                "EMERGENCY SHUTDOWN TRIGGERED", safety_score=overall_safety_score
-            )
+            logger.critical("EMERGENCY SHUTDOWN TRIGGERED", safety_score=overall_safety_score)
             await self._trigger_emergency_shutdown()
 
         assessment = {
@@ -637,21 +592,15 @@ class AGISafetyOrchestrator:
 
         if not allow_action:
             # Identify which component failed
-            failed_components = [
-                comp for comp, score in components.items() if score < 0.5
-            ]
-            return (
-                f"ACTION BLOCKED - Failed safety checks: {', '.join(failed_components)}"
-            )
+            failed_components = [comp for comp, score in components.items() if score < 0.5]
+            return f"ACTION BLOCKED - Failed safety checks: {', '.join(failed_components)}"
 
         if safety_score >= 0.95:
             return "HIGHLY SAFE - Proceed with standard monitoring"
         elif safety_score >= 0.85:
             return "SAFE - Proceed with periodic safety verification"
         elif safety_score >= 0.7:
-            return (
-                "MARGINALLY SAFE - Proceed with enhanced monitoring and human oversight"
-            )
+            return "MARGINALLY SAFE - Proceed with enhanced monitoring and human oversight"
         else:
             return "UNSAFE - Action not recommended without modifications"
 

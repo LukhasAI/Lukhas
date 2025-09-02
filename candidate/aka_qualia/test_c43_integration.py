@@ -40,9 +40,7 @@ async def test_c43_memory_integration():
 
         # Verify memory client was created correctly
         assert aq.memory is not None, "Memory client should be initialized"
-        assert isinstance(
-            aq.memory, NoopMemory
-        ), f"Expected NoopMemory, got {type(aq.memory)}"
+        assert isinstance(aq.memory, NoopMemory), f"Expected NoopMemory, got {type(aq.memory)}"
 
         print(f"✅ AkaQualia initialized with {type(aq.memory).__name__} memory client")
 
@@ -76,12 +74,8 @@ async def test_c43_memory_integration():
         glyphs = result["glyphs"]
         metrics = result["metrics"]
 
-        print(
-            f"✅ Scene processed: {len(glyphs)} glyphs, drift_phi={metrics.drift_phi:.3f}"
-        )
-        print(
-            f"   Proto-qualia: tone={scene.proto.tone:.3f}, arousal={scene.proto.arousal:.3f}"
-        )
+        print(f"✅ Scene processed: {len(glyphs)} glyphs, drift_phi={metrics.drift_phi:.3f}")
+        print(f"   Proto-qualia: tone={scene.proto.tone:.3f}, arousal={scene.proto.arousal:.3f}")
 
         # Test 2: Verify data was persisted to memory
         print("\n💾 Test 2: Memory persistence verification")

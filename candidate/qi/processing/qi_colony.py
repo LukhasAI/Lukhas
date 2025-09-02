@@ -84,9 +84,7 @@ class QIAgent(SwarmAgent):
         results = []
         for state, weight in zip(states, weights):
             # Simulate quantum parallelism
-            amplitude = cmath.exp(1j * np.random.uniform(0, 2 * np.pi)) * np.sqrt(
-                weight
-            )
+            amplitude = cmath.exp(1j * np.random.uniform(0, 2 * np.pi)) * np.sqrt(weight)
             result = {
                 "state": state,
                 "amplitude": complex(amplitude.real, amplitude.imag),
@@ -204,9 +202,7 @@ class QIAgent(SwarmAgent):
 
         return {
             "operation": operation,
-            "new_amplitude": complex(
-                self.qi_state.amplitude.real, self.qi_state.amplitude.imag
-            ),
+            "new_amplitude": complex(self.qi_state.amplitude.real, self.qi_state.amplitude.imag),
             "new_phase": self.qi_state.phase,
             "coherence": self.qi_state.coherence,
         }
@@ -253,9 +249,7 @@ class QIColony(BaseColony):
         await self._initialize_quantum_agents()
 
         # Subscribe to quantum events
-        self.comm_fabric.subscribe_to_events(
-            "qi_task_request", self._handle_quantum_request
-        )
+        self.comm_fabric.subscribe_to_events("qi_task_request", self._handle_quantum_request)
 
         self.logger.info(f"QIColony {self.colony_id} started with quantum capabilities")
 
@@ -263,9 +257,7 @@ class QIColony(BaseColony):
         """Initialize quantum-enabled agents."""
         for i in range(count):
             agent_id = f"quantum-agent-{i}"
-            oscillator = QIBioOscillator(
-                frequency=PrimeOscillator.PRIMES[i % len(PrimeOscillator.PRIMES)]
-            )
+            oscillator = QIBioOscillator(frequency=PrimeOscillator.PRIMES[i % len(PrimeOscillator.PRIMES)])
 
             agent = QIAgent(agent_id, oscillator)
             self.agents[agent_id] = agent
@@ -282,9 +274,7 @@ class QIColony(BaseColony):
         for i in range(count):
             agent_id = f"quantum-agent-{start_idx + i}"
             oscillator = QIBioOscillator(
-                frequency=PrimeOscillator.PRIMES[
-                    (start_idx + i) % len(PrimeOscillator.PRIMES)
-                ]
+                frequency=PrimeOscillator.PRIMES[(start_idx + i) % len(PrimeOscillator.PRIMES)]
             )
 
             agent = QIAgent(agent_id, oscillator)
@@ -310,9 +300,7 @@ class QIColony(BaseColony):
         self.logger.info(f"Created {count} entangled quantum agents")
         return agent_ids
 
-    async def execute_quantum_algorithm(
-        self, algorithm: str, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_quantum_algorithm(self, algorithm: str, params: dict[str, Any]) -> dict[str, Any]:
         """Execute a quantum-inspired algorithm across the colony."""
         self.logger.info(f"Executing quantum algorithm: {algorithm}")
 
@@ -472,9 +460,7 @@ class QIColony(BaseColony):
             "circuit_depth": depth,
         }
 
-    async def _generic_quantum_compute(
-        self, algorithm: str, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _generic_quantum_compute(self, algorithm: str, params: dict[str, Any]) -> dict[str, Any]:
         """Generic quantum computation using the colony."""
         # Distribute computation across quantum agents
         agent_tasks = []
@@ -523,10 +509,7 @@ class QIColony(BaseColony):
         low_coherence_agents = []
 
         for agent_id, agent in self.agents.items():
-            if (
-                isinstance(agent, QIAgent)
-                and agent.qi_state.coherence < self.coherence_threshold
-            ):
+            if isinstance(agent, QIAgent) and agent.qi_state.coherence < self.coherence_threshold:
                 low_coherence_agents.append(agent_id)
 
         # Re-initialize low coherence agents
@@ -545,9 +528,7 @@ class QIColony(BaseColony):
                         }
                     )
 
-        self.logger.info(
-            f"Maintained coherence: reset {len(low_coherence_agents)} agents"
-        )
+        self.logger.info(f"Maintained coherence: reset {len(low_coherence_agents)} agents")
 
     def _generate_neighbor(self, state: dict[str, Any]) -> dict[str, Any]:
         """Generate a neighbor state for annealing."""
@@ -563,9 +544,7 @@ class QIColony(BaseColony):
 
         return neighbor
 
-    def _prepare_variational_state(
-        self, theta: np.ndarray, num_qubits: int
-    ) -> np.ndarray:
+    def _prepare_variational_state(self, theta: np.ndarray, num_qubits: int) -> np.ndarray:
         """Prepare variational quantum state."""
         # Simplified state preparation
         state = np.zeros(2**num_qubits, dtype=complex)
@@ -581,9 +560,7 @@ class QIColony(BaseColony):
 
         return state
 
-    def _calculate_gradient(
-        self, hamiltonian: np.ndarray, state: np.ndarray, theta: np.ndarray
-    ) -> np.ndarray:
+    def _calculate_gradient(self, hamiltonian: np.ndarray, state: np.ndarray, theta: np.ndarray) -> np.ndarray:
         """Calculate gradient for VQE optimization."""
         gradient = np.zeros_like(theta)
         epsilon = 1e-4
@@ -604,9 +581,7 @@ class QIColony(BaseColony):
 
         return gradient
 
-    def _evaluate_qaoa(
-        self, graph: dict[str, list[str]], beta: np.ndarray, gamma: np.ndarray
-    ) -> float:
+    def _evaluate_qaoa(self, graph: dict[str, list[str]], beta: np.ndarray, gamma: np.ndarray) -> float:
         """Evaluate QAOA circuit for MaxCut problem."""
         # Simplified QAOA evaluation
         num_edges = sum(len(neighbors) for neighbors in graph.values()) // 2
@@ -617,9 +592,7 @@ class QIColony(BaseColony):
 
         return cut_value
 
-    def _aggregate_quantum_results(
-        self, results: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _aggregate_quantum_results(self, results: list[dict[str, Any]]) -> dict[str, Any]:
         """Aggregate results from multiple quantum agents."""
         if not results:
             return {}
@@ -666,17 +639,13 @@ class QIColony(BaseColony):
             result = await self.execute_quantum_algorithm(algorithm, params)
 
             # Send response
-            await self.comm_fabric.send_message(
-                message.sender_id, "qi_result", result, MessagePriority.HIGH
-            )
+            await self.comm_fabric.send_message(message.sender_id, "qi_result", result, MessagePriority.HIGH)
         except Exception as e:
             self.logger.error(f"Quantum computation failed: {e}")
 
             error_response = {"error": str(e), "algorithm": algorithm}
 
-            await self.comm_fabric.send_message(
-                message.sender_id, "qi_error", error_response, MessagePriority.HIGH
-            )
+            await self.comm_fabric.send_message(message.sender_id, "qi_error", error_response, MessagePriority.HIGH)
 
 
 # Example usage

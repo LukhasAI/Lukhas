@@ -163,9 +163,7 @@ class SymbolicMeshRouterClient:
 
         # Limit glyphs per route for performance
         if len(glyphs) > self.config["max_glyphs_per_route"]:
-            logger.warning(
-                f"Limiting {len(glyphs)} glyphs to {self.config['max_glyphs_per_route']} per route"
-            )
+            logger.warning(f"Limiting {len(glyphs)} glyphs to {self.config['max_glyphs_per_route']} per route")
             glyphs = glyphs[: self.config["max_glyphs_per_route"]]
 
         try:
@@ -174,18 +172,14 @@ class SymbolicMeshRouterClient:
                 signal = self._convert_glyph_to_signal(glyph, priority, context)
 
                 if self.config["log_routing_decisions"]:
-                    logger.info(
-                        f"Routing glyph {glyph.key} with priority {priority:.3f}"
-                    )
+                    logger.info(f"Routing glyph {glyph.key} with priority {priority:.3f}")
 
                 self.route_signal_func(signal)
 
                 # Update statistics
                 self.routes_sent += 1
                 self.total_priority_weight += priority
-                self.glyph_type_counts[glyph.key] = (
-                    self.glyph_type_counts.get(glyph.key, 0) + 1
-                )
+                self.glyph_type_counts[glyph.key] = self.glyph_type_counts.get(glyph.key, 0) + 1
 
         except Exception as e:
             self.routes_failed += 1
@@ -259,11 +253,7 @@ class SymbolicMeshRouterClient:
 
     def get_routing_status(self) -> dict[str, Any]:
         """Get current routing system status and statistics"""
-        avg_priority = (
-            self.total_priority_weight / self.routes_sent
-            if self.routes_sent > 0
-            else 0.0
-        )
+        avg_priority = self.total_priority_weight / self.routes_sent if self.routes_sent > 0 else 0.0
 
         failure_rate = (
             self.routes_failed / (self.routes_sent + self.routes_failed)
@@ -321,9 +311,7 @@ class MockRouterClient:
             "routes_failed": 0,
             "failure_rate": 0.0,
             "average_priority": (
-                sum(p for _, p in self.routed_glyphs) / len(self.routed_glyphs)
-                if self.routed_glyphs
-                else 0.0
+                sum(p for _, p in self.routed_glyphs) / len(self.routed_glyphs) if self.routed_glyphs else 0.0
             ),
             "mock_mode": True,
         }
@@ -338,9 +326,7 @@ class MockRouterClient:
         self.routing_calls = 0
 
 
-def create_router_client(
-    router_type: str = "lukhas", config: Optional[dict[str, Any]] = None
-) -> RouterClient:
+def create_router_client(router_type: str = "lukhas", config: Optional[dict[str, Any]] = None) -> RouterClient:
     """
     Factory function to create appropriate router client.
 

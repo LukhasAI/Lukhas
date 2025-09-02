@@ -89,9 +89,7 @@ try:
     from qi.qi_unified_system import UnifiedQuantumSystem  # type: ignore
 
     LUKHAS_CORE_COMPONENTS_AVAILABLE = True
-    log.info(
-        "LUKHAS core components for QIBioOptimizationAdapter imported successfully."
-    )
+    log.info("LUKHAS core components for QIBioOptimizationAdapter imported successfully.")
 except ImportError as e:
     log.error(
         "Failed to import lukhas_core components for QIBioOptimizationAdapter. Using mock fallbacks.",
@@ -156,9 +154,7 @@ except ImportError as e:
             pass
 
     class MockQuantumAwarenessSystem:
-        def __init__(
-            self, orchestrator: Any, integration: Any, config: Any, metrics_dir: Any
-        ):
+        def __init__(self, orchestrator: Any, integration: Any, config: Any, metrics_dir: Any):
             pass
 
         async def process_quantum_awareness(self, data: Any) -> Any:
@@ -239,9 +235,7 @@ class QIBioMetrics:
     bio_quantum_coupling_strength: float = 0.0
     optimization_progress_percentage: float = 0.0
     system_stability_index: float = 0.0
-    timestamp_utc_iso: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    timestamp_utc_iso: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 # TIER_CONFIG_START
@@ -299,9 +293,7 @@ class QIBioOptimizationAdapter:
         self.metrics_history: list[QIBioMetrics] = []
         self.optimization_cycles_completed_total = 0
         self.is_currently_optimizing = False
-        self.optimization_performance_cache: dict[str, dict[str, Any]] = (
-            {}
-        )  # Key changed to str
+        self.optimization_performance_cache: dict[str, dict[str, Any]] = {}  # Key changed to str
         self.last_optimization_timestamp: Optional[float] = None
 
         self.log.info("QIBioOptimizationAdapter initialized.")
@@ -330,9 +322,7 @@ class QIBioOptimizationAdapter:
             self.bio_quantum_coordinator: QIBioCoordinator = QIBioCoordinator()  # type: ignore
 
             self.bio_orchestrator.register_oscillator(self.qi_bio_oscillator, "qi_bio_optimizer_adapter_oscillator")  # type: ignore
-            self.log.info(
-                "Internal quantum-bio systems initialized and oscillator registered."
-            )
+            self.log.info("Internal quantum-bio systems initialized and oscillator registered.")
         except Exception as e:
             self.log.error(
                 "Failed to initialize internal quantum-bio systems.",
@@ -353,9 +343,7 @@ class QIBioOptimizationAdapter:
                 "Optimization already in progress. Queuing this request is illustrative.",
                 input_data_keys=list(input_data.keys()),
             )
-            return await self._queue_optimization_request_handler(
-                input_data, target_metrics
-            )  # Renamed
+            return await self._queue_optimization_request_handler(input_data, target_metrics)  # Renamed
 
         self.is_currently_optimizing = True
         cycle_start_time_mono = time.monotonic()
@@ -366,26 +354,18 @@ class QIBioOptimizationAdapter:
 
         try:
             prepared_q_state = await self._prepare_quantum_like_state(input_data)
-            bio_optimized_state = await self._optimize_biological_systems(
-                prepared_q_state
-            )
+            bio_optimized_state = await self._optimize_biological_systems(prepared_q_state)
             integrated_qbio_result = await self._integrate_qi_bio(bio_optimized_state)
-            consciousness_enhanced_result = await self._enhance_consciousness(
-                integrated_qbio_result
-            )
+            consciousness_enhanced_result = await self._enhance_consciousness(integrated_qbio_result)
             final_validated_result = await self._validate_optimization(
                 consciousness_enhanced_result, target_metrics or {}
             )  # Pass empty dict if None
 
             cycle_duration_ms = (time.monotonic() - cycle_start_time_mono) * 1000
-            current_cycle_metrics = self._calculate_cycle_metrics(
-                final_validated_result, cycle_duration_ms
-            )  # Renamed
+            current_cycle_metrics = self._calculate_cycle_metrics(final_validated_result, cycle_duration_ms)  # Renamed
             self.metrics_history.append(current_cycle_metrics)
             self.optimization_cycles_completed_total += 1
-            self._cache_optimization_results(
-                input_data, final_validated_result, current_cycle_metrics
-            )
+            self._cache_optimization_results(input_data, final_validated_result, current_cycle_metrics)
 
             self.log.info(
                 "Quantum bio-optimization cycle completed.",
@@ -397,9 +377,7 @@ class QIBioOptimizationAdapter:
                 "cycle_metrics": asdict(current_cycle_metrics),
                 # type: ignore
                 "current_quantum_like_state_snapshot": (
-                    asdict(prepared_q_state)
-                    if isinstance(prepared_q_state, QILikeState)
-                    else str(prepared_q_state)
+                    asdict(prepared_q_state) if isinstance(prepared_q_state, QILikeState) else str(prepared_q_state)
                 ),
                 "optimization_run_id": f"qbo_run_{self.optimization_cycles_completed_total}_{int(datetime.now(timezone.utc).timestamp())}",
                 "total_cycles_completed_by_adapter": self.optimization_cycles_completed_total,
@@ -421,9 +399,7 @@ class QIBioOptimizationAdapter:
 
     @lukhas_tier_required(3)
     # type: ignore
-    async def _prepare_quantum_like_state(
-        self, input_data: dict[str, Any]
-    ) -> QILikeState:
+    async def _prepare_quantum_like_state(self, input_data: dict[str, Any]) -> QILikeState:
         self.log.debug(
             "Preparing quantum-like state from input data.",
             input_keys=list(input_data.keys()),
@@ -432,9 +408,7 @@ class QIBioOptimizationAdapter:
             qi_vector = self._data_to_quantum_vector(input_data)
             initial_superposition_state = self.qi_bio_oscillator.create_superposition(qi_vector)  # type: ignore
             # type: ignore
-            entangled_state = await self.qi_bio_oscillator.entangle_states(
-                [initial_superposition_state]
-            )
+            entangled_state = await self.qi_bio_oscillator.entangle_states([initial_superposition_state])
             self.log.debug(
                 "Quantum state prepared.",
                 coherence=entangled_state.coherence,
@@ -458,18 +432,14 @@ class QIBioOptimizationAdapter:
 
     @lukhas_tier_required(1)
     def _data_to_quantum_vector(self, data: dict[str, Any]) -> np.ndarray:
-        self.log.debug(
-            "Converting data to quantum vector.", data_keys=list(data.keys())
-        )
+        self.log.debug("Converting data to quantum vector.", data_keys=list(data.keys()))
         features: list[float] = []
         for _key, value in sorted(data.items()):
             if isinstance(value, (int, float)):
                 features.append(float(value))
             elif isinstance(value, str):
                 features.append(float(hash(value) % 10000 - 5000) / 5000.0)
-            elif isinstance(value, list) and all(
-                isinstance(x, (int, float)) for x in value
-            ):
+            elif isinstance(value, list) and all(isinstance(x, (int, float)) for x in value):
                 features.extend(value[:5])
 
         fixed_size = 32
@@ -501,9 +471,7 @@ class QIBioOptimizationAdapter:
                 ),
                 "entanglement": getattr(qi_like_state, "entanglement", 0.5),
                 "energy": getattr(qi_like_state, "energy", 1.0),
-                "frequency": getattr(
-                    qi_like_state, "frequency", self.config.base_frequency
-                ),
+                "frequency": getattr(qi_like_state, "frequency", self.config.base_frequency),
             }
         except Exception as e:
             self.log.error(
@@ -522,9 +490,7 @@ class QIBioOptimizationAdapter:
 
     @lukhas_tier_required(3)
     # type: ignore
-    async def _optimize_biological_systems(
-        self, qi_like_state: QILikeState
-    ) -> dict[str, Any]:
+    async def _optimize_biological_systems(self, qi_like_state: QILikeState) -> dict[str, Any]:
         self.log.debug(
             "Optimizing biological systems (simulated).",
             qi_like_state_coherence=qi_like_state.coherence,
@@ -541,9 +507,7 @@ class QIBioOptimizationAdapter:
 
     # Placeholder implementations for sub-optimizations called by
     # _optimize_biological_systems
-    def _optimize_mitochondrial_function(
-        self, qf: dict[str, float]
-    ) -> dict[str, float]:
+    def _optimize_mitochondrial_function(self, qf: dict[str, float]) -> dict[str, float]:
         return {"efficiency": qf["coherence"] * 0.8}
 
     def _optimize_membrane_potential(self, qf: dict[str, float]) -> dict[str, float]:
@@ -556,16 +520,12 @@ class QIBioOptimizationAdapter:
         return {"rate": qf["energy"] * 0.85}
 
     @lukhas_tier_required(3)
-    async def _integrate_qi_bio(
-        self, bio_optimized_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _integrate_qi_bio(self, bio_optimized_state: dict[str, Any]) -> dict[str, Any]:
         self.log.debug("Integrating quantum and bio systems via coordinator.")
         # type: ignore
         integrated_result = await self.bio_quantum_coordinator.process_bio_quantum(
             bio_optimized_state,
-            context={
-                "current_optimization_cycle": self.optimization_cycles_completed_total
-            },
+            context={"current_optimization_cycle": self.optimization_cycles_completed_total},
         )
         coherent_result = self._apply_quantum_coherence(integrated_result)
         entangled_result = self._apply_quantum_entanglement(coherent_result)
@@ -578,22 +538,16 @@ class QIBioOptimizationAdapter:
         return data  # Placeholder
 
     @lukhas_tier_required(3)
-    async def _enhance_consciousness(
-        self, integrated_result: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _enhance_consciousness(self, integrated_result: dict[str, Any]) -> dict[str, Any]:
         self.log.debug("Enhancing consciousness (simulated).")
         # type: ignore
-        awareness_result = await self.qi_awareness_system.process_quantum_awareness(
-            integrated_result
-        )
+        awareness_result = await self.qi_awareness_system.process_quantum_awareness(integrated_result)
         if self._should_trigger_dream_cycle():
             return await self._process_dream_consolidation(awareness_result)
         return awareness_result
 
     def _should_trigger_dream_cycle(self) -> bool:
-        (
-            self.config.max_optimization_cycles_per_call // 10 or 1
-        )  # Avoid division by zero
+        (self.config.max_optimization_cycles_per_call // 10 or 1)  # Avoid division by zero
         time_threshold_sec = 300  # 5 minutes
         # SYNTAX_ERROR_FIXED:         cycles_condition =
         # (self.optimization_cycles_completed_total > 0 and " +
@@ -603,9 +557,7 @@ class QIBioOptimizationAdapter:
         )
         return cycles_condition and time_condition
 
-    async def _process_dream_consolidation(
-        self, awareness_result: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_dream_consolidation(self, awareness_result: dict[str, Any]) -> dict[str, Any]:
         self.log.info("Starting dream consolidation cycle.")
         # type: ignore
         await self.qi_dream_adapter.start_dream_cycle(duration_minutes=1)
@@ -613,9 +565,7 @@ class QIBioOptimizationAdapter:
         dream_state = await self.qi_dream_adapter.get_quantum_like_state()  # type: ignore
         await self.qi_dream_adapter.stop_dream_cycle()  # type: ignore
         awareness_result["dream_consolidation_state"] = dream_state
-        awareness_result["dream_consolidation_timestamp_utc_iso"] = datetime.now(
-            timezone.utc
-        ).isoformat()
+        awareness_result["dream_consolidation_timestamp_utc_iso"] = datetime.now(timezone.utc).isoformat()
         self.log.info("Dream consolidation cycle completed.")
         return awareness_result
 
@@ -623,15 +573,9 @@ class QIBioOptimizationAdapter:
     async def _validate_optimization(
         self, enhanced_result: dict[str, Any], targets: dict[str, float]
     ) -> dict[str, Any]:
-        self.log.debug(
-            "Validating optimization results.", target_metrics_keys=list(targets.keys())
-        )
-        current_perf_metrics = self._calculate_current_performance_metrics(
-            enhanced_result
-        )  # Renamed
-        validation_status = self._validate_against_targets(
-            current_perf_metrics, targets
-        )
+        self.log.debug("Validating optimization results.", target_metrics_keys=list(targets.keys()))
+        current_perf_metrics = self._calculate_current_performance_metrics(enhanced_result)  # Renamed
+        validation_status = self._validate_against_targets(current_perf_metrics, targets)
         if not validation_status["meets_all_targets"]:  # Renamed key
             self.log.warning(
                 "Optimization targets not met.",
@@ -644,20 +588,14 @@ class QIBioOptimizationAdapter:
         return enhanced_result
 
     @lukhas_tier_required(1)
-    def _calculate_current_performance_metrics(
-        self, result_data: dict[str, Any]
-    ) -> dict[str, float]:  # Renamed
+    def _calculate_current_performance_metrics(self, result_data: dict[str, Any]) -> dict[str, float]:  # Renamed
         self.log.debug("Calculating current performance metrics from result data.")
         # Simplified: actual metrics would come from result_data structure
         return {
             "qi_coherence": result_data.get("qi_coherence_applied", 0.6),
             "bio_stability": result_data.get("metadata", {}).get("bio_stability", 0.6),
-            "integration_efficiency": result_data.get("metadata", {}).get(
-                "integration_efficiency", 0.6
-            ),
-            "overall_performance": result_data.get(
-                "final_efficiency_score", 0.6
-            ),  # Example
+            "integration_efficiency": result_data.get("metadata", {}).get("integration_efficiency", 0.6),
+            "overall_performance": result_data.get("final_efficiency_score", 0.6),  # Example
         }
 
     @lukhas_tier_required(1)
@@ -675,9 +613,7 @@ class QIBioOptimizationAdapter:
         for metric_name, target_value in targets_to_check.items():
             current_value = performance_metrics.get(metric_name, 0.0)
             if current_value < target_value:
-                failed.append(
-                    f"{metric_name} (current: {current_value:.3f}, target: {target_value:.3f})"
-                )
+                failed.append(f"{metric_name} (current: {current_value:.3f}, target: {target_value:.3f})")
         return {"meets_all_targets": not failed, "details_on_failed_targets": failed}
 
     @lukhas_tier_required(2)
@@ -699,30 +635,19 @@ class QIBioOptimizationAdapter:
         return result_data
 
     @lukhas_tier_required(1)
-    def _calculate_cycle_metrics(
-        self, result_data: dict[str, Any], duration_ms: float
-    ) -> QIBioMetrics:
+    def _calculate_cycle_metrics(self, result_data: dict[str, Any], duration_ms: float) -> QIBioMetrics:
         self.log.debug("Calculating metrics for completed cycle.")
-        perf_metrics = self._calculate_current_performance_metrics(
-            result_data
-        )  # Use helper
+        perf_metrics = self._calculate_current_performance_metrics(result_data)  # Use helper
         metrics = QIBioMetrics(
             qi_coherence_level=perf_metrics.get("qi_coherence", 0.0),
-            entanglement_strength_factor=result_data.get(
-                "qi_entanglement", 0.0
-            ),  # Assuming this is in result_data
+            entanglement_strength_factor=result_data.get("qi_entanglement", 0.0),  # Assuming this is in result_data
             superposition_stability_metric=self.qi_bio_oscillator.get_coherence(),  # type: ignore
             mitochondrial_efficiency_achieved=result_data.get("mitochondrial", {}).get(
                 "efficiency", 0.0
             ),  # Example path
-            membrane_potential_mv_achieved=result_data.get("membrane", {}).get(
-                "potential", -70.0
-            ),  # Example path
+            membrane_potential_mv_achieved=result_data.get("membrane", {}).get("potential", -70.0),  # Example path
             # ... populate all other fields from perf_metrics or result_data ...
-            optimization_progress_percentage=perf_metrics.get(
-                "overall_performance", 0.0
-            )
-            * 100,
+            optimization_progress_percentage=perf_metrics.get("overall_performance", 0.0) * 100,
             system_stability_index=self._calculate_system_stability_index(),
             timestamp_utc_iso=datetime.now(timezone.utc).isoformat(),
         )
@@ -732,9 +657,7 @@ class QIBioOptimizationAdapter:
     def _calculate_system_stability_index(self) -> float:
         if len(self.metrics_history) < self.config.stability_check_frequency_cycles:
             return 0.75
-        recent_metrics = self.metrics_history[
-            -self.config.stability_check_frequency_cycles :
-        ]
+        recent_metrics = self.metrics_history[-self.config.stability_check_frequency_cycles :]
         coherence_lvls = [m.qi_coherence_level for m in recent_metrics]
         stability = np.clip(1.0 - (np.var(coherence_lvls).item() * 5.0), 0.0, 1.0) if len(coherence_lvls) > 1 else 1.0  # type: ignore
         return stability
@@ -761,9 +684,7 @@ class QIBioOptimizationAdapter:
             if len(self.optimization_performance_cache) > 100:
                 oldest_key = min(
                     self.optimization_performance_cache,
-                    key=lambda k: self.optimization_performance_cache[k][
-                        "cache_timestamp_monotonic"
-                    ],
+                    key=lambda k: self.optimization_performance_cache[k]["cache_timestamp_monotonic"],
                 )
                 del self.optimization_performance_cache[oldest_key]
         except Exception as e:
@@ -784,9 +705,7 @@ class QIBioOptimizationAdapter:
         # Simple wait and retry; a real queue would be more robust.
         await asyncio.sleep(0.2 + np.random.uniform(0, 0.3))  # Add jitter
         if self.is_currently_optimizing:  # Check again
-            self.log.warning(
-                "System still busy after wait. Request may be dropped or retried later."
-            )
+            self.log.warning("System still busy after wait. Request may be dropped or retried later.")
             return {
                 "status": "busy_queued_dropped",
                 "message": "System remained busy; request not processed.",
@@ -804,20 +723,10 @@ class QIBioOptimizationAdapter:
             "total_optimization_cycles_completed": self.optimization_cycles_completed_total,
             "latest_cycle_metrics_snapshot": latest_metrics_dict,
             "conceptual_internal_system_health": {
-                "qi_bio_oscillator": (
-                    "active"
-                    if hasattr(self, "qi_bio_oscillator")
-                    else "inactive/mocked"
-                ),
-                "qi_awareness_system": (
-                    "active"
-                    if hasattr(self, "qi_awareness_system")
-                    else "inactive/mocked"
-                ),
+                "qi_bio_oscillator": ("active" if hasattr(self, "qi_bio_oscillator") else "inactive/mocked"),
+                "qi_awareness_system": ("active" if hasattr(self, "qi_awareness_system") else "inactive/mocked"),
             },
-            "optimization_performance_cache_size": len(
-                self.optimization_performance_cache
-            ),
+            "optimization_performance_cache_size": len(self.optimization_performance_cache),
             "last_optimization_run_monotonic_timestamp": self.last_optimization_timestamp,
             "report_timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
         }
@@ -839,9 +748,7 @@ class QIBioOptimizationAdapter:
             self.optimization_performance_cache.clear()
             self.log.info("QIBioOptimizationAdapter shutdown complete.")
         except Exception as e:
-            self.log.error(
-                "Error during adapter shutdown.", error_message=str(e), exc_info=True
-            )
+            self.log.error("Error during adapter shutdown.", error_message=str(e), exc_info=True)
 
     def config_to_dict(self) -> dict[str, Any]:  # Helper for config access
         return asdict(self.config)

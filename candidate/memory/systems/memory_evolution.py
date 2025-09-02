@@ -198,9 +198,7 @@ class MemoryEvolution:
             "knowledge_id": knowledge_id,
         }
 
-    def _update_semantic_relationships(
-        self, doc_id: str, content: str, _knowledge_id: str
-    ):
+    def _update_semantic_relationships(self, doc_id: str, content: str, _knowledge_id: str):
         """Update semantic relationships for a document."""
         # Simple semantic analysis - would be more sophisticated in real implementation
         words = content.lower().split()
@@ -218,9 +216,7 @@ class MemoryEvolution:
         similarities = []
         for doc_id, vector in self.semantic_cache.items():
             # Simple cosine similarity
-            similarity = np.dot(query_vector, vector) / (
-                np.linalg.norm(query_vector) * np.linalg.norm(vector)
-            )
+            similarity = np.dot(query_vector, vector) / (np.linalg.norm(query_vector) * np.linalg.norm(vector))
             similarities.append((doc_id, similarity))
 
         # Return top similar documents
@@ -251,13 +247,9 @@ class MemoryEvolution:
             "knowledge_id": knowledge_id,
         }
 
-    def record_interaction(
-        self, user_id: str, doc_id: str, interaction_type: str, metadata: dict
-    ):
+    def record_interaction(self, user_id: str, doc_id: str, interaction_type: str, metadata: dict):
         """Record a user interaction and update learning system."""
-        self.usage_learning.record_interaction(
-            user_id, doc_id, interaction_type, metadata
-        )
+        self.usage_learning.record_interaction(user_id, doc_id, interaction_type, metadata)
         self.usage_learning.identify_patterns()
 
         # Update bio-oscillator state
@@ -272,20 +264,14 @@ class MemoryEvolution:
         """Get full version history for a document."""
         return self.version_control.get_document_history(doc_id)
 
-    def get_related_documents(
-        self, doc_id: str, threshold: float = 0.5
-    ) -> list[tuple[str, float]]:
+    def get_related_documents(self, doc_id: str, threshold: float = 0.5) -> list[tuple[str, float]]:
         """Get related documents based on knowledge graph and semantic similarity."""
         knowledge_id = f"node_{doc_id}"
         graph_relations = self.knowledge_system.get_related_knowledge(knowledge_id)
 
         # Get semantic relations
-        if (
-            current_doc := self.version_control.documents.get(doc_id)
-        ) and current_doc.current_version:
-            semantic_relations = self._find_semantic_relations(
-                current_doc.current_version.content, max_relations=5
-            )
+        if (current_doc := self.version_control.documents.get(doc_id)) and current_doc.current_version:
+            semantic_relations = self._find_semantic_relations(current_doc.current_version.content, max_relations=5)
 
             # Combine and score relationships
             combined = {}
@@ -301,9 +287,7 @@ class MemoryEvolution:
                     # Boost score if found in both
                     combined[rel_id] = max(0.9, (combined[rel_id] + score) / 2)
                 else:
-                    combined[rel_id] = (
-                        score * 0.8
-                    )  # Slightly lower weight for semantic-only
+                    combined[rel_id] = score * 0.8  # Slightly lower weight for semantic-only
 
             # Sort by score
             return sorted(
@@ -344,15 +328,11 @@ class MemoryEvolution:
 
         return combined_recs
 
-    def update_document_relationships(
-        self, doc_id: str, related_docs: list[str], strengths: list[float]
-    ):
+    def update_document_relationships(self, doc_id: str, related_docs: list[str], strengths: list[float]):
         """Update relationships between documents in knowledge graph."""
         knowledge_id = f"node_{doc_id}"
         related_knowledge_ids = [f"node_{doc}" for doc in related_docs]
-        self.knowledge_system.update_relationships(
-            knowledge_id, related_knowledge_ids, strengths
-        )
+        self.knowledge_system.update_relationships(knowledge_id, related_knowledge_ids, strengths)
 
     def get_document_effectiveness(self, doc_id: str) -> float:
         """Get effectiveness score for a document."""
@@ -372,13 +352,9 @@ class MemoryEvolution:
 
         # Process all knowledge through bio-oscillator and update structure
         for doc_id in self.version_control.documents:
-            if current_version := self.version_control.documents[
-                doc_id
-            ].current_version:
+            if current_version := self.version_control.documents[doc_id].current_version:
                 # Analyze current structure
-                structure_metrics = self.document_analyzer.analyze_structure(
-                    current_version.content
-                )
+                structure_metrics = self.document_analyzer.analyze_structure(current_version.content)
 
                 # Update metadata with new metrics
                 current_version.metadata["structure_metrics"] = structure_metrics
@@ -390,17 +366,13 @@ class MemoryEvolution:
                         "content": current_version.content,
                         "metadata": current_version.metadata,
                         "structure_score": structure_metrics["overall_score"],
-                        "update_frequency": len(
-                            self.version_control.documents[doc_id].versions
-                        )
+                        "update_frequency": len(self.version_control.documents[doc_id].versions)
                         / 30,  # Updates per month
                     },
                 )
 
                 # Update semantic relationships
-                self._update_semantic_relationships(
-                    doc_id, current_version.content, f"node_{doc_id}"
-                )
+                self._update_semantic_relationships(doc_id, current_version.content, f"node_{doc_id}")
 
         # Update semantic cache for old entries
         self._prune_semantic_cache()
@@ -433,9 +405,7 @@ class MemoryEvolution:
             },
         }
 
-        return await self.voice_synthesis.synthesize_content(
-            current_version.content, metadata
-        )
+        return await self.voice_synthesis.synthesize_content(current_version.content, metadata)
 
     async def adapt_voice_settings(self, user_id: str, preferences: dict) -> bool:
         """Adapt voice synthesis settings based on user preferences."""

@@ -170,9 +170,7 @@ class BiometricIntegrationManager:
             "authenticity": ["involuntary_movements", "physiological_responses"],
         }
 
-    def enroll_biometric(
-        self, lambda_id: str, biometric_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def enroll_biometric(self, lambda_id: str, biometric_data: dict[str, Any]) -> dict[str, Any]:
         """
         # Enroll new biometric template for user
         # Supports cultural adaptation and consciousness integration
@@ -191,14 +189,10 @@ class BiometricIntegrationManager:
                 return {"success": False, "error": "Missing biometric template"}
 
             # Apply cultural adaptation if specified
-            adapted_template = self._apply_cultural_adaptation(
-                raw_template, biometric_type, cultural_context
-            )
+            adapted_template = self._apply_cultural_adaptation(raw_template, biometric_type, cultural_context)
 
             # Create secure hash of biometric template
-            template_hash = self._create_secure_biometric_hash(
-                adapted_template, lambda_id
-            )
+            template_hash = self._create_secure_biometric_hash(adapted_template, lambda_id)
 
             # Extract consciousness markers if available
             consciousness_markers = self._extract_consciousness_markers(biometric_data)
@@ -223,9 +217,7 @@ class BiometricIntegrationManager:
 
             self.biometric_templates[lambda_id].append(template)
 
-            logger.info(
-                f"ΛTRACE: Biometric enrolled successfully - Type: {biometric_type.value}"
-            )
+            logger.info(f"ΛTRACE: Biometric enrolled successfully - Type: {biometric_type.value}")
             return {
                 "success": True,
                 "biometric_type": biometric_type.value,
@@ -243,9 +235,7 @@ class BiometricIntegrationManager:
             logger.error(f"ΛTRACE: Biometric enrollment error: {e}")
             return {"success": False, "error": str(e)}
 
-    def verify_biometric(
-        self, lambda_id: str, verification_data: dict[str, Any]
-    ) -> BiometricVerificationResult:
+    def verify_biometric(self, lambda_id: str, verification_data: dict[str, Any]) -> BiometricVerificationResult:
         """
         # Verify biometric against enrolled templates
         # Supports tier-based requirements and consciousness validation
@@ -273,9 +263,7 @@ class BiometricIntegrationManager:
                 )
 
             # Find matching templates for this biometric type
-            matching_templates = [
-                t for t in user_templates if t.biometric_type == biometric_type
-            ]
+            matching_templates = [t for t in user_templates if t.biometric_type == biometric_type]
 
             if not matching_templates:
                 return BiometricVerificationResult(
@@ -290,18 +278,14 @@ class BiometricIntegrationManager:
                 )
 
             # Apply cultural adaptation to verification template
-            adapted_verification = self._apply_cultural_adaptation(
-                raw_template, biometric_type, cultural_context
-            )
+            adapted_verification = self._apply_cultural_adaptation(raw_template, biometric_type, cultural_context)
 
             # Verify against each matching template
             best_match = None
             best_confidence = 0.0
 
             for template in matching_templates:
-                confidence = self._calculate_biometric_match_confidence(
-                    adapted_verification, template, lambda_id
-                )
+                confidence = self._calculate_biometric_match_confidence(adapted_verification, template, lambda_id)
 
                 if confidence > best_confidence:
                     best_confidence = confidence
@@ -312,22 +296,16 @@ class BiometricIntegrationManager:
             verification_success = best_confidence >= success_threshold
 
             # Check tier requirements
-            tier_requirement_met = self._check_tier_biometric_requirements(
-                lambda_id, required_tier
-            )
+            tier_requirement_met = self._check_tier_biometric_requirements(lambda_id, required_tier)
 
             # Validate cultural context if required
             cultural_context_verified = (
-                self._validate_cultural_biometric_context(best_match, cultural_context)
-                if cultural_context
-                else True
+                self._validate_cultural_biometric_context(best_match, cultural_context) if cultural_context else True
             )
 
             # Validate consciousness markers if available
             consciousness_validated = (
-                self._validate_consciousness_biometric_markers(
-                    verification_data, best_match
-                )
+                self._validate_consciousness_biometric_markers(verification_data, best_match)
                 if best_match and best_match.consciousness_markers
                 else False
             )
@@ -345,17 +323,13 @@ class BiometricIntegrationManager:
                 success=verification_success,
                 biometric_type=biometric_type,
                 confidence_score=best_confidence,
-                match_quality=(
-                    best_match.quality_level if best_match else BiometricQuality.LOW
-                ),
+                match_quality=(best_match.quality_level if best_match else BiometricQuality.LOW),
                 verification_timestamp=time.time(),
                 lambda_id=lambda_id,
                 tier_requirement_met=tier_requirement_met,
                 cultural_context_verified=cultural_context_verified,
                 consciousness_validated=consciousness_validated,
-                error_message=(
-                    None if verification_success else "Biometric verification failed"
-                ),
+                error_message=(None if verification_success else "Biometric verification failed"),
             )
 
         except ValueError as e:
@@ -407,9 +381,7 @@ class BiometricIntegrationManager:
             enrolled_types = {t.biometric_type for t in user_templates}
 
             # Find available biometric types that meet requirements
-            available_biometrics = [
-                bt for bt in required_biometrics if bt in enrolled_types
-            ]
+            available_biometrics = [bt for bt in required_biometrics if bt in enrolled_types]
 
             if not available_biometrics:
                 return {
@@ -428,8 +400,7 @@ class BiometricIntegrationManager:
                 quality_threshold=BiometricQuality.MEDIUM,
                 timeout_seconds=300,  # 5 minutes
                 cultural_adaptation_required=tier_level >= 3,
-                consciousness_validation_required=consciousness_required
-                or tier_level >= 5,
+                consciousness_validation_required=consciousness_required or tier_level >= 5,
                 created_timestamp=time.time(),
                 lambda_id=lambda_id,
             )
@@ -465,8 +436,7 @@ class BiometricIntegrationManager:
                     "enrollment_date": template.enrollment_timestamp,
                     "usage_count": template.usage_count,
                     "cultural_adaptation": template.cultural_adaptation,
-                    "consciousness_integration": template.consciousness_markers
-                    is not None,
+                    "consciousness_integration": template.consciousness_markers is not None,
                 }
             )
 
@@ -484,10 +454,7 @@ class BiometricIntegrationManager:
         cultural_context: Optional[str],
     ) -> str:
         """Apply cultural adaptations to biometric template."""
-        if (
-            not cultural_context
-            or cultural_context not in self.cultural_biometric_adaptations
-        ):
+        if not cultural_context or cultural_context not in self.cultural_biometric_adaptations:
             return template
 
         adaptations = self.cultural_biometric_adaptations[cultural_context]
@@ -497,9 +464,7 @@ class BiometricIntegrationManager:
         # This would integrate with actual biometric processing libraries
         adapted_template = template
 
-        logger.info(
-            f"ΛTRACE: Applied cultural adaptations: {list(type_adaptations.keys())}"
-        )
+        logger.info(f"ΛTRACE: Applied cultural adaptations: {list(type_adaptations.keys())}")
         return adapted_template
 
     def _create_secure_biometric_hash(self, template: str, lambda_id: str) -> str:
@@ -509,9 +474,7 @@ class BiometricIntegrationManager:
         hash_object = hashlib.sha256(combined.encode())
         return base64.b64encode(hash_object.digest()).decode()
 
-    def _extract_consciousness_markers(
-        self, biometric_data: dict[str, Any]
-    ) -> Optional[dict[str, Any]]:
+    def _extract_consciousness_markers(self, biometric_data: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Extract consciousness-related markers from biometric data."""
         consciousness_data = biometric_data.get("consciousness_markers", {})
 
@@ -536,9 +499,7 @@ class BiometricIntegrationManager:
     ) -> float:
         """Calculate confidence score for biometric match."""
         # Create hash of verification template using same method
-        verification_hash = self._create_secure_biometric_hash(
-            verification_template, lambda_id
-        )
+        verification_hash = self._create_secure_biometric_hash(verification_template, lambda_id)
 
         # Simplified matching algorithm (would use actual biometric algorithms in
         # production)
@@ -549,9 +510,7 @@ class BiometricIntegrationManager:
         verification_bytes = verification_hash.encode()
         template_bytes = enrolled_template.template_hash.encode()
 
-        matching_bytes = sum(
-            1 for a, b in zip(verification_bytes, template_bytes) if a == b
-        )
+        matching_bytes = sum(1 for a, b in zip(verification_bytes, template_bytes) if a == b)
         similarity = matching_bytes / max(len(verification_bytes), len(template_bytes))
 
         # Apply quality adjustments
@@ -565,9 +524,7 @@ class BiometricIntegrationManager:
 
         return similarity * quality_multiplier
 
-    def _check_tier_biometric_requirements(
-        self, lambda_id: str, required_tier: int
-    ) -> bool:
+    def _check_tier_biometric_requirements(self, lambda_id: str, required_tier: int) -> bool:
         """Check if user meets biometric requirements for tier."""
         required_biometrics = self.tier_biometric_requirements.get(required_tier, [])
 
@@ -619,17 +576,13 @@ class BiometricIntegrationManager:
         hash_object = hashlib.sha256(data.encode())
         return f"BIOC_{hash_object.hexdigest()[:16]}"
 
-    def _calculate_tier_compatibility(
-        self, templates: list[BiometricTemplate]
-    ) -> dict[int, bool]:
+    def _calculate_tier_compatibility(self, templates: list[BiometricTemplate]) -> dict[int, bool]:
         """Calculate which tiers user can access with current biometrics."""
         enrolled_types = {t.biometric_type for t in templates}
 
         compatibility = {}
         for tier_level, required_types in self.tier_biometric_requirements.items():
-            compatibility[tier_level] = all(
-                bt in enrolled_types for bt in required_types
-            )
+            compatibility[tier_level] = all(bt in enrolled_types for bt in required_types)
 
         return compatibility
 

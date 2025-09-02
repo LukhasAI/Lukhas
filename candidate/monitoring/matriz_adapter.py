@@ -56,9 +56,7 @@ class MonitoringMatrizAdapter:
         return node
 
     @staticmethod
-    def emit_drift_detection(
-        drift_score: float, component: str, threshold: float = 0.15
-    ) -> dict[str, Any]:
+    def emit_drift_detection(drift_score: float, component: str, threshold: float = 0.15) -> dict[str, Any]:
         """Emit a drift detection node"""
 
         urgency = min(1.0, drift_score / threshold) if drift_score > threshold else 0.0
@@ -108,9 +106,7 @@ class MonitoringMatrizAdapter:
         )
 
     @staticmethod
-    def emit_health_check(
-        component: str, status: str, details: Optional[dict] = None
-    ) -> dict[str, Any]:
+    def emit_health_check(component: str, status: str, details: Optional[dict] = None) -> dict[str, Any]:
         """Emit a health check node"""
 
         status_urgency = {
@@ -198,9 +194,7 @@ def wrap_metric_collection(original_func):
         if isinstance(result, dict):
             for metric_name, value in result.items():
                 if isinstance(value, (int, float)):
-                    node = MonitoringMatrizAdapter.emit_performance_metric(
-                        metric_name=metric_name, value=value
-                    )
+                    node = MonitoringMatrizAdapter.emit_performance_metric(metric_name=metric_name, value=value)
                     MonitoringMatrizAdapter.save_node(node)
 
         return result

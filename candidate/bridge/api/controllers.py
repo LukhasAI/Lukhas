@@ -13,8 +13,11 @@ import os
 import traceback
 from datetime import datetime
 from functools import wraps
-from typing import Any  # Added Callable
-from typing import Callable, Optional
+from typing import (
+    Any,  # Added Callable
+    Callable,
+    Optional,
+)
 
 from flask import Flask, jsonify, request
 
@@ -73,9 +76,9 @@ try:
 
     from ethics.ethics_service import EthicsService
     from lukhas.consciousness.consciousness_service import ConsciousnessService
-    from lukhas.governance.identity.interface import \
-        IdentityClient  # Needs to be a defined interface
+    from lukhas.governance.identity.interface import IdentityClient  # Needs to be a defined interface
     from lukhas.memory.memory_service import MemoryService
+
     # Learning service is now obtained through the service registry
     from qi.qi_service import QIService
 
@@ -85,14 +88,14 @@ except ImportError as e:
         f"ΛTRACE: Some AGI module service imports failed: {e}. Using fallback classes for development."
     )
     # ΛCORE: Import fallback services from dedicated module
-    from .fallback_services import \
-        FallbackConsciousnessService as ConsciousnessService
-    from .fallback_services import \
-        FallbackCreativityService as CreativityService
-    from .fallback_services import FallbackEthicsService as EthicsService
-    from .fallback_services import FallbackIdentityClient as IdentityClient
-    from .fallback_services import FallbackMemoryService as MemoryService
-    from .fallback_services import FallbackQuantumService as QIService
+    from .fallback_services import (
+        FallbackConsciousnessService as ConsciousnessService,
+        FallbackCreativityService as CreativityService,
+        FallbackEthicsService as EthicsService,
+        FallbackIdentityClient as IdentityClient,
+        FallbackMemoryService as MemoryService,
+        FallbackQuantumService as QIService,
+    )
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -857,15 +860,12 @@ def qi_perform_computation_endpoint():  # Renamed:
 
         # Validate and convert input_qubits to complex numbers
         try:
-            # This list comprehension handles numbers directly or dicts like {'real':
-            # x, 'imag': y}
+            # This list comprehension handles numbers directly or dicts like {'real': x, 'imag': y}
             qubits = [
-                (
-                    complex(q_val)
-                    if isinstance(q_val, (int, float)):
-                    else complex(q_val["real"], q_val["imag"]):
-                )
-                for q_val in data["input_qubits"]:
+                complex(q_val)
+                if isinstance(q_val, (int, float))
+                else complex(q_val["real"], q_val["imag"])
+                for q_val in data["input_qubits"]
             ]
             logger.debug(f"ΛTRACE: Parsed input_qubits: {qubits}")
         except (KeyError, ValueError, TypeError) as q_err:
@@ -883,8 +883,7 @@ def qi_perform_computation_endpoint():  # Renamed:
             )
 
         logger.debug(
-            f"ΛTRACE: Calling qi_service.qi_compute for user '{user_id}',
-            algorithm: '{data['algorithm']}'."
+            f"ΛTRACE: Calling qi_service.qi_compute for user '{user_id}', algorithm: '{data['algorithm']}'."
         )
         result = qi_service.qi_compute(
             user_id,
@@ -930,8 +929,7 @@ def qi_create_entanglement_endpoint():  # Renamed:
             )
 
         logger.debug(
-            f"ΛTRACE: Calling qi_service.qi_entangle for user '{user_id}',
-            type: '{data['entanglement_type']}'."
+            f"ΛTRACE: Calling qi_service.qi_entangle for user '{user_id}', type: '{data['entanglement_type']}'."
         )
         result = qi_service.qi_entangle(
             user_id,
@@ -1055,9 +1053,7 @@ def system_api_info_endpoint():  # Renamed:
 
 
 @app.errorhandler(404)
-def handle_not_found_error(:
-    error: Exception,
-) -> Any:  # error type is werkzeug.exceptions.NotFound
+def handle_not_found_error(error: Exception) -> Any:  # error type is werkzeug.exceptions.NotFound
     """Handles 404 Not Found errors with a standardized JSON response."""
     logger.warning(
         f"ΛTRACE: 404 Not Found error at path '{request.path}'. Error: {error}"
@@ -1077,9 +1073,7 @@ def handle_not_found_error(:
 
 
 @app.errorhandler(405)
-def handle_method_not_allowed_error(:
-    error: Exception,
-) -> Any:  # error type is werkzeug.exceptions.MethodNotAllowed
+def handle_method_not_allowed_error(error: Exception) -> Any:  # error type is werkzeug.exceptions.MethodNotAllowed
     """Handles 405 Method Not Allowed errors with a standardized JSON response."""
     logger.warning(
         f"ΛTRACE: 405 Method Not Allowed error for method '{request.method}' at path '{request.path}'. Error: {error}"
@@ -1098,9 +1092,7 @@ def handle_method_not_allowed_error(:
 
 
 @app.errorhandler(500)
-def handle_internal_server_error(:
-    error: Exception,
-) -> Any:  # Catches general internal server errors
+def handle_internal_server_error(error: Exception) -> Any:  # Catches general internal server errors
     """Handles 500 Internal Server Errors with a standardized JSON response."""
     # Note: This is a generic 500 handler. Specific endpoint errors are caught by `handle_api_error`.
     # This will catch unhandled exceptions within Flask routing or before

@@ -89,9 +89,7 @@ class EthicsGuardian:
             has_base_guardian=self._guardian is not None,
         )
 
-    def assess_ethical_violation(
-        self, decision_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def assess_ethical_violation(self, decision_context: dict[str, Any]) -> dict[str, Any]:
         """
         Assess the severity and type of ethical violation.
 
@@ -128,9 +126,7 @@ class EthicsGuardian:
             self.logger.warning("Using fallback ethical assessment")
             return self._fallback_assessment(decision_context)
 
-    def propose_realignment(
-        self, assessment_result: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    def propose_realignment(self, assessment_result: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Propose comprehensive actions for ethical realignment.
 
@@ -154,9 +150,7 @@ class EthicsGuardian:
             result["integration_layer"] = "guardian_monitoring"
 
             plan = result.get("realignment_plan", {})
-            total_actions = sum(
-                len(actions) for actions in plan.values() if isinstance(actions, list)
-            )
+            total_actions = sum(len(actions) for actions in plan.values() if isinstance(actions, list))
 
             self.logger.info(
                 "✅ Realignment plan generated",
@@ -182,8 +176,7 @@ class EthicsGuardian:
             "last_operation": self.last_operation,
             "task_data": self.task_data,
             "has_base_guardian": self._guardian is not None,
-            "created_at": getattr(self._guardian, "last_assessment_time", None)
-            or datetime.now().isoformat(),
+            "created_at": getattr(self._guardian, "last_assessment_time", None) or datetime.now().isoformat(),
         }
 
     def _fallback_assessment(self, context: dict[str, Any]) -> dict[str, Any]:
@@ -204,22 +197,14 @@ class EthicsGuardian:
         severity = (
             "critical"
             if violation_indicators >= 3
-            else (
-                "high"
-                if violation_indicators >= 2
-                else "medium" if violation_indicators >= 1 else "low"
-            )
+            else ("high" if violation_indicators >= 2 else "medium" if violation_indicators >= 1 else "low")
         )
 
         return {
-            "violation_type": (
-                "multiple_concerns" if violation_indicators > 1 else "single_concern"
-            ),
+            "violation_type": ("multiple_concerns" if violation_indicators > 1 else "single_concern"),
             "severity": severity,
             "overall_score": max(0.1, 1.0 - (violation_indicators * 0.25)),
-            "principle_scores": {
-                "overall": max(0.1, 1.0 - (violation_indicators * 0.25))
-            },
+            "principle_scores": {"overall": max(0.1, 1.0 - (violation_indicators * 0.25))},
             "violations_detected": [
                 {
                     "principle": "general",

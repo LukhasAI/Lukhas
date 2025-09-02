@@ -88,9 +88,7 @@ class AdaptiveMetaLearningSystem:
         duration = (datetime.datetime.now() - start_time).total_seconds()
 
         # Evaluate strategy performance
-        performance_metrics = self._evaluate_performance(
-            strategy_name, learning_result, duration
-        )
+        performance_metrics = self._evaluate_performance(strategy_name, learning_result, duration)
         self._update_strategy_performance(strategy_name, performance_metrics)
 
         # Periodically update meta-parameters
@@ -108,9 +106,7 @@ class AdaptiveMetaLearningSystem:
             "performance_score": performance_metrics["overall_score"],
         }
 
-        logger.info(
-            f"✅ Learning completed with {performance_metrics['overall_score']:.3f} performance score"
-        )
+        logger.info(f"✅ Learning completed with {performance_metrics['overall_score']:.3f} performance score")
         return result
 
     def incorporate_feedback(self, feedback: dict) -> None:
@@ -127,15 +123,11 @@ class AdaptiveMetaLearningSystem:
 
         # Update performance with feedback
         if "performance_rating" in feedback:
-            self._update_strategy_performance(
-                strategy_name, {"user_rating": feedback["performance_rating"]}
-            )
+            self._update_strategy_performance(strategy_name, {"user_rating": feedback["performance_rating"]})
 
         # Update strategy parameters if provided
         if "parameter_adjustments" in feedback:
-            self._adjust_strategy_parameters(
-                strategy_name, feedback["parameter_adjustments"]
-            )
+            self._adjust_strategy_parameters(strategy_name, feedback["parameter_adjustments"])
 
         logger.info("✅ Feedback incorporated successfully")
 
@@ -154,8 +146,7 @@ class AdaptiveMetaLearningSystem:
             "learning_cycles": self.learning_cycle,
             "top_strategies": [name for name, _ in strategies_by_performance[:3]],
             "strategy_distribution": {
-                name: perf.get("usage_count", 0)
-                for name, perf in self.strategy_performance.items()
+                name: perf.get("usage_count", 0) for name, perf in self.strategy_performance.items()
             },
             "adaptation_progress": self._calculate_adaptation_progress(),
             "meta_parameters": self.meta_parameters,
@@ -229,9 +220,7 @@ class AdaptiveMetaLearningSystem:
 
         # Add derived features
         features["data_sparsity"] = self._calculate_sparsity(available_data)
-        features["complexity_estimate"] = self._estimate_complexity(
-            available_data, context
-        )
+        features["complexity_estimate"] = self._estimate_complexity(available_data, context)
         features["noise_level"] = self._estimate_noise_level(available_data)
         features["label_availability"] = self._check_label_availability(available_data)
 
@@ -255,9 +244,7 @@ class AdaptiveMetaLearningSystem:
 
             # Adjust by past performance if available
             if name in self.strategy_performance:
-                perf_adjustment = self.strategy_performance[name].get(
-                    "overall_score", 0.5
-                )
+                perf_adjustment = self.strategy_performance[name].get("overall_score", 0.5)
                 final_score = base_score * 0.7 + perf_adjustment * 0.3
             else:
                 final_score = base_score
@@ -266,9 +253,7 @@ class AdaptiveMetaLearningSystem:
 
         # Return strategy with highest score
         best_strategy = max(strategy_scores.items(), key=lambda x: x[1])[0]
-        logger.info(
-            f"🎯 Exploiting with best strategy: {best_strategy} (score: {strategy_scores[best_strategy]:.3f})"
-        )
+        logger.info(f"🎯 Exploiting with best strategy: {best_strategy} (score: {strategy_scores[best_strategy]:.3f})")
         return best_strategy
 
     def _apply_strategy(self, strategy: dict, data: dict, context: dict) -> dict:
@@ -330,9 +315,7 @@ class AdaptiveMetaLearningSystem:
 
         return result
 
-    def _evaluate_performance(
-        self, strategy_name: str, learning_result: dict, duration: float
-    ) -> dict:
+    def _evaluate_performance(self, strategy_name: str, learning_result: dict, duration: float) -> dict:
         """Evaluate the performance of the applied learning strategy"""
         # Extract performance indicators from learning result
         if "accuracy" in learning_result:
@@ -372,9 +355,7 @@ class AdaptiveMetaLearningSystem:
 
         return metrics
 
-    def _update_strategy_performance(
-        self, strategy_name: str, new_metrics: dict
-    ) -> None:
+    def _update_strategy_performance(self, strategy_name: str, new_metrics: dict) -> None:
         """Update the performance record for a strategy"""
         if strategy_name not in self.strategy_performance:
             self.strategy_performance[strategy_name] = {
@@ -387,16 +368,12 @@ class AdaptiveMetaLearningSystem:
 
         # Add new metrics to history if complete
         if "overall_score" in new_metrics:
-            self.strategy_performance[strategy_name]["performance_history"].append(
-                new_metrics
-            )
+            self.strategy_performance[strategy_name]["performance_history"].append(new_metrics)
 
             # Update overall metrics with exponentially weighted average
             history = [
                 entry.get("overall_score", 0)
-                for entry in self.strategy_performance[strategy_name][
-                    "performance_history"
-                ]
+                for entry in self.strategy_performance[strategy_name]["performance_history"]
             ]
 
             if history:
@@ -415,9 +392,7 @@ class AdaptiveMetaLearningSystem:
         """Update meta-parameters based on learning history"""
         if len(self.performance_history) >= 10:
             # Adjust exploration rate based on performance variance
-            recent_scores = [
-                p.get("overall_score", 0) for p in self.performance_history[-10:]
-            ]
+            recent_scores = [p.get("overall_score", 0) for p in self.performance_history[-10:]]
             recent_variance = np.var(recent_scores)
 
             # More variance = more exploration needed
@@ -432,22 +407,16 @@ class AdaptiveMetaLearningSystem:
                     self.meta_parameters["adaptation_rate"] *= 0.9
 
         # Keep parameters within bounds
-        self.meta_parameters["adaptation_rate"] = max(
-            0.01, min(0.2, self.meta_parameters["adaptation_rate"])
-        )
+        self.meta_parameters["adaptation_rate"] = max(0.01, min(0.2, self.meta_parameters["adaptation_rate"]))
 
-    def _adjust_strategy_parameters(
-        self, strategy_name: str, adjustments: dict
-    ) -> None:
+    def _adjust_strategy_parameters(self, strategy_name: str, adjustments: dict) -> None:
         """Adjust parameters of a specific strategy based on feedback"""
         if strategy_name not in self.learning_strategies:
             return
 
         for param_name, adjustment in adjustments.items():
             if param_name in self.learning_strategies[strategy_name]["parameters"]:
-                current = self.learning_strategies[strategy_name]["parameters"][
-                    param_name
-                ]
+                current = self.learning_strategies[strategy_name]["parameters"][param_name]
                 # Apply adjustment within reasonable bounds
                 new_value = current + adjustment
                 self.learning_strategies[strategy_name]["parameters"][param_name] = max(
@@ -455,9 +424,7 @@ class AdaptiveMetaLearningSystem:
                     min(10.0, new_value),  # Minimum value  # Maximum value
                 )
 
-                logger.info(
-                    f"🔧 Adjusted {param_name} for {strategy_name}: {current:.4f} → {new_value:.4f}"
-                )
+                logger.info(f"🔧 Adjusted {param_name} for {strategy_name}: {current:.4f} → {new_value:.4f}")
 
     def _calculate_adaptation_progress(self) -> float:
         """Calculate overall adaptation progress of the meta-learning system"""
@@ -467,16 +434,12 @@ class AdaptiveMetaLearningSystem:
         # Look at performance improvement trend
         if len(self.performance_history) >= 10:
             recent = [p.get("overall_score", 0) for p in self.performance_history[-5:]]
-            earlier = [
-                p.get("overall_score", 0) for p in self.performance_history[-10:-5]
-            ]
+            earlier = [p.get("overall_score", 0) for p in self.performance_history[-10:-5]]
 
             if earlier and recent:
                 avg_recent = np.mean(recent)
                 avg_earlier = np.mean(earlier)
-                improvement = max(
-                    0, (avg_recent - avg_earlier) / max(0.001, avg_earlier)
-                )
+                improvement = max(0, (avg_recent - avg_earlier) / max(0.001, avg_earlier))
                 return min(1.0, improvement)
 
         return 0.5  # Default middle value
@@ -498,9 +461,7 @@ class AdaptiveMetaLearningSystem:
                     "trend_coefficient": trend_coef,
                     "recent_average": np.mean(scores[-3:]),
                     "improvement": (
-                        "increasing"
-                        if trend_coef > 0.01
-                        else "decreasing" if trend_coef < -0.01 else "stable"
+                        "increasing" if trend_coef > 0.01 else "decreasing" if trend_coef < -0.01 else "stable"
                     ),
                 }
 
@@ -555,9 +516,7 @@ class AdaptiveMetaLearningSystem:
 
         # Check complexity compatibility
         complexity = features.get("complexity_estimate", 0.5)
-        if (complexity > 0.7 and "complex" in suitable_for) or (
-            complexity < 0.3 and "simple" in suitable_for
-        ):
+        if (complexity > 0.7 and "complex" in suitable_for) or (complexity < 0.3 and "simple" in suitable_for):
             match_score += 0.15
 
         return min(1.0, match_score)
@@ -583,10 +542,7 @@ class AdaptiveMetaLearningSystem:
         # Strategy performance insights
         if self.strategy_performance:
             best_strategies = sorted(
-                [
-                    (name, perf.get("overall_score", 0))
-                    for name, perf in self.strategy_performance.items()
-                ],
+                [(name, perf.get("overall_score", 0)) for name, perf in self.strategy_performance.items()],
                 key=lambda x: x[1],
                 reverse=True,
             )[:2]
@@ -599,13 +555,9 @@ class AdaptiveMetaLearningSystem:
         # Adaptation insights
         adaptation = self._calculate_adaptation_progress()
         if adaptation > 0.2:
-            insights.append(
-                f"System shows {adaptation:.1%} improvement in learning effectiveness"
-            )
+            insights.append(f"System shows {adaptation:.1%} improvement in learning effectiveness")
         elif adaptation < -0.1:
-            insights.append(
-                "Learning performance declining - may need strategy diversification"
-            )
+            insights.append("Learning performance declining - may need strategy diversification")
 
         # Exploration insights
         if self.exploration_rate > 0.3:
@@ -613,15 +565,11 @@ class AdaptiveMetaLearningSystem:
                 "High exploration rate indicates volatile performance - system still learning optimal strategies"
             )
         elif self.exploration_rate < 0.1:
-            insights.append(
-                "Low exploration rate indicates stable performance - system has found effective strategies"
-            )
+            insights.append("Low exploration rate indicates stable performance - system has found effective strategies")
 
         # Learning cycle insights
         if self.learning_cycle > 50:
-            insights.append(
-                f"System maturity: {self.learning_cycle} learning cycles completed"
-            )
+            insights.append(f"System maturity: {self.learning_cycle} learning cycles completed")
 
         return insights
 
@@ -662,9 +610,7 @@ if __name__ == "__main__":
         print("🔄 Running learning scenarios...")
         for i, scenario in enumerate(scenarios, 1):
             print(f"\n📊 Scenario {i}: {scenario['context']['task_type']}")
-            result = meta_learner.optimize_learning_approach(
-                scenario["context"], scenario["data"]
-            )
+            result = meta_learner.optimize_learning_approach(scenario["context"], scenario["data"])
             print(f"   Strategy: {result['strategy_used']}")
             print(f"   Performance: {result['performance_score']:.3f}")
             print(f"   Confidence: {result['confidence']:.3f}")

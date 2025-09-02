@@ -111,9 +111,7 @@ class EnhancedPolicyProposal:
             "approved": approval_ratio >= (2 / 3),
             "approval_ratio": approval_ratio,
             "qi_confidence": (
-                sum(self.qi_like_states.values()) / len(self.qi_like_states)
-                if self.qi_like_states
-                else 0.0
+                sum(self.qi_like_states.values()) / len(self.qi_like_states) if self.qi_like_states else 0.0
             ),
             "total_weighted_votes": total_weight,
         }
@@ -133,9 +131,7 @@ class EnhancedPolicyProposal:
             "qi_like_states_summary": self.qi_like_states,  # Consider summarizing
             "approval_status": approval_details,
         }
-        self.logger.debug(
-            "Proposal status retrieved.", approval_approved=approval_details["approved"]
-        )
+        self.logger.debug("Proposal status retrieved.", approval_approved=approval_details["approved"])
         return status
 
 
@@ -151,9 +147,7 @@ class EnhancedPolicyBoard:
     """
 
     def __init__(self):
-        self.logger = logger.bind(
-            board_id=f"policy_board_{datetime.now().strftime('%H%M%S')}"
-        )
+        self.logger = logger.bind(board_id=f"policy_board_{datetime.now().strftime('%H%M%S')}")
         self.qi_oscillator = QIOscillator()
         self.awareness = EnhancedSystemAwareness()  # Assumes default init is fine
 
@@ -170,9 +164,7 @@ class EnhancedPolicyBoard:
         self.log_path = Path("logs/policy_quantum_log.jsonl")
         try:
             self.log_path.parent.mkdir(parents=True, exist_ok=True)
-            self.logger.info(
-                "Policy board log directory ensured.", path=str(self.log_path)
-            )
+            self.logger.info("Policy board log directory ensured.", path=str(self.log_path))
         except Exception as e_dir:
             self.logger.error(
                 "Failed to create log directory for policy board.",
@@ -182,9 +174,7 @@ class EnhancedPolicyBoard:
 
         self.logger.info("Initialized enhanced policy board.", config=self.config)
 
-    async def submit_proposal(
-        self, proposal_id: str, metadata: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def submit_proposal(self, proposal_id: str, metadata: dict[str, Any]) -> dict[str, Any]:
         """
         Submit a new policy proposal
         """
@@ -220,15 +210,11 @@ class EnhancedPolicyBoard:
                 {
                     "proposal_id": proposal_id,
                     "metadata": metadata,  # Consider summarizing if large
-                    "awareness_snapshot_status": system_state.get("health", {}).get(
-                        "status"
-                    ),
+                    "awareness_snapshot_status": system_state.get("health", {}).get("status"),
                 },
             )
 
-            self.logger.info(
-                "Policy proposal submitted successfully.", proposal_id=proposal_id
-            )
+            self.logger.info("Policy proposal submitted successfully.", proposal_id=proposal_id)
             # ΛPHASE_NODE: Proposal Submission End
             return {"status": "submitted", "proposal_id": proposal_id}
 
@@ -253,9 +239,7 @@ class EnhancedPolicyBoard:
         Cast a quantum-enhanced vote on a proposal
         """
         # ΛPHASE_NODE: Vote Casting Start
-        self.logger.info(
-            "Casting vote on proposal.", proposal_id=proposal_id, agent=agent, vote=vote
-        )
+        self.logger.info("Casting vote on proposal.", proposal_id=proposal_id, agent=agent, vote=vote)
         try:
             if proposal_id not in self.active_proposals:
                 self.logger.error(
@@ -318,9 +302,7 @@ class EnhancedPolicyBoard:
         """Get current status of a proposal"""
         self.logger.debug("Fetching status for proposal.", proposal_id=proposal_id)
         if proposal_id not in self.active_proposals:
-            self.logger.error(
-                "Attempted to get status for unknown proposal.", proposal_id=proposal_id
-            )
+            self.logger.error("Attempted to get status for unknown proposal.", proposal_id=proposal_id)
             raise ValueError(f"Unknown proposal: {proposal_id}")
 
         status = self.active_proposals[proposal_id].get_status()  # Internal logging
@@ -343,9 +325,7 @@ class EnhancedPolicyBoard:
             log_entry = {
                 "timestamp": datetime.utcnow().isoformat(),
                 "event_type": event_type,
-                "board_id": self.logger.get_bound_vars().get(
-                    "board_id", "unknown"
-                ),  # Get bound board_id
+                "board_id": self.logger.get_bound_vars().get("board_id", "unknown"),  # Get bound board_id
                 "data": data,
             }
 

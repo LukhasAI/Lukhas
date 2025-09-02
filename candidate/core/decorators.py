@@ -63,9 +63,7 @@ except ImportError:
 logger = structlog.get_logger(__name__)
 
 
-def lukhas_tier_required(
-    level: Union[int, TierLevel], scope: Optional[str] = None
-) -> Callable:
+def lukhas_tier_required(level: Union[int, TierLevel], scope: Optional[str] = None) -> Callable:
     """
     Decorator for enforcing tier-based access control across LUKHAS modules.
 
@@ -105,9 +103,7 @@ def lukhas_tier_required(
 
         # Convert scope string to PermissionScope if needed
         if scope:
-            scope_enum = getattr(
-                PermissionScope, scope.upper(), PermissionScope.MEMORY_FOLD
-            )
+            scope_enum = getattr(PermissionScope, scope.upper(), PermissionScope.MEMORY_FOLD)
         else:
             scope_enum = PermissionScope.MEMORY_FOLD
 

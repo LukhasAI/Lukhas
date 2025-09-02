@@ -63,9 +63,7 @@ class Agent:
 
         logger.info(f"Agent {agent_id} ({agent_type.value}) initialized")
 
-    async def send_message(
-        self, receiver: str, message_type: MessageType, content: Any
-    ) -> AgentMessage:
+    async def send_message(self, receiver: str, message_type: MessageType, content: Any) -> AgentMessage:
         """Send a message to another agent."""
         message = AgentMessage(
             sender=self.agent_id,
@@ -76,22 +74,16 @@ class Agent:
             message_id=f"{self.agent_id}_{int(time.time() * 1000)}",
         )
 
-        logger.debug(
-            f"Agent {self.agent_id} sending message to {receiver}: {message_type.value}"
-        )
+        logger.debug(f"Agent {self.agent_id} sending message to {receiver}: {message_type.value}")
         return message
 
     async def process_message(self, message: AgentMessage) -> Optional[AgentMessage]:
         """Process an incoming message."""
-        logger.debug(
-            f"Agent {self.agent_id} processing message from {message.sender}: {message.message_type.value}"
-        )
+        logger.debug(f"Agent {self.agent_id} processing message from {message.sender}: {message.message_type.value}")
 
         if message.message_type == MessageType.HEARTBEAT:
             self.last_heartbeat = time.time()
-            return await self.send_message(
-                message.sender, MessageType.RESPONSE, {"status": "alive"}
-            )
+            return await self.send_message(message.sender, MessageType.RESPONSE, {"status": "alive"})
 
         elif message.message_type == MessageType.STATUS:
             status_info = {
@@ -100,9 +92,7 @@ class Agent:
                 "status": self.status,
                 "last_heartbeat": self.last_heartbeat,
             }
-            return await self.send_message(
-                message.sender, MessageType.RESPONSE, status_info
-            )
+            return await self.send_message(message.sender, MessageType.RESPONSE, status_info)
 
         return None
 
@@ -223,15 +213,9 @@ class InterAgentSimulation:
             self.add_agent("codex_01", AgentType.CODEX)
 
         # Simulate out-of-order messages
-        await self.send_message(
-            "jules_01", "codex_01", MessageType.COMMAND, {"sequence": 2}
-        )
-        await self.send_message(
-            "jules_01", "codex_01", MessageType.COMMAND, {"sequence": 1}
-        )
-        await self.send_message(
-            "jules_01", "codex_01", MessageType.COMMAND, {"sequence": 3}
-        )
+        await self.send_message("jules_01", "codex_01", MessageType.COMMAND, {"sequence": 2})
+        await self.send_message("jules_01", "codex_01", MessageType.COMMAND, {"sequence": 1})
+        await self.send_message("jules_01", "codex_01", MessageType.COMMAND, {"sequence": 3})
 
         return {
             "test": "signal_desync",
@@ -283,9 +267,7 @@ class InterAgentSimulation:
 
         # Simulate echo loop with delays
         for i in range(3):
-            await self.send_message(
-                "jules_01", "codex_01", MessageType.COMMAND, {"echo_test": i}
-            )
+            await self.send_message("jules_01", "codex_01", MessageType.COMMAND, {"echo_test": i})
             await asyncio.sleep(0.1)
             await self.send_message(
                 "codex_01",
@@ -311,9 +293,7 @@ class InterAgentSimulation:
         echo_results = []
 
         # Test 1: Normal communication
-        await self.send_message(
-            "jules_01", "codex_01", MessageType.COMMAND, {"action": "analyze"}
-        )
+        await self.send_message("jules_01", "codex_01", MessageType.COMMAND, {"action": "analyze"})
         echo_results.append({"test": "normal_communication", "status": "passed"})
 
         # Test 2: Heartbeat
@@ -354,9 +334,7 @@ class InterAgentSimulation:
         echo_results = []
 
         # Test 1: Normal communication
-        await self.send_message(
-            "jules_01", "codex_01", MessageType.COMMAND, {"action": "analyze"}
-        )
+        await self.send_message("jules_01", "codex_01", MessageType.COMMAND, {"action": "analyze"})
         echo_results.append({"test": "normal_communication", "status": "passed"})
 
         # Test 2: Heartbeat
@@ -482,9 +460,7 @@ class InterAgentSimulation:
     def get_simulation_status(self) -> dict[str, Any]:
         """Get current simulation status."""
         return {
-            "agents": {
-                agent_id: agent.get_status() for agent_id, agent in self.agents.items()
-            },
+            "agents": {agent_id: agent.get_status() for agent_id, agent in self.agents.items()},
             "message_count": len(self.message_log),
             "simulation_running": self.simulation_running,
             "simulation_start_time": self.simulation_start_time,

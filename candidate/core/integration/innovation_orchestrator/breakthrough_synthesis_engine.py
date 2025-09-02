@@ -37,9 +37,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
         self._initialized = True
         logger.info("Breakthrough Synthesis Engine initialized")
 
-    async def synthesize_breakthroughs(
-        self, innovation_results: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    async def synthesize_breakthroughs(self, innovation_results: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """
         Synthesize breakthroughs from innovation results
 
@@ -66,9 +64,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
         for innovation_type, group in grouped.items():
             if len(group) > 1:
                 # Multiple innovations of same type - convergence pattern
-                breakthrough = await self._synthesize_convergence(
-                    innovation_type, group
-                )
+                breakthrough = await self._synthesize_convergence(innovation_type, group)
                 if breakthrough:
                     breakthroughs.append(breakthrough)
             else:
@@ -114,29 +110,21 @@ class BreakthroughSynthesisEngine(CoreInterface):
                 total_impact += 0.5
 
         breakthrough["impact_score"] = min(1.0, total_impact / len(innovations) * 1.2)
-        breakthrough["confidence"] = min(
-            1.0, len(innovations) / 5
-        )  # More sources = higher confidence
+        breakthrough["confidence"] = min(1.0, len(innovations) / 5)  # More sources = higher confidence
 
         # Extract key features
         if innovation_type == "consciousness_evolution":
             breakthrough["consciousness_features"] = []
             for inn in innovations:
                 if "new_capabilities" in inn:
-                    breakthrough["consciousness_features"].extend(
-                        inn["new_capabilities"]
-                    )
+                    breakthrough["consciousness_features"].extend(inn["new_capabilities"])
 
         elif innovation_type == "market_disruption":
-            breakthrough["total_market_value"] = sum(
-                inn.get("market_size", 0) for inn in innovations
-            )
+            breakthrough["total_market_value"] = sum(inn.get("market_size", 0) for inn in innovations)
 
         return breakthrough if breakthrough["impact_score"] > 0.5 else None
 
-    async def _convert_to_breakthrough(
-        self, innovation: dict[str, Any]
-    ) -> Optional[dict[str, Any]]:
+    async def _convert_to_breakthrough(self, innovation: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Convert single innovation to breakthrough format"""
 
         breakthrough = {
@@ -164,9 +152,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
 
         return breakthrough if breakthrough["impact_score"] > 0.3 else None
 
-    async def _synthesize_emergence(
-        self, grouped: dict[str, list[dict[str, Any]]]
-    ) -> Optional[dict[str, Any]]:
+    async def _synthesize_emergence(self, grouped: dict[str, list[dict[str, Any]]]) -> Optional[dict[str, Any]]:
         """Detect emergent breakthroughs from diverse innovations"""
 
         # Check for consciousness + market combination
@@ -195,9 +181,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
 
         return None
 
-    async def _detect_amplifications(
-        self, breakthroughs: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    async def _detect_amplifications(self, breakthroughs: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Detect amplification patterns in breakthroughs"""
 
         amplifications = []
@@ -211,9 +195,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
                         "type": "amplified_breakthrough",
                         "pattern": "amplification",
                         "source_breakthroughs": [b1["id"], b2["id"]],
-                        "impact_score": min(
-                            1.0, b1["impact_score"] + b2["impact_score"]
-                        ),
+                        "impact_score": min(1.0, b1["impact_score"] + b2["impact_score"]),
                         "confidence": (b1["confidence"] + b2["confidence"]) / 2,
                         "amplification_factor": 1.5,
                     }
@@ -231,10 +213,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
         # Consciousness and paradigm shifts reinforce
         return bool(
             ("consciousness" in b1.get("type", "") and "paradigm" in b2.get("type", ""))
-            or (
-                "paradigm" in b1.get("type", "")
-                and "consciousness" in b2.get("type", "")
-            )
+            or ("paradigm" in b1.get("type", "") and "consciousness" in b2.get("type", ""))
         )
 
     async def shutdown(self) -> None:

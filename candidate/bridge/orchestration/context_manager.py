@@ -160,21 +160,15 @@ class ContextManager:
                 self.summary_cache.move_to_end(context_id)
 
             context_data = {
-                "entries": [
-                    asdict(entry) for entry in relevant_entries[-10:]
-                ],  # Last 10 entries
-                "summaries": [
-                    asdict(summary) for summary in relevant_summaries[-5:]
-                ],  # Last 5 summaries
+                "entries": [asdict(entry) for entry in relevant_entries[-10:]],  # Last 10 entries
+                "summaries": [asdict(summary) for summary in relevant_summaries[-5:]],  # Last 5 summaries
                 "total_entries": len(entries),
                 "total_summaries": len(summaries),
             }
 
             # Track performance
             retrieval_time = (time.time() - start_time) * 1000
-            logger.debug(
-                "Context retrieved in %.2fms for %s", retrieval_time, context_id
-            )
+            logger.debug("Context retrieved in %.2fms for %s", retrieval_time, context_id)
 
             return context_data
 
@@ -251,9 +245,7 @@ class ContextManager:
         Returns:
             Enhanced prompt with context
         """
-        if not context_data or (
-            not context_data.get("entries") and not context_data.get("summaries")
-        ):
+        if not context_data or (not context_data.get("entries") and not context_data.get("summaries")):
             return prompt
 
         try:
@@ -271,16 +263,12 @@ class ContextManager:
                 recent_entries = entries[-3:]  # Last 3 exchanges
                 for entry in recent_entries:
                     if entry.get("prompt") and entry.get("response"):
-                        context_parts.append(
-                            f"Previous: {entry['prompt'][:200]}... → {entry['response'][:300]}..."
-                        )
+                        context_parts.append(f"Previous: {entry['prompt'][:200]}... → {entry['response'][:300]}...")
 
             # Combine with original prompt
             if context_parts:
                 enhanced_prompt = "\n".join(context_parts) + "\n\nCurrent: " + prompt
-                logger.debug(
-                    "Enhanced prompt with %d context parts", len(context_parts)
-                )
+                logger.debug("Enhanced prompt with %d context parts", len(context_parts))
                 return enhanced_prompt
 
             return prompt
@@ -313,9 +301,7 @@ class ContextManager:
             self.summary_cache[context_id].append(summary)
 
             # Remove old entries from main cache
-            self.context_cache[context_id] = [
-                e for e in entries if e.timestamp >= cutoff_time
-            ]
+            self.context_cache[context_id] = [e for e in entries if e.timestamp >= cutoff_time]
 
             # Update compression stats
             self.compression_stats["compressions_performed"] += 1
@@ -347,9 +333,7 @@ class ContextManager:
             response_words = entry.response.split()
             if len(response_words) > 20:
                 # Take first and last parts of longer responses
-                key_phrase = " ".join(
-                    response_words[:10] + ["..."] + response_words[-10:]
-                )
+                key_phrase = " ".join(response_words[:10] + ["..."] + response_words[-10:])
             else:
                 key_phrase = entry.response
 
@@ -359,9 +343,7 @@ class ContextManager:
             if entry.emotional_state:
                 for emotion, score in entry.emotional_state.items():
                     if emotion in emotional_scores:
-                        emotional_scores[emotion] = max(
-                            emotional_scores[emotion], score
-                        )
+                        emotional_scores[emotion] = max(emotional_scores[emotion], score)
 
         # Create summary text
         summary_text = f"Conversation involving {len(entries)} exchanges. "
@@ -385,9 +367,7 @@ class ContextManager:
             original_entries=len(entries),
         )
 
-    def _filter_relevant_entries(
-        self, entries: list[ContextEntry]
-    ) -> list[ContextEntry]:
+    def _filter_relevant_entries(self, entries: list[ContextEntry]) -> list[ContextEntry]:
         """Filter entries based on relevance and age"""
         if not entries:
             return []
@@ -412,16 +392,12 @@ class ContextManager:
         relevant_entries.sort(key=lambda e: (e.relevance_score, e.timestamp))
         return relevant_entries
 
-    def _filter_relevant_summaries(
-        self, summaries: list[ContextSummary]
-    ) -> list[ContextSummary]:
+    def _filter_relevant_summaries(self, summaries: list[ContextSummary]) -> list[ContextSummary]:
         """Filter summaries based on relevance and age"""
         if not summaries:
             return []
 
-        cutoff_time = datetime.utcnow() - timedelta(
-            hours=self.max_context_age_hours * 2
-        )  # Keep summaries longer
+        cutoff_time = datetime.utcnow() - timedelta(hours=self.max_context_age_hours * 2)  # Keep summaries longer
 
         relevant_summaries = []
         for summary in summaries:
@@ -453,9 +429,7 @@ class ContextManager:
 
                 # Clean up old contexts
                 current_time = datetime.utcnow()
-                cutoff_time = current_time - timedelta(
-                    hours=self.max_context_age_hours * 2
-                )
+                cutoff_time = current_time - timedelta(hours=self.max_context_age_hours * 2)
 
                 # Clean context cache
                 contexts_to_remove = []
@@ -493,11 +467,7 @@ class ContextManager:
 
     async def get_performance_metrics(self) -> dict[str, Any]:
         """Get context manager performance metrics"""
-        avg_handoff_time = (
-            sum(self.handoff_times) / len(self.handoff_times)
-            if self.handoff_times
-            else 0
-        )
+        avg_handoff_time = sum(self.handoff_times) / len(self.handoff_times) if self.handoff_times else 0
 
         return {
             "active_contexts": len(self.context_cache),
@@ -525,16 +495,12 @@ class ContextManager:
         contexts_size = 0
         for entries in self.context_cache.values():
             for entry in entries:
-                contexts_size += (
-                    len(entry.prompt) + len(entry.response) + 500
-                )  # Rough estimate
+                contexts_size += len(entry.prompt) + len(entry.response) + 500  # Rough estimate
 
         summaries_size = 0
         for summaries in self.summary_cache.values():
             for summary in summaries:
-                summaries_size += (
-                    len(summary.summary_text) + len(str(summary.key_points)) + 200
-                )
+                summaries_size += len(summary.summary_text) + len(str(summary.key_points)) + 200
 
         return {
             "contexts_bytes": contexts_size,

@@ -294,9 +294,7 @@ def update_imports():
 
                     # Check for old import patterns
                     if "from qi" in content and "from qim" not in content:
-                        updates_needed.append(
-                            {"file": filepath, "old": "from qi", "new": "from qim"}
-                        )
+                        updates_needed.append({"file": filepath, "old": "from qi", "new": "from qim"})
                 except BaseException:
                     pass
 
@@ -311,9 +309,7 @@ def main():
     plan = load_consolidation_plan()
 
     print("\n📊 Consolidation targets:")
-    total_candidates = sum(
-        info["candidates_for_consolidation"] for info in plan["analysis"].values()
-    )
+    total_candidates = sum(info["candidates_for_consolidation"] for info in plan["analysis"].values())
     print(f"  - Total consolidation candidates: {total_candidates}")
     print(f"  - Orphaned files: {plan.get('orphaned_files', {}).get('count', 0)}")
 

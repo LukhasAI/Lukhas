@@ -133,9 +133,7 @@ async def generate_dream(request: Request, user: AuthUser = Depends(get_current_
         # Add profile info to response
         dream_response["userProfile"] = {
             "total_dreams": updated_profile.get("total_dreams", 0),
-            "avg_drift": updated_profile.get("drift_history", [{}])[-1].get(
-                "drift_score", 0.0
-            ),
+            "avg_drift": updated_profile.get("drift_history", [{}])[-1].get("drift_score", 0.0),
         }
 
         return dream_response
@@ -181,9 +179,7 @@ async def list_dreams(user: AuthUser = Depends(get_current_user)):
 
 
 @app.post("/api/dreams/{dream_id}/rate")
-async def rate_dream(
-    dream_id: str, request: Request, user: AuthUser = Depends(get_current_user)
-):
+async def rate_dream(dream_id: str, request: Request, user: AuthUser = Depends(get_current_user)):
     """Rate a dream"""
     data = await request.json()
     rating = data.get("rating", 0)  # -1, 0, 1
@@ -237,9 +233,7 @@ async def get_user_settings(user: AuthUser = Depends(get_current_user)):
 
 
 @app.post("/api/settings")
-async def update_user_settings(
-    request: Request, user: AuthUser = Depends(get_current_user)
-):
+async def update_user_settings(request: Request, user: AuthUser = Depends(get_current_user)):
     """Update user settings"""
     data = await request.json()
 

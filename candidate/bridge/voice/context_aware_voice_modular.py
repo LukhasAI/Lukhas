@@ -268,9 +268,7 @@ class ContextAnalyzer:
             "connectivity": device_info.get("connectivity", "good"),
         }
 
-    def _analyze_memory(
-        self, memory: list[dict[str, Any]], current_intent: str
-    ) -> dict[str, Any]:
+    def _analyze_memory(self, memory: list[dict[str, Any]], current_intent: str) -> dict[str, Any]:
         """Analyze historical interaction patterns"""
         if not memory:
             return {
@@ -282,9 +280,7 @@ class ContextAnalyzer:
         familiarity = min(1.0, len(memory) / 100)  # 0-1 scale
 
         # Find related past interactions
-        related_interactions = [
-            m for m in memory if m.get("context", {}).get("intent") == current_intent
-        ]
+        related_interactions = [m for m in memory if m.get("context", {}).get("intent") == current_intent]
 
         return {
             "familiarity": familiarity,
@@ -327,9 +323,7 @@ class ContextAnalyzer:
         else:
             return UrgencyLevel.LOW
 
-    def _determine_formality(
-        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
-    ) -> float:
+    def _determine_formality(self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]) -> float:
         """Determine appropriate formality level"""
         formality = 0.5  # Start with medium formality
 
@@ -339,9 +333,7 @@ class ContextAnalyzer:
 
         return max(0.1, min(0.9, formality))
 
-    def _calculate_confidence(
-        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
-    ) -> float:
+    def _calculate_confidence(self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]) -> float:
         """Calculate confidence in context understanding"""
         confidence = nlp_analysis.get("confidence", 0.5)
 
@@ -399,9 +391,7 @@ class VoiceModulator:
         - Maintains natural voice parameter ranges
         """
         # Start with base emotion parameters
-        base_params = self.emotion_mapping.get(
-            context.emotion, self.emotion_mapping[EmotionState.NEUTRAL]
-        ).copy()
+        base_params = self.emotion_mapping.get(context.emotion, self.emotion_mapping[EmotionState.NEUTRAL]).copy()
 
         # Apply urgency adjustments
         if context.urgency == UrgencyLevel.CRITICAL:
@@ -520,9 +510,7 @@ class MemoryManager:
             importance=memory["importance"],
         )
 
-    def get_relevant_memories(
-        self, user_id: str, limit: int = 20
-    ) -> list[dict[str, Any]]:
+    def get_relevant_memories(self, user_id: str, limit: int = 20) -> list[dict[str, Any]]:
         """Get relevant memories for a user"""
         if not user_id or user_id not in self.memories:
             return []
@@ -586,9 +574,7 @@ class ContextAwareVoiceSystem:
             enable_adaptation=self.enable_adaptation,
         )
 
-    async def process_input(
-        self, user_input: str, metadata: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_input(self, user_input: str, metadata: dict[str, Any]) -> dict[str, Any]:
         """
         Process user input and generate context-aware voice response
 
@@ -652,9 +638,7 @@ class ContextAwareVoiceSystem:
 
         return result
 
-    async def _generate_response(
-        self, user_input: str, context: ContextAnalysis
-    ) -> str:
+    async def _generate_response(self, user_input: str, context: ContextAnalysis) -> str:
         """Generate response content based on input and context"""
         # Placeholder implementation - in production would use LLM
         if context.intent == "help_request":
@@ -674,9 +658,7 @@ class ContextAwareVoiceSystem:
     def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status"""
         return {
-            "context_analyzer": {
-                "emotion_patterns_loaded": len(self.context_analyzer.emotion_patterns)
-            },
+            "context_analyzer": {"emotion_patterns_loaded": len(self.context_analyzer.emotion_patterns)},
             "voice_modulator": {
                 "default_voice": self.voice_modulator.default_voice,
                 "emotion_mappings": len(self.voice_modulator.emotion_mapping),
@@ -684,9 +666,7 @@ class ContextAwareVoiceSystem:
             "memory_manager": {
                 "total_users": len(self.memory_manager.memories),
                 "max_memories": self.memory_manager.max_memories,
-                "total_memories": sum(
-                    len(memories) for memories in self.memory_manager.memories.values()
-                ),
+                "total_memories": sum(len(memories) for memories in self.memory_manager.memories.values()),
             },
             "configuration": {
                 "enable_memory": self.enable_memory,

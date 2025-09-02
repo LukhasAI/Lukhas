@@ -72,22 +72,14 @@ class VoiceSynthesis:
 
         # Synthesize speech using the selected provider
         if provider == "elevenlabs":
-            result = self._synthesize_elevenlabs(
-                text, emotion, voice_id, symbolic_resonance
-            )
+            result = self._synthesize_elevenlabs(text, emotion, voice_id, symbolic_resonance)
         elif provider == "coqui":
             result = self._synthesize_coqui(text, emotion, voice_id, symbolic_resonance)
         elif provider == "edge_tts":
-            result = self._synthesize_edge_tts(
-                text, emotion, voice_id, symbolic_resonance
-            )
+            result = self._synthesize_edge_tts(text, emotion, voice_id, symbolic_resonance)
         else:
-            self.logger.warning(
-                f"Unknown TTS provider: {provider}, falling back to edge_tts"
-            )
-            result = self._synthesize_edge_tts(
-                text, emotion, voice_id, symbolic_resonance
-            )
+            self.logger.warning(f"Unknown TTS provider: {provider}, falling back to edge_tts")
+            result = self._synthesize_edge_tts(text, emotion, voice_id, symbolic_resonance)
 
         # Store in history if enabled and successful
         if self.voice_memory_enabled and result.get("success", False):
@@ -139,9 +131,7 @@ class VoiceSynthesis:
         elif provider == "edge_tts":
             return self._synthesize_edge_tts(text, emotion, voice_id)
         else:
-            self.logger.warning(
-                f"Unknown TTS provider: {provider}, falling back to edge_tts"
-            )
+            self.logger.warning(f"Unknown TTS provider: {provider}, falling back to edge_tts")
             return self._synthesize_edge_tts(text, emotion, voice_id)
 
     def _select_provider(self, emotion: Optional[str] = None) -> str:
@@ -255,9 +245,7 @@ class VoiceSynthesis:
                 communicate = edge_tts.Communicate(text, voice)
 
                 # Generate audio and save to temporary file
-                with tempfile.NamedTemporaryFile(
-                    delete=False, suffix=".mp3"
-                ) as tmp_file:
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp_file:
                     tmp_path = tmp_file.name
 
                 await communicate.save(tmp_path)
@@ -292,9 +280,7 @@ class VoiceSynthesis:
             }
 
         except ImportError:
-            self.logger.warning(
-                "edge_tts library not available, using fallback synthesis"
-            )
+            self.logger.warning("edge_tts library not available, using fallback synthesis")
             return self._synthesize_fallback(text, emotion, voice_id)
         except Exception as e:
             self.logger.error(f"Edge TTS synthesis failed: {e}, using fallback")

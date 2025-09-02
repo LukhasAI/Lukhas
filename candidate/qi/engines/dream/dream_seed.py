@@ -51,9 +51,7 @@ THEMES = [
 _flux = QIFlux()
 
 
-def _seed_diversity_index(
-    resonance: float, entropy_source: Optional[QIFlux] = None
-) -> int:
+def _seed_diversity_index(resonance: float, entropy_source: Optional[QIFlux] = None) -> int:
     """Select theme index using resonance and quantum entropy."""
     source = entropy_source or _flux
     entropy = source.measure_entropy()

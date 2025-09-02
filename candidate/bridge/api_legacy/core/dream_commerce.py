@@ -133,36 +133,20 @@ class DreamSeedSubmission(BaseModel):
     """Model for submitting dream seeds"""
 
     seed_type: DreamSeedType = Field(..., description="Type of dream seed")
-    title: str = Field(
-        ..., min_length=3, max_length=100, description="Dream seed title"
-    )
+    title: str = Field(..., min_length=3, max_length=100, description="Dream seed title")
     description: str = Field(
         ...,
         min_length=10,
         max_length=500,
         description="Dream seed description",
     )
-    symbolic_prompts: dict[str, Any] = Field(
-        ..., description="Symbolic prompts (images, audio, emotions, text)"
-    )
-    target_emotions: list[str] = Field(
-        default_factory=list, description="Target emotional experiences"
-    )
-    consent_requirements: ConsentLevel = Field(
-        ConsentLevel.STANDARD, description="Required consent level"
-    )
-    revenue_model: RevenueModel = Field(
-        RevenueModel.FREE, description="Revenue model for this seed"
-    )
-    creator_revenue_share: float = Field(
-        0.0, ge=0.0, le=1.0, description="Creator revenue share (0.0-1.0)"
-    )
-    ethical_boundaries: list[str] = Field(
-        default_factory=list, description="Ethical constraints"
-    )
-    metadata: dict[str, Any] = Field(
-        default_factory=dict, description="Additional metadata"
-    )
+    symbolic_prompts: dict[str, Any] = Field(..., description="Symbolic prompts (images, audio, emotions, text)")
+    target_emotions: list[str] = Field(default_factory=list, description="Target emotional experiences")
+    consent_requirements: ConsentLevel = Field(ConsentLevel.STANDARD, description="Required consent level")
+    revenue_model: RevenueModel = Field(RevenueModel.FREE, description="Revenue model for this seed")
+    creator_revenue_share: float = Field(0.0, ge=0.0, le=1.0, description="Creator revenue share (0.0-1.0)")
+    ethical_boundaries: list[str] = Field(default_factory=list, description="Ethical constraints")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
 
 
 class DreamExperienceRequest(BaseModel):
@@ -170,22 +154,12 @@ class DreamExperienceRequest(BaseModel):
 
     user_id: str = Field(..., description="User identifier")
     dream_seed_id: str = Field(..., description="Selected dream seed ID")
-    personalization_level: float = Field(
-        0.5, ge=0.0, le=1.0, description="Personalization intensity"
-    )
-    experience_duration: int = Field(
-        10, ge=1, le=60, description="Experience duration in minutes"
-    )
-    visualization_format: str = Field(
-        "narrative", description="Format for dream visualization"
-    )
+    personalization_level: float = Field(0.5, ge=0.0, le=1.0, description="Personalization intensity")
+    experience_duration: int = Field(10, ge=1, le=60, description="Experience duration in minutes")
+    visualization_format: str = Field("narrative", description="Format for dream visualization")
     include_sora_video: bool = Field(False, description="Generate Sora video content")
-    consent_confirmation: dict[str, bool] = Field(
-        ..., description="Consent confirmations"
-    )
-    payment_details: Optional[dict[str, Any]] = Field(
-        None, description="Payment information if required"
-    )
+    consent_confirmation: dict[str, bool] = Field(..., description="Consent confirmations")
+    payment_details: Optional[dict[str, Any]] = Field(None, description="Payment information if required")
 
 
 class DreamMarketplaceFilter(BaseModel):
@@ -322,9 +296,7 @@ class DreamCommerceEngine:
             self.logger.error(f"Failed to initialize dream commerce engine: {e}")
             return False
 
-    async def create_dream_seed(
-        self, creator_id: str, submission: DreamSeedSubmission
-    ) -> DreamSeed:
+    async def create_dream_seed(self, creator_id: str, submission: DreamSeedSubmission) -> DreamSeed:
         """Create a new dream seed for the marketplace"""
         try:
             # Verify creator permissions
@@ -387,13 +359,8 @@ class DreamCommerceEngine:
             self.creator_profiles[creator_id]["total_seeds"] += 1
 
             # Add specialization if new
-            if (
-                submission.seed_type.value
-                not in self.creator_profiles[creator_id]["specializations"]
-            ):
-                self.creator_profiles[creator_id]["specializations"].append(
-                    submission.seed_type.value
-                )
+            if submission.seed_type.value not in self.creator_profiles[creator_id]["specializations"]:
+                self.creator_profiles[creator_id]["specializations"].append(submission.seed_type.value)
 
             # Publish creation event
             if self.event_bus:
@@ -416,9 +383,7 @@ class DreamCommerceEngine:
             self.logger.error(f"Failed to create dream seed: {e}")
             raise
 
-    async def generate_dream_experience(
-        self, request: DreamExperienceRequest
-    ) -> DreamExperience:
+    async def generate_dream_experience(self, request: DreamExperienceRequest) -> DreamExperience:
         """Generate a personalized dream experience from a dream seed"""
         try:
             # Validate dream seed exists
@@ -428,27 +393,19 @@ class DreamCommerceEngine:
             dream_seed = self.dream_seeds[request.dream_seed_id]
 
             # Verify user consent
-            consent_valid = await self._verify_user_consent(
-                request.user_id, dream_seed, request.consent_confirmation
-            )
+            consent_valid = await self._verify_user_consent(request.user_id, dream_seed, request.consent_confirmation)
 
             if not consent_valid:
-                raise HTTPException(
-                    status_code=403, detail="Insufficient or invalid consent"
-                )
+                raise HTTPException(status_code=403, detail="Insufficient or invalid consent")
 
             # Process payment if required
             payment_processed = False
             if dream_seed.revenue_model != RevenueModel.FREE:
-                payment_result = await self._process_payment(
-                    request.user_id, dream_seed, request.payment_details
-                )
+                payment_result = await self._process_payment(request.user_id, dream_seed, request.payment_details)
                 payment_processed = payment_result["success"]
 
                 if not payment_processed:
-                    raise HTTPException(
-                        status_code=402, detail="Payment processing failed"
-                    )
+                    raise HTTPException(status_code=402, detail="Payment processing failed")
 
             # Generate personalized dream content
             dream_content = await self._generate_personalized_dream_content(
@@ -468,19 +425,15 @@ class DreamCommerceEngine:
                 )
 
             if request.include_sora_video:
-                sora_video_url = await self._generate_sora_video(
-                    dream_content, visualization_content
-                )
+                sora_video_url = await self._generate_sora_video(dream_content, visualization_content)
 
             # Create privacy proof if required
             privacy_proof = None
             if self.privacy_validation_required and self.zkp_validator:
-                privacy_proof_obj = (
-                    await self.zkp_validator.generate_emotional_range_proof(
-                        dream_content.get("emotional_context", {}),
-                        request.user_id,
-                        f"commerce_dream_{uuid.uuid4().hex[:8]}",
-                    )
+                privacy_proof_obj = await self.zkp_validator.generate_emotional_range_proof(
+                    dream_content.get("emotional_context", {}),
+                    request.user_id,
+                    f"commerce_dream_{uuid.uuid4().hex[:8]}",
                 )
                 privacy_proof = privacy_proof_obj.proof_id
 
@@ -550,24 +503,15 @@ class DreamCommerceEngine:
 
             for dream_seed in self.dream_seeds.values():
                 # Apply type filter
-                if (
-                    filters.seed_types
-                    and dream_seed.seed_type not in filters.seed_types
-                ):
+                if filters.seed_types and dream_seed.seed_type not in filters.seed_types:
                     continue
 
                 # Apply consent level filter
-                if (
-                    filters.consent_levels
-                    and dream_seed.consent_requirements not in filters.consent_levels
-                ):
+                if filters.consent_levels and dream_seed.consent_requirements not in filters.consent_levels:
                     continue
 
                 # Apply revenue model filter
-                if (
-                    filters.revenue_models
-                    and dream_seed.revenue_model not in filters.revenue_models
-                ):
+                if filters.revenue_models and dream_seed.revenue_model not in filters.revenue_models:
                     continue
 
                 # Apply creator filter
@@ -585,9 +529,7 @@ class DreamCommerceEngine:
                         continue
 
                 # Apply tags filter
-                if filters.tags and not any(
-                    tag in dream_seed.tags for tag in filters.tags
-                ):
+                if filters.tags and not any(tag in dream_seed.tags for tag in filters.tags):
                     continue
 
                 filtered_seeds.append(dream_seed)
@@ -645,9 +587,7 @@ class DreamCommerceEngine:
 
         return {"approved": True, "reason": "Passed ethical validation"}
 
-    async def _calculate_dream_seed_price(
-        self, submission: DreamSeedSubmission
-    ) -> Decimal:
+    async def _calculate_dream_seed_price(self, submission: DreamSeedSubmission) -> Decimal:
         """Calculate pricing for dream seed based on revenue model"""
         if submission.revenue_model == RevenueModel.FREE:
             return Decimal("0.00")
@@ -666,9 +606,7 @@ class DreamCommerceEngine:
             base_price = base_prices.get(submission.seed_type, Decimal("2.99"))
 
             # Adjust for complexity (number of symbolic prompts)
-            complexity_multiplier = min(
-                1.5, 1.0 + len(submission.symbolic_prompts) * 0.1
-            )
+            complexity_multiplier = min(1.5, 1.0 + len(submission.symbolic_prompts) * 0.1)
 
             return base_price * Decimal(str(complexity_multiplier))
 
@@ -751,10 +689,8 @@ class DreamCommerceEngine:
                 "dream_seed_id": dream_seed.seed_id,
                 "creator_id": dream_seed.creator_id,
                 "amount": dream_seed.price,
-                "platform_fee": dream_seed.price
-                * Decimal(str(self.platform_revenue_share)),
-                "creator_share": dream_seed.price
-                * Decimal(str(dream_seed.creator_revenue_share)),
+                "platform_fee": dream_seed.price * Decimal(str(self.platform_revenue_share)),
+                "creator_share": dream_seed.price * Decimal(str(dream_seed.creator_revenue_share)),
                 "timestamp": datetime.now(timezone.utc),
             }
         )
@@ -860,9 +796,7 @@ class DreamCommerceEngine:
         # Return placeholder URL
         return f"https://sora-api.example.com/videos/{video_id}.mp4"
 
-    async def _process_revenue_sharing(
-        self, dream_seed: DreamSeed, payment_result: dict[str, Any]
-    ) -> None:
+    async def _process_revenue_sharing(self, dream_seed: DreamSeed, payment_result: dict[str, Any]) -> None:
         """Process revenue sharing between creator and platform"""
         total_amount = Decimal(str(payment_result["amount"]))
         creator_share = total_amount * Decimal(str(dream_seed.creator_revenue_share))
@@ -870,16 +804,12 @@ class DreamCommerceEngine:
 
         # Update creator revenue
         if dream_seed.creator_id in self.creator_profiles:
-            self.creator_profiles[dream_seed.creator_id][
-                "total_revenue"
-            ] += creator_share
+            self.creator_profiles[dream_seed.creator_id]["total_revenue"] += creator_share
 
         # Update dream seed revenue
         dream_seed.revenue_generated += total_amount
 
-        self.logger.info(
-            f"Revenue sharing processed: Creator {creator_share}, Platform {platform_share}"
-        )
+        self.logger.info(f"Revenue sharing processed: Creator {creator_share}, Platform {platform_share}")
 
     def get_commerce_stats(self) -> dict[str, Any]:
         """Get comprehensive commerce engine statistics"""
@@ -890,20 +820,15 @@ class DreamCommerceEngine:
             "active_creators": len(self.creator_profiles),
             "marketplace_seeds": len(self.dream_seeds),
             "revenue_models_used": {
-                model.value: len(
-                    [s for s in self.dream_seeds.values() if s.revenue_model == model]
-                )
+                model.value: len([s for s in self.dream_seeds.values() if s.revenue_model == model])
                 for model in RevenueModel
             },
             "seed_types_distribution": {
-                seed_type.value: len(
-                    [s for s in self.dream_seeds.values() if s.seed_type == seed_type]
-                )
+                seed_type.value: len([s for s in self.dream_seeds.values() if s.seed_type == seed_type])
                 for seed_type in DreamSeedType
             },
             "average_seed_price": float(
-                sum(s.price for s in self.dream_seeds.values())
-                / max(1, len(self.dream_seeds))
+                sum(s.price for s in self.dream_seeds.values()) / max(1, len(self.dream_seeds))
             ),
             "platform_revenue_share": self.platform_revenue_share,
             "ethical_validation_enabled": self.ethical_validation_enabled,
@@ -971,12 +896,8 @@ async def generate_dream_experience(request: DreamExperienceRequest):
 @router.get("/marketplace", response_model=APIResponse)
 async def browse_marketplace(
     seed_types: Optional[str] = Query(None, description="Comma-separated seed types"),
-    consent_levels: Optional[str] = Query(
-        None, description="Comma-separated consent levels"
-    ),
-    revenue_models: Optional[str] = Query(
-        None, description="Comma-separated revenue models"
-    ),
+    consent_levels: Optional[str] = Query(None, description="Comma-separated consent levels"),
+    revenue_models: Optional[str] = Query(None, description="Comma-separated revenue models"),
     creator_id: Optional[str] = Query(None, description="Filter by creator ID"),
     min_rating: Optional[float] = Query(None, description="Minimum rating filter"),
     tags: Optional[str] = Query(None, description="Comma-separated tags"),
@@ -989,19 +910,13 @@ async def browse_marketplace(
         filters = DreamMarketplaceFilter()
 
         if seed_types:
-            filters.seed_types = [
-                DreamSeedType(t.strip()) for t in seed_types.split(",")
-            ]
+            filters.seed_types = [DreamSeedType(t.strip()) for t in seed_types.split(",")]
 
         if consent_levels:
-            filters.consent_levels = [
-                ConsentLevel(c.strip()) for c in consent_levels.split(",")
-            ]
+            filters.consent_levels = [ConsentLevel(c.strip()) for c in consent_levels.split(",")]
 
         if revenue_models:
-            filters.revenue_models = [
-                RevenueModel(r.strip()) for r in revenue_models.split(",")
-            ]
+            filters.revenue_models = [RevenueModel(r.strip()) for r in revenue_models.split(",")]
 
         if creator_id:
             filters.creator_id = creator_id
@@ -1013,9 +928,7 @@ async def browse_marketplace(
             filters.tags = [t.strip() for t in tags.split(",")]
 
         # Get filtered seeds
-        dream_seeds = await commerce_engine.get_marketplace_dreams(
-            filters, limit, offset
-        )
+        dream_seeds = await commerce_engine.get_marketplace_dreams(filters, limit, offset)
 
         # Format response
         seeds_data = []

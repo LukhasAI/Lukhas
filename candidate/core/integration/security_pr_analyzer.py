@@ -66,9 +66,7 @@ class SecurityScanner:
                 }
             )
 
-    def scan_repository(
-        self, repo_path: str, repo_info: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    def scan_repository(self, repo_path: str, repo_info: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Comprehensive security scan of repository"""
 
         results = {
@@ -173,17 +171,11 @@ class SecurityScanner:
 
         for root, dirs, files in os.walk(repo_path):
             # Skip common directories
-            dirs[:] = [
-                d
-                for d in dirs
-                if d not in [".git", "__pycache__", "node_modules", ".venv", "venv"]
-            ]
+            dirs[:] = [d for d in dirs if d not in [".git", "__pycache__", "node_modules", ".venv", "venv"]]
 
             for file in files:
                 # Skip binary files and common non-code files
-                if file.endswith(
-                    (".pyc", ".jpg", ".png", ".gif", ".pdf", ".zip", ".tar.gz")
-                ):
+                if file.endswith((".pyc", ".jpg", ".png", ".gif", ".pdf", ".zip", ".tar.gz")):
                     continue
 
                 file_path = Path(root) / file
@@ -246,10 +238,7 @@ class SecurityScanner:
                                     SecurityIssue(
                                         type="DEPENDENCY",
                                         severity=(
-                                            "HIGH"
-                                            if vuln.get("severity", "medium").lower()
-                                            == "high"
-                                            else "MEDIUM"
+                                            "HIGH" if vuln.get("severity", "medium").lower() == "high" else "MEDIUM"
                                         ),
                                         file=str(req_file.relative_to(repo_path)),
                                         line=0,
@@ -278,9 +267,7 @@ class SecurityScanner:
         package_json = Path(repo_path) / "package.json"
         if package_json.exists():
             try:
-                result = safe_subprocess_run(
-                    ["npm", "audit", "--json"], cwd=repo_path, timeout=60
-                )
+                result = safe_subprocess_run(["npm", "audit", "--json"], cwd=repo_path, timeout=60)
 
                 if result["success"] and result["stdout"]:
                     try:
@@ -328,8 +315,7 @@ class SecurityScanner:
 
                 # Check if file matches sensitive patterns
                 is_sensitive = any(
-                    file.lower().endswith(pattern.replace("*", ""))
-                    or pattern.replace("*", "") in file.lower()
+                    file.lower().endswith(pattern.replace("*", "")) or pattern.replace("*", "") in file.lower()
                     for pattern in sensitive_patterns
                 )
 
@@ -353,9 +339,7 @@ class SecurityScanner:
 
         return permission_issues
 
-    def _get_github_security_alerts(
-        self, repo_info: dict[str, Any]
-    ) -> list[SecurityIssue]:
+    def _get_github_security_alerts(self, repo_info: dict[str, Any]) -> list[SecurityIssue]:
         """Get GitHub security alerts for repository"""
         alerts = []
 
@@ -401,9 +385,7 @@ class SecurityScanner:
                                 type="CODE_SCANNING",
                                 severity=severity,
                                 file=alert["most_recent_instance"]["location"]["path"],
-                                line=alert["most_recent_instance"]["location"][
-                                    "start_line"
-                                ],
+                                line=alert["most_recent_instance"]["location"]["start_line"],
                                 description=f"Code Scanning Alert: {alert['rule']['description']}",
                                 recommendation="Review and fix the identified security issue",
                             )
@@ -420,9 +402,7 @@ class SecurityScanner:
 
         # Python-specific checks
         for root, dirs, files in os.walk(repo_path):
-            dirs[:] = [
-                d for d in dirs if d not in [".git", "__pycache__", "node_modules"]
-            ]
+            dirs[:] = [d for d in dirs if d not in [".git", "__pycache__", "node_modules"]]
 
             for file in files:
                 if file.endswith(".py"):
@@ -546,9 +526,7 @@ class PRAnalyzer:
                 }
             )
 
-    def analyze_repository_prs(
-        self, repo_info: dict[str, Any], days_back: int = 30
-    ) -> dict[str, Any]:
+    def analyze_repository_prs(self, repo_info: dict[str, Any], days_back: int = 30) -> dict[str, Any]:
         """Analyze pull requests in repository"""
 
         if not self.github_token:
@@ -581,9 +559,7 @@ class PRAnalyzer:
             recent_prs = [pr for pr in prs if pr["updated_at"] >= since_date]
 
             results["total_prs"] = len(recent_prs)
-            results["open_prs"] = len(
-                [pr for pr in recent_prs if pr["state"] == "open"]
-            )
+            results["open_prs"] = len([pr for pr in recent_prs if pr["state"] == "open"])
 
             # Analyze each PR
             for pr in recent_prs:
@@ -637,9 +613,7 @@ class PRAnalyzer:
                             "token",
                         ]
                     ):
-                        analysis.issues_found.append(
-                            f"Changes to sensitive file: {file['filename']}"
-                        )
+                        analysis.issues_found.append(f"Changes to sensitive file: {file['filename']}")
                         analysis.security_risk = "HIGH"
 
                     # Check patch content for security issues
@@ -652,46 +626,32 @@ class PRAnalyzer:
                             patch,
                             re.IGNORECASE,
                         ):
-                            analysis.issues_found.append(
-                                "Potential secret in code changes"
-                            )
+                            analysis.issues_found.append("Potential secret in code changes")
                             analysis.security_risk = "HIGH"
 
                         # Look for dangerous functions
                         if re.search(r"\+.*\b(?:eval|exec)\s*\(", patch):
-                            analysis.issues_found.append(
-                                "Use of dangerous functions (eval/exec)"
-                            )
+                            analysis.issues_found.append("Use of dangerous functions (eval/exec)")
                             analysis.security_risk = (
-                                "MEDIUM"
-                                if analysis.security_risk == "LOW"
-                                else analysis.security_risk
+                                "MEDIUM" if analysis.security_risk == "LOW" else analysis.security_risk
                             )
 
                         # Check for SQL injection patterns
                         if re.search(r"\+.*execute\s*\([^)]*%[^)]*\)", patch):
-                            analysis.issues_found.append(
-                                "Potential SQL injection pattern"
-                            )
+                            analysis.issues_found.append("Potential SQL injection pattern")
                             analysis.security_risk = (
-                                "MEDIUM"
-                                if analysis.security_risk == "LOW"
-                                else analysis.security_risk
+                                "MEDIUM" if analysis.security_risk == "LOW" else analysis.security_risk
                             )
 
                 # Calculate code quality score
-                analysis.code_quality_score = self._calculate_pr_quality_score(
-                    files, analysis.issues_found
-                )
+                analysis.code_quality_score = self._calculate_pr_quality_score(files, analysis.issues_found)
 
         except Exception as e:
             analysis.issues_found.append(f"Analysis error: {e!s}")
 
         return analysis
 
-    def _calculate_pr_quality_score(
-        self, files: list[dict], issues: list[str]
-    ) -> float:
+    def _calculate_pr_quality_score(self, files: list[dict], issues: list[str]) -> float:
         """Calculate code quality score for PR"""
         score = 100.0
 
@@ -703,9 +663,7 @@ class PRAnalyzer:
             if file["additions"] > 500:  # Very large changes
                 score -= 5
 
-            if (
-                file.get("deletions", 0) > file.get("additions", 0) * 2
-            ):  # Mostly deletions
+            if file.get("deletions", 0) > file.get("additions", 0) * 2:  # Mostly deletions
                 score += 5  # Good, removing code
 
         return max(0.0, min(100.0, score))
@@ -715,37 +673,21 @@ class PRAnalyzer:
         recommendations = []
 
         if results["high_risk_prs"] > 0:
-            recommendations.append(
-                f"🚨 {results['high_risk_prs']} high-risk PRs require immediate security review"
-            )
+            recommendations.append(f"🚨 {results['high_risk_prs']} high-risk PRs require immediate security review")
 
         if results["open_prs"] > 10:
-            recommendations.append(
-                "📊 Consider reducing the number of open PRs to improve review quality"
-            )
+            recommendations.append("📊 Consider reducing the number of open PRs to improve review quality")
 
         # Analyze PR patterns
         pr_analyses = results["pr_analyses"]
-        avg_quality = (
-            sum(pr.code_quality_score for pr in pr_analyses) / len(pr_analyses)
-            if pr_analyses
-            else 0
-        )
+        avg_quality = sum(pr.code_quality_score for pr in pr_analyses) / len(pr_analyses) if pr_analyses else 0
 
         if avg_quality < 70:
-            recommendations.append(
-                "📈 Consider implementing stricter code review processes"
-            )
+            recommendations.append("📈 Consider implementing stricter code review processes")
 
-        secret_issues = sum(
-            1
-            for pr in pr_analyses
-            if any("secret" in issue.lower() for issue in pr.issues_found)
-        )
+        secret_issues = sum(1 for pr in pr_analyses if any("secret" in issue.lower() for issue in pr.issues_found))
         if secret_issues > 0:
-            recommendations.append(
-                "🔐 Implement pre-commit hooks to prevent secrets in code"
-            )
+            recommendations.append("🔐 Implement pre-commit hooks to prevent secrets in code")
 
         return recommendations
 
@@ -756,13 +698,9 @@ def main():
 
     parser = argparse.ArgumentParser(description="ΛBot Security & PR Analyzer")
     parser.add_argument("--repo", required=True, help="Repository URL or path")
-    parser.add_argument(
-        "--security-only", action="store_true", help="Run security scan only"
-    )
+    parser.add_argument("--security-only", action="store_true", help="Run security scan only")
     parser.add_argument("--pr-only", action="store_true", help="Run PR analysis only")
-    parser.add_argument(
-        "--days", type=int, default=30, help="Days back for PR analysis"
-    )
+    parser.add_argument("--days", type=int, default=30, help="Days back for PR analysis")
 
     args = parser.parse_args()
 
@@ -802,9 +740,7 @@ def main():
         print(f"   Score: {security_results['overall_security_score']}/100")
         print(f"   Risk Level: {security_results['risk_level']}")
         print(f"   Secrets Found: {len(security_results['secrets_found'])}")
-        print(
-            f"   Vulnerabilities: {len(security_results['dependency_vulnerabilities'])}"
-        )
+        print(f"   Vulnerabilities: {len(security_results['dependency_vulnerabilities'])}")
 
     # Run PR analysis
     if not args.security_only and repo_info:
@@ -819,9 +755,7 @@ def main():
             print(f"   High Risk PRs: {pr_results['high_risk_prs']}")
 
     # Save results
-    output_file = (
-        f"security_pr_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-    )
+    output_file = f"security_pr_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     with open(output_file, "w") as f:
         json.dump(results, f, indent=2, default=str)
 

@@ -53,9 +53,7 @@ class PersonalityRefiner:
         adjustment = feedback_entry.get("delta")
         if trait in self.profile["traits"]:
             self.profile["traits"][trait] += adjustment
-            self.profile["traits"][trait] = max(
-                0.0, min(1.0, self.profile["traits"][trait])
-            )
+            self.profile["traits"][trait] = max(0.0, min(1.0, self.profile["traits"][trait]))
             self.profile["mutation_log"].append(
                 {
                     "trait": trait,

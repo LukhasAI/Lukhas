@@ -241,9 +241,7 @@ class RequestTracingMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
 
         # Calculate duration
-        duration_ms = (
-            datetime.utcnow() - request.state.start_time
-        ).total_seconds() * 1000
+        duration_ms = (datetime.utcnow() - request.state.start_time).total_seconds() * 1000
 
         # Add headers
         response.headers["X-Request-ID"] = request_id
@@ -259,11 +257,7 @@ class RequestTracingMiddleware(BaseHTTPMiddleware):
 
         # Update metrics
         endpoint = request.url.path.split("/")
-        version = (
-            endpoint[2]
-            if len(endpoint) > 2 and endpoint[2] in ["v1", "v2", "v3"]
-            else "unknown"
-        )
+        version = endpoint[2] if len(endpoint) > 2 and endpoint[2] in ["v1", "v2", "v3"] else "unknown"
 
         request_count.labels(
             method=request.method,
@@ -272,9 +266,9 @@ class RequestTracingMiddleware(BaseHTTPMiddleware):
             status=response.status_code,
         ).inc()
 
-        request_duration.labels(
-            method=request.method, endpoint=request.url.path, version=version
-        ).observe(duration_ms / 1000.0)
+        request_duration.labels(method=request.method, endpoint=request.url.path, version=version).observe(
+            duration_ms / 1000.0
+        )
 
         return response
 
@@ -289,9 +283,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next):
         # Get client identifier
-        client_id = request.headers.get(
-            "X-API-Key", request.client.host if request.client else "unknown"
-        )
+        client_id = request.headers.get("X-API-Key", request.client.host if request.client else "unknown")
 
         # Check rate limit
         key = f"rate_limit:{client_id}:{datetime.utcnow().strftime('%Y%m%d%H%M')}"
@@ -319,9 +311,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
 
             # Add rate limit headers
             response.headers["X-RateLimit-Limit"] = str(self.default_limit)
-            response.headers["X-RateLimit-Remaining"] = str(
-                max(0, self.default_limit - current)
-            )
+            response.headers["X-RateLimit-Remaining"] = str(max(0, self.default_limit - current))
 
             return response
 
@@ -379,15 +369,11 @@ async def verify_token(
 
         # Validate required fields
         if not user_id:
-            raise HTTPException(
-                status_code=401, detail="Invalid token: missing user_id"
-            )
+            raise HTTPException(status_code=401, detail="Invalid token: missing user_id")
 
         # Check token expiration
         exp = payload.get("exp")
-        if exp and datetime.fromtimestamp(exp, tz=timezone.utc) < datetime.now(
-            timezone.utc
-        ):
+        if exp and datetime.fromtimestamp(exp, tz=timezone.utc) < datetime.now(timezone.utc):
             raise HTTPException(status_code=401, detail="Token has expired")
 
         logger.info(f"Token verified successfully for user: {user_id}")
@@ -508,9 +494,7 @@ async def detailed_health_check(
     except Exception:
         checks["redis"] = "unhealthy"
 
-    overall_status = (
-        "healthy" if all(v == "healthy" for v in checks.values()) else "degraded"
-    )
+    overall_status = "healthy" if all(v == "healthy" for v in checks.values()) else "degraded"
 
     return {
         "status": overall_status,
@@ -563,8 +547,7 @@ async def fold_memory_v1(
         metadata=ResponseMetadata(
             request_id=req.state.request_id,
             version="v1",
-            duration_ms=(datetime.utcnow() - req.state.start_time).total_seconds()
-            * 1000,
+            duration_ms=(datetime.utcnow() - req.state.start_time).total_seconds() * 1000,
         ),
     )
 
@@ -602,9 +585,7 @@ async def fold_memory_v2(
     fold_id = str(uuid.uuid4())
 
     # Add background task for async processing
-    background_tasks.add_task(
-        process_fold_async, fold_id, request.data, request.emotional_context
-    )
+    background_tasks.add_task(process_fold_async, fold_id, request.data, request.emotional_context)
 
     response = MemoryFoldResponse(
         fold_id=fold_id,
@@ -623,8 +604,7 @@ async def fold_memory_v2(
         metadata=ResponseMetadata(
             request_id=req.state.request_id,
             version="v2",
-            duration_ms=(datetime.utcnow() - req.state.start_time).total_seconds()
-            * 1000,
+            duration_ms=(datetime.utcnow() - req.state.start_time).total_seconds() * 1000,
         ),
     )
 
@@ -652,9 +632,7 @@ async def get_fold_status(
 
     return APIResponse(
         data=response,
-        metadata=ResponseMetadata(
-            request_id=req.state.request_id, version="v2", duration_ms=10.5
-        ),
+        metadata=ResponseMetadata(request_id=req.state.request_id, version="v2", duration_ms=10.5),
     )
 
 
@@ -681,9 +659,7 @@ async def get_consciousness_state(
 
     return APIResponse(
         data=state,
-        metadata=ResponseMetadata(
-            request_id=req.state.request_id, version="v2", duration_ms=5.2
-        ),
+        metadata=ResponseMetadata(request_id=req.state.request_id, version="v2", duration_ms=5.2),
     )
 
 
@@ -745,9 +721,7 @@ def generate_emotional_signature(state: EmotionalState) -> str:
     return hashlib.sha256(data.encode()).hexdigest()[:8]
 
 
-async def process_fold_async(
-    fold_id: str, data: dict[str, Any], emotional_context: EmotionalState
-):
+async def process_fold_async(fold_id: str, data: dict[str, Any], emotional_context: EmotionalState):
     """Process fold asynchronously"""
     # Mock async processing
     logger.info("processing_fold_async", fold_id=fold_id)

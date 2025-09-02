@@ -46,9 +46,7 @@ class QIMemoryBridge:
             "memory_recall_request": "qi_recall_request",
         }
 
-    async def qi_to_memory(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def qi_to_memory(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Forward event from Quantum to Memory"""
         if not self.is_connected:
             await self.connect()
@@ -62,9 +60,7 @@ class QIMemoryBridge:
             logger.error(f"Error forwarding from Quantum to Memory: {e}")
             return {"error": str(e)}
 
-    async def memory_to_quantum(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def memory_to_quantum(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Forward event from Memory to Quantum"""
         if not self.is_connected:
             await self.connect()

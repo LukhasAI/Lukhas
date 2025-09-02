@@ -68,16 +68,10 @@ class MemoryItem:
         if not 0.0 <= self.resonance <= 1.0:
             raise ValueError("Resonance must be between 0.0 and 1.0")
 
-        if (
-            self.emotional_valence is not None
-            and not -1.0 <= self.emotional_valence <= 1.0
-        ):
+        if self.emotional_valence is not None and not -1.0 <= self.emotional_valence <= 1.0:
             raise ValueError("Emotional valence must be between -1.0 and 1.0")
 
-        if (
-            self.emotional_intensity is not None
-            and not 0.0 <= self.emotional_intensity <= 1.0
-        ):
+        if self.emotional_intensity is not None and not 0.0 <= self.emotional_intensity <= 1.0:
             raise ValueError("Emotional intensity must be between 0.0 and 1.0")
 
     def add_to_lineage(self, ancestor_id: str) -> None:
@@ -97,9 +91,7 @@ class MemoryItem:
     def calculate_symbolic_weight(self) -> float:
         """Calculate overall symbolic weight of memory"""
         # Weighted combination of symbolic metrics
-        weight = (
-            self.coherence * 0.4 + self.resonance * 0.3 + (1.0 - self.entropy) * 0.3
-        )
+        weight = self.coherence * 0.4 + self.resonance * 0.3 + (1.0 - self.entropy) * 0.3
 
         # Adjust for emotional intensity if present
         if self.emotional_intensity is not None:
@@ -197,9 +189,7 @@ class MemoryHook(ABC):
             return True
 
         # Check compression ratio is reasonable
-        if item.compression_ratio is not None and (
-            item.compression_ratio <= 0 or item.compression_ratio > 100
-        ):
+        if item.compression_ratio is not None and (item.compression_ratio <= 0 or item.compression_ratio > 100):
             logger.warning(f"Suspicious compression ratio: {item.compression_ratio}")
             return False
 
@@ -241,9 +231,7 @@ class MemoryHook(ABC):
         # Check symbolic metric consistency
         # High entropy should correlate with low coherence
         if item.entropy > 0.8 and item.coherence > 0.8:
-            logger.warning(
-                "Inconsistent symbolic metrics: high entropy with high coherence"
-            )
+            logger.warning("Inconsistent symbolic metrics: high entropy with high coherence")
             return False
 
         return True
@@ -264,9 +252,7 @@ class MemoryHook(ABC):
 
     def get_metrics(self) -> dict[str, Any]:
         """Get hook performance metrics"""
-        total_calls = (
-            self._metrics["before_store_count"] + self._metrics["after_recall_count"]
-        )
+        total_calls = self._metrics["before_store_count"] + self._metrics["after_recall_count"]
 
         if total_calls > 0:
             avg_time = self._metrics["total_processing_time"] / total_calls
@@ -286,9 +272,7 @@ class MemoryHook(ABC):
             "error_rate": error_rate,
         }
 
-    def _update_metrics(
-        self, operation: str, processing_time: float, error: bool = False
-    ) -> None:
+    def _update_metrics(self, operation: str, processing_time: float, error: bool = False) -> None:
         """Update internal metrics
 
         Args:

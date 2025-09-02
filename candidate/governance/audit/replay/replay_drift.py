@@ -34,9 +34,7 @@ class DriftEventReplayer:
         logger.info("🔄 Drift Event Replayer initialized")
         logger.info(f"   Replay speed: {replay_speed}x")
 
-    async def replay_event(
-        self, event_id: str, validate_response: bool = True
-    ) -> dict[str, Any]:
+    async def replay_event(self, event_id: str, validate_response: bool = True) -> dict[str, Any]:
         """Replay a specific drift event and optionally validate Guardian response"""
 
         # Load event data (in production, this would query actual logs)
@@ -68,9 +66,7 @@ class DriftEventReplayer:
 
             # Phase 4: Validate intervention effectiveness
             if validate_response:
-                validation_results = await self._validate_intervention(
-                    event_data, guardian_response
-                )
+                validation_results = await self._validate_intervention(event_data, guardian_response)
             else:
                 validation_results = {
                     "validated": False,
@@ -81,9 +77,7 @@ class DriftEventReplayer:
             replay_results = {
                 "status": "completed",
                 "event_id": event_id,
-                "replay_duration": (
-                    datetime.utcnow() - self.current_replay["start_time"]
-                ).total_seconds(),
+                "replay_duration": (datetime.utcnow() - self.current_replay["start_time"]).total_seconds(),
                 "original_event": event_data,
                 "guardian_response": guardian_response,
                 "validation": validation_results,
@@ -94,9 +88,7 @@ class DriftEventReplayer:
 
             logger.info("✅ Replay completed successfully")
             logger.info(f"   Guardian response: {guardian_response['action']}")
-            logger.info(
-                f"   Validation: {'PASSED' if validation_results.get('passed', False) else 'NEEDS_REVIEW'}"
-            )
+            logger.info(f"   Validation: {'PASSED' if validation_results.get('passed', False) else 'NEEDS_REVIEW'}")
 
             return replay_results
 
@@ -231,9 +223,7 @@ class DriftEventReplayer:
         # Simulate setting initial conditions
         for condition, value in initial_conditions.items():
             logger.info(f"   Setting {condition}: {value}")
-            await asyncio.sleep(
-                0.1 / self.replay_speed
-            )  # Brief delay scaled by replay speed
+            await asyncio.sleep(0.1 / self.replay_speed)  # Brief delay scaled by replay speed
 
         phase_data["completion_time"] = datetime.utcnow()
         self.current_replay["replay_phases"].append(phase_data)
@@ -260,17 +250,13 @@ class DriftEventReplayer:
             scaled_delay = time_offset / self.replay_speed if time_offset > 0 else 0
 
             if scaled_delay > 0:
-                logger.info(
-                    f"   ⏱️ Waiting {scaled_delay:.1f}s (scaled from {time_offset}s)"
-                )
+                logger.info(f"   ⏱️ Waiting {scaled_delay:.1f}s (scaled from {time_offset}s)")
                 await asyncio.sleep(scaled_delay)
 
             logger.info(f"   📊 Step: {event_name}")
 
             # Log step details
-            step_details = {
-                k: v for k, v in step.items() if k not in ["time_offset", "event"]
-            }
+            step_details = {k: v for k, v in step.items() if k not in ["time_offset", "event"]}
             for key, value in step_details.items():
                 logger.info(f"      {key}: {value}")
 
@@ -316,9 +302,7 @@ class DriftEventReplayer:
                 await asyncio.sleep(0.5 / self.replay_speed)
 
         # Simulate intervention execution
-        intervention_duration = expected_response["parameters"].get(
-            "duration_seconds", 60
-        )
+        intervention_duration = expected_response["parameters"].get("duration_seconds", 60)
         scaled_duration = intervention_duration / self.replay_speed
 
         logger.info(f"   ⏳ Executing intervention for {scaled_duration:.1f}s...")
@@ -342,9 +326,7 @@ class DriftEventReplayer:
 
         return guardian_response
 
-    async def _validate_intervention(
-        self, event_data: dict, guardian_response: dict
-    ) -> dict[str, Any]:
+    async def _validate_intervention(self, event_data: dict, guardian_response: dict) -> dict[str, Any]:
         """Validate the intervention against expected outcomes"""
         expected_outcome = event_data["original_outcome"]
 
@@ -389,9 +371,7 @@ class DriftEventReplayer:
         simulated_execution = guardian_response["execution_time"]
 
         # Allow 20% variance in execution time
-        time_variance = (
-            abs(simulated_execution - original_stabilization) / original_stabilization
-        )
+        time_variance = abs(simulated_execution - original_stabilization) / original_stabilization
         time_check = {
             "check": "execution_time",
             "original_time": original_stabilization,
@@ -410,24 +390,18 @@ class DriftEventReplayer:
         if all_passed:
             logger.info("✅ All validation checks passed")
         else:
-            failed_checks = [
-                c["check"] for c in validation_results["checks"] if not c["passed"]
-            ]
+            failed_checks = [c["check"] for c in validation_results["checks"] if not c["passed"]]
             logger.warning(f"⚠️ Validation issues: {', '.join(failed_checks)}")
 
         return validation_results
 
-    async def replay_multiple_events(
-        self, event_ids: list[str]
-    ) -> list[dict[str, Any]]:
+    async def replay_multiple_events(self, event_ids: list[str]) -> list[dict[str, Any]]:
         """Replay multiple events in sequence"""
         logger.info(f"🎬 Starting batch replay of {len(event_ids)} events")
 
         batch_results = []
         for i, event_id in enumerate(event_ids):
-            logger.info(
-                f"\n--- Replaying event {i + 1}/{len(event_ids)}: {event_id} ---"
-            )
+            logger.info(f"\n--- Replaying event {i + 1}/{len(event_ids)}: {event_id} ---")
 
             result = await self.replay_event(event_id)
             batch_results.append(result)
@@ -436,12 +410,8 @@ class DriftEventReplayer:
             await asyncio.sleep(2.0 / self.replay_speed)
 
         # Generate batch summary
-        successful_replays = len(
-            [r for r in batch_results if r.get("status") == "completed"]
-        )
-        passed_validations = len(
-            [r for r in batch_results if r.get("validation", {}).get("passed", False)]
-        )
+        successful_replays = len([r for r in batch_results if r.get("status") == "completed"])
+        passed_validations = len([r for r in batch_results if r.get("validation", {}).get("passed", False)])
 
         logger.info("\n📊 Batch replay summary:")
         logger.info(f"   Total events: {len(event_ids)}")
@@ -479,12 +449,8 @@ async def main():
     """Main entry point for drift event replay"""
     parser = argparse.ArgumentParser(description="Guardian Drift Event Replay Tool")
     parser.add_argument("--event-id", type=str, help="Specific event ID to replay")
-    parser.add_argument(
-        "--speed", type=float, default=1.0, help="Replay speed multiplier"
-    )
-    parser.add_argument(
-        "--no-validation", action="store_true", help="Skip validation checks"
-    )
+    parser.add_argument("--speed", type=float, default=1.0, help="Replay speed multiplier")
+    parser.add_argument("--no-validation", action="store_true", help="Skip validation checks")
     parser.add_argument("--batch", type=str, nargs="+", help="Replay multiple events")
     parser.add_argument("--export", type=str, help="Export results to file")
 
@@ -503,9 +469,7 @@ async def main():
 
     elif args.event_id:
         # Single event replay mode
-        result = await replayer.replay_event(
-            args.event_id, validate_response=not args.no_validation
-        )
+        result = await replayer.replay_event(args.event_id, validate_response=not args.no_validation)
         results = [result]
 
     else:

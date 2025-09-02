@@ -69,9 +69,7 @@ class ConversationContext:
     memory_refs: list[str] = field(default_factory=list)
     active_intent: Optional[ConversationIntent] = None
 
-    def add_turn(
-        self, user_input: str, system_response: str, intent: ConversationIntent
-    ):
+    def add_turn(self, user_input: str, system_response: str, intent: ConversationIntent):
         """Add a conversation turn"""
         self.turns.append(
             {
@@ -253,9 +251,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
             # Initialize branding system
             await initialize_branding()
-            logger.info(
-                f"🎨 Branding integrated: {self.branding_bridge.get_system_signature()}"
-            )
+            logger.info(f"🎨 Branding integrated: {self.branding_bridge.get_system_signature()}")
 
             # Get required services
             self.consciousness_service = get_service("consciousness_service")
@@ -299,9 +295,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             session_id = f"session_{datetime.now(timezone.utc).timestamp()}"
 
         if session_id not in self.active_sessions:
-            self.active_sessions[session_id] = ConversationContext(
-                session_id=session_id, user_id=user_id
-            )
+            self.active_sessions[session_id] = ConversationContext(session_id=session_id, user_id=user_id)
 
         context = self.active_sessions[session_id]
 
@@ -320,9 +314,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         return response
 
-    async def _understand_input(
-        self, user_input: str, context: ConversationContext
-    ) -> NLUResult:
+    async def _understand_input(self, user_input: str, context: ConversationContext) -> NLUResult:
         """Understand user input and extract intent/entities"""
         # Detect intent
         intent = self._detect_intent(user_input)
@@ -378,9 +370,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         return ConversationIntent.UNKNOWN
 
-    def _extract_entities(
-        self, user_input: str, intent: ConversationIntent
-    ) -> dict[str, Any]:
+    def _extract_entities(self, user_input: str, intent: ConversationIntent) -> dict[str, Any]:
         """Extract relevant entities from user input"""
         entities = {}
 
@@ -406,9 +396,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         elif intent == ConversationIntent.DREAM_REQUEST:
             # Extract dream topic
-            topic_match = re.search(
-                r"(?:dream about|imagine) (.+?)(?:\.|$)", user_input, re.I
-            )
+            topic_match = re.search(r"(?:dream about|imagine) (.+?)(?:\.|$)", user_input, re.I)
             if topic_match:
                 entities["dream_topic"] = topic_match.group(1)
 
@@ -466,9 +454,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         # Merge results, preferring the stronger signal per emotion
         emotions = dict.fromkeys(fallback.keys(), 0.0)
         for k in emotions:
-            emotions[k] = max(
-                float(service_scores.get(k, 0.0)), float(fallback.get(k, 0.0))
-            )
+            emotions[k] = max(float(service_scores.get(k, 0.0)), float(fallback.get(k, 0.0)))
 
         # Clamp to [0, 1] without normalizing (avoid diluting a clear primary emotion like joy)
         for k, v in list(emotions.items()):
@@ -503,19 +489,14 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         # Adjust based on user emotion
         if self.enable_emotions:
-            if (
-                emotional_context.get("sadness", 0) > 0.2
-                or emotional_context.get("anger", 0) > 0.4
-            ):
+            if emotional_context.get("sadness", 0) > 0.2 or emotional_context.get("anger", 0) > 0.4:
                 return EmotionalTone.EMPATHETIC
             elif emotional_context.get("joy", 0) > 0.5:
                 return EmotionalTone.SUPPORTIVE
 
         return base_tone
 
-    def _calculate_confidence(
-        self, user_input: str, intent: ConversationIntent, context: ConversationContext
-    ) -> float:
+    def _calculate_confidence(self, user_input: str, intent: ConversationIntent, context: ConversationContext) -> float:
         """Calculate confidence in intent detection"""
         confidence = 0.5  # Base confidence
 
@@ -533,9 +514,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         return max(0.1, min(1.0, confidence))
 
-    async def _process_intent(
-        self, nlu_result: NLUResult, context: ConversationContext
-    ) -> dict[str, Any]:
+    async def _process_intent(self, nlu_result: NLUResult, context: ConversationContext) -> dict[str, Any]:
         """Process the detected intent and gather response data"""
         intent = nlu_result.intent
         entities = nlu_result.entities
@@ -565,9 +544,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             return await self._process_thought_explanation(context)
 
         else:
-            return {
-                "response": "I'm not sure how to help with that. Could you rephrase?"
-            }
+            return {"response": "I'm not sure how to help with that. Could you rephrase?"}
 
     async def _process_awareness_query(self) -> dict[str, Any]:
         """Process awareness level query"""
@@ -595,11 +572,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
             # Get focus targets
             targets = awareness.get("attention_targets", [])
-            focus_desc = (
-                f"Currently focused on: {', '.join(targets)}"
-                if targets
-                else "No specific focus targets."
-            )
+            focus_desc = f"Currently focused on: {', '.join(targets)}" if targets else "No specific focus targets."
 
             return {
                 "awareness_level": overall,
@@ -613,9 +586,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             logger.error(f"Error processing awareness query: {e}")
             return {"error": "Unable to assess awareness"}
 
-    async def _process_decision_request(
-        self, entities: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_decision_request(self, entities: dict[str, Any]) -> dict[str, Any]:
         """Process decision-making request"""
         if not self.consciousness_service:
             return {"error": "Consciousness service not available"}
@@ -653,9 +624,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             logger.error(f"Error processing decision: {e}")
             return {"error": "Unable to process decision"}
 
-    async def _process_reflection_request(
-        self, context: ConversationContext
-    ) -> dict[str, Any]:
+    async def _process_reflection_request(self, context: ConversationContext) -> dict[str, Any]:
         """Process reflection request"""
         # Use recent conversation as reflection topic if no specific topic
         recent_topics = context.topics[-3:] if context.topics else ["our conversation"]
@@ -679,9 +648,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             "reflection_summary": f"Key insights on {topic}: {insights[0]}",
         }
 
-    async def _process_memory_exploration(
-        self, entities: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_memory_exploration(self, entities: dict[str, Any]) -> dict[str, Any]:
         """Process memory exploration request"""
         if not self.memory_service:
             return {
@@ -782,9 +749,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             "dream_result": f"Creative exploration of {topic} reveals hidden possibilities",
         }
 
-    async def _process_reality_exploration(
-        self, entities: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_reality_exploration(self, entities: dict[str, Any]) -> dict[str, Any]:
         """Process alternative reality exploration"""
         if self.reality_simulator:
             try:
@@ -815,9 +780,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             "reality_analysis": "Each possibility has its own merits and challenges",
         }
 
-    async def _process_thought_explanation(
-        self, context: ConversationContext
-    ) -> dict[str, Any]:
+    async def _process_thought_explanation(self, context: ConversationContext) -> dict[str, Any]:
         """Process request to explain thinking"""
         # Use last intent as basis for explanation
 
@@ -906,9 +869,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         elif tone == EmotionalTone.SUPPORTIVE:
             # Add supportive elements
-            if not any(
-                word in response.lower() for word in ["help", "support", "assist"]
-            ):
+            if not any(word in response.lower() for word in ["help", "support", "assist"]):
                 response += " How else can I help?"
 
         return response
@@ -932,30 +893,22 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                 )
 
             # Apply brand voice through the bridge
-            branded_response = self.branding_bridge.get_brand_voice(
-                response, brand_context
-            )
+            branded_response = self.branding_bridge.get_brand_voice(response, brand_context)
 
             # Add Trinity Framework context for consciousness responses
             if intent == ConversationIntent.QUERY_AWARENESS:
-                trinity_context = self.branding_bridge.get_trinity_context(
-                    "consciousness"
-                )
+                trinity_context = self.branding_bridge.get_trinity_context("consciousness")
                 trinity_context["consciousness"]["description"]
                 # Enhance with consciousness symbol if not already present
                 if "🧠" not in branded_response:
                     branded_response = f"🧠 {branded_response}"
 
             # Validate brand compliance
-            validation = self.branding_bridge.validate_output(
-                branded_response, brand_context
-            )
+            validation = self.branding_bridge.validate_output(branded_response, brand_context)
             if not validation["valid"]:
                 logger.warning(f"Brand compliance issues: {validation['issues']}")
                 # Apply corrections if needed
-                branded_response = self.branding_bridge.normalize_output(
-                    branded_response, brand_context
-                )
+                branded_response = self.branding_bridge.normalize_output(branded_response, brand_context)
 
             return branded_response
 
@@ -976,8 +929,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         return {
             "response": response,
-            "session_id": session_id
-            or f"session_{datetime.now(timezone.utc).timestamp()}",
+            "session_id": session_id or f"session_{datetime.now(timezone.utc).timestamp()}",
         }
 
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:
@@ -1035,9 +987,7 @@ class ConversationManager:
 
     async def create_session(self, user_id: Optional[str] = None) -> str:
         """Create new conversation session"""
-        session_id = (
-            f"session_{datetime.now(timezone.utc).timestamp()}_{user_id or 'anonymous'}"
-        )
+        session_id = f"session_{datetime.now(timezone.utc).timestamp()}_{user_id or 'anonymous'}"
         return session_id
 
     async def continue_conversation(self, session_id: str, user_input: str) -> str:
@@ -1074,9 +1024,7 @@ class ConversationManager:
 async def demo_natural_language_interface():
     """Demonstrate natural language consciousness interface"""
     # Initialize interface
-    interface = NaturalLanguageConsciousnessInterface(
-        config={"enable_emotions": True, "formality_level": "friendly"}
-    )
+    interface = NaturalLanguageConsciousnessInterface(config={"enable_emotions": True, "formality_level": "friendly"})
 
     # Mock services
     from unittest.mock import AsyncMock, Mock

@@ -272,9 +272,7 @@ class EntityExtractor:
             metadata=metadata,
         )
 
-    def _extract_value(
-        self, match: re.Match, entity_type: EntityType, subtype: str
-    ) -> Any:
+    def _extract_value(self, match: re.Match, entity_type: EntityType, subtype: str) -> Any:
         """Extract the actual value from the match."""
         if entity_type == EntityType.TIME:
             return self._parse_time_value(match, subtype)
@@ -394,9 +392,7 @@ class EntityExtractor:
 
         return metadata
 
-    def _calculate_confidence(
-        self, match: re.Match, entity_type: EntityType, full_text: str
-    ) -> float:
+    def _calculate_confidence(self, match: re.Match, entity_type: EntityType, full_text: str) -> float:
         """Calculate confidence score for extracted entity."""
         base_confidence = 0.7
 
@@ -405,11 +401,8 @@ class EntityExtractor:
             base_confidence += 0.1
 
         # Known entities get higher confidence
-        if (
-            entity_type == EntityType.GLYPH and match.group(0) in self.glyph_registry
-        ) or (
-            entity_type == EntityType.MODULE
-            and match.group(0).lower() in self.module_registry
+        if (entity_type == EntityType.GLYPH and match.group(0) in self.glyph_registry) or (
+            entity_type == EntityType.MODULE and match.group(0).lower() in self.module_registry
         ):
             base_confidence += 0.2
 
@@ -488,9 +481,7 @@ class EntityExtractor:
                 context["times"].append(
                     {
                         "text": entity.text,
-                        "datetime": (
-                            entity.value.isoformat() if entity.value else None
-                        ),
+                        "datetime": (entity.value.isoformat() if entity.value else None),
                         "type": entity.metadata.get("subtype", "unknown"),
                     }
                 )
@@ -499,9 +490,7 @@ class EntityExtractor:
                 metric_name = "unknown"
                 if entity.metadata.get("subtype") == "metric_value" and entity.text:
                     # Extract metric name from text
-                    metric_match = re.search(
-                        r"(\w+)\s*(?:score|level|value)?", entity.text
-                    )
+                    metric_match = re.search(r"(\w+)\s*(?:score|level|value)?", entity.text)
                     if metric_match:
                         metric_name = metric_match.group(1)
 

@@ -90,9 +90,7 @@ class HealixMapper:
 
         return helix_nodes
 
-    def calculate_drift_score(
-        self, current_state: dict[str, Any], baseline: dict[str, Any]
-    ) -> float:
+    def calculate_drift_score(self, current_state: dict[str, Any], baseline: dict[str, Any]) -> float:
         """
             Returns a drift score indicating how far the current emotional state is from the baseline using cosine similarity.
 
@@ -112,9 +110,7 @@ class HealixMapper:
             return 1.0  # Maximum drift if vectors are missing
         return float(1 - np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
 
-    def find_resonant_memories(
-        self, target_emotion: str, user_id: str
-    ) -> list[dict[str, Any]]:
+    def find_resonant_memories(self, target_emotion: str, user_id: str) -> list[dict[str, Any]]:
         """
         Returns past memory nodes with high emotional similarity to the target emotion using tone similarity scoring.
 
@@ -143,9 +139,7 @@ class HealixMapper:
         resonant_nodes = []
 
         for record in memory_chain:
-            tone_similarity = self.emotion_mapper.tone_similarity_score(
-                target_emotion, record
-            )
+            tone_similarity = self.emotion_mapper.tone_similarity_score(target_emotion, record)
             if tone_similarity > 0.8:  # Threshold for resonance
                 resonant_nodes.append(record)
 

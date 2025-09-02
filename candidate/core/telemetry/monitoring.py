@@ -123,21 +123,15 @@ class AGITelemetrySystem:
         if name in self.anomaly_detectors:
             asyncio.create_task(self._check_anomaly(name, value))
 
-    def increment_counter(
-        self, name: str, value: float = 1.0, labels: Optional[dict[str, str]] = None
-    ):
+    def increment_counter(self, name: str, value: float = 1.0, labels: Optional[dict[str, str]] = None):
         """Increment a counter metric"""
         self.record_metric(name, value, MetricType.COUNTER, labels)
 
-    def set_gauge(
-        self, name: str, value: float, labels: Optional[dict[str, str]] = None
-    ):
+    def set_gauge(self, name: str, value: float, labels: Optional[dict[str, str]] = None):
         """Set a gauge metric"""
         self.record_metric(name, value, MetricType.GAUGE, labels)
 
-    def record_histogram(
-        self, name: str, value: float, labels: Optional[dict[str, str]] = None
-    ):
+    def record_histogram(self, name: str, value: float, labels: Optional[dict[str, str]] = None):
         """Record histogram observation"""
         self.histograms[name].append(value)
         self.record_metric(name, value, MetricType.HISTOGRAM, labels)
@@ -226,9 +220,7 @@ class AGITelemetrySystem:
         # Record to specialized metrics
         await self.learning_metrics.record(event)
 
-    async def check_emergence(
-        self, behavior_data: dict[str, Any]
-    ) -> Optional[dict[str, Any]]:
+    async def check_emergence(self, behavior_data: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Check for emergent behaviors"""
         emergence = await self.emergence_detector.analyze(behavior_data)
 
@@ -292,11 +284,7 @@ class AGITelemetrySystem:
 
             # Alert on health issues
             if not health_results["overall"]:
-                unhealthy = [
-                    k
-                    for k, v in health_results.items()
-                    if k != "overall" and not v.get("healthy", True)
-                ]
+                unhealthy = [k for k, v in health_results.items() if k != "overall" and not v.get("healthy", True)]
 
                 self.create_alert(
                     "System Health Degraded",
@@ -313,9 +301,7 @@ class AGITelemetrySystem:
 
             for metric_name, detector in self.anomaly_detectors.items():
                 if self.metrics.get(metric_name):
-                    recent_values = [
-                        m.value for m in list(self.metrics[metric_name])[-100:]
-                    ]
+                    recent_values = [m.value for m in list(self.metrics[metric_name])[-100:]]
 
                     if recent_values:
                         is_anomaly = await detector(recent_values)
@@ -376,10 +362,7 @@ class AGITelemetrySystem:
     async def _collect_behavior_data(self) -> dict[str, Any]:
         """Collect data for emergence detection"""
         return {
-            "metrics_snapshot": {
-                name: [m.value for m in list(values)[-100:]]
-                for name, values in self.metrics.items()
-            },
+            "metrics_snapshot": {name: [m.value for m in list(values)[-100:]] for name, values in self.metrics.items()},
             "health_status": self.health_status.copy(),
             "active_alerts": len([a for a in self.alerts if not a.resolved]),
             "timestamp": datetime.utcnow().isoformat(),
@@ -413,9 +396,7 @@ class TraceContext:
         duration = time.time() - self.start_time
 
         # Record duration
-        self.telemetry.record_histogram(
-            f"operation.duration.{self.operation}", duration, self.metadata
-        )
+        self.telemetry.record_histogram(f"operation.duration.{self.operation}", duration, self.metadata)
 
         # Record success/failure
         if exc_type is None:

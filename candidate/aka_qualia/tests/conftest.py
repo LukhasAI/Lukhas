@@ -206,12 +206,8 @@ def high_risk_scene(base_proto_qualia):
 def test_glyphs():
     """Standard set of test glyphs"""
     return [
-        PhenomenalGlyph(
-            key="aka:vigilance", attrs={"tone": 0.2, "arousal": 0.6, "risk_score": 0.1}
-        ),
-        PhenomenalGlyph(
-            key="temporal_flowing", attrs={"narrative_gravity": 0.4, "clarity": 0.8}
-        ),
+        PhenomenalGlyph(key="aka:vigilance", attrs={"tone": 0.2, "arousal": 0.6, "risk_score": 0.1}),
+        PhenomenalGlyph(key="temporal_flowing", attrs={"narrative_gravity": 0.4, "clarity": 0.8}),
         PhenomenalGlyph(key="agency_empowered", attrs={"embodiment": 0.7}),
     ]
 
@@ -219,9 +215,7 @@ def test_glyphs():
 @pytest.fixture
 def test_policy():
     """Standard regulation policy for testing"""
-    return RegulationPolicy(
-        gain=1.0, pace=1.0, actions=["maintain"], color_contrast=None
-    )
+    return RegulationPolicy(gain=1.0, pace=1.0, actions=["maintain"], color_contrast=None)
 
 
 @pytest.fixture
@@ -245,9 +239,7 @@ def test_metrics():
 
 
 @pytest.fixture
-def sql_memory_with_data(
-    sql_memory, low_risk_scene, test_glyphs, test_policy, test_metrics
-):
+def sql_memory_with_data(sql_memory, low_risk_scene, test_glyphs, test_policy, test_metrics):
     """SQL memory pre-populated with test data"""
 
     # Add 5 scenes for testing

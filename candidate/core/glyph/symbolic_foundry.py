@@ -127,12 +127,8 @@ class SymbolicFoundry:
         self.fusion_history: list[FusionCandidate] = []
         self.mutation_history: list[MutationResult] = []
         self.active_glyphs: dict[str, Glyph] = {}
-        self.fusion_patterns: dict[str, dict[str, Any]] = (
-            self._initialize_fusion_patterns()
-        )
-        self.mutation_strategies: dict[str, dict[str, Any]] = (
-            self._initialize_mutation_strategies()
-        )
+        self.fusion_patterns: dict[str, dict[str, Any]] = self._initialize_fusion_patterns()
+        self.mutation_strategies: dict[str, dict[str, Any]] = self._initialize_mutation_strategies()
 
         logger.info("Symbolic Foundry initialized")
 
@@ -187,24 +183,16 @@ class SymbolicFoundry:
         # Check compatibility
         compatibility_score = self._assess_fusion_compatibility(source_glyphs)
         if compatibility_score < 0.3:
-            logger.warning(
-                f"Low compatibility score for fusion: {compatibility_score:.3f}"
-            )
+            logger.warning(f"Low compatibility score for fusion: {compatibility_score:.3f}")
 
         # Perform fusion based on method
         try:
             if fusion_method == "semantic_blend":
-                fused_glyph = self._semantic_blend_fusion(
-                    source_glyphs, fusion_strength
-                )
+                fused_glyph = self._semantic_blend_fusion(source_glyphs, fusion_strength)
             elif fusion_method == "emotional_merge":
-                fused_glyph = self._emotional_merge_fusion(
-                    source_glyphs, fusion_strength
-                )
+                fused_glyph = self._emotional_merge_fusion(source_glyphs, fusion_strength)
             elif fusion_method == "symbolic_synthesis":
-                fused_glyph = self._symbolic_synthesis_fusion(
-                    source_glyphs, fusion_strength
-                )
+                fused_glyph = self._symbolic_synthesis_fusion(source_glyphs, fusion_strength)
             else:
                 logger.error(f"Unknown fusion method: {fusion_method}")
                 return None
@@ -214,9 +202,7 @@ class SymbolicFoundry:
 
         # Create fusion candidate
         fusion_id = f"fusion_{uuid.uuid4().hex[:8]}"
-        stability_prediction = self._predict_fusion_stability(
-            fused_glyph, source_glyphs
-        )
+        stability_prediction = self._predict_fusion_stability(fused_glyph, source_glyphs)
         risk_assessment = self._assess_fusion_risks(fused_glyph, source_glyphs)
 
         candidate = FusionCandidate(
@@ -231,9 +217,7 @@ class SymbolicFoundry:
         )
 
         self.fusion_history.append(candidate)
-        logger.info(
-            f"Fusion completed: {fusion_id}, compatibility: {compatibility_score:.3f}"
-        )
+        logger.info(f"Fusion completed: {fusion_id}, compatibility: {compatibility_score:.3f}")
 
         return candidate
 
@@ -266,17 +250,11 @@ class SymbolicFoundry:
         try:
             # Perform mutation based on type
             if mutation_type == "evolutionary":
-                mutated_glyph = self._evolutionary_mutation(
-                    source_glyph, mutation_strength
-                )
+                mutated_glyph = self._evolutionary_mutation(source_glyph, mutation_strength)
             elif mutation_type == "drift_correction":
-                mutated_glyph = self._drift_correction_mutation(
-                    source_glyph, mutation_strength
-                )
+                mutated_glyph = self._drift_correction_mutation(source_glyph, mutation_strength)
             elif mutation_type == "enhancement":
-                mutated_glyph = self._enhancement_mutation(
-                    source_glyph, mutation_strength, target_properties
-                )
+                mutated_glyph = self._enhancement_mutation(source_glyph, mutation_strength, target_properties)
             elif mutation_type == "creative":
                 mutated_glyph = self._creative_mutation(source_glyph, mutation_strength)
             else:
@@ -307,9 +285,7 @@ class SymbolicFoundry:
         )
 
         self.mutation_history.append(result)
-        logger.info(
-            f"Mutation completed: {mutation_id}, viability: {viability_score:.3f}"
-        )
+        logger.info(f"Mutation completed: {mutation_id}, viability: {viability_score:.3f}")
 
         return result
 
@@ -513,21 +489,15 @@ class SymbolicFoundry:
 
         fused_glyph = Glyph()
         fused_glyph.glyph_type = GlyphType.EMOTION
-        fused_glyph.symbol = self._blend_symbols(
-            [g.symbol for g in glyphs], "emotional"
-        )
+        fused_glyph.symbol = self._blend_symbols([g.symbol for g in glyphs], "emotional")
 
         # Emotion-focused blending
-        fused_glyph.emotion_vector = self._blend_emotions(
-            glyphs, strength, focus="intensity"
-        )
+        fused_glyph.emotion_vector = self._blend_emotions(glyphs, strength, focus="intensity")
 
         # Combine memory keys and drift anchors
         for glyph in glyphs:
             fused_glyph.memory_keys.update(glyph.memory_keys)
-            fused_glyph.drift_anchor_score = max(
-                fused_glyph.drift_anchor_score, glyph.drift_anchor_score
-            )
+            fused_glyph.drift_anchor_score = max(fused_glyph.drift_anchor_score, glyph.drift_anchor_score)
 
         # Emotional fusion tags
         fused_glyph.add_semantic_tag("emotional_fusion")
@@ -578,9 +548,7 @@ class SymbolicFoundry:
         else:
             return symbols[0]
 
-    def _blend_emotions(
-        self, glyphs: list[Glyph], strength: float, focus: str = "average"
-    ) -> EmotionVector:
+    def _blend_emotions(self, glyphs: list[Glyph], strength: float, focus: str = "average") -> EmotionVector:
         """Blend emotion vectors from multiple glyphs."""
         if not glyphs:
             return EmotionVector()
@@ -651,9 +619,7 @@ class SymbolicFoundry:
         else:
             return glyphs[0].symbol + "✨"  # Add creative marker
 
-    def _synthesize_emotions(
-        self, glyphs: list[Glyph], strength: float
-    ) -> EmotionVector:
+    def _synthesize_emotions(self, glyphs: list[Glyph], strength: float) -> EmotionVector:
         """Synthesize emotions with creative enhancement."""
         base_emotion = self._blend_emotions(glyphs, strength)
 
@@ -684,9 +650,7 @@ class SymbolicFoundry:
         mutated.symbol = self._mutate_symbol(glyph.symbol, strength, "evolutionary")
 
         # Evolve emotion vector
-        mutated.emotion_vector = self._evolve_emotion_vector(
-            glyph.emotion_vector, strength
-        )
+        mutated.emotion_vector = self._evolve_emotion_vector(glyph.emotion_vector, strength)
 
         # Copy and evolve semantic tags
         mutated.semantic_tags = glyph.semantic_tags.copy()
@@ -699,9 +663,7 @@ class SymbolicFoundry:
 
         # Set up causal link
         mutated.causal_link.parent_glyph_id = glyph.id
-        mutated.causal_link.causal_origin_id = (
-            glyph.causal_link.causal_origin_id or glyph.id
-        )
+        mutated.causal_link.causal_origin_id = glyph.causal_link.causal_origin_id or glyph.id
 
         mutated.update_symbolic_hash()
         return mutated
@@ -716,9 +678,7 @@ class SymbolicFoundry:
         mutated.symbol = glyph.symbol  # Keep original symbol
 
         # Stabilize emotion vector
-        mutated.emotion_vector = self._stabilize_emotion_vector(
-            glyph.emotion_vector, strength
-        )
+        mutated.emotion_vector = self._stabilize_emotion_vector(glyph.emotion_vector, strength)
 
         # Add stabilization tags
         mutated.semantic_tags = glyph.semantic_tags.copy()
@@ -735,9 +695,7 @@ class SymbolicFoundry:
         mutated.update_symbolic_hash()
         return mutated
 
-    def _enhancement_mutation(
-        self, glyph: Glyph, strength: float, targets: Optional[dict[str, Any]]
-    ) -> Glyph:
+    def _enhancement_mutation(self, glyph: Glyph, strength: float, targets: Optional[dict[str, Any]]) -> Glyph:
         """Perform enhancement mutation based on target properties."""
         mutated = Glyph()
 
@@ -760,9 +718,7 @@ class SymbolicFoundry:
                 mutated.priority = glyph.priority
         else:
             # Default enhancement
-            mutated.emotion_vector = self._enhance_emotion_vector(
-                glyph.emotion_vector, strength
-            )
+            mutated.emotion_vector = self._enhance_emotion_vector(glyph.emotion_vector, strength)
             mutated.priority = glyph.priority
 
         # Enhancement tags
@@ -792,9 +748,7 @@ class SymbolicFoundry:
         mutated.symbol = self._mutate_symbol(glyph.symbol, strength, "creative")
 
         # Creative emotion evolution
-        mutated.emotion_vector = self._creative_emotion_evolution(
-            glyph.emotion_vector, strength
-        )
+        mutated.emotion_vector = self._creative_emotion_evolution(glyph.emotion_vector, strength)
 
         # Creative semantic expansion
         mutated.semantic_tags = glyph.semantic_tags.copy()
@@ -830,17 +784,13 @@ class SymbolicFoundry:
 
         return symbol
 
-    def _evolve_emotion_vector(
-        self, emotion: EmotionVector, strength: float
-    ) -> EmotionVector:
+    def _evolve_emotion_vector(self, emotion: EmotionVector, strength: float) -> EmotionVector:
         """Evolve emotion vector gradually."""
         evolved = EmotionVector()
 
         # Copy base emotions with small random variations
         variation = strength * 0.1
-        evolved.joy = max(
-            0.0, min(1.0, emotion.joy + random.uniform(-variation, variation))
-        )
+        evolved.joy = max(0.0, min(1.0, emotion.joy + random.uniform(-variation, variation)))
         evolved.sadness = max(
             0.0,
             min(1.0, emotion.sadness + random.uniform(-variation, variation)),
@@ -849,9 +799,7 @@ class SymbolicFoundry:
             0.0,
             min(1.0, emotion.anger + random.uniform(-variation, variation)),
         )
-        evolved.fear = max(
-            0.0, min(1.0, emotion.fear + random.uniform(-variation, variation))
-        )
+        evolved.fear = max(0.0, min(1.0, emotion.fear + random.uniform(-variation, variation)))
         evolved.surprise = max(
             0.0,
             min(1.0, emotion.surprise + random.uniform(-variation, variation)),
@@ -876,32 +824,24 @@ class SymbolicFoundry:
         evolved.intensity = emotion.intensity
         evolved.valence = emotion.valence
         evolved.arousal = emotion.arousal
-        evolved.stability = min(
-            1.0, emotion.stability + strength * 0.05
-        )  # Slight stability boost
+        evolved.stability = min(1.0, emotion.stability + strength * 0.05)  # Slight stability boost
 
         return evolved
 
-    def _stabilize_emotion_vector(
-        self, emotion: EmotionVector, strength: float
-    ) -> EmotionVector:
+    def _stabilize_emotion_vector(self, emotion: EmotionVector, strength: float) -> EmotionVector:
         """Stabilize emotion vector to reduce drift."""
         stabilized = EmotionVector()
 
         # Move toward neutral/stable state
         stabilization_factor = strength * 0.5
 
-        stabilized.joy = (
-            emotion.joy * (1 - stabilization_factor) + 0.3 * stabilization_factor
-        )
+        stabilized.joy = emotion.joy * (1 - stabilization_factor) + 0.3 * stabilization_factor
         stabilized.sadness = emotion.sadness * (1 - stabilization_factor)
         stabilized.anger = emotion.anger * (1 - stabilization_factor)
         stabilized.fear = emotion.fear * (1 - stabilization_factor)
         stabilized.surprise = emotion.surprise * (1 - stabilization_factor)
         stabilized.disgust = emotion.disgust * (1 - stabilization_factor)
-        stabilized.trust = (
-            emotion.trust * (1 - stabilization_factor) + 0.4 * stabilization_factor
-        )
+        stabilized.trust = emotion.trust * (1 - stabilization_factor) + 0.4 * stabilization_factor
         stabilized.anticipation = emotion.anticipation * (1 - stabilization_factor)
 
         # Boost stability metrics
@@ -912,9 +852,7 @@ class SymbolicFoundry:
 
         return stabilized
 
-    def _enhance_emotion_vector(
-        self, emotion: EmotionVector, strength: float
-    ) -> EmotionVector:
+    def _enhance_emotion_vector(self, emotion: EmotionVector, strength: float) -> EmotionVector:
         """Enhance positive aspects of emotion vector."""
         enhanced = EmotionVector()
 
@@ -938,9 +876,7 @@ class SymbolicFoundry:
 
         return enhanced
 
-    def _boost_emotion_vector(
-        self, emotion: EmotionVector, boost_target: str, strength: float
-    ) -> EmotionVector:
+    def _boost_emotion_vector(self, emotion: EmotionVector, boost_target: str, strength: float) -> EmotionVector:
         """Boost specific emotion in the vector."""
         boosted = EmotionVector()
 
@@ -968,9 +904,7 @@ class SymbolicFoundry:
 
         return boosted
 
-    def _creative_emotion_evolution(
-        self, emotion: EmotionVector, strength: float
-    ) -> EmotionVector:
+    def _creative_emotion_evolution(self, emotion: EmotionVector, strength: float) -> EmotionVector:
         """Perform creative evolution of emotion vector."""
         creative = EmotionVector()
 
@@ -1000,14 +934,10 @@ class SymbolicFoundry:
 
         return creative
 
-    def _predict_fusion_stability(
-        self, fused_glyph: Glyph, source_glyphs: list[Glyph]
-    ) -> float:
+    def _predict_fusion_stability(self, fused_glyph: Glyph, source_glyphs: list[Glyph]) -> float:
         """Predict stability of fused glyph."""
         # Base stability from source glyphs
-        source_stability = sum(g.stability_index for g in source_glyphs) / len(
-            source_glyphs
-        )
+        source_stability = sum(g.stability_index for g in source_glyphs) / len(source_glyphs)
 
         # Complexity penalty (more sources = lower stability)
         complexity_penalty = (len(source_glyphs) - 2) * 0.1
@@ -1019,9 +949,7 @@ class SymbolicFoundry:
         predicted_stability = source_stability * type_consistency - complexity_penalty
         return max(0.0, min(1.0, predicted_stability))
 
-    def _assess_fusion_risks(
-        self, fused_glyph: Glyph, source_glyphs: list[Glyph]
-    ) -> dict[str, float]:
+    def _assess_fusion_risks(self, fused_glyph: Glyph, source_glyphs: list[Glyph]) -> dict[str, float]:
         """Assess risks associated with fusion."""
         risks = {
             "identity_loss": 0.0,
@@ -1034,9 +962,7 @@ class SymbolicFoundry:
         risks["identity_loss"] = min(0.8, (len(source_glyphs) - 2) * 0.2)
 
         # Instability risk (based on source instability)
-        avg_instability = sum(1.0 - g.stability_index for g in source_glyphs) / len(
-            source_glyphs
-        )
+        avg_instability = sum(1.0 - g.stability_index for g in source_glyphs) / len(source_glyphs)
         risks["instability"] = avg_instability
 
         # Semantic drift risk (different types)
@@ -1050,42 +976,30 @@ class SymbolicFoundry:
 
         return risks
 
-    def _assess_mutation_viability(
-        self, mutated_glyph: Glyph, source_glyph: Glyph
-    ) -> float:
+    def _assess_mutation_viability(self, mutated_glyph: Glyph, source_glyph: Glyph) -> float:
         """Assess viability of mutation result."""
         viability_factors = []
 
         # Stability preservation
-        stability_preservation = 1.0 - abs(
-            mutated_glyph.stability_index - source_glyph.stability_index
-        )
+        stability_preservation = 1.0 - abs(mutated_glyph.stability_index - source_glyph.stability_index)
         viability_factors.append(stability_preservation * 0.4)
 
         # Emotional coherence
-        emotion_distance = mutated_glyph.emotion_vector.distance_to(
-            source_glyph.emotion_vector
-        )
+        emotion_distance = mutated_glyph.emotion_vector.distance_to(source_glyph.emotion_vector)
         emotion_coherence = max(0.0, 1.0 - emotion_distance / 2.0)
         viability_factors.append(emotion_coherence * 0.3)
 
         # Type consistency
-        type_consistency = (
-            1.0 if mutated_glyph.glyph_type == source_glyph.glyph_type else 0.6
-        )
+        type_consistency = 1.0 if mutated_glyph.glyph_type == source_glyph.glyph_type else 0.6
         viability_factors.append(type_consistency * 0.2)
 
         # Priority appropriateness
-        priority_factor = (
-            0.8 if mutated_glyph.priority.value >= source_glyph.priority.value else 0.5
-        )
+        priority_factor = 0.8 if mutated_glyph.priority.value >= source_glyph.priority.value else 0.5
         viability_factors.append(priority_factor * 0.1)
 
         return sum(viability_factors)
 
-    def _assess_mutation_novelty(
-        self, mutated_glyph: Glyph, source_glyph: Glyph
-    ) -> float:
+    def _assess_mutation_novelty(self, mutated_glyph: Glyph, source_glyph: Glyph) -> float:
         """Assess novelty of mutation result."""
         novelty_factors = []
 
@@ -1094,9 +1008,7 @@ class SymbolicFoundry:
         novelty_factors.append(symbol_novelty)
 
         # Emotional change
-        emotion_distance = mutated_glyph.emotion_vector.distance_to(
-            source_glyph.emotion_vector
-        )
+        emotion_distance = mutated_glyph.emotion_vector.distance_to(source_glyph.emotion_vector)
         emotion_novelty = min(1.0, emotion_distance)
         novelty_factors.append(emotion_novelty)
 
@@ -1139,9 +1051,7 @@ class SymbolicFoundry:
             "average_compatibility": sum(compatibilities) / len(compatibilities),
             "average_stability": sum(stabilities) / len(stabilities),
             "fusion_methods": Counter(f.fusion_method for f in self.fusion_history),
-            "successful_fusions": len(
-                [f for f in self.fusion_history if f.compatibility_score > 0.6]
-            ),
+            "successful_fusions": len([f for f in self.fusion_history if f.compatibility_score > 0.6]),
         }
 
     def get_mutation_statistics(self) -> dict[str, Any]:
@@ -1157,9 +1067,7 @@ class SymbolicFoundry:
             "average_viability": sum(viabilities) / len(viabilities),
             "average_novelty": sum(novelties) / len(novelties),
             "mutation_types": Counter(m.mutation_type for m in self.mutation_history),
-            "safe_mutations": len(
-                [m for m in self.mutation_history if m.safety_classification == "SAFE"]
-            ),
+            "safe_mutations": len([m for m in self.mutation_history if m.safety_classification == "SAFE"]),
         }
 
 

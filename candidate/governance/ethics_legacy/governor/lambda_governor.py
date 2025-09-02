@@ -119,9 +119,7 @@ class EscalationSignal:
             **asdict(self),
             "source_module": self.source_module.value,
             "priority": self.priority.value,
-            "recommended_action": (
-                self.recommended_action.value if self.recommended_action else None
-            ),
+            "recommended_action": (self.recommended_action.value if self.recommended_action else None),
         }
 
     def calculate_urgency_score(self) -> float:
@@ -180,9 +178,7 @@ class InterventionExecution:
     execution_log: list[dict[str, Any]] = field(default_factory=list)
     rollback_available: bool = True
 
-    def add_log_entry(
-        self, action: str, status: str, details: Optional[dict[str, Any]] = None
-    ):
+    def add_log_entry(self, action: str, status: str, details: Optional[dict[str, Any]] = None):
         """Add execution log entry."""
         self.execution_log.append(
             {
@@ -423,8 +419,7 @@ class LambdaGovernor:
         recent_escalations = [
             s
             for s in self.escalation_history
-            if self._is_recent(s.timestamp, minutes=10)
-            and any(sid in signal.symbol_ids for sid in s.symbol_ids)
+            if self._is_recent(s.timestamp, minutes=10) and any(sid in signal.symbol_ids for sid in s.symbol_ids)
         ]
 
         history_factor = min(len(recent_escalations) * 0.1, 0.3)
@@ -454,9 +449,7 @@ class LambdaGovernor:
 
         return composite_risk
 
-    async def authorize_action(
-        self, risk_score: float, context: dict[str, Any]
-    ) -> ActionDecision:
+    async def authorize_action(self, risk_score: float, context: dict[str, Any]) -> ActionDecision:
         """
         Determine intervention based on risk score and context.
 
@@ -477,8 +470,7 @@ class LambdaGovernor:
                 return ActionDecision.QUARANTINE
 
         if risk_score >= self.safety_thresholds["contradiction_restructure"] and (
-            context.get("contradiction_density", 0)
-            > self.safety_thresholds["contradiction_restructure"]
+            context.get("contradiction_density", 0) > self.safety_thresholds["contradiction_restructure"]
         ):
             return ActionDecision.RESTRUCTURE
 
@@ -487,8 +479,7 @@ class LambdaGovernor:
                 return ActionDecision.QUARANTINE
 
         if risk_score >= self.safety_thresholds["emotion_freeze"] and (
-            context.get("emotion_volatility", 0)
-            > self.safety_thresholds["emotion_freeze"]
+            context.get("emotion_volatility", 0) > self.safety_thresholds["emotion_freeze"]
         ):
             return ActionDecision.FREEZE
 
@@ -504,9 +495,7 @@ class LambdaGovernor:
         else:
             return ActionDecision.ALLOW
 
-    async def log_governor_action(
-        self, signal: EscalationSignal, response: ArbitrationResponse
-    ):
+    async def log_governor_action(self, signal: EscalationSignal, response: ArbitrationResponse):
         """
         Log structured ΛTAG audit metadata to ethical_governor.jsonl.
 
@@ -575,9 +564,7 @@ class LambdaGovernor:
                 ΛTAG="ΛAUDIT_FAILURE",
             )
 
-    async def notify_mesh(
-        self, signal: EscalationSignal, response: ArbitrationResponse
-    ):
+    async def notify_mesh(self, signal: EscalationSignal, response: ArbitrationResponse):
         """
         Send resolution or intervention notice to symbolic mesh and dream routers.
 
@@ -607,17 +594,13 @@ class LambdaGovernor:
                 await router.receive_governor_notification(notification)
                 response.mesh_notifications.append(f"mesh_router_{id(router)}")
             except Exception as e:
-                logger.error(
-                    "Failed to notify mesh router", router=str(router), error=str(e)
-                )
+                logger.error("Failed to notify mesh router", router=str(router), error=str(e))
 
         # Notify dream coordinators
         for coordinator in self.dream_coordinators:
             try:
                 await coordinator.receive_intervention_notice(notification)
-                response.mesh_notifications.append(
-                    f"dream_coordinator_{id(coordinator)}"
-                )
+                response.mesh_notifications.append(f"dream_coordinator_{id(coordinator)}")
             except Exception as e:
                 logger.error(
                     "Failed to notify dream coordinator",
@@ -657,9 +640,7 @@ class LambdaGovernor:
             ΛTAG="ΛMESH_NOTIFIED",
         )
 
-    async def _execute_intervention(
-        self, response: ArbitrationResponse
-    ) -> InterventionExecution:
+    async def _execute_intervention(self, response: ArbitrationResponse) -> InterventionExecution:
         """Execute the authorized intervention."""
         execution = InterventionExecution(
             execution_id=f"EXEC_{uuid.uuid4().hex[:8]}",
@@ -703,49 +684,33 @@ class LambdaGovernor:
         self.stats["interventions_executed"] += 1
         return execution
 
-    async def _execute_freeze(
-        self, response: ArbitrationResponse, execution: InterventionExecution
-    ):
+    async def _execute_freeze(self, response: ArbitrationResponse, execution: InterventionExecution):
         """Execute freeze intervention."""
         for symbol_id in response.affected_symbols:
             self.frozen_systems.add(symbol_id)
             execution.affected_systems.append(f"frozen_{symbol_id}")
-            execution.add_log_entry(
-                "symbol_frozen", "completed", {"symbol_id": symbol_id}
-            )
+            execution.add_log_entry("symbol_frozen", "completed", {"symbol_id": symbol_id})
 
-    async def _execute_quarantine(
-        self, response: ArbitrationResponse, execution: InterventionExecution
-    ):
+    async def _execute_quarantine(self, response: ArbitrationResponse, execution: InterventionExecution):
         """Execute quarantine intervention."""
         for symbol_id in response.affected_symbols:
             self.quarantined_symbols.add(symbol_id)
             execution.affected_systems.append(f"quarantined_{symbol_id}")
-            execution.add_log_entry(
-                "symbol_quarantined", "completed", {"symbol_id": symbol_id}
-            )
+            execution.add_log_entry("symbol_quarantined", "completed", {"symbol_id": symbol_id})
 
-    async def _execute_restructure(
-        self, response: ArbitrationResponse, execution: InterventionExecution
-    ):
+    async def _execute_restructure(self, response: ArbitrationResponse, execution: InterventionExecution):
         """Execute restructure intervention."""
         for symbol_id in response.affected_symbols:
             self.restructured_components.add(symbol_id)
             execution.affected_systems.append(f"restructured_{symbol_id}")
-            execution.add_log_entry(
-                "symbol_restructured", "completed", {"symbol_id": symbol_id}
-            )
+            execution.add_log_entry("symbol_restructured", "completed", {"symbol_id": symbol_id})
 
-    async def _execute_shutdown(
-        self, response: ArbitrationResponse, execution: InterventionExecution
-    ):
+    async def _execute_shutdown(self, response: ArbitrationResponse, execution: InterventionExecution):
         """Execute shutdown intervention."""
         for symbol_id in response.affected_symbols:
             self.shutdown_systems.add(symbol_id)
             execution.affected_systems.append(f"shutdown_{symbol_id}")
-            execution.add_log_entry(
-                "symbol_shutdown", "completed", {"symbol_id": symbol_id}
-            )
+            execution.add_log_entry("symbol_shutdown", "completed", {"symbol_id": symbol_id})
 
     def register_mesh_router(self, router):
         """Register a mesh router for notifications."""
@@ -794,9 +759,7 @@ class LambdaGovernor:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    def _calculate_decision_confidence(
-        self, signal: EscalationSignal, risk_score: float
-    ) -> float:
+    def _calculate_decision_confidence(self, signal: EscalationSignal, risk_score: float) -> float:
         """Calculate confidence in the arbitration decision."""
         # Base confidence from signal confidence
         base_confidence = signal.confidence if signal.confidence > 0 else 0.5
@@ -823,9 +786,7 @@ class LambdaGovernor:
         confidence = min(base_confidence * clarity_factor * completeness_factor, 1.0)
         return max(confidence, 0.1)  # Minimum confidence
 
-    def _generate_intervention_tags(
-        self, signal: EscalationSignal, decision: ActionDecision
-    ) -> list[str]:
+    def _generate_intervention_tags(self, signal: EscalationSignal, decision: ActionDecision) -> list[str]:
         """Generate intervention tags for the response."""
         tags = ["AINTERVENTION"]
 
@@ -849,9 +810,7 @@ class LambdaGovernor:
 
         return tags
 
-    def _generate_reasoning(
-        self, signal: EscalationSignal, risk_score: float, decision: ActionDecision
-    ) -> str:
+    def _generate_reasoning(self, signal: EscalationSignal, risk_score: float, decision: ActionDecision) -> str:
         """Generate human-readable reasoning for the decision."""
         base_reason = f"Risk score {risk_score:.3f} from {signal.source_module.value}"
 
@@ -861,13 +820,9 @@ class LambdaGovernor:
         if signal.entropy > 0.7:
             key_factors.append(f"high entropy ({signal.entropy:.3f})")
         if signal.emotion_volatility > 0.5:
-            key_factors.append(
-                f"emotional volatility ({signal.emotion_volatility:.3f})"
-            )
+            key_factors.append(f"emotional volatility ({signal.emotion_volatility:.3f})")
         if signal.contradiction_density > 0.6:
-            key_factors.append(
-                f"contradiction density ({signal.contradiction_density:.3f})"
-            )
+            key_factors.append(f"contradiction density ({signal.contradiction_density:.3f})")
 
         if key_factors:
             base_reason += f" due to {', '.join(key_factors)}"
@@ -892,9 +847,7 @@ class LambdaGovernor:
         return {
             "symbol_ids": signal.symbol_ids,
             "memory_ids": signal.memory_ids,
-            "isolation_level": (
-                "full" if decision == ActionDecision.SHUTDOWN else "selective"
-            ),
+            "isolation_level": ("full" if decision == ActionDecision.SHUTDOWN else "selective"),
             "duration": "indefinite" if decision == ActionDecision.SHUTDOWN else "24h",
             "access_restrictions": {
                 "read": decision == ActionDecision.SHUTDOWN,
@@ -903,9 +856,7 @@ class LambdaGovernor:
             },
         }
 
-    def _create_rollback_plan(
-        self, signal: EscalationSignal, decision: ActionDecision
-    ) -> Optional[dict[str, Any]]:
+    def _create_rollback_plan(self, signal: EscalationSignal, decision: ActionDecision) -> Optional[dict[str, Any]]:
         """Create rollback plan for interventions."""
         if decision == ActionDecision.ALLOW:
             return None
@@ -936,9 +887,7 @@ class LambdaGovernor:
         current_avg = self.stats["average_response_time"]
         total_decisions = sum(self.stats["decisions_by_type"].values())
 
-        self.stats["average_response_time"] = (
-            current_avg * (total_decisions - 1) + response_time
-        ) / total_decisions
+        self.stats["average_response_time"] = (current_avg * (total_decisions - 1) + response_time) / total_decisions
 
     def _is_recent(self, timestamp: str, minutes: int = 5) -> bool:
         """Check if timestamp is within recent minutes."""

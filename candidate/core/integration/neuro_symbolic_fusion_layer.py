@@ -69,9 +69,7 @@ class FusionMode(Enum):
     """Fusion processing modes inspired by neural-symbolic integration patterns"""
 
     NEURAL_DOMINANT = "neural_dominant"  # Neural patterns guide symbolic reasoning
-    SYMBOLIC_DOMINANT = (
-        "symbolic_dominant"  # Symbolic rules constrain neural processing
-    )
+    SYMBOLIC_DOMINANT = "symbolic_dominant"  # Symbolic rules constrain neural processing
     BALANCED_FUSION = "balanced_fusion"  # Equal weight between modalities
     ADAPTIVE_BLEND = "adaptive_blend"  # Dynamic weighting based on context
 
@@ -139,12 +137,8 @@ class NeuroSymbolicFusionLayer:
         self.logger = structlog.get_logger("nsfl.core")
 
         # Bio-symbolic components integration
-        self.proton_gradient = (
-            ProtonGradient() if "ProtonGradient" in globals() else None
-        )
-        self.attention_gate = (
-            QIAttentionGate() if "QIAttentionGate" in globals() else None
-        )
+        self.proton_gradient = ProtonGradient() if "ProtonGradient" in globals() else None
+        self.attention_gate = QIAttentionGate() if "QIAttentionGate" in globals() else None
         self.crista_filter = CristaFilter() if "CristaFilter" in globals() else None
 
         # Fusion state
@@ -233,10 +227,7 @@ class NeuroSymbolicFusionLayer:
             pattern.fusion_strength = self._calculate_fusion_strength(pattern)
 
             # Bio-symbolic filtering
-            if (
-                self.crista_filter
-                and pattern.coherence_score < self.crista_filter.threshold
-            ):
+            if self.crista_filter and pattern.coherence_score < self.crista_filter.threshold:
                 pattern = self._enhance_pattern_coherence(pattern)
 
             # Store pattern if it meets quality thresholds
@@ -256,9 +247,7 @@ class NeuroSymbolicFusionLayer:
             self.logger.error("Fusion operation failed", error=str(e))
             return self._create_error_pattern(neural_input, symbolic_input, str(e))
 
-    def translate_neural_to_symbolic(
-        self, neural_pattern: np.ndarray
-    ) -> dict[str, Any]:
+    def translate_neural_to_symbolic(self, neural_pattern: np.ndarray) -> dict[str, Any]:
         """
         Translate neural activation patterns into symbolic representations
 
@@ -276,9 +265,7 @@ class NeuroSymbolicFusionLayer:
             symbolic_rep = {
                 "pattern_type": self._classify_neural_pattern(neural_pattern),
                 "activation_strength": float(np.max(neural_pattern)),
-                "pattern_complexity": self._calculate_pattern_complexity(
-                    neural_pattern
-                ),
+                "pattern_complexity": self._calculate_pattern_complexity(neural_pattern),
                 "symbolic_predicates": self._generate_predicates(neural_pattern),
                 "template_matches": template_matches,
                 "confidence": self._calculate_translation_confidence(neural_pattern),
@@ -297,9 +284,7 @@ class NeuroSymbolicFusionLayer:
             self.logger.error("Neural to symbolic translation failed", error=str(e))
             return {"error": str(e), "type": "translation_failure"}
 
-    def translate_symbolic_to_neural(
-        self, symbolic_structure: dict[str, Any]
-    ) -> np.ndarray:
+    def translate_symbolic_to_neural(self, symbolic_structure: dict[str, Any]) -> np.ndarray:
         """
         Translate symbolic structures into neural activation patterns
 
@@ -389,15 +374,9 @@ class NeuroSymbolicFusionLayer:
         """Get comprehensive metrics about fusion layer performance"""
         try:
             total_patterns = len(self.fusion_patterns)
-            avg_coherence = (
-                np.mean([p.coherence_score for p in self.fusion_patterns])
-                if self.fusion_patterns
-                else 0.0
-            )
+            avg_coherence = np.mean([p.coherence_score for p in self.fusion_patterns]) if self.fusion_patterns else 0.0
             avg_fusion_strength = (
-                np.mean([p.fusion_strength for p in self.fusion_patterns])
-                if self.fusion_patterns
-                else 0.0
+                np.mean([p.fusion_strength for p in self.fusion_patterns]) if self.fusion_patterns else 0.0
             )
 
             metrics = {
@@ -424,9 +403,7 @@ class NeuroSymbolicFusionLayer:
 
     # Helper methods for internal operations
 
-    def _apply_fusion_mode(
-        self, pattern: NeuroSymbolicPattern, mode: FusionMode
-    ) -> NeuroSymbolicPattern:
+    def _apply_fusion_mode(self, pattern: NeuroSymbolicPattern, mode: FusionMode) -> NeuroSymbolicPattern:
         """Apply fusion mode specific processing"""
         if mode == FusionMode.NEURAL_DOMINANT:
             pattern.neural_signature *= 1.2
@@ -438,15 +415,11 @@ class NeuroSymbolicFusionLayer:
             # Context-dependent weighting
             if self.active_context:
                 pattern.neural_signature *= self.active_context.neural_weight
-                pattern.symbolic_representation["weight"] = (
-                    self.active_context.symbolic_weight
-                )
+                pattern.symbolic_representation["weight"] = self.active_context.symbolic_weight
 
         return pattern
 
-    def _calculate_energy_cost(
-        self, neural_input: np.ndarray, symbolic_input: dict[str, Any]
-    ) -> float:
+    def _calculate_energy_cost(self, neural_input: np.ndarray, symbolic_input: dict[str, Any]) -> float:
         """Calculate the energy cost of fusion operation"""
         neural_cost = np.sum(np.abs(neural_input)) * 0.1
         symbolic_cost = len(str(symbolic_input)) * 0.001
@@ -534,18 +507,14 @@ class NeuroSymbolicFusionLayer:
         pattern = np.clip(pattern, -1.0, 1.0)
         return pattern / (np.linalg.norm(pattern) + 1e-8)
 
-    def _enhance_pattern_coherence(
-        self, pattern: NeuroSymbolicPattern
-    ) -> NeuroSymbolicPattern:
+    def _enhance_pattern_coherence(self, pattern: NeuroSymbolicPattern) -> NeuroSymbolicPattern:
         """Enhance coherence of low-coherence patterns"""
         # Apply coherence enhancement
         pattern.neural_signature *= 1.1
         pattern.symbolic_representation["enhanced"] = True
         return pattern
 
-    def _create_minimal_pattern(
-        self, symbolic_input: dict[str, Any]
-    ) -> NeuroSymbolicPattern:
+    def _create_minimal_pattern(self, symbolic_input: dict[str, Any]) -> NeuroSymbolicPattern:
         """Create minimal pattern when neural input is filtered"""
         minimal_neural = np.zeros(self.config.get("default_neural_dim", 128))
         return NeuroSymbolicPattern(minimal_neural, symbolic_input)
@@ -591,9 +560,7 @@ class NeuroSymbolicFusionLayer:
             Collapsed superposition into single fused pattern
         """
         try:
-            self.logger.info(
-                "Processing superposition states", candidate_count=len(state_candidates)
-            )
+            self.logger.info("Processing superposition states", candidate_count=len(state_candidates))
 
             # Phase 1: Create superposition of all candidate states
             superposition_weights = []
@@ -616,13 +583,9 @@ class NeuroSymbolicFusionLayer:
             # Normalize weights (quantum probability amplitudes)
             total_weight = sum(superposition_weights)
             if total_weight > 0:
-                superposition_weights = [
-                    w / total_weight for w in superposition_weights
-                ]
+                superposition_weights = [w / total_weight for w in superposition_weights]
             else:
-                superposition_weights = [1 / len(state_candidates)] * len(
-                    state_candidates
-                )
+                superposition_weights = [1 / len(state_candidates)] * len(state_candidates)
 
             # Phase 2: Parallel processing in superposition
             # (simulate quantum parallel computation)
@@ -677,9 +640,7 @@ class NeuroSymbolicFusionLayer:
                     "Superposition collapsed successfully",
                     final_coherence=final_pattern.coherence_score,
                     fusion_strength=final_pattern.fusion_strength,
-                    contributing_states=sum(
-                        1 for w in superposition_weights if w > 0.1
-                    ),
+                    contributing_states=sum(1 for w in superposition_weights if w > 0.1),
                 )
 
                 return final_pattern

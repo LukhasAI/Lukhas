@@ -29,9 +29,7 @@ class MemoryAgent(SwarmAgent):
         self.memory_index: dict[str, list[str]] = defaultdict(list)  # tag -> memory_ids
         self.access_log: deque = deque(maxlen=1000)
 
-    async def store_memory(
-        self, memory_id: str, content: dict[str, Any], tags: list[str]
-    ) -> bool:
+    async def store_memory(self, memory_id: str, content: dict[str, Any], tags: list[str]) -> bool:
         """Store a memory locally."""
         try:
             self.local_storage[memory_id] = {
@@ -117,9 +115,7 @@ class MemoryColony(BaseColony):
         }
 
         # Global memory index
-        self.global_index: dict[str, list[tuple[str, str]]] = defaultdict(
-            list
-        )  # tag -> [(agent_id, memory_id)]
+        self.global_index: dict[str, list[tuple[str, str]]] = defaultdict(list)  # tag -> [(agent_id, memory_id)]
 
         # Memory statistics
         self.stats = {
@@ -140,13 +136,9 @@ class MemoryColony(BaseColony):
         await self._initialize_memory_agents()
 
         # Subscribe to memory events
-        self.comm_fabric.subscribe_to_events(
-            "memory_request", self._handle_memory_request
-        )
+        self.comm_fabric.subscribe_to_events("memory_request", self._handle_memory_request)
 
-        logger.info(
-            f"MemoryColony {self.colony_id} started with {len(self.agents)} agents"
-        )
+        logger.info(f"MemoryColony {self.colony_id} started with {len(self.agents)} agents")
 
     async def _initialize_memory_agents(self):
         """Initialize specialized memory agents."""
@@ -167,9 +159,7 @@ class MemoryColony(BaseColony):
 
         logger.info(f"Initialized {len(self.agents)} memory agents")
 
-    async def execute_task(
-        self, task_id: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """Execute memory-related tasks with real functionality."""
 
         task_type = task_data.get("type", "unknown")
@@ -346,19 +336,14 @@ class MemoryColony(BaseColony):
 
                 # Remove from index
                 for tag in memory.get("tags", []):
-                    if (
-                        tag in agent.memory_index
-                        and memory_id in agent.memory_index[tag]
-                    ):
+                    if tag in agent.memory_index and memory_id in agent.memory_index[tag]:
                         agent.memory_index[tag].remove(memory_id)
 
                 removed_count += 1
 
         # Update global index
         for tag, entries in list(self.global_index.items()):
-            self.global_index[tag] = [
-                (aid, mid) for aid, mid in entries if mid != memory_id
-            ]
+            self.global_index[tag] = [(aid, mid) for aid, mid in entries if mid != memory_id]
             if not self.global_index[tag]:
                 del self.global_index[tag]
 
@@ -421,9 +406,7 @@ class MemoryColony(BaseColony):
 
         if not available_agents:
             # Fallback to any available agents
-            available_agents = [
-                a for a in self.agents.values() if isinstance(a, MemoryAgent)
-            ]
+            available_agents = [a for a in self.agents.values() if isinstance(a, MemoryAgent)]
 
         # Round-robin selection
         selected = []
@@ -439,9 +422,7 @@ class MemoryColony(BaseColony):
             if operation == "retrieve":
                 current_avg = self.stats["avg_retrieval_time"]
                 total_retrievals = self.stats["total_retrievals"]
-                new_avg = (current_avg * total_retrievals + elapsed_time) / (
-                    total_retrievals + 1
-                )
+                new_avg = (current_avg * total_retrievals + elapsed_time) / (total_retrievals + 1)
                 self.stats["avg_retrieval_time"] = new_avg
 
     async def _handle_memory_request(self, message):
@@ -468,9 +449,7 @@ class MemoryColony(BaseColony):
                 agent_stats[agent_id] = {
                     "memory_count": len(agent.local_storage),
                     "memory_type": agent.memory_type,
-                    "total_accesses": sum(
-                        m["access_count"] for m in agent.local_storage.values()
-                    ),
+                    "total_accesses": sum(m["access_count"] for m in agent.local_storage.values()),
                 }
 
         return {
@@ -478,8 +457,7 @@ class MemoryColony(BaseColony):
             "agent_stats": agent_stats,
             "total_tags": len(self.global_index),
             "memory_distribution": {
-                mt: sum(len(a.local_storage) for a in agents)
-                for mt, agents in self.memory_agents.items()
+                mt: sum(len(a.local_storage) for a in agents) for mt, agents in self.memory_agents.items()
             },
         }
 
@@ -544,9 +522,7 @@ async def demo_enhanced_memory_colony():
 
         # Retrieve specific memory
         if stored_ids:
-            retrieve_result = await colony.execute_task(
-                "retrieve-1", {"type": "retrieve", "memory_id": stored_ids[0]}
-            )
+            retrieve_result = await colony.execute_task("retrieve-1", {"type": "retrieve", "memory_id": stored_ids[0]})
             print(f"\nRetrieved memory: {retrieve_result}")
 
         # Get statistics

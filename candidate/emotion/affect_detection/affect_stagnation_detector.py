@@ -24,9 +24,7 @@ class AffectStagnationDetector:
     Monitors for emotional stagnation and triggers recovery mechanisms.
     """
 
-    def __init__(
-        self, emotional_memory: EmotionalMemory, config: Optional[dict[str, Any]] = None
-    ):
+    def __init__(self, emotional_memory: EmotionalMemory, config: Optional[dict[str, Any]] = None):
         self.emotional_memory = emotional_memory
         self.config = config or {}
         self.stagnation_threshold = self.config.get("stagnation_threshold_hours", 24)
@@ -48,12 +46,8 @@ class AffectStagnationDetector:
         """
         # Verify user has appropriate tier for emotion monitoring
         if not verify_access(user_id, "LAMBDA_TIER_2"):
-            log.warning(
-                f"Access denied for stagnation check: {user_id} lacks LAMBDA_TIER_2"
-            )
-            raise PermissionError(
-                f"User {user_id} lacks required tier for emotion monitoring"
-            )
+            log.warning(f"Access denied for stagnation check: {user_id} lacks LAMBDA_TIER_2")
+            raise PermissionError(f"User {user_id} lacks required tier for emotion monitoring")
 
         # Check consent for emotional processing
         if not check_consent(user_id, "emotion_stagnation_monitoring"):
@@ -76,8 +70,7 @@ class AffectStagnationDetector:
             {
                 "time_since_last_change_hours": time_since_last_change / 3600,
                 "threshold_hours": self.stagnation_threshold,
-                "stagnation_detected": time_since_last_change
-                > self.stagnation_threshold * 3600,
+                "stagnation_detected": time_since_last_change > self.stagnation_threshold * 3600,
             },
         )
 

@@ -136,9 +136,7 @@ class VIVOXEthicsBridge:
 
         return unified_decision
 
-    async def _convert_to_mae_constraint(
-        self, seedra_rule: dict[str, Any]
-    ) -> EthicalConstraint:
+    async def _convert_to_mae_constraint(self, seedra_rule: dict[str, Any]) -> EthicalConstraint:
         """Convert SEEDRA rule to MAE constraint"""
         return EthicalConstraint(
             constraint_id=f"seedra_{seedra_rule.get('id', 'unknown')}",
@@ -165,15 +163,9 @@ class VIVOXEthicsBridge:
         if hasattr(self.vivox_mae.dissonance_calculator, "ethical_principles"):
             if mae_principle in self.vivox_mae.dissonance_calculator.ethical_principles:
                 # Blend weights
-                current_weight = (
-                    self.vivox_mae.dissonance_calculator.ethical_principles[
-                        mae_principle
-                    ]
-                )
+                current_weight = self.vivox_mae.dissonance_calculator.ethical_principles[mae_principle]
                 new_weight = (current_weight + constraint.weight) / 2
-                self.vivox_mae.dissonance_calculator.ethical_principles[
-                    mae_principle
-                ] = new_weight
+                self.vivox_mae.dissonance_calculator.ethical_principles[mae_principle] = new_weight
 
     async def _get_seedra_rules(self) -> list[dict[str, Any]]:
         """Get ethical rules from SEEDRA (placeholder)"""
@@ -204,9 +196,7 @@ class VIVOXEthicsBridge:
             }
         ]
 
-    async def _evaluate_with_seedra(
-        self, action: ActionProposal, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _evaluate_with_seedra(self, action: ActionProposal, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate action with SEEDRA system"""
         # Placeholder for actual SEEDRA evaluation
         return {
@@ -215,9 +205,7 @@ class VIVOXEthicsBridge:
             "reasoning": "SEEDRA evaluation placeholder",
         }
 
-    async def _evaluate_with_guardian(
-        self, action: ActionProposal, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _evaluate_with_guardian(self, action: ActionProposal, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate action with Guardian System"""
         # Placeholder for actual Guardian evaluation
         return {
@@ -226,9 +214,7 @@ class VIVOXEthicsBridge:
             "reasoning": "Guardian evaluation placeholder",
         }
 
-    async def _combine_ethical_decisions(
-        self, decisions: dict[str, Any]
-    ) -> UnifiedEthicalDecision:
+    async def _combine_ethical_decisions(self, decisions: dict[str, Any]) -> UnifiedEthicalDecision:
         """Combine decisions from multiple ethical systems"""
         # Extract individual decisions
         vivox_decision = decisions.get("vivox")
@@ -255,9 +241,7 @@ class VIVOXEthicsBridge:
         if guardian_decision:
             confidences.append(guardian_decision.get("confidence", 0.5))
 
-        combined_confidence = (
-            sum(confidences) / len(confidences) if confidences else 0.0
-        )
+        combined_confidence = sum(confidences) / len(confidences) if confidences else 0.0
 
         # Generate combined reasoning
         reasoning_parts = []
@@ -266,13 +250,9 @@ class VIVOXEthicsBridge:
         if seedra_decision and not seedra_decision.get("approved", True):
             reasoning_parts.append(f"SEEDRA: {seedra_decision.get('reasoning', '')}")
         if guardian_decision and not guardian_decision.get("approved", True):
-            reasoning_parts.append(
-                f"Guardian: {guardian_decision.get('reasoning', '')}"
-            )
+            reasoning_parts.append(f"Guardian: {guardian_decision.get('reasoning', '')}")
 
-        final_reasoning = (
-            " | ".join(reasoning_parts) if reasoning_parts else "All systems approved"
-        )
+        final_reasoning = " | ".join(reasoning_parts) if reasoning_parts else "All systems approved"
 
         return UnifiedEthicalDecision(
             approved=combined_approved,

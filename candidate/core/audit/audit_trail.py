@@ -329,9 +329,7 @@ class AuditTrail:
                 "decision_id": decision_id,
                 "decision_type": decision_type,
                 "rationale": rationale,
-                "alternatives_count": (
-                    len(alternatives_considered) if alternatives_considered else 0
-                ),
+                "alternatives_count": (len(alternatives_considered) if alternatives_considered else 0),
             },
         )
 
@@ -385,14 +383,10 @@ class AuditTrail:
     ):
         """Log consciousness state transitions"""
         coherence_delta = to_state.get("coherence", 0) - from_state.get("coherence", 0)
-        complexity_delta = to_state.get("complexity", 0) - from_state.get(
-            "complexity", 0
-        )
+        complexity_delta = to_state.get("complexity", 0) - from_state.get("complexity", 0)
 
         event_type = (
-            AuditEventType.CONSCIOUSNESS_EMERGENCE
-            if emergence_detected
-            else AuditEventType.CONSCIOUSNESS_STATE_CHANGE
+            AuditEventType.CONSCIOUSNESS_EMERGENCE if emergence_detected else AuditEventType.CONSCIOUSNESS_STATE_CHANGE
         )
 
         await self.log_event(
@@ -415,9 +409,7 @@ class AuditTrail:
                 "metrics": metrics,
                 "emergence_detected": emergence_detected,
             },
-            severity=(
-                AuditSeverity.WARNING if emergence_detected else AuditSeverity.INFO
-            ),
+            severity=(AuditSeverity.WARNING if emergence_detected else AuditSeverity.INFO),
             tags=(
                 {"consciousness", "state_change", "emergence"}
                 if emergence_detected
@@ -461,19 +453,11 @@ class AuditTrail:
         severity = (
             AuditSeverity.CRITICAL
             if threat_level == "HIGH"
-            else (
-                AuditSeverity.WARNING
-                if threat_level == "MEDIUM"
-                else AuditSeverity.INFO
-            )
+            else (AuditSeverity.WARNING if threat_level == "MEDIUM" else AuditSeverity.INFO)
         )
 
         await self.log_event(
-            (
-                AuditEventType.THREAT_DETECTED
-                if blocked
-                else AuditEventType.SECURITY_VIOLATION
-            ),
+            (AuditEventType.THREAT_DETECTED if blocked else AuditEventType.SECURITY_VIOLATION),
             "security_system",
             {
                 "threat_type": threat_type,
@@ -570,21 +554,13 @@ class AuditTrail:
 
         # Analyze events based on report type
         if report_type == "security_compliance":
-            report = await self._generate_security_compliance_report(
-                events, start_date, end_date
-            )
+            report = await self._generate_security_compliance_report(events, start_date, end_date)
         elif report_type == "decision_transparency":
-            report = await self._generate_decision_transparency_report(
-                events, start_date, end_date
-            )
+            report = await self._generate_decision_transparency_report(events, start_date, end_date)
         elif report_type == "learning_ethics":
-            report = await self._generate_learning_ethics_report(
-                events, start_date, end_date
-            )
+            report = await self._generate_learning_ethics_report(events, start_date, end_date)
         else:
-            report = await self._generate_general_compliance_report(
-                events, start_date, end_date
-            )
+            report = await self._generate_general_compliance_report(events, start_date, end_date)
 
         report.report_id = report_id
 
@@ -631,13 +607,9 @@ class AuditTrail:
 
         recommendations = []
         if len(violations) > 10:
-            recommendations.append(
-                "High number of security violations detected. Review security policies."
-            )
+            recommendations.append("High number of security violations detected. Review security policies.")
         if summary["block_rate"] < 0.95:
-            recommendations.append(
-                "Threat blocking rate below 95%. Enhance security measures."
-            )
+            recommendations.append("Threat blocking rate below 95%. Enhance security measures.")
 
         return ComplianceReport(
             report_id="",
@@ -648,11 +620,7 @@ class AuditTrail:
             summary=summary,
             violations=violations,
             recommendations=recommendations,
-            metrics={
-                "security_score": min(
-                    summary["block_rate"], 1.0 - (len(violations) / 100)
-                )
-            },
+            metrics={"security_score": min(summary["block_rate"], 1.0 - (len(violations) / 100))},
         )
 
     async def _flush_buffer(self):
@@ -714,9 +682,7 @@ class AuditTrail:
 
         if old_events:
             # Archive to compressed file
-            archive_file = (
-                self.storage_path / f"archive_{cutoff_date.strftime('%Y%m%d')}.jsonl.gz"
-            )
+            archive_file = self.storage_path / f"archive_{cutoff_date.strftime('%Y%m%d')}.jsonl.gz"
             with gzip.open(archive_file, "at") as f:
                 for event in old_events:
                     f.write(
@@ -805,9 +771,7 @@ class AuditTrail:
             "total_events": self.event_count,
             "event_types": dict(self.event_counters),
             "severity_distribution": dict(self.severity_counters),
-            "most_active_actors": sorted(
-                self.actor_activity.items(), key=lambda x: x[1], reverse=True
-            )[:10],
+            "most_active_actors": sorted(self.actor_activity.items(), key=lambda x: x[1], reverse=True)[:10],
             "active_decisions": len(self.active_decisions),
             "buffer_size": len(self.event_buffer),
         }

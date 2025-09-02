@@ -68,9 +68,7 @@ class SecurityValidator(ABC):
     """Abstract base for security validators"""
 
     @abstractmethod
-    async def validate(
-        self, data: Any, context: SecurityContext
-    ) -> tuple[bool, Optional[str]]:
+    async def validate(self, data: Any, context: SecurityContext) -> tuple[bool, Optional[str]]:
         """Validate data/operation"""
 
 
@@ -134,9 +132,7 @@ class AGISecuritySystem:
         await self.encryption_manager.initialize()
         await self.threat_detector.initialize()
 
-    async def create_session(
-        self, user_id: str, auth_token: str
-    ) -> Optional[SecurityContext]:
+    async def create_session(self, user_id: str, auth_token: str) -> Optional[SecurityContext]:
         """
         Create secure session
 
@@ -245,9 +241,7 @@ class AGISecuritySystem:
 
         return encrypted
 
-    async def create_secure_channel(
-        self, channel_id: str, participants: list[str]
-    ) -> "SecureChannel":
+    async def create_secure_channel(self, channel_id: str, participants: list[str]) -> "SecureChannel":
         """Create secure communication channel"""
         channel = SecureChannel(channel_id, participants, self.encryption_manager)
         self.secure_channels[channel_id] = channel
@@ -278,9 +272,7 @@ class AGISecuritySystem:
         if threat.severity > 0.7:
             await self._notify_security_team(threat)
 
-    async def _investigate_anomaly(
-        self, operation: str, data: Any, context: SecurityContext
-    ):
+    async def _investigate_anomaly(self, operation: str, data: Any, context: SecurityContext):
         """Investigate detected anomaly"""
         # Create investigation record
         investigation = {
@@ -405,10 +397,7 @@ class AccessControlSystem:
             return True
 
         # Check wildcard match
-        return any(
-            perm.endswith("*") and operation.startswith(perm[:-1])
-            for perm in context.permissions
-        )
+        return any(perm.endswith("*") and operation.startswith(perm[:-1]) for perm in context.permissions)
 
     async def limit_user_access(self, user_id: str):
         """Temporarily limit user access"""
@@ -482,9 +471,7 @@ class ThreatDetectionSystem:
     async def initialize(self):
         """Initialize threat detection"""
 
-    async def detect_threat(
-        self, operation: str, data: Any, context: SecurityContext
-    ) -> Optional[SecurityIncident]:
+    async def detect_threat(self, operation: str, data: Any, context: SecurityContext) -> Optional[SecurityIncident]:
         """Detect threats in operation"""
         data_str = str(data).lower()
 
@@ -589,11 +576,7 @@ class RateLimiter:
         now = datetime.utcnow()
 
         # Clean old requests
-        self.requests[key] = [
-            req
-            for req in self.requests[key]
-            if now - req < timedelta(seconds=window_seconds)
-        ]
+        self.requests[key] = [req for req in self.requests[key] if now - req < timedelta(seconds=window_seconds)]
 
         # Check limit
         if len(self.requests[key]) >= max_requests:
@@ -607,9 +590,7 @@ class RateLimiter:
 class AnomalyDetector:
     """Detect anomalous behavior"""
 
-    async def is_anomalous(
-        self, operation: str, data: Any, context: SecurityContext
-    ) -> bool:
+    async def is_anomalous(self, operation: str, data: Any, context: SecurityContext) -> bool:
         """Check if operation is anomalous"""
         # In production, would use ML-based anomaly detection
         return False
@@ -651,9 +632,7 @@ class SecureChannel:
         if sender not in self.participants:
             return False
 
-        encrypted = await self.encryption_manager.encrypt_sensitive(
-            json.dumps(message).encode("utf-8")
-        )
+        encrypted = await self.encryption_manager.encrypt_sensitive(json.dumps(message).encode("utf-8"))
 
         self.message_history.append(
             {
@@ -672,9 +651,7 @@ class SecureChannel:
 class InputValidator(SecurityValidator):
     """Validate user inputs"""
 
-    async def validate(
-        self, data: Any, context: SecurityContext
-    ) -> tuple[bool, Optional[str]]:
+    async def validate(self, data: Any, context: SecurityContext) -> tuple[bool, Optional[str]]:
         if isinstance(data, str) and len(data) > 10000:
             return False, "Input too long"
         return True, None
@@ -683,9 +660,7 @@ class InputValidator(SecurityValidator):
 class MemoryAccessValidator(SecurityValidator):
     """Validate memory access"""
 
-    async def validate(
-        self, data: Any, context: SecurityContext
-    ) -> tuple[bool, Optional[str]]:
+    async def validate(self, data: Any, context: SecurityContext) -> tuple[bool, Optional[str]]:
         if context.clearance_level.value < SecurityLevel.PRIVILEGED.value:
             if "personality" in str(data).lower():
                 return False, "Insufficient clearance for personality memory"
@@ -695,9 +670,7 @@ class MemoryAccessValidator(SecurityValidator):
 class ConsciousnessValidator(SecurityValidator):
     """Validate consciousness operations"""
 
-    async def validate(
-        self, data: Any, context: SecurityContext
-    ) -> tuple[bool, Optional[str]]:
+    async def validate(self, data: Any, context: SecurityContext) -> tuple[bool, Optional[str]]:
         if context.clearance_level.value < SecurityLevel.CRITICAL.value:
             return False, "Insufficient clearance for consciousness operations"
         return True, None
@@ -706,8 +679,6 @@ class ConsciousnessValidator(SecurityValidator):
 class APIValidator(SecurityValidator):
     """Validate API calls"""
 
-    async def validate(
-        self, data: Any, context: SecurityContext
-    ) -> tuple[bool, Optional[str]]:
+    async def validate(self, data: Any, context: SecurityContext) -> tuple[bool, Optional[str]]:
         # Validate API request structure
         return True, None

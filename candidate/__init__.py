@@ -29,9 +29,7 @@ Modules:
 # Version information
 __version__ = "1.0.0-dev"
 __author__ = "LUKHAS AI Agent Army"
-__description__ = (
-    "LUKHAS AI Candidate Module Package - Trinity Framework Implementation"
-)
+__description__ = "LUKHAS AI Candidate Module Package - Trinity Framework Implementation"
 
 # Trinity Framework symbols
 TRINITY_SYMBOLS = "⚛️🧠🛡️"

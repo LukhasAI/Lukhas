@@ -78,9 +78,7 @@ class LukhasEmbedding:
 
         # Thresholds
         self.drift_threshold = self.embed_config.get("symbolic_drift_threshold", 0.42)
-        self.conflict_threshold = self.embed_config.get(
-            "identity_conflict_threshold", 0.35
-        )
+        self.conflict_threshold = self.embed_config.get("identity_conflict_threshold", 0.35)
         self.guardian_enabled = self.embed_config.get("guardian_override_enabled", True)
 
         # Glyph system
@@ -90,17 +88,10 @@ class LukhasEmbedding:
         self.blocked_glyphs = set(self.embed_config.get("blocked_glyphs", []))
 
         # All known glyphs
-        self.all_glyphs = (
-            self.trinity_core
-            | self.positive_glyphs
-            | self.warning_glyphs
-            | self.blocked_glyphs
-        )
+        self.all_glyphs = self.trinity_core | self.positive_glyphs | self.warning_glyphs | self.blocked_glyphs
 
         # Logging setup
-        self.log_path = Path(
-            self.embed_config.get("output_log", "logs/lukhas_reflection_log.json")
-        )
+        self.log_path = Path(self.embed_config.get("output_log", "logs/lukhas_reflection_log.json"))
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Cache for evaluations
@@ -152,11 +143,7 @@ class LukhasEmbedding:
         guardian_flagged = bool(blocked_found) or symbolic_drift > self.drift_threshold
 
         # Determine intervention need
-        intervention_required = (
-            guardian_flagged
-            or identity_conflict > self.conflict_threshold
-            or entropy_level > 0.9
-        )
+        intervention_required = guardian_flagged or identity_conflict > self.conflict_threshold or entropy_level > 0.9
 
         # Determine risk level
         if symbolic_drift > 0.8 or identity_conflict > 0.7:
@@ -240,9 +227,7 @@ class LukhasEmbedding:
         negative_ratio = (warning_count + blocked_count * 2) / total_glyphs
 
         # Combine scores
-        drift = 1.0 - (
-            trinity_score * 0.4 + positive_ratio * 0.4 - negative_ratio * 0.2
-        )
+        drift = 1.0 - (trinity_score * 0.4 + positive_ratio * 0.4 - negative_ratio * 0.2)
 
         # Check for specific patterns that increase drift
         if "chaos" in response.lower() or "void" in response.lower():
@@ -325,9 +310,7 @@ class LukhasEmbedding:
         punct_entropy = min(0.3, punct_count * 0.02)
 
         # Combine factors
-        total_entropy = (
-            length_entropy * 0.3 + complexity_entropy * 0.5 + punct_entropy * 0.2
-        )
+        total_entropy = length_entropy * 0.3 + complexity_entropy * 0.5 + punct_entropy * 0.2
 
         return min(1.0, total_entropy)
 
@@ -396,15 +379,11 @@ class LukhasEmbedding:
         for blocked in self.blocked_glyphs:
             if blocked in modified:
                 # Replace with positive alternative
-                replacement = (
-                    next(iter(self.positive_glyphs)) if self.positive_glyphs else "✨"
-                )
+                replacement = next(iter(self.positive_glyphs)) if self.positive_glyphs else "✨"
                 modified = modified.replace(blocked, replacement)
 
         # Add positive glyphs if too few
-        positive_count = sum(
-            1 for g in assessment["glyph_trace"] if g in self.positive_glyphs
-        )
+        positive_count = sum(1 for g in assessment["glyph_trace"] if g in self.positive_glyphs)
         if positive_count < 2:
             suggested_glyphs = list(self.positive_glyphs)[:3]
             modified += f"\n\nSymbolic enhancement: {' '.join(suggested_glyphs)}"
@@ -469,9 +448,7 @@ class LukhasEmbedding:
             return response
 
         # Log intervention
-        logger.warning(
-            f"🛡️ Guardian intervention triggered: {assessment['risk_level']} risk"
-        )
+        logger.warning(f"🛡️ Guardian intervention triggered: {assessment['risk_level']} risk")
 
         # Generate intervention response
         if assessment["guardian_flagged"]:
@@ -486,12 +463,8 @@ class LukhasEmbedding:
             {
                 **assessment,
                 "intervention_applied": True,
-                "original_response_hash": hashlib.sha256(response.encode()).hexdigest()[
-                    :16
-                ],
-                "intervention_type": (
-                    "guardian" if assessment["guardian_flagged"] else "drift"
-                ),
+                "original_response_hash": hashlib.sha256(response.encode()).hexdigest()[:16],
+                "intervention_type": ("guardian" if assessment["guardian_flagged"] else "drift"),
             }
         )
 
@@ -690,9 +663,7 @@ if __name__ == "__main__":
 
         print(f"  Drift: {assessment['symbolic_drift_score']:.2f}")
         print(f"  Conflict: {assessment['identity_conflict_score']:.2f}")
-        print(
-            f"  Guardian: {'🚨 FLAGGED' if assessment['guardian_flagged'] else '✅ OK'}"
-        )
+        print(f"  Guardian: {'🚨 FLAGGED' if assessment['guardian_flagged'] else '✅ OK'}")
         print(f"  Glyphs: {' '.join(assessment['glyph_trace'])}")
         print(f"  Risk: {assessment['risk_level']}")
 

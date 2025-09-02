@@ -71,9 +71,7 @@ class NeuralProcessor:
         Returns:
             Dict: Results of neural processing
         """
-        logger.debug(
-            f"Processing input through neural pathways: {str(input_data)[:100]}..."
-        )
+        logger.debug(f"Processing input through neural pathways: {str(input_data)[:100]}...")
 
         # Extract text if present
         text = input_data.get("text", "")
@@ -160,9 +158,7 @@ class NeuralProcessor:
         # Placeholder for confidence calculation
         return 0.85
 
-    def train(
-        self, training_data: list[dict[str, Any]], epochs: int = 5
-    ) -> dict[str, Any]:
+    def train(self, training_data: list[dict[str, Any]], epochs: int = 5) -> dict[str, Any]:
         """
         Train the neural processor on the provided data.
 
@@ -173,16 +169,12 @@ class NeuralProcessor:
         Returns:
             Dict: Training results and metrics
         """
-        logger.info(
-            f"Training neural processor with {len(training_data)} examples over {epochs} epochs"
-        )
+        logger.info(f"Training neural processor with {len(training_data)} examples over {epochs} epochs")
 
         # Placeholder for training logic
         # In a real implementation, this would use backpropagation
 
         metrics = {"loss": 0.05, "accuracy": 0.92, "epochs_completed": epochs}
 
-        logger.info(
-            f"Training complete: Loss={metrics['loss']}, Accuracy={metrics['accuracy']}"
-        )
+        logger.info(f"Training complete: Loss={metrics['loss']}, Accuracy={metrics['accuracy']}")
         return metrics

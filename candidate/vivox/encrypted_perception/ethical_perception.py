@@ -166,9 +166,7 @@ class EthicalPerceptionFilter:
         privacy_level = self._determine_privacy_level(context)
 
         # Check ethical boundaries
-        applicable_boundaries = [
-            b for b in self.boundaries if b.applies_to_context(context)
-        ]
+        applicable_boundaries = [b for b in self.boundaries if b.applies_to_context(context)]
 
         # Apply appropriate filters
         filtered_data = data
@@ -188,9 +186,7 @@ class EthicalPerceptionFilter:
 
         # Apply boundary-specific filters
         for boundary in applicable_boundaries:
-            filtered_data, filter_name = await self._apply_boundary_filter(
-                filtered_data, boundary, data_type
-            )
+            filtered_data, filter_name = await self._apply_boundary_filter(filtered_data, boundary, data_type)
             if filter_name:
                 applied_filters.append(filter_name)
 
@@ -286,9 +282,7 @@ class EthicalPerceptionFilter:
 
         return data, None
 
-    def _gaussian_blur_transform(
-        self, data: np.ndarray, sigma: float = 2.0
-    ) -> np.ndarray:
+    def _gaussian_blur_transform(self, data: np.ndarray, sigma: float = 2.0) -> np.ndarray:
         """Apply Gaussian blur"""
         from scipy.ndimage import gaussian_filter
 
@@ -303,9 +297,7 @@ class EthicalPerceptionFilter:
         else:
             return data
 
-    def _pixelation_transform(
-        self, data: np.ndarray, block_size: int = 8
-    ) -> np.ndarray:
+    def _pixelation_transform(self, data: np.ndarray, block_size: int = 8) -> np.ndarray:
         """Apply pixelation"""
         if data.ndim < 2:
             return data
@@ -326,9 +318,7 @@ class EthicalPerceptionFilter:
                     small[i, j] = np.mean(block)
 
             # Resize back up
-            pixelated = np.repeat(
-                np.repeat(small, block_size, axis=0), block_size, axis=1
-            )
+            pixelated = np.repeat(np.repeat(small, block_size, axis=0), block_size, axis=1)
             return pixelated[:h, :w]
         else:
             # Handle multi-channel
@@ -382,9 +372,7 @@ class EthicalPerceptionFilter:
         # Repeat to match expected dimension
         return np.tile(stats, len(data) // len(stats) + 1)[: len(data)]
 
-    def _differential_privacy_transform(
-        self, data: np.ndarray, epsilon: float = 1.0
-    ) -> np.ndarray:
+    def _differential_privacy_transform(self, data: np.ndarray, epsilon: float = 1.0) -> np.ndarray:
         """Apply differential privacy"""
         # Add Laplace noise
         sensitivity = np.max(data) - np.min(data)
@@ -421,9 +409,7 @@ class EthicalPerceptionFilter:
         # Handle different array shapes
         if image.ndim == 1:
             # 1D array - apply simple blur
-            return self._gaussian_blur_transform(
-                image.reshape(-1, 1), sigma=10.0
-            ).flatten()
+            return self._gaussian_blur_transform(image.reshape(-1, 1), sigma=10.0).flatten()
         elif image.ndim == 2:
             h, w = image.shape
         elif image.ndim >= 3:
@@ -532,14 +518,10 @@ class PrivacyPreservingVision:
         """
 
         # Select appropriate technique
-        technique = self._select_privacy_technique(
-            processing_goal, privacy_requirements
-        )
+        technique = self._select_privacy_technique(processing_goal, privacy_requirements)
 
         # Apply privacy-preserving processing
-        results = await self.privacy_techniques[technique](
-            image_data, processing_goal, privacy_requirements
-        )
+        results = await self.privacy_techniques[technique](image_data, processing_goal, privacy_requirements)
 
         return results
 
@@ -625,8 +607,7 @@ class PrivacyPreservingVision:
         # Create model update (no raw data)
         model_update = {
             "feature_statistics": {
-                k: {"mean": float(np.mean(v)), "std": float(np.std(v))}
-                for k, v in local_features.items()
+                k: {"mean": float(np.mean(v)), "std": float(np.std(v))} for k, v in local_features.items()
             },
             "sample_count": 1,
         }
@@ -649,9 +630,7 @@ class PrivacyPreservingVision:
         else:
             return {"general_feature": float(np.median(share))}
 
-    def _extract_local_features(
-        self, image: np.ndarray, goal: str
-    ) -> dict[str, np.ndarray]:
+    def _extract_local_features(self, image: np.ndarray, goal: str) -> dict[str, np.ndarray]:
         """Extract features locally"""
         return {
             "histogram": np.histogram(image, bins=16)[0],

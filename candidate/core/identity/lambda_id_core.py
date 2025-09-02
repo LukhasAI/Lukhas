@@ -113,27 +113,17 @@ class LukhasIDGenerator:
             ns_config = getattr(ΛIDNamespace, namespace.upper(), None)
             if not ns_config:
                 valid_namespaces = ["USER", "AGENT", "SERVICE", "SYSTEM"]
-                raise InvalidNamespaceError(
-                    f"Invalid namespace: {namespace}. Valid options: {valid_namespaces}"
-                )
+                raise InvalidNamespaceError(f"Invalid namespace: {namespace}. Valid options: {valid_namespaces}")
 
             # Validate required fields
-            missing = [
-                f
-                for f in ns_config["required_fields"]
-                if f not in metadata or not metadata[f]
-            ]
+            missing = [f for f in ns_config["required_fields"] if f not in metadata or not metadata[f]]
             if missing:
-                raise ΛIDError(
-                    f"Missing or empty required fields for {namespace}: {missing}"
-                )
+                raise ΛIDError(f"Missing or empty required fields for {namespace}: {missing}")
 
             # Validate field contents
             for field, value in metadata.items():
                 if not isinstance(value, (str, int, float, bool)):
-                    raise ΛIDError(
-                        f"Field '{field}' must be a primitive type, got {type(value)}"
-                    )
+                    raise ΛIDError(f"Field '{field}' must be a primitive type, got {type(value)}")
 
             # Generate components
             prefix = ns_config["prefix"]
@@ -142,18 +132,14 @@ class LukhasIDGenerator:
 
             # Create checksum
             checksum_input = f"{prefix}{timestamp}{entropy}{metadata!s}"
-            checksum = hashlib.blake2b(
-                checksum_input.encode(), digest_size=4
-            ).hexdigest()
+            checksum = hashlib.blake2b(checksum_input.encode(), digest_size=4).hexdigest()
 
             lid = f"{prefix}-{timestamp}-{entropy}-{checksum}"
 
             # Performance check
             elapsed_ms = (time.perf_counter() - start) * 1000
             if elapsed_ms > MAX_AUTH_LATENCY_MS:
-                logger.warning(
-                    f"⚠️ ΛID generation exceeded {MAX_AUTH_LATENCY_MS}ms: {elapsed_ms:.2f}ms"
-                )
+                logger.warning(f"⚠️ ΛID generation exceeded {MAX_AUTH_LATENCY_MS}ms: {elapsed_ms:.2f}ms")
                 # Don't raise exception, but log for monitoring
 
             logger.debug(f"⚛️ Generated ΛID {lid} in {elapsed_ms:.2f}ms")
@@ -172,9 +158,7 @@ class LukhasIDGenerator:
 
             parts = lid.split("-")
             if len(parts) != 4:
-                raise ΛIDError(
-                    f"Invalid ΛID format. Expected 4 parts, got {len(parts)}"
-                )
+                raise ΛIDError(f"Invalid ΛID format. Expected 4 parts, got {len(parts)}")
 
             prefix = parts[0]
             for ns_name in ["USER", "AGENT", "SERVICE", "SYSTEM"]:
@@ -196,9 +180,7 @@ class OIDCProvider:
 
     def __init__(self, issuer: str = "https://lukhas.ai"):
         # Input validation
-        if not isinstance(issuer, str) or not issuer.startswith(
-            ("https://", "http://")
-        ):
+        if not isinstance(issuer, str) or not issuer.startswith(("https://", "http://")):
             raise ΛIDError("Issuer must be a valid URL")
 
         self.issuer = issuer
@@ -208,9 +190,7 @@ class OIDCProvider:
         # Trinity Framework validation
         logger.info(f"⚛️ OIDC Provider initialized with issuer: {issuer}")
 
-    def issue_id_token(
-        self, lid: str, client_id: str, nonce: Optional[str] = None
-    ) -> str:
+    def issue_id_token(self, lid: str, client_id: str, nonce: Optional[str] = None) -> str:
         """Issue OIDC ID token with comprehensive validation"""
         try:
             # Input validation
@@ -253,9 +233,7 @@ class OIDCProvider:
             logger.error(f"❌ Failed to issue ID token for ΛID {lid}: {e!s}")
             raise InvalidTokenError(f"Token issuance failed: {e!s}") from e
 
-    def issue_access_token(
-        self, lid: str, scope: list[str], client_id: str
-    ) -> dict[str, Any]:
+    def issue_access_token(self, lid: str, scope: list[str], client_id: str) -> dict[str, Any]:
         """Issue OAuth2 access token with validation"""
         try:
             # Input validation
@@ -270,9 +248,7 @@ class OIDCProvider:
             valid_scopes = ["openid", "profile", "email", "offline_access"]
             invalid_scopes = [s for s in scope if s not in valid_scopes]
             if invalid_scopes:
-                raise InvalidTokenError(
-                    f"Invalid scopes: {invalid_scopes}. Valid: {valid_scopes}"
-                )
+                raise InvalidTokenError(f"Invalid scopes: {invalid_scopes}. Valid: {valid_scopes}")
 
             token = secrets.token_urlsafe(32)
 
@@ -448,9 +424,7 @@ class WebAuthnPasskeyManager:
         logger.info(f"⚛️ Passkey authentication successful for {lid}")
         return True
 
-    def _check_rate_limit(
-        self, lid: str, operation: str, max_attempts: int = 5
-    ) -> None:
+    def _check_rate_limit(self, lid: str, operation: str, max_attempts: int = 5) -> None:
         """🛡️ Rate limiting to prevent abuse"""
         current_time = time.time()
         key = f"{lid}:{operation}"
@@ -460,17 +434,13 @@ class WebAuthnPasskeyManager:
 
         # Clean old attempts (1 hour window)
         self._failed_attempts[key] = [
-            timestamp
-            for timestamp in self._failed_attempts[key]
-            if current_time - timestamp < 3600
+            timestamp for timestamp in self._failed_attempts[key] if current_time - timestamp < 3600
         ]
 
         if len(self._failed_attempts[key]) >= max_attempts:
             raise AuthenticationError(f"Rate limit exceeded for {operation}")
 
-    def _log_security_event(
-        self, lid: str, event_type: str, details: dict[str, Any]
-    ) -> None:
+    def _log_security_event(self, lid: str, event_type: str, details: dict[str, Any]) -> None:
         """🛡️ Log security events for audit trail"""
         event = {
             "timestamp": time.time(),
@@ -550,13 +520,9 @@ class LukhasIdentityService:
             "guardian": True,  # 🛡️ Security monitoring
         }
 
-        logger.info(
-            "⚛️🧠🛡️ LUKHAS Identity Service initialized with Trinity Framework integration"
-        )
+        logger.info("⚛️🧠🛡️ LUKHAS Identity Service initialized with Trinity Framework integration")
 
-    def register_user(
-        self, email: str, display_name: str, consent_id: Optional[str] = None
-    ) -> dict[str, Any]:
+    def register_user(self, email: str, display_name: str, consent_id: Optional[str] = None) -> dict[str, Any]:
         """Register new user with ΛID"""
         start = time.perf_counter()
 
@@ -591,26 +557,20 @@ class LukhasIdentityService:
             "trinity_status": self.trinity_status,
         }
 
-    def authenticate(
-        self, lid: str, method: str = "passkey", credential: Optional[dict] = None
-    ) -> dict[str, Any]:
+    def authenticate(self, lid: str, method: str = "passkey", credential: Optional[dict] = None) -> dict[str, Any]:
         """Authenticate user with specified method"""
         start = time.perf_counter()
 
         success = False
         tokens = {}
 
-        if method == "passkey" and self.passkey_manager.verify_authentication(
-            lid, credential or {}
-        ):
+        if method == "passkey" and self.passkey_manager.verify_authentication(lid, credential or {}):
             success = True
 
         if success:
             # Issue tokens
             id_token = self.oidc_provider.issue_id_token(lid, "lukhas-client")
-            access_token = self.oidc_provider.issue_access_token(
-                lid, ["openid", "profile", "email"], "lukhas-client"
-            )
+            access_token = self.oidc_provider.issue_access_token(lid, ["openid", "profile", "email"], "lukhas-client")
 
             tokens = {
                 "id_token": id_token,
@@ -661,9 +621,7 @@ class LukhasIdentityService:
             "average_latency_ms": round(self.metrics.get("average_latency", 0), 2),
             "failed_operations": self.metrics["failed_operations"],
             "success_rate": round(
-                (operations - self.metrics["failed_operations"])
-                / max(operations, 1)
-                * 100,
+                (operations - self.metrics["failed_operations"]) / max(operations, 1) * 100,
                 2,
             ),
         }
@@ -678,18 +636,14 @@ class LukhasIdentityService:
 
         # Keep last 1000 measurements for accurate p95 calculation
         if len(self.metrics["auth_latencies"]) > MAX_PERFORMANCE_SAMPLES:
-            self.metrics["auth_latencies"] = self.metrics["auth_latencies"][
-                -MAX_PERFORMANCE_SAMPLES:
-            ]
+            self.metrics["auth_latencies"] = self.metrics["auth_latencies"][-MAX_PERFORMANCE_SAMPLES:]
 
         # Calculate p95 and average with consciousness awareness
         if self.metrics["auth_latencies"]:
             sorted_latencies = sorted(self.metrics["auth_latencies"])
             p95_index = int(len(sorted_latencies) * 0.95)
             self.metrics["p95_latency"] = sorted_latencies[p95_index]
-            self.metrics["average_latency"] = sum(sorted_latencies) / len(
-                sorted_latencies
-            )
+            self.metrics["average_latency"] = sum(sorted_latencies) / len(sorted_latencies)
 
             # 🧠 Consciousness: Log performance awareness
             if self.metrics["p95_latency"] > MAX_AUTH_LATENCY_MS:
@@ -813,9 +767,7 @@ if __name__ == "__main__":
         result = service.register_user("test@lukhas.ai", "Test User")
         print(f"✅ ΛID: {result['lid']}")
         print(f"⚡ Latency: {result['performance']['latency_ms']:.2f}ms")
-        print(
-            f"🎯 Meets <{MAX_AUTH_LATENCY_MS}ms: {result['performance']['meets_target']}"
-        )
+        print(f"🎯 Meets <{MAX_AUTH_LATENCY_MS}ms: {result['performance']['meets_target']}")
         print(f"⚛️ Trinity Status: {result['trinity_status']}")
 
         # Test authentication with enhanced features
@@ -839,9 +791,7 @@ if __name__ == "__main__":
         print("\n📊 Legacy Performance & Security Metrics:")
         legacy_metrics = service.get_performance_metrics()
         print(f"🏃 Operations: {legacy_metrics['performance']['operations_count']}")
-        print(
-            f"🎯 Average Latency: {legacy_metrics['performance'].get('average_latency', 0):.2f}ms"
-        )
+        print(f"🎯 Average Latency: {legacy_metrics['performance'].get('average_latency', 0):.2f}ms")
         print(f"⚛️ Trinity Integration: {legacy_metrics['trinity_status']}")
 
         # Test error handling

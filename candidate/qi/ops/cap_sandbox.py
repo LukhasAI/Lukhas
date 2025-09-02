@@ -16,9 +16,7 @@ from typing import Any
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 AUDIT_DIR = os.path.join(STATE, "audit")
 os.makedirs(AUDIT_DIR, exist_ok=True)
-LEASES_PATH = os.path.join(
-    STATE, "leases.json"
-)  # persistent leases (ephemeral by default)
+LEASES_PATH = os.path.join(STATE, "leases.json")  # persistent leases (ephemeral by default)
 
 # --- capture originals before any monkey-patching happens ---
 _ORIG_OPEN = builtins.open
@@ -55,9 +53,7 @@ def _audit_write(kind: str, rec: dict[str, Any]):
 @dataclass
 class Lease:
     subject: str  # e.g., "user:gonzalo" or "service:api"
-    caps: list[
-        str
-    ]  # e.g., ["net", "fs:read:/data/*.json", "api:google", "fs:write:/tmp/**"]
+    caps: list[str]  # e.g., ["net", "fs:read:/data/*.json", "api:google", "fs:write:/tmp/**"]
     ttl_sec: int  # seconds from issued_at
     issued_at: float
     meta: dict[str, Any]
@@ -141,16 +137,10 @@ class CapManager:
         )
         return lease
 
-    def revoke(
-        self, subject: str, cap_prefix: str | None = None, persist: bool = False
-    ) -> int:
+    def revoke(self, subject: str, cap_prefix: str | None = None, persist: bool = False) -> int:
         arr = self._leases.get(subject, [])
         before = len(arr)
-        arr = (
-            []
-            if cap_prefix is None
-            else [l for l in arr if not any(c.startswith(cap_prefix) for c in l.caps)]
-        )
+        arr = [] if cap_prefix is None else [l for l in arr if not any(c.startswith(cap_prefix) for c in l.caps)]
         self._leases[subject] = arr
         if persist:
             self._save()
@@ -196,9 +186,7 @@ class CapManager:
                         continue
                     if mode != need_mode:
                         continue
-                    if fnmatch.fnmatch(
-                        os.path.abspath(need_path), os.path.abspath(patt)
-                    ):
+                    if fnmatch.fnmatch(os.path.abspath(need_path), os.path.abspath(patt)):
                         return True
         return False
 
@@ -269,9 +257,7 @@ class FileGuard:
         return self._orig_remove(path, *a, **k)
 
     def _rn(self, src, dst, *a, **k):
-        if not _check_path_allowed(src, self.fs.write or []) or not _check_path_allowed(
-            dst, self.fs.write or []
-        ):
+        if not _check_path_allowed(src, self.fs.write or []) or not _check_path_allowed(dst, self.fs.write or []):
             return self._deny(f"{src} -> {dst}", "rename")
         return self._orig_rename(src, dst, *a, **k)
 
@@ -361,9 +347,7 @@ class Sandbox:
             finally:
                 _audit_write("sandbox_exit", {"subject": plan.subject})
 
-    def run_cmd(
-        self, plan: SandboxPlan, cmd: list[str], timeout: int | None = None
-    ) -> tuple[int, str]:
+    def run_cmd(self, plan: SandboxPlan, cmd: list[str], timeout: int | None = None) -> tuple[int, str]:
         with self.activate(plan) as env:
             # merge env with minimal PATH (unless provided)
             if "PATH" not in env:
@@ -388,9 +372,7 @@ class Sandbox:
 def _cli():
     import argparse
 
-    ap = argparse.ArgumentParser(
-        description="Lukhas Capability Sandbox (leases, FS/ENV isolation, audit)"
-    )
+    ap = argparse.ArgumentParser(description="Lukhas Capability Sandbox (leases, FS/ENV isolation, audit)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     g1 = sub.add_parser("grant")
@@ -406,9 +388,7 @@ def _cli():
 
     g2 = sub.add_parser("revoke")
     g2.add_argument("--subject", required=True)
-    g2.add_argument(
-        "--prefix", help="cap prefix to revoke e.g. fs:write:", default=None
-    )
+    g2.add_argument("--prefix", help="cap prefix to revoke e.g. fs:write:", default=None)
     g2.add_argument("--persist", action="store_true")
 
     g3 = sub.add_parser("list")
@@ -424,9 +404,7 @@ def _cli():
     g5.add_argument("--cwd")
     g5.add_argument("--fs-read", action="append", default=[])
     g5.add_argument("--fs-write", action="append", default=[])
-    g5.add_argument(
-        "--env-allow", action="append", default=["PATH", "HOME"]
-    )  # env prefixes to leak in
+    g5.add_argument("--env-allow", action="append", default=["PATH", "HOME"])  # env prefixes to leak in
     g5.add_argument("--env", action="append", default=[], help="KEY=VALUE injections")
     g5.add_argument("--timeout", type=int)
     g5.add_argument("cmd", nargs=argparse.REMAINDER)

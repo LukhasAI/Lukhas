@@ -65,9 +65,7 @@ class AdaptiveVoiceSynthesis:
         }
 
         # Default priority order (can be overridden by config)
-        self.provider_priority = self.config.get(
-            "provider_priority", ["elevenlabs", "coqui", "edge_tts", "local"]
-        )
+        self.provider_priority = self.config.get("provider_priority", ["elevenlabs", "coqui", "edge_tts", "local"])
 
         # Load voice profiles
         self.voice_profiles = self._load_voice_profiles()
@@ -92,9 +90,7 @@ class AdaptiveVoiceSynthesis:
             },
         )
 
-        self.logger.info(
-            f"Adaptive Voice Synthesis initialized with {len(self.voice_profiles)} voice profiles"
-        )
+        self.logger.info(f"Adaptive Voice Synthesis initialized with {len(self.voice_profiles)} voice profiles")
 
     async def synthesize(
         self,
@@ -127,18 +123,12 @@ class AdaptiveVoiceSynthesis:
         provider = self.providers.get(provider_name)
 
         if not provider:
-            self.logger.warning(
-                f"Provider {provider_name} not available, falling back to default"
-            )
+            self.logger.warning(f"Provider {provider_name} not available, falling back to default")
             provider_name = self.provider_priority[-1]  # Use last provider as fallback
             provider = self.providers.get(provider_name)
 
         # Apply emotion-based text modulation if enabled
-        modulated_text = (
-            self._apply_emotion_modulation(text, emotion)
-            if self.emotion_modulation and emotion
-            else text
-        )
+        modulated_text = self._apply_emotion_modulation(text, emotion) if self.emotion_modulation and emotion else text
 
         # Generate voice parameters based on context
         voice_params = self._generate_voice_parameters(voice_profile, context)
@@ -166,9 +156,7 @@ class AdaptiveVoiceSynthesis:
                         result["fallback"] = True
                         return result
                     except Exception as fallback_error:
-                        self.logger.error(
-                            f"Fallback {fallback_name} also failed: {fallback_error}"
-                        )
+                        self.logger.error(f"Fallback {fallback_name} also failed: {fallback_error}")
 
             # All providers failed, return error
             return {
@@ -181,9 +169,7 @@ class AdaptiveVoiceSynthesis:
                 "error": str(e),
             }
 
-    def _select_voice_profile(
-        self, context: dict[str, Any], voice_id: Optional[str] = None
-    ) -> VoiceProfile:
+    def _select_voice_profile(self, context: dict[str, Any], voice_id: Optional[str] = None) -> VoiceProfile:
         """Select the most appropriate voice profile based on context"""
         # If specific voice ID requested and available, use it
         if voice_id and voice_id in self.voice_profiles:
@@ -228,15 +214,9 @@ class AdaptiveVoiceSynthesis:
 
         # Consider emotional complexity
         emotion = context.get("emotion", "neutral")
-        complexity = (
-            len(context.get("emotional_nuances", []))
-            if "emotional_nuances" in context
-            else 0
-        )
+        complexity = len(context.get("emotional_nuances", [])) if "emotional_nuances" in context else 0
 
-        if (
-            emotion not in ["neutral", "calm"] or complexity > 2
-        ) and "coqui" in self.providers:
+        if (emotion not in ["neutral", "calm"] or complexity > 2) and "coqui" in self.providers:
             return "coqui"
 
         # Default to first available provider in priority list
@@ -280,9 +260,7 @@ class AdaptiveVoiceSynthesis:
         # For other emotions, return original text
         return text
 
-    def _generate_voice_parameters(
-        self, voice_profile: VoiceProfile, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _generate_voice_parameters(self, voice_profile: VoiceProfile, context: dict[str, Any]) -> dict[str, Any]:
         """Generate voice parameters based on profile and context"""
         params = {
             "pitch": voice_profile.base_pitch,
@@ -532,9 +510,7 @@ class ElevenLabsProvider(BaseTTSProvider):
 
             voice_id = params.get("voice_id", "default")
             min(max(params.get("pitch", 1.0) * 0.5, 0), 1)  # Map pitch to stability
-            min(
-                max(params.get("energy", 1.0) * 0.5, 0), 1
-            )  # Map energy to similarity boost
+            min(max(params.get("energy", 1.0) * 0.5, 0), 1)  # Map energy to similarity boost
 
             # Simulate processing time
             await asyncio.sleep(1.0)  # ElevenLabs is typically slower (API call)

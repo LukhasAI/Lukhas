@@ -88,9 +88,7 @@ class UnifiedCognitiveOrchestrator:
     def __init__(self):
         # Core enhanced components
         self.glyph_engine = get_enhanced_glyph_engine()
-        self.memory_engine = OptimizedFoldEngine(
-            max_memory_mb=2048, cache_size=1000, enable_mmap=True
-        )
+        self.memory_engine = OptimizedFoldEngine(max_memory_mb=2048, cache_size=1000, enable_mmap=True)
         self.qi_processor = QIProcessor(num_qubits=8)
         self.consensus_system = AdvancedColonyConsensus("main_colony")
 
@@ -147,9 +145,7 @@ class UnifiedCognitiveOrchestrator:
 
         # Memory events update cognitive state
         async def on_memory_created(event: MemoryFoldCreated):
-            self.cognitive_state.memory_load = (
-                self.memory_engine.get_statistics()["total_size_mb"] / 2048
-            )
+            self.cognitive_state.memory_load = self.memory_engine.get_statistics()["total_size_mb"] / 2048
             await self._update_awareness_from_memory(event.fold_id)
 
         # Consensus events trigger decisions
@@ -178,9 +174,7 @@ class UnifiedCognitiveOrchestrator:
         ]
 
         for module_name, weight in modules:
-            self.consensus_system.register_agent(
-                agent_id=module_name, weight=weight, capabilities=[module_name]
-            )
+            self.consensus_system.register_agent(agent_id=module_name, weight=weight, capabilities=[module_name])
             self.registered_modules[module_name] = {
                 "weight": weight,
                 "active": True,
@@ -195,15 +189,9 @@ class UnifiedCognitiveOrchestrator:
         if state_fold:
             stored_state = state_fold.content
             if isinstance(stored_state, dict):
-                self.cognitive_state.awareness_level = stored_state.get(
-                    "awareness_level", 0.5
-                )
-                self.cognitive_state.emotional_valence = stored_state.get(
-                    "emotional_valence", 0.0
-                )
-                self.cognitive_state.qi_coherence = stored_state.get(
-                    "qi_coherence", 1.0
-                )
+                self.cognitive_state.awareness_level = stored_state.get("awareness_level", 0.5)
+                self.cognitive_state.emotional_valence = stored_state.get("emotional_valence", 0.0)
+                self.cognitive_state.qi_coherence = stored_state.get("qi_coherence", 1.0)
                 logger.info("📂 Restored cognitive state from memory")
 
     async def _cognitive_loop(self):
@@ -270,9 +258,7 @@ class UnifiedCognitiveOrchestrator:
 
         # Update module activity
         if source_module in self.registered_modules:
-            self.registered_modules[source_module]["last_activity"] = datetime.now(
-                timezone.utc
-            )
+            self.registered_modules[source_module]["last_activity"] = datetime.now(timezone.utc)
 
         # Find related symbols across modules
         if symbol_id in self.glyph_engine.universal_protocol.symbol_registry:
@@ -282,15 +268,11 @@ class UnifiedCognitiveOrchestrator:
             # Create cross-module links
             for symbols in related.values():
                 for related_symbol in symbols[:3]:  # Limit connections
-                    self.glyph_engine.create_cross_module_link(
-                        symbol, related_symbol, link_type="semantic"
-                    )
+                    self.glyph_engine.create_cross_module_link(symbol, related_symbol, link_type="semantic")
 
     async def _make_decisions(self):
         """Make decisions using advanced consensus"""
-        for decision_id in self.cognitive_state.pending_decisions[
-            :5
-        ]:  # Process up to 5
+        for decision_id in self.cognitive_state.pending_decisions[:5]:  # Process up to 5
             # Create consensus proposal
             proposal_id = await self.consensus_system.propose(
                 content=decision_id,
@@ -328,9 +310,7 @@ class UnifiedCognitiveOrchestrator:
             self.metrics["decisions_made"] += 1
             self.metrics["consensus_rounds"] += 1
 
-    def _calculate_vote_amplitudes(
-        self, module: str, decision: str
-    ) -> dict[VoteType, complex]:
+    def _calculate_vote_amplitudes(self, module: str, decision: str) -> dict[VoteType, complex]:
         """Calculate quantum vote amplitudes for a module"""
         # Module-specific voting patterns
         if module == "governance":
@@ -370,9 +350,7 @@ class UnifiedCognitiveOrchestrator:
             await self._encode_to_memory(action_symbol)
 
             # Update awareness
-            self.cognitive_state.awareness_level = min(
-                1.0, self.cognitive_state.awareness_level + 0.1
-            )
+            self.cognitive_state.awareness_level = min(1.0, self.cognitive_state.awareness_level + 0.1)
 
     async def _encode_to_memory(self, symbol: UniversalSymbol):
         """Encode a symbol to optimized memory"""
@@ -412,9 +390,7 @@ class UnifiedCognitiveOrchestrator:
             if "cognitive_state" in fold.content:
                 past_awareness = fold.content["cognitive_state"].get("awareness", 0.5)
                 # Blend with current awareness
-                self.cognitive_state.awareness_level = (
-                    0.7 * self.cognitive_state.awareness_level + 0.3 * past_awareness
-                )
+                self.cognitive_state.awareness_level = 0.7 * self.cognitive_state.awareness_level + 0.3 * past_awareness
 
     async def _consolidate_memories(self):
         """Consolidate memories using compression"""
@@ -435,9 +411,7 @@ class UnifiedCognitiveOrchestrator:
 
         if len(symbols_to_compress) > 10:
             # Compress symbols
-            compressed = self.glyph_engine.universal_protocol.compress_symbols(
-                symbols_to_compress[:50]
-            )
+            compressed = self.glyph_engine.universal_protocol.compress_symbols(symbols_to_compress[:50])
 
             # Store compressed state
             self.memory_engine.create_fold(
@@ -512,9 +486,7 @@ class UnifiedCognitiveOrchestrator:
                 tags=["checkpoint", "cognitive_state"],
             )
 
-    async def process_thought(
-        self, thought: str, context: Optional[dict[str, Any]] = None
-    ):
+    async def process_thought(self, thought: str, context: Optional[dict[str, Any]] = None):
         """
         Process a thought through the unified cognitive system.
         This is the main interface for external input.
@@ -538,9 +510,7 @@ class UnifiedCognitiveOrchestrator:
         results = {}
 
         # Consciousness processing
-        consciousness_result = self.glyph_engine.translate_for_module(
-            thought_symbol, "consciousness"
-        )
+        consciousness_result = self.glyph_engine.translate_for_module(thought_symbol, "consciousness")
         results["consciousness"] = consciousness_result
 
         # Memory encoding
@@ -548,9 +518,7 @@ class UnifiedCognitiveOrchestrator:
         results["memory"] = memory_fold.key
 
         # Emotional analysis
-        emotion_result = self.glyph_engine.translate_for_module(
-            thought_symbol, "emotion"
-        )
+        emotion_result = self.glyph_engine.translate_for_module(thought_symbol, "emotion")
         results["emotion"] = emotion_result
 
         # If decision needed, add to pending

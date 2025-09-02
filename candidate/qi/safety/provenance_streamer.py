@@ -45,9 +45,7 @@ from qi.ops.rate_limit import BucketConfig, RateLimiter
 
 def is_prov(req):
     p = req.url.path
-    return p.startswith("/provenance/") and any(
-        seg in p for seg in ("/stream", "/download", "/link")
-    )
+    return p.startswith("/provenance/") and any(seg in p for seg in ("/stream", "/download", "/link"))
 
 
 buckets = {
@@ -108,18 +106,14 @@ def stream_artifact(
             purpose=request.query_params.get("purpose"),
             extras={"backend": "file"},
         )
-        return FileResponse(
-            path, filename=filename or os.path.basename(path), media_type=media_type
-        )
+        return FileResponse(path, filename=filename or os.path.basename(path), media_type=media_type)
 
     # S3/GCS: stream by reading from the backend in chunks
     if backend == "s3":
         try:
             import boto3  # type: ignore
         except Exception as e:
-            raise HTTPException(
-                status_code=500, detail=f"S3 support requires boto3: {e}"
-            )
+            raise HTTPException(status_code=500, detail=f"S3 support requires boto3: {e}")
         s3 = boto3.client("s3")
         obj = s3.get_object(Bucket=a, Key=b)
         body = obj["Body"]  # botocore.response.StreamingBody

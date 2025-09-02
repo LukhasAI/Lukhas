@@ -94,9 +94,7 @@ class ModalityMetadata:
     modality: ModalityType
     format: str  # File format (png, jpg, wav, mp4, etc.)
     size_bytes: int
-    dimensions: Optional[tuple[int, ...]] = (
-        None  # Image: (height, width), Audio: (samples,), etc.
-    )
+    dimensions: Optional[tuple[int, ...]] = None  # Image: (height, width), Audio: (samples,), etc.
     duration_seconds: Optional[float] = None  # For audio/video
     encoding: Optional[str] = None  # Text encoding, image color space, audio encoding
     compression_ratio: float = 1.0
@@ -122,14 +120,10 @@ class MultiModalMemoryData:
     video_embedding: Optional[np.ndarray] = None
 
     # Metadata for each modality
-    modality_metadata: dict[ModalityType, ModalityMetadata] = field(
-        default_factory=dict
-    )
+    modality_metadata: dict[ModalityType, ModalityMetadata] = field(default_factory=dict)
 
     # Cross-modal alignment information
-    alignment_scores: dict[str, float] = field(
-        default_factory=dict
-    )  # e.g., "text-image": 0.85
+    alignment_scores: dict[str, float] = field(default_factory=dict)  # e.g., "text-image": 0.85
 
 
 class ImageProcessor:
@@ -153,9 +147,7 @@ class ImageProcessor:
         if not PIL_AVAILABLE:
             logger.warning("PIL not available - image processing will be limited")
 
-    def process_image(
-        self, image_data: bytes, format_hint: Optional[str] = None
-    ) -> tuple[bytes, ModalityMetadata]:
+    def process_image(self, image_data: bytes, format_hint: Optional[str] = None) -> tuple[bytes, ModalityMetadata]:
         """
         Process image data for optimal AGI memory storage.
 
@@ -195,15 +187,11 @@ class ImageProcessor:
 
             # Compress image
             output_buffer = io.BytesIO()
-            image.save(
-                output_buffer, format="JPEG", quality=self.quality, optimize=True
-            )
+            image.save(output_buffer, format="JPEG", quality=self.quality, optimize=True)
             processed_data = output_buffer.getvalue()
 
             # Calculate quality metrics
-            compression_ratio = (
-                original_bytes / len(processed_data) if len(processed_data) > 0 else 1.0
-            )
+            compression_ratio = original_bytes / len(processed_data) if len(processed_data) > 0 else 1.0
             quality_score = min(1.0, self.quality / 100.0)  # Rough quality estimate
 
             # Create metadata
@@ -264,9 +252,7 @@ class ImageProcessor:
 
             # Color histogram features
             for channel in range(3):  # RGB channels
-                hist, _ = np.histogram(
-                    image_array[:, :, channel], bins=32, range=(0, 256)
-                )
+                hist, _ = np.histogram(image_array[:, :, channel], bins=32, range=(0, 256))
                 features.extend(hist / np.sum(hist))  # Normalize
 
             # Texture features (simple gradient-based)
@@ -318,13 +304,9 @@ class AudioProcessor:
         self.enable_feature_extraction = enable_feature_extraction
 
         if not AUDIO_AVAILABLE:
-            logger.warning(
-                "Audio libraries not available - audio processing will be limited"
-            )
+            logger.warning("Audio libraries not available - audio processing will be limited")
 
-    def process_audio(
-        self, audio_data: bytes, format_hint: Optional[str] = None
-    ) -> tuple[bytes, ModalityMetadata]:
+    def process_audio(self, audio_data: bytes, format_hint: Optional[str] = None) -> tuple[bytes, ModalityMetadata]:
         """
         Process audio data for optimal AGI memory storage.
 
@@ -355,9 +337,7 @@ class AudioProcessor:
 
             # Resample to target sample rate
             if original_sr != self.target_sample_rate:
-                audio_array = librosa.resample(
-                    audio_array, orig_sr=original_sr, target_sr=self.target_sample_rate
-                )
+                audio_array = librosa.resample(audio_array, orig_sr=original_sr, target_sr=self.target_sample_rate)
 
             # Trim if too long
             max_samples = int(self.max_duration_seconds * self.target_sample_rate)
@@ -371,12 +351,8 @@ class AudioProcessor:
 
             # Calculate quality metrics
             processed_duration = len(audio_array) / self.target_sample_rate
-            compression_ratio = (
-                original_bytes / len(processed_data) if len(processed_data) > 0 else 1.0
-            )
-            quality_score = min(
-                1.0, self.target_sample_rate / max(original_sr, self.target_sample_rate)
-            )
+            compression_ratio = original_bytes / len(processed_data) if len(processed_data) > 0 else 1.0
+            quality_score = min(1.0, self.target_sample_rate / max(original_sr, self.target_sample_rate))
 
             # Create metadata
             metadata = ModalityMetadata(
@@ -431,13 +407,9 @@ class AudioProcessor:
             features = []
 
             # Spectral features
-            spectral_centroids = librosa.feature.spectral_centroid(
-                y=audio_array, sr=sr
-            )[0]
+            spectral_centroids = librosa.feature.spectral_centroid(y=audio_array, sr=sr)[0]
             spectral_rolloff = librosa.feature.spectral_rolloff(y=audio_array, sr=sr)[0]
-            spectral_bandwidth = librosa.feature.spectral_bandwidth(
-                y=audio_array, sr=sr
-            )[0]
+            spectral_bandwidth = librosa.feature.spectral_bandwidth(y=audio_array, sr=sr)[0]
             zero_crossing_rate = librosa.feature.zero_crossing_rate(audio_array)[0]
 
             # Statistical features
@@ -541,9 +513,7 @@ class MultiModalMemoryProcessor:
         # Process text
         if text_content:
             memory_data.text_content = text_content
-            memory_data.text_embedding = await self._generate_text_embedding(
-                text_content
-            )
+            memory_data.text_embedding = await self._generate_text_embedding(text_content)
 
             # Text metadata
             memory_data.modality_metadata[ModalityType.TEXT] = ModalityMetadata(
@@ -557,37 +527,25 @@ class MultiModalMemoryProcessor:
 
         # Process image
         if image_data:
-            processed_image, image_metadata = self.image_processor.process_image(
-                image_data, image_format
-            )
+            processed_image, image_metadata = self.image_processor.process_image(image_data, image_format)
             memory_data.image_data = processed_image
             memory_data.modality_metadata[ModalityType.IMAGE] = image_metadata
 
             # Extract image features
-            image_features = self.image_processor.extract_image_features(
-                processed_image
-            )
+            image_features = self.image_processor.extract_image_features(processed_image)
             if image_features is not None:
-                memory_data.image_embedding = await self._normalize_embedding(
-                    image_features, self.modal_embedding_dim
-                )
+                memory_data.image_embedding = await self._normalize_embedding(image_features, self.modal_embedding_dim)
 
         # Process audio
         if audio_data:
-            processed_audio, audio_metadata = self.audio_processor.process_audio(
-                audio_data, audio_format
-            )
+            processed_audio, audio_metadata = self.audio_processor.process_audio(audio_data, audio_format)
             memory_data.audio_data = processed_audio
             memory_data.modality_metadata[ModalityType.AUDIO] = audio_metadata
 
             # Extract audio features
-            audio_features = self.audio_processor.extract_audio_features(
-                processed_audio
-            )
+            audio_features = self.audio_processor.extract_audio_features(processed_audio)
             if audio_features is not None:
-                memory_data.audio_embedding = await self._normalize_embedding(
-                    audio_features, self.modal_embedding_dim
-                )
+                memory_data.audio_embedding = await self._normalize_embedding(audio_features, self.modal_embedding_dim)
 
         # Process video (placeholder)
         if video_data:
@@ -602,27 +560,19 @@ class MultiModalMemoryProcessor:
             )
 
         # Generate unified embedding
-        memory_data.unified_embedding = await self._generate_unified_embedding(
-            memory_data
-        )
+        memory_data.unified_embedding = await self._generate_unified_embedding(memory_data)
 
         # Calculate cross-modal alignment scores
         if self.enable_cross_modal_alignment:
-            memory_data.alignment_scores = await self._calculate_alignment_scores(
-                memory_data
-            )
+            memory_data.alignment_scores = await self._calculate_alignment_scores(memory_data)
 
         logger.debug(
             "Multi-modal memory processed",
             modalities=[m.value for m in memory_data.modality_metadata],
             unified_embedding_dim=(
-                len(memory_data.unified_embedding)
-                if memory_data.unified_embedding is not None
-                else 0
+                len(memory_data.unified_embedding) if memory_data.unified_embedding is not None else 0
             ),
-            total_size_bytes=sum(
-                m.size_bytes for m in memory_data.modality_metadata.values()
-            ),
+            total_size_bytes=sum(m.size_bytes for m in memory_data.modality_metadata.values()),
         )
 
         return memory_data
@@ -653,9 +603,7 @@ class MultiModalMemoryProcessor:
 
         return embedding
 
-    async def _normalize_embedding(
-        self, embedding: np.ndarray, target_dim: int
-    ) -> np.ndarray:
+    async def _normalize_embedding(self, embedding: np.ndarray, target_dim: int) -> np.ndarray:
         """Normalize embedding to target dimension"""
 
         if len(embedding) == target_dim:
@@ -667,9 +615,7 @@ class MultiModalMemoryProcessor:
             # Truncate
             return embedding[:target_dim]
 
-    async def _generate_unified_embedding(
-        self, memory_data: MultiModalMemoryData
-    ) -> np.ndarray:
+    async def _generate_unified_embedding(self, memory_data: MultiModalMemoryData) -> np.ndarray:
         """
         Generate unified embedding that combines all modalities.
 
@@ -727,9 +673,7 @@ class MultiModalMemoryProcessor:
 
         return combined_embedding
 
-    async def _calculate_alignment_scores(
-        self, memory_data: MultiModalMemoryData
-    ) -> dict[str, float]:
+    async def _calculate_alignment_scores(self, memory_data: MultiModalMemoryData) -> dict[str, float]:
         """
         Calculate cross-modal alignment scores.
 
@@ -740,43 +684,28 @@ class MultiModalMemoryProcessor:
         alignment_scores = {}
 
         # Text-Image alignment
-        if (
-            memory_data.text_embedding is not None
-            and memory_data.image_embedding is not None
-        ):
+        if memory_data.text_embedding is not None and memory_data.image_embedding is not None:
             text_emb = memory_data.text_embedding
             image_emb = memory_data.image_embedding
 
             # Cosine similarity
-            similarity = np.dot(text_emb, image_emb) / (
-                np.linalg.norm(text_emb) * np.linalg.norm(image_emb)
-            )
+            similarity = np.dot(text_emb, image_emb) / (np.linalg.norm(text_emb) * np.linalg.norm(image_emb))
             alignment_scores["text-image"] = float(similarity)
 
         # Text-Audio alignment
-        if (
-            memory_data.text_embedding is not None
-            and memory_data.audio_embedding is not None
-        ):
+        if memory_data.text_embedding is not None and memory_data.audio_embedding is not None:
             text_emb = memory_data.text_embedding
             audio_emb = memory_data.audio_embedding
 
-            similarity = np.dot(text_emb, audio_emb) / (
-                np.linalg.norm(text_emb) * np.linalg.norm(audio_emb)
-            )
+            similarity = np.dot(text_emb, audio_emb) / (np.linalg.norm(text_emb) * np.linalg.norm(audio_emb))
             alignment_scores["text-audio"] = float(similarity)
 
         # Image-Audio alignment
-        if (
-            memory_data.image_embedding is not None
-            and memory_data.audio_embedding is not None
-        ):
+        if memory_data.image_embedding is not None and memory_data.audio_embedding is not None:
             image_emb = memory_data.image_embedding
             audio_emb = memory_data.audio_embedding
 
-            similarity = np.dot(image_emb, audio_emb) / (
-                np.linalg.norm(image_emb) * np.linalg.norm(audio_emb)
-            )
+            similarity = np.dot(image_emb, audio_emb) / (np.linalg.norm(image_emb) * np.linalg.norm(audio_emb))
             alignment_scores["image-audio"] = float(similarity)
 
         return alignment_scores
@@ -821,9 +750,7 @@ class MultiModalMemoryItem:
 
         if ModalityType.VIDEO in self.multimodal_data.modality_metadata:
             video_meta = self.multimodal_data.modality_metadata[ModalityType.VIDEO]
-            modal_descriptions.append(
-                f"[VIDEO: {video_meta.format}, {video_meta.size_bytes / 1024:.1f}KB]"
-            )
+            modal_descriptions.append(f"[VIDEO: {video_meta.format}, {video_meta.size_bytes / 1024:.1f}KB]")
 
         if modal_descriptions:
             return f"{base_content}\n\nMulti-modal content: {', '.join(modal_descriptions)}"
@@ -835,10 +762,7 @@ class MultiModalMemoryItem:
         base_tags = self.base_memory_item.get_tags()
 
         # Add modality tags
-        modality_tags = [
-            f"modality:{modality.value}"
-            for modality in self.multimodal_data.modality_metadata
-        ]
+        modality_tags = [f"modality:{modality.value}" for modality in self.multimodal_data.modality_metadata]
 
         return base_tags + modality_tags
 
@@ -850,14 +774,10 @@ class MultiModalMemoryItem:
         multimodal_metadata = {
             "modalities": [m.value for m in self.multimodal_data.modality_metadata],
             "unified_embedding_dim": (
-                len(self.multimodal_data.unified_embedding)
-                if self.multimodal_data.unified_embedding is not None
-                else 0
+                len(self.multimodal_data.unified_embedding) if self.multimodal_data.unified_embedding is not None else 0
             ),
             "cross_modal_alignments": self.multimodal_data.alignment_scores,
-            "total_modal_size_bytes": sum(
-                m.size_bytes for m in self.multimodal_data.modality_metadata.values()
-            ),
+            "total_modal_size_bytes": sum(m.size_bytes for m in self.multimodal_data.modality_metadata.values()),
         }
 
         base_metadata.update(multimodal_metadata)
@@ -870,11 +790,7 @@ class MultiModalMemoryItem:
     def get_modality_data(self, modality: ModalityType) -> Optional[bytes]:
         """Get raw data for specific modality"""
         if modality == ModalityType.TEXT:
-            return (
-                self.multimodal_data.text_content.encode("utf-8")
-                if self.multimodal_data.text_content
-                else None
-            )
+            return self.multimodal_data.text_content.encode("utf-8") if self.multimodal_data.text_content else None
         elif modality == ModalityType.IMAGE:
             return self.multimodal_data.image_data
         elif modality == ModalityType.AUDIO:
@@ -903,9 +819,7 @@ class MultiModalMemoryItem:
         base_usage = self.base_memory_item.memory_usage
 
         # Add multi-modal data size
-        modal_size = sum(
-            m.size_bytes for m in self.multimodal_data.modality_metadata.values()
-        )
+        modal_size = sum(m.size_bytes for m in self.multimodal_data.modality_metadata.values())
 
         # Add embedding sizes
         embedding_size = 0
@@ -972,9 +886,7 @@ async def create_multimodal_memory(
 
     # Create base optimized memory item
     display_content = text_content or "[Multi-modal memory]"
-    memory_tags = (tags or []) + [
-        f"modality:{m.value}" for m in multimodal_data.modality_metadata
-    ]
+    memory_tags = (tags or []) + [f"modality:{m.value}" for m in multimodal_data.modality_metadata]
 
     base_memory = create_optimized_memory(
         content=display_content,
@@ -985,9 +897,7 @@ async def create_multimodal_memory(
     )
 
     # Generate memory ID
-    memory_id = hashlib.sha256(
-        f"{datetime.now().isoformat()}_{id(multimodal_data)}".encode()
-    ).hexdigest()[:16]
+    memory_id = hashlib.sha256(f"{datetime.now().isoformat()}_{id(multimodal_data)}".encode()).hexdigest()[:16]
 
     # Create multi-modal wrapper
     return MultiModalMemoryItem(
@@ -1005,9 +915,7 @@ async def example_multimodal_usage():
     print("=" * 50)
 
     # Create sample multi-modal data
-    text_content = (
-        "A beautiful sunset over the mountains with birds singing in the background."
-    )
+    text_content = "A beautiful sunset over the mountains with birds singing in the background."
 
     # Simulate image data (would normally be loaded from file)
     sample_image = b"fake_image_data_placeholder"

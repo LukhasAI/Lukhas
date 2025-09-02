@@ -11,10 +11,7 @@ import json
 import os
 import subprocess
 import sys
-from typing import \
-    Optional  # TAG:bridge; TAG:api; TAG:neuroplastic; TAG:colony; Dict,
-from typing import (Any, but, context, directly, for, function, in, not,
-                    signatures, used, useful)
+from typing import Any, Dict, Optional
 
 # ΛTAG: core, router, config
 from candidate.core.common.config import config
@@ -39,11 +36,7 @@ class DirectAIRouter:
 
     # Human-readable comment: Initializes the DirectAIRouter with configurable paths.
 
-    def __init__(:
-        self,
-        router_path: Optional[str] = None,
-        python_path: Optional[str] = None,
-    ):
+    def __init__(self, router_path: Optional[str] = None, python_path: Optional[str] = None):
         """
         Initializes the DirectAIRouter.
         Args:
@@ -59,8 +52,7 @@ class DirectAIRouter:
             "LUKHAS_PYTHON_PATH", python_path or DEFAULT_PYTHON_PATH
         )
         logger.info(
-            f"ΛTRACE: DirectAIRouter initialized. Router Path: '{self.router_path}',
-            Python Path: '{self.python_path}'."
+            f"ΛTRACE: DirectAIRouter initialized. Router Path: '{self.router_path}', Python Path: '{self.python_path}'."
         )
         if self.router_path == DEFAULT_ROUTER_PATH:
             logger.warning(
@@ -74,9 +66,7 @@ class DirectAIRouter:
 
     # Human-readable comment: Routes a request to the external AI router.
 
-    def route_request(:
-        self, task: str, task_type: str = "general", debug: bool = False
-    ) -> str:
+    def route_request(self, task: str, task_type: str = "general", debug: bool = False) -> str:
         """
         Routes a request through the Python AI router by executing a dynamically generated script.
         Args:
@@ -88,8 +78,7 @@ class DirectAIRouter:
         TODO: Consider returning a structured response (e.g., Dict) instead of just a string for better error handling.
         """
         logger.info(
-            f"ΛTRACE: Routing AI request. Task Type: '{task_type}', Debug: {debug},
-            Task(first 50 chars): '{task[:50]}...'"
+            f"ΛTRACE: Routing AI request. Task Type: '{task_type}', Debug: {debug}, Task(first 50 chars): '{task[:50]}...'"
         )
 
         # WARNING: Injecting 'task' into a script string via f-string with simple replacement
@@ -165,7 +154,7 @@ except Exception as e:
             )
             return f"Python interpreter '{self.python_path}' not found. Cannot execute AI router."
         except Exception as e:
-            error_message = f"Router connection error: {str(e)}"
+            error_message = f"Router connection error: {e!s}"
             logger.error(f"ΛTRACE: {error_message}", exc_info=True)
             return error_message
 
@@ -185,7 +174,7 @@ except Exception as e:
             )
             # A more robust check would be to expect a specific keyword or structure in the response.
             # For now, check if the response doesn't contain common error indicators.
-            if (:
+            if (
                 "Router Error:" not in test_response
                 and "Router execution error:" not in test_response
                 and "timed out" not in test_response

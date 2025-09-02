@@ -145,28 +145,20 @@ class EmotionVector:
                     self.values[dim] = np.clip(float(value), 0.0, 1.0)
         self._update_derived_metrics()
         # ΛTRACE: EmotionVector initialized.
-        log.debug(
-            f"EmotionVector initialized. initial_values={values}, calculated_intensity={self.intensity}"
-        )
+        log.debug(f"EmotionVector initialized. initial_values={values}, calculated_intensity={self.intensity}")
 
     def _update_derived_metrics(self) -> None:
         """Calculates valence, arousal, dominance (VAD) and intensity from dimensional values."""
         # ΛNOTE: VAD model calculation based on Plutchik's dimensions. Weights are heuristic.
         # Valence calculation
-        pos_valence = (
-            self.values["joy"] * 0.9
-            + self.values["trust"] * 0.5
-            + self.values["anticipation"] * 0.3
-        )
+        pos_valence = self.values["joy"] * 0.9 + self.values["trust"] * 0.5 + self.values["anticipation"] * 0.3
         neg_valence = (
             self.values["sadness"] * 0.9
             + self.values["anger"] * 0.7
             + self.values["fear"] * 0.8
             + self.values["disgust"] * 0.6
         )
-        self.valence: float = np.clip(
-            (pos_valence - neg_valence + 1.0) / 2.0, 0.0, 1.0
-        )  # Scale to [0,1]
+        self.valence: float = np.clip((pos_valence - neg_valence + 1.0) / 2.0, 0.0, 1.0)  # Scale to [0,1]
 
         # Arousal calculation
         high_arousal = (
@@ -175,31 +167,19 @@ class EmotionVector:
             + self.values["surprise"] * 0.9
             + self.values["joy"] * 0.5
         )
-        low_arousal = (
-            self.values["sadness"] * 0.5 + self.values["trust"] * 0.2
-        )  # Trust can be calming
-        self.arousal: float = np.clip(
-            (high_arousal - low_arousal + 1.0) / 2.0, 0.0, 1.0
-        )  # Scale to [0,1]
+        low_arousal = self.values["sadness"] * 0.5 + self.values["trust"] * 0.2  # Trust can be calming
+        self.arousal: float = np.clip((high_arousal - low_arousal + 1.0) / 2.0, 0.0, 1.0)  # Scale to [0,1]
 
         # Dominance calculation
         high_dominance = (
-            self.values["anger"] * 0.7
-            + self.values["joy"] * 0.4
-            + self.values["trust"] * 0.5
+            self.values["anger"] * 0.7 + self.values["joy"] * 0.4 + self.values["trust"] * 0.5
         )  # Trust can imply control/safety
         low_dominance = (
-            self.values["fear"] * 0.8
-            + self.values["sadness"] * 0.6
-            + self.values["surprise"] * 0.3
+            self.values["fear"] * 0.8 + self.values["sadness"] * 0.6 + self.values["surprise"] * 0.3
         )  # Surprise can be submissive
-        self.dominance: float = np.clip(
-            (high_dominance - low_dominance + 1.0) / 2.0, 0.0, 1.0
-        )  # Scale to [0,1]
+        self.dominance: float = np.clip((high_dominance - low_dominance + 1.0) / 2.0, 0.0, 1.0)  # Scale to [0,1]
 
-        self.intensity: float = (
-            np.mean(list(self.values.values())) if self.values else 0.0
-        )
+        self.intensity: float = np.mean(list(self.values.values())) if self.values else 0.0
         # ΛTRACE: Derived emotional metrics updated.
         log.debug(
             f"EmotionVector derived metrics updated. valence={self.valence}, arousal={self.arousal}, dominance={self.dominance}, intensity={self.intensity}"
@@ -210,8 +190,7 @@ class EmotionVector:
         """Blends this emotion vector with another, returning a new EmotionVector."""
         weight = np.clip(weight, 0.0, 1.0)
         blended_values: dict[str, float] = {
-            dim: (1 - weight) * self.values[dim] + weight * other.values.get(dim, 0.0)
-            for dim in self.DIMENSIONS
+            dim: (1 - weight) * self.values[dim] + weight * other.values.get(dim, 0.0) for dim in self.DIMENSIONS
         }
         # ΛTRACE: Blending emotion vectors.
         log.debug(
@@ -239,9 +218,7 @@ class EmotionVector:
     @staticmethod
     def from_dict(data: dict[str, Any]) -> "EmotionVector":
         """Creates an EmotionVector from a dictionary."""
-        return EmotionVector(
-            data.get("dimensions", data)
-        )  # Handles old format or just dimensions
+        return EmotionVector(data.get("dimensions", data))  # Handles old format or just dimensions
 
     def __str__(self) -> str:
         primary = self.get_primary_emotion() or "Neutral"
@@ -259,12 +236,8 @@ class EmotionalMemory:
     # and dynamics.
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.current_emotion: EmotionVector = (
-            EmotionVector()
-        )  # Initial state is neutral
-        self.emotional_memories: list[dict[str, Any]] = (
-            []
-        )  # Stores experiences linked with emotions
+        self.current_emotion: EmotionVector = EmotionVector()  # Initial state is neutral
+        self.emotional_memories: list[dict[str, Any]] = []  # Stores experiences linked with emotions
         self.max_memories: int = self.config.get("max_memories", 1000)
         self.emotion_associations: dict[str, list[dict[str, Any]]] = defaultdict(
             list
@@ -281,26 +254,14 @@ class EmotionalMemory:
         }
         pers_cfg = self.config.get("personality", default_pers)
         self.personality = {
-            "baseline": EmotionVector(
-                pers_cfg.get("baseline_emotion_values")
-            ),  # Baseline emotional state
-            "volatility": float(
-                pers_cfg.get("volatility", 0.3)
-            ),  # How quickly emotions change
-            "resilience": float(
-                pers_cfg.get("resilience", 0.7)
-            ),  # How quickly returns to baseline
-            "expressiveness": float(
-                pers_cfg.get("expressiveness", 0.6)
-            ),  # How much of internal emotion is expressed
+            "baseline": EmotionVector(pers_cfg.get("baseline_emotion_values")),  # Baseline emotional state
+            "volatility": float(pers_cfg.get("volatility", 0.3)),  # How quickly emotions change
+            "resilience": float(pers_cfg.get("resilience", 0.7)),  # How quickly returns to baseline
+            "expressiveness": float(pers_cfg.get("expressiveness", 0.6)),  # How much of internal emotion is expressed
         }
 
-        self.emotional_history: list[dict[str, Any]] = (
-            []
-        )  # Log of emotional states over time
-        self.history_granularity_seconds: int = self.config.get(
-            "history_granularity_seconds", 3600
-        )  # Log every hour
+        self.emotional_history: list[dict[str, Any]] = []  # Log of emotional states over time
+        self.history_granularity_seconds: int = self.config.get("history_granularity_seconds", 3600)  # Log every hour
         self.last_history_update_ts: float = datetime.now(timezone.utc).timestamp()
         self.drift_tracker = SymbolicDriftTracker()
         # ΛTRACE: EmotionalMemory initialized.
@@ -346,10 +307,7 @@ class EmotionalMemory:
         # #ΛRE_ALIGN: Periodically re-calibrate baseline emotion in personality based on long-term trends.
         self._update_current_emotional_state(triggered_emotion, event_intensity)
 
-        affect_delta = (
-            self.current_emotion.intensity
-            - EmotionVector.from_dict(state_before_update).intensity
-        )
+        affect_delta = self.current_emotion.intensity - EmotionVector.from_dict(state_before_update).intensity
         log.info(
             f"Affect delta tracked. delta={affect_delta}, previous_intensity={EmotionVector.from_dict(state_before_update).intensity}, new_intensity={self.current_emotion.intensity}"
         )
@@ -386,9 +344,7 @@ class EmotionalMemory:
                 f"EmotionalMemory_evicted_oldest_entry. evicted_ts={evicted.get('ts_utc_iso')}, new_count={len(self.emotional_memories)}, max_memories={self.max_memories}"
             )  # ΛCAUTION #ΛTEMPORAL_HOOK
 
-        self._update_emotion_associations(
-            mem_entry
-        )  # Link concepts in experience to the triggered emotion.
+        self._update_emotion_associations(mem_entry)  # Link concepts in experience to the triggered emotion.
 
         # Update emotional history log
         self._update_emotional_history_log()
@@ -403,9 +359,7 @@ class EmotionalMemory:
         }
 
     # AINTERNAL: Infers emotion from experience content (stub).
-    def _infer_emotion_from_experience(
-        self, experience: dict[str, Any]
-    ) -> EmotionVector:
+    def _infer_emotion_from_experience(self, experience: dict[str, Any]) -> EmotionVector:
         # ΛTRACE: Inferring emotion from experience (stubbed).
         log.debug(
             f"Inferring emotion from experience (stub). experience_type={experience.get('type')}, content_preview={str(experience.get('text', ''))[:50]}"
@@ -433,9 +387,7 @@ class EmotionalMemory:
 
     # ΛDRIFT_POINT: This function defines how the current emotional state
     # changes in response to events.
-    def _update_current_emotional_state(
-        self, new_emotion_event: EmotionVector, event_intensity: float
-    ):
+    def _update_current_emotional_state(self, new_emotion_event: EmotionVector, event_intensity: float):
         # ΛTRACE: Updating current emotional state.
         # ΛEMO_DELTA: This is the primary point of emotional change.
         log.debug(
@@ -445,20 +397,12 @@ class EmotionalMemory:
         previous_emotion = self.current_emotion.get_primary_emotion()
 
         # Blend with new event based on event intensity and personality volatility
-        blend_weight = np.clip(
-            event_intensity * self.personality["volatility"], 0.0, 1.0
-        )
-        self.current_emotion = self.current_emotion.blend(
-            new_emotion_event, blend_weight
-        )
+        blend_weight = np.clip(event_intensity * self.personality["volatility"], 0.0, 1.0)
+        self.current_emotion = self.current_emotion.blend(new_emotion_event, blend_weight)
 
         # Tend towards baseline based on resilience
-        baseline_pull = np.clip(
-            self.personality["resilience"] * 0.05, 0.0, 0.1
-        )  # Small pull per update
-        self.current_emotion = self.current_emotion.blend(
-            self.personality["baseline"], baseline_pull
-        )
+        baseline_pull = np.clip(self.personality["resilience"] * 0.05, 0.0, 0.1)  # Small pull per update
+        self.current_emotion = self.current_emotion.blend(self.personality["baseline"], baseline_pull)
 
         current_emotion = self.current_emotion.get_primary_emotion()
 
@@ -476,13 +420,9 @@ class EmotionalMemory:
             )
 
         # ΛTRACE: Current emotional state updated.
-        log.debug(
-            f"Current emotional state updated successfully. new_state_str={self.current_emotion!s}"
-        )
+        log.debug(f"Current emotional state updated successfully. new_state_str={self.current_emotion!s}")
 
-    def _check_for_affect_loop(
-        self, previous_emotion: str, current_emotion: str, window_size: int = 10
-    ) -> bool:
+    def _check_for_affect_loop(self, previous_emotion: str, current_emotion: str, window_size: int = 10) -> bool:
         """
         Checks for recurring patterns in emotional state changes.
         A simple implementation that can be expanded.
@@ -491,10 +431,7 @@ class EmotionalMemory:
             return False
 
         # Get the primary emotions from the recent history
-        recent_emotions = [
-            entry["emotion_vec"]["primary_emotion"]
-            for entry in self.emotional_history[-window_size:]
-        ]
+        recent_emotions = [entry["emotion_vec"]["primary_emotion"] for entry in self.emotional_history[-window_size:]]
 
         # A simple check for a repeating pattern of two emotions
         if (
@@ -512,9 +449,7 @@ class EmotionalMemory:
         return False
 
     # LUKHAS_TAG: emotion_fuse_break
-    def check_identity_emotion_cascade(
-        self, identity_delta: dict[str, Any], emotion_volatility: float
-    ) -> bool:
+    def check_identity_emotion_cascade(self, identity_delta: dict[str, Any], emotion_volatility: float) -> bool:
         """
         Identity→Emotion cascade circuit breaker to prevent unstable feedback loops.
 
@@ -550,15 +485,11 @@ class EmotionalMemory:
 
                 # Filter to last 5 minutes
                 cutoff_time = current_time.timestamp() - 300  # 5 minutes
-                recent_cascades = [
-                    c for c in recent_cascades if c["timestamp"] > cutoff_time
-                ]
+                recent_cascades = [c for c in recent_cascades if c["timestamp"] > cutoff_time]
 
                 if len(recent_cascades) >= CASCADE_HISTORY_WINDOW:
                     # CIRCUIT BREAKER ACTIVATED
-                    self._activate_emotion_identity_fuse(
-                        identity_delta, emotion_volatility
-                    )
+                    self._activate_emotion_identity_fuse(identity_delta, emotion_volatility)
                     return True
                 else:
                     # Record cascade event
@@ -586,9 +517,7 @@ class EmotionalMemory:
         return False
 
     # LUKHAS_TAG: emotion_fuse_break
-    def _activate_emotion_identity_fuse(
-        self, identity_delta: dict[str, Any], emotion_volatility: float
-    ) -> None:
+    def _activate_emotion_identity_fuse(self, identity_delta: dict[str, Any], emotion_volatility: float) -> None:
         """
         Activates the identity→emotion cascade circuit breaker.
 
@@ -605,9 +534,7 @@ class EmotionalMemory:
         baseline_emotion = self.personality["baseline"]
         stabilization_factor = 0.7  # Strong pull toward baseline
 
-        self.current_emotion = self.current_emotion.blend(
-            baseline_emotion, stabilization_factor
-        )
+        self.current_emotion = self.current_emotion.blend(baseline_emotion, stabilization_factor)
 
         # Log circuit breaker activation
         fuse_activation = {
@@ -630,9 +557,7 @@ class EmotionalMemory:
         self._cascade_history = []
 
         # Set cooldown period to prevent immediate re-triggering
-        self._fuse_cooldown_until = (
-            datetime.now(timezone.utc).timestamp() + 1800
-        )  # 30 minutes
+        self._fuse_cooldown_until = datetime.now(timezone.utc).timestamp() + 1800  # 30 minutes
 
         log.info(
             f"ΛFUSE_ACTIVATED: Emergency stabilization complete. "
@@ -656,9 +581,7 @@ class EmotionalMemory:
 
             log.info(f"ΛFUSE_LOG: Circuit breaker activation logged to {fuse_log_path}")
         except Exception as e:
-            log.error(
-                f"ΛFUSE_LOG_FAILED: Could not log circuit breaker activation. error={e!s}"
-            )
+            log.error(f"ΛFUSE_LOG_FAILED: Could not log circuit breaker activation. error={e!s}")
 
     # LUKHAS_TAG: emotion_fuse_break
     def is_fuse_active(self) -> bool:
@@ -708,9 +631,7 @@ class EmotionalMemory:
                 "for",
                 "with",
             }  # Basic stopwords
-            concepts.extend(
-                [w for w in words if w not in stopwords and len(w) > 3 and w.isalpha()]
-            )
+            concepts.extend([w for w in words if w not in stopwords and len(w) > 3 and w.isalpha()])
         concepts.extend(emotional_memory.get("tags", []))
 
         assoc_entry = {
@@ -719,9 +640,7 @@ class EmotionalMemory:
             "ts_utc_iso": emotional_memory["ts_utc_iso"],
         }
         updated_concepts_count = 0
-        for concept in set(
-            concepts
-        ):  # Use set to avoid duplicate processing for same concept
+        for concept in set(concepts):  # Use set to avoid duplicate processing for same concept
             self.emotion_associations[concept].append(assoc_entry)
             self.emotion_associations[concept] = self.emotion_associations[concept][
                 -10:
@@ -743,27 +662,19 @@ class EmotionalMemory:
         )
         if len(self.emotional_history) > 168:
             self.emotional_history.pop(0)  # Keep roughly last 7 days if 1 log/hr
-        log.debug(
-            f"Emotional history log updated. total_history_entries={len(self.emotional_history)}"
-        )
+        log.debug(f"Emotional history log updated. total_history_entries={len(self.emotional_history)}")
 
     # ΛEXPOSE: This method could be part of an API for observing the AGI's
     # emotional reaction.
     @lukhas_tier_required(1)
-    def get_emotional_response(
-        self, stimulus_content: dict[str, Any]
-    ) -> dict[str, Any]:
+    def get_emotional_response(self, stimulus_content: dict[str, Any]) -> dict[str, Any]:
         # ΛTRACE: Generating emotional response to stimulus.
         log.debug(
             f"Generating emotional response. stimulus_type={stimulus_content.get('type')}, content_preview={str(stimulus_content)[:100]}"
         )
-        processed_info = self.process_experience(
-            stimulus_content
-        )  # This updates current_emotion
+        processed_info = self.process_experience(stimulus_content)  # This updates current_emotion
 
-        internal_reaction_vec = EmotionVector.from_dict(
-            processed_info["triggered_emotion_details"]
-        )
+        internal_reaction_vec = EmotionVector.from_dict(processed_info["triggered_emotion_details"])
         express_factor = self.personality["expressiveness"]
         # Expressed emotion is a blend of internal reaction and neutral, based on
         # expressiveness
@@ -795,19 +706,12 @@ class EmotionalMemory:
         # ΛTRACE: Querying associated emotion for a concept.
         log.debug(f"Querying associated emotion. for_concept={concept}")
         normalized_concept = concept.lower().strip()
-        if (
-            normalized_concept not in self.emotion_associations
-            or not self.emotion_associations[normalized_concept]
-        ):
+        if normalized_concept not in self.emotion_associations or not self.emotion_associations[normalized_concept]:
             # ΛTRACE: No emotional associations found for concept.
-            log.debug(
-                f"No associations found for concept. concept={normalized_concept}"
-            )
+            log.debug(f"No associations found for concept. concept={normalized_concept}")
             return None
 
-        associations = self.emotion_associations[
-            normalized_concept
-        ]  # ΛRECALL (of past associations)
+        associations = self.emotion_associations[normalized_concept]  # ΛRECALL (of past associations)
         emotion_strengths: dict[str, float] = defaultdict(float)
         total_strength_sum = 0.0
 
@@ -815,40 +719,24 @@ class EmotionalMemory:
         # Potential Recovery:
         # #ΛSTABILIZE: Return additional metadata like variance or sequence of top N emotions over time,
         #              not just the single aggregated primary emotion.
-        for (
-            assoc_details
-        ) in (
-            associations
-        ):  # ΛTEMPORAL_HOOK (Iterating over potentially time-ordered associations)
+        for assoc_details in associations:  # ΛTEMPORAL_HOOK (Iterating over potentially time-ordered associations)
             emotion_name = assoc_details["emotion"]
-            strength = float(
-                assoc_details.get("strength", 0.1)
-            )  # Default strength if missing
+            strength = float(assoc_details.get("strength", 0.1))  # Default strength if missing
             emotion_strengths[emotion_name] += strength
             total_strength_sum += strength
 
         if abs(total_strength_sum) < 1e-9:  # Check if total_s is effectively zero
             # ΛTRACE: Total association strength is negligible.
-            log.debug(
-                f"Total association strength negligible for concept. concept={concept}"
-            )
+            log.debug(f"Total association strength negligible for concept. concept={concept}")
             return None
 
-        primary_associated_emotion = max(
-            emotion_strengths.items(), key=lambda item: item[1]
-        )[0]
-        normalized_strength_distribution = {
-            name: val / total_strength_sum for name, val in emotion_strengths.items()
-        }
+        primary_associated_emotion = max(emotion_strengths.items(), key=lambda item: item[1])[0]
+        normalized_strength_distribution = {name: val / total_strength_sum for name, val in emotion_strengths.items()}
 
         last_assoc_ts = None
         if associations:  # ΛTEMPORAL_HOOK (Getting timestamp of the last association)
             try:
-                last_assoc_ts = max(
-                    assoc["ts_utc_iso"]
-                    for assoc in associations
-                    if "ts_utc_iso" in assoc
-                )
+                last_assoc_ts = max(assoc["ts_utc_iso"] for assoc in associations if "ts_utc_iso" in assoc)
             except ValueError:  # Handles case where no associations have timestamps
                 pass
 
@@ -857,9 +745,7 @@ class EmotionalMemory:
             "primary_associated_emotion": primary_associated_emotion,
             "emotion_strength_distribution": normalized_strength_distribution,
             "association_count": len(associations),
-            "average_association_strength": (
-                total_strength_sum / len(associations) if associations else 0
-            ),
+            "average_association_strength": (total_strength_sum / len(associations) if associations else 0),
             "last_association_timestamp_utc_iso": last_assoc_ts,  # ΛTEMPORAL_HOOK
             # Conceptual: Add #ΛSTABILIZE here by including more details from associations, e.g.,
             # "emotion_sequence_preview": [assoc['emotion'] for assoc in associations[-3:]]
@@ -901,25 +787,19 @@ class EmotionalMemory:
             try:
                 if datetime.fromisoformat(entry["ts_utc_iso"]).timestamp() >= cutoff_ts:
                     recent_log.append(entry)
-            except (
-                Exception
-            ):  # Catching broader exceptions for timestamp parsing issues
+            except Exception:  # Catching broader exceptions for timestamp parsing issues
                 # ΛTRACE: Warning - skipping history entry due to invalid timestamp.
                 log.warning(
                     f"Skipping emotional history entry (invalid timestamp or format). entry_preview={str(entry)[:100]}"
                 )
                 continue
         # ΛTRACE: Emotional history retrieval complete.
-        log.debug(
-            f"Emotional history retrieval complete. retrieved_entries_count={len(recent_log)}"
-        )
+        log.debug(f"Emotional history retrieval complete. retrieved_entries_count={len(recent_log)}")
         return recent_log
 
     # ΛTAG: core, affect, delta, drift
     @lukhas_tier_required(1)
-    def affect_delta(
-        self, trigger_event: str, emotion_change: EmotionVector
-    ) -> dict[str, Any]:
+    def affect_delta(self, trigger_event: str, emotion_change: EmotionVector) -> dict[str, Any]:
         """
         Computes and applies an affect delta to the current emotional state.
         Links with drift tracking for symbolic continuity.
@@ -938,14 +818,9 @@ class EmotionalMemory:
         previous_emotion = EmotionVector(self.current_emotion.values.copy())
 
         # Apply the emotional change with personality-based modulation
-        change_scale = (
-            self.personality["volatility"] * self.personality["expressiveness"]
-        )
+        change_scale = self.personality["volatility"] * self.personality["expressiveness"]
         scaled_change = EmotionVector(
-            {
-                dim: emotion_change.values[dim] * change_scale
-                for dim in EmotionVector.DIMENSIONS
-            }
+            {dim: emotion_change.values[dim] * change_scale for dim in EmotionVector.DIMENSIONS}
         )
 
         # Blend with current emotion
@@ -965,8 +840,7 @@ class EmotionalMemory:
             "drift_magnitude": drift_magnitude,
             "previous_valence": previous_emotion.valence,
             "new_valence": self.current_emotion.valence,
-            "intensity_change": self.current_emotion.intensity
-            - previous_emotion.intensity,
+            "intensity_change": self.current_emotion.intensity - previous_emotion.intensity,
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
@@ -1009,9 +883,7 @@ class EmotionalMemory:
 
         # Get recent emotional memories
         recent_memories = (
-            self.emotional_memories[-depth:]
-            if len(self.emotional_memories) >= depth
-            else self.emotional_memories
+            self.emotional_memories[-depth:] if len(self.emotional_memories) >= depth else self.emotional_memories
         )
 
         # Extract affect patterns
@@ -1025,11 +897,7 @@ class EmotionalMemory:
                         "drift_magnitude": memory["metadata"]["drift_magnitude"],
                         "valence_change": memory["metadata"].get("new_valence", 0)
                         - memory["metadata"].get("previous_valence", 0),
-                        "intensity": (
-                            memory["emotion"].intensity
-                            if hasattr(memory["emotion"], "intensity")
-                            else 0
-                        ),
+                        "intensity": (memory["emotion"].intensity if hasattr(memory["emotion"], "intensity") else 0),
                     }
                 )
 
@@ -1037,9 +905,7 @@ class EmotionalMemory:
         if affect_patterns:
             total_drift = sum(pattern["drift_magnitude"] for pattern in affect_patterns)
             avg_drift = total_drift / len(affect_patterns)
-            valence_volatility = np.std(
-                [pattern["valence_change"] for pattern in affect_patterns]
-            )
+            valence_volatility = np.std([pattern["valence_change"] for pattern in affect_patterns])
 
             # Determine symbolic state
             symbolic_state = "stable"
@@ -1101,12 +967,8 @@ class EmotionalMemory:
             prev_entry = recent_history[i - 1]
             curr_entry = recent_history[i]
 
-            prev_vector = np.array(
-                list(prev_entry["emotion_vec"]["dimensions"].values())
-            )
-            curr_vector = np.array(
-                list(curr_entry["emotion_vec"]["dimensions"].values())
-            )
+            prev_vector = np.array(list(prev_entry["emotion_vec"]["dimensions"].values()))
+            curr_vector = np.array(list(curr_entry["emotion_vec"]["dimensions"].values()))
 
             time_delta = (
                 datetime.fromisoformat(curr_entry["ts_utc_iso"]).timestamp()

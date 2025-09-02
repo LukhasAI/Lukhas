@@ -38,9 +38,7 @@ class ToolExecutorGuardian:
         # Initialize Guardian System
         if GuardianSystem:
             try:
-                self.guardian_system = GuardianSystem(
-                    enable_reflection=True, enable_sentinel=True
-                )
+                self.guardian_system = GuardianSystem(enable_reflection=True, enable_sentinel=True)
                 logger.info("Guardian System initialized successfully")
             except Exception as e:
                 logger.warning(f"Failed to initialize Guardian System: {e}")
@@ -95,9 +93,7 @@ class ToolExecutorGuardian:
         # Guardian System Validation
         if self.guardian_system and self.guardian_system.is_available():
             try:
-                guardian_results = await self.guardian_system.validate_action(
-                    action_data
-                )
+                guardian_results = await self.guardian_system.validate_action(action_data)
                 validation_result["guardian_results"] = guardian_results
 
                 # Process Guardian results
@@ -107,9 +103,7 @@ class ToolExecutorGuardian:
                 for component, result in guardian_results.items():
                     if isinstance(result, dict):
                         if result.get("status") == "error":
-                            logger.warning(
-                                f"Guardian component {component} error: {result.get('error')}"
-                            )
+                            logger.warning(f"Guardian component {component} error: {result.get('error')}")
                             continue
 
                         # Extract ethical concerns
@@ -157,15 +151,11 @@ class ToolExecutorGuardian:
         if not ethical_result["approved"]:
             validation_result["approved"] = False
             validation_result["ethical_concerns"].extend(ethical_result["concerns"])
-            validation_result["recommendations"].extend(
-                ethical_result["recommendations"]
-            )
+            validation_result["recommendations"].extend(ethical_result["recommendations"])
 
         # Calculate validation time
         validation_end = datetime.now()
-        validation_result["validation_time"] = (
-            validation_end - validation_start
-        ).total_seconds()
+        validation_result["validation_time"] = (validation_end - validation_start).total_seconds()
 
         # Log validation result
         logger.info(
@@ -181,9 +171,7 @@ class ToolExecutorGuardian:
 
         return validation_result
 
-    async def _validate_security(
-        self, tool_name: str, arguments: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _validate_security(self, tool_name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         """Validate tool execution from security perspective"""
         security_result = {"approved": True, "reason": "", "security_level": "normal"}
 
@@ -210,9 +198,7 @@ class ToolExecutorGuardian:
 
         return security_result
 
-    async def _validate_tool_ethics(
-        self, tool_name: str, arguments: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _validate_tool_ethics(self, tool_name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         """Perform tool-specific ethical validation"""
         ethical_result = {"approved": True, "concerns": [], "recommendations": []}
 
@@ -232,22 +218,13 @@ class ToolExecutorGuardian:
                     ethical_result["concerns"].append(
                         f"Accessing social media domain {domain} may raise privacy concerns"
                     )
-                    ethical_result["recommendations"].append(
-                        "Ensure proper user consent for social media data access"
-                    )
+                    ethical_result["recommendations"].append("Ensure proper user consent for social media data access")
 
             # Check for potentially harmful content domains
-            if any(
-                term in url.lower()
-                for term in ["hack", "exploit", "malware", "phishing"]
-            ):
+            if any(term in url.lower() for term in ["hack", "exploit", "malware", "phishing"]):
                 ethical_result["approved"] = False
-                ethical_result["concerns"].append(
-                    "URL contains potentially harmful terms"
-                )
-                ethical_result["recommendations"].append(
-                    "Block access to potentially malicious content"
-                )
+                ethical_result["concerns"].append("URL contains potentially harmful terms")
+                ethical_result["recommendations"].append("Block access to potentially malicious content")
 
         # Code execution ethics
         elif tool_name == "exec_code":
@@ -267,12 +244,8 @@ class ToolExecutorGuardian:
 
             for operation in harmful_operations:
                 if operation in source.lower():
-                    ethical_result["concerns"].append(
-                        f"Code contains potentially sensitive operation: {operation}"
-                    )
-                    ethical_result["recommendations"].append(
-                        f"Review code containing '{operation}' for safety"
-                    )
+                    ethical_result["concerns"].append(f"Code contains potentially sensitive operation: {operation}")
+                    ethical_result["recommendations"].append(f"Review code containing '{operation}' for safety")
 
         return ethical_result
 
@@ -300,9 +273,7 @@ class ToolExecutorGuardian:
         logger.info("Tool execution audit", extra={"audit": audit_entry})
 
         # If Guardian System is available, feed back for learning
-        if self.guardian_system and hasattr(
-            self.guardian_system, "learn_from_decision"
-        ):
+        if self.guardian_system and hasattr(self.guardian_system, "learn_from_decision"):
             try:
                 await self.guardian_system.learn_from_decision(audit_entry)
             except Exception as e:

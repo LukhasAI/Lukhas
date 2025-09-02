@@ -69,9 +69,7 @@ class SnapshotRedirectionController:
             Optional[Dict[str, Any]]: A new dream seed if redirection is needed, otherwise None.
         """
         if self.session_redirects > 3:
-            logger.warning(
-                "Redirect overload detected. Halting redirection for this session."
-            )
+            logger.warning("Redirect overload detected. Halting redirection for this session.")
             return {
                 "seed_type": "narrative_redirection",
                 "narrative_name": "redirect_overload",
@@ -96,9 +94,7 @@ class SnapshotRedirectionController:
 
         return None
 
-    def _calculate_emotional_drift(
-        self, snapshots: list[dict[str, Any]]
-    ) -> Optional[float]:
+    def _calculate_emotional_drift(self, snapshots: list[dict[str, Any]]) -> Optional[float]:
         """
         Calculates the emotional drift across a series of snapshots.
 
@@ -122,12 +118,8 @@ class SnapshotRedirectionController:
             if not prev_emotion or not curr_emotion:
                 continue
 
-            prev_vector = np.array(
-                list(EmotionVector(prev_emotion.get("dimensions")).values.values())
-            )
-            curr_vector = np.array(
-                list(EmotionVector(curr_emotion.get("dimensions")).values.values())
-            )
+            prev_vector = np.array(list(EmotionVector(prev_emotion.get("dimensions")).values.values()))
+            curr_vector = np.array(list(EmotionVector(curr_emotion.get("dimensions")).values.values()))
 
             prev_timestamp_str = prev_snapshot.get("timestamp")
             curr_timestamp_str = curr_snapshot.get("timestamp")
@@ -174,9 +166,7 @@ class SnapshotRedirectionController:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    def _log_redirect(
-        self, snapshot: dict[str, Any], drift_score: float, narrative: dict[str, Any]
-    ):
+    def _log_redirect(self, snapshot: dict[str, Any], drift_score: float, narrative: dict[str, Any]):
         """
         Logs the redirection event.
 
@@ -195,9 +185,7 @@ class SnapshotRedirectionController:
         severity = self.calculate_redirect_severity(drift_score, emotional_delta)
         cause = self._determine_redirect_cause(drift_score)
 
-        snapshot_health_score = self._calculate_snapshot_health_score(
-            drift_score, emotional_delta
-        )
+        snapshot_health_score = self._calculate_snapshot_health_score(drift_score, emotional_delta)
 
         log_entry = {
             "snapshot_id": snapshot.get("dream_id", "unknown"),
@@ -215,9 +203,7 @@ class SnapshotRedirectionController:
         with open(self.redirect_log_path, "a") as f:
             f.write(json.dumps(log_entry) + "\n")
 
-    def calculate_redirect_severity(
-        self, drift_score: float, emotional_delta: float
-    ) -> str:
+    def calculate_redirect_severity(self, drift_score: float, emotional_delta: float) -> str:
         """
         Calculates the severity of a redirect.
 
@@ -236,9 +222,7 @@ class SnapshotRedirectionController:
         else:
             return "low"
 
-    def _calculate_snapshot_health_score(
-        self, drift_score: float, emotional_delta: float
-    ) -> float:
+    def _calculate_snapshot_health_score(self, drift_score: float, emotional_delta: float) -> float:
         """
         Calculates the health score of a snapshot.
 
@@ -286,8 +270,7 @@ class SnapshotRedirectionController:
             return None
 
         historical_drift = [
-            self._calculate_emotional_drift(recent_snapshots[: i + 1])
-            for i in range(1, len(recent_snapshots))
+            self._calculate_emotional_drift(recent_snapshots[: i + 1]) for i in range(1, len(recent_snapshots))
         ]
         historical_drift = [drift for drift in historical_drift if drift is not None]
 

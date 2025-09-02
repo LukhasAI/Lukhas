@@ -34,16 +34,10 @@ class ClassicalEmotionalContext(BaseModel):
     """Input for classical emotional analysis"""
 
     text: str = Field(..., description="Text to analyze emotionally")
-    user_state: Optional[dict[str, float]] = Field(
-        None, description="Known user emotional state"
-    )
+    user_state: Optional[dict[str, float]] = Field(None, description="Known user emotional state")
     context_type: str = Field("general", description="Type of interaction")
-    emotion_model: EmotionModel = Field(
-        EmotionModel.VAD, description="Emotion model to use"
-    )
-    stability_threshold: float = Field(
-        0.7, ge=0, le=1, description="Emotional stability target"
-    )
+    emotion_model: EmotionModel = Field(EmotionModel.VAD, description="Emotion model to use")
+    stability_threshold: float = Field(0.7, ge=0, le=1, description="Emotional stability target")
 
 
 class ClassicalHormonalState(BaseModel):
@@ -72,9 +66,7 @@ class ClassicalCoherenceResponse(BaseModel):
 
     analysis_id: str
     timestamp: str
-    coherence_score: float = Field(
-        ..., ge=0, le=1, description="Classical coherence (max 1.0)"
-    )
+    coherence_score: float = Field(..., ge=0, le=1, description="Classical coherence (max 1.0)")
     emotional_state: ClassicalEmotionalVector
     physiological_indicators: ClassicalHormonalState
     response_guidelines: dict[str, float]
@@ -124,22 +116,16 @@ class ClassicalEmotionEngine:
             "social_sharing": 0.6,  # Social support
         }
 
-    async def analyze_emotional_coherence(
-        self, context: ClassicalEmotionalContext
-    ) -> ClassicalCoherenceResponse:
+    async def analyze_emotional_coherence(self, context: ClassicalEmotionalContext) -> ClassicalCoherenceResponse:
         """Analyze emotional coherence using classical methods"""
 
         analysis_id = f"classical_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
         # Extract emotions using chosen model
-        emotional_state = await self._extract_emotions(
-            context.text, context.emotion_model
-        )
+        emotional_state = await self._extract_emotions(context.text, context.emotion_model)
 
         # Calculate physiological indicators
-        physiological = self._calculate_physiological_state(
-            emotional_state, context.context_type, context.user_state
-        )
+        physiological = self._calculate_physiological_state(emotional_state, context.context_type, context.user_state)
 
         # Calculate coherence (classical, max 1.0)
         coherence, stability = self._calculate_classical_coherence(
@@ -147,17 +133,13 @@ class ClassicalEmotionEngine:
         )
 
         # Generate response guidelines
-        guidelines = self._generate_response_guidelines(
-            emotional_state, physiological, context.context_type
-        )
+        guidelines = self._generate_response_guidelines(emotional_state, physiological, context.context_type)
 
         # Identify empathy markers
         empathy_markers = self._identify_empathy_patterns(context.text, emotional_state)
 
         # Assess stability
-        stability_assessment = self._assess_emotional_stability(
-            emotional_state, physiological, context.user_state
-        )
+        stability_assessment = self._assess_emotional_stability(emotional_state, physiological, context.user_state)
 
         # Calculate confidence
         confidence = self._calculate_confidence(emotional_state, physiological)
@@ -174,9 +156,7 @@ class ClassicalEmotionEngine:
             classical_confidence=confidence,
         )
 
-    async def _extract_emotions(
-        self, text: str, model: EmotionModel
-    ) -> ClassicalEmotionalVector:
+    async def _extract_emotions(self, text: str, model: EmotionModel) -> ClassicalEmotionalVector:
         """Extract emotions using classical NLP methods"""
 
         # Simplified emotion detection
@@ -371,9 +351,7 @@ class ClassicalEmotionEngine:
 
         return guidelines
 
-    def _identify_empathy_patterns(
-        self, text: str, emotions: ClassicalEmotionalVector
-    ) -> list[str]:
+    def _identify_empathy_patterns(self, text: str, emotions: ClassicalEmotionalVector) -> list[str]:
         """Identify empathy markers in text"""
 
         markers = []
@@ -462,15 +440,11 @@ class ClassicalEmotionEngine:
 
         # Recommendations based on assessment
         if len(assessment["risk_factors"]) > len(assessment["protective_factors"]):
-            assessment["recommendations"].append(
-                "Consider emotion regulation strategies"
-            )
+            assessment["recommendations"].append("Consider emotion regulation strategies")
 
             # Suggest best strategies based on state
             if physiology.stress_level > 0.7:
-                assessment["recommendations"].append(
-                    "Relaxation techniques recommended"
-                )
+                assessment["recommendations"].append("Relaxation techniques recommended")
             if emotions.intensity > 0.8:
                 assessment["recommendations"].append("Cognitive reappraisal may help")
 

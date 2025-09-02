@@ -93,9 +93,7 @@ class DefaultSupervisionDecider(SupervisionDecider):
 
         # Remove old failures outside the time window
         self.failure_history[actor_id] = [
-            t
-            for t in self.failure_history[actor_id]
-            if current_time - t <= self.strategy.within_time_window
+            t for t in self.failure_history[actor_id] if current_time - t <= self.strategy.within_time_window
         ]
 
         # Add current failure
@@ -105,9 +103,7 @@ class DefaultSupervisionDecider(SupervisionDecider):
         failure_count = len(self.failure_history[actor_id])
 
         if failure_count > self.strategy.max_failures:
-            logger.warning(
-                f"Actor {actor_id} exceeded max failures ({failure_count}/{self.strategy.max_failures})"
-            )
+            logger.warning(f"Actor {actor_id} exceeded max failures ({failure_count}/{self.strategy.max_failures})")
             return SupervisionDirective.STOP
 
         # Check restart policy
@@ -201,16 +197,11 @@ class CircuitBreaker:
 
         if self.failure_count >= self.failure_threshold:
             self.state = "open"
-            logger.warning(
-                f"Circuit breaker opened after {self.failure_count} failures"
-            )
+            logger.warning(f"Circuit breaker opened after {self.failure_count} failures")
 
     def can_proceed(self) -> bool:
         """Check if operation can proceed"""
-        if (
-            self.state == "open"
-            and time.time() - self.last_failure_time > self.reset_timeout
-        ):
+        if self.state == "open" and time.time() - self.last_failure_time > self.reset_timeout:
             self.state = "half_open"
             self.success_count = 0
             logger.info("Circuit breaker entering half-open state")
@@ -244,9 +235,7 @@ class SupervisorActor(Actor):
         super().__init__(actor_id)
 
         self.supervision_strategy = supervision_strategy or SupervisionStrategy()
-        self.supervision_decider = supervision_decider or DefaultSupervisionDecider(
-            self.supervision_strategy
-        )
+        self.supervision_decider = supervision_decider or DefaultSupervisionDecider(self.supervision_strategy)
 
         # Track child actor metadata
         self.child_metadata: dict[str, dict[str, Any]] = {}
@@ -278,9 +267,7 @@ class SupervisorActor(Actor):
 
         try:
             # Create the child actor
-            child_ref = await super().create_child(
-                child_class, child_id, *args, **kwargs
-            )
+            child_ref = await super().create_child(child_class, child_id, *args, **kwargs)
 
             # Store metadata for supervision
             self.child_metadata[child_id] = {
@@ -330,9 +317,7 @@ class SupervisorActor(Actor):
         # Get supervision directive
         directive = await self.supervision_decider.decide(failure)
 
-        logger.info(
-            f"Supervisor {self.actor_id} handling failure of {child_id}: {directive.value}"
-        )
+        logger.info(f"Supervisor {self.actor_id} handling failure of {child_id}: {directive.value}")
 
         if self.enable_self_repair:
             try:
@@ -379,9 +364,7 @@ class SupervisorActor(Actor):
             restart_count = metadata.get("restart_count", 1)
             delay = self.supervision_strategy.calculate_restart_delay(restart_count)
 
-            logger.info(
-                f"Restarting child {child_id} after {delay:.2f}s (attempt {restart_count})"
-            )
+            logger.info(f"Restarting child {child_id} after {delay:.2f}s (attempt {restart_count})")
 
             # Stop the old instance
             if child_id in self.children:
@@ -566,9 +549,7 @@ async def demo_supervision():
                     within_time_window=60.0,
                     restart_policy=RestartPolicy.ON_FAILURE,
                 ),
-                supervision_decider=OneForOneStrategy(
-                    SupervisionStrategy(max_failures=3)
-                ),
+                supervision_decider=OneForOneStrategy(SupervisionStrategy(max_failures=3)),
             )
             self.department = department
 

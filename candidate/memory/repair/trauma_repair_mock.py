@@ -59,9 +59,7 @@ class TraumaSignature:
 class TraumaRepairSystem:
     """Mock trauma repair system"""
 
-    def __init__(
-        self, enable_immune_system: bool = True, self_repair_threshold: float = 0.3
-    ):
+    def __init__(self, enable_immune_system: bool = True, self_repair_threshold: float = 0.3):
         self.enable_immune_system = enable_immune_system
         self.self_repair_threshold = self_repair_threshold
         self.active_traumas = {}
@@ -101,9 +99,7 @@ class TraumaRepairSystem:
             )
 
             self.active_traumas[trauma.trauma_id] = trauma
-            logger.debug(
-                f"Mock trauma detected: {trauma_type.value} with severity {severity:.2f}"
-            )
+            logger.debug(f"Mock trauma detected: {trauma_type.value} with severity {severity:.2f}")
             return trauma
 
         return None
@@ -188,9 +184,7 @@ class MemoryTraumaRepair:
         }
 
         # Detect trauma
-        trauma = await self.repair_system.detect_trauma(
-            memory_id, memory_content, context
-        )
+        trauma = await self.repair_system.detect_trauma(memory_id, memory_content, context)
 
         if trauma:
             self.repair_stats["traumas_detected"] += 1
@@ -200,9 +194,7 @@ class MemoryTraumaRepair:
 
             # Auto-repair if above threshold
             if trauma.severity >= self.repair_system.self_repair_threshold:
-                repair_success = await self.repair_system.initiate_repair(
-                    memory_id, trauma
-                )
+                repair_success = await self.repair_system.initiate_repair(memory_id, trauma)
                 result["repair_initiated"] = True
                 result["repair_status"] = "success" if repair_success else "failed"
 
@@ -232,9 +224,7 @@ class MemoryTraumaRepair:
         self.repair_stats["active_traumas"] = len(active_traumas)
         return active_traumas
 
-    async def force_repair(
-        self, memory_id: str, repair_strategy: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def force_repair(self, memory_id: str, repair_strategy: Optional[str] = None) -> dict[str, Any]:
         """Force repair of a memory"""
         trauma = TraumaSignature(
             trauma_id=f"forced_{memory_id}_{datetime.now().timestamp()}",
@@ -258,16 +248,12 @@ class MemoryTraumaRepair:
         stats = self.repair_stats.copy()
 
         if stats["repairs_attempted"] > 0:
-            stats["repair_success_rate"] = (
-                stats["repairs_successful"] / stats["repairs_attempted"]
-            )
+            stats["repair_success_rate"] = stats["repairs_successful"] / stats["repairs_attempted"]
         else:
             stats["repair_success_rate"] = 0.0
 
         if stats["total_scans"] > 0:
-            stats["trauma_detection_rate"] = (
-                stats["traumas_detected"] / stats["total_scans"]
-            )
+            stats["trauma_detection_rate"] = stats["traumas_detected"] / stats["total_scans"]
         else:
             stats["trauma_detection_rate"] = 0.0
 

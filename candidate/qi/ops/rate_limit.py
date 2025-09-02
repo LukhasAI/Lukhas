@@ -83,25 +83,17 @@ class RateLimiter(BaseHTTPMiddleware):
         super().__init__(app)
         self.buckets_cfg = buckets
         self.rules = rules
-        self.state: dict[tuple[str, str], TokenBucket] = (
-            {}
-        )  # (bucket_key, bucket_name) -> bucket
+        self.state: dict[tuple[str, str], TokenBucket] = {}  # (bucket_key, bucket_name) -> bucket
 
     def _key(self, req: Request) -> str:
         user = req.headers.get("x-user-id")
         if user:
             return f"user:{user}"
         ip = req.headers.get("x-forwarded-for")
-        ip = (
-            ip.split(",")[0].strip()
-            if ip
-            else req.client.host if req.client else "unknown"
-        )
+        ip = ip.split(",")[0].strip() if ip else req.client.host if req.client else "unknown"
         return f"ip:{ip}"
 
-    async def dispatch(
-        self, request: Request, call_next: Callable[[Request], Awaitable[Response]]
-    ) -> Response:
+    async def dispatch(self, request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
         # figure out which bucket (if any) applies
         bucket_name = None
         for match, name in self.rules:
@@ -137,11 +129,7 @@ class RateLimiter(BaseHTTPMiddleware):
             if _PROM:
                 with contextlib.suppress(Exception):
                     RL_BLOCKS.labels(bucket=bucket_name, path=path_group).inc()
-            retry_after = (
-                max(1, int((1.0 - bucket.tokens) / cfg.refill_per_sec))
-                if cfg.refill_per_sec > 0
-                else 60
-            )
+            retry_after = max(1, int((1.0 - bucket.tokens) / cfg.refill_per_sec)) if cfg.refill_per_sec > 0 else 60
             return JSONResponse(
                 {
                     "error": "rate_limited",
@@ -173,19 +161,13 @@ class RateLimiter(BaseHTTPMiddleware):
 # convenience factory for common provenance limits
 def make_provenance_limiter(app, per_user_per_min: int = 60, per_ip_per_min: int = 120):
     buckets = {
-        "prov_user": BucketConfig(
-            capacity=per_user_per_min, refill_per_sec=per_user_per_min / 60.0
-        ),
-        "prov_ip": BucketConfig(
-            capacity=per_ip_per_min, refill_per_sec=per_ip_per_min / 60.0
-        ),
+        "prov_user": BucketConfig(capacity=per_user_per_min, refill_per_sec=per_user_per_min / 60.0),
+        "prov_ip": BucketConfig(capacity=per_ip_per_min, refill_per_sec=per_ip_per_min / 60.0),
     }
 
     def is_prov(req: Request) -> bool:
         p = req.url.path
-        return p.startswith("/provenance/") and any(
-            seg in p for seg in ("/stream", "/download", "/link")
-        )
+        return p.startswith("/provenance/") and any(seg in p for seg in ("/stream", "/download", "/link"))
 
     rules = [
         (is_prov, "prov_user"),

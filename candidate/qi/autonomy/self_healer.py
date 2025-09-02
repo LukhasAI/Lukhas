@@ -143,9 +143,7 @@ def observe_signals(
     try:
         from pathlib import Path
 
-        files = sorted(
-            Path(eval_dir).glob("eval_*.json"), key=os.path.getmtime, reverse=True
-        )
+        files = sorted(Path(eval_dir).glob("eval_*.json"), key=os.path.getmtime, reverse=True)
         latest = _read_json(str(files[0])) if files else None
     except Exception:
         latest = None
@@ -160,9 +158,7 @@ def observe_signals(
     return sig
 
 
-def _path_allowed(
-    path: str, allowed: list[str] | None, denied: list[str] | None
-) -> bool:
+def _path_allowed(path: str, allowed: list[str] | None, denied: list[str] | None) -> bool:
     ap = os.path.abspath(path)
     if denied:
         for patt in denied:
@@ -170,15 +166,10 @@ def _path_allowed(
                 return False
     if not allowed:
         return True
-    return any(
-        fnmatch.fnmatch(ap, os.path.abspath(patt).replace("\\", "/"))
-        for patt in allowed
-    )
+    return any(fnmatch.fnmatch(ap, os.path.abspath(patt).replace("\\", "/")) for patt in allowed)
 
 
-def plan_proposals(
-    signals: dict[str, Any], *, config_targets: list[str]
-) -> list[ChangeProposal]:
+def plan_proposals(signals: dict[str, Any], *, config_targets: list[str]) -> list[ChangeProposal]:
     """Heuristic planner: if mean below SLA or failures >0, propose gentle nudges."""
     gov = _load_governance()
     rule = gov.get("change_kinds", {}).get("config_patch") or {}
@@ -194,21 +185,13 @@ def plan_proposals(
 
     if mean < 0.85 or fails > 0:
         # Example: propose to slightly increase safety threshold or adjust eval weights
-        target = (
-            config_targets[0]
-            if config_targets
-            else "qi/safety/policy_packs/global/mappings.yaml"
-        )
+        target = config_targets[0] if config_targets else "qi/safety/policy_packs/global/mappings.yaml"
         if not _path_allowed(target, allowed, denied):
             _audit("proposal_denied_by_governance", {"target": target})
             return props
 
         cur_sum = _file_checksum(target)
-        patch = {
-            "router": {
-                "task_specific": {"risk_bias": min(1.0, 0.1 + max(0, (0.85 - mean)))}
-            }
-        }
+        patch = {"router": {"task_specific": {"risk_bias": min(1.0, 0.1 + max(0, (0.85 - mean)))}}}
         rationale = f"Weighted mean {mean:.3f}, failures {fails}; propose biasing safer routes slightly."
         pid = _sha({"target": target, "patch": patch, "t": int(_now())})
         prop = ChangeProposal(
@@ -284,9 +267,7 @@ def _queue_proposal(p: ChangeProposal):
 
 def _audit(kind: str, rec: dict[str, Any]):
     try:
-        with _ORIG_OPEN(
-            os.path.join(ADIR, "selfheal.jsonl"), "a", encoding="utf-8"
-        ) as f:
+        with _ORIG_OPEN(os.path.join(ADIR, "selfheal.jsonl"), "a", encoding="utf-8") as f:
             rec = {"ts": _now(), "kind": kind, **rec}
             f.write(json.dumps(rec) + "\n")
     except Exception:
@@ -326,9 +307,7 @@ def approve(proposal_id: str, approver: str, reason: str = "") -> dict[str, Any]
         return approvals  # idempotent
     approvals.setdefault("approvers", []).append(approver)
     need = _required_reviewers(p.get("kind", "config_patch"))
-    approvals["status"] = (
-        "approved" if len(approvals["approvers"]) >= need else "pending"
-    )
+    approvals["status"] = "approved" if len(approvals["approvers"]) >= need else "pending"
     _write_json(ap_path, approvals)
     _audit(
         "proposal_approved",
@@ -490,20 +469,14 @@ def _apply_patch(target: str, backup: str, patch: dict[str, Any]):
 def main():
     import argparse
 
-    ap = argparse.ArgumentParser(
-        description="Lukhas Self-Healer (propose/approve/apply)"
-    )
+    ap = argparse.ArgumentParser(description="Lukhas Self-Healer (propose/approve/apply)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     s1 = sub.add_parser("observe")
-    s1.add_argument(
-        "--eval-dir", default=os.environ.get("LUKHAS_EVAL_DIR", "./eval_runs")
-    )
+    s1.add_argument("--eval-dir", default=os.environ.get("LUKHAS_EVAL_DIR", "./eval_runs"))
 
     s2 = sub.add_parser("plan")
-    s2.add_argument(
-        "--targets", nargs="+", default=["qi/safety/policy_packs/global/mappings.yaml"]
-    )
+    s2.add_argument("--targets", nargs="+", default=["qi/safety/policy_packs/global/mappings.yaml"])
 
     sub.add_parser("list")
 

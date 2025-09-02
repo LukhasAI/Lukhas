@@ -154,9 +154,7 @@ class ModuleManager:
 
     def register_module(self, config: ModuleConfig):
         """Register a module configuration"""
-        self.modules[config.name] = ModuleInfo(
-            config=config, status=ModuleStatus.NOT_LOADED
-        )
+        self.modules[config.name] = ModuleInfo(config=config, status=ModuleStatus.NOT_LOADED)
 
     def load_module(self, name: str, force: bool = False) -> ModuleInfo:
         """
@@ -298,9 +296,7 @@ class ModuleManager:
     def load_all(self, priority_threshold: ModulePriority = ModulePriority.OPTIONAL):
         """Load all registered modules up to a priority threshold"""
         # Sort by priority
-        sorted_modules = sorted(
-            self.modules.items(), key=lambda x: x[1].config.priority.value
-        )
+        sorted_modules = sorted(self.modules.items(), key=lambda x: x[1].config.priority.value)
 
         results = {}
         for name, info in sorted_modules:

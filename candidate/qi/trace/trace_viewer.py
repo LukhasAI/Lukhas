@@ -35,12 +35,8 @@ def trace_svg(
         r = _load_receipt(receipt_id, None)
         prov = _load_prov((r.get("entity") or {}).get("digest_sha256"))
         rep = _teq_replay(r, policy_root, overlays)
-        dot = build_dot(
-            receipt=r, prov=prov, replay=rep, link_base=link_base, prov_base=prov_base
-        )
-        svg_path = os.path.join(
-            STATE, "provenance", "exec_receipts", f"{receipt_id}.svg"
-        )
+        dot = build_dot(receipt=r, prov=prov, replay=rep, link_base=link_base, prov_base=prov_base)
+        svg_path = os.path.join(STATE, "provenance", "exec_receipts", f"{receipt_id}.svg")
         render_svg(dot, svg_path)
         data = open(svg_path, "rb").read()
         return Response(content=data, media_type="image/svg+xml")

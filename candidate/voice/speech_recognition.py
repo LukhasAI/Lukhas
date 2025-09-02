@@ -104,9 +104,7 @@ class SpeechRecognitionRequest:
             "channels": self.channels,
             "language": self.language.value,
             "quality": self.quality.value,
-            "provider_preference": (
-                self.provider_preference.value if self.provider_preference else None
-            ),
+            "provider_preference": (self.provider_preference.value if self.provider_preference else None),
             "enable_word_timestamps": self.enable_word_timestamps,
             "enable_confidence_scores": self.enable_confidence_scores,
             "enable_speaker_diarization": self.enable_speaker_diarization,
@@ -217,9 +215,7 @@ class SpeechRecognitionProviderAdapter(ABC):
     """Abstract adapter for speech recognition providers"""
 
     @abstractmethod
-    async def recognize(
-        self, request: SpeechRecognitionRequest
-    ) -> SpeechRecognitionResult:
+    async def recognize(self, request: SpeechRecognitionRequest) -> SpeechRecognitionResult:
         """Recognize speech from audio"""
         pass
 
@@ -247,9 +243,7 @@ class WhisperOpenAIAdapter(SpeechRecognitionProviderAdapter):
         self.api_key = config.get("api_key")
         self.logger = get_logger(f"{__name__}.WhisperOpenAIAdapter")
 
-    async def recognize(
-        self, request: SpeechRecognitionRequest
-    ) -> SpeechRecognitionResult:
+    async def recognize(self, request: SpeechRecognitionRequest) -> SpeechRecognitionResult:
         """Recognize speech using OpenAI Whisper API"""
         start_time = time.time()
 
@@ -271,9 +265,7 @@ class WhisperOpenAIAdapter(SpeechRecognitionProviderAdapter):
                 params = {
                     "file": open(temp_file_path, "rb"),
                     "model": model,
-                    "language": request.language.value.split("-")[
-                        0
-                    ],  # Convert en-US to en
+                    "language": request.language.value.split("-")[0],  # Convert en-US to en
                 }
 
                 # Add optional parameters
@@ -282,29 +274,21 @@ class WhisperOpenAIAdapter(SpeechRecognitionProviderAdapter):
 
                 if request.context_phrases or request.vocabulary_hints:
                     # Combine context phrases and vocabulary hints
-                    prompt = " ".join(
-                        request.context_phrases + request.vocabulary_hints
-                    )
+                    prompt = " ".join(request.context_phrases + request.vocabulary_hints)
                     params["prompt"] = prompt[:224]  # Whisper prompt limit
 
                 # Call API
                 if request.enable_word_timestamps:
-                    response = await client.audio.transcriptions.create(
-                        response_format="verbose_json", **params
-                    )
+                    response = await client.audio.transcriptions.create(response_format="verbose_json", **params)
                 else:
-                    response = await client.audio.transcriptions.create(
-                        response_format="json", **params
-                    )
+                    response = await client.audio.transcriptions.create(response_format="json", **params)
 
                 # Process response
                 text = response.text
                 processing_time = (time.time() - start_time) * 1000
 
                 # Calculate audio duration
-                audio_duration = len(request.audio_data) / (
-                    request.sample_rate * 2
-                )  # 16-bit PCM
+                audio_duration = len(request.audio_data) / (request.sample_rate * 2)  # 16-bit PCM
 
                 # Create segments from response
                 segments = []
@@ -408,9 +392,7 @@ class WhisperLocalAdapter(SpeechRecognitionProviderAdapter):
                 self.logger.error(f"Failed to load Whisper model: {e!s}")
                 raise
 
-    async def recognize(
-        self, request: SpeechRecognitionRequest
-    ) -> SpeechRecognitionResult:
+    async def recognize(self, request: SpeechRecognitionRequest) -> SpeechRecognitionResult:
         """Recognize speech using local Whisper model"""
         start_time = time.time()
 
@@ -463,16 +445,13 @@ class WhisperLocalAdapter(SpeechRecognitionProviderAdapter):
                                 text=seg["text"],
                                 start_time=seg["start"],
                                 end_time=seg["end"],
-                                confidence=seg.get("avg_logprob", 0.0)
-                                + 1.0,  # Convert logprob to 0-1 range
+                                confidence=seg.get("avg_logprob", 0.0) + 1.0,  # Convert logprob to 0-1 range
                                 words=words,
                             )
                         )
 
                 # Overall confidence from segments
-                overall_confidence = (
-                    np.mean([seg.confidence for seg in segments]) if segments else 0.8
-                )
+                overall_confidence = np.mean([seg.confidence for seg in segments]) if segments else 0.8
 
                 return SpeechRecognitionResult(
                     success=True,
@@ -539,9 +518,7 @@ class GoogleSpeechAdapter(SpeechRecognitionProviderAdapter):
         self.project_id = config.get("project_id")
         self.logger = get_logger(f"{__name__}.GoogleSpeechAdapter")
 
-    async def recognize(
-        self, request: SpeechRecognitionRequest
-    ) -> SpeechRecognitionResult:
+    async def recognize(self, request: SpeechRecognitionRequest) -> SpeechRecognitionResult:
         """Recognize speech using Google Cloud Speech-to-Text"""
         start_time = time.time()
 
@@ -567,11 +544,7 @@ class GoogleSpeechAdapter(SpeechRecognitionProviderAdapter):
 
             # Add speech contexts for better recognition
             if request.context_phrases or request.vocabulary_hints:
-                speech_contexts = [
-                    speech.SpeechContext(
-                        phrases=request.context_phrases + request.vocabulary_hints
-                    )
-                ]
+                speech_contexts = [speech.SpeechContext(phrases=request.context_phrases + request.vocabulary_hints)]
                 config.speech_contexts = speech_contexts
 
             # Create audio object
@@ -650,10 +623,7 @@ class GoogleSpeechAdapter(SpeechRecognitionProviderAdapter):
         try:
             from google.cloud import speech
 
-            return (
-                self.credentials_path is not None
-                or "GOOGLE_APPLICATION_CREDENTIALS" in os.environ
-            )
+            return self.credentials_path is not None or "GOOGLE_APPLICATION_CREDENTIALS" in os.environ
         except ImportError:
             return False
 
@@ -687,9 +657,7 @@ class SpeechRecognitionProviderManager:
         self.logger = get_logger(f"{__name__}.SpeechRecognitionProviderManager")
 
         # Initialize providers
-        self.providers: dict[
-            SpeechRecognitionProvider, SpeechRecognitionProviderAdapter
-        ] = {}
+        self.providers: dict[SpeechRecognitionProvider, SpeechRecognitionProviderAdapter] = {}
         self._initialize_providers()
 
         # Provider priority
@@ -704,9 +672,7 @@ class SpeechRecognitionProviderManager:
         # OpenAI Whisper
         openai_config = self.config.get("whisper_openai", {})
         if openai_config.get("enabled", False):
-            self.providers[SpeechRecognitionProvider.WHISPER_OPENAI] = (
-                WhisperOpenAIAdapter(openai_config)
-            )
+            self.providers[SpeechRecognitionProvider.WHISPER_OPENAI] = WhisperOpenAIAdapter(openai_config)
 
         # Local Whisper
         local_config = self.config.get("whisper_local", {})
@@ -722,9 +688,7 @@ class SpeechRecognitionProviderManager:
             if provider.is_available():
                 self.providers[SpeechRecognitionProvider.GOOGLE_SPEECH] = provider
 
-        self.logger.info(
-            f"Initialized {len(self.providers)} speech recognition providers"
-        )
+        self.logger.info(f"Initialized {len(self.providers)} speech recognition providers")
 
     def get_available_providers(self) -> list[SpeechRecognitionProvider]:
         """Get available providers"""
@@ -734,15 +698,10 @@ class SpeechRecognitionProviderManager:
                 available.append(provider_type)
         return available
 
-    def select_provider(
-        self, request: SpeechRecognitionRequest
-    ) -> Optional[SpeechRecognitionProviderAdapter]:
+    def select_provider(self, request: SpeechRecognitionRequest) -> Optional[SpeechRecognitionProviderAdapter]:
         """Select best provider for request"""
         # If specific provider requested
-        if (
-            request.provider_preference
-            and request.provider_preference in self.providers
-        ):
+        if request.provider_preference and request.provider_preference in self.providers:
             provider = self.providers[request.provider_preference]
             if provider.is_available():
                 return provider
@@ -769,12 +728,8 @@ class LUKHASSpeechRecognitionService:
         self.guardian = GuardianValidator()
 
         # Initialize components
-        self.provider_manager = SpeechRecognitionProviderManager(
-            self.config.get("providers", {})
-        )
-        self.audio_processor = LUKHASAudioProcessor(
-            self.config.get("audio_processor", {})
-        )
+        self.provider_manager = SpeechRecognitionProviderManager(self.config.get("providers", {}))
+        self.audio_processor = LUKHASAudioProcessor(self.config.get("audio_processor", {}))
 
         # Service statistics
         self.stats = {
@@ -788,9 +743,7 @@ class LUKHASSpeechRecognitionService:
 
         self.logger.info("LUKHAS Speech Recognition Service initialized")
 
-    async def recognize_speech(
-        self, request: SpeechRecognitionRequest
-    ) -> SpeechRecognitionResult:
+    async def recognize_speech(self, request: SpeechRecognitionRequest) -> SpeechRecognitionResult:
         """
         Recognize speech from audio data
 
@@ -824,20 +777,16 @@ class LUKHASSpeechRecognitionService:
             processed_audio_data = request.audio_data
             if request.noise_reduction or request.voice_activity_detection:
                 try:
-                    processed_audio_data, proc_metadata = (
-                        await self.audio_processor.process_audio(
-                            request.audio_data,
-                            request.sample_rate,
-                            request.channels,
-                            request.audio_format,
-                        )
+                    processed_audio_data, proc_metadata = await self.audio_processor.process_audio(
+                        request.audio_data,
+                        request.sample_rate,
+                        request.channels,
+                        request.audio_format,
                     )
 
                     if proc_metadata.get("success", False):
                         request.audio_data = processed_audio_data
-                        self.logger.debug(
-                            "Applied audio pre-processing for recognition"
-                        )
+                        self.logger.debug("Applied audio pre-processing for recognition")
 
                 except Exception as e:
                     self.logger.warning(f"Audio pre-processing failed: {e!s}")
@@ -860,24 +809,18 @@ class LUKHASSpeechRecognitionService:
 
                 # Update provider usage stats
                 provider_type = provider.get_provider_type().value
-                self.stats["providers_used"][provider_type] = (
-                    self.stats["providers_used"].get(provider_type, 0) + 1
-                )
+                self.stats["providers_used"][provider_type] = self.stats["providers_used"].get(provider_type, 0) + 1
 
                 # Update language stats
                 language = request.language.value
-                self.stats["languages_processed"][language] = (
-                    self.stats["languages_processed"].get(language, 0) + 1
-                )
+                self.stats["languages_processed"][language] = self.stats["languages_processed"].get(language, 0) + 1
 
                 # Update average processing time
                 total_time = (time.time() - start_time) * 1000
                 result.processing_time_ms = total_time
 
                 self.stats["average_processing_time"] = (
-                    self.stats["average_processing_time"]
-                    * (self.stats["recognitions_successful"] - 1)
-                    + total_time
+                    self.stats["average_processing_time"] * (self.stats["recognitions_successful"] - 1) + total_time
                 ) / self.stats["recognitions_successful"]
 
                 # Emit GLYPH event
@@ -938,17 +881,13 @@ class LUKHASSpeechRecognitionService:
                 audio_data = f.read()
 
             # Create request
-            request = SpeechRecognitionRequest(
-                audio_data=audio_data, language=language, quality=quality
-            )
+            request = SpeechRecognitionRequest(audio_data=audio_data, language=language, quality=quality)
 
             return await self.recognize_speech(request)
 
         except Exception as e:
             self.logger.error(f"File recognition failed: {e!s}")
-            return SpeechRecognitionResult(
-                success=False, error_message=str(e), error_code="FILE_ERROR"
-            )
+            return SpeechRecognitionResult(success=False, error_message=str(e), error_code="FILE_ERROR")
 
     async def get_service_health(self) -> dict[str, Any]:
         """Get service health status"""
@@ -966,9 +905,7 @@ class LUKHASSpeechRecognitionService:
         languages_by_provider = {}
         for provider_type, provider in self.provider_manager.providers.items():
             if provider.is_available():
-                languages_by_provider[provider_type.value] = (
-                    provider.get_supported_languages()
-                )
+                languages_by_provider[provider_type.value] = provider.get_supported_languages()
         return languages_by_provider
 
 
@@ -991,9 +928,7 @@ async def transcribe_audio(
     """
     service = LUKHASSpeechRecognitionService()
 
-    request = SpeechRecognitionRequest(
-        audio_data=audio_data, language=language, quality=quality
-    )
+    request = SpeechRecognitionRequest(audio_data=audio_data, language=language, quality=quality)
 
     result = await service.recognize_speech(request)
 

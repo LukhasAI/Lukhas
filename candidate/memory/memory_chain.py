@@ -42,9 +42,7 @@ class SymbolicMemoryManager:
     drift trajectories, and persona evolution.
     """
 
-    def __init__(
-        self, memory_path: str = "data/memory_log.json", rotation_limit: int = 1000
-    ):
+    def __init__(self, memory_path: str = "data/memory_log.json", rotation_limit: int = 1000):
         """
         Initialize the memory manager.
 
@@ -115,9 +113,7 @@ class SymbolicMemoryManager:
         healing_delta = None
         if healing_result and "healed_assessment" in healing_result:
             original_drift = assessment.get("symbolic_drift_score", 0)
-            healed_drift = healing_result["healed_assessment"].get(
-                "symbolic_drift_score", 0
-            )
+            healed_drift = healing_result["healed_assessment"].get("symbolic_drift_score", 0)
             healing_delta = original_drift - healed_drift
 
         # Create session record
@@ -148,12 +144,8 @@ class SymbolicMemoryManager:
         self._save_memory()
 
         logger.info(f"📝 Logged session {session_id}")
-        logger.info(
-            f"   Glyphs: {' '.join(session.glyphs) if session.glyphs else 'None'}"
-        )
-        logger.info(
-            f"   Drift: {session.drift_score:.2f}, Entropy: {session.entropy:.2f}"
-        )
+        logger.info(f"   Glyphs: {' '.join(session.glyphs) if session.glyphs else 'None'}")
+        logger.info(f"   Drift: {session.drift_score:.2f}, Entropy: {session.entropy:.2f}")
 
         return session_id
 
@@ -218,9 +210,7 @@ class SymbolicMemoryManager:
             recent_avg = sum(drift_scores[-3:]) / 3
             if len(drift_scores) > 3:
                 older_avg = sum(drift_scores[:-3]) / (len(drift_scores) - 3)
-                drift_direction = (
-                    "increasing" if recent_avg > older_avg else "decreasing"
-                )
+                drift_direction = "increasing" if recent_avg > older_avg else "decreasing"
             else:
                 drift_direction = "stable"
         else:
@@ -248,9 +238,7 @@ class SymbolicMemoryManager:
             glyph_frequency[glyph] = glyph_frequency.get(glyph, 0) + 1
 
         # Sort by frequency
-        top_glyphs = sorted(glyph_frequency.items(), key=lambda x: x[1], reverse=True)[
-            :5
-        ]
+        top_glyphs = sorted(glyph_frequency.items(), key=lambda x: x[1], reverse=True)[:5]
 
         return {
             "status": "analyzed",
@@ -270,14 +258,10 @@ class SymbolicMemoryManager:
                 "top_glyphs": [{"glyph": g[0], "count": g[1]} for g in top_glyphs],
                 "total_unique": len(glyph_frequency),
             },
-            "recommendations": self._generate_recommendations(
-                avg_drift, avg_entropy, drift_direction
-            ),
+            "recommendations": self._generate_recommendations(avg_drift, avg_entropy, drift_direction),
         }
 
-    def _generate_recommendations(
-        self, avg_drift: float, avg_entropy: float, drift_direction: str
-    ) -> list[str]:
+    def _generate_recommendations(self, avg_drift: float, avg_entropy: float, drift_direction: str) -> list[str]:
         """Generate recommendations based on trajectory analysis"""
         recommendations = []
 
@@ -326,10 +310,7 @@ class SymbolicMemoryManager:
                         {
                             "persona": current_persona,
                             "duration": persona_duration,
-                            "avg_drift": sum(
-                                s["drift_score"] for s in recent[-persona_duration:]
-                            )
-                            / persona_duration,
+                            "avg_drift": sum(s["drift_score"] for s in recent[-persona_duration:]) / persona_duration,
                         }
                     )
                 current_persona = persona
@@ -343,10 +324,7 @@ class SymbolicMemoryManager:
                 {
                     "persona": current_persona,
                     "duration": persona_duration,
-                    "avg_drift": sum(
-                        s["drift_score"] for s in recent[-persona_duration:]
-                    )
-                    / persona_duration,
+                    "avg_drift": sum(s["drift_score"] for s in recent[-persona_duration:]) / persona_duration,
                 }
             )
 
@@ -359,9 +337,7 @@ class SymbolicMemoryManager:
 
     def get_healing_effectiveness(self) -> dict[str, Any]:
         """Analyze healing effectiveness across sessions"""
-        healed_sessions = [
-            s for s in self.memory_cache if s.get("healing_delta") is not None
-        ]
+        healed_sessions = [s for s in self.memory_cache if s.get("healing_delta") is not None]
 
         if not healed_sessions:
             return {"status": "no_healing_data"}
@@ -446,9 +422,7 @@ if __name__ == "__main__":
     }
 
     # Log a session
-    session_id = memory.log_session(
-        "Test response with chaos energy", test_assessment, test_diagnosis
-    )
+    session_id = memory.log_session("Test response with chaos energy", test_assessment, test_diagnosis)
 
     print(f"\nLogged session: {session_id}")
 

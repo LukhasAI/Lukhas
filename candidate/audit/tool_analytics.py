@@ -88,9 +88,7 @@ class ToolAnalytics:
             return f"tool_{uuid.uuid4().hex[:8]}"
 
         call_id = f"tool_{uuid.uuid4().hex[:8]}"
-        self.active_calls[call_id] = ToolCall(
-            tool_name=tool_name, arguments=arguments, start_time=time.time()
-        )
+        self.active_calls[call_id] = ToolCall(tool_name=tool_name, arguments=arguments, start_time=time.time())
         return call_id
 
     def complete_tool_call(
@@ -161,9 +159,7 @@ class ToolAnalytics:
             "completed_calls": len(self.completed_calls),
             "tool_distribution": tool_counts,
             "total_duration_ms": total_duration,
-            "average_duration_ms": (
-                total_duration // len(all_calls) if all_calls else 0
-            ),
+            "average_duration_ms": (total_duration // len(all_calls) if all_calls else 0),
             "failed_calls": failed_count,
             "incidents_count": len(self.incidents),
             "tools_used": list(tool_counts.keys()),

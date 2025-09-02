@@ -29,9 +29,7 @@ azure = AzureOpenaiWrapper()
 TaskType = Literal["code", "ethics", "web", "creative", "general"]
 
 
-def multiverse_route(
-    task: str, task_type: TaskType = "general", debug: bool = False
-) -> str:
+def multiverse_route(task: str, task_type: TaskType = "general", debug: bool = False) -> str:
     """
     Routes the task to the most appropriate model.
 
@@ -48,9 +46,7 @@ def multiverse_route(
     timestamp = datetime.utcnow().isoformat()
 
     if debug:
-        print(
-            f"[Router] Task Type: {task_type} | Trace ID: {trace_id} | Timestamp: {timestamp}"
-        )
+        print(f"[Router] Task Type: {task_type} | Trace ID: {trace_id} | Timestamp: {timestamp}")
 
     if task_type == "code":
         response = openai.generate_response(task)

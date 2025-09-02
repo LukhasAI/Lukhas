@@ -68,9 +68,7 @@ def analyze_feedback(entries, args=None):
         if args.voice_flagged:
             entries = [e for e in entries if e.get("suggest_voice")]
         if args.score_threshold is not None:
-            entries = [
-                e for e in entries if e.get("score", 999) <= args.score_threshold
-            ]
+            entries = [e for e in entries if e.get("score", 999) <= args.score_threshold]
 
     scores = [e["score"] for e in entries if "score" in e]
     emojis = [e.get("emoji", "*") for e in entries]

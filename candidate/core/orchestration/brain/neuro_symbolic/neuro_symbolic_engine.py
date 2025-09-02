@@ -35,10 +35,7 @@ class QIInspiredAttention:
         """Initialize the superposition matrix for quantum-inspired processing"""
         dimensions = len(self.attention_gates)
         # Create a normalized matrix for quantum-inspired superposition
-        self.superposition_matrix = (
-            np.eye(dimensions) * 0.5
-            + np.ones((dimensions, dimensions)) * 0.5 / dimensions
-        )
+        self.superposition_matrix = np.eye(dimensions) * 0.5 + np.ones((dimensions, dimensions)) * 0.5 / dimensions
         # Ensure it's properly normalized
         for i in range(dimensions):
             row_sum = np.sum(self.superposition_matrix[i, :])
@@ -60,9 +57,7 @@ class QIInspiredAttention:
         features = self._extract_features(input_data)
 
         # Apply context-aware attention distribution
-        attention_distribution = self._calculate_attention_distribution(
-            features, context
-        )
+        attention_distribution = self._calculate_attention_distribution(features, context)
 
         # Apply quantum-inspired superposition
         superposed_attention = self._apply_superposition(attention_distribution)
@@ -81,16 +76,12 @@ class QIInspiredAttention:
 
         # Extract semantic content
         if "text" in input_data:
-            features["semantic"] = input_data["text"][
-                :100
-            ]  # Simplified semantic extraction
+            features["semantic"] = input_data["text"][:100]  # Simplified semantic extraction
         else:
             features["semantic"] = None
 
         # Extract emotional signals
-        features["emotional"] = input_data.get(
-            "emotion", {"primary_emotion": "neutral", "intensity": 0.5}
-        )
+        features["emotional"] = input_data.get("emotion", {"primary_emotion": "neutral", "intensity": 0.5})
 
         # Extract contextual signals
         features["contextual"] = input_data.get("context", {})
@@ -100,9 +91,7 @@ class QIInspiredAttention:
 
         return features
 
-    def _calculate_attention_distribution(
-        self, features: dict, context: dict
-    ) -> np.ndarray:
+    def _calculate_attention_distribution(self, features: dict, context: dict) -> np.ndarray:
         """Calculate the initial attention distribution based on features and context"""
         attention_weights = np.zeros(len(self.attention_gates))
 
@@ -146,15 +135,11 @@ class QIInspiredAttention:
 
         return superposed
 
-    def _apply_attention_gates(
-        self, input_data: dict, attention_weights: np.ndarray
-    ) -> dict:
+    def _apply_attention_gates(self, input_data: dict, attention_weights: np.ndarray) -> dict:
         """Apply the calculated attention weights to the input data"""
         attended_data = {
             "original": input_data,
-            "attention_weights": dict(
-                zip(self.attention_gates.keys(), attention_weights)
-            ),
+            "attention_weights": dict(zip(self.attention_gates.keys(), attention_weights)),
             "attended_content": {},
             "timestamp": datetime.now().isoformat(),
         }
@@ -163,22 +148,14 @@ class QIInspiredAttention:
         if "text" in input_data:
             attended_data["attended_content"]["semantic"] = {
                 "content": input_data["text"],
-                "weight": float(
-                    attention_weights[
-                        list(self.attention_gates.keys()).index("semantic")
-                    ]
-                ),
+                "weight": float(attention_weights[list(self.attention_gates.keys()).index("semantic")]),
             }
 
         # Apply emotional attention
         if "emotion" in input_data:
             attended_data["attended_content"]["emotional"] = {
                 "content": input_data["emotion"],
-                "weight": float(
-                    attention_weights[
-                        list(self.attention_gates.keys()).index("emotional")
-                    ]
-                ),
+                "weight": float(attention_weights[list(self.attention_gates.keys()).index("emotional")]),
             }
 
         # Include other attention dimensions similarly
@@ -242,24 +219,12 @@ class CausalReasoningModule:
             Dict containing reasoning results and causal chains
         """
         # Extract content from attended data
-        semantic_content = (
-            attended_data.get("attended_content", {}).get("semantic", {}).get("content")
-        )
-        emotional_content = (
-            attended_data.get("attended_content", {})
-            .get("emotional", {})
-            .get("content")
-        )
-        contextual_content = (
-            attended_data.get("attended_content", {})
-            .get("contextual", {})
-            .get("content")
-        )
+        semantic_content = attended_data.get("attended_content", {}).get("semantic", {}).get("content")
+        emotional_content = attended_data.get("attended_content", {}).get("emotional", {}).get("content")
+        contextual_content = attended_data.get("attended_content", {}).get("contextual", {}).get("content")
 
         # Identify potential causes and effects
-        causes_effects = self._extract_causal_elements(
-            semantic_content, emotional_content, contextual_content
-        )
+        causes_effects = self._extract_causal_elements(semantic_content, emotional_content, contextual_content)
 
         # Build causal chains
         causal_chains = self._build_causal_chains(causes_effects)
@@ -268,11 +233,7 @@ class CausalReasoningModule:
         weighted_causes = self._calculate_causal_confidences(causal_chains)
 
         # Filter by confidence threshold
-        valid_causes = {
-            k: v
-            for k, v in weighted_causes.items()
-            if v["confidence"] >= self.confidence_threshold
-        }
+        valid_causes = {k: v for k, v in weighted_causes.items() if v["confidence"] >= self.confidence_threshold}
 
         # Update internal causal graph
         self._update_causal_graph(valid_causes)
@@ -280,14 +241,8 @@ class CausalReasoningModule:
         # Prepare reasoning results
         reasoning_results = {
             "causal_chains": valid_causes,
-            "primary_cause": (
-                self._identify_primary_cause(valid_causes) if valid_causes else None
-            ),
-            "confidence": (
-                max([v["confidence"] for v in valid_causes.values()])
-                if valid_causes
-                else 0.0
-            ),
+            "primary_cause": (self._identify_primary_cause(valid_causes) if valid_causes else None),
+            "confidence": (max([v["confidence"] for v in valid_causes.values()]) if valid_causes else 0.0),
             "reasoning_path": self._extract_reasoning_path(valid_causes),
             "original_attended_data": attended_data,
             "timestamp": datetime.now().isoformat(),
@@ -298,9 +253,7 @@ class CausalReasoningModule:
 
         return reasoning_results
 
-    def _extract_causal_elements(
-        self, semantic_content, emotional_content, contextual_content
-    ):
+    def _extract_causal_elements(self, semantic_content, emotional_content, contextual_content):
         """Extract potential causes and effects from different content types"""
         causes_effects = []
 
@@ -310,10 +263,7 @@ class CausalReasoningModule:
             if isinstance(semantic_content, str):
                 sentences = semantic_content.split(".")
                 for sentence in sentences:
-                    if any(
-                        word in sentence.lower()
-                        for word in ["because", "cause", "reason", "due to"]
-                    ):
+                    if any(word in sentence.lower() for word in ["because", "cause", "reason", "due to"]):
                         causes_effects.append(
                             {
                                 "type": "semantic",
@@ -332,8 +282,7 @@ class CausalReasoningModule:
                     {
                         "type": "emotional",
                         "content": f"Emotional state: {primary_emotion} (intensity: {intensity})",
-                        "base_confidence": 0.6
-                        * intensity,  # Lower base confidence for emotional reasoning
+                        "base_confidence": 0.6 * intensity,  # Lower base confidence for emotional reasoning
                     }
                 )
 
@@ -373,8 +322,7 @@ class CausalReasoningModule:
                         causal_chains[chain_id]["elements"].append(other_item)
                         # Average the confidences
                         causal_chains[chain_id]["base_confidence"] = (
-                            causal_chains[chain_id]["base_confidence"]
-                            + other_item["base_confidence"]
+                            causal_chains[chain_id]["base_confidence"] + other_item["base_confidence"]
                         ) / 2
 
         return causal_chains
@@ -439,13 +387,11 @@ class CausalReasoningModule:
                 }
             else:
                 self.causal_graph[chain_id]["frequency"] += 1
-                self.causal_graph[chain_id]["confidence_history"].append(
-                    chain_data["confidence"]
-                )
+                self.causal_graph[chain_id]["confidence_history"].append(chain_data["confidence"])
                 # Keep last 10 confidence values
-                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[
-                    chain_id
-                ]["confidence_history"][-10:]
+                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[chain_id]["confidence_history"][
+                    -10:
+                ]
 
     def _identify_primary_cause(self, valid_causes):
         """Identify the most likely primary cause from valid causes"""
@@ -453,9 +399,7 @@ class CausalReasoningModule:
             return None
 
         # Select the cause with highest confidence
-        primary_cause_id = max(
-            valid_causes.keys(), key=lambda k: valid_causes[k]["confidence"]
-        )
+        primary_cause_id = max(valid_causes.keys(), key=lambda k: valid_causes[k]["confidence"])
         return {
             "id": primary_cause_id,
             "summary": valid_causes[primary_cause_id]["summary"],
@@ -565,9 +509,7 @@ class NeuroSymbolicEngine:
         if len(self.processing_history) > 1000:
             self.processing_history = self.processing_history[-1000:]
 
-        logger.info(
-            f"Completed processing for user {user_id} with confidence: {response.get('confidence')}"
-        )
+        logger.info(f"Completed processing for user {user_id} with confidence: {response.get('confidence')}")
 
         return response
 
@@ -642,40 +584,28 @@ class NeuroSymbolicEngine:
         # Generate appropriate response based on input and reasoning
         if confidence >= 0.8:
             # High confidence response
-            response_text = self._create_high_confidence_response(
-                primary_cause, input_data
-            )
+            response_text = self._create_high_confidence_response(primary_cause, input_data)
             response["response_type"] = "high_confidence"
         elif confidence >= 0.5:
             # Medium confidence response
-            response_text = self._create_medium_confidence_response(
-                primary_cause, reasoning_results, input_data
-            )
+            response_text = self._create_medium_confidence_response(primary_cause, reasoning_results, input_data)
             response["response_type"] = "medium_confidence"
         else:
             # Low confidence response
-            response_text = self._create_low_confidence_response(
-                reasoning_results, input_data
-            )
+            response_text = self._create_low_confidence_response(reasoning_results, input_data)
             response["response_type"] = "low_confidence"
 
         response["response"] = response_text
 
         # Determine if we should generate an image
-        should_generate_image = self._should_generate_image(
-            input_data, reasoning_results
-        )
+        should_generate_image = self._should_generate_image(input_data, reasoning_results)
         response["generate_image"] = should_generate_image
 
         if should_generate_image:
-            response["image_prompt"] = self._generate_image_prompt(
-                input_data, reasoning_results
-            )
+            response["image_prompt"] = self._generate_image_prompt(input_data, reasoning_results)
 
         # Add suggested actions
-        response["suggested_actions"] = self._generate_suggested_actions(
-            reasoning_results, input_data
-        )
+        response["suggested_actions"] = self._generate_suggested_actions(reasoning_results, input_data)
 
         return response
 
@@ -690,18 +620,12 @@ class NeuroSymbolicEngine:
         if "question" in input_data.get("text", "").lower():
             return f"Based on my analysis, {cause_summary}. Does that answer your question?"
         else:
-            return (
-                f"I see that {cause_summary}. How would you like me to help with this?"
-            )
+            return f"I see that {cause_summary}. How would you like me to help with this?"
 
-    def _create_medium_confidence_response(
-        self, primary_cause, reasoning_results, input_data
-    ):
+    def _create_medium_confidence_response(self, primary_cause, reasoning_results, input_data):
         """Create a response when reasoning has medium confidence"""
         if not primary_cause:
-            return (
-                "I think I understand what you're asking. Can you provide more details?"
-            )
+            return "I think I understand what you're asking. Can you provide more details?"
 
         # Include some uncertainty but still provide value
         cause_summary = primary_cause.get("summary", "")
@@ -764,11 +688,7 @@ class NeuroSymbolicEngine:
                 visual_elements.append(word)
 
         # Create prompt
-        prompt = (
-            f"{text} with {', '.join(visual_elements)} style"
-            if visual_elements
-            else text
-        )
+        prompt = f"{text} with {', '.join(visual_elements)} style" if visual_elements else text
 
         return prompt
 

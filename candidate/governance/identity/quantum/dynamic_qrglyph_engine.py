@@ -114,12 +114,8 @@ class DynamicQRGLYPH:
 
         metadata = GLYPHMetadata(
             glyph_type=GLYPHType(glyph_data["metadata"]["glyph_type"]),
-            creation_time=datetime.fromisoformat(
-                glyph_data["metadata"]["creation_time"]
-            ),
-            expiration_time=datetime.fromisoformat(
-                glyph_data["metadata"]["expiration_time"]
-            ),
+            creation_time=datetime.fromisoformat(glyph_data["metadata"]["creation_time"]),
+            expiration_time=datetime.fromisoformat(glyph_data["metadata"]["expiration_time"]),
             consciousness_binding=glyph_data["metadata"].get("consciousness_binding"),
             cultural_symbols=glyph_data["metadata"].get("cultural_symbols"),
             biometric_hash=glyph_data["metadata"].get("biometric_hash"),
@@ -204,9 +200,7 @@ class DynamicQRGLYPHEngine:
             "state": consciousness_state,
             "timestamp": datetime.utcnow().isoformat(),
             "coherence_level": consent_data.get("consciousness_coherence", 0.8),
-            "attention_signature": self._generate_attention_signature(
-                consciousness_state
-            ),
+            "attention_signature": self._generate_attention_signature(consciousness_state),
         }
 
         # Select cultural symbols
@@ -242,9 +236,7 @@ class DynamicQRGLYPHEngine:
         )
 
         # Generate ZK commitment (placeholder for actual ZK proof)
-        zk_commitment = await self._generate_zk_commitment(
-            payload, consciousness_binding
-        )
+        zk_commitment = await self._generate_zk_commitment(payload, consciousness_binding)
 
         # Create QRGLYPH
         qrglyph = DynamicQRGLYPH(
@@ -287,9 +279,7 @@ class DynamicQRGLYPHEngine:
                 return False, {"error": "QRGLYPH expired"}
 
             # Verify signature
-            if not self._verify_signature(
-                qrglyph.payload, qrglyph.signature, qrglyph.ed448_public_key
-            ):
+            if not self._verify_signature(qrglyph.payload, qrglyph.signature, qrglyph.ed448_public_key):
                 return False, {"error": "Invalid signature"}
 
             # Verify user binding
@@ -297,9 +287,7 @@ class DynamicQRGLYPHEngine:
                 return False, {"error": "User mismatch"}
 
             # Verify consciousness binding
-            if not self._verify_consciousness_binding(
-                qrglyph.metadata.consciousness_binding, consciousness_state
-            ):
+            if not self._verify_consciousness_binding(qrglyph.metadata.consciousness_binding, consciousness_state):
                 return False, {"error": "Consciousness state mismatch"}
 
             # Verify biometric binding
@@ -319,32 +307,23 @@ class DynamicQRGLYPHEngine:
             # Check if GLYPH is still active (not rotated out)
             if qrglyph.glyph_id in self.active_glyphs:
                 active_glyph = self.active_glyphs[qrglyph.glyph_id]
-                if (
-                    active_glyph.metadata.rotation_count
-                    > qrglyph.metadata.rotation_count
-                ):
+                if active_glyph.metadata.rotation_count > qrglyph.metadata.rotation_count:
                     return False, {"error": "QRGLYPH has been rotated"}
 
             return True, {
                 "glyph_id": qrglyph.glyph_id,
                 "glyph_type": qrglyph.metadata.glyph_type.value,
-                "consciousness_coherence": qrglyph.metadata.consciousness_binding.get(
-                    "coherence_level", 0
-                ),
+                "consciousness_coherence": qrglyph.metadata.consciousness_binding.get("coherence_level", 0),
                 "cultural_symbols": qrglyph.metadata.cultural_symbols,
                 "rotation_count": qrglyph.metadata.rotation_count,
-                "remaining_lifetime": (
-                    qrglyph.metadata.expiration_time - datetime.utcnow()
-                ).total_seconds(),
+                "remaining_lifetime": (qrglyph.metadata.expiration_time - datetime.utcnow()).total_seconds(),
             }
 
         except Exception as e:
             logger.error(f"❌ QRGLYPH validation error: {e}")
             return False, {"error": str(e)}
 
-    async def generate_zk_proof(
-        self, qrglyph: DynamicQRGLYPH, private_witness: dict[str, Any]
-    ) -> ZKProof:
+    async def generate_zk_proof(self, qrglyph: DynamicQRGLYPH, private_witness: dict[str, Any]) -> ZKProof:
         """
         Generate zero-knowledge proof for QRGLYPH authentication
         """
@@ -420,17 +399,14 @@ class DynamicQRGLYPHEngine:
         # Create new GLYPH with incremented rotation count
         new_payload = old_glyph.payload.copy()
         new_payload["rotation_sequence"] = self._generate_rotation_sequence()
-        new_payload["previous_glyph_hash"] = hashlib.sha256(
-            old_glyph.to_base64().encode()
-        ).hexdigest()
+        new_payload["previous_glyph_hash"] = hashlib.sha256(old_glyph.to_base64().encode()).hexdigest()
 
         new_signature = self._sign_payload(new_payload)
 
         new_metadata = GLYPHMetadata(
             glyph_type=old_glyph.metadata.glyph_type,
             creation_time=datetime.utcnow(),
-            expiration_time=datetime.utcnow()
-            + self._get_glyph_lifetime(old_glyph.metadata.glyph_type),
+            expiration_time=datetime.utcnow() + self._get_glyph_lifetime(old_glyph.metadata.glyph_type),
             consciousness_binding=old_glyph.metadata.consciousness_binding,
             cultural_symbols=old_glyph.metadata.cultural_symbols,
             biometric_hash=old_glyph.metadata.biometric_hash,
@@ -478,20 +454,14 @@ class DynamicQRGLYPHEngine:
             "flow_state": "effortless|optimal|engaged",
         }
 
-        base_signature = signatures.get(
-            consciousness_state, "neutral|observant|present"
-        )
-        return hashlib.sha256(f"{base_signature}|{time.time()}".encode()).hexdigest()[
-            :32
-        ]
+        base_signature = signatures.get(consciousness_state, "neutral|observant|present")
+        return hashlib.sha256(f"{base_signature}|{time.time()}".encode()).hexdigest()[:32]
 
     def _select_cultural_symbols(self, cultural_context: dict[str, Any]) -> list[str]:
         """Select culturally appropriate symbols"""
         region = cultural_context.get("region", "universal").lower()
 
-        regional_symbols = self.cultural_symbols.get(
-            region, self.cultural_symbols["universal"]
-        )
+        regional_symbols = self.cultural_symbols.get(region, self.cultural_symbols["universal"])
         universal_symbols = self.cultural_symbols["universal"]
 
         # Mix regional and universal symbols
@@ -542,9 +512,7 @@ class DynamicQRGLYPHEngine:
         payload_bytes = json.dumps(payload, sort_keys=True).encode()
         return self.ed448_private_key.sign(payload_bytes)
 
-    def _verify_signature(
-        self, payload: dict[str, Any], signature: bytes, public_key_bytes: bytes
-    ) -> bool:
+    def _verify_signature(self, payload: dict[str, Any], signature: bytes, public_key_bytes: bytes) -> bool:
         """Verify Ed448 signature"""
         try:
             public_key = ed448.Ed448PublicKey.from_public_bytes(public_key_bytes)
@@ -554,9 +522,7 @@ class DynamicQRGLYPHEngine:
         except Exception:
             return False
 
-    def _verify_consciousness_binding(
-        self, binding: dict[str, Any], current_state: str
-    ) -> bool:
+    def _verify_consciousness_binding(self, binding: dict[str, Any], current_state: str) -> bool:
         """Verify consciousness binding is still valid"""
         if not binding:
             return False
@@ -580,15 +546,11 @@ class DynamicQRGLYPHEngine:
         # Check coherence level
         return binding.get("coherence_level", 0) >= 0.6
 
-    async def _generate_zk_commitment(
-        self, payload: dict[str, Any], consciousness_binding: dict[str, Any]
-    ) -> str:
+    async def _generate_zk_commitment(self, payload: dict[str, Any], consciousness_binding: dict[str, Any]) -> str:
         """Generate ZK commitment for QRGLYPH"""
         commitment_data = {
             "payload_hash": hashlib.sha256(json.dumps(payload).encode()).hexdigest(),
-            "consciousness_hash": hashlib.sha256(
-                json.dumps(consciousness_binding).encode()
-            ).hexdigest(),
+            "consciousness_hash": hashlib.sha256(json.dumps(consciousness_binding).encode()).hexdigest(),
             "timestamp": datetime.utcnow().isoformat(),
         }
 
@@ -601,9 +563,7 @@ class DynamicQRGLYPHEngine:
         consciousness_binding: dict[str, Any],
     ) -> bool:
         """Verify ZK commitment"""
-        expected_commitment = await self._generate_zk_commitment(
-            payload, consciousness_binding
-        )
+        expected_commitment = await self._generate_zk_commitment(payload, consciousness_binding)
         return commitment == expected_commitment
 
     async def _schedule_glyph_rotation(self, glyph_id: str):
@@ -652,9 +612,7 @@ async def main():
     print(f"🎭 Type: {qrglyph.metadata.glyph_type.value}")
     print(f"🧠 Consciousness: {qrglyph.metadata.consciousness_binding['state']}")
     print(f"🌏 Cultural Symbols: {' '.join(qrglyph.metadata.cultural_symbols)}")
-    print(
-        f"⏱️ Expires in: {(qrglyph.metadata.expiration_time - datetime.utcnow()).seconds} seconds"
-    )
+    print(f"⏱️ Expires in: {(qrglyph.metadata.expiration_time - datetime.utcnow()).seconds} seconds")
 
     # Serialize to base64
     qrglyph_base64 = qrglyph.to_base64()
@@ -671,12 +629,8 @@ async def main():
 
     print(f"✅ Valid: {valid}")
     if valid:
-        print(
-            f"🎯 Consciousness Coherence: {validation_data['consciousness_coherence']}"
-        )
-        print(
-            f"⏱️ Remaining Lifetime: {validation_data['remaining_lifetime']:.1f} seconds"
-        )
+        print(f"🎯 Consciousness Coherence: {validation_data['consciousness_coherence']}")
+        print(f"⏱️ Remaining Lifetime: {validation_data['remaining_lifetime']:.1f} seconds")
 
     # Generate ZK proof
     print("\n📍 Generating Zero-Knowledge Proof...")

@@ -56,9 +56,7 @@ try:
 
     st.subheader("🎛️ Filter by Tier or Emoji")
     with st.sidebar:
-        selected_tiers = st.multiselect(
-            "Filter by Tier", options=sorted(df["tier"].unique())
-        )
+        selected_tiers = st.multiselect("Filter by Tier", options=sorted(df["tier"].unique()))
         selected_emojis = st.multiselect("Filter by Emoji", options=sorted(set(emojis)))
 
     if selected_tiers or selected_emojis:

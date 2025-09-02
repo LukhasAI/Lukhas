@@ -55,9 +55,7 @@ def _s3():
 
 
 def _stable_key(d: dict[str, Any]) -> str:
-    return hashlib.sha256(
-        json.dumps({"id": d.get("id")}, sort_keys=True).encode()
-    ).hexdigest()
+    return hashlib.sha256(json.dumps({"id": d.get("id")}, sort_keys=True).encode()).hexdigest()
 
 
 def emit_receipt(**kwargs) -> dict[str, Any]:
@@ -175,9 +173,7 @@ def _generate_grafana(path: str):
 def main():
     import argparse
 
-    ap = argparse.ArgumentParser(
-        description="Lukhas Receipts Hub (Altman–Amodei–Hassabis)"
-    )
+    ap = argparse.ArgumentParser(description="Lukhas Receipts Hub (Altman–Amodei–Hassabis)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     e = sub.add_parser("emit", help="Emit a single receipt from args (for testing)")

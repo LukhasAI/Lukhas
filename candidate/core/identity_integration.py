@@ -34,9 +34,7 @@ try:
     IDENTITY_AVAILABLE = True
 except ImportError:
     IDENTITY_AVAILABLE = False
-    logger.warning(
-        "Identity system not available - running without identity validation"
-    )
+    logger.warning("Identity system not available - running without identity validation")
 
 # Global identity client instance
 _identity_client: Optional["IdentityClient"] = None
@@ -172,19 +170,10 @@ def require_identity(
             normalized_tier = TierMappingConfig.normalize_tier(required_tier)
 
             # Extract user_id from various possible locations
-            user_id = (
-                kwargs.get("user_id")
-                or kwargs.get("lambda_id")
-                or kwargs.get("identity_legacy")
-            )
+            user_id = kwargs.get("user_id") or kwargs.get("lambda_id") or kwargs.get("identity_legacy")
 
             # Try to get from first positional arg if it looks like a user ID
-            if (
-                not user_id
-                and args
-                and isinstance(args[0], str)
-                and args[0].startswith("Λ")
-            ):
+            if not user_id and args and isinstance(args[0], str) and args[0].startswith("Λ"):
                 user_id = args[0]
 
             # Check for Oneiric-style user object
@@ -202,9 +191,7 @@ def require_identity(
             # Get identity client
             client = get_identity_client()
             if not client:
-                logger.warning(
-                    f"Identity validation skipped for {func.__name__} - client not available"
-                )
+                logger.warning(f"Identity validation skipped for {func.__name__} - client not available")
                 return func(*args, **kwargs)
 
             # Verify tier access
@@ -214,9 +201,7 @@ def require_identity(
                     user_id=user_id,
                     required_tier=normalized_tier,
                 )
-                raise PermissionError(
-                    f"Insufficient tier level. Required: {normalized_tier}"
-                )
+                raise PermissionError(f"Insufficient tier level. Required: {normalized_tier}")
 
             # Check consent if specified
             if check_consent and not client.check_consent(user_id, check_consent):
@@ -267,9 +252,7 @@ class IdentityContext:
 
     def __enter__(self):
         if self.client:
-            self.has_access = self.client.verify_user_access(
-                self.user_id, self.required_tier
-            )
+            self.has_access = self.client.verify_user_access(self.user_id, self.required_tier)
             if self.has_access:
                 self.client.log_activity(
                     "context_enter",
@@ -294,9 +277,7 @@ class IdentityContext:
             )
 
 
-def validate_and_log(
-    user_id: str, activity: str, metadata: Optional[dict[str, Any]] = None
-) -> bool:
+def validate_and_log(user_id: str, activity: str, metadata: Optional[dict[str, Any]] = None) -> bool:
     """
     Quick validation and logging helper.
 
@@ -329,9 +310,7 @@ class ModuleIntegrationExamples:
     @require_identity(required_tier="LAMBDA_TIER_2", check_consent="memory_access")
     def memory_operation_example(user_id: str, memory_key: str, operation: str):
         """Example of tier-gated memory operation."""
-        logger.info(
-            f"Performing memory {operation} for user {user_id} on key {memory_key}"
-        )
+        logger.info(f"Performing memory {operation} for user {user_id} on key {memory_key}")
         # Actual memory operation would go here
         return {"status": "success", "operation": operation}
 

@@ -62,9 +62,7 @@ def _create_learning_service():
                 learning_mode: str = "supervised",
                 learning_objectives: Optional[list] = None,
             ) -> dict:
-                logger.warning(
-                    "ΛTRACE: Fallback learning service - learn_from_data called"
-                )
+                logger.warning("ΛTRACE: Fallback learning service - learn_from_data called")
                 return {
                     "success": False,
                     "error": "Learning service not available (using fallback)",
@@ -78,9 +76,7 @@ def _create_learning_service():
                 behavior_targets: list,
                 adaptation_strategy: str = "gradual",
             ) -> dict:
-                logger.warning(
-                    "ΛTRACE: Fallback learning service - adapt_behavior called"
-                )
+                logger.warning("ΛTRACE: Fallback learning service - adapt_behavior called")
                 return {
                     "success": False,
                     "error": "Learning service not available (using fallback)",
@@ -93,9 +89,7 @@ def _create_learning_service():
                 knowledge_sources: list,
                 synthesis_method: str = "integration",
             ) -> dict:
-                logger.warning(
-                    "ΛTRACE: Fallback learning service - synthesize_knowledge called"
-                )
+                logger.warning("ΛTRACE: Fallback learning service - synthesize_knowledge called")
                 return {
                     "success": False,
                     "error": "Learning service not available (using fallback)",
@@ -109,21 +103,15 @@ def _create_learning_service():
                 target_domain: str,
                 knowledge_to_transfer: dict,
             ) -> dict:
-                logger.warning(
-                    "ΛTRACE: Fallback learning service - transfer_learning called"
-                )
+                logger.warning("ΛTRACE: Fallback learning service - transfer_learning called")
                 return {
                     "success": False,
                     "error": "Learning service not available (using fallback)",
                     "fallback": True,
                 }
 
-            def get_learning_metrics(
-                self, user_id: str, include_detailed: bool = False
-            ) -> dict:
-                logger.warning(
-                    "ΛTRACE: Fallback learning service - get_learning_metrics called"
-                )
+            def get_learning_metrics(self, user_id: str, include_detailed: bool = False) -> dict:
+                logger.warning("ΛTRACE: Fallback learning service - get_learning_metrics called")
                 return {
                     "success": False,
                     "error": "Learning service not available (using fallback)",

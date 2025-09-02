@@ -93,9 +93,7 @@ class SqlMemory(AkaqMemory):
 
         if parsed.scheme == "postgresql":
             # PostgreSQL with connection pooling
-            return create_engine(
-                dsn, pool_size=10, max_overflow=20, pool_timeout=30, pool_recycle=3600
-            )
+            return create_engine(dsn, pool_size=10, max_overflow=20, pool_timeout=30, pool_recycle=3600)
         elif parsed.scheme == "sqlite":
             # SQLite with WAL mode for better concurrency
             engine = create_engine(dsn, connect_args={"check_same_thread": False})
@@ -206,9 +204,7 @@ class SqlMemory(AkaqMemory):
                             "proto_vec": proto_vec_param,
                             "risk": json.dumps(scene["risk"]),
                             "context": json.dumps(sanitized_context),
-                            "transform_chain": json.dumps(
-                                scene.get("transform_chain", [])
-                            ),
+                            "transform_chain": json.dumps(scene.get("transform_chain", [])),
                             "collapse_hash": scene.get("collapse_hash"),
                             "drift_phi": metrics.get("drift_phi"),
                             "congruence_index": metrics.get("congruence_index"),
@@ -225,9 +221,7 @@ class SqlMemory(AkaqMemory):
                     # Insert glyphs
                     for glyph in glyphs:
                         tx.execute(
-                            text(
-                                "INSERT INTO akaq_glyph (scene_id, key, attrs) VALUES (:sid, :k, :a)"
-                            ),
+                            text("INSERT INTO akaq_glyph (scene_id, key, attrs) VALUES (:sid, :k, :a)"),
                             {
                                 "sid": scene_id,
                                 "k": glyph["key"],
@@ -241,9 +235,7 @@ class SqlMemory(AkaqMemory):
                 logger.debug(f"Saved scene {scene_id} with {len(glyphs)} glyphs")
 
                 # Record observability metrics
-                obs.update_memory_storage(
-                    "sql", "scenes", self.scenes_saved * 1024
-                )  # Estimate
+                obs.update_memory_storage("sql", "scenes", self.scenes_saved * 1024)  # Estimate
                 obs.record_scene_processed(status="success")
 
                 return scene_id
@@ -263,9 +255,7 @@ class SqlMemory(AkaqMemory):
             float(proto.get("narrative_gravity", 0.0)),
         ]
 
-    def fetch_prev_scene(
-        self, *, user_id: str, before_ts: Optional[dt.datetime] = None
-    ) -> Optional[Dict[str, Any]]:
+    def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[Dict[str, Any]]:
         """Get most recent scene before timestamp for drift computation"""
         try:
             if before_ts is None:
@@ -305,9 +295,7 @@ class SqlMemory(AkaqMemory):
             logger.error(f"Failed to fetch previous scene: {e!s}")
             return None
 
-    def history(
-        self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None
-    ) -> List[Dict[str, Any]]:
+    def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> List[Dict[str, Any]]:
         """Get reverse-chronological scene history"""
         try:
             where_clause = "WHERE user_id = :user_id"
@@ -350,9 +338,7 @@ class SqlMemory(AkaqMemory):
             logger.error(f"Failed to fetch history: {e!s}")
             return []
 
-    def search_by_glyph(
-        self, *, user_id: str, key: str, limit: int = 50
-    ) -> List[Dict[str, Any]]:
+    def search_by_glyph(self, *, user_id: str, key: str, limit: int = 50) -> List[Dict[str, Any]]:
         """Find scenes that emitted a specific glyph"""
         try:
             with self.engine.begin() as conn:

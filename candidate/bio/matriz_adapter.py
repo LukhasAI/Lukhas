@@ -130,14 +130,10 @@ class BioMatrizAdapter:
         )
 
     @staticmethod
-    def emit_awareness_pulse(
-        awareness_level: float, sensory_inputs: dict[str, float]
-    ) -> dict[str, Any]:
+    def emit_awareness_pulse(awareness_level: float, sensory_inputs: dict[str, float]) -> dict[str, Any]:
         """Emit a bio-awareness pulse node"""
 
-        avg_sensory = (
-            sum(sensory_inputs.values()) / len(sensory_inputs) if sensory_inputs else 0
-        )
+        avg_sensory = sum(sensory_inputs.values()) / len(sensory_inputs) if sensory_inputs else 0
 
         return BioMatrizAdapter.create_node(
             node_type="AWARENESS",

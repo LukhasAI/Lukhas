@@ -206,12 +206,8 @@ class QuantumSuperpositionProcessor:
 
         self._initialize_quantum_systems()
 
-        logger.info(
-            f"ΛTRACE: Quantum Superposition Processor initialized: {self.processor_id}"
-        )
-        logger.info(
-            f"ΛTRACE: Max superposition states: {self.config.max_superposition_states}"
-        )
+        logger.info(f"ΛTRACE: Quantum Superposition Processor initialized: {self.processor_id}")
+        logger.info(f"ΛTRACE: Max superposition states: {self.config.max_superposition_states}")
 
     def _initialize_quantum_systems(self):
         """Initialize quantum-inspired processing systems"""
@@ -247,9 +243,7 @@ class QuantumSuperpositionProcessor:
             QuantumGate.TOFFOLI: self._toffoli_gate,
         }
 
-    async def create_superposition(
-        self, base_consciousness_state: dict[str, Any]
-    ) -> list[QuantumState]:
+    async def create_superposition(self, base_consciousness_state: dict[str, Any]) -> list[QuantumState]:
         """
         Create quantum superposition from base consciousness state
 
@@ -269,9 +263,7 @@ class QuantumSuperpositionProcessor:
 
             # Extract base properties
             base_awareness = base_consciousness_state.get("awareness_level", 0.5)
-            base_emotion = base_consciousness_state.get(
-                "emotional_context", (0.0, 0.0, 0.0)
-            )
+            base_emotion = base_consciousness_state.get("emotional_context", (0.0, 0.0, 0.0))
             base_attention = base_consciousness_state.get("attention_weight", 1.0)
 
             # Create superposition states with quantum variations
@@ -285,9 +277,7 @@ class QuantumSuperpositionProcessor:
                 awareness_variation = base_awareness + random.gauss(0, 0.1)
                 awareness_variation = max(0.0, min(1.0, awareness_variation))
 
-                emotion_variation = tuple(
-                    e + random.gauss(0, 0.05) for e in base_emotion
-                )
+                emotion_variation = tuple(e + random.gauss(0, 0.05) for e in base_emotion)
 
                 attention_variation = base_attention + random.gauss(0, 0.1)
                 attention_variation = max(0.1, min(2.0, attention_variation))
@@ -300,10 +290,8 @@ class QuantumSuperpositionProcessor:
                     attention_weight=attention_variation,
                     emotional_resonance=emotion_variation,
                     causal_influence=base_consciousness_state.get("causal_weight", 0.5),
-                    coherence_time=self.config.coherence_threshold
-                    / self.config.decoherence_rate,
-                    decoherence_rate=self.config.decoherence_rate
-                    * (1 + random.random() * 0.2),
+                    coherence_time=self.config.coherence_threshold / self.config.decoherence_rate,
+                    decoherence_rate=self.config.decoherence_rate * (1 + random.random() * 0.2),
                 )
 
                 quantum_states.append(quantum_state)
@@ -323,9 +311,7 @@ class QuantumSuperpositionProcessor:
             # Monitor coherence
             asyncio.create_task(self._monitor_superposition_coherence(superposition_id))
 
-            logger.info(
-                f"ΛTRACE: Created {len(quantum_states)} quantum states in superposition"
-            )
+            logger.info(f"ΛTRACE: Created {len(quantum_states)} quantum states in superposition")
 
             return quantum_states
 
@@ -333,9 +319,7 @@ class QuantumSuperpositionProcessor:
             logger.error(f"ΛTRACE: Failed to create superposition: {e}")
             return []
 
-    def _generate_quantum_amplitude(
-        self, state_index: int, total_states: int
-    ) -> complex:
+    def _generate_quantum_amplitude(self, state_index: int, total_states: int) -> complex:
         """Generate quantum amplitude for superposition state"""
         # Equal probability amplitudes with random phase
         magnitude = 1.0 / math.sqrt(total_states)
@@ -363,25 +347,16 @@ class QuantumSuperpositionProcessor:
                     self.entanglement_network[state1.state_id].add(state2.state_id)
                     self.entanglement_network[state2.state_id].add(state1.state_id)
 
-                    logger.debug(
-                        f"ΛTRACE: Entangled states {state1.state_id} ↔ {state2.state_id}"
-                    )
+                    logger.debug(f"ΛTRACE: Entangled states {state1.state_id} ↔ {state2.state_id}")
 
-    def _calculate_state_similarity(
-        self, state1: QuantumState, state2: QuantumState
-    ) -> float:
+    def _calculate_state_similarity(self, state1: QuantumState, state2: QuantumState) -> float:
         """Calculate similarity between two quantum states"""
         # Awareness similarity
         awareness_sim = 1 - abs(state1.awareness_level - state2.awareness_level)
 
         # Emotional similarity
         emotion_sim = (
-            1
-            - np.linalg.norm(
-                np.array(state1.emotional_resonance)
-                - np.array(state2.emotional_resonance)
-            )
-            / 3.0
+            1 - np.linalg.norm(np.array(state1.emotional_resonance) - np.array(state2.emotional_resonance)) / 3.0
         )
 
         # Phase similarity
@@ -414,9 +389,7 @@ class QuantumSuperpositionProcessor:
             processing_tasks = []
             for state_id in state_ids:
                 if state_id in self.active_states:
-                    task = asyncio.create_task(
-                        self._process_quantum_state(state_id, processing_request)
-                    )
+                    task = asyncio.create_task(self._process_quantum_state(state_id, processing_request))
                     processing_tasks.append((state_id, task))
 
             # Wait for all parallel processing to complete
@@ -430,15 +403,11 @@ class QuantumSuperpositionProcessor:
 
             # Calculate interference patterns
             if self.config.interference_effects_enabled:
-                interference_effects = await self._calculate_interference_patterns(
-                    state_ids, processing_results
-                )
+                interference_effects = await self._calculate_interference_patterns(state_ids, processing_results)
                 processing_results["interference_patterns"] = interference_effects
 
             # Check for quantum tunneling events
-            tunneling_insights = await self._check_quantum_tunneling(
-                processing_results, processing_request
-            )
+            tunneling_insights = await self._check_quantum_tunneling(processing_results, processing_request)
             if tunneling_insights:
                 processing_results["tunneling_insights"] = tunneling_insights
                 self.tunneling_events += 1
@@ -447,9 +416,7 @@ class QuantumSuperpositionProcessor:
                 "superposition_id": superposition_id,
                 "processing_results": processing_results,
                 "states_processed": len(processing_results),
-                "coherence_maintained": await self._check_superposition_coherence(
-                    superposition_id
-                ),
+                "coherence_maintained": await self._check_superposition_coherence(superposition_id),
                 "timestamp": datetime.utcnow().isoformat(),
             }
 
@@ -457,9 +424,7 @@ class QuantumSuperpositionProcessor:
             logger.error(f"ΛTRACE: Parallel consciousness processing failed: {e}")
             return {"error": str(e)}
 
-    async def _process_quantum_state(
-        self, state_id: str, processing_request: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_quantum_state(self, state_id: str, processing_request: dict[str, Any]) -> dict[str, Any]:
         """Process a single quantum state"""
         if state_id not in self.active_states:
             return {"error": "State not found"}
@@ -481,15 +446,10 @@ class QuantumSuperpositionProcessor:
         # Process with current quantum state properties
         processing_result = {
             "state_id": state_id,
-            "awareness_contribution": quantum_state.awareness_level
-            * quantum_state.probability,
-            "emotional_influence": [
-                e * quantum_state.probability for e in quantum_state.emotional_resonance
-            ],
-            "attention_weight": quantum_state.attention_weight
-            * quantum_state.probability,
-            "causal_contribution": quantum_state.causal_influence
-            * quantum_state.probability,
+            "awareness_contribution": quantum_state.awareness_level * quantum_state.probability,
+            "emotional_influence": [e * quantum_state.probability for e in quantum_state.emotional_resonance],
+            "attention_weight": quantum_state.attention_weight * quantum_state.probability,
+            "causal_contribution": quantum_state.causal_influence * quantum_state.probability,
             "phase": quantum_state.phase,
             "quantum_probability": quantum_state.probability,
             "processing_insights": [],
@@ -497,9 +457,7 @@ class QuantumSuperpositionProcessor:
 
         # Generate quantum-enhanced insights
         if quantum_state.probability > 0.3:  # High probability states generate insights
-            insights = self._generate_quantum_insights(
-                quantum_state, processing_request
-            )
+            insights = self._generate_quantum_insights(quantum_state, processing_request)
             processing_result["processing_insights"] = insights
 
         return processing_result
@@ -567,9 +525,7 @@ class QuantumSuperpositionProcessor:
 
                     # Constructive interference (phases aligned)
                     if phase_diff < math.pi / 4 or phase_diff > 7 * math.pi / 4:
-                        interference_strength = (
-                            state1.probability * state2.probability
-                        ) * 0.5
+                        interference_strength = (state1.probability * state2.probability) * 0.5
                         interference_effects["constructive_interference"].append(
                             {
                                 "state_pair": (state_id1, state_id2),
@@ -578,15 +534,11 @@ class QuantumSuperpositionProcessor:
                                 "effect": "amplifies awareness and insights",
                             }
                         )
-                        interference_effects[
-                            "interference_strength"
-                        ] += interference_strength
+                        interference_effects["interference_strength"] += interference_strength
 
                     # Destructive interference (phases opposed)
                     elif 3 * math.pi / 4 < phase_diff < 5 * math.pi / 4:
-                        interference_strength = (
-                            state1.probability * state2.probability
-                        ) * 0.5
+                        interference_strength = (state1.probability * state2.probability) * 0.5
                         interference_effects["destructive_interference"].append(
                             {
                                 "state_pair": (state_id1, state_id2),
@@ -595,13 +547,11 @@ class QuantumSuperpositionProcessor:
                                 "effect": "creates blind spots but may reveal hidden patterns",
                             }
                         )
-                        interference_effects["interference_strength"] += (
-                            interference_strength * 0.3
-                        )
+                        interference_effects["interference_strength"] += interference_strength * 0.3
 
-        self.interference_interactions += len(
-            interference_effects["constructive_interference"]
-        ) + len(interference_effects["destructive_interference"])
+        self.interference_interactions += len(interference_effects["constructive_interference"]) + len(
+            interference_effects["destructive_interference"]
+        )
 
         return interference_effects
 
@@ -634,15 +584,11 @@ class QuantumSuperpositionProcessor:
                     (average_confidence - self.config.quantum_tunneling_threshold) * 5,
                 ),
                 "contributing_states": list(processing_results.keys()),
-                "insight_synthesis": self._synthesize_tunneling_insight(
-                    processing_results
-                ),
+                "insight_synthesis": self._synthesize_tunneling_insight(processing_results),
                 "timestamp": datetime.utcnow().isoformat(),
             }
 
-            logger.info(
-                f"ΛTRACE: Quantum tunneling event detected! Confidence: {average_confidence:.3f}"
-            )
+            logger.info(f"ΛTRACE: Quantum tunneling event detected! Confidence: {average_confidence:.3f}")
 
             return tunneling_insight
 
@@ -658,13 +604,13 @@ class QuantumSuperpositionProcessor:
 
         # Generate synthesis based on quantum properties
         if len(all_insights) > 3:
-            return f"Convergent insight synthesis from {len(all_insights)} quantum perspectives reveals novel connections"
+            return (
+                f"Convergent insight synthesis from {len(all_insights)} quantum perspectives reveals novel connections"
+            )
         elif len(all_insights) > 1:
             return f"Quantum tunneling enables breakthrough understanding through {len(all_insights)} parallel insights"
         else:
-            return (
-                "Single high-confidence quantum state achieves tunneling breakthrough"
-            )
+            return "Single high-confidence quantum state achieves tunneling breakthrough"
 
     async def collapse_superposition(
         self, superposition_id: str, collapse_criteria: Optional[dict[str, Any]] = None
@@ -676,9 +622,7 @@ class QuantumSuperpositionProcessor:
         probability amplitudes and optional collapse criteria.
         """
         if superposition_id not in self.superposition_groups:
-            logger.error(
-                f"ΛTRACE: Superposition {superposition_id} not found for collapse"
-            )
+            logger.error(f"ΛTRACE: Superposition {superposition_id} not found for collapse")
             return {"error": "Superposition not found"}
 
         state_ids = self.superposition_groups[superposition_id]
@@ -698,14 +642,10 @@ class QuantumSuperpositionProcessor:
 
             # Apply collapse criteria if provided
             if collapse_criteria:
-                collapse_candidates = self._apply_collapse_criteria(
-                    collapse_candidates, collapse_criteria
-                )
+                collapse_candidates = self._apply_collapse_criteria(collapse_candidates, collapse_criteria)
 
             # Perform quantum measurement (probabilistic collapse)
-            collapsed_state_id, collapsed_state = self._quantum_measurement(
-                collapse_candidates
-            )
+            collapsed_state_id, collapsed_state = self._quantum_measurement(collapse_candidates)
 
             # Update collapsed state
             measurement_result = collapsed_state.measure_state()
@@ -735,9 +675,7 @@ class QuantumSuperpositionProcessor:
             # Record in measurement history
             self.measurement_history.append(collapse_result)
 
-            logger.info(
-                f"ΛTRACE: Superposition collapsed to state {collapsed_state_id}"
-            )
+            logger.info(f"ΛTRACE: Superposition collapsed to state {collapsed_state_id}")
 
             return collapse_result
 
@@ -763,8 +701,7 @@ class QuantumSuperpositionProcessor:
             # Check emotional preference
             if preferred_emotion:
                 emotion_distance = np.linalg.norm(
-                    np.array(quantum_state.emotional_resonance)
-                    - np.array(preferred_emotion)
+                    np.array(quantum_state.emotional_resonance) - np.array(preferred_emotion)
                 )
                 if emotion_distance > 1.0:  # Threshold for emotional match
                     continue
@@ -777,9 +714,7 @@ class QuantumSuperpositionProcessor:
 
         return filtered_candidates if filtered_candidates else candidates
 
-    def _quantum_measurement(
-        self, candidates: list[tuple[str, QuantumState]]
-    ) -> tuple[str, QuantumState]:
+    def _quantum_measurement(self, candidates: list[tuple[str, QuantumState]]) -> tuple[str, QuantumState]:
         """Perform probabilistic quantum measurement"""
         # Calculate cumulative probabilities
         total_probability = sum(state.probability for _, state in candidates)
@@ -789,10 +724,7 @@ class QuantumSuperpositionProcessor:
             return random.choice(candidates)
 
         # Normalize probabilities
-        normalized_probs = [
-            (state_id, state, state.probability / total_probability)
-            for state_id, state in candidates
-        ]
+        normalized_probs = [(state_id, state, state.probability / total_probability) for state_id, state in candidates]
 
         # Probabilistic selection (quantum measurement)
         random_value = random.random()
@@ -839,16 +771,12 @@ class QuantumSuperpositionProcessor:
                         quantum_state = self.active_states[state_id]
 
                         # Check coherence time
-                        elapsed_time = (
-                            datetime.utcnow() - quantum_state.created_at
-                        ).total_seconds()
+                        elapsed_time = (datetime.utcnow() - quantum_state.created_at).total_seconds()
                         if elapsed_time < quantum_state.coherence_time:
                             coherent_states.append(state_id)
                         else:
                             # State has decohered
-                            logger.debug(
-                                f"ΛTRACE: State {state_id} decohered after {elapsed_time:.2f}s"
-                            )
+                            logger.debug(f"ΛTRACE: State {state_id} decohered after {elapsed_time:.2f}s")
                             self._decohere_state(state_id)
 
                 # Update superposition group
@@ -857,18 +785,14 @@ class QuantumSuperpositionProcessor:
                 # If no coherent states remain, remove superposition
                 if not coherent_states:
                     del self.superposition_groups[superposition_id]
-                    logger.info(
-                        f"ΛTRACE: Superposition {superposition_id} fully decohered"
-                    )
+                    logger.info(f"ΛTRACE: Superposition {superposition_id} fully decohered")
                     break
 
                 # Wait before next coherence check
                 await asyncio.sleep(0.1)  # 100ms coherence monitoring
 
             except Exception as e:
-                logger.error(
-                    f"ΛTRACE: Coherence monitoring error for {superposition_id}: {e}"
-                )
+                logger.error(f"ΛTRACE: Coherence monitoring error for {superposition_id}: {e}")
                 break
 
     async def _check_superposition_coherence(self, superposition_id: str) -> bool:
@@ -882,9 +806,7 @@ class QuantumSuperpositionProcessor:
         for state_id in state_ids:
             if state_id in self.active_states:
                 quantum_state = self.active_states[state_id]
-                elapsed_time = (
-                    datetime.utcnow() - quantum_state.created_at
-                ).total_seconds()
+                elapsed_time = (datetime.utcnow() - quantum_state.created_at).total_seconds()
                 if elapsed_time < quantum_state.coherence_time:
                     coherent_count += 1
 
@@ -919,9 +841,7 @@ class QuantumSuperpositionProcessor:
         quantum_state.emotional_resonance = tuple(emotion_list)
 
         # Apply phase shift
-        quantum_state.amplitude = complex(
-            -quantum_state.amplitude.real, quantum_state.amplitude.imag
-        )
+        quantum_state.amplitude = complex(-quantum_state.amplitude.real, quantum_state.amplitude.imag)
         quantum_state.update_probability()
 
     def _pauli_y_gate(self, quantum_state: QuantumState):
@@ -932,17 +852,13 @@ class QuantumSuperpositionProcessor:
         quantum_state.emotional_resonance = tuple(emotion_list)
 
         # Apply complex phase rotation
-        quantum_state.amplitude = complex(
-            -quantum_state.amplitude.imag, quantum_state.amplitude.real
-        )
+        quantum_state.amplitude = complex(-quantum_state.amplitude.imag, quantum_state.amplitude.real)
         quantum_state.update_probability()
 
     def _pauli_z_gate(self, quantum_state: QuantumState):
         """Apply Pauli-Z gate (phase shift / attention focus)"""
         # Shift attention focus
-        quantum_state.attention_weight *= (
-            -1 if quantum_state.attention_weight < 0 else 1
-        )
+        quantum_state.attention_weight *= -1 if quantum_state.attention_weight < 0 else 1
 
         # Apply phase flip
         if quantum_state.probability > 0.5:  # |1⟩ state
@@ -967,9 +883,7 @@ class QuantumSuperpositionProcessor:
         attention_factor = 1 + 0.1 * math.cos(phase_shift)
         quantum_state.attention_weight *= attention_factor
 
-    def _toffoli_gate(
-        self, control1: QuantumState, control2: QuantumState, target: QuantumState
-    ):
+    def _toffoli_gate(self, control1: QuantumState, control2: QuantumState, target: QuantumState):
         """Apply Toffoli gate (complex conditional operation)"""
         # If both controls have high probability, flip target
         if control1.probability > 0.5 and control2.probability > 0.5:
@@ -993,9 +907,7 @@ class QuantumSuperpositionProcessor:
         self.interference_processors_enabled = True
         logger.info("ΛTRACE: Quantum interference processors initialized")
 
-    async def _guardian_quantum_check(
-        self, consciousness_state: dict[str, Any]
-    ) -> bool:
+    async def _guardian_quantum_check(self, consciousness_state: dict[str, Any]) -> bool:
         """Guardian ethics check for quantum operations"""
         # Check for potential harmful superposition states
         if consciousness_state.get("harmful_intent", False):
@@ -1011,10 +923,7 @@ class QuantumSuperpositionProcessor:
             "version": self.version,
             "active_quantum_states": len(self.active_states),
             "active_superpositions": len(self.superposition_groups),
-            "entanglement_connections": sum(
-                len(links) for links in self.entanglement_network.values()
-            )
-            // 2,
+            "entanglement_connections": sum(len(links) for links in self.entanglement_network.values()) // 2,
             "coherence_preservation_rate": self.coherence_preservation_rate,
             "successful_collapses": self.successful_collapses,
             "tunneling_events": self.tunneling_events,
@@ -1073,9 +982,7 @@ async def main():
             "complexity": 0.7,
         }
 
-        results = await processor.process_parallel_consciousness(
-            superposition_id, processing_request
-        )
+        results = await processor.process_parallel_consciousness(superposition_id, processing_request)
         print(f"Processing results: {results}")
 
         # Collapse superposition

@@ -120,9 +120,7 @@ class TestQuantumIntegration(unittest.TestCase):
 
         # Verify measurement
         self.assertEqual(state, QILikeState.CLASSICAL)
-        self.assertTrue(
-            any(np.isclose(phase, exp_phase) for exp_phase in expected_phases)
-        )
+        self.assertTrue(any(np.isclose(phase, exp_phase) for exp_phase in expected_phases))
 
     def test_orchestrator_quantum_management(self):
         """Test orchestrator's quantum-like state management"""

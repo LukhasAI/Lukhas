@@ -194,9 +194,7 @@ class MemoryAttentionLayer:
         self.head_dim = hidden_dim // num_heads
 
         if TORCH_AVAILABLE:
-            self.attention = nn.MultiheadAttention(
-                embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1
-            )
+            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)
 
     def compute_attention_scores(
         self,
@@ -247,9 +245,7 @@ class SAMPLMemoryEngine:
     Research shows 40% retrieval latency reduction through selective forgetting.
     """
 
-    def __init__(
-        self, activation_threshold: float = 0.3, plasticity_rate: float = 0.01
-    ):
+    def __init__(self, activation_threshold: float = 0.3, plasticity_rate: float = 0.01):
         self.activation_threshold = activation_threshold
         self.plasticity_rate = plasticity_rate
 
@@ -261,9 +257,7 @@ class SAMPLMemoryEngine:
         self.connection_strengths = defaultdict(dict)  # Connection weight changes
         self.retrieval_patterns = defaultdict(list)  # Track retrieval sequences
 
-    def spreading_activation(
-        self, retrieved_memory_id: str, max_depth: int = 3
-    ) -> dict[str, float]:
+    def spreading_activation(self, retrieved_memory_id: str, max_depth: int = 3) -> dict[str, float]:
         """RESEARCH: Spreads activation across memory network from retrieval point"""
         activation_map = {retrieved_memory_id: 1.0}
         visited = set()
@@ -280,15 +274,11 @@ class SAMPLMemoryEngine:
             connections = self.memory_network.get(current_id, {})
             for connected_id, connection_weight in connections.items():
                 # Research: Activation diminishes as it propagates further
-                propagated_activation = (
-                    current_activation * connection_weight * 0.8
-                )  # Distance decay
+                propagated_activation = current_activation * connection_weight * 0.8  # Distance decay
 
                 if connected_id not in activation_map:
                     activation_map[connected_id] = 0.0
-                activation_map[connected_id] = max(
-                    activation_map[connected_id], propagated_activation
-                )
+                activation_map[connected_id] = max(activation_map[connected_id], propagated_activation)
 
                 # Continue propagation
                 propagate(connected_id, propagated_activation, depth + 1)
@@ -300,9 +290,7 @@ class SAMPLMemoryEngine:
         self.activation_states.update(activation_map)
         return activation_map
 
-    def non_monotonic_plasticity(
-        self, activation_map: dict[str, float]
-    ) -> dict[str, str]:
+    def non_monotonic_plasticity(self, activation_map: dict[str, float]) -> dict[str, str]:
         """RESEARCH: Updates connection weights based on activation patterns
 
         - Strongly activated nodes: Connections strengthened ('rich get richer')
@@ -344,16 +332,12 @@ class SAMPLMemoryEngine:
             new_weight = max(current_weight * decay_factor, 0.1)  # Minimum weight 0.1
             self.memory_network[memory_id][connected_id] = new_weight
 
-    def add_memory_connection(
-        self, memory_id1: str, memory_id2: str, strength: float = 1.0
-    ):
+    def add_memory_connection(self, memory_id1: str, memory_id2: str, strength: float = 1.0):
         """Add bidirectional connection between memories"""
         self.memory_network[memory_id1][memory_id2] = strength
         self.memory_network[memory_id2][memory_id1] = strength
 
-    def get_retrieval_induced_forgetting_candidates(
-        self, retrieved_memory_id: str
-    ) -> list[str]:
+    def get_retrieval_induced_forgetting_candidates(self, retrieved_memory_id: str) -> list[str]:
         """RESEARCH: Identify memories that should be forgotten due to retrieval"""
         activation_map = self.spreading_activation(retrieved_memory_id)
 
@@ -463,9 +447,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         self.enable_sampl = enable_sampl
         if enable_sampl:
             self.sampl_engine = SAMPLMemoryEngine()
-            print(
-                "🧠 SAMPL Memory Engine activated - Human-like memory patterns enabled"
-            )
+            print("🧠 SAMPL Memory Engine activated - Human-like memory patterns enabled")
 
         # Embedding cache
         self.embedding_cache = {}
@@ -506,9 +488,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         """
         # Generate embeddings if not provided
         if embedding is None:
-            embedding = await self._generate_embedding(
-                data, text_content, image_content, audio_content
-            )
+            embedding = await self._generate_embedding(data, text_content, image_content, audio_content)
 
         # Create hybrid memory item
         memory_id = await super().fold_in(data, tags, **kwargs)
@@ -528,20 +508,14 @@ class HybridMemoryFold(MemoryFoldSystem):
         if self.enable_sampl and len(self.items) > 1:
             self._build_sampl_connections(memory_id, tags, embedding)
 
-        print(
-            f"🧠 Hybrid memory folded in: {memory_id[:8]}... (tags: {len(tags)}, SAMPL: {self.enable_sampl})"
-        )
+        print(f"🧠 Hybrid memory folded in: {memory_id[:8]}... (tags: {len(tags)}, SAMPL: {self.enable_sampl})")
 
         return memory_id
 
-    def _build_sampl_connections(
-        self, new_memory_id: str, tags: list[str], embedding: Optional[np.ndarray]
-    ):
+    def _build_sampl_connections(self, new_memory_id: str, tags: list[str], embedding: Optional[np.ndarray]):
         """RESEARCH: Build connections for SAMPL spreading activation network"""
         # Connect to memories with similar tags
-        for existing_id in list(self.items.keys())[
-            :-1
-        ]:  # Exclude the new memory itself
+        for existing_id in list(self.items.keys())[:-1]:  # Exclude the new memory itself
             existing_tags = set()
             if existing_id in self.item_tags:
                 for tag_id in self.item_tags[existing_id]:
@@ -550,9 +524,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                         existing_tags.add(tag_info.tag_name)
 
             # Calculate tag similarity
-            tag_similarity = len(set(tags) & existing_tags) / max(
-                len(set(tags) | existing_tags), 1
-            )
+            tag_similarity = len(set(tags) & existing_tags) / max(len(set(tags) | existing_tags), 1)
 
             # Calculate embedding similarity if available
             embedding_similarity = 0.5  # Default
@@ -560,10 +532,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                 existing_embedding = self.embedding_cache[existing_id]
                 embedding_similarity = float(
                     np.dot(embedding, existing_embedding)
-                    / (
-                        np.linalg.norm(embedding) * np.linalg.norm(existing_embedding)
-                        + 1e-8
-                    )
+                    / (np.linalg.norm(embedding) * np.linalg.norm(existing_embedding) + 1e-8)
                 )
 
             # Combine similarities for connection strength
@@ -571,9 +540,7 @@ class HybridMemoryFold(MemoryFoldSystem):
 
             # Add connection if strength is above threshold
             if connection_strength > 0.2:
-                self.sampl_engine.add_memory_connection(
-                    new_memory_id, existing_id, connection_strength
-                )
+                self.sampl_engine.add_memory_connection(new_memory_id, existing_id, connection_strength)
 
     async def fold_out_semantic(
         self,
@@ -649,9 +616,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                     for tag_memory, _ in tag_results:
                         # Check if already in results
                         if not any(m[0].item_id == tag_memory.item_id for m in results):
-                            results.append(
-                                (tag_memory, 0.5)
-                            )  # Lower score for tag-only match
+                            results.append((tag_memory, 0.5))  # Lower score for tag-only match
 
         # RESEARCH INTEGRATION: Apply SAMPL spreading activation if enabled
         if self.enable_sampl and results:
@@ -660,9 +625,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             activation_map = self.sampl_engine.spreading_activation(top_memory_id)
 
             # Apply non-monotonic plasticity for human-like forgetting
-            plasticity_updates = self.sampl_engine.non_monotonic_plasticity(
-                activation_map
-            )
+            plasticity_updates = self.sampl_engine.non_monotonic_plasticity(activation_map)
 
             # Boost scores based on activation levels
             for i, (memory, score) in enumerate(results):
@@ -706,9 +669,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             {"id": cause_id, "strength": strength, "evidence": evidence or []}
         )
 
-        logger.info(
-            "Causal link added", cause=cause_id, effect=effect_id, strength=strength
-        )
+        logger.info("Causal link added", cause=cause_id, effect=effect_id, strength=strength)
 
     async def trace_causal_chain(
         self, memory_id: str, direction: str = "backward", max_depth: int = 5
@@ -732,11 +693,7 @@ class HybridMemoryFold(MemoryFoldSystem):
 
             # Get connections
             connections = self.causal_graph[current_id]
-            links = (
-                connections["causes"]
-                if direction == "backward"
-                else connections["effects"]
-            )
+            links = connections["causes"] if direction == "backward" else connections["effects"]
 
             if not links:
                 # Reached end of chain
@@ -753,9 +710,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                         continue
 
                     new_path = [*path, (next_id, cumulative_strength * strength)]
-                    trace_recursive(
-                        next_id, new_path, cumulative_strength * strength, depth + 1
-                    )
+                    trace_recursive(next_id, new_path, cumulative_strength * strength, depth + 1)
 
         # Start tracing
         trace_recursive(memory_id, [(memory_id, 1.0)], 1.0, 0)
@@ -765,9 +720,7 @@ class HybridMemoryFold(MemoryFoldSystem):
 
         return paths
 
-    async def update_memory_importance(
-        self, memory_id: str, feedback: float, context: Optional[dict[str, Any]] = None
-    ):
+    async def update_memory_importance(self, memory_id: str, feedback: float, context: Optional[dict[str, Any]] = None):
         """Update memory importance based on usage feedback"""
         if memory_id not in self.items:
             return
@@ -784,9 +737,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             for tag_id in item_tags:
                 tag_info = self.tag_registry.get(tag_id)
                 if tag_info:
-                    self.learning_engine.update_tag_importance(
-                        tag_info.tag_name, feedback, context or {}
-                    )
+                    self.learning_engine.update_tag_importance(tag_info.tag_name, feedback, context or {})
 
         logger.debug(
             "Updated memory importance",
@@ -884,9 +835,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             base_stats["learning_stats"] = {
                 "total_tag_weights": len(self.learning_engine.tag_weights),
                 "avg_tag_weight": (
-                    np.mean(list(self.learning_engine.tag_weights.values()))
-                    if self.learning_engine.tag_weights
-                    else 0
+                    np.mean(list(self.learning_engine.tag_weights.values())) if self.learning_engine.tag_weights else 0
                 ),
                 "most_important_tags": sorted(
                     self.learning_engine.tag_weights.items(),
@@ -897,24 +846,16 @@ class HybridMemoryFold(MemoryFoldSystem):
 
         # Add causal statistics
         base_stats["causal_stats"] = {
-            "memories_with_causes": sum(
-                1 for m in self.causal_graph.values() if m["causes"]
-            ),
-            "memories_with_effects": sum(
-                1 for m in self.causal_graph.values() if m["effects"]
-            ),
-            "total_causal_links": sum(
-                len(m["causes"]) + len(m["effects"]) for m in self.causal_graph.values()
-            )
-            // 2,
+            "memories_with_causes": sum(1 for m in self.causal_graph.values() if m["causes"]),
+            "memories_with_effects": sum(1 for m in self.causal_graph.values() if m["effects"]),
+            "total_causal_links": sum(len(m["causes"]) + len(m["effects"]) for m in self.causal_graph.values()) // 2,
         }
 
         # RESEARCH: Add SAMPL statistics
         if self.enable_sampl:
             base_stats["sampl_stats"] = {
                 "total_memory_connections": sum(
-                    len(connections)
-                    for connections in self.sampl_engine.memory_network.values()
+                    len(connections) for connections in self.sampl_engine.memory_network.values()
                 )
                 // 2,
                 "average_activation_level": (
@@ -922,9 +863,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                     if self.sampl_engine.activation_states
                     else 0
                 ),
-                "highly_connected_memories": len(
-                    [m for m in self.sampl_engine.memory_network.values() if len(m) > 5]
-                ),
+                "highly_connected_memories": len([m for m in self.sampl_engine.memory_network.values() if len(m) > 5]),
                 "retrieval_induced_forgetting_efficiency": "40% improvement (research-validated)",
             }
 

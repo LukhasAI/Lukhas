@@ -97,9 +97,7 @@ class BioSymbolicBridge:
             "symbolic_learning_feedback": "bio_adaptation_update",
         }
 
-    async def bio_to_symbolic(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def bio_to_symbolic(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Forward event from Bio to Symbolic system"""
         if not self.is_connected:
             await self.connect()
@@ -113,9 +111,7 @@ class BioSymbolicBridge:
 
             # Send to symbolic system
             if self.symbolic_hub:
-                result = await self.symbolic_hub.process_event(
-                    mapped_event, transformed_data
-                )
+                result = await self.symbolic_hub.process_event(mapped_event, transformed_data)
                 logger.debug(f"Forwarded {event_type} from Bio to Symbolic")
                 return result
 
@@ -125,9 +121,7 @@ class BioSymbolicBridge:
             logger.error(f"Error forwarding from Bio to Symbolic: {e}")
             return {"error": str(e)}
 
-    async def symbolic_to_bio(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def symbolic_to_bio(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Forward event from Symbolic to Bio system"""
         if not self.is_connected:
             await self.connect()
@@ -141,9 +135,7 @@ class BioSymbolicBridge:
 
             # Send to bio system
             if self.bio_hub:
-                result = await self.bio_hub.process_event(
-                    mapped_event, transformed_data
-                )
+                result = await self.bio_hub.process_event(mapped_event, transformed_data)
                 logger.debug(f"Forwarded {event_type} from Symbolic to Bio")
                 return result
 
@@ -197,9 +189,7 @@ class BioSymbolicBridge:
             "symbolic_source": data.get("source", "interpreter"),
         }
 
-    async def process_bio_symbolic_event(
-        self, bio_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_bio_symbolic_event(self, bio_data: dict[str, Any]) -> dict[str, Any]:
         """Process bio data through symbolic reasoning"""
 
         # Bio processing first
@@ -221,9 +211,7 @@ class BioSymbolicBridge:
 
         return {"processed": False, "reason": "bio processor not available"}
 
-    async def handle_bio_signal_interpretation(
-        self, signal_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_bio_signal_interpretation(self, signal_data: dict[str, Any]) -> dict[str, Any]:
         """Handle bio signal interpretation through symbolic reasoning"""
         symbolic_data = {
             "interpretation_type": "bio_signal",
@@ -234,9 +222,7 @@ class BioSymbolicBridge:
 
         return await self.bio_to_symbolic("bio_signal_detected", symbolic_data)
 
-    async def handle_bio_pattern_mapping(
-        self, pattern_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_bio_pattern_mapping(self, pattern_data: dict[str, Any]) -> dict[str, Any]:
         """Handle bio pattern mapping to symbolic patterns"""
         symbolic_data = {
             "pattern_type": "bio_pattern",
@@ -247,9 +233,7 @@ class BioSymbolicBridge:
 
         return await self.bio_to_symbolic("bio_pattern_identified", symbolic_data)
 
-    async def handle_symbolic_feedback_integration(
-        self, feedback_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_symbolic_feedback_integration(self, feedback_data: dict[str, Any]) -> dict[str, Any]:
         """Handle symbolic feedback integration into bio processing"""
         bio_data = {
             "feedback_type": "symbolic_feedback",
@@ -260,9 +244,7 @@ class BioSymbolicBridge:
 
         return await self.symbolic_to_bio("symbolic_learning_feedback", bio_data)
 
-    async def handle_bio_state_symbolic_sync(
-        self, state_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_bio_state_symbolic_sync(self, state_data: dict[str, Any]) -> dict[str, Any]:
         """Handle bio state synchronization with symbolic representation"""
         symbolic_data = {
             "sync_type": "bio_state",
@@ -273,9 +255,7 @@ class BioSymbolicBridge:
 
         return await self.bio_to_symbolic("bio_state_changed", symbolic_data)
 
-    async def handle_bio_optimization_symbolic_guide(
-        self, optimization_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_bio_optimization_symbolic_guide(self, optimization_data: dict[str, Any]) -> dict[str, Any]:
         """Handle bio optimization guided by symbolic reasoning"""
         bio_data = {
             "optimization_type": "symbolic_guided",

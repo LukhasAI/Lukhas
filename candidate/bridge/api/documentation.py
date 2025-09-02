@@ -304,9 +304,7 @@ All endpoints include cost estimation and tracking:
                     "url": "https://lukhas.ai/license",
                 },
             },
-            "servers": [
-                {"url": "https://api.lukhas.ai/v1", "description": "Production API"}
-            ],
+            "servers": [{"url": "https://api.lukhas.ai/v1", "description": "Production API"}],
             "paths": {},
             "components": {
                 "schemas": {},

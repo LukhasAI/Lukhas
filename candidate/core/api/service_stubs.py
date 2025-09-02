@@ -212,9 +212,7 @@ class MemoryManager:
         }
         # Simple inverted indices for faster search
         self._index = defaultdict(list)  # token -> [memory_entry]
-        self._index_by_token_type = defaultdict(
-            lambda: defaultdict(list)
-        )  # token -> type -> [entry]
+        self._index_by_token_type = defaultdict(lambda: defaultdict(list))  # token -> type -> [entry]
         # Tiny LRU-like cache for recent searches
         self._search_cache = {}
         self._search_cache_order = deque(maxlen=128)
@@ -250,9 +248,7 @@ class MemoryManager:
         self.initialized = True
         log.info("MemoryManager initialized")
 
-    async def store(
-        self, content: dict[str, Any], memory_type: str = "general"
-    ) -> dict[str, Any]:
+    async def store(self, content: dict[str, Any], memory_type: str = "general") -> dict[str, Any]:
         """Store memory with simple retry for transient failures"""
         attempts = 0
         last_err: Optional[Exception] = None
@@ -278,9 +274,7 @@ class MemoryManager:
                 try:
                     tokens: list[str] = []
                     if isinstance(content, dict):
-                        if "keywords" in content and isinstance(
-                            content["keywords"], list
-                        ):
+                        if "keywords" in content and isinstance(content["keywords"], list):
                             tokens.extend(str(k).lower() for k in content["keywords"])
                         if "content" in content:
                             tokens.extend(str(content["content"]).lower().split())
@@ -294,9 +288,7 @@ class MemoryManager:
                         if t and t not in seen:
                             seen.add(t)
                             self._index[t].append(memory_entry)
-                            self._index_by_token_type[t][memory_type].append(
-                                memory_entry
-                            )
+                            self._index_by_token_type[t][memory_type].append(memory_entry)
                 except Exception:
                     # Indexing is best-effort in stub
                     pass
@@ -316,9 +308,7 @@ class MemoryManager:
             raise last_err
         raise RuntimeError("Memory store failed without exception detail")
 
-    async def retrieve(
-        self, query: str, memory_type: str = "general"
-    ) -> dict[str, Any]:
+    async def retrieve(self, query: str, memory_type: str = "general") -> dict[str, Any]:
         """Retrieve memories"""
         memories = self.memories.get(memory_type, [])
 
@@ -332,9 +322,7 @@ class MemoryManager:
             "search_type": "keyword",
         }
 
-    async def search(
-        self, query: str, memory_type: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def search(self, query: str, memory_type: Optional[str] = None) -> dict[str, Any]:
         """Search across memories with simple inverted index for speed"""
         search_types = [memory_type] if memory_type else list(self.memories.keys())
 
@@ -402,9 +390,7 @@ class MemoryManager:
             "searched_types": search_types,
         }
 
-    async def update(
-        self, query: str, content: dict[str, Any], memory_type: str = "general"
-    ) -> dict[str, Any]:
+    async def update(self, query: str, content: dict[str, Any], memory_type: str = "general") -> dict[str, Any]:
         """Update memory"""
         memories = self.memories.get(memory_type, [])
         updated = 0
@@ -550,9 +536,7 @@ class GuardianSystem:
         # Deterministic rule-based check to keep tests stable
         text_blob = str(response).lower()
         # Reuse harm keyword sets
-        risky = any(
-            any(k in text_blob for k in kws) for kws in self._harm_keywords.values()
-        )
+        risky = any(any(k in text_blob for k in kws) for kws in self._harm_keywords.values())
 
         if risky:
             return {
@@ -632,15 +616,11 @@ class EmotionEngine:
             "primary_emotion": detected_emotion,
             "vad_values": vad,
             "confidence": random.uniform(0.6, 0.9),
-            "secondary_emotions": [
-                e for e in self.emotion_map if e != detected_emotion
-            ][:2],
+            "secondary_emotions": [e for e in self.emotion_map if e != detected_emotion][:2],
             "intensity": random.uniform(0.3, 0.8),
         }
 
-    async def generate_response(
-        self, emotion: str, intensity: float = 0.5
-    ) -> dict[str, Any]:
+    async def generate_response(self, emotion: str, intensity: float = 0.5) -> dict[str, Any]:
         """Generate emotionally-aware response"""
         if emotion not in self.emotion_map:
             emotion = "neutral"
@@ -709,9 +689,7 @@ class DreamEngine:
         """Generate creative content"""
         await asyncio.sleep(random.uniform(0.2, 0.5))  # Simulate generation time
 
-        templates = self.dream_templates.get(
-            dream_type, self.dream_templates["creative"]
-        )
+        templates = self.dream_templates.get(dream_type, self.dream_templates["creative"])
 
         # Generate dream content
         intro = random.choice(templates)
@@ -758,9 +736,7 @@ class CoordinationManager:
         self.initialized = True
         log.info("CoordinationManager initialized")
 
-    async def orchestrate_task(
-        self, task: dict[str, Any], context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def orchestrate_task(self, task: dict[str, Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Orchestrate multi-module task"""
         task_id = f"task_{datetime.now(timezone.utc).timestamp()}"
 
@@ -811,9 +787,7 @@ class CoordinationManager:
 
     async def get_metrics(self) -> dict[str, Any]:
         """Get coordination metrics"""
-        completed = sum(
-            1 for t in self.active_tasks.values() if t["status"] == "completed"
-        )
+        completed = sum(1 for t in self.active_tasks.values() if t["status"] == "completed")
         running = sum(1 for t in self.active_tasks.values() if t["status"] == "running")
 
         return {

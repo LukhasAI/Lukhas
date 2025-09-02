@@ -130,9 +130,7 @@ class AbstractReasoningBrainCore:
 
         # Initialize or use provided brain components
         if not all([dreams_brain, emotional_brain, learning_brain, memory_brain]):
-            logger.warning(
-                "⚠️ Some brain components not provided - initializing defaults"
-            )
+            logger.warning("⚠️ Some brain components not provided - initializing defaults")
             dreams_brain = dreams_brain or DreamsBrainCore()
             emotional_brain = emotional_brain or EmotionalBrainCore()
             learning_brain = learning_brain or LearningBrainCore()
@@ -170,9 +168,7 @@ class AbstractReasoningBrainCore:
         self.confidence_calibrator = AdvancedConfidenceCalibrator()
 
         self.active = True
-        logger.info(
-            f"⚡ {self.brain_id} Brain activated - Bio-Quantum Symphony ready for abstract reasoning"
-        )
+        logger.info(f"⚡ {self.brain_id} Brain activated - Bio-Quantum Symphony ready for abstract reasoning")
 
     async def process_independently(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
@@ -190,14 +186,10 @@ class AbstractReasoningBrainCore:
             logger.info(f"🧠⚛️ Processing abstract reasoning: {reasoning_type}")
 
             # Execute Bio-Quantum Abstract Reasoning
-            reasoning_result = await self.bio_quantum_reasoner.abstract_reason(
-                problem_space, context
-            )
+            reasoning_result = await self.bio_quantum_reasoner.abstract_reason(problem_space, context)
 
             # Perform advanced confidence calibration
-            confidence_metrics = self.confidence_calibrator.calibrate_confidence(
-                reasoning_result, context
-            )
+            confidence_metrics = self.confidence_calibrator.calibrate_confidence(reasoning_result, context)
 
             # Prepare enhanced result
             enhanced_result = {
@@ -218,9 +210,7 @@ class AbstractReasoningBrainCore:
                     "bio_quantum_enhanced": True,
                     "multi_brain_orchestration": True,
                     "processing_timestamp": datetime.now().isoformat(),
-                    "brain_symphony_coherence": reasoning_result.get(
-                        "metadata", {}
-                    ).get("cross_brain_coherence", 0.0),
+                    "brain_symphony_coherence": reasoning_result.get("metadata", {}).get("cross_brain_coherence", 0.0),
                 },
             }
 
@@ -269,23 +259,17 @@ class AbstractReasoningBrainCore:
         for brain_name in target_brains:
             try:
                 if brain_name == "dreams" and "dreams" in target_brains:
-                    result = await self.brain_symphony.explore_possibility_space(
-                        reasoning_request
-                    )
+                    result = await self.brain_symphony.explore_possibility_space(reasoning_request)
                     brain_results["dreams"] = result
 
                 elif brain_name == "emotional" and "emotional" in target_brains:
                     # Need dreams output for emotional processing
                     dreams_input = brain_results.get("dreams", reasoning_request)
-                    result = await self.brain_symphony.evaluate_solution_aesthetics(
-                        dreams_input
-                    )
+                    result = await self.brain_symphony.evaluate_solution_aesthetics(dreams_input)
                     brain_results["emotional"] = result
 
                 elif brain_name == "memory" and "memory" in target_brains:
-                    result = await self.brain_symphony.find_structural_analogies(
-                        reasoning_request
-                    )
+                    result = await self.brain_symphony.find_structural_analogies(reasoning_request)
                     brain_results["memory"] = result
 
                 elif brain_name == "learning" and "learning" in target_brains:
@@ -315,9 +299,7 @@ class AbstractReasoningBrainCore:
             "timestamp": datetime.now().isoformat(),
         }
 
-        logger.info(
-            f"🎼 Cross-brain orchestration completed with coherence: {coherence:.3f}"
-        )
+        logger.info(f"🎼 Cross-brain orchestration completed with coherence: {coherence:.3f}")
 
         return orchestration_result
 
@@ -341,30 +323,18 @@ class AbstractReasoningBrainCore:
             from .confidence_calibrator import ConfidenceMetrics
 
             confidence_metrics = ConfidenceMetrics(
-                bayesian_confidence=confidence_metrics_dict.get(
-                    "bayesian_confidence", 0.5
-                ),
+                bayesian_confidence=confidence_metrics_dict.get("bayesian_confidence", 0.5),
                 qi_confidence=confidence_metrics_dict.get("qi_confidence", 0.5),
-                symbolic_confidence=confidence_metrics_dict.get(
-                    "symbolic_confidence", 0.5
-                ),
-                emotional_confidence=confidence_metrics_dict.get(
-                    "emotional_confidence", 0.5
-                ),
-                cross_brain_coherence=confidence_metrics_dict.get(
-                    "cross_brain_coherence", 0.5
-                ),
-                uncertainty_decomposition=confidence_metrics_dict.get(
-                    "uncertainty_decomposition", {}
-                ),
+                symbolic_confidence=confidence_metrics_dict.get("symbolic_confidence", 0.5),
+                emotional_confidence=confidence_metrics_dict.get("emotional_confidence", 0.5),
+                cross_brain_coherence=confidence_metrics_dict.get("cross_brain_coherence", 0.5),
+                uncertainty_decomposition=confidence_metrics_dict.get("uncertainty_decomposition", {}),
                 meta_confidence=confidence_metrics_dict.get("meta_confidence", 0.5),
                 calibration_score=confidence_metrics_dict.get("calibration_score", 0.5),
             )
 
             # Calculate reasoning complexity
-            reasoning_complexity = self._calculate_reasoning_complexity(
-                reasoning_result
-            )
+            reasoning_complexity = self._calculate_reasoning_complexity(reasoning_result)
 
             # Update confidence calibrator
             self.confidence_calibrator.update_from_outcome(
@@ -374,42 +344,30 @@ class AbstractReasoningBrainCore:
                 feedback_context,
             )
 
-            logger.info(
-                f"📊 Updated calibration from feedback: outcome={actual_outcome}"
-            )
+            logger.info(f"📊 Updated calibration from feedback: outcome={actual_outcome}")
 
         except Exception as e:
             logger.error(f"❌ Failed to update from feedback: {e}")
 
-    def _calculate_reasoning_complexity(
-        self, reasoning_result: dict[str, Any]
-    ) -> float:
+    def _calculate_reasoning_complexity(self, reasoning_result: dict[str, Any]) -> float:
         """Calculate the complexity of the reasoning process"""
         try:
             complexity_factors = []
 
             # Number of reasoning phases completed
-            reasoning_path = reasoning_result.get("reasoning_result", {}).get(
-                "reasoning_path", {}
-            )
+            reasoning_path = reasoning_result.get("reasoning_result", {}).get("reasoning_path", {})
             num_phases = len([k for k in reasoning_path if k.startswith("phase_")])
             complexity_factors.append(num_phases / 6.0)  # Normalize by max phases
 
             # Cross-brain coherence (lower coherence = higher complexity)
-            coherence = reasoning_result.get("processing_metadata", {}).get(
-                "brain_symphony_coherence", 0.5
-            )
+            coherence = reasoning_result.get("processing_metadata", {}).get("brain_symphony_coherence", 0.5)
             complexity_factors.append(1.0 - coherence)
 
             # Processing time (longer time = higher complexity)
             processing_time = (
-                reasoning_result.get("reasoning_result", {})
-                .get("metadata", {})
-                .get("processing_time_seconds", 1.0)
+                reasoning_result.get("reasoning_result", {}).get("metadata", {}).get("processing_time_seconds", 1.0)
             )
-            time_complexity = min(
-                1.0, processing_time / 10.0
-            )  # Normalize by 10 seconds
+            time_complexity = min(1.0, processing_time / 10.0)  # Normalize by 10 seconds
             complexity_factors.append(time_complexity)
 
             return np.mean(complexity_factors)
@@ -423,9 +381,7 @@ class AbstractReasoningBrainCore:
             self.performance_metrics["total_reasoning_sessions"] += 1
 
             # Update average coherence
-            coherence = result.get("processing_metadata", {}).get(
-                "brain_symphony_coherence", 0.0
-            )
+            coherence = result.get("processing_metadata", {}).get("brain_symphony_coherence", 0.0)
             total_sessions = self.performance_metrics["total_reasoning_sessions"]
             current_avg_coherence = self.performance_metrics["average_coherence"]
 
@@ -434,9 +390,7 @@ class AbstractReasoningBrainCore:
             ) / total_sessions
 
             # Update average confidence (use meta-confidence)
-            meta_confidence = result.get("confidence_metrics", {}).get(
-                "meta_confidence", 0.0
-            )
+            meta_confidence = result.get("confidence_metrics", {}).get("meta_confidence", 0.0)
             current_avg_confidence = self.performance_metrics["average_confidence"]
 
             self.performance_metrics["average_confidence"] = (
@@ -468,15 +422,11 @@ class AbstractReasoningBrainCore:
             "performance_metrics": self.performance_metrics,
             "reasoning_sessions_count": len(self.reasoning_sessions),
             "calibration_summary": (
-                self.confidence_calibrator.get_calibration_summary()
-                if self.confidence_calibrator
-                else None
+                self.confidence_calibrator.get_calibration_summary() if self.confidence_calibrator else None
             ),
         }
 
-    async def get_reasoning_history(
-        self, limit: Optional[int] = None
-    ) -> list[dict[str, Any]]:
+    async def get_reasoning_history(self, limit: Optional[int] = None) -> list[dict[str, Any]]:
         """Get history of reasoning sessions"""
         if limit:
             return self.reasoning_sessions[-limit:]

@@ -158,9 +158,9 @@ class CausalIdentityTracker:
             emotional_context = {"valence": 0.0, "arousal": 0.0, "dominance": 0.0}
 
         # Generate unique causal origin ID
-        causal_origin_id = hashlib.sha256(
-            f"{fold_key}_{datetime.now().isoformat()}_{intent_tag}".encode()
-        ).hexdigest()[:16]
+        causal_origin_id = hashlib.sha256(f"{fold_key}_{datetime.now().isoformat()}_{intent_tag}".encode()).hexdigest()[
+            :16
+        ]
 
         # Create event chain hash for timeline integrity
         event_chain_hash = self._generate_event_chain_hash(fold_key, causal_origin_id)
@@ -172,9 +172,7 @@ class CausalIdentityTracker:
         emotional_context_delta = self._calculate_emotional_delta(emotional_context)
 
         # Calculate stability score based on anchors and context
-        stability_score = self._calculate_stability_score(
-            emotional_anchor_id, identity_anchor_id, emotional_context
-        )
+        stability_score = self._calculate_stability_score(emotional_anchor_id, identity_anchor_id, emotional_context)
 
         # Create causal origin data
         causal_origin = CausalOriginData(
@@ -253,9 +251,7 @@ class CausalIdentityTracker:
         ).hexdigest()[:12]
 
         # Calculate stability score based on emotional resonance and protection level
-        stability_score = self._calculate_anchor_stability(
-            emotional_resonance, protection_level
-        )
+        stability_score = self._calculate_anchor_stability(emotional_resonance, protection_level)
 
         # Create identity anchor
         anchor = IdentityAnchor(
@@ -318,17 +314,13 @@ class CausalIdentityTracker:
         for i, event_id in enumerate(chain_events):
             if event_id not in self.causal_origins:
                 broken_links.append(f"missing_origin_{event_id}")
-                repair_suggestions.append(
-                    f"Recreate causal origin for event {event_id}"
-                )
+                repair_suggestions.append(f"Recreate causal origin for event {event_id}")
                 continue
 
             origin = self.causal_origins[event_id]
 
             # Validate event chain hash consistency
-            expected_hash = self._generate_event_chain_hash(
-                f"chain_{chain_id}_event_{i}", event_id
-            )
+            expected_hash = self._generate_event_chain_hash(f"chain_{chain_id}_event_{i}", event_id)
             if origin.event_chain_hash != expected_hash:
                 broken_links.append(f"hash_mismatch_{event_id}")
                 repair_suggestions.append(f"Rehash event chain for {event_id}")
@@ -338,27 +330,17 @@ class CausalIdentityTracker:
                 prev_event_id = chain_events[i - 1]
                 if prev_event_id in self.causal_origins:
                     prev_time = datetime.fromisoformat(
-                        self.causal_origins[prev_event_id].temporal_link.replace(
-                            "Z", "+00:00"
-                        )
+                        self.causal_origins[prev_event_id].temporal_link.replace("Z", "+00:00")
                     )
-                    curr_time = datetime.fromisoformat(
-                        origin.temporal_link.replace("Z", "+00:00")
-                    )
+                    curr_time = datetime.fromisoformat(origin.temporal_link.replace("Z", "+00:00"))
                     if curr_time < prev_time:
                         broken_links.append(f"temporal_inconsistency_{event_id}")
-                        repair_suggestions.append(
-                            f"Fix temporal ordering for {event_id}"
-                        )
+                        repair_suggestions.append(f"Fix temporal ordering for {event_id}")
 
         # Calculate integrity score
         total_checks = len(chain_events) * 2  # Hash + temporal checks
         failed_checks = len(broken_links)
-        integrity_score = (
-            max(0.0, (total_checks - failed_checks) / total_checks)
-            if total_checks > 0
-            else 1.0
-        )
+        integrity_score = max(0.0, (total_checks - failed_checks) / total_checks) if total_checks > 0 else 1.0
 
         # Determine validation status
         if integrity_score >= 0.95:
@@ -421,15 +403,10 @@ class CausalIdentityTracker:
             # Check for extreme emotional deltas
             for emotion, delta in origin.emotional_context_delta.items():
                 if abs(delta) > 0.8:
-                    trauma_markers.append(
-                        f"extreme_emotion_{emotion}_{origin.causal_origin_id}"
-                    )
+                    trauma_markers.append(f"extreme_emotion_{emotion}_{origin.causal_origin_id}")
 
             # Check for broken anchor connections
-            if (
-                origin.emotional_anchor_id
-                and origin.emotional_anchor_id not in self.identity_anchors
-            ):
+            if origin.emotional_anchor_id and origin.emotional_anchor_id not in self.identity_anchors:
                 trauma_markers.append(f"broken_anchor_{origin.emotional_anchor_id}")
 
             # Check for cascade failures in lineage
@@ -437,15 +414,11 @@ class CausalIdentityTracker:
             if "critical_points" in lineage_analysis:
                 for critical_point in lineage_analysis["critical_points"]:
                     if critical_point.get("severity") == "critical":
-                        trauma_markers.append(
-                            f"cascade_failure_{critical_point.get('fold_key', 'unknown')}"
-                        )
+                        trauma_markers.append(f"cascade_failure_{critical_point.get('fold_key', 'unknown')}")
 
         # Update trauma markers in relevant causal origins
         for origin in related_origins:
-            origin.trauma_markers.extend(
-                [tm for tm in trauma_markers if tm not in origin.trauma_markers]
-            )
+            origin.trauma_markers.extend([tm for tm in trauma_markers if tm not in origin.trauma_markers])
             self._store_causal_origin(origin)
 
         if trauma_markers:
@@ -503,8 +476,7 @@ class CausalIdentityTracker:
         target_origins = [
             origin
             for origin in self.causal_origins.values()
-            if target_fold_key in origin.temporal_link
-            or target_fold_key in origin.causal_origin_id
+            if target_fold_key in origin.temporal_link or target_fold_key in origin.causal_origin_id
         ]
 
         for origin in target_origins:
@@ -548,10 +520,7 @@ class CausalIdentityTracker:
         # Get related identity anchors
         related_anchors = []
         for origin in related_origins:
-            if (
-                origin.identity_anchor_id
-                and origin.identity_anchor_id in self.identity_anchors
-            ):
+            if origin.identity_anchor_id and origin.identity_anchor_id in self.identity_anchors:
                 related_anchors.append(self.identity_anchors[origin.identity_anchor_id])
 
         # Detect trauma markers
@@ -574,10 +543,7 @@ class CausalIdentityTracker:
             risk_factors.append("high_trauma_markers")
         if not related_anchors:
             risk_factors.append("no_identity_anchors")
-        if (
-            lineage_analysis.get("stability_metrics", {}).get("stability_score", 1.0)
-            < 0.5
-        ):
+        if lineage_analysis.get("stability_metrics", {}).get("stability_score", 1.0) < 0.5:
             risk_factors.append("lineage_instability")
 
         # Generate recommendations
@@ -597,24 +563,14 @@ class CausalIdentityTracker:
             "overall_stability": round(overall_stability, 3),
             "stability_components": {
                 "causal_origins_stability": round(
-                    (
-                        sum(origin_stabilities) / len(origin_stabilities)
-                        if origin_stabilities
-                        else 0.0
-                    ),
+                    (sum(origin_stabilities) / len(origin_stabilities) if origin_stabilities else 0.0),
                     3,
                 ),
                 "identity_anchors_stability": round(
-                    (
-                        sum(anchor_stabilities) / len(anchor_stabilities)
-                        if anchor_stabilities
-                        else 0.0
-                    ),
+                    (sum(anchor_stabilities) / len(anchor_stabilities) if anchor_stabilities else 0.0),
                     3,
                 ),
-                "lineage_stability": lineage_analysis.get("stability_metrics", {}).get(
-                    "stability_score", 0.0
-                ),
+                "lineage_stability": lineage_analysis.get("stability_metrics", {}).get("stability_score", 0.0),
             },
             "related_components": {
                 "causal_origins_count": len(related_origins),
@@ -625,9 +581,7 @@ class CausalIdentityTracker:
             "risk_factors": risk_factors,
             "recommendations": recommendations,
             "lineage_analysis": lineage_analysis,
-            "protection_level": max(
-                [anchor.protection_level for anchor in related_anchors] + [1]
-            ),
+            "protection_level": max([anchor.protection_level for anchor in related_anchors] + [1]),
         }
 
         logger.info(
@@ -651,15 +605,10 @@ class CausalIdentityTracker:
         """Calculate temporal link to parent memories."""
         return datetime.now(timezone.utc).isoformat()
 
-    def _calculate_emotional_delta(
-        self, emotional_context: dict[str, float]
-    ) -> dict[str, float]:
+    def _calculate_emotional_delta(self, emotional_context: dict[str, float]) -> dict[str, float]:
         """Calculate emotional context delta from baseline."""
         baseline = {"valence": 0.0, "arousal": 0.0, "dominance": 0.0}
-        return {
-            emotion: value - baseline.get(emotion, 0.0)
-            for emotion, value in emotional_context.items()
-        }
+        return {emotion: value - baseline.get(emotion, 0.0) for emotion, value in emotional_context.items()}
 
     def _calculate_stability_score(
         self,
@@ -680,24 +629,18 @@ class CausalIdentityTracker:
             score += 0.1 * (anchor.protection_level / 5.0)
 
         # Adjust for emotional stability
-        emotional_variance = sum(abs(v) for v in emotional_context.values()) / len(
-            emotional_context
-        )
+        emotional_variance = sum(abs(v) for v in emotional_context.values()) / len(emotional_context)
         score -= emotional_variance * 0.2
 
         return max(0.0, min(1.0, score))
 
-    def _calculate_anchor_stability(
-        self, emotional_resonance: dict[str, float], protection_level: int
-    ) -> float:
+    def _calculate_anchor_stability(self, emotional_resonance: dict[str, float], protection_level: int) -> float:
         """Calculate stability score for an identity anchor."""
         # Base stability from protection level
         base_stability = protection_level / 5.0
 
         # Adjust for emotional consistency
-        emotion_variance = sum(abs(v) for v in emotional_resonance.values()) / len(
-            emotional_resonance
-        )
+        emotion_variance = sum(abs(v) for v in emotional_resonance.values()) / len(emotional_resonance)
         emotional_consistency = 1.0 - min(1.0, emotion_variance)
 
         return min(1.0, base_stability * 0.7 + emotional_consistency * 0.3)
@@ -717,9 +660,7 @@ class CausalIdentityTracker:
                 return chain_id
 
         # Create new chain
-        return hashlib.sha256(
-            f"chain_{fold_key}_{datetime.now().isoformat()}".encode()
-        ).hexdigest()[:12]
+        return hashlib.sha256(f"chain_{fold_key}_{datetime.now().isoformat()}".encode()).hexdigest()[:12]
 
     def _load_existing_data(self):
         """Load existing data from persistent storage."""

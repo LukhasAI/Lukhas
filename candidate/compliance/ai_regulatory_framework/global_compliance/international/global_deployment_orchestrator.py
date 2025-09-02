@@ -29,9 +29,7 @@ class GlobalDeploymentOrchestrator(CoreInterface):
         self._initialized = True
         logger.info("Global Deployment Orchestrator initialized")
 
-    async def plan_global_deployment(
-        self, compliance_status: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def plan_global_deployment(self, compliance_status: dict[str, Any]) -> dict[str, Any]:
         """Plan deployment based on compliance status"""
 
         deployment_plan = {

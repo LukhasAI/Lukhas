@@ -143,9 +143,7 @@ class CollapseIntegration:
 
             # Check if sentinel has direct collapse handling
             if hasattr(self.ethics_sentinel, "handle_collapse_risk"):
-                response = await self.ethics_sentinel.handle_collapse_risk(
-                    violation_context
-                )
+                response = await self.ethics_sentinel.handle_collapse_risk(violation_context)
                 logger.info("Ethics sentinel collapse response", response=response)
 
             # Record violation if sentinel supports it
@@ -186,9 +184,7 @@ class CollapseIntegration:
         component_scores = component_data.get("component_scores", {})
 
         # Update tracker
-        self.collapse_tracker.update_entropy_score(
-            symbolic_data=symbolic_data, component_scores=component_scores
-        )
+        self.collapse_tracker.update_entropy_score(symbolic_data=symbolic_data, component_scores=component_scores)
 
     async def monitor_system_health(self, interval: float = 60.0) -> None:
         """
@@ -213,14 +209,10 @@ class CollapseIntegration:
                 )
 
                 # Check if we need to collect more data
-                if self.orchestrator and hasattr(
-                    self.orchestrator, "get_component_health"
-                ):
+                if self.orchestrator and hasattr(self.orchestrator, "get_component_health"):
                     component_health = await self.orchestrator.get_component_health()
                     if component_health:
-                        self.update_entropy_from_components(
-                            {"component_scores": component_health}
-                        )
+                        self.update_entropy_from_components({"component_scores": component_health})
 
                 await asyncio.sleep(interval)
 
@@ -229,9 +221,7 @@ class CollapseIntegration:
                 await asyncio.sleep(interval)
 
 
-def integrate_collapse_tracking(
-    orchestrator, ethics_sentinel=None
-) -> CollapseIntegration:
+def integrate_collapse_tracking(orchestrator, ethics_sentinel=None) -> CollapseIntegration:
     """
     Helper function to integrate collapse tracking with existing systems.
 
@@ -242,9 +232,7 @@ def integrate_collapse_tracking(
     Returns:
         CollapseIntegration instance
     """
-    integration = CollapseIntegration(
-        orchestrator=orchestrator, ethics_sentinel=ethics_sentinel
-    )
+    integration = CollapseIntegration(orchestrator=orchestrator, ethics_sentinel=ethics_sentinel)
 
     # Start monitoring if orchestrator is async
     if asyncio.iscoroutinefunction(getattr(orchestrator, "run", None)):

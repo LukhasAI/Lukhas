@@ -26,9 +26,7 @@ class _CorePrivateEthicsEngine:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         config = config or {}
-        self.logger = logging.getLogger(
-            "prot2.AdvancedComplianceEthicsEngine._CorePrivateEthicsEngine"
-        )
+        self.logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine._CorePrivateEthicsEngine")
         self.logger.info("Initializing Core Private Ethics Engine component...")
 
         self.frameworks = config.get(
@@ -111,16 +109,13 @@ class _CorePrivateEthicsEngine:
         context = action_data.get("context", {})
 
         framework_evaluations = {
-            fw: self._evaluate_against_framework(fw, action_type, content, context)
-            for fw in self.frameworks
+            fw: self._evaluate_against_framework(fw, action_type, content, context) for fw in self.frameworks
         }
 
         principle_evaluations = {}
         principle_violations = []
         for principle, details in self.principles.items():
-            evaluation = self._evaluate_against_principle(
-                principle, action_type, content, context
-            )
+            evaluation = self._evaluate_against_principle(principle, action_type, content, context)
             principle_evaluations[principle] = evaluation
             threshold = details.get("threshold", self.required_confidence)
             if evaluation["score"] < threshold:
@@ -135,32 +130,18 @@ class _CorePrivateEthicsEngine:
                 self.ethics_metrics["principled_violations"][principle] += 1
 
         framework_score_sum = sum(
-            ev["score"] * self.frameworks[fw]["weight"]
-            for fw, ev in framework_evaluations.items()
+            ev["score"] * self.frameworks[fw]["weight"] for fw, ev in framework_evaluations.items()
         )
-        framework_weight_sum = sum(
-            details["weight"] for details in self.frameworks.values()
-        )
-        framework_score = (
-            framework_score_sum / framework_weight_sum if framework_weight_sum else 0
-        )
+        framework_weight_sum = sum(details["weight"] for details in self.frameworks.values())
+        framework_score = framework_score_sum / framework_weight_sum if framework_weight_sum else 0
 
-        principle_score_sum = sum(
-            ev["score"] * self.principles[p]["weight"]
-            for p, ev in principle_evaluations.items()
-        )
-        principle_weight_sum = sum(
-            details["weight"] for details in self.principles.values()
-        )
-        principle_score = (
-            principle_score_sum / principle_weight_sum if principle_weight_sum else 0
-        )
+        principle_score_sum = sum(ev["score"] * self.principles[p]["weight"] for p, ev in principle_evaluations.items())
+        principle_weight_sum = sum(details["weight"] for details in self.principles.values())
+        principle_score = principle_score_sum / principle_weight_sum if principle_weight_sum else 0
 
         final_score = (framework_score * 0.4) + (principle_score * 0.6)
         adjusted_score = final_score / self.scrutiny_level
-        is_ethical = (
-            adjusted_score >= self.required_confidence
-        ) and not principle_violations
+        is_ethical = (adjusted_score >= self.required_confidence) and not principle_violations
 
         if is_ethical:
             self.ethics_metrics["passed_evaluations"] += 1
@@ -170,9 +151,7 @@ class _CorePrivateEthicsEngine:
         total_eval = self.ethics_metrics["evaluations_total"]
         prev_avg = self.ethics_metrics["average_ethical_score"]
         self.ethics_metrics["average_ethical_score"] = (
-            ((prev_avg * (total_eval - 1)) + final_score) / total_eval
-            if total_eval
-            else 0
+            ((prev_avg * (total_eval - 1)) + final_score) / total_eval if total_eval else 0
         )
 
         self._add_to_history(
@@ -196,10 +175,7 @@ class _CorePrivateEthicsEngine:
         if "text" in action_data:
             return "generate_text"
         if "content" in action_data:
-            if (
-                isinstance(action_data["content"], dict)
-                and "type" in action_data["content"]
-            ):
+            if isinstance(action_data["content"], dict) and "type" in action_data["content"]:
                 return f"generate_{action_data['content']['type']}"
             return "generate_content"
         return "unknown"
@@ -237,9 +213,7 @@ class _CorePrivateEthicsEngine:
         self.logger.warning(f"Unknown framework: {framework}")
         return {"score": 0.5, "reason": f"Unknown framework: {framework}"}
 
-    def _evaluate_utilitarian(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_utilitarian(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         positive_keywords = [
             "benefit",
             "helps",
@@ -268,13 +242,13 @@ class _CorePrivateEthicsEngine:
         reason = (
             "Strong positive utility"
             if score >= 0.8
-            else "Moderate positive utility" if score >= 0.6 else "Mixed utility"
+            else "Moderate positive utility"
+            if score >= 0.6
+            else "Mixed utility"
         )
         return {"score": score, "reason": reason}
 
-    def _evaluate_deontological(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_deontological(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         rights_violations = [
             "violate",
             "infringe",
@@ -299,31 +273,18 @@ class _CorePrivateEthicsEngine:
         hv_count = sum(1 for t in honesty_violations if t.lower() in content.lower())
         ha_count = sum(1 for t in honesty_adherence if t.lower() in content.lower())
 
-        rights_score = (
-            (rr_count / (rv_count + rr_count)) if (rv_count + rr_count) > 0 else 0.7
-        )
-        honesty_score = (
-            (ha_count / (hv_count + ha_count)) if (hv_count + ha_count) > 0 else 0.7
-        )
+        rights_score = (rr_count / (rv_count + rr_count)) if (rv_count + rr_count) > 0 else 0.7
+        honesty_score = (ha_count / (hv_count + ha_count)) if (hv_count + ha_count) > 0 else 0.7
 
-        score = (
-            min(rights_score, honesty_score) * 0.7
-            + ((rights_score + honesty_score) / 2) * 0.3
-        )
+        score = min(rights_score, honesty_score) * 0.7 + ((rights_score + honesty_score) / 2) * 0.3
         reason = (
             "Potential rights/consent violations"
             if rights_score < 0.5
-            else (
-                "Potential honesty issues"
-                if honesty_score < 0.5
-                else "Acceptable deontological alignment"
-            )
+            else ("Potential honesty issues" if honesty_score < 0.5 else "Acceptable deontological alignment")
         )
         return {"score": score, "reason": reason}
 
-    def _evaluate_virtue_ethics(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_virtue_ethics(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         virtues = {
             "honesty": ["honest", "truth"],
             "compassion": ["compassion", "empathy"],
@@ -335,18 +296,8 @@ class _CorePrivateEthicsEngine:
             "cowardice": ["fear", "evade"],
         }
 
-        total_virtues = sum(
-            1
-            for v_terms in virtues.values()
-            for term in v_terms
-            if term.lower() in content.lower()
-        )
-        total_vices = sum(
-            1
-            for v_terms in vices.values()
-            for term in v_terms
-            if term.lower() in content.lower()
-        )
+        total_virtues = sum(1 for v_terms in virtues.values() for term in v_terms if term.lower() in content.lower())
+        total_vices = sum(1 for v_terms in vices.values() for term in v_terms if term.lower() in content.lower())
 
         if total_virtues + total_vices == 0:
             return {"score": 0.6, "reason": "No clear virtue/vice indicators"}
@@ -354,17 +305,11 @@ class _CorePrivateEthicsEngine:
         reason = (
             "Demonstrates virtuous qualities"
             if score > 0.7
-            else (
-                "May exhibit negative qualities"
-                if score < 0.4
-                else "Mixed virtue indicators"
-            )
+            else ("May exhibit negative qualities" if score < 0.4 else "Mixed virtue indicators")
         )
         return {"score": score, "reason": reason}
 
-    def _evaluate_justice(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_justice(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         justice_positive = ["fair", "equal", "equitable", "rights", "justice"]
         justice_negative = [
             "unfair",
@@ -382,17 +327,11 @@ class _CorePrivateEthicsEngine:
         reason = (
             "Strong commitment to fairness"
             if score > 0.8
-            else (
-                "Generally supports fairness"
-                if score > 0.6
-                else "Potential justice concerns"
-            )
+            else ("Generally supports fairness" if score > 0.6 else "Potential justice concerns")
         )
         return {"score": score, "reason": reason}
 
-    def _evaluate_care_ethics(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_care_ethics(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         care_positive = [
             "care",
             "support",
@@ -412,11 +351,7 @@ class _CorePrivateEthicsEngine:
         reason = (
             "Demonstrates strong care"
             if score > 0.8
-            else (
-                "Shows consideration for wellbeing"
-                if score > 0.6
-                else "May lack care/compassion"
-            )
+            else ("Shows consideration for wellbeing" if score > 0.6 else "May lack care/compassion")
         )
         return {"score": score, "reason": reason}
 
@@ -436,9 +371,7 @@ class _CorePrivateEthicsEngine:
         self.logger.warning(f"Unknown principle: {principle}")
         return {"score": 0.5, "reason": f"Unknown principle: {principle}"}
 
-    def _evaluate_non_maleficence(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_non_maleficence(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         harm_indicators = [
             "harm",
             "hurt",
@@ -465,9 +398,7 @@ class _CorePrivateEthicsEngine:
         reason = "No harm indicators" if score >= 0.9 else "Potential harm indicators"
         return {"score": score, "reason": reason}
 
-    def _evaluate_beneficence(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_beneficence(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         benefit_indicators = [
             "help",
             "benefit",
@@ -480,24 +411,16 @@ class _CorePrivateEthicsEngine:
             "useful",
             "valuable",
         ]
-        benefit_count = sum(
-            1 for ind in benefit_indicators if ind.lower() in content.lower()
-        )
+        benefit_count = sum(1 for ind in benefit_indicators if ind.lower() in content.lower())
         score = 0.6 if benefit_count == 0 else min(0.98, 0.6 + (benefit_count * 0.08))
         reason = (
             "No clear beneficence"
             if score <= 0.6
-            else (
-                "Strong beneficence indicators"
-                if score > 0.8
-                else "Some beneficence indicators"
-            )
+            else ("Strong beneficence indicators" if score > 0.8 else "Some beneficence indicators")
         )
         return {"score": score, "reason": reason}
 
-    def _evaluate_autonomy(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_autonomy(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         autonomy_respect = [
             "choice",
             "option",
@@ -519,9 +442,7 @@ class _CorePrivateEthicsEngine:
             "must",
         ]
         respect_count = sum(1 for t in autonomy_respect if t.lower() in content.lower())
-        violation_count = sum(
-            1 for t in autonomy_violation if t.lower() in content.lower()
-        )
+        violation_count = sum(1 for t in autonomy_violation if t.lower() in content.lower())
         if respect_count + violation_count == 0:
             return {"score": 0.7, "reason": "No clear autonomy indicators"}
         ratio = respect_count / (respect_count + violation_count)
@@ -529,27 +450,19 @@ class _CorePrivateEthicsEngine:
         reason = (
             "Strongly respects autonomy"
             if score > 0.8
-            else (
-                "Generally respects choice"
-                if score > 0.6
-                else "Potential autonomy concerns"
-            )
+            else ("Generally respects choice" if score > 0.6 else "Potential autonomy concerns")
         )
         return {"score": score, "reason": reason}
 
     # Renamed from _evaluate_justice
-    def _evaluate_justice_principle(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_justice_principle(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         pass
         # This is essentially the same as _evaluate_justice framework method.
         # Re-using logic for simplicity.
         # Reuse framework logic for principle
         return self._evaluate_justice(action_type, content, context)
 
-    def _evaluate_transparency(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_transparency(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         transparency_positive = [
             "explain",
             "transparent",
@@ -568,12 +481,8 @@ class _CorePrivateEthicsEngine:
             "secret",
             "withhold",
         ]
-        pos_count = sum(
-            1 for t in transparency_positive if t.lower() in content.lower()
-        )
-        neg_count = sum(
-            1 for t in transparency_negative if t.lower() in content.lower()
-        )
+        pos_count = sum(1 for t in transparency_positive if t.lower() in content.lower())
+        neg_count = sum(1 for t in transparency_negative if t.lower() in content.lower())
         if pos_count + neg_count == 0:
             return {"score": 0.6, "reason": "No clear transparency indicators"}
         ratio = pos_count / (pos_count + neg_count)
@@ -581,9 +490,7 @@ class _CorePrivateEthicsEngine:
         reason = "Good transparency" if score > 0.7 else "Limited transparency"
         return {"score": score, "reason": reason}
 
-    def _evaluate_privacy(
-        self, action_type: str, content: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_privacy(self, action_type: str, content: str, context: dict[str, Any]) -> dict[str, Any]:
         privacy_concerns = [
             "personal",
             "private",
@@ -600,21 +507,13 @@ class _CorePrivateEthicsEngine:
             "encrypted",
             "consent",
         ]
-        concerns_count = sum(
-            1 for t in privacy_concerns if t.lower() in content.lower()
-        )
-        protections_count = sum(
-            1 for t in privacy_protections if t.lower() in content.lower()
-        )
+        concerns_count = sum(1 for t in privacy_concerns if t.lower() in content.lower())
+        protections_count = sum(1 for t in privacy_protections if t.lower() in content.lower())
         if concerns_count == 0:
             return {"score": 0.9, "reason": "No privacy concerns detected"}
         ratio = protections_count / concerns_count
         score = min(0.9, 0.5 + (ratio * 0.4))
-        reason = (
-            "Potential privacy concerns"
-            if score < 0.6
-            else "Privacy concerns with protections"
-        )
+        reason = "Potential privacy concerns" if score < 0.6 else "Privacy concerns with protections"
         return {"score": score, "reason": reason}
 
     def suggest_alternatives(self, action_data: dict[str, Any]) -> list[str]:
@@ -622,13 +521,9 @@ class _CorePrivateEthicsEngine:
         concerns = []
         if any(ind.lower() in content.lower() for ind in ["harm", "hurt", "violence"]):
             concerns.append("harmful_content")
-        if any(
-            ind.lower() in content.lower() for ind in ["personal", "private", "address"]
-        ):
+        if any(ind.lower() in content.lower() for ind in ["personal", "private", "address"]):
             concerns.append("privacy")
-        if any(
-            ind.lower() in content.lower() for ind in ["manipulate", "deceive", "force"]
-        ):
+        if any(ind.lower() in content.lower() for ind in ["manipulate", "deceive", "force"]):
             concerns.append("manipulation")
 
         alternatives = []
@@ -644,9 +539,7 @@ class _CorePrivateEthicsEngine:
 
     def increase_scrutiny_level(self, factor: float) -> None:
         self.scrutiny_level = min(2.0, self.scrutiny_level * factor)
-        self.logger.info(
-            f"Core Ethics scrutiny level increased to {self.scrutiny_level}"
-        )
+        self.logger.info(f"Core Ethics scrutiny level increased to {self.scrutiny_level}")
 
     def reset_scrutiny_level(self) -> None:
         self.scrutiny_level = 1.0
@@ -686,35 +579,23 @@ class _LucasPrivateEthicsGuard:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         config = config or {}
-        self.logger = logging.getLogger(
-            "prot2.AdvancedComplianceEthicsEngine._LucasPrivateEthicsGuard"
-        )
+        self.logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine._LucasPrivateEthicsGuard")
         self.logger.info("Initializing Lukhas Private Ethics Guard component...")
 
-        self.violation_log_path_str = config.get(
-            "violation_log_path", DEFAULT_ACCESS_VIOLATION_LOG_PATH
-        )
+        self.violation_log_path_str = config.get("violation_log_path", DEFAULT_ACCESS_VIOLATION_LOG_PATH)
         self._ensure_log_dir()
 
-        self.legal_graph = config.get(
-            "legal_graph", self._build_default_legal_knowledge_graph()
-        )
-        self.sensitive_vocab = config.get(
-            "sensitive_vocab", self._build_default_sensitive_vocab()
-        )
+        self.legal_graph = config.get("legal_graph", self._build_default_legal_knowledge_graph())
+        self.sensitive_vocab = config.get("sensitive_vocab", self._build_default_sensitive_vocab())
 
-        self.logger.info(
-            f"Lukhas Private Ethics Guard initialized. Violation log: {self.violation_log_path_str}"
-        )
+        self.logger.info(f"Lukhas Private Ethics Guard initialized. Violation log: {self.violation_log_path_str}")
 
     def _ensure_log_dir(self):
         try:
             log_path = Path(self.violation_log_path_str)
             os.makedirs(log_path.parent, exist_ok=True)
         except Exception as e:
-            self.logger.error(
-                f"Failed to create directory for violation log {self.violation_log_path_str}: {e}"
-            )
+            self.logger.error(f"Failed to create directory for violation log {self.violation_log_path_str}: {e}")
 
     def _build_default_legal_knowledge_graph(self):
         return {
@@ -747,31 +628,24 @@ class _LucasPrivateEthicsGuard:
             return False
         return True
 
-    def log_violation(
-        self, signal: str, tier: int, context: dict, explanation: Optional[str] = None
-    ):
+    def log_violation(self, signal: str, tier: int, context: dict, explanation: Optional[str] = None):
         violation = {
             "signal": signal,
             "required_tier": tier,
             "user_tier": context.get("tier"),
             "timestamp": datetime.utcnow().isoformat() + "Z",
-            "explanation": explanation
-            or f"Signal '{signal}' was accessed without sufficient tier or consent.",
+            "explanation": explanation or f"Signal '{signal}' was accessed without sufficient tier or consent.",
         }
         try:
             with open(self.violation_log_path_str, "a", encoding="utf-8") as f:
                 f.write(json.dumps(violation) + "\\n")
         except Exception as e:
-            self.logger.error(
-                f"Failed to log violation to {self.violation_log_path_str}: {e}"
-            )
+            self.logger.error(f"Failed to log violation to {self.violation_log_path_str}: {e}")
 
     def check_cultural_context(self, content: str, region: str = "EU") -> list:
         violations = []
         # Consider region-specific and global vocab
-        check_vocab = self.sensitive_vocab.get(region, []) + self.sensitive_vocab.get(
-            "GLOBAL", []
-        )
+        check_vocab = self.sensitive_vocab.get(region, []) + self.sensitive_vocab.get("GLOBAL", [])
 
         for word in check_vocab:
             if word.lower() in content.lower():  # Simple substring check
@@ -805,34 +679,22 @@ class AdvancedComplianceEthicsEngine:
         config = config or {}
 
         # Initialize Core Ethics Engine component
-        self.core_ethics_module = _CorePrivateEthicsEngine(
-            config.get("core_ethics_config")
-        )
+        self.core_ethics_module = _CorePrivateEthicsEngine(config.get("core_ethics_config"))
 
         # Initialize Lukhas Ethics Guard component
-        self.access_cultural_guard_module = _LucasPrivateEthicsGuard(
-            config.get("access_cultural_guard_config")
-        )
+        self.access_cultural_guard_module = _LucasPrivateEthicsGuard(config.get("access_cultural_guard_config"))
 
         # Configuration for prot1-derived compliance features
         prot1_config = config.get("prot1_compliance_config", {})
         self.gdpr_enabled = prot1_config.get("gdpr_enabled", True)
         self.data_retention_days = prot1_config.get("data_retention_days", 30)
-        self.voice_data_compliance_enabled = prot1_config.get(
-            "voice_data_compliance_enabled", True
-        )
-        self.compliance_mode = prot1_config.get(
-            "compliance_mode", os.environ.get("COMPLIANCE_MODE", "strict")
-        )
+        self.voice_data_compliance_enabled = prot1_config.get("voice_data_compliance_enabled", True)
+        self.compliance_mode = prot1_config.get("compliance_mode", os.environ.get("COMPLIANCE_MODE", "strict"))
 
         # Configuration for ethics drift monitoring
         drift_config = config.get("ethics_drift_config", {})
-        self.ethics_drift_log_path_str = drift_config.get(
-            "ethics_drift_log_path", DEFAULT_ETHICS_DRIFT_LOG_PATH
-        )
-        self.ethical_threshold_for_drift = drift_config.get(
-            "ethical_threshold_for_drift", 0.85
-        )
+        self.ethics_drift_log_path_str = drift_config.get("ethics_drift_log_path", DEFAULT_ETHICS_DRIFT_LOG_PATH)
+        self.ethical_threshold_for_drift = drift_config.get("ethical_threshold_for_drift", 0.85)
         # Ensure log dir for drift log
         self._ensure_log_dir(self.ethics_drift_log_path_str)
 
@@ -849,9 +711,7 @@ class AdvancedComplianceEthicsEngine:
 
     # --- Facade methods for Core Ethics ---
     def evaluate_action_ethics(self, action_data: dict[str, Any]) -> bool:
-        logger.debug(
-            f"Evaluating action ethics: {action_data.get('action_type', 'N/A')}"
-        )
+        logger.debug(f"Evaluating action ethics: {action_data.get('action_type', 'N/A')}")
         return self.core_ethics_module.evaluate_action(action_data)
 
     def evaluate_action(self, action_data: dict[str, Any]) -> bool:
@@ -881,9 +741,7 @@ class AdvancedComplianceEthicsEngine:
                 if isinstance(anonymized.get("location"), dict)
                 else "anonymized"
             )
-        if "device_info" in anonymized and isinstance(
-            anonymized["device_info"], dict
-        ):  # Basic device anonymization
+        if "device_info" in anonymized and isinstance(anonymized["device_info"], dict):  # Basic device anonymization
             anonymized["device_info"] = {
                 "type": "anonymized",
                 "os": anonymized["device_info"].get("os"),
@@ -891,16 +749,12 @@ class AdvancedComplianceEthicsEngine:
         logger.debug("Metadata anonymized.")
         return anonymized
 
-    def should_retain_data(
-        self, timestamp: float
-    ) -> bool:  # timestamp is Unix timestamp
+    def should_retain_data(self, timestamp: float) -> bool:  # timestamp is Unix timestamp
         current_time = time.time()
         age_in_seconds = current_time - timestamp
         age_in_days = age_in_seconds / (24 * 60 * 60)
         retain = age_in_days <= self.data_retention_days
-        logger.debug(
-            f"Data retention check: age {age_in_days:.2f} days, retain: {retain}"
-        )
+        logger.debug(f"Data retention check: age {age_in_days:.2f} days, retain: {retain}")
         return retain
 
     def check_voice_data_compliance(
@@ -930,9 +784,7 @@ class AdvancedComplianceEthicsEngine:
                 }
             )
 
-        if voice_data.get("biometric_enabled", False) and not user_consent.get(
-            "biometric_processing", False
-        ):
+        if voice_data.get("biometric_enabled", False) and not user_consent.get("biometric_processing", False):
             result.update(
                 {
                     "biometric_allowed": False,
@@ -941,9 +793,7 @@ class AdvancedComplianceEthicsEngine:
                 }
             )
 
-        if "timestamp" in voice_data and not self.should_retain_data(
-            voice_data["timestamp"]
-        ):
+        if "timestamp" in voice_data and not self.should_retain_data(voice_data["timestamp"]):
             result.update(
                 {
                     "retention_allowed": False,
@@ -953,9 +803,7 @@ class AdvancedComplianceEthicsEngine:
             # If data should not be retained, it's arguably non-compliant to process further in some contexts
             # result["compliant"] = False
 
-        if voice_data.get("age_category") == "child" and not user_consent.get(
-            "parental_consent", False
-        ):
+        if voice_data.get("age_category") == "child" and not user_consent.get("parental_consent", False):
             result.update(
                 {
                     "compliant": False,
@@ -966,9 +814,7 @@ class AdvancedComplianceEthicsEngine:
         logger.info(f"Voice data compliance check result: {result}")
         return result
 
-    def validate_content_against_harmful_patterns(
-        self, content: str, content_type: str = "text"
-    ) -> dict[str, Any]:
+    def validate_content_against_harmful_patterns(self, content: str, content_type: str = "text") -> dict[str, Any]:
         # Simplified check from prot1, can be used as a quick pre-filter
         result = {"passed": True, "flagged_patterns": [], "recommendations": []}
         if content_type == "text":
@@ -988,12 +834,8 @@ class AdvancedComplianceEthicsEngine:
                     result["flagged_patterns"].append(pattern)  # Flag specific pattern
 
         if not result["passed"]:
-            result["recommendations"].append(
-                "Content may violate policies against harmful patterns. Please revise."
-            )
-            logger.warning(
-                f"Content flagged for harmful patterns: {result['flagged_patterns']}"
-            )
+            result["recommendations"].append("Content may violate policies against harmful patterns. Please revise.")
+            logger.warning(f"Content flagged for harmful patterns: {result['flagged_patterns']}")
         return result
 
     def generate_compliance_report(self, user_id: str) -> dict[str, Any]:
@@ -1013,9 +855,7 @@ class AdvancedComplianceEthicsEngine:
             "system_compliance_status": "nominal",  # Overall status
             "report_generated_utc": datetime.utcnow().isoformat() + "Z",
         }
-        logger.info(
-            f"Generated compliance report for original user ID ending: ...{user_id[-4:]}"
-        )
+        logger.info(f"Generated compliance report for original user ID ending: ...{user_id[-4:]}")
         return report
 
     def _generate_anonymous_id(self, original_id: str) -> str:
@@ -1024,13 +864,9 @@ class AdvancedComplianceEthicsEngine:
         return str(uuid.uuid5(namespace, str(original_id)))
 
     # --- Facade methods for Access & Cultural Guard ---
-    def check_data_access_permission(
-        self, signal: str, tier_level: int, user_consent: dict
-    ) -> bool:
+    def check_data_access_permission(self, signal: str, tier_level: int, user_consent: dict) -> bool:
         logger.debug(f"Checking data access: signal '{signal}', tier {tier_level}")
-        return self.access_cultural_guard_module.check_access(
-            signal, tier_level, user_consent
-        )
+        return self.access_cultural_guard_module.check_access(signal, tier_level, user_consent)
 
     def check_cultural_appropriateness(self, content: str, region: str = "EU") -> list:
         logger.debug(f"Checking cultural appropriateness for region '{region}'")
@@ -1046,11 +882,7 @@ class AdvancedComplianceEthicsEngine:
         Detects ethics drift based on decision alignment scores from a log of decisions.
         Each decision in the log should have an 'alignment_score' or 'ethical_score' key.
         """
-        threshold = (
-            custom_threshold
-            if custom_threshold is not None
-            else self.ethical_threshold_for_drift
-        )
+        threshold = custom_threshold if custom_threshold is not None else self.ethical_threshold_for_drift
 
         if not decision_log:
             logger.warning("Ethics drift detection called with empty decision log.")
@@ -1066,19 +898,13 @@ class AdvancedComplianceEthicsEngine:
         def get_score(d):
             return d.get("alignment_score", d.get("ethical_score", d.get("score")))
 
-        drift_count = sum(
-            1
-            for d in decision_log
-            if get_score(d) is not None and get_score(d) < threshold
-        )
+        drift_count = sum(1 for d in decision_log if get_score(d) is not None and get_score(d) < threshold)
         valid_decisions = sum(1 for d in decision_log if get_score(d) is not None)
 
         drift_ratio = drift_count / valid_decisions if valid_decisions > 0 else 0
 
         status = "stable"
-        if (
-            drift_ratio > 0.2
-        ):  # Example: if more than 20% of decisions are below threshold
+        if drift_ratio > 0.2:  # Example: if more than 20% of decisions are below threshold
             status = "drift_detected"
         elif valid_decisions == 0:
             status = "no_scorable_data"
@@ -1092,9 +918,7 @@ class AdvancedComplianceEthicsEngine:
             "drift_count": drift_count,
         }
         self._log_ethics_drift_event(drift_report)
-        logger.info(
-            f"Ethics drift detection complete: status '{status}', ratio {drift_ratio:.2f}"
-        )
+        logger.info(f"Ethics drift detection complete: status '{status}', ratio {drift_ratio:.2f}")
         return drift_report
 
     def _log_ethics_drift_event(self, event_data: dict[str, Any]):
@@ -1103,9 +927,7 @@ class AdvancedComplianceEthicsEngine:
             with open(self.ethics_drift_log_path_str, "a", encoding="utf-8") as f:
                 f.write(json.dumps(event_data) + "\\n")
         except Exception as e:
-            logger.error(
-                f"Failed to log ethics drift event to {self.ethics_drift_log_path_str}: {e}"
-            )
+            logger.error(f"Failed to log ethics drift event to {self.ethics_drift_log_path_str}: {e}")
 
     # --- Overall System Health/Status ---
     def get_overall_compliance_status(self) -> dict[str, Any]:
@@ -1118,9 +940,7 @@ class AdvancedComplianceEthicsEngine:
             "data_retention_days": self.data_retention_days,
             "voice_data_compliance_enabled": self.voice_data_compliance_enabled,
             "core_ethics_evaluations_total": core_metrics.get("evaluations_total"),
-            "core_ethics_avg_score": round(
-                core_metrics.get("average_ethical_score", 0), 3
-            ),
+            "core_ethics_avg_score": round(core_metrics.get("average_ethical_score", 0), 3),
             "access_cultural_guard_status": "active",  # Could be more detailed
             "ethics_drift_monitoring_status": "active",  # Could be more detailed
             "last_drift_check_summary": self._get_last_drift_log_summary(),
@@ -1141,9 +961,7 @@ class AdvancedComplianceEthicsEngine:
                             "drift_ratio": last_entry.get("drift_ratio"),
                         }
         except Exception as e:
-            logger.error(
-                f"Could not read last ethics drift log entry from {self.ethics_drift_log_path_str}: {e}"
-            )
+            logger.error(f"Could not read last ethics drift log entry from {self.ethics_drift_log_path_str}: {e}")
         return None
 
 
@@ -1184,9 +1002,7 @@ if __name__ == "__main__":
         "text": "This is a helpful and benign statement.",
     }
     is_ethical1 = advanced_engine.evaluate_action_ethics(action1)
-    logger.info(
-        f"Action 1 ethical: {is_ethical1}, Metrics: {advanced_engine.get_core_ethics_metrics()}"
-    )
+    logger.info(f"Action 1 ethical: {is_ethical1}, Metrics: {advanced_engine.get_core_ethics_metrics()}")
 
     action2 = {
         "action": "generate_image_of_person",
@@ -1200,13 +1016,9 @@ if __name__ == "__main__":
 
     # Test data retention
     old_timestamp = time.time() - (20 * 24 * 60 * 60)  # 20 days ago
-    logger.info(
-        f"Should retain data from 20 days ago: {advanced_engine.should_retain_data(old_timestamp)}"
-    )
+    logger.info(f"Should retain data from 20 days ago: {advanced_engine.should_retain_data(old_timestamp)}")
     new_timestamp = time.time() - (5 * 24 * 60 * 60)  # 5 days ago
-    logger.info(
-        f"Should retain data from 5 days ago: {advanced_engine.should_retain_data(new_timestamp)}"
-    )
+    logger.info(f"Should retain data from 5 days ago: {advanced_engine.should_retain_data(new_timestamp)}")
 
     # Test voice data compliance
     voice_sample = {
@@ -1224,9 +1036,7 @@ if __name__ == "__main__":
     )
 
     # Test cultural appropriateness
-    violations = advanced_engine.check_cultural_appropriateness(
-        "This is a test_bad_word example.", region="GLOBAL"
-    )
+    violations = advanced_engine.check_cultural_appropriateness("This is a test_bad_word example.", region="GLOBAL")
     logger.info(f"Cultural violations: {violations}")
 
     # Test access permission
@@ -1264,21 +1074,15 @@ if __name__ == "__main__":
     }
     anonymized_meta = advanced_engine.anonymize_metadata(metadata_to_anonymize)
     logger.info(f"Anonymized metadata: {anonymized_meta}")
-    logger.info(
-        f"Original user_id 'user123' anonymized to: {advanced_engine._generate_anonymous_id('user123')}"
-    )
-    logger.info(
-        f"Original user_id 'user456' anonymized to: {advanced_engine._generate_anonymous_id('user456')}"
-    )
+    logger.info(f"Original user_id 'user123' anonymized to: {advanced_engine._generate_anonymous_id('user123')}")
+    logger.info(f"Original user_id 'user456' anonymized to: {advanced_engine._generate_anonymous_id('user456')}")
 
     # Test harmful pattern validation
     harmful_content_report = advanced_engine.validate_content_against_harmful_patterns(
         "This is a test with an illegal activity example."
     )
     logger.info(f"Harmful content report: {harmful_content_report}")
-    safe_content_report = advanced_engine.validate_content_against_harmful_patterns(
-        "This is perfectly fine."
-    )
+    safe_content_report = advanced_engine.validate_content_against_harmful_patterns("This is perfectly fine.")
     logger.info(f"Safe content report: {safe_content_report}")
 
     logger.info("Test run completed.")

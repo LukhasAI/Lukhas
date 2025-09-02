@@ -68,9 +68,7 @@ class ExternalServiceIntegration:
             "drive_share": "google_drive",
         }
 
-        logger.info(
-            f"External Service Integration initialized with {len(self.adapters)} adapters"
-        )
+        logger.info(f"External Service Integration initialized with {len(self.adapters)} adapters")
 
     def _initialize_adapters(self):
         """Initialize all available service adapters"""
@@ -116,9 +114,7 @@ class ExternalServiceIntegration:
 
         adapter = self.adapters.get(service_name)
         if not adapter:
-            return self._create_error_result(
-                f"Service adapter not available: {service_name}"
-            )
+            return self._create_error_result(f"Service adapter not available: {service_name}")
 
         try:
             # Extract user information
@@ -134,9 +130,7 @@ class ExternalServiceIntegration:
             self.integration_metrics["authentication_successes"] += 1
 
             # Check consent for operation
-            consent_granted = await self._check_operation_consent(
-                adapter, lid, operation, arguments
-            )
+            consent_granted = await self._check_operation_consent(adapter, lid, operation, arguments)
             if not consent_granted:
                 self.integration_metrics["consent_denials"] += 1
                 return self._create_error_result(
@@ -145,9 +139,7 @@ class ExternalServiceIntegration:
                 )
 
             # Execute the specific operation
-            result = await self._route_service_operation(
-                adapter, operation, arguments, lid
-            )
+            result = await self._route_service_operation(adapter, operation, arguments, lid)
 
             if result.get("success", False):
                 self.integration_metrics["successful_operations"] += 1
@@ -221,21 +213,15 @@ class ExternalServiceIntegration:
 
         # Gmail operations
         if operation.startswith("gmail_"):
-            return await self._handle_gmail_operation(
-                adapter, operation, arguments, lid
-            )
+            return await self._handle_gmail_operation(adapter, operation, arguments, lid)
 
         # Dropbox operations
         elif operation.startswith("dropbox_"):
-            return await self._handle_dropbox_operation(
-                adapter, operation, arguments, lid
-            )
+            return await self._handle_dropbox_operation(adapter, operation, arguments, lid)
 
         # Google Drive operations
         elif operation.startswith("drive_"):
-            return await self._handle_drive_operation(
-                adapter, operation, arguments, lid
-            )
+            return await self._handle_drive_operation(adapter, operation, arguments, lid)
 
         else:
             return self._create_error_result(f"Unsupported operation: {operation}")
@@ -249,9 +235,7 @@ class ExternalServiceIntegration:
                 required_fields = ["to", "subject", "body"]
                 missing = [field for field in required_fields if field not in arguments]
                 if missing:
-                    return self._create_error_result(
-                        f"Missing required fields: {missing}"
-                    )
+                    return self._create_error_result(f"Missing required fields: {missing}")
 
                 # Create capability token for sending email
                 token = self._create_capability_token(lid, "gmail", ["write", "send"])
@@ -281,22 +265,16 @@ class ExternalServiceIntegration:
 
             elif operation == "gmail_read":
                 if "message_id" not in arguments:
-                    return self._create_error_result(
-                        "Missing required field: message_id"
-                    )
+                    return self._create_error_result("Missing required field: message_id")
 
                 token = self._create_capability_token(lid, "gmail", ["read"])
 
-                result = await adapter.get_message(
-                    lid=lid, message_id=arguments["message_id"], capability_token=token
-                )
+                result = await adapter.get_message(lid=lid, message_id=arguments["message_id"], capability_token=token)
 
                 return {"success": True, "data": result, "operation": "gmail_read"}
 
             else:
-                return self._create_error_result(
-                    f"Unsupported Gmail operation: {operation}"
-                )
+                return self._create_error_result(f"Unsupported Gmail operation: {operation}")
 
         except Exception as e:
             logger.error(f"Gmail operation failed: {operation}: {e}")
@@ -311,9 +289,7 @@ class ExternalServiceIntegration:
                 required_fields = ["file_path", "content"]
                 missing = [field for field in required_fields if field not in arguments]
                 if missing:
-                    return self._create_error_result(
-                        f"Missing required fields: {missing}"
-                    )
+                    return self._create_error_result(f"Missing required fields: {missing}")
 
                 token = self._create_capability_token(lid, "dropbox", ["write"])
 
@@ -328,15 +304,11 @@ class ExternalServiceIntegration:
 
             elif operation == "dropbox_download":
                 if "file_path" not in arguments:
-                    return self._create_error_result(
-                        "Missing required field: file_path"
-                    )
+                    return self._create_error_result("Missing required field: file_path")
 
                 token = self._create_capability_token(lid, "dropbox", ["read"])
 
-                result = await adapter.download_file(
-                    lid=lid, file_path=arguments["file_path"], capability_token=token
-                )
+                result = await adapter.download_file(lid=lid, file_path=arguments["file_path"], capability_token=token)
 
                 return {
                     "success": True,
@@ -356,9 +328,7 @@ class ExternalServiceIntegration:
                 return {"success": True, "data": result, "operation": "dropbox_list"}
 
             else:
-                return self._create_error_result(
-                    f"Unsupported Dropbox operation: {operation}"
-                )
+                return self._create_error_result(f"Unsupported Dropbox operation: {operation}")
 
         except Exception as e:
             logger.error(f"Dropbox operation failed: {operation}: {e}")
@@ -373,9 +343,7 @@ class ExternalServiceIntegration:
                 required_fields = ["file_name", "content"]
                 missing = [field for field in required_fields if field not in arguments]
                 if missing:
-                    return self._create_error_result(
-                        f"Missing required fields: {missing}"
-                    )
+                    return self._create_error_result(f"Missing required fields: {missing}")
 
                 token = self._create_capability_token(lid, "google_drive", ["write"])
 
@@ -395,16 +363,12 @@ class ExternalServiceIntegration:
 
                 token = self._create_capability_token(lid, "google_drive", ["read"])
 
-                result = await adapter.download_file(
-                    lid=lid, file_id=arguments["file_id"], capability_token=token
-                )
+                result = await adapter.download_file(lid=lid, file_id=arguments["file_id"], capability_token=token)
 
                 return {"success": True, "data": result, "operation": "drive_download"}
 
             elif operation == "drive_list":
-                token = self._create_capability_token(
-                    lid, "google_drive", ["read", "list"]
-                )
+                token = self._create_capability_token(lid, "google_drive", ["read", "list"])
 
                 result = await adapter.list_files(
                     lid=lid,
@@ -419,13 +383,9 @@ class ExternalServiceIntegration:
                 required_fields = ["file_id", "email"]
                 missing = [field for field in required_fields if field not in arguments]
                 if missing:
-                    return self._create_error_result(
-                        f"Missing required fields: {missing}"
-                    )
+                    return self._create_error_result(f"Missing required fields: {missing}")
 
-                token = self._create_capability_token(
-                    lid, "google_drive", ["write", "share"]
-                )
+                token = self._create_capability_token(lid, "google_drive", ["write", "share"])
 
                 result = await adapter.share_file(
                     lid=lid,
@@ -438,17 +398,13 @@ class ExternalServiceIntegration:
                 return {"success": True, "data": result, "operation": "drive_share"}
 
             else:
-                return self._create_error_result(
-                    f"Unsupported Drive operation: {operation}"
-                )
+                return self._create_error_result(f"Unsupported Drive operation: {operation}")
 
         except Exception as e:
             logger.error(f"Drive operation failed: {operation}: {e}")
             return self._create_error_result(str(e))
 
-    def _create_capability_token(
-        self, lid: str, service: str, scopes: list[str]
-    ) -> Optional[CapabilityToken]:
+    def _create_capability_token(self, lid: str, service: str, scopes: list[str]) -> Optional[CapabilityToken]:
         """Create capability token for service operation"""
         if not CapabilityToken:
             return None
@@ -469,9 +425,7 @@ class ExternalServiceIntegration:
             logger.warning(f"Failed to create capability token: {e}")
             return None
 
-    def _create_error_result(
-        self, error_message: str, details: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    def _create_error_result(self, error_message: str, details: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Create standardized error result"""
         result = {
             "success": False,
@@ -536,8 +490,7 @@ class ExternalServiceIntegration:
                 self.integration_metrics["successful_operations"]
                 / max(
                     1,
-                    self.integration_metrics["successful_operations"]
-                    + self.integration_metrics["failed_operations"],
+                    self.integration_metrics["successful_operations"] + self.integration_metrics["failed_operations"],
                 )
             ),
             "authentication_success_rate": (

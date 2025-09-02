@@ -92,9 +92,7 @@ class QIInspireModuleStatus:
     module_name: str = "Quantum Inspire Module"
     status: str = "DEPRECATED"
     recommendation: str = "ARCHIVE"
-    assessment_date: datetime = field(
-        default_factory=lambda: datetime.now(timezone.utc)
-    )
+    assessment_date: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     reasons: list[str] = field(
         default_factory=lambda: [
             "Module uses outdated quantum simulation APIs",
@@ -137,9 +135,7 @@ class VaultClient:
             return False
 
         try:
-            self.client.secrets.kv.v2.create_or_update_secret(
-                path=path, secret=secret_data
-            )
+            self.client.secrets.kv.v2.create_or_update_secret(path=path, secret=secret_data)
             return True
         except Exception as e:
             logger.error(f"Vault store error: {e}")
@@ -185,9 +181,7 @@ class AWSKMSClient:
                 logger.error(f"AWS KMS connection error: {e}")
                 self.client = None
 
-    def create_key(
-        self, description: str, tags: Optional[list[dict]] = None
-    ) -> Optional[str]:
+    def create_key(self, description: str, tags: Optional[list[dict]] = None) -> Optional[str]:
         """Create new KMS key"""
         if not self.client:
             return None
@@ -248,15 +242,11 @@ class SecretScanner:
     SECRET_PATTERNS = {
         "aws_key": re.compile(r"AKIA[0-9A-Z]{16}"),
         "aws_secret": re.compile(r"[0-9a-zA-Z/+=]{40}"),
-        "api_key": re.compile(
-            r'[aA][pP][iI][-_]?[kK][eE][yY].*[=:].*[\'"][0-9a-zA-Z]{32,}[\'"]'
-        ),
+        "api_key": re.compile(r'[aA][pP][iI][-_]?[kK][eE][yY].*[=:].*[\'"][0-9a-zA-Z]{32,}[\'"]'),
         "github_token": re.compile(r"ghp_[0-9a-zA-Z]{36}"),
         "slack_token": re.compile(r"xox[baprs]-[0-9a-zA-Z-]+"),
         "private_key": re.compile(r"-----BEGIN (RSA |EC |)PRIVATE KEY-----"),
-        "jwt_secret": re.compile(
-            r'[jJ][wW][tT][-_]?[sS][eE][cC][rR][eE][tT].*[=:].*[\'"][0-9a-zA-Z]{16,}[\'"]'
-        ),
+        "jwt_secret": re.compile(r'[jJ][wW][tT][-_]?[sS][eE][cC][rR][eE][tT].*[=:].*[\'"][0-9a-zA-Z]{16,}[\'"]'),
     }
 
     def __init__(self, exclude_dirs: Optional[list[str]] = None):
@@ -290,11 +280,7 @@ class SecretScanner:
                                 "file": str(file_path),
                                 "line": line_num,
                                 "type": secret_type,
-                                "match": (
-                                    match.group()[:50] + "..."
-                                    if len(match.group()) > 50
-                                    else match.group()
-                                ),
+                                "match": (match.group()[:50] + "..." if len(match.group()) > 50 else match.group()),
                                 "severity": "HIGH",
                             }
                         )
@@ -359,9 +345,7 @@ class SecretScanner:
             return {"findings": [], "status": "clean"}
 
         except FileNotFoundError:
-            logger.warning(
-                "gitleaks not installed. Install with: brew install gitleaks"
-            )
+            logger.warning("gitleaks not installed. Install with: brew install gitleaks")
             return {"error": "gitleaks_not_installed"}
         except Exception as e:
             logger.error(f"gitleaks error: {e}")
@@ -385,9 +369,7 @@ class SBOMGenerator:
 
         try:
             # Get installed packages
-            result = subprocess.run(
-                ["pip", "list", "--format", "json"], capture_output=True, text=True
-            )
+            result = subprocess.run(["pip", "list", "--format", "json"], capture_output=True, text=True)
 
             if result.returncode == 0:
                 packages = json.loads(result.stdout)
@@ -537,10 +519,7 @@ class LukhasKMSManager:
             encrypted_value, metadata = self.local_storage[secret_id]
 
             # AWS KMS encrypted
-            if (
-                metadata.secret_type == SecretType.ENCRYPTION_KEY
-                and self.aws_kms.client
-            ):
+            if metadata.secret_type == SecretType.ENCRYPTION_KEY and self.aws_kms.client:
                 decrypted = self.aws_kms.decrypt(encrypted_value)
                 if decrypted:
                     return decrypted.decode()
@@ -665,9 +644,7 @@ class LukhasKMSManager:
         """Simple local encryption (in production: use proper crypto)"""
         # This is a placeholder - use cryptography library in production
         key = hashlib.sha256(b"lukhas-local-key").digest()
-        encrypted = bytes(
-            a ^ b for a, b in zip(data, key * (len(data) // len(key) + 1))
-        )
+        encrypted = bytes(a ^ b for a, b in zip(data, key * (len(data) // len(key) + 1)))
         return base64.b64encode(encrypted)
 
     def _local_decrypt(self, encrypted: bytes) -> bytes:
@@ -675,9 +652,7 @@ class LukhasKMSManager:
         # This is a placeholder - use cryptography library in production
         key = hashlib.sha256(b"lukhas-local-key").digest()
         data = base64.b64decode(encrypted)
-        decrypted = bytes(
-            a ^ b for a, b in zip(data, key * (len(data) // len(key) + 1))
-        )
+        decrypted = bytes(a ^ b for a, b in zip(data, key * (len(data) // len(key) + 1)))
         return decrypted
 
     def _emit_rotation_audit(self, secret_id: str, metadata: SecretMetadata):
@@ -700,9 +675,7 @@ class LukhasKMSManager:
             "total_secrets": len(self.metadata_store),
             "secrets_by_type": self._count_by_type(),
             "rotation_scheduler": "running" if self.rotation_running else "stopped",
-            "pending_rotations": sum(
-                1 for m in self.metadata_store.values() if m.needs_rotation()
-            ),
+            "pending_rotations": sum(1 for m in self.metadata_store.values() if m.needs_rotation()),
         }
 
     def _count_by_type(self) -> dict[str, int]:
@@ -754,9 +727,7 @@ if __name__ == "__main__":
         # Test SBOM generation
         print("\n📦 Testing SBOM generation...")
         sbom_result = kms.generate_sbom()
-        print(
-            f"   SBOM generated with {len(sbom_result['sbom']['components'])} components"
-        )
+        print(f"   SBOM generated with {len(sbom_result['sbom']['components'])} components")
         print(f"   Found {sbom_result['vulnerability_count']} vulnerabilities")
 
         # Test QIM assessment

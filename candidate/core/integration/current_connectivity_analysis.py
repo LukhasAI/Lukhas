@@ -106,9 +106,7 @@ class ConnectivityAnalyzer:
                             if len(parts) > node.level:
                                 parent_parts = parts[: -node.level]
                                 if base_module:
-                                    base_module = (
-                                        ".".join(parent_parts) + "." + base_module
-                                    )
+                                    base_module = ".".join(parent_parts) + "." + base_module
                                 else:
                                     base_module = ".".join(parent_parts)
 
@@ -129,10 +127,7 @@ class ConnectivityAnalyzer:
                 if (
                     isinstance(node, ast.If)
                     and isinstance(node.test, ast.Compare)
-                    and (
-                        isinstance(node.test.left, ast.Name)
-                        and node.test.left.id == "__name__"
-                    )
+                    and (isinstance(node.test.left, ast.Name) and node.test.left.id == "__name__")
                 ):
                     metrics["has_main"] = True
 
@@ -162,10 +157,7 @@ class ConnectivityAnalyzer:
 
             # Check if isolated
             is_isolated = (
-                imports_out_count == 0
-                and imports_in_count == 0
-                and not metrics["is_init"]
-                and not metrics["has_main"]
+                imports_out_count == 0 and imports_in_count == 0 and not metrics["is_init"] and not metrics["has_main"]
             )
 
             metrics["is_isolated"] = is_isolated
@@ -203,9 +195,7 @@ class ConnectivityAnalyzer:
             # Additional checks for truly isolated files
             if (
                 metrics["lines_of_code"] > 10  # Not empty
-                and not any(
-                    skip in file_path for skip in ["test", "__pycache__", "example"]
-                )
+                and not any(skip in file_path for skip in ["test", "__pycache__", "example"])
                 and metrics["file_size"] > 100
             ):  # Not trivial
                 truly_isolated.append(
@@ -227,8 +217,7 @@ class ConnectivityAnalyzer:
                 "isolated_files": len(truly_isolated),
                 "hub_files": len(hubs),
                 "average_connectivity": (
-                    sum(m["connectivity_score"] for m in self.file_metrics.values())
-                    / len(self.file_metrics)
+                    sum(m["connectivity_score"] for m in self.file_metrics.values()) / len(self.file_metrics)
                     if self.file_metrics
                     else 0
                 ),
@@ -237,8 +226,7 @@ class ConnectivityAnalyzer:
                 "highly_connected_threshold": 10,
                 "isolated_threshold": 0,
                 "average_imports_per_file": (
-                    sum(len(m["imports_out"]) for m in self.file_metrics.values())
-                    / len(self.file_metrics)
+                    sum(len(m["imports_out"]) for m in self.file_metrics.values()) / len(self.file_metrics)
                     if self.file_metrics
                     else 0
                 ),
@@ -279,9 +267,7 @@ class ConnectivityAnalyzer:
         for module, stats in module_stats.items():
             if stats["file_count"] > 0:
                 total_connectivity = sum(
-                    m["connectivity_score"]
-                    for f, m in self.file_metrics.items()
-                    if f.startswith(module + "/")
+                    m["connectivity_score"] for f, m in self.file_metrics.items() if f.startswith(module + "/")
                 )
                 stats["avg_connectivity"] = total_connectivity / stats["file_count"]
 
@@ -307,9 +293,7 @@ def main():
     print(f"   Connected files: {report['analysis_summary']['connected_files']}")
     print(f"   Isolated files: {report['analysis_summary']['isolated_files']}")
     print(f"   Critical hubs: {report['analysis_summary']['hub_files']}")
-    print(
-        f"   Average connectivity: {report['analysis_summary']['average_connectivity']:.2f}"
-    )
+    print(f"   Average connectivity: {report['analysis_summary']['average_connectivity']:.2f}")
 
     if report["isolated_files"]:
         print(f"\n⚠️  Found {len(report['isolated_files'])} isolated files:")

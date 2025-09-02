@@ -181,9 +181,7 @@ class BaseColony(ABC):
 
                 # Reduce agent load
                 if task.assigned_agent and task.assigned_agent in self.agents:
-                    self.agents[task.assigned_agent].load = max(
-                        0, self.agents[task.assigned_agent].load - 0.2
-                    )
+                    self.agents[task.assigned_agent].load = max(0, self.agents[task.assigned_agent].load - 0.2)
 
                 self.completed_tasks[task.id] = task
                 processed += 1
@@ -196,17 +194,13 @@ class BaseColony(ABC):
 
                 # Reduce agent load even on failure
                 if task.assigned_agent and task.assigned_agent in self.agents:
-                    self.agents[task.assigned_agent].load = max(
-                        0, self.agents[task.assigned_agent].load - 0.2
-                    )
+                    self.agents[task.assigned_agent].load = max(0, self.agents[task.assigned_agent].load - 0.2)
 
         return {
             "processed": processed,
             "failed": failed,
             "queue_remaining": len(self.task_queue),
-            "active_agents": len(
-                [a for a in self.agents.values() if a.status == ColonyStatus.ACTIVE]
-            ),
+            "active_agents": len([a for a in self.agents.values() if a.status == ColonyStatus.ACTIVE]),
         }
 
     def get_status(self) -> dict[str, Any]:
@@ -215,9 +209,7 @@ class BaseColony(ABC):
             "name": self.name,
             "status": self.status.value,
             "agents": len(self.agents),
-            "active_agents": len(
-                [a for a in self.agents.values() if a.status == ColonyStatus.ACTIVE]
-            ),
+            "active_agents": len([a for a in self.agents.values() if a.status == ColonyStatus.ACTIVE]),
             "queue_size": len(self.task_queue),
             "completed_tasks": len(self.completed_tasks),
             "trinity_aligned": self.trinity_aligned,
@@ -241,9 +233,7 @@ class BaseColony(ABC):
     ) -> ColonyAgent:
         """Add new agent to colony"""
         if len(self.agents) >= self.max_agents:
-            raise ValueError(
-                f"Colony {self.name} at maximum capacity ({self.max_agents})"
-            )
+            raise ValueError(f"Colony {self.name} at maximum capacity ({self.max_agents})")
 
         agent = ColonyAgent(
             role=role,
@@ -260,9 +250,7 @@ class BaseColony(ABC):
             agent = self.agents[agent_id]
             if agent.role == ColonyRole.COORDINATOR:
                 # Don't remove coordinator unless replacing
-                coordinators = [
-                    a for a in self.agents.values() if a.role == ColonyRole.COORDINATOR
-                ]
+                coordinators = [a for a in self.agents.values() if a.role == ColonyRole.COORDINATOR]
                 if len(coordinators) <= 1:
                     return False
 
@@ -287,9 +275,7 @@ class ColonyRegistry:
         if colony_name in self.colonies:
             del self.colonies[colony_name]
             # Remove task routes
-            self.task_routes = {
-                k: v for k, v in self.task_routes.items() if v != colony_name
-            }
+            self.task_routes = {k: v for k, v in self.task_routes.items() if v != colony_name}
             return True
         return False
 
@@ -298,9 +284,7 @@ class ColonyRegistry:
         if colony_name in self.colonies:
             self.task_routes[task_type] = colony_name
 
-    def submit_task(
-        self, task_type: str, payload: Any, priority: int = 5
-    ) -> Optional[ColonyTask]:
+    def submit_task(self, task_type: str, payload: Any, priority: int = 5) -> Optional[ColonyTask]:
         """Submit task to appropriate colony"""
         colony_name = self.task_routes.get(task_type)
 
@@ -336,9 +320,7 @@ class ColonyRegistry:
         """Get overall colony system status"""
         total_agents = sum(len(c.agents) for c in self.colonies.values())
         total_tasks = sum(len(c.task_queue) for c in self.colonies.values())
-        active_colonies = len(
-            [c for c in self.colonies.values() if c.status == ColonyStatus.ACTIVE]
-        )
+        active_colonies = len([c for c in self.colonies.values() if c.status == ColonyStatus.ACTIVE])
 
         return {
             "total_colonies": len(self.colonies),

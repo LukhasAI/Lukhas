@@ -202,11 +202,7 @@ class VoiceSystemIntegrator:
         # In a real implementation, this would be more sophisticated
 
         # Use emotion complexity to determine provider
-        if (
-            emotion
-            and emotion.lower() in ["sadness", "anger", "happiness"]
-            and self._contains_complex_emotion(text)
-        ):
+        if emotion and emotion.lower() in ["sadness", "anger", "happiness"] and self._contains_complex_emotion(text):
             return "elevenlabs"
 
         # For longer text, Edge TTS is often more reliable
@@ -240,9 +236,7 @@ class VoiceSystemIntegrator:
 
         return any(indicator in text for indicator in emotion_indicators)
 
-    def provide_feedback(
-        self, profile_id: str, score: float, feedback_text: str = ""
-    ) -> dict[str, Any]:
+    def provide_feedback(self, profile_id: str, score: float, feedback_text: str = "") -> dict[str, Any]:
         """Provide feedback on a voice profile to evolve it."""
         feedback = {
             "score": score,

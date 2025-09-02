@@ -40,17 +40,11 @@ Examples:
         help="Number of recent sessions to analyze (default: 10)",
     )
 
-    parser.add_argument(
-        "--storage", type=str, help="Path to dream session storage directory"
-    )
+    parser.add_argument("--storage", type=str, help="Path to dream session storage directory")
 
-    parser.add_argument(
-        "--no-json", action="store_true", help="Skip JSON report export"
-    )
+    parser.add_argument("--no-json", action="store_true", help="Skip JSON report export")
 
-    parser.add_argument(
-        "--no-markdown", action="store_true", help="Skip Markdown summary export"
-    )
+    parser.add_argument("--no-markdown", action="store_true", help="Skip Markdown summary export")
 
     parser.add_argument(
         "--json-only",
@@ -64,9 +58,7 @@ Examples:
         help="Export Markdown summary only (no console output)",
     )
 
-    parser.add_argument(
-        "--heatmap-only", action="store_true", help="Show ASCII heatmap only"
-    )
+    parser.add_argument("--heatmap-only", action="store_true", help="Show ASCII heatmap only")
 
     parser.add_argument(
         "--output-dir",
@@ -83,13 +75,9 @@ Examples:
         help="Custom threshold: --threshold emotional_dissonance 0.3",
     )
 
-    parser.add_argument(
-        "--quiet", "-q", action="store_true", help="Suppress console output"
-    )
+    parser.add_argument("--quiet", "-q", action="store_true", help="Suppress console output")
 
-    parser.add_argument(
-        "--verbose", "-v", action="store_true", help="Enable verbose logging"
-    )
+    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
 
     parser.add_argument(
         "--version",
@@ -108,9 +96,7 @@ Examples:
 
     try:
         # Initialize explorer
-        explorer = SymbolicAnomalyExplorer(
-            storage_path=args.storage, drift_integration=True
-        )
+        explorer = SymbolicAnomalyExplorer(storage_path=args.storage, drift_integration=True)
 
         # Apply custom thresholds
         if args.threshold:
@@ -202,9 +188,7 @@ Examples:
                     }
 
                     emoji = severity_emoji.get(anomaly.severity.value, "❓")
-                    print(
-                        f"{i}. {emoji} {anomaly.anomaly_type.value.replace('_', ' ').title()}"
-                    )
+                    print(f"{i}. {emoji} {anomaly.anomaly_type.value.replace('_', ' ').title()}")
                     print(f"   Severity: {anomaly.severity.value.upper()}")
                     print(f"   Confidence: {anomaly.confidence:.1%}")
                     print(f"   Sessions: {len(anomaly.affected_sessions)}")
@@ -225,12 +209,8 @@ Examples:
                 print("📈 SYMBOLIC TRENDS")
                 print("-" * 30)
                 print(f"Unique symbols: {trends.get('total_unique_tags', 'N/A')}")
-                print(
-                    f"Average frequency: {trends.get('average_frequency', 'N/A'):.1f}"
-                )
-                print(
-                    f"Average volatility: {trends.get('average_volatility', 'N/A'):.3f}"
-                )
+                print(f"Average frequency: {trends.get('average_frequency', 'N/A'):.1f}")
+                print(f"Average volatility: {trends.get('average_volatility', 'N/A'):.3f}")
 
                 if trends.get("volatile_symbols"):
                     print(f"Most volatile: {', '.join(trends['volatile_symbols'][:3])}")
@@ -258,9 +238,7 @@ Examples:
 
             # Exit with error code if critical anomalies found
             critical_count = sum(
-                1
-                for a in report.anomalies_detected
-                if a.severity.value in ["critical", "catastrophic"]
+                1 for a in report.anomalies_detected if a.severity.value in ["critical", "catastrophic"]
             )
 
             if critical_count > 0:

@@ -76,9 +76,7 @@ class EmotionalModulator:
 
         return modulated
 
-    def integrate_memory_emotion(
-        self, memory_data: dict[str, Any], emotion_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def integrate_memory_emotion(self, memory_data: dict[str, Any], emotion_data: dict[str, Any]) -> dict[str, Any]:
         """
         Integrate memory data with emotional information.
 
@@ -92,12 +90,8 @@ class EmotionalModulator:
         integrated = {
             "memory": memory_data,
             "emotion": emotion_data,
-            "integration_score": self._calculate_integration_score(
-                memory_data, emotion_data
-            ),
-            "enhanced_memory": self._enhance_memory_with_emotion(
-                memory_data, emotion_data
-            ),
+            "integration_score": self._calculate_integration_score(memory_data, emotion_data),
+            "enhanced_memory": self._enhance_memory_with_emotion(memory_data, emotion_data),
         }
 
         return integrated
@@ -133,9 +127,7 @@ class EmotionalModulator:
             "stability": 0.8,
         }
 
-    def _calculate_integration_score(
-        self, memory_data: dict[str, Any], emotion_data: dict[str, Any]
-    ) -> float:
+    def _calculate_integration_score(self, memory_data: dict[str, Any], emotion_data: dict[str, Any]) -> float:
         """Calculate integration score between memory and emotion."""
         # Simple scoring based on overlap and compatibility
         score = 0.5
@@ -150,9 +142,7 @@ class EmotionalModulator:
 
         return min(1.0, score)
 
-    def _enhance_memory_with_emotion(
-        self, memory_data: dict[str, Any], emotion_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _enhance_memory_with_emotion(self, memory_data: dict[str, Any], emotion_data: dict[str, Any]) -> dict[str, Any]:
         """Enhance memory data with emotional information."""
         enhanced = memory_data.copy()
 

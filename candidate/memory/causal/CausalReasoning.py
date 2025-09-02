@@ -33,11 +33,7 @@ class CausalReasoningModule:
         causal_chains = self._build_causal_chains(causal_elements)
         weighted_causes = self._calculate_causal_confidences(causal_chains)
 
-        valid_causes = {
-            k: v
-            for k, v in weighted_causes.items()
-            if v.get("confidence", 0) >= self.confidence_threshold
-        }
+        valid_causes = {k: v for k, v in weighted_causes.items() if v.get("confidence", 0) >= self.confidence_threshold}
 
         if valid_causes:
             self._update_causal_graph(valid_causes)
@@ -117,8 +113,7 @@ class CausalReasoningModule:
                 ):
                     causal_chains[chain_id]["elements"].append(other_item)
                     causal_chains[chain_id]["base_confidence"] = (
-                        causal_chains[chain_id]["base_confidence"]
-                        + other_item["base_confidence"]
+                        causal_chains[chain_id]["base_confidence"] + other_item["base_confidence"]
                     ) / 2
 
         return causal_chains
@@ -132,9 +127,7 @@ class CausalReasoningModule:
             length_adjustment = min(0.2, 0.05 * len(chain["elements"]))
             element_types = {elem["type"] for elem in chain["elements"]}
             diversity_adjustment = min(0.15, 0.05 * len(element_types))
-            final_confidence = min(
-                0.99, base_confidence + length_adjustment + diversity_adjustment
-            )
+            final_confidence = min(0.99, base_confidence + length_adjustment + diversity_adjustment)
 
             weighted_causes[chain_id] = {
                 "elements": chain["elements"],
@@ -163,20 +156,16 @@ class CausalReasoningModule:
                 }
             else:
                 self.causal_graph[chain_id]["frequency"] += 1
-                self.causal_graph[chain_id]["confidence_history"].append(
-                    chain_data["confidence"]
-                )
-                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[
-                    chain_id
-                ]["confidence_history"][-10:]
+                self.causal_graph[chain_id]["confidence_history"].append(chain_data["confidence"])
+                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[chain_id]["confidence_history"][
+                    -10:
+                ]
 
     def _identify_primary_cause(self, valid_causes: dict) -> Optional[dict]:
         """Identify most likely primary cause"""
         if not valid_causes:
             return None
-        primary_cause_id = max(
-            valid_causes.keys(), key=lambda k: valid_causes[k]["confidence"]
-        )
+        primary_cause_id = max(valid_causes.keys(), key=lambda k: valid_causes[k]["confidence"])
         return {
             "id": primary_cause_id,
             "summary": valid_causes[primary_cause_id]["summary"],
@@ -216,19 +205,14 @@ class CausalReasoningModule:
             return {"insights": "No causal reasoning history available"}
 
         recent_confidence = [entry["confidence"] for entry in self.causal_history[-10:]]
-        avg_confidence = (
-            sum(recent_confidence) / len(recent_confidence) if recent_confidence else 0
-        )
+        avg_confidence = sum(recent_confidence) / len(recent_confidence) if recent_confidence else 0
 
         return {
             "average_confidence": avg_confidence,
             "total_reasoning_sessions": len(self.causal_history),
             "causal_graph_size": len(self.causal_graph),
             "confidence_trend": (
-                "improving"
-                if len(recent_confidence) > 1
-                and recent_confidence[-1] > recent_confidence[0]
-                else "stable"
+                "improving" if len(recent_confidence) > 1 and recent_confidence[-1] > recent_confidence[0] else "stable"
             ),
         }
 

@@ -22,9 +22,7 @@ class QIIntegration:
         self.state_dir = state_dir or Path.home() / ".lukhas" / "state" / "qi"
 
         # Initialize QI components
-        self.calibration = UncertaintyCalibrationEngine(
-            state_dir=self.state_dir / "calibration"
-        )
+        self.calibration = UncertaintyCalibrationEngine(state_dir=self.state_dir / "calibration")
 
         self.teq_gate = TEQCoupler(state_dir=self.state_dir / "teq")
 
@@ -76,9 +74,7 @@ class QIIntegration:
             "reason": reason,
             "suggestions": suggestions,
             "prediction_id": pred_id,
-            "adjusted_confidence": min(
-                1.0, max(0.0, confidence + confidence_adjustment)
-            ),
+            "adjusted_confidence": min(1.0, max(0.0, confidence + confidence_adjustment)),
             "module_trust": self.teq_gate.get_module_trust(module),
             "calibration_score": self.calibration.get_calibration_score(module),
             "teq_state": self.teq_gate.get_equilibrium_status(),
@@ -86,9 +82,7 @@ class QIIntegration:
 
         return allowed, context
 
-    def record_outcome(
-        self, module: str, action: str, success: bool, actual_result: Any = None
-    ):
+    def record_outcome(self, module: str, action: str, success: bool, actual_result: Any = None):
         """Record actual outcome for calibration"""
         self.calibration.record_outcome(
             module=module,

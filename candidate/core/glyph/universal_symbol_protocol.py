@@ -158,9 +158,7 @@ class SymbolTranslator:
         bridges[(SymbolDomain.COGNITIVE, SymbolDomain.EMOTIONAL)] = "empathy_bridge"
         bridges[(SymbolDomain.MEMORY, SymbolDomain.IDENTITY)] = "self_recognition"
         bridges[(SymbolDomain.ETHICAL, SymbolDomain.CREATIVE)] = "value_expression"
-        bridges[(SymbolDomain.QUANTUM, SymbolDomain.BIOLOGICAL)] = (
-            "bio_quantum_interface"
-        )
+        bridges[(SymbolDomain.QUANTUM, SymbolDomain.BIOLOGICAL)] = "bio_quantum_interface"
 
         return bridges
 
@@ -401,9 +399,7 @@ class UniversalSymbolProtocol:
                 for attr in dir(symbol.emotional_state)
                 if not attr.startswith("_") and attr != "intensity"
             ]
-            emotion_entropy = -sum(
-                [v * np.log(v + 1e-10) for v in emotion_values if v > 0]
-            )
+            emotion_entropy = -sum([v * np.log(v + 1e-10) for v in emotion_values if v > 0])
             entropy += emotion_entropy * 0.2
 
         # Add entropy from causal links
@@ -411,9 +407,7 @@ class UniversalSymbolProtocol:
 
         return min(1.0, entropy)  # Cap at 1.0
 
-    def compress_symbols(
-        self, symbols: list[UniversalSymbol], target_ratio: float = 0.5
-    ) -> UniversalSymbol:
+    def compress_symbols(self, symbols: list[UniversalSymbol], target_ratio: float = 0.5) -> UniversalSymbol:
         """
         Compress multiple symbols into a single meta-symbol
         """
@@ -444,9 +438,7 @@ class UniversalSymbolProtocol:
         )
 
         # Average semantic vectors
-        semantic_vectors = [
-            s.semantic_vector for s in symbols if s.semantic_vector is not None
-        ]
+        semantic_vectors = [s.semantic_vector for s in symbols if s.semantic_vector is not None]
         if semantic_vectors:
             compressed.semantic_vector = np.mean(semantic_vectors, axis=0)
 
@@ -475,9 +467,7 @@ class UniversalSymbolProtocol:
 
         return compressed
 
-    def expand_symbol(
-        self, compressed_symbol: UniversalSymbol, expansion_factor: int = 2
-    ) -> list[UniversalSymbol]:
+    def expand_symbol(self, compressed_symbol: UniversalSymbol, expansion_factor: int = 2) -> list[UniversalSymbol]:
         """
         Expand a compressed symbol back into multiple symbols
         """
@@ -513,12 +503,8 @@ class UniversalSymbolProtocol:
                 variation.semantic_vector /= np.linalg.norm(variation.semantic_vector)
 
             # Slightly vary confidence and entropy
-            variation.confidence = compressed_symbol.confidence * (
-                0.9 + np.random.random() * 0.2
-            )
-            variation.entropy = compressed_symbol.entropy * (
-                0.9 + np.random.random() * 0.2
-            )
+            variation.confidence = compressed_symbol.confidence * (0.9 + np.random.random() * 0.2)
+            variation.entropy = compressed_symbol.entropy * (0.9 + np.random.random() * 0.2)
 
             expanded.append(variation)
 
@@ -563,9 +549,7 @@ class UniversalSymbolProtocol:
         similarities.sort(key=lambda x: x[1], reverse=True)
         return similarities[:max_results]
 
-    def create_causal_chain(
-        self, symbols: list[UniversalSymbol]
-    ) -> list[UniversalSymbol]:
+    def create_causal_chain(self, symbols: list[UniversalSymbol]) -> list[UniversalSymbol]:
         """
         Create causal links between symbols
         """
@@ -610,8 +594,7 @@ class UniversalSymbolProtocol:
         elif merge_strategy == "intersection":
             merged = UniversalSymbol(
                 symbol_id=f"merged_{uuid.uuid4().hex[:8]}",
-                modalities=symbol1.modalities & symbol2.modalities
-                or {SymbolModality.TEXT},
+                modalities=symbol1.modalities & symbol2.modalities or {SymbolModality.TEXT},
                 domains=symbol1.domains & symbol2.domains or {SymbolDomain.UNIVERSAL},
                 metadata={
                     "merged_from": [symbol1.symbol_id, symbol2.symbol_id],
@@ -623,9 +606,7 @@ class UniversalSymbolProtocol:
 
         # Merge semantic vectors
         if symbol1.semantic_vector is not None and symbol2.semantic_vector is not None:
-            merged.semantic_vector = (
-                symbol1.semantic_vector + symbol2.semantic_vector
-            ) / 2
+            merged.semantic_vector = (symbol1.semantic_vector + symbol2.semantic_vector) / 2
             merged.semantic_vector /= np.linalg.norm(merged.semantic_vector)
 
         # Merge emotional states
@@ -693,9 +674,7 @@ def demo_universal_symbols():
 
     # Translate emotional symbol to visual
     visual_translation = protocol.translator.translate(symbol1, SymbolModality.VISUAL)
-    print(
-        f"   Emotional → Visual: Pattern generated ({visual_translation.visual_pattern.shape})"
-    )
+    print(f"   Emotional → Visual: Pattern generated ({visual_translation.visual_pattern.shape})")
 
     # 3. Symbol Compression
     print("\n3️⃣ Symbol Compression:")
@@ -727,9 +706,7 @@ def demo_universal_symbols():
     similar = protocol.find_similar_symbols(query, threshold=0.5)
     print(f"   Query: {query.to_glyph_sequence()}")
     for symbol, similarity in similar:
-        print(
-            f"   Similar: {symbol.to_glyph_sequence()} (similarity: {similarity:.3f})"
-        )
+        print(f"   Similar: {symbol.to_glyph_sequence()} (similarity: {similarity:.3f})")
 
     # 6. Create Causal Chain
     print("\n6️⃣ Causal Chain Creation:")

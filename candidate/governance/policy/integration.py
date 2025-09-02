@@ -121,9 +121,7 @@ class PolicyEngineIntegration:
             self.initialize_default_policies()
 
         # Convert to new format
-        gov_decision = GovernanceDecision(
-            action=action, requester=requester, context=context, risk_level=risk_level
-        )
+        gov_decision = GovernanceDecision(action=action, requester=requester, context=context, risk_level=risk_level)
 
         decision = gov_decision.to_policy_decision()
 

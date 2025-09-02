@@ -29,9 +29,7 @@ class PLS:
     - Deterministic core with optional stochastic perturbation
     """
 
-    def __init__(
-        self, random_seed: Optional[int] = None, enable_stochasticity: bool = True
-    ):
+    def __init__(self, random_seed: Optional[int] = None, enable_stochasticity: bool = True):
         """
         Initialize PLS with optional deterministic mode for testing.
 
@@ -85,9 +83,7 @@ class PLS:
             agency_signals=self._clamp(agency_signals),
         )
 
-    def decode_protoqualia(
-        self, latent: PLSLatent, temperature: float = 0.4
-    ) -> ProtoQualia:
+    def decode_protoqualia(self, latent: PLSLatent, temperature: float = 0.4) -> ProtoQualia:
         """
         Decode latent representation to proto-qualia with monotonicity guarantees.
 
@@ -111,38 +107,20 @@ class PLS:
         tone = self._apply_temperature(base_tone, temperature, range_=(-1.0, 1.0))
 
         # Arousal computation (activation)
-        base_arousal = (
-            0.7 * latent.threat_level
-            + 0.3 * latent.temporal_pressure
-            - 0.2 * latent.soothing_level
-        )
+        base_arousal = 0.7 * latent.threat_level + 0.3 * latent.temporal_pressure - 0.2 * latent.soothing_level
         arousal = self._apply_temperature(base_arousal, temperature, range_=(0.0, 1.0))
 
         # Clarity computation (phenomenal clarity)
-        base_clarity = (
-            0.5 * latent.familiarity
-            + 0.3 * latent.soothing_level
-            - 0.4 * latent.complexity
-        )
+        base_clarity = 0.5 * latent.familiarity + 0.3 * latent.soothing_level - 0.4 * latent.complexity
         clarity = self._apply_temperature(base_clarity, temperature, range_=(0.0, 1.0))
 
         # Embodiment (body awareness)
-        base_embodiment = (
-            0.3 * latent.agency_signals
-            + 0.2 * (1.0 - latent.complexity)
-            + 0.1 * latent.threat_level
-        )
-        embodiment = self._apply_temperature(
-            base_embodiment, temperature, range_=(0.0, 1.0)
-        )
+        base_embodiment = 0.3 * latent.agency_signals + 0.2 * (1.0 - latent.complexity) + 0.1 * latent.threat_level
+        embodiment = self._apply_temperature(base_embodiment, temperature, range_=(0.0, 1.0))
 
         # Narrative gravity (story attractor strength)
-        base_gravity = (
-            0.4 * latent.complexity + 0.3 * (1.0 - latent.familiarity) + 0.2 * abs(tone)
-        )
-        narrative_gravity = self._apply_temperature(
-            base_gravity, temperature, range_=(0.0, 1.0)
-        )
+        base_gravity = 0.4 * latent.complexity + 0.3 * (1.0 - latent.familiarity) + 0.2 * abs(tone)
+        narrative_gravity = self._apply_temperature(base_gravity, temperature, range_=(0.0, 1.0))
 
         # Colorfield selection (symbolic palette)
         colorfield = self._select_colorfield(latent, tone, arousal)
@@ -234,9 +212,7 @@ class PLS:
         complexity = 0.0
 
         # Multimodal complexity
-        modalities = sum(
-            1 for key in ["text", "audio", "visual", "sensor"] if key in signals
-        )
+        modalities = sum(1 for key in ["text", "audio", "visual", "sensor"] if key in signals)
         complexity += modalities * 0.1
 
         # Text complexity
@@ -249,9 +225,7 @@ class PLS:
 
         return min(complexity, 1.0)
 
-    def _extract_familiarity(
-        self, signals: dict[str, Any], memory_ctx: dict[str, Any]
-    ) -> float:
+    def _extract_familiarity(self, signals: dict[str, Any], memory_ctx: dict[str, Any]) -> float:
         """Extract memory familiarity/resonance (0-1)"""
         if not memory_ctx or "similarity_scores" not in memory_ctx:
             return 0.3  # Default moderate familiarity
@@ -259,11 +233,7 @@ class PLS:
         # Use memory similarity if available
         similarity_scores = memory_ctx["similarity_scores"]
         if similarity_scores:
-            return (
-                max(similarity_scores)
-                if isinstance(similarity_scores, list)
-                else float(similarity_scores)
-            )
+            return max(similarity_scores) if isinstance(similarity_scores, list) else float(similarity_scores)
 
         return 0.3
 
@@ -349,9 +319,7 @@ class PLS:
         else:
             return AgencyFeel.SHARED
 
-    def _apply_temperature(
-        self, value: float, temperature: float, range_: tuple
-    ) -> float:
+    def _apply_temperature(self, value: float, temperature: float, range_: tuple) -> float:
         """Apply temperature-based stochastic perturbation"""
         if not self.enable_stochasticity or temperature <= 0:
             return self._clamp(value, range_[0], range_[1])

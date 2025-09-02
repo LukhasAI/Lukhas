@@ -122,9 +122,7 @@ def validate_branding_compliance(text: str) -> list[str]:
     import re
 
     if re.search(r"\bquantum\b(?!\s*[-]?(?:inspired|metaphor))", text_lower):
-        issues.append(
-            "Standalone 'quantum' should be 'quantum-inspired' unless specifically 'quantum metaphor'"
-        )
+        issues.append("Standalone 'quantum' should be 'quantum-inspired' unless specifically 'quantum metaphor'")
 
     return issues
 
@@ -236,9 +234,7 @@ class LUKHASBrandingBridge:
                     logger.warning(f"⚠️ Creative branding initialization failed: {e}")
 
             self.is_initialized = True
-            logger.info(
-                f"🎨 Branding Bridge initialized with {SYSTEM_NAME} {TRINITY_FRAMEWORK}"
-            )
+            logger.info(f"🎨 Branding Bridge initialized with {SYSTEM_NAME} {TRINITY_FRAMEWORK}")
             return True
 
         except Exception as e:
@@ -277,9 +273,7 @@ class LUKHASBrandingBridge:
 
         return context
 
-    def validate_output(
-        self, text: str, context: Optional[BrandContext] = None
-    ) -> dict[str, Any]:
+    def validate_output(self, text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:
         """Validate text output for brand compliance"""
         if not isinstance(text, str):
             return {"valid": True, "issues": [], "text": text}
@@ -310,9 +304,7 @@ class LUKHASBrandingBridge:
             "compliance_level": context.compliance_level,
         }
 
-    def normalize_output(
-        self, text: str, context: Optional[BrandContext] = None
-    ) -> str:
+    def normalize_output(self, text: str, context: Optional[BrandContext] = None) -> str:
         """Normalize text output for brand compliance"""
         if not isinstance(text, str):
             return text
@@ -335,9 +327,7 @@ class LUKHASBrandingBridge:
             logger.warning(f"Output normalization error: {e}")
             return text
 
-    def get_brand_voice(
-        self, content: str, context: Optional[BrandContext] = None
-    ) -> str:
+    def get_brand_voice(self, content: str, context: Optional[BrandContext] = None) -> str:
         """Apply brand voice to content"""
         context = context or self.default_context
 
@@ -360,9 +350,7 @@ class LUKHASBrandingBridge:
 
         return content
 
-    def generate_branded_content(
-        self, prompt: str, context: Optional[BrandContext] = None
-    ) -> str:
+    def generate_branded_content(self, prompt: str, context: Optional[BrandContext] = None) -> str:
         """Generate brand-compliant content from prompt"""
         context = context or self.default_context
 
@@ -455,9 +443,7 @@ def get_trinity_context(emphasis: str = "balanced") -> dict[str, Any]:
     return get_bridge().get_trinity_context(emphasis)
 
 
-def validate_output(
-    text: str, context: Optional[BrandContext] = None
-) -> dict[str, Any]:
+def validate_output(text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:
     """Validate text for brand compliance"""
     return get_bridge().validate_output(text, context)
 
@@ -472,9 +458,7 @@ def get_brand_voice(content: str, context: Optional[BrandContext] = None) -> str
     return get_bridge().get_brand_voice(content, context)
 
 
-def generate_branded_content(
-    prompt: str, context: Optional[BrandContext] = None
-) -> str:
+def generate_branded_content(prompt: str, context: Optional[BrandContext] = None) -> str:
     """Generate brand-compliant content"""
     return get_bridge().generate_branded_content(prompt, context)
 

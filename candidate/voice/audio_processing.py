@@ -254,9 +254,7 @@ class CompressorProcessor(AudioSignalProcessor):
 
             # Calculate gain reduction
             if envelope > self.threshold_linear:
-                gain_reduction = 1.0 - (1.0 - self.threshold_linear / envelope) * (
-                    1.0 - 1.0 / self.ratio
-                )
+                gain_reduction = 1.0 - (1.0 - self.threshold_linear / envelope) * (1.0 - 1.0 / self.ratio)
             else:
                 gain_reduction = 1.0
 
@@ -301,11 +299,7 @@ class LimiterProcessor(AudioSignalProcessor):
                 peak = np.max(np.abs(padded_data[i:lookahead_end]))
 
                 # Calculate limiting gain
-                gain = (
-                    self.threshold_linear / peak
-                    if peak > self.threshold_linear
-                    else 1.0
-                )
+                gain = self.threshold_linear / peak if peak > self.threshold_linear else 1.0
 
                 limited_data[i] = padded_data[i] * gain
 
@@ -359,9 +353,7 @@ class EqualizerProcessor(AudioSignalProcessor):
             },
         )
 
-    async def _apply_eq_band(
-        self, data: np.ndarray, sample_rate: int, band: dict[str, float]
-    ) -> np.ndarray:
+    async def _apply_eq_band(self, data: np.ndarray, sample_rate: int, band: dict[str, float]) -> np.ndarray:
         """Apply single EQ band"""
         from scipy import signal
 
@@ -382,9 +374,7 @@ class EqualizerProcessor(AudioSignalProcessor):
             bandwidth = freq / q
             low_freq = freq - bandwidth / 2
             high_freq = freq + bandwidth / 2
-            sos = signal.butter(
-                4, [low_freq, high_freq], btype="bandpass", fs=sample_rate, output="sos"
-            )
+            sos = signal.butter(4, [low_freq, high_freq], btype="bandpass", fs=sample_rate, output="sos")
         elif band_type == "peaking":
             # Peaking EQ (boost/cut at specific frequency)
             w0 = 2 * np.pi * freq / sample_rate
@@ -449,16 +439,12 @@ class ReverbProcessor(AudioSignalProcessor):
         for delay in reverb_delays:
             if delay < len(data):
                 # Delayed and attenuated version
-                delayed = np.pad(data[:-delay], (delay, 0), mode="constant") * (
-                    0.3 * self.room_size
-                )
+                delayed = np.pad(data[:-delay], (delay, 0), mode="constant") * (0.3 * self.room_size)
 
                 # Apply damping (low-pass filter)
                 from scipy import signal
 
-                sos = signal.butter(
-                    2, 8000, btype="lowpass", fs=sample_rate, output="sos"
-                )
+                sos = signal.butter(2, 8000, btype="lowpass", fs=sample_rate, output="sos")
                 delayed_filtered = signal.sosfilt(sos, delayed) * (1.0 - self.damping)
 
                 reverb_signal += delayed_filtered
@@ -522,9 +508,7 @@ class LUKHASAudioProcessor:
         self.guardian = GuardianValidator()
 
         # Processing configuration
-        self.processing_config = AudioProcessingConfig(
-            **self.config.get("processing", {})
-        )
+        self.processing_config = AudioProcessingConfig(**self.config.get("processing", {}))
 
         # Initialize processing chains for different quality levels
         self.processing_chains = {
@@ -589,9 +573,7 @@ class LUKHASAudioProcessor:
         return AudioProcessingChain(
             [
                 NoiseGateProcessor(threshold_db=-70.0),
-                CompressorProcessor(
-                    threshold_db=-16.0, ratio=6.0, attack_ms=3.0, release_ms=50.0
-                ),
+                CompressorProcessor(threshold_db=-16.0, ratio=6.0, attack_ms=3.0, release_ms=50.0),
                 EqualizerProcessor(
                     [
                         {"freq": 40, "gain": -6, "q": 2.0, "type": "high_pass"},
@@ -646,14 +628,10 @@ class LUKHASAudioProcessor:
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(
-                    f"Guardian rejected audio processing: {validation_result.get('reason')}"
-                )
+                raise ValueError(f"Guardian rejected audio processing: {validation_result.get('reason')}")
 
             # Convert bytes to audio buffer
-            audio_buffer = self._bytes_to_buffer(
-                audio_data, sample_rate, channels, format
-            )
+            audio_buffer = self._bytes_to_buffer(audio_data, sample_rate, channels, format)
 
             # Select processing chain based on quality
             processing_chain = self.processing_chains[quality]
@@ -695,9 +673,7 @@ class LUKHASAudioProcessor:
         except Exception as e:
             self.logger.error(f"Audio processing failed: {e!s}")
 
-            await GLYPH.emit(
-                "audio.processing.error", {"error": str(e), "quality": quality.value}
-            )
+            await GLYPH.emit("audio.processing.error", {"error": str(e), "quality": quality.value})
 
             return audio_data, {
                 "success": False,
@@ -705,31 +681,21 @@ class LUKHASAudioProcessor:
                 "processing_time_ms": (time.time() - start_time) * 1000,
             }
 
-    def _bytes_to_buffer(
-        self, audio_data: bytes, sample_rate: int, channels: int, format: AudioFormat
-    ) -> AudioBuffer:
+    def _bytes_to_buffer(self, audio_data: bytes, sample_rate: int, channels: int, format: AudioFormat) -> AudioBuffer:
         """Convert audio bytes to AudioBuffer"""
         if format == AudioFormat.PCM_16:
-            audio_array = (
-                np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
-            )
+            audio_array = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
         elif format == AudioFormat.PCM_24:
             # 24-bit PCM (padded to 32-bit)
-            audio_array = np.frombuffer(audio_data, dtype=np.int32).astype(
-                np.float32
-            ) / (2**23)
+            audio_array = np.frombuffer(audio_data, dtype=np.int32).astype(np.float32) / (2**23)
         elif format == AudioFormat.PCM_32:
-            audio_array = np.frombuffer(audio_data, dtype=np.int32).astype(
-                np.float32
-            ) / (2**31)
+            audio_array = np.frombuffer(audio_data, dtype=np.int32).astype(np.float32) / (2**31)
         elif format == AudioFormat.FLOAT_32:
             audio_array = np.frombuffer(audio_data, dtype=np.float32)
         else:  # FLOAT_64
             audio_array = np.frombuffer(audio_data, dtype=np.float64).astype(np.float32)
 
-        return AudioBuffer(
-            data=audio_array, sample_rate=sample_rate, channels=channels, format=format
-        )
+        return AudioBuffer(data=audio_array, sample_rate=sample_rate, channels=channels, format=format)
 
     def _buffer_to_bytes(self, buffer: AudioBuffer) -> bytes:
         """Convert AudioBuffer to bytes"""
@@ -766,9 +732,7 @@ class LUKHASAudioProcessor:
         while self.real_time_active:
             try:
                 # Get audio from queue (with timeout)
-                audio_task = await asyncio.wait_for(
-                    self.real_time_queue.get(), timeout=0.1
-                )
+                audio_task = await asyncio.wait_for(self.real_time_queue.get(), timeout=0.1)
 
                 # Process audio with draft quality for speed
                 result = await self.process_audio(
@@ -791,13 +755,9 @@ class LUKHASAudioProcessor:
                 self.logger.error(f"Real-time processing error: {e!s}")
                 await asyncio.sleep(0.01)
 
-    async def queue_real_time_audio(
-        self, audio_data: bytes, callback: Optional[Callable] = None, **kwargs
-    ):
+    async def queue_real_time_audio(self, audio_data: bytes, callback: Optional[Callable] = None, **kwargs):
         """Queue audio for real-time processing"""
-        await self.real_time_queue.put(
-            {"data": audio_data, "callback": callback, **kwargs}
-        )
+        await self.real_time_queue.put({"data": audio_data, "callback": callback, **kwargs})
 
     def get_supported_formats(self) -> list[AudioFormat]:
         """Get list of supported audio formats"""
@@ -807,9 +767,7 @@ class LUKHASAudioProcessor:
         """Get list of processing quality levels"""
         return list(ProcessingQuality)
 
-    async def analyze_audio_quality(
-        self, audio_buffer: AudioBuffer
-    ) -> dict[str, float]:
+    async def analyze_audio_quality(self, audio_buffer: AudioBuffer) -> dict[str, float]:
         """Analyze audio quality metrics"""
         data = audio_buffer.data
 

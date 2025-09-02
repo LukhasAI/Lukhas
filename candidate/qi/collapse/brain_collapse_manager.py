@@ -56,13 +56,9 @@ class BrainCollapseManager:
         self.recovery_attempts: int = 0
         self.symbolic_trace_logger: SymbolicTraceLogger = SymbolicTraceLogger()
         self.collapse_mesh: CollapseMesh = CollapseMesh()
-        self.collapse_chain_integrity: CollapseChainIntegrity = CollapseChainIntegrity(
-            brain_integrator
-        )
+        self.collapse_chain_integrity: CollapseChainIntegrity = CollapseChainIntegrity(brain_integrator)
         self.collapse_bridge: CollapseBridge = CollapseBridge(brain_integrator)
-        self.memory_collapse_verifier: MemoryCollapseVerifier = MemoryCollapseVerifier(
-            brain_integrator
-        )
+        self.memory_collapse_verifier: MemoryCollapseVerifier = MemoryCollapseVerifier(brain_integrator)
         self.integrity_probe: IntegrityProbe = IntegrityProbe(brain_integrator)
 
     async def detect_collapse(self) -> bool:
@@ -81,10 +77,7 @@ class BrainCollapseManager:
         analysis: dict[str, Any] = self.symbolic_trace_logger.get_pattern_analysis()
         if analysis.get("bio_metrics_trends", {}).get("proton_gradient", 1.0) < 0.1:
             return True
-        return (
-            analysis.get("qi_like_state_trends", {}).get("avg_coherence_trend", 1.0)
-            < 0.1
-        )
+        return analysis.get("qi_like_state_trends", {}).get("avg_coherence_trend", 1.0) < 0.1
 
     # ΛPROPAGATOR
     async def handle_collapse(self) -> None:
@@ -106,9 +99,7 @@ class BrainCollapseManager:
                 "timestamp": self.collapse_time.isoformat(),
             }
         )
-        await self.collapse_bridge.report_collapse(
-            {"collapse_time": self.collapse_time.isoformat()}
-        )
+        await self.collapse_bridge.report_collapse({"collapse_time": self.collapse_time.isoformat()})
 
         # #ΛPENDING_PATCH: This is a placeholder.
         #                A real implementation would need to take steps to
@@ -236,9 +227,7 @@ def collapse_handler(collapse_manager: BrainCollapseManager) -> None:
     #                A real implementation would need to escalate the collapse
     #                to a higher-level system or to a human operator.
     if collapse_manager.recovery_attempts > 5:
-        logger.critical(
-            "Maximum recovery attempts reached. Escalating to human operator."
-        )
+        logger.critical("Maximum recovery attempts reached. Escalating to human operator.")
 
 
 # ═══════════════════════════════════════════════════════════════════════════

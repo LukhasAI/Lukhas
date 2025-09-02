@@ -285,9 +285,7 @@ class FunctionProfiler:
         """Get all function profiles."""
         return self.profiles.copy()
 
-    def get_top_functions(
-        self, n: int = 10, sort_by: str = "total_time"
-    ) -> list[FunctionProfile]:
+    def get_top_functions(self, n: int = 10, sort_by: str = "total_time") -> list[FunctionProfile]:
         """Get top N functions by specified metric."""
         profiles = list(self.profiles.values())
         profiles.sort(key=lambda p: getattr(p, sort_by, 0), reverse=True)
@@ -325,9 +323,7 @@ class MemoryProfiler:
         snapshot = tracemalloc.take_snapshot()
         self.snapshots.append((description, snapshot))
 
-    def get_top_stats(
-        self, snapshot_index: int = -1, limit: int = 10
-    ) -> list[dict[str, Any]]:
+    def get_top_stats(self, snapshot_index: int = -1, limit: int = 10) -> list[dict[str, Any]]:
         """Get top memory allocation statistics."""
         if not self.snapshots:
             return []
@@ -344,9 +340,7 @@ class MemoryProfiler:
             for stat in top_stats
         ]
 
-    def compare_snapshots(
-        self, index1: int = 0, index2: int = -1
-    ) -> list[dict[str, Any]]:
+    def compare_snapshots(self, index1: int = 0, index2: int = -1) -> list[dict[str, Any]]:
         """Compare two memory snapshots."""
         if len(self.snapshots) < 2:
             return []
@@ -441,11 +435,7 @@ class CacheManager:
         """Remove expired entries."""
         with self._lock:
             current_time = time.time()
-            expired_keys = [
-                key
-                for key, (_, expires_at) in self._cache.items()
-                if current_time > expires_at
-            ]
+            expired_keys = [key for key, (_, expires_at) in self._cache.items() if current_time > expires_at]
 
             for key in expired_keys:
                 del self._cache[key]
@@ -540,9 +530,7 @@ class AsyncTaskManager:
     async def cleanup_completed_tasks(self):
         """Remove completed tasks."""
         async with self._lock:
-            completed_tasks = [
-                task_id for task_id, task in self.tasks.items() if task.done()
-            ]
+            completed_tasks = [task_id for task_id, task in self.tasks.items() if task.done()]
 
             for task_id in completed_tasks:
                 del self.tasks[task_id]
@@ -550,10 +538,7 @@ class AsyncTaskManager:
     async def get_task_status(self) -> dict[str, str]:
         """Get status of all tasks."""
         async with self._lock:
-            return {
-                task_id: "completed" if task.done() else "running"
-                for task_id, task in self.tasks.items()
-            }
+            return {task_id: "completed" if task.done() else "running" for task_id, task in self.tasks.items()}
 
 
 # Performance decorators
@@ -594,9 +579,7 @@ def memory_limit(max_mb: int):
                 memory_used_mb = (final_memory - initial_memory) / 1024 / 1024
 
                 if memory_used_mb > max_mb:
-                    logging.warning(
-                        f"{func.__name__} used {memory_used_mb:.1f}MB (limit: {max_mb}MB)"
-                    )
+                    logging.warning(f"{func.__name__} used {memory_used_mb:.1f}MB (limit: {max_mb}MB)")
 
                 return result
             except MemoryError:

@@ -157,12 +157,8 @@ def demonstrate_dreamseed_integration():
     print(f"   • Success: {folding_result['success']}")
     print(f"   • Created Folds: {len(folding_result['created_folds'])}")
     print(f"   • Processing Stages: {list(folding_result['processing_stages'].keys())}")
-    print(
-        f"   • Drift Metrics: {folding_result['drift_metrics']['dream_drift_score']:.3f}"
-    )
-    print(
-        f"   • Stability Score: {folding_result['drift_metrics']['overall_stability']:.3f}"
-    )
+    print(f"   • Drift Metrics: {folding_result['drift_metrics']['dream_drift_score']:.3f}")
+    print(f"   • Stability Score: {folding_result['drift_metrics']['overall_stability']:.3f}")
     print(f"   • Safeguard Flags: {folding_result['safeguard_flags']}")
 
     # Example 3: Tiered Memory Recall
@@ -188,12 +184,8 @@ def demonstrate_dreamseed_integration():
         if content:
             if isinstance(content, dict) and "core_content" in content:
                 print("      • Full contextual access with metadata")
-                print(
-                    f"      • Memory Type: {content['memory_metadata']['memory_type']}"
-                )
-                print(
-                    f"      • Importance: {content['memory_metadata']['importance_score']:.3f}"
-                )
+                print(f"      • Memory Type: {content['memory_metadata']['memory_type']}")
+                print(f"      • Importance: {content['memory_metadata']['importance_score']:.3f}")
             elif isinstance(content, dict) and "content" in content:
                 print("      • Emotional weighted access")
                 print(f"      • Weight: {content['emotional_weight']:.3f}")
@@ -227,9 +219,7 @@ def demonstrate_dreamseed_integration():
     print("✅ Dream Integration Statistics:")
     print(f"   • Total Dreams Processed: {dream_analytics['total_dreams_processed']}")
     print(f"   • Success Rate: {dream_analytics['success_rate']:.1%}")
-    print(
-        f"   • Average Entanglement: {dream_analytics['average_entanglement_level']:.2f}"
-    )
+    print(f"   • Average Entanglement: {dream_analytics['average_entanglement_level']:.2f}")
     print(f"   • Tier Distribution: {dict(dream_analytics['tier_distribution'])}")
     print(f"   • Top GLYPHs: {dict(list(dream_analytics['glyph_usage'].items())[:3])}")
 
@@ -256,13 +246,9 @@ def demonstrate_dreamseed_integration():
 
     print("✅ Safeguard System Status:")
     print(f"   • Session ID: {session_analytics['session_id']}")
-    print(
-        f"   • Total GLYPH Usage: {sum(session_analytics['total_glyph_usage'].values())}"
-    )
+    print(f"   • Total GLYPH Usage: {sum(session_analytics['total_glyph_usage'].values())}")
     print(f"   • Entangled Dreams: {session_analytics['entangled_dreams']}")
-    print(
-        f"   • Recursive Amplification Events: {session_analytics['recursive_amplification_events']}"
-    )
+    print(f"   • Recursive Amplification Events: {session_analytics['recursive_amplification_events']}")
 
     # Example 8: Advanced Drift Feedback
     print("\n📍 EXAMPLE 8: Dream Drift Feedback System")

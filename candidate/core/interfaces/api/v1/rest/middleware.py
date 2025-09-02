@@ -172,9 +172,7 @@ class AuthMiddleware:
 
             # Check token expiration
             exp = payload.get("exp")
-            if exp and datetime.fromtimestamp(exp, tz=timezone.utc) < datetime.now(
-                timezone.utc
-            ):
+            if exp and datetime.fromtimestamp(exp, tz=timezone.utc) < datetime.now(timezone.utc):
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     detail="Token expired",
@@ -230,9 +228,7 @@ class AuthMiddleware:
 auth_middleware = AuthMiddleware()
 
 
-def create_access_token(
-    data: dict[str, Any], expires_delta: Optional[int] = None
-) -> str:
+def create_access_token(data: dict[str, Any], expires_delta: Optional[int] = None) -> str:
     """Create a JWT access token.
 
     Args:
@@ -247,9 +243,7 @@ def create_access_token(
     if expires_delta:
         expire = datetime.now(timezone.utc).timestamp() + (expires_delta * 60)
     else:
-        expire = datetime.now(timezone.utc).timestamp() + (
-            ACCESS_TOKEN_EXPIRE_MINUTES * 60
-        )
+        expire = datetime.now(timezone.utc).timestamp() + (ACCESS_TOKEN_EXPIRE_MINUTES * 60)
 
     to_encode.update({"exp": expire})
 

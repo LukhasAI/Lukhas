@@ -72,9 +72,7 @@ class QISecurityIntegration:
 
         for algorithm in ["kyber", "dilithium"]:
             try:
-                await self.security_orchestrator.pq_crypto_engine.generate_quantum_resistant_keys(
-                    algorithm
-                )
+                await self.security_orchestrator.pq_crypto_engine.generate_quantum_resistant_keys(algorithm)
                 logger.info(f"Generated {algorithm} keys successfully")
             except Exception as e:
                 logger.warning(f"Failed to generate {algorithm} keys: {e}")
@@ -84,9 +82,7 @@ class QISecurityIntegration:
         if self.security_orchestrator.brain_symphony:
             logger.info("Bio-symbolic threat detection available and initialized")
         else:
-            logger.warning(
-                "Bio-symbolic threat detection not available - using standard detection"
-            )
+            logger.warning("Bio-symbolic threat detection not available - using standard detection")
 
     async def _load_security_policies(self):
         """Load default security policies"""
@@ -98,9 +94,7 @@ class QISecurityIntegration:
             "threat_response_mode": "adaptive",
         }
 
-    async def perform_security_assessment(
-        self, target: str, code: Optional[str] = None
-    ) -> SecurityAssessment:
+    async def perform_security_assessment(self, target: str, code: Optional[str] = None) -> SecurityAssessment:
         """
         Perform a comprehensive quantum security assessment
 
@@ -122,11 +116,7 @@ class QISecurityIntegration:
                 return cached["assessment"]
 
         # Perform assessment
-        assessment = (
-            await self.security_orchestrator.perform_quantum_security_assessment(
-                target, code
-            )
-        )
+        assessment = await self.security_orchestrator.perform_quantum_security_assessment(target, code)
 
         # Cache the result
         self.assessment_cache[cache_key] = {
@@ -136,9 +126,7 @@ class QISecurityIntegration:
 
         return assessment
 
-    async def generate_quantum_resistant_keys(
-        self, algorithm: str = "kyber"
-    ) -> dict[str, Any]:
+    async def generate_quantum_resistant_keys(self, algorithm: str = "kyber") -> dict[str, Any]:
         """
         Generate quantum-resistant cryptographic keys
 
@@ -151,13 +139,9 @@ class QISecurityIntegration:
         if not self.is_initialized:
             await self.initialize()
 
-        return await self.security_orchestrator.pq_crypto_engine.generate_quantum_resistant_keys(
-            algorithm
-        )
+        return await self.security_orchestrator.pq_crypto_engine.generate_quantum_resistant_keys(algorithm)
 
-    async def encrypt_quantum_safe(
-        self, data: bytes, public_key: str, algorithm: str = "kyber"
-    ) -> dict[str, Any]:
+    async def encrypt_quantum_safe(self, data: bytes, public_key: str, algorithm: str = "kyber") -> dict[str, Any]:
         """
         Encrypt data using quantum-resistant algorithms
 
@@ -172,13 +156,9 @@ class QISecurityIntegration:
         if not self.is_initialized:
             await self.initialize()
 
-        return await self.security_orchestrator.pq_crypto_engine.qi_encrypt(
-            data, public_key, algorithm
-        )
+        return await self.security_orchestrator.pq_crypto_engine.qi_encrypt(data, public_key, algorithm)
 
-    async def detect_quantum_threats(
-        self, system_state: dict[str, Any]
-    ) -> list[QIThreat]:
+    async def detect_quantum_threats(self, system_state: dict[str, Any]) -> list[QIThreat]:
         """
         Detect quantum-era security threats in the system
 
@@ -215,9 +195,7 @@ class QISecurityIntegration:
 
         return threats
 
-    async def orchestrate_security_response(
-        self, assessment: SecurityAssessment
-    ) -> dict[str, Any]:
+    async def orchestrate_security_response(self, assessment: SecurityAssessment) -> dict[str, Any]:
         """
         Orchestrate an adaptive security response based on assessment
 
@@ -230,9 +208,7 @@ class QISecurityIntegration:
         if not self.is_initialized:
             await self.initialize()
 
-        return await self.security_orchestrator.orchestrate_security_response(
-            assessment
-        )
+        return await self.security_orchestrator.orchestrate_security_response(assessment)
 
     def get_security_metrics(self) -> dict[str, Any]:
         """Get current security metrics and statistics"""
@@ -252,8 +228,7 @@ class QISecurityIntegration:
         return {
             "initialized": self.is_initialized,
             "post_quantum_ready": True,
-            "bio_symbolic_available": self.security_orchestrator.brain_symphony
-            is not None,
+            "bio_symbolic_available": self.security_orchestrator.brain_symphony is not None,
             "active_algorithms": self.get_supported_algorithms(),
             "metrics": self.get_security_metrics(),
             "policies": self.security_policies,

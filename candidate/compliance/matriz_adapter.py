@@ -56,9 +56,7 @@ class ComplianceMatrizAdapter:
         return node
 
     @staticmethod
-    def emit_compliance_check(
-        regulation: str, status: str, violations: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    def emit_compliance_check(regulation: str, status: str, violations: Optional[list[str]] = None) -> dict[str, Any]:
         """Emit a compliance validation node"""
 
         is_compliant = status == "compliant"
@@ -83,9 +81,7 @@ class ComplianceMatrizAdapter:
         )
 
     @staticmethod
-    def emit_consent_verification(
-        user_id: str, action: str, consent_given: bool, scope: str
-    ) -> dict[str, Any]:
+    def emit_consent_verification(user_id: str, action: str, consent_given: bool, scope: str) -> dict[str, Any]:
         """Emit a consent verification node"""
 
         return ComplianceMatrizAdapter.create_node(
@@ -106,9 +102,7 @@ class ComplianceMatrizAdapter:
         )
 
     @staticmethod
-    def emit_audit_event(
-        event_type: str, entity: str, action: str, risk_level: str = "low"
-    ) -> dict[str, Any]:
+    def emit_audit_event(event_type: str, entity: str, action: str, risk_level: str = "low") -> dict[str, Any]:
         """Emit an audit trail node"""
 
         risk_urgency = {"low": 0.1, "medium": 0.5, "high": 0.8, "critical": 1.0}
@@ -130,9 +124,7 @@ class ComplianceMatrizAdapter:
         )
 
     @staticmethod
-    def emit_gdpr_compliance(
-        data_type: str, purpose: str, lawful_basis: str, retention_days: int
-    ) -> dict[str, Any]:
+    def emit_gdpr_compliance(data_type: str, purpose: str, lawful_basis: str, retention_days: int) -> dict[str, Any]:
         """Emit a GDPR compliance node"""
 
         return ComplianceMatrizAdapter.create_node(

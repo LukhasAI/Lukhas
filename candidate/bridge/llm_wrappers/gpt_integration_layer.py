@@ -84,9 +84,7 @@ class GPTIntegrationLayer:
         logger.info("   Trinity Framework: ⚛️🧠🛡️")
         logger.info("   Drift annotation enabled")
 
-    def process_gpt_response(
-        self, gpt_response: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    def process_gpt_response(self, gpt_response: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Process a GPT response through the full symbolic pipeline.
 
@@ -121,24 +119,19 @@ class GPTIntegrationLayer:
             healed_response = self.healer_engine.restore(gpt_response, diagnosis)
 
             # Re-assess healed version
-            healed_assessment = self.embedding_engine.evaluate_symbolic_ethics(
-                healed_response
-            )
+            healed_assessment = self.embedding_engine.evaluate_symbolic_ethics(healed_response)
 
             # Create healing result
             healing_result = {
                 "original_drift": assessment["symbolic_drift_score"],
                 "healed_drift": healed_assessment["symbolic_drift_score"],
-                "improvement": assessment["symbolic_drift_score"]
-                - healed_assessment["symbolic_drift_score"],
+                "improvement": assessment["symbolic_drift_score"] - healed_assessment["symbolic_drift_score"],
                 "healing_applied": True,
                 "healed_assessment": healed_assessment,
             }
 
             # Annotate drifted sections
-            annotated_response = self._annotate_drift_sections(
-                gpt_response, healed_response, diagnosis
-            )
+            annotated_response = self._annotate_drift_sections(gpt_response, healed_response, diagnosis)
 
         # Step 6: Persona matching
         symbolic_trace = {
@@ -152,9 +145,7 @@ class GPTIntegrationLayer:
         # Step 7: Build diagnostic report
         diagnostic_report = {
             "timestamp": start_time.isoformat(),
-            "processing_time_ms": int(
-                (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
-            ),
+            "processing_time_ms": int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000),
             "original_response": gpt_response,
             "healed_response": healed_response if needs_healing else None,
             "annotated_response": annotated_response,
@@ -179,9 +170,7 @@ class GPTIntegrationLayer:
 
         return diagnostic_report
 
-    def _check_needs_healing(
-        self, assessment: dict[str, Any], diagnosis: dict[str, Any]
-    ) -> bool:
+    def _check_needs_healing(self, assessment: dict[str, Any], diagnosis: dict[str, Any]) -> bool:
         """
         Determine if healing is required based on assessment and diagnosis.
 
@@ -214,9 +203,7 @@ class GPTIntegrationLayer:
         # Check for low Trinity coherence
         return assessment.get("trinity_coherence", 1.0) < 0.3
 
-    def _annotate_drift_sections(
-        self, original: str, healed: str, diagnosis: dict[str, Any]
-    ) -> str:
+    def _annotate_drift_sections(self, original: str, healed: str, diagnosis: dict[str, Any]) -> str:
         """
         Annotate drifted sections for future fine-tuning.
 
@@ -242,26 +229,17 @@ class GPTIntegrationLayer:
             if i < len(healed_sentences):
                 # Calculate sentence-level similarity
                 orig_glyphs = set(re.findall(r"[\U00010000-\U0010FFFF]", orig_sent))
-                healed_glyphs = set(
-                    re.findall(r"[\U00010000-\U0010FFFF]", healed_sentences[i])
-                )
+                healed_glyphs = set(re.findall(r"[\U00010000-\U0010FFFF]", healed_sentences[i]))
 
                 # Check if sentence was significantly modified
-                if (
-                    orig_sent != healed_sentences[i]
-                    or len(orig_glyphs - healed_glyphs) > 0
-                ):
+                if orig_sent != healed_sentences[i] or len(orig_glyphs - healed_glyphs) > 0:
                     # Mark as drifted
-                    annotated_parts.append(
-                        f"{self.drift_markers['start']}{orig_sent}{self.drift_markers['end']}"
-                    )
+                    annotated_parts.append(f"{self.drift_markers['start']}{orig_sent}{self.drift_markers['end']}")
                 else:
                     annotated_parts.append(orig_sent)
             else:
                 # Original sentence was removed in healing
-                annotated_parts.append(
-                    f"{self.drift_markers['start']}{orig_sent}{self.drift_markers['end']}"
-                )
+                annotated_parts.append(f"{self.drift_markers['start']}{orig_sent}{self.drift_markers['end']}")
 
         # Add drift metadata comment
         drift_metadata = f"\n<!-- DRIFT_METADATA: primary_issue={diagnosis.get('primary_issue', 'unknown')}, severity={diagnosis.get('severity', 0):.2f} -->"
@@ -291,9 +269,7 @@ class GPTIntegrationLayer:
 
         # Collect intervention reasons
         if assessment.get("symbolic_drift_score", 0) > 0.7:
-            summary["reasons"].append(
-                f"High drift score: {assessment['symbolic_drift_score']:.2f}"
-            )
+            summary["reasons"].append(f"High drift score: {assessment['symbolic_drift_score']:.2f}")
 
         if assessment.get("guardian_flagged", False):
             summary["reasons"].append("Guardian system flagged content")
@@ -305,9 +281,7 @@ class GPTIntegrationLayer:
             summary["reasons"].append("Trinity Framework violation")
 
         if assessment.get("trinity_coherence", 1.0) < 0.3:
-            summary["reasons"].append(
-                f"Low Trinity coherence: {assessment['trinity_coherence']:.2f}"
-            )
+            summary["reasons"].append(f"Low Trinity coherence: {assessment['trinity_coherence']:.2f}")
 
         # Add outcome if healing was applied
         if healing_result:
@@ -318,9 +292,7 @@ class GPTIntegrationLayer:
             }
 
         # Add recommendations
-        summary["recommendations"] = self._generate_recommendations(
-            assessment, diagnosis, healing_result
-        )
+        summary["recommendations"] = self._generate_recommendations(assessment, diagnosis, healing_result)
 
         return summary
 
@@ -373,13 +345,9 @@ class GPTIntegrationLayer:
 
             # Append new report (limit response text for storage)
             log_entry = report.copy()
-            log_entry["original_response"] = (
-                log_entry["original_response"][:500] + "..."
-            )
+            log_entry["original_response"] = log_entry["original_response"][:500] + "..."
             if log_entry.get("healed_response"):
-                log_entry["healed_response"] = (
-                    log_entry["healed_response"][:500] + "..."
-                )
+                log_entry["healed_response"] = log_entry["healed_response"][:500] + "..."
 
             logs.append(log_entry)
 
@@ -394,9 +362,7 @@ class GPTIntegrationLayer:
         except Exception as e:
             logger.error(f"Failed to log diagnostic: {e}")
 
-    def batch_process(
-        self, responses: list[str], contexts: Optional[list[dict]] = None
-    ) -> list[dict[str, Any]]:
+    def batch_process(self, responses: list[str], contexts: Optional[list[dict]] = None) -> list[dict[str, Any]]:
         """
         Process multiple GPT responses in batch.
 
@@ -424,14 +390,10 @@ class GPTIntegrationLayer:
     def _generate_batch_summary(self, results: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate summary statistics for batch processing"""
         total = len(results)
-        interventions = sum(
-            1 for r in results if r["intervention_summary"]["intervention_applied"]
-        )
+        interventions = sum(1 for r in results if r["intervention_summary"]["intervention_applied"])
 
         avg_drift = sum(r["guardian_overlay"]["drift_score"] for r in results) / total
-        avg_trinity = (
-            sum(r["guardian_overlay"]["trinity_coherence"] for r in results) / total
-        )
+        avg_trinity = sum(r["guardian_overlay"]["trinity_coherence"] for r in results) / total
 
         issues = {}
         for r in results:
@@ -469,10 +431,7 @@ class GPTIntegrationLayer:
 
             for entry in logs:
                 # Only include entries where healing was applied
-                if (
-                    entry.get("healing_result")
-                    and entry["healing_result"]["healing_applied"]
-                ):
+                if entry.get("healing_result") and entry["healing_result"]["healing_applied"]:
                     training_example = {
                         "prompt": entry.get("context", {}).get("prompt", ""),
                         "original_completion": entry["original_response"],
@@ -488,9 +447,7 @@ class GPTIntegrationLayer:
             for example in training_data:
                 f.write(json.dumps(example, ensure_ascii=False) + "\n")
 
-        logger.info(
-            f"📤 Exported {len(training_data)} training examples to {output_path}"
-        )
+        logger.info(f"📤 Exported {len(training_data)} training examples to {output_path}")
         return str(output_path)
 
     def get_stats(self) -> dict[str, Any]:
@@ -508,9 +465,7 @@ class GPTIntegrationLayer:
                 logs = json.load(f)
                 stats["diagnostics_logged"] = len(logs)
                 stats["training_examples_available"] = sum(
-                    1
-                    for log in logs
-                    if log.get("healing_result", {}).get("healing_applied", False)
+                    1 for log in logs if log.get("healing_result", {}).get("healing_applied", False)
                 )
 
         return stats
@@ -541,19 +496,13 @@ if __name__ == "__main__":
         print(f"Original: {response[:60]}...")
 
         # Process response
-        report = gpt_layer.process_gpt_response(
-            response, context={"test_id": i, "temperature": 0.7}
-        )
+        report = gpt_layer.process_gpt_response(response, context={"test_id": i, "temperature": 0.7})
 
         # Display results
         print(f"Drift Score: {report['guardian_overlay']['drift_score']:.2f}")
-        print(
-            f"Trinity Coherence: {report['guardian_overlay']['trinity_coherence']:.2f}"
-        )
+        print(f"Trinity Coherence: {report['guardian_overlay']['trinity_coherence']:.2f}")
         print(f"Primary Issue: {report['diagnosis']['primary_issue']}")
-        print(
-            f"Intervention Applied: {report['intervention_summary']['intervention_applied']}"
-        )
+        print(f"Intervention Applied: {report['intervention_summary']['intervention_applied']}")
 
         if report["healing_result"]:
             print(f"Drift Improvement: {report['healing_result']['improvement']:.2f}")

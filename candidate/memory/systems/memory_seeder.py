@@ -41,17 +41,13 @@ def generate_seed_memory(seed_phrase: str) -> dict:
         "conceptual_layer": random.choice(["Identity", "Ethics", "Perception"]),
         "emotional_charge": random.uniform(-1.0, 1.0),
         "parent_id": None,
-        "origin_theory": random.choice(
-            ["Platonic Ideal", "Constructivist", "Empirical"]
-        ),
+        "origin_theory": random.choice(["Platonic Ideal", "Constructivist", "Empirical"]),
         "timestamp": None,
         "embedded": False,
     }
 
 
-def seed_memory_store(
-    seed_list: list[str], save_path: Optional[str] = None
-) -> list[dict]:
+def seed_memory_store(seed_list: list[str], save_path: Optional[str] = None) -> list[dict]:
     """
     Seed a memory store with a list of symbolic phrases.
 

@@ -39,145 +39,63 @@ class PaletteBias:
 CULTURE_PALETTE_TABLES = {
     CultureProfile.DEFAULT: {
         # Western-influenced default associations
-        "red": PaletteBias(
-            threat_bias=0.7, soothe_bias=0.1, energy_bias=0.9, grounding_bias=0.2
-        ),
-        "blue": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.7, energy_bias=0.3, grounding_bias=0.8
-        ),
-        "green": PaletteBias(
-            threat_bias=0.2, soothe_bias=0.6, energy_bias=0.4, grounding_bias=0.9
-        ),
-        "yellow": PaletteBias(
-            threat_bias=0.3, soothe_bias=0.4, energy_bias=0.8, grounding_bias=0.3
-        ),
-        "orange": PaletteBias(
-            threat_bias=0.5, soothe_bias=0.2, energy_bias=0.9, grounding_bias=0.4
-        ),
-        "purple": PaletteBias(
-            threat_bias=0.3, soothe_bias=0.5, energy_bias=0.6, grounding_bias=0.5
-        ),
-        "black": PaletteBias(
-            threat_bias=0.6, soothe_bias=0.2, energy_bias=0.2, grounding_bias=0.7
-        ),
-        "white": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.6, energy_bias=0.3, grounding_bias=0.6
-        ),
+        "red": PaletteBias(threat_bias=0.7, soothe_bias=0.1, energy_bias=0.9, grounding_bias=0.2),
+        "blue": PaletteBias(threat_bias=0.1, soothe_bias=0.7, energy_bias=0.3, grounding_bias=0.8),
+        "green": PaletteBias(threat_bias=0.2, soothe_bias=0.6, energy_bias=0.4, grounding_bias=0.9),
+        "yellow": PaletteBias(threat_bias=0.3, soothe_bias=0.4, energy_bias=0.8, grounding_bias=0.3),
+        "orange": PaletteBias(threat_bias=0.5, soothe_bias=0.2, energy_bias=0.9, grounding_bias=0.4),
+        "purple": PaletteBias(threat_bias=0.3, soothe_bias=0.5, energy_bias=0.6, grounding_bias=0.5),
+        "black": PaletteBias(threat_bias=0.6, soothe_bias=0.2, energy_bias=0.2, grounding_bias=0.7),
+        "white": PaletteBias(threat_bias=0.1, soothe_bias=0.6, energy_bias=0.3, grounding_bias=0.6),
     },
     CultureProfile.JAPANESE: {
         # Japanese color psychology (aka/aoi system)
-        "aka": PaletteBias(
-            threat_bias=0.7, soothe_bias=0.1, energy_bias=0.9, grounding_bias=0.2
-        ),  # Red
-        "aoi": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.7, energy_bias=0.3, grounding_bias=0.8
-        ),  # Blue
-        "midori": PaletteBias(
-            threat_bias=0.2, soothe_bias=0.6, energy_bias=0.4, grounding_bias=0.9
-        ),  # Green
-        "kiiro": PaletteBias(
-            threat_bias=0.2, soothe_bias=0.5, energy_bias=0.8, grounding_bias=0.4
-        ),  # Yellow
-        "murasaki": PaletteBias(
-            threat_bias=0.4, soothe_bias=0.4, energy_bias=0.6, grounding_bias=0.5
-        ),  # Purple
-        "kuro": PaletteBias(
-            threat_bias=0.5, soothe_bias=0.3, energy_bias=0.2, grounding_bias=0.8
-        ),  # Black
-        "shiro": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.7, energy_bias=0.4, grounding_bias=0.7
-        ),  # White
+        "aka": PaletteBias(threat_bias=0.7, soothe_bias=0.1, energy_bias=0.9, grounding_bias=0.2),  # Red
+        "aoi": PaletteBias(threat_bias=0.1, soothe_bias=0.7, energy_bias=0.3, grounding_bias=0.8),  # Blue
+        "midori": PaletteBias(threat_bias=0.2, soothe_bias=0.6, energy_bias=0.4, grounding_bias=0.9),  # Green
+        "kiiro": PaletteBias(threat_bias=0.2, soothe_bias=0.5, energy_bias=0.8, grounding_bias=0.4),  # Yellow
+        "murasaki": PaletteBias(threat_bias=0.4, soothe_bias=0.4, energy_bias=0.6, grounding_bias=0.5),  # Purple
+        "kuro": PaletteBias(threat_bias=0.5, soothe_bias=0.3, energy_bias=0.2, grounding_bias=0.8),  # Black
+        "shiro": PaletteBias(threat_bias=0.1, soothe_bias=0.7, energy_bias=0.4, grounding_bias=0.7),  # White
     },
     CultureProfile.WESTERN: {
         # Western psychological associations
-        "red": PaletteBias(
-            threat_bias=0.8, soothe_bias=0.1, energy_bias=1.0, grounding_bias=0.2
-        ),
-        "blue": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.8, energy_bias=0.2, grounding_bias=0.9
-        ),
-        "green": PaletteBias(
-            threat_bias=0.2, soothe_bias=0.7, energy_bias=0.5, grounding_bias=1.0
-        ),
-        "yellow": PaletteBias(
-            threat_bias=0.2, soothe_bias=0.6, energy_bias=0.9, grounding_bias=0.3
-        ),
-        "orange": PaletteBias(
-            threat_bias=0.4, soothe_bias=0.3, energy_bias=0.9, grounding_bias=0.3
-        ),
-        "purple": PaletteBias(
-            threat_bias=0.3, soothe_bias=0.4, energy_bias=0.7, grounding_bias=0.4
-        ),
-        "pink": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.8, energy_bias=0.6, grounding_bias=0.5
-        ),
-        "brown": PaletteBias(
-            threat_bias=0.3, soothe_bias=0.5, energy_bias=0.3, grounding_bias=0.9
-        ),
-        "gray": PaletteBias(
-            threat_bias=0.4, soothe_bias=0.3, energy_bias=0.2, grounding_bias=0.6
-        ),
+        "red": PaletteBias(threat_bias=0.8, soothe_bias=0.1, energy_bias=1.0, grounding_bias=0.2),
+        "blue": PaletteBias(threat_bias=0.1, soothe_bias=0.8, energy_bias=0.2, grounding_bias=0.9),
+        "green": PaletteBias(threat_bias=0.2, soothe_bias=0.7, energy_bias=0.5, grounding_bias=1.0),
+        "yellow": PaletteBias(threat_bias=0.2, soothe_bias=0.6, energy_bias=0.9, grounding_bias=0.3),
+        "orange": PaletteBias(threat_bias=0.4, soothe_bias=0.3, energy_bias=0.9, grounding_bias=0.3),
+        "purple": PaletteBias(threat_bias=0.3, soothe_bias=0.4, energy_bias=0.7, grounding_bias=0.4),
+        "pink": PaletteBias(threat_bias=0.1, soothe_bias=0.8, energy_bias=0.6, grounding_bias=0.5),
+        "brown": PaletteBias(threat_bias=0.3, soothe_bias=0.5, energy_bias=0.3, grounding_bias=0.9),
+        "gray": PaletteBias(threat_bias=0.4, soothe_bias=0.3, energy_bias=0.2, grounding_bias=0.6),
     },
     CultureProfile.EASTERN: {
         # Eastern philosophical color associations
-        "red": PaletteBias(
-            threat_bias=0.5, soothe_bias=0.2, energy_bias=0.9, grounding_bias=0.3
-        ),
-        "blue": PaletteBias(
-            threat_bias=0.2, soothe_bias=0.8, energy_bias=0.3, grounding_bias=0.8
-        ),
-        "green": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.7, energy_bias=0.4, grounding_bias=1.0
-        ),
-        "yellow": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.6, energy_bias=0.8, grounding_bias=0.5
-        ),
-        "orange": PaletteBias(
-            threat_bias=0.3, soothe_bias=0.4, energy_bias=0.8, grounding_bias=0.4
-        ),
-        "purple": PaletteBias(
-            threat_bias=0.2, soothe_bias=0.6, energy_bias=0.5, grounding_bias=0.6
-        ),
-        "white": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.8, energy_bias=0.4, grounding_bias=0.8
-        ),
-        "gold": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.5, energy_bias=0.7, grounding_bias=0.6
-        ),
+        "red": PaletteBias(threat_bias=0.5, soothe_bias=0.2, energy_bias=0.9, grounding_bias=0.3),
+        "blue": PaletteBias(threat_bias=0.2, soothe_bias=0.8, energy_bias=0.3, grounding_bias=0.8),
+        "green": PaletteBias(threat_bias=0.1, soothe_bias=0.7, energy_bias=0.4, grounding_bias=1.0),
+        "yellow": PaletteBias(threat_bias=0.1, soothe_bias=0.6, energy_bias=0.8, grounding_bias=0.5),
+        "orange": PaletteBias(threat_bias=0.3, soothe_bias=0.4, energy_bias=0.8, grounding_bias=0.4),
+        "purple": PaletteBias(threat_bias=0.2, soothe_bias=0.6, energy_bias=0.5, grounding_bias=0.6),
+        "white": PaletteBias(threat_bias=0.1, soothe_bias=0.8, energy_bias=0.4, grounding_bias=0.8),
+        "gold": PaletteBias(threat_bias=0.1, soothe_bias=0.5, energy_bias=0.7, grounding_bias=0.6),
     },
     CultureProfile.UNIVERSAL: {
         # Research-based universal associations (averaged)
-        "red": PaletteBias(
-            threat_bias=0.6, soothe_bias=0.1, energy_bias=0.9, grounding_bias=0.2
-        ),
-        "blue": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.7, energy_bias=0.3, grounding_bias=0.8
-        ),
-        "green": PaletteBias(
-            threat_bias=0.2, soothe_bias=0.6, energy_bias=0.4, grounding_bias=0.9
-        ),
-        "yellow": PaletteBias(
-            threat_bias=0.2, soothe_bias=0.5, energy_bias=0.8, grounding_bias=0.4
-        ),
-        "orange": PaletteBias(
-            threat_bias=0.4, soothe_bias=0.3, energy_bias=0.8, grounding_bias=0.3
-        ),
-        "purple": PaletteBias(
-            threat_bias=0.3, soothe_bias=0.5, energy_bias=0.6, grounding_bias=0.5
-        ),
-        "black": PaletteBias(
-            threat_bias=0.5, soothe_bias=0.2, energy_bias=0.2, grounding_bias=0.7
-        ),
-        "white": PaletteBias(
-            threat_bias=0.1, soothe_bias=0.7, energy_bias=0.4, grounding_bias=0.7
-        ),
+        "red": PaletteBias(threat_bias=0.6, soothe_bias=0.1, energy_bias=0.9, grounding_bias=0.2),
+        "blue": PaletteBias(threat_bias=0.1, soothe_bias=0.7, energy_bias=0.3, grounding_bias=0.8),
+        "green": PaletteBias(threat_bias=0.2, soothe_bias=0.6, energy_bias=0.4, grounding_bias=0.9),
+        "yellow": PaletteBias(threat_bias=0.2, soothe_bias=0.5, energy_bias=0.8, grounding_bias=0.4),
+        "orange": PaletteBias(threat_bias=0.4, soothe_bias=0.3, energy_bias=0.8, grounding_bias=0.3),
+        "purple": PaletteBias(threat_bias=0.3, soothe_bias=0.5, energy_bias=0.6, grounding_bias=0.5),
+        "black": PaletteBias(threat_bias=0.5, soothe_bias=0.2, energy_bias=0.2, grounding_bias=0.7),
+        "white": PaletteBias(threat_bias=0.1, soothe_bias=0.7, energy_bias=0.4, grounding_bias=0.7),
     },
 }
 
 # Default fallback for unknown colors
-DEFAULT_BIAS = PaletteBias(
-    threat_bias=0.4, soothe_bias=0.4, energy_bias=0.5, grounding_bias=0.5
-)
+DEFAULT_BIAS = PaletteBias(threat_bias=0.4, soothe_bias=0.4, energy_bias=0.5, grounding_bias=0.5)
 
 
 def map_colorfield(colorfield: str, culture: str = "default") -> PaletteBias:
@@ -205,9 +123,7 @@ def map_colorfield(colorfield: str, culture: str = "default") -> PaletteBias:
         culture_profile = CultureProfile.DEFAULT
 
     # Get culture table
-    culture_table = CULTURE_PALETTE_TABLES.get(
-        culture_profile, CULTURE_PALETTE_TABLES[CultureProfile.DEFAULT]
-    )
+    culture_table = CULTURE_PALETTE_TABLES.get(culture_profile, CULTURE_PALETTE_TABLES[CultureProfile.DEFAULT])
 
     # Extract color name from colorfield
     color_name = _extract_color_name(colorfield)
@@ -273,9 +189,7 @@ def _extract_color_name(colorfield: str) -> str:
     return color_mappings.get(color_name, color_name)
 
 
-def get_safe_palette_recommendation(
-    current_colorfield: str, culture: str = "default"
-) -> str:
+def get_safe_palette_recommendation(current_colorfield: str, culture: str = "default") -> str:
     """
     Get safe palette recommendation based on cultural grounding bias.
 
@@ -327,9 +241,7 @@ def _japanese_to_english(japanese_color: str) -> str:
     return mappings.get(japanese_color, japanese_color)
 
 
-def compute_palette_harmony(
-    colorfield1: str, colorfield2: str, culture: str = "default"
-) -> float:
+def compute_palette_harmony(colorfield1: str, colorfield2: str, culture: str = "default") -> float:
     """
     Compute harmony score between two colorfields (0.0-1.0).
 

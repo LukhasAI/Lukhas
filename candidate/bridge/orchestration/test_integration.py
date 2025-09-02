@@ -69,9 +69,7 @@ def test_orchestration_components():
 
                 # Test context operations
                 context_id = "test_context"
-                await context_manager.update_context(
-                    context_id, "test prompt", "test response", {"test": True}
-                )
+                await context_manager.update_context(context_id, "test prompt", "test response", {"test": True})
                 await context_manager.get_context(context_id)
                 print("✅ Context preservation working")
 
@@ -194,9 +192,7 @@ def performance_benchmark():
             for i in range(10):
                 start_time = time.time()
 
-                await context_manager.update_context(
-                    context_id, f"test {i}", f"response {i}", {"test": i}
-                )
+                await context_manager.update_context(context_id, f"test {i}", f"response {i}", {"test": i})
 
                 await context_manager.get_context(context_id)
 

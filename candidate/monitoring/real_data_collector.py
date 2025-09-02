@@ -58,9 +58,7 @@ class LukhasRealDataCollector:
         # 7. ORCHESTRATION MODULE CONNECTIONS
         await self._connect_orchestration_modules()
 
-        logger.info(
-            "Module connections initialized", connected=len(self.module_connections)
-        )
+        logger.info("Module connections initialized", connected=len(self.module_connections))
         # Ensure we record at least fallback entries to satisfy tests' connection attempts
         for name in [
             "consciousness",
@@ -76,13 +74,9 @@ class LukhasRealDataCollector:
 
         try:
             # Connect to AutoConsciousness
-            consciousness_path = (
-                self.lukhas_root / "consciousness" / "unified" / "auto_consciousness.py"
-            )
+            consciousness_path = self.lukhas_root / "consciousness" / "unified" / "auto_consciousness.py"
             if consciousness_path.exists():
-                spec = importlib.util.spec_from_file_location(
-                    "auto_consciousness", consciousness_path
-                )
+                spec = importlib.util.spec_from_file_location("auto_consciousness", consciousness_path)
                 consciousness_module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(consciousness_module)
 
@@ -100,16 +94,9 @@ class LukhasRealDataCollector:
                 logger.info("Connected to AutoConsciousness module")
 
             # Connect to Natural Language Interface
-            nl_interface_path = (
-                self.lukhas_root
-                / "consciousness"
-                / "interfaces"
-                / "natural_language_interface.py"
-            )
+            nl_interface_path = self.lukhas_root / "consciousness" / "interfaces" / "natural_language_interface.py"
             if nl_interface_path.exists():
-                spec = importlib.util.spec_from_file_location(
-                    "natural_language_interface", nl_interface_path
-                )
+                spec = importlib.util.spec_from_file_location("natural_language_interface", nl_interface_path)
                 nl_module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(nl_module)
 
@@ -144,9 +131,7 @@ class LukhasRealDataCollector:
             # Connect to Memoria
             memory_path = self.lukhas_root / "candidate" / "memory" / "memory_core.py"
             if memoria_path.exists():
-                spec = importlib.util.spec_from_file_location(
-                    "memory_core", memory_path
-                )
+                spec = importlib.util.spec_from_file_location("memory_core", memory_path)
                 memory_module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(memory_module)
 
@@ -169,15 +154,13 @@ class LukhasRealDataCollector:
                 "memory",
                 {
                     "memory_load": lambda: self._setup_memory_fallbacks()
-                    or self.fallback_generators.get("memory", lambda: {})().get(
-                        "memory_load", 0.5
+                    or self.fallback_generators.get("memory", lambda: {})().get("memory_load", 0.5),
+                    "consolidation_rate": lambda: self.fallback_generators.get("memory", lambda: {})().get(
+                        "consolidation_rate", 0.4
                     ),
-                    "consolidation_rate": lambda: self.fallback_generators.get(
-                        "memory", lambda: {}
-                    )().get("consolidation_rate", 0.4),
-                    "fold_statistics": lambda: self.fallback_generators.get(
-                        "memory", lambda: {}
-                    )().get("fold_statistics", {}),
+                    "fold_statistics": lambda: self.fallback_generators.get("memory", lambda: {})().get(
+                        "fold_statistics", {}
+                    ),
                 },
             )
 
@@ -188,9 +171,7 @@ class LukhasRealDataCollector:
             # Connect to Emotion Service
             emotion_path = self.lukhas_root / "emotion" / "service.py"
             if emotion_path.exists():
-                spec = importlib.util.spec_from_file_location(
-                    "emotion_service", emotion_path
-                )
+                spec = importlib.util.spec_from_file_location("emotion_service", emotion_path)
                 emotion_module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(emotion_module)
 
@@ -217,9 +198,7 @@ class LukhasRealDataCollector:
             # Connect to Endocrine Integration
             endocrine_path = self.lukhas_root / "bio" / "endocrine_integration.py"
             if endocrine_path.exists():
-                spec = importlib.util.spec_from_file_location(
-                    "endocrine_integration", endocrine_path
-                )
+                spec = importlib.util.spec_from_file_location("endocrine_integration", endocrine_path)
                 bio_module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(bio_module)
 
@@ -238,9 +217,7 @@ class LukhasRealDataCollector:
             # Connect to Hormone System
             hormone_path = self.lukhas_root / "core" / "endocrine" / "hormone_system.py"
             if hormone_path.exists():
-                spec = importlib.util.spec_from_file_location(
-                    "hormone_system", hormone_path
-                )
+                spec = importlib.util.spec_from_file_location("hormone_system", hormone_path)
                 hormone_module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(hormone_module)
 
@@ -260,9 +237,7 @@ class LukhasRealDataCollector:
 
         try:
             # Connect to Signal Bus
-            signal_path = (
-                self.lukhas_root / "orchestration" / "signals" / "signal_bus.py"
-            )
+            signal_path = self.lukhas_root / "orchestration" / "signals" / "signal_bus.py"
             if signal_path.exists():
                 spec = importlib.util.spec_from_file_location("signal_bus", signal_path)
                 signal_module = importlib.util.module_from_spec(spec)
@@ -274,16 +249,9 @@ class LukhasRealDataCollector:
                 logger.info("Connected to Signal Bus")
 
             # Connect to Homeostasis Controller
-            homeostasis_path = (
-                self.lukhas_root
-                / "orchestration"
-                / "signals"
-                / "homeostasis_controller.py"
-            )
+            homeostasis_path = self.lukhas_root / "orchestration" / "signals" / "homeostasis_controller.py"
             if homeostasis_path.exists():
-                spec = importlib.util.spec_from_file_location(
-                    "homeostasis_controller", homeostasis_path
-                )
+                spec = importlib.util.spec_from_file_location("homeostasis_controller", homeostasis_path)
                 homeostasis_module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(homeostasis_module)
 
@@ -323,9 +291,7 @@ class LukhasRealDataCollector:
 
     async def _get_stress_indicators(self) -> float:
         levels = await self._get_hormone_levels()
-        return (levels.get("cortisol", 0.5) * 0.6) + (
-            levels.get("adrenaline", 0.5) * 0.4
-        )
+        return (levels.get("cortisol", 0.5) * 0.6) + (levels.get("adrenaline", 0.5) * 0.4)
 
     async def _get_nl_communication_clarity(self) -> float:
         # If NL interface available, try a method; otherwise simulate
@@ -362,15 +328,10 @@ class LukhasRealDataCollector:
             # Ignore governance failures in tests
             pass
 
-    async def _calculate_comprehensive_derived_metrics(
-        self, data: dict[str, Any]
-    ) -> dict[str, float]:
+    async def _calculate_comprehensive_derived_metrics(self, data: dict[str, Any]) -> dict[str, float]:
         # Compute a small set of derived metrics used in integration formatting
         hormones = data.get("biological", {}).get("hormone_levels", {})
-        stress = (
-            float(hormones.get("cortisol", 0.5)) * 0.6
-            + float(hormones.get("adrenaline", 0.5)) * 0.4
-        )
+        stress = float(hormones.get("cortisol", 0.5)) * 0.6 + float(hormones.get("adrenaline", 0.5)) * 0.4
         perf = 1.0 - stress * 0.5
         return {
             "stress_indicator": round(stress, 3),
@@ -550,9 +511,7 @@ class LukhasRealDataCollector:
             }
 
         # Calculate derived metrics combining all sources
-        data["derived_metrics"] = await self._calculate_comprehensive_derived_metrics(
-            data
-        )
+        data["derived_metrics"] = await self._calculate_comprehensive_derived_metrics(data)
 
         # Cache for trend analysis
         self.data_cache[data["timestamp"]] = data
@@ -702,41 +661,22 @@ class LukhasRealDataCollector:
             # For EndocrineObservabilityEngine
             "endocrine_snapshot": {
                 "hormone_levels": raw_data["biological"].get("hormone_levels", {}),
-                "homeostasis_state": raw_data["biological"].get(
-                    "homeostasis_state", "balanced"
-                ),
+                "homeostasis_state": raw_data["biological"].get("homeostasis_state", "balanced"),
                 "system_metrics": raw_data["derived_metrics"],
-                "coherence_score": raw_data["derived_metrics"].get(
-                    "performance_indicator", 0.5
-                ),
+                "coherence_score": raw_data["derived_metrics"].get("performance_indicator", 0.5),
             },
             # For AdaptiveMetricsCollector
             "current_metrics": raw_data["derived_metrics"],
             # For BioSymbolicCoherenceMonitor
             "bio_system_state": raw_data["biological"],
             "symbolic_system_state": {
-                "glyph_processing_rate": raw_data["derived_metrics"].get(
-                    "response_time", 0.5
-                ),
-                "consciousness_level": raw_data["consciousness"].get(
-                    "awareness_level", 0.5
-                ),
-                "decision_making_active": raw_data["consciousness"].get(
-                    "decision_confidence", 0.5
-                )
-                > 0.7,
-                "memory_operations": raw_data["memory"]
-                .get("fold_statistics", {})
-                .get("active_folds", 0),
-                "reasoning_depth": raw_data.get("reasoning", {}).get(
-                    "processing_depth", 0.5
-                ),
-                "symbolic_complexity": raw_data["derived_metrics"].get(
-                    "logical_coherence", 0.5
-                ),
-                "processing_load": raw_data["derived_metrics"].get(
-                    "cpu_utilization", 0.5
-                ),
+                "glyph_processing_rate": raw_data["derived_metrics"].get("response_time", 0.5),
+                "consciousness_level": raw_data["consciousness"].get("awareness_level", 0.5),
+                "decision_making_active": raw_data["consciousness"].get("decision_confidence", 0.5) > 0.7,
+                "memory_operations": raw_data["memory"].get("fold_statistics", {}).get("active_folds", 0),
+                "reasoning_depth": raw_data.get("reasoning", {}).get("processing_depth", 0.5),
+                "symbolic_complexity": raw_data["derived_metrics"].get("logical_coherence", 0.5),
+                "processing_load": raw_data["derived_metrics"].get("cpu_utilization", 0.5),
             },
         }
 

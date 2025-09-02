@@ -149,9 +149,7 @@ class MonitoringConfig:
     critical_threshold_percent: float = 25.0
     baseline_window_hours: int = 24  # Hours for baseline calculation
     enable_alerts: bool = True
-    alert_channels: list[AlertChannel] = field(
-        default_factory=lambda: [AlertChannel.LOG]
-    )
+    alert_channels: list[AlertChannel] = field(default_factory=lambda: [AlertChannel.LOG])
     statistical_test: str = "zscore"  # zscore, ks_test, moving_average
 
 
@@ -224,12 +222,8 @@ class StatisticalAnalyzer:
 
         for value in all_values:
             # Calculate empirical CDFs
-            baseline_cdf = sum(1 for x in baseline_sorted if x <= value) / len(
-                baseline_sorted
-            )
-            current_cdf = sum(1 for x in current_sorted if x <= value) / len(
-                current_sorted
-            )
+            baseline_cdf = sum(1 for x in baseline_sorted if x <= value) / len(baseline_sorted)
+            current_cdf = sum(1 for x in current_sorted if x <= value) / len(current_sorted)
 
             diff = abs(baseline_cdf - current_cdf)
             max_diff = max(max_diff, diff)
@@ -292,23 +286,13 @@ class MetricCollector:
     def get_recent_values(self, metric_name: str, hours: int = 24) -> list[float]:
         """Get recent metric values within time window"""
         cutoff_time = datetime.now() - timedelta(hours=hours)
-        recent_points = [
-            point
-            for point in self.metrics[metric_name]
-            if point.timestamp >= cutoff_time
-        ]
+        recent_points = [point for point in self.metrics[metric_name] if point.timestamp >= cutoff_time]
         return [point.value for point in recent_points]
 
-    def get_metric_history(
-        self, metric_name: str, hours: int = 24
-    ) -> list[MetricDataPoint]:
+    def get_metric_history(self, metric_name: str, hours: int = 24) -> list[MetricDataPoint]:
         """Get complete metric history within time window"""
         cutoff_time = datetime.now() - timedelta(hours=hours)
-        return [
-            point
-            for point in self.metrics[metric_name]
-            if point.timestamp >= cutoff_time
-        ]
+        return [point for point in self.metrics[metric_name] if point.timestamp >= cutoff_time]
 
     async def _cleanup_old_metrics(self):
         """Remove old metric data points to prevent memory growth"""
@@ -340,9 +324,7 @@ class DriftDetector:
         self.active_alerts: dict[str, DriftAlert] = {}
         self.alert_history: deque = deque(maxlen=1000)
 
-    async def detect_drift(
-        self, metric_collector: MetricCollector
-    ) -> Optional[DriftAlert]:
+    async def detect_drift(self, metric_collector: MetricCollector) -> Optional[DriftAlert]:
         """
         Detect drift in metrics and generate alerts if necessary
 
@@ -387,11 +369,7 @@ class DriftDetector:
                 # Z-score > 2 indicates significant deviation
                 if abs(zscore) > 2:
                     drift_detected = True
-                    deviation_percent = (
-                        abs(current_value - self.current_baseline)
-                        / self.current_baseline
-                        * 100
-                    )
+                    deviation_percent = abs(current_value - self.current_baseline) / self.current_baseline * 100
 
         elif self.config.statistical_test == "ks_test":
             baseline_values = metric_collector.get_recent_values(
@@ -402,9 +380,7 @@ class DriftDetector:
             current_window = recent_values[-min(len(recent_values), 20) :]
 
             if len(baseline_values) > 10 and len(current_window) > 5:
-                ks_statistic = self.analyzer.kolmogorov_smirnov_test(
-                    baseline_values, current_window
-                )
+                ks_statistic = self.analyzer.kolmogorov_smirnov_test(baseline_values, current_window)
                 confidence_score = ks_statistic
 
                 # K-S statistic > 0.3 indicates distribution shift
@@ -413,14 +389,10 @@ class DriftDetector:
                     deviation_percent = ks_statistic * 100
 
         elif self.config.statistical_test == "moving_average":
-            all_values = metric_collector.get_recent_values(
-                self.config.metric_name, hours=24
-            )
+            all_values = metric_collector.get_recent_values(self.config.metric_name, hours=24)
 
             if len(all_values) > self.config.window_size:
-                deviation_percent = self.analyzer.moving_average_deviation(
-                    all_values, self.config.window_size
-                )
+                deviation_percent = self.analyzer.moving_average_deviation(all_values, self.config.window_size)
                 confidence_score = min(deviation_percent / 50.0, 1.0)  # Normalize
 
                 if deviation_percent > self.config.threshold_percent:
@@ -438,9 +410,7 @@ class DriftDetector:
 
     async def _update_baseline_if_needed(self, metric_collector: MetricCollector):
         """Update baseline metrics if sufficient time has passed"""
-        hours_since_baseline = (
-            datetime.now() - self.last_baseline_calculation
-        ).total_seconds() / 3600
+        hours_since_baseline = (datetime.now() - self.last_baseline_calculation).total_seconds() / 3600
 
         if hours_since_baseline >= self.config.baseline_window_hours:
             baseline_values = metric_collector.get_recent_values(
@@ -521,9 +491,7 @@ class DriftDetector:
 
         return alert
 
-    def _generate_recommendations(
-        self, severity: DriftSeverity, deviation_percent: float
-    ) -> list[str]:
+    def _generate_recommendations(self, severity: DriftSeverity, deviation_percent: float) -> list[str]:
         """Generate actionable recommendations based on drift"""
         recommendations = []
 
@@ -618,9 +586,7 @@ class AlertManager:
         suppression_key = f"{alert.drift_type.value}_{alert.metric_name}"
         if suppression_key in self.alert_suppression:
             last_alert = self.alert_suppression[suppression_key]
-            if (
-                datetime.now() - last_alert
-            ).total_seconds() < 300:  # 5 minute suppression
+            if (datetime.now() - last_alert).total_seconds() < 300:  # 5 minute suppression
                 return
 
         # Send through all configured channels
@@ -809,9 +775,7 @@ class DriftMonitoringAPI:
 
         return await self._analyze_metric(metric_key)
 
-    async def get_metric_summary(
-        self, metric_name: str, hours: int = 24
-    ) -> dict[str, Any]:
+    async def get_metric_summary(self, metric_name: str, hours: int = 24) -> dict[str, Any]:
         """Get summary statistics for a metric"""
         values = self.metric_collector.get_recent_values(metric_name, hours)
 
@@ -845,17 +809,13 @@ class DriftMonitoringAPI:
 
         return summary
 
-    async def get_active_alerts(
-        self, severity: Optional[DriftSeverity] = None
-    ) -> list[DriftAlert]:
+    async def get_active_alerts(self, severity: Optional[DriftSeverity] = None) -> list[DriftAlert]:
         """Get currently active alerts"""
         active_alerts = []
 
         for detector in self.drift_detectors.values():
             for alert in detector.active_alerts.values():
-                if not alert.resolved and (
-                    severity is None or alert.severity == severity
-                ):
+                if not alert.resolved and (severity is None or alert.severity == severity):
                     active_alerts.append(alert)
 
         return sorted(active_alerts, key=lambda a: a.created_at, reverse=True)
@@ -896,9 +856,7 @@ class DriftMonitoringAPI:
                 self.monitoring_stats["last_analysis_time"] = datetime.now()
 
                 # Adaptive sleep based on analysis time
-                sleep_time = max(
-                    30, 60 - analysis_time
-                )  # At least 30s, adjust for analysis time
+                sleep_time = max(30, 60 - analysis_time)  # At least 30s, adjust for analysis time
                 await asyncio.sleep(sleep_time)
 
             except Exception as e:
@@ -959,9 +917,7 @@ class DriftMonitoringAPI:
         # Count active alerts synchronously
         active_alerts_count = 0
         for detector in self.drift_detectors.values():
-            active_alerts_count += len(
-                [a for a in detector.active_alerts.values() if not a.resolved]
-            )
+            active_alerts_count += len([a for a in detector.active_alerts.values() if not a.resolved])
 
         return {
             "api_version": "v1.0.0",

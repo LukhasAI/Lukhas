@@ -43,11 +43,7 @@ class SwarmResourceScheduler:
         symbolic_density_score = 1 - colony.symbolic_tag_density
 
         # Simple weighted average
-        score = (
-            (0.5 * resource_state_score)
-            + (0.3 * memory_load_score)
-            + (0.2 * symbolic_density_score)
-        )
+        score = (0.5 * resource_state_score) + (0.3 * memory_load_score) + (0.2 * symbolic_density_score)
         return score
 
 
@@ -59,9 +55,7 @@ if __name__ == "__main__":
 
     swarm_hub.update_colony_resource_state("reasoning", ResourceState.STABLE, 0.5, 0.6)
     swarm_hub.update_colony_resource_state("memory", ResourceState.ABUNDANT, 0.1, 0.2)
-    swarm_hub.update_colony_resource_state(
-        "creativity", ResourceState.STRAINED, 0.9, 0.8
-    )
+    swarm_hub.update_colony_resource_state("creativity", ResourceState.STRAINED, 0.9, 0.8)
 
     scheduler = SwarmResourceScheduler(swarm_hub)
 

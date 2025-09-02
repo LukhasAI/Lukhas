@@ -41,9 +41,7 @@ class BrainColonyCoordinator:
     def _create_emotion_colony(self) -> _StubColony:
         return _StubColony(f"{self.brain_id}-emotion", "emotion")
 
-    async def _execute_colony_task(
-        self, colony_key: str, task: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _execute_colony_task(self, colony_key: str, task: dict[str, Any]) -> dict[str, Any]:
         colony = self.functional_colonies[colony_key]
         return await colony.execute_task(task.get("id", "task"), task)
 

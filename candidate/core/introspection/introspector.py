@@ -115,15 +115,11 @@ class ModuleIntrospector:
 
         # Extract introspection points
         if "INTROSPECTION_POINT" in analysis["symbolic_tags"]:
-            analysis["introspection_points"] = analysis["symbolic_tags"][
-                "INTROSPECTION_POINT"
-            ]
+            analysis["introspection_points"] = analysis["symbolic_tags"]["INTROSPECTION_POINT"]
 
         # Extract recursion controls
         if "RECURSION_CONTROL" in analysis["symbolic_tags"]:
-            analysis["recursion_controls"] = analysis["symbolic_tags"][
-                "RECURSION_CONTROL"
-            ]
+            analysis["recursion_controls"] = analysis["symbolic_tags"]["RECURSION_CONTROL"]
 
     def _analyze_ast(self, tree: ast.AST, analysis: dict):
         """Analyze AST structure for functions, classes, and imports"""
@@ -135,9 +131,7 @@ class ModuleIntrospector:
                         "name": node.name,
                         "line": node.lineno,
                         "args": [arg.arg for arg in node.args.args],
-                        "decorators": [
-                            self._get_decorator_name(dec) for dec in node.decorator_list
-                        ],
+                        "decorators": [self._get_decorator_name(dec) for dec in node.decorator_list],
                     }
                 )
             elif isinstance(node, ast.ClassDef):
@@ -146,9 +140,7 @@ class ModuleIntrospector:
                         "name": node.name,
                         "line": node.lineno,
                         "bases": [self._get_base_name(base) for base in node.bases],
-                        "decorators": [
-                            self._get_decorator_name(dec) for dec in node.decorator_list
-                        ],
+                        "decorators": [self._get_decorator_name(dec) for dec in node.decorator_list],
                     }
                 )
             elif isinstance(node, ast.Import):
@@ -209,9 +201,7 @@ class ModuleIntrospector:
         if module_summary["locked_status"]:
             report_lines.append("🔒 STATUS: LOCKED MODULE")
             if "ΛLOCKED" in module_summary["symbolic_tags"]:
-                report_lines.append(
-                    f"   Reason: {module_summary['symbolic_tags']['ΛLOCKED'][0]}"
-                )
+                report_lines.append(f"   Reason: {module_summary['symbolic_tags']['ΛLOCKED'][0]}")
         else:
             report_lines.append("🔓 STATUS: UNLOCKED MODULE")
 
@@ -251,9 +241,7 @@ class ModuleIntrospector:
             for func in module_summary["functions"][:5]:  # Show first 5
                 report_lines.append(f"   • {func['name']}() [line {func['line']}]")
             if len(module_summary["functions"]) > 5:
-                report_lines.append(
-                    f"   ... and {len(module_summary['functions']) - 5} more"
-                )
+                report_lines.append(f"   ... and {len(module_summary['functions']) - 5} more")
 
         # Class details
         if module_summary["classes"]:
@@ -261,9 +249,7 @@ class ModuleIntrospector:
             for cls in module_summary["classes"][:5]:  # Show first 5
                 report_lines.append(f"   • {cls['name']} [line {cls['line']}]")
             if len(module_summary["classes"]) > 5:
-                report_lines.append(
-                    f"   ... and {len(module_summary['classes']) - 5} more"
-                )
+                report_lines.append(f"   ... and {len(module_summary['classes']) - 5} more")
 
         # Error reporting
         if "error" in module_summary:

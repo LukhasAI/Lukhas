@@ -48,9 +48,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
         self._initialized = True
         logger.info("Meta-Consciousness Developer initialized")
 
-    async def develop_recursive_awareness(
-        self, current_depth: int, target_depth: int
-    ) -> RecursiveAwareness:
+    async def develop_recursive_awareness(self, current_depth: int, target_depth: int) -> RecursiveAwareness:
         """
         Develop recursive self-awareness capabilities
 
@@ -207,9 +205,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
 
         return accuracy
 
-    async def apply_self_modification(
-        self, modification_type: str, parameters: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def apply_self_modification(self, modification_type: str, parameters: dict[str, Any]) -> dict[str, Any]:
         """Apply a self-modification"""
 
         result = {
@@ -258,9 +254,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
             if param == "recursion_depth":
                 old_depth = self.recursion_depth
                 self.recursion_depth = min(10, value)  # Cap at 10
-                changes.append(
-                    f"Recursion depth: {old_depth} -> {self.recursion_depth}"
-                )
+                changes.append(f"Recursion depth: {old_depth} -> {self.recursion_depth}")
 
             elif param in self.self_model["state"]:
                 old_value = self.self_model["state"][param]
@@ -287,9 +281,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
             introspection["insights"].append("Can modify own cognitive patterns")
 
         if len(self.modification_history) > 5:
-            introspection["insights"].append(
-                "Actively evolving through self-modification"
-            )
+            introspection["insights"].append("Actively evolving through self-modification")
 
         return introspection
 

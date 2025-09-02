@@ -64,12 +64,8 @@ class QIVoiceEnhancer:
         )
 
         # Register oscillators with orchestrator
-        self.orchestrator.register_oscillator(
-            self.emotion_oscillator, "voice_emotion_processor"
-        )
-        self.orchestrator.register_oscillator(
-            self.voice_oscillator, "voice_sync_processor"
-        )
+        self.orchestrator.register_oscillator(self.emotion_oscillator, "voice_emotion_processor")
+        self.orchestrator.register_oscillator(self.voice_oscillator, "voice_sync_processor")
 
         # Enhance voice integrator methods
         self._enhance_voice_methods()
@@ -82,18 +78,14 @@ class QIVoiceEnhancer:
         original_process_voice = self.voice_integrator.process_voice_input
         original_generate_speech = self.voice_integrator.generate_speech_output
 
-        async def qi_process_voice(
-            audio_data: bytes, context: Optional[dict[str, Any]] = None
-        ) -> dict[str, Any]:
+        async def qi_process_voice(audio_data: bytes, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
             """Quantum-enhanced voice input processing"""
             try:
                 # Enter superposition-like state for processing
                 await self.emotion_oscillator.enter_superposition()
 
                 # Process with quantum enhancement
-                result = await self._quantum_voice_process(
-                    audio_data, context, original_process_voice
-                )
+                result = await self._quantum_voice_process(audio_data, context, original_process_voice)
 
                 # Return to classical state
                 await self.emotion_oscillator.measure_state()
@@ -105,18 +97,14 @@ class QIVoiceEnhancer:
                 # Fallback to classical processing
                 return original_process_voice(audio_data, context)
 
-        async def qi_generate_speech(
-            text: str, voice_params: Optional[dict[str, Any]] = None
-        ) -> dict[str, Any]:
+        async def qi_generate_speech(text: str, voice_params: Optional[dict[str, Any]] = None) -> dict[str, Any]:
             """Quantum-enhanced speech generation"""
             try:
                 # Enter superposition-like state for generation
                 await self.voice_oscillator.enter_superposition()
 
                 # Generate with quantum enhancement
-                result = await self._quantum_speech_generate(
-                    text, voice_params, original_generate_speech
-                )
+                result = await self._quantum_speech_generate(text, voice_params, original_generate_speech)
 
                 # Return to classical state
                 await self.voice_oscillator.measure_state()
@@ -147,9 +135,7 @@ class QIVoiceEnhancer:
                 return base_result
 
             # Enhance emotion detection with quantum-inspired processing
-            qi_emotion = await self._enhance_emotion_detection(
-                base_result.get("emotion"), context
-            )
+            qi_emotion = await self._enhance_emotion_detection(base_result.get("emotion"), context)
 
             if qi_emotion:
                 base_result["emotion"] = qi_emotion

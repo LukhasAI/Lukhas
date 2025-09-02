@@ -154,12 +154,8 @@ class BridgeTraceLogger:
 
         # Add correlation data if available
         if hasattr(self, "correlation_context"):
-            event_data["correlation_id"] = getattr(
-                self.correlation_context, "correlation_id", None
-            )
-            event_data["session_id"] = getattr(
-                self.correlation_context, "session_id", None
-            )
+            event_data["correlation_id"] = getattr(self.correlation_context, "correlation_id", None)
+            event_data["session_id"] = getattr(self.correlation_context, "session_id", None)
 
         # Store structured event for potential analysis
         if not hasattr(self, "_event_history"):
@@ -179,9 +175,7 @@ class BridgeTraceLogger:
 
         return event_id
 
-    def trace_symbolic_handshake(
-        self, dream_id: str, status: str, details: Optional[dict[str, Any]] = None
-    ) -> str:
+    def trace_symbolic_handshake(self, dream_id: str, status: str, details: Optional[dict[str, Any]] = None) -> str:
         """
         Trace symbolic handshake operations
 
@@ -207,9 +201,7 @@ class BridgeTraceLogger:
             metadata,
         )
 
-    def trace_memory_mapping(
-        self, map_id: str, operation: str, result: Optional[dict[str, Any]] = None
-    ) -> str:
+    def trace_memory_mapping(self, map_id: str, operation: str, result: Optional[dict[str, Any]] = None) -> str:
         """
         Trace memory mapping operations
 

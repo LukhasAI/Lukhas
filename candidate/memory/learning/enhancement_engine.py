@@ -44,10 +44,7 @@ class EnhancementEngine:
         print("=" * 50)
 
         # Create sprint tracking file
-        sprint_file = (
-            self.enhancement_dir
-            / f"sprint_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
-        )
+        sprint_file = self.enhancement_dir / f"sprint_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
         with open(sprint_file, "w") as f:
             json.dump(self.current_sprint, f, default=str, indent=2)
 
@@ -219,9 +216,7 @@ class VoiceMemoryBridge:
                     {
                         "pattern": pattern,
                         "occurrences": len(files),
-                        "files": [
-                            str(f.relative_to(self.workspace_root)) for f in files[:5]
-                        ],
+                        "files": [str(f.relative_to(self.workspace_root)) for f in files[:5]],
                     }
                 )
 
@@ -299,19 +294,14 @@ class VoiceMemoryBridge:
         print("=" * 50)
 
         # Save sprint completion
-        sprint_file = (
-            self.enhancement_dir
-            / f"completed_sprint_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
-        )
+        sprint_file = self.enhancement_dir / f"completed_sprint_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
         with open(sprint_file, "w") as f:
             json.dump(sprint_summary, f, default=str, indent=2)
 
         self.current_sprint = None
         return sprint_summary
 
-    def run_enhancement_sprint(
-        self, sprint_type: str = "comprehensive"
-    ) -> dict[str, Any]:
+    def run_enhancement_sprint(self, sprint_type: str = "comprehensive") -> dict[str, Any]:
         """Run a complete 15-minute enhancement sprint"""
 
         self.start_sprint(f"lukhas Enhancement - {sprint_type.title()}", 15)
@@ -361,9 +351,7 @@ def main():
     results = enhancer.run_enhancement_sprint("comprehensive")
 
     print("\n🌟 ENHANCEMENT COMPLETE!")
-    print(
-        "Your lukhas system has been enhanced while preserving its innovative architecture!"
-    )
+    print("Your lukhas system has been enhanced while preserving its innovative architecture!")
 
     return results
 

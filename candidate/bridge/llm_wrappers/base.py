@@ -22,9 +22,7 @@ class LLMWrapper(ABC):
     """
 
     @abstractmethod
-    async def generate_response(
-        self, prompt: str, model: str, **kwargs
-    ) -> tuple[str, str]:
+    async def generate_response(self, prompt: str, model: str, **kwargs) -> tuple[str, str]:
         """
         Generate a response from the LLM.
 

@@ -98,11 +98,7 @@ class LocationTracker:
     def _should_update_location(self, new_location: LocationUpdate) -> bool:
         """Determine if location should be updated based on privacy and accuracy"""
         # Check minimum time interval
-        if (
-            self.last_update_time
-            and (datetime.utcnow() - self.last_update_time).total_seconds()
-            < self.minimum_time
-        ):
+        if self.last_update_time and (datetime.utcnow() - self.last_update_time).total_seconds() < self.minimum_time:
             return False
 
         # Check minimum distance if we have a previous location
@@ -125,19 +121,14 @@ class LocationTracker:
         else:  # low privacy
             return True
 
-    def _calculate_distance(
-        self, lat1: float, lon1: float, lat2: float, lon2: float
-    ) -> float:
+    def _calculate_distance(self, lat1: float, lon1: float, lat2: float, lon2: float) -> float:
         """Calculate distance between two points"""
         import math
 
         lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
         dlat = lat2 - lat1
         dlon = lon2 - lon1
-        a = (
-            math.sin(dlat / 2) ** 2
-            + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
-        )
+        a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
         c = 2 * math.asin(math.sqrt(a))
         return 6371000 * c  # Earth radius in meters
 
@@ -165,9 +156,7 @@ class LocationTracker:
         """Get current location"""
         return self.current_location
 
-    async def get_location_history(
-        self, max_age_hours: int = 24
-    ) -> list[LocationUpdate]:
+    async def get_location_history(self, max_age_hours: int = 24) -> list[LocationUpdate]:
         """Get recent location history"""
         cutoff_time = datetime.utcnow() - timedelta(hours=max_age_hours)
         return [loc for loc in self.location_history if loc.timestamp >= cutoff_time]
@@ -210,7 +199,5 @@ class LocationTracker:
             "tracking_enabled": self.tracking_enabled,
             "has_current_location": self.current_location is not None,
             "history_size": len(self.location_history),
-            "last_update": (
-                self.last_update_time.isoformat() if self.last_update_time else None
-            ),
+            "last_update": (self.last_update_time.isoformat() if self.last_update_time else None),
         }

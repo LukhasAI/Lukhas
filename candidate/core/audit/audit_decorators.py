@@ -170,9 +170,7 @@ def audit_decision(decision_type: str, capture_alternatives: bool = True):
                     outcome={"decision": str(decision)},
                     rationale=f"Decision made by {func.__name__}",
                     confidence=confidence,
-                    alternatives_considered=(
-                        alternatives if capture_alternatives else None
-                    ),
+                    alternatives_considered=(alternatives if capture_alternatives else None),
                 )
 
                 return result
@@ -220,10 +218,7 @@ def audit_consciousness_change(func: Callable) -> Callable:
             from_state, to_state = result[0], result[1]
 
             # Detect emergence
-            emergence = (
-                to_state.get("coherence", 0) > 0.85
-                and to_state.get("complexity", 0) > 0.8
-            )
+            emergence = to_state.get("coherence", 0) > 0.85 and to_state.get("complexity", 0) > 0.8
 
             # Log transition
             await audit.log_consciousness_transition(
@@ -345,9 +340,7 @@ def audit_security(operation: str = "access_control"):
                 result = await func(*args, **kwargs)
 
                 # Log based on result
-                if result is True or (
-                    isinstance(result, dict) and result.get("allowed")
-                ):
+                if result is True or (isinstance(result, dict) and result.get("allowed")):
                     await audit.log_event(
                         AuditEventType.ACCESS_GRANTED,
                         func.__module__,

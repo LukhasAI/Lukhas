@@ -50,9 +50,7 @@ _RECENT_INTERACTIONS = []
 MAX_RECENT_INTERACTIONS = 10
 
 
-def store_interaction(
-    user_input: str, system_response: str, context: Optional[dict[str, Any]] = None
-):
+def store_interaction(user_input: str, system_response: str, context: Optional[dict[str, Any]] = None):
     """Stores an interaction for later recall."""
     if len(_RECENT_INTERACTIONS) >= MAX_RECENT_INTERACTIONS:
         _RECENT_INTERACTIONS.pop(0)  # Remove oldest
@@ -87,9 +85,7 @@ def recall_last_interaction(
 if __name__ == "__main__":
     print(recall_last_interaction())  # No interactions yet
     store_interaction("Hello LUKHAS", "Hello User!", {"session_id": "123"})
-    store_interaction(
-        "What is AI?", "AI is artificial intelligence.", {"session_id": "123"}
-    )
+    store_interaction("What is AI?", "AI is artificial intelligence.", {"session_id": "123"})
     print(recall_last_interaction())
     store_interaction(
         "Tell me a joke.",

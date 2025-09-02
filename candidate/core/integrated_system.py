@@ -75,9 +75,7 @@ class DistributedAISystem:
         score = max(0.0, min(1.0, base_priority * (0.5 + energy_factor)))
         return score
 
-    async def create_colony(
-        self, colony_id: str, colony_class: type, **kwargs
-    ) -> BaseColony:
+    async def create_colony(self, colony_id: str, colony_class: type, **kwargs) -> BaseColony:
         """Create a new colony"""
         if colony_id in self.colonies:
             raise ValueError(f"Colony {colony_id} already exists")
@@ -90,9 +88,7 @@ class DistributedAISystem:
 
         return colony
 
-    async def execute_distributed_task(
-        self, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_distributed_task(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """
         Execute a task that requires coordination between multiple colonies
         """
@@ -117,9 +113,7 @@ class DistributedAISystem:
         # Execute task on the first suitable colony
         primary_colony = suitable_colonies[0]
 
-        logger.info(
-            f"Executing distributed task {task_id} on colony {primary_colony.colony_id}"
-        )
+        logger.info(f"Executing distributed task {task_id} on colony {primary_colony.colony_id}")
 
         result = await primary_colony.execute_task(
             task_id,

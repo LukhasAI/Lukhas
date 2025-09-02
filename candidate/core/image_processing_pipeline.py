@@ -158,9 +158,7 @@ class ImageProcessingColony:
         self._running = True
 
         # Create supervisor actor
-        self.supervisor = ColonySupervisor(
-            f"{self.colony_name}_supervisor", self.stage, self.event_bus
-        )
+        self.supervisor = ColonySupervisor(f"{self.colony_name}_supervisor", self.stage, self.event_bus)
 
         # Create worker actors
         for i in range(self.num_workers):
@@ -178,9 +176,7 @@ class ImageProcessingColony:
         # Start supervisor loop
         self._tasks.append(asyncio.create_task(self._supervisor_loop()))
 
-        logger.info(
-            f"Colony {self.colony_name} started with {self.num_workers} workers"
-        )
+        logger.info(f"Colony {self.colony_name} started with {self.num_workers} workers")
 
     async def stop(self) -> None:
         """Stop the colony gracefully"""
@@ -198,30 +194,18 @@ class ImageProcessingColony:
     def _subscribe_to_events(self) -> None:
         """Subscribe to events based on processing stage"""
         if self.stage == ProcessingStage.VALIDATION:
-            self.event_bus.subscribe(
-                EventType.NEW_IMAGE_UPLOADED.value, self._handle_event
-            )
+            self.event_bus.subscribe(EventType.NEW_IMAGE_UPLOADED.value, self._handle_event)
         elif self.stage == ProcessingStage.PREPROCESSING:
-            self.event_bus.subscribe(
-                EventType.IMAGE_VALIDATED.value, self._handle_event
-            )
+            self.event_bus.subscribe(EventType.IMAGE_VALIDATED.value, self._handle_event)
         elif self.stage == ProcessingStage.FEATURE_EXTRACTION:
-            self.event_bus.subscribe(
-                EventType.IMAGE_PREPROCESSED.value, self._handle_event
-            )
+            self.event_bus.subscribe(EventType.IMAGE_PREPROCESSED.value, self._handle_event)
         elif self.stage == ProcessingStage.CLASSIFICATION:
-            self.event_bus.subscribe(
-                EventType.FEATURES_EXTRACTED.value, self._handle_event
-            )
+            self.event_bus.subscribe(EventType.FEATURES_EXTRACTED.value, self._handle_event)
         elif self.stage == ProcessingStage.THUMBNAIL_GENERATION:
-            self.event_bus.subscribe(
-                EventType.IMAGE_VALIDATED.value, self._handle_event
-            )
+            self.event_bus.subscribe(EventType.IMAGE_VALIDATED.value, self._handle_event)
 
         # All colonies can respond to call for proposals
-        self.event_bus.subscribe(
-            EventType.CALL_FOR_PROPOSALS.value, self._handle_call_for_proposals
-        )
+        self.event_bus.subscribe(EventType.CALL_FOR_PROPOSALS.value, self._handle_call_for_proposals)
 
     def _handle_event(self, event_type: str, event_data: dict[str, Any]) -> None:
         """Handle incoming events"""
@@ -234,9 +218,7 @@ class ImageProcessingColony:
         except Exception as e:
             logger.error(f"Error handling event in {self.colony_name}: {e}")
 
-    def _handle_call_for_proposals(
-        self, event_type: str, event_data: dict[str, Any]
-    ) -> None:
+    def _handle_call_for_proposals(self, event_type: str, event_data: dict[str, Any]) -> None:
         """Handle call for proposals for dynamic task allocation"""
         try:
             event = ImageEvent.from_dict(event_data)
@@ -309,16 +291,13 @@ class ImageProcessingColony:
                 # Check worker health
                 for worker in self.workers:
                     if hasattr(worker, "is_healthy") and not worker.is_healthy():
-                        logger.warning(
-                            f"Worker {worker.worker_id} unhealthy, restarting"
-                        )
+                        logger.warning(f"Worker {worker.worker_id} unhealthy, restarting")
                         # In real implementation, would restart worker
 
                 # Aggregate metrics
                 if self.metrics["processed"] > 0:
                     self.metrics["avg_processing_time"] = (
-                        self.metrics["total_processing_time"]
-                        / self.metrics["processed"]
+                        self.metrics["total_processing_time"] / self.metrics["processed"]
                     )
 
                 await asyncio.sleep(5)  # Check every 5 seconds
@@ -355,9 +334,7 @@ class ImageProcessingColony:
                 # Publish failure event
                 self._publish_failure(event, str(e))
 
-    def _publish_result(
-        self, original_event: ImageEvent, result: dict[str, Any]
-    ) -> None:
+    def _publish_result(self, original_event: ImageEvent, result: dict[str, Any]) -> None:
         """Publish processing result"""
         # Determine output event type based on stage
         output_event_type = {
@@ -403,9 +380,7 @@ class ImageProcessingColony:
             correlation_id=event.correlation_id if event else None,
         )
 
-        self.event_bus.publish(
-            EventType.PROCESSING_FAILED.value, failure_event.to_dict()
-        )
+        self.event_bus.publish(EventType.PROCESSING_FAILED.value, failure_event.to_dict())
 
     async def process_image(self, event: ImageEvent) -> dict[str, Any]:
         """Process image based on stage - override in subclasses"""
@@ -584,9 +559,7 @@ class FeatureExtractionColony(ImageProcessingColony):
 
     async def process_image(self, event: ImageEvent) -> dict[str, Any]:
         """Extract features from preprocessed image"""
-        preprocessed_path = event.payload.get(
-            "preprocessed_path", event.payload.get("image_path")
-        )
+        preprocessed_path = event.payload.get("preprocessed_path", event.payload.get("image_path"))
 
         if IMAGING_AVAILABLE:
             with Image.open(preprocessed_path) as img:
@@ -597,10 +570,7 @@ class FeatureExtractionColony(ImageProcessingColony):
                 features = {
                     "mean_rgb": img_array.mean(axis=(0, 1)).tolist(),
                     "std_rgb": img_array.std(axis=(0, 1)).tolist(),
-                    "histogram": [
-                        np.histogram(img_array[:, :, i], bins=8)[0].tolist()
-                        for i in range(3)
-                    ],
+                    "histogram": [np.histogram(img_array[:, :, i], bins=8)[0].tolist() for i in range(3)],
                 }
 
                 # In real implementation, would use CNN features
@@ -643,9 +613,7 @@ class ClassificationColony(ImageProcessingColony):
 
     async def process_image(self, event: ImageEvent) -> dict[str, Any]:
         """Classify image based on extracted features"""
-        features = event.payload.get("features_extracted_result", {}).get(
-            "features", {}
-        )
+        features = event.payload.get("features_extracted_result", {}).get("features", {})
 
         # Simulate classification (in reality would use ML model)
         # Generate mock confidence scores
@@ -661,9 +629,7 @@ class ClassificationColony(ImageProcessingColony):
         return {
             "predicted_class": sorted_scores[0][0],
             "confidence": sorted_scores[0][1],
-            "top_3": [
-                {"class": cls, "confidence": conf} for cls, conf in sorted_scores[:3]
-            ],
+            "top_3": [{"class": cls, "confidence": conf} for cls, conf in sorted_scores[:3]],
             "all_scores": scores,
             "processing_time": 0.15,
         }
@@ -818,9 +784,7 @@ class AggregationColony(ImageProcessingColony):
             metadata={"aggregated_by": self.colony_name},
         )
 
-        self.event_bus.publish(
-            EventType.PROCESSING_COMPLETED.value, completion_event.to_dict()
-        )
+        self.event_bus.publish(EventType.PROCESSING_COMPLETED.value, completion_event.to_dict())
 
         # Clean up state
         del self.image_states[image_id]
@@ -872,9 +836,7 @@ class ImageProcessingPipeline:
         self._running = False
         logger.info("Image processing pipeline stopped")
 
-    async def process_image(
-        self, image_path: str, metadata: Optional[dict[str, Any]] = None
-    ) -> str:
+    async def process_image(self, image_path: str, metadata: Optional[dict[str, Any]] = None) -> str:
         """
         Process a new image through the pipeline.
         Returns correlation ID for tracking.
@@ -898,9 +860,7 @@ class ImageProcessingPipeline:
         )
 
         # Publish to event bus
-        self.event_bus.publish(
-            EventType.NEW_IMAGE_UPLOADED.value, upload_event.to_dict()
-        )
+        self.event_bus.publish(EventType.NEW_IMAGE_UPLOADED.value, upload_event.to_dict())
 
         logger.info(f"Started processing image {image_id} from {image_path}")
         return correlation_id
@@ -940,9 +900,7 @@ async def simulate_image_upload(pipeline: ImageProcessingPipeline, num_images: i
             img.save(image_path)
 
         # Process image
-        correlation_id = await pipeline.process_image(
-            image_path, metadata={"source": "test", "batch": i // 2}
-        )
+        correlation_id = await pipeline.process_image(image_path, metadata={"source": "test", "batch": i // 2})
         correlation_ids.append(correlation_id)
 
         # Small delay between uploads

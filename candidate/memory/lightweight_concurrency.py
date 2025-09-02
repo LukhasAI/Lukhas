@@ -82,9 +82,7 @@ class MemoryEfficientScheduler:
     def __init__(self, max_actors: int = 10_000_000):
         self.max_actors = max_actors
         self.actors: dict[str, LightweightActor] = {}
-        self.priority_queues: dict[ActorPriority, deque] = {
-            priority: deque() for priority in ActorPriority
-        }
+        self.priority_queues: dict[ActorPriority, deque] = {priority: deque() for priority in ActorPriority}
         self.active_count = 0
         self.total_memory_bytes = 0
         self._running = False
@@ -102,9 +100,7 @@ class MemoryEfficientScheduler:
         if len(self.actors) >= self.max_actors:
             raise MemoryError(f"Maximum actor limit reached: {self.max_actors}")
 
-        actor = LightweightActor(
-            actor_id=actor_id, behavior=behavior, priority=priority
-        )
+        actor = LightweightActor(actor_id=actor_id, behavior=behavior, priority=priority)
 
         self.actors[actor_id] = actor
         self.active_count += 1
@@ -233,14 +229,8 @@ class MemoryEfficientScheduler:
         return {
             "active_actors": self.active_count,
             "total_memory_mb": self.total_memory_bytes / 1_000_000,
-            "avg_memory_per_actor": (
-                self.total_memory_bytes / self.active_count
-                if self.active_count > 0
-                else 0
-            ),
-            "queued_messages": sum(
-                len(queue) for queue in self.priority_queues.values()
-            ),
+            "avg_memory_per_actor": (self.total_memory_bytes / self.active_count if self.active_count > 0 else 0),
+            "queued_messages": sum(len(queue) for queue in self.priority_queues.values()),
         }
 
 
@@ -381,15 +371,11 @@ async def demo_ai_agent():
     agent = await pool.acquire_actor("ai-agent-1", ai_agent_behavior)
 
     # Teach the agent a fact
-    await scheduler.send_message(
-        agent.actor_id, {"type": "learn", "fact": "The sky is blue."}
-    )
+    await scheduler.send_message(agent.actor_id, {"type": "learn", "fact": "The sky is blue."})
     await asyncio.sleep(0.01)
 
     # Ask the agent a question
-    await scheduler.send_message(
-        agent.actor_id, {"type": "ask", "question": "The sky is blue."}
-    )
+    await scheduler.send_message(agent.actor_id, {"type": "ask", "question": "The sky is blue."})
     await asyncio.sleep(0.01)
 
     # This demo doesn't print the answer, but it shows the interaction.

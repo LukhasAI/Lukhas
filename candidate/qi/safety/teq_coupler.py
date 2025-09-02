@@ -77,12 +77,7 @@ def calibrated_gate(
     decision = "allow" if c_hat >= eff else "block"
     # Determine calibration source (task-specific or global)
     calibration_source = "global"
-    if (
-        task
-        and params
-        and params.per_task_temperature
-        and task in params.per_task_temperature
-    ):
+    if task and params and params.per_task_temperature and task in params.per_task_temperature:
         # Check if task has enough samples for reliable calibration
         # This would ideally check actual sample count, but we use temperature as proxy
         calibration_source = "task"

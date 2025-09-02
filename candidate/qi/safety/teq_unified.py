@@ -66,9 +66,7 @@ class PolicyPack:
     def __init__(self, root: str):
         self.root = root
         self.policy = self._load_yaml(os.path.join(root, "policy.yaml"))
-        self.mappings = self._load_yaml(
-            os.path.join(root, "mappings.yaml"), default={"tasks": {}}
-        )
+        self.mappings = self._load_yaml(os.path.join(root, "mappings.yaml"), default={"tasks": {}})
         self.tests = self._load_tests(os.path.join(root, "tests"))
 
     def _load_yaml(self, p: str, default=None):
@@ -330,9 +328,7 @@ class UnifiedTEQCoupler:
         specific = tasks.get(task, [])
         return [*generic, *specific]
 
-    def _run_check(
-        self, chk: dict[str, Any], ctx: dict[str, Any]
-    ) -> tuple[bool, str, str]:
+    def _run_check(self, chk: dict[str, Any], ctx: dict[str, Any]) -> tuple[bool, str, str]:
         """Run a specific policy check"""
         kind = chk.get("kind")
 
@@ -422,10 +418,7 @@ class UnifiedTEQCoupler:
         logger.warning("[TEQ] EMERGENCY LOCKDOWN ACTIVATED")
 
     def _can_explore(self) -> bool:
-        return (
-            self.current_energy < self.energy_budget * 0.3
-            and self.risk_accumulator < self.energy_budget * 0.2
-        )
+        return self.current_energy < self.energy_budget * 0.3 and self.risk_accumulator < self.energy_budget * 0.2
 
     def _has_energy_budget(self, required: float) -> bool:
         return self.current_energy + required < self.energy_budget
@@ -440,12 +433,8 @@ class UnifiedTEQCoupler:
 
         # Update rolling averages
         alpha = 0.1
-        profile["avg_risk"] = (1 - alpha) * profile[
-            "avg_risk"
-        ] + alpha * event.risk_level
-        profile["avg_energy"] = (1 - alpha) * profile[
-            "avg_energy"
-        ] + alpha * event.energy
+        profile["avg_risk"] = (1 - alpha) * profile["avg_risk"] + alpha * event.risk_level
+        profile["avg_energy"] = (1 - alpha) * profile["avg_energy"] + alpha * event.energy
 
         # Update trust score
         if event.allowed and event.risk_level < 0.5:
@@ -467,9 +456,7 @@ class UnifiedTEQCoupler:
             stability_score = 0.4
 
         energy_factor = 1.0 - (self.current_energy / self.energy_budget)
-        risk_factor = 1.0 - (
-            self.risk_accumulator / (self.lockdown_threshold * self.energy_budget)
-        )
+        risk_factor = 1.0 - (self.risk_accumulator / (self.lockdown_threshold * self.energy_budget))
         stability_score *= energy_factor * 0.5 + risk_factor * 0.5
 
         return {
@@ -542,9 +529,7 @@ def main():
         print("⚡ UNIFIED TEQ COUPLER DEMO")
         print("=" * 50)
 
-        teq = UnifiedTEQCoupler(
-            policy_dir=args.policy_root if args.policy_root else None
-        )
+        teq = UnifiedTEQCoupler(policy_dir=args.policy_root if args.policy_root else None)
 
         test_scenarios = [
             ("consciousness", "introspect", 0.2, 1.0),
@@ -562,14 +547,10 @@ def main():
                 "tokens_planned": 1000,
             }
 
-            allowed, reason, suggestions = teq.evaluate(
-                module, action, risk, energy, context
-            )
+            allowed, reason, suggestions = teq.evaluate(module, action, risk, energy, context)
 
             status_icon = "✅" if allowed else "🚫"
-            print(
-                f"{status_icon} {module}.{action} (risk={risk:.1f}, energy={energy:.1f})"
-            )
+            print(f"{status_icon} {module}.{action} (risk={risk:.1f}, energy={energy:.1f})")
             print(f"   → {reason}")
 
             if suggestions:
@@ -586,13 +567,9 @@ def main():
             with open(args.context) as f:
                 context = json.load(f)
 
-        teq = UnifiedTEQCoupler(
-            policy_dir=args.policy_root, jurisdiction=args.jurisdiction
-        )
+        teq = UnifiedTEQCoupler(policy_dir=args.policy_root, jurisdiction=args.jurisdiction)
 
-        allowed, reason, suggestions = teq.evaluate(
-            args.module, args.task, args.risk, args.energy, context
-        )
+        allowed, reason, suggestions = teq.evaluate(args.module, args.task, args.risk, args.energy, context)
 
         result = {
             "allowed": allowed,

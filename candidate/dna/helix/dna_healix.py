@@ -126,9 +126,7 @@ class SymbolicStrand:
             self._hash = hashlib.sha256(content.encode()).hexdigest()
         return self._hash
 
-    def to_vector(
-        self, glyph_embeddings: Optional[dict[str, np.ndarray]] = None
-    ) -> np.ndarray:
+    def to_vector(self, glyph_embeddings: Optional[dict[str, np.ndarray]] = None) -> np.ndarray:
         """Convert strand to vector representation"""
         if glyph_embeddings:
             # Use provided embeddings
@@ -209,9 +207,7 @@ class DNAHealixCore:
     🧠 Core DNA helix manager with origin/current strand tracking
     """
 
-    def __init__(
-        self, origin: SymbolicStrand, current: Optional[SymbolicStrand] = None
-    ):
+    def __init__(self, origin: SymbolicStrand, current: Optional[SymbolicStrand] = None):
         self.origin = origin
         self.current = current or SymbolicStrand(list(origin.sequence))
         self.repair_history: list[RepairMetadata] = []
@@ -288,11 +284,7 @@ class DNAHealixCore:
         repaired = self._validate_repair(repaired)
 
         # Update current and log
-        glyphs_repaired = [
-            i
-            for i, (a, b) in enumerate(zip(self.current.sequence, repaired.sequence))
-            if a != b
-        ]
+        glyphs_repaired = [i for i, (a, b) in enumerate(zip(self.current.sequence, repaired.sequence)) if a != b]
         self.current = repaired
         drift_after = self.calculate_drift()
 
@@ -327,10 +319,7 @@ class DNAHealixCore:
             window_origin = list(self.origin.sequence)[i : i + window_size]
 
             # Calculate local drift
-            local_drift = (
-                sum(1 for a, b in zip(window_current, window_origin) if a != b)
-                / window_size
-            )
+            local_drift = sum(1 for a, b in zip(window_current, window_origin) if a != b) / window_size
 
             if local_drift > heal_threshold:
                 # Heal this segment
@@ -340,9 +329,7 @@ class DNAHealixCore:
 
         return SymbolicStrand(glyphs)
 
-    def _consensus_repair(
-        self, quorum_strands: list[SymbolicStrand], min_agreement: float = 0.6
-    ) -> SymbolicStrand:
+    def _consensus_repair(self, quorum_strands: list[SymbolicStrand], min_agreement: float = 0.6) -> SymbolicStrand:
         """Repair using consensus from multiple strands"""
         if not quorum_strands:
             return self._partial_heal()
@@ -379,9 +366,7 @@ class DNAHealixCore:
 
         return SymbolicStrand(glyphs)
 
-    def _guided_repair(
-        self, guidance_function: Optional[Callable] = None
-    ) -> SymbolicStrand:
+    def _guided_repair(self, guidance_function: Optional[Callable] = None) -> SymbolicStrand:
         """AI-guided repair using external guidance"""
         if guidance_function is None:
             # Default to partial heal
@@ -426,9 +411,7 @@ class SymbolicRepairLoop:
     🔁 Recursive self-assembly and monitoring loop
     """
 
-    def __init__(
-        self, dna: DNAHealixCore, check_interval: float = 1.0, auto_repair: bool = True
-    ):
+    def __init__(self, dna: DNAHealixCore, check_interval: float = 1.0, auto_repair: bool = True):
         self.dna = dna
         self.check_interval = check_interval
         self.auto_repair = auto_repair
@@ -477,9 +460,7 @@ class SymbolicRepairLoop:
                 else:
                     method = RepairMethod.PARTIAL_HEAL
 
-                self.dna.repair(
-                    method=method, cause=f"Auto-repair at drift {drift:.3f}"
-                )
+                self.dna.repair(method=method, cause=f"Auto-repair at drift {drift:.3f}")
             else:
                 logger.warning(f"⚠️ High drift {drift:.3f} but auto-repair disabled")
         else:
@@ -536,9 +517,7 @@ class MemoryHelix:
             "metadata": {
                 "created": self.created_at.isoformat(),
                 "accessed": self.access_count,
-                "last_access": (
-                    self.last_accessed.isoformat() if self.last_accessed else None
-                ),
+                "last_access": (self.last_accessed.isoformat() if self.last_accessed else None),
                 "tags": list(self.tags),
                 "repairs": len(self.helix_core.repair_history),
             },
@@ -587,9 +566,7 @@ class MemoryHelix:
             "metadata": {
                 "created": self.created_at.isoformat(),
                 "accessed": self.access_count,
-                "last_access": (
-                    self.last_accessed.isoformat() if self.last_accessed else None
-                ),
+                "last_access": (self.last_accessed.isoformat() if self.last_accessed else None),
                 "tags": list(self.tags),
                 "locked": self.locked,
                 "repair_history": [
@@ -628,16 +605,10 @@ class MemoryHelix:
         should_repair = self.helix_core.should_repair()
 
         return {
-            "status": (
-                "healthy"
-                if drift_score < 0.1
-                else "degraded" if drift_score < 0.3 else "critical"
-            ),
+            "status": ("healthy" if drift_score < 0.1 else "degraded" if drift_score < 0.3 else "critical"),
             "drift_score": drift_score,
             "should_repair": should_repair,
-            "last_accessed": (
-                self.last_accessed.isoformat() if self.last_accessed else None
-            ),
+            "last_accessed": (self.last_accessed.isoformat() if self.last_accessed else None),
             "access_count": self.access_count,
             "repair_count": len(self.helix_core.repair_history),
             "locked": self.locked,
@@ -656,9 +627,7 @@ class MemoryHelix:
         meta = data["metadata"]
         memory.created_at = datetime.fromisoformat(meta["created"])
         memory.access_count = meta["accessed"]
-        memory.last_accessed = (
-            datetime.fromisoformat(meta["last_access"]) if meta["last_access"] else None
-        )
+        memory.last_accessed = datetime.fromisoformat(meta["last_access"]) if meta["last_access"] else None
         memory.tags = set(meta["tags"])
         memory.locked = meta["locked"]
 

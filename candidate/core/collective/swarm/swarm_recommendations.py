@@ -25,9 +25,7 @@ class SwarmRecommendationSystem:
         # self.wisdom_store = CollectiveWisdomStore()
         pass
 
-    async def get_swarm_recommendations(
-        self, user_id: str, user_cluster_id: str
-    ) -> list[dict[str, Any]]:
+    async def get_swarm_recommendations(self, user_id: str, user_cluster_id: str) -> list[dict[str, Any]]:
         """
         Generates recommendations for a user based on their consciousness cluster.
 
@@ -50,9 +48,7 @@ class SwarmRecommendationSystem:
         recommendations = []
 
         for _i in range(random.randint(1, 4)):
-            recommendation_type = random.choice(
-                ["product", "service", "experience", "idea"]
-            )
+            recommendation_type = random.choice(["product", "service", "experience", "idea"])
 
             recommendation = {
                 "recommendation_id": f"rec_{random.randint(1000, 9999)}",

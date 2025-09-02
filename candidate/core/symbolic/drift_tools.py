@@ -73,20 +73,14 @@ class EntropyProfile:
     def compute_entropy(self, t: float) -> float:
         """Compute entropy value at time t using configured waveform."""
         if self.wave_type == "sine":
-            return self.base_magnitude * (
-                1 + self.variance * np.sin(2 * np.pi * self.frequency * t)
-            )
+            return self.base_magnitude * (1 + self.variance * np.sin(2 * np.pi * self.frequency * t))
         elif self.wave_type == "square":
-            return self.base_magnitude * (
-                1 + self.variance * np.sign(np.sin(2 * np.pi * self.frequency * t))
-            )
+            return self.base_magnitude * (1 + self.variance * np.sign(np.sin(2 * np.pi * self.frequency * t)))
         elif self.wave_type == "sawtooth":
             phase = (t * self.frequency) % 1
             return self.base_magnitude * (1 + self.variance * (2 * phase - 1))
         else:  # random
-            return self.base_magnitude * (
-                1 + self.variance * (2 * np.random.random() - 1)
-            )
+            return self.base_magnitude * (1 + self.variance * (2 * np.random.random() - 1))
 
 
 @dataclass
@@ -285,9 +279,7 @@ class DriftRecoverySimulator:
                     symbol_id=symbol_id,
                     health=health,
                 )
-                self.recovery_metrics[symbol_id].interventions.append(
-                    (time.time(), "cascade_prevention_triggered")
-                )
+                self.recovery_metrics[symbol_id].interventions.append((time.time(), "cascade_prevention_triggered"))
 
             await asyncio.sleep(0.1)  # 10Hz update rate
 
@@ -330,9 +322,7 @@ class DriftRecoverySimulator:
         )
 
         symbol = self.symbols[symbol_id]
-        metrics = self.recovery_metrics.get(
-            symbol_id, RecoveryMetrics(start_time=time.time())
-        )
+        metrics = self.recovery_metrics.get(symbol_id, RecoveryMetrics(start_time=time.time()))
         start_time = time.time()
 
         # Memory fold assistance if available
@@ -448,9 +438,7 @@ class DriftRecoverySimulator:
 
         # Recovery time (faster is better)
         if metrics.time_to_recovery():
-            time_score = 1.0 / (
-                1.0 + metrics.time_to_recovery() / 10.0
-            )  # Normalize around 10s
+            time_score = 1.0 / (1.0 + metrics.time_to_recovery() / 10.0)  # Normalize around 10s
             scores.append(time_score)
 
         # Recovery efficiency
@@ -549,9 +537,7 @@ class DriftRecoverySimulator:
             await asyncio.sleep(0.5)  # Cascade propagation delay
 
         # Measure cascade impact
-        total_health_loss = sum(
-            1.0 - self.symbols[s].overall_health() for s in affected_symbols
-        )
+        total_health_loss = sum(1.0 - self.symbols[s].overall_health() for s in affected_symbols)
 
         return {
             "trigger_symbol": trigger_symbol,
@@ -681,29 +667,17 @@ class DriftRecoverySimulator:
             "timestamp": datetime.now().isoformat(),
             "total_tests": len(test_results),
             "test_results": test_results,
-            "overall_resilience": (
-                np.mean([r["resilience_score"] for r in drift_tests])
-                if drift_tests
-                else 0.0
-            ),
+            "overall_resilience": (np.mean([r["resilience_score"] for r in drift_tests]) if drift_tests else 0.0),
             "average_recovery_time": (
-                np.mean(
-                    [r["recovery"]["time_to_recovery"] or 60.0 for r in drift_tests]
-                )
-                if drift_tests
-                else 0.0
+                np.mean([r["recovery"]["time_to_recovery"] or 60.0 for r in drift_tests]) if drift_tests else 0.0
             ),
             "cascade_impact": (
-                np.mean([r["result"]["total_health_loss"] for r in cascade_tests])
-                if cascade_tests
-                else 0.0
+                np.mean([r["result"]["total_health_loss"] for r in cascade_tests]) if cascade_tests else 0.0
             ),
         }
 
         # Save to file
-        output_path = (
-            self.checkpoint_dir / f"benchmark_{datetime.now():%Y%m%d_%H%M%S}.json"
-        )
+        output_path = self.checkpoint_dir / f"benchmark_{datetime.now():%Y%m%d_%H%M%S}.json"
         with open(output_path, "w") as f:
             json.dump(benchmark_summary, f, indent=2, default=str)
 
@@ -730,9 +704,7 @@ async def quick_drift_test(symbol_id: str = "test_symbol") -> dict[str, Any]:
     )
 
     # Measure recovery
-    recovery = await simulator.measure_recovery(
-        symbol_id, timeout=10.0, intervention_strategy="moderate"
-    )
+    recovery = await simulator.measure_recovery(symbol_id, timeout=10.0, intervention_strategy="moderate")
 
     return {
         "injection": injection_result,
@@ -766,12 +738,8 @@ if __name__ == "__main__":
             benchmark_results = await simulator.run_benchmark_suite()
             print("\nBenchmark Complete:")
             print(f"  Total Tests: {benchmark_results['total_tests']}")
-            print(
-                f"  Overall Resilience: {benchmark_results['overall_resilience']:.3f}"
-            )
-            print(
-                f"  Average Recovery Time: {benchmark_results['average_recovery_time']:.2f}s"
-            )
+            print(f"  Overall Resilience: {benchmark_results['overall_resilience']:.3f}")
+            print(f"  Average Recovery Time: {benchmark_results['average_recovery_time']:.2f}s")
             print(f"  Cascade Impact: {benchmark_results['cascade_impact']:.3f}")
 
     asyncio.run(main())

@@ -40,9 +40,7 @@ def api_list_proposals(x_auth_token: str | None = Header(None)):
 
 @API.post("/proposals/plan")
 def api_plan(
-    targets: str | None = Query(
-        None, description="comma-separated target config files"
-    ),
+    targets: str | None = Query(None, description="comma-separated target config files"),
     x_auth_token: str | None = Header(None),
 ):
     _auth(x_auth_token)

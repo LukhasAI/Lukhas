@@ -38,9 +38,7 @@ class DreamRecorder:
         # Create file handler if not already exists
         if not logger.handlers:
             handler = logging.FileHandler("dream_recorder.log")
-            formatter = logging.Formatter(
-                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-            )
+            formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
             handler.setFormatter(formatter)
             logger.addHandler(handler)
 
@@ -119,9 +117,7 @@ class DreamRecorder:
         except Exception as e:
             self.logger.error(f"Failed to save dream record to file: {e!s}")
 
-    def get_recorded_dreams(
-        self, session_id: Optional[str] = None
-    ) -> list[dict[str, Any]]:
+    def get_recorded_dreams(self, session_id: Optional[str] = None) -> list[dict[str, Any]]:
         """
         Get recorded dreams, optionally filtered by session.
 
@@ -132,17 +128,11 @@ class DreamRecorder:
             List of dream records
         """
         if session_id:
-            return [
-                dream
-                for dream in self.recorded_dreams
-                if dream["session_id"] == session_id
-            ]
+            return [dream for dream in self.recorded_dreams if dream["session_id"] == session_id]
         else:
             return self.recorded_dreams.copy()
 
-    def search_dreams(
-        self, query: str, search_fields: Optional[list[str]] = None
-    ) -> list[dict[str, Any]]:
+    def search_dreams(self, query: str, search_fields: Optional[list[str]] = None) -> list[dict[str, Any]]:
         """
         Search recorded dreams by query.
 
@@ -190,9 +180,7 @@ class DreamRecorder:
             "earliest_dream": min(timestamps),
             "latest_dream": max(timestamps),
             "current_session": self.session_id,
-            "dreams_in_current_session": len(
-                [d for d in self.recorded_dreams if d["session_id"] == self.session_id]
-            ),
+            "dreams_in_current_session": len([d for d in self.recorded_dreams if d["session_id"] == self.session_id]),
         }
 
     def clear_dreams(self, session_id: Optional[str] = None) -> dict[str, Any]:
@@ -209,14 +197,10 @@ class DreamRecorder:
             if session_id:
                 # Clear specific session
                 original_count = len(self.recorded_dreams)
-                self.recorded_dreams = [
-                    d for d in self.recorded_dreams if d["session_id"] != session_id
-                ]
+                self.recorded_dreams = [d for d in self.recorded_dreams if d["session_id"] != session_id]
                 cleared_count = original_count - len(self.recorded_dreams)
 
-                self.logger.info(
-                    f"Cleared {cleared_count} dreams from session {session_id}"
-                )
+                self.logger.info(f"Cleared {cleared_count} dreams from session {session_id}")
 
                 return {
                     "success": True,
@@ -288,9 +272,7 @@ class DreamRecorder:
                     "error": f"Unsupported format: {format}",
                 }
 
-            self.logger.info(
-                f"Exported {len(self.recorded_dreams)} dreams to {output_file}"
-            )
+            self.logger.info(f"Exported {len(self.recorded_dreams)} dreams to {output_file}")
 
             return {
                 "success": True,
@@ -308,9 +290,7 @@ class DreamRecorder:
 _global_recorder = DreamRecorder()
 
 
-def record_dream_message(
-    dream_message: dict[str, Any], context: Optional[dict[str, Any]] = None
-) -> dict[str, Any]:
+def record_dream_message(dream_message: dict[str, Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """
     Convenience function to record a dream message using the global recorder.
 

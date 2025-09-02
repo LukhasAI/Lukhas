@@ -65,9 +65,7 @@ async def validate_constellation_framework_integration():
         lid_generated = test_user["lid"].startswith("USR-")
         constellation_integrated = all(test_user["constellation_status"].values())
 
-        validation_results["identity_system"] = (
-            identity_active and lid_generated and constellation_integrated
-        )
+        validation_results["identity_system"] = identity_active and lid_generated and constellation_integrated
 
         print(f"  ✨ Identity System Active: {identity_active}")
         print(f"  🔑 ΛID Generation Success: {lid_generated}")
@@ -99,9 +97,7 @@ async def validate_constellation_framework_integration():
         print(f"  🌟 Consciousness Monitoring: {consciousness_monitoring}")
         print(f"  📊 Performance Awareness: {performance_awareness}")
         print(f"  🧠 Consciousness Active: {consciousness_status}")
-        print(
-            f"  ✅ Consciousness Validation: {validation_results['consciousness_integration']}"
-        )
+        print(f"  ✅ Consciousness Validation: {validation_results['consciousness_integration']}")
         print()
 
     except Exception as e:
@@ -125,10 +121,7 @@ async def validate_constellation_framework_integration():
         audit_trail_active = hasattr(identity_service, "metrics")
 
         validation_results["guardian_protection"] = (
-            guardian_status
-            and security_events_tracking
-            and rate_limiting_active
-            and audit_trail_active
+            guardian_status and security_events_tracking and rate_limiting_active and audit_trail_active
         )
 
         print(f"  ⭐ Guardian System Active: {guardian_status}")
@@ -148,14 +141,10 @@ async def validate_constellation_framework_integration():
 
     try:
         # Test innovation processing capability
-        innovation_status = identity_service.constellation_status.get(
-            "innovation", False
-        )
+        innovation_status = identity_service.constellation_status.get("innovation", False)
 
         # Test creative thinking patterns
-        creative_metrics = getattr(
-            identity_service, "creative_metrics", {"creativity_score": 0.8}
-        )
+        creative_metrics = getattr(identity_service, "creative_metrics", {"creativity_score": 0.8})
         innovation_score = creative_metrics.get("creativity_score", 0.0)
 
         # Test adaptive learning
@@ -168,9 +157,7 @@ async def validate_constellation_framework_integration():
         print(f"  🔥 Innovation System Active: {innovation_status}")
         print(f"  🎨 Creative Thinking Score: {innovation_score:.3f}")
         print(f"  🧠 Learning Adaptation: {learning_adaptation}")
-        print(
-            f"  ✅ Innovation Validation: {validation_results['innovation_capacity']}"
-        )
+        print(f"  ✅ Innovation Validation: {validation_results['innovation_capacity']}")
         print()
 
     except Exception as e:
@@ -191,9 +178,7 @@ async def validate_constellation_framework_integration():
         # Test value alignment
         value_alignment_score = 0.95  # Would calculate from actual metrics
 
-        validation_results["ethics_validation"] = (
-            ethics_status and ethical_compliance and value_alignment_score > 0.90
-        )
+        validation_results["ethics_validation"] = ethics_status and ethical_compliance and value_alignment_score > 0.90
 
         print(f"  💎 Ethics System Active: {ethics_status}")
         print(f"  🤝 Ethical Compliance: {ethical_compliance}")
@@ -254,18 +239,14 @@ async def validate_constellation_framework_integration():
         constellation_performance = all(auth_result["constellation_status"].values())
 
         validation_results["performance_compliance"] = (
-            performance_target_met
-            and authentication_success
-            and constellation_performance
+            performance_target_met and authentication_success and constellation_performance
         )
 
         print(f"  ⚡ Authentication Latency: {auth_latency:.2f}ms")
         print(f"  🎯 <100ms Target Met: {performance_target_met}")
         print(f"  ✅ Authentication Success: {authentication_success}")
         print(f"  🌟 Constellation Performance: {constellation_performance}")
-        print(
-            f"  ✅ Performance Validation: {validation_results['performance_compliance']}"
-        )
+        print(f"  ✅ Performance Validation: {validation_results['performance_compliance']}")
         print()
 
     except Exception as e:
@@ -290,24 +271,14 @@ async def validate_constellation_framework_integration():
     )
 
     print(f"  ✨ Identity System (Clarity): {validation_results['identity_system']}")
-    print(
-        f"  🌟 Consciousness Integration (Wisdom): {validation_results['consciousness_integration']}"
-    )
-    print(
-        f"  ⭐ Guardian Protection (Courage): {validation_results['guardian_protection']}"
-    )
+    print(f"  🌟 Consciousness Integration (Wisdom): {validation_results['consciousness_integration']}")
+    print(f"  ⭐ Guardian Protection (Courage): {validation_results['guardian_protection']}")
     print(f"  🔥 Innovation Capacity: {validation_results['innovation_capacity']}")
-    print(
-        f"  💎 Ethics Validation (Compassion): {validation_results['ethics_validation']}"
-    )
+    print(f"  💎 Ethics Validation (Compassion): {validation_results['ethics_validation']}")
     print(f"  🔗 Bridge Connections: {validation_results['bridge_connections']}")
-    print(
-        f"  ⚡ Performance Compliance: {validation_results['performance_compliance']}"
-    )
+    print(f"  ⚡ Performance Compliance: {validation_results['performance_compliance']}")
     print()
-    print(
-        f"  🌟 OVERALL CONSTELLATION COMPLIANCE: {validation_results['overall_constellation_compliance']}"
-    )
+    print(f"  🌟 OVERALL CONSTELLATION COMPLIANCE: {validation_results['overall_constellation_compliance']}")
     print()
 
     # Constellation Framework Summary

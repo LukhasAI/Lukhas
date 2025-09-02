@@ -86,9 +86,7 @@ class ContradictionReport:
     confidence_impact: float
     glyph_conflicts: list[str] = field(default_factory=list)
     ethical_violations: list[str] = field(default_factory=list)
-    timestamp: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     metadata: dict[str, Any] = field(default_factory=dict)
 
 
@@ -107,9 +105,7 @@ class ConflictResolutionResult:
     entropy_adjustment: float
     resolution_success: bool
     audit_trail: dict[str, Any] = field(default_factory=dict)
-    timestamp: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 class SymbolicConflictResolver:
@@ -166,9 +162,7 @@ class SymbolicConflictResolver:
             resolution_confidence_threshold=resolution_confidence_threshold,
         )
 
-    def detect_symbolic_conflict(
-        self, inputs: list[SymbolicFragment], context: dict
-    ) -> Optional[ContradictionReport]:
+    def detect_symbolic_conflict(self, inputs: list[SymbolicFragment], context: dict) -> Optional[ContradictionReport]:
         """
         Analyzes symbolic statements, emotional states, and memory references
         for contradiction patterns. Returns report if conflict found.
@@ -229,9 +223,7 @@ class SymbolicConflictResolver:
 
             severity = self._calculate_severity(primary_conflict, inputs)
             entropy_delta = self._calculate_entropy_delta(inputs, primary_conflict)
-            confidence_impact = self._calculate_confidence_impact(
-                inputs, primary_conflict
-            )
+            confidence_impact = self._calculate_confidence_impact(inputs, primary_conflict)
 
             report = ContradictionReport(
                 report_id=f"contradiction_{uuid.uuid4().hex[:12]}",
@@ -307,16 +299,11 @@ class SymbolicConflictResolver:
                     classification_scores[ConflictType.EMOTIONAL] += 0.2
 
                 # Memory classification
-                if (
-                    fragment.source_module.startswith("memory")
-                    or "memory" in str(content).lower()
-                ):
+                if fragment.source_module.startswith("memory") or "memory" in str(content).lower():
                     classification_scores[ConflictType.MEMORY] += 0.25
 
                 # Loop classification
-                if self._detect_circular_references(
-                    fragment, report.conflicting_fragments
-                ):
+                if self._detect_circular_references(fragment, report.conflicting_fragments):
                     classification_scores[ConflictType.LOOP] += 0.4
 
                 # GLYPH classification
@@ -337,9 +324,7 @@ class SymbolicConflictResolver:
             classification_scores[report.conflict_type] += 0.5
 
             # Select highest scoring classification
-            final_classification = max(
-                classification_scores, key=classification_scores.get
-            )
+            final_classification = max(classification_scores, key=classification_scores.get)
 
             self.logger.debug(
                 "Contradiction classified",
@@ -360,9 +345,7 @@ class SymbolicConflictResolver:
             )
             return ConflictType.UNKNOWN
 
-    def resolve_conflict(
-        self, report: ContradictionReport, strategy: ResolutionMode
-    ) -> ConflictResolutionResult:
+    def resolve_conflict(self, report: ContradictionReport, strategy: ResolutionMode) -> ConflictResolutionResult:
         """
         Attempts to resolve the contradiction using strategies like merge,
         priority override, historical reweighting, or GLYPH suppression.
@@ -375,9 +358,7 @@ class SymbolicConflictResolver:
             ConflictResolutionResult: The resolution outcome and metadata
         """
         resolution_id = f"resolve_{uuid.uuid4().hex[:12]}"
-        method_logger = self.logger.bind(
-            resolution_id=resolution_id, report_id=report.report_id
-        )
+        method_logger = self.logger.bind(resolution_id=resolution_id, report_id=report.report_id)
         method_logger.info(
             "Starting conflict resolution",
             conflict_type=report.conflict_type.value,
@@ -548,9 +529,7 @@ class SymbolicConflictResolver:
             ],
         }
 
-    def _detect_logical_contradictions(
-        self, fragments: list[SymbolicFragment]
-    ) -> list[dict]:
+    def _detect_logical_contradictions(self, fragments: list[SymbolicFragment]) -> list[dict]:
         """Detect logical contradictions between fragments."""
         conflicts = []
 
@@ -574,15 +553,9 @@ class SymbolicConflictResolver:
                         )
 
                 # Confidence contradiction (high confidence in opposite statements)
-                if (
-                    frag1.confidence > 0.8
-                    and frag2.confidence > 0.8
-                    and abs(frag1.confidence - frag2.confidence) < 0.1
-                ):
+                if frag1.confidence > 0.8 and frag2.confidence > 0.8 and abs(frag1.confidence - frag2.confidence) < 0.1:
                     # Check for semantic opposition (simplified)
-                    if ("not" in content1 and "not" not in content2) or (
-                        "not" not in content1 and "not" in content2
-                    ):
+                    if ("not" in content1 and "not" not in content2) or ("not" not in content1 and "not" in content2):
                         conflicts.append(
                             {
                                 "type": ConflictType.LOGICAL,
@@ -595,9 +568,7 @@ class SymbolicConflictResolver:
 
         return conflicts
 
-    def _detect_ethical_contradictions(
-        self, fragments: list[SymbolicFragment]
-    ) -> list[dict]:
+    def _detect_ethical_contradictions(self, fragments: list[SymbolicFragment]) -> list[dict]:
         """Detect ethical contradictions between fragments."""
         conflicts = []
 
@@ -609,9 +580,7 @@ class SymbolicConflictResolver:
                         {
                             "type": ConflictType.ETHICAL,
                             "fragments": [frag1, frag2],
-                            "severity_score": abs(
-                                frag1.ethical_score - frag2.ethical_score
-                            ),
+                            "severity_score": abs(frag1.ethical_score - frag2.ethical_score),
                             "patterns": ["ethical_score_divergence"],
                             "description": "Ethical scoring contradiction",
                             "ethical_violations": ["ethical_score_conflict"],
@@ -631,17 +600,13 @@ class SymbolicConflictResolver:
                                 "severity_score": 0.75,
                                 "patterns": [pattern],
                                 "description": "Ethical statement contradiction",
-                                "ethical_violations": [
-                                    "pattern_based_ethical_conflict"
-                                ],
+                                "ethical_violations": ["pattern_based_ethical_conflict"],
                             }
                         )
 
         return conflicts
 
-    def _detect_emotional_contradictions(
-        self, fragments: list[SymbolicFragment]
-    ) -> list[dict]:
+    def _detect_emotional_contradictions(self, fragments: list[SymbolicFragment]) -> list[dict]:
         """Detect emotional contradictions between fragments."""
         conflicts = []
 
@@ -678,16 +643,12 @@ class SymbolicConflictResolver:
 
         return conflicts
 
-    def _detect_memory_contradictions(
-        self, fragments: list[SymbolicFragment], context: dict
-    ) -> list[dict]:
+    def _detect_memory_contradictions(self, fragments: list[SymbolicFragment], context: dict) -> list[dict]:
         """Detect memory/historical contradictions."""
         conflicts = []
 
         # Check for fragments from memory modules with conflicting information
-        memory_fragments = [
-            f for f in fragments if f.source_module.startswith("memory")
-        ]
+        memory_fragments = [f for f in fragments if f.source_module.startswith("memory")]
 
         for i, frag1 in enumerate(memory_fragments):
             for _j, frag2 in enumerate(memory_fragments[i + 1 :], i + 1):
@@ -697,10 +658,7 @@ class SymbolicConflictResolver:
 
                 if timestamp1 and timestamp2:
                     # If same time but different confidence/content, potential conflict
-                    if (
-                        timestamp1 == timestamp2
-                        and abs(frag1.confidence - frag2.confidence) > 0.5
-                    ):
+                    if timestamp1 == timestamp2 and abs(frag1.confidence - frag2.confidence) > 0.5:
                         conflicts.append(
                             {
                                 "type": ConflictType.MEMORY,
@@ -713,9 +671,7 @@ class SymbolicConflictResolver:
 
         return conflicts
 
-    def _detect_glyph_contradictions(
-        self, fragments: list[SymbolicFragment]
-    ) -> list[dict]:
+    def _detect_glyph_contradictions(self, fragments: list[SymbolicFragment]) -> list[dict]:
         """Detect GLYPH field contradictions."""
         conflicts = []
 
@@ -757,21 +713,13 @@ class SymbolicConflictResolver:
         for fragment in fragments:
             content = str(fragment.content)
             # Check if this fragment references other fragments in a circular way
-            circular_refs = [
-                fid
-                for fid in fragment_ids
-                if fid != fragment.fragment_id and fid in content
-            ]
+            circular_refs = [fid for fid in fragment_ids if fid != fragment.fragment_id and fid in content]
 
             if circular_refs:
                 # Check if any referenced fragments also reference this one
                 for ref_id in circular_refs:
-                    ref_fragment = next(
-                        (f for f in fragments if f.fragment_id == ref_id), None
-                    )
-                    if ref_fragment and fragment.fragment_id in str(
-                        ref_fragment.content
-                    ):
+                    ref_fragment = next((f for f in fragments if f.fragment_id == ref_id), None)
+                    if ref_fragment and fragment.fragment_id in str(ref_fragment.content):
                         conflicts.append(
                             {
                                 "type": ConflictType.LOOP,
@@ -784,30 +732,23 @@ class SymbolicConflictResolver:
 
         return conflicts
 
-    def _detect_circular_references(
-        self, fragment: SymbolicFragment, all_fragments: list[SymbolicFragment]
-    ) -> bool:
+    def _detect_circular_references(self, fragment: SymbolicFragment, all_fragments: list[SymbolicFragment]) -> bool:
         """Check if a fragment has circular references."""
         content = str(fragment.content)
 
         for other_fragment in all_fragments:
             if other_fragment.fragment_id != fragment.fragment_id and (
-                other_fragment.fragment_id in content
-                and fragment.fragment_id in str(other_fragment.content)
+                other_fragment.fragment_id in content and fragment.fragment_id in str(other_fragment.content)
             ):
                 return True
         return False
 
-    def _calculate_severity(
-        self, conflict: dict, fragments: list[SymbolicFragment]
-    ) -> ConflictSeverity:
+    def _calculate_severity(self, conflict: dict, fragments: list[SymbolicFragment]) -> ConflictSeverity:
         """Calculate the severity of a conflict."""
         base_severity = conflict["severity_score"]
 
         # Adjust based on fragment confidence and count
-        confidence_factor = sum(f.confidence for f in conflict["fragments"]) / len(
-            conflict["fragments"]
-        )
+        confidence_factor = sum(f.confidence for f in conflict["fragments"]) / len(conflict["fragments"])
 
         # Higher confidence in conflicting statements = higher severity
         adjusted_severity = base_severity * (1 + confidence_factor * 0.3)
@@ -821,9 +762,7 @@ class SymbolicConflictResolver:
         else:
             return ConflictSeverity.MINOR
 
-    def _calculate_entropy_delta(
-        self, fragments: list[SymbolicFragment], conflict: dict
-    ) -> float:
+    def _calculate_entropy_delta(self, fragments: list[SymbolicFragment], conflict: dict) -> float:
         """Calculate entropy delta from the conflict."""
         sum(f.entropy for f in fragments)
         conflict_entropy = sum(f.entropy for f in conflict["fragments"])
@@ -831,23 +770,17 @@ class SymbolicConflictResolver:
         # Conflicts generally increase entropy
         return conflict_entropy * 0.5
 
-    def _calculate_confidence_impact(
-        self, fragments: list[SymbolicFragment], conflict: dict
-    ) -> float:
+    def _calculate_confidence_impact(self, fragments: list[SymbolicFragment], conflict: dict) -> float:
         """Calculate the impact on confidence from the conflict."""
         sum(f.confidence for f in fragments) / len(fragments)
-        conflict_confidence = sum(f.confidence for f in conflict["fragments"]) / len(
-            conflict["fragments"]
-        )
+        conflict_confidence = sum(f.confidence for f in conflict["fragments"]) / len(conflict["fragments"])
 
         # Higher conflict confidence = higher impact on overall confidence
         return -(conflict_confidence * 0.3)
 
     # Resolution strategy implementations
 
-    def _apply_merge_strategy(
-        self, report: ContradictionReport, resolution_id: str
-    ) -> ConflictResolutionResult:
+    def _apply_merge_strategy(self, report: ContradictionReport, resolution_id: str) -> ConflictResolutionResult:
         """Apply MERGE strategy: combine conflicting paths with entropy boost."""
         self.logger.debug("Applying MERGE strategy", resolution_id=resolution_id)
 
@@ -870,17 +803,11 @@ class SymbolicConflictResolver:
             confidence=merged_content["merged_confidence"],
             entropy=min(
                 1.0,
-                sum(f.entropy for f in report.conflicting_fragments)
-                / len(report.conflicting_fragments)
-                + 0.3,
+                sum(f.entropy for f in report.conflicting_fragments) / len(report.conflicting_fragments) + 0.3,
             ),
-            emotional_weight=sum(
-                f.emotional_weight for f in report.conflicting_fragments
-            )
+            emotional_weight=sum(f.emotional_weight for f in report.conflicting_fragments)
             / len(report.conflicting_fragments),
-            ethical_score=min(
-                f.ethical_score for f in report.conflicting_fragments
-            ),  # Take minimum ethical score
+            ethical_score=min(f.ethical_score for f in report.conflicting_fragments),  # Take minimum ethical score
             glyph_signature=f"MERGED_{resolution_id[:4]}",
         )
 
@@ -902,9 +829,7 @@ class SymbolicConflictResolver:
             audit_trail={"merge_details": merged_content},
         )
 
-    def _apply_veto_strategy(
-        self, report: ContradictionReport, resolution_id: str
-    ) -> ConflictResolutionResult:
+    def _apply_veto_strategy(self, report: ContradictionReport, resolution_id: str) -> ConflictResolutionResult:
         """Apply VETO strategy: discard one based on priority/ethics/recency."""
         self.logger.debug("Applying VETO strategy", resolution_id=resolution_id)
 
@@ -923,9 +848,7 @@ class SymbolicConflictResolver:
 
         # Keep the highest scoring fragment
         kept_fragment, best_score = max(scored_fragments, key=lambda x: x[1])
-        eliminated_fragments = [
-            f.fragment_id for f, _ in scored_fragments if f != kept_fragment
-        ]
+        eliminated_fragments = [f.fragment_id for f, _ in scored_fragments if f != kept_fragment]
 
         return ConflictResolutionResult(
             resolution_id=resolution_id,
@@ -942,14 +865,10 @@ class SymbolicConflictResolver:
             confidence_adjustment=0.1,
             entropy_adjustment=-0.1,
             resolution_success=True,
-            audit_trail={
-                "veto_scoring": {f.fragment_id: score for f, score in scored_fragments}
-            },
+            audit_trail={"veto_scoring": {f.fragment_id: score for f, score in scored_fragments}},
         )
 
-    def _apply_suppress_strategy(
-        self, report: ContradictionReport, resolution_id: str
-    ) -> ConflictResolutionResult:
+    def _apply_suppress_strategy(self, report: ContradictionReport, resolution_id: str) -> ConflictResolutionResult:
         """Apply SUPPRESS strategy: quarantine until conditions settle."""
         self.logger.debug("Applying SUPPRESS strategy", resolution_id=resolution_id)
 
@@ -989,16 +908,10 @@ class SymbolicConflictResolver:
             confidence_adjustment=-0.8,
             entropy_adjustment=0.2,
             resolution_success=True,
-            audit_trail={
-                "suppressed_fragments": [
-                    f.fragment_id for f in report.conflicting_fragments
-                ]
-            },
+            audit_trail={"suppressed_fragments": [f.fragment_id for f in report.conflicting_fragments]},
         )
 
-    def _apply_escalate_strategy(
-        self, report: ContradictionReport, resolution_id: str
-    ) -> ConflictResolutionResult:
+    def _apply_escalate_strategy(self, report: ContradictionReport, resolution_id: str) -> ConflictResolutionResult:
         """Apply ESCALATE strategy: forward to collapse_reasoner.py."""
         self.logger.warning(
             "Applying ESCALATE strategy - forwarding to collapse_reasoner",
@@ -1031,9 +944,7 @@ class SymbolicConflictResolver:
             },
         )
 
-    def _apply_freeze_strategy(
-        self, report: ContradictionReport, resolution_id: str
-    ) -> ConflictResolutionResult:
+    def _apply_freeze_strategy(self, report: ContradictionReport, resolution_id: str) -> ConflictResolutionResult:
         """Apply FREEZE strategy: lock reasoning path, emit alert."""
         self.logger.error(
             "Applying FREEZE strategy - locking reasoning path",
@@ -1083,9 +994,7 @@ class SymbolicConflictResolver:
             },
         )
 
-    def _apply_reconcile_strategy(
-        self, report: ContradictionReport, resolution_id: str
-    ) -> ConflictResolutionResult:
+    def _apply_reconcile_strategy(self, report: ContradictionReport, resolution_id: str) -> ConflictResolutionResult:
         """Apply RECONCILE strategy: attempt to find middle ground."""
         self.logger.debug("Applying RECONCILE strategy", resolution_id=resolution_id)
 
@@ -1102,12 +1011,7 @@ class SymbolicConflictResolver:
         # Calculate weighted averages
         total_confidence = sum(f.confidence for f in fragments)
         weights = [
-            (
-                f.confidence / total_confidence
-                if total_confidence > 0
-                else 1.0 / len(fragments)
-            )
-            for f in fragments
+            (f.confidence / total_confidence if total_confidence > 0 else 1.0 / len(fragments)) for f in fragments
         ]
 
         reconciled_fragment = SymbolicFragment(
@@ -1115,13 +1019,9 @@ class SymbolicConflictResolver:
             content=reconciled_content,
             source_module="conflict_resolver",
             timestamp=datetime.now(timezone.utc).isoformat(),
-            confidence=sum(f.confidence * w for f, w in zip(fragments, weights))
-            * 0.6,  # Reduced confidence
-            entropy=sum(f.entropy * w for f, w in zip(fragments, weights))
-            + 0.2,  # Slightly increased entropy
-            emotional_weight=sum(
-                f.emotional_weight * w for f, w in zip(fragments, weights)
-            ),
+            confidence=sum(f.confidence * w for f, w in zip(fragments, weights)) * 0.6,  # Reduced confidence
+            entropy=sum(f.entropy * w for f, w in zip(fragments, weights)) + 0.2,  # Slightly increased entropy
+            emotional_weight=sum(f.emotional_weight * w for f, w in zip(fragments, weights)),
             ethical_score=sum(f.ethical_score * w for f, w in zip(fragments, weights)),
             glyph_signature=f"RECONCILED_{resolution_id[:4]}",
         )
@@ -1141,16 +1041,10 @@ class SymbolicConflictResolver:
             confidence_adjustment=-0.3,
             entropy_adjustment=0.2,
             resolution_success=True,
-            audit_trail={
-                "reconciliation_weights": {
-                    f.fragment_id: w for f, w in zip(fragments, weights)
-                }
-            },
+            audit_trail={"reconciliation_weights": {f.fragment_id: w for f, w in zip(fragments, weights)}},
         )
 
-    def _apply_isolate_strategy(
-        self, report: ContradictionReport, resolution_id: str
-    ) -> ConflictResolutionResult:
+    def _apply_isolate_strategy(self, report: ContradictionReport, resolution_id: str) -> ConflictResolutionResult:
         """Apply ISOLATE strategy: separate conflicting components."""
         self.logger.debug("Applying ISOLATE strategy", resolution_id=resolution_id)
 
@@ -1193,9 +1087,7 @@ class SymbolicConflictResolver:
             audit_trail={
                 "isolation_mapping": {
                     f.fragment_id: isolated.fragment_id
-                    for f, isolated in zip(
-                        report.conflicting_fragments, isolated_fragments
-                    )
+                    for f, isolated in zip(report.conflicting_fragments, isolated_fragments)
                 }
             },
         )
@@ -1238,8 +1130,7 @@ class SymbolicConflictResolver:
             "escalated_conflicts": self.conflict_stats["escalated_conflicts"],
             "suppressed_conflicts": self.conflict_stats["suppressed_conflicts"],
             "resolution_rate": (
-                self.conflict_stats["resolved_conflicts"]
-                / max(1, self.conflict_stats["total_conflicts"])
+                self.conflict_stats["resolved_conflicts"] / max(1, self.conflict_stats["total_conflicts"])
             ),
             "recent_resolutions": [
                 {

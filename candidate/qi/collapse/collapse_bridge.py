@@ -41,9 +41,7 @@ class CollapseBridge:
             brain_integrator (Any): The main brain integrator instance.
         """
         self.brain_integrator: Any = brain_integrator
-        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(
-            brain_integrator
-        )
+        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(brain_integrator)
 
     # ΛPROPAGATOR
     async def report_collapse(self, collapse_details: dict[str, Any]) -> None:
@@ -53,9 +51,7 @@ class CollapseBridge:
         Args:
             collapse_details (Dict[str, Any]): Details of the collapse.
         """
-        logger.info(
-            "Reporting collapse to collapse manager.", collapse_details=collapse_details
-        )
+        logger.info("Reporting collapse to collapse manager.", collapse_details=collapse_details)
         await self.collapse_manager.handle_collapse()
 
 

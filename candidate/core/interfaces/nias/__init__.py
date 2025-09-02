@@ -46,9 +46,7 @@ except ImportError as e:
 # AIMPORTS_END
 
 # ΛCONFIG_START
-log = (
-    structlog.get_logger()
-)  # ΛMODIFICATION: Initialized structlog (again, to ensure definition)
+log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog (again, to ensure definition)
 # ΛCONFIG_END
 
 # ΛDUNDER_VARIABLES_START

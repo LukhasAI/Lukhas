@@ -128,9 +128,7 @@ This module was consolidated from `/{source_name}/` into `/{config["target"]}/{c
         # Remove empty source directory
         shutil.rmtree(source_path)
 
-        print(
-            f"✅ Consolidated {source_name} → {config['target']}/{config['subdirectory']}"
-        )
+        print(f"✅ Consolidated {source_name} → {config['target']}/{config['subdirectory']}")
 
         # Update __init__.py in target module if it exists
         init_file = target_path / "__init__.py"

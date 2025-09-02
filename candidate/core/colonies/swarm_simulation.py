@@ -36,9 +36,7 @@ class SimAgent:
             return
         await self.network.broadcast(self, tag, value, weighted_trust)
 
-    async def receive_tag(
-        self, source_id: str, tag: str, value: str, trust: float
-    ) -> None:
+    async def receive_tag(self, source_id: str, tag: str, value: str, trust: float) -> None:
         current = self.tags.get(tag)
         if current is not None and current != value:
             self.network.log_collision(tag, current, value)
@@ -48,9 +46,7 @@ class SimAgent:
 class SwarmNetwork:
     """Central network coordinating tag propagation."""
 
-    def __init__(
-        self, high_trust_filter: bool = False, value_bias: float = 1.0
-    ) -> None:
+    def __init__(self, high_trust_filter: bool = False, value_bias: float = 1.0) -> None:
         self.fabric = EfficientCommunicationFabric("swarm-net")
         self.high_trust_filter = high_trust_filter
         self.value_bias = value_bias
@@ -68,9 +64,7 @@ class SwarmNetwork:
         self.agents[agent.agent_id] = agent
         self.tag_counts.setdefault(agent.agent_id, {})
 
-    async def broadcast(
-        self, sender: SimAgent, tag: str, value: str, trust: float
-    ) -> None:
+    async def broadcast(self, sender: SimAgent, tag: str, value: str, trust: float) -> None:
         weighted_trust = trust * self.value_bias
         payload = {
             "tag": tag,
@@ -115,10 +109,7 @@ async def simulate_swarm(
     network = SwarmNetwork(high_trust_filter=high_trust_filter, value_bias=value_bias)
     await network.start()
 
-    agents = [
-        SimAgent(f"agent-{i}", network, survival_score=random.uniform(0.5, 1.0))
-        for i in range(num_agents)
-    ]
+    agents = [SimAgent(f"agent-{i}", network, survival_score=random.uniform(0.5, 1.0)) for i in range(num_agents)]
     for agent in agents:
         network.register(agent)
 

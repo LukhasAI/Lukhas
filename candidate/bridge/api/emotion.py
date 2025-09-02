@@ -17,6 +17,7 @@ FastAPI endpoints for emotional processing operations including:
 Based on successful Tier 5 testing with 4 emotion clusters and 23-dimensional space.
 """
 
+import logging
 from datetime import datetime
 from typing import Any, Optional
 
@@ -24,8 +25,7 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
 try:
-    from lukhas.consciousness.reflection.unified_memory_manager import \
-        MemoryFoldSystem
+    from lukhas.consciousness.reflection.unified_memory_manager import MemoryFoldSystem
 except ImportError:
     MemoryFoldSystem = None
 
@@ -125,8 +125,7 @@ async def get_emotional_landscape(
         return APIResponse(
             status="success",
             data=landscape,
-            message=f"Emotional landscape mapped: {len(clusters)} clusters,"
-            {landscape['total_unique_emotions']} unique emotions",
+            message=f"Emotional landscape mapped: {len(clusters)} clusters, {landscape['total_unique_emotions']} unique emotions",
         )
 
     except Exception as e:
@@ -273,11 +272,11 @@ async def get_emotion_neighborhood(
             "target_emotion": emotion,
             "neighbor_count": len(neighborhood),
             "threshold_used": threshold,
-            "neighborhood_density": (
-                len(neighborhood) / len(memory_system.emotion_vectors)
-                if memory_system.emotion_vectors:
-                else 0:
-            ),
+                "neighborhood_density": (
+                    len(neighborhood) / len(memory_system.emotion_vectors)
+                    if memory_system.emotion_vectors
+                    else 0
+                ),
         }
 
         return APIResponse(

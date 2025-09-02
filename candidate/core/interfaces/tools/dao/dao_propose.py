@@ -23,9 +23,7 @@ TIER = 5  # Simulated access
 logger = logging.getLogger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
@@ -55,9 +53,7 @@ def submit_proposal(title, proposal_type, summary):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="🗳️ Submit a symbolic DAO proposal (Tier 5 only)"
-    )
+    parser = argparse.ArgumentParser(description="🗳️ Submit a symbolic DAO proposal (Tier 5 only)")
     parser.add_argument("--title", required=True, help="Title of the proposal")
     parser.add_argument(
         "--type",

@@ -191,9 +191,7 @@ class PredictiveResourceManager:
 
         self.stats["total_resources_managed"] += 1
 
-    def predict_resource_needs(
-        self, resource_type: str, time_horizon: Optional[int] = None
-    ) -> dict:
+    def predict_resource_needs(self, resource_type: str, time_horizon: Optional[int] = None) -> dict:
         """
         Predict future resource needs for a specific resource type
 
@@ -233,9 +231,7 @@ class PredictiveResourceManager:
         risk_level = self._assess_risk_level(resource_type, predicted_value)
 
         # Generate recommendations
-        recommendations = self._generate_recommendations(
-            resource_type, predicted_value, risk_level
-        )
+        recommendations = self._generate_recommendations(resource_type, predicted_value, risk_level)
 
         prediction = {
             "resource_type": resource_type,
@@ -279,9 +275,7 @@ class PredictiveResourceManager:
         """
         try:
             # Analyze current resource usage from processing
-            current_usage = self._analyze_current_usage(
-                input_data, context, processing_result
-            )
+            current_usage = self._analyze_current_usage(input_data, context, processing_result)
 
             # Update resource models with current data
             for resource_type, usage in current_usage.items():
@@ -308,9 +302,7 @@ class PredictiveResourceManager:
             complexity_analysis = self._analyze_processing_complexity(processing_result)
 
             # Generate resource recommendations
-            recommendations = self._generate_resource_recommendations(
-                predictions, complexity_analysis
-            )
+            recommendations = self._generate_resource_recommendations(predictions, complexity_analysis)
 
             # Calculate overall prediction accuracy
             overall_accuracy = self._calculate_overall_accuracy()
@@ -321,9 +313,7 @@ class PredictiveResourceManager:
                 "complexity_analysis": complexity_analysis,
                 "recommendations": recommendations,
                 "risk_level": self._assess_resource_risk(predictions),
-                "optimization_opportunities": self._identify_optimization_opportunities(
-                    predictions
-                ),
+                "optimization_opportunities": self._identify_optimization_opportunities(predictions),
                 "prediction_timestamp": datetime.datetime.now().isoformat(),
             }
 
@@ -352,23 +342,17 @@ class PredictiveResourceManager:
 
         # CPU usage estimate based on processing time
         processing_time = processing_result.get("processing_time", 0.0)
-        usage[ResourceType.CPU] = min(
-            100.0, processing_time * 20.0
-        )  # Scale processing time to CPU %
+        usage[ResourceType.CPU] = min(100.0, processing_time * 20.0)  # Scale processing time to CPU %
 
         # Memory usage estimate based on data size and complexity
         data_size = len(str(input_data))
         context_size = len(str(context))
-        usage[ResourceType.MEMORY] = min(
-            100.0, (data_size + context_size) / 1000.0
-        )  # Scale to memory %
+        usage[ResourceType.MEMORY] = min(100.0, (data_size + context_size) / 1000.0)  # Scale to memory %
 
         # Cognitive load estimate based on component usage
         agi_enhancements = processing_result.get("agi_enhancements", {})
         component_count = len(agi_enhancements)
-        usage[ResourceType.COGNITIVE_LOAD] = min(
-            100.0, component_count * 12.5
-        )  # 8 components = 100%
+        usage[ResourceType.COGNITIVE_LOAD] = min(100.0, component_count * 12.5)  # 8 components = 100%
 
         # Network usage estimate (simplified)
         usage[ResourceType.NETWORK] = 10.0  # Base network usage
@@ -389,9 +373,7 @@ class PredictiveResourceManager:
 
         return confidence
 
-    def _analyze_processing_complexity(
-        self, processing_result: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _analyze_processing_complexity(self, processing_result: dict[str, Any]) -> dict[str, Any]:
         """Analyze the complexity of current processing"""
         complexity = {
             "component_complexity": 0.0,
@@ -401,9 +383,7 @@ class PredictiveResourceManager:
 
         # Component complexity based on AI enhancements
         agi_enhancements = processing_result.get("agi_enhancements", {})
-        complexity["component_complexity"] = (
-            len(agi_enhancements) / 8.0
-        )  # Normalize to 0-1
+        complexity["component_complexity"] = len(agi_enhancements) / 8.0  # Normalize to 0-1
 
         # Integration complexity based on AI summary
         agi_summary = processing_result.get("agi_summary", {})
@@ -416,9 +396,7 @@ class PredictiveResourceManager:
 
         return complexity
 
-    def _generate_resource_recommendations(
-        self, predictions: dict, complexity_analysis: dict
-    ) -> list[str]:
+    def _generate_resource_recommendations(self, predictions: dict, complexity_analysis: dict) -> list[str]:
         """Generate resource management recommendations"""
         recommendations = []
 
@@ -426,36 +404,24 @@ class PredictiveResourceManager:
         for resource_type, prediction in predictions.items():
             predicted_usage = prediction["predicted_usage"]
             if predicted_usage > 80.0:
-                recommendations.append(
-                    f"Consider optimizing {resource_type} usage - high load predicted"
-                )
+                recommendations.append(f"Consider optimizing {resource_type} usage - high load predicted")
 
         # Check for increasing trends
         increasing_resources = [
-            resource_type
-            for resource_type, prediction in predictions.items()
-            if prediction["trend"] == "increasing"
+            resource_type for resource_type, prediction in predictions.items() if prediction["trend"] == "increasing"
         ]
         if len(increasing_resources) > 2:
-            recommendations.append(
-                "Multiple resource types showing increasing demand - consider system optimization"
-            )
+            recommendations.append("Multiple resource types showing increasing demand - consider system optimization")
 
         # Complexity-based recommendations
         if complexity_analysis["component_complexity"] > 0.8:
-            recommendations.append(
-                "High component complexity detected - consider processing optimization"
-            )
+            recommendations.append("High component complexity detected - consider processing optimization")
 
         return recommendations
 
     def _assess_resource_risk(self, predictions: dict) -> str:
         """Assess overall resource risk level"""
-        high_usage_count = sum(
-            1
-            for prediction in predictions.values()
-            if prediction["predicted_usage"] > 80.0
-        )
+        high_usage_count = sum(1 for prediction in predictions.values() if prediction["predicted_usage"] > 80.0)
 
         if high_usage_count >= 3:
             return "high"
@@ -472,20 +438,15 @@ class PredictiveResourceManager:
         stable_resources = [
             resource_type
             for resource_type, prediction in predictions.items()
-            if prediction["trend"] == "stable_or_decreasing"
-            and prediction["current_usage"] < 50.0
+            if prediction["trend"] == "stable_or_decreasing" and prediction["current_usage"] < 50.0
         ]
 
         if stable_resources:
-            opportunities.append(
-                f"Underutilized resources: {', '.join(stable_resources)}"
-            )
+            opportunities.append(f"Underutilized resources: {', '.join(stable_resources)}")
 
         # Look for highly variable usage (optimization potential)
         variable_resources = [
-            resource_type
-            for resource_type, prediction in predictions.items()
-            if prediction["confidence"] < 0.6
+            resource_type for resource_type, prediction in predictions.items() if prediction["confidence"] < 0.6
         ]
 
         if variable_resources:
@@ -520,17 +481,10 @@ class PredictiveResourceManager:
             predictions[resource_type] = prediction
 
             # Track critical resources
-            if (
-                not prediction.get("error")
-                and prediction.get("risk_level") == "critical"
-            ):
+            if not prediction.get("error") and prediction.get("risk_level") == "critical":
                 critical_resources.append(resource_type)
                 overall_risk = "critical"
-            elif (
-                not prediction.get("error")
-                and prediction.get("risk_level") == "high"
-                and overall_risk != "critical"
-            ):
+            elif not prediction.get("error") and prediction.get("risk_level") == "high" and overall_risk != "critical":
                 overall_risk = "high"
 
         return {
@@ -541,9 +495,7 @@ class PredictiveResourceManager:
             "timestamp": datetime.datetime.now().isoformat(),
         }
 
-    def optimize_resource_allocation(
-        self, resource_type: str, predicted_usage: float
-    ) -> dict:
+    def optimize_resource_allocation(self, resource_type: str, predicted_usage: float) -> dict:
         """
         Optimize resource allocation based on predictions
 
@@ -574,9 +526,7 @@ class PredictiveResourceManager:
         # Apply optimization actions
         if optimization_level in ["high", "critical"]:
             for action in rules["optimization_actions"]:
-                result = self._apply_optimization_action(
-                    resource_type, action, optimization_level
-                )
+                result = self._apply_optimization_action(resource_type, action, optimization_level)
                 if result:
                     actions_taken.append(
                         {
@@ -605,9 +555,7 @@ class PredictiveResourceManager:
 
         return optimization_result
 
-    def _check_optimization_needed(
-        self, resource_type: str, current_usage: float
-    ) -> None:
+    def _check_optimization_needed(self, resource_type: str, current_usage: float) -> None:
         """Check if immediate optimization is needed"""
         if resource_type in self.optimization_rules:
             rules = self.optimization_rules[resource_type]
@@ -651,9 +599,7 @@ class PredictiveResourceManager:
         else:
             return "low"
 
-    def _generate_recommendations(
-        self, resource_type: str, predicted_value: float, risk_level: str
-    ) -> list[str]:
+    def _generate_recommendations(self, resource_type: str, predicted_value: float, risk_level: str) -> list[str]:
         """Generate recommendations based on prediction"""
         recommendations = []
 
@@ -680,9 +626,7 @@ class PredictiveResourceManager:
 
         return recommendations
 
-    def _apply_optimization_action(
-        self, resource_type: str, action: str, level: str
-    ) -> dict:
+    def _apply_optimization_action(self, resource_type: str, action: str, level: str) -> dict:
         """Apply a specific optimization action"""
         # This would integrate with actual system optimization mechanisms
         # For now, we simulate the action

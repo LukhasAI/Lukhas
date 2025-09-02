@@ -31,17 +31,13 @@ try:
 except ImportError:
     # Fallback for development
     class IdentityClient:
-        def verify_user_access(
-            self, user_id: str, required_tier: str = "LAMBDA_TIER_1"
-        ) -> bool:
+        def verify_user_access(self, user_id: str, required_tier: str = "LAMBDA_TIER_1") -> bool:
             return True
 
         def check_consent(self, user_id: str, action: str) -> bool:
             return True
 
-        def log_activity(
-            self, activity_type: str, user_id: str, metadata: dict[str, Any]
-        ) -> None:
+        def log_activity(self, activity_type: str, user_id: str, metadata: dict[str, Any]) -> None:
             print(f"CREATIVITY_LOG: {activity_type} by {user_id}: {metadata}")
 
 
@@ -98,9 +94,7 @@ class CreativityService:
         model_config = self.creative_models[content_type]
 
         # Verify user access for this content type
-        if not self.identity_client.verify_user_access(
-            user_id, model_config["min_tier"]
-        ):
+        if not self.identity_client.verify_user_access(user_id, model_config["min_tier"]):
             return {
                 "success": False,
                 "error": f"Insufficient tier for {content_type} generation",
@@ -115,9 +109,7 @@ class CreativityService:
 
         try:
             # Generate content (placeholder implementation)
-            generated_content = self._generate_creative_content(
-                content_type, prompt, style, parameters
-            )
+            generated_content = self._generate_creative_content(content_type, prompt, style, parameters)
 
             # Create content metadata
             content_id = f"creative_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{random.randint(1000, 9999)}"
@@ -129,11 +121,7 @@ class CreativityService:
                 "generated_at": datetime.utcnow().isoformat(),
                 "user_id": user_id,
                 "parameters": parameters,
-                "word_count": (
-                    len(generated_content.get("text", "").split())
-                    if "text" in generated_content
-                    else 0
-                ),
+                "word_count": (len(generated_content.get("text", "").split()) if "text" in generated_content else 0),
             }
 
             # Log content generation
@@ -265,13 +253,9 @@ class CreativityService:
 
         try:
             # Generate emotionally-aware content
-            emotional_content = self._generate_emotional_content(
-                emotion, context, output_format
-            )
+            emotional_content = self._generate_emotional_content(emotion, context, output_format)
 
-            content_id = (
-                f"emotional_{emotion}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
-            )
+            content_id = f"emotional_{emotion}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
 
             # Log emotional content generation
             self.identity_client.log_activity(
@@ -343,9 +327,7 @@ class CreativityService:
 
         try:
             # Process collaborative contribution
-            collaboration_result = self._process_collaboration(
-                project_id, user_id, contribution, collaboration_type
-            )
+            collaboration_result = self._process_collaboration(project_id, user_id, contribution, collaboration_type)
 
             # Log collaboration
             self.identity_client.log_activity(
@@ -409,9 +391,7 @@ class CreativityService:
         else:
             return {"content": f"Creative {content_type} inspired by: {prompt}"}
 
-    def _process_dream_content(
-        self, dream_data: dict[str, Any], synthesis_type: str
-    ) -> dict[str, Any]:
+    def _process_dream_content(self, dream_data: dict[str, Any], synthesis_type: str) -> dict[str, Any]:
         """Process dream data into coherent content."""
         return {
             "narrative": f"Dream synthesis of {len(dream_data.get('elements', []))} dream elements",
@@ -421,9 +401,7 @@ class CreativityService:
             "synthesis_type": synthesis_type,
         }
 
-    def _generate_emotional_content(
-        self, emotion: str, context: dict[str, Any], output_format: str
-    ) -> dict[str, Any]:
+    def _generate_emotional_content(self, emotion: str, context: dict[str, Any], output_format: str) -> dict[str, Any]:
         """Generate content with specific emotional resonance."""
         return {
             "content": f"Content resonating with {emotion}",
@@ -452,9 +430,7 @@ class CreativityService:
 
 
 # Module API functions for easy import
-def generate_content(
-    user_id: str, content_type: str, prompt: str, style: Optional[str] = None
-) -> dict[str, Any]:
+def generate_content(user_id: str, content_type: str, prompt: str, style: Optional[str] = None) -> dict[str, Any]:
     """Simplified API for content generation."""
     service = CreativityService()
     return service.generate_content(user_id, content_type, prompt, style)
@@ -466,9 +442,7 @@ def synthesize_dream(user_id: str, dream_data: dict[str, Any]) -> dict[str, Any]
     return service.synthesize_dream(user_id, dream_data)
 
 
-def generate_emotional_content(
-    user_id: str, emotion: str, context: dict[str, Any]
-) -> dict[str, Any]:
+def generate_emotional_content(user_id: str, emotion: str, context: dict[str, Any]) -> dict[str, Any]:
     """Simplified API for emotional content generation."""
     service = CreativityService()
     return service.generate_emotional_content(user_id, emotion, context)
@@ -481,9 +455,7 @@ if __name__ == "__main__":
     test_user = "test_lambda_user_001"
 
     # Test story generation
-    story_result = creativity.generate_content(
-        test_user, "story", "A robot learning to dream", "science fiction"
-    )
+    story_result = creativity.generate_content(test_user, "story", "A robot learning to dream", "science fiction")
     print(f"Story generation: {story_result.get('success', False)}")
 
     # Test dream synthesis

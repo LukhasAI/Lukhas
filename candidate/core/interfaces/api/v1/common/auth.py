@@ -18,9 +18,7 @@ API_KEY_MIN_LENGTH = 32
 API_KEY_MAX_LENGTH = 128
 RATE_LIMIT_REQUESTS = 100
 RATE_LIMIT_WINDOW = 3600  # 1 hour in seconds
-HMAC_SECRET = os.getenv(
-    "LUKHAS_ID_SECRET", "default-unsafe-secret-change-in-production"
-)
+HMAC_SECRET = os.getenv("LUKHAS_ID_SECRET", "default-unsafe-secret-change-in-production")
 
 # Rate limiting storage (in production, use Redis)
 _rate_limit_store: dict[str, list] = {}
@@ -95,9 +93,7 @@ def _verify_key_signature(api_key: str) -> bool:
 
         # Create expected signature from base components
         message = f"{prefix}_{env}_{base_key}"
-        expected_sig = hmac.new(
-            HMAC_SECRET.encode(), message.encode(), hashlib.sha256
-        ).hexdigest()[:16]
+        expected_sig = hmac.new(HMAC_SECRET.encode(), message.encode(), hashlib.sha256).hexdigest()[:16]
 
         return hmac.compare_digest(expected_sig, provided_sig)
     except Exception as e:
@@ -116,9 +112,7 @@ def _check_rate_limit(api_key: str) -> bool:
 
     # Clean old requests outside the window
     _rate_limit_store[api_key] = [
-        req_time
-        for req_time in _rate_limit_store[api_key]
-        if current_time - req_time < RATE_LIMIT_WINDOW
+        req_time for req_time in _rate_limit_store[api_key] if current_time - req_time < RATE_LIMIT_WINDOW
     ]
 
     # Check if under limit
@@ -130,26 +124,18 @@ def _check_rate_limit(api_key: str) -> bool:
     return True
 
 
-def _audit_auth_attempt(
-    api_key: str, success: bool, request: Optional[Request] = None
-) -> None:
+def _audit_auth_attempt(api_key: str, success: bool, request: Optional[Request] = None) -> None:
     """
     Log authentication attempts for security monitoring.
     """
     # Mask key for logging (show only first 8 chars)
-    masked_key = (
-        api_key[:12] + "*" * (len(api_key) - 12)
-        if len(api_key) > 12
-        else "*" * len(api_key)
-    )
+    masked_key = api_key[:12] + "*" * (len(api_key) - 12) if len(api_key) > 12 else "*" * len(api_key)
 
     log_data = {
         "masked_api_key": masked_key,
         "success": success,
         "timestamp": time.time(),
-        "ip_address": (
-            getattr(request, "client", {}).get("host") if request else "unknown"
-        ),
+        "ip_address": (getattr(request, "client", {}).get("host") if request else "unknown"),
     }
 
     if success:
@@ -199,9 +185,7 @@ async def verify_api_key(x_api_key: str = Header(...), request: Request = None) 
         logger.info(
             "API key validation successful",
             key_prefix=api_key[:12],
-            client_ip=(
-                getattr(request, "client", {}).get("host") if request else "unknown"
-            ),
+            client_ip=(getattr(request, "client", {}).get("host") if request else "unknown"),
         )
 
     except HTTPException:
@@ -225,9 +209,7 @@ def generate_api_key(environment: str = "dev") -> str:
         A properly formatted and signed API key
     """
     if environment not in ["dev", "test", "staging", "prod"]:
-        raise ValueError(
-            "Invalid environment. Must be one of: dev, test, staging, prod"
-        )
+        raise ValueError("Invalid environment. Must be one of: dev, test, staging, prod")
 
     # Generate random key part (32 hex chars)
     key_base = secrets.token_hex(16)
@@ -236,15 +218,11 @@ def generate_api_key(environment: str = "dev") -> str:
     message = f"luk_{environment}_{key_base}"
 
     # Generate signature
-    signature = hmac.new(
-        HMAC_SECRET.encode(), message.encode(), hashlib.sha256
-    ).hexdigest()[:16]
+    signature = hmac.new(HMAC_SECRET.encode(), message.encode(), hashlib.sha256).hexdigest()[:16]
 
     # Combine into final key
     api_key = f"luk_{environment}_{key_base}{signature}"
 
-    logger.info(
-        "Generated new API key", environment=environment, key_prefix=api_key[:12]
-    )
+    logger.info("Generated new API key", environment=environment, key_prefix=api_key[:12])
 
     return api_key

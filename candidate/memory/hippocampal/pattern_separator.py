@@ -40,9 +40,7 @@ class PatternSeparator:
         self.use_competitive_learning = use_competitive_learning
 
         # Initialize random projection matrix (input -> expanded representation)
-        self.projection_matrix = np.random.randn(
-            input_dimension, output_dimension
-        ) * np.sqrt(2.0 / input_dimension)
+        self.projection_matrix = np.random.randn(input_dimension, output_dimension) * np.sqrt(2.0 / input_dimension)
 
         # Competitive learning weights
         if use_competitive_learning:
@@ -67,9 +65,7 @@ class PatternSeparator:
 
         # Ensure input is correct dimension
         if input_pattern.shape[0] != self.input_dimension:
-            raise ValueError(
-                f"Input dimension mismatch: expected {self.input_dimension}, got {input_pattern.shape[0]}"
-            )
+            raise ValueError(f"Input dimension mismatch: expected {self.input_dimension}, got {input_pattern.shape[0]}")
 
         # Project to high-dimensional space
         expanded = np.dot(input_pattern, self.projection_matrix)
@@ -114,9 +110,7 @@ class PatternSeparator:
         """Separate multiple patterns in batch"""
         return [self.separate(pattern) for pattern in input_patterns]
 
-    def compute_separation_quality(
-        self, pattern1: np.ndarray, pattern2: np.ndarray
-    ) -> dict[str, float]:
+    def compute_separation_quality(self, pattern1: np.ndarray, pattern2: np.ndarray) -> dict[str, float]:
         """
         Compute metrics for pattern separation quality.
         Returns overlap, correlation, and orthogonality measures.
@@ -142,11 +136,7 @@ class PatternSeparator:
         # Compute normalized dot product (orthogonality)
         norm1 = np.linalg.norm(separated1)
         norm2 = np.linalg.norm(separated2)
-        orthogonality = (
-            1.0 - abs(np.dot(separated1, separated2) / (norm1 * norm2))
-            if norm1 > 0 and norm2 > 0
-            else 1.0
-        )
+        orthogonality = 1.0 - abs(np.dot(separated1, separated2) / (norm1 * norm2)) if norm1 > 0 and norm2 > 0 else 1.0
 
         return {
             "overlap": overlap,
@@ -162,11 +152,7 @@ class PatternSeparator:
         """
 
         # Convert to string representation
-        content_str = (
-            json.dumps(content, sort_keys=True)
-            if isinstance(content, (dict, list))
-            else str(content)
-        )
+        content_str = json.dumps(content, sort_keys=True) if isinstance(content, (dict, list)) else str(content)
 
         # Create feature vector using hashing trick
         vector = np.zeros(self.input_dimension)
@@ -207,20 +193,14 @@ class PatternSeparator:
             "average_sparsity": self.average_sparsity,
             "target_sparsity": self.sparsity,
             "expansion_factor": self.output_dimension / self.input_dimension,
-            "competitive_weight_variance": (
-                np.var(self.competitive_weights)
-                if self.use_competitive_learning
-                else 0.0
-            ),
+            "competitive_weight_variance": (np.var(self.competitive_weights) if self.use_competitive_learning else 0.0),
         }
 
 
 # Example usage
 if __name__ == "__main__":
     # Create pattern separator
-    separator = PatternSeparator(
-        input_dimension=256, output_dimension=1024, sparsity=0.05
-    )
+    separator = PatternSeparator(input_dimension=256, output_dimension=1024, sparsity=0.05)
 
     # Test with similar inputs
     content1 = {"type": "learning", "subject": "math", "topic": "calculus"}

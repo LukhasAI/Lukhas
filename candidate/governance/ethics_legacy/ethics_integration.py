@@ -80,9 +80,7 @@ class EthicsIntegration:
         self.ethics_service = EthicsService()
 
         # Synchronization system
-        self.sync_system = MitoEthicsSync(
-            base_frequency=0.5
-        )  # Ethics decisions at 0.5Hz
+        self.sync_system = MitoEthicsSync(base_frequency=0.5)  # Ethics decisions at 0.5Hz
 
         # Decision tracking
         self.decision_history: list[dict[str, Any]] = []
@@ -117,9 +115,7 @@ class EthicsIntegration:
 
         # Drift sentinel monitors all
         self.drift_sentinel.register_monitoring_target("meg", self.meg)
-        self.drift_sentinel.register_monitoring_target(
-            "compliance", self.compliance_engine
-        )
+        self.drift_sentinel.register_monitoring_target("compliance", self.compliance_engine)
 
         logger.info("Ethics components connected successfully")
 
@@ -175,9 +171,7 @@ class EthicsIntegration:
                 )
 
             # 3. Compliance check
-            compliance_result = await self.compliance_engine.check_compliance(
-                action, context
-            )
+            compliance_result = await self.compliance_engine.check_compliance(action, context)
             if not compliance_result.get("compliant", False):
                 return (
                     False,
@@ -188,19 +182,13 @@ class EthicsIntegration:
             # 4. Main ethical evaluation based on decision type
             if decision_type == EthicalDecisionType.CRITICAL:
                 # Route through HITLO for human oversight
-                result = await self._evaluate_critical_decision(
-                    agent_id, action, context
-                )
+                result = await self._evaluate_critical_decision(agent_id, action, context)
             elif decision_type == EthicalDecisionType.ELEVATED:
                 # Route through MEG with DAO consultation
-                result = await self._evaluate_elevated_decision(
-                    agent_id, action, context
-                )
+                result = await self._evaluate_elevated_decision(agent_id, action, context)
             else:
                 # Standard evaluation through MEG
-                result = await self._evaluate_routine_decision(
-                    agent_id, action, context
-                )
+                result = await self._evaluate_routine_decision(agent_id, action, context)
 
             # 5. SRD reflection and validation
             reflection = await self.srd.reflect_on_decision(decision_id, result)
@@ -208,9 +196,7 @@ class EthicsIntegration:
                 logger.warning(f"SRD raised concerns: {reflection['concerns']}")
 
             # 6. Drift detection
-            drift_check = await self.drift_sentinel.check_decision_drift(
-                result, self.decision_history[-10:]
-            )
+            drift_check = await self.drift_sentinel.check_decision_drift(result, self.decision_history[-10:])
             if drift_check.get("drift_detected", False):
                 await self.stabilization_tuner.stabilize_ethics_drift(drift_check)
 
@@ -228,9 +214,7 @@ class EthicsIntegration:
             if decision_id in self.active_decisions:
                 del self.active_decisions[decision_id]
 
-    def _determine_decision_type(
-        self, action: str, context: dict[str, Any], urgency: str
-    ) -> EthicalDecisionType:
+    def _determine_decision_type(self, action: str, context: dict[str, Any], urgency: str) -> EthicalDecisionType:
         """Determine the type of ethical decision required"""
         # Critical decisions that affect users or system integrity
         critical_keywords = [
@@ -254,9 +238,7 @@ class EthicsIntegration:
 
         return EthicalDecisionType.ROUTINE
 
-    async def _evaluate_routine_decision(
-        self, agent_id: str, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _evaluate_routine_decision(self, agent_id: str, action: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate routine decisions through standard MEG process"""
         # MEG evaluation
         meg_result = await self.meg.evaluate_action(action, context)
@@ -271,9 +253,7 @@ class EthicsIntegration:
             "decision_type": "routine",
         }
 
-    async def _evaluate_elevated_decision(
-        self, agent_id: str, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _evaluate_elevated_decision(self, agent_id: str, action: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate elevated decisions with DAO consultation"""
         # MEG evaluation
         meg_result = await self.meg.evaluate_action(action, context)
@@ -282,9 +262,7 @@ class EthicsIntegration:
         dao_vote = await self.dao.request_vote(action, context)
 
         # Lambda governor oversight
-        governor_decision = await self.lambda_governor.oversee_decision(
-            meg_result, dao_vote
-        )
+        governor_decision = await self.lambda_governor.oversee_decision(meg_result, dao_vote)
 
         return {
             "permitted": governor_decision["approved"],
@@ -295,9 +273,7 @@ class EthicsIntegration:
             "decision_type": "elevated",
         }
 
-    async def _evaluate_critical_decision(
-        self, agent_id: str, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _evaluate_critical_decision(self, agent_id: str, action: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate critical decisions requiring human oversight"""
         # MEG evaluation first
         meg_result = await self.meg.evaluate_action(action, context)

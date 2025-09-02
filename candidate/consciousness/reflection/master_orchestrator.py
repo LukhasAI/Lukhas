@@ -269,9 +269,7 @@ class MasterOrchestrator:
                 await self._initialize_core_orchestrators()
                 self.logger.info("Core orchestrators initialized")
             else:
-                self.logger.warning(
-                    "Orchestration components not available - running in fallback mode"
-                )
+                self.logger.warning("Orchestration components not available - running in fallback mode")
 
             # Initialize workflow and energy components
             if WORKFLOW_COMPONENTS_AVAILABLE:
@@ -279,9 +277,7 @@ class MasterOrchestrator:
                 self.logger.info("Workflow components initialized")
 
             # Initialize memory and brain orchestration components
-            if MEMORY_ORCHESTRATION_AVAILABLE and self.config.get(
-                "memory_orchestration_enabled", False
-            ):
+            if MEMORY_ORCHESTRATION_AVAILABLE and self.config.get("memory_orchestration_enabled", False):
                 await self._initialize_memory_orchestration()
                 self.logger.info("Memory orchestration components initialized")
 
@@ -303,9 +299,7 @@ class MasterOrchestrator:
         """Initialize core orchestration components"""
 
         # Initialize swarm orchestration adapter
-        self.swarm_adapter = SwarmOrchestrationAdapter(
-            self.config.get("swarm_config", {})
-        )
+        self.swarm_adapter = SwarmOrchestrationAdapter(self.config.get("swarm_config", {}))
         await self.swarm_adapter.initialize()
         self.orchestrator_registry["swarm"] = {
             "orchestrator": self.swarm_adapter,
@@ -318,9 +312,7 @@ class MasterOrchestrator:
         }
 
         # Initialize colony orchestrator
-        self.colony_orchestrator = ColonyOrchestrator(
-            self.config.get("colony_config", {})
-        )
+        self.colony_orchestrator = ColonyOrchestrator(self.config.get("colony_config", {}))
         await self.colony_orchestrator.initialize()
         self.orchestrator_registry["colony"] = {
             "orchestrator": self.colony_orchestrator,
@@ -333,9 +325,7 @@ class MasterOrchestrator:
         }
 
         # Initialize bio-symbolic orchestrator
-        self.bio_symbolic_orchestrator = BioSymbolicOrchestrator(
-            self.config.get("bio_symbolic_config", {})
-        )
+        self.bio_symbolic_orchestrator = BioSymbolicOrchestrator(self.config.get("bio_symbolic_config", {}))
         await self.bio_symbolic_orchestrator.initialize()
         self.orchestrator_registry["bio_symbolic"] = {
             "orchestrator": self.bio_symbolic_orchestrator,
@@ -480,9 +470,7 @@ class MasterOrchestrator:
             "cognitive_cycle_management": "brain_hub",
         }
 
-    async def orchestrate_request(
-        self, request: OrchestrationRequest
-    ) -> dict[str, Any]:
+    async def orchestrate_request(self, request: OrchestrationRequest) -> dict[str, Any]:
         """
         Main orchestration entry point for processing requests
 
@@ -499,12 +487,8 @@ class MasterOrchestrator:
             start_time = time.time()
 
             # Update LUKHAS cycle tracking if specified
-            if request.lukhas_cycle_phase and self.config.get(
-                "lukhas_cycle_tracking", True
-            ):
-                await self._update_lukhas_cycle_state(
-                    request_id, request.lukhas_cycle_phase
-                )
+            if request.lukhas_cycle_phase and self.config.get("lukhas_cycle_tracking", True):
+                await self._update_lukhas_cycle_state(request_id, request.lukhas_cycle_phase)
 
             # Route request to appropriate orchestrator(s)
             orchestration_results = await self._route_and_execute_request(request)
@@ -512,26 +496,19 @@ class MasterOrchestrator:
             # Cross-orchestrator coordination if needed
             if (
                 len(request.target_orchestrators) > 1
-                or request.orchestration_type
-                == OrchestrationType.CROSS_ORCHESTRATOR_TASK
+                or request.orchestration_type == OrchestrationType.CROSS_ORCHESTRATOR_TASK
             ):
-                coordination_results = await self._coordinate_cross_orchestrator_task(
-                    request, orchestration_results
-                )
+                coordination_results = await self._coordinate_cross_orchestrator_task(request, orchestration_results)
                 orchestration_results.update(coordination_results)
 
             # Energy optimization if enabled
             if self.energy_planner and self.config.get("energy_optimization", True):
-                energy_results = await self._optimize_energy_allocation(
-                    request, orchestration_results
-                )
+                energy_results = await self._optimize_energy_allocation(request, orchestration_results)
                 orchestration_results["energy_optimization"] = energy_results
 
             # Update metrics
             processing_time = time.time() - start_time
-            await self._update_orchestration_metrics(
-                request, orchestration_results, processing_time
-            )
+            await self._update_orchestration_metrics(request, orchestration_results, processing_time)
 
             result = {
                 "success": True,
@@ -539,11 +516,7 @@ class MasterOrchestrator:
                 "orchestration_type": request.orchestration_type.value,
                 "processing_time": processing_time,
                 "orchestration_results": orchestration_results,
-                "lukhas_cycle_phase": (
-                    request.lukhas_cycle_phase.value
-                    if request.lukhas_cycle_phase
-                    else None
-                ),
+                "lukhas_cycle_phase": (request.lukhas_cycle_phase.value if request.lukhas_cycle_phase else None),
                 "performance_metrics": {
                     "bio_symbolic_coherence": self.metrics.bio_symbolic_coherence,
                     "system_health_score": self.metrics.system_health_score,
@@ -569,9 +542,7 @@ class MasterOrchestrator:
             self.failed_requests.append(failure_result)
             return failure_result
 
-    async def _route_and_execute_request(
-        self, request: OrchestrationRequest
-    ) -> dict[str, Any]:
+    async def _route_and_execute_request(self, request: OrchestrationRequest) -> dict[str, Any]:
         """Route request to appropriate orchestrators and execute"""
 
         results = {}
@@ -595,24 +566,15 @@ class MasterOrchestrator:
                 orchestrator = orchestrator_info["orchestrator"]
 
                 # Execute based on orchestration type
-                if (
-                    request.orchestration_type == OrchestrationType.SWARM_OPERATION
-                    and orchestrator_name == "swarm"
-                ):
+                if request.orchestration_type == OrchestrationType.SWARM_OPERATION and orchestrator_name == "swarm":
                     result = await self._execute_swarm_operation(orchestrator, request)
-                elif (
-                    request.orchestration_type == OrchestrationType.COLONY_TASK
-                    and orchestrator_name == "colony"
-                ):
+                elif request.orchestration_type == OrchestrationType.COLONY_TASK and orchestrator_name == "colony":
                     result = await self._execute_colony_task(orchestrator, request)
                 elif (
-                    request.orchestration_type
-                    == OrchestrationType.BIO_SYMBOLIC_PROCESSING
+                    request.orchestration_type == OrchestrationType.BIO_SYMBOLIC_PROCESSING
                     and orchestrator_name == "bio_symbolic"
                 ):
-                    result = await self._execute_bio_symbolic_processing(
-                        orchestrator, request
-                    )
+                    result = await self._execute_bio_symbolic_processing(orchestrator, request)
                 elif (
                     request.orchestration_type == OrchestrationType.WORKFLOW_EXECUTION
                     and orchestrator_name == "workflow"
@@ -624,27 +586,19 @@ class MasterOrchestrator:
                     request.orchestration_type == OrchestrationType.BRAIN_COORDINATION
                     and orchestrator_name == "brain_hub"
                 ):
-                    result = await self._execute_brain_coordination(
-                        orchestrator, request
-                    )
+                    result = await self._execute_brain_coordination(orchestrator, request)
                 else:
-                    result = await self._execute_generic_operation(
-                        orchestrator, request
-                    )
+                    result = await self._execute_generic_operation(orchestrator, request)
 
                 results[orchestrator_name] = result
 
             except Exception as e:
                 results[orchestrator_name] = {"success": False, "error": str(e)}
-                self.logger.error(
-                    f"Orchestrator {orchestrator_name} execution failed: {e}"
-                )
+                self.logger.error(f"Orchestrator {orchestrator_name} execution failed: {e}")
 
         return results
 
-    def _determine_target_orchestrators(
-        self, request: OrchestrationRequest
-    ) -> list[str]:
+    def _determine_target_orchestrators(self, request: OrchestrationRequest) -> list[str]:
         """Determine which orchestrators should handle the request"""
 
         targets = []
@@ -675,8 +629,7 @@ class MasterOrchestrator:
 
         # Add energy optimization if enabled
         if (
-            self.config.get("energy_optimization", True)
-            and "energy" in self.orchestrator_registry
+            self.config.get("energy_optimization", True) and "energy" in self.orchestrator_registry
         ) and "energy" not in targets:
             targets.append("energy")
 
@@ -696,31 +649,19 @@ class MasterOrchestrator:
             targets.append("swarm")
 
         # Check for colony requirements
-        if any(
-            key in payload
-            for key in ["colonies", "colony_types", "specialized_processing"]
-        ):
+        if any(key in payload for key in ["colonies", "colony_types", "specialized_processing"]):
             targets.append("colony")
 
         # Check for bio-symbolic requirements
-        if any(
-            key in payload
-            for key in ["bio_data", "symbolic_context", "coherence_target"]
-        ):
+        if any(key in payload for key in ["bio_data", "symbolic_context", "coherence_target"]):
             targets.append("bio_symbolic")
 
         # Check for workflow requirements
-        if any(
-            key in payload
-            for key in ["workflow_definition", "task_sequence", "dependencies"]
-        ):
+        if any(key in payload for key in ["workflow_definition", "task_sequence", "dependencies"]):
             targets.append("workflow")
 
         # Check for memory requirements
-        if any(
-            key in payload
-            for key in ["memory_data", "memory_operation", "fold_data", "causal_chain"]
-        ):
+        if any(key in payload for key in ["memory_data", "memory_operation", "fold_data", "causal_chain"]):
             memory_type = payload.get("memory_type", "core")
             if memory_type == "visualization":
                 targets.append("memory_visualization")
@@ -767,14 +708,10 @@ class MasterOrchestrator:
     ) -> dict[str, Any]:
         """Execute swarm operation"""
 
-        operation_type = SwarmOperationType(
-            request.payload.get("operation_type", "create_swarm")
-        )
+        operation_type = SwarmOperationType(request.payload.get("operation_type", "create_swarm"))
 
         if operation_type == SwarmOperationType.CREATE_SWARM:
-            return await swarm_adapter.create_swarm(
-                request.payload["swarm_id"], request.payload["swarm_config"]
-            )
+            return await swarm_adapter.create_swarm(request.payload["swarm_id"], request.payload["swarm_config"])
         elif operation_type == SwarmOperationType.CROSS_SWARM_TASK:
             return await swarm_adapter.orchestrate_cross_swarm_task(
                 request.request_id,
@@ -837,9 +774,7 @@ class MasterOrchestrator:
 
         return await bio_symbolic_orchestrator.process_bio_symbolic_task(task)
 
-    async def _execute_workflow(
-        self, workflow_engine: WorkflowEngine, request: OrchestrationRequest
-    ) -> dict[str, Any]:
+    async def _execute_workflow(self, workflow_engine: WorkflowEngine, request: OrchestrationRequest) -> dict[str, Any]:
         """Execute workflow"""
 
         workflow_definition = request.payload.get("workflow_definition", {})
@@ -887,9 +822,7 @@ class MasterOrchestrator:
             self.logger.error(f"Memory operation failed: {e!s}")
             return {"success": False, "error": str(e), "safety_protocols_applied": True}
 
-    async def _execute_brain_coordination(
-        self, brain_hub: Any, request: OrchestrationRequest
-    ) -> dict[str, Any]:
+    async def _execute_brain_coordination(self, brain_hub: Any, request: OrchestrationRequest) -> dict[str, Any]:
         """Execute brain coordination operation"""
 
         coordination_type = request.payload.get("coordination_type", "cognitive_cycle")
@@ -919,9 +852,7 @@ class MasterOrchestrator:
             self.logger.error(f"Brain coordination failed: {e!s}")
             return {"success": False, "error": str(e)}
 
-    async def _execute_generic_operation(
-        self, orchestrator: Any, request: OrchestrationRequest
-    ) -> dict[str, Any]:
+    async def _execute_generic_operation(self, orchestrator: Any, request: OrchestrationRequest) -> dict[str, Any]:
         """Execute generic operation on any orchestrator"""
 
         # Try to call a process method if available
@@ -938,15 +869,11 @@ class MasterOrchestrator:
         """Coordinate results from multiple orchestrators"""
 
         successful_orchestrators = [
-            name
-            for name, result in orchestration_results.items()
-            if result.get("success", False)
+            name for name, result in orchestration_results.items() if result.get("success", False)
         ]
 
         failed_orchestrators = [
-            name
-            for name, result in orchestration_results.items()
-            if not result.get("success", False)
+            name for name, result in orchestration_results.items() if not result.get("success", False)
         ]
 
         # Update cross-orchestrator metrics
@@ -977,9 +904,7 @@ class MasterOrchestrator:
             }
         }
 
-    async def _update_lukhas_cycle_state(
-        self, request_id: str, phase: LukhasCyclePhase
-    ):
+    async def _update_lukhas_cycle_state(self, request_id: str, phase: LukhasCyclePhase):
         """Update LUKHAS cycle state tracking"""
 
         self.cycle_states[request_id] = phase
@@ -1028,16 +953,12 @@ class MasterOrchestrator:
 
         # Update average response time with exponential smoothing
         alpha = 0.1
-        self.metrics.average_response_time = (
-            alpha * processing_time + (1 - alpha) * self.metrics.average_response_time
-        )
+        self.metrics.average_response_time = alpha * processing_time + (1 - alpha) * self.metrics.average_response_time
 
         # Update success rate
         success = all(result.get("success", False) for result in results.values())
         success_value = 1.0 if success else 0.0
-        self.metrics.request_success_rate = (
-            alpha * success_value + (1 - alpha) * self.metrics.request_success_rate
-        )
+        self.metrics.request_success_rate = alpha * success_value + (1 - alpha) * self.metrics.request_success_rate
 
         # Update bio-symbolic coherence from results
         for result in results.values():
@@ -1045,8 +966,7 @@ class MasterOrchestrator:
                 coherence = result["coherence_metrics"].get("overall_coherence", 0.0)
                 if coherence > 0:
                     self.metrics.bio_symbolic_coherence = (
-                        alpha * coherence
-                        + (1 - alpha) * self.metrics.bio_symbolic_coherence
+                        alpha * coherence + (1 - alpha) * self.metrics.bio_symbolic_coherence
                     )
 
         # Record performance history
@@ -1133,9 +1053,7 @@ class MasterOrchestrator:
             "orchestrator_status": "running" if self.is_running else "stopped",
             "registered_orchestrators": list(self.orchestrator_registry.keys()),
             "active_orchestrators": [
-                name
-                for name, info in self.orchestrator_registry.items()
-                if info["status"] == "active"
+                name for name, info in self.orchestrator_registry.items() if info["status"] == "active"
             ],
             "request_queue_length": len(self.request_queue),
             "running_requests": len(self.running_requests),
@@ -1166,16 +1084,9 @@ class MasterOrchestrator:
             },
             "system_info": {
                 "initialized_at": self.initialization_time.isoformat(),
-                "uptime_hours": (
-                    datetime.now(timezone.utc) - self.initialization_time
-                ).total_seconds()
-                / 3600,
-                "brain_orchestration_enabled": self.config.get(
-                    "brain_orchestration_enabled", False
-                ),
-                "memory_orchestration_enabled": self.config.get(
-                    "memory_orchestration_enabled", False
-                ),
+                "uptime_hours": (datetime.now(timezone.utc) - self.initialization_time).total_seconds() / 3600,
+                "brain_orchestration_enabled": self.config.get("brain_orchestration_enabled", False),
+                "memory_orchestration_enabled": self.config.get("memory_orchestration_enabled", False),
             },
         }
 
@@ -1219,9 +1130,7 @@ class MasterOrchestrator:
                     # Estimate utilization based on active tasks
                     active_tasks = len(getattr(orchestrator, "running_tasks", {}))
                     max_tasks = getattr(orchestrator, "max_concurrent_tasks", 10)
-                    self.metrics.orchestrator_utilization[name] = min(
-                        active_tasks / max_tasks, 1.0
-                    )
+                    self.metrics.orchestrator_utilization[name] = min(active_tasks / max_tasks, 1.0)
 
     async def _monitor_lukhas_cycles(self):
         """Monitor health and progress of LUKHAS cycles"""
@@ -1231,9 +1140,7 @@ class MasterOrchestrator:
         stalled_cycles = []
         for request_id, cycle_info in self.active_cycles.items():
             if not cycle_info.get("completed", False):
-                time_since_start = (
-                    current_time - cycle_info["start_time"]
-                ).total_seconds()
+                time_since_start = (current_time - cycle_info["start_time"]).total_seconds()
                 if time_since_start > 3600:  # Stalled for more than 1 hour
                     stalled_cycles.append(request_id)
 

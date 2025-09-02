@@ -43,9 +43,7 @@ class DreamBridge:
             logger.error(f"Failed to initialize dream bridge: {e}")
             raise
 
-    async def process_consciousness_state(
-        self, state: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_consciousness_state(self, state: dict[str, Any]) -> dict[str, Any]:
         """Process a consciousness state through the dream bridge"""
         if not self.is_initialized:
             await self.initialize()
@@ -59,9 +57,7 @@ class DreamBridge:
 
         return {"dream_id": dream_id, "dream_data": dream_result, "status": "active"}
 
-    async def integrate_dream_feedback(
-        self, dream_id: str, feedback: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def integrate_dream_feedback(self, dream_id: str, feedback: dict[str, Any]) -> dict[str, Any]:
         """Integrate feedback from a dream back into consciousness"""
         if dream_id not in self.active_dreams:
             return {"error": "Dream not found", "dream_id": dream_id}
@@ -69,9 +65,7 @@ class DreamBridge:
         dream_data = self.active_dreams[dream_id]
 
         # Process dream through consciousness
-        consciousness_result = await self.bridge.process_dream_to_consciousness(
-            dream_data
-        )
+        consciousness_result = await self.bridge.process_dream_to_consciousness(dream_data)
 
         # Store feedback
         self.consciousness_feedback.append(

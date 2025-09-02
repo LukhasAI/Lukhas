@@ -93,32 +93,22 @@ class TestGDPRErasure:
         assert len(pre_erasure_history) == 3, "Should have 3 scenes before erasure"
 
         # Verify glyphs exist
-        pre_erasure_glyphs = sql_memory.search_by_glyph(
-            user_id=user_id, glyph_key="personal:glyph_1"
-        )
+        pre_erasure_glyphs = sql_memory.search_by_glyph(user_id=user_id, glyph_key="personal:glyph_1")
         assert len(pre_erasure_glyphs) > 0, "Should find personal glyphs before erasure"
 
         # GDPR ERASURE - Execute right to erasure
         deleted_count = sql_memory.delete_user(user_id=user_id)
-        assert (
-            deleted_count >= 3
-        ), f"Should delete at least 3 records, got {deleted_count}"
+        assert deleted_count >= 3, f"Should delete at least 3 records, got {deleted_count}"
 
         # VERIFICATION - Complete data removal
 
         # 1. Scene history should be empty
         post_erasure_history = sql_memory.get_scene_history(user_id=user_id, limit=10)
-        assert (
-            len(post_erasure_history) == 0
-        ), "Scene history should be completely empty after erasure"
+        assert len(post_erasure_history) == 0, "Scene history should be completely empty after erasure"
 
         # 2. Glyph searches should return nothing
-        post_erasure_glyphs = sql_memory.search_by_glyph(
-            user_id=user_id, glyph_key="personal:glyph_1"
-        )
-        assert (
-            len(post_erasure_glyphs) == 0
-        ), "Glyph searches should return empty after erasure"
+        post_erasure_glyphs = sql_memory.search_by_glyph(user_id=user_id, glyph_key="personal:glyph_1")
+        assert len(post_erasure_glyphs) == 0, "Glyph searches should return empty after erasure"
 
         # 3. All glyph types should be gone
         for glyph_key in [
@@ -155,9 +145,7 @@ class TestGDPRErasure:
 
         scene_ids_by_time = {}
         for i, scene_time in enumerate(time_ranges):
-            scene_data = create_test_scene(
-                subject=f"time_test_subject_{i}", timestamp=scene_time
-            )
+            scene_data = create_test_scene(subject=f"time_test_subject_{i}", timestamp=scene_time)
 
             scene_id = sql_memory.save(
                 user_id=user_id,
@@ -190,9 +178,7 @@ class TestGDPRErasure:
             """
             )
 
-            result = conn.execute(
-                delete_query, {"user_id": user_id, "cutoff_time": cutoff_time}
-            )
+            result = conn.execute(delete_query, {"user_id": user_id, "cutoff_time": cutoff_time})
 
             deleted_count = result.rowcount
             assert deleted_count == 2, "Should delete 2 old scenes"
@@ -260,9 +246,7 @@ class TestPrivacyHashing:
         hashed_values = []
 
         for pii_value in pii_test_cases:
-            scene_data = create_test_scene(
-                subject=pii_value, object="confidential_data"
-            )
+            scene_data = create_test_scene(subject=pii_value, object="confidential_data")
 
             sql_memory_prod.save(
                 user_id="privacy_hash_test",
@@ -274,21 +258,15 @@ class TestPrivacyHashing:
             )
 
             # Retrieve and verify hashing
-            history = sql_memory_prod.get_scene_history(
-                user_id="privacy_hash_test", limit=1
-            )
+            history = sql_memory_prod.get_scene_history(user_id="privacy_hash_test", limit=1)
             stored_scene = history[0]
 
             stored_subject = stored_scene["subject"]
             hashed_values.append(stored_subject)
 
             # Verify it's hashed (not plaintext)
-            assert (
-                stored_subject != pii_value
-            ), f"PII '{pii_value}' should be hashed, not stored as plaintext"
-            assert (
-                len(stored_subject) == 64
-            ), f"Hash should be 64 chars (SHA3-256), got {len(stored_subject)}"
+            assert stored_subject != pii_value, f"PII '{pii_value}' should be hashed, not stored as plaintext"
+            assert len(stored_subject) == 64, f"Hash should be 64 chars (SHA3-256), got {len(stored_subject)}"
             assert stored_subject.isalnum(), "Hash should be alphanumeric"
 
             # Verify consistency (same input = same hash)
@@ -296,9 +274,7 @@ class TestPrivacyHashing:
             assert stored_subject == expected_hash, "Hash should be consistent"
 
         # Verify different inputs produce different hashes
-        assert len(set(hashed_values)) == len(
-            hashed_values
-        ), "Different PII should produce different hashes"
+        assert len(set(hashed_values)) == len(hashed_values), "Different PII should produce different hashes"
 
     @pytest.mark.security
     def test_development_vs_production_hashing(self, sql_memory, sql_memory_prod):
@@ -329,9 +305,7 @@ class TestPrivacyHashing:
 
         # Retrieve and compare
         dev_history = sql_memory.get_scene_history(user_id="dev_prod_test", limit=1)
-        prod_history = sql_memory_prod.get_scene_history(
-            user_id="dev_prod_test", limit=1
-        )
+        prod_history = sql_memory_prod.get_scene_history(user_id="dev_prod_test", limit=1)
 
         dev_subject = dev_history[0]["subject"]
         prod_subject = prod_history[0]["subject"]
@@ -416,9 +390,7 @@ class TestContextDataSanitization:
         ]
         for safe_key in safe_keys:
             if safe_key in mixed_context:  # Only check if it was in original
-                assert (
-                    safe_key in stored_context
-                ), f"Safe key '{safe_key}' should be preserved"
+                assert safe_key in stored_context, f"Safe key '{safe_key}' should be preserved"
 
         # In a strict implementation, unsafe keys might be filtered
         # For this test, we just verify the core functionality works
@@ -507,9 +479,7 @@ class TestDataMinimization:
         )
 
         # Verify core functionality works
-        history = sql_memory.get_scene_history(
-            user_id="data_minimization_test", limit=1
-        )
+        history = sql_memory.get_scene_history(user_id="data_minimization_test", limit=1)
         assert len(history) == 1, "Scene should be stored"
 
         # In production, we would verify that only necessary data is retained
@@ -562,9 +532,7 @@ class TestDataMinimization:
 
         # For this test, verify both were stored
         history = sql_memory.get_scene_history(user_id="expiration_test", limit=10)
-        assert (
-            len(history) == 2
-        ), "Both scenes should be stored (no automatic expiration in test)"
+        assert len(history) == 2, "Both scenes should be stored (no automatic expiration in test)"
 
 
 class TestCrossBorderCompliance:

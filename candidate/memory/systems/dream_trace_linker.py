@@ -158,7 +158,9 @@ class DreamTraceLinker:
     def __init__(self):
         self.trace_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/dream/dream_trace_links.jsonl"
         self.glyph_database_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/dream/glyph_signatures.jsonl"
-        self.entanglement_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/dream/symbolic_entanglement.jsonl"
+        self.entanglement_log_path = (
+            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/dream/symbolic_entanglement.jsonl"
+        )
 
         # Initialize integrated components
         self.emotional_memory = EmotionalMemory()
@@ -236,14 +238,10 @@ class DreamTraceLinker:
         glyph_signatures = self._extract_glyph_signatures(dream_content, dream_metadata)
 
         # Correlate identity signatures
-        identity_signatures = self._correlate_identity_signatures(
-            dream_content, related_fold_keys
-        )
+        identity_signatures = self._correlate_identity_signatures(dream_content, related_fold_keys)
 
         # Propagate emotional echoes
-        emotional_echoes = self._propagate_emotional_echoes(
-            dream_content, dream_metadata
-        )
+        emotional_echoes = self._propagate_emotional_echoes(dream_content, dream_metadata)
 
         # Calculate drift and entropy metrics
         drift_metrics = self._calculate_dream_drift_metrics(
@@ -251,30 +249,20 @@ class DreamTraceLinker:
         )
 
         # Determine tier gate
-        tier_gate = self._determine_tier_gate(
-            drift_metrics, identity_signatures, emotional_echoes
-        )
+        tier_gate = self._determine_tier_gate(drift_metrics, identity_signatures, emotional_echoes)
 
         # Calculate entanglement level
-        entanglement_level = self._calculate_entanglement_level(
-            glyph_signatures, identity_signatures, emotional_echoes
-        )
+        entanglement_level = self._calculate_entanglement_level(glyph_signatures, identity_signatures, emotional_echoes)
 
         # Check safeguards
-        safeguard_flags = self._check_safeguards(
-            dream_id, entanglement_level, glyph_signatures
-        )
+        safeguard_flags = self._check_safeguards(dream_id, entanglement_level, glyph_signatures)
 
         # Determine trace type
-        trace_type = self._determine_trace_type(
-            glyph_signatures, identity_signatures, emotional_echoes
-        )
+        trace_type = self._determine_trace_type(glyph_signatures, identity_signatures, emotional_echoes)
 
         # Create dream trace link
         dream_trace = DreamTraceLink(
-            link_id=hashlib.md5(
-                f"{dream_id}_{trace_id}_{datetime.now()}".encode()
-            ).hexdigest()[:12],
+            link_id=hashlib.md5(f"{dream_id}_{trace_id}_{datetime.now()}".encode()).hexdigest()[:12],
             dream_id=dream_id,
             trace_id=trace_id,
             drift_score=drift_metrics["drift_score"],
@@ -307,9 +295,7 @@ class DreamTraceLinker:
 
         return dream_trace
 
-    def _extract_glyph_signatures(
-        self, dream_content: str, dream_metadata: dict[str, Any]
-    ) -> list[GlyphSignature]:
+    def _extract_glyph_signatures(self, dream_content: str, dream_metadata: dict[str, Any]) -> list[GlyphSignature]:
         """Extract GLYPH signatures from dream content."""
         signatures = []
 
@@ -321,24 +307,16 @@ class DreamTraceLinker:
                 pattern_strength = min(len(matches) / 10.0, 1.0)
 
                 # Determine resonance level
-                resonance_level = self._calculate_glyph_resonance(
-                    glyph_id, pattern_strength, dream_content
-                )
+                resonance_level = self._calculate_glyph_resonance(glyph_id, pattern_strength, dream_content)
 
                 # Calculate entropy contribution
-                entropy_contribution = self._calculate_glyph_entropy(
-                    glyph_id, matches, dream_content
-                )
+                entropy_contribution = self._calculate_glyph_entropy(glyph_id, matches, dream_content)
 
                 # Create symbolic context
                 symbolic_context = {
                     "matches": matches,
-                    "context_phrases": self._extract_context_phrases(
-                        glyph_id, dream_content
-                    ),
-                    "semantic_density": self._calculate_semantic_density(
-                        glyph_id, dream_content
-                    ),
+                    "context_phrases": self._extract_context_phrases(glyph_id, dream_content),
+                    "semantic_density": self._calculate_semantic_density(glyph_id, dream_content),
                     "dream_phase": dream_metadata.get("phase", "unknown"),
                 }
 
@@ -366,24 +344,16 @@ class DreamTraceLinker:
 
             if matches:
                 # Calculate confidence score
-                confidence_score = self._calculate_identity_confidence(
-                    identity_marker, matches, dream_content
-                )
+                confidence_score = self._calculate_identity_confidence(identity_marker, matches, dream_content)
 
                 # Find related memories
-                related_memories = self._find_identity_related_memories(
-                    identity_marker, related_fold_keys
-                )
+                related_memories = self._find_identity_related_memories(identity_marker, related_fold_keys)
 
                 # Calculate drift susceptibility
-                drift_susceptibility = self._calculate_identity_drift_susceptibility(
-                    identity_marker
-                )
+                drift_susceptibility = self._calculate_identity_drift_susceptibility(identity_marker)
 
                 # Determine protection level
-                protection_level = self._determine_identity_protection_level(
-                    identity_marker
-                )
+                protection_level = self._determine_identity_protection_level(identity_marker)
 
                 signature = IdentitySignature(
                     identity_marker=identity_marker,
@@ -397,9 +367,7 @@ class DreamTraceLinker:
 
         return signatures
 
-    def _propagate_emotional_echoes(
-        self, dream_content: str, dream_metadata: dict[str, Any]
-    ) -> list[EmotionalEcho]:
+    def _propagate_emotional_echoes(self, dream_content: str, dream_metadata: dict[str, Any]) -> list[EmotionalEcho]:
         """Propagate emotional echoes from dreams to memory."""
         echoes = []
 
@@ -412,25 +380,19 @@ class DreamTraceLinker:
 
             for target_emotion in resonant_emotions:
                 # Calculate propagation strength
-                propagation_strength = self._calculate_emotional_propagation_strength(
-                    source_emotion, target_emotion
-                )
+                propagation_strength = self._calculate_emotional_propagation_strength(source_emotion, target_emotion)
 
                 if propagation_strength > 0.3:  # Threshold for meaningful echo
                     # Calculate decay factor
-                    decay_factor = self._calculate_emotional_decay_factor(
-                        source_emotion, target_emotion
-                    )
+                    decay_factor = self._calculate_emotional_decay_factor(source_emotion, target_emotion)
 
                     # Create emotional bridge
-                    emotional_bridge = self._create_emotional_bridge(
-                        source_emotion, target_emotion, dream_metadata
-                    )
+                    emotional_bridge = self._create_emotional_bridge(source_emotion, target_emotion, dream_metadata)
 
                     echo = EmotionalEcho(
-                        echo_id=hashlib.md5(
-                            f"{source_emotion}_{target_emotion}_{datetime.now()}".encode()
-                        ).hexdigest()[:8],
+                        echo_id=hashlib.md5(f"{source_emotion}_{target_emotion}_{datetime.now()}".encode()).hexdigest()[
+                            :8
+                        ],
                         source_emotion=source_emotion,
                         target_emotion=target_emotion,
                         propagation_strength=propagation_strength,
@@ -459,30 +421,19 @@ class DreamTraceLinker:
         glyph_drift = sum(sig.pattern_strength * 0.1 for sig in glyph_signatures)
 
         # Identity drift (higher for identity-related dreams)
-        identity_drift = sum(
-            sig.confidence_score * sig.drift_susceptibility
-            for sig in identity_signatures
-        )
+        identity_drift = sum(sig.confidence_score * sig.drift_susceptibility for sig in identity_signatures)
 
         # Emotional drift
-        emotional_drift = sum(
-            echo.propagation_strength * 0.05 for echo in emotional_echoes
-        )
+        emotional_drift = sum(echo.propagation_strength * 0.05 for echo in emotional_echoes)
 
         # Total drift score
-        drift_score = np.clip(
-            base_drift + glyph_drift + identity_drift + emotional_drift, 0.0, 1.0
-        )
+        drift_score = np.clip(base_drift + glyph_drift + identity_drift + emotional_drift, 0.0, 1.0)
 
         # Entropy delta calculation
-        entropy_delta = self._calculate_dream_entropy_delta(
-            glyph_signatures, identity_signatures, emotional_echoes
-        )
+        entropy_delta = self._calculate_dream_entropy_delta(glyph_signatures, identity_signatures, emotional_echoes)
 
         # Symbolic origin tracking
-        symbolic_origin_id = self._determine_symbolic_origin(
-            glyph_signatures, identity_signatures
-        )
+        symbolic_origin_id = self._determine_symbolic_origin(glyph_signatures, identity_signatures)
 
         return {
             "drift_score": round(drift_score, 4),
@@ -506,9 +457,7 @@ class DreamTraceLinker:
 
         drift_score = drift_metrics["drift_score"]
         has_identity = len(identity_signatures) > 0
-        has_strong_emotions = any(
-            echo.propagation_strength > 0.7 for echo in emotional_echoes
-        )
+        has_strong_emotions = any(echo.propagation_strength > 0.7 for echo in emotional_echoes)
 
         # Tier determination logic
         if drift_score > 0.8 or has_identity:
@@ -531,20 +480,14 @@ class DreamTraceLinker:
         """Calculate symbolic entanglement level."""
 
         # Base entanglement from signatures
-        base_entanglement = (
-            len(glyph_signatures) + len(identity_signatures) + len(emotional_echoes)
-        )
+        base_entanglement = len(glyph_signatures) + len(identity_signatures) + len(emotional_echoes)
 
         # Weighted entanglement based on strength
         glyph_weight = sum(sig.pattern_strength for sig in glyph_signatures) * 2
         identity_weight = sum(sig.confidence_score for sig in identity_signatures) * 3
-        emotional_weight = (
-            sum(echo.propagation_strength for echo in emotional_echoes) * 1.5
-        )
+        emotional_weight = sum(echo.propagation_strength for echo in emotional_echoes) * 1.5
 
-        total_entanglement = (
-            base_entanglement + glyph_weight + identity_weight + emotional_weight
-        )
+        total_entanglement = base_entanglement + glyph_weight + identity_weight + emotional_weight
 
         return min(int(total_entanglement), 15)  # Cap at 15 for safety
 
@@ -560,14 +503,10 @@ class DreamTraceLinker:
         # Check entanglement complexity
         if entanglement_level > 12:
             flags.append("excessive_entanglement")
-            logger.warning(
-                f"Excessive entanglement detected: level={entanglement_level}, dream_id={dream_id}"
-            )
+            logger.warning(f"Excessive entanglement detected: level={entanglement_level}, dream_id={dream_id}")
 
         # Check GLYPH overload with session tracking
-        total_glyphs = sum(
-            len(sig.symbolic_context.get("matches", [])) for sig in glyph_signatures
-        )
+        total_glyphs = sum(len(sig.symbolic_context.get("matches", [])) for sig in glyph_signatures)
         session_total = self.session_glyph_count.get("session_total", 0) + total_glyphs
         self.session_glyph_count[dream_id] = total_glyphs
         self.session_glyph_count["session_total"] = session_total
@@ -575,9 +514,7 @@ class DreamTraceLinker:
         # Individual dream GLYPH limit
         if total_glyphs > 50:
             flags.append("glyph_overload")
-            logger.warning(
-                f"GLYPH overload for dream: count={total_glyphs}, dream_id={dream_id}"
-            )
+            logger.warning(f"GLYPH overload for dream: count={total_glyphs}, dream_id={dream_id}")
 
         # Session-wide GLYPH limit
         if session_total > 200:  # Session limit across all dreams
@@ -585,9 +522,7 @@ class DreamTraceLinker:
             logger.warning(f"Session GLYPH overload: total={session_total}")
 
         # Check for recursive amplification with enhanced detection
-        amplification_risk = self._detect_recursive_amplification_enhanced(
-            dream_id, glyph_signatures
-        )
+        amplification_risk = self._detect_recursive_amplification_enhanced(dream_id, glyph_signatures)
         if amplification_risk["detected"]:
             flags.append("recursive_amplification")
             flags.extend(amplification_risk["specific_flags"])
@@ -596,40 +531,28 @@ class DreamTraceLinker:
         # Check circuit breaker status
         if self.emotional_memory.is_fuse_active():
             flags.append("emotion_circuit_breaker_active")
-            logger.info(
-                f"Emotional circuit breaker active, limiting dream processing: dream_id={dream_id}"
-            )
+            logger.info(f"Emotional circuit breaker active, limiting dream processing: dream_id={dream_id}")
 
         # Check for memory amplification patterns
-        memory_amplification = self._detect_memory_amplification_risk(
-            dream_id, entanglement_level
-        )
+        memory_amplification = self._detect_memory_amplification_risk(dream_id, entanglement_level)
         if memory_amplification["risk_level"] == "HIGH":
             flags.append("memory_amplification_risk")
-            logger.warning(
-                f"Memory amplification risk detected: {memory_amplification}"
-            )
+            logger.warning(f"Memory amplification risk detected: {memory_amplification}")
 
         # Check for volatility cascades
         volatility_risk = self._detect_volatility_cascade_risk(glyph_signatures)
         if volatility_risk > 0.8:
             flags.append("volatility_cascade_risk")
-            logger.warning(
-                f"High volatility cascade risk: score={volatility_risk}, dream_id={dream_id}"
-            )
+            logger.warning(f"High volatility cascade risk: score={volatility_risk}, dream_id={dream_id}")
 
         # Check for identity drift susceptibility
         identity_risk = self._assess_identity_drift_risk(dream_id)
         if identity_risk > 0.7:
             flags.append("identity_drift_susceptible")
-            logger.warning(
-                f"Identity drift susceptibility detected: risk={identity_risk}, dream_id={dream_id}"
-            )
+            logger.warning(f"Identity drift susceptibility detected: risk={identity_risk}, dream_id={dream_id}")
 
         # Check for entanglement-like correlation overload
-        qi_risk = self._assess_quantum_entanglement_risk(
-            entanglement_level, glyph_signatures
-        )
+        qi_risk = self._assess_quantum_entanglement_risk(entanglement_level, glyph_signatures)
         if qi_risk["overload_detected"]:
             flags.append("qi_entanglement_overload")
             logger.critical(f"Quantum entanglement overload: {qi_risk}")
@@ -649,10 +572,7 @@ class DreamTraceLinker:
         emotional_strength = sum(echo.propagation_strength for echo in emotional_echoes)
 
         # Determine primary type based on strongest component
-        if (
-            identity_strength > glyph_strength
-            and identity_strength > emotional_strength
-        ):
+        if identity_strength > glyph_strength and identity_strength > emotional_strength:
             return DreamTraceType.IDENTITY_RESONANCE
         elif emotional_strength > glyph_strength:
             return DreamTraceType.EMOTIONAL_ECHO
@@ -662,9 +582,7 @@ class DreamTraceLinker:
             return DreamTraceType.ENTROPY_HARMONICS
 
     # Helper methods for various calculations
-    def _calculate_glyph_resonance(
-        self, glyph_id: str, strength: float, content: str
-    ) -> GlyphResonanceLevel:
+    def _calculate_glyph_resonance(self, glyph_id: str, strength: float, content: str) -> GlyphResonanceLevel:
         """Calculate GLYPH resonance level."""
         if strength > 0.8:
             return GlyphResonanceLevel.QUANTUM
@@ -679,9 +597,7 @@ class DreamTraceLinker:
         else:
             return GlyphResonanceLevel.NONE
 
-    def _calculate_glyph_entropy(
-        self, glyph_id: str, matches: list[str], content: str
-    ) -> float:
+    def _calculate_glyph_entropy(self, glyph_id: str, matches: list[str], content: str) -> float:
         """Calculate entropy contribution of GLYPH patterns."""
         if not matches:
             return 0.0
@@ -717,9 +633,7 @@ class DreamTraceLinker:
         unique_words = set(words)
         return len(unique_words) / max(len(words), 1)
 
-    def _calculate_identity_confidence(
-        self, identity_marker: str, matches: list[str], content: str
-    ) -> float:
+    def _calculate_identity_confidence(self, identity_marker: str, matches: list[str], content: str) -> float:
         """Calculate confidence score for identity markers."""
         # Base confidence from match frequency
         base_confidence = min(len(matches) / 5.0, 1.0)
@@ -797,9 +711,7 @@ class DreamTraceLinker:
 
         return resonance_map.get(source_emotion, [source_emotion])
 
-    def _calculate_emotional_propagation_strength(
-        self, source_emotion: str, target_emotion: str
-    ) -> float:
+    def _calculate_emotional_propagation_strength(self, source_emotion: str, target_emotion: str) -> float:
         """Calculate strength of emotional propagation."""
         # Same emotion = strong propagation
         if source_emotion == target_emotion:
@@ -817,9 +729,7 @@ class DreamTraceLinker:
 
         return resonance_pairs.get((source_emotion, target_emotion), 0.2)
 
-    def _calculate_emotional_decay_factor(
-        self, source_emotion: str, target_emotion: str
-    ) -> float:
+    def _calculate_emotional_decay_factor(self, source_emotion: str, target_emotion: str) -> float:
         """Calculate decay factor for emotional echoes."""
         # Positive emotions decay slower
         positive_emotions = ["joy_resonance", "love_glow", "wonder_spark"]
@@ -835,9 +745,7 @@ class DreamTraceLinker:
         """Create emotional bridge between dream and memory."""
         return {
             "bridge_type": "dream_to_memory",
-            "resonance_quality": self._calculate_emotional_propagation_strength(
-                source_emotion, target_emotion
-            ),
+            "resonance_quality": self._calculate_emotional_propagation_strength(source_emotion, target_emotion),
             "temporal_context": dream_metadata.get("timestamp", "unknown"),
             "dream_phase": dream_metadata.get("phase", "unknown"),
             "propagation_vector": f"{source_emotion} → {target_emotion}",
@@ -855,15 +763,10 @@ class DreamTraceLinker:
         glyph_entropy = sum(sig.entropy_contribution for sig in glyph_signatures)
 
         # Identity entropy (based on drift susceptibility)
-        identity_entropy = sum(
-            sig.drift_susceptibility * sig.confidence_score
-            for sig in identity_signatures
-        )
+        identity_entropy = sum(sig.drift_susceptibility * sig.confidence_score for sig in identity_signatures)
 
         # Emotional entropy (based on propagation strength)
-        emotional_entropy = sum(
-            echo.propagation_strength * 0.1 for echo in emotional_echoes
-        )
+        emotional_entropy = sum(echo.propagation_strength * 0.1 for echo in emotional_echoes)
 
         total_entropy = glyph_entropy + identity_entropy + emotional_entropy
 
@@ -880,9 +783,7 @@ class DreamTraceLinker:
             primary_glyph = max(glyph_signatures, key=lambda x: x.pattern_strength)
             return f"GLYPH:{primary_glyph.glyph_id}"
         elif identity_signatures:
-            primary_identity = max(
-                identity_signatures, key=lambda x: x.confidence_score
-            )
+            primary_identity = max(identity_signatures, key=lambda x: x.confidence_score)
             return f"IDENTITY:{primary_identity.identity_marker}"
         else:
             return "ENTROPY:base_dream_content"
@@ -897,9 +798,7 @@ class DreamTraceLinker:
         # Clean old events (keep only last 10 minutes)
         cutoff_time = current_time - timedelta(minutes=10)
         self.recursive_amplification_tracker[dream_id] = [
-            timestamp
-            for timestamp in self.recursive_amplification_tracker[dream_id]
-            if timestamp > cutoff_time
+            timestamp for timestamp in self.recursive_amplification_tracker[dream_id] if timestamp > cutoff_time
         ]
 
         # Check for excessive linking frequency
@@ -922,41 +821,29 @@ class DreamTraceLinker:
         self.recursive_amplification_tracker[dream_id].append(current_time)
         cutoff_time = current_time - timedelta(minutes=10)
         recent_events = [
-            timestamp
-            for timestamp in self.recursive_amplification_tracker[dream_id]
-            if timestamp > cutoff_time
+            timestamp for timestamp in self.recursive_amplification_tracker[dream_id] if timestamp > cutoff_time
         ]
         self.recursive_amplification_tracker[dream_id] = recent_events
 
-        frequency_risk = min(
-            len(recent_events) / 8.0, 1.0
-        )  # Risk increases with frequency
+        frequency_risk = min(len(recent_events) / 8.0, 1.0)  # Risk increases with frequency
         amplification_analysis["analysis_factors"]["frequency_risk"] = frequency_risk
 
         if frequency_risk > 0.6:
             amplification_analysis["specific_flags"].append("high_frequency_linking")
 
         # Factor 2: GLYPH pattern recursion
-        glyph_pattern_recursion = self._analyze_glyph_pattern_recursion(
-            dream_id, glyph_signatures
-        )
-        amplification_analysis["analysis_factors"][
-            "glyph_recursion"
-        ] = glyph_pattern_recursion
+        glyph_pattern_recursion = self._analyze_glyph_pattern_recursion(dream_id, glyph_signatures)
+        amplification_analysis["analysis_factors"]["glyph_recursion"] = glyph_pattern_recursion
 
         if glyph_pattern_recursion > 0.7:
             amplification_analysis["specific_flags"].append("glyph_pattern_recursion")
 
         # Factor 3: Entanglement feedback loops
         entanglement_feedback = self._detect_entanglement_feedback_loops(dream_id)
-        amplification_analysis["analysis_factors"][
-            "entanglement_feedback"
-        ] = entanglement_feedback
+        amplification_analysis["analysis_factors"]["entanglement_feedback"] = entanglement_feedback
 
         if entanglement_feedback > 0.5:
-            amplification_analysis["specific_flags"].append(
-                "entanglement_feedback_loop"
-            )
+            amplification_analysis["specific_flags"].append("entanglement_feedback_loop")
 
         # Factor 4: Memory reference cycling
         memory_cycling = self._detect_memory_reference_cycling(dream_id)
@@ -976,15 +863,12 @@ class DreamTraceLinker:
 
         # Determine if amplification is detected
         amplification_analysis["detected"] = (
-            amplification_analysis["risk_score"] > 0.7
-            or len(amplification_analysis["specific_flags"]) >= 2
+            amplification_analysis["risk_score"] > 0.7 or len(amplification_analysis["specific_flags"]) >= 2
         )
 
         return amplification_analysis
 
-    def _detect_memory_amplification_risk(
-        self, dream_id: str, entanglement_level: int
-    ) -> dict[str, Any]:
+    def _detect_memory_amplification_risk(self, dream_id: str, entanglement_level: int) -> dict[str, Any]:
         """Detect risk of memory amplification from recursive dream inputs."""
         risk_analysis = {
             "risk_level": "LOW",
@@ -1007,9 +891,7 @@ class DreamTraceLinker:
         frequency_risk = min(recent_dreams / 10.0, 1.0)
 
         # Factor 3: Session entanglement accumulation
-        session_entanglement = sum(
-            len(nodes) for nodes in self.entanglement_nodes.values()
-        )
+        session_entanglement = sum(len(nodes) for nodes in self.entanglement_nodes.values())
         session_risk = min(session_entanglement / 50.0, 1.0)
 
         # Calculate overall risk
@@ -1028,19 +910,13 @@ class DreamTraceLinker:
         if entanglement_risk > 0.7:
             risk_analysis["contributing_factors"].append("high_entanglement_complexity")
         if frequency_risk > 0.6:
-            risk_analysis["contributing_factors"].append(
-                "excessive_processing_frequency"
-            )
+            risk_analysis["contributing_factors"].append("excessive_processing_frequency")
         if session_risk > 0.5:
-            risk_analysis["contributing_factors"].append(
-                "session_entanglement_accumulation"
-            )
+            risk_analysis["contributing_factors"].append("session_entanglement_accumulation")
 
         return risk_analysis
 
-    def _detect_volatility_cascade_risk(
-        self, glyph_signatures: list[GlyphSignature]
-    ) -> float:
+    def _detect_volatility_cascade_risk(self, glyph_signatures: list[GlyphSignature]) -> float:
         """Detect risk of volatility cascades from glyph_interactions."""
         if not glyph_signatures:
             return 0.0
@@ -1049,15 +925,12 @@ class DreamTraceLinker:
         high_resonance_count = sum(
             1
             for sig in glyph_signatures
-            if sig.resonance_level
-            in [GlyphResonanceLevel.HARMONIC, GlyphResonanceLevel.QUANTUM]
+            if sig.resonance_level in [GlyphResonanceLevel.HARMONIC, GlyphResonanceLevel.QUANTUM]
         )
 
         # Check for conflicting GLYPH patterns
         chaos_glyphs = sum(1 for sig in glyph_signatures if "ΧCHAOS" in sig.glyph_id)
-        order_glyphs = sum(
-            1 for sig in glyph_signatures if sig.glyph_id in ["ΦWISDOM", "ΣSYMBOL"]
-        )
+        order_glyphs = sum(1 for sig in glyph_signatures if sig.glyph_id in ["ΦWISDOM", "ΣSYMBOL"])
 
         conflict_risk = min((chaos_glyphs + order_glyphs) / 5.0, 1.0)
 
@@ -1065,9 +938,7 @@ class DreamTraceLinker:
         resonance_risk = min(high_resonance_count / 5.0, 1.0)
         complexity_risk = min(len(glyph_signatures) / 10.0, 1.0)
 
-        volatility_risk = (
-            resonance_risk * 0.4 + conflict_risk * 0.4 + complexity_risk * 0.2
-        )
+        volatility_risk = resonance_risk * 0.4 + conflict_risk * 0.4 + complexity_risk * 0.2
 
         return min(volatility_risk, 1.0)
 
@@ -1082,8 +953,7 @@ class DreamTraceLinker:
             1
             for events in self.recursive_amplification_tracker.values()
             for timestamp in events
-            if (current_time - timestamp).total_seconds() < 3600
-            and "identity" in str(events)
+            if (current_time - timestamp).total_seconds() < 3600 and "identity" in str(events)
         )
 
         # Calculate identity drift risk
@@ -1104,11 +974,7 @@ class DreamTraceLinker:
         }
 
         # Calculate quantum complexity
-        qi_glyphs = [
-            sig
-            for sig in glyph_signatures
-            if sig.resonance_level == GlyphResonanceLevel.QUANTUM
-        ]
+        qi_glyphs = [sig for sig in glyph_signatures if sig.resonance_level == GlyphResonanceLevel.QUANTUM]
         risk_analysis["qi_complexity"] = len(qi_glyphs) / max(len(glyph_signatures), 1)
 
         # Calculate entanglement density
@@ -1120,24 +986,18 @@ class DreamTraceLinker:
         density_factor = risk_analysis["entanglement_density"]
         qi_factor = risk_analysis["qi_complexity"]
 
-        risk_analysis["coherence_breakdown_risk"] = (
-            complexity_factor * 0.4 + density_factor * 0.3 + qi_factor * 0.3
-        )
+        risk_analysis["coherence_breakdown_risk"] = complexity_factor * 0.4 + density_factor * 0.3 + qi_factor * 0.3
 
         # Determine if overload is detected
         risk_analysis["overload_detected"] = (
-            risk_analysis["coherence_breakdown_risk"] > 0.8
-            or entanglement_level > 14
-            or len(qi_glyphs) > 3
+            risk_analysis["coherence_breakdown_risk"] > 0.8 or entanglement_level > 14 or len(qi_glyphs) > 3
         )
 
         return risk_analysis
 
     # Additional helper methods for enhanced analysis
 
-    def _analyze_glyph_pattern_recursion(
-        self, dream_id: str, glyph_signatures: list[GlyphSignature]
-    ) -> float:
+    def _analyze_glyph_pattern_recursion(self, dream_id: str, glyph_signatures: list[GlyphSignature]) -> float:
         """Analyze GLYPH pattern recursion within the dream."""
         if not hasattr(self, "_glyph_history"):
             self._glyph_history = defaultdict(list)
@@ -1191,9 +1051,7 @@ class DreamTraceLinker:
         if (current_time - self._last_reference_cleanup).total_seconds() > 3600:
             # Reduce all counts by half
             for key in self._memory_reference_tracker:
-                self._memory_reference_tracker[key] = max(
-                    1, self._memory_reference_tracker[key] // 2
-                )
+                self._memory_reference_tracker[key] = max(1, self._memory_reference_tracker[key] // 2)
             self._last_reference_cleanup = current_time
 
         return cycling_risk
@@ -1228,11 +1086,7 @@ class DreamTraceLinker:
 
         # Clean old sessions
         current_date = datetime.now().date()
-        old_sessions = [
-            session
-            for session in self.entanglement_nodes
-            if session != f"session_{current_date}"
-        ]
+        old_sessions = [session for session in self.entanglement_nodes if session != f"session_{current_date}"]
         for session in old_sessions:
             del self.entanglement_nodes[session]
 
@@ -1247,9 +1101,7 @@ class DreamTraceLinker:
             # Convert enums to strings
             trace_dict["trace_type"] = dream_trace.trace_type.value
             for i, sig in enumerate(trace_dict["glyph_signatures"]):
-                sig["resonance_level"] = dream_trace.glyph_signatures[
-                    i
-                ].resonance_level.value
+                sig["resonance_level"] = dream_trace.glyph_signatures[i].resonance_level.value
 
             with open(self.trace_log_path, "a", encoding="utf-8") as f:
                 f.write(json.dumps(trace_dict) + "\n")
@@ -1270,14 +1122,10 @@ class DreamTraceLinker:
         This advanced feature analyzes quantum entanglement patterns between dreams
         and parallel memory streams, enabling multi-dimensional consciousness tracking.
         """
-        logger.info(
-            f"Initiating quantum dream resonance detection for dream {dream_id}"
-        )
+        logger.info(f"Initiating quantum dream resonance detection for dream {dream_id}")
 
         if parallel_memory_streams is None:
-            parallel_memory_streams = await self._discover_parallel_memory_streams(
-                dream_id
-            )
+            parallel_memory_streams = await self._discover_parallel_memory_streams(dream_id)
 
         quantum_analysis = {
             "quantum_signature": self._calculate_quantum_signature(dream_content),
@@ -1301,9 +1149,7 @@ class DreamTraceLinker:
                     "stream_id": memory_stream.get("stream_id", f"stream_{i}"),
                     "resonance_strength": stream_analysis["resonance_strength"],
                     "quantum_overlap": stream_analysis["quantum_overlap"],
-                    "entanglement_probability": stream_analysis[
-                        "entanglement_probability"
-                    ],
+                    "entanglement_probability": stream_analysis["entanglement_probability"],
                     "dimensional_anchor_points": stream_analysis["anchor_points"],
                 }
             )
@@ -1348,10 +1194,7 @@ class DreamTraceLinker:
         logger.info(
             f"Quantum resonance detection completed for dream {dream_id}",
             resonance_strength=(
-                max(
-                    stream["resonance_strength"]
-                    for stream in quantum_analysis["parallel_streams"]
-                )
+                max(stream["resonance_strength"] for stream in quantum_analysis["parallel_streams"])
                 if quantum_analysis["parallel_streams"]
                 else 0
             ),
@@ -1370,12 +1213,9 @@ class DreamTraceLinker:
             stream = {
                 "stream_id": f"parallel_stream_{dream_id}_{i}",
                 "content": self._generate_synthetic_memory_content(),
-                "temporal_signature": datetime.now(timezone.utc)
-                - timedelta(hours=random.randint(1, 48)),
+                "temporal_signature": datetime.now(timezone.utc) - timedelta(hours=random.randint(1, 48)),
                 "dimensional_index": i,
-                "quantum_state": random.choice(
-                    ["superposition", "collapsed", "entangled"]
-                ),
+                "quantum_state": random.choice(["superposition", "collapsed", "entangled"]),
                 "consciousness_layer": random.choice(["surface", "deep", "archetypal"]),
             }
             streams.append(stream)
@@ -1421,9 +1261,7 @@ class DreamTraceLinker:
             "wave",
             "particle",
         ]
-        quantum_density = sum(
-            1 for word in quantum_words if word in dream_content.lower()
-        ) / len(quantum_words)
+        quantum_density = sum(1 for word in quantum_words if word in dream_content.lower()) / len(quantum_words)
 
         # Calculate symbolic entropy
         unique_symbols = len(set(re.findall(r"[ΛΩΨΦΧΜΕΣλωψφχμεσ]", dream_content)))

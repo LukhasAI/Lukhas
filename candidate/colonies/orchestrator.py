@@ -72,15 +72,11 @@ class OrchestratorColony(BaseColony):
 
                 if task.id in colony.completed_tasks:
                     step_result = colony.completed_tasks[task.id].result
-                    workflow_result["results"].append(
-                        {"step": i, "colony": colony_name, "result": step_result}
-                    )
+                    workflow_result["results"].append({"step": i, "colony": colony_name, "result": step_result})
                     workflow_result["steps_completed"] += 1
                 else:
                     workflow_result["status"] = "failed"
-                    workflow_result["error"] = (
-                        f"Step {i} failed in colony {colony_name}"
-                    )
+                    workflow_result["error"] = f"Step {i} failed in colony {colony_name}"
                     break
             else:
                 workflow_result["status"] = "failed"
@@ -122,9 +118,7 @@ class OrchestratorColony(BaseColony):
                 continue
 
             # Calculate score based on load and agent availability
-            avg_load = sum(agent.load for agent in colony.agents.values()) / len(
-                colony.agents
-            )
+            avg_load = sum(agent.load for agent in colony.agents.values()) / len(colony.agents)
             queue_load = len(colony.task_queue) / 10.0  # Normalize queue size
 
             score = 1.0 - (avg_load * 0.6 + queue_load * 0.4)
@@ -152,9 +146,7 @@ class OrchestratorColony(BaseColony):
 
         for name, colony in registry.colonies.items():
             if colony.status.value == "active":
-                avg_load = sum(agent.load for agent in colony.agents.values()) / len(
-                    colony.agents
-                )
+                avg_load = sum(agent.load for agent in colony.agents.values()) / len(colony.agents)
                 queue_size = len(colony.task_queue)
 
                 load_info[name] = {

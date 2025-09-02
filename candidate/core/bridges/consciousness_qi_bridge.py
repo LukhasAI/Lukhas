@@ -78,9 +78,7 @@ class ConsciousnessQIBridge:
             "qi_error": "consciousness_error_handling",
         }
 
-    async def consciousness_to_quantum(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def consciousness_to_quantum(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Forward event from Consciousness to Quantum system"""
         if not self.is_connected:
             await self.connect()
@@ -104,9 +102,7 @@ class ConsciousnessQIBridge:
             logger.error(f"Error forwarding from Consciousness to Quantum: {e}")
             return {"error": str(e)}
 
-    async def qi_to_consciousness(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def qi_to_consciousness(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Forward event from Quantum to Consciousness system"""
         if not self.is_connected:
             await self.connect()
@@ -120,9 +116,7 @@ class ConsciousnessQIBridge:
 
             # Send to consciousness system
             if self.consciousness_hub:
-                result = await self.consciousness_hub.process_event(
-                    mapped_event, transformed_data
-                )
+                result = await self.consciousness_hub.process_event(mapped_event, transformed_data)
                 logger.debug(f"Forwarded {event_type} from Quantum to Consciousness")
                 return result
 
@@ -132,9 +126,7 @@ class ConsciousnessQIBridge:
             logger.error(f"Error forwarding from Quantum to Consciousness: {e}")
             return {"error": str(e)}
 
-    def transform_data_consciousness_to_quantum(
-        self, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def transform_data_consciousness_to_quantum(self, data: dict[str, Any]) -> dict[str, Any]:
         """Transform data format from Consciousness to Quantum"""
         return {
             "source_system": "consciousness",
@@ -145,9 +137,7 @@ class ConsciousnessQIBridge:
             "bridge_version": "1.0",
         }
 
-    def transform_data_quantum_to_consciousness(
-        self, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def transform_data_quantum_to_consciousness(self, data: dict[str, Any]) -> dict[str, Any]:
         """Transform data format from Quantum to Consciousness"""
         return {
             "source_system": "quantum",
@@ -192,12 +182,8 @@ class ConsciousnessQIBridge:
     async def get_consciousness_state(self) -> dict[str, Any]:
         """Get current consciousness state"""
         if self.consciousness_hub:
-            qi_consciousness_service = self.consciousness_hub.get_service(
-                "qi_consciousness_hub"
-            )
-            if qi_consciousness_service and hasattr(
-                qi_consciousness_service, "get_current_state"
-            ):
+            qi_consciousness_service = self.consciousness_hub.get_service("qi_consciousness_hub")
+            if qi_consciousness_service and hasattr(qi_consciousness_service, "get_current_state"):
                 return qi_consciousness_service.get_current_state()
 
         return {"state": "unknown", "awareness_level": 0.5}
@@ -211,9 +197,7 @@ class ConsciousnessQIBridge:
 
         return {"state": "superposition", "coherence": 0.8}
 
-    async def handle_quantum_superposition(
-        self, superposition_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_quantum_superposition(self, superposition_data: dict[str, Any]) -> dict[str, Any]:
         """Handle quantum superposition for consciousness multiprocessing"""
         consciousness_data = {
             "processing_mode": "multiprocessing",
@@ -224,9 +208,7 @@ class ConsciousnessQIBridge:
 
         return await self.qi_to_consciousness("qi_superposition", consciousness_data)
 
-    async def handle_consciousness_decision(
-        self, decision_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_consciousness_decision(self, decision_data: dict[str, Any]) -> dict[str, Any]:
         """Handle consciousness decision for quantum measurement"""
         qi_data = {
             "measurement_type": "decision_collapse",
@@ -237,9 +219,7 @@ class ConsciousnessQIBridge:
 
         return await self.consciousness_to_quantum("consciousness_decision", qi_data)
 
-    async def handle_quantum_entanglement(
-        self, entanglement_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_quantum_entanglement(self, entanglement_data: dict[str, Any]) -> dict[str, Any]:
         """Handle quantum entanglement for consciousness correlation"""
         consciousness_data = {
             "correlation_type": "qi_correlation",
@@ -250,9 +230,7 @@ class ConsciousnessQIBridge:
 
         return await self.qi_to_consciousness("qi_entanglement", consciousness_data)
 
-    async def handle_consciousness_focus(
-        self, focus_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_consciousness_focus(self, focus_data: dict[str, Any]) -> dict[str, Any]:
         """Handle consciousness focus for quantum decoherence control"""
         qi_data = {
             "decoherence_control": "focused",
@@ -263,9 +241,7 @@ class ConsciousnessQIBridge:
 
         return await self.consciousness_to_quantum("consciousness_focus", qi_data)
 
-    async def process_quantum_error_correction(
-        self, error_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_quantum_error_correction(self, error_data: dict[str, Any]) -> dict[str, Any]:
         """Process quantum error correction through consciousness error handling"""
         consciousness_data = {
             "error_type": "qi_error",

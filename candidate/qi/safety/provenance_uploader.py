@@ -71,9 +71,7 @@ class ProvenanceRecord:
 
     # Links (optional)
     attestation: dict[str, Any] | None = None  # from qi.ops.provenance.attest()
-    extra_attachments: list[dict[str, Any]] | None = (
-        None  # e.g., list of {"path","sha256","storage_url"}
-    )
+    extra_attachments: list[dict[str, Any]] | None = None  # e.g., list of {"path","sha256","storage_url"}
 
     # Versioning
     schema_version: str = "1.0.0"
@@ -132,9 +130,7 @@ class GCSUploader(Uploader):
         try:
             from google.cloud import storage  # type: ignore
         except Exception as e:
-            raise RuntimeError(
-                "GCSUploader requires google-cloud-storage: pip install google-cloud-storage"
-            ) from e
+            raise RuntimeError("GCSUploader requires google-cloud-storage: pip install google-cloud-storage") from e
         self.client = storage.Client()
         self.bucket = self.client.bucket(bucket)
         self.prefix = prefix.rstrip("/") + "/"
@@ -205,9 +201,7 @@ def record_artifact(
             if not os.path.exists(p):
                 continue
             url, h = uploader.put(local_path=p)
-            extras.append(
-                {"path": p, "sha256": h, "storage_url": url, "mime_type": guess_mime(p)}
-            )
+            extras.append({"path": p, "sha256": h, "storage_url": url, "mime_type": guess_mime(p)})
 
     rec = ProvenanceRecord(
         artifact_path=artifact_path,
@@ -218,9 +212,7 @@ def record_artifact(
         storage_url=storage_url,
         created_at=time.time(),
         model_id=model_id,
-        prompt_hash=(
-            sha256_bytes(prompt.encode("utf-8")) if prompt is not None else None
-        ),
+        prompt_hash=(sha256_bytes(prompt.encode("utf-8")) if prompt is not None else None),
         parameters=parameters or {},
         metadata=metadata or {},
         attestation=att,
@@ -287,11 +279,7 @@ def _cli_record(args):
 
 
 def _cli_verify(args):
-    rec = (
-        load_record_by_sha(args.sha)
-        if args.sha
-        else json.load(open(args.record, encoding="utf-8"))
-    )
+    rec = load_record_by_sha(args.sha) if args.sha else json.load(open(args.record, encoding="utf-8"))
     v = verify_artifact(args.local, rec)
     print(json.dumps(v, indent=2))
     if not v["ok"]:
@@ -307,17 +295,11 @@ def main():
     ap = argparse.ArgumentParser(description="Lukhas Provenance Attachments Uploader")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    p1 = sub.add_parser(
-        "record", help="Hash+upload an artifact and write a local record"
-    )
+    p1 = sub.add_parser("record", help="Hash+upload an artifact and write a local record")
     p1.add_argument("artifact", help="Path to local file to record")
     p1.add_argument("--model-id")
-    p1.add_argument(
-        "--prompt", help="Raw prompt text (we store hash only)", default=None
-    )
-    p1.add_argument(
-        "--parameters", help="JSON dict of model/route params", default=None
-    )
+    p1.add_argument("--prompt", help="Raw prompt text (we store hash only)", default=None)
+    p1.add_argument("--parameters", help="JSON dict of model/route params", default=None)
     p1.add_argument("--metadata", help="JSON dict of misc metadata", default=None)
     p1.add_argument("--attach", nargs="*", help="Extra files to upload and link")
     p1.add_argument(

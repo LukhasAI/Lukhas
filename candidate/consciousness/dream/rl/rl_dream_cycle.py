@@ -41,9 +41,7 @@ class RLDreamCycle:
 
         for dream in dreams:
             mutated = self._ethical_mutation(dream)
-            drift = (
-                compute_drift_score(previous, mutated) if previous is not None else 0.0
-            )
+            drift = compute_drift_score(previous, mutated) if previous is not None else 0.0
             self.drift_tracker.track(mutated)
 
             state = self._state_key(dream)
@@ -51,9 +49,7 @@ class RLDreamCycle:
             reward = 1.0 - drift
             future_q = self.q_table.get(next_state, 0.0)
             current_q = self.q_table.get(state, 0.0)
-            updated_q = current_q + self.learning_rate * (
-                reward + self.gamma * future_q - current_q
-            )
+            updated_q = current_q + self.learning_rate * (reward + self.gamma * future_q - current_q)
             self.q_table[state] = updated_q
 
             value_drift = compute_drift_score(dream, mutated)

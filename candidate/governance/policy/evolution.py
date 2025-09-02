@@ -132,9 +132,7 @@ class MemoryEvolutionEngine:
             adapted = memory_data.copy()
             adapted["adapted_at"] = datetime.now().isoformat()
             adapted["adaptation_score"] = 0.7
-            adapted["adaptive_features"] = self._calculate_adaptive_features(
-                memory_data
-            )
+            adapted["adaptive_features"] = self._calculate_adaptive_features(memory_data)
             return adapted
         except Exception as e:
             logger.error("Failed to adapt memory: %s", e)
@@ -193,9 +191,7 @@ class MemoryEvolutionEngine:
             logger.error("Failed to extract key features: %s", e)
             return []
 
-    def _calculate_adaptive_features(
-        self, memory_data: dict[str, Any]
-    ) -> dict[str, float]:
+    def _calculate_adaptive_features(self, memory_data: dict[str, Any]) -> dict[str, float]:
         """Calculate adaptive features"""
         try:
             features = {
@@ -271,9 +267,7 @@ class MemoryEvolutionEngine:
                     self.evolution_history[memory_id] = []
                 self.evolution_history[memory_id].append(event)
 
-                logger.debug(
-                    "Evolved memory %s using %s", memory_id, evolution_type.value
-                )
+                logger.debug("Evolved memory %s using %s", memory_id, evolution_type.value)
                 return evolved_data
 
         except Exception as e:
@@ -304,23 +298,16 @@ class MemoryEvolutionEngine:
         """Get evolution statistics"""
         try:
             with self.lock:
-                total_evolutions = sum(
-                    len(events) for events in self.evolution_history.values()
-                )
+                total_evolutions = sum(len(events) for events in self.evolution_history.values())
                 successful_evolutions = sum(
-                    sum(1 for event in events if event.success)
-                    for events in self.evolution_history.values()
+                    sum(1 for event in events if event.success) for events in self.evolution_history.values()
                 )
 
                 stats = {
                     "total_memories_evolved": len(self.evolution_history),
                     "total_evolution_events": total_evolutions,
                     "successful_evolutions": successful_evolutions,
-                    "success_rate": (
-                        successful_evolutions / total_evolutions
-                        if total_evolutions > 0
-                        else 0
-                    ),
+                    "success_rate": (successful_evolutions / total_evolutions if total_evolutions > 0 else 0),
                     "available_rules": list(self.evolution_rules.keys()),
                 }
 

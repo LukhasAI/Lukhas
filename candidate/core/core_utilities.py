@@ -113,10 +113,7 @@ class ConsistencyManager:
                 await self.state_manager.update_state(aggregate_id, data, state_type)
         else:
             await asyncio.gather(
-                *[
-                    self.state_manager.update_state(aid, data, state_type)
-                    for (aid, data) in updates.items()
-                ]
+                *[self.state_manager.update_state(aid, data, state_type) for (aid, data) in updates.items()]
             )
         logger.debug("ΛTRACE: Updates applied", count=len(updates), level=level.value)
 

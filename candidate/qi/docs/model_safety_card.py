@@ -187,9 +187,7 @@ def main():
         default=[],
         help="Pairs like j1:j2 (repeatable)",
     )
-    ap.add_argument(
-        "--context", default=None, help="Optional context when diffing overlays"
-    )
+    ap.add_argument("--context", default=None, help="Optional context when diffing overlays")
     ap.add_argument("--out-json", default="ops/cards/model_safety_card.json")
     ap.add_argument("--out-md", default="ops/cards/model_safety_card.md")
     args = ap.parse_args()
@@ -216,9 +214,7 @@ def main():
                 if ":" not in pair:
                     continue
                 j1, j2 = pair.split(":", 1)
-                jdiff[f"{j1}→{j2}"] = compute_overlay_diff(
-                    mgr, j1, j2, context=args.context
-                )
+                jdiff[f"{j1}→{j2}"] = compute_overlay_diff(mgr, j1, j2, context=args.context)
         except Exception as e:
             jdiff = {"error": str(e)}
 

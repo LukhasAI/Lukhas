@@ -111,13 +111,9 @@ class BiometricVerificationAgent(SwarmAgent):
         self.false_positives = 0
         self.false_negatives = 0
 
-        logger.info(
-            f"Biometric agent {agent_id} initialized for {specialization.value}"
-        )
+        logger.info(f"Biometric agent {agent_id} initialized for {specialization.value}")
 
-    async def process_biometric_sample(
-        self, sample: BiometricSample, reference_template: bytes
-    ) -> dict[str, Any]:
+    async def process_biometric_sample(self, sample: BiometricSample, reference_template: bytes) -> dict[str, Any]:
         """Process a single biometric sample."""
         start_time = time.time()
 
@@ -139,17 +135,13 @@ class BiometricVerificationAgent(SwarmAgent):
 
             # Simulate feature extraction and matching
             extracted_features = await self._extract_features(sample)
-            match_score = await self._match_features(
-                extracted_features, reference_template
-            )
+            match_score = await self._match_features(extracted_features, reference_template)
 
             # Apply quality-adjusted scoring
             adjusted_score = match_score * (0.7 + 0.3 * sample.quality_score)
 
             # Calculate confidence based on multiple factors
-            confidence = self._calculate_confidence(
-                adjusted_score, sample.quality_score
-            )
+            confidence = self._calculate_confidence(adjusted_score, sample.quality_score)
 
             processing_time = time.time() - start_time
 
@@ -160,9 +152,7 @@ class BiometricVerificationAgent(SwarmAgent):
                 "processing_time": processing_time,
                 "quality_factors": {
                     "sample_quality": sample.quality_score,
-                    "environmental_impact": self._assess_environmental_impact(
-                        sample.environmental_factors
-                    ),
+                    "environmental_impact": self._assess_environmental_impact(sample.environmental_factors),
                 },
                 "agent_id": self.agent_id,
                 "specialization": self.specialization.value,
@@ -185,9 +175,7 @@ class BiometricVerificationAgent(SwarmAgent):
         await asyncio.sleep(processing_delay)
 
         # Generate pseudo-features based on sample data
-        feature_vector = np.frombuffer(
-            hashlib.sha256(sample.raw_data).digest(), dtype=np.float32
-        )
+        feature_vector = np.frombuffer(hashlib.sha256(sample.raw_data).digest(), dtype=np.float32)
 
         # Apply specialization-specific processing
         if self.specialization == BiometricType.FACIAL:
@@ -205,14 +193,10 @@ class BiometricVerificationAgent(SwarmAgent):
     async def _match_features(self, features: np.ndarray, reference: bytes) -> float:
         """Match extracted features against reference template."""
         # Extract reference features
-        ref_features = np.frombuffer(
-            hashlib.sha256(reference).digest(), dtype=np.float32
-        )[: len(features)]
+        ref_features = np.frombuffer(hashlib.sha256(reference).digest(), dtype=np.float32)[: len(features)]
 
         # Calculate similarity score using cosine similarity
-        similarity = np.dot(features, ref_features) / (
-            np.linalg.norm(features) * np.linalg.norm(ref_features)
-        )
+        similarity = np.dot(features, ref_features) / (np.linalg.norm(features) * np.linalg.norm(ref_features))
 
         # Normalize to 0-1 range
         match_score = (similarity + 1) / 2
@@ -358,9 +342,7 @@ class BiometricVerificationColony(BaseColony):
             # Process each biometric type in parallel
             verification_tasks = []
             for biometric_type, samples in samples_by_type.items():
-                task_coro = self._verify_biometric_type(
-                    task, biometric_type, samples, reference_template
-                )
+                task_coro = self._verify_biometric_type(task, biometric_type, samples, reference_template)
                 verification_tasks.append(task_coro)
 
             # Wait for all verifications with timeout
@@ -370,14 +352,11 @@ class BiometricVerificationColony(BaseColony):
             )
 
             # Aggregate results and build consensus
-            consensus_result = await self._build_verification_consensus(
-                results, task, tier_level
-            )
+            consensus_result = await self._build_verification_consensus(results, task, tier_level)
 
             # Create verification result
             verification_result = VerificationResult(
-                verified=consensus_result.consensus_reached
-                and consensus_result.decision,
+                verified=consensus_result.consensus_reached and consensus_result.decision,
                 confidence_score=consensus_result.confidence,
                 verification_method="distributed_biometric_consensus",
                 colony_consensus={
@@ -385,11 +364,7 @@ class BiometricVerificationColony(BaseColony):
                     "participation_rate": consensus_result.participation_rate,
                     "consensus_strength": consensus_result.confidence,
                 },
-                failure_reasons=(
-                    consensus_result.dissent_reasons
-                    if not consensus_result.decision
-                    else []
-                ),
+                failure_reasons=(consensus_result.dissent_reasons if not consensus_result.decision else []),
                 verification_duration_ms=(time.time() - verification_start) * 1000,
                 agents_involved=len([r for r in results if isinstance(r, dict)]),
             )
@@ -467,8 +442,7 @@ class BiometricVerificationColony(BaseColony):
         specialized_agents = [
             agent
             for agent in self.verification_agents.values()
-            if agent.specialization == biometric_type
-            and agent.state != AgentState.FAILED
+            if agent.specialization == biometric_type and agent.state != AgentState.FAILED
         ]
 
         if not specialized_agents:
@@ -518,9 +492,7 @@ class BiometricVerificationColony(BaseColony):
         """Build consensus from multiple biometric verification results."""
 
         # Filter successful results
-        successful_results = [
-            r for r in results if isinstance(r, dict) and r.get("success", False)
-        ]
+        successful_results = [r for r in results if isinstance(r, dict) and r.get("success", False)]
 
         if not successful_results:
             return ConsensusResult(
@@ -565,9 +537,7 @@ class BiometricVerificationColony(BaseColony):
 
         # Calculate overall confidence
         confidence_scores = [v["confidence"] * v["weight"] for v in votes.values()]
-        overall_confidence = (
-            sum(confidence_scores) / total_weight if total_weight > 0 else 0
-        )
+        overall_confidence = sum(confidence_scores) / total_weight if total_weight > 0 else 0
 
         # Identify dissent reasons
         dissent_reasons = []
@@ -584,9 +554,7 @@ class BiometricVerificationColony(BaseColony):
             dissent_reasons=dissent_reasons,
         )
 
-    def _group_samples_by_type(
-        self, samples: list[BiometricSample]
-    ) -> dict[BiometricType, list[BiometricSample]]:
+    def _group_samples_by_type(self, samples: list[BiometricSample]) -> dict[BiometricType, list[BiometricSample]]:
         """Group biometric samples by type."""
         grouped = {}
         for sample in samples:
@@ -628,9 +596,7 @@ class BiometricVerificationColony(BaseColony):
         else:
             return 0.8  # 80% consensus for Tier 5
 
-    def _calculate_vote_weight(
-        self, biometric_type: str, confidence: float, tier_level: int
-    ) -> float:
+    def _calculate_vote_weight(self, biometric_type: str, confidence: float, tier_level: int) -> float:
         """Calculate vote weight based on biometric type and tier."""
         # Base weights for different biometric types
         type_weights = {
@@ -750,8 +716,7 @@ class BiometricVerificationColony(BaseColony):
             "performance_metrics": {
                 "total_verifications": self.total_verifications,
                 "successful_verifications": self.successful_verifications,
-                "success_rate": self.successful_verifications
-                / max(1, self.total_verifications),
+                "success_rate": self.successful_verifications / max(1, self.total_verifications),
                 "consensus_failures": self.consensus_failures,
                 "healing_events": self.healing_events,
             },

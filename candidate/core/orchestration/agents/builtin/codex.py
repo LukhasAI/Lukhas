@@ -40,20 +40,14 @@ class Codex(AgentInterface):
     def respond(self, query: str) -> str:
         # CodexAgent basic logic
         parsed = self.parse_query(query)
-        response = (
-            f"[Codex] Interpreted as: {parsed['intent']}, executed placeholder task."
-        )
+        response = f"[Codex] Interpreted as: {parsed['intent']}, executed placeholder task."
         return response
 
     def parse_query(self, query: str) -> dict:
         # Simple intent parsing
-        if ("doctor" in query and "hospital" in query) or (
-            "car" in query and "road" in query
-        ):
+        if ("doctor" in query and "hospital" in query) or ("car" in query and "road" in query):
             return {"intent": "analogy"}
-        elif ("color" in query and "sky" in query) or (
-            "sound" in query and "dog" in query
-        ):
+        elif ("color" in query and "sky" in query) or ("sound" in query and "dog" in query):
             return {"intent": "question"}
         elif "sad child" in query or "happy child" in query:
             return {"intent": "decoupling"}

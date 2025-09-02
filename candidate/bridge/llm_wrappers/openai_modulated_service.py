@@ -104,28 +104,17 @@ class OpenAIModulatedService:
             signals = self.bus.get_active_signals()
 
         # Build prompt modulation
-        modulation: PromptModulation = self.modulator.modulate(
-            prompt, signals, params, context
-        )
+        modulation: PromptModulation = self.modulator.modulate(prompt, signals, params, context)
 
         # Retrieval v1: if allowed and retrieval_k > 0, attach retrieved notes
-        if (
-            params
-            and params.retrieval_k
-            and ("retrieval" in (params.tool_allowlist or []))
-        ):
-            retrieved = await self._retrieve_context(
-                modulation, top_k=params.retrieval_k
-            )
+        if params and params.retrieval_k and ("retrieval" in (params.tool_allowlist or [])):
+            retrieved = await self._retrieve_context(modulation, top_k=params.retrieval_k)
             if retrieved:
                 # Light-touch injection
                 context = dict(context or {})
                 ctx_add = (context.get("additional_context") or "").strip()
                 context["additional_context"] = (
-                    ctx_add
-                    + ("\n\n" if ctx_add else "")
-                    + "Retrieved Notes:\n"
-                    + "\n".join(retrieved)
+                    ctx_add + ("\n\n" if ctx_add else "") + "Retrieved Notes:\n" + "\n".join(retrieved)
                 ).strip()
                 # Rebuild modulation with enriched context
                 modulation = self.modulator.modulate(prompt, signals, params, context)
@@ -215,16 +204,10 @@ class OpenAIModulatedService:
                 tool_id = tool_call.get("id", "unknown")
 
                 # Map function name to allowlist name
-                allowlist_name = self._function_to_allowlist_map.get(
-                    tool_name, tool_name
-                )
+                allowlist_name = self._function_to_allowlist_map.get(tool_name, tool_name)
 
                 # Check if tool is allowed
-                if (
-                    params
-                    and params.tool_allowlist
-                    and allowlist_name not in params.tool_allowlist
-                ):
+                if params and params.tool_allowlist and allowlist_name not in params.tool_allowlist:
                     # Record security incident
                     incident = analytics.record_blocked_attempt(
                         audit_id=audit_id,
@@ -256,9 +239,7 @@ class OpenAIModulatedService:
                     current_messages.append(
                         {
                             "role": "system",
-                            "content": (
-                                f"Blocked tool '{tool_name}'. Not in allowlist."
-                            ),
+                            "content": (f"Blocked tool '{tool_name}'. Not in allowlist."),
                         }
                     )
                     continue
@@ -340,9 +321,7 @@ class OpenAIModulatedService:
         content = None
         try:
             resp_dict = cast(dict[str, Any], response)
-            content = normalize_output(
-                resp_dict["choices"][0]["message"].get("content")
-            )
+            content = normalize_output(resp_dict["choices"][0]["message"].get("content"))
         except Exception:
             content = normalize_output(str(response))
 
@@ -404,22 +383,13 @@ class OpenAIModulatedService:
         modulation = self.modulator.modulate(prompt, signals, params, context)
 
         # Retrieval injection
-        if (
-            params
-            and params.retrieval_k
-            and ("retrieval" in (params.tool_allowlist or []))
-        ):
-            retrieved = await self._retrieve_context(
-                modulation, top_k=params.retrieval_k
-            )
+        if params and params.retrieval_k and ("retrieval" in (params.tool_allowlist or [])):
+            retrieved = await self._retrieve_context(modulation, top_k=params.retrieval_k)
             if retrieved:
                 context = dict(context or {})
                 ctx_add = (context.get("additional_context") or "").strip()
                 context["additional_context"] = (
-                    ctx_add
-                    + ("\n\n" if ctx_add else "")
-                    + "Retrieved Notes:\n"
-                    + "\n".join(retrieved)
+                    ctx_add + ("\n\n" if ctx_add else "") + "Retrieved Notes:\n" + "\n".join(retrieved)
                 ).strip()
                 modulation = self.modulator.modulate(prompt, signals, params, context)
 
@@ -456,12 +426,8 @@ class OpenAIModulatedService:
             buffer: list[str] = []
             async for chunk in stream_iter:  # type: ignore
                 try:
-                    delta = chunk["choices"][0].get("delta") or chunk["choices"][0].get(
-                        "message"
-                    )
-                    piece = (
-                        delta.get("content") if isinstance(delta, dict) else None
-                    ) or ""
+                    delta = chunk["choices"][0].get("delta") or chunk["choices"][0].get("message")
+                    piece = (delta.get("content") if isinstance(delta, dict) else None) or ""
                 except Exception:
                     piece = ""
                 if piece:
@@ -471,9 +437,7 @@ class OpenAIModulatedService:
             # Post moderation on full text (best-effort)
             full = "".join(buffer)
             try:
-                self._post_moderation_check(
-                    {"choices": [{"message": {"content": full}}]}
-                )
+                self._post_moderation_check({"choices": [{"message": {"content": full}}]})
             except PermissionError:
                 self.metrics["moderation_blocks"] += 1
                 logger.warning("Post-moderation flagged streamed content")
@@ -526,9 +490,7 @@ class OpenAIModulatedService:
         except Exception:
             return
 
-    async def _retrieve_context(
-        self, modulation: PromptModulation, top_k: int = 5
-    ) -> list[str]:
+    async def _retrieve_context(self, modulation: PromptModulation, top_k: int = 5) -> list[str]:
         """Retrieve context from vector store or memory layer."""
         try:
             # Import vector store components with fallback
@@ -559,9 +521,7 @@ class OpenAIModulatedService:
                     formatted_note = f"[From {source}]: {content[:200]}..."
                     context_notes.append(formatted_note)
 
-                logger.info(
-                    f"Retrieved {len(context_notes)} context notes from vector store"
-                )
+                logger.info(f"Retrieved {len(context_notes)} context notes from vector store")
                 return context_notes
 
             except ImportError:
@@ -574,9 +534,7 @@ class OpenAIModulatedService:
             # Return fallback retrieval
             return await self._fallback_retrieval(modulation, top_k)
 
-    async def _fallback_retrieval(
-        self, modulation: PromptModulation, top_k: int = 5
-    ) -> list[str]:
+    async def _fallback_retrieval(self, modulation: PromptModulation, top_k: int = 5) -> list[str]:
         """Fallback retrieval using simple keyword extraction."""
         try:
             # Enhanced keyword-based retrieval
@@ -630,11 +588,9 @@ class OpenAIModulatedService:
                 "use",
             }
 
-            keywords = [
-                word
-                for word in re.findall(r"\\b\\w+\\b", text)
-                if len(word) > 3 and word not in stop_words
-            ][:top_k]
+            keywords = [word for word in re.findall(r"\\b\\w+\\b", text) if len(word) > 3 and word not in stop_words][
+                :top_k
+            ]
 
             # Search memory service for relevant content
             context_notes = []
@@ -645,19 +601,13 @@ class OpenAIModulatedService:
                     )
 
                     if search_results.get("success") and search_results.get("memories"):
-                        for memory in search_results["memories"][
-                            :2
-                        ]:  # Limit to 2 per keyword
+                        for memory in search_results["memories"][:2]:  # Limit to 2 per keyword
                             content = memory.get("content", "")[:150]
-                            context_notes.append(
-                                f"Related to '{keyword}': {content}..."
-                            )
+                            context_notes.append(f"Related to '{keyword}': {content}...")
 
                 except Exception:
                     # If memory service fails, create placeholder context
-                    context_notes.append(
-                        f"Context for '{keyword}': Relevant information about {keyword} processing."
-                    )
+                    context_notes.append(f"Context for '{keyword}': Relevant information about {keyword} processing.")
 
             # If no keywords found, provide general context
             if not context_notes:
@@ -780,9 +730,7 @@ async def _run_modulated_completion_impl(
                         tool_calls = (
                             getattr(msg, "tool_calls", None)
                             if hasattr(msg, "tool_calls")
-                            else (
-                                msg.get("tool_calls") if hasattr(msg, "get") else None
-                            )
+                            else (msg.get("tool_calls") if hasattr(msg, "get") else None)
                         )
                         return {
                             "choices": [
@@ -852,9 +800,7 @@ async def _run_modulated_completion_impl(
         full_prompt = f"Context:\n{context_str}\n\nQuery: {user_msg}"
 
     # Run generation
-    result = await service.generate(
-        prompt=full_prompt, params=params, signals=signals, task=audit_id
-    )
+    result = await service.generate(prompt=full_prompt, params=params, signals=signals, task=audit_id)
 
     # Log audit
     if _audit_log_write:  # type: ignore
@@ -1005,9 +951,7 @@ def resume_with_tools(
             out.append(
                 {
                     "role": "system",
-                    "content": (
-                        f"Tool '{name}' blocked by governance. Not in allowlist."
-                    ),
+                    "content": (f"Tool '{name}' blocked by governance. Not in allowlist."),
                 }
             )
             continue
@@ -1028,9 +972,7 @@ def resume_with_tools(
                 text = loop.run_until_complete(executor.execute(name, args_json))
             if loop_running:
                 # If already in async context
-                text = asyncio.run_coroutine_threadsafe(
-                    executor.execute(name, args_json), loop
-                ).result()
+                text = asyncio.run_coroutine_threadsafe(executor.execute(name, args_json), loop).result()
             if not text:
                 text = ""
 

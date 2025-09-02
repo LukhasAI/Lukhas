@@ -96,9 +96,7 @@ class LUKHASIDBuilder:
         lid_number = self._generate_lid_number()
 
         # Create symbolic phrase
-        symbolic_phrase = self._generate_symbolic_phrase(
-            user_input.get("preferred_words")
-        )
+        symbolic_phrase = self._generate_symbolic_phrase(user_input.get("preferred_words"))
 
         # Generate SID hash with quantum entropy
         qi_entropy = self._generate_quantum_entropy()
@@ -132,9 +130,7 @@ class LUKHASIDBuilder:
         len(self.identities) + 1001  # Start from 1001
         return "ΛiD"
 
-    def _generate_symbolic_phrase(
-        self, preferred_words: Optional[list[str]] = None
-    ) -> str:
+    def _generate_symbolic_phrase(self, preferred_words: Optional[list[str]] = None) -> str:
         """Generate memorable symbolic phrase"""
         if preferred_words and len(preferred_words) >= 2:
             # Use user preferences if provided
@@ -187,9 +183,7 @@ class LUKHASIDBuilder:
 
         return tier
 
-    def _create_consciousness_signature(
-        self, user_input: dict[str, Any]
-    ) -> dict[str, float]:
+    def _create_consciousness_signature(self, user_input: dict[str, Any]) -> dict[str, float]:
         """Create consciousness signature for the identity"""
         return {
             "awareness_level": user_input.get("awareness", 0.5),
@@ -199,9 +193,7 @@ class LUKHASIDBuilder:
             "qi_resonance": user_input.get("quantum", 0.4),
         }
 
-    def authenticate_with_phrase(
-        self, lid_number: str, phrase_attempt: str
-    ) -> tuple[bool, Optional[dict]]:
+    def authenticate_with_phrase(self, lid_number: str, phrase_attempt: str) -> tuple[bool, Optional[dict]]:
         """Authenticate using symbolic phrase"""
         if lid_number not in self.identities:
             return False, {"error": "Identity not found"}
@@ -230,9 +222,7 @@ class LUKHASIDBuilder:
     def _generate_session_token(self, identity: LUKHASIdentity) -> str:
         """Generate quantum-resistant session token"""
         # Combine identity elements
-        token_data = (
-            f"{identity.lid_number}:{identity.tier_level}:{datetime.now().isoformat()}"
-        )
+        token_data = f"{identity.lid_number}:{identity.tier_level}:{datetime.now().isoformat()}"
 
         # Add quantum entropy
         qi_salt = secrets.token_bytes(16)
@@ -371,9 +361,7 @@ def create_lukhas_auth_demo():
         if auth_result.get("authenticated"):
             print("\n✅ Authentication Successful!")
             print(f"   Session Token: {auth_result['session_token'][:32]}...")
-            print(
-                f"   Consciousness Level: {auth_result['consciousness_signature']['awareness_level']}"
-            )
+            print(f"   Consciousness Level: {auth_result['consciousness_signature']['awareness_level']}")
 
         # Demo 3: Show QRG data
         print("\n3️⃣ QRG (Quantum-Resistant Glyph) Generated:")

@@ -78,9 +78,7 @@ class SelfImprovementEngine:
         self._running = True
         self._improvement_loop_task = asyncio.create_task(self._improvement_loop())
 
-    async def set_goal(
-        self, domain: ImprovementDomain, target: float, deadline: datetime
-    ) -> str:
+    async def set_goal(self, domain: ImprovementDomain, target: float, deadline: datetime) -> str:
         """
         Set a self-improvement goal
 
@@ -156,9 +154,7 @@ class SelfImprovementEngine:
             if performance < 0.5:
                 await self._revise_strategy(domain)
 
-    async def discover_capability(
-        self, interaction_data: dict[str, Any]
-    ) -> Optional[str]:
+    async def discover_capability(self, interaction_data: dict[str, Any]) -> Optional[str]:
         """
         Discover new capabilities through interaction analysis
 
@@ -319,9 +315,7 @@ class SelfImprovementEngine:
 
         return f"goal_{uuid.uuid4().hex[:8]}"
 
-    def _select_strategy(
-        self, domain: ImprovementDomain, current: float, target: float
-    ) -> str:
+    def _select_strategy(self, domain: ImprovementDomain, current: float, target: float) -> str:
         """Select improvement strategy based on gap"""
         gap = target - current
 
@@ -332,9 +326,7 @@ class SelfImprovementEngine:
         else:
             return "fine_tuning"
 
-    def _generate_milestones(
-        self, current: float, target: float, deadline: datetime
-    ) -> list[dict]:
+    def _generate_milestones(self, current: float, target: float, deadline: datetime) -> list[dict]:
         """Generate improvement milestones"""
         milestones = []
         steps = 5

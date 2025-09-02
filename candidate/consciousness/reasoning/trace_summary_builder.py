@@ -64,9 +64,7 @@ class TraceSummaryBuilder:
         self.narrative_styles = ["technical", "explanatory", "simplified"]
         self.current_style = "explanatory"
 
-    async def build_summary(
-        self, reason_tree: dict[str, Any], style: str = "explanatory"
-    ) -> dict[str, Any]:
+    async def build_summary(self, reason_tree: dict[str, Any], style: str = "explanatory") -> dict[str, Any]:
         """
         Build a comprehensive summary from a reasoning trace tree
 
@@ -93,9 +91,7 @@ class TraceSummaryBuilder:
             narrative = await self._generate_narrative(root_node, insights)
 
             # Create recommendations
-            recommendations = self._generate_recommendations(
-                insights, confidence_analysis
-            )
+            recommendations = self._generate_recommendations(insights, confidence_analysis)
 
             summary = {
                 "narrative": narrative,
@@ -187,9 +183,7 @@ class TraceSummaryBuilder:
             return True
 
         # Nodes with significant content
-        return bool(
-            isinstance(node.content, dict) and node.content.get("significance", 0) > 0.7
-        )
+        return bool(isinstance(node.content, dict) and node.content.get("significance", 0) > 0.7)
 
     def _trace_decision_path(self, root: TraceNode) -> list[dict[str, Any]]:
         """Trace the main decision path through the reasoning tree"""
@@ -208,9 +202,7 @@ class TraceSummaryBuilder:
 
             # Follow highest confidence child
             if current.children:
-                current = max(
-                    current.children, key=lambda c: c.metadata.get("confidence", 0.0)
-                )
+                current = max(current.children, key=lambda c: c.metadata.get("confidence", 0.0))
             else:
                 current = None
 
@@ -254,9 +246,7 @@ class TraceSummaryBuilder:
             "high_confidence_nodes": len([c for c in confidences if c > 0.8]),
         }
 
-    async def _generate_narrative(
-        self, root: TraceNode, insights: list[dict[str, Any]]
-    ) -> str:
+    async def _generate_narrative(self, root: TraceNode, insights: list[dict[str, Any]]) -> str:
         """Generate a narrative summary of the reasoning process"""
         narrative_parts = []
 
@@ -297,9 +287,7 @@ class TraceSummaryBuilder:
                     f"(confidence: {conclusion.metadata.get('confidence', 0.0):.2f})"
                 )
             else:
-                narrative_parts.append(
-                    f"\nConclusion: {self._summarize_node(conclusion)}"
-                )
+                narrative_parts.append(f"\nConclusion: {self._summarize_node(conclusion)}")
 
         return "\n".join(narrative_parts)
 
@@ -353,19 +341,13 @@ class TraceSummaryBuilder:
         # Strategy-specific recommendations
         for insight in insights:
             if insight["type"] == "deductive" and insight["confidence"] < 0.7:
-                recommendations.append(
-                    "Deductive reasoning shows uncertainty. Verify logical premises."
-                )
+                recommendations.append("Deductive reasoning shows uncertainty. Verify logical premises.")
             elif insight["type"] == "inductive" and len(insights) < 3:
-                recommendations.append(
-                    "Limited inductive examples. Gather more data for stronger patterns."
-                )
+                recommendations.append("Limited inductive examples. Gather more data for stronger patterns.")
 
         # General recommendations
         if not recommendations:
-            recommendations.append(
-                "Reasoning trace appears sound. No immediate actions required."
-            )
+            recommendations.append("Reasoning trace appears sound. No immediate actions required.")
 
         return recommendations[:5]  # Limit to 5 recommendations
 
@@ -413,9 +395,7 @@ def summarize_reason_trace(reason_tree: dict) -> str:
     asyncio.set_event_loop(loop)
 
     try:
-        summary = loop.run_until_complete(
-            builder.build_summary(reason_tree, style="simplified")
-        )
+        summary = loop.run_until_complete(builder.build_summary(reason_tree, style="simplified"))
 
         if "error" in summary:
             return f"Error building summary: {summary['error']}"
@@ -431,7 +411,9 @@ def summarize_reason_trace(reason_tree: dict) -> str:
         confidence = reason_tree.get("confidence", 0.0)
 
         if "Low overall confidence" in str(reason):
-            return f"Reasoning failure due to low overall confidence ({confidence:.2f}). Suggest review of reasoning path."
+            return (
+                f"Reasoning failure due to low overall confidence ({confidence:.2f}). Suggest review of reasoning path."
+            )
 
         return f"Reasoning failure due to {reason}. Suggest correction path via fold revision."
 

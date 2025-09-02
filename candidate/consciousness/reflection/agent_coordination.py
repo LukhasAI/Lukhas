@@ -90,13 +90,9 @@ class Skill:
         self.total_tasks += 1
         if success:
             # Update success rate
-            self.success_rate = (
-                (self.success_rate * (self.total_tasks - 1)) + 1
-            ) / self.total_tasks
+            self.success_rate = ((self.success_rate * (self.total_tasks - 1)) + 1) / self.total_tasks
         else:
-            self.success_rate = (
-                self.success_rate * (self.total_tasks - 1)
-            ) / self.total_tasks
+            self.success_rate = (self.success_rate * (self.total_tasks - 1)) / self.total_tasks
 
         # Update average completion time
         self.avg_completion_time = (
@@ -237,16 +233,11 @@ class SkillRegistry:
             for agent_id in self._agents_by_skill.get(skill_name, []):
                 skills = self._skills_by_agent.get(agent_id, [])
                 for skill in skills:
-                    if (
-                        skill.name == skill_name
-                        and skill.level.value >= min_level.value
-                    ):
+                    if skill.name == skill_name and skill.level.value >= min_level.value:
                         results.append((agent_id, skill))
 
             # Sort by skill level and success rate
-            results.sort(
-                key=lambda x: (x[1].level.value, x[1].success_rate), reverse=True
-            )
+            results.sort(key=lambda x: (x[1].level.value, x[1].success_rate), reverse=True)
             return results
 
 
@@ -263,9 +254,7 @@ class CoordinationHub(MailboxActor):
         self.skill_registry = SkillRegistry()
         self.active_announcements: dict[str, TaskAnnouncement] = {}
         self.working_groups: dict[str, WorkingGroup] = {}
-        self.agent_groups: dict[str, set[str]] = defaultdict(
-            set
-        )  # agent_id -> group_ids
+        self.agent_groups: dict[str, set[str]] = defaultdict(set)  # agent_id -> group_ids
 
         # Register protocol handlers
         self._register_handlers()
@@ -275,30 +264,14 @@ class CoordinationHub(MailboxActor):
 
     def _register_handlers(self):
         """Register message handlers"""
-        self.register_handler(
-            CoordinationProtocol.TASK_ANNOUNCE, self._handle_task_announce
-        )
-        self.register_handler(
-            CoordinationProtocol.TASK_CANCEL, self._handle_task_cancel
-        )
-        self.register_handler(
-            CoordinationProtocol.SKILL_OFFER, self._handle_skill_offer
-        )
-        self.register_handler(
-            CoordinationProtocol.GROUP_INVITE, self._handle_group_invite
-        )
-        self.register_handler(
-            CoordinationProtocol.GROUP_ACCEPT, self._handle_group_accept
-        )
-        self.register_handler(
-            CoordinationProtocol.GROUP_REJECT, self._handle_group_reject
-        )
-        self.register_handler(
-            CoordinationProtocol.TASK_COMPLETE, self._handle_task_complete
-        )
-        self.register_handler(
-            CoordinationProtocol.TASK_FAILED, self._handle_task_failed
-        )
+        self.register_handler(CoordinationProtocol.TASK_ANNOUNCE, self._handle_task_announce)
+        self.register_handler(CoordinationProtocol.TASK_CANCEL, self._handle_task_cancel)
+        self.register_handler(CoordinationProtocol.SKILL_OFFER, self._handle_skill_offer)
+        self.register_handler(CoordinationProtocol.GROUP_INVITE, self._handle_group_invite)
+        self.register_handler(CoordinationProtocol.GROUP_ACCEPT, self._handle_group_accept)
+        self.register_handler(CoordinationProtocol.GROUP_REJECT, self._handle_group_reject)
+        self.register_handler(CoordinationProtocol.TASK_COMPLETE, self._handle_task_complete)
+        self.register_handler(CoordinationProtocol.TASK_FAILED, self._handle_task_failed)
 
     async def start(self, actor_system=None):
         """Start the coordination hub"""
@@ -344,9 +317,7 @@ class CoordinationHub(MailboxActor):
             # Handle ActorRef deserialization
             payload = msg.payload.copy()
             if "initiator" in payload and isinstance(payload["initiator"], dict):
-                payload["initiator"] = ActorRef.from_dict(
-                    payload["initiator"], self.actor_system
-                )
+                payload["initiator"] = ActorRef.from_dict(payload["initiator"], self.actor_system)
 
             announcement = TaskAnnouncement(**payload)
 
@@ -356,9 +327,7 @@ class CoordinationHub(MailboxActor):
             # Find suitable agents
             candidates = []
             for skill_name, min_level in announcement.required_skills:
-                agents = await self.skill_registry.find_agents_with_skill(
-                    skill_name, min_level
-                )
+                agents = await self.skill_registry.find_agents_with_skill(skill_name, min_level)
                 candidates.extend(agents)
 
             # Send skill queries to candidates
@@ -368,9 +337,7 @@ class CoordinationHub(MailboxActor):
                     contacted.add(agent_id)
                     agent_ref = self.actor_system.get_actor_ref(agent_id)
                     if agent_ref:
-                        await agent_ref.tell(
-                            CoordinationProtocol.SKILL_QUERY, announcement.__dict__
-                        )
+                        await agent_ref.tell(CoordinationProtocol.SKILL_QUERY, announcement.__dict__)
 
             # Start group formation timer
             asyncio.create_task(self._form_group_timeout(announcement.task_id))
@@ -387,9 +354,7 @@ class CoordinationHub(MailboxActor):
             # Handle ActorRef deserialization
             payload = msg.payload.copy()
             if "agent_ref" in payload and isinstance(payload["agent_ref"], dict):
-                payload["agent_ref"] = ActorRef.from_dict(
-                    payload["agent_ref"], self.actor_system
-                )
+                payload["agent_ref"] = ActorRef.from_dict(payload["agent_ref"], self.actor_system)
 
             offer = SkillOffer(**payload)
             task_id = msg.correlation_id
@@ -483,9 +448,7 @@ class CoordinationHub(MailboxActor):
         if task_id in self.active_announcements:
             del self.active_announcements[task_id]
 
-        logger.info(
-            f"Working group {group.group_id} formed for task {task_id} with {len(group.members)} members"
-        )
+        logger.info(f"Working group {group.group_id} formed for task {task_id} with {len(group.members)} members")
 
     async def _handle_task_complete(self, msg: ActorMessage):
         """Handle task completion"""
@@ -528,9 +491,7 @@ class CoordinationHub(MailboxActor):
                 group.status = TaskStatus.FAILED
 
                 # Could implement retry logic here
-                logger.warning(
-                    f"Task {task_id} failed in group {group_id}: {msg.payload.get('reason', 'Unknown')}"
-                )
+                logger.warning(f"Task {task_id} failed in group {group_id}: {msg.payload.get('reason', 'Unknown')}")
 
                 # Clean up
                 await self._cleanup_group(task_id)
@@ -556,9 +517,7 @@ class CoordinationHub(MailboxActor):
         try:
             agent_ref = ActorRef.from_dict(msg.payload["agent_ref"], self.actor_system)
             if agent_ref:
-                response = await agent_ref.ask(
-                    CoordinationProtocol.GROUP_INVITE, msg.payload
-                )
+                response = await agent_ref.ask(CoordinationProtocol.GROUP_INVITE, msg.payload)
                 return response
             return {"status": "error", "reason": "agent_not_found"}
         except Exception as e:
@@ -625,22 +584,12 @@ class AutonomousAgent(MailboxActor):
 
     def _register_coordination_handlers(self):
         """Register coordination protocol handlers"""
-        self.register_handler(
-            CoordinationProtocol.SKILL_QUERY, self._handle_skill_query
-        )
-        self.register_handler(
-            CoordinationProtocol.GROUP_INVITE, self._handle_group_invite
-        )
-        self.register_handler(
-            CoordinationProtocol.GROUP_FORMED, self._handle_group_formed
-        )
+        self.register_handler(CoordinationProtocol.SKILL_QUERY, self._handle_skill_query)
+        self.register_handler(CoordinationProtocol.GROUP_INVITE, self._handle_group_invite)
+        self.register_handler(CoordinationProtocol.GROUP_FORMED, self._handle_group_formed)
         self.register_handler(CoordinationProtocol.TASK_START, self._handle_task_start)
-        self.register_handler(
-            CoordinationProtocol.TASK_UPDATE, self._handle_task_update
-        )
-        self.register_handler(
-            CoordinationProtocol.TASK_COMPLETE, self._handle_task_complete
-        )
+        self.register_handler(CoordinationProtocol.TASK_UPDATE, self._handle_task_update)
+        self.register_handler(CoordinationProtocol.TASK_COMPLETE, self._handle_task_complete)
 
     def get_ref(self) -> ActorRef:
         """Get reference to this actor"""
@@ -649,9 +598,7 @@ class AutonomousAgent(MailboxActor):
         # Fallback for testing
         return ActorRef(self.actor_id, None)
 
-    async def announce_task(
-        self, description: str, required_skills: list[tuple[str, SkillLevel]], **kwargs
-    ) -> str:
+    async def announce_task(self, description: str, required_skills: list[tuple[str, SkillLevel]], **kwargs) -> str:
         """Broadcast a task need to the network"""
         task_id = str(uuid.uuid4())
 
@@ -664,9 +611,7 @@ class AutonomousAgent(MailboxActor):
         )
 
         if self.coord_hub:
-            result = await self.coord_hub.ask(
-                CoordinationProtocol.TASK_ANNOUNCE, announcement.__dict__
-            )
+            result = await self.coord_hub.ask(CoordinationProtocol.TASK_ANNOUNCE, announcement.__dict__)
             logger.info(f"Task {task_id} announced: {result}")
 
         return task_id
@@ -677,9 +622,7 @@ class AutonomousAgent(MailboxActor):
             return
 
         for skill in self.skills:
-            await self.coord_hub.tell(
-                "register_skill", {"agent_id": self.actor_id, "skill": skill.__dict__}
-            )
+            await self.coord_hub.tell("register_skill", {"agent_id": self.actor_id, "skill": skill.__dict__})
 
     async def _handle_skill_query(self, msg: ActorMessage):
         """Respond to skill query"""
@@ -689,10 +632,7 @@ class AutonomousAgent(MailboxActor):
         matching_skills = []
         for required_skill, min_level in task_announcement.required_skills:
             for skill in self.skills:
-                if (
-                    skill.name == required_skill
-                    and skill.level.value >= min_level.value
-                ):
+                if skill.name == required_skill and skill.level.value >= min_level.value:
                     matching_skills.append(skill)
 
         if matching_skills and self.availability > 0.2:  # At least 20% available

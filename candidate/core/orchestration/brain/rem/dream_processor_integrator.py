@@ -20,9 +20,7 @@ class DreamProcessorIntegration:
         self.pattern_confidence_threshold = 0.65  # Lower threshold during dreams
         self.memory_relationships = {}
 
-    async def analyze_dream_patterns(
-        self, dream_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def analyze_dream_patterns(self, dream_state: dict[str, Any]) -> dict[str, Any]:
         """Analyze patterns within a dream state"""
         try:
             # Extract patterns from dream state
@@ -71,9 +69,7 @@ class DreamProcessorIntegration:
 
         return patterns
 
-    def _find_memory_relationships(
-        self, dream_state: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _find_memory_relationships(self, dream_state: dict[str, Any]) -> list[dict[str, Any]]:
         """Find relationships between memory fragments in dream state"""
         relationships = []
 

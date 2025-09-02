@@ -28,9 +28,7 @@ class BioAwareness:
     def __init__(self):
         self.state = AwarenessState()
         self.history = []
-        self.timestamp = datetime.now(
-            timezone.utc
-        )  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
+        self.timestamp = datetime.now(timezone.utc)  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
 
     def sense(self, input_data: Any) -> dict[str, Any]:
         """Process sensory input"""
@@ -53,9 +51,7 @@ class BioAwareness:
 class EnhancedSystemAwareness(BioAwareness):
     """Enhanced bio awareness with system integration"""
 
-    def __init__(
-        self, *args, **kwargs
-    ):  # TODO[QUANTUM-BIO:specialist] - Args used for constellation flexibility
+    def __init__(self, *args, **kwargs):  # TODO[QUANTUM-BIO:specialist] - Args used for constellation flexibility
         super().__init__()
         self.enhanced = True
 
@@ -67,9 +63,7 @@ class EnhancedSystemAwareness(BioAwareness):
             if stimulus is not None:
                 # Adjust awareness level based on stimulus intensity
                 intensity = getattr(stimulus, "intensity", 0.5)
-                self.state.level = min(
-                    1.0, max(0.0, self.state.level + (intensity - 0.5) * 0.1)
-                )
+                self.state.level = min(1.0, max(0.0, self.state.level + (intensity - 0.5) * 0.1))
 
                 # Update focus based on stimulus type
                 if hasattr(stimulus, "type"):
@@ -100,11 +94,7 @@ class EnhancedSystemAwareness(BioAwareness):
                 "system_active": self.state.active,
                 "history_length": len(self.history),
                 "last_update": self.history[-1]["timestamp"] if self.history else None,
-                "status": (
-                    "healthy"
-                    if self.state.active and 0.1 <= self.state.level <= 1.0
-                    else "degraded"
-                ),
+                "status": ("healthy" if self.state.active and 0.1 <= self.state.level <= 1.0 else "degraded"),
             }
 
             # Check for stagnation (no recent updates)
@@ -114,9 +104,7 @@ class EnhancedSystemAwareness(BioAwareness):
                 ).seconds  # TODO[QUANTUM-BIO:specialist] - UTC timezone consistency
                 if time_since_update > 300:  # 5 minutes
                     health_status["status"] = "stagnant"
-                    health_status["warning"] = (
-                        f"No updates for {time_since_update} seconds"
-                    )
+                    health_status["warning"] = f"No updates for {time_since_update} seconds"
 
             return health_status
         except Exception as e:
@@ -140,12 +128,11 @@ class EnhancedSystemAwareness(BioAwareness):
             # Update standard metrics
             self._metrics["total_updates"] += 1
             self._metrics["average_level"] = sum(
-                h.get("level", 0.5) for h in self.history[-100:]  # Last 100 entries
+                h.get("level", 0.5)
+                for h in self.history[-100:]  # Last 100 entries
             ) / min(len(self.history), 100)
 
-            self._metrics["peak_level"] = max(
-                self._metrics["peak_level"], self.state.level
-            )
+            self._metrics["peak_level"] = max(self._metrics["peak_level"], self.state.level)
 
             return self._metrics
         except Exception as e:

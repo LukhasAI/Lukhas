@@ -105,9 +105,7 @@ class VivoxAkaQualiaIntegration:
         """
         # Extract proto-qualia vector components
         pq = scene.proto
-        z_component = (
-            f"{pq.tone:.6f},{pq.arousal:.6f},{pq.clarity:.6f},{pq.embodiment:.6f}"
-        )
+        z_component = f"{pq.tone:.6f},{pq.arousal:.6f},{pq.clarity:.6f},{pq.embodiment:.6f}"
 
         # Create trace echo from temporal and symbolic components
         trace_echo = (
@@ -172,20 +170,14 @@ class VivoxAkaQualiaIntegration:
             previous_data = self.collapse_history[-1]
             previous_hash = previous_data.get("collapse_hash")
         else:
-            previous_hash = (
-                self.generate_collapse_hash(previous_scene) if previous_scene else None
-            )
+            previous_hash = self.generate_collapse_hash(previous_scene) if previous_scene else None
 
         # Compute phenomenological drift
-        drift_score = self._compute_phenomenological_drift(
-            current_scene, previous_scene
-        )
+        drift_score = self._compute_phenomenological_drift(current_scene, previous_scene)
 
         # Apply VIVOX drift threshold
         drift_exceeded = drift_score > self.drift_threshold
-        stabilization_required = drift_exceeded or drift_score > (
-            self.drift_threshold * 0.8
-        )
+        stabilization_required = drift_exceeded or drift_score > (self.drift_threshold * 0.8)
 
         result = VivoxDriftResult(
             drift_score=drift_score,
@@ -203,9 +195,7 @@ class VivoxAkaQualiaIntegration:
 
         return result
 
-    def _compute_phenomenological_drift(
-        self, current: PhenomenalScene, previous: Optional[PhenomenalScene]
-    ) -> float:
+    def _compute_phenomenological_drift(self, current: PhenomenalScene, previous: Optional[PhenomenalScene]) -> float:
         """
         Compute drift score based on phenomenological changes.
 
@@ -300,9 +290,7 @@ class VivoxAkaQualiaIntegration:
             collapse_hash=collapse_hash,
         )
 
-    async def integrate_with_vivox_collapse(
-        self, scene: PhenomenalScene
-    ) -> dict[str, Any]:
+    async def integrate_with_vivox_collapse(self, scene: PhenomenalScene) -> dict[str, Any]:
         """
         Integrate phenomenological scene with VIVOX Z(t) collapse function.
 
@@ -376,9 +364,7 @@ class VivoxAkaQualiaIntegration:
                 "collapse_hash": collapse_state.collapse_hash,
             }
 
-    async def integrate_with_vivox_memory(
-        self, scene: PhenomenalScene
-    ) -> dict[str, Any]:
+    async def integrate_with_vivox_memory(self, scene: PhenomenalScene) -> dict[str, Any]:
         """
         Integrate phenomenological scene with VIVOX Memory Expansion (ME).
 
@@ -428,11 +414,7 @@ class VivoxAkaQualiaIntegration:
             }
 
             # Store in VIVOX ME
-            memory_result = (
-                await self._vivox_memory_expansion.store_phenomenological_experience(
-                    memory_data
-                )
-            )
+            memory_result = await self._vivox_memory_expansion.store_phenomenological_experience(memory_data)
 
             return {
                 "status": "stored",
@@ -454,9 +436,7 @@ class VivoxAkaQualiaIntegration:
         # Calculate drift trend
         if len(self.drift_history) >= 3:
             recent_scores = [d.drift_score for d in self.drift_history[-3:]]
-            drift_trend = (
-                "increasing" if recent_scores[-1] > recent_scores[0] else "decreasing"
-            )
+            drift_trend = "increasing" if recent_scores[-1] > recent_scores[0] else "decreasing"
         else:
             drift_trend = "insufficient_data"
 

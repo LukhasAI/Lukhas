@@ -327,9 +327,7 @@ class AdvancedAnonymizationEngine:
                 sensitivity_level=3,
                 allow_generalization=True,
                 generalization_hierarchy={
-                    "level_1": {
-                        "ranges": [(0, 17), (18, 29), (30, 49), (50, 69), (70, 150)]
-                    },
+                    "level_1": {"ranges": [(0, 17), (18, 29), (30, 49), (50, 69), (70, 150)]},
                     "level_2": {"ranges": [(0, 29), (30, 59), (60, 150)]},
                     "level_3": {"ranges": [(0, 150)]},
                 },
@@ -364,9 +362,7 @@ class AdvancedAnonymizationEngine:
                             (120001, float("inf")),
                         ]
                     },
-                    "level_2": {
-                        "ranges": [(0, 50000), (50001, 100000), (100001, float("inf"))]
-                    },
+                    "level_2": {"ranges": [(0, 50000), (50001, 100000), (100001, float("inf"))]},
                     "level_3": {"ranges": [(0, float("inf"))]},
                 },
             ),
@@ -472,41 +468,25 @@ class AdvancedAnonymizationEngine:
 
             # Calculate final metrics
             result.anonymized_records = len(anonymized_data)
-            result.processing_time = (
-                datetime.now(timezone.utc) - start_time
-            ).total_seconds()
+            result.processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             # Assess data utility
-            result.data_utility = await self._calculate_data_utility(
-                dataset, anonymized_data, config
-            )
+            result.data_utility = await self._calculate_data_utility(dataset, anonymized_data, config)
             result.information_loss = 1.0 - result.data_utility
 
             # Assess re-identification risk
-            risk_assessment = await self._assess_reidentification_risk(
-                anonymized_data, config, attribute_analysis
-            )
+            risk_assessment = await self._assess_reidentification_risk(anonymized_data, config, attribute_analysis)
             result.reidentification_risk = risk_assessment["risk_level"]
             result.risk_score = risk_assessment["risk_score"]
 
             # Calculate quality metrics
-            result.statistical_accuracy = await self._calculate_statistical_accuracy(
-                dataset, anonymized_data
-            )
-            result.pattern_preservation = await self._calculate_pattern_preservation(
-                dataset, anonymized_data
-            )
+            result.statistical_accuracy = await self._calculate_statistical_accuracy(dataset, anonymized_data)
+            result.pattern_preservation = await self._calculate_pattern_preservation(dataset, anonymized_data)
 
             # Trinity Framework validation
-            result.identity_protected = await self._validate_identity_protection(
-                anonymized_data, config, context
-            )
-            result.consciousness_compliance = (
-                await self._validate_consciousness_compliance(config, context)
-            )
-            result.guardian_approved = await self._validate_guardian_approval(
-                config, result, context
-            )
+            result.identity_protected = await self._validate_identity_protection(anonymized_data, config, context)
+            result.consciousness_compliance = await self._validate_consciousness_compliance(config, context)
+            result.guardian_approved = await self._validate_guardian_approval(config, result, context)
 
             # Store result
             self.operation_history.append(result)
@@ -533,17 +513,13 @@ class AdvancedAnonymizationEngine:
                 config_id=config_id,
                 original_records=len(dataset),
                 anonymized_records=len(dataset),
-                processing_time=(
-                    datetime.now(timezone.utc) - start_time
-                ).total_seconds(),
+                processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
                 warnings=[f"Anonymization error: {e!s}"],
             )
 
             return dataset, error_result
 
-    async def _analyze_dataset_attributes(
-        self, dataset: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _analyze_dataset_attributes(self, dataset: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze dataset to identify attribute types and properties"""
 
         if not dataset:
@@ -563,9 +539,7 @@ class AdvancedAnonymizationEngine:
 
         for attr in attributes:
             # Get all values for this attribute
-            values = [
-                record.get(attr) for record in dataset if record.get(attr) is not None
-            ]
+            values = [record.get(attr) for record in dataset if record.get(attr) is not None]
 
             analysis["unique_counts"][attr] = len(set(values))
             analysis["null_counts"][attr] = len(dataset) - len(values)
@@ -592,9 +566,7 @@ class AdvancedAnonymizationEngine:
                             "max": max(values),
                             "mean": statistics.mean(values),
                             "median": statistics.median(values),
-                            "std_dev": (
-                                statistics.stdev(values) if len(values) > 1 else 0.0
-                            ),
+                            "std_dev": (statistics.stdev(values) if len(values) > 1 else 0.0),
                         }
 
         return analysis
@@ -616,9 +588,7 @@ class AdvancedAnonymizationEngine:
                     quasi_identifiers.append(attr_name)
             else:
                 # Auto-detect quasi-identifiers based on uniqueness
-                unique_ratio = (
-                    analysis["unique_counts"][attr_name] / analysis["record_count"]
-                )
+                unique_ratio = analysis["unique_counts"][attr_name] / analysis["record_count"]
                 if 0.1 < unique_ratio < 0.9:  # Not too unique, not too common
                     quasi_identifiers.append(attr_name)
 
@@ -642,9 +612,7 @@ class AdvancedAnonymizationEngine:
 
             if group_size < config.k_value:
                 # Need to generalize or suppress
-                generalized_records = await self._generalize_group(
-                    group_records, quasi_identifiers, config
-                )
+                generalized_records = await self._generalize_group(group_records, quasi_identifiers, config)
                 anonymized_dataset.extend(generalized_records)
             else:
                 # Group already satisfies k-anonymity
@@ -656,9 +624,7 @@ class AdvancedAnonymizationEngine:
             key = tuple(str(record.get(attr, "")) for attr in quasi_identifiers)
             final_groups[key].append(record)
 
-        achieved_k = (
-            min(len(group) for group in final_groups.values()) if final_groups else 0
-        )
+        achieved_k = min(len(group) for group in final_groups.values()) if final_groups else 0
 
         return anonymized_dataset, {"k_achieved": achieved_k}
 
@@ -690,24 +656,17 @@ class AdvancedAnonymizationEngine:
                 if attr in self.attribute_definitions:
                     attr_def = self.attribute_definitions[attr]
 
-                    if (
-                        attr_def.allow_generalization
-                        and attr_def.generalization_hierarchy
-                    ):
+                    if attr_def.allow_generalization and attr_def.generalization_hierarchy:
                         # Apply generalization
                         original_value = record.get(attr)
-                        generalized_value = await self._generalize_value(
-                            original_value, attr_def, level=1
-                        )
+                        generalized_value = await self._generalize_value(original_value, attr_def, level=1)
                         generalized_record[attr] = generalized_value
 
             generalized_records.append(generalized_record)
 
         return generalized_records
 
-    async def _generalize_value(
-        self, value: Any, attr_def: AttributeDefinition, level: int = 1
-    ) -> Any:
+    async def _generalize_value(self, value: Any, attr_def: AttributeDefinition, level: int = 1) -> Any:
         """Generalize a single value based on attribute definition"""
 
         if not attr_def.generalization_hierarchy or level <= 0:
@@ -726,11 +685,7 @@ class AdvancedAnonymizationEngine:
             if isinstance(value, (int, float)):
                 for _i, (min_val, max_val) in enumerate(level_config["ranges"]):
                     if min_val <= value <= max_val:
-                        return (
-                            f"{min_val}-{max_val}"
-                            if max_val != float("inf")
-                            else f"{min_val}+"
-                        )
+                        return f"{min_val}-{max_val}" if max_val != float("inf") else f"{min_val}+"
 
         elif "digits" in level_config:
             # String prefix generalization (e.g., ZIP codes)
@@ -767,8 +722,7 @@ class AdvancedAnonymizationEngine:
             attr
             for attr in analysis["attributes"]
             if attr in self.attribute_definitions
-            and self.attribute_definitions[attr].attribute_type
-            == AttributeType.QUASI_IDENTIFIER
+            and self.attribute_definitions[attr].attribute_type == AttributeType.QUASI_IDENTIFIER
         ]
 
         groups = defaultdict(list)
@@ -783,24 +737,18 @@ class AdvancedAnonymizationEngine:
         for _group_key, group_records in groups.items():
             for sensitive_attr in sensitive_attrs:
                 sensitive_values = [
-                    record.get(sensitive_attr)
-                    for record in group_records
-                    if record.get(sensitive_attr) is not None
+                    record.get(sensitive_attr) for record in group_records if record.get(sensitive_attr) is not None
                 ]
                 unique_sensitive_values = len(set(sensitive_values))
                 min_l_achieved = min(min_l_achieved, unique_sensitive_values)
 
                 if unique_sensitive_values < config.l_value:
                     # Need to enhance diversity or suppress records
-                    group_records = await self._enhance_diversity(
-                        group_records, sensitive_attr, config.l_value
-                    )
+                    group_records = await self._enhance_diversity(group_records, sensitive_attr, config.l_value)
 
             diversified_dataset.extend(group_records)
 
-        return diversified_dataset, {
-            "l_achieved": int(min_l_achieved) if min_l_achieved != float("inf") else 0
-        }
+        return diversified_dataset, {"l_achieved": int(min_l_achieved) if min_l_achieved != float("inf") else 0}
 
     async def _enhance_diversity(
         self, group_records: list[dict[str, Any]], sensitive_attr: str, target_l: int
@@ -809,9 +757,7 @@ class AdvancedAnonymizationEngine:
 
         # For now, we'll use suppression for records that don't contribute to diversity
         sensitive_values = [
-            record.get(sensitive_attr)
-            for record in group_records
-            if record.get(sensitive_attr) is not None
+            record.get(sensitive_attr) for record in group_records if record.get(sensitive_attr) is not None
         ]
         value_counts = Counter(sensitive_values)
 
@@ -911,9 +857,7 @@ class AdvancedAnonymizationEngine:
                     attr_def = self.attribute_definitions[attr]
 
                     if attr_def.allow_generalization:
-                        generalized_value = await self._generalize_value(
-                            value, attr_def, level=1
-                        )
+                        generalized_value = await self._generalize_value(value, attr_def, level=1)
                         generalized_record[attr] = generalized_value
 
             generalized_dataset.append(generalized_record)
@@ -959,18 +903,14 @@ class AdvancedAnonymizationEngine:
                 if isinstance(value, (int, float)):
                     # Add small random perturbation
                     noise_factor = 0.01  # 1% noise
-                    noise = secure_random.uniform(
-                        -abs(value) * noise_factor, abs(value) * noise_factor
-                    )
+                    noise = secure_random.uniform(-abs(value) * noise_factor, abs(value) * noise_factor)
                     perturbed_record[attr] = value + noise
 
             perturbed_dataset.append(perturbed_record)
 
         return perturbed_dataset, {"perturbation_applied": True}
 
-    async def _calculate_record_risk(
-        self, record: dict[str, Any], analysis: dict[str, Any]
-    ) -> float:
+    async def _calculate_record_risk(self, record: dict[str, Any], analysis: dict[str, Any]) -> float:
         """Calculate re-identification risk for a single record"""
 
         risk_score = 0.0
@@ -1012,16 +952,8 @@ class AdvancedAnonymizationEngine:
         common_attrs = set(original_sample.keys()) & set(anonymized_sample.keys())
 
         for attr in common_attrs:
-            original_values = [
-                record.get(attr)
-                for record in original_dataset
-                if record.get(attr) is not None
-            ]
-            anonymized_values = [
-                record.get(attr)
-                for record in anonymized_dataset
-                if record.get(attr) is not None
-            ]
+            original_values = [record.get(attr) for record in original_dataset if record.get(attr) is not None]
+            anonymized_values = [record.get(attr) for record in anonymized_dataset if record.get(attr) is not None]
 
             if original_values and anonymized_values:
                 if isinstance(original_values[0], (int, float)):
@@ -1101,21 +1033,11 @@ class AdvancedAnonymizationEngine:
             return 0.0
 
         # Compare basic statistics for numerical attributes
-        common_attrs = set(original_dataset[0].keys()) & set(
-            anonymized_dataset[0].keys()
-        )
+        common_attrs = set(original_dataset[0].keys()) & set(anonymized_dataset[0].keys())
 
         for attr in common_attrs:
-            orig_values = [
-                r.get(attr)
-                for r in original_dataset
-                if isinstance(r.get(attr), (int, float))
-            ]
-            anon_values = [
-                r.get(attr)
-                for r in anonymized_dataset
-                if isinstance(r.get(attr), (int, float))
-            ]
+            orig_values = [r.get(attr) for r in original_dataset if isinstance(r.get(attr), (int, float))]
+            anon_values = [r.get(attr) for r in anonymized_dataset if isinstance(r.get(attr), (int, float))]
 
             if orig_values and anon_values:
                 # Compare means
@@ -1164,19 +1086,14 @@ class AdvancedAnonymizationEngine:
 
         return True
 
-    async def _validate_consciousness_compliance(
-        self, config: AnonymizationConfig, context: dict[str, Any]
-    ) -> bool:
+    async def _validate_consciousness_compliance(self, config: AnonymizationConfig, context: dict[str, Any]) -> bool:
         """Validate compliance with consciousness-level requirements"""
 
         # Check if consciousness-aware processing was requested
         if config.consciousness_aware:
             consciousness_level = context.get("consciousness_level", "standard")
 
-            if (
-                consciousness_level == "high"
-                and config.privacy_level != PrivacyLevel.MAXIMUM
-            ):
+            if consciousness_level == "high" and config.privacy_level != PrivacyLevel.MAXIMUM:
                 return False
 
         return True
@@ -1214,37 +1131,27 @@ class AdvancedAnonymizationEngine:
         # k-anonymity average
         if result.k_achieved:
             current_k_avg = self.metrics["average_k_anonymity"]
-            new_k_avg = (
-                (current_k_avg * (total_ops - 1)) + result.k_achieved
-            ) / total_ops
+            new_k_avg = ((current_k_avg * (total_ops - 1)) + result.k_achieved) / total_ops
             self.metrics["average_k_anonymity"] = new_k_avg
 
         # Utility average
         current_util_avg = self.metrics["average_utility_preserved"]
-        new_util_avg = (
-            (current_util_avg * (total_ops - 1)) + result.data_utility
-        ) / total_ops
+        new_util_avg = ((current_util_avg * (total_ops - 1)) + result.data_utility) / total_ops
         self.metrics["average_utility_preserved"] = new_util_avg
 
         # Risk average
         current_risk_avg = self.metrics["average_risk_score"]
-        new_risk_avg = (
-            (current_risk_avg * (total_ops - 1)) + result.risk_score
-        ) / total_ops
+        new_risk_avg = ((current_risk_avg * (total_ops - 1)) + result.risk_score) / total_ops
         self.metrics["average_risk_score"] = new_risk_avg
 
         # Method usage
         for method in result.methods_applied:
-            self.metrics["method_usage_stats"][method] = (
-                self.metrics["method_usage_stats"].get(method, 0) + 1
-            )
+            self.metrics["method_usage_stats"][method] = self.metrics["method_usage_stats"].get(method, 0) + 1
 
         # Privacy budget tracking
         if result.epsilon_spent:
             total_budget = self.metrics["privacy_budget_consumed"]
-            total_budget[result.config_id] = (
-                total_budget.get(result.config_id, 0) + result.epsilon_spent
-            )
+            total_budget[result.config_id] = total_budget.get(result.config_id, 0) + result.epsilon_spent
 
         self.metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 

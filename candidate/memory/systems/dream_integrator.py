@@ -91,9 +91,7 @@ class DreamMemoryLinker:
         self.active_links = {}  # dream_id -> memory_fold_ids
         self.link_strength_cache = {}
 
-    def create_memory_link(
-        self, dream_id: str, memory_fold_id: str, link_strength: float
-    ) -> bool:
+    def create_memory_link(self, dream_id: str, memory_fold_id: str, link_strength: float) -> bool:
         """Create a bidirectional link between dream and memory."""
         try:
             if dream_id not in self.active_links:
@@ -102,9 +100,7 @@ class DreamMemoryLinker:
             self.active_links[dream_id].add(memory_fold_id)
             self.link_strength_cache[f"{dream_id}:{memory_fold_id}"] = link_strength
 
-            self.logger.debug(
-                f"Created memory link: {dream_id} <-> {memory_fold_id} (strength: {link_strength})"
-            )
+            self.logger.debug(f"Created memory link: {dream_id} <-> {memory_fold_id} (strength: {link_strength})")
             return True
 
         except Exception as e:
@@ -155,9 +151,7 @@ class DreamIntegrator:
         # Configuration
         self.max_active_dreams = self.config.get("max_active_dreams", 5)
         self.dream_formation_threshold = self.config.get("formation_threshold", 0.7)
-        self.integration_timeout = self.config.get(
-            "integration_timeout", 3600
-        )  # 1 hour
+        self.integration_timeout = self.config.get("integration_timeout", 3600)  # 1 hour
 
         # Metrics
         self.dreams_created = 0
@@ -176,9 +170,7 @@ class DreamIntegrator:
         try:
             # Check capacity
             if len(self.active_dreams) >= self.max_active_dreams:
-                self.logger.warning(
-                    "Maximum active dreams reached, cannot form new dream"
-                )
+                self.logger.warning("Maximum active dreams reached, cannot form new dream")
                 return None
 
             # Generate dream ID
@@ -203,17 +195,11 @@ class DreamIntegrator:
 
             # Create memory links
             for memory_fold_id in memory_fold_ids:
-                link_strength = self._calculate_link_strength(
-                    memory_fold_id, emotional_context
-                )
-                self.memory_linker.create_memory_link(
-                    dream_id, memory_fold_id, link_strength
-                )
+                link_strength = self._calculate_link_strength(memory_fold_id, emotional_context)
+                self.memory_linker.create_memory_link(dream_id, memory_fold_id, link_strength)
 
             self.dreams_created += 1
-            self.logger.info(
-                f"Dream formation initiated: {dream_id} ({dream_type.value})"
-            )
+            self.logger.info(f"Dream formation initiated: {dream_id} ({dream_type.value})")
 
             return dream_id
 
@@ -255,9 +241,7 @@ class DreamIntegrator:
             if dream_session.state == DreamState.FORMING:
                 dream_session.state = DreamState.ACTIVE
 
-            self.logger.debug(
-                f"Added fragment to dream {dream_id}: {fragment.fragment_id}"
-            )
+            self.logger.debug(f"Added fragment to dream {dream_id}: {fragment.fragment_id}")
             return True
 
         except Exception as e:
@@ -281,9 +265,7 @@ class DreamIntegrator:
             dream_session.insights_generated = insights
 
             # Calculate integration score
-            integration_score = self._calculate_integration_score(
-                dream_session, analysis_results
-            )
+            integration_score = self._calculate_integration_score(dream_session, analysis_results)
             dream_session.integration_score = integration_score
 
             # Mark as completed
@@ -306,9 +288,7 @@ class DreamIntegrator:
                 "emotional_resonance": dream_session.emotional_signature,
             }
 
-            self.logger.info(
-                f"Dream integration completed: {dream_id} (score: {integration_score:.2f})"
-            )
+            self.logger.info(f"Dream integration completed: {dream_id} (score: {integration_score:.2f})")
             return integration_result
 
         except Exception as e:
@@ -416,17 +396,11 @@ class DreamIntegrator:
 
         if dream_session.fragments:
             # Calculate averages
-            total_emotional = sum(
-                f.emotional_intensity for f in dream_session.fragments
-            )
+            total_emotional = sum(f.emotional_intensity for f in dream_session.fragments)
             total_symbolic = sum(f.symbolic_weight for f in dream_session.fragments)
 
-            analysis["emotional_intensity_avg"] = total_emotional / len(
-                dream_session.fragments
-            )
-            analysis["symbolic_weight_avg"] = total_symbolic / len(
-                dream_session.fragments
-            )
+            analysis["emotional_intensity_avg"] = total_emotional / len(dream_session.fragments)
+            analysis["symbolic_weight_avg"] = total_symbolic / len(dream_session.fragments)
 
             # Analyze content themes (simplified)
             content_themes = set()
@@ -443,9 +417,7 @@ class DreamIntegrator:
 
         return analysis
 
-    def _generate_dream_insights(
-        self, dream_session: DreamSession, analysis: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _generate_dream_insights(self, dream_session: DreamSession, analysis: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate insights from dream analysis."""
         insights = []
 
@@ -495,9 +467,7 @@ class DreamIntegrator:
 
         return insights
 
-    def _calculate_integration_score(
-        self, dream_session: DreamSession, analysis: dict[str, Any]
-    ) -> float:
+    def _calculate_integration_score(self, dream_session: DreamSession, analysis: dict[str, Any]) -> float:
         """Calculate overall integration success score."""
         score_components = [
             analysis["emotional_intensity_avg"] * 0.3,
@@ -551,9 +521,7 @@ def initiate_dream(
     """Module-level function to initiate dream formation."""
     try:
         dream_type_enum = DreamType(dream_type)
-        return default_dream_integrator.initiate_dream_formation(
-            memory_fold_ids, dream_type_enum, emotional_context
-        )
+        return default_dream_integrator.initiate_dream_formation(memory_fold_ids, dream_type_enum, emotional_context)
     except ValueError:
         logger.error(f"Invalid dream type: {dream_type}")
         return None

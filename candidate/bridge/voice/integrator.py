@@ -79,9 +79,7 @@ class EnhancedVoiceIntegrator:
 
         # Quantum enhancement
         if orchestrator:
-            self.qi_enhancer = QIVoiceEnhancer(
-                orchestrator, self, self.config.qi_config
-            )
+            self.qi_enhancer = QIVoiceEnhancer(orchestrator, self, self.config.qi_config)
         else:
             self.qi_enhancer = None
 
@@ -90,9 +88,7 @@ class EnhancedVoiceIntegrator:
 
         logger.info("Enhanced voice integrator initialized")
 
-    async def process_voice(
-        self, audio_data: bytes, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def process_voice(self, audio_data: bytes, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Process voice input with quantum enhancement
 
         Args:
@@ -127,9 +123,7 @@ class EnhancedVoiceIntegrator:
 
         return result
 
-    async def generate_speech(
-        self, text: str, voice_params: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def generate_speech(self, text: str, voice_params: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Generate speech output with quantum enhancement
 
         Args:
@@ -164,9 +158,7 @@ class EnhancedVoiceIntegrator:
 
         return result
 
-    async def _basic_voice_processing(
-        self, audio_data: bytes, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _basic_voice_processing(self, audio_data: bytes, context: dict[str, Any]) -> dict[str, Any]:
         """Perform basic voice processing without quantum enhancement"""
         try:
             # Voice recognition
@@ -189,9 +181,7 @@ class EnhancedVoiceIntegrator:
                 "success": True,
                 "text": text,
                 "emotion": emotion["emotion"] if emotion else None,
-                "emotion_confidence": (
-                    emotion.get("confidence", 0.0) if emotion else 0.0
-                ),
+                "emotion_confidence": (emotion.get("confidence", 0.0) if emotion else 0.0),
             }
 
         except Exception as e:
@@ -290,9 +280,7 @@ class EnhancedVoiceIntegrator:
         # Select profile based on context
         return self.profile_manager.select_profile_for_context(params)
 
-    def _adapt_cultural_context(
-        self, result: dict[str, Any], params: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _adapt_cultural_context(self, result: dict[str, Any], params: dict[str, Any]) -> dict[str, Any]:
         """Apply cultural adaptation to synthesis result"""
         if not result["success"]:
             return result
@@ -312,9 +300,7 @@ class EnhancedVoiceIntegrator:
         if session_id not in self.active_sessions:
             self.active_sessions[session_id] = []
 
-        self.active_sessions[session_id].append(
-            {"timestamp": time.time(), "result": result}
-        )
+        self.active_sessions[session_id].append({"timestamp": time.time(), "result": result})
 
 
 """

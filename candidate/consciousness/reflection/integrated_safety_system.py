@@ -224,8 +224,7 @@ class SafetyEventBus:
             "total_events": len(self.event_history),
             "events_by_type": dict(self.event_metrics),
             "subscribers_by_type": {
-                event_type.value: len(subscribers)
-                for event_type, subscribers in self.safety_channels.items()
+                event_type.value: len(subscribers) for event_type, subscribers in self.safety_channels.items()
             },
         }
 
@@ -271,9 +270,7 @@ class SafetyColony(BaseColony):
         if not validations:
             return False, 0.0
 
-        consensus_score = sum(v.get("score", 0.0) for v in validations) / len(
-            validations
-        )
+        consensus_score = sum(v.get("score", 0.0) for v in validations) / len(validations)
         is_safe = consensus_score >= self.validation_threshold
 
         # Cache result
@@ -286,8 +283,7 @@ class SafetyColony(BaseColony):
         validation_time = (datetime.now() - start_time).total_seconds()
         self.validation_metrics["total_validations"] += 1
         self.validation_metrics["average_time"] = (
-            self.validation_metrics["average_time"]
-            * (self.validation_metrics["total_validations"] - 1)
+            self.validation_metrics["average_time"] * (self.validation_metrics["total_validations"] - 1)
             + validation_time
         ) / self.validation_metrics["total_validations"]
 
@@ -296,12 +292,8 @@ class SafetyColony(BaseColony):
     def _hash_output(self, output: dict[str, Any]) -> str:
         """Generate hash for output caching"""
         # Remove volatile fields
-        stable_output = {
-            k: v for k, v in output.items() if k not in ["timestamp", "request_id"]
-        }
-        return hashlib.sha256(
-            json.dumps(stable_output, sort_keys=True).encode()
-        ).hexdigest()[:16]
+        stable_output = {k: v for k, v in output.items() if k not in ["timestamp", "request_id"]}
+        return hashlib.sha256(json.dumps(stable_output, sort_keys=True).encode()).hexdigest()[:16]
 
     async def handle_safety_event(self, event: SafetyEvent):
         """Handle incoming safety events"""
@@ -437,9 +429,7 @@ class IntegratedSafetySystem:
         }
 
         # Circuit breakers
-        self.circuit_breakers = defaultdict(
-            lambda: {"failures": 0, "last_failure": None, "is_open": False}
-        )
+        self.circuit_breakers = defaultdict(lambda: {"failures": 0, "last_failure": None, "is_open": False})
 
         # Subscribe colonies to events
         asyncio.create_task(self._initialize_subscriptions())
@@ -479,9 +469,7 @@ class IntegratedSafetySystem:
         validation_tasks.append(("memory", memory_task))
 
         # 2. Safety colony validation
-        safety_task = asyncio.create_task(
-            self.colonies["safety"].validate_output(action)
-        )
+        safety_task = asyncio.create_task(self.colonies["safety"].validate_output(action))
         validation_tasks.append(("safety", safety_task))
 
         # 3. Ethics evaluation
@@ -489,9 +477,7 @@ class IntegratedSafetySystem:
         validation_tasks.append(("ethics", ethics_task))
 
         # 4. Compliance check
-        compliance_task = asyncio.create_task(
-            self._validate_compliance(action, context)
-        )
+        compliance_task = asyncio.create_task(self._validate_compliance(action, context))
         validation_tasks.append(("compliance", compliance_task))
 
         # Gather all results
@@ -543,8 +529,7 @@ class IntegratedSafetySystem:
         # Update metrics
         self.safety_metrics["validations_performed"] += 1
         self.safety_metrics["average_response_time"] = (
-            self.safety_metrics["average_response_time"]
-            * (self.safety_metrics["validations_performed"] - 1)
+            self.safety_metrics["average_response_time"] * (self.safety_metrics["validations_performed"] - 1)
             + validation_time
         ) / self.safety_metrics["validations_performed"]
 
@@ -565,9 +550,7 @@ class IntegratedSafetySystem:
         """Validate action against memory safety system"""
         try:
             # Check for hallucinations
-            is_valid, error = await self.memory_safety.prevent_hallucination(
-                action, context or {}
-            )
+            is_valid, error = await self.memory_safety.prevent_hallucination(action, context or {})
 
             if not is_valid:
                 # Broadcast hallucination event
@@ -613,9 +596,7 @@ class IntegratedSafetySystem:
             logger.error(f"Memory safety validation error: {e}")
             return False, 0.0
 
-    async def _validate_ethics(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _validate_ethics(self, action: dict[str, Any], context: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Validate action through ethics colony"""
         try:
             # Create ethical decision request
@@ -633,9 +614,7 @@ class IntegratedSafetySystem:
 
             # Get ethics swarm decision
             if self.colonies["ethics"]:
-                response = await self.colonies["ethics"].process_ethical_decision(
-                    request
-                )
+                response = await self.colonies["ethics"].process_ethical_decision(request)
 
                 return {
                     "approved": response.approved,
@@ -651,9 +630,7 @@ class IntegratedSafetySystem:
             logger.error(f"Ethics validation error: {e}")
             return {"approved": False, "score": 0.0, "violations": [str(e)]}
 
-    async def _validate_compliance(
-        self, action: dict[str, Any], context: Optional[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _validate_compliance(self, action: dict[str, Any], context: Optional[dict[str, Any]]) -> dict[str, Any]:
         """Validate action through compliance system"""
         try:
             # Check compliance
@@ -677,9 +654,7 @@ class IntegratedSafetySystem:
             logger.error(f"Compliance validation error: {e}")
             return {"compliant": False, "score": 0.0, "violations": [str(e)]}
 
-    def _generate_recommendations(
-        self, violations: list[dict[str, Any]], results: dict[str, Any]
-    ) -> list[str]:
+    def _generate_recommendations(self, violations: list[dict[str, Any]], results: dict[str, Any]) -> list[str]:
         """Generate recommendations based on validation results"""
         recommendations = []
 
@@ -764,13 +739,9 @@ class IntegratedSafetySystem:
 
         if threat_index > current_index:
             self.safety_level = threat_level
-            logger.warning(
-                f"System safety level escalated to: {self.safety_level.value}"
-            )
+            logger.warning(f"System safety level escalated to: {self.safety_level.value}")
 
-    async def _determine_mitigation_strategy(
-        self, threat: dict[str, Any], threat_level: SafetyLevel
-    ) -> dict[str, Any]:
+    async def _determine_mitigation_strategy(self, threat: dict[str, Any], threat_level: SafetyLevel) -> dict[str, Any]:
         """Determine appropriate mitigation strategy"""
         strategies = {
             SafetyLevel.NORMAL: {
@@ -798,9 +769,7 @@ class IntegratedSafetySystem:
 
         return strategies.get(threat_level, strategies[SafetyLevel.NORMAL])
 
-    async def _deploy_mitigation(
-        self, strategy: dict[str, Any], threat: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def _deploy_mitigation(self, strategy: dict[str, Any], threat: dict[str, Any]) -> list[dict[str, Any]]:
         """Deploy mitigation strategy across colonies"""
         results = []
 
@@ -827,18 +796,14 @@ class IntegratedSafetySystem:
 
         return results
 
-    async def _verify_mitigation_effectiveness(
-        self, mitigation_results: list[dict[str, Any]]
-    ) -> float:
+    async def _verify_mitigation_effectiveness(self, mitigation_results: list[dict[str, Any]]) -> float:
         """Verify the effectiveness of mitigation efforts"""
         if not mitigation_results:
             return 0.0
 
         # Simple effectiveness calculation
         successful = sum(
-            1
-            for r in mitigation_results
-            if r.get("status") == "activated" or r.get("result", {}).get("success")
+            1 for r in mitigation_results if r.get("status") == "activated" or r.get("result", {}).get("success")
         )
 
         return successful / len(mitigation_results)
@@ -849,9 +814,7 @@ class IntegratedSafetySystem:
 
         # Reset if enough time has passed
         if breaker["is_open"] and breaker["last_failure"]:
-            time_since_failure = (
-                datetime.now() - breaker["last_failure"]
-            ).total_seconds()
+            time_since_failure = (datetime.now() - breaker["last_failure"]).total_seconds()
             if time_since_failure > 300:  # 5 minute reset
                 breaker["failures"] = 0
                 breaker["is_open"] = False
@@ -912,9 +875,7 @@ class IntegratedSafetySystem:
             "event_bus_active": len(self.event_bus.event_history) > 0,
             "safety_level": self.safety_level.value,
             "active_threats": len(self.active_threats),
-            "open_circuit_breakers": sum(
-                1 for b in self.circuit_breakers.values() if b["is_open"]
-            ),
+            "open_circuit_breakers": sum(1 for b in self.circuit_breakers.values() if b["is_open"]),
         }
 
         # Determine if system is healthy
@@ -982,8 +943,7 @@ class IntegratedSafetySystem:
         # Success rate
         if self.safety_metrics["threats_detected"] > 0:
             self.safety_metrics["mitigation_success_rate"] = (
-                self.safety_metrics["mitigations_successful"]
-                / self.safety_metrics["threats_detected"]
+                self.safety_metrics["mitigations_successful"] / self.safety_metrics["threats_detected"]
             )
 
     def get_system_status(self) -> dict[str, Any]:
@@ -1001,10 +961,7 @@ class IntegratedSafetySystem:
                 }
                 for component, breaker in self.circuit_breakers.items()
             },
-            "colonies_status": {
-                name: "active" if colony else "inactive"
-                for name, colony in self.colonies.items()
-            },
+            "colonies_status": {name: "active" if colony else "inactive" for name, colony in self.colonies.items()},
         }
 
 
@@ -1067,12 +1024,8 @@ async def main():
     print(f"   Safety Level: {status['safety_level']}")
     print(f"   Active Threats: {status['active_threats']}")
     print(f"   Total Events: {status['event_metrics']['total_events']}")
-    print(
-        f"   Validations Performed: {status['safety_metrics']['validations_performed']}"
-    )
-    print(
-        f"   Average Response Time: {status['safety_metrics']['average_response_time']:.2f}ms"
-    )
+    print(f"   Validations Performed: {status['safety_metrics']['validations_performed']}")
+    print(f"   Average Response Time: {status['safety_metrics']['average_response_time']:.2f}ms")
 
     # Let monitoring run for a bit
     await asyncio.sleep(2)

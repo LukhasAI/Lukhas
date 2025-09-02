@@ -59,9 +59,7 @@ class NIASTranscendenceQuantumPlatform:
         self.reality_synthesis = RealitySynthesisQuantumEngine()
         self.ascension_catalyst = ConsciousnessAscensionCatalystEngine()
 
-    async def deliver_consciousness_evolution_experience(
-        self, user_id: str
-    ) -> dict[str, Any]:
+    async def deliver_consciousness_evolution_experience(self, user_id: str) -> dict[str, Any]:
         """
         The complete consciousness evolution advertising experience.
         """
@@ -81,43 +79,31 @@ class NIASTranscendenceQuantumPlatform:
         bio_state = await self.quantum_biometrics.get_quantum_biostate(user_id)
 
         # 2. Get consciousness profile from your oracle
-        consciousness_profile = (
-            await self.consciousness_oracle.get_full_consciousness_profile(user_id)
-        )
+        consciousness_profile = await self.consciousness_oracle.get_full_consciousness_profile(user_id)
 
         # 3. Get collective wisdom from your collective mind
-        collective_recommendations = (
-            await self.collective_ad_mind.get_collective_recommendations(user_id)
-        )
+        collective_recommendations = await self.collective_ad_mind.get_collective_recommendations(user_id)
 
         # 4. Check planetary consciousness alignment
-        planetary_alignment = (
-            await self.planetary_network.coordinate_with_planetary_field(
-                consciousness_profile,
-                collective_recommendations[0] if collective_recommendations else {},
-            )
+        planetary_alignment = await self.planetary_network.coordinate_with_planetary_field(
+            consciousness_profile,
+            collective_recommendations[0] if collective_recommendations else {},
         )
 
         if planetary_alignment["recommendation"] == "defer":
             return {"status": "deferred_for_collective_healing"}
 
         # 5. Generate infinite personalized creative multiverse
-        creative_multiverse = (
-            await self.multiverse_creative.generate_consciousness_multiverse(
-                consciousness_profile, base_product
-            )
+        creative_multiverse = await self.multiverse_creative.generate_consciousness_multiverse(
+            consciousness_profile, base_product
         )
 
         # 6. Apply quantum empathy for genuine connection
-        empathic_enhancement = await self.quantum_empathy.generate_empathic_response(
-            consciousness_profile, {}
-        )
+        empathic_enhancement = await self.quantum_empathy.generate_empathic_response(consciousness_profile, {})
 
         # 7. Design consciousness catalyst experience
-        catalyst_experience = (
-            await self.ascension_catalyst.design_consciousness_catalyst_experience(
-                consciousness_profile, base_product
-            )
+        catalyst_experience = await self.ascension_catalyst.design_consciousness_catalyst_experience(
+            consciousness_profile, base_product
         )
 
         # 8. Create omni-reality narrative
@@ -126,10 +112,8 @@ class NIASTranscendenceQuantumPlatform:
         )
 
         # 9. Design post-monetary exchange
-        consciousness_exchange = (
-            await self.quantum_financial.propose_consciousness_based_exchange(
-                user_consciousness_profile, {}
-            )
+        consciousness_exchange = await self.quantum_financial.propose_consciousness_based_exchange(
+            user_consciousness_profile, {}
         )
 
         return {

@@ -22,9 +22,7 @@ class DreamLoopGenerator:
             loop_type (str): The type of loop to generate (e.g., "consolidation", "creative").
             parameters (Dict[str, Any]): The parameters for the loop.
         """
-        logger.info(
-            "Generating dream loop (stub).", loop_type=loop_type, parameters=parameters
-        )
+        logger.info("Generating dream loop (stub).", loop_type=loop_type, parameters=parameters)
         # In a real implementation, this would involve creating and configuring
         # the various components of the dream loop (memory selectors, dream
         # seeders, feedback handlers, etc.) based on the loop type and

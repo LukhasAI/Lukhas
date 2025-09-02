@@ -113,26 +113,16 @@ class PlasticityTriggerManager:
         self.active_adaptations: dict[str, AdaptationPlan] = {}
         self.adaptation_history: deque = deque(maxlen=1000)
         self.cooldown_tracker: dict[str, datetime] = {}
-        self.daily_counters: dict[str, dict[str, int]] = defaultdict(
-            lambda: defaultdict(int)
-        )
+        self.daily_counters: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
 
         # Learning and optimization
-        self.success_rates: dict[PlasticityTriggerType, deque] = defaultdict(
-            lambda: deque(maxlen=50)
-        )
-        self.impact_measurements: dict[str, deque] = defaultdict(
-            lambda: deque(maxlen=100)
-        )
+        self.success_rates: dict[PlasticityTriggerType, deque] = defaultdict(lambda: deque(maxlen=50))
+        self.impact_measurements: dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
         self.pattern_detector = PatternDetector()
 
         # Risk management
-        self.max_concurrent_adaptations = self.config.get(
-            "max_concurrent_adaptations", 3
-        )
-        self.system_stability_threshold = self.config.get(
-            "system_stability_threshold", 0.6
-        )
+        self.max_concurrent_adaptations = self.config.get("max_concurrent_adaptations", 3)
+        self.system_stability_threshold = self.config.get("system_stability_threshold", 0.6)
         # Slightly higher default risk tolerance to allow beneficial plans in tests
         self.risk_tolerance = self.config.get("risk_tolerance", 0.4)
 
@@ -179,9 +169,9 @@ class PlasticityTriggerManager:
                 success_threshold=0.7,
             ),
         ]
-        self._rules_by_value[PlasticityTriggerType.STRESS_ADAPTATION.value] = (
-            self.adaptation_rules[PlasticityTriggerType.STRESS_ADAPTATION]
-        )
+        self._rules_by_value[PlasticityTriggerType.STRESS_ADAPTATION.value] = self.adaptation_rules[
+            PlasticityTriggerType.STRESS_ADAPTATION
+        ]
 
         # Performance optimization rules
         self.adaptation_rules[PlasticityTriggerType.PERFORMANCE_OPTIMIZATION] = [
@@ -199,9 +189,9 @@ class PlasticityTriggerManager:
                 success_threshold=0.6,
             )
         ]
-        self._rules_by_value[PlasticityTriggerType.PERFORMANCE_OPTIMIZATION.value] = (
-            self.adaptation_rules[PlasticityTriggerType.PERFORMANCE_OPTIMIZATION]
-        )
+        self._rules_by_value[PlasticityTriggerType.PERFORMANCE_OPTIMIZATION.value] = self.adaptation_rules[
+            PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
+        ]
 
         # Social enhancement rules
         self.adaptation_rules[PlasticityTriggerType.SOCIAL_ENHANCEMENT] = [
@@ -215,9 +205,9 @@ class PlasticityTriggerManager:
                 success_threshold=0.5,
             )
         ]
-        self._rules_by_value[PlasticityTriggerType.SOCIAL_ENHANCEMENT.value] = (
-            self.adaptation_rules[PlasticityTriggerType.SOCIAL_ENHANCEMENT]
-        )
+        self._rules_by_value[PlasticityTriggerType.SOCIAL_ENHANCEMENT.value] = self.adaptation_rules[
+            PlasticityTriggerType.SOCIAL_ENHANCEMENT
+        ]
 
         # Recovery consolidation rules
         self.adaptation_rules[PlasticityTriggerType.RECOVERY_CONSOLIDATION] = [
@@ -231,9 +221,9 @@ class PlasticityTriggerManager:
                 success_threshold=0.7,
             )
         ]
-        self._rules_by_value[PlasticityTriggerType.RECOVERY_CONSOLIDATION.value] = (
-            self.adaptation_rules[PlasticityTriggerType.RECOVERY_CONSOLIDATION]
-        )
+        self._rules_by_value[PlasticityTriggerType.RECOVERY_CONSOLIDATION.value] = self.adaptation_rules[
+            PlasticityTriggerType.RECOVERY_CONSOLIDATION
+        ]
 
         # Emotional regulation rules
         self.adaptation_rules[PlasticityTriggerType.EMOTIONAL_REGULATION] = [
@@ -247,9 +237,9 @@ class PlasticityTriggerManager:
                 success_threshold=0.65,
             )
         ]
-        self._rules_by_value[PlasticityTriggerType.EMOTIONAL_REGULATION.value] = (
-            self.adaptation_rules[PlasticityTriggerType.EMOTIONAL_REGULATION]
-        )
+        self._rules_by_value[PlasticityTriggerType.EMOTIONAL_REGULATION.value] = self.adaptation_rules[
+            PlasticityTriggerType.EMOTIONAL_REGULATION
+        ]
 
     async def evaluate_trigger(
         self, trigger_event: PlasticityEvent, current_snapshot: EndocrineSnapshot
@@ -295,9 +285,7 @@ class PlasticityTriggerManager:
             return None
 
         # Create adaptation plan
-        plan = await self._create_adaptation_plan(
-            best_rule, trigger_event, current_snapshot
-        )
+        plan = await self._create_adaptation_plan(best_rule, trigger_event, current_snapshot)
 
         # Risk assessment
         if not await self._assess_adaptation_risk(plan, current_snapshot):
@@ -325,9 +313,7 @@ class PlasticityTriggerManager:
         return plan
 
     # Public wrapper expected by tests
-    async def assess_adaptation_risk(
-        self, plan: AdaptationPlan, current_snapshot: EndocrineSnapshot
-    ) -> dict[str, Any]:
+    async def assess_adaptation_risk(self, plan: AdaptationPlan, current_snapshot: EndocrineSnapshot) -> dict[str, Any]:
         approved = await self._assess_adaptation_risk(plan, current_snapshot)
         # Normalize risk value output
         risk_val: float
@@ -366,9 +352,7 @@ class PlasticityTriggerManager:
                 continue
 
             # Check conditions
-            if not await self._check_rule_conditions(
-                rule, trigger_event, current_snapshot
-            ):
+            if not await self._check_rule_conditions(rule, trigger_event, current_snapshot):
                 continue
 
             suitable_rules.append(rule)
@@ -401,26 +385,17 @@ class PlasticityTriggerManager:
         for hormone, threshold in conditions.items():
             if hormone.endswith("_high"):
                 hormone_name = hormone.replace("_high", "")
-                if (
-                    hormone_name in hormone_levels
-                    and hormone_levels[hormone_name] < threshold
-                ):
+                if hormone_name in hormone_levels and hormone_levels[hormone_name] < threshold:
                     return False
 
             elif hormone.endswith("_low"):
                 hormone_name = hormone.replace("_low", "")
-                if (
-                    hormone_name in hormone_levels
-                    and hormone_levels[hormone_name] > threshold
-                ):
+                if hormone_name in hormone_levels and hormone_levels[hormone_name] > threshold:
                     return False
 
         # Check system metrics conditions
         if "min_stress_level" in conditions:
-            stress_level = (
-                hormone_levels.get("cortisol", 0.5)
-                + hormone_levels.get("adrenaline", 0.5)
-            ) / 2
+            stress_level = (hormone_levels.get("cortisol", 0.5) + hormone_levels.get("adrenaline", 0.5)) / 2
             if stress_level < conditions["min_stress_level"]:
                 return False
 
@@ -442,9 +417,7 @@ class PlasticityTriggerManager:
 
         return True
 
-    async def _check_prerequisites(
-        self, rule: AdaptationRule, current_snapshot: EndocrineSnapshot
-    ) -> bool:
+    async def _check_prerequisites(self, rule: AdaptationRule, current_snapshot: EndocrineSnapshot) -> bool:
         """Check if prerequisites for the rule are satisfied"""
 
         for prerequisite in rule.prerequisites:
@@ -475,9 +448,7 @@ class PlasticityTriggerManager:
         plan = AdaptationPlan(rule=rule, trigger_event=trigger_event)
 
         # Estimate impact based on trigger type and current state
-        plan.estimated_impact = await self._estimate_adaptation_impact(
-            rule.trigger_type, current_snapshot
-        )
+        plan.estimated_impact = await self._estimate_adaptation_impact(rule.trigger_type, current_snapshot)
 
         # Assess resource cost
         plan.resource_cost = await self._estimate_resource_cost(rule)
@@ -494,9 +465,7 @@ class PlasticityTriggerManager:
 
         return plan
 
-    async def _assess_adaptation_risk(
-        self, plan: AdaptationPlan, current_snapshot: EndocrineSnapshot
-    ) -> bool:
+    async def _assess_adaptation_risk(self, plan: AdaptationPlan, current_snapshot: EndocrineSnapshot) -> bool:
         """Assess the risk of applying the adaptation"""
 
         risk_factors = []
@@ -619,9 +588,7 @@ class PlasticityTriggerManager:
         if rule_key not in self.cooldown_tracker:
             return False
 
-        cooldown_end = self.cooldown_tracker[rule_key] + timedelta(
-            minutes=cooldown_minutes
-        )
+        cooldown_end = self.cooldown_tracker[rule_key] + timedelta(minutes=cooldown_minutes)
         return datetime.now(timezone.utc) < cooldown_end
 
     def _exceeds_daily_limit(self, rule_key: str, daily_limit: int) -> bool:
@@ -630,9 +597,7 @@ class PlasticityTriggerManager:
         current_count = self.daily_counters[today][rule_key]
         return current_count >= daily_limit
 
-    def _get_historical_success_rate(
-        self, trigger_type: PlasticityTriggerType
-    ) -> float:
+    def _get_historical_success_rate(self, trigger_type: PlasticityTriggerType) -> float:
         """Get historical success rate for a trigger type"""
         success_history = self.success_rates[trigger_type]
         if not success_history:
@@ -668,9 +633,7 @@ class PlasticityTriggerManager:
     # Placeholder implementations for different adaptation strategies
     async def _apply_gradual_adaptation(self, plan: AdaptationPlan) -> bool:
         """Apply adaptation gradually over time"""
-        logger.info(
-            "Starting gradual adaptation", trigger_type=plan.rule.trigger_type.value
-        )
+        logger.info("Starting gradual adaptation", trigger_type=plan.rule.trigger_type.value)
         await asyncio.sleep(0.2)  # Simulate longer processing
         return True
 
@@ -682,9 +645,7 @@ class PlasticityTriggerManager:
 
     async def _apply_conditional_adaptation(self, plan: AdaptationPlan) -> bool:
         """Apply adaptation with conditions monitoring"""
-        logger.info(
-            "Applying conditional adaptation", trigger_type=plan.rule.trigger_type.value
-        )
+        logger.info("Applying conditional adaptation", trigger_type=plan.rule.trigger_type.value)
         await asyncio.sleep(0.1)
         return True
 
@@ -743,9 +704,7 @@ class PlasticityTriggerManager:
 
         return strategy_durations.get(rule.strategy, 5)
 
-    async def _define_success_metrics(
-        self, trigger_type: PlasticityTriggerType
-    ) -> list[str]:
+    async def _define_success_metrics(self, trigger_type: PlasticityTriggerType) -> list[str]:
         """Define metrics to measure adaptation success"""
         metrics_map = {
             PlasticityTriggerType.STRESS_ADAPTATION: [
@@ -817,8 +776,7 @@ class PlasticityTriggerManager:
                 [
                     record
                     for record in self.adaptation_history
-                    if datetime.fromisoformat(record["timestamp"])
-                    > datetime.now(timezone.utc) - timedelta(hours=24)
+                    if datetime.fromisoformat(record["timestamp"]) > datetime.now(timezone.utc) - timedelta(hours=24)
                 ]
             ),
         }
@@ -831,9 +789,7 @@ class PatternDetector:
         self.patterns = {}
         self.temporal_patterns = deque(maxlen=200)
 
-    def detect_patterns(
-        self, adaptation_history: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def detect_patterns(self, adaptation_history: list[dict[str, Any]]) -> dict[str, Any]:
         """Detect patterns in adaptation history"""
         # Simplified pattern detection
         return {"detected_patterns": [], "recommendations": []}

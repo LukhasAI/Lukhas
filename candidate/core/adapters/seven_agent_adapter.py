@@ -86,9 +86,7 @@ class LambdaIdentityServiceAdapter(IIdentityService):
                 self._initialized = False
 
     @instrument
-    async def authenticate(
-        self, credentials: dict[str, Any]
-    ) -> Optional[dict[str, Any]]:
+    async def authenticate(self, credentials: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Authenticate using ΛID system with <100ms target"""
         await self.initialize()
         if not self._identity_service:
@@ -199,9 +197,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
 
         try:
             with AgentSpans.consent_check(user_id=user_id, purpose=action):
-                return self._consent_ledger.has_valid_consent(
-                    subject_id=user_id, purpose=action
-                )
+                return self._consent_ledger.has_valid_consent(subject_id=user_id, purpose=action)
         except Exception as e:
             logger.error(f"Consent check failed: {e}")
             return False
@@ -213,12 +209,8 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             return False
 
         try:
-            with AgentSpans.consent_record(
-                user_id=user_id, purpose=action, granted=granted
-            ):
-                self._consent_ledger.record_consent(
-                    subject_id=user_id, purpose=action, granted=granted
-                )
+            with AgentSpans.consent_record(user_id=user_id, purpose=action, granted=granted):
+                self._consent_ledger.record_consent(subject_id=user_id, purpose=action, granted=granted)
                 return True
         except Exception as e:
             logger.error(f"Failed to record consent: {e}")
@@ -270,16 +262,10 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
         try:
             # Use policy engine to evaluate risk
             risk_score = (
-                self._policy_engine.calculate_risk(scenario)
-                if hasattr(self._policy_engine, "calculate_risk")
-                else 0.5
+                self._policy_engine.calculate_risk(scenario) if hasattr(self._policy_engine, "calculate_risk") else 0.5
             )
             return {
-                "risk_level": (
-                    "high"
-                    if risk_score > 0.7
-                    else "medium" if risk_score > 0.3 else "low"
-                ),
+                "risk_level": ("high" if risk_score > 0.7 else "medium" if risk_score > 0.3 else "low"),
                 "score": risk_score,
                 "factors": scenario.get("factors", []),
             }
@@ -411,11 +397,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
         status = {}
         for name, adapter in self._adapters.items():
             try:
-                status[name] = (
-                    adapter.get_status()
-                    if hasattr(adapter, "get_status")
-                    else "unknown"
-                )
+                status[name] = adapter.get_status() if hasattr(adapter, "get_status") else "unknown"
             except Exception as e:
                 status[name] = f"error: {e}"
 
@@ -428,9 +410,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
         service = parts[0] if parts else destination
         target = parts[1] if len(parts) > 1 else None
 
-        return {
-            "success": await self.send_data(service, {"target": target, "data": data})
-        }
+        return {"success": await self.send_data(service, {"target": target, "data": data})}
 
     async def receive_external(self, source: str) -> Optional[Any]:
         """Receive data from external system"""
@@ -441,9 +421,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
 
         return await self.fetch_data(service, {"query": query})
 
-    async def translate_protocol(
-        self, data: Any, from_protocol: str, to_protocol: str
-    ) -> Any:
+    async def translate_protocol(self, data: Any, from_protocol: str, to_protocol: str) -> Any:
         """Translate between protocols"""
         # Basic protocol translation (can be extended)
         if from_protocol == to_protocol:
@@ -535,9 +513,7 @@ def register_seven_agent_services(container=None):
     # Note: IGovernanceService might already be registered, so we check first
     try:
         container.resolve(IGovernanceService)
-        logger.info(
-            "IGovernanceService already registered, skipping ConsentLedger registration"
-        )
+        logger.info("IGovernanceService already registered, skipping ConsentLedger registration")
     except:
         container.register_singleton(IGovernanceService, ConsentLedgerServiceAdapter)
 
@@ -545,9 +521,7 @@ def register_seven_agent_services(container=None):
     # Note: IBridgeService might already be registered, so we check first
     try:
         container.resolve(IBridgeService)
-        logger.info(
-            "IBridgeService already registered, skipping ExternalAdapters registration"
-        )
+        logger.info("IBridgeService already registered, skipping ExternalAdapters registration")
     except:
         container.register_singleton(IBridgeService, ExternalAdaptersServiceAdapter)
 

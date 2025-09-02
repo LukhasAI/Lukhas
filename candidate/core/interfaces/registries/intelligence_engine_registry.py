@@ -172,32 +172,24 @@ class IntelligenceEngineRegistry:
         if self.config.heartbeat_interval > 0:
             self.start_monitoring()
 
-    def register_engine(
-        self, engine_info: EngineInfo, access_token: Optional[str] = None
-    ) -> bool:
+    def register_engine(self, engine_info: EngineInfo, access_token: Optional[str] = None) -> bool:
         """Register a new intelligence engine"""
         try:
             # Validate access if security is enabled
             if self.config.security_enabled and not self._validate_access(access_token):
-                self.logger.warning(
-                    f"Access denied for engine registration: {engine_info.engine_id}"
-                )
+                self.logger.warning(f"Access denied for engine registration: {engine_info.engine_id}")
                 return False
 
             # Check if engine already exists
             if engine_info.engine_id in self.engines:
-                self.logger.warning(
-                    f"Engine already registered: {engine_info.engine_id}"
-                )
+                self.logger.warning(f"Engine already registered: {engine_info.engine_id}")
                 return False
 
             # Check engine type limits
             type_index = self.engine_types_index.get(engine_info.engine_type, set())
             type_count = len(type_index)
             if type_count >= self.config.max_engines_per_type:
-                self.logger.warning(
-                    f"Maximum engines reached for type {engine_info.engine_type}: {type_count}"
-                )
+                self.logger.warning(f"Maximum engines reached for type {engine_info.engine_type}: {type_count}")
                 return False
 
             # Register the engine
@@ -213,14 +205,10 @@ class IntelligenceEngineRegistry:
                 token = self._generate_access_token(engine_info.engine_id)
                 self.access_tokens[engine_info.engine_id] = token
 
-            self.logger.info(
-                f"Registered engine: {engine_info.engine_id} ({engine_info.engine_type.value})"
-            )
+            self.logger.info(f"Registered engine: {engine_info.engine_id} ({engine_info.engine_type.value})")
 
             # Fire event
-            self._fire_event(
-                RegistryEvent.ENGINE_REGISTERED, {"engine_info": engine_info}
-            )
+            self._fire_event(RegistryEvent.ENGINE_REGISTERED, {"engine_info": engine_info})
 
             return True
 
@@ -228,16 +216,11 @@ class IntelligenceEngineRegistry:
             self.logger.error(f"Failed to register engine {engine_info.engine_id}: {e}")
             return False
 
-    def unregister_engine(
-        self, engine_id: str, access_token: Optional[str] = None
-    ) -> bool:
+    def unregister_engine(self, engine_id: str, access_token: Optional[str] = None) -> bool:
         """Unregister an intelligence engine"""
         try:
             # Validate access
-            security_check = (
-                self.config.security_enabled
-                and not self._validate_engine_access(engine_id, access_token)
-            )
+            security_check = self.config.security_enabled and not self._validate_engine_access(engine_id, access_token)
             if security_check:
                 return False
 
@@ -259,9 +242,7 @@ class IntelligenceEngineRegistry:
             self.logger.info(f"Unregistered engine: {engine_id}")
 
             # Fire event
-            self._fire_event(
-                RegistryEvent.ENGINE_UNREGISTERED, {"engine_id": engine_id}
-            )
+            self._fire_event(RegistryEvent.ENGINE_UNREGISTERED, {"engine_id": engine_id})
 
             return True
 
@@ -269,9 +250,7 @@ class IntelligenceEngineRegistry:
             self.logger.error(f"Failed to unregister engine {engine_id}: {e}")
             return False
 
-    def query_engines(
-        self, filter_criteria: Optional[QueryFilter] = None
-    ) -> list[EngineInfo]:
+    def query_engines(self, filter_criteria: Optional[QueryFilter] = None) -> list[EngineInfo]:
         """Query engines based on filter criteria"""
         if filter_criteria is None:
             filter_criteria = QueryFilter()
@@ -283,9 +262,7 @@ class IntelligenceEngineRegistry:
                 matching_engines.append(engine_info)
 
         # Sort by health score and load
-        matching_engines.sort(
-            key=lambda e: (e.health_score, -e.load_score), reverse=True
-        )
+        matching_engines.sort(key=lambda e: (e.health_score, -e.load_score), reverse=True)
 
         return matching_engines
 
@@ -310,9 +287,7 @@ class IntelligenceEngineRegistry:
         if metadata:
             engine_info.metadata.update(metadata)
 
-        self.logger.info(
-            f"Engine {engine_id} status changed: {old_status.value} -> {status.value}"
-        )
+        self.logger.info(f"Engine {engine_id} status changed: {old_status.value} -> {status.value}")
 
         # Fire event
         self._fire_event(
@@ -379,9 +354,7 @@ class IntelligenceEngineRegistry:
             return
 
         self.monitoring_active = True
-        self.monitor_thread = threading.Thread(
-            target=self._monitor_engines, daemon=True
-        )
+        self.monitor_thread = threading.Thread(target=self._monitor_engines, daemon=True)
         self.monitor_thread.start()
         self.logger.info("Engine monitoring started")
 
@@ -395,23 +368,14 @@ class IntelligenceEngineRegistry:
     def get_registry_metrics(self) -> dict[str, Any]:
         """Get registry performance metrics"""
         now = datetime.utcnow()
-        healthy_engines = sum(
-            1 for e in self.engines.values() if e.status == EngineStatus.HEALTHY
-        )
+        healthy_engines = sum(1 for e in self.engines.values() if e.status == EngineStatus.HEALTHY)
 
-        uptime = (
-            (now - datetime.utcnow()).total_seconds()
-            if hasattr(self, "start_time")
-            else 0
-        )
+        uptime = (now - datetime.utcnow()).total_seconds() if hasattr(self, "start_time") else 0
 
         return {
             "total_engines": len(self.engines),
             "healthy_engines": healthy_engines,
-            "engine_types": {
-                et.value: len(engines)
-                for et, engines in self.engine_types_index.items()
-            },
+            "engine_types": {et.value: len(engines) for et, engines in self.engine_types_index.items()},
             "capabilities": len(self.capabilities_index),
             "monitoring_active": self.monitoring_active,
             "uptime_seconds": uptime,
@@ -502,36 +466,24 @@ class IntelligenceEngineRegistry:
                 if tag in self.tags_index:
                     self.tags_index[tag].discard(engine_id)
 
-    def _matches_filter(
-        self, engine_info: EngineInfo, filter_criteria: QueryFilter
-    ) -> bool:
+    def _matches_filter(self, engine_info: EngineInfo, filter_criteria: QueryFilter) -> bool:
         """Check if engine matches filter criteria"""
         # Type filter
-        if (
-            filter_criteria.engine_types
-            and engine_info.engine_type not in filter_criteria.engine_types
-        ):
+        if filter_criteria.engine_types and engine_info.engine_type not in filter_criteria.engine_types:
             return False
 
         # Capabilities filter
         if filter_criteria.capabilities:
             engine_capabilities = {cap.name for cap in engine_info.capabilities}
-            if not any(
-                cap in engine_capabilities for cap in filter_criteria.capabilities
-            ):
+            if not any(cap in engine_capabilities for cap in filter_criteria.capabilities):
                 return False
 
         # Tags filter
-        if filter_criteria.tags and not any(
-            tag in engine_info.tags for tag in filter_criteria.tags
-        ):
+        if filter_criteria.tags and not any(tag in engine_info.tags for tag in filter_criteria.tags):
             return False
 
         # Status filter
-        if (
-            filter_criteria.status_filter
-            and engine_info.status not in filter_criteria.status_filter
-        ):
+        if filter_criteria.status_filter and engine_info.status not in filter_criteria.status_filter:
             return False
 
         # Health score filter
@@ -549,9 +501,7 @@ class IntelligenceEngineRegistry:
         # Simplified token validation - in production, use proper JWT or similar
         return access_token is not None and len(access_token) > 0
 
-    def _validate_engine_access(
-        self, engine_id: str, access_token: Optional[str]
-    ) -> bool:
+    def _validate_engine_access(self, engine_id: str, access_token: Optional[str]) -> bool:
         """Validate engine-specific access"""
         if not self.config.security_enabled:
             return True
@@ -660,9 +610,7 @@ def get_global_registry(
 # Factory functions
 
 
-def create_engine_info(
-    engine_id: str, engine_type: EngineType, name: str, version: str, **kwargs
-) -> EngineInfo:
+def create_engine_info(engine_id: str, engine_type: EngineType, name: str, version: str, **kwargs) -> EngineInfo:
     """Factory function to create EngineInfo"""
     return EngineInfo(
         engine_id=engine_id,

@@ -57,9 +57,7 @@ class VerifoldRegistryAdapter:
 
         # Verify integrity
         expected_hash = entry.collapse_hash
-        is_valid, error = await self.safety.verify_memory_integrity(
-            memory_id, memory_data, expected_hash
-        )
+        is_valid, error = await self.safety.verify_memory_integrity(memory_id, memory_data, expected_hash)
 
         if not is_valid:
             # Notify callbacks of failed verification
@@ -94,18 +92,14 @@ class VerifoldRegistryAdapter:
 
         return min(1.0, base_score)
 
-    async def _notify_trust_update(
-        self, module_name: str, memory_id: str, trust_score: float
-    ):
+    async def _notify_trust_update(self, module_name: str, memory_id: str, trust_score: float):
         """Notify registered callbacks of trust updates"""
         if module_name in self._trust_callbacks:
             for callback in self._trust_callbacks[module_name]:
                 try:
                     await callback(memory_id, trust_score)
                 except Exception as e:
-                    logger.error(
-                        "Trust callback failed", module=module_name, error=str(e)
-                    )
+                    logger.error("Trust callback failed", module=module_name, error=str(e))
 
     def get_module_trust_report(self, module_name: str) -> dict[str, Any]:
         """Get trust statistics for a specific module"""
@@ -114,12 +108,7 @@ class VerifoldRegistryAdapter:
             "module": module_name,
             "total_verifications": len(self.safety.verifold_registry),
             "average_trust": (
-                np.mean(
-                    [
-                        self._calculate_trust_score(e)
-                        for e in self.safety.verifold_registry.values()
-                    ]
-                )
+                np.mean([self._calculate_trust_score(e) for e in self.safety.verifold_registry.values()])
                 if self.safety.verifold_registry
                 else 1.0
             ),
@@ -168,9 +157,7 @@ class DriftMetricsAdapter:
         drift_score = self.safety.track_drift(tag, embedding, enriched_context)
 
         # Get module threshold
-        threshold = self._drift_thresholds.get(
-            module_name, self.safety.max_drift_threshold
-        )
+        threshold = self._drift_thresholds.get(module_name, self.safety.max_drift_threshold)
 
         # Check if calibration needed
         needs_calibration = drift_score > threshold
@@ -199,9 +186,7 @@ class DriftMetricsAdapter:
         else:
             return "calibrate"
 
-    async def _trigger_calibration(
-        self, module_name: str, tag: str, drift_score: float
-    ):
+    async def _trigger_calibration(self, module_name: str, tag: str, drift_score: float):
         """Trigger calibration callbacks"""
         if module_name in self._calibration_callbacks:
             for callback in self._calibration_callbacks[module_name]:
@@ -241,9 +226,7 @@ class DriftMetricsAdapter:
             "tags_tracked": len(module_tags),
             "average_drift": np.mean(drift_scores) if drift_scores else 0.0,
             "max_drift": max(drift_scores) if drift_scores else 0.0,
-            "threshold": self._drift_thresholds.get(
-                module_name, self.safety.max_drift_threshold
-            ),
+            "threshold": self._drift_thresholds.get(module_name, self.safety.max_drift_threshold),
         }
 
 
@@ -319,18 +302,14 @@ class RealityAnchorsAdapter:
 
         return True
 
-    async def _notify_validation(
-        self, module_name: str, is_valid: bool, violations: list[str]
-    ):
+    async def _notify_validation(self, module_name: str, is_valid: bool, violations: list[str]):
         """Notify registered callbacks"""
         if module_name in self._validation_callbacks:
             for callback in self._validation_callbacks[module_name]:
                 try:
                     await callback(is_valid, violations)
                 except Exception as e:
-                    logger.error(
-                        "Validation callback failed", module=module_name, error=str(e)
-                    )
+                    logger.error("Validation callback failed", module=module_name, error=str(e))
 
     def get_module_anchors(self, module_name: str) -> dict[str, str]:
         """Get reality anchors for a module"""
@@ -344,9 +323,7 @@ class ConsensusValidationAdapter:
     Enables distributed memory verification.
     """
 
-    def __init__(
-        self, safety_system: MemorySafetySystem, memory_fold: HybridMemoryFold
-    ):
+    def __init__(self, safety_system: MemorySafetySystem, memory_fold: HybridMemoryFold):
         self.safety = safety_system
         self.memory = memory_fold
         self._colony_validators: dict[str, Callable] = {}
@@ -380,9 +357,7 @@ class ConsensusValidationAdapter:
                     vote = await validator(memory_id, memory_data)
                     colony_votes[colony_id] = bool(vote)
                 except Exception as e:
-                    logger.error(
-                        "Colony validation failed", colony=colony_id, error=str(e)
-                    )
+                    logger.error("Colony validation failed", colony=colony_id, error=str(e))
                     colony_votes[colony_id] = False
             else:
                 # Default to true if no validator
@@ -416,22 +391,18 @@ class ConsensusValidationAdapter:
             memory_data = memory.data
 
             # Get similar memories for consensus
-            similar_memories = [
-                (m.item_id, m.data, s) for m, s in candidates if m.item_id != memory_id
-            ][:min_consensus_memories]
+            similar_memories = [(m.item_id, m.data, s) for m, s in candidates if m.item_id != memory_id][
+                :min_consensus_memories
+            ]
 
             # Local consensus validation
-            is_valid, confidence = await self.safety.consensus_validation(
-                memory_id, memory_data, similar_memories
-            )
+            is_valid, confidence = await self.safety.consensus_validation(memory_id, memory_data, similar_memories)
 
             if not is_valid:
                 continue
 
             # Colony consensus validation
-            consensus_reached, agreement, votes = await self.validate_with_colonies(
-                memory_id, memory_data, colonies
-            )
+            consensus_reached, agreement, votes = await self.validate_with_colonies(memory_id, memory_data, colonies)
 
             if consensus_reached:
                 # Adjust score based on consensus strength
@@ -473,9 +444,7 @@ class MemorySafetyIntegration:
     Coordinates safety features across all LUKHAS modules.
     """
 
-    def __init__(
-        self, safety_system: MemorySafetySystem, memory_fold: HybridMemoryFold
-    ):
+    def __init__(self, safety_system: MemorySafetySystem, memory_fold: HybridMemoryFold):
         self.safety = safety_system
         self.memory = memory_fold
 
@@ -487,17 +456,13 @@ class MemorySafetyIntegration:
 
         logger.info("Memory safety integration initialized")
 
-    async def register_module(
-        self, module_name: str, config: Optional[dict[str, Any]] = None
-    ):
+    async def register_module(self, module_name: str, config: Optional[dict[str, Any]] = None):
         """Register a module for safety integration"""
         config = config or {}
 
         # Set module-specific configurations
         if "drift_threshold" in config:
-            self.drift.set_module_drift_threshold(
-                module_name, config["drift_threshold"]
-            )
+            self.drift.set_module_drift_threshold(module_name, config["drift_threshold"])
 
         if "reality_anchors" in config:
             for key, truth in config["reality_anchors"].items():
@@ -526,9 +491,7 @@ class MemorySafetyIntegration:
             },
             "reality_anchors": {
                 "global_anchors": len(self.safety.reality_anchors),
-                "module_anchors": sum(
-                    len(anchors) for anchors in self.anchors._module_anchors.values()
-                ),
+                "module_anchors": sum(len(anchors) for anchors in self.anchors._module_anchors.values()),
             },
             "consensus": self.consensus.get_consensus_report(),
         }
@@ -594,9 +557,7 @@ async def demonstrate_integration():
     )
 
     # Verify for learning module
-    is_valid, trust_score, error = await integration.verifold.verify_for_module(
-        "learning", mem_id, test_memory
-    )
+    is_valid, trust_score, error = await integration.verifold.verify_for_module("learning", mem_id, test_memory)
 
     print(f"  Verification: {'✅' if is_valid else '❌'}")
     print(f"  Trust score: {trust_score:.3f}")
@@ -605,9 +566,7 @@ async def demonstrate_integration():
     print("\n2. Drift Metrics Integration:")
 
     embedding = np.random.randn(1024).astype(np.float32)
-    drift_result = await integration.drift.track_module_usage(
-        "learning", "integration", embedding, {"action": "test"}
-    )
+    drift_result = await integration.drift.track_module_usage("learning", "integration", embedding, {"action": "test"})
 
     print(f"  Drift score: {drift_result['drift_score']:.3f}")
     print(f"  Recommendation: {drift_result['recommendation']}")

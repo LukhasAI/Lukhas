@@ -85,9 +85,7 @@ class BioSymbolicOrchestrator(BaseColony):
 
         # Initialize specialized colonies
         self.colonies = {
-            "preprocessing": create_preprocessing_colony(
-                f"{orchestrator_id}_preprocessing"
-            ),
+            "preprocessing": create_preprocessing_colony(f"{orchestrator_id}_preprocessing"),
             "thresholds": create_threshold_colony(f"{orchestrator_id}_thresholds"),
             "mapping": create_mapping_colony(f"{orchestrator_id}_mapping"),
             "filtering": create_anomaly_filter_colony(f"{orchestrator_id}_filtering"),
@@ -143,9 +141,7 @@ class BioSymbolicOrchestrator(BaseColony):
         logger.info(f"Colonies: {list(self.colonies.keys())}")
         logger.info(f"Coherence target: {self.coherence_target:.2%}")
 
-    async def execute_task(
-        self, task_id: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """
         Execute complete bio-symbolic processing pipeline.
 
@@ -172,13 +168,9 @@ class BioSymbolicOrchestrator(BaseColony):
 
             # Stage 1: Parallel Colony Processing with Fallback Support
             try:
-                colony_results = await self._execute_parallel_processing(
-                    task_id, bio_data, context
-                )
+                colony_results = await self._execute_parallel_processing(task_id, bio_data, context)
             except Exception as e:
-                logger.warning(
-                    f"Parallel processing failed, activating fallback: {e!s}"
-                )
+                logger.warning(f"Parallel processing failed, activating fallback: {e!s}")
                 colony_results = await self.fallback_manager.handle_component_failure(
                     "orchestrator",
                     e,
@@ -187,44 +179,29 @@ class BioSymbolicOrchestrator(BaseColony):
                 )
 
             # Stage 2: Consensus Integration
-            integrated_results = await self._integrate_colony_consensus(
-                colony_results, bio_data, context
-            )
+            integrated_results = await self._integrate_colony_consensus(colony_results, bio_data, context)
 
             # Stage 3: Quantum Enhancement
             if self.pipeline_config.qi_enhancement:
-                enhanced_results = await self._apply_quantum_enhancement(
-                    integrated_results, bio_data, context
-                )
+                enhanced_results = await self._apply_quantum_enhancement(integrated_results, bio_data, context)
             else:
                 enhanced_results = integrated_results
 
             # Stage 4: Coherence Calculation
-            coherence_metrics = self._calculate_comprehensive_coherence(
-                colony_results, enhanced_results
-            )
+            coherence_metrics = self._calculate_comprehensive_coherence(colony_results, enhanced_results)
 
             # Stage 5: Self-Healing (if coherence below threshold)
-            if (
-                coherence_metrics.overall_coherence < self.coherence_threshold
-                and self.healing_config["auto_recovery"]
-            ):
-                healed_results = await self._apply_self_healing(
-                    enhanced_results, coherence_metrics, bio_data, context
-                )
+            if coherence_metrics.overall_coherence < self.coherence_threshold and self.healing_config["auto_recovery"]:
+                healed_results = await self._apply_self_healing(enhanced_results, coherence_metrics, bio_data, context)
 
                 # Recalculate coherence after healing
-                coherence_metrics = self._calculate_comprehensive_coherence(
-                    colony_results, healed_results
-                )
+                coherence_metrics = self._calculate_comprehensive_coherence(colony_results, healed_results)
             else:
                 healed_results = enhanced_results
 
             # Stage 6: Adaptive Optimization
             if self.pipeline_config.adaptive_optimization:
-                await self._update_adaptive_parameters(
-                    coherence_metrics, colony_results
-                )
+                await self._update_adaptive_parameters(coherence_metrics, colony_results)
 
             # Prepare final result
             processing_time = (datetime.utcnow() - start_time).total_seconds()
@@ -291,9 +268,7 @@ class BioSymbolicOrchestrator(BaseColony):
             )
 
             # Wait for all parallel tasks
-            parallel_results = await asyncio.gather(
-                *tasks.values(), return_exceptions=True
-            )
+            parallel_results = await asyncio.gather(*tasks.values(), return_exceptions=True)
 
             # Combine results
             results = {"preprocessing": preprocessing_result}
@@ -340,10 +315,7 @@ class BioSymbolicOrchestrator(BaseColony):
         }
 
         # Extract key results from each colony
-        if (
-            "preprocessing" in colony_results
-            and "error" not in colony_results["preprocessing"]
-        ):
+        if "preprocessing" in colony_results and "error" not in colony_results["preprocessing"]:
             preprocessing = colony_results["preprocessing"]
             integrated["preprocessed_data"] = preprocessing["preprocessed_data"]
             integrated["data_quality"] = preprocessing["quality_score"]
@@ -352,10 +324,7 @@ class BioSymbolicOrchestrator(BaseColony):
                 "quality_tag": preprocessing["quality_tag"],
             }
 
-        if (
-            "thresholds" in colony_results
-            and "error" not in colony_results["thresholds"]
-        ):
+        if "thresholds" in colony_results and "error" not in colony_results["thresholds"]:
             thresholds = colony_results["thresholds"]
             integrated["adaptive_thresholds"] = thresholds["thresholds"]
             integrated["threshold_confidence"] = thresholds["confidence"]
@@ -388,9 +357,7 @@ class BioSymbolicOrchestrator(BaseColony):
             }
 
         # Calculate consensus strength
-        integrated["consensus_strength"] = self._calculate_colony_consensus(
-            colony_results
-        )
+        integrated["consensus_strength"] = self._calculate_colony_consensus(colony_results)
 
         return integrated
 
@@ -413,15 +380,11 @@ class BioSymbolicOrchestrator(BaseColony):
                 and enhanced.get("consensus_strength", 0) > 0.8
             ):
                 boost_factor = self.qi_config["coherence_boost_factor"]
-                enhanced["mapping_confidence"] = min(
-                    original_confidence * boost_factor, 1.0
-                )
+                enhanced["mapping_confidence"] = min(original_confidence * boost_factor, 1.0)
                 enhanced["qi_enhanced"] = True
                 enhanced["qi_boost_applied"] = boost_factor
 
-                logger.debug(
-                    f"Quantum boost applied: {original_confidence:.3f} → {enhanced['mapping_confidence']:.3f}"
-                )
+                logger.debug(f"Quantum boost applied: {original_confidence:.3f} → {enhanced['mapping_confidence']:.3f}")
 
         # Quantum entanglement effects
         if "active_glyphs" in enhanced and len(enhanced["active_glyphs"]) > 1:
@@ -508,15 +471,12 @@ class BioSymbolicOrchestrator(BaseColony):
             "temporal_stability": 0.05,
         }
 
-        metrics.overall_coherence = sum(
-            getattr(metrics, attr) * weight for attr, weight in weights.items()
-        )
+        metrics.overall_coherence = sum(getattr(metrics, attr) * weight for attr, weight in weights.items())
 
         # Apply quantum boost if present
         if integrated_results.get("qi_enhanced"):
             metrics.overall_coherence = min(
-                metrics.overall_coherence
-                * integrated_results.get("qi_boost_applied", 1.0),
+                metrics.overall_coherence * integrated_results.get("qi_boost_applied", 1.0),
                 1.0,
             )
 
@@ -561,32 +521,24 @@ class BioSymbolicOrchestrator(BaseColony):
             elif weak_point == "thresholds":
                 # Apply adaptive threshold adjustment
                 healing_actions.append("threshold_adjustment")
-                healed["threshold_confidence"] = min(
-                    healed.get("threshold_confidence", 0.5) * 1.15, 1.0
-                )
+                healed["threshold_confidence"] = min(healed.get("threshold_confidence", 0.5) * 1.15, 1.0)
 
             elif weak_point == "mapping":
                 # Apply context-aware re-mapping
                 healing_actions.append("context_remapping")
                 if "mapping_confidence" in healed:
-                    healed["mapping_confidence"] = min(
-                        healed["mapping_confidence"] * 1.1, 1.0
-                    )
+                    healed["mapping_confidence"] = min(healed["mapping_confidence"] * 1.1, 1.0)
 
             elif weak_point == "anomalies":
                 # Apply additional anomaly filtering
                 healing_actions.append("enhanced_filtering")
                 if "anomaly_confidence" in healed:
-                    healed["anomaly_confidence"] = min(
-                        healed["anomaly_confidence"] * 1.1, 1.0
-                    )
+                    healed["anomaly_confidence"] = min(healed["anomaly_confidence"] * 1.1, 1.0)
 
         # Colony consensus healing
         if coherence_metrics.colony_consensus < 0.7:
             healing_actions.append("consensus_strengthening")
-            healed["consensus_strength"] = min(
-                healed.get("consensus_strength", 0.5) * 1.2, 1.0
-            )
+            healed["consensus_strength"] = min(healed.get("consensus_strength", 0.5) * 1.2, 1.0)
 
         # Quantum healing (if available)
         if self.qi_config["entanglement_strength"] > 0.8:
@@ -638,8 +590,7 @@ class BioSymbolicOrchestrator(BaseColony):
         # Adaptive parameter updates
         if len(self.optimization_state["adaptation_history"]) >= 10:
             recent_coherence = [
-                record["coherence"]
-                for record in list(self.optimization_state["adaptation_history"])[-10:]
+                record["coherence"] for record in list(self.optimization_state["adaptation_history"])[-10:]
             ]
 
             coherence_trend = np.mean(np.diff(recent_coherence))
@@ -653,9 +604,7 @@ class BioSymbolicOrchestrator(BaseColony):
                 self.optimization_state["learning_rate"] *= 1.05
 
             # Clamp learning rate
-            self.optimization_state["learning_rate"] = np.clip(
-                self.optimization_state["learning_rate"], 0.001, 0.1
-            )
+            self.optimization_state["learning_rate"] = np.clip(self.optimization_state["learning_rate"], 0.001, 0.1)
 
         # Update consensus weights based on colony performance
         await self._update_consensus_weights()
@@ -664,9 +613,7 @@ class BioSymbolicOrchestrator(BaseColony):
         """Update consensus weights based on colony performance."""
         for colony_name in self.colonies:
             if colony_name in self.colony_performance:
-                performances = list(self.colony_performance[colony_name])[
-                    -20:
-                ]  # Last 20
+                performances = list(self.colony_performance[colony_name])[-20:]  # Last 20
                 if performances:
                     avg_performance = np.mean(performances)
 
@@ -690,15 +637,9 @@ class BioSymbolicOrchestrator(BaseColony):
             for colony_name in self.consensus_weights:
                 self.consensus_weights[colony_name] /= total_weight
 
-    def _calculate_colony_consensus(
-        self, colony_results: dict[str, dict[str, Any]]
-    ) -> float:
+    def _calculate_colony_consensus(self, colony_results: dict[str, dict[str, Any]]) -> float:
         """Calculate strength of consensus among colonies."""
-        valid_results = {
-            name: result
-            for name, result in colony_results.items()
-            if "error" not in result
-        }
+        valid_results = {name: result for name, result in colony_results.items() if "error" not in result}
 
         if len(valid_results) < 2:
             return 0.5  # Low consensus with insufficient data
@@ -741,9 +682,7 @@ class BioSymbolicOrchestrator(BaseColony):
         if len(self.coherence_history) < 5:
             return 0.7  # Default for insufficient history
 
-        recent_coherence = [
-            metrics.overall_coherence for metrics in self.coherence_history[-10:]
-        ]
+        recent_coherence = [metrics.overall_coherence for metrics in self.coherence_history[-10:]]
 
         # Stability is inverse of variance
         coherence_variance = np.var(recent_coherence)
@@ -783,9 +722,7 @@ class BioSymbolicOrchestrator(BaseColony):
         else:
             return "POOR"
 
-    def _generate_recommendations(
-        self, coherence_metrics: CoherenceMetrics
-    ) -> list[str]:
+    def _generate_recommendations(self, coherence_metrics: CoherenceMetrics) -> list[str]:
         """Generate recommendations for improving coherence."""
         recommendations = []
 
@@ -849,21 +786,16 @@ class BioSymbolicOrchestrator(BaseColony):
             # Exponential moving average
             alpha = 0.1
             self.optimization_state["performance_baselines"]["coherence"] = (
-                alpha * coherence
-                + (1 - alpha)
-                * self.optimization_state["performance_baselines"]["coherence"]
+                alpha * coherence + (1 - alpha) * self.optimization_state["performance_baselines"]["coherence"]
             )
 
         # Track processing efficiency
         if "processing_time" not in self.optimization_state["performance_baselines"]:
-            self.optimization_state["performance_baselines"][
-                "processing_time"
-            ] = processing_time
+            self.optimization_state["performance_baselines"]["processing_time"] = processing_time
         else:
             self.optimization_state["performance_baselines"]["processing_time"] = (
                 alpha * processing_time
-                + (1 - alpha)
-                * self.optimization_state["performance_baselines"]["processing_time"]
+                + (1 - alpha) * self.optimization_state["performance_baselines"]["processing_time"]
             )
 
     def _log_orchestration_event(self, result: dict[str, Any]):
@@ -879,9 +811,7 @@ class BioSymbolicOrchestrator(BaseColony):
             "processing_time_ms": result["processing_time_ms"],
             "colonies_involved": len(self.colonies),
             "qi_enhanced": result["bio_symbolic_state"].get("qi_enhanced", False),
-            "self_healing_applied": result["bio_symbolic_state"].get(
-                "self_healing_activated", False
-            ),
+            "self_healing_applied": result["bio_symbolic_state"].get("self_healing_activated", False),
             "timestamp": result["timestamp"],
         }
 
@@ -907,11 +837,7 @@ class BioSymbolicOrchestrator(BaseColony):
             "colonies": list(self.colonies.keys()),
             "coherence_target": self.coherence_target,
             "coherence_threshold": self.coherence_threshold,
-            "recent_coherence": (
-                self.coherence_history[-1].overall_coherence
-                if self.coherence_history
-                else 0.0
-            ),
+            "recent_coherence": (self.coherence_history[-1].overall_coherence if self.coherence_history else 0.0),
             "consensus_weights": self.consensus_weights,
             "qi_config": self.qi_config,
             "healing_config": self.healing_config,
@@ -928,6 +854,4 @@ def create_bio_symbolic_orchestrator(
     orchestrator_id: Optional[str] = None,
 ) -> BioSymbolicOrchestrator:
     """Create a new bio-symbolic orchestrator instance."""
-    return BioSymbolicOrchestrator(
-        orchestrator_id or "bio_symbolic_orchestrator_default"
-    )
+    return BioSymbolicOrchestrator(orchestrator_id or "bio_symbolic_orchestrator_default")

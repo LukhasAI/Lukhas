@@ -181,9 +181,7 @@ class DashboardColonyAgent(BaseColony):
             )
 
         except Exception as e:
-            self.logger.error(
-                "Dashboard Colony Agent initialization failed", error=str(e)
-            )
+            self.logger.error("Dashboard Colony Agent initialization failed", error=str(e))
             raise
 
     async def _connect_to_lukhas_systems(self):
@@ -434,9 +432,7 @@ class DashboardColonyAgent(BaseColony):
         confidence_score = self._calculate_intelligence_confidence(intelligence_data)
 
         # Generate recommendations
-        recommendations = await self._generate_intelligence_recommendations(
-            intelligence_data
-        )
+        recommendations = await self._generate_intelligence_recommendations(intelligence_data)
 
         return DashboardIntelligence(
             source_colonies=source_colonies,
@@ -464,9 +460,7 @@ class DashboardColonyAgent(BaseColony):
                 "performance_predictions": oracle_status.get("performance_metrics", {}),
                 "upcoming_events": [],  # Would be populated by Oracle predictions
                 "recommendation": (
-                    "optimal"
-                    if oracle_status.get("health_status") == "optimal"
-                    else "attention_needed"
+                    "optimal" if oracle_status.get("health_status") == "optimal" else "attention_needed"
                 ),
             }
 
@@ -487,11 +481,7 @@ class DashboardColonyAgent(BaseColony):
                 "drift_score": ethics_status.get("drift_score", 0.0),
                 "active_decisions": ethics_status.get("active_decisions", 0),
                 "swarm_consensus": ethics_status.get("swarm_consensus", 0.0),
-                "recommendation": (
-                    "simple"
-                    if ethics_status.get("complexity_level", 0.0) < 0.3
-                    else "complex"
-                ),
+                "recommendation": ("simple" if ethics_status.get("complexity_level", 0.0) < 0.3 else "complex"),
             }
 
         except Exception as e:
@@ -580,9 +570,7 @@ class DashboardColonyAgent(BaseColony):
             await self._recommend_ethics_focused_layout(event_data)
 
     # Colony coordination methods (implementing BaseColony abstract methods)
-    async def execute_task(
-        self, task_name: str, parameters: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_task(self, task_name: str, parameters: dict[str, Any]) -> dict[str, Any]:
         """Execute dashboard coordination tasks."""
 
         if task_name == "coordinate_morph":
@@ -598,9 +586,7 @@ class DashboardColonyAgent(BaseColony):
             return {"error": f"Unknown task: {task_name}"}
 
     # Utility methods to be implemented based on specific requirements
-    async def _coordinate_dashboard_morph(
-        self, parameters: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _coordinate_dashboard_morph(self, parameters: dict[str, Any]) -> dict[str, Any]:
         """Coordinate dashboard morphing across colonies."""
         # Implementation details...
         return {"status": "morph_coordinated"}
@@ -613,16 +599,12 @@ class DashboardColonyAgent(BaseColony):
         """Recommend ethics-focused dashboard layout."""
         # Implementation details...
 
-    def _calculate_intelligence_confidence(
-        self, intelligence_data: dict[str, Any]
-    ) -> float:
+    def _calculate_intelligence_confidence(self, intelligence_data: dict[str, Any]) -> float:
         """Calculate confidence score for aggregated intelligence."""
         # Implementation details...
         return 0.8
 
-    async def _generate_intelligence_recommendations(
-        self, intelligence_data: dict[str, Any]
-    ) -> list[str]:
+    async def _generate_intelligence_recommendations(self, intelligence_data: dict[str, Any]) -> list[str]:
         """Generate recommendations based on aggregated intelligence."""
         # Implementation details...
         return ["optimize_performance", "monitor_ethics_complexity"]
@@ -643,6 +625,4 @@ async def create_dashboard_colony_swarm() -> list[DashboardColonyAgent]:
     return agents
 
 
-logger.info(
-    "ΛDASHBOARD: Dashboard Colony Agent loaded. Intelligent coordination ready."
-)
+logger.info("ΛDASHBOARD: Dashboard Colony Agent loaded. Intelligent coordination ready.")

@@ -115,18 +115,12 @@ class GuardianMemoryOperation:
         return {
             "operation_id": self.operation_id,
             "operation_type": (
-                self.operation_type.value
-                if hasattr(self.operation_type, "value")
-                else self.operation_type
+                self.operation_type.value if hasattr(self.operation_type, "value") else self.operation_type
             ),
             "timestamp": self.timestamp,
             "signature": self.signature.to_dict() if self.signature else {},
             "memory_data_hash": self.memory_data_hash,
-            "security_context": (
-                self.security_context.to_dict()
-                if hasattr(self.security_context, "to_dict")
-                else {}
-            ),
+            "security_context": (self.security_context.to_dict() if hasattr(self.security_context, "to_dict") else {}),
             "cfg_version": self.cfg_version,
         }
 
@@ -208,9 +202,7 @@ class C4MemoryGuardianAdapter:
             cfg_version="guardian@1.0.0",
         )
 
-    def _log_operation(
-        self, operation: GuardianMemoryOperation, result: dict[str, Any]
-    ):
+    def _log_operation(self, operation: GuardianMemoryOperation, result: dict[str, Any]):
         """Log Guardian memory operation for audit trail"""
 
         log_entry = {
@@ -218,9 +210,7 @@ class C4MemoryGuardianAdapter:
             "operation_type": operation.operation_type,
             "timestamp": operation.timestamp,
             "user_id": (
-                operation.security_context.user_id
-                if hasattr(operation.security_context, "user_id")
-                else "unknown"
+                operation.security_context.user_id if hasattr(operation.security_context, "user_id") else "unknown"
             ),
             "security_level": (
                 operation.security_context.security_level
@@ -231,8 +221,7 @@ class C4MemoryGuardianAdapter:
             "cfg_version": operation.cfg_version,
             "signature_hash": (
                 operation.signature.public_key_hash
-                if operation.signature
-                and hasattr(operation.signature, "public_key_hash")
+                if operation.signature and hasattr(operation.signature, "public_key_hash")
                 else "no_signature"
             ),
         }
@@ -264,9 +253,7 @@ class C4MemoryGuardianAdapter:
         """
 
         # Create security context
-        security_context = self._create_security_context(
-            user_id, MemoryOperationType.STORE, security_level=3
-        )
+        security_context = self._create_security_context(user_id, MemoryOperationType.STORE, security_level=3)
 
         # Sign memory operation
         signature = self.crypto_spine.sign_memory_operation(
@@ -336,9 +323,7 @@ class C4MemoryGuardianAdapter:
 
             return error_result
 
-    async def secure_memory_retrieve(
-        self, user_id: str, memory_key: str
-    ) -> dict[str, Any]:
+    async def secure_memory_retrieve(self, user_id: str, memory_key: str) -> dict[str, Any]:
         """
         Retrieve memory data with Guardian signature verification.
 
@@ -351,9 +336,7 @@ class C4MemoryGuardianAdapter:
         """
 
         # Create security context
-        security_context = self._create_security_context(
-            user_id, MemoryOperationType.RETRIEVE, security_level=2
-        )
+        security_context = self._create_security_context(user_id, MemoryOperationType.RETRIEVE, security_level=2)
 
         # Sign retrieval operation
         signature = self.crypto_spine.sign_memory_operation(
@@ -443,9 +426,7 @@ class C4MemoryGuardianAdapter:
             Fold creation result with Guardian protection
         """
 
-        security_context = self._create_security_context(
-            user_id, MemoryOperationType.FOLD_CREATE, security_level=4
-        )
+        security_context = self._create_security_context(user_id, MemoryOperationType.FOLD_CREATE, security_level=4)
 
         # Sign fold creation operation
         signature = self.crypto_spine.sign_memory_operation(
@@ -507,9 +488,7 @@ class C4MemoryGuardianAdapter:
 
             return error_result
 
-    async def secure_memory_delete(
-        self, user_id: str, memory_key: str, cascade: bool = False
-    ) -> dict[str, Any]:
+    async def secure_memory_delete(self, user_id: str, memory_key: str, cascade: bool = False) -> dict[str, Any]:
         """
         Delete memory data with Guardian cryptographic authorization.
 
@@ -522,14 +501,8 @@ class C4MemoryGuardianAdapter:
             Deletion result with Guardian authorization
         """
 
-        operation_type = (
-            MemoryOperationType.CASCADE_DELETE
-            if cascade
-            else MemoryOperationType.DELETE
-        )
-        security_context = self._create_security_context(
-            user_id, operation_type, security_level=5
-        )
+        operation_type = MemoryOperationType.CASCADE_DELETE if cascade else MemoryOperationType.DELETE
+        security_context = self._create_security_context(user_id, operation_type, security_level=5)
 
         # Sign deletion operation
         signature = self.crypto_spine.sign_memory_operation(
@@ -591,10 +564,7 @@ class C4MemoryGuardianAdapter:
 
         compliance_score = 1.0
         if self.guardian_metrics["total_operations"] > 0:
-            compliance_score = (
-                self.guardian_metrics["verified_operations"]
-                / self.guardian_metrics["total_operations"]
-            )
+            compliance_score = self.guardian_metrics["verified_operations"] / self.guardian_metrics["total_operations"]
 
         return {
             **self.guardian_metrics,
@@ -693,15 +663,11 @@ if __name__ == "__main__":
         print(f"✅ Secure store: {store_result['status']}")
 
         # Test secure retrieval
-        retrieve_result = await adapter.secure_memory_retrieve(
-            user_id, "consciousness_memory_001"
-        )
+        retrieve_result = await adapter.secure_memory_retrieve(user_id, "consciousness_memory_001")
         print(f"✅ Secure retrieve: {retrieve_result['status']}")
 
         # Test secure fold creation
-        fold_result = await adapter.secure_fold_create(
-            user_id, {"pattern": "neural_oscillation", "amplitude": 0.8}
-        )
+        fold_result = await adapter.secure_fold_create(user_id, {"pattern": "neural_oscillation", "amplitude": 0.8})
         print(f"✅ Secure fold create: {fold_result['status']}")
 
         # Get Guardian metrics

@@ -48,9 +48,7 @@ class MemoryConsciousnessBridge:
             "consciousness_event": "memory_event",
         }
 
-    async def memory_to_consciousness(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def memory_to_consciousness(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Forward event from Memory to Consciousness"""
         if not self.is_connected:
             await self.connect()
@@ -58,17 +56,13 @@ class MemoryConsciousnessBridge:
             mapped_event = self.event_mappings.get(event_type, event_type)
             transformed = self.transform_memory_to_consciousness(data)
             if self.consciousness_hub:
-                return await self.consciousness_hub.process_event(
-                    mapped_event, transformed
-                )
+                return await self.consciousness_hub.process_event(mapped_event, transformed)
             return {"error": "consciousness hub not available"}
         except Exception as e:
             logger.error(f"Error forwarding from Memory to Consciousness: {e}")
             return {"error": str(e)}
 
-    async def consciousness_to_memory(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def consciousness_to_memory(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Forward event from Consciousness to Memory"""
         if not self.is_connected:
             await self.connect()

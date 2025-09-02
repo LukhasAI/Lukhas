@@ -105,9 +105,7 @@ class EpisodicMemory:
     timestamp: float = field(default_factory=time.time)
 
     # Contextual binding
-    spatial_context: dict[str, float] = field(
-        default_factory=dict
-    )  # Place cell activation
+    spatial_context: dict[str, float] = field(default_factory=dict)  # Place cell activation
     temporal_context: float = 0.0  # Time cell activation
     emotional_valence: float = 0.0  # -1 to 1
     arousal_level: float = 0.5  # 0 to 1
@@ -386,9 +384,7 @@ class HippocampalBuffer:
 
         for memory in self.memory_index.values():
             if memory.pattern_vector is not None:
-                similarity = self._pattern_similarity(
-                    cue_pattern, memory.pattern_vector
-                )
+                similarity = self._pattern_similarity(cue_pattern, memory.pattern_vector)
 
                 if similarity > best_similarity and similarity >= completion_threshold:
                     best_similarity = similarity
@@ -420,17 +416,13 @@ class HippocampalBuffer:
 
         # Select memories for replay
         if memory_ids:
-            replay_memories = [
-                self.memory_index[mid] for mid in memory_ids if mid in self.memory_index
-            ]
+            replay_memories = [self.memory_index[mid] for mid in memory_ids if mid in self.memory_index]
         else:
             # Prioritized sampling based on salience
             sorted_queue = sorted(self.replay_queue, key=lambda x: x[1], reverse=True)
 
             replay_ids = [item[0] for item in sorted_queue[:replay_count]]
-            replay_memories = [
-                self.memory_index[mid] for mid in replay_ids if mid in self.memory_index
-            ]
+            replay_memories = [self.memory_index[mid] for mid in replay_ids if mid in self.memory_index]
 
         # Simulate ripple events
         ripple_data = []
@@ -441,14 +433,9 @@ class HippocampalBuffer:
                 "timestamp": time.time(),
                 "memory_id": memory.memory_id,
                 "content": memory.content,
-                "pattern": (
-                    memory.pattern_vector.tolist()
-                    if memory.pattern_vector is not None
-                    else None
-                ),
+                "pattern": (memory.pattern_vector.tolist() if memory.pattern_vector is not None else None),
                 "associations": list(memory.associated_memories),
-                "replay_strength": memory.encoding_strength
-                * memory.calculate_salience(),
+                "replay_strength": memory.encoding_strength * memory.calculate_salience(),
             }
 
             ripple_data.append(ripple)
@@ -518,9 +505,7 @@ class HippocampalBuffer:
         """
 
         # Convert content to string for hashing
-        content_str = (
-            json.dumps(content) if isinstance(content, (dict, list)) else str(content)
-        )
+        content_str = json.dumps(content) if isinstance(content, (dict, list)) else str(content)
 
         # Generate pattern vector
         pattern = np.zeros(self.pattern_dimension)
@@ -531,9 +516,7 @@ class HippocampalBuffer:
 
         # Activate sparse subset of neurons
         active_neurons = int(self.pattern_dimension * self.sparse_coding_level)
-        active_indices = np.random.choice(
-            self.pattern_dimension, size=active_neurons, replace=False
-        )
+        active_indices = np.random.choice(self.pattern_dimension, size=active_neurons, replace=False)
 
         # Set activation strengths
         pattern[active_indices] = np.random.uniform(0.5, 1.0, size=active_neurons)
@@ -544,9 +527,7 @@ class HippocampalBuffer:
 
         return pattern
 
-    def _find_similar_memories(
-        self, pattern: np.ndarray, threshold: Optional[float] = None
-    ) -> list[EpisodicMemory]:
+    def _find_similar_memories(self, pattern: np.ndarray, threshold: Optional[float] = None) -> list[EpisodicMemory]:
         """Find memories with similar patterns"""
 
         threshold = threshold or self.pattern_separation_threshold
@@ -581,9 +562,7 @@ class HippocampalBuffer:
 
             # Phase advances based on frequency
             phase_advance = 2 * np.pi * self.theta_frequency * dt
-            self.current_theta_phase = (self.current_theta_phase + phase_advance) % (
-                2 * np.pi
-            )
+            self.current_theta_phase = (self.current_theta_phase + phase_advance) % (2 * np.pi)
 
             self.last_theta_update = current_time
 
@@ -611,8 +590,7 @@ class HippocampalBuffer:
             "unique_memories": len(self.memory_index),
             "total_encoded": self.total_encoded,
             "retrieval_success_rate": (
-                self.successful_retrievals
-                / max(self.successful_retrievals + self.failed_retrievals, 1)
+                self.successful_retrievals / max(self.successful_retrievals + self.failed_retrievals, 1)
             ),
             "total_replays": self.total_replays,
             "current_theta_phase": self.current_theta_phase,
@@ -699,9 +677,7 @@ async def demonstrate_hippocampal_buffer():
     print(f"Replayed {len(ripples)} memories")
 
     for ripple in ripples[:2]:
-        print(
-            f"  Ripple: {ripple['memory_id'][:8]}... strength={ripple['replay_strength']:.2f}"
-        )
+        print(f"  Ripple: {ripple['memory_id'][:8]}... strength={ripple['replay_strength']:.2f}")
 
     # Get consolidation candidates
     print("\n--- Consolidation Candidates ---")

@@ -23,8 +23,9 @@ Created: 2025-07-05
 Updated: 2025-07-05 (Enhanced with collision prevention)
 """
 
+import hashlib
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -101,29 +102,37 @@ class LambdaIDValidator:
         self.emoji_combinations = self._load_emoji_combinations()
 
         # Legacy pattern for backward compatibility
-        self.lambda_id_pattern = re.compile(
-            r"^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$"
-        )
+        self.lambda_id_pattern = re.compile(r"^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$")
 
     def _get_default_config_path(self) -> str:
         """Get the default configuration file path"""
         import os
+        # Prefer the canonical filename, but accept legacy misspelling for compatibility.
+        dir_path = os.path.dirname(__file__)
+        canonical_name = "lambda_id_config.json"
+        legacy_name = "lambd_id_config.json"
+        canonical_path = os.path.join(dir_path, canonical_name)
+        legacy_path = os.path.join(dir_path, legacy_name)
 
-        default_path = os.path.join(os.path.dirname(__file__), "lambd_id_config.json")
-        if not os.path.exists(default_path):
-            # Create basic config if it doesn't exist
+        # If canonical exists, use it. Otherwise fall back to legacy if present.
+        chosen_path = canonical_path if os.path.exists(canonical_path) else legacy_path
+
+        # If neither exists, create the canonical file path with a basic config.
+        if not os.path.exists(chosen_path):
             basic_config = {
                 "validation_rules": {},
                 "geo_codes": [],
                 "reserved_ids": [],
                 "emoji_combinations": {},
             }
-            os.makedirs(os.path.dirname(default_path), exist_ok=True)
-            with open(default_path, "w") as f:
+            os.makedirs(os.path.dirname(canonical_path), exist_ok=True)
+            with open(canonical_path, "w", encoding="utf-8") as f:
                 import json
 
                 json.dump(basic_config, f, indent=2)
-        return default_path
+            chosen_path = canonical_path
+
+        return chosen_path
 
     def validate(
         self,
@@ -205,7 +214,7 @@ class LambdaIDValidator:
         """
         validation_details = {
             "lambda_id": lambda_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(tz=timezone.utc).isoformat(),
             "checks_performed": [],
             "errors": [],
             "warnings": [],
@@ -216,9 +225,7 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("format_validation")
 
         if format_result != ValidationResult.VALID:
-            validation_details["errors"].append(
-                f"Format validation failed: {format_result.value}"
-            )
+            validation_details["errors"].append(f"Format validation failed: {format_result.value}")
             return format_result, validation_details
 
         # Parse components
@@ -230,9 +237,7 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("tier_validation")
 
         if tier_result != ValidationResult.VALID:
-            validation_details["errors"].append(
-                f"Tier validation failed: {tier_result.value}"
-            )
+            validation_details["errors"].append(f"Tier validation failed: {tier_result.value}")
             return tier_result, validation_details
 
         # 3. Symbolic character validation
@@ -240,9 +245,7 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("symbolic_validation")
 
         if symbolic_result != ValidationResult.VALID:
-            validation_details["errors"].append(
-                f"Symbolic validation failed: {symbolic_result.value}"
-            )
+            validation_details["errors"].append(f"Symbolic validation failed: {symbolic_result.value}")
             return symbolic_result, validation_details
 
         # 4. Collision detection
@@ -250,9 +253,7 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("collision_detection")
 
         if collision_result != ValidationResult.VALID:
-            validation_details["errors"].append(
-                f"Collision detected: {collision_result.value}"
-            )
+            validation_details["errors"].append(f"Collision detected: {collision_result.value}")
             return collision_result, validation_details
 
         # 5. Reserved ID check
@@ -260,9 +261,7 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("reserved_check")
 
         if reserved_result != ValidationResult.VALID:
-            validation_details["errors"].append(
-                f"Reserved ID conflict: {reserved_result.value}"
-            )
+            validation_details["errors"].append(f"Reserved ID conflict: {reserved_result.value}")
             return reserved_result, validation_details
 
         # 6. Entropy validation
@@ -270,9 +269,7 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("entropy_validation")
 
         if entropy_result != ValidationResult.VALID:
-            validation_details["warnings"].append(
-                f"Entropy warning: {entropy_result.value}"
-            )
+            validation_details["warnings"].append(f"Entropy warning: {entropy_result.value}")
             # Don't fail validation for entropy warnings
 
         # 7. Checksum validation (if enabled)
@@ -281,9 +278,7 @@ class LambdaIDValidator:
             validation_details["checks_performed"].append("checksum_validation")
 
             if checksum_result != ValidationResult.VALID:
-                validation_details["errors"].append(
-                    f"Checksum failed: {checksum_result.value}"
-                )
+                validation_details["errors"].append(f"Checksum failed: {checksum_result.value}")
                 return checksum_result, validation_details
 
         # All validations passed
@@ -323,9 +318,7 @@ class LambdaIDValidator:
 
         return ValidationResult.VALID
 
-    def _validate_symbolic_character(
-        self, tier: int, symbolic_char: str
-    ) -> ValidationResult:
+    def _validate_symbolic_character(self, tier: int, symbolic_char: str) -> ValidationResult:
         """Validate symbolic character against tier permissions"""
         tier_allowed_symbols = self.tier_symbols.get(f"tier_{tier}", [])
 
@@ -537,9 +530,7 @@ class LambdaIDValidator:
         """Compile regex patterns for validation"""
         return {
             "basic_pattern": re.compile(r"^Λ([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$"),
-            "legacy_pattern": re.compile(
-                r"^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$"
-            ),
+            "legacy_pattern": re.compile(r"^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$"),
             "hex_pattern": re.compile(r"^[A-F0-9]+$"),
             "tier_pattern": re.compile(r"^[0-5]$"),
         }

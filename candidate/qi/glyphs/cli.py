@@ -49,9 +49,7 @@ def create_seal_command(args):
         policy_fp = args.policy_fingerprint
         if not policy_fp:
             if not args.policy_root:
-                print(
-                    "Error: --policy-root required when policy fingerprint not provided"
-                )
+                print("Error: --policy-root required when policy fingerprint not provided")
                 return 1
             policy_fp = policy_fingerprint_from_files(args.policy_root, args.overlays)
             print(f"Policy fingerprint: {policy_fp}")
@@ -149,9 +147,7 @@ def verify_seal_command(args):
             signature_data = seal_package.get("signature", {})
 
             verifier = GlyphVerifier(jwks)
-            result = verifier.verify_seal(
-                content_bytes, seal_data, signature_data, args.online
-            )
+            result = verifier.verify_seal(content_bytes, seal_data, signature_data, args.online)
 
         # Display results
         print(f"Verification: {'✅ VALID' if result.valid else '❌ INVALID'}")
@@ -221,9 +217,7 @@ def extract_seal_command(args):
                 signature_data = seal_data.get("signature", {})
 
                 verifier = GlyphVerifier()
-                result = verifier.verify_seal(
-                    content_bytes, seal_data_inner, signature_data
-                )
+                result = verifier.verify_seal(content_bytes, seal_data_inner, signature_data)
 
                 print(f"  Result: {'✅ VALID' if result.valid else '❌ INVALID'}")
                 if result.errors:
@@ -272,39 +266,27 @@ def info_command(args):
 
 def main():
     """Main CLI entry point"""
-    parser = argparse.ArgumentParser(
-        prog="glyph", description="LUKHAS AI GLYPH Cryptographic Seal System"
-    )
+    parser = argparse.ArgumentParser(prog="glyph", description="LUKHAS AI GLYPH Cryptographic Seal System")
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Create command
     create_parser = subparsers.add_parser("create", help="Create a cryptographic seal")
     create_parser.add_argument("file", help="File to seal")
-    create_parser.add_argument(
-        "--issuer", required=True, help="Issuer ID (lukhas://org/<tenant>)"
-    )
+    create_parser.add_argument("--issuer", required=True, help="Issuer ID (lukhas://org/<tenant>)")
     create_parser.add_argument("--model-id", required=True, help="Model identifier")
     create_parser.add_argument("--proof-bundle", required=True, help="Proof bundle URL")
     create_parser.add_argument("--policy-root", help="Policy pack root directory")
-    create_parser.add_argument(
-        "--policy-fingerprint", help="Pre-computed policy fingerprint"
-    )
+    create_parser.add_argument("--policy-fingerprint", help="Pre-computed policy fingerprint")
     create_parser.add_argument("--overlays", help="Policy overlay directory")
     create_parser.add_argument("--jurisdiction", default="global", help="Jurisdiction")
-    create_parser.add_argument(
-        "--ttl-days", type=int, default=365, help="Seal validity days"
-    )
+    create_parser.add_argument("--ttl-days", type=int, default=365, help="Seal validity days")
     create_parser.add_argument("--calib-ref", help="Calibration reference JSON")
     create_parser.add_argument("--prev", help="Previous seal ID for chaining")
     create_parser.add_argument("--key-id", help="Signing key ID")
     create_parser.add_argument("--output", help="Output JSON file")
-    create_parser.add_argument(
-        "--embed", action="store_true", help="Embed seal in original file"
-    )
-    create_parser.add_argument(
-        "--embed-output", help="Output file for embedded version"
-    )
+    create_parser.add_argument("--embed", action="store_true", help="Embed seal in original file")
+    create_parser.add_argument("--embed-output", help="Output file for embedded version")
     create_parser.add_argument("--qr", help="Generate QR code PNG")
     create_parser.set_defaults(func=create_seal_command)
 
@@ -313,23 +295,15 @@ def main():
     verify_parser.add_argument("file", help="Original content file")
     verify_parser.add_argument("seal", help="Seal JSON file or compact seal string")
     verify_parser.add_argument("--jwks", help="JWKS file for key verification")
-    verify_parser.add_argument(
-        "--online", action="store_true", help="Perform online verification"
-    )
-    verify_parser.add_argument(
-        "--compact", action="store_true", help="Seal is compact format"
-    )
+    verify_parser.add_argument("--online", action="store_true", help="Perform online verification")
+    verify_parser.add_argument("--compact", action="store_true", help="Seal is compact format")
     verify_parser.set_defaults(func=verify_seal_command)
 
     # Extract command
-    extract_parser = subparsers.add_parser(
-        "extract", help="Extract seal from embedded file"
-    )
+    extract_parser = subparsers.add_parser("extract", help="Extract seal from embedded file")
     extract_parser.add_argument("file", help="File with embedded seal")
     extract_parser.add_argument("--output", help="Output JSON file for extracted seal")
-    extract_parser.add_argument(
-        "--verify", action="store_true", help="Verify extracted seal"
-    )
+    extract_parser.add_argument("--verify", action="store_true", help="Verify extracted seal")
     extract_parser.set_defaults(func=extract_seal_command)
 
     # Info command

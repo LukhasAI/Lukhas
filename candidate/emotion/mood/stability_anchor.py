@@ -31,9 +31,7 @@ class StabilityAnchor:
         return f"StabilityAnchor(level={self.level})"
 
 
-def weight_modulator(
-    signal_type: str, affect_vector: dict[str, float]
-) -> dict[str, float]:
+def weight_modulator(signal_type: str, affect_vector: dict[str, float]) -> dict[str, float]:
     """
     Modulates the weights of the symbolic hormones based on the signal type and affect vector.
 

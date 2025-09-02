@@ -205,9 +205,7 @@ class EthicalDriftSentinel:
 
         # State tracking
         self.symbol_states: dict[str, EthicalState] = {}
-        self.state_history: dict[str, deque] = defaultdict(
-            lambda: deque(maxlen=state_history_size)
-        )
+        self.state_history: dict[str, deque] = defaultdict(lambda: deque(maxlen=state_history_size))
 
         # Violation tracking
         self.active_violations: dict[str, EthicalViolation] = {}
@@ -338,9 +336,7 @@ class EthicalDriftSentinel:
 
         return None
 
-    def _detect_violations(
-        self, state: EthicalState, symbol_data: dict[str, Any]
-    ) -> list[EthicalViolation]:
+    def _detect_violations(self, state: EthicalState, symbol_data: dict[str, Any]) -> list[EthicalViolation]:
         """Detect ethical violations from state and data."""
         violations = []
         datetime.now(timezone.utc).isoformat()
@@ -368,9 +364,7 @@ class EthicalDriftSentinel:
             )
 
         # Check memory phase mismatch
-        if state.memory_phase_alignment < (
-            1.0 - self.thresholds["memory_phase_mismatch"]
-        ):
+        if state.memory_phase_alignment < (1.0 - self.thresholds["memory_phase_mismatch"]):
             violations.append(
                 self._create_violation(
                     state.symbol_id,
@@ -436,8 +430,7 @@ class EthicalDriftSentinel:
             risk_score=risk_score,
             metrics=metrics,
             context=context,
-            intervention_required=severity
-            in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK],
+            intervention_required=severity in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK],
         )
 
         return violation
@@ -515,9 +508,7 @@ class EthicalDriftSentinel:
             if violation.severity == EscalationTier.CASCADE_LOCK:
                 await self._escalate_to_governor(violation, str(e))
 
-    async def _execute_intervention(
-        self, action_type: str, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _execute_intervention(self, action_type: str, params: dict[str, Any]) -> dict[str, Any]:
         """
         Execute the actual intervention.
 
@@ -543,9 +534,7 @@ class EthicalDriftSentinel:
 
         return {"status": "completed"}
 
-    async def _escalate_to_governor(
-        self, violation: EthicalViolation, failure_reason: str
-    ):
+    async def _escalate_to_governor(self, violation: EthicalViolation, failure_reason: str):
         """
         Escalate to Lambda Governor for critical failures.
 
@@ -691,15 +680,9 @@ class EthicalDriftSentinel:
         """Update ethical state from symbol data."""
         # Extract metrics from symbol data
         state.coherence_score = symbol_data.get("coherence", state.coherence_score)
-        state.emotional_stability = symbol_data.get(
-            "emotional_stability", state.emotional_stability
-        )
-        state.contradiction_level = symbol_data.get(
-            "contradiction_density", state.contradiction_level
-        )
-        state.memory_phase_alignment = symbol_data.get(
-            "memory_alignment", state.memory_phase_alignment
-        )
+        state.emotional_stability = symbol_data.get("emotional_stability", state.emotional_stability)
+        state.contradiction_level = symbol_data.get("contradiction_density", state.contradiction_level)
+        state.memory_phase_alignment = symbol_data.get("memory_alignment", state.memory_phase_alignment)
         state.glyph_entropy = symbol_data.get("glyph_entropy", state.glyph_entropy)
 
         # Calculate drift velocity
@@ -743,13 +726,7 @@ class EthicalDriftSentinel:
             "active_symbols": active_symbols,
             "total_violations": total_violations,
             "critical_violations": critical_violations,
-            "recent_interventions": len(
-                [
-                    i
-                    for i in self.intervention_log
-                    if self._is_recent(i.timestamp, minutes=15)
-                ]
-            ),
+            "recent_interventions": len([i for i in self.intervention_log if self._is_recent(i.timestamp, minutes=15)]),
             "system_risk": self._calculate_system_risk(),
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
@@ -760,9 +737,7 @@ class EthicalDriftSentinel:
             return 0.0
 
         # Average risk across all symbols
-        symbol_risks = [
-            state.calculate_risk_score() for state in self.symbol_states.values()
-        ]
+        symbol_risks = [state.calculate_risk_score() for state in self.symbol_states.values()]
 
         # Weight recent violations more heavily
         recent_violation_factor = min(
@@ -773,9 +748,7 @@ class EthicalDriftSentinel:
         avg_risk = np.mean(symbol_risks) if symbol_risks else 0.0
         return min(avg_risk + recent_violation_factor, 1.0)
 
-    def register_symbol(
-        self, symbol_id: str, initial_state: Optional[dict[str, Any]] = None
-    ):
+    def register_symbol(self, symbol_id: str, initial_state: Optional[dict[str, Any]] = None):
         """
         Register a symbol for monitoring.
 

@@ -59,9 +59,7 @@ class NIASCore:
         if self.dream_bridge:
             self._setup_dream_integration()
 
-    async def push_symbolic_message(
-        self, message: dict[str, Any], user_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def push_symbolic_message(self, message: dict[str, Any], user_context: dict[str, Any]) -> dict[str, Any]:
         """
         Main entry point for symbolic message delivery.
         Routes through consent, emotional, and symbolic filters.
@@ -73,16 +71,12 @@ class NIASCore:
             return {"status": "blocked", "reason": "consent_filter"}
 
         # Step 2: Symbolic matching (now with OpenAI enhancement)
-        match_result = await self.symbolic_matcher.match_message_to_context(
-            message, user_context
-        )
+        match_result = await self.symbolic_matcher.match_message_to_context(message, user_context)
 
         # Step 3: Route based on match decision
         if match_result["decision"] == "defer":
             # Defer to dream processing
-            dream_entry = await self.dream_recorder.record_dream_message(
-                message, user_context
-            )
+            dream_entry = await self.dream_recorder.record_dream_message(message, user_context)
             return {
                 "status": "deferred_to_dream",
                 "dream_id": dream_entry["dream_id"],
@@ -108,17 +102,13 @@ class NIASCore:
         except Exception as e:
             logger.warning(f"Failed to setup dream integration: {e}")
 
-    async def _handle_dream_message(
-        self, message_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_dream_message(self, message_data: dict[str, Any]) -> dict[str, Any]:
         """Handle dream message processing"""
         if self.dream_bridge:
             return await self.dream_bridge.handle_message_deferral(message_data)
         return {"status": "no_bridge"}
 
-    async def _handle_dream_symbols(
-        self, symbol_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_dream_symbols(self, symbol_data: dict[str, Any]) -> dict[str, Any]:
         """Handle dream symbol processing"""
         # Update symbolic matcher with dream-processed symbols
         if hasattr(self.symbolic_matcher, "update_symbols"):
@@ -132,9 +122,7 @@ class SymbolicMatcher:
     def __init__(self, openai_client=None):
         self.openai = openai_client
 
-    async def match_message_to_context(
-        self, message: dict[str, Any], user_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def match_message_to_context(self, message: dict[str, Any], user_context: dict[str, Any]) -> dict[str, Any]:
         """
         Match symbolic message to user context using AI when available.
         """
@@ -201,9 +189,7 @@ class DreamRecorder:
     def __init__(self):
         self.dream_queue = []
 
-    async def record_dream_message(
-        self, message: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def record_dream_message(self, message: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Record message for later dream processing"""
         import datetime
 

@@ -52,9 +52,7 @@ class IntentRouter:
         self.patterns = self._initialize_patterns()
         self.glyph_map = self._initialize_glyph_map()
 
-    def _initialize_patterns(:
-        self,
-    ) -> dict[IntentType, list[tuple[str, float]]]:
+    def _initialize_patterns(self) -> dict[IntentType, list[tuple[str, float]]]:
         """Initialize regex patterns for intent detection."""
         return {
             IntentType.QUERY_MEMORY: [
@@ -162,9 +160,7 @@ class IntentRouter:
             glyphs=glyphs,
         )
 
-    def _extract_parameters(:
-        self, text: str, intent_type: IntentType, match: re.Match
-    ) -> dict[str, Any]:
+    def _extract_parameters(self, text: str, intent_type: IntentType, match: re.Match) -> dict[str, Any]:
         """Extract relevant parameters from the matched text."""
         parameters = {}
 
@@ -235,8 +231,7 @@ class IntentRouter:
             "endpoint": "/api/memory/explore",
             "parameters": intent.parameters,
             "glyphs": intent.glyphs,
-            "message": f"Searching memory folds for: {intent.parameters.get('topic',"}
-                                                                            'all memories')}",
+            "message": f"Searching memory folds for: {intent.parameters.get('topic', 'all memories')}",
         }
 
     def _handle_consciousness_exploration(self, intent: Intent) -> dict[str, Any]:

@@ -50,9 +50,7 @@ def safe_eval(expression: str, allowed_names: Optional[dict[str, Any]] = None) -
         try:
             tree = ast.parse(expression, mode="eval")
             if not _is_safe_ast(tree):
-                raise SecurityError(
-                    f"Expression contains unsafe operations: {expression}"
-                )
+                raise SecurityError(f"Expression contains unsafe operations: {expression}")
 
             # Create a restricted environment
             safe_env = {
@@ -341,9 +339,7 @@ def secure_file_path(path: str, base_dir: str) -> str:
     return abs_path
 
 
-def get_env_var(
-    name: str, default: Optional[str] = None, required: bool = False
-) -> str:
+def get_env_var(name: str, default: Optional[str] = None, required: bool = False) -> str:
     """
     Safely get an environment variable
 

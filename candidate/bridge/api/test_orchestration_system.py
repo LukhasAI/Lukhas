@@ -151,9 +151,7 @@ class OrchestrationTestSuite:
             },
         }
 
-    async def _test_calculator_handler(
-        self, expression: str, precision: int = 2, **kwargs
-    ) -> dict[str, Any]:
+    async def _test_calculator_handler(self, expression: str, precision: int = 2, **kwargs) -> dict[str, Any]:
         """Test calculator function"""
         try:
             # Safe evaluation of simple mathematical expressions
@@ -195,9 +193,7 @@ class OrchestrationTestSuite:
         else:
             return {"error": f"Invalid action: {action}"}
 
-    async def _test_latency_handler(
-        self, delay_ms: int = 0, **kwargs
-    ) -> dict[str, Any]:
+    async def _test_latency_handler(self, delay_ms: int = 0, **kwargs) -> dict[str, Any]:
         """Test latency measurement function"""
         start_time = time.perf_counter()
 
@@ -255,12 +251,8 @@ class OrchestrationTestSuite:
         # Calculate overall results
         total_time = (time.perf_counter() - start_time) * 1000
 
-        total_passed = sum(
-            result.get("passed", 0) for result in category_results.values()
-        )
-        total_failed = sum(
-            result.get("failed", 0) for result in category_results.values()
-        )
+        total_passed = sum(result.get("passed", 0) for result in category_results.values())
+        total_failed = sum(result.get("failed", 0) for result in category_results.values())
         total_tests = total_passed + total_failed
 
         success_rate = (total_passed / total_tests) if total_tests > 0 else 0.0
@@ -274,8 +266,7 @@ class OrchestrationTestSuite:
                 "passed": total_passed,
                 "failed": total_failed,
                 "success_rate": success_rate,
-                "performance_target_met": total_time
-                < 10000,  # 10 second target for full suite
+                "performance_target_met": total_time < 10000,  # 10 second target for full suite
             },
             "category_results": category_results,
             "individual_results": self.results,
@@ -283,12 +274,8 @@ class OrchestrationTestSuite:
 
         # Log final summary
         logger.info(f"🏆 Test suite completed in {total_time:.2f}ms")
-        logger.info(
-            f"   Tests passed: {total_passed}/{total_tests} ({success_rate:.1%})"
-        )
-        logger.info(
-            f"   Performance target met: {summary['summary']['performance_target_met']}"
-        )
+        logger.info(f"   Tests passed: {total_passed}/{total_tests} ({success_rate:.1%})")
+        logger.info(f"   Performance target met: {summary['summary']['performance_target_met']}")
 
         return summary
 
@@ -349,9 +336,7 @@ class OrchestrationTestSuite:
 
             # Validate response
             success = (
-                response.content
-                and len(response.function_calls) > 0
-                and latency < 2000  # 2 second timeout
+                response.content and len(response.function_calls) > 0 and latency < 2000  # 2 second timeout
             )
 
             self.results.append(
@@ -562,9 +547,7 @@ class OrchestrationTestSuite:
 
             # Validate streaming
             success = (
-                chunks_received > 0
-                and len(content_received) > 0
-                and latency < 12000  # 12 second timeout
+                chunks_received > 0 and len(content_received) > 0 and latency < 12000  # 12 second timeout
             )
 
             self.results.append(
@@ -632,9 +615,7 @@ class OrchestrationTestSuite:
             latency = (time.perf_counter() - test_start) * 1000
 
             # Performance target: <2000ms for simple request
-            success = (
-                response.content and latency < 2000 and response.total_latency_ms < 2000
-            )
+            success = response.content and latency < 2000 and response.total_latency_ms < 2000
 
             self.results.append(
                 TestResult(
@@ -687,15 +668,12 @@ class OrchestrationTestSuite:
 
             # Count successful responses
             successful_responses = sum(
-                1
-                for response in responses
-                if not isinstance(response, Exception) and response.content
+                1 for response in responses if not isinstance(response, Exception) and response.content
             )
 
             # Success if at least 2/3 requests succeed
             success = (
-                successful_responses >= 2
-                and latency < 8000  # 8 second timeout for 3 concurrent requests
+                successful_responses >= 2 and latency < 8000  # 8 second timeout for 3 concurrent requests
             )
 
             self.results.append(
@@ -706,9 +684,7 @@ class OrchestrationTestSuite:
                     metrics={
                         "concurrent_requests": len(tasks),
                         "successful_responses": successful_responses,
-                        "requests_per_second": (
-                            len(tasks) / (latency / 1000) if latency > 0 else 0
-                        ),
+                        "requests_per_second": (len(tasks) / (latency / 1000) if latency > 0 else 0),
                     },
                 )
             )

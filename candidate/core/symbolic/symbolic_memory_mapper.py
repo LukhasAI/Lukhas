@@ -114,9 +114,7 @@ class SymbolicMemoryMapper:
 
         return True
 
-    def create_memory_map(
-        self, memory_data: dict[str, Any], map_type: MemoryMapType
-    ) -> str:
+    def create_memory_map(self, memory_data: dict[str, Any], map_type: MemoryMapType) -> str:
         """
         Create symbolic memory mapping for bridge operations
 

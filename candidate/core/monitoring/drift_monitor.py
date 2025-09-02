@@ -142,18 +142,12 @@ class UnifiedDriftMonitor:
         self.config = config or {}
 
         # Initialize core components
-        self.symbolic_tracker = SymbolicDriftTracker(
-            config=self.config.get("symbolic", {})
-        )
+        self.symbolic_tracker = SymbolicDriftTracker(config=self.config.get("symbolic", {}))
 
-        self.ethical_sentinel = EthicalDriftSentinel(
-            threshold=self.config.get("ethical_threshold", 0.15)
-        )
+        self.ethical_sentinel = EthicalDriftSentinel(threshold=self.config.get("ethical_threshold", 0.15))
 
         self.simple_tracker = DriftTracker()
-        self.harmonizer = DriftHarmonizer(
-            threshold=self.config.get("harmonizer_threshold", 0.2)
-        )
+        self.harmonizer = DriftHarmonizer(threshold=self.config.get("harmonizer_threshold", 0.2))
 
         # Drift computation parameters
         self.drift_weights = self.config.get(
@@ -275,9 +269,7 @@ class UnifiedDriftMonitor:
             ΛTAG="ΛMONITOR",
         )
 
-    async def update_session_state(
-        self, session_id: str, current_state: dict[str, Any]
-    ):
+    async def update_session_state(self, session_id: str, current_state: dict[str, Any]):
         """
         Update session state and compute drift.
 
@@ -338,9 +330,7 @@ class UnifiedDriftMonitor:
             ΛTAG="ΛDRIFT",
         )
 
-    async def _compute_unified_drift(
-        self, session_id: str, current_state: dict[str, Any]
-    ) -> UnifiedDriftScore:
+    async def _compute_unified_drift(self, session_id: str, current_state: dict[str, Any]) -> UnifiedDriftScore:
         """Compute comprehensive drift score across all dimensions."""
         timestamp = datetime.now(timezone.utc).isoformat()
 
@@ -364,27 +354,19 @@ class UnifiedDriftMonitor:
         }
 
         # 1. Symbolic drift (using core tracker)
-        symbolic_drift = self.symbolic_tracker.calculate_symbolic_drift(
-            current.symbols, prior.symbols, drift_context
-        )
+        symbolic_drift = self.symbolic_tracker.calculate_symbolic_drift(current.symbols, prior.symbols, drift_context)
 
         # 2. Emotional drift (direct calculation)
-        emotional_drift = self._calculate_emotional_drift(
-            current.emotional_vector, prior.emotional_vector
-        )
+        emotional_drift = self._calculate_emotional_drift(current.emotional_vector, prior.emotional_vector)
 
         # 3. Ethical drift
         ethical_drift = abs(current.ethical_alignment - prior.ethical_alignment)
 
         # 4. Temporal drift
-        temporal_drift = self._calculate_temporal_drift(
-            current.timestamp, prior.timestamp
-        )
+        temporal_drift = self._calculate_temporal_drift(current.timestamp, prior.timestamp)
 
         # 5. Entropy drift
-        entropy_drift = abs(current.entropy - prior.entropy) / max(
-            current.entropy, prior.entropy, 1.0
-        )
+        entropy_drift = abs(current.entropy - prior.entropy) / max(current.entropy, prior.entropy, 1.0)
 
         # Calculate weighted overall score
         overall_score = (
@@ -400,17 +382,13 @@ class UnifiedDriftMonitor:
         risk_level = self._determine_risk_level(overall_score)
 
         # Determine interventions
-        intervention_required, recommended_interventions = (
-            self._determine_interventions(
-                overall_score, symbolic_drift, emotional_drift, ethical_drift
-            )
+        intervention_required, recommended_interventions = self._determine_interventions(
+            overall_score, symbolic_drift, emotional_drift, ethical_drift
         )
 
         # Check for recursive patterns
         symbol_sequences = [s.symbols for s in states[-10:]]
-        has_recursion = self.symbolic_tracker.detect_recursive_drift_loops(
-            symbol_sequences
-        )
+        has_recursion = self.symbolic_tracker.detect_recursive_drift_loops(symbol_sequences)
 
         # Include theta and intent drift with consistent computation
         if len(self.theta_deltas[session_id]) > 1:
@@ -421,11 +399,7 @@ class UnifiedDriftMonitor:
         else:
             theta_delta = 0.0
 
-        intent_drift = (
-            self.intent_drifts[session_id][-1]
-            if self.intent_drifts[session_id]
-            else 0.0
-        )
+        intent_drift = self.intent_drifts[session_id][-1] if self.intent_drifts[session_id] else 0.0
 
         return UnifiedDriftScore(
             overall_score=overall_score,
@@ -447,9 +421,7 @@ class UnifiedDriftMonitor:
             timestamp=timestamp,
         )
 
-    def _calculate_emotional_drift(
-        self, current: list[float], prior: list[float]
-    ) -> float:
+    def _calculate_emotional_drift(self, current: list[float], prior: list[float]) -> float:
         """Calculate emotional vector drift."""
         if len(current) < 3 or len(prior) < 3:
             return 0.0
@@ -461,9 +433,7 @@ class UnifiedDriftMonitor:
         max_distance = 3**0.5  # sqrt(3) for [-1,1] range
         return min(1.0, distance / max_distance)
 
-    def _calculate_temporal_drift(
-        self, current_time: datetime, prior_time: datetime
-    ) -> float:
+    def _calculate_temporal_drift(self, current_time: datetime, prior_time: datetime) -> float:
         """Calculate temporal drift based on time elapsed."""
         time_delta = (current_time - prior_time).total_seconds() / 3600  # hours
 
@@ -521,9 +491,7 @@ class UnifiedDriftMonitor:
 
         return intent_drift
 
-    async def _get_ethics_corrective_behavior(
-        self, alert: DriftAlert
-    ) -> dict[str, Any]:
+    async def _get_ethics_corrective_behavior(self, alert: DriftAlert) -> dict[str, Any]:
         """
         Get corrective behavior recommendations from ethics module.
 
@@ -583,11 +551,9 @@ class UnifiedDriftMonitor:
         }
 
         corrective_actions["monitoring_changes"] = {
-            "new_frequency": base_frequency
-            * severity_multiplier.get(alert.severity, 1.0),
+            "new_frequency": base_frequency * severity_multiplier.get(alert.severity, 1.0),
             "enhanced_metrics": drift_score.overall_score > 0.7,
-            "extended_history": alert.severity
-            in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK],
+            "extended_history": alert.severity in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK],
         }
 
         logger.info(
@@ -736,9 +702,7 @@ class UnifiedDriftMonitor:
         await self.intervention_queue.put(alert)
 
         # Emit to symbolic tracker
-        self.symbolic_tracker.emit_drift_alert(
-            drift_score.overall_score, {"session_id": session_id, **context}
-        )
+        self.symbolic_tracker.emit_drift_alert(drift_score.overall_score, {"session_id": session_id, **context})
 
         logger.warning(
             "Drift alert created",
@@ -771,9 +735,7 @@ class UnifiedDriftMonitor:
         while self.monitoring_active:
             try:
                 # Get next alert requiring intervention
-                alert = await asyncio.wait_for(
-                    self.intervention_queue.get(), timeout=1.0
-                )
+                alert = await asyncio.wait_for(self.intervention_queue.get(), timeout=1.0)
 
                 # Execute interventions
                 results = await self._execute_interventions(alert)
@@ -887,9 +849,7 @@ class UnifiedDriftMonitor:
         )
 
         # Trigger ethical intervention
-        intervention_result = await self.ethical_sentinel._trigger_intervention(
-            violation
-        )
+        intervention_result = await self.ethical_sentinel._trigger_intervention(violation)
 
         # Get corrective behavior recommendations
         corrective_actions = await self._get_ethics_corrective_behavior(alert)
@@ -905,9 +865,7 @@ class UnifiedDriftMonitor:
         """Execute emotional grounding intervention."""
         # Get alignment controller if available
         if hasattr(self, "alignment_controller"):
-            suggestion = self.alignment_controller.suggest_modulation(
-                alert.drift_score.overall_score
-            )
+            suggestion = self.alignment_controller.suggest_modulation(alert.drift_score.overall_score)
             return {"status": "grounded", "suggestion": suggestion}
 
         return {
@@ -941,9 +899,7 @@ class UnifiedDriftMonitor:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "total_sessions": len(sessions),
             "active_alerts": len(self.active_alerts),
-            "recent_alerts": len(
-                [a for a in self.alert_history if self._is_recent(a.timestamp)]
-            ),
+            "recent_alerts": len([a for a in self.alert_history if self._is_recent(a.timestamp)]),
             "sessions": {},
         }
 
@@ -958,21 +914,15 @@ class UnifiedDriftMonitor:
                     "ethical_alignment": states[-1].ethical_alignment,
                 }
 
-                drift_score = asyncio.run(
-                    self._compute_unified_drift(sid, current_state)
-                )
+                drift_score = asyncio.run(self._compute_unified_drift(sid, current_state))
 
                 summary["sessions"][sid] = {
                     "overall_drift": round(drift_score.overall_score, 3),
                     "phase": drift_score.phase.value,
                     "risk_level": drift_score.risk_level,
                     "theta_delta": round(drift_score.metadata.get("theta_delta", 0), 3),
-                    "intent_drift": round(
-                        drift_score.metadata.get("intent_drift", 0), 3
-                    ),
-                    "interventions": [
-                        i.value for i in drift_score.recommended_interventions
-                    ],
+                    "intent_drift": round(drift_score.metadata.get("intent_drift", 0), 3),
+                    "interventions": [i.value for i in drift_score.recommended_interventions],
                 }
 
         # Add system-wide metrics

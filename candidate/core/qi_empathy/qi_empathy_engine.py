@@ -59,9 +59,7 @@ class MockChoice:
 
 class MockCompletions:
     async def create(self, messages: list[dict[str, str]]) -> Any:
-        return type(
-            "Completion", (), {"choices": [MockChoice("Deep feeling of peace.")]}
-        )()
+        return type("Completion", (), {"choices": [MockChoice("Deep feeling of peace.")]})()
 
 
 class MockOpenAI:
@@ -86,9 +84,7 @@ class QiEmpathyEngine:
         self.text_sentiment = MockOpenAI().chat.completions
         self.mirror_neurons = MirrorNeuronSimulator()
 
-    async def map_consciousness_resonance(
-        self, user_interactions: list[dict]
-    ) -> dict[str, Any]:
+    async def map_consciousness_resonance(self, user_interactions: list[dict]) -> dict[str, Any]:
         """
         Map what truly resonates with this specific human consciousness.
         """

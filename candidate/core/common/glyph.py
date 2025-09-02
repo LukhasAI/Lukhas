@@ -140,20 +140,12 @@ class GLYPHToken:
         """Convert to dictionary for serialization"""
         return {
             "glyph_id": self.glyph_id,
-            "symbol": (
-                self.symbol.value
-                if isinstance(self.symbol, GLYPHSymbol)
-                else self.symbol
-            ),
+            "symbol": (self.symbol.value if isinstance(self.symbol, GLYPHSymbol) else self.symbol),
             "source": self.source,
             "target": self.target,
             "payload": self.payload,
             "context": self.context.to_dict(),
-            "priority": (
-                self.priority.value
-                if isinstance(self.priority, GLYPHPriority)
-                else self.priority
-            ),
+            "priority": (self.priority.value if isinstance(self.priority, GLYPHPriority) else self.priority),
             "metadata": self.metadata,
         }
 

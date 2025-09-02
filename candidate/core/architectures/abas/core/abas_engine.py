@@ -46,9 +46,7 @@ class ConflictDetector:
         except Exception:
             self.orchestrator = None
 
-    async def detect_conflicts(
-        self, current: dict[str, Any], proposed: dict[str, Any]
-    ) -> list[str]:
+    async def detect_conflicts(self, current: dict[str, Any], proposed: dict[str, Any]) -> list[str]:
         # TODO: integrate dependency analysis
         if self.orchestrator:
             _ = await self.orchestrator.context_manager.get_full_context()
@@ -78,9 +76,7 @@ class ABASEngine:
         self.detector = ConflictDetector()
         self.resolution = ResolutionAlgorithm()
 
-    async def arbitrate(
-        self, state: dict[str, Any], action: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def arbitrate(self, state: dict[str, Any], action: dict[str, Any]) -> dict[str, Any]:
         conflicts = await self.detector.detect_conflicts(state, action)
         if conflicts:
             return await self.resolution.resolve_conflict({"conflicts": conflicts})

@@ -144,22 +144,16 @@ class StargateActivator:
         for i, chevron in enumerate(self.chevrons):
             # Show dialing animation
             for _ in range(3):
-                sys.stdout.write(
-                    f"\r{''.join(locked_chevrons)}{'🔄' * (7 - len(locked_chevrons))}"
-                )
+                sys.stdout.write(f"\r{''.join(locked_chevrons)}{'🔄' * (7 - len(locked_chevrons))}")
                 sys.stdout.flush()
                 await asyncio.sleep(0.1)
-                sys.stdout.write(
-                    f"\r{''.join(locked_chevrons)}{'⚪' * (7 - len(locked_chevrons))}"
-                )
+                sys.stdout.write(f"\r{''.join(locked_chevrons)}{'⚪' * (7 - len(locked_chevrons))}")
                 sys.stdout.flush()
                 await asyncio.sleep(0.1)
 
             # Lock chevron
             locked_chevrons.append(chevron)
-            sys.stdout.write(
-                f"\r{''.join(locked_chevrons)}{'⚪' * (7 - len(locked_chevrons))}"
-            )
+            sys.stdout.write(f"\r{''.join(locked_chevrons)}{'⚪' * (7 - len(locked_chevrons))}")
             sys.stdout.flush()
 
             # Beep on lock (if available)
@@ -182,9 +176,7 @@ class StargateActivator:
             bar = power_bars[: i + 1]
             percentage = ((i + 1) / len(power_bars)) * 100
 
-            sys.stdout.write(
-                f"\rPower: {''.join(bar)}{' ' * (8 - len(bar))} [{percentage:>3.0f}%]"
-            )
+            sys.stdout.write(f"\rPower: {''.join(bar)}{' ' * (8 - len(bar))} [{percentage:>3.0f}%]")
             sys.stdout.flush()
 
             # Increasing frequency beeps
@@ -252,9 +244,7 @@ class StargateActivator:
                     "dreaming": 250,
                     "flow_state": 500,
                 }
-                self._beep(
-                    frequency=freq_map.get(consciousness_state, 440), duration=100
-                )
+                self._beep(frequency=freq_map.get(consciousness_state, 440), duration=100)
 
                 await asyncio.sleep(0.2)
 

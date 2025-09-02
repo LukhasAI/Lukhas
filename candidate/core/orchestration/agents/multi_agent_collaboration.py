@@ -24,9 +24,7 @@ class MultiAgentCollaboration:
         self.tasks = {}  # Active tasks
         self.messages = []  # Communication history
 
-    def register_agent(
-        self, agent_id: str, capabilities: list[str], endpoint: str
-    ) -> bool:
+    def register_agent(self, agent_id: str, capabilities: list[str], endpoint: str) -> bool:
         """Register a new agent for collaboration."""
         if agent_id in self.agents:
             self.logger.warning(f"Agent {agent_id} is already registered")
@@ -42,9 +40,7 @@ class MultiAgentCollaboration:
             "last_active": time.time(),
         }
 
-        self.logger.info(
-            f"Registered agent {agent_id} with capabilities: {capabilities}"
-        )
+        self.logger.info(f"Registered agent {agent_id} with capabilities: {capabilities}")
         return True
 
     def create_task(
@@ -107,9 +103,7 @@ class MultiAgentCollaboration:
 
         return message_id
 
-    def update_task_progress(
-        self, task_id: str, agent_id: str, progress: float
-    ) -> bool:
+    def update_task_progress(self, task_id: str, agent_id: str, progress: float) -> bool:
         """Update the progress of a task."""
         if task_id not in self.tasks:
             self.logger.warning(f"Task {task_id} not found")
@@ -137,9 +131,7 @@ class MultiAgentCollaboration:
 
         return True
 
-    def complete_task(
-        self, task_id: str, agent_id: str, result: dict[str, Any]
-    ) -> bool:
+    def complete_task(self, task_id: str, agent_id: str, result: dict[str, Any]) -> bool:
         """Mark a task as completed with results."""
         if task_id not in self.tasks:
             self.logger.warning(f"Task {task_id} not found")

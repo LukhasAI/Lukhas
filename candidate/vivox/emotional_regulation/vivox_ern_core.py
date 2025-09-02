@@ -117,9 +117,7 @@ class VADVector:
 
         intensity = min(1.0, total_weight)
 
-        return cls(
-            valence=valence, arousal=arousal, dominance=dominance, intensity=intensity
-        )
+        return cls(valence=valence, arousal=arousal, dominance=dominance, intensity=intensity)
 
 
 @dataclass
@@ -203,9 +201,7 @@ class EmotionalRegulator:
         start_time = time.time()
 
         # Analyze if regulation is needed
-        regulation_needed, triggers = await self._assess_regulation_needs(
-            current_state, context
-        )
+        regulation_needed, triggers = await self._assess_regulation_needs(current_state, context)
 
         if not regulation_needed:
             return RegulationResponse(
@@ -218,32 +214,22 @@ class EmotionalRegulator:
             )
 
         # Select optimal regulation strategy
-        strategy = await self._select_regulation_strategy(
-            current_state, triggers, context, user_preferences
-        )
+        strategy = await self._select_regulation_strategy(current_state, triggers, context, user_preferences)
 
         # Apply regulation
         regulated_state = await self._apply_regulation(current_state, strategy, context)
 
         # Calculate effectiveness
-        effectiveness = await self._calculate_effectiveness(
-            current_state, regulated_state, strategy
-        )
+        effectiveness = await self._calculate_effectiveness(current_state, regulated_state, strategy)
 
         # Generate reasoning
-        reasoning = await self._generate_regulation_reasoning(
-            current_state, regulated_state, strategy, triggers
-        )
+        reasoning = await self._generate_regulation_reasoning(current_state, regulated_state, strategy, triggers)
 
         # Generate hormone triggers
-        hormone_triggers = await self._generate_hormone_triggers(
-            regulated_state, strategy
-        )
+        hormone_triggers = await self._generate_hormone_triggers(regulated_state, strategy)
 
         # Generate neuroplastic tags
-        neuroplastic_tags = await self._generate_neuroplastic_tags(
-            current_state, regulated_state, strategy, context
-        )
+        neuroplastic_tags = await self._generate_neuroplastic_tags(current_state, regulated_state, strategy, context)
 
         # Store in emotional memory for learning
         memory = EmotionalMemory(
@@ -270,9 +256,7 @@ class EmotionalRegulator:
             duration_seconds=time.time() - start_time,
         )
 
-    async def _assess_regulation_needs(
-        self, state: VADVector, context: dict[str, Any]
-    ) -> tuple[bool, list[str]]:
+    async def _assess_regulation_needs(self, state: VADVector, context: dict[str, Any]) -> tuple[bool, list[str]]:
         """Assess if emotional regulation is needed"""
         triggers = []
 
@@ -327,22 +311,15 @@ class EmotionalRegulator:
                         score += self.strategy_weights[strategy][trigger]
 
             # User preference bonus
-            if user_preferences and strategy.value in user_preferences.get(
-                "preferred_strategies", []
-            ):
+            if user_preferences and strategy.value in user_preferences.get("preferred_strategies", []):
                 score += 0.3
 
             # Context-based adjustments
-            if (
-                context.get("environment") == "work"
-                and strategy == RegulationStrategy.BREATHING
-            ):
+            if context.get("environment") == "work" and strategy == RegulationStrategy.BREATHING:
                 score += 0.2  # Breathing good for work stress
 
             # Historical effectiveness (learning)
-            historical_effectiveness = self._get_historical_effectiveness(
-                strategy, triggers
-            )
+            historical_effectiveness = self._get_historical_effectiveness(strategy, triggers)
             score += historical_effectiveness * 0.4
 
             strategy_scores[strategy] = score
@@ -415,9 +392,7 @@ class EmotionalRegulator:
             intensity=state.intensity * 0.8,
         )
 
-    async def _apply_cognitive_reframing(
-        self, state: VADVector, context: dict[str, Any]
-    ) -> VADVector:
+    async def _apply_cognitive_reframing(self, state: VADVector, context: dict[str, Any]) -> VADVector:
         """Apply cognitive reframing regulation"""
         # Cognitive reframing primarily affects valence and dominance
         valence_improvement = 0.3 if state.valence < 0 else 0.1
@@ -435,19 +410,13 @@ class EmotionalRegulator:
         target = VADVector(valence=0.1, arousal=0.0, dominance=0.2, intensity=0.5)
 
         return VADVector(
-            valence=state.valence
-            + (target.valence - state.valence) * stabilization_factor,
-            arousal=state.arousal
-            + (target.arousal - state.arousal) * stabilization_factor,
-            dominance=state.dominance
-            + (target.dominance - state.dominance) * stabilization_factor,
-            intensity=state.intensity
-            + (target.intensity - state.intensity) * stabilization_factor,
+            valence=state.valence + (target.valence - state.valence) * stabilization_factor,
+            arousal=state.arousal + (target.arousal - state.arousal) * stabilization_factor,
+            dominance=state.dominance + (target.dominance - state.dominance) * stabilization_factor,
+            intensity=state.intensity + (target.intensity - state.intensity) * stabilization_factor,
         )
 
-    async def _apply_redirection(
-        self, state: VADVector, context: dict[str, Any]
-    ) -> VADVector:
+    async def _apply_redirection(self, state: VADVector, context: dict[str, Any]) -> VADVector:
         """Apply emotional redirection"""
         # Redirect negative emotions toward more constructive channels
         if state.valence < 0:
@@ -475,9 +444,7 @@ class EmotionalRegulator:
         return VADVector(
             valence=state.valence,
             arousal=state.arousal * 0.8,  # Slight reduction in arousal
-            dominance=min(
-                1.0, state.dominance + 0.5
-            ),  # Significant increase in control
+            dominance=min(1.0, state.dominance + 0.5),  # Significant increase in control
             intensity=state.intensity,
         )
 
@@ -529,9 +496,7 @@ class EmotionalRegulator:
             RegulationStrategy.ACCEPTANCE: "applied mindful acceptance techniques",
         }
 
-        strategy_text = strategy_descriptions.get(
-            strategy, f"applied {strategy.value} regulation"
-        )
+        strategy_text = strategy_descriptions.get(strategy, f"applied {strategy.value} regulation")
         reasoning_parts.append(f"Applied regulation: {strategy_text}")
 
         # Describe the outcome
@@ -603,9 +568,7 @@ class EmotionalRegulator:
         tags = []
 
         # Strategy effectiveness tags
-        effectiveness = await self._calculate_effectiveness(
-            original, regulated, strategy
-        )
+        effectiveness = await self._calculate_effectiveness(original, regulated, strategy)
         if effectiveness > 0.7:
             tags.append(f"regulation_success_{strategy.value}")
         elif effectiveness < 0.3:
@@ -644,13 +607,9 @@ class EmotionalRegulator:
 
         return np.mean(distances) if distances else 0.0
 
-    def _get_historical_effectiveness(
-        self, strategy: RegulationStrategy, triggers: list[str]
-    ) -> float:
+    def _get_historical_effectiveness(self, strategy: RegulationStrategy, triggers: list[str]) -> float:
         """Get historical effectiveness of strategy for given triggers"""
-        relevant_memories = [
-            mem for mem in self.emotional_memories if mem.regulation_applied == strategy
-        ]
+        relevant_memories = [mem for mem in self.emotional_memories if mem.regulation_applied == strategy]
 
         if not relevant_memories:
             return 0.5  # Neutral score for unknown strategies
@@ -681,9 +640,7 @@ class EmotionalRegulator:
 
         insights = {
             "total_regulations": len(recent_memories),
-            "average_effectiveness": np.mean(
-                [mem.effectiveness for mem in recent_memories]
-            ),
+            "average_effectiveness": np.mean([mem.effectiveness for mem in recent_memories]),
             "most_effective_strategies": self._get_top_strategies(recent_memories),
             "emotional_patterns": self._analyze_emotional_patterns(recent_memories),
             "recommendations": self._generate_recommendations(recent_memories),
@@ -691,9 +648,7 @@ class EmotionalRegulator:
 
         return insights
 
-    def _get_top_strategies(
-        self, memories: list[EmotionalMemory]
-    ) -> list[dict[str, Any]]:
+    def _get_top_strategies(self, memories: list[EmotionalMemory]) -> list[dict[str, Any]]:
         """Get most effective regulation strategies"""
         strategy_effectiveness = {}
         strategy_counts = {}
@@ -720,13 +675,9 @@ class EmotionalRegulator:
                     }
                 )
 
-        return sorted(top_strategies, key=lambda x: x["effectiveness"], reverse=True)[
-            :3
-        ]
+        return sorted(top_strategies, key=lambda x: x["effectiveness"], reverse=True)[:3]
 
-    def _analyze_emotional_patterns(
-        self, memories: list[EmotionalMemory]
-    ) -> list[dict[str, Any]]:
+    def _analyze_emotional_patterns(self, memories: list[EmotionalMemory]) -> list[dict[str, Any]]:
         """Analyze emotional patterns for insights"""
         patterns = []
 
@@ -734,11 +685,7 @@ class EmotionalRegulator:
         valences = [mem.vad_state.valence for mem in memories]
         if valences:
             avg_valence = np.mean(valences)
-            valence_trend = (
-                "positive"
-                if avg_valence > 0.1
-                else "negative" if avg_valence < -0.1 else "neutral"
-            )
+            valence_trend = "positive" if avg_valence > 0.1 else "negative" if avg_valence < -0.1 else "neutral"
             patterns.append(
                 {
                     "type": "valence_trend",
@@ -751,11 +698,7 @@ class EmotionalRegulator:
         arousals = [mem.vad_state.arousal for mem in memories]
         if arousals:
             avg_arousal = np.mean(arousals)
-            arousal_level = (
-                "high"
-                if avg_arousal > 0.3
-                else "low" if avg_arousal < -0.3 else "moderate"
-            )
+            arousal_level = "high" if avg_arousal > 0.3 else "low" if avg_arousal < -0.3 else "moderate"
             patterns.append(
                 {
                     "type": "arousal_pattern",
@@ -780,9 +723,7 @@ class EmotionalRegulator:
         # Check for stress patterns
         high_arousal_count = sum(1 for mem in memories if mem.vad_state.arousal > 0.6)
         if high_arousal_count > len(memories) * 0.7:
-            recommendations.append(
-                "High arousal detected frequently - breathing exercises and mindfulness may help"
-            )
+            recommendations.append("High arousal detected frequently - breathing exercises and mindfulness may help")
 
         # Check for negative emotion patterns
         negative_count = sum(1 for mem in memories if mem.vad_state.valence < -0.4)
@@ -843,9 +784,7 @@ class VIVOXEmotionalRegulationNetwork:
         # Apply regulation if needed
         self.regulation_active = True
         try:
-            regulation_response = await self.regulator.regulate_emotion(
-                current_state, context, user_preferences
-            )
+            regulation_response = await self.regulator.regulate_emotion(current_state, context, user_preferences)
 
             # Update performance metrics
             self.total_regulations += 1
@@ -913,9 +852,7 @@ class VIVOXEmotionalRegulationNetwork:
 
         return VADVector.from_emotions(emotion_scores)
 
-    async def _trigger_integrations(
-        self, response: RegulationResponse, context: dict[str, Any]
-    ):
+    async def _trigger_integrations(self, response: RegulationResponse, context: dict[str, Any]):
         """Trigger integration events and updates"""
 
         # Event bus integration
@@ -927,19 +864,14 @@ class VIVOXEmotionalRegulationNetwork:
             await self._update_tag_registry(response.neuroplastic_tags, context)
 
         # Endocrine system integration
-        if (
-            self.integration_interfaces["endocrine_system"]
-            and response.hormone_triggers
-        ):
+        if self.integration_interfaces["endocrine_system"] and response.hormone_triggers:
             await self._trigger_hormone_release(response.hormone_triggers)
 
         # Neuroplastic connector integration
         if self.integration_interfaces["neuroplastic_connector"]:
             await self._update_neuroplastic_patterns(response, context)
 
-    async def _publish_emotional_event(
-        self, response: RegulationResponse, context: dict[str, Any]
-    ):
+    async def _publish_emotional_event(self, response: RegulationResponse, context: dict[str, Any]):
         """Publish emotional state change to event bus"""
         event_bus = self.integration_interfaces["event_bus"]
         if event_bus:
@@ -949,9 +881,7 @@ class VIVOXEmotionalRegulationNetwork:
             await event_bus.publish_regulation_applied(user_id, response)
 
             # Publish emotional shift if significant
-            shift_magnitude = response.original_state.distance_to(
-                response.regulated_state
-            )
+            shift_magnitude = response.original_state.distance_to(response.regulated_state)
             if shift_magnitude > 0.1:
                 await event_bus.publish_emotional_shift(
                     user_id=user_id,
@@ -984,17 +914,11 @@ class VIVOXEmotionalRegulationNetwork:
                 hormone_triggers=hormone_triggers,
                 neuroplastic_tags=[],
             )
-            await endocrine_integration.process_emotional_hormones(
-                mock_response, {"hormone_only": True}
-            )
+            await endocrine_integration.process_emotional_hormones(mock_response, {"hormone_only": True})
 
-    async def _update_neuroplastic_patterns(
-        self, response: RegulationResponse, context: dict[str, Any]
-    ):
+    async def _update_neuroplastic_patterns(self, response: RegulationResponse, context: dict[str, Any]):
         """Update neuroplastic learning patterns"""
-        neuroplastic_connector = self.integration_interfaces.get(
-            "neuroplastic_connector"
-        )
+        neuroplastic_connector = self.integration_interfaces.get("neuroplastic_connector")
         if neuroplastic_connector:
             # Update neuroplastic patterns with regulation results
             await neuroplastic_connector.learn_from_regulation(response, context)
@@ -1011,12 +935,9 @@ class VIVOXEmotionalRegulationNetwork:
             "regulation_active": self.regulation_active,
             "performance": {
                 "total_regulations": self.total_regulations,
-                "success_rate": self.successful_regulations
-                / max(1, self.total_regulations),
+                "success_rate": self.successful_regulations / max(1, self.total_regulations),
                 "average_satisfaction": (
-                    np.mean(self.user_satisfaction_scores)
-                    if self.user_satisfaction_scores
-                    else 0.0
+                    np.mean(self.user_satisfaction_scores) if self.user_satisfaction_scores else 0.0
                 ),
             },
         }
@@ -1025,9 +946,7 @@ class VIVOXEmotionalRegulationNetwork:
         """Get emotional insights for user transparency"""
         return await self.regulator.get_emotional_insights(user_id)
 
-    async def record_user_feedback(
-        self, regulation_id: str, satisfaction_score: float, feedback: str = ""
-    ):
+    async def record_user_feedback(self, regulation_id: str, satisfaction_score: float, feedback: str = ""):
         """Record user feedback for learning"""
         self.user_satisfaction_scores.append(satisfaction_score)
 

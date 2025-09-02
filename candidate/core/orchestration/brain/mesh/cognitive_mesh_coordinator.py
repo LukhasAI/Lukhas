@@ -219,10 +219,7 @@ class CognitiveNode(ABC):
         """Main processing loop for handling tasks"""
         while self._running:
             try:
-                if (
-                    self.task_queue
-                    and len(self.active_tasks) < self.capabilities.max_concurrent_tasks
-                ):
+                if self.task_queue and len(self.active_tasks) < self.capabilities.max_concurrent_tasks:
                     task = self.task_queue.popleft()
                     asyncio.create_task(self._execute_task(task))
                 else:
@@ -248,9 +245,7 @@ class CognitiveNode(ABC):
                 self.status = NodeStatus.BUSY
 
             # Process the task
-            result = await asyncio.wait_for(
-                self.process_task(task), timeout=task.timeout_seconds
-            )
+            result = await asyncio.wait_for(self.process_task(task), timeout=task.timeout_seconds)
 
             task.result = result
             task.status = "completed"
@@ -291,9 +286,7 @@ class CognitiveNode(ABC):
             # Update average response time
             total = self.metrics.total_tasks_processed
             current_avg = self.metrics.average_response_time
-            self.metrics.average_response_time = (
-                current_avg * (total - 1) + duration
-            ) / total
+            self.metrics.average_response_time = (current_avg * (total - 1) + duration) / total
 
             # Update quality trend
             quality = 1.0 if task.status == "completed" else 0.0
@@ -316,9 +309,7 @@ class CognitiveNode(ABC):
         while self._running:
             try:
                 self.metrics.last_heartbeat = datetime.now()
-                self.metrics.current_load = (
-                    len(self.active_tasks) / self.capabilities.max_concurrent_tasks
-                )
+                self.metrics.current_load = len(self.active_tasks) / self.capabilities.max_concurrent_tasks
 
                 # Send heartbeat to coordinator
                 if self.coordinator_ref and self.coordinator_ref():
@@ -337,13 +328,9 @@ class CognitiveNode(ABC):
 
     def get_status(self) -> dict[str, Any]:
         """Get comprehensive node status"""
-        success_rate = self.metrics.successful_tasks / max(
-            1, self.metrics.total_tasks_processed
-        )
+        success_rate = self.metrics.successful_tasks / max(1, self.metrics.total_tasks_processed)
 
-        quality_score = sum(self.metrics.quality_trend) / max(
-            1, len(self.metrics.quality_trend)
-        )
+        quality_score = sum(self.metrics.quality_trend) / max(1, len(self.metrics.quality_trend))
 
         return {
             "node_id": self.node_id,
@@ -415,9 +402,7 @@ class CognitiveMeshCoordinator:
         self._running = True
         self._health_monitor_task = asyncio.create_task(self._health_monitor_loop())
         self._load_balancer_task = asyncio.create_task(self._load_balancer_loop())
-        self._topology_optimizer_task = asyncio.create_task(
-            self._topology_optimizer_loop()
-        )
+        self._topology_optimizer_task = asyncio.create_task(self._topology_optimizer_loop())
 
         logger.info("ΛMESH: Mesh coordinator started", mesh_id=self.mesh_id)
 
@@ -487,9 +472,7 @@ class CognitiveMeshCoordinator:
         self.node_types[node.node_type].discard(node_id)
 
         # Remove from routing table
-        self.routing_table = {
-            k: v for k, v in self.routing_table.items() if v != node_id
-        }
+        self.routing_table = {k: v for k, v in self.routing_table.items() if v != node_id}
 
         # Stop node
         await node.stop()
@@ -622,20 +605,14 @@ class CognitiveMeshCoordinator:
             node = self.nodes[node_id]
 
             # Base score from node quality
-            quality_score = sum(node.metrics.quality_trend) / max(
-                1, len(node.metrics.quality_trend)
-            )
+            quality_score = sum(node.metrics.quality_trend) / max(1, len(node.metrics.quality_trend))
 
             # Load factor (prefer less loaded nodes)
             load_factor = 1.0 - node.metrics.current_load
 
             # Response time factor (prefer faster nodes)
             max_time = max(n.metrics.average_response_time for n in self.nodes.values())
-            time_factor = (
-                1.0 - node.metrics.average_response_time / max_time
-                if max_time > 0
-                else 1.0
-            )
+            time_factor = 1.0 - node.metrics.average_response_time / max_time if max_time > 0 else 1.0
 
             # Priority boost for critical tasks
             priority_factor = 1.0
@@ -650,9 +627,7 @@ class CognitiveMeshCoordinator:
         best_node = max(available_candidates, key=score_node)
         return best_node
 
-    async def _find_alternative_node(
-        self, task: CognitiveTask, excluded: set[str]
-    ) -> Optional[str]:
+    async def _find_alternative_node(self, task: CognitiveTask, excluded: set[str]) -> Optional[str]:
         """Find alternative node when primary choice is unavailable"""
         # Similar to _find_optimal_node but with exclusions
         candidates = []
@@ -733,9 +708,7 @@ class CognitiveMeshCoordinator:
 
                 for node_id, node in self.nodes.items():
                     # Check heartbeat freshness
-                    time_since_heartbeat = (
-                        current_time - node.metrics.last_heartbeat
-                    ).total_seconds()
+                    time_since_heartbeat = (current_time - node.metrics.last_heartbeat).total_seconds()
 
                     if time_since_heartbeat > 30:  # 30 seconds timeout
                         if node.status != NodeStatus.OFFLINE:
@@ -766,9 +739,7 @@ class CognitiveMeshCoordinator:
 
                 # Update active node count
                 self.mesh_metrics["active_nodes"] = sum(
-                    1
-                    for node in self.nodes.values()
-                    if node.status == NodeStatus.ONLINE
+                    1 for node in self.nodes.values() if node.status == NodeStatus.ONLINE
                 )
 
                 await asyncio.sleep(10)  # Check every 10 seconds
@@ -867,12 +838,9 @@ class CognitiveMeshCoordinator:
             "mesh_id": self.mesh_id,
             "metrics": self.mesh_metrics.copy(),
             "topology": {
-                "total_connections": sum(
-                    len(neighbors) for neighbors in self.mesh_topology.values()
-                ),
+                "total_connections": sum(len(neighbors) for neighbors in self.mesh_topology.values()),
                 "average_connections": (
-                    sum(len(neighbors) for neighbors in self.mesh_topology.values())
-                    / max(1, len(self.mesh_topology))
+                    sum(len(neighbors) for neighbors in self.mesh_topology.values()) / max(1, len(self.mesh_topology))
                 ),
             },
             "node_distribution": {

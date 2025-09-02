@@ -271,9 +271,7 @@ class DreamDataCollector:
                 "current_state": current_emotion,
                 "mood_trajectory": mood_trajectory,
                 "dominant_emotions": self._get_dominant_emotions(current_emotion),
-                "emotional_complexity": self._calculate_emotional_complexity(
-                    current_emotion
-                ),
+                "emotional_complexity": self._calculate_emotional_complexity(current_emotion),
                 "resonance_patterns": self._get_resonance_patterns(),
                 "timestamp": datetime.utcnow().isoformat(),
             }
@@ -360,9 +358,7 @@ class DreamDataCollector:
             }
 
         except ImportError:
-            logger.warning(
-                "Quantum/Symbolic system not available, using simulated data"
-            )
+            logger.warning("Quantum/Symbolic system not available, using simulated data")
             return self._simulate_quantum_symbolic_data()
 
     def _calculate_symbolic_resonance(self, glyphs: list[str]) -> float:
@@ -400,9 +396,7 @@ class DreamDataCollector:
     # EXTERNAL DATA SOURCES
     # ═══════════════════════════════════════════════════════════════════
 
-    async def collect_external_data(
-        self, user_context: Optional[dict] = None
-    ) -> dict[str, Any]:
+    async def collect_external_data(self, user_context: Optional[dict] = None) -> dict[str, Any]:
         """
         Collect external context data.
 
@@ -586,9 +580,7 @@ class DreamDataCollector:
     # AGGREGATION AND SYNTHESIS
     # ═══════════════════════════════════════════════════════════════════
 
-    async def collect_all_dream_data(
-        self, user_context: Optional[dict] = None
-    ) -> dict[str, Any]:
+    async def collect_all_dream_data(self, user_context: Optional[dict] = None) -> dict[str, Any]:
         """
         Collect and aggregate data from all sources for dream generation.
 
@@ -751,9 +743,7 @@ class DreamDataCollector:
         themes = []
 
         # Time-based themes
-        time_of_day = (
-            data.get("external", {}).get("time_context", {}).get("time_of_day")
-        )
+        time_of_day = data.get("external", {}).get("time_context", {}).get("time_of_day")
         if time_of_day == "night":
             themes.append("nocturnal mysteries")
         elif time_of_day == "early_morning":

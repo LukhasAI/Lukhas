@@ -234,11 +234,7 @@ class SymbolicStabilizer:
         applicable = []
         for tag, info in cls.STABILIZERS.items():
             applicable_pairs = info["applicable_pairs"]
-            if (
-                "*" in applicable_pairs
-                or pair_str in applicable_pairs
-                or reverse_pair_str in applicable_pairs
-            ):
+            if "*" in applicable_pairs or pair_str in applicable_pairs or reverse_pair_str in applicable_pairs:
                 applicable.append(tag)
 
         return applicable
@@ -280,9 +276,7 @@ class AdaptiveEntanglementStabilizer:
             "enable_cascade_intervention": True,
         }
 
-    def monitor_entanglement(
-        self, log_file: str, window: int = 10
-    ) -> list[dict[str, Any]]:
+    def monitor_entanglement(self, log_file: str, window: int = 10) -> list[dict[str, Any]]:
         """
         Read qi_mesh_integrator logs and track recent entanglement trends
 
@@ -345,16 +339,10 @@ class AdaptiveEntanglementStabilizer:
             ]
 
             for pair in pairs:
-                strength = max(
-                    0.2, min(1.0, np.random.normal(0.7, 0.1) * degradation_factor)
-                )
+                strength = max(0.2, min(1.0, np.random.normal(0.7, 0.1) * degradation_factor))
                 phase_diff = np.random.uniform(0, np.pi)
-                coherence = max(
-                    0.1, min(1.0, np.random.normal(0.8, 0.1) * degradation_factor)
-                )
-                conflict_risk = max(
-                    0.0, min(1.0, (1.0 - strength) * np.random.uniform(0.5, 1.5))
-                )
+                coherence = max(0.1, min(1.0, np.random.normal(0.8, 0.1) * degradation_factor))
+                conflict_risk = max(0.0, min(1.0, (1.0 - strength) * np.random.uniform(0.5, 1.5)))
 
                 pair_key = f"{pair[0]}↔{pair[1]}"
                 entanglements[pair_key] = {
@@ -369,18 +357,12 @@ class AdaptiveEntanglementStabilizer:
                 "entanglement_matrix": {
                     "entanglements": entanglements,
                     "matrix_metrics": {
-                        "average_entanglement": np.mean(
-                            [e["strength"] for e in entanglements.values()]
-                        ),
-                        "max_conflict_risk": max(
-                            [e["conflict_risk"] for e in entanglements.values()]
-                        ),
+                        "average_entanglement": np.mean([e["strength"] for e in entanglements.values()]),
+                        "max_conflict_risk": max([e["conflict_risk"] for e in entanglements.values()]),
                     },
                 },
                 "unified_field": {
-                    "mesh_ethics_score": np.mean(
-                        [e["strength"] for e in entanglements.values()]
-                    ),
+                    "mesh_ethics_score": np.mean([e["strength"] for e in entanglements.values()]),
                     "risk_level": "CAUTION" if degradation_factor < 0.8 else "SAFE",
                 },
             }
@@ -393,9 +375,7 @@ class AdaptiveEntanglementStabilizer:
         """Update trend tracking with new entries"""
         for entry in entries:
             timestamp = entry["timestamp"]
-            entanglements = entry.get("entanglement_matrix", {}).get(
-                "entanglements", {}
-            )
+            entanglements = entry.get("entanglement_matrix", {}).get("entanglements", {})
 
             for pair_key, metrics in entanglements.items():
                 # Parse pair key
@@ -418,9 +398,7 @@ class AdaptiveEntanglementStabilizer:
                     conflict_risk=metrics["conflict_risk"],
                 )
 
-    def detect_instability(
-        self, trend_data: list[dict[str, Any]]
-    ) -> list[tuple[str, str]]:
+    def detect_instability(self, trend_data: list[dict[str, Any]]) -> list[tuple[str, str]]:
         """
         Return subsystem pairs falling below coherence thresholds
 
@@ -459,9 +437,7 @@ class AdaptiveEntanglementStabilizer:
 
                 if instability_types:
                     unstable_pairs.append((pair, instability_types))
-                    logger.warning(
-                        f"Instability detected: {pair[0]}↔{pair[1]} - {', '.join(instability_types)}"
-                    )
+                    logger.warning(f"Instability detected: {pair[0]}↔{pair[1]} - {', '.join(instability_types)}")
 
         return [(pair[0], pair[1]) for pair, _ in unstable_pairs]
 
@@ -488,9 +464,7 @@ class AdaptiveEntanglementStabilizer:
         Returns:
             List of selected stabilizer tags
         """
-        logger.info(
-            f"Selecting stabilizers for {subsystem_pair[0]}↔{subsystem_pair[1]}"
-        )
+        logger.info(f"Selecting stabilizers for {subsystem_pair[0]}↔{subsystem_pair[1]}")
 
         # Get applicable stabilizers
         applicable = SymbolicStabilizer.get_applicable_stabilizers(subsystem_pair)
@@ -525,16 +499,12 @@ class AdaptiveEntanglementStabilizer:
 
         # Low coherence - use coherence boosters
         elif current_strength < self.coherence_threshold:
-            coherence_stabilizers = [
-                s for s in applicable if s in ["ΛANCHOR", "ΛFOCUS", "ΛCLARITY"]
-            ]
+            coherence_stabilizers = [s for s in applicable if s in ["ΛANCHOR", "ΛFOCUS", "ΛCLARITY"]]
             selected.extend(coherence_stabilizers[:1])
 
         # Emotional instability
         if subsystem_pair[0] == "emotion" or subsystem_pair[1] == "emotion":
-            emotional_stabilizers = [
-                s for s in applicable if s in ["ΛCALM", "ΛREFLECT"]
-            ]
+            emotional_stabilizers = [s for s in applicable if s in ["ΛCALM", "ΛREFLECT"]]
             if emotional_stabilizers and not selected:
                 selected.extend(emotional_stabilizers[:1])
 
@@ -611,9 +581,7 @@ class AdaptiveEntanglementStabilizer:
         self.stabilization_history.append(action)
         self.emit_tuning_log(action.__dict__)
 
-    def _inject_stabilizer(
-        self, pair: tuple[str, str], tag: str, info: dict[str, Any]
-    ) -> bool:
+    def _inject_stabilizer(self, pair: tuple[str, str], tag: str, info: dict[str, Any]) -> bool:
         """
         Actual stabilizer injection (placeholder for real implementation)
 
@@ -624,9 +592,7 @@ class AdaptiveEntanglementStabilizer:
         4. Set duration timer
         """
         # Simulate stabilizer injection
-        logger.debug(
-            f"Injecting {tag} with strength {info['strength']} for {info['duration_minutes']} minutes"
-        )
+        logger.debug(f"Injecting {tag} with strength {info['strength']} for {info['duration_minutes']} minutes")
 
         # This would integrate with:
         # - ethics/qi_mesh_integrator.py for mesh modification
@@ -697,13 +663,9 @@ class AdaptiveEntanglementStabilizer:
         with open(log_file, "a") as f:
             f.write(json.dumps(log_entry, default=str) + "\n")
 
-        logger.info(
-            f"ΛTUNE log emitted: {entry['subsystem_pair']} - {', '.join(entry['stabilizers_applied'])}"
-        )
+        logger.info(f"ΛTUNE log emitted: {entry['subsystem_pair']} - {', '.join(entry['stabilizers_applied'])}")
 
-    async def run_continuous_monitoring(
-        self, log_file: str, window: int = 10, interval: int = 30
-    ) -> None:
+    async def run_continuous_monitoring(self, log_file: str, window: int = 10, interval: int = 30) -> None:
         """
         Run continuous monitoring and stabilization
 
@@ -779,23 +741,15 @@ Examples:
         default="logs/mesh_ethics.jsonl",
         help="Path to mesh integrator log file",
     )
-    parser.add_argument(
-        "--window", type=int, default=10, help="Size of monitoring window"
-    )
-    parser.add_argument(
-        "--autotune", action="store_true", help="Enable automatic stabilization"
-    )
+    parser.add_argument("--window", type=int, default=10, help="Size of monitoring window")
+    parser.add_argument("--autotune", action="store_true", help="Enable automatic stabilization")
     parser.add_argument(
         "--suggest-only",
         action="store_true",
         help="Suggestion mode only (no actual changes)",
     )
-    parser.add_argument(
-        "--continuous", action="store_true", help="Run continuous monitoring"
-    )
-    parser.add_argument(
-        "--interval", type=int, default=30, help="Monitoring interval in seconds"
-    )
+    parser.add_argument("--continuous", action="store_true", help="Run continuous monitoring")
+    parser.add_argument("--interval", type=int, default=30, help="Monitoring interval in seconds")
     parser.add_argument(
         "--threshold",
         type=float,
@@ -803,9 +757,7 @@ Examples:
         help="Coherence threshold for intervention",
     )
     parser.add_argument("--config", type=str, help="Path to configuration file")
-    parser.add_argument(
-        "--status", action="store_true", help="Show stabilization system status"
-    )
+    parser.add_argument("--status", action="store_true", help="Show stabilization system status")
 
     args = parser.parse_args()
 
@@ -843,11 +795,7 @@ Examples:
 
         if args.continuous:
             print("🔄 Starting continuous monitoring...")
-            asyncio.run(
-                stabilizer.run_continuous_monitoring(
-                    args.log, args.window, args.interval
-                )
-            )
+            asyncio.run(stabilizer.run_continuous_monitoring(args.log, args.window, args.interval))
         else:
             # Single run
             print("📊 Analyzing entanglement trends...")
@@ -876,9 +824,7 @@ Examples:
 
             # Show final status
             status = stabilizer.get_stabilization_status()
-            print(
-                f"\n📈 Stabilization complete: {status['stabilization_history_count']} actions taken"
-            )
+            print(f"\n📈 Stabilization complete: {status['stabilization_history_count']} actions taken")
 
         return 0
 

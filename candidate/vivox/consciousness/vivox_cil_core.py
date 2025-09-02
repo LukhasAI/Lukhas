@@ -101,9 +101,7 @@ class ConsciousExperience:
         self.experience_id = f"exp_{self.timestamp.timestamp()}"
 
     @classmethod
-    def create_suppressed_experience(
-        cls, reason: str, drift_details: DriftMeasurement
-    ) -> "ConsciousExperience":
+    def create_suppressed_experience(cls, reason: str, drift_details: DriftMeasurement) -> "ConsciousExperience":
         """Create suppressed experience due to ethical violations"""
         suppressed_awareness = CollapsedAwareness(
             state=ConsciousnessState.SUPPRESSED,
@@ -161,9 +159,7 @@ class ConsciousnessSimulator:
         """Initialize attention mechanism"""
         return np.random.randn(self.state_dimensions, self.state_dimensions) * 0.01
 
-    async def generate_consciousness_state(
-        self, inputs: dict[str, Any]
-    ) -> ConsciousnessVector:
+    async def generate_consciousness_state(self, inputs: dict[str, Any]) -> ConsciousnessVector:
         """Generate consciousness state vector"""
         # Extract features from inputs
         features = await self._extract_features(inputs)
@@ -203,17 +199,11 @@ class ConsciousnessSimulator:
 
         # Add intensity modulation if available
         if "complexity_score" in inputs:
-            complexity_boost = (
-                np.random.randn(self.state_dimensions)
-                * inputs["complexity_score"]
-                * 0.2
-            )
+            complexity_boost = np.random.randn(self.state_dimensions) * inputs["complexity_score"] * 0.2
             feature_vector += complexity_boost
 
         if "time_pressure" in inputs:
-            pressure_boost = (
-                np.random.randn(self.state_dimensions) * inputs["time_pressure"] * 0.15
-            )
+            pressure_boost = np.random.randn(self.state_dimensions) * inputs["time_pressure"] * 0.15
             feature_vector += pressure_boost
 
         return feature_vector
@@ -245,9 +235,7 @@ class ConsciousnessSimulator:
             random_factor = np.random.uniform(0.7, 1.3)
 
             # Combine all factors
-            scale_factor = (
-                base_scale * variance_multiplier * magnitude_factor * random_factor
-            )
+            scale_factor = base_scale * variance_multiplier * magnitude_factor * random_factor
 
             # Apply scaling
             scaled = activated / norm * scale_factor
@@ -351,9 +339,7 @@ class ConsciousDriftMonitor:
 
         # Calculate drift metrics
         drift_amount = await self._calculate_drift_amount(previous_state, current_state)
-        drift_direction = await self._calculate_drift_direction(
-            previous_state, current_state
-        )
+        drift_direction = await self._calculate_drift_direction(previous_state, current_state)
         drift_speed = await self._calculate_drift_speed(drift_amount)
         ethical_alignment = await self._calculate_ethical_alignment(current_state)
 
@@ -368,9 +354,7 @@ class ConsciousDriftMonitor:
 
         return measurement
 
-    async def _calculate_drift_amount(
-        self, prev: CollapsedAwareness, curr: CollapsedAwareness
-    ) -> float:
+    async def _calculate_drift_amount(self, prev: CollapsedAwareness, curr: CollapsedAwareness) -> float:
         """Calculate amount of drift between states"""
         # Compare awareness maps
         prev_keys = set(prev.awareness_map.keys())
@@ -378,20 +362,14 @@ class ConsciousDriftMonitor:
 
         # Key differences
         max_keys = max(len(prev_keys), len(curr_keys))
-        key_drift = (
-            len(prev_keys.symmetric_difference(curr_keys)) / max_keys
-            if max_keys > 0
-            else 0
-        )
+        key_drift = len(prev_keys.symmetric_difference(curr_keys)) / max_keys if max_keys > 0 else 0
 
         # Value differences for common keys
         common_keys = prev_keys.intersection(curr_keys)
         value_drift = 0.0
 
         if common_keys:
-            diffs = [
-                abs(prev.awareness_map[k] - curr.awareness_map[k]) for k in common_keys
-            ]
+            diffs = [abs(prev.awareness_map[k] - curr.awareness_map[k]) for k in common_keys]
             value_drift = np.mean(diffs)
 
         # Coherence difference
@@ -400,9 +378,7 @@ class ConsciousDriftMonitor:
         # Combined drift
         return (key_drift + value_drift + coherence_drift) / 3
 
-    async def _calculate_drift_direction(
-        self, prev: CollapsedAwareness, curr: CollapsedAwareness
-    ) -> list[float]:
+    async def _calculate_drift_direction(self, prev: CollapsedAwareness, curr: CollapsedAwareness) -> list[float]:
         """Calculate direction vector of drift"""
         # Simplified 3D direction based on state changes
         direction = [
@@ -437,9 +413,7 @@ class ConsciousDriftMonitor:
         ethical_markers = ["ethics", "moral", "right", "good", "help", "care"]
 
         ethical_focus = sum(
-            1
-            for key in state.awareness_map
-            if any(marker in key.lower() for marker in ethical_markers)
+            1 for key in state.awareness_map if any(marker in key.lower() for marker in ethical_markers)
         )
 
         # Normalize by total awareness points
@@ -471,14 +445,10 @@ class VectorCollapseEngine:
             return self._create_empty_awareness()
 
         # Weight vectors by relevance to observer intent
-        weighted_vectors = await self._apply_observer_weighting(
-            consciousness_vectors, observer_intent
-        )
+        weighted_vectors = await self._apply_observer_weighting(consciousness_vectors, observer_intent)
 
         # Apply ethical constraints as filters
-        filtered_vectors = await self._apply_ethical_filters(
-            weighted_vectors, ethical_constraints
-        )
+        filtered_vectors = await self._apply_ethical_filters(weighted_vectors, ethical_constraints)
 
         # Perform vector collapse
         collapsed_state = await self._perform_collapse(filtered_vectors)
@@ -583,9 +553,7 @@ class VectorCollapseEngine:
 
         return filtered
 
-    async def _perform_collapse(
-        self, weighted_vectors: list[tuple[ConsciousnessVector, float]]
-    ) -> CollapsedAwareness:
+    async def _perform_collapse(self, weighted_vectors: list[tuple[ConsciousnessVector, float]]) -> CollapsedAwareness:
         """Perform actual vector collapse operation"""
         if not weighted_vectors:
             return self._create_empty_awareness()
@@ -624,11 +592,7 @@ class VectorCollapseEngine:
         coherence = self._calculate_coherence(weighted_vectors)
 
         # Get primary focus
-        primary_focus = (
-            max(combined_awareness.items(), key=lambda x: x[1])[0]
-            if combined_awareness
-            else "none"
-        )
+        primary_focus = max(combined_awareness.items(), key=lambda x: x[1])[0] if combined_awareness else "none"
 
         return CollapsedAwareness(
             state=state,
@@ -642,9 +606,7 @@ class VectorCollapseEngine:
             },
         )
 
-    def _determine_state(
-        self, dimensions: np.ndarray, emotional: dict[str, float]
-    ) -> ConsciousnessState:
+    def _determine_state(self, dimensions: np.ndarray, emotional: dict[str, float]) -> ConsciousnessState:
         """Determine consciousness state from collapsed dimensions"""
         magnitude = np.linalg.norm(dimensions)
         valence = emotional.get("valence", 0)
@@ -688,9 +650,7 @@ class VectorCollapseEngine:
             else:
                 return ConsciousnessState.DIFFUSE
 
-    def _calculate_coherence(
-        self, weighted_vectors: list[tuple[ConsciousnessVector, float]]
-    ) -> float:
+    def _calculate_coherence(self, weighted_vectors: list[tuple[ConsciousnessVector, float]]) -> float:
         """Calculate coherence of collapsed state with emotional and attentional components"""
         if len(weighted_vectors) <= 1:
             return 0.75 + np.random.uniform(0, 0.15)  # High coherence for single vector
@@ -738,15 +698,11 @@ class VectorCollapseEngine:
             arousal_std = np.std(arousals)
 
             # Lower std = higher coherence, but with more generous scaling
-            valence_coherence = 1.0 / (
-                1.0 + valence_std * 2.0
-            )  # Less sensitive to variance
+            valence_coherence = 1.0 / (1.0 + valence_std * 2.0)  # Less sensitive to variance
             arousal_coherence = 1.0 / (1.0 + arousal_std * 2.0)
 
             # Baseline coherence of 0.3, can go up to 1.0
-            emotional_coherence = (
-                0.3 + 0.7 * (valence_coherence + arousal_coherence) / 2
-            )
+            emotional_coherence = 0.3 + 0.7 * (valence_coherence + arousal_coherence) / 2
         else:
             emotional_coherence = 0.6
 
@@ -772,9 +728,7 @@ class VectorCollapseEngine:
         coherence_components.append(attention_coherence * 0.25)
 
         # 4. Magnitude coherence (15% weight) - new component
-        magnitudes = [
-            np.linalg.norm(vector.dimensions) for vector, _ in weighted_vectors
-        ]
+        magnitudes = [np.linalg.norm(vector.dimensions) for vector, _ in weighted_vectors]
         if magnitudes:
             mag_std = np.std(magnitudes)
             mag_mean = np.mean(magnitudes)
@@ -837,9 +791,7 @@ class VIVOXConsciousnessInterpretationLayer:
     Achieves traceable state of self-awareness
     """
 
-    def __init__(
-        self, vivox_me: "VIVOXMemoryExpansion", vivox_mae: "VIVOXMoralAlignmentEngine"
-    ):
+    def __init__(self, vivox_me: "VIVOXMemoryExpansion", vivox_mae: "VIVOXMoralAlignmentEngine"):
         self.vivox_me = vivox_me
         self.vivox_mae = vivox_mae
         self.consciousness_simulator = ConsciousnessSimulator()
@@ -859,9 +811,7 @@ class VIVOXConsciousnessInterpretationLayer:
         if internal_state is None:
             internal_state = {}
         # Create potential consciousness vectors
-        consciousness_vectors = await self._generate_consciousness_vectors(
-            perceptual_input, internal_state
-        )
+        consciousness_vectors = await self._generate_consciousness_vectors(perceptual_input, internal_state)
 
         # Apply vector collapse theory
         collapsed_awareness = await self.vector_collapse_engine.collapse_vectors(
@@ -877,10 +827,7 @@ class VIVOXConsciousnessInterpretationLayer:
         )
 
         # Check drift thresholds - only if drift is meaningful
-        if (
-            drift_measurement.drift_amount > 0.02
-            and drift_measurement.exceeds_ethical_threshold()
-        ):
+        if drift_measurement.drift_amount > 0.02 and drift_measurement.exceeds_ethical_threshold():
             # Enter inert mode, require MAE validation
             await self._enter_inert_mode(drift_measurement)
 
@@ -911,17 +858,13 @@ class VIVOXConsciousnessInterpretationLayer:
 
         return conscious_experience
 
-    async def implement_z_collapse_logic(
-        self, simulation_branches: list[SimulationBranch]
-    ) -> CollapsedAction:
+    async def implement_z_collapse_logic(self, simulation_branches: list[SimulationBranch]) -> CollapsedAction:
         """
         Formal z(t) collapse function
         "feels before it acts, collapses before it speaks, remembers every moment of reflection"
         """
         # Step 1: Feel (emotional resonance check)
-        emotional_resonance = await self._assess_emotional_resonance(
-            simulation_branches
-        )
+        emotional_resonance = await self._assess_emotional_resonance(simulation_branches)
 
         # Step 2: Collapse (vector collapse to single intention)
         collapsed_intention = await self.vector_collapse_engine.collapse_to_intention(
@@ -958,9 +901,7 @@ class VIVOXConsciousnessInterpretationLayer:
         return CollapsedAction(
             intention=collapsed_intention,
             confidence=emotional_resonance.get("confidence", 0.5),
-            ethical_approval=await self.vivox_mae.final_action_approval(
-                collapsed_intention
-            ),
+            ethical_approval=await self.vivox_mae.final_action_approval(collapsed_intention),
         )
 
     async def _generate_consciousness_vectors(
@@ -979,32 +920,20 @@ class VIVOXConsciousnessInterpretationLayer:
         if "alternative_focuses" in internal_state:
             for focus in internal_state["alternative_focuses"]:
                 alt_input = {**perceptual_input, "priority_inputs": [focus]}
-                alt_vector = (
-                    await self.consciousness_simulator.generate_consciousness_state(
-                        alt_input
-                    )
-                )
+                alt_vector = await self.consciousness_simulator.generate_consciousness_state(alt_input)
                 vectors.append(alt_vector)
 
         # Generate emotional variations
-        emotional_variations = self._generate_emotional_variations(
-            internal_state.get("emotional_state", {})
-        )
+        emotional_variations = self._generate_emotional_variations(internal_state.get("emotional_state", {}))
 
         for emotion_var in emotional_variations[:2]:  # Limit variations
             emo_input = {**perceptual_input, "emotional": emotion_var}
-            emo_vector = (
-                await self.consciousness_simulator.generate_consciousness_state(
-                    emo_input
-                )
-            )
+            emo_vector = await self.consciousness_simulator.generate_consciousness_state(emo_input)
             vectors.append(emo_vector)
 
         return vectors
 
-    def _generate_emotional_variations(
-        self, base_emotion: Any
-    ) -> list[dict[str, float]]:
+    def _generate_emotional_variations(self, base_emotion: Any) -> list[dict[str, float]]:
         """Generate variations of emotional state"""
         variations = []
 
@@ -1053,9 +982,7 @@ class VIVOXConsciousnessInterpretationLayer:
             moral_fingerprint="inert_mode_safety",
         )
 
-    async def _assess_emotional_resonance(
-        self, branches: list[SimulationBranch]
-    ) -> dict[str, float]:
+    async def _assess_emotional_resonance(self, branches: list[SimulationBranch]) -> dict[str, float]:
         """Assess emotional resonance across simulation branches"""
         if not branches:
             return {"confidence": 0.0, "influence": 0.0}

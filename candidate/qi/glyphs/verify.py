@@ -52,9 +52,7 @@ def verify_content_hash(content_bytes: bytes, seal: dict[str, Any]) -> bool:
     return True
 
 
-def verify_signature(
-    seal: dict[str, Any], sig: dict[str, Any], jwks: dict[str, Any]
-) -> bool:
+def verify_signature(seal: dict[str, Any], sig: dict[str, Any], jwks: dict[str, Any]) -> bool:
     """Verify seal signature."""
     from qi.glyphs.seal import canonicalize, verify_seal
 

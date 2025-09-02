@@ -30,12 +30,8 @@ LUKHAS_ID_SECRET = os.getenv("LUKHAS_ID_SECRET", "")
 ETHICS_ENFORCEMENT_LEVEL = os.getenv("ETHICS_ENFORCEMENT_LEVEL", "strict")
 
 # Trinity Framework
-DREAM_SIMULATION_ENABLED = (
-    os.getenv("DREAM_SIMULATION_ENABLED", "false").lower() == "true"
-)
-QUANTUM_PROCESSING_ENABLED = (
-    os.getenv("QUANTUM_PROCESSING_ENABLED", "false").lower() == "true"
-)
+DREAM_SIMULATION_ENABLED = os.getenv("DREAM_SIMULATION_ENABLED", "false").lower() == "true"
+QUANTUM_PROCESSING_ENABLED = os.getenv("QUANTUM_PROCESSING_ENABLED", "false").lower() == "true"
 
 # Database
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///lukhas.db")
@@ -56,9 +52,7 @@ def validate_settings():
     # Check required settings
     if IS_PRODUCTION:
         if not LUKHAS_ID_SECRET or len(LUKHAS_ID_SECRET) < 32:
-            errors.append(
-                "LUKHAS_ID_SECRET must be at least 32 characters in production"
-            )
+            errors.append("LUKHAS_ID_SECRET must be at least 32 characters in production")
 
         # Ensure feature flags are OFF in production
         if UL_ENABLED or VIVOX_LITE or QIM_SANDBOX:

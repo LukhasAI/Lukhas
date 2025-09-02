@@ -125,9 +125,7 @@ class LukhasIntelligenceOrchestrationAdapter:
 
         try:
             # Step 1: Process intelligence request through agent bridge
-            intelligence_response = await self._process_intelligence_request(
-                agent_type, intelligence_request
-            )
+            intelligence_response = await self._process_intelligence_request(agent_type, intelligence_request)
 
             # Step 2: Integrate with orchestration context
             orchestrated_response = await self._integrate_with_orchestration(
@@ -171,9 +169,7 @@ class LukhasIntelligenceOrchestrationAdapter:
             logger.error(f"❌ Error coordinating intelligence operation: {e}")
             raise
 
-    async def _process_intelligence_request(
-        self, agent_type: AgentType, request: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_intelligence_request(self, agent_type: AgentType, request: dict[str, Any]) -> dict[str, Any]:
         """Process intelligence request through agent bridge"""
 
         # Map request to appropriate intelligence request type
@@ -198,9 +194,7 @@ class LukhasIntelligenceOrchestrationAdapter:
 
         return response.result
 
-    def _map_to_intelligence_request_type(
-        self, request: dict[str, Any]
-    ) -> IntelligenceRequestType:
+    def _map_to_intelligence_request_type(self, request: dict[str, Any]) -> IntelligenceRequestType:
         """Map generic request to specific intelligence request type"""
         request_content = str(request).lower()
 
@@ -244,10 +238,8 @@ class LukhasIntelligenceOrchestrationAdapter:
             integrated_response["brain_context"] = brain_context
 
         # Add symbolic processing recommendations
-        integrated_response["symbolic_recommendations"] = (
-            await self._generate_symbolic_recommendations(
-                intelligence_response, orchestration_context
-            )
+        integrated_response["symbolic_recommendations"] = await self._generate_symbolic_recommendations(
+            intelligence_response, orchestration_context
         )
 
         return integrated_response
@@ -431,9 +423,7 @@ class LukhasIntelligenceOrchestrationAdapter:
             if hasattr(self.brain_orchestrator, "process_intelligence_event"):
                 await self.brain_orchestrator.process_intelligence_event(brain_message)
             else:
-                logger.warning(
-                    "Brain orchestrator does not support intelligence events"
-                )
+                logger.warning("Brain orchestrator does not support intelligence events")
 
         except Exception as e:
             logger.error(f"Error routing to brain orchestrator: {e}")
@@ -454,9 +444,7 @@ class LukhasIntelligenceOrchestrationAdapter:
         # Update Trinity compliance rate
         trinity_compliant = all(message.trinity_compliance.values())
         current_compliance = self.performance_metrics["trinity_compliance_rate"]
-        new_compliance = (
-            current_compliance * (total_ops - 1) + (1.0 if trinity_compliant else 0.0)
-        ) / total_ops
+        new_compliance = (current_compliance * (total_ops - 1) + (1.0 if trinity_compliant else 0.0)) / total_ops
         self.performance_metrics["trinity_compliance_rate"] = new_compliance
 
     async def get_performance_metrics(self) -> dict[str, Any]:

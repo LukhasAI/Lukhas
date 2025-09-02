@@ -33,9 +33,7 @@ class TEQWithProvenance(TEQCoupler):
         text_content = context.get("text", "")
 
         # Generate content hash for artifact tracking
-        artifact_sha = hashlib.sha256(
-            text_content.encode("utf-8") if text_content else b"empty"
-        ).hexdigest()
+        artifact_sha = hashlib.sha256(text_content.encode("utf-8") if text_content else b"empty").hexdigest()
 
         # Run the original TEQ checks
         result = super().run(task, context)
@@ -205,9 +203,7 @@ def demo():
             print(f"Receipt ID: {result.provenance_receipt_id}")
 
             # Load and display the receipt
-            state_dir = os.path.expanduser(
-                os.environ.get("LUKHAS_STATE", "~/.lukhas/state")
-            )
+            state_dir = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
             receipt_path = os.path.join(
                 state_dir,
                 "provenance",

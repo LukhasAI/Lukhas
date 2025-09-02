@@ -235,9 +235,7 @@ class LukhasIntelligenceMonitor:
             # Check for alert conditions
             self._check_alert_conditions(metric_name, value, metric_type)
 
-    def record_operation_start(
-        self, operation_id: str, agent_id: str, intelligence_engine: str
-    ) -> float:
+    def record_operation_start(self, operation_id: str, agent_id: str, intelligence_engine: str) -> float:
         """Record the start of an intelligence operation"""
         start_time = time.time()
 
@@ -272,9 +270,7 @@ class LukhasIntelligenceMonitor:
 
         with self._lock:
             # Get operation data
-            operation_data = getattr(self, "active_operations", {}).get(
-                operation_id, {}
-            )
+            operation_data = getattr(self, "active_operations", {}).get(operation_id, {})
             agent_id = operation_data.get("agent_id", "unknown")
             intelligence_engine = operation_data.get("intelligence_engine", "unknown")
 
@@ -406,9 +402,7 @@ class LukhasIntelligenceMonitor:
             agent_id,
         )
 
-    def _check_alert_conditions(
-        self, metric_name: str, value: float, metric_type: MetricType
-    ):
+    def _check_alert_conditions(self, metric_name: str, value: float, metric_type: MetricType):
         """Check if metric value triggers any alerts"""
         # Get alert thresholds for this metric
         thresholds = self.alert_thresholds.get(metric_name, {})
@@ -496,9 +490,7 @@ class LukhasIntelligenceMonitor:
 
                 # Active operations count
                 active_ops = len(getattr(self, "active_operations", {}))
-                self.record_metric(
-                    "active_operations", active_ops, "count", MetricType.SYSTEM_HEALTH
-                )
+                self.record_metric("active_operations", active_ops, "count", MetricType.SYSTEM_HEALTH)
 
                 await asyncio.sleep(30)  # Check every 30 seconds
 
@@ -531,26 +523,18 @@ class LukhasIntelligenceMonitor:
         if len(response_times) < 10:
             return
 
-        recent_times = [
-            m.value for m in list(response_times)[-50:]
-        ]  # Last 50 operations
+        recent_times = [m.value for m in list(response_times)[-50:]]  # Last 50 operations
         avg_response_time = sum(recent_times) / len(recent_times)
 
-        self.record_metric(
-            "avg_response_time", avg_response_time, "seconds", MetricType.PERFORMANCE
-        )
+        self.record_metric("avg_response_time", avg_response_time, "seconds", MetricType.PERFORMANCE)
 
         # Check for degradation
         if len(response_times) >= 100:
-            older_times = [
-                m.value for m in list(response_times)[-100:-50]
-            ]  # Previous 50 operations
+            older_times = [m.value for m in list(response_times)[-100:-50]]  # Previous 50 operations
             older_avg = sum(older_times) / len(older_times)
 
             if avg_response_time > older_avg * 1.5:  # 50% increase
-                logger.warning(
-                    f"📈 Response time degradation detected: {avg_response_time:.2f}s vs {older_avg:.2f}s"
-                )
+                logger.warning(f"📈 Response time degradation detected: {avg_response_time:.2f}s vs {older_avg:.2f}s")
 
     async def _analyze_error_rate_trends(self):
         """Analyze error rate trends"""
@@ -559,15 +543,11 @@ class LukhasIntelligenceMonitor:
         if len(success_metrics) < 10:
             return
 
-        recent_success = [
-            m.value for m in list(success_metrics)[-50:]
-        ]  # Last 50 operations
+        recent_success = [m.value for m in list(success_metrics)[-50:]]  # Last 50 operations
         success_rate = sum(recent_success) / len(recent_success)
         error_rate = 1.0 - success_rate
 
-        self.record_metric(
-            "error_rate", error_rate, "percentage", MetricType.PERFORMANCE
-        )
+        self.record_metric("error_rate", error_rate, "percentage", MetricType.PERFORMANCE)
 
     async def _analyze_agent_performance_trends(self):
         """Analyze agent performance trends"""
@@ -578,15 +558,11 @@ class LukhasIntelligenceMonitor:
             recent_stats = stats[-20:]  # Last 20 operations
 
             # Calculate agent-specific metrics
-            avg_processing_time = sum(s["processing_time"] for s in recent_stats) / len(
-                recent_stats
+            avg_processing_time = sum(s["processing_time"] for s in recent_stats) / len(recent_stats)
+            success_rate = sum(1 for s in recent_stats if s["success"]) / len(recent_stats)
+            avg_confidence = sum(s["confidence"] for s in recent_stats if s["confidence"] > 0) / max(
+                1, len([s for s in recent_stats if s["confidence"] > 0])
             )
-            success_rate = sum(1 for s in recent_stats if s["success"]) / len(
-                recent_stats
-            )
-            avg_confidence = sum(
-                s["confidence"] for s in recent_stats if s["confidence"] > 0
-            ) / max(1, len([s for s in recent_stats if s["confidence"] > 0]))
 
             # Record agent-specific metrics
             self.record_metric(
@@ -622,9 +598,7 @@ class LukhasIntelligenceMonitor:
                 for metrics in self.trinity_metrics.values():
                     if metrics and isinstance(metrics, deque):
                         recent_scores = [
-                            m["score"]
-                            for m in list(metrics)[-10:]
-                            if isinstance(m, dict) and "score" in m
+                            m["score"] for m in list(metrics)[-10:] if isinstance(m, dict) and "score" in m
                         ]
                         if recent_scores:
                             avg_score = sum(recent_scores) / len(recent_scores)
@@ -676,21 +650,15 @@ class LukhasIntelligenceMonitor:
                 for metric_name, history in self.metrics_history.items():
                     # Convert to list, filter, and convert back to deque
                     filtered_metrics = [m for m in history if m.timestamp > cutoff_time]
-                    self.metrics_history[metric_name] = deque(
-                        filtered_metrics, maxlen=self.max_history_size
-                    )
+                    self.metrics_history[metric_name] = deque(filtered_metrics, maxlen=self.max_history_size)
 
                 # Clean up agent coordination stats
                 for agent_id, stats in self.agent_coordination_stats.items():
-                    self.agent_coordination_stats[agent_id] = [
-                        s for s in stats if s["timestamp"] > cutoff_time
-                    ]
+                    self.agent_coordination_stats[agent_id] = [s for s in stats if s["timestamp"] > cutoff_time]
 
                 # Clean up engine performance stats
                 for engine, stats in self.engine_performance_stats.items():
-                    self.engine_performance_stats[engine] = [
-                        s for s in stats if s["timestamp"] > cutoff_time
-                    ]
+                    self.engine_performance_stats[engine] = [s for s in stats if s["timestamp"] > cutoff_time]
 
                 logger.info("🧹 Cleaned up old monitoring data")
 
@@ -708,19 +676,13 @@ class LukhasIntelligenceMonitor:
     def get_real_time_metrics(self) -> dict[str, Any]:
         """Get current real-time metrics"""
         with self._lock:
-            return {
-                name: metric.to_dict()
-                for name, metric in self.real_time_metrics.items()
-            }
+            return {name: metric.to_dict() for name, metric in self.real_time_metrics.items()}
 
     def get_agent_metrics(self, agent_id: Optional[str] = None) -> dict[str, Any]:
         """Get agent-specific metrics"""
         with self._lock:
             if agent_id:
-                return {
-                    name: metric.to_dict()
-                    for name, metric in self.agent_metrics.get(agent_id, {}).items()
-                }
+                return {name: metric.to_dict() for name, metric in self.agent_metrics.get(agent_id, {}).items()}
             return {
                 agent: {name: metric.to_dict() for name, metric in metrics.items()}
                 for agent, metrics in self.agent_metrics.items()
@@ -730,10 +692,7 @@ class LukhasIntelligenceMonitor:
         """Get intelligence engine specific metrics"""
         with self._lock:
             if engine:
-                return {
-                    name: metric.to_dict()
-                    for name, metric in self.engine_metrics.get(engine, {}).items()
-                }
+                return {name: metric.to_dict() for name, metric in self.engine_metrics.get(engine, {}).items()}
             return {
                 eng: {name: metric.to_dict() for name, metric in metrics.items()}
                 for eng, metrics in self.engine_metrics.items()
@@ -749,11 +708,7 @@ class LukhasIntelligenceMonitor:
 
         for component, metrics in self.trinity_metrics.items():
             if metrics and isinstance(metrics, deque):
-                recent_scores = [
-                    m["score"]
-                    for m in list(metrics)[-10:]
-                    if isinstance(m, dict) and "score" in m
-                ]
+                recent_scores = [m["score"] for m in list(metrics)[-10:] if isinstance(m, dict) and "score" in m]
                 if recent_scores:
                     summary[component] = {
                         "current_score": recent_scores[-1],
@@ -824,17 +779,13 @@ class LukhasIntelligenceMonitor:
 
         # Export metrics in time range
         for metric_name, history in self.metrics_history.items():
-            filtered_metrics = [
-                m.to_dict() for m in history if start_time <= m.timestamp <= end_time
-            ]
+            filtered_metrics = [m.to_dict() for m in history if start_time <= m.timestamp <= end_time]
             if filtered_metrics:
                 exported_data["metrics"][metric_name] = filtered_metrics
 
         # Export alerts in time range
         exported_data["alerts"] = [
-            alert.to_dict()
-            for alert in self.alert_history
-            if start_time <= alert.timestamp <= end_time
+            alert.to_dict() for alert in self.alert_history if start_time <= alert.timestamp <= end_time
         ]
 
         return exported_data
@@ -874,9 +825,7 @@ def record_operation_metric(
     )
 
 
-def start_operation_tracking(
-    operation_id: str, agent_id: str, intelligence_engine: str
-) -> float:
+def start_operation_tracking(operation_id: str, agent_id: str, intelligence_engine: str) -> float:
     """Convenience function to start operation tracking"""
     monitor = get_monitor()
     return monitor.record_operation_start(operation_id, agent_id, intelligence_engine)
@@ -892,9 +841,7 @@ def complete_operation_tracking(
 ):
     """Convenience function to complete operation tracking"""
     monitor = get_monitor()
-    monitor.record_operation_complete(
-        operation_id, start_time, success, confidence, safety_score, metadata
-    )
+    monitor.record_operation_complete(operation_id, start_time, success, confidence, safety_score, metadata)
 
 
 if __name__ == "__main__":
@@ -911,9 +858,7 @@ if __name__ == "__main__":
         # Simulate some operations
         for i in range(5):
             operation_id = f"test_op_{i}"
-            start_time = start_operation_tracking(
-                operation_id, "consciousness_architect_001", "meta_cognitive"
-            )
+            start_time = start_operation_tracking(operation_id, "consciousness_architect_001", "meta_cognitive")
 
             # Simulate processing
             await asyncio.sleep(0.1)
@@ -928,9 +873,7 @@ if __name__ == "__main__":
             )
 
             # Record Trinity compliance
-            monitor.record_trinity_compliance(
-                0.95, 0.92, 0.88, "consciousness_architect_001"
-            )
+            monitor.record_trinity_compliance(0.95, 0.92, 0.88, "consciousness_architect_001")
 
         # Wait for metrics to be processed
         await asyncio.sleep(2)

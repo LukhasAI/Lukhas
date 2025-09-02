@@ -275,8 +275,7 @@ class ColonyMemoryValidator:
             return await self._execute_validation(
                 operation=operation,
                 validation_mode=validation_mode or self.default_validation_mode,
-                target_colonies=target_colonies
-                or list(self.registered_colonies.keys()),
+                target_colonies=target_colonies or list(self.registered_colonies.keys()),
                 timeout_seconds=timeout_seconds or self.default_timeout,
             )
 
@@ -360,18 +359,14 @@ class ColonyMemoryValidator:
             # Clean up
             self.active_validations.pop(request.request_id, None)
 
-    async def _gather_colony_responses(
-        self, request: ValidationRequest
-    ) -> dict[str, ColonyValidationResponse]:
+    async def _gather_colony_responses(self, request: ValidationRequest) -> dict[str, ColonyValidationResponse]:
         """Gather validation responses from colonies"""
 
         responses = {}
         tasks = []
 
         # Filter colonies by availability and trust
-        available_colonies = self._select_colonies_for_validation(
-            request.target_colonies, request.minimum_responses
-        )
+        available_colonies = self._select_colonies_for_validation(request.target_colonies, request.minimum_responses)
 
         if len(available_colonies) < request.minimum_responses:
             logger.warning(
@@ -421,9 +416,7 @@ class ColonyMemoryValidator:
 
         return responses
 
-    async def _validate_in_colony(
-        self, request: ValidationRequest, colony_id: str
-    ) -> ColonyValidationResponse:
+    async def _validate_in_colony(self, request: ValidationRequest, colony_id: str) -> ColonyValidationResponse:
         """Validate operation in specific colony"""
 
         start_time = time.time()
@@ -436,9 +429,7 @@ class ColonyMemoryValidator:
             success = True
             validation_result = ValidationResult.VALID
             content_hash = (
-                hashlib.md5(str(request.operation.content).encode()).hexdigest()
-                if request.operation.content
-                else None
+                hashlib.md5(str(request.operation.content).encode()).hexdigest() if request.operation.content else None
             )
 
             # Simulate occasional failures based on trust score
@@ -520,18 +511,14 @@ class ColonyMemoryValidator:
             if len(set(validation_results)) > 1:
                 outcome.result = ConsensusResult.CONFLICT
                 outcome.conflicting_colonies = [
-                    r.colony_id
-                    for r in responses.values()
-                    if r.validation_result != validation_results[0]
+                    r.colony_id for r in responses.values() if r.validation_result != validation_results[0]
                 ]
             else:
                 outcome.result = ConsensusResult.FAILED
 
         # Set dominant response
         if successful_responses:
-            outcome.dominant_response = max(
-                successful_responses, key=lambda r: r.colony_trust_score
-            )
+            outcome.dominant_response = max(successful_responses, key=lambda r: r.colony_trust_score)
 
         # Calculate performance metrics
         response_times = [r.response_time_ms for r in responses.values()]
@@ -541,9 +528,7 @@ class ColonyMemoryValidator:
 
         return outcome
 
-    def _select_colonies_for_validation(
-        self, target_colonies: list[str], minimum_required: int
-    ) -> list[str]:
+    def _select_colonies_for_validation(self, target_colonies: list[str], minimum_required: int) -> list[str]:
         """Select best colonies for validation based on trust and performance"""
 
         # Filter to registered colonies
@@ -602,9 +587,7 @@ class ColonyMemoryValidator:
                 if len(history) > 100:  # Keep last 100 measurements
                     history.pop(0)
 
-    async def _notify_callbacks(
-        self, request: ValidationRequest, outcome: ConsensusOutcome
-    ):
+    async def _notify_callbacks(self, request: ValidationRequest, outcome: ConsensusOutcome):
         """Notify registered callbacks"""
         for callback in self.consensus_callbacks:
             try:
@@ -639,9 +622,7 @@ class ColonyMemoryValidator:
                     unresponsive_colonies.append(colony_id)
 
             if unresponsive_colonies:
-                logger.warning(
-                    "Low trust colonies detected", colonies=unresponsive_colonies
-                )
+                logger.warning("Low trust colonies detected", colonies=unresponsive_colonies)
 
             await asyncio.sleep(60)  # Monitor every minute
 
@@ -659,10 +640,7 @@ class ColonyMemoryValidator:
                 else 0.0
             ),
             "colony_trust_scores": dict(self.colony_trust_scores),
-            "colony_performance": {
-                cid: self._get_average_response_time(cid)
-                for cid in self.registered_colonies
-            },
+            "colony_performance": {cid: self._get_average_response_time(cid) for cid in self.registered_colonies},
         }
 
     def get_metrics(self) -> dict[str, Any]:

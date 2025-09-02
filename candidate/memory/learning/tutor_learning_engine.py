@@ -33,9 +33,7 @@ def skg():
 @pytest.fixture
 def tutor_engine(skg):
     """Create a TutorEngine instance with mock interfaces."""
-    return TutorEngine(
-        skg=skg, voice_interface=MockVoiceInterface(), bio_interface=MockBioInterface()
-    )
+    return TutorEngine(skg=skg, voice_interface=MockVoiceInterface(), bio_interface=MockBioInterface())
 
 
 @pytest.fixture
@@ -95,9 +93,7 @@ async def test_handle_poor_response(tutor_engine, sample_config):
         config=sample_config,
     )
 
-    responses = await tutor_engine.handle_user_response(
-        session.session_id, "I'm not sure about this."
-    )
+    responses = await tutor_engine.handle_user_response(session.session_id, "I'm not sure about this.")
 
     assert len(responses) > 0
     assert any(r.message_type == TutorMessageType.HINT for r in responses)
@@ -121,9 +117,7 @@ async def test_bio_oscillator_adaptation(tutor_engine, sample_config):
         config=sample_config,
     )
 
-    responses = await tutor_engine.handle_user_response(
-        session.session_id, "This is complicated."
-    )
+    responses = await tutor_engine.handle_user_response(session.session_id, "This is complicated.")
 
     assert len(responses) > 0
     assert "step back" in responses[0].content  # Should adapt to high stress

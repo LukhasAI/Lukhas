@@ -220,9 +220,7 @@ def main():
     # Demo dashboard (optional)
     try:
         dashboard_success = demo_monitoring_dashboard()
-        results["monitoring_dashboard"] = (
-            "✅ Success" if dashboard_success else "❌ Failed"
-        )
+        results["monitoring_dashboard"] = "✅ Success" if dashboard_success else "❌ Failed"
     except Exception as e:
         results["monitoring_dashboard"] = f"❌ Failed: {e}"
     print()

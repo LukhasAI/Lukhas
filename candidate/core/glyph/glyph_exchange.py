@@ -40,12 +40,8 @@ class GlyphImportRequest(BaseModel):
 
 
 class CompressedDreamTagRequest(BaseModel):
-    compressed_data: str = Field(
-        ..., description="Base64-encoded zlib-compressed dream tag payload"
-    )
-    activate_glyphs: bool = Field(
-        True, description="Whether to activate glyphs during processing"
-    )
+    compressed_data: str = Field(..., description="Base64-encoded zlib-compressed dream tag payload")
+    activate_glyphs: bool = Field(True, description="Whether to activate glyphs during processing")
 
 
 class APIResponse(BaseModel):
@@ -65,14 +61,9 @@ APIResponse.model_rebuild()
 async def export_glyphs(limit: int = 100) -> APIResponse:
     """Export registered glyphs and usage counts."""
     system = get_glyph_memory_system()
-    glyph_counts: dict[str, int] = {
-        g: len(folds) for g, folds in system.glyph_index.glyph_to_folds.items()
-    }
+    glyph_counts: dict[str, int] = {g: len(folds) for g, folds in system.glyph_index.glyph_to_folds.items()}
     sorted_glyphs = sorted(glyph_counts.items(), key=lambda x: x[1], reverse=True)
-    export_list = [
-        {"glyph": g, "count": c, "meaning": GLYPH_MAP.get(g)}
-        for g, c in sorted_glyphs[:limit]
-    ]
+    export_list = [{"glyph": g, "count": c, "meaning": GLYPH_MAP.get(g)} for g, c in sorted_glyphs[:limit]]
     return APIResponse(status="success", data=export_list, message="glyph_export")
 
 
@@ -103,8 +94,6 @@ async def submit_compressed_dream_tags(
         raise HTTPException(status_code=400, detail="Invalid compressed data")
 
     system = get_glyph_memory_system()
-    result = system.dream_bridge.process_dream_state(
-        dream_data, activate_glyphs=request.activate_glyphs
-    )
+    result = system.dream_bridge.process_dream_state(dream_data, activate_glyphs=request.activate_glyphs)
 
     return APIResponse(status="success", data=result, message="dream_tags_processed")

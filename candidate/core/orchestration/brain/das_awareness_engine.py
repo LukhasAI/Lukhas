@@ -187,9 +187,7 @@ class AwarenessModule(ABC):
             raise
 
     @abstractmethod
-    def evaluate_alignment(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> float:
+    def evaluate_alignment(self, result: dict[str, Any], inputs: AwarenessInput) -> float:
         """Evaluate DAST institutional alignment (0-100 scale)."""
         ...
 
@@ -198,9 +196,7 @@ class AwarenessModule(ABC):
         """Return the type of awareness module."""
         ...
 
-    def generate_recommendations(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> list[str]:
+    def generate_recommendations(self, result: dict[str, Any], inputs: AwarenessInput) -> list[str]:
         """Generate actionable recommendations based on awareness data."""
         return []
 
@@ -275,9 +271,7 @@ class EnvironmentalReasoner:
         # Calculate environmental scores
         temp_score = normalize(inputs.temperature, -20, 50, 18, 24)
         humidity_score = normalize(inputs.humidity, 0, 100, 40, 60)
-        noise_score = normalize(
-            120 - inputs.ambient_noise, 0, 120, 80, 120
-        )  # Lower noise is better
+        noise_score = normalize(120 - inputs.ambient_noise, 0, 120, 80, 120)  # Lower noise is better
         light_score = normalize(inputs.light_level, 0, 2000, 300, 800)
 
         # Air quality impact
@@ -291,20 +285,14 @@ class EnvironmentalReasoner:
         # Energy efficiency assessment
         energy_efficiency = 1.0
         if inputs.energy_consumption:
-            energy_efficiency = max(
-                0.1, 1.0 - (inputs.energy_consumption / 100)
-            )  # Penalize high consumption
+            energy_efficiency = max(0.1, 1.0 - (inputs.energy_consumption / 100))  # Penalize high consumption
 
         # Detect environmental anomalies
         anomaly_detected = self._detect_anomalies(inputs)
 
         # Calculate composite score
         base_score = (
-            temp_score * 0.25
-            + humidity_score * 0.2
-            + noise_score * 0.2
-            + light_score * 0.15
-            + air_quality_score * 0.2
+            temp_score * 0.25 + humidity_score * 0.2 + noise_score * 0.2 + light_score * 0.15 + air_quality_score * 0.2
         ) + location_bonus
 
         # Apply energy efficiency multiplier
@@ -321,9 +309,7 @@ class EnvironmentalReasoner:
                 "energy_efficiency": energy_efficiency,
             },
             "anomaly_detected": anomaly_detected,
-            "sustainability_rating": self._calculate_sustainability_rating(
-                final_score, inputs
-            ),
+            "sustainability_rating": self._calculate_sustainability_rating(final_score, inputs),
             "carbon_impact": self._estimate_carbon_impact(inputs),
             "optimization_opportunities": self._identify_optimizations(inputs),
         }
@@ -354,9 +340,7 @@ class EnvironmentalReasoner:
 
         return len(anomalies) > 0
 
-    def _calculate_sustainability_rating(
-        self, score: float, inputs: EnvironmentalAwarenessInput
-    ) -> str:
+    def _calculate_sustainability_rating(self, score: float, inputs: EnvironmentalAwarenessInput) -> str:
         """Calculate sustainability rating."""
         if score >= 0.9:
             return "Excellent"
@@ -367,9 +351,7 @@ class EnvironmentalReasoner:
         else:
             return "Poor"
 
-    def _estimate_carbon_impact(
-        self, inputs: EnvironmentalAwarenessInput
-    ) -> dict[str, float]:
+    def _estimate_carbon_impact(self, inputs: EnvironmentalAwarenessInput) -> dict[str, float]:
         """Estimate carbon footprint impact."""
         base_impact = 0.0
 
@@ -379,9 +361,7 @@ class EnvironmentalReasoner:
 
         return {
             "estimated_co2_kg": base_impact,
-            "category": (
-                "low" if base_impact < 10 else "medium" if base_impact < 50 else "high"
-            ),
+            "category": ("low" if base_impact < 10 else "medium" if base_impact < 50 else "high"),
         }
 
     def _identify_optimizations(self, inputs: EnvironmentalAwarenessInput) -> list[str]:
@@ -406,9 +386,7 @@ class EnvironmentalAwarenessModule(AwarenessModule):
     def _get_module_type(self) -> AwarenessType:
         return AwarenessType.ENVIRONMENTAL
 
-    def evaluate_alignment(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> float:
+    def evaluate_alignment(self, result: dict[str, Any], inputs: AwarenessInput) -> float:
         """Evaluate environmental alignment with DAST sustainability goals."""
         base_score = result["environmental_score"] * 100
 
@@ -432,9 +410,7 @@ class EnvironmentalAwarenessModule(AwarenessModule):
 
         return max(0.0, min(base_score, 100.0))
 
-    def generate_recommendations(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> list[str]:
+    def generate_recommendations(self, result: dict[str, Any], inputs: AwarenessInput) -> list[str]:
         """Generate environmental recommendations."""
         recommendations = []
 
@@ -443,19 +419,13 @@ class EnvironmentalAwarenessModule(AwarenessModule):
 
         # Add DAST-specific recommendations
         if result.get("sustainability_rating") == "Poor":
-            recommendations.append(
-                "Consider relocating to a more sustainable environment"
-            )
+            recommendations.append("Consider relocating to a more sustainable environment")
 
         if result.get("anomaly_detected"):
-            recommendations.append(
-                "Environmental anomaly detected - immediate attention required"
-            )
+            recommendations.append("Environmental anomaly detected - immediate attention required")
 
         # Energy-specific recommendations
-        energy_efficiency = result.get("component_scores", {}).get(
-            "energy_efficiency", 1.0
-        )
+        energy_efficiency = result.get("component_scores", {}).get("energy_efficiency", 1.0)
         if energy_efficiency < 0.7:
             recommendations.append("Switch to renewable energy sources")
             recommendations.append("Implement energy-saving measures")
@@ -484,9 +454,7 @@ class CognitiveAwarenessInput(AwarenessInput):
 
     attention_level: float = Field(..., ge=0, le=1, description="Attention level 0-1")
     cognitive_load: float = Field(..., ge=0, le=1, description="Cognitive load 0-1")
-    decision_complexity: int = Field(
-        ..., ge=1, le=10, description="Decision complexity 1-10"
-    )
+    decision_complexity: int = Field(..., ge=1, le=10, description="Decision complexity 1-10")
     information_overload: bool = Field(default=False)
     stress_indicators: list[str] = Field(default_factory=list)
     task_urgency: int = Field(..., ge=1, le=5, description="Task urgency 1-5")
@@ -560,9 +528,7 @@ class CognitiveAwarenessModule(AwarenessModule):
     def _get_module_type(self) -> AwarenessType:
         return AwarenessType.COGNITIVE
 
-    def evaluate_alignment(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> float:
+    def evaluate_alignment(self, result: dict[str, Any], inputs: AwarenessInput) -> float:
         """Evaluate cognitive alignment with DAST decision-making goals."""
         base_score = result["decision_quality_prediction"] * 100
 
@@ -574,16 +540,12 @@ class CognitiveAwarenessModule(AwarenessModule):
             base_score -= 20
 
         # Decision support bonus
-        if result.get("decision_support_needed") and not inputs.context_data.get(
-            "support_available", False
-        ):
+        if result.get("decision_support_needed") and not inputs.context_data.get("support_available", False):
             base_score -= 15
 
         return max(0.0, min(base_score, 100.0))
 
-    def generate_recommendations(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> list[str]:
+    def generate_recommendations(self, result: dict[str, Any], inputs: AwarenessInput) -> list[str]:
         """Generate cognitive optimization recommendations."""
         recommendations = []
 
@@ -591,9 +553,7 @@ class CognitiveAwarenessModule(AwarenessModule):
             recommendations.append("Take a cognitive break to restore mental clarity")
 
         if result.get("information_filtering_needed"):
-            recommendations.append(
-                "Apply information filtering to reduce cognitive load"
-            )
+            recommendations.append("Apply information filtering to reduce cognitive load")
 
         if result.get("decision_support_needed"):
             recommendations.append("Seek decision support tools or expert consultation")
@@ -630,19 +590,13 @@ class DastAwarenessEngine:
         """Initialize awareness modules."""
         # Environmental Module
         env_reasoner = EnvironmentalReasoner()
-        self.modules[AwarenessType.ENVIRONMENTAL] = EnvironmentalAwarenessModule(
-            env_reasoner, self.config
-        )
+        self.modules[AwarenessType.ENVIRONMENTAL] = EnvironmentalAwarenessModule(env_reasoner, self.config)
 
         # Cognitive Module
         cog_reasoner = CognitiveReasoner()
-        self.modules[AwarenessType.COGNITIVE] = CognitiveAwarenessModule(
-            cog_reasoner, self.config
-        )
+        self.modules[AwarenessType.COGNITIVE] = CognitiveAwarenessModule(cog_reasoner, self.config)
 
-    def process_awareness(
-        self, awareness_type: AwarenessType, inputs: AwarenessInput
-    ) -> AwarenessOutput:
+    def process_awareness(self, awareness_type: AwarenessType, inputs: AwarenessInput) -> AwarenessOutput:
         """Process awareness data through appropriate module."""
         if awareness_type not in self.modules:
             raise ValueError(f"Awareness type {awareness_type} not supported")
@@ -656,9 +610,7 @@ class DastAwarenessEngine:
         tasks = []
         for awareness_type, inputs in awareness_data.items():
             if awareness_type in self.modules:
-                task = asyncio.create_task(
-                    asyncio.to_thread(self.process_awareness, awareness_type, inputs)
-                )
+                task = asyncio.create_task(asyncio.to_thread(self.process_awareness, awareness_type, inputs))
                 tasks.append((awareness_type, task))
 
         results = {}

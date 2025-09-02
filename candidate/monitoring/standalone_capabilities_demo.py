@@ -128,11 +128,7 @@ class StandaloneMonitoringDemo:
         threshold += historical_factor + circadian_factor + load_factor + success_factor
 
         # Factor 5 & 6: Bounds checking and context modifiers
-        threshold = (
-            max(0.1, min(0.8, threshold))
-            if inverted
-            else max(0.2, min(0.95, threshold))
-        )
+        threshold = max(0.1, min(0.8, threshold)) if inverted else max(0.2, min(0.95, threshold))
 
         return threshold
 
@@ -186,9 +182,7 @@ class StandaloneMonitoringDemo:
                 "endorphin": 0.60,
             }
 
-    def analyze_plasticity_triggers(
-        self, snapshot: EndocrineSnapshot
-    ) -> list[PlasticityEvent]:
+    def analyze_plasticity_triggers(self, snapshot: EndocrineSnapshot) -> list[PlasticityEvent]:
         """Analyze and detect plasticity triggers from hormone snapshot"""
 
         triggers = []
@@ -203,9 +197,7 @@ class StandaloneMonitoringDemo:
             + metrics.get("stress_level", 0.5) * 0.1
         )
 
-        stress_threshold = self.simulate_adaptive_threshold_calculation(
-            "stress_adaptation", stress_level, 0.7
-        )
+        stress_threshold = self.simulate_adaptive_threshold_calculation("stress_adaptation", stress_level, 0.7)
 
         if stress_level > stress_threshold:
             triggers.append(
@@ -273,10 +265,7 @@ class StandaloneMonitoringDemo:
         metrics = state.get("system_metrics", {})
 
         # High stress alert
-        if (
-            hormones.get("cortisol", 0.5) > 0.8
-            or hormones.get("adrenaline", 0.5) > 0.75
-        ):
+        if hormones.get("cortisol", 0.5) > 0.8 or hormones.get("adrenaline", 0.5) > 0.75:
             alerts.append(
                 AlertMessage(
                     level=AlertLevel.HIGH,
@@ -313,9 +302,7 @@ class StandaloneMonitoringDemo:
 
         return alerts
 
-    def generate_predictive_insights(
-        self, state: dict[str, Any]
-    ) -> list[PredictiveInsight]:
+    def generate_predictive_insights(self, state: dict[str, Any]) -> list[PredictiveInsight]:
         """Generate predictive insights based on current state"""
 
         insights = []
@@ -365,9 +352,7 @@ class StandaloneMonitoringDemo:
 
         return insights
 
-    def measure_bio_symbolic_coherence(
-        self, bio_state: dict, symbolic_state: dict
-    ) -> float:
+    def measure_bio_symbolic_coherence(self, bio_state: dict, symbolic_state: dict) -> float:
         """Measure coherence between biological and symbolic systems"""
 
         coherence_measurements = []
@@ -441,11 +426,7 @@ class StandaloneMonitoringDemo:
 
         print(f"\n🚨 SYSTEM ALERTS: {len(alerts)}")
         for alert in alerts:
-            icon = (
-                "🔴"
-                if alert.level == AlertLevel.HIGH
-                else "🟡" if alert.level == AlertLevel.MEDIUM else "🟢"
-            )
+            icon = "🔴" if alert.level == AlertLevel.HIGH else "🟡" if alert.level == AlertLevel.MEDIUM else "🟢"
             print(f"   {icon} {alert.level.value}: {alert.message}")
 
         print(f"\n🔮 PREDICTIVE INSIGHTS: {len(insights)}")
@@ -503,12 +484,8 @@ class StandaloneMonitoringDemo:
         }
 
         print("📊 PERFORMANCE STATE ANALYSIS:")
-        print(
-            f"   🎯 Overall Performance: {perf_metrics['performance']:.3f} (VERY LOW)"
-        )
-        print(
-            f"   🧠 Decision Confidence: {perf_metrics['decision_confidence']:.3f} (LOW)"
-        )
+        print(f"   🎯 Overall Performance: {perf_metrics['performance']:.3f} (VERY LOW)")
+        print(f"   🧠 Decision Confidence: {perf_metrics['decision_confidence']:.3f} (LOW)")
         print(f"   💙 Dopamine: {perf_hormones['dopamine']:.3f} (VERY LOW)")
         print(f"   ⚡ Response Time: {perf_metrics['response_time']:.3f} (SLOW)")
 
@@ -521,11 +498,7 @@ class StandaloneMonitoringDemo:
         )
 
         triggers = self.analyze_plasticity_triggers(snapshot)
-        perf_triggers = [
-            t
-            for t in triggers
-            if t.trigger_type == PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
-        ]
+        perf_triggers = [t for t in triggers if t.trigger_type == PlasticityTriggerType.PERFORMANCE_OPTIMIZATION]
 
         print(f"\n🎯 PERFORMANCE TRIGGERS: {len(perf_triggers)}")
         for trigger in perf_triggers:
@@ -546,13 +519,9 @@ class StandaloneMonitoringDemo:
         print(
             f"   Performance: {perf_metrics['performance']:.3f} → {improved_performance:.3f} (+{improved_performance - perf_metrics['performance']:.3f})"
         )
-        print(
-            f"   Confidence: {perf_metrics['decision_confidence']:.3f} → {improved_confidence:.3f}"
-        )
+        print(f"   Confidence: {perf_metrics['decision_confidence']:.3f} → {improved_confidence:.3f}")
 
-        improvement_score = (
-            improved_performance - perf_metrics["performance"]
-        ) / perf_metrics["performance"]
+        improvement_score = (improved_performance - perf_metrics["performance"]) / perf_metrics["performance"]
         print(f"   🎯 Overall Improvement: {improvement_score:.1%}")
 
         results = {
@@ -570,14 +539,10 @@ class StandaloneMonitoringDemo:
         """Demonstrate adaptive threshold calculations"""
         self.scenario_count += 1
 
-        print(
-            f"\n🎭 DEMO SCENARIO {self.scenario_count}: ADAPTIVE THRESHOLD CALCULATIONS"
-        )
+        print(f"\n🎭 DEMO SCENARIO {self.scenario_count}: ADAPTIVE THRESHOLD CALCULATIONS")
         print("=" * 60)
         print("🧮 Context: Demonstrating 6-factor adaptive threshold learning")
-        print(
-            "🎯 Expected: Dynamic thresholds → Learning adaptation → Smart triggering"
-        )
+        print("🎯 Expected: Dynamic thresholds → Learning adaptation → Smart triggering")
         print("-" * 60)
 
         # Test different trigger types with adaptive thresholds
@@ -625,9 +590,7 @@ class StandaloneMonitoringDemo:
             print(f"      Base Threshold: {test_case['base_threshold']:.3f}")
             print(f"      Adaptive Threshold: {adaptive_threshold:.3f}")
             print(f"      Current Value: {test_case['current_value']:.3f}")
-            print(
-                f"      Result: {'🚨 TRIGGER!' if should_trigger else '⭕ No trigger'}"
-            )
+            print(f"      Result: {'🚨 TRIGGER!' if should_trigger else '⭕ No trigger'}")
 
             # Show the factors that influenced the calculation
             adjustment = adaptive_threshold - test_case["base_threshold"]
@@ -669,9 +632,7 @@ class StandaloneMonitoringDemo:
         """Demonstrate real-time dashboard capabilities"""
         self.scenario_count += 1
 
-        print(
-            f"\n🎭 DEMO SCENARIO {self.scenario_count}: REAL-TIME MONITORING DASHBOARD"
-        )
+        print(f"\n🎭 DEMO SCENARIO {self.scenario_count}: REAL-TIME MONITORING DASHBOARD")
         print("=" * 60)
         print("📱 Context: Live system monitoring with predictions and alerts")
         print("🎯 Expected: Real-time data → Insights → Proactive recommendations")
@@ -702,20 +663,14 @@ class StandaloneMonitoringDemo:
         print(f"\n🚨 ACTIVE ALERTS: {len(alerts)}")
         if alerts:
             for alert in alerts:
-                icon = (
-                    "🔴"
-                    if alert.level == AlertLevel.HIGH
-                    else "🟡" if alert.level == AlertLevel.MEDIUM else "🟢"
-                )
+                icon = "🔴" if alert.level == AlertLevel.HIGH else "🟡" if alert.level == AlertLevel.MEDIUM else "🟢"
                 print(f"   {icon} {alert.message}")
         else:
             print("   ✅ No active alerts - system operating normally")
 
         print(f"\n🔮 PREDICTIVE INSIGHTS: {len(insights)}")
         for insight in insights:
-            confidence_bar = "●" * int(insight.confidence * 5) + "○" * (
-                5 - int(insight.confidence * 5)
-            )
+            confidence_bar = "●" * int(insight.confidence * 5) + "○" * (5 - int(insight.confidence * 5))
             print(f"   💡 {insight.category}")
             print(f"      {insight.prediction[:60]}...")
             print(f"      Confidence: {confidence_bar} {insight.confidence:.3f}")
@@ -763,9 +718,7 @@ class StandaloneMonitoringDemo:
         print(f"\n🎭 DEMO SCENARIO {self.scenario_count}: LEARNING & CONSOLIDATION")
         print("=" * 60)
         print("🧠 Context: System learning from adaptation outcomes")
-        print(
-            "🎯 Expected: Pattern recognition → Knowledge consolidation → Strategy optimization"
-        )
+        print("🎯 Expected: Pattern recognition → Knowledge consolidation → Strategy optimization")
         print("-" * 60)
 
         # Simulate learning history
@@ -805,9 +758,7 @@ class StandaloneMonitoringDemo:
         print("📚 LEARNING HISTORY ANALYSIS:")
         successful_experiments = [e for e in learning_history if e["success"]]
         success_rate = len(successful_experiments) / len(learning_history)
-        avg_improvement = sum(e["improvement"] for e in successful_experiments) / len(
-            successful_experiments
-        )
+        avg_improvement = sum(e["improvement"] for e in successful_experiments) / len(successful_experiments)
 
         print(f"   🧪 Total Experiments: {len(learning_history)}")
         print(f"   ✅ Success Rate: {success_rate:.1%}")
@@ -827,9 +778,7 @@ class StandaloneMonitoringDemo:
         print("   📊 Context Success Patterns:")
         for context, stats in context_success.items():
             rate = stats["successes"] / stats["total"]
-            print(
-                f"      • {context}: {rate:.1%} ({stats['successes']}/{stats['total']})"
-            )
+            print(f"      • {context}: {rate:.1%} ({stats['successes']}/{stats['total']})")
 
         # Knowledge consolidation simulation
         print("\n📚 KNOWLEDGE CONSOLIDATION:")
@@ -907,9 +856,7 @@ class StandaloneMonitoringDemo:
         print("=" * 80)
 
         total_scenarios = len(self.demo_results)
-        print(
-            f"📊 DEMONSTRATION COMPLETED: {total_scenarios} scenarios successfully executed"
-        )
+        print(f"📊 DEMONSTRATION COMPLETED: {total_scenarios} scenarios successfully executed")
 
         # Scenario summaries
         print("\n🎭 SCENARIO RESULTS:")
@@ -919,21 +866,15 @@ class StandaloneMonitoringDemo:
             if scenario_name == "stress_response":
                 print(f"      • Triggers Detected: {results['triggers_detected']}")
                 print(f"      • Stress Level: {results['stress_level']:.3f}")
-                print(
-                    f"      • Bio-Symbolic Coherence: {results['coherence_score']:.3f}"
-                )
+                print(f"      • Bio-Symbolic Coherence: {results['coherence_score']:.3f}")
 
             elif scenario_name == "performance_optimization":
-                print(
-                    f"      • Performance Improvement: {results['improvement_percentage']:.1f}%"
-                )
+                print(f"      • Performance Improvement: {results['improvement_percentage']:.1f}%")
                 print(f"      • Final Performance: {results['final_performance']:.3f}")
 
             elif scenario_name == "adaptive_thresholds":
                 print(f"      • Test Cases: {results['test_cases_processed']}")
-                print(
-                    f"      • Adaptive Adjustments: {results['adaptive_adjustments_detected']}"
-                )
+                print(f"      • Adaptive Adjustments: {results['adaptive_adjustments_detected']}")
 
             elif scenario_name == "dashboard":
                 print(f"      • Hormones Tracked: {results['hormones_tracked']}")
@@ -943,9 +884,7 @@ class StandaloneMonitoringDemo:
             elif scenario_name == "learning_consolidation":
                 print(f"      • Success Rate: {results['success_rate']:.1%}")
                 print(f"      • Patterns Identified: {results['patterns_identified']}")
-                print(
-                    f"      • Transfer Learning: {results['transfer_success_rate']:.1%}"
-                )
+                print(f"      • Transfer Learning: {results['transfer_success_rate']:.1%}")
 
         print("\n🎯 CAPABILITIES SUCCESSFULLY DEMONSTRATED:")
         capabilities = [
@@ -1004,9 +943,7 @@ async def run_standalone_demo():
 
     print("🚀 ENHANCED MONITORING SYSTEM - STANDALONE CAPABILITIES DEMO")
     print("=" * 80)
-    print(
-        "Demonstrating all capabilities of the biological-inspired AI monitoring system"
-    )
+    print("Demonstrating all capabilities of the biological-inspired AI monitoring system")
     print("Running in standalone mode without external dependencies")
     print("=" * 80)
 

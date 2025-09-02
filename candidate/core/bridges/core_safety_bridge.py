@@ -61,9 +61,7 @@ class CoreSafetyBridge:
             "safety_data_update": "core_data_sync",
         }
 
-    async def core_to_safety(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def core_to_safety(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Forward event from core to safety"""
         if not self.is_connected:
             await self.connect()
@@ -77,9 +75,7 @@ class CoreSafetyBridge:
 
             # Send to safety
             if self.safety_hub:
-                result = await self.safety_hub.process_event(
-                    mapped_event, transformed_data
-                )
+                result = await self.safety_hub.process_event(mapped_event, transformed_data)
                 logger.debug(f"Forwarded {event_type} from core to safety")
                 return result
 
@@ -89,9 +85,7 @@ class CoreSafetyBridge:
             logger.error(f"Error forwarding from core to safety: {e}")
             return {"error": str(e)}
 
-    async def safety_to_core(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def safety_to_core(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Forward event from safety to core"""
         if not self.is_connected:
             await self.connect()
@@ -105,9 +99,7 @@ class CoreSafetyBridge:
 
             # Send to core
             if self.core_hub:
-                result = await self.core_hub.process_event(
-                    mapped_event, transformed_data
-                )
+                result = await self.core_hub.process_event(mapped_event, transformed_data)
                 logger.debug(f"Forwarded {event_type} from safety to core")
                 return result
 
@@ -177,9 +169,7 @@ class CoreSafetyBridge:
     def compare_states(
         self,
         state1: dict[str, Any],
-        state2: dict[
-            str, Any
-        ],  # TODO[TRINITY:specialist] Implement Trinity-aware state comparison
+        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity-aware state comparison
     ) -> list[dict[str, Any]]:
         """Compare states and return differences"""
         differences = []

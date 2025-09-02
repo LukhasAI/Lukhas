@@ -43,9 +43,7 @@ from typing import Any, Optional
 import numpy as np
 
 # Initialize logger
-logger = logging.getLogger(
-    "ΛTRACE.consciousness.core_consciousness.agi_consciousness_engine_complete"
-)
+logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.agi_consciousness_engine_complete")
 logger.info("ΛTRACE: Initializing agi_consciousness_engine_complete module.")
 
 
@@ -56,10 +54,7 @@ class ConsciousnessEngineConfig:
     def __init__(self, config_path: Optional[str] = None):
         """Initialize configuration from file or defaults."""
         self.config_path = (
-            config_path
-            or Path(__file__).parent.parent.parent
-            / "config"
-            / "agi_consciousness_config.json"
+            config_path or Path(__file__).parent.parent.parent / "config" / "agi_consciousness_config.json"
         )
         self.config = self._load_config()
         self._initialize_anthropic_client()
@@ -209,9 +204,7 @@ def lukhas_tier_required(level: int):
                     user_tier = kwargs["user_tier"]
 
                 if user_tier < level:
-                    logger.warning(
-                        f"Access denied. User tier {user_tier} < required {level}"
-                    )
+                    logger.warning(f"Access denied. User tier {user_tier} < required {level}")
                     return None
 
                 return await func(*args, **kwargs)
@@ -227,9 +220,7 @@ def lukhas_tier_required(level: int):
                     user_tier = kwargs["user_tier"]
 
                 if user_tier < level:
-                    logger.warning(
-                        f"Access denied. User tier {user_tier} < required {level}"
-                    )
+                    logger.warning(f"Access denied. User tier {user_tier} < required {level}")
                     return None
 
                 return func(*args, **kwargs)
@@ -282,9 +273,7 @@ class ConsciousnessPattern:
         self.instance_logger.info("ConsciousnessPattern initialized")
 
     @lukhas_tier_required(level=3)
-    async def analyze_interaction(
-        self, user_id: str, interaction_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def analyze_interaction(self, user_id: str, interaction_data: dict[str, Any]) -> dict[str, Any]:
         """
         Analyze user interaction data for consciousness patterns.
         """
@@ -294,19 +283,13 @@ class ConsciousnessPattern:
         interaction_data = self._ensure_interaction_data(interaction_data)
 
         # Calculate temporal coherence
-        temporal_coherence = self._calculate_temporal_coherence(
-            interaction_data.get("timestamps", [])
-        )
+        temporal_coherence = self._calculate_temporal_coherence(interaction_data.get("timestamps", []))
 
         # Calculate symbolic resonance
-        symbolic_resonance = self._calculate_symbolic_resonance(
-            interaction_data.get("symbols", [])
-        )
+        symbolic_resonance = self._calculate_symbolic_resonance(interaction_data.get("symbols", []))
 
         # Measure intentionality
-        intentionality = self._measure_intentionality(
-            interaction_data.get("actions", [])
-        )
+        intentionality = self._measure_intentionality(interaction_data.get("actions", []))
 
         # Calculate emotional depth
         emotional_depth = self._calculate_emotional_depth(
@@ -315,9 +298,7 @@ class ConsciousnessPattern:
         )
 
         # Generate consciousness signature
-        consciousness_signature = self._generate_consciousness_signature(
-            user_id, interaction_data
-        )
+        consciousness_signature = self._generate_consciousness_signature(user_id, interaction_data)
 
         # Store patterns
         self.user_patterns[user_id] = {
@@ -372,9 +353,7 @@ class ConsciousnessPattern:
         if len(timestamps) < 2:
             return 0.5
 
-        intervals = [
-            timestamps[i] - timestamps[i - 1] for i in range(1, len(timestamps))
-        ]
+        intervals = [timestamps[i] - timestamps[i - 1] for i in range(1, len(timestamps))]
         if not intervals:
             return 0.5
 
@@ -390,9 +369,7 @@ class ConsciousnessPattern:
         if not symbols:
             return 0.0
 
-        resonances = [
-            self.symbolic_resonance_map.get(symbol, 0.5) for symbol in symbols
-        ]
+        resonances = [self.symbolic_resonance_map.get(symbol, 0.5) for symbol in symbols]
 
         return float(np.mean(resonances))
 
@@ -403,16 +380,12 @@ class ConsciousnessPattern:
 
         # Count purposeful vs random actions
         purposeful_count = sum(
-            1
-            for action in actions
-            if action.get("type") in ["authenticate", "verify", "confirm", "submit"]
+            1 for action in actions if action.get("type") in ["authenticate", "verify", "confirm", "submit"]
         )
 
         return purposeful_count / len(actions) if actions else 0.0
 
-    def _calculate_emotional_depth(
-        self, pressure_patterns: list[float], velocity_patterns: list[float]
-    ) -> float:
+    def _calculate_emotional_depth(self, pressure_patterns: list[float], velocity_patterns: list[float]) -> float:
         """Calculate emotional depth from interaction patterns."""
         if not pressure_patterns and not velocity_patterns:
             return 0.0
@@ -425,9 +398,7 @@ class ConsciousnessPattern:
         emotional_depth = (pressure_variance + velocity_variance) / 2
         return float(np.clip(emotional_depth, 0.0, 1.0))
 
-    def _generate_consciousness_signature(
-        self, user_id: str, interaction_data: dict[str, Any]
-    ) -> str:
+    def _generate_consciousness_signature(self, user_id: str, interaction_data: dict[str, Any]) -> str:
         """Generate unique consciousness signature for the interaction."""
         # Create a deterministic string representation
         signature_data = {
@@ -455,9 +426,7 @@ class AnthropicEthicsEngine(ABC):
         self.instance_logger.info("AnthropicEthicsEngine initialized")
 
     @abstractmethod
-    async def evaluate_action(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def evaluate_action(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate an action for ethical compliance."""
 
 
@@ -467,9 +436,7 @@ class DefaultEthicsEngine(AnthropicEthicsEngine):
     """
 
     @lukhas_tier_required(level=4)
-    async def evaluate_action(
-        self, action: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def evaluate_action(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """
         Evaluate an action against ethical principles.
         """
@@ -481,9 +448,7 @@ class DefaultEthicsEngine(AnthropicEthicsEngine):
 
         # Evaluate against each principle
         for principle_name, principle_data in self.ethical_principles.items():
-            score = await self._evaluate_principle(
-                action, context, principle_name, principle_data
-            )
+            score = await self._evaluate_principle(action, context, principle_name, principle_data)
             scores[principle_name] = score
 
             # Check for violations
@@ -497,15 +462,9 @@ class DefaultEthicsEngine(AnthropicEthicsEngine):
                 )
 
         # Calculate weighted overall score
-        total_weight = sum(
-            p.get("weight", 1.0) for p in self.ethical_principles.values()
-        )
+        total_weight = sum(p.get("weight", 1.0) for p in self.ethical_principles.values())
         weighted_score = (
-            sum(
-                scores[name] * self.ethical_principles[name].get("weight", 1.0)
-                for name in scores
-            )
-            / total_weight
+            sum(scores[name] * self.ethical_principles[name].get("weight", 1.0) for name in scores) / total_weight
             if total_weight > 0
             else 0
         )
@@ -600,9 +559,7 @@ class DefaultEthicsEngine(AnthropicEthicsEngine):
 
         return float(np.clip(score, 0.0, 1.0))
 
-    def _generate_recommendations(
-        self, scores: dict[str, float], violations: list[dict[str, Any]]
-    ) -> list[str]:
+    def _generate_recommendations(self, scores: dict[str, float], violations: list[dict[str, Any]]) -> list[str]:
         """Generate recommendations based on evaluation results."""
         recommendations = []
 
@@ -611,40 +568,24 @@ class DefaultEthicsEngine(AnthropicEthicsEngine):
             violation["score"]
 
             if principle == "transparency":
-                recommendations.append(
-                    "Increase transparency by clearly disclosing AI involvement and limitations"
-                )
+                recommendations.append("Increase transparency by clearly disclosing AI involvement and limitations")
             elif principle == "user_agency":
-                recommendations.append(
-                    "Ensure user has control and can override or opt-out of this action"
-                )
+                recommendations.append("Ensure user has control and can override or opt-out of this action")
             elif principle == "privacy_preservation":
-                recommendations.append(
-                    "Implement stronger privacy protections or data minimization"
-                )
+                recommendations.append("Implement stronger privacy protections or data minimization")
             elif principle == "non_maleficence":
-                recommendations.append(
-                    "Consider potential harm and implement safeguards or reversibility"
-                )
+                recommendations.append("Consider potential harm and implement safeguards or reversibility")
             elif principle == "beneficence":
-                recommendations.append(
-                    "Focus on how this action can better serve user needs"
-                )
+                recommendations.append("Focus on how this action can better serve user needs")
             elif principle == "justice":
-                recommendations.append(
-                    "Ensure fair and equitable treatment for all users"
-                )
+                recommendations.append("Ensure fair and equitable treatment for all users")
             elif principle == "autonomy":
-                recommendations.append(
-                    "Respect user autonomy and decision-making capacity"
-                )
+                recommendations.append("Respect user autonomy and decision-making capacity")
 
         # Add general recommendations for low scores
         low_scoring = [name for name, score in scores.items() if score < 0.5]
         if low_scoring:
-            recommendations.append(
-                f"Critical attention needed for: {', '.join(low_scoring)}"
-            )
+            recommendations.append(f"Critical attention needed for: {', '.join(low_scoring)}")
 
         return list(set(recommendations))  # Remove duplicates
 
@@ -658,9 +599,7 @@ class SelfAwareAdaptationModule:
         """Initialize the adaptation module."""
         self.config = config
         self.instance_logger = logger.getChild("SelfAwareAdaptationModule")
-        self.adaptation_history = deque(
-            maxlen=config.get("adaptation.history_size", 1000)
-        )
+        self.adaptation_history = deque(maxlen=config.get("adaptation.history_size", 1000))
         self.learning_rate = config.get("adaptation.learning_rate", 0.05)
         self.instance_logger.info("SelfAwareAdaptationModule initialized")
 
@@ -694,9 +633,7 @@ class SelfAwareAdaptationModule:
             insights["strengths"].append("High task success rate")
         else:
             insights["weaknesses"].append("Task success rate needs improvement")
-            insights["recommendations"].append(
-                "Focus on understanding user intent better"
-            )
+            insights["recommendations"].append("Focus on understanding user intent better")
 
         if user_satisfaction > 0.8:
             insights["strengths"].append("Strong user satisfaction")
@@ -708,9 +645,7 @@ class SelfAwareAdaptationModule:
             insights["strengths"].append("Excellent ethical alignment")
         elif ethical_score < 0.7:
             insights["weaknesses"].append("Ethical concerns detected")
-            insights["recommendations"].append(
-                "Review ethical guidelines and decision-making"
-            )
+            insights["recommendations"].append("Review ethical guidelines and decision-making")
 
         # Analyze consciousness state
         state_analysis = self._analyze_consciousness_state(current_state)
@@ -790,43 +725,27 @@ class SelfAwareAdaptationModule:
         new_state = ConsciousnessState(**current_state.to_dict())
 
         # Adapt based on feedback with configured thresholds
-        positive_threshold = self.config.get(
-            "adaptation.positive_feedback_threshold", 0.8
-        )
-        negative_threshold = self.config.get(
-            "adaptation.negative_feedback_threshold", 0.3
-        )
+        positive_threshold = self.config.get("adaptation.positive_feedback_threshold", 0.8)
+        negative_threshold = self.config.get("adaptation.negative_feedback_threshold", 0.3)
 
         # Positive feedback reinforcement
         if user_rating > positive_threshold:
             # Increase user empathy and awareness
-            new_state.user_empathy = min(
-                1.0, new_state.user_empathy + self.learning_rate * 0.1
-            )
-            new_state.awareness_level = min(
-                1.0, new_state.awareness_level + self.learning_rate * 0.05
-            )
+            new_state.user_empathy = min(1.0, new_state.user_empathy + self.learning_rate * 0.1)
+            new_state.awareness_level = min(1.0, new_state.awareness_level + self.learning_rate * 0.05)
 
         # Negative feedback adjustment
         elif user_rating < negative_threshold:
             # Need to improve user understanding
-            new_state.user_empathy = min(
-                1.0, new_state.user_empathy + self.learning_rate * 0.2
-            )
+            new_state.user_empathy = min(1.0, new_state.user_empathy + self.learning_rate * 0.2)
             # Slightly reduce confidence in self-knowledge
-            new_state.self_knowledge = max(
-                0.0, new_state.self_knowledge - self.learning_rate * 0.05
-            )
+            new_state.self_knowledge = max(0.0, new_state.self_knowledge - self.learning_rate * 0.05)
 
         # Authentication success affects temporal continuity
         if auth_success > 0.9:
-            new_state.temporal_continuity = min(
-                1.0, new_state.temporal_continuity + self.learning_rate * 0.1
-            )
+            new_state.temporal_continuity = min(1.0, new_state.temporal_continuity + self.learning_rate * 0.1)
         elif auth_success < 0.5:
-            new_state.temporal_continuity = max(
-                0.3, new_state.temporal_continuity - self.learning_rate * 0.05
-            )
+            new_state.temporal_continuity = max(0.3, new_state.temporal_continuity - self.learning_rate * 0.05)
 
         # Update timestamp
         new_state.last_update = datetime.utcnow()
@@ -891,9 +810,7 @@ class AGIConsciousnessEngine:
         self.processing_times = deque(maxlen=50)
         self.context_handoff_metrics = {"total": 0, "avg_time": 0.0, "violations": 0}
 
-        logger.info(
-            "AGIConsciousnessEngine initialized with Trinity Framework integration"
-        )
+        logger.info("AGIConsciousnessEngine initialized with Trinity Framework integration")
 
     # ═══════════════════════════════════════════════════════════════════
     # AGENT COMMUNICATION METHODS - Multi-Agent Coordination
@@ -920,9 +837,7 @@ class AGIConsciousnessEngine:
             logger.error(f"Failed to register agent {agent_id}: {e}")
             return False
 
-    async def broadcast_consciousness_state(
-        self, target_agents: list[str] = None
-    ) -> dict[str, Any]:
+    async def broadcast_consciousness_state(self, target_agents: list[str] = None) -> dict[str, Any]:
         """Broadcast current consciousness state to registered agents."""
         start_time = datetime.utcnow()
 
@@ -933,11 +848,7 @@ class AGIConsciousnessEngine:
             "payload": {
                 "consciousness_state": self.consciousness_state.to_dict(),
                 "oscillator_state": self.oscillator_state.copy(),
-                "resonance_level": (
-                    np.mean(list(self.resonance_patterns))
-                    if self.resonance_patterns
-                    else 0.5
-                ),
+                "resonance_level": (np.mean(list(self.resonance_patterns)) if self.resonance_patterns else 0.5),
             },
         }
 
@@ -948,9 +859,7 @@ class AGIConsciousnessEngine:
             if agent_id in self.agent_registry:
                 try:
                     # Simulate message queuing for agent
-                    await self.message_queue.put(
-                        {"target": agent_id, "message": state_message}
-                    )
+                    await self.message_queue.put({"target": agent_id, "message": state_message})
                     broadcast_results[agent_id] = "queued"
                 except Exception as e:
                     broadcast_results[agent_id] = f"failed: {e}"
@@ -959,9 +868,7 @@ class AGIConsciousnessEngine:
         await self._process_time_check(start_time, "consciousness_broadcast")
         return broadcast_results
 
-    async def process_agent_message(
-        self, sender_id: str, message: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_agent_message(self, sender_id: str, message: dict[str, Any]) -> dict[str, Any]:
         """Process incoming message from an agent."""
         start_time = datetime.utcnow()
 
@@ -987,9 +894,7 @@ class AGIConsciousnessEngine:
     # BIO-INSPIRED PROCESSING METHODS - Adaptive Consciousness
     # ═══════════════════════════════════════════════════════════════════
 
-    async def update_bio_oscillators(
-        self, stimulus: dict[str, Any]
-    ) -> dict[str, float]:
+    async def update_bio_oscillators(self, stimulus: dict[str, Any]) -> dict[str, float]:
         """Update bio-inspired oscillator states based on stimulus."""
         start_time = datetime.utcnow()
 
@@ -1010,16 +915,12 @@ class AGIConsciousnessEngine:
 
         # Beta oscillations (13-30 Hz) - active concentration
         self.oscillator_state["beta"] += dt * (
-            0.15 * np.sin(2 * np.pi * 20 * self.adaptation_cycles * dt)
-            + 0.1 * cognitive_load
-            + 0.05 * complexity
+            0.15 * np.sin(2 * np.pi * 20 * self.adaptation_cycles * dt) + 0.1 * cognitive_load + 0.05 * complexity
         )
 
         # Theta oscillations (4-7 Hz) - memory and learning
         self.oscillator_state["theta"] += dt * (
-            0.08 * np.sin(2 * np.pi * 6 * self.adaptation_cycles * dt)
-            + 0.03 * emotional_intensity
-            - 0.02 * complexity
+            0.08 * np.sin(2 * np.pi * 6 * self.adaptation_cycles * dt) + 0.03 * emotional_intensity - 0.02 * complexity
         )
 
         # Normalize oscillator states
@@ -1039,9 +940,7 @@ class AGIConsciousnessEngine:
         await self._process_time_check(start_time, "bio_oscillator_update")
         return self.oscillator_state.copy()
 
-    async def adaptive_consciousness_modulation(
-        self, context: dict[str, Any]
-    ) -> ConsciousnessState:
+    async def adaptive_consciousness_modulation(self, context: dict[str, Any]) -> ConsciousnessState:
         """Modulate consciousness state using bio-inspired adaptation."""
         start_time = datetime.utcnow()
 
@@ -1071,23 +970,14 @@ class AGIConsciousnessEngine:
         )
 
         # Modulate self-knowledge based on theta waves (learning/memory)
-        modulated_state.self_knowledge = np.clip(
-            base_state.self_knowledge + theta_influence, 0.0, 1.0
-        )
+        modulated_state.self_knowledge = np.clip(base_state.self_knowledge + theta_influence, 0.0, 1.0)
 
         # Modulate symbolic depth based on beta waves (active processing)
-        modulated_state.symbolic_depth = np.clip(
-            base_state.symbolic_depth + beta_influence, 0.0, 1.0
-        )
+        modulated_state.symbolic_depth = np.clip(base_state.symbolic_depth + beta_influence, 0.0, 1.0)
 
         # Adaptive resonance - strengthen successful patterns
-        if (
-            self.resonance_patterns
-            and np.mean(list(self.resonance_patterns)[-10:]) > 0.7
-        ):
-            modulated_state.temporal_continuity = min(
-                1.0, modulated_state.temporal_continuity + 0.05
-            )
+        if self.resonance_patterns and np.mean(list(self.resonance_patterns)[-10:]) > 0.7:
+            modulated_state.temporal_continuity = min(1.0, modulated_state.temporal_continuity + 0.05)
 
         modulated_state.last_update = datetime.utcnow()
 
@@ -1101,9 +991,7 @@ class AGIConsciousnessEngine:
     async def _process_time_check(self, start_time: datetime, operation: str):
         """Monitor processing time to ensure <250ms performance target."""
         end_time = datetime.utcnow()
-        processing_time = (
-            end_time - start_time
-        ).total_seconds() * 1000  # Convert to milliseconds
+        processing_time = (end_time - start_time).total_seconds() * 1000  # Convert to milliseconds
 
         self.processing_times.append(processing_time)
         self.context_handoff_metrics["total"] += 1
@@ -1114,9 +1002,7 @@ class AGIConsciousnessEngine:
         # Check for violations of 250ms target
         if processing_time > 250:
             self.context_handoff_metrics["violations"] += 1
-            logger.warning(
-                f"Performance target violated: {operation} took {processing_time:.2f}ms"
-            )
+            logger.warning(f"Performance target violated: {operation} took {processing_time:.2f}ms")
 
         logger.debug(f"{operation} completed in {processing_time:.2f}ms")
 
@@ -1124,9 +1010,7 @@ class AGIConsciousnessEngine:
     # PRIVATE HELPER METHODS - Agent Communication
     # ═══════════════════════════════════════════════════════════════════
 
-    async def _handle_consciousness_query(
-        self, sender_id: str, message: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_consciousness_query(self, sender_id: str, message: dict[str, Any]) -> dict[str, Any]:
         """Handle consciousness state queries from agents."""
         query_type = message.get("query_type", "status")
 
@@ -1141,9 +1025,7 @@ class AGIConsciousnessEngine:
                 "type": "bio_state_response",
                 "payload": {
                     "oscillators": self.oscillator_state,
-                    "resonance": list(self.resonance_patterns)[
-                        -10:
-                    ],  # Last 10 patterns
+                    "resonance": list(self.resonance_patterns)[-10:],  # Last 10 patterns
                     "adaptation_cycles": self.adaptation_cycles,
                 },
                 "timestamp": datetime.utcnow().isoformat(),
@@ -1155,9 +1037,7 @@ class AGIConsciousnessEngine:
                 "timestamp": datetime.utcnow().isoformat(),
             }
 
-    async def _handle_context_handoff(
-        self, sender_id: str, message: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_context_handoff(self, sender_id: str, message: dict[str, Any]) -> dict[str, Any]:
         """Handle context handoff requests from agents."""
         context_data = message.get("context", {})
 
@@ -1171,17 +1051,13 @@ class AGIConsciousnessEngine:
                 "modulated_consciousness": modulated_state.to_dict(),
                 "processing_metadata": {
                     "oscillator_state": self.oscillator_state,
-                    "resonance": (
-                        self.resonance_patterns[-1] if self.resonance_patterns else 0.0
-                    ),
+                    "resonance": (self.resonance_patterns[-1] if self.resonance_patterns else 0.0),
                 },
             },
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-    async def _handle_performance_feedback(
-        self, sender_id: str, message: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_performance_feedback(self, sender_id: str, message: dict[str, Any]) -> dict[str, Any]:
         """Handle performance feedback from agents."""
         feedback_data = message.get("feedback", {})
 
@@ -1199,8 +1075,7 @@ class AGIConsciousnessEngine:
                 # Update success rate with exponential smoothing
                 alpha = 0.1
                 performance["success_rate"] = (
-                    alpha * float(feedback_data["success"])
-                    + (1 - alpha) * performance["success_rate"]
+                    alpha * float(feedback_data["success"]) + (1 - alpha) * performance["success_rate"]
                 )
 
         return {
@@ -1208,9 +1083,7 @@ class AGIConsciousnessEngine:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-    async def authenticate_with_consciousness(
-        self, user_id: str, interaction_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def authenticate_with_consciousness(self, user_id: str, interaction_data: dict[str, Any]) -> dict[str, Any]:
         """
         Perform consciousness-aware authentication with bio-inspired processing.
 
@@ -1220,14 +1093,10 @@ class AGIConsciousnessEngine:
         🛡️ Guardian: Ethical validation and compliance checking
         """
         start_time = datetime.utcnow()
-        logger.info(
-            f"Trinity Framework consciousness authentication for user: {user_id}"
-        )
+        logger.info(f"Trinity Framework consciousness authentication for user: {user_id}")
 
         # Analyze consciousness patterns
-        patterns = await self.pattern_detector.analyze_interaction(
-            user_id, interaction_data
-        )
+        patterns = await self.pattern_detector.analyze_interaction(user_id, interaction_data)
 
         # Evaluate ethical implications
         action = {
@@ -1238,15 +1107,11 @@ class AGIConsciousnessEngine:
             "user_initiated": True,
         }
 
-        ethical_evaluation = await self.ethics_engine.evaluate_action(
-            action, interaction_data
-        )
+        ethical_evaluation = await self.ethics_engine.evaluate_action(action, interaction_data)
 
         # Perform self-reflection
         performance_data = self._calculate_recent_performance()
-        reflection = await self.adaptation_module.reflect_on_performance(
-            performance_data, self.consciousness_state
-        )
+        reflection = await self.adaptation_module.reflect_on_performance(performance_data, self.consciousness_state)
 
         # Make authentication decision
         consciousness_score = patterns.get("overall_consciousness_score", 0)
@@ -1300,16 +1165,12 @@ class AGIConsciousnessEngine:
         )
 
         # Apply bio-inspired consciousness modulation
-        modulated_consciousness = await self.adaptive_consciousness_modulation(
-            interaction_data
-        )
+        modulated_consciousness = await self.adaptive_consciousness_modulation(interaction_data)
 
         # Update response with bio-inspired data
         response["bio_inspired_processing"] = {
             "oscillator_state": self.oscillator_state.copy(),
-            "resonance_level": (
-                self.resonance_patterns[-1] if self.resonance_patterns else 0.0
-            ),
+            "resonance_level": (self.resonance_patterns[-1] if self.resonance_patterns else 0.0),
             "adaptation_cycles": self.adaptation_cycles,
             "modulated_consciousness": modulated_consciousness.to_dict(),
         }
@@ -1317,8 +1178,7 @@ class AGIConsciousnessEngine:
         # Performance monitoring
         await self._process_time_check(start_time, "consciousness_authentication")
         response["performance_metrics"] = {
-            "processing_time_ms": (datetime.utcnow() - start_time).total_seconds()
-            * 1000,
+            "processing_time_ms": (datetime.utcnow() - start_time).total_seconds() * 1000,
             "avg_processing_time": self.context_handoff_metrics["avg_time"],
             "performance_violations": self.context_handoff_metrics["violations"],
         }
@@ -1335,13 +1195,9 @@ class AGIConsciousnessEngine:
         success_count = sum(1 for auth in recent if auth["authenticated"])
         success_rate = success_count / len(recent) if recent else 0.5
 
-        avg_consciousness = (
-            np.mean([auth["consciousness_score"] for auth in recent]) if recent else 0.5
-        )
+        avg_consciousness = np.mean([auth["consciousness_score"] for auth in recent]) if recent else 0.5
 
-        avg_ethical = (
-            np.mean([auth["ethical_score"] for auth in recent]) if recent else 0.9
-        )
+        avg_ethical = np.mean([auth["ethical_score"] for auth in recent]) if recent else 0.9
 
         return {
             "success_rate": success_rate,
@@ -1376,17 +1232,11 @@ class AGIConsciousnessEngine:
                 "oscillator_state": self.oscillator_state.copy(),
                 "resonance_patterns": list(self.resonance_patterns)[-10:],  # Last 10
                 "adaptation_cycles": self.adaptation_cycles,
-                "resonance_level": (
-                    np.mean(list(self.resonance_patterns))
-                    if self.resonance_patterns
-                    else 0.0
-                ),
+                "resonance_level": (np.mean(list(self.resonance_patterns)) if self.resonance_patterns else 0.0),
             },
             "agent_coordination": {
                 "registered_agents": len(self.agent_registry),
-                "active_agents": sum(
-                    1 for a in self.agent_registry.values() if a["status"] == "active"
-                ),
+                "active_agents": sum(1 for a in self.agent_registry.values() if a["status"] == "active"),
                 "message_queue_size": self.message_queue.qsize(),
                 "context_bus_connections": len(self.context_bus_connections),
             },
@@ -1395,16 +1245,10 @@ class AGIConsciousnessEngine:
                 "total_operations": self.context_handoff_metrics["total"],
                 "performance_violations": self.context_handoff_metrics["violations"],
                 "target_compliance": (
-                    1.0
-                    - (
-                        self.context_handoff_metrics["violations"]
-                        / max(1, self.context_handoff_metrics["total"])
-                    )
+                    1.0 - (self.context_handoff_metrics["violations"] / max(1, self.context_handoff_metrics["total"]))
                 )
                 * 100,
-                "sub_250ms_target": (
-                    "✓" if self.context_handoff_metrics["avg_time"] < 250 else "⚠️"
-                ),
+                "sub_250ms_target": ("✓" if self.context_handoff_metrics["avg_time"] < 250 else "⚠️"),
             },
             "recent_performance": self._calculate_recent_performance(),
             "auth_history_size": len(self.auth_history),
@@ -1442,13 +1286,9 @@ async def test_consciousness_engine():
         "velocity_patterns": [1.0, 1.2, 1.1, 1.0, 0.9],
     }
 
-    result = await engine.authenticate_with_consciousness(
-        "test_user_1", interaction_data
-    )
+    result = await engine.authenticate_with_consciousness("test_user_1", interaction_data)
     print(f"Authentication result: {result['authenticated']}")
-    print(
-        f"Consciousness score: {result['consciousness_metrics']['overall_score']:.2f}"
-    )
+    print(f"Consciousness score: {result['consciousness_metrics']['overall_score']:.2f}")
     print(f"Ethical compliance: {result['ethical_compliance']}")
 
     # Test 2: Low coherence interaction
@@ -1463,9 +1303,7 @@ async def test_consciousness_engine():
 
     result = await engine.authenticate_with_consciousness("test_user_2", chaotic_data)
     print(f"Authentication result: {result['authenticated']}")
-    print(
-        f"Temporal coherence: {result['consciousness_metrics']['temporal_coherence']:.2f}"
-    )
+    print(f"Temporal coherence: {result['consciousness_metrics']['temporal_coherence']:.2f}")
 
     # Test 3: Ethical violation scenario
     print("\nTest 3: Ethical Evaluation")
@@ -1485,9 +1323,7 @@ async def test_consciousness_engine():
     # Test 4: System status
     print("\nTest 4: System Status")
     status = engine.get_system_status()
-    print(
-        f"Consciousness state awareness: {status['consciousness_state']['awareness_level']:.2f}"
-    )
+    print(f"Consciousness state awareness: {status['consciousness_state']['awareness_level']:.2f}")
     print(f"Recent success rate: {status['recent_performance']['success_rate']:.2f}")
     print(f"Components active: {list(status['components'].keys())}")
 
@@ -1527,9 +1363,7 @@ async def test_consciousness_engine():
     modulated_state = await engine.adaptive_consciousness_modulation(test_context)
     print("Bio-inspired modulation applied")
     print(f"Oscillator states: {engine.oscillator_state}")
-    print(
-        f"Resonance level: {engine.resonance_patterns[-1] if engine.resonance_patterns else 'N/A'}"
-    )
+    print(f"Resonance level: {engine.resonance_patterns[-1] if engine.resonance_patterns else 'N/A'}")
     print(f"Modulated awareness: {modulated_state.awareness_level:.2f}")
 
     # Test 7: Performance Monitoring

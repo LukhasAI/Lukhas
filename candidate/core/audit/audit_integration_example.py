@@ -160,9 +160,7 @@ class AuditedSecurityGateway:
         self.access_rules = {}
 
     @audit_security("resource_access")
-    async def validate_access(
-        self, user: str, resource: str, operation: str
-    ) -> dict[str, Any]:
+    async def validate_access(self, user: str, resource: str, operation: str) -> dict[str, Any]:
         """Validate access with security audit trail"""
         # Check access rules
         user_rules = self.access_rules.get(user, {})

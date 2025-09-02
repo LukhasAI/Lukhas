@@ -632,19 +632,13 @@ class CodeProcessIntegrationAPI:
                 self.metrics["security_issues_found"] += len(security_issues)
 
             # Step 4: Test generated code
-            execution_result = await generator.test_code(
-                generated_code, request.language
-            )
+            execution_result = await generator.test_code(generated_code, request.language)
 
             # Step 5: Quality analysis
-            quality_report = await self._analyze_code_quality(
-                generated_code, request.language
-            )
+            quality_report = await self._analyze_code_quality(generated_code, request.language)
 
             # Step 6: Save to workspace
-            output_file = await self._save_generated_code(
-                generated_code, request, execution_result.success
-            )
+            output_file = await self._save_generated_code(generated_code, request, execution_result.success)
 
             # Update metrics
             generation_time = (time.time() - start_time) * 1000
@@ -657,9 +651,7 @@ class CodeProcessIntegrationAPI:
             # Update average generation time
             total_gens = self.metrics["total_generations"]
             current_avg = self.metrics["average_generation_time"]
-            self.metrics["average_generation_time"] = (
-                current_avg * (total_gens - 1) + generation_time
-            ) / total_gens
+            self.metrics["average_generation_time"] = (current_avg * (total_gens - 1) + generation_time) / total_gens
 
             # Prepare response
             response = {
@@ -735,9 +727,7 @@ class CodeProcessIntegrationAPI:
         else:
             raise ValueError(f"Environment {environment.value} not implemented")
 
-    async def _execute_in_sandbox(
-        self, code: str, language: CodeLanguage
-    ) -> CodeExecutionResult:
+    async def _execute_in_sandbox(self, code: str, language: CodeLanguage) -> CodeExecutionResult:
         """Execute code in sandboxed environment"""
         # This is a simplified sandbox - production would use containers/VMs
 
@@ -783,9 +773,7 @@ class CodeProcessIntegrationAPI:
                         execution_time_ms=30000,
                     )
                 except Exception as e:
-                    return CodeExecutionResult(
-                        success=False, exit_code=-1, stderr=str(e)
-                    )
+                    return CodeExecutionResult(success=False, exit_code=-1, stderr=str(e))
             else:
                 return CodeExecutionResult(
                     success=False,
@@ -793,9 +781,7 @@ class CodeProcessIntegrationAPI:
                     stderr=f"Language {language.value} not supported in sandbox",
                 )
 
-    async def _execute_in_container(
-        self, code: str, language: CodeLanguage
-    ) -> CodeExecutionResult:
+    async def _execute_in_container(self, code: str, language: CodeLanguage) -> CodeExecutionResult:
         """Execute code in Docker container (placeholder)"""
         # Placeholder for container execution
         return CodeExecutionResult(
@@ -804,9 +790,7 @@ class CodeProcessIntegrationAPI:
             stderr="Container execution not implemented",
         )
 
-    async def _analyze_code_quality(
-        self, code: str, language: CodeLanguage
-    ) -> CodeQualityReport:
+    async def _analyze_code_quality(self, code: str, language: CodeLanguage) -> CodeQualityReport:
         """Analyze code quality and provide recommendations"""
         # Simplified quality analysis
         issues = []
@@ -819,9 +803,7 @@ class CodeProcessIntegrationAPI:
 
         metrics["total_lines"] = len(lines)
         metrics["code_lines"] = len(non_empty_lines)
-        metrics["comment_lines"] = len(
-            [line for line in lines if line.strip().startswith("#")]
-        )
+        metrics["comment_lines"] = len([line for line in lines if line.strip().startswith("#")])
         metrics["blank_lines"] = len(lines) - len(non_empty_lines)
 
         # Calculate scores
@@ -868,9 +850,7 @@ class CodeProcessIntegrationAPI:
             maintainability_score=overall_score,
         )
 
-    async def _save_generated_code(
-        self, code: str, request: CodeGenerationRequest, is_valid: bool
-    ) -> Path:
+    async def _save_generated_code(self, code: str, request: CodeGenerationRequest, is_valid: bool) -> Path:
         """Save generated code to workspace"""
         # Create subdirectory for this request
         request_dir = self.workspace_path / f"gen_{request.request_id[:8]}"
@@ -926,9 +906,7 @@ class CodeProcessIntegrationAPI:
 
     def get_api_status(self) -> dict[str, Any]:
         """Get comprehensive API status"""
-        success_rate = self.metrics["successful_generations"] / max(
-            1, self.metrics["total_generations"]
-        )
+        success_rate = self.metrics["successful_generations"] / max(1, self.metrics["total_generations"])
 
         return {
             "api_version": "v1.0.0",
@@ -938,9 +916,7 @@ class CodeProcessIntegrationAPI:
             "metrics": {
                 "total_generations": self.metrics["total_generations"],
                 "success_rate": f"{success_rate:.2%}",
-                "average_generation_time_ms": round(
-                    self.metrics["average_generation_time"], 2
-                ),
+                "average_generation_time_ms": round(self.metrics["average_generation_time"], 2),
                 "security_issues_found": self.metrics["security_issues_found"],
                 "language_distribution": dict(self.metrics["language_distribution"]),
             },

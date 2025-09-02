@@ -72,15 +72,9 @@ class ValidationResult(BaseModel):
     """Result of validation operation"""
 
     is_valid: bool = Field(..., description="Whether validation passed")
-    errors: list[dict[str, Any]] = Field(
-        default_factory=list, description="Validation errors"
-    )
-    warnings: list[dict[str, Any]] = Field(
-        default_factory=list, description="Validation warnings"
-    )
-    metadata: dict[str, Any] = Field(
-        default_factory=dict, description="Validation metadata"
-    )
+    errors: list[dict[str, Any]] = Field(default_factory=list, description="Validation errors")
+    warnings: list[dict[str, Any]] = Field(default_factory=list, description="Validation warnings")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Validation metadata")
     execution_time_ms: float = Field(0.0, description="Validation execution time")
     validator_version: str = Field("2.0.0", description="Validator version")
 
@@ -147,18 +141,12 @@ class SecurityValidator:
 
     def __init__(self, enable_hipaa: bool = True):
         self.enable_hipaa = enable_hipaa
-        self.compiled_patterns = [
-            re.compile(pattern, re.IGNORECASE) for pattern in self.DANGEROUS_PATTERNS
-        ]
+        self.compiled_patterns = [re.compile(pattern, re.IGNORECASE) for pattern in self.DANGEROUS_PATTERNS]
         self.phi_patterns = (
-            [re.compile(pattern, re.IGNORECASE) for pattern in self.PHI_PATTERNS]
-            if enable_hipaa
-            else []
+            [re.compile(pattern, re.IGNORECASE) for pattern in self.PHI_PATTERNS] if enable_hipaa else []
         )
 
-    def validate_content_security(
-        self, content: str, context: str = "general"
-    ) -> list[dict[str, Any]]:
+    def validate_content_security(self, content: str, context: str = "general") -> list[dict[str, Any]]:
         """Validate content for security issues"""
         issues = []
 
@@ -193,9 +181,7 @@ class SecurityValidator:
 
         return issues
 
-    def validate_function_security(
-        self, function_def: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def validate_function_security(self, function_def: dict[str, Any]) -> list[dict[str, Any]]:
         """Validate function definition for security"""
         issues = []
 
@@ -271,12 +257,8 @@ class RequestValidator:
 
             # Security validation
             if prompt:
-                request_context = (
-                    context.get("type", "general") if context else "general"
-                )
-                security_issues = self.security_validator.validate_content_security(
-                    prompt, request_context
-                )
+                request_context = context.get("type", "general") if context else "general"
+                security_issues = self.security_validator.validate_content_security(prompt, request_context)
                 for issue in security_issues:
                     result.add_error(
                         ValidationErrorType(issue["type"]),
@@ -393,11 +375,7 @@ class RequestValidator:
 
             # Temperature validation
             temperature = request_data.get("temperature", 0.7)
-            if (
-                not isinstance(temperature, (int, float))
-                or temperature < 0.0
-                or temperature > 2.0
-            ):
+            if not isinstance(temperature, (int, float)) or temperature < 0.0 or temperature > 2.0:
                 result.add_error(
                     ValidationErrorType.INVALID_VALUE,
                     "Temperature must be between 0.0 and 2.0",
@@ -407,11 +385,7 @@ class RequestValidator:
             # Max tokens validation
             max_tokens = request_data.get("max_tokens")
             if max_tokens is not None:
-                if (
-                    not isinstance(max_tokens, int)
-                    or max_tokens < 1
-                    or max_tokens > 32000
-                ):
+                if not isinstance(max_tokens, int) or max_tokens < 1 or max_tokens > 32000:
                     result.add_error(
                         ValidationErrorType.INVALID_VALUE,
                         "Max tokens must be between 1 and 32000",
@@ -428,9 +402,7 @@ class RequestValidator:
         result.execution_time_ms = (time.perf_counter() - start_time) * 1000
         return result
 
-    async def validate_function_registration(
-        self, request_data: dict[str, Any]
-    ) -> ValidationResult:
+    async def validate_function_registration(self, request_data: dict[str, Any]) -> ValidationResult:
         """Validate function registration request"""
         start_time = time.perf_counter()
         result = ValidationResult(is_valid=True)
@@ -462,9 +434,7 @@ class RequestValidator:
                     continue
 
                 # Security validation for function
-                security_issues = self.security_validator.validate_function_security(
-                    {"name": func_name, **func_def}
-                )
+                security_issues = self.security_validator.validate_function_security({"name": func_name, **func_def})
 
                 for issue in security_issues:
                     result.add_error(
@@ -477,9 +447,7 @@ class RequestValidator:
                 required_func_fields = ["description"]
                 for field in required_func_fields:
                     if field not in func_def:
-                        result.add_warning(
-                            f"Function '{func_name}' missing recommended field: {field}"
-                        )
+                        result.add_warning(f"Function '{func_name}' missing recommended field: {field}")
 
         except Exception as e:
             result.add_error(
@@ -526,9 +494,7 @@ class ResponseValidator:
             # Validate response content
             content = response.get("content", "")
             if content:
-                security_issues = self.security_validator.validate_content_security(
-                    content, "response"
-                )
+                security_issues = self.security_validator.validate_content_security(content, "response")
                 for issue in security_issues:
                     result.add_error(
                         ValidationErrorType(issue["type"]),
@@ -538,11 +504,7 @@ class ResponseValidator:
 
             # Validate confidence score
             confidence = response.get("confidence_score", 0.0)
-            if (
-                not isinstance(confidence, (int, float))
-                or confidence < 0.0
-                or confidence > 1.0
-            ):
+            if not isinstance(confidence, (int, float)) or confidence < 0.0 or confidence > 1.0:
                 result.add_error(
                     ValidationErrorType.INVALID_VALUE,
                     "Confidence score must be between 0.0 and 1.0",
@@ -552,9 +514,7 @@ class ResponseValidator:
             # Validate latency
             latency = response.get("latency_ms", 0.0)
             if latency > 30000:  # 30 seconds
-                result.add_warning(
-                    "Response latency is unusually high", field="latency_ms"
-                )
+                result.add_warning("Response latency is unusually high", field="latency_ms")
 
             # Validate cost
             cost = response.get("cost", 0.0)
@@ -565,9 +525,7 @@ class ResponseValidator:
             if original_request:
                 min_confidence = original_request.get("min_confidence", 0.7)
                 if confidence < min_confidence:
-                    result.add_warning(
-                        f"Response confidence ({confidence}) below requested minimum ({min_confidence})"
-                    )
+                    result.add_warning(f"Response confidence ({confidence}) below requested minimum ({min_confidence})")
 
         except Exception as e:
             result.add_error(
@@ -626,14 +584,8 @@ class HealthcareValidator:
                         )
 
             # PHI validation
-            content = (
-                request_data.get("prompt", "")
-                + " "
-                + str(request_data.get("context", {}))
-            )
-            phi_issues = self.security_validator.validate_content_security(
-                content, "healthcare"
-            )
+            content = request_data.get("prompt", "") + " " + str(request_data.get("context", {}))
+            phi_issues = self.security_validator.validate_content_security(content, "healthcare")
             for issue in phi_issues:
                 if issue["type"] == ValidationErrorType.HIPAA_VIOLATION.value:
                     result.add_error(
@@ -662,9 +614,7 @@ class HealthcareValidator:
             if not retention_policy:
                 result.add_warning("No data retention policy specified")
             elif retention_policy.get("retain_days", 0) > 2555:  # 7 years
-                result.add_warning(
-                    "Data retention period exceeds typical healthcare limits"
-                )
+                result.add_warning("Data retention period exceeds typical healthcare limits")
 
             # Audit trail requirement
             if not request_data.get("audit_trail", {}).get("enabled", False):
@@ -778,9 +728,7 @@ class AuthenticationValidator:
 
         return result
 
-    async def validate_api_key(
-        self, api_key: str, required_permissions: list[str]
-    ) -> ValidationResult:
+    async def validate_api_key(self, api_key: str, required_permissions: list[str]) -> ValidationResult:
         """Validate API key and permissions"""
         result = ValidationResult(is_valid=True)
 
@@ -857,9 +805,7 @@ class ComprehensiveAPIValidator:
         self.response_validator = ResponseValidator()
         self.healthcare_validator = HealthcareValidator()
         self.auth_validator = AuthenticationValidator(
-            jwt_secret=config.get(
-                "jwt_secret", "lukhas-jwt-secret-change-in-production"
-            )
+            jwt_secret=config.get("jwt_secret", "lukhas-jwt-secret-change-in-production")
         )
 
         # Performance tracking
@@ -888,26 +834,18 @@ class ComprehensiveAPIValidator:
 
         logger.info(f"🔍 Starting validation: {validation_id}")
         logger.info(f"   Type: {request_type}")
-        logger.info(
-            f"   Context: {context.get('type', 'general') if context else 'none'}"
-        )
+        logger.info(f"   Context: {context.get('type', 'general') if context else 'none'}")
 
         try:
             # Authentication validation
             auth_result = None
             if auth_token:
                 if auth_token.startswith("Bearer "):
-                    auth_result = await self.auth_validator.validate_jwt_token(
-                        auth_token[7:]
-                    )
+                    auth_result = await self.auth_validator.validate_jwt_token(auth_token[7:])
                 else:
                     # Determine required permissions based on request type
-                    required_permissions = self._get_required_permissions(
-                        request_type, context
-                    )
-                    auth_result = await self.auth_validator.validate_api_key(
-                        auth_token, required_permissions
-                    )
+                    required_permissions = self._get_required_permissions(request_type, context)
+                    auth_result = await self.auth_validator.validate_api_key(auth_token, required_permissions)
 
                 if not auth_result.is_valid:
                     self._update_metrics("failed", auth_result)
@@ -915,17 +853,11 @@ class ComprehensiveAPIValidator:
 
             # Request-specific validation
             if request_type == "orchestration":
-                result = await self.request_validator.validate_orchestration_request(
-                    request_data, context
-                )
+                result = await self.request_validator.validate_orchestration_request(request_data, context)
             elif request_type == "streaming":
-                result = await self.request_validator.validate_streaming_request(
-                    request_data, context
-                )
+                result = await self.request_validator.validate_streaming_request(request_data, context)
             elif request_type == "function_registration":
-                result = await self.request_validator.validate_function_registration(
-                    request_data
-                )
+                result = await self.request_validator.validate_function_registration(request_data)
             elif request_type == "healthcare":
                 result = await self.healthcare_validator.validate_healthcare_request(
                     request_data, context.get("patient_context") if context else None
@@ -952,9 +884,7 @@ class ComprehensiveAPIValidator:
 
             self._update_metrics("successful" if result.is_valid else "failed", result)
 
-            logger.info(
-                f"✅ Validation completed: {validation_id} ({total_time:.2f}ms)"
-            )
+            logger.info(f"✅ Validation completed: {validation_id} ({total_time:.2f}ms)")
             logger.info(f"   Valid: {result.is_valid}")
             logger.info(f"   Errors: {len(result.errors)}")
             logger.info(f"   Warnings: {len(result.warnings)}")
@@ -976,9 +906,7 @@ class ComprehensiveAPIValidator:
             logger.error(f"❌ Validation error: {validation_id} - {e!s}")
             return error_result
 
-    def _get_required_permissions(
-        self, request_type: str, context: Optional[dict[str, Any]]
-    ) -> list[str]:
+    def _get_required_permissions(self, request_type: str, context: Optional[dict[str, Any]]) -> list[str]:
         """Get required permissions for request type"""
         permission_map = {
             "orchestration": ["orchestration"],
@@ -1010,9 +938,7 @@ class ComprehensiveAPIValidator:
         # Update average latency
         current_avg = self.validation_metrics["average_latency_ms"]
         total_validations = self.validation_metrics["total_validations"]
-        new_avg = (
-            (current_avg * (total_validations - 1)) + result.execution_time_ms
-        ) / total_validations
+        new_avg = ((current_avg * (total_validations - 1)) + result.execution_time_ms) / total_validations
         self.validation_metrics["average_latency_ms"] = new_avg
 
         # Count error types
@@ -1083,9 +1009,7 @@ async def validate_orchestration_request(
 ) -> ValidationResult:
     """Validate orchestration request"""
     validator = get_validator()
-    return await validator.validate_request(
-        "orchestration", request_data, context, auth_token
-    )
+    return await validator.validate_request("orchestration", request_data, context, auth_token)
 
 
 async def validate_streaming_request(
@@ -1095,9 +1019,7 @@ async def validate_streaming_request(
 ) -> ValidationResult:
     """Validate streaming request"""
     validator = get_validator()
-    return await validator.validate_request(
-        "streaming", request_data, context, auth_token
-    )
+    return await validator.validate_request("streaming", request_data, context, auth_token)
 
 
 async def validate_healthcare_request(
@@ -1108,9 +1030,7 @@ async def validate_healthcare_request(
     """Validate healthcare request"""
     context = {"type": "healthcare", "patient_context": patient_context}
     validator = get_validator()
-    return await validator.validate_request(
-        "healthcare", request_data, context, auth_token
-    )
+    return await validator.validate_request("healthcare", request_data, context, auth_token)
 
 
 async def validate_api_response(
@@ -1118,9 +1038,7 @@ async def validate_api_response(
 ) -> ValidationResult:
     """Validate API response"""
     validator = get_validator()
-    return await validator.response_validator.validate_orchestration_response(
-        response_data, original_request
-    )
+    return await validator.response_validator.validate_orchestration_response(response_data, original_request)
 
 
 # Security utilities
@@ -1136,9 +1054,7 @@ def sanitize_content(content: str, context: str = "general") -> str:
     # Remove PHI if healthcare context
     if context in ["healthcare", "medical", "patient"]:
         for pattern in security_validator.PHI_PATTERNS:
-            sanitized = re.sub(
-                pattern, "[PHI_FILTERED]", sanitized, flags=re.IGNORECASE
-            )
+            sanitized = re.sub(pattern, "[PHI_FILTERED]", sanitized, flags=re.IGNORECASE)
 
     return sanitized
 
@@ -1219,9 +1135,7 @@ async def run_validation_tests() -> dict[str, Any]:
             "name": "security_validation",
             "success": not security_result.is_valid,  # Should fail for malicious content
             "execution_time_ms": security_result.execution_time_ms,
-            "security_violations": len(
-                [e for e in security_result.errors if e["type"] == "security_violation"]
-            ),
+            "security_violations": len([e for e in security_result.errors if e["type"] == "security_violation"]),
         }
     )
 
@@ -1260,8 +1174,7 @@ async def run_validation_tests() -> dict[str, Any]:
     test_results["tests"].append(
         {
             "name": "performance_validation",
-            "success": performance_result.execution_time_ms
-            < 100,  # Should complete in <100ms
+            "success": performance_result.execution_time_ms < 100,  # Should complete in <100ms
             "execution_time_ms": performance_result.execution_time_ms,
             "content_size": len(large_request["prompt"]),
         }
@@ -1316,18 +1229,12 @@ if __name__ == "__main__":
 
             for test in test_results["tests"]:
                 status = "✅ PASS" if test["success"] else "❌ FAIL"
-                logger.info(
-                    f"{status} {test['name']} ({test['execution_time_ms']:.2f}ms)"
-                )
+                logger.info(f"{status} {test['name']} ({test['execution_time_ms']:.2f}ms)")
 
                 if "errors" in test:
-                    logger.info(
-                        f"   Errors: {test['errors']}, Warnings: {test.get('warnings', 0)}"
-                    )
+                    logger.info(f"   Errors: {test['errors']}, Warnings: {test.get('warnings', 0)}")
                 if "security_violations" in test:
-                    logger.info(
-                        f"   Security violations: {test['security_violations']}"
-                    )
+                    logger.info(f"   Security violations: {test['security_violations']}")
                 if "hipaa_compliant" in test:
                     logger.info(f"   HIPAA compliant: {test['hipaa_compliant']}")
 
@@ -1335,9 +1242,7 @@ if __name__ == "__main__":
             metrics = test_results["metrics"]
             logger.info(f"   Success rate: {metrics['success_rate']:.1%}")
             logger.info(f"   Average latency: {metrics['average_latency_ms']:.2f}ms")
-            logger.info(
-                f"   Performance score: {test_results['performance_score']:.3f}"
-            )
+            logger.info(f"   Performance score: {test_results['performance_score']:.3f}")
             logger.info(f"   Security score: {test_results['security_score']:.3f}")
 
             if test_results["overall_success"]:

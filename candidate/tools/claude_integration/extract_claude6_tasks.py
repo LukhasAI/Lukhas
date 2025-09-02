@@ -10,9 +10,7 @@ from pathlib import Path
 import yaml
 
 
-def extract_agent_tasks(
-    config_file="scripts/Claude_6.yml", output_dir="CLAUDE_ARMY/tasks"
-):
+def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_ARMY/tasks"):
     """Extract all tasks from Claude_6.yml and create comprehensive task files"""
 
     # Load the YAML configuration
@@ -40,9 +38,7 @@ def extract_agent_tasks(
             f.write(f"# Tasks for {agent_name}\n\n")
             f.write(f"**Role**: {agent.get('role', 'Not specified')}\n")
             f.write(f"**Description**: {agent.get('description', 'Not specified')}\n")
-            f.write(
-                f"**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
-            )
+            f.write(f"**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
 
             # Core Mission
             f.write("## 🎯 Core Mission\n")
@@ -166,9 +162,7 @@ def extract_agent_tasks(
             f.write("---\n")
             f.write(f"*Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*\n")
 
-        agents_processed.append(
-            {"agent": agent_key, "name": agent_name, "file": str(task_file)}
-        )
+        agents_processed.append({"agent": agent_key, "name": agent_name, "file": str(task_file)})
         print(f"✅ Created comprehensive task file: {task_file}")
 
     # Also extract coordination framework tasks

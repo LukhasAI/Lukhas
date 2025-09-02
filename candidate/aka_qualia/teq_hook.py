@@ -88,9 +88,7 @@ class TEQGuardian:
 
         return default_config
 
-    def assess(
-        self, proto: ProtoQualia, goals: dict[str, Any], context: dict[str, Any]
-    ) -> RiskProfile:
+    def assess(self, proto: ProtoQualia, goals: dict[str, Any], context: dict[str, Any]) -> RiskProfile:
         """
         Assess proto-qualia for ethical risks and classify severity.
 
@@ -107,9 +105,7 @@ class TEQGuardian:
 
         # Apply configured risk factor analysis
         for factor_name, factor_config in self.config["risk_factors"].items():
-            factor_risk, factor_reason = self._evaluate_risk_factor(
-                factor_name, factor_config, proto, goals, context
-            )
+            factor_risk, factor_reason = self._evaluate_risk_factor(factor_name, factor_config, proto, goals, context)
 
             if factor_risk > 0:
                 risk_score += factor_risk
@@ -122,9 +118,7 @@ class TEQGuardian:
         # Determine severity based on configured thresholds
         severity = self._classify_severity(risk_score)
 
-        risk_profile = RiskProfile(
-            score=risk_score, reasons=risk_reasons, severity=severity
-        )
+        risk_profile = RiskProfile(score=risk_score, reasons=risk_reasons, severity=severity)
 
         # Log assessment for audit trail
         self._log_assessment(proto, risk_profile, goals, context)
@@ -207,10 +201,7 @@ class TEQGuardian:
             clarity_thresh = factor_config["clarity_threshold"]
             narrative_thresh = factor_config["narrative_threshold"]
             weight = factor_config["weight"]
-            if (
-                proto.clarity < clarity_thresh
-                and proto.narrative_gravity > narrative_thresh
-            ):
+            if proto.clarity < clarity_thresh and proto.narrative_gravity > narrative_thresh:
                 return (
                     weight,
                     f"low_clarity_high_narrative: clarity={proto.clarity:.2f}, narrative={proto.narrative_gravity:.2f}",
@@ -275,9 +266,7 @@ class TEQGuardian:
             excess_arousal = scene.proto.arousal - 0.6
             scene.proto.arousal = 0.6
             scene.proto.clarity = min(1.0, scene.proto.clarity + excess_arousal * 0.3)
-            scene.proto.embodiment = min(
-                1.0, scene.proto.embodiment + excess_arousal * 0.2
-            )
+            scene.proto.embodiment = min(1.0, scene.proto.embodiment + excess_arousal * 0.2)
 
         if scene.proto.tone < -0.6:
             # Soften negative tone while maintaining authenticity

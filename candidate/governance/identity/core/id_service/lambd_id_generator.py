@@ -1,3 +1,15 @@
+"""Compatibility shim: re-export canonical generator implementation.
+
+This shim keeps the legacy module path importable while the real
+implementation lives in `lambda_id_generator.py` (canonical name).
+"""
+
+from .lambda_id_generator import LambdaIDGenerator
+
+# Backwards-compatible alias
+LambdIDGenerator = LambdaIDGenerator
+
+__all__ = ["LambdIDGenerator", "LambdaIDGenerator"]
 import hashlib
 import json
 import secrets
@@ -114,9 +126,7 @@ class LambdaIDGenerator:
         hash_obj = hashlib.sha256(timestamp.encode())
         return hash_obj.hexdigest()[:4].upper()
 
-    def _select_symbolic_element(
-        self, tier: TierLevel, preference: Optional[str] = None
-    ) -> str:
+    def _select_symbolic_element(self, tier: TierLevel, preference: Optional[str] = None) -> str:
         """
         Select appropriate symbolic character based on tier and preference.
 
@@ -130,9 +140,7 @@ class LambdaIDGenerator:
         # Random selection from tier-appropriate symbols
         return secrets.choice(tier_symbols) if tier_symbols else "◊"
 
-    def _generate_entropy_hash(
-        self, tier: TierLevel, user_context: Optional[dict] = None
-    ) -> str:
+    def _generate_entropy_hash(self, tier: TierLevel, user_context: Optional[dict] = None) -> str:
         """Generate 4-character entropy hash with tier-specific complexity"""
         # Base entropy from secure random
         base_entropy = secrets.token_hex(16)
@@ -193,9 +201,7 @@ class LambdaIDGenerator:
             # Add more reserved combinations
         ]
 
-    def _log_generation(
-        self, lambda_id: str, tier: TierLevel, user_context: Optional[dict] = None
-    ) -> None:
+    def _log_generation(self, lambda_id: str, tier: TierLevel, user_context: Optional[dict] = None) -> None:
         """Log ΛiD generation event for audit trail"""
         {
             "timestamp": datetime.now().isoformat(),
@@ -267,9 +273,7 @@ if __name__ == "__main__":
         "preferences": {"symbolic_style": "mystical"},
     }
 
-    personalized_id = generator.generate_lambda_id(
-        TierLevel.FRIEND, user_context, symbolic_preference="🌀"
-    )
+    personalized_id = generator.generate_lambda_id(TierLevel.FRIEND, user_context, symbolic_preference="🌀")
     print(f"Personalized ΛiD: {personalized_id}")
 
     print(f"Generation Stats: {generator.get_generation_stats()}")

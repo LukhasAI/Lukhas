@@ -241,9 +241,7 @@ class ReasoningAgent:
         finally:
             del self.active_queries[query.query_id]
 
-    async def _retrieve_relevant_memories(
-        self, query: ReasoningQuery
-    ) -> list[tuple[str, Any]]:
+    async def _retrieve_relevant_memories(self, query: ReasoningQuery) -> list[tuple[str, Any]]:
         """Retrieve memories relevant to the query"""
         memories = []
 
@@ -347,9 +345,7 @@ class LogicalReasoningAgent(ReasoningAgent):
 
         return insight
 
-    def _extract_premises(
-        self, memories: list[tuple[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _extract_premises(self, memories: list[tuple[str, Any]]) -> list[dict[str, Any]]:
         """Extract logical premises from memories"""
         premises = []
 
@@ -357,19 +353,13 @@ class LogicalReasoningAgent(ReasoningAgent):
             if isinstance(content, dict):
                 # Look for logical patterns
                 if "implies" in str(content).lower():
-                    premises.append(
-                        {"type": "implication", "content": content, "key": key}
-                    )
+                    premises.append({"type": "implication", "content": content, "key": key})
                 elif "if" in str(content).lower() and "then" in str(content).lower():
-                    premises.append(
-                        {"type": "conditional", "content": content, "key": key}
-                    )
+                    premises.append({"type": "conditional", "content": content, "key": key})
 
         return premises
 
-    def _apply_deduction(
-        self, question: str, premises: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _apply_deduction(self, question: str, premises: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Apply deductive reasoning to derive conclusions"""
         conclusions = []
 
@@ -385,10 +375,7 @@ class LogicalReasoningAgent(ReasoningAgent):
                         consequent = parts[1].strip()
 
                         # Check if question relates to consequent
-                        if any(
-                            word in question.lower()
-                            for word in consequent.lower().split()
-                        ):
+                        if any(word in question.lower() for word in consequent.lower().split()):
                             conclusions.append(
                                 {
                                     "conclusion": f"Based on {antecedent}, we can deduce: {consequent}",
@@ -443,9 +430,7 @@ class CausalReasoningAgent(ReasoningAgent):
 
         return insight
 
-    def _build_causal_chain(
-        self, question: str, memories: list[tuple[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _build_causal_chain(self, question: str, memories: list[tuple[str, Any]]) -> list[dict[str, Any]]:
         """Build a causal chain from memories"""
         chain = []
 
@@ -559,9 +544,7 @@ class CreativeReasoningAgent(ReasoningAgent):
 
         return insight
 
-    def _generate_associations(
-        self, question: str, memories: list[tuple[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _generate_associations(self, question: str, memories: list[tuple[str, Any]]) -> list[dict[str, Any]]:
         """Generate creative associations from memories"""
         associations = []
 
@@ -586,15 +569,11 @@ class CreativeReasoningAgent(ReasoningAgent):
 
             # Look for unexpected connections
             if len(question_words & content_words) == 1:  # Weak connection
-                associations.append(
-                    {"type": "lateral", "content": content, "key": key, "overlap": 1}
-                )
+                associations.append({"type": "lateral", "content": content, "key": key, "overlap": 1})
 
         return associations
 
-    def _find_novel_connections(
-        self, associations: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _find_novel_connections(self, associations: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Find novel connections between associations"""
         connections = []
 
@@ -611,8 +590,7 @@ class CreativeReasoningAgent(ReasoningAgent):
                             {
                                 "insight": insight,
                                 "novelty_score": novelty,
-                                "confidence": 0.6
-                                * novelty,  # Creative insights have moderate confidence
+                                "confidence": 0.6 * novelty,  # Creative insights have moderate confidence
                                 "symbols": self._extract_symbols(insight),
                                 "new_symbols": [f"ΛCREATIVE_{uuid.uuid4().hex[:6]}"],
                             }
@@ -620,9 +598,7 @@ class CreativeReasoningAgent(ReasoningAgent):
 
         return connections
 
-    def _calculate_novelty(
-        self, assoc1: dict[str, Any], assoc2: dict[str, Any]
-    ) -> float:
+    def _calculate_novelty(self, assoc1: dict[str, Any], assoc2: dict[str, Any]) -> float:
         """Calculate novelty score for a connection"""
         # Simple heuristic: inverse of content overlap
         content1 = set(str(assoc1["content"]).lower().split())
@@ -643,9 +619,7 @@ class CreativeReasoningAgent(ReasoningAgent):
 
         return min(novelty, 1.0)
 
-    def _synthesize_creative_insight(
-        self, assoc1: dict[str, Any], assoc2: dict[str, Any]
-    ) -> str:
+    def _synthesize_creative_insight(self, assoc1: dict[str, Any], assoc2: dict[str, Any]) -> str:
         """Synthesize a creative insight from two associations"""
         # Extract key concepts
         content1 = str(assoc1["content"])[:100]
@@ -657,9 +631,7 @@ class CreativeReasoningAgent(ReasoningAgent):
         elif assoc1["type"] == "lateral":
             return f"The unexpected connection between '{content1}' and '{content2}' suggests a novel approach"
         else:
-            return (
-                f"Synthesizing '{content1}' with '{content2}' reveals hidden patterns"
-            )
+            return f"Synthesizing '{content1}' with '{content2}' reveals hidden patterns"
 
     def _extract_symbols(self, text: str) -> list[str]:
         """Extract symbolic tokens from text"""
@@ -719,17 +691,11 @@ class ReasoningColony:
 
                 # Create appropriate agent type
                 if reasoner_type == ReasonerType.LOGICAL:
-                    agent = LogicalReasoningAgent(
-                        agent_id, reasoner_type, self.memory_system
-                    )
+                    agent = LogicalReasoningAgent(agent_id, reasoner_type, self.memory_system)
                 elif reasoner_type == ReasonerType.CAUSAL:
-                    agent = CausalReasoningAgent(
-                        agent_id, reasoner_type, self.memory_system
-                    )
+                    agent = CausalReasoningAgent(agent_id, reasoner_type, self.memory_system)
                 elif reasoner_type == ReasonerType.CREATIVE:
-                    agent = CreativeReasoningAgent(
-                        agent_id, reasoner_type, self.memory_system
-                    )
+                    agent = CreativeReasoningAgent(agent_id, reasoner_type, self.memory_system)
                 else:
                     # Generic agent for other types (to be implemented)
                     agent = ReasoningAgent(agent_id, reasoner_type, self.memory_system)
@@ -823,18 +789,9 @@ class ReasoningColony:
         for agent in self.agents.values():
             if (
                 agent.reasoner_type in query.required_reasoners
-                or (
-                    query.emotional_context > 0.7
-                    and agent.reasoner_type == ReasonerType.EMOTIONAL
-                )
-                or (
-                    "why" in query.question.lower()
-                    and agent.reasoner_type == ReasonerType.CAUSAL
-                )
-                or (
-                    "should" in query.question.lower()
-                    and agent.reasoner_type == ReasonerType.ETHICAL
-                )
+                or (query.emotional_context > 0.7 and agent.reasoner_type == ReasonerType.EMOTIONAL)
+                or ("why" in query.question.lower() and agent.reasoner_type == ReasonerType.CAUSAL)
+                or ("should" in query.question.lower() and agent.reasoner_type == ReasonerType.ETHICAL)
             ):
                 relevant.append(agent)
 
@@ -861,17 +818,13 @@ class ReasoningColony:
         if any(word in question_lower for word in ["why", "because", "cause"]):
             required.add(ReasonerType.CAUSAL)
 
-        if any(
-            word in question_lower for word in ["should", "ought", "right", "wrong"]
-        ):
+        if any(word in question_lower for word in ["should", "ought", "right", "wrong"]):
             required.add(ReasonerType.ETHICAL)
 
         if any(word in question_lower for word in ["create", "imagine", "innovate"]):
             required.add(ReasonerType.CREATIVE)
 
-        if any(
-            word in question_lower for word in ["when", "before", "after", "during"]
-        ):
+        if any(word in question_lower for word in ["when", "before", "after", "during"]):
             required.add(ReasonerType.TEMPORAL)
 
         if any(word in question_lower for word in ["feel", "emotion", "mood"]):
@@ -883,9 +836,7 @@ class ReasoningColony:
 
         return required
 
-    async def _build_consensus(
-        self, query: ReasoningQuery, insights: list[ReasoningInsight]
-    ) -> dict[str, Any]:
+    async def _build_consensus(self, query: ReasoningQuery, insights: list[ReasoningInsight]) -> dict[str, Any]:
         """Build consensus from multiple insights"""
         if not insights:
             return {"reached": False, "conclusions": [], "confidence": 0.0}
@@ -915,10 +866,7 @@ class ReasoningColony:
                 )
                 total_confidence += group_confidence
 
-        reached = (
-            len(conclusions) > 0
-            and (total_confidence / len(conclusions)) >= query.required_confidence
-        )
+        reached = len(conclusions) > 0 and (total_confidence / len(conclusions)) >= query.required_confidence
 
         return {
             "reached": reached,
@@ -926,9 +874,7 @@ class ReasoningColony:
             "confidence": total_confidence / len(conclusions) if conclusions else 0.0,
         }
 
-    def _group_similar_insights(
-        self, insights: list[ReasoningInsight]
-    ) -> list[list[ReasoningInsight]]:
+    def _group_similar_insights(self, insights: list[ReasoningInsight]) -> list[list[ReasoningInsight]]:
         """Group insights by similarity"""
         groups = []
         used = set()
@@ -954,27 +900,19 @@ class ReasoningColony:
 
         return groups
 
-    def _calculate_insight_similarity(
-        self, insight1: ReasoningInsight, insight2: ReasoningInsight
-    ) -> float:
+    def _calculate_insight_similarity(self, insight1: ReasoningInsight, insight2: ReasoningInsight) -> float:
         """Calculate similarity between two insights"""
         # Symbol overlap
         symbols1 = insight1.supporting_symbols | insight1.derived_symbols
         symbols2 = insight2.supporting_symbols | insight2.derived_symbols
 
-        symbol_overlap = (
-            len(symbols1 & symbols2) / len(symbols1 | symbols2)
-            if symbols1 and symbols2
-            else 0.0
-        )
+        symbol_overlap = len(symbols1 & symbols2) / len(symbols1 | symbols2) if symbols1 and symbols2 else 0.0
 
         # Content similarity (simple word overlap)
         words1 = set(insight1.content.lower().split())
         words2 = set(insight2.content.lower().split())
 
-        word_overlap = (
-            len(words1 & words2) / len(words1 | words2) if words1 and words2 else 0.0
-        )
+        word_overlap = len(words1 & words2) / len(words1 | words2) if words1 and words2 else 0.0
 
         # Type similarity
         type_similarity = 1.0 if insight1.insight_type == insight2.insight_type else 0.5
@@ -999,9 +937,7 @@ class ReasoningColony:
                 # Extract unique elements
                 unique_words = set(insight.content.split()) - set(base.content.split())
                 if unique_words:
-                    merged_content += (
-                        f" Additionally: {' '.join(list(unique_words)[:5])}"
-                    )
+                    merged_content += f" Additionally: {' '.join(list(unique_words)[:5])}"
 
         # Combine symbols
         all_symbols = set()
@@ -1034,9 +970,7 @@ class ReasoningColony:
             # High-confidence consensus goes to hot tier
             "hot" if conclusion["confidence"] > 0.8 else "warm"
 
-            self.memory_system.remember(
-                content, {"type": "reasoning_consensus", "id": key}
-            )
+            self.memory_system.remember(content, {"type": "reasoning_consensus", "id": key})
 
     def _extract_symbols(self, text: str) -> list[str]:
         """Extract symbolic tokens from text"""
@@ -1055,15 +989,10 @@ class ReasoningColony:
             "active_queries": len(self.active_queries),
             "completed_queries": len(self.completed_queries),
             "total_queries": self.total_queries,
-            "consensus_rate": (
-                self.consensus_reached / self.total_queries
-                if self.total_queries > 0
-                else 0
-            ),
+            "consensus_rate": (self.consensus_reached / self.total_queries if self.total_queries > 0 else 0),
             "insights_generated": self.insights_generated,
             "agent_distribution": {
-                t.value: sum(1 for a in self.agents.values() if a.reasoner_type == t)
-                for t in ReasonerType
+                t.value: sum(1 for a in self.agents.values() if a.reasoner_type == t) for t in ReasonerType
             },
         }
 

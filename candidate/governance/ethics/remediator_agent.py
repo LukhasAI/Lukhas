@@ -175,9 +175,7 @@ class RemediatorAgent:
         Returns:
             Agent ID of the spawned EthicsGuardian
         """
-        return self._spawn_ethics_guardian(
-            f"MANUAL_{int(datetime.now().timestamp())}", task_data
-        )["agent_id"]
+        return self._spawn_ethics_guardian(f"MANUAL_{int(datetime.now().timestamp())}", task_data)["agent_id"]
 
     def spawn_memory_cleaner(self, task_data: dict[str, Any]) -> str:
         """
@@ -189,9 +187,7 @@ class RemediatorAgent:
         Returns:
             Agent ID of the spawned MemoryCleaner
         """
-        return self._spawn_memory_cleaner(
-            f"MANUAL_{int(datetime.now().timestamp())}", task_data
-        )["agent_id"]
+        return self._spawn_memory_cleaner(f"MANUAL_{int(datetime.now().timestamp())}", task_data)["agent_id"]
 
     def get_agent_status(self, agent_id: str) -> Optional[dict[str, Any]]:
         """Get status information for a specific spawned agent."""
@@ -201,9 +197,7 @@ class RemediatorAgent:
         """Get all currently active remediation sessions."""
         return self.active_sessions.copy()
 
-    def get_remediation_history(
-        self, limit: Optional[int] = None
-    ) -> list[dict[str, Any]]:
+    def get_remediation_history(self, limit: Optional[int] = None) -> list[dict[str, Any]]:
         """Get remediation history, optionally limited to recent entries."""
         history = self.remediation_history.copy()
         if limit:
@@ -216,39 +210,26 @@ class RemediatorAgent:
         indicators = issue_data.get("indicators", [])
 
         # Check for specific issue types
-        if any(
-            keyword in issue_type
-            for keyword in ["ethical", "moral", "bias", "fairness"]
-        ):
+        if any(keyword in issue_type for keyword in ["ethical", "moral", "bias", "fairness"]):
             return RemediationType.ETHICAL_VIOLATION
 
-        if any(
-            keyword in issue_type for keyword in ["memory", "fragmentation", "leak"]
-        ):
+        if any(keyword in issue_type for keyword in ["memory", "fragmentation", "leak"]):
             return RemediationType.MEMORY_FRAGMENTATION
 
-        if any(
-            keyword in issue_type for keyword in ["compliance", "regulatory", "gdpr"]
-        ):
+        if any(keyword in issue_type for keyword in ["compliance", "regulatory", "gdpr"]):
             return RemediationType.COMPLIANCE_BREACH
 
         # Check indicators for multi-domain issues
         ethical_indicators = sum(
             1
             for indicator in indicators
-            if any(
-                keyword in str(indicator).lower()
-                for keyword in ["ethical", "bias", "unfair"]
-            )
+            if any(keyword in str(indicator).lower() for keyword in ["ethical", "bias", "unfair"])
         )
 
         memory_indicators = sum(
             1
             for indicator in indicators
-            if any(
-                keyword in str(indicator).lower()
-                for keyword in ["memory", "fragment", "leak"]
-            )
+            if any(keyword in str(indicator).lower() for keyword in ["memory", "fragment", "leak"])
         )
 
         if ethical_indicators > 0 and memory_indicators > 0:
@@ -261,9 +242,7 @@ class RemediatorAgent:
         # Default to multi-domain for complex or unclear issues
         return RemediationType.MULTI_DOMAIN
 
-    def _spawn_ethics_guardian(
-        self, session_id: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _spawn_ethics_guardian(self, session_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """Spawn an EthicsGuardian sub-agent."""
         try:
             guardian = EthicsGuardian(parent_id=self.agent_id, task_data=task_data)
@@ -293,9 +272,7 @@ class RemediatorAgent:
             self.logger.error("Failed to spawn EthicsGuardian", error=str(e))
             raise
 
-    def _spawn_memory_cleaner(
-        self, session_id: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _spawn_memory_cleaner(self, session_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """Spawn a MemoryCleaner sub-agent."""
         try:
             cleaner = MemoryCleaner(parent_id=self.agent_id, task_data=task_data)
@@ -362,13 +339,9 @@ class RemediatorAgent:
 
             try:
                 if agent_type == "EthicsGuardian":
-                    agent_result = self._execute_ethics_workflow(
-                        agent_instance, session["issue_data"]
-                    )
+                    agent_result = self._execute_ethics_workflow(agent_instance, session["issue_data"])
                 elif agent_type == "MemoryCleaner":
-                    agent_result = self._execute_memory_workflow(
-                        agent_instance, session["issue_data"]
-                    )
+                    agent_result = self._execute_memory_workflow(agent_instance, session["issue_data"])
                 else:
                     agent_result = {"status": "unknown_agent_type"}
 
@@ -397,9 +370,7 @@ class RemediatorAgent:
 
         return results
 
-    def _execute_ethics_workflow(
-        self, guardian: EthicsGuardian, issue_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _execute_ethics_workflow(self, guardian: EthicsGuardian, issue_data: dict[str, Any]) -> dict[str, Any]:
         """Execute the ethics guardian workflow."""
         # Perform ethical assessment
         decision_context = issue_data.get("decision_context", issue_data)
@@ -417,9 +388,7 @@ class RemediatorAgent:
             "recommendations": assessment.get("recommendations", []),
         }
 
-    def _execute_memory_workflow(
-        self, cleaner: MemoryCleaner, issue_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _execute_memory_workflow(self, cleaner: MemoryCleaner, issue_data: dict[str, Any]) -> dict[str, Any]:
         """Execute the memory cleaner workflow."""
         # Perform memory analysis
         analysis = cleaner.analyze_memory_fragmentation()

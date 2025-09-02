@@ -163,9 +163,7 @@ class GovernanceColony(BaseColony):
                 audit_result["compliance_status"] = "non_compliant"
 
         if audit_result["findings"]:
-            audit_result["risk_level"] = (
-                "medium" if len(audit_result["findings"]) < 3 else "high"
-            )
+            audit_result["risk_level"] = "medium" if len(audit_result["findings"]) < 3 else "high"
 
         return audit_result
 
@@ -187,9 +185,7 @@ class GovernanceColony(BaseColony):
             trinity_elements = ["identity", "consciousness", "guardian"]
             for element in trinity_elements:
                 if not operation.get(f"trinity_{element}", False):
-                    result["violations"].append(
-                        f"Missing Trinity {element} integration"
-                    )
+                    result["violations"].append(f"Missing Trinity {element} integration")
                     result["compliant"] = False
 
         # Data governance policy
@@ -205,9 +201,7 @@ class GovernanceColony(BaseColony):
 
         return result
 
-    def _perform_intervention(
-        self, intervention_request: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _perform_intervention(self, intervention_request: dict[str, Any]) -> dict[str, Any]:
         """Perform governance intervention"""
         intervention_type = intervention_request.get("type", "unknown")
         target = intervention_request.get("target", "unknown")
@@ -231,9 +225,7 @@ class GovernanceColony(BaseColony):
             result["success"] = True
 
         # Log intervention
-        self.audit_trail.append(
-            {"type": "intervention", "details": result, "timestamp": datetime.now()}
-        )
+        self.audit_trail.append({"type": "intervention", "details": result, "timestamp": datetime.now()})
 
         return result
 
@@ -246,12 +238,8 @@ class GovernanceColony(BaseColony):
             "drift_threshold": self.drift_threshold,
             "ethics_violations": len(self.ethics_violations),
             "audit_entries": len(self.audit_trail),
-            "guardian_agents": len(
-                [a for a in self.agents.values() if a.role.value == "guardian"]
-            ),
-            "recent_violations": (
-                self.ethics_violations[-5:] if self.ethics_violations else []
-            ),
+            "guardian_agents": len([a for a in self.agents.values() if a.role.value == "guardian"]),
+            "recent_violations": (self.ethics_violations[-5:] if self.ethics_violations else []),
         }
 
         return governance_status

@@ -155,9 +155,7 @@ class SpeechProcessor:
         """
         try:
             # Adjust voice parameters based on emotion
-            stability, similarity_boost, style = self._map_emotion_to_voice_parameters(
-                emotion
-            )
+            stability, similarity_boost, style = self._map_emotion_to_voice_parameters(emotion)
 
             # Generate speech with ElevenLabs
             result = await self.elevenlabs.text_to_speech(

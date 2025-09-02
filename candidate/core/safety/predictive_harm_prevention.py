@@ -186,10 +186,7 @@ class PredictiveHarmPrevention:
         # Extract harm predictions from simulations
         all_predictions = []
         for future in futures:
-            weighted_predictions = [
-                self._weight_prediction(pred, future.probability)
-                for pred in future.harm_events
-            ]
+            weighted_predictions = [self._weight_prediction(pred, future.probability) for pred in future.harm_events]
             all_predictions.extend(weighted_predictions)
 
         # Consolidate and filter predictions
@@ -217,9 +214,7 @@ class PredictiveHarmPrevention:
         # Check cache
         if cache_key in self.simulation_cache:
             cached = self.simulation_cache[cache_key]
-            if (
-                datetime.now() - cached.timeline[0]["timestamp"]
-            ).seconds < 3600:  # 1 hour cache
+            if (datetime.now() - cached.timeline[0]["timestamp"]).seconds < 3600:  # 1 hour cache
                 return [cached]
 
         try:
@@ -229,10 +224,7 @@ class PredictiveHarmPrevention:
                 "planned_actions": planned_actions,
                 "user_history": self.user_trajectories[user_id][-10:],  # Last 10 states
                 "prediction_horizon": self.prediction_horizon_hours,
-                "harm_indicators": {
-                    harm.value: indicators
-                    for harm, indicators in self.harm_indicators.items()
-                },
+                "harm_indicators": {harm.value: indicators for harm, indicators in self.harm_indicators.items()},
             }
 
             # Generate multiple future simulations
@@ -269,13 +261,9 @@ class PredictiveHarmPrevention:
                                                 "items": {
                                                     "type": "object",
                                                     "properties": {
-                                                        "time_offset_hours": {
-                                                            "type": "number"
-                                                        },
+                                                        "time_offset_hours": {"type": "number"},
                                                         "event": {"type": "string"},
-                                                        "user_state_change": {
-                                                            "type": "object"
-                                                        },
+                                                        "user_state_change": {"type": "object"},
                                                         "risk_level": {
                                                             "type": "number",
                                                             "minimum": 0,
@@ -313,12 +301,8 @@ class PredictiveHarmPrevention:
                                                 "items": {
                                                     "type": "object",
                                                     "properties": {
-                                                        "time_offset_hours": {
-                                                            "type": "number"
-                                                        },
-                                                        "intervention_type": {
-                                                            "type": "string"
-                                                        },
+                                                        "time_offset_hours": {"type": "number"},
+                                                        "intervention_type": {"type": "string"},
                                                         "effectiveness": {
                                                             "type": "number",
                                                             "minimum": 0,
@@ -343,9 +327,7 @@ class PredictiveHarmPrevention:
                 temperature=0.7,  # Some creativity in future generation
             )
 
-            simulation_data = json.loads(
-                response.choices[0].message.function_call.arguments
-            )
+            simulation_data = json.loads(response.choices[0].message.function_call.arguments)
 
             # Convert to SimulatedFuture objects
             for future_data in simulation_data["futures"]:
@@ -354,8 +336,7 @@ class PredictiveHarmPrevention:
                 for event in future_data["timeline"]:
                     timeline.append(
                         {
-                            "timestamp": datetime.now()
-                            + timedelta(hours=event["time_offset_hours"]),
+                            "timestamp": datetime.now() + timedelta(hours=event["time_offset_hours"]),
                             "event": event["event"],
                             "state_change": event["user_state_change"],
                             "risk_level": event["risk_level"],
@@ -458,9 +439,7 @@ class PredictiveHarmPrevention:
             probability=1.0,
         )
 
-    def _weight_prediction(
-        self, prediction: HarmPrediction, future_probability: float
-    ) -> HarmPrediction:
+    def _weight_prediction(self, prediction: HarmPrediction, future_probability: float) -> HarmPrediction:
         """Weight prediction by future probability"""
         weighted = HarmPrediction(
             harm_type=prediction.harm_type,
@@ -473,9 +452,7 @@ class PredictiveHarmPrevention:
         )
         return weighted
 
-    def _consolidate_predictions(
-        self, predictions: list[HarmPrediction]
-    ) -> list[HarmPrediction]:
+    def _consolidate_predictions(self, predictions: list[HarmPrediction]) -> list[HarmPrediction]:
         """Consolidate similar predictions"""
         consolidated = {}
 
@@ -496,8 +473,7 @@ class PredictiveHarmPrevention:
         return [
             pred
             for pred in consolidated.values()
-            if pred.probability >= self.harm_threshold
-            and pred.confidence >= self.confidence_threshold
+            if pred.probability >= self.harm_threshold and pred.confidence >= self.confidence_threshold
         ]
 
     async def generate_interventions(
@@ -512,21 +488,13 @@ class PredictiveHarmPrevention:
         for prediction in predictions:
             # Generate specific interventions for each harm type
             if prediction.harm_type == HarmType.ADDICTION:
-                intervention_set = await self._generate_addiction_interventions(
-                    prediction, user_context
-                )
+                intervention_set = await self._generate_addiction_interventions(prediction, user_context)
             elif prediction.harm_type == HarmType.EMOTIONAL_DISTRESS:
-                intervention_set = await self._generate_emotional_interventions(
-                    prediction, user_context
-                )
+                intervention_set = await self._generate_emotional_interventions(prediction, user_context)
             elif prediction.harm_type == HarmType.FINANCIAL_HARM:
-                intervention_set = await self._generate_financial_interventions(
-                    prediction, user_context
-                )
+                intervention_set = await self._generate_financial_interventions(prediction, user_context)
             else:
-                intervention_set = await self._generate_generic_interventions(
-                    prediction, user_context
-                )
+                intervention_set = await self._generate_generic_interventions(prediction, user_context)
 
             interventions.extend(intervention_set)
 
@@ -749,9 +717,7 @@ class PredictiveHarmPrevention:
                                             },
                                             "user_impact": {"type": "string"},
                                             "implementation_type": {"type": "string"},
-                                            "implementation_details": {
-                                                "type": "object"
-                                            },
+                                            "implementation_details": {"type": "object"},
                                         },
                                     },
                                 }
@@ -787,9 +753,7 @@ class PredictiveHarmPrevention:
             logger.error(f"AI intervention generation failed: {e}")
             return []
 
-    def _basic_harm_prediction(
-        self, current_state: dict[str, Any]
-    ) -> list[HarmPrediction]:
+    def _basic_harm_prediction(self, current_state: dict[str, Any]) -> list[HarmPrediction]:
         """Basic harm prediction without AI"""
         predictions = []
 
@@ -825,9 +789,7 @@ class PredictiveHarmPrevention:
 
         return predictions
 
-    async def evaluate_intervention_effectiveness(
-        self, intervention_id: str, outcome_data: dict[str, Any]
-    ) -> float:
+    async def evaluate_intervention_effectiveness(self, intervention_id: str, outcome_data: dict[str, Any]) -> float:
         """Evaluate how effective an intervention was"""
         # Find the intervention
         intervention = next(
@@ -843,11 +805,7 @@ class PredictiveHarmPrevention:
         user_satisfaction = outcome_data.get("user_satisfaction", 0.5)
         compliance_rate = outcome_data.get("compliance_rate", 0.5)
 
-        effectiveness = (
-            (1.0 if harm_reduced else 0.0) * 0.5
-            + user_satisfaction * 0.3
-            + compliance_rate * 0.2
-        )
+        effectiveness = (1.0 if harm_reduced else 0.0) * 0.5 + user_satisfaction * 0.3 + compliance_rate * 0.2
 
         # Update intervention effectiveness for learning
         intervention.effectiveness = (intervention.effectiveness + effectiveness) / 2
@@ -877,12 +835,8 @@ class PredictiveHarmPrevention:
             "harm_distribution": {
                 harm_type: {
                     "count": len(preds),
-                    "average_probability": (
-                        np.mean([p.probability for p in preds]) if preds else 0
-                    ),
-                    "average_severity": (
-                        np.mean([p.severity for p in preds]) if preds else 0
-                    ),
+                    "average_probability": (np.mean([p.probability for p in preds]) if preds else 0),
+                    "average_severity": (np.mean([p.severity for p in preds]) if preds else 0),
                 }
                 for harm_type, preds in by_type.items()
             },
@@ -941,21 +895,12 @@ class PredictiveHarmPrevention:
                 effectiveness_by_type[int_type] = []
             effectiveness_by_type[int_type].append(intervention.effectiveness)
 
-        avg_by_type = {
-            int_type: np.mean(scores)
-            for int_type, scores in effectiveness_by_type.items()
-        }
+        avg_by_type = {int_type: np.mean(scores) for int_type, scores in effectiveness_by_type.items()}
 
         return {
-            "average_effectiveness": np.mean(
-                [i.effectiveness for i in self.interventions]
-            ),
+            "average_effectiveness": np.mean([i.effectiveness for i in self.interventions]),
             "by_type": avg_by_type,
-            "most_effective_type": (
-                max(avg_by_type.items(), key=lambda x: x[1])[0]
-                if avg_by_type
-                else "none"
-            ),
+            "most_effective_type": (max(avg_by_type.items(), key=lambda x: x[1])[0] if avg_by_type else "none"),
         }
 
     def _analyze_harm_trends(self) -> list[dict[str, Any]]:
@@ -987,9 +932,7 @@ class PredictiveHarmPrevention:
 
         return trends
 
-    async def real_time_monitoring(
-        self, user_id: str, event_stream: asyncio.Queue
-    ) -> None:
+    async def real_time_monitoring(self, user_id: str, event_stream: asyncio.Queue) -> None:
         """Monitor user events in real-time for immediate intervention"""
         logger.info(f"Starting real-time monitoring for user {user_id}")
 
@@ -1003,9 +946,7 @@ class PredictiveHarmPrevention:
 
                 if immediate_risk["risk_level"] > 0.8:
                     # Immediate intervention needed
-                    logger.warning(
-                        f"High risk detected for user {user_id}: {immediate_risk}"
-                    )
+                    logger.warning(f"High risk detected for user {user_id}: {immediate_risk}")
 
                     # Generate emergency intervention
                     intervention = PreventiveIntervention(
@@ -1092,13 +1033,9 @@ class PredictiveHarmPrevention:
             "timestamp": datetime.now().isoformat(),
         }
 
-    async def _trigger_intervention(
-        self, user_id: str, intervention: PreventiveIntervention
-    ) -> None:
+    async def _trigger_intervention(self, user_id: str, intervention: PreventiveIntervention) -> None:
         """Trigger an intervention (placeholder for actual implementation)"""
-        logger.info(
-            f"Triggering intervention {intervention.intervention_id} for user {user_id}"
-        )
+        logger.info(f"Triggering intervention {intervention.intervention_id} for user {user_id}")
         # In production, this would connect to actual intervention systems
 
 

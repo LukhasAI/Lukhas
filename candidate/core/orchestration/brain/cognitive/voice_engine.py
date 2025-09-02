@@ -38,9 +38,7 @@ class CognitiveVoiceEngine:
             "learning_adaptations": set(),
         }
 
-    async def process_cognitive_voice(
-        self, voice_data: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_cognitive_voice(self, voice_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Process voice with cognitive understanding and emotional awareness"""
         # Analyze emotional and cognitive states
         emotional_state = await self._analyze_emotional_state(voice_data)
@@ -90,17 +88,13 @@ class CognitiveVoiceEngine:
         # Apply emotional modulation
         primary_emotion = max(emotional_state.items(), key=lambda x: x[1])[0]
         if primary_emotion in self.voice_modulators["emotional"]:
-            for param, value in self.voice_modulators["emotional"][
-                primary_emotion
-            ].items():
+            for param, value in self.voice_modulators["emotional"][primary_emotion].items():
                 modulation["base_parameters"][param] *= value
 
         # Apply cognitive modulation
         cognitive_state = cognitive_patterns.get("state", "neutral")
         if cognitive_state in self.voice_modulators["cognitive"]:
-            for param, value in self.voice_modulators["cognitive"][
-                cognitive_state
-            ].items():
+            for param, value in self.voice_modulators["cognitive"][cognitive_state].items():
                 modulation["base_parameters"][param] = value
 
         return modulation
@@ -153,9 +147,7 @@ class CognitiveVoiceEngine:
 
         return pattern_analysis
 
-    def _generate_adaptations(
-        self, successful_patterns: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _generate_adaptations(self, successful_patterns: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Generate voice adaptations based on successful patterns"""
         adaptations = []
         for pattern in successful_patterns:

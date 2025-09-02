@@ -66,9 +66,7 @@ class CollapseAlertLevel(Enum):
 class CollapseState:
     """Represents a collapse state snapshot."""
 
-    collapse_trace_id: str = field(
-        default_factory=lambda: f"collapse_{uuid.uuid4().hex[:12]}"
-    )
+    collapse_trace_id: str = field(default_factory=lambda: f"collapse_{uuid.uuid4().hex[:12]}")
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     entropy_score: float = 0.0
     alert_level: CollapseAlertLevel = CollapseAlertLevel.GREEN
@@ -117,9 +115,7 @@ class CollapseTracker:
         self.ethics_callback = ethics_callback
 
         # Persistence
-        self.persistence_path = persistence_path or Path(
-            "lukhas/logs/collapse_history.jsonl"
-        )
+        self.persistence_path = persistence_path or Path("lukhas/logs/collapse_history.jsonl")
         self.persistence_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Thresholds
@@ -198,9 +194,7 @@ class CollapseTracker:
 
         # Weighted average if we have component scores
         if self.component_entropy:
-            component_avg = sum(self.component_entropy.values()) / len(
-                self.component_entropy
-            )
+            component_avg = sum(self.component_entropy.values()) / len(self.component_entropy)
             final_entropy = 0.7 * main_entropy + 0.3 * component_avg
         else:
             final_entropy = main_entropy
@@ -280,9 +274,7 @@ class CollapseTracker:
             asyncio.create_task(self._emit_alert(old_level, new_level))
 
     # {ΛSAFETY}
-    async def _emit_alert(
-        self, old_level: CollapseAlertLevel, new_level: CollapseAlertLevel
-    ) -> None:
+    async def _emit_alert(self, old_level: CollapseAlertLevel, new_level: CollapseAlertLevel) -> None:
         """
         Emit alerts when collapse level changes.
 
@@ -314,17 +306,12 @@ class CollapseTracker:
                 logger.error("Failed to notify orchestrator", error=str(e))
 
         # Trigger ethics review for high alert levels
-        if (
-            new_level in [CollapseAlertLevel.ORANGE, CollapseAlertLevel.RED]
-            and self.ethics_callback
-        ):
+        if new_level in [CollapseAlertLevel.ORANGE, CollapseAlertLevel.RED] and self.ethics_callback:
             try:
                 await self.ethics_callback(
                     {
                         **alert_data,
-                        "severity": (
-                            "HIGH" if new_level == CollapseAlertLevel.RED else "MEDIUM"
-                        ),
+                        "severity": ("HIGH" if new_level == CollapseAlertLevel.RED else "MEDIUM"),
                         "recommended_action": "intervention_required",
                     }
                 )
@@ -386,9 +373,7 @@ class CollapseTracker:
         except Exception as e:
             logger.error("Failed to persist collapse state", error=str(e))
 
-    def get_collapse_history(
-        self, trace_id: Optional[str] = None, limit: int = 100
-    ) -> list[dict[str, Any]]:
+    def get_collapse_history(self, trace_id: Optional[str] = None, limit: int = 100) -> list[dict[str, Any]]:
         """
         Retrieve collapse history.
 
@@ -430,9 +415,7 @@ class CollapseTracker:
 
     # Test utilities
 
-    def generate_synthetic_test_data(
-        self, scenario: str = "normal"
-    ) -> tuple[list[str], dict[str, float]]:
+    def generate_synthetic_test_data(self, scenario: str = "normal") -> tuple[list[str], dict[str, float]]:
         """
         Generate synthetic test data for validation.
 

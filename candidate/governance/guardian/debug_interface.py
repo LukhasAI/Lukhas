@@ -188,9 +188,7 @@ class DebugInterface:
         self.component_states: dict[str, ComponentState] = {}
 
         # Performance tracking
-        self.performance_metrics: dict[str, deque] = defaultdict(
-            lambda: deque(maxlen=1000)
-        )
+        self.performance_metrics: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
         self.profiling_sessions: dict[str, dict[str, Any]] = {}
 
         # Trinity Framework debugging
@@ -377,9 +375,7 @@ class DebugInterface:
 
         return session_id
 
-    async def get_component_snapshot(
-        self, component_name: str
-    ) -> Optional[ComponentSnapshot]:
+    async def get_component_snapshot(self, component_name: str) -> Optional[ComponentSnapshot]:
         """
         Get a debug snapshot of a component.
 
@@ -421,16 +417,10 @@ class DebugInterface:
                     runtime_stats["health_error"] = str(e)
 
             # Count recent events for this component
-            recent_events = [
-                e
-                for e in list(self.debug_events)[-100:]
-                if e.component == component_name
-            ]
+            recent_events = [e for e in list(self.debug_events)[-100:] if e.component == component_name]
 
             error_count = len([e for e in recent_events if e.level == DebugLevel.ERROR])
-            warning_count = len(
-                [e for e in recent_events if e.level == DebugLevel.WARNING]
-            )
+            warning_count = len([e for e in recent_events if e.level == DebugLevel.WARNING])
 
             # Create snapshot
             snapshot = ComponentSnapshot(
@@ -483,9 +473,7 @@ class DebugInterface:
         start_time = end_time - timedelta(hours=time_range_hours)
 
         # Filter events by time range
-        filtered_events = [
-            e for e in self.debug_events if start_time <= e.timestamp <= end_time
-        ]
+        filtered_events = [e for e in self.debug_events if start_time <= e.timestamp <= end_time]
 
         # Filter by session if specified
         if session_id and session_id in self.active_sessions:
@@ -527,30 +515,18 @@ class DebugInterface:
         trinity_status = {
             "identity": {
                 "health": self._get_trinity_component_health("identity"),
-                "active_contexts": len(
-                    self.trinity_debug_state["identity"]["active_contexts"]
-                ),
-                "debug_level": self.trinity_debug_state["identity"][
-                    "debug_level"
-                ].value,
+                "active_contexts": len(self.trinity_debug_state["identity"]["active_contexts"]),
+                "debug_level": self.trinity_debug_state["identity"]["debug_level"].value,
             },
             "consciousness": {
                 "health": self._get_trinity_component_health("consciousness"),
-                "awareness_state": len(
-                    self.trinity_debug_state["consciousness"]["awareness_state"]
-                ),
-                "debug_level": self.trinity_debug_state["consciousness"][
-                    "debug_level"
-                ].value,
+                "awareness_state": len(self.trinity_debug_state["consciousness"]["awareness_state"]),
+                "debug_level": self.trinity_debug_state["consciousness"]["debug_level"].value,
             },
             "guardian": {
                 "health": self._get_trinity_component_health("guardian"),
-                "protection_active": bool(
-                    self.trinity_debug_state["guardian"]["protection_status"]
-                ),
-                "debug_level": self.trinity_debug_state["guardian"][
-                    "debug_level"
-                ].value,
+                "protection_active": bool(self.trinity_debug_state["guardian"]["protection_status"]),
+                "debug_level": self.trinity_debug_state["guardian"]["debug_level"].value,
             },
         }
 
@@ -579,9 +555,7 @@ class DebugInterface:
                 "by_level": dict(events_by_level),
                 "by_category": dict(events_by_category),
                 "by_component": dict(events_by_component),
-                "recent_events": [
-                    self._serialize_event(e) for e in filtered_events[-50:]
-                ],
+                "recent_events": [self._serialize_event(e) for e in filtered_events[-50:]],
             },
             # Component information
             "components": {
@@ -616,9 +590,7 @@ class DebugInterface:
             },
         }
 
-    async def start_profiling_session(
-        self, component_name: str, session_name: Optional[str] = None
-    ) -> str:
+    async def start_profiling_session(self, component_name: str, session_name: Optional[str] = None) -> str:
         """
         Start a performance profiling session for a component.
 
@@ -662,12 +634,8 @@ class DebugInterface:
         while True:
             try:
                 # Clean up old events
-                cutoff_time = datetime.now() - timedelta(
-                    hours=self.event_retention_hours
-                )
-                while (
-                    self.debug_events and self.debug_events[0].timestamp < cutoff_time
-                ):
+                cutoff_time = datetime.now() - timedelta(hours=self.event_retention_hours)
+                while self.debug_events and self.debug_events[0].timestamp < cutoff_time:
                     self.debug_events.popleft()
 
                 await asyncio.sleep(60)  # Clean up every minute
@@ -811,11 +779,7 @@ class DebugInterface:
         """Get Trinity Framework component health score."""
 
         # Simulate health calculation based on registered components
-        related_components = [
-            name
-            for name in self.registered_components
-            if framework_component in name.lower()
-        ]
+        related_components = [name for name in self.registered_components if framework_component in name.lower()]
 
         if not related_components:
             return 1.0
@@ -893,9 +857,7 @@ class DebugInterface:
         """Update Trinity Framework debug state."""
 
         # Update identity debug state (⚛️)
-        identity_components = [
-            name for name in self.registered_components if "identity" in name.lower()
-        ]
+        identity_components = [name for name in self.registered_components if "identity" in name.lower()]
         self.trinity_debug_state["identity"]["active_contexts"] = identity_components
 
         # Update consciousness debug state (🧠)
@@ -909,12 +871,8 @@ class DebugInterface:
         }
 
         # Update guardian debug state (🛡️)
-        guardian_components = [
-            name for name in self.registered_components if "guardian" in name.lower()
-        ]
-        self.trinity_debug_state["guardian"]["protection_status"] = {
-            comp: "protected" for comp in guardian_components
-        }
+        guardian_components = [name for name in self.registered_components if "guardian" in name.lower()]
+        self.trinity_debug_state["guardian"]["protection_status"] = {comp: "protected" for comp in guardian_components}
 
 
 # Export main classes

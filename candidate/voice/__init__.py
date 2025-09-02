@@ -151,17 +151,13 @@ class LUKHASVoiceSystem:
     def _initialize_subsystems(self):
         """Initialize all voice subsystems"""
         # Core audio processing
-        self.audio_processor = LUKHASAudioProcessor(
-            self.config.get("audio_processor", {})
-        )
+        self.audio_processor = LUKHASAudioProcessor(self.config.get("audio_processor", {}))
 
         # TTS service
         self.tts_service = LUKHASTTSService(self.config.get("tts", {}))
 
         # Speech recognition
-        self.speech_recognition = LUKHASSpeechRecognitionService(
-            self.config.get("speech_recognition", {})
-        )
+        self.speech_recognition = LUKHASSpeechRecognitionService(self.config.get("speech_recognition", {}))
 
         # Voice effects and modulation
         self.voice_effects = VoiceEffectsProcessor()
@@ -178,9 +174,7 @@ class LUKHASVoiceSystem:
         self.audio_pipeline = LUKHASAudioPipeline(pipeline_config)
 
         # Voice analytics
-        self.voice_analytics = LUKHASVoiceAnalytics(
-            self.config.get("voice_analytics", {})
-        )
+        self.voice_analytics = LUKHASVoiceAnalytics(self.config.get("voice_analytics", {}))
 
         # Audio codecs
         self.audio_codecs = LUKHASAudioCodecManager()
@@ -222,18 +216,13 @@ class LUKHASVoiceSystem:
         if effects_preset and response.success and response.audio_data:
             try:
                 buffer = AudioBuffer(
-                    data=np.frombuffer(response.audio_data, dtype=np.int16).astype(
-                        np.float32
-                    )
-                    / 32768.0,
+                    data=np.frombuffer(response.audio_data, dtype=np.int16).astype(np.float32) / 32768.0,
                     sample_rate=response.sample_rate,
                     channels=1,
                     format=AudioFormat.PCM_16,
                 )
 
-                effects_buffer = await self.voice_effects.apply_preset(
-                    buffer, effects_preset
-                )
+                effects_buffer = await self.voice_effects.apply_preset(buffer, effects_preset)
 
                 # Convert back to bytes
                 effects_audio = (effects_buffer.data * 32767).astype(np.int16).tobytes()
@@ -264,9 +253,7 @@ class LUKHASVoiceSystem:
         Returns:
             Speech recognition result
         """
-        request = SpeechRecognitionRequest(
-            audio_data=audio_data, language=language, quality=quality, **kwargs
-        )
+        request = SpeechRecognitionRequest(audio_data=audio_data, language=language, quality=quality, **kwargs)
 
         return await self.speech_recognition.recognize_speech(request)
 
@@ -371,9 +358,7 @@ async def quick_tts(text: str, voice_id: Optional[str] = None) -> bytes:
         raise RuntimeError(f"TTS failed: {response.error_message}")
 
 
-async def quick_stt(
-    audio_data: bytes, language: LanguageCode = LanguageCode.EN_US
-) -> str:
+async def quick_stt(audio_data: bytes, language: LanguageCode = LanguageCode.EN_US) -> str:
     """Quick speech-to-text conversion"""
     return await transcribe_audio(audio_data, language)
 
@@ -462,6 +447,4 @@ __all__ = [
 
 # Module initialization
 logger.info(f"LUKHAS Voice & Audio Systems Module v{__version__} loaded")
-logger.info(
-    "Available components: TTS, STT, Voice Effects, Audio Processing, Streaming, Analytics, Training"
-)
+logger.info("Available components: TTS, STT, Voice Effects, Audio Processing, Streaming, Analytics, Training")

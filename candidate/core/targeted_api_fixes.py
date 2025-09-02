@@ -51,9 +51,7 @@ def apply_actor_ref_fixes():
                 path.rename(backup_path)
                 path.write_text(new_content)
 
-                print(
-                    f"  ✅ Fixed {changes} instances in {path.name} (backup: {backup_path.name})"
-                )
+                print(f"  ✅ Fixed {changes} instances in {path.name} (backup: {backup_path.name})")
 
     print(f"  📊 Total ActorRef fixes applied: {replacements}")
     return replacements
@@ -82,10 +80,7 @@ def fix_communication_fabric():
             # Add total_messages if not present
             if "total_messages" not in stats_dict:
                 # Insert before the closing brace
-                new_stats = (
-                    stats_dict
-                    + '            "total_messages": self._message_count,\n            '
-                )
+                new_stats = stats_dict + '            "total_messages": self._message_count,\n            '
                 return new_stats + closing
             return match.group(0)
 
@@ -218,9 +213,7 @@ class DistributedAIAgent:
     system_path.rename(backup_path)
     system_path.write_text(content)
 
-    print(
-        f"  ✅ Updated integrated_system.py with DistributedAIAgent (backup: {backup_path.name})"
-    )
+    print(f"  ✅ Updated integrated_system.py with DistributedAIAgent (backup: {backup_path.name})")
     return True
 
 
@@ -236,10 +229,7 @@ def update_validation_script():
     content = validation_path.read_text()
 
     # Fix import - add DistributedAIAgent import
-    if (
-        "DistributedAIAgent" in content
-        and "from candidate.core.integrated_system import" in content
-    ):
+    if "DistributedAIAgent" in content and "from candidate.core.integrated_system import" in content:
         # Import pattern already exists, make sure DistributedAIAgent is included
         import_pattern = r"from core\.core\.integrated_system import ([^\n]*)"
 

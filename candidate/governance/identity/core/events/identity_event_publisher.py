@@ -146,10 +146,7 @@ class IdentityEventPublisher:
             }
 
             # Set healing requirements if verification failed
-            if (
-                not verification_result.verified
-                and verification_result.confidence_score < 0.3
-            ):
+            if not verification_result.verified and verification_result.confidence_score < 0.3:
                 event.requires_healing = True
                 event.healing_priority = "HIGH"
 
@@ -169,18 +166,12 @@ class IdentityEventPublisher:
     ) -> str:
         """Publish a tier change event."""
 
-        event_type = (
-            IdentityEventType.TIER_UPGRADE_APPROVED
-            if approved
-            else IdentityEventType.TIER_UPGRADE_DENIED
-        )
+        event_type = IdentityEventType.TIER_UPGRADE_APPROVED if approved else IdentityEventType.TIER_UPGRADE_DENIED
 
         event = IdentityEvent(
             event_type=event_type,
             lambda_id=lambda_id,
-            tier_level=(
-                tier_context.new_tier if approved else tier_context.previous_tier
-            ),
+            tier_level=(tier_context.new_tier if approved else tier_context.previous_tier),
             priority=IdentityEventPriority.HIGH,
             source_component="identity_tier_system",
             session_id=session_id,
@@ -208,9 +199,7 @@ class IdentityEventPublisher:
 
         # Trigger benefit activation if approved
         if approved:
-            await self.publish_tier_benefits_activation(
-                lambda_id, tier_context.new_tier, tier_context.benefits_delta
-            )
+            await self.publish_tier_benefits_activation(lambda_id, tier_context.new_tier, tier_context.benefits_delta)
 
         return event.event_id
 
@@ -265,11 +254,7 @@ class IdentityEventPublisher:
     ) -> str:
         """Publish a security-related event."""
 
-        priority = (
-            IdentityEventPriority.EMERGENCY
-            if immediate_action_required
-            else IdentityEventPriority.CRITICAL
-        )
+        priority = IdentityEventPriority.EMERGENCY if immediate_action_required else IdentityEventPriority.CRITICAL
 
         event = IdentityEvent(
             event_type=event_type,
@@ -299,9 +284,7 @@ class IdentityEventPublisher:
 
         # Trigger healing if needed
         if immediate_action_required:
-            await self.publish_healing_event(
-                lambda_id, tier_level, "SECURITY_THREAT", event.event_id
-            )
+            await self.publish_healing_event(lambda_id, tier_level, "SECURITY_THREAT", event.event_id)
 
         return event.event_id
 
@@ -328,8 +311,7 @@ class IdentityEventPublisher:
             },
             requires_healing=True,
             healing_priority="HIGH",
-            healing_strategy=healing_strategy
-            or self._determine_healing_strategy(tier_level),
+            healing_strategy=healing_strategy or self._determine_healing_strategy(tier_level),
         )
 
         await self._publish_event(event)
@@ -369,9 +351,7 @@ class IdentityEventPublisher:
 
         return event.event_id
 
-    async def publish_tier_benefits_activation(
-        self, lambda_id: str, tier_level: int, benefits: dict[str, Any]
-    ) -> str:
+    async def publish_tier_benefits_activation(self, lambda_id: str, tier_level: int, benefits: dict[str, Any]) -> str:
         """Publish tier benefits activation event."""
 
         event = IdentityEvent(
@@ -432,9 +412,7 @@ class IdentityEventPublisher:
 
         # Log security-critical events
         if event.is_security_critical():
-            logger.warning(
-                f"Security-critical event: {event.event_type.value} for {event.lambda_id}"
-            )
+            logger.warning(f"Security-critical event: {event.event_type.value} for {event.lambda_id}")
 
         # Execute registered handlers
         if event.event_type in self.event_handlers:
@@ -449,9 +427,7 @@ class IdentityEventPublisher:
 
         # Subscribe to all identity events for statistics
         for event_type in IdentityEventType:
-            await self.event_bus.subscribe(
-                event_type.value, self._track_event_statistics
-            )
+            await self.event_bus.subscribe(event_type.value, self._track_event_statistics)
 
     async def _track_event_statistics(self, event_data: dict[str, Any]):
         """Track event statistics for monitoring."""

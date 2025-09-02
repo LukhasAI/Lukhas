@@ -128,9 +128,7 @@ class TraumaSignature:
     def calculate_priority(self) -> float:
         """Calculate repair priority based on severity and spread"""
         spread_factor = math.log(len(self.affected_memories) + 1) / 10
-        time_factor = min(
-            (time.time() - self.detection_time) / 3600, 1.0
-        )  # Urgency increases over time
+        time_factor = min((time.time() - self.detection_time) / 3600, 1.0)  # Urgency increases over time
         return self.severity * (1 + spread_factor + time_factor)
 
 
@@ -190,9 +188,7 @@ class HelicalRepairMechanism:
             confidence = 0.7
         else:
             # Double strand available - high accuracy repair
-            repaired = await self._template_directed_repair(
-                primary_strand, complementary_strand
-            )
+            repaired = await self._template_directed_repair(primary_strand, complementary_strand)
             confidence = 0.95
 
         return repaired, confidence
@@ -240,10 +236,7 @@ class HelicalRepairMechanism:
         # Simplified corruption detection
         if data is None:
             return True
-        return bool(
-            isinstance(data, str)
-            and any(pattern in data.lower() for pattern in ["corrupt", "error", "�"])
-        )
+        return bool(isinstance(data, str) and any(pattern in data.lower() for pattern in ["corrupt", "error", "�"]))
 
 
 class TraumaRepairSystem:
@@ -341,9 +334,7 @@ class TraumaRepairSystem:
 
         # Check with CollapseHash for corruption
         if self.collapse_hash:
-            status, message = await self.collapse_hash.verify_memory(
-                memory_id, memory_content
-            )
+            status, message = await self.collapse_hash.verify_memory(memory_id, memory_content)
             if status == IntegrityStatus.CORRUPTED:
                 trauma_indicators.append("integrity_failure")
                 severity += 0.4
@@ -403,9 +394,7 @@ class TraumaRepairSystem:
 
         return None
 
-    async def initiate_repair(
-        self, trauma_id: str, strategy: Optional[RepairStrategy] = None
-    ) -> str:
+    async def initiate_repair(self, trauma_id: str, strategy: Optional[RepairStrategy] = None) -> str:
         """Initiate repair process for detected trauma"""
 
         if trauma_id not in self.active_traumas:
@@ -426,9 +415,7 @@ class TraumaRepairSystem:
         # Find support memories for scaffolding
         if self.persistence_layer:
             # Query similar healthy memories
-            support_memories = await self.persistence_layer.query_memories(
-                min_importance=0.7, limit=5
-            )
+            support_memories = await self.persistence_layer.query_memories(min_importance=0.7, limit=5)
             scaffold.support_memories = [m.memory_id for m in support_memories]
 
         self.repair_scaffolds[scaffold.scaffold_id] = scaffold
@@ -446,9 +433,7 @@ class TraumaRepairSystem:
 
         return scaffold.scaffold_id
 
-    async def apply_emdr_processing(
-        self, memory_id: str, memory_content: Any, cycles: int = 8
-    ) -> Any:
+    async def apply_emdr_processing(self, memory_id: str, memory_content: Any, cycles: int = 8) -> Any:
         """
         Apply EMDR-inspired bilateral processing for trauma integration.
         Alternates processing between left and right buffers.
@@ -481,10 +466,7 @@ class TraumaRepairSystem:
 
             if isinstance(processed_content, dict):
                 # Integrate missing parts
-                processed_content = {
-                    k: v if v is not None else f"integrated_{k}"
-                    for k, v in processed_content.items()
-                }
+                processed_content = {k: v if v is not None else f"integrated_{k}" for k, v in processed_content.items()}
 
             # Reduce trauma intensity
             await asyncio.sleep(0.1)  # Brief pause between cycles
@@ -493,9 +475,7 @@ class TraumaRepairSystem:
 
         return processed_content
 
-    async def build_scar_tissue(
-        self, memory_id: str, trauma_type: TraumaType, repair_data: dict[str, Any]
-    ):
+    async def build_scar_tissue(self, memory_id: str, trauma_type: TraumaType, repair_data: dict[str, Any]):
         """
         Build 'scar tissue' - strengthened memory structures
         that are more resilient to future trauma.
@@ -564,8 +544,7 @@ class TraumaRepairSystem:
             "total_detected": self.total_traumas_detected,
             "successful_repairs": self.successful_repairs,
             "failed_repairs": self.failed_repairs,
-            "success_rate": self.successful_repairs
-            / max(self.successful_repairs + self.failed_repairs, 1),
+            "success_rate": self.successful_repairs / max(self.successful_repairs + self.failed_repairs, 1),
             "immune_responses": len(self.immune_responses),
             "immune_activations": self.immune_activations,
             "scar_tissue_formed": len(self.scar_tissue),
@@ -589,9 +568,7 @@ class TraumaRepairSystem:
 
         return strategy_map.get(trauma.trauma_type, RepairStrategy.RECONSTRUCTION)
 
-    async def _execute_repair_strategy(
-        self, trauma: TraumaSignature, scaffold: RepairScaffold
-    ):
+    async def _execute_repair_strategy(self, trauma: TraumaSignature, scaffold: RepairScaffold):
         """Execute the selected repair strategy"""
 
         strategy = scaffold.repair_strategy
@@ -614,9 +591,7 @@ class TraumaRepairSystem:
         elif strategy == RepairStrategy.TRANSFORMATION:
             await self._transform_trauma(trauma, scaffold)
 
-    async def _reconstruct_memory(
-        self, trauma: TraumaSignature, scaffold: RepairScaffold
-    ):
+    async def _reconstruct_memory(self, trauma: TraumaSignature, scaffold: RepairScaffold):
         """Reconstruct corrupted memory"""
 
         memory_id = scaffold.target_memory_id
@@ -624,9 +599,7 @@ class TraumaRepairSystem:
         # Use helical repair with support memories as templates
         if scaffold.support_memories and self.persistence_layer:
             # Get a support memory as template
-            template = await self.persistence_layer.retrieve_memory(
-                scaffold.support_memories[0]
-            )
+            template = await self.persistence_layer.retrieve_memory(scaffold.support_memories[0])
 
             if template:
                 # Retrieve damaged memory
@@ -634,16 +607,10 @@ class TraumaRepairSystem:
 
                 if damaged:
                     # Perform helical repair
-                    repaired, confidence = (
-                        await self.helical_repair.repair_double_strand_break(
-                            damaged, template
-                        )
-                    )
+                    repaired, confidence = await self.helical_repair.repair_double_strand_break(damaged, template)
 
                     # Update memory
-                    success = await self.persistence_layer.update_memory(
-                        memory_id, repaired
-                    )
+                    success = await self.persistence_layer.update_memory(memory_id, repaired)
 
                     if success:
                         scaffold.healing_progress = confidence
@@ -662,9 +629,7 @@ class TraumaRepairSystem:
                             confidence=confidence,
                         )
 
-    async def _quarantine_infection(
-        self, trauma: TraumaSignature, scaffold: RepairScaffold
-    ):
+    async def _quarantine_infection(self, trauma: TraumaSignature, scaffold: RepairScaffold):
         """Quarantine infected memory"""
 
         memory_id = scaffold.target_memory_id
@@ -696,13 +661,9 @@ class TraumaRepairSystem:
         # Create immune response
         await self._create_immune_memory(str(trauma.symptoms))
 
-        logger.warning(
-            "Memory quarantined", memory_id=memory_id, threat_level=trauma.severity
-        )
+        logger.warning("Memory quarantined", memory_id=memory_id, threat_level=trauma.severity)
 
-    async def _integrate_fragments(
-        self, trauma: TraumaSignature, scaffold: RepairScaffold
-    ):
+    async def _integrate_fragments(self, trauma: TraumaSignature, scaffold: RepairScaffold):
         """Integrate fragmented memories"""
 
         # Apply EMDR-like processing
@@ -710,22 +671,16 @@ class TraumaRepairSystem:
             if self.persistence_layer:
                 memory = await self.persistence_layer.retrieve_memory(memory_id)
                 if memory:
-                    integrated = await self.apply_emdr_processing(
-                        memory_id, memory, cycles=8
-                    )
+                    integrated = await self.apply_emdr_processing(memory_id, memory, cycles=8)
 
                     await self.persistence_layer.update_memory(memory_id, integrated)
 
         scaffold.healing_progress = 0.8
         self.successful_repairs += 1
 
-        logger.info(
-            "Fragments integrated", affected_count=len(trauma.affected_memories)
-        )
+        logger.info("Fragments integrated", affected_count=len(trauma.affected_memories))
 
-    async def _regenerate_memory(
-        self, trauma: TraumaSignature, scaffold: RepairScaffold
-    ):
+    async def _regenerate_memory(self, trauma: TraumaSignature, scaffold: RepairScaffold):
         """Regenerate degraded memory"""
 
         memory_id = scaffold.target_memory_id
@@ -735,9 +690,7 @@ class TraumaRepairSystem:
             memory = await self.persistence_layer.retrieve_memory(memory_id)
             if memory:
                 # Translate to protein for regeneration
-                protein_id = await self.proteome.translate_memory(
-                    memory_id, memory, priority=True
-                )
+                protein_id = await self.proteome.translate_memory(memory_id, memory, priority=True)
 
                 # Apply growth factors (modifications)
                 await self.proteome.modify_protein(
@@ -753,9 +706,7 @@ class TraumaRepairSystem:
                 scaffold.healing_progress = 0.7
                 self.successful_repairs += 1
 
-    async def _stabilize_memory(
-        self, trauma: TraumaSignature, scaffold: RepairScaffold
-    ):
+    async def _stabilize_memory(self, trauma: TraumaSignature, scaffold: RepairScaffold):
         """Stabilize suppressed or weak memory"""
 
         memory_id = scaffold.target_memory_id
@@ -775,9 +726,7 @@ class TraumaRepairSystem:
                 scaffold.healing_progress = 0.9
                 self.successful_repairs += 1
 
-    async def _transform_trauma(
-        self, trauma: TraumaSignature, scaffold: RepairScaffold
-    ):
+    async def _transform_trauma(self, trauma: TraumaSignature, scaffold: RepairScaffold):
         """Transform traumatic memory into wisdom"""
 
         memory_id = scaffold.target_memory_id
@@ -796,13 +745,9 @@ class TraumaRepairSystem:
 
                 # Extract lessons based on trauma
                 if "error" in str(memory).lower():
-                    wisdom["lessons_learned"].append(
-                        "Error handling improves resilience"
-                    )
+                    wisdom["lessons_learned"].append("Error handling improves resilience")
                 if "conflict" in str(memory).lower():
-                    wisdom["lessons_learned"].append(
-                        "Conflict resolution builds strength"
-                    )
+                    wisdom["lessons_learned"].append("Conflict resolution builds strength")
 
                 # Create new wisdom memory
                 wisdom_id = await self.persistence_layer.persist_memory(
@@ -814,9 +759,7 @@ class TraumaRepairSystem:
                 scaffold.healing_progress = 1.0
                 self.successful_repairs += 1
 
-                logger.info(
-                    "Trauma transformed to wisdom", original=memory_id, wisdom=wisdom_id
-                )
+                logger.info("Trauma transformed to wisdom", original=memory_id, wisdom=wisdom_id)
 
     async def _create_immune_memory(self, threat_pattern: str):
         """Create immune memory for future protection"""
@@ -850,9 +793,7 @@ class TraumaRepairSystem:
         success_rate = self.successful_repairs / max(self.total_traumas_detected, 1)
 
         # Healing capacity decreases with load, increases with success
-        capacity = (
-            (1.0 - active_load) * (1.0 - repair_load) * (0.5 + 0.5 * success_rate)
-        )
+        capacity = (1.0 - active_load) * (1.0 - repair_load) * (0.5 + 0.5 * success_rate)
 
         return max(0.1, min(1.0, capacity))
 
@@ -966,19 +907,13 @@ async def demonstrate_trauma_repair():
     # Detect traumas
     print("\n--- Detecting Traumas ---")
 
-    trauma1 = await repair_system.detect_trauma(
-        memory_ids[0] if memory_ids else "test_1", corrupted_memory
-    )
+    trauma1 = await repair_system.detect_trauma(memory_ids[0] if memory_ids else "test_1", corrupted_memory)
     print(f"Trauma 1: {trauma1.trauma_type.value if trauma1 else 'None'}")
 
-    trauma2 = await repair_system.detect_trauma(
-        memory_ids[1] if memory_ids else "test_2", fragmented_memory
-    )
+    trauma2 = await repair_system.detect_trauma(memory_ids[1] if memory_ids else "test_2", fragmented_memory)
     print(f"Trauma 2: {trauma2.trauma_type.value if trauma2 else 'None'}")
 
-    trauma3 = await repair_system.detect_trauma(
-        memory_ids[2] if memory_ids else "test_3", infected_memory
-    )
+    trauma3 = await repair_system.detect_trauma(memory_ids[2] if memory_ids else "test_3", infected_memory)
     print(f"Trauma 3: {trauma3.trauma_type.value if trauma3 else 'None'}")
 
     # Initiate repairs
@@ -989,9 +924,7 @@ async def demonstrate_trauma_repair():
         print(f"Repair scaffold 1: {scaffold1[:16]}...")
 
     if trauma2:
-        scaffold2 = await repair_system.initiate_repair(
-            trauma2.trauma_id, RepairStrategy.INTEGRATION
-        )
+        scaffold2 = await repair_system.initiate_repair(trauma2.trauma_id, RepairStrategy.INTEGRATION)
         print(f"Repair scaffold 2: {scaffold2[:16]}...")
 
     # Wait for some repairs

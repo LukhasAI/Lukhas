@@ -61,9 +61,7 @@ class GuardianSystem:
         # The __init__ will be called every time, but the instance is the same.
         # We can use a flag to do initialization only once.
         if not hasattr(self, "_initialized"):
-            self._enhanced_system = EnhancedGuardianSystem(
-                config={"drift_threshold": drift_threshold}
-            )
+            self._enhanced_system = EnhancedGuardianSystem(config={"drift_threshold": drift_threshold})
             self.drift_threshold = drift_threshold
             self._initialized = True
 
@@ -97,9 +95,7 @@ class GuardianSystem:
                 # The check_drift method is expected to return a simple float score.
                 return threat_detection.threat_score
 
-            logger.warning(
-                "Guardian `detect_threat` did not return a detection object."
-            )
+            logger.warning("Guardian `detect_threat` did not return a detection object.")
             return 0.0
 
         except Exception as e:

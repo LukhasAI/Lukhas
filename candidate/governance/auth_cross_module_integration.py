@@ -308,9 +308,7 @@ class AuthCrossModuleIntegrator:
                 target_modules = list(self.registered_modules.keys())
 
             # Create module auth context
-            module_context = await self._create_module_auth_context(
-                user_id, auth_context
-            )
+            module_context = await self._create_module_auth_context(user_id, auth_context)
 
             # Store context
             self.active_contexts[user_id] = module_context
@@ -318,9 +316,7 @@ class AuthCrossModuleIntegrator:
             # Send to each target module
             for module_type in target_modules:
                 if module_type in self.registered_modules:
-                    success = await self._send_auth_context_to_module(
-                        module_type, user_id, auth_event, auth_context
-                    )
+                    success = await self._send_auth_context_to_module(module_type, user_id, auth_event, auth_context)
                     results[module_type.value] = success
                 else:
                     results[module_type.value] = False
@@ -335,9 +331,7 @@ class AuthCrossModuleIntegrator:
             print(f"Error propagating auth context: {e}")
             return {}
 
-    async def _create_module_auth_context(
-        self, user_id: str, auth_context: dict[str, Any]
-    ) -> ModuleAuthContext:
+    async def _create_module_auth_context(self, user_id: str, auth_context: dict[str, Any]) -> ModuleAuthContext:
         """Create authentication context for module consumption"""
         # Extract key authentication information
         tier_level = auth_context.get("tier_level", "T1")
@@ -352,14 +346,8 @@ class AuthCrossModuleIntegrator:
                 symbolic_identity = symbolic_identity_obj.composite_glyph
 
         # Determine constitutional and guardian status
-        constitutional_status = (
-            "valid" if auth_context.get("constitutional_valid", True) else "violation"
-        )
-        guardian_status = (
-            "monitoring"
-            if auth_context.get("guardian_monitoring", False)
-            else "inactive"
-        )
+        constitutional_status = "valid" if auth_context.get("constitutional_valid", True) else "violation"
+        guardian_status = "monitoring" if auth_context.get("guardian_monitoring", False) else "inactive"
 
         return ModuleAuthContext(
             module_type=ModuleType.CORE,  # Will be updated per module
@@ -389,10 +377,8 @@ class AuthCrossModuleIntegrator:
                 return False
 
             # Get Constellation context for module
-            constellation_context = (
-                self.constellation_integration.get_constellation_context_for_module(
-                    module_type, auth_context
-                )
+            constellation_context = self.constellation_integration.get_constellation_context_for_module(
+                module_type, auth_context
             )
 
             # Create GLYPH message
@@ -495,9 +481,7 @@ class AuthCrossModuleIntegrator:
                 "priority": message.priority,
             }
 
-            await self.kernel_bus.publish(
-                f"auth.{message.target_module.value}", kernel_message
-            )
+            await self.kernel_bus.publish(f"auth.{message.target_module.value}", kernel_message)
             return True
 
         except Exception as e:
@@ -542,8 +526,7 @@ class AuthCrossModuleIntegrator:
                 "consciousness_state": "authenticated",
                 "trinity_aspect": "consciousness",
                 "symbolic_identity": auth_context.get("symbolic_identity"),
-                "memory_access": "consciousness:access"
-                in auth_context.get("scopes", []),
+                "memory_access": "consciousness:access" in auth_context.get("scopes", []),
             }
 
         return {
@@ -559,9 +542,7 @@ class AuthCrossModuleIntegrator:
             return {
                 "memory_integration": True,
                 "user_identity": auth_context.get("user_id"),
-                "memory_permissions": [
-                    s for s in auth_context.get("scopes", []) if "memory:" in s
-                ],
+                "memory_permissions": [s for s in auth_context.get("scopes", []) if "memory:" in s],
                 "fold_access_level": auth_context.get("tier_level", "T1"),
                 "identity_persistence": True,
                 "symbolic_memory": auth_context.get("symbolic_identity"),
@@ -583,9 +564,7 @@ class AuthCrossModuleIntegrator:
                 "user_context": auth_context.get("user_id"),
                 "reasoning_scope": auth_context.get("scopes", []),
                 "logic_tier": auth_context.get("tier_level", "T1"),
-                "constitutional_reasoning": auth_context.get(
-                    "constitutional_valid", True
-                ),
+                "constitutional_reasoning": auth_context.get("constitutional_valid", True),
                 "bias_aware": True,
                 "symbolic_logic": auth_context.get("symbolic_identity"),
             }
@@ -605,9 +584,7 @@ class AuthCrossModuleIntegrator:
                 "user_emotional_context": auth_context.get("user_id"),
                 "emotional_permissions": auth_context.get("scopes", []),
                 "mood_tier": auth_context.get("tier_level", "T1"),
-                "constitutional_emotion": auth_context.get(
-                    "constitutional_valid", True
-                ),
+                "constitutional_emotion": auth_context.get("constitutional_valid", True),
                 "empathy_enabled": True,
                 "symbolic_emotion": auth_context.get("symbolic_identity"),
             }
@@ -627,9 +604,7 @@ class AuthCrossModuleIntegrator:
                 "creative_user": auth_context.get("user_id"),
                 "creative_permissions": auth_context.get("scopes", []),
                 "creative_tier": auth_context.get("tier_level", "T1"),
-                "constitutional_creativity": auth_context.get(
-                    "constitutional_valid", True
-                ),
+                "constitutional_creativity": auth_context.get("constitutional_valid", True),
                 "imagination_enabled": True,
                 "symbolic_creativity": auth_context.get("symbolic_identity"),
             }
@@ -651,8 +626,7 @@ class AuthCrossModuleIntegrator:
                 "qi_tier": auth_context.get("tier_level", "T1"),
                 "qi_identity": auth_context.get("symbolic_identity"),
                 "entanglement_enabled": True,
-                "superposition_access": "quantum:"
-                in str(auth_context.get("scopes", [])),
+                "superposition_access": "quantum:" in str(auth_context.get("scopes", [])),
             }
 
         return {
@@ -774,9 +748,7 @@ class AuthCrossModuleIntegrator:
         for module_type in self.registered_modules:
             adapter = self.module_adapters.get(module_type)
             if adapter:
-                module_contexts[module_type.value] = await adapter["prepare_payload"](
-                    context.metadata
-                )
+                module_contexts[module_type.value] = await adapter["prepare_payload"](context.metadata)
 
         return {
             "user_id": user_id,

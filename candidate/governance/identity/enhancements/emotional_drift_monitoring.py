@@ -131,15 +131,11 @@ class EmotionalDriftMonitor:
         """
         Analyze emotional drift patterns over specified period
         """
-        logger.info(
-            f"🧠 Analyzing emotional drift for {user_id} over {analysis_days} days"
-        )
+        logger.info(f"🧠 Analyzing emotional drift for {user_id} over {analysis_days} days")
 
         try:
             # Convert session data to emotional data points
-            emotional_data = self._extract_emotional_data(
-                session_history, analysis_days
-            )
+            emotional_data = self._extract_emotional_data(session_history, analysis_days)
 
             if len(emotional_data) < 3:
                 return self._create_insufficient_data_result(user_id, analysis_days)
@@ -158,19 +154,13 @@ class EmotionalDriftMonitor:
 
             # Identify risk factors and positive indicators
             risk_factors = self._identify_risk_factors(emotional_data, patterns)
-            positive_indicators = self._identify_positive_indicators(
-                emotional_data, patterns
-            )
+            positive_indicators = self._identify_positive_indicators(emotional_data, patterns)
 
             # Generate recommendations
-            recommendations = self._generate_recommendations(
-                mood_slope, patterns, stability_score
-            )
+            recommendations = self._generate_recommendations(mood_slope, patterns, stability_score)
 
             # Determine if intervention is suggested
-            intervention_suggested = self._should_suggest_intervention(
-                mood_slope, risk_factors, stability_score
-            )
+            intervention_suggested = self._should_suggest_intervention(mood_slope, risk_factors, stability_score)
 
             return DriftAnalysisResult(
                 user_id=user_id,
@@ -190,18 +180,14 @@ class EmotionalDriftMonitor:
             logger.error(f"❌ Emotional drift analysis failed: {e}")
             return self._create_error_result(user_id, analysis_days, str(e))
 
-    def _extract_emotional_data(
-        self, session_history: list[dict[str, Any]], days: int
-    ) -> list[EmotionalDataPoint]:
+    def _extract_emotional_data(self, session_history: list[dict[str, Any]], days: int) -> list[EmotionalDataPoint]:
         """Extract emotional data points from session history"""
 
         cutoff_date = datetime.utcnow() - timedelta(days=days)
         emotional_data = []
 
         for session in session_history:
-            session_time = datetime.fromisoformat(
-                session.get("timestamp", datetime.utcnow().isoformat())
-            )
+            session_time = datetime.fromisoformat(session.get("timestamp", datetime.utcnow().isoformat()))
 
             if session_time < cutoff_date:
                 continue
@@ -210,9 +196,7 @@ class EmotionalDriftMonitor:
             attention_metrics = session.get("attention_metrics", {})
 
             # Calculate mood valence from consciousness state and metrics
-            mood_valence = self._calculate_mood_valence(
-                consciousness_state, attention_metrics
-            )
+            mood_valence = self._calculate_mood_valence(consciousness_state, attention_metrics)
 
             # Calculate stress indicators
             stress_indicators = self._calculate_stress_indicators(session)
@@ -228,9 +212,7 @@ class EmotionalDriftMonitor:
                 coherence_score=attention_metrics.get("coherence", 0.5),
                 stress_indicators=stress_indicators,
                 mood_valence=mood_valence,
-                energy_level=self._estimate_energy_level(
-                    consciousness_state, attention_metrics
-                ),
+                energy_level=self._estimate_energy_level(consciousness_state, attention_metrics),
                 session_quality=session_quality,
             )
 
@@ -240,14 +222,10 @@ class EmotionalDriftMonitor:
         emotional_data.sort(key=lambda x: x.timestamp)
         return emotional_data
 
-    def _calculate_mood_valence(
-        self, consciousness_state: str, attention_metrics: dict[str, float]
-    ) -> float:
+    def _calculate_mood_valence(self, consciousness_state: str, attention_metrics: dict[str, float]) -> float:
         """Calculate mood valence from consciousness and metrics"""
 
-        state_weights = self.consciousness_weights.get(
-            consciousness_state, {"valence": 0.5}
-        )
+        state_weights = self.consciousness_weights.get(consciousness_state, {"valence": 0.5})
         base_valence = state_weights["valence"]
 
         # Adjust based on attention metrics
@@ -256,9 +234,7 @@ class EmotionalDriftMonitor:
         coherence = attention_metrics.get("coherence", 0.5)
 
         # Weighted combination
-        calculated_valence = (
-            base_valence * 0.4 + attention * 0.2 + creativity * 0.2 + coherence * 0.2
-        )
+        calculated_valence = base_valence * 0.4 + attention * 0.2 + creativity * 0.2 + coherence * 0.2
 
         # Normalize to -1.0 to +1.0 range
         return (calculated_valence * 2.0) - 1.0
@@ -309,14 +285,10 @@ class EmotionalDriftMonitor:
 
         return max(0.0, min(1.0, quality_score))
 
-    def _estimate_energy_level(
-        self, consciousness_state: str, attention_metrics: dict[str, float]
-    ) -> float:
+    def _estimate_energy_level(self, consciousness_state: str, attention_metrics: dict[str, float]) -> float:
         """Estimate energy level from consciousness and metrics"""
 
-        state_weights = self.consciousness_weights.get(
-            consciousness_state, {"energy": 0.5}
-        )
+        state_weights = self.consciousness_weights.get(consciousness_state, {"energy": 0.5})
         base_energy = state_weights["energy"]
 
         attention = attention_metrics.get("attention", 0.5)
@@ -327,9 +299,7 @@ class EmotionalDriftMonitor:
 
         return max(0.0, min(1.0, estimated_energy))
 
-    def _calculate_mood_slope(
-        self, emotional_data: list[EmotionalDataPoint]
-    ) -> tuple[MoodSlope, float]:
+    def _calculate_mood_slope(self, emotional_data: list[EmotionalDataPoint]) -> tuple[MoodSlope, float]:
         """Calculate mood slope using linear regression"""
 
         if len(emotional_data) < 2:
@@ -337,8 +307,7 @@ class EmotionalDriftMonitor:
 
         # Prepare data for regression
         x_values = [
-            (dp.timestamp - emotional_data[0].timestamp).total_seconds() / 86400
-            for dp in emotional_data
+            (dp.timestamp - emotional_data[0].timestamp).total_seconds() / 86400 for dp in emotional_data
         ]  # Days
         y_values = [dp.mood_valence for dp in emotional_data]
 
@@ -347,11 +316,7 @@ class EmotionalDriftMonitor:
             slope, _ = np.polyfit(x_values, y_values, 1)
         except BaseException:
             # Fallback calculation
-            slope = (
-                (y_values[-1] - y_values[0]) / (x_values[-1] - x_values[0])
-                if x_values[-1] != x_values[0]
-                else 0.0
-            )
+            slope = (y_values[-1] - y_values[0]) / (x_values[-1] - x_values[0]) if x_values[-1] != x_values[0] else 0.0
 
         # Classify slope
         if slope > 0.05:
@@ -371,9 +336,7 @@ class EmotionalDriftMonitor:
 
         return mood_slope, slope
 
-    def _determine_overall_trend(
-        self, emotional_data: list[EmotionalDataPoint], slope_value: float
-    ) -> EmotionalTrend:
+    def _determine_overall_trend(self, emotional_data: list[EmotionalDataPoint], slope_value: float) -> EmotionalTrend:
         """Determine overall emotional trend"""
 
         if len(emotional_data) < 3:
@@ -392,9 +355,7 @@ class EmotionalDriftMonitor:
         else:
             return EmotionalTrend.STABLE
 
-    def _calculate_stability_score(
-        self, emotional_data: list[EmotionalDataPoint]
-    ) -> float:
+    def _calculate_stability_score(self, emotional_data: list[EmotionalDataPoint]) -> float:
         """Calculate emotional stability score"""
 
         if len(emotional_data) < 2:
@@ -417,9 +378,7 @@ class EmotionalDriftMonitor:
 
         return statistics.mean(stability_factors) if stability_factors else 0.5
 
-    async def _detect_emotional_patterns(
-        self, emotional_data: list[EmotionalDataPoint]
-    ) -> list[EmotionalPattern]:
+    async def _detect_emotional_patterns(self, emotional_data: list[EmotionalDataPoint]) -> list[EmotionalPattern]:
         """Detect emotional patterns in the data"""
 
         patterns = []
@@ -429,12 +388,8 @@ class EmotionalDriftMonitor:
 
         # Pattern 1: Consistent consciousness state preference
         consciousness_states = [dp.consciousness_state for dp in emotional_data]
-        most_common_state = max(
-            set(consciousness_states), key=consciousness_states.count
-        )
-        state_frequency = consciousness_states.count(most_common_state) / len(
-            consciousness_states
-        )
+        most_common_state = max(set(consciousness_states), key=consciousness_states.count)
+        state_frequency = consciousness_states.count(most_common_state) / len(consciousness_states)
 
         if state_frequency > 0.7:
             patterns.append(
@@ -445,9 +400,7 @@ class EmotionalDriftMonitor:
                     trend_direction=EmotionalTrend.STABLE,
                     mood_slope=MoodSlope.NEUTRAL,
                     key_indicators=[f"Prefers {most_common_state} consciousness state"],
-                    recommendations=[
-                        f"Optimize authentication flow for {most_common_state} state"
-                    ],
+                    recommendations=[f"Optimize authentication flow for {most_common_state} state"],
                 )
             )
 
@@ -460,9 +413,7 @@ class EmotionalDriftMonitor:
             weekday_moods[weekday].append(dp.mood_valence)
 
         if len(weekday_moods) >= 5:  # Have data for most weekdays
-            weekday_averages = {
-                day: statistics.mean(moods) for day, moods in weekday_moods.items()
-            }
+            weekday_averages = {day: statistics.mean(moods) for day, moods in weekday_moods.items()}
             max_day = max(weekday_averages, key=weekday_averages.get)
             min_day = min(weekday_averages, key=weekday_averages.get)
 
@@ -478,9 +429,7 @@ class EmotionalDriftMonitor:
                             f"Higher mood on day {max_day}",
                             f"Lower mood on day {min_day}",
                         ],
-                        recommendations=[
-                            "Consider workload adjustment based on weekly patterns"
-                        ],
+                        recommendations=["Consider workload adjustment based on weekly patterns"],
                     )
                 )
 
@@ -494,9 +443,7 @@ class EmotionalDriftMonitor:
         risk_factors = []
 
         # Check for declining trends
-        recent_data = (
-            emotional_data[-7:] if len(emotional_data) >= 7 else emotional_data
-        )
+        recent_data = emotional_data[-7:] if len(emotional_data) >= 7 else emotional_data
         if recent_data:
             recent_mood_avg = statistics.mean([dp.mood_valence for dp in recent_data])
             if recent_mood_avg < -0.3:
@@ -517,9 +464,7 @@ class EmotionalDriftMonitor:
                 risk_factors.append("Declining session quality")
 
         # Check for volatile patterns
-        volatile_patterns = [
-            p for p in patterns if p.trend_direction == EmotionalTrend.VOLATILE
-        ]
+        volatile_patterns = [p for p in patterns if p.trend_direction == EmotionalTrend.VOLATILE]
         if volatile_patterns:
             risk_factors.append("Emotional volatility detected")
 
@@ -533,13 +478,9 @@ class EmotionalDriftMonitor:
         positive_indicators = []
 
         # Check for improving trends
-        recent_data = (
-            emotional_data[-7:] if len(emotional_data) >= 7 else emotional_data
-        )
+        recent_data = emotional_data[-7:] if len(emotional_data) >= 7 else emotional_data
         if len(recent_data) >= 2:
-            recent_improvement = (
-                recent_data[-1].mood_valence - recent_data[0].mood_valence
-            )
+            recent_improvement = recent_data[-1].mood_valence - recent_data[0].mood_valence
             if recent_improvement > 0.2:
                 positive_indicators.append("Recent mood improvement")
 
@@ -602,9 +543,7 @@ class EmotionalDriftMonitor:
                 ]
             )
         elif stability_score > 0.8:
-            recommendations.append(
-                "Excellent emotional stability - continue current practices"
-            )
+            recommendations.append("Excellent emotional stability - continue current practices")
 
         # Pattern based recommendations
         for pattern in patterns:
@@ -626,9 +565,7 @@ class EmotionalDriftMonitor:
             or "Sustained negative mood pattern" in risk_factors
         )
 
-    def _create_insufficient_data_result(
-        self, user_id: str, days: int
-    ) -> DriftAnalysisResult:
+    def _create_insufficient_data_result(self, user_id: str, days: int) -> DriftAnalysisResult:
         """Create result for insufficient data"""
 
         return DriftAnalysisResult(
@@ -641,15 +578,11 @@ class EmotionalDriftMonitor:
             patterns=[],
             risk_factors=["Insufficient data for analysis"],
             positive_indicators=[],
-            recommendations=[
-                "Continue using the system to enable emotional pattern analysis"
-            ],
+            recommendations=["Continue using the system to enable emotional pattern analysis"],
             intervention_suggested=False,
         )
 
-    def _create_error_result(
-        self, user_id: str, days: int, error: str
-    ) -> DriftAnalysisResult:
+    def _create_error_result(self, user_id: str, days: int, error: str) -> DriftAnalysisResult:
         """Create error result"""
 
         return DriftAnalysisResult(

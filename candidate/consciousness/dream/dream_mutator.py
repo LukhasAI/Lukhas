@@ -38,19 +38,14 @@ def load_latest_dream(path=DREAM_LOG_PATH):
 
 
 def mutate_emotional_wave(original_wave):
-    return [
-        round(min(max(e + random.uniform(-0.3, 0.3), 0.0), 1.0), 2)
-        for e in original_wave
-    ]
+    return [round(min(max(e + random.uniform(-0.3, 0.3), 0.0), 1.0), 2) for e in original_wave]
 
 
 def mutate_dream(dream):
     mutated = dict(dream)
     mutated["dream_id"] = f"MUT_{dream['dream_id']}"
     mutated["created_at"] = datetime.utcnow().isoformat() + "Z"
-    mutated["emotional_wave"] = mutate_emotional_wave(
-        dream.get("emotional_wave", [0.5] * 5)
-    )
+    mutated["emotional_wave"] = mutate_emotional_wave(dream.get("emotional_wave", [0.5] * 5))
     mutated["mutation_of"] = dream["dream_id"]
     mutated["mutation_type"] = "emotional_wave_adjustment"
     return mutated

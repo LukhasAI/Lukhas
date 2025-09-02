@@ -52,9 +52,7 @@ class BridgeTokenMap:
             target_token=target_token,
         )
 
-    def get_mapping(
-        self, source_system: str, target_system: str, source_token: str
-    ) -> Optional[str]:
+    def get_mapping(self, source_system: str, target_system: str, source_token: str) -> Optional[str]:
         """
         Gets the mapping for a given token.
 
@@ -66,11 +64,7 @@ class BridgeTokenMap:
         Returns:
             Optional[str]: The target token, or None if no mapping exists.
         """
-        return (
-            self.token_map.get(source_system, {})
-            .get(target_system, {})
-            .get(source_token)
-        )
+        return self.token_map.get(source_system, {}).get(target_system, {}).get(source_token)
 
     def get_schema(self) -> dict[str, Any]:
         """

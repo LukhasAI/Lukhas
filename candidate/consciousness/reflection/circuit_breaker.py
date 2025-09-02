@@ -232,11 +232,7 @@ class AdvancedCircuitBreaker:
                 return True
 
             # Check slow call rate
-            slow_calls = sum(
-                1
-                for _, _, duration in recent_calls
-                if duration > self.slow_call_duration
-            )
+            slow_calls = sum(1 for _, _, duration in recent_calls if duration > self.slow_call_duration)
             slow_rate = slow_calls / len(recent_calls)
 
             if slow_rate > self.slow_call_rate_threshold:
@@ -259,9 +255,7 @@ class AdvancedCircuitBreaker:
             self.success_count = 0
             self.half_open_calls = 0
 
-        logger.info(
-            f"Circuit breaker {self.name}: {old_state.value} -> {new_state.value}"
-        )
+        logger.info(f"Circuit breaker {self.name}: {old_state.value} -> {new_state.value}")
 
         # Notify listeners
         for listener in self.state_change_listeners:
@@ -291,9 +285,7 @@ class AdvancedCircuitBreaker:
         for i, check in enumerate(self.health_checks):
             check_name = f"health_check_{i}"
             try:
-                result = await asyncio.wait_for(
-                    check.check_function(), timeout=check.timeout
-                )
+                result = await asyncio.wait_for(check.check_function(), timeout=check.timeout)
                 results[check_name] = bool(result)
             except Exception as e:
                 logger.error(f"Health check {check_name} failed: {e}")
@@ -315,11 +307,7 @@ class AdvancedCircuitBreaker:
                 }
 
             errors = sum(1 for _, success, _ in self.call_stats if not success)
-            slow_calls = sum(
-                1
-                for _, _, duration in self.call_stats
-                if duration > self.slow_call_duration
-            )
+            slow_calls = sum(1 for _, _, duration in self.call_stats if duration > self.slow_call_duration)
 
             return {
                 "state": self.state.value,
@@ -357,9 +345,7 @@ class AnomalyDetector:
         )
 
         # Anomaly history
-        self.anomaly_history: dict[str, list[tuple[float, str, float]]] = defaultdict(
-            list
-        )
+        self.anomaly_history: dict[str, list[tuple[float, str, float]]] = defaultdict(list)
 
         # Baseline statistics
         self.baselines: dict[str, dict[str, tuple[float, float]]] = {}
@@ -390,9 +376,7 @@ class AnomalyDetector:
                 z_score = self._calculate_z_score(metric_values)
                 if abs(z_score) > self.z_score_threshold:
                     anomalies.append((metric_name, z_score))
-                    self.anomaly_history[actor_id].append(
-                        (time.time(), metric_name, z_score)
-                    )
+                    self.anomaly_history[actor_id].append((time.time(), metric_name, z_score))
 
                 # Update baseline if no anomaly
                 else:
@@ -427,9 +411,7 @@ class AnomalyDetector:
 
             # Count recent anomalies
             recent_window = time.time() - 300  # Last 5 minutes
-            recent_anomalies = [
-                a for a in self.anomaly_history[actor_id] if a[0] > recent_window
-            ]
+            recent_anomalies = [a for a in self.anomaly_history[actor_id] if a[0] > recent_window]
 
             if not recent_anomalies:
                 return 0.0
@@ -557,9 +539,7 @@ class ConsensusValidator:
         tasks = []
 
         for actor_ref in actor_refs[: self.quorum_size * 2]:  # Query more than needed
-            task = asyncio.create_task(
-                self._query_actor_with_timeout(actor_ref, query, timeout)
-            )
+            task = asyncio.create_task(self._query_actor_with_timeout(actor_ref, query, timeout))
             tasks.append(task)
 
         # Gather responses
@@ -586,9 +566,7 @@ class ConsensusValidator:
 
         return consensus_reached, consensus_value
 
-    async def _query_actor_with_timeout(
-        self, actor_ref: ActorRef, query: str, timeout: float
-    ) -> Any:
+    async def _query_actor_with_timeout(self, actor_ref: ActorRef, query: str, timeout: float) -> Any:
         """Query an actor with timeout"""
         try:
             return await asyncio.wait_for(actor_ref.ask(query, {}), timeout=timeout)
@@ -622,9 +600,7 @@ class ConsensusValidator:
     def _create_cache_key(self, actor_refs: list[ActorRef], query: str) -> str:
         """Create cache key for consensus query"""
         sorted([ref.actor_id for ref in actor_refs])
-        return (
-            hashlib.sha256()
-        )  #  Changed from MD5 for securityf"{','.join(actor_ids}:{query}".encode()).hexdigest()
+        return hashlib.sha256()  #  Changed from MD5 for securityf"{','.join(actor_ids}:{query}".encode()).hexdigest()
 
 
 class CascadePreventionSystem:
@@ -669,9 +645,7 @@ class CascadePreventionSystem:
                 await self._monitoring_task
         logger.info("Cascade prevention system stopped")
 
-    def get_or_create_circuit_breaker(
-        self, actor_id: str, **kwargs
-    ) -> AdvancedCircuitBreaker:
+    def get_or_create_circuit_breaker(self, actor_id: str, **kwargs) -> AdvancedCircuitBreaker:
         """Get or create a circuit breaker for an actor"""
         if actor_id not in self.circuit_breakers:
             cb = AdvancedCircuitBreaker(name=actor_id, **kwargs)
@@ -702,9 +676,7 @@ class CascadePreventionSystem:
             if self.observability:
                 snapshot = await self._get_actor_snapshot(actor_ref.actor_id)
                 if snapshot:
-                    self.anomaly_detector.record_metric(
-                        actor_ref.actor_id, "mailbox_size", snapshot.mailbox_size
-                    )
+                    self.anomaly_detector.record_metric(actor_ref.actor_id, "mailbox_size", snapshot.mailbox_size)
 
             # Make the actual call
             result = await actor_ref.ask(message_type, payload, timeout=timeout)
@@ -712,33 +684,23 @@ class CascadePreventionSystem:
             # Check for anomalies
             anomalies = self.anomaly_detector.detect_anomalies(actor_ref.actor_id)
             if anomalies:
-                logger.warning(
-                    f"Anomalies detected in {actor_ref.actor_id}: {anomalies}"
-                )
+                logger.warning(f"Anomalies detected in {actor_ref.actor_id}: {anomalies}")
 
                 # Check anomaly score
                 score = self.anomaly_detector.get_anomaly_score(actor_ref.actor_id)
                 if score > 0.7:
                     self.error_tracker.quarantine_actor(actor_ref.actor_id)
-                    raise AnomalyDetected(
-                        f"High anomaly score ({score}) for {actor_ref.actor_id}"
-                    )
+                    raise AnomalyDetected(f"High anomaly score ({score}) for {actor_ref.actor_id}")
 
             return result
 
         return await cb.async_call(make_call)
 
-    async def validate_with_consensus(
-        self, actor_refs: list[ActorRef], query: str
-    ) -> tuple[bool, Any]:
+    async def validate_with_consensus(self, actor_refs: list[ActorRef], query: str) -> tuple[bool, Any]:
         """Validate a query with consensus among multiple actors"""
 
         # Filter out quarantined actors
-        valid_refs = [
-            ref
-            for ref in actor_refs
-            if not self.error_tracker.is_quarantined(ref.actor_id)
-        ]
+        valid_refs = [ref for ref in actor_refs if not self.error_tracker.is_quarantined(ref.actor_id)]
 
         if len(valid_refs) < self.consensus_validator.quorum_size:
             logger.error("Insufficient healthy actors for consensus")
@@ -751,9 +713,7 @@ class CascadePreventionSystem:
         self.error_tracker.record_failure(failure)
 
         # Update anomaly detection
-        self.anomaly_detector.record_metric(
-            failure.actor_id, f"failure_{failure.failure_type.value}", failure.severity
-        )
+        self.anomaly_detector.record_metric(failure.actor_id, f"failure_{failure.failure_type.value}", failure.severity)
 
         # Check for emergency conditions
         self._check_emergency_conditions()
@@ -783,15 +743,9 @@ class CascadePreventionSystem:
                 snapshot = await self._get_actor_snapshot(actor_id)
                 if snapshot:
                     # Record various metrics
-                    self.anomaly_detector.record_metric(
-                        actor_id, "message_rate", snapshot.message_rate
-                    )
-                    self.anomaly_detector.record_metric(
-                        actor_id, "error_rate", snapshot.error_rate
-                    )
-                    self.anomaly_detector.record_metric(
-                        actor_id, "memory_usage", snapshot.memory_usage
-                    )
+                    self.anomaly_detector.record_metric(actor_id, "message_rate", snapshot.message_rate)
+                    self.anomaly_detector.record_metric(actor_id, "error_rate", snapshot.error_rate)
+                    self.anomaly_detector.record_metric(actor_id, "memory_usage", snapshot.memory_usage)
             except Exception as e:
                 logger.debug(f"Failed to collect metrics for {actor_id}: {e}")
 
@@ -817,9 +771,7 @@ class CascadePreventionSystem:
                 tasks.append((actor_id, task))
 
         if tasks:
-            results = await asyncio.gather(
-                *[task for _, task in tasks], return_exceptions=True
-            )
+            results = await asyncio.gather(*[task for _, task in tasks], return_exceptions=True)
 
             for i, (actor_id, _) in enumerate(tasks):
                 if isinstance(results[i], Exception):
@@ -831,9 +783,7 @@ class CascadePreventionSystem:
 
         # Circuit breaker states
         open_circuits = sum(
-            1
-            for cb in self.circuit_breakers.values()
-            if cb.state in [CircuitState.OPEN, CircuitState.FORCED_OPEN]
+            1 for cb in self.circuit_breakers.values() if cb.state in [CircuitState.OPEN, CircuitState.FORCED_OPEN]
         )
         if self.circuit_breakers:
             cb_score = 1.0 - (open_circuits / len(self.circuit_breakers))
@@ -841,10 +791,7 @@ class CascadePreventionSystem:
 
         # Quarantined actors
         if self.actor_system.actors:
-            quarantine_score = 1.0 - (
-                len(self.error_tracker.quarantined_actors)
-                / len(self.actor_system.actors)
-            )
+            quarantine_score = 1.0 - (len(self.error_tracker.quarantined_actors) / len(self.actor_system.actors))
             scores.append(quarantine_score)
 
         # Anomaly scores
@@ -867,13 +814,8 @@ class CascadePreventionSystem:
         # Multiple conditions for emergency mode
         conditions = [
             self.system_health_score < 0.3,
-            len(self.error_tracker.quarantined_actors)
-            > len(self.actor_system.actors) * 0.5,
-            sum(
-                1
-                for cb in self.circuit_breakers.values()
-                if cb.state == CircuitState.OPEN
-            )
+            len(self.error_tracker.quarantined_actors) > len(self.actor_system.actors) * 0.5,
+            sum(1 for cb in self.circuit_breakers.values() if cb.state == CircuitState.OPEN)
             > len(self.circuit_breakers) * 0.5,
         ]
 
@@ -912,9 +854,7 @@ class CascadePreventionSystem:
             f"Open circuits: {len([cb for cb in self.circuit_breakers.values() if cb.state == CircuitState.OPEN])}"
         )
 
-    def _on_circuit_state_change(
-        self, name: str, old_state: CircuitState, new_state: CircuitState
-    ):
+    def _on_circuit_state_change(self, name: str, old_state: CircuitState, new_state: CircuitState):
         """Handle circuit breaker state changes"""
         logger.info(f"Circuit breaker {name}: {old_state.value} -> {new_state.value}")
 
@@ -934,10 +874,7 @@ class CascadePreventionSystem:
         return {
             "health_score": self.system_health_score,
             "emergency_mode": self.emergency_mode,
-            "circuit_breakers": {
-                actor_id: cb.get_metrics()
-                for actor_id, cb in self.circuit_breakers.items()
-            },
+            "circuit_breakers": {actor_id: cb.get_metrics() for actor_id, cb in self.circuit_breakers.items()},
             "quarantined_actors": list(self.error_tracker.quarantined_actors),
             "infected_actors": list(self.error_tracker.infected_actors),
             "propagation_analysis": self.error_tracker.analyze_propagation_patterns(),
@@ -987,9 +924,7 @@ async def demo_cascade_prevention():
     actors = []
     for i in range(5):
         failure_rate = 0.1 if i == 2 else 0.0  # One faulty actor
-        actor_ref = await system.create_actor(
-            TestActor, f"test-actor-{i}", failure_rate=failure_rate
-        )
+        actor_ref = await system.create_actor(TestActor, f"test-actor-{i}", failure_rate=failure_rate)
         actors.append(actor_ref)
 
     # Simulate cascading failure scenario
@@ -997,9 +932,7 @@ async def demo_cascade_prevention():
         try:
             # Make protected calls
             actor_ref = actors[i % len(actors)]
-            result = await cascade_prevention.protected_call(
-                actor_ref, "process", {"data": f"request_{i}"}
-            )
+            result = await cascade_prevention.protected_call(actor_ref, "process", {"data": f"request_{i}"})
             print(f"Request {i} processed: {result}")
 
         except CircuitBreakerOpen as e:
@@ -1025,9 +958,7 @@ async def demo_cascade_prevention():
     print(f"System status: {json.dumps(status, indent=2)}")
 
     # Test consensus validation
-    consensus_reached, value = await cascade_prevention.validate_with_consensus(
-        actors[:3], "get_state"
-    )
+    consensus_reached, value = await cascade_prevention.validate_with_consensus(actors[:3], "get_state")
     print(f"Consensus validation: {consensus_reached}, value: {value}")
 
     # Cleanup

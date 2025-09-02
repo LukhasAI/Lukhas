@@ -99,12 +99,8 @@ class DreamRequest(BaseModel):
     """Request model for dream processing."""
 
     dream_content: str = Field(..., description="The dream content to process")
-    qi_enhanced: bool = Field(
-        default=True, description="Enable quantum-inspired processing"
-    )
-    reflection_enabled: bool = Field(
-        default=True, description="Enable dream reflection"
-    )
+    qi_enhanced: bool = Field(default=True, description="Enable quantum-inspired processing")
+    reflection_enabled: bool = Field(default=True, description="Enable dream reflection")
     symbolic_tags: list[str] = Field(default_factory=list, description="Symbolic tags")
 
 
@@ -113,15 +109,9 @@ class DreamResponse(BaseModel):
 
     dream_id: str = Field(..., description="Unique dream identifier")
     processed_content: str = Field(..., description="Processed dream content")
-    qi_metrics: dict[str, Any] = Field(
-        default_factory=dict, description="Quantum-inspired processing metrics"
-    )
-    reflection_results: dict[str, Any] = Field(
-        default_factory=dict, description="Dream reflection results"
-    )
-    symbolic_analysis: dict[str, Any] = Field(
-        default_factory=dict, description="Symbolic analysis results"
-    )
+    qi_metrics: dict[str, Any] = Field(default_factory=dict, description="Quantum-inspired processing metrics")
+    reflection_results: dict[str, Any] = Field(default_factory=dict, description="Dream reflection results")
+    symbolic_analysis: dict[str, Any] = Field(default_factory=dict, description="Symbolic analysis results")
     processing_time: float = Field(..., description="Processing time in seconds")
 
 
@@ -177,9 +167,7 @@ class EnhancedDreamEngine:
         self.config = config or DreamQuantumConfig()
 
         # Initialize quantum adapter
-        self.qi_adapter = QIDreamAdapter(
-            orchestrator=self.orchestrator, config=self.config
-        )
+        self.qi_adapter = QIDreamAdapter(orchestrator=self.orchestrator, config=self.config)
 
         # Initialize bio-core dream system integration
         if BIO_CORE_AVAILABLE:
@@ -215,9 +203,7 @@ class EnhancedDreamEngine:
         self.current_cycle = None
 
         # Register with integration layer
-        self.integration.register_component(
-            "enhanced_dream_engine", self.handle_message
-        )
+        self.integration.register_component("enhanced_dream_engine", self.handle_message)
 
         logger.info("Enhanced dream engine initialized")
 
@@ -271,9 +257,7 @@ class EnhancedDreamEngine:
                 "memories_processed": 0,
             }
 
-            self.processing_task = asyncio.create_task(
-                self._run_dream_cycle(duration_minutes)
-            )
+            self.processing_task = asyncio.create_task(self._run_dream_cycle(duration_minutes))
 
             logger.info(f"Started enhanced dream cycle for {duration_minutes} minutes")
 
@@ -371,9 +355,7 @@ class EnhancedDreamEngine:
                 # Also run dream reflection on the memory
                 if self.dream_reflection:
                     # Use process_dream method instead of reflect
-                    reflection_result = await self.dream_reflection.process_dream(
-                        memory.get("content", "")
-                    )
+                    reflection_result = await self.dream_reflection.process_dream(memory.get("content", ""))
                     # Store reflection result
                     await self._store_dream_reflection(
                         {
@@ -393,9 +375,7 @@ class EnhancedDreamEngine:
     async def _integrate_bio_rhythm(self, memory: dict[str, Any]) -> None:
         """Integrate memory processing with biological rhythm cycles"""
         try:
-            if self.bio_dream_system and hasattr(
-                self.bio_dream_system, "process_memory"
-            ):
+            if self.bio_dream_system and hasattr(self.bio_dream_system, "process_memory"):
                 await self.bio_dream_system.process_memory(memory)
         except Exception as e:
             logger.error(f"Error integrating bio-rhythm: {e}")
@@ -414,9 +394,7 @@ class EnhancedDreamEngine:
         try:
             # For now, log the reflection - in real implementation
             # this would store to persistent storage
-            logger.info(
-                f"Storing dream reflection: {reflection.get('memory_id', 'unknown')}"
-            )
+            logger.info(f"Storing dream reflection: {reflection.get('memory_id', 'unknown')}")
         except Exception as e:
             logger.error(f"Error storing dream reflection: {e}")
 
@@ -462,9 +440,7 @@ class EnhancedDreamEngine:
         duration = datetime.utcnow() - self.current_cycle["start_time"]
         memories = self.current_cycle["memories_processed"]
 
-        logger.info(
-            f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}"
-        )
+        logger.info(f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}")
 
     async def _handle_start_cycle(self, content: dict[str, Any]) -> None:
         """Handle start cycle request"""
@@ -496,9 +472,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error consolidating dreams: {e}")
 
-    def _extract_dream_insights(
-        self, qi_like_state: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _extract_dream_insights(self, qi_like_state: dict[str, Any]) -> list[dict[str, Any]]:
         """Extract insights from qi dream state
 
         Args:
@@ -571,9 +545,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error storing enhanced memory: {e}")
 
-    async def _process_dreams_quantum(
-        self, dreams: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    async def _process_dreams_quantum(self, dreams: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Process dreams through quantum-inspired processing
 
         Args:
@@ -596,9 +568,7 @@ class EnhancedDreamEngine:
                     processed = await self._process_dream_quantum(dream, qi_like_state)
                     processed_dreams.append(processed)
                 else:
-                    logger.warning(
-                        f"Insufficient coherence-inspired processing for dream {dream.get('id', 'unknown')}"
-                    )
+                    logger.warning(f"Insufficient coherence-inspired processing for dream {dream.get('id', 'unknown')}")
 
             except Exception as e:
                 logger.error(f"Error processing dream quantum: {e}")
@@ -635,18 +605,14 @@ class EnhancedDreamEngine:
                     self.current_cycle["memories_processed"] += 1
 
             else:
-                logger.warning(
-                    f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}"
-                )
+                logger.warning(f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}")
 
         except Exception as e:
             logger.error(f"Error processing dream: {e}")
             dream["state"] = "error"
             dream["metadata"]["error"] = str(e)
 
-    async def _process_dream_quantum(
-        self, dream: dict[str, Any], qi_like_state: dict
-    ) -> dict:
+    async def _process_dream_quantum(self, dream: dict[str, Any], qi_like_state: dict) -> dict:
         """Process dream through quantum layer
 
         Args:
@@ -703,9 +669,7 @@ class EnhancedDreamEngine:
         try:
             # Remove from unconsolidated memories
             unconsolidated = await self.integration.get_data("unconsolidated_memories")
-            unconsolidated = [
-                m for m in unconsolidated if m.get("id") != dream.get("id")
-            ]
+            unconsolidated = [m for m in unconsolidated if m.get("id") != dream.get("id")]
             await self.integration.store_data("unconsolidated_memories", unconsolidated)
 
             # Add to enhanced memories
@@ -878,14 +842,9 @@ async def get_status():
         dream_engine = get_dream_engine()
 
         return {
-            "status": (
-                "active"
-                if hasattr(dream_engine, "active") and dream_engine.active
-                else "inactive"
-            ),
+            "status": ("active" if hasattr(dream_engine, "active") and dream_engine.active else "inactive"),
             "engine_type": "EnhancedDreamEngine",
-            "qi_enabled": hasattr(dream_engine, "qi_adapter")
-            and dream_engine.qi_adapter is not None,
+            "qi_enabled": hasattr(dream_engine, "qi_adapter") and dream_engine.qi_adapter is not None,
             "reflection_enabled": True,
             "timestamp": datetime.now().isoformat(),
         }
@@ -903,12 +862,8 @@ class SnapshotRequest(BaseModel):
 
     fold_id: str = Field(..., description="Memory fold identifier")
     dream_state: dict[str, Any] = Field(..., description="Current dream state")
-    introspective_content: dict[str, Any] = Field(
-        ..., description="Introspective analysis"
-    )
-    symbolic_annotations: Optional[dict[str, Any]] = Field(
-        None, description="Symbolic annotations"
-    )
+    introspective_content: dict[str, Any] = Field(..., description="Introspective analysis")
+    symbolic_annotations: Optional[dict[str, Any]] = Field(None, description="Symbolic annotations")
 
 
 class SnapshotResponse(BaseModel):
@@ -920,9 +875,7 @@ class SnapshotResponse(BaseModel):
     status: str = Field(..., description="Operation status")
 
 
-@app.post(
-    "/memory/snapshot", response_model=SnapshotResponse, summary="Create Dream Snapshot"
-)
+@app.post("/memory/snapshot", response_model=SnapshotResponse, summary="Create Dream Snapshot")
 async def create_dream_snapshot(request: SnapshotRequest):
     """
     Create a dream snapshot with symbolic annotation for memory recurrence.
@@ -941,9 +894,7 @@ async def create_dream_snapshot(request: SnapshotRequest):
         dream_engine = get_dream_engine()
 
         if not dream_engine.reflection_loop:
-            raise HTTPException(
-                status_code=503, detail="Dream reflection loop not available"
-            )
+            raise HTTPException(status_code=503, detail="Dream reflection loop not available")
 
         snapshot_id = await dream_engine.reflection_loop.create_dream_snapshot(
             fold_id=request.fold_id,
@@ -953,9 +904,7 @@ async def create_dream_snapshot(request: SnapshotRequest):
         )
 
         if not snapshot_id:
-            raise HTTPException(
-                status_code=500, detail="Failed to create dream snapshot"
-            )
+            raise HTTPException(status_code=500, detail="Failed to create dream snapshot")
 
         return SnapshotResponse(
             snapshot_id=snapshot_id,
@@ -983,9 +932,7 @@ async def get_fold_snapshots(fold_id: str):
         dream_engine = get_dream_engine()
 
         if not dream_engine.reflection_loop:
-            raise HTTPException(
-                status_code=503, detail="Dream reflection loop not available"
-            )
+            raise HTTPException(status_code=503, detail="Dream reflection loop not available")
 
         snapshots = await dream_engine.reflection_loop.get_fold_snapshots(fold_id)
 
@@ -1015,9 +962,7 @@ async def get_fold_statistics(fold_id: str):
         dream_engine = get_dream_engine()
 
         if not dream_engine.reflection_loop:
-            raise HTTPException(
-                status_code=503, detail="Dream reflection loop not available"
-            )
+            raise HTTPException(status_code=503, detail="Dream reflection loop not available")
 
         stats = await dream_engine.reflection_loop.get_fold_statistics(fold_id)
 
@@ -1031,9 +976,7 @@ async def get_fold_statistics(fold_id: str):
         raise
     except Exception as e:
         logger.error(f"Error retrieving fold statistics: {e}")
-        raise HTTPException(
-            status_code=500, detail=f"Statistics retrieval failed: {e!s}"
-        )
+        raise HTTPException(status_code=500, detail=f"Statistics retrieval failed: {e!s}")
 
 
 @app.post("/memory/fold/{fold_id}/sync", summary="Synchronize Memory Fold")
@@ -1048,9 +991,7 @@ async def sync_memory_fold(fold_id: str):
         dream_engine = get_dream_engine()
 
         if not dream_engine.reflection_loop:
-            raise HTTPException(
-                status_code=503, detail="Dream reflection loop not available"
-            )
+            raise HTTPException(status_code=503, detail="Dream reflection loop not available")
 
         success = await dream_engine.reflection_loop.sync_memory_fold(fold_id)
 
@@ -1065,9 +1006,7 @@ async def sync_memory_fold(fold_id: str):
         raise
     except Exception as e:
         logger.error(f"Error syncing memory fold: {e}")
-        raise HTTPException(
-            status_code=500, detail=f"Fold synchronization failed: {e!s}"
-        )
+        raise HTTPException(status_code=500, detail=f"Fold synchronization failed: {e!s}")
 
 
 # ================= END PHASE 3B ENDPOINTS =================

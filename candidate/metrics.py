@@ -55,9 +55,7 @@ current_safety_mode = Gauge(
     ["session_id"],
 )
 
-active_tool_calls = Gauge(
-    "lukhas_active_tool_calls", "Number of currently active tool calls"
-)
+active_tool_calls = Gauge("lukhas_active_tool_calls", "Number of currently active tool calls")
 
 feedback_lut_temperature = Gauge(
     "lukhas_feedback_lut_temperature_delta",
@@ -75,32 +73,16 @@ requests_per_minute = Counter(
 
 # Proto-qualia dimensional metrics
 akaq_tone = Gauge("akaq_tone", "Proto-qualia tone dimension [-1,1]", ["episode_id"])
-akaq_arousal = Gauge(
-    "akaq_arousal", "Proto-qualia arousal dimension [0,1]", ["episode_id"]
-)
-akaq_clarity = Gauge(
-    "akaq_clarity", "Proto-qualia clarity dimension [0,1]", ["episode_id"]
-)
-akaq_embodiment = Gauge(
-    "akaq_embodiment", "Proto-qualia embodiment dimension [0,1]", ["episode_id"]
-)
-akaq_narrative_gravity = Gauge(
-    "akaq_narrative_gravity", "Proto-qualia narrative gravity [0,1]", ["episode_id"]
-)
+akaq_arousal = Gauge("akaq_arousal", "Proto-qualia arousal dimension [0,1]", ["episode_id"])
+akaq_clarity = Gauge("akaq_clarity", "Proto-qualia clarity dimension [0,1]", ["episode_id"])
+akaq_embodiment = Gauge("akaq_embodiment", "Proto-qualia embodiment dimension [0,1]", ["episode_id"])
+akaq_narrative_gravity = Gauge("akaq_narrative_gravity", "Proto-qualia narrative gravity [0,1]", ["episode_id"])
 
 # Energy accounting metrics (Freud-2025 formulas)
-akaq_affect_energy = Gauge(
-    "akaq_affect_energy", "Computed affect energy E_t", ["episode_id"]
-)
-akaq_energy_before_regulation = Gauge(
-    "akaq_energy_before_regulation", "Energy snapshot before regulation"
-)
-akaq_energy_after_regulation = Gauge(
-    "akaq_energy_after_regulation", "Energy snapshot after regulation"
-)
-akaq_energy_conservation_ratio = Gauge(
-    "akaq_energy_conservation_ratio", "Energy conservation ratio (after/before)"
-)
+akaq_affect_energy = Gauge("akaq_affect_energy", "Computed affect energy E_t", ["episode_id"])
+akaq_energy_before_regulation = Gauge("akaq_energy_before_regulation", "Energy snapshot before regulation")
+akaq_energy_after_regulation = Gauge("akaq_energy_after_regulation", "Energy snapshot after regulation")
+akaq_energy_conservation_ratio = Gauge("akaq_energy_conservation_ratio", "Energy conservation ratio (after/before)")
 
 # Consciousness quality metrics
 akaq_drift_phi = Gauge(
@@ -108,34 +90,20 @@ akaq_drift_phi = Gauge(
     "Temporal coherence metric (1 = perfect coherence)",
     ["episode_id"],
 )
-akaq_congruence_index = Gauge(
-    "akaq_congruence_index", "Goals↔ethics↔scene alignment index", ["episode_id"]
-)
-akaq_sublimation_rate = Gauge(
-    "akaq_sublimation_rate", "Proportion of affect energy transformed", ["episode_id"]
-)
-akaq_neurosis_risk = Gauge(
-    "akaq_neurosis_risk", "Estimated loop recurrence probability", ["episode_id"]
-)
-akaq_qualia_novelty = Gauge(
-    "akaq_qualia_novelty", "Novelty compared to recent history", ["episode_id"]
-)
-akaq_repair_delta = Gauge(
-    "akaq_repair_delta", "Repair improvement after regulation", ["episode_id"]
-)
+akaq_congruence_index = Gauge("akaq_congruence_index", "Goals↔ethics↔scene alignment index", ["episode_id"])
+akaq_sublimation_rate = Gauge("akaq_sublimation_rate", "Proportion of affect energy transformed", ["episode_id"])
+akaq_neurosis_risk = Gauge("akaq_neurosis_risk", "Estimated loop recurrence probability", ["episode_id"])
+akaq_qualia_novelty = Gauge("akaq_qualia_novelty", "Novelty compared to recent history", ["episode_id"])
+akaq_repair_delta = Gauge("akaq_repair_delta", "Repair improvement after regulation", ["episode_id"])
 
 # Risk and regulation metrics
-akaq_risk_score = Gauge(
-    "akaq_risk_score", "TEQ Guardian risk assessment score", ["severity"]
-)
+akaq_risk_score = Gauge("akaq_risk_score", "TEQ Guardian risk assessment score", ["severity"])
 akaq_regulation_gain = Gauge("akaq_regulation_gain", "Applied gain modulation factor")
 akaq_regulation_pace = Gauge("akaq_regulation_pace", "Applied pace modulation factor")
 
 # VIVOX integration health
 akaq_vivox_drift_score = Gauge("akaq_vivox_drift_score", "VIVOX computed drift score")
-akaq_vivox_drift_exceeded = Counter(
-    "akaq_vivox_drift_exceeded_total", "VIVOX drift threshold exceeded events"
-)
+akaq_vivox_drift_exceeded = Counter("akaq_vivox_drift_exceeded_total", "VIVOX drift threshold exceeded events")
 
 # Processing performance for consciousness
 akaq_processing_time = Histogram(
@@ -150,23 +118,15 @@ akaq_regulation_processing_time = Histogram(
 )
 
 # System counters
-akaq_scenes_processed_total = Counter(
-    "akaq_scenes_processed_total", "Total phenomenological scenes processed"
-)
-akaq_regulations_applied_total = Counter(
-    "akaq_regulations_applied_total", "Total regulation policies applied"
-)
+akaq_scenes_processed_total = Counter("akaq_scenes_processed_total", "Total phenomenological scenes processed")
+akaq_regulations_applied_total = Counter("akaq_regulations_applied_total", "Total regulation policies applied")
 akaq_energy_conservation_violations_total = Counter(
     "akaq_energy_conservation_violations_total", "Energy conservation violations"
 )
-akaq_teq_interventions_total = Counter(
-    "akaq_teq_interventions_total", "TEQ Guardian interventions", ["severity"]
-)
+akaq_teq_interventions_total = Counter("akaq_teq_interventions_total", "TEQ Guardian interventions", ["severity"])
 
 # Action frequency counters
-akaq_regulation_actions_total = Counter(
-    "akaq_regulation_actions_total", "Regulation actions by type", ["action_type"]
-)
+akaq_regulation_actions_total = Counter("akaq_regulation_actions_total", "Regulation actions by type", ["action_type"])
 
 
 class MetricsCollector:
@@ -177,9 +137,7 @@ class MetricsCollector:
 
     def record_blocked_tool(self, tool_name: str, safety_mode: str):
         """Record a blocked tool attempt"""
-        incident_blocked_tool.labels(
-            attempted_tool=tool_name, safety_mode=safety_mode
-        ).inc()
+        incident_blocked_tool.labels(attempted_tool=tool_name, safety_mode=safety_mode).inc()
 
     def record_auto_tighten(self, reason: str = "high_risk"):
         """Record auto-tightening to strict mode"""
@@ -189,23 +147,15 @@ class MetricsCollector:
         """Record OpenAI API error"""
         openai_errors.labels(error_type=error_type, status_code=str(status_code)).inc()
 
-    def record_tool_duration(
-        self, tool_name: str, duration_ms: float, status: str = "success"
-    ):
+    def record_tool_duration(self, tool_name: str, duration_ms: float, status: str = "success"):
         """Record tool execution duration"""
         tool_duration_ms.labels(tool_name=tool_name, status=status).observe(duration_ms)
 
-    def record_openai_latency(
-        self, model: str, latency_ms: float, safety_mode: str = "balanced"
-    ):
+    def record_openai_latency(self, model: str, latency_ms: float, safety_mode: str = "balanced"):
         """Record OpenAI API latency"""
-        openai_latency_ms.labels(model=model, safety_mode=safety_mode).observe(
-            latency_ms
-        )
+        openai_latency_ms.labels(model=model, safety_mode=safety_mode).observe(latency_ms)
 
-    def record_token_usage(
-        self, input_tokens: int, output_tokens: int, model: str = "gpt-4"
-    ):
+    def record_token_usage(self, input_tokens: int, output_tokens: int, model: str = "gpt-4"):
         """Record token usage"""
         token_usage.labels(direction="input", model=model).observe(input_tokens)
         token_usage.labels(direction="output", model=model).observe(output_tokens)
@@ -246,30 +196,20 @@ class MetricsCollector:
         akaq_arousal.labels(episode_id=episode_id).set(scene.proto.arousal)
         akaq_clarity.labels(episode_id=episode_id).set(scene.proto.clarity)
         akaq_embodiment.labels(episode_id=episode_id).set(scene.proto.embodiment)
-        akaq_narrative_gravity.labels(episode_id=episode_id).set(
-            scene.proto.narrative_gravity
-        )
+        akaq_narrative_gravity.labels(episode_id=episode_id).set(scene.proto.narrative_gravity)
 
         # Record consciousness quality metrics
         akaq_drift_phi.labels(episode_id=episode_id).set(metrics_data.drift_phi)
-        akaq_congruence_index.labels(episode_id=episode_id).set(
-            metrics_data.congruence_index
-        )
-        akaq_sublimation_rate.labels(episode_id=episode_id).set(
-            metrics_data.sublimation_rate
-        )
+        akaq_congruence_index.labels(episode_id=episode_id).set(metrics_data.congruence_index)
+        akaq_sublimation_rate.labels(episode_id=episode_id).set(metrics_data.sublimation_rate)
         akaq_neurosis_risk.labels(episode_id=episode_id).set(metrics_data.neurosis_risk)
-        akaq_qualia_novelty.labels(episode_id=episode_id).set(
-            metrics_data.qualia_novelty
-        )
+        akaq_qualia_novelty.labels(episode_id=episode_id).set(metrics_data.qualia_novelty)
         akaq_repair_delta.labels(episode_id=episode_id).set(metrics_data.repair_delta)
 
         # Record risk assessment
         akaq_risk_score.labels(severity=scene.risk.severity.value).set(scene.risk.score)
         if scene.risk.score > 0.1:  # Only count meaningful interventions
-            akaq_teq_interventions_total.labels(
-                severity=scene.risk.severity.value
-            ).inc()
+            akaq_teq_interventions_total.labels(severity=scene.risk.severity.value).inc()
 
         # Record energy accounting
         if energy_snapshot:
@@ -307,10 +247,7 @@ class MetricsCollector:
             akaq_regulation_actions_total.labels(action_type=action).inc()
 
         # Record processing time
-        processing_time = (
-            audit_entry.get("performance_metrics", {}).get("processing_time_ms", 0)
-            / 1000.0
-        )
+        processing_time = audit_entry.get("performance_metrics", {}).get("processing_time_ms", 0) / 1000.0
         if processing_time > 0:
             akaq_regulation_processing_time.observe(processing_time)
 

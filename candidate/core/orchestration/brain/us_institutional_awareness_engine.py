@@ -112,9 +112,7 @@ class USComplianceConfig:
 
     # State jurisdictions
     state_laws_enabled: bool = True
-    applicable_states: list[str] = field(
-        default_factory=lambda: ["CA", "VA", "CO", "CT", "UT"]
-    )
+    applicable_states: list[str] = field(default_factory=lambda: ["CA", "VA", "CO", "CT", "UT"])
 
     # CCPA/CPRA
     ccpa_enabled: bool = True
@@ -302,9 +300,7 @@ class USEnvironmentalReasoner:
             "processing_lawful": True,
         }
 
-    def explain_decision(
-        self, inputs: USInstitutionalInput, results: dict[str, Any]
-    ) -> str:
+    def explain_decision(self, inputs: USInstitutionalInput, results: dict[str, Any]) -> str:
         """Provide CCPA-compliant explanation."""
         return (
             f"Environmental assessment completed using US privacy-preserving methods. "
@@ -313,9 +309,7 @@ class USEnvironmentalReasoner:
             f"CCPA consumer rights available. Data minimization applied: {results['data_minimized']}."
         )
 
-    def assess_bias(
-        self, inputs: USInstitutionalInput, results: dict[str, Any]
-    ) -> dict[str, Any]:
+    def assess_bias(self, inputs: USInstitutionalInput, results: dict[str, Any]) -> dict[str, Any]:
         """Assess algorithmic bias with US fairness standards."""
         return {
             "bias_detected": False,
@@ -325,9 +319,7 @@ class USEnvironmentalReasoner:
             "us_fairness_standards_met": True,
         }
 
-    def validate_compliance(
-        self, inputs: USInstitutionalInput, results: dict[str, Any]
-    ) -> dict[str, dict[str, Any]]:
+    def validate_compliance(self, inputs: USInstitutionalInput, results: dict[str, Any]) -> dict[str, dict[str, Any]]:
         """Validate US compliance across applicable laws."""
         compliance = {}
 
@@ -356,11 +348,7 @@ class USEnvironmentalReasoner:
     def _apply_ccpa_minimization(self, context: dict[str, Any]) -> dict[str, Any]:
         """Apply CCPA data minimization principles."""
         # Remove unnecessary identifiers
-        minimized = {
-            k: v
-            for k, v in context.items()
-            if k not in ["ip_address", "device_id", "precise_location"]
-        }
+        minimized = {k: v for k, v in context.items() if k not in ["ip_address", "device_id", "precise_location"]}
         return minimized
 
 
@@ -386,9 +374,7 @@ class USInstitutionalEnvironmentalModule(GlobalInstitutionalModule):
     ) -> float:
         """Evaluate US jurisdictional compliance."""
         if jurisdiction != Jurisdiction.US:
-            return super()._evaluate_jurisdictional_compliance(
-                jurisdiction, result, inputs
-            )
+            return super()._evaluate_jurisdictional_compliance(jurisdiction, result, inputs)
 
         base_score = result["environmental_score"] * 60
 
@@ -406,9 +392,7 @@ class USInstitutionalEnvironmentalModule(GlobalInstitutionalModule):
 
         return min(base_score, 100.0)
 
-    def generate_us_recommendations(
-        self, result: dict[str, Any], inputs: USInstitutionalInput
-    ) -> list[str]:
+    def generate_us_recommendations(self, result: dict[str, Any], inputs: USInstitutionalInput) -> list[str]:
         """Generate US-specific recommendations."""
         recommendations = []
 
@@ -454,9 +438,7 @@ class USInstitutionalAwarenessEngine:
         """Initialize US institutional modules."""
         # Environmental Module
         env_reasoner = USEnvironmentalReasoner()
-        self.modules["environmental"] = USInstitutionalEnvironmentalModule(
-            env_reasoner, self.config
-        )
+        self.modules["environmental"] = USInstitutionalEnvironmentalModule(env_reasoner, self.config)
 
     def _setup_us_registry(self):
         """Setup US processing registry."""
@@ -469,9 +451,7 @@ class USInstitutionalAwarenessEngine:
             "data_breaches": [],
         }
 
-    def process_awareness(
-        self, module_type: str, inputs: USInstitutionalInput
-    ) -> USInstitutionalOutput:
+    def process_awareness(self, module_type: str, inputs: USInstitutionalInput) -> USInstitutionalOutput:
         """Process awareness with US compliance."""
         if module_type not in self.modules:
             raise ValueError(f"US module type {module_type} not supported")
@@ -501,9 +481,7 @@ class USInstitutionalAwarenessEngine:
         else:
             return {"status": "not_supported", "right": right}
 
-    def _convert_to_global_input(
-        self, us_input: USInstitutionalInput
-    ) -> GlobalInstitutionalInput:
+    def _convert_to_global_input(self, us_input: USInstitutionalInput) -> GlobalInstitutionalInput:
         """Convert US input to global input format."""
         from identity.backend.app.institution_manager import (
             GlobalConsentData,
@@ -584,9 +562,7 @@ class USInstitutionalAwarenessEngine:
             compliance_attestation=global_output.compliance_attestation,
         )
 
-    def _record_us_processing_activity(
-        self, module_type: str, inputs: USInstitutionalInput
-    ):
+    def _record_us_processing_activity(self, module_type: str, inputs: USInstitutionalInput):
         """Record US processing activity."""
         activity = {
             "id": str(uuid.uuid4()),
@@ -714,9 +690,7 @@ class USInstitutionalAwarenessEngine:
                 else None
             ),
             "processing_statistics": {
-                "total_activities": len(
-                    self.processing_registry["processing_activities"]
-                ),
+                "total_activities": len(self.processing_registry["processing_activities"]),
                 "active_opt_outs": len(self.processing_registry["opt_out_requests"]),
                 "data_breaches": len(self.processing_registry["data_breaches"]),
             },
@@ -806,9 +780,7 @@ if __name__ == "__main__":
         print(f"Access Request: {access_result['status']}")
 
         # Test opt-out request
-        opt_out_result = us_engine.exercise_consumer_rights(
-            "opt_out", "us_consumer_001"
-        )
+        opt_out_result = us_engine.exercise_consumer_rights("opt_out", "us_consumer_001")
         print(f"Opt-out Request: {opt_out_result['status']}")
 
         # Generate US compliance report

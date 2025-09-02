@@ -44,9 +44,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
     - Emotion-based memory retrieval
     """
 
-    def __init__(
-        self, config: Optional[dict[str, Any]] = None, base_path: Optional[Path] = None
-    ):
+    def __init__(self, config: Optional[dict[str, Any]] = None, base_path: Optional[Path] = None):
         """Initialize emotional memory manager."""
         super().__init__(config, base_path)
 
@@ -76,9 +74,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
             "anticipation": {"valence": 0.7, "arousal": 0.6},
         }
 
-        self.logger.info(
-            "EmotionalMemoryManager initialized", emotion_config=self.emotion_config
-        )
+        self.logger.info("EmotionalMemoryManager initialized", emotion_config=self.emotion_config)
 
     async def store(
         self,
@@ -147,14 +143,10 @@ class EmotionalMemoryManager(BaseMemoryManager):
             }
 
         except Exception as e:
-            self.logger.error(
-                "Failed to store emotional memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to store emotional memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def retrieve(
-        self, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def retrieve(self, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Retrieve memory with emotional context.
 
@@ -165,9 +157,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
             memory_package = self._load_from_disk(memory_id)
 
             # Get current emotional state
-            emotional_state = self.emotional_states.get(
-                memory_id, memory_package["emotion"]["state"]
-            )
+            emotional_state = self.emotional_states.get(memory_id, memory_package["emotion"]["state"])
 
             # Apply emotional modulation if context provided
             if context and context.get("current_emotion"):
@@ -201,14 +191,10 @@ class EmotionalMemoryManager(BaseMemoryManager):
             self.logger.error("Memory not found", memory_id=memory_id)
             return {"status": "error", "error": f"Memory not found: {memory_id}"}
         except Exception as e:
-            self.logger.error(
-                "Failed to retrieve emotional memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to retrieve emotional memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def update(
-        self, memory_id: str, updates: dict[str, Any], merge: bool = True
-    ) -> dict[str, Any]:
+    async def update(self, memory_id: str, updates: dict[str, Any], merge: bool = True) -> dict[str, Any]:
         """Update memory with emotional re-evaluation."""
         try:
             # Retrieve current state
@@ -220,14 +206,10 @@ class EmotionalMemoryManager(BaseMemoryManager):
             updated_data = {**current["data"], **updates} if merge else updates
 
             # Re-evaluate emotional state
-            new_emotional_state = self._extract_emotional_state(
-                updated_data, current["metadata"]
-            )
+            new_emotional_state = self._extract_emotional_state(updated_data, current["metadata"])
 
             # Blend with existing emotional state
-            blended_state = self._blend_emotional_states(
-                self.emotional_states.get(memory_id, {}), new_emotional_state
-            )
+            blended_state = self._blend_emotional_states(self.emotional_states.get(memory_id, {}), new_emotional_state)
 
             # Store updated memory
             result = await self.store(
@@ -242,17 +224,13 @@ class EmotionalMemoryManager(BaseMemoryManager):
             self.logger.info(
                 "Emotional memory updated",
                 memory_id=memory_id,
-                emotion_change=self._calculate_emotion_change(
-                    self.emotional_states.get(memory_id, {}), blended_state
-                ),
+                emotion_change=self._calculate_emotion_change(self.emotional_states.get(memory_id, {}), blended_state),
             )
 
             return result
 
         except Exception as e:
-            self.logger.error(
-                "Failed to update emotional memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to update emotional memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def delete(self, memory_id: str, soft_delete: bool = True) -> dict[str, Any]:
@@ -266,9 +244,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
                 # Mark as deleted in index
                 if memory_id in self._memory_index:
                     self._memory_index[memory_id]["deleted"] = True
-                    self._memory_index[memory_id]["deleted_at"] = datetime.now(
-                        timezone.utc
-                    ).isoformat()
+                    self._memory_index[memory_id]["deleted_at"] = datetime.now(timezone.utc).isoformat()
                     self._save_index()
             else:
                 # Remove from disk
@@ -281,21 +257,15 @@ class EmotionalMemoryManager(BaseMemoryManager):
                     del self._memory_index[memory_id]
                     self._save_index()
 
-            self.logger.info(
-                "Emotional memory deleted", memory_id=memory_id, soft_delete=soft_delete
-            )
+            self.logger.info("Emotional memory deleted", memory_id=memory_id, soft_delete=soft_delete)
 
             return {"status": "success"}
 
         except Exception as e:
-            self.logger.error(
-                "Failed to delete emotional memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to delete emotional memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def search(
-        self, criteria: dict[str, Any], limit: Optional[int] = None
-    ) -> list[dict[str, Any]]:
+    async def search(self, criteria: dict[str, Any], limit: Optional[int] = None) -> list[dict[str, Any]]:
         """
         Search memories with emotional filtering.
 
@@ -318,10 +288,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
             emotional_state = index_data.get("emotional_state", {})
 
             # Apply emotion filters
-            if (
-                emotion_filter
-                and emotional_state.get("primary_emotion") != emotion_filter
-            ):
+            if emotion_filter and emotional_state.get("primary_emotion") != emotion_filter:
                 continue
 
             if emotional_state.get("intensity", 0) < min_intensity:
@@ -395,14 +362,10 @@ class EmotionalMemoryManager(BaseMemoryManager):
             }
 
         except Exception as e:
-            self.logger.error(
-                "Failed to get emotional context", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to get emotional context", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def update_emotional_state(
-        self, memory_id: str, new_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def update_emotional_state(self, memory_id: str, new_state: dict[str, Any]) -> dict[str, Any]:
         """Update the emotional state of a memory."""
         try:
             # Verify memory exists
@@ -418,9 +381,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
             }
 
             # Update in metadata
-            self._update_index(
-                memory_id, {"emotional_state": self.emotional_states[memory_id]}
-            )
+            self._update_index(memory_id, {"emotional_state": self.emotional_states[memory_id]})
 
             self.logger.info(
                 "Emotional state updated",
@@ -435,9 +396,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
             }
 
         except Exception as e:
-            self.logger.error(
-                "Failed to update emotional state", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to update emotional state", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     # === Private helper methods ===
@@ -477,28 +436,21 @@ class EmotionalMemoryManager(BaseMemoryManager):
             arousal = 0.5
         else:
             primary_emotion = detected_emotions[0]
-            emotion_profile = self.primary_emotions.get(
-                primary_emotion, {"valence": 0.5, "arousal": 0.5}
-            )
+            emotion_profile = self.primary_emotions.get(primary_emotion, {"valence": 0.5, "arousal": 0.5})
             valence = emotion_profile["valence"]
             arousal = emotion_profile["arousal"]
 
         return {
             "primary_emotion": primary_emotion,
-            "secondary_emotions": (
-                detected_emotions[1:] if len(detected_emotions) > 1 else []
-            ),
+            "secondary_emotions": (detected_emotions[1:] if len(detected_emotions) > 1 else []),
             "valence": valence,
             "arousal": arousal,
-            "intensity": 0.5
-            + (0.1 * len(detected_emotions)),  # More emotions = higher intensity
+            "intensity": 0.5 + (0.1 * len(detected_emotions)),  # More emotions = higher intensity
             "stability": 0.8,
             "tags": detected_emotions,
         }
 
-    def _calculate_emotional_significance(
-        self, emotional_state: dict[str, Any]
-    ) -> float:
+    def _calculate_emotional_significance(self, emotional_state: dict[str, Any]) -> float:
         """Calculate emotional significance score."""
         intensity = emotional_state.get("intensity", 0.5)
         arousal = emotional_state.get("arousal", 0.5)
@@ -585,9 +537,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
 
         return decayed_state
 
-    def _blend_emotional_states(
-        self, state1: dict[str, Any], state2: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _blend_emotional_states(self, state1: dict[str, Any], state2: dict[str, Any]) -> dict[str, Any]:
         """Blend two emotional states."""
         # Weight by intensity
         intensity1 = state1.get("intensity", 0.5)
@@ -602,48 +552,29 @@ class EmotionalMemoryManager(BaseMemoryManager):
 
         return {
             "primary_emotion": (
-                state2.get("primary_emotion")
-                if intensity2 > intensity1
-                else state1.get("primary_emotion")
+                state2.get("primary_emotion") if intensity2 > intensity1 else state1.get("primary_emotion")
             ),
             "secondary_emotions": list(
-                set(
-                    state1.get("secondary_emotions", [])
-                    + state2.get("secondary_emotions", [])
-                )
+                set(state1.get("secondary_emotions", []) + state2.get("secondary_emotions", []))
             ),
-            "valence": state1.get("valence", 0.5) * weight1
-            + state2.get("valence", 0.5) * weight2,
-            "arousal": state1.get("arousal", 0.5) * weight1
-            + state2.get("arousal", 0.5) * weight2,
+            "valence": state1.get("valence", 0.5) * weight1 + state2.get("valence", 0.5) * weight2,
+            "arousal": state1.get("arousal", 0.5) * weight1 + state2.get("arousal", 0.5) * weight2,
             "intensity": (intensity1 + intensity2) / 2,
-            "stability": min(
-                state1.get("stability", 0.8), state2.get("stability", 0.8)
-            ),
+            "stability": min(state1.get("stability", 0.8), state2.get("stability", 0.8)),
         }
 
-    def _calculate_emotion_change(
-        self, old_state: dict[str, Any], new_state: dict[str, Any]
-    ) -> float:
+    def _calculate_emotion_change(self, old_state: dict[str, Any], new_state: dict[str, Any]) -> float:
         """Calculate magnitude of emotional change."""
         if not old_state or not new_state:
             return 0.0
 
-        valence_change = abs(
-            old_state.get("valence", 0.5) - new_state.get("valence", 0.5)
-        )
-        arousal_change = abs(
-            old_state.get("arousal", 0.5) - new_state.get("arousal", 0.5)
-        )
-        intensity_change = abs(
-            old_state.get("intensity", 0.5) - new_state.get("intensity", 0.5)
-        )
+        valence_change = abs(old_state.get("valence", 0.5) - new_state.get("valence", 0.5))
+        arousal_change = abs(old_state.get("arousal", 0.5) - new_state.get("arousal", 0.5))
+        intensity_change = abs(old_state.get("intensity", 0.5) - new_state.get("intensity", 0.5))
 
         return (valence_change + arousal_change + intensity_change) / 3
 
-    def _update_emotion_history(
-        self, memory_id: str, emotional_state: dict[str, Any]
-    ) -> None:
+    def _update_emotion_history(self, memory_id: str, emotional_state: dict[str, Any]) -> None:
         """Update emotion history tracking."""
         self.emotion_history.append(
             {
@@ -690,21 +621,9 @@ class EmotionalMemoryManager(BaseMemoryManager):
             **base_stats,
             "emotional_memories": num_emotional_memories,
             "emotion_distribution": emotion_counts,
-            "average_intensity": (
-                total_intensity / num_emotional_memories
-                if num_emotional_memories > 0
-                else 0
-            ),
-            "average_valence": (
-                total_valence / num_emotional_memories
-                if num_emotional_memories > 0
-                else 0
-            ),
-            "average_arousal": (
-                total_arousal / num_emotional_memories
-                if num_emotional_memories > 0
-                else 0
-            ),
+            "average_intensity": (total_intensity / num_emotional_memories if num_emotional_memories > 0 else 0),
+            "average_valence": (total_valence / num_emotional_memories if num_emotional_memories > 0 else 0),
+            "average_arousal": (total_arousal / num_emotional_memories if num_emotional_memories > 0 else 0),
             "emotion_history_length": len(self.emotion_history),
         }
 

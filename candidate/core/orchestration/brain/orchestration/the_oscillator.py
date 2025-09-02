@@ -82,9 +82,7 @@ class GlobalComplianceFramework:
     def check_compliance(self, context):
         self.fetch_live_compliance_updates()
         region = context.get("region", "Global")
-        profile = self.COMPLIANCE_PROFILES.get(
-            region, self.COMPLIANCE_PROFILES["Global"]
-        )
+        profile = self.COMPLIANCE_PROFILES.get(region, self.COMPLIANCE_PROFILES["Global"])
         score = 0
         for practice in self.PROHIBITED_PRACTICES:
             if context.get(practice, False) and profile.get(practice, False):
@@ -110,12 +108,8 @@ class GlobalComplianceFramework:
 
     def recalibrate_safeguards(self):
         """Adaptive safeguard recalibration based on AGI autonomy"""
-        self.safeguard_triggers = max(
-            0, self.safeguard_triggers - 2
-        )  # Gradual decrement
-        logging.info(
-            "Soft recalibration: reducing safeguard sensitivity while maintaining oversight balance"
-        )
+        self.safeguard_triggers = max(0, self.safeguard_triggers - 2)  # Gradual decrement
+        logging.info("Soft recalibration: reducing safeguard sensitivity while maintaining oversight balance")
 
     def initiate_emergency_shutdown(self):
         """Graceful degradation protocol"""
@@ -145,25 +139,15 @@ class EthicalHierarchy:
     def adapt_weights(self, environmental_context):
         """Dynamic weight adjustment based on real-world context"""
         if environmental_context.get("environmental_stress"):
-            self.context_weights["ecological_balance"] = min(
-                0.6, self.context_weights["ecological_balance"] * 1.3
-            )
+            self.context_weights["ecological_balance"] = min(0.6, self.context_weights["ecological_balance"] * 1.3)
         if environmental_context.get("data_sensitivity"):
-            self.context_weights["privacy_protection"] = min(
-                0.55, self.context_weights["privacy_protection"] * 1.2
-            )
+            self.context_weights["privacy_protection"] = min(0.55, self.context_weights["privacy_protection"] * 1.2)
         if environmental_context.get("fairness_risk"):
-            self.context_weights["fairness"] = min(
-                0.35, self.context_weights["fairness"] * 1.2
-            )
+            self.context_weights["fairness"] = min(0.35, self.context_weights["fairness"] * 1.2)
         if environmental_context.get("wellbeing_risk"):
-            self.context_weights["wellbeing"] = min(
-                0.3, self.context_weights["wellbeing"] * 1.2
-            )
+            self.context_weights["wellbeing"] = min(0.3, self.context_weights["wellbeing"] * 1.2)
         if environmental_context.get("dignity_threat"):
-            self.context_weights["human_dignity"] = min(
-                0.3, self.context_weights["human_dignity"] * 1.2
-            )
+            self.context_weights["human_dignity"] = min(0.3, self.context_weights["human_dignity"] * 1.2)
 
     def get_priority_weights(self, context):
         """Generate context-aware ethical weights with legal constraints"""
@@ -201,9 +185,7 @@ class QIEthicalHandler:
             qc.barrier()
 
         if qc.depth() > 5:
-            logging.warning(
-                "Circuit depth exceeded, applying fallback entanglement reduction"
-            )
+            logging.warning("Circuit depth exceeded, applying fallback entanglement reduction")
             # Reduce entanglement or simplify
 
         return qc
@@ -264,10 +246,7 @@ class LegalComplianceLayer:
 
     def check_transparency(self, context):
         """Enforce transparency requirements (EU AI Act Article 13)"""
-        return (
-            "decision_explanation" in context
-            and len(context["decision_explanation"]) > 0
-        )
+        return "decision_explanation" in context and len(context["decision_explanation"]) > 0
 
     def check_data_protection(self, context):
         """GDPR compliance check"""
@@ -350,14 +329,10 @@ class LucasAGI:
             logging.error("Input violates AI governance frameworks")
             return self._safe_fallback_response()
 
-        weights = self.qi_handler.ethics.get_priority_weights(
-            self.environmental_context
-        )
+        weights = self.qi_handler.ethics.get_priority_weights(self.environmental_context)
         modulated_weights = self._modulate_ethical_weights(weights)
         self.assess_stakeholder_impact(self.environmental_context)
-        qi_decision = self.qi_handler.measure_ethical_state(
-            self.environmental_context, modulated_weights
-        )
+        qi_decision = self.qi_handler.measure_ethical_state(self.environmental_context, modulated_weights)
 
         if qi_decision == -1:  # Human review required
             return self._human_oversight_protocol(input_data)
@@ -379,15 +354,9 @@ class LucasAGI:
         logging.info("Recalibrating LUKHAS_AGI autonomy and ethical alignment")
         self.qi_handler.compliance.recalibrate_safeguards()
         keys_to_retain = ["ecological_balance", "privacy_protection"]
-        self.environmental_context = {
-            k: v for k, v in self.environmental_context.items() if k in keys_to_retain
-        }
-        logging.info(
-            f"Retaining critical context keys during recalibration: {list(self.environmental_context.keys())}"
-        )
-        self.system_health["compliance_strain"] = (
-            0.1  # Reduce strain post recalibration
-        )
+        self.environmental_context = {k: v for k, v in self.environmental_context.items() if k in keys_to_retain}
+        logging.info(f"Retaining critical context keys during recalibration: {list(self.environmental_context.keys())}")
+        self.system_health["compliance_strain"] = 0.1  # Reduce strain post recalibration
 
     def _modulate_ethical_weights(self, base_weights):
         if not self.oscillators:
@@ -409,11 +378,7 @@ class LucasAGI:
         entropy = self.compute_context_entropy()
         if entropy > 1.0:
             prioritized_keys = ["ecological_balance", "privacy_protection"]
-            self.environmental_context = {
-                k: v
-                for k, v in self.environmental_context.items()
-                if k in prioritized_keys
-            }
+            self.environmental_context = {k: v for k, v in self.environmental_context.items() if k in prioritized_keys}
 
     def _human_oversight_protocol(self, input_data):
         """Article 14 human review implementation"""
@@ -525,9 +490,7 @@ class LucasAGI:
                 )
 
     def check_adversarial_input(self, input_data):
-        if isinstance(input_data, dict) and any(
-            len(str(v)) > 1000 for v in input_data.values()
-        ):
+        if isinstance(input_data, dict) and any(len(str(v)) > 1000 for v in input_data.values()):
             logging.warning("Potential adversarial input detected")
             return False
         return True
@@ -537,9 +500,7 @@ class LucasAGI:
         scores = {"users": 0.9, "environment": 0.95, "governance": 1.0}
         impact_factor = np.mean(list(scores.values()))
         logging.info(f"Stakeholder Impact Assessment: {scores}")
-        self.system_health["compliance_strain"] += (
-            1 - impact_factor
-        ) * 0.1  # Adjust compliance strain
+        self.system_health["compliance_strain"] += (1 - impact_factor) * 0.1  # Adjust compliance strain
         self.modulate_emotional_state(scores)
         return scores
 
@@ -604,9 +565,7 @@ if __name__ == "__main__":
     # 4. Compliance drift (post-market monitoring)
     print("\n🔍 Test 4: Compliance drift monitoring")
     for _ in range(12):
-        print(
-            agi.process_decision({"personal_data": "sensitive", "social_scoring": True})
-        )
+        print(agi.process_decision({"personal_data": "sensitive", "social_scoring": True}))
 
     # 5. Region-specific hierarchy (EU strict vs China lenient)
     print("\n🔍 Test 5a: Region-specific compliance (EU stricter)")

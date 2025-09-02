@@ -89,9 +89,7 @@ class ConsensusEngine:
         self.config = config or {}
 
         # Configuration parameters
-        self.default_method = ConsensusMethod(
-            self.config.get("default_method", "hybrid_synthesis")
-        )
+        self.default_method = ConsensusMethod(self.config.get("default_method", "hybrid_synthesis"))
         self.confidence_threshold = self.config.get("confidence_threshold", 0.7)
         self.similarity_threshold = self.config.get("similarity_threshold", 0.6)
         self.max_processing_time_ms = self.config.get("max_processing_time_ms", 500)
@@ -102,9 +100,7 @@ class ConsensusEngine:
             {"length": 0.2, "coherence": 0.3, "confidence": 0.3, "uniqueness": 0.2},
         )
 
-        logger.info(
-            "Consensus Engine initialized with method: %s", self.default_method.value
-        )
+        logger.info("Consensus Engine initialized with method: %s", self.default_method.value)
 
     async def process_consensus(
         self,
@@ -170,9 +166,7 @@ class ConsensusEngine:
             result.individual_responses = responses
 
             # Calculate quality metrics
-            result.quality_metrics = self._calculate_quality_metrics(
-                result.final_response, responses
-            )
+            result.quality_metrics = self._calculate_quality_metrics(result.final_response, responses)
 
             logger.info(
                 "Consensus completed in %.2fms with confidence %.3f",
@@ -205,9 +199,7 @@ class ConsensusEngine:
         best_in_group = max(majority_group, key=lambda r: r.confidence)
 
         # Calculate consensus confidence based on group size
-        consensus_confidence = (
-            len(majority_group) / len(responses)
-        ) * best_in_group.confidence
+        consensus_confidence = (len(majority_group) / len(responses)) * best_in_group.confidence
 
         return ConsensusResult(
             final_response=best_in_group.content,
@@ -218,9 +210,7 @@ class ConsensusEngine:
             individual_responses=[],  # Will be set by caller
         )
 
-    async def _weighted_confidence_consensus(
-        self, responses: list[Any]
-    ) -> ConsensusResult:
+    async def _weighted_confidence_consensus(self, responses: list[Any]) -> ConsensusResult:
         """Implement confidence-weighted consensus"""
 
         # Sort responses by confidence
@@ -240,9 +230,7 @@ class ConsensusEngine:
             weighted_content_scores.append((response, weight, content_score))
 
         # Select the best weighted response
-        best_response = max(
-            weighted_content_scores, key=lambda x: x[1] * x[2]
-        )  # weight * content_score
+        best_response = max(weighted_content_scores, key=lambda x: x[1] * x[2])  # weight * content_score
 
         # Calculate consensus confidence
         consensus_confidence = min(best_response[1] / total_weight * 2, 1.0)
@@ -256,9 +244,7 @@ class ConsensusEngine:
             individual_responses=[],
         )
 
-    async def _similarity_clustering_consensus(
-        self, responses: list[Any]
-    ) -> ConsensusResult:
+    async def _similarity_clustering_consensus(self, responses: list[Any]) -> ConsensusResult:
         """Implement similarity-based clustering consensus"""
 
         # Calculate similarity matrix
@@ -271,9 +257,7 @@ class ConsensusEngine:
             return await self._best_response_consensus(responses)
 
         # Select the best cluster (largest with highest average confidence)
-        best_cluster = max(
-            clusters, key=lambda c: len(c) * sum(r.confidence for r in c)
-        )
+        best_cluster = max(clusters, key=lambda c: len(c) * sum(r.confidence for r in c))
 
         # Synthesize response from the best cluster
         synthesized_response = self._synthesize_cluster_response(best_cluster)
@@ -293,9 +277,7 @@ class ConsensusEngine:
             similarity_matrix=similarity_matrix,
         )
 
-    async def _hybrid_synthesis_consensus(
-        self, responses: list[Any]
-    ) -> ConsensusResult:
+    async def _hybrid_synthesis_consensus(self, responses: list[Any]) -> ConsensusResult:
         """Implement advanced hybrid synthesis consensus"""
 
         # Step 1: Quality scoring
@@ -308,19 +290,14 @@ class ConsensusEngine:
 
         # Step 3: Similarity analysis within high-quality responses
         if len(high_quality_responses) > 1:
-            similarity_matrix = self._calculate_similarity_matrix(
-                high_quality_responses
-            )
-            clusters = self._find_response_clusters(
-                high_quality_responses, similarity_matrix
-            )
+            similarity_matrix = self._calculate_similarity_matrix(high_quality_responses)
+            clusters = self._find_response_clusters(high_quality_responses, similarity_matrix)
 
             if clusters:
                 # Select best cluster and synthesize
                 best_cluster = max(
                     clusters,
-                    key=lambda c: len(c)
-                    * sum(self._score_response_quality(r) for r in c),
+                    key=lambda c: len(c) * sum(self._score_response_quality(r) for r in c),
                 )
                 synthesized_response = self._synthesize_cluster_response(best_cluster)
 
@@ -328,9 +305,7 @@ class ConsensusEngine:
                 quality_scores = [self._score_response_quality(r) for r in best_cluster]
                 avg_quality = sum(quality_scores) / len(quality_scores)
                 cluster_coherence = len(best_cluster) / len(high_quality_responses)
-                consensus_confidence = min(
-                    avg_quality * 0.7 + cluster_coherence * 0.3, 1.0
-                )
+                consensus_confidence = min(avg_quality * 0.7 + cluster_coherence * 0.3, 1.0)
 
                 return ConsensusResult(
                     final_response=synthesized_response,
@@ -353,9 +328,7 @@ class ConsensusEngine:
             individual_responses=[],
         )
 
-    async def _best_response_consensus(
-        self, responses: list[Any], error: Optional[str] = None
-    ) -> ConsensusResult:
+    async def _best_response_consensus(self, responses: list[Any], error: Optional[str] = None) -> ConsensusResult:
         """Simple best response selection (fallback method)"""
 
         # Score all responses and select the best
@@ -383,10 +356,7 @@ class ConsensusEngine:
 
             for group in groups:
                 # Check similarity with group representative (first item)
-                if (
-                    self._calculate_text_similarity(response.content, group[0].content)
-                    > self.similarity_threshold
-                ):
+                if self._calculate_text_similarity(response.content, group[0].content) > self.similarity_threshold:
                     group.append(response)
                     added_to_group = True
                     break
@@ -406,9 +376,7 @@ class ConsensusEngine:
                 if i == j:
                     similarity = 1.0
                 else:
-                    similarity = self._calculate_text_similarity(
-                        responses[i].content, responses[j].content
-                    )
+                    similarity = self._calculate_text_similarity(responses[i].content, responses[j].content)
 
                 matrix[i][j] = similarity
                 matrix[j][i] = similarity  # Symmetric matrix
@@ -439,9 +407,7 @@ class ConsensusEngine:
         # Combined similarity
         return (jaccard * 0.8) + (length_ratio * 0.2)
 
-    def _find_response_clusters(
-        self, responses: list[Any], similarity_matrix: list[list[float]]
-    ) -> list[list[Any]]:
+    def _find_response_clusters(self, responses: list[Any], similarity_matrix: list[list[float]]) -> list[list[Any]]:
         """Find clusters of similar responses using similarity matrix"""
         n = len(responses)
         visited = [False] * n
@@ -457,10 +423,7 @@ class ConsensusEngine:
 
             # Find similar responses
             for j in range(i + 1, n):
-                if (
-                    not visited[j]
-                    and similarity_matrix[i][j] > self.similarity_threshold
-                ):
+                if not visited[j] and similarity_matrix[i][j] > self.similarity_threshold:
                     cluster.append(responses[j])
                     visited[j] = True
 
@@ -493,9 +456,7 @@ class ConsensusEngine:
 
         # Coherence (simple heuristics)
         sentences = content.split(".")
-        coherence_score = min(
-            len(sentences) / 10, 1.0
-        )  # Reasonable number of sentences
+        coherence_score = min(len(sentences) / 10, 1.0)  # Reasonable number of sentences
 
         # Combine scores using configured weights
         quality_score = (
@@ -527,9 +488,7 @@ class ConsensusEngine:
 
         return length_score
 
-    def _calculate_quality_metrics(
-        self, final_response: str, responses: list[Any]
-    ) -> dict[str, float]:
+    def _calculate_quality_metrics(self, final_response: str, responses: list[Any]) -> dict[str, float]:
         """Calculate quality metrics for the consensus result"""
         if not responses:
             return {}

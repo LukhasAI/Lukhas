@@ -115,9 +115,7 @@ class OpenAIFunctionBridge:
     - Multi-model support (GPT-4, GPT-3.5-turbo)
     """
 
-    def __init__(
-        self, api_key: Optional[str] = None, default_model: str = "gpt-4-1106-preview"
-    ):
+    def __init__(self, api_key: Optional[str] = None, default_model: str = "gpt-4-1106-preview"):
         """Initialize OpenAI function bridge"""
 
         self.api_key = api_key or self._get_api_key()
@@ -281,9 +279,7 @@ class OpenAIFunctionBridge:
 
             logger.info(f"✅ Completed request in {latency_ms:.2f}ms")
             logger.info(f"   Function calls: {len(function_calls)}")
-            logger.info(
-                f"   Tokens used: {openai_response.usage.get('total_tokens', 0)}"
-            )
+            logger.info(f"   Tokens used: {openai_response.usage.get('total_tokens', 0)}")
 
             return openai_response
 
@@ -355,16 +351,8 @@ class OpenAIFunctionBridge:
                         for tool_call in choice.delta.tool_calls:
                             yield {
                                 "type": "function_call",
-                                "function_name": (
-                                    tool_call.function.name
-                                    if tool_call.function
-                                    else None
-                                ),
-                                "arguments": (
-                                    tool_call.function.arguments
-                                    if tool_call.function
-                                    else None
-                                ),
+                                "function_name": (tool_call.function.name if tool_call.function else None),
+                                "arguments": (tool_call.function.arguments if tool_call.function else None),
                             }
 
         except Exception as e:
@@ -414,16 +402,12 @@ class OpenAIFunctionBridge:
             func_call.execution_time_ms = (time.perf_counter() - execution_start) * 1000
             self.metrics["function_calls"] += 1
 
-    async def _validate_critical_function_call(
-        self, func_call: FunctionCall, func_def: FunctionDefinition
-    ) -> bool:
+    async def _validate_critical_function_call(self, func_call: FunctionCall, func_def: FunctionDefinition) -> bool:
         """Validate critical function calls with additional security"""
         try:
             # Check if confirmation is required
             if func_def.requires_confirmation:
-                logger.warning(
-                    f"🔒 Critical function '{func_call.name}' requires confirmation"
-                )
+                logger.warning(f"🔒 Critical function '{func_call.name}' requires confirmation")
                 # In a real implementation, this would prompt for user confirmation
                 return False
 
@@ -445,9 +429,7 @@ class OpenAIFunctionBridge:
         current_time = time.time()
 
         # Clean old requests (older than 1 minute)
-        self.request_times = [
-            req_time for req_time in self.request_times if current_time - req_time < 60
-        ]
+        self.request_times = [req_time for req_time in self.request_times if current_time - req_time < 60]
 
         # Check if we're hitting rate limit
         if len(self.request_times) >= self.max_requests_per_minute:
@@ -465,9 +447,7 @@ class OpenAIFunctionBridge:
         # Update average latency
         current_avg = self.metrics["average_latency_ms"]
         total_requests = self.metrics["total_requests"]
-        new_avg = (
-            (current_avg * (total_requests - 1)) + response.latency_ms
-        ) / total_requests
+        new_avg = ((current_avg * (total_requests - 1)) + response.latency_ms) / total_requests
         self.metrics["average_latency_ms"] = new_avg
 
         # Update token usage
@@ -502,9 +482,7 @@ class OpenAIFunctionBridge:
     def _calculate_performance_score(self) -> float:
         """Calculate overall performance score (0-1)"""
         # Factors: latency, success rate, function execution rate
-        latency_score = max(
-            0, 1 - (self.metrics["average_latency_ms"] / 1000)
-        )  # 1s = 0 score
+        latency_score = max(0, 1 - (self.metrics["average_latency_ms"] / 1000))  # 1s = 0 score
         error_rate = self.metrics["errors"] / max(self.metrics["total_requests"], 1)
         success_score = 1 - error_rate
 

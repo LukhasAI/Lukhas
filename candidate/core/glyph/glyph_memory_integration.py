@@ -210,15 +210,11 @@ class GlyphMemoryIndex:
         self.fold_to_glyphs[fold_key].add(glyph)
         self.glyph_bindings[(glyph, fold_key)] = binding
 
-        logger.debug(
-            f"Bound glyph '{glyph}' to fold '{fold_key}' with strength {binding_strength}"
-        )
+        logger.debug(f"Bound glyph '{glyph}' to fold '{fold_key}' with strength {binding_strength}")
 
         return binding
 
-    def get_folds_by_glyph(
-        self, glyph: str, min_strength: float = 0.0
-    ) -> list[tuple[str, GlyphBinding]]:
+    def get_folds_by_glyph(self, glyph: str, min_strength: float = 0.0) -> list[tuple[str, GlyphBinding]]:
         """
         Retrieve all memory folds associated with a glyph.
 
@@ -330,10 +326,7 @@ class EmotionalFoldingEngine:
         # Filter by time window
         cutoff_time = datetime.utcnow() - time_window
         recent_folds = [
-            f
-            for f in all_folds
-            if datetime.fromisoformat(f["timestamp"].replace("Z", "+00:00"))
-            > cutoff_time
+            f for f in all_folds if datetime.fromisoformat(f["timestamp"].replace("Z", "+00:00")) > cutoff_time
         ]
 
         # Group by emotional similarity
@@ -425,9 +418,7 @@ class EmotionalFoldingEngine:
             compression_type,
         )
 
-        logger.info(
-            f"Created folded memory {folded_memory['hash'][:10]}... from {len(memory_group)} sources"
-        )
+        logger.info(f"Created folded memory {folded_memory['hash'][:10]}... from {len(memory_group)} sources")
 
         return folded_memory
 
@@ -504,9 +495,7 @@ class EmotionalFoldingEngine:
             compression_ratio=compression_ratio,
             timestamp=datetime.utcnow(),
             glyphs=all_glyphs,
-            salience_score=np.mean(
-                [m.get("relevance_score", 0.5) for m in source_memories]
-            ),
+            salience_score=np.mean([m.get("relevance_score", 0.5) for m in source_memories]),
         )
 
         self.fold_lineages[fold_key] = lineage
@@ -582,18 +571,14 @@ class GlyphAffectCoupler:
         # Get memory's emotion vector
         memory_affect = memory_fold.get(
             "emotion_vector",
-            self.memory_system.emotion_vectors.get(
-                memory_fold.get("emotion", "neutral"), np.zeros(3)
-            ),
+            self.memory_system.emotion_vectors.get(memory_fold.get("emotion", "neutral"), np.zeros(3)),
         )
 
         # Get glyph's affect vector
         glyph_affect = self.glyph_affect_map.get(glyph, np.zeros(3))
 
         # Blend affects
-        coupled_affect = (
-            1 - affect_influence
-        ) * memory_affect + affect_influence * glyph_affect
+        coupled_affect = (1 - affect_influence) * memory_affect + affect_influence * glyph_affect
         coupled_affect = np.clip(coupled_affect, -1, 1)
 
         # Calculate binding strength based on affect alignment
@@ -702,9 +687,7 @@ class DreamMemoryBridge:
 
         logger.info("DreamMemoryBridge initialized")
 
-    def process_dream_state(
-        self, dream_data: dict[str, Any], activate_glyphs: bool = True
-    ) -> dict[str, Any]:
+    def process_dream_state(self, dream_data: dict[str, Any], activate_glyphs: bool = True) -> dict[str, Any]:
         """
         Process a dream state and update memory-glyph associations.
 
@@ -739,21 +722,14 @@ class DreamMemoryBridge:
         # Activate glyphs from dream
         if activate_glyphs:
             for glyph in dream_glyphs:
-                self.dream_glyph_activations[glyph] = (
-                    self.dream_glyph_activations.get(glyph, 0) + 1
-                )
+                self.dream_glyph_activations[glyph] = self.dream_glyph_activations.get(glyph, 0) + 1
                 results["activated_glyphs"].append(glyph)
 
                 # Create new associations with similar memories
                 for memory in similar_memories[:5]:  # Top 5 most similar
-                    if glyph not in [
-                        g
-                        for g, _ in self.glyph_index.get_glyphs_by_fold(memory["hash"])
-                    ]:
+                    if glyph not in [g for g, _ in self.glyph_index.get_glyphs_by_fold(memory["hash"])]:
                         # Create new dream-induced association
-                        affect_coupler = GlyphAffectCoupler(
-                            self.memory_system, self.glyph_index
-                        )
+                        affect_coupler = GlyphAffectCoupler(self.memory_system, self.glyph_index)
                         affect_coupler.couple_glyph_with_memory(
                             glyph=glyph,
                             memory_fold=memory,
@@ -808,9 +784,7 @@ class DreamMemoryBridge:
                     "glyph": glyph,
                     "meaning": meaning,
                     "activation_count": count,
-                    "activation_rate": (
-                        count / total_activations if total_activations > 0 else 0
-                    ),
+                    "activation_rate": (count / total_activations if total_activations > 0 else 0),
                 }
             )
 
@@ -845,9 +819,7 @@ class GlyphMemorySystem:
         self.glyph_index = GlyphMemoryIndex()
         self.folding_engine = EmotionalFoldingEngine(self.memory_system)
         self.affect_coupler = GlyphAffectCoupler(self.memory_system, self.glyph_index)
-        self.dream_bridge = DreamMemoryBridge(
-            self.memory_system, self.glyph_index, self.folding_engine
-        )
+        self.dream_bridge = DreamMemoryBridge(self.memory_system, self.glyph_index, self.folding_engine)
 
         logger.info("GlyphMemorySystem fully initialized")
 
@@ -899,9 +871,7 @@ class GlyphMemorySystem:
 
         memory["glyph_bindings"] = bindings
 
-        logger.info(
-            f"Created glyph-indexed memory {memory['hash'][:10]}... with {len(glyphs)} glyphs"
-        )
+        logger.info(f"Created glyph-indexed memory {memory['hash'][:10]}... with {len(glyphs)} glyphs")
 
         return memory
 
@@ -953,17 +923,13 @@ class GlyphMemorySystem:
         # Retrieve full memories
         results = []
         for fold_key in fold_keys:
-            memories = self.memory_system.recall_memory_folds(
-                user_tier=user_tier, limit=1
-            )
+            memories = self.memory_system.recall_memory_folds(user_tier=user_tier, limit=1)
             memory = next((m for m in memories if m["hash"] == fold_key), None)
 
             if memory:
                 # Add glyph binding info
                 memory["matched_glyphs"] = [
-                    g
-                    for g in glyphs
-                    if fold_key in self.glyph_index.glyph_to_folds.get(g, set())
+                    g for g in glyphs if fold_key in self.glyph_index.glyph_to_folds.get(g, set())
                 ]
                 results.append(memory)
 
@@ -987,9 +953,7 @@ class GlyphMemorySystem:
             Folding results
         """
         # Identify foldable groups
-        foldable_groups = self.folding_engine.identify_foldable_memories(
-            time_window=time_window, user_id=user_id
-        )
+        foldable_groups = self.folding_engine.identify_foldable_memories(time_window=time_window, user_id=user_id)
 
         results = {
             "groups_identified": len(foldable_groups),
@@ -1104,9 +1068,7 @@ def create_glyph_memory(
     return system.create_glyph_indexed_memory(emotion, context, glyphs, user_id)
 
 
-def recall_by_glyphs(
-    glyphs: list[str], mode: str = "any", limit: int = 50
-) -> list[dict[str, Any]]:
+def recall_by_glyphs(glyphs: list[str], mode: str = "any", limit: int = 50) -> list[dict[str, Any]]:
     """Convenience function to recall memories by glyph pattern."""
     system = get_glyph_memory_system()
     return system.recall_by_glyph_pattern(glyphs, mode, user_tier=5, limit=limit)

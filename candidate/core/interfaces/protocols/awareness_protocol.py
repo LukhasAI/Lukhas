@@ -124,9 +124,7 @@ class AwarenessProtocolInterface(ABC):
     """Interface for awareness protocol implementations"""
 
     @abstractmethod
-    async def initialize_session(
-        self, user_id: str, session_data: dict[str, Any]
-    ) -> SessionContext:
+    async def initialize_session(self, user_id: str, session_data: dict[str, Any]) -> SessionContext:
         """Initialize a new awareness session"""
 
     @abstractmethod
@@ -134,9 +132,7 @@ class AwarenessProtocolInterface(ABC):
         """Assess user awareness and assign tier"""
 
     @abstractmethod
-    async def update_session(
-        self, session_id: str, update_data: dict[str, Any]
-    ) -> SessionContext:
+    async def update_session(self, session_id: str, update_data: dict[str, Any]) -> SessionContext:
         """Update session context"""
 
     @abstractmethod
@@ -160,9 +156,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
         self.sessions: dict[str, SessionContext] = {}
         self.assessors: dict[AwarenessType, AwarenessAssessor] = {}
         self.logger = logger.getChild("DefaultAwarenessProtocol")
-        self.session_timeout = timedelta(
-            minutes=self.config.get("session_timeout_minutes", 60)
-        )
+        self.session_timeout = timedelta(minutes=self.config.get("session_timeout_minutes", 60))
 
         # Initialize built-in assessors
         self._initialize_builtin_assessors()
@@ -174,9 +168,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
             assessor = DefaultAwarenessAssessor(awareness_type)
             self.assessors[awareness_type] = assessor
 
-    async def initialize_session(
-        self, user_id: str, session_data: dict[str, Any]
-    ) -> SessionContext:
+    async def initialize_session(self, user_id: str, session_data: dict[str, Any]) -> SessionContext:
         """Initialize a new awareness session"""
         session_id = self._generate_session_id(user_id)
 
@@ -217,9 +209,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
             session.status = ProtocolStatus.COMPLETE
 
             # Set expiration
-            output.expires_at = datetime.utcnow() + timedelta(
-                hours=self.config.get("tier_validity_hours", 24)
-            )
+            output.expires_at = datetime.utcnow() + timedelta(hours=self.config.get("tier_validity_hours", 24))
 
             self.logger.info(
                 f"Assessment complete: {input_data.user_id} -> "
@@ -233,9 +223,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
             self.logger.error(f"Assessment failed: {e}")
             raise
 
-    async def update_session(
-        self, session_id: str, update_data: dict[str, Any]
-    ) -> SessionContext:
+    async def update_session(self, session_id: str, update_data: dict[str, Any]) -> SessionContext:
         """Update session context"""
         session = self.sessions.get(session_id)
         if not session:
@@ -270,9 +258,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
             supported_types = assessor.get_supported_types()
             for awareness_type in supported_types:
                 self.assessors[awareness_type] = assessor
-                self.logger.info(
-                    f"Registered assessor for {awareness_type}: {assessor.__class__.__name__}"
-                )
+                self.logger.info(f"Registered assessor for {awareness_type}: {assessor.__class__.__name__}")
             return True
         except Exception as e:
             self.logger.error(f"Failed to register assessor: {e}")
@@ -287,9 +273,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
     def get_protocol_metrics(self) -> dict[str, Any]:
         """Get protocol performance metrics"""
         active_sessions = sum(
-            1
-            for s in self.sessions.values()
-            if s.status in [ProtocolStatus.ACTIVE, ProtocolStatus.ASSESSING]
+            1 for s in self.sessions.values() if s.status in [ProtocolStatus.ACTIVE, ProtocolStatus.ASSESSING]
         )
 
         total_assessments = sum(s.assessment_count for s in self.sessions.values())

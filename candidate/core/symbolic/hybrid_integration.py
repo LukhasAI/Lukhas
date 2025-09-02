@@ -66,22 +66,16 @@ class NeuroSymbolicIntegrator:
         logger.info("Processing input with neuro-symbolic integration")
 
         # Process through symbolic reasoning engine
-        symbolic_results = await self._process_symbolic(
-            input_data, symbolic_engine, context
-        )
+        symbolic_results = await self._process_symbolic(input_data, symbolic_engine, context)
 
         # Process through neural engine
         neural_results = await self._process_neural(input_data, neural_engine, context)
 
         # Integrate results
-        integrated_results = self._integrate_results(
-            symbolic_results, neural_results, context
-        )
+        integrated_results = self._integrate_results(symbolic_results, neural_results, context)
 
         # Update processing history
-        self._update_history(
-            input_data, symbolic_results, neural_results, integrated_results
-        )
+        self._update_history(input_data, symbolic_results, neural_results, integrated_results)
 
         return integrated_results
 
@@ -223,8 +217,7 @@ class NeuroSymbolicIntegrator:
         # Calculate weighted confidence
         if effective_symbolic_weight + effective_neural_weight > 0:
             integrated_confidence = (
-                (symbolic_confidence * effective_symbolic_weight)
-                + (neural_confidence * effective_neural_weight)
+                (symbolic_confidence * effective_symbolic_weight) + (neural_confidence * effective_neural_weight)
             ) / (effective_symbolic_weight + effective_neural_weight)
         else:
             integrated_confidence = 0.0
@@ -255,9 +248,7 @@ class NeuroSymbolicIntegrator:
             "secondary_results": secondary_results,
             "symbolic_results": symbolic_results,
             "neural_results": neural_results,
-            "reasoning_trace": self._extract_reasoning_trace(
-                symbolic_results, neural_results, primary_source
-            ),
+            "reasoning_trace": self._extract_reasoning_trace(symbolic_results, neural_results, primary_source),
             "timestamp": datetime.now().isoformat(),
         }
 
@@ -300,9 +291,7 @@ class NeuroSymbolicIntegrator:
             "secondary_results": secondary_results,
             "symbolic_results": symbolic_results,
             "neural_results": neural_results,
-            "reasoning_trace": self._extract_reasoning_trace(
-                symbolic_results, neural_results, primary_source
-            ),
+            "reasoning_trace": self._extract_reasoning_trace(symbolic_results, neural_results, primary_source),
             "timestamp": datetime.now().isoformat(),
         }
 
@@ -347,8 +336,7 @@ class NeuroSymbolicIntegrator:
         # Calculate weighted confidence
         if adaptive_symbolic_weight + adaptive_neural_weight > 0:
             integrated_confidence = (
-                (symbolic_confidence * adaptive_symbolic_weight)
-                + (neural_confidence * adaptive_neural_weight)
+                (symbolic_confidence * adaptive_symbolic_weight) + (neural_confidence * adaptive_neural_weight)
             ) / (adaptive_symbolic_weight + adaptive_neural_weight)
         else:
             integrated_confidence = 0.0
@@ -380,9 +368,7 @@ class NeuroSymbolicIntegrator:
             "symbolic_results": symbolic_results,
             "neural_results": neural_results,
             "confidence_gap": confidence_gap,
-            "reasoning_trace": self._extract_reasoning_trace(
-                symbolic_results, neural_results, primary_source
-            ),
+            "reasoning_trace": self._extract_reasoning_trace(symbolic_results, neural_results, primary_source),
             "timestamp": datetime.now().isoformat(),
         }
 
@@ -439,10 +425,7 @@ class NeuroSymbolicIntegrator:
             neural_results_data = neural_results["results"]
 
             # If neural results contain reasoning steps
-            if (
-                isinstance(neural_results_data, dict)
-                and "reasoning_steps" in neural_results_data
-            ):
+            if isinstance(neural_results_data, dict) and "reasoning_steps" in neural_results_data:
                 for step in neural_results_data["reasoning_steps"]:
                     reasoning_trace.append(
                         {
@@ -458,10 +441,7 @@ class NeuroSymbolicIntegrator:
                     )
 
             # Include relevant insights from neural processing
-            if (
-                isinstance(neural_results_data, dict)
-                and "insights" in neural_results_data
-            ):
+            if isinstance(neural_results_data, dict) and "insights" in neural_results_data:
                 insights = neural_results_data["insights"]
                 if isinstance(insights, list):
                     for insight in insights:
@@ -470,11 +450,7 @@ class NeuroSymbolicIntegrator:
                                 "source": "neural",
                                 "step": len(reasoning_trace) + 1,
                                 "type": "insight",
-                                "content": (
-                                    insight
-                                    if isinstance(insight, str)
-                                    else str(insight)
-                                ),
+                                "content": (insight if isinstance(insight, str) else str(insight)),
                                 "confidence": neural_results.get("confidence", 0.0),
                             }
                         )
@@ -506,9 +482,7 @@ class NeuroSymbolicIntegrator:
             "input_type": input_data.get("type", "unknown"),
             "symbolic_confidence": symbolic_results.get("confidence", 0.0),
             "neural_confidence": neural_results.get("confidence", 0.0),
-            "integrated_confidence": integrated_results.get(
-                "integrated_confidence", 0.0
-            ),
+            "integrated_confidence": integrated_results.get("integrated_confidence", 0.0),
             "primary_source": integrated_results.get("primary_source", "unknown"),
         }
 

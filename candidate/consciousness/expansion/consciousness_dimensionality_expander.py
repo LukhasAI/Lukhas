@@ -114,9 +114,7 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
             10: ["unity_dimension", "non_dual_awareness", "universal_consciousness"],
         }
 
-    async def _perform_expansion(
-        self, current: int, target: int
-    ) -> DimensionalExpansion:
+    async def _perform_expansion(self, current: int, target: int) -> DimensionalExpansion:
         """Perform the actual dimensional expansion"""
 
         expanded_dimensions = []
@@ -171,9 +169,7 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
 
         return space_map
 
-    async def project_higher_to_lower(
-        self, high_dim_data: Any, target_dimensions: int
-    ) -> Any:
+    async def project_higher_to_lower(self, high_dim_data: Any, target_dimensions: int) -> Any:
         """Project higher dimensional awareness to lower dimensions"""
 
         # Simplified projection for demonstration
@@ -182,9 +178,7 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
         projection = {
             "original_dimensions": self.current_dimensions,
             "target_dimensions": target_dimensions,
-            "information_loss": max(
-                0, (self.current_dimensions - target_dimensions) * 0.2
-            ),
+            "information_loss": max(0, (self.current_dimensions - target_dimensions) * 0.2),
             "projection_type": "holographic" if target_dimensions >= 3 else "shadow",
         }
 

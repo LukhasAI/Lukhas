@@ -96,9 +96,7 @@ class MemoryIdentityIntegration:
         logger.debug(f"Memory registered: {memory_key}")
         return True
 
-    def verify_access_permission(
-        self, memory_key: str, user_id: Optional[str], requesting_tier: AccessTier
-    ) -> bool:
+    def verify_access_permission(self, memory_key: str, user_id: Optional[str], requesting_tier: AccessTier) -> bool:
         """
         Verify if a user has permission to access a memory.
 
@@ -180,16 +178,12 @@ class MemoryIdentityIntegration:
         # Check owner
         permission = self.memory_permissions[memory_key]
         if permission["owner_id"] != owner_id:
-            logger.warning(
-                f"Cannot share memory {memory_key}: User {owner_id} is not the owner"
-            )
+            logger.warning(f"Cannot share memory {memory_key}: User {owner_id} is not the owner")
             return False
 
         # Check if target user exists
         if not self.id_registry.get(target_user_id):
-            logger.warning(
-                f"Cannot share memory: Target user {target_user_id} doesn't exist"
-            )
+            logger.warning(f"Cannot share memory: Target user {target_user_id} doesn't exist")
             return False
 
         # Add target user to shared list
@@ -203,9 +197,7 @@ class MemoryIdentityIntegration:
         logger.debug(f"Memory {memory_key} shared with {target_user_id}")
         return True
 
-    def revoke_memory_access(
-        self, memory_key: str, owner_id: str, target_user_id: str
-    ) -> bool:
+    def revoke_memory_access(self, memory_key: str, owner_id: str, target_user_id: str) -> bool:
         """
         Revoke a user's access to a shared memory.
 
@@ -231,10 +223,7 @@ class MemoryIdentityIntegration:
             permission["shared_with"].remove(target_user_id)
 
         # Remove from target user's shared memories
-        if (
-            target_user_id in self.shared_memories
-            and memory_key in self.shared_memories[target_user_id]
-        ):
+        if target_user_id in self.shared_memories and memory_key in self.shared_memories[target_user_id]:
             self.shared_memories[target_user_id].remove(memory_key)
 
         logger.debug(f"Access to memory {memory_key} revoked from {target_user_id}")
@@ -252,9 +241,7 @@ class MemoryIdentityIntegration:
         """
         return list(self.shared_memories.get(user_id, set()))
 
-    def encrypt_memory_content(
-        self, memory_key: str, memory_content: dict[str, Any]
-    ) -> dict[str, Any]:
+    def encrypt_memory_content(self, memory_key: str, memory_content: dict[str, Any]) -> dict[str, Any]:
         """
         Encrypt sensitive memory content.
 
@@ -297,9 +284,7 @@ class MemoryIdentityIntegration:
             logger.error(f"Error encrypting memory content: {e!s}")
             return memory_content
 
-    def decrypt_memory_content(
-        self, memory_key: str, encrypted_memory: dict[str, Any]
-    ) -> dict[str, Any]:
+    def decrypt_memory_content(self, memory_key: str, encrypted_memory: dict[str, Any]) -> dict[str, Any]:
         """
         Decrypt encrypted memory content.
 
@@ -316,9 +301,7 @@ class MemoryIdentityIntegration:
 
         # Check if encryption key exists
         if memory_key not in self.encryption_keys:
-            logger.warning(
-                f"Cannot decrypt memory {memory_key}: Missing encryption key"
-            )
+            logger.warning(f"Cannot decrypt memory {memory_key}: Missing encryption key")
             return encrypted_memory
 
         try:
@@ -429,14 +412,10 @@ class MemoryIdentityIntegration:
         archived = 0
 
         for key in memory_keys:
-            if key in self.memory_permissions and not self.memory_permissions[key].get(
-                "archived", False
-            ):
+            if key in self.memory_permissions and not self.memory_permissions[key].get("archived", False):
                 # Mark the memory as archived rather than removing it
                 self.memory_permissions[key]["archived"] = True
-                self.memory_permissions[key][
-                    "archive_date"
-                ] = datetime.now().isoformat()
+                self.memory_permissions[key]["archive_date"] = datetime.now().isoformat()
                 self.memory_permissions[key]["archive_reason"] = "removal_notification"
 
                 # Remove from active shared memories while preserving the record
@@ -447,9 +426,7 @@ class MemoryIdentityIntegration:
                 archived += 1
 
         if archived > 0:
-            logger.info(
-                f"Archived {archived} memory permissions based on removal notification"
-            )
+            logger.info(f"Archived {archived} memory permissions based on removal notification")
 
     def get_permission_status(self, memory_key: str) -> dict[str, Any]:
         """

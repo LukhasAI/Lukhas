@@ -56,9 +56,7 @@ class ContextAnalyzer:
 
         logger.info("Context Analyzer initialized")
 
-    def analyze(
-        self, user_input: str, metadata: dict[str, Any], memory: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def analyze(self, user_input: str, metadata: dict[str, Any], memory: list[dict[str, Any]]) -> dict[str, Any]:
         """
         Analyze user input along with metadata and memory to extract context.
 
@@ -76,9 +74,7 @@ class ContextAnalyzer:
         nlp_analysis = self._analyze_text(user_input)
 
         # Analyze time context (time of day, day of week, etc.)
-        time_context = self._analyze_time(
-            metadata.get("timestamp", time.time()), metadata.get("timezone", "UTC")
-        )
+        time_context = self._analyze_time(metadata.get("timestamp", time.time()), metadata.get("timezone", "UTC"))
 
         # Analyze location context if available
         location_context = {}
@@ -98,9 +94,7 @@ class ContextAnalyzer:
             "intent": nlp_analysis["intent"],
             "sentiment": nlp_analysis["sentiment"],
             "emotion": nlp_analysis.get("emotion", "neutral"),
-            "urgency": self._determine_urgency(
-                nlp_analysis, time_context, device_context
-            ),
+            "urgency": self._determine_urgency(nlp_analysis, time_context, device_context),
             "formality": self._determine_formality(nlp_analysis, historical_context),
             "time_context": time_context,
             "location_context": location_context,
@@ -227,9 +221,7 @@ class ContextAnalyzer:
 
         return context
 
-    def _analyze_memory(
-        self, memory: list[dict[str, Any]], current_intent: str
-    ) -> dict[str, Any]:
+    def _analyze_memory(self, memory: list[dict[str, Any]], current_intent: str) -> dict[str, Any]:
         """
         Analyze past interactions to inform current context.
 
@@ -247,9 +239,7 @@ class ContextAnalyzer:
         familiarity = min(1.0, len(memory) / 100)
 
         # Find related past interactions
-        related_interactions = [
-            m for m in memory if m.get("context", {}).get("intent") == current_intent
-        ][
+        related_interactions = [m for m in memory if m.get("context", {}).get("intent") == current_intent][
             :5
         ]  # Limit to 5 most recent
 
@@ -286,9 +276,7 @@ class ContextAnalyzer:
 
         return min(1.0, max(0.0, urgency))
 
-    def _determine_formality(
-        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
-    ) -> float:
+    def _determine_formality(self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]) -> float:
         """
         Determine appropriate formality level.
 
@@ -304,9 +292,7 @@ class ContextAnalyzer:
 
         return max(0.1, min(0.9, formality))
 
-    def _check_compliance(
-        self, user_input: str, metadata: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _check_compliance(self, user_input: str, metadata: dict[str, Any]) -> dict[str, Any]:
         """
         Check for compliance issues in the interaction.
 
@@ -342,9 +328,7 @@ class ContextAnalyzer:
 
         return flags
 
-    def _calculate_confidence(
-        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
-    ) -> float:
+    def _calculate_confidence(self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]) -> float:
         """
         Calculate confidence in our context understanding.
 

@@ -103,13 +103,9 @@ class VoiceSafetyGuard:
             },
         ]
 
-        logger.info(
-            f"Voice Safety Guard initialized with {len(self.ethical_constraints)} ethical constraints"
-        )
+        logger.info(f"Voice Safety Guard initialized with {len(self.ethical_constraints)} ethical constraints")
 
-    def validate_response(
-        self, response: str, context: Optional[dict[str, Any]] = None
-    ) -> str:
+    def validate_response(self, response: str, context: Optional[dict[str, Any]] = None) -> str:
         """
         Validate a response against ethical and safety constraints
 
@@ -166,9 +162,7 @@ class VoiceSafetyGuard:
             urgency_context = context.get("urgency", 0.5) if context else 0.5
             if urgency_context < 0.7:  # Not a genuinely urgent situation
                 modified_params["energy"] = min(modified_params["energy"], 1.2)
-                logger.info(
-                    "Reduced voice energy parameter to avoid unwarranted intensity"
-                )
+                logger.info("Reduced voice energy parameter to avoid unwarranted intensity")
 
         # Example: Check for extreme pitch manipulation
         if "pitch" in modified_params:
@@ -178,18 +172,12 @@ class VoiceSafetyGuard:
                 emotion = context.get("emotion", "neutral") if context else "neutral"
                 if emotion == "neutral":
                     # No justification for extreme pitch, normalize it
-                    modified_params["pitch"] = max(
-                        0.85, min(1.15, modified_params["pitch"])
-                    )
-                    logger.info(
-                        "Normalized pitch parameter to avoid emotional manipulation"
-                    )
+                    modified_params["pitch"] = max(0.85, min(1.15, modified_params["pitch"]))
+                    logger.info("Normalized pitch parameter to avoid emotional manipulation")
 
         return modified_params
 
-    def check_transcription_safety(
-        self, transcription: dict[str, Any]
-    ) -> dict[str, Any]:
+    def check_transcription_safety(self, transcription: dict[str, Any]) -> dict[str, Any]:
         """
         Check transcribed user speech for safety issues
 
@@ -218,21 +206,15 @@ class VoiceSafetyGuard:
         # Add recommendations based on issues
         if "potentially_harmful" in result["issues"]:
             result["recommendations"].append("Detected potentially harmful content")
-            result["recommendations"].append(
-                "Redirect conversation away from harmful topics"
-            )
+            result["recommendations"].append("Redirect conversation away from harmful topics")
 
         if "concerning_self_harm" in result["issues"]:
             result["recommendations"].append("Detected concerning self-harm references")
-            result["recommendations"].append(
-                "Offer mental health resources and support"
-            )
+            result["recommendations"].append("Offer mental health resources and support")
 
         if "privacy_concern" in result["issues"]:
             result["recommendations"].append("Detected privacy concern")
-            result["recommendations"].append(
-                "Remind user not to share sensitive personal information"
-            )
+            result["recommendations"].append("Remind user not to share sensitive personal information")
 
         return result
 
@@ -339,18 +321,12 @@ class VoiceSafetyGuard:
                 modified_text,
                 flags=re.IGNORECASE,
             )
-            modified_text = re.sub(
-                r"\balways\b", "often", modified_text, flags=re.IGNORECASE
-            )
-            modified_text = re.sub(
-                r"\bnever\b", "rarely", modified_text, flags=re.IGNORECASE
-            )
+            modified_text = re.sub(r"\balways\b", "often", modified_text, flags=re.IGNORECASE)
+            modified_text = re.sub(r"\bnever\b", "rarely", modified_text, flags=re.IGNORECASE)
 
         if "transparency" in issues_by_constraint:
             # Replace certainty claims with appropriate hedges
-            modified_text = re.sub(
-                r"\bI know\b", "I believe", modified_text, flags=re.IGNORECASE
-            )
+            modified_text = re.sub(r"\bI know\b", "I believe", modified_text, flags=re.IGNORECASE)
             modified_text = re.sub(
                 r"\bI'm certain\b",
                 "I think",
@@ -369,9 +345,7 @@ class VoiceSafetyGuard:
                 modified_text,
                 flags=re.IGNORECASE,
             )
-            modified_text = re.sub(
-                r"\babsolutely\b", "likely", modified_text, flags=re.IGNORECASE
-            )
+            modified_text = re.sub(r"\babsolutely\b", "likely", modified_text, flags=re.IGNORECASE)
 
         if "authenticity" in issues_by_constraint:
             # Replace emotional claims

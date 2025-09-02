@@ -183,9 +183,7 @@ class EmotionHub:
         except Exception as e:
             logger.debug("emotion_integration_connection_failed", error=str(e))
 
-    async def process_emotional_input(
-        self, input_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_emotional_input(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process emotional input and update emotional state"""
         try:
             results = {}
@@ -217,9 +215,7 @@ class EmotionHub:
             logger.error("emotional_processing_failed", error=str(e))
             return {"error": str(e)}
 
-    async def _analyze_affect_stagnation(
-        self, input_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _analyze_affect_stagnation(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze input for affect stagnation patterns"""
         try:
             detector = self.services["affect_detection"]
@@ -259,9 +255,7 @@ class EmotionHub:
             if "emotion_tracking" in analysis_results:
                 tracking = analysis_results["emotion_tracking"]
                 if "primary_emotion" in tracking:
-                    self.emotional_state["primary_emotion"] = tracking[
-                        "primary_emotion"
-                    ]
+                    self.emotional_state["primary_emotion"] = tracking["primary_emotion"]
 
             if "mood_regulation" in analysis_results:
                 regulation = analysis_results["mood_regulation"]

@@ -157,12 +157,8 @@ class QICollapseEngine:
 
         try:
             # Determine collapse type based on input conditions
-            collapse_type = self._determine_collapse_type(
-                contradictions, reasoning_branches, context
-            )
-            method_logger.info(
-                "Collapse type determined", collapse_type=collapse_type.value
-            )
+            collapse_type = self._determine_collapse_type(contradictions, reasoning_branches, context)
+            method_logger.info("Collapse type determined", collapse_type=collapse_type.value)
 
             # Evaluate all branches for stability and viability
             evaluated_branches = []
@@ -183,9 +179,7 @@ class QICollapseEngine:
             resolution_strategy = self._select_resolution_strategy(
                 collapse_type, evaluated_branches, contradictions, context
             )
-            method_logger.info(
-                "Resolution strategy selected", strategy=resolution_strategy.value
-            )
+            method_logger.info("Resolution strategy selected", strategy=resolution_strategy.value)
 
             # Apply resolution strategy to select dominant branch
             resolved_chain = self._apply_resolution_strategy(
@@ -193,14 +187,8 @@ class QICollapseEngine:
             )
 
             # Calculate final metrics
-            eliminated_chains = [
-                b.chain_id
-                for b in evaluated_branches
-                if b.chain_id != resolved_chain.chain_id
-            ]
-            entropy_delta = self._calculate_entropy_delta(
-                reasoning_branches, resolved_chain
-            )
+            eliminated_chains = [b.chain_id for b in evaluated_branches if b.chain_id != resolved_chain.chain_id]
+            entropy_delta = self._calculate_entropy_delta(reasoning_branches, resolved_chain)
             confidence_score = self._calculate_final_confidence(resolved_chain, context)
 
             # Create collapse result
@@ -218,9 +206,7 @@ class QICollapseEngine:
                     "input_branches_count": len(reasoning_branches),
                     "context_snapshot": context,
                     "evaluation_metrics": {
-                        "branch_stabilities": [
-                            (b.chain_id, b.glyph_stability) for b in evaluated_branches
-                        ]
+                        "branch_stabilities": [(b.chain_id, b.glyph_stability) for b in evaluated_branches]
                     },
                 },
             )
@@ -248,11 +234,7 @@ class QICollapseEngine:
             )
             # Return minimal failure result
             failure_result = CollapseResult(
-                resolved_chain=(
-                    reasoning_branches[0]
-                    if reasoning_branches
-                    else ReasoningChain(chain_id="failure")
-                ),
+                resolved_chain=(reasoning_branches[0] if reasoning_branches else ReasoningChain(chain_id="failure")),
                 collapse_type=CollapseType.MANUAL_TRIGGER,
                 resolution_strategy=ResolutionStrategy.HIGHEST_CONFIDENCE,
                 eliminated_chains=[],
@@ -287,9 +269,7 @@ class QICollapseEngine:
             drift_alignment = max(0.0, 1.0 - branch.drift_score)
 
             # Emotional stability factor
-            emotional_stability = (
-                1.0 - abs(branch.emotional_weight - 0.5) * 2
-            )  # Penalize extreme emotions
+            emotional_stability = 1.0 - abs(branch.emotional_weight - 0.5) * 2  # Penalize extreme emotions
 
             # Ethical coherence bonus
             ethical_component = branch.ethical_score
@@ -488,9 +468,7 @@ class QICollapseEngine:
             return CollapseType.ETHICAL_CONFLICT
 
         # Check for stability issues
-        unstable_branches = sum(
-            1 for b in branches if b.glyph_stability < self.stability_threshold
-        )
+        unstable_branches = sum(1 for b in branches if b.glyph_stability < self.stability_threshold)
         if unstable_branches / len(branches) > 0.5:
             return CollapseType.STABILITY_THRESHOLD
 
@@ -540,21 +518,15 @@ class QICollapseEngine:
             # Fallback to highest confidence
             return max(branches, key=lambda b: b.confidence)
 
-    def _calculate_entropy_delta(
-        self, original_branches: list[ReasoningChain], resolved: ReasoningChain
-    ) -> float:
+    def _calculate_entropy_delta(self, original_branches: list[ReasoningChain], resolved: ReasoningChain) -> float:
         """Calculates the entropy change from collapse."""
         if not original_branches:
             return 0.0
 
-        original_entropy = sum(b.entropy for b in original_branches) / len(
-            original_branches
-        )
+        original_entropy = sum(b.entropy for b in original_branches) / len(original_branches)
         return original_entropy - resolved.entropy
 
-    def _calculate_final_confidence(
-        self, resolved_chain: ReasoningChain, context: dict
-    ) -> float:
+    def _calculate_final_confidence(self, resolved_chain: ReasoningChain, context: dict) -> float:
         """Calculates final confidence score for the resolved chain."""
         base_confidence = resolved_chain.confidence
 
@@ -567,9 +539,7 @@ class QICollapseEngine:
         # Ethical alignment boost
         ethical_boost = resolved_chain.ethical_score * 0.05
 
-        return min(
-            1.0, base_confidence + context_boost + stability_boost + ethical_boost
-        )
+        return min(1.0, base_confidence + context_boost + stability_boost + ethical_boost)
 
     def _calculate_symbolic_coherence(self, elements: list[dict[str, Any]]) -> float:
         """Calculates symbolic coherence between elements."""
@@ -625,12 +595,9 @@ class QICollapseEngine:
         return {
             "total_collapses": len(self.collapse_history),
             "threshold_breaches": len(self.threshold_events),
-            "recent_collapse_types": [
-                c.collapse_type.value for c in self.collapse_history[-10:]
-            ],
+            "recent_collapse_types": [c.collapse_type.value for c in self.collapse_history[-10:]],
             "average_confidence": (
-                sum(c.confidence_score for c in self.collapse_history)
-                / len(self.collapse_history)
+                sum(c.confidence_score for c in self.collapse_history) / len(self.collapse_history)
                 if self.collapse_history
                 else 0.0
             ),

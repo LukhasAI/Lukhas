@@ -11,9 +11,7 @@ POLICY_ROOT = os.path.join(HERE, "policy_packs")
 
 
 def run(cmd: list[str]) -> tuple[int, str]:
-    p = subprocess.Popen(
-        cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
-    )
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     out = []
     for line in p.stdout:  # type: ignore
         out.append(line)
@@ -40,9 +38,7 @@ def main():
 
     def step(name, cmd):
         rc, out = run(cmd)
-        results["steps"].append(
-            {"name": name, "rc": rc, "cmd": " ".join(cmd), "out": out}
-        )
+        results["steps"].append({"name": name, "rc": rc, "cmd": " ".join(cmd), "out": out})
         return rc, out
 
     # 1) coverage report

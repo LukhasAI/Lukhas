@@ -111,9 +111,7 @@ class OrchestrationMatrizAdapter:
         )
 
     @staticmethod
-    def emit_routing_event(
-        route_id: str, event_type: str, route_path: list[str], success: bool
-    ) -> dict[str, Any]:
+    def emit_routing_event(route_id: str, event_type: str, route_path: list[str], success: bool) -> dict[str, Any]:
         """Emit an event routing decision"""
 
         return OrchestrationMatrizAdapter.create_node(

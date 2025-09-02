@@ -65,9 +65,7 @@ class BotEnhancementEngine:
         self.active_enhancements = {}
         self.enhancement_cache = {}
 
-    async def enhance_reasoning(
-        self, request: EnhancementRequest
-    ) -> EnhancementResponse:
+    async def enhance_reasoning(self, request: EnhancementRequest) -> EnhancementResponse:
         """
         Enhance bot reasoning using brain's cognitive capabilities.
 
@@ -106,9 +104,7 @@ class BotEnhancementEngine:
             logger.error(f"Reasoning enhancement failed for bot {request.bot_id}: {e}")
             return self._create_error_response(request, str(e))
 
-    async def provide_memory_access(
-        self, request: EnhancementRequest
-    ) -> EnhancementResponse:
+    async def provide_memory_access(self, request: EnhancementRequest) -> EnhancementResponse:
         """
         Provide controlled access to brain memory systems.
 
@@ -126,9 +122,7 @@ class BotEnhancementEngine:
             access_level = request.request_data.get("access_level", "basic")
 
             # Query brain memory with appropriate access controls
-            memory_results = await self._query_brain_memory(
-                query, access_level, request.bot_id
-            )
+            memory_results = await self._query_brain_memory(query, access_level, request.bot_id)
 
             processing_time = asyncio.get_event_loop().time() - start_time
 
@@ -148,9 +142,7 @@ class BotEnhancementEngine:
             logger.error(f"Memory access failed for bot {request.bot_id}: {e}")
             return self._create_error_response(request, str(e))
 
-    async def cognitive_analysis(
-        self, request: EnhancementRequest
-    ) -> EnhancementResponse:
+    async def cognitive_analysis(self, request: EnhancementRequest) -> EnhancementResponse:
         """
         Analyze data using brain's cognitive systems.
 
@@ -188,9 +180,7 @@ class BotEnhancementEngine:
             logger.error(f"Cognitive analysis failed for bot {request.bot_id}: {e}")
             return self._create_error_response(request, str(e))
 
-    async def _apply_cognitive_reasoning(
-        self, problem: str, context: dict
-    ) -> dict[str, Any]:
+    async def _apply_cognitive_reasoning(self, problem: str, context: dict) -> dict[str, Any]:
         """Apply brain's reasoning capabilities to a problem"""
         # This would integrate with the actual brain reasoning systems
         # For now, return a placeholder structure
@@ -201,9 +191,7 @@ class BotEnhancementEngine:
             "alternatives": [],
         }
 
-    async def _query_brain_memory(
-        self, query: str, access_level: str, bot_id: str
-    ) -> list[dict]:
+    async def _query_brain_memory(self, query: str, access_level: str, bot_id: str) -> list[dict]:
         """Query brain memory with access controls"""
         # This would integrate with the actual brain memory systems
         # For now, return a placeholder structure
@@ -216,9 +204,7 @@ class BotEnhancementEngine:
             }
         ]
 
-    async def _apply_cognitive_analysis(
-        self, data: Any, analysis_type: str
-    ) -> dict[str, Any]:
+    async def _apply_cognitive_analysis(self, data: Any, analysis_type: str) -> dict[str, Any]:
         """Apply cognitive analysis to data"""
         # This would integrate with the actual brain analysis systems
         # For now, return a placeholder structure
@@ -229,9 +215,7 @@ class BotEnhancementEngine:
             "recommendations": [],
         }
 
-    def _create_error_response(
-        self, request: EnhancementRequest, error_msg: str
-    ) -> EnhancementResponse:
+    def _create_error_response(self, request: EnhancementRequest, error_msg: str) -> EnhancementResponse:
         """Create error response for failed enhancement"""
         return EnhancementResponse(
             request_id=f"error_{request.bot_id}_{int(asyncio.get_event_loop().time())}",

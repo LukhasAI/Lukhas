@@ -12,9 +12,7 @@ class LegacyStore:
     def read(self, key: str) -> Optional[dict[str, Any]]:
         raise NotImplementedError
 
-    def write(
-        self, key: str, value: Any, *, version: int, strength: float, meta: dict
-    ) -> bool:
+    def write(self, key: str, value: Any, *, version: int, strength: float, meta: dict) -> bool:
         """Return True if upserted/updated."""
         raise NotImplementedError
 

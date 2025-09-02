@@ -98,9 +98,7 @@ class LukhasFederatedModel:
     """
 
     # # Initialization
-    def __init__(
-        self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None
-    ):
+    def __init__(self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None):
         # ΛNOTE: Initializes a federated model instance.
         # ΛSEED: `initial_parameters` serve as the starting point (seed) for this
         # model's learning.
@@ -112,9 +110,7 @@ class LukhasFederatedModel:
         self.contribution_count = 0
         self.client_contributions: set[str] = set()  # Type hint for clarity
         self.performance_metrics: dict[str, Any] = {}
-        self.lukhas_signature = (
-            f"LUKHAS_{model_id}_{datetime.datetime.now().strftime('%Y%m%d')}"
-        )
+        self.lukhas_signature = f"LUKHAS_{model_id}_{datetime.datetime.now().strftime('%Y%m%d')}"
         # ΛTRACE: LukhasFederatedModel initialized
         logger.debug(
             "lukhas_federated_model_initialized",
@@ -124,9 +120,7 @@ class LukhasFederatedModel:
 
     # # Update model parameters with gradients from a client
     # ΛEXPOSE: Core method for clients to contribute updates to the model.
-    def update_with_gradients(
-        self, gradients: dict, client_id: str, weight: float = 1.0
-    ) -> bool:
+    def update_with_gradients(self, gradients: dict, client_id: str, weight: float = 1.0) -> bool:
         """
         Update model parameters with gradients from a client
 
@@ -145,9 +139,7 @@ class LukhasFederatedModel:
         )
         if not gradients:
             # ΛTRACE: Empty gradients received
-            logger.warn(
-                "empty_gradients_received", model_id=self.model_id, client_id=client_id
-            )
+            logger.warn("empty_gradients_received", model_id=self.model_id, client_id=client_id)
             return False
 
         for param_name, grad_value in gradients.items():
@@ -158,10 +150,7 @@ class LukhasFederatedModel:
                 if (
                     isinstance(self.parameters[param_name], (int, float, np.number))
                     and isinstance(grad_value, (int, float, np.number))
-                ) or (
-                    isinstance(self.parameters[param_name], np.ndarray)
-                    and isinstance(grad_value, np.ndarray)
-                ):
+                ) or (isinstance(self.parameters[param_name], np.ndarray) and isinstance(grad_value, np.ndarray)):
                     self.parameters[param_name] += weight * grad_value
                 else:
                     # ΛTRACE: Parameter type mismatch or unhandled type for gradient
@@ -174,9 +163,7 @@ class LukhasFederatedModel:
                         grad_type=type(grad_value),
                     )
             else:
-                self.parameters[param_name] = (
-                    weight * grad_value
-                )  # Initialize new parameter
+                self.parameters[param_name] = weight * grad_value  # Initialize new parameter
                 # ΛTRACE: New parameter initialized from gradient
                 logger.debug(
                     "new_parameter_initialized_from_gradient",
@@ -243,9 +230,7 @@ class LukhasFederatedModel:
             "version": self.version,
             "last_updated": self.last_updated.isoformat(),
             "contribution_count": self.contribution_count,
-            "client_contributions": list(
-                self.client_contributions
-            ),  # Convert set to list
+            "client_contributions": list(self.client_contributions),  # Convert set to list
             "performance_metrics": self.performance_metrics,
             "lukhas_signature": self.lukhas_signature,
             # ΛNOTE: Indicates this model structure is LUKHAS specific.
@@ -267,13 +252,9 @@ class LukhasFederatedModel:
         model.version = data["version"]
         model.last_updated = datetime.datetime.fromisoformat(data["last_updated"])
         model.contribution_count = data["contribution_count"]
-        model.client_contributions = set(
-            data["client_contributions"]
-        )  # Convert list back to set
+        model.client_contributions = set(data["client_contributions"])  # Convert list back to set
         model.performance_metrics = data.get("performance_metrics", {})
-        model.lukhas_signature = data.get(
-            "lukhas_signature", model.lukhas_signature
-        )  # Fallback for older data
+        model.lukhas_signature = data.get("lukhas_signature", model.lukhas_signature)  # Fallback for older data
         # ΛTRACE: Model deserialized
         logger.debug(
             "model_deserialized_complete",
@@ -300,12 +281,8 @@ class LukhasFederatedLearningManager:
         # ΛSEED: `storage_dir` defines the root for all federated learning persistence.
         self.models: dict[str, LukhasFederatedModel] = {}
         self.client_models: dict[str, set[str]] = defaultdict(set)
-        self.aggregation_threshold = (
-            3  # ΛNOTE: Min clients before (simulated) aggregation.
-        )
-        self.storage_dir = storage_dir or os.path.join(
-            os.getcwd(), "lukhas_federated_models"
-        )
+        self.aggregation_threshold = 3  # ΛNOTE: Min clients before (simulated) aggregation.
+        self.storage_dir = storage_dir or os.path.join(os.getcwd(), "lukhas_federated_models")
         # ΛSEED: Metadata about the system's origin and features.
         self.lukhas_metadata = {
             "system": "LUKHAS",
@@ -345,9 +322,7 @@ class LukhasFederatedLearningManager:
         # ΛNOTE: Creates or returns an existing model.
         # ΛSEED: `initial_parameters` act as the seed for a new model.
         # ΛTRACE: Registering model
-        logger.info(
-            "register_lukhas_model_start", model_id=model_id, model_type=model_type
-        )
+        logger.info("register_lukhas_model_start", model_id=model_id, model_type=model_type)
         if model_id in self.models:
             # ΛTRACE: Model already exists
             logger.info("model_already_exists_returning_existing", model_id=model_id)
@@ -357,16 +332,12 @@ class LukhasFederatedLearningManager:
         self.models[model_id] = model
         self.save_model(model)
         # ΛTRACE: New model registered
-        logger.info(
-            "new_lukhas_model_registered", model_id=model_id, model_type=model_type
-        )
+        logger.info("new_lukhas_model_registered", model_id=model_id, model_type=model_type)
         return model
 
     # # Get model parameters for a client
     # ΛEXPOSE: Allows clients to retrieve models for local training.
-    def get_model(
-        self, model_id: str, client_id: Optional[str] = None
-    ) -> Optional[dict]:
+    def get_model(self, model_id: str, client_id: Optional[str] = None) -> Optional[dict]:
         """
         Get model parameters for a LUKHAS client
 
@@ -434,9 +405,7 @@ class LukhasFederatedLearningManager:
             return False
 
         model = self.models[model_id]
-        weight = self._calculate_client_weight(
-            client_id, model_id
-        )  # ΛNOTE: Weighting client contributions.
+        weight = self._calculate_client_weight(client_id, model_id)  # ΛNOTE: Weighting client contributions.
         success = model.update_with_gradients(gradients, client_id, weight)
 
         if success:
@@ -473,13 +442,9 @@ class LukhasFederatedLearningManager:
         # ΛNOTE: Simple weighting. Could be enhanced (e.g., reputation, data quality).
         # ΛCAUTION: Current weighting is basic and may not be robust against adversarial clients.
         # ΛTRACE: Calculating client weight
-        logger.debug(
-            "calculating_client_weight", client_id=client_id, model_id=model_id
-        )
+        logger.debug("calculating_client_weight", client_id=client_id, model_id=model_id)
         base_weight = 1.0
-        model = self.models[
-            model_id
-        ]  # Assume model_id is valid here, checked by caller
+        model = self.models[model_id]  # Assume model_id is valid here, checked by caller
 
         # Example: Reduce weight for very frequent contributors relative to total unique contributors
         # This is a naive approach and needs refinement.
@@ -554,22 +519,16 @@ class LukhasFederatedLearningManager:
     def load_models(self):
         """Load all models from storage"""
         # ΛTRACE: Loading all LUKHAS models from storage
-        logger.info(
-            "loading_all_lukhas_models_from_storage", storage_dir=self.storage_dir
-        )
+        logger.info("loading_all_lukhas_models_from_storage", storage_dir=self.storage_dir)
         if not os.path.exists(self.storage_dir):
             # ΛTRACE: Storage directory not found for loading models
-            logger.warn(
-                "load_models_storage_dir_not_found", storage_dir=self.storage_dir
-            )
+            logger.warn("load_models_storage_dir_not_found", storage_dir=self.storage_dir)
             return
 
         loaded_count = 0
         for filename in os.listdir(self.storage_dir):
             if filename.endswith(".json"):
-                model_path = os.path.join(
-                    self.storage_dir, filename
-                )  # Define model_path here
+                model_path = os.path.join(self.storage_dir, filename)  # Define model_path here
                 try:
                     with open(model_path) as f:  # Use model_path
                         data = json.load(f)

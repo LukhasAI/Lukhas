@@ -130,9 +130,7 @@ class PersonaSimilarityEngine:
                 all_features.add("trinity_aligned")
 
         # Create feature map
-        self.feature_map = {
-            feature: i for i, feature in enumerate(sorted(all_features))
-        }
+        self.feature_map = {feature: i for i, feature in enumerate(sorted(all_features))}
         feature_count = len(self.feature_map)
 
         # Create embeddings for each persona
@@ -267,9 +265,7 @@ class PersonaSimilarityEngine:
                 confidence="low",
             )
 
-    def rank_personas(
-        self, symbolic_trace: dict[str, Any], top_n: int = 3
-    ) -> list[PersonaMatch]:
+    def rank_personas(self, symbolic_trace: dict[str, Any], top_n: int = 3) -> list[PersonaMatch]:
         """
         Rank all personas by similarity to current state.
 
@@ -299,9 +295,7 @@ class PersonaSimilarityEngine:
             glyph_overlap = len(session_glyphs & persona_glyphs)
 
             # Weighted score
-            weighted_score = (similarity * 0.7) + (
-                glyph_overlap * 0.3 / max(len(persona_glyphs), 1)
-            )
+            weighted_score = (similarity * 0.7) + (glyph_overlap * 0.3 / max(len(persona_glyphs), 1))
 
             similarities.append((persona_name, weighted_score, glyph_overlap))
 
@@ -318,9 +312,7 @@ class PersonaSimilarityEngine:
             trait_alignment = self._calculate_trait_alignment(symbolic_trace, persona)
 
             # Generate explanation
-            explanation = self._generate_explanation(
-                symbolic_trace, persona, score, glyph_overlap
-            )
+            explanation = self._generate_explanation(symbolic_trace, persona, score, glyph_overlap)
 
             # Determine confidence
             if score > 0.8:
@@ -348,9 +340,7 @@ class PersonaSimilarityEngine:
 
         return matches
 
-    def _calculate_trait_alignment(
-        self, symbolic_trace: dict[str, Any], persona: dict[str, Any]
-    ) -> dict[str, float]:
+    def _calculate_trait_alignment(self, symbolic_trace: dict[str, Any], persona: dict[str, Any]) -> dict[str, float]:
         """Calculate alignment between session state and persona traits"""
         alignment = {}
 
@@ -398,9 +388,7 @@ class PersonaSimilarityEngine:
         if glyph_overlap > 2:
             explanations.append(f"{glyph_overlap} shared glyphs")
         elif glyph_overlap > 0:
-            explanations.append(
-                f"{glyph_overlap} shared glyph{'s' if glyph_overlap > 1 else ''}"
-            )
+            explanations.append(f"{glyph_overlap} shared glyph{'s' if glyph_overlap > 1 else ''}")
 
         # State explanation
         drift = symbolic_trace.get("drift_score", 0.5)
@@ -411,9 +399,7 @@ class PersonaSimilarityEngine:
 
         return "; ".join(explanations)
 
-    def evolve_persona(
-        self, drift_history: list[dict[str, Any]], current_persona: str
-    ) -> dict[str, Any]:
+    def evolve_persona(self, drift_history: list[dict[str, Any]], current_persona: str) -> dict[str, Any]:
         """
         Suggest persona evolution based on drift history.
 
@@ -503,9 +489,7 @@ class PersonaSimilarityEngine:
                 "alternative_score": top_match.similarity_score,
             }
 
-    def get_fallback_if_collapse(
-        self, symbolic_trace: dict[str, Any]
-    ) -> dict[str, Any]:
+    def get_fallback_if_collapse(self, symbolic_trace: dict[str, Any]) -> dict[str, Any]:
         """
         Get fallback persona if symbolic collapse detected.
 
@@ -630,14 +614,10 @@ class PersonaSimilarityEngine:
             "persona_distribution": persona_frequencies,
             "transitions": transitions,
             "transition_rate": len(transitions) / max(len(session_traces) - 1, 1),
-            "recommendations": self._generate_batch_recommendations(
-                stability, transitions, dominant_persona
-            ),
+            "recommendations": self._generate_batch_recommendations(stability, transitions, dominant_persona),
         }
 
-    def _generate_batch_recommendations(
-        self, stability: float, transitions: list[dict], dominant: str
-    ) -> list[str]:
+    def _generate_batch_recommendations(self, stability: float, transitions: list[dict], dominant: str) -> list[str]:
         """Generate recommendations from batch analysis"""
         recommendations = []
 
@@ -651,9 +631,7 @@ class PersonaSimilarityEngine:
 
         # Check if dominant persona is high-risk
         dominant_profile = self.personas.get(dominant, {})
-        thresholds = dominant_profile.get(
-            "thresholds", dominant_profile.get("drift_thresholds", {})
-        )
+        thresholds = dominant_profile.get("thresholds", dominant_profile.get("drift_thresholds", {}))
         if isinstance(thresholds, dict) and thresholds.get("max", 0) > 0.7:
             recommendations.append(
                 f"Dominant persona '{dominant}' has high drift threshold - ensure Guardian oversight"
@@ -687,17 +665,11 @@ class PersonaSimilarityEngine:
                 "top_match": matches[0].__dict__ if matches else None,
                 "all_matches": [m.__dict__ for m in matches],
                 "embedding_features": list(self.feature_map.keys()),
-                "trinity_alignment": any(
-                    g in self.trinity_core for g in symbolic_trace.get("glyphs", [])
-                ),
+                "trinity_alignment": any(g in self.trinity_core for g in symbolic_trace.get("glyphs", [])),
             },
             "recommendations": {
-                "primary": (
-                    matches[0].persona_name if matches else self.fallback_persona
-                ),
-                "alternatives": (
-                    [m.persona_name for m in matches[1:4]] if len(matches) > 1 else []
-                ),
+                "primary": (matches[0].persona_name if matches else self.fallback_persona),
+                "alternatives": ([m.persona_name for m in matches[1:4]] if len(matches) > 1 else []),
                 "confidence": matches[0].confidence if matches else "low",
             },
         }
@@ -721,12 +693,8 @@ class PersonaSimilarityEngine:
         """Get engine statistics"""
         embedding_dims = 0
         if self.persona_embeddings:
-            first_embedding = self.persona_embeddings[
-                next(iter(self.persona_embeddings))
-            ]
-            embedding_dims = (
-                len(first_embedding) if hasattr(first_embedding, "__len__") else 0
-            )
+            first_embedding = self.persona_embeddings[next(iter(self.persona_embeddings))]
+            embedding_dims = len(first_embedding) if hasattr(first_embedding, "__len__") else 0
 
         return {
             "personas_loaded": len(self.personas),

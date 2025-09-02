@@ -97,18 +97,12 @@ class AdvancedMemoryManager:
     # ΛSEED: Initialization sets up the memory management framework with its components.
     def __init__(
         self,
-        base_memory_manager: Optional[
-            MemoryManager
-        ] = None,  # ΛNOTE: Base manager for raw storage.
+        base_memory_manager: Optional[MemoryManager] = None,  # ΛNOTE: Base manager for raw storage.
         fold_engine_instance: Optional[
             Any
         ] = None,  # ΛNOTE: Instance of AGIMemory from fold_engine.py, renamed for clarity.
-        emotional_oscillator: Optional[
-            Any
-        ] = None,  # Replace Any with actual type #ΛLINK_CONCEPTUAL: EmotionalSystem
-        qi_attention: Optional[
-            Any
-        ] = None,  # Replace Any with actual type #ΛLINK_CONCEPTUAL: AttentionSystem
+        emotional_oscillator: Optional[Any] = None,  # Replace Any with actual type #ΛLINK_CONCEPTUAL: EmotionalSystem
+        qi_attention: Optional[Any] = None,  # Replace Any with actual type #ΛLINK_CONCEPTUAL: AttentionSystem
     ):
         """
         Initializes the AdvancedMemoryManager.
@@ -133,9 +127,7 @@ class AdvancedMemoryManager:
         # This should ideally be `AGIMemory` from `.fold_engine` if that's the intent.
         # For now, keeping as `MemoryFoldEngine` as per original code's type hint,
         # but logging a caution.
-        if not hasattr(
-            self.fold_engine, "add_fold"
-        ):  # Basic check for AGIMemory-like interface
+        if not hasattr(self.fold_engine, "add_fold"):  # Basic check for AGIMemory-like interface
             logger.warning(
                 "AdvancedMemoryManager_fold_engine_interface_mismatch",
                 fold_engine_type=type(self.fold_engine).__name__,
@@ -143,28 +135,24 @@ class AdvancedMemoryManager:
                 tag="dependency_warning",
             )  # ΛCAUTION
 
-        self.emotional_oscillator = (
-            emotional_oscillator  # ΛSIM_TRACE: Conceptual component.
-        )
+        self.emotional_oscillator = emotional_oscillator  # ΛSIM_TRACE: Conceptual component.
         self.qi_attention = qi_attention  # ΛSIM_TRACE: Conceptual component.
 
         self.emotion_vectors: dict[str, list[float]] = (
             self._load_emotion_vectors()
         )  # ΛSEED: Predefined emotion vectors.
-        self.memory_clusters: dict[str, list[str]] = (
-            {}
-        )  # For simple keyword/tag based clustering.
+        self.memory_clusters: dict[str, list[str]] = {}  # For simple keyword/tag based clustering.
 
-        self.metrics: dict[str, int] = (
-            {  # ΛTRACE: Internal metrics for monitoring. #ΛDRIFT_HOOK (Metrics can indicate drift if they change unexpectedly over time)
-                "total_memories_managed": 0,
-                "successful_retrievals": 0,
-                "emotional_context_usage": 0,
-                "qi_attention_activations": 0,
-                "memories_stored": 0,
-                "searches_performed": 0,
-            }
-        )
+        self.metrics: dict[
+            str, int
+        ] = {  # ΛTRACE: Internal metrics for monitoring. #ΛDRIFT_HOOK (Metrics can indicate drift if they change unexpectedly over time)
+            "total_memories_managed": 0,
+            "successful_retrievals": 0,
+            "emotional_context_usage": 0,
+            "qi_attention_activations": 0,
+            "memories_stored": 0,
+            "searches_performed": 0,
+        }
         # ΛTEMPORAL_HOOK: Initialization timestamp captured implicitly by log.
         logger.info(
             "AdvancedMemoryManager_initialized",
@@ -207,9 +195,7 @@ class AdvancedMemoryManager:
         content: Any,
         memory_type: MemoryType = MemoryType.EPISODIC,  # ΛNOTE: Defaults to EPISODIC.
         priority: MemoryPriority = MemoryPriority.MEDIUM,
-        emotional_context: Optional[
-            dict[str, Any]
-        ] = None,  # ΛLINK_CONCEPTUAL: EmotionalSystem
+        emotional_context: Optional[dict[str, Any]] = None,  # ΛLINK_CONCEPTUAL: EmotionalSystem
         tags: Optional[list[str]] = None,
         owner_id: Optional[str] = "SYSTEM",  # AIDENTITY
         metadata: Optional[dict[str, Any]] = None,
@@ -235,9 +221,7 @@ class AdvancedMemoryManager:
         memory_id = str(
             uuid.uuid4()
         )  # Generate a unique ID for this memory event. #AIDENTITY_BRIDGE (memory_id links data to an identity)
-        current_timestamp_iso = datetime.now(
-            timezone.utc
-        ).isoformat()  # ΛTEMPORAL_HOOK (Timestamping memory creation)
+        current_timestamp_iso = datetime.now(timezone.utc).isoformat()  # ΛTEMPORAL_HOOK (Timestamping memory creation)
         datetime.fromisoformat(current_timestamp_iso)
 
         # ΛTRACE: Attempting to store memory with detailed context.
@@ -275,12 +259,8 @@ class AdvancedMemoryManager:
             # The base MemoryManager from `learning/memory_learning/memory_manager.py` is not async.
             # This implies the imported `MemoryManager` is a different,
             # async-compatible one.
-            await self.memory_manager.store(
-                memory_id, memory_data_for_base_manager
-            )  # Store in base manager
-            logger.debug(
-                "AdvancedMemoryManager_stored_in_base_manager", memory_id=memory_id
-            )
+            await self.memory_manager.store(memory_id, memory_data_for_base_manager)  # Store in base manager
+            logger.debug("AdvancedMemoryManager_stored_in_base_manager", memory_id=memory_id)
 
             # Create and store MemoryFold using the fold_engine (AGIMemory instance)
             # ΛNOTE: `timestamp_utc` for MemoryFold constructor expects datetime object.
@@ -308,9 +288,7 @@ class AdvancedMemoryManager:
             )
 
             # Process emotional context if available and oscillator exists
-            if (
-                emotional_context and self.emotional_oscillator
-            ):  # ΛLINK_CONCEPTUAL: EmotionalSystem
+            if emotional_context and self.emotional_oscillator:  # ΛLINK_CONCEPTUAL: EmotionalSystem
                 await self._process_emotional_context(memory_id, emotional_context)
 
             # Update internal clustering based on the new memory
@@ -322,9 +300,7 @@ class AdvancedMemoryManager:
 
             # Update metrics
             self.metrics["memories_stored"] += 1
-            self.metrics[
-                "total_memories_managed"
-            ] += 1  # This might double count if base_manager also has own count.
+            self.metrics["total_memories_managed"] += 1  # This might double count if base_manager also has own count.
             if emotional_context:
                 self.metrics["emotional_context_usage"] += 1
 
@@ -364,14 +340,10 @@ class AdvancedMemoryManager:
             if memory_data:
                 # Update access metadata #ΛTEMPORAL_HOOK (last_accessed updated)
                 memory_data["access_count"] = memory_data.get("access_count", 0) + 1
-                memory_data["last_accessed"] = datetime.now(
-                    timezone.utc
-                ).isoformat()  # ΛTEMPORAL_HOOK
+                memory_data["last_accessed"] = datetime.now(timezone.utc).isoformat()  # ΛTEMPORAL_HOOK
                 # ΛCAUTION: Assumes base `self.memory_manager.store` is async for
                 # update.
-                await self.memory_manager.store(
-                    memory_id, memory_data
-                )  # Re-store to update access info
+                await self.memory_manager.store(memory_id, memory_data)  # Re-store to update access info
 
                 self.metrics["successful_retrievals"] += 1
                 logger.info(
@@ -440,15 +412,13 @@ class AdvancedMemoryManager:
                 )  # ΛCAUTION
                 return []
 
-            search_result_keys: list[str] = (
-                await self.fold_engine.search_folds(  # ΛCAUTION: Assumed async
-                    query=query,
-                    # This filter is also conceptual for AGIMemory
-                    emotional_context_filter=emotional_filter,
-                    memory_type=memory_type,
-                    owner_id=owner_id,
-                    limit=limit,
-                )
+            search_result_keys: list[str] = await self.fold_engine.search_folds(  # ΛCAUTION: Assumed async
+                query=query,
+                # This filter is also conceptual for AGIMemory
+                emotional_context_filter=emotional_filter,
+                memory_type=memory_type,
+                owner_id=owner_id,
+                limit=limit,
             )
             logger.debug(
                 "AdvancedMemoryManager_fold_engine_search_keys_retrieved",
@@ -459,23 +429,17 @@ class AdvancedMemoryManager:
             for fold_key in search_result_keys:
                 # Retrieve full memory data using the base manager (or this class's
                 # retrieve_memory)
-                memory_data = await self.retrieve_memory(
-                    fold_key
-                )  # This updates access counts
+                memory_data = await self.retrieve_memory(fold_key)  # This updates access counts
                 if memory_data:
                     memories_found.append(memory_data)
 
             # Apply conceptual quantum attention
-            if (
-                self.qi_attention and memories_found
-            ):  # ΛLINK_CONCEPTUAL: AttentionSystem #ΛSIM_TRACE
+            if self.qi_attention and memories_found:  # ΛLINK_CONCEPTUAL: AttentionSystem #ΛSIM_TRACE
                 logger.debug(
                     "AdvancedMemoryManager_applying_quantum_attention",
                     num_results_before=len(memories_found),
                 )
-                memories_found = await self._apply_quantum_attention(
-                    memories_found, query
-                )
+                memories_found = await self._apply_quantum_attention(memories_found, query)
                 self.metrics["qi_attention_activations"] += 1
                 logger.debug(
                     "AdvancedMemoryManager_quantum_attention_applied",
@@ -516,9 +480,7 @@ class AdvancedMemoryManager:
             limit=limit,
         )
         try:
-            if (
-                emotion not in self.emotion_vectors
-            ):  # ΛCAUTION: Relies on predefined emotion vectors.
+            if emotion not in self.emotion_vectors:  # ΛCAUTION: Relies on predefined emotion vectors.
                 logger.warning(
                     "AdvancedMemoryManager_unknown_emotion_for_retrieval",
                     emotion=emotion,
@@ -538,12 +500,10 @@ class AdvancedMemoryManager:
                 )  # ΛCAUTION
                 return []
 
-            emotional_result_keys: list[str] = (
-                await self.fold_engine.retrieve_by_emotion(  # ΛCAUTION: Assumed async
-                    emotion=emotion,
-                    intensity_threshold=intensity_threshold,
-                    limit=limit,
-                )
+            emotional_result_keys: list[str] = await self.fold_engine.retrieve_by_emotion(  # ΛCAUTION: Assumed async
+                emotion=emotion,
+                intensity_threshold=intensity_threshold,
+                limit=limit,
             )
             logger.debug(
                 "AdvancedMemoryManager_fold_engine_emotion_keys_retrieved",
@@ -605,10 +565,8 @@ class AdvancedMemoryManager:
                     "error": "Consolidation method not available in fold engine.",
                 }
 
-            consolidation_result = (
-                await self.fold_engine.consolidate_memories(  # ΛCAUTION: Assumed async
-                    time_window_hours=time_window_hours
-                )
+            consolidation_result = await self.fold_engine.consolidate_memories(  # ΛCAUTION: Assumed async
+                time_window_hours=time_window_hours
             )
             logger.info(
                 "AdvancedMemoryManager_consolidation_completed",
@@ -628,9 +586,7 @@ class AdvancedMemoryManager:
     @lukhas_tier_required(1)  # Internal helper
     # AINTERNAL: Processes emotional context for a memory. #ΛLINK_CONCEPTUAL:
     # EmotionalSystem
-    async def _process_emotional_context(
-        self, memory_id: str, emotional_context: dict[str, Any]
-    ) -> None:
+    async def _process_emotional_context(self, memory_id: str, emotional_context: dict[str, Any]) -> None:
         """
         Processes and integrates emotional context with a memory,
         potentially using a conceptual emotional oscillator.
@@ -643,13 +599,9 @@ class AdvancedMemoryManager:
             context_keys=list(emotional_context.keys()),
         )
         try:
-            if self.emotional_oscillator and hasattr(
-                self.emotional_oscillator, "process_memory_emotion"
-            ):
+            if self.emotional_oscillator and hasattr(self.emotional_oscillator, "process_memory_emotion"):
                 # ΛCAUTION: Assumes `process_memory_emotion` is async.
-                await self.emotional_oscillator.process_memory_emotion(
-                    memory_id, emotional_context
-                )
+                await self.emotional_oscillator.process_memory_emotion(memory_id, emotional_context)
                 logger.debug(
                     "AdvancedMemoryManager_emotional_context_processed_via_oscillator",
                     memory_id=memory_id,
@@ -672,37 +624,27 @@ class AdvancedMemoryManager:
     @lukhas_tier_required(1)  # Internal helper
     # AINTERNAL: Updates internal memory clusters for related recall.
     # ΛDREAM_LOOP: Clustering evolves with new data.
-    async def _update_memory_clusters(
-        self, memory_id: str, memory_data: dict[str, Any]
-    ) -> None:
+    async def _update_memory_clusters(self, memory_id: str, memory_data: dict[str, Any]) -> None:
         """
         Updates internal memory clusters based on tags and content keywords.
         This is a simplified clustering mechanism for facilitating related recall.
         #ΛNOTE: Clustering logic is basic (tags, simple keyword extraction).
         """
         # ΛTRACE: Updating memory clusters.
-        logger.debug(
-            "AdvancedMemoryManager_updating_memory_clusters", memory_id=memory_id
-        )
+        logger.debug("AdvancedMemoryManager_updating_memory_clusters", memory_id=memory_id)
         try:
             tags = memory_data.get("tags", [])
             for tag in tags:
-                self.memory_clusters.setdefault(tag, []).append(
-                    memory_id
-                )  # Add memory_id to cluster by tag.
+                self.memory_clusters.setdefault(tag, []).append(memory_id)  # Add memory_id to cluster by tag.
 
             # Basic content keyword clustering
             content_str = str(memory_data.get("content", "")).lower()
             # ΛCAUTION: Very simple keyword extraction. NLP techniques would be more
             # robust.
             words = content_str.split()
-            distinct_meaningful_words = {
-                word for word in words if len(word) > 3
-            }  # Basic filter
+            distinct_meaningful_words = {word for word in words if len(word) > 3}  # Basic filter
 
-            for word in list(distinct_meaningful_words)[
-                :10
-            ]:  # Limit keywords processed per memory for performance.
+            for word in list(distinct_meaningful_words)[:10]:  # Limit keywords processed per memory for performance.
                 cluster_key = f"content_keyword:{word}"
                 self.memory_clusters.setdefault(cluster_key, []).append(memory_id)
 
@@ -725,9 +667,7 @@ class AdvancedMemoryManager:
     @lukhas_tier_required(2)  # Conceptual advanced feature.
     # AINTERNAL: Applies conceptual quantum attention to re-rank memories.
     # #ΛLINK_CONCEPTUAL: AttentionSystem
-    async def _apply_quantum_attention(
-        self, memories: list[dict[str, Any]], query: str
-    ) -> list[dict[str, Any]]:
+    async def _apply_quantum_attention(self, memories: list[dict[str, Any]], query: str) -> list[dict[str, Any]]:
         """
         Applies a conceptual quantum attention mechanism to re-rank memories based on relevance to a query.
         #ΛSIM_TRACE: Interaction with conceptual `qi_attention` system.
@@ -738,9 +678,7 @@ class AdvancedMemoryManager:
             query=query,
             num_memories_input=len(memories),
         )
-        if not self.qi_attention or not hasattr(
-            self.qi_attention, "score_memory_relevance"
-        ):
+        if not self.qi_attention or not hasattr(self.qi_attention, "score_memory_relevance"):
             logger.debug(
                 "AdvancedMemoryManager_quantum_attention_unavailable",
                 qi_attention_exists=self.qi_attention is not None,
@@ -750,12 +688,8 @@ class AdvancedMemoryManager:
             scored_memories = []
             for memory_item in memories:
                 # ΛCAUTION: Assumes `score_memory_relevance` is async.
-                attention_score = await self.qi_attention.score_memory_relevance(
-                    memory_item, query
-                )
-                scored_memories.append(
-                    (memory_item, attention_score)
-                )  # Store as (memory, score) tuples.
+                attention_score = await self.qi_attention.score_memory_relevance(memory_item, query)
+                scored_memories.append((memory_item, attention_score))  # Store as (memory, score) tuples.
 
             # Sort by attention score in descending order.
             scored_memories.sort(key=lambda x: x[1], reverse=True)
@@ -780,9 +714,7 @@ class AdvancedMemoryManager:
     @lukhas_tier_required(2)
     # ΛEXPOSE: Retrieves memories related to a given memory ID.
     # ΛRECALL: Contextual recall based on shared clusters (tags, keywords).
-    async def get_related_memories(
-        self, memory_id: str, limit: int = 5
-    ) -> list[dict[str, Any]]:
+    async def get_related_memories(self, memory_id: str, limit: int = 5) -> list[dict[str, Any]]:
         """
         Retrieves memories related to a given memory ID by checking shared tags and content keywords.
         """
@@ -793,9 +725,7 @@ class AdvancedMemoryManager:
             limit=limit,
         )
         try:
-            source_memory = await self.retrieve_memory(
-                memory_id
-            )  # Updates access count for source_memory
+            source_memory = await self.retrieve_memory(memory_id)  # Updates access count for source_memory
             if not source_memory:
                 logger.warning(
                     "AdvancedMemoryManager_source_memory_for_relatedness_not_found",
@@ -804,9 +734,7 @@ class AdvancedMemoryManager:
                 )
                 return []
 
-            related_ids: set[str] = (
-                set()
-            )  # Use a set to store unique related memory IDs.
+            related_ids: set[str] = set()  # Use a set to store unique related memory IDs.
 
             # Find related by tags
             for tag in source_memory.get("tags", []):
@@ -822,20 +750,14 @@ class AdvancedMemoryManager:
                 if cluster_key in self.memory_clusters:
                     related_ids.update(self.memory_clusters[cluster_key])
 
-            related_ids.discard(
-                memory_id
-            )  # Ensure the source memory itself is not in the related list.
+            related_ids.discard(memory_id)  # Ensure the source memory itself is not in the related list.
 
             # Retrieve the actual memory data for the limited set of related IDs
             related_memories_data = []
             # ΛCAUTION: Retrieving one by one can be inefficient. Batch retrieval from
             # base_manager would be better if supported.
-            for rel_id in list(related_ids)[
-                :limit
-            ]:  # Apply limit after collecting all potential IDs
-                mem_data = await self.retrieve_memory(
-                    rel_id
-                )  # Updates access count for related memories
+            for rel_id in list(related_ids)[:limit]:  # Apply limit after collecting all potential IDs
+                mem_data = await self.retrieve_memory(rel_id)  # Updates access count for related memories
                 if mem_data:
                     related_memories_data.append(mem_data)
 
@@ -866,13 +788,9 @@ class AdvancedMemoryManager:
         fold_engine_status_info = "N/A"
         # ΛCAUTION: Assumes `fold_engine` might have a `get_status` method. This
         # is not in `AGIMemory`.
-        if hasattr(self.fold_engine, "get_status") and callable(
-            self.fold_engine.get_status
-        ):  # Check if method exists
+        if hasattr(self.fold_engine, "get_status") and callable(self.fold_engine.get_status):  # Check if method exists
             try:
-                fold_engine_status_info = (
-                    self.fold_engine.get_status()
-                )  # Conceptual call
+                fold_engine_status_info = self.fold_engine.get_status()  # Conceptual call
             except Exception as fe_stat_err:
                 logger.warning(
                     "AdvancedMemoryManager_failed_to_get_fold_engine_status",
@@ -891,16 +809,13 @@ class AdvancedMemoryManager:
             "metrics": self.metrics.copy(),  # Copy to prevent external modification.
             "cluster_count": len(self.memory_clusters),
             "largest_cluster_size": (
-                max(len(cluster_ids) for cluster_ids in self.memory_clusters.values())
-                if self.memory_clusters
-                else 0
+                max(len(cluster_ids) for cluster_ids in self.memory_clusters.values()) if self.memory_clusters else 0
             ),
             # Status of the fold engine component.
             "fold_engine_status": fold_engine_status_info,
             "emotional_oscillator_connected": self.emotional_oscillator
             is not None,  # ΛLINK_CONCEPTUAL: EmotionalSystem
-            "qi_attention_connected": self.qi_attention
-            is not None,  # ΛLINK_CONCEPTUAL: AttentionSystem
+            "qi_attention_connected": self.qi_attention is not None,  # ΛLINK_CONCEPTUAL: AttentionSystem
             "last_updated_utc": datetime.now(
                 timezone.utc
             ).isoformat(),  # ΛTEMPORAL_HOOK (Timestamp of when stats were generated)
@@ -924,9 +839,7 @@ class AdvancedMemoryManager:
         and cleaning up internal memory clusters.
         """
         # ΛTRACE: Starting memory storage optimization.
-        logger.info(
-            "AdvancedMemoryManager_starting_storage_optimization", tag="maintenance_op"
-        )
+        logger.info("AdvancedMemoryManager_starting_storage_optimization", tag="maintenance_op")
         try:
             # Consolidate memories older than 1 week (conceptual call to fold_engine)
             # ΛCAUTION: `self.fold_engine.consolidate_memories` is conceptual or
@@ -935,9 +848,7 @@ class AdvancedMemoryManager:
                 "status": "skipped",
                 "reason": "Method not available in fold_engine",
             }
-            if hasattr(self.fold_engine, "consolidate_memories") and callable(
-                self.fold_engine.consolidate_memories
-            ):
+            if hasattr(self.fold_engine, "consolidate_memories") and callable(self.fold_engine.consolidate_memories):
                 consolidation_result = await self.consolidate_memories(
                     time_window_hours=7 * 24
                 )  # Using self.consolidate_memories
@@ -950,9 +861,7 @@ class AdvancedMemoryManager:
 
             # Clean up empty memory clusters
             empty_clusters_removed_count = 0
-            cluster_keys_to_delete = [
-                key for key, ids_list in self.memory_clusters.items() if not ids_list
-            ]
+            cluster_keys_to_delete = [key for key, ids_list in self.memory_clusters.items() if not ids_list]
             for key_to_del in cluster_keys_to_delete:
                 del self.memory_clusters[key_to_del]
                 empty_clusters_removed_count += 1
@@ -969,13 +878,9 @@ class AdvancedMemoryManager:
             }
             # ΛCAUTION: `self.fold_engine.optimize_storage` is conceptual or missing
             # from `AGIMemory`.
-            if hasattr(self.fold_engine, "optimize_storage") and callable(
-                self.fold_engine.optimize_storage
-            ):
+            if hasattr(self.fold_engine, "optimize_storage") and callable(self.fold_engine.optimize_storage):
                 try:
-                    fold_optimization_result = (
-                        await self.fold_engine.optimize_storage()
-                    )  # Conceptual call
+                    fold_optimization_result = await self.fold_engine.optimize_storage()  # Conceptual call
                 except Exception as fe_opt_err:
                     logger.warning(
                         "AdvancedMemoryManager_fold_engine_optimize_storage_failed",
@@ -999,9 +904,7 @@ class AdvancedMemoryManager:
                 # ΛDRIFT_HOOK (Cluster cleanup is drift/entropy management)
                 "empty_clusters_removed": empty_clusters_removed_count,
                 "fold_engine_optimization_status": fold_optimization_result,
-                "optimization_timestamp_utc": datetime.now(
-                    timezone.utc
-                ).isoformat(),  # ΛTEMPORAL_HOOK
+                "optimization_timestamp_utc": datetime.now(timezone.utc).isoformat(),  # ΛTEMPORAL_HOOK
             }
             logger.info(
                 "AdvancedMemoryManager_storage_optimization_completed",
@@ -1058,9 +961,7 @@ async def demo_advanced_memory_manager():
             return None  # Dummy if import fails
 
         if FoldEngineClass is None:
-            FoldEngineClass = (
-                MemoryFoldEngine  # Fallback to original if AGIMemory not found
-            )
+            FoldEngineClass = MemoryFoldEngine  # Fallback to original if AGIMemory not found
 
     adv_mem_manager = AdvancedMemoryManager(
         base_memory_manager=MemoryManager(),  # Assuming this is the correct base MemoryManager
@@ -1108,28 +1009,20 @@ async def demo_advanced_memory_manager():
         # ΛCAUTION: The search functionality relies on `fold_engine.search_folds` which is conceptual.
         # This demo part might not yield results if `search_folds` isn't
         # implemented in AGIMemory.
-        search_results_lukhas = await adv_mem_manager.search_memories(
-            query="LUKHAS", limit=5, owner_id="USER_ALPHA"
-        )
+        search_results_lukhas = await adv_mem_manager.search_memories(query="LUKHAS", limit=5, owner_id="USER_ALPHA")
         logger.info(
             "AdvancedMemoryManager_Demo_Search_Results_LUKHAS",
             count=len(search_results_lukhas),
-            results_preview=[
-                str(m.get("content"))[:50] + "..." for m in search_results_lukhas
-            ],
+            results_preview=[str(m.get("content"))[:50] + "..." for m in search_results_lukhas],
         )
 
         logger.info("AdvancedMemoryManager_Demo_Retrieving_By_Emotion_Eureka")
         # ΛCAUTION: Relies on `fold_engine.retrieve_by_emotion` which is conceptual.
-        eureka_memories_list = await adv_mem_manager.retrieve_by_emotion(
-            emotion="eureka", intensity_threshold=0.9
-        )
+        eureka_memories_list = await adv_mem_manager.retrieve_by_emotion(emotion="eureka", intensity_threshold=0.9)
         logger.info(
             "AdvancedMemoryManager_Demo_Eureka_Memories",
             count=len(eureka_memories_list),
-            results_preview=[
-                str(m.get("content"))[:50] + "..." for m in eureka_memories_list
-            ],
+            results_preview=[str(m.get("content"))[:50] + "..." for m in eureka_memories_list],
         )
 
         logger.info("AdvancedMemoryManager_Demo_Getting_Related_Memories_For_Memory1")
@@ -1138,18 +1031,14 @@ async def demo_advanced_memory_manager():
             logger.info(
                 "AdvancedMemoryManager_Demo_Related_To_Memory1",
                 count=len(related_mems),
-                results_preview=[
-                    str(m.get("content"))[:50] + "..." for m in related_mems
-                ],
+                results_preview=[str(m.get("content"))[:50] + "..." for m in related_mems],
             )
 
         logger.info("AdvancedMemoryManager_Demo_Optimizing_Memory_Storage")
         # ΛCAUTION: Relies on conceptual `fold_engine.consolidate_memories` and
         # `optimize_storage`.
         opt_report = await adv_mem_manager.optimize_memory_storage()
-        logger.info(
-            "AdvancedMemoryManager_Demo_Optimization_Report", report_summary=opt_report
-        )
+        logger.info("AdvancedMemoryManager_Demo_Optimization_Report", report_summary=opt_report)
 
     except Exception as e_demo:  # Catch errors during the demo operations
         logger.error(

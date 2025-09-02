@@ -151,9 +151,7 @@ class EnergyMetrics:
     tasks_completed: int = 0
     tasks_failed: int = 0
     energy_violations: int = 0
-    last_calculated: datetime = field(
-        default_factory=lambda: datetime.now(timezone.utc)
-    )
+    last_calculated: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 class EnergyAwareExecutionPlanner:
@@ -203,14 +201,10 @@ class EnergyAwareExecutionPlanner:
         self.consumption_patterns = {}
 
         # Bio-symbolic integration
-        self.proton_gradient = (
-            ProtonGradient() if "ProtonGradient" in globals() else None
-        )
+        self.proton_gradient = ProtonGradient() if "ProtonGradient" in globals() else None
 
         # Execution management
-        self.executor = ThreadPoolExecutor(
-            max_workers=self.config["max_concurrent_tasks"]
-        )
+        self.executor = ThreadPoolExecutor(max_workers=self.config["max_concurrent_tasks"])
         self.is_running = False
         self.energy_monitor_thread = None
 
@@ -278,9 +272,7 @@ class EnergyAwareExecutionPlanner:
         self.logger.info("Starting Energy-Aware Execution Planner")
 
         # Start background monitoring
-        self.energy_monitor_thread = threading.Thread(
-            target=self._energy_monitor_loop, daemon=True
-        )
+        self.energy_monitor_thread = threading.Thread(target=self._energy_monitor_loop, daemon=True)
         self.energy_monitor_thread.start()
 
         # Start main execution loop
@@ -335,9 +327,7 @@ class EnergyAwareExecutionPlanner:
             return task.task_id
 
         except Exception as e:
-            self.logger.error(
-                "Failed to submit task", task_id=task.task_id, error=str(e)
-            )
+            self.logger.error("Failed to submit task", task_id=task.task_id, error=str(e))
             raise
 
     def cancel_task(self, task_id: str) -> bool:
@@ -359,9 +349,7 @@ class EnergyAwareExecutionPlanner:
                     self.logger.info("Running task cancelled", task_id=task_id)
                     return True
                 else:
-                    self.logger.warning(
-                        "Could not cancel running task", task_id=task_id
-                    )
+                    self.logger.warning("Could not cancel running task", task_id=task_id)
                     return False
 
             # Check if task is in queue
@@ -422,9 +410,7 @@ class EnergyAwareExecutionPlanner:
             return {"status": "not_found"}
 
         except Exception as e:
-            self.logger.error(
-                "Failed to get task status", task_id=task_id, error=str(e)
-            )
+            self.logger.error("Failed to get task status", task_id=task_id, error=str(e))
             return {"status": "error", "error": str(e)}
 
     def optimize_energy_allocation(self) -> dict[str, Any]:
@@ -438,9 +424,7 @@ class EnergyAwareExecutionPlanner:
             current_time = datetime.now(timezone.utc)
 
             # Analyze current energy state
-            energy_utilization = 1.0 - (
-                self.energy_budget.current_available / self.energy_budget.total_capacity
-            )
+            energy_utilization = 1.0 - (self.energy_budget.current_available / self.energy_budget.total_capacity)
 
             # Analyze task queue characteristics
             queue_analysis = self._analyze_task_queue()
@@ -483,10 +467,7 @@ class EnergyAwareExecutionPlanner:
                 )
 
             # Efficiency optimization
-            if (
-                efficiency_metrics["efficiency_score"]
-                < self.config["efficiency_target"]
-            ):
+            if efficiency_metrics["efficiency_score"] < self.config["efficiency_target"]:
                 recommendations.append(
                     {
                         "type": "efficiency_improvement",
@@ -506,9 +487,7 @@ class EnergyAwareExecutionPlanner:
                 "queue_analysis": queue_analysis,
                 "efficiency_metrics": efficiency_metrics,
                 "recommendations": recommendations,
-                "applied_optimizations": len(
-                    [r for r in recommendations if r["priority"] == "high"]
-                ),
+                "applied_optimizations": len([r for r in recommendations if r["priority"] == "high"]),
             }
 
             self.optimization_history.append(optimization_result)
@@ -534,12 +513,8 @@ class EnergyAwareExecutionPlanner:
             self._update_energy_metrics()
 
             # Calculate additional derived metrics
-            uptime_hours = (
-                current_time - self.energy_metrics.last_calculated
-            ).total_seconds() / 3600
-            energy_per_hour = self.energy_metrics.total_consumed / max(
-                uptime_hours, 0.01
-            )
+            uptime_hours = (current_time - self.energy_metrics.last_calculated).total_seconds() / 3600
+            energy_per_hour = self.energy_metrics.total_consumed / max(uptime_hours, 0.01)
 
             metrics = {
                 "timestamp": current_time.isoformat(),
@@ -547,9 +522,7 @@ class EnergyAwareExecutionPlanner:
                     "total_capacity": self.energy_budget.total_capacity,
                     "current_available": self.energy_budget.current_available,
                     "utilization_percentage": (
-                        1.0
-                        - self.energy_budget.current_available
-                        / self.energy_budget.total_capacity
+                        1.0 - self.energy_budget.current_available / self.energy_budget.total_capacity
                     )
                     * 100,
                     "reserved_critical": self.energy_budget.reserved_critical,
@@ -569,8 +542,7 @@ class EnergyAwareExecutionPlanner:
                     "tasks_failed": self.energy_metrics.tasks_failed,
                     "success_rate": self.energy_metrics.tasks_completed
                     / max(
-                        self.energy_metrics.tasks_completed
-                        + self.energy_metrics.tasks_failed,
+                        self.energy_metrics.tasks_completed + self.energy_metrics.tasks_failed,
                         1,
                     ),
                     "energy_violations": self.energy_metrics.energy_violations,
@@ -579,14 +551,8 @@ class EnergyAwareExecutionPlanner:
                 },
                 "bio_integration": {
                     "proton_gradient_active": bool(self.proton_gradient),
-                    "gradient_efficiency": (
-                        self.proton_gradient.efficiency if self.proton_gradient else 0.0
-                    ),
-                    "bio_energy_usage": (
-                        self.proton_gradient.get_energy_usage()
-                        if self.proton_gradient
-                        else 0.0
-                    ),
+                    "gradient_efficiency": (self.proton_gradient.efficiency if self.proton_gradient else 0.0),
+                    "bio_energy_usage": (self.proton_gradient.get_energy_usage() if self.proton_gradient else 0.0),
                 },
             }
 
@@ -615,10 +581,7 @@ class EnergyAwareExecutionPlanner:
                 if (
                     len(self.optimization_history) == 0
                     or " + "(
-                        datetime.now(timezone.utc)
-                        - datetime.fromisoformat(
-                            self.optimization_history[-1]["timestamp"]
-                        )
+                        datetime.now(timezone.utc) - datetime.fromisoformat(self.optimization_history[-1]["timestamp"])
                     ).total_seconds()
                     > self.config["optimization_interval"]
                 ):
@@ -633,10 +596,7 @@ class EnergyAwareExecutionPlanner:
 
     async def _process_task_queue(self) -> None:
         """Process tasks from the queue based on energy availability"""
-        while (
-            self.task_queue
-            and len(self.running_tasks) < self.config["max_concurrent_tasks"]
-        ):
+        while self.task_queue and len(self.running_tasks) < self.config["max_concurrent_tasks"]:
             task = self.task_queue[0]
 
             # Check if task can be started
@@ -683,9 +643,7 @@ class EnergyAwareExecutionPlanner:
             )
 
         except Exception as e:
-            self.logger.error(
-                "Failed to start task", task_id=task.task_id, error=str(e)
-            )
+            self.logger.error("Failed to start task", task_id=task.task_id, error=str(e))
 
     def _execute_task(self, task: EnergyTask) -> dict[str, Any]:
         """Execute a task and track energy consumption"""
@@ -772,10 +730,7 @@ class EnergyAwareExecutionPlanner:
         while self.is_running:
             try:
                 # Energy regeneration
-                regeneration = (
-                    self.energy_budget.regeneration_rate
-                    * self.config["energy_monitoring_interval"]
-                )
+                regeneration = self.energy_budget.regeneration_rate * self.config["energy_monitoring_interval"]
                 self.energy_budget.current_available = min(
                     self.energy_budget.total_capacity,
                     self.energy_budget.current_available + regeneration,
@@ -797,11 +752,7 @@ class EnergyAwareExecutionPlanner:
                     {
                         "timestamp": datetime.now(timezone.utc).isoformat(),
                         "available_energy": self.energy_budget.current_available,
-                        "utilization": 1.0
-                        - (
-                            self.energy_budget.current_available
-                            / self.energy_budget.total_capacity
-                        ),
+                        "utilization": 1.0 - (self.energy_budget.current_available / self.energy_budget.total_capacity),
                         "running_tasks": len(self.running_tasks),
                         "queue_length": len(self.task_queue),
                     }
@@ -834,9 +785,7 @@ class EnergyAwareExecutionPlanner:
             )
 
             # Initialize consensus protocol
-            await self.energy_consensus.initialize(
-                node_id=node_id, cluster_nodes=cluster_config.get("peers", [])
-            )
+            await self.energy_consensus.initialize(node_id=node_id, cluster_nodes=cluster_config.get("peers", []))
 
             # Start distributed coordination
             self.coordination_active = True
@@ -854,9 +803,7 @@ class EnergyAwareExecutionPlanner:
             self.logger.error("Failed to join energy cluster", error=str(e))
             return False
 
-    async def coordinate_distributed_task(
-        self, distributed_task: DistributedEnergyTask
-    ) -> dict:
+    async def coordinate_distributed_task(self, distributed_task: DistributedEnergyTask) -> dict:
         """Coordinate task execution across multiple nodes"""
         if not self.coordination_active:
             raise Exception("Distributed coordination not active")
@@ -931,11 +878,7 @@ class EnergyAwareExecutionPlanner:
                 "total_capacity": self.energy_budget.total_capacity,
                 "current_available": self.energy_budget.current_available,
                 "reserved_critical": self.energy_budget.reserved_critical,
-                "utilization": 1.0
-                - (
-                    self.energy_budget.current_available
-                    / self.energy_budget.total_capacity
-                ),
+                "utilization": 1.0 - (self.energy_budget.current_available / self.energy_budget.total_capacity),
             },
             "task_load": {
                 "running_tasks": len(self.running_tasks),
@@ -965,9 +908,7 @@ class EnergyAwareExecutionPlanner:
 
     def _can_share_energy(self, peer_status: dict) -> bool:
         """Determine if we can share energy with a peer node"""
-        our_utilization = 1.0 - (
-            self.energy_budget.current_available / self.energy_budget.total_capacity
-        )
+        our_utilization = 1.0 - (self.energy_budget.current_available / self.energy_budget.total_capacity)
         peer_utilization = peer_status["energy_budget"]["utilization"]
 
         # Share if we have low utilization and peer has high utilization
@@ -977,8 +918,7 @@ class EnergyAwareExecutionPlanner:
         """Initiate energy transfer to overloaded peer node"""
         transfer_amount = min(
             self.energy_budget.get_usable_energy() * 0.2,  # Max 20% of usable energy
-            peer_status["energy_budget"]["total_capacity"]
-            * 0.1,  # Max 10% of peer capacity
+            peer_status["energy_budget"]["total_capacity"] * 0.1,  # Max 10% of peer capacity
         )
 
         if transfer_amount > 10:  # Minimum viable transfer
@@ -1041,9 +981,7 @@ class EnergyAwareExecutionPlanner:
                 result = await self._execute_task_component(component)
             else:
                 # Execute remotely
-                result = await self.node_registry.execute_remote_component(
-                    node_id=assigned_node, component=component
-                )
+                result = await self.node_registry.execute_remote_component(node_id=assigned_node, component=component)
 
             component_results[component_id] = result
 
@@ -1074,13 +1012,8 @@ class EnergyAwareExecutionPlanner:
             "status": "completed",
             "components": len(component_results),
             "results": component_results,
-            "total_energy_consumed": sum(
-                result.get("energy_consumed", 0)
-                for result in component_results.values()
-            ),
-            "total_execution_time": max(
-                result.get("execution_time", 0) for result in component_results.values()
-            ),
+            "total_energy_consumed": sum(result.get("energy_consumed", 0) for result in component_results.values()),
+            "total_execution_time": max(result.get("execution_time", 0) for result in component_results.values()),
             "distributed": True,
         }
 
@@ -1092,12 +1025,8 @@ class EnergyAwareExecutionPlanner:
 
         # Update local metrics with cluster context
         self.energy_metrics.cluster_size = cluster_metrics.get("active_nodes", 1)
-        self.energy_metrics.cluster_efficiency = cluster_metrics.get(
-            "average_efficiency", 0.0
-        )
-        self.energy_metrics.coordination_overhead = cluster_metrics.get(
-            "coordination_overhead", 0.0
-        )
+        self.energy_metrics.cluster_efficiency = cluster_metrics.get("average_efficiency", 0.0)
+        self.energy_metrics.coordination_overhead = cluster_metrics.get("coordination_overhead", 0.0)
 
     async def leave_energy_cluster(self):
         """Leave distributed energy cluster gracefully"""
@@ -1152,9 +1081,7 @@ class EnergyAwareExecutionPlanner:
 
     def _apply_energy_profile(self, task: EnergyTask) -> EnergyTask:
         """Apply energy profile multipliers to task"""
-        profile_config = self.config["energy_profiles"].get(
-            task.energy_profile, {"multiplier": 1.0}
-        )
+        profile_config = self.config["energy_profiles"].get(task.energy_profile, {"multiplier": 1.0})
         task.estimated_energy *= profile_config["multiplier"]
         task.max_energy *= profile_config["multiplier"]
         return task
@@ -1165,9 +1092,7 @@ class EnergyAwareExecutionPlanner:
 
         # Deadline urgency
         if task.deadline:
-            time_to_deadline = (
-                task.deadline - datetime.now(timezone.utc)
-            ).total_seconds()
+            time_to_deadline = (task.deadline - datetime.now(timezone.utc)).total_seconds()
             urgency_factor = max(0, 1 - time_to_deadline / 3600)  # Normalize to 1 hour
             base_score += urgency_factor * 5
 
@@ -1228,9 +1153,7 @@ class EnergyAwareExecutionPlanner:
             return {"queue_length": 0, "average_wait_time": 0}
 
         current_time = datetime.now(timezone.utc)
-        wait_times = [
-            (current_time - task.created_at).total_seconds() for task in self.task_queue
-        ]
+        wait_times = [(current_time - task.created_at).total_seconds() for task in self.task_queue]
 
         return {
             "queue_length": len(self.task_queue),
@@ -1252,12 +1175,8 @@ class EnergyAwareExecutionPlanner:
         if not self.completed_tasks:
             return {"efficiency_score": 0.0, "energy_waste": 0.0}
 
-        total_estimated = sum(
-            task.get("energy_consumed", 0) for task in self.completed_tasks
-        )
-        total_actual = sum(
-            task.get("energy_consumed", 0) for task in self.completed_tasks
-        )
+        total_estimated = sum(task.get("energy_consumed", 0) for task in self.completed_tasks)
+        total_actual = sum(task.get("energy_consumed", 0) for task in self.completed_tasks)
 
         efficiency_score = min(1.0, total_estimated / max(total_actual, 0.01))
         energy_waste = max(0, total_actual - total_estimated)
@@ -1275,17 +1194,10 @@ class EnergyAwareExecutionPlanner:
 
         if metrics["efficiency_score"] < 0.7:
             # Reduce concurrent tasks to improve efficiency
-            self.config["max_concurrent_tasks"] = max(
-                1, self.config["max_concurrent_tasks"] - 1
-            )
-        elif (
-            metrics["efficiency_score"] > 0.9
-            and self.energy_budget.get_usable_energy() > 200
-        ):
+            self.config["max_concurrent_tasks"] = max(1, self.config["max_concurrent_tasks"] - 1)
+        elif metrics["efficiency_score"] > 0.9 and self.energy_budget.get_usable_energy() > 200:
             # Increase concurrent tasks for better throughput
-            self.config["max_concurrent_tasks"] = min(
-                8, self.config["max_concurrent_tasks"] + 1
-            )
+            self.config["max_concurrent_tasks"] = min(8, self.config["max_concurrent_tasks"] + 1)
 
     def _is_dependency_satisfied(self, dep_id: str) -> bool:
         """Check if a task dependency is satisfied"""
@@ -1300,9 +1212,7 @@ class EnergyAwareExecutionPlanner:
         """Estimate start time for a queued task"""
         # Simplified estimation based on queue position
         estimated_delay = queue_position * 60  # 1 minute per position
-        return (
-            datetime.now(timezone.utc) + timedelta(seconds=estimated_delay)
-        ).isoformat()
+        return (datetime.now(timezone.utc) + timedelta(seconds=estimated_delay)).isoformat()
 
 
 # Factory function for Lukhas integration
@@ -1350,9 +1260,7 @@ class DistributedEnergyTask:
         if self.total_energy_estimate > 0:
             return self.total_energy_estimate
 
-        return sum(
-            component.get("energy_requirement", 0) for component in self.components
-        )
+        return sum(component.get("energy_requirement", 0) for component in self.components)
 
     def split_into_components(self, max_components: int = 4) -> list[dict]:
         """Split task into distributable components"""
@@ -1453,9 +1361,7 @@ class EnergyConsensusProtocol:
         self.node_id = node_id
         self.cluster_peers = cluster_nodes
 
-    async def negotiate_allocation(
-        self, task: DistributedEnergyTask, cluster_resources: dict
-    ) -> dict:
+    async def negotiate_allocation(self, task: DistributedEnergyTask, cluster_resources: dict) -> dict:
         """Negotiate resource allocation through consensus"""
         # Simplified allocation algorithm
         allocation_plan = {
@@ -1475,9 +1381,7 @@ class EnergyConsensusProtocol:
 
         return allocation_plan
 
-    async def propose_energy_transfer(
-        self, source_node: str, target_node: str, amount: float, reason: str
-    ) -> bool:
+    async def propose_energy_transfer(self, source_node: str, target_node: str, amount: float, reason: str) -> bool:
         """Propose energy transfer between nodes"""
         proposal_id = f"transfer_{uuid.uuid4().hex[:8]}"
 
@@ -1512,9 +1416,7 @@ class DistributedLoadBalancer:
             "capability_matching",
         ]
 
-    async def create_execution_plan(
-        self, allocation_plan: dict, task: DistributedEnergyTask
-    ) -> dict:
+    async def create_execution_plan(self, allocation_plan: dict, task: DistributedEnergyTask) -> dict:
         """Create execution plan for distributed task"""
         components = task.split_into_components()
         allocated_nodes = allocation_plan["allocated_nodes"]
@@ -1551,9 +1453,7 @@ class DistributedLoadBalancer:
             return rebalance_plan
 
         # Find high and low utilization nodes
-        utilizations = [
-            (node_id, data["utilization"]) for node_id, data in nodes.items()
-        ]
+        utilizations = [(node_id, data["utilization"]) for node_id, data in nodes.items()]
         utilizations.sort(key=lambda x: x[1])
 
         # Transfer from low to high utilization nodes
@@ -1575,9 +1475,7 @@ class DistributedLoadBalancer:
 
         return rebalance_plan
 
-    def select_optimal_node(
-        self, task: EnergyTask, available_nodes: list
-    ) -> Optional[str]:
+    def select_optimal_node(self, task: EnergyTask, available_nodes: list) -> Optional[str]:
         """Select optimal node for task execution"""
         if not available_nodes:
             return None

@@ -177,9 +177,7 @@ class AccessSession:
     # Session details
     created_at: datetime = field(default_factory=datetime.now)
     last_activity: datetime = field(default_factory=datetime.now)
-    expires_at: datetime = field(
-        default_factory=lambda: datetime.now() + timedelta(hours=8)
-    )
+    expires_at: datetime = field(default_factory=lambda: datetime.now() + timedelta(hours=8))
 
     # Authentication context
     auth_method: AuthenticationMethod = AuthenticationMethod.PASSWORD
@@ -455,9 +453,7 @@ class PermissionManager:
             # Validate permissions exist
             for perm_id in role.permissions:
                 if perm_id not in self.permissions:
-                    logger.warning(
-                        f"Permission {perm_id} not found for role {role.role_id}"
-                    )
+                    logger.warning(f"Permission {perm_id} not found for role {role.role_id}")
 
             self.roles[role.role_id] = role
             logger.debug(f"Added role: {role.role_id}")
@@ -529,9 +525,7 @@ class SessionManager:
         )
 
         # Calculate risk score
-        session.risk_score = await self._calculate_session_risk(
-            user, source_ip, user_agent
-        )
+        session.risk_score = await self._calculate_session_risk(user, source_ip, user_agent)
 
         # Add Trinity Framework context
         session.trinity_context = {
@@ -545,14 +539,10 @@ class SessionManager:
         # Update user last login
         user.last_login = datetime.now()
 
-        logger.info(
-            f"✅ Created session {session_id} for user {user.user_id} (tier: T{user.current_tier.value})"
-        )
+        logger.info(f"✅ Created session {session_id} for user {user.user_id} (tier: T{user.current_tier.value})")
         return session
 
-    async def _calculate_session_risk(
-        self, user: User, source_ip: Optional[str], user_agent: Optional[str]
-    ) -> float:
+    async def _calculate_session_risk(self, user: User, source_ip: Optional[str], user_agent: Optional[str]) -> float:
         """Calculate risk score for session"""
 
         risk_score = 0.0
@@ -639,10 +629,7 @@ class SessionManager:
                 expired_sessions = []
 
                 for session_id, session in self.active_sessions.items():
-                    if (
-                        current_time > session.expires_at
-                        or session.status != SessionStatus.ACTIVE
-                    ):
+                    if current_time > session.expires_at or session.status != SessionStatus.ACTIVE:
                         expired_sessions.append(session_id)
 
                 for session_id in expired_sessions:
@@ -651,9 +638,7 @@ class SessionManager:
                         session.status = SessionStatus.EXPIRED
 
                 if expired_sessions:
-                    logger.debug(
-                        f"🧹 Cleaned up {len(expired_sessions)} expired sessions"
-                    )
+                    logger.debug(f"🧹 Cleaned up {len(expired_sessions)} expired sessions")
 
                 await asyncio.sleep(300)  # Check every 5 minutes
 
@@ -791,10 +776,7 @@ class AccessControlEngine:
             auth_method = AuthenticationMethod.PASSWORD
             mfa_verified = False
 
-            if (
-                user.mfa_enabled
-                or user.current_tier.value >= self.mfa_required_tier.value
-            ):
+            if user.mfa_enabled or user.current_tier.value >= self.mfa_required_tier.value:
                 if not mfa_token or not self._verify_mfa(user.mfa_secret, mfa_token):
                     await self._audit_event(
                         "authentication_failed",
@@ -824,9 +806,7 @@ class AccessControlEngine:
             user.locked = False
 
             # Create session
-            session = await self.session_manager.create_session(
-                user, auth_method, source_ip, user_agent, mfa_verified
-            )
+            session = await self.session_manager.create_session(user, auth_method, source_ip, user_agent, mfa_verified)
 
             # Audit successful authentication
             await self._audit_event(
@@ -838,14 +818,10 @@ class AccessControlEngine:
             )
 
             # Update metrics
-            self.metrics["active_users"] = len(
-                {s.user_id for s in self.session_manager.active_sessions.values()}
-            )
+            self.metrics["active_users"] = len({s.user_id for s in self.session_manager.active_sessions.values()})
             self.metrics["active_sessions"] = len(self.session_manager.active_sessions)
 
-            logger.info(
-                f"✅ User {username} authenticated successfully (tier: T{user.current_tier.value})"
-            )
+            logger.info(f"✅ User {username} authenticated successfully (tier: T{user.current_tier.value})")
             return True, session, "Authentication successful"
 
         except Exception as e:
@@ -1053,18 +1029,12 @@ class AccessControlEngine:
             f"No permission allows {access_type.value} access to {resource}",
         )
 
-    def _permission_matches_resource(
-        self, permission: Permission, resource: str
-    ) -> bool:
+    def _permission_matches_resource(self, permission: Permission, resource: str) -> bool:
         """Check if permission matches resource"""
         # Simple matching - could be more sophisticated with patterns
-        return (
-            permission.resource_type in resource or permission.resource_type == "public"
-        )
+        return permission.resource_type in resource or permission.resource_type == "public"
 
-    def _check_context_conditions(
-        self, permission: Permission, context: dict[str, Any]
-    ) -> bool:
+    def _check_context_conditions(self, permission: Permission, context: dict[str, Any]) -> bool:
         """Check if context meets permission conditions"""
         if not permission.context_conditions:
             return True
@@ -1269,9 +1239,7 @@ class AccessControlEngine:
             logger.error(f"Failed to create user {username}: {e}")
             return False, None, f"User creation failed: {e!s}"
 
-    async def update_user_tier(
-        self, user_id: str, new_tier: AccessTier
-    ) -> tuple[bool, str]:
+    async def update_user_tier(self, user_id: str, new_tier: AccessTier) -> tuple[bool, str]:
         """Update user's access tier"""
 
         try:
@@ -1299,9 +1267,7 @@ class AccessControlEngine:
                 f"Tier changed from T{old_tier.value} to T{new_tier.value}",
             )
 
-            logger.info(
-                f"✅ Updated user {user.username} tier: T{old_tier.value} -> T{new_tier.value}"
-            )
+            logger.info(f"✅ Updated user {user.username} tier: T{old_tier.value} -> T{new_tier.value}")
             return True, f"Tier updated to T{new_tier.value}"
 
         except Exception as e:
@@ -1320,10 +1286,7 @@ class AccessControlEngine:
             "audit_entries": len(self.audit_trail),
             "metrics": self.metrics,
             "tier_distribution": {
-                f"T{tier.value}": len(
-                    [u for u in self.users.values() if u.current_tier == tier]
-                )
-                for tier in AccessTier
+                f"T{tier.value}": len([u for u in self.users.values() if u.current_tier == tier]) for tier in AccessTier
             },
         }
 
@@ -1344,24 +1307,12 @@ class AccessControlEngine:
                 for entry in self.audit_trail[-100:]  # Last 100 events
             ],
             "security_summary": {
-                "failed_authentications": len(
-                    [
-                        e
-                        for e in self.audit_trail
-                        if e.event_type == "authentication_failed"
-                    ]
-                ),
+                "failed_authentications": len([e for e in self.audit_trail if e.event_type == "authentication_failed"]),
                 "locked_accounts": len([u for u in self.users.values() if u.locked]),
                 "high_risk_sessions": len(
-                    [
-                        s
-                        for s in self.session_manager.active_sessions.values()
-                        if s.risk_score > 0.5
-                    ]
+                    [s for s in self.session_manager.active_sessions.values() if s.risk_score > 0.5]
                 ),
-                "mfa_enabled_users": len(
-                    [u for u in self.users.values() if u.mfa_enabled]
-                ),
+                "mfa_enabled_users": len([u for u in self.users.values() if u.mfa_enabled]),
             },
         }
 

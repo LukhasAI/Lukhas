@@ -8,9 +8,7 @@ from datetime import datetime
 
 
 class UserInteraction:
-    def __init__(
-        self, user_id: str, doc_id: str, interaction_type: str, metadata: dict
-    ):
+    def __init__(self, user_id: str, doc_id: str, interaction_type: str, metadata: dict):
         self.user_id = user_id
         self.doc_id = doc_id
         self.interaction_type = interaction_type
@@ -30,9 +28,7 @@ class InteractionPattern:
         self.frequency += 1
         self.last_observed = datetime.now()
         # Rolling average of success rate
-        self.success_rate = (
-            self.success_rate * (self.frequency - 1) + success
-        ) / self.frequency
+        self.success_rate = (self.success_rate * (self.frequency - 1) + success) / self.frequency
 
 
 class UsageBasedLearning:
@@ -49,9 +45,7 @@ class UsageBasedLearning:
             }
         )
 
-    def record_interaction(
-        self, user_id: str, doc_id: str, interaction_type: str, metadata: dict
-    ):
+    def record_interaction(self, user_id: str, doc_id: str, interaction_type: str, metadata: dict):
         """Record a user interaction with documentation."""
         interaction = UserInteraction(user_id, doc_id, interaction_type, metadata)
         self.interactions.append(interaction)
@@ -61,9 +55,7 @@ class UsageBasedLearning:
         stats["views"] += 1
         if "time_spent" in metadata:
             avg_time = stats["avg_time_spent"]
-            stats["avg_time_spent"] = (
-                avg_time * (stats["views"] - 1) + metadata["time_spent"]
-            ) / stats["views"]
+            stats["avg_time_spent"] = (avg_time * (stats["views"] - 1) + metadata["time_spent"]) / stats["views"]
 
         if "success" in metadata:
             if metadata["success"]:
@@ -95,9 +87,7 @@ class UsageBasedLearning:
         if stats["successful_uses"] + stats["failed_uses"] == 0:
             return 0.0
 
-        return stats["successful_uses"] / (
-            stats["successful_uses"] + stats["failed_uses"]
-        )
+        return stats["successful_uses"] / (stats["successful_uses"] + stats["failed_uses"])
 
     def get_popular_sequences(self, min_frequency: int = 2) -> list[dict]:
         """Get commonly observed interaction sequences."""
@@ -125,8 +115,6 @@ class UsageBasedLearning:
                     recommendations.append(next_doc)
 
         # Sort by effectiveness
-        recommendations.sort(
-            key=lambda doc_id: self.get_document_effectiveness(doc_id), reverse=True
-        )
+        recommendations.sort(key=lambda doc_id: self.get_document_effectiveness(doc_id), reverse=True)
 
         return recommendations

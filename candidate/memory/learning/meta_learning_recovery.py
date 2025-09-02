@@ -44,9 +44,7 @@ class MetaLearningRecovery:
     def __init__(self):
         # ΛNOTE: Hardcoded paths are specific to a particular environment.
         # ΛCAUTION: Hardcoded paths like /Users/A_G_I/ make this script not portable.
-        self.workspace_root = Path(
-            os.getcwd()
-        )  # Changed to current working directory for portability within repo
+        self.workspace_root = Path(os.getcwd())  # Changed to current working directory for portability within repo
         self.recovery_log: list[dict[str, Any]] = []  # Type hint
 
         # ΛNOTE: Source path for recovery.
@@ -92,9 +90,7 @@ class MetaLearningRecovery:
 
         source_path_obj = Path(self.meta_learning_source)  # Use Path object
         if not source_path_obj.exists():
-            logger.error(
-                "meta_learning_source_not_found", path=self.meta_learning_source
-            )
+            logger.error("meta_learning_source_not_found", path=self.meta_learning_source)
             # print(f"❌ Meta Learning source not found: {self.meta_learning_source}")
             # # Replaced with logger
             return exploration_result
@@ -107,9 +103,7 @@ class MetaLearningRecovery:
         try:
             for root, dirs, files in os.walk(self.meta_learning_source):
                 root_path = Path(root)  # Use Path object
-                exploration_result["directories"].extend(
-                    [str(root_path / d) for d in dirs]
-                )
+                exploration_result["directories"].extend([str(root_path / d) for d in dirs])
                 for file_name in files:  # Renamed file to file_name
                     file_path = root_path / file_name
                     rel_path = str(file_path.relative_to(source_path_obj))
@@ -120,29 +114,16 @@ class MetaLearningRecovery:
                         exploration_result["python_files"] += 1
                         file_lower = file_name.lower()
                         # ΛNOTE: Categorization based on keywords in filenames.
-                        if any(
-                            term in file_lower
-                            for term in ["meta_learning", "metalearning", "meta"]
-                        ):
-                            exploration_result["meta_learning_components"].append(
-                                rel_path
-                            )
-                        elif any(
-                            term in file_lower
-                            for term in ["adaptive", "adaptation", "adapt"]
-                        ):
+                        if any(term in file_lower for term in ["meta_learning", "metalearning", "meta"]):
+                            exploration_result["meta_learning_components"].append(rel_path)
+                        elif any(term in file_lower for term in ["adaptive", "adaptation", "adapt"]):
                             exploration_result["adaptive_components"].append(rel_path)
-                        elif any(
-                            term in file_lower
-                            for term in ["learning", "learn", "train"]
-                        ):
+                        elif any(term in file_lower for term in ["learning", "learn", "train"]):
                             exploration_result["learning_components"].append(rel_path)
                         logger.debug("python_file_found_for_recovery", path=rel_path)
                         # print(f"   📄 Found: {rel_path}") # Replaced
         except Exception as e:
-            logger.error(
-                "error_exploring_directory_meta_recovery", error=str(e), exc_info=True
-            )
+            logger.error("error_exploring_directory_meta_recovery", error=str(e), exc_info=True)
             # print(f"❌ Error exploring directory: {e}") # Replaced
 
         logger.info(
@@ -168,25 +149,22 @@ class MetaLearningRecovery:
             if not base_name.lower().startswith("lukhas"):  # Check case-insensitively
                 # Special handling for known component types
                 if "meta_learning" in base_name.lower():
-                    new_pascal_name = f"MetaLearning{base_name.lower().replace('meta_learning', '').replace('_', '').title()}"
+                    new_pascal_name = (
+                        f"MetaLearning{base_name.lower().replace('meta_learning', '').replace('_', '').title()}"
+                    )
                 elif "adaptive" in base_name.lower():
                     new_pascal_name = f"Adaptive{base_name.lower().replace('adaptive', '').replace('_', '').title()}"
                 elif "learning" in base_name.lower():
                     new_pascal_name = f"Learning{base_name.lower().replace('learning', '').replace('_', '').title()}"
                 else:
-                    new_pascal_name = "".join(
-                        word.capitalize() for word in base_name.split("_")
-                    )
+                    new_pascal_name = "".join(word.capitalize() for word in base_name.split("_"))
                 new_filename = f"lukhas{new_pascal_name}.py"
 
             if content:  # Process content only if provided
                 new_content_lines = []
                 for line in content.splitlines():
                     stripped_line = line.strip()
-                    if (
-                        stripped_line.startswith("class ")
-                        and "lukhas" not in stripped_line.lower()
-                    ):
+                    if stripped_line.startswith("class ") and "lukhas" not in stripped_line.lower():
                         # Attempt to extract class name more robustly
                         try:
                             class_name_match = ast.parse(line).body[0]  # type: ignore
@@ -200,8 +178,7 @@ class MetaLearningRecovery:
                                         new_pascal_class = f"Adaptive{old_class_name.lower().replace('adaptive', '').replace('_', '').title()}"
                                     else:
                                         new_pascal_class = "".join(
-                                            word.capitalize()
-                                            for word in old_class_name.split("_")
+                                            word.capitalize() for word in old_class_name.split("_")
                                         )
                                     new_lukhas_class_name = f"lukhas{new_pascal_class}"
                                     line = line.replace(
@@ -229,9 +206,7 @@ class MetaLearningRecovery:
         return new_filename, new_content
 
     # # Determine the appropriate target directory for a component
-    def determine_target_directory(
-        self, file_path_str: str
-    ) -> str:  # Renamed file_path to file_path_str
+    def determine_target_directory(self, file_path_str: str) -> str:  # Renamed file_path to file_path_str
         """Determine the appropriate target directory for a component"""
         # ΛNOTE: Uses keywords in file path to map to target directories.
         # ΛTRACE: Determining target directory
@@ -266,9 +241,7 @@ class MetaLearningRecovery:
 
     # # Recover all Meta Learning components based on exploration results
     # ΛEXPOSE: Main method to perform the recovery of components.
-    def recover_meta_learning_components(
-        self, exploration_result: dict[str, Any]
-    ) -> dict[str, Any]:  # Type hints
+    def recover_meta_learning_components(self, exploration_result: dict[str, Any]) -> dict[str, Any]:  # Type hints
         """Recover all Meta Learning components"""
         # ΛDREAM_LOOP: If this recovery process learns or adapts over time (e.g., improving categorization), it's a learning loop.
         # ΛTRACE: Recovering meta-learning components
@@ -284,9 +257,7 @@ class MetaLearningRecovery:
         }
 
         if not exploration_result.get("exists"):  # Use .get for safety
-            recovery_result["errors"].append(
-                "Source directory does not exist for recovery"
-            )
+            recovery_result["errors"].append("Source directory does not exist for recovery")
             logger.error(
                 "source_directory_not_exist_for_recovery",
                 path=self.meta_learning_source,
@@ -300,31 +271,23 @@ class MetaLearningRecovery:
             if not file_rel_path.endswith(".py"):
                 continue
 
-            source_file_path = (
-                Path(self.meta_learning_source) / file_rel_path
-            )  # Use Path object
+            source_file_path = Path(self.meta_learning_source) / file_rel_path  # Use Path object
             recovery_result["components_processed"] += 1
             try:
                 with open(source_file_path, encoding="utf-8", errors="ignore") as f:
                     content = f.read()
                 filename = source_file_path.name
-                new_filename, new_content = self.convert_to_lukhas_format(
-                    filename, content
-                )
+                new_filename, new_content = self.convert_to_lukhas_format(filename, content)
 
                 target_dir_key = self.determine_target_directory(file_rel_path)
                 # Ensure target path is relative to workspace_root for consistency
                 relative_target_dir = Path(
-                    self.target_mapping.get(
-                        target_dir_key, self.target_mapping["meta_learning"]
-                    )
+                    self.target_mapping.get(target_dir_key, self.target_mapping["meta_learning"])
                 )  # Use .get
 
                 # Handle subdirectories from original path
                 original_subdir = Path(file_rel_path).parent
-                final_target_dir = (
-                    self.workspace_root / relative_target_dir / original_subdir
-                )
+                final_target_dir = self.workspace_root / relative_target_dir / original_subdir
                 final_target_dir.mkdir(parents=True, exist_ok=True)
 
                 target_path = final_target_dir / new_filename
@@ -391,9 +354,7 @@ class MetaLearningRecovery:
             }  # Return exploration too
 
         recovery_result = self.recover_meta_learning_components(exploration_result)
-        timestamp_str = datetime.now().strftime(
-            "%Y%m%d_%H%M%S"
-        )  # Renamed timestamp to timestamp_str
+        timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")  # Renamed timestamp to timestamp_str
         # Renamed report_file
         report_filename = f"lukhasMetaLearning_Recovery_Report_{timestamp_str}.json"
         report_path = self.workspace_root / report_filename  # Use Path object
@@ -404,9 +365,7 @@ class MetaLearningRecovery:
         }
         try:
             with open(report_path, "w") as f:
-                json.dump(
-                    complete_report, f, indent=2, default=str
-                )  # Added default=str for non-serializable
+                json.dump(complete_report, f, indent=2, default=str)  # Added default=str for non-serializable
             logger.info("recovery_report_saved", path=str(report_path))
         except Exception as e:
             logger.error(
@@ -430,9 +389,7 @@ class MetaLearningRecovery:
             target_counts: dict[str, int] = defaultdict(int)  # Use defaultdict
             for file_info in recovery_result["files_recovered"]:
                 target_counts[file_info["target_category"]] += 1
-            logger.info(
-                "components_by_category_summary", counts=dict(target_counts)
-            )  # Convert to dict for logging
+            logger.info("components_by_category_summary", counts=dict(target_counts))  # Convert to dict for logging
         # print statements replaced by logging
         # ΛTRACE: Full recovery execution finished
         logger.info("execute_full_recovery_end")
@@ -448,8 +405,7 @@ def main():
     results = recovery_tool.execute_recovery()
 
     if (
-        "error" not in results
-        and results.get("recovery", {}).get("components_successful", 0) > 0
+        "error" not in results and results.get("recovery", {}).get("components_successful", 0) > 0
     ):  # Check nested dicts carefully
         logger.info(
             "meta_learning_recovery_script_success",

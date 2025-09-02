@@ -19,9 +19,7 @@ class VoiceSwarmAgent(SwarmAgent):
 
     async def generate_phoneme(self, text_segment: str, context: dict[str, Any]):
         if self.specialization == "emotion":
-            return await self.synthesizer.synthesize(
-                text_segment, emotion=context.get("emotion")
-            )
+            return await self.synthesizer.synthesize(text_segment, emotion=context.get("emotion"))
         else:
             return await self.synthesizer.synthesize(text_segment)
 
@@ -47,9 +45,7 @@ class SwarmVoiceGenerator:
     def _segment_text(self, text: str) -> list[str]:
         return text.split()
 
-    async def generate_speech(
-        self, text: str, voice_params: dict[str, Any]
-    ) -> list[Any]:
+    async def generate_speech(self, text: str, voice_params: dict[str, Any]) -> list[Any]:
         segments = self._segment_text(text)
         tasks = []
         for i, segment in enumerate(segments):
@@ -57,9 +53,7 @@ class SwarmVoiceGenerator:
                 "position": i / len(segments),
                 "emotion": voice_params.get("emotion", "neutral"),
             }
-            agent = list(self.voice_swarm.agents.values())[
-                i % len(self.voice_swarm.agents)
-            ]
+            agent = list(self.voice_swarm.agents.values())[i % len(self.voice_swarm.agents)]
             tasks.append(agent.generate_phoneme(segment, context))
         phonemes = await asyncio.gather(*tasks)
         self.audio_buffer.extend(phonemes)

@@ -87,9 +87,7 @@ class MemoryPlanner:
                     optimizations["reuse_opportunities"] += 1
                     optimizations["suggested_merges"].append((id1, id2))
 
-        logger.info(
-            f"Memory optimization found {optimizations['reuse_opportunities']} reuse opportunities"
-        )
+        logger.info(f"Memory optimization found {optimizations['reuse_opportunities']} reuse opportunities")
         return optimizations
 
 

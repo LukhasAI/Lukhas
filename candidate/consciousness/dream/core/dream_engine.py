@@ -83,9 +83,7 @@ except ImportError:
     class SimpleDreamEngine:
         async def generate_dream_sequence(self, daily_data: Optional[list] = None):
             return {
-                "dream_sequence": {
-                    "narrative": "A peaceful dream state of creative possibility..."
-                },
+                "dream_sequence": {"narrative": "A peaceful dream state of creative possibility..."},
                 "learning": {"insights": "Creative potential explored"},
                 "memory_trace": "dream_fallback_001",
             }
@@ -126,9 +124,7 @@ class EnhancedDreamEngine:
         self.config = config or DreamQuantumConfig()
 
         # Initialize quantum adapter
-        self.qi_adapter = QIDreamAdapter(
-            orchestrator=self.orchestrator, config=self.config
-        )
+        self.qi_adapter = QIDreamAdapter(orchestrator=self.orchestrator, config=self.config)
 
         # Initialize dream reflection components
         self.active = False
@@ -136,9 +132,7 @@ class EnhancedDreamEngine:
         self.current_cycle = None
 
         # Register with integration layer
-        self.integration.register_component(
-            "enhanced_dream_engine", self.handle_message
-        )
+        self.integration.register_component("enhanced_dream_engine", self.handle_message)
 
         logger.info("Enhanced dream engine initialized")
 
@@ -187,9 +181,7 @@ class EnhancedDreamEngine:
                 "memories_processed": 0,
             }
 
-            self.processing_task = asyncio.create_task(
-                self._run_dream_cycle(duration_minutes)
-            )
+            self.processing_task = asyncio.create_task(self._run_dream_cycle(duration_minutes))
 
             logger.info(f"Started enhanced dream cycle for {duration_minutes} minutes")
 
@@ -318,9 +310,7 @@ class EnhancedDreamEngine:
         duration = datetime.utcnow() - self.current_cycle["start_time"]
         memories = self.current_cycle["memories_processed"]
 
-        logger.info(
-            f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}"
-        )
+        logger.info(f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}")
 
     async def _handle_start_cycle(self, content: dict[str, Any]) -> None:
         """Handle start cycle request"""
@@ -352,9 +342,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error consolidating dreams: {e}")
 
-    def _extract_dream_insights(
-        self, qi_like_state: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _extract_dream_insights(self, qi_like_state: dict[str, Any]) -> list[dict[str, Any]]:
         """Extract insights from qi dream state
 
         Args:
@@ -459,18 +447,14 @@ class EnhancedDreamEngine:
                     self.current_cycle["memories_processed"] += 1
 
             else:
-                logger.warning(
-                    f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}"
-                )
+                logger.warning(f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}")
 
         except Exception as e:
             logger.error(f"Error processing dream: {e}")
             dream["state"] = "error"
             dream["metadata"]["error"] = str(e)
 
-    async def _process_dream_quantum(
-        self, dream: dict[str, Any], qi_like_state: dict
-    ) -> dict:
+    async def _process_dream_quantum(self, dream: dict[str, Any], qi_like_state: dict) -> dict:
         """Process dream through quantum layer
 
         Args:
@@ -527,9 +511,7 @@ class EnhancedDreamEngine:
         try:
             # Remove from unconsolidated memories
             unconsolidated = await self.integration.get_data("unconsolidated_memories")
-            unconsolidated = [
-                m for m in unconsolidated if m.get("id") != dream.get("id")
-            ]
+            unconsolidated = [m for m in unconsolidated if m.get("id") != dream.get("id")]
             await self.integration.store_data("unconsolidated_memories", unconsolidated)
 
             # Add to enhanced memories

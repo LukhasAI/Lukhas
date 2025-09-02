@@ -49,9 +49,7 @@ class SymbolicNervousSystem:
         return tags
 
     # ΛTAG: memory_tagging
-    async def store_sensory_echo(
-        self, dream: dict[str, Any], temperature: float, light: float
-    ) -> dict[str, Any]:
+    async def store_sensory_echo(self, dream: dict[str, Any], temperature: float, light: float) -> dict[str, Any]:
         """Attach sensory echo to dream and persist via memory manager."""
         tags = self.map_inputs_to_tags(temperature, light)
         echo = SensoryEcho(
@@ -64,9 +62,7 @@ class SymbolicNervousSystem:
         dream.setdefault("sensory_echoes", []).append(asdict(echo))
 
         if self.memory_manager and hasattr(self.memory_manager, "store"):
-            await self.memory_manager.store(
-                {"echo": asdict(echo)}, metadata={"tags": tags}
-            )
+            await self.memory_manager.store({"echo": asdict(echo)}, metadata={"tags": tags})
 
         return dream
 

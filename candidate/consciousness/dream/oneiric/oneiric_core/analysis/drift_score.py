@@ -41,11 +41,7 @@ async def calculate_drift_score(user_id: str, dream_metrics: dict) -> dict:
     coherence_drift = narrative_coherence - baseline_coherence
 
     # Overall drift score (weighted combination)
-    drift_score = (
-        0.4 * abs(entropy_drift)
-        + 0.3 * abs(emotional_drift)
-        + 0.3 * abs(coherence_drift)
-    )
+    drift_score = 0.4 * abs(entropy_drift) + 0.3 * abs(emotional_drift) + 0.3 * abs(coherence_drift)
 
     # Drift analysis result
     drift_result = {
@@ -93,18 +89,15 @@ async def update_user_drift_profile(user_id: str, dream_metrics: dict) -> dict:
 
     # Running average updates
     current_profile["avg_entropy"] = (
-        current_profile["avg_entropy"] * total_dreams
-        + dream_metrics.get("symbolic_entropy", 0.5)
+        current_profile["avg_entropy"] * total_dreams + dream_metrics.get("symbolic_entropy", 0.5)
     ) / new_total
 
     current_profile["avg_emotional"] = (
-        current_profile["avg_emotional"] * total_dreams
-        + dream_metrics.get("emotional_charge", 0.0)
+        current_profile["avg_emotional"] * total_dreams + dream_metrics.get("emotional_charge", 0.0)
     ) / new_total
 
     current_profile["avg_coherence"] = (
-        current_profile["avg_coherence"] * total_dreams
-        + dream_metrics.get("narrative_coherence", 0.8)
+        current_profile["avg_coherence"] * total_dreams + dream_metrics.get("narrative_coherence", 0.8)
     ) / new_total
 
     current_profile["total_dreams"] = new_total
@@ -146,12 +139,8 @@ async def get_drift_trends(user_id: str, days: int = 30) -> dict:
 
     # Simple trend analysis (compare first half vs second half)
     mid_point = len(recent_drifts) // 2
-    first_half_avg = (
-        sum(d["drift_score"] for d in recent_drifts[:mid_point]) / mid_point
-    )
-    second_half_avg = sum(d["drift_score"] for d in recent_drifts[mid_point:]) / (
-        len(recent_drifts) - mid_point
-    )
+    first_half_avg = sum(d["drift_score"] for d in recent_drifts[:mid_point]) / mid_point
+    second_half_avg = sum(d["drift_score"] for d in recent_drifts[mid_point:]) / (len(recent_drifts) - mid_point)
 
     trend = "stable"
     if second_half_avg > first_half_avg * 1.2:

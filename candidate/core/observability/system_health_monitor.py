@@ -502,15 +502,9 @@ class SystemHealthMonitor:
             snapshot.fold_health_score = cascade_metrics["fold_health"]
 
             # Trinity Framework health
-            snapshot.identity_system_health = self.component_states[
-                ComponentType.IDENTITY
-            ].overall_health
-            snapshot.consciousness_system_health = self.component_states[
-                ComponentType.CONSCIOUSNESS
-            ].overall_health
-            snapshot.guardian_system_health = self.component_states[
-                ComponentType.GUARDIAN
-            ].overall_health
+            snapshot.identity_system_health = self.component_states[ComponentType.IDENTITY].overall_health
+            snapshot.consciousness_system_health = self.component_states[ComponentType.CONSCIOUSNESS].overall_health
+            snapshot.guardian_system_health = self.component_states[ComponentType.GUARDIAN].overall_health
 
             # Critical indicators
             snapshot.active_alerts = await self._count_active_alerts()
@@ -527,9 +521,7 @@ class SystemHealthMonitor:
             self.system_metrics["average_system_health"] = overall_health
             self.system_metrics["uptime_percentage"] = snapshot.uptime * 100
 
-            logger.debug(
-                f"🏥 Health snapshot: {system_status.value} ({overall_health:.3f})"
-            )
+            logger.debug(f"🏥 Health snapshot: {system_status.value} ({overall_health:.3f})")
 
         except Exception as e:
             logger.error(f"❌ Health snapshot capture failed: {e}")
@@ -615,9 +607,7 @@ class SystemHealthMonitor:
                 await self._update_single_component_health(component_type)
 
             except Exception as e:
-                logger.error(
-                    f"❌ Component health update failed for {component_type.value}: {e}"
-                )
+                logger.error(f"❌ Component health update failed for {component_type.value}: {e}")
 
     async def _update_single_component_health(self, component_type: ComponentType):
         """Update health for a single component"""
@@ -635,9 +625,7 @@ class SystemHealthMonitor:
         health_variation = await self._get_component_health_variation(component_type)
 
         component.overall_health = max(0.0, min(1.0, base_health + health_variation))
-        component.health_status = self._determine_health_status(
-            component.overall_health
-        )
+        component.health_status = self._determine_health_status(component.overall_health)
         component.is_operational = component.overall_health > 0.3
         component.timestamp = datetime.now()
 
@@ -654,9 +642,7 @@ class SystemHealthMonitor:
             }
         )
 
-    async def _get_component_health_variation(
-        self, component_type: ComponentType
-    ) -> float:
+    async def _get_component_health_variation(self, component_type: ComponentType) -> float:
         """Get health variation for component (simulation)"""
 
         import random
@@ -671,9 +657,7 @@ class SystemHealthMonitor:
         else:
             return random.uniform(-0.1, 0.1)  # Default variation
 
-    async def _update_component_specific_metrics(
-        self, component_type: ComponentType, component: ComponentHealth
-    ):
+    async def _update_component_specific_metrics(self, component_type: ComponentType, component: ComponentHealth):
         """Update component-specific metrics"""
 
         if component_type == ComponentType.GUARDIAN:
@@ -715,12 +699,8 @@ class SystemHealthMonitor:
 
                 # Cascade prevention impacts memory health
                 if prevention_score < self.cascade_prevention_target:
-                    health_penalty = (
-                        self.cascade_prevention_target - prevention_score
-                    ) * 2
-                    memory_component.overall_health = max(
-                        0.0, memory_component.overall_health - health_penalty
-                    )
+                    health_penalty = (self.cascade_prevention_target - prevention_score) * 2
+                    memory_component.overall_health = max(0.0, memory_component.overall_health - health_penalty)
 
                 # Update cascade-specific indicators
                 if cascade_risk > 0.1:
@@ -733,9 +713,7 @@ class SystemHealthMonitor:
             if prevention_score >= self.cascade_prevention_target:
                 self.system_metrics["cascade_preventions"] += 1
 
-            logger.debug(
-                f"🛡️ Cascade prevention: {prevention_score:.4f} (risk: {cascade_risk:.4f})"
-            )
+            logger.debug(f"🛡️ Cascade prevention: {prevention_score:.4f} (risk: {cascade_risk:.4f})")
 
         except Exception as e:
             logger.error(f"❌ Cascade prevention monitoring failed: {e}")
@@ -817,9 +795,7 @@ class SystemHealthMonitor:
 
         for component in self.component_states.values():
             alert_count += len(component.critical_indicators)
-            alert_count += (
-                len(component.warning_indicators) // 2
-            )  # Warnings count as half
+            alert_count += len(component.warning_indicators) // 2  # Warnings count as half
 
         return alert_count
 
@@ -861,11 +837,7 @@ class SystemHealthMonitor:
             return True
 
         # Check cascade prevention
-        if (
-            self.current_health
-            and self.current_health.cascade_prevention_score
-            < self.cascade_prevention_target
-        ):
+        if self.current_health and self.current_health.cascade_prevention_score < self.cascade_prevention_target:
             return True
 
         return False
@@ -949,19 +921,13 @@ class SystemHealthMonitor:
 
         for component_type, component in self.component_states.items():
             if component.health_status in [HealthStatus.POOR, HealthStatus.CRITICAL]:
-                recommendations.append(
-                    f"Immediate attention required for {component_type.value}"
-                )
+                recommendations.append(f"Immediate attention required for {component_type.value}")
 
             if component.overall_health < 0.8:
-                recommendations.append(
-                    f"Preventive maintenance recommended for {component_type.value}"
-                )
+                recommendations.append(f"Preventive maintenance recommended for {component_type.value}")
 
             if component.predicted_issues:
-                recommendations.append(
-                    f"Proactive maintenance needed for {component_type.value}"
-                )
+                recommendations.append(f"Proactive maintenance needed for {component_type.value}")
                 component.maintenance_recommendation = "proactive_maintenance"
 
         # System-wide recommendations
@@ -980,19 +946,13 @@ class SystemHealthMonitor:
         cutoff_time = datetime.now() - timedelta(hours=self.health_retention_hours)
 
         # Clean health snapshots
-        while (
-            self.health_snapshots and self.health_snapshots[0].timestamp < cutoff_time
-        ):
+        while self.health_snapshots and self.health_snapshots[0].timestamp < cutoff_time:
             self.health_snapshots.popleft()
 
         # Clean component history
         for component_type in self.component_health_history:
             history = self.component_health_history[component_type]
-            while (
-                history
-                and datetime.fromisoformat(history[0]["timestamp"].isoformat())
-                < cutoff_time
-            ):
+            while history and datetime.fromisoformat(history[0]["timestamp"].isoformat()) < cutoff_time:
                 history.popleft()
 
         # Clean metrics history
@@ -1063,9 +1023,7 @@ class SystemHealthMonitor:
         # Update system metrics
         self.system_metrics["metrics_collected"] += 1
 
-        logger.debug(
-            f"📊 Health metric recorded: {name} = {value} {unit} ({status.value})"
-        )
+        logger.debug(f"📊 Health metric recorded: {name} = {value} {unit} ({status.value})")
 
         return metric
 
@@ -1100,8 +1058,7 @@ class SystemHealthMonitor:
                 "cascade_risk": self.current_health.memory_cascade_risk,
                 "prevention_score": self.current_health.cascade_prevention_score,
                 "fold_health": self.current_health.fold_health_score,
-                "target_met": self.current_health.cascade_prevention_score
-                >= self.cascade_prevention_target,
+                "target_met": self.current_health.cascade_prevention_score >= self.cascade_prevention_target,
             },
             # Component health summary
             "components": {
@@ -1109,8 +1066,7 @@ class SystemHealthMonitor:
                     "health": component.overall_health,
                     "status": component.health_status.value,
                     "operational": component.is_operational,
-                    "issues": len(component.critical_indicators)
-                    + len(component.warning_indicators),
+                    "issues": len(component.critical_indicators) + len(component.warning_indicators),
                 }
                 for component_type, component in self.current_health.component_health.items()
             },
@@ -1123,9 +1079,7 @@ class SystemHealthMonitor:
             },
         }
 
-    async def get_health_report(
-        self, time_period: Optional[tuple[datetime, datetime]] = None
-    ) -> HealthReport:
+    async def get_health_report(self, time_period: Optional[tuple[datetime, datetime]] = None) -> HealthReport:
         """Generate comprehensive health report"""
 
         if not time_period:
@@ -1134,11 +1088,7 @@ class SystemHealthMonitor:
             time_period = (start_time, end_time)
 
         # Filter snapshots for time period
-        period_snapshots = [
-            s
-            for s in self.health_snapshots
-            if time_period[0] <= s.timestamp <= time_period[1]
-        ]
+        period_snapshots = [s for s in self.health_snapshots if time_period[0] <= s.timestamp <= time_period[1]]
 
         if not period_snapshots:
             return HealthReport(
@@ -1204,28 +1154,20 @@ class SystemHealthMonitor:
         report.cascade_prevention_analysis = {
             "average_prevention_score": statistics.mean(cascade_scores),
             "average_cascade_risk": statistics.mean(cascade_risks),
-            "target_compliance": sum(
-                1 for s in cascade_scores if s >= self.cascade_prevention_target
-            )
+            "target_compliance": sum(1 for s in cascade_scores if s >= self.cascade_prevention_target)
             / len(cascade_scores),
             "max_risk_event": max(cascade_risks) if cascade_risks else 0.0,
         }
 
         # Add recommendations
         if overall_system_health < 0.7:
-            report.immediate_actions.append(
-                "System health below acceptable level - immediate investigation required"
-            )
+            report.immediate_actions.append("System health below acceptable level - immediate investigation required")
 
         if critical_issues_count > 0:
-            report.immediate_actions.append(
-                f"Address {critical_issues_count} critical issues"
-            )
+            report.immediate_actions.append(f"Address {critical_issues_count} critical issues")
 
         if statistics.mean(cascade_risks) > 0.1:
-            report.preventive_measures.append(
-                "Strengthen memory cascade prevention measures"
-            )
+            report.preventive_measures.append("Strengthen memory cascade prevention measures")
 
         return report
 

@@ -29,9 +29,7 @@ def _now() -> float:
 
 
 def _sha(obj: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(obj, sort_keys=True, ensure_ascii=False).encode()
-    ).hexdigest()
+    return hashlib.sha256(json.dumps(obj, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
 
 @dataclass
@@ -109,27 +107,17 @@ class HumanAdaptEngine:
         }
 
         for user, arr in by_user.items():
-            scores = [
-                x["satisfaction_score"]
-                for x in arr
-                if x.get("satisfaction_score") is not None
-            ]
+            scores = [x["satisfaction_score"] for x in arr if x.get("satisfaction_score") is not None]
             if scores:
                 stats["by_user"][user] = {
                     "n": len(arr),
                     "sat_mean": round(statistics.mean(scores), 2),
-                    "sat_trend": self._compute_trend(
-                        [x["satisfaction_score"] for x in arr[-20:]]
-                    ),
+                    "sat_trend": self._compute_trend([x["satisfaction_score"] for x in arr[-20:]]),
                     "common_corrections": self._extract_correction_patterns(arr),
                 }
 
         for task, arr in by_task.items():
-            scores = [
-                x["satisfaction_score"]
-                for x in arr
-                if x.get("satisfaction_score") is not None
-            ]
+            scores = [x["satisfaction_score"] for x in arr if x.get("satisfaction_score") is not None]
             if scores:
                 stats["by_task"][task] = {
                     "n": len(arr),
@@ -138,11 +126,7 @@ class HumanAdaptEngine:
                 }
 
         for tone, arr in by_tone.items():
-            scores = [
-                x["satisfaction_score"]
-                for x in arr
-                if x.get("satisfaction_score") is not None
-            ]
+            scores = [x["satisfaction_score"] for x in arr if x.get("satisfaction_score") is not None]
             if scores:
                 stats["by_tone"][tone] = {
                     "n": len(arr),
@@ -151,9 +135,7 @@ class HumanAdaptEngine:
 
         return stats
 
-    def propose_tone_adaptations(
-        self, *, target_file: str, user_focus: str | None = None
-    ) -> list[dict]:
+    def propose_tone_adaptations(self, *, target_file: str, user_focus: str | None = None) -> list[dict]:
         """
         Generate proposals for tone/style adjustments based on satisfaction analysis.
         """
@@ -178,9 +160,7 @@ class HumanAdaptEngine:
                             }
                         }
                     }
-                    pid = _sha(
-                        {"user": user_focus, "adaptation": "concise", "ts": int(_now())}
-                    )
+                    pid = _sha({"user": user_focus, "adaptation": "concise", "ts": int(_now())})
                     proposals.append(
                         {
                             "id": pid,
@@ -239,9 +219,7 @@ class HumanAdaptEngine:
                         }
                     }
                 }
-                pid = _sha(
-                    {"task": task, "adaptation": "empathy_boost", "ts": int(_now())}
-                )
+                pid = _sha({"task": task, "adaptation": "empathy_boost", "ts": int(_now())})
                 proposals.append(
                     {
                         "id": pid,
@@ -272,9 +250,7 @@ class HumanAdaptEngine:
                         }
                     }
                 }
-                pid = _sha(
-                    {"tone_shift": f"{worst_tone}_to_{best_tone}", "ts": int(_now())}
-                )
+                pid = _sha({"tone_shift": f"{worst_tone}_to_{best_tone}", "ts": int(_now())})
                 proposals.append(
                     {
                         "id": pid,
@@ -364,37 +340,17 @@ class HumanAdaptEngine:
 
     def _extract_correction_patterns(self, interactions: list[dict]) -> list[str]:
         patterns = []
-        corrections = [
-            i for i in interactions if i.get("interaction_kind") == "correction"
-        ]
+        corrections = [i for i in interactions if i.get("interaction_kind") == "correction"]
 
         feedback_texts = [c["user_feedback"].lower() for c in corrections]
 
-        if (
-            sum("verbose" in f or "long" in f or "wordy" in f for f in feedback_texts)
-            >= 2
-        ):
+        if sum("verbose" in f or "long" in f or "wordy" in f for f in feedback_texts) >= 2:
             patterns.append("too_verbose")
-        if (
-            sum(
-                "technical" in f or "jargon" in f or "complex" in f
-                for f in feedback_texts
-            )
-            >= 2
-        ):
+        if sum("technical" in f or "jargon" in f or "complex" in f for f in feedback_texts) >= 2:
             patterns.append("too_technical")
-        if (
-            sum("formal" in f or "stiff" in f or "robotic" in f for f in feedback_texts)
-            >= 2
-        ):
+        if sum("formal" in f or "stiff" in f or "robotic" in f for f in feedback_texts) >= 2:
             patterns.append("too_formal")
-        if (
-            sum(
-                "short" in f or "brief" in f or "more detail" in f
-                for f in feedback_texts
-            )
-            >= 2
-        ):
+        if sum("short" in f or "brief" in f or "more detail" in f for f in feedback_texts) >= 2:
             patterns.append("too_brief")
 
         return patterns
@@ -422,11 +378,7 @@ class HumanAdaptEngine:
     def _read_proposals(self) -> list[dict]:
         if not os.path.exists(PROPOSALS):
             return []
-        return [
-            json.loads(ln)
-            for ln in _ORIG_OPEN(PROPOSALS, "r", encoding="utf-8").read().splitlines()
-            if ln.strip()
-        ]
+        return [json.loads(ln) for ln in _ORIG_OPEN(PROPOSALS, "r", encoding="utf-8").read().splitlines() if ln.strip()]
 
     def _write_proposals(self, proposals: list[dict]):
         tmp = PROPOSALS + ".tmp"
@@ -443,9 +395,7 @@ def main():
     ap = argparse.ArgumentParser(description="Human Adaptation Engine")
     ap.add_argument("command", choices=["analyze", "propose", "submit"])
     ap.add_argument("--user-focus")
-    ap.add_argument(
-        "--target-file", default="qi/safety/policy_packs/global/mappings.yaml"
-    )
+    ap.add_argument("--target-file", default="qi/safety/policy_packs/global/mappings.yaml")
     ap.add_argument(
         "--config-targets",
         nargs="*",
@@ -459,9 +409,7 @@ def main():
         stats = engine.analyze_satisfaction_patterns()
         print(json.dumps(stats, indent=2))
     elif args.command == "propose":
-        proposals = engine.propose_tone_adaptations(
-            target_file=args.target_file, user_focus=args.user_focus
-        )
+        proposals = engine.propose_tone_adaptations(target_file=args.target_file, user_focus=args.user_focus)
         print(
             json.dumps(
                 {"proposals": len(proposals), "ids": [p["id"] for p in proposals]},

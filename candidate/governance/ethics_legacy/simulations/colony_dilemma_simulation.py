@@ -73,16 +73,12 @@ async def simulate_dilemma() -> list[DivergenceReport]:
     reports.append(measure_divergence([reasoning, memory, creativity]))
 
     memory.link_symbolic_contexts(reasoning)
-    memory.override_tag(
-        "pressure", "archived_high", TagScope.LOCAL, TagPermission.PUBLIC
-    )
+    memory.override_tag("pressure", "archived_high", TagScope.LOCAL, TagPermission.PUBLIC)
     await memory.execute_task("t2", {"type": "store"})
     reports.append(measure_divergence([reasoning, memory, creativity]))
 
     creativity.link_symbolic_contexts(memory)
-    creativity.override_tag(
-        "signal", "reinterpreted_low", TagScope.LOCAL, TagPermission.PUBLIC
-    )
+    creativity.override_tag("signal", "reinterpreted_low", TagScope.LOCAL, TagPermission.PUBLIC)
     await creativity.execute_task("t3", {"type": "create"})
     reports.append(measure_divergence([reasoning, memory, creativity]))
 

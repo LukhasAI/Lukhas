@@ -161,9 +161,7 @@ class DreamRequest(BaseModel):
 
     prompt: str = Field(..., min_length=1, max_length=1000)
     creativity_level: float = Field(default=0.8, ge=0.0, le=1.0)
-    dream_type: str = Field(
-        default="creative", pattern="^(creative|analytical|symbolic)$"
-    )
+    dream_type: str = Field(default="creative", pattern="^(creative|analytical|symbolic)$")
 
 
 class EnhancedAPISystem:
@@ -292,9 +290,7 @@ class EnhancedAPISystem:
         # Request tracking
         @self.app.middleware("http")
         async def track_requests(request: Request, call_next):
-            request_id = (
-                f"req_{self.request_counter}_{datetime.now(timezone.utc).timestamp()}"
-            )
+            request_id = f"req_{self.request_counter}_{datetime.now(timezone.utc).timestamp()}"
             self.request_counter += 1
 
             # Store request context
@@ -355,9 +351,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/auth/login")
         async def login(credentials: dict[str, Any]):
             """Login and get JWT token"""
-            result = await self.security.create_secure_session(
-                credentials.get("user_id"), credentials
-            )
+            result = await self.security.create_secure_session(credentials.get("user_id"), credentials)
 
             if not result:
                 raise HTTPException(
@@ -370,9 +364,7 @@ class EnhancedAPISystem:
         @self.app.post("/api/v2/auth/mfa/verify")
         async def verify_mfa(session_id: str, mfa_data: dict[str, str]):
             """Verify MFA code"""
-            result = await self.security.verify_mfa(
-                session_id, mfa_data.get("method"), mfa_data.get("code")
-            )
+            result = await self.security.verify_mfa(session_id, mfa_data.get("method"), mfa_data.get("code"))
 
             if not result:
                 raise HTTPException(
@@ -390,9 +382,7 @@ class EnhancedAPISystem:
         ):
             """Query consciousness system"""
             # Validate auth
-            is_valid, error = await self._validate_auth(
-                auth.credentials, "consciousness.query"
-            )
+            is_valid, error = await self._validate_auth(auth.credentials, "consciousness.query")
             if not is_valid:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
@@ -415,9 +405,7 @@ class EnhancedAPISystem:
                         detail=f"Guardian rejected: {ethics_check['reason']}",
                     )
 
-                processing_time = (
-                    datetime.now(timezone.utc) - start_time
-                ).total_seconds() * 1000
+                processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
                 return LUKHASResponse(
                     request_id=request_id,
@@ -447,9 +435,7 @@ class EnhancedAPISystem:
         ):
             """Memory operations (store, retrieve, search, update)"""
             # Validate auth
-            is_valid, error = await self._validate_auth(
-                auth.credentials, f"memory.{action}"
-            )
+            is_valid, error = await self._validate_auth(auth.credentials, f"memory.{action}")
             if not is_valid:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
@@ -465,17 +451,11 @@ class EnhancedAPISystem:
             try:
                 # Execute memory operation
                 if action == "store":
-                    result = await self.memory.store(
-                        request.content, memory_type=request.memory_type
-                    )
+                    result = await self.memory.store(request.content, memory_type=request.memory_type)
                 elif action == "retrieve":
-                    result = await self.memory.retrieve(
-                        request.query, memory_type=request.memory_type
-                    )
+                    result = await self.memory.retrieve(request.query, memory_type=request.memory_type)
                 elif action == "search":
-                    result = await self.memory.search(
-                        request.query, memory_type=request.memory_type
-                    )
+                    result = await self.memory.search(request.query, memory_type=request.memory_type)
                 elif action == "update":
                     result = await self.memory.update(
                         request.query,
@@ -483,9 +463,7 @@ class EnhancedAPISystem:
                         memory_type=request.memory_type,
                     )
 
-                processing_time = (
-                    datetime.now(timezone.utc) - start_time
-                ).total_seconds() * 1000
+                processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
                 return LUKHASResponse(
                     request_id=request_id,
@@ -514,9 +492,7 @@ class EnhancedAPISystem:
         ):
             """Check action proposal with Guardian system"""
             # Validate auth
-            is_valid, error = await self._validate_auth(
-                auth.credentials, "governance.check"
-            )
+            is_valid, error = await self._validate_auth(auth.credentials, "governance.check")
             if not is_valid:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
@@ -531,9 +507,7 @@ class EnhancedAPISystem:
                     urgency=request.urgency,
                 )
 
-                processing_time = (
-                    datetime.now(timezone.utc) - start_time
-                ).total_seconds() * 1000
+                processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
                 return LUKHASResponse(
                     request_id=request_id,
@@ -562,9 +536,7 @@ class EnhancedAPISystem:
         ):
             """Generate creative content through dream engine"""
             # Validate auth
-            is_valid, error = await self._validate_auth(
-                auth.credentials, "dream.generate"
-            )
+            is_valid, error = await self._validate_auth(auth.credentials, "dream.generate")
             if not is_valid:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
@@ -590,9 +562,7 @@ class EnhancedAPISystem:
                         constraints=ethics_check.get("constraints", []),
                     )
 
-                processing_time = (
-                    datetime.now(timezone.utc) - start_time
-                ).total_seconds() * 1000
+                processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
                 return LUKHASResponse(
                     request_id=request_id,
@@ -621,9 +591,7 @@ class EnhancedAPISystem:
         ):
             """Generic processing endpoint for complex operations"""
             # Validate auth
-            is_valid, error = await self._validate_auth(
-                auth.credentials, request.operation
-            )
+            is_valid, error = await self._validate_auth(auth.credentials, request.operation)
             if not is_valid:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
@@ -641,9 +609,7 @@ class EnhancedAPISystem:
                 else:
                     raise ValueError(f"Unknown operation: {request.operation}")
 
-                processing_time = (
-                    datetime.now(timezone.utc) - start_time
-                ).total_seconds() * 1000
+                processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
                 return LUKHASResponse(
                     request_id=request_id,
@@ -676,25 +642,17 @@ class EnhancedAPISystem:
         ):
             """Get system capabilities"""
             # Validate auth
-            is_valid, error = await self._validate_auth(
-                auth.credentials, "system.capabilities"
-            )
+            is_valid, error = await self._validate_auth(auth.credentials, "system.capabilities")
             if not is_valid:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
             return {
-                "consciousness": (
-                    self.consciousness.get_capabilities() if self.consciousness else {}
-                ),
+                "consciousness": (self.consciousness.get_capabilities() if self.consciousness else {}),
                 "memory": (self.memory.get_capabilities() if self.memory else {}),
                 "guardian": (self.guardian.get_capabilities() if self.guardian else {}),
                 "emotion": (self.emotion.get_capabilities() if self.emotion else {}),
                 "dream": self.dream.get_capabilities() if self.dream else {},
-                "symbolic": (
-                    self.symbolic_engine.get_capabilities()
-                    if self.symbolic_engine
-                    else {}
-                ),
+                "symbolic": (self.symbolic_engine.get_capabilities() if self.symbolic_engine else {}),
             }
 
         @self.app.get("/api/v2/metrics")
@@ -703,9 +661,7 @@ class EnhancedAPISystem:
         ):
             """Get system metrics"""
             # Validate auth
-            is_valid, error = await self._validate_auth(
-                auth.credentials, "system.metrics"
-            )
+            is_valid, error = await self._validate_auth(auth.credentials, "system.metrics")
             if not is_valid:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
@@ -714,9 +670,7 @@ class EnhancedAPISystem:
                 "active_requests": len(self.active_requests),
                 "total_requests": self.request_counter,
                 "services": {
-                    "consciousness": await self._get_service_metrics(
-                        self.consciousness
-                    ),
+                    "consciousness": await self._get_service_metrics(self.consciousness),
                     "memory": await self._get_service_metrics(self.memory),
                     "guardian": await self._get_service_metrics(self.guardian),
                     "emotion": await self._get_service_metrics(self.emotion),
@@ -724,9 +678,7 @@ class EnhancedAPISystem:
                 },
             }
 
-    async def _validate_auth(
-        self, token: str, operation: str
-    ) -> tuple[bool, Optional[str]]:
+    async def _validate_auth(self, token: str, operation: str) -> tuple[bool, Optional[str]]:
         """Validate authentication for operation"""
         request_data = {
             "authorization": f"Bearer {token}",
@@ -736,9 +688,7 @@ class EnhancedAPISystem:
 
         return await self.security.validate_request(request_data)
 
-    async def _handle_symbolic_operation(
-        self, request: LUKHASRequest
-    ) -> dict[str, Any]:
+    async def _handle_symbolic_operation(self, request: LUKHASRequest) -> dict[str, Any]:
         """Handle symbolic engine operations"""
         op = request.operation.replace("symbolic.", "")
 
@@ -765,16 +715,12 @@ class EnhancedAPISystem:
         else:
             raise ValueError(f"Unknown emotion operation: {op}")
 
-    async def _handle_coordination_operation(
-        self, request: LUKHASRequest
-    ) -> dict[str, Any]:
+    async def _handle_coordination_operation(self, request: LUKHASRequest) -> dict[str, Any]:
         """Handle coordination operations"""
         op = request.operation.replace("coordination.", "")
 
         if op == "orchestrate":
-            return await self.coordination.orchestrate_task(
-                request.data.get("task", {}), request.context
-            )
+            return await self.coordination.orchestrate_task(request.data.get("task", {}), request.context)
         else:
             raise ValueError(f"Unknown coordination operation: {op}")
 

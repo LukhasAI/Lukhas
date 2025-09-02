@@ -42,9 +42,7 @@ class ConnectivityEngine:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.logger = logger.bind(
-            engine_id=f"conn_eng_{datetime.now().strftime('%Y%m%d%H%M%S')}"
-        )
+        self.logger = logger.bind(engine_id=f"conn_eng_{datetime.now().strftime('%Y%m%d%H%M%S')}")
         self.is_initialized = False
         self.status = "inactive"
         self.logger.info(
@@ -79,9 +77,7 @@ class ConnectivityEngine:
         await asyncio.sleep(0.1)  # Simulate async operation
         self.logger.debug("Core integration system setup complete (simulated).")
 
-    async def process(
-        self, data: Any, category: Optional[str] = None
-    ) -> dict[str, Any]:  # Added category parameter
+    async def process(self, data: Any, category: Optional[str] = None) -> dict[str, Any]:  # Added category parameter
         """
         Process integration data.
         #ΛNOTE: The 'category' parameter has been added to make `_core_integration_processing` functional.
@@ -102,9 +98,7 @@ class ConnectivityEngine:
                 return {"status": "error", "error": "Engine not initialized"}
 
         try:
-            result = await self._core_integration_processing(
-                data, category
-            )  # Pass category
+            result = await self._core_integration_processing(data, category)  # Pass category
 
             response = {
                 "status": "success",
@@ -139,9 +133,7 @@ class ConnectivityEngine:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def _core_integration_processing(
-        self, data: Any, category: Optional[str] = None
-    ) -> Any:  # Added category
+    async def _core_integration_processing(self, data: Any, category: Optional[str] = None) -> Any:  # Added category
         """
         Core integration processing logic.
         #ΛNOTE: This method contains placeholder routing based on 'category'.
@@ -319,9 +311,7 @@ if __name__ == "__main__":
         if success:
             logger.info("Processing test data...")
             # Pass category for processing
-            result = await component.process(
-                {"test_data_key": "test_data_value"}, category="consciousness"
-            )
+            result = await component.process({"test_data_key": "test_data_value"}, category="consciousness")
             print(f"Processing result: {result}")
             logger.info("Test data processed.", result_status=result.get("status"))
 

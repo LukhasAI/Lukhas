@@ -67,9 +67,7 @@ def start_api(api_config):
     # Modify the script to use the configured port
     env = {"PORT": str(api_config["port"]), "API_NAME": api_config["name"]}
 
-    process = subprocess.Popen(
-        ["python", api_config["script"]], env={**env, **dict(os.environ)}
-    )
+    process = subprocess.Popen(["python", api_config["script"]], env={**env, **dict(os.environ)})
 
     return process
 

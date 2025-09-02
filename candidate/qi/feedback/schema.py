@@ -22,9 +22,7 @@ class FeedbackContext(BaseModel):
 class FeedbackData(BaseModel):
     """User feedback data."""
 
-    satisfaction: float = Field(
-        ..., ge=0.0, le=1.0, description="Satisfaction score 0-1"
-    )
+    satisfaction: float = Field(..., ge=0.0, le=1.0, description="Satisfaction score 0-1")
     issues: list[str] = Field(default_factory=list, description="List of issue types")
     note_hash: str | None = Field(None, description="HMAC hash of user note")
 

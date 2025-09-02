@@ -39,9 +39,7 @@ except ImportError:
 # ═══════════════════════════════════════════════════════════════════════════
 
 # Security configuration
-JWT_SECRET_KEY = os.getenv(
-    "LUKHAS_ID_SECRET", "default-unsafe-secret-change-in-production"
-)
+JWT_SECRET_KEY = os.getenv("LUKHAS_ID_SECRET", "default-unsafe-secret-change-in-production")
 JWT_ALGORITHM = "HS256"
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
 JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
@@ -79,24 +77,16 @@ if LUKHAS_IDENTITY_AVAILABLE:
 else:
     identity_connector = None
     auth_service = None
-    logger.warning(
-        "ΛTRACE: LUKHAS identity system not available - using local authentication only"
-    )
+    logger.warning("ΛTRACE: LUKHAS identity system not available - using local authentication only")
 
 # Create a Blueprint for authentication routes.
 # This Blueprint would typically be registered with the main Flask app instance.
-auth_bp = Blueprint(
-    "auth_lukhas_id", __name__, url_prefix="/api/v2/auth"
-)  # Added versioned prefix
-logger.info(
-    "ΛTRACE: Flask Blueprint 'auth_lukhas_id' created with prefix /api/v2/auth."
-)
+auth_bp = Blueprint("auth_lukhas_id", __name__, url_prefix="/api/v2/auth")  # Added versioned prefix
+logger.info("ΛTRACE: Flask Blueprint 'auth_lukhas_id' created with prefix /api/v2/auth.")
 
 
 # Security helper functions
-def _validate_password_strength(
-    password: str, policy: Optional[dict] = None
-) -> tuple[bool, str]:
+def _validate_password_strength(password: str, policy: Optional[dict] = None) -> tuple[bool, str]:
     """Validate password meets security requirements based on a given policy."""
     if policy is None:
         policy = {
@@ -177,14 +167,11 @@ def _check_account_lockout(username: str) -> tuple[bool, Optional[str]]:
     recent_attempts = [
         attempt
         for attempt in attempts
-        if datetime.fromtimestamp(attempt, timezone.utc)
-        > (datetime.now(timezone.utc) - LOCKOUT_DURATION)
+        if datetime.fromtimestamp(attempt, timezone.utc) > (datetime.now(timezone.utc) - LOCKOUT_DURATION)
     ]
 
     if len(recent_attempts) >= MAX_LOGIN_ATTEMPTS:
-        lockout_end = (
-            datetime.fromtimestamp(recent_attempts[0], timezone.utc) + LOCKOUT_DURATION
-        )
+        lockout_end = datetime.fromtimestamp(recent_attempts[0], timezone.utc) + LOCKOUT_DURATION
         return True, f"Account locked until {lockout_end.isoformat()}"
 
     return False, None
@@ -235,9 +222,7 @@ def _enhance_authentication_with_lukhas(username: str, request_context: dict) ->
         # Attempt identity connector integration
         if identity_connector:
             # Validate user through governance system
-            governance_result = identity_connector.validate_user_governance(
-                user_id=username, context=request_context
-            )
+            governance_result = identity_connector.validate_user_governance(user_id=username, context=request_context)
             enhancement_result["governance_checked"] = True
 
             if governance_result.get("approved", True):
@@ -269,9 +254,7 @@ def _enhance_authentication_with_lukhas(username: str, request_context: dict) ->
     return enhancement_result
 
 
-def _validate_with_lukhas_security(
-    username: str, password: str, request_data: dict
-) -> tuple[bool, str, dict]:
+def _validate_with_lukhas_security(username: str, password: str, request_data: dict) -> tuple[bool, str, dict]:
     """
     Validate credentials using LUKHAS security protocols.
     Returns (is_valid, message, security_context)
@@ -287,9 +270,7 @@ def _validate_with_lukhas_security(
     if not user:
         return False, "Invalid credentials", security_context
 
-    if not bcrypt.checkpw(
-        password.encode("utf-8"), user["password_hash"].encode("utf-8")
-    ):
+    if not bcrypt.checkpw(password.encode("utf-8"), user["password_hash"].encode("utf-8")):
         return False, "Invalid credentials", security_context
 
     # Enhance with LUKHAS security if available
@@ -353,9 +334,7 @@ def register_user_endpoint():
         if not valid:
             logger.warning(f"ΛTRACE ({request_id}): Input validation failed: {message}")
             return (
-                jsonify(
-                    {"success": False, "message": message, "request_id": request_id}
-                ),
+                jsonify({"success": False, "message": message, "request_id": request_id}),
                 400,
             )
 
@@ -378,9 +357,7 @@ def register_user_endpoint():
 
         # Check if user already exists
         if username in users_db:
-            logger.warning(
-                f"ΛTRACE ({request_id}): Registration attempt for existing user {username}"
-            )
+            logger.warning(f"ΛTRACE ({request_id}): Registration attempt for existing user {username}")
             return (
                 jsonify(
                     {
@@ -441,9 +418,7 @@ def register_user_endpoint():
             "user_agent": request.headers.get("User-Agent", "unknown"),
         }
 
-        logger.info(
-            f"ΛTRACE ({request_id}): User {username} registered successfully with ΛiD {lambda_id}"
-        )
+        logger.info(f"ΛTRACE ({request_id}): User {username} registered successfully with ΛiD {lambda_id}")
 
         return (
             jsonify(
@@ -533,9 +508,7 @@ def login_user_endpoint():
         # Check account lockout
         is_locked, lockout_message = _check_account_lockout(username)
         if is_locked:
-            logger.warning(
-                f"ΛTRACE ({request_id}): Login attempt on locked account {username}"
-            )
+            logger.warning(f"ΛTRACE ({request_id}): Login attempt on locked account {username}")
             return (
                 jsonify(
                     {
@@ -550,9 +523,7 @@ def login_user_endpoint():
         # Check if user exists
         if username not in users_db:
             _record_failed_login(username)
-            logger.warning(
-                f"ΛTRACE ({request_id}): Login attempt for non-existent user {username}"
-            )
+            logger.warning(f"ΛTRACE ({request_id}): Login attempt for non-existent user {username}")
             return (
                 jsonify(
                     {
@@ -568,9 +539,7 @@ def login_user_endpoint():
 
         # Check if account is active
         if not user_record.get("is_active", True):
-            logger.warning(
-                f"ΛTRACE ({request_id}): Login attempt for inactive account {username}"
-            )
+            logger.warning(f"ΛTRACE ({request_id}): Login attempt for inactive account {username}")
             return (
                 jsonify(
                     {
@@ -584,17 +553,11 @@ def login_user_endpoint():
 
         # Verify password
         stored_password_hash = user_record["password_hash"]
-        if not bcrypt.checkpw(
-            password.encode("utf-8"), stored_password_hash.encode("utf-8")
-        ):
+        if not bcrypt.checkpw(password.encode("utf-8"), stored_password_hash.encode("utf-8")):
             _record_failed_login(username)
-            users_db[username]["failed_login_count"] = (
-                user_record.get("failed_login_count", 0) + 1
-            )
+            users_db[username]["failed_login_count"] = user_record.get("failed_login_count", 0) + 1
 
-            logger.warning(
-                f"ΛTRACE ({request_id}): Failed login attempt for user {username}"
-            )
+            logger.warning(f"ΛTRACE ({request_id}): Failed login attempt for user {username}")
             return (
                 jsonify(
                     {
@@ -627,9 +590,7 @@ def login_user_endpoint():
             "last_active": datetime.now(timezone.utc).isoformat(),
             "ip_address": request.remote_addr,
             "user_agent": request.headers.get("User-Agent", "unknown"),
-            "access_token_jti": jwt.decode(
-                access_token, options={"verify_signature": False}
-            )["iat"],
+            "access_token_jti": jwt.decode(access_token, options={"verify_signature": False})["iat"],
         }
 
         logger.info(f"ΛTRACE ({request_id}): User {username} logged in successfully")
@@ -693,10 +654,7 @@ def _validate_jwt_token(token: str) -> tuple[bool, Optional[dict], str]:
         # Check expiration (JWT library handles this, but we can add custom logic)
         current_time = datetime.now(timezone.utc)
         exp_timestamp = payload.get("exp")
-        if (
-            exp_timestamp
-            and datetime.fromtimestamp(exp_timestamp, timezone.utc) < current_time
-        ):
+        if exp_timestamp and datetime.fromtimestamp(exp_timestamp, timezone.utc) < current_time:
             return False, None, "Token has expired"
 
         return True, payload, ""
@@ -747,9 +705,7 @@ def logout_user_endpoint():
         if not token:
             logger.warning(f"ΛTRACE ({request_id}): Logout attempt without valid token")
             return (
-                jsonify(
-                    {"success": False, "message": token_error, "request_id": request_id}
-                ),
+                jsonify({"success": False, "message": token_error, "request_id": request_id}),
                 401,
             )
 
@@ -834,9 +790,7 @@ def verify_authentication_token_endpoint():
         token, token_error = _extract_token_from_request(request)
 
         if not token:
-            logger.warning(
-                f"ΛTRACE ({request_id}): Token verification attempt without valid token"
-            )
+            logger.warning(f"ΛTRACE ({request_id}): Token verification attempt without valid token")
             return (
                 jsonify(
                     {
@@ -872,9 +826,7 @@ def verify_authentication_token_endpoint():
 
         # Check if user still exists and is active
         if user_id not in users_db:
-            logger.warning(
-                f"ΛTRACE ({request_id}): Token valid but user {user_id} not found"
-            )
+            logger.warning(f"ΛTRACE ({request_id}): Token valid but user {user_id} not found")
             return (
                 jsonify(
                     {
@@ -890,9 +842,7 @@ def verify_authentication_token_endpoint():
         user_record = users_db[user_id]
 
         if not user_record.get("is_active", True):
-            logger.warning(
-                f"ΛTRACE ({request_id}): Token valid but user {user_id} is inactive"
-            )
+            logger.warning(f"ΛTRACE ({request_id}): Token valid but user {user_id} is inactive")
             return (
                 jsonify(
                     {
@@ -924,12 +874,8 @@ def verify_authentication_token_endpoint():
             "user_id": user_id,
             "lambda_id": lambda_id,
             "token_type": token_type,
-            "issued_at": datetime.fromtimestamp(
-                payload.get("iat"), timezone.utc
-            ).isoformat(),
-            "expires_at": datetime.fromtimestamp(
-                payload.get("exp"), timezone.utc
-            ).isoformat(),
+            "issued_at": datetime.fromtimestamp(payload.get("iat"), timezone.utc).isoformat(),
+            "expires_at": datetime.fromtimestamp(payload.get("exp"), timezone.utc).isoformat(),
             "time_until_expiry": payload.get("exp") - time.time(),
         }
 
@@ -944,9 +890,7 @@ def verify_authentication_token_endpoint():
             "active_sessions_count": len(active_sessions),
         }
 
-        logger.info(
-            f"ΛTRACE ({request_id}): Token verification successful for user {user_id}"
-        )
+        logger.info(f"ΛTRACE ({request_id}): Token verification successful for user {user_id}")
 
         return (
             jsonify(
@@ -957,9 +901,7 @@ def verify_authentication_token_endpoint():
                     "request_id": request_id,
                     "token_claims": token_claims,
                     "user": user_info,
-                    "active_sessions": (
-                        active_sessions if token_type == "access" else []
-                    ),
+                    "active_sessions": (active_sessions if token_type == "access" else []),
                 }
             ),
             200,
@@ -1075,9 +1017,7 @@ def refresh_token_endpoint():
         # Blacklist old refresh token
         blacklisted_tokens.add(refresh_token)
 
-        logger.info(
-            f"ΛTRACE ({request_id}): Token refresh successful for user {user_id}"
-        )
+        logger.info(f"ΛTRACE ({request_id}): Token refresh successful for user {user_id}")
 
         return (
             jsonify(
@@ -1127,9 +1067,7 @@ def get_user_profile():
 
         if not token:
             return (
-                jsonify(
-                    {"success": False, "message": token_error, "request_id": request_id}
-                ),
+                jsonify({"success": False, "message": token_error, "request_id": request_id}),
                 401,
             )
 
@@ -1199,9 +1137,7 @@ def change_password():
     Change user password (requires valid access token and current password).
     """
     request_id = f"changepw_{int(time.time() * 1000)}"
-    logger.info(
-        f"ΛTRACE ({request_id}): Received POST request to /user/change-password."
-    )
+    logger.info(f"ΛTRACE ({request_id}): Received POST request to /user/change-password.")
 
     try:
         if not request.is_json:
@@ -1223,9 +1159,7 @@ def change_password():
 
         if not token:
             return (
-                jsonify(
-                    {"success": False, "message": token_error, "request_id": request_id}
-                ),
+                jsonify({"success": False, "message": token_error, "request_id": request_id}),
                 401,
             )
 
@@ -1278,9 +1212,7 @@ def change_password():
             current_password.encode("utf-8"),
             user_record["password_hash"].encode("utf-8"),
         ):
-            logger.warning(
-                f"ΛTRACE ({request_id}): Invalid current password for user {user_id}"
-            )
+            logger.warning(f"ΛTRACE ({request_id}): Invalid current password for user {user_id}")
             return (
                 jsonify(
                     {
@@ -1307,14 +1239,10 @@ def change_password():
             )
 
         # Update password
-        new_password_hash = bcrypt.hashpw(
-            new_password.encode("utf-8"), bcrypt.gensalt()
-        )
+        new_password_hash = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt())
         users_db[user_id]["password_hash"] = new_password_hash.decode("utf-8")
 
-        logger.info(
-            f"ΛTRACE ({request_id}): Password changed successfully for user {user_id}"
-        )
+        logger.info(f"ΛTRACE ({request_id}): Password changed successfully for user {user_id}")
 
         return (
             jsonify(
@@ -1355,9 +1283,7 @@ def get_user_sessions():
 
         if not token:
             return (
-                jsonify(
-                    {"success": False, "message": token_error, "request_id": request_id}
-                ),
+                jsonify({"success": False, "message": token_error, "request_id": request_id}),
                 401,
             )
 
@@ -1423,9 +1349,7 @@ def revoke_session():
     Revoke a specific session by session ID.
     """
     request_id = f"revoke_{int(time.time() * 1000)}"
-    logger.info(
-        f"ΛTRACE ({request_id}): Received POST request to /user/revoke-session."
-    )
+    logger.info(f"ΛTRACE ({request_id}): Received POST request to /user/revoke-session.")
 
     try:
         if not request.is_json:
@@ -1447,9 +1371,7 @@ def revoke_session():
 
         if not token:
             return (
-                jsonify(
-                    {"success": False, "message": token_error, "request_id": request_id}
-                ),
+                jsonify({"success": False, "message": token_error, "request_id": request_id}),
                 401,
             )
 
@@ -1511,9 +1433,7 @@ def revoke_session():
         # Revoke session
         del user_sessions[session_to_revoke]
 
-        logger.info(
-            f"ΛTRACE ({request_id}): Session {session_to_revoke} revoked for user {user_id}"
-        )
+        logger.info(f"ΛTRACE ({request_id}): Session {session_to_revoke} revoked for user {user_id}")
 
         return (
             jsonify(
@@ -1607,9 +1527,7 @@ def require_auth(f):
     return decorated_function
 
 
-logger.info(
-    "ΛTRACE: auth_flows module loaded with comprehensive authentication system."
-)
+logger.info("ΛTRACE: auth_flows module loaded with comprehensive authentication system.")
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: auth_flows.py

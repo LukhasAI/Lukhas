@@ -43,9 +43,7 @@ class LearningGatewayInterface(ABC):
     """
 
     @abstractmethod
-    async def process_learning_request(
-        self, request: LearningRequest
-    ) -> LearningResponse:
+    async def process_learning_request(self, request: LearningRequest) -> LearningResponse:
         """Process a learning request through the appropriate learning system"""
 
     @abstractmethod
@@ -53,15 +51,11 @@ class LearningGatewayInterface(ABC):
         """Get the current learning status for an agent"""
 
     @abstractmethod
-    async def update_learning_parameters(
-        self, agent_id: str, parameters: dict[str, Any]
-    ) -> bool:
+    async def update_learning_parameters(self, agent_id: str, parameters: dict[str, Any]) -> bool:
         """Update learning parameters for a specific agent"""
 
     @abstractmethod
-    async def get_learning_metrics(
-        self, agent_id: str, metric_type: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def get_learning_metrics(self, agent_id: str, metric_type: Optional[str] = None) -> dict[str, Any]:
         """Retrieve learning metrics and performance data"""
 
 
@@ -87,9 +81,7 @@ class LearningGateway(LearningGatewayInterface):
                     self._service = LearningService()
                     self._initialized = True
 
-    async def process_learning_request(
-        self, request: LearningRequest
-    ) -> LearningResponse:
+    async def process_learning_request(self, request: LearningRequest) -> LearningResponse:
         """Process a learning request through the appropriate learning system"""
         await self._ensure_initialized()
 
@@ -114,9 +106,7 @@ class LearningGateway(LearningGatewayInterface):
                     context=request.context,
                 )
             else:
-                return LearningResponse(
-                    success=False, error=f"Unknown operation: {request.operation}"
-                )
+                return LearningResponse(success=False, error=f"Unknown operation: {request.operation}")
 
             return LearningResponse(
                 success=True,
@@ -136,16 +126,12 @@ class LearningGateway(LearningGatewayInterface):
         await self._ensure_initialized()
         return await self._service.get_status(agent_id)
 
-    async def update_learning_parameters(
-        self, agent_id: str, parameters: dict[str, Any]
-    ) -> bool:
+    async def update_learning_parameters(self, agent_id: str, parameters: dict[str, Any]) -> bool:
         """Update learning parameters for a specific agent"""
         await self._ensure_initialized()
         return await self._service.update_parameters(agent_id, parameters)
 
-    async def get_learning_metrics(
-        self, agent_id: str, metric_type: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def get_learning_metrics(self, agent_id: str, metric_type: Optional[str] = None) -> dict[str, Any]:
         """Retrieve learning metrics and performance data"""
         await self._ensure_initialized()
         return await self._service.get_metrics(agent_id, metric_type)

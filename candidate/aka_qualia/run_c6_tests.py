@@ -296,18 +296,14 @@ class WaveCTestRunner:
                         "memory_ctx": {"test": True},
                     }
 
-                    compliance = ethics_validator.validate_constellation_compliance(
-                        akaq, test_scenario
-                    )
+                    compliance = ethics_validator.validate_constellation_compliance(akaq, test_scenario)
 
                     validation_result["tests"].append(
                         {
                             "name": "basic_ethics_validation",
                             "status": "passed",
                             "description": "Basic ethics validation successful",
-                            "compliance_score": compliance.get("overall", {}).get(
-                                "score", 0.0
-                            ),
+                            "compliance_score": compliance.get("overall", {}).get("score", 0.0),
                         }
                     )
 
@@ -322,12 +318,8 @@ class WaveCTestRunner:
                 )
 
             # Overall validation status
-            passed_tests = [
-                t for t in validation_result["tests"] if t["status"] == "passed"
-            ]
-            failed_tests = [
-                t for t in validation_result["tests"] if t["status"] == "failed"
-            ]
+            passed_tests = [t for t in validation_result["tests"] if t["status"] == "passed"]
+            failed_tests = [t for t in validation_result["tests"] if t["status"] == "failed"]
 
             validation_result["passed"] = len(passed_tests)
             validation_result["failed"] = len(failed_tests)
@@ -335,9 +327,7 @@ class WaveCTestRunner:
 
             if len(failed_tests) == 0:
                 validation_result["status"] = "passed"
-                print(
-                    f"✅ Simple validation passed: {len(passed_tests)}/{len(validation_result['tests'])} tests"
-                )
+                print(f"✅ Simple validation passed: {len(passed_tests)}/{len(validation_result['tests'])} tests")
             else:
                 validation_result["status"] = "partial"
                 print(
@@ -366,15 +356,9 @@ class WaveCTestRunner:
             },
             "summary": {
                 "total_test_suites": len(self.test_results),
-                "passed_suites": len(
-                    [r for r in self.test_results if r["status"] == "passed"]
-                ),
-                "failed_suites": len(
-                    [r for r in self.test_results if r["status"] == "failed"]
-                ),
-                "error_suites": len(
-                    [r for r in self.test_results if r["status"] == "error"]
-                ),
+                "passed_suites": len([r for r in self.test_results if r["status"] == "passed"]),
+                "failed_suites": len([r for r in self.test_results if r["status"] == "failed"]),
+                "error_suites": len([r for r in self.test_results if r["status"] == "error"]),
             },
             "production_readiness": {
                 "consciousness_ablation": "implemented",
@@ -386,10 +370,7 @@ class WaveCTestRunner:
         }
 
         # Production readiness assessment
-        if (
-            report["summary"]["failed_suites"] == 0
-            and report["summary"]["error_suites"] == 0
-        ):
+        if report["summary"]["failed_suites"] == 0 and report["summary"]["error_suites"] == 0:
             report["production_readiness"]["status"] = "ready"
             report["production_readiness"]["confidence"] = "high"
         elif report["summary"]["passed_suites"] > 0:
@@ -426,9 +407,7 @@ class WaveCTestRunner:
 
         print("=" * 60)
         print("📊 Wave C6 Test Results Summary:")
-        print(
-            f"   Total Execution Time: {report['wave_c6_testing']['total_execution_time']:.2f}s"
-        )
+        print(f"   Total Execution Time: {report['wave_c6_testing']['total_execution_time']:.2f}s")
         print(f"   Test Suites: {report['summary']['total_test_suites']}")
         print(f"   Passed: {report['summary']['passed_suites']}")
         print(f"   Failed: {report['summary']['failed_suites']}")

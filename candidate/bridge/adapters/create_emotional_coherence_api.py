@@ -21,16 +21,12 @@ class EmotionalContext(BaseModel):
     """Input for emotional analysis"""
 
     text: str = Field(..., description="Text to analyze emotionally")
-    user_state: Optional[dict[str, float]] = Field(
-        None, description="Known user emotional state"
-    )
+    user_state: Optional[dict[str, float]] = Field(None, description="Known user emotional state")
     context_type: str = Field(
         "general",
         description="Type of interaction: support, creative, analytical, social",
     )
-    target_coherence: float = Field(
-        0.85, ge=0, le=1, description="Target bio-symbolic coherence"
-    )
+    target_coherence: float = Field(0.85, ge=0, le=1, description="Target bio-symbolic coherence")
 
 
 class HormonalState(BaseModel):
@@ -55,17 +51,13 @@ class EmotionalVector(BaseModel):
 class CoherenceResponse(BaseModel):
     """Complete emotional coherence analysis"""
 
-    coherence_score: float = Field(
-        ..., ge=0, description="Bio-symbolic coherence (can exceed 100%)"
-    )
+    coherence_score: float = Field(..., ge=0, description="Bio-symbolic coherence (can exceed 100%)")
     emotional_vector: EmotionalVector
     recommended_hormonal_state: HormonalState
     response_modulation: dict[str, float]
     empathy_markers: list[str]
     coherence_insights: list[str]
-    qi_amplification: float = Field(
-        ..., ge=1, description="Quantum coherence boost factor"
-    )
+    qi_amplification: float = Field(..., ge=1, description="Quantum coherence boost factor")
 
 
 class BioSymbolicEngine:
@@ -90,14 +82,10 @@ class BioSymbolicEngine:
         emotional_vector = await self._extract_emotions(context.text)
 
         # Calculate optimal hormonal state
-        hormonal_state = self._calculate_hormonal_response(
-            emotional_vector, context.context_type, context.user_state
-        )
+        hormonal_state = self._calculate_hormonal_response(emotional_vector, context.context_type, context.user_state)
 
         # Calculate bio-symbolic coherence
-        coherence, qi_boost = self._calculate_coherence(
-            emotional_vector, hormonal_state, context.target_coherence
-        )
+        coherence, qi_boost = self._calculate_coherence(emotional_vector, hormonal_state, context.target_coherence)
 
         # Generate response modulation recommendations
         modulation = self._generate_modulation(hormonal_state, emotional_vector)
@@ -106,9 +94,7 @@ class BioSymbolicEngine:
         empathy_markers = self._identify_empathy_markers(context.text, emotional_vector)
 
         # Generate insights
-        insights = self._generate_coherence_insights(
-            coherence, hormonal_state, emotional_vector
-        )
+        insights = self._generate_coherence_insights(coherence, hormonal_state, emotional_vector)
 
         return CoherenceResponse(
             coherence_score=coherence,
@@ -239,9 +225,7 @@ class BioSymbolicEngine:
 
         return final_coherence, qi_boost
 
-    def _generate_modulation(
-        self, hormones: HormonalState, emotions: EmotionalVector
-    ) -> dict[str, float]:
+    def _generate_modulation(self, hormones: HormonalState, emotions: EmotionalVector) -> dict[str, float]:
         """Generate response modulation recommendations"""
 
         modulation = {
@@ -257,15 +241,11 @@ class BioSymbolicEngine:
         # Adjust based on emotional state
         if emotions.valence < -0.5:
             modulation["empathy_level"] = min(1.0, modulation["empathy_level"] + 0.3)
-            modulation["patience_factor"] = min(
-                1.0, modulation["patience_factor"] + 0.2
-            )
+            modulation["patience_factor"] = min(1.0, modulation["patience_factor"] + 0.2)
 
         return modulation
 
-    def _identify_empathy_markers(
-        self, text: str, emotions: EmotionalVector
-    ) -> list[str]:
+    def _identify_empathy_markers(self, text: str, emotions: EmotionalVector) -> list[str]:
         """Identify empathy markers in text"""
 
         markers = []
@@ -285,16 +265,11 @@ class BioSymbolicEngine:
                 markers.append(f"acknowledgment: {phrase}")
 
         # Check for validation
-        if emotions.valence < 0 and any(
-            word in text.lower() for word in ["valid", "understandable", "makes sense"]
-        ):
+        if emotions.valence < 0 and any(word in text.lower() for word in ["valid", "understandable", "makes sense"]):
             markers.append("emotional_validation")
 
         # Check for support offering
-        if any(
-            word in text.lower()
-            for word in ["help", "support", "here for you", "together"]
-        ):
+        if any(word in text.lower() for word in ["help", "support", "here for you", "together"]):
             markers.append("support_offering")
 
         return markers
@@ -313,9 +288,7 @@ class BioSymbolicEngine:
             insights.append("Achieved super-coherence through bio-symbolic alignment!")
 
         if coherence > 0.85:
-            insights.append(
-                "High coherence: Emotional and hormonal states well-aligned"
-            )
+            insights.append("High coherence: Emotional and hormonal states well-aligned")
         elif coherence < 0.5:
             insights.append("Low coherence: Consider adjusting emotional response")
 

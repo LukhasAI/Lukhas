@@ -233,9 +233,7 @@ class FallbackIdentityClient:
         # AIDENTITY: Simulates verification for development
         return True
 
-    def log_activity(
-        self, activity: str, user_id: str, metadata: dict[str, Any]
-    ) -> None:
+    def log_activity(self, activity: str, user_id: str, metadata: dict[str, Any]) -> None:
         """Simulate activity logging with fallback response."""
         self.logger.warning(
             f"ΛTRACE: Fallback log_activity: Activity='{activity}', User='{user_id}', Metadata='{metadata}'."
@@ -254,6 +252,4 @@ __all__ = [
     "FallbackQuantumService",
 ]
 
-logger.info(
-    "ΛTRACE: fallback_services module initialized with all fallback service classes."
-)
+logger.info("ΛTRACE: fallback_services module initialized with all fallback service classes.")

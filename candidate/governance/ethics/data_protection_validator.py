@@ -135,9 +135,7 @@ class GDPRValidator:
             "incident_response",
         }
 
-    async def assess_gdpr_compliance(
-        self, activity: DataProcessingActivity
-    ) -> GDPRAssessment:
+    async def assess_gdpr_compliance(self, activity: DataProcessingActivity) -> GDPRAssessment:
         """
         Comprehensive GDPR compliance assessment
 
@@ -152,41 +150,29 @@ class GDPRValidator:
             recommendations = []
 
             # Assess lawfulness of processing
-            lawfulness_score, lawfulness_issues = await self._assess_lawfulness(
-                activity
-            )
+            lawfulness_score, lawfulness_issues = await self._assess_lawfulness(activity)
             violations.extend(lawfulness_issues)
 
             # Assess data subject rights
-            rights_score, rights_issues = await self._assess_data_subject_rights(
-                activity
-            )
+            rights_score, rights_issues = await self._assess_data_subject_rights(activity)
             violations.extend(rights_issues)
 
             # Assess security measures
-            security_score, security_issues = await self._assess_security_measures(
-                activity
-            )
+            security_score, security_issues = await self._assess_security_measures(activity)
             violations.extend(security_issues)
 
             # Assess transparency
-            transparency_score, transparency_issues = await self._assess_transparency(
-                activity
-            )
+            transparency_score, transparency_issues = await self._assess_transparency(activity)
             violations.extend(transparency_issues)
 
             # Generate recommendations
             recommendations = await self._generate_recommendations(violations, activity)
 
             # Calculate overall score
-            overall_score = (
-                lawfulness_score + rights_score + security_score + transparency_score
-            ) / 4
+            overall_score = (lawfulness_score + rights_score + security_score + transparency_score) / 4
 
             # Determine compliance status
-            compliance_status = self._determine_compliance_status(
-                overall_score, violations
-            )
+            compliance_status = self._determine_compliance_status(overall_score, violations)
 
             return GDPRAssessment(
                 activity_id=activity.activity_id,
@@ -206,9 +192,7 @@ class GDPRValidator:
             logger.error(f"GDPR assessment failed for {activity.activity_id}: {e}")
             raise
 
-    async def _assess_lawfulness(
-        self, activity: DataProcessingActivity
-    ) -> tuple[float, list[str]]:
+    async def _assess_lawfulness(self, activity: DataProcessingActivity) -> tuple[float, list[str]]:
         """Assess lawfulness of processing"""
         issues = []
         score = 1.0
@@ -245,17 +229,13 @@ class GDPRValidator:
 
         # Check international transfers
         if activity.international_transfers:
-            if not hasattr(activity, "adequacy_decision") and not hasattr(
-                activity, "safeguards"
-            ):
+            if not hasattr(activity, "adequacy_decision") and not hasattr(activity, "safeguards"):
                 issues.append("International transfers lack adequate protection")
                 score -= 0.3
 
         return max(0.0, score), issues
 
-    async def _assess_data_subject_rights(
-        self, activity: DataProcessingActivity
-    ) -> tuple[float, list[str]]:
+    async def _assess_data_subject_rights(self, activity: DataProcessingActivity) -> tuple[float, list[str]]:
         """Assess data subject rights compliance"""
         issues = []
         score = 1.0
@@ -277,9 +257,7 @@ class GDPRValidator:
 
         return max(0.0, score), issues
 
-    async def _assess_security_measures(
-        self, activity: DataProcessingActivity
-    ) -> tuple[float, list[str]]:
+    async def _assess_security_measures(self, activity: DataProcessingActivity) -> tuple[float, list[str]]:
         """Assess technical and organizational security measures"""
         issues = []
         score = 1.0
@@ -291,17 +269,14 @@ class GDPRValidator:
 
         # Additional checks for sensitive data
         if any(
-            cat in [DataCategory.SENSITIVE_DATA, DataCategory.HEALTH_DATA]
-            for cat in activity.data_categories
+            cat in [DataCategory.SENSITIVE_DATA, DataCategory.HEALTH_DATA] for cat in activity.data_categories
         ) and not hasattr(activity, "enhanced_security_measures"):
             issues.append("Enhanced security measures required for sensitive data")
             score -= 0.2
 
         return max(0.0, score), issues
 
-    async def _assess_transparency(
-        self, activity: DataProcessingActivity
-    ) -> tuple[float, list[str]]:
+    async def _assess_transparency(self, activity: DataProcessingActivity) -> tuple[float, list[str]]:
         """Assess transparency and information requirements"""
         issues = []
         score = 1.0
@@ -317,9 +292,7 @@ class GDPRValidator:
 
         for info in required_information:
             if not hasattr(activity, info):
-                issues.append(
-                    f"Missing transparency information: {info.replace('_', ' ')}"
-                )
+                issues.append(f"Missing transparency information: {info.replace('_', ' ')}")
                 score -= 0.15
 
         # Check privacy policy accessibility
@@ -329,9 +302,7 @@ class GDPRValidator:
 
         return max(0.0, score), issues
 
-    async def _generate_recommendations(
-        self, violations: list[str], activity: DataProcessingActivity
-    ) -> list[str]:
+    async def _generate_recommendations(self, violations: list[str], activity: DataProcessingActivity) -> list[str]:
         """Generate compliance recommendations"""
         recommendations = []
 
@@ -374,9 +345,7 @@ class GDPRValidator:
 
         return recommendations
 
-    def _determine_compliance_status(
-        self, overall_score: float, violations: list[str]
-    ) -> str:
+    def _determine_compliance_status(self, overall_score: float, violations: list[str]) -> str:
         """Determine overall compliance status"""
         if overall_score >= 0.9 and not violations:
             return "Fully Compliant"
@@ -396,9 +365,7 @@ class GDPRValidator:
         else:
             return datetime.now() + timedelta(days=30)  # 1 month
 
-    async def generate_dpia_assessment(
-        self, activity: DataProcessingActivity
-    ) -> dict[str, Any]:
+    async def generate_dpia_assessment(self, activity: DataProcessingActivity) -> dict[str, Any]:
         """
         Generate Data Protection Impact Assessment (DPIA)
 
@@ -408,8 +375,7 @@ class GDPRValidator:
             activity.automated_decision_making
             or activity.profiling
             or any(
-                cat in [DataCategory.SENSITIVE_DATA, DataCategory.BIOMETRIC_DATA]
-                for cat in activity.data_categories
+                cat in [DataCategory.SENSITIVE_DATA, DataCategory.BIOMETRIC_DATA] for cat in activity.data_categories
             )
             or activity.international_transfers
         )
@@ -425,16 +391,12 @@ class GDPRValidator:
             "risk_level": "High" if len(risk_factors) > 3 else "Medium",
             "risk_factors": risk_factors,
             "mitigation_measures": mitigation_measures,
-            "residual_risks": await self._calculate_residual_risks(
-                risk_factors, mitigation_measures
-            ),
+            "residual_risks": await self._calculate_residual_risks(risk_factors, mitigation_measures),
             "dpo_consultation_required": len(risk_factors) > 2,
             "supervisory_authority_consultation": len(risk_factors) > 4,
         }
 
-    async def _identify_risk_factors(
-        self, activity: DataProcessingActivity
-    ) -> list[str]:
+    async def _identify_risk_factors(self, activity: DataProcessingActivity) -> list[str]:
         """Identify data protection risk factors"""
         risk_factors = []
 
@@ -444,10 +406,7 @@ class GDPRValidator:
         if activity.profiling:
             risk_factors.append("Systematic profiling of individuals")
 
-        if any(
-            cat in [DataCategory.SENSITIVE_DATA, DataCategory.HEALTH_DATA]
-            for cat in activity.data_categories
-        ):
+        if any(cat in [DataCategory.SENSITIVE_DATA, DataCategory.HEALTH_DATA] for cat in activity.data_categories):
             risk_factors.append("Processing of special categories of data")
 
         if activity.international_transfers:

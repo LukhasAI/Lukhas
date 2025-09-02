@@ -52,9 +52,7 @@ with tab_docs:
         with manual_path.open("r") as f:
             content = f.read()
         # Extract modules with header and footer blocks
-        module_blocks = re.findall(
-            r"(### 📦 (.*?))(.*?)(?=### 📦|$)", content, re.DOTALL
-        )
+        module_blocks = re.findall(r"(### 📦 (.*?))(.*?)(?=### 📦|$)", content, re.DOTALL)
         modules = [m[1].strip() for m in module_blocks]
         selected_module = st.selectbox("📦 Select Module", modules)
         # Display selected module content
@@ -66,12 +64,8 @@ with tab_docs:
         if selected_block:
             full_header, body = selected_block
             # Attempt to split body into header info and footer (usage guide)
-            header_info_match = re.search(
-                r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL
-            )
-            usage_guide_match = re.search(
-                r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL
-            )
+            header_info_match = re.search(r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL)
+            usage_guide_match = re.search(r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL)
             st.markdown("#")
             if header_info_match:
                 st.markdown(header_info_match.group(1))
@@ -104,9 +98,7 @@ with tab_docs:
                 try:
                     import pypandoc
 
-                    output = pypandoc.convert_file(
-                        "manual.md", "pdf", outputfile="Document_Manual.pdf"
-                    )
+                    output = pypandoc.convert_file("manual.md", "pdf", outputfile="Document_Manual.pdf")
                     st.success("📄 Exported to Document_Manual.pdf")
                 except Exception as e:
                     st.error(f"❌ PDF export failed: {e}")
@@ -142,13 +134,9 @@ with tab_tests:
                     text=True,
                 )
                 if result.returncode == 0:
-                    test_output_placeholder.success(
-                        "✅ All tests passed!\n\n" + result.stdout
-                    )
+                    test_output_placeholder.success("✅ All tests passed!\n\n" + result.stdout)
                 else:
-                    test_output_placeholder.error(
-                        "❌ Test failures:\n\n" + result.stdout + "\n" + result.stderr
-                    )
+                    test_output_placeholder.error("❌ Test failures:\n\n" + result.stdout + "\n" + result.stderr)
             except Exception as e:
                 test_output_placeholder.error(f"❌ Error running tests: {e}")
 
@@ -165,9 +153,7 @@ with tab_compliance:
         with compliance_path.open("r") as f:
             compliance_md = f.read()
         # Try to find a markdown table
-        table_match = re.search(
-            r"(\|.+\|\n(\|[-:]+\|)+\n([\s\S]+?))(\n\n|$)", compliance_md
-        )
+        table_match = re.search(r"(\|.+\|\n(\|[-:]+\|)+\n([\s\S]+?))(\n\n|$)", compliance_md)
         if table_match:
             table_md = table_match.group(1)
             st.markdown(table_md)

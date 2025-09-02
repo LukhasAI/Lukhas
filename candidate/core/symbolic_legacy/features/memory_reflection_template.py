@@ -115,9 +115,7 @@ class MemoryFold:
 class ReflectionContext:
     """Context for memory reflection operations"""
 
-    reflection_id: str = field(
-        default_factory=lambda: f"reflection_{uuid.uuid4().hex[:8]}"
-    )
+    reflection_id: str = field(default_factory=lambda: f"reflection_{uuid.uuid4().hex[:8]}")
     trigger_type: str = "automatic"  # automatic, query-driven, dream-state
     depth_level: int = 1  # 1-5 reflection depth
     time_horizon: float = 3600.0  # Seconds to look back
@@ -183,9 +181,7 @@ class MemoryReflectionSystem:
         self._initialize_quantum_bio_systems()
         self._load_consciousness_state()
 
-        logger.info(
-            f"ΛTRACE: Memory Reflection System initialized with {max_folds} fold limit"
-        )
+        logger.info(f"ΛTRACE: Memory Reflection System initialized with {max_folds} fold limit")
         logger.info(f"ΛTRACE: Cascade prevention threshold: {cascade_threshold}")
 
     def _initialize_quantum_bio_systems(self):
@@ -239,18 +235,14 @@ class MemoryReflectionSystem:
             reflection_result = self._execute_reflection_pipeline(signal, context)
 
             # Post-processing validation
-            validation_result = self._validate_reflection_result(
-                reflection_result, context
-            )
+            validation_result = self._validate_reflection_result(reflection_result, context)
 
             # Update consciousness state
             self._update_consciousness_state(reflection_result, context)
 
             # Return comprehensive result
             processing_time = time.time() - reflection_start
-            return self._create_reflection_response(
-                reflection_result, validation_result, context, processing_time
-            )
+            return self._create_reflection_response(reflection_result, validation_result, context, processing_time)
 
         except Exception as e:
             logger.error(f"ΛTRACE: Memory reflection processing failed: {e}")
@@ -274,24 +266,18 @@ class MemoryReflectionSystem:
             drift_monitoring=signal.get("drift_monitoring", True),
         )
 
-    def _guardian_pre_check(
-        self, signal: dict[str, Any], context: ReflectionContext
-    ) -> bool:
+    def _guardian_pre_check(self, signal: dict[str, Any], context: ReflectionContext) -> bool:
         """Guardian ethics pre-check for reflection processing"""
         if not context.ethical_bounds:
             return True
 
         # Check for ethical violations
         if self.guardian_ethics_engine.detect_violations(signal):
-            logger.warning(
-                "ΛTRACE: Guardian blocked reflection due to ethical violations"
-            )
+            logger.warning("ΛTRACE: Guardian blocked reflection due to ethical violations")
             return False
 
         # Check cascade risk
-        if context.cascade_prevention and self._assess_cascade_risk(signal) > (
-            1 - self.cascade_threshold
-        ):
+        if context.cascade_prevention and self._assess_cascade_risk(signal) > (1 - self.cascade_threshold):
             logger.warning("ΛTRACE: Guardian blocked reflection due to cascade risk")
             return False
 
@@ -306,11 +292,7 @@ class MemoryReflectionSystem:
         complexity = signal.get("complexity", 0.5)
 
         # Recent processing history
-        recent_failures = sum(
-            1
-            for entry in self.reflection_history[-10:]
-            if entry.get("status") == "failed"
-        )
+        recent_failures = sum(1 for entry in self.reflection_history[-10:] if entry.get("status") == "failed")
         failure_rate = recent_failures / max(len(self.reflection_history[-10:]), 1)
 
         # Combined risk assessment
@@ -318,9 +300,7 @@ class MemoryReflectionSystem:
 
         return min(1.0, cascade_risk)
 
-    def _execute_reflection_pipeline(
-        self, signal: dict[str, Any], context: ReflectionContext
-    ) -> dict[str, Any]:
+    def _execute_reflection_pipeline(self, signal: dict[str, Any], context: ReflectionContext) -> dict[str, Any]:
         """Execute the core memory reflection pipeline"""
         pipeline_result = {
             "reflection_id": context.reflection_id,
@@ -339,9 +319,7 @@ class MemoryReflectionSystem:
 
         # Step 2: Quantum superposition processing (if enabled)
         if context.superposition_enabled:
-            superposition_results = self._process_quantum_superposition(
-                relevant_folds, context
-            )
+            superposition_results = self._process_quantum_superposition(relevant_folds, context)
             pipeline_result["quantum_states"] = superposition_results
 
         # Step 3: Bio-oscillator synchronization
@@ -350,9 +328,7 @@ class MemoryReflectionSystem:
             pipeline_result["bio_coherence"] = bio_sync_results
 
         # Step 4: Memory reflection and insight generation
-        reflection_insights = self._generate_reflection_insights(
-            relevant_folds, signal, context
-        )
+        reflection_insights = self._generate_reflection_insights(relevant_folds, signal, context)
         pipeline_result["new_insights"] = reflection_insights
 
         # Step 5: Causal chain analysis
@@ -360,24 +336,18 @@ class MemoryReflectionSystem:
         pipeline_result["causal_links"] = causal_analysis
 
         # Step 6: Emotional resonance mapping
-        emotional_mapping = self._map_emotional_resonance(
-            relevant_folds, signal, context
-        )
+        emotional_mapping = self._map_emotional_resonance(relevant_folds, signal, context)
         pipeline_result["emotional_resonance"] = emotional_mapping
 
         # Step 7: Consciousness state integration
-        consciousness_integration = self._integrate_consciousness_state(
-            pipeline_result, context
-        )
+        consciousness_integration = self._integrate_consciousness_state(pipeline_result, context)
         pipeline_result["consciousness_updates"] = consciousness_integration
 
         pipeline_result["processed_folds"] = [fold.fold_id for fold in relevant_folds]
 
         return pipeline_result
 
-    def _retrieve_relevant_folds(
-        self, signal: dict[str, Any], context: ReflectionContext
-    ) -> list[MemoryFold]:
+    def _retrieve_relevant_folds(self, signal: dict[str, Any], context: ReflectionContext) -> list[MemoryFold]:
         """Retrieve memory folds relevant to the current reflection"""
         relevant_folds = []
         current_time = datetime.utcnow()
@@ -398,9 +368,7 @@ class MemoryReflectionSystem:
         max_folds = min(50, len(relevant_folds))
         return relevant_folds[:max_folds]
 
-    def _calculate_fold_relevance(
-        self, fold: MemoryFold, signal: dict[str, Any], context: ReflectionContext
-    ) -> float:
+    def _calculate_fold_relevance(self, fold: MemoryFold, signal: dict[str, Any], context: ReflectionContext) -> float:
         """Calculate relevance score for a memory fold"""
         relevance_factors = []
 
@@ -410,9 +378,7 @@ class MemoryReflectionSystem:
 
         # Emotional resonance
         signal_emotion = signal.get("emotional_context", (0.0, 0.0, 0.0))
-        emotion_distance = np.linalg.norm(
-            np.array(fold.vad_encoding) - np.array(signal_emotion)
-        )
+        emotion_distance = np.linalg.norm(np.array(fold.vad_encoding) - np.array(signal_emotion))
         emotion_relevance = max(0, 1 - emotion_distance / 3.0)  # Normalize to 0-1
         relevance_factors.append(emotion_relevance * 0.3)
 
@@ -424,9 +390,7 @@ class MemoryReflectionSystem:
 
         return sum(relevance_factors)
 
-    def _process_quantum_superposition(
-        self, folds: list[MemoryFold], context: ReflectionContext
-    ) -> dict[str, Any]:
+    def _process_quantum_superposition(self, folds: list[MemoryFold], context: ReflectionContext) -> dict[str, Any]:
         """Process memory folds in quantum-inspired superposition states"""
         self._transition_state(ReflectionState.SUPERPOSITION)
 
@@ -453,15 +417,11 @@ class MemoryReflectionSystem:
         coherence_matrix = self._calculate_coherence_matrix(folds)
         superposition_results["coherence_matrix"] = coherence_matrix
 
-        logger.info(
-            f"ΛTRACE: Quantum superposition processing: {len(superposition_results['active_states'])} states"
-        )
+        logger.info(f"ΛTRACE: Quantum superposition processing: {len(superposition_results['active_states'])} states")
 
         return superposition_results
 
-    def _generate_quantum_states(
-        self, fold: MemoryFold, context: ReflectionContext
-    ) -> list[dict[str, Any]]:
+    def _generate_quantum_states(self, fold: MemoryFold, context: ReflectionContext) -> list[dict[str, Any]]:
         """Generate quantum-inspired states for a memory fold"""
         quantum_states = []
 
@@ -506,13 +466,7 @@ class MemoryReflectionSystem:
     def _calculate_pair_coherence(self, fold1: MemoryFold, fold2: MemoryFold) -> float:
         """Calculate coherence between two memory folds"""
         # Emotional coherence
-        emotion_coherence = (
-            1
-            - np.linalg.norm(
-                np.array(fold1.vad_encoding) - np.array(fold2.vad_encoding)
-            )
-            / 3.0
-        )
+        emotion_coherence = 1 - np.linalg.norm(np.array(fold1.vad_encoding) - np.array(fold2.vad_encoding)) / 3.0
 
         # Temporal coherence
         time_diff = abs((fold1.last_accessed - fold2.last_accessed).total_seconds())
@@ -522,13 +476,9 @@ class MemoryReflectionSystem:
         causal_coherence = min(fold1.causal_weight, fold2.causal_weight)
 
         # Combined coherence
-        return (
-            emotion_coherence * 0.4 + temporal_coherence * 0.3 + causal_coherence * 0.3
-        )
+        return emotion_coherence * 0.4 + temporal_coherence * 0.3 + causal_coherence * 0.3
 
-    def _synchronize_bio_rhythms(
-        self, folds: list[MemoryFold], context: ReflectionContext
-    ) -> dict[str, Any]:
+    def _synchronize_bio_rhythms(self, folds: list[MemoryFold], context: ReflectionContext) -> dict[str, Any]:
         """Synchronize memory processing with bio-rhythmic oscillators"""
         bio_sync_results = {
             "oscillator_frequency": context.oscillator_frequency,
@@ -542,9 +492,7 @@ class MemoryReflectionSystem:
 
         for fold in folds:
             # Calculate phase alignment with bio-oscillator
-            fold_phase = (
-                fold.oscillator_frequency / context.oscillator_frequency
-            ) * current_phase
+            fold_phase = (fold.oscillator_frequency / context.oscillator_frequency) * current_phase
             phase_alignment = abs(np.cos(current_phase - fold_phase))
 
             bio_sync_results["phase_alignments"][fold.fold_id] = phase_alignment
@@ -559,13 +507,9 @@ class MemoryReflectionSystem:
             else:
                 fold.plasticity_factor = max(0.0, fold.plasticity_factor - 0.02)
 
-            bio_sync_results["plasticity_updates"][
-                fold.fold_id
-            ] = fold.plasticity_factor
+            bio_sync_results["plasticity_updates"][fold.fold_id] = fold.plasticity_factor
 
-        logger.info(
-            f"ΛTRACE: Bio-rhythm sync: {len(bio_sync_results['synchronized_folds'])} folds synchronized"
-        )
+        logger.info(f"ΛTRACE: Bio-rhythm sync: {len(bio_sync_results['synchronized_folds'])} folds synchronized")
 
         return bio_sync_results
 
@@ -602,9 +546,7 @@ class MemoryReflectionSystem:
 
         return insights
 
-    def _detect_cross_fold_patterns(
-        self, folds: list[MemoryFold]
-    ) -> list[dict[str, Any]]:
+    def _detect_cross_fold_patterns(self, folds: list[MemoryFold]) -> list[dict[str, Any]]:
         """Detect patterns across multiple memory folds"""
         patterns = []
 
@@ -630,17 +572,13 @@ class MemoryReflectionSystem:
                 for i, fold1 in enumerate(type_folds):
                     for fold2 in type_folds[i + 1 :]:
                         if fold2.fold_id in fold1.entanglement_links:
-                            pattern["connections"].append(
-                                (fold1.fold_id, fold2.fold_id)
-                            )
+                            pattern["connections"].append((fold1.fold_id, fold2.fold_id))
 
                 patterns.append(pattern)
 
         return patterns
 
-    def _synthesize_emotional_insights(
-        self, folds: list[MemoryFold], signal: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _synthesize_emotional_insights(self, folds: list[MemoryFold], signal: dict[str, Any]) -> list[dict[str, Any]]:
         """Synthesize insights about emotional patterns"""
         emotional_insights = []
 
@@ -676,9 +614,7 @@ class MemoryReflectionSystem:
 
         return emotional_insights
 
-    def _derive_causal_insights(
-        self, folds: list[MemoryFold], context: ReflectionContext
-    ) -> list[dict[str, Any]]:
+    def _derive_causal_insights(self, folds: list[MemoryFold], context: ReflectionContext) -> list[dict[str, Any]]:
         """Derive insights about causal relationships"""
         causal_insights = []
 
@@ -694,19 +630,14 @@ class MemoryReflectionSystem:
                     "type": "causal_relationship",
                     "description": f"Causal chain with {len(chain)} memories",
                     "causal_chain": chain,
-                    "chain_strength": sum(
-                        self.memory_folds[fold_id].causal_weight for fold_id in chain
-                    )
-                    / len(chain),
+                    "chain_strength": sum(self.memory_folds[fold_id].causal_weight for fold_id in chain) / len(chain),
                     "confidence": min(1.0, len(chain) * 0.15),
                 }
                 causal_insights.append(insight)
 
         return causal_insights
 
-    def _identify_causal_chains(
-        self, causal_folds: list[MemoryFold]
-    ) -> list[list[str]]:
+    def _identify_causal_chains(self, causal_folds: list[MemoryFold]) -> list[list[str]]:
         """Identify causal chains among high-causal-weight folds"""
         chains = []
         visited = set()
@@ -731,16 +662,12 @@ class MemoryReflectionSystem:
             if linked_id not in visited:
                 linked_fold = self.memory_folds.get(linked_id)
                 if linked_fold and linked_fold in causal_folds:
-                    sub_chain = self._trace_causal_chain(
-                        linked_fold, causal_folds, visited
-                    )
+                    sub_chain = self._trace_causal_chain(linked_fold, causal_folds, visited)
                     chain.extend(sub_chain[1:])  # Avoid duplicating start fold
 
         return chain
 
-    def _analyze_causal_chains(
-        self, folds: list[MemoryFold], context: ReflectionContext
-    ) -> list[dict[str, Any]]:
+    def _analyze_causal_chains(self, folds: list[MemoryFold], context: ReflectionContext) -> list[dict[str, Any]]:
         """Analyze causal chains in the reflected memories"""
         causal_links = []
 
@@ -761,9 +688,7 @@ class MemoryReflectionSystem:
                     link = {
                         "from": fold_id,
                         "to": linked_id,
-                        "strength": min(
-                            fold_data["weight"], causal_graph[linked_id]["weight"]
-                        ),
+                        "strength": min(fold_data["weight"], causal_graph[linked_id]["weight"]),
                         "type": "direct_entanglement",
                     }
                     causal_links.append(link)
@@ -825,9 +750,7 @@ class MemoryReflectionSystem:
         }
 
         # Calculate emotional entropy
-        emotional_mapping["emotional_entropy"] = self._calculate_emotional_entropy(
-            emotions
-        )
+        emotional_mapping["emotional_entropy"] = self._calculate_emotional_entropy(emotions)
 
         return emotional_mapping
 
@@ -859,15 +782,11 @@ class MemoryReflectionSystem:
 
         for quadrant, fold_list in quadrants.items():
             if fold_list:
-                clusters.append(
-                    {"type": quadrant, "fold_ids": fold_list, "size": len(fold_list)}
-                )
+                clusters.append({"type": quadrant, "fold_ids": fold_list, "size": len(fold_list)})
 
         return clusters
 
-    def _calculate_emotional_entropy(
-        self, emotions: list[tuple[float, float, float]]
-    ) -> float:
+    def _calculate_emotional_entropy(self, emotions: list[tuple[float, float, float]]) -> float:
         """Calculate entropy of emotional states"""
         if len(emotions) <= 1:
             return 0.0
@@ -918,9 +837,7 @@ class MemoryReflectionSystem:
                         old_coherence = self.memory_folds[fold_id].identity_coherence
                         new_coherence = min(1.0, old_coherence + coherence_boost)
                         self.memory_folds[fold_id].identity_coherence = new_coherence
-                        consciousness_updates["identity_coherence_changes"][fold_id] = (
-                            new_coherence - old_coherence
-                        )
+                        consciousness_updates["identity_coherence_changes"][fold_id] = new_coherence - old_coherence
 
         # Update consciousness depth based on reflection depth
         depth_increase = context.depth_level * 0.05
@@ -930,9 +847,7 @@ class MemoryReflectionSystem:
                 old_depth = self.memory_folds[fold_id].consciousness_depth
                 new_depth = min(1.0, old_depth + depth_increase)
                 self.memory_folds[fold_id].consciousness_depth = new_depth
-                consciousness_updates["consciousness_depth_changes"][fold_id] = (
-                    new_depth - old_depth
-                )
+                consciousness_updates["consciousness_depth_changes"][fold_id] = new_depth - old_depth
 
         # Create new memory folds from insights
         for insight in pipeline_result["new_insights"]:
@@ -946,9 +861,7 @@ class MemoryReflectionSystem:
 
         return consciousness_updates
 
-    def _create_insight_fold(
-        self, insight: dict[str, Any], context: ReflectionContext
-    ) -> Optional[MemoryFold]:
+    def _create_insight_fold(self, insight: dict[str, Any], context: ReflectionContext) -> Optional[MemoryFold]:
         """Create a new memory fold from a reflection insight"""
         if len(self.memory_folds) >= self.max_folds:
             # Check if we can replace a low-value fold
@@ -969,11 +882,7 @@ class MemoryReflectionSystem:
             fold_type=fold_type,
             content=insight,
             coherence_score=insight["confidence"],
-            causal_weight=(
-                insight["confidence"]
-                if insight["type"] == "causal_relationship"
-                else 0.5
-            ),
+            causal_weight=(insight["confidence"] if insight["type"] == "causal_relationship" else 0.5),
             attention_salience=insight["confidence"],
             vad_encoding=(0.2, 0.1, 0.5),  # Neutral positive emotion for insights
             identity_coherence=0.8,
@@ -992,9 +901,7 @@ class MemoryReflectionSystem:
 
         self.memory_folds[new_fold.fold_id] = new_fold
 
-        logger.info(
-            f"ΛTRACE: Created new insight fold: {new_fold.fold_id} ({fold_type.value})"
-        )
+        logger.info(f"ΛTRACE: Created new insight fold: {new_fold.fold_id} ({fold_type.value})")
 
         return new_fold
 
@@ -1037,9 +944,7 @@ class MemoryReflectionSystem:
 
         logger.info(f"ΛTRACE: Removed memory fold: {fold_id}")
 
-    def _validate_reflection_result(
-        self, result: dict[str, Any], context: ReflectionContext
-    ) -> dict[str, Any]:
+    def _validate_reflection_result(self, result: dict[str, Any], context: ReflectionContext) -> dict[str, Any]:
         """Validate reflection result for Trinity Framework compliance"""
         validation_result = {
             "identity_coherence_valid": True,
@@ -1053,9 +958,7 @@ class MemoryReflectionSystem:
         }
 
         # Check identity coherence
-        coherence_values = [
-            fold.identity_coherence for fold in self.memory_folds.values()
-        ]
+        coherence_values = [fold.identity_coherence for fold in self.memory_folds.values()]
         if coherence_values:
             avg_coherence = sum(coherence_values) / len(coherence_values)
             if avg_coherence < 0.5:
@@ -1071,14 +974,10 @@ class MemoryReflectionSystem:
                 validation_result["issues"].append("Insufficient consciousness depth")
 
         # Check guardian approval
-        unapproved_folds = [
-            fold for fold in self.memory_folds.values() if not fold.guardian_approved
-        ]
+        unapproved_folds = [fold for fold in self.memory_folds.values() if not fold.guardian_approved]
         if unapproved_folds:
             validation_result["guardian_approval"] = False
-            validation_result["issues"].append(
-                f"{len(unapproved_folds)} folds lack guardian approval"
-            )
+            validation_result["issues"].append(f"{len(unapproved_folds)} folds lack guardian approval")
 
         # Check cascade prevention
         current_cascade_risk = self._assess_cascade_risk({})
@@ -1095,15 +994,11 @@ class MemoryReflectionSystem:
             validation_result["bio_coherence_maintained"],
             validation_result["quantum_stability_preserved"],
         ]
-        validation_result["validation_score"] = sum(validation_factors) / len(
-            validation_factors
-        )
+        validation_result["validation_score"] = sum(validation_factors) / len(validation_factors)
 
         return validation_result
 
-    def _update_consciousness_state(
-        self, result: dict[str, Any], context: ReflectionContext
-    ):
+    def _update_consciousness_state(self, result: dict[str, Any], context: ReflectionContext):
         """Update internal consciousness state based on reflection results"""
         # Update reflection history
         history_entry = {
@@ -1124,31 +1019,21 @@ class MemoryReflectionSystem:
         # Update performance metrics
         self._update_performance_metrics(result, context)
 
-    def _update_performance_metrics(
-        self, result: dict[str, Any], context: ReflectionContext
-    ):
+    def _update_performance_metrics(self, result: dict[str, Any], context: ReflectionContext):
         """Update consciousness system performance metrics"""
         # Update cascade prevention rate
         if context.cascade_prevention:
             # Successful reflection without cascade improves rate
-            self.cascade_prevention_rate = min(
-                0.999, self.cascade_prevention_rate + 0.001
-            )
+            self.cascade_prevention_rate = min(0.999, self.cascade_prevention_rate + 0.001)
 
         # Update processing efficiency based on insights generated
-        insights_ratio = len(result.get("new_insights", [])) / max(
-            len(result.get("processed_folds", [])), 1
-        )
+        insights_ratio = len(result.get("new_insights", [])) / max(len(result.get("processed_folds", [])), 1)
         efficiency_update = insights_ratio * 0.1
-        self.processing_efficiency = min(
-            1.0, self.processing_efficiency + efficiency_update
-        )
+        self.processing_efficiency = min(1.0, self.processing_efficiency + efficiency_update)
 
         # Update memory consolidation rate
         if result.get("consciousness_updates", {}).get("new_fold_creations"):
-            self.memory_consolidation_rate = min(
-                1.0, self.memory_consolidation_rate + 0.02
-            )
+            self.memory_consolidation_rate = min(1.0, self.memory_consolidation_rate + 0.02)
 
     def _transition_state(self, new_state: ReflectionState):
         """Transition consciousness reflection state"""
@@ -1156,9 +1041,7 @@ class MemoryReflectionSystem:
         self.current_state = new_state
 
         if old_state != new_state:
-            logger.info(
-                f"ΛTRACE: Consciousness state transition: {old_state.value} → {new_state.value}"
-            )
+            logger.info(f"ΛTRACE: Consciousness state transition: {old_state.value} → {new_state.value}")
 
     def _strengthen_entanglement(self, fold1_id: str, fold2_id: str):
         """Strengthen entanglement between two memory folds"""
@@ -1184,16 +1067,10 @@ class MemoryReflectionSystem:
             "insights_generated": len(result.get("new_insights", [])),
             "folds_processed": len(result.get("processed_folds", [])),
             "causal_links_discovered": len(result.get("causal_links", [])),
-            "new_folds_created": len(
-                result.get("consciousness_updates", {}).get("new_fold_creations", [])
-            ),
+            "new_folds_created": len(result.get("consciousness_updates", {}).get("new_fold_creations", [])),
             # Quantum-bio metrics
-            "quantum_coherence": result.get("quantum_states", {}).get(
-                "coherence_matrix", {}
-            ),
-            "bio_synchronization": result.get("bio_coherence", {}).get(
-                "synchronized_folds", []
-            ),
+            "quantum_coherence": result.get("quantum_states", {}).get("coherence_matrix", {}),
+            "bio_synchronization": result.get("bio_coherence", {}).get("synchronized_folds", []),
             "emotional_patterns": result.get("emotional_resonance", {}),
             # Trinity Framework compliance
             "identity_coherence": validation["identity_coherence_valid"],
@@ -1212,9 +1089,7 @@ class MemoryReflectionSystem:
             "memory_usage": f"{len(self.memory_folds)}/{self.max_folds} folds",
         }
 
-    def _create_guardian_blocked_response(
-        self, signal: dict[str, Any], context: ReflectionContext
-    ) -> dict[str, Any]:
+    def _create_guardian_blocked_response(self, signal: dict[str, Any], context: ReflectionContext) -> dict[str, Any]:
         """Create response when Guardian blocks reflection"""
         return {
             "reflection": "guardian_blocked",
@@ -1228,9 +1103,7 @@ class MemoryReflectionSystem:
             "system_version": self.version,
         }
 
-    def _create_error_response(
-        self, signal: dict[str, Any], error_message: str
-    ) -> dict[str, Any]:
+    def _create_error_response(self, signal: dict[str, Any], error_message: str) -> dict[str, Any]:
         """Create error response"""
         return {
             "reflection": "error",

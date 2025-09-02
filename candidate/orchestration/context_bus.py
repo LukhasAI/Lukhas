@@ -197,9 +197,7 @@ class ContextBusOrchestrator:
         # Context integrations (set to None for demo)
         self.gmail_integration = None  # GmailContextIntegration(self.gmail_adapter)
         self.drive_integration = None  # DriveContextIntegration(self.drive_adapter)
-        self.dropbox_integration = (
-            None  # DropboxContextIntegration(self.dropbox_adapter)
-        )
+        self.dropbox_integration = None  # DropboxContextIntegration(self.dropbox_adapter)
 
         # Opus 4 model allocation strategy
         # This can be set via config/env in production
@@ -274,41 +272,27 @@ class ContextBusOrchestrator:
 
                 # Rate limiting
                 if not await self.rate_limiter.acquire():
-                    self._add_narrative(
-                        workflow_id, f"⚠️ Rate limit exceeded at step {step.name}"
-                    )
+                    self._add_narrative(workflow_id, f"⚠️ Rate limit exceeded at step {step.name}")
                     raise Exception("Rate limit exceeded")
 
                 # Policy check at every step (hot path)
                 if step.requires_policy_check:
-                    policy_result = await self._check_policy(
-                        lid, step.name, step.policy_context
-                    )
+                    policy_result = await self._check_policy(lid, step.name, step.policy_context)
 
                     if policy_result["verdict"] == PolicyVerdict.DENY:
-                        self._add_narrative(
-                            workflow_id, f"❌ Policy denied: {step.name}"
-                        )
+                        self._add_narrative(workflow_id, f"❌ Policy denied: {step.name}")
                         self.workflows[workflow_id]["state"] = WorkflowState.FAILED
-                        raise Exception(
-                            f"Policy denied: {policy_result.get('refusal', 'Unknown')}"
-                        )
+                        raise Exception(f"Policy denied: {policy_result.get('refusal', 'Unknown')}")
 
                     elif policy_result["verdict"] == PolicyVerdict.STEP_UP_REQUIRED:
-                        self._add_narrative(
-                            workflow_id, f"🔐 Step-up required: {step.name}"
-                        )
-                        self.workflows[workflow_id][
-                            "state"
-                        ] = WorkflowState.STEP_UP_REQUIRED
+                        self._add_narrative(workflow_id, f"🔐 Step-up required: {step.name}")
+                        self.workflows[workflow_id]["state"] = WorkflowState.STEP_UP_REQUIRED
 
                         # Surface require_step_up and pause pipeline
                         await self._pause_for_step_up(workflow_id, policy_result)
 
                         # After step-up, retry policy check
-                        policy_result = await self._check_policy(
-                            lid, step.name, step.policy_context
-                        )
+                        policy_result = await self._check_policy(lid, step.name, step.policy_context)
                         if policy_result["verdict"] != PolicyVerdict.ALLOW:
                             raise Exception("Step-up authentication failed")
 
@@ -354,10 +338,7 @@ class ContextBusOrchestrator:
                 "results": self.workflows[workflow_id]["results"],
                 "narrative": self.workflow_narratives[workflow_id],
                 "performance": {
-                    "total_time_ms": (
-                        time.time() - self.workflows[workflow_id]["start_time"]
-                    )
-                    * 1000,
+                    "total_time_ms": (time.time() - self.workflows[workflow_id]["start_time"]) * 1000,
                     "avg_handoff_ms": self.performance_metrics["avg_handoff_ms"],
                 },
             }
@@ -379,9 +360,7 @@ class ContextBusOrchestrator:
         Check policy engine (integrates with Agent 2)
         Default-deny on conflicting risk signals
         """
-        policy_result = self.policy_engine.validate_action(
-            lid=lid, action=action, context=context
-        )
+        policy_result = self.policy_engine.validate_action(lid=lid, action=action, context=context)
 
         # Check for conflicting risk signals (tripwires/circuit breakers)
         if self._detect_risk_conflicts(context):
@@ -423,9 +402,7 @@ class ContextBusOrchestrator:
             "step_up_required",
             {
                 "workflow_id": workflow_id,
-                "reason": policy_result.get(
-                    "explanation_unl", "Additional verification required"
-                ),
+                "reason": policy_result.get("explanation_unl", "Additional verification required"),
                 "require_step_up": policy_result.get("require_step_up", "mfa"),
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             },
@@ -567,9 +544,7 @@ class WorkflowPipelines:
             WorkflowStep(
                 step_id="fetch_gmail",
                 name="Fetch Gmail Travel Emails",
-                handler=lambda lid, ctx: orchestrator.gmail_integration.workflow_fetch_travel_emails(
-                    lid, ctx
-                ),
+                handler=lambda lid, ctx: orchestrator.gmail_integration.workflow_fetch_travel_emails(lid, ctx),
                 required_scopes=["read", "list"],
                 requires_policy_check=True,
                 policy_context={"resource_type": "gmail"},
@@ -577,9 +552,7 @@ class WorkflowPipelines:
             WorkflowStep(
                 step_id="fetch_drive",
                 name="Fetch Drive Travel Documents",
-                handler=lambda lid, ctx: orchestrator.drive_integration.workflow_fetch_travel_documents(
-                    lid, ctx
-                ),
+                handler=lambda lid, ctx: orchestrator.drive_integration.workflow_fetch_travel_documents(lid, ctx),
                 required_scopes=["read", "list"],
                 requires_policy_check=True,
                 policy_context={"resource_type": "drive"},
@@ -587,9 +560,7 @@ class WorkflowPipelines:
             WorkflowStep(
                 step_id="fetch_dropbox",
                 name="Fetch Dropbox Travel Files",
-                handler=lambda lid, ctx: orchestrator.dropbox_integration.workflow_fetch_travel_files(
-                    lid, ctx
-                ),
+                handler=lambda lid, ctx: orchestrator.dropbox_integration.workflow_fetch_travel_files(lid, ctx),
                 required_scopes=["read", "list"],
                 requires_policy_check=True,
                 policy_context={"resource_type": "dropbox"},
@@ -597,28 +568,18 @@ class WorkflowPipelines:
             WorkflowStep(
                 step_id="analyze_opus4",
                 name="Analyze with Opus 4",
-                handler=lambda lid, ctx: {
-                    "analysis": "Opus 4 analysis of travel documents"
-                },
+                handler=lambda lid, ctx: {"analysis": "Opus 4 analysis of travel documents"},
                 required_scopes=["execute"],
                 requires_policy_check=True,
-                policy_context={
-                    "model": orchestrator.model_allocation.get("analysis", "opus-4")
-                },
+                policy_context={"model": orchestrator.model_allocation.get("analysis", "opus-4")},
             ),
             WorkflowStep(
                 step_id="cross_reference_opus4",
                 name="Cross-reference with Opus 4",
-                handler=lambda lid, ctx: {
-                    "cross_reference": "Opus 4 validation of analysis"
-                },
+                handler=lambda lid, ctx: {"cross_reference": "Opus 4 validation of analysis"},
                 required_scopes=["execute"],
                 requires_policy_check=True,
-                policy_context={
-                    "model": orchestrator.model_allocation.get(
-                        "cross_reference", "opus-4"
-                    )
-                },
+                policy_context={"model": orchestrator.model_allocation.get("cross_reference", "opus-4")},
             ),
             WorkflowStep(
                 step_id="generate_summary",
@@ -681,9 +642,7 @@ if __name__ == "__main__":
         print("\n⚡ Performance Metrics:")
         print(f"   Avg handoff: {metrics['handoff_performance']['avg_ms']:.2f}ms")
         print(f"   P95 handoff: {metrics['handoff_performance']['p95_ms']:.2f}ms")
-        print(
-            f"   Meets <250ms target: {metrics['handoff_performance']['meets_250ms_target']}"
-        )
+        print(f"   Meets <250ms target: {metrics['handoff_performance']['meets_250ms_target']}")
 
         print("\n✅ Context Bus Orchestrator operational!")
 

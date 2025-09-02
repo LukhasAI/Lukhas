@@ -231,9 +231,7 @@ class TelemetryCollector:
             "resource": resource,
             "success": success,
             "latency_ms": latency_ms,
-            "capability_token_id": (
-                capability_token.token_id if capability_token else None
-            ),
+            "capability_token_id": (capability_token.token_id if capability_token else None),
             "context": context or {},
             "trace_id": None,  # Will be filled by Λ-trace
         }
@@ -257,9 +255,7 @@ class TelemetryCollector:
                 resource=resource,
                 purpose="adapter_operation",
                 verdict=PolicyVerdict.ALLOW if success else PolicyVerdict.DENY,
-                capability_token_id=(
-                    capability_token.token_id if capability_token else None
-                ),
+                capability_token_id=(capability_token.token_id if capability_token else None),
                 context=trace_context,
             )
             self.metrics["last_trace_id"] = trace.trace_id
@@ -285,16 +281,12 @@ class TelemetryCollector:
 
     def get_metrics(self) -> dict:
         """Get current metrics"""
-        avg_latency = self.metrics["total_latency_ms"] / max(
-            self.metrics["request_count"], 1
-        )
+        avg_latency = self.metrics["total_latency_ms"] / max(self.metrics["request_count"], 1)
 
         return {
             "adapter": self.adapter_name,
             "requests": self.metrics["request_count"],
-            "success_rate": (
-                self.metrics["success_count"] / max(self.metrics["request_count"], 1)
-            ),
+            "success_rate": (self.metrics["success_count"] / max(self.metrics["request_count"], 1)),
             "avg_latency_ms": avg_latency,
             "unique_tokens": len(set(self.metrics["capability_tokens_used"])),
         }
@@ -330,9 +322,7 @@ def with_resilience(func):
                     resource = kwargs.get("resource", "unknown")
                     token = kwargs.get("capability_token")
 
-                    self.telemetry.record_request(
-                        lid, action, resource, token, latency_ms, True
-                    )
+                    self.telemetry.record_request(lid, action, resource, token, latency_ms, True)
 
                 return result
 
@@ -442,9 +432,7 @@ class BaseServiceAdapter(ABC):
         """Enable/disable dry-run mode"""
         self.dry_run_mode = enabled
 
-    def validate_capability_token(
-        self, token: CapabilityToken, required_scope: str
-    ) -> bool:
+    def validate_capability_token(self, token: CapabilityToken, required_scope: str) -> bool:
         """Validate capability token"""
         if not token.is_valid():
             return False
@@ -457,9 +445,7 @@ class BaseServiceAdapter(ABC):
 
         return True
 
-    async def check_consent(
-        self, lid: str, action: str, context: Optional[dict] = None
-    ) -> bool:
+    async def check_consent(self, lid: str, action: str, context: Optional[dict] = None) -> bool:
         """🛡️ Check consent before accessing external service - Guardian integration"""
 
         # Guardian system validation
@@ -481,9 +467,7 @@ class BaseServiceAdapter(ABC):
         if not self.ledger:
             return True  # Allow if ledger not available (testing)
 
-        consent_check = self.ledger.check_consent(
-            lid=lid, resource_type=self.service_name, action=action
-        )
+        consent_check = self.ledger.check_consent(lid=lid, resource_type=self.service_name, action=action)
         return consent_check["allowed"]
 
     async def authenticate_with_identity(self, lid: str, credentials: dict) -> dict:
@@ -523,9 +507,7 @@ class BaseServiceAdapter(ABC):
         pass
 
     @abstractmethod
-    async def fetch_resource(
-        self, lid: str, resource_id: str, capability_token: CapabilityToken
-    ) -> dict:
+    async def fetch_resource(self, lid: str, resource_id: str, capability_token: CapabilityToken) -> dict:
         """Fetch resource from external service"""
         pass
 
@@ -548,9 +530,7 @@ class BaseServiceAdapter(ABC):
         # Add consciousness system status if available
         if self.kernel_bus and self.consciousness_active:
             with contextlib.suppress(Exception):
-                status["consciousness_status"] = self.kernel_bus.get_service_status(
-                    f"adapter.{self.service_name}"
-                )
+                status["consciousness_status"] = self.kernel_bus.get_service_status(f"adapter.{self.service_name}")
 
         return status
 
@@ -558,9 +538,7 @@ class BaseServiceAdapter(ABC):
         """Persist adapter state using Memory service"""
         if self.memory_service:
             try:
-                await self.memory_service.store_adapter_state(
-                    adapter_name=self.service_name, state=state_data
-                )
+                await self.memory_service.store_adapter_state(adapter_name=self.service_name, state=state_data)
                 return True
             except Exception:
                 return False
@@ -576,9 +554,7 @@ class BaseServiceAdapter(ABC):
                 return None
         return None
 
-    async def detect_duress_signal(
-        self, lid: str, request_data: dict
-    ) -> dict[str, Any]:
+    async def detect_duress_signal(self, lid: str, request_data: dict) -> dict[str, Any]:
         """🚨 Detect duress/shadow gestures (Canary Pack 5)"""
 
         duress_indicators = {
@@ -731,11 +707,7 @@ class RateLimiter:
             self.requests[lid] = []
 
         # Clean old requests outside window
-        self.requests[lid] = [
-            (ts, act)
-            for ts, act in self.requests[lid]
-            if now - ts < self.window_seconds
-        ]
+        self.requests[lid] = [(ts, act) for ts, act in self.requests[lid] if now - ts < self.window_seconds]
 
         # Check if over limit
         current_count = len(self.requests[lid])

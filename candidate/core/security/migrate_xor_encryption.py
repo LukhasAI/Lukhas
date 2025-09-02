@@ -54,9 +54,7 @@ class XORMigration:
 
         return findings
 
-    def _get_context(
-        self, lines: list[str], line_num: int, context_size: int = 5
-    ) -> str:
+    def _get_context(self, lines: list[str], line_num: int, context_size: int = 5) -> str:
         """Get surrounding context"""
         start = max(0, line_num - context_size)
         end = min(len(lines), line_num + context_size + 1)
@@ -114,9 +112,7 @@ class XORMigration:
         return {
             "file": str(file_path),
             "patches": patches,
-            "imports_needed": [
-                "from candidate.core.security.enhanced_crypto import get_encryption_manager"
-            ],
+            "imports_needed": ["from candidate.core.security.enhanced_crypto import get_encryption_manager"],
         }
 
     def _generate_crypto_replacement(self, func_node: ast.FunctionDef) -> str:
@@ -124,9 +120,7 @@ class XORMigration:
         func_name = func_node.name
 
         # Determine purpose from function name
-        algorithm = (
-            "Fernet" if "simple" in func_name or "demo" in func_name else "AES-256-GCM"
-        )
+        algorithm = "Fernet" if "simple" in func_name or "demo" in func_name else "AES-256-GCM"
 
         template = f'''async def {func_name}(self, data: bytes, key: bytes) -> bytes:
     """Encrypted version of {func_name} using proper cryptography"""
@@ -160,9 +154,7 @@ class XORMigration:
                 results.append(f"\nWould patch {file_path}:")
                 results.append(f"  Add imports: {patch_info['imports_needed']}")
                 for patch in patch_info["patches"]:
-                    results.append(
-                        f"  Replace function '{patch['function']}' at line {patch['line']}"
-                    )
+                    results.append(f"  Replace function '{patch['function']}' at line {patch['line']}")
             else:
                 # Actually apply patches
                 self._apply_file_patches(Path(file_path), patch_info)
@@ -194,9 +186,7 @@ class XORMigration:
     def generate_report(self, findings: list[tuple[str, int, str]]) -> str:
         """Generate migration report"""
         report = ["# XOR Encryption Migration Report\n"]
-        report.append(
-            f"Total files with XOR encryption: {len({f[0] for f in findings})}"
-        )
+        report.append(f"Total files with XOR encryption: {len({f[0] for f in findings})}")
         report.append(f"Total XOR usages found: {len(findings)}\n")
 
         report.append("## Files requiring migration:\n")
@@ -225,14 +215,10 @@ def main():
     """Run XOR migration"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Migrate XOR encryption to proper crypto"
-    )
+    parser = argparse.ArgumentParser(description="Migrate XOR encryption to proper crypto")
     parser.add_argument("--scan", action="store_true", help="Scan for XOR usage")
     parser.add_argument("--patch", action="store_true", help="Generate patches")
-    parser.add_argument(
-        "--apply", action="store_true", help="Apply patches (use with caution)"
-    )
+    parser.add_argument("--apply", action="store_true", help="Apply patches (use with caution)")
     parser.add_argument("--report", type=str, help="Save report to file")
 
     args = parser.parse_args()

@@ -133,9 +133,7 @@ class ActorRef:
 
         try:
             # Send message with reply_to
-            await self.tell(
-                message_type, payload, correlation_id, response_id, sender=self.actor_id
-            )
+            await self.tell(message_type, payload, correlation_id, response_id, sender=self.actor_id)
 
             # Wait for response
             result = await asyncio.wait_for(response_future, timeout)
@@ -165,9 +163,7 @@ class Actor(ABC):
     3. Designate the behavior for the next message it receives (using `self.become`).
     """
 
-    def __init__(
-        self, actor_id: str, mailbox: Optional[Union[asyncio.Queue, "Mailbox"]] = None
-    ):
+    def __init__(self, actor_id: str, mailbox: Optional[Union[asyncio.Queue, "Mailbox"]] = None):
         self.actor_id = actor_id
         self.state = ActorState.CREATED
 
@@ -320,16 +316,12 @@ class Actor(ABC):
             logger.warning(f"Mailbox full for actor {self.actor_id}")
             return False
 
-    async def create_child(
-        self, child_class: type, child_id: str, *args, **kwargs
-    ) -> ActorRef:
+    async def create_child(self, child_class: type, child_id: str, *args, **kwargs) -> ActorRef:
         """Create a child actor"""
         if not self.actor_system:
             raise RuntimeError("Actor not started")
 
-        child_ref = await self.actor_system.create_actor(
-            child_class, child_id, *args, **kwargs
-        )
+        child_ref = await self.actor_system.create_actor(child_class, child_id, *args, **kwargs)
 
         # Set supervision
         child_actor = self.actor_system.get_actor(child_id)
@@ -363,17 +355,13 @@ class Actor(ABC):
     async def handle_child_failure(self, child_id: str, error: Exception):
         """Handle a child actor failure."""
         strategy = self.supervision_strategy()
-        logger.info(
-            f"Supervisor {self.actor_id} handling failure of child {child_id} with strategy {strategy.value}"
-        )
+        logger.info(f"Supervisor {self.actor_id} handling failure of child {child_id} with strategy {strategy.value}")
         if strategy == SupervisionStrategy.RESTART:
             await self.actor_system.restart_actor(child_id)
         elif strategy == SupervisionStrategy.STOP:
             await self.actor_system.stop_actor(child_id)
         elif strategy == SupervisionStrategy.ESCALATE and self.supervisor:
-            await self.supervisor.tell(
-                "child_failed", {"child_id": self.actor_id, "error": str(error)}
-            )
+            await self.supervisor.tell("child_failed", {"child_id": self.actor_id, "error": str(error)})
 
     def get_stats(self) -> dict[str, Any]:
         """Get actor statistics"""
@@ -439,9 +427,7 @@ class ActorSystem:
 
         logger.info(f"Actor system '{self.system_name}' stopped")
 
-    async def create_actor(
-        self, actor_class: type, actor_id: str, *args, **kwargs
-    ) -> ActorRef:
+    async def create_actor(self, actor_class: type, actor_id: str, *args, **kwargs) -> ActorRef:
         """Create and start a new actor"""
         if not self._running:
             raise RuntimeError("Actor system not running")
@@ -535,9 +521,7 @@ class ActorSystem:
     async def handle_failure(self, failed_actor: Actor, reason: Exception):
         """Handle actor failure based on supervision strategy"""
         if not failed_actor.supervisor:
-            logger.error(
-                f"Actor {failed_actor.actor_id} failed with no supervisor. Stopping."
-            )
+            logger.error(f"Actor {failed_actor.actor_id} failed with no supervisor. Stopping.")
             await self.stop_actor(failed_actor.actor_id)
             return
 
@@ -562,9 +546,7 @@ class ActorSystem:
             if supervisor.supervisor:
                 await self.handle_failure(supervisor, reason)
             else:
-                logger.error(
-                    f"Cannot escalate failure from {supervisor.actor_id}, no supervisor. Stopping."
-                )
+                logger.error(f"Cannot escalate failure from {supervisor.actor_id}, no supervisor. Stopping.")
                 await self.stop_actor(supervisor.actor_id)
 
     def get_system_stats(self) -> dict[str, Any]:
@@ -649,9 +631,7 @@ class AIAgentActor(Actor):
 
     async def pre_start(self):
         """Initialize agent"""
-        logger.info(
-            f"AI Agent {self.actor_id} initializing with capabilities: {self.capabilities}"
-        )
+        logger.info(f"AI Agent {self.actor_id} initializing with capabilities: {self.capabilities}")
         self.memory["start_time"] = time.time()
 
     async def _handle_assign_task(self, message: ActorMessage) -> dict[str, Any]:
@@ -726,9 +706,7 @@ class AIAgentActor(Actor):
 
         if collaboration_type == "share_knowledge":
             # Share relevant memory
-            knowledge = {
-                k: v for k, v in self.memory.items() if not k.startswith("_private")
-            }
+            knowledge = {k: v for k, v in self.memory.items() if not k.startswith("_private")}
             return {"status": "shared", "knowledge": knowledge}
 
         elif collaboration_type == "request_assistance":
@@ -759,13 +737,9 @@ async def demo_actor_system():
     system = await get_global_actor_system()
 
     # Create AI agents
-    agent1_ref = await system.create_actor(
-        AIAgentActor, "reasoning-agent-001", capabilities=["reasoning", "analysis"]
-    )
+    agent1_ref = await system.create_actor(AIAgentActor, "reasoning-agent-001", capabilities=["reasoning", "analysis"])
 
-    agent2_ref = await system.create_actor(
-        AIAgentActor, "memory-agent-001", capabilities=["memory", "storage"]
-    )
+    agent2_ref = await system.create_actor(AIAgentActor, "memory-agent-001", capabilities=["memory", "storage"])
 
     # Test interaction
     correlation_id = str(uuid.uuid4())
@@ -788,9 +762,7 @@ async def demo_actor_system():
     print("Agent 1 status:", status)
 
     # Agent collaboration
-    collab_response = await agent2_ref.ask(
-        "collaborate", {"type": "request_assistance", "capability": "memory"}
-    )
+    collab_response = await agent2_ref.ask("collaborate", {"type": "request_assistance", "capability": "memory"})
     print("Collaboration response:", collab_response)
 
     # System stats

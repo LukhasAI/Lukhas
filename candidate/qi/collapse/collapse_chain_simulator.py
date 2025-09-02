@@ -42,9 +42,7 @@ class CollapseChainSimulator:
             brain_integrator (Any): The main brain integrator instance.
         """
         self.brain_integrator: Any = brain_integrator
-        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(
-            brain_integrator
-        )
+        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(brain_integrator)
 
     async def simulate_collapse(self, drift_trigger: dict[str, Any]) -> None:
         """
@@ -63,9 +61,7 @@ class CollapseChainSimulator:
 
         # 3. Log the outcome.
         outcome_hash: str = hashlib.sha256(
-            str(
-                self.collapse_manager.symbolic_trace_logger.get_pattern_analysis()
-            ).encode()
+            str(self.collapse_manager.symbolic_trace_logger.get_pattern_analysis()).encode()
         ).hexdigest()
         with open("orchestration/brain/DRIFT_LOG.md", "a") as f:
             f.write(

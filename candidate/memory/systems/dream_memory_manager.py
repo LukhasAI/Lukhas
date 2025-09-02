@@ -143,16 +143,12 @@ class DreamMemoryManager:
             bool: True if initialization was successful, False otherwise.
         """
         # ΛTRACE: Attempting to initialize DreamMemoryManager.
-        logger.info(
-            "DreamMemoryManager_initializing", current_status_active=self.active
-        )
+        logger.info("DreamMemoryManager_initializing", current_status_active=self.active)
         try:
             # Simulate asynchronous initialization work (e.g., loading resources).
             await asyncio.sleep(0.01)
             self.active = True
-            self.stats["initialization_time_utc"] = datetime.now(
-                timezone.utc
-            ).isoformat()  # ΛTEMPORAL_HOOK
+            self.stats["initialization_time_utc"] = datetime.now(timezone.utc).isoformat()  # ΛTEMPORAL_HOOK
             logger.info(
                 "DreamMemoryManager_initialized_successfully",
                 init_time_utc=self.stats["initialization_time_utc"],
@@ -174,9 +170,7 @@ class DreamMemoryManager:
     # #ΛTEMPORAL_HOOK (Dream cycles are temporal sequences)
     @lukhas_tier_required(2)
     # ΛRECALL (memories_for_dreaming)
-    async def process_dream_cycle(
-        self, memories_for_dreaming: Optional[List[Any]] = None
-    ) -> Dict[str, Any]:
+    async def process_dream_cycle(self, memories_for_dreaming: Optional[List[Any]] = None) -> Dict[str, Any]:
         """
         Initiates and processes a "dream cycle." This is where memory consolidation,
         pattern extraction, and symbolic manipulation would occur.
@@ -207,11 +201,7 @@ class DreamMemoryManager:
         # ΛTEMPORAL_HOOK (Dream cycle start time)
         start_time_utc_iso = datetime.now(timezone.utc).isoformat()
         self.stats["last_dream_cycle_start_utc"] = start_time_utc_iso  # ΛTEMPORAL_HOOK
-        num_input_memories = (
-            len(memories_for_dreaming)
-            if memories_for_dreaming is not None
-            else "auto_selected"
-        )
+        num_input_memories = len(memories_for_dreaming) if memories_for_dreaming is not None else "auto_selected"
 
         # ΛTRACE: Starting a new dream cycle.
         logger.info(
@@ -345,9 +335,7 @@ class DreamMemoryManager:
         # baseline or previous snapshots.
         return 0.9
 
-    def _check_for_instability(
-        self, memories: Optional[List[Any]], recursion_depth: int = 0
-    ):
+    def _check_for_instability(self, memories: Optional[List[Any]], recursion_depth: int = 0):
         """
         Checks for potential instability in recursive deltas.
         This is a placeholder implementation.

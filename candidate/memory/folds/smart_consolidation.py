@@ -51,9 +51,7 @@ class SmartConsolidator:
                     imports.append(node.module)
 
             # Categorize by actual purpose
-            purpose = self._categorize_purpose(
-                file_path.name, content, classes, functions
-            )
+            purpose = self._categorize_purpose(file_path.name, content, classes, functions)
 
             return {
                 "type": purpose,
@@ -62,29 +60,16 @@ class SmartConsolidator:
                 "imports": imports,
                 "size": len(content),
                 "has_main": "__main__" in content,
-                "is_config": any(
-                    x in content.lower() for x in ["config", "settings", "yaml", "json"]
-                ),
+                "is_config": any(x in content.lower() for x in ["config", "settings", "yaml", "json"]),
                 "is_test": any(x in file_path.name.lower() for x in ["test", "spec"]),
-                "is_api": any(
-                    x in content.lower()
-                    for x in ["fastapi", "flask", "endpoint", "router"]
-                ),
-                "is_database": any(
-                    x in content.lower()
-                    for x in ["sqlalchemy", "database", "db", "crud"]
-                ),
-                "is_ui": any(
-                    x in content.lower()
-                    for x in ["streamlit", "html", "css", "javascript"]
-                ),
+                "is_api": any(x in content.lower() for x in ["fastapi", "flask", "endpoint", "router"]),
+                "is_database": any(x in content.lower() for x in ["sqlalchemy", "database", "db", "crud"]),
+                "is_ui": any(x in content.lower() for x in ["streamlit", "html", "css", "javascript"]),
             }
         except Exception as e:
             return {"type": "error", "error": str(e)}
 
-    def _categorize_purpose(
-        self, filename: str, content: str, classes: list[str], functions: list[str]
-    ) -> str:
+    def _categorize_purpose(self, filename: str, content: str, classes: list[str], functions: list[str]) -> str:
         """Determine the actual purpose of a file"""
         filename_lower = filename.lower()
         content_lower = content.lower()
@@ -96,13 +81,9 @@ class SmartConsolidator:
             return "resonance_system"
         if "semantic" in filename_lower and "extract" in filename_lower:
             return "semantic_extraction"
-        if "api" in filename_lower and any(
-            x in content_lower for x in ["fastapi", "router", "endpoint"]
-        ):
+        if "api" in filename_lower and any(x in content_lower for x in ["fastapi", "router", "endpoint"]):
             return "api_service"
-        if "service" in filename_lower and any(
-            x in content_lower for x in ["class", "def start", "def stop"]
-        ):
+        if "service" in filename_lower and any(x in content_lower for x in ["class", "def start", "def stop"]):
             return "system_service"
         if "bridge" in filename_lower:
             return "system_bridge"
@@ -129,8 +110,7 @@ class SmartConsolidator:
 
         # Only merge truly generic engines
         if "engine" in filename_lower and not any(
-            specific in filename_lower
-            for specific in ["trauma", "resonance", "semantic", "api", "bridge", "auth"]
+            specific in filename_lower for specific in ["trauma", "resonance", "semantic", "api", "bridge", "auth"]
         ):
             return "generic_engine"
 

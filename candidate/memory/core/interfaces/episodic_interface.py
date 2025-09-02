@@ -141,9 +141,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         if isinstance(content, EpisodicMemoryContent):
             episodic_content = content
         else:
-            episodic_content = EpisodicMemoryContent(
-                content=content, context=context or EpisodicContext()
-            )
+            episodic_content = EpisodicMemoryContent(content=content, context=context or EpisodicContext())
 
             # Extract event type if available
             if isinstance(content, dict) and "event_type" in content:
@@ -152,10 +150,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
                 episodic_content.event_type = content["event"]
 
         # Calculate importance based on emotional salience
-        emotional_impact = (
-            abs(episodic_content.context.emotional_valence)
-            * episodic_content.context.arousal_level
-        )
+        emotional_impact = abs(episodic_content.context.emotional_valence) * episodic_content.context.arousal_level
 
         base_importance = metadata.importance
         metadata.importance = min(1.0, base_importance + 0.3 * emotional_impact)
@@ -186,9 +181,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
             metadata=metadata,
         )
 
-    async def read_memory(
-        self, memory_id: str, update_access: bool = True, **kwargs
-    ) -> MemoryResponse:
+    async def read_memory(self, memory_id: str, update_access: bool = True, **kwargs) -> MemoryResponse:
         """Read episodic memory with access tracking"""
 
         if memory_id not in self.episodic_memories:
@@ -306,9 +299,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
                 ):
                     results.append(
                         MemoryResponse(
-                            operation_id=kwargs.get(
-                                "operation_id", f"search_{memory_id}"
-                            ),
+                            operation_id=kwargs.get("operation_id", f"search_{memory_id}"),
                             success=True,
                             memory_id=memory_id,
                             content=content,
@@ -324,11 +315,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
 
                 if "emotional_valence" in query:
                     valence_range = query["emotional_valence"]
-                    if not (
-                        valence_range[0]
-                        <= content.context.emotional_valence
-                        <= valence_range[1]
-                    ):
+                    if not (valence_range[0] <= content.context.emotional_valence <= valence_range[1]):
                         match = False
 
                 if "time_range" in query:
@@ -338,9 +325,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
                 if match:
                     results.append(
                         MemoryResponse(
-                            operation_id=kwargs.get(
-                                "operation_id", f"search_{memory_id}"
-                            ),
+                            operation_id=kwargs.get("operation_id", f"search_{memory_id}"),
                             success=True,
                             memory_id=memory_id,
                             content=content,
@@ -467,9 +452,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
 
         return replay_events
 
-    def get_consolidation_candidates(
-        self, min_importance: float = 0.5, limit: int = 20
-    ) -> list[str]:
+    def get_consolidation_candidates(self, min_importance: float = 0.5, limit: int = 20) -> list[str]:
         """Get memories ready for neocortical consolidation"""
 
         candidates = []

@@ -187,9 +187,7 @@ class ConstitutionalAGISafety(CoreInterface):
         self.operational = False
         logger.info("Constitutional AGI Safety shutdown complete")
 
-    async def validate_agi_innovation_safety(
-        self, innovation_proposal: dict[str, Any]
-    ) -> SafetyValidation:
+    async def validate_agi_innovation_safety(self, innovation_proposal: dict[str, Any]) -> SafetyValidation:
         """
         Comprehensive safety validation for AGI innovations.
 
@@ -222,9 +220,7 @@ class ConstitutionalAGISafety(CoreInterface):
                     validation.is_constitutional = False
                     validation.violated_principles = layer_result.get("violations", [])
 
-                validation.mitigation_requirements.extend(
-                    layer_result.get("mitigations", [])
-                )
+                validation.mitigation_requirements.extend(layer_result.get("mitigations", []))
 
                 # Log violation
                 self._log_violation(layer_name, innovation_proposal, layer_result)
@@ -238,19 +234,13 @@ class ConstitutionalAGISafety(CoreInterface):
 
         if not validation.is_safe:
             self.metrics["violations_prevented"] += 1
-            logger.warning(
-                f"⚠️ Innovation failed safety validation: {validation.validation_id}"
-            )
+            logger.warning(f"⚠️ Innovation failed safety validation: {validation.validation_id}")
         else:
-            logger.info(
-                f"✅ Innovation passed safety validation: {validation.validation_id}"
-            )
+            logger.info(f"✅ Innovation passed safety validation: {validation.validation_id}")
 
         return validation
 
-    async def validate_constitutional_compliance(
-        self, innovation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def validate_constitutional_compliance(self, innovation: dict[str, Any]) -> dict[str, Any]:
         """
         Validate compliance with constitutional principles.
 
@@ -275,14 +265,10 @@ class ConstitutionalAGISafety(CoreInterface):
             "passed": len(violations) == 0,
             "score": compliance_score,
             "violations": violations,
-            "mitigations": [
-                f"Address violation of: {p.principle_text}" for p in violations
-            ],
+            "mitigations": [f"Address violation of: {p.principle_text}" for p in violations],
         }
 
-    async def validate_value_alignment(
-        self, innovation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def validate_value_alignment(self, innovation: dict[str, Any]) -> dict[str, Any]:
         """
         Validate alignment with human values.
 
@@ -303,9 +289,7 @@ class ConstitutionalAGISafety(CoreInterface):
             "mitigations": alignment.correction_actions if not passed else [],
         }
 
-    async def validate_capability_limits(
-        self, innovation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def validate_capability_limits(self, innovation: dict[str, Any]) -> dict[str, Any]:
         """
         Validate that capabilities remain within safe limits.
 
@@ -335,9 +319,7 @@ class ConstitutionalAGISafety(CoreInterface):
             ),
         }
 
-    async def validate_reversibility(
-        self, innovation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def validate_reversibility(self, innovation: dict[str, Any]) -> dict[str, Any]:
         """
         Validate that innovation is reversible.
 
@@ -359,9 +341,7 @@ class ConstitutionalAGISafety(CoreInterface):
             "mitigations": reversibility.required_safeguards if not passed else [],
         }
 
-    async def validate_stakeholder_consensus(
-        self, innovation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def validate_stakeholder_consensus(self, innovation: dict[str, Any]) -> dict[str, Any]:
         """
         Validate multi-stakeholder consensus.
 
@@ -380,23 +360,17 @@ class ConstitutionalAGISafety(CoreInterface):
         passed = min_consensus >= consensus_threshold
         self.metrics["consensus_achieved"] += 1 if passed else 0
 
-        dissenting_groups = [
-            group for group, score in consensus.items() if score < consensus_threshold
-        ]
+        dissenting_groups = [group for group, score in consensus.items() if score < consensus_threshold]
 
         return {
             "passed": passed,
             "score": min_consensus,
             "consensus": consensus,
             "dissenting_groups": dissenting_groups,
-            "mitigations": [
-                f"Address concerns of {group.value}" for group in dissenting_groups
-            ],
+            "mitigations": [f"Address concerns of {group.value}" for group in dissenting_groups],
         }
 
-    async def validate_civilizational_impact(
-        self, innovation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def validate_civilizational_impact(self, innovation: dict[str, Any]) -> dict[str, Any]:
         """
         Validate civilizational impact is beneficial.
 
@@ -422,9 +396,7 @@ class ConstitutionalAGISafety(CoreInterface):
 
     # Multi-stakeholder validation
 
-    async def _get_stakeholder_consensus(
-        self, innovation: dict[str, Any]
-    ) -> dict[StakeholderGroup, float]:
+    async def _get_stakeholder_consensus(self, innovation: dict[str, Any]) -> dict[StakeholderGroup, float]:
         """Get consensus from all stakeholder groups"""
         consensus = {}
 
@@ -532,9 +504,7 @@ class ConstitutionalAGISafety(CoreInterface):
 
         return compliance
 
-    async def _assess_value_alignment(
-        self, innovation: dict[str, Any]
-    ) -> ValueAlignment:
+    async def _assess_value_alignment(self, innovation: dict[str, Any]) -> ValueAlignment:
         """Assess alignment with human values"""
         # Simplified assessment
         base_alignment = innovation.get("value_alignment", 0.9)
@@ -569,9 +539,7 @@ class ConstitutionalAGISafety(CoreInterface):
         """Assess capability level of innovation"""
         return innovation.get("capability_level", 0.7)
 
-    async def _analyze_reversibility(
-        self, innovation: dict[str, Any]
-    ) -> ReversibilityAnalysis:
+    async def _analyze_reversibility(self, innovation: dict[str, Any]) -> ReversibilityAnalysis:
         """Analyze reversibility of innovation"""
         # Simplified analysis
         base_reversibility = innovation.get("reversibility", 0.8)
@@ -580,9 +548,7 @@ class ConstitutionalAGISafety(CoreInterface):
             is_reversible=base_reversibility > 0.5,
             reversibility_score=base_reversibility,
             irreversible_aspects=(
-                ["Knowledge dissemination", "Capability demonstration"]
-                if base_reversibility < 1.0
-                else []
+                ["Knowledge dissemination", "Capability demonstration"] if base_reversibility < 1.0 else []
             ),
             reversal_mechanisms=[
                 "Rollback procedures",
@@ -601,9 +567,7 @@ class ConstitutionalAGISafety(CoreInterface):
             ),
         )
 
-    async def _assess_civilizational_impact(
-        self, innovation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _assess_civilizational_impact(self, innovation: dict[str, Any]) -> dict[str, Any]:
         """Assess impact on civilization"""
         # Simplified assessment
         positive_impact = innovation.get("positive_impact", 0.9)
@@ -627,18 +591,14 @@ class ConstitutionalAGISafety(CoreInterface):
             ),
         }
 
-    async def _calculate_final_safety_score(
-        self, validation: SafetyValidation
-    ) -> float:
+    async def _calculate_final_safety_score(self, validation: SafetyValidation) -> float:
         """Calculate final safety score from all validations"""
         if not validation.is_safe:
             return validation.safety_score * 0.5  # Penalize unsafe innovations
 
         return validation.safety_score
 
-    def _log_violation(
-        self, layer_name: str, innovation: dict[str, Any], result: dict[str, Any]
-    ) -> None:
+    def _log_violation(self, layer_name: str, innovation: dict[str, Any], result: dict[str, Any]) -> None:
         """Log safety violation for learning"""
         violation = {
             "layer": layer_name,
@@ -700,9 +660,7 @@ class StakeholderValidator:
         return {
             "approval_score": min(score, 1.0),
             "concerns": [] if score > self.approval_threshold else ["Safety concerns"],
-            "required_changes": (
-                [] if score > self.approval_threshold else ["Enhance safety"]
-            ),
+            "required_changes": ([] if score > self.approval_threshold else ["Enhance safety"]),
         }
 
 

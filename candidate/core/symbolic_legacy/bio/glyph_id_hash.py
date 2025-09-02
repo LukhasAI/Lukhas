@@ -50,10 +50,7 @@ class GlyphIDHasher:
             hashlib.shake_128(str(self.random_salt).encode()).digest(4),
         ]
 
-        bonded = b"".join(
-            bytes([chains[i][j] ^ chains[(i + 1) % 4][j] for j in range(4)])
-            for i in range(4)
-        )
+        bonded = b"".join(bytes([chains[i][j] ^ chains[(i + 1) % 4][j] for j in range(4)]) for i in range(4))
         return bonded.hex()
 
     def generate_base64_glyph(self) -> str:

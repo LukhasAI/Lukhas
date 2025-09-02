@@ -45,9 +45,7 @@ class CustomLlm(UncheckedBaseModel):
     #   api_key (typing.Optional[ConvAiSecretLocator]): Locator for the API key for authentication. (ΛEXPOSE, ΛCAUTION - sensitive data locator)
     """
 
-    url: str = pydantic.Field(
-        description="The URL of the Chat Completions compatible endpoint"
-    )
+    url: str = pydantic.Field(description="The URL of the Chat Completions compatible endpoint")
     model_id: typing.Optional[str] = pydantic.Field(
         default=None,
         description="The model ID to be used if URL serves multiple models",

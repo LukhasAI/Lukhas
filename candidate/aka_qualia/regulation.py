@@ -63,12 +63,8 @@ class RegulationPolicyEngine:
             "low_clarity": self.config.get("low_clarity_threshold", 0.3),
             "high_risk": self.config.get("high_risk_threshold", 0.6),
             "moderate_risk": self.config.get("moderate_risk_threshold", 0.3),
-            "high_narrative_gravity": self.config.get(
-                "high_narrative_gravity_threshold", 0.7
-            ),
-            "energy_conservation_tolerance": self.config.get(
-                "energy_conservation_tolerance", 0.05
-            ),
+            "high_narrative_gravity": self.config.get("high_narrative_gravity_threshold", 0.7),
+            "energy_conservation_tolerance": self.config.get("energy_conservation_tolerance", 0.05),
         }
 
     def _load_config(self, config_override: Optional[dict[str, Any]]) -> dict[str, Any]:
@@ -112,9 +108,7 @@ class RegulationPolicyEngine:
         if self.config["enable_policy_caching"] and scene_hash in self.policy_cache:
             cached_policy, cache_time = self.policy_cache[scene_hash]
             if time.time() - cache_time < 300:  # 5-minute cache TTL
-                return cached_policy, self._create_cached_audit_entry(
-                    scene, cached_policy, energy_before
-                )
+                return cached_policy, self._create_cached_audit_entry(scene, cached_policy, energy_before)
 
         # Decision rationale tracking
         rationale = []
@@ -137,20 +131,13 @@ class RegulationPolicyEngine:
         # Rule 3: Risk-based interventions
         if scene.risk.score > self.thresholds["high_risk"]:
             actions.extend(["pause", "reframe"])
-            rationale.append(
-                f"High risk {scene.risk.score:.3f} > {self.thresholds['high_risk']} → pause+reframe"
-            )
+            rationale.append(f"High risk {scene.risk.score:.3f} > {self.thresholds['high_risk']} → pause+reframe")
         elif scene.risk.score > self.thresholds["moderate_risk"]:
             actions.append("reframe")
-            rationale.append(
-                f"Moderate risk {scene.risk.score:.3f} > {self.thresholds['moderate_risk']} → reframe"
-            )
+            rationale.append(f"Moderate risk {scene.risk.score:.3f} > {self.thresholds['moderate_risk']} → reframe")
 
         # Rule 4: Narrative gravity loop prevention
-        if (
-            scene.proto.narrative_gravity > self.thresholds["high_narrative_gravity"]
-            and scene.proto.clarity < 0.5
-        ):
+        if scene.proto.narrative_gravity > self.thresholds["high_narrative_gravity"] and scene.proto.clarity < 0.5:
             actions.append("focus-shift")
             rationale.append(
                 f"High narrative gravity {scene.proto.narrative_gravity:.3f} + low clarity → loop prevention"
@@ -170,17 +157,13 @@ class RegulationPolicyEngine:
         color_contrast = None
         if scene.risk.severity.value in ["moderate", "high"]:
             color_contrast = self.config["safe_palette"]
-            rationale.append(
-                f"Risk severity {scene.risk.severity.value} → safe palette override"
-            )
+            rationale.append(f"Risk severity {scene.risk.severity.value} → safe palette override")
 
         # Remove duplicate actions
         actions = list(set(actions))
 
         # Create policy
-        policy = RegulationPolicy(
-            gain=gain, pace=pace, color_contrast=color_contrast, actions=actions
-        )
+        policy = RegulationPolicy(gain=gain, pace=pace, color_contrast=color_contrast, actions=actions)
 
         # Performance metrics
         processing_time = time.time() - start_time
@@ -230,15 +213,11 @@ class RegulationPolicyEngine:
 
         return policy, audit_entry
 
-    def update_audit_entry_post_regulation(
-        self, audit_entry: RegulationAuditEntry, energy_after: float
-    ) -> None:
+    def update_audit_entry_post_regulation(self, audit_entry: RegulationAuditEntry, energy_after: float) -> None:
         """Update audit entry with post-regulation energy data"""
         audit_entry.energy_after = energy_after
         audit_entry.conservation_ratio = (
-            energy_after / audit_entry.energy_before
-            if audit_entry.energy_before > 0
-            else 1.0
+            energy_after / audit_entry.energy_before if audit_entry.energy_before > 0 else 1.0
         )
 
         # Check energy conservation
@@ -249,17 +228,13 @@ class RegulationPolicyEngine:
             )
 
         # Update performance metrics
-        audit_entry.performance_metrics["energy_conservation_ratio"] = (
-            audit_entry.conservation_ratio
-        )
+        audit_entry.performance_metrics["energy_conservation_ratio"] = audit_entry.conservation_ratio
         audit_entry.performance_metrics["energy_delta"] = energy_delta
         audit_entry.performance_metrics["conservation_violation"] = (
             energy_delta > self.thresholds["energy_conservation_tolerance"]
         )
 
-    def _compute_gain_modulation(
-        self, scene: PhenomenalScene, rationale: list[str]
-    ) -> float:
+    def _compute_gain_modulation(self, scene: PhenomenalScene, rationale: list[str]) -> float:
         """Compute gain modulation based on risk and proto-qualia"""
         # Base gain (inverse of risk)
         base_gain = max(0.2, 1.0 - scene.risk.score)
@@ -274,9 +249,7 @@ class RegulationPolicyEngine:
 
         return min(1.0, base_gain)
 
-    def _compute_pace_modulation(
-        self, scene: PhenomenalScene, rationale: list[str]
-    ) -> float:
+    def _compute_pace_modulation(self, scene: PhenomenalScene, rationale: list[str]) -> float:
         """Compute pace modulation based on temporal dynamics"""
         # Base pace (inverse of arousal)
         base_pace = max(0.3, 1.0 - scene.proto.arousal)
@@ -284,14 +257,10 @@ class RegulationPolicyEngine:
         # Adjust for temporal feel
         if scene.proto.temporal_feel.value == "urgent":
             base_pace *= 0.8  # Slow down urgent experiences
-            rationale.append(
-                f"Urgent temporal feel → pace reduction to {base_pace:.2f}"
-            )
+            rationale.append(f"Urgent temporal feel → pace reduction to {base_pace:.2f}")
         elif scene.proto.temporal_feel.value == "suspended":
             base_pace *= 1.1  # Speed up suspended experiences
-            rationale.append(
-                f"Suspended temporal feel → pace increase to {base_pace:.2f}"
-            )
+            rationale.append(f"Suspended temporal feel → pace increase to {base_pace:.2f}")
 
         return min(1.0, base_pace)
 
@@ -380,24 +349,11 @@ class RegulationPolicyEngine:
         # Compute statistics
         total_entries = len(self.audit_log)
         avg_processing_time = (
-            sum(
-                e.performance_metrics.get("processing_time_ms", 0)
-                for e in self.audit_log
-            )
-            / total_entries
+            sum(e.performance_metrics.get("processing_time_ms", 0) for e in self.audit_log) / total_entries
         )
-        cache_hit_rate = (
-            sum(
-                1
-                for e in self.audit_log
-                if e.performance_metrics.get("cache_hit", False)
-            )
-            / total_entries
-        )
+        cache_hit_rate = sum(1 for e in self.audit_log if e.performance_metrics.get("cache_hit", False)) / total_entries
         conservation_violations = sum(
-            1
-            for e in self.audit_log
-            if e.performance_metrics.get("conservation_violation", False)
+            1 for e in self.audit_log if e.performance_metrics.get("conservation_violation", False)
         )
 
         # Action frequency

@@ -106,20 +106,14 @@ class CORDICProcessor:
 
         return x, y
 
-    def calculate_phase_alignment(
-        self, signal_a: np.ndarray, signal_b: np.ndarray
-    ) -> float:
+    def calculate_phase_alignment(self, signal_a: np.ndarray, signal_b: np.ndarray) -> float:
         """Calculate phase alignment between two signals"""
         # Convert to complex representation
         complex_a = (
-            signal_a[::2] + 1j * signal_a[1::2]
-            if len(signal_a) % 2 == 0
-            else signal_a[:-1:2] + 1j * signal_a[1::2]
+            signal_a[::2] + 1j * signal_a[1::2] if len(signal_a) % 2 == 0 else signal_a[:-1:2] + 1j * signal_a[1::2]
         )
         complex_b = (
-            signal_b[::2] + 1j * signal_b[1::2]
-            if len(signal_b) % 2 == 0
-            else signal_b[:-1:2] + 1j * signal_b[1::2]
+            signal_b[::2] + 1j * signal_b[1::2] if len(signal_b) % 2 == 0 else signal_b[:-1:2] + 1j * signal_b[1::2]
         )
 
         # Calculate phase difference using CORDIC
@@ -163,9 +157,7 @@ class FresnelErrorCorrector:
 
         return corrected_signal, power_savings
 
-    def _calculate_fresnel_integrals(
-        self, signal: np.ndarray
-    ) -> tuple[np.ndarray, np.ndarray]:
+    def _calculate_fresnel_integrals(self, signal: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
         """Calculate Fresnel S and C integrals"""
         t = np.linspace(0, np.sqrt(2 * len(signal)), len(signal))
 
@@ -177,9 +169,7 @@ class FresnelErrorCorrector:
 
         return fresnel_s, fresnel_c
 
-    def _apply_zone_correction(
-        self, signal: np.ndarray, fresnel_s: np.ndarray, fresnel_c: np.ndarray
-    ) -> np.ndarray:
+    def _apply_zone_correction(self, signal: np.ndarray, fresnel_s: np.ndarray, fresnel_c: np.ndarray) -> np.ndarray:
         """Apply Fresnel zone-based correction"""
         # Use Fresnel zones to identify optimal signal regions
         zone_factor = fresnel_s + 1j * fresnel_c
@@ -187,9 +177,7 @@ class FresnelErrorCorrector:
 
         # Apply correction only to significant zones
         corrected_signal = signal.copy()
-        corrected_signal[
-            correction_mask
-        ] *= 0.9  # 10% power reduction in high-energy zones
+        corrected_signal[correction_mask] *= 0.9  # 10% power reduction in high-energy zones
 
         return corrected_signal
 
@@ -202,9 +190,7 @@ class QIAnnealing:
         self.annealing_schedule = []
         self.optimization_history = []
 
-    async def solve_qubo_synchronization(
-        self, oscillator_states: list[np.ndarray]
-    ) -> dict[str, Any]:
+    async def solve_qubo_synchronization(self, oscillator_states: list[np.ndarray]) -> dict[str, Any]:
         """Solve synchronization as a QUBO (Quadratic Unconstrained Binary Optimization) problem"""
         # Convert oscillator states to QUBO problem matrix
         qubo_matrix = self._construct_qubo_matrix(oscillator_states)
@@ -233,9 +219,7 @@ class QIAnnealing:
         for i in range(n):
             for j in range(i + 1, n):
                 # Calculate interaction strength based on phase similarity
-                correlation = np.corrcoef(oscillator_states[i], oscillator_states[j])[
-                    0, 1
-                ]
+                correlation = np.corrcoef(oscillator_states[i], oscillator_states[j])[0, 1]
                 qubo_matrix[i, j] = 1.0 - abs(correlation)  # Minimize phase differences
                 qubo_matrix[j, i] = qubo_matrix[i, j]  # Symmetric matrix
 
@@ -273,9 +257,7 @@ class QIAnnealing:
 
         return solution
 
-    def _calculate_qubo_energy(
-        self, solution: np.ndarray, qubo_matrix: np.ndarray
-    ) -> float:
+    def _calculate_qubo_energy(self, solution: np.ndarray, qubo_matrix: np.ndarray) -> float:
         """Calculate QUBO energy for a given solution"""
         return np.dot(solution, np.dot(qubo_matrix, solution))
 
@@ -307,15 +289,11 @@ class LatticeBasedSecurity:
 
         return basis
 
-    async def qi_resistant_encrypt(
-        self, data: np.ndarray
-    ) -> tuple[np.ndarray, dict[str, Any]]:
+    async def qi_resistant_encrypt(self, data: np.ndarray) -> tuple[np.ndarray, dict[str, Any]]:
         """Perform quantum-resistant encryption of oscillator data"""
         # Add lattice-based noise for security
         noise = np.random.normal(0, 1, data.shape)
-        encrypted_data = data + np.dot(
-            noise, self.lattice_basis[: len(noise), : len(noise)]
-        )
+        encrypted_data = data + np.dot(noise, self.lattice_basis[: len(noise), : len(noise)])
 
         # Generate verification metadata
         verification = {
@@ -382,9 +360,7 @@ class BiomimeticResonanceEngine:
 
         return patterns
 
-    async def _calculate_moral_coherence(
-        self, moral_patterns: list[np.ndarray]
-    ) -> float:
+    async def _calculate_moral_coherence(self, moral_patterns: list[np.ndarray]) -> float:
         """Calculate coherence between moral oscillation patterns"""
         if len(moral_patterns) < 2:
             return 1.0
@@ -474,15 +450,11 @@ class EnhancedBaseOscillator(ABC):
             optimization_results = await asyncio.gather(*optimization_tasks)
 
             # Extract optimized components
-            cordic_result, fresnel_result, annealing_result, security_result = (
-                optimization_results
-            )
+            cordic_result, fresnel_result, annealing_result, security_result = optimization_results
 
             # Apply biomimetic resonance optimization
             ethical_context = signal_metadata.get("ethical_context", {})
-            resonance_score = await self.resonance_engine.synchronize_ethics(
-                ethical_context
-            )
+            resonance_score = await self.resonance_engine.synchronize_ethics(ethical_context)
 
             # Synthesize quantum-like state
             qi_like_state = await self._synthesize_quantum_like_state(
@@ -527,15 +499,11 @@ class EnhancedBaseOscillator(ABC):
 
             return result
 
-    async def _apply_cordic_optimization(
-        self, signal_data: np.ndarray
-    ) -> dict[str, Any]:
+    async def _apply_cordic_optimization(self, signal_data: np.ndarray) -> dict[str, Any]:
         """Apply CORDIC processor optimization"""
         # Calculate phase alignment using CORDIC
         reference_signal = np.sin(np.linspace(0, 2 * np.pi, len(signal_data)))
-        alignment_score = self.cordic_processor.calculate_phase_alignment(
-            signal_data, reference_signal
-        )
+        alignment_score = self.cordic_processor.calculate_phase_alignment(signal_data, reference_signal)
 
         # Apply phase correction if needed
         if alignment_score < 0.9:
@@ -546,8 +514,7 @@ class EnhancedBaseOscillator(ABC):
                 np.pi / 8,  # 22.5 degree correction
             )
             corrected_data = (
-                signal_data * alignment_score
-                + 0.1 * np.array([x, y] * (len(signal_data) // 2))[: len(signal_data)]
+                signal_data * alignment_score + 0.1 * np.array([x, y] * (len(signal_data) // 2))[: len(signal_data)]
             )
         else:
             corrected_data = signal_data
@@ -558,13 +525,9 @@ class EnhancedBaseOscillator(ABC):
             "phase_correction_applied": alignment_score < 0.9,
         }
 
-    async def _apply_fresnel_correction(
-        self, signal_data: np.ndarray
-    ) -> dict[str, Any]:
+    async def _apply_fresnel_correction(self, signal_data: np.ndarray) -> dict[str, Any]:
         """Apply Fresnel-based error correction"""
-        corrected_signal, power_savings = (
-            await self.fresnel_corrector.apply_fresnel_correction(signal_data)
-        )
+        corrected_signal, power_savings = await self.fresnel_corrector.apply_fresnel_correction(signal_data)
 
         return {
             "corrected_signal": corrected_signal,
@@ -581,17 +544,13 @@ class EnhancedBaseOscillator(ABC):
             np.roll(signal_data, len(signal_data) // 2),
         ]
 
-        annealing_result = await self.qi_annealer.solve_qubo_synchronization(
-            oscillator_states
-        )
+        annealing_result = await self.qi_annealer.solve_qubo_synchronization(oscillator_states)
 
         return annealing_result
 
     async def _apply_lattice_security(self, signal_data: np.ndarray) -> dict[str, Any]:
         """Apply lattice-based quantum security"""
-        encrypted_data, verification = await self.lattice_security.qi_resistant_encrypt(
-            signal_data
-        )
+        encrypted_data, verification = await self.lattice_security.qi_resistant_encrypt(signal_data)
         security_status = self.lattice_security.verify_quantum_security()
 
         return {
@@ -623,9 +582,7 @@ class EnhancedBaseOscillator(ABC):
 
         # Calculate energy efficiency (GSOPS/W)
         base_efficiency = 650  # GSOPS/W baseline
-        efficiency_boost = (
-            fresnel_result["power_savings"] * 200
-        )  # Additional efficiency from Fresnel
+        efficiency_boost = fresnel_result["power_savings"] * 200  # Additional efficiency from Fresnel
         energy_efficiency = base_efficiency + efficiency_boost
 
         qi_like_state = {
@@ -633,9 +590,7 @@ class EnhancedBaseOscillator(ABC):
             "coherence": cordic_result["alignment_score"],
             "energy_efficiency": energy_efficiency,
             "synchronization_quality": annealing_result["synchronization_quality"],
-            "security_level": security_result["security_status"][
-                "estimated_security_bits"
-            ],
+            "security_level": security_result["security_status"]["estimated_security_bits"],
             "bio_resonance": resonance_score,
             "optimization_summary": {
                 "cordic_optimization": cordic_result["phase_correction_applied"],
@@ -661,16 +616,10 @@ class EnhancedBaseOscillator(ABC):
         primary_wave = np.sin(base_frequency * t) * coherence_factor
 
         # Quantum interference component
-        interference_wave = (
-            0.3 * np.sin(base_frequency * 1.618 * t) * qi_like_state["bio_resonance"]
-        )
+        interference_wave = 0.3 * np.sin(base_frequency * 1.618 * t) * qi_like_state["bio_resonance"]
 
         # Security modulation (post-quantum characteristics)
-        security_modulation = (
-            0.1
-            * np.cos(base_frequency * 2.718 * t)
-            * (qi_like_state["security_level"] / 128)
-        )
+        security_modulation = 0.1 * np.cos(base_frequency * 2.718 * t) * (qi_like_state["security_level"] / 128)
 
         # Combine components
         qi_wave = primary_wave + interference_wave + security_modulation
@@ -680,9 +629,7 @@ class EnhancedBaseOscillator(ABC):
 
         return qi_wave
 
-    async def _update_quantum_metrics(
-        self, qi_like_state: dict[str, Any], processing_time: float
-    ):
+    async def _update_quantum_metrics(self, qi_like_state: dict[str, Any], processing_time: float):
         """Update quantum performance metrics"""
         self.metrics.phase_coherence = qi_like_state["coherence"]
         self.metrics.energy_efficiency = qi_like_state["energy_efficiency"]
@@ -768,9 +715,7 @@ class BaseOscillator(EnhancedBaseOscillator):
         """Compatibility method for phase coherence calculation"""
         return self.metrics.phase_coherence
 
-    def _apply_quantum_transforms(
-        self, signal: dict[str, Any], coherence: float
-    ) -> dict[str, Any]:
+    def _apply_quantum_transforms(self, signal: dict[str, Any], coherence: float) -> dict[str, Any]:
         """Compatibility method for quantum transforms"""
         return {
             "stability": coherence,
@@ -780,9 +725,7 @@ class BaseOscillator(EnhancedBaseOscillator):
 
     def _generate_wave(self, qi_like_state: dict[str, Any]) -> np.ndarray:
         """Compatibility method for wave generation"""
-        return np.sin(np.linspace(0, 2 * np.pi, 100)) * qi_like_state.get(
-            "stability", 1.0
-        )
+        return np.sin(np.linspace(0, 2 * np.pi, 100)) * qi_like_state.get("stability", 1.0)
 
 
 # Last Updated: 2025-06-05 09:37:28

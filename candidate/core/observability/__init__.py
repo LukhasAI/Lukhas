@@ -210,9 +210,7 @@ class ObservabilityManager:
         try:
             # Initialize Trinity Framework monitoring first (foundation)
             if TRINITY_MONITORING_AVAILABLE:
-                self.trinity_monitor = TrinityFrameworkMonitor(
-                    self.config.get("trinity_monitoring", {})
-                )
+                self.trinity_monitor = TrinityFrameworkMonitor(self.config.get("trinity_monitoring", {}))
                 initialization_results["trinity_monitoring"] = True
                 logger.info("✅ Trinity Framework monitoring initialized")
             else:
@@ -221,9 +219,7 @@ class ObservabilityManager:
 
             # Initialize Guardian monitoring
             if GUARDIAN_MONITORING_AVAILABLE:
-                self.guardian_monitor = GuardianMonitoringDashboard(
-                    self.config.get("guardian_monitoring", {})
-                )
+                self.guardian_monitor = GuardianMonitoringDashboard(self.config.get("guardian_monitoring", {}))
                 initialization_results["guardian_monitoring"] = True
                 logger.info("✅ Guardian monitoring initialized")
             else:
@@ -232,9 +228,7 @@ class ObservabilityManager:
 
             # Initialize consciousness monitoring
             if CONSCIOUSNESS_MONITORING_AVAILABLE:
-                self.consciousness_monitor = AwarenessMonitoringSystem(
-                    self.config.get("consciousness_monitoring", {})
-                )
+                self.consciousness_monitor = AwarenessMonitoringSystem(self.config.get("consciousness_monitoring", {}))
                 initialization_results["consciousness_monitoring"] = True
                 logger.info("✅ Consciousness monitoring initialized")
             else:
@@ -243,9 +237,7 @@ class ObservabilityManager:
 
             # Initialize system health monitoring
             if HEALTH_MONITORING_AVAILABLE:
-                self.health_monitor = SystemHealthMonitor(
-                    self.config.get("health_monitoring", {})
-                )
+                self.health_monitor = SystemHealthMonitor(self.config.get("health_monitoring", {}))
                 initialization_results["health_monitoring"] = True
                 logger.info("✅ System health monitoring initialized")
             else:
@@ -254,9 +246,7 @@ class ObservabilityManager:
 
             # Initialize alerting system
             if ALERTING_SYSTEM_AVAILABLE:
-                self.alerting_system = ComprehensiveAlertingSystem(
-                    self.config.get("alerting", {})
-                )
+                self.alerting_system = ComprehensiveAlertingSystem(self.config.get("alerting", {}))
                 initialization_results["alerting_system"] = True
                 logger.info("✅ Alerting system initialized")
             else:
@@ -265,9 +255,7 @@ class ObservabilityManager:
 
             # Initialize unified dashboard last (integrates all others)
             if UNIFIED_DASHBOARD_AVAILABLE:
-                dashboard_config = DashboardConfig(
-                    **self.config.get("unified_dashboard", {})
-                )
+                dashboard_config = DashboardConfig(**self.config.get("unified_dashboard", {}))
                 self.unified_dashboard = UnifiedMonitoringDashboard(dashboard_config)
                 initialization_results["unified_dashboard"] = True
                 logger.info("✅ Unified dashboard initialized")
@@ -279,9 +267,7 @@ class ObservabilityManager:
             self.monitoring_active = True
 
             # Log initialization summary
-            successful_systems = sum(
-                1 for success in initialization_results.values() if success
-            )
+            successful_systems = sum(1 for success in initialization_results.values() if success)
             total_systems = len(initialization_results)
 
             logger.info(
@@ -302,22 +288,12 @@ class ObservabilityManager:
             "initialized": self.initialized,
             "monitoring_active": self.monitoring_active,
             "systems_status": {
-                "unified_dashboard": (
-                    "active" if self.unified_dashboard else "not_available"
-                ),
-                "guardian_monitor": (
-                    "active" if self.guardian_monitor else "not_available"
-                ),
-                "consciousness_monitor": (
-                    "active" if self.consciousness_monitor else "not_available"
-                ),
+                "unified_dashboard": ("active" if self.unified_dashboard else "not_available"),
+                "guardian_monitor": ("active" if self.guardian_monitor else "not_available"),
+                "consciousness_monitor": ("active" if self.consciousness_monitor else "not_available"),
                 "health_monitor": "active" if self.health_monitor else "not_available",
-                "alerting_system": (
-                    "active" if self.alerting_system else "not_available"
-                ),
-                "trinity_monitor": (
-                    "active" if self.trinity_monitor else "not_available"
-                ),
+                "alerting_system": ("active" if self.alerting_system else "not_available"),
+                "trinity_monitor": ("active" if self.trinity_monitor else "not_available"),
             },
             "availability": {
                 "unified_dashboard": UNIFIED_DASHBOARD_AVAILABLE,

@@ -241,9 +241,7 @@ def test_constellation_ethics_validation():
                         {
                             "test_type": "basic_constellation",
                             "principles": principles_validated,
-                            "overall_score": sum(
-                                p["score"] for p in principles_validated.values()
-                            )
+                            "overall_score": sum(p["score"] for p in principles_validated.values())
                             / len(principles_validated),
                         }
                     )
@@ -284,9 +282,7 @@ def test_constellation_ethics_validation():
 
                 if "principles" in result:
                     for principle, data in result["principles"].items():
-                        print(
-                            f"   - {principle}: {data['score']:.2f} ({data['evidence']})"
-                        )
+                        print(f"   - {principle}: {data['score']:.2f} ({data['evidence']})")
 
         return validation_success and len(results) > 0
 

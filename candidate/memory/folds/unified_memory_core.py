@@ -293,9 +293,7 @@ class ConsolidatedUnifiedmemorycore:
         self.batch_size = 50
         self.parallel_processing_limit = 10
 
-        logger.info(
-            "ConsolidatedUnifiedMemoryCore initialized with enterprise-grade safeguards"
-        )
+        logger.info("ConsolidatedUnifiedMemoryCore initialized with enterprise-grade safeguards")
 
     async def process_memory(self, memory_data: dict[str, Any]) -> Optional[dict]:
         """Process memory through unified pipeline with Trinity Framework integration"""
@@ -304,9 +302,7 @@ class ConsolidatedUnifiedmemorycore:
 
         try:
             # Create operation context
-            operation = self._create_operation_context(
-                memory_data, MemoryOperationType.CREATE
-            )
+            operation = self._create_operation_context(memory_data, MemoryOperationType.CREATE)
 
             # 🛡️ Guardian: Cascade prevention check (99.7% target)
             cascade_check = await self._check_cascade_prevention(operation)
@@ -322,14 +318,10 @@ class ConsolidatedUnifiedmemorycore:
             identity_processing = await self._process_identity_preservation(operation)
 
             # 🧠 Consciousness: Integrate consciousness-aware processing
-            consciousness_integration = await self._integrate_consciousness_awareness(
-                operation
-            )
+            consciousness_integration = await self._integrate_consciousness_awareness(operation)
 
             # Quarantine check for safety
-            quarantine_result = await self.quarantine_sanctum.quarantine_check(
-                memory_data
-            )
+            quarantine_result = await self.quarantine_sanctum.quarantine_check(memory_data)
             if not quarantine_result.get("safe", True):
                 self.metrics.quarantine_activations += 1
                 return {
@@ -371,9 +363,7 @@ class ConsolidatedUnifiedmemorycore:
                 "processing_time": time.time() - operation_start,
             }
 
-    def _create_operation_context(
-        self, memory_data: dict, operation_type: MemoryOperationType
-    ) -> MemoryOperation:
+    def _create_operation_context(self, memory_data: dict, operation_type: MemoryOperationType) -> MemoryOperation:
         """Create comprehensive operation context"""
         memory_id = memory_data.get("memory_id", self._generate_memory_id())
         fold_key = f"fold_{memory_id}_{int(time.time() * 1000)}"
@@ -424,8 +414,7 @@ class ConsolidatedUnifiedmemorycore:
             self.cascade_tracker[memory_id] = [
                 op_time
                 for op_time in self.cascade_tracker[memory_id]
-                if (current_time - op_time).total_seconds()
-                < 60  # Keep 1 minute history
+                if (current_time - op_time).total_seconds() < 60  # Keep 1 minute history
             ]
 
         return {
@@ -461,9 +450,7 @@ class ConsolidatedUnifiedmemorycore:
             "causation_depth": len(operation.causal_chain),
         }
 
-    async def _integrate_consciousness_awareness(
-        self, operation: MemoryOperation
-    ) -> dict:
+    async def _integrate_consciousness_awareness(self, operation: MemoryOperation) -> dict:
         """Integrate consciousness-aware processing"""
         consciousness_markers = operation.consciousness_markers
 
@@ -540,8 +527,7 @@ class ConsolidatedUnifiedmemorycore:
 
             # Update fold efficiency metric
             self.metrics.fold_efficiency = (
-                self.metrics.fold_efficiency * 0.9
-                + (1.0 if fold_result.get("status") == "created" else 0.0) * 0.1
+                self.metrics.fold_efficiency * 0.9 + (1.0 if fold_result.get("status") == "created" else 0.0) * 0.1
             )
 
             return {
@@ -566,9 +552,7 @@ class ConsolidatedUnifiedmemorycore:
 
             # Update emotional fidelity metric
             emotional_fidelity = emotional_result.get("fidelity_score", 0.8)
-            self.metrics.emotional_fidelity = (
-                self.metrics.emotional_fidelity * 0.9 + emotional_fidelity * 0.1
-            )
+            self.metrics.emotional_fidelity = self.metrics.emotional_fidelity * 0.9 + emotional_fidelity * 0.1
 
             return emotional_result
 
@@ -587,9 +571,7 @@ class ConsolidatedUnifiedmemorycore:
 
             # Update compression ratio metric
             compression_ratio = compression_result.get("compression_ratio", 1.0)
-            self.metrics.compression_ratio = (
-                self.metrics.compression_ratio * 0.9 + compression_ratio * 0.1
-            )
+            self.metrics.compression_ratio = self.metrics.compression_ratio * 0.9 + compression_ratio * 0.1
 
             return compression_result
 
@@ -660,8 +642,8 @@ class ConsolidatedUnifiedmemorycore:
         )
 
         # Update consciousness integration score
-        self.metrics.consciousness_integration = (
-            self.metrics.successful_operations / max(1, self.metrics.total_operations)
+        self.metrics.consciousness_integration = self.metrics.successful_operations / max(
+            1, self.metrics.total_operations
         )
 
         self.metrics.last_updated = datetime.now(timezone.utc)
@@ -673,9 +655,7 @@ class ConsolidatedUnifiedmemorycore:
         memory_data["operation_type"] = "create"
         return await self.process_memory(memory_data)
 
-    async def retrieve_memory(
-        self, memory_id: str, fold_key: Optional[str] = None
-    ) -> Optional[dict]:
+    async def retrieve_memory(self, memory_id: str, fold_key: Optional[str] = None) -> Optional[dict]:
         """Retrieve memory with consciousness-aware recall"""
         try:
             # Check cache first for performance
@@ -712,9 +692,7 @@ class ConsolidatedUnifiedmemorycore:
         updates.update({"memory_id": memory_id, "operation_type": "update"})
         return await self.process_memory(updates)
 
-    async def consolidate_memories(
-        self, memory_ids: list[str], consolidation_strategy: str = "semantic"
-    ) -> dict:
+    async def consolidate_memories(self, memory_ids: list[str], consolidation_strategy: str = "semantic") -> dict:
         """Consolidate multiple memories"""
         consolidation_data = {
             "memory_ids": memory_ids,
@@ -728,13 +706,8 @@ class ConsolidatedUnifiedmemorycore:
         """Get comprehensive system metrics"""
         return {
             "performance_metrics": asdict(self.metrics),
-            "cascade_prevention_rate": (
-                self.metrics.cascade_preventions / max(1, self.metrics.total_operations)
-            ),
-            "success_rate": (
-                self.metrics.successful_operations
-                / max(1, self.metrics.total_operations)
-            ),
+            "cascade_prevention_rate": (self.metrics.cascade_preventions / max(1, self.metrics.total_operations)),
+            "success_rate": (self.metrics.successful_operations / max(1, self.metrics.total_operations)),
             "cache_efficiency": len(self.fold_cache) / self.cache_size_limit,
             "active_operations": len(self.processing_queue),
             "system_health": self._calculate_system_health(),

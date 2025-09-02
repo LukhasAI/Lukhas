@@ -56,9 +56,7 @@ class CreativityService:
         """
         # Retrieve relevant memories for context
         if memory:
-            context_memories = await memory.retrieve_context(
-                agent_id, query=prompt.get("theme", ""), limit=10
-            )
+            context_memories = await memory.retrieve_context(agent_id, query=prompt.get("theme", ""), limit=10)
         else:
             context_memories = []
 
@@ -112,9 +110,7 @@ class CreativityService:
     ) -> dict[str, Any]:
         """Create based on dream synthesis"""
         if not dream:
-            return await self.generate_creative_output(
-                agent_id, {"theme": "spontaneous", "source": "non-dream"}
-            )
+            return await self.generate_creative_output(agent_id, {"theme": "spontaneous", "source": "non-dream"})
 
         # Get dream synthesis
         dream_content = await dream.synthesize(agent_id, dream_seed)
@@ -129,18 +125,14 @@ class CreativityService:
             },
         )
 
-    async def collaborative_creation(
-        self, agent_ids: list[str], theme: str
-    ) -> dict[str, Any]:
+    async def collaborative_creation(self, agent_ids: list[str], theme: str) -> dict[str, Any]:
         """Enable multiple agents to create collaboratively"""
         self._ensure_services()
 
         contributions = []
 
         for agent_id in agent_ids:
-            contribution = await self.generate_creative_output(
-                agent_id, {"theme": theme, "collaborative": True}
-            )
+            contribution = await self.generate_creative_output(agent_id, {"theme": theme, "collaborative": True})
             contributions.append(contribution)
 
         # Merge contributions
@@ -154,9 +146,7 @@ class CreativityService:
 
         return merged
 
-    def _synthesize_contributions(
-        self, contributions: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _synthesize_contributions(self, contributions: list[dict[str, Any]]) -> dict[str, Any]:
         """Synthesize multiple creative contributions"""
         return {
             "merged_content": "Synthesized creative output",

@@ -1,3 +1,14 @@
+"""Compatibility shim for legacy `lambd_id_entropy` module.
+
+Re-exports canonical entropy implementation from `lambda_id_entropy.py`.
+"""
+
+from .lambda_id_entropy import EntropyCalculator
+
+# Backwards-compatible alias
+EntropyCalculatorLegacy = EntropyCalculator
+
+__all__ = ["EntropyCalculator", "EntropyCalculatorLegacy"]
 """
 LUKHAS ΛiD Entropy Engine
 ========================
@@ -95,9 +106,7 @@ class LambdaIDEntropy:
 
         # Calculate overall entropy scores
         analysis.shannon_entropy = self._calculate_combined_shannon_entropy(components)
-        analysis.normalized_entropy = self._normalize_entropy(
-            analysis.shannon_entropy, len(lambda_id)
-        )
+        analysis.normalized_entropy = self._normalize_entropy(analysis.shannon_entropy, len(lambda_id))
         analysis.character_diversity = self._calculate_character_diversity(lambda_id)
         analysis.pattern_score = self._analyze_patterns(lambda_id)
         analysis.randomness_score = self._analyze_randomness(entropy_hash)
@@ -227,17 +236,11 @@ class LambdaIDEntropy:
 
         for i in range(len(ascii_values) - 2):
             # Check for ascending sequences
-            if (
-                ascii_values[i + 1] == ascii_values[i] + 1
-                and ascii_values[i + 2] == ascii_values[i] + 2
-            ):
+            if ascii_values[i + 1] == ascii_values[i] + 1 and ascii_values[i + 2] == ascii_values[i] + 2:
                 penalty += 0.3
 
             # Check for descending sequences
-            if (
-                ascii_values[i + 1] == ascii_values[i] - 1
-                and ascii_values[i + 2] == ascii_values[i] - 2
-            ):
+            if ascii_values[i + 1] == ascii_values[i] - 1 and ascii_values[i + 2] == ascii_values[i] - 2:
                 penalty += 0.3
 
         return min(penalty, 1.0)
@@ -277,9 +280,7 @@ class LambdaIDEntropy:
         expected_frequency = len(text) / len(char_counts)
 
         # Calculate variance from expected uniform distribution
-        variance = sum(
-            (count - expected_frequency) ** 2 for count in char_counts.values()
-        )
+        variance = sum((count - expected_frequency) ** 2 for count in char_counts.values())
         variance /= len(char_counts)
 
         # Normalize score (lower variance = higher score)
@@ -315,10 +316,7 @@ class LambdaIDEntropy:
         expected_frequency = len(text) / len(char_counts)
 
         # Calculate chi-square statistic
-        chi_square = sum(
-            (count - expected_frequency) ** 2 / expected_frequency
-            for count in char_counts.values()
-        )
+        chi_square = sum((count - expected_frequency) ** 2 / expected_frequency for count in char_counts.values())
 
         # Normalize to 0-1 scale (this is a simplified version)
         # In practice, you'd compare against chi-square distribution
@@ -351,15 +349,11 @@ class LambdaIDEntropy:
         else:
             return EntropyLevel.VERY_LOW
 
-    def _generate_recommendations(
-        self, analysis: EntropyAnalysis, tier: int
-    ) -> list[str]:
+    def _generate_recommendations(self, analysis: EntropyAnalysis, tier: int) -> list[str]:
         """Generate entropy improvement recommendations"""
         recommendations = []
 
-        tier_min_entropy = self.tier_requirements.get(f"tier_{tier}", {}).get(
-            "min_entropy", 0.5
-        )
+        tier_min_entropy = self.tier_requirements.get(f"tier_{tier}", {}).get("min_entropy", 0.5)
 
         if analysis.normalized_entropy < tier_min_entropy:
             recommendations.append(
@@ -377,9 +371,7 @@ class LambdaIDEntropy:
 
         return recommendations
 
-    def _detect_entropy_warnings(
-        self, analysis: EntropyAnalysis, components: tuple
-    ) -> list[str]:
+    def _detect_entropy_warnings(self, analysis: EntropyAnalysis, components: tuple) -> list[str]:
         """Detect entropy-related warnings"""
         warnings = []
 
@@ -409,9 +401,7 @@ class LambdaIDEntropy:
 
         return tier, timestamp_hash, symbolic_char, entropy_hash
 
-    def _store_entropy_analysis(
-        self, lambda_id: str, analysis: EntropyAnalysis
-    ) -> None:
+    def _store_entropy_analysis(self, lambda_id: str, analysis: EntropyAnalysis) -> None:
         """Store entropy analysis for temporal tracking"""
         self.entropy_history.append(
             {

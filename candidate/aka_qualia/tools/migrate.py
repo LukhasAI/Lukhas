@@ -34,9 +34,7 @@ try:
     from sqlalchemy.engine import Engine
     from sqlalchemy.exc import SQLAlchemyError
 except ImportError:
-    raise ImportError(
-        "SQLAlchemy required. Install with: pip install sqlalchemy psycopg2-binary"
-    )
+    raise ImportError("SQLAlchemy required. Install with: pip install sqlalchemy psycopg2-binary")
 
 logger = logging.getLogger(__name__)
 
@@ -181,9 +179,7 @@ def apply_migration(engine: Engine, config: dict[str, Any]) -> None:
             if driver == "postgresql":
                 # Check pgvector availability
                 try:
-                    conn.execute(
-                        text("SELECT 1 FROM pg_extension WHERE extname = 'vector'")
-                    )
+                    conn.execute(text("SELECT 1 FROM pg_extension WHERE extname = 'vector'"))
                     logging.info("pgvector extension detected")
                 except SQLAlchemyError:
                     logging.warning("pgvector not available - installing if possible")
@@ -274,9 +270,7 @@ def validate_schema(engine: Engine, config: dict[str, Any]) -> bool:
                 logging.info(f"Schema validation passed: {tables}")
                 return True
             else:
-                logging.error(
-                    f"Schema validation failed. Expected {expected}, got {tables}"
-                )
+                logging.error(f"Schema validation failed. Expected {expected}, got {tables}")
                 return False
 
     except SQLAlchemyError as e:
@@ -292,20 +286,14 @@ def main():
         required=True,
         help="Database connection string (e.g., sqlite:///./data/akaq.db)",
     )
-    parser.add_argument(
-        "--validate", action="store_true", help="Validate schema after migration"
-    )
-    parser.add_argument(
-        "--verbose", "-v", action="store_true", help="Enable verbose logging"
-    )
+    parser.add_argument("--validate", action="store_true", help="Validate schema after migration")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
 
     # Configure logging
     log_level = logging.DEBUG if args.verbose else logging.INFO
-    logging.basicConfig(
-        level=log_level, format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=log_level, format="%(asctime)s - %(levelname)s - %(message)s")
 
     # Create engine and detect driver
     engine = create_engine(args.dsn)

@@ -108,16 +108,12 @@ class ReasoningDiagnostics:
             "duration": (datetime.now() - start_time).total_seconds(),
             "total_checks": len(results),
             "results_by_level": self._summarize_by_level(results),
-            "critical_issues": [
-                r for r in results if r.level == DiagnosticLevel.CRITICAL
-            ],
+            "critical_issues": [r for r in results if r.level == DiagnosticLevel.CRITICAL],
             "recommendations": self._generate_recommendations(results),
         }
 
         # Store results
-        self.diagnostic_history.append(
-            {"timestamp": datetime.now(), "results": results, "summary": summary}
-        )
+        self.diagnostic_history.append({"timestamp": datetime.now(), "results": results, "summary": summary})
 
         self.last_check_time = datetime.now()
 
@@ -133,9 +129,7 @@ class ReasoningDiagnostics:
             test_context = ReasoningContext("test query", "general")
 
             # Quick test
-            result = await asyncio.wait_for(
-                loop.start_reasoning(test_context), timeout=5.0
-            )
+            result = await asyncio.wait_for(loop.start_reasoning(test_context), timeout=5.0)
 
             if result.get("status") in ["completed", "max_iterations_reached"]:
                 results.append(
@@ -296,10 +290,7 @@ class ReasoningDiagnostics:
         # Check for metric degradation
         if "overall_score" in trends and len(trends["overall_score"]) >= 5:
             recent_scores = trends["overall_score"][-5:]
-            if all(
-                recent_scores[i] < recent_scores[i - 1]
-                for i in range(1, len(recent_scores))
-            ):
+            if all(recent_scores[i] < recent_scores[i - 1] for i in range(1, len(recent_scores))):
                 results.append(
                     DiagnosticResult(
                         "metric_degradation",
@@ -421,9 +412,7 @@ class ReasoningDiagnostics:
             calculator = get_metrics_calculator()
 
             # Test perfect recall
-            efficiency = calculator._calculate_recall_efficiency(
-                test_memories, test_memories
-            )
+            efficiency = calculator._calculate_recall_efficiency(test_memories, test_memories)
 
             if efficiency >= 0.9:
                 results.append(
@@ -437,9 +426,7 @@ class ReasoningDiagnostics:
 
             # Test partial recall
             partial_recall = [test_memories[0]]
-            efficiency = calculator._calculate_recall_efficiency(
-                partial_recall, test_memories
-            )
+            efficiency = calculator._calculate_recall_efficiency(partial_recall, test_memories)
 
             if 0.4 <= efficiency <= 0.6:
                 results.append(
@@ -544,57 +531,37 @@ class ReasoningDiagnostics:
         # Check for critical issues
         critical_issues = [r for r in results if r.level == DiagnosticLevel.CRITICAL]
         if critical_issues:
-            recommendations.append(
-                "URGENT: Address critical issues immediately. System stability at risk."
-            )
+            recommendations.append("URGENT: Address critical issues immediately. System stability at risk.")
 
         # Check for performance issues
         perf_issues = [
             r
             for r in results
-            if "metric_" in r.check_name
-            and r.level in [DiagnosticLevel.WARNING, DiagnosticLevel.ERROR]
+            if "metric_" in r.check_name and r.level in [DiagnosticLevel.WARNING, DiagnosticLevel.ERROR]
         ]
         if perf_issues:
-            recommendations.append(
-                "Review and optimize reasoning strategies. Performance metrics below threshold."
-            )
+            recommendations.append("Review and optimize reasoning strategies. Performance metrics below threshold.")
 
         # Check for logic issues
-        logic_issues = [
-            r
-            for r in results
-            if "logic" in r.check_name.lower() and r.level != DiagnosticLevel.INFO
-        ]
+        logic_issues = [r for r in results if "logic" in r.check_name.lower() and r.level != DiagnosticLevel.INFO]
         if logic_issues:
-            recommendations.append(
-                "Investigate logical consistency issues. Consider adjusting inference parameters."
-            )
+            recommendations.append("Investigate logical consistency issues. Consider adjusting inference parameters.")
 
         # Check for stability issues
         stability_issues = [
-            r
-            for r in results
-            if "stability" in r.check_name.lower() or "drift" in r.check_name.lower()
+            r for r in results if "stability" in r.check_name.lower() or "drift" in r.check_name.lower()
         ]
         if stability_issues:
-            recommendations.append(
-                "System showing signs of instability. Implement drift correction mechanisms."
-            )
+            recommendations.append("System showing signs of instability. Implement drift correction mechanisms.")
 
         if not recommendations:
-            recommendations.append(
-                "System operating within normal parameters. Continue monitoring."
-            )
+            recommendations.append("System operating within normal parameters. Continue monitoring.")
 
         return recommendations
 
     async def quick_health_check(self) -> dict[str, Any]:
         """Perform a quick health check"""
-        if (
-            self.last_check_time
-            and datetime.now() - self.last_check_time < self.check_interval
-        ):
+        if self.last_check_time and datetime.now() - self.last_check_time < self.check_interval:
             # Return cached status
             return {
                 "status": self.health_status,
@@ -610,17 +577,9 @@ class ReasoningDiagnostics:
             loop = AdaptiveReasoningLoop()
             status = loop.get_status()
             if status:
-                results.append(
-                    DiagnosticResult(
-                        "quick_check", DiagnosticLevel.INFO, "Components responsive"
-                    )
-                )
+                results.append(DiagnosticResult("quick_check", DiagnosticLevel.INFO, "Components responsive"))
         except Exception as e:
-            results.append(
-                DiagnosticResult(
-                    "quick_check", DiagnosticLevel.ERROR, f"Component error: {e!s}"
-                )
-            )
+            results.append(DiagnosticResult("quick_check", DiagnosticLevel.ERROR, f"Component error: {e!s}"))
 
         self._update_health_status(results)
 

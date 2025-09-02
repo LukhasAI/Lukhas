@@ -142,9 +142,7 @@ class BioSymbolic:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.bio_states.append(
-            {"type": "rhythm", "biological": data, "symbolic": result}
-        )
+        self.bio_states.append({"type": "rhythm", "biological": data, "symbolic": result})
 
         logger.debug(f"Rhythm processed: {glyph.value} - {meaning}")
         return result
@@ -188,9 +186,7 @@ class BioSymbolic:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.symbolic_mappings.append(
-            {"type": "mitochondrial", "biological": data, "symbolic": result}
-        )
+        self.symbolic_mappings.append({"type": "mitochondrial", "biological": data, "symbolic": result})
 
         logger.debug(f"Energy processed: {glyph.value} - {interpretation}")
         return result
@@ -230,9 +226,7 @@ class BioSymbolic:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.symbolic_mappings.append(
-            {"type": "dna_glyph", "biological": data, "symbolic": result}
-        )
+        self.symbolic_mappings.append({"type": "dna_glyph", "biological": data, "symbolic": result})
 
         logger.debug(f"DNA processed: {glyph.value} - {properties}")
         return result
@@ -272,9 +266,7 @@ class BioSymbolic:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.bio_states.append(
-            {"type": "stress_response", "biological": data, "symbolic": result}
-        )
+        self.bio_states.append({"type": "stress_response", "biological": data, "symbolic": result})
 
         logger.debug(f"Stress processed: {glyph.value} - {strategy}")
         return result
@@ -320,9 +312,7 @@ class BioSymbolic:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.symbolic_mappings.append(
-            {"type": "homeostatic", "biological": data, "symbolic": result}
-        )
+        self.symbolic_mappings.append({"type": "homeostatic", "biological": data, "symbolic": result})
 
         logger.debug(f"Homeostasis processed: {glyph.value} - {description}")
         return result
@@ -334,9 +324,7 @@ class BioSymbolic:
         neurotransmitters = data.get("neurotransmitters", {})
 
         # Determine dominant brain wave
-        dominant_wave = (
-            max(brain_waves.items(), key=lambda x: x[1])[0] if brain_waves else "alpha"
-        )
+        dominant_wave = max(brain_waves.items(), key=lambda x: x[1])[0] if brain_waves else "alpha"
 
         # Map to dream/consciousness GLYPHs
         if brain_waves.get("theta", 0) > 0.7:
@@ -376,9 +364,7 @@ class BioSymbolic:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.integration_events.append(
-            {"type": "bio_dream", "biological": data, "symbolic": result}
-        )
+        self.integration_events.append({"type": "bio_dream", "biological": data, "symbolic": result})
 
         logger.debug(f"Neural processed: {glyph.value} - {theme}")
         return result
@@ -461,10 +447,7 @@ class BioSymbolic:
         overall_coherence = sum(coherences) / len(coherences) if coherences else 0.5
 
         # Combine all symbols
-        symbols = [
-            r.get("symbol", r.get("glyph", r.get("power_glyph", "ΛUNKNOWN")))
-            for r in results
-        ]
+        symbols = [r.get("symbol", r.get("glyph", r.get("power_glyph", "ΛUNKNOWN"))) for r in results]
 
         # Generate integrated state
         integrated_state = {
@@ -473,9 +456,7 @@ class BioSymbolic:
             "coherence": overall_coherence,
             "bio_data": biological_data,
             "symbolic_mappings": results,
-            "integration_quality": (
-                "high" if overall_coherence > self.coherence_threshold else "moderate"
-            ),
+            "integration_quality": ("high" if overall_coherence > self.coherence_threshold else "moderate"),
             "timestamp": datetime.utcnow().isoformat(),
             "context": context or {},
         }
@@ -501,9 +482,7 @@ class BioSymbolic:
             "total_bio_states": len(self.bio_states),
             "total_symbolic_mappings": len(self.symbolic_mappings),
             "total_integration_events": len(self.integration_events),
-            "average_coherence": sum(
-                e.get("coherence", 0) for e in self.integration_events
-            )
+            "average_coherence": sum(e.get("coherence", 0) for e in self.integration_events)
             / max(len(self.integration_events), 1),
             "initialized": self.initialized,
             "coherence_threshold": self.coherence_threshold,

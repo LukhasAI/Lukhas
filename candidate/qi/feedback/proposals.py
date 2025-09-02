@@ -71,10 +71,7 @@ class ProposalMapper:
     def validate_guardrails(self, patch: PolicySafePatch) -> bool:
         """Validate patch against safety guardrails."""
         # Check threshold bounds
-        if (
-            patch.threshold_delta is not None
-            and abs(patch.threshold_delta) > self.max_threshold_shift
-        ):
+        if patch.threshold_delta is not None and abs(patch.threshold_delta) > self.max_threshold_shift:
             return False
 
         # Check allowed styles
@@ -82,9 +79,7 @@ class ProposalMapper:
             return False
 
         # Check explanation depth
-        return not (
-            patch.explain_depth is not None and not 1 <= patch.explain_depth <= 5
-        )
+        return not (patch.explain_depth is not None and not 1 <= patch.explain_depth <= 5)
 
     def to_change_proposal(
         self,

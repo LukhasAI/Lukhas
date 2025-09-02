@@ -27,10 +27,7 @@ class WebDreamInterpreter(DreamInterpreter):
         return {
             "mainThemes": self.interpretation.main_themes,
             "emotionalTone": self.interpretation.emotional_tone,
-            "symbols": [
-                {"symbol": s.symbol, "meaning": s.meaning}
-                for s in self.interpretation.symbols
-            ],
+            "symbols": [{"symbol": s.symbol, "meaning": s.meaning} for s in self.interpretation.symbols],
             "personalInsight": self.interpretation.personal_insight,
             "guidance": self.interpretation.guidance,
         }
@@ -102,8 +99,7 @@ def interpret_dream():
                 jsonify(
                     {
                         "success": False,
-                        "error": interpreter.error
-                        or interpreter.t("interpretationError"),
+                        "error": interpreter.error or interpreter.t("interpretationError"),
                     }
                 ),
                 500,

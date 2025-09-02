@@ -69,9 +69,7 @@ class AnthropicWrapper(LLMWrapper):
                 self.async_client = anthropic.AsyncAnthropic(api_key=self.api_key)
                 print(f"✅ Anthropic initialized with key: {self.api_key[:20]}...")
             except ImportError:
-                print(
-                    "Anthropic package not installed. Install with: pip install anthropic"
-                )
+                print("Anthropic package not installed. Install with: pip install anthropic")
 
     async def generate_response(
         self, prompt: str, model: str = "claude-3-sonnet-20240229", **kwargs
@@ -96,9 +94,7 @@ class AnthropicWrapper(LLMWrapper):
                     {"role": "user", "content": prompt},
                 ],
             )
-            text = (
-                response.content[0].text if getattr(response, "content", None) else None
-            )
+            text = response.content[0].text if getattr(response, "content", None) else None
             return (normalize_output(text) or text or ""), model
         except Exception as e:
             err = f"Anthropic API Error: {e!s}"

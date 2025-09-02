@@ -82,28 +82,20 @@ class MemoryProcessor:
 
         # Trim if needed, removing least important memories first
         if len(self.memories[user_id]) > self.max_memories:
-            self.memories[user_id] = sorted(
-                self.memories[user_id], key=lambda x: x.importance, reverse=True
-            )[: self.max_memories]
+            self.memories[user_id] = sorted(self.memories[user_id], key=lambda x: x.importance, reverse=True)[
+                : self.max_memories
+            ]
 
-        logger.info(
-            f"Stored memory for user {user_id} with importance {memory.importance:.2f}"
-        )
+        logger.info(f"Stored memory for user {user_id} with importance {memory.importance:.2f}")
 
-    def get_relevant_memories(
-        self, user_id: str, context: dict[str, Any], limit: int = 5
-    ) -> list[MemoryNode]:
+    def get_relevant_memories(self, user_id: str, context: dict[str, Any], limit: int = 5) -> list[MemoryNode]:
         """Retrieve relevant memories based on context similarity"""
         if user_id not in self.memories:
             return []
 
         def calculate_relevance(memory: MemoryNode) -> float:
             # Context matching score (0-1)
-            context_score = sum(
-                1
-                for k, v in context.items()
-                if k in memory.context and memory.context[k] == v
-            )
+            context_score = sum(1 for k, v in context.items() if k in memory.context and memory.context[k] == v)
             context_score = context_score / max(len(context), len(memory.context))
 
             # Time decay factor (1.0 -> 0.0)
@@ -138,9 +130,7 @@ class MemoryProcessor:
 
         return importance
 
-    def update_memory_references(
-        self, user_id: str, memory_id: str, referenced_ids: list[str]
-    ) -> None:
+    def update_memory_references(self, user_id: str, memory_id: str, referenced_ids: list[str]) -> None:
         """Update memory node references to build connections"""
         if user_id not in self.memories:
             return
@@ -160,9 +150,7 @@ class MemoryProcessor:
 
         if timeframe:
             cutoff = datetime.datetime.now() - timeframe
-            relevant_memories = [
-                m for m in self.memories[user_id] if m.timestamp >= cutoff
-            ]
+            relevant_memories = [m for m in self.memories[user_id] if m.timestamp >= cutoff]
         else:
             relevant_memories = self.memories[user_id]
 

@@ -75,9 +75,7 @@ class GPT4Policy(EthicsPolicy):
         self._cache = {} if self.config.enable_caching else None
 
         # Default system prompt for ethical evaluation
-        self.system_prompt = (
-            self.config.system_prompt or self._get_default_system_prompt()
-        )
+        self.system_prompt = self.config.system_prompt or self._get_default_system_prompt()
 
     def get_policy_name(self) -> str:
         """Return policy name"""
@@ -201,9 +199,7 @@ Respond in JSON format with the following structure:
         ]
 
         if decision.symbolic_state:
-            prompt_parts.append(
-                f"\nSymbolic State: {json.dumps(decision.symbolic_state, indent=2)}"
-            )
+            prompt_parts.append(f"\nSymbolic State: {json.dumps(decision.symbolic_state, indent=2)}")
 
         if decision.glyphs:
             prompt_parts.append(f"\nSymbolic Glyphs: {', '.join(decision.glyphs)}")
@@ -211,9 +207,7 @@ Respond in JSON format with the following structure:
         if decision.requester_id:
             prompt_parts.append(f"\nRequester: {decision.requester_id}")
 
-        prompt_parts.append(
-            "\nProvide your ethical evaluation in the specified JSON format."
-        )
+        prompt_parts.append("\nProvide your ethical evaluation in the specified JSON format.")
 
         return "\n".join(prompt_parts)
 
@@ -300,9 +294,7 @@ Respond in JSON format with the following structure:
                 ],
             }
 
-    def _parse_gpt_response(
-        self, response: dict[str, Any], decision: Decision
-    ) -> EthicsEvaluation:
+    def _parse_gpt_response(self, response: dict[str, Any], decision: Decision) -> EthicsEvaluation:
         """Parse GPT-4 response into EthicsEvaluation
 
         Args:

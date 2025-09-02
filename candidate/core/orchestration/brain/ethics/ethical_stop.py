@@ -54,9 +54,7 @@ class ProtestEthicsValidator:
             "metrics": ["gender", "ethnicity"],
         },
         "transparency": {"disclosure_level": 0.8},
-        "accountability": {
-            "contact_requirements": ["organizer_id", "legal_representative"]
-        },
+        "accountability": {"contact_requirements": ["organizer_id", "legal_representative"]},
     }
 
     def validate(self, protest_plan: dict) -> dict:

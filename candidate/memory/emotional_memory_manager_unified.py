@@ -44,9 +44,7 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
     - Tier-specific feature availability
     """
 
-    def __init__(
-        self, config: Optional[dict[str, Any]] = None, base_path: Optional[Path] = None
-    ):
+    def __init__(self, config: Optional[dict[str, Any]] = None, base_path: Optional[Path] = None):
         """Initialize unified emotional memory manager."""
         super().__init__(config, base_path)
 
@@ -110,9 +108,7 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
         return result
 
     @require_identity(required_tier="LAMBDA_TIER_1", check_consent="memory_access")
-    async def retrieve(
-        self, user_id: str, memory_id: str, context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    async def retrieve(self, user_id: str, memory_id: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Retrieve memory with tier-based emotional modulation.
 
@@ -185,15 +181,11 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
 
         if user_matrix.get("symbolic_access", False):
             # Add symbolic analysis for T3+
-            patterns["symbolic_associations"] = self._analyze_symbolic_patterns(
-                user_memories
-            )
+            patterns["symbolic_associations"] = self._analyze_symbolic_patterns(user_memories)
 
         return patterns
 
-    @require_identity(
-        required_tier="LAMBDA_TIER_3", check_consent="emotional_modification"
-    )
+    @require_identity(required_tier="LAMBDA_TIER_3", check_consent="emotional_modification")
     async def modulate_emotional_state(
         self, user_id: str, memory_id: str, target_state: dict[str, Any]
     ) -> dict[str, Any]:
@@ -274,9 +266,7 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
             cleaned.pop(key, None)
         return cleaned
 
-    def _apply_tier_filtering(
-        self, data: dict[str, Any], user_matrix: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _apply_tier_filtering(self, data: dict[str, Any], user_matrix: dict[str, Any]) -> dict[str, Any]:
         """Apply tier-based filtering to retrieved data."""
         filtered = data.copy()
 
@@ -290,37 +280,27 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
 
         return filtered
 
-    async def _get_user_memories(
-        self, user_id: str, hours_limit: float
-    ) -> list[dict[str, Any]]:
+    async def _get_user_memories(self, user_id: str, hours_limit: float) -> list[dict[str, Any]]:
         """Get user's memories within time limit."""
         # Would query actual user memories in production
         return []
 
-    def _analyze_dominant_emotions(
-        self, memories: list[dict[str, Any]]
-    ) -> dict[str, int]:
+    def _analyze_dominant_emotions(self, memories: list[dict[str, Any]]) -> dict[str, int]:
         """Analyze dominant emotions in memory set."""
         # Placeholder for emotion analysis
         return {}
 
-    def _analyze_transitions(
-        self, memories: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _analyze_transitions(self, memories: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Analyze emotional transitions."""
         # Placeholder for transition analysis
         return []
 
-    def _analyze_valence_trends(
-        self, memories: list[dict[str, Any]]
-    ) -> dict[str, float]:
+    def _analyze_valence_trends(self, memories: list[dict[str, Any]]) -> dict[str, float]:
         """Analyze valence trends over time."""
         # Placeholder for trend analysis
         return {}
 
-    def _analyze_symbolic_patterns(
-        self, memories: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _analyze_symbolic_patterns(self, memories: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze symbolic patterns in memories."""
         # Placeholder for symbolic analysis
         return {}

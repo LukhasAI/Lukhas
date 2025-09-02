@@ -85,9 +85,7 @@ class DreamOrchestrator:
             - "colors": (array of 3 strings) Provide 3 hex color codes. The first is the background, the others are for the object/lights.
             - "particle_count": (integer) A number between 500 and 8000.
         """
-        user_prompt = (
-            f'Dream Seed: "{seed}"\nRelated LUKHAS Concepts: {", ".join(concepts)}'
-        )
+        user_prompt = f'Dream Seed: "{seed}"\nRelated LUKHAS Concepts: {", ".join(concepts)}'
 
         response = self.openai_client.chat.completions.create(
             model="gpt-4-turbo",
@@ -121,13 +119,9 @@ class DreamOrchestrator:
         try:
             if not self.openai_client:
                 raise Exception("OpenAI client not initialized.")
-            response = self.openai_client.audio.speech.create(
-                model="tts-1", voice="nova", input=narrative
-            )
+            response = self.openai_client.audio.speech.create(model="tts-1", voice="nova", input=narrative)
             audio_filename = f"dream_{int(time.time())}.mp3"
-            audio_filepath = os.path.join(
-                "lukhas_website", "public", "audio", audio_filename
-            )
+            audio_filepath = os.path.join("lukhas_website", "public", "audio", audio_filename)
             os.makedirs(os.path.dirname(audio_filepath), exist_ok=True)
             response.stream_to_file(audio_filepath)
             result_queue.put(("audio", f"/audio/{audio_filename}"))

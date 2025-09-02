@@ -11,9 +11,7 @@ for root, dirs, files in os.walk("."):
             new_name = new_name.replace("_quantum_", "_qi_")
             new_name = new_name.replace("_quantum.", "_qi.")
             # Special cases
-            new_name = new_name.replace(
-                "post_quantum_crypto", "post_quantum_crypto"
-            )  # Keep this one
+            new_name = new_name.replace("post_quantum_crypto", "post_quantum_crypto")  # Keep this one
 
             if new_name != file:
                 new_path = os.path.join(root, new_name)
@@ -29,10 +27,7 @@ for root, dirs, files in os.walk(".", topdown=False):
             new_name = dir_name.replace("quantum_", "qi_")
             new_name = new_name.replace("_quantum", "_qi")
             # Special case
-            if (
-                new_name == "post_quantum_crypto"
-                or new_name == "post_quantum_crypto_enhanced"
-            ):
+            if new_name == "post_quantum_crypto" or new_name == "post_quantum_crypto_enhanced":
                 new_name = dir_name  # Keep post_quantum_crypto as is
 
             if new_name != dir_name:

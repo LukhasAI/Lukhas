@@ -76,9 +76,7 @@ def _gcs_presign(
     try:
         from google.cloud import storage  # type: ignore
     except Exception as e:
-        raise RuntimeError(
-            "GCS presign requires google-cloud-storage. pip install google-cloud-storage"
-        ) from e
+        raise RuntimeError("GCS presign requires google-cloud-storage. pip install google-cloud-storage") from e
     client = storage.Client()
     b = client.bucket(bucket)
     blob = b.blob(key)
@@ -152,11 +150,7 @@ def presign_for_record(
       - record dict (from provenance_uploader)
     Returns dict with url + metadata. Content-Type derived from record when available.
     """
-    rec = (
-        _load_record_by_sha(record_or_sha)
-        if isinstance(record_or_sha, str)
-        else record_or_sha
-    )
+    rec = _load_record_by_sha(record_or_sha) if isinstance(record_or_sha, str) else record_or_sha
 
     storage_url = rec.get("storage_url")
     if not storage_url:
@@ -180,9 +174,7 @@ def presign_for_record(
 
 # ---------- CLI ----------
 def main():
-    ap = argparse.ArgumentParser(
-        description="Provenance presigned URL fetcher (S3/GCS/file)"
-    )
+    ap = argparse.ArgumentParser(description="Provenance presigned URL fetcher (S3/GCS/file)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p1 = sub.add_parser("sign-url", help="Presign a raw storage_url")
@@ -212,11 +204,7 @@ def main():
     p2.add_argument("--filename")
 
     def _run_sign(a):
-        rec = (
-            _load_record_by_sha(a.sha)
-            if a.sha
-            else json.load(open(a.record, encoding="utf-8"))
-        )
+        rec = _load_record_by_sha(a.sha) if a.sha else json.load(open(a.record, encoding="utf-8"))
         print(
             json.dumps(
                 presign_for_record(rec, expires=a.expires, filename=a.filename),

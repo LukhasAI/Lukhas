@@ -34,9 +34,7 @@ app = FastAPI(title="Lukhas Receipts API", version="1.1.0")
 
 # Optional CORS: allow your UI origin(s)
 if _HAS_CORS and os.environ.get("RECEIPTS_API_CORS"):
-    origins = [
-        o.strip() for o in os.environ["RECEIPTS_API_CORS"].split(",") if o.strip()
-    ]
+    origins = [o.strip() for o in os.environ["RECEIPTS_API_CORS"].split(",") if o.strip()]
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins or ["*"],
@@ -88,9 +86,7 @@ def healthz():
 @app.get("/receipts/sample")
 def receipt_sample(
     task: str | None = Query(None, description="Optional task filter"),
-    window: int = Query(
-        500, ge=1, le=5000, description="Sample among N newest receipts"
-    ),
+    window: int = Query(500, ge=1, le=5000, description="Sample among N newest receipts"),
 ):
     items = _load_all_receipts_meta()
     if task:
@@ -134,9 +130,7 @@ def list_receipts(limit: int = Query(20, ge=1, le=200)):
 def replay_receipt(
     rid: str,
     policy_root: str = Query(..., description="Path to policy_packs root"),
-    overlays: str | None = Query(
-        None, description="Path to overlays dir with overlays.yaml"
-    ),
+    overlays: str | None = Query(None, description="Path to overlays dir with overlays.yaml"),
 ):
     p = _receipt_path(rid)
     receipt = _read_json(p)
@@ -149,9 +143,7 @@ def replay_receipt(
     )
     # weak ETag (receipt mtime + policy fingerprint)
     mtime = os.path.getmtime(p)
-    etag = hashlib.sha256(
-        f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays)}".encode()
-    ).hexdigest()[:16]
+    etag = hashlib.sha256(f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays)}".encode()).hexdigest()[:16]
     return JSONResponse(rep, headers={"ETag": etag})
 
 
@@ -160,15 +152,9 @@ def replay_receipt(
 def receipt_trace_svg(
     rid: str,
     policy_root: str = Query(..., description="Path to policy_packs root"),
-    overlays: str | None = Query(
-        None, description="Path to overlays dir with overlays.yaml"
-    ),
-    link_base: str | None = Query(
-        None, description="Receipts API base (click target for Activity)"
-    ),
-    prov_base: str | None = Query(
-        None, description="Provenance Proxy base (click target for Artifact)"
-    ),
+    overlays: str | None = Query(None, description="Path to overlays dir with overlays.yaml"),
+    link_base: str | None = Query(None, description="Receipts API base (click target for Activity)"),
+    prov_base: str | None = Query(None, description="Provenance Proxy base (click target for Artifact)"),
 ):
     # load receipt + optional provenance, build DOT, render to SVG bytes (in-memory)
     p = _receipt_path(rid)
@@ -194,9 +180,7 @@ def receipt_trace_svg(
         verify_provenance_attestation=False,
     )
 
-    dot = build_dot(
-        receipt=receipt, prov=prov, replay=rep, link_base=link_base, prov_base=prov_base
-    )
+    dot = build_dot(receipt=receipt, prov=prov, replay=rep, link_base=link_base, prov_base=prov_base)
 
     # Render to SVG bytes (no temp file)
     try:
@@ -215,9 +199,7 @@ def receipt_trace_svg(
 
     # ETag for cache (receipt mtime + policy fingerprint)
     mtime = os.path.getmtime(p)
-    etag = hashlib.sha256(
-        f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays)}".encode()
-    ).hexdigest()[:16]
+    etag = hashlib.sha256(f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays)}".encode()).hexdigest()[:16]
     return Response(
         content=svg_bytes,
         media_type="image/svg+xml",
@@ -253,9 +235,7 @@ def _load_all_receipts_meta() -> list[dict]:
 @app.get("/receipts/{rid}/neighbors")
 def receipt_neighbors(
     rid: str,
-    task: str | None = Query(
-        None, description="If set, restrict prev/next to this task"
-    ),
+    task: str | None = Query(None, description="If set, restrict prev/next to this task"),
 ):
     items = _load_all_receipts_meta()
     if task:

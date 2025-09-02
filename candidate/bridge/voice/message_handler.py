@@ -57,9 +57,7 @@ class VoiceMessageHandler:
         """Start message processing"""
         if not self.is_running:
             self.is_running = True
-            self._worker_thread = threading.Thread(
-                target=self._process_messages, daemon=True
-            )
+            self._worker_thread = threading.Thread(target=self._process_messages, daemon=True)
             self._worker_thread.start()
             logger.info("Voice message handler started")
 
@@ -69,16 +67,12 @@ class VoiceMessageHandler:
         if self._worker_thread:
             self._worker_thread.join(timeout=1.0)
 
-    def enqueue_input(
-        self, text: str, priority: int = 5, metadata: Optional[dict[str, Any]] = None
-    ):
+    def enqueue_input(self, text: str, priority: int = 5, metadata: Optional[dict[str, Any]] = None):
         """Add an input message to the queue"""
         message = VoiceMessage(text, priority, metadata=metadata or {})
         self.input_queue.put((priority, message))
 
-    def enqueue_output(
-        self, text: str, priority: int = 5, metadata: Optional[dict[str, Any]] = None
-    ):
+    def enqueue_output(self, text: str, priority: int = 5, metadata: Optional[dict[str, Any]] = None):
         """Add an output message to the queue"""
         message = VoiceMessage(text, priority, metadata=metadata or {})
         self.output_queue.put((priority, message))

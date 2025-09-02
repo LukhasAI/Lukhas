@@ -67,9 +67,7 @@ class EnhancedMetaCognitiveOrchestrator:
     """
 
     def __init__(self):
-        self.logger = logger.bind(
-            orchestrator_id=f"meta_cog_orch_{datetime.now().strftime('%H%M%S')}"
-        )
+        self.logger = logger.bind(orchestrator_id=f"meta_cog_orch_{datetime.now().strftime('%H%M%S')}")
         self.logger.info("Initializing EnhancedMetaCognitiveOrchestrator.")
 
         # Initialize key components
@@ -77,9 +75,7 @@ class EnhancedMetaCognitiveOrchestrator:
             self.awareness = EnhancedSystemAwareness()
             self.dast_orchestrator = EnhancedDASTOrchestrator()  # Assumes default init
             self.qi_oscillator = QIOscillator()
-            self.logger.debug(
-                "Core components (Awareness, DAST, QIOscillator) initialized."
-            )
+            self.logger.debug("Core components (Awareness, DAST, QIOscillator) initialized.")
         except Exception as e_init:
             self.logger.error(
                 "Error initializing core components in MetaCognitiveOrchestrator.",
@@ -173,9 +169,7 @@ class EnhancedMetaCognitiveOrchestrator:
             # Validate result
             # ΛDRIFT_POINT: Result validation; failure may indicate processing drift
             # or unsafe output.
-            if not await self._validate_result(
-                result
-            ):  # Assumes _validate_result is async
+            if not await self._validate_result(result):  # Assumes _validate_result is async
                 self.logger.warning(
                     "Result validation failed. Generating safe alternative.",
                     task_type=task.get("type"),
@@ -183,9 +177,7 @@ class EnhancedMetaCognitiveOrchestrator:
                 # ΛCAUTION: Result validation failed, resorting to safe alternative.
                 return await self._generate_safe_alternative(task, "validation_failure")
 
-            self.logger.info(
-                "Cognitive task processed successfully.", task_type=task.get("type")
-            )
+            self.logger.info("Cognitive task processed successfully.", task_type=task.get("type"))
             # ΛPHASE_NODE: Cognitive Task Processing End
             return result
 
@@ -208,9 +200,7 @@ class EnhancedMetaCognitiveOrchestrator:
         self.logger.debug("Checking cognitive coherence.", task_type=task.get("type"))
         base_coherence = self._calculate_base_coherence(task)  # Placeholder
         if not self.qi_oscillator:
-            return (
-                base_coherence > self.safety_thresholds["cognitive_coherence"]
-            )  # Fallback if no quantum
+            return base_coherence > self.safety_thresholds["cognitive_coherence"]  # Fallback if no quantum
 
         qi_modulated = self.qi_oscillator.qi_modulate(base_coherence)
         is_coherent = qi_modulated > self.safety_thresholds["cognitive_coherence"]
@@ -232,20 +222,14 @@ class EnhancedMetaCognitiveOrchestrator:
         """Update processing weights with quantum enhancement"""
         # ΛNOTE: Placeholder for weight adjustment calculation. Quantum modulation
         # is conceptual.
-        self.logger.debug(
-            "Updating quantum-enhanced weights.", task_type=task.get("type")
-        )
+        self.logger.debug("Updating quantum-enhanced weights.", task_type=task.get("type"))
         if not self.qi_oscillator:
-            self.logger.warning(
-                "Quantum oscillator not available, skipping quantum weight update."
-            )
+            self.logger.warning("Quantum oscillator not available, skipping quantum weight update.")
             return
 
         adjustments: dict[str, float] = {}
         for key in self.weights:
-            base_adjustment = self._calculate_weight_adjustment(
-                key, task, context
-            )  # Placeholder
+            base_adjustment = self._calculate_weight_adjustment(key, task, context)  # Placeholder
             adjustments[key] = self.qi_oscillator.qi_modulate(base_adjustment)
 
         for key, adjustment in adjustments.items():
@@ -270,9 +254,7 @@ class EnhancedMetaCognitiveOrchestrator:
     ) -> dict[str, Any]:
         """Process task with enhanced safety measures"""
         # ΛNOTE: Placeholder for quantum-inspired processing and DAST integration.
-        self.logger.debug(
-            "Processing task with safety (placeholder).", task_type=task.get("type")
-        )
+        self.logger.debug("Processing task with safety (placeholder).", task_type=task.get("type"))
 
         # Example of DAST interaction (conceptual)
         if self.dast_orchestrator:
@@ -301,23 +283,15 @@ class EnhancedMetaCognitiveOrchestrator:
                 task_type=task.get("type"),
             )
             # ΛCAUTION: Internal safety validation failed.
-            return await self._generate_safe_alternative(
-                task, "internal_safety_validation_failure"
-            )
+            return await self._generate_safe_alternative(task, "internal_safety_validation_failure")
 
-        self.logger.info(
-            "Task processed with safety checks (simulated).", task_type=task.get("type")
-        )
+        self.logger.info("Task processed with safety checks (simulated).", task_type=task.get("type"))
         return processed_task  # Should be the actual result dict
 
-    async def _generate_safe_alternative(
-        self, task: dict[str, Any], reason: str
-    ) -> dict[str, Any]:  # Added reason
+    async def _generate_safe_alternative(self, task: dict[str, Any], reason: str) -> dict[str, Any]:  # Added reason
         """Generate safe alternative when primary processing fails"""
         # ΛNOTE: Placeholder for safe alternative generation.
-        self.logger.warning(
-            "Generating safe alternative.", task_type=task.get("type"), reason=reason
-        )
+        self.logger.warning("Generating safe alternative.", task_type=task.get("type"), reason=reason)
         return {
             "status": "alternative_generated",
             "type": "safe_alternative_response",
@@ -328,19 +302,13 @@ class EnhancedMetaCognitiveOrchestrator:
             },  # Placeholder
         }
 
-    def _calculate_base_coherence(
-        self, task: dict[str, Any]
-    ) -> float:  # Made sync as no await
+    def _calculate_base_coherence(self, task: dict[str, Any]) -> float:  # Made sync as no await
         """Calculate base cognitive coherence (placeholder)."""
         # ΛNOTE: Placeholder logic for base coherence calculation.
-        self.logger.debug(
-            "Calculating base coherence (placeholder).", task_type=task.get("type")
-        )
+        self.logger.debug("Calculating base coherence (placeholder).", task_type=task.get("type"))
         return 0.9  # Example high coherence
 
-    def _apply_quantum_processing(
-        self, task: dict[str, Any]
-    ) -> dict[str, Any]:  # Made sync
+    def _apply_quantum_processing(self, task: dict[str, Any]) -> dict[str, Any]:  # Made sync
         """Apply quantum-enhanced processing (placeholder)."""
         # ΛNOTE: Placeholder for actual quantum-inspired processing.
         self.logger.debug(
@@ -359,9 +327,7 @@ class EnhancedMetaCognitiveOrchestrator:
         # self.safety_thresholds['ethical_confidence']: return False
         return True
 
-    async def _handle_cognitive_error(
-        self, error: Exception, task: dict[str, Any]
-    ) -> None:  # Added task for context
+    async def _handle_cognitive_error(self, error: Exception, task: dict[str, Any]) -> None:  # Added task for context
         """Handle cognitive processing errors (placeholder)."""
         # ΛNOTE: Placeholder for cognitive error handling. Needs robust implementation.
         # ΛCAUTION: Effective error handling is critical for meta-cognitive stability.

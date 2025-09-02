@@ -58,9 +58,7 @@ class EnhancedDASTOrchestrator:
         try:
             # {ΛROUTER_LINK}
             # Monitor system state
-            await self.awareness.monitor_system(
-                {"intent": intent, "system_state": self.get_system_state()}
-            )
+            await self.awareness.monitor_system({"intent": intent, "system_state": self.get_system_state()})
 
             # Quantum-enhanced ethical check
             ethical_result = await self._quantum_ethical_check(intent)
@@ -76,10 +74,7 @@ class EnhancedDASTOrchestrator:
             processed_intent = await self._quantum_process_intent(intent)
 
             # Check for dissonance
-            if (
-                processed_intent["dissonance"]
-                > self.safety_thresholds["dissonance_limit"]
-            ):
+            if processed_intent["dissonance"] > self.safety_thresholds["dissonance_limit"]:
                 await self._handle_high_dissonance(processed_intent)
 
             return {"status": "processed", "result": processed_intent}
@@ -96,9 +91,7 @@ class EnhancedDASTOrchestrator:
             base_check = check_intent(intent["action"])
             if not base_check:
                 raise SymbolicIntegrityError("Intent check failed")
-            qi_modulation = self.qi_oscillator.qi_modulate(
-                float(base_check["confidence"])
-            )
+            qi_modulation = self.qi_oscillator.qi_modulate(float(base_check["confidence"]))
 
             ethical_confidence = self.safety_thresholds.get("ethical_confidence", 0.85)
 
@@ -115,9 +108,7 @@ class EnhancedDASTOrchestrator:
         # Implementation of quantum-inspired processing
         return intent
 
-    async def _handle_ethical_block(
-        self, intent: dict[str, Any], result: dict[str, Any]
-    ) -> None:
+    async def _handle_ethical_block(self, intent: dict[str, Any], result: dict[str, Any]) -> None:
         """Handle blocked intents with enhanced logging"""
         await memory.store(
             tag="enhanced_ethical_block",

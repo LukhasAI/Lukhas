@@ -360,13 +360,9 @@ class CoreHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(
-                        service_name, self.services[service_name], "core"
-                    )
+                    discovery.register_service_globally(service_name, self.services[service_name], "core")
 
-            logger.debug(
-                f"Registered {len(key_services)} core services with global discovery"
-            )
+            logger.debug(f"Registered {len(key_services)} core services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -383,9 +379,7 @@ class CoreHub:
         """List all registered service names"""
         return list(self.services.keys())
 
-    async def process_event(
-        self, event_type: str, event_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_event(self, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
         """Process events from other systems"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -452,9 +446,7 @@ class CoreHub:
         if EthicsService is not None:
             try:
                 self.ethics_service = EthicsService()
-                await self.ethics_service.register_observer(
-                    "core", self.handle_ethics_event
-                )
+                await self.ethics_service.register_observer("core", self.handle_ethics_event)
                 self.register_service("ethics_service", self.ethics_service)
                 logger.info("Successfully connected to EthicsService")
             except Exception as e:
@@ -481,9 +473,7 @@ class CoreHub:
 
         return endpoints
 
-    async def handle_ethics_event(
-        self, event_type: str, event_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_ethics_event(self, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
         """Handle ethics-related events from the EthicsService"""
         logger.info(f"Received ethics event: {event_type}")
 
@@ -581,9 +571,7 @@ class CoreHub:
             logger.error("Event store not available for replay")
             return 0
 
-        events = await self.services["event_store"].get_events_for_actor(
-            actor_id, start_time, end_time
-        )
+        events = await self.services["event_store"].get_events_for_actor(actor_id, start_time, end_time)
 
         return await self.services["event_store"].replay_events(events, speed)
 
@@ -611,9 +599,7 @@ class CoreHub:
             return False
 
         try:
-            snapshot = await self.services["snapshot_store"].get_latest_snapshot(
-                actor.actor_id, timestamp
-            )
+            snapshot = await self.services["snapshot_store"].get_latest_snapshot(actor.actor_id, timestamp)
             if snapshot:
                 snapshot.restore_to_actor(actor)
                 logger.info(f"Restored actor {actor.actor_id} from snapshot")
@@ -640,9 +626,7 @@ class CoreHub:
             logger.error(f"Failed to start resource monitoring: {e}")
             return False
 
-    async def get_resource_efficiency_report(
-        self, duration_hours: float = 1.0
-    ) -> dict[str, Any]:
+    async def get_resource_efficiency_report(self, duration_hours: float = 1.0) -> dict[str, Any]:
         """Get resource efficiency report"""
         if "resource_analyzer" not in self.services:
             return {
@@ -651,9 +635,7 @@ class CoreHub:
             }
 
         try:
-            report = self.services["resource_analyzer"].analyze_efficiency(
-                duration_hours
-            )
+            report = self.services["resource_analyzer"].analyze_efficiency(duration_hours)
             return {
                 "status": "success",
                 "efficiency_score": report.efficiency_score,

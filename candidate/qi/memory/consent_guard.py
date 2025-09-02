@@ -171,9 +171,7 @@ class ConsentGuard:
 
         return active
 
-    def audit_trail(
-        self, user_id: str, since_hours: int = 24 * 7
-    ) -> list[dict[str, Any]]:
+    def audit_trail(self, user_id: str, since_hours: int = 24 * 7) -> list[dict[str, Any]]:
         """Get audit trail of consent changes for a user"""
         trail = []
         cutoff = time.time() - (since_hours * 3600)
@@ -204,9 +202,7 @@ class ConsentGuard:
 
 
 # TEQ Integration Hook
-def require_consent(
-    guard: ConsentGuard, user_id: str, purpose: str
-) -> tuple[bool, str]:
+def require_consent(guard: ConsentGuard, user_id: str, purpose: str) -> tuple[bool, str]:
     """
     TEQ gate hook for consent checking
     Returns: (allowed, reason)
@@ -228,9 +224,7 @@ def require_consent(
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="ConsentGuard CLI - Designed by: Gonzalo Dominguez - Lukhas AI"
-    )
+    ap = argparse.ArgumentParser(description="ConsentGuard CLI - Designed by: Gonzalo Dominguez - Lukhas AI")
     ap.add_argument("--storage", default="~/.lukhas/consent/ledger.jsonl")
 
     sub = ap.add_subparsers(dest="cmd", help="Commands")
@@ -280,9 +274,7 @@ def main():
             ttl_seconds=args.ttl_days * 86400,
             metadata=metadata,
         )
-        print(
-            f"✅ Granted: {consent.user_id} -> {consent.purpose} (expires in {args.ttl_days} days)"
-        )
+        print(f"✅ Granted: {consent.user_id} -> {consent.purpose} (expires in {args.ttl_days} days)")
 
     elif args.cmd == "revoke":
         consent = guard.revoke(args.user, args.purpose)
@@ -296,9 +288,7 @@ def main():
             print(f"✅ Valid consent (expires in {days} days)")
         else:
             if consent:
-                print(
-                    f"🚫 Consent revoked at {datetime.fromtimestamp(consent.timestamp)}"
-                )
+                print(f"🚫 Consent revoked at {datetime.fromtimestamp(consent.timestamp)}")
             else:
                 print("❌ No consent on record")
 

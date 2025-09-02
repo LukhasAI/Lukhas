@@ -418,22 +418,15 @@ class ComplianceAuditSystem:
 
         # Guardian System integration (🛡️)
         if self.guardian_integration_enabled:
-            audit_event.guardian_validation = await self._validate_with_guardian(
-                audit_event
-            )
+            audit_event.guardian_validation = await self._validate_with_guardian(audit_event)
             audit_event.drift_score_at_time = metadata.get("drift_score")
 
             # Check if ethics review is required
-            if (
-                audit_event.drift_score_at_time
-                and audit_event.drift_score_at_time > self.ethics_review_threshold
-            ):
+            if audit_event.drift_score_at_time and audit_event.drift_score_at_time > self.ethics_review_threshold:
                 audit_event.ethics_review_required = True
 
         # Assess compliance status
-        audit_event.compliance_status = await self._assess_compliance_status(
-            audit_event
-        )
+        audit_event.compliance_status = await self._assess_compliance_status(audit_event)
 
         # Store audit event
         self.audit_events.append(audit_event)
@@ -495,9 +488,7 @@ class ComplianceAuditSystem:
 
         # Guardian System validation (🛡️)
         if self.guardian_integration_enabled:
-            consent_record.guardian_approved = (
-                await self._validate_consent_with_guardian(consent_record)
-            )
+            consent_record.guardian_approved = await self._validate_consent_with_guardian(consent_record)
             consent_record.ethics_score = metadata.get("ethics_score")
 
         # Store consent record
@@ -517,9 +508,7 @@ class ComplianceAuditSystem:
 
         return consent_id
 
-    async def withdraw_consent(
-        self, consent_id: str, withdrawal_method: str = "user_request", **metadata
-    ) -> bool:
+    async def withdraw_consent(self, consent_id: str, withdrawal_method: str = "user_request", **metadata) -> bool:
         """
         Withdraw consent and trigger data processing cessation.
 
@@ -629,9 +618,7 @@ class ComplianceAuditSystem:
         if self.config.get("auto_assign_requests"):
             await self._auto_assign_request(subject_request)
 
-        logger.info(
-            f"⚖️ Subject rights request created: {request_id} ({right_type.value})"
-        )
+        logger.info(f"⚖️ Subject rights request created: {request_id} ({right_type.value})")
 
         return request_id
 
@@ -705,9 +692,7 @@ class ComplianceAuditSystem:
 
         # Filter audit events by date range and regulation
         filtered_events = [
-            e
-            for e in self.audit_events
-            if (start_date <= e.timestamp <= end_date and e.regulation == regulation)
+            e for e in self.audit_events if (start_date <= e.timestamp <= end_date and e.regulation == regulation)
         ]
 
         # Event statistics
@@ -720,53 +705,34 @@ class ComplianceAuditSystem:
 
         # Consent analysis
         active_consents = len(
-            [
-                c
-                for c in self.consent_records.values()
-                if c.active and start_date <= c.timestamp <= end_date
-            ]
+            [c for c in self.consent_records.values() if c.active and start_date <= c.timestamp <= end_date]
         )
 
         withdrawn_consents = len(
             [
                 c
                 for c in self.consent_records.values()
-                if not c.active
-                and c.withdrawn_at
-                and start_date <= c.withdrawn_at <= end_date
+                if not c.active and c.withdrawn_at and start_date <= c.withdrawn_at <= end_date
             ]
         )
 
         # Subject rights requests
-        requests_in_period = [
-            r
-            for r in self.subject_requests.values()
-            if start_date <= r.timestamp <= end_date
-        ]
+        requests_in_period = [r for r in self.subject_requests.values() if start_date <= r.timestamp <= end_date]
 
         completed_requests = [r for r in requests_in_period if r.status == "completed"]
-        overdue_requests = [
-            r
-            for r in requests_in_period
-            if r.due_date < datetime.now() and r.status != "completed"
-        ]
+        overdue_requests = [r for r in requests_in_period if r.due_date < datetime.now() and r.status != "completed"]
 
         # Compliance violations
         violations_in_period = [
             v
             for v in self.compliance_violations
-            if start_date <= v["timestamp"] <= end_date
-            and v["regulation"] == regulation
+            if start_date <= v["timestamp"] <= end_date and v["regulation"] == regulation
         ]
 
         # Guardian System integration metrics (🛡️)
-        guardian_validated_events = len(
-            [e for e in filtered_events if e.guardian_validation]
-        )
+        guardian_validated_events = len([e for e in filtered_events if e.guardian_validation])
 
-        ethics_reviews_required = len(
-            [e for e in filtered_events if e.ethics_review_required]
-        )
+        ethics_reviews_required = len([e for e in filtered_events if e.ethics_review_required])
 
         return {
             "report_id": f"compliance_report_{uuid.uuid4().hex[:8]}",
@@ -782,11 +748,7 @@ class ComplianceAuditSystem:
                 "total_events": len(filtered_events),
                 "by_type": dict(events_by_type),
                 "by_compliance_status": dict(events_by_status),
-                "compliance_rate": (
-                    (events_by_status["compliant"] / len(filtered_events))
-                    if filtered_events
-                    else 1.0
-                ),
+                "compliance_rate": ((events_by_status["compliant"] / len(filtered_events)) if filtered_events else 1.0),
             },
             # Consent management
             "consent_management": {
@@ -804,69 +766,37 @@ class ComplianceAuditSystem:
                 "total_requests": len(requests_in_period),
                 "completed_requests": len(completed_requests),
                 "overdue_requests": len(overdue_requests),
-                "completion_rate": (
-                    (len(completed_requests) / len(requests_in_period))
-                    if requests_in_period
-                    else 1.0
-                ),
-                "average_response_time_days": self._calculate_average_response_time(
-                    completed_requests
-                ),
+                "completion_rate": ((len(completed_requests) / len(requests_in_period)) if requests_in_period else 1.0),
+                "average_response_time_days": self._calculate_average_response_time(completed_requests),
                 "requests_by_type": self._analyze_requests_by_type(requests_in_period),
             },
             # Compliance violations
             "compliance_violations": {
                 "total_violations": len(violations_in_period),
                 "violation_types": self._analyze_violation_types(violations_in_period),
-                "remediation_status": self._analyze_remediation_status(
-                    violations_in_period
-                ),
+                "remediation_status": self._analyze_remediation_status(violations_in_period),
             },
             # Data processing activities
             "processing_activities": {
                 "registered_activities": len(self.processing_activities),
-                "cross_border_transfers": len(
-                    [e for e in filtered_events if e.cross_border_transfer]
-                ),
-                "data_categories_processed": self._analyze_data_categories(
-                    filtered_events
-                ),
+                "cross_border_transfers": len([e for e in filtered_events if e.cross_border_transfer]),
+                "data_categories_processed": self._analyze_data_categories(filtered_events),
             },
             # Privacy impact assessments
             "privacy_assessments": {
                 "total_pias": len(self.privacy_assessments),
-                "pending_review": len(
-                    [
-                        p
-                        for p in self.privacy_assessments.values()
-                        if p.status == "review"
-                    ]
-                ),
-                "approved_pias": len(
-                    [
-                        p
-                        for p in self.privacy_assessments.values()
-                        if p.status == "approved"
-                    ]
-                ),
+                "pending_review": len([p for p in self.privacy_assessments.values() if p.status == "review"]),
+                "approved_pias": len([p for p in self.privacy_assessments.values() if p.status == "approved"]),
             },
             # Guardian System integration (🛡️)
             "guardian_integration": {
                 "validated_events": guardian_validated_events,
-                "validation_rate": (
-                    (guardian_validated_events / len(filtered_events))
-                    if filtered_events
-                    else 0.0
-                ),
+                "validation_rate": ((guardian_validated_events / len(filtered_events)) if filtered_events else 0.0),
                 "ethics_reviews_required": ethics_reviews_required,
-                "average_drift_score": self._calculate_average_drift_score(
-                    filtered_events
-                ),
+                "average_drift_score": self._calculate_average_drift_score(filtered_events),
             },
             # Recommendations
-            "recommendations": await self._generate_compliance_recommendations(
-                regulation, filtered_events
-            ),
+            "recommendations": await self._generate_compliance_recommendations(regulation, filtered_events),
         }
 
     # Background monitoring loops
@@ -945,9 +875,7 @@ class ComplianceAuditSystem:
         while self.monitoring_active:
             try:
                 # Clean up old audit events beyond retention period
-                cutoff_date = datetime.now() - timedelta(
-                    days=self.audit_retention_years * 365
-                )
+                cutoff_date = datetime.now() - timedelta(days=self.audit_retention_years * 365)
 
                 # Keep audit events within retention period
                 retained_events = deque(maxlen=self.max_audit_events)
@@ -965,9 +893,7 @@ class ComplianceAuditSystem:
 
     # Helper methods (implementation details)
 
-    def _determine_lawful_basis(
-        self, purpose: DataProcessingPurpose, regulation: ComplianceRegulation
-    ) -> str:
+    def _determine_lawful_basis(self, purpose: DataProcessingPurpose, regulation: ComplianceRegulation) -> str:
         """Determine lawful basis for processing."""
 
         if regulation == ComplianceRegulation.GDPR:
@@ -983,12 +909,8 @@ class ComplianceAuditSystem:
         """Generate IAB TCF-style consent string."""
 
         # Simplified consent string generation
-        purpose_bits = "".join(
-            "1" if p in purposes else "0" for p in DataProcessingPurpose
-        )
-        category_bits = "".join(
-            "1" if c in data_categories else "0" for c in DataCategory
-        )
+        purpose_bits = "".join("1" if p in purposes else "0" for p in DataProcessingPurpose)
+        category_bits = "".join("1" if c in data_categories else "0" for c in DataCategory)
 
         # Create base64 encoded consent string
         import base64
@@ -1012,9 +934,7 @@ class ComplianceAuditSystem:
 
         return True
 
-    async def _validate_consent_with_guardian(
-        self, consent_record: ConsentRecord
-    ) -> bool:
+    async def _validate_consent_with_guardian(self, consent_record: ConsentRecord) -> bool:
         """Validate consent with Guardian System (🛡️)."""
 
         # Check if consent meets Guardian System ethical standards
@@ -1023,9 +943,7 @@ class ComplianceAuditSystem:
 
         return True
 
-    async def _assess_compliance_status(
-        self, audit_event: ComplianceAuditEvent
-    ) -> ComplianceStatus:
+    async def _assess_compliance_status(self, audit_event: ComplianceAuditEvent) -> ComplianceStatus:
         """Assess compliance status for audit event."""
 
         # Basic compliance assessment logic
@@ -1074,34 +992,22 @@ class ComplianceAuditSystem:
     def _analyze_consent_methods(self) -> dict[str, int]:
         return {}
 
-    def _calculate_average_response_time(
-        self, requests: list[DataSubjectRequest]
-    ) -> float:
+    def _calculate_average_response_time(self, requests: list[DataSubjectRequest]) -> float:
         return 0.0
 
-    def _analyze_requests_by_type(
-        self, requests: list[DataSubjectRequest]
-    ) -> dict[str, int]:
+    def _analyze_requests_by_type(self, requests: list[DataSubjectRequest]) -> dict[str, int]:
         return {}
 
-    def _analyze_violation_types(
-        self, violations: list[dict[str, Any]]
-    ) -> dict[str, int]:
+    def _analyze_violation_types(self, violations: list[dict[str, Any]]) -> dict[str, int]:
         return {}
 
-    def _analyze_remediation_status(
-        self, violations: list[dict[str, Any]]
-    ) -> dict[str, int]:
+    def _analyze_remediation_status(self, violations: list[dict[str, Any]]) -> dict[str, int]:
         return {}
 
-    def _analyze_data_categories(
-        self, events: list[ComplianceAuditEvent]
-    ) -> dict[str, int]:
+    def _analyze_data_categories(self, events: list[ComplianceAuditEvent]) -> dict[str, int]:
         return {}
 
-    def _calculate_average_drift_score(
-        self, events: list[ComplianceAuditEvent]
-    ) -> float:
+    def _calculate_average_drift_score(self, events: list[ComplianceAuditEvent]) -> float:
         return 0.0
 
     async def _generate_compliance_recommendations(

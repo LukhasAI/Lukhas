@@ -39,9 +39,7 @@ class BotAGISystem:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.orchestrator = (
-            lukhas_agi_orchestrator if AGI_ORCHESTRATOR_AVAILABLE else None
-        )
+        self.orchestrator = lukhas_agi_orchestrator if AGI_ORCHESTRATOR_AVAILABLE else None
         self.active = False
 
         logger.info(" Bot AGI System initialized (bridging to Lukhas AGI)")
@@ -55,9 +53,7 @@ class BotAGISystem:
             self.active = True
             return True
 
-    async def process_request(
-        self, user_input: str, context: Optional[dict] = None
-    ) -> dict[str, Any]:
+    async def process_request(self, user_input: str, context: Optional[dict] = None) -> dict[str, Any]:
         """Process a request through the AGI system"""
         if self.orchestrator:
             return await self.orchestrator.process_agi_request(user_input, context)

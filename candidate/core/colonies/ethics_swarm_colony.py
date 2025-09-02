@@ -298,9 +298,7 @@ class EthicsSwarmColony(BaseColony):
             self.logger.info("Simulation engine initialized successfully")
 
         except ImportError as e:
-            self.logger.warning(
-                "Advanced simulation components not available", error=str(e)
-            )
+            self.logger.warning("Advanced simulation components not available", error=str(e))
             # Create basic simulation engine
             self.simulation_engine = BasicEthicalSimulator()
 
@@ -428,9 +426,7 @@ class EthicsSwarmColony(BaseColony):
 
         for template in scenario_templates:
             for i in range(5):  # Generate variations
-                scenario_id = (
-                    f"scenario_{template['type'].value}_{i}_{int(time.time())}"
-                )
+                scenario_id = f"scenario_{template['type'].value}_{i}_{int(time.time())}"
 
                 scenario = EthicalScenario(
                     scenario_id=scenario_id,
@@ -473,9 +469,7 @@ class EthicsSwarmColony(BaseColony):
 
         self.logger.info("Continuous systems started")
 
-    async def make_ethical_decision(
-        self, request: EthicalDecisionRequest
-    ) -> EthicalDecisionResponse:
+    async def make_ethical_decision(self, request: EthicalDecisionRequest) -> EthicalDecisionResponse:
         """
         Make an ethical decision using swarm intelligence and simulation.
         This is the main entry point for ethical decision-making.
@@ -501,13 +495,9 @@ class EthicsSwarmColony(BaseColony):
         ) = await self._get_swarm_consensus(request, simulation_result)
 
         # Step 3: Calculate confidence and ethical reasoning
-        confidence = await self._calculate_decision_confidence(
-            decision_data, simulation_result, participating_agents
-        )
+        confidence = await self._calculate_decision_confidence(decision_data, simulation_result, participating_agents)
 
-        ethical_reasoning = await self._generate_ethical_reasoning(
-            request, decision_data, simulation_result
-        )
+        ethical_reasoning = await self._generate_ethical_reasoning(request, decision_data, simulation_result)
 
         # Step 4: Generate integrity hashes
         verifold_hash = await self._generate_verifold_hash(request, decision_data)
@@ -518,9 +508,7 @@ class EthicsSwarmColony(BaseColony):
 
         # Step 6: Generate recommendations and monitoring requirements
         recommendations = await self._generate_recommendations(request, decision_data)
-        monitoring_requirements = await self._generate_monitoring_requirements(
-            request, decision_data
-        )
+        monitoring_requirements = await self._generate_monitoring_requirements(request, decision_data)
 
         # Create response
         response = EthicalDecisionResponse(
@@ -567,9 +555,7 @@ class EthicsSwarmColony(BaseColony):
 
         return response
 
-    async def _simulate_decision_scenario(
-        self, request: EthicalDecisionRequest
-    ) -> SimulationResult:
+    async def _simulate_decision_scenario(self, request: EthicalDecisionRequest) -> SimulationResult:
         """Simulate the ethical decision scenario to predict outcomes."""
 
         # Create scenario from request
@@ -588,9 +574,7 @@ class EthicsSwarmColony(BaseColony):
         relevant_agents = await self._select_relevant_agents(scenario)
 
         if self.simulation_engine:
-            simulation_result = await self.simulation_engine.simulate_scenario(
-                scenario, relevant_agents
-            )
+            simulation_result = await self.simulation_engine.simulate_scenario(scenario, relevant_agents)
         else:
             # Basic simulation
             simulation_result = SimulationResult(
@@ -634,17 +618,13 @@ class EthicsSwarmColony(BaseColony):
             consensus_method = SwarmConsensusMethod.MAJORITY_VOTE
 
         # Calculate consensus decision
-        consensus_decision = await self._calculate_consensus(
-            agent_decisions, consensus_method
-        )
+        consensus_decision = await self._calculate_consensus(agent_decisions, consensus_method)
 
         participating_agents = [agent_id for agent_id, _ in agent_decisions]
 
         return consensus_decision, consensus_method, participating_agents
 
-    async def _select_relevant_agents(
-        self, scenario: EthicalScenario
-    ) -> list[EthicalAgent]:
+    async def _select_relevant_agents(self, scenario: EthicalScenario) -> list[EthicalAgent]:
         """Select agents most relevant to the scenario."""
         relevant_agents = []
 
@@ -652,10 +632,7 @@ class EthicsSwarmColony(BaseColony):
         for dimension, weight in scenario.ethical_dimensions.items():
             if weight > 0.5:  # Significant ethical dimension
                 for agent in self.ethical_agents.values():
-                    if (
-                        agent.specialization == dimension
-                        and agent not in relevant_agents
-                    ):
+                    if agent.specialization == dimension and agent not in relevant_agents:
                         relevant_agents.append(agent)
 
         # Always include at least 3 agents for diversity
@@ -671,9 +648,7 @@ class EthicsSwarmColony(BaseColony):
 
         return relevant_agents
 
-    async def _select_relevant_agents_for_request(
-        self, request: EthicalDecisionRequest
-    ) -> list[EthicalAgent]:
+    async def _select_relevant_agents_for_request(self, request: EthicalDecisionRequest) -> list[EthicalAgent]:
         """Select agents relevant to the specific request."""
         relevant_agents = []
 
@@ -706,17 +681,11 @@ class EthicsSwarmColony(BaseColony):
             ],
         }
 
-        target_specializations = type_specialization_map.get(
-            request.decision_type, ["harm_prevention"]
-        )
+        target_specializations = type_specialization_map.get(request.decision_type, ["harm_prevention"])
 
         # Select agents with relevant specializations
         for spec in target_specializations:
-            spec_agents = [
-                agent
-                for agent in self.ethical_agents.values()
-                if agent.specialization == spec
-            ]
+            spec_agents = [agent for agent in self.ethical_agents.values() if agent.specialization == spec]
             # Select the most experienced agent in each specialization
             if spec_agents:
                 best_agent = max(spec_agents, key=lambda a: a.experience_level)
@@ -742,9 +711,7 @@ class EthicsSwarmColony(BaseColony):
 
         # Consider simulation results
         if simulation_result:
-            decision_factors["simulation_influence"] = (
-                simulation_result.swarm_confidence
-            )
+            decision_factors["simulation_influence"] = simulation_result.swarm_confidence
 
         # Check policy alignment
         self.ethical_policies.get(agent.specialization, {})
@@ -805,9 +772,7 @@ class EthicsSwarmColony(BaseColony):
             return {
                 "action": most_common_action,
                 "consensus_method": "majority_vote",
-                "supporting_agents": len(
-                    [a for a in actions if a == most_common_action]
-                ),
+                "supporting_agents": len([a for a in actions if a == most_common_action]),
                 "total_agents": len(actions),
             }
 
@@ -844,9 +809,7 @@ class EthicsSwarmColony(BaseColony):
             }
 
         else:  # Default to majority vote
-            return await self._calculate_consensus(
-                agent_decisions, SwarmConsensusMethod.MAJORITY_VOTE
-            )
+            return await self._calculate_consensus(agent_decisions, SwarmConsensusMethod.MAJORITY_VOTE)
 
     async def _calculate_decision_confidence(
         self,
@@ -888,15 +851,11 @@ class EthicsSwarmColony(BaseColony):
         reasoning.append(f"Decision type: {request.decision_type.value}")
 
         # Add consensus reasoning
-        reasoning.append(
-            f"Consensus achieved via: {decision_data.get('consensus_method', 'unknown')}"
-        )
+        reasoning.append(f"Consensus achieved via: {decision_data.get('consensus_method', 'unknown')}")
 
         # Add simulation reasoning
         if simulation_result:
-            reasoning.append(
-                f"Simulation validated with confidence: {simulation_result.swarm_confidence}"
-            )
+            reasoning.append(f"Simulation validated with confidence: {simulation_result.swarm_confidence}")
 
         # Add policy alignment reasoning
         reasoning.append("Decision aligns with core ethical policies")
@@ -952,18 +911,14 @@ class EthicsSwarmColony(BaseColony):
             {"decision": decision_data, "context": request.context},
             sort_keys=True,
         )
-        return hashlib.sha256(combined_string.encode()).hexdigest()[
-            :12
-        ]  # Changed from MD5 for security
+        return hashlib.sha256(combined_string.encode()).hexdigest()[:12]  # Changed from MD5 for security
 
     async def _calculate_drift_score(self, decision_data: dict[str, Any]) -> float:
         """Calculate current ethical drift score."""
 
         if self.drift_monitor:
             try:
-                return await self.drift_monitor.calculate_drift_score(
-                    decision_data, self.ethical_policies
-                )
+                return await self.drift_monitor.calculate_drift_score(decision_data, self.ethical_policies)
             except Exception as e:
                 self.logger.error("Drift score calculation failed", error=str(e))
 
@@ -1034,9 +989,7 @@ class EthicsSwarmColony(BaseColony):
 
         # Update collective wisdom score based on confidence
         current_wisdom = self.swarm_intelligence_metrics["collective_wisdom_score"]
-        self.swarm_intelligence_metrics["collective_wisdom_score"] = (
-            current_wisdom * 0.9 + response.confidence * 0.1
-        )
+        self.swarm_intelligence_metrics["collective_wisdom_score"] = current_wisdom * 0.9 + response.confidence * 0.1
 
         # Update other metrics similarly
         # This would be more sophisticated in production
@@ -1054,9 +1007,7 @@ class EthicsSwarmColony(BaseColony):
                 agent = self.ethical_agents[agent_id]
                 # Boost experience based on confidence
                 experience_boost = response.confidence * 0.01
-                agent.experience_level = min(
-                    agent.experience_level + experience_boost, 1.0
-                )
+                agent.experience_level = min(agent.experience_level + experience_boost, 1.0)
 
                 # Add to decision history
                 agent.decision_history.append(
@@ -1086,11 +1037,7 @@ class EthicsSwarmColony(BaseColony):
                     relevant_agents = await self._select_relevant_agents(scenario)
 
                     if self.simulation_engine:
-                        simulation_result = (
-                            await self.simulation_engine.simulate_scenario(
-                                scenario, relevant_agents
-                            )
-                        )
+                        simulation_result = await self.simulation_engine.simulate_scenario(scenario, relevant_agents)
 
                         # Store results for learning
                         self.simulation_results[scenario_id] = simulation_result
@@ -1203,9 +1150,7 @@ class EthicsSwarmColony(BaseColony):
             return 0.0
 
         recent_decisions = list(self.swarm_memory)[-10:]
-        avg_confidence = sum(d["confidence"] for d in recent_decisions) / len(
-            recent_decisions
-        )
+        avg_confidence = sum(d["confidence"] for d in recent_decisions) / len(recent_decisions)
 
         # Drift inversely related to confidence
         return max(0.0, 1.0 - avg_confidence)
@@ -1224,9 +1169,7 @@ class EthicsSwarmColony(BaseColony):
         else:
             return EthicalDriftLevel.CRITICAL
 
-    async def _trigger_drift_correction(
-        self, drift_score: float, drift_level: EthicalDriftLevel
-    ):
+    async def _trigger_drift_correction(self, drift_score: float, drift_level: EthicalDriftLevel):
         """Trigger ethical drift correction procedures."""
 
         self.logger.warning(
@@ -1292,9 +1235,7 @@ class EthicsSwarmColony(BaseColony):
 
         self.logger.info("Correction action applied", action=action)
 
-    async def _analyze_ethical_dimensions(
-        self, context: dict[str, Any]
-    ) -> dict[str, float]:
+    async def _analyze_ethical_dimensions(self, context: dict[str, Any]) -> dict[str, float]:
         """Analyze ethical dimensions of a context."""
 
         # Basic analysis - would be more sophisticated in production
@@ -1326,8 +1267,7 @@ class EthicsSwarmColony(BaseColony):
         """Calculate complexity score for a context."""
 
         complexity_factors = [
-            len(context.get("stakeholders", []))
-            * 0.1,  # More stakeholders = more complex
+            len(context.get("stakeholders", [])) * 0.1,  # More stakeholders = more complex
             len(str(context)) / 1000,  # Longer description = more complex
             (context.get("urgency_level", "normal") == "critical" and 0.3) or 0.0,
         ]
@@ -1373,9 +1313,7 @@ class MockCollapseTracker:
 
 class MockVeriFoldConnector:
     async def create_hash(self, data):
-        return hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()[
-            :16
-        ]
+        return hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()[:16]
 
 
 class MockDriftMonitor:
@@ -1469,18 +1407,14 @@ async def check_ethical_compliance(
     context: dict[str, Any],
 ) -> EthicalDecisionResponse:
     """Check ethical compliance for a given context."""
-    return await make_ethical_decision(
-        EthicalDecisionType.POLICY_COMPLIANCE_CHECK, context
-    )
+    return await make_ethical_decision(EthicalDecisionType.POLICY_COMPLIANCE_CHECK, context)
 
 
 async def evaluate_user_request(
     context: dict[str, Any],
 ) -> EthicalDecisionResponse:
     """Evaluate the ethics of a user request."""
-    return await make_ethical_decision(
-        EthicalDecisionType.USER_REQUEST_EVALUATION, context
-    )
+    return await make_ethical_decision(EthicalDecisionType.USER_REQUEST_EVALUATION, context)
 
 
 async def get_ethics_system_status() -> dict[str, Any]:

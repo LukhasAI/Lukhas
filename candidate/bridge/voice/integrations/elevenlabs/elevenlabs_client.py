@@ -34,11 +34,7 @@ class ElevenLabsClient:
         self.api_base = "https://api.elevenlabs.io/v1"
         self.session = None
         BASE_DIR = os.path.dirname(
-            os.path.dirname(
-                os.path.dirname(
-                    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-                )
-            )
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         )
         self.audio_storage_path = os.path.join(BASE_DIR, "temp", "audio", "elevenlabs")
 
@@ -106,9 +102,7 @@ class ElevenLabsClient:
             async with self.session.post(url, json=payload) as response:
                 if response.status != 200:
                     error_text = await response.text()
-                    logger.error(
-                        f"ElevenLabs API error: {response.status} - {error_text}"
-                    )
+                    logger.error(f"ElevenLabs API error: {response.status} - {error_text}")
                     return {
                         "error": f"API error: {response.status}",
                         "audio_path": None,
@@ -148,9 +142,7 @@ class ElevenLabsClient:
             async with self.session.get(url) as response:
                 if response.status != 200:
                     error_text = await response.text()
-                    logger.error(
-                        f"ElevenLabs API error: {response.status} - {error_text}"
-                    )
+                    logger.error(f"ElevenLabs API error: {response.status} - {error_text}")
                     return {"error": f"API error: {response.status}"}
 
                 data = await response.json()
@@ -177,9 +169,7 @@ class ElevenLabsClient:
             async with self.session.get(url) as response:
                 if response.status != 200:
                     error_text = await response.text()
-                    logger.error(
-                        f"ElevenLabs API error: {response.status} - {error_text}"
-                    )
+                    logger.error(f"ElevenLabs API error: {response.status} - {error_text}")
                     return {"error": f"API error: {response.status}"}
 
                 data = await response.json()
@@ -262,18 +252,11 @@ class ElevenLabsClient:
                     if (
                         os.system(f"aplay {audio_path}") == 0
                         or os.system(f"mpg123 {audio_path}") == 0
-                        or (
-                            os.system(
-                                f"ffplay -nodisp -autoexit {audio_path} > /dev/null 2>&1"
-                            )
-                            == 0
-                        )
+                        or (os.system(f"ffplay -nodisp -autoexit {audio_path} > /dev/null 2>&1") == 0)
                     ):
                         played = True
                     else:
-                        logger.warning(
-                            "Could not find a suitable audio player for Linux"
-                        )
+                        logger.warning("Could not find a suitable audio player for Linux")
 
                 result["played"] = played
             except Exception as e:

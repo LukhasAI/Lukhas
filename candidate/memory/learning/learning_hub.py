@@ -166,13 +166,9 @@ class LearningHub:
                     "symbolic_feedback",
                     "federated_integration",
                 ]:
-                    module = __import__(
-                        f"learning.meta_learning.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"learning.meta_learning.{service_name}", fromlist=[class_name])
                 else:
-                    module = __import__(
-                        f"learning.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"learning.{service_name}", fromlist=[class_name])
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -191,9 +187,7 @@ class LearningHub:
 
         for service_name, class_name in services:
             try:
-                module = __import__(
-                    f"learning.meta_adaptive.{service_name}", fromlist=[class_name]
-                )
+                module = __import__(f"learning.meta_adaptive.{service_name}", fromlist=[class_name])
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -238,9 +232,7 @@ class LearningHub:
                         fromlist=[class_name],
                     )
                 else:
-                    module = __import__(
-                        f"learning.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"learning.{service_name}", fromlist=[class_name])
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -286,13 +278,9 @@ class LearningHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(
-                        service_name, self.services[service_name], "learning"
-                    )
+                    discovery.register_service_globally(service_name, self.services[service_name], "learning")
 
-            logger.debug(
-                f"Registered {len(key_services)} learning services with global discovery"
-            )
+            logger.debug(f"Registered {len(key_services)} learning services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -363,17 +351,13 @@ class LearningHub:
 
         try:
             result = await self.enhancement_system.run_enhancement_cycle()
-            self.learning_metrics["enhancement_cycles"] = (
-                self.learning_metrics.get("enhancement_cycles", 0) + 1
-            )
+            self.learning_metrics["enhancement_cycles"] = self.learning_metrics.get("enhancement_cycles", 0) + 1
             return {"success": True, "result": result}
         except Exception as e:
             logger.error(f"Enhancement cycle failed: {e}")
             return {"success": False, "error": str(e)}
 
-    async def process_learning_event(
-        self, learning_data: dict[str, Any], context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_learning_event(self, learning_data: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Process a learning event through the learning system"""
 
         # Route through meta-learning first
@@ -392,9 +376,7 @@ class LearningHub:
         adaptive_result = None
         if adaptive_core and hasattr(adaptive_core, "adapt_from_learning"):
             try:
-                adaptive_result = await adaptive_core.adapt_from_learning(
-                    meta_result or learning_data
-                )
+                adaptive_result = await adaptive_core.adapt_from_learning(meta_result or learning_data)
                 self.learning_metrics["adaptation_events"] += 1
             except Exception as e:
                 logger.error(f"Adaptive learning error: {e}")
@@ -420,9 +402,7 @@ class LearningHub:
         federated_system = self.get_service("federated_learning_system")
         if federated_system and hasattr(federated_system, "process_update"):
             try:
-                result = await federated_system.process_update(
-                    update_data, source_context
-                )
+                result = await federated_system.process_update(update_data, source_context)
                 self.learning_metrics["federated_updates"] += 1
                 self.learning_metrics["last_updated"] = datetime.now().isoformat()
 
@@ -438,9 +418,7 @@ class LearningHub:
 
         return {"error": "Federated learning system not available"}
 
-    def register_learning_feedback(
-        self, feedback_type: str, feedback_data: dict[str, Any]
-    ):
+    def register_learning_feedback(self, feedback_type: str, feedback_data: dict[str, Any]):
         """Register learning feedback for continuous improvement"""
         # This method will be used by other hubs to provide learning feedback
 
@@ -452,20 +430,14 @@ class LearningHub:
             except Exception as e:
                 logger.error(f"Learning feedback registration error: {e}")
 
-    async def process_event(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_event(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Process an event through registered handlers"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
 
         for handler in handlers:
             try:
-                result = (
-                    await handler(data)
-                    if asyncio.iscoroutinefunction(handler)
-                    else handler(data)
-                )
+                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
                 results.append(result)
             except Exception as e:
                 logger.error(f"Learning handler error for {event_type}: {e}")

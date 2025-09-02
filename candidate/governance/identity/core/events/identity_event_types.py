@@ -178,9 +178,7 @@ class IdentityEvent:
     def calculate_processing_duration(self):
         """Calculate processing duration if start and end times are set."""
         if self.processing_start and self.processing_end:
-            duration = (
-                self.processing_end - self.processing_start
-            ).total_seconds() * 1000
+            duration = (self.processing_end - self.processing_start).total_seconds() * 1000
             self.processing_duration_ms = duration
             return duration
         return None
@@ -207,11 +205,7 @@ class IdentityEvent:
             IdentityEventType.COLONY_HEALING_TRIGGERED,
             IdentityEventType.VERIFICATION_CONSENSUS_REACHED,
         ]
-        return (
-            self.event_type in colony_events
-            or self.consensus_required
-            or self.tier_level >= 3
-        )
+        return self.event_type in colony_events or self.consensus_required or self.tier_level >= 3
 
 
 @dataclass

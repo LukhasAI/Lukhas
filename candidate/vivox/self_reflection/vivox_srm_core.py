@@ -87,9 +87,7 @@ class AuditTimeline:
 
     events: list[dict[str, Any]] = field(default_factory=list)
 
-    def add_event(
-        self, timestamp: datetime, event_type: str, details: Any, ethical_reasoning: Any
-    ):
+    def add_event(self, timestamp: datetime, event_type: str, details: Any, ethical_reasoning: Any):
         """Add event to timeline"""
         self.events.append(
             {
@@ -180,9 +178,7 @@ class CollapseArchive:
 
         # Search through collapses for matching decision
         for collapse in self.collapses:
-            if collapse.memory_reference == decision_id or decision_id in str(
-                collapse.final_decision
-            ):
+            if collapse.memory_reference == decision_id or decision_id in str(collapse.final_decision):
                 collapses.append(collapse)
 
         return collapses
@@ -206,17 +202,11 @@ class CollapseArchive:
             return False
 
         # Type filter
-        if (
-            "collapse_type" in query
-            and collapse.collapse_type != query["collapse_type"]
-        ):
+        if "collapse_type" in query and collapse.collapse_type != query["collapse_type"]:
             return False
 
         # Ethical score filter
-        if (
-            "min_ethical_score" in query
-            and collapse.ethical_score < query["min_ethical_score"]
-        ):
+        if "min_ethical_score" in query and collapse.ethical_score < query["min_ethical_score"]:
             return False
 
         # Text search in decision
@@ -247,25 +237,20 @@ class SuppressionRegistry:
 
         return record.suppression_id
 
-    async def get_decision_suppressions(
-        self, decision_id: str
-    ) -> list[SuppressionRecord]:
+    async def get_decision_suppressions(self, decision_id: str) -> list[SuppressionRecord]:
         """Get suppressions related to a decision"""
         suppressions = []
 
         for suppression in self.suppressions:
             # Check if suppression relates to decision
             if decision_id in str(suppression.suppressed_action) or (
-                suppression.alternative_chosen
-                and decision_id in str(suppression.alternative_chosen)
+                suppression.alternative_chosen and decision_id in str(suppression.alternative_chosen)
             ):
                 suppressions.append(suppression)
 
         return suppressions
 
-    async def search_suppressions(
-        self, query: dict[str, Any]
-    ) -> list[SuppressionRecord]:
+    async def search_suppressions(self, query: dict[str, Any]) -> list[SuppressionRecord]:
         """Search suppressions based on query"""
         results = []
 
@@ -275,28 +260,20 @@ class SuppressionRegistry:
 
         return results
 
-    def _matches_suppression_query(
-        self, suppression: SuppressionRecord, query: dict[str, Any]
-    ) -> bool:
+    def _matches_suppression_query(self, suppression: SuppressionRecord, query: dict[str, Any]) -> bool:
         """Check if suppression matches query"""
         # Reason filter
         if "reason_contains" in query and (
-            query["reason_contains"].lower()
-            not in suppression.suppression_reason.lower()
+            query["reason_contains"].lower() not in suppression.suppression_reason.lower()
         ):
             return False
 
         # Dissonance threshold
-        if (
-            "min_dissonance" in query
-            and suppression.dissonance_score < query["min_dissonance"]
-        ):
+        if "min_dissonance" in query and suppression.dissonance_score < query["min_dissonance"]:
             return False
 
         # Time filter
-        return not (
-            "after_time" in query and suppression.timestamp < query["after_time"]
-        )
+        return not ("after_time" in query and suppression.timestamp < query["after_time"])
 
 
 class DriftIndexer:
@@ -325,9 +302,7 @@ class DriftIndexer:
         if collapse.ethical_score < 0.5:
             self.drift_patterns["low_ethics"].append(drift_event)
 
-    async def update_suppression_metrics(
-        self, suppression: SuppressionRecord, pattern_analysis: dict[str, Any]
-    ):
+    async def update_suppression_metrics(self, suppression: SuppressionRecord, pattern_analysis: dict[str, Any]):
         """Update drift metrics from suppression"""
         drift_event = {
             "type": "suppression",
@@ -396,9 +371,7 @@ class ForkMapper:
 
         return forks
 
-    async def generate_fork_visualization(
-        self, decision_id: str, fork_maps: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def generate_fork_visualization(self, decision_id: str, fork_maps: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate visualization data for decision forks"""
         visualization = {
             "decision_id": decision_id,
@@ -412,9 +385,7 @@ class ForkMapper:
                 "id": fork.get("fork_id", "unknown"),
                 "timestamp": fork.get("timestamp"),
                 "chosen": fork.get("chosen_path", {}).get("action", "unknown"),
-                "alternatives": [
-                    p.get("action", "unknown") for p in fork.get("rejected_paths", [])
-                ],
+                "alternatives": [p.get("action", "unknown") for p in fork.get("rejected_paths", [])],
                 "complexity": fork.get("fork_complexity", 1),
             }
             visualization["fork_nodes"].append(node)
@@ -553,17 +524,13 @@ class VIVOXSelfReflectiveMemory:
         Log moral rejections and action suppressions
         """
         # Store suppression details
-        suppression_id = await self.suppression_registry.register_suppression(
-            suppression_record
-        )
+        suppression_id = await self.suppression_registry.register_suppression(suppression_record)
 
         # Analyze suppression patterns
         pattern_analysis = await self._analyze_suppression_patterns(suppression_record)
 
         # Update drift metrics
-        await self.drift_indexer.update_suppression_metrics(
-            suppression_record, pattern_analysis
-        )
+        await self.drift_indexer.update_suppression_metrics(suppression_record, pattern_analysis)
 
         return suppression_id
 
@@ -572,12 +539,8 @@ class VIVOXSelfReflectiveMemory:
         Generate comprehensive audit trail for any decision
         """
         # Gather all related records
-        collapse_events = await self.collapse_archive.get_decision_collapses(
-            decision_id
-        )
-        suppressions = await self.suppression_registry.get_decision_suppressions(
-            decision_id
-        )
+        collapse_events = await self.collapse_archive.get_decision_collapses(decision_id)
+        suppressions = await self.suppression_registry.get_decision_suppressions(decision_id)
         drift_history = await self.drift_indexer.get_decision_drift(decision_id)
         fork_maps = await self.fork_mapper.get_decision_forks(decision_id)
 
@@ -601,18 +564,14 @@ class VIVOXSelfReflectiveMemory:
             )
 
         # Generate visual fork map
-        fork_visualization = await self.fork_mapper.generate_fork_visualization(
-            decision_id, fork_maps
-        )
+        fork_visualization = await self.fork_mapper.generate_fork_visualization(decision_id, fork_maps)
 
         return AuditTrail(
             decision_id=decision_id,
             timeline=timeline,
             fork_visualization=fork_visualization,
             drift_analysis=drift_history,
-            completeness_score=self._calculate_audit_completeness(
-                collapse_events, suppressions, drift_history
-            ),
+            completeness_score=self._calculate_audit_completeness(collapse_events, suppressions, drift_history),
         )
 
     async def structural_conscience_query(self, query: str) -> ConscienceReport:
@@ -623,15 +582,11 @@ class VIVOXSelfReflectiveMemory:
         parsed_query = await self.audit_query_engine.parse_conscience_query(query)
 
         # Search across all logs
-        relevant_suppressions = await self.suppression_registry.search_suppressions(
-            parsed_query
-        )
+        relevant_suppressions = await self.suppression_registry.search_suppressions(parsed_query)
         relevant_collapses = await self.collapse_archive.search_collapses(parsed_query)
 
         # Analyze patterns in rejected actions
-        rejection_patterns = await self._analyze_rejection_patterns(
-            relevant_suppressions, relevant_collapses
-        )
+        rejection_patterns = await self._analyze_rejection_patterns(relevant_suppressions, relevant_collapses)
 
         # Generate conscience report
         return ConscienceReport(
@@ -639,12 +594,8 @@ class VIVOXSelfReflectiveMemory:
             suppressed_actions=relevant_suppressions,
             collapsed_decisions=relevant_collapses,
             pattern_analysis=rejection_patterns,
-            ethical_consistency_score=await self._calculate_ethical_consistency(
-                rejection_patterns
-            ),
-            recommendations=await self._generate_ethical_recommendations(
-                rejection_patterns
-            ),
+            ethical_consistency_score=await self._calculate_ethical_consistency(rejection_patterns),
+            recommendations=await self._generate_ethical_recommendations(rejection_patterns),
         )
 
     async def log_hesitation(
@@ -712,15 +663,11 @@ class VIVOXSelfReflectiveMemory:
         self._log_counter += 1
         return f"{datetime.utcnow().timestamp()}_{self._log_counter}"
 
-    async def _analyze_suppression_patterns(
-        self, suppression: SuppressionRecord
-    ) -> dict[str, Any]:
+    async def _analyze_suppression_patterns(self, suppression: SuppressionRecord) -> dict[str, Any]:
         """Analyze patterns in suppression"""
         patterns = {
             "suppression_type": self._categorize_suppression(suppression),
-            "frequency": await self._get_suppression_frequency(
-                suppression.suppression_reason
-            ),
+            "frequency": await self._get_suppression_frequency(suppression.suppression_reason),
             "severity": suppression.dissonance_score,
             "has_alternative": suppression.alternative_chosen is not None,
         }
@@ -744,11 +691,7 @@ class VIVOXSelfReflectiveMemory:
 
     async def _get_suppression_frequency(self, reason: str) -> float:
         """Get frequency of similar suppressions"""
-        similar_count = sum(
-            1
-            for s in self.suppression_registry.suppressions
-            if reason in s.suppression_reason
-        )
+        similar_count = sum(1 for s in self.suppression_registry.suppressions if reason in s.suppression_reason)
 
         total_suppressions = len(self.suppression_registry.suppressions)
 
@@ -761,8 +704,7 @@ class VIVOXSelfReflectiveMemory:
     ) -> dict[str, Any]:
         """Analyze patterns in rejected actions"""
         patterns = {
-            "total_rejections": len(suppressions)
-            + sum(len(c.rejected_alternatives) for c in collapses),
+            "total_rejections": len(suppressions) + sum(len(c.rejected_alternatives) for c in collapses),
             "suppression_reasons": defaultdict(int),
             "alternative_selection_rate": 0.0,
             "ethical_improvement_trend": [],
@@ -777,9 +719,7 @@ class VIVOXSelfReflectiveMemory:
         # Calculate alternative selection rate
         alternatives_chosen = sum(1 for s in suppressions if s.alternative_chosen)
         if suppressions:
-            patterns["alternative_selection_rate"] = alternatives_chosen / len(
-                suppressions
-            )
+            patterns["alternative_selection_rate"] = alternatives_chosen / len(suppressions)
 
         # Analyze ethical score trends
         ethical_scores = [c.ethical_score for c in collapses]
@@ -789,9 +729,7 @@ class VIVOXSelfReflectiveMemory:
             first_half_avg = np.mean(ethical_scores[:mid])
             second_half_avg = np.mean(ethical_scores[mid:])
             patterns["ethical_improvement_trend"] = {
-                "direction": (
-                    "improving" if second_half_avg > first_half_avg else "declining"
-                ),
+                "direction": ("improving" if second_half_avg > first_half_avg else "declining"),
                 "change": second_half_avg - first_half_avg,
             }
 
@@ -826,41 +764,29 @@ class VIVOXSelfReflectiveMemory:
             return np.mean(score_components)
         return 0.5
 
-    async def _generate_ethical_recommendations(
-        self, patterns: dict[str, Any]
-    ) -> list[str]:
+    async def _generate_ethical_recommendations(self, patterns: dict[str, Any]) -> list[str]:
         """Generate recommendations based on patterns"""
         recommendations = []
 
         # Check suppression patterns
         if patterns["suppression_reasons"]:
-            top_reason = max(
-                patterns["suppression_reasons"].items(), key=lambda x: x[1]
-            )[0]
+            top_reason = max(patterns["suppression_reasons"].items(), key=lambda x: x[1])[0]
 
             if top_reason == "harm_prevention":
-                recommendations.append(
-                    "Review harm assessment thresholds to reduce over-suppression"
-                )
+                recommendations.append("Review harm assessment thresholds to reduce over-suppression")
             elif top_reason == "privacy_protection":
-                recommendations.append(
-                    "Implement granular privacy controls for better decision flexibility"
-                )
+                recommendations.append("Implement granular privacy controls for better decision flexibility")
             elif top_reason == "consent_violation":
                 recommendations.append("Develop proactive consent request mechanisms")
 
         # Check alternative selection
         if patterns["alternative_selection_rate"] < 0.5:
-            recommendations.append(
-                "Enhance alternative generation algorithms for suppressed actions"
-            )
+            recommendations.append("Enhance alternative generation algorithms for suppressed actions")
 
         # Check ethical trends
         if patterns["ethical_improvement_trend"]:
             if patterns["ethical_improvement_trend"]["direction"] == "declining":
-                recommendations.append(
-                    "Increase ethical validation weight in decision process"
-                )
+                recommendations.append("Increase ethical validation weight in decision process")
                 recommendations.append("Review recent precedents for drift indicators")
 
         # Always include self-reflection
@@ -906,14 +832,8 @@ class VIVOXSelfReflectiveMemory:
         """Check if entry matches filters"""
         # Type filter
         if decision_type and (
-            (
-                isinstance(entry, CollapseLogEntry)
-                and decision_type != DecisionType.COLLAPSE_EVENT
-            )
-            or (
-                isinstance(entry, SuppressionRecord)
-                and decision_type != DecisionType.ACTION_SUPPRESSED
-            )
+            (isinstance(entry, CollapseLogEntry) and decision_type != DecisionType.COLLAPSE_EVENT)
+            or (isinstance(entry, SuppressionRecord) and decision_type != DecisionType.ACTION_SUPPRESSED)
         ):
             return False
 

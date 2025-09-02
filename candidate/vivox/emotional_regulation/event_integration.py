@@ -93,11 +93,7 @@ class VIVOXEmotionalShift(VIVOXEmotionalEvent):
 
         self.previous_state = previous_state.to_dict() if previous_state else {}
         self.new_state = new_state.to_dict() if new_state else {}
-        self.shift_magnitude = (
-            previous_state.distance_to(new_state)
-            if (previous_state and new_state)
-            else 0.0
-        )
+        self.shift_magnitude = previous_state.distance_to(new_state) if (previous_state and new_state) else 0.0
         self.triggers = triggers
         self.vivox_context = context
 
@@ -177,13 +173,9 @@ class VIVOXEventBusIntegration:
         """Setup default event subscriptions"""
         try:
             # Subscribe to relevant system events
-            self.event_bus.subscribe(
-                EmotionalStateChanged, self._handle_system_emotional_change
-            )
+            self.event_bus.subscribe(EmotionalStateChanged, self._handle_system_emotional_change)
 
-            self.event_bus.subscribe(
-                EmotionalRegulationApplied, self._handle_system_regulation_event
-            )
+            self.event_bus.subscribe(EmotionalRegulationApplied, self._handle_system_regulation_event)
 
             logger.info("VIVOX event bus subscriptions established")
 
@@ -263,12 +255,7 @@ class VIVOXEventBusIntegration:
             await self._publish_event(event)
 
             # Also publish standard system event if available
-            if (
-                self.event_bus
-                and EVENT_SYSTEM_AVAILABLE
-                and previous_state
-                and new_state
-            ):
+            if self.event_bus and EVENT_SYSTEM_AVAILABLE and previous_state and new_state:
                 system_event = EmotionalStateChanged(
                     previous_vad=previous_state.to_dict(),
                     current_vad=new_state.to_dict(),
@@ -284,14 +271,10 @@ class VIVOXEventBusIntegration:
             logger.error(f"Failed to publish emotional shift event: {e}")
             self.integration_health *= 0.95
 
-    async def publish_regulation_applied(
-        self, user_id: str, regulation_response: RegulationResponse
-    ):
+    async def publish_regulation_applied(self, user_id: str, regulation_response: RegulationResponse):
         """Publish regulation application event"""
         try:
-            event = VIVOXRegulationApplied(
-                user_id=user_id, regulation_response=regulation_response
-            )
+            event = VIVOXRegulationApplied(user_id=user_id, regulation_response=regulation_response)
 
             await self._publish_event(event)
 
@@ -316,9 +299,7 @@ class VIVOXEventBusIntegration:
             logger.error(f"Failed to publish regulation event: {e}")
             self.integration_health *= 0.95
 
-    async def publish_emotional_memory_stored(
-        self, user_id: str, memory_data: dict[str, Any]
-    ):
+    async def publish_emotional_memory_stored(self, user_id: str, memory_data: dict[str, Any]):
         """Publish emotional memory storage event"""
         try:
             event = VIVOXEmotionalMemoryStored(user_id=user_id, memory_data=memory_data)
@@ -330,9 +311,7 @@ class VIVOXEventBusIntegration:
             logger.error(f"Failed to publish memory event: {e}")
             self.integration_health *= 0.95
 
-    async def publish_neuroplastic_update(
-        self, user_id: str, update_data: dict[str, Any]
-    ):
+    async def publish_neuroplastic_update(self, user_id: str, update_data: dict[str, Any]):
         """Publish neuroplastic learning update event"""
         try:
             event = VIVOXNeuroplasticUpdate(user_id=user_id, update_data=update_data)
@@ -460,35 +439,22 @@ class VIVOXEventBusIntegration:
     def get_integration_status(self) -> dict[str, Any]:
         """Get integration status and health metrics"""
         return {
-            "event_bus_connected": self.event_bus is not None
-            and EVENT_SYSTEM_AVAILABLE,
+            "event_bus_connected": self.event_bus is not None and EVENT_SYSTEM_AVAILABLE,
             "events_published": self.events_published,
             "events_processed": self.events_processed,
             "integration_health": self.integration_health,
             "subscribers_count": sum(len(subs) for subs in self.subscribers.values()),
             "event_history_size": len(self.event_history),
             "recent_events": len(
-                [
-                    e
-                    for e in self.event_history
-                    if (datetime.now(timezone.utc) - e.timestamp).seconds < 3600
-                ]
+                [e for e in self.event_history if (datetime.now(timezone.utc) - e.timestamp).seconds < 3600]
             ),
         }
 
-    async def get_emotional_analytics(
-        self, user_id: str, time_window_hours: int = 24
-    ) -> dict[str, Any]:
+    async def get_emotional_analytics(self, user_id: str, time_window_hours: int = 24) -> dict[str, Any]:
         """Get emotional analytics from event history"""
-        cutoff_time = datetime.now(timezone.utc).timestamp() - (
-            time_window_hours * 3600
-        )
+        cutoff_time = datetime.now(timezone.utc).timestamp() - (time_window_hours * 3600)
 
-        user_events = [
-            e
-            for e in self.event_history
-            if e.user_id == user_id and e.timestamp.timestamp() > cutoff_time
-        ]
+        user_events = [e for e in self.event_history if e.user_id == user_id and e.timestamp.timestamp() > cutoff_time]
 
         analytics = {
             "total_events": len(user_events),
@@ -501,9 +467,7 @@ class VIVOXEventBusIntegration:
         for event in user_events:
             # Count event types
             event_type = event.event_type
-            analytics["event_types"][event_type] = (
-                analytics["event_types"].get(event_type, 0) + 1
-            )
+            analytics["event_types"][event_type] = analytics["event_types"].get(event_type, 0) + 1
 
             # Collect regulation effectiveness
             if isinstance(event, VIVOXRegulationApplied):
@@ -525,16 +489,16 @@ class VIVOXEventBusIntegration:
 
         # Calculate averages
         if analytics["regulation_effectiveness"]:
-            analytics["average_regulation_effectiveness"] = sum(
+            analytics["average_regulation_effectiveness"] = sum(analytics["regulation_effectiveness"]) / len(
                 analytics["regulation_effectiveness"]
-            ) / len(analytics["regulation_effectiveness"])
+            )
         else:
             analytics["average_regulation_effectiveness"] = 0.0
 
         if analytics["emotional_shifts"]:
-            avg_shift_magnitude = sum(
-                shift["magnitude"] for shift in analytics["emotional_shifts"]
-            ) / len(analytics["emotional_shifts"])
+            avg_shift_magnitude = sum(shift["magnitude"] for shift in analytics["emotional_shifts"]) / len(
+                analytics["emotional_shifts"]
+            )
             analytics["average_emotional_volatility"] = avg_shift_magnitude
         else:
             analytics["average_emotional_volatility"] = 0.0
@@ -563,13 +527,9 @@ class VIVOXERNIntegratedSystem:
         self.audit_trail = []
 
         # Subscribe to our own events for audit tracking
-        self.event_integration.subscribe_to_vivox_events(
-            "vivox_regulation_applied", self._audit_regulation_event
-        )
+        self.event_integration.subscribe_to_vivox_events("vivox_regulation_applied", self._audit_regulation_event)
 
-        self.event_integration.subscribe_to_vivox_events(
-            "vivox_emotional_shift", self._audit_emotional_shift
-        )
+        self.event_integration.subscribe_to_vivox_events("vivox_emotional_shift", self._audit_emotional_shift)
 
     async def process_emotional_input(
         self,
@@ -591,14 +551,10 @@ class VIVOXERNIntegratedSystem:
         original_state = self.vivox_ern.current_state
 
         # Process through VIVOX.ERN
-        regulation_response = await self.vivox_ern.process_emotional_input(
-            emotion_data, context, user_preferences
-        )
+        regulation_response = await self.vivox_ern.process_emotional_input(emotion_data, context, user_preferences)
 
         # Publish events
-        await self.event_integration.publish_regulation_applied(
-            user_id, regulation_response
-        )
+        await self.event_integration.publish_regulation_applied(user_id, regulation_response)
 
         # Publish emotional shift if significant
         if original_state.distance_to(regulation_response.regulated_state) > 0.1:
@@ -622,9 +578,7 @@ class VIVOXERNIntegratedSystem:
             "effectiveness": regulation_response.effectiveness,
             "context_hash": str(hash(str(context))),
         }
-        await self.event_integration.publish_emotional_memory_stored(
-            user_id, memory_data
-        )
+        await self.event_integration.publish_emotional_memory_stored(user_id, memory_data)
 
         return regulation_response
 
@@ -660,17 +614,14 @@ class VIVOXERNIntegratedSystem:
 
         self.audit_trail.append(audit_entry)
 
-    def get_user_audit_trail(
-        self, user_id: str, hours: int = 24
-    ) -> list[dict[str, Any]]:
+    def get_user_audit_trail(self, user_id: str, hours: int = 24) -> list[dict[str, Any]]:
         """Get audit trail for specific user"""
         cutoff_time = datetime.now(timezone.utc).timestamp() - (hours * 3600)
 
         return [
             entry
             for entry in self.audit_trail
-            if entry["user_id"] == user_id
-            and datetime.fromisoformat(entry["timestamp"]).timestamp() > cutoff_time
+            if entry["user_id"] == user_id and datetime.fromisoformat(entry["timestamp"]).timestamp() > cutoff_time
         ]
 
     async def get_comprehensive_user_report(self, user_id: str) -> dict[str, Any]:

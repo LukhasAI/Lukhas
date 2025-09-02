@@ -39,18 +39,11 @@ class ToolExecutor:
         self.config = config or {}
 
         # Check environment flags for which tools are enabled
-        self.retrieval_enabled = (
-            os.getenv("LUKHAS_ENABLE_RETRIEVAL", "true").lower() == "true"
-        )
-        self.browser_enabled = (
-            os.getenv("LUKHAS_ENABLE_BROWSER", "true").lower() == "true"
-        )
-        self.scheduler_enabled = (
-            os.getenv("LUKHAS_ENABLE_SCHEDULER", "true").lower() == "true"
-        )
+        self.retrieval_enabled = os.getenv("LUKHAS_ENABLE_RETRIEVAL", "true").lower() == "true"
+        self.browser_enabled = os.getenv("LUKHAS_ENABLE_BROWSER", "true").lower() == "true"
+        self.scheduler_enabled = os.getenv("LUKHAS_ENABLE_SCHEDULER", "true").lower() == "true"
         self.code_exec_enabled = (
-            os.getenv("LUKHAS_ENABLE_CODE_EXEC", "true").lower()
-            == "true"  # Enabled for dev
+            os.getenv("LUKHAS_ENABLE_CODE_EXEC", "true").lower() == "true"  # Enabled for dev
         )
 
         # Queue directory for scheduled tasks
@@ -197,9 +190,7 @@ class ToolExecutor:
 
             # If no vector store available, use in-memory search
             self.vector_store = None
-            logger.warning(
-                "No vector store libraries available, using contextual search"
-            )
+            logger.warning("No vector store libraries available, using contextual search")
 
         except Exception as e:
             logger.error(f"Failed to initialize vector store: {e}")
@@ -232,9 +223,7 @@ class ToolExecutor:
 
         formatted_results = [f"Retrieved knowledge for '{query}':\n"]
 
-        for i, (docs, metadatas) in enumerate(
-            zip(results["documents"][0], results.get("metadatas", [[]])[0])
-        ):
+        for i, (docs, metadatas) in enumerate(zip(results["documents"][0], results.get("metadatas", [[]])[0])):
             formatted_results.append(f"{i + 1}. {docs}")
             if metadatas and "source" in metadatas:
                 formatted_results.append(f"   Source: {metadatas['source']}")
@@ -264,9 +253,7 @@ class ToolExecutor:
 - Multi-modal explanation capabilities with XIL"""
 
         # Consciousness technology
-        elif "consciousness" in query_lower and (
-            "ai" in query_lower or "artificial" in query_lower
-        ):
+        elif "consciousness" in query_lower and ("ai" in query_lower or "artificial" in query_lower):
             return """Retrieved knowledge about AI consciousness technology:
 - Consciousness requires self-awareness, intentionality, and subjective experience
 - Current AI systems exhibit narrow consciousness in specific domains
@@ -275,10 +262,7 @@ class ToolExecutor:
 - Ethical considerations around consciousness claims are paramount"""
 
         # Machine learning and AI development
-        elif any(
-            term in query_lower
-            for term in ["machine learning", "neural networks", "deep learning"]
-        ):
+        elif any(term in query_lower for term in ["machine learning", "neural networks", "deep learning"]):
             return """Retrieved knowledge about ML/AI development:
 - Deep learning revolutionized pattern recognition and NLP
 - Transformer architectures enable large language models
@@ -287,10 +271,7 @@ class ToolExecutor:
 - Best practices: version control, testing, monitoring, documentation"""
 
         # Programming and development
-        elif any(
-            term in query_lower
-            for term in ["python", "programming", "development", "coding"]
-        ):
+        elif any(term in query_lower for term in ["python", "programming", "development", "coding"]):
             return """Retrieved knowledge about software development:
 - Python dominates AI/ML development with rich ecosystem
 - Best practices: clean code, testing, documentation, version control
@@ -311,15 +292,11 @@ class ToolExecutor:
             # Enhanced generic response with suggestions
             suggestions = []
             if any(term in query_lower for term in ["what", "how", "why"]):
-                suggestions.append(
-                    "Try more specific keywords related to your domain of interest"
-                )
+                suggestions.append("Try more specific keywords related to your domain of interest")
             if len(query.split()) < 3:
                 suggestions.append("Consider using more detailed queries with context")
 
-            suggestion_text = (
-                ". Suggestions: " + "; ".join(suggestions) if suggestions else ""
-            )
+            suggestion_text = ". Suggestions: " + "; ".join(suggestions) if suggestions else ""
 
             return f"No specific knowledge found for query: '{query}'{suggestion_text}. Available topics include: AI ethics, LUKHAS AI, consciousness technology, machine learning, programming, and industry updates."
 
@@ -388,18 +365,13 @@ class ToolExecutor:
                     tag.decompose()
 
                 title = soup.title.string if soup.title else ""
-                body_text = (
-                    soup.body.get_text(separator=" ", strip=True) if soup.body else ""
-                )
+                body_text = soup.body.get_text(separator=" ", strip=True) if soup.body else ""
 
                 full_text = f"Title: {title}\n\n{body_text}".strip()
 
                 max_length = self.config.get("max_content_length", 8000)
                 if len(full_text) > max_length:
-                    full_text = (
-                        full_text[:max_length]
-                        + f"... (truncated from {len(full_text)} chars)"
-                    )
+                    full_text = full_text[:max_length] + f"... (truncated from {len(full_text)} chars)"
 
                 return f"Successfully retrieved and parsed content from {url}:\n\n{full_text}"
 
@@ -409,9 +381,7 @@ class ToolExecutor:
             logger.warning(f"Failed to open URL {url}: {e}")
             return f"Error fetching URL: {e}"
         except Exception as e:
-            logger.error(
-                f"An unexpected error occurred while opening URL {url}", exc_info=e
-            )
+            logger.error(f"An unexpected error occurred while opening URL {url}", exc_info=e)
             return f"An unexpected error occurred: {e!s}"
 
     async def _schedule_task(self, args: dict[str, Any]) -> str:
@@ -434,9 +404,7 @@ class ToolExecutor:
             return "Cannot schedule task without a description."
 
         # Create task record
-        task_id = hashlib.md5(f"{when}:{note}:{datetime.now()}".encode()).hexdigest()[
-            :8
-        ]
+        task_id = hashlib.md5(f"{when}:{note}:{datetime.now()}".encode()).hexdigest()[:8]
         task_data = {
             "id": task_id,
             "created": datetime.now().isoformat(),
@@ -464,10 +432,7 @@ class ToolExecutor:
             Execution result or safe message
         """
         if not self.code_exec_enabled:
-            return (
-                "Code execution is disabled for security. "
-                "Enable with LUKHAS_ENABLE_CODE_EXEC=true if needed."
-            )
+            return "Code execution is disabled for security. " "Enable with LUKHAS_ENABLE_CODE_EXEC=true if needed."
 
         language = args.get("language", "unknown")
         source = args.get("source", "")
@@ -491,9 +456,7 @@ class ToolExecutor:
         try:
             client = docker.from_env(timeout=60)
         except docker.errors.DockerException:
-            return (
-                "Docker is not available or configured correctly. Cannot execute code."
-            )
+            return "Docker is not available or configured correctly. Cannot execute code."
 
         temp_dir = tempfile.mkdtemp()
 
@@ -511,9 +474,7 @@ class ToolExecutor:
             # Build the image
             try:
                 logger.info(f"Building docker image {image_tag} for {language} code.")
-                image, _ = client.images.build(
-                    path=temp_dir, tag=image_tag, rm=True, forcerm=True, timeout=120
-                )
+                image, _ = client.images.build(path=temp_dir, tag=image_tag, rm=True, forcerm=True, timeout=120)
             except docker.errors.BuildError as e:
                 logger.error(f"Docker build failed for {language}: {e}")
                 log_str = "\n".join([str(line) for line in e.build_log])
@@ -535,12 +496,8 @@ class ToolExecutor:
                 # Wait for container to finish, with timeout
                 try:
                     container.wait(timeout=30)
-                    stdout = container.logs(stdout=True, stderr=False).decode(
-                        "utf-8", "ignore"
-                    )
-                    stderr = container.logs(stdout=False, stderr=True).decode(
-                        "utf-8", "ignore"
-                    )
+                    stdout = container.logs(stdout=True, stderr=False).decode("utf-8", "ignore")
+                    stderr = container.logs(stdout=False, stderr=True).decode("utf-8", "ignore")
                     output = f"STDOUT:\n{stdout}\nSTDERR:\n{stderr}"
                 except Exception:  # Container ran too long
                     container.kill()
@@ -613,9 +570,7 @@ RUN chmod +x {filename}
         """Get execution metrics"""
         return self.metrics.copy()
 
-    async def execute_tool_calls(
-        self, tool_calls: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    async def execute_tool_calls(self, tool_calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """
         Execute multiple tool calls and return results.
 
@@ -637,16 +592,12 @@ RUN chmod +x {filename}
             if name == "exec_code":
                 # Run sync function in async context
                 loop = asyncio.get_event_loop()
-                result = await loop.run_in_executor(
-                    None, self._exec_code, json.loads(arguments)
-                )
+                result = await loop.run_in_executor(None, self._exec_code, json.loads(arguments))
             else:
                 result = await self.execute(name, arguments)
 
             # Format for OpenAI
-            results.append(
-                {"tool_call_id": tool_id, "role": "tool", "content": str(result)}
-            )
+            results.append({"tool_call_id": tool_id, "role": "tool", "content": str(result)})
 
         return results
 
@@ -677,16 +628,10 @@ RUN chmod +x {filename}
                 r"10\.",
                 r"172\.",
             ],
-            "max_content_size": int(
-                os.getenv("LUKHAS_MAX_CONTENT_SIZE", "1048576")
-            ),  # 1MB
-            "request_timeout": int(
-                os.getenv("LUKHAS_REQUEST_TIMEOUT", "30")
-            ),  # 30 seconds
+            "max_content_size": int(os.getenv("LUKHAS_MAX_CONTENT_SIZE", "1048576")),  # 1MB
+            "request_timeout": int(os.getenv("LUKHAS_REQUEST_TIMEOUT", "30")),  # 30 seconds
             "rate_limit_requests": int(os.getenv("LUKHAS_RATE_LIMIT_REQUESTS", "10")),
-            "rate_limit_window": int(
-                os.getenv("LUKHAS_RATE_LIMIT_WINDOW", "60")
-            ),  # 1 minute
+            "rate_limit_window": int(os.getenv("LUKHAS_RATE_LIMIT_WINDOW", "60")),  # 1 minute
             "user_agent": "LUKHAS-AI-ToolExecutor/1.0 (Safe Web Scraper)",
         }
 
@@ -700,15 +645,10 @@ RUN chmod +x {filename}
 
         # Clean old timestamps
         window_start = now - self.security_config["rate_limit_window"]
-        self._request_timestamps[key] = [
-            ts for ts in self._request_timestamps[key] if ts > window_start
-        ]
+        self._request_timestamps[key] = [ts for ts in self._request_timestamps[key] if ts > window_start]
 
         # Check rate limit
-        if (
-            len(self._request_timestamps[key])
-            >= self.security_config["rate_limit_requests"]
-        ):
+        if len(self._request_timestamps[key]) >= self.security_config["rate_limit_requests"]:
             self.metrics["rate_limited"] += 1
             return False
 
@@ -750,9 +690,7 @@ RUN chmod +x {filename}
         # Validate URL
         if not self._validate_url(url):
             self.metrics["security_violations"] += 1
-            await self._audit_log(
-                "url_blocked", {"url": url, "reason": "security_validation_failed"}
-            )
+            await self._audit_log("url_blocked", {"url": url, "reason": "security_validation_failed"})
             return f"URL blocked by security policy: {url}"
 
         # Check rate limits
@@ -768,9 +706,7 @@ RUN chmod +x {filename}
                 use_dns_cache=True,
             )
 
-            timeout = aiohttp.ClientTimeout(
-                total=self.security_config["request_timeout"], connect=10
-            )
+            timeout = aiohttp.ClientTimeout(total=self.security_config["request_timeout"], connect=10)
 
             headers = {
                 "User-Agent": self.security_config["user_agent"],
@@ -781,30 +717,17 @@ RUN chmod +x {filename}
                 "Upgrade-Insecure-Requests": "1",
             }
 
-            async with aiohttp.ClientSession(
-                connector=connector, timeout=timeout, headers=headers
-            ) as session:
-                async with session.get(
-                    url, allow_redirects=True, max_redirects=3
-                ) as response:
+            async with aiohttp.ClientSession(connector=connector, timeout=timeout, headers=headers) as session:
+                async with session.get(url, allow_redirects=True, max_redirects=3) as response:
                     # Check content size
                     content_length = response.headers.get("content-length")
-                    if (
-                        content_length
-                        and int(content_length)
-                        > self.security_config["max_content_size"]
-                    ):
-                        await self._audit_log(
-                            "content_too_large", {"url": url, "size": content_length}
-                        )
+                    if content_length and int(content_length) > self.security_config["max_content_size"]:
+                        await self._audit_log("content_too_large", {"url": url, "size": content_length})
                         return f"Content too large ({content_length} bytes). Maximum allowed: {self.security_config['max_content_size']}"
 
                     # Check content type
                     content_type = response.headers.get("content-type", "").lower()
-                    if not any(
-                        ct in content_type
-                        for ct in ["text/", "application/json", "application/xml"]
-                    ):
+                    if not any(ct in content_type for ct in ["text/", "application/json", "application/xml"]):
                         await self._audit_log(
                             "unsupported_content_type",
                             {"url": url, "content_type": content_type},
@@ -846,9 +769,7 @@ RUN chmod +x {filename}
             await self._audit_log("web_scrape_timeout", {"url": url})
             return f"Request timed out after {self.security_config['request_timeout']} seconds"
         except aiohttp.ClientError as e:
-            await self._audit_log(
-                "web_scrape_client_error", {"url": url, "error": str(e)}
-            )
+            await self._audit_log("web_scrape_client_error", {"url": url, "error": str(e)})
             return f"Network error accessing {url}: {e!s}"
         except Exception as e:
             await self._audit_log("web_scrape_error", {"url": url, "error": str(e)})
@@ -885,21 +806,13 @@ RUN chmod +x {filename}
             for selector in content_selectors:
                 elements = soup.select(selector)
                 if elements:
-                    main_content = "\n".join(
-                        el.get_text(strip=True, separator=" ") for el in elements[:3]
-                    )
+                    main_content = "\n".join(el.get_text(strip=True, separator=" ") for el in elements[:3])
                     break
 
             # Fallback to paragraphs and headings
             if not main_content:
-                elements = soup.find_all(
-                    ["p", "h1", "h2", "h3", "h4", "h5", "h6"], limit=10
-                )
-                main_content = "\n".join(
-                    el.get_text(strip=True)
-                    for el in elements
-                    if el.get_text(strip=True)
-                )
+                elements = soup.find_all(["p", "h1", "h2", "h3", "h4", "h5", "h6"], limit=10)
+                main_content = "\n".join(el.get_text(strip=True) for el in elements if el.get_text(strip=True))
 
             # Extract metadata
             description = soup.find("meta", attrs={"name": "description"})
@@ -912,11 +825,7 @@ RUN chmod +x {filename}
 
             response_parts.append(f"URL: {url}")
             response_parts.append("Content:")
-            response_parts.append(
-                main_content[:2000] + "..."
-                if len(main_content) > 2000
-                else main_content
-            )
+            response_parts.append(main_content[:2000] + "..." if len(main_content) > 2000 else main_content)
 
             return "\n\n".join(response_parts)
 
@@ -944,9 +853,7 @@ RUN chmod +x {filename}
             return f"Maximum concurrent executions ({self._max_concurrent_executions}) reached. Please wait."
 
         self._active_executions += 1
-        execution_id = hashlib.sha256(f"{time.time()}{source}".encode()).hexdigest()[
-            :12
-        ]
+        execution_id = hashlib.sha256(f"{time.time()}{source}".encode()).hexdigest()[:12]
 
         try:
             await self._audit_log(
@@ -1032,11 +939,7 @@ RUN chmod +x {filename}
                         **container_limits,
                     )
 
-                    output = (
-                        container.decode("utf-8")
-                        if isinstance(container, bytes)
-                        else str(container)
-                    )
+                    output = container.decode("utf-8") if isinstance(container, bytes) else str(container)
 
                     await self._audit_log(
                         "code_execution_success",
@@ -1054,9 +957,7 @@ RUN chmod +x {filename}
                     return f"Execution completed successfully:\n\n{output}"
 
                 except docker.errors.ContainerError as e:
-                    error_output = (
-                        e.stderr.decode("utf-8") if e.stderr else "No error details"
-                    )
+                    error_output = e.stderr.decode("utf-8") if e.stderr else "No error details"
                     await self._audit_log(
                         "code_execution_container_error",
                         {
@@ -1077,9 +978,7 @@ RUN chmod +x {filename}
         except RuntimeError as e:
             return str(e)
         except Exception as e:
-            await self._audit_log(
-                "code_execution_error", {"execution_id": execution_id, "error": str(e)}
-            )
+            await self._audit_log("code_execution_error", {"execution_id": execution_id, "error": str(e)})
             return f"Sandboxed execution failed: {e!s}"
         finally:
             self._active_executions -= 1
@@ -1174,15 +1073,11 @@ RUN chmod +x {filename}
         }
 
         # Check patterns for current language and all languages
-        patterns_to_check = dangerous_patterns.get("all", []) + dangerous_patterns.get(
-            language, []
-        )
+        patterns_to_check = dangerous_patterns.get("all", []) + dangerous_patterns.get(language, [])
 
         for pattern in patterns_to_check:
             if re.search(pattern, source, re.IGNORECASE | re.MULTILINE):
-                logger.warning(
-                    f"Blocked dangerous pattern in {language} code: {pattern}"
-                )
+                logger.warning(f"Blocked dangerous pattern in {language} code: {pattern}")
                 return False
 
         # Additional checks

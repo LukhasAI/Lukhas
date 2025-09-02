@@ -74,9 +74,7 @@ class OrchestrationAPIRequest(BaseModel):
     """API request model for orchestration"""
 
     prompt: str = Field(..., description="User prompt", min_length=1, max_length=10000)
-    messages: Optional[list[ChatMessage]] = Field(
-        None, description="Conversation messages"
-    )
+    messages: Optional[list[ChatMessage]] = Field(None, description="Conversation messages")
 
     # Orchestration settings
     strategy: str = Field("consensus", description="Orchestration strategy")
@@ -84,22 +82,14 @@ class OrchestrationAPIRequest(BaseModel):
 
     # Function calling
     enable_functions: bool = Field(True, description="Enable function calling")
-    specific_functions: Optional[list[str]] = Field(
-        None, description="Specific functions to allow"
-    )
+    specific_functions: Optional[list[str]] = Field(None, description="Specific functions to allow")
 
     # Performance constraints
-    max_latency_ms: int = Field(
-        5000, description="Maximum latency in milliseconds", ge=100, le=30000
-    )
-    max_cost: float = Field(
-        0.10, description="Maximum cost per request", ge=0.001, le=10.0
-    )
+    max_latency_ms: int = Field(5000, description="Maximum latency in milliseconds", ge=100, le=30000)
+    max_cost: float = Field(0.10, description="Maximum cost per request", ge=0.001, le=10.0)
 
     # Quality requirements
-    min_confidence: float = Field(
-        0.7, description="Minimum confidence threshold", ge=0.0, le=1.0
-    )
+    min_confidence: float = Field(0.7, description="Minimum confidence threshold", ge=0.0, le=1.0)
     require_consensus: bool = Field(False, description="Require consensus for response")
 
     # Metadata
@@ -124,16 +114,10 @@ class StreamingRequest(BaseModel):
 class FunctionRegistrationRequest(BaseModel):
     """Function registration request"""
 
-    functions: dict[str, dict[str, Any]] = Field(
-        ..., description="Functions to register"
-    )
+    functions: dict[str, dict[str, Any]] = Field(..., description="Functions to register")
     global_scope: bool = Field(True, description="Register globally for all providers")
-    security_validated: bool = Field(
-        False, description="Whether functions have been security validated"
-    )
-    healthcare_compliant: bool = Field(
-        False, description="Whether functions are healthcare compliant"
-    )
+    security_validated: bool = Field(False, description="Whether functions have been security validated")
+    healthcare_compliant: bool = Field(False, description="Whether functions are healthcare compliant")
 
 
 class OrchestrationAPIResponse(BaseModel):
@@ -145,9 +129,7 @@ class OrchestrationAPIResponse(BaseModel):
 
     # Provider information
     primary_provider: str = Field(..., description="Primary provider used")
-    participating_providers: list[str] = Field(
-        ..., description="All participating providers"
-    )
+    participating_providers: list[str] = Field(..., description="All participating providers")
 
     # Performance metrics
     latency_ms: float = Field(..., description="Total latency")
@@ -164,17 +146,11 @@ class OrchestrationAPIResponse(BaseModel):
     strategy_used: str = Field(..., description="Orchestration strategy used")
 
     # Function calling results
-    function_calls: list[dict[str, Any]] = Field(
-        default_factory=list, description="Function calls made"
-    )
-    tool_uses: list[dict[str, Any]] = Field(
-        default_factory=list, description="Tool uses made"
-    )
+    function_calls: list[dict[str, Any]] = Field(default_factory=list, description="Function calls made")
+    tool_uses: list[dict[str, Any]] = Field(default_factory=list, description="Tool uses made")
 
     # Transparency
-    individual_responses: list[dict[str, Any]] = Field(
-        default_factory=list, description="Individual model responses"
-    )
+    individual_responses: list[dict[str, Any]] = Field(default_factory=list, description="Individual model responses")
     decision_rationale: str = Field("", description="Decision-making rationale")
 
 
@@ -208,9 +184,7 @@ class APIKeyManager:
     def validate_api_key(self, api_key: str) -> dict[str, Any]:
         """Validate API key and return user information"""
         if api_key not in self.api_keys:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key"
-            )
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key")
 
         return self.api_keys[api_key]
 
@@ -225,9 +199,7 @@ class APIKeyManager:
 
         # Clean old requests (older than 1 minute)
         self.request_counts[user_id] = [
-            req_time
-            for req_time in self.request_counts[user_id]
-            if current_time - req_time < 60
+            req_time for req_time in self.request_counts[user_id] if current_time - req_time < 60
         ]
 
         # Check minute rate limit
@@ -239,9 +211,7 @@ class APIKeyManager:
         self.request_counts[user_id].append(current_time)
         return True
 
-    def check_cost_limit(
-        self, api_key: str, user_info: dict[str, Any], estimated_cost: float
-    ) -> bool:
+    def check_cost_limit(self, api_key: str, user_info: dict[str, Any], estimated_cost: float) -> bool:
         """Check if request would exceed cost limits"""
         user_id = user_info["user_id"]
         daily_limit = user_info["cost_limit"]["daily"]
@@ -269,9 +239,7 @@ async def get_current_user(
 
     # Check rate limits
     if not api_key_manager.check_rate_limit(api_key, user_info):
-        raise HTTPException(
-            status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail="Rate limit exceeded"
-        )
+        raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail="Rate limit exceeded")
 
     return {"api_key": api_key, "user_info": user_info}
 
@@ -337,9 +305,7 @@ if FASTAPI_AVAILABLE:
                 )
 
             # Check cost limits
-            if not api_key_manager.check_cost_limit(
-                api_key, user_info, request.max_cost
-            ):
+            if not api_key_manager.check_cost_limit(api_key, user_info, request.max_cost):
                 raise HTTPException(
                     status_code=status.HTTP_402_PAYMENT_REQUIRED,
                     detail="Daily cost limit exceeded",
@@ -355,13 +321,10 @@ if FASTAPI_AVAILABLE:
                     "session_id": request.session_id,
                 },
                 preferred_providers=(
-                    [APIProvider(p) for p in request.providers]
-                    if request.providers
-                    else [APIProvider.ALL]
+                    [APIProvider(p) for p in request.providers] if request.providers else [APIProvider.ALL]
                 ),
                 strategy=OrchestrationStrategy(request.strategy),
-                enable_functions=request.enable_functions
-                and "functions" in user_info["permissions"],
+                enable_functions=request.enable_functions and "functions" in user_info["permissions"],
                 specific_functions=request.specific_functions,
                 max_latency_ms=request.max_latency_ms,
                 max_cost_threshold=request.max_cost,
@@ -382,9 +345,7 @@ if FASTAPI_AVAILABLE:
                 content=result.content,
                 confidence_score=result.confidence_score,
                 primary_provider=result.primary_provider.value,
-                participating_providers=[
-                    p.value for p in result.participating_providers
-                ],
+                participating_providers=[p.value for p in result.participating_providers],
                 latency_ms=result.total_latency_ms,
                 cost=result.total_cost,
                 token_usage=result.token_usage,
@@ -411,9 +372,7 @@ if FASTAPI_AVAILABLE:
 
     # Streaming endpoint with Server-Sent Events
     @app.post("/api/v1/stream")
-    async def stream_orchestration(
-        request: StreamingRequest, current_user: dict = Depends(get_current_user)
-    ):
+    async def stream_orchestration(request: StreamingRequest, current_user: dict = Depends(get_current_user)):
         """
         Stream AI responses in real-time using Server-Sent Events (SSE).
 
@@ -438,13 +397,10 @@ if FASTAPI_AVAILABLE:
                 orchestration_request = OrchestrationRequest(
                     prompt=request.prompt,
                     preferred_providers=[APIProvider(request.provider)],
-                    enable_functions=request.enable_functions
-                    and "functions" in user_info["permissions"],
+                    enable_functions=request.enable_functions and "functions" in user_info["permissions"],
                 )
 
-                async for chunk in orchestrator.stream_orchestration(
-                    orchestration_request
-                ):
+                async for chunk in orchestrator.stream_orchestration(orchestration_request):
                     # Format as SSE
                     chunk_data = json.dumps(chunk)
                     yield f"data: {chunk_data}\n\n"
@@ -495,43 +451,31 @@ if FASTAPI_AVAILABLE:
                         # Handle chat message
                         prompt = message.get("prompt", "")
                         if not prompt:
-                            await websocket.send_text(
-                                json.dumps({"type": "error", "error": "Empty prompt"})
-                            )
+                            await websocket.send_text(json.dumps({"type": "error", "error": "Empty prompt"}))
                             continue
 
                         # Basic authentication for WebSocket (in production, use proper auth)
                         api_key = message.get("api_key")
                         if not api_key or api_key not in api_key_manager.api_keys:
-                            await websocket.send_text(
-                                json.dumps(
-                                    {"type": "error", "error": "Invalid API key"}
-                                )
-                            )
+                            await websocket.send_text(json.dumps({"type": "error", "error": "Invalid API key"}))
                             continue
 
                         # Stream response
                         orchestrator = get_orchestrator()
                         orchestration_request = OrchestrationRequest(
                             prompt=prompt,
-                            preferred_providers=[
-                                APIProvider.OPENAI
-                            ],  # Default for WebSocket
+                            preferred_providers=[APIProvider.OPENAI],  # Default for WebSocket
                             enable_functions=message.get("enable_functions", False),
                         )
 
-                        async for chunk in orchestrator.stream_orchestration(
-                            orchestration_request
-                        ):
+                        async for chunk in orchestrator.stream_orchestration(orchestration_request):
                             await websocket.send_text(json.dumps(chunk))
 
                     elif message_type == "metrics":
                         # Send performance metrics
                         orchestrator = get_orchestrator()
                         metrics = orchestrator.get_metrics()
-                        await websocket.send_text(
-                            json.dumps({"type": "metrics", "data": metrics})
-                        )
+                        await websocket.send_text(json.dumps({"type": "metrics", "data": metrics}))
 
                     elif message_type == "ping":
                         # Heartbeat
@@ -555,15 +499,11 @@ if FASTAPI_AVAILABLE:
                         )
 
                 except json.JSONDecodeError:
-                    await websocket.send_text(
-                        json.dumps({"type": "error", "error": "Invalid JSON message"})
-                    )
+                    await websocket.send_text(json.dumps({"type": "error", "error": "Invalid JSON message"}))
 
                 except Exception as e:
                     logger.error(f"WebSocket processing error: {e}")
-                    await websocket.send_text(
-                        json.dumps({"type": "error", "error": str(e)})
-                    )
+                    await websocket.send_text(json.dumps({"type": "error", "error": str(e)}))
 
         except WebSocketDisconnect:
             logger.info(f"WebSocket client disconnected: {client_id}")
@@ -608,11 +548,7 @@ if FASTAPI_AVAILABLE:
                         detail={
                             "error": "Function validation failed",
                             "validation_errors": validation_result.errors,
-                            "security_issues": [
-                                e
-                                for e in validation_result.errors
-                                if "security" in e.get("type", "")
-                            ],
+                            "security_issues": [e for e in validation_result.errors if "security" in e.get("type", "")],
                         },
                     )
         except Exception as e:
@@ -633,9 +569,7 @@ if FASTAPI_AVAILABLE:
                 orchestrator.register_global_functions(request.functions)
 
             # Log function registration for audit
-            logger.info(
-                f"Functions registered by user {user_info['user_id']}: {list(request.functions.keys())}"
-            )
+            logger.info(f"Functions registered by user {user_info['user_id']}: {list(request.functions.keys())}")
 
             return {
                 "success": True,
@@ -778,9 +712,7 @@ if FASTAPI_AVAILABLE:
             try:
                 # Process each request (simplified for batch)
                 result = await orchestrate_request(request, current_user)
-                batch_results.append(
-                    {"index": i, "success": True, "result": result.dict()}
-                )
+                batch_results.append({"index": i, "success": True, "result": result.dict()})
                 total_cost += result.cost
 
             except HTTPException as e:
@@ -802,9 +734,7 @@ if FASTAPI_AVAILABLE:
 
     # Model comparison endpoint
     @app.post("/api/v1/compare-models")
-    async def compare_models(
-        request: OrchestrationAPIRequest, current_user: dict = Depends(get_current_user)
-    ):
+    async def compare_models(request: OrchestrationAPIRequest, current_user: dict = Depends(get_current_user)):
         """
         Compare responses from different AI models side-by-side.
 
@@ -869,9 +799,7 @@ if FASTAPI_AVAILABLE:
         return model_comparison
 
     logger.info("🚀 LUKHAS Multi-Model Orchestration API initialized")
-    logger.info(
-        "   Endpoints: /api/v1/orchestrate, /api/v1/stream, /api/v1/ws/{client_id}"
-    )
+    logger.info("   Endpoints: /api/v1/orchestrate, /api/v1/stream, /api/v1/ws/{client_id}")
     logger.info("   Healthcare: /api/v1/orchestrate/healthcare")
     logger.info("   Batch: /api/v1/orchestrate/batch")
     logger.info("   Comparison: /api/v1/compare-models")

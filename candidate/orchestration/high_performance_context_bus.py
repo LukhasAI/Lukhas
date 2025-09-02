@@ -203,11 +203,7 @@ class PerformanceMetrics:
             return 0.0
         sorted_latencies = sorted(self.handoff_latencies)
         p95_index = int(len(sorted_latencies) * 0.95)
-        return (
-            sorted_latencies[p95_index]
-            if p95_index < len(sorted_latencies)
-            else sorted_latencies[-1]
-        )
+        return sorted_latencies[p95_index] if p95_index < len(sorted_latencies) else sorted_latencies[-1]
 
     @property
     def success_rate(self) -> float:
@@ -305,9 +301,7 @@ class HighPerformanceContextBus:
         # Start priority workers
         for priority in ContextPriority:
             for i in range(self.worker_count // len(ContextPriority) + 1):
-                worker = asyncio.create_task(
-                    self._worker_loop(priority, f"worker-{priority.name}-{i}")
-                )
+                worker = asyncio.create_task(self._worker_loop(priority, f"worker-{priority.name}-{i}"))
                 self.workers.append(worker)
 
         # Start performance monitor
@@ -428,9 +422,7 @@ class HighPerformanceContextBus:
         """
         workflow_start = time.perf_counter()
 
-        self._add_workflow_narrative(
-            workflow_id, f"🚀 Starting workflow: {len(steps)} steps"
-        )
+        self._add_workflow_narrative(workflow_id, f"🚀 Starting workflow: {len(steps)} steps")
 
         # Initialize context
         context = initial_context or {}
@@ -462,9 +454,7 @@ class HighPerformanceContextBus:
                 step_message.handoff_start = time.perf_counter()
                 step_message.processing_start = time.perf_counter()
 
-                self._add_workflow_narrative(
-                    workflow_id, f"▶️ Executing step {i + 1}/{len(steps)}: {step.name}"
-                )
+                self._add_workflow_narrative(workflow_id, f"▶️ Executing step {i + 1}/{len(steps)}: {step.name}")
 
                 # Execute step with timeout
                 try:
@@ -508,13 +498,9 @@ class HighPerformanceContextBus:
                     if step.retry_on_failure:
                         # Retry once
                         try:
-                            step_result = await asyncio.wait_for(
-                                step.handler(context), timeout=step.timeout_ms / 1000
-                            )
+                            step_result = await asyncio.wait_for(step.handler(context), timeout=step.timeout_ms / 1000)
                             context.update(step_result)
-                            self._add_workflow_narrative(
-                                workflow_id, f"🔄 Retry successful for step {step.name}"
-                            )
+                            self._add_workflow_narrative(workflow_id, f"🔄 Retry successful for step {step.name}")
                         except:
                             raise Exception(f"Step {step.name} failed after retry")
                     else:
@@ -538,8 +524,7 @@ class HighPerformanceContextBus:
                 "status": "completed",
                 "results": step_results,
                 "total_duration_ms": workflow_duration,
-                "average_handoff_ms": sum(r["handoff_latency_ms"] for r in step_results)
-                / len(step_results),
+                "average_handoff_ms": sum(r["handoff_latency_ms"] for r in step_results) / len(step_results),
                 "all_steps_meet_target": all(r["meets_target"] for r in step_results),
                 "narrative": self.workflow_narratives[workflow_id],
             }
@@ -547,9 +532,7 @@ class HighPerformanceContextBus:
         except Exception as e:
             workflow_duration = (time.perf_counter() - workflow_start) * 1000
 
-            self._add_workflow_narrative(
-                workflow_id, f"💥 Workflow failed: {e!s} ({workflow_duration:.2f}ms)"
-            )
+            self._add_workflow_narrative(workflow_id, f"💥 Workflow failed: {e!s} ({workflow_duration:.2f}ms)")
 
             return {
                 "workflow_id": workflow_id,
@@ -601,9 +584,7 @@ class HighPerformanceContextBus:
                         await handler(message)
                     else:
                         # Run sync handler in thread pool
-                        await asyncio.get_event_loop().run_in_executor(
-                            self.thread_pool, handler, message
-                        )
+                        await asyncio.get_event_loop().run_in_executor(self.thread_pool, handler, message)
 
                 except Exception as e:
                     logger.error(f"Handler error for {message.message_type}: {e}")
@@ -655,8 +636,7 @@ class HighPerformanceContextBus:
                 # Calculate target compliance
                 if self.performance_metrics.total_messages > 0:
                     compliance = (
-                        self.performance_metrics.successful_handoffs
-                        / self.performance_metrics.total_messages
+                        self.performance_metrics.successful_handoffs / self.performance_metrics.total_messages
                     ) * 100
                     self.performance_metrics.target_compliance_percent = compliance
 
@@ -738,14 +718,11 @@ class HighPerformanceContextBus:
             },
             "compliance": {
                 "target_compliance_percent": self.performance_metrics.target_compliance_percent,
-                "meets_performance_target": self.performance_metrics.target_compliance_percent
-                > 95,
+                "meets_performance_target": self.performance_metrics.target_compliance_percent > 95,
             },
             "system": {
                 "workers_active": len(self.workers),
-                "queue_sizes": {
-                    p.name: q.qsize() for p, q in self.message_queues.items()
-                },
+                "queue_sizes": {p.name: q.qsize() for p, q in self.message_queues.items()},
                 "memory_pool_size": len(self._message_pool),
             },
         }

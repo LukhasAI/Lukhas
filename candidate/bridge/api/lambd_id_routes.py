@@ -1,3 +1,18 @@
+"""Compatibility shim for legacy `lambd_id_routes` module.
+
+This module intentionally re-exports the canonical `lambda_id_bp` Blueprint
+so legacy imports that reference `lambd_id_routes` continue to work during
+the staged migration to the canonical module name.
+
+Do not add heavy logic here — keep this shim thin and import-only.
+"""
+
+from .lambda_id_routes import lambda_id_bp
+
+# Backwards-compatible alias expected by older code
+lambd_id_bp = lambda_id_bp
+
+__all__ = ["lambda_id_bp", "lambd_id_bp"]
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: lambd_id_routes.py
 # MODULE: lukhas_id.api.routes.lambd_id_routes
@@ -9,6 +24,9 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import time  # For request IDs
+import logging
+import random
+from datetime import datetime, timezone
 
 from flask import Blueprint, jsonify, request
 from flask_limiter import Limiter
@@ -148,7 +166,7 @@ def generate_lambda_id_route():  # Renamed for clarity:
         logger.debug(f"ΛTRACE ({req_id}): Request data for /generate: {request_data}")
 
         user_tier = request_data.get("user_tier", 0)  # Default to tier 0
-        # Ensure all parameters are correctly passed to the controller
+
         result = controller.generate_id(
             user_tier=int(user_tier),  # Ensure type
             symbolic_preferences=request_data.get("symbolic_preferences", []),
@@ -157,7 +175,7 @@ def generate_lambda_id_route():  # Renamed for clarity:
             request_metadata={  # Pass along request context for detailed logging by controller
                 "ip_address": get_remote_address(),
                 "user_agent": request.headers.get("User-Agent"),
-                "request_timestamp": datetime.now().isoformat(),
+                "request_timestamp": datetime.now(timezone.utc).isoformat(),
                 "endpoint": request.path,
             },
         )
@@ -165,8 +183,7 @@ def generate_lambda_id_route():  # Renamed for clarity:
         status_code = 201 if result.get("success") else 400  # 201 Created for success
         log_level = logger.info if status_code == 201 else logger.warning
         log_level(
-            f"ΛTRACE({req_id}): / generate response. Success: {result.get('success')},"
-            LambdaID: {result.get('lambda_id', 'N/A')}, Error: {result.get('error')}, Status Code: {status_code}"
+            f"ΛTRACE({req_id}): /generate response. Success: {result.get('success')}, LambdaID: {result.get('lambda_id', 'N/A')}, Error: {result.get('error')}, Status Code: {status_code}"
         )
         return jsonify(result), status_code
 
@@ -327,8 +344,7 @@ def calculate_entropy_route():  # Renamed:
         )
 
         logger.info(
-            f"ΛTRACE({req_id}): / entropy response. Score: {result.get('entropy_score',}
-                                                                       'N/A')}"
+            f"ΛTRACE({req_id}): /entropy response. Score: {result.get('entropy_score', 'N/A')}"
         )
         return jsonify(result), 200
 
@@ -434,9 +450,8 @@ def request_tier_upgrade_route():  # Renamed:
         current_lambda_id_val = request_data.get("current_lambda_id")
         target_tier_val = request_data.get("target_tier")  # Should be int
 
-        if (:
-            not current_lambda_id_val or target_tier_val is None
-        ):  # Check for None explicitly for target_tier=0
+        if not current_lambda_id_val or target_tier_val is None:
+            # Check for None explicitly for target_tier=0
             logger.warning(
                 f"ΛTRACE ({req_id}): Missing 'current_lambda_id' or 'target_tier' in /upgrade request."
             )
@@ -462,11 +477,13 @@ def request_tier_upgrade_route():  # Renamed:
             },
         )
 
-        status_code = (
-            200
-            if result.get("success") and result.get("upgrade_approved"):
-            else (202 if result.get("success") else 400):
-        )  # 202 Accepted if not approved but request ok
+        # Determine status code: 200 if approved, 202 if accepted but not approved, 400 on failure
+        if result.get("success") and result.get("upgrade_approved"):
+            status_code = 200
+        elif result.get("success"):
+            status_code = 202
+        else:
+            status_code = 400
         log_level = logger.info if status_code < 400 else logger.warning
         log_level(
             f"ΛTRACE ({req_id}): /upgrade response. Approved: {result.get('upgrade_approved')}, New ΛiD: {result.get('new_lambda_id', 'N/A')}, Error: {result.get('error')}, Status Code: {status_code}"

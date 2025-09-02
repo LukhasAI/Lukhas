@@ -38,9 +38,7 @@ class ConfidenceRouter:
         except Exception:
             return {}
 
-    def decide(
-        self, *, calibrated_conf: float, last_path: str | None = None
-    ) -> dict[str, Any]:
+    def decide(self, *, calibrated_conf: float, last_path: str | None = None) -> dict[str, Any]:
         """
         Hysteresis: avoid flapping between adjacent paths by requiring a margin.
         """
@@ -57,17 +55,9 @@ class ConfidenceRouter:
         # hysteresis
         if last_path and last_path != path:
             # only switch if confidence is clearly on the other side by margin
-            if (
-                last_path == "normal"
-                and path == "fast"
-                and calibrated_conf < (self.t_fast + margin)
-            ):
+            if last_path == "normal" and path == "fast" and calibrated_conf < (self.t_fast + margin):
                 path = last_path
-            if (
-                last_path == "deliberate"
-                and path == "normal"
-                and calibrated_conf < (self.t_norm + margin)
-            ):
+            if last_path == "deliberate" and path == "normal" and calibrated_conf < (self.t_norm + margin):
                 path = last_path
 
         plan = DEFAULT[path].copy()
@@ -83,9 +73,7 @@ if __name__ == "__main__":
     args = ap.parse_args()
     print(
         json.dumps(
-            ConfidenceRouter().decide(
-                calibrated_conf=args.conf, last_path=args.last_path
-            ),
+            ConfidenceRouter().decide(calibrated_conf=args.conf, last_path=args.last_path),
             indent=2,
         )
     )

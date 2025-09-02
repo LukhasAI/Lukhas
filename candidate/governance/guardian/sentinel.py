@@ -180,9 +180,7 @@ class GuardianSentinel:
 
                 await self._generate_alert(alert)
 
-    async def _collect_current_metrics(
-        self, scope: MonitoringScope
-    ) -> dict[str, float]:
+    async def _collect_current_metrics(self, scope: MonitoringScope) -> dict[str, float]:
         """Collect current system metrics"""
         # Simulate metric collection
         return {
@@ -205,13 +203,7 @@ class GuardianSentinel:
         return {
             "status": self.status.value,
             "active_profiles": len(self.monitoring_profiles),
-            "recent_alerts": len(
-                [
-                    a
-                    for a in self.alerts
-                    if (datetime.now() - a.detected_at).seconds < 3600
-                ]
-            ),
+            "recent_alerts": len([a for a in self.alerts if (datetime.now() - a.detected_at).seconds < 3600]),
             "metrics": self.metrics,
         }
 

@@ -32,16 +32,10 @@ Path(EVALDIR).mkdir(parents=True, exist_ok=True)
 
 # ---------- Metrics ----------
 if _PROM:
-    CEVAL_MEAN = Gauge(
-        "lukhas_ceval_mean_score", "Mean score of last C-EVAL run", ["suite"]
-    )
-    CEVAL_TASK = Gauge(
-        "lukhas_ceval_task_score", "Task score", ["suite", "task_id", "risk"]
-    )
+    CEVAL_MEAN = Gauge("lukhas_ceval_mean_score", "Mean score of last C-EVAL run", ["suite"])
+    CEVAL_TASK = Gauge("lukhas_ceval_task_score", "Task score", ["suite", "task_id", "risk"])
     CEVAL_FAILS = Gauge("lukhas_ceval_failures", "Number of failed tasks", ["suite"])
-    CEVAL_RUNTIME = Histogram(
-        "lukhas_ceval_runtime_seconds", "C-EVAL run time", ["suite"]
-    )
+    CEVAL_RUNTIME = Histogram("lukhas_ceval_runtime_seconds", "C-EVAL run time", ["suite"])
     CEVAL_DRIFT = Gauge("lukhas_ceval_drift_mean", "Mean drift vs baseline", ["suite"])
 
 
@@ -62,9 +56,7 @@ class CEvalRunner:
         for t in s.get("tasks", []):
             t.setdefault("threshold", 0.8)
             t.setdefault("risk", "normal")  # normal|high|critical
-            t.setdefault(
-                "weight", {"normal": 1.0, "high": 2.0, "critical": 3.0}[t["risk"]]
-            )
+            t.setdefault("weight", {"normal": 1.0, "high": 2.0, "critical": 3.0}[t["risk"]])
         s.setdefault("suite_id", Path(self.suite_file).stem)
         s.setdefault("sla", {"min_mean": 0.85, "max_failures": 0})
         return s
@@ -74,10 +66,7 @@ class CEvalRunner:
         Stub executor—replace with your real invoke + judge.
         """
         # Deterministic(ish) mock using task_id hash
-        seed = (
-            int(hashlib.sha1(task["id"].encode()).hexdigest()[:8], 16)
-            ^ int(time.time()) & 0xFFFF
-        )
+        seed = int(hashlib.sha1(task["id"].encode()).hexdigest()[:8], 16) ^ int(time.time()) & 0xFFFF
         score = _rand_score(seed)
         return {
             "task_id": task["id"],
@@ -123,9 +112,7 @@ class CEvalRunner:
             with CEVAL_RUNTIME.labels(suite=suite_id).time():
                 pass  # we already measured; histogram increments with .time() context even if empty
             for r in results:
-                CEVAL_TASK.labels(
-                    suite=suite_id, task_id=r["task_id"], risk=r["risk"]
-                ).set(r["score"])
+                CEVAL_TASK.labels(suite=suite_id, task_id=r["task_id"], risk=r["risk"]).set(r["score"])
         return run
 
     def drift_check(self, baseline_file: str) -> dict[str, Any]:
@@ -155,9 +142,7 @@ class CEvalRunner:
         return report
 
     def _load_latest_eval(self) -> dict[str, Any]:
-        files = sorted(
-            Path(EVALDIR).glob("eval_*.json"), key=os.path.getmtime, reverse=True
-        )
+        files = sorted(Path(EVALDIR).glob("eval_*.json"), key=os.path.getmtime, reverse=True)
         if not files:
             raise RuntimeError("No eval runs found")
         with open(files[0]) as f:
@@ -175,9 +160,7 @@ class CEvalRunner:
 
 
 @click.group()
-@click.option(
-    "--metrics", is_flag=True, help="Expose Prometheus metrics on CEVAL_METRICS_PORT"
-)
+@click.option("--metrics", is_flag=True, help="Expose Prometheus metrics on CEVAL_METRICS_PORT")
 def cli(metrics: bool):
     if metrics and _PROM:
         start_http_server(METRICS_PORT)

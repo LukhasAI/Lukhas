@@ -25,9 +25,7 @@ def _maybe_kafka_producer():
     try:
         from kafka import KafkaProducer  # pip install kafka-python
     except Exception as e:
-        raise RuntimeError(
-            "Kafka sink requested but kafka-python not installed: pip install kafka-python"
-        ) from e
+        raise RuntimeError("Kafka sink requested but kafka-python not installed: pip install kafka-python") from e
     return KafkaProducer(
         bootstrap_servers=brokers.split(","),
         acks="all",
@@ -46,9 +44,7 @@ def _maybe_s3_client():
     try:
         import boto3  # pip install boto3
     except Exception as e:
-        raise RuntimeError(
-            "S3 sink requested but boto3 not installed: pip install boto3"
-        ) from e
+        raise RuntimeError("S3 sink requested but boto3 not installed: pip install boto3") from e
     client = boto3.client("s3")
     return client
 
@@ -138,13 +134,9 @@ def ship_once(cfg: SinkConfig, once: bool = False, poll_sec: float = 1.0) -> Non
             if s3 is not None:
                 try:
                     # s3 prefix: receipts/YYMMDD/sha[:2]/<key>.json
-                    ymd = time.strftime(
-                        "%Y%m%d", time.gmtime(float(rec.get("ts", time.time())))
-                    )
+                    ymd = time.strftime("%Y%m%d", time.gmtime(float(rec.get("ts", time.time()))))
                     sha = (rec.get("artifact_sha") or "unknown")[:2]
-                    keypath = (
-                        f"{cfg.s3_prefix.rstrip('/')}/receipts/{ymd}/{sha}/{key}.json"
-                    )
+                    keypath = f"{cfg.s3_prefix.rstrip('/')}/receipts/{ymd}/{sha}/{key}.json"
                     s3.put_object(
                         Bucket=cfg.s3_bucket,
                         Key=keypath,
@@ -174,9 +166,7 @@ def main():
     import argparse
 
     ap = argparse.ArgumentParser(description="Lukhas receipts sink → Kafka/S3")
-    ap.add_argument(
-        "--once", action="store_true", help="Process current backlog once and exit"
-    )
+    ap.add_argument("--once", action="store_true", help="Process current backlog once and exit")
     ap.add_argument("--poll-sec", type=float, default=1.0)
     # S3 config via env: RECEIPTS_S3_BUCKET, optional RECEIPTS_S3_PREFIX (default lukhas/receipts)
     # Kafka via env: RECEIPTS_KAFKA_BROKERS, RECEIPTS_KAFKA_TOPIC

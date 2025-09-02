@@ -74,32 +74,22 @@ class TestGlyphMapping:
                 narrative_gravity=0.6,
             ),
             context={"approach_avoid_score": 0.7},  # Triggers approach_avoid
-            risk=RiskProfile(
-                score=0.6, reasons=["high_arousal"], severity=SeverityLevel.MODERATE
-            ),
+            risk=RiskProfile(score=0.6, reasons=["high_arousal"], severity=SeverityLevel.MODERATE),
         )
 
         # Test deterministic mapping
-        assert validate_glyph_determinism(
-            scene, iterations=5
-        ), "Glyph mapping must be deterministic"
+        assert validate_glyph_determinism(scene, iterations=5), "Glyph mapping must be deterministic"
 
         # Test multiple calls produce identical results
         glyphs1 = map_scene_to_glyphs(scene)
         glyphs2 = map_scene_to_glyphs(scene)
         glyphs3 = map_scene_to_glyphs(scene)
 
-        assert (
-            len(glyphs1) == len(glyphs2) == len(glyphs3)
-        ), "Glyph count must be consistent"
+        assert len(glyphs1) == len(glyphs2) == len(glyphs3), "Glyph count must be consistent"
 
         for g1, g2, g3 in zip(glyphs1, glyphs2, glyphs3):
-            assert (
-                g1.key == g2.key == g3.key
-            ), f"Glyph keys must be identical: {g1.key}, {g2.key}, {g3.key}"
-            assert (
-                g1.attrs == g2.attrs == g3.attrs
-            ), f"Glyph attrs must be identical for key {g1.key}"
+            assert g1.key == g2.key == g3.key, f"Glyph keys must be identical: {g1.key}, {g2.key}, {g3.key}"
+            assert g1.attrs == g2.attrs == g3.attrs, f"Glyph attrs must be identical for key {g1.key}"
 
     def test_vigilance_glyph_trigger(self):
         """Test vigilance glyph: arousal ≥ 0.6 AND tone ≤ -0.2"""
@@ -115,9 +105,7 @@ class TestGlyphMapping:
                 agency_feel=AgencyFeel.PASSIVE,
                 narrative_gravity=0.3,
             ),
-            risk=RiskProfile(
-                score=0.8, reasons=["threat_detected"], severity=SeverityLevel.HIGH
-            ),
+            risk=RiskProfile(score=0.8, reasons=["threat_detected"], severity=SeverityLevel.HIGH),
         )
 
         glyphs = map_scene_to_glyphs(scene)
@@ -165,12 +153,8 @@ class TestGlyphMapping:
         glyphs1 = map_scene_to_glyphs(scene1)
         glyphs2 = map_scene_to_glyphs(scene2)
 
-        assert not any(
-            g.key == GLYPH_KEYS["vigilance"] for g in glyphs1
-        ), "Low arousal should not trigger vigilance"
-        assert not any(
-            g.key == GLYPH_KEYS["vigilance"] for g in glyphs2
-        ), "High tone should not trigger vigilance"
+        assert not any(g.key == GLYPH_KEYS["vigilance"] for g in glyphs1), "Low arousal should not trigger vigilance"
+        assert not any(g.key == GLYPH_KEYS["vigilance"] for g in glyphs2), "High tone should not trigger vigilance"
 
     def test_red_threshold_glyph_triggers(self):
         """Test red_threshold glyph: 'red' in colorfield OR (arousal > 0.7 AND narrative_gravity > 0.5)"""
@@ -226,9 +210,7 @@ class TestGlyphMapping:
             (glyphs3, "arousal+gravity"),
         ]:
             red_glyphs = [g for g in glyphs if g.key == GLYPH_KEYS["red_threshold"]]
-            assert (
-                len(red_glyphs) == 1
-            ), f"Should produce red_threshold glyph for {scene_name}"
+            assert len(red_glyphs) == 1, f"Should produce red_threshold glyph for {scene_name}"
 
             red_glyph = red_glyphs[0]
             assert "narrative_gravity" in red_glyph.attrs
@@ -268,9 +250,7 @@ class TestGlyphMapping:
         """Test grounding_hint glyph: risk severity moderate/high OR clarity < 0.4 OR embodiment < 0.3"""
         # Test risk severity trigger
         scene1 = self.create_test_scene(
-            risk=RiskProfile(
-                score=0.6, reasons=["instability"], severity=SeverityLevel.MODERATE
-            ),
+            risk=RiskProfile(score=0.6, reasons=["instability"], severity=SeverityLevel.MODERATE),
             context={"safe_palette": "aoi/blue"},
             proto=ProtoQualia(
                 tone=0.2,
@@ -296,9 +276,7 @@ class TestGlyphMapping:
                 agency_feel=AgencyFeel.SHARED,
                 narrative_gravity=0.2,
             ),
-            risk=RiskProfile(
-                score=0.1, reasons=[], severity=SeverityLevel.LOW
-            ),  # Low risk
+            risk=RiskProfile(score=0.1, reasons=[], severity=SeverityLevel.LOW),  # Low risk
         )
 
         # Test low embodiment trigger
@@ -313,9 +291,7 @@ class TestGlyphMapping:
                 agency_feel=AgencyFeel.PASSIVE,
                 narrative_gravity=0.1,
             ),
-            risk=RiskProfile(
-                score=0.05, reasons=[], severity=SeverityLevel.NONE
-            ),  # Very low risk
+            risk=RiskProfile(score=0.05, reasons=[], severity=SeverityLevel.NONE),  # Very low risk
         )
 
         for scene, trigger in [
@@ -324,13 +300,9 @@ class TestGlyphMapping:
             (scene3, "low embodiment"),
         ]:
             glyphs = map_scene_to_glyphs(scene)
-            grounding_glyphs = [
-                g for g in glyphs if g.key == GLYPH_KEYS["grounding_hint"]
-            ]
+            grounding_glyphs = [g for g in glyphs if g.key == GLYPH_KEYS["grounding_hint"]]
 
-            assert (
-                len(grounding_glyphs) == 1
-            ), f"Should produce grounding_hint glyph for {trigger}"
+            assert len(grounding_glyphs) == 1, f"Should produce grounding_hint glyph for {trigger}"
 
             grounding = grounding_glyphs[0]
             assert "suggested_palette" in grounding.attrs
@@ -384,9 +356,7 @@ class TestGlyphMapping:
                 narrative_gravity=0.6,  # Contributes to red_threshold (> 0.5 with arousal)
             ),
             context={"approach_avoid_score": 0.7},  # Triggers approach_avoid
-            risk=RiskProfile(
-                score=0.9, reasons=["multiple_triggers"], severity=SeverityLevel.HIGH
-            ),
+            risk=RiskProfile(score=0.9, reasons=["multiple_triggers"], severity=SeverityLevel.HIGH),
         )
 
         glyphs = map_scene_to_glyphs(scene)
@@ -394,9 +364,7 @@ class TestGlyphMapping:
 
         expected_keys = {
             GLYPH_KEYS["vigilance"],  # High arousal + negative tone
-            GLYPH_KEYS[
-                "red_threshold"
-            ],  # "aka" colorfield + high arousal + narrative gravity
+            GLYPH_KEYS["red_threshold"],  # "aka" colorfield + high arousal + narrative gravity
             GLYPH_KEYS["approach_avoid"],  # High approach_avoid_score
             GLYPH_KEYS["grounding_hint"],  # Low clarity
         }
@@ -423,9 +391,7 @@ class TestGlyphMapping:
                 narrative_gravity=0.3,  # Not > 0.5
             ),
             context={},  # No approach_avoid_score
-            risk=RiskProfile(
-                score=0.1, reasons=[], severity=SeverityLevel.LOW
-            ),  # Not moderate/high
+            risk=RiskProfile(score=0.1, reasons=[], severity=SeverityLevel.LOW),  # Not moderate/high
         )
 
         glyphs = map_scene_to_glyphs(scene)
@@ -439,47 +405,27 @@ class TestGlyphNormalization:
         """Test normalization of glyph keys against adversarial variants"""
         # Create glyphs with variant keys
         original_glyphs = [
-            PhenomenalGlyph(
-                key="aka_red_threshold", attrs={"test": 1}
-            ),  # Underscore variant
-            PhenomenalGlyph(
-                key="Aka-Red-Threshold", attrs={"test": 2}
-            ),  # Case + dash variant
+            PhenomenalGlyph(key="aka_red_threshold", attrs={"test": 1}),  # Underscore variant
+            PhenomenalGlyph(key="Aka-Red-Threshold", attrs={"test": 2}),  # Case + dash variant
             PhenomenalGlyph(key="AKARED", attrs={"test": 3}),  # Compressed variant
             PhenomenalGlyph(key="red threshold", attrs={"test": 4}),  # Space variant
-            PhenomenalGlyph(
-                key="vigilance_alert", attrs={"test": 5}
-            ),  # Extended variant
-            PhenomenalGlyph(
-                key="unknown_variant", attrs={"test": 6}
-            ),  # Unknown variant
+            PhenomenalGlyph(key="vigilance_alert", attrs={"test": 5}),  # Extended variant
+            PhenomenalGlyph(key="unknown_variant", attrs={"test": 6}),  # Unknown variant
         ]
 
         normalized = normalize_glyph_keys(original_glyphs)
 
         # Check normalizations
-        assert (
-            normalized[0].key == GLYPH_KEYS["red_threshold"]
-        )  # aka_red_threshold → aka:red_threshold
-        assert (
-            normalized[1].key == GLYPH_KEYS["red_threshold"]
-        )  # Aka-Red-Threshold → aka:red_threshold
-        assert (
-            normalized[2].key == GLYPH_KEYS["red_threshold"]
-        )  # AKARED → aka:red_threshold
-        assert (
-            normalized[3].key == GLYPH_KEYS["red_threshold"]
-        )  # red threshold → aka:red_threshold
-        assert (
-            normalized[4].key == GLYPH_KEYS["vigilance"]
-        )  # vigilance_alert → aka:vigilance
+        assert normalized[0].key == GLYPH_KEYS["red_threshold"]  # aka_red_threshold → aka:red_threshold
+        assert normalized[1].key == GLYPH_KEYS["red_threshold"]  # Aka-Red-Threshold → aka:red_threshold
+        assert normalized[2].key == GLYPH_KEYS["red_threshold"]  # AKARED → aka:red_threshold
+        assert normalized[3].key == GLYPH_KEYS["red_threshold"]  # red threshold → aka:red_threshold
+        assert normalized[4].key == GLYPH_KEYS["vigilance"]  # vigilance_alert → aka:vigilance
         assert normalized[5].key == "unknown_variant"  # Unknown stays unchanged
 
         # Ensure attributes preserved
         for orig, norm in zip(original_glyphs, normalized):
-            assert (
-                orig.attrs == norm.attrs
-            ), "Attributes should be preserved during normalization"
+            assert orig.attrs == norm.attrs, "Attributes should be preserved during normalization"
 
 
 class TestGlyphPriority:
@@ -502,9 +448,7 @@ class TestGlyphPriority:
             subject="test",
             object="test",
             context={},
-            risk=RiskProfile(
-                score=0.4, reasons=[], severity=SeverityLevel.MODERATE
-            ),  # 0.4 * 0.3 = 0.12
+            risk=RiskProfile(score=0.4, reasons=[], severity=SeverityLevel.MODERATE),  # 0.4 * 0.3 = 0.12
             transform_chain=[],
             timestamp=123.0,
         )
@@ -532,9 +476,7 @@ class TestGlyphPriority:
             subject="test",
             object="test",
             context={},
-            risk=RiskProfile(
-                score=0.0, reasons=[], severity=SeverityLevel.NONE
-            ),  # 0.0 * 0.3 = 0.0
+            risk=RiskProfile(score=0.0, reasons=[], severity=SeverityLevel.NONE),  # 0.0 * 0.3 = 0.0
             transform_chain=[],
             timestamp=123.0,
         )
@@ -554,9 +496,7 @@ class TestGlyphPriority:
             subject="test",
             object="test",
             context={},
-            risk=RiskProfile(
-                score=1.0, reasons=[], severity=SeverityLevel.HIGH
-            ),  # 1.0 * 0.3 = 0.3
+            risk=RiskProfile(score=1.0, reasons=[], severity=SeverityLevel.HIGH),  # 1.0 * 0.3 = 0.3
             transform_chain=[],
             timestamp=123.0,
         )
@@ -595,9 +535,7 @@ class TestGlyphPriority:
         normal_priority = compute_glyph_priority(normal_glyphs, scene)
         boosted_priority = compute_glyph_priority(high_priority_glyphs, scene)
 
-        assert (
-            boosted_priority > normal_priority
-        ), "High-priority glyphs should get priority boost"
+        assert boosted_priority > normal_priority, "High-priority glyphs should get priority boost"
 
     def test_grounding_urgency_boost(self):
         """Test priority boost for grounding hint urgency"""
@@ -622,18 +560,12 @@ class TestGlyphPriority:
 
         # Base priority: 0.4 * 0.7 + 0.2 * 0.3 = 0.28 + 0.06 = 0.34
         normal_glyphs = [PhenomenalGlyph(key=GLYPH_KEYS["soothe_anchor"], attrs={})]
-        grounding_glyphs = [
-            PhenomenalGlyph(
-                key=GLYPH_KEYS["grounding_hint"], attrs={"grounding_urgency": 0.8}
-            )
-        ]
+        grounding_glyphs = [PhenomenalGlyph(key=GLYPH_KEYS["grounding_hint"], attrs={"grounding_urgency": 0.8})]
 
         normal_priority = compute_glyph_priority(normal_glyphs, scene)
         grounding_priority = compute_glyph_priority(grounding_glyphs, scene)
 
-        assert (
-            grounding_priority > normal_priority
-        ), "High grounding urgency should boost priority"
+        assert grounding_priority > normal_priority, "High grounding urgency should boost priority"
 
 
 class TestPaletteMapping:
@@ -673,17 +605,13 @@ class TestPaletteMapping:
         for colorfield, culture, expected_threat in test_cases:
             bias = map_colorfield(colorfield, culture)
             if expected_threat is not None:
-                assert (
-                    abs(bias.threat_bias - expected_threat) < 0.1
-                ), f"Wrong threat bias for {colorfield} in {culture}"
+                assert abs(bias.threat_bias - expected_threat) < 0.1, f"Wrong threat bias for {colorfield} in {culture}"
 
     def test_safe_palette_recommendation(self):
         """Test safe palette recommendations for grounding"""
         # Test default culture
         safe_default = get_safe_palette_recommendation("aka/red", "default")
-        assert (
-            "blue" in safe_default or "green" in safe_default
-        ), "Safe palette should recommend calming colors"
+        assert "blue" in safe_default or "green" in safe_default, "Safe palette should recommend calming colors"
 
         # Test Japanese culture
         safe_jp = get_safe_palette_recommendation("aka/red", "jp")
@@ -710,12 +638,8 @@ class TestPaletteMapping:
         bias = map_colorfield("red", "unknown_culture")
         default_bias = map_colorfield("red", "default")
 
-        assert (
-            bias.threat_bias == default_bias.threat_bias
-        ), "Unknown culture should fallback to default"
-        assert (
-            bias.soothe_bias == default_bias.soothe_bias
-        ), "Unknown culture should fallback to default"
+        assert bias.threat_bias == default_bias.threat_bias, "Unknown culture should fallback to default"
+        assert bias.soothe_bias == default_bias.soothe_bias, "Unknown culture should fallback to default"
 
 
 class TestEdgeCases:
@@ -788,9 +712,7 @@ class TestEdgeCases:
             subject="test",
             object="test",
             context={},
-            risk=RiskProfile(
-                score=1.0, reasons=["extreme"], severity=SeverityLevel.HIGH
-            ),
+            risk=RiskProfile(score=1.0, reasons=["extreme"], severity=SeverityLevel.HIGH),
             transform_chain=[],
             timestamp=123.0,
         )
@@ -801,9 +723,7 @@ class TestEdgeCases:
 
         # Should trigger vigilance (arousal=1.0 ≥ 0.6, tone=-1.0 ≤ -0.2)
         vigilance_triggered = any(g.key == GLYPH_KEYS["vigilance"] for g in glyphs)
-        assert (
-            vigilance_triggered
-        ), "Should trigger vigilance with extreme negative tone + high arousal"
+        assert vigilance_triggered, "Should trigger vigilance with extreme negative tone + high arousal"
 
         # Should trigger grounding hint (clarity=0.0 < 0.4)
         grounding_triggered = any(g.key == GLYPH_KEYS["grounding_hint"] for g in glyphs)

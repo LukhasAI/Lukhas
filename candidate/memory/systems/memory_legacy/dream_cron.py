@@ -46,26 +46,18 @@ try:
 except ImportError:
     # Logger not yet initialized if this is top-level, handle gracefully or
     # initialize temp
-    _init_log.error(
-        "Python 'schedule' library not found. Dream cron cannot run. Install with: pip install schedule"
-    )
+    _init_log.error("Python 'schedule' library not found. Dream cron cannot run. Install with: pip install schedule")
 
 
 # --- Configuration ---
 # TODO: Make DREAM_SCRIPT_PATH_STR robust (e.g., relative to project root
 # or via env var LUKHAS_SCRIPTS_PATH)
-DREAM_SCRIPT_PATH_STR = os.getenv(
-    "LUKHAS_DREAM_SCRIPT_PATH", "symbolic_ai/personas/lukhas/memory/lukhas_dreams.py"
-)
+DREAM_SCRIPT_PATH_STR = os.getenv("LUKHAS_DREAM_SCRIPT_PATH", "symbolic_ai/personas/lukhas/memory/lukhas_dreams.py")
 
 try:
-    LUKHAS_CRON_LOGS_DIR = Path(
-        os.getenv("LUKHAS_LOGS_PATH", "./.lukhas_logs/system_cron")
-    )
+    LUKHAS_CRON_LOGS_DIR = Path(os.getenv("LUKHAS_LOGS_PATH", "./.lukhas_logs/system_cron"))
     LUKHAS_CRON_LOGS_DIR.mkdir(parents=True, exist_ok=True)
-    DREAM_CRON_ACTIVITY_LOG_FILE = (
-        LUKHAS_CRON_LOGS_DIR / "lukhas_dream_cron_activity.log"
-    )
+    DREAM_CRON_ACTIVITY_LOG_FILE = LUKHAS_CRON_LOGS_DIR / "lukhas_dream_cron_activity.log"
 except Exception as e_path_setup:
     log.error(
         "Failed to setup dream cron log directory. Using fallback.",
@@ -106,9 +98,7 @@ def run_lukhas_symbolic_dream_script() -> None:  # Renamed:
         )
         log_entry_details = f"Script: {DREAM_SCRIPT_PATH_STR}\nReturn Code: {proc_result.returncode}\nStdout: {proc_result.stdout[:1000]}...\nStderr: {proc_result.stderr[:1000]}...\n"
         if proc_result.returncode == 0:
-            log.info(
-                "LUKHAS dream script run successfully.", script=DREAM_SCRIPT_PATH_STR
-            )
+            log.info("LUKHAS dream script run successfully.", script=DREAM_SCRIPT_PATH_STR)
         else:
             log.error(
                 "LUKHAS dream script failed.",
@@ -117,9 +107,7 @@ def run_lukhas_symbolic_dream_script() -> None:  # Renamed:
                 stderr_head=proc_result.stderr[:250],
             )
     except FileNotFoundError:
-        log_entry_details = (
-            f"FAILED: Dream script not found at {DREAM_SCRIPT_PATH_STR}\n"
-        )
+        log_entry_details = f"FAILED: Dream script not found at {DREAM_SCRIPT_PATH_STR}\n"
         log.critical("DREAM_SCRIPT_NOT_FOUND.", path=DREAM_SCRIPT_PATH_STR)
     except subprocess.TimeoutExpired:
         log_entry_details = f"TIMEOUT: Dream script {DREAM_SCRIPT_PATH_STR}\n"
@@ -133,9 +121,7 @@ def run_lukhas_symbolic_dream_script() -> None:  # Renamed:
             exc_info=True,
         )
 
-    full_log_entry = (
-        f"[{ts_utc_iso}] LUKHAS Dream Cycle Execution:\n{log_entry_details}{'-'*30}\n"
-    )
+    full_log_entry = f"[{ts_utc_iso}] LUKHAS Dream Cycle Execution:\n{log_entry_details}{'-'*30}\n"
     try:
         with open(DREAM_CRON_ACTIVITY_LOG_FILE, "a", encoding="utf-8") as f:
             f.write(full_log_entry)
@@ -150,9 +136,7 @@ def run_lukhas_symbolic_dream_script() -> None:  # Renamed:
 def main_dream_scheduler_loop():
     """Main loop for the LUKHAS dream scheduler daemon."""
     if not SCHEDULE_LIB_AVAILABLE or DREAM_SCHEDULE_DAY_CONFIG is None:
-        log.critical(
-            "'schedule' library not available or day config failed. LUKHAS Dream Cron exiting."
-        )
+        log.critical("'schedule' library not available or day config failed. LUKHAS Dream Cron exiting.")
         return
 
     log.info(
@@ -162,9 +146,7 @@ def main_dream_scheduler_loop():
         script=DREAM_SCRIPT_PATH_STR,
         log_file=str(DREAM_CRON_ACTIVITY_LOG_FILE),
     )
-    DREAM_SCHEDULE_DAY_CONFIG.at(DREAM_SCHEDULE_TIME_CONFIG).do(
-        run_lukhas_symbolic_dream_script
-    )
+    DREAM_SCHEDULE_DAY_CONFIG.at(DREAM_SCHEDULE_TIME_CONFIG).do(run_lukhas_symbolic_dream_script)
     log.info("LUKHAS Dream Scheduler running. Ctrl+C to exit.")
     try:
         while True:
@@ -173,9 +155,7 @@ def main_dream_scheduler_loop():
     except KeyboardInterrupt:
         log.info("LUKHAS Dream Cron Scheduler stopped by user.")
     except Exception as e:
-        log.critical(
-            "LUKHAS Dream Cron Scheduler fatal error.", error=str(e), exc_info=True
-        )
+        log.critical("LUKHAS Dream Cron Scheduler fatal error.", error=str(e), exc_info=True)
     finally:
         log.info("LUKHAS Dream Cron Scheduler shut down.")
 

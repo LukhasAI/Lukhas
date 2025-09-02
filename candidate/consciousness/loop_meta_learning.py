@@ -89,35 +89,23 @@ class MetaLearningLoop:
                 data=initial_data,
                 context={"cycle_type": "meta_learning"},
             )
-            learning_result = await self.learning.process_learning_request(
-                learning_request
-            )
+            learning_result = await self.learning.process_learning_request(learning_request)
 
             # Stage 2: Dream - Synthesize new possibilities from learned patterns
             dream_seed = {
                 "learning_output": learning_result.result,
                 "meta_context": "exploratory_synthesis",
-                "creativity_level": (
-                    cycle_params.get("creativity_level", 0.7) if cycle_params else 0.7
-                ),
+                "creativity_level": (cycle_params.get("creativity_level", 0.7) if cycle_params else 0.7),
             }
-            cycle.dream_synthesis = await self.dream_engine.synthesize(
-                agent_id, dream_seed
-            )
+            cycle.dream_synthesis = await self.dream_engine.synthesize(agent_id, dream_seed)
 
             # Stage 3: Creativity - Generate novel outputs from dreams
             creative_input = {
                 "dream_data": cycle.dream_synthesis,
                 "learning_context": learning_result.result,
-                "innovation_mode": (
-                    cycle_params.get("innovation_mode", "balanced")
-                    if cycle_params
-                    else "balanced"
-                ),
+                "innovation_mode": (cycle_params.get("innovation_mode", "balanced") if cycle_params else "balanced"),
             }
-            cycle.creative_output = await self.creativity.generate(
-                agent_id, creative_input
-            )
+            cycle.creative_output = await self.creativity.generate(agent_id, creative_input)
 
             # Stage 4: Memory - Consolidate entire cycle into memory
             memory_package = {
@@ -131,9 +119,7 @@ class MetaLearningLoop:
                     "agent_id": agent_id,
                 },
             }
-            cycle.memory_consolidation = await self.memory.consolidate_meta_learning(
-                memory_package
-            )
+            cycle.memory_consolidation = await self.memory.consolidate_meta_learning(memory_package)
 
             # The cycle completes and feeds back into learning for the next iteration
             # This creates the emergent capability to learn from imagined experiences
@@ -213,9 +199,9 @@ class MetaLearningLoop:
                 c.get("learning", {}).get("efficiency", 0) for c in cycles_data
             ) / len(cycles_data)
 
-            insights["dream_coherence"] = sum(
-                c.get("dream", {}).get("coherence", 0) for c in cycles_data
-            ) / len(cycles_data)
+            insights["dream_coherence"] = sum(c.get("dream", {}).get("coherence", 0) for c in cycles_data) / len(
+                cycles_data
+            )
 
         return insights
 

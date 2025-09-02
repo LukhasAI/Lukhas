@@ -48,9 +48,7 @@ class PerceptualVector:
         """Convert to dictionary for storage/transmission"""
         return {
             "vector_id": self.vector_id,
-            "encrypted_features": base64.b64encode(
-                self.encrypted_features.tobytes()
-            ).decode(),
+            "encrypted_features": base64.b64encode(self.encrypted_features.tobytes()).decode(),
             "modality": self.modality,
             "timestamp": self.timestamp.isoformat(),
             "vector_signature": self.vector_signature,
@@ -103,9 +101,7 @@ class EncryptedPerception:
             encrypted_features=self.encrypted_features,
             modality=self.modality,
             timestamp=self.timestamp,
-            vector_signature=hashlib.sha256(
-                self.encrypted_features.tobytes()
-            ).hexdigest(),
+            vector_signature=hashlib.sha256(self.encrypted_features.tobytes()).hexdigest(),
             ethical_flags=[self.privacy_level],
         )
 
@@ -117,9 +113,7 @@ class EncryptedPerception:
             "vector_count": len(self.encrypted_vectors),
             "anomaly_count": len(self.detected_anomalies),
             "critical_anomalies": sum(
-                1
-                for a in self.detected_anomalies
-                if a.significance == EthicalSignificance.CRITICAL
+                1 for a in self.detected_anomalies if a.significance == EthicalSignificance.CRITICAL
             ),
             "routing_targets": self.routing_targets,
         }
@@ -142,9 +136,7 @@ class VIVOXEncryptedPerceptionNode:
         self.vector_dimension = 512  # High-dimensional encrypted vectors
 
         # Ethical constraints
-        self.ethical_constraints = (
-            ethical_constraints or self._default_ethical_constraints()
-        )
+        self.ethical_constraints = ethical_constraints or self._default_ethical_constraints()
 
         # Integration interfaces (ME, IEN, OL, etc.)
         self.integration_interfaces = integration_interfaces or {}
@@ -170,9 +162,7 @@ class VIVOXEncryptedPerceptionNode:
 
             self.anomaly_detector = AnomalyDetector()
 
-        self.ethical_filter = EthicalPerceptionFilter(
-            ethical_config=self.ethical_constraints
-        )
+        self.ethical_filter = EthicalPerceptionFilter(ethical_config=self.ethical_constraints)
 
         # Perception history for pattern learning
         self.perception_history: list[EncryptedPerception] = []
@@ -296,24 +286,16 @@ class VIVOXEncryptedPerceptionNode:
                 perception_id = self._generate_perception_id(modality, context)
 
                 # Convert to encrypted vectors WITHOUT decoding content
-                encrypted_vectors = await self._encrypt_perceptual_input(
-                    raw_input, modality
-                )
+                encrypted_vectors = await self._encrypt_perceptual_input(raw_input, modality)
 
                 # Detect anomalies in encrypted space
-                anomalies = await self._detect_encrypted_anomalies(
-                    encrypted_vectors, context
-                )
+                anomalies = await self._detect_encrypted_anomalies(encrypted_vectors, context)
 
                 # Assess ethical significance
-                ethical_assessment = await self._assess_ethical_significance(
-                    anomalies, context
-                )
+                ethical_assessment = await self._assess_ethical_significance(anomalies, context)
 
                 # Determine routing based on significance
-                routing_targets = self._determine_routing_targets(
-                    anomalies, ethical_assessment
-                )
+                routing_targets = self._determine_routing_targets(anomalies, ethical_assessment)
 
                 # Get privacy level from context
                 privacy_level = self._determine_privacy_level(context)
@@ -327,9 +309,7 @@ class VIVOXEncryptedPerceptionNode:
                     encrypted_features=main_features,
                     modality=modality,
                     timestamp=datetime.now(timezone.utc),
-                    ethical_compliance=self._check_ethical_compliance(
-                        ethical_assessment
-                    ),
+                    ethical_compliance=self._check_ethical_compliance(ethical_assessment),
                     privacy_level=privacy_level,
                     source_modalities=[modality],
                     encrypted_vectors=encrypted_vectors,
@@ -395,11 +375,7 @@ class VIVOXEncryptedPerceptionNode:
         stride = window_size // 2
 
         for i in range(0, array.shape[0] - window_size, stride):
-            window = (
-                filtered_array[i : i + window_size]
-                if array.ndim == 1
-                else filtered_array[i : i + window_size, :]
-            )
+            window = filtered_array[i : i + window_size] if array.ndim == 1 else filtered_array[i : i + window_size, :]
 
             # Apply non-reversible transformations
             features = self._extract_encrypted_features(window)
@@ -407,9 +383,7 @@ class VIVOXEncryptedPerceptionNode:
 
         return encrypted_list
 
-    async def _encrypt_structured_features(
-        self, data: dict[str, Any]
-    ) -> list[np.ndarray]:
+    async def _encrypt_structured_features(self, data: dict[str, Any]) -> list[np.ndarray]:
         """Encrypt structured data features"""
         encrypted_list = []
 
@@ -456,9 +430,7 @@ class VIVOXEncryptedPerceptionNode:
         )
 
         # 3. Texture features (if 2D)
-        texture_features = (
-            self._compute_texture_features(window) if window.ndim > 1 else np.zeros(8)
-        )
+        texture_features = self._compute_texture_features(window) if window.ndim > 1 else np.zeros(8)
 
         # 4. Combine and encrypt
         combined = np.concatenate([fft_features, moments, texture_features])
@@ -493,9 +465,7 @@ class VIVOXEncryptedPerceptionNode:
                 # For 1D arrays
                 dy = dx = gradients
 
-            features.extend(
-                [np.mean(np.abs(dx)), np.mean(np.abs(dy)), np.std(dx), np.std(dy)]
-            )
+            features.extend([np.mean(np.abs(dx)), np.mean(np.abs(dy)), np.std(dx), np.std(dy)])
         else:
             features.extend([0, 0, 0, 0])
 
@@ -560,15 +530,11 @@ class VIVOXEncryptedPerceptionNode:
 
         for pattern_name, pattern_config in self.anomaly_patterns.items():
             # Check if we should look for this anomaly type
-            if pattern_name not in self.ethical_constraints.get(
-                "anomaly_types_allowed", []
-            ):
+            if pattern_name not in self.ethical_constraints.get("anomaly_types_allowed", []):
                 continue
 
             # Detect pattern in encrypted vectors
-            detection_result = await self._detect_specific_anomaly(
-                vectors, pattern_name, pattern_config, context
-            )
+            detection_result = await self._detect_specific_anomaly(vectors, pattern_name, pattern_config, context)
 
             if detection_result:
                 anomalies.append(detection_result)
@@ -632,9 +598,7 @@ class VIVOXEncryptedPerceptionNode:
 
         return anomaly
 
-    def _compute_anomaly_score(
-        self, vector: PerceptualVector, anomaly_type: str, config: dict[str, Any]
-    ) -> float:
+    def _compute_anomaly_score(self, vector: PerceptualVector, anomaly_type: str, config: dict[str, Any]) -> float:
         """Compute anomaly score for encrypted vector"""
 
         # Get reference patterns for this anomaly type
@@ -663,9 +627,7 @@ class VIVOXEncryptedPerceptionNode:
         # Compare with reference patterns
         scores = []
         for ref_pattern in reference_patterns:
-            similarity = self._compute_vector_similarity(
-                vector.encrypted_features, ref_pattern
-            )
+            similarity = self._compute_vector_similarity(vector.encrypted_features, ref_pattern)
             scores.append(similarity)
 
         return max(scores) if scores else 0.0
@@ -765,18 +727,12 @@ class VIVOXEncryptedPerceptionNode:
         # Check if privacy override is needed (only in extreme cases)
         if assessment["critical_count"] > 0:
             max_confidence = max(
-                (
-                    a.confidence
-                    for a in anomalies
-                    if a.significance == EthicalSignificance.CRITICAL
-                ),
+                (a.confidence for a in anomalies if a.significance == EthicalSignificance.CRITICAL),
                 default=0,
             )
             if max_confidence > self.ethical_thresholds.get("privacy_override", 0.95):
                 assessment["privacy_override_considered"] = True
-                assessment["override_justification"] = (
-                    "Critical safety concern with high confidence"
-                )
+                assessment["override_justification"] = "Critical safety concern with high confidence"
 
         return assessment
 
@@ -790,9 +746,7 @@ class VIVOXEncryptedPerceptionNode:
             "texture_anomaly": "Investigate environmental conditions",
         }
 
-        return recommendations.get(
-            anomaly.anomaly_type, "Further assessment recommended"
-        )
+        return recommendations.get(anomaly.anomaly_type, "Further assessment recommended")
 
     def _determine_routing_targets(
         self, anomalies: list[AnomalySignature], ethical_assessment: dict[str, Any]
@@ -811,10 +765,7 @@ class VIVOXEncryptedPerceptionNode:
             targets.append("VIVOX.IEN")
 
         # High significance goes to Moral Alignment Engine (MAE)
-        if (
-            ethical_assessment.get("critical_count", 0) > 0
-            or ethical_assessment.get("high_count", 0) > 0
-        ):
+        if ethical_assessment.get("critical_count", 0) > 0 or ethical_assessment.get("high_count", 0) > 0:
             targets.append("VIVOX.MAE")
 
         # Emotional relevance goes to ERN
@@ -835,13 +786,9 @@ class VIVOXEncryptedPerceptionNode:
                     if hasattr(interface, "receive_encrypted_perception"):
                         await interface.receive_encrypted_perception(perception)
                     elif hasattr(interface, "process_perception"):
-                        await interface.process_perception(
-                            perception.get_vector_summary()
-                        )
+                        await interface.process_perception(perception.get_vector_summary())
                     else:
-                        logger.warning(
-                            f"Interface {target} does not support perception routing"
-                        )
+                        logger.warning(f"Interface {target} does not support perception routing")
 
                 except Exception as e:
                     logger.error(f"Error routing to {target}: {e}")
@@ -881,9 +828,7 @@ class VIVOXEncryptedPerceptionNode:
     def _generate_perception_id(self, modality: str, context: dict[str, Any]) -> str:
         """Generate unique perception ID"""
         timestamp = int(datetime.now().timestamp())
-        context_hash = hashlib.md5(
-            json.dumps(context, sort_keys=True).encode()
-        ).hexdigest()[:8]
+        context_hash = hashlib.md5(json.dumps(context, sort_keys=True).encode()).hexdigest()[:8]
         return f"evrn_{modality}_{timestamp}_{context_hash}"
 
     async def process_multimodal_perception(
@@ -906,20 +851,14 @@ class VIVOXEncryptedPerceptionNode:
             modalities.append(modality)
 
         # Cross-modal anomaly detection
-        cross_modal_anomalies = await self._detect_cross_modal_anomalies(
-            all_vectors, context
-        )
+        cross_modal_anomalies = await self._detect_cross_modal_anomalies(all_vectors, context)
         all_anomalies.extend(cross_modal_anomalies)
 
         # Combined ethical assessment
-        ethical_assessment = await self._assess_ethical_significance(
-            all_anomalies, context
-        )
+        ethical_assessment = await self._assess_ethical_significance(all_anomalies, context)
 
         # Determine routing
-        routing_targets = self._determine_routing_targets(
-            all_anomalies, ethical_assessment
-        )
+        routing_targets = self._determine_routing_targets(all_anomalies, ethical_assessment)
 
         # Get privacy level from context
         privacy_level = self._determine_privacy_level(context)
@@ -1000,11 +939,7 @@ class VIVOXEncryptedPerceptionNode:
                 anomaly_id=f"heat_stress_{int(datetime.now().timestamp())}",
                 anomaly_type="cross_modal_heat_stress",
                 confidence=float(confidence),
-                significance=(
-                    EthicalSignificance.HIGH
-                    if confidence > 0.8
-                    else EthicalSignificance.MODERATE
-                ),
+                significance=(EthicalSignificance.HIGH if confidence > 0.8 else EthicalSignificance.MODERATE),
                 perceptual_vectors=visual_vectors + thermal_vectors,
                 detection_context={
                     "visual_score": float(visual_score),
@@ -1035,11 +970,7 @@ class VIVOXEncryptedPerceptionNode:
                 anomaly_id=f"physical_distress_{int(datetime.now().timestamp())}",
                 anomaly_type="cross_modal_physical_distress",
                 confidence=float(confidence),
-                significance=(
-                    EthicalSignificance.CRITICAL
-                    if confidence > 0.85
-                    else EthicalSignificance.HIGH
-                ),
+                significance=(EthicalSignificance.CRITICAL if confidence > 0.85 else EthicalSignificance.HIGH),
                 perceptual_vectors=motion_vectors + texture_vectors,
                 detection_context={
                     "motion_variance": float(motion_variance),
@@ -1069,20 +1000,14 @@ class VIVOXEncryptedPerceptionNode:
 
         for perception in self.perception_history:
             for anomaly in perception.detected_anomalies:
-                anomaly_counts[anomaly.anomaly_type] = (
-                    anomaly_counts.get(anomaly.anomaly_type, 0) + 1
-                )
+                anomaly_counts[anomaly.anomaly_type] = anomaly_counts.get(anomaly.anomaly_type, 0) + 1
                 significance_counts[anomaly.significance.value] += 1
 
         # Calculate averages
         avg_anomalies_per_perception = (
-            sum(len(p.detected_anomalies) for p in self.perception_history)
-            / total_perceptions
+            sum(len(p.detected_anomalies) for p in self.perception_history) / total_perceptions
         )
-        avg_vectors_per_perception = (
-            sum(len(p.encrypted_vectors) for p in self.perception_history)
-            / total_perceptions
-        )
+        avg_vectors_per_perception = sum(len(p.encrypted_vectors) for p in self.perception_history) / total_perceptions
 
         # Modality distribution
         modality_counts = {}
@@ -1101,11 +1026,7 @@ class VIVOXEncryptedPerceptionNode:
             "anomaly_statistics": {
                 anomaly_type: {
                     "count": stats["count"],
-                    "average_confidence": (
-                        stats["total_confidence"] / stats["count"]
-                        if stats["count"] > 0
-                        else 0
-                    ),
+                    "average_confidence": (stats["total_confidence"] / stats["count"] if stats["count"] > 0 else 0),
                     "significance_distribution": stats["significance_distribution"],
                 }
                 for anomaly_type, stats in self.anomaly_statistics.items()
@@ -1119,9 +1040,7 @@ class VIVOXEncryptedPerceptionNode:
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=older_than_hours)
 
         # Filter history
-        self.perception_history = [
-            p for p in self.perception_history if p.created_at > cutoff_time
-        ]
+        self.perception_history = [p for p in self.perception_history if p.created_at > cutoff_time]
 
         # Clear old active perceptions
         active_to_remove = []

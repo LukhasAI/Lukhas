@@ -87,10 +87,7 @@ class SignalPattern:
             return False
         if not (self.level_min <= signal.level <= self.level_max):
             return False
-        return all(
-            signal.metadata.get(key) == value
-            for key, value in self.metadata_match.items()
-        )
+        return all(signal.metadata.get(key) == value for key, value in self.metadata_match.items())
 
 
 class SignalBus:
@@ -140,9 +137,7 @@ class SignalBus:
 
         # Pattern detection support (pattern, handler)
         self._patterns: list[tuple[SignalPattern, Callable[[list[Signal]], None]]] = []
-        self._recent_by_type: dict[SignalType, deque] = {
-            st: deque(maxlen=max_signal_history) for st in SignalType
-        }
+        self._recent_by_type: dict[SignalType, deque] = {st: deque(maxlen=max_signal_history) for st in SignalType}
 
     async def initialize(self):
         """Start the signal bus"""
@@ -200,9 +195,7 @@ class SignalBus:
             module_name: Optional module name for tracking
         """
         self.subscribers[signal_type].append(handler)
-        logger.debug(
-            f"Module {module_name or 'unknown'} subscribed to {signal_type.value}"
-        )
+        logger.debug(f"Module {module_name or 'unknown'} subscribed to {signal_type.value}")
 
     def unsubscribe(self, signal_type: SignalType, handler: Callable[[Signal], None]):
         """Unsubscribe from a signal type"""
@@ -320,9 +313,7 @@ class SignalBus:
             return
         now = time.time()
         for pattern, handler in list(self._patterns):
-            types_to_scan = pattern.signals or (
-                [pattern.name_pattern] if pattern.name_pattern else list(SignalType)
-            )
+            types_to_scan = pattern.signals or ([pattern.name_pattern] if pattern.name_pattern else list(SignalType))
             collected: list[Signal] = []
             window_ms = max(0, pattern.time_window_ms)
             for st in types_to_scan:
@@ -330,16 +321,12 @@ class SignalBus:
                     continue
                 recent = list(self._recent_by_type.get(st, []))
                 if window_ms:
-                    recent = [
-                        s for s in recent if (now - s.timestamp) * 1000 <= window_ms
-                    ]
+                    recent = [s for s in recent if (now - s.timestamp) * 1000 <= window_ms]
                 collected.extend(recent)
             # Apply simple field filters
             filtered: list[Signal] = []
             for s in collected:
-                if pattern.source_pattern and not s.source.startswith(
-                    pattern.source_pattern
-                ):
+                if pattern.source_pattern and not s.source.startswith(pattern.source_pattern):
                     continue
                 if not (pattern.level_min <= s.level <= pattern.level_max):
                     continue
@@ -394,17 +381,10 @@ class SignalBus:
         """Get bus statistics"""
         return {
             **self.stats,
-            "active_signals": len(
-                [s for s in self.active_signals if not s.is_expired()]
-            ),
+            "active_signals": len([s for s in self.active_signals if not s.is_expired()]),
             "total_history": len(self.signal_history),
-            "subscribers": {
-                signal_type.value: len(handlers)
-                for signal_type, handlers in self.subscribers.items()
-            },
-            "current_levels": {
-                k.value: v for k, v in self.get_current_levels().items()
-            },
+            "subscribers": {signal_type.value: len(handlers) for signal_type, handlers in self.subscribers.items()},
+            "current_levels": {k.value: v for k, v in self.get_current_levels().items()},
         }
 
     def get_metrics(self) -> dict[str, Any]:
@@ -424,9 +404,7 @@ class SignalBus:
             signals = [s for s in signals if s.source == source]
         return sorted(signals, key=lambda s: s.timestamp, reverse=True)
 
-    def register_pattern(
-        self, pattern: SignalPattern, handler: Callable[[list[Signal]], None]
-    ) -> None:
+    def register_pattern(self, pattern: SignalPattern, handler: Callable[[list[Signal]], None]) -> None:
         """Register a simple detection pattern with handler callback."""
         self._patterns.append((pattern, handler))
 
@@ -462,9 +440,7 @@ def get_signal_bus() -> SignalBus:
 def emit_stress(level: float, source: str, metadata: Optional[dict] = None):
     """Emit a stress signal"""
     bus = get_signal_bus()
-    signal = Signal(
-        name=SignalType.STRESS, level=level, source=source, metadata=metadata or {}
-    )
+    signal = Signal(name=SignalType.STRESS, level=level, source=source, metadata=metadata or {})
     return bus.publish(signal)
 
 
@@ -483,7 +459,5 @@ def emit_alignment_risk(level: float, source: str, metadata: Optional[dict] = No
 def emit_novelty(level: float, source: str, metadata: Optional[dict] = None):
     """Emit a novelty signal"""
     bus = get_signal_bus()
-    signal = Signal(
-        name=SignalType.NOVELTY, level=level, source=source, metadata=metadata or {}
-    )
+    signal = Signal(name=SignalType.NOVELTY, level=level, source=source, metadata=metadata or {})
     return bus.publish(signal)

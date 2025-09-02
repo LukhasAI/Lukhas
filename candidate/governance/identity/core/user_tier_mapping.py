@@ -95,11 +95,7 @@ class UserTierProfile:
             metadata=data.get("metadata", {}),
             created_at=datetime.fromisoformat(data["created_at"]),
             updated_at=datetime.fromisoformat(data["updated_at"]),
-            tier_expiry=(
-                datetime.fromisoformat(data["tier_expiry"])
-                if data.get("tier_expiry")
-                else None
-            ),
+            tier_expiry=(datetime.fromisoformat(data["tier_expiry"]) if data.get("tier_expiry") else None),
         )
 
 
@@ -340,18 +336,12 @@ class UserTierMappingService:
             profile = UserTierProfile(
                 lambda_id=lambda_id,
                 current_tier=tier,
-                tier_history=[
-                    {"tier": tier.name, "timestamp": now.isoformat(), "reason": reason}
-                ],
+                tier_history=[{"tier": tier.name, "timestamp": now.isoformat(), "reason": reason}],
                 permissions=self._get_default_permissions(tier),
                 metadata={},
                 created_at=now,
                 updated_at=now,
-                tier_expiry=(
-                    now + timedelta(minutes=duration_minutes)
-                    if duration_minutes
-                    else None
-                ),
+                tier_expiry=(now + timedelta(minutes=duration_minutes) if duration_minutes else None),
             )
             self.cache[lambda_id] = profile
 
@@ -376,9 +366,7 @@ class UserTierMappingService:
         base_tier = LambdaTier.LAMBDA_TIER_1  # Default
         for entry in reversed(profile.tier_history):
             if not entry.get("temporary", False):
-                base_tier = LambdaTier.from_string(
-                    entry.get("to_tier", entry.get("tier"))
-                )
+                base_tier = LambdaTier.from_string(entry.get("to_tier", entry.get("tier")))
                 break
 
         profile.current_tier = base_tier
@@ -455,9 +443,7 @@ def check_tier_access(lambda_id: str, required_tier: str) -> bool:
     return user_tier.level >= required.level
 
 
-def elevate_user_tier(
-    lambda_id: str, target_tier: str, reason: str, duration_minutes: int = 60
-) -> bool:
+def elevate_user_tier(lambda_id: str, target_tier: str, reason: str, duration_minutes: int = 60) -> bool:
     """Temporarily elevate a user's tier."""
     service = get_tier_mapping_service()
     tier = LambdaTier.from_string(target_tier)
@@ -475,18 +461,10 @@ if __name__ == "__main__":
     print(f"unknown_user tier: {service.get_user_tier('unknown_user').name}")
 
     # Test permissions
-    print(
-        f"\ntest_user_tier2 can access memory: {service.check_permission('test_user_tier2', 'memory_access')}"
-    )
-    print(
-        f"test_user_tier2 can access quantum: {service.check_permission('test_user_tier2', 'qi_access')}"
-    )
+    print(f"\ntest_user_tier2 can access memory: {service.check_permission('test_user_tier2', 'memory_access')}")
+    print(f"test_user_tier2 can access quantum: {service.check_permission('test_user_tier2', 'qi_access')}")
 
     # Test tier elevation
     print("\nElevating test_user_tier2 to TIER_4 for 5 minutes...")
-    service.set_user_tier(
-        "test_user_tier2", LambdaTier.LAMBDA_TIER_4, "Testing elevation", 5
-    )
-    print(
-        f"test_user_tier2 can now access quantum: {service.check_permission('test_user_tier2', 'qi_access')}"
-    )
+    service.set_user_tier("test_user_tier2", LambdaTier.LAMBDA_TIER_4, "Testing elevation", 5)
+    print(f"test_user_tier2 can now access quantum: {service.check_permission('test_user_tier2', 'qi_access')}")

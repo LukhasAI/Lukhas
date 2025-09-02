@@ -72,8 +72,7 @@ def fix_validation_script():
     # 5. Add necessary imports for ReasoningColony if not present
     if (
         "ReasoningColony" in content
-        and "from candidate.core.colonies.reasoning_colony import ReasoningColony"
-        not in content
+        and "from candidate.core.colonies.reasoning_colony import ReasoningColony" not in content
     ):
         # Add import after the existing imports
         import_section = content.find("from candidate.core.integrated_system")
@@ -112,7 +111,9 @@ def fix_efficient_communication():
     # Check if _message_count is initialized in __init__
     if "_message_count" not in content:
         # Add message count tracking to __init__
-        init_pattern = r'(def __init__\(self[^\)]*\):[^\n]*\n(?:[ ]*"""[\s\S]*?"""\n)?)([\s\S]*?)(?=\n[ ]*def|\n[ ]*async def|\Z)'
+        init_pattern = (
+            r'(def __init__\(self[^\)]*\):[^\n]*\n(?:[ ]*"""[\s\S]*?"""\n)?)([\s\S]*?)(?=\n[ ]*def|\n[ ]*async def|\Z)'
+        )
 
         def add_message_count(match):
             init_signature = match.group(1)
@@ -139,9 +140,7 @@ def fix_efficient_communication():
 
     # Update send_message to increment the counter
     if "_message_count += 1" not in content:
-        send_msg_pattern = (
-            r"(async def send_message\([^\)]*\)[^\{]*\{[^\}]*)(return [^\n]*?)"
-        )
+        send_msg_pattern = r"(async def send_message\([^\)]*\)[^\{]*\{[^\}]*)(return [^\n]*?)"
 
         def add_counter_increment(match):
             method_body = match.group(1)
@@ -149,16 +148,10 @@ def fix_efficient_communication():
 
             # Add counter increment before return
             if "self._message_count += 1" not in method_body:
-                return (
-                    method_body
-                    + "\n        self._message_count += 1\n        "
-                    + return_stmt
-                )
+                return method_body + "\n        self._message_count += 1\n        " + return_stmt
             return match.group(0)
 
-        content = re.sub(
-            send_msg_pattern, add_counter_increment, content, flags=re.DOTALL
-        )
+        content = re.sub(send_msg_pattern, add_counter_increment, content, flags=re.DOTALL)
 
     # Write the updated content
     backup_path = fabric_path.with_suffix(".final.bak")

@@ -129,9 +129,7 @@ def __validate_module__():
         validation_results["test_results"]["QIVoiceEnhancer"] = {
             "status": "pass",
             "enhancement_test": "successful",
-            "enhancement_applied": enhancement_result.get(
-                "qi_processing_applied", False
-            ),
+            "enhancement_applied": enhancement_result.get("qi_processing_applied", False),
             "enhancements_count": len(enhancement_result.get("enhancements", {})),
         }
     except Exception as e:
@@ -163,11 +161,7 @@ def __validate_module__():
             }
 
     # Calculate overall health
-    passed_tests = sum(
-        1
-        for result in validation_results["test_results"].values()
-        if result.get("status") == "pass"
-    )
+    passed_tests = sum(1 for result in validation_results["test_results"].values() if result.get("status") == "pass")
     total_tests = len(validation_results["test_results"])
 
     if total_tests > 0:

@@ -77,9 +77,7 @@ class HelixVault:
         await self.persist_vault()
         logger.info("🔐 Helix Vault stopped")
 
-    def create_memory(
-        self, memory_id: str, initial_glyphs: list[str], tags: Optional[set[str]] = None
-    ) -> MemoryHelix:
+    def create_memory(self, memory_id: str, initial_glyphs: list[str], tags: Optional[set[str]] = None) -> MemoryHelix:
         """Create new memory in vault"""
         if memory_id in self.memories:
             raise ValueError(f"Memory {memory_id} already exists")
@@ -103,9 +101,7 @@ class HelixVault:
         """Retrieve memory by ID"""
         return self.memories.get(memory_id)
 
-    def search_by_tags(
-        self, tags: set[str], match_all: bool = False
-    ) -> list[MemoryHelix]:
+    def search_by_tags(self, tags: set[str], match_all: bool = False) -> list[MemoryHelix]:
         """Search memories by tags"""
         if match_all:
             # All tags must match
@@ -127,9 +123,7 @@ class HelixVault:
 
         return [self.memories[mid] for mid in memory_ids if mid in self.memories]
 
-    def search_by_drift(
-        self, min_drift: float = 0.0, max_drift: float = 1.0
-    ) -> list[MemoryHelix]:
+    def search_by_drift(self, min_drift: float = 0.0, max_drift: float = 1.0) -> list[MemoryHelix]:
         """Search memories by drift range"""
         results = []
         for memory in self.memories.values():
@@ -146,9 +140,7 @@ class HelixVault:
                 results.append(self.memories[memory_id])
         return results
 
-    async def consensus_repair(
-        self, memory_id: str, quorum_tags: Optional[set[str]] = None
-    ) -> bool:
+    async def consensus_repair(self, memory_id: str, quorum_tags: Optional[set[str]] = None) -> bool:
         """
         Repair memory using consensus from similar memories
         """
@@ -208,8 +200,7 @@ class HelixVault:
             "total_repairs": repairs,
             "locked_memories": locked,
             "unique_tags": len(self.tag_index),
-            "avg_memory_size": sum(len(m.origin_strand) for m in self.memories.values())
-            / len(self.memories),
+            "avg_memory_size": sum(len(m.origin_strand) for m in self.memories.values()) / len(self.memories),
         }
 
     async def _persist_loop(self):
@@ -243,9 +234,7 @@ class HelixVault:
                 high_drift_memories.append((memory.memory_id, drift))
 
         if high_drift_memories:
-            logger.warning(
-                f"⚠️ {len(high_drift_memories)} memories with high drift detected"
-            )
+            logger.warning(f"⚠️ {len(high_drift_memories)} memories with high drift detected")
             for memory_id, drift in high_drift_memories[:5]:  # Log top 5
                 logger.warning(f"   • {memory_id}: {drift:.3f}")
 
@@ -353,9 +342,7 @@ class DriftOracle:
 
         # Repair effectiveness
         repaired = [d for d in drift_data if d["repairs"] > 0]
-        repair_effectiveness = (
-            1.0 - (sum(d["drift"] for d in repaired) / len(repaired)) if repaired else 0
-        )
+        repair_effectiveness = 1.0 - (sum(d["drift"] for d in repaired) / len(repaired)) if repaired else 0
 
         return {
             "total_analyzed": len(drift_data),
@@ -364,13 +351,9 @@ class DriftOracle:
             "min_drift": min(d["drift"] for d in drift_data),
             "drift_velocity": avg_velocity,
             "repair_effectiveness": repair_effectiveness,
-            "high_drift_memories": [
-                d["memory_id"] for d in drift_data if d["drift"] > 0.5
-            ],
+            "high_drift_memories": [d["memory_id"] for d in drift_data if d["drift"] > 0.5],
             "stable_memories": [d["memory_id"] for d in drift_data if d["drift"] < 0.1],
-            "frequently_accessed": sorted(
-                drift_data, key=lambda x: x["access_count"], reverse=True
-            )[:5],
+            "frequently_accessed": sorted(drift_data, key=lambda x: x["access_count"], reverse=True)[:5],
         }
 
     def predict_repair_needs(self, hours_ahead: float = 24) -> list[tuple[str, float]]:
@@ -384,9 +367,7 @@ class DriftOracle:
                 velocity = memory.helix_core.calculate_drift() / age_hours
 
                 # Predict future drift
-                future_drift = memory.helix_core.calculate_drift() + (
-                    velocity * hours_ahead
-                )
+                future_drift = memory.helix_core.calculate_drift() + (velocity * hours_ahead)
 
                 if future_drift > memory.helix_core.drift_threshold:
                     predictions.append((memory.memory_id, future_drift))

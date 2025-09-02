@@ -88,9 +88,7 @@ class VoiceInterface:
             provider = metadata.get("provider", "auto")
 
             # Try the preferred provider first
-            if provider == "system" or (
-                provider == "auto" and self._should_use_system_voice(message.content)
-            ):
+            if provider == "system" or (provider == "auto" and self._should_use_system_voice(message.content)):
                 return await self._speak_system(message.content)
 
             # Try ElevenLabs
@@ -136,9 +134,7 @@ class VoiceInterface:
         """Register a handler for voice input messages"""
         self.message_handler.register_input_handler(handler)
 
-    def add_to_conversation(
-        self, text: str, conversation_id: str, is_input: bool = True
-    ):
+    def add_to_conversation(self, text: str, conversation_id: str, is_input: bool = True):
         """Add a message to a conversation thread"""
         if conversation_id not in self.active_conversations:
             self.active_conversations[conversation_id] = []

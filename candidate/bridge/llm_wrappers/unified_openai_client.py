@@ -84,9 +84,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         self.project = os.getenv("PROJECT_ID")
 
         if not self.api_key:
-            raise ValueError(
-                "OpenAI API key not found. Set OPENAI_API_KEY environment variable."
-            )
+            raise ValueError("OpenAI API key not found. Set OPENAI_API_KEY environment variable.")
 
         org: Optional[str] = self.organization
         # initialize client objects if real classes are available
@@ -148,15 +146,11 @@ class UnifiedOpenAIClient(LLMWrapper):
         )
 
         self.conversations[conversation_id].messages.append(message)
-        self.conversations[conversation_id].updated_at = datetime.now(
-            tz=timezone.utc
-        ).isoformat()
+        self.conversations[conversation_id].updated_at = datetime.now(tz=timezone.utc).isoformat()
 
         return message
 
-    def get_conversation_messages(
-        self, conversation_id: str, max_tokens: int = 4000
-    ) -> list[dict[str, Any]]:
+    def get_conversation_messages(self, conversation_id: str, max_tokens: int = 4000) -> list[dict[str, Any]]:
         """Get conversation messages formatted for OpenAI API"""
         if conversation_id not in self.conversations:
             raise ValueError(f"Conversation {conversation_id} not found")
@@ -222,9 +216,7 @@ class UnifiedOpenAIClient(LLMWrapper):
             model = self.TASK_MODELS.get(key, self.TASK_MODELS["general"])
 
         # Set defaults
-        temperature = (
-            temperature if temperature is not None else self.default_temperature
-        )
+        temperature = temperature if temperature is not None else self.default_temperature
         max_tokens = max_tokens if max_tokens is not None else self.default_max_tokens
 
         # Prepare request parameters
@@ -256,9 +248,7 @@ class UnifiedOpenAIClient(LLMWrapper):
                     raise RuntimeError("OpenAI async client not available")
 
                 if stream:
-                    return await self.async_client.chat.completions.create(
-                        **params, stream=True
-                    )
+                    return await self.async_client.chat.completions.create(**params, stream=True)
                 response = await self.async_client.chat.completions.create(**params)
                 # model_dump may not exist on all client objects; fall back to dict()
                 return getattr(response, "model_dump", lambda r=response: dict(r))()
@@ -289,9 +279,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         if model is None:
             model = self.TASK_MODELS.get(task, self.TASK_MODELS["general"])
 
-        temperature = (
-            temperature if temperature is not None else self.default_temperature
-        )
+        temperature = temperature if temperature is not None else self.default_temperature
         max_tokens = max_tokens if max_tokens is not None else self.default_max_tokens
 
         if self.client is None:  # pragma: no cover - runtime fallback
@@ -311,9 +299,7 @@ class UnifiedOpenAIClient(LLMWrapper):
 
     async def reasoning_task(self, prompt: str, context: Optional[dict] = None) -> str:
         """Execute a reasoning task with appropriate model and parameters"""
-        system_prompt = (
-            "You are an advanced reasoning system. Analyze the problem step by step."
-        )
+        system_prompt = "You are an advanced reasoning system. Analyze the problem step by step."
 
         messages = [{"role": "system", "content": system_prompt}]
 
@@ -337,9 +323,7 @@ class UnifiedOpenAIClient(LLMWrapper):
 
     async def creative_task(self, prompt: str, style: Optional[str] = None) -> str:
         """Execute a creative task with appropriate parameters"""
-        system_prompt = (
-            "You are a creative AI assistant capable of generating imaginative content."
-        )
+        system_prompt = "You are a creative AI assistant capable of generating imaginative content."
 
         if style:
             system_prompt += f" Generate content in the style of: {style}"
@@ -357,9 +341,7 @@ class UnifiedOpenAIClient(LLMWrapper):
 
         return response["choices"][0]["message"]["content"]
 
-    async def ethics_check(
-        self, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def ethics_check(self, action: str, context: dict[str, Any]) -> dict[str, Any]:
         """Check ethical implications of an action"""
         messages = [
             {
@@ -372,9 +354,7 @@ class UnifiedOpenAIClient(LLMWrapper):
             },
         ]
 
-        response = await self.chat_completion(
-            messages=messages, task="ethics", temperature=0.3
-        )
+        response = await self.chat_completion(messages=messages, task="ethics", temperature=0.3)
 
         content = response["choices"][0]["message"]["content"]
 
@@ -398,11 +378,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         """Get information about available models and current configuration"""
         return {
             "task_models": self.TASK_MODELS,
-            "selected_model": (
-                self.TASK_MODELS.get(task, self.TASK_MODELS["general"])
-                if task
-                else None
-            ),
+            "selected_model": (self.TASK_MODELS.get(task, self.TASK_MODELS["general"]) if task else None),
             "organization": self.organization,
             "project_id": self.project_id,
             "default_temperature": self.default_temperature,
@@ -417,9 +393,7 @@ class UnifiedOpenAIClient(LLMWrapper):
                 await close()
         logger.info("UnifiedOpenAIClient closed")
 
-    async def generate_response(
-        self, prompt: str, model: Optional[str] = None, **kwargs
-    ) -> tuple[str, str]:
+    async def generate_response(self, prompt: str, model: Optional[str] = None, **kwargs) -> tuple[str, str]:
         """
         Generate a response from the LLM.
         This is an adapter method to comply with the LLMWrapper interface.

@@ -29,11 +29,7 @@ def monitor_agi_system():
     while True:
         try:
             # Check for recent status files
-            status_files = [
-                f
-                for f in os.listdir(".")
-                if f.startswith("autonomous_") and f.endswith(".json")
-            ]
+            status_files = [f for f in os.listdir(".") if f.startswith("autonomous_") and f.endswith(".json")]
 
             if status_files:
                 latest_file = sorted(status_files)[-1]
@@ -42,12 +38,8 @@ def monitor_agi_system():
                     with open(latest_file) as f:
                         status = json.load(f)
 
-                    print(
-                        f"\n🕐 {datetime.now().strftime('%H:%M:%S')} - Latest Status:"
-                    )
-                    print(
-                        f"📊 Tasks: {status.get('completed', 0)} completed, {status.get('failed', 0)} failed"
-                    )
+                    print(f"\n🕐 {datetime.now().strftime('%H:%M:%S')} - Latest Status:")
+                    print(f"📊 Tasks: {status.get('completed', 0)} completed, {status.get('failed', 0)} failed")
                     print(f"💰 Budget Used: ${status.get('budget_used', 0):.4f}")
 
                     if "recent_prs" in status:

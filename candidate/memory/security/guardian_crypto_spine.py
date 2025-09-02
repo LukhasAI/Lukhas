@@ -110,9 +110,7 @@ class GuardianCryptoSpine:
             private_key: RSA private key for signing (generates new if None)
         """
         if private_key is None:
-            self.private_key = rsa.generate_private_key(
-                public_exponent=65537, key_size=2048
-            )
+            self.private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
         else:
             self.private_key = private_key
 
@@ -171,9 +169,7 @@ class GuardianCryptoSpine:
         # Create RSA-PSS signature
         signature = self.private_key.sign(
             payload_bytes,
-            padding.PSS(
-                mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH
-            ),
+            padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
             hashes.SHA256(),
         )
 
@@ -229,9 +225,7 @@ class GuardianCryptoSpine:
                 "timestamp": guardian_signature.timestamp,
                 "memory_data_hash": self._hash_memory_data(memory_data),
                 "security_context": security_context.to_dict(),
-                "nonce": (
-                    guardian_signature.nonce.hex() if guardian_signature.nonce else None
-                ),
+                "nonce": (guardian_signature.nonce.hex() if guardian_signature.nonce else None),
                 "public_key_hash": guardian_signature.public_key_hash,
                 "metadata": {
                     k: v
@@ -241,9 +235,7 @@ class GuardianCryptoSpine:
             }
 
             # Serialize payload
-            payload_bytes = json.dumps(operation_payload, sort_keys=True).encode(
-                "utf-8"
-            )
+            payload_bytes = json.dumps(operation_payload, sort_keys=True).encode("utf-8")
 
             # Verify RSA-PSS signature
             verify_key.verify(
@@ -263,9 +255,7 @@ class GuardianCryptoSpine:
             # Signature verification failed
             return False
 
-    def encrypt_memory_data(
-        self, memory_data: bytes, associated_data: Optional[bytes] = None
-    ) -> tuple[bytes, bytes]:
+    def encrypt_memory_data(self, memory_data: bytes, associated_data: Optional[bytes] = None) -> tuple[bytes, bytes]:
         """
         Encrypt memory data using AES-GCM.
 
@@ -276,9 +266,7 @@ class GuardianCryptoSpine:
         Returns:
             Tuple of (nonce, encrypted_data)
         """
-        nonce = hashlib.sha256(str(time.time()).encode()).digest()[
-            :12
-        ]  # 96-bit nonce for GCM
+        nonce = hashlib.sha256(str(time.time()).encode()).digest()[:12]  # 96-bit nonce for GCM
         encrypted_data = self.aes_gcm.encrypt(nonce, memory_data, associated_data)
         return nonce, encrypted_data
 
@@ -301,9 +289,7 @@ class GuardianCryptoSpine:
         """
         return self.aes_gcm.decrypt(nonce, encrypted_data, associated_data)
 
-    def create_memory_integrity_hash(
-        self, memory_data: Any, security_context: MemorySecurityContext
-    ) -> str:
+    def create_memory_integrity_hash(self, memory_data: Any, security_context: MemorySecurityContext) -> str:
         """
         Create integrity hash for memory data.
 
@@ -315,13 +301,9 @@ class GuardianCryptoSpine:
             SHA256 hash of memory data with security context
         """
         memory_hash = self._hash_memory_data(memory_data)
-        context_hash = hashlib.sha256(
-            json.dumps(security_context.to_dict(), sort_keys=True).encode()
-        ).hexdigest()
+        context_hash = hashlib.sha256(json.dumps(security_context.to_dict(), sort_keys=True).encode()).hexdigest()
 
-        combined_hash = hashlib.sha256(
-            (memory_hash + context_hash).encode()
-        ).hexdigest()
+        combined_hash = hashlib.sha256((memory_hash + context_hash).encode()).hexdigest()
         return combined_hash
 
     def verify_memory_integrity(
@@ -371,18 +353,13 @@ class GuardianCryptoSpine:
         # Check security level consistency
         expected_security_level = security_context.security_level
         signature_security_level = guardian_signature.metadata.get("security_level")
-        if (
-            signature_security_level
-            and signature_security_level != expected_security_level
-        ):
+        if signature_security_level and signature_security_level != expected_security_level:
             return False
 
         # Check cfg_version consistency
         expected_cfg_version = security_context.cfg_version
         signature_cfg_version = guardian_signature.metadata.get("cfg_version")
-        return not (
-            signature_cfg_version and signature_cfg_version != expected_cfg_version
-        )
+        return not (signature_cfg_version and signature_cfg_version != expected_cfg_version)
 
     def get_security_metrics(self) -> dict[str, Any]:
         """Get security metrics for monitoring"""
@@ -471,9 +448,7 @@ class C4MemoryGuardianAdapter:
 
             # Encrypt with associated data
             associated_data = f"{memory_key}:{security_context.session_id}".encode()
-            nonce, encrypted_data = self.guardian_spine.encrypt_memory_data(
-                data_bytes, associated_data
-            )
+            nonce, encrypted_data = self.guardian_spine.encrypt_memory_data(data_bytes, associated_data)
 
             stored_data = {
                 "encrypted": True,
@@ -487,9 +462,7 @@ class C4MemoryGuardianAdapter:
             }
 
         # Create integrity hash
-        integrity_hash = self.guardian_spine.create_memory_integrity_hash(
-            memory_data, security_context
-        )
+        integrity_hash = self.guardian_spine.create_memory_integrity_hash(memory_data, security_context)
 
         # Create secured memory record
         secured_record = {
@@ -520,9 +493,7 @@ class C4MemoryGuardianAdapter:
         """
         try:
             # Reconstruct Guardian signature
-            signature = GuardianSignature.from_dict(
-                secured_record["guardian_signature"]
-            )
+            signature = GuardianSignature.from_dict(secured_record["guardian_signature"])
 
             # Extract stored data
             stored_data = secured_record["stored_data"]
@@ -535,9 +506,7 @@ class C4MemoryGuardianAdapter:
                 encrypted_data = bytes.fromhex(stored_data["data"])
 
                 # Decrypt
-                decrypted_bytes = self.guardian_spine.decrypt_memory_data(
-                    nonce, encrypted_data, associated_data
-                )
+                decrypted_bytes = self.guardian_spine.decrypt_memory_data(nonce, encrypted_data, associated_data)
 
                 # Convert back to original type
                 if stored_data["data_type"] == "str":
@@ -548,9 +517,7 @@ class C4MemoryGuardianAdapter:
                 memory_data = stored_data
 
             # Verify signature
-            signature_valid = self.guardian_spine.verify_memory_signature(
-                signature, memory_data, security_context
-            )
+            signature_valid = self.guardian_spine.verify_memory_signature(signature, memory_data, security_context)
 
             # Verify integrity hash
             integrity_valid = self.guardian_spine.verify_memory_integrity(
@@ -604,9 +571,7 @@ def create_guardian_memory_context(
     )
 
 
-def initialize_guardian_memory_system() -> (
-    tuple[GuardianCryptoSpine, C4MemoryGuardianAdapter]
-):
+def initialize_guardian_memory_system() -> tuple[GuardianCryptoSpine, C4MemoryGuardianAdapter]:
     """Initialize complete Guardian memory security system"""
     guardian_spine = GuardianCryptoSpine()
     memory_adapter = C4MemoryGuardianAdapter(guardian_spine)

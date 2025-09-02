@@ -131,9 +131,7 @@ class BandPassFilter(AudioFilter):
         low_norm = max(low_freq / nyquist, 0.01)
         high_norm = min(high_freq / nyquist, 0.99)
 
-        sos = signal.butter(
-            params.order, [low_norm, high_norm], btype="band", output="sos"
-        )
+        sos = signal.butter(params.order, [low_norm, high_norm], btype="band", output="sos")
         filtered_data = signal.sosfilt(sos, buffer.data)
 
         return AudioBuffer(
@@ -163,9 +161,7 @@ class NotchFilter(AudioFilter):
         low_norm = max(low_freq / nyquist, 0.01)
         high_norm = min(high_freq / nyquist, 0.99)
 
-        sos = signal.butter(
-            params.order, [low_norm, high_norm], btype="bandstop", output="sos"
-        )
+        sos = signal.butter(params.order, [low_norm, high_norm], btype="bandstop", output="sos")
         filtered_data = signal.sosfilt(sos, buffer.data)
 
         return AudioBuffer(
@@ -247,9 +243,7 @@ class LUKHASAudioFilterBank:
             FilterType.ADAPTIVE_NOISE: AdaptiveNoiseFilter(),
         }
 
-    async def apply_filter(
-        self, buffer: AudioBuffer, filter_type: FilterType, params: FilterParameters
-    ) -> AudioBuffer:
+    async def apply_filter(self, buffer: AudioBuffer, filter_type: FilterType, params: FilterParameters) -> AudioBuffer:
         """Apply single filter"""
         try:
             validation_result = await self.guardian.validate_operation(
@@ -294,9 +288,7 @@ class LUKHASAudioFilterBank:
         current_buffer = buffer
 
         for filter_type, params in filter_chain:
-            current_buffer = await self.apply_filter(
-                current_buffer, filter_type, params
-            )
+            current_buffer = await self.apply_filter(current_buffer, filter_type, params)
 
         return current_buffer
 

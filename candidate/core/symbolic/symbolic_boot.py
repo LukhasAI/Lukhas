@@ -106,9 +106,7 @@ class SymbolicBootstrap:
             if "error" not in modules:
                 boot_result["modules_loaded"] = True
             else:
-                boot_result["errors"].append(
-                    f"Module loading failed: {modules['error']}"
-                )
+                boot_result["errors"].append(f"Module loading failed: {modules['error']}")
 
             # Step 3: Set boot status
             if boot_result["workspace_valid"] and boot_result["modules_loaded"]:

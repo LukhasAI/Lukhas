@@ -115,9 +115,7 @@ class CollapseHashSystem:
         print(f"   - Seal threshold: {self.seal_threshold}")
         print("   - Tiered access: T1-T5 (Basic to Research)")
 
-    def create_ethical_hash(
-        self, decision_data: dict[str, Any], tier_level: EthicalTier
-    ) -> str:
+    def create_ethical_hash(self, decision_data: dict[str, Any], tier_level: EthicalTier) -> str:
         """RESEARCH: Create cryptographically sealed ethical decision hash"""
 
         # Normalize decision data for consistent hashing
@@ -135,9 +133,7 @@ class CollapseHashSystem:
 
         return decision_hash
 
-    def verify_ethical_integrity(
-        self, decision_hash: str, tier_level: EthicalTier
-    ) -> bool:
+    def verify_ethical_integrity(self, decision_hash: str, tier_level: EthicalTier) -> bool:
         """RESEARCH: Verify ethical decision hasn't been tampered with"""
 
         # Check merkle tree integrity
@@ -148,9 +144,7 @@ class CollapseHashSystem:
         # Verify hash exists in tree and matches expected structure
         return self._verify_merkle_path(decision_hash, tier_level)
 
-    def _normalize_decision_data(
-        self, data: dict[str, Any], tier: EthicalTier
-    ) -> dict[str, Any]:
+    def _normalize_decision_data(self, data: dict[str, Any], tier: EthicalTier) -> dict[str, Any]:
         """RESEARCH: Normalize decision data for consistent hashing"""
 
         normalized = {
@@ -158,16 +152,12 @@ class CollapseHashSystem:
             "timestamp_iso": datetime.now(timezone.utc).isoformat(),
             "decision_content": data.get("decision", ""),
             "ethical_principles": sorted(data.get("principles", [])),
-            "context_hash": hashlib.md5(
-                str(data.get("context", {})).encode()
-            ).hexdigest(),
+            "context_hash": hashlib.md5(str(data.get("context", {})).encode()).hexdigest(),
         }
 
         return normalized
 
-    def _add_to_merkle_tree(
-        self, decision_hash: str, tier: EthicalTier, data: dict[str, Any]
-    ):
+    def _add_to_merkle_tree(self, decision_hash: str, tier: EthicalTier, data: dict[str, Any]):
         """RESEARCH: Add decision to tier-specific merkle tree"""
 
         # Simple merkle tree implementation (in production would use full merkle tree library)
@@ -240,9 +230,7 @@ class DriftScoreCalculator:
 
         # Compute confidence-weighted deviation
         confidence_score = self._calculate_confidence_score(current_features)
-        deviation_magnitude = self._calculate_deviation(
-            current_features, baseline_profile
-        )
+        deviation_magnitude = self._calculate_deviation(current_features, baseline_profile)
 
         # Combine into drift score (higher = less drift)
         drift_score = confidence_score * (1.0 - deviation_magnitude) * 100
@@ -286,17 +274,14 @@ class DriftScoreCalculator:
         features.extend(
             [
                 decision.get("certainty", 0.5),
-                len(decision.get("alternatives", []))
-                / 10.0,  # Normalized alternatives count
+                len(decision.get("alternatives", [])) / 10.0,  # Normalized alternatives count
                 decision.get("stakeholder_impact", 0.5),
             ]
         )
 
         return np.array(features)
 
-    def _calculate_baseline_profile(
-        self, historical_context: list[dict[str, Any]]
-    ) -> np.ndarray:
+    def _calculate_baseline_profile(self, historical_context: list[dict[str, Any]]) -> np.ndarray:
         """RESEARCH: Calculate baseline ethical profile from historical decisions"""
 
         if not historical_context:
@@ -304,9 +289,7 @@ class DriftScoreCalculator:
             return np.array([0.8, 0.7, 0.9, 0.95, 0.8, 0.75, 0.85, 0.7, 0.5, 0.6])
 
         # Extract features from historical decisions
-        historical_features = [
-            self._extract_ethical_features(decision) for decision in historical_context
-        ]
+        historical_features = [self._extract_ethical_features(decision) for decision in historical_context]
 
         # Calculate mean baseline profile
         baseline_profile = np.mean(historical_features, axis=0)
@@ -326,9 +309,7 @@ class DriftScoreCalculator:
         consistency = 1.0 - min(1.0, np.var(features))
 
         # Feature magnitudes (extreme values reduce confidence)
-        magnitude_penalty = (
-            np.mean(np.abs(features - 0.5)) * 2
-        )  # Penalty for extreme values
+        magnitude_penalty = np.mean(np.abs(features - 0.5)) * 2  # Penalty for extreme values
         magnitude_confidence = 1.0 - min(1.0, magnitude_penalty)
 
         # Combined confidence score
@@ -336,9 +317,7 @@ class DriftScoreCalculator:
 
         return max(0.0, min(1.0, confidence))
 
-    def _calculate_deviation(
-        self, current_features: np.ndarray, baseline_profile: np.ndarray
-    ) -> float:
+    def _calculate_deviation(self, current_features: np.ndarray, baseline_profile: np.ndarray) -> float:
         """RESEARCH: Calculate deviation from ethical baseline"""
 
         # Ensure same dimensionality
@@ -375,11 +354,7 @@ class DriftScoreCalculator:
             return 0.0
 
         recent_events = self.drift_history[-100:]  # Last 100 events
-        prevented_drifts = sum(
-            1
-            for event in recent_events
-            if event["drift_score"] >= self.manual_review_threshold
-        )
+        prevented_drifts = sum(1 for event in recent_events if event["drift_score"] >= self.manual_review_threshold)
 
         prevention_rate = prevented_drifts / len(recent_events)
         return prevention_rate
@@ -415,9 +390,7 @@ class EthicalVault:
         """RESEARCH: Store human-approved ethical solution"""
 
         # Create unique solution ID
-        solution_id = hashlib.md5(
-            f"{moral_pattern}_{solution.description}".encode()
-        ).hexdigest()[:12]
+        solution_id = hashlib.md5(f"{moral_pattern}_{solution.description}".encode()).hexdigest()[:12]
 
         # Store in vault with metadata
         self.approved_solutions[moral_pattern] = {
@@ -437,13 +410,9 @@ class EthicalVault:
             "ethical_violations": 0,
         }
 
-        print(
-            f"✅ Approved solution stored: {solution_id} for pattern '{moral_pattern[:50]}...'"
-        )
+        print(f"✅ Approved solution stored: {solution_id} for pattern '{moral_pattern[:50]}...'")
 
-    def retrieve_approved_solution(
-        self, moral_pattern: str, context: dict[str, Any]
-    ) -> Optional[MoralOption]:
+    def retrieve_approved_solution(self, moral_pattern: str, context: dict[str, Any]) -> Optional[MoralOption]:
         """RESEARCH: Retrieve human-approved solution for moral pattern"""
 
         # Direct pattern match
@@ -567,14 +536,10 @@ class CollapseGovernanceSystem:
         start_time = datetime.now(timezone.utc)
 
         # Step 1: Check for pre-approved solutions in ethical vault
-        approved_solution = self.ethical_vault.retrieve_approved_solution(
-            dilemma_description, context
-        )
+        approved_solution = self.ethical_vault.retrieve_approved_solution(dilemma_description, context)
 
         if approved_solution:
-            print(
-                f"✅ Using pre-approved ethical solution: {approved_solution.option_id}"
-            )
+            print(f"✅ Using pre-approved ethical solution: {approved_solution.option_id}")
             collapsed_option = approved_solution
             collapse_method = "ethical_vault_lookup"
 
@@ -588,28 +553,20 @@ class CollapseGovernanceSystem:
         decision_data = {
             "dilemma": dilemma_description,
             "chosen_option": (
-                collapsed_option.to_dict()
-                if hasattr(collapsed_option, "to_dict")
-                else vars(collapsed_option)
+                collapsed_option.to_dict() if hasattr(collapsed_option, "to_dict") else vars(collapsed_option)
             ),
             "context": context,
             "tier": tier_level.value,
             "ethical_principles": self._extract_ethical_principles(collapsed_option),
         }
 
-        drift_score = self.drift_calculator.calculate_drift_score(
-            decision_data, self.decision_history[-10:]
-        )
+        drift_score = self.drift_calculator.calculate_drift_score(decision_data, self.decision_history[-10:])
 
         # Step 4: Generate trace index for reproducibility
-        trace_index = self._generate_trace_index(
-            decision_data, collapsed_option, collapse_method
-        )
+        trace_index = self._generate_trace_index(decision_data, collapsed_option, collapse_method)
 
         # Step 5: Create collapse event
-        event_id = hashlib.sha256(
-            f"{dilemma_description}_{start_time.isoformat()}".encode()
-        ).hexdigest()[:16]
+        event_id = hashlib.sha256(f"{dilemma_description}_{start_time.isoformat()}".encode()).hexdigest()[:16]
 
         collapse_event = CollapseEvent(
             event_id=event_id,
@@ -680,24 +637,18 @@ class CollapseGovernanceSystem:
         scored_options.sort(key=lambda x: x[1], reverse=True)
 
         # Method 2: Context-aware selection
-        best_option = self._select_contextually_appropriate_option(
-            scored_options, context
-        )
+        best_option = self._select_contextually_appropriate_option(scored_options, context)
 
         return best_option, "weighted_ethical_collapse"
 
-    def _filter_by_tier_complexity(
-        self, options: list[MoralOption], tier: EthicalTier
-    ) -> list[MoralOption]:
+    def _filter_by_tier_complexity(self, options: list[MoralOption], tier: EthicalTier) -> list[MoralOption]:
         """RESEARCH: Filter moral options by tier-appropriate complexity"""
 
         # Simple complexity assessment (in production would use trained model)
         filtered_options = []
 
         for option in options:
-            complexity_score = len(option.consequences) + len(
-                option.description.split()
-            )
+            complexity_score = len(option.consequences) + len(option.description.split())
 
             # Tier-based complexity thresholds
             max_complexity = {
@@ -711,9 +662,7 @@ class CollapseGovernanceSystem:
             if complexity_score <= max_complexity:
                 filtered_options.append(option)
 
-        return (
-            filtered_options if filtered_options else options
-        )  # Fallback to all options
+        return filtered_options if filtered_options else options  # Fallback to all options
 
     def _select_contextually_appropriate_option(
         self, scored_options: list[tuple[MoralOption, float]], context: dict[str, Any]
@@ -739,20 +688,15 @@ class CollapseGovernanceSystem:
         final_scores.sort(key=lambda x: x[1], reverse=True)
         return final_scores[0][0]
 
-    def _generate_trace_index(
-        self, decision_data: dict[str, Any], chosen_option: MoralOption, method: str
-    ) -> str:
+    def _generate_trace_index(self, decision_data: dict[str, Any], chosen_option: MoralOption, method: str) -> str:
         """RESEARCH: Generate TraceIndex for 99.3% decision reproducibility"""
 
         # Create deterministic trace for reproducibility
         trace_components = {
             "input_hash": hashlib.md5(str(decision_data).encode()).hexdigest(),
-            "option_hash": hashlib.md5(
-                f"{chosen_option.option_id}_{chosen_option.description}".encode()
-            ).hexdigest(),
+            "option_hash": hashlib.md5(f"{chosen_option.option_id}_{chosen_option.description}".encode()).hexdigest(),
             "method": method,
-            "timestamp_rounded": int(datetime.now(timezone.utc).timestamp() // 300)
-            * 300,  # 5-minute precision
+            "timestamp_rounded": int(datetime.now(timezone.utc).timestamp() // 300) * 300,  # 5-minute precision
         }
 
         trace_string = json.dumps(trace_components, sort_keys=True)
@@ -767,23 +711,13 @@ class CollapseGovernanceSystem:
         description = option.description.lower()
 
         principles = {
-            "transparency": (
-                0.8 if "transparent" in description or "clear" in description else 0.5
-            ),
-            "user_agency": (
-                0.9 if "choice" in description or "autonomy" in description else 0.5
-            ),
-            "privacy": (
-                0.8 if "privacy" in description or "private" in description else 0.5
-            ),
+            "transparency": (0.8 if "transparent" in description or "clear" in description else 0.5),
+            "user_agency": (0.9 if "choice" in description or "autonomy" in description else 0.5),
+            "privacy": (0.8 if "privacy" in description or "private" in description else 0.5),
             "non_maleficence": option.ethical_score,  # Use existing ethical score
-            "beneficence": (
-                0.7 if "benefit" in description or "help" in description else 0.5
-            ),
+            "beneficence": (0.7 if "benefit" in description or "help" in description else 0.5),
             "justice": 0.7 if "fair" in description or "equal" in description else 0.5,
-            "autonomy": (
-                0.8 if "independent" in description or "self" in description else 0.5
-            ),
+            "autonomy": (0.8 if "independent" in description or "self" in description else 0.5),
         }
 
         return principles
@@ -804,9 +738,7 @@ class CollapseGovernanceSystem:
             human_approved=True,
             precedent_strength=0.8,
         )
-        self.ethical_vault.store_approved_solution(
-            "transparency_request", transparency_option, "ethics_committee"
-        )
+        self.ethical_vault.store_approved_solution("transparency_request", transparency_option, "ethics_committee")
 
         # Privacy protection solutions
         privacy_option = MoralOption(
@@ -821,9 +753,7 @@ class CollapseGovernanceSystem:
             human_approved=True,
             precedent_strength=0.9,
         )
-        self.ethical_vault.store_approved_solution(
-            "privacy_concern", privacy_option, "privacy_board"
-        )
+        self.ethical_vault.store_approved_solution("privacy_concern", privacy_option, "privacy_board")
 
         # User agency solutions
         agency_option = MoralOption(
@@ -838,9 +768,7 @@ class CollapseGovernanceSystem:
             human_approved=True,
             precedent_strength=0.85,
         )
-        self.ethical_vault.store_approved_solution(
-            "user_control_request", agency_option, "user_advocacy_group"
-        )
+        self.ethical_vault.store_approved_solution("user_control_request", agency_option, "user_advocacy_group")
 
     async def get_governance_status(self) -> dict[str, Any]:
         """RESEARCH: Get comprehensive governance system status"""
@@ -851,10 +779,7 @@ class CollapseGovernanceSystem:
             "system_performance": {
                 "current_drift_prevention_rate": current_drift_rate,
                 "target_drift_prevention_rate": self.drift_prevention_rate,
-                "drift_prevention_achievement": (
-                    current_drift_rate / self.drift_prevention_rate
-                )
-                * 100,
+                "drift_prevention_achievement": (current_drift_rate / self.drift_prevention_rate) * 100,
                 "decision_reproducibility": self.decision_reproducibility,
             },
             "ethical_vault": {
@@ -998,21 +923,13 @@ async def demo_collapse_governance():
     status = await governance.get_governance_status()
 
     print("\\n📊 GOVERNANCE SYSTEM STATUS:")
-    print(
-        f"   - Drift prevention rate: {status['system_performance']['current_drift_prevention_rate']:.1%}"
-    )
-    print(
-        f"   - Decision reproducibility: {status['system_performance']['decision_reproducibility']:.1%}"
-    )
+    print(f"   - Drift prevention rate: {status['system_performance']['current_drift_prevention_rate']:.1%}")
+    print(f"   - Decision reproducibility: {status['system_performance']['decision_reproducibility']:.1%}")
     print(f"   - Approved solutions: {status['ethical_vault']['approved_solutions']}")
-    print(
-        f"   - Decisions processed: {status['decision_metrics']['total_decisions_processed']}"
-    )
+    print(f"   - Decisions processed: {status['decision_metrics']['total_decisions_processed']}")
 
     print("\\n✅ Collapse-based governance demo completed!")
-    print(
-        "🌟 Research validation: 92% drift prevention, 99.3% reproducibility achieved"
-    )
+    print("🌟 Research validation: 92% drift prevention, 99.3% reproducibility achieved")
 
 
 if __name__ == "__main__":

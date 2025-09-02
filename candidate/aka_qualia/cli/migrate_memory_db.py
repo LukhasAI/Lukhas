@@ -166,9 +166,7 @@ Examples:
         required=True,
         help="Database connection URL (sqlite:///path.db or postgresql://...)",
     )
-    parser.add_argument(
-        "--apply", action="store_true", help="Apply migrations (default: dry run)"
-    )
+    parser.add_argument("--apply", action="store_true", help="Apply migrations (default: dry run)")
     parser.add_argument(
         "--reset",
         action="store_true",

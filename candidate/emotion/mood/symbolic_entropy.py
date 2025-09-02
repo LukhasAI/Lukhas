@@ -15,9 +15,7 @@ import math
 
 
 # LUKHAS_TAG: symbolic_entropy
-def calculate_entropy_delta(
-    memory_traces: list[dict], affect_traces: list[dict]
-) -> float:
+def calculate_entropy_delta(memory_traces: list[dict], affect_traces: list[dict]) -> float:
     """
     Calculates the entropy delta from memory and affect traces.
 
@@ -56,9 +54,7 @@ def calculate_entropy_delta(
 # LUKHAS_TAG: symbolic_entropy
 
 
-def entropy_state_snapshot(
-    memory_traces: list[dict], affect_traces: list[dict]
-) -> dict:
+def entropy_state_snapshot(memory_traces: list[dict], affect_traces: list[dict]) -> dict:
     """
     Exposes the entropy levels to Jules 05 and Codex C.
 

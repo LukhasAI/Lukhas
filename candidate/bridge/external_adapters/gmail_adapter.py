@@ -156,9 +156,7 @@ class GmailAdapter:
         # OAuth configuration
         self.client_id = self.config.get("gmail_client_id")
         self.client_secret = self.config.get("gmail_client_secret")
-        self.redirect_uri = self.config.get(
-            "gmail_redirect_uri", "http://localhost:8080/auth/gmail/callback"
-        )
+        self.redirect_uri = self.config.get("gmail_redirect_uri", "http://localhost:8080/auth/gmail/callback")
 
         # API configuration
         self.api_version = self.config.get("api_version", "v1")
@@ -275,9 +273,7 @@ class GmailAdapter:
 
         try:
             # Get stored credentials
-            creds_data = await self.oauth_manager.get_credentials(
-                user_id, OAuthProvider.GOOGLE
-            )
+            creds_data = await self.oauth_manager.get_credentials(user_id, OAuthProvider.GOOGLE)
             if not creds_data:
                 raise ValueError(f"No Gmail credentials found for user: {user_id}")
 
@@ -362,24 +358,15 @@ class GmailAdapter:
                     await asyncio.sleep(self.rate_limit_delay)
 
                     # Get full message
-                    message = (
-                        service.users()
-                        .messages()
-                        .get(userId="me", id=msg_info["id"], format="full")
-                        .execute()
-                    )
+                    message = service.users().messages().get(userId="me", id=msg_info["id"], format="full").execute()
 
                     messages.append(GmailMessage(message))
 
                 except HttpError as e:
-                    logger.warning(
-                        "Failed to get message %s: %s", msg_info["id"], str(e)
-                    )
+                    logger.warning("Failed to get message %s: %s", msg_info["id"], str(e))
                     continue
 
-            logger.info(
-                "Retrieved %d Gmail messages for user: %s", len(messages), user_id
-            )
+            logger.info("Retrieved %d Gmail messages for user: %s", len(messages), user_id)
             return messages
 
         except Exception as e:
@@ -455,12 +442,7 @@ class GmailAdapter:
             raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode("utf-8")
 
             # Send message
-            send_result = (
-                service.users()
-                .messages()
-                .send(userId="me", body={"raw": raw_message})
-                .execute()
-            )
+            send_result = service.users().messages().send(userId="me", body={"raw": raw_message}).execute()
 
             message_id = send_result.get("id")
             logger.info("Sent Gmail message %s for user: %s", message_id, user_id)
@@ -513,11 +495,7 @@ class GmailAdapter:
             headers.get("Message-ID", "")
 
             # Create reply
-            reply_subject = (
-                f"Re: {original_subject}"
-                if not original_subject.startswith("Re:")
-                else original_subject
-            )
+            reply_subject = f"Re: {original_subject}" if not original_subject.startswith("Re:") else original_subject
 
             return await self.send_message(
                 user_id=user_id,
@@ -569,9 +547,7 @@ class GmailAdapter:
         try:
             service = await self._get_gmail_service(user_id)
 
-            service.users().messages().modify(
-                userId="me", id=message_id, body={"removeLabelIds": ["UNREAD"]}
-            ).execute()
+            service.users().messages().modify(userId="me", id=message_id, body={"removeLabelIds": ["UNREAD"]}).execute()
 
             logger.info("Marked message %s as read for user: %s", message_id, user_id)
             return True

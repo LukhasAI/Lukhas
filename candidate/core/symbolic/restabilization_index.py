@@ -54,9 +54,7 @@ class RestabilizationIndex:
 
     # ΛRECOVERY_POINT: Core method for registering a recovery action or vector.
 
-    def register_recovery(
-        self, symbol_id: str, recovery_vector: dict, notes: str
-    ) -> str:
+    def register_recovery(self, symbol_id: str, recovery_vector: dict, notes: str) -> str:
         """
             Registers a symbolic recovery event.
 
@@ -93,9 +91,7 @@ class RestabilizationIndex:
 
     # ΛSTABILIZER: Method for assessing the effectiveness of recovery actions.
 
-    def score_recovery(
-        self, symbol_id: str, recovery_event_id: Optional[str] = None
-    ) -> float:
+    def score_recovery(self, symbol_id: str, recovery_event_id: Optional[str] = None) -> float:
         """
         Scores the effectiveness of a recovery event or overall recovery for a symbol.
         Stub method for future implementation.
@@ -182,9 +178,7 @@ class RestabilizationIndex:
 
         summary = {
             "total_recovery_events": total_events,
-            "symbols_recovered": list(
-                {event["symbol_id"] for event in self.recovery_events.values()}
-            ),
+            "symbols_recovered": list({event["symbol_id"] for event in self.recovery_events.values()}),
             "recovery_event_ids": list(self.recovery_events.keys()),
             "drift_links_established": len(self.drift_links),
             "total_links_to_recovery_events": linked_events_count,
@@ -215,9 +209,7 @@ if __name__ == "__main__":
         "mechanism": "internal_model_adjustment",
     }
     notes1 = "Dampened extreme emotional response after unexpected negative stimulus for symbol 'persona_echo_7'."
-    event1_id = index.register_recovery(
-        symbol_id="persona_echo_7", recovery_vector=recovery_vec1, notes=notes1
-    )
+    event1_id = index.register_recovery(symbol_id="persona_echo_7", recovery_vector=recovery_vec1, notes=notes1)
     print(f"Registered recovery event 1: {event1_id} for symbol 'persona_echo_7'")
 
     # ΛTRACE: Simulating second recovery registration
@@ -239,15 +231,11 @@ if __name__ == "__main__":
     fake_drift_record_id = "drift_event_xyz123"
     # ΛTRACE: Simulating linking drift to recovery event
     logger.debug("Simulating linking drift to recovery event", tag="ΛTRACE")
-    index.link_to_drift(
-        drift_record_id=fake_drift_record_id, recovery_event_id=event2_id
-    )
+    index.link_to_drift(drift_record_id=fake_drift_record_id, recovery_event_id=event2_id)
     print(f"Linked recovery event {event2_id} to drift record {fake_drift_record_id}")
 
     # Score one of the recoveries
-    score1 = index.score_recovery(
-        symbol_id="persona_echo_7", recovery_event_id=event1_id
-    )
+    score1 = index.score_recovery(symbol_id="persona_echo_7", recovery_event_id=event1_id)
     print(f"Recovery score for event {event1_id} (symbol 'persona_echo_7'): {score1}")
 
     # Print the stabilization summary

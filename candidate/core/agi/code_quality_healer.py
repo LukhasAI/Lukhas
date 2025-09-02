@@ -103,9 +103,7 @@ class CodeQualityHealer:
         async with self.llm_fixer as fixer:
             for file_path in python_files:
                 # Skip test files and generated code
-                if any(
-                    skip in str(file_path) for skip in ["test_", "__pycache__", ".venv"]
-                ):
+                if any(skip in str(file_path) for skip in ["test_", "__pycache__", ".venv"]):
                     continue
 
                 issues = await fixer.analyze_file(str(file_path))
@@ -152,9 +150,7 @@ class CodeQualityHealer:
         elif fix_type == FixType.FORMATTING:
             self.metrics.formatting_issues += 1
 
-    async def heal_failure(
-        self, failure: SystemFailure, strategy: Optional[HealingStrategy] = None
-    ) -> HealingAction:
+    async def heal_failure(self, failure: SystemFailure, strategy: Optional[HealingStrategy] = None) -> HealingAction:
         """Heal a specific code quality failure"""
 
         # Determine strategy if not provided
@@ -197,9 +193,7 @@ class CodeQualityHealer:
         else:
             self.metrics.failed_fixes += 1
 
-        self.metrics.improvement_rate = self.metrics.fixed_issues / max(
-            1, self.metrics.total_issues
-        )
+        self.metrics.improvement_rate = self.metrics.fixed_issues / max(1, self.metrics.total_issues)
 
         return action
 
@@ -228,9 +222,7 @@ class CodeQualityHealer:
     def _has_similar_pattern(self, failure: SystemFailure) -> bool:
         """Check if we've seen similar patterns before"""
         pattern_key = f"{failure.type}:{failure.component}"
-        return (
-            pattern_key in self.fix_patterns and len(self.fix_patterns[pattern_key]) > 3
-        )
+        return pattern_key in self.fix_patterns and len(self.fix_patterns[pattern_key]) > 3
 
     async def _auto_fix(self, failure: SystemFailure) -> bool:
         """Apply automatic fixes for simple issues"""

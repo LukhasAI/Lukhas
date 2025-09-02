@@ -265,12 +265,8 @@ def generate_header(
     tags: Optional[list] = None,
 ) -> str:
     """Generate a standardized header with the given parameters."""
-    features_text = "\n".join(
-        [f"║ • {feature}" for feature in (features or ["Add features here"])]
-    )
-    deps_text = "\n".join(
-        [f"║ • {dep}" for dep in (dependencies or ["Add dependencies here"])]
-    )
+    features_text = "\n".join([f"║ • {feature}" for feature in (features or ["Add features here"])])
+    deps_text = "\n".join([f"║ • {dep}" for dep in (dependencies or ["Add dependencies here"])])
     tags_text = ", ".join(tags or ["{ΛDEFAULT}"])
 
     header = f'''"""

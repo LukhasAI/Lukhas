@@ -24,9 +24,7 @@ consciousness_logger = logging.getLogger("LUKHAS_CONSCIOUSNESS")
 class ConsciousnessState:
     """Represents the current consciousness state of the LUKHAS system"""
 
-    awareness_level: (
-        float  # 0.0 to 1.0 # ΛNOTE: Degree of awareness of environment and self.
-    )
+    awareness_level: float  # 0.0 to 1.0 # ΛNOTE: Degree of awareness of environment and self.
     # Understanding of own capabilities # ΛNOTE: Degree of understanding of
     # internal state and abilities.
     self_knowledge: float
@@ -38,9 +36,7 @@ class ConsciousnessState:
     # Comprehension of symbolic meaning # ΛNOTE: Ability to process and
     # understand abstract symbols.
     symbolic_depth: float
-    temporal_continuity: (
-        float  # Memory and context retention # ΛNOTE: Coherence of state across time.
-    )
+    temporal_continuity: float  # Memory and context retention # ΛNOTE: Coherence of state across time.
     last_update: datetime  # ΛTRACE: Timestamp of the last state update.
 
     def to_dict(self) -> dict:
@@ -107,11 +103,7 @@ class ConsciousnessPattern:
         intervals = np.diff(action_timestamps)
         # ΛDRIFT_POINT: Calculation of coherence could drift if mean is near zero
         # or std is disproportionately large.
-        coherence = (
-            1.0 - np.std(intervals) / np.mean(intervals)
-            if np.mean(intervals) > 0
-            else 0.5
-        )
+        coherence = 1.0 - np.std(intervals) / np.mean(intervals) if np.mean(intervals) > 0 else 0.5
         return max(0.0, min(1.0, coherence))
 
     def _analyze_symbolic_usage(self, data: dict) -> float:
@@ -123,9 +115,7 @@ class ConsciousnessPattern:
 
         # ΛDRIFT_POINT: Resonance score could drift if new symbols are introduced without updating the map,
         # or if the default resonance (0.1) for unknown symbols is not appropriate.
-        total_resonance = sum(
-            self.symbolic_resonance_map.get(symbol, 0.1) for symbol in symbols_used
-        )
+        total_resonance = sum(self.symbolic_resonance_map.get(symbol, 0.1) for symbol in symbols_used)
         return min(1.0, total_resonance / len(symbols_used))
 
     def _detect_intentional_patterns(self, data: dict) -> float:
@@ -233,9 +223,7 @@ class AnthropicEthicsEngine:
         consciousness_logger.info(f"Ethics evaluation: {evaluation}")
         return evaluation
 
-    async def _evaluate_principle(
-        self, principle: str, action_type: str, context: dict
-    ) -> float:
+    async def _evaluate_principle(self, principle: str, action_type: str, context: dict) -> float:
         """Evaluate specific ethical principle"""
         # ΛTRACE: Evaluating specific principle: {principle}. Action: {action_type}.
         # ΛNOTE: This acts as a dispatcher to specific principle evaluation methods.
@@ -334,9 +322,7 @@ class SelfAwareAdaptationModule:
         )
 
         self.adaptation_history = []  # ΛTRACE: Stores history of adaptations.
-        self.learning_rate = (
-            0.1  # ΛNOTE: Critical parameter influencing adaptation speed.
-        )
+        self.learning_rate = 0.1  # ΛNOTE: Critical parameter influencing adaptation speed.
 
     async def self_reflect(self) -> dict:
         """Perform self-reflection and update consciousness state"""
@@ -356,9 +342,7 @@ class SelfAwareAdaptationModule:
         # with more complex self-assessment.
         if self.consciousness_state.awareness_level < 0.8:
             reflection["areas_for_improvement"].append("awareness_level")
-            reflection["planned_adaptations"].append(
-                "Increase environmental monitoring"
-            )
+            reflection["planned_adaptations"].append("Increase environmental monitoring")
 
         if self.consciousness_state.user_empathy < 0.7:
             reflection["areas_for_improvement"].append("user_empathy")
@@ -416,9 +400,7 @@ class SelfAwareAdaptationModule:
             current_value = getattr(self.consciousness_state, attr)
             setattr(self.consciousness_state, attr, max(0.0, min(1.0, current_value)))
 
-        self.consciousness_state.last_update = (
-            datetime.now()
-        )  # ΛTRACE: State updated timestamp.
+        self.consciousness_state.last_update = datetime.now()  # ΛTRACE: State updated timestamp.
 
         adaptation_record = {
             "timestamp": datetime.now().isoformat(),
@@ -429,9 +411,7 @@ class SelfAwareAdaptationModule:
         # ΛTRACE: Adaptation complete. New state:
         # {self.consciousness_state.to_dict()}. Adaptation record:
         # {adaptation_record}
-        consciousness_logger.info(
-            f"Adapted to feedback: {feedback}. New state recorded."
-        )
+        consciousness_logger.info(f"Adapted to feedback: {feedback}. New state recorded.")
 
 
 # ΛNOTE: The LUKHASConsciousnessEngine is the main orchestrator, integrating the pattern detection,
@@ -445,9 +425,7 @@ class LUKHASConsciousnessEngine:
         self.ethics_engine = AnthropicEthicsEngine()
         self.adaptation_module = SelfAwareAdaptationModule()
 
-        self.session_consciousness = (
-            {}
-        )  # AIDENTITY: Stores consciousness state specific to user sessions.
+        self.session_consciousness = {}  # AIDENTITY: Stores consciousness state specific to user sessions.
         # AIDENTITY: global_consciousness_state represents the overall, persistent consciousness of the LUKHAS system.
         # ΛPHASE_NODE: Initialization of the global consciousness state.
         self.global_consciousness_state = ConsciousnessState(
@@ -462,9 +440,7 @@ class LUKHASConsciousnessEngine:
         # ΛTRACE: LUKHASConsciousnessEngine initialized. Global state:
         # {self.global_consciousness_state.to_dict()}
 
-    async def process_authentication_request(
-        self, user_id: str, auth_data: dict
-    ) -> dict:
+    async def process_authentication_request(self, user_id: str, auth_data: dict) -> dict:
         """Process authentication with consciousness awareness"""
         # ΛTRACE: Starting conscious authentication process for user_id: {user_id}. Auth data keys: {list(auth_data.keys())}
         # AIDENTITY: Processing request for specific user_id.
@@ -472,9 +448,7 @@ class LUKHASConsciousnessEngine:
 
         # Analyze user consciousness patterns
         # ΛTRACE: Invoking pattern detector for user_id: {user_id}.
-        user_patterns = await self.pattern_detector.analyze_interaction(
-            user_id, auth_data
-        )
+        user_patterns = await self.pattern_detector.analyze_interaction(user_id, auth_data)
 
         # Evaluate ethical implications
         # ΛTRACE: Invoking ethics engine for authentication action.
@@ -492,12 +466,8 @@ class LUKHASConsciousnessEngine:
         # The 'authentication_approved' field is a particularly critical phase
         # transition for the request.
         response = {
-            "authentication_approved": ethics_evaluation[
-                "approval"
-            ],  # ΛPHASE_NODE: Key decision point.
-            "consciousness_signature": user_patterns[
-                "consciousness_signature"
-            ],  # AIDENTITY: User-specific signature.
+            "authentication_approved": ethics_evaluation["approval"],  # ΛPHASE_NODE: Key decision point.
+            "consciousness_signature": user_patterns["consciousness_signature"],  # AIDENTITY: User-specific signature.
             "ethical_score": ethics_evaluation["ethical_score"],
             "user_consciousness_level": np.mean(
                 [  # ΛNOTE: Aggregate score representing user's current conscious engagement.

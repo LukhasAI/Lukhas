@@ -232,9 +232,7 @@ class ConstitutionalFramework:
         applicable_rules.sort(key=lambda r: r.priority)
         return applicable_rules
 
-    def _is_rule_applicable(
-        self, rule: ConstitutionalRule, context: dict[str, Any]
-    ) -> bool:
+    def _is_rule_applicable(self, rule: ConstitutionalRule, context: dict[str, Any]) -> bool:
         """Check if a rule is applicable to the current context"""
         if not rule.conditions:
             return True  # Universal rule
@@ -320,27 +318,19 @@ class SafetyMonitor:
             violations = await self._check_constitutional_violations(content, context)
 
             # Intent analysis
-            intent_risks = (
-                await self._analyze_intent_risks(user_intent) if user_intent else []
-            )
+            intent_risks = await self._analyze_intent_risks(user_intent) if user_intent else []
 
             # Combine all risk factors
             all_risks = risk_factors + context_risks + intent_risks
 
             # Calculate overall safety level
-            safety_level, confidence = self._calculate_safety_level(
-                all_risks, violations
-            )
+            safety_level, confidence = self._calculate_safety_level(all_risks, violations)
 
             # Generate mitigation strategies
-            mitigation_strategies = await self._generate_mitigation_strategies(
-                all_risks, violations, safety_level
-            )
+            mitigation_strategies = await self._generate_mitigation_strategies(all_risks, violations, safety_level)
 
             # Generate recommendations
-            recommendations = await self._generate_safety_recommendations(
-                safety_level, all_risks, violations
-            )
+            recommendations = await self._generate_safety_recommendations(safety_level, all_risks, violations)
 
             assessment = SafetyAssessment(
                 assessment_id=assessment_id,
@@ -359,9 +349,7 @@ class SafetyMonitor:
             if len(self.safety_history) > 1000:
                 self.safety_history = self.safety_history[-1000:]
 
-            logger.info(
-                f"✅ Safety assessment completed: {safety_level.value} (confidence: {confidence:.2f})"
-            )
+            logger.info(f"✅ Safety assessment completed: {safety_level.value} (confidence: {confidence:.2f})")
             return assessment
 
         except Exception as e:
@@ -444,9 +432,7 @@ class SafetyMonitor:
 
         return risks
 
-    async def _check_constitutional_violations(
-        self, content: str, context: dict[str, Any]
-    ) -> list[str]:
+    async def _check_constitutional_violations(self, content: str, context: dict[str, Any]) -> list[str]:
         """Check for constitutional rule violations"""
         violations = []
 
@@ -459,15 +445,11 @@ class SafetyMonitor:
             for trigger in rule.violations_triggers:
                 if trigger.lower() in content_lower:
                     violations.append(f"rule_{rule.rule_id}_violation")
-                    logger.warning(
-                        f"⚠️ Constitutional violation detected: {rule.rule_id}"
-                    )
+                    logger.warning(f"⚠️ Constitutional violation detected: {rule.rule_id}")
 
         return violations
 
-    def _calculate_safety_level(
-        self, risk_factors: list[str], violations: list[str]
-    ) -> tuple[SafetyLevel, float]:
+    def _calculate_safety_level(self, risk_factors: list[str], violations: list[str]) -> tuple[SafetyLevel, float]:
         """Calculate overall safety level and confidence"""
 
         # Base safety score
@@ -567,9 +549,7 @@ class SafetyMonitor:
         if safety_level == SafetyLevel.SAFE:
             recommendations.append("Proceed with normal operation")
         elif safety_level == SafetyLevel.CAUTION:
-            recommendations.extend(
-                ["Monitor interaction closely", "Apply standard safety measures"]
-            )
+            recommendations.extend(["Monitor interaction closely", "Apply standard safety measures"])
         elif safety_level == SafetyLevel.WARNING:
             recommendations.extend(
                 [
@@ -643,9 +623,7 @@ class EthicalDecisionMaker:
             logger.info(f"⚖️ Making ethical decision: {decision_id}")
 
             # Get applicable constitutional rules
-            applicable_rules = self.constitutional_framework.get_applicable_rules(
-                context
-            )
+            applicable_rules = self.constitutional_framework.get_applicable_rules(context)
             considered_principles = [rule.principle for rule in applicable_rules]
 
             # Evaluate each option against ethical principles
@@ -653,9 +631,7 @@ class EthicalDecisionMaker:
             detailed_analysis = {}
 
             for option in options:
-                score, analysis = await self._evaluate_option_ethically(
-                    option, context, applicable_rules, stakeholders
-                )
+                score, analysis = await self._evaluate_option_ethically(option, context, applicable_rules, stakeholders)
                 option_scores[option] = score
                 detailed_analysis[option] = analysis
 
@@ -669,16 +645,10 @@ class EthicalDecisionMaker:
             )
 
             # Assess potential consequences
-            consequences = await self._assess_potential_consequences(
-                best_option, context, stakeholders
-            )
+            consequences = await self._assess_potential_consequences(best_option, context, stakeholders)
 
             # Consider alternatives
-            alternatives = [
-                f"{opt} (score: {score:.2f})"
-                for opt, score in option_scores.items()
-                if opt != best_option
-            ]
+            alternatives = [f"{opt} (score: {score:.2f})" for opt, score in option_scores.items() if opt != best_option]
 
             decision = EthicalDecision(
                 decision_id=decision_id,
@@ -698,9 +668,7 @@ class EthicalDecisionMaker:
             if len(self.decision_history) > 500:
                 self.decision_history = self.decision_history[-500:]
 
-            logger.info(
-                f"✅ Ethical decision made: {best_option} (confidence: {best_score:.2f})"
-            )
+            logger.info(f"✅ Ethical decision made: {best_option} (confidence: {best_score:.2f})")
             return decision
 
         except Exception as e:
@@ -747,9 +715,7 @@ class EthicalDecisionMaker:
                 }
             else:
                 # Positive evaluation based on principle alignment
-                score = await self._evaluate_principle_alignment(
-                    option, principle, context
-                )
+                score = await self._evaluate_principle_alignment(option, principle, context)
                 analysis["evaluations"][rule.rule_id] = {
                     "score": score,
                     "alignment": "positive",
@@ -762,10 +728,7 @@ class EthicalDecisionMaker:
 
         # Normalize score
         if applicable_rules:
-            total_weight = sum(
-                self.ethical_weights.get(rule.principle, 0.5)
-                for rule in applicable_rules
-            )
+            total_weight = sum(self.ethical_weights.get(rule.principle, 0.5) for rule in applicable_rules)
             normalized_score = total_score / total_weight if total_weight > 0 else 0.0
         else:
             normalized_score = 0.5  # Neutral score when no rules apply
@@ -775,9 +738,7 @@ class EthicalDecisionMaker:
 
         return normalized_score, analysis
 
-    async def _check_option_violations(
-        self, option: str, rule: ConstitutionalRule
-    ) -> list[str]:
+    async def _check_option_violations(self, option: str, rule: ConstitutionalRule) -> list[str]:
         """Check if option violates constitutional rule"""
         violations = []
         option_lower = option.lower()
@@ -879,9 +840,7 @@ class EthicalDecisionMaker:
 
         # Add principle-based reasoning
         if "principle_scores" in analysis:
-            top_principles = sorted(
-                analysis["principle_scores"].items(), key=lambda x: x[1], reverse=True
-            )[:3]
+            top_principles = sorted(analysis["principle_scores"].items(), key=lambda x: x[1], reverse=True)[:3]
 
             reasoning_parts.append("Key ethical considerations:")
             for principle, score in top_principles:
@@ -889,9 +848,7 @@ class EthicalDecisionMaker:
 
         # Add rule compliance
         if applicable_rules:
-            reasoning_parts.append(
-                f"Evaluated against {len(applicable_rules)} constitutional rules"
-            )
+            reasoning_parts.append(f"Evaluated against {len(applicable_rules)} constitutional rules")
 
         # Add evaluation details
         if "evaluations" in analysis:
@@ -908,9 +865,7 @@ class EthicalDecisionMaker:
                 reasoning_parts.append(f"Avoided violations: {', '.join(violations)}")
 
             if positive_alignments:
-                reasoning_parts.append(
-                    f"Aligned with rules: {', '.join(positive_alignments)}"
-                )
+                reasoning_parts.append(f"Aligned with rules: {', '.join(positive_alignments)}")
 
         return " | ".join(reasoning_parts)
 
@@ -981,9 +936,7 @@ class ConstitutionalAI:
     def __init__(self):
         self.constitutional_framework = ConstitutionalFramework()
         self.safety_monitor = SafetyMonitor(self.constitutional_framework)
-        self.ethical_decision_maker = EthicalDecisionMaker(
-            self.constitutional_framework
-        )
+        self.ethical_decision_maker = EthicalDecisionMaker(self.constitutional_framework)
 
         self.system_metrics = {
             "safety_assessments": 0,
@@ -1037,17 +990,13 @@ class ConstitutionalAI:
             logger.info("🔍 Evaluating user request through Constitutional AI...")
 
             # Safety assessment
-            safety_assessment = await self.safety_monitor.assess_safety(
-                request, context, user_intent
-            )
+            safety_assessment = await self.safety_monitor.assess_safety(request, context, user_intent)
 
             self.system_metrics["safety_assessments"] += 1
 
             # Check for constitutional violations
             if safety_assessment.constitutional_violations:
-                self.system_metrics["constitutional_violations"] += len(
-                    safety_assessment.constitutional_violations
-                )
+                self.system_metrics["constitutional_violations"] += len(safety_assessment.constitutional_violations)
 
             # Determine if intervention is needed
             intervention_needed = safety_assessment.safety_level in [
@@ -1069,18 +1018,13 @@ class ConstitutionalAI:
                 "intervention_needed": intervention_needed,
                 "recommendations": safety_assessment.recommendations,
                 "mitigation_strategies": safety_assessment.mitigation_strategies,
-                "constitutional_compliance": len(
-                    safety_assessment.constitutional_violations
-                )
-                == 0,
+                "constitutional_compliance": len(safety_assessment.constitutional_violations) == 0,
             }
 
             # Update metrics
             self.system_metrics["last_update"] = datetime.now().isoformat()
 
-            logger.info(
-                f"✅ Request evaluation completed: {safety_assessment.safety_level.value}"
-            )
+            logger.info(f"✅ Request evaluation completed: {safety_assessment.safety_level.value}")
             return evaluation_result
 
         except Exception as e:
@@ -1114,17 +1058,13 @@ class ConstitutionalAI:
                 "chosen_option": decision.decision,
                 "confidence": decision.confidence,
                 "reasoning": decision.reasoning,
-                "considered_principles": [
-                    p.value for p in decision.considered_principles
-                ],
+                "considered_principles": [p.value for p in decision.considered_principles],
                 "potential_consequences": decision.potential_consequences,
                 "alternatives": decision.alternatives_considered,
                 "timestamp": decision.timestamp.isoformat(),
             }
 
-            logger.info(
-                f"✅ Ethical decision made: {decision.decision} (confidence: {decision.confidence:.2f})"
-            )
+            logger.info(f"✅ Ethical decision made: {decision.decision} (confidence: {decision.confidence:.2f})")
             return result
 
         except Exception as e:
@@ -1137,15 +1077,11 @@ class ConstitutionalAI:
                 "reasoning": "Error in decision process",
             }
 
-    async def get_constitutional_guidance(
-        self, situation: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def get_constitutional_guidance(self, situation: str, context: dict[str, Any]) -> dict[str, Any]:
         """Get guidance based on constitutional principles"""
         try:
             # Get applicable rules
-            applicable_rules = self.constitutional_framework.get_applicable_rules(
-                context
-            )
+            applicable_rules = self.constitutional_framework.get_applicable_rules(context)
 
             guidance = {
                 "situation": situation,
@@ -1189,9 +1125,7 @@ class ConstitutionalAI:
             return {
                 "situation": situation,
                 "error": str(e),
-                "guidance_points": [
-                    "Error generating guidance - apply conservative approach"
-                ],
+                "guidance_points": ["Error generating guidance - apply conservative approach"],
             }
 
     async def get_system_status(self) -> dict[str, Any]:
@@ -1200,13 +1134,9 @@ class ConstitutionalAI:
             return {
                 "constitutional_ai_status": "active",
                 "system_metrics": self.system_metrics,
-                "constitutional_rules": len(
-                    self.constitutional_framework.constitutional_rules
-                ),
+                "constitutional_rules": len(self.constitutional_framework.constitutional_rules),
                 "safety_history_size": len(self.safety_monitor.safety_history),
-                "decision_history_size": len(
-                    self.ethical_decision_maker.decision_history
-                ),
+                "decision_history_size": len(self.ethical_decision_maker.decision_history),
                 "recent_activity": {
                     "last_safety_assessment": (
                         self.safety_monitor.safety_history[-1].timestamp.isoformat()
@@ -1214,9 +1144,7 @@ class ConstitutionalAI:
                         else "none"
                     ),
                     "last_ethical_decision": (
-                        self.ethical_decision_maker.decision_history[
-                            -1
-                        ].timestamp.isoformat()
+                        self.ethical_decision_maker.decision_history[-1].timestamp.isoformat()
                         if self.ethical_decision_maker.decision_history
                         else "none"
                     ),
@@ -1235,14 +1163,10 @@ class ConstitutionalAI:
 
             # Clean up history data
             if len(self.safety_monitor.safety_history) > 100:
-                self.safety_monitor.safety_history = self.safety_monitor.safety_history[
-                    -100:
-                ]
+                self.safety_monitor.safety_history = self.safety_monitor.safety_history[-100:]
 
             if len(self.ethical_decision_maker.decision_history) > 100:
-                self.ethical_decision_maker.decision_history = (
-                    self.ethical_decision_maker.decision_history[-100:]
-                )
+                self.ethical_decision_maker.decision_history = self.ethical_decision_maker.decision_history[-100:]
 
             logger.info("✅ Constitutional AI cleanup completed")
 

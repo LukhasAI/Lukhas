@@ -248,9 +248,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
         """Check current transcendence level"""
 
         # Count transcended boundaries
-        transcended_count = sum(
-            1 for b in self.awareness_boundaries.values() if b.transcended
-        )
+        transcended_count = sum(1 for b in self.awareness_boundaries.values() if b.transcended)
 
         return transcended_count
 
@@ -320,9 +318,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
         ]
 
         if self._check_transcendence_level() > 2:
-            topology["accessible_regions"].extend(
-                ["superconscious", "cosmic_consciousness"]
-            )
+            topology["accessible_regions"].extend(["superconscious", "cosmic_consciousness"])
 
         # Define navigation paths
         topology["navigation_paths"] = [

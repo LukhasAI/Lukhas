@@ -178,9 +178,7 @@ if FASTAPI_AVAILABLE:
 
         # Log performance metrics
         if process_time > 1.0:  # Log slow requests
-            logger.warning(
-                f"Slow request: {request.method} {request.url} - {process_time:.4f}s"
-            )
+            logger.warning(f"Slow request: {request.method} {request.url} - {process_time:.4f}s")
 
         return response
 
@@ -279,27 +277,19 @@ if FASTAPI_AVAILABLE:
                 security = get_security_manager()
 
                 # Get system metrics
-                validation_metrics = (
-                    validator.get_validation_metrics() if validator else {}
-                )
+                validation_metrics = validator.get_validation_metrics() if validator else {}
                 security_metrics = security.get_security_metrics() if security else {}
 
                 health_data.update(
                     {
                         "validation_metrics": {
-                            "total_validations": validation_metrics.get(
-                                "total_validations", 0
-                            ),
+                            "total_validations": validation_metrics.get("total_validations", 0),
                             "success_rate": validation_metrics.get("success_rate", 0.0),
-                            "average_latency_ms": validation_metrics.get(
-                                "average_latency_ms", 0.0
-                            ),
+                            "average_latency_ms": validation_metrics.get("average_latency_ms", 0.0),
                         },
                         "security_metrics": {
                             "total_api_keys": security_metrics.get("total_api_keys", 0),
-                            "security_events_24h": security_metrics.get(
-                                "security_events_24h", 0
-                            ),
+                            "security_events_24h": security_metrics.get("security_events_24h", 0),
                             "blocked_ips": security_metrics.get("blocked_ips", 0),
                         },
                         "performance": {
@@ -335,9 +325,7 @@ if FASTAPI_AVAILABLE:
             metrics = {
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "api_version": "2.0.0",
-                "validation_metrics": (
-                    validator.get_validation_metrics() if validator else {}
-                ),
+                "validation_metrics": (validator.get_validation_metrics() if validator else {}),
                 "security_metrics": security.get_security_metrics() if security else {},
                 "system_info": {
                     "python_version": os.sys.version,
@@ -415,9 +403,7 @@ if __name__ == "__main__":
 
     except ImportError:
         print("❌ Uvicorn not available. Install with: pip install uvicorn")
-        print(
-            "   Or run with: uvicorn candidate.bridge.api.main_app:app --reload --port 8080"
-        )
+        print("   Or run with: uvicorn candidate.bridge.api.main_app:app --reload --port 8080")
     except KeyboardInterrupt:
         print("\n👋 LUKHAS AI API Bridge stopped")
 

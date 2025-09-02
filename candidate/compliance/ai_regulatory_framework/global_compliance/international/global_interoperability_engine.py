@@ -102,9 +102,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
         await self.sovereignty_preservation_system.initialize()
 
         self._initialized = True
-        logger.info(
-            "Global Interoperability Engine initialized with LUKHAS integration"
-        )
+        logger.info("Global Interoperability Engine initialized with LUKHAS integration")
 
     async def achieve_global_regulatory_compliance(self) -> dict[str, Any]:
         """
@@ -151,14 +149,10 @@ class GlobalInteroperabilityEngine(CoreInterface):
                     continue
 
             # Analyze framework requirements
-            requirements = await self.regulatory_intelligence_system.analyze_framework(
-                framework
-            )
+            requirements = await self.regulatory_intelligence_system.analyze_framework(framework)
 
             # Assess current compliance level
-            compliance_assessment = await self.assess_compliance_level(
-                framework, requirements
-            )
+            compliance_assessment = await self.assess_compliance_level(framework, requirements)
 
             # Validate with Guardian System
             if self.guardian:
@@ -170,9 +164,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
                     },
                 )
                 if not ethics_check.get("approved", False):
-                    logger.warning(
-                        f"Compliance approach for {framework} rejected by Guardian"
-                    )
+                    logger.warning(f"Compliance approach for {framework} rejected by Guardian")
                     continue
 
             # Generate compliance implementation plan
@@ -181,9 +173,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
             )
 
             # Execute compliance implementation
-            implementation_result = await self.execute_compliance_implementation(
-                compliance_plan
-            )
+            implementation_result = await self.execute_compliance_implementation(compliance_plan)
 
             compliance_results[framework] = {
                 "compliance_level": implementation_result["compliance_score"],
@@ -206,28 +196,18 @@ class GlobalInteroperabilityEngine(CoreInterface):
                     source="global_interoperability_engine",
                     data={
                         "action": "global_compliance_achieved",
-                        "compliance_score": sum(
-                            r["compliance_level"] for r in compliance_results.values()
-                        )
+                        "compliance_score": sum(r["compliance_level"] for r in compliance_results.values())
                         / len(compliance_results),
                     },
                 )
             )
 
         return {
-            "total_compliance_score": sum(
-                r["compliance_level"] for r in compliance_results.values()
-            )
+            "total_compliance_score": sum(r["compliance_level"] for r in compliance_results.values())
             / len(compliance_results),
-            "total_market_access_value": sum(
-                r["market_access_value"] for r in compliance_results.values()
-            ),
-            "regulatory_competitive_advantage": await self.calculate_regulatory_advantage(
-                compliance_results
-            ),
-            "global_deployment_readiness": await self.assess_global_deployment_readiness(
-                compliance_results
-            ),
+            "total_market_access_value": sum(r["market_access_value"] for r in compliance_results.values()),
+            "regulatory_competitive_advantage": await self.calculate_regulatory_advantage(compliance_results),
+            "global_deployment_readiness": await self.assess_global_deployment_readiness(compliance_results),
             "framework_details": compliance_results,
         }
 
@@ -274,20 +254,14 @@ class GlobalInteroperabilityEngine(CoreInterface):
 
         return {
             "coordination_results": coordination_results,
-            "total_coordination_score": sum(
-                r["coordination_level"] for r in coordination_results.values()
-            )
+            "total_coordination_score": sum(r["coordination_level"] for r in coordination_results.values())
             / len(coordination_results),
             "strategic_partnerships": [
-                target
-                for target, result in coordination_results.items()
-                if result["coordination_level"] > 0.7
+                target for target, result in coordination_results.items() if result["coordination_level"] > 0.7
             ],
         }
 
-    async def ensure_data_sovereignty_compliance(
-        self, jurisdictions: list[str]
-    ) -> dict[str, Any]:
+    async def ensure_data_sovereignty_compliance(self, jurisdictions: list[str]) -> dict[str, Any]:
         """
         Ensure data sovereignty requirements are met across jurisdictions
 
@@ -303,17 +277,11 @@ class GlobalInteroperabilityEngine(CoreInterface):
 
         for jurisdiction in jurisdictions:
             # Analyze sovereignty requirements
-            requirements = (
-                await self.sovereignty_preservation_system.analyze_requirements(
-                    jurisdiction
-                )
-            )
+            requirements = await self.sovereignty_preservation_system.analyze_requirements(jurisdiction)
 
             # Implement data localization
-            localization = (
-                await self.sovereignty_preservation_system.implement_data_localization(
-                    jurisdiction, requirements
-                )
+            localization = await self.sovereignty_preservation_system.implement_data_localization(
+                jurisdiction, requirements
             )
 
             # Ensure processing constraints
@@ -333,20 +301,14 @@ class GlobalInteroperabilityEngine(CoreInterface):
             "fully_compliant_jurisdictions": [
                 j
                 for j, r in sovereignty_results.items()
-                if r["requirements_met"]
-                and r["data_localized"]
-                and r["processing_compliant"]
+                if r["requirements_met"] and r["data_localized"] and r["processing_compliant"]
             ],
-            "compliance_percentage": sum(
-                1 for r in sovereignty_results.values() if r["requirements_met"]
-            )
+            "compliance_percentage": sum(1 for r in sovereignty_results.values() if r["requirements_met"])
             / len(sovereignty_results)
             * 100,
         }
 
-    async def assess_compliance_level(
-        self, framework: str, requirements: dict[str, Any]
-    ) -> ComplianceResult:
+    async def assess_compliance_level(self, framework: str, requirements: dict[str, Any]) -> ComplianceResult:
         """
         Assess current compliance level with a framework
 
@@ -358,9 +320,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
             Compliance assessment result
         """
         # Perform detailed compliance assessment
-        assessment = await self.international_compliance_engine.assess_compliance(
-            framework, requirements
-        )
+        assessment = await self.international_compliance_engine.assess_compliance(framework, requirements)
 
         gaps = []
         recommendations = []
@@ -369,9 +329,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
         for requirement in requirements.get("mandatory", []):
             if not assessment.get(requirement, {}).get("met", False):
                 gaps.append(requirement)
-                recommendations.append(
-                    f"Implement {requirement} to meet {framework} requirements"
-                )
+                recommendations.append(f"Implement {requirement} to meet {framework} requirements")
 
         compliance_score = assessment.get("overall_score", 0.0)
 
@@ -426,9 +384,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
 
         return plan
 
-    async def execute_compliance_implementation(
-        self, plan: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_compliance_implementation(self, plan: dict[str, Any]) -> dict[str, Any]:
         """
         Execute a compliance implementation plan
 
@@ -450,23 +406,15 @@ class GlobalInteroperabilityEngine(CoreInterface):
         # Simulate implementation of actions
         for action in plan["actions"]:
             # Execute action
-            action_result = (
-                await self.international_compliance_engine.implement_requirement(
-                    action["gap"], action
-                )
-            )
+            action_result = await self.international_compliance_engine.implement_requirement(action["gap"], action)
 
             if action_result["success"]:
                 result["actions_completed"].append(action["gap"])
                 result["implementation_cost"] += action_result.get("cost", 50000)
 
         # Calculate final compliance score
-        completed_ratio = len(result["actions_completed"]) / max(
-            1, len(plan["actions"])
-        )
-        result["compliance_score"] = 0.5 + (
-            completed_ratio * 0.45
-        )  # Base + improvement
+        completed_ratio = len(result["actions_completed"]) / max(1, len(plan["actions"]))
+        result["compliance_score"] = 0.5 + (completed_ratio * 0.45)  # Base + improvement
 
         # Calculate market access value
         result["market_access_value"] = await self._calculate_market_access_value(
@@ -478,9 +426,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
 
         return result
 
-    async def calculate_regulatory_advantage(
-        self, compliance_results: dict[str, dict[str, Any]]
-    ) -> float:
+    async def calculate_regulatory_advantage(self, compliance_results: dict[str, dict[str, Any]]) -> float:
         """
         Calculate competitive advantage from regulatory compliance
 
@@ -493,15 +439,11 @@ class GlobalInteroperabilityEngine(CoreInterface):
         advantage = 0.0
 
         # Advantage from market access
-        total_market_value = sum(
-            r["market_access_value"] for r in compliance_results.values()
-        )
+        total_market_value = sum(r["market_access_value"] for r in compliance_results.values())
         advantage += min(1.0, total_market_value / 1e12)  # Normalize to $1T
 
         # Advantage from compliance leadership
-        high_compliance_count = sum(
-            1 for r in compliance_results.values() if r["compliance_level"] > 0.9
-        )
+        high_compliance_count = sum(1 for r in compliance_results.values() if r["compliance_level"] > 0.9)
         advantage += high_compliance_count / len(compliance_results)
 
         # Advantage from first-mover status
@@ -510,9 +452,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
 
         return min(1.0, advantage / 2)  # Average and cap at 1.0
 
-    async def assess_global_deployment_readiness(
-        self, compliance_results: dict[str, dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def assess_global_deployment_readiness(self, compliance_results: dict[str, dict[str, Any]]) -> dict[str, Any]:
         """
         Assess readiness for global deployment
 
@@ -531,9 +471,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
         }
 
         # Calculate overall readiness
-        avg_compliance = sum(
-            r["compliance_level"] for r in compliance_results.values()
-        ) / len(compliance_results)
+        avg_compliance = sum(r["compliance_level"] for r in compliance_results.values()) / len(compliance_results)
 
         readiness["readiness_score"] = avg_compliance
 
@@ -564,9 +502,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
             )
 
         for blocked in readiness["blocked_regions"]:
-            readiness["recommendations"].append(
-                f"Priority: Achieve compliance for {blocked} market access"
-            )
+            readiness["recommendations"].append(f"Priority: Achieve compliance for {blocked} market access")
 
         return readiness
 
@@ -661,9 +597,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
             "collaboration_framework": "established",
         }
 
-    async def _calculate_market_access_value(
-        self, framework: str, compliance_score: float
-    ) -> float:
+    async def _calculate_market_access_value(self, framework: str, compliance_score: float) -> float:
         """
         Calculate market access value from compliance
 

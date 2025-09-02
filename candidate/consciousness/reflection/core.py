@@ -306,9 +306,7 @@ class MemoryAttentionLayer:
         self.num_heads = num_heads
         self.head_dim = hidden_dim // num_heads
         if TORCH_AVAILABLE:
-            self.attention = nn.MultiheadAttention(
-                embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1
-            )
+            self.attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1)
 
     def compute_attention_scores(
         self,
@@ -443,9 +441,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             Memory ID
         """
         if embedding is None:
-            embedding = await self._generate_embedding(
-                data, text_content, image_content, audio_content
-            )
+            embedding = await self._generate_embedding(data, text_content, image_content, audio_content)
         memory_id = await super().fold_in(data, tags, **kwargs)
         if embedding is not None:
             self.vector_store.add_vector(memory_id, embedding)
@@ -544,9 +540,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         self.causal_graph[effect_id]["causes"].append(
             {"id": cause_id, "strength": strength, "evidence": evidence or []}
         )
-        logger.info(
-            "Causal link added", cause=cause_id, effect=effect_id, strength=strength
-        )
+        logger.info("Causal link added", cause=cause_id, effect=effect_id, strength=strength)
 
     async def trace_causal_chain(
         self, memory_id: str, direction: str = "backward", max_depth: int = 5
@@ -568,11 +562,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             if depth >= max_depth:
                 return
             connections = self.causal_graph[current_id]
-            links = (
-                connections["causes"]
-                if direction == "backward"
-                else connections["effects"]
-            )
+            links = connections["causes"] if direction == "backward" else connections["effects"]
             if not links:
                 if len(path) > 1:
                     paths.append(path.copy())
@@ -583,17 +573,13 @@ class HybridMemoryFold(MemoryFoldSystem):
                     if any(p[0] == next_id for p in path):
                         continue
                     new_path = [*path, (next_id, cumulative_strength * strength)]
-                    trace_recursive(
-                        next_id, new_path, cumulative_strength * strength, depth + 1
-                    )
+                    trace_recursive(next_id, new_path, cumulative_strength * strength, depth + 1)
 
         trace_recursive(memory_id, [(memory_id, 1.0)], 1.0, 0)
         paths.sort(key=lambda p: p[-1][1], reverse=True)
         return paths
 
-    async def update_memory_importance(
-        self, memory_id: str, feedback: float, context: Optional[dict[str, Any]] = None
-    ):
+    async def update_memory_importance(self, memory_id: str, feedback: float, context: Optional[dict[str, Any]] = None):
         """Update memory importance based on usage feedback"""
         if memory_id not in self.items:
             return
@@ -605,9 +591,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             for tag_id in item_tags:
                 tag_info = self.tag_registry.get(tag_id)
                 if tag_info:
-                    self.learning_engine.update_tag_importance(
-                        tag_info.tag_name, feedback, context or {}
-                    )
+                    self.learning_engine.update_tag_importance(tag_info.tag_name, feedback, context or {})
         logger.debug(
             "Updated memory importance",
             memory_id=memory_id,
@@ -676,9 +660,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             base_stats["learning_stats"] = {
                 "total_tag_weights": len(self.learning_engine.tag_weights),
                 "avg_tag_weight": (
-                    np.mean(list(self.learning_engine.tag_weights.values()))
-                    if self.learning_engine.tag_weights
-                    else 0
+                    np.mean(list(self.learning_engine.tag_weights.values())) if self.learning_engine.tag_weights else 0
                 ),
                 "most_important_tags": sorted(
                     self.learning_engine.tag_weights.items(),
@@ -687,16 +669,9 @@ class HybridMemoryFold(MemoryFoldSystem):
                 )[:10],
             }
         base_stats["causal_stats"] = {
-            "memories_with_causes": sum(
-                1 for m in self.causal_graph.values() if m["causes"]
-            ),
-            "memories_with_effects": sum(
-                1 for m in self.causal_graph.values() if m["effects"]
-            ),
-            "total_causal_links": sum(
-                len(m["causes"]) + len(m["effects"]) for m in self.causal_graph.values()
-            )
-            // 2,
+            "memories_with_causes": sum(1 for m in self.causal_graph.values() if m["causes"]),
+            "memories_with_effects": sum(1 for m in self.causal_graph.values() if m["effects"]),
+            "total_causal_links": sum(len(m["causes"]) + len(m["effects"]) for m in self.causal_graph.values()) // 2,
         }
         return base_stats
 
@@ -725,20 +700,14 @@ class OptimizedVectorStorageLayer(VectorStorageLayer):
     def get_memory_usage_stats(self) -> dict[str, Any]:
         """Get detailed memory usage statistics"""
         num_vectors = len(self.vectors)
-        avg_size_per_vector = (
-            self.memory_usage_bytes / num_vectors if num_vectors > 0 else 0
-        )
+        avg_size_per_vector = self.memory_usage_bytes / num_vectors if num_vectors > 0 else 0
         return {
             "total_vectors": num_vectors,
             "total_memory_bytes": self.memory_usage_bytes,
             "total_memory_mb": self.memory_usage_bytes / (1024 * 1024),
             "avg_bytes_per_vector": avg_size_per_vector,
             "quantization_enabled": self.enable_quantization,
-            "compression_ratio": (
-                self.dimension * 4 / avg_size_per_vector
-                if avg_size_per_vector > 0
-                else 1.0
-            ),
+            "compression_ratio": (self.dimension * 4 / avg_size_per_vector if avg_size_per_vector > 0 else 1.0),
         }
 
 
@@ -790,9 +759,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
                 cache_memory_mb=lazy_loading_cache_memory_mb,
             )
         elif enable_lazy_loading:
-            logger.warning(
-                "Lazy loading requested but not available (missing dependencies)"
-            )
+            logger.warning("Lazy loading requested but not available (missing dependencies)")
             self.enable_lazy_loading = False
         self.total_memory_saved = 0
         self.optimization_stats = {
@@ -825,9 +792,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         Maintains full API compatibility while using optimized storage.
         """
         if embedding is None:
-            embedding = await self._generate_embedding(
-                data, text_content, image_content, audio_content
-            )
+            embedding = await self._generate_embedding(data, text_content, image_content, audio_content)
         memory_id = self._generate_memory_id()
         metadata = {
             "timestamp": datetime.now(timezone.utc),
@@ -988,35 +953,20 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         metadata_size = len(metadata_json.encode("utf-8"))
         python_overhead = 500
         system_overhead = 1000
-        return (
-            content_size
-            + tags_size
-            + embedding_size
-            + metadata_size
-            + python_overhead
-            + system_overhead
-        )
+        return content_size + tags_size + embedding_size + metadata_size + python_overhead + system_overhead
 
     def get_optimization_statistics(self) -> dict[str, Any]:
         """Get detailed optimization statistics"""
         stats = self.optimization_stats.copy()
         if stats["memories_optimized"] > 0:
             stats["avg_compression_ratio"] = np.mean(stats["compression_ratios"])
-            stats["avg_size_before_kb"] = (
-                stats["total_size_before"] / stats["memories_optimized"] / 1024
-            )
-            stats["avg_size_after_kb"] = (
-                stats["total_size_after"] / stats["memories_optimized"] / 1024
-            )
+            stats["avg_size_before_kb"] = stats["total_size_before"] / stats["memories_optimized"] / 1024
+            stats["avg_size_after_kb"] = stats["total_size_after"] / stats["memories_optimized"] / 1024
             stats["total_memory_saved_mb"] = self.total_memory_saved / (1024 * 1024)
         stats["vector_storage"] = self.vector_store.get_memory_usage_stats()
         if stats["total_size_before"] > 0:
-            stats["overall_compression_ratio"] = (
-                stats["total_size_before"] / stats["total_size_after"]
-            )
-            stats["memory_efficiency_improvement"] = (
-                f"{stats['overall_compression_ratio']:.1f}x"
-            )
+            stats["overall_compression_ratio"] = stats["total_size_before"] / stats["total_size_after"]
+            stats["memory_efficiency_improvement"] = f"{stats['overall_compression_ratio']:.1f}x"
             stats["storage_capacity_multiplier"] = stats["overall_compression_ratio"]
         return stats
 
@@ -1026,8 +976,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         base_stats["optimization_stats"] = self.get_optimization_statistics()
         if self.optimization_stats["memories_optimized"] > 0:
             avg_optimized_size = (
-                self.optimization_stats["total_size_after"]
-                / self.optimization_stats["memories_optimized"]
+                self.optimization_stats["total_size_after"] / self.optimization_stats["memories_optimized"]
             )
             gb_in_bytes = 1024 * 1024 * 1024
             memories_per_gb = int(gb_in_bytes / avg_optimized_size)
@@ -1064,24 +1013,16 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         for i in range(num_test_memories):
             content_length = random.randint(50, 500)
             content = "Memory content: " + "".join(
-                random.choices(
-                    string.ascii_letters + string.digits + " ", k=content_length
-                )
+                random.choices(string.ascii_letters + string.digits + " ", k=content_length)
             )
             num_tags = random.randint(2, 8)
             tags = [f"tag_{random.randint(1, 100)}" for _ in range(num_tags)]
-            embedding = (
-                np.random.randn(self.embedding_dim).astype(np.float32)
-                if include_embeddings
-                else None
-            )
+            embedding = np.random.randn(self.embedding_dim).astype(np.float32) if include_embeddings else None
             test_memories.append((content, tags, embedding))
         start_time = time.time()
         memory_ids = []
         for content, tags, embedding in test_memories:
-            memory_id = await self.fold_in_with_embedding(
-                data=content, tags=tags, embedding=embedding
-            )
+            memory_id = await self.fold_in_with_embedding(data=content, tags=tags, embedding=embedding)
             memory_ids.append(memory_id)
         insertion_time = time.time() - start_time
         start_time = time.time()
@@ -1274,9 +1215,7 @@ class ConsensusProtocol:
         asyncio.create_task(self._heartbeat_timer())
         asyncio.create_task(self._election_timer())
         await self._start_http_server()
-        logger.info(
-            "Distributed memory node started", node_id=self.node_id, port=self.port
-        )
+        logger.info("Distributed memory node started", node_id=self.node_id, port=self.port)
 
     async def _start_http_server(self):
         """Start HTTP server for inter-node communication"""
@@ -1299,9 +1238,7 @@ class ConsensusProtocol:
             if self.state == NodeState.LEADER:
                 await self._send_heartbeats()
             elif self.state == NodeState.FOLLOWER:
-                time_since_heartbeat = (
-                    datetime.now() - self.last_heartbeat_received
-                ).total_seconds()
+                time_since_heartbeat = (datetime.now() - self.last_heartbeat_received).total_seconds()
                 if time_since_heartbeat > self.election_timeout:
                     await self._start_election()
             await asyncio.sleep(self.heartbeat_interval)
@@ -1315,9 +1252,7 @@ class ConsensusProtocol:
 
     async def _start_election(self):
         """Start leader election process"""
-        logger.info(
-            "Starting leader election", node_id=self.node_id, term=self.current_term + 1
-        )
+        logger.info("Starting leader election", node_id=self.node_id, term=self.current_term + 1)
         self.state = NodeState.CANDIDATE
         self.current_term += 1
         self.voted_for = self.node_id
@@ -1330,9 +1265,7 @@ class ConsensusProtocol:
                 vote_tasks.append(task)
         if vote_tasks:
             try:
-                await asyncio.wait_for(
-                    asyncio.gather(*vote_tasks, return_exceptions=True), timeout=3.0
-                )
+                await asyncio.wait_for(asyncio.gather(*vote_tasks, return_exceptions=True), timeout=3.0)
             except asyncio.TimeoutError:
                 logger.warning("Vote request timeout", node_id=self.node_id)
         alive_nodes = sum(1 for node in self.nodes.values() if node.is_alive())
@@ -1381,9 +1314,7 @@ class ConsensusProtocol:
                     if response.status == 200:
                         node_info.last_heartbeat = datetime.now()
         except Exception as e:
-            logger.warning(
-                f"Failed to send heartbeat to {node_info.node_id}", error=str(e)
-            )
+            logger.warning(f"Failed to send heartbeat to {node_info.node_id}", error=str(e))
 
     async def _send_vote_request(self, node_info: NodeInfo):
         """Send vote request to specific node"""
@@ -1407,9 +1338,7 @@ class ConsensusProtocol:
                         if response_data.get("vote_granted", False):
                             self.nodes[self.node_id].vote_count += 1
         except Exception as e:
-            logger.warning(
-                f"Failed to send vote request to {node_info.node_id}", error=str(e)
-            )
+            logger.warning(f"Failed to send vote request to {node_info.node_id}", error=str(e))
 
     async def _handle_heartbeat(self, request):
         """Handle incoming heartbeat message"""
@@ -1425,9 +1354,7 @@ class ConsensusProtocol:
             self.leader_id = leader_id
             self.last_heartbeat_received = datetime.now()
             if leader_id in self.nodes:
-                self.nodes[leader_id].consciousness_level = data.get(
-                    "consciousness_level", 0.0
-                )
+                self.nodes[leader_id].consciousness_level = data.get("consciousness_level", 0.0)
         return aiohttp.web.json_response({"success": True, "term": self.current_term})
 
     async def _handle_vote_request(self, request):
@@ -1449,9 +1376,7 @@ class ConsensusProtocol:
             self.voted_for = candidate_id
             vote_granted = True
             logger.debug("Vote granted", candidate=candidate_id, term=term)
-        return aiohttp.web.json_response(
-            {"vote_granted": vote_granted, "term": self.current_term}
-        )
+        return aiohttp.web.json_response({"vote_granted": vote_granted, "term": self.current_term})
 
     async def _handle_vote_response(self, request):
         """Handle vote response (not typically called directly)"""
@@ -1489,9 +1414,7 @@ class ConsensusProtocol:
         for entry in self.memory_log:
             if entry.consensus_achieved:
                 matching_memories.append(entry.to_dict())
-        return aiohttp.web.json_response(
-            {"success": True, "query_id": query_id, "memories": matching_memories}
-        )
+        return aiohttp.web.json_response({"success": True, "query_id": query_id, "memories": matching_memories})
 
     async def _handle_node_join(self, request):
         """Handle new node joining the network"""
@@ -1554,9 +1477,7 @@ class DistributedMemoryFold:
         self.port = port
         self.bootstrap_nodes = bootstrap_nodes or []
         self.consciousness_level = consciousness_level
-        self.consensus = ConsensusProtocol(
-            node_id=node_id, port=port, consciousness_threshold=0.7
-        )
+        self.consensus = ConsensusProtocol(node_id=node_id, port=port, consciousness_threshold=0.7)
         self.local_memories: dict[str, Any] = {}
         self.distributed_memories: dict[str, DistributedMemoryEntry] = {}
         try:
@@ -1600,9 +1521,7 @@ class DistributedMemoryFold:
                         timeout=aiohttp.ClientTimeout(total=5.0),
                     ) as response:
                         if response.status == 200:
-                            logger.info(
-                                f"Successfully joined network via {address}:{port}"
-                            )
+                            logger.info(f"Successfully joined network via {address}:{port}")
                             bootstrap_node_id = f"{address}:{port}"
                             self.consensus.nodes[bootstrap_node_id] = NodeInfo(
                                 node_id=bootstrap_node_id,
@@ -1641,9 +1560,7 @@ class DistributedMemoryFold:
                 data=content, tags=tags or [], embedding=embedding, **metadata or {}
             )
         else:
-            memory_id = hashlib.sha256(
-                f"{content}{datetime.now().isoformat()}".encode()
-            ).hexdigest()[:16]
+            memory_id = hashlib.sha256(f"{content}{datetime.now().isoformat()}".encode()).hexdigest()[:16]
         memory_data = json.dumps(
             {
                 "content": content,
@@ -1656,11 +1573,7 @@ class DistributedMemoryFold:
             memory_id=memory_id,
             content_hash=hashlib.sha256(memory_data).hexdigest(),
             memory_data=memory_data,
-            embedding_hash=(
-                hashlib.sha256(embedding.tobytes()).hexdigest()
-                if embedding is not None
-                else ""
-            ),
+            embedding_hash=(hashlib.sha256(embedding.tobytes()).hexdigest() if embedding is not None else ""),
             node_id=self.node_id,
             timestamp=datetime.now(),
             term=self.consensus.current_term,
@@ -1687,9 +1600,7 @@ class DistributedMemoryFold:
                 propagation_tasks.append(task)
         if propagation_tasks:
             results = await asyncio.gather(*propagation_tasks, return_exceptions=True)
-            successful_propagations = sum(
-                1 for result in results if not isinstance(result, Exception) and result
-            )
+            successful_propagations = sum(1 for result in results if not isinstance(result, Exception) and result)
             total_nodes = len(self.consensus.nodes)
             required_acceptance = total_nodes // 2 + 1
             if successful_propagations >= required_acceptance:
@@ -1701,9 +1612,7 @@ class DistributedMemoryFold:
                     total_nodes=total_nodes,
                 )
 
-    async def _send_memory_sync(
-        self, node_info: NodeInfo, entry: DistributedMemoryEntry
-    ) -> bool:
+    async def _send_memory_sync(self, node_info: NodeInfo, entry: DistributedMemoryEntry) -> bool:
         """Send memory sync to specific node"""
         try:
             async with aiohttp.ClientSession() as session:
@@ -1718,14 +1627,10 @@ class DistributedMemoryFold:
                         return response_data.get("accepted", False)
             return False
         except Exception as e:
-            logger.warning(
-                f"Failed to sync memory to {node_info.node_id}", error=str(e)
-            )
+            logger.warning(f"Failed to sync memory to {node_info.node_id}", error=str(e))
             return False
 
-    async def query_memory(
-        self, query: str, top_k: int = 10, include_distributed: bool = True
-    ) -> list[dict[str, Any]]:
+    async def query_memory(self, query: str, top_k: int = 10, include_distributed: bool = True) -> list[dict[str, Any]]:
         """
         Query memories from distributed system.
 
@@ -1757,19 +1662,13 @@ class DistributedMemoryFold:
         results.sort(key=lambda x: x.get("score", 0), reverse=True)
         return results[:top_k]
 
-    async def _query_distributed_memories(
-        self, query: str, top_k: int
-    ) -> list[dict[str, Any]]:
+    async def _query_distributed_memories(self, query: str, top_k: int) -> list[dict[str, Any]]:
         """Query memories from other nodes in the network"""
         query_tasks = []
-        query_id = hashlib.sha256(
-            f"{query}{datetime.now().isoformat()}".encode()
-        ).hexdigest()[:8]
+        query_id = hashlib.sha256(f"{query}{datetime.now().isoformat()}".encode()).hexdigest()[:8]
         for node_id, node_info in self.consensus.nodes.items():
             if node_id != self.node_id and node_info.is_alive():
-                task = asyncio.create_task(
-                    self._send_memory_query(node_info, query, query_id)
-                )
+                task = asyncio.create_task(self._send_memory_query(node_info, query, query_id))
                 query_tasks.append(task)
         if not query_tasks:
             return []
@@ -1788,9 +1687,7 @@ class DistributedMemoryFold:
                     )
         return distributed_memories
 
-    async def _send_memory_query(
-        self, node_info: NodeInfo, query: str, query_id: str
-    ) -> list[dict[str, Any]]:
+    async def _send_memory_query(self, node_info: NodeInfo, query: str, query_id: str) -> list[dict[str, Any]]:
         """Send memory query to specific node"""
         try:
             async with aiohttp.ClientSession() as session:
@@ -1805,16 +1702,12 @@ class DistributedMemoryFold:
                         return response_data.get("memories", [])
             return []
         except Exception as e:
-            logger.warning(
-                f"Failed to query memory from {node_info.node_id}", error=str(e)
-            )
+            logger.warning(f"Failed to query memory from {node_info.node_id}", error=str(e))
             return []
 
     def get_network_status(self) -> dict[str, Any]:
         """Get status of the distributed network"""
-        alive_nodes = [
-            node for node in self.consensus.nodes.values() if node.is_alive()
-        ]
+        alive_nodes = [node for node in self.consensus.nodes.values() if node.is_alive()]
         return {
             "node_id": self.node_id,
             "state": self.consensus.state.value,
@@ -1824,15 +1717,7 @@ class DistributedMemoryFold:
             "alive_nodes": len(alive_nodes),
             "local_memories": len(self.local_memories),
             "distributed_memories": len(self.distributed_memories),
-            "consensus_memories": sum(
-                1
-                for entry in self.distributed_memories.values()
-                if entry.consensus_achieved
-            ),
+            "consensus_memories": sum(1 for entry in self.distributed_memories.values() if entry.consensus_achieved),
             "consciousness_level": self.consciousness_level,
-            "network_health": (
-                len(alive_nodes) / len(self.consensus.nodes)
-                if self.consensus.nodes
-                else 0.0
-            ),
+            "network_health": (len(alive_nodes) / len(self.consensus.nodes) if self.consensus.nodes else 0.0),
         }

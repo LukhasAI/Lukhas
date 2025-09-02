@@ -98,9 +98,7 @@ class AkaQualia:
         # Initialize VIVOX integration
         self.vivox_integration = VivoxAkaQualiaIntegration(
             drift_threshold=self.config.get("vivox_drift_threshold", 0.15),
-            collapse_validation_enabled=self.config.get(
-                "vivox_collapse_validation", True
-            ),
+            collapse_validation_enabled=self.config.get("vivox_collapse_validation", True),
             vivox_me_integration=self.config.get("vivox_me_integration", True),
         )
 
@@ -110,17 +108,11 @@ class AkaQualia:
         # Initialize regulation policy engine with audit logging
         self.regulation_engine = RegulationPolicyEngine(
             config={
-                "enable_audit_logging": self.config.get(
-                    "enable_regulation_audit", True
-                ),
+                "enable_audit_logging": self.config.get("enable_regulation_audit", True),
                 "safe_palette": self.config.get("safe_palette", "aoi/blue"),
                 "conservative_mode": self.config.get("conservative_regulation", False),
-                "energy_conservation_tolerance": self.config.get(
-                    "energy_conservation_tolerance", 0.05
-                ),
-                "audit_log_path": self.config.get(
-                    "regulation_audit_path", "logs/aka_qualia_regulation.jsonl"
-                ),
+                "energy_conservation_tolerance": self.config.get("energy_conservation_tolerance", 0.05),
+                "audit_log_path": self.config.get("regulation_audit_path", "logs/aka_qualia_regulation.jsonl"),
             }
         )
 
@@ -142,9 +134,7 @@ class AkaQualia:
             oneiric_mode = self.config.get("oneiric_mode", "local")
             oneiric_base_url = self.config.get("oneiric_base_url")
             oneiric_config = self.config.get("oneiric", {})
-            self.oneiric_hook = create_oneiric_hook(
-                oneiric_mode, oneiric_base_url, oneiric_config
-            )
+            self.oneiric_hook = create_oneiric_hook(oneiric_mode, oneiric_base_url, oneiric_config)
 
         # State tracking
         self.scene_history: list[PhenomenalScene] = []
@@ -285,9 +275,7 @@ class AkaQualia:
         # Enhance context with cultural palette recommendations if needed
         if scene.risk.severity.value in {"moderate", "high"}:
             culture_profile = self.config.get("culture_profile", "default")
-            safe_palette = get_safe_palette_recommendation(
-                scene.proto.colorfield, culture_profile
-            )
+            safe_palette = get_safe_palette_recommendation(scene.proto.colorfield, culture_profile)
 
             # Add safe palette to scene context for downstream systems
             if hasattr(scene.context, "update") and isinstance(scene.context, dict):
@@ -314,9 +302,7 @@ class AkaQualia:
         Returns:
             Tuple[RegulationPolicy, RegulationAuditEntry]: Policy and audit trail
         """
-        return self.regulation_engine.generate_policy(
-            scene, guardian_state, energy_before
-        )
+        return self.regulation_engine.generate_policy(scene, guardian_state, energy_before)
 
     async def step(
         self,
@@ -371,9 +357,7 @@ class AkaQualia:
         if self.config["enable_drift_monitoring"]:
             # VIVOX drift detection
             previous_scene = self.scene_history[-1] if self.scene_history else None
-            drift_result = self.vivox_integration.compute_drift_score(
-                scene, previous_scene
-            )
+            drift_result = self.vivox_integration.compute_drift_score(scene, previous_scene)
             vivox_results["drift_analysis"] = {
                 "drift_score": drift_result.drift_score,
                 "drift_exceeded": drift_result.drift_exceeded,
@@ -395,9 +379,7 @@ class AkaQualia:
         if self.config["vivox_collapse_validation"]:
             # VIVOX Z(t) collapse integration
             try:
-                collapse_result = (
-                    await self.vivox_integration.integrate_with_vivox_collapse(scene)
-                )
+                collapse_result = await self.vivox_integration.integrate_with_vivox_collapse(scene)
                 vivox_results["collapse_integration"] = collapse_result
             except Exception as e:
                 vivox_results["collapse_integration"] = {
@@ -408,9 +390,7 @@ class AkaQualia:
         if self.config["vivox_me_integration"]:
             # VIVOX Memory Expansion integration
             try:
-                memory_result = (
-                    await self.vivox_integration.integrate_with_vivox_memory(scene)
-                )
+                memory_result = await self.vivox_integration.integrate_with_vivox_memory(scene)
                 vivox_results["memory_integration"] = memory_result
             except Exception as e:
                 vivox_results["memory_integration"] = {
@@ -423,27 +403,19 @@ class AkaQualia:
         regulated_scene = self._apply_regulation(scene, policy)
 
         # Capture energy snapshot after regulation
-        energy_after = self.metrics_computer.compute_affect_energy(
-            regulated_scene.proto
-        )
+        energy_after = self.metrics_computer.compute_affect_energy(regulated_scene.proto)
 
         # Update audit entry with post-regulation energy data
-        self.regulation_engine.update_audit_entry_post_regulation(
-            audit_entry, energy_after
-        )
+        self.regulation_engine.update_audit_entry_post_regulation(audit_entry, energy_after)
         self.regulation_audit_entries.append(audit_entry)
 
         # Store energy snapshots for accounting using metrics computer
         self.metrics_computer.compute_energy_snapshot(scene)
-        energy_snapshot_after = self.metrics_computer.compute_energy_snapshot(
-            regulated_scene
-        )
+        energy_snapshot_after = self.metrics_computer.compute_energy_snapshot(regulated_scene)
 
         # Check energy conservation
         energy_delta = abs(energy_before - energy_after)
-        conservation_violation = (
-            energy_delta > self.metrics_computer.config.energy_epsilon
-        )
+        conservation_violation = energy_delta > self.metrics_computer.config.energy_epsilon
 
         # Create enhanced energy snapshot for metrics collection
         # Enhance the after snapshot with before/after data for metrics compatibility
@@ -458,9 +430,7 @@ class AkaQualia:
         else:
             # Fallback: create a simple object with required attributes
             class EnhancedEnergySnapshot:
-                def __init__(
-                    self, original, energy_before, energy_after, conservation_violation
-                ):
+                def __init__(self, original, energy_before, energy_after, conservation_violation):
                     # Copy original attributes
                     for attr, value in original.__dict__.items():
                         setattr(self, attr, value)
@@ -484,9 +454,7 @@ class AkaQualia:
         metrics = self._compute_metrics(regulated_scene, memory_ctx, vivox_results)
 
         # Step 6: Log and store with regulation audit
-        self._log_results(
-            regulated_scene, glyphs, policy, metrics, audit_entry, vivox_results
-        )
+        self._log_results(regulated_scene, glyphs, policy, metrics, audit_entry, vivox_results)
 
         # Step 6: Route glyphs with priority weighting (C2: Wave C router integration)
         if self.config.get("enable_glyph_routing", True) and self.router:
@@ -497,11 +465,7 @@ class AkaQualia:
                 # Add routing context
                 # Compute conservation ratio for routing context
                 conservation_ratio = 1.0
-                if (
-                    energy_snapshot
-                    and hasattr(energy_snapshot, "energy_before")
-                    and energy_snapshot.energy_before > 0
-                ):
+                if energy_snapshot and hasattr(energy_snapshot, "energy_before") and energy_snapshot.energy_before > 0:
                     conservation_ratio = (
                         getattr(
                             energy_snapshot,
@@ -517,17 +481,13 @@ class AkaQualia:
                     "episode_id": metrics.episode_id,
                     "risk_severity": regulated_scene.risk.severity.value,
                     "energy_conservation_ratio": conservation_ratio,
-                    "vivox_drift_score": vivox_results.get("drift_analysis", {}).get(
-                        "drift_score", 0.0
-                    ),
+                    "vivox_drift_score": vivox_results.get("drift_analysis", {}).get("drift_score", 0.0),
                 }
 
                 self.router.route(glyphs, routing_priority, routing_context)
 
                 # Log routing decision
-                logger.info(
-                    f"Routed {len(glyphs)} glyphs with priority {routing_priority:.3f}"
-                )
+                logger.info(f"Routed {len(glyphs)} glyphs with priority {routing_priority:.3f}")
 
             except Exception as e:
                 logger.error(f"Glyph routing failed: {e}")
@@ -538,12 +498,8 @@ class AkaQualia:
         oneiric_hints = {}
         if self.config.get("enable_oneiric_feedback", True) and self.oneiric_hook:
             try:
-                oneiric_hints = self.oneiric_hook.apply_policy(
-                    scene=regulated_scene, policy=policy
-                )
-                logger.debug(
-                    f"Generated {len(oneiric_hints)} oneiric hints for narrative feedback"
-                )
+                oneiric_hints = self.oneiric_hook.apply_policy(scene=regulated_scene, policy=policy)
+                logger.debug(f"Generated {len(oneiric_hints)} oneiric hints for narrative feedback")
             except Exception as e:
                 logger.error(f"Oneiric feedback failed: {e}")
                 if not self.config.get("oneiric_fallback_on_error", True):
@@ -571,9 +527,7 @@ class AkaQualia:
             "pace": policy.pace,
             "actions": policy.actions,
         }
-        audit_dict = (
-            audit_entry.__dict__ if hasattr(audit_entry, "__dict__") else audit_entry
-        )
+        audit_dict = audit_entry.__dict__ if hasattr(audit_entry, "__dict__") else audit_entry
         self.metrics_collector.record_aka_qualia_regulation(policy_dict, audit_dict)
 
         # Record total processing time
@@ -582,9 +536,7 @@ class AkaQualia:
 
         return result
 
-    def _apply_regulation(
-        self, scene: PhenomenalScene, policy: RegulationPolicy
-    ) -> PhenomenalScene:
+    def _apply_regulation(self, scene: PhenomenalScene, policy: RegulationPolicy) -> PhenomenalScene:
         """
         Apply regulation policy with energy-preserving sublimation.
 
@@ -597,13 +549,10 @@ class AkaQualia:
         # Create regulated proto-qualia
         regulated_proto = ProtoQualia(
             tone=scene.proto.tone * policy.gain,  # Apply gain modulation
-            arousal=max(
-                0.0, min(1.0, scene.proto.arousal * policy.pace)
-            ),  # Apply pace modulation
+            arousal=max(0.0, min(1.0, scene.proto.arousal * policy.pace)),  # Apply pace modulation
             clarity=scene.proto.clarity,  # Preserve clarity initially
             embodiment=scene.proto.embodiment,
-            colorfield=policy.color_contrast
-            or scene.proto.colorfield,  # Override if specified
+            colorfield=policy.color_contrast or scene.proto.colorfield,  # Override if specified
             temporal_feel=scene.proto.temporal_feel,
             agency_feel=scene.proto.agency_feel,
             narrative_gravity=scene.proto.narrative_gravity,
@@ -616,41 +565,25 @@ class AkaQualia:
             if action == "reframe":
                 # Reframe: Convert arousal to clarity while preserving energy
                 energy_transfer = 0.3 * regulated_proto.arousal
-                regulated_proto.arousal = max(
-                    0.0, regulated_proto.arousal - energy_transfer
-                )
-                regulated_proto.clarity = min(
-                    1.0, regulated_proto.clarity + energy_transfer
-                )
-                transform_chain.append(
-                    f"sublimate_arousal_to_clarity_{energy_transfer:.3f}"
-                )
+                regulated_proto.arousal = max(0.0, regulated_proto.arousal - energy_transfer)
+                regulated_proto.clarity = min(1.0, regulated_proto.clarity + energy_transfer)
+                transform_chain.append(f"sublimate_arousal_to_clarity_{energy_transfer:.3f}")
 
             elif action == "breathing":
                 # Breathing: Reduce arousal, increase embodiment
                 if regulated_proto.arousal > 0.5:
                     energy_transfer = 0.2 * regulated_proto.arousal
-                    regulated_proto.arousal = max(
-                        0.0, regulated_proto.arousal - energy_transfer
-                    )
-                    regulated_proto.embodiment = min(
-                        1.0, regulated_proto.embodiment + energy_transfer
-                    )
+                    regulated_proto.arousal = max(0.0, regulated_proto.arousal - energy_transfer)
+                    regulated_proto.embodiment = min(1.0, regulated_proto.embodiment + energy_transfer)
                     transform_chain.append(f"sublimate_breathing_{energy_transfer:.3f}")
 
             elif action == "focus-shift":
                 # Focus-shift: Convert narrative gravity to clarity
                 if regulated_proto.narrative_gravity > 0.3:
                     energy_transfer = 0.4 * regulated_proto.narrative_gravity
-                    regulated_proto.narrative_gravity = max(
-                        0.0, regulated_proto.narrative_gravity - energy_transfer
-                    )
-                    regulated_proto.clarity = min(
-                        1.0, regulated_proto.clarity + energy_transfer
-                    )
-                    transform_chain.append(
-                        f"sublimate_focus_shift_{energy_transfer:.3f}"
-                    )
+                    regulated_proto.narrative_gravity = max(0.0, regulated_proto.narrative_gravity - energy_transfer)
+                    regulated_proto.clarity = min(1.0, regulated_proto.clarity + energy_transfer)
+                    transform_chain.append(f"sublimate_focus_shift_{energy_transfer:.3f}")
 
             elif action == "pause":
                 # Pause: Overall dampening with tone preservation
@@ -717,27 +650,19 @@ class AkaQualia:
         if self.memory and self.config["enable_memory_storage"]:
             try:
                 # Fetch previous scene from memory for accurate drift computation
-                prev_data = self.memory.fetch_prev_scene(
-                    user_id="system", before_ts=None
-                )
+                prev_data = self.memory.fetch_prev_scene(user_id="system", before_ts=None)
                 if prev_data:
                     previous_scene = prev_data["proto"]
             except Exception as e:
-                print(
-                    f"Warning: Could not fetch previous scene for drift computation: {e}"
-                )
+                print(f"Warning: Could not fetch previous scene for drift computation: {e}")
 
         # Use C4 utility function for precise drift computation
         if previous_scene:
             prev_timestamp = previous_scene.get("timestamp", scene.timestamp - 1.0)
             time_delta = abs(scene.timestamp - prev_timestamp)
-            drift_phi = compute_drift_phi(
-                scene.proto.__dict__, previous_scene, time_delta
-            )
+            drift_phi = compute_drift_phi(scene.proto.__dict__, previous_scene, time_delta)
         elif vivox_results and "drift_analysis" in vivox_results:
-            drift_phi = (
-                1.0 - vivox_results["drift_analysis"]["drift_score"]
-            )  # Invert for coherence
+            drift_phi = 1.0 - vivox_results["drift_analysis"]["drift_score"]  # Invert for coherence
         else:
             drift_phi = self._compute_drift_phi(scene)
 
@@ -751,9 +676,7 @@ class AkaQualia:
         neurosis_risk = self._compute_neurosis_risk(scene)
         if vivox_results and "collapse_integration" in vivox_results:
             collapse_data = vivox_results["collapse_integration"]
-            if collapse_data.get("status") == "integrated" and not collapse_data.get(
-                "vivox_validation", True
-            ):
+            if collapse_data.get("status") == "integrated" and not collapse_data.get("vivox_validation", True):
                 neurosis_risk += 0.2  # Increase risk if VIVOX validation failed
 
         # Qualia novelty
@@ -763,9 +686,7 @@ class AkaQualia:
         base_repair = max(0.0, 0.5 - scene.risk.score)
         if vivox_results and "drift_analysis" in vivox_results:
             if vivox_results["drift_analysis"]["stabilization_required"]:
-                repair_delta = (
-                    base_repair * 0.5
-                )  # Reduced repair if stabilization needed
+                repair_delta = base_repair * 0.5  # Reduced repair if stabilization needed
             else:
                 repair_delta = base_repair * 1.2  # Enhanced repair if stable
         else:
@@ -827,15 +748,11 @@ class AkaQualia:
             return 0.0  # No transforms applied
 
         # Count sublimation transforms
-        sublimation_transforms = sum(
-            1 for t in scene.transform_chain if "sublimate" in t.lower()
-        )
+        sublimation_transforms = sum(1 for t in scene.transform_chain if "sublimate" in t.lower())
 
         # Simple ratio (would be more sophisticated in v2)
         total_transforms = len(scene.transform_chain)
-        return (
-            sublimation_transforms / total_transforms if total_transforms > 0 else 0.0
-        )
+        return sublimation_transforms / total_transforms if total_transforms > 0 else 0.0
 
     def _compute_neurosis_risk(self, scene: PhenomenalScene) -> float:
         """Estimate loop recurrence probability"""
@@ -986,9 +903,7 @@ class AkaQualia:
 
                 # Add GDPR-compliant metadata
                 if vivox_results:
-                    scene_data["collapse_hash"] = vivox_results.get(
-                        "drift_analysis", {}
-                    ).get("collapse_hash")
+                    scene_data["collapse_hash"] = vivox_results.get("drift_analysis", {}).get("collapse_hash")
                 if hasattr(scene, "transform_chain"):
                     scene_data["transform_chain"] = scene.transform_chain or []
                 else:
@@ -1016,9 +931,7 @@ class AkaQualia:
                 )
 
                 # Log successful storage
-                print(
-                    f"Scene {scene_id} stored to memory with {len(glyphs_data)} glyphs"
-                )
+                print(f"Scene {scene_id} stored to memory with {len(glyphs_data)} glyphs")
 
             except Exception as e:
                 print(f"Warning: C4 memory storage failed: {e}")
@@ -1028,8 +941,7 @@ class AkaQualia:
         # Energy conservation statistics
         conservation_violations = sum(self.conservation_violations)
         avg_energy_delta = (
-            sum(s.affect_energy for s in self.energy_snapshots)
-            / len(self.energy_snapshots)
+            sum(s.affect_energy for s in self.energy_snapshots) / len(self.energy_snapshots)
             if self.energy_snapshots
             else 0.0
         )
@@ -1041,19 +953,14 @@ class AkaQualia:
             "initialization_time": self.initialization_time,
             "scenes_processed": len(self.scene_history),
             "average_risk_score": (
-                sum(s.risk.score for s in self.scene_history[-10:])
-                / min(10, len(self.scene_history))
+                sum(s.risk.score for s in self.scene_history[-10:]) / min(10, len(self.scene_history))
                 if self.scene_history
                 else 0.0
             ),
-            "recent_metrics": (
-                self.metrics_history[-1].model_dump() if self.metrics_history else None
-            ),
+            "recent_metrics": (self.metrics_history[-1].model_dump() if self.metrics_history else None),
             "teq_interventions": len(self.teq_guardian.get_intervention_log()),
             "vivox_status": self.vivox_integration.get_drift_status(),
-            "vivox_collapse_history": len(
-                self.vivox_integration.get_collapse_history()
-            ),
+            "vivox_collapse_history": len(self.vivox_integration.get_collapse_history()),
             "energy_accounting": {
                 "total_snapshots": len(self.energy_snapshots),
                 "conservation_violations": conservation_violations,
@@ -1063,21 +970,13 @@ class AkaQualia:
                     else 1.0
                 ),
                 "average_energy_delta": avg_energy_delta,
-                "recent_energy_snapshot": (
-                    self.energy_snapshots[-1].__dict__
-                    if self.energy_snapshots
-                    else None
-                ),
+                "recent_energy_snapshot": (self.energy_snapshots[-1].__dict__ if self.energy_snapshots else None),
             },
             "regulation_audit": {
                 "total_policies_generated": regulation_stats.get("total_entries", 0),
-                "average_processing_time_ms": regulation_stats.get(
-                    "average_processing_time_ms", 0.0
-                ),
+                "average_processing_time_ms": regulation_stats.get("average_processing_time_ms", 0.0),
                 "cache_hit_rate": regulation_stats.get("cache_hit_rate", 0.0),
-                "conservation_violations": regulation_stats.get(
-                    "conservation_violations", 0
-                ),
+                "conservation_violations": regulation_stats.get("conservation_violations", 0),
                 "action_frequency": regulation_stats.get("action_frequency", {}),
                 "recent_audit_entries": len(self.regulation_audit_entries),
             },

@@ -45,9 +45,7 @@ class PluginRegistry:
     """Registry handling plugin discovery and access."""
 
     def __init__(self) -> None:
-        self._plugins: dict[PluginType, dict[str, Plugin]] = {
-            pt: {} for pt in PluginType
-        }
+        self._plugins: dict[PluginType, dict[str, Plugin]] = {pt: {} for pt in PluginType}
         self._load_entry_points()
 
     def _load_entry_points(self) -> None:

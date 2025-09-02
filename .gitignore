@@ -276,7 +276,7 @@ security_backup_cleanup_report_*.txt
 verification_artifacts/
 
 errors.md
-pending.yaml 
+pending.yaml
 # Ignore generated branding artifacts and sanctum vaults
 LUKHAS_BRANDING_COMPLETE.*
 LUKHAS_BRANDING_CONSOLIDATED.*

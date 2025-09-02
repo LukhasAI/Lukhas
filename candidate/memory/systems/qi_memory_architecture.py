@@ -36,14 +36,10 @@ class QIAssociativeMemoryBank:
         self.oracle_circuits: dict[str, QICircuit] = {}
 
         # Quantum error correction
-        self.error_correction = SurfaceCodeErrorCorrection(
-            physical_qubits_per_logical=17
-        )
+        self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)
 
         # Decoherence mitigation
-        self.decoherence_mitigator = DecoherenceMitigation(
-            strategy="dynamical_decoupling"
-        )
+        self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")
 
     async def store_quantum_like_state(
         self,
@@ -55,9 +51,7 @@ class QIAssociativeMemoryBank:
         Store information in superposition-like state
         """
         # 1. Encode classical data into quantum-like state
-        encoded_state = await self._encode_to_quantum(
-            memory_id, qi_like_state, associations
-        )
+        encoded_state = await self._encode_to_quantum(memory_id, qi_like_state, associations)
 
         # 2. Apply error correction encoding
         protected_state = await self.error_correction.encode(encoded_state)
@@ -69,9 +63,7 @@ class QIAssociativeMemoryBank:
         # 4. Maintain coherence with active stabilization
         await self.decoherence_mitigator.stabilize(protected_state)
 
-    async def qi_associative_recall(
-        self, query: QIQuery, num_iterations: Optional[int] = None
-    ) -> list[QIMemory]:
+    async def qi_associative_recall(self, query: QIQuery, num_iterations: Optional[int] = None) -> list[QIMemory]:
         """
         Retrieve memories using quantum parallelism
         """
@@ -96,9 +88,7 @@ class QIAssociativeMemoryBank:
         # 5. Post-process to extract memories
         return self._extract_memories(results, query)
 
-    def _create_grover_oracle(
-        self, memory_id: str, associations: list[str]
-    ) -> QICircuit:
+    def _create_grover_oracle(self, memory_id: str, associations: list[str]) -> QICircuit:
         """
         Create Grover oracle for specific memory pattern
         """

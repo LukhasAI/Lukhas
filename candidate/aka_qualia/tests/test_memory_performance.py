@@ -65,9 +65,7 @@ class TestBatchWritePerformance:
         elapsed_time = performance_timer.stop()
 
         # Performance assertions
-        assert (
-            elapsed_time < 3.0
-        ), f"1000 inserts took {elapsed_time:.2f}s, should be < 3.0s"
+        assert elapsed_time < 3.0, f"1000 inserts took {elapsed_time:.2f}s, should be < 3.0s"
         assert len(scene_ids) == num_scenes, f"Should have {num_scenes} scene IDs"
         assert len(set(scene_ids)) == num_scenes, "All scene IDs should be unique"
 
@@ -77,13 +75,8 @@ class TestBatchWritePerformance:
         assert throughput > 300, f"Throughput {throughput:.1f} scenes/sec is too low"
 
         # Verify data integrity after bulk insert
-        total_scenes = sum(
-            len(sql_memory.get_scene_history(user_id=f"perf_user_{i}", limit=1000))
-            for i in range(10)
-        )
-        assert (
-            total_scenes == num_scenes
-        ), "All scenes should be retrievable after bulk insert"
+        total_scenes = sum(len(sql_memory.get_scene_history(user_id=f"perf_user_{i}", limit=1000)) for i in range(10))
+        assert total_scenes == num_scenes, "All scenes should be retrievable after bulk insert"
 
     @pytest.mark.perf
     def test_incremental_write_performance(self, sql_memory, performance_timer):
@@ -124,15 +117,9 @@ class TestBatchWritePerformance:
         )
 
         # Performance assertions
-        assert (
-            avg_time < 0.01
-        ), f"Average write time {avg_time * 1000:.2f}ms should be < 10ms"
-        assert (
-            p95_time < 0.02
-        ), f"P95 write time {p95_time * 1000:.2f}ms should be < 20ms"
-        assert (
-            max_time < 0.05
-        ), f"Max write time {max_time * 1000:.2f}ms should be < 50ms"
+        assert avg_time < 0.01, f"Average write time {avg_time * 1000:.2f}ms should be < 10ms"
+        assert p95_time < 0.02, f"P95 write time {p95_time * 1000:.2f}ms should be < 20ms"
+        assert max_time < 0.05, f"Max write time {max_time * 1000:.2f}ms should be < 50ms"
 
     @pytest.mark.perf
     def test_batch_vs_individual_performance(self, sql_memory):
@@ -141,12 +128,8 @@ class TestBatchWritePerformance:
         num_scenes = 100
 
         # Generate test data
-        test_scenes = [
-            create_varying_scene(f"batch_vs_individual_{i}") for i in range(num_scenes)
-        ]
-        test_glyphs = [
-            [create_test_glyph(f"test:glyph_{i}")] for i in range(num_scenes)
-        ]
+        test_scenes = [create_varying_scene(f"batch_vs_individual_{i}") for i in range(num_scenes)]
+        test_glyphs = [[create_test_glyph(f"test:glyph_{i}")] for i in range(num_scenes)]
 
         # Test individual inserts
         individual_start = time.perf_counter()
@@ -174,17 +157,11 @@ class TestBatchWritePerformance:
             )
         batch_time = time.perf_counter() - batch_start
 
-        print(
-            f"Individual inserts: {individual_time:.2f}s ({individual_time / num_scenes * 1000:.2f}ms each)"
-        )
-        print(
-            f"Batch inserts: {batch_time:.2f}s ({batch_time / num_scenes * 1000:.2f}ms each)"
-        )
+        print(f"Individual inserts: {individual_time:.2f}s ({individual_time / num_scenes * 1000:.2f}ms each)")
+        print(f"Batch inserts: {batch_time:.2f}s ({batch_time / num_scenes * 1000:.2f}ms each)")
 
         # Both should be reasonably fast
-        assert (
-            individual_time < 5.0
-        ), "Individual inserts should complete in reasonable time"
+        assert individual_time < 5.0, "Individual inserts should complete in reasonable time"
         assert batch_time < 5.0, "Batch inserts should complete in reasonable time"
 
 
@@ -192,9 +169,7 @@ class TestQueryPerformance:
     """Test query performance with various data sizes"""
 
     @pytest.mark.perf
-    def test_user_history_query_performance(
-        self, sql_memory_with_data, performance_timer
-    ):
+    def test_user_history_query_performance(self, sql_memory_with_data, performance_timer):
         """User history queries should be fast with proper indexing"""
 
         # Add more data to make the test meaningful
@@ -214,9 +189,7 @@ class TestQueryPerformance:
 
         for _ in range(20):  # Multiple queries to get average
             performance_timer.start()
-            results = sql_memory_with_data.get_scene_history(
-                user_id="test_user", limit=10
-            )
+            results = sql_memory_with_data.get_scene_history(user_id="test_user", limit=10)
             query_time = performance_timer.stop()
 
             query_times.append(query_time)
@@ -225,17 +198,11 @@ class TestQueryPerformance:
         avg_query_time = statistics.mean(query_times)
         p95_query_time = statistics.quantiles(query_times, n=20)[18]
 
-        print(
-            f"Query performance - Avg: {avg_query_time * 1000:.2f}ms, P95: {p95_query_time * 1000:.2f}ms"
-        )
+        print(f"Query performance - Avg: {avg_query_time * 1000:.2f}ms, P95: {p95_query_time * 1000:.2f}ms")
 
         # Performance assertions
-        assert (
-            avg_query_time < 0.01
-        ), f"Average query time {avg_query_time * 1000:.2f}ms should be < 10ms"
-        assert (
-            p95_query_time < 0.02
-        ), f"P95 query time {p95_query_time * 1000:.2f}ms should be < 20ms"
+        assert avg_query_time < 0.01, f"Average query time {avg_query_time * 1000:.2f}ms should be < 10ms"
+        assert p95_query_time < 0.02, f"P95 query time {p95_query_time * 1000:.2f}ms should be < 20ms"
 
     @pytest.mark.perf
     def test_glyph_search_performance(self, sql_memory, performance_timer):
@@ -249,9 +216,7 @@ class TestQueryPerformance:
         for i in range(200):
             glyphs = [
                 create_test_glyph(common_glyph_key),  # Every scene has this
-                create_test_glyph(
-                    f"{unique_prefix}_{i}"
-                ),  # Each scene has unique glyph
+                create_test_glyph(f"{unique_prefix}_{i}"),  # Each scene has unique glyph
             ]
 
             # Some scenes have additional glyphs
@@ -269,9 +234,7 @@ class TestQueryPerformance:
 
         # Test common glyph search (should find many results)
         performance_timer.start()
-        common_results = sql_memory.search_by_glyph(
-            user_id="glyph_search_perf_test", glyph_key=common_glyph_key
-        )
+        common_results = sql_memory.search_by_glyph(user_id="glyph_search_perf_test", glyph_key=common_glyph_key)
         common_search_time = performance_timer.stop()
 
         assert len(common_results) == 200, "Should find all scenes with common glyph"
@@ -281,31 +244,21 @@ class TestQueryPerformance:
 
         # Test unique glyph search (should find one result)
         performance_timer.start()
-        unique_results = sql_memory.search_by_glyph(
-            user_id="glyph_search_perf_test", glyph_key=f"{unique_prefix}_100"
-        )
+        unique_results = sql_memory.search_by_glyph(user_id="glyph_search_perf_test", glyph_key=f"{unique_prefix}_100")
         unique_search_time = performance_timer.stop()
 
-        assert (
-            len(unique_results) == 1
-        ), "Should find exactly one scene with unique glyph"
+        assert len(unique_results) == 1, "Should find exactly one scene with unique glyph"
         assert (
             unique_search_time < 0.01
         ), f"Unique glyph search took {unique_search_time * 1000:.2f}ms, should be < 10ms"
 
         # Test rare glyph search
         performance_timer.start()
-        rare_results = sql_memory.search_by_glyph(
-            user_id="glyph_search_perf_test", glyph_key="performance:rare"
-        )
+        rare_results = sql_memory.search_by_glyph(user_id="glyph_search_perf_test", glyph_key="performance:rare")
         rare_search_time = performance_timer.stop()
 
-        assert (
-            len(rare_results) == 20
-        ), "Should find 20 scenes with rare glyph (every 10th)"
-        assert (
-            rare_search_time < 0.02
-        ), f"Rare glyph search took {rare_search_time * 1000:.2f}ms, should be < 20ms"
+        assert len(rare_results) == 20, "Should find 20 scenes with rare glyph (every 10th)"
+        assert rare_search_time < 0.02, f"Rare glyph search took {rare_search_time * 1000:.2f}ms, should be < 20ms"
 
     @pytest.mark.perf
     def test_large_result_set_performance(self, sql_memory):
@@ -335,15 +288,11 @@ class TestQueryPerformance:
             query_time = time.perf_counter() - start_time
 
             assert len(results) == limit, f"Should return exactly {limit} results"
-            assert (
-                query_time < 0.1
-            ), f"Query for {limit} results took {query_time * 1000:.2f}ms, should be < 100ms"
+            assert query_time < 0.1, f"Query for {limit} results took {query_time * 1000:.2f}ms, should be < 100ms"
 
             # Verify results are properly ordered (newest first)
             timestamps = [scene["timestamp"] for scene in results]
-            assert timestamps == sorted(
-                timestamps, reverse=True
-            ), "Results should be ordered by timestamp desc"
+            assert timestamps == sorted(timestamps, reverse=True), "Results should be ordered by timestamp desc"
 
 
 class TestMemoryUsagePerformance:
@@ -398,9 +347,7 @@ class TestMemoryUsagePerformance:
 
         # Memory growth should be reasonable
         assert memory_growth < 50, f"Memory growth {memory_growth:.1f} MB is too high"
-        assert (
-            max_memory < initial_memory + 100
-        ), f"Peak memory usage {max_memory:.1f} MB is too high"
+        assert max_memory < initial_memory + 100, f"Peak memory usage {max_memory:.1f} MB is too high"
 
     @pytest.mark.perf
     def test_large_scene_memory_handling(self, sql_memory):
@@ -412,7 +359,8 @@ class TestMemoryUsagePerformance:
             "large_array": list(range(10000)),  # 10k integers
             "large_text": "x" * 50000,  # 50k characters
             "nested_data": {
-                f"key_{i}": f"value_{i}" * 100 for i in range(1000)  # 1k nested items
+                f"key_{i}": f"value_{i}" * 100
+                for i in range(1000)  # 1k nested items
             },
         }
 
@@ -442,9 +390,7 @@ class TestMemoryUsagePerformance:
         print(f"Memory delta: {memory_delta:.1f} MB")
 
         # Should handle large scenes without excessive time/memory
-        assert (
-            save_time < 1.0
-        ), f"Large scene save took {save_time * 1000:.2f}ms, should be < 1000ms"
+        assert save_time < 1.0, f"Large scene save took {save_time * 1000:.2f}ms, should be < 1000ms"
         assert memory_delta < 100, f"Memory increase {memory_delta:.1f} MB is too high"
 
         # Verify we can retrieve the large scene
@@ -453,9 +399,7 @@ class TestMemoryUsagePerformance:
         retrieve_time = time.perf_counter() - start_time
 
         assert len(history) == 1, "Should retrieve the large scene"
-        assert (
-            retrieve_time < 0.1
-        ), f"Large scene retrieval took {retrieve_time * 1000:.2f}ms, should be < 100ms"
+        assert retrieve_time < 0.1, f"Large scene retrieval took {retrieve_time * 1000:.2f}ms, should be < 100ms"
 
 
 class TestConcurrentPerformance:
@@ -476,9 +420,7 @@ class TestConcurrentPerformance:
 
             for i in range(scenes_per_thread):
                 scene_data = create_varying_scene(f"concurrent_write_{thread_id}_{i}")
-                glyph_data = [
-                    create_test_glyph(f"concurrent:thread_{thread_id}_glyph_{i}")
-                ]
+                glyph_data = [create_test_glyph(f"concurrent:thread_{thread_id}_glyph_{i}")]
 
                 try:
                     scene_id = sql_memory.save(
@@ -497,12 +439,8 @@ class TestConcurrentPerformance:
             results.append(
                 {
                     "thread_id": thread_id,
-                    "scenes_saved": len(
-                        [r for r in thread_results if not str(r).startswith("ERROR")]
-                    ),
-                    "errors": len(
-                        [r for r in thread_results if str(r).startswith("ERROR")]
-                    ),
+                    "scenes_saved": len([r for r in thread_results if not str(r).startswith("ERROR")]),
+                    "errors": len([r for r in thread_results if str(r).startswith("ERROR")]),
                     "time": thread_time,
                     "throughput": len(thread_results) / thread_time,
                 }
@@ -513,10 +451,7 @@ class TestConcurrentPerformance:
 
         results = []
         with ThreadPoolExecutor(max_workers=num_threads) as executor:
-            futures = [
-                executor.submit(write_scenes, thread_id, results)
-                for thread_id in range(num_threads)
-            ]
+            futures = [executor.submit(write_scenes, thread_id, results) for thread_id in range(num_threads)]
 
             # Wait for all threads to complete
             for future in futures:
@@ -539,12 +474,8 @@ class TestConcurrentPerformance:
 
         # Performance assertions
         assert total_errors == 0, f"Should have no errors, got {total_errors}"
-        assert (
-            total_saved == total_scenes
-        ), f"Should save all {total_scenes} scenes, saved {total_saved}"
-        assert (
-            overall_throughput > 50
-        ), f"Overall throughput {overall_throughput:.1f} scenes/sec is too low"
+        assert total_saved == total_scenes, f"Should save all {total_scenes} scenes, saved {total_saved}"
+        assert overall_throughput > 50, f"Overall throughput {overall_throughput:.1f} scenes/sec is too low"
         assert overall_time < 10, f"Overall time {overall_time:.2f}s is too high"
 
     @pytest.mark.perf
@@ -585,12 +516,8 @@ class TestConcurrentPerformance:
                         op_type = "write_error"
                 else:  # Read operation (67%)
                     try:
-                        results_data = sql_memory.get_scene_history(
-                            user_id="mixed_workload_user", limit=10
-                        )
-                        op_type = (
-                            "read_success" if len(results_data) > 0 else "read_empty"
-                        )
+                        results_data = sql_memory.get_scene_history(user_id="mixed_workload_user", limit=10)
+                        op_type = "read_success" if len(results_data) > 0 else "read_empty"
                     except Exception:
                         op_type = "read_error"
 
@@ -611,10 +538,7 @@ class TestConcurrentPerformance:
 
         results = []
         with ThreadPoolExecutor(max_workers=4) as executor:
-            futures = [
-                executor.submit(mixed_workload, thread_id, results)
-                for thread_id in range(4)
-            ]
+            futures = [executor.submit(mixed_workload, thread_id, results) for thread_id in range(4)]
 
             for future in futures:
                 future.result(timeout=20)
@@ -630,31 +554,19 @@ class TestConcurrentPerformance:
         read_ops = [op for op in all_operations if op["type"].startswith("read")]
         error_ops = [op for op in all_operations if "error" in op["type"]]
 
-        avg_write_time = (
-            statistics.mean([op["time"] for op in write_ops]) if write_ops else 0
-        )
-        avg_read_time = (
-            statistics.mean([op["time"] for op in read_ops]) if read_ops else 0
-        )
+        avg_write_time = statistics.mean([op["time"] for op in write_ops]) if write_ops else 0
+        avg_read_time = statistics.mean([op["time"] for op in read_ops]) if read_ops else 0
 
         print("Mixed workload performance:")
-        print(
-            f"  Write operations: {len(write_ops)}, avg time: {avg_write_time * 1000:.2f}ms"
-        )
-        print(
-            f"  Read operations: {len(read_ops)}, avg time: {avg_read_time * 1000:.2f}ms"
-        )
+        print(f"  Write operations: {len(write_ops)}, avg time: {avg_write_time * 1000:.2f}ms")
+        print(f"  Read operations: {len(read_ops)}, avg time: {avg_read_time * 1000:.2f}ms")
         print(f"  Error operations: {len(error_ops)}")
         print(f"  Overall time: {overall_time:.2f}s")
 
         # Performance assertions
         assert len(error_ops) == 0, f"Should have no errors, got {len(error_ops)}"
-        assert (
-            avg_write_time < 0.02
-        ), f"Average write time {avg_write_time * 1000:.2f}ms is too high"
-        assert (
-            avg_read_time < 0.01
-        ), f"Average read time {avg_read_time * 1000:.2f}ms is too high"
+        assert avg_write_time < 0.02, f"Average write time {avg_write_time * 1000:.2f}ms is too high"
+        assert avg_read_time < 0.01, f"Average read time {avg_read_time * 1000:.2f}ms is too high"
 
     @pytest.mark.perf
     def test_connection_contention_handling(self, sql_memory):
@@ -675,18 +587,14 @@ class TestConcurrentPerformance:
                         sql_memory.save(
                             user_id=f"contention_user_{thread_id}",
                             scene=create_varying_scene(f"contention_{thread_id}_{i}"),
-                            glyphs=[
-                                create_test_glyph(f"contention:glyph_{thread_id}_{i}")
-                            ],
+                            glyphs=[create_test_glyph(f"contention:glyph_{thread_id}_{i}")],
                             policy={},
                             metrics={},
                             cfg_version="wave_c_v1.0.0",
                         )
                     else:
                         # Read operation
-                        sql_memory.get_scene_history(
-                            user_id=f"contention_user_{thread_id}", limit=5
-                        )
+                        sql_memory.get_scene_history(user_id=f"contention_user_{thread_id}", limit=5)
 
                     success_count += 1
 
@@ -708,8 +616,7 @@ class TestConcurrentPerformance:
         results = []
         with ThreadPoolExecutor(max_workers=num_threads) as executor:
             futures = [
-                executor.submit(high_contention_operations, thread_id, results)
-                for thread_id in range(num_threads)
+                executor.submit(high_contention_operations, thread_id, results) for thread_id in range(num_threads)
             ]
 
             for future in futures:

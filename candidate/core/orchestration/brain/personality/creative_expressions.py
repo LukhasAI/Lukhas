@@ -107,8 +107,6 @@ class NeuroHaikuGenerator:
         Stoicism)"""
         try:
             with open(path, encoding="utf-8") as f:
-                self.symbolic_db["inspiration_inject"] = json.load(f).get(
-                    "keywords", []
-                )
+                self.symbolic_db["inspiration_inject"] = json.load(f).get("keywords", [])
         except Exception as e:
             print(f"[CreativeExpressions] Failed to load inspiration: {e}")

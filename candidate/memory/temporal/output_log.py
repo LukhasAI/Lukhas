@@ -29,12 +29,8 @@ if os.path.exists(log_path):
         st.info("No symbolic outputs recorded yet.")
     else:
         # Add filter options
-        message_types = sorted(
-            {json.loads(line).get("type", "unknown") for line in lines if line.strip()}
-        )
-        selected_type = st.selectbox(
-            "🔍 Filter by Type", options=["All", *message_types]
-        )
+        message_types = sorted({json.loads(line).get("type", "unknown") for line in lines if line.strip()})
+        selected_type = st.selectbox("🔍 Filter by Type", options=["All", *message_types])
 
         search_term = st.text_input("🔎 Search by keyword (input/output):").lower()
 

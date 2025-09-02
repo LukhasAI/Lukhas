@@ -29,9 +29,7 @@ try:
     HAIKU_AVAILABLE = True
 except ImportError:
     HAIKU_AVAILABLE = False
-    logger.warning(
-        "NeuroHaikuGenerator not available. Some creative features will be disabled."
-    )
+    logger.warning("NeuroHaikuGenerator not available. Some creative features will be disabled.")
 
 try:
     from candidate.orchestration.brain.personality.personality_refiner import (
@@ -41,9 +39,7 @@ try:
     PERSONALITY_REFINER_AVAILABLE = True
 except ImportError:
     PERSONALITY_REFINER_AVAILABLE = False
-    logger.warning(
-        "PersonalityRefiner not available. Adaptive personality features will be disabled."
-    )
+    logger.warning("PersonalityRefiner not available. Adaptive personality features will be disabled.")
 
 try:
     from candidate.orchestration.brain.orchestration.emotional_oscillator import (
@@ -53,9 +49,7 @@ try:
     EMOTIONAL_OSC_AVAILABLE = True
 except ImportError:
     EMOTIONAL_OSC_AVAILABLE = False
-    logger.warning(
-        "EmotionalOscillator not available. Dynamic emotion modulation will be disabled."
-    )
+    logger.warning("EmotionalOscillator not available. Dynamic emotion modulation will be disabled.")
 
 
 class VoicePersonalityCreativityEngine:
@@ -145,9 +139,7 @@ class VoicePersonalityCreativityEngine:
             except Exception as e:
                 logger.error(f"Failed to initialize EmotionalOscillator: {e}")
 
-    async def enhance_voice_text(
-        self, text: str, emotion: str, context: dict[str, Any]
-    ) -> str:
+    async def enhance_voice_text(self, text: str, emotion: str, context: dict[str, Any]) -> str:
         """
         Enhance voice text with personality traits
 
@@ -203,9 +195,7 @@ class VoicePersonalityCreativityEngine:
 
         return enhanced_text
 
-    def get_voice_modulation(
-        self, emotion: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def get_voice_modulation(self, emotion: str, context: dict[str, Any]) -> dict[str, Any]:
         """
         Get voice modulation parameters based on personality and emotion
 
@@ -270,22 +260,17 @@ class VoicePersonalityCreativityEngine:
         # Update personality traits based on interaction
         if self.personality_refiner:
             try:
-                refined_traits = self.personality_refiner.refine_traits(
-                    interaction_data
-                )
+                refined_traits = self.personality_refiner.refine_traits(interaction_data)
                 if refined_traits:
                     # Gradually adapt traits
                     for trait, value in refined_traits.items():
                         if trait in self.personality_traits:
                             current = self.personality_traits[trait]
                             self.personality_traits[trait] = (
-                                current * (1 - self.adaptation_rate)
-                                + value * self.adaptation_rate
+                                current * (1 - self.adaptation_rate) + value * self.adaptation_rate
                             )
 
-                    logger.debug(
-                        f"Adapted personality traits: {self.personality_traits}"
-                    )
+                    logger.debug(f"Adapted personality traits: {self.personality_traits}")
             except Exception as e:
                 logger.warning(f"Failed to refine personality traits: {e}")
 
@@ -302,9 +287,7 @@ class VoicePersonalityCreativityEngine:
         if len(self.personality_memory) > 100:
             self.personality_memory = self.personality_memory[-100:]
 
-    def _should_enhance_text(
-        self, text: str, emotion: str, context: dict[str, Any]
-    ) -> bool:
+    def _should_enhance_text(self, text: str, emotion: str, context: dict[str, Any]) -> bool:
         """Determine if text should be enhanced with personality"""
         # Don't enhance short responses
         if len(text) < 20:
@@ -324,10 +307,7 @@ class VoicePersonalityCreativityEngine:
             return False
 
         # Check user preferences if available
-        return (
-            context.get("user_preferences", {}).get("enhanced_personality", True)
-            is not False
-        )
+        return context.get("user_preferences", {}).get("enhanced_personality", True) is not False
 
     def _apply_personality_traits(self, text: str, emotion: str) -> str:
         """Apply personality traits to text"""
@@ -388,6 +368,4 @@ class VoicePersonalityCreativityEngine:
         # Apply small random variations to keep personality dynamic
         for trait in self.personality_traits:
             variation = (random.random() - 0.5) * 0.05  # Small random adjustment
-            self.personality_traits[trait] = max(
-                0.1, min(0.9, self.personality_traits[trait] + variation)
-            )
+            self.personality_traits[trait] = max(0.1, min(0.9, self.personality_traits[trait] + variation))

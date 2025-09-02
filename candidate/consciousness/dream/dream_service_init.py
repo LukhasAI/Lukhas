@@ -105,9 +105,7 @@ def initialize_consciousness_services():
 
         register_service("memory_service", MockMemoryService(), singleton=True)
         register_service("emotion_service", MockEmotionService(), singleton=True)
-        register_service(
-            "parallel_reality_simulator", MockParallelRealitySimulator(), singleton=True
-        )
+        register_service("parallel_reality_simulator", MockParallelRealitySimulator(), singleton=True)
 
         logger.info("Consciousness services initialized and registered")
         return True

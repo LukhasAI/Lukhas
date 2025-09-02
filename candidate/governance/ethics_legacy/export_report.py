@@ -224,9 +224,7 @@ class EthicsReportExporter:
 
             for violation in violations:
                 severity = violation.get("severity", "LOW")
-                css_class = (
-                    "critical" if severity in ["CRITICAL", "HIGH"] else "violation"
-                )
+                css_class = "critical" if severity in ["CRITICAL", "HIGH"] else "violation"
                 html += f"""
                     <tr class="{css_class}">
                         <td>{violation.get("attribute", "")}</td>
@@ -272,23 +270,15 @@ class EthicsReportExporter:
                 "drift_score": result.get("drift_score", 0),
                 "status": result.get("ethics_assessment", {}).get("status", "UNKNOWN"),
                 "violation_count": result.get("violation_count", 0),
-                "escalation_triggered": result.get("escalation", {}).get(
-                    "escalation_triggered", False
-                ),
+                "escalation_triggered": result.get("escalation", {}).get("escalation_triggered", False),
                 "timestamp": result.get("timestamp", ""),
             },
             "metrics": {
                 "confidence": result.get("ethics_assessment", {}).get("confidence", 0),
-                "escalation_level": result.get("escalation", {}).get(
-                    "escalation_level", "none"
-                ),
+                "escalation_level": result.get("escalation", {}).get("escalation_level", "none"),
             },
-            "violations_by_severity": self._group_violations_by_severity(
-                result.get("violations", [])
-            ),
-            "violations_by_attribute": self._group_violations_by_attribute(
-                result.get("violations", [])
-            ),
+            "violations_by_severity": self._group_violations_by_severity(result.get("violations", [])),
+            "violations_by_attribute": self._group_violations_by_attribute(result.get("violations", [])),
             "trend_data": {
                 "trace_index": result.get("trace_index", ""),
                 "collapse_hash": result.get("collapse_hash", ""),
@@ -298,9 +288,7 @@ class EthicsReportExporter:
 
         # Export dashboard data
         dashboard_file = (
-            self.output_base_dir
-            / "dashboard"
-            / f"dashboard_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            self.output_base_dir / "dashboard" / f"dashboard_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         )
         with open(dashboard_file, "w") as f:
             json.dump(dashboard_data, f, indent=2)
@@ -335,9 +323,7 @@ class EthicsReportExporter:
             "trace_index": result.get("trace_index", ""),
             "drift_score": result.get("drift_score", 0),
             "status": result.get("ethics_assessment", {}).get("status", "UNKNOWN"),
-            "escalation_triggered": result.get("escalation", {}).get(
-                "escalation_triggered", False
-            ),
+            "escalation_triggered": result.get("escalation", {}).get("escalation_triggered", False),
             "violation_count": result.get("violation_count", 0),
             "agent": result.get("agent", ""),
             "context_id": result.get("context_id", ""),
@@ -362,26 +348,10 @@ class EthicsReportExporter:
             return {"error": "No results provided for governance summary"}
 
         total_reports = len(results)
-        critical_incidents = sum(
-            1
-            for r in results
-            if r.get("ethics_assessment", {}).get("status") == "CRITICAL"
-        )
-        warning_incidents = sum(
-            1
-            for r in results
-            if r.get("ethics_assessment", {}).get("status") == "WARNING"
-        )
-        escalations = sum(
-            1
-            for r in results
-            if r.get("escalation", {}).get("escalation_triggered", False)
-        )
-        avg_drift_score = (
-            sum(r.get("drift_score", 0) for r in results) / total_reports
-            if total_reports > 0
-            else 0
-        )
+        critical_incidents = sum(1 for r in results if r.get("ethics_assessment", {}).get("status") == "CRITICAL")
+        warning_incidents = sum(1 for r in results if r.get("ethics_assessment", {}).get("status") == "WARNING")
+        escalations = sum(1 for r in results if r.get("escalation", {}).get("escalation_triggered", False))
+        avg_drift_score = sum(r.get("drift_score", 0) for r in results) / total_reports if total_reports > 0 else 0
 
         governance_summary = {
             "report_period": {
@@ -392,9 +362,7 @@ class EthicsReportExporter:
             "risk_assessment": {
                 "critical_incidents": critical_incidents,
                 "warning_incidents": warning_incidents,
-                "normal_operations": total_reports
-                - critical_incidents
-                - warning_incidents,
+                "normal_operations": total_reports - critical_incidents - warning_incidents,
                 "escalations_triggered": escalations,
                 "average_drift_score": round(avg_drift_score, 2),
             },
@@ -402,45 +370,30 @@ class EthicsReportExporter:
                 critical_incidents, warning_incidents, avg_drift_score
             ),
             "compliance_status": (
-                "COMPLIANT"
-                if critical_incidents == 0 and avg_drift_score < 3
-                else "REVIEW_REQUIRED"
+                "COMPLIANT" if critical_incidents == 0 and avg_drift_score < 3 else "REVIEW_REQUIRED"
             ),
         }
 
         # Export governance summary
-        governance_file = (
-            self.output_base_dir
-            / f"governance_summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
+        governance_file = self.output_base_dir / f"governance_summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(governance_file, "w") as f:
             json.dump(governance_summary, f, indent=2)
 
         print(f"🏛️  Governance summary exported: {governance_file}")
         return governance_summary
 
-    def _generate_governance_recommendations(
-        self, critical: int, warnings: int, avg_score: float
-    ) -> list[str]:
+    def _generate_governance_recommendations(self, critical: int, warnings: int, avg_score: float) -> list[str]:
         """Generate actionable recommendations for governance."""
         recommendations = []
 
         if critical > 0:
-            recommendations.append(
-                "IMMEDIATE: Review critical incidents and implement corrective measures"
-            )
+            recommendations.append("IMMEDIATE: Review critical incidents and implement corrective measures")
         if warnings > 5:
-            recommendations.append(
-                "ATTENTION: High number of warnings indicate systemic issues requiring review"
-            )
+            recommendations.append("ATTENTION: High number of warnings indicate systemic issues requiring review")
         if avg_score > 3:
-            recommendations.append(
-                "POLICY: Consider updating ethical thresholds and monitoring protocols"
-            )
+            recommendations.append("POLICY: Consider updating ethical thresholds and monitoring protocols")
         if critical == 0 and warnings < 3 and avg_score < 2:
-            recommendations.append(
-                "NORMAL: Ethics monitoring within acceptable parameters"
-            )
+            recommendations.append("NORMAL: Ethics monitoring within acceptable parameters")
 
         return recommendations
 

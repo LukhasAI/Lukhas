@@ -99,9 +99,7 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
         self.anomalies_detected = 0
         self.spoofing_attempts_caught = 0
 
-        logger.info(
-            f"Consciousness agent {agent_id} initialized for {specialization.value}"
-        )
+        logger.info(f"Consciousness agent {agent_id} initialized for {specialization.value}")
 
     async def analyze_consciousness_state(
         self,
@@ -116,38 +114,17 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
             # Route to specialized analysis method
             if self.specialization == ConsciousnessVerificationMethod.COHERENCE_CHECK:
                 result = await self._analyze_coherence(state, historical_states)
-            elif (
-                self.specialization == ConsciousnessVerificationMethod.PATTERN_MATCHING
-            ):
-                result = await self._analyze_patterns(
-                    state, historical_states, reference_patterns
-                )
-            elif (
-                self.specialization
-                == ConsciousnessVerificationMethod.TEMPORAL_CONSISTENCY
-            ):
-                result = await self._analyze_temporal_consistency(
-                    state, historical_states
-                )
-            elif (
-                self.specialization
-                == ConsciousnessVerificationMethod.EMOTIONAL_RESONANCE
-            ):
-                result = await self._analyze_emotional_resonance(
-                    state, historical_states
-                )
-            elif (
-                self.specialization == ConsciousnessVerificationMethod.NEURAL_SYNCHRONY
-            ):
+            elif self.specialization == ConsciousnessVerificationMethod.PATTERN_MATCHING:
+                result = await self._analyze_patterns(state, historical_states, reference_patterns)
+            elif self.specialization == ConsciousnessVerificationMethod.TEMPORAL_CONSISTENCY:
+                result = await self._analyze_temporal_consistency(state, historical_states)
+            elif self.specialization == ConsciousnessVerificationMethod.EMOTIONAL_RESONANCE:
+                result = await self._analyze_emotional_resonance(state, historical_states)
+            elif self.specialization == ConsciousnessVerificationMethod.NEURAL_SYNCHRONY:
                 result = await self._analyze_neural_synchrony(state)
-            elif (
-                self.specialization == ConsciousnessVerificationMethod.ATTENTION_MAPPING
-            ):
+            elif self.specialization == ConsciousnessVerificationMethod.ATTENTION_MAPPING:
                 result = await self._analyze_attention_patterns(state)
-            elif (
-                self.specialization
-                == ConsciousnessVerificationMethod.AUTHENTICITY_ANALYSIS
-            ):
+            elif self.specialization == ConsciousnessVerificationMethod.AUTHENTICITY_ANALYSIS:
                 result = await self._analyze_authenticity(state, historical_states)
             else:
                 result = await self._analyze_multimodal(state, historical_states)
@@ -189,9 +166,7 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
 
         # Check historical coherence
         if historical_states:
-            historical_coherence = self._calculate_historical_coherence(
-                state, historical_states
-            )
+            historical_coherence = self._calculate_historical_coherence(state, historical_states)
             coherence_factors.append(historical_coherence)
 
         overall_coherence = np.mean(coherence_factors)
@@ -222,19 +197,13 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
         # Compare with historical patterns
         pattern_consistency = 0.5  # Default
         if historical_states:
-            historical_patterns = [
-                self._extract_consciousness_patterns(s) for s in historical_states
-            ]
-            pattern_consistency = self._calculate_pattern_consistency(
-                current_patterns, historical_patterns
-            )
+            historical_patterns = [self._extract_consciousness_patterns(s) for s in historical_states]
+            pattern_consistency = self._calculate_pattern_consistency(current_patterns, historical_patterns)
 
         # Compare with reference patterns if available
         reference_match = 0.5
         if reference_patterns:
-            reference_match = self._match_reference_patterns(
-                current_patterns, reference_patterns
-            )
+            reference_match = self._match_reference_patterns(current_patterns, reference_patterns)
 
         confidence = (pattern_consistency + reference_match) / 2
 
@@ -245,9 +214,7 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
             "patterns_detected": list(current_patterns.keys()),
             "pattern_consistency": pattern_consistency,
             "reference_match": reference_match if reference_patterns else None,
-            "novel_patterns": self._identify_novel_patterns(
-                current_patterns, self.learned_patterns
-            ),
+            "novel_patterns": self._identify_novel_patterns(current_patterns, self.learned_patterns),
         }
 
     async def _analyze_temporal_consistency(
@@ -269,9 +236,7 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
         all_states = [*historical_states, state]
 
         for i in range(1, len(all_states)):
-            transition_score = self._calculate_transition_score(
-                all_states[i - 1], all_states[i]
-            )
+            transition_score = self._calculate_transition_score(all_states[i - 1], all_states[i])
             transitions.append(transition_score)
 
         consistency_score = np.mean(transitions)
@@ -281,9 +246,7 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
         anomalies = []
         for i, score in enumerate(transitions):
             if score < consistency_score - 2 * np.sqrt(variance):
-                anomalies.append(
-                    {"index": i, "score": score, "type": "abrupt_transition"}
-                )
+                anomalies.append({"index": i, "score": score, "type": "abrupt_transition"})
 
         return {
             "success": True,
@@ -323,9 +286,7 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
             "emotional_state": state.emotional_state.value,
         }
 
-    async def _analyze_neural_synchrony(
-        self, state: ConsciousnessState
-    ) -> dict[str, Any]:
+    async def _analyze_neural_synchrony(self, state: ConsciousnessState) -> dict[str, Any]:
         """Analyze neural synchrony patterns."""
         await asyncio.sleep(0.1)
 
@@ -354,9 +315,7 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
             "synchrony_quality": self._assess_synchrony_quality(synchrony),
         }
 
-    async def _analyze_attention_patterns(
-        self, state: ConsciousnessState
-    ) -> dict[str, Any]:
+    async def _analyze_attention_patterns(self, state: ConsciousnessState) -> dict[str, Any]:
         """Analyze attention focus patterns."""
         await asyncio.sleep(0.1)
 
@@ -397,22 +356,16 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
         # Cross-validation factors
         validation_factors = {
             "internal_consistency": self._check_internal_consistency(state),
-            "historical_alignment": self._check_historical_alignment(
-                state, historical_states
-            ),
+            "historical_alignment": self._check_historical_alignment(state, historical_states),
             "complexity_appropriate": self._check_complexity_appropriateness(state),
             "noise_characteristics": self._analyze_noise_characteristics(state),
         }
 
         # Calculate adjusted authenticity
-        adjusted_authenticity = base_authenticity * np.mean(
-            list(validation_factors.values())
-        )
+        adjusted_authenticity = base_authenticity * np.mean(list(validation_factors.values()))
 
         # Spoofing detection
-        spoofing_indicators = self._detect_spoofing_indicators(
-            state, validation_factors
-        )
+        spoofing_indicators = self._detect_spoofing_indicators(state, validation_factors)
 
         return {
             "success": True,
@@ -473,9 +426,7 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
         factors.append(stress_emotion_coherence)
 
         # Attention vs consciousness level coherence
-        attention_coherence = (
-            min(1.0, len(state.attention_focus) / 5) * state.consciousness_level
-        )
+        attention_coherence = min(1.0, len(state.attention_focus) / 5) * state.consciousness_level
         factors.append(attention_coherence)
 
         return np.mean(factors)
@@ -492,9 +443,7 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
         coherence_scores = []
         for hist_state in recent_states:
             # Compare key metrics
-            level_diff = abs(
-                current.consciousness_level - hist_state.consciousness_level
-            )
+            level_diff = abs(current.consciousness_level - hist_state.consciousness_level)
             neural_diff = abs(current.neural_synchrony - hist_state.neural_synchrony)
 
             coherence = 1.0 - (level_diff + neural_diff) / 2
@@ -502,9 +451,7 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
 
         return np.mean(coherence_scores)
 
-    def _detect_coherence_anomalies(
-        self, state: ConsciousnessState, coherence: float
-    ) -> list[dict[str, Any]]:
+    def _detect_coherence_anomalies(self, state: ConsciousnessState, coherence: float) -> list[dict[str, Any]]:
         """Detect anomalies in consciousness coherence."""
         anomalies = []
 
@@ -537,13 +484,10 @@ class ConsciousnessAnalysisAgent(SwarmAgent):
 
         return anomalies
 
-    def _extract_consciousness_patterns(
-        self, state: ConsciousnessState
-    ) -> dict[str, float]:
+    def _extract_consciousness_patterns(self, state: ConsciousnessState) -> dict[str, float]:
         """Extract patterns from consciousness state."""
         return {
-            "consciousness_signature": state.consciousness_level
-            * state.neural_synchrony,
+            "consciousness_signature": state.consciousness_level * state.neural_synchrony,
             "emotional_signature": hash(state.emotional_state.value) / 1e10,
             "attention_signature": len(state.attention_focus) / 10,
             "stress_signature": state.stress_level,
@@ -634,9 +578,7 @@ class ConsciousnessVerificationColony(BaseColony):
                 self.agents[agent_id] = agent
                 agent_count += 1
 
-        logger.info(
-            f"Colony initialized with {agent_count} consciousness analysis agents"
-        )
+        logger.info(f"Colony initialized with {agent_count} consciousness analysis agents")
 
         # Start background pattern learning
         asyncio.create_task(self._pattern_learning_loop())
@@ -659,15 +601,11 @@ class ConsciousnessVerificationColony(BaseColony):
         # Get historical states from consciousness bridge
         historical_states = []
         if self.consciousness_bridge:
-            pattern_analysis = (
-                await self.consciousness_bridge.get_consciousness_pattern_analysis(
-                    lambda_id, timedelta(hours=1)
-                )
+            pattern_analysis = await self.consciousness_bridge.get_consciousness_pattern_analysis(
+                lambda_id, timedelta(hours=1)
             )
             if pattern_analysis.get("patterns_available"):
-                historical_states = self.consciousness_bridge.consciousness_states.get(
-                    lambda_id, []
-                )[-10:]
+                historical_states = self.consciousness_bridge.consciousness_states.get(lambda_id, [])[-10:]
 
         # Create verification task
         task = ConsciousnessVerificationTask(
@@ -702,15 +640,12 @@ class ConsciousnessVerificationColony(BaseColony):
                 method_agents = [
                     agent
                     for agent in self.verification_agents.values()
-                    if agent.specialization == method
-                    and agent.state != AgentState.FAILED
+                    if agent.specialization == method and agent.state != AgentState.FAILED
                 ]
 
                 if method_agents:
                     # Use multiple agents for critical methods
-                    agents_to_use = (
-                        method_agents[:2] if tier_level >= 4 else [method_agents[0]]
-                    )
+                    agents_to_use = method_agents[:2] if tier_level >= 4 else [method_agents[0]]
 
                     for agent in agents_to_use:
                         task_coro = agent.analyze_consciousness_state(
@@ -727,14 +662,10 @@ class ConsciousnessVerificationColony(BaseColony):
             )
 
             # Filter successful results
-            successful_results = [
-                r for r in results if isinstance(r, dict) and r.get("success")
-            ]
+            successful_results = [r for r in results if isinstance(r, dict) and r.get("success")]
 
             # Perform emergent analysis
-            emergent_insights = await self._perform_emergent_analysis(
-                successful_results, task, lambda_id
-            )
+            emergent_insights = await self._perform_emergent_analysis(successful_results, task, lambda_id)
 
             # Check for spoofing if enabled
             spoofing_detected = False
@@ -768,20 +699,14 @@ class ConsciousnessVerificationColony(BaseColony):
                 confidence_score=consensus_result.confidence,
                 verification_method="distributed_consciousness_analysis",
                 colony_consensus={
-                    "analysis_methods": [
-                        r.get("specialization") for r in successful_results
-                    ],
+                    "analysis_methods": [r.get("specialization") for r in successful_results],
                     "emergent_insights": emergent_insights,
                     "spoofing_detection": {
                         "enabled": task.spoofing_detection_enabled,
                         "detected": spoofing_detected,
                     },
                 },
-                failure_reasons=(
-                    consensus_result.dissent_reasons
-                    if not consensus_result.consensus_reached
-                    else []
-                ),
+                failure_reasons=(consensus_result.dissent_reasons if not consensus_result.consensus_reached else []),
                 verification_duration_ms=(time.time() - verification_start) * 1000,
                 agents_involved=len(successful_results),
             )
@@ -792,9 +717,7 @@ class ConsciousnessVerificationColony(BaseColony):
                 self.successful_verifications += 1
 
             # Store in collective knowledge
-            await self._update_collective_knowledge(
-                lambda_id, successful_results, emergent_insights
-            )
+            await self._update_collective_knowledge(lambda_id, successful_results, emergent_insights)
 
             # Publish completion event
             await self.event_publisher.publish_verification_event(
@@ -833,9 +756,7 @@ class ConsciousnessVerificationColony(BaseColony):
         else:
             return "transcendent"
 
-    def _select_verification_methods(
-        self, tier_level: int
-    ) -> list[ConsciousnessVerificationMethod]:
+    def _select_verification_methods(self, tier_level: int) -> list[ConsciousnessVerificationMethod]:
         """Select verification methods based on tier level."""
         if tier_level <= 1:
             # Basic verification
@@ -885,20 +806,14 @@ class ConsciousnessVerificationColony(BaseColony):
             # Aggregate detected patterns
             if "patterns_detected" in result:
                 for pattern in result["patterns_detected"]:
-                    collective_patterns[pattern] = (
-                        collective_patterns.get(pattern, 0) + 1
-                    )
+                    collective_patterns[pattern] = collective_patterns.get(pattern, 0) + 1
 
             # Count anomalies by type
             if "anomalies" in result or "temporal_anomalies" in result:
-                anomalies = result.get("anomalies", []) + result.get(
-                    "temporal_anomalies", []
-                )
+                anomalies = result.get("anomalies", []) + result.get("temporal_anomalies", [])
                 for anomaly in anomalies:
                     anomaly_type = anomaly.get("type", "unknown")
-                    anomaly_counts[anomaly_type] = (
-                        anomaly_counts.get(anomaly_type, 0) + 1
-                    )
+                    anomaly_counts[anomaly_type] = anomaly_counts.get(anomaly_type, 0) + 1
 
         # Identify emergent patterns
         emergent_patterns = []
@@ -916,9 +831,7 @@ class ConsciousnessVerificationColony(BaseColony):
 
         # Calculate collective confidence
         collective_confidence = np.mean(confidence_scores) if confidence_scores else 0
-        confidence_variance = (
-            np.var(confidence_scores) if len(confidence_scores) > 1 else 0
-        )
+        confidence_variance = np.var(confidence_scores) if len(confidence_scores) > 1 else 0
 
         # Detect emergent anomalies
         emergent_anomalies = []
@@ -926,16 +839,12 @@ class ConsciousnessVerificationColony(BaseColony):
 
         for anomaly_type, count in anomaly_counts.items():
             if count >= anomaly_threshold:
-                emergent_anomalies.append(
-                    {"type": anomaly_type, "detection_rate": count / len(agent_results)}
-                )
+                emergent_anomalies.append({"type": anomaly_type, "detection_rate": count / len(agent_results)})
 
         # Check for novel patterns not in historical data
         novel_patterns = []
         if lambda_id in self.collective_knowledge:
-            known_patterns = self.collective_knowledge[lambda_id].get(
-                "known_patterns", set()
-            )
+            known_patterns = self.collective_knowledge[lambda_id].get("known_patterns", set())
             for pattern in emergent_patterns:
                 if pattern["pattern"] not in known_patterns:
                     novel_patterns.append(pattern)
@@ -944,8 +853,7 @@ class ConsciousnessVerificationColony(BaseColony):
         return {
             "collective_confidence": collective_confidence,
             "confidence_variance": confidence_variance,
-            "confidence_consensus": confidence_variance
-            < 0.1,  # Low variance = high consensus
+            "confidence_consensus": confidence_variance < 0.1,  # Low variance = high consensus
             "emergent_patterns": emergent_patterns,
             "novel_patterns": novel_patterns,
             "emergent_anomalies": emergent_anomalies,
@@ -953,9 +861,7 @@ class ConsciousnessVerificationColony(BaseColony):
             "collective_insights": {
                 "pattern_diversity": len(collective_patterns),
                 "anomaly_diversity": len(anomaly_counts),
-                "agent_agreement": (
-                    1.0 - confidence_variance if confidence_variance < 1 else 0
-                ),
+                "agent_agreement": (1.0 - confidence_variance if confidence_variance < 1 else 0),
             },
         }
 
@@ -985,9 +891,7 @@ class ConsciousnessVerificationColony(BaseColony):
                     spoofing_prob += 0.3
 
                 # High anomaly count
-                anomalies = result.get("anomalies", []) + result.get(
-                    "temporal_anomalies", []
-                )
+                anomalies = result.get("anomalies", []) + result.get("temporal_anomalies", [])
                 if len(anomalies) > 2:
                     spoofing_prob += 0.3
 
@@ -1002,10 +906,8 @@ class ConsciousnessVerificationColony(BaseColony):
 
         # Use consciousness bridge for additional validation
         if self.consciousness_bridge and avg_spoofing_prob > 0.3:
-            bridge_result = (
-                await self.consciousness_bridge.detect_consciousness_spoofing(
-                    lambda_id, consciousness_state
-                )
+            bridge_result = await self.consciousness_bridge.detect_consciousness_spoofing(
+                lambda_id, consciousness_state
             )
             if bridge_result.get("spoofing_detected"):
                 avg_spoofing_prob = min(1.0, avg_spoofing_prob * 1.5)
@@ -1083,10 +985,7 @@ class ConsciousnessVerificationColony(BaseColony):
         overall_confidence = np.mean(confidence_scores) if confidence_scores else 0
 
         # Apply emergent insight bonus
-        if (
-            emergent_insights["analysis_convergence"]
-            and emergent_insights["confidence_consensus"]
-        ):
+        if emergent_insights["analysis_convergence"] and emergent_insights["confidence_consensus"]:
             overall_confidence = min(1.0, overall_confidence * 1.1)
 
         # Identify dissent reasons
@@ -1096,9 +995,7 @@ class ConsciousnessVerificationColony(BaseColony):
 
         for agent_id, vote_data in votes.items():
             if not vote_data["vote"]:
-                dissent_reasons.append(
-                    f"{vote_data['method']}: Low confidence ({vote_data['confidence']:.2f})"
-                )
+                dissent_reasons.append(f"{vote_data['method']}: Low confidence ({vote_data['confidence']:.2f})")
 
         return ConsensusResult(
             consensus_reached=consensus_reached,
@@ -1148,9 +1045,7 @@ class ConsciousnessVerificationColony(BaseColony):
         recent_verifications = knowledge["verification_history"][-10:]
         if recent_verifications:
             avg_confidence = np.mean([v["confidence"] for v in recent_verifications])
-            knowledge["trust_score"] = (
-                avg_confidence * 0.7 + knowledge["trust_score"] * 0.3
-            )
+            knowledge["trust_score"] = avg_confidence * 0.7 + knowledge["trust_score"] * 0.3
 
     async def _pattern_learning_loop(self):
         """Background loop for emergent pattern learning."""
@@ -1176,9 +1071,7 @@ class ConsciousnessVerificationColony(BaseColony):
 
                     self.emergent_patterns.update(universal_patterns)
 
-                    logger.info(
-                        f"Updated emergent patterns: {len(universal_patterns)} universal patterns identified"
-                    )
+                    logger.info(f"Updated emergent patterns: {len(universal_patterns)} universal patterns identified")
 
             except Exception as e:
                 logger.error(f"Pattern learning error: {e}")

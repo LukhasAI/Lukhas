@@ -36,9 +36,7 @@ class TestSQLQueryCorrectness:
 
         # Verify chronological ordering (newest first)
         timestamps = [r["timestamp"] for r in results]
-        assert timestamps == sorted(
-            timestamps, reverse=True
-        ), "Results should be newest first"
+        assert timestamps == sorted(timestamps, reverse=True), "Results should be newest first"
 
         # Verify all results are for correct user
         for scene in results:
@@ -52,9 +50,7 @@ class TestSQLQueryCorrectness:
 
         # Test different limits
         for limit in [1, 3, 10]:
-            results = sql_memory_with_data.get_scene_history(
-                user_id="test_user", limit=limit
-            )
+            results = sql_memory_with_data.get_scene_history(user_id="test_user", limit=limit)
             assert len(results) <= limit, f"Results should not exceed limit {limit}"
 
     @pytest.mark.integration
@@ -126,16 +122,12 @@ class TestSQLQueryCorrectness:
             )
 
         # Search for common glyph
-        results = sql_memory.search_by_glyph(
-            user_id="glyph_search_test", glyph_key="aka:vigilance"
-        )
+        results = sql_memory.search_by_glyph(user_id="glyph_search_test", glyph_key="aka:vigilance")
 
         assert len(results) == 3, "Should find all 3 scenes with vigilance glyph"
 
         # Search for specific glyph
-        specific_results = sql_memory.search_by_glyph(
-            user_id="glyph_search_test", glyph_key="test:glyph_1"
-        )
+        specific_results = sql_memory.search_by_glyph(user_id="glyph_search_test", glyph_key="test:glyph_1")
 
         assert len(specific_results) == 1, "Should find exactly one scene with glyph_1"
         assert "subject_1" in str(specific_results[0])
@@ -358,9 +350,7 @@ class TestConcurrentOperations:
 
         # Check results
         assert error_queue.empty(), f"Errors occurred: {list(error_queue.queue)}"
-        assert (
-            results_queue.qsize() == 10
-        ), "All saves should have completed successfully"
+        assert results_queue.qsize() == 10, "All saves should have completed successfully"
 
         # Verify all scene IDs are unique
         scene_ids = [results_queue.get()[1] for _ in range(10)]
@@ -435,9 +425,7 @@ class TestAkaQualiaIntegration:
         )
 
         metrics1 = result1["metrics"]
-        assert (
-            metrics1.drift_phi == 1.0
-        ), "First scene should have perfect drift (no history)"
+        assert metrics1.drift_phi == 1.0, "First scene should have perfect drift (no history)"
 
         # Second scene - different signals
         changed_signals = {
@@ -456,9 +444,7 @@ class TestAkaQualiaIntegration:
 
         metrics2 = result2["metrics"]
         assert 0.0 <= metrics2.drift_phi <= 1.0, "Drift phi should be valid range"
-        assert (
-            metrics2.drift_phi < 1.0
-        ), "Second scene should show some drift from first"
+        assert metrics2.drift_phi < 1.0, "Second scene should show some drift from first"
 
         # Verify both scenes are in memory
         memory = aq_with_sql_memory.memory
@@ -506,9 +492,7 @@ class TestComplexQueries:
             """
             )
 
-            result = conn.execute(
-                query, {"user_id": "drift_aggregation_test"}
-            ).fetchone()
+            result = conn.execute(query, {"user_id": "drift_aggregation_test"}).fetchone()
 
             assert result.scene_count == 5
             assert abs(result.avg_drift - sum(drift_values) / len(drift_values)) < 0.001
@@ -584,9 +568,7 @@ class TestComplexQueries:
             """
             )
 
-            results = conn.execute(
-                query, {"user_id": "temporal_test", "cutoff_time": cutoff_time}
-            ).fetchall()
+            results = conn.execute(query, {"user_id": "temporal_test", "cutoff_time": cutoff_time}).fetchall()
 
             # Should get the last 3 scenes (15 min, 5 min, now)
             assert len(results) == 3, f"Should find 3 recent scenes, got {len(results)}"

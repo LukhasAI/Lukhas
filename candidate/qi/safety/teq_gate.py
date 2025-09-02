@@ -37,9 +37,7 @@ class PolicyPack:
     def __init__(self, root: str):
         self.root = root
         self.policy = self._load_yaml(os.path.join(root, "policy.yaml"))
-        self.mappings = self._load_yaml(
-            os.path.join(root, "mappings.yaml"), default={"tasks": {}}
-        )
+        self.mappings = self._load_yaml(os.path.join(root, "mappings.yaml"), default={"tasks": {}})
         self.tests = self._load_tests(os.path.join(root, "tests"))
 
     def _load_yaml(self, p: str, default=None):
@@ -99,9 +97,7 @@ class TEQCoupler:
         return [*generic, *specific]
 
     # ------------- Built-in checks -------------
-    def _run_check(
-        self, chk: dict[str, Any], ctx: dict[str, Any]
-    ) -> tuple[bool, str, str]:
+    def _run_check(self, chk: dict[str, Any], ctx: dict[str, Any]) -> tuple[bool, str, str]:
         kind = chk.get("kind")
         if kind == "require_provenance":
             return self._has_provenance(ctx)
@@ -114,9 +110,7 @@ class TEQCoupler:
         if kind == "age_gate":
             return self._age_gate(ctx, min_age=chk.get("min_age", 18))
         if kind == "require_consent":
-            return self._require_consent(
-                ctx, purpose=chk.get("purpose", "data_processing")
-            )
+            return self._require_consent(ctx, purpose=chk.get("purpose", "data_processing"))
         if kind == "require_fresh_consent":
             return self._require_fresh_consent(
                 ctx,
@@ -134,9 +128,7 @@ class TEQCoupler:
                 ttl_floor_sec=int(chk.get("ttl_floor_sec", 0)),
             )
         if kind == "require_change_approval":
-            return self._require_change_approval(
-                ctx, proposal_id=chk.get("proposal_id_key", "proposal_id")
-            )
+            return self._require_change_approval(ctx, proposal_id=chk.get("proposal_id_key", "proposal_id"))
         if kind == "require_provenance_record":
             return self._require_provenance_record(
                 ctx,
@@ -171,9 +163,7 @@ class TEQCoupler:
             "Attach inputs & sources with timestamps & hashes.",
         )
 
-    def _mask_pii(
-        self, ctx: dict[str, Any], fields: list[str]
-    ) -> tuple[bool, str, str]:
+    def _mask_pii(self, ctx: dict[str, Any], fields: list[str]) -> tuple[bool, str, str]:
         pii = ctx.get("pii", {})
         masked = ctx.get("pii_masked", False)
         if pii and not masked:
@@ -184,18 +174,14 @@ class TEQCoupler:
             )
         return (True, "", "")
 
-    def _content_policy(
-        self, ctx: dict[str, Any], categories: list[str]
-    ) -> tuple[bool, str, str]:
+    def _content_policy(self, ctx: dict[str, Any], categories: list[str]) -> tuple[bool, str, str]:
         # AUTO-PII: opportunistically scan text to set pii flags
         txt = ctx.get("text") or ctx.get("input_text") or ""
         if txt:
             hits = detect_pii(txt)
             if hits:
                 ctx.setdefault("pii", {})
-                ctx["pii"]["_auto_hits"] = [
-                    {"kind": h.kind, "value": h.value, "span": h.span} for h in hits
-                ]
+                ctx["pii"]["_auto_hits"] = [{"kind": h.kind, "value": h.value, "span": h.span} for h in hits]
                 if not ctx.get("pii_masked"):
                     return (
                         False,
@@ -213,9 +199,7 @@ class TEQCoupler:
             )
         return (True, "", "")
 
-    def _budget_limit(
-        self, ctx: dict[str, Any], max_tokens: int | None
-    ) -> tuple[bool, str, str]:
+    def _budget_limit(self, ctx: dict[str, Any], max_tokens: int | None) -> tuple[bool, str, str]:
         # AUTO-BUDGET: if no tokens_planned, estimate via Budgeter (best-effort)
         if max_tokens is None:
             return (True, "", "")
@@ -250,9 +234,7 @@ class TEQCoupler:
             )
         return (True, "", "")
 
-    def _require_consent(
-        self, ctx: dict[str, Any], purpose: str
-    ) -> tuple[bool, str, str]:
+    def _require_consent(self, ctx: dict[str, Any], purpose: str) -> tuple[bool, str, str]:
         """Check if user has valid consent for the specified purpose"""
         if not self.consent_guard:
             # No consent system configured, pass through
@@ -354,9 +336,7 @@ class TEQCoupler:
                     )
         return (True, "", "")
 
-    def _require_change_approval(
-        self, ctx: dict[str, Any], *, proposal_id: str | None = "proposal_id"
-    ):
+    def _require_change_approval(self, ctx: dict[str, Any], *, proposal_id: str | None = "proposal_id"):
         try:
             from qi.autonomy.self_healer import _approved
         except ImportError:
@@ -477,10 +457,7 @@ class TEQCoupler:
                 )
 
             # Try inline verification first if we have all required fields
-            if all(
-                k in att
-                for k in ["chain_path", "signature_b64", "public_key_b64", "root_hash"]
-            ):
+            if all(k in att for k in ["chain_path", "signature_b64", "public_key_b64", "root_hash"]):
                 try:
                     # Import verification dependencies
                     import base64
@@ -510,9 +487,7 @@ class TEQCoupler:
                     # Recompute root hash from chain
                     def _sha256_json(obj):
                         return hashlib.sha256(
-                            json.dumps(
-                                obj, separators=(",", ":"), sort_keys=True
-                            ).encode("utf-8")
+                            json.dumps(obj, separators=(",", ":"), sort_keys=True).encode("utf-8")
                         ).hexdigest()
 
                     root = None
@@ -526,9 +501,7 @@ class TEQCoupler:
                                     "Attestation chain integrity check failed.",
                                     "Chain prev hash mismatch.",
                                 )
-                            expected = _sha256_json(
-                                {"body": n["body"], "prev": n["prev"]}
-                            )
+                            expected = _sha256_json({"body": n["body"], "prev": n["prev"]})
                             if n.get("hash") != expected:
                                 return (
                                     False,
@@ -617,9 +590,7 @@ class TEQCoupler:
 
         user_id = ctx.get("user_id") or (ctx.get("user_profile") or {}).get("user_id")
         now = time.time()
-        receipts_dir = os.path.expanduser(
-            os.environ.get("LUKHAS_STATE", "~/.lukhas/state")
-        )
+        receipts_dir = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
         receipts_dir = os.path.join(receipts_dir, "provenance", "receipts")
 
         if not os.path.exists(receipts_dir):
@@ -629,9 +600,7 @@ class TEQCoupler:
                 "Ensure provenance proxy is running and receipts are being recorded.",
             )
 
-        paths = sorted(
-            glob.glob(os.path.join(receipts_dir, f"{sha[:2]}_*.jsonl")), reverse=True
-        )
+        paths = sorted(glob.glob(os.path.join(receipts_dir, f"{sha[:2]}_*.jsonl")), reverse=True)
         if not paths:
             return (
                 False,
@@ -639,18 +608,13 @@ class TEQCoupler:
                 "Obtain a presigned link or stream via the proxy first.",
             )
 
-        accepted = set(
-            accepted_events
-            or ["link_issued", "download_stream", "download_redirect", "view_ack"]
-        )
+        accepted = set(accepted_events or ["link_issued", "download_stream", "download_redirect", "view_ack"])
 
         for p in paths[:50]:  # scan a few recent shards
             try:
                 with open(p, encoding="utf-8") as f:
                     lines = f.readlines()
-                    for line in reversed(
-                        lines[-200:] if len(lines) > 200 else lines
-                    ):  # only tail to keep it cheap
+                    for line in reversed(lines[-200:] if len(lines) > 200 else lines):  # only tail to keep it cheap
                         try:
                             rec = json.loads(line.strip())
                         except json.JSONDecodeError:
@@ -665,12 +629,7 @@ class TEQCoupler:
                             continue
 
                         # Optionally verify signature and user match
-                        if (
-                            require_same_user
-                            and user_id
-                            and rec.get("attestation")
-                            and verify_att
-                        ):
+                        if require_same_user and user_id and rec.get("attestation") and verify_att:
                             att_path = rec["attestation"]["chain_path"] + ".att.json"
                             try:
                                 if not verify_att(att_path):
@@ -697,12 +656,8 @@ def main():
     ap.add_argument("--jurisdiction", default="global")
     ap.add_argument("--task")
     ap.add_argument("--context", help="Path to JSON context")
-    ap.add_argument(
-        "--run-tests", action="store_true", help="Run policy-pack tests and exit"
-    )
-    ap.add_argument(
-        "--consent-storage", help="Path to consent ledger (enables consent checks)"
-    )
+    ap.add_argument("--run-tests", action="store_true", help="Run policy-pack tests and exit")
+    ap.add_argument("--consent-storage", help="Path to consent ledger (enables consent checks)")
     args = ap.parse_args()
 
     gate = TEQCoupler(

@@ -143,9 +143,7 @@ class VoiceEmotionalModulator:
         if secondary_emotion and secondary_emotion in self.emotion_profiles:
             profile = self.emotion_profiles[secondary_emotion]
             for param, value in profile.items():
-                params[param] = self._interpolate_param(
-                    params[param], value, secondary_intensity
-                )
+                params[param] = self._interpolate_param(params[param], value, secondary_intensity)
 
         # Update internal state
         self.emotion_influence = {
@@ -184,9 +182,7 @@ class VoiceEmotionalModulator:
                 if param in user_profile:
                     current = params[param]
                     target = user_profile[param]
-                    params[param] = self._interpolate_param(
-                        current, target, adaptation_strength
-                    )
+                    params[param] = self._interpolate_param(current, target, adaptation_strength)
 
         return params
 

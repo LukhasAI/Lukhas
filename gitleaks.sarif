@@ -1118,42 +1118,7 @@
      ]
     }
    },
-   "results": [
-    {
-     "message": {
-      "text": "generic-api-key has detected secret for file tests/integration/test_auth_service_coverage.py."
-     },
-     "ruleId": "generic-api-key",
-     "locations": [
-      {
-       "physicalLocation": {
-        "artifactLocation": {
-         "uri": "tests/integration/test_auth_service_coverage.py"
-        },
-        "region": {
-         "startLine": 64,
-         "startColumn": 16,
-         "endLine": 64,
-         "endColumn": 40,
-         "snippet": {
-          "text": "REDACTED"
-         }
-        }
-       }
-      }
-     ],
-     "partialFingerprints": {
-      "commitSha": "",
-      "email": "",
-      "author": "",
-      "date": "0001-01-01T00:00:00Z",
-      "commitMessage": ""
-     },
-     "properties": {
-      "tags": []
-     }
-    }
-   ]
+   "results": []
   }
  ]
 }

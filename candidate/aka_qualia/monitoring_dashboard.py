@@ -445,9 +445,7 @@ class MonitoringDashboard:
 
         try:
             self.server = HTTPServer((self.host, self.port), DashboardHandler)
-            self.server_thread = threading.Thread(
-                target=self.server.serve_forever, daemon=True
-            )
+            self.server_thread = threading.Thread(target=self.server.serve_forever, daemon=True)
             self.running = True
             self.server_thread.start()
 
@@ -495,9 +493,7 @@ class MonitoringDashboard:
         }
 
 
-def start_monitoring_dashboard(
-    host: str = "localhost", port: int = 8088
-) -> MonitoringDashboard:
+def start_monitoring_dashboard(host: str = "localhost", port: int = 8088) -> MonitoringDashboard:
     """Start monitoring dashboard with default configuration"""
     dashboard = MonitoringDashboard(host=host, port=port)
     dashboard.start()

@@ -190,16 +190,12 @@ class TestPriorityWeightingContract:
         # Test with only narrative_gravity = 1.0, risk_score = 0.0
         scene1 = self._create_test_scene(1.0, 0.0)
         priority1 = compute_routing_priority(scene1)
-        assert (
-            abs(priority1 - 0.7) < 0.001
-        ), f"Expected 0.7 for pure narrative gravity, got {priority1}"
+        assert abs(priority1 - 0.7) < 0.001, f"Expected 0.7 for pure narrative gravity, got {priority1}"
 
         # Test with only risk_score = 1.0, narrative_gravity = 0.0
         scene2 = self._create_test_scene(0.0, 1.0)
         priority2 = compute_routing_priority(scene2)
-        assert (
-            abs(priority2 - 0.3) < 0.001
-        ), f"Expected 0.3 for pure risk score, got {priority2}"
+        assert abs(priority2 - 0.3) < 0.001, f"Expected 0.3 for pure risk score, got {priority2}"
 
 
 class TestGlyphRoutingIntegration:
@@ -227,9 +223,7 @@ class TestGlyphRoutingIntegration:
         assert GLYPH_KEYS["red_threshold"] in glyph_keys
 
         # Verify high priority
-        assert (
-            priority > 0.7
-        )  # Should be high due to narrative_gravity=0.8, risk_score=0.7
+        assert priority > 0.7  # Should be high due to narrative_gravity=0.8, risk_score=0.7
 
         # Route glyphs
         mock_router.route(glyphs, priority)
@@ -261,9 +255,7 @@ class TestGlyphRoutingIntegration:
         assert GLYPH_KEYS["soothe_anchor"] in glyph_keys
 
         # Verify low priority
-        assert (
-            priority < 0.3
-        )  # Should be low due to narrative_gravity=0.2, risk_score=0.1
+        assert priority < 0.3  # Should be low due to narrative_gravity=0.2, risk_score=0.1
 
         # Route glyphs
         mock_router.route(glyphs, priority)
@@ -388,17 +380,13 @@ class TestSymbolicSignalConversion:
 
         for glyph_key in glyph_keys:
             diagnostic_event = router._map_glyph_to_diagnostic_event(glyph_key)
-            assert (
-                diagnostic_event == "PULSE"
-            ), f"Expected PULSE for {glyph_key}, got {diagnostic_event}"
+            assert diagnostic_event == "PULSE", f"Expected PULSE for {glyph_key}, got {diagnostic_event}"
 
         # Test unknown glyph key
         unknown_diagnostic = router._map_glyph_to_diagnostic_event("unknown:glyph")
         assert unknown_diagnostic == "PULSE"
 
-    def _create_test_scene(
-        self, narrative_gravity: float, risk_score: float
-    ) -> PhenomenalScene:
+    def _create_test_scene(self, narrative_gravity: float, risk_score: float) -> PhenomenalScene:
         """Helper to create test PhenomenalScene"""
         proto = ProtoQualia(
             narrative_gravity=narrative_gravity,
@@ -426,9 +414,7 @@ def mock_lukhas_router():
     with (
         patch("candidate.aka_qualia.router_client.route_signal") as mock_route,
         patch("candidate.aka_qualia.router_client.SymbolicSignal") as mock_signal,
-        patch(
-            "candidate.aka_qualia.router_client.DiagnosticSignalType"
-        ) as mock_diagnostic,
+        patch("candidate.aka_qualia.router_client.DiagnosticSignalType") as mock_diagnostic,
     ):
         mock_diagnostic.PULSE = "PULSE"
         yield {

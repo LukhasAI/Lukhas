@@ -109,9 +109,7 @@ class EmotionalAccessContext:
     dream_phase: Optional[str] = None
     codreamer_ids: list[str] = field(default_factory=list)
     safety_override: bool = False
-    timestamp: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 @dataclass
@@ -127,9 +125,7 @@ class SymbolicEmotionState:
     empathy_resonance: float = 0.0
     codreamer_isolation: bool = False
     ethical_flags: list[str] = field(default_factory=list)
-    timestamp: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 @dataclass
@@ -144,9 +140,7 @@ class DriftRegulationResult:
     symbolic_tags_added: list[str]
     ethical_flags: list[str]
     regulation_strength: float
-    timestamp: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 @dataclass
@@ -159,9 +153,7 @@ class CodreamerIsolationResult:
     bleed_through_detected: bool
     cross_contamination_risk: float
     isolation_tags: list[str]
-    timestamp: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 # LUKHAS_TAG: ethical_thresholds
@@ -256,9 +248,7 @@ class DreamSeedEmotionEngine:
         self.safety_log_path = os.path.join(self.logs_dir, "dreamseed_safety.jsonl")
         self.tier_access_log_path = os.path.join(self.logs_dir, "tier_access.jsonl")
         self.regulation_log_path = os.path.join(self.logs_dir, "drift_regulation.jsonl")
-        self.isolation_log_path = os.path.join(
-            self.logs_dir, "codreamer_isolation.jsonl"
-        )
+        self.isolation_log_path = os.path.join(self.logs_dir, "codreamer_isolation.jsonl")
 
         logger.info(
             "DreamSeedEmotionEngine initialized",
@@ -268,9 +258,7 @@ class DreamSeedEmotionEngine:
     # LUKHAS_TAG: tier_access_control
     # TODO: Replace with unified tier system
     # @emotional_tier_required("T1")  # Minimum tier to assign tiers
-    def assign_emotional_tier(
-        self, user_id: str, context: Optional[dict[str, Any]] = None
-    ) -> int:
+    def assign_emotional_tier(self, user_id: str, context: Optional[dict[str, Any]] = None) -> int:
         """
         Returns emotional access tier based on context, trust level, or dream phase.
         Used to gate emotional memory, symbolic feedback, or dream inputs.
@@ -292,9 +280,7 @@ class DreamSeedEmotionEngine:
         dream_phase = context.get("dream_phase")
         safety_override = context.get("safety_override", False)
         # Changed from MD5 for security
-        session_id = context.get(
-            "session_id", f"session_{hashlib.sha256(user_id.encode()).hexdigest()[:8]}"
-        )
+        session_id = context.get("session_id", f"session_{hashlib.sha256(user_id.encode()).hexdigest()[:8]}")
 
         # Base tier calculation from trust score
         if safety_override:
@@ -372,9 +358,7 @@ class DreamSeedEmotionEngine:
         Returns:
             List of symbolic tags applied to the emotional state
         """
-        emotion_vector = emotion_state.get(
-            "dimensions", emotion_state.get("emotion_vector", {})
-        )
+        emotion_vector = emotion_state.get("dimensions", emotion_state.get("emotion_vector", {}))
         metadata = emotion_state.get("metadata", {})
 
         symbolic_tags = []
@@ -394,11 +378,7 @@ class DreamSeedEmotionEngine:
             entropy = 0.0
 
         # ΛMOOD tagging based on primary emotion
-        primary_emotion = (
-            max(emotion_vector.items(), key=lambda x: x[1])[0]
-            if emotion_vector
-            else None
-        )
+        primary_emotion = max(emotion_vector.items(), key=lambda x: x[1])[0] if emotion_vector else None
         if primary_emotion:
             symbolic_tags.append(f"{SymbolicEmotionTag.ΛMOOD.value}:{primary_emotion}")
 
@@ -407,34 +387,24 @@ class DreamSeedEmotionEngine:
             symbolic_tags.append(SymbolicEmotionTag.ΛCALM.value)
 
         # ΛHARMONY tagging for balanced, coherent states
-        harmony_score = self._calculate_harmony_score(
-            emotion_vector, valence, arousal, dominance
-        )
+        harmony_score = self._calculate_harmony_score(emotion_vector, valence, arousal, dominance)
         if harmony_score > 0.7:
-            symbolic_tags.append(
-                f"{SymbolicEmotionTag.ΛHARMONY.value}:{harmony_score:.2f}"
-            )
+            symbolic_tags.append(f"{SymbolicEmotionTag.ΛHARMONY.value}:{harmony_score:.2f}")
 
         # ΛDISSONANCE tagging for conflicting or chaotic states
         if entropy > 2.5 or harmony_score < 0.3:
-            symbolic_tags.append(
-                f"{SymbolicEmotionTag.ΛDISSONANCE.value}:{entropy:.2f}"
-            )
+            symbolic_tags.append(f"{SymbolicEmotionTag.ΛDISSONANCE.value}:{entropy:.2f}")
 
         # ΛEMPATHY tagging based on social context
         empathy_indicators = metadata.get("empathy_indicators", {})
         if empathy_indicators.get("resonance_detected", False):
             empathy_strength = empathy_indicators.get("strength", 0.0)
-            symbolic_tags.append(
-                f"{SymbolicEmotionTag.ΛEMPATHY.value}:{empathy_strength:.2f}"
-            )
+            symbolic_tags.append(f"{SymbolicEmotionTag.ΛEMPATHY.value}:{empathy_strength:.2f}")
 
         # ΛLOOP tagging for recursive patterns
         if metadata.get("recurrence_detected", False):
             loop_strength = metadata.get("loop_strength", 0.0)
-            symbolic_tags.append(
-                f"{SymbolicEmotionTag.ΛLOOP.value}:{loop_strength:.2f}"
-            )
+            symbolic_tags.append(f"{SymbolicEmotionTag.ΛLOOP.value}:{loop_strength:.2f}")
 
         # ΛDRIFT tagging for instability
         drift_score = metadata.get("drift_score", 0.0)
@@ -487,9 +457,7 @@ class DreamSeedEmotionEngine:
         return np.clip(harmony_score, 0.0, 1.0)
 
     # LUKHAS_TAG: drift_regulation_engine
-    def regulate_drift_feedback(
-        self, drift_score: float, emotion_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    def regulate_drift_feedback(self, drift_score: float, emotion_state: dict[str, Any]) -> dict[str, Any]:
         """
         Adjusts emotion outputs or memory injections based on symbolic drift level.
         Higher drift = emotional dampening or stabilization.
@@ -526,9 +494,7 @@ class DreamSeedEmotionEngine:
                 baseline_pull = regulation_strength * 0.3
                 neutral_value = 0.2  # Slight positive baseline
                 for emotion_name, value in emotion_vector.items():
-                    emotion_vector[emotion_name] = (
-                        value * (1 - baseline_pull) + neutral_value * baseline_pull
-                    )
+                    emotion_vector[emotion_name] = value * (1 - baseline_pull) + neutral_value * baseline_pull
 
             # Update VAD values
             if "valence" in regulated_emotion:
@@ -551,9 +517,7 @@ class DreamSeedEmotionEngine:
                 for emotion_name, value in emotion_vector.items():
                     emotion_vector[emotion_name] = min(value * 0.3, 0.5)
 
-            symbolic_tags_added.append(
-                f"{SymbolicEmotionTag.ΛSAFETY.value}:emergency_regulation"
-            )
+            symbolic_tags_added.append(f"{SymbolicEmotionTag.ΛSAFETY.value}:emergency_regulation")
 
             # Alert ethical governor
             if self.ethical_governor:
@@ -592,9 +556,7 @@ class DreamSeedEmotionEngine:
         return regulated_emotion
 
     # LUKHAS_TAG: codreamer_isolation_engine
-    def isolate_codreamer_affect(
-        self, input_emotion: dict[str, Any], codreamer_id: str
-    ) -> dict[str, Any]:
+    def isolate_codreamer_affect(self, input_emotion: dict[str, Any], codreamer_id: str) -> dict[str, Any]:
         """
         Separates user-driven vs. codreamer emotional signatures, preventing
         bleed-through or bias pollution.
@@ -635,9 +597,7 @@ class DreamSeedEmotionEngine:
                 user_emotion_vector = user_emotion.get("dimensions", {})
                 for emotion_name in user_emotion_vector:
                     if emotion_name in codreamer_emotions:
-                        codreamer_contribution = (
-                            codreamer_emotions[emotion_name] * influence_strength
-                        )
+                        codreamer_contribution = codreamer_emotions[emotion_name] * influence_strength
                         user_emotion_vector[emotion_name] = max(
                             user_emotion_vector[emotion_name] - codreamer_contribution,
                             0.0,
@@ -647,9 +607,7 @@ class DreamSeedEmotionEngine:
                 if influence_strength > ETHICAL_THRESHOLDS["codreamer_bleed_limit"]:
                     bleed_through_detected = True
                     cross_contamination_risk = influence_strength
-                    isolation_tags.append(
-                        f"{SymbolicEmotionTag.ΛSAFETY.value}:codreamer_bleed"
-                    )
+                    isolation_tags.append(f"{SymbolicEmotionTag.ΛSAFETY.value}:codreamer_bleed")
 
                 isolation_tags.append(f"codreamer_isolated:{codreamer_id}")
 
@@ -662,9 +620,7 @@ class DreamSeedEmotionEngine:
             for emotion_name, value in user_emotion_vector.items():
                 user_emotion_vector[emotion_name] = value * isolation_factor
 
-            isolation_tags.append(
-                f"{SymbolicEmotionTag.ΛSAFETY.value}:enhanced_isolation"
-            )
+            isolation_tags.append(f"{SymbolicEmotionTag.ΛSAFETY.value}:enhanced_isolation")
 
         # Create isolation result
         isolation_result = CodreamerIsolationResult(
@@ -702,9 +658,7 @@ class DreamSeedEmotionEngine:
             Boolean indicating whether the emotion state is safe (True) or
             requires intervention (False)
         """
-        emotion_vector = emotion_state.get(
-            "dimensions", emotion_state.get("emotion_vector", {})
-        )
+        emotion_vector = emotion_state.get("dimensions", emotion_state.get("emotion_vector", {}))
         metadata = emotion_state.get("metadata", {})
 
         safety_violations = []
@@ -763,16 +717,12 @@ class DreamSeedEmotionEngine:
                 )
 
                 if concern:
-                    safety_violations.append(
-                        f"ethical_governor_concern:{concern.severity.value}"
-                    )
+                    safety_violations.append(f"ethical_governor_concern:{concern.severity.value}")
 
         # Log safety assessment
         safety_assessment = {
             # Changed from MD5 for security
-            "emotion_state_id": hashlib.sha256(str(emotion_state).encode()).hexdigest()[
-                :12
-            ],
+            "emotion_state_id": hashlib.sha256(str(emotion_state).encode()).hexdigest()[:12],
             "safety_level": safety_level.value,
             "safety_violations": safety_violations,
             "intervention_required": intervention_required,
@@ -833,22 +783,16 @@ class DreamSeedEmotionEngine:
         # Step 2: Apply co-dreamer isolation if needed
         processed_emotion = emotion_input.copy()
         for codreamer_id in access_context.codreamer_ids:
-            processed_emotion = self.isolate_codreamer_affect(
-                processed_emotion, codreamer_id
-            )
+            processed_emotion = self.isolate_codreamer_affect(processed_emotion, codreamer_id)
 
         # Step 3: Enforce emotional safety
         is_safe = self.enforce_emotional_safety(processed_emotion)
-        safety_level = (
-            EmotionalSafetyLevel.STABLE if is_safe else EmotionalSafetyLevel.WARNING
-        )
+        safety_level = EmotionalSafetyLevel.STABLE if is_safe else EmotionalSafetyLevel.WARNING
 
         # Step 4: Apply drift regulation
         drift_score = processed_emotion.get("metadata", {}).get("drift_score", 0.0)
         if drift_score > 0.1:
-            processed_emotion = self.regulate_drift_feedback(
-                drift_score, processed_emotion
-            )
+            processed_emotion = self.regulate_drift_feedback(drift_score, processed_emotion)
 
         # Step 5: Inject symbolic tags
         symbolic_tags = self.inject_symbolic_tags(processed_emotion)
@@ -862,9 +806,7 @@ class DreamSeedEmotionEngine:
             processed_emotion.get("dominance", 0.5),
         )
 
-        empathy_resonance = processed_emotion.get("metadata", {}).get(
-            "empathy_resonance", 0.0
-        )
+        empathy_resonance = processed_emotion.get("metadata", {}).get("empathy_resonance", 0.0)
 
         # Step 7: Create final symbolic emotion state
         symbolic_state = SymbolicEmotionState(
@@ -876,9 +818,7 @@ class DreamSeedEmotionEngine:
             harmony_score=harmony_score,
             empathy_resonance=empathy_resonance,
             codreamer_isolation=len(access_context.codreamer_ids) > 0,
-            ethical_flags=processed_emotion.get("metadata", {}).get(
-                "ethical_flags", []
-            ),
+            ethical_flags=processed_emotion.get("metadata", {}).get("ethical_flags", []),
         )
 
         logger.info(
@@ -908,15 +848,9 @@ class DreamSeedEmotionEngine:
             return {"error": "Session not found"}
 
         # Filter metrics by session
-        session_regulations = [
-            r for r in self.regulation_history if r.timestamp >= context.timestamp
-        ]
-        session_isolations = [
-            i for i in self.isolation_history if i.timestamp >= context.timestamp
-        ]
-        session_safety = [
-            s for s in self.safety_interventions if s["timestamp"] >= context.timestamp
-        ]
+        session_regulations = [r for r in self.regulation_history if r.timestamp >= context.timestamp]
+        session_isolations = [i for i in self.isolation_history if i.timestamp >= context.timestamp]
+        session_safety = [s for s in self.safety_interventions if s["timestamp"] >= context.timestamp]
 
         return {
             "session_id": session_id,
@@ -927,13 +861,10 @@ class DreamSeedEmotionEngine:
             "isolations_performed": len(session_isolations),
             "safety_interventions": len(session_safety),
             "average_drift_score": (
-                np.mean([r.drift_score for r in session_regulations])
-                if session_regulations
-                else 0.0
+                np.mean([r.drift_score for r in session_regulations]) if session_regulations else 0.0
             ),
             "session_duration": (
-                datetime.now(timezone.utc)
-                - datetime.fromisoformat(context.timestamp.replace("Z", "+00:00"))
+                datetime.now(timezone.utc) - datetime.fromisoformat(context.timestamp.replace("Z", "+00:00"))
             ).total_seconds()
             / 3600,
             "LUKHAS_TAG": "session_metrics",
@@ -946,14 +877,10 @@ class DreamSeedEmotionEngine:
 
         # Recent activity metrics
         recent_regulations = [
-            r
-            for r in self.regulation_history
-            if datetime.fromisoformat(r.timestamp.replace("Z", "+00:00")) >= last_24h
+            r for r in self.regulation_history if datetime.fromisoformat(r.timestamp.replace("Z", "+00:00")) >= last_24h
         ]
         recent_isolations = [
-            i
-            for i in self.isolation_history
-            if datetime.fromisoformat(i.timestamp.replace("Z", "+00:00")) >= last_24h
+            i for i in self.isolation_history if datetime.fromisoformat(i.timestamp.replace("Z", "+00:00")) >= last_24h
         ]
         recent_safety = [
             s
@@ -963,9 +890,7 @@ class DreamSeedEmotionEngine:
 
         # Safety statistics
         safety_violations = sum(len(s["safety_violations"]) for s in recent_safety)
-        interventions_required = sum(
-            1 for s in recent_safety if s["intervention_required"]
-        )
+        interventions_required = sum(1 for s in recent_safety if s["intervention_required"])
 
         return {
             "report_timestamp": now.isoformat(),
@@ -979,51 +904,28 @@ class DreamSeedEmotionEngine:
             },
             "drift_regulation_stats": {
                 "average_drift_score": (
-                    np.mean([r.drift_score for r in recent_regulations])
-                    if recent_regulations
-                    else 0.0
+                    np.mean([r.drift_score for r in recent_regulations]) if recent_regulations else 0.0
                 ),
-                "max_drift_score": (
-                    max([r.drift_score for r in recent_regulations])
-                    if recent_regulations
-                    else 0.0
-                ),
+                "max_drift_score": (max([r.drift_score for r in recent_regulations]) if recent_regulations else 0.0),
                 "regulation_success_rate": (
-                    np.mean([r.regulation_applied for r in recent_regulations])
-                    if recent_regulations
-                    else 0.0
+                    np.mean([r.regulation_applied for r in recent_regulations]) if recent_regulations else 0.0
                 ),
             },
             "isolation_stats": {
                 "average_isolation_strength": (
-                    np.mean([i.isolation_strength for i in recent_isolations])
-                    if recent_isolations
-                    else 0.0
+                    np.mean([i.isolation_strength for i in recent_isolations]) if recent_isolations else 0.0
                 ),
-                "bleed_through_incidents": sum(
-                    1 for i in recent_isolations if i.bleed_through_detected
-                ),
+                "bleed_through_incidents": sum(1 for i in recent_isolations if i.bleed_through_detected),
                 "max_contamination_risk": (
-                    max([i.cross_contamination_risk for i in recent_isolations])
-                    if recent_isolations
-                    else 0.0
+                    max([i.cross_contamination_risk for i in recent_isolations]) if recent_isolations else 0.0
                 ),
             },
             "system_stability": {
-                "safety_score": 1.0
-                - (interventions_required / max(len(recent_safety), 1)),
+                "safety_score": 1.0 - (interventions_required / max(len(recent_safety), 1)),
                 "drift_stability": 1.0
-                - (
-                    np.mean([r.drift_score for r in recent_regulations])
-                    if recent_regulations
-                    else 0.0
-                ),
+                - (np.mean([r.drift_score for r in recent_regulations]) if recent_regulations else 0.0),
                 "isolation_effectiveness": 1.0
-                - (
-                    np.mean([i.cross_contamination_risk for i in recent_isolations])
-                    if recent_isolations
-                    else 0.0
-                ),
+                - (np.mean([i.cross_contamination_risk for i in recent_isolations]) if recent_isolations else 0.0),
             },
             "LUKHAS_TAG": "system_health_report",
         }

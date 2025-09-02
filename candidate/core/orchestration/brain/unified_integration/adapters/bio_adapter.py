@@ -74,9 +74,7 @@ class BioInspiredAdapter:
         except Exception as e:
             logger.error(f"Error handling message: {e}")
 
-    async def apply_attention(
-        self, target_id: str, attention_params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def apply_attention(self, target_id: str, attention_params: dict[str, Any]) -> dict[str, Any]:
         """Apply quantum attention to target
 
         Args:
@@ -101,9 +99,7 @@ class BioInspiredAdapter:
             "gradient_state": self.bio_metrics["proton_gradient"],
         }
 
-    async def allocate_resources(
-        self, request_id: str, resource_type: str, priority: str = "normal"
-    ) -> dict[str, Any]:
+    async def allocate_resources(self, request_id: str, resource_type: str, priority: str = "normal") -> dict[str, Any]:
         """Bio-inspired resource allocation
 
         Args:
@@ -130,9 +126,7 @@ class BioInspiredAdapter:
             "remaining_atp": self.bio_metrics["atp_reserves"],
         }
 
-    async def filter_signal(
-        self, signal_data: Any, filter_type: str = "cristae"
-    ) -> dict[str, Any]:
+    async def filter_signal(self, signal_data: Any, filter_type: str = "cristae") -> dict[str, Any]:
         """Bio-inspired signal filtering
 
         Args:
@@ -157,16 +151,12 @@ class BioInspiredAdapter:
 
     async def _adjust_proton_gradient(self, target_id: str) -> None:
         """Adjust proton gradient for attention"""
-        attention_level = self.qi_like_states["attention_gates"][target_id][
-            "attention_level"
-        ]
+        attention_level = self.qi_like_states["attention_gates"][target_id]["attention_level"]
         gradient_change = attention_level * 0.1
         self.bio_metrics["proton_gradient"] += gradient_change
 
         # Keep gradient in biological ranges
-        self.bio_metrics["proton_gradient"] = np.clip(
-            self.bio_metrics["proton_gradient"], 0.0, 1.0
-        )
+        self.bio_metrics["proton_gradient"] = np.clip(self.bio_metrics["proton_gradient"], 0.0, 1.0)
 
     async def _regenerate_atp(self) -> None:
         """Regenerate ATP reserves"""
@@ -175,19 +165,13 @@ class BioInspiredAdapter:
         self.bio_metrics["atp_reserves"] += atp_generated
 
         # Keep ATP in reasonable range
-        self.bio_metrics["atp_reserves"] = np.clip(
-            self.bio_metrics["atp_reserves"], 0.0, 1.0
-        )
+        self.bio_metrics["atp_reserves"] = np.clip(self.bio_metrics["atp_reserves"], 0.0, 1.0)
 
     def _calculate_resource_need(self, resource_type: str, priority: str) -> float:
         """Calculate resource need based on type and priority"""
-        base_need = {"computation": 0.1, "memory": 0.2, "attention": 0.3}.get(
-            resource_type, 0.1
-        )
+        base_need = {"computation": 0.1, "memory": 0.2, "attention": 0.3}.get(resource_type, 0.1)
 
-        priority_multiplier = {"low": 0.5, "normal": 1.0, "high": 2.0}.get(
-            priority, 1.0
-        )
+        priority_multiplier = {"low": 0.5, "normal": 1.0, "high": 2.0}.get(priority, 1.0)
 
         return base_need * priority_multiplier
 

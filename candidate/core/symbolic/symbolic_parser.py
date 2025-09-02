@@ -329,9 +329,7 @@ class SymbolicParser:
             "russian": ["russia", "russian", "moscow", "vodka", "kremlin"],
         }
 
-    def parse_symbolic_element(
-        self, value: str, context: Optional[dict[str, Any]] = None
-    ) -> ParsedSymbol:
+    def parse_symbolic_element(self, value: str, context: Optional[dict[str, Any]] = None) -> ParsedSymbol:
         """
         # Parse individual symbolic element with full analysis
         # Returns detailed parsing information and classifications
@@ -397,9 +395,7 @@ class SymbolicParser:
         # Analyze cultural diversity and content across symbolic vault
         # Provides cultural diversity metrics and recommendations
         """
-        logger.info(
-            f"ΛTRACE: Analyzing cultural content for {len(symbolic_vault)} elements"
-        )
+        logger.info(f"ΛTRACE: Analyzing cultural content for {len(symbolic_vault)} elements")
 
         try:
             detected_scripts = Counter()
@@ -573,9 +569,7 @@ class SymbolicParser:
 
         return unique_chars / total_chars
 
-    def _determine_category(
-        self, value: str, word_count: int, contains_emoji: bool
-    ) -> SymbolicCategory:
+    def _determine_category(self, value: str, word_count: int, contains_emoji: bool) -> SymbolicCategory:
         """Determine symbolic category based on content analysis."""
         if contains_emoji and word_count == 0:
             return SymbolicCategory.EMOJI
@@ -592,9 +586,7 @@ class SymbolicParser:
         else:
             return SymbolicCategory.ABSTRACT
 
-    def _determine_semantic_type(
-        self, value: str, context: Optional[dict[str, Any]]
-    ) -> SemanticType:
+    def _determine_semantic_type(self, value: str, context: Optional[dict[str, Any]]) -> SemanticType:
         """Determine semantic type based on content and context."""
         value_lower = value.lower()
 
@@ -626,9 +618,7 @@ class SymbolicParser:
         # Default classification
         return SemanticType.PERSONAL
 
-    def _extract_cultural_context(
-        self, value: str, unicode_scripts: set[str]
-    ) -> Optional[str]:
+    def _extract_cultural_context(self, value: str, unicode_scripts: set[str]) -> Optional[str]:
         """Extract cultural context from value and scripts."""
         # Script-based cultural hints
         if "arabic" in unicode_scripts:

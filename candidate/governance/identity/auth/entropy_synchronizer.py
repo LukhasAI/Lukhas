@@ -67,9 +67,7 @@ class EntropySynchronizer:
         enforcement_level: ConstitutionalLevel = ConstitutionalLevel.STANDARD,
     ):
         self.session_id = session_id
-        self.constitutional_gatekeeper = get_constitutional_gatekeeper(
-            enforcement_level
-        )
+        self.constitutional_gatekeeper = get_constitutional_gatekeeper(enforcement_level)
         self.connected_devices: dict[str, DeviceType] = {}
         self.entropy_buffer: list[EntropySource] = []
         self.sync_callbacks: list = []
@@ -77,13 +75,9 @@ class EntropySynchronizer:
         self.min_entropy_bits = 512  # Constitutional minimum
         self.max_sync_devices = 10  # Constitutional maximum
 
-        entropy_logger.info(
-            f"Entropy Synchronizer initialized for session {session_id}"
-        )
+        entropy_logger.info(f"Entropy Synchronizer initialized for session {session_id}")
 
-    async def start_sync_server(
-        self, host: str = "localhost", port: int = 8080
-    ) -> bool:
+    async def start_sync_server(self, host: str = "localhost", port: int = 8080) -> bool:
         """
         Start the WebSocket server for device synchronization.
 
@@ -103,9 +97,7 @@ class EntropySynchronizer:
                 entropy_logger.error("Constitutional validation failed for sync server")
                 return False
 
-            self.websocket_server = await websockets.serve(
-                self._handle_device_connection, host, port
-            )
+            self.websocket_server = await websockets.serve(self._handle_device_connection, host, port)
 
             entropy_logger.info(f"Entropy sync server started on {host}:{port}")
             return True
@@ -147,9 +139,7 @@ class EntropySynchronizer:
                         )
                     )
 
-                    entropy_logger.info(
-                        f"Device {device_id} connected as {device_type.value}"
-                    )
+                    entropy_logger.info(f"Device {device_id} connected as {device_type.value}")
 
                 elif data.get("type") == "entropy_data":
                     await self._process_entropy_data(device_id, data, websocket)
@@ -161,18 +151,14 @@ class EntropySynchronizer:
         except Exception as e:
             entropy_logger.error(f"Error handling device connection: {e}")
 
-    async def _process_entropy_data(
-        self, device_id: str, data: dict[str, Any], websocket
-    ):
+    async def _process_entropy_data(self, device_id: str, data: dict[str, Any], websocket):
         """Process incoming entropy data from a device"""
         try:
             entropy_data = data.get("entropy", {})
             device_type = self.connected_devices.get(device_id)
 
             if not device_type:
-                await websocket.send(
-                    json.dumps({"type": "error", "message": "Device not authenticated"})
-                )
+                await websocket.send(json.dumps({"type": "error", "message": "Device not authenticated"}))
                 return
 
             # Validate entropy quality
@@ -217,9 +203,7 @@ class EntropySynchronizer:
         except Exception as e:
             entropy_logger.error(f"Error processing entropy data: {e}")
 
-    def _calculate_entropy_quality(
-        self, entropy_data: dict[str, Any], device_type: DeviceType
-    ) -> float:
+    def _calculate_entropy_quality(self, entropy_data: dict[str, Any], device_type: DeviceType) -> float:
         """
         Calculate the quality score of entropy data.
 
@@ -239,12 +223,8 @@ class EntropySynchronizer:
 
         # Check temporal freshness
         if "timestamp" in entropy_data:
-            age_seconds = (
-                datetime.now() - datetime.fromisoformat(entropy_data["timestamp"])
-            ).total_seconds()
-            freshness_score = max(
-                0.0, 1.0 - (age_seconds / 60.0)
-            )  # Decay over 1 minute
+            age_seconds = (datetime.now() - datetime.fromisoformat(entropy_data["timestamp"])).total_seconds()
+            freshness_score = max(0.0, 1.0 - (age_seconds / 60.0))  # Decay over 1 minute
             quality_factors.append(freshness_score)
 
         # Device-specific quality factors
@@ -285,9 +265,7 @@ class EntropySynchronizer:
         for source in self.entropy_buffer:
             data_complexity = len(json.dumps(source.entropy_data))
             quality_multiplier = source.quality_score
-            entropy_contribution = min(
-                64, data_complexity * quality_multiplier
-            )  # Cap per source
+            entropy_contribution = min(64, data_complexity * quality_multiplier)  # Cap per source
             total_bits += entropy_contribution
 
         return int(total_bits)
@@ -326,11 +304,9 @@ class EntropySynchronizer:
             "device_types": [dt.value for dt in self.connected_devices.values()],
             "entropy_sources": len(self.entropy_buffer),
             "total_entropy_bits": self._calculate_total_entropy_bits(),
-            "constitutional_compliance": self._calculate_total_entropy_bits()
-            >= self.min_entropy_bits,
+            "constitutional_compliance": self._calculate_total_entropy_bits() >= self.min_entropy_bits,
             "average_quality_score": (
-                sum(s.quality_score for s in self.entropy_buffer)
-                / len(self.entropy_buffer)
+                sum(s.quality_score for s in self.entropy_buffer) / len(self.entropy_buffer)
                 if self.entropy_buffer
                 else 0.0
             ),

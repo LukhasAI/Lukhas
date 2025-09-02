@@ -67,8 +67,7 @@ class DriveAdapter(BaseServiceAdapter):
                 if lid and "access_token" in token_data:
                     self.oauth_tokens[lid] = {
                         "access_token": token_data["access_token"],
-                        "expires_at": datetime.now(timezone.utc).timestamp()
-                        + token_data["expires_in"],
+                        "expires_at": datetime.now(timezone.utc).timestamp() + token_data["expires_in"],
                     }
 
                 return token_data
@@ -90,9 +89,7 @@ class DriveAdapter(BaseServiceAdapter):
         """
 
         # Validate capability token
-        if capability_token and not self.validate_capability_token(
-            capability_token, "list"
-        ):
+        if capability_token and not self.validate_capability_token(capability_token, "list"):
             return {"error": "invalid_capability_token"}
 
         # Check consent
@@ -131,9 +128,7 @@ class DriveAdapter(BaseServiceAdapter):
         async with aiohttp.ClientSession() as session:
             headers = {"Authorization": f"Bearer {access_token}"}
 
-            async with session.get(
-                f"{self.base_url}/files", headers=headers, params=params
-            ) as response:
+            async with session.get(f"{self.base_url}/files", headers=headers, params=params) as response:
                 if response.status == 200:
                     data = await response.json()
 
@@ -146,15 +141,11 @@ class DriveAdapter(BaseServiceAdapter):
                     return {"error": f"api_error_{response.status}"}
 
     @with_resilience
-    async def get_file(
-        self, lid: str, file_id: str, capability_token: Optional[CapabilityToken] = None
-    ) -> dict:
+    async def get_file(self, lid: str, file_id: str, capability_token: Optional[CapabilityToken] = None) -> dict:
         """Get file metadata and content"""
 
         # Validate capability token
-        if capability_token and not self.validate_capability_token(
-            capability_token, "read"
-        ):
+        if capability_token and not self.validate_capability_token(capability_token, "read"):
             return {"error": "invalid_capability_token"}
 
         # Check consent
@@ -185,9 +176,7 @@ class DriveAdapter(BaseServiceAdapter):
             async with session.get(
                 f"{self.base_url}/files/{file_id}",
                 headers=headers,
-                params={
-                    "fields": "id,name,mimeType,size,createdTime,modifiedTime,description"
-                },
+                params={"fields": "id,name,mimeType,size,createdTime,modifiedTime,description"},
             ) as response:
                 if response.status == 200:
                     metadata = await response.json()
@@ -221,9 +210,7 @@ class DriveAdapter(BaseServiceAdapter):
         Search files in Drive
         Example: "name contains 'travel' and mimeType = 'application/pdf'"
         """
-        return await self.list_files(
-            lid, query=search_query, capability_token=capability_token
-        )
+        return await self.list_files(lid, query=search_query, capability_token=capability_token)
 
     @with_resilience
     async def upload_file(
@@ -237,9 +224,7 @@ class DriveAdapter(BaseServiceAdapter):
         """Upload file to Google Drive"""
 
         # Validate capability token
-        if capability_token and not self.validate_capability_token(
-            capability_token, "write"
-        ):
+        if capability_token and not self.validate_capability_token(capability_token, "write"):
             return {"error": "invalid_capability_token"}
 
         # Check consent
@@ -247,9 +232,7 @@ class DriveAdapter(BaseServiceAdapter):
             return {"error": "consent_required", "action": "upload_file"}
 
         if self.dry_run_mode:
-            plan = self.dry_run_planner.plan_operation(
-                "upload_file", {"file_name": file_name, "size": len(content)}
-            )
+            plan = self.dry_run_planner.plan_operation("upload_file", {"file_name": file_name, "size": len(content)})
             return {"dry_run": True, "plan": plan}
 
         # Get OAuth token
@@ -403,9 +386,7 @@ if __name__ == "__main__":
         adapter.set_dry_run(True)
         print("🔍 Testing dry-run mode...")
 
-        result = await adapter.list_files(
-            lid="USR-123456", query="name contains 'travel'", page_size=10
-        )
+        result = await adapter.list_files(lid="USR-123456", query="name contains 'travel'", page_size=10)
 
         if result.get("dry_run"):
             print("✅ Dry-run plan created")
@@ -429,9 +410,7 @@ if __name__ == "__main__":
         integration = DriveContextIntegration(adapter)
         print("\n🔄 Testing workflow integration...")
 
-        await integration.workflow_fetch_travel_documents(
-            lid="USR-123456", context={"stage": "document_retrieval"}
-        )
+        await integration.workflow_fetch_travel_documents(lid="USR-123456", context={"stage": "document_retrieval"})
 
         print("✅ Workflow step ready for Agent 4 integration")
 

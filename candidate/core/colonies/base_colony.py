@@ -57,9 +57,7 @@ class BaseColony(ABC):
 
         # State
         self.is_running = False
-        self.symbolic_carryover: dict[
-            str, tuple[str, TagScope, TagPermission, float, Optional[float]]
-        ] = {}
+        self.symbolic_carryover: dict[str, tuple[str, TagScope, TagPermission, float, Optional[float]]] = {}
         self.tag_propagation_log: list[dict[str, Any]] = []
         self.fast_execution_blocked: bool = False
         self.supervisor_agent = SupervisorAgent()
@@ -67,9 +65,7 @@ class BaseColony(ABC):
         # Optional governance integration
         self.governance_colony: Optional[Any] = None
 
-        logger.info(
-            f"Colony {self.colony_id} initialized with capabilities: {self.capabilities}"
-        )
+        logger.info(f"Colony {self.colony_id} initialized with capabilities: {self.capabilities}")
 
     def set_governance_colony(self, colony: Any) -> None:
         """Attach a governance colony for ethical review."""
@@ -85,15 +81,11 @@ class BaseColony(ABC):
 
         # Get actor system and create actor
         self.actor_system = await get_global_actor_system()
-        self.actor_ref = await self.actor_system.create_actor(
-            AIAgentActor, self.colony_id, self.capabilities
-        )
+        self.actor_ref = await self.actor_system.create_actor(AIAgentActor, self.colony_id, self.capabilities)
 
         # Create agent in event store
         correlation_id = str(uuid.uuid4())
-        with self.tracer.trace_agent_operation(
-            self.colony_id, "colony_creation"
-        ) as ctx:
+        with self.tracer.trace_agent_operation(self.colony_id, "colony_creation") as ctx:
             self.aggregate.create_agent(self.capabilities, correlation_id)
             self.aggregate.commit_events()
 
@@ -128,9 +120,7 @@ class BaseColony(ABC):
         logger.info(f"Colony {self.colony_id} stopped")
 
     @abstractmethod
-    async def execute_task(
-        self, task_id: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """Execute a task."""
 
     def get_status(self) -> dict[str, Any]:
@@ -191,9 +181,7 @@ class BaseColony(ABC):
             del self.symbolic_carryover[tag_key]
             logger.info(f"Pruned expired tag: {tag_key}")
 
-    async def _pre_approve_if_ethical(
-        self, task_id: str, task_data: dict[str, Any]
-    ) -> bool:
+    async def _pre_approve_if_ethical(self, task_id: str, task_data: dict[str, Any]) -> bool:
         """Pass ethical tasks to governance for pre-approval."""
         if not self.governance_colony:
             return True
@@ -204,9 +192,7 @@ class BaseColony(ABC):
                 return await self.governance_colony.pre_approve(task_id, task_data)
         return True
 
-    def request_permission_escalation(
-        self, tag_key: str, requested_permission: TagPermission
-    ):
+    def request_permission_escalation(self, tag_key: str, requested_permission: TagPermission):
         """
         Request to escalate the permission of a tag.
         """
