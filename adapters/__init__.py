@@ -189,7 +189,7 @@ class ServiceAdapter(ABC):
         }
         print(f"AUDIT: {log_entry}")  # In production: send to audit service
 
-    def _extract_required_scopes(self, operation: str, resource_type: str = None) -> list[str]:
+    def _extract_required_scopes(self, operation: str, resource_type: Optional[str] = None) -> list[str]:
         """Extract required scopes based on operation and resource type"""
         scope_map = {
             "list": [f"{resource_type or 'files'}.list.metadata"],

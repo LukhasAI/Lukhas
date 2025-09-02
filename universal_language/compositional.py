@@ -355,7 +355,7 @@ class SymbolComposer:
     def _compute_cache_key(self, symbols: list[Symbol], template_id: Optional[str]) -> str:
         """Compute cache key for composition"""
         symbol_ids = sorted([s.id for s in symbols])
-        key_parts = symbol_ids + [template_id or "auto"]
+        key_parts = [*symbol_ids, template_id or "auto"]
         return ":".join(key_parts)
 
 

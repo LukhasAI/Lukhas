@@ -675,7 +675,7 @@ class MetaModuleIntegration:
             if mem_id in self.safety.verifold_registry:
                 tags = self.memory.get_item_tags(mem_id)
                 if tags:
-                    primary_tag = list(tags)[0]
+                    primary_tag = next(iter(tags))
                     tag_embeddings[primary_tag].append(embedding)
 
         # Calculate cluster coherence

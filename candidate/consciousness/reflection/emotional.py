@@ -324,7 +324,7 @@ class EmotionalMemory:
             "state_after": self.current_emotion.to_dict(),
             "context": experience_content.get("context", {}),
             "tags": list(
-                set(experience_content.get("tags", []) + [triggered_emotion.get_primary_emotion() or "neutral"])
+                set([*experience_content.get("tags", []), triggered_emotion.get_primary_emotion() or "neutral"])
             ),
         }
         self.emotional_memories.append(mem_entry)

@@ -63,7 +63,7 @@ class SecretManager:
     - Multiple environment support
     """
 
-    def __init__(self, environment: str = None):
+    def __init__(self, environment: Optional[str] = None):
         self.environment = environment or os.getenv("LUKHAS_ENV", "development")
         self.secrets_cache = {}
         self._encryption_key = None
@@ -134,7 +134,7 @@ class SecretManager:
             ),
         }
 
-    def get_secret(self, secret_name: str, default: str = None) -> Optional[str]:
+    def get_secret(self, secret_name: str, default: Optional[str] = None) -> Optional[str]:
         """
         Get a secret value securely
 
@@ -260,7 +260,7 @@ class SecretManager:
         """Validate that all required secrets are available"""
         validation_results = {}
 
-        for secret_name, _metadata in self.secret_registry.items():
+        for secret_name in self.secret_registry:
             secret_value = self.get_secret(secret_name)
             validation_results[secret_name] = secret_value is not None
 
@@ -292,7 +292,7 @@ def get_secret_manager() -> SecretManager:
     return _secret_manager
 
 
-def get_secret(secret_name: str, default: str = None) -> Optional[str]:
+def get_secret(secret_name: str, default: Optional[str] = None) -> Optional[str]:
     """Convenience function to get a secret"""
     return get_secret_manager().get_secret(secret_name, default)
 

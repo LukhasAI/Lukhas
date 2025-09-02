@@ -89,7 +89,7 @@ class LUKHASAIOrchestrator:
         ]
         return "\n".join(context_parts)
 
-    async def route_request(self, task_type: str, content: str, context: dict[str, Any] = None) -> str:
+    async def route_request(self, task_type: str, content: str, context: Optional[dict[str, Any]] = None) -> str:
         """🧠 Route requests to optimal AI provider based on task type"""
         routing_map = {
             "trinity_documentation": "claude",

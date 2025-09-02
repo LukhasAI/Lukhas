@@ -169,10 +169,9 @@ class ComplianceEngine:
             result["actions"].append("obtain_biometric_consent")
 
         # Voice retention policy
-        if "timestamp" in voice_data:
-            if not self.should_retain_data(voice_data["timestamp"]):
-                result["retention_allowed"] = False
-                result["actions"].append("delete_voice_data")
+        if "timestamp" in voice_data and not self.should_retain_data(voice_data["timestamp"]):
+            result["retention_allowed"] = False
+            result["actions"].append("delete_voice_data")
 
         # Check for children's voice data (COPPA)
         if voice_data.get("age_category") == "child" and not user_consent.get("parental_consent", False):
@@ -425,10 +424,9 @@ class ComplianceEngine:
             self.gdpr_enabled = settings["gdpr_enabled"]
             changes.append(f"GDPR enforcement: {settings['gdpr_enabled']}")
 
-        if "data_retention_days" in settings:
-            if self.data_retention_days != settings["data_retention_days"]:
-                self.data_retention_days = settings["data_retention_days"]
-                changes.append(f"Data retention period: {settings['data_retention_days']} days")
+        if "data_retention_days" in settings and self.data_retention_days != settings["data_retention_days"]:
+            self.data_retention_days = settings["data_retention_days"]
+            changes.append(f"Data retention period: {settings['data_retention_days']} days")
 
         if "ethical_constraints" in settings:
             if set(self.ethical_constraints) != set(settings["ethical_constraints"]):
@@ -445,10 +443,9 @@ class ComplianceEngine:
                 self.voice_data_compliance = settings["voice_data_compliance"]
                 changes.append(f"Voice data compliance: {settings['voice_data_compliance']}")
 
-        if "compliance_mode" in settings:
-            if self.compliance_mode != settings["compliance_mode"]:
-                self.compliance_mode = settings["compliance_mode"]
-                changes.append(f"Compliance mode: {settings['compliance_mode']}")
+        if "compliance_mode" in settings and self.compliance_mode != settings["compliance_mode"]:
+            self.compliance_mode = settings["compliance_mode"]
+            changes.append(f"Compliance mode: {settings['compliance_mode']}")
 
         if "differential_privacy_enabled" in settings and (
             self.differential_privacy_enabled != settings["differential_privacy_enabled"]
@@ -456,20 +453,17 @@ class ComplianceEngine:
             self.differential_privacy_enabled = settings["differential_privacy_enabled"]
             changes.append(f"Differential privacy: {settings['differential_privacy_enabled']}")
 
-        if "privacy_budget" in settings:
-            if self.privacy_budget != settings["privacy_budget"]:
-                self.privacy_budget = settings["privacy_budget"]
-                changes.append(f"Privacy budget: {settings['privacy_budget']}")
+        if "privacy_budget" in settings and self.privacy_budget != settings["privacy_budget"]:
+            self.privacy_budget = settings["privacy_budget"]
+            changes.append(f"Privacy budget: {settings['privacy_budget']}")
 
-        if "auto_detect_region" in settings:
-            if self.auto_detect_region != settings["auto_detect_region"]:
-                self.auto_detect_region = settings["auto_detect_region"]
-                changes.append(f"Auto-detect regulatory region: {settings['auto_detect_region']}")
+        if "auto_detect_region" in settings and self.auto_detect_region != settings["auto_detect_region"]:
+            self.auto_detect_region = settings["auto_detect_region"]
+            changes.append(f"Auto-detect regulatory region: {settings['auto_detect_region']}")
 
-        if "current_region" in settings:
-            if self.current_region != settings["current_region"]:
-                self.current_region = settings["current_region"]
-                changes.append(f"Regulatory region: {settings['current_region']}")
+        if "current_region" in settings and self.current_region != settings["current_region"]:
+            self.current_region = settings["current_region"]
+            changes.append(f"Regulatory region: {settings['current_region']}")
 
         # Record changes in audit trail
         if changes:

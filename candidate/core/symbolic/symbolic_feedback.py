@@ -192,8 +192,8 @@ class Symbolicfeedbacksystem:
         resolution_success: bool,
         confidence_score: float,
         reasoning_steps: list[str],
-        memory_references: list[str] = None,
-        emotional_context: list[float] = None,
+        memory_references: Optional[list[str]] = None,
+        emotional_context: Optional[list[float]] = None,
     ) -> str:
         """
         Log interaction with intent_node system
@@ -249,7 +249,7 @@ class Symbolicfeedbacksystem:
         memory_fragments: list[dict[str, Any]],
         retrieval_success_rate: float,
         consolidation_quality: float,
-        symbolic_links: list[str] = None,
+        symbolic_links: Optional[list[str]] = None,
     ) -> str:
         """
         Log memoria system snapshot
@@ -299,7 +299,7 @@ class Symbolicfeedbacksystem:
         scenario_type: str,
         replay_success: bool,
         performance_delta: float,
-        symbolic_insights: list[str] = None,
+        symbolic_insights: Optional[list[str]] = None,
         emotional_resonance: float = 0.5,
     ) -> str:
         """
@@ -355,8 +355,8 @@ class Symbolicfeedbacksystem:
         self,
         context: SymbolicContext,
         success_metrics: dict[str, float],
-        failure_patterns: list[str] = None,
-        optimization_target: str = None,
+        failure_patterns: Optional[list[str]] = None,
+        optimization_target: Optional[str] = None,
     ) -> str:
         """
         Create a complete symbolic feedback loop for optimization

@@ -5,7 +5,7 @@ Dynamic reasoning system that adapts strategies based on context and feedback
 
 from datetime import datetime
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
@@ -28,7 +28,7 @@ class ReasoningStrategy(Enum):
 class ReasoningContext:
     """Context for reasoning operations"""
 
-    def __init__(self, query: str, domain: str = "general", constraints: dict[str, Any] = None):
+    def __init__(self, query: str, domain: str = "general", constraints: Optional[dict[str, Any]] = None):
         self.query = query
         self.domain = domain
         self.constraints = constraints or {}

@@ -225,7 +225,7 @@ class SharedEthicsEngine:
                     )
 
             # Evaluate against each applicable constraint
-            for _constraint_id, constraint in self.constraints.items():
+            for constraint in self.constraints.values():
                 if not constraint.active:
                     continue
 
@@ -310,9 +310,8 @@ class SharedEthicsEngine:
                 if action.get("overrides_preference", False) != expected_value:
                     return True
 
-            elif isinstance(expected_value, bool):
-                if bool(actual_value) != expected_value:
-                    return True
+            elif isinstance(expected_value, bool) and bool(actual_value) != expected_value:
+                return True
 
         return False
 

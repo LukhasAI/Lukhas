@@ -15,7 +15,7 @@ DEPENDENCIES:
 
 import random
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
@@ -66,7 +66,7 @@ class VoicePersonalityCreativityEngine:
     4. Dream-inspired voice modulations during reflective states
     """
 
-    def __init__(self, core_interface=None, config: dict[str, Any] = None):
+    def __init__(self, core_interface=None, config: Optional[dict[str, Any]] = None):
         """
         Initialize the voice personality integration
 

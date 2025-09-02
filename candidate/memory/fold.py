@@ -34,7 +34,7 @@ class FoldManager:
         self.active_folds: list[str] = []
         self.cascade_prevention_active = True
 
-    def create_fold(self, content: Any, causal_chain: list[str] = None) -> MemoryFold:
+    def create_fold(self, content: Any, causal_chain: Optional[list[str]] = None) -> MemoryFold:
         """Create a new memory fold"""
         fold = MemoryFold(content=content, causal_chain=causal_chain or [])
 

@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 import networkx as nx
 
@@ -20,7 +20,7 @@ except ImportError:
     class BaseColony:
         """Temporary BaseColony stub for GLYPH consciousness development"""
 
-        def __init__(self, colony_id: str, capabilities: list[str] = None):
+        def __init__(self, colony_id: str, capabilities: Optional[list[str]] = None):
             self.colony_id = colony_id
             self.capabilities = capabilities or []
             self.agents = {}
@@ -94,7 +94,7 @@ class SymbolicReasoningColony(BaseColony):
     async def propagate_belief(self, initial_belief: dict[str, Any]) -> dict[str, float]:
         belief_states = dict.fromkeys(self.agents, 0.0)
         if self.agents:
-            seed_agent = list(self.agents.keys())[0]
+            seed_agent = next(iter(self.agents.keys()))
             belief_states[seed_agent] = initial_belief["strength"]
             belief_tag = Tag(
                 key=initial_belief["concept"],

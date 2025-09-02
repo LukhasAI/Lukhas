@@ -97,7 +97,7 @@ class ConsciousnessMapper:
 
     """Maps LUKHAS consciousness states to voice characteristics"""
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.current_consciousness: Optional[ConsciousnessProfile] = None
         self.consciousness_history: list[ConsciousnessProfile] = []

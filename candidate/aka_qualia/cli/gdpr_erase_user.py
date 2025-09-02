@@ -61,10 +61,10 @@ def get_sample_scene_ids(engine, user_id_hash, limit=5):
     with engine.connect() as conn:
         result = conn.execute(
             text("""
-            SELECT scene_id, subject, created_at 
-            FROM akaq_scene 
-            WHERE user_id = :user_id 
-            ORDER BY created_at DESC 
+            SELECT scene_id, subject, created_at
+            FROM akaq_scene
+            WHERE user_id = :user_id
+            ORDER BY created_at DESC
             LIMIT :limit
         """),
             {"user_id": user_id_hash, "limit": limit},
@@ -130,10 +130,10 @@ def main():
 Examples:
   # Dry run erasure
   python gdpr_erase_user.py --user-id user123 --db-url sqlite:///akaq_memory.db --dry-run
-  
+
   # Execute erasure
   python gdpr_erase_user.py --user-id user123 --db-url sqlite:///akaq_memory.db
-  
+
   # PostgreSQL with production salt
   python gdpr_erase_user.py --user-id user123 --db-url postgresql://user:pass@localhost/akaq --salt prod_salt
         """,

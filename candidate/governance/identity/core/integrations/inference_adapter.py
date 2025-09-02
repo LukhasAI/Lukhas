@@ -546,11 +546,7 @@ class InferenceAdapter:
         """Validate inference request"""
         required_fields = ["request_id", "lambda_id", "inference_type", "input_data"]
 
-        for field in required_fields:
-            if not hasattr(request, field) or getattr(request, field) is None:
-                return False
-
-        return True
+        return all(not (not hasattr(request, field) or getattr(request, field) is None) for field in required_fields)
 
     def _check_inference_permissions(self, request: InferenceRequest) -> bool:
         """Check if user has permission for inference type"""

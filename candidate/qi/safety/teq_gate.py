@@ -7,7 +7,7 @@ import os
 import sys
 import time
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 import yaml
 
@@ -526,7 +526,7 @@ class TEQCoupler:
         ctx: dict[str, Any],
         *,
         within_sec: int = 300,
-        accepted_events: list[str] = None,
+        accepted_events: list[str] | None = None,
         require_same_user: bool = True,
     ) -> tuple[bool, str, str]:
         """

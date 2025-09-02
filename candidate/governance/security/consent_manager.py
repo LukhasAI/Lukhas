@@ -770,11 +770,10 @@ class ConsentManager(GlyphIntegrationMixin):
                     return context["trinity_impact"].get("guardian", 0) > 0.6
 
             # Handle existing conditions (inherited from parent)
-            if "permission_type in" in condition:
-                if "['admin', 'root', 'critical']" in condition:
-                    perm_check = context["permission_type"] in ["admin", "root", "critical"]
-                    trust_check = "trust_score < 0.8" in condition and context["trust_score"] < 0.8
-                    return perm_check and trust_check
+            if "permission_type in" in condition and "['admin', 'root', 'critical']" in condition:
+                perm_check = context["permission_type"] in ["admin", "root", "critical"]
+                trust_check = "trust_score < 0.8" in condition and context["trust_score"] < 0.8
+                return perm_check and trust_check
 
             if "trust_score <" in condition:
                 if "trust_score < 0.3" in condition:
@@ -782,9 +781,8 @@ class ConsentManager(GlyphIntegrationMixin):
                 if "trust_score < 0.8" in condition:
                     return context["trust_score"] < 0.8
 
-            if "recent_denial_count >=" in condition:
-                if "recent_denial_count >= 3" in condition:
-                    return context["recent_denial_count"] >= 3
+            if "recent_denial_count >=" in condition and "recent_denial_count >= 3" in condition:
+                return context["recent_denial_count"] >= 3
 
             if "context.get('emergency', False)" in condition:
                 emergency_check = context["context"].get("emergency", False)
@@ -1088,10 +1086,7 @@ class ConsentManager(GlyphIntegrationMixin):
 
             # Check Trinity Framework analysis
             trinity_analysis = await self._analyze_trinity_impact(test_request)
-            if not trinity_analysis:
-                return False
-
-            return True
+            return trinity_analysis
 
         except Exception as e:
             logger.error(f"Consent manager health check failed: {e}")

@@ -43,7 +43,7 @@ class ConsciousnessJourneyMapper:
         now = datetime.datetime.now(datetime.timezone.utc)
 
         past_events = []
-        for i in range(random.randint(1, 3)):
+        for _i in range(random.randint(1, 3)):
             event_time = now - datetime.timedelta(days=random.randint(30, timespan_months * 30))
             past_events.append(
                 {
@@ -55,7 +55,7 @@ class ConsciousnessJourneyMapper:
             )
 
         predicted_transitions = []
-        for i in range(random.randint(0, 2)):
+        for _i in range(random.randint(0, 2)):
             transition_time = now + datetime.timedelta(days=random.randint(30, 180))
             predicted_transitions.append(
                 {

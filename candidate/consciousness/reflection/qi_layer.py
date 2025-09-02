@@ -136,7 +136,7 @@ class QIBioOscillator:
 
         return result
 
-    def create_entanglement(self, other_oscillator: "QIBioOscillator", strength: float = None) -> dict[str, Any]:
+    def create_entanglement(self, other_oscillator: "QIBioOscillator", strength: Optional[float] = None) -> dict[str, Any]:
         """
         Create entanglement-like correlation with another oscillator.
 
@@ -189,7 +189,7 @@ class QIBioOscillator:
         total_effect = 0.0
         active_entanglements = 0
 
-        for _entanglement_id, entanglement_data in self.entangled_oscillators.items():
+        for entanglement_data in self.entangled_oscillators.values():
             other_oscillator = (
                 entanglement_data["oscillator_2"]
                 if entanglement_data["oscillator_1"] is self

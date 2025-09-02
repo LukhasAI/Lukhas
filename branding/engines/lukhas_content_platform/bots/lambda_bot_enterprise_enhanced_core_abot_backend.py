@@ -301,10 +301,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Security(
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """Create JWT access token"""
     to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(days=7)
+    expire = datetime.utcnow() + expires_delta if expires_delta else datetime.utcnow() + timedelta(days=7)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET, algorithm="HS256")
     return encoded_jwt
@@ -363,7 +360,7 @@ class ChatGPTService:
             logger.error(f"ChatGPT API error: {e}")
             raise HTTPException(status_code=500, detail="AI service temporarily unavailable")
 
-    async def generate_content(self, platform: str, topic: str, user_context: dict = None) -> str:
+    async def generate_content(self, platform: str, topic: str, user_context: Optional[dict] = None) -> str:
         """Generate platform-specific content"""
         prompt = f"""
         Generate engaging {platform} content about: {topic}
@@ -384,7 +381,7 @@ class ChatGPTService:
 
         return await self.chat_completion(messages, user_context.get("user_id", "anonymous"))
 
-    async def review_content(self, content: str, platform: str, user_context: dict = None) -> str:
+    async def review_content(self, content: str, platform: str, user_context: Optional[dict] = None) -> str:
         """Review content for compliance and effectiveness"""
         prompt = f"""
         Review this {platform} content for:
@@ -409,7 +406,7 @@ class ChatGPTService:
 
         return await self.chat_completion(messages, user_context.get("user_id", "anonymous"))
 
-    async def apply_amendment(self, content: str, amendment: str, user_context: dict = None) -> str:
+    async def apply_amendment(self, content: str, amendment: str, user_context: Optional[dict] = None) -> str:
         """Apply natural language amendments to content"""
         prompt = f"""
         Apply this amendment to the content:
@@ -605,7 +602,7 @@ class ComplianceService:
         return any(word in content.lower() for word in inappropriate_words)
 
     async def log_compliance_event(
-        self, event_type: str, event_data: dict, user_id: str = None, ip_address: str = None
+        self, event_type: str, event_data: dict, user_id: Optional[str] = None, ip_address: Optional[str] = None
     ):
         """Log compliance events for audit trail"""
         log_data = {

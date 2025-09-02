@@ -366,7 +366,7 @@ class TestMemoryUsagePerformance:
 
         # Save large scene
         start_time = time.perf_counter()
-        scene_id = sql_memory.save(
+        sql_memory.save(
             user_id="large_scene_test",
             scene=large_scene,
             glyphs=[create_test_glyph("large:scene")],
@@ -408,7 +408,7 @@ class TestConcurrentPerformance:
         scenes_per_thread = 50
         total_scenes = num_threads * scenes_per_thread
 
-        def write_scenes(thread_id: int, results: List):
+        def write_scenes(thread_id: int, results: list):
             thread_results = []
             thread_start = time.perf_counter()
 
@@ -487,7 +487,7 @@ class TestConcurrentPerformance:
                 cfg_version="wave_c_v1.0.0",
             )
 
-        def mixed_workload(thread_id: int, results: List):
+        def mixed_workload(thread_id: int, results: list):
             operations = []
             thread_start = time.perf_counter()
 
@@ -563,7 +563,7 @@ class TestConcurrentPerformance:
         num_threads = 20  # High contention
         operations_per_thread = 10
 
-        def high_contention_operations(thread_id: int, results: List):
+        def high_contention_operations(thread_id: int, results: list):
             success_count = 0
             error_count = 0
 

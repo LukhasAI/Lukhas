@@ -109,10 +109,9 @@ class EthicsComplianceEngine:
                 result.risk_score = 0.8
 
             # Check for sensitive data patterns
-            if data and isinstance(data, (str, dict)):
-                if self._contains_sensitive_data(data):
-                    result.warnings.append("Action involves potentially sensitive data")
-                    result.risk_score = max(result.risk_score, 0.3)
+            if data and isinstance(data, (str, dict)) and self._contains_sensitive_data(data):
+                result.warnings.append("Action involves potentially sensitive data")
+                result.risk_score = max(result.risk_score, 0.3)
 
             # Update plugin risk score if needed
             if result.violations:

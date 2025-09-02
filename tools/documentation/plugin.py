@@ -55,7 +55,7 @@ class DocuTutorPlugin(LUKHASPlugin):
     Implements Lukhas's core patterns for perfect UX and safe AI.
     """
 
-    def __init__(self, plugin_config: dict[str, Any] = None):
+    def __init__(self, plugin_config: Optional[dict[str, Any]] = None):
         """Initialize plugin with Lukhas AGI systems."""
         super().__init__(name="DocuTutor", version="1.0.0")
 

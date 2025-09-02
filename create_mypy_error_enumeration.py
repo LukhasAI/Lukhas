@@ -7,10 +7,11 @@ Creates a structured JSON file of all mypy errors for agent task assignment
 import json
 import subprocess
 import sys
+from dataclasses import asdict, dataclass
+from enum import Enum
 from pathlib import Path
 from typing import Any
-from dataclasses import dataclass, asdict
-from enum import Enum
+
 
 class ErrorPriority(Enum):
     CRITICAL = "critical"  # Core functionality, imports, type safety

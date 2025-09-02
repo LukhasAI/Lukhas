@@ -3,6 +3,8 @@ VIVOX.EVRN - Encrypted Visual Recognition Node
 Handles encrypted perception with ethical privacy preservation
 """
 
+from typing import Optional
+
 from .anomaly_detection import (
     AnomalyDetector,
     AnomalyType,
@@ -34,9 +36,9 @@ from .vivox_evrn_core import (
 
 # Main factory function
 def create_vivox_evrn_system(
-    encryption_key: bytes = None,
-    ethical_constraints: dict = None,
-    integration_interfaces: dict = None,
+    encryption_key: Optional[bytes] = None,
+    ethical_constraints: Optional[dict] = None,
+    integration_interfaces: Optional[dict] = None,
 ) -> VIVOXEncryptedPerceptionNode:
     """
     Create a complete VIVOX.EVRN system

@@ -73,10 +73,9 @@ class ResourceAllocationOptimizer(CoreInterface):
             # Check if we have enough resources
             can_allocate = True
             for resource_type, amount in required.items():
-                if resource_type in remaining_resources:
-                    if remaining_resources[resource_type] < amount:
-                        can_allocate = False
-                        break
+                if resource_type in remaining_resources and remaining_resources[resource_type] < amount:
+                    can_allocate = False
+                    break
 
             if can_allocate:
                 # Allocate resources

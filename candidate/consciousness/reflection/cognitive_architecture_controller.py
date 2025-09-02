@@ -593,7 +593,7 @@ class SemanticMemory(MemorySystem):
             except Exception as e:
                 logger.error(f"Failed to load foundational knowledge: {e}")
 
-    def store(self, key: str, content: Any, related_concepts: list[str] = None, **kwargs) -> bool:
+    def store(self, key: str, content: Any, related_concepts: Optional[list[str]] = None, **kwargs) -> bool:
         """Store semantic knowledge with concept relationships."""
         with self.lock:
             if len(self.items) >= self.capacity:
@@ -1647,7 +1647,7 @@ class CognitiveArchitectureController:
         return {"error": "Learning timeout"}
 
     @lukhas_tier_required(3)
-    def plan(self, goal: dict[str, Any], constraints: list[dict[str, Any]] = None) -> dict[str, Any]:
+    def plan(self, goal: dict[str, Any], constraints: Optional[list[dict[str, Any]]] = None) -> dict[str, Any]:
         """Create a plan to achieve a goal."""
         process = CognitiveProcess(
             process_type=CognitiveProcessType.PLANNING,

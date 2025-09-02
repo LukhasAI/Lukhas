@@ -451,11 +451,7 @@ def is_sustainable_location(location: tuple[float, float]) -> bool:
         (47.6062, -122.3321),  # Seattle (example)
     ]
 
-    for s_lat, s_lon in sustainable_zones:
-        if abs(lat - s_lat) < 0.1 and abs(lon - s_lon) < 0.1:
-            return True
-
-    return False
+    return any(abs(lat - s_lat) < 0.1 and abs(lon - s_lon) < 0.1 for s_lat, s_lon in sustainable_zones)
 
 
 def is_indoor_location(location: tuple[float, float]) -> bool:

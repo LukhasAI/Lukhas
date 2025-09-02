@@ -410,7 +410,7 @@ class TraumaRepairSystem:
 
         # Create repair scaffold
         scaffold = RepairScaffold(
-            target_memory_id=list(trauma.affected_memories)[0],  # Primary target
+            target_memory_id=next(iter(trauma.affected_memories)),  # Primary target
             repair_strategy=strategy,
         )
 

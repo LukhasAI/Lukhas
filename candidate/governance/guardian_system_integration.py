@@ -801,7 +801,7 @@ class GuardianSystemIntegration:
         # Check all 8 constellation stars for validation
         constellation_stars_validated = [
             response.identity_validated,    # ✨ Identity
-            response.memory_validated,      # 🌟 Memory  
+            response.memory_validated,      # 🌟 Memory
             response.vision_validated,      # ⭐ Vision
             response.bio_validated,         # 🔥 Bio
             response.dream_validated,       # 💎 Dream
@@ -809,7 +809,7 @@ class GuardianSystemIntegration:
             response.guardian_approved,     # 🛡️ Guardian - The Watch Star
             response.quantum_validated      # 🌌 Quantum
         ]
-        
+
         validated_count = sum(constellation_stars_validated)
         if validated_count >= 6:  # At least 6 of 8 stars must be validated
             reasoning_parts.append(f"Constellation Framework validation passed ({validated_count}/8 stars)")

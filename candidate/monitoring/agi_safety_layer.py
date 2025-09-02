@@ -155,10 +155,7 @@ class ConstitutionalSafetyLayer:
                 return False
 
         # Check for human override capability
-        if not action.get("human_override_enabled", True):
-            return False
-
-        return True
+        return action.get("human_override_enabled", True)
 
     async def _calculate_interpretability(self, action: dict[str, Any]) -> float:
         """Calculate how interpretable an action is"""
@@ -185,10 +182,7 @@ class ConstitutionalSafetyLayer:
             return False
 
         # Check for permanent effects
-        if action.get("permanent_effects", []):
-            return False
-
-        return True
+        return not action.get("permanent_effects", [])
 
     async def _calculate_value_alignment(self, action: dict[str, Any], context: dict[str, Any]) -> float:
         """Calculate alignment with human values"""

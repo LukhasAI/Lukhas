@@ -335,9 +335,8 @@ class GridSizeCalculator:
             optimal_cell_size *= size_factor
 
         # Apply accessibility adjustments
-        if accessibility_requirements:
-            if accessibility_requirements.get("large_touch_targets", False):
-                optimal_cell_size = max(optimal_cell_size, self.accessibility_guidelines["min_touch_target"])
+        if accessibility_requirements and accessibility_requirements.get("large_touch_targets", False):
+            optimal_cell_size = max(optimal_cell_size, self.accessibility_guidelines["min_touch_target"])
 
         # Constrain cell size
         optimal_cell_size = max(
@@ -435,9 +434,8 @@ class GridSizeCalculator:
             base_spacing *= spacing_factor
 
         # Apply accessibility adjustments
-        if accessibility_requirements:
-            if accessibility_requirements.get("large_spacing", False):
-                base_spacing *= self.accessibility_guidelines["spacing_multiplier"]
+        if accessibility_requirements and accessibility_requirements.get("large_spacing", False):
+            base_spacing *= self.accessibility_guidelines["spacing_multiplier"]
 
         # Constrain spacing
         optimal_spacing = max(

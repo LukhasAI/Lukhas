@@ -10,7 +10,7 @@ import os
 import tempfile
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 import requests
 
@@ -56,7 +56,7 @@ class VoiceSynthesisProvider(ABC):
     Each provider must implement the synthesize method.
     """
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.logger = logging.getLogger(f"VoiceSynthesis.{self.__class__.__name__}")
         self.config = config or {}
 
@@ -64,9 +64,9 @@ class VoiceSynthesisProvider(ABC):
     def synthesize(
         self,
         text: str,
-        voice_id: str = None,
-        emotion: str = None,
-        params: dict[str, Any] = None,
+        voice_id: Optional[str] = None,
+        emotion: Optional[str] = None,
+        params: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Synthesize speech from text.
@@ -137,7 +137,7 @@ class ElevenLabsProvider(VoiceSynthesisProvider):
     Provides high-quality, emotional TTS capabilities.
     """
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         super().__init__(config)
         self.api_key = self.config.get("api_key")
         self.base_url = "https://api.elevenlabs.io/v1"
@@ -146,9 +146,9 @@ class ElevenLabsProvider(VoiceSynthesisProvider):
     def synthesize(
         self,
         text: str,
-        voice_id: str = None,
-        emotion: str = None,
-        params: dict[str, Any] = None,
+        voice_id: Optional[str] = None,
+        emotion: Optional[str] = None,
+        params: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Synthesize speech using ElevenLabs API.
@@ -295,7 +295,7 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
     Provides reliable, free TTS with multiple voices and languages.
     """
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         super().__init__(config)
         # Lazy import edge-tts - will be imported when needed
         self.edge_tts = None
@@ -304,9 +304,9 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
     def synthesize(
         self,
         text: str,
-        voice_id: str = None,
-        emotion: str = None,
-        params: dict[str, Any] = None,
+        voice_id: Optional[str] = None,
+        emotion: Optional[str] = None,
+        params: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Synthesize speech using Edge TTS.
@@ -455,7 +455,7 @@ class CoquiProvider(VoiceSynthesisProvider):
     Provides high-quality open-source TTS with XTTS model support.
     """
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         super().__init__(config)
         self.tts = None
         self.model_path = self.config.get("model_path")
@@ -464,9 +464,9 @@ class CoquiProvider(VoiceSynthesisProvider):
     def synthesize(
         self,
         text: str,
-        voice_id: str = None,
-        emotion: str = None,
-        params: dict[str, Any] = None,
+        voice_id: Optional[str] = None,
+        emotion: Optional[str] = None,
+        params: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Synthesize speech using Coqui TTS.

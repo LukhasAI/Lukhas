@@ -70,10 +70,7 @@ class SecurityIntegration:
         async def encrypt_memory_data(data: Any, memory_type: str = "general") -> tuple[bytes, str]:
             """Encrypt memory data with proper crypto"""
             # Serialize data
-            if isinstance(data, dict):
-                data_bytes = json.dumps(data).encode("utf-8")
-            else:
-                data_bytes = str(data).encode("utf-8")
+            data_bytes = json.dumps(data).encode("utf-8") if isinstance(data, dict) else str(data).encode("utf-8")
 
             # Use appropriate encryption based on memory type
             if memory_type == "personality":
@@ -206,10 +203,7 @@ class SecurityIntegration:
             return await hook(data, data_type)
         else:
             # Default encryption
-            if isinstance(data, dict):
-                data_bytes = json.dumps(data).encode()
-            else:
-                data_bytes = str(data).encode()
+            data_bytes = json.dumps(data).encode() if isinstance(data, dict) else str(data).encode()
 
             return await self.crypto.encrypt(data_bytes, purpose="data")
 

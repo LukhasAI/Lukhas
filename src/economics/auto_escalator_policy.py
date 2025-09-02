@@ -392,7 +392,7 @@ class AutoEscalatorPolicy:
 
         # Calculate progress toward next tier
         progress_scores = []
-        for req_type, result in requirement_results.items():
+        for result in requirement_results.values():
             if result["required"] > 0:
                 progress = min(result["actual"] / result["required"], 1.0)
                 progress_scores.append(progress)

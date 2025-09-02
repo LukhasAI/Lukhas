@@ -35,7 +35,7 @@ class VivoxCollapseState:
     emotional_resonance: float
     phase: float
     creation_timestamp: float
-    state_vector: List[float]
+    state_vector: list[float]
     collapse_hash: Optional[str] = None
 
 
@@ -80,8 +80,8 @@ class VivoxAkaQualiaIntegration:
 
         # State tracking for drift detection
         self.previous_collapse_hash: Optional[str] = None
-        self.collapse_history: List[Dict[str, Any]] = []
-        self.drift_history: List[VivoxDriftResult] = []
+        self.collapse_history: list[dict[str, Any]] = []
+        self.drift_history: list[VivoxDriftResult] = []
 
         # Initialize VIVOX components (lazy loading)
         self._vivox_collapse_engine = None
@@ -279,7 +279,7 @@ class VivoxAkaQualiaIntegration:
             collapse_hash=collapse_hash,
         )
 
-    async def integrate_with_vivox_collapse(self, scene: PhenomenalScene) -> Dict[str, Any]:
+    async def integrate_with_vivox_collapse(self, scene: PhenomenalScene) -> dict[str, Any]:
         """
         Integrate phenomenological scene with VIVOX Z(t) collapse function.
 
@@ -347,7 +347,7 @@ class VivoxAkaQualiaIntegration:
         except Exception as e:
             return {"status": "integration_error", "error": str(e), "collapse_hash": collapse_state.collapse_hash}
 
-    async def integrate_with_vivox_memory(self, scene: PhenomenalScene) -> Dict[str, Any]:
+    async def integrate_with_vivox_memory(self, scene: PhenomenalScene) -> dict[str, Any]:
         """
         Integrate phenomenological scene with VIVOX Memory Expansion (ME).
 
@@ -404,7 +404,7 @@ class VivoxAkaQualiaIntegration:
         except Exception as e:
             return {"status": "storage_error", "error": str(e)}
 
-    def get_drift_status(self) -> Dict[str, Any]:
+    def get_drift_status(self) -> dict[str, Any]:
         """Get current VIVOX drift monitoring status"""
         if not self.drift_history:
             return {"status": "no_drift_data", "drift_threshold": self.drift_threshold}
@@ -433,6 +433,6 @@ class VivoxAkaQualiaIntegration:
             },
         }
 
-    def get_collapse_history(self, limit: int = 10) -> List[Dict[str, Any]]:
+    def get_collapse_history(self, limit: int = 10) -> list[dict[str, Any]]:
         """Get recent VIVOX collapse history"""
         return self.collapse_history[-limit:] if self.collapse_history else []

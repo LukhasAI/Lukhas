@@ -377,7 +377,7 @@ class SemanticExtractor:
 
         # Fallback to first attribute
         if features["attributes"]:
-            return list(features["attributes"].keys())[0]
+            return next(iter(features["attributes"].keys()))
 
         return "unknown"
 

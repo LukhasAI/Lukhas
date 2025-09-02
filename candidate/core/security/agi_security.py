@@ -397,11 +397,7 @@ class AccessControlSystem:
             return True
 
         # Check wildcard match
-        for perm in context.permissions:
-            if perm.endswith("*") and operation.startswith(perm[:-1]):
-                return True
-
-        return False
+        return any(perm.endswith("*") and operation.startswith(perm[:-1]) for perm in context.permissions)
 
     async def limit_user_access(self, user_id: str):
         """Temporarily limit user access"""

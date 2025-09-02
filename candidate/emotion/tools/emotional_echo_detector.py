@@ -253,7 +253,7 @@ class ArchetypeDetector:
     def _compile_patterns(self):
         """Compile archetype patterns for efficient matching."""
         for archetype, info in self.ARCHETYPE_PATTERNS.items():
-            patterns = [info["pattern"]] + info.get("variations", [])
+            patterns = [info["pattern"], *info.get("variations", [])]
             compiled = []
 
             for pattern in patterns:
@@ -868,7 +868,7 @@ class EmotionalEchoDetector:
             logger.warning(f"Failed to calculate time span: {e}")
             return 0.0
 
-    def generate_loop_report(self, format: str = "json", window_minutes: int = None) -> Union[dict[str, Any], str]:
+    def generate_loop_report(self, format: str = "json", window_minutes: Optional[int] = None) -> Union[dict[str, Any], str]:
         """
         Generate comprehensive loop detection report.
 

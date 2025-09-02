@@ -262,7 +262,7 @@ class ComprehensiveAPIOrchestrator:
         self.global_functions.update(functions)
 
         # Register with individual bridges
-        for provider, bridge in self.bridges.items():
+        for bridge in self.bridges.values():
             if hasattr(bridge, "register_functions_from_dict"):
                 bridge.register_functions_from_dict(functions)
             elif hasattr(bridge, "register_tools_from_dict"):
@@ -947,7 +947,7 @@ class ComprehensiveAPIOrchestrator:
             **self.metrics,
             "success_rate": self.metrics["successful_requests"] / max(total_requests, 1),
             "average_cost_per_request": self.metrics["total_cost"] / max(total_requests, 1),
-            "available_providers": [p.value for p in self.bridges.keys()],
+            "available_providers": [p.value for p in self.bridges],
             "global_functions_registered": len(self.global_functions),
             "daily_costs": dict(self.daily_costs),
             "performance_score": self._calculate_performance_score(),
@@ -1054,7 +1054,7 @@ class AdvancedConsensusStrategies:
 async def orchestrate_request(
     prompt: str,
     strategy: str = "consensus",
-    providers: list[str] = None,
+    providers: Optional[list[str]] = None,
     enable_functions: bool = True,
     context: Optional[dict[str, Any]] = None,
 ) -> OrchestrationResponse:

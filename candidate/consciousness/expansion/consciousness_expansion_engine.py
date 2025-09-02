@@ -687,9 +687,8 @@ class ConsciousnessExpansionEngine(CoreInterface):
             elif capability == "collective_intelligence":
                 if self.current_consciousness_level > 2.5:
                     developed.append(capability)
-            elif capability == "reality_modeling":
-                if self.current_consciousness_level > 3.0:
-                    developed.append(capability)
+            elif capability == "reality_modeling" and self.current_consciousness_level > 3.0:
+                developed.append(capability)
 
         return developed
 

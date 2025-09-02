@@ -8,11 +8,11 @@ import json
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 class QualityDashboard:
-    def __init__(self, project_root: Path = None):
+    def __init__(self, project_root: Optional[Path] = None):
         self.project_root = project_root or Path.cwd()
         self.metrics = {}
         self.history_file = self.project_root / "test_results" / "quality_history.json"

@@ -233,10 +233,7 @@ class LambdIDValidator:
             return False
 
         # Check format: LUKHAS{tier}-{hash}-{symbol}-{entropy}
-        if not parts[0].startswith("LUKHAS"):
-            return False
-
-        return True
+        return parts[0].startswith("LUKHAS")
 
 
 # Export main classes

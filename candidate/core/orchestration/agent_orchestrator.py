@@ -243,7 +243,7 @@ class AgentOrchestrator:
             del self.agents[agent_id]
 
             # Update capability index
-            for _capability, agent_set in self.agent_capabilities.items():
+            for agent_set in self.agent_capabilities.values():
                 agent_set.discard(agent_id)
 
             self._logger.info(f"Unregistered agent: {agent_id}")

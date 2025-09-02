@@ -292,9 +292,8 @@ class DeontologicalEngine(EthicalFrameworkEngine):
             if condition in decision.context:
                 if decision.context[condition] != expected:
                     return False
-            elif condition in decision.metadata:
-                if decision.metadata[condition] != expected:
-                    return False
+            elif condition in decision.metadata and decision.metadata[condition] != expected:
+                return False
         return True
 
     def _check_violation(self, principle: EthicalPrinciple, decision: EthicalDecision) -> bool:
@@ -688,7 +687,7 @@ class MetaEthicsGovernor:
             ],
         }
 
-    async def quick_ethical_check(self, action: str, context: dict[str, Any] = None) -> bool:
+    async def quick_ethical_check(self, action: str, context: Optional[dict[str, Any]] = None) -> bool:
         """Quick ethical check for simple decisions"""
         decision = EthicalDecision(
             action_type="quick_check",

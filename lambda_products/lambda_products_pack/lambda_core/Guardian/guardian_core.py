@@ -11,7 +11,7 @@ import time
 import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger("ΛGuardian.Core")
 
@@ -559,7 +559,7 @@ class LambdaGuardianEngine:
         event_type: str,
         severity: str,
         description: str,
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
         source_module: str = "λ_guardian_engine",
     ):
         """Log a ΛGuardian system event"""
@@ -613,7 +613,7 @@ class LambdaGuardianEngine:
     # Public ΛGuardian API methods
 
     async def request_lambda_consent(
-        self, requester: str, resource: str, permission: str, context: dict = None
+        self, requester: str, resource: str, permission: str, context: Optional[dict] = None
     ) -> dict:
         """Request consent through ΛGuardian system"""
         if "λ_consent_manager" not in self.subsystems:
@@ -674,7 +674,7 @@ class LambdaGuardianEngine:
             )
             return {"error": str(e)}
 
-    async def emergency_lambda_alert(self, emergency_type: str, severity: str = "high", context: dict = None) -> dict:
+    async def emergency_lambda_alert(self, emergency_type: str, severity: str = "high", context: Optional[dict] = None) -> dict:
         """Trigger emergency alert through ΛGuardian"""
         if "λ_emergency_aid" not in self.subsystems:
             return {"error": "ΛEmergency aid not available"}
@@ -766,7 +766,7 @@ class LambdaGuardianEngine:
 # Convenience functions for ΛGuardian usage
 
 
-async def create_lambda_guardian(config_path: str = None) -> LambdaGuardianEngine:
+async def create_lambda_guardian(config_path: Optional[str] = None) -> LambdaGuardianEngine:
     """Create and initialize ΛGuardian Engine"""
     guardian = LambdaGuardianEngine(config_path=config_path)
     await guardian.start_all_systems()

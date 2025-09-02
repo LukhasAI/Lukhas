@@ -43,16 +43,14 @@ def orchestrator(mock_openai_wrapper, mock_anthropic_wrapper, mock_gemini_wrappe
     with patch(
         "candidate.bridge.orchestration.multi_ai_orchestrator.UnifiedOpenAIClient",
         new=lambda: mock_openai_wrapper,
+    ), patch(
+        "candidate.bridge.orchestration.multi_ai_orchestrator.AnthropicWrapper",
+        new=lambda: mock_anthropic_wrapper,
+    ), patch(
+        "candidate.bridge.orchestration.multi_ai_orchestrator.GeminiWrapper",
+        new=lambda: mock_gemini_wrapper,
     ):
-        with patch(
-            "candidate.bridge.orchestration.multi_ai_orchestrator.AnthropicWrapper",
-            new=lambda: mock_anthropic_wrapper,
-        ):
-            with patch(
-                "candidate.bridge.orchestration.multi_ai_orchestrator.GeminiWrapper",
-                new=lambda: mock_gemini_wrapper,
-            ):
-                return ModelOrchestrator()
+        return ModelOrchestrator()
 
 
 @pytest.mark.asyncio
@@ -104,16 +102,14 @@ async def test_generate_response_no_providers():
     with patch(
         "candidate.bridge.orchestration.multi_ai_orchestrator.UnifiedOpenAIClient",
         new=lambda: MockLLMWrapper(is_available=False),
+    ), patch(
+        "candidate.bridge.orchestration.multi_ai_orchestrator.AnthropicWrapper",
+        new=lambda: MockLLMWrapper(is_available=False),
+    ), patch(
+        "candidate.bridge.orchestration.multi_ai_orchestrator.GeminiWrapper",
+        new=lambda: MockLLMWrapper(is_available=False),
     ):
-        with patch(
-            "candidate.bridge.orchestration.multi_ai_orchestrator.AnthropicWrapper",
-            new=lambda: MockLLMWrapper(is_available=False),
-        ):
-            with patch(
-                "candidate.bridge.orchestration.multi_ai_orchestrator.GeminiWrapper",
-                new=lambda: MockLLMWrapper(is_available=False),
-            ):
-                orchestrator = ModelOrchestrator()
-                prompt = "test prompt"
-                with pytest.raises(ValueError, match="No LLM providers are available"):
-                    await orchestrator.generate_response(prompt)
+        orchestrator = ModelOrchestrator()
+        prompt = "test prompt"
+        with pytest.raises(ValueError, match="No LLM providers are available"):
+            await orchestrator.generate_response(prompt)

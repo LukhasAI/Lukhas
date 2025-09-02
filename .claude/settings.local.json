@@ -97,7 +97,9 @@
       "Bash(do)",
       "Bash(echo:*)",
       "Bash(gh run list:*)",
-      "Bash(rg:*)"
+      "Bash(rg:*)",
+      "Bash(for pr in 108 109 111 115 117 118 119 121)",
+      "Bash(do echo \"=== PR #$pr ===\")"
     ],
     "deny": [],
     "ask": []

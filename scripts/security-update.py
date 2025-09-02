@@ -12,6 +12,7 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 
 class SecurityUpdater:
@@ -87,7 +88,7 @@ class SecurityUpdater:
         severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "unknown": 4}
         return sorted(vulnerabilities, key=lambda x: severity_order.get(x.get("severity", "unknown"), 4))
 
-    def update_package(self, package: str, version: str = None) -> bool:
+    def update_package(self, package: str, version: Optional[str] = None) -> bool:
         """Update a specific package"""
         if version and version != "latest":
             cmd = ["pip", "install", "--upgrade", f"{package}=={version}"]

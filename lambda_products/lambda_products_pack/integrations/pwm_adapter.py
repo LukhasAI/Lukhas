@@ -348,14 +348,13 @@ class NIASPlugin(LukhasPlugin):
         if not consent:
             return {"delivered": False, "reason": "no_consent"}
 
-        if emotion in ["stressed", "overwhelmed", "anxious"]:
-            if len(self.message_queue) < max_queue:
-                self.message_queue.append(input_data.get("message"))
-                return {
-                    "delivered": False,
-                    "queued": True,
-                    "queue_size": len(self.message_queue),
-                }
+        if emotion in ["stressed", "overwhelmed", "anxious"] and len(self.message_queue) < max_queue:
+            self.message_queue.append(input_data.get("message"))
+            return {
+                "delivered": False,
+                "queued": True,
+                "queue_size": len(self.message_queue),
+            }
 
         return {
             "delivered": True,

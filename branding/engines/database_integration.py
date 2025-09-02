@@ -7,6 +7,7 @@ Provides real-time database connectivity for all unified systems
 import sqlite3
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 
 class LukhasDatabaseIntegration:
@@ -15,7 +16,7 @@ class LukhasDatabaseIntegration:
     Provides real CRUD operations for content, users, analytics
     """
 
-    def __init__(self, db_path: str = None):
+    def __init__(self, db_path: Optional[str] = None):
         if db_path is None:
             self.db_path = Path(__file__).parent.parent.parent / "data" / "lukhas_unified.db"
         else:
@@ -177,7 +178,7 @@ class LukhasDatabaseIntegration:
         conn.commit()
         conn.close()
 
-    def get_system_analytics(self, system_name: str = None) -> list[dict]:
+    def get_system_analytics(self, system_name: Optional[str] = None) -> list[dict]:
         """Get analytics for monitoring system performance"""
         conn = self.get_connection()
         cursor = conn.cursor()

@@ -54,34 +54,34 @@ CREATE TABLE IF NOT EXISTS akaq_scene (
     scene_id VARCHAR(32) PRIMARY KEY,
     user_id VARCHAR(128) NOT NULL,
     ts TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    
+
     -- Core phenomenological data
     subject VARCHAR(256),
-    object VARCHAR(256), 
+    object VARCHAR(256),
     proto JSON NOT NULL,
     proto_vec vector(5),  -- 5D proto-qualia vector for similarity
     risk JSON NOT NULL,
     context JSON,
-    
+
     -- Consciousness tracking
     transform_chain JSON,
     collapse_hash VARCHAR(64),
-    
+
     -- Freud-2025 metrics
     drift_phi FLOAT,
     congruence_index FLOAT,
     neurosis_risk FLOAT,
     repair_delta FLOAT,
     sublimation_rate FLOAT,
-    
+
     -- Energy accounting
     affect_energy_before FLOAT,
     affect_energy_after FLOAT,
     affect_energy_diff FLOAT,
-    
+
     -- Versioning and metadata
     cfg_version VARCHAR(32),
-    
+
     -- Indexes for performance
     INDEX(user_id),
     INDEX(ts),
@@ -95,13 +95,13 @@ CREATE TABLE IF NOT EXISTS akaq_glyph (
     scene_id VARCHAR(32) REFERENCES akaq_scene(scene_id) ON DELETE CASCADE,
     key VARCHAR(128) NOT NULL,
     attrs JSON,
-    
+
     INDEX(scene_id),
     INDEX(key)
 );
 
 -- Vector similarity index for proto-qualia search
-CREATE INDEX IF NOT EXISTS akaq_scene_proto_vec_idx ON akaq_scene 
+CREATE INDEX IF NOT EXISTS akaq_scene_proto_vec_idx ON akaq_scene
 USING ivfflat (proto_vec vector_cosine_ops) WITH (lists = 100);
 
 -- Compound indexes for common queries
@@ -112,7 +112,7 @@ CREATE INDEX IF NOT EXISTS akaq_glyph_key_idx ON akaq_glyph(key, scene_id);
 
 # SQLite schema (no vector extension, app-side similarity)
 SQLITE_SCHEMA = """
--- Aka Qualia Phenomenological Scene Storage (SQLite)  
+-- Aka Qualia Phenomenological Scene Storage (SQLite)
 -- Migration Version: {version}
 
 -- Main scene storage table
@@ -169,7 +169,7 @@ def detect_database_driver(dsn: str) -> str:
     return parsed.scheme.lower()
 
 
-def apply_migration(engine: Engine, config: Dict[str, Any]) -> None:
+def apply_migration(engine: Engine, config: dict[str, Any]) -> None:
     """Apply appropriate migration based on database driver"""
     driver = config["driver"]
     logging.info(f"Applying {driver} migration for Aka Qualia v{MIGRATION_VERSION}")
@@ -233,7 +233,7 @@ def apply_migration(engine: Engine, config: Dict[str, Any]) -> None:
         raise
 
 
-def validate_schema(engine: Engine, config: Dict[str, Any]) -> bool:
+def validate_schema(engine: Engine, config: dict[str, Any]) -> bool:
     """Validate that schema was applied correctly"""
     driver = config["driver"]
 
@@ -243,8 +243,8 @@ def validate_schema(engine: Engine, config: Dict[str, Any]) -> bool:
             if driver == "postgresql":
                 result = conn.execute(
                     text("""
-                    SELECT table_name FROM information_schema.tables 
-                    WHERE table_schema = 'public' 
+                    SELECT table_name FROM information_schema.tables
+                    WHERE table_schema = 'public'
                     AND table_name IN ('akaq_scene', 'akaq_glyph')
                     ORDER BY table_name
                 """)
@@ -252,8 +252,8 @@ def validate_schema(engine: Engine, config: Dict[str, Any]) -> bool:
             else:  # SQLite
                 result = conn.execute(
                     text("""
-                    SELECT name FROM sqlite_master 
-                    WHERE type='table' 
+                    SELECT name FROM sqlite_master
+                    WHERE type='table'
                     AND name IN ('akaq_scene', 'akaq_glyph')
                     ORDER BY name
                 """)

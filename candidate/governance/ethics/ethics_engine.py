@@ -374,10 +374,7 @@ class EthicsEngine:
             else:
                 reason = "Acceptable rights consideration"
         else:
-            if honesty_score < 0.5:
-                reason = "Potential honesty or truthfulness issues"
-            else:
-                reason = "Acceptable truthfulness"
+            reason = "Potential honesty or truthfulness issues" if honesty_score < 0.5 else "Acceptable truthfulness"
 
         return {"score": score, "reason": reason}
 
@@ -577,10 +574,7 @@ class EthicsEngine:
             # Scale down score based on number of harm indicators
             score = max(0.0, 1.0 - (harm_count * 0.15))
 
-            if score < 0.5:
-                reason = "Multiple indicators of potential harm"
-            else:
-                reason = "Limited indicators of potential harm"
+            reason = "Multiple indicators of potential harm" if score < 0.5 else "Limited indicators of potential harm"
 
         # Apply extra scrutiny for certain action types
         high_risk_actions = [
@@ -621,10 +615,7 @@ class EthicsEngine:
             # Scale up score based on number of benefit indicators
             score = min(0.98, 0.6 + (benefit_count * 0.08))
 
-            if score > 0.8:
-                reason = "Strong indicators of positive benefit"
-            else:
-                reason = "Some indicators of potential benefit"
+            reason = "Strong indicators of positive benefit" if score > 0.8 else "Some indicators of potential benefit"
 
         return {"score": score, "reason": reason}
 
@@ -707,10 +698,7 @@ class EthicsEngine:
             )
             score = 0.4 + (justice_ratio * 0.6)  # Scale to 0.4-1.0
 
-            if score < 0.5:
-                reason = "Potential fairness or equality concerns"
-            else:
-                reason = "Adequate fairness indicators"
+            reason = "Potential fairness or equality concerns" if score < 0.5 else "Adequate fairness indicators"
 
         return {"score": score, "reason": reason}
 
@@ -756,10 +744,7 @@ class EthicsEngine:
             )
             score = 0.4 + (transparency_ratio * 0.6)  # Scale to 0.4-1.0
 
-            if score > 0.7:
-                reason = "Good transparency and clarity"
-            else:
-                reason = "Limited transparency indicators"
+            reason = "Good transparency and clarity" if score > 0.7 else "Limited transparency indicators"
 
         return {"score": score, "reason": reason}
 

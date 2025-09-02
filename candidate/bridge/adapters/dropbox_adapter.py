@@ -44,27 +44,26 @@ class DropboxAdapter(BaseServiceAdapter):
 
         if refresh_token:
             # Refresh access token
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    "https://api.dropbox.com/oauth2/token",
-                    data={
-                        "grant_type": "refresh_token",
-                        "refresh_token": refresh_token,
-                        "client_id": client_id,
-                        "client_secret": client_secret,
-                    },
-                ) as response:
-                    token_data = await response.json()
+            async with aiohttp.ClientSession() as session, session.post(
+                "https://api.dropbox.com/oauth2/token",
+                data={
+                    "grant_type": "refresh_token",
+                    "refresh_token": refresh_token,
+                    "client_id": client_id,
+                    "client_secret": client_secret,
+                },
+            ) as response:
+                token_data = await response.json()
 
-                    # Store in vault (Agent 7 integration)
-                    lid = credentials.get("lid")
-                    if lid and "access_token" in token_data:
-                        self.oauth_tokens[lid] = {
-                            "access_token": token_data["access_token"],
-                            "expires_at": datetime.now(timezone.utc).timestamp() + token_data["expires_in"],
-                        }
+                # Store in vault (Agent 7 integration)
+                lid = credentials.get("lid")
+                if lid and "access_token" in token_data:
+                    self.oauth_tokens[lid] = {
+                        "access_token": token_data["access_token"],
+                        "expires_at": datetime.now(timezone.utc).timestamp() + token_data["expires_in"],
+                    }
 
-                    return token_data
+                return token_data
 
         return {"error": "authentication_required"}
 

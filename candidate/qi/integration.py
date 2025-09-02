@@ -18,7 +18,7 @@ class QIIntegration:
     Central integration point for Quantum-Inspired components
     """
 
-    def __init__(self, state_dir: Path = None):
+    def __init__(self, state_dir: Optional[Path] = None):
         self.state_dir = state_dir or Path.home() / ".lukhas" / "state" / "qi"
 
         # Initialize QI components
@@ -33,9 +33,9 @@ class QIIntegration:
         module: str,
         action: str,
         confidence: float,
-        risk_estimate: float = None,
+        risk_estimate: Optional[float] = None,
         energy: float = 1.0,
-        metadata: dict = None,
+        metadata: Optional[dict] = None,
     ) -> tuple[bool, dict[str, Any]]:
         """
         Evaluate an action through both calibration and TEQ systems

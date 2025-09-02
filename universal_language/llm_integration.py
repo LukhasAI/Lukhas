@@ -272,7 +272,7 @@ class LLMLanguageBridge:
 
         for word in words:
             # Check if word matches known symbol names
-            for symbol_id, _mapping in self.tokenizer_alignment.items():
+            for symbol_id in self.tokenizer_alignment:
                 # This would be more sophisticated
                 symbol = self._lookup_symbol(symbol_id)
                 if symbol and word == symbol.name.lower():

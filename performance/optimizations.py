@@ -43,11 +43,10 @@ class LRUCache:
                 return default
 
             # Check TTL
-            if self.ttl and self.timestamps:
-                if time.time() - self.timestamps[key] > self.ttl:
-                    self._delete(key)
-                    self.misses += 1
-                    return default
+            if self.ttl and self.timestamps and time.time() - self.timestamps[key] > self.ttl:
+                self._delete(key)
+                self.misses += 1
+                return default
 
             # Move to end (most recently used)
             value = self.cache.pop(key)

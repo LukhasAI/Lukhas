@@ -17,7 +17,7 @@ class LIDClient:
         self.endpoint = endpoint
         self.current_user = None
 
-    async def authenticate_user(self, credentials: Dict[str, str]) -> Optional[Dict[str, Any]]:
+    async def authenticate_user(self, credentials: dict[str, str]) -> Optional[dict[str, Any]]:
         """Authenticate a user and get their ΛID"""
         # Placeholder authentication
         # In real implementation, this would validate against ΛID service
@@ -51,17 +51,14 @@ class LIDClient:
             return True
 
         # Check for admin override
-        if "admin" in user_permissions:
-            return True
+        return "admin" in user_permissions
 
-        return False
-
-    async def log_access(self, resource: str, action: str, metadata: Optional[Dict[str, Any]] = None):
+    async def log_access(self, resource: str, action: str, metadata: Optional[dict[str, Any]] = None):
         """Log access to a resource for audit purposes"""
         if not self.current_user:
             return
 
-        access_log = {
+        {
             "timestamp": time.time(),
             "user_lid": self.current_user["lid"],
             "resource": resource,
@@ -73,7 +70,7 @@ class LIDClient:
         # Placeholder: In real implementation, send to audit service
         print(f"Access logged: {self.current_user['lid']} {action} {resource}")
 
-    async def get_user_profile(self) -> Optional[Dict[str, Any]]:
+    async def get_user_profile(self) -> Optional[dict[str, Any]]:
         """Get current user's profile information"""
         return self.current_user
 
@@ -97,10 +94,7 @@ class LIDClient:
                 return True
 
         # Public access
-        if access_tag == "public":
-            return True
-
-        return False
+        return access_tag == "public"
 
     async def create_access_token(self, resource: str, expires_in: int = 3600) -> str:
         """Create a temporary access token for a resource"""
@@ -137,7 +131,7 @@ class LIDClient:
         session_data = f"{self.current_user['lid']}_{int(time.time() // 3600)}"
         return hashlib.sha256(session_data.encode()).hexdigest()[:8]
 
-    async def get_audit_trail(self, resource: str, limit: int = 50) -> List[Dict[str, Any]]:
+    async def get_audit_trail(self, resource: str, limit: int = 50) -> list[dict[str, Any]]:
         """Get audit trail for a resource"""
         # Placeholder audit trail
         trail = [

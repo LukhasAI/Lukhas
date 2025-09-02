@@ -167,7 +167,7 @@ class DuplicateCodeAnalyzer:
                 for loc in locations:
                     hash_groups[loc["body_hash"]].append(loc)
 
-                for _body_hash, group in hash_groups.items():
+                for group in hash_groups.values():
                     if len(group) > 1:
                         duplicate_count += len(group) - 1
                         report["duplicate_functions"].append(

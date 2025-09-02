@@ -589,7 +589,7 @@ class AIAgentActor(Actor):
     It also shows how an actor can change its behavior using `become`.
     """
 
-    def __init__(self, actor_id: str, capabilities: list[str] = None):
+    def __init__(self, actor_id: str, capabilities: Optional[list[str]] = None):
         super().__init__(actor_id)
         self.capabilities = capabilities or []
         self.current_tasks: dict[str, dict] = {}

@@ -730,7 +730,7 @@ Last Updated: {self.last_update.strftime("%H:%M:%S")}
             print(f"Error generating emotion plot: {e}")
             return None
 
-    def modulate_voice_parameters(self, custom_calibration: dict[str, float] = None) -> dict[str, float]:
+    def modulate_voice_parameters(self, custom_calibration: Optional[dict[str, float]] = None) -> dict[str, float]:
         """
         Generate voice modulation parameters based on current emotional state.
         Integrates with symbolic world if available to enrich voice modulation.

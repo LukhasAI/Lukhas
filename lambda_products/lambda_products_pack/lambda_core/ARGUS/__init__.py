@@ -27,6 +27,8 @@ This creates a living, breathing AI system that actively monitors itself,
 adapts to changing conditions, and continuously learns from its experiences.
 """
 
+from typing import Optional
+
 from .adaptive_metrics_collector import (
     AdaptiveMetricsCollector,
     MetricContext,
@@ -109,7 +111,7 @@ __all__ = [
 ]
 
 
-def create_monitoring_system_from_config(config_path: str = None, profile: MonitoringProfile = None):
+def create_monitoring_system_from_config(config_path: Optional[str] = None, profile: MonitoringProfile = None):
     """
     Convenience function to create a complete monitoring system from configuration.
 

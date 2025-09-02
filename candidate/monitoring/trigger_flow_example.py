@@ -313,12 +313,11 @@ class LukhasDataFeeder:
         biological = system_state["biological"]
 
         # Mock endocrine system update
-        if hasattr(self.monitoring_system.endocrine_engine, "endocrine_system"):
-            if hasattr(
-                self.monitoring_system.endocrine_engine.endocrine_system,
-                "_hormone_levels",
-            ):
-                self.monitoring_system.endocrine_engine.endocrine_system._hormone_levels = biological["hormone_profile"]
+        if hasattr(self.monitoring_system.endocrine_engine, "endocrine_system") and hasattr(
+            self.monitoring_system.endocrine_engine.endocrine_system,
+            "_hormone_levels",
+        ):
+            self.monitoring_system.endocrine_engine.endocrine_system._hormone_levels = biological["hormone_profile"]
 
     async def _update_metrics_collector(self, system_state: dict[str, Any]):
         """Update metrics collector with derived metrics"""
@@ -504,10 +503,7 @@ class LukhasDataFeeder:
                 threshold += 0.02  # Be more conservative
 
         # 6. BOUNDS CHECKING: Keep threshold within reasonable bounds
-        if inverted:
-            threshold = max(0.1, min(0.8, threshold))
-        else:
-            threshold = max(0.2, min(0.95, threshold))
+        threshold = max(0.1, min(0.8, threshold)) if inverted else max(0.2, min(0.95, threshold))
 
         return threshold
 

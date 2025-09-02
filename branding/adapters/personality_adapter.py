@@ -5,7 +5,7 @@ Smart interface to core/personality/ systems for brand-aware personality operati
 
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # Add core module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "core"))
@@ -455,7 +455,7 @@ class BrandPersonalityAdapter:
         self,
         base_profiles: list[str],
         blend_weights: list[float],
-        custom_traits: dict[str, float] = None,
+        custom_traits: Optional[dict[str, float]] = None,
     ) -> dict[str, Any]:
         """Create a custom personality blend from existing profiles"""
 

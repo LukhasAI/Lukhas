@@ -15,6 +15,7 @@ Features:
 import math
 import secrets
 from collections import Counter
+from typing import Optional
 
 
 class EntropyCalculator:
@@ -83,7 +84,7 @@ class SecureRandomGenerator:
         """Generate secure random bytes"""
         return self.entropy_source.token_bytes(length)
 
-    def generate_secure_string(self, length: int, charset: str = None) -> str:
+    def generate_secure_string(self, length: int, charset: Optional[str] = None) -> str:
         """Generate secure random string"""
         if charset is None:
             charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

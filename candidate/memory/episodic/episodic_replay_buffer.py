@@ -630,7 +630,7 @@ class PrioritizedReplayBuffer:
             pattern_groups[pattern_key].append(memory)
 
         # Identify significant patterns
-        for _pattern, memories in pattern_groups.items():
+        for memories in pattern_groups.values():
             if len(memories) >= 5:  # Pattern must appear multiple times
                 avg_reward = np.mean([m.experience.reward for m in memories])
 
@@ -971,8 +971,8 @@ class EpisodicReplayMemoryWrapper:
         reward: float,
         next_state: np.ndarray,
         done: bool,
-        content: str = None,
-        tags: list[str] = None,
+        content: Optional[str] = None,
+        tags: Optional[list[str]] = None,
         consciousness_level: float = 0.5,
         episode_id: Optional[str] = None,
         sequence_position: int = 0,

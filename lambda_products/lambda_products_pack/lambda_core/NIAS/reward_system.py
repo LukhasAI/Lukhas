@@ -396,9 +396,8 @@ class RewardEngine:
                 self._award_achievement(profile, "dream_sharer")
 
         # Deep dreamer achievement
-        if engagement_level == EngagementLevel.DEEP_ENGAGEMENT:
-            if "deep_dreamer" not in profile.achievements:
-                self._award_achievement(profile, "deep_dreamer")
+        if engagement_level == EngagementLevel.DEEP_ENGAGEMENT and "deep_dreamer" not in profile.achievements:
+            self._award_achievement(profile, "deep_dreamer")
 
         # Dream collector achievement
         unique_dreams = {r.metadata.get("dream_id") for r in profile.reward_history if r.metadata.get("dream_id")}

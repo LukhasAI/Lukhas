@@ -121,7 +121,7 @@ class UniversalAdaptiveDashboard:
     integrating existing LUKHAS self-healing and adaptive systems.
     """
 
-    def __init__(self, dashboard_id: str = None):
+    def __init__(self, dashboard_id: Optional[str] = None):
         self.dashboard_id = dashboard_id or f"universal_dashboard_{int(time.time())}"
         self.logger = logger.bind(dashboard_id=self.dashboard_id)
 

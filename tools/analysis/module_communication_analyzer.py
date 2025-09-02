@@ -93,23 +93,22 @@ class ModuleCommunicationAnalyzer:
                 module_name = self._get_module_name(py_file)
 
                 for node in ast.walk(tree):
-                    if isinstance(node, ast.ImportFrom):
-                        if node.module:
-                            imported_module = node.module.split(".")[0]
-                            if imported_module in [
-                                "core",
-                                "consciousness",
-                                "memory",
-                                "orchestration",
-                                "governance",
-                            ]:
-                                self.direct_imports[module_name].add(imported_module)
-                                self.communication_graph.add_edge(
-                                    module_name,
-                                    imported_module,
-                                    method="import",
-                                    weight=1,
-                                )
+                    if isinstance(node, ast.ImportFrom) and node.module:
+                        imported_module = node.module.split(".")[0]
+                        if imported_module in [
+                            "core",
+                            "consciousness",
+                            "memory",
+                            "orchestration",
+                            "governance",
+                        ]:
+                            self.direct_imports[module_name].add(imported_module)
+                            self.communication_graph.add_edge(
+                                module_name,
+                                imported_module,
+                                method="import",
+                                weight=1,
+                            )
 
             except Exception:
                 pass

@@ -497,7 +497,7 @@ class FoldLineageTracker:
             )
 
         # Add edges from causal links
-        for _source_key, causal_links in self.lineage_graph.items():
+        for causal_links in self.lineage_graph.values():
             for link in causal_links:
                 edges.append(
                     {

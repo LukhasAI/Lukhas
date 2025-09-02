@@ -119,13 +119,7 @@ class QIInspiredAttention:
             features["semantic"] = None
 
         # Extract emotional signals
-        if "emotion" in input_data:
-            features["emotional"] = input_data["emotion"]
-        else:
-            features["emotional"] = {
-                "primary_emotion": "neutral",
-                "intensity": 0.5,
-            }
+        features["emotional"] = input_data.get("emotion", {"primary_emotion": "neutral", "intensity": 0.5})
 
         # Extract contextual signals
         features["contextual"] = input_data.get("context", {})
@@ -497,7 +491,7 @@ class CausalReasoningModule:
         """Extract the reasoning path that led to conclusions"""
         reasoning_steps = []
 
-        for _chain_id, chain_data in valid_causes.items():
+        for chain_data in valid_causes.values():
             for _i, element in enumerate(chain_data["elements"]):
                 reasoning_steps.append(
                     {
@@ -837,10 +831,7 @@ class QINeuroSymbolicEngine:
                 visual_elements.append(word)
 
         # Create prompt
-        if visual_elements:
-            prompt = f"{text} with {', '.join(visual_elements)} style"
-        else:
-            prompt = text
+        prompt = f"{text} with {', '.join(visual_elements)} style" if visual_elements else text
 
         return prompt
 

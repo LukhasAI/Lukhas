@@ -29,7 +29,7 @@ Trinity Framework: Identity-Consciousness-Guardian
 Phase: Phase 7 - Registry Updates and Policy Integration
 """
 
-from typing import Any, Optional, Type, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Optional, Type
 
 # Core Guardian System imports
 # Pre-declare symbols to make static type-checkers happy when optional imports fail

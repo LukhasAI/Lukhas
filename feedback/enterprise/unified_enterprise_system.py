@@ -258,10 +258,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
         user_clearance = feedback.security_clearance
 
         clearance_levels = ["public", "internal", "confidential", "secret"]
-        if clearance_levels.index(user_clearance) < clearance_levels.index(required_clearance):
-            return False
-
-        return True
+        return not clearance_levels.index(user_clearance) < clearance_levels.index(required_clearance)
 
     async def _detect_threats(self, feedback: EnterpriseFeedback) -> bool:
         """Detect security threats in feedback"""
@@ -515,9 +512,8 @@ class UnifiedEnterpriseSystem(CoreInterface):
     async def _check_monetization_eligible(self, feedback: EnterpriseFeedback) -> bool:
         """Check if feedback is eligible for monetization"""
         # High-quality feedback is monetizable
-        if feedback.constitutional_alignment:
-            if feedback.constitutional_alignment.overall_alignment > 0.9:
-                return True
+        if feedback.constitutional_alignment and feedback.constitutional_alignment.overall_alignment > 0.9:
+            return True
 
         # Feedback from premium users
         if feedback.base_feedback.user_id in getattr(self, "premium_users", set()):

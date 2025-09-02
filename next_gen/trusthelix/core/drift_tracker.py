@@ -64,7 +64,7 @@ class DriftTracker:
         drift_score: float,
         action: str,
         entropy: float,
-        metadata: dict = None,
+        metadata: Optional[dict] = None,
     ) -> DriftEvent:
         """Record a drift event and update trackers"""
         # Determine state emoji

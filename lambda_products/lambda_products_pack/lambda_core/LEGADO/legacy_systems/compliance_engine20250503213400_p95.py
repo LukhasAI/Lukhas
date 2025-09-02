@@ -136,10 +136,9 @@ class Complianceengine:
             result["actions"].append("obtain_biometric_consent")
 
         # Voice retention policy
-        if "timestamp" in voice_data:
-            if not self.should_retain_data(voice_data["timestamp"]):
-                result["retention_allowed"] = False
-                result["actions"].append("delete_voice_data")
+        if "timestamp" in voice_data and not self.should_retain_data(voice_data["timestamp"]):
+            result["retention_allowed"] = False
+            result["actions"].append("delete_voice_data")
 
         # Check for children's voice data (COPPA)
         if voice_data.get("age_category") == "child" and not user_consent.get("parental_consent", False):

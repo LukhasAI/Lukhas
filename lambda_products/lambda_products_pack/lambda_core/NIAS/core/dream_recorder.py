@@ -305,9 +305,8 @@ class DreamRecorder:
         user_seeds = []
 
         for seed in self.dream_seeds.values():
-            if seed["user_id"] == user_id:
-                if status is None or seed["status"] == status:
-                    user_seeds.append(seed)
+            if seed["user_id"] == user_id and (status is None or seed["status"] == status):
+                user_seeds.append(seed)
 
         return sorted(user_seeds, key=lambda x: x["planted_at"], reverse=True)
 
@@ -345,9 +344,8 @@ class DreamRecorder:
         recent_seeds = []
         for seed in self.dream_seeds.values():
             seed_date = datetime.fromisoformat(seed["planted_at"].replace("Z", "+00:00"))
-            if seed_date >= cutoff_date:
-                if user_id is None or seed["user_id"] == user_id:
-                    recent_seeds.append(seed)
+            if seed_date >= cutoff_date and (user_id is None or seed["user_id"] == user_id):
+                recent_seeds.append(seed)
 
         total_seeds = len(recent_seeds)
         if total_seeds == 0:

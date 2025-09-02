@@ -102,12 +102,12 @@ class SafeSubprocessExecutor:
         except Exception as e:
             return {"success": False, "error": str(e), "cmd": " ".join(cmd)}
 
-    def safe_python_run(self, script_path: str, args: list[str] = None, cwd: Optional[str] = None) -> dict[str, Any]:
+    def safe_python_run(self, script_path: str, args: Optional[list[str]] = None, cwd: Optional[str] = None) -> dict[str, Any]:
         """
         Safely run Python script with isolation
         """
         args = args or []
-        cmd = ["python3", script_path] + args
+        cmd = ["python3", script_path, *args]
 
         # Use isolated Python environment
         python_env = {
@@ -122,7 +122,7 @@ class SafeSubprocessExecutor:
         """
         Safely run git commands with isolation
         """
-        cmd = ["git"] + git_args
+        cmd = ["git", *git_args]
 
         # Git-specific environment isolation
         git_env = {
@@ -149,7 +149,7 @@ def safe_subprocess_run(*args, **kwargs) -> dict[str, Any]:
     return safe_executor.safe_run(cmd, cwd=cwd, timeout=timeout)
 
 
-def safe_python_execution(script_path: str, args: list[str] = None, cwd: Optional[str] = None) -> dict[str, Any]:
+def safe_python_execution(script_path: str, args: Optional[list[str]] = None, cwd: Optional[str] = None) -> dict[str, Any]:
     """
     Safely execute Python scripts without system interference
     """

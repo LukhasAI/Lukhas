@@ -11,7 +11,7 @@ Handles neural network-based processing and deep learning functions
 """
 
 import logging
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger("v1_AGI.neural")
 
@@ -22,7 +22,7 @@ class NeuralProcessor:
     Handles neural network operations, deep learning, and pattern recognition.
     """
 
-    def __init__(self, model_path: str = None):
+    def __init__(self, model_path: Optional[str] = None):
         """
         Initialize the neural processor with optional pre-trained model.
 

@@ -249,10 +249,7 @@ class MerkleTree:
         current_hash = memory_hash
 
         for position, sibling_hash in proof:
-            if position == "left":
-                combined = f"{sibling_hash}:{current_hash}:0"
-            else:
-                combined = f"{current_hash}:{sibling_hash}:0"
+            combined = f"{sibling_hash}:{current_hash}:0" if position == "left" else f"{current_hash}:{sibling_hash}:0"
 
             current_hash = self._hash_data(combined)
 

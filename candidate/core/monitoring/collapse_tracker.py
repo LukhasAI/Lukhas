@@ -306,18 +306,17 @@ class CollapseTracker:
                 logger.error("Failed to notify orchestrator", error=str(e))
 
         # Trigger ethics review for high alert levels
-        if new_level in [CollapseAlertLevel.ORANGE, CollapseAlertLevel.RED]:
-            if self.ethics_callback:
-                try:
-                    await self.ethics_callback(
-                        {
-                            **alert_data,
-                            "severity": ("HIGH" if new_level == CollapseAlertLevel.RED else "MEDIUM"),
-                            "recommended_action": "intervention_required",
-                        }
-                    )
-                except Exception as e:
-                    logger.error("Failed to notify ethics layer", error=str(e))
+        if new_level in [CollapseAlertLevel.ORANGE, CollapseAlertLevel.RED] and self.ethics_callback:
+            try:
+                await self.ethics_callback(
+                    {
+                        **alert_data,
+                        "severity": ("HIGH" if new_level == CollapseAlertLevel.RED else "MEDIUM"),
+                        "recommended_action": "intervention_required",
+                    }
+                )
+            except Exception as e:
+                logger.error("Failed to notify ethics layer", error=str(e))
 
         # Persist alert
         await self._persist_state()

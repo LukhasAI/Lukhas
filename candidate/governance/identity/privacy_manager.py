@@ -190,17 +190,16 @@ class PrivacyManager:
             return {"allowed": False, "reason": f"Action '{action}' explicitly denied"}
 
         # Check resource-specific permissions if resource provided
-        if resource and "resources" in permissions:
-            if resource in permissions["resources"]:
-                # Check if action is allowed for this resource
-                resource_permissions = permissions["resources"][resource]
-                if action in resource_permissions.get("allowed_actions", []):
-                    return {"allowed": True}
-                if action in resource_permissions.get("denied_actions", []):
-                    return {
-                        "allowed": False,
-                        "reason": f"Action '{action}' denied for resource '{resource}'",
-                    }
+        if resource and "resources" in permissions and resource in permissions["resources"]:
+            # Check if action is allowed for this resource
+            resource_permissions = permissions["resources"][resource]
+            if action in resource_permissions.get("allowed_actions", []):
+                return {"allowed": True}
+            if action in resource_permissions.get("denied_actions", []):
+                return {
+                    "allowed": False,
+                    "reason": f"Action '{action}' denied for resource '{resource}'",
+                }
 
         # Handle default permission policy
         default_policy = self.privacy_settings.get("default_permission_policy", "deny")

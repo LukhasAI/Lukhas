@@ -6,7 +6,7 @@ Smart interface to monitoring/ systems for brand-aware analytics and tracking
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # Add monitoring module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "monitoring"))
@@ -106,7 +106,7 @@ class BrandMonitoringAdapter:
 
     def collect_brand_metrics(
         self,
-        metric_categories: list[str] = None,
+        metric_categories: Optional[list[str]] = None,
         time_range: str = "last_hour",
         include_intelligence: bool = True,
     ) -> dict[str, Any]:

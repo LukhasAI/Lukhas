@@ -15,7 +15,7 @@ import uuid
 from collections import defaultdict
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -115,8 +115,8 @@ class MessageRouter:
     def register_node(
         self,
         node_id: str,
-        capabilities: list[str] = None,
-        location: dict[str, Any] = None,
+        capabilities: Optional[list[str]] = None,
+        location: Optional[dict[str, Any]] = None,
     ):
         """Register a node in the routing table"""
         with self._lock:

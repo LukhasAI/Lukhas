@@ -29,7 +29,7 @@ class LukhasFederatedModel:
     collective learning across the LUKHAS network.
     """
 
-    def __init__(self, model_id: str, model_type: str, initial_parameters: dict = None):
+    def __init__(self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None):
         self.model_id = model_id
         self.model_type = model_type
         self.parameters = initial_parameters or {}
@@ -71,7 +71,7 @@ class LukhasFederatedModel:
         logger.info(f"Model {self.model_id} updated to v{self.version} with contribution from {client_id}")
         return True
 
-    def get_parameters(self, client_id: str = None) -> dict:
+    def get_parameters(self, client_id: Optional[str] = None) -> dict:
         """
         Get model parameters, optionally customized for a specific client
 
@@ -131,7 +131,7 @@ class LukhasFederatedLearningManager:
     Enhanced with LUKHAS-specific features and security measures.
     """
 
-    def __init__(self, storage_dir: str = None):
+    def __init__(self, storage_dir: Optional[str] = None):
         self.models = {}  # model_id -> LukhasFederatedModel
         self.client_models = defaultdict(set)  # client_id -> set(model_ids)
         self.aggregation_threshold = 3  # Min clients before aggregation (reduced for LUKHAS)
@@ -151,7 +151,7 @@ class LukhasFederatedLearningManager:
         Path(self.storage_dir).mkdir(parents=True, exist_ok=True)
         self.load_models()
 
-    def register_model(self, model_id: str, model_type: str, initial_parameters: dict = None) -> LukhasFederatedModel:
+    def register_model(self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None) -> LukhasFederatedModel:
         """
         Register a new model for federated learning in LUKHAS
 
@@ -174,7 +174,7 @@ class LukhasFederatedLearningManager:
         logger.info(f"Registered new LUKHAS federated model: {model_id} ({model_type})")
         return model
 
-    def get_model(self, model_id: str, client_id: str = None) -> Optional[dict]:
+    def get_model(self, model_id: str, client_id: Optional[str] = None) -> Optional[dict]:
         """
         Get model parameters for a LUKHAS client
 
@@ -200,7 +200,7 @@ class LukhasFederatedLearningManager:
         model_id: str,
         gradients: dict,
         client_id: str,
-        performance_metrics: dict = None,
+        performance_metrics: Optional[dict] = None,
     ) -> bool:
         """
         Accept gradient contribution from a LUKHAS client
@@ -328,7 +328,7 @@ LUKHAS_MODEL_TYPES = {
 
 
 def initialize_lukhas_federated_learning(
-    storage_dir: str = None,
+    storage_dir: Optional[str] = None,
 ) -> LukhasFederatedLearningManager:
     """
     Initialize LUKHAS federated learning system

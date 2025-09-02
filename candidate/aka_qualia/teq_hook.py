@@ -35,9 +35,9 @@ class TEQGuardian:
             config_path: Path to YAML configuration file (optional)
         """
         self.config = self._load_config(config_path)
-        self.intervention_log: List[Dict[str, Any]] = []
+        self.intervention_log: list[dict[str, Any]] = []
 
-    def _load_config(self, config_path: Optional[str]) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
         """Load TEQ configuration from YAML file with fallback defaults"""
         default_config = {
             "severity_thresholds": {
@@ -80,7 +80,7 @@ class TEQGuardian:
 
         return default_config
 
-    def assess(self, proto: ProtoQualia, goals: Dict[str, Any], context: Dict[str, Any]) -> RiskProfile:
+    def assess(self, proto: ProtoQualia, goals: dict[str, Any], context: dict[str, Any]) -> RiskProfile:
         """
         Assess proto-qualia for ethical risks and classify severity.
 
@@ -166,10 +166,10 @@ class TEQGuardian:
     def _evaluate_risk_factor(
         self,
         factor_name: str,
-        factor_config: Dict[str, Any],
+        factor_config: dict[str, Any],
         proto: ProtoQualia,
-        goals: Dict[str, Any],
-        context: Dict[str, Any],
+        goals: dict[str, Any],
+        context: dict[str, Any],
     ) -> tuple[float, Optional[str]]:
         """Evaluate specific risk factor"""
 
@@ -284,7 +284,7 @@ class TEQGuardian:
         print(f"TEQ AUDIT TRIGGERED: {audit_entry}")
 
     def _log_assessment(
-        self, proto: ProtoQualia, risk_profile: RiskProfile, goals: Dict[str, Any], context: Dict[str, Any]
+        self, proto: ProtoQualia, risk_profile: RiskProfile, goals: dict[str, Any], context: dict[str, Any]
     ) -> None:
         """Log risk assessment for transparency"""
         log_entry = {
@@ -298,7 +298,7 @@ class TEQGuardian:
         self.intervention_log.append(log_entry)
 
     def _log_intervention(
-        self, original_scene: PhenomenalScene, modified_scene: PhenomenalScene, actions: List[str]
+        self, original_scene: PhenomenalScene, modified_scene: PhenomenalScene, actions: list[str]
     ) -> None:
         """Log enforcement intervention for audit trail"""
         log_entry = {
@@ -313,7 +313,7 @@ class TEQGuardian:
         }
         self.intervention_log.append(log_entry)
 
-    def get_intervention_log(self) -> List[Dict[str, Any]]:
+    def get_intervention_log(self) -> list[dict[str, Any]]:
         """Get complete intervention log for analysis"""
         return self.intervention_log.copy()
 
