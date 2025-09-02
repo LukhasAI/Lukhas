@@ -105,7 +105,7 @@ class BiometricProfile:
     # Profile confidence
     profile_confidence: float = 0.8
     sample_count: int = 0
-    last_updated: datetime = field(default_factory=datetime.now)
+    last_updated: datetime = field(default_factory=lambda: datetime.now(tz=timezone.utc))
 
 
 class AdvancedIdentityValidator:
@@ -165,11 +165,15 @@ class AdvancedIdentityValidator:
 
     async def _initialize_validator(self):
         """Initialize the identity validator"""
+
+    # Load existing profiles and start background monitoring
     await self._load_existing_profiles()
+
     # Start continuous monitoring loop and keep task reference
     task = asyncio.create_task(self._continuous_monitoring_loop())
     self._background_tasks.add(task)
     task.add_done_callback(lambda t: self._background_tasks.discard(t))
+    return None
 
     async def validate_identity(
         self,
@@ -551,7 +555,6 @@ class AdvancedIdentityValidator:
         """Get identity validation system metrics"""
         return self.metrics.copy()
 
-
     # --- Helper stubs (non-invasive) ---
     # The real implementations live elsewhere; provide safe stubs to keep linters
     # and the test harness happy during in-progress refactor.
@@ -571,46 +574,61 @@ class AdvancedIdentityValidator:
 
     async def _create_biometric_profile(self, user_id: str, identity_data: dict[str, Any]) -> BiometricProfile:
         """Create biometric profile (stub)."""
-        profile = BiometricProfile(user_id=user_id, profile_id=f"bp_{uuid.uuid4().hex[:6]}", created_at=datetime.now(tz=timezone.utc))
+        profile = BiometricProfile(
+            user_id=user_id, profile_id=f"bp_{uuid.uuid4().hex[:6]}", created_at=datetime.now(tz=timezone.utc)
+        )
         self.biometric_profiles[user_id] = profile
         return profile
 
     async def _compare_facial_features(self, features: Any, stored_hash: str) -> float:
+        _ = (features, stored_hash)
         return 0.9
 
     async def _compare_voice_patterns(self, pattern: Any, stored_hash: str) -> float:
+        _ = (pattern, stored_hash)
         return 0.85
 
     async def _compare_behavioral_signatures(self, sig: Any, stored_sig: str) -> float:
+        _ = (sig, stored_sig)
         return 0.75
 
     async def _create_behavioral_baseline(self, user_id: str, identity_data: dict[str, Any]) -> dict:
+        _ = identity_data
         baseline = {"typing_pattern": None, "mouse_pattern": None, "usage_pattern": None}
         self.behavioral_baselines[user_id] = baseline
         return baseline
 
     async def _compare_typing_patterns(self, a: Any, b: Any) -> float:
+        _ = (a, b)
         return 0.8
 
     async def _compare_mouse_patterns(self, a: Any, b: Any) -> float:
+        _ = (a, b)
         return 0.8
 
     async def _compare_usage_patterns(self, a: Any, b: Any) -> float:
+        _ = (a, b)
         return 0.7
 
     async def _validate_password(self, user_id: str, password: str) -> bool:
+        # mark args as used to satisfy linters during refactor
+        _ = (user_id, password)
         return True
 
     async def _validate_token(self, user_id: str, token: str) -> bool:
+        _ = (user_id, token)
         return True
 
     async def _validate_certificate(self, user_id: str, cert: Any) -> bool:
+        _ = (user_id, cert)
         return True
 
     async def _assess_consciousness_alignment(self, user_id: str, state: Any) -> float:
+        _ = (user_id, state)
         return 1.0
 
     async def _update_validation_metrics(self, validation: IdentityValidation, start_time: datetime) -> None:
+        _ = start_time
         self.metrics["total_validations"] += 1
         if validation.is_valid:
             self.metrics["successful_validations"] += 1

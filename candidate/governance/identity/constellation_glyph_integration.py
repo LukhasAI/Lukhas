@@ -279,8 +279,11 @@ class ConstellationValidator:
         try:
             start_time = time.time()
 
+            # Use the provided star and star_instance names consistently
+            component = star
+            component_instance = star_instance
             component_name = component.value
-            rules = self.compliance_rules.get(component, {})
+            rules = self.coherence_rules.get(component, {})
 
             compliance_result = {
                 "component": component_name,
@@ -319,17 +322,19 @@ class ConstellationValidator:
             compliance_result["security_compliance"] = security_compliance
 
             # Component-specific validations
-            if component == TrinityComponent.CONSCIOUSNESS:
-                consciousness_validation = self._validate_consciousness_specific(component_instance, operation_context)
-                compliance_result["consciousness_specific"] = consciousness_validation
+            # Component-specific validations: map to ConstellationStar if applicable
+            # Use simple name checks to avoid hard dependency on TrinityComponent
+            if component == ConstellationStar.IDENTITY:
+                identity_validation = self._validate_identity_specific(component_instance, operation_context)
+                compliance_result["identity_specific"] = identity_validation
 
-            elif component == TrinityComponent.GUARDIAN:
+            if component == ConstellationStar.GUARDIAN:
                 guardian_validation = self._validate_guardian_specific(component_instance, operation_context)
                 compliance_result["guardian_specific"] = guardian_validation
 
-            elif component == TrinityComponent.IDENTITY:
-                identity_validation = self._validate_identity_specific(component_instance, operation_context)
-                compliance_result["identity_specific"] = identity_validation
+            if component == ConstellationStar.VISION:
+                consciousness_validation = self._validate_consciousness_specific(component_instance, operation_context)
+                compliance_result["consciousness_specific"] = consciousness_validation
 
             # Update compliance status
             if compliance_result["violations"]:
@@ -348,7 +353,7 @@ class ConstellationValidator:
 
         except Exception as e:
             return {
-                "component": component.value,
+                "component": getattr(star, "value", "unknown"),
                 "compliant": False,
                 "violations": [f"Validation error: {e!s}"],
                 "error": True,
@@ -446,6 +451,21 @@ class ConstellationValidator:
             validation["drift_monitoring"] = True
 
         return validation
+
+
+# --- Minimal Trinity placeholders (compat layer) ---
+class TrinityComponent(Enum):
+    """Compatibility placeholder mapping to ConstellationStar"""
+
+    IDENTITY = ConstellationStar.IDENTITY
+    CONSCIOUSNESS = ConstellationStar.VISION
+    GUARDIAN = ConstellationStar.GUARDIAN
+
+
+class TrinityValidator(ConstellationValidator):
+    """Compatibility shim that reuses ConstellationValidator behavior"""
+
+    pass
 
     def _validate_guardian_specific(self, component_instance: Any, context: dict[str, Any]) -> dict[str, Any]:
         """🛡️ Validate guardian-specific requirements"""
