@@ -21,7 +21,7 @@ Usage:
 # from common import symbolic_helpers
 
 # Main vocabulary definition
-[MODULE_NAME]_VOCABULARY = {
+MODULE_NAME_VOCABULARY = {
     # Basic Operations
     "initialize": {
         "emoji": "🚀",
@@ -60,27 +60,27 @@ Usage:
     },
 
     # State-specific symbols
-    "[STATE_1]": {
-        "emoji": "[EMOJI]",
-        "symbol": "[SYM]◊",
-        "meaning": "[DESCRIPTION]",
-        "resonance": "[ENERGY_TYPE]",
+    "STATE_1": {
+        "emoji": "EMOJI",
+        "symbol": "SYM◊",
+        "meaning": "DESCRIPTION",
+        "resonance": "ENERGY_TYPE",
         "guardian_weight": 0.0,  # 0.0-1.0
-        "contexts": ["[CONTEXT1]", "[CONTEXT2]"]
+        "contexts": ["CONTEXT1", "CONTEXT2"]
     },
 
     # Add more states as needed...
 }
 
 # Optional: Grouped symbols for specific use cases
-[MODULE_NAME]_STATES = {
+MODULE_NAME_STATES = {
     "active": "⚡",
     "idle": "💤",
     "processing": "🔄",
     "ready": "✨"
 }
 
-[MODULE_NAME]_LEVELS = {
+MODULE_NAME_LEVELS = {
     "low": "🔵",
     "medium": "🟡",
     "high": "🔴",
@@ -92,12 +92,12 @@ Usage:
 
 def get_symbol(operation: str) -> str:
     """Get emoji symbol for operation."""
-    return [MODULE_NAME]_VOCABULARY.get(operation, {}).get("emoji", "❓")
+    return MODULE_NAME_VOCABULARY.get(operation, {}).get("emoji", "❓")
 
 
 def get_guardian_weight(operation: str) -> float:
     """Get guardian weight for operation."""
-    return [MODULE_NAME]_VOCABULARY.get(operation, {}).get("guardian_weight", 0.5)
+    return MODULE_NAME_VOCABULARY.get(operation, {}).get("guardian_weight", 0.5)
 
 
 # Usage examples
@@ -110,5 +110,5 @@ if __name__ == "__main__":
         print("High guardian weight - careful!")
 
     # Example 3: State representation
-    current_state = [MODULE_NAME]_STATES["processing"]
+    current_state = MODULE_NAME_STATES["processing"]
     print(f"Current state: {current_state}")

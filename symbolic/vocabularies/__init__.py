@@ -12,6 +12,19 @@ Created: 2025-07-25
 Status: ACTIVE
 Priority: HIGH
 """
+from typing import Any, Dict
+
+class _VoiceSymbolicVocabulary:
+    def __init__(self) -> None:
+        pass
+    def get_all_symbols(self) -> Dict:
+        return {}
+
+class _VisionSymbolicVocabulary:
+    def __init__(self) -> None:
+        pass
+    def get_all_symbols(self) -> Dict:
+        return {}
 
 # Import existing vocabularies
 try:
@@ -42,18 +55,17 @@ except ImportError:
     IDENTITY_SYMBOLIC_VOCABULARY = {}
 
 try:
-    from .voice_vocabulary import VOICE_SYMBOLIC_VOCABULARY
+    from .voice_vocabulary import voice_vocabulary as VOICE_SYMBOLIC_VOCABULARY
 except ImportError:
-    VOICE_SYMBOLIC_VOCABULARY = {}
+    VOICE_SYMBOLIC_VOCABULARY = _VoiceSymbolicVocabulary()
 
 try:
-    from .vision_vocabulary import VISION_SYMBOLIC_VOCABULARY
+    from .vision_vocabulary import vision_vocabulary as VISION_SYMBOLIC_VOCABULARY
 except ImportError:
-    VISION_SYMBOLIC_VOCABULARY = {}
+    VISION_SYMBOLIC_VOCABULARY = _VisionSymbolicVocabulary()
+
 
 # Convenience function to get any symbol
-
-
 def get_symbol(vocabulary_name: str, key: str, default: str = "❓") -> str:
     """
     Get a symbol from any vocabulary.
@@ -66,7 +78,7 @@ def get_symbol(vocabulary_name: str, key: str, default: str = "❓") -> str:
     Returns:
         The emoji symbol or default
     """
-    vocabularies = {
+    vocabularies: Dict[str, Any] = {
         "bio": BIO_SYMBOLS,
         "emotion": EMOTION_SYMBOLS,
         "device": DEVICE_SYMBOLS,
@@ -87,6 +99,10 @@ def get_symbol(vocabulary_name: str, key: str, default: str = "❓") -> str:
             return entry["emoji"]
         elif isinstance(entry, str):
             return entry
+    elif hasattr(vocab, 'get_all_symbols'):
+        all_symbols = vocab.get_all_symbols()
+        if key in all_symbols:
+            return all_symbols[key].symbol
     return default
 
 
