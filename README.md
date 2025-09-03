@@ -196,6 +196,11 @@ for fp in py:
         pass
 (out/"IMPORT_SAMPLES.txt").write_text("\n".join(lines))
 
+
+## Lockfile & CI guidance
+
+This repository includes a GitHub Actions workflow `.github/workflows/generate-lockfiles.yml` to compile hashed runtime and dev lockfiles inside a CI image that installs native build dependencies (libpq / OpenSSL). See `ci/README.md` for details and usage notes.
+
 # Extras: sizes, import fan-in, hotspots
 from os import stat
 sizes=sorted(((stat(p).st_size,p) for p in py), reverse=True)[:100]

@@ -28,3 +28,27 @@ Notes
 
 - We intentionally keep `psycopg2-binary` pinned in `requirements.txt` to avoid requiring libpq on developer machines; CI should prefer system libpq for production builds.
 - If you need help adding libpq/OpenSSL into your CI images, I can provide sample GitHub Actions and Dockerfile snippets.
+
+GitHub Actions workflow
+-----------------------
+
+We added a workflow `.github/workflows/generate-lockfiles.yml` that automates the recommended process:
+
+- Installs system libraries (libpq-dev, libssl-dev) on Ubuntu
+- Creates a Python virtual environment
+- Installs `pip-tools` and runs `pip-compile --generate-hashes` for both runtime and dev requirements
+- Installs from `requirements.lock.txt` using `pip --require-hashes` to validate reproducibility
+- Runs pre-gates (ruff, mypy, pytest) for quick validation (these are non-blocking by default in the workflow)
+- Commits regenerated lockfiles back to the current branch when changes are detected
+
+Usage
+-----
+
+From the Actions UI, run the `Generate and Validate Lockfiles` workflow (workflow_dispatch). The job will rebuild lockfiles and, on success, push them to your current branch.
+
+Notes
+-----
+
+- The workflow uses Ubuntu and apt packages for libpq / OpenSSL. If your production runtime uses a different base image (musl, alpine), adapt the system package steps accordingly.
+- The workflow currently installs `python 3.11` — update `PYTHON_VERSION` in the workflow if you need a different version.
+- Pre-gates are executed but won't block lockfile commits; change `|| true` removal if you want the workflow to fail on linter/test failures.
