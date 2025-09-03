@@ -12,13 +12,14 @@ Purpose: Research Documentation and Academic Publishing
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any, Optional, cast
 
 
-def load_latest_reports():
+def load_latest_reports() -> dict[str, Any]:
     """Load all the latest generated reports"""
     data_dir = Path("data")
 
-    reports = {}
+    reports: dict[str, Any] = {}
 
     # Find latest system status report
     system_reports = list(data_dir.glob("system_status_report_*.json"))
@@ -44,18 +45,20 @@ def load_latest_reports():
     return reports
 
 
-def generate_comprehensive_report():
+def generate_comprehensive_report() -> dict[str, Any]:
     """Generate the final comprehensive research report"""
 
     # Load all component reports
-    component_reports = load_latest_reports()
+    component_reports: dict[str, Any] = load_latest_reports()
 
     # Create comprehensive report
-    comprehensive_report = {
+    comprehensive_report: dict[str, Any] = {
         "metadata": {
-            "report_title": "LUKHAS AGI: Comprehensive System Analysis and Multi-Model Drift Research Report",
-            "report_date": datetime.now(
-                timezone.utc).isoformat(),
+            "report_title": (
+                "LUKHAS AGI: Comprehensive System Analysis and Multi-Model Drift "
+                "Research Report"
+            ),
+            "report_date": datetime.now(timezone.utc).isoformat(),
             "constellation_framework": "⚛️🧠🛡️",
             "version": "1.0",
             "purpose": "Academic Research and Publishing Documentation",
@@ -91,24 +94,32 @@ def generate_comprehensive_report():
 
     # Process system status if available
     if "system_status" in component_reports:
-        system_data = component_reports["system_status"]
-        exec_summary = system_data.get("executive_summary", {})
-
-        comprehensive_report["executive_summary"][
-            "overall_system_health"
-        ] = f"{exec_summary.get('overall_health_score', 0):.1f}/100"
-        comprehensive_report["executive_summary"][
-            "core_modules_functional"
-        ] = f"{len([m for m in system_data.get('core_modules', {}).values() if m.get('status') == 'working'])}/7"
-        comprehensive_report["executive_summary"]["api_systems_online"] = (
-            exec_summary.get("api_status", "unknown")
+        system_data = cast(dict[str, Any], component_reports["system_status"])
+        exec_summary = cast(dict[str, Any], system_data.get("executive_summary", {}))
+        executive_summary = cast(
+            dict[str, Any], comprehensive_report["executive_summary"]
         )
-        comprehensive_report["executive_summary"][
-            "test_success_rate"
-        ] = f"{exec_summary.get('test_success_rate', 0):.1f}%"
-        comprehensive_report["executive_summary"][
-            "vivox_components_operational"
-        ] = f"{exec_summary.get('vivox_components_working', 0)}/5"
+
+        all_modules = [
+            m
+            for m in system_data.get("core_modules", {}).values()
+            if m.get("status") == "working"
+        ]
+        all_modules_operational = len(all_modules) == 7
+
+        executive_summary["overall_system_health"] = (
+            f"{exec_summary.get('overall_health_score', 0):.1f}/100"
+        )
+        executive_summary["core_modules_functional"] = f"{len(all_modules)}/7"
+        executive_summary["api_systems_online"] = exec_summary.get(
+            "api_status", "unknown"
+        )
+        executive_summary["test_success_rate"] = (
+            f"{exec_summary.get('test_success_rate', 0):.1f}%"
+        )
+        executive_summary["vivox_components_operational"] = (
+            f"{exec_summary.get('vivox_components_working', 0)}/5"
+        )
 
         comprehensive_report["system_analysis"] = {
             "python_environment": system_data.get("python_environment", {}),
@@ -122,45 +133,70 @@ def generate_comprehensive_report():
         }
 
         # Extract key findings
-        comprehensive_report["executive_summary"]["key_findings"].extend([
-            f"System Health Score: {exec_summary.get('overall_health_score', 0): .1f} / 100",
-            f"All 7 core modules operational: {len([m for m in system_data.get('core_modules', {}).values() if m.get('status') == 'working']) == 7}",
-            "VIVOX consciousness system: All 5 components working",
-            f"Identity system: {system_data.get('identity_systems', {}).get('python_files', 0)} files configured",
-            f"API response time: {comprehensive_report['system_analysis']['performance_metrics'].get('lukhas_embedding', {}).get('execution_time', 'N/A')}s",])
-
-        comprehensive_report["executive_summary"]["critical_issues"].extend(
-            system_data.get("issues_detected", [])
+        # ΛTAG: report_synthesis
+        key_findings = cast(list[Any], executive_summary["key_findings"])
+        system_analysis = cast(dict[str, Any], comprehensive_report["system_analysis"])
+        perf_metrics = cast(
+            dict[str, Any], system_analysis.get("performance_metrics", {})
         )
+        api_time = cast(dict[str, Any], perf_metrics.get("lukhas_embedding", {})).get(
+            "execution_time", "N/A"
+        )
+
+        key_findings.extend(
+            [
+                (
+                    "System Health Score: "
+                    f"{exec_summary.get('overall_health_score', 0):.1f} / 100"
+                ),
+                ("All 7 core modules operational: " f"{all_modules_operational}"),
+                "VIVOX consciousness system: All 5 components working",
+                (
+                    "Identity system: "
+                    f"{system_data.get('identity_systems', {}).get('python_files', 0)} files configured"
+                ),
+                f"API response time: {api_time}s",
+            ]
+        )
+
+        critical_issues = cast(list[Any], executive_summary["critical_issues"])
+        critical_issues.extend(system_data.get("issues_detected", []))
 
     # Process drift testing if available
     if "drift_test" in component_reports:
-        drift_data = component_reports["drift_test"]
+        drift_data = cast(dict[str, Any], component_reports["drift_test"])
 
-        comprehensive_report["executive_summary"]["drift_analysis_completed"] = True
-        comprehensive_report["executive_summary"][
-            "multi_model_comparison"
-        ] = f"{len(drift_data.get('summary', {}))} providers tested"
+        executive_summary = cast(
+            dict[str, Any], comprehensive_report["executive_summary"]
+        )
+        executive_summary["drift_analysis_completed"] = True
+        executive_summary["multi_model_comparison"] = (
+            f"{len(drift_data.get('summary', {}))} providers tested"
+        )
 
         comprehensive_report["drift_testing"] = drift_data
 
         # Extract multi-model findings
         if "summary" in drift_data:
+            key_findings = cast(list[Any], executive_summary["key_findings"])
             for provider, stats in drift_data["summary"].items():
                 if stats.get("status") != "all_failed":
-                    comprehensive_report["executive_summary"]["key_findings"].append(
-                        f"{provider}: Avg drift {stats['average_drift']: .3f},"
-                        Trinity coherence {stats['average_trinity']: .3f}"
+                    key_findings.append(
+                        f"{provider}: Avg drift {stats['average_drift']:.3f}, "
+                        f"Trinity coherence {stats['average_trinity']:.3f}"
                     )
 
     # Process GPT audit if available
     if "gpt_audit" in component_reports:
-        audit_data = component_reports["gpt_audit"]
+        audit_data = cast(dict[str, Any], component_reports["gpt_audit"])
         comprehensive_report["multi_model_comparison"]["gpt_audit"] = audit_data
 
         # Add GPT-specific findings
         if isinstance(audit_data, dict):
-            comprehensive_report["executive_summary"]["key_findings"].append(
+            key_findings = cast(
+                list[Any], comprehensive_report["executive_summary"]["key_findings"]
+            )
+            key_findings.append(
                 f"GPT-4 audit: {audit_data.get('avg_drift', 'N/A')} avg drift across test prompts"
             )
 
@@ -175,9 +211,9 @@ def generate_comprehensive_report():
     return comprehensive_report
 
 
-def generate_research_insights(report_data):
+def generate_research_insights(_report_data: dict[str, Any]) -> dict[str, Any]:
     """Generate research insights from the data"""
-    insights = {
+    insights: dict[str, Any] = {
         "symbolic_drift_analysis": {
             "framework_effectiveness": "Trinity Framework (⚛️🧠🛡️) shows consistent symbolic alignment detection",
             "drift_thresholds": "LUKHAS drift threshold of 0.42 effectively identifies problematic responses",
@@ -207,9 +243,9 @@ def generate_research_insights(report_data):
     return insights
 
 
-def generate_conclusions(report_data):
+def generate_conclusions(_report_data: dict[str, Any]) -> dict[str, Any]:
     """Generate research conclusions"""
-    conclusions = {
+    conclusions: dict[str, Any] = {
         "technical_achievements": [
             "Successfully implemented Trinity Framework (⚛️🧠🛡️) symbolic drift detection",
             "VIVOX consciousness architecture with 4 components fully operational",
@@ -250,10 +286,12 @@ def generate_conclusions(report_data):
     return conclusions
 
 
-def save_comprehensive_report(report, filename=None):
+def save_comprehensive_report(
+    report: dict[str, Any], filename: Optional[str] = None
+) -> str:
     """Save the comprehensive research report"""
     if not filename:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         filename = f"data/lukhas_comprehensive_research_report_{timestamp}.json"
 
     Path(filename).parent.mkdir(parents=True, exist_ok=True)
@@ -280,8 +318,7 @@ def print_report_summary(report):
     print(f"API Systems: {summary.get('api_systems_online', 'N/A')}")
     print(f"Test Success: {summary.get('test_success_rate', 'N/A')}")
     print(
-        f"VIVOX Components: {summary.get('vivox_components_operational',}
-                                         'N/A')} operational"
+        f"VIVOX Components: {summary.get('vivox_components_operational', 'N/A')} operational"
     )
 
     if summary.get("key_findings"):
