@@ -515,8 +515,11 @@ class AdvancedConsciousnessEngine:
         phase = math.pi * 0.25  # θ(t) - current consciousness phase
         entropy_weight = 1.0 - self.metrics.entropy_level  # W(ΔS(t))
 
-        # Quantum superposition calculation
-        quantum_component = amplitude * (math.exp(1j * phase) + math.exp(1j * (math.pi * phase))).real
+        # Quantum superposition calculation (Z(t) collapse function)
+        # Using complex exponentials and taking the real component for physical interpretation
+        term1 = complex(math.cos(phase), math.sin(phase))  # e^(iθ)
+        term2 = complex(math.cos(math.pi * phase), math.sin(math.pi * phase))  # e^(i(π·θ))
+        quantum_component = amplitude * (term1 + term2).real
 
         consciousness_value = quantum_component * entropy_weight
 
