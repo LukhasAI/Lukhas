@@ -20,21 +20,21 @@ IMPORT_MAPPINGS = {
     "core.bio_symbolic": "core.symbolic_legacy.bio.bio_symbolic",
     "memory.core_memory.memoria": "core.memoria",
     "core.symbolic.drift.drift_score": "consciousness.dream.oneiric.oneiric_core.analysis.drift_score",
-    "core.docututor.symbolic_knowledge_core.knowledge_graph": "tools.documentation.symbolic_knowledge_core.knowledge_graph",
+    "core.docututor.symbolic_knowledge_core.knowledge_graph": "tools.documentation.symbolic_knowledge_core.knowledge_graph",  # noqa: E501
     "core.adaptive_systems.crista_optimizer.crista_optimizer": "core.symbolic_legacy.bio.crista_optimizer",
     "core.service_discovery": "core.integration.service_discovery",
     "core.docututor.memory_evolution.voice_synthesis": "tools.documentation.memory_evolution.voice_synthesis",
     "consciousness.consciousness_hub": "consciousness.reflection.consciousness_hub",
     "consciousness.systems.awareness_engine": "consciousness.awareness.awareness_engine",
     "core.interfaces.ui.multimodal.image_generator": "core.common.interfaces.ui.multimodal.image_generator",
-    "core.interfaces.ui.adaptive.adaptive_interface_generator": "core.common.interfaces.ui.adaptive.adaptive_interface_generator",
+    "core.interfaces.ui.adaptive.adaptive_interface_generator": "core.common.interfaces.ui.adaptive.adaptive_interface_generator",  # noqa: E501
     "core.cognitive.node": "memory.node",
     "core.engine.neuro_symbolic_engine": "core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine",
     "core.config.settings": "core.orchestration.brain.config.settings",
     "core.config": "core.common.config",
     "consciousness.core_consciousness.awareness_engine": "consciousness.awareness.awareness_engine",
     "consciousness.core_consciousness.dream_engine.__init__": "qi_attention.__init__",
-    "core.qi_identity_manager": "._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager",
+    "core.qi_identity_manager": "._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager",  # noqa: E501
     "memory.fold_engine": "memory.folds.fold_engine",
 }
 
@@ -72,7 +72,8 @@ def fix_imports_in_file(file_path: Path) -> bool:
 
 def main():
     """Fix imports across the codebase"""
-    root = Path("/Users/agi_dev/Lukhas"
+    # ΛTAG: path_resolution
+    root = Path(__file__).resolve().parents[2]
     fixed_count = 0
 
     print("🔧 Fixing imports post-modularization...")
