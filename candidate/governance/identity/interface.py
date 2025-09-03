@@ -54,7 +54,7 @@ class LambdIDValidator:
         return True
 
 # Lazy import functions
-def _get_lambda_id_validator():
+def get_lambda_id_validator():
     """Lazy import of LambdaIDValidator to avoid circular imports"""
     try:
         from governance.identity.core.id_service.lambd_id_validator import (
@@ -117,7 +117,7 @@ class IdentityClient:
             TierValidatorClass = _get_tier_validator()
             ActivityLoggerClass = _get_activity_logger()
             ConsentManagerClass = _get_consent_manager()
-            LambdIDValidatorClass = _get_lambda_id_validator()
+            LambdIDValidatorClass = get_lambda_id_validator()
             
             # Try to initialize real components with fallback configurations
             self.tier_validator = TierValidatorClass(config={})
