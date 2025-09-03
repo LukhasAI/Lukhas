@@ -41,9 +41,14 @@ dependencies = [
 dev = [
     "pytest>=7.4.0",
     "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
     "black>=23.11.0",
     "mypy>=1.7.0",
     "ruff>=0.1.0",
+    "flake8>=6.0.0",
+    "coverage>=7.3.0",
+    "bandit>=1.7.5",
+    "pre-commit>=3.4.0",
 ]
 lambda = [
     "msgpack>=1.0.5",
@@ -78,12 +83,20 @@ pythonpath = ["."]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-q --disable-warnings"
+addopts = "-q --disable-warnings --cov --cov-report=term-missing --cov-fail-under=30"
 markers = [
     "unit: Unit tests",
     "integration: Integration tests",
     "security: Security tests",
     "slow: Slow tests",
+    "codex: CODEX automated fixes",
+    "datetime: Datetime UTC compliance tests",
+    "imports: Import structure validation",
+    "consciousness: Consciousness system tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
 ]
 
 [tool.black]
