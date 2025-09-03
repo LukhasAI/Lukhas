@@ -11,8 +11,10 @@ Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 import json
 import os
 import subprocess
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone  # ΛTAG: utc
 from pathlib import Path
+
+import click
 
 
 class SecurityTaskScheduler:
@@ -24,7 +26,7 @@ class SecurityTaskScheduler:
 
     def log(self, message: str):
         """Log message with timestamp"""
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
         log_msg = f"[{timestamp}] {message}\n"
 
         # Print to console
@@ -55,14 +57,14 @@ class SecurityTaskScheduler:
             if ":" in run_time:
                 # Time format like "14:30" (today) or "2025-08-22 14:30"
                 if "-" in run_time:
-                    scheduled_time = datetime.strptime(run_time, "%Y-%m-%d %H:%M")
+                    scheduled_time = datetime.strptime(run_time, "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc)
                 else:
-                    today = datetime.now().date()
+                    today = datetime.now(timezone.utc).date()
                     time_part = datetime.strptime(run_time, "%H:%M").time()
-                    scheduled_time = datetime.combine(today, time_part)
+                    scheduled_time = datetime.combine(today, time_part, tzinfo=timezone.utc)
 
                     # If time is in the past, schedule for tomorrow
-                    if scheduled_time <= datetime.now():
+                    if scheduled_time <= datetime.now(timezone.utc):
                         scheduled_time += timedelta(days=1)
             else:
                 # Relative time like "+2h", "+30m"
@@ -71,10 +73,10 @@ class SecurityTaskScheduler:
 
                 if run_time.endswith("h"):
                     hours = int(run_time[:-1])
-                    scheduled_time = datetime.now() + timedelta(hours=hours)
+                    scheduled_time = datetime.now(timezone.utc) + timedelta(hours=hours)
                 elif run_time.endswith("m"):
                     minutes = int(run_time[:-1])
-                    scheduled_time = datetime.now() + timedelta(minutes=minutes)
+                    scheduled_time = datetime.now(timezone.utc) + timedelta(minutes=minutes)
                 else:
                     raise ValueError("Invalid time format")
 
@@ -85,12 +87,12 @@ class SecurityTaskScheduler:
 
         # Create task
         task = {
-            "id": f"security_{int(datetime.now().timestamp())}",
+            "id": f"security_{int(datetime.now(timezone.utc).timestamp())}",
             "type": task_type,
             "scheduled_time": scheduled_time.isoformat(),
             "description": description or f"Scheduled {task_type}",
             "status": "pending",
-            "created": datetime.now().isoformat(),
+            "created": datetime.now(timezone.utc).isoformat(),
         }
 
         schedule["tasks"].append(task)
@@ -132,7 +134,7 @@ class SecurityTaskScheduler:
         """Check and run any pending tasks"""
         schedule = self.load_schedule()
         tasks = schedule.get("tasks", [])
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
 
         executed_tasks = 0
 
@@ -153,7 +155,7 @@ class SecurityTaskScheduler:
 
                 # Update status
                 task["status"] = "completed" if success else "failed"
-                task["finished"] = datetime.now().isoformat()
+                task["finished"] = datetime.now(timezone.utc).isoformat()
                 self.save_schedule(schedule)
 
                 executed_tasks += 1
@@ -226,7 +228,7 @@ class SecurityTaskScheduler:
             if task["id"] == task_id:
                 if task["status"] == "pending":
                     task["status"] = "cancelled"
-                    task["cancelled"] = datetime.now().isoformat()
+                    task["cancelled"] = datetime.now(timezone.utc).isoformat()
                     self.save_schedule(schedule)
                     self.log(f"❌ Cancelled task: {task_id}")
                     click.echo(f"✅ Task {task_id} cancelled")
