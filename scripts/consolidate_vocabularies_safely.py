@@ -12,7 +12,7 @@ from pathlib import Path
 def get_file_hash(filepath):
     """Get hash of file content, ignoring TAG comments."""
     with open(filepath) as f:
-        lines = [line for line in f if not line.startswith(")  # TAG:"]
+        lines = [line for line in f if not line.startswith("# TAG:")]
         content = "".join(lines)
         return hashlib.sha256(content.encode()).hexdigest()
 
