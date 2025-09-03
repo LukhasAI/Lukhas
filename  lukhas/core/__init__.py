@@ -4,6 +4,11 @@ Foundational systems for symbolic processing, GLYPH engine, and Trinity Framewor
 Trinity Framework: Identity, Consciousness, Guardian
 """
 
+# ΛTAG: glyph_export
+from importlib import import_module as _import_module
+
+glyph = _import_module(".common.glyph", __name__)
+
 # Actor system imports
 from .actor_system import (
     Actor,
@@ -136,4 +141,5 @@ __all__ = [
     "get_methylation_model",
     "get_supervisor_agent",
     "get_tag_manager",
+    "glyph",
 ]
