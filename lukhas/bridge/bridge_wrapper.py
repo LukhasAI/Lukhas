@@ -202,6 +202,7 @@ class MultiModelOrchestrator:
     def __init__(self, service_integration: ExternalServiceIntegration) -> None:
         self._integration = service_integration
         self._consensus_threshold = 0.7
+
     # Track background tasks created during orchestration to avoid GC and linter warnings
     # (initialized in __init__ as an instance attribute)
 
@@ -215,7 +216,6 @@ class MultiModelOrchestrator:
             # Process query through multiple models in parallel
             tasks = []
             for model in models:
-                # TODO @codex: ensure created Task is stored on the instance and add a done-callback to discard it
                 task = asyncio.create_task(self._process_with_model(model, query))
                 tasks.append(task)
                 # Keep a strong reference to avoid task being GC'd while running

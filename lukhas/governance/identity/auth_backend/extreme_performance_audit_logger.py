@@ -189,6 +189,10 @@ class ExtremePerformanceAuditLogger:
         # Initialize flag
         self._initialized = False
 
+        # Track background tasks spawned for extreme performance features
+        # ΛTAG: audit_bg_task_tracking
+        self._bg_tasks: set[asyncio.Task[Any]] = set()
+
         print("🚀 ExtremePerformanceAuditLogger initialized for OpenAI-scale performance")
         print(f"   Target latency: {self.target_latency_ms}ms per event")
         print(f"   Target throughput: {self.target_throughput_eps:,} events/second")
@@ -285,19 +289,15 @@ class ExtremePerformanceAuditLogger:
         # BACKGROUND HASH CALCULATION (if requested)
         if calculate_hash and self.hash_calculator:
             # Calculate hash asynchronously without blocking
-            if not hasattr(self, "_bg_tasks"):
-                self._bg_tasks = []
-            # TODO @codex: ensure background audit tasks are tracked and cleaned up.
-            # Store Task refs and add done-callbacks to discard finished tasks.
-            self._bg_tasks.append(asyncio.create_task(self._calculate_event_hash_background(event)))
+            task = asyncio.create_task(self._calculate_event_hash_background(event))
+            self._bg_tasks.add(task)
+            task.add_done_callback(lambda t: self._bg_tasks.discard(t))
 
         # REDIS CACHE (ultra-fast, fire-and-forget)
         if self._redis:
-            if not hasattr(self, "_bg_tasks"):
-                self._bg_tasks = []
-            # TODO @codex: ensure background audit tasks are tracked and cleaned up.
-            # Store Task refs and add done-callbacks to discard finished tasks.
-            self._bg_tasks.append(asyncio.create_task(self._cache_event_redis_background(event)))
+            task = asyncio.create_task(self._cache_event_redis_background(event))
+            self._bg_tasks.add(task)
+            task.add_done_callback(lambda t: self._bg_tasks.discard(t))
 
         # Performance tracking
         event_duration_ms = (time.perf_counter() - event_start) * 1000
