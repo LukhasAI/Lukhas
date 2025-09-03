@@ -260,10 +260,10 @@ class MathReasoningNode(CognitiveNode):
 
             return float(result)
 
-        except ZeroDivisionError:
-            raise ValueError("Division by zero")
-        except Exception as e:
-            raise ValueError(f"Invalid expression: {e!s}")
+        except ZeroDivisionError as err:
+            raise ValueError("Division by zero") from err  # ΛTAG: error_trace
+        except Exception as err:
+            raise ValueError(f"Invalid expression: {err!s}") from err  # ΛTAG: error_trace
 
 
 # Example usage and testing

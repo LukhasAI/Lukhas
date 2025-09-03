@@ -26,6 +26,7 @@ import uuid
 from collections import deque
 from dataclasses import asdict, dataclass, field
 from enum import Enum
+from itertools import chain
 from pathlib import Path
 from typing import Any, Optional
 
@@ -437,15 +438,15 @@ class MemorySystem(CognitiveNode):
             time_window = self.consolidation_rules.time_window_hours * 3600 * 1000
 
             # Find candidates for consolidation from episodic and working memory
-            candidates = []
-
-            for memory in list(self.episodic_memory.values()) + list(self.working_memory.values()):
+            candidates = [
+                memory
+                for memory in list(self.episodic_memory.values()) + list(self.working_memory.values())
                 if (
                     memory.access_count >= self.consolidation_rules.min_access_count
                     and memory.confidence >= self.consolidation_rules.min_confidence
                     and current_time - memory.created_timestamp >= time_window
-                ):
-                    candidates.append(memory)
+                )
+            ]  # ΛTAG: perf_opt
 
             # Consolidate candidates
             for memory in candidates:
@@ -788,20 +789,19 @@ class MemorySystem(CognitiveNode):
         memories = self.retrieve_memories(memory_query)
 
         # Convert memories to serializable format
-        result_memories = []
-        for memory in memories:
-            result_memories.append(
-                {
-                    "id": memory.id,
-                    "content": memory.content,
-                    "confidence": memory.confidence,
-                    "salience": memory.salience,
-                    "memory_type": memory.memory_type.value,
-                    "created_timestamp": memory.created_timestamp,
-                    "access_count": memory.access_count,
-                    "tags": list(memory.tags),
-                }
-            )
+        result_memories = [
+            {
+                "id": memory.id,
+                "content": memory.content,
+                "confidence": memory.confidence,
+                "salience": memory.salience,
+                "memory_type": memory.memory_type.value,
+                "created_timestamp": memory.created_timestamp,
+                "access_count": memory.access_count,
+                "tags": list(memory.tags),
+            }
+            for memory in memories
+        ]  # ΛTAG: perf_opt
 
         confidence = 0.9 if memories else 0.3
 
@@ -838,7 +838,7 @@ class MemorySystem(CognitiveNode):
         }
 
     def _handle_consolidate_operation(
-        self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]
+        self, _input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]
     ) -> dict[str, Any]:
         """Handle memory consolidation operations."""
         consolidated_count = self.consolidate_memories()
@@ -870,7 +870,7 @@ class MemorySystem(CognitiveNode):
         }
 
     def _handle_decay_operation(
-        self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]
+        self, _input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]
     ) -> dict[str, Any]:
         """Handle memory decay operations."""
         decayed_count = self.decay_memories()
@@ -899,7 +899,7 @@ class MemorySystem(CognitiveNode):
         }
 
     def _handle_stats_operation(
-        self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]
+        self, _input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]
     ) -> dict[str, Any]:
         """Handle memory statistics operations."""
         stats = self.get_memory_stats()
@@ -1001,17 +1001,15 @@ class MemorySystem(CognitiveNode):
             return
 
         try:
-            all_memories = []
-
-            # Collect all memories
-            for memory in self.working_memory.values():
-                all_memories.append(asdict(memory))
-            for memory in self.episodic_memory.values():
-                all_memories.append(asdict(memory))
-            for memory in self.semantic_memory.values():
-                all_memories.append(asdict(memory))
-            for memory in self.consolidated_memory.values():
-                all_memories.append(asdict(memory))
+            all_memories = [
+                asdict(memory)
+                for memory in chain(
+                    self.working_memory.values(),
+                    self.episodic_memory.values(),
+                    self.semantic_memory.values(),
+                    self.consolidated_memory.values(),
+                )
+            ]  # ΛTAG: perf_opt
 
             # Convert sets to lists for JSON serialization
             for memory_data in all_memories:
