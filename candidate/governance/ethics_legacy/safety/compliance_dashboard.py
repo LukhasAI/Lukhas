@@ -11,25 +11,29 @@ Integration Date: 2025-05-31T07:55:27.745437
 # 🎯 AUDIENCE: Governance reviewers (e.g. Sam Altman, auditors)
 # ════════════════════════════════════════════════════════════════════════
 
-# import streamlit as st  # TODO: Install or implement streamlit
+try:
+    import streamlit as st  # type: ignore[import-not-found]
+except Exception:  # ΛTAG: streamlit_fallback
+    st = None  # type: ignore[assignment]
 import json
 import os
 from pathlib import Path
 
 import pandas as pd
 
-from candidate.core.interfaces.voice.core.sayit import \
-    trace_tools  # assuming trace_tools.py is importable
+from candidate.core.interfaces.voice.core.sayit import (
+    trace_tools,
+)  # assuming trace_tools.py is importable
 
 LOG_PATH = "logs/emergency_log.jsonl"
 
 st.set_page_config(page_title="LUKHAS Institutional Compliance Viewer")
-st.title("🛡️ LUKHAS AGI – Compliance Audit Dashboard")
+st.title("🛡️ LUKHAS AGI - Compliance Audit Dashboard")
 
 if not os.path.exists(LOG_PATH):
     st.warning("No emergency logs found.")
 else:
-    st.markdown("##)  #  📜 Emergency Override Incidents"
+    st.markdown("##)  #  📜 Emergency Override Incidents")
     with open(LOG_PATH) as f:
         logs = [json.loads(line) for line in f if line.strip()]
 
@@ -54,7 +58,7 @@ st.caption("🔒 All emergency actions are traceable, tiered, and GDPR-aligned."
 
 trace_path = Path("logs/symbolic_trace_dashboard.csv")
 if trace_path.exists():
-    st.markdown("##)  #  🧠 Symbolic Trace Overview"
+    st.markdown("##)  #  🧠 Symbolic Trace Overview")
 
     try:
         df = pd.read_csv(trace_path)
@@ -64,7 +68,7 @@ if trace_path.exists():
         st.dataframe(df[filter_cols] if filter_cols else df)
 
         # Optional Summary Tools
-        st.markdown("##)  #  📊 Symbolic Summary"
+        st.markdown("##)  #  📊 Symbolic Summary")
         summary = trace_tools.get_summary_stats(df)
         st.json(summary)
 
