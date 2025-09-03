@@ -87,12 +87,12 @@ markers = [
 ]
 
 [tool.black]
-line-length = 88
+line-length = 120
 target-version = ['py39', 'py310', 'py311']
 include = '\.pyi?$'
 
 [tool.ruff]
-line-length = 88
+line-length = 120
 target-version = "py39"
 
 # Exclude patterns

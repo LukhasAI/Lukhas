@@ -371,7 +371,7 @@ cat REPOSITORY_CLEANUP_SUMMARY.md
 - **Quality gates**: `make fix && make lint && make test && npm run policy:all`.
 
 ## Coding Style & Naming
-- Python: Black (line length 88), Ruff, isort, Flake8, MyPy; security via Bandit. Use `make format`, `make lint`, `make fix`.
+- Python: Black (line length 120), Ruff, isort, Flake8, MyPy; security via Bandit. Use `make format`, `make lint`, `make fix`.
 - Conventions: modules/functions `snake_case`, classes `PascalCase`, constants `UPPER_SNAKE`.
 - Keep public APIs typed; prefer small, cohesive modules respecting the lane boundaries.
 

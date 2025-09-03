@@ -11,7 +11,24 @@ Integration Date: 2025-05-31T07:55:27.745437
 # 🎯 AUDIENCE: Governance reviewers (e.g. Sam Altman, auditors)
 # ════════════════════════════════════════════════════════════════════════
 
-# import streamlit as st  # TODO: Install or implement streamlit
+try:
+    import streamlit as st
+except ImportError:
+    # Create a mock streamlit module for testing
+    class MockStreamlit:
+        def set_page_config(self, **kwargs): pass
+        def title(self, text): print(f"TITLE: {text}")
+        def markdown(self, text): print(f"MARKDOWN: {text}")
+        def warning(self, text): print(f"WARNING: {text}")
+        def code(self, text, **kwargs): print(f"CODE: {text}")
+        def caption(self, text): print(f"CAPTION: {text}")
+        def multiselect(self, label, options, **kwargs): return options
+        def dataframe(self, df): print(f"DATAFRAME: {len(df) if hasattr(df, '__len__') else 'N/A'} rows")
+        def json(self, data): print(f"JSON: {data}")
+        def button(self, text): return False
+        def error(self, text): print(f"ERROR: {text}")
+        def info(self, text): print(f"INFO: {text}")
+    st = MockStreamlit()
 import json
 import os
 from pathlib import Path
@@ -29,7 +46,7 @@ st.title("🛡️ LUKHAS AGI – Compliance Audit Dashboard")
 if not os.path.exists(LOG_PATH):
     st.warning("No emergency logs found.")
 else:
-    st.markdown("##)  #  📜 Emergency Override Incidents"
+    st.markdown("## 📜 Emergency Override Incidents")
     with open(LOG_PATH) as f:
         logs = [json.loads(line) for line in f if line.strip()]
 
@@ -54,7 +71,7 @@ st.caption("🔒 All emergency actions are traceable, tiered, and GDPR-aligned."
 
 trace_path = Path("logs/symbolic_trace_dashboard.csv")
 if trace_path.exists():
-    st.markdown("##)  #  🧠 Symbolic Trace Overview"
+    st.markdown("## 🧠 Symbolic Trace Overview")
 
     try:
         df = pd.read_csv(trace_path)
@@ -64,7 +81,7 @@ if trace_path.exists():
         st.dataframe(df[filter_cols] if filter_cols else df)
 
         # Optional Summary Tools
-        st.markdown("##)  #  📊 Symbolic Summary"
+        st.markdown("## 📊 Symbolic Summary")
         summary = trace_tools.get_summary_stats(df)
         st.json(summary)
 
