@@ -40,13 +40,14 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 import numpy as np
 from dream.modifiers.qi_like_state_modifier import QILikeStateModifier
 
 # Configure structured logging
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)  # ΛTAG: logging
 
 # Add parent directories to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -176,7 +177,7 @@ class SymbolicPatternExtractor:
     """Extracts symbolic patterns and glyphs from various data sources."""
 
     # Comprehensive symbolic pattern lexicon
-    SYMBOLIC_PATTERNS = {
+    SYMBOLIC_PATTERNS: ClassVar[dict[str, str]] = {
         # Universal Archetypes
         "water": r"\b(?:water|ocean|river|lake|sea|rain|flood|stream|wave|tide)\b",
         "fire": r"\b(?:fire|flame|burning|heat|inferno|blaze|ember|spark|light)\b",
@@ -216,7 +217,7 @@ class SymbolicPatternExtractor:
     }
 
     # Glyph patterns (LUKHAS symbolic markers)
-    GLYPH_PATTERNS = {
+    GLYPH_PATTERNS: ClassVar[dict[str, str]] = {
         "lambda_markers": r"LUKHAS[A-Z_]+",  # ΛTAG, ΛECHO, etc.
         "unicode_symbols": r"[⚡🔮🌌🎭🔄⚖️🛡️🔥💧🌍💨]",
         "geometric": r"[◇◆○●□■△▲]",
@@ -274,7 +275,7 @@ class SymbolicPatternExtractor:
 class ArchetypalAnalyzer:
     """Analyzes narrative threads for archetypal patterns and significance."""
 
-    ARCHETYPAL_PATTERNS = {
+    ARCHETYPAL_PATTERNS: ClassVar[dict[NarrativeArc, dict[str, Any]]] = {
         NarrativeArc.HEROS_JOURNEY: {
             "phases": [
                 "call_to_adventure",

@@ -1,29 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="0" tests="5" time="1.240" timestamp="2025-09-02T17:14:41.762036+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.aka_qualia.test_c5_observability" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/aka_qualia/test_c5_observability.py'.
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="0" tests="5" time="5.180" timestamp="2025-09-03T00:20:41.715748+00:00" hostname="3fdc2db055f7"><testcase classname="" name="tests.candidate.aka_qualia.test_c5_observability" time="0.000"><error message="collection failure">ImportError while importing test module '/workspace/Lukhas/tests/candidate/aka_qualia/test_c5_observability.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 tests/candidate/aka_qualia/test_c5_observability.py:12: in &lt;module&gt;
     from memory_noop import NoopMemory
-E   ModuleNotFoundError: No module named 'memory_noop'</error></testcase><testcase classname="" name="tests.candidate.aka_qualia.test_router_contract" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/aka_qualia/test_router_contract.py'.
+E   ModuleNotFoundError: No module named 'memory_noop'</error></testcase><testcase classname="" name="tests.candidate.aka_qualia.test_router_contract" time="0.000"><error message="collection failure">ImportError while importing test module '/workspace/Lukhas/tests/candidate/aka_qualia/test_router_contract.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 tests/candidate/aka_qualia/test_router_contract.py:18: in &lt;module&gt;
     from candidate.aka_qualia.models import AgencyFeel, PhenomenalScene, ProtoQualia, RiskGauge, RiskSeverity, TemporalFeel
-E   ImportError: cannot import name 'RiskGauge' from 'candidate.aka_qualia.models' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/models.py)</error></testcase><testcase classname="tests.candidate.bridge.test_orchestration_system" name="TestResult" time="0.000"><error message="collection failure">.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+E   ImportError: cannot import name 'RiskGauge' from 'candidate.aka_qualia.models' (/workspace/Lukhas/candidate/aka_qualia/models.py)</error></testcase><testcase classname="tests.candidate.bridge.test_orchestration_system" name="TestResult" time="0.000"><error message="collection failure">/root/.pyenv/versions/3.12.10/lib/python3.12/site-packages/_pytest/runner.py:344: in from_call
     result: TResult | None = func()
-.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+                             ^^^^^^
+/root/.pyenv/versions/3.12.10/lib/python3.12/site-packages/_pytest/runner.py:389: in collect
     return list(collector.collect())
-.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+                ^^^^^^^^^^^^^^^^^^^
+/root/.pyenv/versions/3.12.10/lib/python3.12/site-packages/_pytest/python.py:752: in collect
     self.warn(
-.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+/root/.pyenv/versions/3.12.10/lib/python3.12/site-packages/_pytest/nodes.py:271: in warn
     warnings.warn_explicit(
-E   pytest.PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: tests/candidate/bridge/test_orchestration_system.py)</error></testcase><testcase classname="" name="tests.candidate.bridge.test_unified_openai_client" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/bridge/test_unified_openai_client.py'.
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: tests/candidate/bridge/test_orchestration_system.py)</error></testcase><testcase classname="" name="tests.candidate.bridge.test_unified_openai_client" time="0.000"><error message="collection failure">ImportError while importing test module '/workspace/Lukhas/tests/candidate/bridge/test_unified_openai_client.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 tests/candidate/bridge/test_unified_openai_client.py:8: in &lt;module&gt;
     from lukhas.bridge.llm_wrappers.unified_openai_client import (
-E   ModuleNotFoundError: No module named 'lukhas.bridge'; 'lukhas' is not a package</error></testcase><testcase classname="" name="tests.core.test_time_tz" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/test_time_tz.py'.
+E   ModuleNotFoundError: No module named 'lukhas.bridge'; 'lukhas' is not a package</error></testcase><testcase classname="" name="tests.consent.test_api" time="0.000"><error message="collection failure">ImportError while importing test module '/workspace/Lukhas/tests/consent/test_api.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
-tests/core/test_time_tz.py:1: in &lt;module&gt;
-    from lukhas.core.common.logger import JSONFormatter
-E   ModuleNotFoundError: No module named 'lukhas.core'; 'lukhas' is not a package</error></testcase></testsuite></testsuites>
+tests/consent/test_api.py:6: in &lt;module&gt;
+    from consent.api import ConsentService, get_consent_service, router
+consent/api.py:24: in &lt;module&gt;
+    from .service import (
+consent/service.py:24: in &lt;module&gt;
+    import asyncpg
+E   ModuleNotFoundError: No module named 'asyncpg'</error></testcase></testsuite></testsuites>
