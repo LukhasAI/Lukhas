@@ -5,10 +5,6 @@
 /* Using Helvetica Neue system fonts - no external font loading needed */
 
 @layer base {
-  * {
-    font-family: 'Helvetica Neue', 'system-ui', 'sans-serif';
-  }
-  
   :root {
     --background: 0 0% 0%;
     --foreground: 0 0% 100%;
@@ -55,7 +51,10 @@
     --lh-tight: 1.15; --lh-normal: 1.35;
   }
 
-  * {
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "InterVar", ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -64,12 +63,6 @@
   html {
     scroll-behavior: smooth;
     transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: "InterVar", ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   }
 
   /* "Glass" utility for panels that should show the neural bg */
@@ -97,13 +90,6 @@
     border-radius: 8px;
   }
 
-  /* Motion audit */
-  * {
-    transition: background var(--dur) var(--ease),
-                border-color var(--dur) var(--ease),
-                color var(--dur) var(--ease);
-  }
-
   /* LUKHΛS Brand Typography */
   .lukhas-brand {
     font-family: 'Helvetica Neue UltraLight', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -111,51 +97,46 @@
     letter-spacing: 0.05em;
   }
 
-  /* Force text to be visible with important flag */
+  /* Base text color */
   h1, h2, h3, h4, h5, h6, p, span, div, a, button, label, input, li, td, th {
-    color: rgb(255, 255, 255) !important;
-  }
-
-  /* Ensure all text elements are white by default */
-  * {
     color: rgb(255, 255, 255);
   }
 
   /* Allow specific color overrides */
   .text-trinity-identity {
-    color: rgb(107, 70, 193) !important;
+    color: rgb(107, 70, 193);
   }
 
   .text-trinity-consciousness {
-    color: rgb(168, 85, 247) !important;
+    color: rgb(168, 85, 247);
   }
 
   .text-trinity-guardian {
-    color: rgb(34, 197, 94) !important;
+    color: rgb(34, 197, 94);
   }
 
   .text-accent-gold {
-    color: rgb(251, 191, 36) !important;
+    color: rgb(251, 191, 36);
   }
 
   .text-gray-300 {
-    color: rgb(209, 213, 219) !important;
+    color: rgb(209, 213, 219);
   }
 
   .text-gray-400 {
-    color: rgb(156, 163, 175) !important;
+    color: rgb(156, 163, 175);
   }
 
   .text-gray-500 {
-    color: rgb(107, 114, 128) !important;
+    color: rgb(107, 114, 128);
   }
 
   .text-text-secondary {
-    color: rgb(179, 179, 179) !important;
+    color: rgb(179, 179, 179);
   }
 
   .text-text-tertiary {
-    color: rgb(128, 128, 128) !important;
+    color: rgb(128, 128, 128);
   }
 }
 
@@ -165,9 +146,9 @@
   *,
   *::before,
   *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
+    animation: none;
+    transition: none;
+    scroll-behavior: auto;
   }
 
   /* Specific animation classes to disable */
@@ -182,23 +163,23 @@
   .transition-colors,
   .transition-opacity,
   .transition-transform {
-    animation: none !important;
-    transition: none !important;
+    animation: none;
+    transition: none;
   }
 
   /* Disable auto-rotating elements */
   [data-auto-rotate="true"] {
-    animation: none !important;
+    animation: none;
   }
 
   /* Simplify hover effects */
   *:hover {
-    transition: none !important;
+    transition: none;
   }
 
   /* Disable parallax effects */
   .parallax {
-    transform: none !important;
+    transform: none;
   }
 }
 
@@ -212,8 +193,8 @@ body.calm-mode {
 body.calm-mode *,
 body.calm-mode *::before,
 body.calm-mode *::after {
-  animation-duration: calc(var(--animation-duration, 1s) * 2) !important;
-  transition-duration: calc(var(--transition-duration, 0.3s) * 2) !important;
+  animation-duration: calc(var(--animation-duration, 1s) * 2);
+  transition-duration: calc(var(--transition-duration, 0.3s) * 2);
 }
 
 /* High Contrast Mode Support */
@@ -230,7 +211,7 @@ body.calm-mode *::after {
 
   /* Stronger borders */
   .border {
-    border-width: 2px !important;
+    border-width: 2px;
   }
 }
 
