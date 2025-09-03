@@ -17,7 +17,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Optional, Union, ClassVar
+from typing import Any, ClassVar, Optional, Union
 
 # Third-party
 import gymnasium as gym

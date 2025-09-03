@@ -215,6 +215,7 @@ class MultiModelOrchestrator:
             # Process query through multiple models in parallel
             tasks = []
             for model in models:
+                # TODO @codex: ensure created Task is stored on the instance and add a done-callback to discard it
                 task = asyncio.create_task(self._process_with_model(model, query))
                 tasks.append(task)
                 # Keep a strong reference to avoid task being GC'd while running

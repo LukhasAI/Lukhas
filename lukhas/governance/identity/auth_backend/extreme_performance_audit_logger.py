@@ -287,12 +287,16 @@ class ExtremePerformanceAuditLogger:
             # Calculate hash asynchronously without blocking
             if not hasattr(self, "_bg_tasks"):
                 self._bg_tasks = []
+            # TODO @codex: ensure background audit tasks are tracked and cleaned up.
+            # Store Task refs and add done-callbacks to discard finished tasks.
             self._bg_tasks.append(asyncio.create_task(self._calculate_event_hash_background(event)))
 
         # REDIS CACHE (ultra-fast, fire-and-forget)
         if self._redis:
             if not hasattr(self, "_bg_tasks"):
                 self._bg_tasks = []
+            # TODO @codex: ensure background audit tasks are tracked and cleaned up.
+            # Store Task refs and add done-callbacks to discard finished tasks.
             self._bg_tasks.append(asyncio.create_task(self._cache_event_redis_background(event)))
 
         # Performance tracking

@@ -86,59 +86,47 @@ TRINITY_SYMBOLS = {
 }
 
 # Export public interface
-__all__ = [
-    "TRINITY_SYMBOLS",
+__all__ = [  # noqa: RUF022
     "AIAgentActor",
     "AIAgentAggregate",
     "AIAgentTracer",
     "Actor",
-    # Actor system exports
     "ActorRef",
     "ActorSystem",
     "CoreStatus",
-    # Core wrapper exports
     "CoreWrapper",
     "DistributedTracer",
-    # Communication system exports
     "EfficientCommunicationFabric",
     "EnergyMonitor",
-    # Event sourcing exports
     "Event",
     "EventBus",
     "EventReplayService",
     "EventSourcedAggregate",
     "EventStore",
-    # GLYPH system exports
     "GLYPHSymbol",
     "GLYPHToken",
-    "glyph",
     "GlyphResult",
+    "MethylationModel",
     "MessagePriority",
     "MessageRouter",
-    "MethylationModel",
     "P2PChannel",
-    # Supervision exports
+    "TRINITY_SYMBOLS",
     "SupervisorAgent",
     "SymbolicResult",
     "SymbolicTag",
     "TagManager",
     "TagPermission",
-    # Symbolic system exports
     "TagScope",
-    "TraceCollector",
-    "TraceContext",
-    # Distributed tracing exports
-    "TraceSpan",
+    "default_actor_system",
     "create_ai_tracer",
     "create_glyph",
     "create_trinity_glyph",
-    "default_actor_system",
     "encode_concept",
     "get_core",
     "get_core_status",
     "get_global_actor_system",
-    "get_global_collector",
     "get_global_communication_fabric",
+    "get_global_collector",
     "get_global_event_store",
     "get_global_tracer",
     "get_methylation_model",

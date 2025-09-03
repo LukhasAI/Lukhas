@@ -165,6 +165,7 @@ class ConsciousnessReplayBuffer:
 
         # Integrate with memory fold system
         if self.memory_system:
+            # TODO @codex: ensure created Task is stored and has a done-callback to discard it from tracking set
             # Create background task and keep a strong reference to avoid GC
             task = asyncio.create_task(self._integrate_with_memory_system(experience))
             self._background_tasks.add(task)

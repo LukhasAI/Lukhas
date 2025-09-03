@@ -190,6 +190,7 @@ class EventBus:
     async def start(self) -> None:
         """Start the event bus"""
         self._running = True
+        # TODO @codex: verify processor Task is tracked and add a done-callback to discard it
         self._processor_task = asyncio.create_task(self._process_messages())
         try:
             self._bg_tasks.add(self._processor_task)
@@ -254,6 +255,7 @@ class EventBus:
         # Deliver to all handlers
         delivery_tasks = []
         for handler in handlers:
+            # TODO @codex: ensure delivery handler tasks are stored and cleaned up via done-callbacks
             task = asyncio.create_task(self._safe_handle(handler, message))
             delivery_tasks.append(task)
             # Keep a strong reference to avoid GC while handler runs

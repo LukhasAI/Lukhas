@@ -540,6 +540,7 @@ class ExtremePerformanceIdentityConnector:
         tasks = []
         for i in range(num_operations):
             agent_id = f"benchmark_agent_{i % 100}"
+            # TODO @codex: confirm benchmark tasks are safely collected/awaited (store Task refs or gather)
             task = asyncio.create_task(benchmark_operation(self, agent_id))
             tasks.append(task)
 

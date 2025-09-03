@@ -570,7 +570,6 @@ class ConsciousnessActorCritic(nn.Module):
         Returns:
             Tuple of (action, value, log_prob, additional_info)
         """
-
         outputs = self.forward(consciousness_state, action_type=action_type)
 
         action = outputs["action"]
@@ -583,6 +582,9 @@ class ConsciousnessActorCritic(nn.Module):
             "ethical_satisfaction": outputs["ethical_constraint_satisfaction"],
             "value_confidence": outputs["value_confidence"],
         }
+
+        # Mark exploration as used (lint-only; preserves API)
+        _ = exploration
 
         return action, value, log_prob, additional_info
 
