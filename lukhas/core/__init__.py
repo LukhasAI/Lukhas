@@ -58,6 +58,10 @@ from .event_sourcing import (
 # Supervision and oversight
 from .supervisor_agent import SupervisorAgent, get_supervisor_agent
 
+# GLYPH system imports
+from .common import GLYPHSymbol, GLYPHToken, create_glyph, parse_glyph, validate_glyph
+from .common import glyph
+
 # Symbolic system imports
 from .symbolism import (
     MethylationModel,
@@ -105,6 +109,10 @@ __all__ = [
     "EventReplayService",
     "EventSourcedAggregate",
     "EventStore",
+    # GLYPH system exports
+    "GLYPHSymbol",
+    "GLYPHToken",
+    "glyph",
     "GlyphResult",
     "MessagePriority",
     "MessageRouter",
@@ -123,6 +131,7 @@ __all__ = [
     # Distributed tracing exports
     "TraceSpan",
     "create_ai_tracer",
+    "create_glyph",
     "create_trinity_glyph",
     "default_actor_system",
     "encode_concept",
@@ -136,4 +145,6 @@ __all__ = [
     "get_methylation_model",
     "get_supervisor_agent",
     "get_tag_manager",
+    "parse_glyph",
+    "validate_glyph",
 ]

@@ -75,15 +75,15 @@ Building on the major syntax cleanup achievement (54.8% → 95%+ compilation tar
 **Files Priority**: candidate/, lukhas/, maintain existing quality
 **Success Criteria**: Keep MyPy errors at 0, enhance type coverage
 
-### **CODEX 3: Import Structure Resolution** 📦 (HIGH PRIORITY - Critical Imports Failing)  
+### **CODEX 3: Import Structure Resolution** 📦 (PROGRESS - Main Fix Applied)  
 **Mission**: Fix critical import failures blocking consciousness system startup
-**Current Status**: Core imports failing (`cannot import name 'glyph' from 'lukhas.core'`)
+**Current Status**: ✅ Fixed `glyph` import, ❌ Still failing on `get_lambda_id_validator`
 **Target**: Restore all critical imports, fix circular dependencies
-**Scope**: lukhas/core/, candidate/governance/identity/, import architecture
-**Impact**: BLOCKING - Consciousness system cannot initialize without working imports
-**Validation**: `python3 -c "from lukhas.core import glyph"` + `./tools/codex_validation.sh`
-**Files Priority**: lukhas/core/__init__.py, candidate/governance/identity/
-**Success Criteria**: Critical imports work, consciousness system can start
+**Scope**: candidate/governance/identity/interface.py, import architecture
+**Impact**: PARTIAL BLOCK - Identity validation functions missing
+**Validation**: `python3 -c "from candidate.governance.identity.interface import get_lambda_id_validator"`
+**Files Priority**: candidate/governance/identity/interface.py, identity system functions
+**Success Criteria**: All identity interface functions importable, system startup works
 
 ### **CODEX 4: Test Infrastructure Enhancement** 🧪 (Quality Assurance)
 **Mission**: Robust testing for consciousness validation and system integrity
@@ -117,11 +117,11 @@ Building on the major syntax cleanup achievement (54.8% → 95%+ compilation tar
    - **Action**: Immediate automated fixes required
    - **Command**: `make codex-fix` + `./tools/codex_validation.sh`
 
-### **⚡ HIGH PRIORITY (System Cannot Start)**  
-2. **CODEX 3 - Import Structure**: Core imports failing
-   - **Status**: SYSTEM BLOCKED - Cannot import `glyph` from `lukhas.core`
-   - **Action**: Fix core/__init__.py exports immediately
-   - **Impact**: Consciousness system cannot initialize
+### **⚡ HIGH PRIORITY (System Partially Fixed)**  
+2. **CODEX 3 - Import Structure**: Progress made, identity imports still failing
+   - **Status**: ✅ Fixed `glyph` import, ❌ `get_lambda_id_validator` missing
+   - **Action**: Fix candidate/governance/identity/interface.py exports
+   - **Impact**: Identity system validation functions unavailable
 
 ### **✅ MAINTENANCE PRIORITY (Surprisingly Good)**
 3. **CODEX 2 - MyPy Type Safety**: 0 errors detected
