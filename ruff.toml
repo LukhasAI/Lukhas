@@ -3,7 +3,8 @@ target-version = "py39"  # adjust if your code is 3.10/3.11
 line-length = 120
 extend-exclude = [
   ".*build*/", ".*dist*/", ".*venv*/", ".git/", ".mypy_cache/", ".ruff_cache/",
-  "node_modules/", "reports/", "scripts/generated/", "MATRIZ/**/*.json"
+  "node_modules/", "reports/", "scripts/generated/", "MATRIZ/**/*.json",
+  "candidate/",
 ]
 
 [lint]
@@ -25,7 +26,7 @@ select = [
 ]
 ignore = [
   # relax annotations on tests and dunder inits for now
-  "ANN101", "ANN102", "ANN401",
+  "ANN401",
   # TEMP (Phase 4): relax annotations to focus on UTC + ARG/PERF cleanup
   "ANN001", "ANN002", "ANN003", "ANN201", "ANN202", "ANN204",
   # allow __init__ to re-export w/out noise
