@@ -13,6 +13,9 @@ from .actor_system import (
     default_actor_system,
     get_global_actor_system,
 )
+
+# Glyph utilities
+from .common import glyph  # ΛTAG: glyph_export
 from .core_wrapper import (
     CoreStatus,
     CoreWrapper,
@@ -136,4 +139,5 @@ __all__ = [
     "get_methylation_model",
     "get_supervisor_agent",
     "get_tag_manager",
+    "glyph",
 ]
