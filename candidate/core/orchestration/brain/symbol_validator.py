@@ -358,7 +358,6 @@ class LukhasComplianceChecker:
 
     def _should_exclude_file(self, file_path: Path) -> bool:
         """Check if a file should be excluded from scanning."""
-        str(file_path)
         for exclude_pattern in self.exclude_patterns:
             if file_path.match(exclude_pattern):
                 return True
@@ -371,7 +370,7 @@ class LukhasComplianceChecker:
         with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
             future_to_file = {
                 executor.submit(self._scan_single_file, file_path): file_path
-                for file_path in files:
+                for file_path in files
             }
 
             for future in concurrent.futures.as_completed(future_to_file):
@@ -482,8 +481,8 @@ class LukhasComplianceChecker:
                     line_number=None,
                     description="Critical module missing GDPR data subject rights implementation",
                     regulation="GDPR Articles 15-22",
-                    remediation="Implement data subject rights: access, rectification,"
-                    erasure, portability",
+                    remediation="Implement data subject rights: access, rectification, "
+                    "erasure, portability",
                 )
             )
 
@@ -497,10 +496,12 @@ class LukhasComplianceChecker:
                     line_number=None,
                     description="Critical module missing CCPA consumer rights implementation",
                     regulation="CCPA/CPRA",
-                    remediation="Implement opt-out mechanisms and consumer rights",))
+                    remediation="Implement opt-out mechanisms and consumer rights",
+                )
+            )
 
         # Check for missing consent management
-        if self._processes_personal_data(content) and not self._has_consent_management(:
+        if self._processes_personal_data(content) and not self._has_consent_management(
             content
         ):
             violations.append(
@@ -675,8 +676,8 @@ class LukhasComplianceChecker:
         for jurisdiction in Jurisdiction:
             jurisdiction_violations = [
                 v
-                for v in violations:
-                if v.jurisdiction == jurisdiction:
+                for v in violations
+                if v.jurisdiction == jurisdiction
                 or v.jurisdiction == Jurisdiction.GLOBAL
             ]
 
@@ -780,7 +781,7 @@ class LukhasComplianceChecker:
         """Get scores for known compliant modules."""
         if module_name == "GlobalInstitutionalCompliantEngine.py":
             return {j.value: 100.0 for j in Jurisdiction}
-        elif module_name in [:
+        elif module_name in [
             "EUAwarenessEngine.py",
             "USInstitutionalAwarenessEngine.py",
         ]:
@@ -796,8 +797,8 @@ class LukhasComplianceChecker:
         # Count modules by compliance level
         compliant_modules = sum(
             1
-            for r in module_reports:
-            if r.compliance_level:
+            for r in module_reports
+            if r.compliance_level
             in [
                 ComplianceLevel.FULL_COMPLIANCE,
                 ComplianceLevel.SUBSTANTIAL_COMPLIANCE,
@@ -862,8 +863,8 @@ class LukhasComplianceChecker:
         """Calculate average compliance score for a jurisdiction."""
         scores = [
             r.jurisdictional_scores.get(jurisdiction.value, 0.0)
-            for r in module_reports:
-            if r.jurisdictional_scores:
+            for r in module_reports
+            if r.jurisdictional_scores
         ]
         return sum(scores) / len(scores) if scores else 0.0
 
@@ -981,7 +982,7 @@ Immediate action required for institutional deployment readiness.
                             "regulation": v.regulation,
                             "remediation": v.remediation,
                         }
-                        for v in mr.violations:
+                        for v in mr.violations
                     ],
                     "compliant_features": mr.compliant_features,
                     "missing_features": mr.missing_features,
@@ -989,7 +990,7 @@ Immediate action required for institutional deployment readiness.
                     "risk_score": mr.risk_score,
                     "last_scanned": mr.last_scanned.isoformat(),
                 }
-                for mr in report.module_reports:
+                for mr in report.module_reports
             ],
         }
 
