@@ -1,3 +1,11 @@
+```pip-requirements
+# NOTE (CI & reproducibility):
+# The LUKHAS project recommends generating the runtime hashed lockfile
+```
+# This file lists runtime dependencies used by the LUKHAS project.
+# Keep this file minimal and stable. Use pip-compile to generate a hashed
+# lockfile (requirements.lock.txt) for reproducible installs.
+
 # Core Dependencies
 python-dateutil>=2.8.2
 pytz>=2023.3
@@ -59,8 +67,16 @@ ecdsa>=0.19.0,<0.19.1  # Pin to avoid Minerva timing attack
 sqlalchemy>=2.0.0
 sqlmodel>=0.0.14
 redis>=5.0.0
-psycopg2-binary>=2.9.0
+psycopg2-binary==2.9.10
 alembic>=1.13.0
+
+# Pin transitive libs to avoid resolver conflicts between runtime and dev sets
+# - urllib3: keep <1.27 (botocore requires <1.27 for Python <3.10)
+# - cachetools: keep <6.0 (google-auth requires <6.0)
+# - packaging: keep <25 (limits requires <25)
+urllib3==1.26.20
+cachetools<6.0,>=5.5.2
+packaging<25,>=21
 
 # Monitoring & Logging
 prometheus-client>=0.19.0
