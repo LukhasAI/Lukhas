@@ -157,7 +157,15 @@ except ImportError:
 import base64
 import hashlib
 import io
+import logging
 from collections import defaultdict
+
+# Use secure logging
+try:
+    from .secure_logging import get_security_logger
+    logger = get_security_logger(__name__)
+except ImportError:
+    logger = logging.getLogger(__name__)
 
 
 class AuthMethod(Enum):
@@ -482,8 +490,8 @@ class EnhancedAuthenticationSystem:
         }
 
         # In production, send actual SMS
-        # For now, just log it
-        print(f"SMS MFA Code for {phone_number}: {code}")
+        # Log safely without exposing the code
+        logger.info(f"SMS MFA code sent to phone ending in {phone_number[-4:] if len(phone_number) >= 4 else '****'}")
 
         return True
 
@@ -534,7 +542,8 @@ class EnhancedAuthenticationSystem:
         }
 
         # In production, send actual email
-        print(f"Email MFA Code for {email}: {code}")
+        # Log safely without exposing the code
+        logger.info(f"Email MFA code sent to {email.split('@')[0][:3]}***@{email.split('@')[1] if '@' in email else 'unknown'}")
 
         return True
 

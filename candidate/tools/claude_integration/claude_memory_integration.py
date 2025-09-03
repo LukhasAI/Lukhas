@@ -5,6 +5,7 @@ Integrates Claude Code conversations with LUKHAS memory system.
 """
 
 import json
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -26,7 +27,9 @@ class ClaudeContextMemory:
     """Integrates Claude Code contexts with LUKHAS memory system."""
 
     def __init__(self):
-        self.memory_dir = Path("/Users/agi_dev/Lukhas/memory/claude_contexts")
+        # Use environment variable or default to project-relative path
+        base_path = os.getenv("LUKHAS_ROOT", str(Path(__file__).parent.parent.parent.parent))
+        self.memory_dir = Path(base_path) / "memory" / "claude_contexts"
         self.memory_dir.mkdir(parents=True, exist_ok=True)
 
     def create_memory_fold(self, context_data):
