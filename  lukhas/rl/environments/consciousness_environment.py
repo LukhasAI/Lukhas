@@ -214,7 +214,8 @@ class ConsciousnessEnvironment(gym.Env):
         self.action_space = spaces.Box(low=-1.0, high=1.0, shape=(action_dim,), dtype=np.float32)
 
     @instrument("AWARENESS", label="rl:consciousness_reset", capability="rl:environment")
-    def reset(
+    # ΛTAG: async_reset
+    async def reset(
         self, *, seed: Optional[int] = None, options: Optional[Dict[str, Any]] = None
     ) -> Tuple[np.ndarray, Dict[str, Any]]:
         """Reset consciousness environment to initial state"""
