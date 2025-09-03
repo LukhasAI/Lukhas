@@ -13,7 +13,7 @@ import json
 import os
 import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, timezone  # ΛTAG: utc
 
 import aiohttp
 import click
@@ -154,7 +154,7 @@ Response must be valid JSON only."""
 
     def backup_requirements_files(self) -> str:
         """Create backup of all requirements files"""
-        backup_dir = f".security_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        backup_dir = f".security_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"  # ΛTAG: utc
         os.makedirs(backup_dir, exist_ok=True)
 
         vulns = self.get_known_vulnerabilities()
@@ -311,11 +311,11 @@ Response must be valid JSON only."""
                 click.echo(f"   • {fix['package']}: {fix['old_version']} → {fix['new_version']}")
 
         # Save detailed report
-        report_file = f"security_fix_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        report_file = f"security_fix_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"  # ΛTAG: utc
         with open(report_file, "w") as f:
             json.dump(
                 {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),  # ΛTAG: utc
                     "backup_dir": backup_dir,
                     "fixes_applied": self.fixes_applied,
                     "total_fixed": total_fixed,
