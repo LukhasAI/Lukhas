@@ -7,7 +7,7 @@ Based on the four pillars: Scale, Safety, Rigor, Experience
 import hashlib
 import json
 import subprocess
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -28,13 +28,13 @@ class T4LensCodeFixer:
             )
             return result.stdout.strip()[:8]
         except Exception:
-            return hashlib.md5(str(datetime.now()).encode()).hexdigest()[:8]
+            return hashlib.md5(str(datetime.now(timezone.utc)).encode()).hexdigest()[:8]
 
     def create_verification_artifact(self, operation, before_count, after_count, files_affected):
         """SCIENTIFIC RIGOR: Evidence-based tracking"""
         sha = self.get_current_sha()
         artifact = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "operation": operation,
             "sha": sha,
             "before_count": before_count,
