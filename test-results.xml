@@ -1,43 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="0" tests="5" time="2.473" timestamp="2025-09-03T14:30:21.294085+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.aka_qualia" time="0.000"><error message="collection failure">tests/candidate/aka_qualia/conftest.py:24: in &lt;module&gt;
-    from candidate.aka_qualia.core import AkaQualia
-candidate/aka_qualia/__init__.py:36: in &lt;module&gt;
-    from candidate.aka_qualia.core import AkaQualia
-candidate/aka_qualia/core.py:31: in &lt;module&gt;
-    from candidate.aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
-candidate/aka_qualia/oneiric_hook.py:18: in &lt;module&gt;
-    import requests
-../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:43: in &lt;module&gt;
-    import urllib3
-../../Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: in &lt;module&gt;
-    warnings.warn(
-E   urllib3.exceptions.NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020</error></testcase><testcase classname="tests.candidate.bridge.test_orchestration_system" name="TestResult" time="0.000"><error message="collection failure">../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:344: in from_call
-    result: TResult | None = func()
-../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:389: in collect
-    return list(collector.collect())
-../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:752: in collect
-    self.warn(
-../../Library/Python/3.9/lib/python/site-packages/_pytest/nodes.py:271: in warn
-    warnings.warn_explicit(
-E   pytest.PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: tests/candidate/bridge/test_orchestration_system.py)</error></testcase><testcase classname="" name="tests.candidate.tools.test_tool_executor" time="0.000"><error message="collection failure">tests/candidate/tools/test_tool_executor.py:5: in &lt;module&gt;
-    import docker
-../../Library/Python/3.9/lib/python/site-packages/docker/__init__.py:1: in &lt;module&gt;
-    from .api import APIClient
-../../Library/Python/3.9/lib/python/site-packages/docker/api/__init__.py:1: in &lt;module&gt;
-    from .client import APIClient
-../../Library/Python/3.9/lib/python/site-packages/docker/api/client.py:6: in &lt;module&gt;
-    import requests
-../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:43: in &lt;module&gt;
-    import urllib3
-../../Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: in &lt;module&gt;
-    warnings.warn(
-E   urllib3.exceptions.NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020</error></testcase><testcase classname="" name="tests.enterprise.api.test_main" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/enterprise/api/test_main.py'.
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="4" tests="9" time="4.258" timestamp="2025-09-03T15:17:22.666637+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.aka_qualia.test_c5_observability" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/aka_qualia/test_c5_observability.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
-tests/enterprise/api/test_main.py:4: in &lt;module&gt;
-    from asgi_lifespan import LifespanManager
-E   ModuleNotFoundError: No module named 'asgi_lifespan'</error></testcase><testcase classname="" name="tests.enterprise.compliance.test_compliance_api" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/enterprise/compliance/test_compliance_api.py'.
+tests/candidate/aka_qualia/test_c5_observability.py:13: in &lt;module&gt;
+    from monitoring_dashboard import MonitoringDashboard
+E   ModuleNotFoundError: No module named 'monitoring_dashboard'</error></testcase><testcase classname="tests.candidate.bridge.test_orchestration_system" name="TestResult" time="0.000"><error message="collection failure">E   pytest.PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: tests/candidate/bridge/test_orchestration_system.py)</error></testcase><testcase classname="" name="tests.matriz.test_orchestrator_schema" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/matriz/test_orchestrator_schema.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
-tests/enterprise/compliance/test_compliance_api.py:5: in &lt;module&gt;
-    from enterprise.compliance.api import (
-E   ModuleNotFoundError: No module named 'enterprise'</error></testcase></testsuite></testsuites>
+tests/matriz/test_orchestrator_schema.py:7: in &lt;module&gt;
+    from matriz.core.node_interface import CognitiveNode
+E   ModuleNotFoundError: No module named 'matriz.core'</error></testcase><testcase classname="" name="tests.matriz.test_trace_fetch" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/matriz/test_trace_fetch.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/matriz/test_trace_fetch.py:29: in &lt;module&gt;
+    from serve.main import app
+serve/main.py:23: in &lt;module&gt;
+    from enterprise.observability.instantiate import obs_stack
+E   ModuleNotFoundError: No module named 'enterprise.observability'</error></testcase><testcase classname="" name="tests.phase2.test_orchestration_integration" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_orchestration_integration.py', 43, "Skipped: Phase 2 modules not available: cannot import name 'WorkflowExecution' from 'candidate.orchestration.multi_model_orchestration' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/orchestration/multi_model_orchestration.py)")</skipped></testcase><testcase classname="" name="tests.phase2.test_performance_benchmarks" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_performance_benchmarks.py', 49, "Skipped: Performance testing modules not available: No module named 'lukhas.identity.core'")</skipped></testcase><testcase classname="" name="tests.phase2.test_security_compliance" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_security_compliance.py', 43, "Skipped: Security modules not available: cannot import name 'ComplianceEngine' from 'candidate.compliance.ai_compliance' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/compliance/ai_compliance.py)")</skipped></testcase><testcase classname="" name="tests.phase2.test_tool_execution_safety" time="0.000"><skipped message="collection skipped">('/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/phase2/test_tool_execution_safety.py', 34, "Skipped: Tool execution modules not available: No module named 'candidate.tools.code_executor'")</skipped></testcase><testcase classname="" name="tests.rl.test_consciousness_rl" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/rl/test_consciousness_rl.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/rl/test_consciousness_rl.py:22: in &lt;module&gt;
+    from lukhas.rl.coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer, TrainingConfiguration
+lukhas/rl/__init__.py:13: in &lt;module&gt;
+    from .coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer
+lukhas/rl/coordination/__init__.py:8: in &lt;module&gt;
+    from .multi_agent_trainer import ConsciousnessModuleAgent, MultiAgentConsciousnessTrainer, TrainingConfiguration
+lukhas/rl/coordination/multi_agent_trainer.py:25: in &lt;module&gt;
+    from lukhas.consciousness import ConsciousnessModule
+E   ImportError: cannot import name 'ConsciousnessModule' from 'lukhas.consciousness' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness/__init__.py)</error></testcase></testsuite></testsuites>
