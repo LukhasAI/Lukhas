@@ -12,14 +12,21 @@ import sys
 import time
 from datetime import datetime, timezone
 
-# NOTE: These imports need to be updated - classes may not exist or may be in different files
-# TODO: Fix imports after reviewing actual identity architecture
-# from candidate.core.identity.lambda_id_core import (
-#     LukhasIdentityService,
-#     WebAuthnPasskeyManager,
-#     validate_constellation_framework,
-# )
 import pytest
+
+try:
+    from candidate.core.bridges.identity_core_bridge import get_identity_core_bridge
+    from candidate.core.identity.lambda_id_core import (
+        LukhasIdentityService,
+        WebAuthnPasskeyManager,
+        validate_constellation_framework,
+    )
+except Exception:  # pragma: no cover - fallback for missing modules
+    # ΛTAG: identity_trinity_imports
+    LukhasIdentityService = None  # type: ignore[assignment]
+    WebAuthnPasskeyManager = None  # type: ignore[assignment]
+    validate_constellation_framework = None  # type: ignore[assignment]
+    get_identity_core_bridge = None  # type: ignore[assignment]
 
 # Temporarily skip these tests until imports are resolved
 pytestmark = pytest.mark.skip(reason="Identity integration tests need import fixes")
@@ -65,7 +72,9 @@ async def validate_constellation_framework_integration():
         lid_generated = test_user["lid"].startswith("USR-")
         constellation_integrated = all(test_user["constellation_status"].values())
 
-        validation_results["identity_system"] = identity_active and lid_generated and constellation_integrated
+        validation_results["identity_system"] = (
+            identity_active and lid_generated and constellation_integrated
+        )
 
         print(f"  ✨ Identity System Active: {identity_active}")
         print(f"  🔑 ΛID Generation Success: {lid_generated}")
@@ -97,7 +106,9 @@ async def validate_constellation_framework_integration():
         print(f"  🌟 Consciousness Monitoring: {consciousness_monitoring}")
         print(f"  📊 Performance Awareness: {performance_awareness}")
         print(f"  🌟 Consciousness Active: {consciousness_status}")
-        print(f"  ✅ Consciousness Validation: {validation_results['consciousness_integration']}")
+        print(
+            f"  ✅ Consciousness Validation: {validation_results['consciousness_integration']}"
+        )
         print()
 
     except Exception as e:
@@ -121,7 +132,10 @@ async def validate_constellation_framework_integration():
         audit_trail_active = hasattr(identity_service, "metrics")
 
         validation_results["guardian_protection"] = (
-            guardian_status and security_events_tracking and rate_limiting_active and audit_trail_active
+            guardian_status
+            and security_events_tracking
+            and rate_limiting_active
+            and audit_trail_active
         )
 
         print(f"  🔥 Guardian System Active: {guardian_status}")
@@ -184,14 +198,18 @@ async def validate_constellation_framework_integration():
         constellation_performance = all(auth_result["constellation_status"].values())
 
         validation_results["performance_compliance"] = (
-            performance_target_met and authentication_success and constellation_performance
+            performance_target_met
+            and authentication_success
+            and constellation_performance
         )
 
         print(f"  ⚡ Authentication Latency: {auth_latency:.2f}ms")
         print(f"  🎯 <100ms Target Met: {performance_target_met}")
         print(f"  ✅ Authentication Success: {authentication_success}")
         print(f"  🌟 Constellation Performance: {constellation_performance}")
-        print(f"  ✅ Performance Validation: {validation_results['performance_compliance']}")
+        print(
+            f"  ✅ Performance Validation: {validation_results['performance_compliance']}"
+        )
         print()
 
     except Exception as e:
@@ -214,12 +232,18 @@ async def validate_constellation_framework_integration():
     )
 
     print(f"  ✨ Identity System: {validation_results['identity_system']}")
-    print(f"  🌟 Consciousness Integration: {validation_results['consciousness_integration']}")
+    print(
+        f"  🌟 Consciousness Integration: {validation_results['consciousness_integration']}"
+    )
     print(f"  🔥 Guardian Protection: {validation_results['guardian_protection']}")
     print(f"  🔗 Bridge Connections: {validation_results['bridge_connections']}")
-    print(f"  ⚡ Performance Compliance: {validation_results['performance_compliance']}")
+    print(
+        f"  ⚡ Performance Compliance: {validation_results['performance_compliance']}"
+    )
     print()
-    print(f"  🌌 OVERALL CONSTELLATION COMPLIANCE: {validation_results['overall_constellation_compliance']}")
+    print(
+        f"  🌌 OVERALL CONSTELLATION COMPLIANCE: {validation_results['overall_constellation_compliance']}"
+    )
     print()
 
     # Constellation Framework Summary

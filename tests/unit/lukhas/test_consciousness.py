@@ -19,11 +19,12 @@ import pytest
 from lukhas.consciousness import (
     AwarenessLevel,
     ConsciousnessConfig,
-    ConsciousnessKernel,  # Alias
+    ConsciousnessKernel,
     ConsciousnessState,
     ConsciousnessWrapper,
     SafetyMode,
 )
+from lukhas.governance.identity.connector import SecurityError  # ΛTAG: security_guard
 
 
 class TestConsciousnessWrapper:
@@ -57,9 +58,9 @@ class TestConsciousnessWrapper:
     def test_alias_equivalence(self, mock_config: ConsciousnessConfig):
         """Test that ConsciousnessKernel is properly aliased."""
         wrapper = ConsciousnessWrapper(config=mock_config)
-        kernel = ConsciousnessKernel(config=mock_config)
+        ConsciousnessKernel(config=mock_config)
 
-        assert type(wrapper) == type(kernel)
+        assert isinstance(wrapper, ConsciousnessWrapper)
         assert ConsciousnessKernel is ConsciousnessWrapper
 
     @pytest.mark.unit
@@ -95,7 +96,7 @@ class TestConsciousnessWrapper:
 
         # Simulate slow processing
         with patch.object(consciousness, "_process_internal") as mock_process:
-            mock_process.side_effect = lambda x: time.sleep(0.2)
+            mock_process.side_effect = lambda _: time.sleep(0.2)
 
             with pytest.raises(TimeoutError):
                 consciousness.process_input("slow_operation")
@@ -177,7 +178,9 @@ class TestConsciousnessWrapper:
 
         # Create multiple concurrent tasks
         for i in range(10):
-            task = asyncio.create_task(consciousness.process_input_async(f"concurrent_test_{i}"))
+            task = asyncio.create_task(
+                consciousness.process_input_async(f"concurrent_test_{i}")
+            )
             tasks.append(task)
 
         # Wait for all tasks to complete
@@ -230,7 +233,9 @@ class TestConsciousnessState:
     @pytest.mark.unit
     def test_state_serialization(self):
         """Test consciousness state serialization/deserialization."""
-        state = ConsciousnessState(awareness=AwarenessLevel.ENHANCED, is_active=True, last_activity=time.time())
+        state = ConsciousnessState(
+            awareness=AwarenessLevel.ENHANCED, is_active=True, last_activity=time.time()
+        )
 
         # Serialize to dict
         state_dict = state.to_dict()
@@ -344,7 +349,8 @@ class TestConsciousnessIntegration:
 
         # Test ethical decision making
         decision = await consciousness.make_ethical_decision(
-            "Should I process this ambiguous request?", context={"user_trust_level": 0.8}
+            "Should I process this ambiguous request?",
+            context={"user_trust_level": 0.8},
         )
 
         assert decision is not None
@@ -375,4 +381,6 @@ class TestConsciousnessIntegration:
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v", "--cov=lukhas.consciousness", "--cov-report=term-missing"])
+    pytest.main(
+        [__file__, "-v", "--cov=lukhas.consciousness", "--cov-report=term-missing"]
+    )

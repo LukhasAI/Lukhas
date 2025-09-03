@@ -25,6 +25,7 @@ Benchmarking Areas:
 
 import asyncio
 import json
+import os  # ΛTAG: performance_io
 import statistics
 import time
 from dataclasses import dataclass
@@ -46,7 +47,9 @@ try:
     from candidate.tools.tool_executor import ToolExecutor
     from lukhas.identity.core import IdentitySystem
 except ImportError as e:
-    pytest.skip(f"Performance testing modules not available: {e}", allow_module_level=True)
+    pytest.skip(
+        f"Performance testing modules not available: {e}", allow_module_level=True
+    )
 
 
 @dataclass
@@ -74,7 +77,9 @@ class PerformanceBenchmark:
         self.results = []
         self.process = psutil.Process()
 
-    async def measure_single_operation(self, operation_func, *args, **kwargs) -> tuple[float, bool, str]:
+    async def measure_single_operation(
+        self, operation_func, *args, **kwargs
+    ) -> tuple[float, bool, str]:
         """Measure single operation performance"""
         start_memory = self.process.memory_info().rss / 1024 / 1024  # MB
         self.process.cpu_percent()
@@ -124,7 +129,9 @@ class PerformanceBenchmark:
             # Run operations concurrently
             tasks = []
             for _ in range(iterations):
-                task = asyncio.create_task(self.measure_single_operation(operation_func, *args, **kwargs))
+                task = asyncio.create_task(
+                    self.measure_single_operation(operation_func, *args, **kwargs)
+                )
                 tasks.append(task)
 
             results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -132,7 +139,9 @@ class PerformanceBenchmark:
             # Run operations sequentially
             results = []
             for _ in range(iterations):
-                result = await self.measure_single_operation(operation_func, *args, **kwargs)
+                result = await self.measure_single_operation(
+                    operation_func, *args, **kwargs
+                )
                 results.append(result)
 
         end_time = time.perf_counter()
@@ -163,7 +172,9 @@ class PerformanceBenchmark:
             p95_latency = statistics.quantiles(latencies, n=20)[18]  # 95th percentile
             p99_latency = statistics.quantiles(latencies, n=100)[98]  # 99th percentile
         else:
-            min_latency = max_latency = avg_latency = median_latency = p95_latency = p99_latency = 0
+            min_latency = max_latency = avg_latency = median_latency = p95_latency = (
+                p99_latency
+            ) = 0
 
         throughput = iterations / total_time if total_time > 0 else 0
         success_rate = successes / iterations if iterations > 0 else 0
@@ -222,12 +233,20 @@ class TestAuthenticationPerformance:
             )
 
         # Benchmark registration performance
-        metrics = await benchmark.benchmark_operation(register_user, iterations=50, concurrent=False, user_id=1)
+        metrics = await benchmark.benchmark_operation(
+            register_user, iterations=50, concurrent=False, user_id=1
+        )
 
         # Performance assertions
-        assert metrics.p95_latency < 0.1, f"Registration P95 latency too high: {metrics.p95_latency:.3f}s"
-        assert metrics.avg_latency < 0.05, f"Registration average latency too high: {metrics.avg_latency:.3f}s"
-        assert metrics.success_rate > 0.95, f"Registration success rate too low: {metrics.success_rate:.3f}"
+        assert (
+            metrics.p95_latency < 0.1
+        ), f"Registration P95 latency too high: {metrics.p95_latency:.3f}s"
+        assert (
+            metrics.avg_latency < 0.05
+        ), f"Registration average latency too high: {metrics.avg_latency:.3f}s"
+        assert (
+            metrics.success_rate > 0.95
+        ), f"Registration success rate too low: {metrics.success_rate:.3f}"
 
         print("Registration Performance:")
         print(f"  Average latency: {metrics.avg_latency:.3f}s")
@@ -253,12 +272,20 @@ class TestAuthenticationPerformance:
             )
 
         # Benchmark authentication performance
-        metrics = await benchmark.benchmark_operation(authenticate_user, iterations=100, concurrent=False)
+        metrics = await benchmark.benchmark_operation(
+            authenticate_user, iterations=100, concurrent=False
+        )
 
         # Performance assertions
-        assert metrics.p95_latency < 0.1, f"Authentication P95 latency too high: {metrics.p95_latency:.3f}s"
-        assert metrics.avg_latency < 0.05, f"Authentication average latency too high: {metrics.avg_latency:.3f}s"
-        assert metrics.success_rate > 0.99, f"Authentication success rate too low: {metrics.success_rate:.3f}"
+        assert (
+            metrics.p95_latency < 0.1
+        ), f"Authentication P95 latency too high: {metrics.p95_latency:.3f}s"
+        assert (
+            metrics.avg_latency < 0.05
+        ), f"Authentication average latency too high: {metrics.avg_latency:.3f}s"
+        assert (
+            metrics.success_rate > 0.99
+        ), f"Authentication success rate too low: {metrics.success_rate:.3f}"
 
         print("Authentication Performance:")
         print(f"  Average latency: {metrics.avg_latency:.3f}s")
@@ -266,7 +293,9 @@ class TestAuthenticationPerformance:
         print(f"  Throughput: {metrics.throughput_per_second:.1f} ops/sec")
 
     @pytest.mark.asyncio
-    async def test_concurrent_authentication_throughput(self, identity_system, benchmark):
+    async def test_concurrent_authentication_throughput(
+        self, identity_system, benchmark
+    ):
         """Test concurrent authentication throughput"""
 
         # Setup test users
@@ -291,14 +320,20 @@ class TestAuthenticationPerformance:
             )
 
         # Benchmark concurrent authentication
-        metrics = await benchmark.benchmark_operation(authenticate_concurrent_user, iterations=100, concurrent=True)
+        metrics = await benchmark.benchmark_operation(
+            authenticate_concurrent_user, iterations=100, concurrent=True
+        )
 
         # Throughput assertions
-        assert metrics.throughput_per_second > 20, (
-            f"Concurrent throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
-        )
-        assert metrics.p99_latency < 0.2, f"Concurrent P99 latency too high: {metrics.p99_latency:.3f}s"
-        assert metrics.success_rate > 0.95, f"Concurrent success rate too low: {metrics.success_rate:.3f}"
+        assert (
+            metrics.throughput_per_second > 20
+        ), f"Concurrent throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
+        assert (
+            metrics.p99_latency < 0.2
+        ), f"Concurrent P99 latency too high: {metrics.p99_latency:.3f}s"
+        assert (
+            metrics.success_rate > 0.95
+        ), f"Concurrent success rate too low: {metrics.success_rate:.3f}"
 
         print("Concurrent Authentication Performance:")
         print(f"  Throughput: {metrics.throughput_per_second:.1f} ops/sec")
@@ -333,9 +368,15 @@ class TestGuardianSystemPerformance:
         )
 
         # Performance assertions
-        assert metrics.p95_latency < 0.25, f"Guardian validation P95 latency too high: {metrics.p95_latency:.3f}s"
-        assert metrics.avg_latency < 0.1, f"Guardian validation average latency too high: {metrics.avg_latency:.3f}s"
-        assert metrics.success_rate > 0.99, f"Guardian validation success rate too low: {metrics.success_rate:.3f}"
+        assert (
+            metrics.p95_latency < 0.25
+        ), f"Guardian validation P95 latency too high: {metrics.p95_latency:.3f}s"
+        assert (
+            metrics.avg_latency < 0.1
+        ), f"Guardian validation average latency too high: {metrics.avg_latency:.3f}s"
+        assert (
+            metrics.success_rate > 0.99
+        ), f"Guardian validation success rate too low: {metrics.success_rate:.3f}"
 
         print("Guardian Validation Performance:")
         print(f"  Average latency: {metrics.avg_latency:.3f}s")
@@ -352,14 +393,20 @@ class TestGuardianSystemPerformance:
             return guardian_system.calculate_drift(baseline, current)
 
         # Benchmark drift calculation
-        metrics = await benchmark.benchmark_operation(calculate_drift, iterations=1000, concurrent=False)
+        metrics = await benchmark.benchmark_operation(
+            calculate_drift, iterations=1000, concurrent=False
+        )
 
         # Performance assertions
-        assert metrics.avg_latency < 0.01, f"Drift calculation too slow: {metrics.avg_latency:.3f}s"
-        assert metrics.p95_latency < 0.05, f"Drift calculation P95 too slow: {metrics.p95_latency:.3f}s"
-        assert metrics.throughput_per_second > 100, (
-            f"Drift calculation throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
-        )
+        assert (
+            metrics.avg_latency < 0.01
+        ), f"Drift calculation too slow: {metrics.avg_latency:.3f}s"
+        assert (
+            metrics.p95_latency < 0.05
+        ), f"Drift calculation P95 too slow: {metrics.p95_latency:.3f}s"
+        assert (
+            metrics.throughput_per_second > 100
+        ), f"Drift calculation throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
 
         print("Drift Calculation Performance:")
         print(f"  Average latency: {metrics.avg_latency:.6f}s")
@@ -372,7 +419,9 @@ class TestMemorySystemPerformance:
     @pytest.fixture
     def memory_service(self):
         """Create memory service for performance testing"""
-        return MemoryService(max_memory_size=1000, fold_limit=1000, cascade_prevention_enabled=True)
+        return MemoryService(
+            max_memory_size=1000, fold_limit=1000, cascade_prevention_enabled=True
+        )
 
     @pytest.fixture
     def benchmark(self):
@@ -394,12 +443,20 @@ class TestMemorySystemPerformance:
             )
 
         # Benchmark memory storage
-        metrics = await benchmark.benchmark_operation(store_memory, iterations=100, concurrent=False, memory_id=1)
+        metrics = await benchmark.benchmark_operation(
+            store_memory, iterations=100, concurrent=False, memory_id=1
+        )
 
         # Performance assertions
-        assert metrics.avg_latency < 0.01, f"Memory storage too slow: {metrics.avg_latency:.3f}s"
-        assert metrics.p95_latency < 0.02, f"Memory storage P95 too slow: {metrics.p95_latency:.3f}s"
-        assert metrics.success_rate > 0.99, f"Memory storage success rate too low: {metrics.success_rate:.3f}"
+        assert (
+            metrics.avg_latency < 0.01
+        ), f"Memory storage too slow: {metrics.avg_latency:.3f}s"
+        assert (
+            metrics.p95_latency < 0.02
+        ), f"Memory storage P95 too slow: {metrics.p95_latency:.3f}s"
+        assert (
+            metrics.success_rate > 0.99
+        ), f"Memory storage success rate too low: {metrics.success_rate:.3f}"
 
         print("Memory Storage Performance:")
         print(f"  Average latency: {metrics.avg_latency:.6f}s")
@@ -422,15 +479,25 @@ class TestMemorySystemPerformance:
             )
 
         async def retrieve_memory():
-            return await memory_service.retrieve_memories(query="retrievable memory content", limit=10)
+            return await memory_service.retrieve_memories(
+                query="retrievable memory content", limit=10
+            )
 
         # Benchmark memory retrieval
-        metrics = await benchmark.benchmark_operation(retrieve_memory, iterations=100, concurrent=False)
+        metrics = await benchmark.benchmark_operation(
+            retrieve_memory, iterations=100, concurrent=False
+        )
 
         # Performance assertions
-        assert metrics.avg_latency < 0.01, f"Memory retrieval too slow: {metrics.avg_latency:.3f}s"
-        assert metrics.p95_latency < 0.02, f"Memory retrieval P95 too slow: {metrics.p95_latency:.3f}s"
-        assert metrics.success_rate > 0.99, f"Memory retrieval success rate too low: {metrics.success_rate:.3f}"
+        assert (
+            metrics.avg_latency < 0.01
+        ), f"Memory retrieval too slow: {metrics.avg_latency:.3f}s"
+        assert (
+            metrics.p95_latency < 0.02
+        ), f"Memory retrieval P95 too slow: {metrics.p95_latency:.3f}s"
+        assert (
+            metrics.success_rate > 0.99
+        ), f"Memory retrieval success rate too low: {metrics.success_rate:.3f}"
 
         print("Memory Retrieval Performance:")
         print(f"  Average latency: {metrics.avg_latency:.6f}s")
@@ -479,12 +546,20 @@ class TestOrchestrationPerformance:
             )
 
         # Benchmark single model performance
-        metrics = await benchmark.benchmark_operation(single_model_request, iterations=50, concurrent=False)
+        metrics = await benchmark.benchmark_operation(
+            single_model_request, iterations=50, concurrent=False
+        )
 
         # Performance assertions
-        assert metrics.p95_latency < 0.1, f"Single model P95 latency too high: {metrics.p95_latency:.3f}s"
-        assert metrics.avg_latency < 0.05, f"Single model average latency too high: {metrics.avg_latency:.3f}s"
-        assert metrics.success_rate > 0.99, f"Single model success rate too low: {metrics.success_rate:.3f}"
+        assert (
+            metrics.p95_latency < 0.1
+        ), f"Single model P95 latency too high: {metrics.p95_latency:.3f}s"
+        assert (
+            metrics.avg_latency < 0.05
+        ), f"Single model average latency too high: {metrics.avg_latency:.3f}s"
+        assert (
+            metrics.success_rate > 0.99
+        ), f"Single model success rate too low: {metrics.success_rate:.3f}"
 
         print("Single Model Performance:")
         print(f"  Average latency: {metrics.avg_latency:.3f}s")
@@ -503,12 +578,20 @@ class TestOrchestrationPerformance:
             )
 
         # Benchmark consensus workflow
-        metrics = await benchmark.benchmark_operation(consensus_request, iterations=20, concurrent=False)
+        metrics = await benchmark.benchmark_operation(
+            consensus_request, iterations=20, concurrent=False
+        )
 
         # Performance assertions
-        assert metrics.p95_latency < 0.5, f"Consensus P95 latency too high: {metrics.p95_latency:.3f}s"
-        assert metrics.avg_latency < 0.3, f"Consensus average latency too high: {metrics.avg_latency:.3f}s"
-        assert metrics.success_rate > 0.95, f"Consensus success rate too low: {metrics.success_rate:.3f}"
+        assert (
+            metrics.p95_latency < 0.5
+        ), f"Consensus P95 latency too high: {metrics.p95_latency:.3f}s"
+        assert (
+            metrics.avg_latency < 0.3
+        ), f"Consensus average latency too high: {metrics.avg_latency:.3f}s"
+        assert (
+            metrics.success_rate > 0.95
+        ), f"Consensus success rate too low: {metrics.success_rate:.3f}"
 
         print("Consensus Workflow Performance:")
         print(f"  Average latency: {metrics.avg_latency:.3f}s")
@@ -542,15 +625,25 @@ class TestContextHandoffPerformance:
         }
 
         async def context_handoff():
-            return await context_bus.handoff_context(from_model="gpt-4", to_model="claude-3", context=large_context)
+            return await context_bus.handoff_context(
+                from_model="gpt-4", to_model="claude-3", context=large_context
+            )
 
         # Benchmark context handoff
-        metrics = await benchmark.benchmark_operation(context_handoff, iterations=50, concurrent=False)
+        metrics = await benchmark.benchmark_operation(
+            context_handoff, iterations=50, concurrent=False
+        )
 
         # Performance assertions
-        assert metrics.p95_latency < 0.25, f"Context handoff P95 latency too high: {metrics.p95_latency:.3f}s"
-        assert metrics.avg_latency < 0.1, f"Context handoff average latency too high: {metrics.avg_latency:.3f}s"
-        assert metrics.success_rate > 0.99, f"Context handoff success rate too low: {metrics.success_rate:.3f}"
+        assert (
+            metrics.p95_latency < 0.25
+        ), f"Context handoff P95 latency too high: {metrics.p95_latency:.3f}s"
+        assert (
+            metrics.avg_latency < 0.1
+        ), f"Context handoff average latency too high: {metrics.avg_latency:.3f}s"
+        assert (
+            metrics.success_rate > 0.99
+        ), f"Context handoff success rate too low: {metrics.success_rate:.3f}"
 
         print("Context Handoff Performance:")
         print(f"  Average latency: {metrics.avg_latency:.3f}s")
@@ -564,7 +657,9 @@ class TestToolExecutionPerformance:
     @pytest.fixture
     def tool_executor(self):
         """Create tool executor for performance testing"""
-        return ToolExecutor(execution_timeout=30, resource_limits={"memory_mb": 128, "cpu_percent": 50})
+        return ToolExecutor(
+            execution_timeout=30, resource_limits={"memory_mb": 128, "cpu_percent": 50}
+        )
 
     @pytest.fixture
     def benchmark(self):
@@ -589,12 +684,20 @@ print(f"Fibonacci(20) = {result}")
             )
 
         # Benchmark tool execution
-        metrics = await benchmark.benchmark_operation(execute_tool, iterations=20, concurrent=False)
+        metrics = await benchmark.benchmark_operation(
+            execute_tool, iterations=20, concurrent=False
+        )
 
         # Performance assertions
-        assert metrics.p95_latency < 2.0, f"Tool execution P95 latency too high: {metrics.p95_latency:.3f}s"
-        assert metrics.avg_latency < 1.0, f"Tool execution average latency too high: {metrics.avg_latency:.3f}s"
-        assert metrics.success_rate > 0.95, f"Tool execution success rate too low: {metrics.success_rate:.3f}"
+        assert (
+            metrics.p95_latency < 2.0
+        ), f"Tool execution P95 latency too high: {metrics.p95_latency:.3f}s"
+        assert (
+            metrics.avg_latency < 1.0
+        ), f"Tool execution average latency too high: {metrics.avg_latency:.3f}s"
+        assert (
+            metrics.success_rate > 0.95
+        ), f"Tool execution success rate too low: {metrics.success_rate:.3f}"
 
         print("Tool Execution Performance:")
         print(f"  Average latency: {metrics.avg_latency:.3f}s")
@@ -618,7 +721,9 @@ class TestSystemLoadPerformance:
         async def mixed_workload():
             import random
 
-            operation_type = random.choice(["auth", "guardian", "memory", "orchestration"])
+            operation_type = random.choice(
+                ["auth", "guardian", "memory", "orchestration"]
+            )
 
             if operation_type == "auth":
                 await asyncio.sleep(0.05)  # Simulate 50ms auth
@@ -634,14 +739,20 @@ class TestSystemLoadPerformance:
                 return {"type": "orchestration", "success": True}
 
         # Benchmark concurrent mixed workload
-        metrics = await benchmark.benchmark_operation(mixed_workload, iterations=100, concurrent=True)
+        metrics = await benchmark.benchmark_operation(
+            mixed_workload, iterations=100, concurrent=True
+        )
 
         # Load performance assertions
-        assert metrics.throughput_per_second > 10, (
-            f"Concurrent throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
-        )
-        assert metrics.p99_latency < 1.0, f"Concurrent P99 latency too high: {metrics.p99_latency:.3f}s"
-        assert metrics.success_rate > 0.95, f"Concurrent success rate too low: {metrics.success_rate:.3f}"
+        assert (
+            metrics.throughput_per_second > 10
+        ), f"Concurrent throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
+        assert (
+            metrics.p99_latency < 1.0
+        ), f"Concurrent P99 latency too high: {metrics.p99_latency:.3f}s"
+        assert (
+            metrics.success_rate > 0.95
+        ), f"Concurrent success rate too low: {metrics.success_rate:.3f}"
 
         print("Concurrent Load Performance:")
         print(f"  Throughput: {metrics.throughput_per_second:.1f} ops/sec")
