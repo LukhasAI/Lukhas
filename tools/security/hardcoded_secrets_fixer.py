@@ -127,7 +127,7 @@ class HardcodedSecretsFixer:
                 line_clean = line.strip()
 
                 # Skip empty lines and comments
-                if not line_clean or line_clean.startswith("# ":
+                if not line_clean or line_clean.startswith("# "):
                     continue
 
                 # Check if this line contains a safe pattern (already secure)

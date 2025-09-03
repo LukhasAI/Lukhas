@@ -69,10 +69,10 @@ def test_signal_system():
 
     # Test signal decay
     print("\n   Testing signal decay over time...")
-    time.sleep(1# Wait 1 second
+    time.sleep(1)  # Wait 1 second
 
     for signal in signals:
-        decayed_level = signal.decay(0.1# 10% decay rate
+        decayed_level = signal.decay(0.1)  # 10% decay rate
         print(f"     • {signal.name}: {signal.level:.2f} → {decayed_level:.2f}")
 
     print("   ✅ Signal system test complete\n")
@@ -157,7 +157,7 @@ async def test_consciousness_orchestration():
         else:
             _ = ModulatedOpenAIClient(
                 modulator
-            # Client created but not used in this test
+            )  # Client created but not used in this test
 
         # Create signal emitter
         emitter = EndocrineSignalEmitter()

@@ -201,7 +201,8 @@ Return ONLY the bash script, no explanations."""
                     data = await resp.json()
                     return data.get("response", "")
         except Exception as e:
-            return f""Error generating script: {e}'"
+            # Gracefully surface generation errors without leaking internal state
+            return f"Error generating script: {e}"
 
     async def analyze_all(self) -> dict:
         """Analyze all vulnerabilities and generate report"""
