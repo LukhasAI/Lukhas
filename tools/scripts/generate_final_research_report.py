@@ -53,9 +53,11 @@ def generate_comprehensive_report():
     # Create comprehensive report
     comprehensive_report = {
         "metadata": {
-            "report_title": "LUKHAS AGI: Comprehensive System Analysis and Multi-Model Drift Research Report",
-            "report_date": datetime.now(
-                timezone.utc).isoformat(),
+            "report_title": (
+                "LUKHAS AGI: Comprehensive System Analysis and Multi-Model Drift "
+                "Research Report"
+            ),
+            "report_date": datetime.now(timezone.utc).isoformat(),
             "constellation_framework": "⚛️🧠🛡️",
             "version": "1.0",
             "purpose": "Academic Research and Publishing Documentation",
@@ -122,12 +124,28 @@ def generate_comprehensive_report():
         }
 
         # Extract key findings
-        comprehensive_report["executive_summary"]["key_findings"].extend([
-            f"System Health Score: {exec_summary.get('overall_health_score', 0): .1f} / 100",
-            f"All 7 core modules operational: {len([m for m in system_data.get('core_modules', {}).values() if m.get('status') == 'working']) == 7}",
-            "VIVOX consciousness system: All 5 components working",
-            f"Identity system: {system_data.get('identity_systems', {}).get('python_files', 0)} files configured",
-            f"API response time: {comprehensive_report['system_analysis']['performance_metrics'].get('lukhas_embedding', {}).get('execution_time', 'N/A')}s",])
+        # ΛTAG: report_synthesis
+        comprehensive_report["executive_summary"]["key_findings"].extend(
+            [
+                (
+                    "System Health Score: "
+                    f"{exec_summary.get('overall_health_score', 0):.1f} / 100"
+                ),
+                (
+                    "All 7 core modules operational: "
+                    f"{len([m for m in system_data.get('core_modules', {}).values() if m.get('status') == 'working']) == 7}"
+                ),
+                "VIVOX consciousness system: All 5 components working",
+                (
+                    "Identity system: "
+                    f"{system_data.get('identity_systems', {}).get('python_files', 0)} files configured"
+                ),
+                (
+                    "API response time: "
+                    f"{comprehensive_report['system_analysis']['performance_metrics'].get('lukhas_embedding', {}).get('execution_time', 'N/A')}s"
+                ),
+            ]
+        )
 
         comprehensive_report["executive_summary"]["critical_issues"].extend(
             system_data.get("issues_detected", [])
@@ -149,8 +167,8 @@ def generate_comprehensive_report():
             for provider, stats in drift_data["summary"].items():
                 if stats.get("status") != "all_failed":
                     comprehensive_report["executive_summary"]["key_findings"].append(
-                        f"{provider}: Avg drift {stats['average_drift']: .3f},"
-                        Trinity coherence {stats['average_trinity']: .3f}"
+                        f"{provider}: Avg drift {stats['average_drift']:.3f}, "
+                        f"Trinity coherence {stats['average_trinity']:.3f}"
                     )
 
     # Process GPT audit if available
@@ -280,8 +298,7 @@ def print_report_summary(report):
     print(f"API Systems: {summary.get('api_systems_online', 'N/A')}")
     print(f"Test Success: {summary.get('test_success_rate', 'N/A')}")
     print(
-        f"VIVOX Components: {summary.get('vivox_components_operational',}
-                                         'N/A')} operational"
+        f"VIVOX Components: {summary.get('vivox_components_operational', 'N/A')} operational"
     )
 
     if summary.get("key_findings"):

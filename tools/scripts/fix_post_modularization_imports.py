@@ -72,7 +72,8 @@ def fix_imports_in_file(file_path: Path) -> bool:
 
 def main():
     """Fix imports across the codebase"""
-    root = Path("/Users/agi_dev/Lukhas"
+    # ΛTAG: path_resolution
+    root = Path(__file__).resolve().parents[2]
     fixed_count = 0
 
     print("🔧 Fixing imports post-modularization...")
