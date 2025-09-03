@@ -14,7 +14,7 @@ Usage:
 import argparse
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone  # ΛTAG: utc
 from typing import Any, Dict, Optional
 
 try:
@@ -73,7 +73,7 @@ def delete_user_data(engine: Engine, user_id: str, dry_run: bool = False) -> dic
                     "dry_run": True,
                     "user_id": user_id,
                     "would_delete": count_data,
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),  # ΛTAG: utc
                 }
 
             # Get pre-deletion counts for audit
@@ -93,7 +93,7 @@ def delete_user_data(engine: Engine, user_id: str, dry_run: bool = False) -> dic
                 "user_id": user_id,
                 "pre_deletion_count": pre_count,
                 "scenes_deleted": rows_deleted,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),  # ΛTAG: utc
                 "status": "success",
             }
 
@@ -210,7 +210,7 @@ def main():
                 "user_id": args.user_id,
                 "status": "error",
                 "error": str(e),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),  # ΛTAG: utc
             }
             log_audit_entry(error_result, args.audit_file)
 

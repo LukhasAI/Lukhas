@@ -1,6 +1,7 @@
 """Test consciousness module basic functionality."""
 
 import pytest
+from datetime import timezone
 
 
 def test_consciousness_wrapper_import():
@@ -28,3 +29,14 @@ def test_consciousness_exports():
 
     except ImportError:
         pytest.skip("Consciousness module not available")
+
+
+def test_consciousness_state_uses_utc():
+    """Ensure ConsciousnessState timestamps are timezone-aware in UTC."""
+    try:
+        from lukhas.consciousness.consciousness_wrapper import ConsciousnessState
+
+        state = ConsciousnessState()
+        assert state.last_update.tzinfo == timezone.utc  # ΛTAG: utc
+    except ImportError:
+        pytest.skip("ConsciousnessState not available")

@@ -10,6 +10,7 @@ Follows Freud-2025 C4 specifications for memory persistence.
 """
 
 import datetime as dt
+from datetime import timezone  # ΛTAG: utc
 import hashlib
 import json
 import logging
@@ -259,7 +260,7 @@ class SqlMemory(AkaqMemory):
         """Get most recent scene before timestamp for drift computation"""
         try:
             if before_ts is None:
-                before_ts = dt.datetime.utcnow()
+                before_ts = dt.datetime.now(timezone.utc)  # ΛTAG: utc
 
             with self.engine.begin() as conn:
                 result = conn.execute(
