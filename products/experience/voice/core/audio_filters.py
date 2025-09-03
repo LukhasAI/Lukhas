@@ -262,14 +262,14 @@ class LUKHASAudioFilterBank:
                 result = await self.filters[filter_type].apply(buffer, params)
 
                 # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
+                glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
                     "audio.filter.applied",
                     {
                         "filter_type": filter_type.value,
                         "frequency": params.frequency,
                         "enabled": params.enabled,
                     },
-                )
+                })
 
                 return result
             else:

@@ -81,8 +81,8 @@ def narrate_dreams(limit=3):
         print(f"   🔐 Tier: {tier_label(tier)} | Source: {source}")
         print(
             f"   🧠 Emotion Vector → {summarize_emotion_vector(ev)}"
-            if ev:
-            else "   🧠 No emotion vector available":
+            if ev
+            else "   🧠 No emotion vector available"
         )
         print(f"   🖼️ Emoji: {emoji} | Tags: {', '.join(tags)}")
         print(f"   📝 Summary: {summary}")

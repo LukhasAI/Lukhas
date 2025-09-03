@@ -400,7 +400,7 @@ class LUKHASVoiceTrainer:
             self.training_data.append(training_sample)
 
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
+            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
                 "voice.training.sample_added",
                 {
                     "speaker_id": speaker_id,
@@ -408,7 +408,7 @@ class LUKHASVoiceTrainer:
                     "quality_score": training_sample.quality_score,
                     "total_samples": len(self.training_data),
                 },
-            )
+            })
 
             self.logger.info(
                 f"Added training sample: {speaker_id} ({duration:.2f}s, quality: {training_sample.quality_score:.2f})"

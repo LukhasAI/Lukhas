@@ -1,63 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="6" tests="34" time="16.562" timestamp="2025-09-02T23:46:57.763687+01:00" hostname="g.local"><testcase classname="tests.smoke.test_health" name="test_repo_boots" time="0.001" /><testcase classname="tests.smoke.test_imports_light" name="test_lane_imports_have_file[accepted-lukhas]" time="0.001" /><testcase classname="tests.smoke.test_imports_light" name="test_lane_imports_have_file[candidate-candidate]" time="0.001" /><testcase classname="tests.smoke.test_imports_light" name="test_lane_imports_have_file[core-lukhas]" time="0.001" /><testcase classname="tests.smoke.test_imports_light" name="test_lane_imports_have_file[matriz-matriz]" time="0.008" /><testcase classname="tests.smoke.test_imports_light" name="test_lane_imports_have_file[archive-archive]" time="0.001" /><testcase classname="tests.branding.test_content_generation" name="test_single_domain_content" time="0.002"><failure message="pytest.PytestReturnNotNoneWarning: Test functions should return None, but tests/branding/test_content_generation.py::test_single_domain_content returned &lt;class 'dict'&gt;.&#10;Did you mean to use `assert` instead of `return`?&#10;See https://docs.pytest.org/en/stable/how-to/assert.html#return-not-none for more information.">../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:344: in from_call
-    result: TResult | None = func()
-../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:246: in &lt;lambda&gt;
-    lambda: runtest_hook(item=item, **kwds), when=when, reraise=reraise
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_hooks.py:512: in __call__
-    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_manager.py:120: in _hookexec
-    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
-../../Library/Python/3.9/lib/python/site-packages/_pytest/logging.py:850: in pytest_runtest_call
-    yield
-../../Library/Python/3.9/lib/python/site-packages/_pytest/capture.py:900: in pytest_runtest_call
-    return (yield)
-../../Library/Python/3.9/lib/python/site-packages/_pytest/skipping.py:263: in pytest_runtest_call
-    return (yield)
-../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:178: in pytest_runtest_call
-    item.runtest()
-../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:1671: in runtest
-    self.ihook.pytest_pyfunc_call(pyfuncitem=self)
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_hooks.py:512: in __call__
-    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_manager.py:120: in _hookexec
-    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
-    return result.get_result()
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
-    res = yield
-../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:161: in pytest_pyfunc_call
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="0" tests="5" time="1.948" timestamp="2025-09-03T02:00:48.676319+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.aka_qualia" time="0.000"><error message="collection failure">tests/candidate/aka_qualia/conftest.py:24: in &lt;module&gt;
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/__init__.py:36: in &lt;module&gt;
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/core.py:31: in &lt;module&gt;
+    from candidate.aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
+candidate/aka_qualia/oneiric_hook.py:18: in &lt;module&gt;
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:43: in &lt;module&gt;
+    import urllib3
+../../Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: in &lt;module&gt;
     warnings.warn(
-E   pytest.PytestReturnNotNoneWarning: Test functions should return None, but tests/branding/test_content_generation.py::test_single_domain_content returned &lt;class 'dict'&gt;.
-E   Did you mean to use `assert` instead of `return`?
-E   See https://docs.pytest.org/en/stable/how-to/assert.html#return-not-none for more information.</failure></testcase><testcase classname="tests.branding.test_content_generation" name="test_multiple_domains" time="0.002"><failure message="pytest.PytestReturnNotNoneWarning: Test functions should return None, but tests/branding/test_content_generation.py::test_multiple_domains returned &lt;class 'dict'&gt;.&#10;Did you mean to use `assert` instead of `return`?&#10;See https://docs.pytest.org/en/stable/how-to/assert.html#return-not-none for more information.">../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:344: in from_call
+E   urllib3.exceptions.NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020</error></testcase><testcase classname="tests.candidate.bridge.test_orchestration_system" name="TestResult" time="0.000"><error message="collection failure">../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:344: in from_call
     result: TResult | None = func()
-../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:246: in &lt;lambda&gt;
-    lambda: runtest_hook(item=item, **kwds), when=when, reraise=reraise
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_hooks.py:512: in __call__
-    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_manager.py:120: in _hookexec
-    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
-../../Library/Python/3.9/lib/python/site-packages/_pytest/logging.py:850: in pytest_runtest_call
-    yield
-../../Library/Python/3.9/lib/python/site-packages/_pytest/capture.py:900: in pytest_runtest_call
-    return (yield)
-../../Library/Python/3.9/lib/python/site-packages/_pytest/skipping.py:263: in pytest_runtest_call
-    return (yield)
-../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:178: in pytest_runtest_call
-    item.runtest()
-../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:1671: in runtest
-    self.ihook.pytest_pyfunc_call(pyfuncitem=self)
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_hooks.py:512: in __call__
-    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_manager.py:120: in _hookexec
-    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
-    return result.get_result()
-../../Library/Python/3.9/lib/python/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
-    res = yield
-../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:161: in pytest_pyfunc_call
+../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:389: in collect
+    return list(collector.collect())
+../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:752: in collect
+    self.warn(
+../../Library/Python/3.9/lib/python/site-packages/_pytest/nodes.py:271: in warn
+    warnings.warn_explicit(
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: tests/candidate/bridge/test_orchestration_system.py)</error></testcase><testcase classname="" name="tests.candidate.tools.test_tool_executor" time="0.000"><error message="collection failure">tests/candidate/tools/test_tool_executor.py:5: in &lt;module&gt;
+    import docker
+../../Library/Python/3.9/lib/python/site-packages/docker/__init__.py:1: in &lt;module&gt;
+    from .api import APIClient
+../../Library/Python/3.9/lib/python/site-packages/docker/api/__init__.py:1: in &lt;module&gt;
+    from .client import APIClient
+../../Library/Python/3.9/lib/python/site-packages/docker/api/client.py:6: in &lt;module&gt;
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:43: in &lt;module&gt;
+    import urllib3
+../../Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: in &lt;module&gt;
     warnings.warn(
-E   pytest.PytestReturnNotNoneWarning: Test functions should return None, but tests/branding/test_content_generation.py::test_multiple_domains returned &lt;class 'dict'&gt;.
-E   Did you mean to use `assert` instead of `return`?
-E   See https://docs.pytest.org/en/stable/how-to/assert.html#return-not-none for more information.</failure></testcase><testcase classname="tests.branding.test_content_generation" name="test_style_guide_integration" time="0.001" /><testcase classname="tests.branding.test_content_generation" name="test_constellation_navigation" time="0.001" /><testcase classname="tests.lukhas.core.test_distributed_tracing_coverage" name="test_distributed_tracer_comprehensive_initialization" time="0.010" /><testcase classname="tests.lukhas.core.test_distributed_tracing_coverage" name="test_span_lifecycle_comprehensive" time="0.001" /><testcase classname="tests.lukhas.core.test_distributed_tracing_coverage" name="test_trace_context_propagation" time="0.000" /><testcase classname="tests.lukhas.core.test_distributed_tracing_coverage" name="test_metrics_and_observability" time="0.001" /><testcase classname="tests.lukhas.core.test_distributed_tracing_coverage" name="test_sampling_and_filtering" time="0.000" /><testcase classname="tests.lukhas.core.test_distributed_tracing_coverage" name="test_export_and_backends" time="0.001" /><testcase classname="tests.lukhas.core.test_distributed_tracing_coverage" name="test_consciousness_aware_tracing" time="0.000" /><testcase classname="tests.lukhas.core.test_distributed_tracing_coverage" name="test_error_handling_and_edge_cases" time="0.000" /><testcase classname="tests.lukhas.governance.test_real_consent_ledger" name="test_real_consent_ledger_initialization" time="0.126" /><testcase classname="tests.lukhas.governance.test_real_consent_ledger" name="test_real_consent_granting" time="0.000"><skipped type="pytest.skip" message="ConsentLedgerV1 or related classes not available">/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/lukhas/governance/test_real_consent_ledger.py:62: ConsentLedgerV1 or related classes not available</skipped></testcase><testcase classname="tests.lukhas.governance.test_real_consent_ledger" name="test_real_consent_validation" time="0.000"><skipped type="pytest.skip" message="ConsentLedgerV1 not available">/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/lukhas/governance/test_real_consent_ledger.py:97: ConsentLedgerV1 not available</skipped></testcase><testcase classname="tests.lukhas.governance.test_real_consent_ledger" name="test_real_consent_revocation" time="0.000"><skipped type="pytest.skip" message="ConsentLedgerV1 not available">/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/lukhas/governance/test_real_consent_ledger.py:132: ConsentLedgerV1 not available</skipped></testcase><testcase classname="tests.lukhas.governance.test_real_consent_ledger" name="test_real_audit_trail" time="0.000"><skipped type="pytest.skip" message="ConsentLedgerV1 not available">/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/lukhas/governance/test_real_consent_ledger.py:166: ConsentLedgerV1 not available</skipped></testcase><testcase classname="tests.lukhas.governance.test_real_consent_ledger" name="test_real_gdpr_compliance" time="15.859"><failure message="AttributeError: 'ConsentLedgerV1' object has no attribute 'export_user_data'">tests/lukhas/governance/test_real_consent_ledger.py:188: in test_real_gdpr_compliance
-    user_data = ledger.export_user_data(user_id=user_id)
-E   AttributeError: 'ConsentLedgerV1' object has no attribute 'export_user_data'</failure></testcase><testcase classname="tests.lukhas.governance.test_real_consent_ledger" name="test_real_trinity_framework_integration" time="0.001"><skipped type="pytest.skip" message="ConsentLedgerV1 or Trinity Framework integration not available">/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/lukhas/governance/test_real_consent_ledger.py:243: ConsentLedgerV1 or Trinity Framework integration not available</skipped></testcase><testcase classname="tests.lukhas.governance.test_real_consent_ledger" name="test_real_consent_ledger_edge_cases" time="0.000"><skipped type="pytest.skip" message="ConsentLedgerV1 not available">/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/lukhas/governance/test_real_consent_ledger.py:292: ConsentLedgerV1 not available</skipped></testcase><testcase classname="tests.lukhas.qi.test_qi_wrapper_comprehensive" name="test_qi_wrapper_comprehensive_initialization" time="0.133" /><testcase classname="tests.lukhas.qi.test_qi_wrapper_comprehensive" name="test_quantum_state_management" time="0.000" /><testcase classname="tests.lukhas.qi.test_qi_wrapper_comprehensive" name="test_quantum_algorithms_and_processing" time="0.000" /><testcase classname="tests.lukhas.qi.test_qi_wrapper_comprehensive" name="test_decoherence_and_noise_modeling" time="0.000" /><testcase classname="tests.lukhas.qi.test_qi_wrapper_comprehensive" name="test_consciousness_quantum_integration" time="0.000" /><testcase classname="tests.lukhas.qi.test_qi_wrapper_comprehensive" name="test_quantum_optimization_and_machine_learning" time="0.000" /><testcase classname="tests.lukhas.qi.test_qi_wrapper_comprehensive" name="test_quantum_communication_and_cryptography" time="0.000" /><testcase classname="tests.lukhas.qi.test_qi_wrapper_comprehensive" name="test_quantum_edge_cases_and_performance" time="0.000" /></testsuite></testsuites>
+E   urllib3.exceptions.NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020</error></testcase><testcase classname="" name="tests.enterprise.api.test_main" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/enterprise/api/test_main.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/enterprise/api/test_main.py:4: in &lt;module&gt;
+    from asgi_lifespan import LifespanManager
+E   ModuleNotFoundError: No module named 'asgi_lifespan'</error></testcase><testcase classname="" name="tests.enterprise.compliance.test_compliance_api" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/enterprise/compliance/test_compliance_api.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/enterprise/compliance/test_compliance_api.py:5: in &lt;module&gt;
+    from enterprise.compliance.api import (
+E   ModuleNotFoundError: No module named 'enterprise'</error></testcase></testsuite></testsuites>

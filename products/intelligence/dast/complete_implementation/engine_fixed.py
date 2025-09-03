@@ -1,4 +1,4 @@
-ßß"""
+"""
 🎯 LUCAS DAST Engine - Dynamic Attention & Symbolic Tagging System (Enhanced)
 
 Steve Jobs Design Philosophy: "Great technology should be invisible until you need it"

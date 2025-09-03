@@ -128,7 +128,7 @@ class ModuleEnhancer:
 
                         ## Features
 
-                        {''.join(f"- **{feature}**" + "\\n" for feature in module_info['key_features']).rstrip()}
+                        {''.join(f"- **{feature}**" + chr(10) for feature in module_info['key_features']).rstrip()}
 
                         ## Architecture
 
@@ -230,73 +230,71 @@ class ModuleEnhancer:
                         Part of LUKHAS AI - see root LICENSE file.
                         """
 
-                        with open(f"{module_name}/README.md", 'w') as f:
+        with open(f"{module_name}/README.md", 'w') as f:
             f.write(readme_content)
 
-                            def create_makefile(self, module_name):
-                                """Create Makefile with common tasks"""
+    def create_makefile(self, module_name):
+        """Create Makefile with common tasks"""
         makefile_content = f""".PHONY: help test test-unit test-integration test-benchmarks lint format clean install dev-install docs
 
-                                help:
-                                @echo "Available commands:"
-                                @echo "  make test           - Run all tests"
-                                @echo "  make test-unit      - Run unit tests"
-                                @echo "  make test-integration - Run integration tests"
-                                @echo "  make test-benchmarks - Run benchmarks"
-                                @echo "  make lint          - Run linters"
-                                @echo "  make format        - Format code"
-                                @echo "  make clean         - Clean temporary files"
-                                @echo "  make install       - Install dependencies"
-                                @echo "  make docs          - Build documentation"
+help:
+\t@echo "Available commands:"
+\t@echo "  make test           - Run all tests"
+\t@echo "  make test-unit      - Run unit tests"
+\t@echo "  make test-integration - Run integration tests"
+\t@echo "  make test-benchmarks - Run benchmarks"
+\t@echo "  make lint          - Run linters"
+\t@echo "  make format        - Format code"
+\t@echo "  make clean         - Clean temporary files"
+\t@echo "  make install       - Install dependencies"
+\t@echo "  make docs          - Build documentation"
 
-                                test:
-                                pytest tests/ -v --cov={module_name} --cov-report=html --cov-report=term
+test:
+\tpytest tests/ -v --cov={module_name} --cov-report=html --cov-report=term
 
-                                test-unit:
-                                pytest tests/unit/ -v --cov={module_name}
+test-unit:
+\tpytest tests/unit/ -v --cov={module_name}
 
-                                test-integration:
-                                pytest tests/integration/ -v
+test-integration:
+\tpytest tests/integration/ -v
 
-                                test-benchmarks:
-                                pytest tests/benchmarks/ -v --benchmark-only
+test-benchmarks:
+\tpytest tests/benchmarks/ -v --benchmark-only
 
-                                lint:
-                                flake8 . --max-line-length=100 --exclude=.venv,
-    __pycache__
-                                mypy . --ignore-missing-imports
-                                pylint {module_name} --disable=C0111,R0903
+lint:
+\tflake8 . --max-line-length=100 --exclude=.venv,__pycache__
+\tmypy . --ignore-missing-imports
+\tpylint {module_name} --disable=C0111,R0903
 
-                                format:
-                                black . --line-length=100
-                                isort . --profile black
+format:
+\tblack . --line-length=100
+\tisort . --profile black
 
-                                clean:
-                                find . -type f -name "*.pyc" -delete
-                                find . -type d -name "__pycache__" -delete
-                                rm -rf .pytest_cache
-                                rm -rf .coverage
-                                rm -rf htmlcov
-                                rm -rf .mypy_cache
+clean:
+\tfind . -type f -name "*.pyc" -delete
+\tfind . -type d -name "__pycache__" -delete
+\trm -rf .pytest_cache
+\trm -rf .coverage
+\trm -rf htmlcov
+\trm -rf .mypy_cache
 
-                                install:
-                                pip install -r requirements.txt
+install:
+\tpip install -r requirements.txt
 
-                                dev-install:
-                                pip install -r requirements.txt
-                                pip install -r requirements-dev.txt
-                                pip install -e .
+dev-install:
+\tpip install -r requirements.txt
+\tpip install -r requirements-dev.txt
+\tpip install -e .
 
-                                docs:
-                                cd docs && mkdocs build
-                                """
+docs:
+\tcd docs && mkdocs build
+        """
 
-                                with open(f"{module_name}/Makefile", 'w') as f:
+        with open(f"{module_name}/Makefile", 'w') as f:
             f.write(makefile_content)
 
-                                    def create_test_structure(self, module_name,
-    module_info):
-                                        """Create comprehensive test structure"""
+    def create_test_structure(self, module_name, module_info):
+        """Create comprehensive test structure"""
         # Test __init__.py
         test_init = f'''"""
                                         {module_name.upper()} Test Suite

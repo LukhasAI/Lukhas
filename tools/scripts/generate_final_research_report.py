@@ -149,8 +149,8 @@ def generate_comprehensive_report():
             for provider, stats in drift_data["summary"].items():
                 if stats.get("status") != "all_failed":
                     comprehensive_report["executive_summary"]["key_findings"].append(
-                        f"{provider}: Avg drift {stats['average_drift']: .3f},"
-                        Trinity coherence {stats['average_trinity']: .3f}"
+                        f"{provider}: Avg drift {stats['average_drift']:.3f}, "
+                        f"Trinity coherence {stats['average_trinity']:.3f}"
                     )
 
     # Process GPT audit if available
@@ -280,8 +280,7 @@ def print_report_summary(report):
     print(f"API Systems: {summary.get('api_systems_online', 'N/A')}")
     print(f"Test Success: {summary.get('test_success_rate', 'N/A')}")
     print(
-        f"VIVOX Components: {summary.get('vivox_components_operational',}
-                                         'N/A')} operational"
+        f"VIVOX Components: {summary.get('vivox_components_operational', 'N/A')} operational"
     )
 
     if summary.get("key_findings"):
