@@ -115,7 +115,9 @@ class SecurityTaskScheduler:
         click.echo("=" * 50)
 
         for task in tasks:
-            scheduled_time = datetime.fromisoformat(task["scheduled_time"])
+            scheduled_time = datetime.fromisoformat(task["scheduled_time"]).astimezone(
+                timezone.utc
+            )  # ΛTAG: utc
             status_emoji = {
                 "pending": "⏳",
                 "running": "🔄",
@@ -142,7 +144,9 @@ class SecurityTaskScheduler:
             if task["status"] != "pending":
                 continue
 
-            scheduled_time = datetime.fromisoformat(task["scheduled_time"])
+            scheduled_time = datetime.fromisoformat(task["scheduled_time"]).astimezone(
+                timezone.utc
+            )  # ΛTAG: utc
 
             if scheduled_time <= now:
                 self.log(f"🚀 Executing task: {task['id']} ({task['type']})")
