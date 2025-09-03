@@ -23,44 +23,74 @@ Usage:
 from datetime import datetime, timezone
 from typing import Any
 
-try:
-    from governance.identity.core.id_service.lambd_id_validator import (
-        LambdaIDValidator as LambdIDValidator,
-    )
-    from governance.identity.core.sent.consent_manager import (
-        LambdaConsentManager as ConsentManager,
-    )
-    from governance.identity.core.tier.tier_validator import TierValidator
-    from governance.identity.core.trace.activity_logger import (
-        LambdaTraceLogger as ActivityLogger,
-    )
-except ImportError as e:
-    print(f"Warning: Could not import core-id modules: {e}")
-    # Create stub classes for development
+# Lazy loading to avoid circular imports - import these modules only when needed
 
-    class TierValidator:
-        def validate_tier(self, user_id: str, required_tier: str) -> bool:
-            try:
-                from governance.identity.core.user_tier_mapping import check_tier_access
-
-                return check_tier_access(user_id, required_tier)
-            except ImportError:
-                # Fallback for development
-                return True
-
-    class ActivityLogger:
-        def log_activity(self, activity_type: str, user_id: str, metadata: dict) -> None:
-            print(f"ΛTRACE: {activity_type} by {user_id}: {metadata}")
-
-    class ConsentManager:
-        def check_consent(self, user_id: str, action: str) -> bool:
-            _ = (user_id, action)
+# Stub classes for development/fallback
+class TierValidator:
+    def validate_tier(self, user_id: str, required_tier: str) -> bool:
+        try:
+            from governance.identity.core.user_tier_mapping import check_tier_access
+            return check_tier_access(user_id, required_tier)
+        except ImportError:
+            # Fallback for development
             return True
 
-    class LambdIDValidator:
-        def validate_identity(self, user_id: str) -> bool:
-            _ = user_id
-            return True
+class ActivityLogger:
+    def log_activity(self, activity_type: str, user_id: str, metadata: dict) -> None:
+        print(f"ΛTRACE: {activity_type} by {user_id}: {metadata}")
+
+class ConsentManager:
+    def check_consent(self, user_id: str, action: str) -> bool:
+        _ = (user_id, action)
+        return True
+
+class LambdIDValidator:
+    def validate_identity(self, user_id: str) -> bool:
+        _ = user_id
+        return True
+
+# Lazy import functions
+def _get_lambda_id_validator():
+    """Lazy import of LambdaIDValidator to avoid circular imports"""
+    try:
+        from governance.identity.core.id_service.lambd_id_validator import (
+            LambdaIDValidator as RealLambdIDValidator,
+        )
+        return RealLambdIDValidator
+    except ImportError:
+        # Return the fallback class defined at module level
+        return LambdIDValidator
+
+def _get_consent_manager():
+    """Lazy import of ConsentManager to avoid circular imports"""
+    try:
+        from governance.identity.core.sent.consent_manager import (
+            LambdaConsentManager as LambdaConsentManager,
+        )
+        return LambdaConsentManager
+    except ImportError:
+        # Return the fallback class defined at module level
+        return ConsentManager
+
+def _get_tier_validator():
+    """Lazy import of TierValidator to avoid circular imports"""
+    try:
+        from governance.identity.core.tier.tier_validator import TierValidator as RealTierValidator
+        return RealTierValidator
+    except ImportError:
+        # Return the fallback class defined at module level
+        return TierValidator
+
+def _get_activity_logger():
+    """Lazy import of ActivityLogger to avoid circular imports"""
+    try:
+        from governance.identity.core.trace.activity_logger import (
+            LambdaTraceLogger as LambdaTraceLogger,
+        )
+        return LambdaTraceLogger
+    except ImportError:
+        # Return the fallback class defined at module level
+        return ActivityLogger
 
 
 class IdentityClient:
@@ -79,20 +109,26 @@ class IdentityClient:
         """Initialize the identity client with lukhas-id components."""
         self.user_id_context = user_id_context
         try:
+            # Lazy load components to avoid circular imports
+            TierValidatorClass = _get_tier_validator()
+            ActivityLoggerClass = _get_activity_logger()
+            ConsentManagerClass = _get_consent_manager()
+            LambdIDValidatorClass = _get_lambda_id_validator()
+            
             # Try to initialize real components with fallback configurations
-            self.tier_validator = TierValidator(config={})
+            self.tier_validator = TierValidatorClass(config={})
             try:
-                self.activity_logger = ActivityLogger(config={}, consent_manager=None)
+                self.activity_logger = ActivityLoggerClass(config={}, consent_manager=None)
             except TypeError:
                 # Fallback for different constructor signature
-                self.activity_logger = ActivityLogger({})
+                self.activity_logger = ActivityLoggerClass({})
             try:
-                self.consent_manager = ConsentManager(config={})
+                self.consent_manager = ConsentManagerClass(config={})
             except TypeError:
                 # Fallback for different constructor signature
-                self.consent_manager = ConsentManager({}, None, None)
+                self.consent_manager = ConsentManagerClass({}, None, None)
             try:
-                self.id_validator = LambdIDValidator(config_path=None)
+                self.id_validator = LambdIDValidatorClass(config_path=None)
             except Exception:
                 # Create a simple working validator as fallback
                 self.id_validator = type(
