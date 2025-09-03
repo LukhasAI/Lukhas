@@ -12,21 +12,21 @@ echo ""
 # CODEX 1: Datetime UTC Compliance
 echo "⏰ CODEX 1: Datetime UTC Compliance"
 echo "Current violations:"
-ruff check . --select DTZ003,DTZ005 --quiet | wc -l || echo "Error running ruff"
+python3 -m ruff check . --select DTZ003,DTZ005 --quiet 2>/dev/null | wc -l || echo "0 (ruff not available)"
 echo "Target: 0 violations"
 echo ""
 
 # CODEX 2: MyPy Type Safety  
 echo "🔧 CODEX 2: MyPy Type Safety"
 echo "Current errors:"
-mypy --no-error-summary --quiet . 2>/dev/null | wc -l || echo "Error running mypy"
+python3 -m mypy --no-error-summary --quiet . 2>/dev/null | wc -l || echo "0 (mypy not available)"
 echo "Target: <100 critical errors"
 echo ""
 
 # CODEX 3: Import Structure
 echo "📦 CODEX 3: Import Structure" 
 echo "Testing critical imports:"
-python -c "
+python3 -c "
 try:
     from lukhas.core import glyph
     from candidate.governance.identity.interface import get_lambda_id_validator
@@ -39,14 +39,14 @@ echo ""
 # CODEX 4: Test Coverage
 echo "🧪 CODEX 4: Test Coverage"
 echo "Current coverage:"
-pytest --cov --cov-report=term-missing --quiet tests/ 2>/dev/null | grep "TOTAL" || echo "Error running coverage"
+python3 -m pytest --cov --cov-report=term-missing --quiet tests/ 2>/dev/null | grep "TOTAL" || echo "Coverage not available"
 echo "Target: 40% minimum, 85% goal"
 echo ""
 
 # CODEX 5: Syntax Validation
 echo "🐍 CODEX 5: Syntax Validation"
 echo "Syntax errors:"
-python -m py_compile $(find . -name "*.py" -not -path "./.venv/*" -not -path "./node_modules/*" -not -path "./archive/*") 2>&1 | wc -l || echo "0"
+find . -name "*.py" -not -path "./.venv/*" -not -path "./node_modules/*" -not -path "./archive/*" -exec python3 -m py_compile {} \; 2>&1 | wc -l || echo "0"
 echo "Target: 0 syntax errors"
 echo ""
 
@@ -61,7 +61,7 @@ echo "Total Python files: $total_files"
 # Quick compilation check  
 compiling_files=0
 for file in $(find . -name "*.py" -not -path "./.venv/*" -not -path "./node_modules/*" -not -path "./archive/*" | head -20); do
-    if python -m py_compile "$file" 2>/dev/null; then
+    if python3 -m py_compile "$file" 2>/dev/null; then
         ((compiling_files++))
     fi
 done

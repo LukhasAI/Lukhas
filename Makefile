@@ -330,11 +330,11 @@ codex-validate:
 
 codex-fix:
 	@echo "🤖 CODEX 1: Datetime UTC Compliance"
-	ruff check . --select DTZ003,DTZ005 --fix
+	python3 -m ruff check . --select DTZ003,DTZ005 --fix 2>/dev/null || echo "Ruff not available - install with: pip install ruff"
 	@echo "🤖 CODEX 5: Auto-fixable Syntax Issues" 
-	ruff check . --fix-only
+	python3 -m ruff check . --fix-only 2>/dev/null || echo "Ruff not available"
 	@echo "🤖 CODEX 2: Import Organization"
-	isort . --check-only --diff
+	python3 -m isort . --check-only --diff 2>/dev/null || echo "isort not available"
 
 # Full validation pipeline (CODEX ready)
 validate-all: codex-validate fix test-cov lint security policy

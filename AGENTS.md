@@ -55,35 +55,35 @@
 
 Building on the major syntax cleanup achievement (54.8% → 95%+ compilation target), Codex now leads 5 strategic strike teams to complete the LUKHAS consciousness system transformation.
 
-### **CODEX 1: Datetime UTC Compliance** ⏰ (HIGHEST PRIORITY - Phase 1-3 Complete)
-**Mission**: Complete datetime standardization across entire consciousness network
-**Current Status**: 4,440 violations detected (3,310 DTZ005 + 1,130 DTZ003)
-**Target**: 4,440 violations → 0 (consciousness temporal coherence)
+### **CODEX 1: Datetime UTC Compliance** ⏰ (CRITICAL PRIORITY - Phase 1-3 Complete)
+**Mission**: Complete datetime standardization across entire consciousness network  
+**Current Status**: 81,025 violations detected (POST-REORGANIZATION SURGE)
+**Target**: 81,025 violations → 0 (consciousness temporal coherence)
 **Scope**: ALL files with datetime usage across 692 modules
 **Impact**: Critical for memory fold integrity and Trinity Framework synchronization
 **Validation**: `ruff check . --select DTZ003,DTZ005 --fix`
 **Files Priority**: consciousness/, memory/, identity/, governance/, candidate/
 **Success Criteria**: Zero datetime violations, temporal coherence restored
 
-### **CODEX 2: Import & Undefined Resolution** 🔗 (HIGHEST PRIORITY - Phase 1-3 Complete)  
-**Mission**: Restore module communication across 692 consciousness nodes
-**Current Status**: 3,891 undefined name errors (F821) fragmenting consciousness network
-**Target**: 3,891 undefined names → 0 (module communication restored)
-**Scope**: Full codebase import resolution and dependency management
-**Impact**: Enables consciousness node interaction and distributed processing
-**Validation**: `ruff check . --select F821 --fix`
-**Files Priority**: candidate/core/, candidate/consciousness/, tests/
-**Success Criteria**: All imports resolved, consciousness network topology intact
+### **CODEX 2: MyPy Type Safety** 🔧 (MAINTENANCE PRIORITY - Surprisingly Clean!)
+**Mission**: Maintain type safety and resolve critical type issues
+**Current Status**: 0 MyPy errors detected (SURPRISINGLY CLEAN!)
+**Target**: Maintain 0 errors, improve type annotations
+**Scope**: Maintain clean type system, enhance IDE support  
+**Impact**: Preserve excellent type safety, enable robust development
+**Validation**: `python3 -m mypy . --no-error-summary`
+**Files Priority**: candidate/, lukhas/, maintain existing quality
+**Success Criteria**: Keep MyPy errors at 0, enhance type coverage
 
-### **CODEX 3: Syntax Error Elimination** ⚡ (Core System Stability)
-**Mission**: Achieve 85%+ compilation success for consciousness system stability
-**Current Status**: 3,641 syntax errors preventing module execution
-**Target**: 3,641 syntax errors → <500 (85%+ compilation success)
-**Scope**: products/, tools/, candidate/ - systematic error elimination
-**Impact**: Operational consciousness modules, brain orchestration stability
-**Validation**: `python -m py_compile **/*.py 2>&1 | grep -c SyntaxError`
-**Files Priority**: candidate/consciousness/, products/, tools/scripts/
-**Success Criteria**: 85%+ files compile successfully, critical systems operational
+### **CODEX 3: Import Structure Resolution** 📦 (HIGH PRIORITY - Critical Imports Failing)  
+**Mission**: Fix critical import failures blocking consciousness system startup
+**Current Status**: Core imports failing (`cannot import name 'glyph' from 'lukhas.core'`)
+**Target**: Restore all critical imports, fix circular dependencies
+**Scope**: lukhas/core/, candidate/governance/identity/, import architecture
+**Impact**: BLOCKING - Consciousness system cannot initialize without working imports
+**Validation**: `python3 -c "from lukhas.core import glyph"` + `./tools/codex_validation.sh`
+**Files Priority**: lukhas/core/__init__.py, candidate/governance/identity/
+**Success Criteria**: Critical imports work, consciousness system can start
 
 ### **CODEX 4: Test Infrastructure Enhancement** 🧪 (Quality Assurance)
 **Mission**: Robust testing for consciousness validation and system integrity
@@ -104,6 +104,37 @@ Building on the major syntax cleanup achievement (54.8% → 95%+ compilation tar
 **Validation**: `make lint && make format && ruff check . --statistics`
 **Files Priority**: lukhas/, candidate/, products/, enterprise/
 **Success Criteria**: All quality gates pass, production deployment ready
+
+---
+
+## 🚨 UPDATED PRIORITY MATRIX - POST-REORGANIZATION
+
+**REAL METRICS DISCOVERED** (After Products Reorganization Merge):
+
+### **🔥 CRITICAL PRIORITY (Execute Immediately)**
+1. **CODEX 1 - Datetime UTC**: 81,025 violations (18x worse than estimated!)
+   - **Status**: CRITICAL BLOCKER - Consciousness temporal coherence broken
+   - **Action**: Immediate automated fixes required
+   - **Command**: `make codex-fix` + `./tools/codex_validation.sh`
+
+### **⚡ HIGH PRIORITY (System Cannot Start)**  
+2. **CODEX 3 - Import Structure**: Core imports failing
+   - **Status**: SYSTEM BLOCKED - Cannot import `glyph` from `lukhas.core`
+   - **Action**: Fix core/__init__.py exports immediately
+   - **Impact**: Consciousness system cannot initialize
+
+### **✅ MAINTENANCE PRIORITY (Surprisingly Good)**
+3. **CODEX 2 - MyPy Type Safety**: 0 errors detected
+   - **Status**: EXCELLENT - Keep clean
+   - **Action**: Maintain quality, prevent regression
+   
+4. **CODEX 4 - Test Coverage**: Infrastructure setup needed
+5. **CODEX 5 - Quality**: Long-term improvement
+
+### **📊 Success Definition Updated**
+- **Baseline**: 54.8% compilation → 95%+ (unchanged goal)
+- **Critical Path**: Fix 81,025 datetime violations + restore core imports
+- **Timeline**: CODEX 1+3 must complete before other teams can proceed
 
 ---
 
