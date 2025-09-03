@@ -174,10 +174,9 @@ def test_quantum_algorithms_and_processing():
                         qft = qi.quantum_fourier_transform(scenario["input_size"])
                         assert qft is not None or qft is None
 
-                if hasattr(qi, "grover_search"):
-                    if scenario["algorithm"] == "grover_search":
-                        grover = qi.grover_search(scenario["search_space"], scenario["target_items"])
-                        assert grover is not None or grover is None
+                if hasattr(qi, "grover_search") and scenario["algorithm"] == "grover_search":
+                    grover = qi.grover_search(scenario["search_space"], scenario["target_items"])
+                    assert grover is not None or grover is None
 
                 # Test quantum simulation
                 if hasattr(qi, "simulate_quantum_circuit"):
@@ -435,10 +434,9 @@ def test_quantum_communication_and_cryptography():
                     comm_result = qi.quantum_communication(scenario)
                     assert comm_result is not None or comm_result is None
 
-                if hasattr(qi, "bb84_protocol"):
-                    if scenario["protocol"] == "bb84_key_distribution":
-                        bb84 = qi.bb84_protocol(scenario["key_length"])
-                        assert bb84 is not None or bb84 is None
+                if hasattr(qi, "bb84_protocol") and scenario["protocol"] == "bb84_key_distribution":
+                    bb84 = qi.bb84_protocol(scenario["key_length"])
+                    assert bb84 is not None or bb84 is None
 
                 if hasattr(qi, "quantum_teleportation"):
                     if scenario["protocol"] == "quantum_teleportation":
@@ -489,13 +487,13 @@ def test_quantum_edge_cases_and_performance():
             try:
                 # Test various operations with edge cases
                 if hasattr(qi, "initialize_qubits"):
-                    qubits = qi.initialize_qubits(scenario.get("qubits", 1))
+                    qi.initialize_qubits(scenario.get("qubits", 1))
 
                 if hasattr(qi, "apply_gate"):
                     qi.apply_gate(scenario.get("operation", "identity"), 0)
 
                 if hasattr(qi, "measure"):
-                    measurement = qi.measure(scenario.get("measurement_basis", "z"))
+                    qi.measure(scenario.get("measurement_basis", "z"))
 
                 # Test performance scenarios
                 if scenario.get("iterations"):
@@ -504,9 +502,8 @@ def test_quantum_edge_cases_and_performance():
                             qi.quick_operation(f"perf_test_{i}")
 
                 # Test memory management
-                if scenario.get("large_state"):
-                    if hasattr(qi, "create_large_state"):
-                        qi.create_large_state(scenario.get("qubits", 10))
+                if scenario.get("large_state") and hasattr(qi, "create_large_state"):
+                    qi.create_large_state(scenario.get("qubits", 10))
 
                 # Test consciousness edge cases
                 if hasattr(qi, "consciousness_quantum_integration"):

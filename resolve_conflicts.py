@@ -71,9 +71,8 @@ def main():
 
     resolved_count = 0
     for filepath in conflict_files:
-        if filepath and os.path.exists(filepath):
-            if resolve_conflict_file(filepath):
-                resolved_count += 1
+        if filepath and os.path.exists(filepath) and resolve_conflict_file(filepath):
+            resolved_count += 1
 
     print(f"\nResolved {resolved_count}/{len(conflict_files)} files")
 

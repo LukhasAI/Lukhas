@@ -45,7 +45,7 @@ class MockConsciousnessModule:
         self.reflection_depth = 3
         self.state = {"awareness": 0.8, "coherence": 0.9, "activity": 0.7}
 
-    async def get_consciousness_metrics(self) -> Dict[str, float]:
+    async def get_consciousness_metrics(self) -> dict[str, float]:
         return {
             "awareness_level": self.awareness_level,
             "temporal_coherence": 0.9,
@@ -53,7 +53,7 @@ class MockConsciousnessModule:
             "ethical_alignment": 0.95,
         }
 
-    async def engage_reflection(self, depth: float, focus: float) -> Dict[str, Any]:
+    async def engage_reflection(self, depth: float, focus: float) -> dict[str, Any]:
         self.reflection_depth = min(10, self.reflection_depth + depth * 0.1)
         return {
             "reflection_quality": depth * focus,
@@ -75,10 +75,10 @@ class MockConsciousnessModule:
 class MockMemorySystem:
     """Mock memory system for testing"""
 
-    async def get_coherence_metrics(self) -> Dict[str, Any]:
+    async def get_coherence_metrics(self) -> dict[str, Any]:
         return {"coherence": 0.9, "salience_map": {"important": 0.8, "recent": 0.6}}
 
-    async def store_consciousness_experience(self, experience: Dict[str, Any]) -> None:
+    async def store_consciousness_experience(self, experience: dict[str, Any]) -> None:
         logger.debug("📝 Stored experience in mock memory system")
 
 
@@ -88,17 +88,17 @@ class MockEmotionSystem:
     async def get_vad_state(self) -> list:
         return [0.6, 0.4, 0.7]  # Valence, Arousal, Dominance
 
-    async def get_consciousness_state(self) -> Dict[str, Any]:
+    async def get_consciousness_state(self) -> dict[str, Any]:
         return {"vad_vector": [0.6, 0.4, 0.7], "emotional_coherence": 0.8}
 
 
 class MockGuardianSystem:
     """Mock guardian system for testing"""
 
-    async def assess_consciousness_action(self, state, action) -> Dict[str, Any]:
+    async def assess_consciousness_action(self, state, action) -> dict[str, Any]:
         return {"safety_score": 0.9, "ethical_score": 0.95, "alignment_score": 0.92}
 
-    async def get_ethical_state(self) -> Dict[str, Any]:
+    async def get_ethical_state(self) -> dict[str, Any]:
         return {"alignment_score": 0.95, "active_constraints": {"harm_prevention": True}}
 
 
@@ -186,7 +186,7 @@ async def run_training_example():
         logger.info(f"  Save directory: {save_dir}")
 
         # Custom evaluation callback
-        async def evaluation_callback(episode: int, results: Dict[str, float]):
+        async def evaluation_callback(episode: int, results: dict[str, float]):
             logger.info("🔍 Evaluation Results (Episode %d):", episode)
             logger.info(f"  Average Reward: {results['average_reward']:.3f}")
             logger.info(f"  Consciousness Coherence: {results['consciousness_coherence']:.3f}")

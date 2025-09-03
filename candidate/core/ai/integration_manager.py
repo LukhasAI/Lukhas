@@ -500,17 +500,17 @@ class AIIntegrationManager:
             preferred=preferred_service,
         )
         response: Optional[AIResponse] = None
-        if preferred_service == "claude" or (:
+        if preferred_service == "claude" or (
             preferred_service == "auto"
             and self.cfg.get("anthropic_claude", {}).get("api_key")
         ):
             response = await self.delegate_to_claude(task)
-        elif preferred_service == "openai" or (:
+        elif preferred_service == "openai" or (
             preferred_service == "auto"
             and self.cfg.get("openai_gpt", {}).get("api_key")
         ):
             response = await self.delegate_to_openai(task)
-        elif preferred_service == "copilot" and self.cfg.get("github_copilot", {}).get(:
+        elif preferred_service == "copilot" and self.cfg.get("github_copilot", {}).get(
             "cli_enabled"
         ):
             # Run sync Copilot in executor for async context
@@ -562,16 +562,16 @@ class AIIntegrationManager:
             log.error("Failed to save AI response.", path=str(fpath), error=str(e))
 
 
-class TaskTemplates:  # Static methods, no init needed:
+class TaskTemplates:  # Static methods, no init needed
     @staticmethod
-    def code_analysis(:
+    def code_analysis(
         file_paths: list[str], analysis_focus: str = "modularization"
     ) -> AITask:  # Renamed, more params
         return AITask(
             id=f"code_analysis_{Path(file_paths[0]).stem if file_paths else 'general'}_{uuid.uuid4().hex[:6]}",
             type="code_analysis",
-            prompt=f"Analyze code for architecture, dependencies, security,
-            optimization. Focus on {analysis_focus}.",
+            prompt=f"Analyze code for architecture, dependencies, security, "
+            f"optimization. Focus on {analysis_focus}.",
             files=file_paths,
             context={
                 "analysis_type": "comprehensive",
@@ -585,7 +585,12 @@ class TaskTemplates:  # Static methods, no init needed:
 """
 # --- Example Usage (Commented Out & Standardized) ---
 async def main_ai_integration_manager_demo_run():
-    if not structlog.get_config(): structlog.configure(processors=[structlog.stdlib.add_logger_name,structlog.stdlib.add_log_level,structlog.dev.ConsoleRenderer()]):
+    if not structlog.get_config():
+        structlog.configure(processors=[
+            structlog.stdlib.add_logger_name,
+            structlog.stdlib.add_log_level,
+            structlog.dev.ConsoleRenderer()
+        ])
     log.info("🚀 AI Integration Manager Demo Init...")
     ws_path = DEFAULT_LUKHAS_AI_INTEGRATION_WORKSPACE / "demo_run_aim"; ws_path.mkdir(parents=True,exist_ok=True)
     cfg_file = ws_path / DEFAULT_AI_CONFIG_FILENAME_STR

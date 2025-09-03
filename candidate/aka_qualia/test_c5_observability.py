@@ -11,7 +11,6 @@ import time
 
 from memory_noop import NoopMemory
 from monitoring_dashboard import MonitoringDashboard
-
 from observability import (
     AkaqMetrics,
     get_observability,

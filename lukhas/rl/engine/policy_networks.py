@@ -85,7 +85,7 @@ class ReflectionModule(nn.Module):
         # Self-awareness estimator
         self.self_awareness = nn.Sequential(nn.Linear(reflection_dim, 64), nn.ReLU(), nn.Linear(64, 1), nn.Sigmoid())
 
-    def forward(self, consciousness_state: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def forward(self, consciousness_state: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
         """Generate reflection features and self-awareness estimation"""
 
         # Encode consciousness state for reflection
@@ -126,7 +126,7 @@ class EthicalConstraintModule(nn.Module):
         # Ethical dimensions: safety, fairness, transparency, accountability, beneficence
         self.ethical_weights = nn.Parameter(torch.ones(5))
 
-    def forward(self, consciousness_state: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def forward(self, consciousness_state: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
         """Evaluate ethical constraints and compute constraint satisfaction"""
 
         # Evaluate ethical dimensions
@@ -218,7 +218,7 @@ class ConsciousnessPolicy(nn.Module):
         )
 
     @instrument("DECISION", label="rl:policy_forward", capability="rl:policy")
-    def forward(self, consciousness_state: torch.Tensor, action_type: str = "discrete") -> Dict[str, torch.Tensor]:
+    def forward(self, consciousness_state: torch.Tensor, action_type: str = "discrete") -> dict[str, torch.Tensor]:
         """
         Forward pass through consciousness policy network.
 
@@ -275,7 +275,7 @@ class ConsciousnessPolicy(nn.Module):
 
     def sample_action(
         self, consciousness_state: torch.Tensor, action_type: str = "discrete", exploration: bool = True
-    ) -> Tuple[torch.Tensor, torch.Tensor, Dict[str, torch.Tensor]]:
+    ) -> tuple[torch.Tensor, torch.Tensor, dict[str, torch.Tensor]]:
         """
         Sample action from policy distribution.
 
@@ -313,7 +313,7 @@ class ConsciousnessPolicy(nn.Module):
 
     def evaluate_action(
         self, consciousness_state: torch.Tensor, action: torch.Tensor, action_type: str = "discrete"
-    ) -> Dict[str, torch.Tensor]:
+    ) -> dict[str, torch.Tensor]:
         """
         Evaluate given action under current policy.
 
@@ -394,7 +394,7 @@ class ConsciousnessValueNetwork(nn.Module):
         logger.info("🧠 ConsciousnessValueNetwork initialized: state_dim=%d, hidden_dim=%d", state_dim, hidden_dim)
 
     @instrument("AWARENESS", label="rl:value_estimation", capability="rl:value")
-    def forward(self, consciousness_state: torch.Tensor) -> Dict[str, torch.Tensor]:
+    def forward(self, consciousness_state: torch.Tensor) -> dict[str, torch.Tensor]:
         """
         Estimate value of consciousness state.
 
@@ -513,8 +513,8 @@ class ConsciousnessActorCritic(nn.Module):
         logger.info("🧠 ConsciousnessActorCritic initialized: shared_backbone=%s", shared_backbone)
 
     def forward(
-        self, consciousness_state: torch.Tensor, action: Optional[torch.Tensor] = None, action_type: str = "discrete"
-    ) -> Dict[str, torch.Tensor]:
+        self, consciousness_state: torch.Tensor, action: torch.Tensor | None = None, action_type: str = "discrete"
+    ) -> dict[str, torch.Tensor]:
         """
         Forward pass through actor-critic network.
 
@@ -563,7 +563,7 @@ class ConsciousnessActorCritic(nn.Module):
 
     def get_action_and_value(
         self, consciousness_state: torch.Tensor, action_type: str = "discrete", exploration: bool = True
-    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, Dict[str, torch.Tensor]]:
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, dict[str, torch.Tensor]]:
         """
         Get action and value estimate for consciousness state.
 
@@ -588,7 +588,7 @@ class ConsciousnessActorCritic(nn.Module):
 
     def evaluate_actions(
         self, consciousness_states: torch.Tensor, actions: torch.Tensor, action_type: str = "discrete"
-    ) -> Dict[str, torch.Tensor]:
+    ) -> dict[str, torch.Tensor]:
         """
         Evaluate batch of actions for training.
 
@@ -614,7 +614,7 @@ class ConsciousnessActorCritic(nn.Module):
 
         # Aggregate batch results
         batch_results = {}
-        for key in all_outputs[0].keys():
+        for key in all_outputs[0]:
             if key in ["action_distribution"]:
                 continue  # Skip distribution objects
 

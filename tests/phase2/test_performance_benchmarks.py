@@ -294,9 +294,9 @@ class TestAuthenticationPerformance:
         metrics = await benchmark.benchmark_operation(authenticate_concurrent_user, iterations=100, concurrent=True)
 
         # Throughput assertions
-        assert metrics.throughput_per_second > 20, (
-            f"Concurrent throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
-        )
+        assert (
+            metrics.throughput_per_second > 20
+        ), f"Concurrent throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
         assert metrics.p99_latency < 0.2, f"Concurrent P99 latency too high: {metrics.p99_latency:.3f}s"
         assert metrics.success_rate > 0.95, f"Concurrent success rate too low: {metrics.success_rate:.3f}"
 
@@ -357,9 +357,9 @@ class TestGuardianSystemPerformance:
         # Performance assertions
         assert metrics.avg_latency < 0.01, f"Drift calculation too slow: {metrics.avg_latency:.3f}s"
         assert metrics.p95_latency < 0.05, f"Drift calculation P95 too slow: {metrics.p95_latency:.3f}s"
-        assert metrics.throughput_per_second > 100, (
-            f"Drift calculation throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
-        )
+        assert (
+            metrics.throughput_per_second > 100
+        ), f"Drift calculation throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
 
         print("Drift Calculation Performance:")
         print(f"  Average latency: {metrics.avg_latency:.6f}s")
@@ -637,9 +637,9 @@ class TestSystemLoadPerformance:
         metrics = await benchmark.benchmark_operation(mixed_workload, iterations=100, concurrent=True)
 
         # Load performance assertions
-        assert metrics.throughput_per_second > 10, (
-            f"Concurrent throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
-        )
+        assert (
+            metrics.throughput_per_second > 10
+        ), f"Concurrent throughput too low: {metrics.throughput_per_second:.1f} ops/sec"
         assert metrics.p99_latency < 1.0, f"Concurrent P99 latency too high: {metrics.p99_latency:.3f}s"
         assert metrics.success_rate > 0.95, f"Concurrent success rate too low: {metrics.success_rate:.3f}"
 

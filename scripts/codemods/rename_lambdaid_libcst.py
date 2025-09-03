@@ -17,6 +17,7 @@ Notes:
 from __future__ import annotations
 
 import argparse
+import contextlib
 import sys
 from collections.abc import Iterable
 from pathlib import Path
@@ -65,10 +66,8 @@ class LambdaIdTransformer(cst.CSTTransformer):
         key = original_node.key
         if isinstance(key, cst.SimpleString):
             # SimpleString includes quotes; strip and compare
-            try:
-                val = cst.helpers.parse_expression(key.value)
-            except Exception:
-                val = None
+            with contextlib.suppress(Exception):
+                cst.helpers.parse_expression(key.value)
             # Simpler: inspect raw value for exact matches of quoted forms
             raw = key.value
             for q in ("'lambda_id'", '"lambda_id"'):

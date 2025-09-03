@@ -392,7 +392,7 @@ class MockDreamGenerator:
 
     async def generate_dream(self, context: dict[str, Any]) -> str:
         self.generated_count += 1
-        return f"Dream "type', 'standard')}"
+        return f"Dream {self.generated_count} (type: standard)"
 
 
 class MockEmotionalFilter:

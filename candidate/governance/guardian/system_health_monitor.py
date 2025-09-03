@@ -669,7 +669,7 @@ class SystemHealthMonitor:
 
         # Trinity Framework health
         trinity_health = {}
-        for framework in self.trinity_components.keys():
+        for framework in self.trinity_components:
             framework_metrics = [m for m in recent_metrics if f"trinity_{framework}" in m.component]
             if framework_metrics:
                 framework_score = sum(self._health_status_to_score(m.status) for m in framework_metrics) / len(

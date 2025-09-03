@@ -72,7 +72,7 @@ except ImportError:
         # Try alternative imports from root core
         from identity.lid_core import LIDCore
 
-        from core.glyph import glyph_as GLYPHEngine
+        from core.glyph import GLYPHEngine
         from lukhas.consciousness.awareness import ConsciousnessEngine
         from lukhas.governance.guardian_system import GuardianSystem
         from lukhas.memory.fold_manager import FoldManager

@@ -324,6 +324,22 @@ deep-clean: clean
 quick: fix test
 	@echo "✅ Quick fix and test complete!"
 
+# CODEX Strike Teams Support
+codex-validate:
+	@./tools/codex_validation.sh
+
+codex-fix:
+	@echo "🤖 CODEX 1: Datetime UTC Compliance"
+	ruff check . --select DTZ003,DTZ005 --fix
+	@echo "🤖 CODEX 5: Auto-fixable Syntax Issues" 
+	ruff check . --fix-only
+	@echo "🤖 CODEX 2: Import Organization"
+	isort . --check-only --diff
+
+# Full validation pipeline (CODEX ready)
+validate-all: codex-validate fix test-cov lint security policy
+	@echo "🎉 Full validation complete - CODEX Strike Teams ready!"
+
 # File organization
 organize:
 	@echo "🧹 Organizing root directory..."

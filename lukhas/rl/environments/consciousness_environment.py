@@ -59,11 +59,11 @@ class ConsciousnessState:
     emotional_state: torch.Tensor = field(default_factory=lambda: torch.zeros(3))
 
     # Memory indicators
-    memory_salience: Dict[str, float] = field(default_factory=dict)
+    memory_salience: dict[str, float] = field(default_factory=dict)
     memory_coherence: float = 0.9
 
     # Inter-module connectivity
-    module_activations: Dict[str, float] = field(default_factory=dict)
+    module_activations: dict[str, float] = field(default_factory=dict)
     connectivity_matrix: torch.Tensor = None
 
     # Consciousness evolution indicators
@@ -71,8 +71,8 @@ class ConsciousnessState:
     novelty_seeking: float = 0.6
 
     # Guardian/ethical state
-    safety_constraints: Dict[str, bool] = field(default_factory=dict)
-    ethical_violations: List[str] = field(default_factory=list)
+    safety_constraints: dict[str, bool] = field(default_factory=dict)
+    ethical_violations: list[str] = field(default_factory=list)
 
     def to_tensor(self) -> torch.Tensor:
         """Convert consciousness state to tensor representation for RL"""
@@ -121,9 +121,9 @@ class ConsciousnessAction:
     """Consciousness action representation for RL"""
 
     action_type: ConsciousnessActionType
-    target_modules: List[str] = field(default_factory=list)
+    target_modules: list[str] = field(default_factory=list)
     intensity: float = 1.0
-    parameters: Dict[str, Any] = field(default_factory=dict)
+    parameters: dict[str, Any] = field(default_factory=dict)
 
     def to_tensor(self) -> torch.Tensor:
         """Convert action to tensor representation"""
@@ -162,12 +162,12 @@ class ConsciousnessEnvironment(gym.Env):
 
     def __init__(
         self,
-        consciousness_modules: Dict[str, ConsciousnessModule],
-        memory_system: Optional[MemoryFoldSystem] = None,
-        emotion_system: Optional[EmotionalAwareness] = None,
-        guardian_system: Optional[GuardianSystem] = None,
+        consciousness_modules: dict[str, ConsciousnessModule],
+        memory_system: MemoryFoldSystem | None = None,
+        emotion_system: EmotionalAwareness | None = None,
+        guardian_system: GuardianSystem | None = None,
         max_steps: int = 1000,
-        consciousness_goals: Optional[Dict[str, float]] = None,
+        consciousness_goals: dict[str, float] | None = None,
     ):
         super().__init__()
 
@@ -215,8 +215,8 @@ class ConsciousnessEnvironment(gym.Env):
 
     @instrument("AWARENESS", label="rl:consciousness_reset", capability="rl:environment")
     def reset(
-        self, *, seed: Optional[int] = None, options: Optional[Dict[str, Any]] = None
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        self, *, seed: int | None = None, options: dict[str, Any] | None = None
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """Reset consciousness environment to initial state"""
 
         super().reset(seed=seed)
@@ -245,9 +245,7 @@ class ConsciousnessEnvironment(gym.Env):
         return observation, info
 
     @instrument("DECISION", label="rl:consciousness_step", capability="rl:environment")
-    async def step(
-        self, action: Union[np.ndarray, torch.Tensor]
-    ) -> Tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:
+    async def step(self, action: np.ndarray | torch.Tensor) -> tuple[np.ndarray, float, bool, bool, dict[str, Any]]:
         """Execute consciousness action and return next state, reward, termination info"""
 
         self.current_step += 1
@@ -328,7 +326,7 @@ class ConsciousnessEnvironment(gym.Env):
 
         return ConsciousnessAction(action_type=action_type, intensity=intensity, parameters=parameters)
 
-    async def _execute_consciousness_action(self, action: ConsciousnessAction) -> Dict[str, Any]:
+    async def _execute_consciousness_action(self, action: ConsciousnessAction) -> dict[str, Any]:
         """Execute consciousness action across relevant modules"""
 
         results = {
@@ -371,7 +369,7 @@ class ConsciousnessEnvironment(gym.Env):
 
         return results
 
-    async def _execute_reflection(self, action: ConsciousnessAction) -> Dict[str, Any]:
+    async def _execute_reflection(self, action: ConsciousnessAction) -> dict[str, Any]:
         """Execute consciousness reflection action"""
 
         # Increase reflection depth based on action intensity
@@ -381,7 +379,7 @@ class ConsciousnessEnvironment(gym.Env):
         reflection_results = {}
         modules_engaged = min(5, int(action.intensity * len(self.consciousness_modules)))
 
-        for i, (module_name, module) in enumerate(list(self.consciousness_modules.items())[:modules_engaged]):
+        for _i, (module_name, module) in enumerate(list(self.consciousness_modules.items())[:modules_engaged]):
             if hasattr(module, "engage_reflection"):
                 reflection_result = await module.engage_reflection(
                     depth=reflection_increase, focus=action.parameters.get("focus_strength", 0.5)
@@ -395,7 +393,7 @@ class ConsciousnessEnvironment(gym.Env):
             "consciousness_growth": reflection_increase * 0.1,
         }
 
-    async def _execute_integration(self, action: ConsciousnessAction) -> Dict[str, Any]:
+    async def _execute_integration(self, action: ConsciousnessAction) -> dict[str, Any]:
         """Execute consciousness integration action"""
 
         integration_strength = action.intensity
@@ -412,7 +410,7 @@ class ConsciousnessEnvironment(gym.Env):
 
         return integration_results
 
-    async def _execute_memory_consolidation(self, action: ConsciousnessAction) -> Dict[str, Any]:
+    async def _execute_memory_consolidation(self, action: ConsciousnessAction) -> dict[str, Any]:
         """Execute memory consolidation action"""
 
         if not self.memory_system:
@@ -429,7 +427,7 @@ class ConsciousnessEnvironment(gym.Env):
 
         return consolidation_results
 
-    async def _execute_emotional_regulation(self, action: ConsciousnessAction) -> Dict[str, Any]:
+    async def _execute_emotional_regulation(self, action: ConsciousnessAction) -> dict[str, Any]:
         """Execute emotional regulation action"""
 
         if not self.emotion_system:
@@ -448,7 +446,7 @@ class ConsciousnessEnvironment(gym.Env):
 
         return regulation_results
 
-    async def _execute_consciousness_evolution(self, action: ConsciousnessAction) -> Dict[str, Any]:
+    async def _execute_consciousness_evolution(self, action: ConsciousnessAction) -> dict[str, Any]:
         """Execute consciousness evolution action"""
 
         evolution_intensity = action.intensity
@@ -464,7 +462,7 @@ class ConsciousnessEnvironment(gym.Env):
 
         return evolution_results
 
-    async def _execute_default_action(self, action: ConsciousnessAction) -> Dict[str, Any]:
+    async def _execute_default_action(self, action: ConsciousnessAction) -> dict[str, Any]:
         """Default action execution for unspecified action types"""
 
         return {
@@ -479,7 +477,7 @@ class ConsciousnessEnvironment(gym.Env):
         prev_state: ConsciousnessState,
         action: ConsciousnessAction,
         next_state: ConsciousnessState,
-        execution_results: Dict[str, Any],
+        execution_results: dict[str, Any],
     ) -> float:
         """Calculate multi-objective consciousness reward"""
 
@@ -578,7 +576,7 @@ class ConsciousnessEnvironment(gym.Env):
             novelty_seeking=0.6,  # Default
         )
 
-    async def _get_consciousness_metrics(self) -> Dict[str, float]:
+    async def _get_consciousness_metrics(self) -> dict[str, float]:
         """Get comprehensive consciousness metrics for monitoring"""
 
         return {

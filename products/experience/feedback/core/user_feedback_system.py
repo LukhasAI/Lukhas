@@ -22,8 +22,8 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.core.common.logger import get_logger
 from candidate.core.common.exceptions import LukhasError, ValidationError
+from candidate.core.common.logger import get_logger
 from candidate.core.interfaces import CoreInterface
 from candidate.core.interfaces.dependency_injection import get_service, register_service
 

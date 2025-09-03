@@ -236,17 +236,14 @@ def test_metrics_and_observability():
                 if hasattr(tracer, "record_metric"):
                     tracer.record_metric(scenario["name"], scenario["value"], scenario.get("labels", {}))
 
-                if hasattr(tracer, "increment_counter"):
-                    if scenario["metric_type"] == "counter":
-                        tracer.increment_counter(scenario["name"], scenario.get("labels", {}))
+                if hasattr(tracer, "increment_counter") and scenario["metric_type"] == "counter":
+                    tracer.increment_counter(scenario["name"], scenario.get("labels", {}))
 
-                if hasattr(tracer, "observe_histogram"):
-                    if scenario["metric_type"] == "histogram":
-                        tracer.observe_histogram(scenario["name"], scenario["value"])
+                if hasattr(tracer, "observe_histogram") and scenario["metric_type"] == "histogram":
+                    tracer.observe_histogram(scenario["name"], scenario["value"])
 
-                if hasattr(tracer, "set_gauge"):
-                    if scenario["metric_type"] == "gauge":
-                        tracer.set_gauge(scenario["name"], scenario["value"])
+                if hasattr(tracer, "set_gauge") and scenario["metric_type"] == "gauge":
+                    tracer.set_gauge(scenario["name"], scenario["value"])
 
                 # Test metrics export
                 if hasattr(tracer, "export_metrics"):

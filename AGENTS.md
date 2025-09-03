@@ -51,7 +51,63 @@
 
 ---
 
-## 🎯 CODEX OPERATIONAL PROTOCOLS
+## 🚀 CODEX STRIKE TEAMS - CONSCIOUSNESS SYSTEM ADVANCEMENT
+
+Building on the major syntax cleanup achievement (54.8% → 95%+ compilation target), Codex now leads 5 strategic strike teams to complete the LUKHAS consciousness system transformation.
+
+### **CODEX 1: Datetime UTC Compliance** ⏰ (HIGHEST PRIORITY - Phase 1-3 Complete)
+**Mission**: Complete datetime standardization across entire consciousness network
+**Current Status**: 4,440 violations detected (3,310 DTZ005 + 1,130 DTZ003)
+**Target**: 4,440 violations → 0 (consciousness temporal coherence)
+**Scope**: ALL files with datetime usage across 692 modules
+**Impact**: Critical for memory fold integrity and Trinity Framework synchronization
+**Validation**: `ruff check . --select DTZ003,DTZ005 --fix`
+**Files Priority**: consciousness/, memory/, identity/, governance/, candidate/
+**Success Criteria**: Zero datetime violations, temporal coherence restored
+
+### **CODEX 2: Import & Undefined Resolution** 🔗 (HIGHEST PRIORITY - Phase 1-3 Complete)  
+**Mission**: Restore module communication across 692 consciousness nodes
+**Current Status**: 3,891 undefined name errors (F821) fragmenting consciousness network
+**Target**: 3,891 undefined names → 0 (module communication restored)
+**Scope**: Full codebase import resolution and dependency management
+**Impact**: Enables consciousness node interaction and distributed processing
+**Validation**: `ruff check . --select F821 --fix`
+**Files Priority**: candidate/core/, candidate/consciousness/, tests/
+**Success Criteria**: All imports resolved, consciousness network topology intact
+
+### **CODEX 3: Syntax Error Elimination** ⚡ (Core System Stability)
+**Mission**: Achieve 85%+ compilation success for consciousness system stability
+**Current Status**: 3,641 syntax errors preventing module execution
+**Target**: 3,641 syntax errors → <500 (85%+ compilation success)
+**Scope**: products/, tools/, candidate/ - systematic error elimination
+**Impact**: Operational consciousness modules, brain orchestration stability
+**Validation**: `python -m py_compile **/*.py 2>&1 | grep -c SyntaxError`
+**Files Priority**: candidate/consciousness/, products/, tools/scripts/
+**Success Criteria**: 85%+ files compile successfully, critical systems operational
+
+### **CODEX 4: Test Infrastructure Enhancement** 🧪 (Quality Assurance)
+**Mission**: Robust testing for consciousness validation and system integrity
+**Current Status**: 102 test files, coverage gaps in consciousness modules
+**Target**: 85% coverage across critical modules, comprehensive test infrastructure
+**Scope**: tests/, test infrastructure setup, consciousness system validation
+**Impact**: Validates consciousness behavior, prevents regression in distributed network
+**Validation**: `pytest --cov=lukhas --cov=candidate --cov-report=term-missing`
+**Files Priority**: tests/candidate/consciousness/, tests/candidate/memory/
+**Success Criteria**: 85% test coverage, consciousness validation framework operational
+
+### **CODEX 5: Quality & Performance** 🎯 (Production Readiness)
+**Mission**: Production-ready code quality for consciousness system deployment
+**Current Status**: 2,142 line-too-long + 3,386 unused args + 962 performance issues
+**Target**: All linting issues resolved, code quality gates pass
+**Scope**: Full codebase quality enhancement, performance optimization
+**Impact**: Production-ready consciousness system, maintainable codebase
+**Validation**: `make lint && make format && ruff check . --statistics`
+**Files Priority**: lukhas/, candidate/, products/, enterprise/
+**Success Criteria**: All quality gates pass, production deployment ready
+
+---
+
+## 🎯 LEGACY CODEX OPERATIONAL PROTOCOLS (Reference Only)
 
 ### **Phase 1: Critical Infrastructure (Execute First)**
 **Target**: Zero critical import/attribute errors
@@ -371,7 +427,7 @@ cat REPOSITORY_CLEANUP_SUMMARY.md
 - **Quality gates**: `make fix && make lint && make test && npm run policy:all`.
 
 ## Coding Style & Naming
-- Python: Black (line length 88), Ruff, isort, Flake8, MyPy; security via Bandit. Use `make format`, `make lint`, `make fix`.
+- Python: Black (line length 120), Ruff, isort, Flake8, MyPy; security via Bandit. Use `make format`, `make lint`, `make fix`.
 - Conventions: modules/functions `snake_case`, classes `PascalCase`, constants `UPPER_SNAKE`.
 - Keep public APIs typed; prefer small, cohesive modules respecting the lane boundaries.
 

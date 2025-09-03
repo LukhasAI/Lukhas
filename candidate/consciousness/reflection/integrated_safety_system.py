@@ -62,6 +62,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+from dashboard.core.fallback_system import DashboardFallbackSystem
 
 from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager, FallbackLevel
 from candidate.core.colonies.base_colony import BaseColony
@@ -72,7 +73,6 @@ from candidate.core.colonies.ethics_swarm_colony import (
 )
 from candidate.core.colonies.governance_colony_enhanced import GovernanceColony
 from candidate.core.quantized_thought_cycles import QuantizedThoughtProcessor
-from dashboard.core.fallback_system import DashboardFallbackSystem
 from ethics.compliance_validator import ComplianceValidator
 
 # Import existing components

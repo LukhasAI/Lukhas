@@ -32,6 +32,18 @@ try:
 except ImportError:
     EXTREME_OPTIMIZATIONS_AVAILABLE = False
     print("⚠️ Extreme performance optimizations not available - falling back to standard implementation")
+    
+    # Create stub classes when optimizations are not available
+    class AuthPerformanceMetrics:
+        """Stub class for AuthPerformanceMetrics when extreme optimizations unavailable"""
+        def __init__(self):
+            self.cache_hit = False
+            self.db_query_time_ms = 0.0
+            self.auth_time_ms = 0.0
+    
+    async def get_extreme_optimizer():
+        """Stub function for get_extreme_optimizer when optimizations unavailable"""
+        return None
 
 
 class SecurityError(Exception):

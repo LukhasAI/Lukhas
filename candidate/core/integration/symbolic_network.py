@@ -257,7 +257,7 @@ class SymbolicNode:
             child.connections = self.connections.copy()  # Inherit all connections
             child.connection_weights = {
                 conn_id: weight * ratio_val  # Scale connection weights
-                for conn_id, weight in self.connection_weights.items():
+                for conn_id, weight in self.connection_weights.items()
             }
             self.logger.debug(
                 f"ΛTRACE: Child node '{child_id}' inherited {len(child.connections)} connections with scaled weights."
@@ -284,7 +284,7 @@ class SymbolicNode:
 
     # Private helper to calculate child position
 
-    def _calculate_child_position(:
+    def _calculate_child_position(
         self, index: int, total_children: int
     ) -> tuple[float, float, float]:
         """Calculates a slightly offset position for a child node after a split."""
@@ -377,8 +377,8 @@ class SymbolicNode:
             )
             merged_node.connection_weights[conn_id] = (
                 (w1 + w2) / total_merged_weight_for_conn
-                if total_merged_weight_for_conn > 0:
-                else 0.0:
+                if total_merged_weight_for_conn > 0
+                else 0.0
             )
         self.logger.debug(
             f"ΛTRACE: Connection weights merged for {len(merged_node.connection_weights)} connections."

@@ -837,10 +837,9 @@ class SystemHealthMonitor:
             return True
 
         # Check cascade prevention
-        if self.current_health and self.current_health.cascade_prevention_score < self.cascade_prevention_target:
-            return True
-
-        return False
+        return bool(
+            self.current_health and self.current_health.cascade_prevention_score < self.cascade_prevention_target
+        )
 
     async def _perform_predictive_analysis(self):
         """Perform predictive health analysis"""
@@ -979,10 +978,7 @@ class SystemHealthMonitor:
             min_val, max_val = optimal_range
             if value < min_val or value > max_val:
                 # Health decreases as value moves away from optimal range
-                if value < min_val:
-                    health_score = max(0.0, value / min_val)
-                else:
-                    health_score = max(0.0, max_val / value)
+                health_score = max(0.0, value / min_val) if value < min_val else max(0.0, max_val / value)
 
         # Determine status
         status = self._determine_health_status(health_score)

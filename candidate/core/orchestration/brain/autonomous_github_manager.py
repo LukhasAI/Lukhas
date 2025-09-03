@@ -618,7 +618,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
             return "No batch processing results available."
 
         report = []
-        report.append(")  #  ΛBot Advanced Autonomous GitHub Management Report"
+        report.append("🧠 ΛBot Advanced Autonomous GitHub Management Report")
         report.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         report.append("=" * 60)
         report.append("")
@@ -629,7 +629,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         total_prs = sum(batch.prs_created for batch in self.batch_stats)
         total_cost = sum(batch.cost_used for batch in self.batch_stats)
 
-        report.append("#)  #  📊 OVERALL STATISTICS"
+        report.append("📊 OVERALL STATISTICS")
         report.append(f"Total Notifications Processed: {total_processed}")
         report.append(f"Successful Autonomous Fixes: {total_successful}")
         report.append(f"Pull Requests Created: {total_prs}")
@@ -645,9 +645,9 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         report.append("")
 
         # Batch details
-        report.append("#)  #  📦 BATCH PROCESSING DETAILS"
+        report.append("📦 BATCH PROCESSING DETAILS")
         for i, batch in enumerate(self.batch_stats, 1):
-            report.append(f"##")
+            report.append(f"## Batch {i}")
             report.append(f"- Processed: {batch.total_processed}")
             report.append(f"- Successful: {batch.successful_fixes}")
             report.append(f"- PRs Created: {batch.prs_created}")
@@ -656,7 +656,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
             report.append("")
 
         # Budget analysis
-        report.append("#)  #  💰 BUDGET ANALYSIS"
+        report.append("💰 BUDGET ANALYSIS")
         report.append(f"Initial Budget: ${self.budget_controller.INITIAL_ALLOWANCE}")
         report.append(f"Used: ${self.budget_controller.daily_spend:.4f}")
         report.append(
@@ -668,7 +668,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         report.append("")
 
         # Recommendations
-        report.append("#)  #  🎯 RECOMMENDATIONS"
+        report.append("🎯 RECOMMENDATIONS")
         if total_successful > 0:
             report.append("✅ Autonomous system is working effectively")
         if total_cost < 0.1:

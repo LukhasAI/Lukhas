@@ -283,13 +283,12 @@ class BehavioralAnalyzer:
 
         # Check login time anomaly
         current_hour = datetime.now().hour
-        if profile.typical_login_hours:
-            if current_hour not in profile.typical_login_hours:
-                # Calculate how far from typical hours
-                min_distance = min(abs(current_hour - h) for h in profile.typical_login_hours)
-                if min_distance > 3:  # More than 3 hours from typical
-                    score += 0.3
-                    details.append(f"Login at unusual hour: {current_hour}")
+        if profile.typical_login_hours and current_hour not in profile.typical_login_hours:
+            # Calculate how far from typical hours
+            min_distance = min(abs(current_hour - h) for h in profile.typical_login_hours)
+            if min_distance > 3:  # More than 3 hours from typical
+                score += 0.3
+                details.append(f"Login at unusual hour: {current_hour}")
 
         # Check session duration
         session_duration = activity_data.get("session_duration", 0)
@@ -643,11 +642,10 @@ class PatternRecognizer:
                 # Parse timestamp if string
                 event_time = datetime.fromisoformat(event_time).timestamp()
 
-            if current_time - event_time <= window:
-                if event.get("event_type") == "login_failure":
-                    failed_count += 1
-                    if event.get("source_ip"):
-                        source_ips.add(event["source_ip"])
+            if current_time - event_time <= window and event.get("event_type") == "login_failure":
+                failed_count += 1
+                if event.get("source_ip"):
+                    source_ips.add(event["source_ip"])
 
         matched = failed_count >= threshold
 
@@ -705,11 +703,10 @@ class PatternRecognizer:
             if isinstance(event_time, str):
                 event_time = datetime.fromisoformat(event_time).timestamp()
 
-            if current_time - event_time <= window:
-                if event.get("event_type") == "data_access":
-                    access_count += 1
-                    if event.get("resource"):
-                        resources.add(event["resource"])
+            if current_time - event_time <= window and event.get("event_type") == "data_access":
+                access_count += 1
+                if event.get("resource"):
+                    resources.add(event["resource"])
 
         matched = access_count >= threshold
 
@@ -751,11 +748,10 @@ class PatternRecognizer:
             if isinstance(event_time, str):
                 event_time = datetime.fromisoformat(event_time).timestamp()
 
-            if current_time - event_time <= window:
-                if event.get("event_type") == "ai_interaction":
-                    content = event.get("content", "").lower()
-                    if any(keyword in content for keyword in injection_keywords):
-                        injection_attempts += 1
+            if current_time - event_time <= window and event.get("event_type") == "ai_interaction":
+                content = event.get("content", "").lower()
+                if any(keyword in content for keyword in injection_keywords):
+                    injection_attempts += 1
 
         matched = injection_attempts >= threshold
 

@@ -1,6 +1,7 @@
 # Phase C: Sustainable Coverage Strategy - High Impact Working Modules
 # Target: 35% coverage by focusing on modules that consistently import and test well
 
+import contextlib
 from datetime import datetime, timezone
 from unittest.mock import Mock, patch
 from uuid import uuid4
@@ -140,10 +141,8 @@ def test_observability_comprehensive():
         ]
 
         for scenario in metric_scenarios:
-            try:
+            with contextlib.suppress(Exception):
                 emit_metric(scenario["name"], scenario["value"], scenario.get("tags", {}))
-            except Exception:
-                pass
 
         # Test event emission
         event_scenarios = [
@@ -153,10 +152,8 @@ def test_observability_comprehensive():
         ]
 
         for scenario in event_scenarios:
-            try:
+            with contextlib.suppress(Exception):
                 emit_event(scenario["type"], scenario["data"])
-            except Exception:
-                pass
 
     except ImportError:
         pytest.skip("Observability modules not available")

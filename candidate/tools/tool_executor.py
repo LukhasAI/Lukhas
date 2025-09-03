@@ -5,6 +5,7 @@ Safe handlers for executing OpenAI tool calls with LUKHAS governance.
 """
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
@@ -508,10 +509,8 @@ class ToolExecutor:
                 return f"Container execution failed: {e.stderr.decode('utf-8', 'ignore') if e.stderr else str(e)}"
             finally:
                 if container:
-                    try:
+                    with contextlib.suppress(docker.errors.NotFound):
                         container.remove(force=True)
-                    except docker.errors.NotFound:
-                        pass
                 # Clean up the image
                 try:
                     client.images.remove(image.id, force=True)

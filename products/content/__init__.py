@@ -5,8 +5,4 @@
 - poetica_pack/   - Alternative POETICA implementation
 """
 
-__all__ = [
-    'auctor',
-    'poetica',
-    'poetica_pack'
-]
+__all__ = ["auctor", "poetica", "poetica_pack"]

@@ -1,29 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="0" tests="5" time="1.240" timestamp="2025-09-02T17:14:41.762036+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.aka_qualia.test_c5_observability" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/aka_qualia/test_c5_observability.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-tests/candidate/aka_qualia/test_c5_observability.py:12: in &lt;module&gt;
-    from memory_noop import NoopMemory
-E   ModuleNotFoundError: No module named 'memory_noop'</error></testcase><testcase classname="" name="tests.candidate.aka_qualia.test_router_contract" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/aka_qualia/test_router_contract.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-tests/candidate/aka_qualia/test_router_contract.py:18: in &lt;module&gt;
-    from candidate.aka_qualia.models import AgencyFeel, PhenomenalScene, ProtoQualia, RiskGauge, RiskSeverity, TemporalFeel
-E   ImportError: cannot import name 'RiskGauge' from 'candidate.aka_qualia.models' (/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/aka_qualia/models.py)</error></testcase><testcase classname="tests.candidate.bridge.test_orchestration_system" name="TestResult" time="0.000"><error message="collection failure">.venv/lib/python3.9/site-packages/_pytest/runner.py:344: in from_call
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="0" tests="5" time="1.948" timestamp="2025-09-03T02:00:48.676319+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.aka_qualia" time="0.000"><error message="collection failure">tests/candidate/aka_qualia/conftest.py:24: in &lt;module&gt;
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/__init__.py:36: in &lt;module&gt;
+    from candidate.aka_qualia.core import AkaQualia
+candidate/aka_qualia/core.py:31: in &lt;module&gt;
+    from candidate.aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
+candidate/aka_qualia/oneiric_hook.py:18: in &lt;module&gt;
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:43: in &lt;module&gt;
+    import urllib3
+../../Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: in &lt;module&gt;
+    warnings.warn(
+E   urllib3.exceptions.NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020</error></testcase><testcase classname="tests.candidate.bridge.test_orchestration_system" name="TestResult" time="0.000"><error message="collection failure">../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:344: in from_call
     result: TResult | None = func()
-.venv/lib/python3.9/site-packages/_pytest/runner.py:389: in collect
+../../Library/Python/3.9/lib/python/site-packages/_pytest/runner.py:389: in collect
     return list(collector.collect())
-.venv/lib/python3.9/site-packages/_pytest/python.py:752: in collect
+../../Library/Python/3.9/lib/python/site-packages/_pytest/python.py:752: in collect
     self.warn(
-.venv/lib/python3.9/site-packages/_pytest/nodes.py:271: in warn
+../../Library/Python/3.9/lib/python/site-packages/_pytest/nodes.py:271: in warn
     warnings.warn_explicit(
-E   pytest.PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: tests/candidate/bridge/test_orchestration_system.py)</error></testcase><testcase classname="" name="tests.candidate.bridge.test_unified_openai_client" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/bridge/test_unified_openai_client.py'.
+E   pytest.PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: tests/candidate/bridge/test_orchestration_system.py)</error></testcase><testcase classname="" name="tests.candidate.tools.test_tool_executor" time="0.000"><error message="collection failure">tests/candidate/tools/test_tool_executor.py:5: in &lt;module&gt;
+    import docker
+../../Library/Python/3.9/lib/python/site-packages/docker/__init__.py:1: in &lt;module&gt;
+    from .api import APIClient
+../../Library/Python/3.9/lib/python/site-packages/docker/api/__init__.py:1: in &lt;module&gt;
+    from .client import APIClient
+../../Library/Python/3.9/lib/python/site-packages/docker/api/client.py:6: in &lt;module&gt;
+    import requests
+../../Library/Python/3.9/lib/python/site-packages/requests/__init__.py:43: in &lt;module&gt;
+    import urllib3
+../../Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: in &lt;module&gt;
+    warnings.warn(
+E   urllib3.exceptions.NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020</error></testcase><testcase classname="" name="tests.enterprise.api.test_main" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/enterprise/api/test_main.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
-tests/candidate/bridge/test_unified_openai_client.py:8: in &lt;module&gt;
-    from lukhas.bridge.llm_wrappers.unified_openai_client import (
-E   ModuleNotFoundError: No module named 'lukhas.bridge'; 'lukhas' is not a package</error></testcase><testcase classname="" name="tests.core.test_time_tz" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/test_time_tz.py'.
+tests/enterprise/api/test_main.py:4: in &lt;module&gt;
+    from asgi_lifespan import LifespanManager
+E   ModuleNotFoundError: No module named 'asgi_lifespan'</error></testcase><testcase classname="" name="tests.enterprise.compliance.test_compliance_api" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/enterprise/compliance/test_compliance_api.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
-tests/core/test_time_tz.py:1: in &lt;module&gt;
-    from lukhas.core.common.logger import JSONFormatter
-E   ModuleNotFoundError: No module named 'lukhas.core'; 'lukhas' is not a package</error></testcase></testsuite></testsuites>
+tests/enterprise/compliance/test_compliance_api.py:5: in &lt;module&gt;
+    from enterprise.compliance.api import (
+E   ModuleNotFoundError: No module named 'enterprise'</error></testcase></testsuite></testsuites>

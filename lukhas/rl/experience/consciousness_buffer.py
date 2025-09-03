@@ -76,8 +76,8 @@ class ConsciousnessReplayBuffer:
         alpha: float = 0.6,  # Prioritization exponent
         beta: float = 0.4,  # Importance sampling exponent
         beta_increment: float = 0.001,  # Beta annealing rate
-        memory_system: Optional[MemoryFoldSystem] = None,
-        consciousness_priorities: Optional[ConsciousnessMemoryPriorities] = None,
+        memory_system: MemoryFoldSystem | None = None,
+        consciousness_priorities: ConsciousnessMemoryPriorities | None = None,
     ):
         self.capacity = capacity
         self.alpha = alpha
@@ -124,8 +124,8 @@ class ConsciousnessReplayBuffer:
         done: bool,
         log_prob: float,
         value: float,
-        advantage: Optional[float] = None,
-        consciousness_info: Optional[Dict[str, Any]] = None,
+        advantage: float | None = None,
+        consciousness_info: dict[str, Any] | None = None,
     ) -> None:
         """Store consciousness experience in replay buffer"""
 
@@ -272,7 +272,7 @@ class ConsciousnessReplayBuffer:
 
         return base_salience
 
-    def _generate_memory_tags(self, experience: ConsciousnessExperience) -> List[str]:
+    def _generate_memory_tags(self, experience: ConsciousnessExperience) -> list[str]:
         """Generate memory tags for experience"""
 
         tags = ["rl_experience"]
@@ -304,8 +304,8 @@ class ConsciousnessReplayBuffer:
 
     @instrument("DECISION", label="rl:experience_sample", capability="rl:memory")
     def sample(
-        self, batch_size: int, consciousness_focus: Optional[str] = None, temporal_coherence_threshold: float = 0.0
-    ) -> Tuple[List[ConsciousnessExperience], torch.Tensor, List[int]]:
+        self, batch_size: int, consciousness_focus: str | None = None, temporal_coherence_threshold: float = 0.0
+    ) -> tuple[list[ConsciousnessExperience], torch.Tensor, list[int]]:
         """
         Sample batch of consciousness experiences.
 
@@ -341,7 +341,7 @@ class ConsciousnessReplayBuffer:
 
     def _sample_consciousness_focused(
         self, batch_size: int, focus: str
-    ) -> Tuple[List[ConsciousnessExperience], List[int]]:
+    ) -> tuple[list[ConsciousnessExperience], list[int]]:
         """Sample from consciousness-specific experience buffer"""
 
         consciousness_buffer = self.consciousness_experiences[focus]
@@ -368,7 +368,7 @@ class ConsciousnessReplayBuffer:
 
     def _sample_prioritized(
         self, batch_size: int, temporal_coherence_threshold: float = 0.0
-    ) -> Tuple[List[ConsciousnessExperience], List[int]]:
+    ) -> tuple[list[ConsciousnessExperience], list[int]]:
         """Sample experiences using prioritized replay"""
 
         # Filter experiences by temporal coherence threshold
@@ -406,7 +406,7 @@ class ConsciousnessReplayBuffer:
 
         return sampled_experiences, original_indices
 
-    def _calculate_importance_weights(self, indices: List[int]) -> torch.Tensor:
+    def _calculate_importance_weights(self, indices: list[int]) -> torch.Tensor:
         """Calculate importance sampling weights for sampled experiences"""
 
         if not indices or len(self.buffer) == 0:
@@ -432,14 +432,14 @@ class ConsciousnessReplayBuffer:
 
         return torch.tensor(weights, dtype=torch.float32)
 
-    def update_priorities(self, indices: List[int], priorities: torch.Tensor) -> None:
+    def update_priorities(self, indices: list[int], priorities: torch.Tensor) -> None:
         """Update priorities for sampled experiences"""
 
         for idx, priority in zip(indices, priorities):
             if idx < len(self.priorities):
                 self.priorities[idx] = float(priority) + 1e-6  # Avoid zero priority
 
-    def get_consciousness_statistics(self) -> Dict[str, Any]:
+    def get_consciousness_statistics(self) -> dict[str, Any]:
         """Get consciousness experience statistics"""
 
         total_experiences = len(self.buffer)
@@ -461,7 +461,7 @@ class ConsciousnessReplayBuffer:
                 key: count / total_experiences for key, count in self.consciousness_stats.items()
             }
         else:
-            stats["consciousness_ratios"] = {key: 0.0 for key in self.consciousness_stats.keys()}
+            stats["consciousness_ratios"] = {key: 0.0 for key in self.consciousness_stats}
 
         return stats
 
@@ -523,7 +523,7 @@ class ConsciousnessReplayBuffer:
         for buffer in self.consciousness_experiences.values():
             buffer.clear()
 
-        self.consciousness_stats = {key: 0 for key in self.consciousness_stats.keys()}
+        self.consciousness_stats = {key: 0 for key in self.consciousness_stats}
         self.position = 0
         self.total_experiences = 0
 
@@ -560,7 +560,7 @@ class EpisodicConsciousnessBuffer:
         reward: float,
         next_state: torch.Tensor,
         done: bool,
-        consciousness_info: Optional[Dict[str, Any]] = None,
+        consciousness_info: dict[str, Any] | None = None,
     ) -> None:
         """Add experience to current episode"""
 
@@ -598,7 +598,7 @@ class EpisodicConsciousnessBuffer:
                 episode_data["total_reward"],
             )
 
-    def _calculate_episode_consciousness_metrics(self) -> Dict[str, float]:
+    def _calculate_episode_consciousness_metrics(self) -> dict[str, float]:
         """Calculate consciousness metrics for the episode"""
 
         if not self.current_episode:
@@ -615,7 +615,7 @@ class EpisodicConsciousnessBuffer:
 
         return metrics
 
-    def sample_episodes(self, batch_size: int) -> List[Dict[str, Any]]:
+    def sample_episodes(self, batch_size: int) -> list[dict[str, Any]]:
         """Sample episodes for training"""
 
         if len(self.episodes) < batch_size:
@@ -623,7 +623,7 @@ class EpisodicConsciousnessBuffer:
 
         return random.sample(list(self.episodes), batch_size)
 
-    def get_recent_episodes(self, num_episodes: int) -> List[Dict[str, Any]]:
+    def get_recent_episodes(self, num_episodes: int) -> list[dict[str, Any]]:
         """Get most recent episodes"""
 
         return list(self.episodes)[-num_episodes:]

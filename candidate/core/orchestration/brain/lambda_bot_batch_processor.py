@@ -385,7 +385,7 @@ class BatchProcessor:
 
         for workflow_type, type_issues in workflow_types.items():
             pr_body_parts.append(
-                f"\n###"_', ' ').title()} Issues:"
+                f"\n### {workflow_type.replace('_', ' ').title()} Issues:"
             )
 
             for issue in type_issues:

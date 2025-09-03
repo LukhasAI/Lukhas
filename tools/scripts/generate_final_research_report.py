@@ -54,10 +54,7 @@ def generate_comprehensive_report():
     # Create comprehensive report
     comprehensive_report = {
         "metadata": {
-            "report_title": (
-                "LUKHAS AGI: Comprehensive System Analysis and Multi-Model Drift "
-                "Research Report"
-            ),
+            "report_title": ("LUKHAS AGI: Comprehensive System Analysis and Multi-Model Drift " "Research Report"),
             "report_date": datetime.now(timezone.utc).isoformat(),
             "constellation_framework": "⚛️🧠🛡️",
             "version": "1.0",
@@ -93,43 +90,23 @@ def generate_comprehensive_report():
     }
 
     # ΛTAG: type_casting
-    exec_summary_section = cast(
-        dict[str, Any], comprehensive_report["executive_summary"]
-    )
-    system_analysis_section = cast(
-        dict[str, Any], comprehensive_report["system_analysis"]
-    )
-    multi_model_comp_section = cast(
-        dict[str, Any], comprehensive_report["multi_model_comparison"]
-    )
+    exec_summary_section = cast(dict[str, Any], comprehensive_report["executive_summary"])
+    system_analysis_section = cast(dict[str, Any], comprehensive_report["system_analysis"])
+    multi_model_comp_section = cast(dict[str, Any], comprehensive_report["multi_model_comparison"])
 
     # Process system status if available
     if "system_status" in component_reports:
         system_data = component_reports["system_status"]
         exec_summary = system_data.get("executive_summary", {})
 
-        exec_summary_section["overall_system_health"] = (
-            f"{exec_summary.get('overall_health_score', 0):.1f}/100"
-        )
+        exec_summary_section["overall_system_health"] = f"{exec_summary.get('overall_health_score', 0):.1f}/100"
         core_modules_operational = len(
-            [
-                m
-                for m in system_data.get("core_modules", {}).values()
-                if m.get("status") == "working"
-            ]
+            [m for m in system_data.get("core_modules", {}).values() if m.get("status") == "working"]
         )
-        exec_summary_section["core_modules_functional"] = (
-            f"{core_modules_operational}/7"
-        )
-        exec_summary_section["api_systems_online"] = exec_summary.get(
-            "api_status", "unknown"
-        )
-        exec_summary_section["test_success_rate"] = (
-            f"{exec_summary.get('test_success_rate', 0):.1f}%"
-        )
-        exec_summary_section["vivox_components_operational"] = (
-            f"{exec_summary.get('vivox_components_working', 0)}/5"
-        )
+        exec_summary_section["core_modules_functional"] = f"{core_modules_operational}/7"
+        exec_summary_section["api_systems_online"] = exec_summary.get("api_status", "unknown")
+        exec_summary_section["test_success_rate"] = f"{exec_summary.get('test_success_rate', 0):.1f}%"
+        exec_summary_section["vivox_components_operational"] = f"{exec_summary.get('vivox_components_working', 0)}/5"
 
         system_analysis_section |= {
             "python_environment": system_data.get("python_environment", {}),
@@ -146,15 +123,10 @@ def generate_comprehensive_report():
         # ΛTAG: report_synthesis
         perf_metrics = system_analysis_section.get("performance_metrics", {})
         # ΛTAG: metric_access
-        api_exec_time = perf_metrics.get("lukhas_embedding", {}).get(
-            "execution_time", "N/A"
-        )
+        api_exec_time = perf_metrics.get("lukhas_embedding", {}).get("execution_time", "N/A")
         exec_summary_section["key_findings"].extend(
             [
-                (
-                    "System Health Score: "
-                    f"{exec_summary.get('overall_health_score', 0):.1f} / 100"
-                ),
+                ("System Health Score: " f"{exec_summary.get('overall_health_score', 0):.1f} / 100"),
                 ("All 7 core modules operational: " f"{core_modules_operational == 7}"),
                 "VIVOX consciousness system: All 5 components working",
                 (
@@ -165,18 +137,14 @@ def generate_comprehensive_report():
             ]
         )
 
-        exec_summary_section["critical_issues"].extend(
-            system_data.get("issues_detected", [])
-        )
+        exec_summary_section["critical_issues"].extend(system_data.get("issues_detected", []))
 
     # Process drift testing if available
     if "drift_test" in component_reports:
         drift_data = component_reports["drift_test"]
 
         exec_summary_section["drift_analysis_completed"] = True
-        exec_summary_section["multi_model_comparison"] = (
-            f"{len(drift_data.get('summary', {}))} providers tested"
-        )
+        exec_summary_section["multi_model_comparison"] = f"{len(drift_data.get('summary', {}))} providers tested"
 
         comprehensive_report["drift_testing"] = drift_data
 
@@ -201,9 +169,7 @@ def generate_comprehensive_report():
             )
 
     # Generate research insights
-    comprehensive_report["research_findings"] = generate_research_insights(
-        comprehensive_report
-    )
+    comprehensive_report["research_findings"] = generate_research_insights(comprehensive_report)
 
     # Generate conclusions
     comprehensive_report["conclusions"] = generate_conclusions(comprehensive_report)
@@ -317,9 +283,7 @@ def print_report_summary(report):
     print(f"Core Modules: {summary.get('core_modules_functional', 'N/A')} working")
     print(f"API Systems: {summary.get('api_systems_online', 'N/A')}")
     print(f"Test Success: {summary.get('test_success_rate', 'N/A')}")
-    print(
-        f"VIVOX Components: {summary.get('vivox_components_operational', 'N/A')} operational"
-    )
+    print(f"VIVOX Components: {summary.get('vivox_components_operational', 'N/A')} operational")
 
     if summary.get("key_findings"):
         print(f"\n🔍 KEY FINDINGS ({len(summary['key_findings'])})")

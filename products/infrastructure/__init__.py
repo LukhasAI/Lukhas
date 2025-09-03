@@ -3,14 +3,8 @@
 - trace/          - Tracing and debugging systems
 - legado/         - Legacy system integration
 - nimbus/         - Cloud infrastructure platform
-- legado_pack/    - Alternative LEGADO implementation  
+- legado_pack/    - Alternative LEGADO implementation
 - nimbus_pack/    - Alternative NIMBUS implementation
 """
 
-__all__ = [
-    'trace',
-    'legado', 
-    'nimbus',
-    'legado_pack',
-    'nimbus_pack'
-]
+__all__ = ["trace", "legado", "nimbus", "legado_pack", "nimbus_pack"]

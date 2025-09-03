@@ -659,7 +659,7 @@ class LUKHASAudioProcessor:
 
             # Emit GLYPH event
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
+            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
                 "audio.processing.completed",
                 {
                     "quality": quality.value,
@@ -667,7 +667,7 @@ class LUKHASAudioProcessor:
                     "sample_rate": sample_rate,
                     "channels": channels,
                 },
-            )
+            })
 
             return processed_bytes, metadata
 

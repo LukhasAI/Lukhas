@@ -983,10 +983,9 @@ class AdvancedDriftDetector:
             similarities = []
             for key in common_keys:
                 val1, val2 = pattern1[key], pattern2[key]
-                if isinstance(val1, (int, float)) and isinstance(val2, (int, float)):
-                    if val2 != 0:
-                        similarity = 1.0 - abs(val1 - val2) / abs(val2)
-                        similarities.append(max(0.0, similarity))
+                if isinstance(val1, (int, float)) and isinstance(val2, (int, float)) and val2 != 0:
+                    similarity = 1.0 - abs(val1 - val2) / abs(val2)
+                    similarities.append(max(0.0, similarity))
 
             return statistics.mean(similarities) if similarities else 0.5
 
@@ -1127,9 +1126,8 @@ class AdvancedDriftDetector:
                 if current_data["response_time"] > baseline_values.get("response_time", 0) * 1.3:
                     factors.append("performance_degradation")
 
-        elif drift_type == DriftType.BEHAVIORAL:
-            if len(current_data) != len(baseline_values):
-                factors.append("behavioral_pattern_change")
+        elif drift_type == DriftType.BEHAVIORAL and len(current_data) != len(baseline_values):
+            factors.append("behavioral_pattern_change")
 
         return factors[:10]  # Limit to top 10 factors
 
