@@ -40,6 +40,15 @@ class SeverityLevel(str, Enum):
     HIGH = "high"
 
 
+class RiskSeverity(str, Enum):
+    """Risk assessment severity levels"""
+    
+    LOW = "low"
+    MODERATE = "moderate" 
+    HIGH = "high"
+    CRITICAL = "critical"
+
+
 class ProtoQualia(BaseModel):
     """
     8-dimensional operational proto-qualia representation.
@@ -94,6 +103,30 @@ class RiskProfile(BaseModel):
             raise ValueError("MODERATE severity requires score 0.3-0.7")
         elif v == SeverityLevel.HIGH and score < 0.7:
             raise ValueError("HIGH severity requires score ≥ 0.7")
+        return v
+
+
+class RiskGauge(BaseModel):
+    """Risk assessment gauge for router decisions"""
+    
+    score: float = Field(ge=0.0, le=1.0, description="Risk score 0-1")
+    severity: RiskSeverity = Field(description="Risk severity classification")
+    
+    @validator("severity")
+    def severity_matches_score(cls, v, values):
+        """Ensure severity aligns with score"""
+        if "score" not in values:
+            return v
+            
+        score = values["score"]
+        if v == RiskSeverity.LOW and score > 0.3:
+            raise ValueError("LOW severity requires score ≤ 0.3")
+        elif v == RiskSeverity.MODERATE and (score < 0.3 or score > 0.7):
+            raise ValueError("MODERATE severity requires score 0.3-0.7")
+        elif v == RiskSeverity.HIGH and (score < 0.7 or score > 0.9):
+            raise ValueError("HIGH severity requires score 0.7-0.9")
+        elif v == RiskSeverity.CRITICAL and score < 0.9:
+            raise ValueError("CRITICAL severity requires score ≥ 0.9")
         return v
 
 
