@@ -80,8 +80,8 @@ class WebAuthnManager:
         self.pending_authentications: dict[str, dict] = {}
 
         # Performance optimization
-        self.validation_cache = {}
-        self.challenge_cache = {}
+        self.validation_cache: dict[str, Any] = {}  # ΛTAG: validation_cache
+        self.challenge_cache: dict[str, Any] = {}  # ΛTAG: challenge_cache
 
         # Trinity Framework integration
         self.guardian_validator = None  # 🛡️ Guardian
@@ -391,6 +391,9 @@ class WebAuthnManager:
             if pending_auth["user_id"] and pending_auth["user_id"] != user_id:
                 return {"success": False, "error": "User ID mismatch"}
 
+            if user_id is None:
+                return {"success": False, "error": "User ID resolution failed"}  # ΛTAG: user_id_validation
+
             # 🛡️ Guardian validation
             if not self._constitutional_validation(user_id, "webauthn_authentication", response):
                 return {"success": False, "error": "Guardian validation failed"}
@@ -643,7 +646,7 @@ class WebAuthnManager:
 
     def _get_device_type_distribution(self) -> dict[str, int]:
         """Get distribution of credentials by device type"""
-        device_dist = {}
+        device_dist: dict[str, int] = {}  # ΛTAG: device_distribution
         for creds in self.credentials.values():
             for cred in creds:
                 device_type = cred.device_type
