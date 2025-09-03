@@ -1,11 +1,12 @@
 """FastAPI routes exposing core Lukhas capabilities"""
 
 import logging
+from typing import Any
 
-from enterprise.observability.instantiate import obs_stack
 from fastapi import APIRouter, HTTPException
 
 from config.config import TIER_PERMISSIONS
+from enterprise.observability.instantiate import obs_stack
 
 from .schemas import (
     DreamRequest,
@@ -287,7 +288,8 @@ async def memory_dump() -> MemoryDumpResponse:
 
         # Get memory folds from real memory subsystem
         memory_folds = fold_manager.get_recent_folds(limit=10)
-        folds = []
+
+        folds: list[dict[str, Any]] = []
 
         for fold in memory_folds:
             folds.append(

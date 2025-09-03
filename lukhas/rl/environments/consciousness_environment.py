@@ -11,18 +11,22 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from __future__ import annotations
 
+# Standard library
+import asyncio
 import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union, ClassVar
 
+# Third-party
 import gymnasium as gym
 import numpy as np
 import torch
 from gymnasium import spaces
 from torch import nn
 
+# Local imports
 from lukhas.consciousness import ConsciousnessModule
 from lukhas.emotion import EmotionalAwareness
 from lukhas.governance import GuardianSystem
@@ -158,7 +162,7 @@ class ConsciousnessEnvironment(gym.Env):
     while maintaining ethical constraints and temporal coherence.
     """
 
-    metadata = {"render_modes": ["human", "consciousness_visual"]}
+    metadata: ClassVar[dict[str, list[str]]] = {"render_modes": ["human", "consciousness_visual"]}
 
     def __init__(
         self,
@@ -193,12 +197,14 @@ class ConsciousnessEnvironment(gym.Env):
         # Initialize consciousness state
         self.consciousness_state = ConsciousnessState()
         self.previous_state = None
-
         # Episode tracking
-        self.episode_rewards = []
-        self.episode_consciousness_metrics = []
+        self.episode_rewards: list[float] = []
+        self.episode_consciousness_metrics: list[dict[str, float]] = []
 
-        logger.info("🧠 Consciousness Environment initialized with %d modules", len(consciousness_modules))
+        logger.info(
+            "🧠 Consciousness Environment initialized with %d modules",
+            len(consciousness_modules),
+        )
 
     def _setup_spaces(self):
         """Setup observation and action spaces for the environment"""
@@ -217,7 +223,10 @@ class ConsciousnessEnvironment(gym.Env):
     def reset(
         self, *, seed: int | None = None, options: dict[str, Any] | None = None
     ) -> tuple[np.ndarray, dict[str, Any]]:
-        """Reset consciousness environment to initial state"""
+        """Reset consciousness environment to initial state (synchronous wrapper).
+
+        The underlying state collection is async; use asyncio.run to bridge here.
+        """
 
         super().reset(seed=seed)
 
@@ -226,8 +235,16 @@ class ConsciousnessEnvironment(gym.Env):
         self.episode_rewards = []
         self.episode_consciousness_metrics = []
 
-        # Initialize consciousness state
-        self.consciousness_state = await self._get_current_consciousness_state()
+        # Use options if provided (keeps signature stable)
+        _ = options
+
+        # Initialize consciousness state (async helper executed synchronously)
+        try:
+            self.consciousness_state = asyncio.run(self._get_current_consciousness_state())
+        except Exception:
+            # If async retrieval fails, fall back to a default state to keep reset safe
+            self.consciousness_state = ConsciousnessState()
+
         self.previous_state = None
 
         # Get initial observation
@@ -379,7 +396,7 @@ class ConsciousnessEnvironment(gym.Env):
         reflection_results = {}
         modules_engaged = min(5, int(action.intensity * len(self.consciousness_modules)))
 
-        for _i, (module_name, module) in enumerate(list(self.consciousness_modules.items())[:modules_engaged]):
+        for module_name, module in list(self.consciousness_modules.items())[:modules_engaged]:
             if hasattr(module, "engage_reflection"):
                 reflection_result = await module.engage_reflection(
                     depth=reflection_increase, focus=action.parameters.get("focus_strength", 0.5)
@@ -649,5 +666,8 @@ class ConsciousnessEnvironment(gym.Env):
             total_reward = sum(self.episode_rewards)
             avg_reward = np.mean(self.episode_rewards)
             logger.info(
-                f"📊 Episode Summary: {len(self.episode_rewards)} steps, total reward: {total_reward:.2f}, avg: {avg_reward:.3f}"
+                "📊 Episode Summary: %d steps, total reward: %.2f, avg: %.3f",
+                len(self.episode_rewards),
+                total_reward,
+                avg_reward,
             )

@@ -12,4 +12,4 @@ from .consciousness_environment import (
     ConsciousnessState,
 )
 
-__all__ = ["ConsciousnessEnvironment", "ConsciousnessState", "ConsciousnessAction", "ConsciousnessActionType"]
+__all__ = ["ConsciousnessAction", "ConsciousnessActionType", "ConsciousnessEnvironment", "ConsciousnessState"]

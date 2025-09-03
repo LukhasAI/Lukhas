@@ -159,10 +159,13 @@ class ModuleRouter:
                 module = importlib.import_module(actual_path)
                 self._import_cache[module_path] = module
                 return module
-            except ImportError as e:
+            except ImportError as err:
+                # Bind exception to a named variable for safe raise-from usage
                 if raise_on_error:
-                    raise ImportError(f"Failed to import '{module_path}' (resolved to '{actual_path}'): {e}") from e
-                logger.warning(f"Failed to import '{module_path}': {e}")
+                    raise ImportError(
+                        f"Failed to import '{module_path}' (resolved to '{actual_path}'): {err}"
+                    ) from err
+                logger.warning(f"Failed to import '{module_path}': {err}")
                 return None
         elif raise_on_error:
             raise ImportError(f"Module '{module_path}' not found in registry or filesystem")

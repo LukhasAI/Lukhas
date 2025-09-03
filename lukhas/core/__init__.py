@@ -13,6 +13,9 @@ from .actor_system import (
     default_actor_system,
     get_global_actor_system,
 )
+
+# GLYPH system imports
+from .common import GLYPHSymbol, GLYPHToken, create_glyph, glyph, parse_glyph, validate_glyph
 from .core_wrapper import (
     CoreStatus,
     CoreWrapper,
@@ -57,10 +60,6 @@ from .event_sourcing import (
 
 # Supervision and oversight
 from .supervisor_agent import SupervisorAgent, get_supervisor_agent
-
-# GLYPH system imports
-from .common import GLYPHSymbol, GLYPHToken, create_glyph, parse_glyph, validate_glyph
-from .common import glyph
 
 # Symbolic system imports
 from .symbolism import (

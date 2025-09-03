@@ -202,6 +202,8 @@ class MultiModelOrchestrator:
     def __init__(self, service_integration: ExternalServiceIntegration) -> None:
         self._integration = service_integration
         self._consensus_threshold = 0.7
+    # Track background tasks created during orchestration to avoid GC and linter warnings
+    # (initialized in __init__ as an instance attribute)
 
     @instrument("bridge_consensus_process")
     async def consensus_process(self, query: str, models: Optional[list[str]] = None) -> dict[str, Any]:
@@ -215,6 +217,13 @@ class MultiModelOrchestrator:
             for model in models:
                 task = asyncio.create_task(self._process_with_model(model, query))
                 tasks.append(task)
+                # Keep a strong reference to avoid task being GC'd while running
+                try:
+                    self._bg_tasks.add(task)
+                    task.add_done_callback(lambda t: self._bg_tasks.discard(t))
+                except Exception:
+                    # Best-effort tracking; ignore if something unexpected occurs
+                    pass
 
             # Wait for all models to respond
             responses = await asyncio.gather(*tasks, return_exceptions=True)

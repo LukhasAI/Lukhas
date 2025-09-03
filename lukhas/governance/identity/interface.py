@@ -64,9 +64,7 @@ def _get_lambda_id_validator():
 def _get_consent_manager():
     """Lazy import of ConsentManager to avoid circular imports"""
     try:
-        from governance.identity.core.sent.consent_manager import (
-            LambdaConsentManager as LambdaConsentManager,
-        )
+        from governance.identity.core.sent.consent_manager import LambdaConsentManager
         return LambdaConsentManager
     except ImportError:
         # Return the fallback class defined at module level
@@ -84,9 +82,7 @@ def _get_tier_validator():
 def _get_activity_logger():
     """Lazy import of ActivityLogger to avoid circular imports"""
     try:
-        from governance.identity.core.trace.activity_logger import (
-            LambdaTraceLogger as LambdaTraceLogger,
-        )
+        from governance.identity.core.trace.activity_logger import LambdaTraceLogger
         return LambdaTraceLogger
     except ImportError:
         # Return the fallback class defined at module level
@@ -114,7 +110,7 @@ class IdentityClient:
             ActivityLoggerClass = _get_activity_logger()
             ConsentManagerClass = _get_consent_manager()
             LambdIDValidatorClass = _get_lambda_id_validator()
-            
+
             # Try to initialize real components with fallback configurations
             self.tier_validator = TierValidatorClass(config={})
             try:

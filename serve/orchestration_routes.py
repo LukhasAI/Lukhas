@@ -131,7 +131,7 @@ def get_orchestrator() -> MultiAIOrchestrator:
             logger.info("Multi-AI Orchestrator initialized")
         except Exception as e:
             logger.error("Failed to initialize orchestrator: %s", str(e))
-            raise HTTPException(status_code=500, detail=f"Failed to initialize orchestrator: {e!s}")
+            raise HTTPException(status_code=500, detail=f"Failed to initialize orchestrator: {e!s}") from e
 
     return _orchestrator
 
@@ -203,7 +203,7 @@ async def multi_ai_chat(request: MultiAIRequest):
         raise
     except Exception as e:
         logger.error("Multi-AI chat failed: %s", str(e))
-        raise HTTPException(status_code=500, detail=f"Orchestration failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Orchestration failed: {e!s}") from e
 
 
 @router.post("/compare", response_model=dict[str, Any])
@@ -278,7 +278,7 @@ async def compare_providers(request: MultiAIRequest):
 
     except Exception as e:
         logger.error("Provider comparison failed: %s", str(e))
-        raise HTTPException(status_code=500, detail=f"Comparison failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Comparison failed: {e!s}") from e
 
 
 @router.get("/status", response_model=OrchestrationStatus)
@@ -408,7 +408,7 @@ async def direct_provider_chat(provider: str, request: MultiAIRequest):
         raise
     except Exception as e:
         logger.error("Direct provider chat failed: %s", str(e))
-        raise HTTPException(status_code=500, detail=f"Provider {provider} failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Provider {provider} failed: {e!s}") from e
 
 
 @router.get("/metrics")

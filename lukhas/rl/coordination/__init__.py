@@ -7,4 +7,4 @@ Multi-agent coordination and training systems for consciousness modules.
 
 from .multi_agent_trainer import ConsciousnessModuleAgent, MultiAgentConsciousnessTrainer, TrainingConfiguration
 
-__all__ = ["MultiAgentConsciousnessTrainer", "TrainingConfiguration", "ConsciousnessModuleAgent"]
+__all__ = ["ConsciousnessModuleAgent", "MultiAgentConsciousnessTrainer", "TrainingConfiguration"]

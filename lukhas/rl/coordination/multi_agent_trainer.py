@@ -15,7 +15,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 import torch
@@ -399,7 +399,7 @@ class MultiAgentConsciousnessTrainer:
         # Coordinate actions using weighted combination
         coordinated_action = torch.zeros_like(next(iter(module_actions.values())))
 
-        for i, (module_name, action) in enumerate(module_actions.items()):
+        for i, action in enumerate(module_actions.values()):
             weight = coordination_weights[i]
             coordinated_action += weight * action
 
@@ -474,11 +474,11 @@ class MultiAgentConsciousnessTrainer:
                 )
 
         # Train module agents
-        for module_name, agent in self.module_agents.items():
+        for agent in self.module_agents.values():
             if len(agent.replay_buffer) >= self.config.batch_size:
                 await self._train_module_agent(agent, episode_results)
 
-    async def _train_module_agent(self, agent: ConsciousnessModuleAgent, episode_results: dict[str, Any]) -> None:
+    async def _train_module_agent(self, agent: ConsciousnessModuleAgent, _episode_results: dict[str, Any]) -> None:
         """Train individual consciousness module agent"""
 
         # Sample experiences from module's replay buffer

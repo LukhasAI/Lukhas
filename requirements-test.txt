@@ -44,3 +44,6 @@ pytest-html>=4.1.0
 
 # Database Testing
 pytest-postgresql>=5.0.0
+
+# Type stubs for third-party libraries
+types-redis>=4.0.0

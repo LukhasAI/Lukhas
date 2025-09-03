@@ -17,7 +17,7 @@ import pickle
 import random
 from collections import deque, namedtuple
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 import torch
@@ -114,6 +114,11 @@ class ConsciousnessReplayBuffer:
             "🧠 ConsciousnessReplayBuffer initialized: capacity=%d, alpha=%.2f, beta=%.2f", capacity, alpha, beta
         )
 
+        # Background task tracking: keep strong refs to asyncio tasks created by this buffer
+        # prevents them from being garbage-collected and silences linter warnings.
+        # Type: set[asyncio.Task]
+        self._background_tasks = set()
+
     @instrument("AWARENESS", label="rl:experience_store", capability="rl:memory")
     def store(
         self,
@@ -160,7 +165,12 @@ class ConsciousnessReplayBuffer:
 
         # Integrate with memory fold system
         if self.memory_system:
-            asyncio.create_task(self._integrate_with_memory_system(experience))
+            # Create background task and keep a strong reference to avoid GC
+            task = asyncio.create_task(self._integrate_with_memory_system(experience))
+            self._background_tasks.add(task)
+
+            # Remove task from the set when done to avoid unbounded growth
+            task.add_done_callback(lambda t: self._background_tasks.discard(t))
 
         self.position = (self.position + 1) % self.capacity
         self.total_experiences += 1

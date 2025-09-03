@@ -152,6 +152,8 @@ class LUKHASAuthIntegrationSystem:
             active_alerts=[],
             last_checked=datetime.now(timezone.utc),
         )
+        # Background monitor task reference (created when initialize() runs)
+        self._monitor_task: Optional[asyncio.Task] = None
 
         # Alert thresholds
         self.alert_thresholds = {
@@ -213,7 +215,7 @@ class LUKHASAuthIntegrationSystem:
             # Perform initial health check
             await self._update_health_status()
 
-            # Start background monitoring
+            # Start background monitoring and keep a reference to avoid GC
             self._monitor_task = asyncio.create_task(self._background_monitoring())
 
             self.health_status.overall_status = "healthy"

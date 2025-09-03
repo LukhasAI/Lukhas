@@ -21,14 +21,14 @@ from .policy_networks import (
 )
 
 __all__ = [
-    "ConsciousnessPolicy",
-    "ConsciousnessValueNetwork",
-    "ConsciousnessActorCritic",
-    "ConsciousnessAttention",
-    "ReflectionModule",
-    "EthicalConstraintModule",
-    "ConsciousnessEnvironment",
-    "ConsciousnessState",
     "ConsciousnessAction",
     "ConsciousnessActionType",
+    "ConsciousnessActorCritic",
+    "ConsciousnessAttention",
+    "ConsciousnessEnvironment",
+    "ConsciousnessPolicy",
+    "ConsciousnessState",
+    "ConsciousnessValueNetwork",
+    "EthicalConstraintModule",
+    "ReflectionModule",
 ]

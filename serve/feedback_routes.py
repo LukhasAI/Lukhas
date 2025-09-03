@@ -95,7 +95,7 @@ async def capture_feedback(request: FeedbackRequest):
 
     except Exception as e:
         logger.error(f"Error capturing feedback: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @router.post("/batch", response_model=list[FeedbackResponse])
@@ -172,7 +172,7 @@ async def get_learning_report(user_id: str):
 
     except Exception as e:
         logger.error(f"Error generating learning report: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @router.get("/metrics", response_model=SystemMetricsResponse)
@@ -198,7 +198,7 @@ async def get_system_metrics():
 
     except Exception as e:
         logger.error(f"Error getting system metrics: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @router.post("/trigger-learning")
@@ -229,7 +229,7 @@ async def trigger_learning(background_tasks: BackgroundTasks):
 
     except Exception as e:
         logger.error(f"Error triggering learning: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 async def run_learning_cycle(cards):

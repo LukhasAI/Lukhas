@@ -94,9 +94,10 @@ class IdentityImportBridge:
                 if new_path not in self._cache:
                     self._cache[new_path] = importlib.import_module(new_path)
                 return self._cache[new_path]
-            except ImportError as e:
-                logger.error(f"Failed to import {new_path}: {e}")
-                raise ImportError(f"Cannot import {old_path} (mapped to {new_path})") from e
+            except ImportError as err:
+                logger.error(f"Failed to import {new_path}: {err}")
+                # Re-raise using the bound exception
+                raise ImportError(f"Cannot import {old_path} (mapped to {new_path})") from err
 
         # For submodules, create a bridge
         return IdentitySubmoduleBridge(f"identity.{name}")

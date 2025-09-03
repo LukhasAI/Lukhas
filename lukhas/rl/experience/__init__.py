@@ -13,8 +13,8 @@ from .consciousness_buffer import (
 )
 
 __all__ = [
-    "ConsciousnessReplayBuffer",
-    "EpisodicConsciousnessBuffer",
     "ConsciousnessExperience",
     "ConsciousnessMemoryPriorities",
+    "ConsciousnessReplayBuffer",
+    "EpisodicConsciousnessBuffer",
 ]

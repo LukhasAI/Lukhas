@@ -18,11 +18,11 @@ from .experience.consciousness_buffer import ConsciousnessReplayBuffer
 
 __version__ = "0.1.0"
 __all__ = [
+    "ConsciousnessActorCritic",
     "ConsciousnessEnvironment",
     "ConsciousnessPolicy",
-    "ConsciousnessValueNetwork",
-    "ConsciousnessActorCritic",
     "ConsciousnessReplayBuffer",
+    "ConsciousnessValueNetwork",
     "MultiAgentConsciousnessTrainer",
 ]
 

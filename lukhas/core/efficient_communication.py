@@ -174,10 +174,9 @@ class EventBus:
     Lightweight event bus for coordination and discovery
     Optimized for minimal broker load
     """
-
     def __init__(self) -> None:
-        self.subscribers: dict[str, list[Callable]] = defaultdict(list)
-        self.message_queue: asyncio.Queue = asyncio.Queue(maxsize=1000)
+        self.subscribers: dict[str, list[Callable[..., Any]]] = defaultdict(list)
+        self.message_queue: asyncio.Queue[Message] = asyncio.Queue(maxsize=1000)
         self.stats = {
             "messages_published": 0,
             "messages_delivered": 0,
@@ -185,22 +184,29 @@ class EventBus:
             "average_latency": 0.0,
         }
         self._running = False
+        # Track background tasks to avoid them being GC'd while running
+        self._bg_tasks: set[asyncio.Task[Any]] = set()
 
     async def start(self) -> None:
         """Start the event bus"""
         self._running = True
         self._processor_task = asyncio.create_task(self._process_messages())
+        try:
+            self._bg_tasks.add(self._processor_task)
+            self._processor_task.add_done_callback(lambda t: self._bg_tasks.discard(t))
+        except Exception:
+            pass
         logger.info("Event bus started")
 
     async def stop(self) -> None:
         """Stop the event bus"""
         self._running = False
 
-    def subscribe(self, event_type: str, handler: Callable) -> None:
+    def subscribe(self, event_type: str, handler: Callable[..., Any]) -> None:
         """Subscribe to events of a specific type"""
         self.subscribers[event_type].append(handler)
 
-    def unsubscribe(self, event_type: str, handler: Callable) -> None:
+    def unsubscribe(self, event_type: str, handler: Callable[..., Any]) -> None:
         """Unsubscribe from events"""
         if handler in self.subscribers[event_type]:
             self.subscribers[event_type].remove(handler)
@@ -250,11 +256,17 @@ class EventBus:
         for handler in handlers:
             task = asyncio.create_task(self._safe_handle(handler, message))
             delivery_tasks.append(task)
+            # Keep a strong reference to avoid GC while handler runs
+            try:
+                self._bg_tasks.add(task)
+                task.add_done_callback(lambda t: self._bg_tasks.discard(t))
+            except Exception:
+                pass
 
         if delivery_tasks:
             await asyncio.gather(*delivery_tasks, return_exceptions=True)
 
-    async def _safe_handle(self, handler: Callable, message: Message) -> None:
+    async def _safe_handle(self, handler: Callable[..., Any], message: Message) -> None:
         """Safely execute a message handler"""
         try:
             if asyncio.iscoroutinefunction(handler):

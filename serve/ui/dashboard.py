@@ -504,7 +504,8 @@ DASHBOARD_HTML = """
         <div class="card">
             <h2>🔄 Run Workflow</h2>
             <div class="workflow-input">
-                <input type="text" id="workflowRequest" placeholder="e.g., Summarize my travel documents from Gmail and Dropbox">
+          <input type="text" id="workflowRequest" placeholder="e.g., Summarize my travel documents from Gmail"
+              " and Dropbox">                                                                 
                 <button class="btn" onclick="runWorkflow()">Execute</button>
             </div>
         </div>
@@ -567,26 +568,26 @@ DASHBOARD_HTML = """
 
 
 @app.get("/")
-async def home():
+async def home() -> HTMLResponse:
     """Login page"""
     return HTMLResponse(content=LOGIN_HTML)
 
 
 @app.get("/dashboard")
-async def dashboard():
+async def dashboard() -> HTMLResponse:
     """Main dashboard"""
     return HTMLResponse(content=DASHBOARD_HTML)
 
 
 @app.post("/api/register")
-async def register(request: LoginRequest):
+async def register(request: LoginRequest) -> dict[str, Any]:
     """Register user with ΛID"""
     result = identity_service.register_user(email=request.email, display_name=request.display_name or request.email)
     return result
 
 
 @app.post("/api/authenticate")
-async def authenticate(request: PasskeyAuthRequest):
+async def authenticate(request: PasskeyAuthRequest) -> dict[str, Any]:
     """Authenticate with passkey"""
     result = identity_service.authenticate(lid=request.lid, method="passkey", credential=request.credential)
 
@@ -603,7 +604,7 @@ async def authenticate(request: PasskeyAuthRequest):
 
 
 @app.post("/api/consent/grant")
-async def grant_consent(request: ConsentRequest):
+async def grant_consent(request: ConsentRequest) -> dict[str, Any]:
     """Grant consent for resource access"""
     consent = consent_ledger.grant_consent(
         lid=request.lid,
@@ -617,14 +618,14 @@ async def grant_consent(request: ConsentRequest):
 
 
 @app.post("/api/consent/revoke")
-async def revoke_consent(lid: str, consent_id: str):
+async def revoke_consent(lid: str, consent_id: str) -> dict[str, Any]:
     """Revoke consent"""
     success = consent_ledger.revoke_consent(consent_id, lid)
     return {"revoked": success}
 
 
 @app.post("/api/workflow/execute")
-async def execute_workflow(request: WorkflowRequest):
+async def execute_workflow(request: WorkflowRequest) -> dict[str, Any]:
     """Execute workflow with transparency"""
 
     # Create workflow pipeline
@@ -647,13 +648,13 @@ async def execute_workflow(request: WorkflowRequest):
 
 
 @app.get("/api/workflow/status/{workflow_id}")
-async def get_workflow_status(workflow_id: str):
+async def get_workflow_status(workflow_id: str) -> dict[str, Any]:
     """Get workflow status"""
     return orchestrator.get_workflow_status(workflow_id)
 
 
 @app.post("/api/feedback/submit")
-async def submit_feedback(feedback: FeedbackSubmission):
+async def submit_feedback(feedback: FeedbackSubmission) -> dict[str, Any]:
     """Submit user feedback"""
     feedback.timestamp = datetime.now(timezone.utc).isoformat()
     feedback_storage.append(feedback.dict())
@@ -672,7 +673,7 @@ async def submit_feedback(feedback: FeedbackSubmission):
 
 
 @app.get("/api/feedback/summary")
-async def get_feedback_summary():
+async def get_feedback_summary() -> dict[str, Any]:
     """Get feedback summary"""
     if not feedback_storage:
         return {"average_rating": 0, "total_feedback": 0}
@@ -686,7 +687,7 @@ async def get_feedback_summary():
 
 
 @app.get("/api/metrics")
-async def get_metrics():
+async def get_metrics() -> dict[str, Any]:
     """Get system metrics"""
     perf_metrics = orchestrator.get_performance_metrics()
 
@@ -704,7 +705,7 @@ async def get_metrics():
 
 
 @app.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: str):
+async def websocket_endpoint(websocket: WebSocket, client_id: str) -> None:
     """WebSocket for real-time updates"""
     await manager.connect(websocket, client_id)
 
@@ -719,14 +720,14 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
 
 
 @app.get("/logout")
-async def logout():
+async def logout() -> HTMLResponse:
     """Logout endpoint"""
     return HTMLResponse(content="<script>localStorage.clear(); location.href='/';</script>")
 
 
 # Privacy Dashboard Extension
 @app.get("/privacy")
-async def privacy_dashboard():
+async def privacy_dashboard() -> HTMLResponse:
     """Privacy and consent management dashboard"""
     privacy_html = """
     <!DOCTYPE html>

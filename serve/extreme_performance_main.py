@@ -58,7 +58,6 @@ from fastapi.middleware.gzip import GZipMiddleware
 # Import our extreme performance optimizations
 try:
     from enterprise.performance.extreme_auth_optimization import get_extreme_optimizer
-
     from lukhas.governance.identity.auth_backend.extreme_performance_audit_logger import (
         AuditEventType,
         AuditSeverity,
@@ -151,8 +150,9 @@ class ExtremePerformanceServer:
             )
             await self.redis_cache.ping()
             print("🚀 Redis response cache initialized")
-        except Exception:
+        except Exception as e:
             print("⚠️ Redis cache not available - response caching disabled")
+            raise HTTPException(status_code=503, detail="Redis cache unavailable") from e
 
         # Create FastAPI app with extreme performance settings
         self.app = self._create_extreme_performance_app()

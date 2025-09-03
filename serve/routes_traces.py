@@ -41,7 +41,7 @@ def validate_trace_id(trace_id: str) -> None:
     try:
         # Attempt to parse as UUID to validate format
         uuid.UUID(trace_id)
-    except ValueError:
+    except ValueError as e:
         raise HTTPException(
             status_code=400,
             detail={
@@ -50,7 +50,7 @@ def validate_trace_id(trace_id: str) -> None:
                 "field": "trace_id",
                 "value": trace_id,
             },
-        )
+        ) from e
 
 
 def require_api_key(x_api_key: Optional[str] = Header(default=None)) -> str:
