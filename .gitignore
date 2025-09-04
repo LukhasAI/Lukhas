@@ -106,6 +106,7 @@ logs/
 .git-agent-backups/
 
 # Virtual environments
+.venv
 .venv/
 venv/
 env/
