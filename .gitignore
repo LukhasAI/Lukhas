@@ -204,6 +204,10 @@ agent_temp_*
 jules_temp_*
 codex_temp_*
 claude_temp_*
+.venv_runtime_test/
+.copilot_notes/
+test-results.xml
+
 
 # Agent duplicate detection
 agent_outputs/file_index.json
