@@ -32,10 +32,10 @@ except ImportError as e:
 
     # Create stub classes for graceful degradation
     class MultiAIOrchestrator:
-        def __init__(self, **kwargs):
+        def __init__(self, **_kwargs):
             self.providers = []
 
-        async def execute_consensus(self, prompt: str, **kwargs):
+        async def execute_consensus(self, _prompt: str, **_kwargs):
             return {
                 "response": "Multi-AI orchestration not configured",
                 "confidence": 0.5,
@@ -150,10 +150,12 @@ async def multi_ai_chat(request: MultiAIRequest):
         # Convert string providers to AIProvider enums
         providers = []
         if request.providers:
+            valid = {p.value for p in AIProvider}
             for provider_name in request.providers:
-                try:
-                    providers.append(AIProvider(provider_name.lower()))
-                except ValueError:
+                name = provider_name.lower()
+                if name in valid:
+                    providers.append(AIProvider(name))
+                else:
                     logger.warning("Unknown provider: %s", provider_name)
 
         # Convert task type
@@ -253,16 +255,15 @@ async def compare_providers(request: MultiAIRequest):
         consensus_result = await orchestrator.orchestrate(orchestration_request)
 
         # Build individual responses
-        individual_responses = []
-        for response in consensus_result.individual_responses:
-            individual_responses.append(
-                ProviderResponse(
-                    provider=response.provider.value,
-                    content=response.content,
-                    confidence=response.confidence,
-                    latency_ms=response.latency_ms,
-                )
+        individual_responses = [
+            ProviderResponse(
+                provider=response.provider.value,
+                content=response.content,
+                confidence=response.confidence,
+                latency_ms=response.latency_ms,
             )
+            for response in consensus_result.individual_responses
+        ]
 
         return {
             "consensus": {
@@ -376,8 +377,8 @@ async def direct_provider_chat(provider: str, request: MultiAIRequest):
         # Validate provider
         try:
             ai_provider = AIProvider(provider.lower())
-        except ValueError:
-            raise HTTPException(status_code=400, detail=f"Unknown provider: {provider}")
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=f"Unknown provider: {provider}") from e
 
         # Create single-provider request
         orchestration_request = OrchestrationRequest(
