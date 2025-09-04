@@ -9,9 +9,9 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+from pydantic import BaseModel
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
-from pydantic import BaseModel
 
 # Import other agents' components (absolute imports; no sys.path hacks)
 from core.identity.lambda_id_core import LukhasIdentityService
