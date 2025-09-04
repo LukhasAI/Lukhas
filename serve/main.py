@@ -23,9 +23,9 @@ except ImportError:
 try:
     from enterprise.observability.instantiate import obs_stack
 except Exception:  # pragma: no cover - optional enterprise package
+
     class _ObsStack:
         opentelemetry_enabled = False
-
 
     obs_stack = _ObsStack()
 
