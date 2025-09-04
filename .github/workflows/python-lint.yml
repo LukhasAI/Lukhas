@@ -3,17 +3,17 @@ name: Python Lint (lane-local)
 on:
   pull_request:
     paths:
-      - 'serve/**'
-      - 'tests/contract/**'
-      - '.github/workflows/python-lint.yml'
-      - 'Makefile'
+      - "serve/**"
+      - "tests/contract/**"
+      - ".github/workflows/python-lint.yml"
+      - "Makefile"
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'serve/**'
-      - 'tests/contract/**'
-      - '.github/workflows/python-lint.yml'
-      - 'Makefile'
+      - "serve/**"
+      - "tests/contract/**"
+      - ".github/workflows/python-lint.yml"
+      - "Makefile"
 
 jobs:
   check:

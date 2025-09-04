@@ -103,11 +103,11 @@ async def trace_health(storage: TraceStorageProvider = None):
     description="Retrieve recent traces with optional filtering by level or tag",
 )
 async def get_recent_traces(
-    limit: int = 10,
+    limit: int = 50,
     level: Optional[int] = None,
     tag: Optional[str] = None,
-    api_key: str = Depends(require_api_key),
-    storage: TraceStorageProvider = Depends(get_trace_storage_provider),
+    _api_key: str = Depends(require_api_key),
+    storage: TraceStorageProvider = Depends(get_trace_storage_provider),  # noqa: B008
 ) -> list[ExecutionTraceResponse]:
     """
     Retrieve recent traces with optional filtering.
@@ -149,7 +149,7 @@ async def get_recent_traces(
             try:
                 response = ExecutionTraceResponse(**trace_data)
                 responses.append(response)
-            except Exception as e:  # PERF203: intentional: tolerate malformed items; expires=2026-03-01
+            except Exception as e:  # noqa: PERF203  # tolerate malformed traces; expires=2026-03-01
                 logger.warning(f"Skipping malformed trace {trace_data.get('trace_id', 'unknown')}: {e}")
                 continue
 
@@ -191,8 +191,8 @@ async def get_recent_traces(
 )
 async def get_trace(
     trace_id: str,
-    api_key: str = Depends(require_api_key),
-    storage: TraceStorageProvider = Depends(get_trace_storage_provider),
+    _api_key: str = Depends(require_api_key),
+    storage: TraceStorageProvider = Depends(get_trace_storage_provider),  # noqa: B008
 ) -> Union[ExecutionTraceResponse, JSONResponse]:
     """
     Retrieve a trace by its unique identifier.

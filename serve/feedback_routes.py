@@ -127,7 +127,7 @@ async def capture_batch_feedback(requests: list[FeedbackRequest]):
                 )
             )
 
-        except Exception as e:  # PERF203: intentional: tolerate malformed items; expires=2026-03-01
+        except Exception as e:  # noqa: PERF203  # intentional per-item tolerance; expires=2026-03-01
             logger.error(f"Error capturing feedback for action {request.action_id}: {e}")
             # Continue processing other feedback
 
