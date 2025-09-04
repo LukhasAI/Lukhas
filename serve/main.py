@@ -127,6 +127,7 @@ def voice_core_available() -> bool:
     # minimal, import-only probe
     try:  # PERF203: reason=lightweight voice readiness probe; no heavy imports; added=2025-09-04; expires=2026-03-01
         import lukhas.bridge.voice as _  # probe import only; no side effects
+
         return True
     except Exception:
         return False
@@ -143,7 +144,7 @@ def healthz() -> dict[str, Any]:
     """
     status: dict[str, Any] = {"status": "ok"}
 
-    required = os.getenv("LUKHAS_VOICE_REQUIRED", "false").lower() == "true"
+    required = os.getenv("LUKHAS_VOICE_REQUIRED", "false").strip().lower() == "true"
     voice_ok = voice_core_available()
     status["voice_mode"] = "normal" if voice_ok else "degraded"
     if required and not voice_ok:
