@@ -34,6 +34,7 @@ jobs:
 
       - name: Ruff (scoped to changed lanes)
         run: |
+          echo "Running ruff on: serve/main.py tests/contract"
           # Lint only the minimal entrypoint and contract tests to keep required gate tiny
           ruff check serve/main.py tests/contract
 
