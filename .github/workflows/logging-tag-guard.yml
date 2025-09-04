@@ -24,11 +24,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          BASE="${{ github.base_ref || 'main' }}"
-          git fetch --no-tags origin "+refs/heads/${BASE}:refs/remotes/origin/${BASE}" || true
-          if CHANGED="$(git diff --name-only "origin/${BASE}...${GITHUB_SHA}")" && [ -n "$CHANGED" ]; then
-            :
-          else
+          BASE="${{ github.event.pull_request.base.sha || github.event.before || 'HEAD~1' }}"
+          HEAD="${{ github.sha }}"
+          git fetch --no-tags --depth=2 origin "${{ github.base_ref || 'main' }}" || true
+          CHANGED="$(git diff --name-only "${BASE}...${HEAD}" || true)"
+          if [ -z "$CHANGED" ]; then
             CHANGED=$(printf "%s\n" serve tests/contract)
           fi
           echo "$CHANGED" | tr ' ' '\n' | sed '/^$/d' | while read -r f; do
@@ -37,7 +37,7 @@ jobs:
               *) continue ;;
             esac
             if rg -n 'logger\.(info|warning|error|debug)\(.*ΛTAG=' -S -- "$f"; then
-              echo "Disallowed logging kwarg 'ΛTAG=' found in $f; use formatted string fields instead." >&2
+              echo "Disallowed logging kwarg 'ΛTAG=' found in $f; use formatted fields instead." >&2
               exit 1
             fi
           done
