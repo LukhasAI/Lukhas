@@ -184,7 +184,10 @@
       "Read(/Users/agi_dev/LOCAL-REPOS/**)",
       "Read(/Users/agi_dev/LOCAL-REPOS/15_CHANNELS/**)",
       "Read(/Users/agi_dev/LOCAL-REPOS/15_CHANNELS/**)",
-      "Read(/Users/agi_dev/LOCAL-REPOS/15_CHANNELS/**)"
+      "Read(/Users/agi_dev/LOCAL-REPOS/15_CHANNELS/**)",
+      "Bash(npm update)",
+      "Bash(uv pip install:*)",
+      "Bash(ollama list:*)"
     ],
     "deny": [],
     "ask": []

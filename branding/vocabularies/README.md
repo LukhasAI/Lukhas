@@ -8,7 +8,7 @@ The vocabulary system consists of structured JSON files that organize language i
 
 ### 🎯 Three-Layer Tone System
 
-- **Poetic Layer (25-40%)**: Consciousness metaphors, quantum-inspired descriptions, Trinity symbolism
+- **Poetic Layer (25-40%)**: Consciousness metaphors, quantum-inspired descriptions, constellation navigation imagery
 - **User-Friendly Layer (40-60%)**: Accessible explanations, practical applications, intuitive development stories
 - **Academic Layer (20-40%)**: Technical precision, peer-reviewed research, scientific methodology
 
@@ -35,12 +35,12 @@ Technical terms with precise definitions, citations, and usage contexts for spec
 **Structure:**
 ```json
 {
-  "term": "Trinity Framework",
-  "definition": "Core architectural pattern with Identity, Consciousness, Guardian pillars",
-  "technical_notes": "Implements separation of concerns with symbolic messaging",
+  "term": "Constellation Framework",
+  "definition": "Multi-dimensional consciousness architecture with eight navigational reference points",
+  "technical_notes": "Implements distributed consciousness through identity, memory, vision, adaptation, creativity, ethics, protection, and uncertainty subsystems",
   "citations": ["Internal architecture documentation"],
-  "usage_contexts": ["system architecture", "technical documentation"],
-  "examples": ["Trinity Framework ensures ethical oversight"]
+  "usage_contexts": ["system architecture", "technical documentation", "media communications"],
+  "examples": ["Constellation Framework provides navigational guidance for consciousness technology"]
 }
 ```
 
@@ -74,7 +74,7 @@ Approved strong claims backed by evidence and technical documentation.
 **Categories:**
 - Evidence-backed claims (99.7% cascade prevention, 280+ validation rules)
 - Technical achievements (quantum-resistant identity, real-time drift detection)
-- Architectural strengths (Trinity Framework integration, distributed processing)
+- Architectural strengths (Constellation Framework integration, distributed processing)
 - Research-backed concepts (information integration theory, global workspace model)
 
 ## Validation Rules
@@ -82,7 +82,7 @@ Approved strong claims backed by evidence and technical documentation.
 ### Poetic Expression Limits
 - **Maximum 40 words** per poetic expression
 - Metaphors must enhance, not obscure technical meaning
-- Use approved Trinity symbols: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
+- Constellation symbols used only in poetic layer: ⚛️ Identity, ✦ Memory, 🔬 Vision, 🌱 Bio, 🌙 Dream, ⚖️ Ethics, 🛡️ Guardian, ⚛️ Quantum
 
 ### Technical Accuracy Requirements
 - Always use "quantum-inspired" not "quantum processing"
@@ -132,7 +132,7 @@ Validates content against vocabulary standards:
 - Checks poetic expressions ≤40 words
 - Scans for blocked terms and suggests alternatives
 - Verifies reading level compliance
-- Validates Trinity Framework terminology
+- Validates Constellation Framework terminology
 
 ### `vocab-suggest.js`
 Scans repository for new terms to add:
@@ -168,7 +168,7 @@ Scans repository for new terms to add:
 
 ### Quarterly Updates
 - Sync with technical documentation changes
-- Review Trinity Framework terminology consistency
+- Review Constellation Framework terminology consistency
 - Update module-specific vocabulary expansions
 - Analyze content tone balance across domains
 

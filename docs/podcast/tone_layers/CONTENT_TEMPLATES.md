@@ -78,7 +78,7 @@ Every piece of podcast content can be expressed through three complementary tone
 *"Imagine AI that remembers how you like your information presented, understands when you're stressed or excited, and never suggests anything that goes against your values. That's consciousness technology."*
 
 #### **📚 Technical Opening**
-*"LUKHAS AI represents a paradigm shift from pattern-matching to consciousness-inspired architectures, implementing persistent identity, adaptive learning, and integrated ethics to create measurably superior AI systems for human collaboration."*
+*"LUKHAS AI represents a new way of seeing from pattern-matching to consciousness-inspired architectures, implementing persistent identity, adaptive learning, and integrated ethics to create measurably superior AI systems for human collaboration."*
 
 ### **Addressing Skepticism**
 
@@ -125,7 +125,7 @@ Every piece of podcast content can be expressed through three complementary tone
 #### **Opening Hook (2 minutes - Poetic Focus)**
 - Consciousness metaphors and vision
 - Human-AI collaboration future
-- Sacred technology serving humanity
+- intimately human, technologically precise serving humanity
 
 #### **Technical Deep Dive (8 minutes - Academic Focus)**
 - VIVOX architecture explanation
@@ -147,7 +147,7 @@ Every piece of podcast content can be expressed through three complementary tone
 #### **Act 1: Vision and Context (15 minutes - Poetic Heavy)**
 - Personal journey into consciousness research
 - Philosophical foundations of beneficial AI
-- Sacred technology and human aspirations
+- intimately human, technologically precise and human aspirations
 
 #### **Act 2: Technical Architecture (20 minutes - Academic Heavy)**
 - Deep dive into consciousness systems

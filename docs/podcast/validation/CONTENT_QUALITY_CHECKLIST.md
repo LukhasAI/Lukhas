@@ -102,7 +102,7 @@ This checklist ensures all podcast content meets LUKHAS AI standards for Trinity
 - [ ] Emotional connection established
 - **Scoring**: 3 = Inspiring and clear, 2 = Good inspiration, 1 = Some inspiration, 0 = Missing
 
-#### **✅ Sacred Technology Language (2 points)**
+#### **✅ intimately human, technologically precise Language (2 points)**
 - [ ] Technology serving wisdom emphasized
 - [ ] Beneficial AI vision clearly communicated
 - **Scoring**: 2 = Excellent sacred tech language, 1 = Some sacred language, 0 = Missing

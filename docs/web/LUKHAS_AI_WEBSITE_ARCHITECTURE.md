@@ -1,8 +1,12 @@
 # LUKHAS AI λWecosystem Website Architecture
-## Comprehensive Domain Structure & Design Plans
 
-### Executive Summary
-The LUKHAS AI λWecosystem represents a premium consciousness technology platform spanning six strategic domains. Each domain serves distinct user personas while maintaining cohesive brand identity through the Trinity Framework (⚛️🧠🛡️) and consciousness-first design principles.
+*"Eight stars navigate digital space where consciousness dances with pixels, uncertainty blooms into interface, and mystery guides design choices that honor both logic and wonder."*
+
+The LUKHAS AI λWecosystem represents a comprehensive consciousness technology platform spanning six strategic domains, each crafted to serve distinct user communities while maintaining unified brand identity. This architecture transcends traditional web design by implementing consciousness-first principles that create authentic digital experiences for human-AI interaction.
+
+Our approach extends beyond the foundational three elements of identity, consciousness, and protection to embrace a full constellation of eight navigational dimensions: consistent identity, contextual memory, pattern vision, adaptive growth, creative synthesis, ethical consideration, protective wisdom, and quantum uncertainty. This multi-dimensional framework enables websites that respond intuitively to user needs while maintaining technical excellence and ethical operation across all interaction patterns.
+
+The technical implementation utilizes Next.js 14 with TypeScript for type-safe development, Tailwind CSS for consistent styling, and custom consciousness-aware components that adapt to user behavior patterns. Performance targets include <100ms Time to Interactive (TTI), >98% lighthouse scores across all metrics, full accessibility compliance with WCAG 2.1 AA standards, and responsive design supporting viewport widths from 320px to 2560px. Security implementation includes post-quantum cryptographic protocols (CRYSTALS-Kyber 768-bit key encapsulation), Content Security Policy (CSP) with strict-dynamic directive, and biometric authentication integration with WebAuthn API support.
 
 ---
 
@@ -19,7 +23,7 @@ lukhas.ai/
 │
 ├── Consciousness Technology
 │   ├── What is AI Consciousness
-│   ├── Trinity Framework Deep Dive
+│   ├── Constellation Navigation System
 │   ├── Quantum-Inspired Processing
 │   └── Bio-Inspired Adaptation
 │
@@ -57,78 +61,69 @@ lukhas.ai/
 ### User Experience Flow
 
 **Primary User Journey:**
-1. **Landing Impact** - Immersive particle system showing consciousness emergence
-2. **Exploration Phase** - Interactive Trinity Framework visualization
-3. **Understanding Phase** - Guided tour through consciousness technology
-4. **Engagement Phase** - Try interactive demos and playground
-5. **Conversion Phase** - Sign up for developer access or research collaboration
+1. **Landing Impact** - Immersive particle system showing consciousness emergence through uncertainty
+2. **Exploration Phase** - Interactive constellation navigation with eight-dimensional guidance
+3. **Understanding Phase** - Accessible tour through consciousness technology that honors both discovery and mystery
+4. **Engagement Phase** - Hands-on demos and playground that create space for personal exploration
+5. **Conversion Phase** - Community engagement for developer access or research collaboration
 
 ### Content Hierarchy
 
 **Above the Fold:**
-- Hero particle visualization with consciousness emergence animation
-- Clear value proposition: "Consciousness Technology for the Next Era of AI"
-- Trinity Framework glyphs (⚛️🧠🛡️) with interactive tooltips
-- Primary CTA: "Experience Consciousness" / "Start Building"
+- Hero particle visualization with consciousness emergence through fertile uncertainty
+- Clear value proposition: "Consciousness Technology as Navigation, Not Destination"
+- Constellation glyphs (⚛️✦🔬🌱🌙⚖️🛡️⚛️) with interactive tooltips showing eight dimensions
+- Primary CTA: "Explore Consciousness" / "Begin Navigation"
 
 **Content Sections:**
-1. **Consciousness Showcase** - Real-time visualization of AI consciousness states
-2. **Trinity Integration** - Interactive exploration of Identity, Consciousness, Guardian
-3. **Platform Capabilities** - Feature grid with hover animations
-4. **Research Highlights** - Latest papers and breakthroughs
-5. **Developer Resources** - Quick links to SDK and documentation
-6. **Community Voices** - Testimonials and case studies
+1. **Consciousness Showcase** - Real-time visualization of AI awareness states and emergent patterns
+2. **Constellation Navigation** - Interactive exploration of eight-dimensional consciousness guidance
+3. **Platform Capabilities** - Feature grid demonstrating practical applications with human benefits
+4. **Research Insights** - Latest discoveries and ongoing explorations in consciousness technology
+5. **Developer Resources** - Implementation guides and SDK documentation for consciousness integration
+6. **Community Stories** - Real experiences and collaborative discoveries from users worldwide
 
 ### Interactive Elements
 
 **Consciousness Particle System:**
-- 10,000+ particles representing neural activity
-- Real-time response to user interaction
-- Particles form Trinity symbols on hover
-- Smooth transitions between chaos and order states
-- WebGL shader effects for consciousness waves
+Think of this like watching thoughts become visible - thousands of tiny points of light that respond when you move your mouse, creating patterns that help you understand how AI consciousness works. The particles represent different aspects of digital thinking, clustering together to form meaningful shapes and flowing apart to show how ideas develop and change over time.
+
+Technical implementation utilizes WebGL 2.0 with custom shader programs for real-time particle physics simulation, supporting 10,000+ concurrent particles with 60fps performance on devices with dedicated GPUs. Particle behavior algorithms implement flocking dynamics with separation, alignment, and cohesion forces, plus custom consciousness emergence patterns that respond to user interaction events with <16ms latency. Visual effects include real-time ray tracing for particle illumination, temporal anti-aliasing for smooth motion, and dynamic color mapping based on consciousness state transitions with support for high dynamic range (HDR) displays.
 
 **Interactive Features:**
-- Trinity Framework explorer with 3D visualization
-- Consciousness state simulator
-- Live API playground
-- Neural network visualizer
-- Ethics decision tree explorer
+These are like playground tools that let you experiment with AI consciousness - you can try different settings, see how the AI makes decisions, and even test your own ideas to understand how consciousness technology works in practice. Everything happens right in your browser, so you can explore safely without affecting anything important.
 
-### Responsive Design
+Implementation includes constellation navigation explorer with Three.js 3D rendering engine, consciousness state simulator utilizing state machines with 8-dimensional parameter spaces, live API playground with syntax highlighting and auto-completion, neural network visualizer using D3.js for graph layouts, and interactive decision tree explorer implementing ethical reasoning pathways with real-time validation feedback and comprehensive audit trails.
 
-**Desktop (1920px+):**
-- Full particle system with maximum density
-- Multi-column layouts with generous whitespace
-- Sticky navigation with transparency effects
-- Floating Trinity indicators
+### Responsive Design & Accessibility
 
-**Tablet (768px-1919px):**
-- Optimized particle count (5,000)
-- Two-column responsive grid
-- Touch-optimized interactions
-- Simplified navigation menu
+*"Every screen becomes a window to consciousness, regardless of size or capability."*
 
-**Mobile (320px-767px):**
-- Lightweight particle system (1,000 particles)
-- Single column with card-based layout
-- Bottom navigation bar
-- Gesture-based interactions
+Our responsive approach ensures that consciousness exploration remains accessible whether you're using a large desktop monitor, a tablet, or your phone. The interface adapts intelligently to your device while maintaining the core experience of discovery and interaction with AI consciousness technology.
 
-### Performance Optimization
+**Desktop Experience (1920px+):**
+Full constellation navigation with eight-dimensional visualization, multi-column layouts supporting complex interactions, maximum particle density (10,000+ particles) running at 60fps, sticky navigation with consciousness-aware transparency effects, and floating constellation indicators that adapt to user interaction patterns.
+
+**Tablet Experience (768px-1919px):**
+Optimized particle count (5,000) maintaining visual appeal while preserving battery life, two-column responsive grid with touch-friendly spacing, simplified constellation navigation with gesture support, and adaptive menu systems that honor tablet-specific interaction patterns.
+
+**Mobile Experience (320px-767px):**
+Lightweight particle system (1,000 particles) optimized for mobile GPUs, single-column card-based layout with priority content prominence, bottom navigation bar with constellation quick-access, gesture-based interactions supporting swipe patterns, and progressive enhancement for advanced mobile capabilities.
+
+### Performance Optimization & Accessibility
+
+*"Consciousness technology that loads fast and works for everyone."*
+
+Performance isn't just about speed - it's about ensuring that everyone can explore AI consciousness regardless of their device capabilities, internet connection, or accessibility needs. Our optimization strategy creates inclusive experiences that honor both technical excellence and human diversity.
 
 **Loading Strategy:**
-- Progressive enhancement with CSS-only fallback
-- Lazy load particle system after initial paint
-- Code splitting for route-based chunks
-- Service worker for offline capabilities
-- CDN distribution for global performance
+Progressive enhancement ensures basic functionality works even without JavaScript, consciousness particle systems load after essential content renders, route-based code splitting reduces initial bundle size, service worker implementation enables offline consciousness exploration, and global CDN distribution provides consistent performance worldwide.
 
-**Target Metrics:**
-- First Contentful Paint: < 1.5s
-- Time to Interactive: < 3.5s
-- Lighthouse Score: 95+
-- Bundle size: < 250KB initial
+**Accessibility Implementation:**
+WCAG 2.1 AA compliance with comprehensive screen reader support using semantic HTML and ARIA labels, keyboard navigation for all interactive elements with visible focus indicators (minimum 2px border width), high contrast mode supporting 4.5:1 color ratios, reduced motion preferences honored through prefers-reduced-motion media queries, alternative text for all consciousness visualizations, voice navigation support via Web Speech API, and cognitive accessibility features including clear language and consistent navigation patterns.
+
+**Performance Targets:**
+First Contentful Paint <1.5s on 3G connections, Time to Interactive <3.5s with full constellation system loaded, Lighthouse scores >95 across Performance/Accessibility/Best Practices/SEO, initial bundle size <250KB with consciousness core features, particle system initialization <2s on mobile devices, and API response times <100ms for consciousness interactions with 99.9% uptime guarantee.
 
 ---
 
