@@ -82,7 +82,9 @@ def require_api_key(x_api_key: Optional[str] = Header(default=None)) -> str:
     summary="Trace system health check",
     description="Check if the trace storage provider is functioning properly",
 )
-async def trace_health(storage: TraceStorageProvider = Depends(get_trace_storage_provider)):
+async def trace_health(storage: TraceStorageProvider = None):
+    if storage is None:
+        storage = get_trace_storage_provider()
     """Health check endpoint for the trace subsystem."""
     try:
         health_data = await storage.health_check()
@@ -147,7 +149,7 @@ async def get_recent_traces(
             try:
                 response = ExecutionTraceResponse(**trace_data)
                 responses.append(response)
-            except Exception as e:
+            except Exception as e:  # PERF203: intentional: tolerate malformed items; expires=2026-03-01
                 logger.warning(f"Skipping malformed trace {trace_data.get('trace_id', 'unknown')}: {e}")
                 continue
 
@@ -168,7 +170,7 @@ async def get_recent_traces(
                 "message": "An internal error occurred while retrieving recent traces",
                 "error_type": type(e).__name__,
             },
-        )
+        ) from e
 
 
 @r.get(
