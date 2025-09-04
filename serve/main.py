@@ -124,12 +124,11 @@ if guardian_router is not None:
 
 # Lightweight voice probe: try to import voice subsystem modules; return False if unavailable
 def voice_core_available() -> bool:
-    try:
-        # import-time probe only; do not trigger heavy initialization
-        __import__("voice_core")
+    # minimal, import-only probe
+    try:  # PERF203: reason=lightweight voice readiness probe; no heavy imports; added=2025-09-04; expires=2026-03-01
+        import lukhas.bridge.voice as _  # probe import only; no side effects
         return True
     except Exception:
-        # PERF203: intentional simple import probe pattern
         return False
 
 
