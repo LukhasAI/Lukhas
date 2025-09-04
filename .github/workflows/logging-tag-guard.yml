@@ -2,7 +2,11 @@ name: Logging Tag Guard
 
 on:
   pull_request:
-    branches: [ main ]
+    paths:
+      - 'serve/**'
+      - 'tests/contract/**'
+      - '.github/workflows/logging-tag-guard.yml'
+      - 'Makefile'
 
 jobs:
   guard:
