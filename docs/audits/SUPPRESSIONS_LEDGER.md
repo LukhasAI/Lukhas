@@ -18,3 +18,4 @@ This ledger records intentional lint/analysis suppressions, rationale, owner, an
 	owner: @gonzalo
 	added: 2025-09-04
 	expires: 2026-03-01
+	line: 128
