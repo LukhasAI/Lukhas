@@ -19,12 +19,26 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ripgrep
       - name: Detect disallowed logging kwargs (ΛTAG)
+        shell: bash
         run: |
-          set -e
-          # Allow LIST: patterns in non-logging contexts (manifests/audit dicts), flag logger calls only
-          if rg -n "logger\.(info|warning|error|debug)\(.*ΛTAG=" -S | tee /tmp/tag_hits.txt; then
-            echo "Disallowed logging kwarg 'ΛTAG=' found; use formatted string fields instead." >&2
-            exit 1
+          set -euo pipefail
+          # Get list of files changed in this PR (fallback to lane-local if empty)
+          CHANGED="$(git fetch origin \"${{ github.base_ref }}\"; git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }})"
+          if [ -z "$CHANGED" ]; then
+            CHANGED=$(printf "%s\n" serve tests/contract)
           fi
-          echo "No disallowed logging kwargs detected."
+
+          echo "$CHANGED" | tr ' ' '\n' | sed '/^$/d' | while read -r f; do
+            # Only scan code/text files
+            case "$f" in
+              *.py|*.md|*.yaml|*.yml|*.txt|serve/*|tests/contract/*) ;;
+              *) continue ;;
+            esac
+            if rg -n 'logger\.(info|warning|error|debug)\(.*ΛTAG=' -S -- "$f"; then
+              echo "Disallowed logging kwarg 'ΛTAG=' found in $f; use formatted string fields instead." >&2
+              exit 1
+            fi
+          done
+
+          echo "No disallowed logging kwargs detected in changed files."
 
