@@ -1,29 +1,26 @@
-import os
-
+import pytest
 from fastapi.testclient import TestClient
 
-import serve.main as sm
+CASES = [
+    # (required_env, probe_ok, expected_mode, expect_voice_in_degraded)
+    ("false", True, "normal", False),  # success path
+    (" TRUE ", False, "degraded", True),  # required + whitespace/casing + fail -> degraded_reasons carries "voice"
+    ("false", False, "degraded", False),  # not required + fail -> NO degraded_reasons["voice"]
+]
 
 
-def test_healthz_success_path(monkeypatch):
-    monkeypatch.setenv("LUKHAS_VOICE_REQUIRED", "false")
-    monkeypatch.setattr(sm, "voice_core_available", lambda: True, raising=True)
+@pytest.mark.parametrize("required_env,probe_ok,expected_mode,expect_voice_flag", CASES)
+def test_healthz_voice_matrix(monkeypatch, required_env, probe_ok, expected_mode, expect_voice_flag):
+    monkeypatch.setenv("LUKHAS_VOICE_REQUIRED", required_env)
+    monkeypatch.setattr("serve.main.voice_core_available", lambda: probe_ok)
 
-    client = TestClient(sm.app)
+    from serve.main import app
+    client = TestClient(app)
     r = client.get("/healthz")
     assert r.status_code == 200
-    body = r.json()
-    assert body.get("voice_mode") == "normal"
-    assert "degraded_reasons" not in body
 
-
-def test_healthz_required_casing_and_whitespace(monkeypatch):
-    monkeypatch.setenv("LUKHAS_VOICE_REQUIRED", "  TRUE  ")
-    monkeypatch.setattr(sm, "voice_core_available", lambda: False, raising=True)
-
-    client = TestClient(sm.app)
-    r = client.get("/healthz")
-    assert r.status_code == 200
-    body = r.json()
-    assert body.get("voice_mode") == "degraded"
-    assert "degraded_reasons" in body and "voice" in body["degraded_reasons"]
+    data = r.json()
+    assert data["voice_mode"] == expected_mode
+    reasons = data.get("degraded_reasons", [])
+    has_voice = isinstance(reasons, list) and ("voice" in reasons)
+    assert has_voice == expect_voice_flag
