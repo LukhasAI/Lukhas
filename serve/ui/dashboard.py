@@ -532,7 +532,7 @@ DASHBOARD_HTML = """
                 </div>
                 <input type="hidden" id="ratingValue" value="0">
                 <textarea id="feedbackComment" placeholder="Additional comments (optional)"
-                          style="width:100%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:6px;"></textarea>  # noqa: E501
+                          style="width:100%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:6px;"></textarea>
                 <button class="btn" onclick="submitFeedback()">Submit Feedback</button>
             </div>
         </div>
@@ -736,12 +736,12 @@ async def privacy_dashboard() -> HTMLResponse:
         <title>LUKHAS AI - Privacy Dashboard</title>
         <style>
             /* Reuse styles from main dashboard */
-            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f7fafc; }  # noqa: E501
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f7fafc; }
             .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; }
             .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
-            .card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }  # noqa: E501
+            .card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
             .btn-danger { background: #f56565; }
-            .consent-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #e2e8f0; }  # noqa: E501
+            .consent-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #e2e8f0; }
         </style>
     </head>
     <body>
