@@ -505,7 +505,7 @@ DASHBOARD_HTML = """
             <h2>🔄 Run Workflow</h2>
             <div class="workflow-input">
           <input type="text" id="workflowRequest" placeholder="e.g., Summarize my travel documents from Gmail"
-              " and Dropbox">                                                                 
+              " and Dropbox">
                 <button class="btn" onclick="runWorkflow()">Execute</button>
             </div>
         </div>
