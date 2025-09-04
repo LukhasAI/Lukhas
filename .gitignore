@@ -288,3 +288,4 @@ LUKHAS_BRANDING_CONSOLIDATED.*
 lukhas_branding_consolidated.*
 consolidate_branding.py
 memory/protection/sanctum_vault/*.vault
+# test artifacts
