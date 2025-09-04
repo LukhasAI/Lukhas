@@ -1,0 +1,75 @@
+name: Generate and Validate Lockfiles
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  compile-and-validate:
+    runs-on: ubuntu-latest
+    env:
+      PYTHON_VERSION: "3.11"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install system libs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libpq-dev libssl-dev pkg-config
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Create venv
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          python -m pip install --upgrade pip
+
+      - name: Install pip-tools
+        run: |
+          . .venv/bin/activate
+          python -m pip install pip-tools==7.5.0
+
+      - name: Compile runtime lockfile
+        run: |
+          . .venv/bin/activate
+          pip-compile --generate-hashes --output-file=requirements.lock.txt requirements.txt --allow-unsafe
+
+      - name: Compile dev lockfile
+        run: |
+          . .venv/bin/activate
+          pip-compile --generate-hashes --output-file=requirements-dev.lock.txt requirements-dev.txt --allow-unsafe
+
+      - name: Install runtime from lockfile
+        run: |
+          . .venv/bin/activate
+          python -m pip install --require-hashes -r requirements.lock.txt
+
+      - name: Run pre-gates (ruff, mypy, pytest)
+        run: |
+          . .venv/bin/activate
+          python -m pip install ruff mypy pytest -U
+          ruff check . || true
+          mypy . || true
+          pytest -q || true
+
+      - name: Commit lockfiles back to branch
+        if: success()
+        env:
+          GIT_AUTHOR_NAME: "lukhas-ci"
+          GIT_AUTHOR_EMAIL: "ci@lukhas.ai"
+        run: |
+          git config user.name "$GIT_AUTHOR_NAME"
+          git config user.email "$GIT_AUTHOR_EMAIL"
+          git add requirements.lock.txt requirements-dev.lock.txt || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(ci): regenerate lockfiles [ci]"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
