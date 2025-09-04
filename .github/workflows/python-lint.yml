@@ -1,26 +1,41 @@
-name: Python Lint
+name: Python Lint (lane-local)
 
 on:
   pull_request:
+    paths:
+      - 'serve/**'
+      - 'tests/contract/**'
+      - '.github/workflows/python-lint.yml'
+      - 'Makefile'
+  push:
     branches: [ main ]
+    paths:
+      - 'serve/**'
+      - 'tests/contract/**'
+      - '.github/workflows/python-lint.yml'
+      - 'Makefile'
 
 jobs:
-  lint:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install linters
+
+      - name: Install deps (ruff, pytest, mypy, minimal app deps)
         run: |
           python -m pip install --upgrade pip
-          pip install ruff mypy
-      - name: Ruff (lane-local: serve + contract tests)
-        run: |
-          # Narrow linting to only the minimal lanes touched by this change to avoid blocking PRs
-          ruff check serve tests/contract || true
-      - name: MyPy (lenient, lane-local)
-        run: |
-          # Run a lenient mypy only on the serve entry to catch obvious issues without requiring full workspace typing
-          mypy serve/main.py --ignore-missing-imports --no-error-summary || true
+          pip install ruff pytest mypy fastapi uvicorn
+
+      - name: Ruff (lane-local)
+        run: ruff check serve tests/contract
+
+      - name: Tests (contract only)
+        run: pytest -q tests/contract --maxfail=1 --disable-warnings
+
+      - name: Mypy (scoped)
+        run: mypy --follow-imports=skip --ignore-missing-imports serve/main.py
