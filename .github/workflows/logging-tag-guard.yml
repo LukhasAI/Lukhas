@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Install ripgrep
         run: |
           sudo apt-get update
@@ -22,14 +24,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # Get list of files changed in this PR (fallback to lane-local if empty)
-          CHANGED="$(git fetch origin \"${{ github.base_ref }}\"; git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }})"
-          if [ -z "$CHANGED" ]; then
+          BASE="${{ github.base_ref || 'main' }}"
+          git fetch --no-tags origin "+refs/heads/${BASE}:refs/remotes/origin/${BASE}" || true
+          if CHANGED="$(git diff --name-only "origin/${BASE}...${GITHUB_SHA}")" && [ -n "$CHANGED" ]; then
+            :
+          else
             CHANGED=$(printf "%s\n" serve tests/contract)
           fi
-
           echo "$CHANGED" | tr ' ' '\n' | sed '/^$/d' | while read -r f; do
-            # Only scan code/text files
             case "$f" in
               *.py|*.md|*.yaml|*.yml|*.txt|serve/*|tests/contract/*) ;;
               *) continue ;;
@@ -39,6 +41,5 @@ jobs:
               exit 1
             fi
           done
-
           echo "No disallowed logging kwargs detected in changed files."
 
