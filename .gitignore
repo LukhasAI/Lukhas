@@ -91,6 +91,7 @@ dist/
 *.log
 logs/
 *.out
+.lintvenv/
 
 # Backup files
 *.bak
