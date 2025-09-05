@@ -45,6 +45,45 @@ from .agi_service_initializer import (
     initialize_agi_system,
 )
 
+from .qi_bio_agi_bridge import (
+    QIBioAGIBridge,
+    ProcessingMode,
+    ProcessingContext,
+    IntegrationResult,
+    IntegrationMetrics,
+    qi_bio_agi_bridge,
+    hybrid_process,
+    register_agi_for_integration,
+    initialize_qi_bio_agi_systems,
+    get_qi_bio_agi_status,
+)
+
+from .agi_modulation_bridge import (
+    AGIModulationBridge,
+    AGIModulationMode,
+    AGIModulationParams,
+    agi_modulation_bridge,
+    register_agi_for_modulation,
+    emit_agi_signal,
+    apply_signal_modulation,
+    get_agi_modulation_status,
+    start_homeostatic_regulation,
+)
+
+from .consent_privacy_constitutional_bridge import (
+    ConsentPrivacyConstitutionalBridge,
+    ConsentStatus,
+    PrivacyLevel,
+    ConsentRecord,
+    PrivacyContext,
+    ConstitutionalContext,
+    consent_privacy_constitutional_bridge,
+    register_agi_for_governance,
+    check_operation_governance,
+    validate_consent_for_operation,
+    get_governance_status,
+)
+
 __all__ = [
     # Vocabulary Integration
     "VocabularyIntegrationService",
@@ -71,4 +110,40 @@ __all__ = [
     "AGIServiceConfiguration", 
     "agi_initializer",
     "initialize_agi_system",
+    
+    # QI-Bio-AGI Integration
+    "QIBioAGIBridge",
+    "ProcessingMode",
+    "ProcessingContext", 
+    "IntegrationResult",
+    "IntegrationMetrics",
+    "qi_bio_agi_bridge",
+    "hybrid_process",
+    "register_agi_for_integration",
+    "initialize_qi_bio_agi_systems",
+    "get_qi_bio_agi_status",
+    
+    # AGI Modulation
+    "AGIModulationBridge",
+    "AGIModulationMode",
+    "AGIModulationParams",
+    "agi_modulation_bridge",
+    "register_agi_for_modulation",
+    "emit_agi_signal",
+    "apply_signal_modulation",
+    "get_agi_modulation_status",
+    "start_homeostatic_regulation",
+    
+    # Consent/Privacy/Constitutional
+    "ConsentPrivacyConstitutionalBridge",
+    "ConsentStatus",
+    "PrivacyLevel",
+    "ConsentRecord",
+    "PrivacyContext", 
+    "ConstitutionalContext",
+    "consent_privacy_constitutional_bridge",
+    "register_agi_for_governance",
+    "check_operation_governance",
+    "validate_consent_for_operation",
+    "get_governance_status",
 ]

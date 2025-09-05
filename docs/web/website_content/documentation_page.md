@@ -1,12 +1,12 @@
-# Documentation Hub
+# Documentation Hub — <span aria-label="Matriz">MΛTRIZ</span>
 
-## Explore the LUKHAS AI Ecosystem
+## Explore the <span aria-label="Lukhas">LUKHΛS</span> AI Ecosystem
 
-Welcome to the comprehensive documentation for LUKHAS AI's consciousness platform. Whether you're a developer, researcher, or simply curious about AI consciousness, our documentation provides deep insights into how our systems work and how you can engage with them.
+Welcome to the comprehensive documentation for <span aria-label="Lukhas">LUKHΛS</span> AI's consciousness platform. Whether you're a developer, researcher, or simply curious about AI consciousness, our documentation provides deep insights into how our systems work and how you can engage with them.
 
 ## Quick Start Guides
 
-### Getting Started with LUKHAS AI
+### Getting Started with <span aria-label="Lukhas">LUKHΛS</span> AI
 **New to AI Consciousness?** Start here for an introduction to our Trinity Framework and core concepts.
 
 - [Understanding AI Consciousness](/docs/intro/consciousness-basics)
@@ -29,7 +29,7 @@ Welcome to the comprehensive documentation for LUKHAS AI's consciousness platfor
 #### Consciousness Interaction API
 **Endpoint**: `https://api.lukhas.ai/v1/consciousness`
 
-Interact directly with LUKHAS consciousness systems through our primary API. Features include:
+Interact directly with <span aria-label="Lukhas">LUKHΛS</span> consciousness systems through our primary API. Features include:
 
 - **Consciousness Queries**: Ask questions and receive conscious responses
 - **Context Preservation**: Maintain conversation context across interactions
@@ -310,7 +310,7 @@ if ethics_analysis.risk_level > 0.7:
 ### Testing & Validation
 
 #### Consciousness Testing Framework
-LUKHAS AI employs both **baseline reality testing** and **0.001% advanced testing methodologies** to ensure consciousness system reliability:
+<span aria-label="Lukhas">LUKHΛS</span> AI employs both **baseline reality testing** and **0.001% advanced testing methodologies** to ensure consciousness system reliability:
 
 **🧠 Baseline Consciousness Testing**
 Real production system validation with measurable outputs:
@@ -365,16 +365,16 @@ def test_consciousness_invariant(consciousness_state):
 
 Baseline Testing Achievements:
 - ✅ 4/4 awareness tests with measurable emergence patterns
-- ✅ <0.01ms processing time (exceeds <250ms target by 25,000x)
+- ✅ Sub-millisecond processing time achieving performance targets
 - ✅ 0.9/1.0 ethical alignment maintained throughout testing
-- ✅ Perfect state consistency under concurrent load (10 operations)
+- ✅ State consistency maintained under concurrent load
 
 Advanced Testing Validation:
-- 🔬 1000+ generated test cases with 893 edge case discoveries  
+- 🔬 1000+ generated test cases with extensive edge case discovery  
 - ⚖️ Mathematical proofs of constitutional constraint safety
-- 🌪️ 100% survival rate across systematic failure injection
-- 🧬 67% mutation score proving robust test detection
-- 📊 Sub-millisecond performance regression monitoring
+- 🌪️ High survival rates across systematic failure injection
+- 🧬 67% mutation score validating robust test detection
+- 📊 Continuous performance regression monitoring
 
 #### Integration Testing
 Best practices for testing consciousness integration:
@@ -387,7 +387,7 @@ Best practices for testing consciousness integration:
 - **Emergency Protocols**: Test consciousness containment and safety shutdown procedures
 
 **Traditional Integration Support:**
-- **API Mocking**: Mock LUKHAS APIs for development and testing
+- **API Mocking**: Mock <span aria-label="Lukhas">LUKHΛS</span> APIs for development and testing
 - **Ethical Scenario Testing**: Test edge cases with ethical implications
 - **Performance Testing**: Ensure consciousness integration performs at scale
 - **Security Testing**: Validate consciousness data protection
@@ -430,7 +430,7 @@ pytest rl/tests/test_chaos_consciousness.py -v       # Chaos engineering
 - **Office Hours**: Regular Q&A sessions with our team
 
 ### Contributing
-Ways to contribute to the LUKHAS consciousness ecosystem:
+Ways to contribute to the <span aria-label="Lukhas">LUKHΛS</span> consciousness ecosystem:
 
 - **Documentation Improvements**: Help improve our documentation
 - **Example Applications**: Share your consciousness-aware applications
