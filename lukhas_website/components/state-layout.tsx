@@ -123,8 +123,8 @@ export default function StateLayout({ children }: StateLayoutProps) {
     }
   }, [currentState])
 
-  // Early return for app routes - they handle their own layout
-  if (isAppRoute) {
+  // Early return for app routes and showcase - they handle their own layout
+  if (isAppRoute || pathname === '/showcase') {
     return <>{children}</>
   }
 
