@@ -4,8 +4,6 @@ Agent 5: User Experience & Feedback Specialist
 Implements passkey login, workflow transparency, feedback collection
 """
 
-# ruff: noqa: I001  -- import-order in this UI module is maintained for readability; waiver expires 2025-10-01
-
 import os
 import uuid
 from datetime import datetime, timezone
