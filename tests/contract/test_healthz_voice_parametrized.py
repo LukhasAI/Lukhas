@@ -1,3 +1,4 @@
+"""Contract tests for /healthz voice probe."""
 import pytest
 from fastapi.testclient import TestClient
 
