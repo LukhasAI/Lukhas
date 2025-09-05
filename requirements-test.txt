@@ -47,3 +47,13 @@ pytest-postgresql>=5.0.0
 
 # Type stubs for third-party libraries
 types-redis>=4.0.0
+
+# Advanced Testing Dependencies (0.001% Methodology)
+hypothesis>=6.108.0       # Property-based testing framework
+z3-solver>=4.12.0         # Formal verification and theorem proving
+mutmut>=2.4.0            # Mutation testing framework  
+
+# Optional advanced testing dependencies
+# Install with: pip install -r requirements-test.txt[advanced]
+# pytest-property>=0.7.0   # Additional property-based testing tools
+# pytest-benchmark>=4.0.0  # Already included above

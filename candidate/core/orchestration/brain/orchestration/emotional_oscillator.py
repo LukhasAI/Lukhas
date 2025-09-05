@@ -23,7 +23,7 @@ which includes prime harmonics, entanglement-like correlation, and tensor collap
 
 import numpy as np
 
-from governance_extended.compliance_hooks import compliance_drift_detect
+from governance.extended.compliance_hooks import compliance_drift_detect
 
 
 class EmotionalOscillator:

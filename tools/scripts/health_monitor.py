@@ -64,11 +64,11 @@ class SystemHealthMonitor:
                         with open(file_path, encoding="utf-8") as f:
                             content = f.read()
 
-                        if "<<<<<<< HEAD" in content:
-                            conflict_count = content.count("<<<<<<< HEAD")
-                            conflicts.append(
-                                {"file": file_path, "conflicts": conflict_count}
-                            )
+                        # Detect real merge conflict blocks: must contain both start and end markers
+                        if "<<<<<<<" in content and ">>>>>>>" in content:
+                            # Count occurrences of conflict starts for reporting
+                            conflict_count = content.count("<<<<<<< HEAD") if "<<<<<<< HEAD" in content else content.count("<<<<<<<")
+                            conflicts.append({"file": file_path, "conflicts": conflict_count})
                     except BaseException:
                         pass
 
@@ -223,22 +223,20 @@ Generated: {self.health_status['timestamp']}
 ## Overall Status: {self.health_status['overall']}
 
 ## 🚨 Critical Issues
-- Merge Conflicts: {self.health_status['merge_conflicts']} files
-- Syntax Errors: {len(self.health_status['syntax_errors'])} files
-- Missing Entry Point: {'YES' if './main.py' in self.health_status['missing_files'] else 'NO'}
 
 ## 📊 Module Health
 """
 
-        for module, status in self.health_status["modules"].items():
+        for module, status in self.health_status.get("modules", {}).items():
             emoji = "✅" if status.get("health") == "HEALTHY" else "❌"
-            report += f"\n##"description']}\n"
+            module_desc = status.get("description", module)
+            report += f"\n## {module} — {module_desc}\n"
 
-            if status["exists"]:
-                report += f"- Python Files: {status['py_files']}\n"
-                report += f"- Has __init__.py: {'✅' if status['has_init'] else '❌'}\n"
-                report += f"- Has Tests: {'✅' if status['has_tests'] else '❌'}\n"
-                report += f"- Has Docs: {'✅' if status['has_docs'] else '❌'}\n"
+            if status.get("exists"):
+                report += f"- Python Files: {status.get('py_files', 0)}\n"
+                report += f"- Has __init__.py: {'✅' if status.get('has_init') else '❌'}\n"
+                report += f"- Has Tests: {'✅' if status.get('has_tests') else '❌'}\n"
+                report += f"- Has Docs: {'✅' if status.get('has_docs') else '❌'}\n"
             else:
                 report += "- MODULE MISSING!\n"
 

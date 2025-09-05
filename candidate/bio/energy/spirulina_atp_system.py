@@ -34,7 +34,7 @@ class EnergySource(Enum):
 
     SPIRULINA_PHOTOSYNTHETIC = "spirulina_photosynthetic"
     ATP_SYNTHESIS = "atp_synthesis"
-    QUANTUM_TUNNELING = "quantum_tunneling"
+    QI_TUNNELING = "qi_tunneling"
     HYBRID_COMBINED = "hybrid_combined"
 
 
@@ -46,7 +46,7 @@ class EnergyMetrics:
     storage_density_j_per_cm3: float = 0.0
     thermal_efficiency: float = 0.0
     charge_retention_rate: float = 0.0
-    quantum_tunneling_efficiency: float = 0.0
+    qi_tunneling_efficiency: float = 0.0
     golden_ratio_distribution: float = 0.0
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -91,7 +91,7 @@ class SpirulinaPhotosynthethicEngine:
         """RESEARCH: 0.3 pJ/bit via quantum tunneling in synthetic thylakoid membranes"""
 
         # Simulate quantum tunneling in thylakoid membranes
-        tunneling_efficiency = self._simulate_quantum_tunneling(quantum_input)
+        tunneling_efficiency = self._simulate_qi_tunneling(quantum_input)
 
         # Calculate photosynthetic energy yield
         base_yield = self.photosynthetic_yield_rate * surface_area_cm2
@@ -105,7 +105,7 @@ class SpirulinaPhotosynthethicEngine:
 
         return optimized_yield
 
-    def _simulate_quantum_tunneling(self, quantum_input: float) -> float:
+    def _simulate_qi_tunneling(self, quantum_input: float) -> float:
         """RESEARCH: Quantum tunneling simulation in thylakoid membranes"""
 
         # Simplified quantum tunneling model (in production would use quantum mechanics simulation)
@@ -326,7 +326,7 @@ class SpirulinaATPHybridSystem:
             storage_density_j_per_cm3=9.8 * storage_result["storage_efficiency"],
             thermal_efficiency=self.spirulina_engine.distribution_efficiency,
             charge_retention_rate=storage_result["retention_rate"],
-            quantum_tunneling_efficiency=self.spirulina_engine.thylakoid_quantum_efficiency,
+            qi_tunneling_efficiency=self.spirulina_engine.thylakoid_quantum_efficiency,
             golden_ratio_distribution=self.spirulina_engine.distribution_efficiency,
             timestamp=datetime.now(timezone.utc),
         )

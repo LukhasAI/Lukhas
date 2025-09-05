@@ -579,12 +579,12 @@ _extreme_server: Optional[ExtremePerformanceServer] = None
 
 
 @asynccontextmanager
-async def lifespan(_app: FastAPI):  # underscore to silence ARG001
+async def lifespan(_: FastAPI):
     """FastAPI lifespan manager for extreme performance server"""
     global _extreme_server
 
     # Startup
-    _extreme_server = ExtremePerformanceServer()  # underscore to silence ARG001
+    _extreme_server = ExtremePerformanceServer()
     await _extreme_server.startup()
 
     yield

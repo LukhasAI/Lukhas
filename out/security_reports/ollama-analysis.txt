@@ -1,0 +1,6 @@
+🛡️ LUKHAS Security Analyzer (Ollama-powered)
+==================================================
+⚠️ pip-audit not available or failed
+⚠️ safety not available or failed
+
+✅ No vulnerabilities found!

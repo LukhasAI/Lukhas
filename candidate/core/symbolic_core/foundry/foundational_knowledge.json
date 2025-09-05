@@ -1,0 +1,102 @@
+{
+  "consciousness": {
+    "definition": "The state of being aware of and able to think about one's existence, sensations, thoughts, and surroundings",
+    "related": ["awareness", "self-awareness", "cognition", "experience", "qualia"]
+  },
+  "emotion": {
+    "definition": "A complex psychological state involving subjective experience, physiological response, and behavioral expression",
+    "related": ["feeling", "affect", "mood", "sentiment", "valence", "arousal"]
+  },
+  "memory": {
+    "definition": "The faculty by which information is encoded, stored, and retrieved",
+    "related": ["recall", "recognition", "encoding", "storage", "retrieval", "forgetting"]
+  },
+  "reasoning": {
+    "definition": "The process of thinking about something in a logical way to form a conclusion or judgment",
+    "related": ["logic", "inference", "deduction", "induction", "abduction", "problem-solving"]
+  },
+  "learning": {
+    "definition": "The acquisition of knowledge or skills through experience, study, or being taught",
+    "related": ["education", "training", "adaptation", "improvement", "knowledge-acquisition"]
+  },
+  "attention": {
+    "definition": "The behavioral and cognitive process of selectively concentrating on information while ignoring other perceivable information",
+    "related": ["focus", "concentration", "awareness", "vigilance", "selective-attention"]
+  },
+  "perception": {
+    "definition": "The organization, identification, and interpretation of sensory information",
+    "related": ["sensation", "recognition", "interpretation", "sensory-processing", "awareness"]
+  },
+  "creativity": {
+    "definition": "The use of imagination or original ideas to create something new or valuable",
+    "related": ["innovation", "imagination", "originality", "divergent-thinking", "inspiration"]
+  },
+  "intelligence": {
+    "definition": "The ability to acquire and apply knowledge and skills",
+    "related": ["cognition", "reasoning", "problem-solving", "learning", "adaptation"]
+  },
+  "language": {
+    "definition": "A structured system of communication using words, sounds, gestures, or symbols",
+    "related": ["communication", "linguistics", "semantics", "syntax", "pragmatics"]
+  },
+  "empathy": {
+    "definition": "The ability to understand and share the feelings of another",
+    "related": ["compassion", "sympathy", "understanding", "emotional-intelligence", "perspective-taking"]
+  },
+  "knowledge": {
+    "definition": "Facts, information, and skills acquired through experience or education",
+    "related": ["information", "understanding", "wisdom", "expertise", "learning"]
+  },
+  "belief": {
+    "definition": "An acceptance that something exists or is true, especially without proof",
+    "related": ["faith", "conviction", "opinion", "assumption", "worldview"]
+  },
+  "decision": {
+    "definition": "A conclusion or resolution reached after consideration",
+    "related": ["choice", "judgment", "selection", "determination", "conclusion"]
+  },
+  "goal": {
+    "definition": "An aim or desired result that a person or system envisions, plans, and commits to achieve",
+    "related": ["objective", "target", "purpose", "aim", "intention"]
+  },
+  "planning": {
+    "definition": "The process of making plans for something; deciding on actions in advance",
+    "related": ["strategy", "preparation", "organization", "scheduling", "goal-setting"]
+  },
+  "problem": {
+    "definition": "A matter or situation regarded as unwelcome or harmful and needing to be dealt with",
+    "related": ["challenge", "issue", "difficulty", "obstacle", "puzzle"]
+  },
+  "solution": {
+    "definition": "A means of solving a problem or dealing with a difficult situation",
+    "related": ["answer", "resolution", "remedy", "fix", "approach"]
+  },
+  "understanding": {
+    "definition": "The ability to comprehend; sympathetic awareness or tolerance",
+    "related": ["comprehension", "grasp", "insight", "knowledge", "awareness"]
+  },
+  "experience": {
+    "definition": "Practical contact with and observation of facts or events",
+    "related": ["knowledge", "skill", "expertise", "practice", "familiarity"]
+  },
+  "thought": {
+    "definition": "An idea or opinion produced by thinking or occurring suddenly in the mind",
+    "related": ["idea", "notion", "concept", "reflection", "cognition"]
+  },
+  "concept": {
+    "definition": "An abstract idea or general notion",
+    "related": ["idea", "notion", "principle", "theory", "abstraction"]
+  },
+  "mind": {
+    "definition": "The element of a person that enables them to be aware of the world and their experiences",
+    "related": ["consciousness", "psyche", "intellect", "cognition", "brain"]
+  },
+  "brain": {
+    "definition": "The organ inside the head that controls thought, memory, feelings, and activity",
+    "related": ["mind", "cognition", "neurology", "consciousness", "intelligence"]
+  },
+  "self": {
+    "definition": "A person's essential being that distinguishes them from others",
+    "related": ["identity", "ego", "consciousness", "personality", "individual"]
+  }
+}

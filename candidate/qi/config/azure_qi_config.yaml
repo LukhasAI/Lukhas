@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # Azure Quantum Configuration for LUKHAS AI - MacBook Air M1 Optimization
-=======
-# Azure Quantum Configuration for LUKHAS AI - MacBook Air M1 Optimization
->>>>>>> jules/ecosystem-consolidation-2025
 # This configuration offloads memory-intensive tasks to Azure cloud
 
 # Azure Quantum Service Configuration

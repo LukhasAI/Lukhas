@@ -26,7 +26,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from governance_extended.audit_logger import log_audit_event
+from governance.extended.audit_logger import log_audit_event
 
 COMPLIANCE_LOG_PATH = Path("../../logs/compliance/compliance_log_2025_04_28.json")
 

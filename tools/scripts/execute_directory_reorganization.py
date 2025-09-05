@@ -25,7 +25,7 @@ class DirectoryReorganizer:
             "learning": "memory/learning",
             "orchestration": "core/orchestration",
             "reasoning": "consciousness/reasoning",
-            "symbolic": "core/symbolic_legacy",
+            "symbolic": "core/symbolic_core",
             "voice": "bridge/voice",
         }
 
@@ -147,7 +147,7 @@ from symbolic import something
 # NEW
 from core.architectures import something
 from core.orchestration import something
-from core.symbolic_legacy import something
+from core.symbolic_core import something
 ```
 
 ### From root to consciousness module:
@@ -304,7 +304,7 @@ def main():
     print("  - learning → memory/learning")
     print("  - orchestration → core/orchestration")
     print("  - reasoning → consciousness/reasoning")
-    print("  - symbolic → core/symbolic_legacy")
+    print("  - symbolic → core/symbolic_core")
     print("  - voice → bridge/voice")
 
     print("\nDirectories to be archived:")

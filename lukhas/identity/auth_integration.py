@@ -93,7 +93,7 @@ class AuthenticationIntegration:
             raise
 
     async def _load_wallet_components(self) -> None:
-        """Load WALLET components from lambda_products_pack"""
+        """Load WALLET components from products.lambda_pack"""
         try:
             wallet_path = LAMBDA_CORE_PATH / "WALLET"
             if wallet_path.exists():
@@ -115,7 +115,7 @@ class AuthenticationIntegration:
             raise
 
     async def _load_qrg_components(self) -> None:
-        """Load QRG components from lambda_products_pack"""
+        """Load QRG components from products.lambda_pack"""
         try:
             qrg_path = LAMBDA_CORE_PATH / "QRG"
             if qrg_path.exists():

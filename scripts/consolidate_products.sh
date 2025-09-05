@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 # Consolidate product bundles into top-level products/ dir.
-# Usage:
-#   ./scripts/consolidate_products.sh        # dry-run only
-#   ./scripts/consolidate_products.sh --apply  # perform git mv operations
+# Usage (safe defaults):
+#   ./scripts/consolidate_products.sh                # dry-run only (default)
+#   ./scripts/consolidate_products.sh --apply --confirm  # actually perform git mv operations
+#
+# Notes:
+# - This script is conservative by default and will only print planned moves.
+# - To apply changes you must pass both --apply and --confirm to avoid accidental modifications.
 
 set -euo pipefail
 
@@ -12,12 +16,17 @@ if [ ! -f "$MANIFEST" ]; then
   MANIFEST="$REPO_ROOT/products/MANIFEST.md"
 fi
 DRY_RUN=true
+CONFIRM=false
 
 if [ "${1-}" = "--apply" ]; then
   DRY_RUN=false
 fi
 
-echo "Products consolidation script"
+if [ "${1-}" = "--confirm" ] || [ "${2-}" = "--confirm" ]; then
+  CONFIRM=true
+fi
+
+echo "Products consolidation script - dry-run by default"
 echo "Repo root: $REPO_ROOT"
 echo "Manifest: $MANIFEST"
 echo "Dry run: $DRY_RUN"
@@ -55,8 +64,13 @@ for entry in "${TO_MOVE[@]}"; do
 done
 
 if [ "$DRY_RUN" = true ]; then
-  echo "Dry run complete. Re-run with --apply to perform git mv operations."
+  echo "Dry run complete. Re-run with --apply --confirm to perform git mv operations."
   exit 0
+fi
+
+if [ "$CONFIRM" != true ]; then
+  echo "Apply requested but --confirm not provided. Aborting to avoid accidental moves." >&2
+  exit 3
 fi
 
 echo "Applying moves..."
@@ -67,14 +81,12 @@ for entry in "${TO_MOVE[@]}"; do
     continue
   fi
   if [ -e "$dest" ]; then
-    echo "Destination $dest already exists; merging content." >&2
-    # merge: create a temporary dir and move contents
-    tmpdir=$(mktemp -d)
-    git mv "$REPO_ROOT/$src" "$tmpdir/" || true
+    echo "Destination $dest already exists; merging content safely." >&2
+    # merge contents into destination using rsync to avoid partial git mv behavior
     mkdir -p "$dest"
-    mv "$tmpdir/$(basename "$src")"/* "$dest/" || true
-    rmdir "$tmpdir/$(basename "$src")" || true
-    rmdir "$tmpdir" || true
+    rsync -a --remove-source-files "$REPO_ROOT/$src/" "$dest/"
+    # remove empty source directory
+    find "$REPO_ROOT/$src" -type f -maxdepth 1 -print -quit | grep -q . || rmdir "$REPO_ROOT/$src" || true
   else
     mkdir -p "$(dirname "$dest")"
     git mv "$REPO_ROOT/$src" "$dest"

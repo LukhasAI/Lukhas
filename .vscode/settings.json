@@ -10,8 +10,8 @@
   // Formatter/Linter = Ruff
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll": "always",
-    "source.organizeImports": "always"
+    "source.fixAll.ruff": "always",
+    "source.organizeImports.ruff": "always"
   },
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff"
@@ -21,6 +21,8 @@
   },
   "ruff.enable": true,
   "ruff.organizeImports": true,
+  "ruff.path": ["${workspaceFolder}/.venv/bin/ruff"],
+  "ruff.interpreter": ["${workspaceFolder}/.venv/bin/python"],
 
   // Pylance type hints are fine, MyPy runs via CLI/CI
   "python.analysis.typeCheckingMode": "basic",

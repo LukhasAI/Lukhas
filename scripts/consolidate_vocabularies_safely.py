@@ -21,7 +21,7 @@ def analyze_vocabularies():
     vocab_dirs = [
         "core/symbolic",
         "symbolic/vocabularies",
-        "core/symbolic_legacy/vocabularies",
+        "core/symbolic_core/vocabularies",
         "branding/unified/vocabularies"
     ]
 

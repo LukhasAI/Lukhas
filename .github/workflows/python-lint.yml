@@ -55,7 +55,10 @@ jobs:
             echo "No changed .py files; skipping ruff."
             exit 0
           fi
-          echo "$CHANGED" | xargs -r -n1 ruff check --config pyproject.toml
+          echo "Running ruff on changed files:"
+          echo "$CHANGED"
+          # Run ruff once on the list so exit code is preserved and per-file-ignores in pyproject.toml are applied
+          ruff check --config pyproject.toml $CHANGED
       - name: Tests (contract only)
         run: pytest -q tests/contract --maxfail=1 --disable-warnings
       - name: Scoped mypy (optional)
