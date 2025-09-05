@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import CookiesBanner from '@/components/cookies-banner'
 import Quote from '@/components/Quote'
 import EssentialModeBanner from '@/components/essential-mode-banner'
@@ -19,15 +19,19 @@ interface StateLayoutProps {
 
 export default function StateLayout({ children }: StateLayoutProps) {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const isStudioRoute = pathname.startsWith('/studio')
   const isSettingsRoute = pathname.startsWith('/settings')
   const isAppRoute = isStudioRoute || isSettingsRoute
   
   // Check for skipState query parameter to bypass state machine
-  const skipState = typeof window !== 'undefined' && 
-    new URLSearchParams(window.location.search).get('skipState') === 'true'
+  const skipState = searchParams.get('skipState') === 'true'
+  
+  // Add all domain routes to bypass list
+  const domainRoutes = ['/ai', '/id', '/team', '/dev', '/io', '/store', '/cloud', '/eu', '/us', '/xyz', '/com']
+  const isDomainRoute = domainRoutes.includes(pathname)
     
-  const shouldSkip = isAppRoute || pathname === '/showcase' || skipState
+  const shouldSkip = isAppRoute || pathname === '/showcase' || skipState || (isDomainRoute && skipState)
   
   // Always declare ALL hooks first (Rules of Hooks)
   const [currentState, setCurrentState] = useState<LayoutState>('BOOT')
@@ -147,8 +151,8 @@ export default function StateLayout({ children }: StateLayoutProps) {
   }
   
   // Debug logging in development
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🎭 StateLayout:', { pathname, isAppRoute, isStudioRoute, currentState, consentGiven })
+  if (process.env.NODE_ENV === 'development' && !shouldSkip) {
+    console.log('🎭 StateLayout:', { pathname, isAppRoute, isStudioRoute, currentState, consentGiven, skipState, shouldSkip })
   }
 
   return (

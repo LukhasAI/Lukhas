@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import NeuralBackgroundWrapper from '@/components/neural-background-wrapper'
+import '@/styles/showcase.css'
 
 export default function ShowcasePage() {
   const router = useRouter()
@@ -39,17 +40,7 @@ export default function ShowcasePage() {
     <>
       <NeuralBackgroundWrapper mode="showcase" />
       {/* Showcase isolated container */}
-      <div 
-        className="showcase-isolated min-h-screen bg-gradient-to-br from-gray-900 via-blue-900/20 to-purple-900/20 p-8"
-        style={{ 
-          // Override aggressive global styles inline
-          display: 'block',
-          width: '100%',
-          minHeight: '100vh',
-          position: 'relative',
-          zIndex: 1
-        }}
-      >
+      <div className="showcase-container min-h-screen bg-gradient-to-br from-gray-900 via-blue-900/20 to-purple-900/20 p-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
@@ -64,32 +55,12 @@ export default function ShowcasePage() {
             </div>
           </div>
 
-          {/* Force Grid Layout */}
-          <div 
-            className="showcase-grid gap-6"
-            style={{ 
-              // Force grid display with inline styles to override globals
-              display: 'grid !important',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr)) !important',
-              gap: '1.5rem !important',
-              width: '100% !important',
-              margin: '0 auto !important',
-              maxWidth: 'none !important'
-            }}
-          >
+          {/* Domain Grid */}
+          <div className="showcase-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {domains.map((domain) => (
               <div
                 key={domain.key}
-                className="showcase-card bg-black/40 backdrop-blur-sm rounded-lg border border-white/10 hover:border-white/30 transition-all cursor-pointer group hover:scale-105 p-6"
-                style={{
-                  // Ensure cards don't expand full width
-                  display: 'block !important',
-                  width: '100% !important',
-                  maxWidth: '400px !important',
-                  minHeight: '200px !important',
-                  margin: '0 auto !important',
-                  position: 'relative !important'
-                }}
+                className="showcase-domain-card bg-black/40 backdrop-blur-sm rounded-lg border border-white/10 hover:border-white/30 transition-all cursor-pointer group hover:scale-105 p-6"
                 onClick={() => handleDomainClick(domain.key)}
               >
                 <div className="flex items-start justify-between mb-4">

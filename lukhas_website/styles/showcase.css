@@ -22,48 +22,21 @@
   z-index: 1;
 }
 
-/* Showcase grid - prevent full-width box issues */
+/* Showcase grid - clean Tailwind support */
 .showcase-grid {
-  /* Override any global grid conflicts */
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
-  gap: 2rem !important;
-  
-  /* Container sizing */
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  
-  /* Prevent box-sizing issues */
-  box-sizing: border-box !important;
-  
-  /* Force grid behavior */
-  place-items: stretch !important;
+  display: grid;
+  gap: 1.5rem;
+  width: 100%;
 }
 
-/* Domain cards - prevent full-width stretching */
+/* Domain cards - responsive grid items */
 .showcase-domain-card {
-  /* Reset any global box model issues */
-  display: block !important;
-  width: 100% !important;
-  max-width: 400px !important;
-  
-  /* Proper card sizing within grid */
-  min-height: 200px !important;
-  aspect-ratio: 1.3 / 1 !important;
-  
-  /* Reset any inherited positioning */
-  position: relative !important;
-  
-  /* Ensure proper spacing */
-  margin: 0 auto !important;
-  padding: 1.5rem !important;
-  box-sizing: border-box !important;
-  
-  /* Force card behavior */
-  flex-shrink: 0 !important;
-  justify-self: center !important;
+  display: block;
+  width: 100%;
+  min-height: 200px;
+  position: relative;
+  padding: 1.5rem;
+  box-sizing: border-box;
 }
 
 /* Text color resets - override globals.css !important rules */

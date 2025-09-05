@@ -111,14 +111,14 @@
     letter-spacing: 0.05em;
   }
 
-  /* Force text to be visible with important flag */
-  h1, h2, h3, h4, h5, h6, p, span, div, a, button, label, input, li, td, th {
-    color: rgb(255, 255, 255) !important;
+  /* Default text color - allow component overrides */
+  body {
+    color: rgb(255, 255, 255);
   }
 
-  /* Ensure all text elements are white by default */
-  * {
-    color: rgb(255, 255, 255);
+  /* Base text elements inherit from body - no !important */
+  h1, h2, h3, h4, h5, h6, p, span, div, a, button, label, input, li, td, th {
+    color: inherit;
   }
 
   /* Allow specific color overrides */
