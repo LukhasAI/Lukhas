@@ -22,12 +22,23 @@ export default function StateLayout({ children }: StateLayoutProps) {
   const isStudioRoute = pathname.startsWith('/studio')
   const isSettingsRoute = pathname.startsWith('/settings')
   const isAppRoute = isStudioRoute || isSettingsRoute
+  
+  // Check for skipState query parameter to bypass state machine
+  const skipState = typeof window !== 'undefined' && 
+    new URLSearchParams(window.location.search).get('skipState') === 'true'
+    
+  const shouldSkip = isAppRoute || pathname === '/showcase' || skipState
+  
+  // Always declare ALL hooks first (Rules of Hooks)
   const [currentState, setCurrentState] = useState<LayoutState>('BOOT')
   const [consentGiven, setConsentGiven] = useState(false)
   const [consentType, setConsentType] = useState<'none' | 'essential' | 'full'>('none')
 
   // Check if consent was already given and URL parameters
   useEffect(() => {
+    // Skip effect if we should bypass the state machine
+    if (shouldSkip) return
+    
     const storedConsent = localStorage.getItem('lukhas_cookie_consent')
     const storedType = localStorage.getItem('lukhas_cookie_type') as 'essential' | 'full' | null
 
@@ -41,10 +52,13 @@ export default function StateLayout({ children }: StateLayoutProps) {
     if (urlParams.get('mode') === 'marketing' && storedConsent) {
       setCurrentState('MARKETING_MODE')
     }
-  }, [])
+  }, [shouldSkip])
 
   // State machine transitions with timer-based flow
   useEffect(() => {
+    // Skip effect if we should bypass the state machine
+    if (shouldSkip) return
+    
     let timer: NodeJS.Timeout
 
     switch (currentState) {
@@ -72,7 +86,7 @@ export default function StateLayout({ children }: StateLayoutProps) {
     return () => {
       if (timer) clearTimeout(timer)
     }
-  }, [currentState])
+  }, [currentState, shouldSkip])
 
   // Handle quote animation completion
   const handleQuoteComplete = () => {
@@ -115,19 +129,23 @@ export default function StateLayout({ children }: StateLayoutProps) {
 
   // Apply state-based CSS classes to body
   useEffect(() => {
+    // Skip effect if we should bypass the state machine
+    if (shouldSkip) return
+    
     const className = `state-${currentState.toLowerCase()}`
     document.body.classList.add(className)
 
     return () => {
       document.body.classList.remove(className)
     }
-  }, [currentState])
+  }, [currentState, shouldSkip])
 
-  // Early return for app routes and showcase - they handle their own layout
-  if (isAppRoute || pathname === '/showcase') {
+
+  // Early return for app routes, showcase, and skipState AFTER all hooks are declared
+  if (shouldSkip) {
     return <>{children}</>
   }
-
+  
   // Debug logging in development
   if (process.env.NODE_ENV === 'development') {
     console.log('🎭 StateLayout:', { pathname, isAppRoute, isStudioRoute, currentState, consentGiven })

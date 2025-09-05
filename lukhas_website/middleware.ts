@@ -681,8 +681,8 @@ export async function middleware(request: NextRequest) {
     response.headers.set('X-Frame-Options', 'SAMEORIGIN'); // Allow same-origin for cross-domain features
     response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
     
-    // Domain-specific CSP if needed
-    const csp = `default-src 'self'; connect-src 'self' https://*.lukhas.ai https://*.lukhas.dev https://*.lukhas.id; img-src 'self' data: https://*.lukhas.ai;`;
+    // Domain-specific CSP - Allow necessary scripts for Next.js
+    const csp = `default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.lukhas.ai https://*.lukhas.dev https://*.lukhas.id; img-src 'self' data: https://*.lukhas.ai;`;
     response.headers.set('Content-Security-Policy', csp);
     
     return response;
