@@ -75,7 +75,7 @@ try:
     from bio.symbolic.architectures import BioSymbolicOrchestrator as BioOrchestrator
 
     # type: ignore
-    from candidate.core.bio_systems.qi_inspired_layer import (  # type: ignore
+    from candidate.core.bio_systems.qi_layer import (  # type: ignore
         QIBioOscillator,
         QIConfig,
         QILikeState,

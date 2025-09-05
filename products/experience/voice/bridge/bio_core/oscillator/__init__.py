@@ -5,7 +5,7 @@ Provides quantum oscillator and orchestration functionality.
 """
 
 from .orchestrator import BioOrchestrator, HealthState, Priority
-from .qi_inspired_layer import QIBioOscillator, QIConfig
+from .qi_layer import QIBioOscillator, QIConfig
 
 __all__ = [
     "BioOrchestrator",

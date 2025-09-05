@@ -9,12 +9,12 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+# Import other agents' components (absolute imports; no sys.path hacks)
+from core.identity.lambda_id_core import LukhasIdentityService
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
-# Import other agents' components (absolute imports; no sys.path hacks)
-from core.identity.lambda_id_core import LukhasIdentityService
 from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyEngine
 from lukhas.orchestration.context_bus_enhanced import (
     ContextBusOrchestrator,
@@ -505,7 +505,7 @@ DASHBOARD_HTML = """
             <h2>🔄 Run Workflow</h2>
             <div class="workflow-input">
           <input type="text" id="workflowRequest" placeholder="e.g., Summarize my travel documents from Gmail"
-              " and Dropbox">                                                                 
+              " and Dropbox">
                 <button class="btn" onclick="runWorkflow()">Execute</button>
             </div>
         </div>

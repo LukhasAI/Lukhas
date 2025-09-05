@@ -17,13 +17,13 @@ IMPORT_MAPPINGS = {
     "core.symbolic_boot": "core.symbolic.symbolic_boot",
     "core.hub_registry": "core.integration.hub_registry",
     "memory.memory_hub": "consciousness.reflection.memory_hub",
-    "core.bio_symbolic": "core.symbolic_legacy.bio.bio_symbolic",
+    "core.bio_symbolic": "core.symbolic_core.bio.bio_symbolic",
     "memory.core_memory.memoria": "core.memoria",
     "core.symbolic.drift.drift_score": "consciousness.dream.oneiric.oneiric_core.analysis.drift_score",
     "core.docututor.symbolic_knowledge_core.knowledge_graph": (
         "tools.documentation.symbolic_knowledge_core.knowledge_graph"
     ),  # ΛTAG: mapping_wrap
-    "core.adaptive_systems.crista_optimizer.crista_optimizer": "core.symbolic_legacy.bio.crista_optimizer",
+    "core.adaptive_systems.crista_optimizer.crista_optimizer": "core.symbolic_core.bio.crista_optimizer",
     "core.service_discovery": "core.integration.service_discovery",
     "core.docututor.memory_evolution.voice_synthesis": "tools.documentation.memory_evolution.voice_synthesis",
     "consciousness.consciousness_hub": "consciousness.reflection.consciousness_hub",

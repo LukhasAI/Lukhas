@@ -407,7 +407,7 @@ class CardiolipinEncoder:
 # ACCESSED_BY: ['BioQuantumCoordinator', 'AGIExperimentalFramework', 'TheoreticalModelingSuite'] # Conceptual
 # MODIFIED_BY: ['QUANTUM_BIO_RESEARCH_TEAM', 'Jules_AI_Agent'] # Conceptual
 # Tier Access: Varies by class/method (Refer to ΛTIER_CONFIG block and @lukhas_tier_required decorators)
-# Related Components: ['qi_processing.qi_engine.QIOscillator', 'bio_core.oscillator.qi_inspired_layer.QIBioOscillator']
+# Related Components: ['qi_processing.qi_engine.QIOscillator', 'bio_core.oscillator.qi_layer.QIBioOscillator']
 # CreationDate: 2023-03-15 (Approx.) | LastModifiedDate: 2024-07-27 | Version: 1.1
 # --- End Standard Footer ---
 

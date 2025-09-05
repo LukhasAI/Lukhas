@@ -572,7 +572,8 @@ if __name__ == "__main__":
         logger.info(f"Authentication result: {auth_result}")
 
         # Test trauma lock system
-        logger.info("\n🛡️ Testing trauma lock system...")
+        logger.info("
+🛡️ Testing trauma lock system...")
         trauma_input = {
             "text": "I am very upset and angry about this terrible situation",
             "user_id": "trauma_test",
@@ -581,7 +582,8 @@ if __name__ == "__main__":
         trauma_result = identity_manager.register_user("trauma_test", trauma_input)
         logger.info(f"Trauma lock test: {trauma_result}")
 
-        logger.info("\n✅ Demo completed successfully!")
+        logger.info("
+✅ Demo completed successfully!")
 
     # Run the demo
     asyncio.run(demo())

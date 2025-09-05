@@ -10,7 +10,7 @@ import logging
 from dataclasses import dataclass
 from typing import Any, Optional
 
-logger = logging.getLogger("qi_inspired_layer")
+logger = logging.getLogger("qi_layer")
 
 
 @dataclass

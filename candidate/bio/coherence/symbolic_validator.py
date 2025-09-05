@@ -5,8 +5,8 @@
 ║ Advanced bio-inspired coherence validation for consciousness integrity
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ Module: bio_symbolic_validator.py
-║ Path: candidate/bio/coherence/bio_symbolic_validator.py
+║ Module: symbolic_validator.py
+║ Path: candidate/bio/coherence/symbolic_validator.py
 ║ Version: 1.0.0 | Created: 2025-08-26
 ║ Authors: LUKHAS AI Bio-Symbolic Coherence Team
 ╠══════════════════════════════════════════════════════════════════════════════════

@@ -6,7 +6,7 @@
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: memory_reflection_template.py
-║ Path: candidate/core/symbolic_legacy/features/memory_reflection_template.py
+║ Path: candidate/core/symbolic_core/features/memory_reflection_template.py
 ║ Version: 2.0.0 | Created: 2025-08-26
 ║ Authors: LUKHAS AI Consciousness Architecture Team
 ╠══════════════════════════════════════════════════════════════════════════════════

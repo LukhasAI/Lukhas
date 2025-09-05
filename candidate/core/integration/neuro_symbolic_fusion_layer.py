@@ -53,7 +53,7 @@ import structlog
 
 # Import Lukhas core components
 try:
-    from candidate.core.symbolic_legacy.bio.bio_symbolic import (
+    from candidate.core.symbolic_core.bio.bio_symbolic import (
         CristaFilter,
         ProtonGradient,
         QIAttentionGate,

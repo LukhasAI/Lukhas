@@ -25,7 +25,7 @@ logger = structlog.get_logger("ΛTRACE.core.integration.bio_awareness.Awareness"
 # AIMPORT_TODO: Review deep relative imports for robustness and potential refactoring
 # into more accessible shared libraries or services.
 try:
-    from ...bio_core.oscillator.qi_inspired_layer import QIBioOscillator
+    from ...bio_core.oscillator.qi_layer import QIBioOscillator
 
     # ΛNOTE: The following imports indicate dependencies on potentially
     # complex or distant modules.
@@ -277,7 +277,7 @@ class EnhancedSystemAwareness:
 # CLASSES: EnhancedSystemAwareness.
 # DECORATORS: None.
 # DEPENDENCIES: structlog, asyncio, typing, datetime, .qi_bio_components,
-#               ...qi_processing.qi_engine, ...bio_core.oscillator.qi_inspired_layer.
+#               ...qi_processing.qi_engine, ...bio_core.oscillator.qi_layer.
 # INTERFACES: Public methods of EnhancedSystemAwareness class, primarily `monitor_system`.
 # ERROR HANDLING: Basic error logging. Placeholder error handling method.
 #                 Graceful degradation for missing optional components during initialization.

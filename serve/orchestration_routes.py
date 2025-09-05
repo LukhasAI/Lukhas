@@ -32,10 +32,10 @@ except ImportError as e:
 
     # Create stub classes for graceful degradation
     class MultiAIOrchestrator:
-        def __init__(self, **kwargs):
+        def __init__(self, **_kwargs):
             self.providers = []
 
-        async def execute_consensus(self, prompt: str, **kwargs):
+        async def execute_consensus(self, _prompt: str, **_kwargs):
             return {
                 "response": "Multi-AI orchestration not configured",
                 "confidence": 0.5,
@@ -376,8 +376,8 @@ async def direct_provider_chat(provider: str, request: MultiAIRequest):
         # Validate provider
         try:
             ai_provider = AIProvider(provider.lower())
-        except ValueError:
-            raise HTTPException(status_code=400, detail=f"Unknown provider: {provider}")
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=f"Unknown provider: {provider}") from e
 
         # Create single-provider request
         orchestration_request = OrchestrationRequest(

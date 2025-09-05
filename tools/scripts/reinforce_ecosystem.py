@@ -46,7 +46,7 @@ class EcosystemReinforcer:
             "from learning import": "from lukhas.memory.learning import",
             "from orchestration import": "from core.orchestration import",
             "from reasoning import": "from lukhas.consciousness.reasoning import",
-            "from symbolic import": "from core.symbolic_legacy import",
+            "from symbolic import": "from core.symbolic_core import",
             "from voice import": "from lukhas.bridge.voice import",
             "import api": "import lukhas.bridge.api_legacy as api",
             "import architectures": "import core.architectures as architectures",
@@ -58,7 +58,7 @@ class EcosystemReinforcer:
             "import learning": "import lukhas.memory.learning as learning",
             "import lukhas.orchestration": "import core.orchestration as orchestration",
             "import reasoning": "import lukhas.consciousness.reasoning as reasoning",
-            "import symbolic": "import core.symbolic_legacy as symbolic",
+            "import symbolic": "import core.symbolic_core as symbolic",
             "import voice": "import lukhas.bridge.voice as voice",
         }
 

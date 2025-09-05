@@ -9,8 +9,9 @@ import logging
 from typing import Any, Optional
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from feedback.card_system import FeedbackCardSystem
 from pydantic import BaseModel, Field
+
+from feedback.card_system import FeedbackCardSystem
 
 logger = logging.getLogger(__name__)
 

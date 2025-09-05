@@ -43,7 +43,7 @@ log = structlog.get_logger(__name__)  # Module-level logger
 # NOTE: For now, assuming these imports work within the LUKHAS build/test environment.
 LUKHAS_OSCILLATORS_AVAILABLE = False
 try:
-    from bio.core.oscillator.qi_inspired_layer import QIBioOscillator  # type: ignore
+    from bio.core.oscillator.qi_layer import QIBioOscillator  # type: ignore
     from qi.processing.qi_engine import QIOscillator  # type: ignore
 
     LUKHAS_OSCILLATORS_AVAILABLE = True

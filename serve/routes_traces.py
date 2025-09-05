@@ -168,7 +168,7 @@ async def get_recent_traces(
                 "message": "An internal error occurred while retrieving recent traces",
                 "error_type": type(e).__name__,
             },
-        )
+        ) from e
 
 
 @r.get(

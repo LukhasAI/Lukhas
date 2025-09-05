@@ -91,12 +91,12 @@ def cleanup_duplicates():
             "emotion/neuroplastic_connector.py:16",
         ],
         "__init__(self)": [
-            "core/symbolic_legacy/bio/mito_quantum_attention.py:73",
+            "core/symbolic_core/bio/mito_quantum_attention.py:73",
             "qim/bio_legacy/core/symbolic_mito_quantum_attention.py:67",
         ],
         "__init__(self)": [
-            "core/symbolic_legacy/bio/mito_quantum_attention.py:92",
-            "core/symbolic_legacy/bio/mito_quantum_attention_adapter.py:203",
+            "core/symbolic_core/bio/mito_quantum_attention.py:92",
+            "core/symbolic_core/bio/mito_quantum_attention_adapter.py:203",
             "qim/bio_legacy/core/symbolic_mito_quantum_attention.py:85",
         ],
     }

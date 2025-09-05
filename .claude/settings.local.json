@@ -188,7 +188,12 @@
       "Bash(npm update)",
       "Bash(uv pip install:*)",
       "Bash(ollama list:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(for:*)",
+      "Bash(if [ -d \"candidate/bio/$dir\" ])",
+      "Bash(then)",
+      "Bash(if [ -d \"$dir\" ])",
+      "Bash(sed:*)"
     ],
     "deny": [],
     "ask": []
