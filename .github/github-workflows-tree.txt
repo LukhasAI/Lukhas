@@ -1,0 +1,57 @@
+.github/
+├── CODEOWNERS
+├── ISSUE_TEMPLATE/
+├── PULL_REQUEST_TEMPLATE.md
+├── branch-protection.json
+├── copilot-instructions.md
+├── dependabot.yml
+├── features/
+├── scripts/
+├── workflows/
+│   ├── README_TEMPORARILY_DISABLED.md
+│   ├── add-lockfiles.yml
+│   ├── auto-merge-lint.yml
+│   ├── ci.yml
+│   ├── generate-lockfiles.yml
+│   ├── lint-fix.yml
+│   ├── logging-tag-guard.yml
+│   ├── python-lint.yml
+│   ├── repo-audit.yml
+│   └── workflows-disabled-archive/
+├── workflows-disabled/
+│   ├── .env.secrets
+│   ├── README.md
+│   ├── agi-self-healing.yml
+│   ├── audit.yml
+│   ├── badge-hydrate.yml
+│   ├── ci-autofix-label.yml
+│   ├── ci-debt-ratchet.yml
+│   ├── ci-enhanced.yml
+│   ├── ci-pr2.yml
+│   ├── ci-reality.yml
+│   ├── ci-secrets.yml
+│   ├── ci.yml
+│   ├── claude-code-review.yml
+│   ├── claude.yml
+│   ├── consolidated-quality.yml
+│   ├── dependency-audit.yml
+│   ├── dr-dryrun-monthly.yml
+│   ├── dr-dryrun-weekly.yml
+│   ├── dr-full-restore-quarterly.yml
+│   ├── file-organization.yml
+│   ├── identity-tests.yml
+│   ├── lukhas_validation.yml
+│   ├── matriz-ci.yml
+│   ├── nightly-autofix.yml
+│   ├── phase2-validation.yml
+│   ├── policy-lints.yml
+│   ├── production-deployment.yml
+│   ├── release.yml
+│   ├── safety_ci.yml
+│   ├── security-auto-fix.yml
+│   ├── security-scan.yml
+│   ├── smoke.yml
+│   ├── syntax-monitor.yml
+│   ├── t4-agent-coordination.yml
+│   ├── verify.yml
+│   ├── weekly-hygiene.yml

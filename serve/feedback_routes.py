@@ -9,8 +9,9 @@ import logging
 from typing import Any, Optional
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
-from feedback.card_system import FeedbackCardSystem
 from pydantic import BaseModel, Field
+
+from feedback.card_system import FeedbackCardSystem
 
 logger = logging.getLogger(__name__)
 
@@ -126,7 +127,7 @@ async def capture_batch_feedback(requests: list[FeedbackRequest]):
                 )
             )
 
-        except Exception as e:
+        except Exception as e:  # noqa: PERF203  # intentional per-item tolerance; expires=2026-03-01
             logger.error(f"Error capturing feedback for action {request.action_id}: {e}")
             # Continue processing other feedback
 

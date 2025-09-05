@@ -208,7 +208,9 @@ class FileTraceStorageProvider(TraceStorageProvider):
 
 # Factory function to create storage provider based on configuration
 def create_trace_storage_provider(
-    provider_type: str = "file", storage_location: Optional[str] = None, **kwargs
+    provider_type: str = "file",
+    storage_location: Optional[str] = None,
+    **_kwargs,
 ) -> TraceStorageProvider:
     """
     Factory function to create trace storage providers.

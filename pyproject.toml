@@ -173,6 +173,15 @@ inline-quotes = "double"
 max-args = 8
 max-returns = 3
 
+# Per-file ignores live under the newer lint mapping. Keep only
+# [tool.ruff.lint.per-file-ignores] to avoid duplicated/legacy keys
+# that can confuse different Ruff versions.
+[tool.ruff.lint.per-file-ignores]
+"serve/ui/dashboard.py" = ["I001"]
+"serve/extreme_performance_main.py" = ["PLW0603", "ARG001", "ARG002"]
+"serve/orchestration_routes.py" = ["PLW0603", "PLR5501", "ARG002"]
+"serve/storage/trace_provider.py" = ["PLW0603"]
+
 [tool.mypy]
 python_version = "3.10"
 ignore_missing_imports = true

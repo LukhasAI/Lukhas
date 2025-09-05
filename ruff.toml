@@ -38,6 +38,7 @@ ignore = [
 "candidate/**" = ["ANN"]
 "tools/**" = ["ANN"]
 "enterprise/**" = ["ANN"]
+"serve/ui/dashboard.py" = ["E501", "W291"]
 
 [lint.isort]
 known-first-party = ["lukhas", "matriz"]

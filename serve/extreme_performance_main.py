@@ -440,7 +440,7 @@ class ExtremePerformanceServer:
                         "message": str(e),
                         "performance": {"auth_duration_ms": round(auth_duration_ms, 2)},
                     },
-                )
+                ) from e
 
         # Performance benchmark endpoint
         @app.post("/benchmark/extreme", response_class=JSONResponse)
@@ -487,7 +487,7 @@ class ExtremePerformanceServer:
                         "message": str(e),
                         "benchmark_type": benchmark_type,
                     },
-                )
+                ) from e
 
         # Performance dashboard endpoint
         @app.get("/dashboard/performance/extreme", response_class=JSONResponse)
@@ -579,12 +579,12 @@ _extreme_server: Optional[ExtremePerformanceServer] = None
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(_app: FastAPI):  # underscore to silence ARG001
     """FastAPI lifespan manager for extreme performance server"""
     global _extreme_server
 
     # Startup
-    _extreme_server = ExtremePerformanceServer()
+    _extreme_server = ExtremePerformanceServer()  # underscore to silence ARG001
     await _extreme_server.startup()
 
     yield
